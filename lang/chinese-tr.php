@@ -3,12 +3,11 @@
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
 	 *
-	 *
-	 * $Id: chinese-tr.php,v 1.5 2003/08/26 00:42:02 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.6 2003/09/05 05:52:44 chriskl Exp $
 	 */
 
 	// Language and character set
-	$lang['applang'] = '繁體中文（big5）';
+	$lang['applang'] = '正體中文（big5）';
 	$lang['appcharset'] = 'big5';
 	$lang['applocale'] = 'zh_TW';
 	$lang['appdbencoding'] = 'EUC_TW';
@@ -33,7 +32,7 @@
 	$lang['stractions'] = '功能';
 	$lang['strname'] = '名字';
 	$lang['strdefinition'] = '定義';
-	$lang['stroperators'] = '操作';
+	$lang['stroperators'] = '運算子';
 	$lang['straggregates'] = '集合';
 	$lang['strproperties'] = '屬性';
 	$lang['strbrowse'] = '瀏覽';
@@ -107,7 +106,8 @@
 	$lang['strrefresh'] = '重新整理';
 	$lang['strtaller'] = '高於';
 	$lang['strshorter'] = '低於';
-
+	$lang['strdownload'] = '下載';
+	
 	// Error handling
 	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
 	$lang['strbadconfig'] = '您的 config.inc.php 無效。請利用 config.inc.php-dist 建立您的 config.inc.php 檔。';
@@ -452,6 +452,7 @@
 	$lang['strreportneedsdef'] = '您需給您的報表 SQL。';
 	$lang['strreportcreated'] = '成功儲存報表。';
 	$lang['strreportcreatedbad'] = '無法儲存報表。';
+	$lang['strsaveasreport'] = '儲存為報表';
 	
 	// Domains
 	$lang['strdomain'] = '領域';
@@ -467,9 +468,27 @@
 	$lang['strdomaincreatedbad'] = '新建領域作業失敗。';	
 	$lang['strdomainaltered'] = '領域已修改。';
 	$lang['strdomainalteredbad'] = '修改領域作業失敗。';
+	
+	// Operators
+	$lang['stroperator'] = '運算子';
+	$lang['stroperators'] = '運算子';
+	$lang['strshowalloperators'] = '顯示所有運算子s';
+	$lang['strnooperator'] = '找不到運算子。';
+	$lang['strnooperators'] = '找不到任何運算子。';
+	$lang['strcreateoperator'] = '新建運算子';
+	$lang['stroperatorname'] = '運算子名';
+	$lang['strleftarg'] = '左引數型態';
+	$lang['strrightarg'] = '右引數型態';
+	$lang['stroperatorneedsname'] = '您需為您的運算子命名。';
+	$lang['stroperatorcreated'] = '運算子已建立';
+	$lang['stroperatorcreatedbad'] = '運算子新建作業失敗。';
+	$lang['strconfdropoperator'] = '您確定要刪除運算子 "%s"?';
+	$lang['stroperatordropped'] = '運算子已刪除。';
+	$lang['stroperatordroppedbad'] = '運算子刪除失敗。';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
-
+	$lang['strhelp'] = '說明';
+	
 ?>
