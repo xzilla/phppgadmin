@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.44 2003/09/30 07:43:08 chriskl Exp $
+	 * $Id: Misc.php,v 1.45 2003/10/09 06:39:10 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -27,7 +27,7 @@
 			
 			// If extra security is off, return true
 			if (!$conf['extra_login_security']) return true;
-			elseif (trim($_SESSION['webdbPassword']) == '') return false;
+			elseif ($_SESSION['webdbPassword'] == '') return false;
 			else {
 				$username = strtolower($_SESSION['webdbUsername']);
 				return !in_array($username, $bad_usernames);
@@ -42,7 +42,7 @@
 			if (isset($_REQUEST['database'])) {
 				$this->href .= 'database=' . urlencode($_REQUEST['database']);
 				if (isset($_REQUEST['schema']))
-					$this->href .= '&schema=' . urlencode($_REQUEST['schema']);
+					$this->href .= '&amp;schema=' . urlencode($_REQUEST['schema']);
 			}
 		}
 
@@ -224,7 +224,7 @@
 				// Send XHTML headers, or regular HTML headers
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
 					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
-					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
+					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Transitional.dtd\">\n";
 					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n";
 				} else {
 					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
@@ -296,16 +296,17 @@
 		function printTableNav() {
 			global $lang;
 
-			$vars = $this->href . '&table=' . urlencode($_REQUEST['table']);
+			$vars = $this->href . '&amp;table=' . urlencode($_REQUEST['table']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&type=table&object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$lang['strexport']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"info.php?{$vars}\">{$lang['strinfo']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 
@@ -324,12 +325,11 @@
 			}
 			// Only show database privs if available
 			if (isset($data->privlist['database'])) {
-				echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+				echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			}
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=find\">{$lang['strfind']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$lang['stradmin']}</a></td>\n";
-			//echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.39 2003/10/06 15:26:23 chriskl Exp $
+ * $Id: Postgres71.php,v 1.40 2003/10/09 06:39:10 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -243,7 +243,7 @@ class Postgres71 extends Postgres {
 			SELECT conname, consrc, contype, indkey FROM (
 				SELECT
 					rcname AS conname,
-					'CHECK ' || rcsrc AS consrc,
+					'CHECK (' || rcsrc || ')' AS consrc,
 					'c' AS contype,
 					rcrelid AS relid,
 					NULL AS indkey

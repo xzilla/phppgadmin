@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.66 2003/10/08 02:14:24 chriskl Exp $
+ * $Id: Postgres73.php,v 1.67 2003/10/09 06:39:10 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -914,7 +914,7 @@ class Postgres73 extends Postgres72 {
 					CASE WHEN contype='f' THEN
 						pg_catalog.pg_get_constraintdef(oid)
 					ELSE
-						'CHECK ' || consrc
+						'CHECK (' || consrc || ')'
 					END AS consrc,
 					contype,
 					conrelid AS relid,
