@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.34 2004/07/12 04:18:43 chriskl Exp $
+	 * $Id: polish.php,v 1.35 2004/11/09 23:31:09 slubek Exp $
 	 */
 
 	// Language and character set
@@ -66,6 +66,7 @@
 	$lang['strtrue'] = 'Prawda';
 	$lang['strfalse'] = 'Fa&#322;sz';
 	$lang['stredit'] = 'Edycja';
+	$lang['strcolumn']  =  'Kolumna';
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
 	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
@@ -119,12 +120,12 @@
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
 	$lang['streditsql'] = 'Edycja zapytania SQL';
-	$lang['strruntime']  =  'Ca&#322;kowity czas pracy: %s ms';
+	$lang['strruntime']  =  'Ca&#322;kowity czas pracy: %s ms.';
 	$lang['strpaginate'] = 'Wy&#347;wietl wyniki stronami';
 	$lang['struploadscript'] = 'lub za&#322;aduj skrypt SQL:';
 	$lang['strstarttime'] = 'Czas pocz&#261;tku';
 	$lang['strfile'] = 'Plik';
-	$lang['strfileimported']  = 'Plik zaimportowany.';
+	$lang['strfileimported']  = 'Plik zosta&#322; zaimportowany.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
@@ -156,49 +157,49 @@
 	$lang['strtableneedsname'] = 'Musisz nazwa&#263; tabel&#281;.';
 	$lang['strtableneedsfield'] = 'Musisz poda&#263; przynajmniej jedno pole.';
 	$lang['strtableneedscols'] = 'Musisz poda&#263; prawid&#322;ow&#261; liczb&#281; kolumn.';
-	$lang['strtablecreated'] = 'Utworzono tabel&#281;.';
+	$lang['strtablecreated'] = 'Tabela zosta&#322;a utworzona.';
 	$lang['strtablecreatedbad'] = 'Pr&oacute;ba utworzenia tabeli si&#281; nie powiod&#322;a.';
 	$lang['strconfdroptable'] = 'Czy na pewno chcesz usun&#261;&#263; tabel&#281; &quot;%s&quot;?';
-	$lang['strtabledropped'] = 'Tabela usuni&#281;ta.';
+	$lang['strtabledropped'] = 'Tabela zosta&#322;a usuni&#281;ta.';
 	$lang['strtabledroppedbad'] = 'Pr&oacute;ba usuni&#281;cia tabeli si&#281; nie powiod&#322;a.';
 	$lang['strconfemptytable'] = 'Czy na pewno chcesz wyczy&#347;ci&#263; tabel&#281; &quot;%s&quot;?';
-	$lang['strtableemptied'] = 'Tabela wyczyszczona.';
+	$lang['strtableemptied'] = 'Tabela zosta&#322;a wyczyszczona.';
 	$lang['strtableemptiedbad'] = 'Pr&oacute;ba wyczyszczenia tabeli si&#281; nie powiod&#322;a.';
 	$lang['strinsertrow'] = 'Wstaw wiersz';
-	$lang['strrowinserted'] = 'Wiersz wstawiony.';
+	$lang['strrowinserted'] = 'Wiersz zosta&#322; wstawiony.';
 	$lang['strrowinsertedbad'] = 'Pr&oacute;ba wstawienia wiersza si&#281; nie powiod&#322;a.';
 	$lang['streditrow'] = 'Edycja wiersza';
-	$lang['strrowupdated'] = 'Wiersz zaktualizowany.';
+	$lang['strrowupdated'] = 'Wiersz zosta&#322; zaktualizowany.';
 	$lang['strrowupdatedbad'] = 'Pr&oacute;ba aktualizacji wiersza si&#281; nie powiod&#322;a.';
 	$lang['strdeleterow'] = 'Usu&#324; wiersz';
 	$lang['strconfdeleterow'] = 'Czy na pewno chcesz usun&#261;&#263; ten wiersz?';
-	$lang['strrowdeleted'] = 'Wiersz usuni&#281;ty.';
+	$lang['strrowdeleted'] = 'Wiersz zosta&#322; usuni&#281;ty.';
 	$lang['strrowdeletedbad'] = 'Pr&oacute;ba usuni&#281;cia wiersza si&#281; nie powiod&#322;a.';
 	$lang['strinsertandrepeat']  =  'Wstaw i powt&oacute;rz';
-	$lang['strfield'] = 'Pole';
-	$lang['strfields'] = 'Pola';
-	$lang['strnumfields'] = 'Ilo&#347;&#263; p&oacute;l';
-	$lang['strfieldneedsname'] = 'Musisz nazwa&#263; pole';
+	$lang['strnumcols']  =  'Ilo&#347;&#263; kolumn';
+	$lang['strcolneedsname']  =  'Musisz poda&#263; nazw&#281; kolumny';
 	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
 	$lang['strselectneedscol'] = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
 	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mog&#261; mie&#263; podanej warto&#347;ci';
 	$lang['straltercolumn'] = 'Zmie&#324; kolumn&#281;';
-	$lang['strcolumnaltered'] = 'Kolumna zmodyfikowana.';
+	$lang['strcolumnaltered'] = 'Kolumna zosta&#322;a zmodyfikowana.';
 	$lang['strcolumnalteredbad'] = 'Pr&oacute;ba modyfikacji kolumny si&#281; nie powiod&#322;a.';
 	$lang['strconfdropcolumn'] = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tabeli &quot;%s&quot;?';
-	$lang['strcolumndropped'] = 'Kolumna usuni&#281;ta.';
+	$lang['strcolumndropped'] = 'Kolumna zosta&#322;a usuni&#281;ta.';
 	$lang['strcolumndroppedbad'] = 'Pr&oacute;ba usuni&#281;cia kolumny si&#281; nie powiod&#322;a.';
 	$lang['straddcolumn'] = 'Dodaj kolumn&#281;';
-	$lang['strcolumnadded'] = 'Kolumna dodana.';
+	$lang['strcolumnadded'] = 'Kolumna zosta&#322;a dodana.';
 	$lang['strcolumnaddedbad'] = 'Pr&oacute;ba dodania kolumny si&#281; nie powiod&#322;a.';
 	$lang['strcascade'] = 'CASCADE';
-	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
+	$lang['strtablealtered'] = 'Tabela zosta&#322;a zmodyfikowana.';
 	$lang['strtablealteredbad'] = 'Pr&oacute;ba modyfikacji tabeli si&#281; nie powiod&#322;a.';
 	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strstructureonly'] = 'Tylko struktura';
 	$lang['strstructureanddata'] = 'Struktura i dane';
 	$lang['strtabbed']  =  'Z tabulacjami';
 	$lang['strauto']  =  'Automatyczny';
+	$lang['strconfvacuumtable']  =  'Czy na pewno chcesz wykona&#263; vacuum &quot;%s&quot;?';
+	$lang['strestimatedrowcount']  =  'Przybli&#380;ona ilo&#347;&#263; wierszy';
 			
 	// Users
 	$lang['struser'] = 'U&#380;ytkownik';
@@ -210,19 +211,19 @@
 	$lang['strexpires'] = 'Wygasa';	
 	$lang['strsessiondefaults'] = 'Warto&#347;ci domy&#347;lne sesji';
 	$lang['strnousers'] = 'Nie znaleziono u&#380;ytkownik&oacute;w.';
-	$lang['struserupdated'] = 'Parametry u&#380;ytkownika zaktualizowane.';
+	$lang['struserupdated'] = 'Parametry u&#380;ytkownika zosta&#322;y zaktualizowane.';
 	$lang['struserupdatedbad'] = 'Pr&oacute;ba aktualizacji parametr&oacute;w u&#380;ytkownika si&#281; nie powiod&#322;a.';
 	$lang['strshowallusers'] = 'Poka&#380; wszystkich u&#380;ytkownik&oacute;w';
 	$lang['strcreateuser'] = 'Utw&oacute;rz u&#380;ytkownika';
 	$lang['struserneedsname'] = 'Musisz poda&#263; nazw&#281; u&#380;ytkownika.';
-	$lang['strusercreated'] = 'U&#380;ytkownik utworzony.';
+	$lang['strusercreated'] = 'U&#380;ytkownik zosta&#322; utworzony.';
 	$lang['strusercreatedbad'] = 'Pr&oacute;ba utworzenia u&#380;ytkownika si&#281; nie powiod&#322;a.';
 	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun&#261;&#263; u&#380;ytkownika &quot;%s&quot;?';
-	$lang['struserdropped'] = 'U&#380;ytkownik usuni&#281;ty.';
+	$lang['struserdropped'] = 'U&#380;ytkownik zosta&#322; usuni&#281;ty.';
 	$lang['struserdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia u&#380;ytkownika si&#281; nie powiod&#322;a.';
 	$lang['straccount'] = 'Konto';
 	$lang['strchangepassword'] = 'Zmie&#324; has&#322;o';
-	$lang['strpasswordchanged'] = 'Has&#322;o zmienione.';
+	$lang['strpasswordchanged'] = 'Has&#322;o zosta&#322;o zmienione.';
 	$lang['strpasswordchangedbad'] = 'Pr&oacute;ba zmiany has&#322;a si&#281; nie powiod&#322;a.';
 	$lang['strpasswordshort'] = 'Has&#322;o jest za kr&oacute;tkie.';
 	$lang['strpasswordconfirm'] = 'Has&#322;o i potwierdzenie musz&#261; by&#263; takie same.';
@@ -235,18 +236,18 @@
 	$lang['strcreategroup'] = 'Utw&oacute;rz grup&#281;';
 	$lang['strshowallgroups'] = 'Poka&#380; wszystkie grupy';
 	$lang['strgroupneedsname'] = 'Musisz nazwa&#263; grup&#281;.';
-	$lang['strgroupcreated'] = 'Grupa utworzona.';
+	$lang['strgroupcreated'] = 'Grupa zosta&#322;a utworzona.';
 	$lang['strgroupcreatedbad'] = 'Pr&oacute;ba utworzenia grupy si&#281; nie powiod&#322;a.';
 	$lang['strconfdropgroup'] = 'Czy na pewno chcesz utworzy&#263; grup&#281; &quot;%s&quot;?';
-	$lang['strgroupdropped'] = 'Grupa usuni&#281;ta.';
+	$lang['strgroupdropped'] = 'Grupa zosta&#322;a usuni&#281;ta.';
 	$lang['strgroupdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia grupy si&#281; nie powiod&#322;a.';
 	$lang['strmembers'] = 'Cz&#322;onkowie';
 	$lang['straddmember'] = 'Dodaj cz&#322;onka grupy';
-	$lang['strmemberadded'] = 'Cz&#322;onek grupy dodany.';
+	$lang['strmemberadded'] = 'Cz&#322;onek grupy zosta&#322; dodany.';
 	$lang['strmemberaddedbad'] = 'Pr&oacute;ba dodania cz&#322;onka grupy si&#281; nie powiod&#322;a.';
 	$lang['strdropmember'] = 'Usu&#324; cz&#322;onka grupy';
 	$lang['strconfdropmember'] = 'Czy na pewno chcesz usun&#261;&#263; &quot;%s&quot; z grupy &quot;%s&quot;?';
-	$lang['strmemberdropped'] = 'Cz&#322;onek grupy usuni&#281;ty.';
+	$lang['strmemberdropped'] = 'Cz&#322;onek grupy zosta&#322; usuni&#281;ty.';
 	$lang['strmemberdroppedbad']  =  'Pr&oacute;ba usuni&#281;cia cz&#322;onka grupy si&#281; nie powiod&#322;a.';
 
 	// Privileges
@@ -255,11 +256,10 @@
 	$lang['strnoprivileges'] = 'Ten obiekt nie ma uprawnie&#324;.';
 	$lang['strgrant'] = 'Nadaj';
 	$lang['strrevoke'] = 'Zabierz';
-	$lang['strgranted'] = 'Uprawnienia nadane.';
+	$lang['strgranted'] = 'Uprawnienia zosta&#322;y nadane.';
 	$lang['strgrantfailed'] = 'Pr&oacute;ba nadania uprawnie&#324; si&#281; nie powiod&#322;a.';
 	$lang['strgrantbad'] = 'Musisz poda&#263; u&#380;ytkownika lub grup&#281;, a tak&#380;e uprawnienia, jakie chcesz nada&#263;.';
-	$lang['stralterprivs'] = 'Zmie&#324; uprawnienia';
-	$lang['strgrantor'] = 'Grantor';
+    $lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 				
 	// Databases
@@ -271,22 +271,25 @@
 	$lang['strcreatedatabase'] = 'Utw&oacute;rz baz&#281; danych';
 	$lang['strdatabasename'] = 'Nazwa bazy danych';
 	$lang['strdatabaseneedsname'] = 'Musisz nazwa&#263; baz&#281; danych.';
-	$lang['strdatabasecreated'] = 'Baza danych utworzona.';
+	$lang['strdatabasecreated'] = 'Baza danych zosta&#322;a utworzona.';
 	$lang['strdatabasecreatedbad'] = 'Pr&oacute;ba utworzenia bazy danych si&#281; nie powiod&#322;a.';
 	$lang['strconfdropdatabase'] = 'Czy na pewno chcesz usun&#261;&#263; baz&#281; danych &quot;%s&quot;?';
-	$lang['strdatabasedropped'] = 'Baza danych usuni&#281;ta.';
+	$lang['strdatabasedropped'] = 'Baza danych zosta&#322;a usuni&#281;ta.';
 	$lang['strdatabasedroppedbad'] = 'Pr&oacute;ba usuni&#281;cia bazy danych si&#281; nie powiod&#322;a.';
 	$lang['strentersql'] = 'Podaj polecenie SQL do wykonania:';
-	$lang['strsqlexecuted'] = 'Wykonano polecenie SQL.';
-	$lang['strvacuumgood'] = 'Czyszczenie bazy zako&#324;czone.';
+	$lang['strsqlexecuted'] = 'Polecenie SQL zosta&#322;o wykonane.';
+	$lang['strvacuumgood'] = 'Czyszczenie bazy zosta&#322;o zako&#324;czone.';
 	$lang['strvacuumbad'] = 'Pr&oacute;ba czyszczenia bazy si&#281; nie powiod&#322;a.';
-	$lang['stranalyzegood'] = 'Analiza bazy zako&#324;czona.';
+	$lang['stranalyzegood'] = 'Analiza bazy zosta&#322;a zako&#324;czona.';
 	$lang['stranalyzebad'] = 'Pr&oacute;ba analizy si&#281; nie powiod&#322;a.';
-	$lang['strreindexgood']  =  'Reindeksacja zako&#324;czona.';
+	$lang['strreindexgood']  =  'Reindeksacja zosta&#322;a zako&#324;czona.';
 	$lang['strreindexbad']  =  'Pr&oacute;ba reindeksacji si&#281; nie powiod&#322;a.';
     $lang['strfull']  =  'Pe&#322;ny(a)';
     $lang['strfreeze']  =  'Zamro&#380;ony(a)';
     $lang['strforce']  =  'Wymuszony(a)';
+	$lang['strsignalsent']  =  'Sygna&#322; zosta&#322; wys&#322;any.';
+	$lang['strsignalsentbad']  =  'Pr&oacute;ba wys&#322;ania sygna&#322;u si&#281; nie powiod&#322;a.';
+	$lang['strallobjects']  =  'Wszystkie obiekty';
 
 	// Views
 	$lang['strview'] = 'Widok';
@@ -299,12 +302,12 @@
 	$lang['strviewneedsname'] = 'Musisz nazwa&#263; widok.';
 	$lang['strviewneedsdef'] = 'Musisz zdefiniowa&#263; widok.';
 	$lang['strviewneedsfields']  =  'Musisz poda&#263; kolumny, kt&oacute;re maj&#261; by&#263; widoczne w widoku.';
-	$lang['strviewcreated'] = 'Widok utworzony.';
+	$lang['strviewcreated'] = 'Widok zosta&#322; utworzony.';
 	$lang['strviewcreatedbad'] = 'Pr&oacute;ba utworzenia widoku si&#281; nie powiod&#322;a.';
 	$lang['strconfdropview'] = 'Czy na pewno chcesz usun&#261;&#263; widok &quot;%s&quot;?';
-	$lang['strviewdropped'] = 'Widok usuni&#281;ty.';
+	$lang['strviewdropped'] = 'Widok zosta&#322; usuni&#281;ty.';
 	$lang['strviewdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia widoku si&#281; nie powiod&#322;a.';
-	$lang['strviewupdated'] = 'Widok zaktualizowany.';
+	$lang['strviewupdated'] = 'Widok zosta&#322; zaktualizowany.';
 	$lang['strviewupdatedbad'] = 'Pr&oacute;ba aktualizacji widoku si&#281; nie powiod&#322;a.';
 	$lang['strviewlink'] = 'Klucze &#322;&#261;cz&#261;ce';
 	$lang['strviewconditions'] = 'Dodatkowe warunki';
@@ -327,13 +330,13 @@
 	$lang['striscycled'] = 'is_cycled';
 	$lang['striscalled'] = 'is_called';
 	$lang['strsequenceneedsname'] = 'Musisz nazwa&#263; sekwencj&#281;';
-	$lang['strsequencecreated'] = 'Utworzono sekwencj&#281;';
+	$lang['strsequencecreated'] = 'Sekwencja zosta&#322;a utworzona.';
 	$lang['strsequencecreatedbad'] = 'Pr&oacute;ba utworzenia sekwencji si&#281; nie powiod&#322;a.';
 	$lang['strconfdropsequence'] = 'Czy na pewno chcesz usun&#261;&#263; sekwencj&#281; &quot;%s&quot;?';
-	$lang['strsequencedropped'] = 'Sekwencja usuni&#281;ta.';
+	$lang['strsequencedropped'] = 'Sekwencja zosta&#322;a usuni&#281;ta.';
 	$lang['strsequencedroppedbad'] = 'Pr&oacute;ba usuni&#281;cia sekwencji si&#281; nie powiod&#322;a.';
-	$lang['strsequencereset'] = 'Sekwencja zresetowana.';
-	$lang['strsequenceresetbad'] = 'Pr&oacute;ba zresetowania sekwencji si&#281; nie powiod&#322;a.';
+	$lang['strsequencereset'] = 'Sekwencja zosta&#322;a wyzerowana.';
+	$lang['strsequenceresetbad'] = 'Pr&oacute;ba zerowania sekwencji si&#281; nie powiod&#322;a.';
 						
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
@@ -347,10 +350,10 @@
 	$lang['strcolumnname'] = 'Nazwa kolumny';
 	$lang['strindexneedsname'] = 'Musisz nazwa&#263; indeks.';
 	$lang['strindexneedscols'] = 'W sk&#322;ad indeksu musi wchodzi&#263; przynajmniej jedna kolumna.';
-	$lang['strindexcreated'] = 'Indeks utworzony';
+	$lang['strindexcreated'] = 'Indeks zosta&#322; utworzony';
 	$lang['strindexcreatedbad'] = 'Pr&oacute;ba utworzenia indeksu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropindex'] = 'Czy na pewno chcesz usun&#261;&#263; indeks &quot;%s&quot;?';
-	$lang['strindexdropped'] = 'Indeks usuni&#281;ty.';
+	$lang['strindexdropped'] = 'Indeks zosta&#322; usuni&#281;ty.';
 	$lang['strindexdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia indeksu si&#281; nie powiod&#322;a.';
 	$lang['strkeyname'] = 'Nazwa klucza';
 	$lang['struniquekey'] = 'Klucz Unikatowy';
@@ -359,7 +362,7 @@
 	$lang['strtablecolumnlist'] = 'Kolumny w tabeli';
 	$lang['strindexcolumnlist'] = 'Kolumny w indeksie';
 	$lang['strconfcluster'] = 'Czy na pewno chcesz zklastrowa&#263; &quot;%s&quot;?';
-	$lang['strclusteredgood'] = 'Klastrowanie zako&#324;czone.';
+	$lang['strclusteredgood'] = 'Klastrowanie zosta&#322;o zako&#324;czone.';
 	$lang['strclusteredbad'] = 'Pr&oacute;ba klastrowania si&#281; nie powiod&#322;a.';
 	
 	// Rules
@@ -371,10 +374,10 @@
 	$lang['strcreaterule'] = 'Utw&oacute;rz regu&#322;&#281;';
 	$lang['strrulename'] = 'Nazwa regu&#322;y';
 	$lang['strruleneedsname'] = 'Musisz nazwa&#263; regu&#322;&#281;.';
-	$lang['strrulecreated'] = 'Utworzono regu&#322;&#281;.';
+	$lang['strrulecreated'] = 'Regu&#322;a zosta&#322;a utworzona.';
 	$lang['strrulecreatedbad'] = 'Pr&oacute;ba utworzenia regu&#322;y si&#281; nie powiod&#322;a.';
 	$lang['strconfdroprule'] = 'Czy na pewno chcesz usun&#261;&#263; regu&#322;&#281; &quot;%s&quot; na &quot;%s&quot;?';
-	$lang['strruledropped'] = 'Regu&#322;a usuni&#281;ta.';
+	$lang['strruledropped'] = 'Regu&#322;a zosta&#322;a usuni&#281;ta.';
 	$lang['strruledroppedbad'] = 'Pr&oacute;ba usuni&#281;cia regu&#322;y si&#281; nie powiod&#322;a.';
 	
 	// Wi&#281;zy integralno&#347;ci
@@ -382,27 +385,27 @@
 	$lang['strshowallconstraints'] = 'Poka&#380; wszystkie wi&#281;zy integralno&#347;ci';
 	$lang['strnoconstraints'] = 'Nie znaleziono wi&#281;z&oacute;w integralno&#347;ci.';
 	$lang['strcreateconstraint'] = 'Utw&oacute;rz wi&#281;zy integralno&#347;ci';
-	$lang['strconstraintcreated'] = 'Utworzono wi&#281;zy integralno&#347;ci.';
+	$lang['strconstraintcreated'] = 'Wi&#281;zy integralno&#347;ci zosta&#322;y utworzone.';
 	$lang['strconstraintcreatedbad'] = 'Pr&oacute;ba utworzenia wi&#281;z&oacute;w integralno&#347;ci si&#281; nie powiod&#322;a.';
 	$lang['strconfdropconstraint'] = 'Czy na pewno chcesz usun&#261;&#263; wi&#281;zy integralno&#347;ci &quot;%s&quot; na &quot;%s&quot;?';
-	$lang['strconstraintdropped'] = 'Wi&#281;zy integralno&#347;ci usuni&#281;te.';
+	$lang['strconstraintdropped'] = 'Wi&#281;zy integralno&#347;ci zosta&#322;y usuni&#281;te.';
 	$lang['strconstraintdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia wi&#281;z&oacute;w integralno&#347;ci si&#281; nie powiod&#322;a.';
 	$lang['straddcheck'] = 'Dodaj warunek';
 	$lang['strcheckneedsdefinition'] = 'Musisz zdefiniowa&#263; warunek.';
-	$lang['strcheckadded'] = 'Dodano warunek.';
-	$lang['strcheckaddedbad'] = 'peracja dodania warunku si&#281; nie powiod&#322;a.';
+	$lang['strcheckadded'] = 'Warunek zosta&#322; dodany.';
+	$lang['strcheckaddedbad'] = 'Operacja dodania warunku si&#281; nie powiod&#322;a.';
 	$lang['straddpk'] = 'Dodaj klucz g&#322;&oacute;wny';
 	$lang['strpkneedscols'] = 'Klucz g&#322;&oacute;wny musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
-	$lang['strpkadded'] = 'Dodano klucz g&#322;&oacute;wny.';
+	$lang['strpkadded'] = 'Klucz g&#322;&oacute;wny zosta&#322; dodany.';
 	$lang['strpkaddedbad'] = 'Pr&oacute;ba dodania klucza g&#322;&oacute;wnego si&#281; nie powiod&#322;a.';
 	$lang['stradduniq'] = 'Dodaj klucz unikatowy';
 	$lang['struniqneedscols'] = 'Klucz unikatowy musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
-	$lang['struniqadded'] = 'Dodano klucz unikatowy.';
+	$lang['struniqadded'] = 'Klucz unikatowy zosta&#322; dodany.';
 	$lang['struniqaddedbad'] = 'Pr&oacute;ba dodania klucza unikatowego si&#281; nie powiod&#322;a.';
 	$lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
 	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tabeli docelowej.';
-	$lang['strfkadded'] = 'Dodano klucz obcy.';
+	$lang['strfkadded'] = 'Klucz obcy zosta&#322; dodany.';
 	$lang['strfkaddedbad'] = 'Pr&oacute;ba dodania klucza obcego si&#281; nie powiod&#322;a.';
 	$lang['strfktarget'] = 'Tabela docelowa';
 	$lang['strfkcolumnlist'] = 'Kolumna w kluczu';
@@ -415,20 +418,24 @@
 	$lang['strshowallfunctions'] = 'Poka&#380; wszystkie funkcje';
 	$lang['strnofunction'] = 'Nie znaleziono funkcji.';
 	$lang['strnofunctions'] = 'Nie znaleziono funkcji.';
-	$lang['strcreatefunction'] = 'Utw&oacute;rz funkcj&#281;';
+	$lang['strcreateplfunction']  =  'Utw&oacute;rz funkcj&#281; SQL/PL';
+	$lang['strcreateinternalfunction']  =  'Utw&oacute;rz funkcj&#281; wewn&#281;trzn&#261;';
+	$lang['strcreatecfunction']  =  'Utw&oacute;rz funkcj&#281; C';
 	$lang['strfunctionname'] = 'Nazwa funkcji';
 	$lang['strreturns'] = 'Zwraca';
 	$lang['strarguments'] = 'Parametry';
 	$lang['strproglanguage'] = 'J&#281;zyk';
 	$lang['strfunctionneedsname'] = 'Musisz nazwa&#263; funkcj&#281;.';
 	$lang['strfunctionneedsdef'] = 'Musisz zdefiniowa&#263; funkcj&#281;.';
-	$lang['strfunctioncreated'] = 'Utworzono funkcj&#281;.';
+	$lang['strfunctioncreated'] = 'Funkcja zosta&#322;a utworzona.';
 	$lang['strfunctioncreatedbad'] = 'Pr&oacute;ba utworzenia funkcji si&#281; nie powiod&#322;a';
 	$lang['strconfdropfunction'] = 'Czy na pewno chcesz usun&#261;&#263; funkcj&#281; &quot;%s&quot;?';
-	$lang['strfunctiondropped'] = 'Funkcja usuni&#281;ta.';
+	$lang['strfunctiondropped'] = 'Funkcja zosta&#322;a usuni&#281;ta.';
 	$lang['strfunctiondroppedbad'] = 'Pr&oacute;ba usuni&#281;cia funkcji si&#281; nie powiod&#322;a.';
-	$lang['strfunctionupdated'] = 'Funkcja zaktualizowana.';
+	$lang['strfunctionupdated'] = 'Funkcja zosta&#322;a zaktualizowana.';
 	$lang['strfunctionupdatedbad'] = 'Pr&oacute;ba aktualizacji funkcji si&#281; nie powiod&#322;a.';
+    $lang['strobjectfile']  =  'Plik objekt&oacute;w';
+    $lang['strlinksymbol']  =  '&#321;&#261;cz symbol';
 
 	// Triggers
 	$lang['strtrigger'] = 'Procedura wyzwalana';
@@ -438,13 +445,13 @@
 	$lang['strnotriggers'] = 'Nie znaleziono procedur wyzwalanych.';
 	$lang['strcreatetrigger'] = 'Utw&oacute;rz procedur&#281; wyzwalan&#261;';
 	$lang['strtriggerneedsname'] = 'Musisz nazwa&#263; procedur&#281; wyzwalan&#261;';
-	$lang['strtriggerneedsfunc'] = 'Musisz podac funkcje swojego tragarza.';
-	$lang['strtriggercreated'] = 'Utworzono procedur&#281; wyzwalan&#261;.';
+	$lang['strtriggerneedsfunc'] = 'Musisz poda&#263; funkcj&#281; procedury wyzwalanej.';
+	$lang['strtriggercreated'] = 'Procedura wyzwalana zosta&#322;a utworzona.';
 	$lang['strtriggercreatedbad'] = 'Pr&oacute;ba utworzenia procedury wyzwalanej si&#281; nie powiod&#322;a';
 	$lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun&#261;&#263; procedur&#281; &quot;%s&quot; wyzwalan&#261; przez &quot;%s&quot;?';
-	$lang['strtriggerdropped'] = 'Procedura wyzwalana usuni&#281;ta.';
+	$lang['strtriggerdropped'] = 'Procedura wyzwalana zosta&#322;a usuni&#281;ta.';
 	$lang['strtriggerdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia procedury wyzwalanej si&#281; nie powiod&#322;a.';
-	$lang['strtriggeraltered'] = 'Procedura wyzwalana zmieniona.';
+	$lang['strtriggeraltered'] = 'Procedura wyzwalana zosta&#322;a zmieniona.';
 	$lang['strtriggeralteredbad'] = 'Pr&oacute;ba modyfikacji procedury wyzwalanej si&#281; nie powiod&#322;a.';
 		
 	// Types
@@ -454,6 +461,9 @@
 	$lang['strnotype'] = 'Nie znaleziono typu.';
 	$lang['strnotypes'] = 'Nie znaleziono typ&oacute;w.';
 	$lang['strcreatetype'] = 'Utw&oacute;rz typ';
+	$lang['strcreatecomptype']  =  'Utw&oacute;rz typ z&#322;o&#380;ony';
+	$lang['strtypeneedsfield']  =  'Musisz poda&#263; przynajmniej jedno pole.';
+	$lang['strtypeneedscols']  =  'Musisz poda&#263; poprawn&#261; ilo&#347;&#263; p&oacute;l.';	
 	$lang['strtypename'] = 'Nazwa typu';
 	$lang['strinputfn'] = 'Funkcja wej&#347;ciowa';
 	$lang['stroutputfn'] = 'Funkcja wyj&#347;ciowa';
@@ -462,13 +472,19 @@
 	$lang['strelement'] = 'Typ element&oacute;w';
 	$lang['strdelimiter'] = 'Znak oddzielaj&#261;cy elementy tabeli';
 	$lang['strstorage'] = 'Technika przechowywania';
+	$lang['strfield']  =  'Pole';
+	$lang['strnumfields']  =  'Ilo&#347;&#263; p&oacute;l';
 	$lang['strtypeneedsname'] = 'Musisz nazwa&#263; typ.';
 	$lang['strtypeneedslen'] = 'Musisz poda&#263; d&#322;ugo&#347;&#263; typu.';
-	$lang['strtypecreated'] = 'Typ utworzony';
+	$lang['strtypecreated'] = 'Typ zosta&#322; utworzony';
 	$lang['strtypecreatedbad'] = 'Pr&oacute;ba utworzenia typu si&#281; nie powiod&#322;a.';
 	$lang['strconfdroptype'] = 'Czy na pewno chcesz usun&#261;&#263; typ &quot;%s&quot;?';
-	$lang['strtypedropped'] = 'Typ usuni&#281;ty.';
+	$lang['strtypedropped'] = 'Typ zosta&#322; usuni&#281;ty.';
 	$lang['strtypedroppedbad'] = 'Pr&oacute;ba usuni&#281;cia typu si&#281; nie powiod&#322;a.';
+    $lang['strflavor']  =  'Flavor';
+	$lang['strbasetype']  =  'podstawowy';
+	$lang['strcompositetype']  =  'z&#322;o&#380;ony';
+	$lang['strpseudotype']  =  'pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Schemat';
@@ -482,10 +498,11 @@
 	$lang['strschemacreated'] = 'Schemat zosta&#322; utworzony';
 	$lang['strschemacreatedbad'] = 'Pr&oacute;ba utworzenia schematu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropschema'] = 'Czy na pewno chcesz usun&#261;&#263; schemat &quot;%s&quot;?';
-	$lang['strschemadropped'] = 'Schemat usuni&#281;ty.';
+	$lang['strschemadropped'] = 'Schemat zosta&#322; usuni&#281;ty.';
 	$lang['strschemadroppedbad'] = 'Pr&oacute;ba usuni&#281;cia schematu si&#281; nie powiod&#322;a.';
-	$lang['strschemaaltered']  =  'Schemat zmieniony.';
+	$lang['strschemaaltered']  =  'Schemat zosta&#322; zmieniony.';
 	$lang['strschemaalteredbad']  =  'Pr&oacute;ba zmiany schematu si&#281; nie powiod&#322;a';
+	$lang['strsearchpath']  =  '&#346;cie&#380;ka wyszukiwania schematu';
 
 	// Reports
 	$lang['strreport'] = 'Raport';
@@ -493,27 +510,27 @@
 	$lang['strshowallreports'] = 'Poka&#380; wszystkie raporty';
 	$lang['strnoreports'] = 'Nie znaleziono raport&oacute;w.';
 	$lang['strcreatereport'] = 'Utw&oacute;rz raport';
-	$lang['strreportdropped'] = 'Raport usuni&#281;ty.';
+	$lang['strreportdropped'] = 'Raport zosta&#322; usuni&#281;ty.';
 	$lang['strreportdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia raportu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropreport'] = 'Czy na pewno chcesz usun&#261;&#263; raport &quot;%s&quot;?';
 	$lang['strreportneedsname'] = 'Musisz nazwa&#263; raport.';
 	$lang['strreportneedsdef'] = 'Musisz poda&#263; zapytanie SQL definiuj&#261;ce raport.';
-	$lang['strreportcreated'] = 'Raport utworzony.';
+	$lang['strreportcreated'] = 'Raport zosta&#322; utworzony.';
 	$lang['strreportcreatedbad'] = 'Pr&oacute;ba utworzenia raportu si&#281; nie powiod&#322;a.';
 
 	// Domeny
 	$lang['strdomain'] = 'Domena';
 	$lang['strdomains'] = 'Domeny';
-	$lang['strshowalldomains'] = 'Pokar&#380; wszystkie domeny';
+	$lang['strshowalldomains'] = 'Poka&#380; wszystkie domeny';
 	$lang['strnodomains'] = 'Nie znaleziono domen.';
 	$lang['strcreatedomain'] = 'Utw&oacute;rz domen&#281;';
-	$lang['strdomaindropped'] = 'Domena usuni&#281;ta.';
+	$lang['strdomaindropped'] = 'Domena zosta&#322;a usuni&#281;ta.';
 	$lang['strdomaindroppedbad'] = 'Pr&oacute;ba usuni&#281;cia domeny si&#281; nie powiod&#322;a.';
 	$lang['strconfdropdomain'] = 'Czy na pewno chcesz usun&#261;&#263; domen&#281; &quot;%s&quot;?';
 	$lang['strdomainneedsname'] = 'Musisz nazwa&#263; domen&#281;.';
-	$lang['strdomaincreated'] = 'Domena utworzona.';
+	$lang['strdomaincreated'] = 'Domena zosta&#322;a utworzona.';
 	$lang['strdomaincreatedbad'] = 'Pr&oacute;ba utworzenia domeny si&#281; nie powiod&#322;a.';
-	$lang['strdomainaltered'] = 'Domena zmieniona.';
+	$lang['strdomainaltered'] = 'Domena zosta&#322;a zmieniona.';
 	$lang['strdomainalteredbad'] = 'Pr&oacute;ba modyfikacji domeny si&#281; nie powiod&#322;a.';
 
 	// Operators
@@ -536,10 +553,10 @@
 	$lang['strlessthan'] = 'Mniej ni&#380;';
 	$lang['strgreaterthan'] = 'Wi&#281;cej ni&#380;';
 	$lang['stroperatorneedsname'] = 'Musisz nazwa&#263; operator.';
-	$lang['stroperatorcreated'] = 'Operator utworzony.';
+	$lang['stroperatorcreated'] = 'Operator zosta&#322; utworzony.';
 	$lang['stroperatorcreatedbad'] = 'Pr&oacute;ba utworzenia operatora si&#281; nie powiod&#322;a.';
 	$lang['strconfdropoperator'] = 'Czy na pewno chcesz usun&#261;&#263; operator &quot;%s&quot;?';
-	$lang['stroperatordropped'] = 'Operator usuni&#281;ty.';
+	$lang['stroperatordropped'] = 'Operator zosta&#322; usuni&#281;ty.';
 	$lang['stroperatordroppedbad'] = 'Pr&oacute;ba usuni&#281;cia operatora si&#281; nie powiod&#322;a.';
 
 	// Casts
@@ -581,8 +598,8 @@
 	// Stats and performance
 	$lang['strrowperf'] = 'Wydajno&#347;&#263; wierszowa';
 	$lang['strioperf'] = 'Wydajno&#347;&#263; I/O';
-$lang['stridxrowperf'] = 'Index Row Performance';
-$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['stridxrowperf'] = 'Wydajno&#347;&#263; indeksu wierszowego';
+	$lang['stridxioperf'] = 'Wydajno&#347;&#263; indeksu We/Wy';
 	$lang['strpercent'] = '%';
 	$lang['strsequential'] = 'Sekwencyjny';
 	$lang['strscan'] = 'Skanuj';
@@ -595,9 +612,27 @@ $lang['strtoastindex'] = 'TOAST Index';
 	$lang['strdisk'] = 'Dysk';
 	$lang['strrows2'] = 'Wiersze';
 
+	// Tablespaces
+	$lang['strtablespace']  =  'Przestrze&#324; tabel';
+	$lang['strtablespaces']  =  'Przestrzenie tabel';
+	$lang['strshowalltablespaces']  =  'Poka&#380; wszystkie przestrzenie tabel';
+	$lang['strnotablespaces']  =  'Nie znaleziono przestrzeni tabel.';
+	$lang['strcreatetablespace']  =  'Utw&oacute;rz przestrze&#324; tabel';
+	$lang['strlocation']  =  'Po&#322;o&#380;enie';
+	$lang['strtablespaceneedsname']  =  'Musisz poda&#263; nazw&#281; przestrzeni tabel.';
+	$lang['strtablespaceneedsloc']  =  'Musisz poda&#263; nazw&#281; katalogu, w kt&oacute;rym chcesz utworzy&#263; przestrze&#324; tabel.';
+	$lang['strtablespacecreated']  =  'Przestrze&#324; tabel zosta&#322;a utworzona.';
+	$lang['strtablespacecreatedbad']  =  'Pr&oacute;ba utworzenia przestrzeni tabel si&#281; nie powiod&#322;a.';
+	$lang['strconfdroptablespace']  =  'Czy na pewno chcesz usun&#261;&#263; przestrze&#324; tabel &quot;%s&quot;?';
+	$lang['strtablespacedropped']  =  'Przestrze&#324; tabel zosta&#322;a usuni&#281;ta.';
+	$lang['strtablespacedroppedbad']  =  'Pr&oacute;ba usuni&#281;cia przestrzeni tabel si&#281; nie powiod&#322;a.';
+	$lang['strtablespacealtered']  =  'Przestrze&#324; tabel zosta&#322;a zmieniona.';
+	$lang['strtablespacealteredbad']  =  'Pr&oacute;ba modyfikacji przestrzeni tabel si&#281; nie powiod&#322;a.';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Pomoc';
+	$lang['strhelpicon']  =  '?';
 
 ?>
