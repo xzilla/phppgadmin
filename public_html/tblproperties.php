@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.12 2002/12/23 01:28:50 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.13 2002/12/23 02:16:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -270,7 +270,7 @@
 					doDefault('Column altered.');
 				else {
 					$_REQUEST['stage'] = 1;
-					doCreate('Column altering failed.');
+					doProperties('Column altering failed.');
 					return;
 				}
 				break;
