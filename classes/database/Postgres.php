@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.36 2003/01/11 04:32:38 chriskl Exp $
+ * $Id: Postgres.php,v 1.37 2003/01/11 08:22:34 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -284,10 +284,13 @@ class Postgres extends BaseDB {
 			}
 		}
 
-		$status = $this->renameColumn($table, $column, $name);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
+		// Rename the column, if it has been changed
+		if ($column != $name) {
+			$status = $this->renameColumn($table, $column, $name);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
 		}
 
 		return $this->endTransaction();
@@ -417,8 +420,8 @@ class Postgres extends BaseDB {
 		}
 
 		// Actually retrieve the rows, with offset and limit
-		// @@ WHAT HAPPENS IF THE THING DOESN'T HAVE OIDs???
-		$rs = $this->selectSet("SELECT oid, * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		// @@ OIDs???
+		$rs = $this->selectSet("SELECT * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 
 		$status = $this->endTransaction();
 		if ($status != 0) {
