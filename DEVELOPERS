@@ -51,3 +51,26 @@ DEVELOPER INFO
   contributed something useful to phpPgAdmin.  If you're interested in that, 
   please contact us.                                  
                                  
+TIPS FOR DEVELOPERS
+-------------------
+
+When you submit code to phpPgAdmin, we do expect it to adhere to the existing
+coding standards in the source.  So, instead of using your personal favourite
+code layout style, please format it to look like surrounding code.
+
+Test your code properly!  Say you are developing a feature to create domains.
+Try naming your domain all of the following:
+
+	* "
+	* '
+	* \
+	* words with spaces
+	* <br><br><br>
+
+If you are adding a new class function, be sure to use the "clean",
+"fieldClean", "arrayClean" and "fieldArrayClean" functions to properly escape
+odd characters in user input.  Examine existing functions that do similar
+things to yours to get yours right.
+
+
+
