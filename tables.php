@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.11 2003/03/28 12:29:53 chriskl Exp $
+	 * $Id: tables.php,v 1.12 2003/04/14 04:42:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -490,9 +490,10 @@
 		$misc->printMsg($msg);
 		
 		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
+		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
 
 		// Retrieve page from table.  $max_pages is returned by reference.
-		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['page'], $guiMaxRows, $max_pages);
+		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['page'], $guiMaxRows, $max_pages);
 
 		// Fetch unique row identifier, if there is one
 		$key = $localData->getRowIdentifier($_REQUEST['table']);
@@ -504,7 +505,8 @@
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
 				if ($k == $localData->id && !$guiShowOIDs) continue;
-				echo "<th class=data>", htmlspecialchars($k), "</th>";
+				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], "&{$misc->href}&sortkey=", urlencode($k), "&table=", 
+					urlencode($_REQUEST['table']), "\">", htmlspecialchars($k), "</a></th>\n";
 			}
 			
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
@@ -520,7 +522,7 @@
 				while(list($k, $v) = each($rs->f)) {
 					if ($k == $localData->id && !$guiShowOIDs) continue;
 					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else echo "<td class=data{$id}>", nl2br(htmlspecialchars($v)), "</td>";
+					else echo "<td class=\"data{$id}\">", nl2br(htmlspecialchars($v)), "</td>";
 				}
 				if (sizeof($key) > 0) {
 					$key_str = '';

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.72 2003/04/08 12:51:44 chriskl Exp $
+ * $Id: Postgres.php,v 1.73 2003/04/14 04:42:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -647,6 +647,7 @@ class Postgres extends BaseDB {
 	/**
 	 * Returns a recordset of all columns in a relation.  Supports paging.
 	 * @param $relation The name of a relation
+	 * @param $sortkey Field over which to sort.  '' for no sort.
 	 * @param $page The page of the relation to retrieve
 	 * @param $page_size The number of rows per page
 	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
@@ -655,7 +656,7 @@ class Postgres extends BaseDB {
 	 * @return -2 counting error
 	 * @return -3 page or page_size invalid
 	 */
-	function &browseRelation($relation, $page, $page_size, &$max_pages) {
+	function &browseRelation($relation, $sortkey, $page, $page_size, &$max_pages) {
 		$oldrelation = $relation;
 		$this->fieldClean($relation);
 
@@ -683,6 +684,13 @@ class Postgres extends BaseDB {
 			return -3;
 		}
 
+		// Figure out ORDER BY
+		if ($sortkey != '') {
+			$this->fieldClean($sortkey);
+			$orderby = " ORDER BY \"{$sortkey}\"";
+		}
+		else $orderby = '';
+
 		// We need to do a check to see if the relation has an OID column.  If so, then
 		// we need to include it in the result set, in case the user has created a primary key
 		// constraint on it.
@@ -690,9 +698,9 @@ class Postgres extends BaseDB {
 
 		// Actually retrieve the rows, with offset and limit
 		if ($hasID)
-			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" {$orderby}LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		else
-			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" {$orderby}LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 			
 		$status = $this->endTransaction();
 		if ($status != 0) {
