@@ -4,11 +4,11 @@
 	 * List databases in a server
 	 * @param $webdbServerID The ID of the current server
 	 *
-	 * $Id: databases.php,v 1.1 2002/02/11 09:33:08 chriskl Exp $
+	 * $Id: databases.php,v 1.2 2002/02/12 01:11:58 kkemp102294 Exp $
 	 */
 
 	// Include application functions
-	include_once('../conf/config.inc');
+	include_once('../conf/config.inc.php');
 
 ?>
 

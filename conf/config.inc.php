@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc,v 1.1 2002/02/11 09:32:49 chriskl Exp $
+	 * $Id: config.inc.php,v 1.1 2002/02/12 01:12:20 kkemp102294 Exp $
 	 */
 
 	// Set error reporting level
@@ -12,7 +12,7 @@
 	// App settings
 	$appName = 'WebDB';
 	$appIntro = 'Welcome to WebDB.';
-	$appBase = '/home/chriskl/public_html/webdb';
+	$appBase = '../public_html';
 	$appVersion = '1-dev';
 	
 	// GUI settings
@@ -20,14 +20,14 @@
 
 	// Servers and types
 	$confServers = array();
-	$confServers[0]['desc'] = 'Houston';
-	$confServers[0]['host'] = 'database.internal';
+	$confServers[0]['desc'] = 'Home';
+	$confServers[0]['host'] = 'localhost';
 	$confServers[0]['port'] = '5432';
 	$confServers[0]['type'] = 'Postgres71';
 	$confServers[0]['default'] = 'template1';
 
 	// Language
-	include_once($appBase . '/lang/template.php');
+	include_once ('../lang/template.php');
 	
 	// If login action is set, then set login variables
 	if (isset($formServer) && isset($formUsername) && isset($formPassword)) {
@@ -41,14 +41,14 @@
 		
 	// If the logged in settings aren't present, put up the login screen
 	if (!isset($webdbUsername) || !isset($webdbPassword) || !isset($webdbServerID) || !isset($confServers[$webdbServerID])) {
-		include($appBase . '/public_html/login.php');
+		include($appBase . '/login.php');
 		exit;
 	}
 	
 	// Create data accessor object, if valid
 	if (isset($webdbServerID) && isset($confServers[$webdbServerID])) {
 		$_type = $confServers[$webdbServerID]['type'];
-		include_once($appBase . '/classes/database/' . $_type . '.php');
+		include_once('../classes/database/' . $_type . '.php');
 		$data = new $_type(	$confServers[$webdbServerID]['host'],
 									$confServers[$webdbServerID]['port'],
 									$confServers[$webdbServerID]['default'],
