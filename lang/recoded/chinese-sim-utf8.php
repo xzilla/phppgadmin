@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @maintainer He Wei Ping [laser@zhengmai.com.cn] 
+* @maintainer He Wei Ping [laser@zhengmai.com.cn]
 */
 
 // Language and character set
@@ -241,6 +241,6 @@ $lang['strschemaneedsname'] = '&#24517;&#39035;&#32473;&#27169;&#24335;&#21629;&
 
 // Miscellaneous
 $lang['strtopbar'] = '%s &#26550;&#20110; %s&#65306;%s &#65293; &#24744;&#26159; &quot;%s&quot;&#65292; %s';
-$lang['strtimefmt'] = 'jS M&#65292; Y g&#65306;iA';
+$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?> 
