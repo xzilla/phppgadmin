@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.111 2003/05/19 15:08:09 chriskl Exp $
+ * $Id: Postgres.php,v 1.112 2003/05/19 15:15:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2079,10 +2079,10 @@ class Postgres extends BaseDB {
 	function analyzeDB($table = '') {
 		if ($table != '') {
 			$this->fieldClean($table);
-			$sql = "ANALYZE \"{$table}\"";
+			$sql = "VACUUM ANALYZE \"{$table}\"";
 		}
 		else
-			$sql = "ANALYZE";
+			$sql = "VACUUM ANALYZE";
 
 		return $this->execute($sql);
 	}

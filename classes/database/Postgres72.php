@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.44 2003/05/15 14:34:47 chriskl Exp $
+ * $Id: Postgres72.php,v 1.45 2003/05/19 15:15:49 chriskl Exp $
  */
 
 
@@ -99,37 +99,6 @@ class Postgres72 extends Postgres71 {
 				ORDER BY a.attnum";
 		}
 					
-		return $this->selectSet($sql);
-	}
-
-	function getTableKeys($table) {
-		$this->clean($table);
-
-		$sql = "
-				SELECT 
-					ic.relname AS index_name, 
-					bc.relname AS tab_name, 
-					ta.attname AS column_name,
-					i.indisunique AS unique_key,
-					i.indisprimary AS primary_key
-				FROM 
-					pg_class bc,
-					pg_class ic,
-					pg_index i,
-					pg_attribute ta,
-					pg_attribute ia
-				WHERE 
-					bc.oid = i.indrelid
-					AND ic.oid = i.indexrelid
-					AND ia.attrelid = i.indexrelid
-					AND ta.attrelid = bc.oid
-					AND bc.relname = '$table'
-					AND ta.attrelid = i.indrelid
-					AND ta.attnum = i.indkey[ia.attnum-1]
-				ORDER BY 
-					index_name, tab_name, column_name
-				";
-
 		return $this->selectSet($sql);
 	}
 
@@ -289,6 +258,23 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	// Administration functions
+
+	/**
+	 * Analyze a database
+	 * @note PostgreSQL 7.2 finally had an independent ANALYZE command
+	 * @param $table (optional) The table to analyze
+	 */
+	function analyzeDB($table = '') {
+		if ($table != '') {
+			$this->fieldClean($table);
+			$sql = "ANALYZE \"{$table}\"";
+		}
+		else
+			$sql = "ANALYZE";
+
+		return $this->execute($sql);
+	}
 }
 
 ?>
