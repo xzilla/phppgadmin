@@ -1,15 +1,18 @@
 <?php
 	include_once('./libraries/lib.inc.php');
 	
-	$url = $misc->getLastTabURL($_REQUEST['section']);
+	$url = parse_url($misc->getLastTabURL($_REQUEST['section']));
 	
-	if (is_string($url)) {
-		$dir = substr($_SERVER['REQUEST_URI'], 0, strrpos ($_SERVER['REQUEST_URI'],'/'));
-		header("Location: http://{$_SERVER['HTTP_HOST']}{$dir}/{$url}");
-		exit;
+	$_SERVER['PHP_SELF'] = $url['path'];
+	
+	// Load query vars into superglobal arrays
+	if (isset($url['query'])) {
+		$vars = array();
+		parse_str($url['query'], $vars);
+	
+		$_REQUEST = array_merge($_REQUEST, $vars);
+		$_GET = array_merge($_GET, $vars);
 	}
 	
-	$misc->printHeader('ERROR');
-	$misc->printBody();
-	$misc->printFooter();
+	require $url['path'];
 ?>
