@@ -1,103 +1,50 @@
 <?php
+
 	/**
-	 * Italian language template, based on the english language template file for WebDB.
-	 * @maintainer Calogero &quot;Kalef&quot; Cal&igrave; [<kalef@libero.it>]
+	 * Italian language file, based on the english language file for phpPgAdmin.
+	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.6 2003/08/07 01:16:31 chriskl Exp $
+	 * $Id: italian.php,v 1.7 2003/09/01 03:08:12 chriskl Exp $
 	 */
 
+	// Language and character set - Lingua e set di caratteri
 	$lang['applang'] = 'Italiano';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'it_IT';
 	$lang['appdbencoding'] = 'LATIN1';
 
-	$lang['strnoframes'] = 'Devi abilitare il browser all\'uso dei frame per usare questa applicazione.';
+	// Welcome - Benvenuto
+	$lang['strintro'] = 'Benvenuto in phpPgAdmin.';
+	$lang['strppahome'] = 'Homepage di phpPgAdmin';
+	$lang['strpgsqlhome'] = 'Homepage di PostgreSQL';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'Documentazione su PostgreSQL (locale)';
+	$lang['strreportbug'] = 'Riferisci un bug';
+	$lang['strviewfaq'] = 'Visualizza le FAQ';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+
+	// Basic strings - Stringhe basilari
 	$lang['strlogin'] = 'Login';
-	$lang['strnotables'] = 'Tabelle non trovate.';
-	$lang['strnotable'] = 'Tabella non trovata.';
-	$lang['strnoviews'] = 'Viste non trovate.';
-	$lang['strnofunctions'] = 'Funzioni non trovate.';
+	$lang['strloginfailed'] = 'Login fallito';
+	$lang['strserver'] = 'Server';
+	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Proprietario';
+	$lang['straction'] = 'Azione';
 	$lang['stractions'] = 'Azioni';
 	$lang['strname'] = 'Nome';
-	$lang['strtable'] = 'Tabella';
-	$lang['strtables'] = 'Tabelle';
-	$lang['strview'] = 'Vista';
-	$lang['strviews'] = 'Viste';
 	$lang['strdefinition'] = 'Definizione';
-	$lang['strtriggers'] = 'Trigger';
-	$lang['strrules'] = 'Regole';
-	$lang['strsequence'] = 'Sequenza';
-	$lang['strsequences'] = 'Sequenze';
-	$lang['strfunction'] = 'Funzione';
-	$lang['strfunctions'] = 'Funzioni';
-	$lang['stroperators'] = 'Operatori';
-	$lang['strtypes'] = 'Tipi';
 	$lang['straggregates'] = 'Aggregazioni';
 	$lang['strproperties'] = 'Propriet&agrave;';
 	$lang['strbrowse'] = 'Visualizza';
 	$lang['strdrop'] = 'Elimina';
 	$lang['strdropped'] = 'Eliminato';
 	$lang['strnull'] = 'Null';
-	$lang['strprev'] = 'Precedente';
-	$lang['strnext'] = 'Successivo';
-	$lang['strfailed'] = 'Fallito';
-	$lang['strnotloaded'] = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
-
-	// Users - Utenti
-	$lang['strusername'] = 'Username';
-	$lang['strpassword'] = 'Password';
-	$lang['strsuper'] = 'Superuser?';
-	$lang['strcreatedb'] = 'Creare DB?';
-	$lang['strexpires'] = 'Scadenza';
-	$lang['strnousers'] = 'Nessun utente trovato';
-
-	// Views - Viste
-	$lang['strviewneedsname'] = 'E\' necessario un nome per la Vista.';
-	$lang['strviewneedsdef'] = 'E\' necessaria una definizione della Vista.';
-
-	// Sequences - Sequenze
-	$lang['strnosequences'] = 'Nessuna sequenza trovata.';
-	$lang['strlastvalue'] = 'valore precedente';
-	$lang['strincrementby'] = 'incrementa di';
-	$lang['strmaxvalue'] = 'valore max';
-	$lang['strminvalue'] = 'valore min';
-	$lang['strcachevalue'] = 'valore cache';
-	$lang['strlogcount'] = 'conta log';
-	$lang['striscycled'] = '&egrave; iterata';
-	$lang['striscalled'] = '&egrave; chiamata';
-
-
-	$lang['strreset'] = 'Reset';
-
-	// Indicies - Indici
-	$lang['strindexname'] = 'Nome dell\'indice';
-	$lang['strtabname'] = 'Tab Name';
-	$lang['strcolumnname'] = 'Nome della colonna';
-	$lang['struniquekey'] = 'Chiave Univoca';
-	$lang['strprimarykey'] = 'Chiave Primaria';
-
-	// Tables - Tabelle
-	$lang['strfield'] = 'Campo';
-	$lang['strtype'] = 'Tipo';
-	$lang['strvalue'] = 'Valore';
-	$lang['strshowalltables'] = 'Mostra tutte le Tabelle';
-
-	// Functions - Funzioni
-	$lang['strreturns'] = 'Restituisce';
-	$lang['strarguments'] = 'Argomenti';
-	$lang['strlanguage'] = 'Lingua';
-	$lang['strfunctionneedsname'] = 'Devi dare un nome alla funzione.';
-	$lang['strfunctionneedsdef'] = 'Devi dare una definizione alla tua funzione.';
-
-        // 
-	$lang['strintro'] = 'Benvenuto in phpPgAdmin.';
-	$lang['strloginfailed'] = 'Login fallito';
-	$lang['strserver'] = 'Server';
-	$lang['strlogout'] = 'Logout';
-
-	$lang['straction'] = 'Azione';
 	$lang['strnotnull'] = 'Non Nullo';
+	$lang['strprev'] = '< Prec.';
+	$lang['strnext'] = 'Succ. >';
+	$lang['strfirst'] = '<< Primo';
+	$lang['strlast'] = 'Ultimo >>';
+	$lang['strfailed'] = 'Fallito';
 	$lang['strcreate'] = 'Crea';
 	$lang['strcreated'] = 'Creato';
 	$lang['strcomment'] = 'Commento';
@@ -105,8 +52,9 @@
 	$lang['strdefault'] = 'Default';
 	$lang['stralter'] = 'Modifica';
 	$lang['strok'] = 'OK';
-	$lang['strcancel'] = 'Cancella';
+	$lang['strcancel'] = 'Annulla';
 	$lang['strsave'] = 'Salva';
+	$lang['strreset'] = 'Reset';
 	$lang['strinsert'] = 'Inserisci';
 	$lang['strselect'] = 'Seleziona righe';
 	$lang['strdelete'] = 'Cancella';
@@ -114,21 +62,26 @@
 	$lang['strreferences'] = 'Riferimenti'; 
 	$lang['stryes'] = 'Si';
 	$lang['strno'] = 'No';
+	$lang['strtrue'] = 'TRUE';
+	$lang['strfalse'] = 'FALSE';
 	$lang['stredit'] = 'Modifica';
 	$lang['strcolumns'] = 'Colonne';
 	$lang['strrows'] = 'riga(righe)';
 	$lang['strrowsaff'] = 'riga(righe) interessate.';
-	$lang['strexample'] = 'ex.';
+	$lang['strexample'] = 'es.';
 	$lang['strback'] = 'Indietro';
 	$lang['strqueryresults'] = 'Risultato Query';
 	$lang['strshow'] = 'Mostra';
 	$lang['strempty'] = 'Svuota';
+	$lang['strlanguage'] = 'Lingua';
 	$lang['strencoding'] = 'Codifica';
+	$lang['strvalue'] = 'Valore';
 	$lang['strunique'] = 'Univoco';
 	$lang['strprimary'] = 'Primaria';
+	$lang['strimport'] = 'Importa';
 	$lang['strexport'] = 'Esporta';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Vai';
+	$lang['strgo'] = 'Esegui';
 	$lang['stradmin'] = 'Amministratore';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analizza';
@@ -140,91 +93,130 @@
 	$lang['strwhere'] = 'Condizione';
 	$lang['strinstead'] = 'Invece fai';
 	$lang['strwhen'] = 'quando';
-	$lang['strformat'] = 'Formato'; // ***********
-	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. Devi rigenerarlo utilizzando il nuovo file config.inc.php-dist.';
+	$lang['strformat'] = 'Formato';
+	$lang['strdata'] = 'Dati';
+	$lang['strconfirm'] = 'Conferma';
+	$lang['strexpression'] = 'Espressione';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Espandi';
+	$lang['strcollapse'] = 'Raccogli';
+	$lang['strexplain'] = 'Spiega';
+	$lang['strfind'] = 'Trova';
+	$lang['stroptions'] = 'Opzioni';
+	$lang['strrefresh'] = 'Ricarica';
+	$lang['strtaller'] = 'Taller'; // ???
+	$lang['strshorter'] = 'Shorter'; // ???
+	$lang['strdownload'] = 'Scarica';
+
+	// Error handling - Gestione degli errori
+	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
+	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. Devi rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
+	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. Devi ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
 	$lang['strbadschema'] = 'Schema specificato non valido.';
-	$lang['strbadencoding'] = 'Settaggio codifica del client nel database fallito.';
+	$lang['strbadencoding'] = 'Impostazione della codifica del client nel database fallito.';
 	$lang['strsqlerror'] = 'Errore SQL:';
 	$lang['strinstatement'] = 'Nel costrutto:';
 	$lang['strinvalidparam'] = 'Parametri di script non validi.';
+        $lang['strnodata'] = 'Nessuna riga trovata.';
 
         // Tables - Tabelle
-        $lang['strnodata'] = 'Nessuna riga trovata.';
+	$lang['strtable'] = 'Tabella';
+	$lang['strtables'] = 'Tabelle';
+	$lang['strshowalltables'] = 'Mostra tutte le Tabelle';
+	$lang['strnotables'] = 'Nessuna tabella trovata.';
+	$lang['strnotable'] = 'Tabella non trovata.';
 	$lang['strcreatetable'] = 'Crea tabella';
 	$lang['strtablename'] = 'Nome tabella';
-	$lang['strtableneedsname'] = 'Devi dare un nome alla tabella.';
-	$lang['strtableneedsfield'] = 'Devi specificare almeno un campo.';
-	$lang['strtableneedscols'] = 'Le tabelle necessitano di numero di colonne valido.';
+	$lang['strtableneedsname'] = '&Egrave; necessario dare un nome alla tabella.';
+	$lang['strtableneedsfield'] = '&Egrave; necessario specificare almeno un campo.';
+	$lang['strtableneedscols'] = 'Le tabelle richiedono un numero di colonne valido.';
 	$lang['strtablecreated'] = 'Tabella creata.';
-	$lang['strtablecreatedbad'] = 'Creazione tabella fallita.';
+	$lang['strtablecreatedbad'] = 'Creazione della tabella fallita.';
 	$lang['strconfdroptable'] = 'Sei sicuro di voler eliminare la tabella &quot;%s&quot;?';
 	$lang['strtabledropped'] = 'Tabella eliminata.';
-	$lang['strtabledroppedbad'] = 'Eliminazione tabella fallita.';
+	$lang['strtabledroppedbad'] = 'Eliminazione della tabella fallita.';
 	$lang['strconfemptytable'] = 'Sei sicuro di voler svuotare la tabella &quot;%s&quot;?';
 	$lang['strtableemptied'] = 'Tabella svuotata.';
-        $lang['strtableemptiedbad'] = 'Svuotamento tabella fallito.';
-
-
-        // Rows - Righe
-        $lang['strinsertrow'] = 'Inserisci Riga';
+        $lang['strtableemptiedbad'] = 'Svuotamento della tabella fallito.';
+        $lang['strinsertrow'] = 'Inserisci riga';
 	$lang['strrowinserted'] = 'Riga inserita.';
-	$lang['strrowinsertedbad'] = 'Inserimento riga fallito.';
+	$lang['strrowinsertedbad'] = 'Inserimento della riga fallito.';
 	$lang['streditrow'] = 'Modifica riga';
 	$lang['strrowupdated'] = 'Riga aggiornata.';
-	$lang['strrowupdatedbad'] = 'Aggiornamento riga fallito.';
-	$lang['strdeleterow'] = 'Cancella Riga';
+	$lang['strrowupdatedbad'] = 'Aggiornamento della riga fallito.';
+	$lang['strdeleterow'] = 'Cancella riga';
 	$lang['strconfdeleterow'] = 'Sei sicuro di voler cancellare questa riga?';
 	$lang['strrowdeleted'] = 'Riga cancellata.';
-	$lang['strrowdeletedbad'] = 'Cancellazione riga fallito.';
-	$lang['strsaveandrepeat'] = 'Salva e Ripeti'; //****************************************
+	$lang['strrowdeletedbad'] = 'Cancellazione della riga fallita.';
+	$lang['strsaveandrepeat'] = 'Salva e Ripeti';
+	$lang['strfield'] = 'Campo';
 	$lang['strfields'] = 'Campi';
 	$lang['strnumfields'] = 'Num. Di Campi';
-	$lang['strfieldneedsname'] = 'Devi dare un nome ai campi';
-
-        // Columns - Colonne
-        $lang['strselectneedscol'] = 'Devi scegliere almeno una colonna';
+	$lang['strfieldneedsname'] = '&Egrave; necessario dare un nome ai campi';
+	$lang['strselectallfields'] = 'Seleziona tutti i campi';
+        $lang['strselectneedscol'] = '&Egrave; necessario scegliere almeno una colonna';
 	$lang['straltercolumn'] = 'Modifica colonna';
 	$lang['strcolumnaltered'] = 'Colonna modificata.';
-	$lang['strcolumnalteredbad'] = 'Modifica colonna fallita.';
+	$lang['strcolumnalteredbad'] = 'Modifica della colonna fallita.';
 	$lang['strconfdropcolumn'] = 'Sei sicuro di voler eliminare la colonna &quot;%s&quot; dalla tabella &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Colonna eliminata';
-	$lang['strcolumndroppedbad'] = 'Eliminazione colonna fallita.';
+	$lang['strcolumndroppedbad'] = 'Eliminazione della colonna fallita.';
 	$lang['straddcolumn'] = 'Aggiungi colonna.';
 	$lang['strcolumnadded'] = 'Colonna aggiunta.';
-	$lang['strcolumnaddedbad'] = 'Addizione colonna fallita.';
-
-
+	$lang['strcolumnaddedbad'] = 'Aggiunta della colonna fallita.';
         $lang['strschemaanddata'] = 'Schema &amp; Dati';
 	$lang['strschemaonly'] = 'Solamente schema';
 	$lang['strdataonly'] = 'Solamente dati';
+	$lang['strcascade'] = 'CASCADE';
+	$lang['strtablealtered'] = 'Tabella modificata.';
+	$lang['strtablealteredbad'] = 'Modifica della tabella fallita.';
 
-        // Users - Utenti
+	// Users - Utenti
 	$lang['struser'] = 'Utente';
 	$lang['strusers'] = 'Utenti';
+	$lang['strusername'] = 'Username';
+	$lang['strpassword'] = 'Password';
+	$lang['strsuper'] = 'Superuser?';
+	$lang['strcreatedb'] = 'Pu&ograve; creare DB?';
+	$lang['strexpires'] = 'Scadenza';
+	$lang['strnousers'] = 'Nessun utente trovato';
 	$lang['struserupdated'] = 'Utente aggiornato.';
 	$lang['struserupdatedbad'] = 'Aggiornamento utente fallito.';
-	$lang['strshowallusers'] = 'Mostra Tutti Gli Utenti';
-	$lang['strcreateuser'] = 'Crea Utente';
-	$lang['strusercreated'] = 'Utente Creato.';
-	$lang['strusercreatedbad'] = 'Creazione utente fallita.';
+	$lang['strshowallusers'] = 'Mostra tutti gli utenti';
+	$lang['strcreateuser'] = 'Crea utente';
+	$lang['strusercreated'] = 'Utente creato.';
+	$lang['strusercreatedbad'] = 'Creazione dell\'utente fallita.';
 	$lang['strconfdropuser'] = 'Sei sicuro di voler eliminare l\'utente &quot;%s&quot;?';
 	$lang['struserdropped'] = 'Utente eliminato.';
-	$lang['struserdroppedbad'] = 'Eliminazione utente fallita.';
+	$lang['struserdroppedbad'] = 'Eliminazione dell\'utente fallita.';
+	$lang['straccount'] = 'Account';
+	$lang['strchangepassword'] = 'Modifica password';
+	$lang['strpasswordchanged'] = 'Password modificata.';
+	$lang['strpasswordchangedbad'] = 'Modifica della password fallita.';
+	$lang['strpasswordshort'] = 'La password &egrave; troppo corta.';
+	$lang['strpasswordconfirm'] = 'Le due password non coincidono.';
 
         // Groups - Gruppi
 	$lang['strgroup'] = 'Gruppo';
 	$lang['strgroups'] = 'Gruppi';
 	$lang['strnogroup'] = 'Gruppo non torvato.';
 	$lang['strnogroups'] = 'Nessun gruppo trovato.';
-	$lang['strcreategroup'] = 'Crea Gruppo';
-	$lang['strshowallgroups'] = 'Mostra Tutti i Gruppi';
-	$lang['strgroupneedsname'] = 'Devi dare un nome al gruppo.';
+	$lang['strcreategroup'] = 'Crea gruppo';
+	$lang['strshowallgroups'] = 'Mostra tutti i gruppi';
+	$lang['strgroupneedsname'] = '&Egrave; necessario dare un nome al gruppo.';
 	$lang['strgroupcreated'] = 'Gruppo creato.';
-	$lang['strgroupcreatedbad'] = 'Creazione gruppo fallita.';
-	$lang['strconfdropgroup'] = 'Sei sicuro di volere eliminare il gruppo &quot;%s&quot;?';
+	$lang['strgroupcreatedbad'] = 'Creazione del gruppo fallita.';
+	$lang['strconfdropgroup'] = 'Sei sicuro di voler eliminare il gruppo &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Gruppo eliminato.';
-	$lang['strgroupdroppedbad'] = 'Eliminazione gruppo fallita.';
+	$lang['strgroupdroppedbad'] = 'Eliminazione del gruppo fallita.';
 	$lang['strmembers'] = 'Membri';
+	$lang['straddmember'] = 'Aggiungi membro';
+	$lang['strmemberadded'] = 'Membro aggiunto.';
+	$lang['strmemberaddedbad'] = 'Aggiunta del membro fallita.';
+	$lang['strdropmember'] = 'Elimina membro';
+	$lang['strconfdropmember'] = 'Sei sicuro di voler eliminare il membro &quot;%s&quot; dal gruppo &quot;%s&quot;?';
+	$lang['strmemberdropped'] = 'Membro eliminato.';
+	$lang['strmemberdroppedbad'] = 'Eliminazione del membro fallita.';
 
         // Privileges - Privilegi
         $lang['strprivilege'] = 'Privilegio';
@@ -233,205 +225,269 @@
 	$lang['strgrant'] = 'Concedi';
 	$lang['strrevoke'] = 'Revoca';
 	$lang['strgranted'] = 'Privilegi concessi.';
-	$lang['strgrantfailed'] = 'Concessione priviegi fallita.';
+	$lang['strgrantfailed'] = 'Concessione dei privilegi fallita.';
+	$lang['strgrantbad'] = 'Devi specificare almeno un utente o gruppo e almeno un privilegio.';
+	$lang['stralterprivs'] = 'Modifica Privilegi';
+	$lang['strgrantor'] = 'Grantor'; // ???
+	$lang['strasterisk'] = '*';
 
         // Databases
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabases'] = 'Database';
 	$lang['strshowalldatabases'] = 'Mostra tutti i database';
 	$lang['strnodatabase'] = 'Database non trovato.';
-	$lang['strnodatabases'] = 'Database non trovati.';
+	$lang['strnodatabases'] = 'Nessun database trovato.';
 	$lang['strcreatedatabase'] = 'Crea database';
 	$lang['strdatabasename'] = 'Nome del database';
-	$lang['strdatabaseneedsname'] = 'Devi dare un nome al database.';
+	$lang['strdatabaseneedsname'] = '&Egrave; necessario dare un nome al database.';
 	$lang['strdatabasecreated'] = 'Database creato.';
-	$lang['strdatabasecreatedbad'] = 'Creazione database fallita.';
+	$lang['strdatabasecreatedbad'] = 'Creazione del database fallita.';
 	$lang['strconfdropdatabase'] = 'Sei sicuro di volere eliminare il database &quot;%s&quot;?';
 	$lang['strdatabasedropped'] = 'Database eliminato.';
-	$lang['strdatabasedroppedbad'] = 'Eliminazione database fallita.';
-
-	$lang['strentersql'] = 'Inserire la query SQL da eseguire:';
+	$lang['strdatabasedroppedbad'] = 'Eliminazione del database fallita.';
+	$lang['strentersql'] = 'Inserire la query SQL da eseguire qui sotto:';
 	$lang['strsqlexecuted'] = 'SQL eseguito.';
-
 	$lang['strvacuumgood'] = 'Vacuum completato.';
 	$lang['strvacuumbad'] = 'Vacuum fallito.';
-	$lang['stranalyzegood'] = 'Analisi completata.';
-	$lang['stranalyzebad'] = 'Analisi fallita';
+	$lang['stranalyzegood'] = 'Analyze completato.';
+	$lang['stranalyzebad'] = 'Analyze fallito';
 
-        // Views - Viste
+	// Views - Viste
+	$lang['strview'] = 'Vista';
+	$lang['strviews'] = 'Viste';
 	$lang['strshowallviews'] = 'Mostra tutte le viste';
-	$lang['strnoview'] = 'Nessuna vista trovata.';
-	$lang['strcreateview'] = 'Crea Vista';
+	$lang['strnoview'] = 'Vista non trovata.';
+	$lang['strnoviews'] = 'Nessuna vista trovata.';
+	$lang['strcreateview'] = 'Crea vista';
 	$lang['strviewname'] = 'Nome vista';
+	$lang['strviewneedsname'] = '&Egrave; necessario dare un nome alla vista.';
+	$lang['strviewneedsdef'] = '&Egrave; necessario dare una definizione della vista.';
 	$lang['strviewcreated'] = 'Vista creata.';
-	$lang['strviewcreatedbad'] = 'Creazione vista fallita.';
+	$lang['strviewcreatedbad'] = 'Creazione della vista fallita.';
 	$lang['strconfdropview'] = 'Sei sicuro di volere eliminare la vista &quot;%s&quot;?';
 	$lang['strviewdropped'] = 'Vista eliminata.';
-	$lang['strviewdroppedbad'] = 'Eliminazione vista fallita.';
+	$lang['strviewdroppedbad'] = 'Eliminazione della vista fallita.';
 	$lang['strviewupdated'] = 'Vista aggiornata.';
-	$lang['strviewupdatedbad'] = 'Aggiornamento vista fallito.';
+	$lang['strviewupdatedbad'] = 'Aggiornamento della vista fallito.';
 
-        // Sequences - Sequenze
+	// Sequences - Sequenze
+	$lang['strsequence'] = 'Sequenza';
+	$lang['strsequences'] = 'Sequenze';
 	$lang['strshowallsequences'] = 'Mostra tutte le sequenze';
-        $lang['strnosequence'] = 'Nessuna sequenza trovata.';
+        $lang['strnosequence'] = 'Sequenza non trovata.';
+        $lang['strnosequences'] = 'Nessuna sequenza trovata.';
 	$lang['strcreatesequence'] = 'Crea sequenza';
+	$lang['strlastvalue'] = 'valore precedente';
+	$lang['strincrementby'] = 'incrementa di';
 	$lang['strstartvalue'] = 'Valore iniziale';
-	$lang['strsequenceneedsname'] = 'Devi specificare un nome per la sequenza.';
+	$lang['strmaxvalue'] = 'valore max';
+	$lang['strminvalue'] = 'valore min';
+	$lang['strcachevalue'] = 'valore cache';
+	$lang['strlogcount'] = 'conta log';
+	$lang['striscycled'] = '&egrave; iterata?';
+	$lang['striscalled'] = '&egrave; chiamata?';
+	$lang['strsequenceneedsname'] = '&Egrave; necessario specificare un nome per la sequenza.';
 	$lang['strsequencecreated'] = 'Sequenza creata.';
-	$lang['strsequencecreatedbad'] = 'Creazione sequenza fallita.';
+	$lang['strsequencecreatedbad'] = 'Creazione della sequenza fallita.';
 	$lang['strconfdropsequence'] = 'Sei sicuro di volere eliminare la sequenza &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Sequenza eliminata.';
-	$lang['strsequencedroppedbad'] = 'Eliminazione sequenza fallita.';
+	$lang['strsequencedroppedbad'] = 'Eliminazione della sequenza fallita.';
 
-        // Indexes - Indici
+	// Indexes - Indici
 	$lang['strindexes'] = 'Indici';
+	$lang['strindexname'] = 'Nome dell\'indice';
 	$lang['strshowallindexes'] = 'Mostra tutti gli indici';
 	$lang['strnoindex'] = 'Indice non trovato.';
-	$lang['strnoindexes'] = 'Indici non trovati.';
+	$lang['strnoindexes'] = 'Nessun indice trovato.';
 	$lang['strcreateindex'] = 'Crea Indice';
-	$lang['strindexneedsname'] = 'Devi dare un nome all\'indice';
-	$lang['strindexneedscols'] = 'Gli indici necessitano di un numero valido di colonne.';
+	$lang['strtabname'] = 'Nome del tab';
+	$lang['strcolumnname'] = 'Nome della colonna';
+	$lang['strindexneedsname'] = '&Egrave; necessario dare un nome all\'indice';
+	$lang['strindexneedscols'] = 'Gli indici richiedono di un numero valido di colonne.';
 	$lang['strindexcreated'] = 'Indice creato';
 	$lang['strindexcreatedbad'] = 'Creazione indice fallita.';
 	$lang['strconfdropindex'] = 'Sei sicuro di voler eliminare l\'indice &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Indice eliminato.';
-	$lang['strindexdroppedbad'] = 'Eliminazione indice fallita.';
-        $lang['strkeyname'] = 'Nome Chiave';
+	$lang['strindexdroppedbad'] = 'Eliminazione dell\'indice fallita.';
+        $lang['strkeyname'] = 'Nome della chiave';
+	$lang['struniquekey'] = 'Chiave Univoca';
+	$lang['strprimarykey'] = 'Chiave Primaria';
 	$lang['strindextype'] = 'Tipo di indice';
-	$lang['strtablecolumnlist'] = 'Colonne nella Tabella';
-	$lang['strindexcolumnlist'] = 'Colonne nell\'Indice';
-
+	$lang['strtablecolumnlist'] = 'Colonne nella tabella';
+	$lang['strindexcolumnlist'] = 'Colonne nell\'indice';
 
         // Rules - Regole
-	$lang['strrule'] = 'Regole (Rule)';
-	$lang['strshowallrules'] = 'Mostra tutte le Regole';
+	$lang['strrules'] = 'Regole';
+	$lang['strrule'] = 'Regola';
+	$lang['strshowallrules'] = 'Mostra tutte le regole';
 	$lang['strnorule'] = 'Regola non trovata.';
 	$lang['strnorules'] = 'Nessuna regola trovata.';
-	$lang['strcreaterule'] = 'Crea Regola';
-	$lang['strrulename'] = 'Nome Regola';
-	$lang['strruleneedsname'] = 'Devi specificare un nome per la regola.';
+	$lang['strcreaterule'] = 'Crea regola';
+	$lang['strrulename'] = 'Nome della regola';
+	$lang['strruleneedsname'] = '&Egrave; necessario specificare un nome per la regola.';
 	$lang['strrulecreated'] = 'Regola creata.';
-	$lang['strrulecreatedbad'] = 'Creaz<ione regola fallita.';
+	$lang['strrulecreatedbad'] = 'Creazione della regola fallita.';
 	$lang['strconfdroprule'] = 'Sei sicuro di volere eliminare la regola &quot;%s&quot; su &quot;%s&quot;?';
 	$lang['strruledropped'] = 'Regola eliminata.';
-	$lang['strruledroppedbad'] = 'Eliminazione regola fallita.';
+	$lang['strruledroppedbad'] = 'Eliminazione della regola fallita.';
 
-        // Constraints - Limitazioni
-	$lang['strconstraints'] = 'Limitazioni (Constraints)';
-	$lang['strshowallconstraints'] = 'Mostra tutte le limitazioni';
-	$lang['strnoconstraints'] = 'Nessuna Limitazione trovata.';
-	$lang['strcreateconstraint'] = 'Crea Limitazione';
-	$lang['strconstraintcreated'] = 'Limitazione creata.';
-	$lang['strconstraintcreatedbad'] = 'Creazione Limitazione fallita.';
-	$lang['strconfdropconstraint'] = 'Sei sicuro di volere eliminare la Limitazione &quot;%s&quot; su &quot;%s&quot;?';
-	$lang['strconstraintdropped'] = 'limitazione eliminata.';
-	$lang['strconstraintdroppedbad'] = 'Eliminazione limitazione fallita.';
-	$lang['straddcheck'] = 'Aggiungi un Controllo (Check)';
-	$lang['strcheckneedsdefinition'] = 'Il Controllo delle limitazioni necessita di una definizione.';
-	$lang['strcheckadded'] = 'Controllo delle limitazioni aggiunto.';
-	$lang['strcheckaddedbad'] = 'Inserimento Controllo delle limitazioni fallito.';
-
-        // Primary Key - Chiave Primaria
+	// Constraints - Vincoli
+	$lang['strconstraints'] = 'Vincoli';
+	$lang['strshowallconstraints'] = 'Mostra tutti i vincoli';
+	$lang['strnoconstraints'] = 'Nessun vincolo trovato.';
+	$lang['strcreateconstraint'] = 'Crea vincolo';
+	$lang['strconstraintcreated'] = 'Vincolo creato.';
+	$lang['strconstraintcreatedbad'] = 'Creazione del vincolo fallita.';
+	$lang['strconfdropconstraint'] = 'Sei sicuro di volere eliminare il vincolo &quot;%s&quot; su &quot;%s&quot;?';
+	$lang['strconstraintdropped'] = 'Vincolo eliminato.';
+	$lang['strconstraintdroppedbad'] = 'Eliminazione vincolo fallita.';
+	$lang['straddcheck'] = 'Aggiungi un Check';
+	$lang['strcheckneedsdefinition'] = 'Il vincolo Check necessita di una definizione.';
+	$lang['strcheckadded'] = 'Vincolo Check aggiunto.';
+	$lang['strcheckaddedbad'] = 'Inserimento del vincolo Check fallito.';
 	$lang['straddpk'] = 'Aggiungi una chiave primaria';
-	$lang['strpkneedscols'] = 'La chiave primaria necessita di almeno una colonna.';
+	$lang['strpkneedscols'] = 'La chiave primaria richiede almeno una colonna.';
 	$lang['strpkadded'] = 'Chiave primaria aggiunta.';
-	$lang['strpkaddedbad'] = 'Aggiunta chiave primaria fallito.';
-
-        // Unique Key - Chiave univoca
-	$lang['stradduniq'] = 'Aggiungi una chiave Univoca';
-	$lang['struniqneedscols'] = 'La chiave univoca necessita di almeno una colonna.';
+	$lang['strpkaddedbad'] = 'Aggiunta della chiave primaria fallita.';
+	$lang['stradduniq'] = 'Aggiungi una chiave univoca';
+	$lang['struniqneedscols'] = 'La chiave univoca richiede almeno una colonna.';
 	$lang['struniqadded'] = 'Chiave univoca aggiunta.';
 	$lang['struniqaddedbad'] = 'Aggiunta chiave univoca fallita.';
-
-        // Foreign Key - Chiave Esterna
-	$lang['straddfk'] = 'Aggiungi una chiave esterna (Foreign Key)';
-	$lang['strfkneedscols'] = 'La chiave esterna necessita di almeno una colonna.';
-	$lang['strfkneedstarget'] = 'La chiave esterna necessita una tabella obiettivo.';
+	$lang['straddfk'] = 'Aggiungi una chiave esterna';
+	$lang['strfkneedscols'] = 'La chiave esterna richiede almeno una colonna.';
+	$lang['strfkneedstarget'] = 'La chiave esterna richiede una tabella obiettivo.';
 	$lang['strfkadded'] = 'Chiave esterna aggiunta.';
-	$lang['strfkaddedbad'] = 'Aggiunta chiave esterna fallito.';
+	$lang['strfkaddedbad'] = 'Aggiunta della chiave esterna fallita.';
 	$lang['strfktarget'] = 'Tabella obiettivo';
 	$lang['strfkcolumnlist'] = 'Colonne della chiave';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 
-        // Functions - Funzioni
+	// Functions - Funzioni
+	$lang['strfunction'] = 'Funzione';
+	$lang['strfunctions'] = 'Funzioni';
 	$lang['strshowallfunctions'] = 'Mostra tutte le funzioni.';
-	$lang['strnofunction'] = 'Nessuna funzione trovata.';
+	$lang['strnofunction'] = 'Funzione non trovata.';
+	$lang['strnofunctions'] = 'Nessuna funzione trovata.';
 	$lang['strcreatefunction'] = 'Crea funzione';
-	$lang['strfunctionname'] = 'Nome funzione';
-	$lang['strfunctioncreated'] = 'Function creata.';
+	$lang['strfunctionname'] = 'Nome della funzione';
+	$lang['strreturns'] = 'Restituisce';
+	$lang['strarguments'] = 'Argomenti';
+	$lang['strfunctionneedsname'] = '&Egrave; necessario dare un nome alla funzione.';
+	$lang['strfunctionneedsdef'] = '&Egrave; necessario dare una definizione della funzione.';
+	$lang['strfunctioncreated'] = 'Funzione creata.';
 	$lang['strfunctioncreatedbad'] = 'Creazione funzione fallita.';
 	$lang['strconfdropfunction'] = 'Sei sicuro di volere eliminare la funzione &quot;%s&quot;?';
         $lang['strfunctiondropped'] = 'Funzione eliminata.';
-        $lang['strfunctiondroppedbad'] = 'Eliminazione funzione fallita.';
+        $lang['strfunctiondroppedbad'] = 'Eliminazione della funzione fallita.';
         $lang['strfunctionupdated'] = 'Funzione aggiornata.';
-        $lang['strfunctionupdatedbad'] = 'Aggiornamento funzione fallito.';
+        $lang['strfunctionupdatedbad'] = 'Aggiornamento della funzione fallito.';
 
-        // Triggers
+        // Triggers - Trigger
         $lang['strtrigger'] = 'Trigger';
-        $lang['strshowalltriggers'] = 'Mostra tutti i triggers';
+	$lang['strtriggers'] = 'Trigger';
+        $lang['strshowalltriggers'] = 'Mostra tutti i trigger';
         $lang['strnotrigger'] = 'Trigger non trovato.';
         $lang['strnotriggers'] = 'Nessun trigger trovato.';
         $lang['strcreatetrigger'] = 'Crea Trigger';
-        $lang['strtriggerneedsname'] = 'Devi specificare un nome per il trigger.';
-        $lang['strtriggerneedsfunc'] = 'Devi specificare una funzione per il trigger.';
+        $lang['strtriggerneedsname'] = '&Egrave; necessario specificare un nome per il trigger.';
+        $lang['strtriggerneedsfunc'] = '&Egrave; necessario specificare una funzione per il trigger.';
         $lang['strtriggercreated'] = 'Trigger creato.';
-        $lang['strtriggercreatedbad'] = 'Creazione trigger fallita.';
+        $lang['strtriggercreatedbad'] = 'Creazione del trigger fallita.';
         $lang['strconfdroptrigger'] = 'Sei sicuro di volere eliminare il trigger &quot;%s&quot; su &quot;%s&quot;?';
         $lang['strtriggerdropped'] = 'Trigger eliminato.';
-        $lang['strtriggerdroppedbad'] = 'Eliminazione trigger fallita.';
+        $lang['strtriggerdroppedbad'] = 'Eliminazione del trigger fallita.';
+	$lang['strtriggeraltered'] = 'Trigger modificato.';
+	$lang['strtriggeralteredbad'] = 'Modifica del trigger fallita.';
 
         // Types - Tipi
+	$lang['strtype'] = 'Tipo';
+	$lang['strtypes'] = 'Tipi';
         $lang['strshowalltypes'] = 'Mostra tutti i tipi';
         $lang['strnotype'] = 'Tipo non trovato.';
         $lang['strnotypes'] = 'Nessun tipo trovato.';
         $lang['strcreatetype'] = 'Crea Tipo';
         $lang['strtypename'] = 'Nome Tipo';
-        $lang['strinputfn'] = 'Funzione Input';
-        $lang['stroutputfn'] = 'Funzione Output';
-        $lang['strpassbyval'] = 'Passato per valore (val)?';
+        $lang['strinputfn'] = 'Funzione di input';
+        $lang['stroutputfn'] = 'Funzione di output';
+        $lang['strpassbyval'] = 'Passato per valore?';
         $lang['stralignment'] = 'Allineamento';
         $lang['strelement'] = 'Elemento';
         $lang['strdelimiter'] = 'Delimitatore';
         $lang['strstorage'] = 'Memorizzazione';
-        $lang['strtypeneedsname'] = 'Devi dare un nome al Tipo.';
-        $lang['strtypeneedslen'] = 'Devi dare una dimensione al Tipo.';
+        $lang['strtypeneedsname'] = '&Egrave; necessario dare un nome al tipo.';
+        $lang['strtypeneedslen'] = '&Egrave; necessario dare una dimensione al tipo.';
         $lang['strtypecreated'] = 'Tipo creato';
-        $lang['strtypecreatedbad'] = 'Creazione Tipo fallita.';
-        $lang['strconfdroptype'] = 'Sei sicuro di voler cancellare il Tipo &quot;%s&quot;?';
+        $lang['strtypecreatedbad'] = 'Creazione del tipo fallita.';
+        $lang['strconfdroptype'] = 'Sei sicuro di voler eliminare il tipo &quot;%s&quot;?';
         $lang['strtypedropped'] = 'Tipo eliminato.';
-        $lang['strtypedroppedbad'] = 'Eliminazione Tipo fallita.';
+        $lang['strtypedroppedbad'] = 'Eliminazione del tipo fallita.';
 
         // Schemas - Schemi
         $lang['strschema'] = 'Schema';
         $lang['strschemas'] = 'Schemi';
         $lang['strshowallschemas'] = 'Mostra tutti gli schemi';
         $lang['strnoschema'] = 'Schema non trovato.';
-        $lang['strnoschemas'] = 'Schemi non trovati.';
-        $lang['strcreateschema'] = 'Crea Schema';
-        $lang['strschemaname'] = 'Nome Schema';
-        $lang['strschemaneedsname'] = 'Devi dare un nome allo schema.';
+        $lang['strnoschemas'] = 'Nessuno schema trovato.';
+        $lang['strcreateschema'] = 'Crea schema';
+        $lang['strschemaname'] = 'Nome dello schema';
+        $lang['strschemaneedsname'] = '&Egrave; necessario dare un nome allo schema.';
         $lang['strschemacreated'] = 'Schema creato';
-        $lang['strschemacreatedbad'] = 'Creazione schema fallita.';
+        $lang['strschemacreatedbad'] = 'Creazione dello schema fallita.';
         $lang['strconfdropschema'] = 'Sei sicuro di volere eliminare lo schema &quot;%s&quot;?';
         $lang['strschemadropped'] = 'Schema eliminato.';
-        $lang['strschemadroppedbad'] = 'Eliminazione schema fallita.';
+        $lang['strschemadroppedbad'] = 'Eliminazione dello schema fallita.';
 
-        // Reports
+        // Reports - Report
         $lang['strreport'] = 'Report';
         $lang['strreports'] = 'Report';
         $lang['strshowallreports'] = 'Mostra tutti i report';
         $lang['strnoreports'] = 'Nessun report trovato.';
-        $lang['strcreatereport'] = 'Crea Report';
+        $lang['strcreatereport'] = 'Crea report';
         $lang['strreportdropped'] = 'Report eliminato.';
-        $lang['strreportdroppedbad'] = 'Eliminazione Report fallito.';
-        $lang['strconfdropreport'] = 'Sei sicuro di voelere eliminare il report &quot;%s&quot;?';
-        $lang['strreportneedsname'] = 'Devi dare un nome al report.';
-        $lang['strreportneedsdef'] = 'Devi inserire il codice SQL per il report.';
+        $lang['strreportdroppedbad'] = 'Eliminazione del report fallita.';
+        $lang['strconfdropreport'] = 'Sei sicuro di volere eliminare il report &quot;%s&quot;?';
+        $lang['strreportneedsname'] = '&Egrave; necessario dare un nome al report.';
+        $lang['strreportneedsdef'] = '&Egrave; necessario inserire il codice SQL per il report.';
         $lang['strreportcreated'] = 'Report salvato';
-        $lang['strreportcreatedbad'] = 'Salvataggio report fallito.';
+        $lang['strreportcreatedbad'] = 'Salvataggio del report fallito.';
+	$lang['strsaveasreport'] = 'Salva come Report';
 
-	
+	// Domains - Domini
+	$lang['strdomain'] = 'Dominio';
+	$lang['strdomains'] = 'Domini';
+	$lang['strshowalldomains'] = 'Mostra tutti i domini';
+	$lang['strnodomains'] = 'Nessun dominio trovato.';
+	$lang['strcreatedomain'] = 'Crea dominio';
+	$lang['strdomaindropped'] = 'Dominio eliminato.';
+	$lang['strdomaindroppedbad'] = 'Eliminazione del dominio fallita.';
+	$lang['strconfdropdomain'] = 'Sei sicuro di voler eliminare il dominio &quot;%s&quot;?';
+	$lang['strdomainneedsname'] = '&Egrave; necessario dare un nome al dominio.';
+	$lang['strdomaincreated'] = 'Dominio creato.';
+	$lang['strdomaincreatedbad'] = 'Creazione del dominio fallita.';	
+	$lang['strdomainaltered'] = 'Dominio modificato.';
+	$lang['strdomainalteredbad'] = 'Modifica del dominio fallita.';	
+
+	// Operators
+	$lang['stroperator'] = 'Operatore';
+	$lang['stroperators'] = 'Operatori';
+	$lang['strshowalloperators'] = 'Mostra tutti gli operatori';
+	$lang['strnooperator'] = 'Operatore non trovato.';
+	$lang['strnooperators'] = 'Nessun operatore trovato.';
+	$lang['strcreateoperator'] = 'Crea operatore';
+	$lang['stroperatorname'] = 'Nome dell\'operatore';
+	$lang['strleftarg'] = 'Tipo dell\'argomento di sinistra';
+	$lang['strrightarg'] = 'Tipo dell\'argomento di destra';
+	$lang['stroperatorneedsname'] = '&Egrave; necessario dare un nome all\'operatore.';
+	$lang['stroperatorcreated'] = 'Operatore creato';
+	$lang['stroperatorcreatedbad'] = 'Creazione dell\'operatore fallita.';
+	$lang['strconfdropoperator'] = 'Sei sicuro di voler eliminare l\'operatore &quot;%s&quot;?';
+	$lang['stroperatordropped'] = 'Operatore eliminato.';
+	$lang['stroperatordroppedbad'] = 'Eliminazione dell\'operatore fallita.';
+
+	// Miscellaneous - Varie
         $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Sei entrato come utente &quot;%s&quot;, %s';
         $lang['strtimefmt'] = 'j M Y - g:iA';
+	$lang['strhelp'] = 'Aiuto';
 
 ?>
-

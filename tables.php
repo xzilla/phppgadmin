@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.33 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: tables.php,v 1.34 2003/09/01 03:08:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -226,8 +226,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td><input type=\"checkbox\" name=\"selectall\" onClick=\"javascript:selectAll()\" /></td>";
-				echo "<td colspan=\"4\"></td></tr>\n";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" name=\"selectall\" onClick=\"javascript:selectAll()\" />{$lang['strselectallfields']}</td>";
 				echo "</table></p>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";

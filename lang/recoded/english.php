@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.52 2003/08/27 22:52:43 slubek Exp $
+	 * $Id: english.php,v 1.53 2003/09/01 03:08:12 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,6 @@
 	$lang['stractions'] = 'Actions';
 	$lang['strname'] = 'Name';
 	$lang['strdefinition'] = 'Definition';
-	$lang['stroperators'] = 'Operators';
 	$lang['straggregates'] = 'Aggregates';
 	$lang['strproperties'] = 'Properties';
 	$lang['strbrowse'] = 'Browse';
@@ -123,7 +122,7 @@
 	// Tables
 	$lang['strtable'] = 'Table';
 	$lang['strtables'] = 'Tables';
-	$lang['strshowalltables'] = 'Show All Tables';
+	$lang['strshowalltables'] = 'Show all tables';
 	$lang['strnotables'] = 'No tables found.';
 	$lang['strnotable'] = 'No table found.';
 	$lang['strcreatetable'] = 'Create table';
@@ -154,6 +153,7 @@
 	$lang['strfields'] = 'Fields';
 	$lang['strnumfields'] = 'Num. Of Fields';
 	$lang['strfieldneedsname'] = 'You must name your field';
+	$lang['strselectallfields'] = 'Select all fields';
 	$lang['strselectneedscol'] = 'You must show at least one column';
 	$lang['straltercolumn'] = 'Alter Column';
 	$lang['strcolumnaltered'] = 'Column altered.';
@@ -182,8 +182,8 @@
 	$lang['strnousers'] = 'No users found.';
 	$lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
-	$lang['strshowallusers'] = 'Show All Users';
-	$lang['strcreateuser'] = 'Create User';
+	$lang['strshowallusers'] = 'Show all users';
+	$lang['strcreateuser'] = 'Create user';
 	$lang['strusercreated'] = 'User created.';
 	$lang['strusercreatedbad'] = 'Failed to create user.';
 	$lang['strconfdropuser'] = 'Are you sure you want to drop the user &quot;%s&quot;?';
@@ -201,8 +201,8 @@
 	$lang['strgroups'] = 'Groups';
 	$lang['strnogroup'] = 'Group not found.';
 	$lang['strnogroups'] = 'No groups found.';
-	$lang['strcreategroup'] = 'Create Group';
-	$lang['strshowallgroups'] = 'Show All Groups';
+	$lang['strcreategroup'] = 'Create group';
+	$lang['strshowallgroups'] = 'Show all groups';
 	$lang['strgroupneedsname'] = 'You must give a name for your group.';
 	$lang['strgroupcreated'] = 'Group created.';
 	$lang['strgroupcreatedbad'] = 'Group creation failed.';	
@@ -210,10 +210,10 @@
 	$lang['strgroupdropped'] = 'Group dropped.';
 	$lang['strgroupdroppedbad'] = 'Group drop failed.';
 	$lang['strmembers'] = 'Members';
-	$lang['straddmember'] = 'Add Member';
+	$lang['straddmember'] = 'Add member';
 	$lang['strmemberadded'] = 'Member added.';
 	$lang['strmemberaddedbad'] = 'Member add failed.';
-	$lang['strdropmember'] = 'Drop Member';
+	$lang['strdropmember'] = 'Drop member';
 	$lang['strconfdropmember'] = 'Are you sure you want to drop the member &quot;%s&quot; from the group &quot;%s&quot;?';
 	$lang['strmemberdropped'] = 'Member dropped.';
 	$lang['strmemberdroppedbad'] = 'Member drop failed.';
@@ -241,7 +241,7 @@
 	$lang['strdatabasename'] = 'Database name';
 	$lang['strdatabaseneedsname'] = 'You must give a name for your database.';
 	$lang['strdatabasecreated'] = 'Database created.';
-	$lang['strdatabasecreatedbad'] = 'Database creation failed.';	
+	$lang['strdatabasecreatedbad'] = 'Database creation failed.';
 	$lang['strconfdropdatabase'] = 'Are you sure you want to drop the database &quot;%s&quot;?';
 	$lang['strdatabasedropped'] = 'Database dropped.';
 	$lang['strdatabasedroppedbad'] = 'Database drop failed.';
@@ -258,7 +258,7 @@
 	$lang['strshowallviews'] = 'Show all views';
 	$lang['strnoview'] = 'No view found.';
 	$lang['strnoviews'] = 'No views found.';
-	$lang['strcreateview'] = 'Create View';
+	$lang['strcreateview'] = 'Create view';
 	$lang['strviewname'] = 'View name';
 	$lang['strviewneedsname'] = 'You must give a name for your view.';
 	$lang['strviewneedsdef'] = 'You must give a definition for your view.';
@@ -296,13 +296,12 @@
 	// Indexes
 	$lang['strindexes'] = 'Indexes';
 	$lang['strindexname'] = 'Index Name';
-	$lang['strshowallindexes'] = 'Show All Indexes';
+	$lang['strshowallindexes'] = 'Show all indexes';
 	$lang['strnoindex'] = 'No index found.';
 	$lang['strnoindexes'] = 'No indexes found.';
-	$lang['strcreateindex'] = 'Create Index';
-	$lang['strindexname'] = 'Index name';
-	$lang['strtabname'] = 'Tab Name';
-	$lang['strcolumnname'] = 'Column Name';
+	$lang['strcreateindex'] = 'Create index';
+	$lang['strtabname'] = 'Tab name';
+	$lang['strcolumnname'] = 'Column name';
 	$lang['strindexneedsname'] = 'You must give a name for your index';
 	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created';
@@ -310,18 +309,17 @@
 	$lang['strconfdropindex'] = 'Are you sure you want to drop the index &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Index dropped.';
 	$lang['strindexdroppedbad'] = 'Index drop failed.';
-	$lang['strkeyname'] = 'Key Name';
-	$lang['struniquekey'] = 'Unique Key';
-	$lang['strprimarykey'] = 'Primary Key';
+	$lang['strkeyname'] = 'Key name';
+	$lang['struniquekey'] = 'Unique key';
+	$lang['strprimarykey'] = 'Primary key';
  	$lang['strindextype'] = 'Type of index';
-	$lang['strindexname'] = 'Name of index';
-	$lang['strtablecolumnlist'] = 'Columns in Table';
-	$lang['strindexcolumnlist'] = 'Columns in Index';
+	$lang['strtablecolumnlist'] = 'Columns in table';
+	$lang['strindexcolumnlist'] = 'Columns in index';
 
 	// Rules
 	$lang['strrules'] = 'Rules';
 	$lang['strrule'] = 'Rule';
-	$lang['strshowallrules'] = 'Show all Rules';
+	$lang['strshowallrules'] = 'Show all rules';
 	$lang['strnorule'] = 'No rule found.';
 	$lang['strnorules'] = 'No rules found.';
 	$lang['strcreaterule'] = 'Create rule';
@@ -337,25 +335,25 @@
 	$lang['strconstraints'] = 'Constraints';
 	$lang['strshowallconstraints'] = 'Show all constraints';
 	$lang['strnoconstraints'] = 'No constraints found.';
-	$lang['strcreateconstraint'] = 'Create Constraint';
+	$lang['strcreateconstraint'] = 'Create constraint';
 	$lang['strconstraintcreated'] = 'Constraint created.';
 	$lang['strconstraintcreatedbad'] = 'Constraint creation failed.';
 	$lang['strconfdropconstraint'] = 'Are you sure you want to drop the constraint &quot;%s&quot; on &quot;%s&quot;?';
 	$lang['strconstraintdropped'] = 'Constraint dropped.';
 	$lang['strconstraintdroppedbad'] = 'Constraint drop failed.';
-	$lang['straddcheck'] = 'Add Check';
+	$lang['straddcheck'] = 'Add check';
 	$lang['strcheckneedsdefinition'] = 'Check constraint needs a definition.';
 	$lang['strcheckadded'] = 'Check constraint added.';
 	$lang['strcheckaddedbad'] = 'Failed to add check constraint.';
-	$lang['straddpk'] = 'Add Primary Key';
+	$lang['straddpk'] = 'Add primary key';
 	$lang['strpkneedscols'] = 'Primary key requires at least one column.';
 	$lang['strpkadded'] = 'Primary key added.';
 	$lang['strpkaddedbad'] = 'Failed to add primary key.';
-	$lang['stradduniq'] = 'Add Unique Key';
+	$lang['stradduniq'] = 'Add unique key';
 	$lang['struniqneedscols'] = 'Unique key requires at least one column.';
 	$lang['struniqadded'] = 'Unique key added.';
 	$lang['struniqaddedbad'] = 'Failed to add unique key.';
-	$lang['straddfk'] = 'Add Foreign Key';
+	$lang['straddfk'] = 'Add foreign key';
 	$lang['strfkneedscols'] = 'Foreign key requires at least one column.';
 	$lang['strfkneedstarget'] = 'Foreign key requires a target table.';
 	$lang['strfkadded'] = 'Foreign key added.';
@@ -363,7 +361,7 @@
 	$lang['strfktarget'] = 'Target table';
 	$lang['strfkcolumnlist'] = 'Columns in key';
 	$lang['strondelete'] = 'ON DELETE';
-	$lang['stronupdate'] = 'ON UPDATE';	
+	$lang['stronupdate'] = 'ON UPDATE';
 
 	// Functions
 	$lang['strfunction'] = 'Function';
@@ -391,7 +389,7 @@
 	$lang['strshowalltriggers'] = 'Show all triggers';
 	$lang['strnotrigger'] = 'No trigger found.';
 	$lang['strnotriggers'] = 'No triggers found.';
-	$lang['strcreatetrigger'] = 'Create Trigger';
+	$lang['strcreatetrigger'] = 'Create trigger';
 	$lang['strtriggerneedsname'] = 'You must specify a name for your trigger.';
 	$lang['strtriggerneedsfunc'] = 'You must specify a function for your trigger.';
 	$lang['strtriggercreated'] = 'Trigger created.';
@@ -408,7 +406,7 @@
 	$lang['strshowalltypes'] = 'Show all types';
 	$lang['strnotype'] = 'No type found.';
 	$lang['strnotypes'] = 'No types found.';
-	$lang['strcreatetype'] = 'Create Type';
+	$lang['strcreatetype'] = 'Create type';
 	$lang['strtypename'] = 'Type name';
 	$lang['strinputfn'] = 'Input function';
 	$lang['stroutputfn'] = 'Output function';
@@ -428,10 +426,10 @@
 	// Schemas
 	$lang['strschema'] = 'Schema';
 	$lang['strschemas'] = 'Schemas';
-	$lang['strshowallschemas'] = 'Show All Schemas';
+	$lang['strshowallschemas'] = 'Show all schemas';
 	$lang['strnoschema'] = 'No schema found.';
 	$lang['strnoschemas'] = 'No schemas found.';
-	$lang['strcreateschema'] = 'Create Schema';
+	$lang['strcreateschema'] = 'Create schema';
 	$lang['strschemaname'] = 'Schema name';
 	$lang['strschemaneedsname'] = 'You must give a name for your schema.';
 	$lang['strschemacreated'] = 'Schema created';
@@ -445,7 +443,7 @@
 	$lang['strreports'] = 'Reports';
 	$lang['strshowallreports'] = 'Show all reports';
 	$lang['strnoreports'] = 'No reports found.';
-	$lang['strcreatereport'] = 'Create Report';
+	$lang['strcreatereport'] = 'Create report';
 	$lang['strreportdropped'] = 'Report dropped.';
 	$lang['strreportdroppedbad'] = 'Report drop failed.';
 	$lang['strconfdropreport'] = 'Are you sure you want to drop the report &quot;%s&quot;?';
@@ -460,7 +458,7 @@
 	$lang['strdomains'] = 'Domains';
 	$lang['strshowalldomains'] = 'Show all domains';
 	$lang['strnodomains'] = 'No domains found.';
-	$lang['strcreatedomain'] = 'Create Domain';
+	$lang['strcreatedomain'] = 'Create domain';
 	$lang['strdomaindropped'] = 'Domain dropped.';
 	$lang['strdomaindroppedbad'] = 'Domain drop failed.';
 	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain &quot;%s&quot;?';
@@ -476,7 +474,7 @@
 	$lang['strshowalloperators'] = 'Show all operators';
 	$lang['strnooperator'] = 'No operator found.';
 	$lang['strnooperators'] = 'No operators found.';
-	$lang['strcreateoperator'] = 'Create Operator';
+	$lang['strcreateoperator'] = 'Create operator';
 	$lang['stroperatorname'] = 'Operator name';
 	$lang['strleftarg'] = 'Left Arg Type';
 	$lang['strrightarg'] = 'Right Arg Type';

@@ -37,6 +37,8 @@ Features:
 * Allow listing of operators
 * Polish update from Rafal
 * Swedish translation from Stefan Malqvist
+* Add a robots.txt file to prevent search engine indexation
+* Italian translation update from Nicola Soranzo
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.24 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: display.php,v 1.25 2003/09/01 03:08:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -53,6 +53,8 @@
 			$finfo = $rs->fetchField($k);
 			echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 		}
+
+		echo "</tr>\n";
 
 		$i = 0;		
 		while (!$rs->EOF) {
