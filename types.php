@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: types.php,v 1.6 2003/04/30 07:37:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -63,11 +63,15 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\">\n";
 			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropType($_POST['type']);
+			$status = $localData->dropType($_POST['type'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strtypedropped']);
 			else
