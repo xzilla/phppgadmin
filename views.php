@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.47 2004/07/15 09:35:30 jollytoad Exp $
+	 * $Id: views.php,v 1.48 2004/08/30 11:50:31 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -45,7 +45,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strfield']}</th>";
+				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strcolumn']}</th>";
 				echo "<th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['stroperator']}</th>";
 				echo "<th class=\"data\">{$lang['strvalue']}</th></tr>";
 
@@ -231,7 +231,7 @@
 			
 			// Output selector for fields to be retrieved from view
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strfields']}</th></tr>";
+			echo "<tr><th class=\"data\">{$lang['strcolumns']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);
 			echo "</td>\n</tr>\n</table>\n<br />\n";

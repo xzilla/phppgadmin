@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.31 2004/08/22 00:06:34 soranzo Exp $
+	 * $Id: italian.php,v 1.32 2004/08/30 11:50:32 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -66,6 +66,7 @@
 	$lang['strtrue'] = 'TRUE';
 	$lang['strfalse'] = 'FALSE';
 	$lang['stredit'] = 'Modifica';
+	$lang['strcolumn'] = 'Colonna';
 	$lang['strcolumns'] = 'Colonne';
 	$lang['strrows'] = 'riga(ghe)';
 	$lang['strrowsaff'] = 'riga(ghe) interessata(e).';
@@ -175,10 +176,8 @@
 	$lang['strrowdeleted'] = 'Riga cancellata.';
 	$lang['strrowdeletedbad'] = 'Cancellazione della riga fallita.';
 	$lang['strinsertandrepeat'] = 'Inserisci e ripeti';
-	$lang['strfield'] = 'Campo';
-	$lang['strfields'] = 'Campi';
-	$lang['strnumfields'] = 'Numero di campi';
-	$lang['strfieldneedsname'] = '&Egrave; necessario specificare un nome per i campi.';
+	$lang['strnumcols'] = 'Numero di colonne';
+	$lang['strcolneedsname'] = '&Egrave; necessario specificare un nome per la colonna';
 	$lang['strselectallfields'] = 'Seleziona tutti i campi';
         $lang['strselectneedscol'] = '&Egrave; necessario scegliere almeno una colonna.';
 	$lang['strselectunary'] = 'Gli operatori unari non possono avere un valore.';
@@ -471,6 +470,8 @@
         $lang['strelement'] = 'Elemento';
         $lang['strdelimiter'] = 'Delimitatore';
         $lang['strstorage'] = 'Memorizzazione';
+	$lang['strfield'] = 'Campo';
+	$lang['strnumfields'] = 'Numero di campi';
         $lang['strtypeneedsname'] = '&Egrave; necessario specificare un nome per il tipo.';
         $lang['strtypeneedslen'] = '&Egrave; necessario specificare una lunghezza per il tipo.';
         $lang['strtypecreated'] = 'Tipo creato';

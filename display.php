@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.41 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: display.php,v 1.42 2004/08/30 11:50:31 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -44,7 +44,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+				echo "<tr><th class=\"data\">{$lang['strcolumn']}</th><th class=\"data\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strformat']}</th>\n";
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 

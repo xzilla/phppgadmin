@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.115 2004/08/26 14:59:11 soranzo Exp $
+	 * $Id: english.php,v 1.116 2004/08/30 11:50:32 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -66,6 +66,7 @@
 	$lang['strtrue'] = 'TRUE';
 	$lang['strfalse'] = 'FALSE';
 	$lang['stredit'] = 'Edit';
+	$lang['strcolumn'] = 'Column';
 	$lang['strcolumns'] = 'Columns';
 	$lang['strrows'] = 'row(s)';
 	$lang['strrowsaff'] = 'row(s) affected.';
@@ -175,10 +176,8 @@
 	$lang['strrowdeleted'] = 'Row deleted.';
 	$lang['strrowdeletedbad'] = 'Row deletion failed.';
 	$lang['strinsertandrepeat'] = 'Insert &amp; Repeat';
-	$lang['strfield'] = 'Field';
-	$lang['strfields'] = 'Fields';
-	$lang['strnumfields'] = 'Num. of fields';
-	$lang['strfieldneedsname'] = 'You must name your field.';
+	$lang['strnumcols'] = 'Number of columns';
+	$lang['strcolneedsname'] = 'You must specify a name for the column';
 	$lang['strselectallfields'] = 'Select all fields';
 	$lang['strselectneedscol'] = 'You must show at least one column.';
 	$lang['strselectunary'] = 'Unary operators cannot have values.';
@@ -472,6 +471,8 @@
 	$lang['strelement'] = 'Element';
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
+	$lang['strfield'] = 'Field';
+	$lang['strnumfields'] = 'Num. of fields';
 	$lang['strtypeneedsname'] = 'You must give a name for your type.';
 	$lang['strtypeneedslen'] = 'You must give a length for your type.';
 	$lang['strtypecreated'] = 'Type created';

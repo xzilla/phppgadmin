@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.57 2004/08/05 01:44:13 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.58 2004/08/30 11:50:31 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -241,7 +241,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
+				echo "<tr><th class=\"data required\">{$lang['strcolumn']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strlength']}</th>";
 				if ($data->hasAlterColumnType()) echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
 				echo "<th class=\"data\">{$lang['strcomment']}</th></tr>";
@@ -298,7 +298,7 @@
 				// Check inputs
 				if (trim($_POST['field']) == '') {
 					$_REQUEST['stage'] = 1;
-					doAddColumn($lang['strfieldneedsname']);
+					doAddColumn($lang['strcolneedsname']);
 					return;
 				}
 				
@@ -448,7 +448,7 @@
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
-					doProperties($lang['strfieldneedsname']);
+					doProperties($lang['strcolneedsname']);
 					return;
 				}
 
@@ -534,8 +534,8 @@
 			echo "<p class=\"comment\">", $misc->printVal($tdata->f['relcomment']), "</p>\n";
 
 		$columns = array(
-			'field' => array(
-				'title' => $lang['strfield'],
+			'column' => array(
+				'title' => $lang['strcolumn'],
 				'field' => 'attname',
 			),
 			'type' => array(

@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.9 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.10 2004/08/30 11:50:31 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -217,7 +217,7 @@
 				// Check inputs
 				if ($data->hasViewColumnRename() && trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
-					doProperties($lang['strfieldneedsname']);
+					doProperties($lang['strcolneedsname']);
 					return;
 				}
 				
@@ -267,8 +267,8 @@
 			echo "<p class=\"comment\">", $misc->printVal($vdata->f['relcomment']), "</p>\n";
 
 		$columns = array(
-			'field' => array(
-				'title' => $lang['strfield'],
+			'column' => array(
+				'title' => $lang['strcolumn'],
 				'field' => 'attname',
 			),
 			'type' => array(
