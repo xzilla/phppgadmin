@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.5 2002/12/23 10:17:32 jmpoure Exp $
+	 * $Id: intro.php,v 1.6 2002/12/23 10:29:56 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,13 +13,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php $appName ?></title>
+<title><?php= $appName ?></title>
 </head>
 <body>
 
-<h1><?php $appName ?></h1>
+<h1><?php= $appName ?></h1>
 
-<p><?php $appIntro ?></p>
+<p><?php= $appIntro ?></p>
 
 </body>
 </html>
