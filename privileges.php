@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.29 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: privileges.php,v 1.30 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -21,8 +21,10 @@
 	 */
 	function doAlter($confirm, $mode, $msg = '') {
 		global $data, $misc;
-  		global $PHP_SELF, $lang;
+		global $PHP_SELF, $lang;
 
+		$misc->printTrail($_REQUEST['subject']);
+		
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = array();
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = array();
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = array();
@@ -44,11 +46,12 @@
 			// Get groups from the database
 			$groups = &$data->getGroups();
 
-			if ($mode == 'grant')
-				echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strgrant']}</h2>\n";
-			elseif ($mode == 'revoke')
-				echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strrevoke']}</h2>\n";
+			if ($mode == 'grant') $desc = $lang['strgrant'];
+			else if ($mode == 'revoke') $desc = $lang['strrevoke'];
+			
+			$misc->printTitle($desc);
 			$misc->printMsg($msg);
+			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
@@ -136,7 +139,22 @@
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		$misc->printTitle(array($lang['strprivileges']));
+		$misc->printTrail($_REQUEST['subject']);
+		
+		# @@@FIXME: This switch is just a temporary solution,
+		# need a better way, maybe every type of object should
+		# have a tab bar???
+		switch ($_REQUEST['subject']) {
+			case 'server':
+			case 'database':
+			case 'schema':
+			case 'table':
+			case 'view':
+				$misc->printTabs($_REQUEST['subject'], 'privileges');
+				break;
+			default:
+				$misc->printTitle($lang['strprivileges']);
+		}
 		$misc->printMsg($msg);
 
 		// Determine whether object should be ref'd by name or oid.
@@ -227,7 +245,6 @@
 
 	$misc->printHeader($lang['strprivileges']);
 	$misc->printBody();
-	$misc->printNav($_REQUEST['subject'], 'privileges');
 
 	switch ($action) {
 		case 'save':

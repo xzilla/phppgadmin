@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.5 2004/08/19 01:21:49 chriskl Exp $
+	 * $Id: dataimport.php,v 1.6 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -149,9 +149,9 @@
 	}
 
 
-	$misc->printHeader($lang['strimport']);		
-	$misc->printNav('table','import');
-	echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strimport']}</h2>\n";
+	$misc->printHeader($lang['strimport']);
+	$misc->printTrail('table');
+	$misc->printTabs('table','import');
 
 	// Check that file is specified and is an uploaded file
 	if (isset($_FILES['source']) && is_uploaded_file($_FILES['source']['tmp_name']) && is_readable($_FILES['source']['tmp_name'])) {

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.88 2004/08/31 08:39:03 jollytoad Exp $
+	 * $Id: Misc.php,v 1.89 2004/09/01 16:35:57 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -242,33 +242,15 @@
 		
 		/**
 		 * Print out the page heading and help link
-		 * @param $arr Array of heading items, already escaped
+		 * @param $title Title, already escaped
 		 * @param $help (optional) The identifier for the help link
 		 */
-		function printTitle($arr, $help = null) {
+		function printTitle($title, $help = null) {
 			global $data, $lang;
-
-			// Don't continue unless we are actually displaying something			
-			if (!is_array($arr) || sizeof($arr) == 0) return;
 			
-			if ($help !== null && isset($data->help_page[$help])) {
-				echo "<br /><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n";
-				echo "<tr><td><h2>";
-				// Join array with separator character
-				echo implode($lang['strseparator'], $arr);
-				echo "</h2></td><td width=\"1\"><a class=\"navlink help\" href=\"";
-				// Output URL to help
-				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
-				echo "\" target=\"ppa_help\">{$lang['strhelp']}</a></td></tr>\n";
-				echo "</table>\n";
-				echo "<br />\n";
-			}
-			else {
-				echo "<h2>";
-				// Join array with separator character
-				echo implode($lang['strseparator'], $arr);
-				echo "</h2>\n";
-			}
+			echo "<h2>{$title}";
+			$this->printHelp($help);
+			echo "</h2>\n";
 		}
 		
 		/**
@@ -395,7 +377,23 @@
 		 * @param $activetab The name of the tab to be highlighted.
 		 */
 		function printTabs($tabs, $activetab) {
-			global $misc, $conf;
+			global $misc, $conf, $data, $lang;
+			
+			if (is_string($tabs)) {
+				switch ($tabs) {
+					case 'database':
+					case 'schema':
+						if ($data->hasSchemas() === false) {
+							$this->printTabs($this->getNavTabs('database'),$activetab);
+							$this->printTabs($this->getNavTabs('schema'),$activetab);
+							$_SESSION['webdbLastTab']['database'] = $activetab;
+							return;
+						}
+					default:
+						$_SESSION['webdbLastTab'][$tabs] = $activetab;
+						$tabs = $this->getNavTabs($tabs);
+				}
+			}
 			
 			echo "<table class=\"tabs\"><tr>\n";
 			
@@ -405,8 +403,13 @@
 			foreach ($tabs as $tab_id => $tab) {
 				$active = ($tab_id == $activetab) ? ' active' : '';
 				
-				if (!isset($tab['hide']) || $tab['hide'] !== true)
-					echo "<td width=\"{$width}\" class=\"tab{$active}\"><a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a></td>\n";
+				if (!isset($tab['hide']) || $tab['hide'] !== true) {
+					echo "<td width=\"{$width}\" class=\"tab{$active}\"><a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a>";
+					
+					if (isset($tab['help'])) $this->printHelp($tab['help']);
+					
+					echo "</td>\n";
+				}
 			}
 			
 			echo "</tr></table>\n";
@@ -430,16 +433,19 @@
 						'databases' => array (
 							'title' => $lang['strdatabases'],
 							'url'   => "all_db.php",
+							'help'  => 'managing_databases',
 						),
 						'users' => array (
 							'title' => $lang['strusers'],
 							'url'   => "users.php",
 							'hide'  => $hide_users,
+							'help'  => 'users',
 						),
 						'groups' => array (
 							'title' => $lang['strgroups'],
 							'url'   => "groups.php",
 							'hide'  => $hide_users,
+							'help'  => 'groups',
 						),
 						'tablespaces' => array (
 							'title' => $lang['strtablespaces'],
@@ -460,10 +466,12 @@
 							'title' => $lang['strschemas'],
 							'url'   => "database.php?{$vars}",
 							'hide'  => (!$data->hasSchemas()),
+							'help'  => 'schemas',
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => "database.php?{$vars}&action=sql",
+							'help'  => 'sql',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
@@ -473,11 +481,13 @@
 							'title' => $lang['strvariables'],
 							'url'   => "database.php?{$vars}&action=variables",
 							'hide'  => (!$data->hasVariables()),
+							'help'  => 'runtime_config',
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
 							'url'   => "database.php?{$vars}&action=processes",
 							'hide'  => (!$data->hasProcesses()),
+							'help'  => 'processes',
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
@@ -511,14 +521,17 @@
 						'tables' => array (
 							'title' => $lang['strtables'],
 							'url'   => "tables.php?{$vars}",
+							'help'  => 'tables',
 						),
 						'views' => array (
 							'title' => $lang['strviews'],
 							'url'   => "views.php?{$vars}",
+							'help'  => 'views',
 						),
 						'sequences' => array (
 							'title' => $lang['strsequences'],
 							'url'   => "sequences.php?{$vars}",
+							'help'  => 'sequences',
 						),
 						'functions' => array (
 							'title' => $lang['strfunctions'],
@@ -528,11 +541,13 @@
 							'title' => $lang['strdomains'],
 							'url'   => "domains.php?{$vars}",
 							'hide'  => (!$data->hasDomains()),
+							'help'  => 'domains',
 						),
 						'aggregates' => array (
 							'title' => $lang['straggregates'],
 							'url'   => "aggregates.php?{$vars}",
 							'hide'  => $hide_advanced,
+							'help'  => 'aggregates',
 						),
 						'types' => array (
 							'title' => $lang['strtypes'],
@@ -543,16 +558,19 @@
 							'title' => $lang['stroperators'],
 							'url'   => "operators.php?{$vars}",
 							'hide'  => $hide_advanced,
+							'help'  => 'operators',
 						),
 						'opclasses' => array (
 							'title' => $lang['stropclasses'],
 							'url'   => "opclasses.php?{$vars}",
 							'hide'  => $hide_advanced,
+							'help'  => 'opclasses',
 						),
 						'conversions' => array (
 							'title' => $lang['strconversions'],
 							'url'   => "conversions.php?{$vars}",
 							'hide'  => ($hide_advanced || !$data->hasConversions()),
+							'help'  => 'conversions',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -576,6 +594,7 @@
 						'constraints' => array (
 							'title' => $lang['strconstraints'],
 							'url'   => "constraints.php?{$vars}",
+							'help'  => 'constraints',
 						),
 						'triggers' => array (
 							'title' => $lang['strtriggers'],
@@ -663,56 +682,6 @@
 		}
 
 		/**
-		 * Display a navigation tab bar.
-		 * @param $section The name of the tab bar.
-		 * @param $activetab The tab to highlight and set as default for the bar.
-		 */
-		function printNav($section, $activetab) {
-			global $data;
-			
-			echo "<div class=\"nav\">\n";
-			
-			$this->printTrail($this->getTrail($section));
-			
-			switch ($section) {
-				case 'database':
-				case 'schema':
-					if ($data->hasSchemas() === false) {
-						$this->printTabs($this->getNavTabs('database'),$activetab);
-						$this->printTabs($this->getNavTabs('schema'),$activetab);
-						$_SESSION['webdbLastTab']['database'] = $activetab;
-						break;
-					}
-				default:
-					$tabs = $this->getNavTabs($section);
-					if (!empty($tabs)) {
-						$this->printTabs($tabs, $activetab);
-						$_SESSION['webdbLastTab'][$section] = $activetab;
-					}
-			}
-			
-			echo "</div>\n";
-		}
-
-		function printTitleNav($section, $title, $help = null) {
-			global $data, $lang;
-			
-			echo "<div class=\"nav\">\n";
-			
-			$this->printTrail($this->getTrail($section));
-			
-			echo "<div class=\"trail\"><span class=\"title\">{$title}</span>";
-			
-			if (!is_null($help) && isset($data->help_page[$help])) {
-				echo "<a class=\"help\" href=\"";
-				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
-				echo "\" title=\"{$lang['strhelp']}\">?</a>";
-			}
-			
-			echo "</div>\n</div>\n";
-		}
-		
-		/**
 		 * Get the URL for the last active tab of a particular tab bar.
 		 */
 		function getLastTabURL($section) {
@@ -744,6 +713,10 @@
 		function printTrail($trail = array()) {
 			global $lang;
 			
+			if (is_string($trail)) {
+				$trail = $this->getTrail($trail);
+			}
+			
 			echo "<div class=\"trail\">";
 			
 			foreach ($trail as $crumb) {
@@ -755,7 +728,12 @@
 				if (isset($crumb['title']))
 					echo " title=\"{$crumb['title']}\"";
 				
-				echo ">" . htmlspecialchars($crumb['text']) . "</a></span>{$lang['strseparator']}";
+				echo ">" . htmlspecialchars($crumb['text']) . "</a>";
+				
+				if (isset($crumb['help']))
+					$this->printHelp($crumb['help']);
+				
+				echo "</span>{$lang['strseparator']}";
 			}
 			
 			echo "</div>\n";
@@ -795,27 +773,47 @@
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
 					'url'   => "redirect.php?section=schema&{$vars}",
+					'help'  => 'schemas',
 				);
 			}
 			if ($subject == 'schema') $done = true;
 			
-			if (!$done) {
+			if (isset($_REQUEST['table']) && !$done) {
+				$vars .= "section=table&table=".urlencode($_REQUEST['table']);
+				$trail['table'] = array(
+					'title' => $lang['strtable'],
+					'text'  => $_REQUEST['table'],
+					'url'   => "redirect.php?{$vars}",
+					'help'  => 'tables',
+				);
+			} elseif (isset($_REQUEST['view']) && !$done) {
+				$vars .= "section=view&view=".urlencode($_REQUEST['view']);
+				$trail['view'] = array(
+					'title' => $lang['strview'],
+					'text'  => $_REQUEST['view'],
+					'url'   => "redirect.php?{$vars}",
+					'help'  => 'views',
+				);
+			}
+			if ($subject == 'table' || $subject == 'view') $done = true;
+			
+			if (!$done && !is_null($subject)) {
 				switch ($subject) {
 					case 'function':
 						$vars .= "{$subject}_oid=".urlencode($_REQUEST[$subject.'_oid']).'&';
-					case 'table':
-					case 'view':
 						$vars .= "section={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
 						$trail[$subject] = array(
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
+							'help'  => $subject.'s',
 						);
 						break;
 					default:
-						if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
-							$trail[$_REQUEST['subject']] = array(
-								'text'  => $_REQUEST[$_REQUEST['subject']],
+						if (isset($_REQUEST[$subject])) {
+							$trail[$_REQUEST[$subject]] = array(
+								'title' => $lang['str'.$subject],
+								'text'  => $_REQUEST[$subject],
 							);
 						}
 				}
@@ -883,16 +881,16 @@
 		}		
 
 		/**
-		 * Displays link to the context help.if $conf['docsdir'] is set
-		 * @param $url - last part of a document's url (relative to $conf['docsdir'])
+		 * Displays link to the context help.
+		 * @param $help - help section name
 		 */
-		function printHelp($url) {
-			global $lang, $conf;
-
-			if (isset($conf['docdir'])) {
-				echo "<p><a href=\"" . $conf['docdir'] . $url . "\" target=\"_blank\">";
-				echo $lang['strhelp'];
-				echo "</a></p>\n";
+		function printHelp($help) {
+			global $lang, $data;
+			
+			if (!is_null($help) && isset($data->help_page[$help])) {
+				echo "<a class=\"help\" href=\"";
+				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
+				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">?</a>";
 			}
 		}
 	
@@ -954,6 +952,7 @@
 		 *				column_id => array(
 		 *					'title' => Column heading,
 		 *					'field' => Field name for $tabledata->f[...],
+		 *					'help'  => Help page for this column,
 		 *				), ...
 		 *			);
 		 * @param $actions   Actions that can be performed on each object:
@@ -1002,18 +1001,23 @@
 				
 				echo "<table>\n";
 				echo "<tr>\n";
+				// Display column headings
 				foreach ($columns as $column_id => $column) {
 					switch ($column_id) {
 						case 'actions':
 							echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
 							break;
 						default:
-							echo "<th class=\"data\">{$column['title']}</th>\n";
+							echo "<th class=\"data\">{$column['title']}";
+							if (isset($column['help']))
+								$this->printHelp($column['help']);
+							echo "</th>\n";
 							break;
 					}
 				}
 				echo "</tr>\n";
 				
+				// Display table rows
 				$i = 0;
 				while (!$tabledata->EOF) {
 					$id = ($i % 2) + 1;

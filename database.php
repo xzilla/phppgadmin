@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.61 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: database.php,v 1.62 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -40,8 +40,8 @@
 		if (!isset($_GET['term'])) $_GET['term'] = '';
 		if (!isset($_GET['filter'])) $_GET['filter'] = '';
 
-		$misc->printNav('database','find');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strfind']));
+		$misc->printTrail('database');
+		$misc->printTabs('database','find');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"get\">\n";
@@ -278,8 +278,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printNav('database','export');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strexport']));
+		$misc->printTrail('database');
+		$misc->printTabs('database','export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dbexport.php\" method=\"post\">\n";
@@ -331,8 +331,8 @@
 		// Fetch the variables from the database
 		$variables = &$data->getVariables();
 		
-		$misc->printNav('database','variables');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strvariables']),'runtime_config');
+		$misc->printTrail('database');
+		$misc->printTabs('database','variables');
 
 		$columns = array(
 			'variable' => array(
@@ -361,8 +361,8 @@
 		// Fetch the processes from the database
 		$processes = &$data->getProcesses($_REQUEST['database']);
 		
-		$misc->printNav('database','processes');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strprocesses']), 'processes');
+		$misc->printTrail('database');
+		$misc->printTabs('database','processes');
 		$misc->printMsg($msg);
 		
 		$columns = array(
@@ -431,8 +431,8 @@
 				else doAdmin('', $lang['strreindexbad']);
 				break;
 			default:
-				$misc->printNav('database','admin');
-				$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['stradmin']));
+				$misc->printTrail('database');
+				$misc->printTabs('database','admin');
 				$misc->printMsg($msg);
 				
 				// Vacuum
@@ -487,8 +487,8 @@
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
-		$misc->printNav('database','sql');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strsql']),'sql');
+		$misc->printTrail('database');
+		$misc->printTabs('database','sql');
 
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"sql.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
@@ -532,8 +532,8 @@
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
-			$misc->printNav('database','schemas');
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['strdrop']),'drop_schema');
+			$misc->printTrail('schema');
+			$misc->printTitle($lang['strdrop'],'drop_schema');
 
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
@@ -578,8 +578,8 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
-		$misc->printNav('database','schemas');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strcreateschema']),'create_schema');
+		$misc->printTrail('database');
+		$misc->printTitle($lang['strcreateschema'],'create_schema');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -659,8 +659,8 @@
 		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
-		$misc->printNav('database','schemas');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strschemas']),'schemas');
+		$misc->printTrail('database');
+		$misc->printTabs('database','schemas');
 		$misc->printMsg($msg);
 		
 		// Check that the DB actually supports schemas
@@ -731,8 +731,8 @@
 	function doAlterSchema($msg = '') {
 		global $data, $misc,$PHP_SELF, $lang;
 		
-		$misc->printNav('database','schemas');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['stralter']),'alter_schema');
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['stralter'],'alter_schema');
 		$misc->printMsg($msg);
 
 		$schema = &$data->getSchemaByName($_REQUEST['schema']);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.6 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: languages.php,v 1.7 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,8 @@
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strlanguages']));
+		$misc->printTrail('database');
+		$misc->printTabs('database','languages');
 		$misc->printMsg($msg);
 		
 		$languages = &$data->getlanguages();
@@ -48,7 +49,6 @@
 
 	$misc->printHeader($lang['strlanguages']);
 	$misc->printBody();
-	$misc->printNav('database','languages');
 
 	switch ($action) {
 		default:

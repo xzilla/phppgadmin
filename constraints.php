@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.38 2004/09/01 11:21:51 chriskl Exp $
+	 * $Id: constraints.php,v 1.39 2004/09/01 16:35:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -41,8 +41,8 @@
 					if (!isset($_POST['initially'])) $_POST['initially'] = null;
 					$_REQUEST['target'] = unserialize($_REQUEST['target']);
 					
-					echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-						$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+					$misc->printTrail('table');
+					$misc->printTitle($lang['straddfk']);
 					$misc->printMsg($msg);
 
 					// Unserialize target and fetch appropriate table. This is a bit messy
@@ -149,8 +149,8 @@
 				}
 				break;
 			default:
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-					$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+				$misc->printTrail('table');
+				$misc->printTitle($lang['straddfk']);
 				$misc->printMsg($msg);
 
 				$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -239,8 +239,8 @@
 			// Fetch all tablespaces from the database
 			if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": {$desc}</h2>\n";
+			$misc->printTrail('table');
+			$misc->printTitle($desc);
 			$misc->printMsg($msg);
 			
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
@@ -346,8 +346,8 @@
 		if (!isset($_POST['definition'])) $_POST['definition'] = '';
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": {$lang['straddcheck']}</h2>\n";
+			$misc->printTrail('table');
+			$misc->printTitle($lang['straddcheck']);
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -392,8 +392,8 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTrail('constraint');
+			$misc->printTitle($lang['strdrop'],'constraint');
 
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
@@ -439,7 +439,8 @@
 			}
 		}
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strconstraints']),'constraints');
+		$misc->printTrail('table');
+		$misc->printTabs('table','constraints');
 		$misc->printMsg($msg);
 
 		$constraints = &$data->getConstraints($_REQUEST['table']);
@@ -490,8 +491,6 @@
 		echo "<body onload=\"init();\">";
 	else
 		$misc->printBody();
-
-	$misc->printNav('table','constraints');
 
 	switch ($action) {
 		case 'add_foreign_key':

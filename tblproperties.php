@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.58 2004/08/30 11:50:31 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.59 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -21,9 +21,9 @@
 		// For databases that don't allow owner change
 		if (!isset($_POST['owner'])) $_POST['owner'] = '';
 		// Default tablespace to null if it isn't set
-		if (!isset($_POST['spcname'])) $_POST['spcname'] = null;
+		if (!isset($_POST['tablespace'])) $_POST['tablespace'] = null;
 		
-		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment'], $_POST['spcname']);
+		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment'], $_POST['tablespace']);
 		if ($status == 0) {
 			// If table has been renamed, need to change to the new name and
 			// reload the browser frame.
@@ -46,8 +46,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printNav('table','columns');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['stralter']), 'alter_table');
+		$misc->printTrail('table');
+		$misc->printTitle($lang['stralter'], 'alter_table');
 		$misc->printMsg($msg);
 
 		// Fetch table info		
@@ -62,7 +62,7 @@
 			if (!isset($_POST['name'])) $_POST['name'] = $table->f['relname'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f['relowner'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f['relcomment'];
-			if ($data->hasTablespaces() && !isset($_POST['spcname'])) $_POST['spcname'] = $table->f['tablespace'];
+			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->f['tablespace'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -85,15 +85,15 @@
 			// Tablespace (if there are any)
 			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
-				echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"spcname\">\n";
+				echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"tablespace\">\n";
 				// Always offer the default (empty) option
 				echo "\t\t\t\t<option value=\"\"",
-					($_POST['spcname'] == '') ? ' selected="selected"' : '', "></option>\n";
+					($_POST['tablespace'] == '') ? ' selected="selected"' : '', "></option>\n";
 				// Display all other tablespaces
 				while (!$tablespaces->EOF) {
 					$spcname = htmlspecialchars($tablespaces->f['spcname']);
 					echo "\t\t\t\t<option value=\"{$spcname}\"",
-						($spcname == $_POST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+						($spcname == $_POST['tablespace']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 					$tablespaces->moveNext();
 				}
 				echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
@@ -121,8 +121,8 @@
 		// Determine whether or not the table has an object ID
 		$hasID = $data->hasObjectID($_REQUEST['table']);
 		
-		$misc->printNav('table','export');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strexport']));
+		$misc->printTrail('table');
+		$misc->printTabs('table','export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dataexport.php\" method=\"post\">\n";
@@ -175,8 +175,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printNav('table','import');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strimport']));
+		$misc->printTrail('table');
+		$misc->printTabs('table','import');
 		$misc->printMsg($msg);
 
 		// Check that file uploads are enabled
@@ -233,8 +233,8 @@
 				// Fetch all available types
 				$types = &$data->getTypes(true, false, true);
 
-				$misc->printNav('table','columns');
-				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['straddcolumn']), 'add_column');
+				$misc->printTrail('table');
+				$misc->printTitle($lang['straddcolumn'], 'add_column');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -330,9 +330,8 @@
 			case 1:
 				global $lang;
 
-				$misc->printNav('table','columns');
-				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
-					$lang['straltercolumn'], $misc->printVal($_REQUEST['column'])), 'alter_column');
+				$misc->printTrail('column');
+				$misc->printTitle($lang['straltercolumn'], 'alter_column'); 
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -478,9 +477,9 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			$misc->printNav('table','columns');
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
-				$misc->printVal($_REQUEST['column']), $lang['strdrop']), 'drop_column');
+			$misc->printTrail('column');
+			$misc->printTitle($lang['strdrop'], 'drop_column');
+
             echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
                     $misc->printVal($_REQUEST['table'])), "</p>\n";
 								
@@ -520,8 +519,8 @@
 			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
 		}
 		
-		$misc->printNav('table','columns');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table'])));
+		$misc->printTrail('table');
+		$misc->printTabs('table','columns');
 		$misc->printMsg($msg);
 
 		// Get table

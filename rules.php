@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.21 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: rules.php,v 1.22 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -26,8 +26,8 @@
 		if (!isset($_POST['raction'])) $_POST['raction'] = '';
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']),
-				$misc->printVal($_REQUEST[$_REQUEST['subject']]), ": {$lang['strcreaterule']}</h2>\n";
+			$misc->printTrail($_REQUEST['subject']);
+			$misc->printTitle($lang['strcreaterule']);
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -90,15 +90,15 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']),
-				$misc->printVal($_REQUEST[$_REQUEST['subject']]), ": " , $misc->printVal($_REQUEST['rule']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTrail($_REQUEST['subject']);
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
 				$misc->printVal($_REQUEST[$_REQUEST['subject']])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"reltype\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"relation\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\" />\n";
 			echo $misc->form;
@@ -128,7 +128,8 @@
 		global $PHP_SELF;
 		global $lang;
 
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST[$_REQUEST['subject']]), $lang['strrules']));
+		$misc->printTrail($_REQUEST['subject']);
+		$misc->printTabs($_REQUEST['subject'], 'rules');
 		$misc->printMsg($msg);
 
 		$rules = &$data->getRules($_REQUEST[$_REQUEST['subject']]);
@@ -166,7 +167,6 @@
 	// Different header if we're view rules or table rules
 	$misc->printHeader($_REQUEST[$_REQUEST['subject']] . ' - ' . $lang['strrules']);
 	$misc->printBody();
-	$misc->printNav($_REQUEST['subject'],'rules');
 
 	switch ($action) {
 		case 'create_rule':

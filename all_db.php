@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.33 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: all_db.php,v 1.34 2004/09/01 16:35:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -21,8 +21,9 @@
 		global $PHP_SELF, $lang, $_reload_drop_database;
 
 		if ($confirm) {
-			$misc->printNav('server','databases');
-			$misc->printTitle(array($lang['strdatabases'], $misc->printVal($_REQUEST['database']), $lang['strdrop']), 'drop_database');
+			$misc->printTrail('database');
+			$misc->printTitle($lang['strdrop'], 'drop_database');
+			
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
@@ -51,6 +52,10 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strcreatedatabase'], 'create_database');
+		$misc->printMsg($msg);
+		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		// Default encoding is that in language file
 		if (!isset($_POST['formEncoding'])) {
@@ -64,11 +69,6 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
-		$misc->printNav('server','databases');
-		$misc->printTitle(array($lang['strdatabases'], $lang['strcreatedatabase']), 'create_database');
-		$misc->printMsg($msg);
-		
-		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -139,8 +139,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printNav('server','export');
-		$misc->printTitle(array($lang['strdatabases'], $lang['strexport']));
+		$misc->printTrail('server');
+		$misc->printTabs('server','export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dbexport.php\" method=\"post\">\n";
@@ -188,8 +188,8 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printNav('server','databases');
-		$misc->printTitle(array($lang['strdatabases']), 'managing_databases');
+		$misc->printTrail('server');
+		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
 		
 		$databases = &$data->getDatabases();
@@ -248,7 +248,7 @@
 	}
 
 	$misc->printHeader($lang['strdatabases']);
-	$misc->printBody();	
+	$misc->printBody();
 
 	switch ($action) {
 		case 'export':

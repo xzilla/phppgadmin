@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.26 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: users.php,v 1.27 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_SESSION['webdbUsername']), ": {$lang['straccount']}</h2>\n";
+		$misc->printTrail('user');
+		$misc->printTitle($lang['straccount']);
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_SESSION['webdbUsername']);
@@ -54,13 +55,13 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang, $conf;
 
-		if ($confirm) { 
-			echo "<h2>{$lang['strusers']}: ", $misc->printVal($_SESSION['webdbUsername']), ": {$lang['strchangepassword']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('user');
+			$misc->printTitle($lang['strchangepassword']);
 			$misc->printMsg($msg);
-						
+			
 			if (!isset($_POST['password'])) $_POST['password'] = '';
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
-			
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -100,7 +101,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTrail('user');
+		$misc->printTitle($lang['stralter']);
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -172,8 +174,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('user');
+			$misc->printTitle($lang['strdrop']);
 			
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
@@ -205,7 +208,8 @@
 		if (!isset($_POST['formConfirm'])) $_POST['formConfirm'] = '';
 		if (!isset($_POST['formExpires'])) $_POST['formExpires'] = '';
 		
-		echo "<h2>{$lang['strusers']}: {$lang['strcreateuser']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strcreateuser']);
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -264,7 +268,8 @@
 			return $val == 'infinity' ? '' : htmlspecialchars($val);
  		}
 		
-		$misc->printTitle(array($lang['strusers']), 'users');
+		$misc->printTrail('server');
+		$misc->printTabs('server','users');
 		$misc->printMsg($msg);
 		
 		$users = &$data->getUsers();
@@ -322,7 +327,6 @@
 
 	$misc->printHeader($lang['strusers']);
 	$misc->printBody();
-	$misc->printNav('server','users');
 
 	switch ($action) {
 		case 'changepassword':

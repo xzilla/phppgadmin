@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: conversions.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,8 @@
 		global $data, $conf, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strconversions']), 'conversions');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema', 'conversions');
 		$misc->printMsg($msg);
 		
 		$conversions = &$data->getconversions();
@@ -56,7 +57,6 @@
 
 	$misc->printHeader($lang['strconversions']);
 	$misc->printBody();
-	$misc->printNav('schema','conversions');
 
 	switch ($action) {
 		default:

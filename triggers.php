@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.21 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: triggers.php,v 1.22 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtriggers']}: ", $misc->printVal($_REQUEST['trigger']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTrail('trigger');
+		$misc->printTitle($lang['stralter']);
 		$misc->printMsg($msg);
 		
 		$triggerdata = &$data->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
@@ -68,8 +69,8 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['trigger']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTrail('trigger');
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfdroptrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
@@ -104,7 +105,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$lang['strcreatetrigger']}</h2>";
+		$misc->printTrail('table');
+		$misc->printTitle($lang['strcreatetrigger']);
 		$misc->printMsg($msg);
 		
 		// Get all the functions that can be used in triggers
@@ -196,7 +198,8 @@
 									: $data->getTriggerDef($rowdata->f);
 		}
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database'])), $misc->printVal($_REQUEST['table']), $lang['strtriggers']);
+		$misc->printTrail('table');
+		$misc->printTabs('table','triggers');
 		$misc->printMsg($msg);
 
 		$triggers = &$data->getTriggers($_REQUEST['table']);
@@ -237,7 +240,6 @@
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
 	$misc->printBody();
-	$misc->printNav('table','triggers');
 
 	switch ($action) {
 		case 'alter':

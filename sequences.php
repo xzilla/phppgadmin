@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.25 2004/08/26 08:29:57 jollytoad Exp $
+	 * $Id: sequences.php,v 1.26 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -20,7 +20,8 @@
 		global $data, $conf, $misc; 
 		global $PHP_SELF, $lang;
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strsequences']), 'sequences');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema', 'sequences');
 		$misc->printMsg($msg);
 		
 		// Get all sequences
@@ -74,7 +75,8 @@
 		global $data, $misc, $PHP_SELF;
 		global $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : ", $misc->printVal($_REQUEST['sequence']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTrail('sequence');
+		$misc->printTitle($lang['strproperties']);
 		$misc->printMsg($msg);
 		
 		// Fetch the sequence information
@@ -126,8 +128,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : ", $misc->printVal($_REQUEST['sequence']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('sequence');
+			$misc->printTitle($lang['strdrop']);
 			$misc->printMsg($msg);
 			
 			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
@@ -167,7 +170,8 @@
 		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = '';
 		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = '';
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : {$lang['strcreatesequence']} </h2>\n";
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['strcreatesequence']);
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -249,7 +253,6 @@
 	// Print header
 	$misc->printHeader($lang['strsequences']);
 	$misc->printBody();
-	$misc->printNav('schema','sequences');
 
 	switch($action) {
 		case 'create':

@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.15 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: operators.php,v 1.16 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators'], $misc->printVal($_REQUEST['operator']), $lang['strproperties']), 'operators');
+		$misc->printTrail('operator');
+		$misc->printTitle($lang['strproperties'],'operators');
 		$misc->printMsg($msg);
 		
 		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
@@ -69,8 +70,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators'], $misc->printVal($_REQUEST['operator']), $lang['strdrop']), 'drop_operator');
+		if ($confirm) {
+			$misc->printTrail('operator');
+			$misc->printTitle($lang['strdrop'], 'drop_operator');
 			
 			echo "<p>", sprintf($lang['strconfdropoperator'], $misc->printVal($_REQUEST['operator'])), "</p>\n";	
 			
@@ -103,8 +105,9 @@
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
-
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators']), 'operators');
+		
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','operators');
 		$misc->printMsg($msg);
 		
 		$operators = &$data->getOperators();
@@ -155,7 +158,6 @@
 
 	$misc->printHeader($lang['stroperators']);
 	$misc->printBody();
-	$misc->printNav('schema','operators');
 
 	switch ($action) {
 		case 'save_create':

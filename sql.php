@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.24 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: sql.php,v 1.25 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -33,8 +33,9 @@
 
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
-	$misc->printNav('database','sql');
-	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
+	$misc->printTrail('database');
+	$misc->printTabs('database','sql');
+	$misc->printTitle($lang['strqueryresults']);
 
 	// Set the schema search path
 	if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {

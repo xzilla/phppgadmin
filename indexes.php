@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.32 2004/07/15 09:30:27 jollytoad Exp $
+	 * $Id: indexes.php,v 1.33 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -24,8 +24,8 @@
 			// Default analyze to on
 			$_REQUEST['analyze'] = true;
 			
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strcluster']}</h2>\n";
+			$misc->printTrail('index');
+			$misc->printTitle($lang['strcluster']);
 
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
@@ -83,7 +83,8 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']}: {$lang['strcreateindex']} </h2>\n";
+		$misc->printTrail('table');
+		$misc->printTitle($lang['strcreateindex']);
 		$misc->printMsg($msg);
 
 		$selColumns = new XHTML_select("TableColumnList",true,10);
@@ -205,8 +206,8 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTrail('index');
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfdropindex'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
@@ -254,7 +255,8 @@
 			return $actions;
 		}
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strindexes']));
+		$misc->printTrail('table');
+		$misc->printTabs('table','indexes');
 		$misc->printMsg($msg);
 
 		$indexes = &$data->getIndexes($_REQUEST['table']);
@@ -315,8 +317,6 @@
 		echo "<body onload=\"init();\">";
 	else
 		$misc->printBody();
-
-	$misc->printNav('table','indexes');
 
 	switch ($action) {
 		case 'cluster_index':

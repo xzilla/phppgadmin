@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.4 2004/07/21 07:44:44 jollytoad Exp $
+	 * $Id: tablespaces.php,v 1.5 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,11 +20,12 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$lang['strtablespaces']}: ", $misc->printVal($_REQUEST['spcname']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTrail('tablespace');
+		$misc->printTitle($lang['stralter']);
 		$misc->printMsg($msg);
 
 		// Fetch tablespace info		
-		$tablespace = &$data->getTablespace($_REQUEST['spcname']);
+		$tablespace = &$data->getTablespace($_REQUEST['tablespace']);
 		// Fetch all users		
 		$users = &$data->getUsers();
 		
@@ -50,7 +51,7 @@
 			echo "</select></td></tr>\n";				
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
-			echo "<input type=\"hidden\" name=\"spcname\" value=\"", htmlspecialchars($_REQUEST['spcname']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -69,12 +70,12 @@
 		if (trim($_POST['name']) == '')
 			doAlter($lang['strtablespaceneedsname']);
 		else {
-			$status = $data->alterTablespace($_POST['spcname'], $_POST['name'], $_POST['owner']);
+			$status = $data->alterTablespace($_POST['tablespace'], $_POST['name'], $_POST['owner']);
 			if ($status == 0) {
 				// If tablespace has been renamed, need to change to the new name
-				if ($_POST['spcname'] != $_POST['name']) {
+				if ($_POST['tablespace'] != $_POST['name']) {
 					// Jump them to the new table name
-					$_REQUEST['spcname'] = $_POST['name'];
+					$_REQUEST['tablespace'] = $_POST['name'];
 				}
 				doDefault($lang['strtablespacealtered']);
 			}
@@ -90,20 +91,21 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			echo "<h2>{$lang['strtablespaces']}: ", $misc->printVal($_REQUEST['spcname']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('tablespace');
+			$misc->printTitle($lang['strdrop']);
 			
-			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['spcname'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['tablespace'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"spcname\" value=\"", htmlspecialchars($_REQUEST['spcname']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->droptablespace($_REQUEST['spcname']);
+			$status = $data->droptablespace($_REQUEST['tablespace']);
 			if ($status == 0)
 				doDefault($lang['strtablespacedropped']);
 			else
@@ -125,7 +127,8 @@
 		// Fetch all users
 		$users = &$data->getUsers();
 		
-		echo "<h2>{$lang['strtablespaces']}: {$lang['strcreatetablespace']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strcreatetablespace']);
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -178,7 +181,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$lang['strtablespaces']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTabs('server','tablespaces');
 		$misc->printMsg($msg);
 		
 		$tablespaces = &$data->getTablespaces();
@@ -205,17 +209,17 @@
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=edit&amp;",
-				'vars'  => array('spcname' => 'spcname')
+				'vars'  => array('tablespace' => 'spcname')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
-				'vars'  => array('spcname' => 'spcname')
+				'vars'  => array('tablespace' => 'spcname')
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?type=tablespace&amp;",
-				'vars'  => array('object' => 'spcname')
+				'url'   => "privileges.php?subject=tablespace&amp;",
+				'vars'  => array('tablespace' => 'spcname')
 			)
 		);
 				
@@ -227,7 +231,6 @@
 
 	$misc->printHeader($lang['strtablespaces']);
 	$misc->printBody();
-	$misc->printNav('server','tablespaces');
 
 	switch ($action) {
 		case 'save_create':

@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: info.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -19,8 +19,8 @@
 		global $data, $misc;
 		global $lang;
 
-		$misc->printNav('table','info');
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strinfo']}</h2>\n";
+		$misc->printTrail('table');
+		$misc->printTabs('table','info');
 		$misc->printMsg($msg);
 
 		// common params for printVal

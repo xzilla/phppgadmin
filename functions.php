@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.43 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: functions.php,v 1.44 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -47,8 +47,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printNav('function','definition');
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTrail('function');
+		$misc->printTitle($lang['stralter']);
 		$misc->printMsg($msg);
 
 		$fndata = &$data->getFunction($_REQUEST['function_oid']);
@@ -175,8 +175,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printNav('function','definition');
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTrail('function');
+		$misc->printTitle($lang['strproperties'],'functions');
 		$misc->printMsg($msg);
 		
 		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
@@ -273,9 +273,8 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			$misc->printNav('schema','functions');
-
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTrail('schema');
+			$misc->printTitle($lang['strdrop'],'drop_function');
 			
 			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
 			
@@ -309,7 +308,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printNav('schema','functions');
+		$misc->printTrail('schema');
 		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
@@ -326,11 +325,17 @@
 		$langs = &$data->getLanguages(true);
 		$fnlang = strtolower($_POST['formLanguage']);
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ";
-		if ($fnlang == 'c') echo $lang['strcreatecfunction'];
-		else if ($fnlang == 'internal') echo $lang['strcreateinternalfunction'];
-		else echo $lang['strcreateplfunction'];
-		echo "</h2>\n";
+		switch ($fnlang) {
+			case 'c':
+				$desc = $lang['strcreatecfunction'];
+				break;
+			case 'internal':
+				$desc = $lang['strcreateinternalfunction'];
+				break;
+			default:
+				$desc = $lang['strcreateplfunction'];
+		}
+		$misc->printTitle($desc, 'functions');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
@@ -471,8 +476,8 @@
 			$rowdata->f['+proreturns'] = ($data->phpBool($rowdata->f['proretset']) ? 'setof ' : '') . $rowdata->f['proresult'];
 		}
 		
-		$misc->printNav('schema','functions');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strfunctions']), 'functions');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','functions');
 		$misc->printMsg($msg);
 		
 		$funcs = &$data->getFunctions();

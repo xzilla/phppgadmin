@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.48 2004/08/30 11:50:31 soranzo Exp $
+	 * $Id: views.php,v 1.49 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,8 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strselect']), 'select');
+			$misc->printTrail('view');
+			$misc->printTitle($lang['strselect'], 'select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['view']);
@@ -129,9 +130,11 @@
 		global $PHP_SELF, $lang, $_reload_browser;
 
 		if ($confirm) { 
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strdrop']),'drop_view');
+			$misc->printTrail('view');
+			$misc->printTitle($lang['strdrop'],'drop_view');
 			
-			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";
+			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -170,7 +173,8 @@
 			if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
 			if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 			
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateviewwiz']), 'create_view');		
+			$misc->printTrail('schema');
+			$misc->printTitle($lang['strcreateviewwiz'], 'create_view');
 			$misc->printMsg($msg);
 			
 			$tblCount = sizeof($_POST['formTables']);
@@ -302,9 +306,13 @@
 	function doWizardCreate($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-		$tables = &$data->getTables(true);				
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateviewwiz']), 'create_view');		
+		
+		$tables = &$data->getTables(true);
+		
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['strcreateviewwiz'], 'create_view');
 		$misc->printMsg($msg);
+		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strtables']}</th></tr>";		
@@ -345,8 +353,8 @@
 		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
 		if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateview']), 'create_view');
-		
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['strcreateview'], 'create_view');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -523,7 +531,8 @@
 			$rowdata->f['+vwcount'] = "SELECT COUNT(*) AS total FROM \"{$rowdata->f['relname']}\"";
 		}
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews']), 'views');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','views');
 		$misc->printMsg($msg);
 		
 		$views = &$data->getViews();
@@ -586,7 +595,6 @@
 
 	$misc->printHeader($lang['strviews']);
 	$misc->printBody();
-	$misc->printNav('schema','views');
 
 	switch ($action) {
 		case 'selectrows':

@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.5 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.6 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,8 @@
 		global $data, $conf, $misc;
 		global $lang;
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stropclasses']), 'opclasses');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','opclasses');
 		$misc->printMsg($msg);
 		
 		$opclasses = &$data->getOpClasses();
@@ -55,7 +56,6 @@
 
 	$misc->printHeader($lang['stropclasses']);
 	$misc->printBody();
-	$misc->printNav('schema','opclasses');
 
 	switch ($action) {
 		default:

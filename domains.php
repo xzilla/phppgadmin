@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.17 2004/07/23 12:05:19 jollytoad Exp $
+	 * $Id: domains.php,v 1.18 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -34,7 +34,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTrail('domain');
+		$misc->printTitle($lang['stralter']);
 		$misc->printMsg($msg);
 		
 		// Fetch domain info
@@ -94,8 +95,8 @@
 		if (!isset($_POST['definition'])) $_POST['definition'] = '';
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ",
-				$misc->printVal($_REQUEST['domain']), ": {$lang['straddcheck']}</h2>\n";
+			$misc->printTrail('domain');
+			$misc->printTitle($lang['straddcheck']);
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -139,9 +140,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", 
-				$misc->printVal($_REQUEST['domain']), ": ", $misc->printVal($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('domain');
+			$misc->printTitle($lang['strdrop']);
 			$misc->printMsg($msg);
 			
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']), 
@@ -176,7 +177,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTrail('domain');
+		$misc->printTitle($lang['strproperties']);
 		$misc->printMsg($msg);
 		
 		$domaindata = &$data->getDomain($_REQUEST['domain']);
@@ -247,8 +249,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('domain');
+			$misc->printTitle($lang['strdrop']);
 			
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -289,7 +292,8 @@
 
 		$types = &$data->getTypes(true);
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: {$lang['strcreatedomain']}</h2>\n";
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['strcreatedomain']);
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -364,7 +368,8 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strdomains']), 'domains');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','domains');
 		$misc->printMsg($msg);
 		
 		$domains = &$data->getDomains();
@@ -422,7 +427,6 @@
 
 	$misc->printHeader($lang['strdomains']);
 	$misc->printBody();
-	$misc->printNav('schema','domains');
 
 	switch ($action) {
 		case 'add_check':

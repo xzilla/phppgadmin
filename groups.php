@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.17 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: groups.php,v 1.18 2004/09/01 16:35:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$status = $data->addGroupMember($_REQUEST['groname'], $_REQUEST['user']);
+		$status = $data->addGroupMember($_REQUEST['group'], $_REQUEST['user']);
 		if ($status == 0)
 			doProperties($lang['strmemberadded']);
 		else
@@ -35,20 +35,21 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strgroups']}: ", $misc->printVal($_REQUEST['groname']), ": {$lang['strdropmember']}</h2>\n";
+			$misc->printTrail('group');
+			$misc->printTitle($lang['strdropmember']);
 			
-			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['groname'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_member\" />\n";
-			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"user\" value=\"", htmlspecialchars($_REQUEST['user']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropGroupMember($_REQUEST['groname'], $_REQUEST['user']);
+			$status = $data->dropGroupMember($_REQUEST['group'], $_REQUEST['user']);
 			if ($status == 0)
 				doProperties($lang['strmemberdropped']);
 			else
@@ -65,10 +66,11 @@
 	
 		if (!isset($_POST['user'])) $_POST['user'] = '';
 	
-		echo "<h2>{$lang['strgroup']}: ", $misc->printVal($_REQUEST['groname']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTrail('group');
+		$misc->printTitle($lang['strproperties'],'groups');
 		$misc->printMsg($msg);
 		
-		$groupdata = &$data->getGroup($_REQUEST['groname']);
+		$groupdata = &$data->getGroup($_REQUEST['group']);
 		$users = &$data->getUsers();
 		
 		if ($groupdata->recordCount() > 0) {
@@ -78,8 +80,8 @@
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
             	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->f['usename']), "</td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop_member&{$misc->href}&groname=",
-						urlencode($_REQUEST['groname']), "&user=", urlencode($groupdata->f['usename']), "\">{$lang['strdrop']}</a></td>\n";
+					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop_member&{$misc->href}&group=",
+						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->f['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";
             	$groupdata->moveNext();
            	}
@@ -99,7 +101,7 @@
 		echo "</select>\n";
 		echo "<input type=\"submit\" value=\"{$lang['straddmember']}\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
@@ -113,20 +115,21 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
-			echo "<h2>{$lang['strgroups']}: ", $misc->printVal($_REQUEST['groname']), ": {$lang['strdrop']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail('group');
+			$misc->printTitle($lang['strdrop']);
 			
-			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['groname'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropGroup($_REQUEST['groname']);
+			$status = $data->dropGroup($_REQUEST['group']);
 			if ($status == 0)
 				doDefault($lang['strgroupdropped']);
 			else
@@ -147,7 +150,8 @@
 		// Fetch a list of all users in the cluster
 		$users = &$data->getUsers();
 		
-		echo "<h2>{$lang['strgroups']}: {$lang['strcreategroup']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strcreategroup'],'groups');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -203,7 +207,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printTitle(array($lang['strgroups']), 'groups');
+		$misc->printTrail('server');
+		$misc->printTabs('server','groups');
 		$misc->printMsg($msg);
 		
 		$groups = &$data->getGroups();
@@ -222,12 +227,12 @@
 			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('groname' => 'groname'),
+				'vars'  => array('group' => 'groname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('groname' => 'groname'),
+				'vars'  => array('group' => 'groname'),
 			),
 		);
 		
@@ -239,7 +244,6 @@
 
 	$misc->printHeader($lang['strgroups']);
 	$misc->printBody();
-	$misc->printNav('server','groups');
 
 	switch ($action) {
 		case 'add_member':

@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.10 2004/08/30 11:50:31 soranzo Exp $
+	 * $Id: viewproperties.php,v 1.11 2004/09/01 16:35:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['stredit']));
+		$misc->printTrail('view');
+		$misc->printTitle($lang['stredit']);
 		$misc->printMsg($msg);
 		
 		$viewdata = &$data->getView($_REQUEST['view']);
@@ -74,8 +75,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printNav('view','export');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['view']), $lang['strexport']));
+		$misc->printTrail('view');
+		$misc->printTabs('view','export');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dataexport.php\" method=\"post\">\n";
@@ -133,8 +134,8 @@
 		// Get view
 		$vdata = &$data->getView($_REQUEST['view']);
 
-		$misc->printNav('view','definition');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strdefinition']));
+		$misc->printTrail('view');
+		$misc->printTabs('view','definition');
 		$misc->printMsg($msg);
 		
 		if ($vdata->recordCount() > 0) {
@@ -166,8 +167,8 @@
 			case 1:
 				global $lang;
 
-				$misc->printNav('view','columns');
-				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['straltercolumn'],	$misc->printVal($_REQUEST['column'])));
+				$misc->printTrail('column');
+				$misc->printTitle($lang['straltercolumn']); 
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -253,8 +254,8 @@
 			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
 		}
 		
-		$misc->printNav('view','columns');
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view'])));
+		$misc->printTrail('view');
+		$misc->printTabs('view','columns');
 		$misc->printMsg($msg);
 
 		// Get view

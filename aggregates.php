@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.7 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.8 2004/09/01 16:35:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,8 @@
 		global $data, $conf, $misc;
 		global $lang;
 
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['straggregates']), 'aggregates');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema', 'aggregates');
 		$misc->printMsg($msg);
 		
 		$aggregates = &$data->getAggregates();
@@ -47,7 +48,6 @@
 
 	$misc->printHeader($lang['straggregates']);
 	$misc->printBody();
-	$misc->printNav('schema', 'aggregates');
 
 	switch ($action) {
 		default:

@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: casts.php,v 1.9 2004/09/01 16:35:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -29,7 +29,8 @@
 			}
 		}
 		
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strcasts']));
+		$misc->printTrail('database');
+		$misc->printTabs('database','casts');
 		$misc->printMsg($msg);
 		
 		$casts = &$data->getcasts();
@@ -63,7 +64,6 @@
 
 	$misc->printHeader($lang['strcasts']);
 	$misc->printBody();
-	$misc->printNav('database','casts');
 
 	switch ($action) {
 		default:
