@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to WebDB.
 	 *
-	 * $Id: index.php,v 1.5 2002/10/02 04:41:38 xzilla Exp $
+	 * $Id: index.php,v 1.6 2002/12/23 10:13:22 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?= $appName ?></title>
+<title><?php= $appName ?></title>
 </head>
 
 <frameset rows="50, *">
@@ -24,7 +24,7 @@
 	</frameset>
 	<noframes>
 	<body>
-		<?= $strNoFrames ?>
+		<?php= $strNoFrames ?>
 	</body>
 	</noframes>
 </frameset>

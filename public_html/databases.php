@@ -4,7 +4,7 @@
 	 * List databases in a server
 	 * @param $webdbServerID The ID of the current server
 	 *
-	 * $Id: databases.php,v 1.2 2002/02/12 01:11:58 kkemp102294 Exp $
+	 * $Id: databases.php,v 1.3 2002/12/23 10:12:18 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -15,9 +15,9 @@
 <html>
 <body>
 
-<h1><?= $appName ?></h1>
+<h1><?php= $appName ?></h1>
 
-<p><?= $appIntro ?></p>
+<p><?php= $appIntro ?></p>
 
 </body>
 </html>
