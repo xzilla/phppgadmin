@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.21 2004/07/12 04:18:44 chriskl Exp $
+ * $Id: global.css,v 1.22 2004/07/14 10:01:33 jollytoad Exp $
  */
 
 /** ELEMENTS */
@@ -244,4 +244,9 @@ a.navlink:active, a.toplink:active
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
+}
+
+.navbar .active a
+{
+	font-weight: bold;
 }
