@@ -3,21 +3,13 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: triggers.php,v 1.9 2003/03/25 15:28:22 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 	include_once('classes/class.select.php');
 	
-	// Constants to figure out tgtype
-	
-	define ('TRIGGER_TYPE_ROW', (1 << 0) );
-	define ('TRIGGER_TYPE_BEFORE', (1 << 1) );
-	define ('TRIGGER_TYPE_INSERT', (1 << 2) );
-	define ('TRIGGER_TYPE_DELETE', (1 << 3) );
-	define ('TRIGGER_TYPE_UPDATE', (1 << 4) );
-		
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
@@ -26,7 +18,7 @@
 	function getTriggerExecTime($type) {
 	    $execTime = "AFTER";
 		if ($type & TRIGGER_TYPE_BEFORE) $execTime = "BEFORE";
-		
+
 		return $execTime;
 	}
 

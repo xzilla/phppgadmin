@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.64 2003/03/25 00:26:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.65 2003/03/25 15:28:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1647,6 +1647,98 @@ class Postgres extends BaseDB {
 	// Trigger functions
 
 	/**
+	 * A helper function for getTriggers that translates
+	 * an array of attribute numbers to an array of field names.
+	 * @param $trigger An array containing fields from the trigger table
+	 * @return The trigger definition string
+	 */
+	function &getTriggerDef($trigger) {
+		// Constants to figure out tgtype
+
+		define ('TRIGGER_TYPE_ROW', (1 << 0) );
+		define ('TRIGGER_TYPE_BEFORE', (1 << 1) );
+		define ('TRIGGER_TYPE_INSERT', (1 << 2) );
+		define ('TRIGGER_TYPE_DELETE', (1 << 3) );
+		define ('TRIGGER_TYPE_UPDATE', (1 << 4) );
+
+		$trigger['tgisconstraint'] = $this->phpBool($trigger['tgisconstraint']);
+		$trigger['tgdeferrable'] = $this->phpBool($trigger['tgdeferrable']);
+		$trigger['tginitdeferred'] = $this->phpBool($trigger['tginitdeferred']);
+
+		// Constraint trigger or normal trigger
+		if ($trigger['tgisconstraint'])
+			$tgdef = 'CREATE CONSTRAINT TRIGGER ';
+		else
+			$tgdef = 'CREATE TRIGGER ';
+
+		// Trigger type
+		$findx = 0;
+		if ($trigger['tgtype'] & TRIGGER_TYPE_BEFORE == TRIGGER_TYPE_BEFORE)
+			$tgdef .= 'BEFORE';
+		else
+			$tgdef .= 'AFTER';
+
+		if ($trigger['tgtype'] & TRIGGER_TYPE_INSERT == TRIGGER_TYPE_INSERT) {
+			$tgdef .= ' INSERT';
+			$findx++;
+		}
+		if ($trigger['tgtype'] & TRIGGER_TYPE_DELETE == TRIGGER_TYPE_DELETE) {
+			if ($findx > 0)
+				$tgdef .= ' OR DELETE';
+			else
+				$tgdef .= ' DELETE';
+			$findx++;
+		}
+		if ($trigger['tgtype'] & TRIGGER_TYPE_UPDATE == TRIGGER_TYPE_UPDATE) {
+			if ($findx > 0)
+				$tgdef .= ' OR UPDATE';
+			else
+				$tgdef .= ' UPDATE';
+		}
+	
+		// Table name
+		$tgdef .= " ON \"{$trigger['tgname']}\" ";
+		
+		// Deferrability
+		if ($trigger['tgisconstraint']) {
+			if ($trigger['tgconstrrelid'] != 0) {
+				// Assume constrelname is not null
+				$tgdef .= " FROM \"{$trigger['tgconstrrelname']}\" ";
+			}
+			if (!$trigger['tgdeferrable'])
+				$tgdef .= 'NOT ';
+			$tgdef .= 'DEFERRABLE INITIALLY ';
+			if ($trigger['tginitdeferred'])
+				$tgdef .= 'DEFERRED ';
+			else
+				$tgdef .= 'IMMEDIATE ';
+		}
+
+		// Row or statement
+		if ($trigger['tgtype'] & TRIGGER_TYPE_ROW == TRIGGER_TYPE_ROW)
+			$tgdef .= 'FOR EACH ROW ';
+		else
+			$tgdef .= 'FOR EACH STATEMENT ';
+
+		// Execute procedure
+		$tgdef .= "EXECUTE PROCEDURE \"{$trigger['tgfname']}\"(";
+		
+		// Parameters
+		$params = explode('\\000', $trigger['tgargs']);
+		for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
+			$param = str_replace('\'', '\\\'', $params[$findx]);
+			$tgdef .= $param;
+			if ($findx < ($trigger['tgnargs'] - 1))
+				$tgdef .= ', ';
+		}
+
+		// Finish it off
+		$tgdef .= ')';
+
+		return $tgdef;
+	}
+
+	/**
 	 * Grabs a list of triggers on a table
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
@@ -1654,11 +1746,10 @@ class Postgres extends BaseDB {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT tgname,tgtype,tgargs,proname
-			FROM pg_trigger, pg_proc
+		$sql = "SELECT t.*, p.proname
+			FROM pg_trigger t, pg_proc p
 			WHERE tgrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
-			  AND pg_proc.oid = pg_trigger.tgfoid			
-			  AND NOT tgisconstraint";
+			  AND pg_proc.oid = pg_trigger.tgfoid";
 
 		return $this->selectSet($sql);
 	}

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.30 2003/03/25 00:26:28 chriskl Exp $
+ * $Id: Postgres73.php,v 1.31 2003/03/25 15:28:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -383,7 +383,7 @@ class Postgres73 extends Postgres72 {
 	}
 
 	// Constraint functions
-	
+
 	/**
 	 * Drops a unique constraint from a table
 	 * @param $table The table from which to drop the unique key
@@ -513,7 +513,7 @@ class Postgres73 extends Postgres72 {
 			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
 			AND (NOT tgisconstraint OR NOT EXISTS
-			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+			(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
 			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
 			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
 
