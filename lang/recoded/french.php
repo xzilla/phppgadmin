@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.11 2004/07/12 04:18:42 chriskl Exp $
+	 * $Id: french.php,v 1.12 2004/11/09 01:57:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -66,6 +66,7 @@
 	$lang['strtrue'] = 'TRUE';
 	$lang['strfalse'] = 'FALSE';
         $lang['stredit']  =  'Editer';
+        $lang['strcolumn']  =  'Colonne';
 	$lang['strcolumns'] = 'Colonnes';
 	$lang['strrows'] = 'ligne(s)';
 	$lang['strrowsaff'] = 'ligne(s) affect&eacute;e(s).';
@@ -92,7 +93,7 @@
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Lancer';
 	$lang['stradd'] = 'Ajouter';
-	$lang['strevent'] = 'Event';
+	$lang['strevent'] = 'Ev&egrave;nement';
 	$lang['strwhere'] = 'Where';
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'When';
@@ -101,6 +102,7 @@
 	$lang['strconfirm'] = 'Confirmer';
 	$lang['strexpression'] = 'Expression';
 	$lang['strellipsis'] = '...';
+        $lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Etendre';
 	$lang['strcollapse'] = 'R&eacute;duire';
 	$lang['strexplain'] = 'Explain';
@@ -129,6 +131,8 @@
 	$lang['strnoframes'] = 'Vous avez besoin d\'activer les frames de votre navigateur pour utiliser cette application.';
 	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsol&egrave;te. Vous avez besoin de le reg&eacute;nerer &agrave; partir de config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Vous n\'avez pas compil&eacute; correctement le support de la base de donn&eacute;es dans votre installation de PHP.';
+        $lang['strphpversionnotsupported']  =  'Cette version de PHP n\'est pas support&eacute;e. Merci de mettre &agrave; jour PHP &agrave; la  version  %s ou ult&eacute;rieure.';
+        $lang['strpostgresqlversionnotsupported']  =  'Cette Version de PostgreSQL n\'est pas support&eacute;e. Merci de mettre &agrave; jour PHP &agrave; la version %s ou ult&eacute;rieure.';
 	$lang['strbadschema'] = 'Sch&eacute;ma sp&eacute;cifi&eacute; invalide.';
 	$lang['strbadencoding'] = 'Impossible de sp&eacute;cifier l\'encodage de la base de donn&eacute;es.';
 	$lang['strsqlerror'] = 'Erreur SQL :';
@@ -171,11 +175,9 @@
 	$lang['strconfdeleterow'] = 'Etes-vous s&ucirc;r de vouloir supprimer cet enregistrement ?';
 	$lang['strrowdeleted'] = 'Enregistrement Supprim&eacute;.';
 	$lang['strrowdeletedbad'] = 'Echec de suppression de l\'enregistrement.';
-	$lang['strsaveandrepeat'] = 'Sauvegarder &amp; R&eacute;p&eacute;ter';
-	$lang['strfield'] = 'Champ';
-	$lang['strfields'] = 'Champs';
-	$lang['strnumfields'] = 'Nombre de Champs';
-	$lang['strfieldneedsname'] = 'Vous devez choisir un nom pour le champ.';
+        $lang['strinsertandrepeat']  =  'Inserer &amp; Repeter';
+        $lang['strnumcols']  =  'Nombre de colonnes';
+        $lang['strcolneedsname']  =  'Vous devez sp&eacute;cifier un nom pour la colonne';
 	$lang['strselectallfields'] = 'S&eacute;lectionner tous les champs';
         $lang['strselectneedscol']  =  'Vous devez s&eacute;lectionner au moins une colonne.';
         $lang['strselectunary']  =  'Op&eacute;rateurs unaires ne peuvent avoir de valeurs.';
@@ -196,6 +198,8 @@
         $lang['strstructureanddata']  =  'Structure et donn&eacute;es';
         $lang['strtabbed']  =  'Tabul&eacute;';
         $lang['strauto']  =  'Auto';
+        $lang['strconfvacuumtable']  =  'Etes-vous sur de vouloir faire un  vacuum &quot;%s&quot;?';
+        $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&eacute;s';
 
 	// Users
 	$lang['struser'] = 'Utilisateur';
@@ -255,7 +259,6 @@
 	$lang['strgrantfailed'] = 'Echec de l\'octroi de privil&egrave;ges.';
 
 	$lang['strgrantbad'] = 'Vous devez sp&eacute;cifier au moins un utilisateur ou groupe et au moins un privil&egrave;ge.';
-	$lang['stralterprivs'] = 'Modifier Privil&egrave;ges(Alter)';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 	// Databases
@@ -283,6 +286,9 @@
         $lang['strfull']  =  'Int&eacute;gral(Full)';
         $lang['strfreeze']  =  'Freeze';
         $lang['strforce']  =  'Forcer';
+        $lang['strsignalsent']  =  'Signal envoy&eacute;.';
+        $lang['strsignalsentbad']  =  'Echec &agrave; l\'Envoi du signal.';
+        $lang['strallobjects']  =  'Tous les objets';
 
 	// Views
 	$lang['strview'] = 'Vue';
@@ -411,7 +417,9 @@
 	$lang['strshowallfunctions'] = 'Voir toutes les fonctions';
 	$lang['strnofunction'] = 'Aucune fonction trouv&eacute;e.';
 	$lang['strnofunctions'] = 'Aucune Fonction trouv&eacute;e.';
-	$lang['strcreatefunction'] = 'Cr&eacute;er une fonction';
+	$lang['strcreateplfunction']  =  'Cr&eacute;er une fonction PL/SQL';
+        $lang['strcreateinternalfunction']  =  'Cr&eacute;er une fonction interne';
+        $lang['strcreatecfunction']  =  'Cr&eacute;er une fonction C';
 	$lang['strfunctionname'] = 'Nom de la fonction';
 	$lang['strreturns'] = 'Valeur de sortie';
 	$lang['strarguments'] = 'Arguments';
@@ -425,6 +433,8 @@
 	$lang['strfunctiondroppedbad'] = 'Echech de suppression de la fonction.';
 	$lang['strfunctionupdated'] = 'Fonction mise &agrave; jour.';
 	$lang['strfunctionupdatedbad'] = 'Echec de mise &agrave; jour de la fonction.';
+        $lang['strobjectfile']  =  'Fichier Objet';
+        $lang['strlinksymbol']  =  'Symbole Lien';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -450,6 +460,9 @@
 	$lang['strnotype'] = 'Aucun type trouv&eacute;.';
 	$lang['strnotypes'] = 'Aucun type trouv&eacute;.';
 	$lang['strcreatetype'] = 'Cr&eacute;er un type';
+        $lang['strcreatecomptype']  =  'Cr&eacute;er un type compos&eacute;';
+        $lang['strtypeneedsfield']  =  'Vous devez sp&eacute;cifier au moins un champ.';
+        $lang['strtypeneedscols']  =  'Vous devez sp&eacute;cifier un nombre valide de champs.';	
 	$lang['strtypename'] = 'Nom du type';
 	$lang['strinputfn'] = 'Fonction d\'entr&eacute;e';
 	$lang['stroutputfn'] = 'Fonction de sortie';
@@ -458,6 +471,8 @@
 	$lang['strelement'] = 'El&eacute;ment';
 	$lang['strdelimiter'] = 'D&eacute;limiteur';
 	$lang['strstorage'] = 'Stockage';
+        $lang['strfield']  =  'Champ';
+        $lang['strnumfields']  =  'Nbre. de Champs';
 	$lang['strtypeneedsname'] = 'Vous devez indiquer un nom pour votre type.';
 	$lang['strtypeneedslen'] = 'Vous devez indiquer une longueur pour votre type.';
 	$lang['strtypecreated'] = 'Type cr&eacute;&eacute;';
@@ -465,6 +480,10 @@
 	$lang['strconfdroptype'] = 'Etes-vous s&ucirc;r de vouloir supprim&eacute; le type &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Type supprim&eacute;.';
 	$lang['strtypedroppedbad'] = 'Echec de suppression du type.';
+        $lang['strflavor']  =  'Flavor';
+	$lang['strbasetype']  =  'Base';
+	$lang['strcompositetype']  =  'Composite';
+	$lang['strpseudotype']  =  'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Sch&eacute;ma';
@@ -482,6 +501,7 @@
 	$lang['strschemadroppedbad'] = 'Echec de suppression du sch&eacute;ma.';
         $lang['strschemaaltered']  =  'Schema altered.';
         $lang['strschemaalteredbad']  =  'Schema alter failed.';
+        $lang['strsearchpath']  =  'Chemin de Recherche du Schema';
 
 	// Reports
 	$lang['strreport'] = 'Rapport';
@@ -591,9 +611,27 @@
 	$lang['strdisk']  =  'Disque';
 	$lang['strrows2']  =  'Enregistrements';
 
+	// Tablespaces
+	$lang['strtablespace']  =  'Tablespace';
+	$lang['strtablespaces']  =  'Tablespaces';
+	$lang['strshowalltablespaces']  =  'Voir tous les tablespaces';
+	$lang['strnotablespaces']  =  'Pas de tablespaces trouv&eacute;.';
+	$lang['strcreatetablespace']  =  'Cr&eacute;er un tablespace';
+	$lang['strlocation']  =  'Location';
+	$lang['strtablespaceneedsname']  =  'Vous devez donner un nom &agrave; votre tablespace.';
+	$lang['strtablespaceneedsloc']  =  'Vous devez pr&eacute;ciser un r&eacute;pertoire dans lequel sera cr&eacute;&eacute; le tablespace.';
+	$lang['strtablespacecreated']  =  'Tablespace cr&eacute;&eacute;.';
+	$lang['strtablespacecreatedbad']  =  'Echec &agrave; la cr&eacute;ation du Tablespace.';
+	$lang['strconfdroptablespace']  =  'Etes vous sur de vouloir supprimer le tablespace &quot;%s&quot;?';
+	$lang['strtablespacedropped']  =  'Tablespace supprim&eacute;.';
+	$lang['strtablespacedroppedbad']  =  'Echec &agrave; la suppression du tablespace.';
+	$lang['strtablespacealtered']  =  'Tablespace modifi&eacute;.';
+	$lang['strtablespacealteredbad']  =  'Echec &agrave; la modification du Tablespace.';
+
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s lanc&eacute; sur %s:%s -- Vous &ecirc;tes connect&eacute; avec le profil  &quot;%s&quot;, %s';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Aide';
+$lang['strhelpicon']  =  '?';
 
 ?>

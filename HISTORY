@@ -28,6 +28,8 @@ Features
   BSD-licensed highlighting code on rafb.net
 * Add page navigation links at the bottom as well as the top of the page
   when browsing results.
+* Support for 8.0's alter column type
+* Support for 8.0's add columns with defaults and not null
 
 Translations
 * Arabic from Zaki
@@ -36,6 +38,10 @@ Translations
 * Mongolian from Erdenemandal
 * Ukrainian from Alex Rootoff
 * Hebrew from jonatan
+* Hungarian from Sulyok
+* French from Pascal
+* Afrikaans from Petri
+* Turkish from Devrim
 
 Bugs
 * Fix that non-Auto mode import didn't work (Adrian Nida)

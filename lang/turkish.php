@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.10 2004/07/12 04:18:42 chriskl Exp $
+	 * $Id: turkish.php,v 1.11 2004/11/09 01:57:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -66,6 +66,7 @@
 	$lang['strtrue']  =  'TRUE';
 	$lang['strfalse']  =  'FALSE';
 	$lang['stredit'] = 'Düzenle';
+	$lang['strcolumn']  =  'KolonF';
 	$lang['strcolumns'] = 'Kolonlar';
 	$lang['strrows'] = 'satýr';
 	$lang['strrowsaff']  =  'satýr iþlendi.';
@@ -101,6 +102,7 @@
 	$lang['strconfirm'] = 'Onayla';
 	$lang['strexpression'] = 'Ýfade';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Geniþlet';
 	$lang['strcollapse']  =  'Dar görünüm';
 	$lang['strexplain'] = 'Explain';
@@ -129,6 +131,8 @@
 	$lang['strnoframes']  =  'Bu uygulamayý kullanabilmek icin frame destekleyen bir gözatýcýya gereksinmeniz bulunmaktadýr.';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz güncel deðil. Bu dosyayý yeni config.inc.php-dist dosyasýndan yaratmanýz gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL desteði bulunamamýþtýr.';
+	$lang['strphpversionnotsupported'] = 'Bu PHP sürümü desteklenmemektedir. Lütfen %s ya da üstü bir sürüme güncelleyiniz.';
+        $lang['strpostgresqlversionnotsupported'] = 'Bu PostgreSQL sürümü desteklenmemektedir. Lütfen %s ya da üstü bir sürüme güncelleyiniz.';
 	$lang['strbadschema'] = 'Geçersiz þema.';
 	$lang['strbadencoding'] = 'Ýstemci dil kodlamasýný ayarlamaya çalýþýrken bir hata oluþtu.';
 	$lang['strsqlerror'] = 'SQL hatasý:';
@@ -171,11 +175,9 @@
 	$lang['strconfdeleterow'] = 'Bu kaydý silmek istediðinize emin misiniz?';
 	$lang['strrowdeleted'] = 'Kayýt silindi.';
 	$lang['strrowdeletedbad'] = 'Kayýt silinme iþlemi baþarýsýz oldu.';
-	$lang['strsaveandrepeat'] = 'Kaydet ve tekrarla';
-	$lang['strfield'] = 'Alan';
-	$lang['strfields'] = 'Alanlar';
-	$lang['strnumfields'] = 'Alan sayýsý';
-	$lang['strfieldneedsname'] = 'Alan kýsmýna ad vermelisiniz';
+        $lang['strinsertandrepeat'] = 'Ekle ve Tekrarla';
+        $lang['strnumcols'] = 'Kolon sayýsý';
+        $lang['strcolneedsname'] = 'Kolon için bir ad vermelisiniz.';
 	$lang['strselectallfields']  =  'Tüm alanlarý seç';
 	$lang['strselectneedscol'] = 'En az bir kolon iþaretlemelisiniz';
 	$lang['strselectunary']  =  'Unary operatörlerin deðeri olamaz.';
@@ -196,6 +198,8 @@
 	$lang['strstructureanddata']  =  'Yapý ve veri';
 	$lang['strtabbed']  =  'Tabbed';
 	$lang['strauto']  =  'Otomatik';
+	$lang['strconfvacuumtable'] = '"%s" tablosunu vakumlamak istediðiniz emin misiniz?';
+        $lang['strestimatedrowcount'] = 'Yaklaþýk satýr sayýsý';
 
 	// Users
 	$lang['struser'] = 'Kullanýcý';
@@ -256,7 +260,6 @@
 	$lang['strgrantfailed'] = 'Ýzinlerin grant iþlemi baþarýsýz oldu.';
 
 	$lang['strgrantbad'] = 'En az bir kullanýcý ya da grup ve en az bir izin belirtmelisiniz.';
-	$lang['stralterprivs']  =  'Ýzinleri deðiþtir.';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 
@@ -285,6 +288,9 @@
 	$lang['strfull']  =  'Full';
 	$lang['strfreeze']  =  'Freeze';
 	$lang['strforce']  =  'Force';
+	$lang['strsignalsent'] = 'Sinyal gönderildi.';
+        $lang['strsignalsentbad'] = 'Sinyal gönderme iþlemi baþarýsýz oldu';
+        $lang['strallobjects'] = 'Tüm nesneler';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -304,7 +310,7 @@
 	$lang['strviewdroppedbad'] = 'View kaldýrma iþlemi baþarýsýz oldu.';
 	$lang['strviewupdated'] = 'View güncellendi.';
 	$lang['strviewupdatedbad'] = 'View güncelleme iþlemi baþarýsýz oldu.';
-$lang['strviewlink']  =  'Linking Keys';
+	$lang['strviewlink']  =  'Linking Keys';
 	$lang['strviewconditions']  =  'Ek durumlar';
 	$lang['strcreateviewwiz']  =  'Sihirbaz ile view yaratýn';
 
@@ -413,7 +419,9 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strshowallfunctions'] = 'Tüm fonksiyonlarý göster';
 	$lang['strnofunction'] = 'Fonksiyon bulunamadý.';
 	$lang['strnofunctions'] = 'Fonksiyon bulunamadý.';
-	$lang['strcreatefunction'] = 'Fonksiyon yarat';
+	$lang['strcreateplfunction'] = 'SQL/PL fonksiyonu yarat';
+        $lang['strcreateinternalfunction'] = 'Ýç (internal) fonksiyon yarat';
+        $lang['strcreatecfunction'] = 'C fonksiyonu yarat';
 	$lang['strfunctionname'] = 'Fonksiyon adý';
 	$lang['strreturns'] = 'Dönderilen deðer';
 	$lang['strarguments'] = 'Argümanlar';
@@ -427,6 +435,8 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strfunctiondroppedbad'] = 'Fonksiyon kaldýrma iþlemi baþarýsýz oldu.';
 	$lang['strfunctionupdated'] = 'Fonksiyon güncellendi.';
 	$lang['strfunctionupdatedbad'] = 'Function güncelleme iþlemi baþarýsýz oldu.';
+	$lang['strobjectfile'] = 'Nesne dosyasý';
+        $lang['strlinksymbol'] = 'Baðlantý sembolü';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -452,6 +462,9 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strnotype'] = 'Hiç veri tipi bulunamadý.';
 	$lang['strnotypes'] = 'Hiç veri tipi bulunamadý.';
 	$lang['strcreatetype'] = 'Yeni veri tipi yarat';
+        $lang['strcreatecomptype'] = 'Karmaþýk veri tipi yarat';
+        $lang['strtypeneedsfield'] = 'En az bir alan belirtmelisiniz.';
+        $lang['strtypeneedscols'] = 'Geçerli bir alan sayýsý belirtmelisiniz.';
 	$lang['strtypename'] = 'Veri tipi adý';
 	$lang['strinputfn'] = 'Giriþ (Input) fonksiyonu';
 	$lang['stroutputfn'] = 'Çýkýþ (Output) fonksiyonu';
@@ -460,6 +473,9 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strelement'] = 'Eleman';
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
+	$lang['strfield']  =  'Alan';
+	$lang['strnumfields']  =  'Alanlarýn sayýsý';
+
 	$lang['strtypeneedsname'] = 'Veri tipi için bir ad vermelisiniz.';
 	$lang['strtypeneedslen'] = 'Veri tipiniz için bir uzunluk belirtmelisiniz.';
 	$lang['strtypecreated'] = 'Veri tipi yaratýldý';
@@ -467,6 +483,10 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strconfdroptype'] = '"%s" veri tipini kaldýrmak istediðinize emin misiniz?';
 	$lang['strtypedropped'] = 'Veri tipi kaldýrýldý.';
 	$lang['strtypedroppedbad'] = 'Veri tipi kaldýrýlamadý.';
+        $lang['strflavor'] = 'Flavor';
+        $lang['strbasetype'] = 'Base';
+        $lang['strcompositetype'] = 'Composite';
+        $lang['strpseudotype'] = 'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Þema';
@@ -484,6 +504,7 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strschemadroppedbad'] = 'Þema kaldýrma iþlemi baþarýsýz oldu.';
 	$lang['strschemaaltered']  =  'Schema deðiþtirildi.';
 	$lang['strschemaalteredbad']  =  'Schema deðiþtirilme iþlemi baþarýsýz oldu.';
+	$lang['strsearchpath'] = 'Þema arama yolu';
 
 	// Reports
 	$lang['strreport'] = 'Rapor';
@@ -586,9 +607,28 @@ $lang['strviewlink']  =  'Linking Keys';
 	$lang['strdisk'] = 'Disk';
 	$lang['strrows2'] = 'Rows';
 
+	// Tablespaces
+	$lang['strtablespace'] = 'Tablespace';
+	$lang['strtablespaces'] = 'Tablespaceler';
+	$lang['strshowalltablespaces'] = 'Tüm tablespaceleri göster';
+	$lang['strnotablespaces'] = 'Hiç tablespace bulunamadý.';
+	$lang['strcreatetablespace'] = 'Tablespace yarat';
+	$lang['strlocation'] = 'Yer';
+	$lang['strtablespaceneedsname'] = 'Tablespace\'e bir ad vermelisiniz.';
+	$lang['strtablespaceneedsloc'] = 'Tablespace\'in yaratýlacaðý dizini belirtmelisiniz';
+	$lang['strtablespacecreated'] = 'Tablespace yaratýldý.';
+	$lang['strtablespacecreatedbad'] = 'Tablespace yaratýlamadý.';
+	$lang['strconfdroptablespace'] = '"%s" adlý tablespace\'i kaldýrmak istediðinize emin misiniz?';
+	$lang['strtablespacedropped'] = 'Tablespace kaldýrýldý.';
+	$lang['strtablespacedroppedbad'] = 'Tablespace kaldýrýlamadý.';
+	$lang['strtablespacealtered'] = 'Tablespace deðiþtirildi.';
+	$lang['strtablespacealteredbad'] = 'Tablespace deðiþtirilemedi.';
+
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s, %s:%s üzerinde çalýþýyor-- "%s", %s kullanýcýsý ile sisteme giriþ yaptýnýz.';
-	$lang['strtimefmt']  =  'jS M, Y g:iA';
-	$lang['strhelp']  =  'Yardým';
+        $lang['strtimefmt']  =  'jS M, Y g:iA';
+        $lang['strhelp']  =  'Yardým';
+	$lang['strhelpicon'] = '?';
 
 ?>
+
