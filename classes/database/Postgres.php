@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.218 2004/05/28 08:17:22 chriskl Exp $
+ * $Id: Postgres.php,v 1.219 2004/06/03 03:48:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1197,6 +1197,7 @@ class Postgres extends BaseDB {
 		if ($status != 0) return -1;
 
 		$found = false;
+		$first = true;
 		$comment_sql = ''; //Accumulate comments for the columns
 		$sql = "CREATE TABLE \"{$name}\" (";
 		for ($i = 0; $i < $fields; $i++) {
@@ -1207,6 +1208,9 @@ class Postgres extends BaseDB {
 
 			// Skip blank columns - for user convenience
 			if ($field[$i] == '' || $type[$i] == '') continue;
+			// If not the first column, add a comma
+			if (!$first) $sql .= ", ";
+			else $first = false;
 			
 			switch ($type[$i]) {
 				// Have to account for weird placing of length for with/without
@@ -1234,7 +1238,6 @@ class Postgres extends BaseDB {
 			// Add other qualifiers
 			if (isset($notnull[$i])) $sql .= " NOT NULL";
 			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
-			if ($i != $fields - 1) $sql .= ", ";
 
 			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
 

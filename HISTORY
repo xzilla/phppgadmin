@@ -44,6 +44,8 @@ Bugs
 * Fix Find for domain constraints
 * Fix popup SQL window so that two different phpPgAdmin instances should
   not want to use the same pop-up.
+* Fix create table if you don't supply as many fields as you originally
+  specified.
 
 Translations
 * Trad. Chinese from Chih-Hsin Lee
