@@ -2,17 +2,15 @@
 	/**
 	 * Does an export of a database to the screen or as a download
 	 *
-	 * $Id: dbexport.php,v 1.1 2003/12/13 11:04:04 chriskl Exp $
+	 * $Id: dbexport.php,v 1.2 2003/12/13 16:15:43 chriskl Exp $
 	 */
 
 	// Include application functions
 	$_no_output = true;
 	include_once('libraries/lib.inc.php');
 	
-	// Check that database dumps are enabled.  The is_executable function
-	// check is required as it only appeared in Win32 PHP in version 5.0.0
-	if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != ''
-			&& function_exists('is_executable') && is_executable($conf['pg_dump_path'])) {
+	// Check that database dumps are enabled.
+	if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
 
 		// Make it do a download, if necessary
 		if (isset($_REQUEST['download'])) {

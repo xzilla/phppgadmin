@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.52 2003/12/13 11:04:04 chriskl Exp $
+	 * $Id: Misc.php,v 1.53 2003/12/13 16:15:48 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -282,10 +282,8 @@
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
 			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
-			// Check that database dumps are enabled.  The is_executable function
-			// check is required as it only appeared in Win32 PHP in version 5.0.0
-			if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != ''
-					&& function_exists('is_executable') && is_executable($conf['pg_dump_path'])) {			
+			// Check that database dumps are enabled.
+			if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
 				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			}
 			echo "</tr></table>\n";
