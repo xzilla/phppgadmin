@@ -9,6 +9,13 @@ Version 3.0.0-dev-5
 * Preserve spaces when displaying data
 * Greatly improved PostgreSQL 7.2 and 7.1 support
 * Italian translation
+* Show database version in top bar 
+* Many features useful for PostgreSQL hosting:
+	- Hide reports
+	- Filter for owned reports
+	- Hide admin for non-super users
+	- Easy change password for any user
+	- Enforceable minimum password length
 
 Version 3.0.0-dev-4
 -------------------
