@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.14 2003/05/31 07:23:24 chriskl Exp $
+	 * $Id: triggers.php,v 1.15 2003/06/17 00:39:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -99,11 +99,11 @@
 		echo "<tr><td class=\"data1\">", $sel0->fetch(), "</td>\n";
 		echo "<td class=\"data1\">(<input type=\"text\" name=\"formTriggerArgs\" size=\"32\" />)</td>\n";
 		echo "</tr></table>\n";
-		echo "<p><input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<p><input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-	    	echo $misc->form;
+		echo $misc->form;
 		echo "</form>\n";
 	}
 	
