@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.24 2003/05/19 06:08:07 chriskl Exp $
+	 * $Id: tables.php,v 1.25 2003/05/31 06:56:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -415,6 +415,7 @@
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strformat']}</th>\n";
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
@@ -423,9 +424,22 @@
 				while (!$attrs->EOF) {
 					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
+					
+					// Initialise variables
+					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
+						$_REQUEST['format'][$attrs->f['attname']] = 'VALUE';
+					
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo htmlspecialchars($attrs->f['type']);
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected' : '', ">{$lang['strexpression']}</option>\n";
+					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull']) {
@@ -465,7 +479,8 @@
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
-			$status = $localData->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], unserialize($_POST['key']));
+			$status = $localData->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
+												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
 			else

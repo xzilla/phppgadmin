@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.12 2003/05/01 03:27:54 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.13 2003/05/31 06:56:02 chriskl Exp $
  */
 
 include_once('libraries/errorhandler.inc.php');
@@ -215,7 +215,7 @@ class ADODB_base {
 		// Populate the syntax arrays
 		reset($vars);
 		while(list($key, $value) = each($vars)) {
-			$this->clean($key);
+			$this->fieldClean($key);
 			$this->clean($value);
 			if ($setClause) $setClause .= ", \"{$key}\"='{$value}'";
 			else $setClause = "UPDATE \"{$table}\" SET \"{$key}\"='{$value}'";
@@ -223,14 +223,14 @@ class ADODB_base {
 
 		reset($nulls);
 		while(list(, $value) = each($nulls)) {
-			$this->clean($value);
+			$this->fieldClean($value);
 			if ($setClause) $setClause .= ", \"{$value}\"=NULL";
 			else $setClause = "UPDATE \"{$table}\" SET \"{$value}\"=NULL";
 		}
 
 		reset($where);
 		while(list($key, $value) = each($where)) {
-			$this->clean($key);
+			$this->fieldClean($key);
 			$this->clean($value);
 			if ($whereClause) $whereClause .= " AND \"{$key}\"='{$value}'";
 			else $whereClause = " WHERE \"{$key}\"='{$value}'";

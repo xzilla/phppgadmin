@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.18 2003/05/25 09:41:57 chriskl Exp $
+ * $Id: BaseDB.php,v 1.19 2003/05/31 06:56:02 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -31,22 +31,44 @@ class BaseDB extends ADODB_base {
 	/**
 	 * Updates a row in a table
 	 * @param $table The table in which to update
-	 * @param $values An array mapping new values for the row
+	 * @param $vars An array mapping new values for the row
 	 * @param $nulls An array mapping column => something if it is to be null
-	 * @param $key An array mapping column => value to update
+	 * @param $format An array of the data type (VALUE or EXPRESSION)
+	 * @param $types An array of field types
+	 * @param $keyarr An array mapping column => value to update
 	 * @return 0 success
 	 * @return -1 invalid parameters
 	 */
-	function editRow($table, $values, $nulls, $key) {
-		if (!is_array($values) || !is_array($nulls) || !is_array($key)) return -1;
-		// @@ WE CANNOT USE update AS WE NEED TO NOT QUOTE SOME THINGS
-		// @@ WHAT ABOUT BOOLEANS??
+	function editRow($table, $vars, $nulls, $format, $types, $keyarr) {
+		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
+			|| !is_array($types)) return -1;
 		else {
-			$temp = array();
-			foreach($values as $k => $v) {
-				if (!isset($nulls[$k])) $temp[$k] = $v;
-			}
-			return $this->update($table, $temp, $key, array_keys($nulls));
+			$this->fieldClean($table);
+
+			// Build clause
+			if (sizeof($vars) > 0) {
+				foreach($vars as $key => $value) {
+					$this->fieldClean($key);
+	
+					// Handle NULL values
+					if (isset($nulls[$key])) $tmp = 'NULL';
+					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
+					
+					if (isset($sql)) $sql .= ", \"{$key}\"={$tmp}";
+					else $sql = "UPDATE \"{$table}\" SET \"{$key}\"={$tmp}";
+				}
+				$first = true;
+				foreach ($keyarr as $k => $v) {
+					$this->fieldClean($k);
+					$this->clean($v);
+					if ($first) {
+						$sql .= " WHERE \"{$k}\"='{$v}'";
+						$first = false;
+					}
+					else $sql .= " AND \"{$k}\"='{$v}'";
+				}				
+			}			
+			return $this->execute($sql);
 		}
 	}
 
@@ -71,16 +93,12 @@ class BaseDB extends ADODB_base {
 				$fields = '';
 				$values = '';
 				foreach($vars as $key => $value) {
-					$doEscape = $format[$key] == 'VALUE';
 					$this->fieldClean($key);
-					if ($doEscape) $this->clean($value);
 	
 					// Handle NULL values
 					if (isset($nulls[$key])) $tmp = 'NULL';
 					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
 					
-					// If format Value retuns a null value, then don't bother
-					// inserting a value for that column.
 					if ($fields) $fields .= ", \"{$key}\"";
 					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
 
