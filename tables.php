@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.23 2003/05/15 14:37:42 chriskl Exp $
+	 * $Id: tables.php,v 1.24 2003/05/19 06:08:07 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -592,7 +592,7 @@
 						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {							
 							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
 						}
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v), "</td>";
+						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true), "</td>";
 					}
 				}
 				echo "</tr>\n";

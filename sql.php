@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.3 2003/05/06 06:17:23 chriskl Exp $
+	 * $Id: sql.php,v 1.4 2003/05/19 06:08:07 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -45,7 +45,7 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					foreach ($rs->f as $k => $v) {
-						echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
+						echo "<td class=\"data{$id}\">", $misc->printVal($v, true), "</td>";
 					}							
 					echo "</tr>\n";
 					$rs->moveNext();

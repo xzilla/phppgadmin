@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.16 2003/05/18 11:53:27 chriskl Exp $
+	 * $Id: display.php,v 1.17 2003/05/19 06:08:07 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -59,7 +59,7 @@
 			$id = (($i % 2) == 0 ? '1' : '2');
 			echo "<tr>\n";
 			foreach ($rs->f as $k => $v) {
-				echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($v, true), "</td>";
 			}							
 			echo "</tr>\n";
 			$rs->moveNext();

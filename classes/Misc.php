@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.32 2003/05/15 09:48:40 chriskl Exp $
+	 * $Id: Misc.php,v 1.33 2003/05/19 06:08:07 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -42,14 +42,20 @@
 		/**
 		 * Replace all spaces with &nbsp; in a string
 		 * @param $str The string to change
+		 * @param $shownull True to show NULLs, false otherwise
 		 * @return The string with replacements
 		 */
-		function printVal($str) {
-			// If the string contains at least one instance of >1 space in a row, then
+		function printVal($str, $shownull = false) {
+			// If the string contains at least one instance of >1 space in a row, a tab character, a
+			// space at the start of a line, or a space at the start of the whole string then
 			// substitute all spaces for &nbsp;s
-			if ($str === null) return '<i>NULL</i>';
-			elseif (strstr($str, '  '))
-				return nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($str)));
+			if ($str === null && $shownull) return '<i>NULL</i>';
+			elseif (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || ereg('^[ ]', $str)) {
+				$str = str_replace(' ', '&nbsp;', htmlspecialchars($str));
+				// Replace tabs with 8 spaces
+				$str = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $str);
+				return nl2br($str);
+			}
 			else
 				return nl2br(htmlspecialchars($str));
 		}
