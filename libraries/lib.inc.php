@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.83 2004/07/19 03:01:54 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.84 2004/08/17 03:32:14 xzilla Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -55,7 +55,8 @@
 		'slovak' => 'Slovensky',
 		'swedish' => 'Svenska',
 		'spanish' => 'Espa&ntilde;ol',
-		'turkish' => 'T&uuml;rk&ccedil;e'
+		'turkish' => 'T&uuml;rk&ccedil;e',
+		'ukrainian' => 'Ukrainian'
 	);
 
 	// Always include english.php, since it's the master language file
