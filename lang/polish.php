@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.19 2003/05/12 09:50:24 chriskl Exp $
+	 * $Id: polish.php,v 1.20 2003/05/19 23:19:55 slubek Exp $
 	 */
 
 	// Language and character set
@@ -83,6 +83,10 @@
 	$lang['strconfirm'] = 'Potwierd¼';
 	$lang['strwhen'] = 'Kiedy';
 	$lang['strformat'] = 'Format';
+	$lang['strexpression'] = 'Wyra¿enie';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Rozwiñ';
+	$lang['strcollapse'] = 'Zwiñ';
 					
 	// Error handling
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
