@@ -3,14 +3,14 @@
 	 * Italian language template, based on the english language template file for WebDB.
 	 * @maintainer Calogero Calì [<kalef@libero.it>]
 	 *	
-	 * $Id: italian.php,v 1.7 2003/04/13 08:24:24 jmpoure Exp $
+	 * $Id: italian.php,v 1.8 2003/04/13 11:00:10 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Italiano';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'it_IT';
   
-	$lang['strnoframes'] = '&Egrave; necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
+	$lang['strnoframes'] = 'È necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Tabelle non trovate.';
 	$lang['strnotable'] = 'Tabella non trovata.';
@@ -33,7 +33,7 @@
 	$lang['stroperators'] = 'Operatori';
 	$lang['strtypes'] = 'Tipi';
 	$lang['straggregates'] = 'Aggregazioni';
-	$lang['strproperties'] = 'ProprietÃ ';
+	$lang['strproperties'] = 'Proprieti';
 	$lang['strbrowse'] = 'Mostra';
 	$lang['strdrop'] = 'Elimina';
 	$lang['strdropped'] = 'Eliminato';
@@ -41,7 +41,7 @@
 	$lang['strprev'] = 'Precedente';
 	$lang['strnext'] = 'Successivo';
 	$lang['strfailed'] = 'Fallito';
-	$lang['strnotloaded'] = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
+	$lang['strnotloaded'] = 'Non è stato compilato un adeguato supporto ai database nell\'installazione di PHP';
 	
 	// Users - Utenti
 	$lang['strusername'] = 'Username';
@@ -52,20 +52,20 @@
 	$lang['strnousers'] = 'Nessun utente trovato';
 	
 	// Views - Viste
-	$lang['strviewneedsname'] = '&Egrave; necessario un nome per la Vista.';
-	$lang['strviewneedsdef'] = '&Egrave; necessaria una definizione della Vista.';
+	$lang['strviewneedsname'] = 'È necessario un nome per la Vista.';
+	$lang['strviewneedsdef'] = 'È necessaria una definizione della Vista.';
 
 	// Sequences - Sequenze
 	$lang['strnosequences'] = 'Nessuna sequenza trovata.';
-	$lang['strsequencename'] = 'nome_sequenza';
+	//$lang['strsequencename'] = 'nome_sequenza';
 	$lang['strlastvalue'] = 'valore_precedente';
 	$lang['strincrementby'] = 'incrementa_di';	
 	$lang['strmaxvalue'] = 'valore_max';
 	$lang['strminvalue'] = 'valore_min';
 	$lang['strcachevalue'] = 'valore_cache';
 	$lang['strlogcount'] = 'conta_log';
-	$lang['striscycled'] = '&egrave;_iterata';
-	$lang['striscalled'] = '&egrave;_chiamata';
+	$lang['striscycled'] = 'è_iterata';
+	$lang['striscalled'] = 'è_chiamata';
 	$lang['strreset'] =	'Reset';
 
 	// Indicies

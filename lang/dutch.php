@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.7 2003/04/13 10:49:24 jmpoure Exp $
+	 * $Id: dutch.php,v 1.8 2003/04/13 10:55:58 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -91,7 +91,7 @@
 
 	// Sequences
 	$lang['strnosequences'] = 'Geen sequences gevonden.';
-	$lang['strsequencename'] = 'sequence_naam';
+	//$lang['strsequencename'] = 'sequence_naam';
 	$lang['strlastvalue'] = 'laatste_waarde';
 	$lang['strincrementby'] = 'verhoog_met';	
 	$lang['strmaxvalue'] = 'max_waarde';
@@ -143,7 +143,7 @@
 	$lang['strtypes'] = 'Types';
 	$lang['strnotypes'] = 'Geen types gevonden.';
 	$lang['strcreatetype'] = 'creëer type';
-	$lang['strconfdroptype'] = 'Weet u zeker dat u het type "%s" wilt verwijderen?';
+	$lang['strconfdroptype'] = 'Weet u zeker dat u het type \"%s\" wilt verwijderen?';
 	$lang['strtypedropped'] = 'Type verwijderd.';
 	$lang['strtypedroppedbad'] = 'Verwijdering van het type mislukt.';
 	$lang['strtypecreated'] = 'Type gecreëerd';
