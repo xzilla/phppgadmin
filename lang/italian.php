@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.28 2004/03/12 01:12:11 soranzo Exp $
+	 * $Id: italian.php,v 1.29 2004/04/05 21:22:13 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -79,8 +79,8 @@
 	$lang['strvalue'] = 'Valore';
 	$lang['strunique'] = 'Univoco';
 	$lang['strprimary'] = 'Primaria';
-	$lang['strimport'] = 'Importa';
 	$lang['strexport'] = 'Esporta';
+	$lang['strimport'] = 'Importa';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Esegui';
 	$lang['stradmin'] = 'Amministratore';
@@ -245,7 +245,7 @@
 	$lang['strgranted'] = 'Privilegi concessi.';
 	$lang['strgrantfailed'] = 'Concessione dei privilegi fallita.';
 	$lang['strgrantbad'] = 'È necessario specificare almeno un utente o gruppo ed almeno un privilegio.';
-	$lang['stralterprivs'] = 'Modifica Privilegi';
+	$lang['stralterprivs'] = 'Modifica privilegi';
 	$lang['strgrantor'] = 'Grantor'; // ???
 	$lang['strasterisk'] = '*';
 
@@ -464,6 +464,8 @@ $lang['strviewconditions'] = 'Additional Conditions';
         $lang['strconfdropschema'] = 'Sei sicuro di volere eliminare lo schema "%s"?';
         $lang['strschemadropped'] = 'Schema eliminato.';
         $lang['strschemadroppedbad'] = 'Eliminazione dello schema fallita.';
+	$lang['strschemaaltered'] = 'Schema modificato.';
+	$lang['strschemaalteredbad'] = 'Modifica dello schema fallita.';
 
         // Reports - Report
         $lang['strreport'] = 'Report';

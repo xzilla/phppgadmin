@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.88 2004/03/12 08:56:55 chriskl Exp $
+	 * $Id: english.php,v 1.89 2004/04/05 21:22:19 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -153,10 +153,10 @@
 	$lang['strconfemptytable'] = 'Are you sure you want to empty the table &quot;%s&quot;?';
 	$lang['strtableemptied'] = 'Table emptied.';
 	$lang['strtableemptiedbad'] = 'Table empty failed.';
-	$lang['strinsertrow'] = 'Insert Row';
+	$lang['strinsertrow'] = 'Insert row';
 	$lang['strrowinserted'] = 'Row inserted.';
 	$lang['strrowinsertedbad'] = 'Row insert failed.';
-	$lang['streditrow'] = 'Edit Row';
+	$lang['streditrow'] = 'Edit row';
 	$lang['strrowupdated'] = 'Row updated.';
 	$lang['strrowupdatedbad'] = 'Row update failed.';
 	$lang['strdeleterow'] = 'Delete Row';
@@ -166,12 +166,12 @@
 	$lang['strsaveandrepeat'] = 'Insert &amp; Repeat';
 	$lang['strfield'] = 'Field';
 	$lang['strfields'] = 'Fields';
-	$lang['strnumfields'] = 'Num. Of Fields';
+	$lang['strnumfields'] = 'Num. of fields';
 	$lang['strfieldneedsname'] = 'You must name your field.';
 	$lang['strselectallfields'] = 'Select all fields';
 	$lang['strselectneedscol'] = 'You must show at least one column.';
 	$lang['strselectunary'] = 'Unary operators cannot have values.';
-	$lang['straltercolumn'] = 'Alter Column';
+	$lang['straltercolumn'] = 'Alter column';
 	$lang['strcolumnaltered'] = 'Column altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';
 	$lang['strconfdropcolumn'] = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
@@ -195,7 +195,7 @@
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Create DB?';
 	$lang['strexpires'] = 'Expires';
-	$lang['strsessiondefaults'] = 'Session Defaults';
+	$lang['strsessiondefaults'] = 'Session defaults';
 	$lang['strnousers'] = 'No users found.';
 	$lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
@@ -208,7 +208,7 @@
 	$lang['struserdropped'] = 'User dropped.';
 	$lang['struserdroppedbad'] = 'Failed to drop user.';
 	$lang['straccount'] = 'Account';
-	$lang['strchangepassword'] = 'Change Password';
+	$lang['strchangepassword'] = 'Change password';
 	$lang['strpasswordchanged'] = 'Password changed.';
 	$lang['strpasswordchangedbad'] = 'Failed to change password.';
 	$lang['strpasswordshort'] = 'Password is too short.';
@@ -245,7 +245,7 @@
 	$lang['strgranted'] = 'Privileges changed.';
 	$lang['strgrantfailed'] = 'Failed to change privileges.';
 	$lang['strgrantbad'] = 'You must specify at least one user or group and at least one privilege.';
-	$lang['stralterprivs'] = 'Alter Privileges';
+	$lang['stralterprivs'] = 'Alter privileges';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 
@@ -464,8 +464,8 @@
 	$lang['strconfdropschema'] = 'Are you sure you want to drop the schema &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Schema dropped.';
 	$lang['strschemadroppedbad'] = 'Schema drop failed.';
-	$lang['strschemaaltered'] = 'Schema altered';
-	$lang['strschemaalteredbad'] = 'Schema alter failed';
+	$lang['strschemaaltered'] = 'Schema altered.';
+	$lang['strschemaalteredbad'] = 'Schema alter failed.';
 
 	// Reports
 	$lang['strreport'] = 'Report';
