@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.15 2002/11/14 01:04:38 chriskl Exp $
+ * $Id: Postgres72.php,v 1.16 2002/11/18 04:57:33 chriskl Exp $
  */
 
 
@@ -276,6 +276,20 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Grabs a list of indexes for a table
+	 * @param $table The name of a table whose indexes to retrieve
+	 * @return A recordset
+	 */
+	function &getIndexes($table = '') {
+		$this->clean($table);
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid)
+			FROM pg_class c, pg_class c2, pg_index i
+			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
+			ORDER BY c2.relname";
+
+		return $this->selectSet($sql);
+	}
 
 }
 

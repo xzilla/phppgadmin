@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.22 2002/11/14 01:04:38 chriskl Exp $
+ * $Id: Postgres.php,v 1.23 2002/11/18 04:57:33 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -18,7 +18,7 @@ class Postgres extends BaseDB {
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
-	var $ixFields = array('idxname' => 'relname', 'tabname' => 'tab_name', 'columnname' => 'column_name', 'uniquekey' => 'unique_key', 'primarykey' => 'primary_key');
+	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -759,10 +759,21 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * grabs a list of indicies in the database
+	 * Grabs a list of indicies in the database or table
+	 * @param $table (optional) The name of a table to get the indicies for
 	 */
-	function &getIndicies() {
-		if (!$this->_showSystem)
+	function &getIndicies($table = '') {
+		$this->clean($table);
+
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid)
+			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
+			WHERE c.oid = '16977' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
+			ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname";
+
+		
+		if ($table != '')
+			$where = "WHERE relname='{$table}' AND ";
+		elseif (!$this->_showSystem)
 			$where = "WHERE relname NOT LIKE 'pg_%' AND ";
 		else $where  = '';
 		

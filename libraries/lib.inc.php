@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.3 2002/10/23 21:59:14 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.4 2002/11/18 04:57:34 chriskl Exp $
 	 */
 
 	// Create Misc class references
@@ -52,6 +52,10 @@
 			||	!isset($confServers[$_SESSION['webdbServerID']])
 	){
 		include($appBase . '/login.php');
+		// Theme
+		echo "<style type=\"text/css\">\n<!--\n";
+		include("../themes/{$guiTheme}/global.css");
+		echo "\n-->\n</style>\n";
 		exit;
 	}
 	

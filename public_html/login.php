@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.3 2002/05/15 09:57:55 chriskl Exp $
+	 * $Id: login.php,v 1.4 2002/11/18 04:57:34 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,22 +17,23 @@
 	</head>
 	
 	<body>
-		<h1><?= $appName ?> <?= $appVersion ?></h1>
-		<table border="0" cellpadding="0" cellspacing="0" width="350">
+		<table class="navbar" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
 			<tr height="115">
 				<td height="115" align="center" valign="middle">
-					<table border="0" cellpadding="2" cellspacing="0">
-						<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
+					<center>
+					<h1><?= $appName ?> <?= $strLogin ?></h1>
+					<table class="navbar" border="0" cellpadding="5" cellspacing="3">
+						<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">						
 						<tr>
-							<td class="form">Username:</td>
+							<td>Username:</td>
 							<td><input type="text" name="formUsername" value="<?php isset($webdbUsername) ? htmlspecialchars($webdbUsername) : '' ?>" size="24"></td>
 						</tr>
 						<tr>
-							<td class="form">Password:</td>
+							<td>Password:</td>
 							<td><input type="password" name="formPassword" size="24"></td>
 						</tr>
 						<tr>
-							<td class="form">Server:</td>
+							<td>Server:</td>
 							<td><select name="formServer">
 							<?php
 								for ($i = 0; $i < sizeof($confServers); $i++) {
@@ -49,6 +50,7 @@
 						</tr>
 						</form>
 					</table>
+					</center>
 					<script language=javascript>
 						var uname = document.login_form.formUsername;
 						var pword = document.login_form.formPassword;

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.6 2002/11/14 01:04:38 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.7 2002/11/18 04:57:34 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,6 +11,43 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	function doIndicies($msg = '') {
+		global $data, $localData, $misc; 
+		global $PHP_SELF;
+		global $strNoIndicies, $strIndicies, $strOwner, $strActions, $strName;
+		
+		doNav();
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndicies}</h2>\n";
+		
+		$indexes = &$localData->getIndexes($_REQUEST['table']);
+		
+		if ($indexes->recordCount() > 0) {
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">Definition</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
+			$i = 0;
+			
+			while (!$indexes->EOF) {
+				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
+				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">Drop</td>\n"; 
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">Privileges</td></tr>\n"; 
+				
+				$indexes->movenext();
+				$i++;
+			}
+			
+			echo "</table>\n";
+			}
+		else
+			echo "<p>{$strNoIndicies}</p>\n";
+		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createindex&database=", 
+			urlencode( $_REQUEST['database'] ), "&table=", htmlspecialchars($_REQUEST['table']), "\">Create Index</a></p>\n";		
+	}	
 
 	function doExport($msg = '') {
 		global $data, $localData, $misc;
@@ -268,7 +305,7 @@ EOF;
 		
 		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
 		echo "<tr><td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}\">Columns</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indexes\">Indexes</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">Indexes</a></td>";
 		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">Constraints</a></td>";
 		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">Triggers</a></td>";
 		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">Rules</a></td>";
@@ -280,6 +317,9 @@ EOF;
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'indicies':
+			doIndicies();
+			break;
 		case 'export':
 			doExport();
 			break;
