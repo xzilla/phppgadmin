@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.19 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: all_db.php,v 1.20 2003/12/13 08:04:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,18 +21,18 @@
 		global $PHP_SELF, $lang, $_reload_drop_database;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strdatabases']}: ", $misc->printVal($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
-			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
+			echo "<h2>{$lang['strdatabases']}: ", $misc->printVal($_REQUEST['db']), ": {$lang['strdrop']}</h2>\n";
+			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['db'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", 
-				htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"db\" value=\"", 
+				htmlspecialchars($_REQUEST['db']), "\" />\n";
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropDatabase($_POST['database']);
+			$status = $data->dropDatabase($_POST['db']);
 			if ($status == 0) {
 				$_reload_drop_database = true;
 				doDefault($lang['strdatabasedropped']);
@@ -127,7 +127,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['owner']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['encoding']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&database=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;db=",
 					urlencode($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
