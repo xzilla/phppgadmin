@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.4 2002/07/26 09:03:06 chriskl Exp $
+	 * $Id: tables.php,v 1.5 2002/09/09 10:16:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,6 +11,64 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+	
+	/**
+	 * Show confirmation of edit and perform actual update
+	 */
+	function doEditRow($confirm, $msg = '') {
+		global $localData, $database, $misc;
+		global $strField, $strType, $strValue;
+		global $PHP_SELF;
+
+		$key = $_REQUEST['key'];
+
+		if ($confirm) { 
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", htmlspecialchars($_REQUEST['table']), ": Edit Row</h2>\n";
+			$misc->printMsg($msg);
+
+			$rs = &$localData->browseRow($_REQUEST['table'], $key);
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			if ($rs->recordCount() == 1) {
+				echo "<table>\n<tr>";
+				
+				// Output table header
+				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strValue}</th></tr>";
+				
+				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
+				
+				$i = 0;
+				foreach ($rs->f as $k => $v) {
+					$id = (($i % 2) == 0 ? '1' : '2');
+					echo "<tr>\n";
+					echo "<td class=data{$id} nowrap>", htmlspecialchars($k), "</td>";
+					echo "<td class=data{$id} nowrap>Type</td>";
+					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$k}]", $v, 'type goes here'), "</td>";
+					echo "</tr>\n";
+					$i++;
+				}
+				echo "</table></p>\n";
+			}
+			else echo "<p>No data.</p>\n";
+			
+			echo "<input type=hidden name=action value=editrow>\n";
+			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo "<input type=hidden name=offset value=\"", htmlspecialchars($_REQUEST['offset']), "\">\n";
+			echo "<input type=hidden name=limit value=\"", htmlspecialchars($_REQUEST['limit']), "\">\n";
+			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
+			echo "<input type=submit name=choice value=\"Save\"> <input type=submit name=choice value=\"Cancel\">\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->editRow($_POST['table'], $_POST['values'], unserialize($_POST['key']));
+			if ($status == 0)
+				doBrowse('Row updated.');
+			else
+				doBrowse('Row update failed.');
+		}
+		
+	}	
 	
 	/**
 	 * Show confirmation of drop and perform actual drop
@@ -55,7 +113,7 @@
 		$misc->printMsg($msg);
 
 		$rs = &$localData->browseTable($_REQUEST['table'], $_REQUEST['offset'], $_REQUEST['limit']);
-		
+
 		// Fetch unique row identifier, if there is one
 		$key = $localData->getRowIdentifier($_REQUEST['table']);
 		
@@ -86,7 +144,7 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 					
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=editrow&database=", urlencode($_REQUEST['database']),
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&database=", urlencode($_REQUEST['database']),
 						"&table=", urlencode($_REQUEST['table']), "&offset=", $_REQUEST['offset'], "&limit=", $_REQUEST['limit'], "&{$key_str}\">Edit</a></td>\n";
 					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&database=", urlencode($_REQUEST['database']),
 						"&table=", urlencode($_REQUEST['table']), "&offset=", $_REQUEST['offset'], "&limit=", $_REQUEST['limit'], "&{$key_str}\">Delete</a></td>\n";
@@ -139,6 +197,13 @@
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'editrow':
+			if ($_POST['choice'] == 'Save') doEditRow(false);
+			else doBrowse();
+			break;
+		case 'confeditrow':
+			doEditRow(true);
+			break;			
 		case 'delrow':
 			if ($_POST['choice'] == 'Yes') doDelRow(false);
 			else doBrowse();

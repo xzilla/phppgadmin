@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.3 2002/07/26 09:03:06 chriskl Exp $
+ * $Id: BaseDB.php,v 1.4 2002/09/09 10:16:29 chriskl Exp $
  */
 
 include_once('../classes/database/ADODB_base.php');
@@ -37,6 +37,20 @@ class BaseDB extends ADODB_base {
 	function deleteRow($table, $key) {
 		if (!is_array($key)) return -1;
 		else return $this->delete($table, $key);
+	}
+	
+	/**
+	 * Updates a row in a table
+	 * @param $table The table in which to update
+	 * @param $values An array mapping new values for the row
+	 * @param $key An array mapping column => value to update
+	 * @return 0 success
+	 */
+	function editRow($table, $values, $key) {
+		if (!is_array($values) || !is_array($key)) return -1;
+		// @@ WE NEED TO SUPPORT NULL VALUES HERE!
+		// @@ ALSO, WE CANNOT USE update AS WE NEED TO NO QUOTE SOME THINGS
+		else return $this->update($table, $values, $key);
 	}	
 	
 	// Capabilities

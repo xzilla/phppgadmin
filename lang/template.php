@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: template.php,v 1.9 2002/08/30 15:10:09 xzilla Exp $
+	 * $Id: template.php,v 1.10 2002/09/09 10:16:31 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -46,5 +46,10 @@
 
 	// Sequences
 	$strNoSequences = 'No sequences found.';
+	
+	// Tables
+	$strField = 'Field';
+	$strType = 'Type';
+	$strValue = 'Value';
 
 ?>

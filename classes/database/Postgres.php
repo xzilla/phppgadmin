@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.4 2002/09/09 05:08:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.5 2002/09/09 10:16:31 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -85,6 +85,33 @@ class Postgres extends BaseDB {
 			}			
 		}			
 	}
+	
+	/**
+	 * Outputs the HTML code for a particular field
+	 * @param $name The name to give the field
+	 * @param $value The value of the field
+	 * @param $type The database type of the field
+	 */
+	function printField($name, $value, $type) {
+		switch ($type) {
+			case 'bool':
+			case 'boolean':
+				echo "<select name=\"", htmlspecialchars($name), "\">\n";
+				echo "<option value=\"Y\"", ($value) ? ' selected' : '', ">Yes</option>\n";
+				echo "<option value=\"N\"", (!$value) ? ' selected' : '', ">No</option>\n";
+				echo "</select>\n";
+				break;
+			case 'text':
+			case 'bytea':
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=5 cols=35 wrap=virtual>\n";
+				echo htmlspecialchars($value);
+				echo "</textarea>\n";
+				break;
+			default:
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=35>\n";
+				break;
+		}		
+	}	
 
 	/**
 	 * Return all database available on the server
@@ -190,9 +217,26 @@ class Postgres extends BaseDB {
 	 * @return A recordset
 	 */
 	function &browseTable($table, $offset, $limit) {
-		return $this->selectTable("SELECT * FROM \"{$table}\"", $offset, $limit);
+		return $this->selectTable("SELECT oid, * FROM \"{$table}\"", $offset, $limit);
 	}
-	
+
+	/**
+	 * Returns a recordset of all columns in a table
+	 * @param $table The name of a table
+	 * @param $key The associative array holding the key to retrieve
+	 * @return A recordset
+	 */
+	function &browseRow($table, $key) {		
+		$sql = "SELECT * FROM \"{$table}\" WHERE true";
+		foreach ($key as $k => $v) {
+			$this->clean($k);
+			$this->clean($v);
+			$sql .= " AND \"{$k}\"='{$v}'";
+		}
+		
+		return $this->selectSet($sql);
+	}
+
 	/**
 	 *
 	 */

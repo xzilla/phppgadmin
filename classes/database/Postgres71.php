@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.11 2002/07/26 09:03:06 chriskl Exp $
+ * $Id: Postgres71.php,v 1.12 2002/09/09 10:16:31 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -114,20 +114,6 @@ class Postgres71 extends Postgres {
 		return $this->execute($sql);
 	}
 	
-	/**
-	 *
-	 */
-	function &browseTable($table, $offset, $limit) {
-		return $this->selectTable("SELECT * FROM \"{$table}\"", $offset, $limit);
-	}
-	
-	/**
-	 *
-	 */
-	function &selectTable($sql, $offset, $limit) {
-		return $this->selectSet($sql, $offset, $limit);
-	}
-
 	/**
 	 * Adds a check constraint to a table
 	 * @param $table The table to which to add the check
