@@ -1,9 +1,8 @@
 <?php
 /**
  *  FILENAME:   index.php
- *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: indicies.php,v 1.3 2002/10/10 18:13:00 xzilla Exp $
+ *  $Id: indicies.php,v 1.4 2002/10/15 20:46:16 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );

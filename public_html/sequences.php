@@ -1,9 +1,8 @@
 <?php
 /**
  *  FILENAME:   sequence.php
- *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.8 2002/10/03 22:05:14 xzilla Exp $
+ *  $Id: sequences.php,v 1.9 2002/10/15 20:46:17 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );

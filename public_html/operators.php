@@ -1,9 +1,8 @@
 <?php
 /**
  *  FILENAME:   operators.php
- *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: operators.php,v 1.1 2002/10/15 20:27:14 xzilla Exp $
+ *  $Id: operators.php,v 1.2 2002/10/15 20:46:17 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
