@@ -101,7 +101,7 @@ class ADODB_mysql extends ADOConnection {
 	// returns true or false
 	function _connect($argHostname, $argUsername, $argPassword, $argDatabasename)
 	{
-		$this->_connectionID = mysql_connect($argHostname,$argUsername,$argPassword);
+		$this->_connectionID = @mysql_connect($argHostname,$argUsername,$argPassword);
 		if ($this->_connectionID === false) return false;
 		if ($argDatabasename) return $this->SelectDB($argDatabasename);
 		return true;	
@@ -110,7 +110,7 @@ class ADODB_mysql extends ADOConnection {
 	// returns true or false
 	function _pconnect($argHostname, $argUsername, $argPassword, $argDatabasename)
 	{
-		$this->_connectionID = mysql_pconnect($argHostname,$argUsername,$argPassword);
+		$this->_connectionID = @mysql_pconnect($argHostname,$argUsername,$argPassword);
 		if ($this->_connectionID === false) return false;
 		if ($argDatabasename) return $this->SelectDB($argDatabasename);
 		return true;	
