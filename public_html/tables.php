@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.15 2003/01/04 07:08:04 chriskl Exp $
+	 * $Id: tables.php,v 1.16 2003/01/08 05:36:33 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -59,6 +59,8 @@
 					doCreate($strTableNeedsCols);	
 					return;
 				}
+
+				$types = &$localData->getTypes(true);
 	
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
 				$misc->printMsg($msg);
@@ -68,15 +70,13 @@
 				// Output table header
 				echo "<table>\n<tr>";
 				echo "<tr><th colspan=2 class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strLength}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th></tr>";
-								
-				$types = &$localData->getTypes();
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
 					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
 					if (!isset($_REQUEST['default'][$i])) $_REQUEST['default'][$i] = '';
 					echo "<tr><td>", $i + 1, ".&nbsp;</td>";
-					echo "<td><input name=\"field[{$i}]\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+					echo "<td><input name=\"field[{$i}]\" size=\"32\" maxlength={$data->_maxNameLen} value=\"", 
 						htmlspecialchars($_REQUEST['field'][$i]), "\"></td>";
 					echo "<td><select name=\"type[{$i}]\">\n";
 					$types->moveFirst();
@@ -96,12 +96,12 @@
 				}				
 				
 				echo "</table>\n";
-				echo "<input type=hidden name=action value=create>\n";
+				echo "<p><input type=hidden name=action value=create>\n";
 				echo "<input type=hidden name=stage value=3>\n";
 				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 				echo "<input type=hidden name=name value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
 				echo "<input type=hidden name=fields value=\"", htmlspecialchars($_REQUEST['fields']), "\">\n";
-				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset>\n";
+				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset></p>\n";
 				echo "</form>\n";
 								
 				break;
