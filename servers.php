@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.1.2.2 2005/03/08 09:45:22 jollytoad Exp $
+	 * $Id: servers.php,v 1.1.2.3 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -15,11 +15,13 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 	function doLogout() {
-		global $misc, $lang;
+		global $misc, $lang, $_reload_browser;
 		
 		$server_info = $misc->getServerInfo($_REQUEST['logoutServer']);
 		$misc->setServerInfo(null,null,$_REQUEST['logoutServer']);
 		doDefault(sprintf($lang['strlogoutmsg'], $server_info['desc']));
+		
+		$_reload_browser = true;
 	}
 
 	function doDefault($msg = '') {
@@ -79,34 +81,35 @@
 		
 		$servers =& $misc->getServers(true);
 		
-		function notLoggedIn($url, $action, $fields) {
-			if (empty($fields['username']))
-				return '';
-			return $url;
-		}
+		$reqvars = $misc->getRequestVars('server');
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('desc'),
-				'icon'    => 'folder',
-				'url'     => 'redirect.php',
-				'urlvars' => array(
-						'subject' => 'server',
-						'server' => field('id'),
-					),
-			),
-			'expand' => array(
-				'url'     => 'all_db.php',
-				'urlvars' => array(
-							'subject' => 'server',
-							'action' => 'tree',
-							'server' => field('id')
-					),
-				'urlfn'   => 'notLoggedIn',
-			),
+		$attrs = array(
+			'text'   => field('desc'),
+			
+			// Show different icons for logged in/out
+			'icon'   => ifempty(field('username'), 'serverOut', 'server'),
+			
+			'toolTip'=> field('id'),
+			
+			'action' => url('redirect.php',
+							$reqvars,
+							array('server' => field('id'))
+						),
+			
+			// Only create a branch url if the user has
+			// logged into the server.
+			'branch' => ifempty(field('username'), false,
+							url('all_db.php',
+								$reqvars,
+								array(
+									'action' => 'tree',
+									'server' => field('id')
+								)
+							)
+						),
 		);
 		
-		$misc->printTreeXML($servers, $actions);
+		$misc->printTreeXML($servers, $attrs);
 		exit;
 	}
 	

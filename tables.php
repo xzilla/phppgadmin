@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.69.2.1 2005/03/01 10:47:04 jollytoad Exp $
+	 * $Id: tables.php,v 1.69.2.2 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -612,19 +612,19 @@
 		
 		$tables = &$data->getTables();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('relname'),
-				'icon'    => 'tables',
-				'url'     => 'redirect.php',
-				'urlvars' => array(
-						'subject' => 'table',
-						'table'   => field('relname'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('table');
+		
+		$attrs = array(
+			'text'   => field('relname'),
+			'icon'   => 'tables',
+			'toolTip'=> field('relcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array('table' => field('relname'))
+						)
 		);
 		
-		$misc->printTreeXML($tables, $actions);
+		$misc->printTreeXML($tables, $attrs);
 		exit;
 	}
 	

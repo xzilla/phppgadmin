@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.35.4.2 2005/03/08 09:56:37 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35.4.3 2005/03/14 09:57:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -253,34 +253,26 @@
 		
 		$databases = &$data->getDatabases();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('datname'),
-				'icon'    => 'database',
-				'url'     => 'redirect.php',
-				'urlvars' => array(
-						'subject'  => 'database',
-						'database' => field('datname'),
-					),
-			),
-			'expand' => array(
-				'url'     => 'database.php',
-				'urlvars' => array(
-						'subject'  => 'database',
-						'action'   => 'tree',
-						'database' => field('datname'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('database');
+		
+		$attrs = array(
+			'text'   => field('datname'),
+			'icon'   => 'database',
+			'toolTip'=> field('datcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array('database' => field('datname'))
+						),
+			'branch' => url('database.php',
+							$reqvars,
+							array(
+								'action' => 'tree',
+								'database' => field('datname')
+							)
+						),
 		);
 		
-		$opts = array(
-			'postxml' =>
-				"<tree text=\"{$lang['strusers']}\" action=\"users.php?{$misc->href}\" target=\"detail\"/>".
-				"<tree text=\"{$lang['strgroups']}\" action=\"groups.php?{$misc->href}\" target=\"detail\"/>".
-				"<tree text=\"{$lang['strreports']}\" action=\"reports.php?{$misc->href}\" target=\"detail\"/>"
-		);
-		
-		$misc->printTreeXML($databases, $actions, $opts);
+		$misc->printTreeXML($databases, $attrs);
 		exit;
 	}
 

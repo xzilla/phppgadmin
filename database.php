@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65.2.3 2005/03/08 12:27:06 jollytoad Exp $
+	 * $Id: database.php,v 1.65.2.4 2005/03/14 09:58:00 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -718,27 +718,29 @@
 		
 		$schemas = &$data->getSchemas();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('nspname'),
-				'icon'    => 'folder',
-				'url'     => 'redirect.php',
-				'urlvars' => array(
-						'subject' => 'schema',
-						'schema'  => field('nspname')
-					),
-			),
-			'expand' => array(
-				'url'   => 'database.php',
-				'urlvars' => array(
-						'subject' => 'schema',
-						'action'  => 'subtree',
-						'schema'  => field('nspname')
-					),
-			),
+		$reqvars = $misc->getRequestVars('schema');
+		
+		$attrs = array(
+			'text'   => field('nspname'),
+			'icon'   => 'folder',
+			'toolTip'=> field('nspcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array(
+								'subject' => 'schema',
+								'schema'  => field('nspname')
+							)
+						),
+			'branch' => url('database.php',
+							$reqvars,
+							array(
+								'action'  => 'subtree',
+								'schema'  => field('nspname')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($schemas, $actions);
+		$misc->printTreeXML($schemas, $attrs);
 		exit;
 	}
 	
@@ -758,20 +760,23 @@
 		}
 		$items =& new ArrayRecordSet($tabs);
 		
-		$actions = array(
-			'item' => array(
-				'text' => noEscape(field('title')),
-				'icon' => field('icon', 'folder'),
-				'url'  => field('url'),
-				'urlvars' => field('urlvars', array()),
-			),
-			'expand' => array(
-				'url'     => field('url'),
-				'urlvars' => merge(field('urlvars'), array('action' => 'tree')),
-			),
+		$reqvars = $misc->getRequestVars('schema');
+		
+		$attrs = array(
+			'text'   => noEscape(field('title')),
+			'icon'   => field('icon', 'folder'),
+			'action' => url(field('url'),
+							$reqvars,
+							field('urlvars', array())
+						),
+			'branch' => url(field('url'),
+							$reqvars,
+							field('urlvars'),
+							array('action' => 'tree')
+						)
 		);
 		
-		$misc->printTreeXML($items, $actions);
+		$misc->printTreeXML($items, $attrs);
 		exit;
 	}
 	

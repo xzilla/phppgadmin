@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.10 2005/03/09 12:23:00 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.11 2005/03/14 09:57:58 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1165,6 +1165,10 @@
 		 *				'$attr='.
 		 */
 		function printActionUrl(&$action, &$fields, $attr = null) {
+			$url = value($action['url'], $fields);
+			
+			if ($url === false) return '';
+			
 			if (!empty($action['urlvars'])) {
 				$urlvars = value($action['urlvars'], $fields);
 			} else {
@@ -1183,24 +1187,35 @@
 					}
 				}
 			}
-
-			$url = value($action['url'], $fields);
 			
 			$sep = '?';
 			foreach ($urlvars as $var => $varfield) {
 				$url .= $sep . value_url($var, $fields) . '=' . value_url($varfield, $fields);
 				$sep = '&';
 			}
-			if (!empty($action['urlfn'])) {
-				$fn = value($action['urlfn'], $fields);
-				$url = $fn($url, $action, $fields);
-			}
+			
 			$url = htmlentities($url);
 			
 			if ($attr !== null && $url != '')
 				return ' '.$attr.'="'.$url.'"';
 			else
 				return $url;
+		}
+
+		function getRequestVars($subject = '') {
+			$v = array();
+			if (!empty($subject))
+				$v['subject'] = $subject;
+			if (isset($_REQUEST['server']) && $subject != 'root') {
+				$v['server'] = $_REQUEST['server'];
+				if (isset($_REQUEST['database']) && $subject != 'server') {
+					$v['database'] = $_REQUEST['database'];
+					if (isset($_REQUEST['schema']) && $subject != 'database') {
+						$v['schema'] = $_REQUEST['schema'];
+					}
+				}
+			}
+			return $v;
 		}
 		
 		function printUrlVars(&$vars, &$fields) {
@@ -1352,60 +1367,52 @@
 		
 		/** Produce XML data for the browser tree
 		 * @param $treedata A set of records to populate the tree.
-		 * @param $actions The actions to perform for the items,
-		 *        similar to the $actions array given to printTable.
-		 *        Two actions may be specified:
-		 *        'item' - the action from clicking the item,
-		 *        'expand' - the action to return XML for the subtree.
-		 * @param $opts Associative array of optional arguments:
-		 *        'prexml' - static XML to place before items.
-		 *        'postxml' - static XML to place after items.
-		 *        'nodata' - message to display for no records.
+		 * @param $attrs Attributes for tree items
+		 *        'text' - the text for the tree node
+		 *        'icon' - an icon for node
+		 *        'openIcon' - an alternative icon when the node is expanded
+		 *        'toolTip' - tool tip text for the node
+		 *        'action' - URL to visit when single clicking the node
+		 *        'branch' - URL for child nodes (tree XML)
+		 *        'expand' - the action to return XML for the subtree
+		 *        'nodata' - message to display when node has no children
 		 */
-		function printTreeXML(&$treedata, &$actions, $opts = array()) {
+		function printTreeXML(&$treedata, &$attrs) {
 			global $conf, $lang;
 			header("Content-Type: text/xml");
 			header("Cache-Control: no-cache");
 			
 			echo "<?xml version=\"1.0\"?>\n";
-			echo "<tree>\n";
 			
-			if (!empty($opts['prexml'])) echo $opts['prexml'];
+			echo "<tree>\n";
 			
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
-					echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
+					$rec =& $treedata->f;
 					
-					echo $this->printActionUrl($actions['item'], $treedata->f, 'action');
+					echo "<tree";
+					echo value_xml_attr('text', $attrs['text'], $rec);
+					echo value_xml_attr('action', $attrs['action'], $rec);
+					echo value_xml_attr('src', $attrs['branch'], $rec);
 					
-					if (!empty($actions['expand'])) {
-						echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
-					}
+					$icon = $this->icon(value($attrs['icon'], $rec));
+					echo value_xml_attr('icon', $icon, $rec);
 					
-					if (!empty($actions['item']['icon'])) {
-						$icon = $this->icon(value_xml($actions['item']['icon'], $treedata->f));
-						echo " icon=\"{$icon}\"";
+					if (!empty($attrs['openIcon'])) {
+						$icon = $this->icon(value($attrs['openIcon'], $rec));
 					}
-					if (!empty($actions['item']['openIcon'])) {
-						$icon = $this->icon(value_xml($actions['item']['openIcon'], $treedata->f));
-					}
-					if (isset($icon))
-						echo " openIcon=\"{$icon}\"";
+					echo value_xml_attr('openIcon', $icon, $rec);
 					
-					if (!empty($actions['item']['toolTip'])) {
-						echo value_xml_attr('toolTip', $actions['item']['toolTip'], $treedata->f);
-					}
+					echo value_xml_attr('toolTip', $attrs['toolTip'], $rec);
 					
 					echo "/>\n";
 					
 					$treedata->moveNext();
 				}
 			} else {
-				$msg = isset($opts['nodata']) ? $opts['nodata'] : $lang['strnoobjects'];
+				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
 				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('error'), "\"/>\n";
 			}
-			
-			if (!empty($opts['postxml'])) echo $opts['postxml'];
 			
 			echo "</tree>\n";
 		}

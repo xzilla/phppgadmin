@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.25.4.1 2005/03/01 10:47:04 jollytoad Exp $
+	 * $Id: types.php,v 1.25.4.2 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -466,20 +466,22 @@
 		
 		$types = &$data->getTypes();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('basename'),
-				'icon'    => 'types',
-				'url'     => 'types.php',
-				'urlvars' => array(
-						'subject' => 'type',
-						'action'  => 'properties',
-						'type'    => field('basename'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('type');
+		
+		$attrs = array(
+			'text'   => field('basename'),
+			'icon'   => 'types',
+			'toolTip'=> field('typcomment'),
+			'action' => url('types.php',
+							$reqvars,
+							array(
+								'action' => 'properties',
+								'type'   => field('basename')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($types, $actions);
+		$misc->printTreeXML($types, $attrs);
 		exit;
 	}
 	

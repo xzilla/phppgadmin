@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.52.2.1 2005/03/01 10:47:04 jollytoad Exp $
+	 * $Id: views.php,v 1.52.2.2 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -591,19 +591,19 @@
 		
 		$views = &$data->getViews();
 		
-		$actions = array(
-			'item' => array(
-				'text'  => field('relname'),
-				'icon'  => 'views',
-				'url'   => 'redirect.php',
-				'urlvars' => array(
-						'subject' => 'view',
-						'view'    => field('relname'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('view');
+		
+		$attrs = array(
+			'text'   => field('relname'),
+			'icon'   => 'views',
+			'toolTip'=> field('relcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array('view' => field('relname'))
+						)
 		);
 		
-		$misc->printTreeXML($views, $actions);
+		$misc->printTreeXML($views, $attrs);
 		exit;
 	}
 	

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.27.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: sequences.php,v 1.27.4.2 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -76,20 +76,22 @@
 		
 		$sequences = &$data->getSequences();
 		
-		$actions = array(
-			'item' => array(
-				'text'  => field('seqname'),
-				'icon'  => 'sequences',
-				'url'   => 'sequences.php',
-				'urlvars' => array(
-						'subject' => 'sequence',
-						'action' => 'properties',
-						'sequence' => field('seqname'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('sequence');
+		
+		$attrs = array(
+			'text'   => field('seqname'),
+			'icon'   => 'sequences',
+			'toolTip'=> field('seqcomment'),
+			'action' => url('sequences.php',
+							$reqvars,
+							array (
+								'action' => 'properties',
+								'sequence' => field('seqname')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($sequences, $actions);
+		$misc->printTreeXML($sequences, $attrs);
 		exit;
 	}
 	

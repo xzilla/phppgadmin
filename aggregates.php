@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.10.4.2 2005/03/09 12:29:01 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.10.4.3 2005/03/14 09:57:59 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -56,15 +56,13 @@
 		
 		$proto = concat(field('proname'), ' (', field('proargtypes'), ')');
 		
-		$actions = array(
-			'item' => array(
-				'text'    => $proto,
-				'icon'    => 'functions',
-				'toolTip' => field('aggcomment'),
-			),
+		$attrs = array(
+			'text'   => $proto,
+			'icon'   => 'functions',
+			'toolTip'=> field('aggcomment'),
 		);
 		
-		$misc->printTreeXML($aggregates, $actions);
+		$misc->printTreeXML($aggregates, $attrs);
 		exit;
 	}
 	

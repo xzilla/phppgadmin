@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47.4.2 2005/03/09 12:29:01 jollytoad Exp $
+	 * $Id: functions.php,v 1.47.4.3 2005/03/14 09:58:00 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -540,22 +540,23 @@
 		
 		$proto = concat(field('proname'),' (',field('proarguments'),')');
 		
-		$actions = array(
-			'item' => array(
-				'text'    => $proto,
-				'icon'    => 'functions',
-				'toolTip' => field('procomment'),
-				'url'     => 'redirect.php',
-				'urlvars' => array(
-						'subject' => 'function',
-						'action' => 'properties',
-						'function' => $proto,
-						'function_oid' => field('prooid'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('function');
+		
+		$attrs = array(
+			'text'    => $proto,
+			'icon'    => 'functions',
+			'toolTip' => field('procomment'),
+			'action'  => url('redirect.php',
+							$reqvars,
+							array(
+								'action' => 'properties',
+								'function' => $proto,
+								'function_oid' => field('prooid')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($funcs, $actions);
+		$misc->printTreeXML($funcs, $attrs);
 		exit;
 	}
 	

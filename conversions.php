@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.9.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: conversions.php,v 1.9.4.2 2005/03/14 09:58:00 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -63,14 +63,13 @@
 		
 		$conversions = &$data->getconversions();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('conname'),
-				'icon'    => 'conversions',
-			),
+		$attrs = array(
+			'text'   => field('conname'),
+			'icon'   => 'conversions',
+			'toolTip'=> field('concomment')
 		);
 		
-		$misc->printTreeXML($conversions, $actions);
+		$misc->printTreeXML($conversions, $attrs);
 		exit;
 	}
 	

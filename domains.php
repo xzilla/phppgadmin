@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.19.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: domains.php,v 1.19.4.2 2005/03/14 09:58:00 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -433,20 +433,22 @@
 		
 		$domains = &$data->getDomains();
 		
-		$actions = array(
-			'item' => array(
-				'text'    => field('domname'),
-				'icon'    => 'domains',
-				'url'     => 'domains.php',
-				'urlvars' => array(
-						'subject' => 'domain',
-						'action' => 'properties',
-						'domain' => field('domname'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('domain');
+		
+		$attrs = array(
+			'text'   => field('domname'),
+			'icon'   => 'domains',
+			'toolTip'=> field('domcomment'),
+			'action' => url('domains.php',
+							$reqvars,
+							array(
+								'action' => 'properties',
+								'domain' => field('domname')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($domains, $actions);
+		$misc->printTreeXML($domains, $attrs);
 		exit;
 	}
 	

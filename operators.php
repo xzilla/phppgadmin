@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.17.4.2 2005/03/09 12:29:01 jollytoad Exp $
+	 * $Id: operators.php,v 1.17.4.3 2005/03/14 09:58:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -170,22 +170,23 @@
 		// Alternative prototype: "operator (type,type)"
 		#$proto = concat(field('oprname'), ' (', field('oprleftname','NONE'), ',', field('oprrightname','NONE'), ')');
 		
-		$actions = array(
-			'item' => array(
-				'text' => $proto,
-				'icon'    => 'operators',
-				'toolTip' => field('oprcomment'),
-				'url'     => 'operators.php',
-				'urlvars' => array(
-						'subject' => 'operator',
-						'action'  => 'properties',
-						'operator' => $proto,
-						'operator_oid' => field('oid'),
-					),
-			),
+		$reqvars = $misc->getRequestVars('operator');
+		
+		$attrs = array(
+			'text'   => $proto,
+			'icon'   => 'operators',
+			'toolTip'=> field('oprcomment'),
+			'action' => url('operators.php',
+							$reqvars,
+							array(
+								'action'  => 'properties',
+								'operator' => $proto,
+								'operator_oid' => field('oid')
+							)
+						)
 		);
 		
-		$misc->printTreeXML($operators, $actions);
+		$misc->printTreeXML($operators, $attrs);
 		exit;
 	}
 	
