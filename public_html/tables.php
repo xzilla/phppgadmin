@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.16 2003/01/08 05:36:33 chriskl Exp $
+	 * $Id: tables.php,v 1.17 2003/01/09 06:23:05 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -40,7 +40,7 @@
 				echo "</table>\n";
 				echo "<input type=hidden name=action value=create>\n";
 				echo "<input type=hidden name=stage value=2>\n";
-				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo $misc->form;
 				echo "<input type=submit value=\"{$strNext}\"> <input type=reset>\n";
 				echo "</form>\n";
 				break;
@@ -98,7 +98,7 @@
 				echo "</table>\n";
 				echo "<p><input type=hidden name=action value=create>\n";
 				echo "<input type=hidden name=stage value=3>\n";
-				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo $misc->form;
 				echo "<input type=hidden name=name value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
 				echo "<input type=hidden name=fields value=\"", htmlspecialchars($_REQUEST['fields']), "\">\n";
 				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset></p>\n";
@@ -204,7 +204,7 @@
 
 			echo "<p><input type=hidden name=action value=selectrows>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Select\">\n";
 			echo "<input type=submit name=choice value=\"Cancel\"></p>\n";
 			echo "</form>\n";
@@ -280,7 +280,7 @@
 
 			echo "<input type=hidden name=action value=insertrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Save\">\n";
 			echo "<input type=submit name=choice value=\"Save &amp; Repeat\">\n";
 			echo "<input type=submit name=choice value=\"Cancel\">\n";
@@ -310,7 +310,7 @@
 	 * Show confirmation of empty and perform actual empty
 	 */
 	function doEmpty($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -321,7 +321,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=empty>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
@@ -339,7 +339,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -350,7 +350,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
@@ -408,7 +408,7 @@
 
 			echo "<input type=hidden name=action value=editrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
 			echo "<input type=submit name=choice value=\"Save\"> <input type=submit name=choice value=\"Cancel\">\n";
@@ -428,7 +428,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDelRow($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF;
 
 		if ($confirm) { 
@@ -439,7 +439,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=delrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
@@ -475,8 +475,7 @@
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&database=" . 
-				urlencode($_REQUEST['database']) . "&table=" . urlencode($_REQUEST['table']));
+			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&table=" . urlencode($_REQUEST['table']));
 			echo "<table>\n<tr>";
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
@@ -505,10 +504,8 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 					
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&database=", urlencode($_REQUEST['database']),
-						"&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Edit</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&database=", urlencode($_REQUEST['database']),
-						"&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Delete</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Edit</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Delete</a></td>\n";
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
@@ -519,14 +516,14 @@
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
 	}
 
 	/**
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData;
+		global $data, $misc, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
 		global $strBrowse, $strProperties, $strCreateTable;
 		
@@ -542,18 +539,18 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&database=", 
-					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Select</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Insert</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Empty</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Drop</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=", 
+					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=", 
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">Select</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=", 
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">Insert</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=", 
+					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=", 
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">Empty</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=", 
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
 				$i++;
@@ -564,7 +561,7 @@
 			echo "<p>{$strNoTables}</p>\n";
 		}
 
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">{$strCreateTable}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateTable}</a></p>\n";
 	}
 	
 	$misc->printHeader($strTables);
