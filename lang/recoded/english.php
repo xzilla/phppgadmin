@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.51 2003/08/26 05:59:49 chriskl Exp $
+	 * $Id: english.php,v 1.52 2003/08/27 22:52:43 slubek Exp $
 	 */
 
 	// Language and character set
@@ -490,5 +490,6 @@
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
+	$lang['strhelp'] = 'Help';
 
 ?>

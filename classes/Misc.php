@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.41 2003/08/12 08:18:53 chriskl Exp $
+	 * $Id: Misc.php,v 1.42 2003/08/27 22:52:43 slubek Exp $
 	 */
 	 
 	class Misc {
@@ -370,6 +370,21 @@
 				echo "</p></center>\n";
 			}
 		}		
+
+		/**
+		 * Displays link to the context help.if $conf['docsdir'] is set
+		 * @param $url - last part of a document's url (relative to $conf['docsdir'])
+		 */
+
+		function printHelp($url) {
+			global $lang, $conf;
+
+			if (isset($conf['docdir'])) {
+				echo "<p><a href=\"" . $conf['docdir'] . $url . "\" target=\"_blank\">";
+				echo $lang['strhelp'];
+				echo "</a></p>\n";
+			}
+		}
 	
 	}
 ?>
