@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.68 2003/10/26 10:59:17 chriskl Exp $
+	 * $Id: english.php,v 1.69 2003/10/26 12:12:29 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -508,6 +508,13 @@
 	$lang['stroperatordropped'] = 'Operator dropped.';
 	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
 
+	// Casts
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'No casts found.';
+	$lang['strsourcetype'] = 'Source type';
+	$lang['strtargettype'] = 'Target type';
+	$lang['strimplicit'] = 'Implicit';
+	
 	// Info
 	$lang['strnoinfo'] = 'No information available.';
 	$lang['strreferringtables'] = 'Referring tables';

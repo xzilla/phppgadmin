@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.31 2003/10/12 05:46:32 chriskl Exp $
+ * $Id: BaseDB.php,v 1.32 2003/10/26 12:12:28 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -231,7 +231,7 @@ class BaseDB extends ADODB_base {
 	function hasRules() { return false; }
 	function hasLanguages() { return false; }
 	function hasSchemas() { return false; }
-	function hasConversions() { return false; }
+	function hasConversions() { return false; }	
 	function hasGrantOption() { return false; }
 	function hasCluster() { return false; }
 	function hasDropBehavior() { return false; }
@@ -242,6 +242,7 @@ class BaseDB extends ADODB_base {
 	function hasWithoutOIDs() { return false; }
 	function hasAlterTableOwner() { return false; }
 	function hasPartialIndexes() { return false; }
+	function hasCasts() { return false; }
 
 }
 

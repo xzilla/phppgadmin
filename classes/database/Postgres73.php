@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.72 2003/10/26 10:59:16 chriskl Exp $
+ * $Id: Postgres73.php,v 1.73 2003/10/26 12:12:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1263,6 +1263,33 @@ class Postgres73 extends Postgres72 {
 	
 		return $this->selectSet($sql);
 	}
+
+	// Cast functions
+	
+	/**
+	 * Returns a list of all casts in the database
+	 * @return All casts
+	 */	 
+	function &getCasts() {
+	
+		$sql = "
+			SELECT
+				castsource::pg_catalog.regtype AS castsource,
+				casttarget::pg_catalog.regtype AS casttarget,
+				CASE WHEN castfunc = 0 THEN '(binary compatible)'
+				ELSE p.proname
+				END AS castfunc,
+				CASE WHEN c.castcontext = 'e' THEN 'no'
+				WHEN c.castcontext = 'a' THEN 'in assignment'
+				ELSE 'yes'
+				END AS castcontext
+			FROM pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p
+				ON c.castfunc = p.oid
+			ORDER BY 1, 2
+		";
+
+		return $this->selectSet($sql);
+	}	
 		
 	// Capabilities
 	function hasSchemas() { return true; }
@@ -1272,6 +1299,7 @@ class Postgres73 extends Postgres72 {
 	function hasDropColumn() { return true; }
 	function hasDomains() { return true; }
 	function hasAlterTrigger() { return true; }
+	function hasCasts() { return true; }
 
 }
 
