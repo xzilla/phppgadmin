@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.148 2004/07/04 15:02:35 chriskl Exp $
+	 * $Id: english.php,v 1.149 2004/07/05 09:21:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -183,7 +183,7 @@
 	$lang['strselectunary'] = 'Unary operators cannot have values.';
 	$lang['straltercolumn'] = 'Alter column';
 	$lang['strcolumnaltered'] = 'Column altered.';
-	$lang['strcolumnalteredbad'] = 'Column altering failed.';
+	$lang['strcolumnalteredbad'] = 'Column alteration failed.';
 	$lang['strconfdropcolumn'] = 'Are you sure you want to drop column "%s" from table "%s"?';
 	$lang['strcolumndropped'] = 'Column dropped.';
 	$lang['strcolumndroppedbad'] = 'Column drop failed.';
@@ -444,7 +444,7 @@
 	$lang['strtriggerdropped'] = 'Trigger dropped.';
 	$lang['strtriggerdroppedbad'] = 'Trigger drop failed.';
 	$lang['strtriggeraltered'] = 'Trigger altered.';
-	$lang['strtriggeralteredbad'] = 'Trigger alter failed.';
+	$lang['strtriggeralteredbad'] = 'Trigger alteration failed.';
 
 	// Types
 	$lang['strtype'] = 'Type';
@@ -484,7 +484,7 @@
 	$lang['strschemadropped'] = 'Schema dropped.';
 	$lang['strschemadroppedbad'] = 'Schema drop failed.';
 	$lang['strschemaaltered'] = 'Schema altered.';
-	$lang['strschemaalteredbad'] = 'Schema alter failed.';
+	$lang['strschemaalteredbad'] = 'Schema alteration failed.';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -511,9 +511,9 @@
 	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain "%s"?';
 	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
 	$lang['strdomaincreated'] = 'Domain created.';
-	$lang['strdomaincreatedbad'] = 'Failed to create domain.';	
+	$lang['strdomaincreatedbad'] = 'Domain creation failed.';	
 	$lang['strdomainaltered'] = 'Domain altered.';
-	$lang['strdomainalteredbad'] = 'Failed to alter domain.';	
+	$lang['strdomainalteredbad'] = 'Domain alteration failed.';	
 
 	// Operators
 	$lang['stroperator'] = 'Operator';
@@ -601,8 +601,8 @@
 	$lang['strlocation'] = 'Location';
 	$lang['strtablespaceneedsname'] = 'You must give a name for your tablespace.';
 	$lang['strtablespaceneedsloc'] = 'You must give a directory in which to create the tablespace.';
-	$lang['strtablespacecreated'] = 'Tablespace created';
-	$lang['strtablespacecreatedbad'] = 'Tablespace creation failed';
+	$lang['strtablespacecreated'] = 'Tablespace created.';
+	$lang['strtablespacecreatedbad'] = 'Tablespace creation failed.';
 	$lang['strconfdroptablespace'] = 'Are you sure you want to drop the tablespace "%s"?';
 	$lang['strtablespacedropped'] = 'Tablespace dropped.';
 	$lang['strtablespacedroppedbad'] = 'Tablespace drop failed.';

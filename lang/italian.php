@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.32 2004/06/07 11:38:39 soranzo Exp $
+	 * $Id: italian.php,v 1.33 2004/07/05 09:21:10 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -147,7 +147,7 @@
         // Tables - Tabelle
 	$lang['strtable'] = 'Tabella';
 	$lang['strtables'] = 'Tabelle';
-	$lang['strshowalltables'] = 'Mostra tutte le Tabelle';
+	$lang['strshowalltables'] = 'Mostra tutte le tabelle';
 	$lang['strnotables'] = 'Nessuna tabella trovata.';
 	$lang['strnotable'] = 'Tabella non trovata.';
 	$lang['strcreatetable'] = 'Crea tabella';
@@ -594,8 +594,23 @@
 	$lang['strdisk'] = 'Disco';
 	$lang['strrows2'] = 'Righe';
 
+	// Tablespaces
+	$lang['strtablespaces'] = 'Tablespace';
+	$lang['strnotablespaces'] = 'Nessun tablespace trovato.';
+	$lang['strcreatetablespace'] = 'Crea tablespace';
+	$lang['strlocation'] = 'Directory';
+	$lang['strtablespaceneedsname'] = 'È necessario specificare un nome per il tablespace.';
+	$lang['strtablespaceneedsloc'] = 'È necessario specificare una directory in cui creare il tablespace.';
+	$lang['strtablespacecreated'] = 'Tablespace creato.';
+	$lang['strtablespacecreatedbad'] = 'Crezione del tablespace fallita.';
+	$lang['strconfdroptablespace'] = 'Sei sicuro di voler eliminare il tablespace "%s"?';
+	$lang['strtablespacedropped'] = 'Tablespace eliminato.';
+	$lang['strtablespacedroppedbad'] = 'Eliminazione del tablespace fallita.';
+	$lang['strtablespacealtered'] = 'Tablespace modificato.';
+	$lang['strtablespacealteredbad'] = 'Modifica del tablespace fallita.';
+
 	// Miscellaneous - Varie
-        $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Sei entrato come utente "%s", %s';
+        $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s" connesso il %s';
         $lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
 
