@@ -5,20 +5,20 @@ DEVELOPER INFO
  Many great features have been written by other people and you too
  can help to make phpPgAdmin a useful tool.
  
- phpPgAdmin 3.0 has its roots in the phpPgAdmin 2.4 software.  A complete 
+ phpPgAdmin 3 has its roots in the phpPgAdmin 2.4 software.  A complete 
  rewrite was necessary to support PostgreSQL 7.3 and to address problems
  in the phpPgAdmin 2.4 codebase.
  
- If you're planning to contribute source, please read the following 
+ If you're planning to contribute source code, please read the following 
  information:
  
  The following method is preferred for new developers:
   - fetch the current CVS tree over anonymous CVS:
   
-    cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin login
+    cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin login
     [Password: ]  simply press the Enter key!
     
-    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
+    cvs -z3 -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
     [This will create a new sub-directory named phpPgAdmin] 
     
   - Add your stuff
@@ -39,7 +39,7 @@ DEVELOPER INFO
   	login once with ssh to developername@cvs.phppgadmin.sourceforge.net to create required
   	user directories on the server.
   	
-  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
+  	cvs -z3 -d developername@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
   	
   Write access to the CVS tree is granted only to developers who have already
   contributed something useful to phpPgAdmin.  If you're interested in that, 
