@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.15 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: spanish.php,v 1.16 2003/09/05 01:31:25 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,6 @@
 	$lang['stractions'] = 'Acciones';
 	$lang['strname'] = 'Nombre';
 	$lang['strdefinition'] = 'Definición';
-	$lang['stroperators'] = 'Operadores';
 	$lang['straggregates'] = 'Agregados';
 	$lang['strproperties'] = 'Propiedades';
 	$lang['strbrowse'] = 'Examinar';
@@ -43,6 +42,8 @@
 	$lang['strnotnull'] = 'No Nulo';
 	$lang['strprev'] = 'Previo';
 	$lang['strnext'] = 'Próximo';
+        $lang['strfirst'] = '<< Principio';
+        $lang['strlast'] = 'Final >>';
 	$lang['strfailed'] = 'Falló';
 	$lang['strcreate'] = 'Crear';
 	$lang['strcreated'] = 'Creado';
@@ -72,7 +73,7 @@
 	$lang['strqueryresults'] = 'Resultado de la consulta';
 	$lang['strshow'] = 'Mostrar';
 	$lang['strempty'] = 'Vaciar';
-	$lang['strlanguage'] = 'Lenguaje';
+	$lang['strlanguage'] = 'Idioma';
 	$lang['strencoding'] = 'Codificación';
 	$lang['strvalue'] = 'Valor';
 	$lang['strunique'] = 'Único';
@@ -99,6 +100,13 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Colapsar';
+        $lang['strexplain'] = 'Explain';
+        $lang['strfind'] = 'Buscar';
+        $lang['stroptions'] = 'Opciones';
+	$lang['strrefresh'] = 'Refrescar';
+	$lang['strtaller'] = 'Taller';
+	$lang['strshorter'] = 'Más bajo';
+	$lang['strdownload'] = 'Bajar';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicación.';
@@ -152,16 +160,16 @@
 	$lang['strconfdropcolumn'] = '¿Está seguro que quiere eliminar la columna "%s" de la tabla "%s"?';
 	$lang['strcolumndropped'] = 'Columna eliminada.';
 	$lang['strcolumndroppedbad'] = 'Falló la eliminación de columna.';
-	$lang['straddcolumn'] = 'Agregar columna';
+        $lang['straddcolumn'] = 'Agregar Columna';
 	$lang['strcolumnadded'] = 'Columna agregada.';
 	$lang['strcolumnaddedbad'] = 'Falló el agregado de columna.';
 	$lang['strschemaanddata'] = 'Esquema y datos';
 	$lang['strschemaonly'] = 'Esquemas solamente';
 	$lang['strdataonly'] = 'Datos solamente';
 	$lang['strcascade'] = 'CASCADEAR';
+	$lang['strtablealtered'] = 'Tabla modificada.';
+	$lang['strtablealteredbad'] = 'Falló la modificación  de la Tabla.';
 
-	// Users
-	$lang['struseradmin'] = 'Administración de Usuarios';
 	$lang['struser'] = 'Usuario';
 	$lang['strusers'] = 'Usuarios';
 	$lang['strusername'] = 'Nombre de usuario';
@@ -176,8 +184,8 @@
 	$lang['strcreateuser'] = 'Crear Usuario';
 	$lang['strusercreated'] = 'Usuario creado.';
 	$lang['strusercreatedbad'] = 'Falló al crear usuario.';
+        $lang['struserdropped'] = 'Usuario eliminado.';
 	$lang['strconfdropuser'] = '¿Está seguro que quiere eliminar el usuario "%s"?';
-	$lang['struserdropped'] = 'Usuario eliminado.';
 	$lang['struserdroppedbad'] = 'Falló al eliminar el usuario.';
 	$lang['straccount'] = 'Cuenta';
 	$lang['strchangepassword'] = 'Cambiar Contraseña';
@@ -186,10 +194,8 @@
 	$lang['strpasswordshort'] = 'La contraseña es muy corta.';
 	$lang['strpasswordconfirm'] = 'Las contraseñas no coinciden.';
 
-	// Groups
-	$lang['strgroupadmin'] = 'Administración de Grupos';
-	$lang['strgroup'] = 'Grupo';
 	$lang['strgroups'] = 'Grupos';
+        $lang['strgroup'] = 'Grupo';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
 	$lang['strnogroups'] = 'No se encontraron grupos.';
 	$lang['strcreategroup'] = 'Crear Grupo';
@@ -199,6 +205,13 @@
 	$lang['strgroupcreatedbad'] = 'Falló la creación de grupo.';
 	$lang['strconfdropgroup'] = '¿Esta seguro que quiere eliminar el grupo "%s"?';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
+	$lang['straddmember'] = 'Add Member';
+	$lang['strmemberadded'] = 'Member added.';
+	$lang['strmemberaddedbad'] = 'Member add failed.';
+	$lang['strdropmember'] = 'Drop Member';
+	$lang['strconfdropmember'] = 'Are you sure you want to drop the member "%s" from the group "%s"?';
+	$lang['strmemberdropped'] = 'Member dropped.';
+	$lang['strmemberdroppedbad'] = 'Member drop failed.';
 	$lang['strgroupdroppedbad'] = 'Falló la eliminación de grupo.';
 	$lang['strmembers'] = 'Miembros';
 
@@ -210,6 +223,8 @@
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados.';
 	$lang['strgrantfailed'] = 'Falló al intendar otorgar privilegios.';
+        $lang['strgrantor'] = 'Grantor';
+        $lang['strasterisk'] = '*';
 	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
 	$lang['stralterprivs'] = 'Cambiar Privilegios';
 
@@ -368,19 +383,21 @@
 	$lang['strfunctionupdatedbad'] = 'Falló al actualizar la función.';
 
 	// Triggers
-	$lang['strtrigger'] = 'Disparador';
-	$lang['strtriggers'] = 'Disparadores';
-	$lang['strshowalltriggers'] = 'Mostrar todos los disparadores';
-	$lang['strnotrigger'] = 'No se encontró el disparador.';
-	$lang['strnotriggers'] = 'No se encontraron disparadores.';
-	$lang['strcreatetrigger'] = 'Crear Disparador';
-	$lang['strtriggerneedsname'] = 'Debe darle un nombre al disparador.';
-	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el disparador.';
-	$lang['strtriggercreated'] = 'Disparador creado.';
-	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
-	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el disparador "%s" en "%s"?';
-	$lang['strtriggerdropped'] = 'Disparador eliminado.';
-	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
+	$lang['strtrigger'] = 'Gatillo';
+	$lang['strtriggers'] = 'Gatillos';
+	$lang['strshowalltriggers'] = 'Mostrar todos los gatillos';
+	$lang['strnotrigger'] = 'No se encontró el gatillo.';
+	$lang['strnotriggers'] = 'No se encontraron gatillos.';
+	$lang['strcreatetrigger'] = 'Crear Gatillo';
+	$lang['strtriggerneedsname'] = 'Debe darle un nombre al gatillo.';
+	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el gatillo.';
+	$lang['strtriggercreated'] = 'Gatillo creado.';
+	$lang['strtriggercreatedbad'] = 'Falló la creación del gatillo.';
+	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el gatillo "%s" en "%s"?';
+        $lang['strtriggeraltered'] = 'Gatillo modificado.';
+        $lang['strtriggeralteredbad'] = 'Falló la modificación del gatillo.';
+	$lang['strtriggerdropped'] = 'Gatillo eliminado.';
+	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el gatillo.';
 
 	// Types
 	$lang['strtype'] = 'Tipo';
@@ -431,11 +448,43 @@
 	$lang['strconfdropreport'] = '¿Está seguro que quiere eliminar el reporte "%s"?';
 	$lang['strreportneedsname'] = 'Debe especificar un nombre para el reporte.';
 	$lang['strreportneedsdef'] = 'Debe especificar un SQL para el reporte.';
+        $lang['strsaveasreport'] = 'Guardar como reporte';
 	$lang['strreportcreated'] = 'Reporte guardado.';
 	$lang['strreportcreatedbad'] = 'Falló al guardar el reporte.';
+	$lang['strdomain'] = 'Domain';
+	$lang['strdomains'] = 'Domains';
+	$lang['strshowalldomains'] = 'Show all domains';
+	$lang['strnodomains'] = 'No domains found.';
+	$lang['strcreatedomain'] = 'Create Domain';
+	$lang['strdomaindropped'] = 'Domain dropped.';
+	$lang['strdomaindroppedbad'] = 'Domain drop failed.';
+	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain "%s"?';
+	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
+	$lang['strdomaincreated'] = 'Domain created.';
+	$lang['strdomaincreatedbad'] = 'Failed to create domain.';
+	$lang['strdomainaltered'] = 'Domain altered.';
+	$lang['strdomainalteredbad'] = 'Failed to alter domain.';
+
+	// Operators
+        $lang['stroperator'] = 'Operador';
+	$lang['stroperators'] = 'Operadores';
+	$lang['strshowalloperators'] = 'Show all operators';
+	$lang['strnooperator'] = 'No operator found.';
+	$lang['strnooperators'] = 'No operators found.';
+	$lang['strcreateoperator'] = 'Create Operator';
+	$lang['stroperatorname'] = 'Operator name';
+	$lang['strleftarg'] = 'Left Arg Type';
+	$lang['strrightarg'] = 'Right Arg Type';
+	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
+	$lang['stroperatorcreated'] = 'Operator created';
+	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';
+	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator "%s"?';
+	$lang['stroperatordropped'] = 'Operator dropped.';
+	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted está logueado con usuario "%s", %s';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
+	$lang['strhelp'] = 'Ayuda';
 
 ?>
