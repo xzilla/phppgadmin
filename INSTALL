@@ -21,3 +21,6 @@ WebDB Installation Guide
    magic_quotes_gpc Off
    url_fopen Off
 
+4. Browse to the phpPgAdmin installation using a web browser.  You must
+   have cookies enabled for phpPgAdmin to work.
+
