@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.6 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: views.php,v 1.7 2003/03/18 03:30:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -188,7 +188,7 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc={$lang['strback']}\">{$lang['strbrowse']}</a></td>\n";
-				echo "<td class=opbutton{$id}>Select</td>\n";
+				echo "<td class=opbutton{$id}>{$lang['strselect']}</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"privileges.php?{$misc->href}&object=", urlencode($views->f[$data->vwFields['vwname']]),
