@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.35 2003/01/11 04:32:39 chriskl Exp $
+	 * $Id: english.php,v 1.36 2003/01/11 07:38:54 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -236,5 +236,9 @@
 	$strSchemaCreatedBad = 'Schema creation failed.';
 	$strShowAllSchemas = 'Show All Schemas';
 	$strSchemaNeedsName = 'You must give a name for your schema.';
+	
+	// Miscellaneous
+	$strTopBar = '%s running on %s:%s -- You are logged in as user "%s", %s';
+	$strTimeFmt = 'jS M, Y g:iA';
 
 ?>
