@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.8 2005/03/08 10:48:11 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.9 2005/03/09 10:18:39 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1360,9 +1360,10 @@
 		 * @param $opts Associative array of optional arguments:
 		 *        'prexml' - static XML to place before items.
 		 *        'postxml' - static XML to place after items.
+		 *        'nodata' - message to display for no records.
 		 */
 		function printTreeXML(&$treedata, &$actions, $opts = array()) {
-			global $conf;
+			global $conf, $lang;
 			header("Content-Type: text/xml");
 			header("Cache-Control: no-cache");
 			
@@ -1371,28 +1372,33 @@
 			
 			if (!empty($opts['prexml'])) echo $opts['prexml'];
 			
-			while (!$treedata->EOF) {
-				echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
-				
-				echo $this->printActionUrl($actions['item'], $treedata->f, 'action');
-				
-				if (!empty($actions['expand'])) {
-					echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
-				}
-				
-				if (!empty($actions['item']['icon'])) {
-					$icon = $this->icon(value_xml($actions['item']['icon'], $treedata->f));
-					echo " icon=\"{$icon}\"";
-				}
-				if (!empty($actions['item']['openIcon'])) {
-					$icon = $this->icon(value_xml($actions['item']['openIcon'], $treedata->f));
-				}
-				if (isset($icon))
-					echo " openIcon=\"{$icon}\"";
+			if ($treedata->recordCount() > 0) {
+				while (!$treedata->EOF) {
+					echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
 					
-				echo "/>\n";
-				
-				$treedata->moveNext();
+					echo $this->printActionUrl($actions['item'], $treedata->f, 'action');
+					
+					if (!empty($actions['expand'])) {
+						echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
+					}
+					
+					if (!empty($actions['item']['icon'])) {
+						$icon = $this->icon(value_xml($actions['item']['icon'], $treedata->f));
+						echo " icon=\"{$icon}\"";
+					}
+					if (!empty($actions['item']['openIcon'])) {
+						$icon = $this->icon(value_xml($actions['item']['openIcon'], $treedata->f));
+					}
+					if (isset($icon))
+						echo " openIcon=\"{$icon}\"";
+						
+					echo "/>\n";
+					
+					$treedata->moveNext();
+				}
+			} else {
+				$msg = isset($opts['nodata']) ? $opts['nodata'] : $lang['strnoobjects'];
+				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('error'), "\"/>\n";
 			}
 			
 			if (!empty($opts['postxml'])) echo $opts['postxml'];
