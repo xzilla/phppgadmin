@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.5 2003/02/16 22:03:43 slubek Exp $
+	 * $Id: polish.php,v 1.6 2003/02/20 23:15:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -109,8 +109,15 @@
 	$strField = 'Pole';
 	$strFields = 'Pola';
 	$strNumFields = 'Ilo&#347;&#263; p&oacute;l';
+	$strFieldNeedsName = 'Musisz nazwa&#263; pole';
         $strSelectNeedsCol = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
-	
+	$strAlterColumn = 'Zmie&#324; kolumn&#281;'
+	$strColumnAltered = 'Kolumna zmodyfikowana.';
+	$strColumnAlteredBad = 'Operacja modyfikacji kolumny si&#281; nie powiod&#322;a.';
+	$strConfDropColumn = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tablicy &quot;%s&quot;?';
+	$strColumnDropped = 'Kolumna usuni&#281;ta.';
+	$strColumnDroppedBad = 'Operacja usuni&#281;cia kolumny si&#281; nie powiod&#322;a.';
+
 	// Users
 	$strUserAdmin = 'Administracja kontami u&#380;ytkownik&oacute;w';
 	$strUser = 'U&#380;ytkownik';
@@ -121,7 +128,9 @@
 	$strCreateDB = 'Tworzenie BD?';
 	$strExpires = 'Wygasa';	
 	$strNoUsers = 'Nie znaleziono u&#380;ytkownik&oacute;w.';
-
+	$strUserUpdated = 'Parametry u&#380;ytkownika zaktualizowane.';
+	$strUserUpdatedBad = 'Operacja aktualizacji parametr&oacute;w u&#380;ytkownika si&#281; nie powiod&#322;a.';
+	
 	// Groups
 	$strGroupAdmin = 'Administracja grupami u&#380;ytkownik&oacute;w';
 	$strGroup = 'Grupa';
@@ -180,6 +189,8 @@
 	$strConfDropView = 'Czy na pewno chcesz usun&#261;&#263; widok &quot;%s&quot;?';
 	$strViewDropped = 'Widok usuni&#281;ty.';
 	$strViewDroppedBad = 'Pr&oacute;ba usuni&#281;cia widoku si&#281; nie powiod&#322;a.';
+	$strViewUpdated = 'Widok zaktualizowany.';
+	$strViewUpdatedBad = 'Pr&oacute;ba aktualizacji widoku si&#281; nie powiod&#322;a.';
 
 	// Sequences
 	$strSequence = 'Sekwencja';
@@ -268,6 +279,8 @@
         $strConfDropFunction = 'Czy na pewno chcesz usun&#261;&#263; funkcj&#281; &quot;%s&quot;?';
 	$strFunctionDropped = 'Funkcja usuni&#281;ta.';
 	$strFunctionDroppedBad = 'Operacja usuni&#281;cia funkcji si&#281; nie powiod&#322;a.';
+	$strFunctionUpdated = 'Funkcja zaktualizowana.';
+	$strFunctionUpdatedBad = 'Operacja aktualizacji funkcji si&#281; nie powiod&#322;a.';
 
 	// Triggers
 	$strTrigger = 'Procedura wyzwalana';

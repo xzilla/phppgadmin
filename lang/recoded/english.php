@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.8 2003/02/16 05:31:26 chriskl Exp $
+	 * $Id: english.php,v 1.9 2003/02/20 23:15:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -109,8 +109,15 @@
 	$strField = 'Field';
 	$strFields = 'Fields';
 	$strNumFields = 'Num. Of Fields';
+	$strFieldNeedsName = 'You must name your field';
 	$strSelectNeedsCol = 'You must show at least one column';
-
+	$strAlterColumn = 'Alter Column';
+	$strColumnAltered = 'Column Altered.';
+	$strColumnAlteredBad = 'Column altering failed.';
+        $strConfDropColumn = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
+	$strColumnDropped = 'Column dropped.';
+	$strColumnDroppedBad = 'Column drop failed.';
+			
 	// Users
 	$strUserAdmin = 'User Admin';
 	$strUser = 'User';
@@ -121,7 +128,9 @@
 	$strCreateDB = 'Create DB?';
 	$strExpires = 'Expires';
 	$strNoUsers = 'No users found.';
-
+        $strUserUpdated = 'User updated.';
+	$strUserUpdatedBad = 'User update failed.';
+		
 	// Groups
 	$strGroupAdmin = 'Group Admin';
 	$strGroup = 'Group';
@@ -180,6 +189,8 @@
 	$strConfDropView = 'Are you sure you want to drop the view &quot;%s&quot;?';
 	$strViewDropped = 'View dropped.';
 	$strViewDroppedBad = 'View drop failed.';
+	$strViewUpdated = 'View updated.';
+	$strViewUpdatedBad = 'View update failed.';
 
 	// Sequences
 	$strSequence = 'Sequence';
@@ -268,6 +279,8 @@
 	$strConfDropFunction = 'Are you sure you want to drop the function &quot;%s&quot;?';
 	$strFunctionDropped = 'Function dropped.';
 	$strFunctionDroppedBad = 'Function drop failed.';
+	$strFunctionUpdated = 'Function updated.';
+	$strFunctionUpdatedBad = 'Function update failed.';
 
 	// Triggers
 	$strTrigger = 'Trigger';

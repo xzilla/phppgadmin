@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.11 2003/02/16 22:03:43 slubek Exp $
+	 * $Id: polish.php,v 1.12 2003/02/20 23:15:15 slubek Exp $
 	 */
 
 	// Language and character set
@@ -109,8 +109,15 @@
 	$strField = 'Pole';
 	$strFields = 'Pola';
 	$strNumFields = 'Ilo¶æ pól';
+	$strFieldNeedsName = 'Musisz nazwaæ pole';
         $strSelectNeedsCol = 'Musisz wybraæ przynajmniej jedn± kolumnê';
-	
+	$strAlterColumn = 'Zmieñ kolumnê'
+	$strColumnAltered = 'Kolumna zmodyfikowana.';
+	$strColumnAlteredBad = 'Operacja modyfikacji kolumny siê nie powiod³a.';
+	$strConfDropColumn = 'Czy na pewno chcesz usun±æ kolumnê "%s" z tablicy "%s"?';
+	$strColumnDropped = 'Kolumna usuniêta.';
+	$strColumnDroppedBad = 'Operacja usuniêcia kolumny siê nie powiod³a.';
+
 	// Users
 	$strUserAdmin = 'Administracja kontami u¿ytkowników';
 	$strUser = 'U¿ytkownik';
@@ -121,7 +128,9 @@
 	$strCreateDB = 'Tworzenie BD?';
 	$strExpires = 'Wygasa';	
 	$strNoUsers = 'Nie znaleziono u¿ytkowników.';
-
+	$strUserUpdated = 'Parametry u¿ytkownika zaktualizowane.';
+	$strUserUpdatedBad = 'Operacja aktualizacji parametrów u¿ytkownika siê nie powiod³a.';
+	
 	// Groups
 	$strGroupAdmin = 'Administracja grupami u¿ytkowników';
 	$strGroup = 'Grupa';
@@ -180,6 +189,8 @@
 	$strConfDropView = 'Czy na pewno chcesz usun±æ widok "%s"?';
 	$strViewDropped = 'Widok usuniêty.';
 	$strViewDroppedBad = 'Próba usuniêcia widoku siê nie powiod³a.';
+	$strViewUpdated = 'Widok zaktualizowany.';
+	$strViewUpdatedBad = 'Próba aktualizacji widoku siê nie powiod³a.';
 
 	// Sequences
 	$strSequence = 'Sekwencja';
@@ -268,6 +279,8 @@
         $strConfDropFunction = 'Czy na pewno chcesz usun±æ funkcjê "%s"?';
 	$strFunctionDropped = 'Funkcja usuniêta.';
 	$strFunctionDroppedBad = 'Operacja usuniêcia funkcji siê nie powiod³a.';
+	$strFunctionUpdated = 'Funkcja zaktualizowana.';
+	$strFunctionUpdatedBad = 'Operacja aktualizacji funkcji siê nie powiod³a.';
 
 	// Triggers
 	$strTrigger = 'Procedura wyzwalana';
