@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.38 2003/08/05 06:04:36 chriskl Exp $
+	 * $Id: Misc.php,v 1.39 2003/08/06 07:04:44 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -60,6 +60,11 @@
 						if ($str == 't') return $lang['strtrue'];
 						elseif ($str == 'f') return $lang['strfalse'];
 						else return nl2br(htmlspecialchars($str));
+						break;
+					case 'bytea':
+						// addCSlashes converts all weird ASCII characters to octal representation,
+						// EXCEPT the 'special' ones like \r \n \t, etc.
+						return htmlspecialchars(addCSlashes($str, "\0..\37\177..\377"));
 						break;
 					default:
 						if (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || ereg('^[ ]', $str)) {

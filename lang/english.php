@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.92 2003/08/06 02:09:25 chriskl Exp $
+	 * $Id: english.php,v 1.93 2003/08/06 07:04:45 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -104,6 +104,7 @@
 	$lang['strexplain'] = 'Explain';
 	$lang['strfind'] = 'Find';
 	$lang['stroptions'] = 'Options';
+	$lang['strrefresh'] = 'Refresh';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';

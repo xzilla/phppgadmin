@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.28 2003/08/04 08:27:27 chriskl Exp $
+	 * $Id: tables.php,v 1.29 2003/08/06 07:04:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -613,7 +613,9 @@
 							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
-				while(list($k, $v) = each($rs->f)) {
+				$j = 0;
+				foreach ($rs->f as $k => $v) {
+					$finfo = $rs->fetchField($j++);
 					if ($k == $localData->id && !$conf['show_oids']) continue;
 					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
 					else {
@@ -621,7 +623,7 @@
 						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {							
 							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
 						}
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true), "</td>";
+						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true, $finfo->type), "</td>";
 					}
 				}
 				echo "</tr>\n";
@@ -643,11 +645,14 @@
 		if ($_REQUEST['strings'] == 'expanded')
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
 				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=collapsed&page=", $_REQUEST['page'], "\">{$lang['strcollapse']}</a></p>\n";
+				"&strings=collapsed&page=", $_REQUEST['page'], "\">{$lang['strcollapse']}</a>\n";
 		else
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
 				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=expanded&page=", $_REQUEST['page'], "\">{$lang['strexpand']}</a></p>\n";
+				"&strings=expanded&page=", $_REQUEST['page'], "\">{$lang['strexpand']}</a>\n";
+		echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
+				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
+				"&strings={$_REQUEST['strings']}&page=", $_REQUEST['page'], "\">{$lang['strrefresh']}</a></p>\n";
 		
 	}
 

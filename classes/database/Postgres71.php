@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.36 2003/08/04 08:27:27 chriskl Exp $
+ * $Id: Postgres71.php,v 1.37 2003/08/06 07:04:45 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -208,12 +208,14 @@ class Postgres71 extends Postgres {
 		$temp = array();
 
 		// Strict
+		$f['proisstrict'] = $this->phpBool($f['proisstrict']);
 		if ($f['proisstrict'])
 			$temp[] = 'ISSTRICT';
 		else
 			$temp[] = '';
 		
 		// Cachable
+		$f['proiscachable'] = $this->phpBool($f['proiscachable']);
 		if ($f['proiscachable'])
 			$temp[] = 'ISCACHABLE';
 		else
@@ -303,6 +305,7 @@ class Postgres71 extends Postgres {
 	function hasAggregates() { return true; }
 	function hasRules() { return true; }
 	function hasSchemas() { return false; }
+	function hasAlterTableOwner() { return true; }
 
 }
 

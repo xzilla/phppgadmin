@@ -21,11 +21,13 @@ Features:
 * Allow creating tables WITHOUT OIDS
 * Show boolean values as TRUE or FALSE when viewing data
 * Allow renaming table and changing table owner
+* Refresh feature on table browse
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
 * Boolean default values and general boolean field handling fixes
 * Support zero column tables
+* Correctly display the contents of bytea fields
 
 Version 3.0
 -----------
