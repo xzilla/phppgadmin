@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.172 2004/01/03 07:19:29 chriskl Exp $
+ * $Id: Postgres.php,v 1.173 2004/01/03 19:15:44 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2320,7 +2320,9 @@ class Postgres extends BaseDB {
 	 * @return All users
 	 */
 	function &getUsers() {
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_user ORDER BY usename";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil";
+		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
+		$sql .= " FROM pg_user ORDER BY usename";
 		
 		return $this->selectSet($sql);
 	}
@@ -2333,7 +2335,9 @@ class Postgres extends BaseDB {
 	function &getUser($username) {
 		$this->clean($username);
 		
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_user WHERE usename='{$username}'";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil";
+		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
+		$sql .= " FROM pg_user WHERE usename='{$username}'";
 		
 		return $this->selectSet($sql);
 	}
@@ -3510,6 +3514,8 @@ class Postgres extends BaseDB {
 	function hasDropColumn() { return false; }
 	function hasSRFs() { return true; }
 	function hasOpClasses() { return true; }
+	function hasUserSessionDefaults() { return false; }
+
 }
 
 ?>

@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.18 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: italian.php,v 1.19 2004/01/03 19:15:45 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -192,6 +192,7 @@
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Pu&ograve; creare DB?';
 	$lang['strexpires'] = 'Scadenza';
+	$lang['strsessiondefaults'] = 'Defaults della sessione';
 	$lang['strnousers'] = 'Nessun utente trovato';
 	$lang['struserupdated'] = 'Utente aggiornato.';
 	$lang['struserupdatedbad'] = 'Aggiornamento utente fallito.';

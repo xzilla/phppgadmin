@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.34 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.35 2004/01/03 19:15:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -60,7 +60,7 @@
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
-			if ($data->hasAlterTableOwner()) {
+			if ($data->hasAlterTableOwner() && $data->isSuperUser($_SESSION['webdbUsername'])) {
 				echo "<tr><th class=\"data required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {

@@ -12,6 +12,7 @@ Features
 * Display aggregates and operator classes
 * Integration with the PostgreSQL statistics collector.  See
   table and index performance and usage information.
+* Display user session defaults for PostgreSQL >= 7.3
 
 Bugs
 * Object browser fixed for databases with no schemas

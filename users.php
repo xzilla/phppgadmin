@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.21 2004/01/03 07:24:19 chriskl Exp $
+	 * $Id: users.php,v 1.22 2004/01/03 19:15:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -32,12 +32,15 @@
 			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
-			echo "</table>\n";
+			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
+			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
+			echo "</tr>\n";
+			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td>\n";
+			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['udefaults']]), "</td>\n";
+			echo "</tr>\n</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
@@ -259,20 +262,22 @@
 		
 		if ($users->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th>";
-			echo "<th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
+			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			while (!$users->EOF) {
 				$users->f[$data->uFields['usuper']] = $data->phpBool($users->f[$data->uFields['usuper']]);
 				$users->f[$data->uFields['ucreatedb']] = $data->phpBool($users->f[$data->uFields['ucreatedb']]);
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uexpires']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;username=",
+				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uname']]), "</td>\n";
+				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uexpires']]), "</td>\n";
+				if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['udefaults']]), "</td>\n";
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;username=",
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['stralter']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$users->moveNext();
