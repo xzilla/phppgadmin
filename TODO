@@ -52,6 +52,7 @@ Functions
 ---------
 
 * Browse function (set-returning-functions only)
+* Syntax highlighting?
 
 Indexes 
 -------
@@ -121,6 +122,7 @@ Miscellaneous
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * pg_dump integration
+* Config option to disallow pgsql and postgres logins
 
 Exotic
 ------
@@ -129,6 +131,7 @@ Exotic
 * -Search for object feature (chriskl)
 * Pivot reports (ADODB has a feature for this)
 * Parameratised reports (use prepared queries)
+* Full web accessability conformance
 
 Principles
 ----------

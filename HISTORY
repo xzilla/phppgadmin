@@ -8,6 +8,8 @@ Bug Fixes:
 * Table browsing for 7.4 fixed
 * Synch script for translators disabled due to bugginess.  If you want
   to use it, just comment out the warning lines from the script itself.
+* Change HTML download to XHTML and make it a 100% conforming document, with DTD
+* Alter XML format to allow future features
 
 Translations:
 * Trad. Chinese

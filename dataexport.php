@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: dataexport.php,v 1.1 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: dataexport.php,v 1.2 2003/09/22 06:21:11 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -75,8 +75,10 @@
 				echo "\\.\n";
 			}
 			elseif ($_REQUEST['format'] == 'html') {
-				echo "<html>\r\n";
+				echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n";
+				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n";
 				echo "<head>\r\n";
+				echo "\t<title></title>\r\n";
 				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$localData->codemap[$dbEncoding]}\" />\r\n";
 				echo "</head>\r\n";
 				echo "<body>\r\n";
@@ -112,7 +114,7 @@
 				if (isset($localData->codemap[$dbEncoding]))
 					echo " encoding=\"{$localData->codemap[$dbEncoding]}\"";
 				echo " ?>\n";
-				echo "<records>\n";
+				echo "<data>\n";
 				if (!$rs->EOF) {
 					// Output header row
 					$j = 0;
@@ -125,19 +127,21 @@
 					}
 					echo "\t</header>\n";
 				}
+				echo "\t<records>\n";
 				while (!$rs->EOF) {
 					$j = 0;
-					echo "\t<row>\n";
+					echo "\t\t<row>\n";
 					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						$name = htmlspecialchars($finfo->name);
 						if ($v != null) $v = htmlspecialchars($v);
-						echo "\t\t<column name=\"{$name}\"", ($v == null ? ' null="null"' : ''), ">{$v}</column>\n";
+						echo "\t\t\t<column name=\"{$name}\"", ($v == null ? ' null="null"' : ''), ">{$v}</column>\n";
 					}
-					echo "\t</row>\n";
+					echo "\t\t</row>\n";
 					$rs->moveNext();
 				}
-				echo "</records>\n";
+				echo "\t</records>\n";
+				echo "</data>\n";
 			}
 			elseif ($_REQUEST['format'] == 'sql') {
 				$data->fieldClean($_REQUEST['table']);
@@ -236,7 +240,7 @@
 		}
 		echo "<option value=\"csv\">CSV</option>\n";
 		echo "<option value=\"tab\">Tabbed</option>\n";
-		echo "<option value=\"html\">HTML</option>\n";
+		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
 		echo "<tr><th class=\"data\">{$lang['strdownload']}</th><td><input type=\"checkbox\" name=\"download\" /></td></tr>";

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.24 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.25 2003/09/22 06:21:11 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -101,7 +101,7 @@
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
 		echo "<option value=\"tab\">Tabbed</option>\n";
-		echo "<option value=\"html\">HTML</option>\n";
+		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
 		echo "<tr><th class=\"data\">OIDS:</th><td><input type=\"checkbox\" name=\"oids\" /></td></tr>";
