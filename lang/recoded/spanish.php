@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Robert Treat [xzilla@users.sourceforge.net]
 	 *
-	 * $Id: spanish.php,v 1.2 2003/03/13 01:49:20 chriskl Exp $
+	 * $Id: spanish.php,v 1.3 2003/03/13 01:50:44 chriskl Exp $
 	 */
 
 	$appLang = 'Spanish';
@@ -12,13 +12,13 @@
 
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strLogin = 'Login';
-	$strNoTables = &quot;No se han encontrado tablas.&quot;;
+	$strNoTables = 'No se han encontrado tablas.';
 	$strNoViews = 'No views found.';
 	$strNoFunctions = 'No se han encontrado funci&amp;oacute;nes.';
 	$strOwner = 'Owner';
-	$strActions = &quot;Acci&amp;oacute;nes&quot;;
+	$strActions = 'Acci&amp;oacute;nes';
 	$strName = 'Nombre';
-	$strTable = &quot;Tabla &quot;;
+	$strTable = 'Tabla ';
 	$strTables = 'Tablas';
 	$strView = 'View';
 	$strViews = 'Views';
@@ -26,8 +26,8 @@
 	$strTriggers = 'Triggers';
 	$strRules = 'Rules';
 	$strSequences = 'Sequences';
-	$strFunction = &quot;Funci&amp;oacute;n&quot;;
-	$strFunctions = &quot;Funci&amp;oacute;nes&quot;;
+	$strFunction = 'Funci&amp;oacute;n';
+	$strFunctions = 'Funci&amp;oacute;nes';
 	$strOperators = 'Operators';
 	$strTypes = 'Tipos';
 	$strAggregates = 'Aggregates';
@@ -48,9 +48,9 @@
 	$strNoSequences = 'No sequences found.';
 	
 	// Tables
-	$strField = &quot;Campo&quot;;
-	$strType = &quot;Tipo&quot;;
-	$strValue = &quot;Valor&quot;;
+	$strField = 'Campo';
+	$strType = 'Tipo';
+	$strValue = 'Valor';
 
 	// Functions
 	$strReturns = 'Returns';
