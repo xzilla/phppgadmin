@@ -123,6 +123,7 @@ Miscellaneous
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * pg_dump integration
 * Config option to disallow pgsql and postgres logins
+* Do David Smith's redireect idea to prevent refresh login resending password
 
 Exotic
 ------
