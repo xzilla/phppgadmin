@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.12 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: operators.php,v 1.13 2004/06/27 06:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stroperators']}: ", $misc->printVal($_REQUEST['operator']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators'], $misc->printVal($_REQUEST['operator']), $lang['strproperties']), 'operators');
 		$misc->printMsg($msg);
 		
 		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
@@ -70,7 +70,7 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stroperators']}: ", $misc->printVal($_REQUEST['operator']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators'], $misc->printVal($_REQUEST['operator']), $lang['strdrop']), 'drop_operator');
 			
 			echo "<p>", sprintf($lang['strconfdropoperator'], $misc->printVal($_REQUEST['operator'])), "</p>\n";	
 			
@@ -104,7 +104,7 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stroperators']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['stroperators']), 'operators');
 		$misc->printMsg($msg);
 		
 		$operators = &$data->getOperators();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.16 2004/05/08 15:21:42 chriskl Exp $
+	 * $Id: types.php,v 1.17 2004/06/27 06:26:23 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -23,8 +23,8 @@
 		// Get type (using base name)
 		$typedata = &$data->getType($_REQUEST['type']);
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: ", 
-				$misc->printVal($typedata->f['typname']), ": {$lang['strproperties']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes'], 
+				$misc->printVal($typedata->f['typname']), $lang['strproperties']), 'types');
 		$misc->printMsg($msg);
 		
 		
@@ -58,7 +58,7 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: ", $misc->printVal($_REQUEST['type']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes'], $misc->printVal($_REQUEST['type']), $lang['strdrop']), 'drop_type');
 
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
@@ -105,7 +105,7 @@
 		$funcs = &$data->getFunctions(true);
 		$types = &$data->getTypes(true);
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: {$lang['strcreatetype']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes'], $lang['strcreatetype']), 'create_type');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -215,7 +215,7 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes']), 'types');
 		$misc->printMsg($msg);
 		
 		$types = &$data->getTypes();

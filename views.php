@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.43 2004/06/07 20:03:20 soranzo Exp $
+	 * $Id: views.php,v 1.44 2004/06/27 06:26:23 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strselect']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strselect']), 'select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['view']);
@@ -129,7 +129,7 @@
 		global $PHP_SELF, $lang, $_reload_browser;
 
 		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strdrop']),'drop_view');
 			
 			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -170,7 +170,7 @@
 			if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
 			if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 			
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateviewwiz']), 'create_view');		
 			$misc->printMsg($msg);
 			
 			$tblCount = sizeof($_POST['formTables']);
@@ -303,7 +303,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		$tables = &$data->getTables(true);				
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateviewwiz']), 'create_view');		
 		$misc->printMsg($msg);
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
@@ -345,9 +345,8 @@
 		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
 		if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['strcreateview']), 'create_view');
 		
-		//$misc->printHelp("/sql-createview.html#R2-SQL-CREATEVIEW-1");
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -513,7 +512,7 @@
 		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews']), 'views');
 		$misc->printMsg($msg);
 		
 		$views = &$data->getViews();

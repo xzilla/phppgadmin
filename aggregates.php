@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.3 2004/05/08 14:44:56 chriskl Exp $
+	 * $Id: aggregates.php,v 1.4 2004/06/27 06:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 		global $data, $conf, $misc;
 		global $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['straggregates']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['straggregates']), 'aggregates');
 		$misc->printMsg($msg);
 		
 		$aggregates = &$data->getAggregates();
