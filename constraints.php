@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.37 2004/08/30 10:15:48 soranzo Exp $
+	 * $Id: constraints.php,v 1.38 2004/09/01 11:21:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -408,8 +408,8 @@
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -529,7 +529,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
