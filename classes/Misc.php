@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.37 2003/07/28 07:50:32 chriskl Exp $
+	 * $Id: Misc.php,v 1.38 2003/08/05 06:04:36 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -43,21 +43,35 @@
 		 * Replace all spaces with &nbsp; in a string
 		 * @param $str The string to change
 		 * @param $shownull True to show NULLs, false otherwise
+		 * @param $type Field type if available, other NULL
 		 * @return The string with replacements
 		 */
-		function printVal($str, $shownull = false) {
+		function printVal($str, $shownull = false, $type = null) {
+			global $lang;
+			
 			// If the string contains at least one instance of >1 space in a row, a tab character, a
 			// space at the start of a line, or a space at the start of the whole string then
 			// substitute all spaces for &nbsp;s
 			if ($str === null && $shownull) return '<i>NULL</i>';
-			elseif (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || ereg('^[ ]', $str)) {
-				$str = str_replace(' ', '&nbsp;', htmlspecialchars($str));
-				// Replace tabs with 8 spaces
-				$str = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $str);
-				return nl2br($str);
+			else {
+				switch ($type) {
+					case 'bool':
+					case 'boolean':
+						if ($str == 't') return $lang['strtrue'];
+						elseif ($str == 'f') return $lang['strfalse'];
+						else return nl2br(htmlspecialchars($str));
+						break;
+					default:
+						if (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || ereg('^[ ]', $str)) {
+							$str = str_replace(' ', '&nbsp;', htmlspecialchars($str));
+							// Replace tabs with 8 spaces
+							$str = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $str);
+							return nl2br($str);
+						}
+						else
+							return nl2br(htmlspecialchars($str));					
+					}						
 			}
-			else
-				return nl2br(htmlspecialchars($str));
 		}
 
 		/**

@@ -19,6 +19,7 @@ Features:
 * Default database encoding for languages
 * Convert our images to PNG format
 * Allow creating tables WITHOUT OIDS
+* Show boolean values as TRUE or FALSE when viewing data
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

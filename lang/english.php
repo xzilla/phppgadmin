@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.90 2003/08/01 01:45:30 chriskl Exp $
+	 * $Id: english.php,v 1.91 2003/08/05 06:04:36 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -63,8 +63,8 @@
 	$lang['strreferences'] = 'References';
 	$lang['stryes'] = 'Yes';
 	$lang['strno'] = 'No';
-	$lang['strtrue'] = 'True';
-	$lang['strfalse'] = 'False';
+	$lang['strtrue'] = 'TRUE';
+	$lang['strfalse'] = 'FALSE';
 	$lang['stredit'] = 'Edit';
 	$lang['strcolumns'] = 'Columns';
 	$lang['strrows'] = 'row(s)';
