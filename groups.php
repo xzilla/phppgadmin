@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.13 2003/09/18 08:07:04 chriskl Exp $
+	 * $Id: groups.php,v 1.14 2003/11/03 19:53:45 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -88,7 +88,7 @@
 		else echo "<p>{$lang['strnousers']}</p>\n";
 
 		// Display form for adding a user to the group			
-		echo "<p><form action=\"{$PHP_SELF}\" method=\"post\">\n";
+		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<select name=\"user\">";
 		while (!$users->EOF) {
 			$uname = $misc->printVal($users->f[$data->uFields['uname']]);
@@ -101,7 +101,7 @@
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
-		echo "</form></p>\n";
+		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
 	}
@@ -152,21 +152,21 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-		echo "<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+		echo "\t\t<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), "\" /></td>\n\t</tr>\n";
 		if ($users->recordCount() > 0) {
-			echo "<tr><th class=\"data\">{$lang['strmembers']}</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strmembers']}</th>\n";
 
-			echo "<td class=\"data\">\n";
-			echo "<select name=\"members[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
+			echo "\t\t<td class=\"data\">\n";
+			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
 				$username = $users->f[$data->uFields['uname']];
-				echo "<option value=\"{$username}\"",
+				echo "\t\t\t\t<option value=\"{$username}\"",
 						(in_array($username, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($username), "</option>\n";
 				$users->moveNext();
 			}
-			echo "</select>\n";
-			echo "</td></tr>\n";
+			echo "\t\t\t</select>\n";
+			echo "\t\t</td>\n\t</tr>\n";
 			}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
