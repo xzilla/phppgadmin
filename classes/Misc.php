@@ -2,13 +2,44 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.6 2003/01/04 07:08:02 chriskl Exp $
+	 * $Id: Misc.php,v 1.7 2003/01/08 06:45:41 chriskl Exp $
 	 */
 	 
 	class Misc {
+		// Tracking string to include in HREFs 
+		var $href;
+		// Tracking string to include in forms
+		var $form;
 		
-		/* Empty constructor */
-		function Misc() {}
+		/* Constructor */
+		function Misc() {
+			$this->setHREF();
+			$this->setForm();
+		}
+
+		/**
+		 * Sets the href tracking variable
+		 */
+		function setHREF() {
+			$this->href = '';
+			if (isset($_REQUEST['database'])) {
+				$this->href .= 'database=' . urlencode($_REQUEST['database']);
+				if (isset($_REQUEST['schema']))
+					$this->href .= '&schema=' . urlencode($_REQUEST['schema']);
+			}
+		}
+
+		/**
+		 * Sets the form tracking variable
+		 */
+		function setForm() {
+			$this->form = '';
+			if (isset($_REQUEST['database'])) {
+				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\">\n";;
+				if (isset($_REQUEST['schema']))
+					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\">\n";;
+			}
+		}
 
 		/**
 		 * A function to recursively strip slashes.  Used to
@@ -30,7 +61,7 @@
 		 * @param $msg The message to print
 		 */
 		function printMsg($msg) {
-			if ($msg != '') echo "<p class=message>", htmlspecialchars($msg), "</p>\n";
+			if ($msg != '') echo "<p class=\"message\">", htmlspecialchars($msg), "</p>\n";
 		}
 		
 		/**
