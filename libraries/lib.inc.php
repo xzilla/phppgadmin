@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.46 2003/05/12 02:07:17 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.47 2003/05/17 15:53:31 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -172,7 +172,7 @@
 		// Set client encoding to database encoding
 		if ($dbEncoding != '') {
 			$status = $localData->setClientEncoding($dbEncoding);
-			if ($status != 0) {
+			if ($status != 0 && $status != -99) {
 				echo $lang['strbadencoding'];
 				exit;
 			}
