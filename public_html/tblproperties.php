@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.18 2003/01/09 06:32:37 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.19 2003/01/11 08:32:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -159,7 +159,7 @@
 					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td>\n";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=priviledges_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
-				
+
 				$indexes->movenext();
 				$i++;
 			}
@@ -205,7 +205,7 @@
 	}	
 
 	/**
-	 * Displays a screen where they can enter a new table
+	 * Displays a screen where they can alter a column
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;

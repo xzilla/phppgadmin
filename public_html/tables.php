@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.18 2003/01/11 04:32:39 chriskl Exp $
+	 * $Id: tables.php,v 1.19 2003/01/11 08:32:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -286,9 +286,9 @@
 			echo "<input type=hidden name=action value=insertrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strSave}\">\n";
+			echo "<p><input type=submit name=choice value=\"{$strSave}\">\n";
 			echo "<input type=submit name=choice value=\"{$strSaveAndRepeat}\">\n";
-			echo "<input type=submit name=choice value=\"{$strCancel}\">\n";
+			echo "<input type=submit name=choice value=\"{$strCancel}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -490,7 +490,7 @@
 	function doBrowse($msg = '') {
 		global $data, $localData, $misc, $guiMaxRows, $strBrowse;
 		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables, $strRows;
-		global $strInvalidParam;
+		global $strNoData;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strBrowse}</h2>\n";
 		$misc->printMsg($msg);
@@ -510,7 +510,7 @@
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
 				if ($k == $localData->id && !$guiShowOIDs) continue;
-				echo "<th class=data>", htmlspecialchars($k), "</td>";
+				echo "<th class=data>", htmlspecialchars($k), "</th>";
 			}
 			
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
@@ -525,7 +525,8 @@
 				echo "<tr>\n";
 				while(list($k, $v) = each($rs->f)) {
 					if ($k == $localData->id && !$guiShowOIDs) continue;
-					echo "<td class=data{$id} nowrap>", nl2br(htmlspecialchars($v)), "</td>";
+					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
+					else echo "<td class=data{$id} nowrap>", nl2br(htmlspecialchars($v)), "</td>";
 				}							
 				if (sizeof($key) > 0) {
 					$key_str = '';
@@ -544,7 +545,7 @@
 			echo "</table>\n";
 			echo "<p>", $rs->recordCount(), " {$strRows}</p>\n";
 		}
-		else echo "<p>{$strInvalidParam}</p>\n";
+		else echo "<p>{$strNoData}</p>\n";
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
 	}
