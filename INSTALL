@@ -3,13 +3,14 @@ phpPgAdmin Installation Guide
 
 1. Unpack your download
 
-   tar -xvzf phppgadmin-*.tar.gz
+   tar -xvzf phpPgAdmin-*.tar.gz
 
 2. Configure phpPgAdmin
 
-   cp phppgadmin/conf/config.inc.php-dist phppgadmin/conf/config.inc.php
+   edit phppgadmin/conf/config.inc.php
 
-   Then edit config.inc.php and configure phgPgAdmin to your requirements.
+   If you mess up the configuration file, you can recover it from the
+   config.inc.php-dist file.
 
 3. Set up the reports database.
 
