@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.9 2003/01/14 22:16:43 xzilla Exp $
+	 * $Id: Misc.php,v 1.10 2003/01/16 15:20:25 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -105,8 +105,17 @@
 				if ($doBody) echo "<body>\n";
 			}
 		}
-		
-		/** 
+
+		/**
+		 * Prints the page footer
+		 * @param $doBody True to output body tag, false otherwise
+		 */
+		function printFooter($doBody = true) {
+			if ($doBody) echo "</body>\n";
+			echo "</html>\n";
+		}
+
+		/**
 		 * Display the navigation header for tables
 		 */
 		function printTableNav() {
@@ -124,14 +133,20 @@
 			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";
 		}
-		
+
 		/**
-		 * Prints the page footer
-		 * @param $doBody True to output body tag, false otherwise
+		 * Display the navigation header for tables
 		 */
-		function printFooter($doBody = true) {
-			if ($doBody) echo "</body>\n";
-			echo "</html>\n";
+		function printDatabaseNav() {
+			global $strSchemas, $strExport, $strPrivileges;
+
+			$vars = 'database=' . urlencode($_REQUEST['database']);
+
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
+			echo "<tr><td width=\"33%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
+			echo "<td width=\"33%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"33%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "</table>\n";
 		}
 
 		/**
