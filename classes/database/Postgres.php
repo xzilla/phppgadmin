@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.127 2003/07/28 07:50:32 chriskl Exp $
+ * $Id: Postgres.php,v 1.128 2003/07/29 00:37:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2003,8 +2003,8 @@ class Postgres extends BaseDB {
 			list ($entity, $chars) = explode('=', $v);
 			
 			// New row to be added to $temp
-			// (type, grantee, privilegs, grantor, grant option
-			$row = array($atype, $entity, array(), '', false);
+			// (type, grantee, privileges, grantor, grant option?
+			$row = array($atype, $entity, array(), '', array());
 
 			// Loop over chars and add privs to $row
 			for ($i = 0; $i < strlen($chars); $i++) {
@@ -2012,15 +2012,17 @@ class Postgres extends BaseDB {
 				// the privilege
 				$char = substr($chars, $i, 1);
 				if ($char == '*')
-					$row[4] = true;
+					$row[4][] = $this->privmap[substr($chars, $i - 1, 1)];
 				elseif ($char == '/') {
-					$row[5] = substr($chars, $i + 1);
+					$row[3] = substr($chars, $i + 1);
 					break;
 				}
-				if (!isset($this->privmap[$char]))
-					return -3;
-				else
-					$row[2][] = $this->privmap[$char];
+				else {
+					if (!isset($this->privmap[$char]))
+						return -3;
+					else
+						$row[2][] = $this->privmap[$char];
+				}
 			}
 			
 			// Append row to temp
