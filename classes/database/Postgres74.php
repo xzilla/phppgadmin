@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.11 2003/08/12 01:33:56 chriskl Exp $
+ * $Id: Postgres74.php,v 1.12 2003/09/03 03:14:16 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -65,6 +65,26 @@ class Postgres74 extends Postgres73 {
 		return $this->selectSet($sql);
 	}	
 
+	// Index functions
+	
+	/**
+	 * Grabs a list of indexes for a table
+	 * @param $table The name of a table whose indexes to retrieve
+	 * @return A recordset
+	 */
+	function &getIndexes($table = '') {
+		$this->clean($table);
+
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) as pg_get_indexdef
+			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
+			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
+			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
+			AND NOT i.indisprimary
+			ORDER BY i.indisunique DESC, c2.relname";
+
+		return $this->selectSet($sql);
+	}
+
 	// View functions
 	
 	/**
@@ -114,7 +134,7 @@ class Postgres74 extends Postgres73 {
 
 		$sql = "SELECT
 				conname,
-				pg_catalog.pg_get_constraintdef(oid) AS consrc,
+				pg_catalog.pg_get_constraintdef(oid, true) AS consrc,
 				contype
 			FROM
 				pg_catalog.pg_constraint
@@ -141,7 +161,7 @@ class Postgres74 extends Postgres73 {
 			SELECT
 				conname,
 				contype,
-				pg_catalog.pg_get_constraintdef(oid) AS consrc
+				pg_catalog.pg_get_constraintdef(oid, true) AS consrc
 			FROM
 				pg_catalog.pg_constraint
 			WHERE
