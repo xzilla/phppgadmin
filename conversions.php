@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.3 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: conversions.php,v 1.4 2004/04/17 12:59:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,6 +29,7 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strsourceencoding']}</th>";
 			echo "<th class=\"data\">{$lang['strtargetencoding']}</th><th class=\"data\">{$lang['strdefault']}</th>";
+			echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$conversions->EOF) {
@@ -38,6 +39,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['conforencoding']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['contoencoding']), "</td>\n";
 				echo "<td class=\"data{$id}\">", ($conversions->f['condefault']) ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['concomment']), "</td>\n";
 				echo "</tr>\n";
 				$conversions->moveNext();
 				$i++;

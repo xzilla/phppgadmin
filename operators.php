@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.10 2003/12/21 02:03:15 chriskl Exp $
+	 * $Id: operators.php,v 1.11 2004/04/17 12:59:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -113,7 +113,7 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['stroperator']}</th><th class=\"data\">{$lang['strleftarg']}</th>";
 			echo "<th class=\"data\">{$lang['strrightarg']}</th><th class=\"data\">{$lang['strreturns']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th><th class=\"data\">{$lang['strcomment']}</th\n";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$operators->EOF) {
@@ -126,6 +126,7 @@
 					urlencode($operators->f['oprname']), "&operator_oid=", urlencode($operators->f['oid']), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;operator=",
 					urlencode($operators->f['oprname']), "&operator_oid=", urlencode($operators->f['oid']), "\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($operators->f['oprcomment']), "</td>\n";
 				echo "</tr>\n";
 				$operators->moveNext();
 				$i++;

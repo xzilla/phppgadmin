@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.2 2003/12/17 09:11:32 chriskl Exp $
+ * $Id: Connection.php,v 1.3 2004/04/17 12:59:04 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -66,4 +66,14 @@ class Connection {
 			return 'Postgres75';
 	}
 
+	/** 
+	 * Get the last error in the connection
+	 * @return Error string
+	 */
+	function getLastError() {		
+		if (function_exists('pg_errormessage'))
+			return pg_errormessage($this->conn->_connectionID);
+		else
+			return pg_last_error($this->conn->_connectionID);
+	}
 }

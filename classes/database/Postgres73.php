@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.92 2004/03/31 07:46:39 chriskl Exp $
+ * $Id: Postgres73.php,v 1.93 2004/04/17 12:59:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -346,12 +346,16 @@ class Postgres73 extends Postgres72 {
 	function &getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname, tablename, tableowner FROM pg_catalog.pg_tables 
+			$sql = "SELECT schemaname, tablename, tableowner,  FROM pg_catalog.pg_tables 
 				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 				ORDER BY schemaname, tablename";
 		} else {
-			$sql = "SELECT tablename, tableowner FROM pg_catalog.pg_tables
-				WHERE schemaname='{$this->_schema}' ORDER BY tablename";
+			$sql = "SELECT c.relname AS tablename, pg_catalog.pg_get_userbyid(c.relowner) AS tableowner, 
+						pg_catalog.obj_description(c.oid, 'pg_class') AS tablecomment
+					FROM pg_catalog.pg_class c
+					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+					WHERE c.relkind = 'r'
+					AND nspname='{$this->_schema}'";
 		}		
 
 		return $this->selectSet($sql);
@@ -1369,7 +1373,8 @@ class Postgres73 extends Postgres72 {
 				po.oprname,
 				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
 				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
-				po.oprresult::pg_catalog.regtype AS resultname
+				po.oprresult::pg_catalog.regtype AS resultname,
+		        pg_catalog.obj_description(po.oid, 'pg_operator') AS oprcomment
 			FROM
 				pg_catalog.pg_operator po
 			WHERE
@@ -1470,7 +1475,8 @@ class Postgres73 extends Postgres72 {
 			       c.conname,
 			       pg_catalog.pg_encoding_to_char(c.conforencoding) AS conforencoding,
 			       pg_catalog.pg_encoding_to_char(c.contoencoding) AS contoencoding,
-			       c.condefault
+			       c.condefault,
+			       pg_catalog.obj_description(c.oid, 'pg_conversion') AS concomment
 			FROM pg_catalog.pg_conversion c, pg_catalog.pg_namespace n
 			WHERE n.oid = c.connamespace
 			      AND n.nspname='{$this->_schema}'
@@ -1524,7 +1530,8 @@ class Postgres73 extends Postgres72 {
 					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype
 					THEN NULL
 					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
-				END AS proargtypes
+				END AS proargtypes,
+				pg_catalog.obj_description(p.oid, 'pg_proc') AS aggcomment
 			FROM pg_catalog.pg_proc p
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
 			WHERE

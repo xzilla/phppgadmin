@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.52 2004/01/18 10:39:45 chriskl Exp $
+ * $Id: Postgres71.php,v 1.53 2004/04/17 12:59:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -352,7 +352,8 @@ class Postgres71 extends Postgres {
 				CASE a.aggbasetype
 					WHEN 0 THEN NULL
 					ELSE format_type(a.aggbasetype, NULL)
-				END AS proargtypes
+				END AS proargtypes,
+				(SELECT description FROM pg_description pd WHERE a.oid=pd.objoid) AS aggcomment
 			FROM 
 				pg_aggregate a
 			{$where}

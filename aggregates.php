@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.1 2003/12/24 11:12:20 chriskl Exp $
+	 * $Id: aggregates.php,v 1.2 2004/04/17 12:59:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,6 +27,7 @@
 		if ($aggregates->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strtype']}</th>";
+			echo "<th class=\"data\">{$lang['strcomment']}</th>";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$aggregates->EOF) {
@@ -39,6 +40,7 @@
 				else
 					echo $misc->printVal($aggregates->f['proargtypes']);
 				echo "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($aggregates->f['aggcomment']), "</td>\n";
 				echo "</tr>\n";
 				$aggregates->moveNext();
 				$i++;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.191 2004/04/12 06:30:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.192 2004/04/17 12:59:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -976,9 +976,13 @@ class Postgres extends BaseDB {
 	 */
 	function &getTables($all = false) {
 		global $conf;
-		if (!$conf['show_system'] || $all) $where = "WHERE tablename NOT LIKE 'pg\\\\_%' ";
+		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
-		$sql = "SELECT NULL AS schemaname, tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
+		
+		$sql = "SELECT NULL AS schemaname, c.relname AS tablename, 
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS tableowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS tablecomment
+			 FROM pg_class c WHERE c.relkind='r' {$where}ORDER BY relname";
 		return $this->selectSet($sql);
 	}
 
@@ -2114,15 +2118,23 @@ class Postgres extends BaseDB {
 	function &getViews() {
 		global $conf;
 
-		$where = "WHERE (c.relkind = 'v'::\"char\")";
 		if (!$conf['show_system'])
-			$where .= " AND (c.relname NOT LIKE 'pg\\\\_%')";
+			$where = " WHERE viewname NOT LIKE 'pg\\\\_%'";
+		else
+			$where = '';
+
+		$sql = "SELECT viewname, viewowner, definition,
+						(SELECT description FROM pg_description pd, pg_class pc 
+						WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+					FROM pg_views v
+					{$where}
+					ORDER BY viewname";
+
 		
-		$sql = "SELECT viewname, viewowner, description as comment
-                        FROM pg_class c 
-			JOIN pg_views v ON ((v.viewname = c.relname) AND (viewowner = pg_get_userbyid(c.relowner)))
-                        LEFT JOIN pg_description d ON (d.objoid = c.oid)
-			{$where} 
+		$sql = "SELECT c.relname AS viewname, pg_get_userbyid(c.relowner) AS viewowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS comment
+                FROM pg_class c 
+			WHERE c.relkind = 'v' {$where} 
 			ORDER BY c.relname";
 
 		return $this->selectSet($sql);
@@ -2136,11 +2148,12 @@ class Postgres extends BaseDB {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT viewname, viewowner, definition, description as comment
-                        FROM pg_class c 
-			JOIN pg_views v ON ((v.viewname = c.relname) AND (viewowner = pg_get_userbyid(c.relowner)))
-                        LEFT JOIN pg_description d ON (d.objoid = c.oid)
-			WHERE (c.relname = '$view')";
+		$sql = "SELECT viewname, viewowner, definition,
+						(SELECT description FROM pg_description pd, pg_class pc 
+						WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+					FROM pg_views v
+					WHERE viewname='{$view}'";
+			
 		return $this->selectSet($sql);
 	}	
 
@@ -2368,7 +2381,8 @@ class Postgres extends BaseDB {
 				po.oprname,
 				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
 				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname,
+				(SELECT description FROM pg_description pd WHERE po.oid=pd.objoid) AS oprcomment
 			FROM
 				pg_operator po
 			{$where}				
@@ -3570,7 +3584,8 @@ class Postgres extends BaseDB {
 				CASE a.aggbasetype
 					WHEN 0 THEN NULL
 					ELSE (SELECT typname FROM pg_type t WHERE t.oid=a.aggbasetype)
-				END AS proargtypes
+				END AS proargtypes,
+				(SELECT description FROM pg_description pd WHERE a.oid=pd.objoid) AS aggcomment
 			FROM 
 				pg_aggregate a
 			{$where}

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.48 2004/04/01 15:53:01 soranzo Exp $
+	 * $Id: tables.php,v 1.49 2004/04/17 12:59:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -459,7 +459,7 @@
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr>\n\t<th class=\"data\">{$lang['strtable']}</th>\n\t<th class=\"data\">{$lang['strowner']}</th>\n";
-			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n</tr>\n";
+			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n\t<th class=\"data\">{$lang['strcomment']}</th>\n</tr>\n";
 			$i = 0;
 			while (!$tables->EOF) {
 				$return_url = urlencode("tables.php?{$misc->href}");
@@ -479,6 +479,7 @@
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
+				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f['tablecomment']), "</td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
 				$i++;
