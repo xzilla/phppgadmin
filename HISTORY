@@ -42,6 +42,8 @@ Bugs
 * Fix bug where views appeared as tables in 7.0.x search results
 * Fix bug where find object SQL on < 7.2 was broken
 * Fix Find for domain constraints
+* Fix popup SQL window so that two different phpPgAdmin instances should
+  not want to use the same pop-up.
 
 Translations
 * Trad. Chinese from Chih-Hsin Lee

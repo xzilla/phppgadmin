@@ -3,11 +3,14 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.21 2004/05/08 13:06:09 chriskl Exp $
+	 * $Id: topbar.php,v 1.22 2004/05/28 08:41:58 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
+	
+	// To prevent SQL popup windows from conflicting
+	$window_id = "sqledit_{$_SESSION['webdbServerID']}_" . rand();
 	
 	$misc->printHeader();
 	$misc->printBody('topbar');
@@ -39,8 +42,8 @@
 <?php if ($conf['show_reports']) : ?>
 			<a class="toplink" href="reports.php" target="detail"><?php echo $lang['strreports'] ?></a> |
 <?php endif; ?>
-			<a class="toplink" href="sqledit.php" target="sqledit" onclick="window.open('sqledit.php?action=sql<?php echo $dbselected ?>&<?php echo SID ?>','sqledit','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;"><?php echo $lang['strsql'] ?></a> |
-			<a class="toplink" href="sqledit.php" target="sqledit" onclick="window.open('sqledit.php?action=find<?php echo $dbselected ?>&<?php echo SID ?>','sqledit','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;"><?php echo $lang['strfind'] ?></a> |			
+			<a class="toplink" href="sqledit.php" target="sqledit" onclick="window.open('sqledit.php?action=sql<?php echo $dbselected ?>&<?php echo SID ?>','<?php echo htmlspecialchars($window_id) ?>','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;"><?php echo $lang['strsql'] ?></a> |
+			<a class="toplink" href="sqledit.php" target="sqledit" onclick="window.open('sqledit.php?action=find<?php echo $dbselected ?>&<?php echo SID ?>','<?php echo htmlspecialchars($window_id) ?>','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;"><?php echo $lang['strfind'] ?></a> |			
 			<a class="toplink" href="logout.php" target="_parent"><?php echo $lang['strlogout'] ?></a>
 		</td>
 	</tr>
