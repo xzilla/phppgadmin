@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.56 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.57 2004/08/05 01:44:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -273,7 +273,7 @@
 
 				echo "<td><input name=\"length\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>";
-				// Support for adding column with not null and default (7.5+ only)
+				// Support for adding column with not null and default
 				if ($data->hasAlterColumnType()) {					
 					echo "<td><input type=\"checkbox\" name=\"notnull\"", 
 						(isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
@@ -383,7 +383,7 @@
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
 					
-				// Column type.  On 7.5+ this can be altered
+				// Column type
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = &$data->getTypes(true, false, true);

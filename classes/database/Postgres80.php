@@ -1,14 +1,14 @@
 <?php
 
 /**
- * PostgreSQL 7.5 support
+ * PostgreSQL 8.0 support
  *
- * $Id: Postgres75.php,v 1.16 2004/08/04 02:07:03 chriskl Exp $
+ * $Id: Postgres80.php,v 1.1 2004/08/05 01:44:13 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
 
-class Postgres75 extends Postgres74 {
+class Postgres80 extends Postgres74 {
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.
@@ -24,7 +24,7 @@ class Postgres75 extends Postgres74 {
 	);
 
 	// Last oid assigned to a system object
-	var $_lastSystemOID = 17137;
+	var $_lastSystemOID = 17226;
 
 	// Default help URL
 	var $help_base = 'http://developer.postgresql.org/docs/postgres/';
@@ -33,7 +33,7 @@ class Postgres75 extends Postgres74 {
 	 * Constructor
 	 * @param $conn The database connection
 	 */
-	function Postgres75($conn) {
+	function Postgres80($conn) {
 		$this->Postgres74($conn);
 	}
 

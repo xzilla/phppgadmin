@@ -37,22 +37,15 @@ Tables
 ------
 
 * Allow PK and UNIQUE and FKs during create table
-* -Not using proper attFields array for attribute info (i was being lazy) (wontfix)
-* -Rename table
-* -Change table owner
-* -Cluster support
-*  Vacuum & analyze individual tables
+* Vacuum & analyze individual tables
 * -ORDER BY in Select function (can do so after the fact now - chriskl)
-* -Unify Select and Browse functions (chriskl)
 * Add option for showing table size counts
 
 Views
 -----
 
-
 Sequences
 ---------
-
 
 Functions
 ---------
@@ -62,12 +55,10 @@ Functions
 Indexes 
 -------
 
-* Functional indexes
+* Expressional indexes
 
 Types
 -----
-
-* Support new 7.3 anonymous composite types
 
 Operators
 ---------
@@ -81,7 +72,6 @@ Operator Classes
 
 Triggers
 --------
-
 
 Aggregates
 ----------
@@ -98,8 +88,6 @@ Languages
 
 Domains (7.3)
 -------------
-
-* Done 
 
 Conversions (7.3)
 -----------------
@@ -118,7 +106,6 @@ Casts (7.3)
 Miscellaneous
 -------------
 
-* Support 7.5 functions for killing backend processes
 * Printable view of things
 * Allow simultaneous logins to different clusters
 * Show comments for all objects (Dan Boren)

@@ -7,13 +7,13 @@ Version 3.5-dev
 Features
 * Context-sensitive online help system
 * Use language preferencies from browser (Markus Bertheau, Nicola Soranzo)
-* Tablespace support for 7.5
-* Support cancelling backend processes in 7.5
+* Tablespace support for 8.0
+* Support cancelling backend processes in 8.0
 * Allow setting privileges on databases
 * Allow setting schema search path in SQL window
 * Allow filtering find results by object type
 * Show function arguments in find results
-* Support 7.5's named function arguments
+* Support 8.0's named function arguments
 * "Sticky" navigation.  phpPgAdmin will now remember while tab you are
   looking at (eg. 'Indexes') when you change which table you are viewing.
 * New fast navigation bar.  A breadcrumb style navigation bar for fast
@@ -72,7 +72,7 @@ Features
   you can view the virtual columns of the view and its column defaults.
   Columns in view can also be renamed and have defaults set.
 * Allow viewing, dropping and creation of rules on views.
-* Support for 7.5-dev ALTER COLUMN TYPE, adding of SERIAL and BIGSERIAL
+* Support for 8.0-dev ALTER COLUMN TYPE, adding of SERIAL and BIGSERIAL
   columns, adding NOT NULL columns and adding columns with defaults.
 
 Bugs
@@ -164,7 +164,7 @@ Version 3.2
 -----------
 
 Features
-* PostgreSQL 7.5 CVS support
+* PostgreSQL 8.0 CVS support
 * Option to dump table structure, data or structure and data
 * Set datestyle and extra_float_digits when dumping data
 * Results of table browse, table select, view browsing and report browsing
