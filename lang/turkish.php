@@ -4,13 +4,14 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.2 2003/07/21 00:52:12 chriskl Exp $
+	 * $Id: turkish.php,v 1.3 2003/08/01 06:24:16 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Türkçe';
 	$lang['appcharset'] = 'ISO-8859-9';
 	$lang['applocale'] = 'tr_TR';
+  	$lang['appdbencoding'] = 'LATIN5';
 
 	// Basic strings
 	$lang['strintro'] = 'phpPgAdmin\'e hoþgeldiniz.';

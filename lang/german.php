@@ -4,13 +4,14 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.10 2003/07/28 01:36:00 chriskl Exp $
+    * $Id: german.php,v 1.11 2003/08/01 06:24:16 chriskl Exp $
     */
 
     // Language and character set
     $lang['applang'] = 'Deutsch';
     $lang['appcharset'] = 'UTF-8';
     $lang['applocale'] = 'de_DE';
+  	 $lang['appdbencoding'] = 'LATIN1';
 
     // Basic strings
     $lang['strintro'] = 'Willkommen bei phpPgAdmin.';

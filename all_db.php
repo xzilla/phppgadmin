@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.15 2003/06/04 13:31:16 xzilla Exp $
+	 * $Id: all_db.php,v 1.16 2003/08/01 06:24:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -52,7 +52,13 @@
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
-		if (!isset($_POST['formEncoding'])) $_POST['formEncoding'] = '';
+		// Default encoding is that in language file
+		if (!isset($_POST['formEncoding'])) {
+			if (isset($lang['appdbencoding']))
+				$_POST['formEncoding'] = $lang['appdbencoding'];
+			else
+				$_POST['formEncoding'] = '';
+		}
 		
 		echo "<h2>{$lang['strdatabases']}: {$lang['strcreatedatabase']}</h2>\n";
 		$misc->printMsg($msg);
