@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.39 2004/07/15 10:06:24 soranzo Exp $
+	 * $Id: functions.php,v 1.40 2004/07/22 08:50:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -200,7 +200,7 @@
 			$funcdata->f['proretset'] = $data->phpBool($funcdata->f['proretset']);
 			$func_full = $funcdata->f['proname'] . "(". $funcdata->f['proarguments'] .")";
 			echo "<table width=\"90%\">\n";
-			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
@@ -222,7 +222,7 @@
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre'), "</td></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre', array('lineno' => true)), "</td></tr>\n";
 			}
 			
 			// Show flags
