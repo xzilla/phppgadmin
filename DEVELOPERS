@@ -18,23 +18,18 @@ DEVELOPER INFO
     cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin login
     [Password: ]  simply press the Enter key!
     
-    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co webdb
-    [This will create a new sub-directory named webdb] 
-    
-    And you might like to get phpPgAdmin as well for reference purposes:
-
-    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
-    [This will create a new sub-directory named phpPgAdmin]
+    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
+    [This will create a new sub-directory named phpPgAdmin] 
     
   - Add your stuff
   - Send us the file(s) you've modified or send us a patch (preferred).  To generate a patch, do this
-    in your 'webdb' or 'phpPgAdmin' directory:
+    in your 'phpPgAdmin' directory:
 
     	cvs diff -c > file.txt
 
     Then, just send us the file.txt
 
-	Please note submitting code is considered a transfer of copyright to the phppgadmin project.
+	Please note submitting code is considered a transfer of copyright to the phpPgAdmin project.
 
   Only project developers can access the CVS tree via ssh and SSH1 must 
   be installed on your client machine. 
@@ -44,8 +39,7 @@ DEVELOPER INFO
   	login once with ssh to developername@cvs.phppgadmin.sourceforge.net to create required
   	user directories on the server.
   	
-  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co webdb
-  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
+  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
   	
   Write access to the CVS tree is granted only to developers who have already
   contributed something useful to phpPgAdmin.  If you're interested in that, 
@@ -72,5 +66,34 @@ If you are adding a new class function, be sure to use the "clean",
 odd characters in user input.  Examine existing functions that do similar
 things to yours to get yours right.
 
+When writing data to the display, you should always urlencode() variables in
+HREFs and htmlspecialchars() variables in forms.
 
+COMMON VARIABLES
+----------------
+
+$data - A data connection to the template1 database.
+$localData - A data connection to the current database.
+$misc - Contains miscellaneous functions.  eg. printing headers and footers, etc.
+$lang - Global array containing translated strings.  The strings in this array have already
+        been converted to HTML, so you should not htmlspecialchars() them.
+$conf - Global array of configuration options.
+
+WORKING WITH RECORDSETS
+-----------------------
+
+phpPgAdmin uses the ADODB database library for all its database access.  We have
+also written our own wrapper around the ADODB library to make it more object
+oriented (ADODB_base.pclass).
+
+This is the general form for looping over a recordset:
+
+$rs = &$class->getResults();
+if (is_object($rs) && $rs->recordCount() > 0) {
+	while (!$rs->EOF) {
+		echo $rs->f['field'];
+		$rs->moveNext();
+	}
+}
+else echo "No results.";
 

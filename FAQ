@@ -37,3 +37,10 @@ A: On the Win32 version of PHP, there is a bug in the file_exists() function
    Disable (comment out) the file_exists() check in libraries/lib.inc.php to
    prevent the error.
 
+Q: When I drop and re-create a table with the same name, it fails.
+
+A: You need to drop the sequence attached to the SERIAL column of the table
+   as well.  PostgreSQL 7.3 does this automatically.  If you have upgraded
+   to PostgreSQL 7.3 from an earlier version, you need to run the
+   contrib/adddepend script to record all dependencies.
+
