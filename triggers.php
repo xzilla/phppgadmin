@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.23 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: triggers.php,v 1.24 2004/09/28 13:09:31 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -70,7 +70,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('trigger');
-			$misc->printTitle($lang['strdrop'].'pg.trigger.drop');
+			$misc->printTitle($lang['strdrop'],'pg.trigger.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
