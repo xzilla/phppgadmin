@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.16 2003/08/12 08:11:08 chriskl Exp $
+	 * $Id: indexes.php,v 1.17 2003/08/12 08:18:53 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -80,11 +80,13 @@
 		echo "<th class=\"data\">{$lang['strunique']}</th>";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
 		echo "</tr>";
-		echo "<tr>";
-		echo "<th class=\"data\">{$lang['strwhere']}</th>";
-		echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-			htmlspecialchars($_POST['formWhere']), "\" />)</td>";
-		echo "</tr>";
+		if ($data->hasPartialIndexes()) {
+			echo "<tr>";
+			echo "<th class=\"data\">{$lang['strwhere']}</th>";
+			echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				htmlspecialchars($_POST['formWhere']), "\" />)</td>";
+			echo "</tr>";
+		}
 		echo "</table>";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";
@@ -102,6 +104,9 @@
 	function doSaveCreateIndex() {
 		global $localData;
 		global $lang;
+		
+		// Handle databases that don't have partial indexes
+		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';
 		
 		// Check that they've given a name and at least one column
 		if ($_POST['formIndexName'] == '') doCreateIndex($lang['strindexneedsname']);

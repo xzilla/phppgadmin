@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.40 2003/08/11 04:52:32 chriskl Exp $
+	 * $Id: Misc.php,v 1.41 2003/08/12 08:18:53 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -63,6 +63,9 @@
 					case 'money':
 					case 'numeric':
 					case 'oid':
+					case 'xid':
+					case 'cid':
+					case 'tid':
 						return "<div align=\"right\">" . nl2br(htmlspecialchars($str)) . "</div>";
 						break;
 					case 'bool':

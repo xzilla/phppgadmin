@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.137 2003/08/11 09:15:32 chriskl Exp $
+ * $Id: Postgres.php,v 1.138 2003/08/12 08:18:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -365,6 +365,9 @@ class Postgres extends BaseDB {
 				break;
 			case 'text':
 			case 'bytea':
+				// addCSlashes converts all weird ASCII characters to octal representation,
+				// EXCEPT the 'special' ones like \r \n \t, etc.
+				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
 				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\">\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
@@ -1346,16 +1349,23 @@ class Postgres extends BaseDB {
 	 * @param $table The table on which to add the index
 	 * @param $columns An array of columns that form the index
 	 * @param $type The index type
+	 * @param $unique True if unique, false otherwise
+	 * @param $where Index predicate ('' for none)
 	 * @return 0 success
 	 */
-	function createIndex($name, $table, $columns, $type) {
+	function createIndex($name, $table, $columns, $type, $unique, $where) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 		$this->arrayClean($columns);
 
-		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
+		$sql = "CREATE";
+		if ($unique) $sql .= " UNIQUE";
+		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
 		$sql .= "(\"" . implode('","', $columns) . "\")";
-			
+
+		if ($this->hasPartialIndexes() && trim($where) != '') {
+			$sql .= " WHERE ({$where})";
+		}
 
 		return $this->execute($sql);
 	}
