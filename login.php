@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.18 2004/07/12 01:49:15 chriskl Exp $
+	 * $Id: login.php,v 1.19 2005/01/19 10:27:16 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -87,7 +87,13 @@
 	$lang['appcharset'] = 'UTF-8';
 
 	// Output header	
-	$misc->printHeader($lang['strlogin']);
+	$misc->printHeader($lang['strlogin'], "<script language=\"javascript\" type=\"text/javascript\"><!--
+		// show login form in top frame
+		if (top != self) {
+			window.top.location.href='./index.php';
+		}
+		//-->
+		</script>");
 	$misc->printBody();
 ?>
 
