@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.5 2004/10/11 10:27:34 jollytoad Exp $
+ * $Id: Postgres80.php,v 1.6 2004/10/11 11:27:27 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -104,7 +104,7 @@ class Postgres80 extends Postgres74 {
 	function &getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relname
+			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
 					FROM pg_catalog.pg_tables 
 					WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 					ORDER BY schemaname, tablename";
