@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.21 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: indexes.php,v 1.22 2003/12/21 02:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $database, $misc, $action;
+		global $data, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -161,7 +161,7 @@
 	 * Show confirmation of drop index and perform actual drop
 	 */
 	function doDropIndex($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {

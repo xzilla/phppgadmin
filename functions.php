@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.24 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: functions.php,v 1.25 2003/12/21 02:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -164,7 +164,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 

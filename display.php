@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.34 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: display.php,v 1.35 2003/12/21 02:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 	 * Show confirmation of edit and perform actual update
 	 */
 	function doEditRow($confirm, $msg = '') {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -138,7 +138,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDelRow($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 

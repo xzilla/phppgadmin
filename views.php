@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.26 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: views.php,v 1.27 2003/12/21 02:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 

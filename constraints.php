@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.25 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: constraints.php,v 1.26 2003/12/21 02:03:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $database, $misc, $action;
+		global $data, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {

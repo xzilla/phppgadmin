@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.13 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: types.php,v 1.14 2003/12/21 02:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,7 +51,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
