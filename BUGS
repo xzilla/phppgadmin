@@ -1,4 +1,4 @@
-Internal Bugs List
+	Internal Bugs List
 ------------------
 
 This file is used to track current working tasks - just ignore it!
@@ -24,10 +24,10 @@ NEEDS TESTING
 -------------
 
 * Import
-* Script execution
-* Create view wizard looks buggy
+* Script execution needs to support error handling - make it pass thru adodb layer
+* COPY should work in normal sql screen and sql popup window
+* Create view wizard is buggy
 * alter function on < 7.2 needs testing
 * error on viewing reports page
 * highlight things on the info stats page
 * advanced stats functions
-

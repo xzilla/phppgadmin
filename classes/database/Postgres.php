@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.210 2004/05/23 04:10:19 chriskl Exp $
+ * $Id: Postgres.php,v 1.211 2004/05/23 15:55:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3770,6 +3770,10 @@ class Postgres extends BaseDB {
 	 * @return Result of final query, false on any failure.
 	 */
 	function executeScript($name) {
+		global $data;
+		
+		// This whole function isn't very encapsulated, but hey...
+		$conn = $data->conn->_connectionID;
 		if (!is_uploaded_file($_FILES[$name]['tmp_name'])) return false;
 
 		$fd = fopen($_FILES[$name]['tmp_name'], 'r');
@@ -3777,10 +3781,22 @@ class Postgres extends BaseDB {
 		
 		// Loop over each line in the file
 		while (!feof($fd)) {
- 		  $sql = fgets($fd, 32768);
- 		  // Execute the query, ignoring errors for the time being
- 		  // XXX: This needs to handle COPY to and from
- 		  $res = @pg_query($sql);
+			$sql = fgets($fd, 32768);
+			// Check that the query is something...
+			if (trim($sql) == '') continue;
+			// Execute the query
+			$res = pg_query($conn, $sql);
+			// Check for COPY request
+			if (pg_result_status($res) == 4) { // 4 == PGSQL_COPY_FROM
+				while (!feof($fd)) {
+					$copy = fgets($fd, 32768);
+					pg_put_line($conn, $copy);
+					if ($copy == "\\.\n" || $copy == "\\.\r\n") {
+						pg_end_copy($conn);
+						break;
+					}
+				}
+			}
 		}
 		
 		fclose($fd);
