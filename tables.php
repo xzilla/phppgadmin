@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.12 2003/04/14 04:42:27 chriskl Exp $
+	 * $Id: tables.php,v 1.13 2003/04/14 04:50:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -430,6 +430,7 @@
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
+			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
 			echo "<p><input type=submit name=choice value=\"{$lang['strsave']}\"> <input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
@@ -465,6 +466,7 @@
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
+			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
 			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
@@ -500,7 +502,8 @@
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&table=" . urlencode($_REQUEST['table']));
+			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
+				urlencode($_REQUEST['sortkey']) . "&table=" . urlencode($_REQUEST['table']));
 			echo "<table>\n<tr>";
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
@@ -512,7 +515,7 @@
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
 			
 			if (sizeof($key) > 0)
-				echo "<th colspan=2 class=data>{$lang['stractions']}</th>\n";
+				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 			
 			$i = 0;
 			reset($rs->f);
@@ -536,10 +539,14 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 					if ($has_nulls) {
-						echo "<td class=opbutton{$id}>&nbsp;</td>\n<td class=opbutton{$id}>&nbsp;</td>\n";
+						echo "<td class=\"opbutton{$id}\">&nbsp;</td>\n<td class=\"opbutton{$id}\">&nbsp;</td>\n";
 					} else {
-						echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
-						echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
+						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&sortkey=", 
+							urlencode($_REQUEST['sortkey']), "&table=", urlencode($_REQUEST['table']), 
+							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
+						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&sortkey=", 
+							urlencode($_REQUEST['sortkey']), "&table=", urlencode($_REQUEST['table']), 
+							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
 				echo "</tr>\n";
@@ -551,7 +558,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
 	}
 
 	/**
