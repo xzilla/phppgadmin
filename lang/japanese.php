@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.5 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: japanese.php,v 1.6 2003/09/26 04:51:38 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -24,7 +24,6 @@
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
-	$lang['strintro'] = 'ようこそphpPgAdminへ。';
 	$lang['strlogin'] = 'ログイン';
 	$lang['strloginfailed'] = 'ログイン失敗';
 	$lang['strserver'] = 'サーバー';
@@ -44,6 +43,8 @@
 	$lang['strnotnull'] = 'NOT NULL';
 	$lang['strprev'] = '前に';
 	$lang['strnext'] = '次に';
+	$lang['strfirst'] = '<< First';
+	$lang['strlast'] = 'Last >>';
 	$lang['strfailed'] = '失敗';
 	$lang['strcreate'] = '作成';
 	$lang['strcreated'] = '作成しました';
@@ -94,24 +95,29 @@
 	$lang['strinstead'] = '代行';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'フォーマット';
-	$lang['strdata'] = 'データ';
+	$lang['strdata'] = 'データー';
 	$lang['strconfirm'] = '確認';
 	$lang['strexpression'] = '評価式';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '閉じる';
+	$lang['strexplain'] = '実行時間';
+	$lang['strfind'] = '検索';
+	$lang['stroptions'] = 'Options';
+	$lang['strrefresh'] = 'Refresh';
+	$lang['strdownload'] = 'ダウンロード';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
 	$lang['strbadconfig'] = 'config.inc.phpが旧式です。新しいconfig.inc.php-distから再作成する必要があります。';
-	$lang['strnotloaded'] = 'データベースをサポートするようにPHPのコンパイル・インストールがされていません';
+	$lang['strnotloaded'] = 'データーベースをサポートするようにPHPのコンパイル・インストールがされていません。(システムによってはphpパッケージの他にphp-pgsqlパッケージのインストール・設定などが必要です)';
 	$lang['strbadschema'] = '無効のスキーマが指定されました。';
-	$lang['strbadencoding'] = 'データベースの中でクライアントエンコードを指定しませんでした。';
+	$lang['strbadencoding'] = 'データーベースの中でクライアントエンコードを指定しませんでした。';
 	$lang['strsqlerror'] = 'SQLエラー:';
-	$lang['strinstatement'] = 'In statement:';
+	$lang['strinstatement'] = '文:';
 	$lang['strinvalidparam'] = 'スクリプトパラメータが無効です。';
 	$lang['strnodata'] = 'レコードが見つかりません。';
-	$lang['strcascade'] = 'カスケード';
+	$lang['strrownotunique'] = 'このレコードに一意な識別子はありません。';
 
 	// Tables
 	$lang['strtable'] = 'テーブル';
@@ -157,18 +163,20 @@
 	$lang['straddcolumn'] = 'カラム追加';
 	$lang['strcolumnadded'] = 'カラムを追加しました。';
 	$lang['strcolumnaddedbad'] = 'カラムの追加に失敗しました。';
-	$lang['strschemaanddata'] = 'スキーマとデータ';
+	$lang['strschemaanddata'] = 'スキーマとデーター';
 	$lang['strschemaonly'] = 'スキーマのみ';
-	$lang['strdataonly'] = 'データのみ';
+	$lang['strdataonly'] = 'データーのみ';
+	$lang['strcascade'] = 'カスケード';
+	$lang['strtablealtered'] = 'テーブルを変更しました。';
+	$lang['strtablealteredbad'] = 'テーブルの変更に失敗しました。';
 
 	// Users
-	$lang['struseradmin'] = 'ユーザー管理';
 	$lang['struser'] = 'ユーザー';
 	$lang['strusers'] = 'ユーザー一覧';
 	$lang['strusername'] = 'ユーザー名';
 	$lang['strpassword'] = 'パスワード';
 	$lang['strsuper'] = 'スーパーユーザー?';
-	$lang['strcreatedb'] = 'データベースを作成しますか?';
+	$lang['strcreatedb'] = 'データーベースを作成しますか?';
 	$lang['strexpires'] = '有効期限';
 	$lang['strnousers'] = 'ユーザーが見つかりません。';
         $lang['struserupdated'] = 'ユーザーを更新しました。';
@@ -188,7 +196,6 @@
 	$lang['strpasswordconfirm'] = 'パスワードの確認が一致しませんでした。';
 		
 	// Groups
-	$lang['strgroupadmin'] = 'グループ管理';
 	$lang['strgroup'] = 'グループ';
 	$lang['strgroups'] = 'グループ一覧';
 	$lang['strnogroup'] = 'グループがありません。';
@@ -202,8 +209,15 @@
 	$lang['strgroupdropped'] = 'グループを破棄しました。';
 	$lang['strgroupdroppedbad'] = 'グループの破棄に失敗しました。';
 	$lang['strmembers'] = 'メンバー';
+	$lang['straddmember'] = 'メンバー追加';
+	$lang['strmemberadded'] = 'メンバーを追加しました。';
+	$lang['strmemberaddedbad'] = 'メンバーの追加に失敗しました。';
+	$lang['strdropmember'] = 'メンバー破棄';
+	$lang['strconfdropmember'] = '本当にメンバー「%s」をグループ「%s」から破棄しますか?';
+	$lang['strmemberdropped'] = 'メンバーを破棄しました。';
+	$lang['strmemberdroppedbad'] = 'メンバーの破棄に失敗しました。';
 
-	// Privilges
+	// Privileges
 	$lang['strprivilege'] = '特権';
 	$lang['strprivileges'] = '特権一覧';
 	$lang['strnoprivileges'] = 'このオブジェクトは特権を持っていません。';
@@ -213,21 +227,23 @@
 	$lang['strgrantfailed'] = '特権を与える事に失敗しました。';
 	$lang['strgrantbad'] = '少なくとも一人のユーザーかグループに、少なくともひとつの特権を指定しなければなりません。';
 	$lang['stralterprivs'] = '特権の変更';
+	$lang['strgrantor'] = 'Grantor';
+	$lang['strasterisk'] = '*';
 
 	// Databases
-	$lang['strdatabase'] = 'データベース';
-	$lang['strdatabases'] = 'データベース一覧';
-	$lang['strshowalldatabases'] = '全データベースを見る';
-	$lang['strnodatabase'] = 'データベースが見つかりません。';
-	$lang['strnodatabases'] = 'データベースが全くありません。';
-	$lang['strcreatedatabase'] = 'データベース作成';
-	$lang['strdatabasename'] = 'データベース名';
-	$lang['strdatabaseneedsname'] = 'データベース名を指定しなければなりません。';
-	$lang['strdatabasecreated'] = 'データベースを作成しました。';
-	$lang['strdatabasecreatedbad'] = 'データベースの作成に失敗しました。';	
-	$lang['strconfdropdatabase'] = '本当にデータベース「%s」を破棄しますか?';
-	$lang['strdatabasedropped'] = 'データベースを破棄しました。';
-	$lang['strdatabasedroppedbad'] = 'データベースの破棄に失敗しました。';
+	$lang['strdatabase'] = 'データーベース';
+	$lang['strdatabases'] = 'データーベース一覧';
+	$lang['strshowalldatabases'] = '全データーベースを見る';
+	$lang['strnodatabase'] = 'データーベースが見つかりません。';
+	$lang['strnodatabases'] = 'データーベースが全くありません。';
+	$lang['strcreatedatabase'] = 'データーベース作成';
+	$lang['strdatabasename'] = 'データーベース名';
+	$lang['strdatabaseneedsname'] = 'データーベース名を指定しなければなりません。';
+	$lang['strdatabasecreated'] = 'データーベースを作成しました。';
+	$lang['strdatabasecreatedbad'] = 'データーベースの作成に失敗しました。';	
+	$lang['strconfdropdatabase'] = '本当にデーターベース「%s」を破棄しますか?';
+	$lang['strdatabasedropped'] = 'データーベースを破棄しました。';
+	$lang['strdatabasedroppedbad'] = 'データーベースの破棄に失敗しました。';
 	$lang['strentersql'] = '下に実行するSQLを入力します:';
 	$lang['strsqlexecuted'] = 'SQLを実行しました。';
 	$lang['strvacuumgood'] = 'バキュームを完了しました。';
@@ -275,6 +291,8 @@
 	$lang['strconfdropsequence'] = '本当にシーケンス「%s」を破棄しますか?';
 	$lang['strsequencedropped'] = 'シーケンスを破棄しました。';
 	$lang['strsequencedroppedbad'] = 'シーケンスの破棄に失敗しました。';
+	$lang['strsequencereset'] = 'シーケンスリセットを行いました。';
+	$lang['strsequenceresetbad'] = 'シーケンスのリセットに失敗しました。'; 
 
 	// Indexes
 	$lang['strindexes'] = 'インデックス一覧';
@@ -312,7 +330,7 @@
 	$lang['strruleneedsname'] = 'ルール名を指定しなければなりません。';
 	$lang['strrulecreated'] = 'ルールを作成しました。';
 	$lang['strrulecreatedbad'] = 'ルールの作成に失敗しました。';
-	$lang['strconfdroprule'] = '本当にルール「%s」をデータベース「%s」から破棄しますか?';
+	$lang['strconfdroprule'] = '本当にルール「%s」をデーターベース「%s」から破棄しますか?';
 	$lang['strruledropped'] = 'ルールを破棄しました。';
 	$lang['strruledroppedbad'] = 'ルールの破棄に失敗しました。';
 
@@ -323,7 +341,7 @@
 	$lang['strcreateconstraint'] = '検査制約の作成';
 	$lang['strconstraintcreated'] = '検査制約を作成しました。';
 	$lang['strconstraintcreatedbad'] = '検査制約の作成に失敗しました。';
-	$lang['strconfdropconstraint'] = '本当に検査制約「%s」をデータベース「%s」から破棄しますか?';
+	$lang['strconfdropconstraint'] = '本当に検査制約「%s」をデーターベース「%s」から破棄しますか?';
 	$lang['strconstraintdropped'] = '検査制約を破棄しました。';
 	$lang['strconstraintdroppedbad'] = '検査制約の破棄に失敗しました。';
 	$lang['straddcheck'] = 'チェック追加';
@@ -358,7 +376,7 @@
 	$lang['strfunctionname'] = '関数名';
 	$lang['strreturns'] = '返り値';
 	$lang['strarguments'] = '引数';
-	$lang['strproglanguage'] = '言語';
+	$lang['strproglanguage'] = 'プログラミング言語';
 	$lang['strfunctionneedsname'] = '関数名を指定しなければなりません。';
 	$lang['strfunctionneedsdef'] = '関数の定義をしなければなりあせん。';
 	$lang['strfunctioncreated'] = '関数を作成しました。';
@@ -370,28 +388,30 @@
 	$lang['strfunctionupdatedbad'] = '関数の更新に失敗しました。';
 
 	// Triggers
-	$lang['strtrigger'] = 'トリガ';
-	$lang['strtriggers'] = 'トリガ一覧';
-	$lang['strshowalltriggers'] = '全トリガを表示';
-	$lang['strnotrigger'] = 'トリガがありません。';
-	$lang['strnotriggers'] = 'トリガが見つかりません。';
-	$lang['strcreatetrigger'] = 'トリガ作成';
-	$lang['strtriggerneedsname'] = 'トリガ名を指定する必要があります。';
-	$lang['strtriggerneedsfunc'] = 'トリガのための関数を指定しなければなりません。';
-	$lang['strtriggercreated'] = 'トリガを作成しました。';
-	$lang['strtriggercreatedbad'] = 'トリガの作成に失敗しました。';
-	$lang['strconfdroptrigger'] = '本当にトリガ「%s」をデータベース「%s」から破棄しますか?';
-	$lang['strtriggerdropped'] = 'トリガを破棄しました。';
-	$lang['strtriggerdroppedbad'] = 'トリガの破棄に失敗しました。';
+	$lang['strtrigger'] = 'トリガー';
+	$lang['strtriggers'] = 'トリガー一覧';
+	$lang['strshowalltriggers'] = '全トリガーを表示';
+	$lang['strnotrigger'] = 'トリガーがありません。';
+	$lang['strnotriggers'] = 'トリガーが見つかりません。';
+	$lang['strcreatetrigger'] = 'トリガー作成';
+	$lang['strtriggerneedsname'] = 'トリガー名を指定する必要があります。';
+	$lang['strtriggerneedsfunc'] = 'トリガーのための関数を指定しなければなりません。';
+	$lang['strtriggercreated'] = 'トリガーを作成しました。';
+	$lang['strtriggercreatedbad'] = 'トリガーの作成に失敗しました。';
+	$lang['strconfdroptrigger'] = '本当にトリガー「%s」をデーターベース「%s」から破棄しますか?';
+	$lang['strtriggerdropped'] = 'トリガーを破棄しました。';
+	$lang['strtriggerdroppedbad'] = 'トリガーの破棄に失敗しました。';
+	$lang['strtriggeraltered'] = 'トリガーを変更しました。';
+	$lang['strtriggeralteredbad'] = 'トリガーの変更に失敗しました。';
 
 	// Types
-	$lang['strtype'] = 'データ型';
-	$lang['strtypes'] = 'データ型一覧';
-	$lang['strshowalltypes'] = '全データ型を表示する';
-	$lang['strnotype'] = 'データ型がありません。';
-	$lang['strnotypes'] = 'データ型が見つかりませんでした。';
-	$lang['strcreatetype'] = 'データ型の作成';
-	$lang['strtypename'] = 'データ型名';
+	$lang['strtype'] = 'データー型';
+	$lang['strtypes'] = 'データー型一覧';
+	$lang['strshowalltypes'] = '全データー型を表示する';
+	$lang['strnotype'] = 'データー型がありません。';
+	$lang['strnotypes'] = 'データー型が見つかりませんでした。';
+	$lang['strcreatetype'] = 'データー型の作成';
+	$lang['strtypename'] = 'データー型名';
 	$lang['strinputfn'] = '入力関数';
 	$lang['stroutputfn'] = '出力関数';
 	$lang['strpassbyval'] = 'Passed by val?';
@@ -400,12 +420,12 @@
 	$lang['strdelimiter'] = 'デミリタ';
 	$lang['strstorage'] = 'ストレージ';
 	$lang['strtypeneedsname'] = '型名を指定しなければなりません。';
-	$lang['strtypeneedslen'] = 'データ型の長さを指定しなければなりません。';
-	$lang['strtypecreated'] = 'データ型を作成しました。';
-	$lang['strtypecreatedbad'] = 'データ型の作成に失敗しました';
-	$lang['strconfdroptype'] = '本当にデータ型「%s」を破棄しますか?';
-	$lang['strtypedropped'] = 'データ型を破棄しました。';
-	$lang['strtypedroppedbad'] = 'データ型の破棄に失敗しました。';
+	$lang['strtypeneedslen'] = 'データー型の長さを指定しなければなりません。';
+	$lang['strtypecreated'] = 'データー型を作成しました。';
+	$lang['strtypecreatedbad'] = 'データー型の作成に失敗しました';
+	$lang['strconfdroptype'] = '本当にデーター型「%s」を破棄しますか?';
+	$lang['strtypedropped'] = 'データー型を破棄しました。';
+	$lang['strtypedroppedbad'] = 'データー型の破棄に失敗しました。';
 
 	// Schemas
 	$lang['strschema'] = 'スキーマ';
@@ -426,7 +446,7 @@
 	$lang['strreport'] = 'レポート';
 	$lang['strreports'] = 'レポート一覧';
 	$lang['strshowallreports'] = '全レポートを見る';
-	$lang['strnoreports'] = 'レポートが見つかりません.';
+	$lang['strnoreports'] = 'レポートが見つかりません。';
 	$lang['strcreatereport'] = 'レポート作成';
 	$lang['strreportdropped'] = 'レポートを破棄しました。';
 	$lang['strreportdroppedbad'] = 'レポートの破棄に失敗しました。';
@@ -436,8 +456,41 @@
 	$lang['strreportcreated'] = 'レポートの保存をしました。';
 	$lang['strreportcreatedbad'] = 'レポートの保存に失敗しました。';
 
+	// Domains
+	$lang['strdomain'] = 'ドメイン';
+	$lang['strdomains'] = 'ドメイン一覧';
+	$lang['strshowalldomains'] = '全ドメインを見る';
+	$lang['strnodomains'] = 'ドメインがありません。';
+	$lang['strcreatedomain'] = 'ドメイン作成';
+	$lang['strdomaindropped'] = 'ドメインを破棄しました。';
+	$lang['strdomaindroppedbad'] = 'ドメインの破棄に失敗しました。';
+	$lang['strconfdropdomain'] = '本当にドメイン「%s」を破棄しますか?';
+	$lang['strdomainneedsname'] = 'ドメイン名を指定する必要があります。';
+	$lang['strdomaincreated'] = 'ドメインを作成しました。';
+	$lang['strdomaincreatedbad'] = 'ドメインの作成に失敗しました。';	
+	$lang['strdomainaltered'] = 'ドメインを変更しました。';
+	$lang['strdomainalteredbad'] = 'ドメインの変更に失敗しました。';	
+
+	// Operators
+	$lang['stroperator'] = '演算子';
+	$lang['stroperators'] = '演算子一覧';
+	$lang['strshowalloperators'] = '全演算子を見る';
+	$lang['strnooperator'] = '演算子が見つかりません。';
+	$lang['strnooperators'] = '演算子クラスが見つかりません。';
+	$lang['strcreateoperator'] = '演算子を作成しました。';
+	$lang['stroperatorname'] = '演算子名';
+	$lang['strleftarg'] = '左引数タイプ';
+	$lang['strrightarg'] = '右引数タイプ';
+	$lang['stroperatorneedsname'] = '演算子名を指定する必要があります。';
+	$lang['stroperatorcreated'] = '演算子を作成しました。';
+	$lang['stroperatorcreatedbad'] = '演算子の作成に失敗しました。';
+	$lang['strconfdropoperator'] = '本当に演算子「%s」を破棄しますか?';
+	$lang['stroperatordropped'] = '演算子を破棄しました。';
+	$lang['stroperatordroppedbad'] = '演算子の破棄に失敗しました。';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%sに%sポート番号%sで接続しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
 	$lang['strtimefmt'] = 'Y年n月j日 G:i';
+	$lang['strhelp'] = 'ヘルプ';
 
 ?>
