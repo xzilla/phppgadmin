@@ -1,0 +1,1444 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: 8bit\n"
+
+#: $lang['applang']
+msgid "English"
+msgstr "Русский КОИ8"
+
+#: $lang['appcharset']
+msgid "ISO-8859-1"
+msgstr "UTF-8"
+
+#: $lang['applocale']
+msgid "en_US"
+msgstr "ru_RU"
+
+#: $lang['strintro']
+msgid "Welcome to phpPgAdmin."
+msgstr "Добро пожаловать в phpPgAdmin."
+
+#: $lang['strlogin']
+msgid "Login"
+msgstr "Логин"
+
+#: $lang['strloginfailed']
+msgid "Login failed"
+msgstr "Неверный логин"
+
+#: $lang['strserver']
+msgid "Server"
+msgstr "Сервер"
+
+#: $lang['strlogout']
+msgid "Logout"
+msgstr "Перерегистрация"
+
+#: $lang['strowner']
+msgid "Owner"
+msgstr "Пользователь"
+
+#: $lang['straction']
+msgid "Action"
+msgstr "Действие"
+
+#: $lang['stractions']
+msgid "Actions"
+msgstr "Действия"
+
+#: $lang['strname']
+msgid "Name"
+msgstr "Имя"
+
+#: $lang['strdefinition']
+msgid "Definition"
+msgstr "Определение"
+
+#: $lang['stroperators']
+msgid "Operators"
+msgstr "Операторы"
+
+#: $lang['straggregates']
+msgid "Aggregates"
+msgstr "Агрегатные функции"
+
+#: $lang['strproperties']
+msgid "Properties"
+msgstr "Свойства"
+
+#: $lang['strbrowse']
+msgid "Browse"
+msgstr "Просмотреть"
+
+#: $lang['strdrop']
+msgid "Drop"
+msgstr "Удалить"
+
+#: $lang['strdropped']
+msgid "Dropped"
+msgstr "Удалено"
+
+#: $lang['strnull']
+msgid "Null"
+msgstr "Null"
+
+#: $lang['strnotnull']
+msgid "Not Null"
+msgstr "Not Null"
+
+#: $lang['strprev']
+msgid "Prev"
+msgstr "Предыд."
+
+#: $lang['strnext']
+msgid "Next"
+msgstr "След."
+
+#: $lang['strfailed']
+msgid "Failed"
+msgstr "Прервано"
+
+#: $lang['strcreate']
+msgid "Create"
+msgstr "Создать"
+
+#: $lang['strcreated']
+msgid "Created"
+msgstr "Создано"
+
+#: $lang['strcomment']
+msgid "Comment"
+msgstr "Комментарий"
+
+#: $lang['strlength']
+msgid "Length"
+msgstr "Длина"
+
+#: $lang['strdefault']
+msgid "Default"
+msgstr "По умолчанию"
+
+#: $lang['stralter']
+msgid "Alter"
+msgstr "Изменить"
+
+#: $lang['strok']
+msgid "OK"
+msgstr "OK"
+
+#: $lang['strcancel']
+msgid "Cancel"
+msgstr "Отменить"
+
+#: $lang['strsave']
+msgid "Save"
+msgstr "Сохранить"
+
+#: $lang['strreset']
+msgid "Reset"
+msgstr "Сбросить"
+
+#: $lang['strinsert']
+msgid "Insert"
+msgstr "Вставить"
+
+#: $lang['strselect']
+msgid "Select"
+msgstr "Выбрать"
+
+#: $lang['strdelete']
+msgid "Delete"
+msgstr "Удалить"
+
+#: $lang['strupdate']
+msgid "Update"
+msgstr "Обновить"
+
+#: $lang['strreferences']
+msgid "References"
+msgstr "Ссылки"
+
+#: $lang['stryes']
+msgid "Yes"
+msgstr "Да"
+
+#: $lang['strno']
+msgid "No"
+msgstr "Нет"
+
+#: $lang['stredit']
+msgid "Edit"
+msgstr "Редактировать"
+
+#: $lang['strcolumns']
+msgid "Columns"
+msgstr "Атрибуты"
+
+#: $lang['strrows']
+msgid "row(s)"
+msgstr "запис[ь/и/ей]"
+
+#: $lang['strexample']
+msgid "eg."
+msgstr "и т.д."
+
+#: $lang['strback']
+msgid "Back"
+msgstr "HA3AD"
+
+#: $lang['strqueryresults']
+msgid "Query Results"
+msgstr "Результаты запроса"
+
+#: $lang['strshow']
+msgid "Show"
+msgstr "Показать"
+
+#: $lang['strempty']
+msgid "Empty"
+msgstr "Очистить"
+
+#: $lang['strlanguage']
+msgid "Language"
+msgstr "Язык"
+
+#: $lang['strencoding']
+msgid "Encoding"
+msgstr "Кодировка"
+
+#: $lang['strvalue']
+msgid "Value"
+msgstr "Величина"
+
+#: $lang['strunique']
+msgid "Unique"
+msgstr "Уникальный"
+
+#: $lang['strprimary']
+msgid "Primary"
+msgstr "Первичный"
+
+#: $lang['strexport']
+msgid "Export"
+msgstr "Экспорт"
+
+#: $lang['strsql']
+msgid "SQL"
+msgstr "SQL"
+
+#: $lang['strgo']
+msgid "Go"
+msgstr "Выполнить"
+
+#: $lang['stradmin']
+msgid "Admin"
+msgstr "Управление"
+
+#: $lang['strvacuum']
+msgid "Vacuum"
+msgstr "Перестроить"
+
+#: $lang['stranalyze']
+msgid "Analyze"
+msgstr "Анализировать"
+
+#: $lang['strcluster']
+msgid "Cluster"
+msgstr "Показать кластеризацию"
+
+#: $lang['strreindex']
+msgid "Reindex"
+msgstr "Перестроить индекс"
+
+#: $lang['strrun']
+msgid "Run"
+msgstr "Выполнить"
+
+#: $lang['stradd']
+msgid "Add"
+msgstr "Добавить"
+
+#: $lang['strevent']
+msgid "Event"
+msgstr "Событие"
+
+#: $lang['strwhere']
+msgid "Where"
+msgstr "Где"
+
+#: $lang['strinstead']
+msgid "Do Instead"
+msgstr "Делать вместо"
+
+#: $lang['strwhen']
+msgid "When"
+msgstr "Когда"
+
+#: $lang['strformat']
+msgid "Format"
+msgstr ""
+
+#: $lang['strnoframes']
+msgid "You need a frames-enabled browser to use this application."
+msgstr "Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы."
+
+#: $lang['strbadconfig']
+msgid "Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist."
+msgstr "Ваш config.inc.php является устаревшим. Вам необходимо обновить его из config.inc.php-dist."
+
+#: $lang['strnotloaded']
+msgid "You have not compiled proper database support into your PHP installation."
+msgstr "Вы не имеете надлежащей поддержки работы с базами данных в Вашей инсталяции РНР."
+
+#: $lang['strbadschema']
+msgid "Invalid schema specified."
+msgstr "Обнаружена неверная схема."
+
+#: $lang['strbadencoding']
+msgid "Failed to set client encoding in database."
+msgstr "Failed to set client encoding in database."
+
+#: $lang['strsqlerror']
+msgid "SQL error:"
+msgstr "Ошибка SQL:"
+
+#: $lang['strinstatement']
+msgid "In statement:"
+msgstr "В операторе:"
+
+#: $lang['strinvalidparam']
+msgid "Invalid script parameters."
+msgstr "Неверный параметр скрипта."
+
+#: $lang['strnodata']
+msgid "No rows found."
+msgstr "Данных не обнаружено."
+
+#: $lang['strtable']
+msgid "Table"
+msgstr "Таблица"
+
+#: $lang['strtables']
+msgid "Tables"
+msgstr "Таблицы"
+
+#: $lang['strshowalltables']
+msgid "Show All Tables"
+msgstr "Показать все таблицы"
+
+#: $lang['strnotables']
+msgid "No tables found."
+msgstr "Таблиц не обнаружено."
+
+#: $lang['strnotable']
+msgid "No table found."
+msgstr " Таблица не обнаружена."
+
+#: $lang['strcreatetable']
+msgid "Create table"
+msgstr "Создать таблицу"
+
+#: $lang['strtablename']
+msgid "Table name"
+msgstr "Имя таблицы"
+
+#: $lang['strtableneedsname']
+msgid "You must give a name for your table."
+msgstr "Вам необходимо определить имя таблицы."
+
+#: $lang['strtableneedsfield']
+msgid "You must specify at least one field."
+msgstr "Вам необходимо определить по крайней мере одно поле."
+
+#: $lang['strtableneedscols']
+msgid "Tables require a valid number of columns."
+msgstr "Вам необходимо указать допустимое число атрибутов."
+
+#: $lang['strtablecreated']
+msgid "Table created."
+msgstr "Таблица создана."
+
+#: $lang['strtablecreatedbad']
+msgid "Table creation failed."
+msgstr "Создание таблицы прервано."
+
+#: $lang['strconfdroptable']
+msgid "Are you sure you want to drop the table \"%s\"?"
+msgstr "Вы уверены, что хотите удалить таблицу \"%s\"?"
+
+#: $lang['strtabledropped']
+msgid "Table dropped."
+msgstr "Таблица удалена."
+
+#: $lang['strtabledroppedbad']
+msgid "Table drop failed."
+msgstr "Удаление таблицы прервано."
+
+#: $lang['strconfemptytable']
+msgid "Are you sure you want to empty the table \"%s\"?"
+msgstr "Вы уверены, что хотите очистить таблицу \"%s\"?"
+
+#: $lang['strtableemptied']
+msgid "Table emptied."
+msgstr "Таблица очищена."
+
+#: $lang['strtableemptiedbad']
+msgid "Table empty failed."
+msgstr "Очистка таблицы прервана."
+
+#: $lang['strinsertrow']
+msgid "Insert Row"
+msgstr "Добавить запись"
+
+#: $lang['strrowinserted']
+msgid "Row inserted."
+msgstr "Запись добавлена."
+
+#: $lang['strrowinsertedbad']
+msgid "Row insert failed."
+msgstr "Добавление записи прервано."
+
+#: $lang['streditrow']
+msgid "Edit Row"
+msgstr "Редактировать запись"
+
+#: $lang['strrowupdated']
+msgid "Row updated."
+msgstr "Запись обновлена."
+
+#: $lang['strrowupdatedbad']
+msgid "Row update failed."
+msgstr "Обновление записи прервано."
+
+#: $lang['strdeleterow']
+msgid "Delete Row"
+msgstr "Удалить запись"
+
+#: $lang['strconfdeleterow']
+msgid "Are you sure you want to delete this row?"
+msgstr "Вы уверены, что хотите удалить запись?"
+
+#: $lang['strrowdeleted']
+msgid "Row deleted."
+msgstr "Запись удалена."
+
+#: $lang['strrowdeletedbad']
+msgid "Row deletion failed."
+msgstr "Удаление записи прервано."
+
+#: $lang['strsaveandrepeat']
+msgid "Save & Repeat"
+msgstr "Сохранить и повторить"
+
+#: $lang['strfield']
+msgid "Field"
+msgstr "Поле"
+
+#: $lang['strfields']
+msgid "Fields"
+msgstr "Поля"
+
+#: $lang['strnumfields']
+msgid "Num. Of Fields"
+msgstr "Кол-во полей"
+
+#: $lang['strfieldneedsname']
+msgid "You must name your field"
+msgstr "Вам необходимо назвать поле"
+
+#: $lang['strselectneedscol']
+msgid "You must show at least one column"
+msgstr "Вам необходимо указать по крайней мере один атрибут"
+
+#: $lang['straltercolumn']
+msgid "Alter Column"
+msgstr "Изменить атрибут"
+
+#: $lang['strcolumnaltered']
+msgid "Column Altered."
+msgstr "Атрибут изменен."
+
+#: $lang['strcolumnalteredbad']
+msgid "Column altering failed."
+msgstr "Изменение атрибута прервано."
+
+#: $lang['strconfdropcolumn']
+msgid "Are you sure you want to drop column \"%s\" from table \"%s\"?"
+msgstr "Вы уверены, что хотите удалить атрибут \"%s\" таблицы \"%s\"?"
+
+#: $lang['strcolumndropped']
+msgid "Column dropped."
+msgstr "Атрибут удален."
+
+#: $lang['strcolumndroppedbad']
+msgid "Column drop failed."
+msgstr "Удаление атрибута прервано."
+
+#: $lang['straddcolumn']
+msgid "Add column"
+msgstr "Добавить атрибут"
+
+#: $lang['strcolumnadded']
+msgid "Column added."
+msgstr "Атрибут добавлен."
+
+#: $lang['strcolumnaddedbad']
+msgid "Column add failed."
+msgstr "Добавление атрибута прервано."
+
+#: $lang['strschemaanddata']
+msgid "Schema & Data"
+msgstr ""
+
+#: $lang['strschemaonly']
+msgid "Schema Only"
+msgstr ""
+
+#: $lang['strdataonly']
+msgid "Data Only"
+msgstr ""
+
+#: $lang['struseradmin']
+msgid "User Admin"
+msgstr "Пользователи"
+
+#: $lang['struser']
+msgid "User"
+msgstr "Пользователь"
+
+#: $lang['strusers']
+msgid "Users"
+msgstr "Пользователи"
+
+#: $lang['strusername']
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: $lang['strpassword']
+msgid "Password"
+msgstr "Пароль"
+
+#: $lang['strsuper']
+msgid "Superuser?"
+msgstr "Суперпользователь?"
+
+#: $lang['strcreatedb']
+msgid "Create DB?"
+msgstr "Создать базу данных?"
+
+#: $lang['strexpires']
+msgid "Expires"
+msgstr "Срок действия"
+
+#: $lang['strnousers']
+msgid "No users found."
+msgstr "Нет таких пользователей."
+
+#: $lang['struserupdated']
+msgid "User updated."
+msgstr "Пользователь обновлен."
+
+#: $lang['struserupdatedbad']
+msgid "User update failed."
+msgstr "Обновление пользователя прервано."
+
+#: $lang['strshowallusers']
+msgid "Show All Users"
+msgstr "Показать всех пользователей"
+
+#: $lang['strcreateuser']
+msgid "Create User"
+msgstr "Создать пользователя"
+
+#: $lang['strusercreated']
+msgid "User created."
+msgstr "Пользователь создан."
+
+#: $lang['strusercreatedbad']
+msgid "Failed to create user."
+msgstr "Создание пользователя прервано."
+
+#: $lang['strconfdropuser']
+msgid "Are you sure you want to drop the user \"%s\"?"
+msgstr "Вы уверены, что хотите удалить пользователя \"%s\"?"
+
+#: $lang['struserdropped']
+msgid "User dropped."
+msgstr "Пользователь удален."
+
+#: $lang['struserdroppedbad']
+msgid "Failed to drop user."
+msgstr "Удаление пользователя прервано."
+
+#: $lang['strgroupadmin']
+msgid "Group Admin"
+msgstr "Группы"
+
+#: $lang['strgroup']
+msgid "Group"
+msgstr "Группа"
+
+#: $lang['strgroups']
+msgid "Groups"
+msgstr "Группы"
+
+#: $lang['strnogroup']
+msgid "Group not found."
+msgstr "Группа не обнаружена."
+
+#: $lang['strnogroups']
+msgid "No groups found."
+msgstr "Ни одной группы не обнаружено."
+
+#: $lang['strcreategroup']
+msgid "Create Group"
+msgstr "Создать группу"
+
+#: $lang['strshowallgroups']
+msgid "Show All Groups"
+msgstr "Показать все группы"
+
+#: $lang['strgroupneedsname']
+msgid "You must give a name for your group."
+msgstr "Вам необходимо указать название группы."
+
+#: $lang['strgroupcreated']
+msgid "Group created."
+msgstr "Группа создана."
+
+#: $lang['strgroupcreatedbad']
+msgid "Group creation failed."
+msgstr "Создание группы прервано."
+
+#: $lang['strconfdropgroup']
+msgid "Are you sure you want to drop the group \"%s\"?"
+msgstr "Вы уверены, что хотите удалить группу \"%s\"?"
+
+#: $lang['strgroupdropped']
+msgid "Group dropped."
+msgstr "Группа удалена."
+
+#: $lang['strgroupdroppedbad']
+msgid "Group drop failed."
+msgstr "Удаление группы прервано."
+
+#: $lang['strmembers']
+msgid "Members"
+msgstr "Участников"
+
+#: $lang['strprivilege']
+msgid "Privilege"
+msgstr "Привилегия"
+
+#: $lang['strprivileges']
+msgid "Privileges"
+msgstr "Привилегии"
+
+#: $lang['strnoprivileges']
+msgid "This object has no privileges."
+msgstr "Объект не имеет привилегий."
+
+#: $lang['strgrant']
+msgid "Grant"
+msgstr "Усилить"
+
+#: $lang['strrevoke']
+msgid "Revoke"
+msgstr "Ослабить"
+
+#: $lang['strgranted']
+msgid "Privileges granted."
+msgstr "Привилегии усилены."
+
+#: $lang['strgrantfailed']
+msgid "Failed to grant privileges."
+msgstr "Усиление привилегий прервано."
+
+#: $lang['strgrantuser']
+msgid "Grant User"
+msgstr "Усилить пользователя"
+
+#: $lang['strgrantgroup']
+msgid "Grant Group"
+msgstr "Усилить группу"
+
+#: $lang['strdatabase']
+msgid "Database"
+msgstr "База данных"
+
+#: $lang['strdatabases']
+msgid "Databases"
+msgstr "Базы данных"
+
+#: $lang['strshowalldatabases']
+msgid "Show all databases"
+msgstr "Показать все базы данных"
+
+#: $lang['strnodatabase']
+msgid "No Database found."
+msgstr "База данных не обнаружена."
+
+#: $lang['strnodatabases']
+msgid "No Databases found."
+msgstr "Ни одной базы данных не обнаружено."
+
+#: $lang['strcreatedatabase']
+msgid "Create database"
+msgstr "Создать базу данных"
+
+#: $lang['strdatabasename']
+msgid "Database name"
+msgstr "Имя базы данных"
+
+#: $lang['strdatabaseneedsname']
+msgid "You must give a name for your database."
+msgstr "Вам необходимо присвоить имя Вашей базе данных."
+
+#: $lang['strdatabasecreated']
+msgid "Database created."
+msgstr "База данных создана."
+
+#: $lang['strdatabasecreatedbad']
+msgid "Database creation failed."
+msgstr "Создание базы данных прервано."
+
+#: $lang['strconfdropdatabase']
+msgid "Are you sure you want to drop the database \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить базу данных \"%s\"?"
+
+#: $lang['strdatabasedropped']
+msgid "Database dropped."
+msgstr " База данных уничтожена."
+
+#: $lang['strdatabasedroppedbad']
+msgid "Database drop failed."
+msgstr "Уничтожение базы данных прервано."
+
+#: $lang['strentersql']
+msgid "Enter the SQL to execute below:"
+msgstr "Введите SQL-запрос ниже:"
+
+#: $lang['strvacuumgood']
+msgid "Vacuum complete."
+msgstr "Операция перестройки завершена."
+
+#: $lang['strvacuumbad']
+msgid "Vacuum failed."
+msgstr "Операция перестройки прервана."
+
+#: $lang['stranalyzegood']
+msgid "Analyze complete."
+msgstr " Операция анализа завершена."
+
+#: $lang['stranalyzebad']
+msgid "Analyze failed."
+msgstr " Операция анализа завершена."
+
+#: $lang['strview']
+msgid "View"
+msgstr "Представление"
+
+#: $lang['strviews']
+msgid "Views"
+msgstr "Представления"
+
+#: $lang['strshowallviews']
+msgid "Show all views"
+msgstr "Показать все представления"
+
+#: $lang['strnoview']
+msgid "No view found."
+msgstr "Представление не обнаружено."
+
+#: $lang['strnoviews']
+msgid "No views found."
+msgstr "Ни одного представления не обнаружено."
+
+#: $lang['strcreateview']
+msgid "Create View"
+msgstr "Создать представление"
+
+#: $lang['strviewname']
+msgid "View name"
+msgstr "Имя представления"
+
+#: $lang['strviewneedsname']
+msgid "You must give a name for your view."
+msgstr "Вам необходимо указать имя представления."
+
+#: $lang['strviewneedsdef']
+msgid "You must give a definition for your view."
+msgstr " Вам необходимо определить атрибуты представления."
+
+#: $lang['strviewcreated']
+msgid "View created."
+msgstr "Представление создано."
+
+#: $lang['strviewcreatedbad']
+msgid "View creation failed."
+msgstr "Создание представления прервано."
+
+#: $lang['strconfdropview']
+msgid "Are you sure you want to drop the view \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить представление \"%s\"?"
+
+#: $lang['strviewdropped']
+msgid "View dropped."
+msgstr "Представление уничтожено."
+
+#: $lang['strviewdroppedbad']
+msgid "View drop failed."
+msgstr "Уничтожение представления прервано."
+
+#: $lang['strviewupdated']
+msgid "View updated."
+msgstr "Представление обновлено."
+
+#: $lang['strviewupdatedbad']
+msgid "View update failed."
+msgstr "Обновление представления прервано."
+
+#: $lang['strsequence']
+msgid "Sequence"
+msgstr "Последовательность"
+
+#: $lang['strsequences']
+msgid "Sequences"
+msgstr " Последовательности"
+
+#: $lang['strshowallsequences']
+msgid "Show all sequences"
+msgstr "Показать все последовательности"
+
+#: $lang['strnosequence']
+msgid "No sequence found."
+msgstr "Последовательность не обнаружена."
+
+#: $lang['strnosequences']
+msgid "No sequences found."
+msgstr "Ни одной последовательности не обнаружено."
+
+#: $lang['strcreatesequence']
+msgid "Create sequence"
+msgstr "Создать последовательность"
+
+#: $lang['strlastvalue']
+msgid "Last Value"
+msgstr "Последнее значение"
+
+#: $lang['strincrementby']
+msgid "Increment By"
+msgstr "Увеличение на"
+
+#: $lang['strstartvalue']
+msgid "Start Value"
+msgstr "Начальное значение"
+
+#: $lang['strmaxvalue']
+msgid "Max Value"
+msgstr "Макс. величина"
+
+#: $lang['strminvalue']
+msgid "Min Value"
+msgstr "Мин. величина"
+
+#: $lang['strcachevalue']
+msgid "Cache Value"
+msgstr "Размер кэша"
+
+#: $lang['strlogcount']
+msgid "Log Count"
+msgstr "Log Count"
+
+#: $lang['striscycled']
+msgid "Is Cycled?"
+msgstr "Зациклить?"
+
+#: $lang['striscalled']
+msgid "Is Called?"
+msgstr "Уже вызывалась?"
+
+#: $lang['strsequenceneedsname']
+msgid "You must specify a name for your sequence."
+msgstr "Вам необходимо указать имя последовательности."
+
+#: $lang['strsequencecreated']
+msgid "Sequence created."
+msgstr "Последовательность создана."
+
+#: $lang['strsequencecreatedbad']
+msgid "Sequence creation failed."
+msgstr "Создание последовательности прервано."
+
+#: $lang['strconfdropsequence']
+msgid "Are you sure you want to drop sequence \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить последовательность \"%s\"?"
+
+#: $lang['strsequencedropped']
+msgid "Sequence dropped."
+msgstr "Последовательность уничтожена."
+
+#: $lang['strsequencedroppedbad']
+msgid "Sequence drop failed."
+msgstr "Уничтожение последовательности прервано."
+
+#: $lang['strindexes']
+msgid "Indexes"
+msgstr "Индекс"
+
+#: $lang['strindexname']
+msgid "Name of index"
+msgstr "Имя индекса"
+
+#: $lang['strshowallindexes']
+msgid "Show All Indexes"
+msgstr "Показать все индексы"
+
+#: $lang['strnoindex']
+msgid "No index found."
+msgstr "Индекс не обнаружен."
+
+#: $lang['strnoindexes']
+msgid "No indexes found."
+msgstr "Ни одного индекса не обнаружено."
+
+#: $lang['strcreateindex']
+msgid "Create Index"
+msgstr "Создать индекс"
+
+#: $lang['strtabname']
+msgid "Tab Name"
+msgstr "Имя таблицы"
+
+#: $lang['strcolumnname']
+msgid "Column Name"
+msgstr "Имя атрибута"
+
+#: $lang['strindexneedsname']
+msgid "You must give a name for your index"
+msgstr "Вам необходимо указать имя индекса"
+
+#: $lang['strindexneedscols']
+msgid "Indexes require a valid number of columns."
+msgstr "Вам необходимо указать допустимое количество атрибутов."
+
+#: $lang['strindexcreated']
+msgid "Index created"
+msgstr "Индекс создан."
+
+#: $lang['strindexcreatedbad']
+msgid "Index creation failed."
+msgstr "Создание индекса прервано."
+
+#: $lang['strconfdropindex']
+msgid "Are you sure you want to drop the index \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить индекс \"%s\"?"
+
+#: $lang['strindexdropped']
+msgid "Index dropped."
+msgstr "Индекс уничтожен."
+
+#: $lang['strindexdroppedbad']
+msgid "Index drop failed."
+msgstr "Уничтожение индекса прервано."
+
+#: $lang['strkeyname']
+msgid "Key Name"
+msgstr "Имя ключа"
+
+#: $lang['struniquekey']
+msgid "Unique Key"
+msgstr "Уникальный ключ"
+
+#: $lang['strprimarykey']
+msgid "Primary Key"
+msgstr "Первичный ключ"
+
+#: $lang['strindextype']
+msgid "Type of index"
+msgstr "Вид индекса"
+
+#: $lang['strtablecolumnlist']
+msgid "Columns in Table"
+msgstr "Атрибутов в таблице"
+
+#: $lang['strindexcolumnlist']
+msgid "Columns in Index"
+msgstr "Атрибутов в индексе"
+
+#: $lang['strrules']
+msgid "Rules"
+msgstr "Правила"
+
+#: $lang['strrule']
+msgid "Rule"
+msgstr "Правило"
+
+#: $lang['strshowallrules']
+msgid "Show all Rules"
+msgstr "Показать все правила"
+
+#: $lang['strnorule']
+msgid "No rule found."
+msgstr "Правило не обнаружено."
+
+#: $lang['strnorules']
+msgid "No rules found."
+msgstr "Ни одного правила не обнаружено."
+
+#: $lang['strcreaterule']
+msgid "Create rule"
+msgstr "Создать правило"
+
+#: $lang['strrulename']
+msgid "Rule name"
+msgstr "Имя правила"
+
+#: $lang['strruleneedsname']
+msgid "You must specify a name for your rule."
+msgstr "Вам необходимо указать имя правила."
+
+#: $lang['strrulecreated']
+msgid "Rule created."
+msgstr "Правило создано."
+
+#: $lang['strrulecreatedbad']
+msgid "Rule creation failed."
+msgstr "Создание правила прервано."
+
+#: $lang['strconfdroprule']
+msgid "Are you sure you want to drop the rule \"%s\" on \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить правило \"%s\" on \"%s\"?"
+
+#: $lang['strruledropped']
+msgid "Rule dropped."
+msgstr "Правило уничтожено."
+
+#: $lang['strruledroppedbad']
+msgid "Rule drop failed."
+msgstr "Уничтожение правила прервано."
+
+#: $lang['strconstraints']
+msgid "Constraints"
+msgstr "Ограничения"
+
+#: $lang['strshowallconstraints']
+msgid "Show all constraints"
+msgstr "Показать все ограничения"
+
+#: $lang['strnoconstraints']
+msgid "No constraints found."
+msgstr "Ни одного ограничения не обнаружено."
+
+#: $lang['strcreateconstraint']
+msgid "Create Constraint"
+msgstr "Создать ограничение"
+
+#: $lang['strconstraintcreated']
+msgid "Constraint created."
+msgstr "Ограничение создано."
+
+#: $lang['strconstraintcreatedbad']
+msgid "Constraint creation failed."
+msgstr "Создание ограничения прервано."
+
+#: $lang['strconfdropconstraint']
+msgid "Are you sure you want to drop the constraint \"%s\" on \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить ограничение \"%s\" on \"%s\"?"
+
+#: $lang['strconstraintdropped']
+msgid "Constraint dropped."
+msgstr "Ограничение уничтожено."
+
+#: $lang['strconstraintdroppedbad']
+msgid "Constraint drop failed."
+msgstr "Уничтожение ограничения прервано."
+
+#: $lang['straddcheck']
+msgid "Add Check"
+msgstr "Добавиь проверку"
+
+#: $lang['strcheckneedsdefinition']
+msgid "Check constraint needs a definition."
+msgstr "Ограничение проверки нуждается в определении."
+
+#: $lang['strcheckadded']
+msgid "Check constraint added."
+msgstr "Ограничение проверки добавлено."
+
+#: $lang['strcheckaddedbad']
+msgid "Failed to add check constraint."
+msgstr "Добавление ограничения проверки прервано."
+
+#: $lang['straddpk']
+msgid "Add Primary Key"
+msgstr ""
+
+#: $lang['strpkneedscols']
+msgid "Primary key requires at least one column."
+msgstr ""
+
+#: $lang['strpkadded']
+msgid "Primary key added."
+msgstr ""
+
+#: $lang['strpkaddedbad']
+msgid "Failed to add primary key."
+msgstr ""
+
+#: $lang['stradduniq']
+msgid "Add Unique Key"
+msgstr ""
+
+#: $lang['struniqneedscols']
+msgid "Unique key requires at least one column."
+msgstr ""
+
+#: $lang['struniqadded']
+msgid "Unique key added."
+msgstr ""
+
+#: $lang['struniqaddedbad']
+msgid "Failed to add unique key."
+msgstr ""
+
+#: $lang['straddfk']
+msgid "Add Foreign Key"
+msgstr ""
+
+#: $lang['strfkneedscols']
+msgid "Foreign key requires at least one column."
+msgstr ""
+
+#: $lang['strfkadded']
+msgid "Foreign key added."
+msgstr ""
+
+#: $lang['strfkaddedbad']
+msgid "Failed to add foreign key."
+msgstr ""
+
+#: $lang['strfktarget']
+msgid "Target table"
+msgstr ""
+
+#: $lang['strfunction']
+msgid "Function"
+msgstr "Функция"
+
+#: $lang['strfunctions']
+msgid "Functions"
+msgstr " Функции"
+
+#: $lang['strshowallfunctions']
+msgid "Show all functions"
+msgstr "Показать все функции"
+
+#: $lang['strnofunction']
+msgid "No function found."
+msgstr "Функция не обнаружена."
+
+#: $lang['strnofunctions']
+msgid "No functions found."
+msgstr "Ни одной функции не обнаружено."
+
+#: $lang['strcreatefunction']
+msgid "Create function"
+msgstr "Создать функцию"
+
+#: $lang['strfunctionname']
+msgid "Function name"
+msgstr "Имя функции"
+
+#: $lang['strreturns']
+msgid "Returns"
+msgstr "Возвращаемое значение"
+
+#: $lang['strarguments']
+msgid "Arguments"
+msgstr "Аргументы"
+
+#: $lang['strfunctionneedsname']
+msgid "You must give a name for your function."
+msgstr "Вам необходимо указать имя функции."
+
+#: $lang['strfunctionneedsdef']
+msgid "You must give a definition for your function."
+msgstr "Вам необходимо определить функцию."
+
+#: $lang['strfunctioncreated']
+msgid "Function created."
+msgstr "Функция создана."
+
+#: $lang['strfunctioncreatedbad']
+msgid "Function creation failed."
+msgstr "Создание функции прервано."
+
+#: $lang['strconfdropfunction']
+msgid "Are you sure you want to drop the function \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить функцию \"%s\"?"
+
+#: $lang['strfunctiondropped']
+msgid "Function dropped."
+msgstr "Функция уничтожена."
+
+#: $lang['strfunctiondroppedbad']
+msgid "Function drop failed."
+msgstr "Уничтожение функции прервано."
+
+#: $lang['strfunctionupdated']
+msgid "Function updated."
+msgstr "Функция обновлена."
+
+#: $lang['strfunctionupdatedbad']
+msgid "Function update failed."
+msgstr "Обновление функции прервано."
+
+#: $lang['strtrigger']
+msgid "Trigger"
+msgstr "Триггер"
+
+#: $lang['strtriggers']
+msgid "Triggers"
+msgstr " Триггеры"
+
+#: $lang['strshowalltriggers']
+msgid "Show all triggers"
+msgstr "Показать все триггеры"
+
+#: $lang['strnotrigger']
+msgid "No trigger found."
+msgstr "Триггер не обнаружен."
+
+#: $lang['strnotriggers']
+msgid "No triggers found."
+msgstr "Ни одного триггера не обнаружено."
+
+#: $lang['strcreatetrigger']
+msgid "Create Trigger"
+msgstr "Создать триггер"
+
+#: $lang['strtriggerneedsname']
+msgid "You must specify a name for your trigger."
+msgstr "Вам необходимо указать имя триггера."
+
+#: $lang['strtriggerneedsfunc']
+msgid "You must specify a function for your trigger."
+msgstr "Вам необходимо определить функцию триггера."
+
+#: $lang['strtriggercreated']
+msgid "Trigger created."
+msgstr "Триггер создан."
+
+#: $lang['strtriggercreatedbad']
+msgid "Trigger creation failed."
+msgstr "Создание триггера прервано."
+
+#: $lang['strconfdroptrigger']
+msgid "Are you sure you want to drop the trigger \"%s\" on \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить триггер \"%s\" на \"%s\"?"
+
+#: $lang['strtriggerdropped']
+msgid "Trigger dropped."
+msgstr "Триггер уничтожен."
+
+#: $lang['strtriggerdroppedbad']
+msgid "Trigger drop failed."
+msgstr "Уничтожение триггера прервано."
+
+#: $lang['strtype']
+msgid "Type"
+msgstr "Тип данных"
+
+#: $lang['strtypes']
+msgid "Types"
+msgstr "Типы данных"
+
+#: $lang['strshowalltypes']
+msgid "Show all types"
+msgstr "Показать все типы данных"
+
+#: $lang['strnotype']
+msgid "No type found."
+msgstr "Тип данных не обнаружен."
+
+#: $lang['strnotypes']
+msgid "No types found."
+msgstr "Ни одного типа данных не обнаружено."
+
+#: $lang['strcreatetype']
+msgid "Create Type"
+msgstr "Создать тип данных"
+
+#: $lang['strtypename']
+msgid "Type name"
+msgstr "Имя типа данных"
+
+#: $lang['strinputfn']
+msgid "Input function"
+msgstr "Функция ввода"
+
+#: $lang['stroutputfn']
+msgid "Output function"
+msgstr "Функция вывода"
+
+#: $lang['strpassbyval']
+msgid "Passed by val?"
+msgstr "Передать по значению?"
+
+#: $lang['stralignment']
+msgid "Alignment"
+msgstr "Выравнивание"
+
+#: $lang['strelement']
+msgid "Element"
+msgstr "Элемент"
+
+#: $lang['strdelimiter']
+msgid "Delimiter"
+msgstr "Разделитель"
+
+#: $lang['strstorage']
+msgid "Storage"
+msgstr "Storage"
+
+#: $lang['strtypeneedsname']
+msgid "You must give a name for your type."
+msgstr "Вам необходимо указать имя типа данных."
+
+#: $lang['strtypeneedslen']
+msgid "You must give a length for your type."
+msgstr "Вам необходимо указать размер для типа данных."
+
+#: $lang['strtypecreated']
+msgid "Type created"
+msgstr "Тип данных создан."
+
+#: $lang['strtypecreatedbad']
+msgid "Type creation failed."
+msgstr "Создание типа данных прервано."
+
+#: $lang['strconfdroptype']
+msgid "Are you sure you want to drop the type \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить тип данных \"%s\"?"
+
+#: $lang['strtypedropped']
+msgid "Type dropped."
+msgstr "Тип данных уничтожен."
+
+#: $lang['strtypedroppedbad']
+msgid "Type drop failed."
+msgstr "Уничтожение типа данных прервано."
+
+#: $lang['strschema']
+msgid "Schema"
+msgstr "Схема"
+
+#: $lang['strschemas']
+msgid "Schemas"
+msgstr "Схемы"
+
+#: $lang['strshowallschemas']
+msgid "Show All Schemas"
+msgstr "Показать все схемы"
+
+#: $lang['strnoschema']
+msgid "No schema found."
+msgstr "Схема не обнаружена."
+
+#: $lang['strnoschemas']
+msgid "No schemas found."
+msgstr "Ни одной схемы не обнаружено."
+
+#: $lang['strcreateschema']
+msgid "Create Schema"
+msgstr "Создать схему"
+
+#: $lang['strschemaname']
+msgid "Schema name"
+msgstr "Имя схемы"
+
+#: $lang['strschemaneedsname']
+msgid "You must give a name for your schema."
+msgstr "Вам необходимо указать имя схемы."
+
+#: $lang['strschemacreated']
+msgid "Schema created"
+msgstr "Схема создана."
+
+#: $lang['strschemacreatedbad']
+msgid "Schema creation failed."
+msgstr "Создание схемы прервано."
+
+#: $lang['strconfdropschema']
+msgid "Are you sure you want to drop the schema \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить схему \"%s\"?"
+
+#: $lang['strschemadropped']
+msgid "Schema dropped."
+msgstr "Схема уничтожена."
+
+#: $lang['strschemadroppedbad']
+msgid "Schema drop failed."
+msgstr "Уничтожение схемы прервано."
+
+#: $lang['strreport']
+msgid "Report"
+msgstr "Отчет"
+
+#: $lang['strreports']
+msgid "Reports"
+msgstr "Отчеты"
+
+#: $lang['strshowallreports']
+msgid "Show all reports"
+msgstr "Показать все отчеты"
+
+#: $lang['strnoreports']
+msgid "No reports found."
+msgstr "Отчетов нет."
+
+#: $lang['strcreatereport']
+msgid "Create Report"
+msgstr "Создать отчет"
+
+#: $lang['strreportdropped']
+msgid "Report dropped."
+msgstr "Отчет уничтожен."
+
+#: $lang['strreportdroppedbad']
+msgid "Report drop failed."
+msgstr "Уничтожение отчета прервано."
+
+#: $lang['strconfdropreport']
+msgid "Are you sure you want to drop the report \"%s\"?"
+msgstr "Вы уверены, что хотите уничтожить отчет \"%s\"?"
+
+#: $lang['strreportneedsname']
+msgid "You must give a name for your report."
+msgstr "Вам необходимо указать имя отчета."
+
+#: $lang['strreportneedsdef']
+msgid "You must give SQL for your report."
+msgstr "Вам необходимо указать SQL-запрос для Вашего отчета."
+
+#: $lang['strreportcreated']
+msgid "Report saved."
+msgstr "Отчет сохранен."
+
+#: $lang['strreportcreatedbad']
+msgid "Failed to save report."
+msgstr "Сохранение отчета прервано."
+
+#: $lang['strtopbar']
+msgid "%s running on %s:%s -- You are logged in as user \"%s\", %s"
+msgstr "%s выполняется на %s:%s -- Вы зарегистрированы как \"%s\", %s"
+
+#: $lang['strtimefmt']
+msgid "jS M, Y g:iA"
+msgstr " j-m-Y g:i"
+
