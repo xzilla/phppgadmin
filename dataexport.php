@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.8 2003/12/21 10:44:52 chriskl Exp $
+	 * $Id: dataexport.php,v 1.9 2003/12/27 10:57:36 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -38,6 +38,7 @@
 					$url .= '&d_format=' . urlencode($_REQUEST['d_format']);
 					if (isset($_REQUEST['d_oids'])) $url .= '&d_oids=' . urlencode($_REQUEST['d_oids']);
 					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					$url .= "&" . SID;
 					
 					header("Location: {$url}");
 					exit;
@@ -56,6 +57,7 @@
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					if (isset($_REQUEST['s_clean'])) $url .= '&s_clean=' . urlencode($_REQUEST['s_clean']);
 					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					$url .= "&" . SID;
 					
 					header("Location: {$url}");
 					exit;
@@ -73,6 +75,7 @@
 					if (isset($_REQUEST['sd_clean'])) $url .= '&sd_clean=' . urlencode($_REQUEST['sd_clean']);
 					if (isset($_REQUEST['sd_oids'])) $url .= '&sd_oids=' . urlencode($_REQUEST['sd_oids']);
 					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					$url .= "&" . SID;
 					
 					header("Location: {$url}");
 					exit;
