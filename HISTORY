@@ -10,6 +10,7 @@ Version 3.1
 * German update from Markus Bertheau
 * Allow granting privileges WITH GRANT OPTION for 7.4
 * Display new PostgreSQL 7.4 grant options and grantor in privileges
+* Find Object feature
 
 Version 3.0
 -----------

@@ -1,3 +1,5 @@
-* Fix grant option/grantor stuff (and commas in usernames)
+* Fix privileges for commas and stuff in usernames
 * Create trigger screen doesn't save fields if it fails creating trigger
 * XML output can't use field names as tag names...
+* Backport findObject to pre-7.3
+

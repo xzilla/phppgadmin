@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.16 2003/07/28 07:50:31 chriskl Exp $
+	 * $Id: database.php,v 1.17 2003/07/29 00:36:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,6 +12,10 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	function _highlight($string, $term) {
+		return str_replace($term, "<b>{$term}</b>", $string);
+	}	
 
 	/**
 	 * Searches for a named database object
@@ -56,27 +60,55 @@
 							case 'SEQUENCE':
 								echo $lang['strsequences'];
 								break;
+							case 'COLUMN':
+								echo $lang['strcolumns'];
+								break;
+							case 'FUNCTION':
+								echo $lang['strfunctions'];
+								break;
+							case 'TYPE':
+								echo $lang['strtypes'];
+								break;
 						}
 						echo "</h2>";
 						echo "<ul>\n";
 					}
 					switch ($curr) {
 						case 'SCHEMA':						
-							echo "<li>", htmlspecialchars($rs->f['name']), "</li>\n";
+							echo "<li><a href=\"database.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TABLE':
-							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'VIEW':
-							echo "<li><a href=\"views.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&view=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							echo "<li><a href=\"views.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&view=", 
+								urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'SEQUENCE':
-							echo "<li><a href=\"sequences.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&sequence=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							echo "<li><a href=\"sequences.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), 
+								"&sequence=", urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'COLUMN':
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['relname']), "&column=", urlencode($rs->f['name']), "&action=properties\">", 
+								$misc->printVal($rs->f['schemaname']), '.', $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'FUNCTION':
+							echo "<li><a href=\"functions.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&function=", 
+								urlencode($rs->f['name']), "&function_oid=", urlencode($rs->f['oid']), "\">", 
+								$misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'TYPE':
+							echo "<li><a href=\"types.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&type=", 
+								urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 					}
 					$rs->moveNext();	
 				}			
 				echo "</ul>\n";
+				
+				echo "<p>", $rs->recordCount(), " ", $lang['strrows'], "</p>\n";
 			}
 			else echo $lang['strnodata'];
 		}		

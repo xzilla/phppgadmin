@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.49 2003/07/28 07:14:08 chriskl Exp $
+ * $Id: Postgres73.php,v 1.50 2003/07/29 00:36:45 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -916,18 +916,35 @@ class Postgres73 extends Postgres72 {
 	 * @return A recordset
 	 */
 	function findObject($term) {
-		// Escape search term for LIKE match
+		global $conf;
+
+		// Escape search term for ILIKE match
 		$term = str_replace('_', '\\_', $term);
 		$term = str_replace('%', '\\%', $term);
 		$this->clean($term);
+
+		// Exclude system relations if necessary
+		if (!$conf['show_system']) $where = " AND pn.nspname NOT LIKE 'pg_%'";
+		else $where = '';
 		
 		$sql = "
-			SELECT 'SCHEMA' AS type, NULL AS schemaname, nspname AS name FROM pg_catalog.pg_namespace WHERE nspname ILIKE '%{$term}%'
+			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name 
+				FROM pg_catalog.pg_namespace pn WHERE nspname ILIKE '%{$term}%' {$where}
 			UNION ALL
-			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END, 
-				pn.nspname, pc.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn 
-				WHERE pc.relnamespace=pn.oid AND relkind IN ('r', 'v', 'S') AND relname ILIKE '%{$term}%'
-			ORDER BY type, name";
+			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END, pc.oid,
+				pn.nspname, NULL, pc.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn 
+				WHERE pc.relnamespace=pn.oid AND relkind IN ('r', 'v', 'S') AND relname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'COLUMN', NULL, pn.nspname, pc.relname, pa.attname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_attribute pa WHERE pc.relnamespace=pn.oid AND pc.oid=pa.attrelid 
+				AND pa.attname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
+				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'TYPE', pt.oid, pn.nspname, NULL, pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
+				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%' {$where}
+			ORDER BY type, schemaname, relname, name";
 			
 		return $this->selectSet($sql);
 	}	
