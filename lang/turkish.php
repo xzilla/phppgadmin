@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.8 2004/02/17 12:52:52 chriskl Exp $
+	 * $Id: turkish.php,v 1.9 2004/05/23 02:52:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -16,13 +16,17 @@
 	// Basic strings
 	$lang['strintro'] = 'phpPgAdmin\'e hoþgeldiniz.';
 	$lang['strppahome'] = 'phpPgAdmin Ana Sayfasý';
-	$lang['strlogin'] = 'Giriþ';
+	$lang['strpgsqlhome']  =  'PostgreSQL Ana Sayfasý';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL Belgeleri (yerel)';
 	$lang['strreportbug'] = 'Hata Bildirin';
 	$lang['strviewfaq'] = 'Sýkça Sorulan Sorular';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
+	$lang['strlogin']  =  'Giriþ';
 	$lang['strloginfailed'] = 'Giriþ Baþarýsýz';
+	$lang['strlogindisallowed']  =  'Güvenlik nedeniyle giriþe izin verilmedi.';
 	$lang['strserver'] = 'Sunucu';
 	$lang['strlogout'] = 'Çýkýþ';
 	$lang['strowner'] = 'Sahibi';
@@ -30,8 +34,6 @@
 	$lang['stractions'] = 'Eylemler';
 	$lang['strname'] = 'Ad';
 	$lang['strdefinition'] = 'Taným';
-	$lang['stroperators'] = 'Operatörler';
-	$lang['straggregates'] = 'Aggregates';
 	$lang['strproperties'] = 'Özellikler';
 	$lang['strbrowse'] = 'Gözat';
 	$lang['strdrop'] = 'Sil';
@@ -40,10 +42,10 @@
 	$lang['strnotnull'] = 'Null/Null deðil';
 	$lang['strprev'] = 'Önceki';
 	$lang['strnext'] = 'Sonraki';
-	$lang['strfailed'] = 'baþarýsýz oldu';
-	$lang['strcreate'] = 'Yarat';
 	$lang['strfirst'] = '<< Ýlk';
 	$lang['strlast'] = 'Son >>';
+	$lang['strfailed']  =  'Baþarýsýz oldu.';
+	$lang['strcreate']  =  'Yarat';
 	$lang['strcreated'] = 'Yaratýldý';
 	$lang['strcomment'] = 'Yorum';
 	$lang['strlength'] = 'Uzunluk';
@@ -60,15 +62,16 @@
 	$lang['strreferences'] = 'References';
 	$lang['stryes'] = 'Evet';
 	$lang['strno'] = 'Hayýr';
+	$lang['strtrue']  =  'TRUE';
+	$lang['strfalse']  =  'FALSE';
 	$lang['stredit'] = 'Düzenle';
 	$lang['strcolumns'] = 'Kolonlar';
 	$lang['strrows'] = 'satýr';
-	$lang['strtrue'] = 'True';
-	$lang['strfalse'] = 'False';
+	$lang['strrowsaff']  =  'satýr iþlendi.';
+	$lang['strobjects']  =  'nesne(ler)';
 	$lang['strexample'] = 'Örnek:';
 	$lang['strback'] = 'Geri';
 	$lang['strqueryresults'] = 'Sorgu sonuçlarý';
-	$lang['strrowsaff'] = 'satýr etkilendi.';
 	$lang['strshow'] = 'Göster';
 	$lang['strempty'] = 'Boþalt';
 	$lang['strlanguage'] = 'Dil';
@@ -77,13 +80,14 @@
 	$lang['strunique'] = 'Tekil';
 	$lang['strprimary'] = 'Birincil';
 	$lang['strexport'] = 'Export';
+	$lang['strimport']  =  'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Devam Et';
 	$lang['stradmin'] = 'Yönetici';
-	$lang['strimport'] = 'Import';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
 	$lang['strcluster'] = 'Cluster';
+	$lang['strclustered']  =  'Cluster edildi mi?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Çalýþtýr';
 	$lang['stradd'] = 'Ekle';
@@ -92,21 +96,36 @@
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'Format';
-
-	// Error handling
-	$lang['strnoframes'] = 'Bu uygulamayý kullanabilmek için frame destekleyen bir web istemcisi kullanmanýz gerekmektedir.';
 	$lang['strdata'] = 'Veri';
 	$lang['strconfirm'] = 'Onayla';
 	$lang['strexpression'] = 'Ýfade';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Geniþlet';
+	$lang['strcollapse']  =  'Dar görünüm';
 	$lang['strexplain'] = 'Explain';
+	$lang['strexplainanalyze']  =  'Explain Analyze';
 	$lang['strfind'] = 'Bul';
 	$lang['stroptions'] = 'Seçenekler';
 	$lang['strrefresh'] = 'Yenile';
 	$lang['strdownload'] = 'Ýndir';
-	$lang['strcollapse'] = 'Daralt';
-	$lang['strexplainanalyze'] = 'Explain Analyze';
+	$lang['strdownloadgzipped']  =  'gzip ile sýkýþtýrýlmýþ halde indir';
+	$lang['strinfo']  =  'Bilgi';
+	$lang['stroids']  =  'OIDler';
+	$lang['stradvanced']  =  'Geliþmiþ';
+	$lang['strvariables']  =  'Deðiþkenler';
+	$lang['strprocess']  =  'Süreç';
+	$lang['strprocesses']  =  'Süreçler';
+	$lang['strsetting']  =  'Ayar';
+	$lang['streditsql']  =  'SQL Düzenle';
+	$lang['strruntime']  =  'Toplam çalýþma süresi: %s ms';
+	$lang['strpaginate']  =  'Sonuçlarý sayfalandýr.';
+	$lang['struploadscript']  =  'ya da bir SQL betiði yükleyin:';
+	$lang['strstarttime']  =  'Baþlangýç zamaný';
+	$lang['strfile']  =  'Dosya';
+	$lang['strfileimported']  =  'Dosya import edildi.';
+
+	// Error handling
+	$lang['strnoframes']  =  'Bu uygulamayý kullanabilmek icin frame destekleyen bir gözatýcýya gereksinmeniz bulunmaktadýr.';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz güncel deðil. Bu dosyayý yeni config.inc.php-dist dosyasýndan yaratmanýz gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL desteði bulunamamýþtýr.';
 	$lang['strbadschema'] = 'Geçersiz þema.';
@@ -115,9 +134,14 @@
 	$lang['strinstatement'] = 'Üstteki hata, aþaðýdaki ifade içinde oluþtu:';
 	$lang['strinvalidparam'] = 'Geçersiz betik parametreleri.';
 	$lang['strnodata'] = 'Satýr bulunamadý.';
+	$lang['strnoobjects']  =  'Hiçbir nesne bulunamadý..';
+	$lang['strrownotunique']  =  'Bu satýr için hiçbir tekil belirtici bulunamadý.';
+	$lang['strnoreportsdb']  =  'reports veritabaný yaratýþmamýþ. Yönergeler için lütfen INSTALL dosyasýný okuyunuz.';
+	$lang['strnouploads']  =  'Dosya yükleme özelliði etkin deðil.';
+	$lang['strimporterror']  =  'Import hatasý.';
+	$lang['strimporterrorline']  =  '%s numaralý satýrda import hatasý.';
 
 	// Tables
-	$lang['strrownotunique'] = 'Bu satýr için tekil belirteç yok.';
 	$lang['strtable'] = 'Tablo';
 	$lang['strtables'] = 'Tablolar';
 	$lang['strshowalltables'] = 'Tüm tablolarý göster';
@@ -151,22 +175,28 @@
 	$lang['strfields'] = 'Alanlar';
 	$lang['strnumfields'] = 'Alan sayýsý';
 	$lang['strfieldneedsname'] = 'Alan kýsmýna ad vermelisiniz';
+	$lang['strselectallfields']  =  'Tüm alanlarý seç';
 	$lang['strselectneedscol'] = 'En az bir kolon iþaretlemelisiniz';
+	$lang['strselectunary']  =  'Unary operatörlerin deðeri olamaz.';
 	$lang['straltercolumn'] = 'Kolonu deðiþtir (alter)';
-	$lang['strselectallfields'] = 'Tüm alanlarý seç.';
 	$lang['strcolumnaltered'] = 'Kolon deðiþtirildi (alter)';
 	$lang['strcolumnalteredbad'] = 'Kolon deðiþtirilme iþlemi baþarýsýz oldu.';
+	$lang['strconfdropcolumn']  =  '"%s" kolonunu "%s" tablosundan silmek istediðinize emin misiniz?';
 	$lang['strcolumndropped'] = 'Kolon silindi.';
 	$lang['strcolumndroppedbad'] = 'Kolon silme iþlemi baþarýsýz oldu.';
-	$lang['strconfdropcolumn'] = '"%s" kolonunu "%s" tablosundan silmek istediðinize emin misiniz?';
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
-
-	// Users
+	$lang['strcascade']  =  'CASCADE';
 	$lang['strtablealtered'] = 'Tablo alter edildi..';
 	$lang['strtablealteredbad'] = 'Tablo alteration iþlemi baþarýsýz oldu.';
-	$lang['strcascade'] = 'CASCADE';
+	$lang['strdataonly']  =  'Sadece veri';
+	$lang['strstructureonly']  =  'Sadece yapý';
+	$lang['strstructureanddata']  =  'Yapý ve veri';
+	$lang['strtabbed']  =  'Tabbed';
+	$lang['strauto']  =  'Otomatik';
+
+	// Users
 	$lang['struser'] = 'Kullanýcý';
 	$lang['strusers'] = 'Kullanýcýlar';
 	$lang['strusername'] = 'Kullanýcý Adý';
@@ -174,24 +204,26 @@
 	$lang['strsuper'] = 'Superuser mý?';
 	$lang['strcreatedb'] = 'Veritabaný yaratabilsin mi?';
 	$lang['strexpires'] = 'Expires';
+	$lang['strsessiondefaults']  =  'Oturum varsayýlanlarý';
+	$lang['strnousers']  =  'Hiçbir kullanýcý bulunamadý.';
         $lang['struserupdated'] = 'Kullanýcý güncellendi.';
 	$lang['struserupdatedbad'] = 'Kullanýcý güncelleme iþlemi baþarýsýz oldu.';
-	$lang['strnousers'] = 'Hiç bir kullanýcý bulunamadý.';
 	$lang['strshowallusers'] = 'Tüm kullanýcýlarý göster.';
 	$lang['strcreateuser'] = 'Yeni kullanýcý yarat';
+	$lang['struserneedsname']  =  'Kullanýcýnýz için bir ad vermelisiniz.';
 	$lang['strusercreated'] = 'Kullanýcý yaratýldý.';
 	$lang['strusercreatedbad'] = 'Kullanýcý yaratýlma iþlemi baþarýsýz oldu.';
 	$lang['strconfdropuser'] = '"%s" kullanýcýsýný silmek istediðinize emin misiniz?';
 	$lang['struserdropped'] = 'Kullanýcý silindi.';
 	$lang['struserdroppedbad'] = 'Kullanýcý silme iþlemi baþarýsýz oldu.';
-		
-	// Groups
 	$lang['straccount'] = 'Hesap';
 	$lang['strchangepassword'] = 'Þifre Deðiþtir';
-	$lang['strpasswordshort'] = 'Þifre çok kýsa.';
 	$lang['strpasswordchanged'] = 'Þifre deðiþtirildi.';
 	$lang['strpasswordchangedbad'] = 'Þifre deðiþtirme baþarýsýz oldu.';
+	$lang['strpasswordshort']  =  'Þifre çok kýsa.';
 	$lang['strpasswordconfirm'] = 'Þifreler uyuþmadý.';
+	
+	// Groups
 	$lang['strgroup'] = 'Grup';
 	$lang['strgroups'] = 'Gruplar';
 	$lang['strnogroup'] = 'Grup bulunamadý.';
@@ -223,9 +255,10 @@
 	$lang['strgrantfailed'] = 'Ýzinlerin grant iþlemi baþarýsýz oldu.';
 
 	$lang['strgrantbad'] = 'En az bir kullanýcý ya da grup ve en az bir izin belirtmelisiniz.';
+	$lang['stralterprivs']  =  'Ýzinleri deðiþtir.';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
-	$lang['stralterprivs'] = 'Ýzinleri deðiþtir (Alter Privileges)';
+
 	// Databases
 	$lang['strdatabase'] = 'Veritabaný';
 	$lang['strdatabases'] = 'Veritabanlarý';
@@ -241,11 +274,16 @@
 	$lang['strdatabasedropped'] = 'Veritabaný kaldýrýldý.';
 	$lang['strdatabasedroppedbad'] = 'Veritabaný kaldýrma baþarýsýz oldu.';
 	$lang['strentersql'] = 'Veritabaný üzerinde çalýþtýrýlacak sorgu/sorgularý aþaðýya yazýnýz:';
-	$lang['strvacuumgood'] = 'Vacuum iþlemi tamamlandý.';
 	$lang['strsqlexecuted'] = 'SQL çalýþtýrýldý.';
+	$lang['strvacuumgood']  =  'Vacuum tamamlandý.';
 	$lang['strvacuumbad'] = 'Vacuum iþlemi baþarýsýz oldu.';
 	$lang['stranalyzegood'] = 'Analyze iþlemi tamamlandý.';
 	$lang['stranalyzebad'] = 'Analyze iþlemi baþarýsýz oldu.';
+	$lang['strreindexgood']  =  'Reindex tamamlandý.';
+	$lang['strreindexbad']  =  'Reindex baþarýsýz oldu.';
+	$lang['strfull']  =  'Full';
+	$lang['strfreeze']  =  'Freeze';
+	$lang['strforce']  =  'Force';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -257,13 +295,17 @@
 	$lang['strviewname'] = 'View adý';
 	$lang['strviewneedsname'] = 'View için bir ad belirtmelisiniz.';
 	$lang['strviewneedsdef'] = 'View için bir taným belirtmelisiniz.';
-	$lang['strviewcreated'] = 'View yaratýldý.';
+	$lang['strviewneedsfields']  =  'View içinde görünmesini istediðiniz kolonlarý belirtmelisiniz.';
+ 	$lang['strviewcreated'] = 'View yaratýldý.';
 	$lang['strviewcreatedbad'] = 'View yaratma iþlemi baþarýsýz oldu.';
 	$lang['strconfdropview'] = '"%s" viewini kaldýrmak istediðinize emin misiniz?';
 	$lang['strviewdropped'] = 'View kaldýrýldý.';
 	$lang['strviewdroppedbad'] = 'View kaldýrma iþlemi baþarýsýz oldu.';
 	$lang['strviewupdated'] = 'View güncellendi.';
 	$lang['strviewupdatedbad'] = 'View güncelleme iþlemi baþarýsýz oldu.';
+$lang['strviewlink']  =  'Linking Keys';
+	$lang['strviewconditions']  =  'Ek durumlar';
+	$lang['strcreateviewwiz']  =  'Sihirbaz ile view yaratýn';
 
 	// Sequences
 	$lang['strsequence'] = 'Sequence';
@@ -291,13 +333,13 @@
 	$lang['strsequenceresetbad'] = 'Sequence sýfýrlama baþarýsýz oldu.';
 
 	// Indexes
+	$lang['strindex']  =  'Index';
 	$lang['strindexes'] = 'Indeksler';
 	$lang['strindexname'] = 'Indeks adý';
 	$lang['strshowallindexes'] = 'Tüm indeksleri göster';
 	$lang['strnoindex'] = 'Hiçbir indeks bulunamadý.';
 	$lang['strnoindexes'] = 'Hiçbir indeks bulunamadý.';
 	$lang['strcreateindex'] = 'Indeks yarat';
-	$lang['strindexname'] = 'Indeks adý';
 	$lang['strtabname'] = 'Tab Adý';
 	$lang['strcolumnname'] = 'Kolon adý';
 	$lang['strindexneedsname'] = 'Indeksinize bir ad vermeniz gerekmektedir.';
@@ -311,9 +353,11 @@
 	$lang['struniquekey'] = 'Tekil (Unique) Anahtar';
 	$lang['strprimarykey'] = 'Birincil Anahtar (Primary Key)';
  	$lang['strindextype'] = 'Indeksin tipi';
-	$lang['strindexname'] = 'Indeksin adý';
 	$lang['strtablecolumnlist'] = 'Tablodaki kolonlar';
 	$lang['strindexcolumnlist'] = 'Indeksteki kolonlar';
+	$lang['strconfcluster']  =  '"%s" tablosunu cluster etmek istiyor musunuz?';
+	$lang['strclusteredgood']  =  'Cluster tamamlandý.';
+	$lang['strclusteredbad']  =  'Cluster baþarýsýz oldu.';
 
 	// Rules
 	$lang['strrules'] = 'Rules';
@@ -354,8 +398,8 @@
 	$lang['struniqaddedbad'] = 'Tekil anahtar eklenemedi.';
 	$lang['straddfk'] = 'Ýkincil anahtar ekle';
 	$lang['strfkneedscols'] = 'Ýkincil anahtar yaratmak için en az bir kolon gerekir.';
-	$lang['strfkadded'] = 'Ýkincil anahtar eklendi.';
 	$lang['strfkneedstarget'] = 'Ýkincil anahtar hedef bir tablo gerektirir.';
+	$lang['strfkadded']  =  'Ýkincil anahtar eklendi.';
 	$lang['strfkaddedbad'] = 'Ýkincil anahtar eklenemedi.';
 	$lang['strfktarget'] = 'Hedef tablo';
 
@@ -395,10 +439,10 @@
 	$lang['strtriggercreated'] = 'Trigger yaratýldý.';
 	$lang['strtriggercreatedbad'] = 'Trigger yaratýlamadý.';
 	$lang['strconfdroptrigger'] = '"%s" triggerini "%s" tablosundan kaldýrmak istediðinize emin misiniz?';
-	$lang['strtriggeraltered'] = 'Trigger alter edildi..';
-	$lang['strtriggeralteredbad'] = 'Trigger alter iþlemi baþarýsýz oldu.';
 	$lang['strtriggerdropped'] = 'Trigger silindi.';
 	$lang['strtriggerdroppedbad'] = 'Trigger silinme iþlemi baþarýsýz oldu.';
+	$lang['strtriggeraltered']  =  'Trigger deðiþtirildi.';
+	$lang['strtriggeralteredbad']  =  'Trigger deðiþtirilme iþlemi baþarýsýz oldu.';
 
 	// Types
 	$lang['strtype'] = 'Veri tipi';
@@ -437,6 +481,8 @@
 	$lang['strconfdropschema'] = '"%s" þemasýný kaldýrmak istediðinize emin misiniz?';
 	$lang['strschemadropped'] = 'Þema kaldýrýldý.';
 	$lang['strschemadroppedbad'] = 'Þema kaldýrma iþlemi baþarýsýz oldu.';
+	$lang['strschemaaltered']  =  'Schema deðiþtirildi.';
+	$lang['strschemaalteredbad']  =  'Schema deðiþtirilme iþlemi baþarýsýz oldu.';
 
 	// Reports
 	$lang['strreport'] = 'Rapor';
@@ -464,40 +510,15 @@
 	$lang['strdomaincreatedbad'] = 'Domain yaratma baþarýsýz oldu.';
 	$lang['strdomainaltered'] = 'Domain alter edildi.';
 	$lang['strdomainalteredbad'] = 'Domain alter iþlemi baþarýsýz oldu.';
-        $lang['strpgsqlhome'] = 'PostgreSQL Ana Sayfasý';
 
 	$lang['stroperator'] = 'Operatör';
-	// Miscellaneous
+	$lang['stroperators']  =  'Operatörler';
 	$lang['strshowalloperators'] = 'Tüm operatörleri göster';
 	$lang['strnooperator'] = 'Operatör bulunamadý.';
 	$lang['strnooperators'] = 'Operatör bulunamadý.';
 	$lang['strcreateoperator'] = 'Operatör yaratýldý.';
 	$lang['strleftarg'] = 'Sol Arg Tipi';
 	$lang['strrightarg'] = 'Sað Arg Tipi';
-	$lang['stroperatorneedsname'] = 'Operatöre bir ad vermelisiniz.';
-	$lang['stroperatorcreated'] = 'Operatör yaratýldý';
-	$lang['stroperatorcreatedbad'] = 'Operatör iþlemi baþarýsýz oldý.';
-	$lang['strconfdropoperator'] = '"%s" operatörünü silmek istediðinize emin misiniz?';
-	$lang['stroperatordropped'] = 'Operatör silindi';
-	$lang['stroperatordroppedbad'] = 'Operatör silme baþarýsýz oldu.';
-	$lang['strtopbar'] = '%s,  %s:%s  üzerinde çalýþýyor -- "%s" kullanýcýsý ile , %s tarihinde giriþ yaptýnýz';
-	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = 'Yardým';
-
-	$lang['strlogindisallowed'] = 'Giriþ izniniz yok';
-	$lang['strobjects'] = 'nesne(ler)';
-	$lang['strclustered'] = 'Clustered?';
-	$lang['strinfo'] = 'Bilgi';
-	$lang['stroids'] = 'OIDler';
-	$lang['stradvanced'] = 'Geliþmiþ';
-	$lang['strnoobjects'] = 'Hiç bir nesne bulunamadý.';
-	$lang['strselectunary'] = 'Unary operatörlerin deðeri olamaz.';
-	$lang['strstructureonly'] = 'Sadece yapý';
-	$lang['strstructureanddata'] = 'Yapý ve veri';
-	$lang['struserneedsname'] = 'Kullanýcýnýza bir ad vermelisiniz.';
-	$lang['strconfcluster'] = '"%s"\'i cluster etmek istediðinize emin misiniz?';
-	$lang['strclusteredgood'] = 'Cluster iþlemi tamamlandý.';
-	$lang['strclusteredbad'] = 'Cluster iþlemi baþarýsýz oldu.';
 	$lang['strcommutator'] = 'Commutator';
 	$lang['strnegator'] = 'Negator';
 	$lang['strrestrict'] = 'Restrict';
@@ -508,6 +529,14 @@
 	$lang['strrightsort'] = 'Right sort';
 	$lang['strlessthan'] = 'küçüktür';
 	$lang['strgreaterthan'] = 'büyüktür';
+	$lang['stroperatorneedsname']  =  'Operatöre bir ad vermelisiniz.';
+	$lang['stroperatorcreated']  =  'Operatör yaratýldý';
+	$lang['stroperatorcreatedbad']  =  'Operatör yaratma iþlemi baþarýsýz oldu.';
+	$lang['strconfdropoperator']  =  '"%s" operatörünü kaldýrmak istediðinize emin misiniz?';
+	$lang['stroperatordropped']  =  'Operatör kaldýrýldý.';
+	$lang['stroperatordroppedbad']  =  'Operator kaldýrma iþlemi baþarýsýz oldu.';
+
+	// Casts
 	$lang['strcasts'] = 'Casts';
 	$lang['strnocasts'] = 'Hiç cast bulunamadý.';
 	$lang['strsourcetype'] = 'Kaynak tip';
@@ -515,52 +544,50 @@
 	$lang['strimplicit'] = 'Implicit';
 	$lang['strinassignment'] = 'In assignment';
 	$lang['strbinarycompat'] = '(Binary uyumlu)';
+	
+	// Conversions
 	$lang['strconversions'] = 'Dönüþümleri';
 	$lang['strnoconversions'] = 'Hiç dönüþüm bulunamadý.';
 	$lang['strsourceencoding'] = 'Kaynak dil kodlamasý';
 	$lang['strtargetencoding'] = 'Hedef dil kodlamasý';
+	
+	// Languages
 	$lang['strlanguages'] = 'Diller';
 	$lang['strnolanguages'] = 'Hiç bir dil bulunamadý.';
 	$lang['strtrusted'] = 'Güvenilir';
+	
+	// Info
 	$lang['strnoinfo'] = 'Hiç bir bilgi yok.';
 	$lang['strreferringtables'] = 'Referring tables';
 	$lang['strparenttables'] = 'Parent tablolar';
 	$lang['strchildtables'] = 'Child tablolar';
-	$lang['strdataonly'] = 'Sadece veri';
-$lang['strdownloadgzipped'] = 'gzip ile sýkýþtýrýlmýþ dosyayý indirin';
-$lang['strvariables'] = 'Deðiþkenler';
-$lang['strprocess'] = 'Süreç';
-$lang['strprocesses'] = 'Süreçler';
-$lang['strsetting'] = 'Ayarlar';
-$lang['streditsql'] = 'SQL Düzenle';
-$lang['strpaginate'] = 'Sonuçlarý sayfalandýrs';
-$lang['strstarttime'] = 'Baþlama zamaný';
-$lang['strnoreportsdb'] = 'report veritabaný yaratýlmamýþ. Yönergeler için INSTALL dosyasýný okuyunuz.';
-$lang['strsessiondefaults'] = 'Ön tanýmlý Session Deðerleri';
-$lang['strviewlink'] = 'Linking Keys';
-$lang['strviewconditions'] = 'Ýlave Durumlar';
-$lang['strindex'] = 'Index';
-$lang['strnoaggregates'] = 'Hiç aggregates bulunamadý.';
-$lang['stralltypes'] = '(Tüm veri tipleri)';
-$lang['stropclasses'] = 'Op sýnýflarý';
-$lang['strnoopclasses'] = 'Hiç operatör sýnýfý bulunamadý.';
-$lang['straccessmethod'] = 'Eriþim Yöntemi';
-$lang['strrowperf'] = 'Satýr Baþarýmý';
-$lang['strioperf'] = 'I/O Baþarýmý';
-$lang['stridxrowperf'] = 'Index Satýr Baþarýmý';
-$lang['stridxioperf'] = 'Index I/O Baþarýmý';
-$lang['strpercent'] = '%';
-$lang['strsequential'] = 'Sequential';
-$lang['strscan'] = 'Scan';
-$lang['strread'] = 'Read';
-$lang['strfetch'] = 'Fetch';
-$lang['strheap'] = 'Heap';
-$lang['strtoast'] = 'TOAST';
-$lang['strtoastindex'] = 'TOAST Index';
-$lang['strcache'] = 'Cache';
-$lang['strdisk'] = 'Disk';
-$lang['strrows2'] = 'Rows';
+	
+	// Aggregates
+	$lang['straggregates']  =  'Aggregates';
+	$lang['strnoaggregates'] = 'Hiç aggregates bulunamadý.';
+	$lang['stralltypes'] = '(Tüm veri tipleri)';
+	$lang['stropclasses'] = 'Op sýnýflarý';
+	$lang['strnoopclasses'] = 'Hiç operatör sýnýfý bulunamadý.';
+	$lang['straccessmethod'] = 'Eriþim Yöntemi';
+	$lang['strrowperf'] = 'Satýr Baþarýmý';
+	$lang['strioperf'] = 'I/O Baþarýmý';
+	$lang['stridxrowperf'] = 'Index Satýr Baþarýmý';
+	$lang['stridxioperf'] = 'Index I/O Baþarýmý';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequential';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rows';
+
+	// Miscellaneous
+	$lang['strtopbar']  =  '%s, %s:%s üzerinde çalýþýyor-- "%s", %s kullanýcýsý ile sisteme giriþ yaptýnýz.';
+	$lang['strtimefmt']  =  'jS M, Y g:iA';
+	$lang['strhelp']  =  'Yardým';
 
 ?>
-
-

@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.8 2004/02/17 12:52:52 chriskl Exp $
+	 * $Id: turkish.php,v 1.9 2004/05/23 02:52:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -16,13 +16,17 @@
 	// Basic strings
 	$lang['strintro'] = 'phpPgAdmin\'e ho&#351;geldiniz.';
 	$lang['strppahome'] = 'phpPgAdmin Ana Sayfas&#305;';
-	$lang['strlogin'] = 'Giri&#351;';
+	$lang['strpgsqlhome']  =  'PostgreSQL Ana Sayfas&#305;';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL Belgeleri (yerel)';
 	$lang['strreportbug'] = 'Hata Bildirin';
 	$lang['strviewfaq'] = 'S&#305;k&ccedil;a Sorulan Sorular';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
+	$lang['strlogin']  =  'Giri&#351;';
 	$lang['strloginfailed'] = 'Giri&#351; Ba&#351;ar&#305;s&#305;z';
+	$lang['strlogindisallowed']  =  'G&uuml;venlik nedeniyle giri&#351;e izin verilmedi.';
 	$lang['strserver'] = 'Sunucu';
 	$lang['strlogout'] = '&Ccedil;&#305;k&#305;&#351;';
 	$lang['strowner'] = 'Sahibi';
@@ -30,8 +34,6 @@
 	$lang['stractions'] = 'Eylemler';
 	$lang['strname'] = 'Ad';
 	$lang['strdefinition'] = 'Tan&#305;m';
-	$lang['stroperators'] = 'Operat&ouml;rler';
-	$lang['straggregates'] = 'Aggregates';
 	$lang['strproperties'] = '&Ouml;zellikler';
 	$lang['strbrowse'] = 'G&ouml;zat';
 	$lang['strdrop'] = 'Sil';
@@ -40,10 +42,10 @@
 	$lang['strnotnull'] = 'Null/Null de&#287;il';
 	$lang['strprev'] = '&Ouml;nceki';
 	$lang['strnext'] = 'Sonraki';
-	$lang['strfailed'] = 'ba&#351;ar&#305;s&#305;z oldu';
-	$lang['strcreate'] = 'Yarat';
 	$lang['strfirst'] = '&lt;&lt; &#304;lk';
 	$lang['strlast'] = 'Son &gt;&gt;';
+	$lang['strfailed']  =  'Ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strcreate']  =  'Yarat';
 	$lang['strcreated'] = 'Yarat&#305;ld&#305;';
 	$lang['strcomment'] = 'Yorum';
 	$lang['strlength'] = 'Uzunluk';
@@ -60,15 +62,16 @@
 	$lang['strreferences'] = 'References';
 	$lang['stryes'] = 'Evet';
 	$lang['strno'] = 'Hay&#305;r';
+	$lang['strtrue']  =  'TRUE';
+	$lang['strfalse']  =  'FALSE';
 	$lang['stredit'] = 'D&uuml;zenle';
 	$lang['strcolumns'] = 'Kolonlar';
 	$lang['strrows'] = 'sat&#305;r';
-	$lang['strtrue'] = 'True';
-	$lang['strfalse'] = 'False';
+	$lang['strrowsaff']  =  'sat&#305;r i&#351;lendi.';
+	$lang['strobjects']  =  'nesne(ler)';
 	$lang['strexample'] = '&Ouml;rnek:';
 	$lang['strback'] = 'Geri';
 	$lang['strqueryresults'] = 'Sorgu sonu&ccedil;lar&#305;';
-	$lang['strrowsaff'] = 'sat&#305;r etkilendi.';
 	$lang['strshow'] = 'G&ouml;ster';
 	$lang['strempty'] = 'Bo&#351;alt';
 	$lang['strlanguage'] = 'Dil';
@@ -77,13 +80,14 @@
 	$lang['strunique'] = 'Tekil';
 	$lang['strprimary'] = 'Birincil';
 	$lang['strexport'] = 'Export';
+	$lang['strimport']  =  'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Devam Et';
 	$lang['stradmin'] = 'Y&ouml;netici';
-	$lang['strimport'] = 'Import';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
 	$lang['strcluster'] = 'Cluster';
+	$lang['strclustered']  =  'Cluster edildi mi?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = '&Ccedil;al&#305;&#351;t&#305;r';
 	$lang['stradd'] = 'Ekle';
@@ -92,21 +96,36 @@
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'Format';
-
-	// Error handling
-	$lang['strnoframes'] = 'Bu uygulamay&#305; kullanabilmek i&ccedil;in frame destekleyen bir web istemcisi kullanman&#305;z gerekmektedir.';
 	$lang['strdata'] = 'Veri';
 	$lang['strconfirm'] = 'Onayla';
 	$lang['strexpression'] = '&#304;fade';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Geni&#351;let';
+	$lang['strcollapse']  =  'Dar g&ouml;r&uuml;n&uuml;m';
 	$lang['strexplain'] = 'Explain';
+	$lang['strexplainanalyze']  =  'Explain Analyze';
 	$lang['strfind'] = 'Bul';
 	$lang['stroptions'] = 'Se&ccedil;enekler';
 	$lang['strrefresh'] = 'Yenile';
 	$lang['strdownload'] = '&#304;ndir';
-	$lang['strcollapse'] = 'Daralt';
-	$lang['strexplainanalyze'] = 'Explain Analyze';
+	$lang['strdownloadgzipped']  =  'gzip ile s&#305;k&#305;&#351;t&#305;r&#305;lm&#305;&#351; halde indir';
+	$lang['strinfo']  =  'Bilgi';
+	$lang['stroids']  =  'OIDler';
+	$lang['stradvanced']  =  'Geli&#351;mi&#351;';
+	$lang['strvariables']  =  'De&#287;i&#351;kenler';
+	$lang['strprocess']  =  'S&uuml;re&ccedil;';
+	$lang['strprocesses']  =  'S&uuml;re&ccedil;ler';
+	$lang['strsetting']  =  'Ayar';
+	$lang['streditsql']  =  'SQL D&uuml;zenle';
+	$lang['strruntime']  =  'Toplam &ccedil;al&#305;&#351;ma s&uuml;resi: %s ms';
+	$lang['strpaginate']  =  'Sonu&ccedil;lar&#305; sayfaland&#305;r.';
+	$lang['struploadscript']  =  'ya da bir SQL beti&#287;i y&uuml;kleyin:';
+	$lang['strstarttime']  =  'Ba&#351;lang&#305;&ccedil; zaman&#305;';
+	$lang['strfile']  =  'Dosya';
+	$lang['strfileimported']  =  'Dosya import edildi.';
+
+	// Error handling
+	$lang['strnoframes']  =  'Bu uygulamay&#305; kullanabilmek icin frame destekleyen bir g&ouml;zat&#305;c&#305;ya gereksinmeniz bulunmaktad&#305;r.';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL deste&#287;i bulunamam&#305;&#351;t&#305;r.';
 	$lang['strbadschema'] = 'Ge&ccedil;ersiz &#351;ema.';
@@ -115,9 +134,14 @@
 	$lang['strinstatement'] = '&Uuml;stteki hata, a&#351;a&#287;&#305;daki ifade i&ccedil;inde olu&#351;tu:';
 	$lang['strinvalidparam'] = 'Ge&ccedil;ersiz betik parametreleri.';
 	$lang['strnodata'] = 'Sat&#305;r bulunamad&#305;.';
+	$lang['strnoobjects']  =  'Hi&ccedil;bir nesne bulunamad&#305;..';
+	$lang['strrownotunique']  =  'Bu sat&#305;r i&ccedil;in hi&ccedil;bir tekil belirtici bulunamad&#305;.';
+	$lang['strnoreportsdb']  =  'reports veritaban&#305; yarat&#305;&#351;mam&#305;&#351;. Y&ouml;nergeler i&ccedil;in l&uuml;tfen INSTALL dosyas&#305;n&#305; okuyunuz.';
+	$lang['strnouploads']  =  'Dosya y&uuml;kleme &ouml;zelli&#287;i etkin de&#287;il.';
+	$lang['strimporterror']  =  'Import hatas&#305;.';
+	$lang['strimporterrorline']  =  '%s numaral&#305; sat&#305;rda import hatas&#305;.';
 
 	// Tables
-	$lang['strrownotunique'] = 'Bu sat&#305;r i&ccedil;in tekil belirte&ccedil; yok.';
 	$lang['strtable'] = 'Tablo';
 	$lang['strtables'] = 'Tablolar';
 	$lang['strshowalltables'] = 'T&uuml;m tablolar&#305; g&ouml;ster';
@@ -151,22 +175,28 @@
 	$lang['strfields'] = 'Alanlar';
 	$lang['strnumfields'] = 'Alan say&#305;s&#305;';
 	$lang['strfieldneedsname'] = 'Alan k&#305;sm&#305;na ad vermelisiniz';
+	$lang['strselectallfields']  =  'T&uuml;m alanlar&#305; se&ccedil;';
 	$lang['strselectneedscol'] = 'En az bir kolon i&#351;aretlemelisiniz';
+	$lang['strselectunary']  =  'Unary operat&ouml;rlerin de&#287;eri olamaz.';
 	$lang['straltercolumn'] = 'Kolonu de&#287;i&#351;tir (alter)';
-	$lang['strselectallfields'] = 'T&uuml;m alanlar&#305; se&ccedil;.';
 	$lang['strcolumnaltered'] = 'Kolon de&#287;i&#351;tirildi (alter)';
 	$lang['strcolumnalteredbad'] = 'Kolon de&#287;i&#351;tirilme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strconfdropcolumn']  =  '&quot;%s&quot; kolonunu &quot;%s&quot; tablosundan silmek istedi&#287;inize emin misiniz?';
 	$lang['strcolumndropped'] = 'Kolon silindi.';
 	$lang['strcolumndroppedbad'] = 'Kolon silme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-	$lang['strconfdropcolumn'] = '&quot;%s&quot; kolonunu &quot;%s&quot; tablosundan silmek istedi&#287;inize emin misiniz?';
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
-
-	// Users
+	$lang['strcascade']  =  'CASCADE';
 	$lang['strtablealtered'] = 'Tablo alter edildi..';
 	$lang['strtablealteredbad'] = 'Tablo alteration i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-	$lang['strcascade'] = 'CASCADE';
+	$lang['strdataonly']  =  'Sadece veri';
+	$lang['strstructureonly']  =  'Sadece yap&#305;';
+	$lang['strstructureanddata']  =  'Yap&#305; ve veri';
+	$lang['strtabbed']  =  'Tabbed';
+	$lang['strauto']  =  'Otomatik';
+
+	// Users
 	$lang['struser'] = 'Kullan&#305;c&#305;';
 	$lang['strusers'] = 'Kullan&#305;c&#305;lar';
 	$lang['strusername'] = 'Kullan&#305;c&#305; Ad&#305;';
@@ -174,24 +204,26 @@
 	$lang['strsuper'] = 'Superuser m&#305;?';
 	$lang['strcreatedb'] = 'Veritaban&#305; yaratabilsin mi?';
 	$lang['strexpires'] = 'Expires';
+	$lang['strsessiondefaults']  =  'Oturum varsay&#305;lanlar&#305;';
+	$lang['strnousers']  =  'Hi&ccedil;bir kullan&#305;c&#305; bulunamad&#305;.';
         $lang['struserupdated'] = 'Kullan&#305;c&#305; g&uuml;ncellendi.';
 	$lang['struserupdatedbad'] = 'Kullan&#305;c&#305; g&uuml;ncelleme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-	$lang['strnousers'] = 'Hi&ccedil; bir kullan&#305;c&#305; bulunamad&#305;.';
 	$lang['strshowallusers'] = 'T&uuml;m kullan&#305;c&#305;lar&#305; g&ouml;ster.';
 	$lang['strcreateuser'] = 'Yeni kullan&#305;c&#305; yarat';
+	$lang['struserneedsname']  =  'Kullan&#305;c&#305;n&#305;z i&ccedil;in bir ad vermelisiniz.';
 	$lang['strusercreated'] = 'Kullan&#305;c&#305; yarat&#305;ld&#305;.';
 	$lang['strusercreatedbad'] = 'Kullan&#305;c&#305; yarat&#305;lma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strconfdropuser'] = '&quot;%s&quot; kullan&#305;c&#305;s&#305;n&#305; silmek istedi&#287;inize emin misiniz?';
 	$lang['struserdropped'] = 'Kullan&#305;c&#305; silindi.';
 	$lang['struserdroppedbad'] = 'Kullan&#305;c&#305; silme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-		
-	// Groups
 	$lang['straccount'] = 'Hesap';
 	$lang['strchangepassword'] = '&#350;ifre De&#287;i&#351;tir';
-	$lang['strpasswordshort'] = '&#350;ifre &ccedil;ok k&#305;sa.';
 	$lang['strpasswordchanged'] = '&#350;ifre de&#287;i&#351;tirildi.';
 	$lang['strpasswordchangedbad'] = '&#350;ifre de&#287;i&#351;tirme ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strpasswordshort']  =  '&#350;ifre &ccedil;ok k&#305;sa.';
 	$lang['strpasswordconfirm'] = '&#350;ifreler uyu&#351;mad&#305;.';
+	
+	// Groups
 	$lang['strgroup'] = 'Grup';
 	$lang['strgroups'] = 'Gruplar';
 	$lang['strnogroup'] = 'Grup bulunamad&#305;.';
@@ -223,9 +255,10 @@
 	$lang['strgrantfailed'] = '&#304;zinlerin grant i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 
 	$lang['strgrantbad'] = 'En az bir kullan&#305;c&#305; ya da grup ve en az bir izin belirtmelisiniz.';
+	$lang['stralterprivs']  =  '&#304;zinleri de&#287;i&#351;tir.';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
-	$lang['stralterprivs'] = '&#304;zinleri de&#287;i&#351;tir (Alter Privileges)';
+
 	// Databases
 	$lang['strdatabase'] = 'Veritaban&#305;';
 	$lang['strdatabases'] = 'Veritabanlar&#305;';
@@ -241,11 +274,16 @@
 	$lang['strdatabasedropped'] = 'Veritaban&#305; kald&#305;r&#305;ld&#305;.';
 	$lang['strdatabasedroppedbad'] = 'Veritaban&#305; kald&#305;rma ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strentersql'] = 'Veritaban&#305; &uuml;zerinde &ccedil;al&#305;&#351;t&#305;r&#305;lacak sorgu/sorgular&#305; a&#351;a&#287;&#305;ya yaz&#305;n&#305;z:';
-	$lang['strvacuumgood'] = 'Vacuum i&#351;lemi tamamland&#305;.';
 	$lang['strsqlexecuted'] = 'SQL &ccedil;al&#305;&#351;t&#305;r&#305;ld&#305;.';
+	$lang['strvacuumgood']  =  'Vacuum tamamland&#305;.';
 	$lang['strvacuumbad'] = 'Vacuum i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['stranalyzegood'] = 'Analyze i&#351;lemi tamamland&#305;.';
 	$lang['stranalyzebad'] = 'Analyze i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strreindexgood']  =  'Reindex tamamland&#305;.';
+	$lang['strreindexbad']  =  'Reindex ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strfull']  =  'Full';
+	$lang['strfreeze']  =  'Freeze';
+	$lang['strforce']  =  'Force';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -257,13 +295,17 @@
 	$lang['strviewname'] = 'View ad&#305;';
 	$lang['strviewneedsname'] = 'View i&ccedil;in bir ad belirtmelisiniz.';
 	$lang['strviewneedsdef'] = 'View i&ccedil;in bir tan&#305;m belirtmelisiniz.';
-	$lang['strviewcreated'] = 'View yarat&#305;ld&#305;.';
+	$lang['strviewneedsfields']  =  'View i&ccedil;inde g&ouml;r&uuml;nmesini istedi&#287;iniz kolonlar&#305; belirtmelisiniz.';
+ 	$lang['strviewcreated'] = 'View yarat&#305;ld&#305;.';
 	$lang['strviewcreatedbad'] = 'View yaratma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strconfdropview'] = '&quot;%s&quot; viewini kald&#305;rmak istedi&#287;inize emin misiniz?';
 	$lang['strviewdropped'] = 'View kald&#305;r&#305;ld&#305;.';
 	$lang['strviewdroppedbad'] = 'View kald&#305;rma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strviewupdated'] = 'View g&uuml;ncellendi.';
 	$lang['strviewupdatedbad'] = 'View g&uuml;ncelleme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+$lang['strviewlink']  =  'Linking Keys';
+	$lang['strviewconditions']  =  'Ek durumlar';
+	$lang['strcreateviewwiz']  =  'Sihirbaz ile view yarat&#305;n';
 
 	// Sequences
 	$lang['strsequence'] = 'Sequence';
@@ -291,13 +333,13 @@
 	$lang['strsequenceresetbad'] = 'Sequence s&#305;f&#305;rlama ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Indexes
+	$lang['strindex']  =  'Index';
 	$lang['strindexes'] = 'Indeksler';
 	$lang['strindexname'] = 'Indeks ad&#305;';
 	$lang['strshowallindexes'] = 'T&uuml;m indeksleri g&ouml;ster';
 	$lang['strnoindex'] = 'Hi&ccedil;bir indeks bulunamad&#305;.';
 	$lang['strnoindexes'] = 'Hi&ccedil;bir indeks bulunamad&#305;.';
 	$lang['strcreateindex'] = 'Indeks yarat';
-	$lang['strindexname'] = 'Indeks ad&#305;';
 	$lang['strtabname'] = 'Tab Ad&#305;';
 	$lang['strcolumnname'] = 'Kolon ad&#305;';
 	$lang['strindexneedsname'] = 'Indeksinize bir ad vermeniz gerekmektedir.';
@@ -311,9 +353,11 @@
 	$lang['struniquekey'] = 'Tekil (Unique) Anahtar';
 	$lang['strprimarykey'] = 'Birincil Anahtar (Primary Key)';
  	$lang['strindextype'] = 'Indeksin tipi';
-	$lang['strindexname'] = 'Indeksin ad&#305;';
 	$lang['strtablecolumnlist'] = 'Tablodaki kolonlar';
 	$lang['strindexcolumnlist'] = 'Indeksteki kolonlar';
+	$lang['strconfcluster']  =  '&quot;%s&quot; tablosunu cluster etmek istiyor musunuz?';
+	$lang['strclusteredgood']  =  'Cluster tamamland&#305;.';
+	$lang['strclusteredbad']  =  'Cluster ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Rules
 	$lang['strrules'] = 'Rules';
@@ -354,8 +398,8 @@
 	$lang['struniqaddedbad'] = 'Tekil anahtar eklenemedi.';
 	$lang['straddfk'] = '&#304;kincil anahtar ekle';
 	$lang['strfkneedscols'] = '&#304;kincil anahtar yaratmak i&ccedil;in en az bir kolon gerekir.';
-	$lang['strfkadded'] = '&#304;kincil anahtar eklendi.';
 	$lang['strfkneedstarget'] = '&#304;kincil anahtar hedef bir tablo gerektirir.';
+	$lang['strfkadded']  =  '&#304;kincil anahtar eklendi.';
 	$lang['strfkaddedbad'] = '&#304;kincil anahtar eklenemedi.';
 	$lang['strfktarget'] = 'Hedef tablo';
 
@@ -395,10 +439,10 @@
 	$lang['strtriggercreated'] = 'Trigger yarat&#305;ld&#305;.';
 	$lang['strtriggercreatedbad'] = 'Trigger yarat&#305;lamad&#305;.';
 	$lang['strconfdroptrigger'] = '&quot;%s&quot; triggerini &quot;%s&quot; tablosundan kald&#305;rmak istedi&#287;inize emin misiniz?';
-	$lang['strtriggeraltered'] = 'Trigger alter edildi..';
-	$lang['strtriggeralteredbad'] = 'Trigger alter i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strtriggerdropped'] = 'Trigger silindi.';
 	$lang['strtriggerdroppedbad'] = 'Trigger silinme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strtriggeraltered']  =  'Trigger de&#287;i&#351;tirildi.';
+	$lang['strtriggeralteredbad']  =  'Trigger de&#287;i&#351;tirilme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Types
 	$lang['strtype'] = 'Veri tipi';
@@ -437,6 +481,8 @@
 	$lang['strconfdropschema'] = '&quot;%s&quot; &#351;emas&#305;n&#305; kald&#305;rmak istedi&#287;inize emin misiniz?';
 	$lang['strschemadropped'] = '&#350;ema kald&#305;r&#305;ld&#305;.';
 	$lang['strschemadroppedbad'] = '&#350;ema kald&#305;rma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strschemaaltered']  =  'Schema de&#287;i&#351;tirildi.';
+	$lang['strschemaalteredbad']  =  'Schema de&#287;i&#351;tirilme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Reports
 	$lang['strreport'] = 'Rapor';
@@ -464,40 +510,15 @@
 	$lang['strdomaincreatedbad'] = 'Domain yaratma ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strdomainaltered'] = 'Domain alter edildi.';
 	$lang['strdomainalteredbad'] = 'Domain alter i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-        $lang['strpgsqlhome'] = 'PostgreSQL Ana Sayfas&#305;';
 
 	$lang['stroperator'] = 'Operat&ouml;r';
-	// Miscellaneous
+	$lang['stroperators']  =  'Operat&ouml;rler';
 	$lang['strshowalloperators'] = 'T&uuml;m operat&ouml;rleri g&ouml;ster';
 	$lang['strnooperator'] = 'Operat&ouml;r bulunamad&#305;.';
 	$lang['strnooperators'] = 'Operat&ouml;r bulunamad&#305;.';
 	$lang['strcreateoperator'] = 'Operat&ouml;r yarat&#305;ld&#305;.';
 	$lang['strleftarg'] = 'Sol Arg Tipi';
 	$lang['strrightarg'] = 'Sa&#287; Arg Tipi';
-	$lang['stroperatorneedsname'] = 'Operat&ouml;re bir ad vermelisiniz.';
-	$lang['stroperatorcreated'] = 'Operat&ouml;r yarat&#305;ld&#305;';
-	$lang['stroperatorcreatedbad'] = 'Operat&ouml;r i&#351;lemi ba&#351;ar&#305;s&#305;z old&#305;.';
-	$lang['strconfdropoperator'] = '&quot;%s&quot; operat&ouml;r&uuml;n&uuml; silmek istedi&#287;inize emin misiniz?';
-	$lang['stroperatordropped'] = 'Operat&ouml;r silindi';
-	$lang['stroperatordroppedbad'] = 'Operat&ouml;r silme ba&#351;ar&#305;s&#305;z oldu.';
-	$lang['strtopbar'] = '%s,  %s:%s  &uuml;zerinde &ccedil;al&#305;&#351;&#305;yor -- &quot;%s&quot; kullan&#305;c&#305;s&#305; ile , %s tarihinde giri&#351; yapt&#305;n&#305;z';
-	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = 'Yard&#305;m';
-
-	$lang['strlogindisallowed'] = 'Giri&#351; izniniz yok';
-	$lang['strobjects'] = 'nesne(ler)';
-	$lang['strclustered'] = 'Clustered?';
-	$lang['strinfo'] = 'Bilgi';
-	$lang['stroids'] = 'OIDler';
-	$lang['stradvanced'] = 'Geli&#351;mi&#351;';
-	$lang['strnoobjects'] = 'Hi&ccedil; bir nesne bulunamad&#305;.';
-	$lang['strselectunary'] = 'Unary operat&ouml;rlerin de&#287;eri olamaz.';
-	$lang['strstructureonly'] = 'Sadece yap&#305;';
-	$lang['strstructureanddata'] = 'Yap&#305; ve veri';
-	$lang['struserneedsname'] = 'Kullan&#305;c&#305;n&#305;za bir ad vermelisiniz.';
-	$lang['strconfcluster'] = '&quot;%s&quot;\'i cluster etmek istedi&#287;inize emin misiniz?';
-	$lang['strclusteredgood'] = 'Cluster i&#351;lemi tamamland&#305;.';
-	$lang['strclusteredbad'] = 'Cluster i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strcommutator'] = 'Commutator';
 	$lang['strnegator'] = 'Negator';
 	$lang['strrestrict'] = 'Restrict';
@@ -508,6 +529,14 @@
 	$lang['strrightsort'] = 'Right sort';
 	$lang['strlessthan'] = 'k&uuml;&ccedil;&uuml;kt&uuml;r';
 	$lang['strgreaterthan'] = 'b&uuml;y&uuml;kt&uuml;r';
+	$lang['stroperatorneedsname']  =  'Operat&ouml;re bir ad vermelisiniz.';
+	$lang['stroperatorcreated']  =  'Operat&ouml;r yarat&#305;ld&#305;';
+	$lang['stroperatorcreatedbad']  =  'Operat&ouml;r yaratma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strconfdropoperator']  =  '&quot;%s&quot; operat&ouml;r&uuml;n&uuml; kald&#305;rmak istedi&#287;inize emin misiniz?';
+	$lang['stroperatordropped']  =  'Operat&ouml;r kald&#305;r&#305;ld&#305;.';
+	$lang['stroperatordroppedbad']  =  'Operator kald&#305;rma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+
+	// Casts
 	$lang['strcasts'] = 'Casts';
 	$lang['strnocasts'] = 'Hi&ccedil; cast bulunamad&#305;.';
 	$lang['strsourcetype'] = 'Kaynak tip';
@@ -515,50 +544,50 @@
 	$lang['strimplicit'] = 'Implicit';
 	$lang['strinassignment'] = 'In assignment';
 	$lang['strbinarycompat'] = '(Binary uyumlu)';
+	
+	// Conversions
 	$lang['strconversions'] = 'D&ouml;n&uuml;&#351;&uuml;mleri';
 	$lang['strnoconversions'] = 'Hi&ccedil; d&ouml;n&uuml;&#351;&uuml;m bulunamad&#305;.';
 	$lang['strsourceencoding'] = 'Kaynak dil kodlamas&#305;';
 	$lang['strtargetencoding'] = 'Hedef dil kodlamas&#305;';
+	
+	// Languages
 	$lang['strlanguages'] = 'Diller';
 	$lang['strnolanguages'] = 'Hi&ccedil; bir dil bulunamad&#305;.';
 	$lang['strtrusted'] = 'G&uuml;venilir';
+	
+	// Info
 	$lang['strnoinfo'] = 'Hi&ccedil; bir bilgi yok.';
 	$lang['strreferringtables'] = 'Referring tables';
 	$lang['strparenttables'] = 'Parent tablolar';
 	$lang['strchildtables'] = 'Child tablolar';
-	$lang['strdataonly'] = 'Sadece veri';
-$lang['strdownloadgzipped'] = 'gzip ile s&#305;k&#305;&#351;t&#305;r&#305;lm&#305;&#351; dosyay&#305; indirin';
-$lang['strvariables'] = 'De&#287;i&#351;kenler';
-$lang['strprocess'] = 'S&uuml;re&ccedil;';
-$lang['strprocesses'] = 'S&uuml;re&ccedil;ler';
-$lang['strsetting'] = 'Ayarlar';
-$lang['streditsql'] = 'SQL D&uuml;zenle';
-$lang['strpaginate'] = 'Sonu&ccedil;lar&#305; sayfaland&#305;rs';
-$lang['strstarttime'] = 'Ba&#351;lama zaman&#305;';
-$lang['strnoreportsdb'] = 'report veritaban&#305; yarat&#305;lmam&#305;&#351;. Y&ouml;nergeler i&ccedil;in INSTALL dosyas&#305;n&#305; okuyunuz.';
-$lang['strsessiondefaults'] = '&Ouml;n tan&#305;ml&#305; Session De&#287;erleri';
-$lang['strviewlink'] = 'Linking Keys';
-$lang['strviewconditions'] = '&#304;lave Durumlar';
-$lang['strindex'] = 'Index';
-$lang['strnoaggregates'] = 'Hi&ccedil; aggregates bulunamad&#305;.';
-$lang['stralltypes'] = '(T&uuml;m veri tipleri)';
-$lang['stropclasses'] = 'Op s&#305;n&#305;flar&#305;';
-$lang['strnoopclasses'] = 'Hi&ccedil; operat&ouml;r s&#305;n&#305;f&#305; bulunamad&#305;.';
-$lang['straccessmethod'] = 'Eri&#351;im Y&ouml;ntemi';
-$lang['strrowperf'] = 'Sat&#305;r Ba&#351;ar&#305;m&#305;';
-$lang['strioperf'] = 'I/O Ba&#351;ar&#305;m&#305;';
-$lang['stridxrowperf'] = 'Index Sat&#305;r Ba&#351;ar&#305;m&#305;';
-$lang['stridxioperf'] = 'Index I/O Ba&#351;ar&#305;m&#305;';
-$lang['strpercent'] = '%';
-$lang['strsequential'] = 'Sequential';
-$lang['strscan'] = 'Scan';
-$lang['strread'] = 'Read';
-$lang['strfetch'] = 'Fetch';
-$lang['strheap'] = 'Heap';
-$lang['strtoast'] = 'TOAST';
-$lang['strtoastindex'] = 'TOAST Index';
-$lang['strcache'] = 'Cache';
-$lang['strdisk'] = 'Disk';
-$lang['strrows2'] = 'Rows';
+	
+	// Aggregates
+	$lang['straggregates']  =  'Aggregates';
+	$lang['strnoaggregates'] = 'Hi&ccedil; aggregates bulunamad&#305;.';
+	$lang['stralltypes'] = '(T&uuml;m veri tipleri)';
+	$lang['stropclasses'] = 'Op s&#305;n&#305;flar&#305;';
+	$lang['strnoopclasses'] = 'Hi&ccedil; operat&ouml;r s&#305;n&#305;f&#305; bulunamad&#305;.';
+	$lang['straccessmethod'] = 'Eri&#351;im Y&ouml;ntemi';
+	$lang['strrowperf'] = 'Sat&#305;r Ba&#351;ar&#305;m&#305;';
+	$lang['strioperf'] = 'I/O Ba&#351;ar&#305;m&#305;';
+	$lang['stridxrowperf'] = 'Index Sat&#305;r Ba&#351;ar&#305;m&#305;';
+	$lang['stridxioperf'] = 'Index I/O Ba&#351;ar&#305;m&#305;';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequential';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rows';
+
+	// Miscellaneous
+	$lang['strtopbar']  =  '%s, %s:%s &uuml;zerinde &ccedil;al&#305;&#351;&#305;yor-- &quot;%s&quot;, %s kullan&#305;c&#305;s&#305; ile sisteme giri&#351; yapt&#305;n&#305;z.';
+	$lang['strtimefmt']  =  'jS M, Y g:iA';
+	$lang['strhelp']  =  'Yard&#305;m';
 
 ?>
