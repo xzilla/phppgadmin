@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.11 2003/05/16 06:49:02 chriskl Exp $
+	 * $Id: users.php,v 1.12 2003/05/19 13:10:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_SESSION['webdbUsername']), ": {$lang['straccount']}</h2>\n";
+		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_SESSION['webdbUsername']), ": {$lang['straccount']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_SESSION['webdbUsername']);
@@ -33,10 +33,10 @@
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
 			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -52,7 +52,7 @@
 		global $PHP_SELF, $lang, $conf;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_SESSION['webdbUsername']), ": {$lang['strchangepassword']}</h2>\n";
+			echo "<h2>{$lang['strusers']}: ", $misc->printVal($_SESSION['webdbUsername']), ": {$lang['strchangepassword']}</h2>\n";
 			$misc->printMsg($msg);
 						
 			if (!isset($_POST['password'])) $_POST['password'] = '';
@@ -89,19 +89,6 @@
 		}		
 	}
 
-	/** 
-	 * Function to save after editing a user
-	 */
-	function doSaveEdit() {
-		global $data, $lang;
-		
-		$status = $data->setUser($_POST['username'], '', isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
-		if ($status == 0)
-			doProperties($lang['struserupdated']);
-		else
-			doEdit($lang['struserupdatedbad']);
-	}
-	
 	/**
 	 * Function to allow editing of a user
 	 */
@@ -109,7 +96,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -117,19 +104,31 @@
 		if ($userdata->recordCount() > 0) {
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
+		
+			if (!isset($_POST['formPassword'])) $_POST['formPassword'] = '';
+			if (!isset($_POST['formConfirm'])) $_POST['formConfirm'] = '';
+			if (!isset($_POST['formExpires'])) $_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']];
+		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th>";
+			echo "<th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
 				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
 				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n";
-			echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "\" /></td></tr>\n";
+			echo "<td class=\"data1\"><input size=\"22\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
+			echo "</table><br />\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strpassword']}</th><th class=\"data\">{$lang['strconfirm']}</th></tr>";
+			echo "<td class=\"data1\"><input size=\"16\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n";
+			echo "<td class=\"data1\"><input size=\"16\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td></tr>\n";
 			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -139,6 +138,24 @@
 			urlencode($_REQUEST['username']), "\">{$lang['strproperties']}</a></p>\n";
 	}
 	
+	/** 
+	 * Function to save after editing a user
+	 */
+	function doSaveEdit() {
+		global $data, $lang;
+		
+		// Check password
+		if ($_POST['formPassword'] != $_POST['formConfirm'])
+			doEdit($lang['strpasswordconfirm']);
+		else {		
+			$status = $data->setUser($_POST['username'], $_POST['formPassword'], isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
+			if ($status == 0)
+				doProperties($lang['struserupdated']);
+			else
+				doEdit($lang['struserupdatedbad']);
+		}
+	}
+		
 	/**
 	 * Show read only properties for a user
 	 */
@@ -146,7 +163,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['strproperties']}</h2>\n";
+		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -156,10 +173,10 @@
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
 			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -173,18 +190,19 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>", sprintf($lang['strconfdropuser'], htmlspecialchars($_REQUEST['username'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -226,7 +244,8 @@
 		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a></p>\n";
@@ -270,11 +289,13 @@
 			echo "<th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			while (!$users->EOF) {
+				$users->f[$data->uFields['usuper']] = $data->phpBool($users->f[$data->uFields['usuper']]);
+				$users->f[$data->uFields['ucreatedb']] = $data->phpBool($users->f[$data->uFields['ucreatedb']]);
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", (htmlspecialchars($users->f[$data->uFields['usuper']])==='t') ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", (htmlspecialchars($users->f[$data->uFields['ucreatedb']])==='t') ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uexpires']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=",
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
