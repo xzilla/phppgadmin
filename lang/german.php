@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.14 2003/09/12 02:06:12 chriskl Exp $
+    * $Id: german.php,v 1.15 2003/09/13 05:47:55 chriskl Exp $
     */
 
 
@@ -67,10 +67,10 @@
     $lang['strcolumns'] = 'Spalten';
     $lang['strtrue'] = 'Wahr';
     $lang['strfalse'] = 'Falsch';
-    $lang['strrows'] = 'Zeile(n)';
+    $lang['strrows'] = 'Datensätze';
     $lang['strexample'] = 'z.B.';
     $lang['strback'] = 'Zurück';
-    $lang['strrowsaff'] = 'Spalte(n) betroffen.';
+    $lang['strrowsaff'] = 'Datensätze betroffen.';
     $lang['strqueryresults'] = 'Abfrageergebnis';
     $lang['strshow'] = 'Zeigen';
     $lang['strempty'] = 'Leeren';
@@ -455,6 +455,7 @@
     $lang['strreportneedsdef'] = 'Sie müssen SQL-Code für den Bericht eingeben.';
     $lang['strreportcreated'] = 'Bericht gespeichert.';
     $lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
+    $lang['strsaveasreport'] = 'Als Bericht speichern';
 
     // Miscellaneous
     $lang['strtopbar'] = '%s läuft auf host:%s port:%s -- Sie sind angemeldet als Benutzer "%s", %s';
