@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.4 2003/01/23 00:47:26 slubek Exp $
+	 * $Id: english.php,v 1.5 2003/01/27 15:19:49 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -62,6 +62,8 @@
 	$strUnique = 'Unique';
 	$strPrimary = 'Primary';
 	$strExport = 'Export';
+	$strSQL = 'SQL';
+	$strGo = 'Go';
 
 	// Error handling
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
@@ -107,6 +109,7 @@
 	$strField = 'Field';
 	$strFields = 'Fields';
 	$strNumFields = 'Num. Of Fields';
+	$strSelectNeedsCol = 'You must show at least one column';
 
 	// Users
 	$strUserAdmin = 'User Admin';
@@ -154,6 +157,7 @@
 	$strConfDropDatabase = 'Are you sure you want to drop the database &quot;%s&quot;?';
 	$strDatabaseDropped = 'Database dropped.';
 	$strDatabaseDroppedBad = 'Database drop failed.';
+	$strEnterSQL = 'Enter the SQL to execute below:';
 	
 	// Views
 	$strView = 'View';
