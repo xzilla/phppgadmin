@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.22 2003/09/10 07:13:18 chriskl Exp $
+	 * $Id: views.php,v 1.23 2003/10/15 16:00:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -127,11 +127,9 @@
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"100%\">\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -157,10 +155,10 @@
 		
 		if ($viewdata->recordCount() > 0) {
 			echo "<table width=\"100%\">\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strname']}</th>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strdefinition']}</th>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td>\n\t</tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -211,7 +209,7 @@
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
-		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = '';
+		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		
@@ -220,12 +218,12 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-			htmlspecialchars($_REQUEST['formView']), "\" /></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td></tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+		echo "\t<td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			htmlspecialchars($_REQUEST['formView']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
+		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
