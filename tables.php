@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.57 2004/06/28 02:26:56 chriskl Exp $
+	 * $Id: tables.php,v 1.58 2004/07/07 02:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -101,7 +101,7 @@
 					}
 					$types->moveFirst();
 					while (!$types->EOF) {
-						$typname = $types->f[$data->typFields['typname']];
+						$typname = $types->f['typname'];
 						echo "\t\t\t\t<option value=\"", htmlspecialchars($typname), "\"",
 						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
@@ -455,48 +455,62 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables']), 'tables');
-			
+		$misc->printMsg($msg);
+		
 		$tables = &$data->getTables();
 		
-		if ($tables->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr>\n\t<th class=\"data\">{$lang['strtable']}</th>\n\t<th class=\"data\">{$lang['strowner']}</th>\n";
-			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n";
-			if ($conf['show_comments']) echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$tables->EOF) {
-				$return_url = urlencode("tables.php?{$misc->href}");
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
-				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"display.php?{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "&amp;objtype=table&amp;return_url={$return_url}&amp;return_desc=",
-					urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&amp;{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&amp;{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_empty&amp;{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
-				// Trim long comments
-				if (strlen($tables->f['tablecomment']) > $conf['max_chars']) {
-					$tables->f['tablecomment'] = substr($tables->f['tablecomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-				}
-				if ($conf['show_comments']) echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f['tablecomment']), "</td>\n";
-				echo "</tr>\n";
-				$tables->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnotables']}</p>\n";
-		}
+		$columns = array(
+			'table' => array(
+				'title' => $lang['strtable'],
+				'field' => 'relname',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'relowner',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'relcomment',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "tblproperties.php?{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'browse' => array(
+				'title' => $lang['strbrowse'],
+				'url'   => "display.php?{$misc->href}&amp;objtype=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'select' => array(
+				'title' => $lang['strselect'],
+				'url'   => "{$PHP_SELF}?action=confselectrows&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'insert' => array(
+				'title' => $lang['strinsert'],
+				'url'   => "{$PHP_SELF}?action=confinsertrow&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'empty' => array(
+				'title' => $lang['strempty'],
+				'url'   => "{$PHP_SELF}?action=confirm_empty&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+		);
+		
+		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.20 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: sequences.php,v 1.21 2004/07/07 02:59:58 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -20,47 +20,49 @@
 		global $data, $conf, $misc; 
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strsequences']), 'sequences');
 		$misc->printMsg($msg);
 		
 		// Get all sequences
 		$sequences = &$data->getSequences();
 		
-		if (is_object($sequences) && $sequences->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			
-			while (!$sequences->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqname']]), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqowner']]), "</td>";
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;sequence=", 
-					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strproperties']}</a></td>\n"; 
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;sequence=", 
-					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"privileges.php?{$misc->href}&amp;object=", urlencode($sequences->f[$data->sqFields['seqname']]),
-					"&amp;type=sequence\">{$lang['strprivileges']}</td>\n";
-				// Trim long comments
-				if (strlen($sequences->f['seqcomment']) > $conf['max_chars']) {
-					$sequences->f['seqcomment'] = substr($sequences->f['seqcomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-				}
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f['seqcomment']), "</td>\n";
-				echo "</tr>\n";				
-				$sequences->movenext();
-				$i++;
-			}
-			
-			echo "</table>\n";
-		}
-		else
-			echo "<p>{$lang['strnosequences']}</p>\n";
+		$columns = array(
+			'sequence' => array(
+				'title' => $lang['strname'],
+				'field' => 'seqname',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'seqowner',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'seqcomment',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname'),
+			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?{$misc->href}&amp;type=sequence&amp;",
+				'vars'  => array('object' => 'seqname'),
+			),
+		);
+		
+		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
 	}
@@ -78,9 +80,9 @@
 		// Fetch the sequence information
 		$sequence = &$data->getSequence($_REQUEST['sequence']);		
 		
-		if (is_object($sequence) && $sequence->recordCount() > 0) {						
-			$sequence->f[$data->sqFields['iscycled']] = $data->phpBool($sequence->f[$data->sqFields['iscycled']]);
-			$sequence->f[$data->sqFields['iscalled']] = $data->phpBool($sequence->f[$data->sqFields['iscalled']]);
+		if (is_object($sequence) && $sequence->recordCount() > 0) {
+			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);
+			$sequence->f['is_called'] = $data->phpBool($sequence->f['is_called']);
 
 			// Show comment if any
 			if ($sequence->f['seqcomment'] !== null)
@@ -91,27 +93,27 @@
 			echo "<th class=\"data\">{$lang['strincrementby']}</th><th class=\"data\">{$lang['strmaxvalue']}</th>";
 			echo "<th class=\"data\">{$lang['strminvalue']}</th><th class=\"data\">{$lang['strcachevalue']}</th>";
 			// PostgreSQL 7.0 and below don't have logcount
-			if (isset($sequence->f[$data->sqFields['logcount']])) {
+			if (isset($sequence->f['log_cnt'])) {
 				echo "<th class=\"data\">{$lang['strlogcount']}</th>";
 			}
 			echo "<th class=\"data\">{$lang['striscycled']}</th><th class=\"data\">{$lang['striscalled']}</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['seqname']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['lastvalue']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['incrementby']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['maxvalue']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['minvalue']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['cachevalue']]), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['seqname']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['last_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['increment_by']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['max_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['min_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->f['cache_value']), "</td>";
 			// PostgreSQL 7.0 and below don't have logcount
-			if (isset($sequence->f[$data->sqFields['logcount']])) {
-				echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['logcount']]), "</td>";
+			if (isset($sequence->f['log_cnt'])) {
+				echo "<td class=\"data1\">", $misc->printVal($sequence->f['log_cnt']), "</td>";
 			}
-			echo "<td class=\"data1\">", (($sequence->f[$data->sqFields['iscycled']]) ? $lang['stryes'] : $lang['strno']), "</td>";
-			echo "<td class=\"data1\">", (($sequence->f[$data->sqFields['iscalled']]) ? $lang['stryes'] : $lang['strno']), "</td>";
+			echo "<td class=\"data1\">", ($sequence->f['is_cycled'] ? $lang['stryes'] : $lang['strno']), "</td>";
+			echo "<td class=\"data1\">", ($sequence->f['is_called'] ? $lang['stryes'] : $lang['strno']), "</td>";
 			echo "</tr>";
 			echo "</table>";
 			
-			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f[$data->sqFields['seqname']]), "\">{$lang['strreset']}</a> |\n";
+			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strreset']}</a> |\n";
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}.</p>\n";

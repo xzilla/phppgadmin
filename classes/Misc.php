@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.66 2004/06/11 05:08:26 xzilla Exp $
+	 * $Id: Misc.php,v 1.67 2004/07/07 03:00:01 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -88,7 +88,7 @@
 			// space at the start of a line, or a space at the start of the whole string then
 			// substitute all spaces for &nbsp;s
 			if ($str === null && $shownull) return '<i>NULL</i>';
-			else {
+			elseif ($str) {
 				switch ($type) {
 					case 'int2':
 					case 'int4':
@@ -115,7 +115,7 @@
 						return htmlspecialchars(addCSlashes($str, "\0..\37\177..\377"));
 						break;
 					default:
-						if (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || ereg('^[ ]', $str)) {
+						if (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || $str{0} == ' ') {
 							$str = str_replace(' ', '&nbsp;', htmlspecialchars($str));
 							// Replace tabs with 8 spaces
 							$str = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $str);
@@ -124,7 +124,8 @@
 						else
 							return nl2br(htmlspecialchars($str));					
 					}						
-			}
+			} else
+				return '';
 		}
 
 		/**
@@ -288,28 +289,74 @@
 		}
 
 		/**
+		 * Display navigation tabs
+		 * @params $tabs An associative array of tabs definitions, see printTableNav() for an example.
+		 */
+		function printTabs($tabs) {
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			
+			$width = round(100 / count($tabs)).'%';
+			if (!isset($_REQUEST['tab'])) $_REQUEST['tab'] = '';
+			
+			foreach ($tabs as $tab_id => $tab) {
+				if ($tab_id == $_REQUEST['tab'])
+					$class = ' class="active"';
+				else
+					$class = '';
+				echo "<td width=\"{$width}\"{$class}><a href=\"{$tab['url']}&amp;tab={$tab_id}\">{$tab['title']}</a></td>\n";
+			}
+			
+			echo "</tr></table>\n";
+		}
+		
+		/**
 		 * Display the navigation header for tables
 		 */
 		function printTableNav() {
 			global $lang;
-
-			$vars = $this->href . '&amp;table=' . urlencode($_REQUEST['table']);
-			// Width of each cell
-			$width = round(100 / 9) . '%';
 			
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"rules.php?{$this->href}&amp;reltype=table&amp;relation=", urlencode($_REQUEST['table']), 
-				"\">{$lang['strrules']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"info.php?{$vars}\">{$lang['strinfo']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), 
-				"\">{$lang['strprivileges']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=import\">{$lang['strimport']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
-			echo "</tr></table>\n";
+			$vars = $this->href . '&amp;table=' . urlencode($_REQUEST['table']);
+			
+			$tabs = array (
+				'columns' => array (
+					'title' => $lang['strcolumns'],
+					'url'   => "tblproperties.php?{$vars}",
+				),
+				'indexes' => array (
+					'title' => $lang['strindexes'],
+					'url'   => "indexes.php?{$vars}",
+				),
+				'constraints' => array (
+					'title' => $lang['strconstraints'],
+					'url'   => "constraints.php?{$vars}",
+				),
+				'triggers' => array (
+					'title' => $lang['strtriggers'],
+					'url'   => "triggers.php?{$vars}",
+				),
+				'rules' => array (
+					'title' => $lang['strrules'],
+					'url'   => "rules.php?{$this->href}&amp;reltype=table&amp;relation=" . urlencode($_REQUEST['table']),
+				),
+				'info' => array (
+					'title' => $lang['strinfo'],
+					'url'   => "info.php?{$vars}",
+				),
+				'privileges' => array (
+					'title' => $lang['strprivileges'],
+					'url'   => "privileges.php?{$vars}&amp;type=table&amp;object=" . urlencode($_REQUEST['table']),
+				),
+				'import' => array (
+					'title' => $lang['strimport'],
+					'url'   => "tblproperties.php?{$vars}&amp;action=import",
+				),
+				'export' => array (
+					'title' => $lang['strexport'],
+					'url'   => "tblproperties.php?{$vars}&amp;action=export",
+				),
+			);
+			
+			$this->printTabs($tabs);
 		}
 
 		/**
@@ -319,15 +366,27 @@
 			global $lang;
 
 			$vars = $this->href . '&amp;view=' . urlencode($_REQUEST['view']);
-
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"12%\"><a href=\"viewproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"viewproperties.php?action=definition&amp;{$vars}\">{$lang['strdefinition']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"rules.php?{$this->href}&amp;reltype=view&amp;relation=", urlencode($_REQUEST['view']), 
-				"\">{$lang['strrules']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"privileges.php?{$vars}&amp;type=view&amp;object=", urlencode($_REQUEST['view']), "\">{$lang['strprivileges']}</a></td>\n";
-			//echo "<td width=\"13%\"><a href=\"viewproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
-			echo "</tr></table>\n";
+			
+			$tabs = array (
+				'columns' => array (
+					'title' => $lang['strcolumns'],
+					'url'   => "viewproperties.php?{$vars}",
+				),
+				'definition' => array (
+					'title' => $lang['strdefinition'],
+					'url'   => "viewproperties.php?action=definition&amp;{$vars}",
+				),
+				'rules' => array (
+					'title' => $lang['strrules'],
+					'url'   => "rules.php?{$this->href}&amp;reltype=view&amp;relation=" . urlencode($_REQUEST['view']),
+				),
+				'privileges' => array (
+					'title' => $lang['strprivileges'],
+					'url'   => "privileges.php?{$vars}&amp;type=view&amp;object=" . urlencode($_REQUEST['view']),
+				),
+			);
+			
+			$this->printTabs($tabs);
 		}
 
 		/**
@@ -337,30 +396,49 @@
 			global $lang, $conf, $data;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
+			
+			$tabs = array (
+				'schemas' => array (
+					'title' => $lang['strschemas'],
+					'url'   => "database.php?{$vars}",
+				),
+				'sql' => array (
+					'title' => $lang['strsql'],
+					'url'   => "database.php?{$vars}&amp;action=sql",
+				),
+				'find' => array (
+					'title' => $lang['strfind'],
+					'url'   => "database.php?{$vars}&amp;action=find",
+				),
+				'variables' => array (
+					'title' => $lang['strvariables'],
+					'url'   => "database.php?{$vars}&amp;action=variables",
+				),
+				'processes' => array (
+					'title' => $lang['strprocesses'],
+					'url'   => "database.php?{$vars}&amp;action=processes",
+				),
+				'admin' => array (
+					'title' => $lang['stradmin'],
+					'url'   => "database.php?{$vars}&amp;action=admin",
+				),
+				'privileges' => array (
+					'title' => $lang['strprivileges'],
+					'url'   => "privileges.php?{$vars}&amp;type=database&amp;object=" . urlencode($_REQUEST['database']),
+				),
+				'export' => array (
+					'title' => $lang['strexport'],
+					'url'   => "database.php?{$vars}&amp;action=export",
+				),
+			);
+			
+			if (!$data->hasSchemas()) unset($tabs['schemas']);
+			if (!$data->hasVariables()) unset($tabs['variables']);
+			if (!$data->hasProcesses()) unset($tabs['processes']);
+			if (!isset($data->privlist['database'])) unset($tabs['privileges']);
+			if (!$this->isDumpEnabled()) unset($tabs['export']);
 
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			// Only show schemas if available
-			if ($data->hasSchemas()) {
-				echo "<td width=\"12%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
-			}
-			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
-			if ($data->hasVariables()) {
-				echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
-			}
-			if ($data->hasProcesses()) {
-				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
-			}
-			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
-			// Only show database privs if available
-			if (isset($data->privlist['database'])) {
-				echo "<td width=\"13%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
-			}
-			// Check that database dumps are enabled.
-			if ($this->isDumpEnabled()) {
-				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
-			}
-			echo "</tr></table>\n";
+			$this->printTabs($tabs);
 		}
 
 		/**
@@ -372,10 +450,18 @@
 			if (isset($_REQUEST['database'])) $url = '&amp;database=' . urlencode($_REQUEST['database']);
 			else $url = '';
 
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"50%\"><a href=\"sqledit.php?action=sql{$url}\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"50%\"><a href=\"sqledit.php?action=find{$url}\">{$lang['strfind']}</a></td>\n";
-			echo "</tr></table>\n";
+			$tabs = array (
+				'sql' => array (
+					'title' => $lang['strsql'],
+					'url'   => "sqledit.php?action=sql{$url}",
+				),
+				'find' => array (
+					'title' => $lang['strfind'],
+					'url'   => "sqledit.php?action=find{$url}",
+				),
+			);
+			
+			$this->printTabs($tabs);
 		}
 		
 		/**
@@ -493,5 +579,224 @@
 					return $nSize;
 			}
         	}		 
+
+		/**
+		 * Clip a string down to a specified length, and append an ellipsis.
+		 * @param $str      The string to be clipped.
+		 * @param $maxlen   (optional) Maximum length of string (defaults to the configuration value 'max_chars'.
+		 * @param $ellipsis (optional) The string to append if clipping was performed.
+		 */
+		function clipString($str, $maxlen = null, $ellipsis = null) {
+			global $lang, $conf;
+			if (is_null($maxlen)) $maxlen = $conf['max_chars'];
+			if (is_null($ellipsis)) $ellipsis = $lang['strellipsis'];
+			if (strlen($str) > $maxlen) {
+				return substr($str, 0, $maxlen-1) . $ellipsis;
+			} else {
+				return $str;
+			}
+		}
+		
+		function printUrlVars($vars, $fields) {
+			foreach ($vars as $var => $varfield) {
+				echo "{$var}=", urlencode($fields[$varfield]), "&amp;";
+			}
+		}
+		
+		/**
+		 * Format a table cell according to a set of parameters.
+		 * @param $value The value to display
+		 * @param $params Associative array of type parameters, or just a type name.
+		 * @return The HTML formatted string
+		 */
+		function printCell($value, $params) {
+			global $lang, $data;
+
+			if (is_string($params)) {
+				$type = $params;
+				$params = array();
+			} else {
+				$type = isset($params['type']) ? $params['type'] : 'str';
+			}
+			$out = '';
+			
+			switch ($type) {
+				case 'bool':
+				case 'boolean':
+					$out = $data->phpBool($value)
+							? (isset($params['true']) ? $params['true'] : $lang['strtrue'])
+							: (isset($params['false']) ? $params['false'] : $lang['strfalse']);
+					break;
+				case 'num':
+				case 'numeric':
+					$align = 'right';
+					$out = nl2br(htmlspecialchars($value));
+					break;
+				case 'pre':
+					$tag = 'pre';
+					$out = htmlspecialchars($value);
+					break;
+				case 'nbsp':
+					$out = nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($value)));
+					break;
+				case 'verbatim':
+					$out = $value;
+					break;
+				case 'str':
+				case 'string':
+				default:
+					$out = nl2br(htmlspecialchars($value));
+					break;
+			}
+			
+			if (isset($params['class'])) $class = $params['class'];
+			
+			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
+			
+			if (isset($tag)) {
+				$alignattr = isset($align) ? " align=\"{$align}\"" : '';
+				$classattr = isset($class) ? " class=\"{$class}\"" : '';
+				return "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
+			}
+			
+			return $out;
+		}
+
+		/**
+		 * Display a table of data.
+		 * @param $tabledata A set of data to be formatted, as returned by $data->getDatabases() etc.
+		 * @param $columns   An associative array of columns to be displayed:
+		 *			$columns = array(
+		 *				column_id => array(
+		 *					'title' => Column heading,
+		 *					'field' => Field name for $tabledata->f[...],
+		 *				), ...
+		 *			);
+		 * @param $actions   Actions that can be performed on each object:
+		 *			$actions = array(
+		 *				action_id => array(
+		 *					'title' => Action heading,
+		 *					'url'   => Static part of URL,
+		 *					'vars'  => Associative array of (URL variable => field name),
+		 *				), ...
+		 *			);
+		 * @param $nodata    (optional) Message to display if data set is empty.
+		 * @param $pre_fn    (optional) Name of a function to call for each row,
+		 *					 it will be passed two params: $rowdata and $actions,
+		 *					 it may be used to derive new fields or modify actions.
+		 *					 It can return an array of actions specific to the row,
+		 *					 or if nothing is returned then the standard actions are used.
+		 *					 (see functions.php and constraints.php for examples)
+		 */
+		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null) {
+			global $data, $conf, $misc;
+			global $PHP_SELF;
+			
+			if ($tabledata->recordCount() > 0) {
+				
+				// Remove the 'comment' column if they have been disabled
+				if (!$conf['show_comments']) {
+					unset($columns['comment']);
+				}
+
+				// Apply the 'properties' action to the first column
+				// and remove it from the action list.
+				// (Remove this section to keep the 'Properties' button instead of links)
+				if (isset($actions['properties'])) {
+					reset($columns);
+					$first_column = key($columns);
+					$columns[$first_column]['url'] = $actions['properties']['url'];
+					$columns[$first_column]['vars'] = $actions['properties']['vars'];
+					unset($actions['properties']);
+				}
+				
+				// TEMP: Display field keys
+				//echo "<p>", join(', ', array_keys($tabledata->f)), "</p>";
+				// END OF TEMP
+				
+				echo "<table>\n";
+				echo "<tr>\n";
+				foreach ($columns as $column_id => $column) {
+					switch ($column_id) {
+						case 'actions':
+							echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
+							break;
+						default:
+							echo "<th class=\"data\">{$column['title']}</th>\n";
+							break;
+					}
+				}
+				echo "</tr>\n";
+				
+				ob_start();
+				
+				$i = 0;
+				while (!$tabledata->EOF) {
+					$id = ($i % 2) + 1;
+					
+					unset($alt_actions);
+					if (!is_null($pre_fn)) $alt_actions = $pre_fn(&$tabledata, $actions);
+					if (!isset($alt_actions)) $alt_actions =& $actions;
+					
+					echo "<tr>\n";
+					
+					foreach ($columns as $column_id => $column) {
+					
+						// Apply default values for missing parameters
+						if (isset($column['url']) && !isset($column['vars'])) $column['vars'] = array();
+						
+						switch ($column_id) {
+							case 'actions':
+								foreach ($alt_actions as $action) {
+									if (isset($action['disable'])) {
+										echo "<td class=\"data{$id}\"></td>";
+									} else {
+										echo "<td class=\"opbutton{$id}\">";
+										echo "<a href=\"{$action['url']}";
+										$misc->printUrlVars($action['vars'], &$tabledata->f);
+										echo "\">{$action['title']}</a></td>";
+									}
+								}
+								break;
+							case 'comment':
+								// Uncomment this for clipped comments.
+								//$tabledata->f[$column['field']] = $misc->clipString($tabledata->f[$column['field']]);
+							default;
+								echo "<td class=\"data{$id}\">";
+								if (isset($column['url'])) {
+									echo "<a href=\"{$column['url']}";
+									$misc->printUrlVars($column['vars'], &$tabledata->f);
+									echo "\">";
+								}
+								
+								$cell = $misc->printCell($tabledata->f[$column['field']], &$column);
+								echo $cell;
+								
+								if (isset($column['url'])) echo "</a>";
+
+								echo "</td>\n";
+								break;
+						}
+					}
+					echo "</tr>\n";
+					
+					ob_flush();
+					$tabledata->moveNext();
+					$i++;
+				}
+				
+				ob_end_flush();
+				
+				echo "</table>\n";
+			
+				return true;
+			} else {
+				if (!is_null($nodata)) {
+					echo "<p>{$nodata}</p>\n";
+				}
+				return false;
+			}
+		}
+	
 	}
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.44 2004/06/27 06:26:23 xzilla Exp $
+	 * $Id: views.php,v 1.45 2004/07/07 03:00:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -512,50 +512,72 @@
 		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
+		function vwPre(&$rowdata) {
+			global $data;
+			if ($data->hasSchemas() && isset($_REQUEST['schema'])) {
+				$data->fieldClean($_REQUEST['schema']);
+				$rowdata->f['+vwquery'] = "SELECT * FROM \"{$_REQUEST['schema']}\".\"{$rowdata->f['relname']}\"";
+			} else {
+				$rowdata->f['+vwquery'] = "SELECT * FROM \"{$rowdata->f['relname']}\"";
+			}
+			$rowdata->f['+vwcount'] = "SELECT COUNT(*) AS total FROM \"{$rowdata->f['relname']}\"";
+		}
+		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews']), 'views');
 		$misc->printMsg($msg);
 		
 		$views = &$data->getViews();
 		
-		if ($views->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strview']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"4\" class=\"data\">{$lang['stractions']}</th>\n";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$views->EOF) {
-				// @@@@@@@@@ FIX THIS!!!!!
-				if ($data->hasSchemas() && isset($_REQUEST['schema'])) {
-					$data->fieldClean($_REQUEST['schema']);
-					$query = urlencode("SELECT * FROM \"{$_REQUEST['schema']}\".\"{$views->f[$data->vwFields['vwname']]}\"");
-				}
-				else
-					$query = urlencode("SELECT * FROM \"{$views->f[$data->vwFields['vwname']]}\"");
-				$count = urlencode("SELECT COUNT(*) AS total FROM \"{$views->f[$data->vwFields['vwname']]}\"");
-				$return_url = urlencode("views.php?{$misc->href}");
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwowner']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc=",
-					urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strselect']}</a></td>\n"; 
-				echo "<td class=\"opbutton{$id}\"><a href=\"viewproperties.php?{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strproperties']}</a></td>\n"; 
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
-				// Trim long comments
-				if (strlen($views->f[$data->vwFields['vwcomment']]) > $conf['max_chars']) {
-					$views->f[$data->vwFields['vwcomment']] = substr($views->f[$data->vwFields['vwcomment']], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-				}
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwcomment']]), "</td>\n";
-				echo "</tr>\n";
-				$views->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnoviews']}</p>\n";
-		}
+		$columns = array(
+			'view' => array(
+				'title'	=> $lang['strview'],
+				'field'	=> 'relname',
+			),
+			'owner' => array(
+				'title'	=> $lang['strowner'],
+				'field'	=> 'relowner',
+			),
+			'actions' => array(
+				'title'	=> $lang['stractions'],
+			),
+			'comment' => array(
+				'title'	=> $lang['strcomment'],
+				'field'	=> 'relcomment',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'	=> "viewproperties.php?{$misc->href}&amp;",
+				'vars'	=> array('view' => 'relname'),
+			),
+			'browse' => array(
+				'title'	=> $lang['strbrowse'],
+				'url'	=> "display.php?{$misc->href}&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'vars'	=> array('query' => '+vwquery', 'count' => '+vwcount'),
+			),
+			'select' => array(
+				'title'	=> $lang['strselect'],
+				'url'	=> "{$PHP_SELF}?action=confselectrows&amp;{$misc->href}&amp;",
+				'vars'	=> array('view' => 'relname'),
+			),
+			
+// Insert is possible if the relevant rule for the view has been created.
+//			'insert' => array(
+//				'title'	=> $lang['strinsert'],
+//				'url'	=> "{$PHP_SELF}?action=confinsertrow&amp;{$misc->href}&amp;",
+//				'vars'	=> array('view' => 'relname'),
+//			),
+
+			'drop' => array(
+				'title'	=> $lang['strdrop'],
+				'url'	=> "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'	=> array('view' => 'relname'),
+			),
+		);
+		
+		$misc->printTable($views, $columns, $actions, $lang['strnoviews'], 'vwPre');
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";

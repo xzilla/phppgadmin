@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.33 2004/06/28 02:26:56 chriskl Exp $
+	 * $Id: functions.php,v 1.34 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,9 +22,15 @@
 		// If the backend does not support renaming functions...
 		if (!$data->hasFunctionRename()) $_POST['formFunction'] = $_POST['original_function'];
 
+		if (strtolower($_POST['original_lang']) == 'c') {
+			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
+		} else {
+			$def = $_POST['formDefinition'];
+		}
+		
 		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['formFunction'], 
 										$_POST['original_arguments'], 
-										$_POST['original_returns'], $_POST['formDefinition'], 
+										$_POST['original_returns'], $def,
 										$_POST['original_lang'], $_POST['formProperties'], 
 										isset($_POST['original_setof']), $_POST['formComment']);
 		if ($status == 0)
@@ -46,15 +52,17 @@
 		$fndata = &$data->getFunction($_REQUEST['function_oid']);
 
 		if ($fndata->recordCount() > 0) {
-			$fndata->f[$data->fnFields['setof']] = $data->phpBool($fndata->f[$data->fnFields['setof']]);
+			$fndata->f['proretset'] = $data->phpBool($fndata->f['proretset']);
 
 			// Initialise variables
-			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $fndata->f[$data->fnFields['fndef']];
+			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $fndata->f['prosrc'];
 			if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->getFunctionProperties($fndata->f);
-			if (!isset($_POST['formFunction'])) $_POST['formFunction'] = $fndata->f[$data->fnFields['fnname']];
-			if (!isset($_POST['formComment'])) $_POST['formComment'] = $fndata->f['funccomment'];
+			if (!isset($_POST['formFunction'])) $_POST['formFunction'] = $fndata->f['proname'];
+			if (!isset($_POST['formComment'])) $_POST['formComment'] = $fndata->f['procomment'];
+			if (!isset($_POST['formObjectFile'])) $_POST['formObjectFile'] = $fndata->f['probin'];
+			if (!isset($_POST['formLinkSymbol'])) $_POST['formLinkSymbol'] = $fndata->f['prosrc'];
 
-			$func_full = $fndata->f[$data->fnFields['fnname']] . "(". $fndata->f[$data->fnFields['fnarguments']] .")";
+			$func_full = $fndata->f['proname'] . "(". $fndata->f['proarguments'] .")";
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"90%\">\n";
 			echo "<tr>\n";
@@ -67,37 +75,48 @@
 
 			echo "<tr>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\" />\n"; 
+			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f['proname']),"\" />\n"; 
 			// If we're 7.4 or above, we can rename functions
 			if ($data->hasFunctionRename()) {
 				echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
 			}
 			else
-				echo $misc->printVal($fndata->f[$data->fnFields['fnname']]);
+				echo $misc->printVal($fndata->f['proname']);
 			echo "</td>\n";
 
-			echo "<td class=\"data1\">", $misc->printVal($fndata->f[$data->fnFields['fnarguments']]), "\n";
-			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),"\" />\n"; 
+			echo "<td class=\"data1\">", $misc->printVal($fndata->f['proarguments']), "\n";
+			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($fndata->f['proarguments']),"\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>";
-			if ($fndata->f[$data->fnFields['setof']]) echo "setof ";
-			echo $misc->printVal($fndata->f[$data->fnFields['fnreturns']]), "\n";
-			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "\" />\n"; 
-			if ($fndata->f[$data->fnFields['setof']])
+			echo "<td class=\"data1\">";
+			if ($fndata->f['proretset']) echo "setof ";
+			echo $misc->printVal($fndata->f['proresult']), "\n";
+			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->f['proresult']), "\" />\n"; 
+			if ($fndata->f['proretset'])
 				echo "<input type=\"hidden\" name=\"original_setof\" value=\"yes\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>", $misc->printVal($fndata->f[$data->fnFields['fnlang']]), "\n";
-			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\" />\n"; 
+			echo "<td class=\"data1\">", $misc->printVal($fndata->f['prolanguage']), "\n";
+			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->f['prolanguage']), "\" />\n"; 
 			echo "</td>\n";
-
-			echo "<tr><th class=\"data required\" colspan=\"8\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"8\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			
+			$fnlang = strtolower($fndata->f['prolanguage']);
+			if ($fnlang == 'c' || $fnlang == 'internal') {
+				echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
+				echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formObjectFile\" style=\"width:100%\" value=\"",
+					htmlspecialchars($_POST['formObjectFile']), "\" /></td>\n";
+				echo "<td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
+			} else {
+				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+					htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			}
+			
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\" wrap=\"virtual\">", 
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 			// Display function properies
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
@@ -143,24 +162,34 @@
 		
 		if ($funcdata->recordCount() > 0) {
 			// Show comment if any
-			if ($funcdata->f['funccomment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($funcdata->f['funccomment']), "</p>\n";
+			if ($funcdata->f['procomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($funcdata->f['procomment']), "</p>\n";
 
-			$funcdata->f[$data->fnFields['setof']] = $data->phpBool($funcdata->f[$data->fnFields['setof']]);
-			$func_full = $funcdata->f[$data->fnFields['fnname']] . "(". $funcdata->f[$data->fnFields['fnarguments']] .")";
+			$funcdata->f['proretset'] = $data->phpBool($funcdata->f['proretset']);
+			$func_full = $funcdata->f['proname'] . "(". $funcdata->f['proarguments'] .")";
 			echo "<table width=\"90%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->f['proname']), "</td>\n";
+			echo "<td class=\"data1\">", $misc->printVal($funcdata->f['proarguments']), "</td>\n";
 			echo "<td class=\"data1\">";
-			if ($funcdata->f[$data->fnFields['setof']]) echo "setof ";			
-			echo $misc->printVal($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
-			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
+			if ($funcdata->f['proretset']) echo "setof ";			
+			echo $misc->printVal($funcdata->f['proresult']), "</td>\n";
+			echo "<td class=\"data1\">", $misc->printVal($funcdata->f['prolanguage']), "</td></tr>\n";
+			
+			$fnlang = strtolower($funcdata->f['prolanguage']);
+			if ($fnlang == 'c' || $fnlang == 'internal') {
+				echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
+				echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($funcdata->f['probin']), "</td>\n";
+				echo "<td class=\"data1\" colspan=\"2\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
+			} else {
+				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printCell($funcdata->f['prosrc'], 'pre'), "</td></tr>\n";
+			}
+			
 			// Show flags
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				// Fetch an array of the function properties
@@ -228,8 +257,10 @@
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
 		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
-		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = 'sql';
+		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = isset($_REQUEST['language']) ? $_REQUEST['language'] : 'sql';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
+		if (!isset($_POST['formObjectFile'])) $_POST['formObjectFile'] = '';
+		if (!isset($_POST['formLinkSymbol'])) $_POST['formLinkSymbol'] = '';
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
@@ -267,9 +298,9 @@
 		// Output return type list		
 		echo "<select name=\"formReturns\">\n";
 		while (!$types->EOF) {
-			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
-				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
+			echo "<option value=\"", htmlspecialchars($types->f['typname']), "\"", 
+				($types->f['typname'] == $_POST['formReturns']) ? ' selected="selected"' : '', ">",
+				$misc->printVal($types->f['typname']), "</option>\n";
 			$types->moveNext();
 		}
 		echo "</select>\n";
@@ -282,17 +313,29 @@
 
 		echo "<td class=\"data1\"><select name=\"formLanguage\">\n";
 		while (!$langs->EOF) {
-			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\"",
-				($langs->f[$data->langFields['lanname']] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($langs->f[$data->langFields['lanname']]), "</option>\n";
+			echo "<option value=\"", htmlspecialchars($langs->f['lanname']), "\"",
+				($langs->f['lanname'] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
+				$misc->printVal($langs->f['lanname']), "</option>\n";
 			$langs->moveNext();
 		}
 		echo "</select>\n";
 
 		echo "</td></tr>\n";
-		echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">",
-			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+		
+		$fnlang = strtolower($_POST['formLanguage']);
+		if ($fnlang == 'c' || $fnlang == 'internal') {
+			echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
+			echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formObjectFile\" style=\"width:100%\" value=\"",
+				htmlspecialchars($_POST['formObjectFile']), "\" /></td>\n";
+			echo "<td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
+		} else {
+			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+		}
+		
 		// Display function properies
 		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
@@ -327,13 +370,19 @@
 		// Set properties to an empty array if it doesn't exist (for db's without properties)
 		if (!is_array($_POST['formProperties'])) $_POST['formProperties'] = array();
 		
+		if (strtolower($_POST['formLanguage']) == 'c') {
+			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
+		} else {
+			$def = $_POST['formDefinition'];
+		}
+
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
-		elseif ($_POST['formDefinition'] == '') doCreate($lang['strfunctionneedsdef']);
+		elseif (!$def) doCreate($lang['strfunctionneedsdef']);
 		else {
 			// Append array symbol to type if chosen
 			$status = $data->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
-					$_POST['formReturns'] . $_POST['formArray'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
+					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'], 
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
@@ -349,57 +398,62 @@
 		global $data, $conf, $misc, $func;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}</h2>\n";
+		function fnPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+proproto'] = $rowdata->f['proname'] . " (" . $rowdata->f['proarguments'] . ")";
+			$rowdata->f['+proreturns'] = ($data->phpBool($rowdata->f['proretset']) ? 'setof ' : '') . $rowdata->f['proresult'];
+		}
+		
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strfunctions']), 'functions');
 		$misc->printMsg($msg);
 		
 		$funcs = &$data->getFunctions();
-
-		if ($funcs->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th><th class=\"data\">{$lang['strreturns']}</th>\n";
-			echo "<th class=\"data\">{$lang['strarguments']}</th><th colspan=\"4\" class=\"data\">{$lang['stractions']}</th>\n";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$funcs->EOF) {
-				$funcs->f[$data->fnFields['setof']] = $data->phpBool($funcs->f[$data->fnFields['setof']]);
-				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($funcs->f[$data->fnFields['fnname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">";
-				if ($funcs->f[$data->fnFields['setof']]) echo "setof ";
-				echo $misc->printVal($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;function=", 
-					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;function=", 
-					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stralter']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;function=",
-					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
-				if (isset($data->privlist['function'])) {
-					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&amp;function=", 
-						urlencode($func_full), "&amp;object=",
-						$funcs->f[$data->fnFields['fnoid']], "&amp;type=function\">{$lang['strprivileges']}</a></td>\n";
-				}
-				else echo "<td></td>";
-				// Trim long comments
-				if (strlen($funcs->f['funccomment']) > $conf['max_chars']) {
-					$funcs->f['funccomment'] = substr($funcs->f['funccomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-				}
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f['funccomment']), "</td>\n";				
-				echo "</tr>\n";
-				$funcs->moveNext();
-				$i++;
-			}
-
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnofunctions']}</p>\n";
-		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatefunction']}</a></p>\n";
+		$columns = array(
+			'function' => array(
+				'title' => $lang['strfunction'],
+				'field' => '+proproto',
+			),
+			'returns' => array(
+				'title' => $lang['strreturns'],
+				'field' => '+proreturns',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'procomment',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+			),
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'vars'  => array('function' => 'proname', 'function_oid' => 'prooid'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('function' => 'proname', 'function_oid' => 'prooid'),
+			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?{$misc->href}&amp;type=function&amp;",
+				'vars'  => array('function' => 'proname', 'object' => 'prooid'),
+			),
+		);
+		
+		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions'], 'fnPre');
 
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;language=c&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strfunctions']);

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.30 2004/06/10 07:15:52 chriskl Exp $
+	 * $Id: constraints.php,v 1.31 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -456,72 +456,77 @@
 		global $PHP_SELF;
 		global $lang;
 
+		function cnPre(&$rowdata, $actions) {
+			global $data, $lang;
+			if (is_null($rowdata->f['consrc'])) {
+				$atts = &$data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->f['indkey']));
+				$rowdata->f['+definition'] = ($rowdata->f['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
+			} else {
+				$rowdata->f['+definition'] = $rowdata->f['consrc'];
+			}
+			
+			if ($rowdata->f['contype'] == 'u' || $rowdata->f['contype'] == 'p') {
+				$rowdata->f['+clustered'] = $rowdata->f['indisclustered'];
+				//$rowdata->f['+clustered'] = $data->phpBool($rowdata->f['indisclustered']) ? $lang['stryes'] : $lang['strno'];
+			} else {
+				$rowdata->f['+clustered'] = '';
+				
+				// Disable actions for non index constraints
+				$actions['cluster']['disable'] = true;
+				$actions['reindex']['disable'] = true;
+				return $actions;
+			}
+		}
+		
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strconstraints']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strconstraints']));
 		$misc->printMsg($msg);
 
 		$constraints = &$data->getConstraints($_REQUEST['table']);
 
-		if ($constraints->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>\n";
-			if ($data->hasIsClustered()) {
-				echo "<th class=\"data\">{$lang['strclustered']}</th>";
-			}
-			echo "<th class=\"data\" colspan=\"3\">{$lang['stractions']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			
-			while (!$constraints->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($constraints->f[$data->cnFields['conname']]), "</td>";
-				echo "<td class=\"data{$id}\">";
-				// Nasty hack to support pre-7.4 PostgreSQL
-				if ($constraints->f['consrc'] !== null)
-					echo $misc->printVal($constraints->f[$data->cnFields['consrc']]);
-				else {
-					$atts = &$data->getAttributeNames($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
-					echo ($constraints->f['contype'] == 'u') ? "UNIQUE (" : "PRIMARY KEY (";
-					echo join(',', $atts);
-					echo ")";
-				}
-				echo "</td>";
-				if ($data->hasIsClustered()) {
-					if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
-						$constraints->f['indisclustered'] = $data->phpBool($constraints->f['indisclustered']);
-						echo "<td class=\"data{$id}\">", ($constraints->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
-					} else {
-						echo "<td class=\"data{$id}\"></td>";
-					}
-				}
-				// You can only cluster primary key and unique constraints!
-				if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
-					echo "<td class=\"opbutton{$id}\">";
-					echo "<a href=\"$PHP_SELF?action=confirm_cluster_constraint&{$misc->href}&constraint=",
-						urlencode($constraints->f[$data->cnFields['conname']]), 
-						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a></td>";
-					echo "<td class=\"opbutton{$id}\">";
-					echo "<a href=\"$PHP_SELF?action=reindex&{$misc->href}&constraint=",
-						urlencode($constraints->f[$data->cnFields['conname']]),
-						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strreindex']}</a></td>";
-				}
-				else {
-					echo "<td class=\"data{$id}\">&nbsp;</td>";
-					echo "<td class=\"data{$id}\">&nbsp;</td>";
-				}
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]),
-					"&table=", urlencode($_REQUEST['table']), "&type=", urlencode($constraints->f['contype']), "\">{$lang['strdrop']}</td>";
-				echo "</tr>\n";
-
-				$constraints->moveNext();
-				$i++;
-			}
-
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$lang['strnoconstraints']}</p>\n";
+		$columns = array(
+			'constraint' => array(
+				'title' => $lang['strname'],
+				'field' => 'conname',
+			),
+			'definition' => array(
+				'title' => $lang['strdefinition'],
+				'field' => '+definition',
+				'type'  => 'pre',
+			),
+			'clustered' => array(
+				'title' => $lang['strclustered'],
+				'field' => '+clustered',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
+		
+		$actions = array(
+			'cluster' => array(
+				'title' => $lang['strcluster'],
+				'url'   => "{$PHP_SELF}?action=confirm_cluster_constraint&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('constraint' => 'conname'),
+			),
+			'reindex' => array(
+				'title' => $lang['strreindex'],
+				'url'   => "{$PHP_SELF}?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('constraint' => 'conname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
+			),
+		);
+		
+		if (!$data->hasIsClustered()) unset($columns['clustered']);
+		
+		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
 		
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a> |\n";

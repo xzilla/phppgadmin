@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.5 2004/05/08 14:44:56 chriskl Exp $
+	 * $Id: conversions.php,v 1.6 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,35 +20,40 @@
 		global $data, $conf, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strconversions']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strconversions']), 'conversions');
 		$misc->printMsg($msg);
 		
 		$conversions = &$data->getconversions();
-
-		if ($conversions->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strsourceencoding']}</th>";
-			echo "<th class=\"data\">{$lang['strtargetencoding']}</th><th class=\"data\">{$lang['strdefault']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$conversions->EOF) {
-				$conversions->f['condefault'] = $data->phpBool($conversions->f['condefault']);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($conversions->f['conname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['conforencoding']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['contoencoding']), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($conversions->f['condefault']) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['concomment']), "</td>\n";
-				echo "</tr>\n";
-				$conversions->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnoconversions']}</p>\n";
-		}
+		
+		$columns = array(
+			'conversion' => array(
+				'title' => $lang['strname'],
+				'field' => 'conname',
+			),
+			'source_encoding' => array(
+				'title' => $lang['strsourceencoding'],
+				'field' => 'conforencoding',
+			),
+			'target_encoding' => array(
+				'title' => $lang['strtargetencoding'],
+				'field' => 'contoencoding',
+			),
+			'default' => array(
+				'title' => $lang['strdefault'],
+				'field' => 'condefault',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'concomment',
+			),
+		);
+		
+		$actions = array();
+		
+		$misc->printTable($conversions, $columns, $actions, $lang['strnoconversions']);
 	}
 
 	$misc->printHeader($lang['strconversions']);

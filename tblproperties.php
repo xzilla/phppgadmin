@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.51 2004/06/28 02:26:57 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.52 2004/07/07 02:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -54,9 +54,9 @@
 		
 		if ($table->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $table->f[$data->tbFields['tbname']];
-			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f[$data->tbFields['tbowner']];
-			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f[$data->tbFields['tbcomment']];
+			if (!isset($_POST['name'])) $_POST['name'] = $table->f['relname'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f['relowner'];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f['relcomment'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -68,7 +68,7 @@
 				echo "<tr><th class=\"data required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
-					$uname = $users->f[$data->uFields['uname']];
+					$uname = $users->f['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
 						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 					$users->moveNext();
@@ -234,7 +234,7 @@
 					}
 				}
 				while (!$types->EOF) {
-					$typname = $types->f[$data->typFields['typname']];
+					$typname = $types->f['typname'];
 					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected="selected"' : '', ">",
 						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
@@ -371,7 +371,7 @@
 							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
-						$typname = $types->f[$data->typFields['typname']];
+						$typname = $types->f['typname'];
 						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
@@ -490,49 +490,70 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
+		function attPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+		}
+		
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), "</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table'])));
+		$misc->printMsg($msg);
 
 		// Get table
 		$tdata = &$data->getTable($_REQUEST['table']);
 		// Get columns
 		$attrs = &$data->getTableAttributes($_REQUEST['table']);		
-		$misc->printMsg($msg);
 
 		// Show comment if any
-		if ($tdata->f[$data->tbFields['tbcomment']] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($tdata->f[$data->tbFields['tbcomment']]), "</p>\n";
+		if ($tdata->f['relcomment'] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($tdata->f['relcomment']), "</p>\n";
 
-		echo "<table>\n";
-		echo "<tr>\n\t<th class=\"data\">{$lang['strfield']}</th>\n\t<th class=\"data\">{$lang['strtype']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['strnotnull']}</th>\n\t<th class=\"data\">{$lang['strdefault']}</th>\n";
-		if ($data->hasDropColumn())
-			echo "\t<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
-		else
-			echo "\t<th class=\"data\">{$lang['stractions']}</th>\n";
-		if ($conf['show_comments']) echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n"; 
-		echo "</tr>\n";
-
-		$i = 0;
-		while (!$attrs->EOF) {
-			$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
-			$id = (($i % 2) == 0 ? '1' : '2');
-			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
-			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
-			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
-			if ($data->hasDropColumn()) {
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
-			}
-			if ($conf['show_comments']) echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['comment']), "</td>\n"; 
-			echo "</tr>\n";
-			$attrs->moveNext();
-			$i++;
-		}
-		echo "</table>\n";
+		$columns = array(
+			'field' => array(
+				'title' => $lang['strfield'],
+				'field' => 'attname',
+			),
+			'type' => array(
+				'title' => $lang['strtype'],
+				'field' => '+type',
+			),
+			'notnull' => array(
+				'title' => $lang['strnotnull'],
+				'field' => 'attnotnull',
+				'type'  => 'bool',
+				'true'  => 'NOT NULL',
+				'false' => '',
+			),
+			'default' => array(
+				'title' => $lang['strdefault'],
+				'field' => 'adsrc',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'comment',
+			),
+		);
+		
+		$actions = array(
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
+		);
+		
+		if (!$data->hasDropColumn()) unset($actions['drop']);
+		
+		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+		
 		echo "<br />\n";
 
 		echo "<ul>\n";

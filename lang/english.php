@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.150 2004/07/06 09:05:42 chriskl Exp $
+	 * $Id: english.php,v 1.151 2004/07/07 03:00:07 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -415,6 +415,8 @@
 	$lang['strnofunction'] = 'No function found.';
 	$lang['strnofunctions'] = 'No functions found.';
 	$lang['strcreatefunction'] = 'Create function';
+	$lang['strcreateplfunction'] = 'Create SQL/PL function';
+	$lang['strcreatecfunction'] = 'Create C function';
 	$lang['strfunctionname'] = 'Function name';
 	$lang['strreturns'] = 'Returns';
 	$lang['strarguments'] = 'Arguments';
@@ -428,6 +430,8 @@
 	$lang['strfunctiondroppedbad'] = 'Function drop failed.';
 	$lang['strfunctionupdated'] = 'Function updated.';
 	$lang['strfunctionupdatedbad'] = 'Function update failed.';
+	$lang['strobjectfile'] = 'Object File';
+	$lang['strlinksymbol'] = 'Link Symbol';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -485,6 +489,7 @@
 	$lang['strschemadroppedbad'] = 'Schema drop failed.';
 	$lang['strschemaaltered'] = 'Schema altered.';
 	$lang['strschemaalteredbad'] = 'Schema alteration failed.';
+	$lang['strsearchpath'] = 'Schema search path';
 
 	// Reports
 	$lang['strreport'] = 'Report';

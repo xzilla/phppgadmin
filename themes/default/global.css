@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.18 2004/07/06 10:14:07 soranzo Exp $
+ * $Id: global.css,v 1.19 2004/07/07 03:00:08 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -96,6 +96,11 @@ table.navbar td
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /* 0.9em */
 	font-weight: bold;
+}
+
+table.navbar td.active
+{
+	background-color: #E6E6CC;
 }
 
 th.data

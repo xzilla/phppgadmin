@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.3 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: languages.php,v 1.4 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,33 +19,33 @@
 	function doDefault($msg = '') {
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
-
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strlanguages']}</h2>\n";
+		
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strlanguages']));
 		$misc->printMsg($msg);
 		
 		$languages = &$data->getlanguages();
 
-		if ($languages->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strtrusted']}</th>";
-			echo "<th class=\"data\">{$lang['strfunction']}</th>";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$languages->EOF) {
-				$languages->f['lanpltrusted'] = $data->phpBool($languages->f['lanpltrusted']);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($languages->f['lanname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($languages->f['lanpltrusted']) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($languages->f['lanplcallf']), "</td>\n";
-				echo "</tr>\n";
-				$languages->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnolanguages']}</p>\n";
-		}
+		$columns = array(
+			'language' => array(
+				'title' => $lang['strname'],
+				'field' => 'lanname',
+			),
+			'trusted' => array(
+				'title' => $lang['strtrusted'],
+				'field' => 'lanpltrusted',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'function' => array(
+				'title' => $lang['strfunction'],
+				'field' => 'lanplcallf',
+			),
+		);
+
+		$actions = array();
+
+		$misc->printTable($languages, $columns, $actions, $lang['strnolanguages']);
 	}
 
 	$misc->printHeader($lang['strlanguages']);

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.38 2004/06/26 22:24:09 xzilla Exp $
+	 * $Id: browser.php,v 1.39 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -53,16 +53,16 @@
 			
 			$tables = &$data->getTables();
 			while (!$tables->EOF) {
-				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f[$data->tbFields['tbname']]) . "&{$querystr}");
+				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f['relname']) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
-								'text' => $misc->printVal($tables->f[$data->tbFields['tbname']]), 
+								'text' => $misc->printVal($tables->f['relname']), 
 								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
-									urlencode($tables->f[$data->tbFields['tbname']]))), 
+									urlencode($tables->f['relname']))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 								'expanded' => false,
 								'linkTarget' => 'detail',
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f[$data->tbFields['tbname']]).'&objtype=table&'.$querystr.
+								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f['relname']).'&objtype=table&'.$querystr.
 									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 								));
 
@@ -87,17 +87,17 @@
 			
 			$views = &$data->getViews();
 			while (!$views->EOF) {
-				$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f[$data->vwFields['vwname']]) . "&{$querystr}");
+				$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f['relname']) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
-								'text' => $misc->printVal($views->f[$data->vwFields['vwname']]), 
+								'text' => $misc->printVal($views->f['relname']), 
 								'link' => addslashes(htmlspecialchars("viewproperties.php?{$querystr}&view=" .
-									urlencode($views->f[$data->vwFields['vwname']]))), 
+									urlencode($views->f['relname']))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
 								'expanded' => false,
 								'linkTarget' => 'detail',
 								// XXX: FIX BROWSE
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f[$data->vwFields['vwname']]).'&objtype=view&'.$querystr.
+								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f['relname']).'&objtype=view&'.$querystr.
 									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 								));
 
@@ -231,12 +231,12 @@
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
 		// If database is selected, show folder, otherwise show document
-		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
+		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f['datname']) {
 			// Very ugly hack to work around the fact that the PEAR HTML_Tree can't have links with embedded
 			// apostrophes create the get string we need to append
-			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
+			$querystr = 'database=' . urlencode($databases->f['datname']) . '&' . SID;
 			$db_node = &new HTML_TreeNode(array(
-								'text' => $misc->printVal($databases->f[$data->dbFields['dbname']]), 
+								'text' => $misc->printVal($databases->f['datname']), 
 								'link' => addslashes(htmlspecialchars("database.php?{$querystr}")),
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
@@ -247,18 +247,18 @@
 			if ($data->hasSchemas()) {
 				$schemas = &$data->getSchemas();
 				while (!$schemas->EOF) {
-					$data->setSchema($schemas->f[$data->nspFields['nspname']]);
+					$data->setSchema($schemas->f['nspname']);
 					// Construct database & schema query string
-					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
-							urlencode($schemas->f[$data->nspFields['nspname']]) . '&' . SID;
+					$querystr = 'database=' . urlencode($databases->f['datname']). '&schema=' .
+							urlencode($schemas->f['nspname']) . '&' . SID;
 					$schemanode = &new HTML_TreeNode(array(
-									'text' => $misc->printVal($schemas->f[$data->nspFields['nspname']]), 
+									'text' => $misc->printVal($schemas->f['nspname']), 
 									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
 									// Auto-expand your personal schema, if it exists.  Also expand schema if there is
 									// only one schema in the database.
-									'expanded' => ($schemas->f[$data->nspFields['nspname']] == $_SESSION['webdbUsername']
+									'expanded' => ($schemas->f['nspname'] == $_SESSION['webdbUsername']
 															|| $schemas->recordCount() == 1),
 									'linkTarget' => 'detail'));
 
@@ -273,13 +273,13 @@
 			// Database doesn't support schemas
 			else {
 				// Construct database query string
-				$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
+				$querystr = 'database=' . urlencode($databases->f['datname']) . '&' . SID;
 
 				addNodes($db_node, $querystr);
 			}
 			
 			// Reset database query string
-			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
+			$querystr = 'database=' . urlencode($databases->f['datname']) . '&' . SID;
 
 			// Languages
 			if ($conf['show_advanced']) {
@@ -317,10 +317,10 @@
 		} else {
 			// Very ugly hack to work around the fact that the PEAR HTML_Tree can't have links with embedded
 			// apostrophes create the get string we need to append
-			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID));
+			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f['datname']) . '&' . SID));
 			$jsLink = "javascript:updateLinks(' + \"'{$jsLink}'\" + ')";
 			$db_node = &new HTML_TreeNode(array(
-									'text' => $misc->printVal($databases->f[$data->dbFields['dbname']]), 
+									'text' => $misc->printVal($databases->f['datname']), 
 									'link' => $jsLink,
 									'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 									'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",

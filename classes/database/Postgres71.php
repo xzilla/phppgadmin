@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.61 2004/06/27 06:22:29 xzilla Exp $
+ * $Id: Postgres71.php,v 1.62 2004/07/07 03:00:07 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -120,8 +120,8 @@ class Postgres71 extends Postgres {
 		else
 			$where = ' AND pdb.datallowconn';
 
-		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding,
-                               (SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS description
+		$sql = "SELECT pdb.datname AS datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+                               (SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment
                         FROM pg_database pdb, pg_user pu
 			WHERE pdb.datdba = pu.usesysid
 			{$where}
@@ -223,7 +223,7 @@ class Postgres71 extends Postgres {
 		// Get the minimum value of the sequence
 		$seq = &$this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
-		$minvalue = $seq->f[$this->sqFields['minvalue']];
+		$minvalue = $seq->f['min_value'];
 
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
@@ -245,17 +245,17 @@ class Postgres71 extends Postgres {
 		$this->clean($function_oid);
 		
 		$sql = "SELECT 
-					pc.oid,
+					pc.oid AS prooid,
 					proname,
-					lanname as language,
-					format_type(prorettype, NULL) as return_type,
-					prosrc as source,
-					probin as binary,
+					lanname as prolanguage,
+					format_type(prorettype, NULL) as proresult,
+					prosrc,
+					probin,
 					proretset,
 					proisstrict,
 					proiscachable,
-					oidvectortypes(pc.proargtypes) AS arguments,
-					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
+					oidvectortypes(pc.proargtypes) AS proarguments,
+					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 				FROM
 					pg_proc pc, pg_language pl
 				WHERE 

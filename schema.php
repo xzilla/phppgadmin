@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.17 2004/06/11 05:08:25 xzilla Exp $
+	 * $Id: schema.php,v 1.18 2004/07/07 02:59:58 chriskl Exp $
 	 */
 
 	include_once('./libraries/lib.inc.php');
@@ -23,8 +23,8 @@
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strschemas'],$misc->printVal($_REQUEST['schema'])),'schemas');
 
 		// Show comment if any
-		if ($schema->f[$data->nspFields['nspcomment']] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($schema->f[$data->nspFields['nspcomment']]), "</p>\n";
+		if ($schema->f['nspcomment'] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($schema->f['nspcomment']), "</p>\n";
 
 		$misc->printMsg($msg);
 		
@@ -64,7 +64,7 @@
 
 		$schema = &$data->getSchemaByName($_REQUEST['schema']);
 		if ($schema->recordCount() > 0) {
-			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f[$data->nspFields['nspcomment']];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

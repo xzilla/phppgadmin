@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.13 2004/06/27 06:26:22 xzilla Exp $
+	 * $Id: operators.php,v 1.14 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -109,34 +109,46 @@
 		
 		$operators = &$data->getOperators();
 
-		if ($operators->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['stroperator']}</th><th class=\"data\">{$lang['strleftarg']}</th>";
-			echo "<th class=\"data\">{$lang['strrightarg']}</th><th class=\"data\">{$lang['strreturns']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th\n";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$operators->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($operators->f['oprname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($operators->f['oprleftname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($operators->f['oprrightname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($operators->f['resultname']), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;operator=",
-					urlencode($operators->f['oprname']), "&operator_oid=", urlencode($operators->f['oid']), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;operator=",
-					urlencode($operators->f['oprname']), "&operator_oid=", urlencode($operators->f['oid']), "\">{$lang['strdrop']}</a></td>\n";
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($operators->f['oprcomment']), "</td>\n";
-				echo "</tr>\n";
-				$operators->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnooperators']}</p>\n";
-		}
+		$columns = array(
+			'operator' => array(
+				'title' => $lang['stroperator'],
+				'field' => 'oprname',
+			),
+			'leftarg' => array(
+				'title' => $lang['strleftarg'],
+				'field' => 'oprleftname',
+			),
+			'rightarg' => array(
+				'title' => $lang['strrightarg'],
+				'field' => 'oprrightname',
+			),
+			'returns' => array(
+				'title' => $lang['strreturns'],
+				'field' => 'resultname',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'oprcomment',
+			),
+		);
+
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
+			),
+		);
+		
+		$misc->printTable($operators, $columns, $actions, $lang['strnooperators']);
 		
 //		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
 	}

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.34 2004/06/11 05:08:27 xzilla Exp $
+ * $Id: Postgres74.php,v 1.35 2004/07/07 03:00:07 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -123,7 +123,7 @@ class Postgres74 extends Postgres73 {
 		
 		if (!$conf['show_system']) $and = "WHERE nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
 		else $and = '';
-		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS comment
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
                         FROM pg_catalog.pg_namespace pn
                         JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
                         {$and} ORDER BY nspname";
@@ -142,8 +142,8 @@ class Postgres74 extends Postgres73 {
 		$this->clean($table);
 
 		/* This select excludes any indexes that are just base indexes for constraints. */
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, i.indisclustered,
-			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) AS pg_get_indexdef
+		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
+			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) AS inddef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
@@ -167,8 +167,8 @@ class Postgres74 extends Postgres73 {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT c.relname AS viewname, pg_catalog.pg_get_userbyid(c.relowner) AS viewowner, 
-                          pg_catalog.pg_get_viewdef(c.oid, true) AS definition, pg_catalog.obj_description(c.oid, 'pg_class') AS comment
+		$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
+                          pg_catalog.pg_get_viewdef(c.oid, true) AS vwdefinition, pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment
                         FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
                         WHERE (c.relname = '$view')
                         AND n.nspname='{$this->_schema}'";

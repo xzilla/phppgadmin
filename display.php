@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.39 2004/06/26 22:24:09 xzilla Exp $
+	 * $Id: display.php,v 1.40 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -237,6 +237,13 @@
 		else
 			$key = array();
 		
+		// Set the schema search path
+		if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
+			if ($data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path']))) != 0) {
+				return;
+			}
+		}
+
 		// Retrieve page from query.  $max_pages is returned by reference.
 		$rs = &$data->browseQuery($type, 
 			isset($_REQUEST['table']) ? $_REQUEST['table'] : null, 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.23 2004/01/18 16:03:07 soranzo Exp $
+	 * $Id: users.php,v 1.24 2004/07/07 03:00:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,17 +29,17 @@
 		$userdata = &$data->getUser($_SESSION['webdbUsername']);
 		
 		if ($userdata->recordCount() > 0) {
-			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
+			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
+			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
 			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
 			echo "</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", ($userdata->f[$data->uFields['uexpires']] == 'infinity' ? '' : $misc->printVal($userdata->f[$data->uFields['uexpires']])), "</td>\n";
-			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['udefaults']]), "</td>\n";
+			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->f['usename']), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->f['usesuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->f['usecreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", ($userdata->f['useexpires'] == 'infinity' ? '' : $misc->printVal($userdata->f['useexpires'])), "</td>\n";
+			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->f['useconfig']), "</td>\n";
 			echo "</tr>\n</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -107,21 +107,21 @@
 		
 		if ($userdata->recordCount() > 0) {
 			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $_SESSION['webdbUsername']);
-			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
+			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
+			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
 
 			if (!isset($_POST['formExpires'])){
-				if ($canRename) $_POST['newname'] = $userdata->f[$data->uFields['uname']];
-				if ($userdata->f[$data->uFields['usuper']]) $_POST['formSuper'] = '';
-				if ($userdata->f[$data->uFields['ucreatedb']]) $_POST['formCreateDB'] = '';
-				$_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']] == 'infinity' ? '' : $userdata->f[$data->uFields['uexpires']];
+				if ($canRename) $_POST['newname'] = $userdata->f['usename'];
+				if ($userdata->f['usesuper']) $_POST['formSuper'] = '';
+				if ($userdata->f['usecreatedb']) $_POST['formCreateDB'] = '';
+				$_POST['formExpires'] = $userdata->f['useexpires'] == 'infinity' ? '' : $userdata->f['useexpires'];
 				$_POST['formPassword'] = '';
 			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
-			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f[$data->uFields['uname']])), "</td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f['usename'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
 				(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
@@ -260,40 +260,65 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$lang['strusers']}</h2>\n";
+		function uPre(&$rowdata) {
+			global $data, $lang;
+			$rowdata->f['+useexpires'] = $rowdata->f['useexpires'] == 'infinity' ? '' : $rowdata->f['useexpires'];
+		}
+		
+		$misc->printTitle(array($lang['strusers']), 'users');
 		$misc->printMsg($msg);
 		
 		$users = &$data->getUsers();
 		
-		if ($users->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
-			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
-			$i = 0;
-			while (!$users->EOF) {
-				$users->f[$data->uFields['usuper']] = $data->phpBool($users->f[$data->uFields['usuper']]);
-				$users->f[$data->uFields['ucreatedb']] = $data->phpBool($users->f[$data->uFields['ucreatedb']]);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uname']]), "</td>\n";
-				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['uexpires']] == 'infinity' ? '' : $misc->printVal($users->f[$data->uFields['uexpires']])), "</td>\n";
-				if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['udefaults']]), "</td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;username=",
-					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['stralter']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
-					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strdrop']}</a></td>\n";
-				echo "</tr>\n";
-				$users->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnousers']}</p>\n";
-		}
+		$columns = array(
+			'user' => array(
+				'title' => $lang['strusername'],
+				'field' => 'usename',
+			),
+			'superuser' => array(
+				'title' => $lang['strsuper'],
+				'field' => 'usesuper',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'createdb' => array(
+				'title' => $lang['strcreatedb'],
+				'field' => 'usecreatedb',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'expires' => array(
+				'title' => $lang['strexpires'],
+				'field' => '+useexpires',
+			),
+			'defaults' => array(
+				'title' => $lang['strsessiondefaults'],
+				'field' => 'useconfig',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
 		
+		$actions = array(
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'vars'  => array('username' => 'usename'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('username' => 'usename'),
+			),
+		);
+		
+		if (!$data->hasUserSessionDefaults()) unset($columns['defaults']);
+		
+		$misc->printTable($users, $columns, $actions, $lang['strnousers'], 'uPre');
+
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreateuser']}</a></p>\n";
 
 	}

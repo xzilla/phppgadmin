@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.5 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: casts.php,v 1.6 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,43 +20,49 @@
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strcasts']}</h2>\n";
+		function castPre(&$rowdata) {
+			global $data, $lang;
+			$rowdata->f['+castfunc'] = is_null($rowdata->f['castfunc']) ? $lang['strbinarycompat'] : $rowdata->f['castfunc'];
+			switch ($rowdata->f['castcontext']) {
+				case 'e':
+					$rowdata->f['+castcontext'] = $lang['strno'];
+					break;
+				case 'a':
+					$rowdata->f['+castcontext'] = $lang['strinassignment'];
+					break;
+				default:
+					$rowdata->f['+castcontext'] = $lang['stryes'];
+			}
+		}
+		
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strcasts']));
 		$misc->printMsg($msg);
 		
 		$casts = &$data->getcasts();
 
-		if ($casts->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strsourcetype']}</th><th class=\"data\">{$lang['strtargettype']}</th>";
-			echo "<th class=\"data\">{$lang['strfunction']}</th><th class=\"data\">{$lang['strimplicit']}</th>";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$casts->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($casts->f['castsource']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($casts->f['casttarget']), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($casts->f['castfunc'] === null) ? $lang['strbinarycompat'] : $misc->printVal($casts->f['castfunc']), "</td>\n";
-				echo "<td class=\"data{$id}\">";
-				switch ($casts->f['castcontext']) {
-					case 'e':
-						echo $lang['strno'];
-						break;
-					case 'a':
-						echo $lang['strinassignment'];
-						break;
-					default:
-						echo $lang['stryes'];							
-				}
-				echo "</td>\n";
-				echo "</tr>\n";
-				$casts->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnocasts']}</p>\n";
-		}
+		$columns = array(
+			'source_type' => array(
+				'title' => $lang['strsourcetype'],
+				'field' => 'castsource',
+			),
+			'target_type' => array(
+				'title' => $lang['strtargettype'],
+				'field' => 'casttarget',
+			),
+			'function' => array(
+				'title' => $lang['strfunction'],
+				'field' => '+castfunc',
+			),
+			'implicit' => array(
+				'title' => $lang['strimplicit'],
+				'field' => '+castcontext',
+				'type'  => 'verbatim',
+			),
+		);
+
+		$actions = array();
+		
+		$misc->printTable($casts, $columns, $actions, $lang['strnocasts'], 'castPre');
 	}
 
 	$misc->printHeader($lang['strcasts']);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.17 2004/06/27 06:26:23 xzilla Exp $
+	 * $Id: types.php,v 1.18 2004/07/07 03:00:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,20 +29,20 @@
 		
 		
 		if ($typedata->recordCount() > 0) {
-			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
+			$byval = $data->phpBool($typedata->f['typbyval']);
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['stroutputfn']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typout']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strlength']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typlen']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strpassbyval']}</th>\n";
 			echo "<td class=\"data1\">", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['stralignment']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typalign']), "</td></tr>\n";
 			echo "</table>\n";
 
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
@@ -116,7 +116,7 @@
 		echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"typin\">";
 		while (!$funcs->EOF) {
-			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
+			$proname = htmlspecialchars($funcs->f['proname']);
 			echo "<option value=\"{$proname}\"",
 				($proname == $_POST['typin']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
@@ -126,7 +126,7 @@
 		echo "<td class=\"data1\"><select name=\"typout\">";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
-			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
+			$proname = htmlspecialchars($funcs->f['proname']);
 			echo "<option value=\"{$proname}\"",
 				($proname == $_POST['typout']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
@@ -142,7 +142,7 @@
 		echo "<td class=\"data1\"><select name=\"typelem\">";
 		echo "<option value=\"\"></option>\n";
 		while (!$types->EOF) {
-			$currname = htmlspecialchars($types->f[$data->typFields['typname']]);
+			$currname = htmlspecialchars($types->f['typname']);
 			echo "<option value=\"{$currname}\"",
 				($currname == $_POST['typelem']) ? ' selected="selected"' : '', ">{$currname}</option>\n";
 			$types->moveNext();
@@ -220,32 +220,39 @@
 		
 		$types = &$data->getTypes();
 
-		if ($types->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$types->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($types->f[$data->typFields['typname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($types->f[$data->typFields['typowner']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;type=", 
-					urlencode($types->f['basename']), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;type=", 
-					urlencode($types->f['basename']), "\">{$lang['strdrop']}</a></td>\n";
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($types->f['typcomment']), "</td>\n";				
-				echo "</tr>\n";
-				$types->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnotypes']}</p>\n";
-		}
+		$columns = array(
+			'type' => array(
+				'title' => $lang['strtype'],
+				'field' => 'typname',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'typowner',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'typcomment',
+			),
+		);
+
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('type' => 'basename'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('type' => 'basename'),
+			),
+		);
 		
+		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
+
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a></p>\n";
 
 	}

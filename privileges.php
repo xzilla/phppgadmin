@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.23 2004/05/10 15:22:00 chriskl Exp $
+	 * $Id: privileges.php,v 1.24 2004/07/07 02:59:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -30,8 +30,8 @@
 		switch ($_REQUEST['type']) {
 			case 'function':
 				$fn = &$data->getFunction($_REQUEST['object']);
-				$data->fieldClean($fn->f[$data->fnFields['fnname']]);
-				$name = $fn->f[$data->fnFields['fnname']] . "(". $fn->f[$data->fnFields['fnarguments']] .")";
+				$data->fieldClean($fn->f['proname']);
+				$name = $fn->f['proname'] . "(". $fn->f['proarguments'] .")";
 				break;
 			default:
 				$name = $_REQUEST['object'];
@@ -51,7 +51,7 @@
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
+				$uname = htmlspecialchars($users->f['usename']);
 				echo "<option value=\"{$uname}\"",
 					($uname == $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 				$users->moveNext();
@@ -64,7 +64,7 @@
 			if ($groups->recordCount() > 0) {
 				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"", min(6, $groups->recordCount()), "\">\n";
 				while (!$groups->EOF) {
-					$gname = htmlspecialchars($groups->f[$data->grpFields['groname']]);
+					$gname = htmlspecialchars($groups->f['groname']);
 					echo "<option value=\"{$gname}\"",
 						($gname == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
 					$groups->moveNext();
@@ -152,7 +152,8 @@
 			default:
 				$name = $_REQUEST['object'];
 		}
-		echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), "</h2>\n";
+		
+		$misc->printTitle(array($lang['strprivileges'], $misc->printVal($name)));
 		$misc->printMsg($msg);
 
 		// Get the privileges on the object, given its type

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.71 2004/06/28 02:26:57 chriskl Exp $
+ * $Id: Postgres72.php,v 1.72 2004/07/07 03:00:07 chriskl Exp $
  */
 
 
@@ -96,10 +96,10 @@ class Postgres72 extends Postgres71 {
 	function &getTable($table) {
 		$this->clean($table);
 				
-		$sql = "SELECT pc.relname AS tablename, 
-			pg_get_userbyid(pc.relowner) AS tableowner, 
+		$sql = "SELECT pc.relname, 
+			pg_get_userbyid(pc.relowner) AS relowner, 
 			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS tablecomment 
+                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS relcomment 
 			FROM pg_class pc
 			WHERE pc.relname='{$table}'";
 							
@@ -116,9 +116,9 @@ class Postgres72 extends Postgres71 {
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
 		
-		$sql = "SELECT NULL AS schemaname, c.relname AS tablename, 
-					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS tableowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS tablecomment
+		$sql = "SELECT NULL AS nspname, c.relname, 
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS relcomment
 			 FROM pg_class c WHERE c.relkind='r' {$where}ORDER BY relname";
 		return $this->selectSet($sql);
 	}
@@ -188,12 +188,12 @@ class Postgres72 extends Postgres71 {
 		else
 			$where = '';
 
-		$sql = "SELECT viewname, viewowner, definition,
+		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
 			      (SELECT description FROM pg_description pd, pg_class pc 
-			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS comment
+			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS relcomment
 			FROM pg_views v
 			{$where}
-			ORDER BY viewname";
+			ORDER BY relname";
 
 		return $this->selectSet($sql);
 	}
@@ -206,9 +206,9 @@ class Postgres72 extends Postgres71 {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT viewname, viewowner, definition,
+		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
 			  (SELECT description FROM pg_description pd, pg_class pc 
-			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS comment
+			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS relcomment
 			FROM pg_views v
 			WHERE viewname='{$view}'";
 			
@@ -304,12 +304,12 @@ class Postgres72 extends Postgres71 {
 			$where = "AND p.oid > '{$this->_lastSystemOID}'";
 
 		$sql = "SELECT
-				p.oid,
+				p.oid AS prooid,
 				p.proname,
 				false AS proretset,
-				format_type(p.prorettype, NULL) AS return_type,
-				oidvectortypes(p.proargtypes) AS arguments,
-				(SELECT description FROM pg_description pd WHERE p.oid=pd.objoid) AS funccomment
+				format_type(p.prorettype, NULL) AS proresult,
+				oidvectortypes(p.proargtypes) AS proarguments,
+				(SELECT description FROM pg_description pd WHERE p.oid=pd.objoid) AS procomment
 			FROM
 				pg_proc p
 			WHERE
@@ -317,7 +317,7 @@ class Postgres72 extends Postgres71 {
 				AND (pronargs = 0 OR oidvectortypes(p.proargtypes) <> '')
 				{$where}
 			ORDER BY
-				p.proname, return_type
+				p.proname, proresult
 			";
 
 		return $this->selectSet($sql);

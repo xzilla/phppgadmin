@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.14 2004/06/30 10:09:48 chriskl Exp $
+	 * $Id: sqledit.php,v 1.15 2004/07/07 02:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,20 +35,20 @@
 						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&" . SID . "'\">\n";
 			
 			while (!$databases->EOF) {
-				$dbname = $databases->f[$data->dbFields['dbname']];
+				$dbname = $databases->f['datname'];
 				echo "<option value=\"", htmlspecialchars($dbname), "\"",
 				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
 					htmlspecialchars($dbname), "</option>\n";
 				$databases->moveNext();
 			}
-			echo "</select></p>\n";
+			echo "</select></label>\n";
 		}
 		else {
 			echo "<input type=\"hidden\" name=\"database\" value=\"", 
 				htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['defaultdb']), "\" />\n";
 		}		
 	}	
-
+	
 	/**
 	 * Searches for a named database object
 	 */
@@ -61,13 +61,13 @@
 		$misc->printPopUpNav();
 		echo "<h2>{$lang['strfind']}</h2>\n";
 		
-		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n";
+		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n<p>";
 		_printDatabases();
-		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
+		echo "</p><p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"find\" /></p>\n";
 		echo "</form>\n";
 
 		// Default focus
@@ -78,7 +78,7 @@
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doDefault() {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang, $conf;
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
@@ -86,13 +86,22 @@
 		$misc->printPopUpNav();
 		echo "<h2>{$lang['strsql']}</h2>\n";
 
-		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
+		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n<p>";
+
 		_printDatabases();
 
-		echo "<textarea style=\"width: 100%\" rows=\"10\" cols=\"50\" name=\"query\">",
+		if ($data->hasSchemas()) {
+			if (!isset($_REQUEST['search_path']))
+				$_REQUEST['search_path'] = '$user, public';  // Should this be retrieved from a $data function?
+		
+			echo "\n<label>{$lang['strsearchpath']}:&nbsp;<input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
+				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
+		}
+		
+		echo "</p>\n<textarea style=\"width: 100%;\" rows=\"15\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
-		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
-		echo "<br />\n";
+		echo "<label><input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
+
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		if ($data->hasFullExplain()) {
 			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";

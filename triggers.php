@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.19 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: triggers.php,v 1.20 2004/07/07 02:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -40,7 +40,7 @@
 		
 		if ($triggerdata->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->f[$data->tgFields['tgname']];
+			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->f['tgname'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -117,7 +117,7 @@
 		/* Populate functions */
 		$sel0 = new XHTML_Select('formFunction');
 		while (!$funcs->EOF) {
-			$sel0->add(new XHTML_Option($funcs->f[$data->fnFields['fnname']]));
+			$sel0->add(new XHTML_Option($funcs->f['proname']));
 			$funcs->moveNext();
 		}
 
@@ -188,45 +188,51 @@
 		global $PHP_SELF;
 		global $lang;
 
+		function tgPre(&$rowdata) {
+			global $data, $lang;
+			// Nasty hack to support pre-7.4 PostgreSQL
+			$rowdata->f['+tgdef'] = $rowdata->f['tgdef'] !== null
+									? $rowdata->f['tgdef']
+									: $data->getTriggerDef($rowdata->f);
+		}
+		
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strtriggers']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database'])), $misc->printVal($_REQUEST['table']), $lang['strtriggers']);
 		$misc->printMsg($msg);
 
 		$triggers = &$data->getTriggers($_REQUEST['table']);
 
-		if ($triggers->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-			echo "<th class=\"data\" colspan=\"", ($data->hasAlterTrigger() ? 2 : 1), "\">{$lang['stractions']}</th>\n";
-			$i = 0;
+		$columns = array(
+			'trigger' => array(
+				'title' => $lang['strname'],
+				'field' => 'tgname',
+			),
+			'definition' => array(
+				'title' => $lang['strdefinition'],
+				'field' => '+tgdef',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
 
-			while (!$triggers->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $triggers->f[$data->tgFields['tgname']]), "</td>";
-				echo "<td class=\"data{$id}\">";
-				// Nasty hack to support pre-7.4 PostgreSQL
-				if ($triggers->f[$data->tgFields['tgdef']] !== null)
-					echo $misc->printVal($triggers->f[$data->tgFields['tgdef']]);
-				else 
-					echo $misc->printVal($data->getTriggerDef($triggers->f));
-				echo "</td>\n";				
-				if ($data->hasAlterTrigger()) {
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_alter&{$misc->href}&trigger=", urlencode($triggers->f[$data->tgFields['tgname']]),
-						"&table=", urlencode($_REQUEST['table']), "\">{$lang['stralter']}</td>\n";
-				}
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode($triggers->f[$data->tgFields['tgname']]),
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td>\n";
-				echo "</tr>\n";
+		$actions = array(
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('trigger' => 'tgname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('trigger' => 'tgname'),
+			),
+		);
 
-				$triggers->moveNext();
-				$i++;
-			}
-
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$lang['strnotriggers']}</p>\n";
-
+		if (!$data->hasAlterTrigger()) unset($actions['alter']);
+		
+		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
+		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.15 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: groups.php,v 1.16 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -77,9 +77,9 @@
            	$i = 0;
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-            	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->f[$data->uFields['uname']]), "</td>\n";
+            	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->f['usename']), "</td>\n";
 					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop_member&{$misc->href}&groname=",
-						urlencode($_REQUEST['groname']), "&user=", urlencode($groupdata->f[$data->uFields['uname']]), "\">{$lang['strdrop']}</a></td>\n";
+						urlencode($_REQUEST['groname']), "&user=", urlencode($groupdata->f['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";
             	$groupdata->moveNext();
            	}
@@ -91,7 +91,7 @@
 		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<select name=\"user\">";
 		while (!$users->EOF) {
-			$uname = $misc->printVal($users->f[$data->uFields['uname']]);
+			$uname = $misc->printVal($users->f['usename']);
 			echo "<option value=\"{$uname}\"",
 				($uname == $_POST['user']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
@@ -160,7 +160,7 @@
 			echo "\t\t<td class=\"data\">\n";
 			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$username = $users->f[$data->uFields['uname']];
+				$username = $users->f['usename'];
 				echo "\t\t\t\t<option value=\"{$username}\"",
 						(in_array($username, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($username), "</option>\n";
 				$users->moveNext();
@@ -203,31 +203,35 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$lang['strgroups']}</h2>\n";
+		$misc->printTitle(array($lang['strgroups']), 'groups');
 		$misc->printMsg($msg);
 		
 		$groups = &$data->getGroups();
 		
-		if ($groups->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strgroup']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
-			$i = 0;
-			while (!$groups->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($groups->f[$data->grpFields['groname']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&groname=",
-					urlencode($groups->f[$data->grpFields['groname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&groname=", 
-					urlencode($groups->f[$data->grpFields['groname']]), "\">{$lang['strdrop']}</a></td>\n";
-				echo "</tr>\n";
-				$groups->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnogroups']}</p>\n";
-		}
+		$columns = array(
+			'group' => array(
+				'title' => $lang['strgroup'],
+				'field' => 'groname',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('groname' => 'groname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'  => array('groname' => 'groname'),
+			),
+		);
+		
+		$misc->printTable($groups, $columns, $actions, $lang['strnogroups']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreategroup']}</a></p>\n";
 

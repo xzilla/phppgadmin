@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.18 2004/05/16 07:31:20 chriskl Exp $
+	 * $Id: rules.php,v 1.19 2004/07/07 02:59:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -130,32 +130,35 @@
 		if ($_REQUEST['reltype'] == 'table') $misc->printTableNav();
 		else $misc->printViewNav();		
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['relation']), ": {$lang['strrules']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['relation']), $lang['strrules']));
 		$misc->printMsg($msg);
 
 		$rules = &$data->getRules($_REQUEST['relation']);
-		
-		if ($rules->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
-			$i = 0;
-			
-			while (!$rules->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $rules->f[$data->rlFields['rulename']]), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal( $rules->f[$data->rlFields['ruledef']]), "</td>";
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;rule=", urlencode($rules->f[$data->rlFields['rulename']]),
-					"&amp;reltype=", urlencode($_REQUEST['reltype']), "&amp;relation=", urlencode($_REQUEST['relation']), "\">{$lang['strdrop']}</a></td></tr>\n";
 
-				$rules->movenext();
-				$i++;
-			}
+		$columns = array(
+			'rule' => array(
+				'title' => $lang['strname'],
+				'field' => 'rulename',
+			),
+			'definition' => array(
+				'title' => $lang['strdefinition'],
+				'field' => 'definition',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
 
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$lang['strnorules']}</p>\n";
+		$actions = array(
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;reltype=".urlencode($_REQUEST['reltype']).
+							"&amp;relation=".urlencode($_REQUEST['relation'])."&amp;",
+				'vars'  => array('rule' => 'rulename'),
+			),
+		);
+
+		$misc->printTable($rules, $columns, $actions, $lang['strnorules']);
 
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&amp;{$misc->href}&amp;reltype=", 
 			urlencode($_REQUEST['reltype']), "&amp;relation=", urlencode($_REQUEST['relation']), "\">{$lang['strcreaterule']}</a></p>\n";

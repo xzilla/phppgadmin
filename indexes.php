@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.25 2004/07/06 10:14:07 soranzo Exp $
+	 * $Id: indexes.php,v 1.26 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -213,51 +213,55 @@
 	function doDefault($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-
+		
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strindexes']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strindexes']));
 		$misc->printMsg($msg);
 
 		$indexes = &$data->getIndexes($_REQUEST['table']);
 		
-		if ($indexes->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr>\n";
-			echo "<th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-			if ($data->hasIsClustered()) {
-				echo "<th class=\"data\">{$lang['strclustered']}</th>";
-			}
-			echo "<th class=\"data\" colspan=\"3\">{$lang['stractions']}</th>\n";
-			echo "</tr>\n";
-			$i = 0;
-			
-			while (!$indexes->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxname']]), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxdef']]), "</td>";
-				if ($data->hasIsClustered()) {
-					$indexes->f['indisclustered'] = $data->phpBool($indexes->f['indisclustered']);
-					echo "<td class=\"data{$id}\">", ($indexes->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
-				}
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_cluster_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a></td>";
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=reindex&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strreindex']}</a></td>";
-				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</a></td>";
-				echo "</tr>\n";
-
-				$indexes->movenext();
-				$i++;
-			}
-
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$lang['strnoindexes']}</p>\n";
+		$columns = array(
+			'index' => array(
+				'title' => $lang['strname'],
+				'field' => 'indname',
+			),
+			'definition' => array(
+				'title' => $lang['strdefinition'],
+				'field' => 'inddef',
+			),
+			'clustered' => array(
+				'title' => $lang['strclustered'],
+				'field' => 'indisclustered',
+				'type'  => 'bool',
+				'true'  => $lang['stryes'],
+				'false' => $lang['strno'],
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+		);
+		
+		$actions = array(
+			'cluster' => array(
+				'title' => $lang['strcluster'],
+				'url'   => "{$PHP_SELF}?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('index' => 'indname'),
+			),
+			'reindex' => array(
+				'title' => $lang['strreindex'],
+				'url'   => "{$PHP_SELF}?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('index' => 'indname'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('index' => 'indname'),
+			),
+		);
+		
+		if (!$data->hasIsClustered()) unset($column['clustered']);
+		
+		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}

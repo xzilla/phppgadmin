@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.49 2004/07/06 09:05:41 chriskl Exp $
+	 * $Id: database.php,v 1.50 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -294,24 +294,20 @@
 
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strvariables']),'runtime_config');
 
-		if ($variables->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strsetting']}</th></tr>\n";
-			$i = 0;
-			while (!$variables->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($variables->f['name']), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($variables->f['setting']), "</td>";
-				echo "</tr>\n";
-				$variables->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnodata']}</p>\n";
-		}
+		$columns = array(
+			'variable' => array(
+				'title' => $lang['strname'],
+				'field' => 'name',
+			),
+			'value' => array(
+				'title' => $lang['strsetting'],
+				'field' => 'setting',
+			),
+		);
+		
+		$actions = array();
+		
+		$misc->printTable($variables, $columns, $actions, $lang['strnodata']);
 	}
 
 	/**
@@ -328,34 +324,31 @@
 		$misc->printDatabaseNav();
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strprocesses']),'processes');
 
-		if ($processes->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strprocess']}</th>";
-			echo "<th class=\"data\">{$lang['strsql']}</th>";
-			// Show query start time for 7.4+
-			if (isset($processes->f['query_start'])) echo "<th class=\"data\">{$lang['strstarttime']}</th>";
-			echo "</tr>\n";
-			
-			$i = 0;
-			while (!$processes->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['usename']), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['procpid'], false, 'int4'), "</td>";
-				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['current_query']), "</td>";
-				// Show query start time for 7.4+
-				if (isset($processes->f['query_start'])) {
-					echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['query_start']), "</td>";				
-				}
-				echo "</tr>\n";
-				$processes->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnodata']}</p>\n";
-		}
+		$columns = array(
+			'user' => array(
+				'title' => $lang['strusername'],
+				'field' => 'usename',
+			),
+			'process' => array(
+				'title' => $lang['strprocess'],
+				'field' => 'procpid',
+			),
+			'query' => array(
+				'title' => $lang['strsql'],
+				'field' => 'current_query',
+			),
+			'start_time' => array(
+				'title' => $lang['strstarttime'],
+				'field' => 'query_start',
+			),
+		);
+		
+		$actions = array();
+		
+		// Remove query start time for <7.4
+		if (!isset($processes->f['query_start'])) unset($columns['start_time']);
+		
+		$misc->printTable($processes, $columns, $actions, $lang['strnodata']);
 	}
 
 	/**
@@ -544,7 +537,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
-			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
+			$uname = htmlspecialchars($users->f['usename']);
 			echo "\t\t\t\t<option value=\"{$uname}\"",
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
@@ -620,47 +613,55 @@
 		if ($data->hasSchemas()) {
 			$schemas = &$data->getSchemas();
 
-			if ($schemas->recordCount() > 0) {
-				echo "<table>\n";
-				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
-				if ($data->hasTablespaces()) {
-					echo "<th class=\"data\">{$lang['strtablespace']}</th>";
-				}
-				echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>";
-				if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
-				echo "</tr>\n";
-				$i = 0;
-				while (!$schemas->EOF) {
-					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr><td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspname']]), "</td>\n";
-					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
-					if ($data->hasTablespaces()) {
-						echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f['tablespace']), "</td>\n";
-					}
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;database=",
-						urlencode($_REQUEST['database']), "&amp;schema=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?database=",
-						urlencode($_REQUEST['database']), "&amp;object=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;type=schema\">{$lang['strprivileges']}</a></td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"schema.php?database=",
-						urlencode($_REQUEST['database']), "&amp;schema=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;action=alter\">{$lang['stralter']}</a></td>\n";
-					// Trim long comments
-					if (strlen($schemas->f[$data->nspFields['nspcomment']]) > $conf['max_chars']) {
-						$schemas->f[$data->nspFields['nspcomment']] = substr($schemas->f[$data->nspFields['nspcomment']], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-					}
-					if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspcomment']]), "</td>\n";
-					echo "</tr>\n";
-					$schemas->moveNext();
-					$i++;
-				}
-				echo "</table>\n";
-			}
-			else {
-				echo "<p>{$lang['strnoschemas']}</p>\n";
-			}
-	
+			$columns = array(
+				'schema' => array(
+					'title' => $lang['strname'],
+					'field' => 'nspname',
+				),
+				'owner' => array(
+					'title' => $lang['strowner'],
+					'field' => 'nspowner',
+				),
+				'tablespace' => array(
+					'title' => $lang['strtablespace'],
+					'field' => 'tablespace',
+				),
+				'actions' => array(
+					'title' => $lang['stractions'],
+				),
+				'comment' => array(
+					'title' => $lang['strcomment'],
+					'field' => 'nspcomment',
+				),
+			);
+			
+			$actions = array(
+				'properties' => array(
+					'title' => $lang['strproperties'],
+					'url'   => 'schema.php?database='.urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('schema' => 'nspname'),
+				),
+				'drop' => array(
+					'title' => $lang['strdrop'],
+					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('schema' => 'nspname'),
+				),
+				'privileges' => array(
+					'title' => $lang['strprivileges'],
+					'url'   => "privileges.php?type=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('object' => 'nspname'),
+				),
+				'alter' => array(
+					'title' => $lang['stralter'],
+					'url'   => "schema.php?action=alter&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('schema' => 'nspname'),
+				),
+			);
+			
+			if (!$data->hasTablespaces()) unset($columns['tablespace']);
+			
+			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
+
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
 				"&amp;action=create\">{$lang['strcreateschema']}</a></p>\n";
 		} else {

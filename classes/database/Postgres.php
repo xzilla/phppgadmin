@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.227 2004/06/28 02:26:57 chriskl Exp $
+ * $Id: Postgres.php,v 1.228 2004/07/07 03:00:07 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -12,23 +12,6 @@
 include_once('./classes/database/BaseDB.php');
 
 class Postgres extends BaseDB {
-
-	var $dbFields = array('dbname' => 'datname', 'encoding' => 'encoding', 'owner' => 'owner', 'dbcomment' => 'description');
-	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner', 'tbcomment' => 'tablecomment');
-	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition', 'vwcomment' => 'comment');
-	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
-	var $grpFields = array('groname' => 'groname', 'grolist' => 'grolist');
-	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
-	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
-	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
-	var $tgFields = array('tgname' => 'tgname', 'tgdef' => 'tgdef');
-	var $cnFields = array('conname' => 'conname', 'consrc' => 'consrc', 'contype' => 'contype');
-	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
-		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
-		'typdelim' => 'typdelim', 'typbyval' => 'typbyval', 
-		'typalign' => 'typalign', 'typstorage' => 'typstorage');
-	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language', 'setof' => 'proretset' );
-	var $langFields = array('lanname' => 'lanname');
 
 	// Array of allowed type alignments
 	var $typAligns = array('char', 'int2', 'int4', 'double');
@@ -240,8 +223,8 @@ class Postgres extends BaseDB {
 		else
 			$where = '';
 
-		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, 
-					(SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS description 
+		$sql = "SELECT pdb.datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding, 
+					(SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment 
 					FROM pg_database pdb, pg_user pu
 					WHERE pdb.datdba = pu.usesysid
 					{$where}
@@ -355,7 +338,7 @@ class Postgres extends BaseDB {
 			$this->rollbackTransaction();
 			return null;
 		}
-		$this->fieldClean($t->f['tablename']);
+		$this->fieldClean($t->f['relname']);
 
 		// Fetch attributes
 		$atts = &$this->getTableAttributes($table);
@@ -372,7 +355,7 @@ class Postgres extends BaseDB {
 		}
 
 		// Output a reconnect command to create the table as the correct user
-		$sql = $this->getChangeUserSQL($t->f['tableowner']) . "\n\n";
+		$sql = $this->getChangeUserSQL($t->f['relowner']) . "\n\n";
 
 		// Set schema search path if we support schemas
 		if ($this->hasSchemas()) {
@@ -388,8 +371,8 @@ class Postgres extends BaseDB {
 		if ($this->hasSchemas()) {
 			$sql .= "\"{$this->_schema}\".";
 		}
-		$sql .= "\"{$t->f['tablename']}\";\n";
-		$sql .= "CREATE TABLE \"{$t->f['tablename']}\" (\n";
+		$sql .= "\"{$t->f['relname']}\";\n";
+		$sql .= "CREATE TABLE \"{$t->f['relname']}\" (\n";
 
 		// Output all table columns
 		$col_comments_sql = '';   // Accumulate comments on columns
@@ -424,7 +407,7 @@ class Postgres extends BaseDB {
 			// Does this column have a comment?  
 			if ($atts->f['comment'] !== null) {
 				$this->clean($atts->f['comment']);
-				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->f['tablename']}\".\"{$atts->f['attname']}\"  IS '{$atts->f['comment']}';\n";
+				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->f['relname']}\".\"{$atts->f['attname']}\"  IS '{$atts->f['comment']}';\n";
 			}
 			
 			$atts->moveNext();
@@ -512,7 +495,7 @@ class Postgres extends BaseDB {
 					$sql .= "\n";
 					$first = false;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STATISTICS {$atts->f['attstattarget']};\n";
+				$sql .= "ALTER TABLE ONLY \"{$t->f['relname']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STATISTICS {$atts->f['attstattarget']};\n";
 			}
 			// Then storage
 			if ($atts->f['attstorage'] != $atts->f['typstorage']) {
@@ -534,17 +517,17 @@ class Postgres extends BaseDB {
 						$this->rollbackTransaction();
 						return null;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STORAGE {$storage};\n";
+				$sql .= "ALTER TABLE ONLY \"{$t->f['relname']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STORAGE {$storage};\n";
 			}
 
 			$atts->moveNext();
 		}
 
 		// Comment
-		if ($t->f['tablecomment'] !== null) {
-			$this->clean($t->f['tablecomment']);
+		if ($t->f['relcomment'] !== null) {
+			$this->clean($t->f['relcomment']);
 			$sql .= "\n-- Comment\n\n";
-			$sql .= "COMMENT ON TABLE \"{$t->f['tablename']}\" IS '{$t->f['tablecomment']}';\n";
+			$sql .= "COMMENT ON TABLE \"{$t->f['relname']}\" IS '{$t->f['relcomment']}';\n";
 		}
 
 		// Add comments on columns, if any
@@ -564,23 +547,23 @@ class Postgres extends BaseDB {
 			 * wire-in knowledge about the default public privileges for different
 			 * kinds of objects.
 			 */
-			$sql .= "REVOKE ALL ON TABLE \"{$t->f['tablename']}\" FROM PUBLIC;\n";
+			$sql .= "REVOKE ALL ON TABLE \"{$t->f['relname']}\" FROM PUBLIC;\n";
 			foreach ($privs as $v) {
 				// Get non-GRANT OPTION privs
 				$nongrant = array_diff($v[2], $v[4]);
 				
 				// Skip empty or owner ACEs
-				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->f['tableowner'])) continue;
+				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->f['relowner'])) continue;
 				
 				// Change user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
 				}				
 				
 				// Output privileges with no GRANT OPTION
-				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->f['tablename']}\" TO ";
+				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->f['relname']}\" TO ";
 				switch ($v[0]) {
 					case 'public':
 						$sql .= "PUBLIC;\n";
@@ -600,7 +583,7 @@ class Postgres extends BaseDB {
 				}
 
 				// Reset user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
 				}				
 				
@@ -610,13 +593,13 @@ class Postgres extends BaseDB {
 				if (!$this->hasGrantOption() || sizeof($v[4]) == 0) continue;
 
 				// Change user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
 				}				
 				
-				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->f['tablename']}\" TO ";
+				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->f['relname']}\" TO ";
 				switch ($v[0]) {
 					case 'public':
 						$sql .= "PUBLIC";
@@ -636,7 +619,7 @@ class Postgres extends BaseDB {
 				$sql .= " WITH GRANT OPTION;\n";
 				
 				// Reset user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
 				}				
 
@@ -670,7 +653,7 @@ class Postgres extends BaseDB {
 			if ($indexes->recordCount() > 0) {
 				$sql .= "\n-- Indexes\n\n";
 				while (!$indexes->EOF) {
-					$sql .= $indexes->f['pg_get_indexdef'] . ";\n";
+					$sql .= $indexes->f['idxdef'] . ";\n";
 
 					$indexes->moveNext();
 				}
@@ -824,7 +807,7 @@ class Postgres extends BaseDB {
 		
 		$sql = "
 			SELECT 
-				NULL AS schemaname, relname
+				NULL AS nspname, relname
 			FROM
 				pg_class pc, pg_inherits pi
 			WHERE
@@ -848,7 +831,7 @@ class Postgres extends BaseDB {
 		
 		$sql = "
 			SELECT 
-				NULL AS schemaname, relname
+				NULL AS nspname, relname
 			FROM
 				pg_class pc, pg_inherits pi
 			WHERE
@@ -1000,10 +983,10 @@ class Postgres extends BaseDB {
 	function &getTable($table) {
 		$this->clean($table);
 				
-		$sql = "SELECT pc.relname AS tablename, 
-			pg_get_userbyid(pc.relowner) AS tableowner, 
+		$sql = "SELECT pc.relname, 
+			pg_get_userbyid(pc.relowner) AS relowner, 
 			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid) AS tablecomment 
+                        WHERE pc.oid=pd.objoid) AS relcomment 
 			FROM pg_class pc
 			WHERE pc.relname='{$table}'";
 							
@@ -1020,9 +1003,9 @@ class Postgres extends BaseDB {
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
 		
-		$sql = "SELECT NULL AS schemaname, c.relname AS tablename, 
-					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS tableowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS tablecomment
+		$sql = "SELECT NULL AS nspname, c.relname, 
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment
 				FROM pg_class c 
 				WHERE c.relkind='r' 
 					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
@@ -1349,7 +1332,7 @@ class Postgres extends BaseDB {
 			// If owner has been changed, then do the alteration.  We are
 			// careful to avoid this generally as changing owner is a
 			// superuser only function.
-			if ($data->f[$this->tbFields['tbowner']] != $owner) {
+			if ($data->f['relowner'] != $owner) {
 				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
 		
 				$status = $this->execute($sql);
@@ -1558,11 +1541,11 @@ class Postgres extends BaseDB {
 	 */
 	function &getSequences() {
 		$sql = "SELECT
-					c.relname,
-					u.usename,
+					c.relname AS seqname,
+					u.usename AS seqowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS seqcomment
 				FROM 
-					pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY relname";
+					pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY seqname";
 		
 		return $this->selectSet( $sql );
 	}
@@ -1578,7 +1561,7 @@ class Postgres extends BaseDB {
 		$this->fieldClean($sequence);
 		$this->clean($temp);
 		
-		$sql = "SELECT sequence_name AS relname, *, 
+		$sql = "SELECT sequence_name AS seqname, *, 
 					(SELECT description FROM pg_description pd WHERE pd.objoid=(SELECT oid FROM pg_class WHERE relname='{$temp}')) AS seqcomment
 					FROM \"{$sequence}\" AS s"; 
 		
@@ -2065,7 +2048,7 @@ class Postgres extends BaseDB {
 	 */
 	function &getIndexes($table = '') {
 		$this->clean($table);
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid)
+		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid) AS inddef
 			FROM pg_class c, pg_class c2, pg_index i
 			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 			AND NOT i.indisprimary AND NOT i.indisunique
@@ -2232,12 +2215,12 @@ class Postgres extends BaseDB {
 		else
 			$where = '';
 
-		$sql = "SELECT viewname, viewowner, definition,
+		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
 			      (SELECT description FROM pg_description pd, pg_class pc 
-			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS relcomment
 			FROM pg_views v
 			{$where}
-			ORDER BY viewname";
+			ORDER BY relname";
 
 		return $this->selectSet($sql);
 	}
@@ -2250,9 +2233,9 @@ class Postgres extends BaseDB {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT viewname, viewowner, definition,
+		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
 			  (SELECT description FROM pg_description pd, pg_class pc 
-			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS relcomment
 			FROM pg_views v
 			WHERE viewname='{$view}'";
 			
@@ -2586,7 +2569,7 @@ class Postgres extends BaseDB {
 	 * @return All users
 	 */
 	function &getUsers() {
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
 		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
 		$sql .= " FROM pg_user ORDER BY usename";
 		
@@ -2601,7 +2584,7 @@ class Postgres extends BaseDB {
 	function &getUser($username) {
 		$this->clean($username);
 		
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
 		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
 		$sql .= " FROM pg_user WHERE usename='{$username}'";
 		
@@ -3255,8 +3238,8 @@ class Postgres extends BaseDB {
 			case 'function':
 				// Function comes in with $object as function OID
 				$fn = &$this->getFunction($object);
-				$this->fieldClean($fn->f[$this->fnFields['fnname']]);
-				$sql .= " FUNCTION \"{$fn->f[$this->fnFields['fnname']]}\"({$fn->f[$this->fnFields['fnarguments']]})";
+				$this->fieldClean($fn->f['proname']);
+				$sql .= " FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";
 				break;
 			case 'language':
 				$this->fieldClean($object);
@@ -3429,12 +3412,12 @@ class Postgres extends BaseDB {
 			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
 
 		$sql = 	"SELECT
-				pc.oid,
+				pc.oid AS prooid,
 				proname,
 				proretset,
-				pt.typname AS return_type,
-				oidvectortypes(pc.proargtypes) AS arguments,
-				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment 
+				pt.typname AS proresult,
+				oidvectortypes(pc.proargtypes) AS proarguments,
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
 			WHERE
@@ -3443,12 +3426,12 @@ class Postgres extends BaseDB {
 				{$where}
 			UNION
 			SELECT 
-				pc.oid,
+				pc.oid AS prooid,
 				proname,
 				proretset,
-				'OPAQUE' AS result,
-				oidvectortypes(pc.proargtypes) AS arguments,
-				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
+				'OPAQUE' AS proresult,
+				oidvectortypes(pc.proargtypes) AS proarguments,
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
 			WHERE	
@@ -3456,7 +3439,7 @@ class Postgres extends BaseDB {
 				AND pc.prorettype = 0
 				{$where}
 			ORDER BY
-				proname, return_type
+				proname, proresult
 			";
 
 		return $this->selectSet($sql);
@@ -3478,16 +3461,16 @@ class Postgres extends BaseDB {
 		$this->clean($function_oid);
 		
 		$sql = "SELECT 
-					pc.oid,
+					pc.oid AS prooid,
 					proname,
-					lanname as language,
-					pt.typname as return_type,
-					prosrc as source,
-					probin as binary,
+					lanname AS prolanguage,
+					pt.typname AS proresult,
+					prosrc,
+					probin,
 					proretset,
 					proiscachable,
-					oidvectortypes(pc.proargtypes) AS arguments,
-					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
+					oidvectortypes(pc.proargtypes) AS proarguments,
+					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 				FROM
 					pg_proc pc, pg_language pl, pg_type pt
 				WHERE 
@@ -3582,7 +3565,6 @@ class Postgres extends BaseDB {
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
 		$this->fieldClean($funcname);
 		$this->clean($args);
-		$this->clean($definition);
 		$this->clean($language);
 		$this->arrayClean($flags);
 
@@ -3596,9 +3578,19 @@ class Postgres extends BaseDB {
 		// For some reason, the returns field cannot have quotes...
 		$sql .= ") RETURNS ";
 		if ($setof) $sql .= "SETOF ";
-		$sql .= "{$returns} AS '\n";
-		$sql .= $definition;
-		$sql .= "\n'";
+		$sql .= "{$returns} AS ";
+		
+		if (is_array($definition)) {
+			$this->arrayClean($definition);
+			$sql .= "'" . $definition[0] . "'";
+			if ($definition[1]) {
+				$sql .= ",'" . $definition[1] . "'";
+			}
+		} else {
+			$this->clean($definition);
+			$sql .= "'" . $definition . "'";
+		}
+		
 		$sql .= " LANGUAGE '{$language}'";
 		
 		// Add flags
@@ -3629,9 +3621,9 @@ class Postgres extends BaseDB {
 	function dropFunction($function_oid, $cascade) {
 		// Function comes in with $object as function OID
 		$fn = &$this->getFunction($function_oid);
-		$this->fieldClean($fn->f[$this->fnFields['fnname']]);
+		$this->fieldClean($fn->f['proname']);
 		
-		$sql = "DROP FUNCTION \"{$fn->f[$this->fnFields['fnname']]}\"({$fn->f[$this->fnFields['fnarguments']]})";
+		$sql = "DROP FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";
 		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.13 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: domains.php,v 1.14 2004/07/07 02:59:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -66,7 +66,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"domowner\">";
 			while (!$users->EOF) {
-				$uname = $users->f[$data->uFields['uname']];
+				$uname = $users->f['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
 					($uname == $_POST['domowner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
@@ -212,12 +212,12 @@
 					
 					while (!$domaincons->EOF) {
 						$id = (($i % 2 ) == 0 ? '1' : '2');
-						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->f[$data->cnFields['conname']]), "</td>";
+						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->f['conname']), "</td>";
 						echo "<td class=\"data{$id}\">";
-						echo $misc->printVal($domaincons->f[$data->cnFields['consrc']]);
+						echo $misc->printVal($domaincons->f['consrc']);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f[$data->cnFields['conname']]),
+						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f['conname']),
 							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
 		
 						$domaincons->moveNext();
@@ -302,9 +302,9 @@
 		// Output return type list		
 		echo "<select name=\"domtype\">\n";
 		while (!$types->EOF) {
-			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
-				($types->f[$data->typFields['typname']] == $_POST['domtype']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
+			echo "<option value=\"", htmlspecialchars($types->f['typname']), "\"", 
+				($types->f['typname'] == $_POST['domtype']) ? ' selected="selected"' : '', ">",
+				$misc->printVal($types->f['typname']), "</option>\n";
 			$types->moveNext();
 		}
 		echo "</select>\n";
@@ -364,45 +364,60 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strdomains']), 'domains');
 		$misc->printMsg($msg);
 		
 		$domains = &$data->getDomains();
 		
-		if ($domains->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strdomain']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
-			echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$domains->EOF) {
-				$domains->f['domnotnull'] = $data->phpBool($domains->f['domnotnull']);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($domains->f['domname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domtype']), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($domains->f['domnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domdef']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domowner']), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
-				// Trim long comments
-				if (strlen($domains->f['domcomment']) > $conf['max_chars']) {
-					$domains->f['domcomment'] = substr($domains->f['domcomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-				}
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domcomment']), "</td>\n";
-				echo "</tr>\n";
-				$domains->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnodomains']}</p>\n";
-		}
+		$columns = array(
+			'domain' => array(
+				'title' => $lang['strdomain'],
+				'field' => 'domname',
+			),
+			'type' => array(
+				'title' => $lang['strtype'],
+				'field' => 'domtype',
+			),
+			'notnull' => array(
+				'title' => $lang['strnotnull'],
+				'field' => 'domnotnull',
+				'type'  => 'bool',
+				'true'  => 'NOT NULL',
+				'false' => '',
+			),
+			'default' => array(
+				'title' => $lang['strdefault'],
+				'field' => 'domdef',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'domowner',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'domcomment',
+			),
+		);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'	=> "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'	=> array('domain' => 'domname'),
+			),
+			'drop' => array(
+				'title'	=> $lang['strdrop'],
+				'url'	=> "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'vars'	=> array('domain' => 'domname'),
+			),
+		);
+		
+		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
+		
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
 	}
 

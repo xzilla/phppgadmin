@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.17 2004/01/04 08:13:00 chriskl Exp $
+	 * $Id: reports.php,v 1.18 2004/07/07 02:59:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -42,7 +42,7 @@
 		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
-			$dbname = $databases->f[$data->dbFields['dbname']];
+			$dbname = $databases->f['datname'];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
 			($dbname == $_POST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
@@ -142,7 +142,7 @@
 		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
-			$dbname = $databases->f[$data->dbFields['dbname']];
+			$dbname = $databases->f['datname'];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
 			($dbname == $_REQUEST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";

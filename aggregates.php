@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.4 2004/06/27 06:26:22 xzilla Exp $
+	 * $Id: aggregates.php,v 1.5 2004/07/07 02:59:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,37 +19,34 @@
 		global $data, $conf, $misc;
 		global $lang;
 
+		function aggPre(&$rowdata) {
+			global $data, $lang;
+			$rowdata->f['+argtypes'] = is_null($rowdata->f['proargtypes']) ? $lang['stralltypes'] : $rowdata->f['proargtypes'];
+		}
+		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['straggregates']), 'aggregates');
 		$misc->printMsg($msg);
 		
 		$aggregates = &$data->getAggregates();
 
-		if ($aggregates->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strtype']}</th>";
-			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
-			echo "</tr>\n";
-			$i = 0;
-			while (!$aggregates->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($aggregates->f['proname']), "</td>\n";
-				echo "<td class=\"data{$id}\">";
-				// If arg type is NULL, then we need to output "all types"
-				if ($aggregates->f['proargtypes'] === null)
-					echo $lang['stralltypes'];
-				else
-					echo $misc->printVal($aggregates->f['proargtypes']);
-				echo "</td>\n";
-				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($aggregates->f['aggcomment']), "</td>\n";
-				echo "</tr>\n";
-				$aggregates->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnoaggregates']}</p>\n";
-		}
+		$columns = array(
+			'aggregate' => array(
+				'title' => $lang['strname'],
+				'field' => 'proname',
+			),
+			'type' => array(
+				'title' => $lang['strtype'],
+				'field' => '+argtypes',
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'aggcomment',
+			),
+		);
+		
+		$actions = array();
+		
+		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates'], 'aggPre');
 	}
 
 	$misc->printHeader($lang['straggregates']);

@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.21 2004/05/26 23:40:20 soranzo Exp $
+	 * $Id: sql.php,v 1.22 2004/07/07 02:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,6 +35,14 @@
 	$misc->printBody();
 	$misc->printDatabaseNav();
 	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
+
+	// Set the schema search path
+	if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
+		if ($data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path']))) != 0) {
+			$misc->printFooter();
+			exit;
+		}
+	}
 
 	// Set fetch mode to NUM so that duplicate field names are properly returned
 	$data->conn->setFetchMode(ADODB_FETCH_NUM);

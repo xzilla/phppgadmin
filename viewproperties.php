@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.6 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.7 2004/07/07 03:00:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -40,8 +40,8 @@
 		if ($viewdata->recordCount() > 0) {
 			
 			if (!isset($_POST['formDefinition'])) {
-				$_POST['formDefinition'] = $viewdata->f[$data->vwFields['vwdef']];
-				$_POST['formComment'] = $viewdata->f[$data->vwFields['vwcomment']];
+				$_POST['formDefinition'] = $viewdata->f['vwdefinition'];
+				$_POST['formComment'] = $viewdata->f['relcomment'];
 			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -127,16 +127,16 @@
 
 		$misc->printViewNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strdefinition']}</h2>\n";
-		$misc->printMsg($msg);		
+		$misc->printMsg($msg);
 		
 		if ($vdata->recordCount() > 0) {
 			// Show comment if any
-			if ($vdata->f[$data->vwFields['vwcomment']] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
+			if ($vdata->f['relcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($vdata->f['relcomment']), "</p>\n";
 
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->f['vwdefinition']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -239,42 +239,57 @@
 	function doDefault($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-
+		
+		function attPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+		}
+		
 		$misc->printViewNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), "</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view'])));
+		$misc->printMsg($msg);
 
 		// Get view
 		$vdata = &$data->getView($_REQUEST['view']);
 		// Get columns (using same method for getting a view)
 		$attrs = &$data->getTableAttributes($_REQUEST['view']);		
-		$misc->printMsg($msg);
 
 		// Show comment if any
-		if ($vdata->f[$data->vwFields['vwcomment']] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
+		if ($vdata->f['relcomment'] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($vdata->f['relcomment']), "</p>\n";
 
-		echo "<table>\n";
-		echo "<tr>\n\t<th class=\"data\">{$lang['strfield']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['strtype']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['strdefault']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['stractions']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n"; 
-		echo "</tr>\n";
-
-		$i = 0;
-		while (!$attrs->EOF) {
-			$id = (($i % 2) == 0 ? '1' : '2');
-			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
-			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&view=", urlencode($_REQUEST['view']),
-				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['comment']), "</td>\n"; 
-			echo "</tr>\n";
-			$attrs->moveNext();
-			$i++;
-		}
-		echo "</table>\n";
+		$columns = array(
+			'field' => array(
+				'title' => $lang['strfield'],
+				'field' => 'attname',
+			),
+			'type' => array(
+				'title' => $lang['strtype'],
+				'field' => '+type',
+			),
+			'default' => array(
+				'title' => $lang['strdefault'],
+				'field' => 'adsrc',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'comment',
+			),
+		);
+		
+		$actions = array(
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['view'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
+		);
+		
+		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+	
 		echo "<br />\n";
 
 		echo "<ul>\n";
