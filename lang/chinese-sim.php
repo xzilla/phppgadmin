@@ -1,17 +1,16 @@
 <?php
 
 /**
-* @maintainer He Wei Ping [laser@zhengmai.com.cn] 
-*
+* @maintainer He Wei Ping [laser@zhengmai.com.cn]
 */
 
 // Language and character set
-$lang['applang'] = '简体中文（gb2132）';
-$lang['appcharset'] = 'gb2132';
+$lang['applang'] = '简体中文（统一码）';
+$lang['appcharset'] = 'gb2312';
 $lang['applocale'] = 'zh_CN';
 
 // Basic strings
-$lang['strintro'] = '迎使用 WebDB。';
+$lang['strintro'] = '迎使用 phpPgAdmin。';
 $lang['strlogin'] = '登录';
 $lang['strloginfailed'] = '登录失败';
 $lang['strserver'] = '服务器';
@@ -142,8 +141,8 @@ $lang['strviews'] = '视图';
 // Sequences
 $lang['strnosequences'] = '查无序列。';
 $lang['strsequencename'] = '序列名称';
-$lang['strlastvalue'] = '最後的数目';
-$lang['strincrementby'] = '增量（加  减）';
+$lang['strlastvalue'] = '最后的数目';
+$lang['strincrementby'] = '增量（加／减）';
 $lang['strmaxvalue'] = '最大值';
 $lang['strminvalue'] = '最小值';
 $lang['strcachevalue'] = 'cache_value';
@@ -233,7 +232,7 @@ $lang['strschema'] = '模式';
 $lang['strschemas'] = '模式';
 $lang['strcreateschema'] = '创建模式';
 $lang['strnoschemas'] = '没有此模式';
-$lang['strconfdropschema'] = '你确定要删除"%s"模式麽？';
+$lang['strconfdropschema'] = '你确定要删除"%s"模式么？';
 $lang['strschemadropped'] = '模式已删除';
 $lang['strschemadroppedbad'] = '模式删除失败';
 $lang['strschemacreated'] = '模式已建立';
@@ -241,9 +240,132 @@ $lang['strschemacreatedbad'] = '创建模式失败';
 $lang['strshowallschemas'] = '显示所有模式?';
 $lang['strschemaneedsname'] = '必须给模式命名';
 
+$lang['strcreated'] = '创建完成';
+$lang['strok'] = '完成';
+$lang['strencoding'] = '编码';
+$lang['strsql'] = 'SQL码';
+$lang['stradmin'] = '管理';
+$lang['strvacuum'] = '清空';
+$lang['stranalyze'] = '分析';
+$lang['strreindex'] = '重建索引';
+$lang['strrun'] = '执行';
+$lang['stradd'] = '创建';
+$lang['strformat'] = '格式化';
+$lang['strtablename'] = '资料表名称';
+$lang['strfieldneedsname'] = '你必须给您的数据段命名';
+$lang['struserupdated'] = '用户更新';
+$lang['struserupdatedbad'] = '用户更新';
+$lang['strshowallusers'] = '显示所有用户';
+$lang['strcreateuser'] = '创建用户';
+$lang['strusercreated'] = '创建用户完成';
+$lang['strusercreatedbad'] = '创建用户失败';
+$lang['strconfdropuser'] = '您确定要删除用户"%s"么？';
+$lang['struserdropped'] = '用户删除完成';
+$lang['struserdroppedbad'] = '删除用户失败';
+$lang['strnogroup'] = '查无此群组。';
+$lang['strprivilege'] = '特权';
+$lang['strgranted'] = '特权赋予完成';
+$lang['strgrantfailed'] = '特权赋予失败';
+$lang['strgrantuser'] = '特权赋予用户';
+$lang['strgrantgroup'] = '特权赋予组';
+$lang['strshowalldatabases'] = '显示所有数据库';
+$lang['strnodatabase'] = '查无此数据库。';
+$lang['strcreatedatabase'] = '创建数据库';
+$lang['strdatabasename'] = '数据库名称';
+$lang['strdatabasecreated'] = '创建数据库完成';
+$lang['strdatabasecreatedbad'] = '创建数据库失败';
+$lang['strconfdropdatabase'] = '您确定要删除数据库"%s"么？';
+$lang['strdatabasedropped'] = '数据库删除完成';
+$lang['strdatabasedroppedbad'] = '删除数据库失败';
+$lang['strentersql'] = '请在下方输入要执行的SQL码：';
+$lang['strvacuumgood'] = '清空完成';
+$lang['strvacuumbad'] = '清空失败';
+$lang['stranalyzegood'] = '分析完成';
+$lang['stranalyzebad'] = '分析失败';
+$lang['strshowallviews'] = '显示所视图';
+$lang['strnoview'] = '查无此视图';
+$lang['strviewname'] = '视图名称';
+$lang['strviewcreated'] = '创建视图完成';
+$lang['strviewcreatedbad'] = '创建视图失败';
+$lang['strconfdropview'] = '您确定要删除视图"%s"么？';
+$lang['strviewdropped'] = '视图删除完成';
+$lang['strviewdroppedbad'] = '删除视图失败';
+$lang['strviewupdated'] = '视图更新完成';
+$lang['strviewupdatedbad'] = '视图更新失败';
+$lang['strshowallsequences'] = '显示所有序列';
+$lang['strnosequence'] = '查无此序列';
+$lang['strcreatesequence'] = '创建序列';
+$lang['strstartvalue'] = '起始值';
+$lang['strsequenceneedsname'] = '你必须给您的序列命名';
+$lang['strsequencecreated'] = '创建序列完成';
+$lang['strsequencecreatedbad'] = '创建序列失败';
+$lang['strconfdropsequence'] = '您确定要删除序列"%s"么？';
+$lang['strsequencedropped'] = '序列删除完成';
+$lang['strsequencedroppedbad'] = '删除序列失败';
+$lang['strnoindex'] = '查无此索引';
+$lang['strnoindexes'] = '查无此索引';
+$lang['strindextype'] = '索引的类型';
+$lang['strshowallrules'] = '显示所有规则';
+$lang['strnorule'] = '查无此规则';
+$lang['strrulename'] = '规则名称';
+$lang['strruleneedsname'] = '你必须给您的规则命名';
+$lang['strrulecreated'] = '创建规则完成';
+$lang['strrulecreatedbad'] = '创建规则失败';
+$lang['strconfdroprule'] = '您确定要把规则"%s"在资料库"%s"中删除么？';
+$lang['strruledropped'] = '规则删除完成';
+$lang['strruledroppedbad'] = '删除规则失败';
+$lang['strshowallconstraints'] = '显示所有强制';
+$lang['strnoconstraints'] = '查无此强制';
+$lang['strcreateconstraint'] = '创建强制';
+$lang['strconstraintcreated'] = '创建强制完成';
+$lang['strconstraintcreatedbad'] = '创建强制失败';
+$lang['strconfdropconstraint'] = '您确定要把强制"%s"在资料库"%s"中删除么？';
+$lang['strconstraintdropped'] = '删除强制完成';
+$lang['strconstraintdroppedbad'] = '删除强制失败';
+$lang['straddpk'] = '新增主键';
+$lang['strpkneedscols'] = '主键须要至少一列';
+$lang['strpkadded'] = '主键新增完成';
+$lang['strpkaddedbad'] = '新增主键失败';
+$lang['strshowallfunctions'] = '显示所有函数';
+$lang['strnofunction'] = '查无此函数';
+$lang['strcreatefunction'] = '创建函数';
+$lang['strfunctionname'] = '函数名称';
+$lang['strfunctioncreated'] = '创建函数完成';
+$lang['strfunctioncreatedbad'] = '创建函数失败';
+$lang['strconfdropfunction'] = '您确定要删除函数"%s"么？';
+$lang['strfunctiondropped'] = '删除函数完成.';
+$lang['strfunctiondroppedbad'] = '删除函数失败';
+$lang['strfunctionupdated'] = '更新函数完成.';
+$lang['strfunctionupdatedbad'] = '更新函数失败';
+$lang['strshowalltriggers'] = '显示所有触发器';
+$lang['strnotrigger'] = '查无此触发器';
+$lang['strtriggerneedsname'] = '你必须给您的触发器命名';
+$lang['strtriggerneedsfunc'] = '你必须给您的触发器一个函数';
+$lang['strtriggercreated'] = '创建触发器完成';
+$lang['strtriggercreatedbad'] = '创建触发器失败';
+$lang['strconfdroptrigger'] = '您确定要把触发器"%s"在资料库"%s"中删除么？';
+$lang['strtriggerdropped'] = '删除触发器完成.';
+$lang['strtriggerdroppedbad'] = '删除触发器失败';
+$lang['strnotype'] = '查无此类型';
+$lang['strtypename'] = '类型名称';
+$lang['strnoschema'] = '查无此模式';
+$lang['strschemaname'] = '模式名称';
+$lang['strreport'] = '报表';
+$lang['strreports'] = '报表';
+$lang['strshowallreports'] = '显示所有报表';
+$lang['strnoreports'] = '查无此报表';
+$lang['strcreatereport'] = '创建报表';
+$lang['strreportdropped'] = '创建报表完成.';
+$lang['strreportdroppedbad'] = '删除报表失败';
+$lang['strconfdropreport'] = '您确定要删除报表"%s"么？';
+$lang['strreportneedsname'] = '你必须给您的报表命名';
+$lang['strreportcreated'] = '储存报表完成';
+$lang['strreportcreatedbad'] = '储存报表失败';
+
+
+
 // Miscellaneous
 $lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"， %s';
 $lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?> 
-

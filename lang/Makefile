@@ -6,7 +6,7 @@
 # It is important to fix first and last lines of the file <?php and ?>
 # using 'awk'
 # 
-# $Id: Makefile,v 1.17 2003/04/28 11:50:15 chriskl Exp $
+# $Id: Makefile,v 1.18 2003/04/29 08:39:55 chriskl Exp $
 #
 DESTDIR=./recoded
 
@@ -41,27 +41,17 @@ italian:
 	cat italian.php | recode latin1..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/italian.php
-chinese: chinese-tr-utf8 chinese-tr-big5 chinese-sim-utf8 chinese-sim-gb2312
+chinese: chinese-tr chinese-sim
 
-chinese-tr-utf8:
-	cat chinese-tr-utf8.php | recode utf8..html  | \
+chinese-tr:
+	cat chinese-tr.php | recode big5..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
-		> ${DESTDIR}/chinese-tr-utf8.php
+		> ${DESTDIR}/chinese-tr.php
 
-chinese-tr-big5:
-	cat chinese-tr-big5.php | recode big5..html | \
+chinese-sim:
+	cat chinese-sim.php | recode gb2312..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
-		> ${DESTDIR}/chinese-tr-big5.php
-
-chinese-sim-utf8:
-	cat chinese-sim-utf8.php | recode utf8..html | \
-		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
-		> ${DESTDIR}/chinese-sim-utf8.php
-
-chinese-sim-gb2312:
-	cat chinese-sim-gb2312.php | recode gb2312..html | \
-		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
-		> ${DESTDIR}/chinese-sim-gb2312.php
+		> ${DESTDIR}/chinese-sim.php
 
 french:
 	cat french.php | recode latin1..html | \

@@ -1,17 +1,17 @@
 <?php
 
 /**
-* @maintainer Chan Min Wai [dcmwai@amtb-m.org.my] 
-* Direct convert from Simplify Chinese @He Wei Ping [laser@zhengmai.com.cn] 
-*/
+ * @maintainer Chan Min Wai [dcmwai@amtb-m.org.my] 
+ * Direct conversion from Simplify Chinese @He Wei Ping [laser@zhengmai.com.cn] 
+ */
 
 // Language and character set
 $lang['applang'] = '繁體中文（big5）';
 $lang['appcharset'] = 'big5';
 $lang['applocale'] = 'zh_CN';
-  
+
 // Basic strings
-$lang['strintro'] = '迎使用 WebDB。';
+$lang['strintro'] = '迎使用 phpPgAdmin。';
 $lang['strlogin'] = '登錄';
 $lang['strloginfailed'] = '登錄失敗';
 $lang['strserver'] = '服務器';
@@ -240,6 +240,128 @@ $lang['strschemacreated'] = '模式已建立';
 $lang['strschemacreatedbad'] = '創建模式失敗';
 $lang['strshowallschemas'] = '顯示所有模式?';
 $lang['strschemaneedsname'] = '必須給模式命名';
+
+$lang['strcreated'] = '創建完成';
+$lang['strok'] = '完成';
+$lang['strencoding'] = '編碼';
+$lang['strsql'] = 'SQL碼';
+$lang['stradmin'] = '管理';
+$lang['strvacuum'] = '清空';
+$lang['stranalyze'] = '分析';
+$lang['strreindex'] = '重建索引';
+$lang['strrun'] = '執行';
+$lang['stradd'] = '創建';
+$lang['strformat'] = '格式化';
+$lang['strtablename'] = '資料表名稱';
+$lang['strfieldneedsname'] = '你必須給您的數據段命名';
+$lang['struserupdated'] = '用戶更新';
+$lang['struserupdatedbad'] = '用戶更新';
+$lang['strshowallusers'] = '顯示所有用戶';
+$lang['strcreateuser'] = '創建用戶';
+$lang['strusercreated'] = '創建用戶完成';
+$lang['strusercreatedbad'] = '創建用戶失敗';
+$lang['strconfdropuser'] = '您確定要刪除用戶"%s"麼？';
+$lang['struserdropped'] = '用戶刪除完成';
+$lang['struserdroppedbad'] = '刪除用戶失敗';
+$lang['strnogroup'] = '查無此群組。';
+$lang['strprivilege'] = '特權';
+$lang['strgranted'] = '特權賦予完成';
+$lang['strgrantfailed'] = '特權賦予失敗';
+$lang['strgrantuser'] = '特權賦予用戶';
+$lang['strgrantgroup'] = '特權賦予組';
+$lang['strshowalldatabases'] = '顯示所有數據庫';
+$lang['strnodatabase'] = '查無此數據庫。';
+$lang['strcreatedatabase'] = '創建數據庫';
+$lang['strdatabasename'] = '數據庫名稱';
+$lang['strdatabasecreated'] = '創建數據庫完成';
+$lang['strdatabasecreatedbad'] = '創建數據庫失敗';
+$lang['strconfdropdatabase'] = '您確定要刪除數據庫"%s"麼？';
+$lang['strdatabasedropped'] = '數據庫刪除完成';
+$lang['strdatabasedroppedbad'] = '刪除數據庫失敗';
+$lang['strentersql'] = '請在下方輸入要執行的SQL碼：';
+$lang['strvacuumgood'] = '清空完成';
+$lang['strvacuumbad'] = '清空失敗';
+$lang['stranalyzegood'] = '分析完成';
+$lang['stranalyzebad'] = '分析失敗';
+$lang['strshowallviews'] = '顯示所視圖';
+$lang['strnoview'] = '查無此視圖';
+$lang['strviewname'] = '視圖名稱';
+$lang['strviewcreated'] = '創建視圖完成';
+$lang['strviewcreatedbad'] = '創建視圖失敗';
+$lang['strconfdropview'] = '您確定要刪除視圖"%s"麼？';
+$lang['strviewdropped'] = '視圖刪除完成';
+$lang['strviewdroppedbad'] = '刪除視圖失敗';
+$lang['strviewupdated'] = '視圖更新完成';
+$lang['strviewupdatedbad'] = '視圖更新失敗';
+$lang['strshowallsequences'] = '顯示所有序列';
+$lang['strnosequence'] = '查無此序列';
+$lang['strcreatesequence'] = '創建序列';
+$lang['strstartvalue'] = '起始值';
+$lang['strsequenceneedsname'] = '你必須給您的序列命名';
+$lang['strsequencecreated'] = '創建序列完成';
+$lang['strsequencecreatedbad'] = '創建序列失敗';
+$lang['strconfdropsequence'] = '您確定要刪除序列"%s"麼？';
+$lang['strsequencedropped'] = '序列刪除完成';
+$lang['strsequencedroppedbad'] = '刪除序列失敗';
+$lang['strnoindex'] = '查無此索引';
+$lang['strnoindexes'] = '查無此索引';
+$lang['strindextype'] = '索引的類型';
+$lang['strshowallrules'] = '顯示所有規則';
+$lang['strnorule'] = '查無此規則';
+$lang['strrulename'] = '規則名稱';
+$lang['strruleneedsname'] = '你必須給您的規則命名';
+$lang['strrulecreated'] = '創建規則完成';
+$lang['strrulecreatedbad'] = '創建規則失敗';
+$lang['strconfdroprule'] = '您確定要把規則"%s"在資料庫"%s"中刪除麼？';
+$lang['strruledropped'] = '規則刪除完成';
+$lang['strruledroppedbad'] = '刪除規則失敗';
+$lang['strshowallconstraints'] = '顯示所有強制';
+$lang['strnoconstraints'] = '查無此強制';
+$lang['strcreateconstraint'] = '創建強制';
+$lang['strconstraintcreated'] = '創建強制完成';
+$lang['strconstraintcreatedbad'] = '創建強制失敗';
+$lang['strconfdropconstraint'] = '您確定要把強制"%s"在資料庫"%s"中刪除麼？';
+$lang['strconstraintdropped'] = '刪除強制完成';
+$lang['strconstraintdroppedbad'] = '刪除強制失敗';
+$lang['straddpk'] = '新增主鍵';
+$lang['strpkneedscols'] = '主鍵須要至少一列';
+$lang['strpkadded'] = '主鍵新增完成';
+$lang['strpkaddedbad'] = '新增主鍵失敗';
+$lang['strshowallfunctions'] = '顯示所有函數';
+$lang['strnofunction'] = '查無此函數';
+$lang['strcreatefunction'] = '創建函數';
+$lang['strfunctionname'] = '函數名稱';
+$lang['strfunctioncreated'] = '創建函數完成';
+$lang['strfunctioncreatedbad'] = '創建函數失敗';
+$lang['strconfdropfunction'] = '您確定要刪除函數"%s"麼？';
+$lang['strfunctiondropped'] = '刪除函數完成.';
+$lang['strfunctiondroppedbad'] = '刪除函數失敗';
+$lang['strfunctionupdated'] = '更新函數完成.';
+$lang['strfunctionupdatedbad'] = '更新函數失敗';
+$lang['strshowalltriggers'] = '顯示所有觸發器';
+$lang['strnotrigger'] = '查無此觸發器';
+$lang['strtriggerneedsname'] = '你必須給您的觸發器命名';
+$lang['strtriggerneedsfunc'] = '你必須給您的觸發器一個函數';
+$lang['strtriggercreated'] = '創建觸發器完成';
+$lang['strtriggercreatedbad'] = '創建觸發器失敗';
+$lang['strconfdroptrigger'] = '您確定要把觸發器"%s"在資料庫"%s"中刪除麼？';
+$lang['strtriggerdropped'] = '刪除觸發器完成.';
+$lang['strtriggerdroppedbad'] = '刪除觸發器失敗';
+$lang['strnotype'] = '查無此類型';
+$lang['strtypename'] = '類型名稱';
+$lang['strnoschema'] = '查無此模式';
+$lang['strschemaname'] = '模式名稱';
+$lang['strreport'] = '報表';
+$lang['strreports'] = '報表';
+$lang['strshowallreports'] = '顯示所有報表';
+$lang['strnoreports'] = '查無此報表';
+$lang['strcreatereport'] = '創建報表';
+$lang['strreportdropped'] = '創建報表完成.';
+$lang['strreportdroppedbad'] = '刪除報表失敗';
+$lang['strconfdropreport'] = '您確定要刪除報表"%s"麼？';
+$lang['strreportneedsname'] = '你必須給您的報表命名';
+$lang['strreportcreated'] = '儲存報表完成';
+$lang['strreportcreatedbad'] = '儲存報表失敗';
 
 // Miscellaneous
 $lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"， %s';
