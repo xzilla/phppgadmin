@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.9 2003/01/23 00:47:26 slubek Exp $
+	 * $Id: polish.php,v 1.10 2003/02/03 00:27:57 slubek Exp $
 	 */
 
 	// Language and character set
@@ -55,14 +55,16 @@
 	$strBack = 'Wstecz';
 	$strQueryResults = 'Wyniki zapytania';
 	$strShow = 'Poka¿';
- 	$strEmpty = 'Pusty';
+ 	$strEmpty = 'Wyczy¶æ';
 	$strLanguage = 'Jêzyk';
 	$strEncoding = 'Kodowanie';
 	$strValue = 'Warto¶æ';
 	$strUnique = 'Unikatowy';
 	$strPrimary = 'G³ówny';
 	$strExport = 'Eksport';
-
+	$strSQL = 'SQL';
+	$strGo = 'Wykonaj';
+		
 	// Error handling
 	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
@@ -107,7 +109,8 @@
 	$strField = 'Pole';
 	$strFields = 'Pola';
 	$strNumFields = 'Ilo¶æ pól';
-
+        $strSelectNeedsCol = 'Musisz wybraæ przynajmniej jedn± kolumnê';
+	
 	// Users
 	$strUserAdmin = 'Administracja kontami u¿ytkowników';
 	$strUser = 'U¿ytkownik';
@@ -154,7 +157,8 @@
 	$strConfDropDatabase = 'Czy na pewno chcesz usun±æ bazê danych "%s"?';
 	$strDatabaseDropped = 'Baza danych usuniêta.';
 	$strDatabaseDroppedBad = 'Próba usuniêcia bazy danych siê nie powiod³a.';
-	
+	$strEnterSQL = 'Podaj polecenie SQL do wykonania:';
+	 
 	// Views
 	$strView = 'Widok';
 	$strViews = 'Widoki';

@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.3 2003/01/23 00:47:26 slubek Exp $
+	 * $Id: polish.php,v 1.4 2003/02/03 00:27:57 slubek Exp $
 	 */
 
 	// Language and character set
@@ -55,14 +55,16 @@
 	$strBack = 'Wstecz';
 	$strQueryResults = 'Wyniki zapytania';
 	$strShow = 'Poka&#380;';
- 	$strEmpty = 'Pusty';
+ 	$strEmpty = 'Wyczy&#347;&#263;';
 	$strLanguage = 'J&#281;zyk';
 	$strEncoding = 'Kodowanie';
 	$strValue = 'Warto&#347;&#263;';
 	$strUnique = 'Unikatowy';
 	$strPrimary = 'G&#322;&oacute;wny';
 	$strExport = 'Eksport';
-
+	$strSQL = 'SQL';
+	$strGo = 'Wykonaj';
+		
 	// Error handling
 	$strNoFrames = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
 	$strBadConfig = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
@@ -107,7 +109,8 @@
 	$strField = 'Pole';
 	$strFields = 'Pola';
 	$strNumFields = 'Ilo&#347;&#263; p&oacute;l';
-
+        $strSelectNeedsCol = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
+	
 	// Users
 	$strUserAdmin = 'Administracja kontami u&#380;ytkownik&oacute;w';
 	$strUser = 'U&#380;ytkownik';
@@ -154,7 +157,8 @@
 	$strConfDropDatabase = 'Czy na pewno chcesz usun&#261;&#263; baz&#281; danych &quot;%s&quot;?';
 	$strDatabaseDropped = 'Baza danych usuni&#281;ta.';
 	$strDatabaseDroppedBad = 'Pr&oacute;ba usuni&#281;cia bazy danych si&#281; nie powiod&#322;a.';
-	
+	$strEnterSQL = 'Podaj polecenie SQL do wykonania:';
+	 
 	// Views
 	$strView = 'Widok';
 	$strViews = 'Widoki';
