@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martin Marques (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.9 2003/05/11 08:40:50 chriskl Exp $
+	 * $Id: spanish.php,v 1.10 2003/05/15 13:33:15 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -83,6 +83,10 @@
 	$lang['strformat'] = 'Formato';
 	$lang['strdata'] = 'Dato';
 	$lang['strconfirm'] = 'Confirmar';
+	$lang['strexpression'] = 'Expresión';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Expandir';
+	$lang['strcollapse'] = 'Colapsar';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicación.';
