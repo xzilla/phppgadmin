@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.11 2003/08/21 04:49:36 chriskl Exp $
+	 * $Id: tblexport.php,v 1.12 2003/08/21 04:54:54 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -99,10 +99,13 @@
 		echo "</records>\n";
 	}
 	elseif ($_REQUEST['format'] == 'html') {
-		echo "<html>\n";
-		echo "<body>\n";
-		echo "<table class=\"phppgadmin\">\n";
-		echo "\t<tr>\n\t\t";
+		echo "<html>\r\n";
+		echo "<head>\r\n";
+		echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$localData->codemap[$dbEncoding]}\" />\r\n";
+		echo "</head>\r\n";
+		echo "<body>\r\n";
+		echo "<table class=\"phppgadmin\">\r\n";
+		echo "\t<tr>\r\n\t\t";
 		if (!$rs->EOF) {
 			// Output header row
 			$j = 0;
@@ -111,20 +114,20 @@
 				echo "<th>", $misc->printVal($k, true), "</th>";
 			}
 		}
-		echo "\n\t</tr>\n";
+		echo "\r\n\t</tr>\r\n";
 		while (!$rs->EOF) {
-			echo "\t<tr>\n\t\t";
+			echo "\t<tr>\r\n\t\t";
 			foreach ($rs->f as $k => $v) {
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
 				$finfo = $rs->fetchField($j++);
 				echo "<td>", $misc->printVal($v, true, $finfo->type), "</td>";
 			}
-			echo "\n\t</tr>\n";
+			echo "\r\n\t</tr>\r\n";
 			$rs->moveNext();
 		}
-		echo "</table>\n";
-		echo "</body>\n";
-		echo "</html>\n";
+		echo "</table>\r\n";
+		echo "</body>\r\n";
+		echo "</html>\r\n";
 	}
 	elseif ($_REQUEST['format'] == 'sql') {
 		$data->fieldClean($_REQUEST['table']);
