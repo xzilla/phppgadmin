@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.66 2003/03/25 00:26:29 chriskl Exp $
+	 * $Id: english.php,v 1.67 2003/04/04 08:28:26 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -308,6 +308,11 @@
 	$lang['struniqneedscols'] = 'Unique key requires at least one column.';
 	$lang['struniqadded'] = 'Unique key added.';
 	$lang['struniqaddedbad'] = 'Failed to add unique key.';
+	$lang['straddfk'] = 'Add Foreign Key';
+	$lang['strfkneedscols'] = 'Foreign key requires at least one column.';
+	$lang['strfkadded'] = 'Foreign key added.';
+	$lang['strfkaddedbad'] = 'Failed to add foreign key.';
+	$lang['strfktarget'] = 'Target table';
 
 	// Functions
 	$lang['strfunction'] = 'Function';

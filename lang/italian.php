@@ -3,7 +3,7 @@
 	 * Italian language template, based on the english language template file for WebDB.
 	 * @maintainer Calogero Calì [<kalef@libero.it>]
 	 *	
-	 * $Id: italian.php,v 1.5 2003/03/17 05:20:31 chriskl Exp $
+	 * $Id: italian.php,v 1.6 2003/04/04 08:28:27 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Italiano';
@@ -32,7 +32,6 @@
 	$lang['stroperators'] = 'Operatori';
 	$lang['strtypes'] = 'Tipi';
 	$lang['straggregates'] = 'Aggregazioni';
-	$strIndicies = 'Indici';
 	$lang['strproperties'] = 'ProprietÃ ';
 	$lang['strbrowse'] = 'Mostra';
 	$lang['strdrop'] = 'Elimina';

@@ -4,7 +4,7 @@
 	 * German Language file for WebDB.
 	 * @maintainer Albin Blaschka [blaschka@unix.sbg.ac.at]
 	 *
-	 * $Id: german.php,v 1.3 2003/03/17 05:20:31 chriskl Exp $
+	 * $Id: german.php,v 1.4 2003/04/04 08:28:28 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Deutsch';
@@ -34,7 +34,6 @@
 	$lang['stroperators'] = 'Operatoren';
 	$lang['strtypes'] = 'Typen';
 	$lang['straggregates'] = 'Aggregate';
-	$strIndicies = 'Indicies';
 	$lang['strproperties'] = 'Eigenschaften';
 	$lang['strbrowse'] = 'Suchen';
 	$lang['strdrop'] = 'L&amp;ouml;schen';

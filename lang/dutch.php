@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.4 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: dutch.php,v 1.5 2003/04/04 08:28:26 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -34,7 +34,6 @@
 	$lang['stroperators'] = 'Operatoren';
 	$lang['strtypes'] = 'Types';
 	$lang['straggregates'] = 'Aggregaten';
-	$strIndicies = 'Indices';
 	$lang['strproperties'] = 'Eigenschappen';
 	$lang['strbrowse'] = 'Bekijk';
 	$lang['strdrop'] = 'Verwijder';
