@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.20 2002/11/07 09:39:49 chriskl Exp $
+ * $Id: Postgres.php,v 1.21 2002/11/12 09:34:40 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -224,7 +224,49 @@ class Postgres extends BaseDB {
 	function dropColumn($table, $column, $behavior) {
 		return -99;
 	}
-	// @@ Need create table - tricky!!
+
+	/**
+	 * Creates a new table in the database
+	 * @param $name The name of the table
+	 * @param $fields The number of fields
+	 * @param $field An array of field names
+	 * @param $type An array of field types
+	 * @param $length An array of field lengths
+	 * @param $notnull An array of not null
+	 * @param $default An array of default values
+	 * @return 0 success
+	 * @return -1 no fields supplied
+	 */
+	function createTable($name, $fields, $field, $type, $length, $notnull, $default) {
+		// @@ NOTE: $default field not being cleaned - how on earth DO we clean it??
+		$this->fieldClean($name);
+	
+		$found = false;
+		$sql = "CREATE TABLE \"{$name}\" (";
+		
+		for ($i = 0; $i < $fields; $i++) {
+			$this->fieldClean($field[$i]);
+			$this->clean($type[$i]);
+			$this->clean($length[$i]);
+			
+			// Skip blank columns - for user convenience
+			if ($field[$i] == '' || $type[$i] == '') continue;
+			
+			$sql .= "\"{$field[$i]}\" {$type[$i]}";
+			if ($length[$i] != '') $sql .= "({$length[$i]})";
+			if (isset($notnull[$i])) $sql .= " NOT NULL";
+			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
+			if ($i != $fields - 1) $sql .= ", ";
+
+			$found = true;
+		}
+		
+		if (!$found) return -1;
+		
+		$sql .= ")";
+		
+		return $this->execute($sql);
+	}	
 	
 	/**
 	 * Removes a table from the database

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.17 2002/11/07 09:39:49 chriskl Exp $
+ * $Id: Postgres71.php,v 1.18 2002/11/12 09:34:40 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -139,8 +139,6 @@ class Postgres71 extends Postgres {
 		return $this->selectRow($sql);
 	}
 
-	// @@ Need create table - tricky!!
-	
 	/**
 	 * Renames a table
 	 * @param $table The table to be renamed

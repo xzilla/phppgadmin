@@ -10,6 +10,8 @@ http://sourceforge.net/projects/phppgadmin/
 An item is marked 'claimed' when a username in brackets is put after the TODO
 item.
 
+An item is marked with a '-' if it has been completed.
+
 Connections
 -----------
 
@@ -38,7 +40,8 @@ Permissions [ Robert ]
 Databases
 ---------
 
-* Allow create/drop/alter databases
+* Fix create/drop databases
+* Add alter database for 7.3+
 
 Tables
 ------
@@ -46,7 +49,7 @@ Tables
 * Not using proper attFields array for attribute info (i was being lazy)
 * Browse doesn't implement paging
 * Have a common browse function for 'select' and 'browse' actions on a table
-* Create table
+* -Create table
 * Modify column - default, nullability, etc.
 * Constraints - note massive 7.3 changes here
 * Vacuum & analyze
@@ -137,11 +140,6 @@ Casts (7.3)
 Schemas
 -------
 
-I added schema support to the left nav bar, however I discovered that it doesn't work as-is.  The problem is that it always gets the list of schemas from template1 - because we're always connected to that database.  If you changed it to reconnect for every database while drawing the left nav it'd be really slow.  Hence I propose that the left nav is modified somewhat to be like this:
-
-* Initially, a list of hrefs to databases
-* When a database href is clicked on, the page reloads with plain hrefs to the other databases, but an expandable tree for the selected database.
-* That way, everything should be nice
 * Create schema, drop schema
 
 Settings

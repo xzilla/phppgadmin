@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.9 2002/09/16 15:09:54 chriskl Exp $
+	 * $Id: tables.php,v 1.10 2002/11/12 09:34:40 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,6 +11,138 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Displays a screen where they can enter a new view
+	 */
+	function doCreate($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $strName, $strNumFields, $strNext, $strTables;
+		global $strCreateTable, $strShowAllTables, $strTableNeedsName, $strTableNeedsCols;
+		
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;		
+		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
+		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
+		
+		switch ($_REQUEST['stage']) {
+			case 1:
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
+				$misc->printMsg($msg);
+				
+				echo "<form action=\"$PHP_SELF\" method=post>\n";
+				echo "<table width=100%>\n";
+				echo "<tr><th class=data>{$strName}</th></tr>\n";
+				echo "<tr><td class=data1><input name=name size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+					htmlspecialchars($_REQUEST['name']), "\"></td></tr>\n";
+				echo "<tr><th class=data>{$strNumFields}</th></tr>\n";
+				echo "<tr><td class=data1><input name=fields size=5 maxlength={$data->_maxNameLen} value=\"", 
+					htmlspecialchars($_REQUEST['fields']), "\"></td></tr>\n";
+				echo "</table>\n";
+				echo "<input type=hidden name=action value=create>\n";
+				echo "<input type=hidden name=stage value=2>\n";
+				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo "<input type=submit value=\"{$strNext}\"> <input type=reset>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				global $strCreate, $strField, $strType, $strLength, $strNotNull, $strDefault;
+
+				// Check inputs
+				$fields = trim($_REQUEST['fields']);
+				if (trim($_REQUEST['name']) == '') {
+					$_REQUEST['stage'] = 1;
+					doCreate($strTableNeedsName);
+					return;
+				}
+				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields < 1)  {
+					$_REQUEST['stage'] = 1;
+					doCreate($strTableNeedsCols);	
+					return;
+				}
+	
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+				// Output table header
+				echo "<table>\n<tr>";
+				echo "<tr><th colspan=2 class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strLength}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th></tr>";
+								
+				$types = &$localData->getTypes();
+				
+				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
+					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
+					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
+					if (!isset($_REQUEST['default'][$i])) $_REQUEST['default'][$i] = '';
+					echo "<tr><td>", $i + 1, ".&nbsp;</td>";
+					echo "<td><input name=\"field[{$i}]\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+						htmlspecialchars($_REQUEST['field'][$i]), "\"></td>";
+					echo "<td><select name=\"type[{$i}]\">\n";
+					$types->moveFirst();
+					while (!$types->EOF) {
+						// @@@@@@@ MAKE THIS REMEMBER TYPE
+						echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\">",
+							htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
+						$types->moveNext();
+					}
+					echo "</select></td>";
+					echo "<td><input name=\"length[{$i}]\" size=10 value=\"", 
+						htmlspecialchars($_REQUEST['length'][$i]), "\"></td>";
+					echo "<td><input type=checkbox name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? 'checked' : '', "></td>\n";
+					echo "<td><input name=\"default[{$i}]\" size=20 value=\"", 
+						htmlspecialchars($_REQUEST['default'][$i]), "\"></td>";
+				}				
+				
+				echo "</table>\n";
+				echo "<input type=hidden name=action value=create>\n";
+				echo "<input type=hidden name=stage value=3>\n";
+				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo "<input type=hidden name=name value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
+				echo "<input type=hidden name=fields value=\"", htmlspecialchars($_REQUEST['fields']), "\">\n";
+				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset>\n";
+				echo "</form>\n";
+								
+				break;
+			case 3:
+				global $localData, $strViewNeedsName, $strViewNeedsDef;
+
+				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
+
+				// Check inputs
+				$fields = trim($_REQUEST['fields']);
+				if (trim($_REQUEST['name']) == '') {
+					$_REQUEST['stage'] = 1;
+					doCreate($strTableNeedsName);
+					return;
+				}
+				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields <= 0)  {
+					$_REQUEST['stage'] = 1;
+					doCreate($strTableNeedsCols);	
+					return;
+				}
+				
+				$status = $localData->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
+								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default']);
+				if ($status == 0)
+					doDefault('Table created.');
+				elseif ($status == -1) {
+					$_REQUEST['stage'] = 2;
+					doCreate('You must specify at least one field.');
+					return;
+				}
+				else {
+					$_REQUEST['stage'] = 2;
+					doCreate('Table creation failed.');
+					return;
+				}
+				break;
+			default:
+				echo "<p>Invalid script parameter.</p>\n";
+		}
+					
+			echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
+	}
 
 	/**
 	 * Ask for insert parameters and then actually insert row
@@ -390,7 +522,7 @@
 	function doDefault($msg = '') {
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
-		global $strBrowse, $strProperties;
+		global $strBrowse, $strProperties, $strCreateTable;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), "</h2>\n";
 			
@@ -425,12 +557,17 @@
 		else {
 			echo "<p>{$strNoTables}</p>\n";
 		}
+
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">{$strCreateTable}</a></p>\n";
 	}
 	
 	echo "<html>\n";
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'create':
+			doCreate();
+			break;
 		case 'selectrows':
 			if ($_POST['choice'] != 'Cancel') doSelectRows(false);
 			else doDefault();
