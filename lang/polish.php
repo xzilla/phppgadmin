@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.38 2004/05/29 11:04:01 chriskl Exp $
+	 * $Id: polish.php,v 1.39 2004/06/08 20:18:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -100,6 +100,7 @@
 	$lang['strconfirm'] = 'Potwierd¼';
 	$lang['strexpression'] = 'Wyra¿enie';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Rozwiñ';
 	$lang['strcollapse'] = 'Zwiñ';
 	$lang['strexplain'] = 'Explain';
@@ -128,6 +129,8 @@
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$lang['strbadconfig'] = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowa³e¶ do PHP obs³ugi tej bazy danych.';
+	$lang['strphpversionnotsupported']  =  'Nieobs³ugiwana wersja PHP. Uaktualnij do wersji %s lub nowszej.';
+	$lang['strpostgresqlversionnotsupported']  =  'Nieobs³ugiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strbadschema'] = 'Podano b³êdny schemat.';
 	$lang['strbadencoding'] = 'B³êdne kodowanie bazy.';
 	$lang['strsqlerror'] = 'B³±d SQL:';
@@ -170,7 +173,7 @@
 	$lang['strconfdeleterow'] = 'Czy na pewno chcesz usun±æ ten wiersz?';
 	$lang['strrowdeleted'] = 'Wiersz usuniêty.';
 	$lang['strrowdeletedbad'] = 'Próba usuniêcia wiersza siê nie powiod³a.';
-	$lang['strsaveandrepeat'] = 'Zapisz i powtórz';
+	$lang['strinsertandrepeat']  =  'Wstaw i powtórz';
 	$lang['strfield'] = 'Pole';
 	$lang['strfields'] = 'Pola';
 	$lang['strnumfields'] = 'Ilo¶æ pól';
