@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.10 2003/04/30 07:42:58 chriskl Exp $
+	 * $Id: views.php,v 1.11 2003/05/06 06:16:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -242,7 +242,7 @@
 		if ($_POST['formView'] == '') doCreate($lang['strviewneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strviewneedsdef']);
 		else {		 
-			$status = $localData->createView($_POST['formView'], $_POST['formDefinition']);
+			$status = $localData->createView($_POST['formView'], $_POST['formDefinition'], false);
 			if ($status == 0)
 				doDefault($lang['strviewcreated']);
 			else
