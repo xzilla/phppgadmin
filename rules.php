@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.20 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: rules.php,v 1.21 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 
 		if ($confirm) {
 			echo "<h2>", $misc->printVal($_REQUEST['database']),
-				$misc->printVal($_REQUEST['relation']), ": {$lang['strcreaterule']}</h2>\n";
+				$misc->printVal($_REQUEST[$_REQUEST['subject']]), ": {$lang['strcreaterule']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -58,8 +58,9 @@
 			echo "</table>\n";
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\" />\n";
-			echo "<input type=\"hidden\" name=\"reltype\" value=\"", htmlspecialchars($_REQUEST['reltype']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"relation\" value=\"", htmlspecialchars($_REQUEST['relation']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject']),
+					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
 			echo $misc->form;
 			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strcreate']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -71,7 +72,7 @@
 				createRule(true, $lang['strruleneedsname']);
 			else {
 				$status = $data->createRule($_POST['name'],
-					$_POST['event'], $_POST['relation'], $_POST['where'],
+					$_POST['event'], $_POST[$_POST['subject']], $_POST['where'],
 					isset($_POST['instead']), $_POST['type'], $_POST['raction']);
 				if ($status == 0)
 					doDefault($lang['strrulecreated']);
@@ -90,15 +91,15 @@
 
 		if ($confirm) {
 			echo "<h2>", $misc->printVal($_REQUEST['database']),
-				$misc->printVal($_REQUEST['relation']), ": " , $misc->printVal($_REQUEST['rule']), ": {$lang['strdrop']}</h2>\n";
+				$misc->printVal($_REQUEST[$_REQUEST['subject']]), ": " , $misc->printVal($_REQUEST['rule']), ": {$lang['strdrop']}</h2>\n";
 
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
-				$misc->printVal($_REQUEST['relation'])), "</p>\n";
+				$misc->printVal($_REQUEST[$_REQUEST['subject']])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"reltype\" value=\"", htmlspecialchars($_REQUEST['reltype']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"relation\" value=\"", htmlspecialchars($_REQUEST['relation']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"reltype\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"relation\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
@@ -127,10 +128,10 @@
 		global $PHP_SELF;
 		global $lang;
 
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['relation']), $lang['strrules']));
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST[$_REQUEST['subject']]), $lang['strrules']));
 		$misc->printMsg($msg);
 
-		$rules = &$data->getRules($_REQUEST['relation']);
+		$rules = &$data->getRules($_REQUEST[$_REQUEST['subject']]);
 
 		$columns = array(
 			'rule' => array(
@@ -146,32 +147,26 @@
 			),
 		);
 
+		$subject = urlencode($_REQUEST['subject']);
+		$object = urlencode($_REQUEST[$_REQUEST['subject']]);
+
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;reltype=".urlencode($_REQUEST['reltype']).
-							"&amp;relation=".urlencode($_REQUEST['relation'])."&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}",
 				'vars'  => array('rule' => 'rulename'),
 			),
 		);
 
 		$misc->printTable($rules, $columns, $actions, $lang['strnorules']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&amp;{$misc->href}&amp;reltype=", 
-			urlencode($_REQUEST['reltype']), "&amp;relation=", urlencode($_REQUEST['relation']), "\">{$lang['strcreaterule']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
 	// Different header if we're view rules or table rules
-	if ($_REQUEST['reltype'] == 'table') {
-		$_REQUEST['table'] = $_REQUEST['relation'];
-		$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['relation'] . ' - ' . $lang['strrules']);
-	}
-	else {
-		$_REQUEST['view'] = $_REQUEST['relation'];
-		$misc->printHeader($lang['strviews'] . ' - ' . $_REQUEST['relation'] . ' - ' . $lang['strrules']);
-	}
+	$misc->printHeader($_REQUEST[$_REQUEST['subject']] . ' - ' . $lang['strrules']);
 	$misc->printBody();
-	$misc->printNav($_REQUEST['reltype'],'rules');
+	$misc->printNav($_REQUEST['subject'],'rules');
 
 	switch ($action) {
 		case 'create_rule':

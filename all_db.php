@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.32 2004/08/04 07:44:02 chriskl Exp $
+	 * $Id: all_db.php,v 1.33 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -22,18 +22,18 @@
 
 		if ($confirm) {
 			$misc->printNav('server','databases');
-			$misc->printTitle(array($lang['strdatabases'], $misc->printVal($_REQUEST['db']), $lang['strdrop']), 'drop_database');
-			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['db'])), "</p>\n";	
+			$misc->printTitle(array($lang['strdatabases'], $misc->printVal($_REQUEST['database']), $lang['strdrop']), 'drop_database');
+			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"db\" value=\"", 
-				htmlspecialchars($_REQUEST['db']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"database\" value=\"", 
+				htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropDatabase($_POST['db']);
+			$status = $data->dropDatabase($_POST['database']);
 			if ($status == 0) {
 				$_reload_drop_database = true;
 				doDefault($lang['strdatabasedropped']);
@@ -228,13 +228,13 @@
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
-				'vars'  => array('db' => 'datname'),
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;",
+				'vars'  => array('database' => 'datname'),
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?type=database&amp;",
-				'vars'  => array('object' => 'datname'),
+				'url'   => "privileges.php?subject=database&amp;",
+				'vars'  => array('database' => 'datname'),
 			)
 		);
 		

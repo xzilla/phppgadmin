@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.86 2004/08/25 07:47:34 chriskl Exp $
+	 * $Id: Misc.php,v 1.87 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -454,7 +454,7 @@
 					);
 
 				case 'database':
-					$vars = $databasevar;
+					$vars = $databasevar . '&subject=database';
 					return array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
@@ -485,8 +485,7 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							// Handle either 'object' or 'database' being set
-							'url'   => "privileges.php?{$vars}&type=database&object=" . urlencode((isset($_REQUEST['database']) ? $_REQUEST['database'] : $_REQUEST['object'])),
+							'url'   => "privileges.php?{$vars}",
 							'hide'  => (!isset($data->privlist['database'])),
 						),
 						'languages' => array (
@@ -507,7 +506,7 @@
 					);
 
 				case 'schema':
-					$vars = $databasevar . $schemavar;
+					$vars = $databasevar . $schemavar . '&subject=schema';
 					return array (
 						'tables' => array (
 							'title' => $lang['strtables'],
@@ -557,14 +556,14 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=schema&object=" . (isset($_REQUEST['schema']) ? urlencode($_REQUEST['schema']) : ''),
+							'url'   => "privileges.php?{$vars}",
 							'hide'  => (!$data->hasSchemas()),
 						),
 					);
 
 				case 'table':
 					$table = urlencode($_REQUEST['table']);
-					$vars = $databasevar . $schemavar . "&table={$table}";
+					$vars = $databasevar . $schemavar . "&table={$table}&subject=table";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
@@ -584,7 +583,7 @@
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
-							'url'   => "rules.php?{$vars}&reltype=table&relation={$table}",
+							'url'   => "rules.php?{$vars}",
 						),
 						'info' => array (
 							'title' => $lang['strinfo'],
@@ -592,7 +591,7 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=table&object={$table}",
+							'url'   => "privileges.php?{$vars}",
 						),
 						'import' => array (
 							'title' => $lang['strimport'],
@@ -606,7 +605,7 @@
 				
 				case 'view':
 					$view = urlencode($_REQUEST['view']);
-					$vars = $databasevar . $schemavar . "&view={$view}";
+					$vars = $databasevar . $schemavar . "&view={$view}&subject=view";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
@@ -618,18 +617,33 @@
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
-							'url'   => "rules.php?{$vars}&reltype=view&relation={$view}",
+							'url'   => "rules.php?{$vars}",
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=view&object={$view}",
+							'url'   => "privileges.php?{$vars}",
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => "viewproperties.php?{$vars}&action=export",
 						),
 					);
-
+				
+				case 'function':
+					$funcnam = urlencode($_REQUEST['function']);
+					$funcoid = urlencode($_REQUEST['function_oid']);
+					$vars = $databasevar . $schemavar . "&function={$funcnam}&function_oid={$funcoid}&subject=function";
+					return array (
+						'definition' => array (
+							'title' => $lang['strdefinition'],
+							'url'   => "functions.php?{$vars}&action=properties",
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => "privileges.php?{$vars}",
+						),
+					);
+				
 				case 'popup':
 					$vars = $databasevar;
 					return array (
@@ -661,6 +675,9 @@
 			
 			if ($trail === true) {
 				$this->printTrail($this->getTrail($section));
+			}
+			elseif (is_string($trail)) {
+				$this->printTrail($this->getTrail($trail));
 			}
 			elseif (is_array($trail)) {
 				$this->printTrail($trail);
@@ -739,7 +756,7 @@
 		 * Create a bread crumb trail of the object hierarchy.
 		 * @param $object The type of object at the end of the trail.
 		 */
-		function getTrail($object = null) {
+		function getTrail($subject = null) {
 			global $lang, $conf;
 			
 			$trail = array();
@@ -751,7 +768,7 @@
 				'text'  => $conf['servers'][$_SESSION['webdbServerID']]['desc'],
 				'url'   => 'redirect.php?section=server',
 			);
-			if ($object == 'server') $done = true;
+			if ($subject == 'server') $done = true;
 			
 			if (isset($_REQUEST['database']) && !$done) {
 				$vars = 'database='.urlencode($_REQUEST['database']).'&';
@@ -761,7 +778,7 @@
 					'url'   => "redirect.php?section=database&{$vars}",
 				);
 			}
-			if ($object == 'database') $done = true;
+			if ($subject == 'database') $done = true;
 			
 			if (isset($_REQUEST['schema']) && !$done) {
 				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';
@@ -771,30 +788,25 @@
 					'url'   => "redirect.php?section=schema&{$vars}",
 				);
 			}
-			if ($object == 'schema') $done = true;
+			if ($subject == 'schema') $done = true;
 			
 			if (!$done) {
-				switch ($object) {
+				switch ($subject) {
+					case 'function':
+						$vars .= "{$subject}_oid=".urlencode($_REQUEST[$subject.'_oid']).'&';
 					case 'table':
-						$vars .= 'table='.urlencode($_REQUEST['table']);
-						$trail['table'] = array(
-							'title' => $lang['strtable'],
-							'text'  => $_REQUEST['table'],
-							'url'   => "redirect.php?section=table&{$vars}",
-						);
-						break;
 					case 'view':
-						$vars .= 'view='.urlencode($_REQUEST['view']);
-						$trail['view'] = array(
-							'title' => $lang['strview'],
-							'text'  => $_REQUEST['view'],
-							'url'   => "redirect.php?section=view&{$vars}",
+						$vars .= "section={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
+						$trail[$subject] = array(
+							'title' => $lang['str'.$subject],
+							'text'  => $_REQUEST[$subject],
+							'url'   => "redirect.php?{$vars}",
 						);
 						break;
 					default:
-						if (isset($_REQUEST[$object])) {
-							$trail['table'] = array(
-								'text'  => $_REQUEST[$object],
+						if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
+							$trail[$_REQUEST['subject']] = array(
+								'text'  => $_REQUEST[$_REQUEST['subject']],
 							);
 						}
 				}

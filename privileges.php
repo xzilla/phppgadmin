@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.28 2004/07/22 04:52:50 chriskl Exp $
+	 * $Id: privileges.php,v 1.29 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -28,14 +28,14 @@
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = array();
 		
 		// Set name
-		switch ($_REQUEST['type']) {
+		switch ($_REQUEST['subject']) {
 			case 'function':
-				$fn = &$data->getFunction($_REQUEST['object']);
+				$fn = &$data->getFunction($_REQUEST[$_REQUEST['subject']]);
 				$data->fieldClean($fn->f['proname']);
 				$name = $fn->f['proname'] . "(". $fn->f['proarguments'] .")";
 				break;
 			default:
-				$name = $_REQUEST['object'];
+				$name = $_REQUEST[$_REQUEST['subject']];
 		}
 
 		if ($confirm) {
@@ -77,7 +77,7 @@
 			echo "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strprivileges']}</th>\n";
 			echo "<td class=\"data1\">\n";
-			foreach ($data->privlist[$_REQUEST['type']] as $v) {
+			foreach ($data->privlist[$_REQUEST['subject']] as $v) {
 				$v = htmlspecialchars($v);
 				echo "<input type=\"checkbox\" name=\"privilege[$v]\"", 
 							isset($_REQUEST['privilege'][$v]) ? ' checked="checked"' : '', " />{$v}<br />\n";
@@ -103,20 +103,9 @@
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
 			echo "<input type=\"hidden\" name=\"mode\" value=\"", htmlspecialchars($mode), "\" />\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
-			switch ($_REQUEST['type']) {
-				case 'table':
-					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-					break;
-				case 'view':
-					echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
-					break;
-				case 'function':
-					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
-					break;
-				default:
-			}
+			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject']),
+					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
 			echo $misc->form;
 			echo "<p>";
 			if ($mode == 'grant')
@@ -128,7 +117,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
+			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['subject'], $_REQUEST[$_REQUEST['subject']],
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
 				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
 			if ($status == 0)
@@ -147,24 +136,22 @@
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		switch ($_REQUEST['type']) {
-			case 'function':
-				$name = $_REQUEST['function'];
-				break;
-			default:
-				$name = $_REQUEST['object'];
-		}
-		
-		$misc->printTitle(array($lang['strprivileges'], $misc->printVal($name)));
+		$misc->printTitle(array($lang['strprivileges']));
 		$misc->printMsg($msg);
 
+		// Determine whether object should be ref'd by name or oid.
+		if (isset($_REQUEST[$_REQUEST['subject'].'_oid']))
+			$object = $_REQUEST[$_REQUEST['subject'].'_oid'];
+		else
+			$object = $_REQUEST[$_REQUEST['subject']];
+		
 		// Get the privileges on the object, given its type
-		$privileges = $data->getPrivileges($_REQUEST['object'], $_REQUEST['type']);
+		$privileges = $data->getPrivileges($object, $_REQUEST['subject']);
 
 		if (sizeof($privileges) > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['struser']}/{$lang['strgroup']}</th>";
-			foreach ($data->privlist[$_REQUEST['type']] as $v2) {
+			foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
 				// Skip over ALL PRIVILEGES
 				if ($v2 == 'ALL PRIVILEGES') continue;
 				echo "<th class=\"data\">{$v2}</th>\n";
@@ -181,7 +168,7 @@
 				echo "<tr>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($v[0]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($v[1]), "</td>\n";
-				foreach ($data->privlist[$_REQUEST['type']] as $v2) {
+				foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
 					// Skip over ALL PRIVILEGES
 					if ($v2 == 'ALL PRIVILEGES') continue;
 					echo "<td class=\"data{$id}\">";
@@ -207,66 +194,40 @@
 		}
 		
 		// Links for granting to a user or group
-		switch ($_REQUEST['type']) {
+		switch ($_REQUEST['subject']) {
 			case 'table':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "&amp;mode=revoke\">{$lang['strrevoke']}</a></p>\n";
-				break;
 			case 'view':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "&amp;mode=revoke\">{$lang['strrevoke']}</a></p>\n";
-				break;
 			case 'sequence':
-				if (!isset($_REQUEST['sequence'])) $_REQUEST['sequence'] = $_REQUEST['object'];
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
-				break;
-			case 'database':
-				if (!isset($_REQUEST['database'])) $_REQUEST['database'] = $_REQUEST['object'];
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"all_db.php\">{$lang['strshowalldatabases']}</a></p>\n";
-				break;
 			case 'function':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
+			case 'tablespace':
+				$allurl = "{$_REQUEST['subject']}s.php";
+				$alltxt = $lang["strshowall{$_REQUEST['subject']}s"];
 				break;
 			case 'schema':
-				if (!isset($_REQUEST['schema'])) $_REQUEST['schema'] = $_REQUEST['object'];
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
-					"\">{$lang['strshowallschemas']}</a></p>\n";
+				$allurl = "database.php";
+				$alltxt = $lang["strshowallschemas"];
 				break;
-			case 'tablespace':
-				if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = $_REQUEST['object'];
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
-				echo "<a class=\"navlink\" href=\"tablespaces.php\">{$lang['strshowalltablespaces']}</a></p>\n";
+			case 'database':
+				$allurl = 'all_db.php';
+				$alltxt = $lang['strshowalldatabases'];
 				break;
 		}
+		
+		$subject = urlencode($_REQUEST['subject']);
+		$object = urlencode($_REQUEST[$_REQUEST['subject']]);
+		$alterurl = htmlspecialchars("{$PHP_SELF}?action=alter&{$misc->href}&{$subject}={$object}&subject={$subject}&mode=");
+		
+		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a></p>\n";
+		if (isset($allurl))
+			echo "<a class=\"navlink\" href=\"{$allurl}?{$misc->href}\">{$alltxt}</a></p>\n";
+		
 		echo "</p>\n";
 	}
 
 	$misc->printHeader($lang['strprivileges']);
 	$misc->printBody();
-	$misc->printNav($_REQUEST['type'], 'privileges');
+	$misc->printNav($_REQUEST['subject'], 'privileges');
 
 	switch ($action) {
 		case 'save':

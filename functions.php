@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.42 2004/08/25 07:47:34 chriskl Exp $
+	 * $Id: functions.php,v 1.43 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -47,6 +47,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
+		$misc->printNav('function','definition');
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 
@@ -173,7 +174,8 @@
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-	
+		
+		$misc->printNav('function','definition');
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
@@ -270,7 +272,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if ($confirm) { 
+		if ($confirm) {
+			$misc->printNav('schema','functions');
+
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strdrop']}</h2>\n";
 			
 			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
@@ -304,6 +308,8 @@
 	function doCreate($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
+		
+		$misc->printNav('schema','functions');
 		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
@@ -465,6 +471,7 @@
 			$rowdata->f['+proreturns'] = ($data->phpBool($rowdata->f['proretset']) ? 'setof ' : '') . $rowdata->f['proresult'];
 		}
 		
+		$misc->printNav('schema','functions');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strfunctions']), 'functions');
 		$misc->printMsg($msg);
 		
@@ -493,23 +500,23 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "redirect.php?section=function&action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => 'proname', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => 'proname', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?{$misc->href}&amp;type=function&amp;",
-				'vars'  => array('function' => 'proname', 'object' => 'prooid'),
+				'url'   => "privileges.php?{$misc->href}&amp;subject=function&amp;",
+				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
 		);
 		
@@ -522,7 +529,6 @@
 	
 	$misc->printHeader($lang['strfunctions']);
 	$misc->printBody();
-	$misc->printNav('schema','functions');
 
 	switch ($action) {
 		case 'save_create':

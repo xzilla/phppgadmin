@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.24 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: sequences.php,v 1.25 2004/08/26 08:29:57 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -28,7 +28,7 @@
 		
 		$columns = array(
 			'sequence' => array(
-				'title' => $lang['strname'],
+				'title' => $lang['strsequence'],
 				'field' => 'seqname',
 			),
 			'owner' => array(
@@ -57,8 +57,8 @@
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?{$misc->href}&amp;type=sequence&amp;",
-				'vars'  => array('object' => 'seqname'),
+				'url'   => "privileges.php?{$misc->href}&amp;subject=sequence&amp;",
+				'vars'  => array('sequence' => 'seqname'),
 			),
 		);
 		

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.60 2004/08/09 09:43:54 jollytoad Exp $
+	 * $Id: database.php,v 1.61 2004/08/26 08:29:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -702,8 +702,8 @@
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?type=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
-					'vars'  => array('schema' => 'nspname', 'object' => 'nspname'),
+					'url'   => "privileges.php?subject=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('schema' => 'nspname'),
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
