@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.94 2004/09/30 12:49:08 jollytoad Exp $
+	 * $Id: Misc.php,v 1.95 2004/11/02 11:46:53 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -777,7 +777,7 @@
 				'title' => $lang['strserver'],
 				'text'  => $conf['servers'][$_SESSION['webdbServerID']]['desc'],
 				'url'   => 'redirect.php?section=server',
-				'help'  => 'pg.server',
+				'help'  => 'pg.server'
 			);
 			if ($subject == 'server') $done = true;
 			
@@ -787,7 +787,7 @@
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
 					'url'   => "redirect.php?section=database&{$vars}",
-					'help'  => 'pg.database',
+					'help'  => 'pg.database'
 				);
 			}
 			if ($subject == 'database') $done = true;
@@ -798,7 +798,7 @@
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
 					'url'   => "redirect.php?section=schema&{$vars}",
-					'help'  => 'pg.schema',
+					'help'  => 'pg.schema'
 				);
 			}
 			if ($subject == 'schema') $done = true;
@@ -809,7 +809,7 @@
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'pg.table',
+					'help'  => 'pg.table'
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
 				$vars .= "section=view&view=".urlencode($_REQUEST['view']);
@@ -817,7 +817,7 @@
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'pg.view',
+					'help'  => 'pg.view'
 				);
 			}
 			if ($subject == 'table' || $subject == 'view') $done = true;
@@ -831,7 +831,7 @@
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
-							'help'  => 'pg.'.$subject,
+							'help'  => 'pg.function'
 						);
 						break;
 					default:
@@ -839,6 +839,7 @@
 							$trail[$_REQUEST[$subject]] = array(
 								'title' => $lang['str'.$subject],
 								'text'  => $_REQUEST[$subject],
+								'help'  => 'pg.'.$subject	
 							);
 						}
 				}
