@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.53 2003/07/31 08:28:03 chriskl Exp $
+ * $Id: Postgres73.php,v 1.54 2003/08/03 07:18:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -586,12 +586,14 @@ class Postgres73 extends Postgres72 {
 			return -1;
 		
 		// Null handling
+		$f['proisstrict'] = $this->phpBool($f['proisstrict']);
 		if ($f['proisstrict'])
 			$temp[] = 'RETURNS NULL ON NULL INPUT';
 		else
 			$temp[] = 'CALLED ON NULL INPUT';
 		
 		// Security
+		$f['prosecdef'] = $this->phpBool($f['prosecdef']);
 		if ($f['prosecdef'])
 			$temp[] = 'SECURITY DEFINER';
 		else
