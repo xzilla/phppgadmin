@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.51 2003/02/10 14:48:55 chriskl Exp $
+	 * $Id: english.php,v 1.52 2003/02/16 05:31:25 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -321,7 +321,16 @@
 	$strConfDropSchema = 'Are you sure you want to drop the schema "%s"?';
 	$strSchemaDropped = 'Schema dropped.';
 	$strSchemaDroppedBad = 'Schema drop failed.';
-	
+
+	// Reports
+	$strReport = 'Report';
+	$strReports = 'Reports';
+	$strNoReports = 'No reports found.';
+	$strCreateReport = 'Create Report';
+	$strReportDropped = 'Report dropped.';
+	$strReportDroppedBad = 'Report drop failed.';
+	$strConfDropReport = 'Are you sure you want to drop the report "%s"?';
+
 	// Miscellaneous
 	$strTopBar = '%s running on %s:%s -- You are logged in as user "%s", %s';
 	$strTimeFmt = 'jS M, Y g:iA';
