@@ -37,6 +37,10 @@ translation:
 4. Go through as much of the rest of the file as you wish, replacing the
    English strings with strings in your native language.
 
+At this point, you can send the yourlanguage.php file to us and we will take
+care of testing and recoding the translation.  Please only do that if you 
+find the rest of these steps too difficult.
+
 5. Edit the Makefile in the lang/ directory and add an entry for your new
    language.  Note that the parameter for Recode is "yourcharset..HTML".
 
