@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.36 2004/04/13 20:33:16 slubek Exp $
+	 * $Id: polish.php,v 1.37 2004/04/21 22:23:50 slubek Exp $
 	 */
 
 	// Language and character set
@@ -277,6 +277,11 @@
 	$lang['strvacuumbad'] = 'Próba czyszczenia bazy siê nie powiod³a.';
 	$lang['stranalyzegood'] = 'Analiza bazy zakoñczona.';
 	$lang['stranalyzebad'] = 'Próba analizy siê nie powiod³a.';
+	$lang['strreindexgood']  =  'Reindeksacja zakoñczona.';
+	$lang['strreindexbad']  =  'Próba reindeksacji siê nie powiod³a.';
+    $lang['strfull']  =  'Pe³ny(a)';
+    $lang['strfreeze']  =  'Zamro¿ony(a)';
+    $lang['strforce']  =  'Wymuszony(a)';
 
 	// Views
 	$lang['strview'] = 'Widok';
