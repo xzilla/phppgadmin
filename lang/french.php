@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.2 2003/04/08 13:11:33 jmpoure Exp $
+	 * $Id: french.php,v 1.3 2003/04/08 13:26:52 jmpoure Exp $
 	 */
 
 	// Language and character set
@@ -181,7 +181,7 @@
 	$lang['strgrant'] = 'Accorder(Grant)';
 	$lang['strrevoke'] = 'Révoquer';
 	$lang['strgranted'] = 'Privilèges accordés.';
-	$lang['strgrantfailed'] = 'Echec de l'octroi de privilèges.';
+	$lang['strgrantfailed'] = 'Echec de l\'octroi de privilèges.';
 	$lang['strgrantuser'] = 'Octroyer à l\'utilisateur (Grant user)';
 	$lang['strgrantgroup'] = 'Octroyer au groupe (grant group)';
 
@@ -203,7 +203,7 @@
 	$lang['strvacuumgood'] = 'Vacuum effectué.';
 	$lang['strvacuumbad'] = 'Echec du Vacuum.';
 	$lang['stranalyzegood'] = 'Analyse effectuée.';
-	$lang['stranalyzebad'] = 'Echec de l'analyse.';
+	$lang['stranalyzebad'] = 'Echec de l\'analyse.';
 
 	// Views
 	$lang['strview'] = 'Vue';
