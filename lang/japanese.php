@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.8 2004/02/19 13:29:56 chriskl Exp $
+	 * $Id: japanese.php,v 1.9 2004/02/23 04:42:46 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -43,8 +43,8 @@
 	$lang['strnotnull'] = 'NOT NULL';
 	$lang['strprev'] = '前に';
 	$lang['strnext'] = '次に';
-	$lang['strfirst'] = '<< First';
-	$lang['strlast'] = 'Last >>';
+	$lang['strfirst'] = '<< 最初';
+	$lang['strlast'] = '最後 >>';
 	$lang['strfailed'] = '失敗';
 	$lang['strcreate'] = '作成';
 	$lang['strcreated'] = '作成しました';
@@ -104,11 +104,12 @@
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '閉じる';
 	$lang['strexplain'] = '実行時間';
+	$lang['strexplainanalyze'] = '詳細出力解析';
 	$lang['strfind'] = '検索';
 	$lang['stroptions'] = 'オプション';
 	$lang['strrefresh'] = '再表示';
 	$lang['strdownload'] = 'ダウンロード';
-	$lang['strdownloadgzipped'] = 'Download compressed with gzip';
+	$lang['strdownloadgzipped'] = 'gzipで圧縮してダウンロード';
 	$lang['strinfo'] = '情報';
 	$lang['stroids'] = 'OID一覧';
 	$lang['stradvanced'] = '高度な一覧';
@@ -116,6 +117,9 @@
 	$lang['strprocess'] = 'プロセス';
 	$lang['strprocesses'] = 'プロセス一覧';
 	$lang['strsetting'] = '設定';
+	$lang['streditsql'] = 'SQL編集';
+	$lang['strpaginate'] = 'Paginate results';
+	$lang['strstarttime'] = '開始時間';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
@@ -128,7 +132,7 @@
 	$lang['strinvalidparam'] = 'スクリプトパラメータが無効です。';
 	$lang['strnodata'] = 'レコードが見つかりません。';
 	$lang['strnoobjects'] = 'オブジェクトが見つかりません。';
-	$lang['strrownotunique'] = 'No unique identifier for this row.';
+	$lang['strrownotunique'] = 'このレコードには一意識別子がありません。';
 	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにあるINSTALLファイルを読んでください。';
 
 	// Tables
@@ -193,7 +197,7 @@
 	$lang['strsuper'] = 'スーパーユーザー?';
 	$lang['strcreatedb'] = 'データベースを作成しますか?';
 	$lang['strexpires'] = '有効期限';
-	$lang['strsessiondefaults'] = 'Session Defaults';
+	$lang['strsessiondefaults'] = 'セッションデフォルト';
 	$lang['strnousers'] = 'ユーザーが見つかりません。';
 	$lang['struserupdated'] = 'ユーザーを更新しました。';
 	$lang['struserupdatedbad'] = 'ユーザーの更新に失敗しました。';
@@ -286,7 +290,7 @@
 	$lang['strviewupdated'] = 'ビューを更新しました。';
 	$lang['strviewupdatedbad'] = 'ビューの更新に失敗しました。';
 	$lang['strviewlink'] = 'Linking Keys';
-	$lang['strviewconditions'] = 'Additional Conditions';
+	$lang['strviewconditions'] = '追加条件';
 
 	// Sequences
 	$lang['strsequence'] = 'シーケンス';
@@ -336,9 +340,9 @@
  	$lang['strindextype'] = 'インデックスタイプ';
 	$lang['strtablecolumnlist'] = 'テーブル中のカラム';
 	$lang['strindexcolumnlist'] = 'インデックス中のカラム';
-	$lang['strconfcluster'] = 'Are you sure you want to cluster "%s"?';
-	$lang['strclusteredgood'] = 'Cluster complete.';
-	$lang['strclusteredbad'] = 'Cluster failed.';
+	$lang['strconfcluster'] = '本当に「%s」をクラスターにしますか?';
+	$lang['strclusteredgood'] = 'クラスター完了です。';
+	$lang['strclusteredbad'] = 'クラスターに失敗しました。';
 
 	// Rules
 	$lang['strrules'] = 'ルール一覧';
@@ -383,7 +387,7 @@
 	$lang['strfkadded'] = '外部キーを追加しました。';
 	$lang['strfkaddedbad'] = '外部キーの追加に失敗しました。';
 	$lang['strfktarget'] = '対象テーブル';
-	$lang['strfkcolumnlist'] = 'Columns in key';
+	$lang['strfkcolumnlist'] = 'キー中のカラム';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';	
 
@@ -555,20 +559,20 @@
 	$lang['straccessmethod'] = 'アクセス方法';
 
 	// Stats & Performance
-	$lang['strrowperf'] = 'Row Performance';
-	$lang['strioperf'] = 'I/O Performance';
-	$lang['stridxrowperf'] = 'Index Row Performance';
-	$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['strrowperf'] = 'レコードパフォーマンス';
+	$lang['strioperf'] = 'I/Oパフォーマンス';
+	$lang['stridxrowperf'] = 'インデックスレポー土パフォーマンス';
+	$lang['stridxioperf'] = 'インデックスI/Oパフォーマンス';
 	$lang['strpercent'] = '%';
-	$lang['strsequential'] = 'Sequential';
-	$lang['strscan'] = 'Scan';
-	$lang['strread'] = 'Read';
-	$lang['strfetch'] = 'Fetch';
-	$lang['strheap'] = 'Heap';
+	$lang['strsequential'] = 'シーケンシャル';
+	$lang['strscan'] = 'スキャン';
+	$lang['strread'] = '読み込み';
+	$lang['strfetch'] = 'クエリ';
+	$lang['strheap'] = 'ヒープ';
 	$lang['strtoast'] = 'TOAST';
-	$lang['strtoastindex'] = 'TOAST Index';
-	$lang['strcache'] = 'Cache';
-	$lang['strdisk'] = 'Disk';
+	$lang['strtoastindex'] = 'TOASTインデックス';
+	$lang['strcache'] = 'キャッシュ';
+	$lang['strdisk'] = 'ディスク';
 	$lang['strrows2'] = 'Rows';
 
 	// Miscellaneous
