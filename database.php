@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.30 2003/12/30 03:09:28 chriskl Exp $
+	 * $Id: database.php,v 1.31 2003/12/31 15:44:27 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -221,12 +221,9 @@
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
-		echo "<table>\n";		
-		echo "<tr>\n<th class=\"data left\">{$lang['strdownload']}</th>\n";
-		echo "<td><input type=\"checkbox\" name=\"download\" /></td>\n</tr>\n";
-		echo "<tr>\n<th class=\"data left\">{$lang['strgzip']}</th>\n";
-		echo "<td><input type=\"checkbox\" name=\"compress\" /></td>\n</tr>\n";
-		echo "</table>\n";
+		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
+		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}\n";
+		echo "<br /><input type=\"radio\" name=\"output\" value=\"gzipped\" />{$lang['strdownloadgzipped']}</p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;

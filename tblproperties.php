@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.33 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.34 2003/12/31 15:44:27 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -133,10 +133,8 @@
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
-		echo "<table>\n";		
-		echo "<tr>\n<th class=\"data left\">{$lang['strdownload']}</th>\n";
-		echo "<td><input type=\"checkbox\" name=\"download\" /></td>\n</tr>\n";
-		echo "</table>\n";
+		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
+		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;

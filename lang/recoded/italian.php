@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.17 2003/12/16 00:32:28 soranzo Exp $
+	 * $Id: italian.php,v 1.18 2003/12/31 15:44:27 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -108,6 +108,7 @@
 	$lang['stroptions'] = 'Opzioni';
 	$lang['strrefresh'] = 'Ricarica';
 	$lang['strdownload'] = 'Scarica';
+	$lang['strdownloadgzipped'] = 'Scarica compresso con gzip';
 	$lang['strinfo'] = 'Informazioni';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Avanzato';

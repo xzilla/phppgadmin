@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.9 2003/12/27 10:57:36 chriskl Exp $
+	 * $Id: dataexport.php,v 1.10 2003/12/31 15:44:27 soranzo Exp $
 	 */
 
 	$extensions = array(
@@ -36,8 +36,8 @@
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					$url .= '&d_format=' . urlencode($_REQUEST['d_format']);
+					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['d_oids'])) $url .= '&d_oids=' . urlencode($_REQUEST['d_oids']);
-					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
 					$url .= "&" . SID;
 					
 					header("Location: {$url}");
@@ -55,8 +55,8 @@
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['s_clean'])) $url .= '&s_clean=' . urlencode($_REQUEST['s_clean']);
-					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
 					$url .= "&" . SID;
 					
 					header("Location: {$url}");
@@ -72,9 +72,9 @@
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					$url .= '&sd_format=' . urlencode($_REQUEST['sd_format']);
+					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['sd_clean'])) $url .= '&sd_clean=' . urlencode($_REQUEST['sd_clean']);
 					if (isset($_REQUEST['sd_oids'])) $url .= '&sd_oids=' . urlencode($_REQUEST['sd_oids']);
-					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
 					$url .= "&" . SID;
 					
 					header("Location: {$url}");
@@ -89,7 +89,7 @@
 		}
 
 		// Make it do a download, if necessary
-		if (isset($_REQUEST['download'])) {
+		if ($_REQUEST['output'] == 'download') {
 			header('Content-Type: application/download');
 	
 			if (isset($extensions[$format]))
@@ -330,8 +330,11 @@
 		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
-		echo "<tr><th class=\"data\">{$lang['strdownload']}</th><td><input type=\"checkbox\" name=\"download\" /></td></tr>";
 		echo "</table>\n";
+
+		echo "<h3>{$lang['stroptions']}</h3>\n";
+		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
+		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo "<input type=\"hidden\" name=\"what\" value=\"dataonly\" />\n";

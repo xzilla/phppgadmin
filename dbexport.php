@@ -3,7 +3,7 @@
 	 * Does an export of a database to the screen or as a download.
 	 * Can also dump a specific table of a database.
 	 *
-	 * $Id: dbexport.php,v 1.5 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: dbexport.php,v 1.6 2003/12/31 15:44:27 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -14,15 +14,18 @@
 	if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
 
 		// Make it do a download, if necessary
-		if (isset($_REQUEST['download'])) {
-			header('Content-Type: application/download');
-			if (isset($_REQUEST['compress']))
-				header('Content-Disposition: attachment; filename=dump.sql.gz');
-			else
+		switch($_REQUEST['output']){
+			case 'show':
+				header('Content-Type: text/plain');
+				break;
+			case 'download':
+				header('Content-Type: application/download');
 				header('Content-Disposition: attachment; filename=dump.sql');
-		}
-		else {
-			header('Content-Type: text/plain');
+				break;
+			case 'gzipped':
+				header('Content-Type: application/download');
+				header('Content-Disposition: attachment; filename=dump.sql.gz');
+				break;
 		}
 
 		// Set environmental variable for password that pg_dump uses
@@ -49,7 +52,7 @@
 		}
 
 		// Check for GZIP compression specified
-		if (isset($_REQUEST['compress'])) {
+		if ($_REQUEST['output'] == 'gzipped') {
 			$cmd .= " -Z 9";
 		}
 				
