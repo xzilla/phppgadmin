@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.22 2003/05/15 14:36:02 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.23 2003/05/22 01:30:32 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -65,6 +65,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 7;
+	$conf['version'] = 8;
 
 ?>
