@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.56 2003/03/12 03:13:29 chriskl Exp $
+ * $Id: Postgres.php,v 1.57 2003/03/12 03:15:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1810,7 +1810,7 @@ class Postgres extends BaseDB {
 					rcrelid AS relid,
 					NULL AS indkey
 				FROM
-					pg_catalog.pg_relcheck
+					pg_relcheck
 				UNION ALL
 				SELECT
 					pc.relname,
@@ -1823,8 +1823,8 @@ class Postgres extends BaseDB {
 					pi.indrelid,
 					indkey
 				FROM
-					pg_catalog.pg_class pc,
-					pg_catalog.pg_index pi
+					pg_class pc,
+					pg_index pi
 				WHERE
 					pc.oid=pi.indexrelid
 					AND (pi.indisunique OR pi.indisprimary)
