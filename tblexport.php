@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.7 2003/06/30 02:14:03 chriskl Exp $
+	 * $Id: tblexport.php,v 1.8 2003/08/03 03:14:13 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -72,7 +72,7 @@
 
 				$k = htmlspecialchars($k);
 				$v = htmlspecialchars($v);
-				echo "\t\t<{$k}>{$v}</{$k}>\n";
+				echo "\t\t<{$k}", ($v == null ? ' null="true"' : ''), ">{$v}</{$k}>\n";
 			}
 			echo "\t</row>\n";
 			$rs->moveNext();
@@ -92,14 +92,16 @@
 				if ($first) echo "\"{$k}\"";
 				else echo ", \"{$k}\"";
 				
-				// Output value
-				// addCSlashes converts all weird ASCII characters to octal representation,
-				// EXCEPT the 'special' ones like \r \n \t, etc.
-				$v = addCSlashes($v, "\0..\37\177..\377");
-				// We add an extra escaping slash onto octal encoded characters
-				$v = ereg_replace('\\\\([0-7]{3})', '\\\1', $v);
-				// Finally, escape all apostrophes
-				$v = str_replace("'", "''", $v);
+				if ($v != null) {
+					// Output value
+					// addCSlashes converts all weird ASCII characters to octal representation,
+					// EXCEPT the 'special' ones like \r \n \t, etc.
+					$v = addCSlashes($v, "\0..\37\177..\377");
+					// We add an extra escaping slash onto octal encoded characters
+					$v = ereg_replace('\\\\([0-7]{3})', '\\\1', $v);
+					// Finally, escape all apostrophes
+					$v = str_replace("'", "''", $v);
+				}
 				if ($first) {
 					$values = ($v === null) ? 'NULL' : "'{$v}'";
 					$first = false;
@@ -117,20 +119,20 @@
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
 				switch ($_REQUEST['format']) {
 					case 'csv':
-						$v = str_replace('"', '""', $v);
+						if ($v != null) $v = str_replace('"', '""', $v);
 						if ($first) {
-							echo "\"{$v}\"";
+							echo ($v == null) ? "\"\\N\"" : "\"{$v}\"";
 							$first = false;
 						}
-						else echo ",\"{$v}\"";
+						else echo ($v == null) ? ",\"\\N\"" : ",\"{$v}\"";
 						break;
 					case 'tab':
-						$v = str_replace('"', '""', $v);
+						if ($v != null) $v = str_replace('"', '""', $v);
 						if ($first) {
-							echo "\"{$v}\"";
+							echo ($v == null) ? "\"\\N\"" : "\"{$v}\"";
 							$first = false;
 						}
-						else echo "\t\"{$v}\"";
+						else echo ($v == null) ? "\t\"\\N\"" : "\t\"{$v}\"";
 						break;
 				}
 			}

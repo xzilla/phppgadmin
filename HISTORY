@@ -15,6 +15,7 @@ Version 3.1
 * Add/drop users to/from groups
 * Alter (rename) triggers
 * Pop-up SQL window from Mark Gibson
+* Lots of NULL value in table dump fixes (XML format changed slightly)
 
 Version 3.0
 -----------
