@@ -1,12 +1,10 @@
 <?php
-
-	/**
-	 * Romanian language file, based on the english language file for phpPgAdmin.
-	 * Alin Vaida [alin.vaida@gmail.com]
-         *
-	 * $Id: romanian.php,v 1.1 2004/11/10 01:24:49 chriskl Exp $
-	 */
-
+/**
+	* Romanian language file, based on the english language file for phpPgAdmin.
+	* Alin Vaida [alin.vaida@gmail.com]
+	*
+	* $Id: romanian.php,v 1.2 2004/11/16 01:25:44 chriskl Exp $
+	*/
 
 	// Language and character set
 	$lang['applang'] = 'Rom&acirc;n&#259;';
@@ -28,7 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Autentificare';
 	$lang['strloginfailed'] = 'Autentificare e&#351;uat&#259;';
-	$lang['strlogindisallowed'] = 'Autentificare ne-permis&#259; din motive de securitate.';
+	$lang['strlogindisallowed'] = 'Autentificare nepermis&#259; din motive de securitate.';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Ie&#351;ire';
 	$lang['strowner'] = 'Proprietar';
@@ -41,7 +39,7 @@
 	$lang['strdrop'] = '&#350;tergere';
 	$lang['strdropped'] = '&#350;ters';
 	$lang['strnull'] = 'Nul';
-	$lang['strnotnull'] = 'Ne-null';
+	$lang['strnotnull'] = 'Ne-nul';
 	$lang['strprev'] = '&lt; &Icirc;napoi';
 	$lang['strnext'] = '&Icirc;nainte &gt;';
 	$lang['strfirst'] = '&lt;&lt; &Icirc;nceput';
@@ -70,7 +68,7 @@
 	$lang['strcolumn'] = 'Coloan&#259;';
 	$lang['strcolumns'] = 'Coloane';
 	$lang['strrows'] = 'r&acirc;nd(uri)';
-	$lang['strrowsaff'] = 'linii afectate.';
+	$lang['strrowsaff'] = 'r&acirc;nd(uri) afectate.';
 	$lang['strobjects'] = 'obiect(e)';
 	$lang['strexample'] = 'ex.';
 	$lang['strback'] = '&Icirc;napoi';
@@ -85,7 +83,7 @@
 	$lang['strexport'] = 'Export';
 	$lang['strimport'] = 'Import';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Go';
+	$lang['strgo'] = 'Executare';
 	$lang['stradmin'] = 'Administrare';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analiz&#259;';
@@ -95,8 +93,8 @@
 	$lang['strrun'] = 'Executare';
 	$lang['stradd'] = 'Ad&#259;ugare';
 	$lang['strevent'] = 'Eveniment';
-	$lang['strwhere'] = 'Unde';
-	$lang['strinstead'] = 'Do Instead';
+	$lang['strwhere'] = 'Condi&#355;ie';
+	$lang['strwhere'] = '&Icirc;n schimb';
 	$lang['strwhen'] = 'C&acirc;nd';
 	$lang['strformat'] = 'Format';
 	$lang['strdata'] = 'Dat&#259;';
@@ -119,7 +117,7 @@
 	$lang['strvariables'] = 'Variabile';
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procese';
-	$lang['strsetting'] = 'Setting';
+	$lang['strsetting'] = 'Valoare';
 	$lang['streditsql'] = 'Editare SQL';
 	$lang['strruntime'] = 'Timp total de rulare:%s ms';
 	$lang['strpaginate'] = 'Paginare rezultate';
@@ -260,7 +258,7 @@
 	$lang['strgranted'] = 'Privilegii schimbate.';
 	$lang['strgrantfailed'] = 'Schimbare privilegii e&#351;uat&#259;.';
 	$lang['strgrantbad'] = 'Specifica&#355;i cel pu&#355;in un utilizator sau grup &#351;i cel pu&#355;in un privilegiu.';
-	$lang['strgrantor'] = 'Grantor';
+	$lang['strgrantor'] = 'Acordat de';
 	$lang['strasterisk'] = '*';
 
 	// Databases
@@ -328,8 +326,8 @@
 	$lang['strminvalue'] = 'Valoare minim&#259;';
 	$lang['strcachevalue'] = 'Valoare cache';
 	$lang['strlogcount'] = 'Log count';
-	$lang['striscycled'] = 'Este ciclabil&#259;?';
-	$lang['striscalled'] = 'Is called?';
+	$lang['striscycled'] = 'Ciclic&#259;?';
+	$lang['striscalled'] = 'Apelat&#259;?';
 	$lang['strsequenceneedsname'] = 'Specifica&#355;i un nume pentru secven&#355;&#259;.';
 	$lang['strsequencecreated'] = 'Secven&#355;&#259; creat&#259;.';
 	$lang['strsequencecreatedbad'] = 'Creare secven&#355;&#259; e&#351;uat&#259;.';
@@ -341,16 +339,16 @@
 
 	// Indexes
 	$lang['strindex'] = 'Index';
-	$lang['strindexes'] = 'Indec&#351;i';
+	$lang['strindexes'] = 'Indexuri';
 	$lang['strindexname'] = 'Nume index';
-	$lang['strshowallindexes'] = 'Afi&#351;are to&#355;i indec&#351;ii';
+	$lang['strshowallindexes'] = 'Afi&#351;are toate indexurile';
 	$lang['strnoindex'] = 'Nici un index g&#259;sit.';
 	$lang['strnoindexes'] = 'Nici un index g&#259;sit.';
 	$lang['strcreateindex'] = 'Creare index';
 	$lang['strtabname'] = 'Nume tabel&#259;';
 	$lang['strcolumnname'] = 'Nume coloan&#259;';
 	$lang['strindexneedsname'] = 'Specifica&#355;i un nume pentru index.';
-	$lang['strindexneedscols'] = 'Indec&#351;ii necesit&#259; un num&#259;r corect de coloane.';
+	$lang['strindexneedscols'] = 'Indexurile necesit&#259; un num&#259;r corect de coloane.';
 	$lang['strindexcreated'] = 'Index creat';
 	$lang['strindexcreatedbad'] = 'Creare index e&#351;uat&#259;.';
 	$lang['strconfdropindex'] = 'Sigur &#351;terge&#355;i indexul &quot;%s&quot;?';
@@ -599,13 +597,13 @@
 	// Stats and performance
 	$lang['strrowperf'] = 'Performan&#355;&#259; r&acirc;nd';
 	$lang['strioperf'] = 'Performan&#355;&#259; I/O';
-	$lang['stridxrowperf'] = 'Index Row Performance';
-	$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['stridxrowperf'] = 'Performan&#355;&#259; index/r&acirc;nd';
+	$lang['stridxioperf'] = 'Performan&#355;&#259; index I/O';
 	$lang['strpercent'] = '%';
 	$lang['strsequential'] = 'Secven&#355;ial';
 	$lang['strscan'] = 'Scanare';
 	$lang['strread'] = 'Citire';
-	$lang['strfetch'] = 'Fetch';
+	$lang['strfetch'] = 'Transfer';
 	$lang['strheap'] = 'Stiv&#259;';
 	$lang['strtoast'] = 'TOAST';
 	$lang['strtoastindex'] = 'Index TOAST';
@@ -635,6 +633,7 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';
+
 
 
 ?>
