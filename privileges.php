@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.27 2004/07/19 08:13:02 jollytoad Exp $
+	 * $Id: privileges.php,v 1.28 2004/07/22 04:52:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -15,10 +15,11 @@
 
 	/**
 	 * Grant permissions on an object to a user
-	 * @peram $confirm To show entry screen
+	 * @param $confirm To show entry screen
+	 * @param $mode 'grant' or 'revoke'
 	 * @param $msg (optional) A message to show
 	 */
-	function doAlter($confirm, $msg = '') {
+	function doAlter($confirm, $mode, $msg = '') {
 		global $data, $misc;
   		global $PHP_SELF, $lang;
 
@@ -43,30 +44,32 @@
 			// Get groups from the database
 			$groups = &$data->getGroups();
 
-			echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['stralterprivs']}</h2>\n";
+			if ($mode == 'grant')
+				echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strgrant']}</h2>\n";
+			elseif ($mode == 'revoke')
+				echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strrevoke']}</h2>\n";
 			$misc->printMsg($msg);
-
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$uname = htmlspecialchars($users->f['usename']);
-				echo "<option value=\"{$uname}\"",
-					($uname == $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
+				$uname = htmlspecialchars($users->f['usename']);				
+				echo "<option value=\"	{$uname}\"",
+					in_array($users->f['usename'], $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strgroups']}</th>\n";
 			echo "<td class=\"data1\">\n";
-			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' selected="selected"' : ''), " />PUBLIC\n";
+			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' checked="checked"' : ''), " />PUBLIC\n";
 			// Only show groups if there are groups!
 			if ($groups->recordCount() > 0) {
 				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"", min(6, $groups->recordCount()), "\">\n";
 				while (!$groups->EOF) {
 					$gname = htmlspecialchars($groups->f['groname']);
 					echo "<option value=\"{$gname}\"",
-						($gname == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
+						in_array($groups->f['groname'], $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
 					$groups->moveNext();
 				}
 				echo "</select>\n";
@@ -77,22 +80,29 @@
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
 				echo "<input type=\"checkbox\" name=\"privilege[$v]\"", 
-							isset($_REQUEST['privilege'][$v]) ? ' selected="selected"' : '', " />{$v}<br />\n";
+							isset($_REQUEST['privilege'][$v]) ? ' checked="checked"' : '', " />{$v}<br />\n";
 			}
 			echo "</td></tr>\n";
 			// Grant option
 			if ($data->hasGrantOption()) {
 				echo "<tr><th class=\"data left\">{$lang['stroptions']}</th>\n";
 				echo "<td class=\"data1\">\n";
-				echo "<input type=\"checkbox\" name=\"grantoption\"", 
-							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', " />GRANT OPTION<br />\n";
-				echo "<input type=\"checkbox\" name=\"cascade\"", 
-							isset($_REQUEST['cascade']) ? ' selected="selected"' : '', " />CASCADE ({$lang['strrevoke']})<br />\n";
+				if ($mode == 'grant') {
+					echo "<input type=\"checkbox\" name=\"grantoption\"", 
+								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " />GRANT OPTION\n";
+				}
+				elseif ($mode == 'revoke') {
+					echo "<input type=\"checkbox\" name=\"grantoption\"", 
+								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " />GRANT OPTION FOR<br />\n";
+					echo "<input type=\"checkbox\" name=\"cascade\"", 
+								isset($_REQUEST['cascade']) ? ' checked="checked"' : '', " />CASCADE<br />\n";
+				}
 				echo "</td></tr>\n";
 			}
 			echo "</table>\n";
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
+			echo "<input type=\"hidden\" name=\"mode\" value=\"", htmlspecialchars($mode), "\" />\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
 			switch ($_REQUEST['type']) {
@@ -108,21 +118,25 @@
 				default:
 			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"grant\" value=\"{$lang['strgrant']}\" />\n";
-			echo "<input type=\"submit\" name=\"revoke\" value=\"{$lang['strrevoke']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "<p>";
+			if ($mode == 'grant')
+				echo "<input type=\"submit\" name=\"grant\" value=\"{$lang['strgrant']}\" />\n";
+			elseif ($mode == 'revoke')
+				echo "<input type=\"submit\" name=\"revoke\" value=\"{$lang['strrevoke']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />";
+			echo "</p>\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
+			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
 				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strgranted']);
 			elseif ($status == -3 || $status == -4)
-				doAlter(true, $lang['strgrantbad']);
+				doAlter(true, $_REQUEST['mode'], $lang['strgrantbad']);
 			else
-				doAlter(true, $lang['strgrantfailed']);
+				doAlter(true, $_REQUEST['mode'], $lang['strgrantfailed']);
 		}
 	}
 
@@ -196,41 +210,55 @@
 		switch ($_REQUEST['type']) {
 			case 'table':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['stralterprivs']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "&amp;mode=revoke\">{$lang['strrevoke']}</a></p>\n";
 				break;
 			case 'view':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "\">{$lang['stralterprivs']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "&amp;mode=revoke\">{$lang['strrevoke']}</a></p>\n";
 				break;
 			case 'sequence':
 				if (!isset($_REQUEST['sequence'])) $_REQUEST['sequence'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
 				if (!isset($_REQUEST['database'])) $_REQUEST['database'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"all_db.php\">{$lang['strshowalldatabases']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"all_db.php\">{$lang['strshowalldatabases']}</a></p>\n";
 				break;
 			case 'function':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
 				if (!isset($_REQUEST['schema'])) $_REQUEST['schema'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
+					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";
 				break;
 			case 'tablespace':
 				if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"tablespaces.php\">{$lang['strshowalltablespaces']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "&amp;mode=grant\">{$lang['strgrant']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "&amp;mode=revoke\">{$lang['strrevoke']}</a> |\n";
+				echo "<a class=\"navlink\" href=\"tablespaces.php\">{$lang['strshowalltablespaces']}</a></p>\n";
 				break;
 		}
 		echo "</p>\n";
@@ -243,10 +271,10 @@
 	switch ($action) {
 		case 'save':
 			if (isset($_REQUEST['cancel'])) doDefault();
-			else doAlter(false);
+			else doAlter(false, $_REQUEST['mode']);
 			break;
 		case 'alter':
-			doAlter(true);
+			doAlter(true, $_REQUEST['mode']);
 			break;
 		default:
 			doDefault();
