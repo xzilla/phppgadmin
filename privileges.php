@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.34 2004/09/22 13:53:33 jollytoad Exp $
+	 * $Id: privileges.php,v 1.35 2004/12/01 21:19:10 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -26,18 +26,7 @@
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = array();
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = array();
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = array();
-		
-		// Set name
-		switch ($_REQUEST['subject']) {
-			case 'function':
-				$fn = &$data->getFunction($_REQUEST[$_REQUEST['subject']]);
-				$data->fieldClean($fn->f['proname']);
-				$name = $fn->f['proname'] . "(". $fn->f['proarguments'] .")";
-				break;
-			default:
-				$name = $_REQUEST[$_REQUEST['subject']];
-		}
-
+	
 		if ($confirm) {
 			// Get users from the database
 			$users = &$data->getUsers();
@@ -108,6 +97,9 @@
 			}
 			echo "</table>\n";
 
+			if (isset($_REQUEST[$_REQUEST['subject'].'_oid']))
+				echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject'].'_oid'),
+					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject'].'_oid']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
 			echo "<input type=\"hidden\" name=\"mode\" value=\"", htmlspecialchars($mode), "\" />\n";
 			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
@@ -124,7 +116,14 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['subject'], $_REQUEST[$_REQUEST['subject']],
+
+			// Determine whether object should be ref'd by name or oid.
+			if (isset($_REQUEST[$_REQUEST['subject'].'_oid']))
+				$object = $_REQUEST[$_REQUEST['subject'].'_oid'];
+			else
+				$object = $_REQUEST[$_REQUEST['subject']];
+
+			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['subject'], $object,
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
 				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
 			if ($status == 0)
@@ -237,8 +236,14 @@
 		
 		$subject = htmlspecialchars(urlencode($_REQUEST['subject']));
 		$object = htmlspecialchars(urlencode($_REQUEST[$_REQUEST['subject']]));
-		$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		
+		if ($_REQUEST['subject'] == 'function') {
+			$objectoid = $_REQUEST[$_REQUEST['subject'].'_oid'];
+			$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
+		} else {
+			$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
+		}
+	
 		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a></p>\n";
 		if (isset($allurl))
