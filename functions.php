@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.13 2003/05/15 08:59:47 chriskl Exp $
+	 * $Id: functions.php,v 1.14 2003/05/15 14:37:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -240,6 +240,9 @@
 			echo "<option value=\"\"", ($_POST['formSetOf'] == '') ? ' selected' : '', "></option>\n";
 			echo "<option value=\"SETOF\"", ($_POST['formSetOf'] == 'SETOF') ? ' selected' : '', ">SETOF</option>\n";
 			echo "</select>\n";
+		}
+		else {
+			echo "<input type=\"hidden\" name=\"formSetOf\" value=\"\" />\n";
 		}
 		// Output return type list		
 		echo "<select name=\"formReturns\">\n";

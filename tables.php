@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.22 2003/05/15 09:48:39 chriskl Exp $
+	 * $Id: tables.php,v 1.23 2003/05/15 14:37:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -608,11 +608,11 @@
 		if ($_REQUEST['strings'] == 'expanded')
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
 				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=collapsed&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strcollapse']}</a></p>\n";
+				"&strings=collapsed&page=", $_REQUEST['page'], "\">{$lang['strcollapse']}</a></p>\n";
 		else
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
 				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=expanded&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strexpand']}</a></p>\n";
+				"&strings=expanded&page=", $_REQUEST['page'], "\">{$lang['strexpand']}</a></p>\n";
 		
 	}
 
