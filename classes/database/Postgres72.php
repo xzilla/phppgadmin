@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.20 2002/12/22 15:01:29 chriskl Exp $
+ * $Id: Postgres72.php,v 1.21 2002/12/27 16:28:01 chriskl Exp $
  */
 
 
@@ -19,7 +19,7 @@ class Postgres72 extends Postgres71 {
 	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
 
-	// This gets it from the database. 
+	// This gets it from the database.
 	// $rs = pg_exec($link, "SELECT oid FROM pg_database WHERE datname='template1'") or pg_die(pg_errormessage(), "", __FILE__, __LINE__);
 	// $builtin_max = pg_result($rs, 0, "oid");
 	
@@ -108,9 +108,15 @@ class Postgres72 extends Postgres71 {
 
 	/**
 	 * Returns a list of all functions in the database
+ 	 * @param $all If true, will find all available functions, if false just userland ones
 	 * @return All functions
 	 */
-	function &getFunctions() {
+	function &getFunctions($all = false) {
+		if ($all)
+			$where = '';
+		else
+			$where = "AND p.oid > '{$this->_lastSystemOID}'";
+
 		$sql = "SELECT
 				p.oid,
 				p.proname,
@@ -121,7 +127,7 @@ class Postgres72 extends Postgres71 {
 			WHERE
 				p.prorettype <> 0
 				AND (pronargs = 0 OR oidvectortypes(p.proargtypes) <> '')
-				AND p.oid > '{$this->_lastSystemOID}'
+				{$where}
 			ORDER BY
 				p.proname, return_type
 			";
@@ -145,7 +151,7 @@ class Postgres72 extends Postgres71 {
 					prosrc as source,
 					probin as binary,
 					oidvectortypes(pc.proargtypes) AS arguments
-				FROM 
+				FROM
 					pg_proc pc, pg_language pl
 				WHERE 
 					pc.oid = '$function_oid'::oid
@@ -200,7 +206,8 @@ class Postgres72 extends Postgres71 {
 		if ($args)
 			$sql .= $args;
 
-		$sql .= ") RETURNS \"{$returns}\" AS '\n"; 
+		// For some reason, the returns field cannot have quotes...
+		$sql .= ") RETURNS {$returns} AS '\n";
 		$sql .= $definition;
 		$sql .= "\n'";
 		$sql .= " LANGUAGE \"{$language}\"";
@@ -234,23 +241,10 @@ class Postgres72 extends Postgres71 {
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
-	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
 	function setFunction($funcname, $args, $returns, $definition, $language, $flags) {
 		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, true);
-	}
-
-	// Function Languages
-
-	/**
-	 * Returns a list of all languages in the database
-	 * @return A recordset
-	 */
-	function &getLangs() {
-		$sql = "SELECT lanname FROM pg_language ORDER BY lanname DESC";
-
-		return $this->selectSet($sql);
 	}
 
 	/**
@@ -284,12 +278,13 @@ class Postgres72 extends Postgres71 {
 	}
 
 	// Type functions
-	
+
 	/**
 	 * Returns a list of all types in the database
+	 * @param $all If true, will find all available functions, if false just those in search path
 	 * @return A recordet
 	 */
-	function &getTypes() {
+	function &getTypes($all = false) {
 		$sql = "SELECT
 				format_type(pt.oid, NULL) AS typname,
 				pu.usename AS typowner

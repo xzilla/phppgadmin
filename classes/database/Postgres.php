@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.27 2002/12/24 07:35:25 chriskl Exp $
+ * $Id: Postgres.php,v 1.28 2002/12/27 16:28:00 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -59,7 +59,7 @@ class Postgres extends BaseDB {
 	function isLoaded() {
 		return function_exists('pg_connect');
 	}
-	
+
 	// Table functions
 	
 	/**
@@ -147,7 +147,7 @@ class Postgres extends BaseDB {
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function &getLanguages() {
-		$sql = "";
+		$sql = "SELECT lanname, lanispl, lanpltrusted FROM pg_language ORDER BY lanname";
 		return $this->selectSet($sql);
 	}
 
@@ -274,10 +274,13 @@ class Postgres extends BaseDB {
 			return -1;
 		}
 
-		$status = $this->setColumnDefault($table, $column, $default);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
+		// Set default
+		if ($default != '') {
+			$status = $this->setColumnDefault($table, $column, $default);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -2;
+			}
 		}
 
 		$status = $this->renameColumn($table, $column, $name);
@@ -402,7 +405,7 @@ class Postgres extends BaseDB {
 			$this->rollbackTransaction();
 			return -2;
 		}
-		
+
 		// Calculate max pages
 		$max_pages = ceil($total / $page_size);
 		
@@ -1079,15 +1082,19 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Returns a list of all types in the database
+	 * @param $all If true, will find all available functions, if false just those in search path
 	 * @return A recordet
 	 */
-	function &getTypes() {
+	function &getTypes($all = false) {
 		$sql = "SELECT
-				typname
+				pt.typname,
+				pu.usename AS typowner
 			FROM
-				pg_type
+				pg_type pt,
+				pg_user pu
 			WHERE
-				typrelid = 0
+				pt.typowner = pu.usesysid
+				AND typrelid = 0
 				AND typname !~ '^_.*'
 			ORDER BY typname
 		";

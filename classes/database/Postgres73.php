@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.9 2002/12/21 11:16:46 chriskl Exp $
+ * $Id: Postgres73.php,v 1.10 2002/12/27 16:28:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -21,7 +21,13 @@ class Postgres73 extends Postgres72 {
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 16974;
+	
+	// Max object name length
 	var $_maxNameLen = 63;
+
+	// System schema ids and names
+	var $_schemaOIDs = array(11, 99);
+	var $_schemaNames = array('pg_catalog', 'pg_toast');
 
 	function Postgres73($host, $port, $database, $user, $password) {
 		$this->Postgres72($host, $port, $database, $user, $password);
@@ -30,30 +36,19 @@ class Postgres73 extends Postgres72 {
 	// Schema functions
 	
 	/**
-	 * Sets the current working schema
+	 * Sets the current working schema.  Will also set class variable.
 	 * @param $schema The the name of the schema to work in
 	 * @return 0 success
-	 * @return -3 setting search path failed
 	 */
 	function setSchema($schema) {
-		$this->clean($schema);
-		
-		$sql = "SELECT nspname FROM pg_namespace WHERE nspname='{$schema}'";
-		
-		$rs = $this->selectRow($sql);
-		
-		// If the schema is found...
-		if ($rs->recordCount() == 1) {
-			$status = $this->setSearchPath(array($rs->f['nspname']));
-			if ($status == 0) {
-				$this->_schema = $rs->f['nspname'];
-				return 0;
-			}
-			else return $status;
+		$status = $this->setSearchPath(array($schema));
+		if ($status == 0) {
+			$this->clean($schema);
+			$this->_schema = $schema;
+			return 0;
 		}
-		else
-			return -3;
-	}	
+		else return $status;
+	}
 	
 	/**
 	 * Sets the current schema search path
@@ -66,26 +61,26 @@ class Postgres73 extends Postgres72 {
 		if (!is_array($paths)) return -1;
 		elseif (sizeof($paths) == 0) return -2;
 		$this->arrayClean($paths);
-		
-		$sql = 'SET SEARCH_PATH="' . implode('"', $paths) . '"';
+
+		$sql = 'SET SEARCH_PATH TO "' . implode('"', $paths) . '"';
 		
 		return $this->execute($sql);
 	}	
-	
+
 	/**
 	 * Return all schemas in the current database
 	 * @return All schemas, sorted alphabetically - but with PUBLIC first (if it exists)
 	 */
 	function &getSchemas() {
-		if (!$this->_showSystem) $and = "AND nspname NOT LIKE 'pg_%' ";
+		if (!$this->_showSystem) $and = "AND nspname NOT LIKE 'pg_%'";
 		else $and = '';
 		$sql = "SELECT nspname, nspowner FROM pg_namespace WHERE nspname = 'public'
-					UNION ALL
-				  SELECT nspname, nspowner FROM pg_namespace WHERE nspname != 'public' {$and}ORDER BY nspname";
-				  
+			UNION ALL
+			SELECT nspname, nspowner FROM pg_namespace WHERE nspname != 'public' {$and}ORDER BY nspname";
+
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Return all information relating to a schema
 	 * @param $schema The name of the schema
@@ -189,41 +184,50 @@ class Postgres73 extends Postgres72 {
 	 * @return All tables, sorted alphabetically 
 	 */
 	function &getTables() {
-		$sql = "SELECT tablename, tableowner FROM pg_tables ORDER BY tablename";
+		$sql = "SELECT tablename, tableowner FROM pg_tables
+			WHERE schemaname='{$this->_schema}' ORDER BY tablename";
+
 		return $this->selectSet($sql);
 	}
 
 	/**
-	 * Return all information relating to a table
-	 * @param $table The name of the table
-	 * @return Table information
-	 */
-	function &getTableByName($table) {
-		$this->clean($table);
-		$sql = "SELECT * FROM pg_class WHERE relname='{$table}'";
-		return $this->selectRow($sql);
-	}
-	
-	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
+	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table) {
+	function &getTableAttributes($table, $field = '') {
 		$this->clean($table);
+		$this->clean($field);
 
-		$sql = "
-			SELECT
-				a.attname,
-				pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
-				a.attnotnull, a.atthasdef, adef.adsrc
-			FROM
-				pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
-				ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
-			WHERE
-				a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
-				AND a.attnum > 0 AND NOT a.attisdropped
-			ORDER BY a.attnum";
+		if ($field == '') {
+			$sql = "
+				SELECT
+					a.attname,
+					format_type(a.atttypid, a.atttypmod) as type,
+					a.attnotnull, a.atthasdef, adef.adsrc
+				FROM
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				WHERE 
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+					AND a.attnum > 0 AND NOT a.attisdropped
+				ORDER BY a.attnum";
+		}
+		else {
+			$sql = "
+				SELECT
+					a.attname,
+					format_type(a.atttypid, a.atttypmod) as type,
+					a.attnotnull, a.atthasdef, adef.adsrc
+				FROM 
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				WHERE
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+					AND a.attname = '{$field}'
+				ORDER BY a.attnum";
+		}
 
 		return $this->selectSet($sql);
 	}
@@ -254,7 +258,7 @@ class Postgres73 extends Postgres72 {
 		$this->clean($behavior);
 
 		$sql = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$column}\" " .
-			($behavior == 'CASCADE') ? 'CASCADE' : 'RESTRICT';
+			(($behavior == 'CASCADE') ? 'CASCADE' : 'RESTRICT');
 
 		return $this->execute($sql);
 	}
@@ -282,17 +286,27 @@ class Postgres73 extends Postgres72 {
 	 * @return All views
 	 */
 	function getViews() {
-		if (!$this->_showSystem)
-			$where = "WHERE viewname NOT LIKE 'pg_%'";
-		else $where  = '';
-		
-		$sql = "SELECT viewname, viewowner FROM pg_views {$where} ORDER BY viewname";
+		$sql = "SELECT viewname, viewowner FROM pg_views
+			WHERE schemaname='{$this->_schema}' ORDER BY viewname";
 
 		return $this->selectSet($sql);
 	}
 
+	// Sequence functions
+
+	/**
+	 * Returns all sequences in the current database
+	 * @return A recordset
+	 */
+	function &getSequences() {
+		$sql = "SELECT c.relname, u.usename  FROM pg_class c, pg_user u, pg_namespace n
+			WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
+			AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY relname";
+		return $this->selectSet( $sql );
+	}
+
 	// Operator functions
-	
+
 	/**
 	 * Returns a list of all operators in the database
 	 * @return All operators
@@ -328,7 +342,7 @@ class Postgres73 extends Postgres72 {
 	function &getIndexes($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid) as indexdef
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid) as pg_get_indexdef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 			ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname";
@@ -346,14 +360,77 @@ class Postgres73 extends Postgres72 {
 		
 		$sql = "SELECT t.tgname
 			FROM pg_catalog.pg_trigger t
-			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}') and (not tgisconstraint  OR NOT EXISTS  
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}') and (not tgisconstraint  OR NOT EXISTS
 			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c 
 			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)    
 			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
 			
 		return $this->selectSet($sql);
 	}
-	 
+
+	// Function functions
+
+	/**
+	 * Returns a list of all functions in the database
+	 * @param $all If true, will find all available functions, if false just those in search path
+	 * @return All functions
+	 */
+	function &getFunctions($all = false) {
+		if ($all) {
+			$where = 'pg_catalog.pg_function_is_visible(p.oid)';
+			$distinct = 'DISTINCT ON (p.proname)';
+		}
+		else {
+			$where = "n.nspname = '{$this->_schema}'";
+			$distinct = '';
+		}
+
+		$sql = "SELECT
+				{$distinct}
+				p.oid,
+				p.proname,
+				CASE WHEN p.proretset THEN 'setof ' ELSE '' END ||
+					pg_catalog.format_type(p.prorettype, NULL) AS return_type,
+				pg_catalog.oidvectortypes(p.proargtypes) AS arguments
+			FROM pg_catalog.pg_proc p
+			LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+			WHERE p.prorettype <> 'pg_catalog.cstring'::pg_catalog.regtype
+			AND p.proargtypes[0] <> 'pg_catalog.cstring'::pg_catalog.regtype
+			AND NOT p.proisagg
+			AND {$where}
+			ORDER BY p.proname, return_type
+			";
+
+		return $this->selectSet($sql);
+	}
+
+		// Type functions
+
+	/**
+	 * Returns a list of all types in the database
+	 * @param $all If true, will find all available functions, if false just those in search path
+	 * @return A recordet
+	 */
+	function &getTypes($all = false) {
+		if ($all)
+			$where = 'pg_catalog.pg_type_is_visible(t.oid)';
+		else
+			$where = "n.nspname = '{$this->_schema}'";
+
+		$sql = "SELECT
+				pg_catalog.format_type(t.oid, NULL) AS typname,
+				pu.usename AS typowner
+			FROM (pg_catalog.pg_type t
+				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace)
+				LEFT JOIN pg_catalog.pg_user pu ON t.typowner = pu.usesysid
+			WHERE (t.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid)) AND t.typname !~ '^_'
+			AND {$where}
+			ORDER BY typname
+		";
+
+		return $this->selectSet($sql);
+	}
+
 	// Capabilities
 	function hasSchemas() { return true; }
 	function hasConversions() { return true; }

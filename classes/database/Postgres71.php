@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.19 2002/11/14 01:04:38 chriskl Exp $
+ * $Id: Postgres71.php,v 1.20 2002/12/27 16:28:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -18,7 +18,6 @@ class Postgres71 extends Postgres {
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 
-	// @@ Should we bother querying for this?
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
 
@@ -64,10 +63,15 @@ class Postgres71 extends Postgres {
 
 	/**
 	 * Returns a list of all functions in the database
+ 	 * @param $all If true, will find all available functions, if false just userland ones
 	 * @return All functions
 	 */
-
-	function &getFunctions() {
+	function &getFunctions($all = false) {
+		if ($all)
+			$where = '';
+		else
+			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
+		
 		$sql = 	"SELECT
 				pc.oid,
 				proname, 
@@ -78,7 +82,7 @@ class Postgres71 extends Postgres {
 			WHERE
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = pt.oid
-				AND pc.oid > '$this->_lastSystemOID'::oid
+				{$where}
 			UNION
 			SELECT 
 				pc.oid,
@@ -90,7 +94,7 @@ class Postgres71 extends Postgres {
 			WHERE	
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = 0
-				AND pc.oid > '$this->_lastSystemOID'::oid
+				{$where}
 			ORDER BY
 				proname, return_type
 			";
@@ -392,23 +396,6 @@ class Postgres71 extends Postgres {
 		// @@ how?
 		return $this->execute($sql);
 	}
-/*
-	function &getIndices()
-	function &getIndex()
-	function setIndex()
-	function delIndex()
-
-	function &getSequences()
-	function &getSequence()
-	function setSequence()
-	function delSequence()
-
-	// DML Functions
-
-	function doSelect()
-	function doDelete()
-	function doUpdate()
-*/  
     
 	// View functions
 	
