@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.7 2003/02/27 14:30:10 slubek Exp $
+	 * $Id: polish.php,v 1.8 2003/03/14 01:54:22 slubek Exp $
 	 */
 
 	// Language and character set
@@ -34,6 +34,7 @@
 	$strNext = 'Nast&#281;pny';
 	$strFailed = 'Nieudany';
 	$strCreate = 'Utw&oacute;rz';
+	$strCreated = 'Utworzony';
 	$strComment = 'Komentarz';
 	$strLength = 'D&#322;ugo&#347;&#263;';
 	$strDefault = 'Domy&#347;lny';
@@ -64,7 +65,14 @@
 	$strExport = 'Eksport';
 	$strSQL = 'SQL';
 	$strGo = 'Wykonaj';
-		
+	$strAdmin = 'Administruj';
+	$strVacuum = 'Przeczy&#347;&#263;';
+	$strAnalyze = 'Analizuj';
+	$strCluster = 'Klaster';
+	$strReindex = 'Przeindeksuj';
+	$strRun = 'Uruchom';
+	$strAdd = 'Dodaj';
+
 	// Error handling
 	$strNoFrames = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
 	$strBadConfig = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
@@ -117,6 +125,9 @@
 	$strConfDropColumn = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tablicy &quot;%s&quot;?';
 	$strColumnDropped = 'Kolumna usuni&#281;ta.';
 	$strColumnDroppedBad = 'Operacja usuni&#281;cia kolumny si&#281; nie powiod&#322;a.';
+        $strAddColumn = 'Dodaj kolumn&#281;';
+	$strColumnAdded = 'Kolumna dodana.';
+	$strColumnAddedBad = 'Operacja dodania kolumny si&#281; nie powiod&#322;a.';
 
 	// Users
 	$strUserAdmin = 'Administracja kontami u&#380;ytkownik&oacute;w';
@@ -173,7 +184,11 @@
 	$strDatabaseDropped = 'Baza danych usuni&#281;ta.';
 	$strDatabaseDroppedBad = 'Pr&oacute;ba usuni&#281;cia bazy danych si&#281; nie powiod&#322;a.';
 	$strEnterSQL = 'Podaj polecenie SQL do wykonania:';
-	 
+	$strVacuumGood = 'Operacja czyszczenia bazy zako&#324;czona.';
+	$strVacuumBad = 'Operacja czyszczenia bazy si&#281; nie powiod&#322;a.';
+	$strAnalyzeGood = 'Operacja analizy zako&#324;czona.';
+	$strAnalyzeBad = 'Operacja analizy si&#281; nie powiod&#322;a.';
+
 	// Views
 	$strView = 'Widok';
 	$strViews = 'Widoki';
@@ -235,7 +250,11 @@
 	$strKeyName = 'Nazwa klucza';
 	$strUniqueKey = 'Klucz Unikatowy';
 	$strPrimaryKey = 'Klucz G&#322;&oacute;wny';
-	
+	$strIndexType = 'Typ indeksu';
+	$strIndexName = 'Nazwa indeksu';
+	$strTableColumnList = 'Kolumny w tablicy';
+	$strIndexColumnList = 'Kolumny w indeksie';
+
 	// Regu&#322;y
 	$strRule = 'Regu&#322;a';
 	$strRules = 'Regu&#322;y';
@@ -261,7 +280,8 @@
 	$strConfDropConstraint = 'Czy na pewno chcesz usun&#261;&#263; wi&#281;zy integralno&#347;ci &quot;%s&quot; na &quot;%s&quot;?';
 	$strConstraintDropped = 'Wi&#281;zy integralno&#347;ci usuni&#281;te.';
 	$strConstraintDroppedBad = 'Operacja usuni&#281;cia wi&#281;z&oacute;w integralno&#347;ci si&#281; nie powiod&#322;a.';
-		
+	$strAddCheck = 'Dodaj sprawdzenie';
+
 	// Functions
 	$strFunction = 'Funkcja';
 	$strFunctions = 'Funkcje';
@@ -338,6 +358,7 @@
 	// Reports
 	$strReport = 'Raport';
 	$strReports = 'Raporty';
+	$strShowAllReports = 'Poka&#380; wszystkie raporty';
 	$strNoReports = 'Nie znaleziono raport&oacute;w.';
 	$strCreateReport = 'Utw&oacute;rz raport';
 	$strReportDropped = 'Raport usuni&#281;ty.';

@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.13 2003/02/27 14:30:09 slubek Exp $
+	 * $Id: polish.php,v 1.14 2003/03/14 01:54:21 slubek Exp $
 	 */
 
 	// Language and character set
@@ -34,6 +34,7 @@
 	$strNext = 'Nastêpny';
 	$strFailed = 'Nieudany';
 	$strCreate = 'Utwórz';
+	$strCreated = 'Utworzony';
 	$strComment = 'Komentarz';
 	$strLength = 'D³ugo¶æ';
 	$strDefault = 'Domy¶lny';
@@ -64,7 +65,14 @@
 	$strExport = 'Eksport';
 	$strSQL = 'SQL';
 	$strGo = 'Wykonaj';
-		
+	$strAdmin = 'Administruj';
+	$strVacuum = 'Przeczy¶æ';
+	$strAnalyze = 'Analizuj';
+	$strCluster = 'Klaster';
+	$strReindex = 'Przeindeksuj';
+	$strRun = 'Uruchom';
+	$strAdd = 'Dodaj';
+
 	// Error handling
 	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
@@ -117,6 +125,9 @@
 	$strConfDropColumn = 'Czy na pewno chcesz usun±æ kolumnê "%s" z tablicy "%s"?';
 	$strColumnDropped = 'Kolumna usuniêta.';
 	$strColumnDroppedBad = 'Operacja usuniêcia kolumny siê nie powiod³a.';
+        $strAddColumn = 'Dodaj kolumnê';
+	$strColumnAdded = 'Kolumna dodana.';
+	$strColumnAddedBad = 'Operacja dodania kolumny siê nie powiod³a.';
 
 	// Users
 	$strUserAdmin = 'Administracja kontami u¿ytkowników';
@@ -173,7 +184,11 @@
 	$strDatabaseDropped = 'Baza danych usuniêta.';
 	$strDatabaseDroppedBad = 'Próba usuniêcia bazy danych siê nie powiod³a.';
 	$strEnterSQL = 'Podaj polecenie SQL do wykonania:';
-	 
+	$strVacuumGood = 'Operacja czyszczenia bazy zakoñczona.';
+	$strVacuumBad = 'Operacja czyszczenia bazy siê nie powiod³a.';
+	$strAnalyzeGood = 'Operacja analizy zakoñczona.';
+	$strAnalyzeBad = 'Operacja analizy siê nie powiod³a.';
+
 	// Views
 	$strView = 'Widok';
 	$strViews = 'Widoki';
@@ -235,7 +250,11 @@
 	$strKeyName = 'Nazwa klucza';
 	$strUniqueKey = 'Klucz Unikatowy';
 	$strPrimaryKey = 'Klucz G³ówny';
-	
+	$strIndexType = 'Typ indeksu';
+	$strIndexName = 'Nazwa indeksu';
+	$strTableColumnList = 'Kolumny w tablicy';
+	$strIndexColumnList = 'Kolumny w indeksie';
+
 	// Regu³y
 	$strRule = 'Regu³a';
 	$strRules = 'Regu³y';
@@ -261,7 +280,8 @@
 	$strConfDropConstraint = 'Czy na pewno chcesz usun±æ wiêzy integralno¶ci "%s" na "%s"?';
 	$strConstraintDropped = 'Wiêzy integralno¶ci usuniête.';
 	$strConstraintDroppedBad = 'Operacja usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
-		
+	$strAddCheck = 'Dodaj sprawdzenie';
+
 	// Functions
 	$strFunction = 'Funkcja';
 	$strFunctions = 'Funkcje';
@@ -338,6 +358,7 @@
 	// Reports
 	$strReport = 'Raport';
 	$strReports = 'Raporty';
+	$strShowAllReports = 'Poka¿ wszystkie raporty';
 	$strNoReports = 'Nie znaleziono raportów.';
 	$strCreateReport = 'Utwórz raport';
 	$strReportDropped = 'Raport usuniêty.';
