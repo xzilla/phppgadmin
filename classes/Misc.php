@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.87 2004/08/26 08:29:56 jollytoad Exp $
+	 * $Id: Misc.php,v 1.88 2004/08/31 08:39:03 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -666,22 +666,13 @@
 		 * Display a navigation tab bar.
 		 * @param $section The name of the tab bar.
 		 * @param $activetab The tab to highlight and set as default for the bar.
-		 * @param $trail A bread crumb trail, or true for default trail, false for no trail.
 		 */
-		function printNav($section, $activetab, $trail = true) {
+		function printNav($section, $activetab) {
 			global $data;
 			
 			echo "<div class=\"nav\">\n";
 			
-			if ($trail === true) {
-				$this->printTrail($this->getTrail($section));
-			}
-			elseif (is_string($trail)) {
-				$this->printTrail($this->getTrail($trail));
-			}
-			elseif (is_array($trail)) {
-				$this->printTrail($trail);
-			}
+			$this->printTrail($this->getTrail($section));
 			
 			switch ($section) {
 				case 'database':
@@ -703,6 +694,24 @@
 			echo "</div>\n";
 		}
 
+		function printTitleNav($section, $title, $help = null) {
+			global $data, $lang;
+			
+			echo "<div class=\"nav\">\n";
+			
+			$this->printTrail($this->getTrail($section));
+			
+			echo "<div class=\"trail\"><span class=\"title\">{$title}</span>";
+			
+			if (!is_null($help) && isset($data->help_page[$help])) {
+				echo "<a class=\"help\" href=\"";
+				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
+				echo "\" title=\"{$lang['strhelp']}\">?</a>";
+			}
+			
+			echo "</div>\n</div>\n";
+		}
+		
 		/**
 		 * Get the URL for the last active tab of a particular tab bar.
 		 */
