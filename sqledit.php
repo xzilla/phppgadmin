@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.24 2004/08/31 08:35:53 jollytoad Exp $
+	 * $Id: sqledit.php,v 1.25 2004/09/30 16:32:05 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Private function to display list of databases
 	 */
 	function _printDatabases() {
-		global $data, $lang, $conf, $action;
+		global $data, $lang, $conf, $action, $misc;
 
 		// Get the list of all databases
 		$databases = &$data->getDatabases();
@@ -27,7 +27,9 @@
 			// This ensures that the correct page encoding is used.  The exact URL to reload to is different
 			// between SQL and Find mode, however.
 			if ($action == 'sql') {
-				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
+				echo "<p>";
+				$misc->printHelp($lang['strdatabase'], 'pg.database');
+				echo ": <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
 						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) ";
 				if ($data->hasSchemas()) echo "+ '&search_path=' + encodeURI(search_path.value) ";
 				echo "+ (paginate.checked ? '&paginate=on' : '')  + '&" . SID . "'\">\n";
@@ -123,7 +125,9 @@
 			if (!isset($_REQUEST['search_path']))
 				$_REQUEST['search_path'] = implode(',',$data->getSearchPath());
 		
-			echo "\n<label>{$lang['strsearchpath']}: <input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
+			echo "\n<label>";
+			$misc->printHelp($lang['strsearchpath'], 'pg.schema.search_path');
+			echo ": <input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
 				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
 		}
 		
