@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.235 2004/07/13 16:33:37 jollytoad Exp $
+ * $Id: Postgres.php,v 1.236 2004/07/14 18:32:02 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -689,20 +689,18 @@ class Postgres extends BaseDB {
 		}
 
 		// Rules
-		if ($this->hasRules()) {
-			$rules = &$this->getRules($table);
-			if (!is_object($rules)) {
-				$this->rollbackTransaction();
-				return null;
-			}
+		$rules = &$this->getRules($table);
+		if (!is_object($rules)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
-			if ($rules->recordCount() > 0) {
-				$sql .= "\n-- Rules\n\n";
-				while (!$rules->EOF) {
-					$sql .= $rules->f['definition'] . "\n";
+		if ($rules->recordCount() > 0) {
+			$sql .= "\n-- Rules\n\n";
+			while (!$rules->EOF) {
+				$sql .= $rules->f['definition'] . "\n";
 
-					$rules->moveNext();
-				}
+				$rules->moveNext();
 			}
 		}
 
@@ -3614,8 +3612,8 @@ class Postgres extends BaseDB {
 		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
 		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -4;
+			$this->rollbackTransaction();
+			return -4;
 		}
 
 		$status = $this->endTransaction();
@@ -3897,7 +3895,6 @@ class Postgres extends BaseDB {
 	function hasTypes() { return true; }
 	function hasAggregates() { return true; }
 	function hasIndicies() { return true; }
-	function hasRules() { return true; }
 	function hasLanguages() { return true; }
 	function hasSRFs() { return true; }
 	function hasOpClasses() { return true; }

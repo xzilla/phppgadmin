@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.72 2004/07/07 03:00:07 chriskl Exp $
+ * $Id: Postgres72.php,v 1.73 2004/07/14 18:32:02 soranzo Exp $
  */
 
 
@@ -360,8 +360,8 @@ class Postgres72 extends Postgres71 {
 		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
 		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -2;
+			$this->rollbackTransaction();
+			return -2;
 		}
 
 		// Rename the function, if necessary
@@ -370,8 +370,8 @@ class Postgres72 extends Postgres71 {
 			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) RENAME TO \"{$newname}\"";
 			$status = $this->execute($sql);
 			if ($status != 0) {
-			  $this->rollbackTransaction();
-			  return -3;
+				$this->rollbackTransaction();
+				return -3;
 			}
 		}
 		
