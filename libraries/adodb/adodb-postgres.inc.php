@@ -184,9 +184,9 @@ a different OID if a database must be reloaded. */
 				else $str = 'localhost';
 				if (isset($host[1])) $str .= " port=$host[1]";
 			}
-           		if ($user) $str .= " user=".$user;
-           		if ($pwd)  $str .= " password=".$pwd;
-			if ($db)   $str .= " dbname=".$db;
+           		if ($user) $str .= " user='{$user}'";
+           		if ($pwd)  $str .= " password='{$pwd}'";
+			if ($db)   $str .= " dbname='{$db}'";
 		}
 		
 		//if ($user) $linea = "user=$user host=$linea password=$pwd dbname=$db port=5432";
@@ -210,9 +210,9 @@ a different OID if a database must be reloaded. */
 				else $str = 'localhost';
 				if (isset($host[1])) $str .= " port=$host[1]";
 			}
-           		if ($user) $str .= " user=".$user;
-           		if ($pwd)  $str .= " password=".$pwd;
-			if ($db)   $str .= " dbname=".$db;
+           		if ($user) $str .= " user='{$user}'";
+           		if ($pwd)  $str .= " password='{$pwd}'";
+			if ($db)   $str .= " dbname='{$db}'";
 		}//print $str;
 		$this->_connectionID = pg_pconnect($str);
 		if ($this->_connectionID === false) return false;
