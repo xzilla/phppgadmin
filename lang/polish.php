@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.27 2003/08/27 22:52:43 slubek Exp $
+	 * $Id: polish.php,v 1.28 2003/09/02 18:26:59 slubek Exp $
 	 */
 
 	// Language and character set
@@ -154,6 +154,7 @@
 	$lang['strfields'] = 'Pola';
 	$lang['strnumfields'] = 'Ilo¶æ pól';
 	$lang['strfieldneedsname'] = 'Musisz nazwaæ pole';
+	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
         $lang['strselectneedscol'] = 'Musisz wybraæ przynajmniej jedn± kolumnê';
 	$lang['straltercolumn'] = 'Zmieñ kolumnê';
 	$lang['strcolumnaltered'] = 'Kolumna zmodyfikowana.';
