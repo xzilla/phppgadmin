@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.34 2003/05/18 12:48:11 chriskl Exp $
+ * $Id: Postgres71.php,v 1.35 2003/05/20 05:43:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -281,7 +281,9 @@ class Postgres71 extends Postgres {
 
 		// We include constraint triggers
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, t.tgconstrrelid, p.proname AS tgfname, c.relname, NULL AS tgdef
+			t.tgargs, t.tgnargs, t.tgconstrrelid, 
+			(SELECT relname FROM pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
+			p.proname AS tgfname, c.relname, NULL AS tgdef
 			FROM pg_trigger t LEFT JOIN pg_proc p
 			ON t.tgfoid=p.oid, pg_class c
 			WHERE t.tgrelid=c.oid

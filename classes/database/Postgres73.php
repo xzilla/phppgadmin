@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.45 2003/05/15 14:34:47 chriskl Exp $
+ * $Id: Postgres73.php,v 1.46 2003/05/20 05:43:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -442,7 +442,9 @@ class Postgres73 extends Postgres72 {
 		$this->clean($table);
 
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, p.proname AS tgfname, c.relname, NULL AS tgdef
+			t.tgargs, t.tgnargs, t.tgconstrrelid, 
+			(SELECT relname FROM pg_catalog.pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
+			p.proname AS tgfname, c.relname, NULL AS tgdef
 			FROM pg_catalog.pg_trigger t LEFT JOIN pg_catalog.pg_proc p
 			ON t.tgfoid=p.oid, pg_catalog.pg_class c
 			WHERE t.tgrelid=c.oid
