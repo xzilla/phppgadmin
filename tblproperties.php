@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.27 2003/10/12 08:55:11 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.28 2003/10/12 13:08:59 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -104,7 +104,7 @@
 		echo "<tr><th class=\"data left\" rowspan=\"", ($hasID) ? 2 : 1, "\">";
 		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
-		echo "<td><select name=\"format\">\n";
+		echo "<td><select name=\"d_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
@@ -113,22 +113,22 @@
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
 		if ($hasID) {
-			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"oids\" /></td>\n</tr>\n";
+			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
 		}
 		// Structure only
 		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"clean\" /></td>\n</tr>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
 		// Structure and data
 		echo "<tr><th class=\"data left\" rowspan=\"", ($hasID) ? 3 : 2, "\">";
 		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
-		echo "<td><select name=\"format2\">\n";
+		echo "<td><select name=\"sd_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"clean\" /></td>\n</tr>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
 		if ($hasID) {
-			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"oids\" /></td>\n</tr>\n";
+			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
 		}
 		echo "</table>\n";
 		
