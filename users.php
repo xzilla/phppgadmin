@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.19 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: users.php,v 1.20 2004/01/02 20:00:12 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -103,12 +103,15 @@
 		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-		
-			if (!isset($_POST['formPassword'])) $_POST['formPassword'] = '';
-			if (!isset($_POST['formConfirm'])) $_POST['formConfirm'] = '';
-			if (!isset($_POST['formExpires'])) $_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']];
+			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
+
+			if (!isset($_POST['formExpires'])){
+				if ($userdata->f[$data->uFields['usuper']]) $_POST['formSuper'] = '';
+				if ($userdata->f[$data->uFields['ucreatedb']]) $_POST['formCreateDB'] = '';
+				$_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']];
+				$_POST['formPassword'] = '';
+			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -116,10 +119,10 @@
 			echo "\t\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
-				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+				(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcreatedb']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
-				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+				(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input size=\"16\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
