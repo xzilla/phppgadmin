@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.176 2004/01/18 10:39:45 chriskl Exp $
+ * $Id: Postgres.php,v 1.177 2004/01/18 11:09:12 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3395,18 +3395,16 @@ class Postgres extends BaseDB {
 		if ($conf['show_system'] || $all)
 			$where = '';
 		else
-			$where = 'AND lanispl';
+			$where = 'WHERE lanispl';
 
 		$sql = "
 			SELECT
-				pl.lanname,
-				pl.lanpltrusted,
-				pp.proname AS lanplcallf
+				lanname,
+				lanpltrusted,
+				lanplcallfoid::regproc AS lanplcallf
 			FROM
-				pg_language pl, pg_proc pp
-			WHERE
-				pl.lanplcallfoid = pp.oid
-				{$where}
+				pg_language
+			{$where}
 			ORDER BY
 				lanname
 		";
@@ -3515,7 +3513,39 @@ class Postgres extends BaseDB {
 
 		return $this->selectSet($sql);
 	}
+
+	// Operator Class functions
 	
+	/**
+	 * Gets all opclasses
+	 * @return A recordset
+	 */
+	function &getOpClasses() {
+		global $conf;
+		
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "AND po.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql = "
+			SELECT DISTINCT
+				pa.amname, 
+				po.opcname, 
+				(SELECT typname FROM pg_type t WHERE t.oid=opcdeftype) AS opcintype,
+				TRUE AS opcdefault
+			FROM
+				pg_opclass po, pg_am pa, pg_amop pam
+			WHERE
+				pam.amopid=pa.oid
+				AND pam.amopclaid=po.oid
+				{$where}
+			ORDER BY 1,2
+		";
+
+		return $this->selectSet($sql);
+	}
+
 	// Type conversion routines
 
 	/**
@@ -3537,7 +3567,7 @@ class Postgres extends BaseDB {
 		$parameter = ($parameter == 't');
 		return $parameter;
 	}
-
+	
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }
