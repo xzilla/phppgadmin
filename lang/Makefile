@@ -6,7 +6,7 @@
 # It is important to fix first and last lines of the file <?php and ?>
 # using 'awk'
 # 
-# $Id: Makefile,v 1.13 2003/04/08 07:08:42 chriskl Exp $
+# $Id: Makefile,v 1.14 2003/04/16 02:46:53 chriskl Exp $
 #
 DESTDIR=./recoded
 
@@ -68,17 +68,12 @@ french:
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/french.php
 
-japanese: japanese-euc japanese-sjis
+japanese: japanese-euc
 
 japanese-euc:
 	cat japanese-euc.php | recode euc-jp..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/japanese-euc.php
-
-japanese-sjis:
-	cat japanese-sjis.php | recode sjis..html | \
-		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
-		> ${DESTDIR}/japanese-sjis.php
 
 russian: russian-koi8 
 
