@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.22 2004/03/07 03:19:55 chriskl Exp $
+	 * $Id: spanish.php,v 1.21.2.1 2004/03/07 06:39:05 chriskl Exp $
 	 */
 
 	// Language and character set

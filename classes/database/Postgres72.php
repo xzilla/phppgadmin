@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.58 2004/03/06 11:30:00 chriskl Exp $
+ * $Id: Postgres72.php,v 1.57.2.1 2004/03/07 06:39:05 chriskl Exp $
  */
 
 

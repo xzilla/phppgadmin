@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.6 2004/03/06 11:30:00 chriskl Exp $
+	 * $Id: info.php,v 1.5.2.1 2004/03/07 06:39:05 chriskl Exp $
 	 */
 
 	// Include application functions
