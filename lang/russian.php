@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.7 2004/02/25 01:17:42 chriskl Exp $
+	 * $Id: russian.php,v 1.8 2004/05/31 01:26:14 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -20,13 +20,13 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL - документация (локально)';
 	$lang['strreportbug'] = 'Отчет об ошибках';
-	$lang['strviewfaq'] = 'Просмотр FAQ';
+	$lang['strviewfaq'] = 'Просмотр онлайн FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'Логин';
 	$lang['strloginfailed'] = 'Неверный логин';
-	$lang['strlogindisallowed'] = 'Логин недопустим';
+	$lang['strlogindisallowed'] = 'Логин недопустим по соображениям безопасности';
 	$lang['strserver'] = 'Сервер';
 	$lang['strlogout'] = 'Перерегистрация';
 	$lang['strowner'] = 'Пользователь';
@@ -117,8 +117,12 @@
 	$lang['strprocesses'] = 'Процессы';
 	$lang['strsetting'] = 'Опции';
 	$lang['streditsql'] = 'Редактировать SQL';
+	$lang['strruntime'] = 'Время выполнения: %s мсек';
 	$lang['strpaginate'] = 'Нумеровать страницы с результатами';
+	$lang['struploadscript'] = 'или загрузить SQL-скрипт:';
 	$lang['strstarttime'] = 'Время начала';
+	$lang['strfile'] = 'Файл';
+	$lang['strfileimported'] = 'Файл импортирован.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
@@ -133,6 +137,9 @@
 	$lang['strnoobjects'] = 'Объектов не найдено.';
 	$lang['strrownotunique'] = 'Нет уникального идентификатора для этой записи.';
  	$lang['strnoreportsdb'] = 'Вы не создали базу данных отчетов. Читайте разъяснения в файле INSTALL.';
+	$lang['strnouploads'] = 'Загрузка файла невозможна.';
+	$lang['strimporterror'] = 'Ошибка импорта.';
+	$lang['strimporterrorline'] = 'Ошибка канала при импорте %s.';
 
 	// Tables
 	$lang['strtable'] = 'Таблица';
@@ -187,6 +194,8 @@
 	$lang['strdataonly'] = 'Только данные';
 	$lang['strstructureonly'] = 'Только структуру';
 	$lang['strstructureanddata'] = 'Структуру и данные';
+	$lang['strtabbed'] = 'Через табуляцию';
+	$lang['strauto'] = 'Авто';
 
 	// Users
 	$lang['struser'] = 'Пользователь';
@@ -270,6 +279,11 @@
 	$lang['strvacuumbad'] = 'Операция перестройки прервана.';
 	$lang['stranalyzegood'] = ' Операция анализа завершена.';
 	$lang['stranalyzebad'] = ' Операция анализа завершена.';
+	$lang['strreindexgood'] = 'Переиндексация завершена.';
+	$lang['strreindexbad'] = 'Переиндексация прервана.';
+	$lang['strfull'] = 'Полностью';
+	$lang['strfreeze'] = 'Заморозить';
+	$lang['strforce'] = 'Принудительно';
 
 	// Views
 	$lang['strview'] = 'Представление';
@@ -280,7 +294,8 @@
 	$lang['strcreateview'] = 'Создать представление';
 	$lang['strviewname'] = 'Имя представления';
 	$lang['strviewneedsname'] = 'Вам необходимо указать имя представления.';
-	$lang['strviewneedsdef'] = ' Вам необходимо определить атрибуты представления.';
+	$lang['strviewneedsdef'] = 'Вам необходимо определить атрибуты представления.';
+	$lang['strviewneedsfields'] = 'Вам необходимо определить атрибуты для выборки в ваше представление.';
 	$lang['strviewcreated'] = 'Представление создано.';
 	$lang['strviewcreatedbad'] = 'Создание представления прервано.';
 	$lang['strconfdropview'] = 'Вы уверены, что хотите уничтожить представление "%s"?';
@@ -290,6 +305,7 @@
 	$lang['strviewupdatedbad'] = 'Обновление представления прервано.';
 	$lang['strviewlink'] = 'Связанные ключи';
 	$lang['strviewconditions'] = 'Дополнительные условия';
+	$lang['strcreateviewwiz'] = 'Создать представление помощником';
 
 	// Sequences
 	$lang['strsequence'] = 'Последовательность';
@@ -467,6 +483,8 @@
 	$lang['strconfdropschema'] = 'Вы уверены, что хотите уничтожить схему "%s"?';
 	$lang['strschemadropped'] = 'Схема уничтожена.';
 	$lang['strschemadroppedbad'] = 'Уничтожение схемы прервано.';
+	$lang['strschemaaltered'] = 'Схема обновлена.';
+	$lang['strschemaalteredbad'] = 'Обновление схемы прервано.';
 
 	// Reports
 	$lang['strreport'] = 'Отчет';
