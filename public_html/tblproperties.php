@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.21 2003/01/11 09:25:22 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.22 2003/01/12 07:25:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -113,8 +113,8 @@
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
 					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
 				}				
-				
-				echo "<tr><td><input name=\"field\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+
+				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\"></td>";
 				echo "<td>", htmlspecialchars($column->f['type']), "</td>";
 				echo "<td><input type=checkbox name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', "></td>\n";
