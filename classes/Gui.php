@@ -2,7 +2,7 @@
 	/**
 	 * Class to handle basic HTML GUI functions
 	 *
-	 * $Id: Gui.php,v 1.1 2004/05/10 02:13:27 chriskl Exp $
+	 * $Id: Gui.php,v 1.2 2004/06/07 20:03:22 soranzo Exp $
 	 */
 	 class GUI {
 
@@ -18,10 +18,10 @@
 		 * @param (optional) $bBlankEntry bool to specify whether or not we want a blank selection 
 		 * @param (optional) $szDefault string to specify the default VALUE selected 
 		 * @param (optional) $bMultiple bool to specify whether or not we want a multi select combo box
-		 * @param (optional) $iSize int to specify the size IF a multi select combo		 
-		 * @return string with the generated HTML select box		 
+		 * @param (optional) $iSize int to specify the size IF a multi select combo
+		 * @return string with the generated HTML select box
 		 */
-		function printCombo(&$arrOptions, $szName, $bBlankEntry = true, $szDefault = '', $bMultiple = false, $iSize = 10) {			
+		function printCombo(&$arrOptions, $szName, $bBlankEntry = true, $szDefault = '', $bMultiple = false, $iSize = 10) {
 			$htmlOut = '';
 			if ($bMultiple) // If multiple select combo
 				$htmlOut .= "<select name=\"$szName\" id=\"$szName\" multiple=\"multiple\" size=\"$iSize\">\n";
