@@ -3,7 +3,7 @@
 	/**
 	 * Main object browser
 	 *
-	 * $Id: browser.php,v 1.2 2002/02/12 01:11:58 kkemp102294 Exp $
+	 * $Id: browser.php,v 1.3 2002/02/12 06:58:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,10 +18,10 @@
 
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
-		echo htmlspecialchars($databases->f['datname']), "<br>\n";
+		echo htmlspecialchars($databases->f[$data->dbFields['dbname']]), "<br>\n";
 		if ($data->hasTables())
 			echo "&nbsp;&nbsp;<a href=\"tables.php?database=", 
-				urlencode($databases->f['datname']), "\" target=detail>Tables</a><br>\n";
+				urlencode($databases->f[$data->dbFields['dbname']]), "\" target=detail>Tables</a><br>\n";
 		if ($data->hasViews())
 			echo "&nbsp;&nbsp;<a href=\"views.php\" target=detail>Views</a><br>\n";
 		if ($data->hasSequences())
