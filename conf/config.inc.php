@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc.php,v 1.2 2002/02/12 06:57:33 chriskl Exp $
+	 * $Id: config.inc.php,v 1.3 2002/02/12 08:50:26 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -13,7 +13,7 @@
 	$appName = 'WebDB';
 	$appIntro = 'Welcome to WebDB.';
 	$appBase = '../public_html';
-	$appVersion = '1-dev';
+	$appVersion = '0.1-dev';
 	
 	// GUI settings
 	$guiLeftFrameWidth = 150;
@@ -63,6 +63,16 @@
 									$webdbPassword);
 	}
 
+	// Create local (database-specific) data accessor object, if valid
+	if (isset($webdbServerID) && isset($confServers[$webdbServerID]) && isset($database)) {
+		$_type = $confServers[$webdbServerID]['type'];
+		include_once('../classes/database/' . $_type . '.php');
+		$localData = new $_type(	$confServers[$webdbServerID]['host'],
+											$confServers[$webdbServerID]['port'],
+											$database,
+											$webdbUsername,
+											$webdbPassword);
+	}
 
 	
 
