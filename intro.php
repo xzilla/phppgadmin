@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.6 2003/05/20 09:01:58 chriskl Exp $
+	 * $Id: intro.php,v 1.7 2003/05/21 03:41:02 chriskl Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -20,7 +20,7 @@
 
 <ul>
 <li><b><a href="http://phppgadmin.sourceforge.net/" target="_top"><?php echo $lang['strppahome'] ?></a></b></li>
-<li><b><a href="<?php echo $lang['strviewfaq_url'] ?>" target="_top"><?php echo $lang['strpgsqlhome'] ?></a></b></li>
+<li><b><a href="<?php echo $lang['strpgsqlhome_url'] ?>" target="_top"><?php echo $lang['strpgsqlhome'] ?></a></b></li>
 <li><b><a href="http://sourceforge.net/tracker/?group_id=37132&amp;atid=418980" target="_top"><?php echo $lang['strreportbug'] ?></a></b></li>
 <li><b><a href="<?php echo $lang['strviewfaq_url'] ?>" target="_top"><?php echo $lang['strviewfaq'] ?></a></b></li>
 </ul>
