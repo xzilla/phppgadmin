@@ -4,7 +4,8 @@
 	$url = $misc->getLastTabURL($_REQUEST['section']);
 	
 	if (is_string($url)) {
-		header("Location: http://{$_SERVER['HTTP_HOST']}/{$url}");
+		$dir = substr($_SERVER['REQUEST_URI'], 0, strrpos ($_SERVER['REQUEST_URI'],'/'));
+		header("Location: http://{$_SERVER['HTTP_HOST']}{$dir}/{$url}");
 		exit;
 	}
 	
