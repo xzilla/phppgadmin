@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.48 2003/08/12 01:57:21 chriskl Exp $
+	 * $Id: english.php,v 1.49 2003/08/12 03:27:20 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -111,7 +111,7 @@
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
-	$lang['strnotloaded'] = 'You have not compiled proper database support into your PHP installation.';
+	$lang['strnotloaded'] = 'Your PHP installation does not support PostgreSQL. You need to recompile PHP using the --with-pgsql configure option.';
 	$lang['strbadschema'] = 'Invalid schema specified.';
 	$lang['strbadencoding'] = 'Failed to set client encoding in database.';
 	$lang['strsqlerror'] = 'SQL error:';
