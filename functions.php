@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.18 2003/06/05 20:05:43 xzilla Exp $
+	 * $Id: functions.php,v 1.19 2003/08/08 03:01:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,7 +35,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
@@ -100,21 +100,15 @@
 				echo "</td></tr>\n";
 			}		
 			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['strproperties']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
-			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -161,7 +155,7 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stredit']}</a> |\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
 			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></td>\n";
 	}
@@ -187,8 +181,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\">\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -287,13 +281,11 @@
 			echo "</td></tr>\n";
 		}		
 		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 	}
 	
 	/**
@@ -348,7 +340,7 @@
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stredit']}</a></td>\n";
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stralter']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
 				if (isset($data->privlist['function'])) {
@@ -377,20 +369,22 @@
 
 	switch ($action) {
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;			
 		case 'save_edit':
-			doSaveEdit();
+			if (isset($_POST['cancel'])) doProperties();
+			else doSaveEdit();
 			break;
 		case 'edit':
 			doEdit();
@@ -398,8 +392,6 @@
 		case 'properties':
 			doProperties();
 			break;
-		case 'browse':
-			// @@ Not yet implemented
 		default:
 			doDefault();
 			break;
