@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.2 2003/05/23 05:47:11 chriskl Exp $
+	 * $Id: japanese.php,v 1.3 2003/06/16 07:29:10 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -17,6 +17,7 @@
 	$lang['strppahome'] = 'phpPgAdmin ホームページ';
 	$lang['strpgsqlhome'] = 'PostgreSQL ホームページ';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL ドキュメント (local)';
 	$lang['strreportbug'] = 'バグレポート';
 	$lang['strviewfaq'] = 'FAQを見る';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
@@ -434,7 +435,7 @@
 	$lang['strreportcreatedbad'] = 'レポートの保存に失敗しました。';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%sが%s:%s上で起動しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
+	$lang['strtopbar'] = '%sに%sポート番号%sで接続しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
 	$lang['strtimefmt'] = 'Y年n月j日 G:i';
 
 ?>
