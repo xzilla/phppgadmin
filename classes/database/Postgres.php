@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.66 2003/03/26 02:14:03 chriskl Exp $
+ * $Id: Postgres.php,v 1.67 2003/03/26 03:43:53 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1752,10 +1752,13 @@ class Postgres extends BaseDB {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT t.*, p.proname
-			FROM pg_trigger t, pg_proc p
-			WHERE tgrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
-			  AND pg_proc.oid = pg_trigger.tgfoid";
+		// We include constraint triggers
+		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
+			t.tgargs, t.tgnargs, p.proname AS tgfname, c.relname, NULL AS tgdef
+			FROM pg_trigger t LEFT JOIN pg_proc p
+			ON t.tgfoid=p.oid, pg_class c
+			WHERE t.tgrelid=c.oid
+			AND c.relname='{$table}'";
 
 		return $this->selectSet($sql);
 	}
