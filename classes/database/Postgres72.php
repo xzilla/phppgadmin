@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.13 2002/10/23 23:01:58 xzilla Exp $
+ * $Id: Postgres72.php,v 1.14 2002/11/05 21:07:38 xzilla Exp $
  */
 
 
@@ -48,6 +48,39 @@ class Postgres72 extends Postgres71 {
 			
 		return $this->selectSet($sql);
 	}	
+
+	function getTableKeys($table) {
+		$this->clean($table);
+
+		$sql = "
+				SELECT 
+					ic.relname AS index_name, 
+					bc.relname AS tab_name, 
+					ta.attname AS column_name,
+					i.indisunique AS unique_key,
+					i.indisprimary AS primary_key
+				FROM 
+					pg_class bc,
+					pg_class ic,
+					pg_index i,
+					pg_attribute ta,
+					pg_attribute ia
+				WHERE 
+					bc.oid = i.indrelid
+					AND ic.oid = i.indexrelid
+					AND ia.attrelid = i.indexrelid
+					AND ta.attrelid = bc.oid
+					AND bc.relname = '$table'
+					AND ta.attrelid = i.indrelid
+					AND ta.attnum = i.indkey[ia.attnum-1]
+				ORDER BY 
+					index_name, tab_name, column_name
+				";
+
+		return $this->selectSet($sql);
+	}
+
+
 
 	// Function functions
 

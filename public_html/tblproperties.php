@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.4 2002/10/25 21:23:18 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.5 2002/11/05 21:07:39 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -51,6 +51,7 @@
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
+		global $strKeyName, $strUnique, $strField, $strAction, $strPrimary;
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 
@@ -80,31 +81,52 @@
 			echo "</table>\n";
 			echo "<br />\n";
 
-			echo <<<EOF
-		<table border=0>
-		<tr>
-		<th>Keyname</th>
-		<th>Unique</th>
+		echo "<table border=0>\n";
+		echo "<tr>\n";
+		echo "<th>$strKeyName</th>\n";
+		echo "<th>$strUnique</th>\n";
+		echo "<th>$strPrimary</th>\n";
+		echo "<th>$strField</th>\n";
+		echo "<th>$strAction</th>\n";
+		echo "</tr>\n";
 
-		<th>Primary</th>
-		<th>Field</th>
-				<th>Action</th>
-				</tr>
-		<tr>			<td>med_practice_pkey</td>
-			<td>Yes</td>
+		$keys = &$localData->getTableKeys($_REQUEST['table']);
 
-			<td>Yes</td>
-			<td>med_practice_id</td>
-						<td><a href="sql.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php&sql_query=DROP+INDEX+%22med_practice_pkey%22&zero_rows=">Drop</a></td>
-			</tr></table>
+		if ($keys->recordCount() > 0) {
+
+			$keys->f['unique_key'] = $localData->phpBool($keys->f['unique_key']);
+			$keys->f['primary_key'] = $localData->phpBool($keys->f['primary_key']);
+
+			echo "<tr>\n";
+			echo "<td>", htmlspecialchars($keys->f['index_name']), "</td>\n";
+			echo "<td>", ($keys->f['unique_key'] ? 'Yes' : 'strNo'), "</td>\n";
+			echo "<td>", ($keys->f['primary_key'] ? 'Yes' : 'strNo'), "</td>\n";
+			echo "<td>", htmlspecialchars($keys->f['column_name']), "</td>\n";
+			echo "<td><a href=\"\">$strDrop</a></td>\n";
+			echo "</tr></table>\n";
+		} else {
+			echo '<tr><td>No Keys Found</td></tr>';
+		}
+	
+echo <<<EOF
+				
 <div align="left">
 <ul>
 <li><a href="tbl_properties.php?printview=1&server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Print</a>
 
-<li><a href="sql.php?sql_query=SELECT+%2A+FROM+%22med_practice%22&server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Browse</a>
-<li><a href="tbl_select.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Select</a>
-<li><a href="tbl_change.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert</a>
-<li><a href="sql.php?sql_query=DROP+TABLE+%22med_practice%22&server=2&db=mojo5&goto=db_details.php&reload=true">Drop</a>
+EOF;
+
+				echo "<li><a href=\"$PHP_SELF?action=confselectrows&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strBrowse}</a></li>\n";
+				echo "<li><a href=\"$PHP_SELF?action=confselectrows&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Select</a></li>\n";
+				echo "<li><a href=\"$PHP_SELF?action=confinsertrow&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Insert</a></li>\n";
+				echo "<li><a href=\"$PHP_SELF?action=confirm_drop&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Drop</a></li>\n";
+
+echo <<<EOF
+
 <li><a href="tbl_privilege.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Privileges</a>
 <li>
 	<form method="post" action="tbl_addfield.php">
@@ -117,7 +139,7 @@
 		<input type="hidden" name="db" value="mojo5">
 		<input type="hidden" name="server" value="2">
 	</form>
-<!--li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a-->
+<li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a>
 <li><form method="post" action="tbl_dump.php">View dump (schema) of table<br>
 <table>
     <tr>
