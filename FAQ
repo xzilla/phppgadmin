@@ -44,3 +44,10 @@ A: You need to drop the sequence attached to the SERIAL column of the table
    to PostgreSQL 7.3 from an earlier version, you need to run the
    contrib/adddepend script to record all dependencies.
 
+Q: When inserting a row, what is does the 'Value' or 'Expression' box mean?
+
+A: Choosing 'Expression' means that you can use functions, operators, other 
+   field names, etc. in your value - you need to properly quote any literal 
+   values yourself.  'Value' on the other hand, means that no matter what you
+   enter as the value, it will be inserted as-is into the database.
+
