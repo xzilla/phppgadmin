@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.34 2003/09/01 03:08:12 chriskl Exp $
+	 * $Id: tables.php,v 1.35 2003/09/05 01:50:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -721,7 +721,7 @@
 			else doCreate();
 			break;
 		case 'selectrows':
-			if (!isset($_POST['cancel'])) doSelectRows(false);
+			if (!isset($_GET['cancel'])) doSelectRows(false);
 			else doDefault();
 			break;
 		case 'confselectrows':
