@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.128 2004/01/03 19:15:45 soranzo Exp $
+	 * $Id: english.php,v 1.129 2004/01/07 16:29:40 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -195,7 +195,11 @@
 	$lang['strcreatedb'] = 'Create DB?';
 	$lang['strexpires'] = 'Expires';
 	$lang['strsessiondefaults'] = 'Session Defaults';
+	$lang['strnewname'] = 'New name';
 	$lang['strnousers'] = 'No users found.';
+	$lang['strrename'] = 'Rename';
+	$lang['struserrenamed'] = 'User renamed.';
+	$lang['struserrenamedbad'] = 'Failed to rename user.';
 	$lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
 	$lang['strshowallusers'] = 'Show all users';
@@ -555,7 +559,7 @@
 	$lang['strnoopclasses'] = 'No operator classes found.';
 	$lang['straccessmethod'] = 'Access method';
 
-	// Stats & Performance
+	// Stats and performance
 	$lang['strrowperf'] = 'Row Performance';
 	$lang['strioperf'] = 'I/O Performance';
 	$lang['stridxrowperf'] = 'Index Row Performance';
@@ -576,6 +580,5 @@
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
-
 
 ?>

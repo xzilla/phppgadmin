@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.21 2003/12/17 09:11:32 chriskl Exp $
+ * $Id: Postgres74.php,v 1.22 2004/01/07 16:29:40 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -263,7 +263,7 @@ class Postgres74 extends Postgres73 {
 	}
 	
 	/**
-	 * Drop a domain constraint
+	 * Drops a domain constraint
 	 * @param $domain The domain from which to remove the constraint
 	 * @param $constraint The constraint to remove
 	 * @param $cascade True to cascade, false otherwise
@@ -354,10 +354,26 @@ class Postgres74 extends Postgres73 {
 		
 		return $this->endTransaction();
 	}	
-	 
+
+	/**
+	 * Renames a user
+	 * @param $username The username of the user to rename
+	 * @param $newname The new name of the user
+	 * @return 0 success
+	 */
+	function renameUser($username, $newname){
+		$this->fieldClean($username);
+		$this->fieldClean($newname);
+
+		$sql = "ALTER USER \"{$username}\" RENAME TO \"{$newname}\"";
+
+		return $this->execute($sql);
+	}
+
 	// Capabilities
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }
+	function hasUserRename() { return true; }
 	
 }
 

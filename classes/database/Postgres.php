@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.173 2004/01/03 19:15:44 soranzo Exp $
+ * $Id: Postgres.php,v 1.174 2004/01/07 16:29:40 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2328,7 +2328,7 @@ class Postgres extends BaseDB {
 	}
 	
 	/**
-	 * Return information about a single user
+	 * Returns information about a single user
 	 * @param $username The username of the user to retrieve
 	 * @return The user's data
 	 */
@@ -2434,7 +2434,7 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Return users in a specific group
+	 * Returns users in a specific group
 	 * @param $groname The name of the group
 	 * @return All users in the group
 	 */
@@ -3515,6 +3515,7 @@ class Postgres extends BaseDB {
 	function hasSRFs() { return true; }
 	function hasOpClasses() { return true; }
 	function hasUserSessionDefaults() { return false; }
+	function hasUserRename() { return false; }
 
 }
 
