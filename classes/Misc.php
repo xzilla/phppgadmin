@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.85 2004/08/24 08:59:51 chriskl Exp $
+	 * $Id: Misc.php,v 1.86 2004/08/25 07:47:34 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -169,6 +169,10 @@
 				case 'pre':
 					$tag = 'pre';
 					$out = htmlspecialchars($str);
+					break;
+				case 'prenoescape':
+					$tag = 'pre';
+					$out = $str;
 					break;
 				case 'nbsp':
 					$out = nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($str)));

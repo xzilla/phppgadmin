@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.41 2004/08/24 08:59:51 chriskl Exp $
+	 * $Id: functions.php,v 1.42 2004/08/25 07:47:34 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -71,8 +71,11 @@
 				$i = 0;
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
-					$data->fieldClean($names_arr[$i]);					
-					$args .= '"' . $names_arr[$i] . '" ' . $args_arr[$i];
+					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
+						$data->fieldClean($names_arr[$i]);					
+						$args .= '"' . $names_arr[$i] . '" ';
+					}
+					$args .= $args_arr[$i];
 				}
 			}
 			else {
@@ -185,8 +188,11 @@
 				$i = 0;
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
-					$data->fieldClean($names_arr[$i]);					
-					$args .= '"' . $names_arr[$i] . '" ' . $args_arr[$i];
+					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
+						$data->fieldClean($names_arr[$i]);					
+						$args .= '"' . $names_arr[$i] . '" ';
+					}
+					$args .= $args_arr[$i];
 				}
 			}
 			else {
@@ -221,8 +227,18 @@
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
 			} else {
+				include_once('./libraries/highlight.php');		
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre', array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
+				// Check to see if we have syntax highlighting for this language
+				if (isset($data->langmap[$funcdata->f['prolanguage']])) {
+					$temp = syntax_highlight(htmlspecialchars($funcdata->f['prosrc']), $data->langmap[$funcdata->f['prolanguage']]);
+					$tag = 'prenoescape';
+				}
+				else {
+					$temp = &$funcdata->f['prosrc'];
+					$tag = 'pre';
+				}
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($temp, $tag, array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
 			}
 			
 			// Show flags

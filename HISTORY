@@ -23,6 +23,9 @@ Features
 * pg_dumpall integration.  Now you can download the entire cluster via
   phpPgAdmin.
 * Show line numbers when viewing functions
+* Syntax highlighting for PL/SQL, PL/PgSQL, PL/PHP, PL/Ruby, PL/Java, 
+  PL/J, PL/Python and PL/Perl functions, thanks to Jacob D. Cohen's
+  BSD-licensed highlighting code on rafb.net
 
 Translations
 * Arabic from Zaki

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.243 2004/08/03 16:16:01 soranzo Exp $
+ * $Id: Postgres.php,v 1.244 2004/08/25 07:47:34 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -81,6 +81,34 @@ class Postgres extends ADODB_base {
 		'WIN' => 'CP1251',
 		'WIN874' => 'CP874',
 		'WIN1256' => 'CP1256'
+	);
+	
+	// Map of internal language name to syntax highlighting name
+	var $langmap = array(
+		'sql' => 'SQL',
+		'plpgsql' => 'SQL',
+		'php' => 'PHP',
+		'phpu' => 'PHP',
+		'plphp' => 'PHP',
+		'plphpu' => 'PHP',
+		'perl' => 'Perl',
+		'perlu' => 'Perl',
+		'plperl' => 'Perl',
+		'plperlu' => 'Perl',
+		'java' => 'Java',
+		'javau' => 'Java',
+		'pljava' => 'Java',
+		'pljavau' => 'Java',
+		'plj' => 'Java',
+		'plju' => 'Java',
+		'python' => 'Python',
+		'pythonu' => 'Python',
+		'plpython' => 'Python',
+		'plpythonu' => 'Python',
+		'ruby' => 'Ruby',
+		'rubyu' => 'Ruby',
+		'plruby' => 'Ruby',
+		'plrubyu' => 'Ruby'
 	);
 	
 	// List of all legal privileges that can be applied to different types
