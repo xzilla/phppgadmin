@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.38 2003/01/11 09:25:21 chriskl Exp $
+	 * $Id: english.php,v 1.39 2003/01/11 09:50:21 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -22,7 +22,6 @@
 	$strActions = 'Actions';	
 	$strName = 'Name';
 	$strDefinition = 'Definition';
-	$strRules = 'Rules';
 	$strSequence = 'Sequence';
 	$strSequences = 'Sequences';
 	$strOperators = 'Operators';
@@ -49,7 +48,6 @@
 	$strSelect = 'Select';
 	$strDelete = 'Delete';
 	$strUpdate = 'Update';
-	$strRule = 'Rule';
 	$strReferences = 'References';
 	$strYes = 'Yes';
 	$strNo = 'No';
@@ -170,7 +168,13 @@
 	$strConfDropIndex = 'Are you sure you want to drop the index "%s"?';
 	$strIndexDropped = 'Index dropped.';
 	$strIndexDroppedBad = 'Index drop failed.';
-	
+
+	// Rules
+	$strRules = 'Rules';
+	$strRule = 'Rule';
+	$strNoRules = 'No rules found.';
+	$strCreateRule = 'Create Rule';
+
 	// Tables
 	$strField = 'Field';
 	$strFields = 'Fields';

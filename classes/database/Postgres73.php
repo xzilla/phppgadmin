@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.11 2003/01/04 07:56:23 chriskl Exp $
+ * $Id: Postgres73.php,v 1.12 2003/01/11 09:50:21 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -408,7 +408,7 @@ class Postgres73 extends Postgres72 {
 		return $this->selectSet($sql);
 	}
 
-		// Type functions
+	// Type functions
 
 	/**
 	 * Returns a list of all types in the database
@@ -432,6 +432,30 @@ class Postgres73 extends Postgres72 {
 			ORDER BY typname
 		";
 
+		return $this->selectSet($sql);
+	}
+	
+	// Rule functions
+	
+	/**
+	 * Returns a list of all rules on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getRules($table) {
+		$this->clean($table);
+
+		$sql = "SELECT 
+				* 
+			FROM 
+				pg_catalog.pg_rules
+			WHERE
+				schemaname='{$this->_schema}'
+				AND tablename='{$table}'
+			ORDER BY
+				rulename
+		";
+		
 		return $this->selectSet($sql);
 	}
 

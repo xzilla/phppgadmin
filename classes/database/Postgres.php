@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.38 2003/01/11 09:04:57 chriskl Exp $
+ * $Id: Postgres.php,v 1.39 2003/01/11 09:50:21 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -20,6 +20,7 @@ class Postgres extends BaseDB {
 	var $grpFields = array('groname' => 'groname');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
+	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
 	var $tgFields = array('tgname' => 'tgname');
 	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
 		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',

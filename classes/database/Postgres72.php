@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.21 2002/12/27 16:28:01 chriskl Exp $
+ * $Id: Postgres72.php,v 1.22 2003/01/11 09:50:21 chriskl Exp $
  */
 
 
@@ -306,6 +306,29 @@ class Postgres72 extends Postgres71 {
 				AND typrelid = 0
 				AND typname !~ '^_.*'
 			ORDER BY typname
+		";
+
+		return $this->selectSet($sql);
+	}
+
+	// Rule functions
+
+	/**
+	 * Returns a list of all rules on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getRules($table) {
+		$this->clean($table);
+
+		$sql = "SELECT
+				*
+			FROM
+				pg_catalog.pg_rules
+			WHERE
+				tablename='{$table}'
+			ORDER BY
+				rulename
 		";
 
 		return $this->selectSet($sql);

@@ -1,9 +1,9 @@
 <?php
 
 	/**
-	 * List indexes on a table
+	 * List rules on a table
 	 *
-	 * $Id: indexes.php,v 1.2 2003/01/11 09:50:22 chriskl Exp $
+	 * $Id: rules.php,v 1.1 2003/01/11 09:50:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -40,7 +40,7 @@
 		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\"></p>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$strShowAllIndexes}</a></p>\n";
 	}
 
@@ -95,59 +95,60 @@
 
 	}
 
+	/**
+	 * List all the rules on the table
+	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF;
-		global $strNoIndexes, $strIndexes, $strActions, $strName, $strDefinition, $strCreateIndex, $strDrop, $strPrivileges;
+		global $strRules, $strName, $strDefinition, $strActions, $strNoRules, $strCreateRule, $strDrop;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndexes}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strRules}</h2>\n";
 		$misc->printMsg($msg);
 
-		$indexes = &$localData->getIndexes($_REQUEST['table']);
+		$rules = &$localData->getRules($_REQUEST['table']);
 		
-		if ($indexes->recordCount() > 0) {
+		if ($rules->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
 			$i = 0;
 			
-			while (!$indexes->EOF) {
+			while (!$rules->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['rulename']]), "</td>";
+				echo "<td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td>\n";
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", htmlspecialchars( $rules->f[$data->rulFields['rulename']]),
+					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
 
-				$indexes->movenext();
+				$rules->movenext();
 				$i++;
 			}
 
 			echo "</table>\n";
 			}
 		else
-			echo "<p>{$strNoIndexes}</p>\n";
+			echo "<p>{$strNoRules}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateIndex}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateRule}</a></p>\n";
 	}
 
-	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strIndexes);
+	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strRules);
 	
 	switch ($action) {
-		case 'save_create_index':
-			doSaveCreateIndex();
+		case 'save_create':
+			doSaveCreate();
 			break;
-		case 'create_index':
-			doCreateIndex();
+		case 'create':
+			doCreate();
 			break;
-		case 'drop_index':
-			if ($_POST['choice'] == $strYes) doDropIndex(false);
+		case 'drop':
+			if ($_POST['choice'] == $strYes) doDrop(false);
 			else doDefault();
 			break;
-		case 'confirm_drop_index':
-			doDropIndex(true);
+		case 'confirm_drop':
+			doDrop(true);
 			break;
 		default:
 			doDefault();
