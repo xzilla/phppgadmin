@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.17.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: operators.php,v 1.17.4.2 2005/03/09 12:29:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -164,15 +164,22 @@
 		
 		$operators = &$data->getOperators();
 		
+		// Operator prototype: "type operator type"
+		$proto = concat(field('oprleftname'), ' ', field('oprname'), ' ', field('oprrightname'));
+		
+		// Alternative prototype: "operator (type,type)"
+		#$proto = concat(field('oprname'), ' (', field('oprleftname','NONE'), ',', field('oprrightname','NONE'), ')');
+		
 		$actions = array(
 			'item' => array(
-				'text'    => field('oprname'),
+				'text' => $proto,
 				'icon'    => 'operators',
+				'toolTip' => field('oprcomment'),
 				'url'     => 'operators.php',
 				'urlvars' => array(
 						'subject' => 'operator',
 						'action'  => 'properties',
-						'operator' => field('oprname'),
+						'operator' => $proto,
 						'operator_oid' => field('oid'),
 					),
 			),

@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.6.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.6.4.2 2005/03/09 12:29:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -62,10 +62,14 @@
 		
 		$opclasses = &$data->getOpClasses();
 		
+		// OpClass prototype: "op_class/access_method"
+		$proto = concat(field('opcname'),'/',field('amname'));
+		
 		$actions = array(
 			'item' => array(
-				'text'    => field('amname'),
+				'text'    => $proto,
 				'icon'    => 'operators',
+				'toolTip' => field('opccomment'),
 			),
 		);
 		

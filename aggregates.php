@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.10.4.1 2005/03/01 10:47:02 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.10.4.2 2005/03/09 12:29:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -54,10 +54,13 @@
 		
 		$aggregates = &$data->getAggregates();
 		
+		$proto = concat(field('proname'), ' (', field('proargtypes'), ')');
+		
 		$actions = array(
 			'item' => array(
-				'text'    => field('proname'),
+				'text'    => $proto,
 				'icon'    => 'functions',
+				'toolTip' => field('aggcomment'),
 			),
 		);
 		

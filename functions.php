@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: functions.php,v 1.47.4.2 2005/03/09 12:29:01 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -538,15 +538,18 @@
 		
 		$funcs = &$data->getFunctions();
 		
+		$proto = concat(field('proname'),' (',field('proarguments'),')');
+		
 		$actions = array(
 			'item' => array(
-				'text'    => field('proname'),
+				'text'    => $proto,
 				'icon'    => 'functions',
+				'toolTip' => field('procomment'),
 				'url'     => 'redirect.php',
 				'urlvars' => array(
 						'subject' => 'function',
 						'action' => 'properties',
-						'function' => field('proproto'),
+						'function' => $proto,
 						'function_oid' => field('prooid'),
 					),
 			),
