@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.26 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: privileges.php,v 1.27 2004/07/19 08:13:02 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -203,13 +203,15 @@
 					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "\">{$lang['stralterprivs']}</a></p>\n";
 				break;
 			case 'sequence':
+				if (!isset($_REQUEST['sequence'])) $_REQUEST['sequence'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+					urlencode($_REQUEST['object']), "&amp;sequence=", urlencode($_REQUEST['sequence']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
+				if (!isset($_REQUEST['database'])) $_REQUEST['database'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+					urlencode($_REQUEST['object']), "&amp;database=", urlencode($_REQUEST['database']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"all_db.php\">{$lang['strshowalldatabases']}</a></p>\n";
 				break;
 			case 'function':
@@ -218,14 +220,16 @@
 				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
+				if (!isset($_REQUEST['schema'])) $_REQUEST['schema'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+					urlencode($_REQUEST['object']), "&amp;schema=", urlencode($_REQUEST['schema']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";
 				break;
 			case 'tablespace':
+				if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = $_REQUEST['object'];
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+					urlencode($_REQUEST['object']), "&amp;tablespace=", urlencode($_REQUEST['tablespace']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"tablespaces.php\">{$lang['strshowalltablespaces']}</a></p>\n";
 				break;
 		}
