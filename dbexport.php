@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.11 2004/06/06 06:34:28 chriskl Exp $
+	 * $Id: dbexport.php,v 1.10.2.1 2004/06/06 06:42:06 chriskl Exp $
 	 */
 
 	// Include application functions
