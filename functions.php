@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.7 2003/03/10 02:15:14 chriskl Exp $
+	 * $Id: functions.php,v 1.8 2003/03/11 22:25:19 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,7 @@
 	function doEdit($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strFunction, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
-		global $strSave, $strReset, $strNoData, $strFunctions, $strEdit, $strProperties, $strShowAllFunctions;
+		global $strSave, $strReset, $strNoData, $strFunctions, $strEdit, $strProperties, $strShowAllFunctions, $strDrop;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strEdit}</h2>\n";
 		$misc->printMsg($msg);
@@ -40,6 +40,7 @@
 		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
 		
 		if ($fndata->recordCount() > 0) {
+			$func_full = $fndata->f[$data->fnFields['fnname']] . "(". $fndata->f[$data->fnFields['fnarguments']] .")";
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
 			echo "<table width=90%>\n";
 			echo "<tr>\n";
@@ -82,7 +83,9 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllFunctions}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strProperties}</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strProperties}</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
+			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$strDrop}</a></p>\n";
 	}
 
 	/**
@@ -91,7 +94,7 @@
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
-		global $strFunctions, $strProperties, $strNoData, $strShowAllFunctions, $strEdit;
+		global $strFunctions, $strProperties, $strNoData, $strShowAllFunctions, $strEdit, $strDrop;
 	
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strProperties}</h2>\n";
 		$misc->printMsg($msg);
@@ -99,6 +102,7 @@
 		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
+			$func_full = $funcdata->f[$data->fnFields['fnname']] . "(". $funcdata->f[$data->fnFields['fnarguments']] .")";
 			echo "<table width=90%>\n";
 			echo "<tr><th class=data>{$strFunctions}</th>\n";
 			echo "<th class=data>{$strArguments}</th>\n";
@@ -116,7 +120,9 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllFunctions}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strEdit}</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strEdit}</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
+			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$strDrop}</a></td>\n";
 	}
 	
 	/**

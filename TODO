@@ -75,8 +75,10 @@ Views
 Functions
 ---------
 
-* Need to add a drop link to the properties and edit pages.
-* Add Postgres 7.3 support
+* -Need to add a drop link to the properties and edit pages.(robert)
+* -Add Postgres 7.3 support(robert)
+* Add support for immutable+ (7.3) and iscacheable+ (7.2) 
+
 
 Sequences
 ---------
@@ -151,7 +153,7 @@ Schemas
 
 * -Create schema, drop schema (chriskl)
 * -Not all operations yet respect schema settings (chriskl)
-* Schema menu link results in 404 (robert)
+* -Schema menu link results in 404 (robert)
 
 Settings
 --------
