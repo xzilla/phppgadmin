@@ -3,7 +3,7 @@
 /**
  * Help links for PostgreSQL 8.0 documentation
  *
- * $Id: PostgresDoc80.php,v 1.3 2004/11/26 09:32:51 soranzo Exp $
+ * $Id: PostgresDoc80.php,v 1.2.2.1 2004/11/30 01:45:59 chriskl Exp $
  */
 
 include('./help/PostgresDoc74.php');
