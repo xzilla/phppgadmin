@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.24 2003/03/14 03:14:53 chriskl Exp $
+ * $Id: Postgres73.php,v 1.25 2003/03/16 10:54:14 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -72,12 +72,12 @@ class Postgres73 extends Postgres72 {
 	function setSearchPath($paths) {
 		if (!is_array($paths)) return -1;
 		elseif (sizeof($paths) == 0) return -2;
-		$this->arrayClean($paths);
+		$this->fieldArrayClean($paths);
 
 		$sql = 'SET SEARCH_PATH TO "' . implode('"', $paths) . '"';
 		
 		return $this->execute($sql);
-	}	
+	}
 
 	/**
 	 * Return all schemas in the current database
@@ -463,17 +463,14 @@ class Postgres73 extends Postgres72 {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT 
-					t.tgname,t.tgargs,t.tgtype,p.proname
-				FROM pg_catalog.pg_trigger t,pg_catalog.pg_proc p
-			    
-				WHERE t.tgrelid   =(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-				  AND (p.oid = t.tgfoid)
-	   			  AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
- 				  AND (NOT tgisconstraint OR NOT EXISTS (SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
-				  ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-
-   				WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
+		$sql = "SELECT t.tgname, NULL AS tgdef
+			FROM pg_catalog.pg_trigger t
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+			AND (NOT tgisconstraint OR NOT EXISTS
+			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
 
 		return $this->selectSet($sql);
 	}
@@ -559,7 +556,7 @@ class Postgres73 extends Postgres72 {
 		$this->clean($table);
 
 		$sql = "SELECT 
-				* 
+				*
 			FROM 
 				pg_catalog.pg_rules
 			WHERE
@@ -572,6 +569,22 @@ class Postgres73 extends Postgres72 {
 		return $this->selectSet($sql);
 	}
 	
+	/**
+	 * Edits a rule
+	 * @param $name The name of the new rule
+	 * @param $event SELECT, INSERT, UPDATE or DELETE
+	 * @param $table Table on which to create the rule
+	 * @param $where When to execute the rule, '' indicates always
+	 * @param $instead True if an INSTEAD rule, false otherwise
+	 * @param $type NOTHING for a do nothing rule, SOMETHING to use given action
+	 * @param $action The action to take
+	 * @return 0 success
+	 * @return -1 invalid event
+	 */
+	function setRule($name, $event, $table, $where, $instead, $type, $action) {
+		return $this->createRule($name, $event, $table, $where, $instead, $type, $action, true);
+	}
+
 	// Constraint functions
 	
 	/**
@@ -589,6 +602,39 @@ class Postgres73 extends Postgres72 {
 			WHERE attnum IN ('" . join("','", $colnums) . "')
 			AND attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}'))";
+
+		$rs = $this->selectSet($sql);
+
+		$temp = array();
+		while (!$rs->EOF) {
+			$temp[$rs->f['attnum']] = $rs->f['attname'];
+			$rs->moveNext();
+		}
+
+		$atts = array();
+		foreach ($colnums as $v) {
+			$atts[] = '"' . $temp[$v] . '"';
+		}
+		
+		return $atts;
+	}
+
+	/**
+	 * A helper function for getConstraints that translates
+	 * an array of attribute numbers to an array of field names.
+	 * @param $table The name of the table
+	 * @param $columsn An array of column ids
+	 * @return An array of column names
+	 */
+	function &getKeys($table, $colnums) {
+		$this->clean($table);
+		$this->arrayClean($colnums);
+
+		$sql = "SELECT attnum, attname FROM pg_attribute
+			WHERE attnum IN ('" . join("','", $colnums) . "')
+			AND attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_namespace
 					WHERE nspname='{$this->_schema}'))";
 
 		$rs = $this->selectSet($sql);
