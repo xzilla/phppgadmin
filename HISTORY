@@ -6,6 +6,10 @@ Version 3.4-dev
 
 Features
 * Add CACHE and CYCLE parameters in sequence creation
+* View, add, edit and delete comments on views, schemas and columns (Dan Boren)
+
+Version 3.3.1
+-------------
 
 Bugs
 * Fix table stats for <= 7.2

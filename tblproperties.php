@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.36 2004/02/05 06:45:57 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.37 2004/03/12 08:56:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -164,6 +164,7 @@
 				if (!isset($_POST['field'])) $_POST['field'] = '';
 				if (!isset($_POST['type'])) $_POST['type'] = '';
 				if (!isset($_POST['length'])) $_POST['length'] = '';
+				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 
 				// Fetch all available types
 				$types = &$data->getTypes(true);
@@ -176,7 +177,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>";
@@ -189,7 +190,9 @@
 				}
 				echo "</select></td>\n";
 				echo "<td><input name=\"length\" size=\"8\" value=\"",
-					htmlspecialchars($_POST['length']), "\" /></td></tr>";
+					htmlspecialchars($_POST['length']), "\" /></td>";
+				echo "<td><input name=\"comment\" size=\"60\" value=\"",
+					htmlspecialchars($_POST['comment']), "\" /></td></tr>";
 				echo "</table>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"add_column\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
@@ -211,7 +214,7 @@
 				}
 				
 				$status = $data->addColumn($_POST['table'], $_POST['field'],
-								$_POST['type'], $_POST['length']);
+							   $_POST['type'], $_POST['length'],$_POST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnadded']);
 				else {
@@ -246,7 +249,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
@@ -255,6 +258,7 @@
 					$_REQUEST['field'] = $column->f['attname'];
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
 					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
+					$_REQUEST['comment'] = $column->f['comment'];
 				}				
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
@@ -263,6 +267,8 @@
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
+				echo "<td><input name=\"comment\" size=\"60\" value=\"", 
+					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
 				
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
@@ -287,7 +293,7 @@
 				}
 				
 				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
-								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
+							     isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault'],$_REQUEST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {
@@ -366,7 +372,8 @@
 			echo "\t<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 		else
 			echo "\t<th class=\"data\">{$lang['stractions']}</th>\n";
-		echo "</tr>\n";
+		echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n"; 
+	        echo "</tr>\n";
 
 		$i = 0;
 		while (!$attrs->EOF) {
@@ -382,6 +389,7 @@
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 			}
+			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['comment']), "</td>\n"; 
 			echo "</tr>\n";
 			$attrs->moveNext();
 			$i++;

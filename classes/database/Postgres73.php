@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.90 2004/02/14 04:21:03 chriskl Exp $
+ * $Id: Postgres73.php,v 1.91 2004/03/12 08:56:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -15,7 +15,7 @@ class Postgres73 extends Postgres72 {
 
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil', 'udefaults' => 'useconfig');
 
-	var $nspFields = array('nspname' => 'nspname', 'nspowner' => 'nspowner');
+	var $nspFields = array('nspname' => 'nspname', 'nspowner' => 'nspowner', 'nspcomment' => 'comment');
 	var $conFields = array('conname' => 'conname', 'conowner' => 'conowner');
 
 	// Store the current schema
@@ -100,9 +100,10 @@ class Postgres73 extends Postgres72 {
 
 		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%'";
 		else $and = '';
-		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS comment
+                        FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
 			WHERE pn.nspowner = pu.usesysid
-			{$and}ORDER BY nspname";
+			{$and} ORDER BY nspname";
 
 		return $this->selectSet($sql);
 	}
@@ -114,8 +115,10 @@ class Postgres73 extends Postgres72 {
 	 */
 	function &getSchemaByName($schema) {
 		$this->clean($schema);
-		$sql = "SELECT * FROM pg_catalog.pg_namespace WHERE nspname='{$schema}'";
-		return $this->selectRow($sql);
+		$sql = "SELECT nspname, nspowner,nspacl, pg_catalog.obj_description(pn.oid, 'pg_namespace') as comment
+                        FROM pg_catalog.pg_namespace pn
+                        WHERE nspname='{$schema}'";
+		return $this->selectSet($sql);
 	}
 
 	/**
@@ -125,14 +128,34 @@ class Postgres73 extends Postgres72 {
 	 * @param $authorization (optional) If omitted, defaults to current user.
 	 * @return 0 success
 	 */
-	function createSchema($schemaname, $authorization = '') {
+	function createSchema($schemaname, $authorization = '', $comment = '') {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($authorization);
+		$this->clean($comment);
 
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
 		
-		return $this->execute($sql);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		// Create the new schema
+		$status =  $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Set the comment
+		if ($comment != '') {
+			$status = $this->setComment('SCHEMA', $schemaname, '', $comment);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+		return $this->endTransaction();
 	}
 	
 	/**
@@ -148,6 +171,18 @@ class Postgres73 extends Postgres72 {
 		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);
+	}
+
+	/**
+	 * Updates a schema.
+	 * @param $schemaname The name of the schema to drop
+	 * @param $comment The new comment for this schema
+	 * @return 0 success
+	 */
+	function updateSchema($schemaname, $comment) {
+		$this->fieldClean($schemaname);
+		$this->fieldClean($comment);
+		return $this->setComment('SCHEMA', $schemaname, '', $comment);
 	}
 
 	/**
@@ -351,7 +386,8 @@ class Postgres73 extends Postgres72 {
 						AND pd.refobjsubid=a.attnum
 						AND pd.deptype='i'
 						AND pc.relkind='S'
-					) IS NOT NULL AS attisserial
+					) IS NOT NULL AS attisserial,
+					pg_catalog.col_description(a.attrelid, a.attnum) AS comment 
 
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
@@ -371,7 +407,8 @@ class Postgres73 extends Postgres72 {
 					a.attname,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
-					a.attstattarget, a.attstorage, t.typstorage
+					a.attstattarget, a.attstorage, t.typstorage,
+					pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 					ON a.attrelid=adef.adrelid
@@ -479,8 +516,10 @@ class Postgres73 extends Postgres72 {
 	 * @return All views
 	 */
 	function getViews() {
-		$sql = "SELECT viewname, viewowner FROM pg_catalog.pg_views
-			WHERE schemaname='{$this->_schema}' ORDER BY viewname";
+		$sql = "SELECT c.relname AS viewname, pg_catalog.pg_get_userbyid(c.relowner) AS viewowner, 
+                          pg_catalog.obj_description(c.oid, 'pg_class') AS comment
+                        FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
+                        WHERE (n.nspname='{$this->_schema}') AND (c.relkind = 'v'::\"char\")  ORDER BY viewname";
 
 		return $this->selectSet($sql);
 	}
@@ -494,8 +533,8 @@ class Postgres73 extends Postgres72 {
 	 * @return -2 drop view error
 	 * @return -3 create view error
 	 */
-	function setView($viewname, $definition) {
-		return $this->createView($viewname, $definition, true);
+	function setView($viewname, $definition,$comment) {
+                return $this->createView($viewname, $definition, true, $comment);
 	}
 
 	// Sequence functions

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.185 2004/03/12 01:12:09 soranzo Exp $
+ * $Id: Postgres.php,v 1.186 2004/03/12 08:56:53 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -15,7 +15,7 @@ class Postgres extends BaseDB {
 
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description', 'encoding' => 'encoding', 'owner' => 'owner');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner', 'tbcomment' => 'tablecomment');
-	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
+	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition', 'vwcomment' => 'comment');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 	var $grpFields = array('groname' => 'groname', 'grolist' => 'grolist');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
@@ -359,6 +359,7 @@ class Postgres extends BaseDB {
 		$sql .= "CREATE TABLE \"{$t->f['tablename']}\" (\n";
 
 		// Output all table columns
+		$col_comments_sql = '';   // Accumulate comments on columns
 		$num = $atts->recordCount() + $cons->recordCount();
 		$i = 1;
 		while (!$atts->EOF) {
@@ -387,6 +388,12 @@ class Postgres extends BaseDB {
 			if ($i < $num) $sql .= ",\n";
 			else $sql .= "\n";
 
+			// Does this column have a comment?  
+			if ($atts->f['comment'] !== null) {
+				$this->clean($atts->f['comment']);
+				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->f['tablename']}\".\"{$atts->f['attname']}\"  IS '{$atts->f['comment']}';\n";
+			}
+			
 			$atts->moveNext();
 			$i++;
 		}
@@ -502,10 +509,13 @@ class Postgres extends BaseDB {
 
 		// Comment
 		if ($t->f['tablecomment'] !== null) {
-				$this->clean($t->f['tablecomment']);
-				$sql .= "\n-- Comment\n\n";
-				$sql .= "COMMENT ON TABLE \"{$t->f['tablename']}\" IS '{$t->f['tablecomment']}';\n";
+			$this->clean($t->f['tablecomment']);
+			$sql .= "\n-- Comment\n\n";
+			$sql .= "COMMENT ON TABLE \"{$t->f['tablename']}\" IS '{$t->f['tablecomment']}';\n";
 		}
+
+		// Add comments on columns, if any
+		if ($col_comments_sql != '') $sql .= $col_comments_sql;
 
 		// Privileges
 		$privs = &$this->getPrivileges($table, 'table');
@@ -950,10 +960,11 @@ class Postgres extends BaseDB {
 		$this->clean($table);
 				
 		$sql = "SELECT pc.relname AS tablename, 
-							pg_get_userbyid(pc.relowner) AS tableowner, 
-							(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS tablecomment 
-							FROM pg_class pc
-							WHERE pc.relname='{$table}'";
+			pg_get_userbyid(pc.relowner) AS tableowner, 
+			(SELECT description FROM pg_description pd 
+                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS tablecomment 
+			FROM pg_class pc
+			WHERE pc.relname='{$table}'";
 							
 		return $this->selectSet($sql);
 	}
@@ -1066,13 +1077,15 @@ class Postgres extends BaseDB {
 	 * @param $name The new name for the column
 	 * @param $notnull (boolean) True if not null, false otherwise
 	 * @param $default The new default for the column
-	 * @param $olddefault THe old default for the column
+	 * @param $olddefault The old default for the column
+	 * @param $comment Comment for the column
 	 * @return 0 success
 	 * @return -1 set not null error
 	 * @return -2 set default error
 	 * @return -3 rename column error
+	 * @return -4 comment error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $default, $olddefault) {
+	function alterColumn($table, $column, $name, $notnull, $default, $olddefault, $comment) {
 		$this->beginTransaction();
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
@@ -1104,6 +1117,12 @@ class Postgres extends BaseDB {
 			}
 		}
 
+		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		if ($status != 0) {
+		  $this->rollbackTransaction();
+		  return -4;
+		}
+
 		return $this->endTransaction();
 	}	
 
@@ -1117,18 +1136,25 @@ class Postgres extends BaseDB {
 	 * @param $notnull An array of not null
 	 * @param $default An array of default values
 	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
+	 * @param $comment Table comment
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids) {
+	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids, $colcomment, $tblcomment) {
 		$this->fieldClean($name);
+		$this->fieldClean($tblcomment);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
 
 		$found = false;
+		$comment_sql = ''; //Accumulate comments for the columns
 		$sql = "CREATE TABLE \"{$name}\" (";
 		for ($i = 0; $i < $fields; $i++) {
 			$this->fieldClean($field[$i]);
 			$this->clean($type[$i]);
 			$this->clean($length[$i]);
+			$this->clean($colcomment[$i]);
 
 			// Skip blank columns - for user convenience
 			if ($field[$i] == '' || $type[$i] == '') continue;
@@ -1159,6 +1185,8 @@ class Postgres extends BaseDB {
 			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
 			if ($i != $fields - 1) $sql .= ", ";
 
+			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
+
 			$found = true;
 		}
 		
@@ -1170,7 +1198,29 @@ class Postgres extends BaseDB {
 		if ($this->hasWithoutOIDs() && $withoutoids)
 			$sql .= ' WITHOUT OIDS';
 		
-		return $this->execute($sql);
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		if ($tblcomment != '') {
+			$status = $this->setComment('TABLE', '', $name, $tblcomment);
+			if ($status) {
+				$this->rollbackTransaction();
+			return -1;
+			}
+		}
+
+		if ($comment_sql != '') {
+			$status = $this->execute($comment_sql);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+		return $this->endTransaction();
+		
 	}	
 
 	/**
@@ -1199,11 +1249,7 @@ class Postgres extends BaseDB {
 		}
 		
 		// Comment
-		$sql = "COMMENT ON TABLE \"{$table}\" IS ";
-		if ($comment == '') $sql .= 'NULL';
-		else $sql .= "'{$comment}'";
-
-		$status = $this->execute($sql);
+		$status = $this->setComment('TABLE', '', $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
@@ -1719,11 +1765,12 @@ class Postgres extends BaseDB {
 	 * @param $length The optional size of the column (ie. 30 for varchar(30))
 	 * @return 0 success
 	 */
-	function addColumn($table, $column, $type, $length) {
+	function addColumn($table, $column, $type, $length, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
 		$this->clean($type);
 		$this->clean($length);
+		$this->clean($comment);
 
 		if ($length == '')
 			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
@@ -1745,7 +1792,23 @@ class Postgres extends BaseDB {
 					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
 			}
 		}
-		return $this->execute($sql);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		return $this->endTransaction();
 	}
 
 	/**
@@ -1846,6 +1909,47 @@ class Postgres extends BaseDB {
 		$sql = "ALTER TABLE \"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
 
 		return $this->execute($sql);
+	}
+
+	/**
+	 * Sets the comment for an object in the database
+	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE'
+	 * @param $obj_name The name of the object for which to attach a comment
+	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
+	 * @param $comment The comment to add
+	 * @return 0 success
+	 */
+
+	function setComment($obj_type, $obj_name, $table, $comment) {
+		$this->clean($obj_type);
+		$this->fieldClean($obj_name);
+		$this->fieldClean($table);
+		$this->clean($comment);
+		
+		// Make sure we have a valid type
+		$types = array('TABLE','COLUMN','VIEW','SCHEMA','SEQUENCE','TYPE');
+		if (! in_array($obj_type,$types)) return -1;
+
+		$sql = "COMMENT ON {$obj_type} " ;
+
+		switch ($obj_type) {
+		case 'TABLE':
+			$sql .= "\"{$table}\" IS ";
+			break;
+		case 'COLUMN':
+			$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
+			break;
+		default:
+			$sql .= "\"{$obj_name}\" IS ";
+		}
+
+		if ($comment != '')
+			$sql .= "'{$comment}';";
+		else
+			$sql .= 'NULL;';
+
+		return $this->execute($sql);
+
 	}
 
 	/**
@@ -1999,11 +2103,17 @@ class Postgres extends BaseDB {
 	 */
 	function &getViews() {
 		global $conf;
+
+		$where = "WHERE (c.relkind = 'v'::\"char\")";
 		if (!$conf['show_system'])
-			$where = "WHERE viewname NOT LIKE 'pg\\\\_%'";
-		else $where  = '';
+			$where .= " AND (c.relname NOT LIKE 'pg\\\\_%')";
 		
-		$sql = "SELECT viewname, viewowner FROM pg_views {$where} ORDER BY viewname";
+		$sql = "SELECT viewname, viewowner, description as comment
+                        FROM pg_class c 
+			JOIN pg_views v ON ((v.viewname = c.relname) AND (viewowner = pg_get_userbyid(c.relowner)))
+                        LEFT JOIN pg_description d ON (d.objoid = c.oid)
+			{$where} 
+			ORDER BY c.relname";
 
 		return $this->selectSet($sql);
 	}
@@ -2016,8 +2126,11 @@ class Postgres extends BaseDB {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT viewname, viewowner, definition FROM pg_views WHERE viewname='$view'";
-
+		$sql = "SELECT viewname, viewowner, definition, description as comment
+                        FROM pg_class c 
+			JOIN pg_views v ON ((v.viewname = c.relname) AND (viewowner = pg_get_userbyid(c.relowner)))
+                        LEFT JOIN pg_description d ON (d.objoid = c.oid)
+			WHERE (c.relname = '$view')";
 		return $this->selectSet($sql);
 	}	
 
@@ -2028,15 +2141,34 @@ class Postgres extends BaseDB {
 	 * @param $replace True to replace the view, false otherwise
 	 * @return 0 success
 	 */
-	function createView($viewname, $definition, $replace) {
+	function createView($viewname, $definition, $replace, $comment) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
 		$this->fieldClean($viewname);
+		$this->clean($comment);
+
 		// Note: $definition not cleaned
 		
 		$sql = "CREATE ";
 		if ($replace) $sql .= "OR REPLACE ";		
 		$sql .= "VIEW \"{$viewname}\" AS {$definition}";
 		
-		return $this->execute($sql);
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		if ($comment != '') {
+			$status = $this->setComment('VIEW', $viewname, '', $comment);
+			if ($status) {
+				$this->rollbackTransaction();
+			return -1;
+			}
+		}
+
+		return $this->endTransaction();
 	}
 	
 	/**
@@ -2063,8 +2195,9 @@ class Postgres extends BaseDB {
 	 * @return -1 transaction error
 	 * @return -2 drop view error
 	 * @return -3 create view error
+	 * @return -4 comment error
 	 */
-	function setView($viewname, $definition) {
+	function setView($viewname, $definition, $comment) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
@@ -2074,7 +2207,7 @@ class Postgres extends BaseDB {
 			return -2;
 		}
 		
-		$status = $this->createView($viewname, $definition, false);
+		$status = $this->createView($viewname, $definition, false, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;

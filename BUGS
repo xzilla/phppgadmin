@@ -20,3 +20,5 @@ Need to fix:
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
 
+* Fix all uses of setComment that do double escaping
+

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.36 2004/02/14 04:21:02 chriskl Exp $
+	 * $Id: database.php,v 1.37 2004/03/12 08:56:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -437,6 +437,7 @@
 
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $_SESSION['webdbUsername'];
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all users from the database
 		$users = &$data->getUsers();
@@ -457,7 +458,12 @@
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
-		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+		echo "\t\t\t</select>\n\t\t</td>\n\t\n";
+		
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input name=\"formComment\" size=\"60\" value=\"",
+			htmlspecialchars($_POST['formComment']), "\" /></td>\n\t</tr>\n";
+		echo "\t</tr>\n";
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
@@ -477,7 +483,7 @@
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
 		else {
-			$status = $data->createSchema($_POST['formName'], $_POST['formAuth']);
+			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'],$_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemacreated']);
@@ -505,7 +511,7 @@
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
 				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
-				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+				echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th><th class=\"data\">{$lang['strcomment']}</th>\n";
 				$i = 0;
 				while (!$schemas->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
@@ -517,6 +523,10 @@
 					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?database=",
 						urlencode($_REQUEST['database']), "&amp;object=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;type=schema\">{$lang['strprivileges']}</a></td>\n";
+					echo "<td class=\"opbutton{$id}\"><a href=\"schema.php?database=",
+						urlencode($_REQUEST['database']), "&amp;schema=",
+						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;action=alter\">{$lang['stralter']}</a></td>\n";
+					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspcomment']]), "</td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
 					$i++;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.27 2003/12/21 02:03:15 chriskl Exp $
+	 * $Id: views.php,v 1.28 2004/03/12 08:56:52 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -126,7 +126,7 @@
 	function doSaveEdit() {
 		global $data, $lang;
 		
-		$status = $data->setView($_POST['view'], $_POST['formDefinition']);
+		$status = $data->setView($_POST['view'], $_POST['formDefinition'], $_POST['formComment']);
 		if ($status == 0)
 			doProperties($lang['strviewupdated']);
 		else
@@ -147,13 +147,19 @@
 		
 		if ($viewdata->recordCount() > 0) {
 			
-			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $viewdata->f[$data->vwFields['vwdef']];
+			if (!isset($_POST['formDefinition'])) {
+				$_POST['formDefinition'] = $viewdata->f[$data->vwFields['vwdef']];
+				$_POST['formComment'] = $viewdata->f[$data->vwFields['vwcomment']];
+			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input style=\"width: 100%;\" name=\"formComment\" value='", 
+				htmlspecialchars($_POST['formComment']), "' /></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -183,6 +189,8 @@
 			echo "\t\t<td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strdefinition']}</th>\n";
 			echo "\t\t<td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwcomment']]), "</td>\n\t</tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -234,6 +242,7 @@
 		
 		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
 		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
+		if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		
@@ -248,6 +257,9 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
 		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input style=\"width: 100%;\" name=\"formComment\" value='", 
+			htmlspecialchars($_REQUEST['formComment']), "' /></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
@@ -266,7 +278,7 @@
 		if ($_POST['formView'] == '') doCreate($lang['strviewneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strviewneedsdef']);
 		else {		 
-			$status = $data->createView($_POST['formView'], $_POST['formDefinition'], false);
+			$status = $data->createView($_POST['formView'], $_POST['formDefinition'], false, $_POST['formComment']);
 			if ($status == 0)
 				doDefault($lang['strviewcreated']);
 			else
@@ -290,7 +302,8 @@
 		if ($views->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strview']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
@@ -312,6 +325,7 @@
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&object=", urlencode($views->f[$data->vwFields['vwname']]),
 					"&type=view\">{$lang['strprivileges']}</a></td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwcomment']]), "</td>\n";
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;

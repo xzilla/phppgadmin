@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.44 2004/01/03 10:16:57 chriskl Exp $
+	 * $Id: tables.php,v 1.45 2004/03/12 08:56:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,6 +22,7 @@
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
+		if (!isset($_REQUEST['tblcomment'])) $_REQUEST['tblcomment'] = '';
 
 		switch ($_REQUEST['stage']) {
 			case 1:
@@ -41,6 +42,7 @@
 					echo "<td class=\"data\"><input type=\"checkbox\" name=\"withoutoids\"", 
 						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), " />WITHOUT OIDS</td></tr>\n";
 				}
+
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
@@ -74,12 +76,17 @@
 
 				// Output table header
 				echo "<table>\n";
-				echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>\n";
+				echo "<tr><th class=\"data left\" colspan=\"2\">{$lang['strcomment']}</th><td colspan=\"5\"><input style=\"width: 100%;\" name=\"tblcomment\" value='", 
+					htmlspecialchars($_REQUEST['tblcomment']), "' /></td></tr>\n";
+				echo "<tr><td colspan=\"7\">&nbsp;</td></tr>\n";
+				echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
 					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
 					if (!isset($_REQUEST['default'][$i])) $_REQUEST['default'][$i] = '';
+					if (!isset($_REQUEST['colcomment'][$i])) $_REQUEST['colcomment'][$i] = '';
+
 					echo "<tr><td>", $i + 1, ".&nbsp;</td>";
 					echo "<td><input name=\"field[{$i}]\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 						htmlspecialchars($_REQUEST['field'][$i]), "\" /></td>";
@@ -103,9 +110,10 @@
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>";
 					echo "<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>";
 					echo "<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
-						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td></tr>\n";
-				}				
-				
+						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td>";
+					echo "<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"", 
+						htmlspecialchars($_REQUEST['colcomment'][$i]), "\" /></td></tr>\n";
+				}	
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
@@ -140,7 +148,7 @@
 				
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
-								isset($_REQUEST['withoutoids']));
+								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment']);
 				if ($status == 0) {
 					$_reload_browser = true;
 					doDefault($lang['strtablecreated']);
