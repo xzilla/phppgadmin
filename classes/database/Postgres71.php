@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.24 2003/03/14 03:14:51 chriskl Exp $
+ * $Id: Postgres71.php,v 1.25 2003/03/16 10:51:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -376,93 +376,6 @@ class Postgres71 extends Postgres {
 		// @@ how?
 		return $this->execute($sql);
 	}
-    
-	// View functions
-	
-	/**
-	 * Returns a list of all views in the database
-	 * @return All views
-	 */
-	function getViews() {
-		if (!$this->_showSystem)
-			$where = "WHERE viewname NOT LIKE 'pg_%'";
-		else $where  = '';
-		
-		$sql = "SELECT viewname, viewowner FROM pg_views {$where} ORDER BY viewname";
-
-		return $this->selectSet($sql);
-	}
-	
-	/**
-	 * Returns all details for a particular view
-	 * @param $view The name of the view to retrieve
-	 * @return View info
-	 */
-	function getView($view) {
-		$this->clean($view);
-		
-		$sql = "SELECT viewname, viewowner, definition FROM pg_views WHERE viewname='$view'";
-
-		return $this->selectSet($sql);
-	}	
-
-	/**
-	 * Creates a new view.
-	 * @param $viewname The name of the view to create
-	 * @param $definition The definition for the new view
-	 * @return 0 success
-	 */
-	function createView($viewname, $definition) {
-		$this->clean($viewname);
-		// Note: $definition not cleaned
-		
-		$sql = "CREATE VIEW \"{$viewname}\" AS {$definition}";
-		
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Drops a view.
-	 * @param $viewname The name of the view to drop
-	 * @return 0 success
-	 */
-	function dropView($viewname) {
-		$this->clean($viewname);
-		
-		$sql = "DROP VIEW \"{$viewname}\"";
-		
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Updates a view.  Postgres doesn't have CREATE OR REPLACE view,
-	 * so we do it with a drop and a recreate.
-	 * @param $viewname The name fo the view to update
-	 * @param $definition The new definition for the view
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 drop view error
-	 * @return -3 create view error
-	 */
-	function setView($viewname, $definition) {
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-		
-		$status = $this->dropView($viewname);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-		
-		$status = $this->createView($viewname, $definition);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-		
-		$status = $this->endTransaction();
-		return ($status == 0) ? 0 : -1;
-	}	
 
 	// Operator functions
 	
@@ -484,83 +397,14 @@ class Postgres71 extends Postgres {
 				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname
 			FROM
 				pg_operator po
-			{$where}				
+			{$where}
 			ORDER BY
 				po.oprname, po.oid
 		";
 
 		return $this->selectSet($sql);
 	}
-	
-	
-	/**
-	 * Creates a new operator
-	 */
-	
-	/**
-	 * Creates a new user
-	 * @param $username The username of the user to create
-	 * @param $password A password for the user
-	 * @param $createdb boolean Whether or not the user can create databases
-	 * @param $createuser boolean Whether or not the user can create other users
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
-	 * @param $group (array) The groups to create the user in
-	 * @return 0 success
-	 */
-	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
-		$this->clean($username);
-		// @@ THIS IS A PROBLEM FOR TRIMMING PASSWORD!!!
-		$this->clean($password);
-		$this->clean($expiry);
-		$this->arrayClean($groups);		
-		
-		$sql = "CREATE USER \"{$username}\"";
-		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
-		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
-		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
-		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP '" . join("', '", $groups) . "'";
-		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
-		
-		return $this->execute($sql);
-	}	
-	
-	/**
-	 * Adjusts a user's info
-	 * @param $username The username of the user to modify
-	 * @param $password A new password for the user
-	 * @param $createdb boolean Whether or not the user can create databases
-	 * @param $createuser boolean Whether or not the user can create other users
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
-	 * @return 0 success
-	 */
-	function setUser($username, $password, $createdb, $createuser, $expiry) {
-		$this->clean($username);
-		$this->clean($password);
-		$this->clean($expiry);
-		
-		$sql = "ALTER USER \"{$username}\"";
-		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
-		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
-		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
-		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
-		
-		return $this->execute($sql);
-	}	
-	
-	/**
-	 * Removes a user
-	 * @param $username The username of the user to drop
-	 * @return 0 success
-	 */
-	function dropUser($username) {
-		$this->clean($username);
-		
-		$sql = "DROP USER \"{$username}\"";
-		
-		return $this->execute($sql);
-	}
 
-    
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }
@@ -574,8 +418,5 @@ class Postgres71 extends Postgres {
 	function hasSchemas() { return false; }
 
 }
-
-
-
 
 ?>
