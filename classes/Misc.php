@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.30 2003/05/07 06:29:54 chriskl Exp $
+	 * $Id: Misc.php,v 1.31 2003/05/08 14:15:57 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -82,8 +82,9 @@
 		function &getDatabaseAccessor($host, $port, $database, $username, $password) {
 			global $conf;
 			
+			$desc = null;
 			$type = $this->getDriver($host, $port, $username, $password, 
-							 $conf['servers'][$_SESSION['webdbServerID']]['type']);
+							 $conf['servers'][$_SESSION['webdbServerID']]['type'], $desc);
 			include_once('classes/database/' . $type . '.php');
 			$localData = new $type(	$host,
 											$port,
@@ -101,12 +102,13 @@
 		 * @param $user The username to use
 		 * @param $password The password to use
 		 * @param $type The ADODB database type name.
+		 * @param (return-by-ref) $description A description of the database and version
 		 * @return The class name of the driver eg. Postgres73
 		 * @return -1 Database functions not compiled in
 		 * @return -2 Invalid database type
 		 * @return -3 Database-specific failure
 		 */
-		function getDriver($host, $port, $user, $password, $type) {
+		function getDriver($host, $port, $user, $password, $type, &$description) {
 			switch ($type) {
 				case 'postgres7':
 					// Check functions are loaded
@@ -124,6 +126,7 @@
 					if (!isset($params[1])) return -3;
 
 					$version = $params[1]; // eg. 7.3.2
+					$description = "PostgreSQL {$params[1]}";
 
 					if (strpos($version, '7.4') === 0)
 						return 'Postgres74';
@@ -139,6 +142,7 @@
 					break;
 				case 'mysql':
 					// Check functions are loaded
+					$description = 'MySQL';
 					if (!function_exists('mysql_connect')) return -1;
 					return 'MySQL';
 					break;

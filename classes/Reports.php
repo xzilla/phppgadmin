@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.5 2003/04/21 06:36:24 chriskl Exp $
+	 * $Id: Reports.php,v 1.6 2003/05/08 14:15:57 chriskl Exp $
 	 */
 
 	class Reports {
@@ -32,9 +32,16 @@
 		 * @return A recordset
 		 */
 		function &getReports() {
+			global $conf;
+			// Filter for owned reports if necessary
+			if ($conf['owned_reports_only']) {
+				$filter['created_by'] = $_SESSION['webdbUsername'];
+			}
+			else $filter = array();
+
 			$sql = $this->driver->getSelectSQL('ppa_reports',
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
-				array(), array(), array('report_name'));
+				$filter, array(), array('report_name'));
 
 			return $this->driver->selectSet($sql);
 		}

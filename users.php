@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.8 2003/04/19 09:25:22 chriskl Exp $
+	 * $Id: users.php,v 1.9 2003/05/08 14:15:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,7 +12,36 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-
+	
+	/**
+	 * If a user is not a superuser, then we have an 'account management' page
+	 * where they can change their password, etc.  We don't prevent them from
+	 * messing with the URL to gain access to other user admin stuff, because
+	 * the PostgreSQL permissions will prevent them changing anything anyway.
+	 */
+	function doAccount($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+	
+		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_SESSION['webdbUsername']), ": {$lang['straccount']}</h2>\n";
+		$misc->printMsg($msg);
+		
+		$userdata = &$data->getUser($_SESSION['webdbUsername']);
+		
+		if ($userdata->recordCount() > 0) {
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
+			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<td class=\"data1\">", $userdata->f[$data->uFields['usuper']], "</td>\n";
+			echo "<td class=\"data1\">", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
+			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=confchangepassword\">{$lang['strchangepassword']}</a></p>\n";
+	}
+	
 	/** 
 	 * Function to save after editing a user
 	 */
@@ -212,6 +241,9 @@
 	$misc->printBody();
 
 	switch ($action) {
+		case 'account':
+			doAccount();
+			break;
 		case 'save_create':
 			doSaveCreate();
 			break;

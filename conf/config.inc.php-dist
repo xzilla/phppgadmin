@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.18 2003/05/08 02:03:53 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.19 2003/05/08 14:15:58 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -28,6 +28,14 @@
 	// in any way prevent your users from seeing other database by other means.
 	// (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
 	$conf['owned_only'] = false;
+
+	// Display reports feature?
+	$conf['show_reports'] = true;
+
+	// Only show owned reports?
+	// Note: This does not prevent people from accessing other reports by other
+	// means.
+	$conf['owned_reports_only'] = false;
 
 	// Width of the left frame in pixels (object browser)
 	$conf['left_width'] = 200;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.96 2003/05/07 15:00:56 chriskl Exp $
+ * $Id: Postgres.php,v 1.97 2003/05/08 14:15:57 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1474,6 +1474,21 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
+	
+	/**
+	 * Determines whether or not a user is a super user
+	 * @param $username The username of the user
+	 * @return True if is a super user, false otherwise
+	 */
+	function isSuperUser($username) {
+		$this->clean($username);
+		
+		$sql = "SELECT usesuper FROM pg_user WHERE usename='{$username}'";
+		
+		$usesuper = $this->selectField($sql, 'usesuper');
+		if ($usesuper == -1) return false;
+		else return $usesuper == 't';
+	}	
 	
 	/**
 	 * Creates a new user

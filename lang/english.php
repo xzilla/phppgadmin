@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.74 2003/04/30 06:35:42 chriskl Exp $
+	 * $Id: english.php,v 1.75 2003/05/08 14:15:58 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -160,6 +160,8 @@
 	$lang['strconfdropuser'] = 'Are you sure you want to drop the user "%s"?';
 	$lang['struserdropped'] = 'User dropped.';
 	$lang['struserdroppedbad'] = 'Failed to drop user.';
+	$lang['straccount'] = 'Account';
+	$lang['strchangepassword'] = 'Change Password';
 		
 	// Groups
 	$lang['strgroupadmin'] = 'Group Admin';

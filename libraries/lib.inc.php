@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.43 2003/05/07 01:20:02 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.44 2003/05/08 14:15:59 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -124,7 +124,8 @@
 							$conf['servers'][$_SESSION['webdbServerID']]['port'],
 							$_SESSION['webdbUsername'],
 							$_SESSION['webdbPassword'],
-							$conf['servers'][$_SESSION['webdbServerID']]['type']);
+							$conf['servers'][$_SESSION['webdbServerID']]['type'],
+							$conf['description']);
 			// Check return type
 			if ($_type == -1) {
 				echo $lang['strnotloaded'];
