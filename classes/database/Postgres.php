@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.197 2004/05/09 04:31:25 chriskl Exp $
+ * $Id: Postgres.php,v 1.198 2004/05/09 06:21:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -49,8 +49,11 @@ class Postgres extends BaseDB {
 		'DELETE OR UPDATE', 'INSERT OR DELETE OR UPDATE');
 	// When to execute the trigger	
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
-	// Foreign key actions
+	// Foreign key stuff.  First element MUST be the default.
 	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
+	var $fkmatches = array('MATCH SIMPLE', 'MATCH FULL');
+	var $fkdeferrable = array('NOT DEFERRABLE', 'DEFERRABLE');
+	var $fkinitial = array('INITIALLY IMMEDIATE', 'INITIALLY DEFERRED');
 	// Function properties
 	var $funcprops = array(array('', 'ISCACHABLE'));
 	var $defaultprops = array('');
@@ -1705,11 +1708,15 @@ class Postgres extends BaseDB {
 	 * @param $tfields (array) An array of target fields over which to add the foreign key
 	 * @param $upd_action The action for updates (eg. RESTRICT)
 	 * @param $del_action The action for deletes (eg. RESTRICT)
+	 * @param $match The match type (eg. MATCH FULL)
+	 * @param $deferrable The deferrability (eg. NOT DEFERRABLE)
+	 * @param $intially The initial deferrability (eg. INITIALLY IMMEDIATE)
 	 * @param $name (optional) The name to give the key, otherwise default name is assigned
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addForeignKey($table, $targschema, $targtable, $sfields, $tfields, $upd_action, $del_action, $name = '') {
+	function addForeignKey($table, $targschema, $targtable, $sfields, $tfields, $upd_action, $del_action, 
+							$match, $deferrable, $initially, $name = '') {
 		if (!is_array($sfields) || sizeof($sfields) == 0 ||
 			!is_array($tfields) || sizeof($tfields) == 0) return -1;
 		$this->fieldClean($table);
@@ -1728,8 +1735,11 @@ class Postgres extends BaseDB {
 			$sql .= "\"{$targschema}\".";
 		}		
 		$sql .= "\"{$targtable}\"(\"" . join('","', $tfields) . "\") ";
-		if ($upd_action != 'NO ACTION') $sql .= " ON UPDATE {$upd_action}";
-		if ($del_action != 'NO ACTION') $sql .= " ON DELETE {$del_action}";
+		if ($match != $this->fkmatches[0]) $sql .= " {$match}";
+		if ($upd_action != $this->fkactions[0]) $sql .= " ON UPDATE {$upd_action}";
+		if ($del_action != $this->fkactions[0]) $sql .= " ON DELETE {$del_action}";
+		if ($deferrable != $this->fkdeferrable[0]) $sql .= " {$deferrable}";
+		if ($initially != $this->fkinitial[0]) $sql .= " {$initially}";
 
 		return $this->execute($sql);
 	}

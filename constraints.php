@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.26 2003/12/21 02:03:14 chriskl Exp $
+	 * $Id: constraints.php,v 1.27 2004/05/09 06:21:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -68,6 +68,9 @@
 				// Initialise variables
 				if (!isset($_POST['upd_action'])) $_POST['upd_action'] = null;
 				if (!isset($_POST['del_action'])) $_POST['del_action'] = null;
+				if (!isset($_POST['match'])) $_POST['match'] = null;
+				if (!isset($_POST['deferrable'])) $_POST['deferrable'] = null;
+				if (!isset($_POST['initially'])) $_POST['initially'] = null;
 				$_REQUEST['target'] = unserialize($_REQUEST['target']);
 				
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
@@ -127,7 +130,25 @@
 				foreach ($data->fkactions as $v) {
 					echo "<option value=\"{$v}\"", ($_POST['del_action'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
 				}
-				echo "</select>\n";				
+				echo "</select><br />\n";
+				// MATCH options
+				echo "<select name=\"match\">";
+				foreach ($data->fkmatches as $v) {
+					echo "<option value=\"{$v}\"", ($_POST['match'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
+				}
+				echo "</select><br />\n";
+				// DEFERRABLE options
+				echo "<select name=\"deferrable\">";
+				foreach ($data->fkdeferrable as $v) {
+					echo "<option value=\"{$v}\"", ($_POST['deferrable'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
+				}
+				echo "</select><br />\n";
+				// INITIALLY options
+				echo "<select name=\"initially\">";
+				foreach ($data->fkinitial as $v) {
+					echo "<option value=\"{$v}\"", ($_POST['initially'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
+				}
+				echo "</select>\n";
 				echo "</td></tr>";
 				echo "</table>\n";
 
@@ -153,7 +174,8 @@
 						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
 				else {
 					$status = $data->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'], 
-						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], $_POST['name']);
+						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], 
+						$_POST['match'], $_POST['deferrable'], $_POST['initially'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strfkadded']);
 					else
