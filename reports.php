@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.8 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: reports.php,v 1.9 2003/04/09 20:11:44 slubek Exp $
 	 */
 
 	// Include application functions
@@ -61,7 +61,7 @@
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\">\n";
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=\"{$lang['strreset']}\"></p>\n";
+		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
 		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\">\n";
 		echo "</form>\n";
 
