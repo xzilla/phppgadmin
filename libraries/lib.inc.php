@@ -3,8 +3,9 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.92 2005/02/18 11:39:47 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.92.2.1 2005/03/01 10:42:28 jollytoad Exp $
 	 */
+	include_once('decorator.inc.php');
 	
 	// Set error reporting level to max
 	error_reporting(E_ALL);
@@ -100,27 +101,28 @@
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
 	
-	// If login action is set, then set session variables
-	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 
-		isset($_POST['formPassword']) && isset($_POST['formLanguage'])) {
-		$_SESSION['webdbServerID'] = $_POST['formServer'];
-		$_SESSION['webdbUsername'] = $_POST['formUsername'];
-		$_SESSION['webdbPassword'] = $_POST['formPassword'];
-		$_SESSION['webdbLanguage'] = $_POST['formLanguage'];
+	if (isset($_REQUEST['language'])) {
+		$_language = strtolower($_REQUEST['language']);
+		if (isset($appLangFiles[$_language])) {
+			$_SESSION['webdbLanguage'] = $_language;
+		}
 	}
-
-	// If the logged in settings aren't present, put up the login screen.
-	if (!isset($_SESSION['webdbUsername'])
-			||	!isset($_SESSION['webdbPassword'])
-			||	!isset($_SESSION['webdbServerID'])
-			||	!isset($_SESSION['webdbLanguage'])
-			||	!isset($conf['servers'][$_SESSION['webdbServerID']])) {
-		include('./login.php');
-		exit;
+	
+	// If login action is set, then set session variables
+	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) && 
+		isset($_POST['loginPassword'])) {
+		
+		$_server_info = $misc->getServerInfo($_POST['loginServer']);
+		
+		$_server_info['username'] = $_POST['loginUsername'];
+		$_server_info['password'] = $_POST['loginPassword'];
+		
+		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 	}
 
 	// Import language file
-	include('./lang/recoded/' . strtolower($_SESSION['webdbLanguage']) . '.php');
+	if (isset($_SESSION['webdbLanguage']))
+		include("./lang/recoded/{$_SESSION['webdbLanguage']}.php");
 
 	// If extra login check fails, back to the login screen
 	$_allowed = $misc->checkExtraSecurity();
@@ -137,36 +139,30 @@
 
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
+		if (!isset($_REQUEST['server'])) {
+			die('No server supplied!');
+			# TODO: nice error
+		}
+		
+		$_server_info = $misc->getServerInfo();
+		
+		// Redirect to the login form if not logged in
+		if (!isset($_server_info['username'])) {
+			include('./login.php');
+			exit;
+		}
+		
 		// Connect to the current database, or if one is not specified
 		// then connect to the default database.
 		if (isset($_REQUEST['database']))
 			$_curr_db = $_REQUEST['database'];
 		else
-			$_curr_db = $conf['servers'][$_SESSION['webdbServerID']]['defaultdb'];
+			$_curr_db = $_server_info['defaultdb'];
 
-		// Create the connection object and make the connection
 		include_once('./classes/database/Connection.php');
-		$_connection = new Connection(
-			$conf['servers'][$_SESSION['webdbServerID']]['host'],
-			$conf['servers'][$_SESSION['webdbServerID']]['port'],
-			$_SESSION['webdbUsername'],
-			$_SESSION['webdbPassword'],
-			$_curr_db
-		);
-
-		// Get the name of the database driver we need to use.  The description
-		// of the server is returned and placed into the conf array.
-		$_type = $_connection->getDriver($conf['description']);
-		if ($_type === null) {
-			printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer);
-			exit;
-		}
-
-		// Create a database wrapper class for easy manipulation of the
-		// connection.
-		require_once('./classes/database/' . $_type . '.php');
-		$data = new $_type($_connection->conn);
-		$data->platform = $_connection->platform;
+		
+		// Connect to database and set the global $data variable
+		$data =& $misc->getDatabaseAccessor($_curr_db);
 
 		// If schema is defined and database supports schemas, then set the 
 		// schema explicitly.

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.122 2005/01/04 23:49:21 soranzo Exp $
+	 * $Id: english.php,v 1.122.2.1 2005/03/01 10:39:15 jollytoad Exp $
 	 */
 
 	// Language and character set
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Login failed';
 	$lang['strlogindisallowed'] = 'Login disallowed for security reasons.';
 	$lang['strserver'] = 'Server';
+	$lang['strservers'] = 'Servers';
+	$lang['strintroduction'] = 'Introduction';
+	$lang['strhost'] = 'Host';
+	$lang['strport'] = 'Port';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Owner';
 	$lang['straction'] = 'Action';
@@ -128,7 +132,8 @@
 	$lang['strfileimported'] = 'File imported.';
 
 	// Error handling
-	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
+	$lang['strnoframes'] = 'This application works best with a frames-enabled browser, but can be used without frames by following the link below.';
+	$lang['strnoframeslink'] = 'Use without frames';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Your PHP installation does not support PostgreSQL. You need to recompile PHP using the --with-pgsql configure option.';
 	$lang['strpostgresqlversionnotsupported'] = 'Version of PostgreSQL not supported. Please upgrade to version %s or later.';
@@ -634,5 +639,7 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
 	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle'] = 'Login to %s';
+	$lang['strlogoutmsg'] = 'Logged out of %s';
 
 ?>
