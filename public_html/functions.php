@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.1 2002/08/30 15:12:56 xzilla Exp $
+	 * $Id: functions.php,v 1.2 2002/09/09 21:16:40 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -95,23 +95,23 @@
 		global $PHP_SELF;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Drop</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the view \"", htmlspecialchars($_REQUEST['view']), "\"?</p>\n";
+			echo "<p>Are you sure you want to drop the function \"", htmlspecialchars($_REQUEST['function']), "\"?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
+			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropView($_POST['view']);
+			$status = $localData->dropFunction($_POST['function']);
 			if ($status == 0)
-				doDefault('View dropped.');
+				doDefault('Function dropped.');
 			else
-				doDefault('View drop failed.');
+				doDefault('Function drop failed.');
 		}
 		
 	}
@@ -123,7 +123,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strDefinition;
 		
-		if (!isset($_POST['formView'])) $_POST['formView'] = '';
+		if (!isset($_POST['formFunc'])) $_POST['formFunc'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: Create View</h2>\n";
@@ -178,24 +178,26 @@
 		
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strParams}</th><th colspan=4 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strParams}</th><th colspan=3 class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
+
+				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
+
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnresult']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($funcs->f[$data->fnFields['fnname']]), "\">Browse</a></td>\n";
-				echo "<td class=opbutton{$id}>Select</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=", 
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($funcs->f[$data->fnFields['fnname']]), "\">Properties</a></td>\n";
+				echo "<td class=opbutton{$id}>Edit</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($views->f[$data->fnFields['fnname']]), "\">Drop</a></td>\n";
+					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$funcs->moveNext();
 				$i++;
 			}
+
 			echo "</table>\n";
 		}
 		else {

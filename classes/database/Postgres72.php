@@ -4,18 +4,22 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.2 2002/09/09 05:08:55 chriskl Exp $
+ * $Id: Postgres72.php,v 1.3 2002/09/09 21:16:40 xzilla Exp $
  */
 
 
-include_once('../classes/database/Postgres71.php');
+require_once('../classes/database/Postgres71.php');
 
 class Postgres72 extends Postgres71 {
 
-	var $fnFields = array('fnname' => 'proname', 'fnresult' => 'result', 'fnarguments' => 'arguments');
-
-	// Last oid assigned to a system object
+	var $fnFields = array('fnname' => 'proname', 'fnresult' => 'result', 'fnarguments' => 'arguments','fnoid' => 'oid');
+	
+	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
+
+	// This gets it from the database. 
+	// $rs = pg_exec($link, "SELECT oid FROM pg_database WHERE datname='template1'") or pg_die(pg_errormessage(), "", __FILE__, __LINE__);
+	// $builtin_max = pg_result($rs, 0, "oid");
 
 	// Function functions
 	
@@ -23,22 +27,9 @@ class Postgres72 extends Postgres71 {
 	 * Returns a list of all functions in the database
 	 * @return All functions
 	 */
-
-	function getFunctions() {
-		/*
-		
-		By default I dont think we want to show system functions, but we mighth want to later on
-
-		if (!$this->_showSystem)
-			$where = "WHERE funcname NOT LIKE 'pg_%'";
-		else $where  = '';
-		*/
-
-		// NOTE: This string needs to be determined based on a query to the database. 
-		// We used to capture this number as "$builtin_max" but we don't seem to any more.
-		// 10,000 should work for most systems, but this definatly needs to be changed
-		$max=10000;
 			
+	function getFunctions() {
+
 		$sql = 	"SELECT 
 				pc.oid,
 				proname, 
@@ -49,7 +40,7 @@ class Postgres72 extends Postgres71 {
 			WHERE	
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = pt.oid
-				AND pc.oid > '$max'::oid
+				AND pc.oid > '$this->_lastSystemOID'::oid
 			UNION
 			SELECT 
 				pc.oid,
@@ -61,7 +52,7 @@ class Postgres72 extends Postgres71 {
 			WHERE	
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = 0
-				AND pc.oid > '$max'::oid
+				AND pc.oid > '$this->_lastSystemOID'::oid
 			ORDER BY
 				proname, result
 			";
@@ -104,8 +95,8 @@ class Postgres72 extends Postgres71 {
 	 */
 	function dropFunction($funcname) {
 		$this->clean($funcname);
-		
-		$sql = "DROP VIEW \"{$funcname}\"";
+	
+		$sql = "DROP FUNCTION {$funcname} ";
 		
 		return $this->execute($sql);
 	}
