@@ -22,6 +22,7 @@ Features:
 * Show boolean values as TRUE or FALSE when viewing data
 * Allow renaming table and changing table owner
 * Refresh feature on table browse
+* Support better formatted view dumps in 7.4
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
