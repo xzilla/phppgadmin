@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.8 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: functions.php,v 1.9 2003/01/09 06:40:33 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -73,14 +73,14 @@
 			echo "<input type=hidden name=action value=save_edit>\n";
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
 			echo "<input type=hidden name=function_oid value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit value=Save> <input type=reset>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($_REQUEST['database']), "&function=", 
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
 			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Properties</a></p>\n";
 	}
 
@@ -112,8 +112,8 @@
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($_REQUEST['database']), "&function=", 
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
 			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Edit</a></p>\n";
 	}
 	
@@ -121,7 +121,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF;
 
 		if ($confirm) { 
@@ -132,7 +132,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
@@ -198,11 +198,11 @@
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo $misc->form;
 		echo "<input type=submit value=Save> <input type=reset>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a></p>\n";
 	}
 	
 	/**
@@ -245,12 +245,12 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=",
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&database=",
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Edit</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Edit</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=", 
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$funcs->moveNext();
 				$i++;
@@ -262,7 +262,7 @@
 			echo "<p>{$strNoFunctions}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">Create Function</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">Create Function</a></p>\n";
 
 	}
 	
