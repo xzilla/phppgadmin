@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.8 2003/01/21 23:09:53 slubek Exp $
+	 * $Id: polish.php,v 1.9 2003/01/23 00:47:26 slubek Exp $
 	 */
 
 	// Language and character set
@@ -22,10 +22,7 @@
 	$strActions = 'Akcje';	
 	$strName = 'Nazwa';
 	$strDefinition = 'Definicja';
-	$strSequence = 'Sekwencja';
-	$strSequences = 'Sekwencje';
 	$strOperators = 'Operatory';
-	$strTypes = 'Typy';
 	$strAggregates = 'Funkcje agreguj±ce';
 	$strProperties = 'W³a¶ciwo¶ci';
 	$strBrowse = 'Przegl±daj';
@@ -37,12 +34,13 @@
 	$strNext = 'Nastêpny';
 	$strFailed = 'Nieudany';
 	$strCreate = 'Utwórz';
-	$strComment = 'Skomentuj';
+	$strComment = 'Komentarz';
 	$strLength = 'D³ugo¶æ';
 	$strDefault = 'Domy¶lny';
 	$strAlter = 'Zmieñ';
 	$strCancel = 'Anuluj';
 	$strSave = 'Zapisz';
+	$strReset = 'Wyczy¶æ';
 	$strInsert = 'Wstaw';
 	$strSelect = 'Wybierz';
 	$strDelete = 'Usuñ';
@@ -51,6 +49,7 @@
 	$strYes = 'Tak';
 	$strNo = 'Nie';
 	$strEdit = 'Edycja';
+	$strColumns = 'Kolumny';
 	$strRows = 'wiersz(y)';
 	$strExample = 'np.';
 	$strBack = 'Wstecz';
@@ -58,26 +57,42 @@
 	$strShow = 'Poka¿';
  	$strEmpty = 'Pusty';
 	$strLanguage = 'Jêzyk';
-	
+	$strEncoding = 'Kodowanie';
+	$strValue = 'Warto¶æ';
+	$strUnique = 'Unikatowy';
+	$strPrimary = 'G³ówny';
+	$strExport = 'Eksport';
+
 	// Error handling
 	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
 	$strNotLoaded = 'Nie wkompilowa³e¶ do PHP obs³ugi tej bazy danych.';
-	$strBadSchema = 'Invalid schema specified.';
-	$strBadEncoding = 'Failed to set client encoding in database.';
+	$strBadSchema = 'Podano b³êdny schemat.';
+	$strBadEncoding = 'B³êdne kodowanie bazy.';
 	$strSQLError = 'B³±d SQL:';
 	$strInStatement = 'W poleceniu:';
 	$strInvalidScriptParam = 'B³êdny parametr skryptu.';
 	$strNoData = 'Nie znaleziono danych.';
 
 	// Tables
-	$strNoTables = 'Nie znaleziono tablic.';
-	$strNoTable = 'Nie znaleziono tablicy.';
 	$strTable = 'Tabela';
 	$strTables = 'Tabele';
+	$strShowAllTables = 'Poka¿ wszystkie tabele';
+	$strNoTable = 'Nie znaleziono tablicy.';
+	$strNoTables = 'Nie znaleziono tablic.';
+	$strCreateTable = 'Utwórz tabelê';
+	$strTableName = 'Nazwa tabeli';
+	$strTableNeedsName = 'Musisz nazwaæ tabelê.';
+	$strTableNeedsField = 'Musisz podaæ przynajmniej jedno pole.';
+	$strTableNeedsCols = 'Musisz podaæ prawid³ow± liczbê kolumn.';
 	$strTableCreated = 'Utworzono tabelê.';
 	$strTableCreatedBad = 'Operacja utworzenia tabeli siê nie powiod³a.';
-	$strTableNeedsField = 'Musisz podaæ przynajmniej jedno pole.';
+	$strConfDropTable = 'Czy na pewno chcesz usun±æ tablicê "%s"?';
+	$strTableDropped = 'Tablica usuniêta.';
+	$strTableDroppedBad = 'Operacja usuniêcia tablicy siê nie powiod³a.';
+	$strConfEmptyTable = 'Czy na pewno chcesz wyczy¶ciæ tablicê "%s"?';
+	$strTableEmptied = 'Tablica wyczyszczona.';
+	$strTableEmptiedBad = 'Operacja wyczyszczenia tablicy siê nie powiod³a.';
 	$strInsertRow = 'Wstaw wiersz';
 	$strRowInserted = 'Wiersz wstawiony.';
 	$strRowInsertedBad = 'Operacja wstawienia wiersza siê nie powiod³a.';
@@ -89,12 +104,9 @@
 	$strRowDeleted = 'Wiersz usuniêty.';
 	$strRowDeletedBad = 'Operacja usuniêcia wiersza siê nie powiod³a.';
 	$strSaveAndRepeat = 'Zapisz i powtórz';
-	$strConfEmptyTable = 'Czy na pewno chcesz wyczy¶ciæ tablicê "%s"?';
-	$strTableEmptied = 'Tablica wyczyszczona.';
-	$strTableEmptiedBad = 'Operacja wyczyszczenia tablicy siê nie powiod³a.';
-	$strConfDropTable = 'Czy na pewno chcesz usun±æ tablicê "%s"?';
-	$strTableDropped = 'Tablica usuniêta.';
-	$strTableDroppedBad = 'Operacja usuniêcia tablicy siê nie powiod³a.';
+	$strField = 'Pole';
+	$strFields = 'Pola';
+	$strNumFields = 'Ilo¶æ pól';
 
 	// Users
 	$strUserAdmin = 'Administracja kontami u¿ytkowników';
@@ -111,9 +123,10 @@
 	$strGroupAdmin = 'Administracja grupami u¿ytkowników';
 	$strGroup = 'Grupa';
 	$strGroups = 'Grupy';
+	$strShowAllGroups = 'Poka¿ wszystkie grupy';
+	$strNoGroup = 'Nie znaleziono grupy.';
 	$strNoGroups = 'Nie znaleziono grup.';
 	$strCreateGroup = 'Utwórz grupê';
-	$strShowAllGroups = 'Poka¿ wszystkie grupy';
 	$strGroupNeedsName = 'Musisz nazwaæ grupê.';
 	$strGroupCreated = 'Grupa utworzona.';
 	$strGroupCreatedBad = 'Próba utworzenia grupy siê nie powiod³a.';
@@ -130,22 +143,42 @@
 	// Databases
 	$strDatabase = 'Baza danych';
 	$strDatabases = 'Bazy danych';
+	$strShowAllDatabases = 'Poka¿ wszystkie bazy danych';
+	$strNoDatabase = 'Nie znaleziono bazy danych.';
 	$strNoDatabases = 'Nie znaleziono ¿adnej bazy danych.';
+	$strCreateDatabase = 'Utwórz bazê danych';
+	$strDatabaseName = 'Nazwa bazy danych';
 	$strDatabaseNeedsName = 'Musisz nazwaæ bazê danych.';
 	$strDatabaseCreated = 'Baza danych utworzona.';
 	$strDatabaseCreatedBad = 'Próba utworzenia bazy danych siê nie powiod³a.';
+	$strConfDropDatabase = 'Czy na pewno chcesz usun±æ bazê danych "%s"?';
+	$strDatabaseDropped = 'Baza danych usuniêta.';
+	$strDatabaseDroppedBad = 'Próba usuniêcia bazy danych siê nie powiod³a.';
 	
 	// Views
-	$strViewNeedsName = 'Musisz nazwaæ widok.';
-	$strViewNeedsDef = 'Musisz zdefiniowaæ widok.';
-	$strCreateView = 'Utwórz widok';
-	$strNoViews = 'Nie znaleziono widoków.';
 	$strView = 'Widok';
 	$strViews = 'Widoki';
+	$strShowAllViews = 'Poka¿ wszystkie widoki';
+	$strNoView = 'Nie znaleziono widoku.';
+	$strNoViews = 'Nie znaleziono widoków.';
+	$strCreateView = 'Utwórz widok';
+	$strViewName = 'Nazwa widoku';
+	$strViewNeedsName = 'Musisz nazwaæ widok.';
+	$strViewNeedsDef = 'Musisz zdefiniowaæ widok.';
+	$strViewCreated = 'Widok utworzony.';
+	$strViewCreatedBad = 'Próba utworzenia widoku siê nie powiod³a.';
+	$strConfDropView = 'Czy na pewno chcesz usun±æ widok "%s"?';
+	$strViewDropped = 'Widok usuniêty.';
+	$strViewDroppedBad = 'Próba usuniêcia widoku siê nie powiod³a.';
 
 	// Sequences
+	$strSequence = 'Sekwencja';
+	$strSequences = 'Sekwencje';
+	$strShowAllSequences = 'Poka¿ wszystkie sekwencje';
+	$strNoSequence = 'Nie znaleziono sekwencji.';
 	$strNoSequences = 'Nie znaleziono sekwencji.';
-	$strSequenceName = 'sequence_name';
+	$strCreateSequence = 'Utwórz sekwencjê';
+	$strSequenceName = 'Nazwa sekwencji';
 	$strLastValue = 'last_value';
 	$strIncrementBy = 'increment_by';	
 	$strMaxValue = 'max_value';
@@ -154,17 +187,23 @@
 	$strLogCount = 'log_cnt';
 	$strIsCycled = 'is_cycled';
 	$strIsCalled = 'is_called';
-	$strReset =	'Wyczy¶æ';
-
+	$strSequenceNeedsName = 'Musisz nazwaæ sekwencjê';
+	$strSequenceCreated = 'Utworzono sekwencjê';
+	$strSequenceCreatedBad = 'Próba utworzenia sekwencji siê nie powiod³a.';
+	$strConfDropSequence = 'Czy na pewno chcesz usun±æ sekwencjê "%s"?';
+	$strSequenceDropped = 'Sekwencja usuniêta.';
+	$strSequenceDroppedBad = 'Próba usuniêcia sekwencji siê nie powiod³a.';
+						
 	// Indeksy
+	$strIndex = 'Indeks';
 	$strIndexes = 'Indeksy';
-	$strIndexName = 'Nazwa Indeksu';
-	$strTabName = 'Tab Name';
-	$strColumnName = 'Nazwa Kolumny';
-	$strUniqueKey = 'Klucz Unikatowy';
-	$strPrimaryKey = 'Klucz G³ówny';
-	$strShowAllIndicies = 'Poka¿ wszystkie indeksy';
+	$strShowAllIndexes = 'Poka¿ wszystkie indeksy';
+	$strNoIndex = 'Nie znaleziono indeksu.';
+	$strNoIndexes = 'Nie znaleziono indeksów.';
 	$strCreateIndex = 'Utwórz indeks';
+	$strIndexName = 'Nazwa indeksu';
+	$strTabName = 'Tab Name';
+	$strColumnName = 'Nazwa kolumny';
 	$strIndexNeedsName = 'Musisz nazwaæ indeks.';
 	$strIndexNeedsCols = 'W sk³ad indeksu musi wchodziæ przynajmniej jedna kolumna.';
 	$strIndexCreated = 'Indeks utworzony';
@@ -172,54 +211,65 @@
 	$strConfDropIndex = 'Czy na pewno chcesz usun±æ indeks "%s"?';
 	$strIndexDropped = 'Indeks usuniêty.';
 	$strIndexDroppedBad = 'Próba usuniêcia indeksu siê nie powiod³a.';
+	$strKeyName = 'Nazwa klucza';
+	$strUniqueKey = 'Klucz Unikatowy';
+	$strPrimaryKey = 'Klucz G³ówny';
 	
 	// Regu³y
 	$strRule = 'Regu³a';
 	$strRules = 'Regu³y';
+	$strShowAllRules = 'Poka¿ wszystkie regu³y';
+	$strNoRule = 'Nie znaleziono regu³y.';
 	$strNoRules = 'Nie znaleziono regu³.';
 	$strCreateRule = 'Utwórz regu³ê';
+	$strRuleName = 'Nazwa regu³y';
+	$strRuleNeedsName = 'Musisz nazwaæ regu³ê.';
+	$strRuleCreated = 'Utworzono regu³ê.';
+	$strRuleCreatedBad = 'Próba utworzenia regu³y siê nie powiod³a.';
 	$strConfDropRule = 'Czy na pewno chcesz usun±æ regu³ê "%s" na "%s"?';
 	$strRuleDropped = 'Regu³a usuniêta.';
 	$strRuleDroppedBad = 'Operacja usuniêcia regu³y siê nie powiod³a.';
 	
-	// Tablice
-	$strField = 'Pole';
-	$strFields = 'Pola';
-	$strType = 'Typ';
-	$strValue = 'Warto¶æ';
-	$strShowAllTables = 'Poka¿ wszystkie tablice';
-	$strUnique = 'Unikatowy';
-	$strPrimary = 'G³ówny';
-	$strKeyName = 'Nazwa klucza';
-	$strNumFields = 'Ilo¶æ pól';
-	$strCreateTable = 'Utwórz tabelê';
-	$strTableNeedsName = 'Musisz nazwaæ tabelê.';
-	$strTableNeedsCols = 'Musisz podaæ prawid³ow± liczbê kolumn.';
-	$strExport = 'Eksport';
-	$strColumns = 'Kolumny';
-
 	// Wiêzy integralno¶ci
 	$strConstraints = 'Wiêzy integralno¶ci';
+	$strShowAllConstraints = 'Poka¿ wszystkie wiêzy integralno¶ci';
 	$strNoConstraints = 'Nie znaleziono wiêzów integralno¶ci.';
 	$strCreateConstraint = 'Utwórz wiêzy integralno¶ci';
+	$strConstraintCreated = 'Utworzono wiêzy integralno¶ci.';
+	$strConstraintCreatedBad = 'Próba utworzenia wiêzów integralno¶ci siê nie powiod³a.';
 	$strConfDropConstraint = 'Czy na pewno chcesz usun±æ wiêzy integralno¶ci "%s" na "%s"?';
 	$strConstraintDropped = 'Wiêzy integralno¶ci usuniête.';
 	$strConstraintDroppedBad = 'Operacja usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
 		
 	// Functions
-	$strNoFunctions = 'Nie znaleziono funkcji.';
 	$strFunction = 'Funkcja';
 	$strFunctions = 'Funkcje';
+	$strShowAllFunctions = 'Poka¿ wszystkie funkcje';
+	$strNoFunction = 'Nie znaleziono funkcji.';
+	$strNoFunctions = 'Nie znaleziono funkcji.';
+	$strCreateFunction = 'Utwórz funkcjê';
+	$strFunctionName = 'Nazwa funkcji';
 	$strReturns = 'Zwraca';
 	$strArguments = 'Parametry';
 	$strFunctionNeedsName = 'Musisz nazwaæ funkcjê.';
 	$strFunctionNeedsDef = 'Musisz zdefiniowaæ funkcjê.';
-	
+	$strFunctionCreated = 'Utworzono funkcjê.';
+	$strFunctionCreatedBad = 'Próba utworzenia funkcji siê nie powiod³a';
+        $strConfDropFunction = 'Czy na pewno chcesz usun±æ funkcjê "%s"?';
+	$strFunctionDropped = 'Funkcja usuniêta.';
+	$strFunctionDroppedBad = 'Operacja usuniêcia funkcji siê nie powiod³a.';
+
 	// Triggers
 	$strTrigger = 'Procedura wyzwalana';
 	$strTriggers = 'Procedury wyzwalane';
+	$strShowAllTriggers = 'Poka¿ wszystkie procedury wyzwalane';
+	$strNoTrigger = 'Nie znaleziono procedury wyzwalanej.';
 	$strNoTriggers = 'Nie znaleziono procedur wyzwalanych.';
 	$strCreateTrigger = 'Utwórz procedurê wyzwalan±';
+	$strTriggerName = 'Nazwa procedury wyzwalanej';
+	$strTriggerNeedsName = 'Musisz nazwaæ procedurê wyzwalan±';
+	$strTriggerCreated = 'Utworzono procedurê wyzwalan±.';
+	$strTriggerCreatedBad = 'Próba utworzenia procedury wyzwalanej siê nie powiod³a';
         $strConfDropTrigger = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
 	$strTriggerDropped = 'Procedura wyzwalana usuniêta.';
 	$strTriggerDroppedBad = 'Operacja usuniêcia procedury wyzwalanej siê nie powiod³a.';
@@ -227,14 +277,11 @@
 	// Types
 	$strType = 'Typ';
 	$strTypes = 'Typy';
-	$strNoTypes = 'Nie znaleziono typów.';
-	$strCreateType = 'Utwórz Typ';
-	$strConfDropType = 'Czy na pewno chcesz usun±æ typ "%s"?';
-	$strTypeDropped = 'Typ usuniêty.';
-	$strTypeDroppedBad = 'Próba usuniêcia typu siê nie powiod³a.';
-	$strTypeCreated = 'Typ utworzony';
-	$strTypeCreatedBad = 'Próba utworzenia typu siê nie powiod³a.';
 	$strShowAllTypes = 'Poka¿ wszystkie typy';
+	$strNoType = 'Nie znaleziono typu.';
+	$strNoTypes = 'Nie znaleziono typów.';
+	$strCreateType = 'Utwórz typ';
+	$strTypeName = 'Nazwa typu';
 	$strInputFn = 'Funkcja wej¶ciowa';
 	$strOutputFn = 'Funkcja wyj¶ciowa';
 	$strPassByVal = 'Przekazywany przez warto¶æ?';
@@ -244,19 +291,26 @@
 	$strStorage = 'Technika przechowywania';
 	$strTypeNeedsName = 'Musisz nazwaæ typ.';
 	$strTypeNeedsLen = 'Musisz podaæ d³ugo¶æ typu.';
+	$strTypeCreated = 'Typ utworzony';
+	$strTypeCreatedBad = 'Próba utworzenia typu siê nie powiod³a.';
+	$strConfDropType = 'Czy na pewno chcesz usun±æ typ "%s"?';
+	$strTypeDropped = 'Typ usuniêty.';
+	$strTypeDroppedBad = 'Próba usuniêcia typu siê nie powiod³a.';
 
 	// Schemas
 	$strSchema = 'Schemat';
 	$strSchemas = 'Schematy';
-	$strCreateSchema = 'Utwórz schemat';
+	$strShowAllSchemas = 'Poka¿ wszystkie schematy';
+	$strNoSchema = 'Nie znaleziono schematu.';
 	$strNoSchemas = 'Nie znaleziono schematów.';
+	$strCreateSchema = 'Utwórz schemat';
+	$strSchemaName = 'Nazwa schematu';
+	$strSchemaNeedsName = 'Musisz nadaæ schematowi nazwê.';
+	$strSchemaCreated = 'Schemat zosta³ utworzony';
+	$strSchemaCreatedBad = 'Próba utworzenia schematu siê nie powiod³a.';
 	$strConfDropSchema = 'Czy na pewno chcesz usun±æ schemat "%s"?';
 	$strSchemaDropped = 'Schemat usuniêty.';
 	$strSchemaDroppedBad = 'Próba usuniêcia schematu siê nie powiod³a.';
-	$strSchemaCreated = 'Schemat zosta³ utworzony';
-	$strSchemaCreatedBad = 'Próba utworzenia schematu siê nie powiod³a.';
-	$strShowAllSchemas = 'Poka¿ wszystkie schematy';
-	$strSchemaNeedsName = 'Musisz nadaæ schematowi nazwê.';
 
 	// Miscellaneous
 	$strTopBar = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';
