@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.6 2002/10/02 05:05:20 xzilla Exp $
+	 * $Id: topbar.php,v 1.7 2002/10/23 21:59:13 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -19,16 +19,16 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr> 
 		<td width="211" rowspan="2"><img src="images/themes/<?= $guiTheme ?>/title.gif" width="211" height="50" alt="<?= htmlspecialchars($appName) ?>" /></td>
-		<td width="69%"><?= $confServers[$_COOKIE['webdbServerID']]['type'] ?> running on 
-		<?= htmlspecialchars($confServers[$_COOKIE['webdbServerID']]['host']) ?>:<?= $confServers[$_COOKIE['webdbServerID']]['port'] ?>
-		-- You are logged in as user <b><?= htmlspecialchars($_COOKIE['webdbUsername']) ?></b>, 
+		<td width="69%"><?= $confServers[$_SESSION['webdbServerID']]['type'] ?> running on 
+		<?= htmlspecialchars($confServers[$_SESSION['webdbServerID']]['host']) ?>:<?= $confServers[$_SESSION['webdbServerID']]['port'] ?>
+		-- You are logged in as user <b><?= htmlspecialchars($_SESSION['webdbUsername']) ?></b>, 
 			<?= date('jS M, Y g:iA') ?></td>
 	</tr>
 	<tr>
 		<td>
 			<a class="toplink" href="users.php" target="detail">User Admin</a> | 
 			<a class="toplink" href="groups.php" target="detail">Group Admin</a> | 
-			<a class="toplink" href="login.php?mode=logout" target="_parent">Logout</a>
+			<a class="toplink" href="logout.php" target="_parent">Logout</a>
 		</td>
 	</tr>
 </table>
