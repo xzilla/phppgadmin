@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.34 2004/05/23 04:10:19 chriskl Exp $
+	 * $Id: views.php,v 1.35 2004/05/24 01:26:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -185,8 +185,8 @@
 			
 			$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
 			
-			// Update tblcount if we have more foreign keys than tables (perhaps in the case of composite foreign keys)
-			$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
+			// Update tblcount if we have more foreign keys than tables (perhaps in the case of composite foreign keys)  test if rsLinkKeys, because pre-7.3 it may be false and not a valid adodb recordset obj
+			$linkCount = ($rsLinkKeys && ($rsLinkKeys->recordCount() > $tblCount) ) ? $rsLinkKeys->recordCount() : $tblCount;
 			
 			// Get fieldnames
 			for ($i = 0; $i < $tblCount; $i++) {				
@@ -216,34 +216,36 @@
 			// Output selector for fields to be retrieved from view
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);			
 			echo "</td>\n</tr>\n</table>\n<br />\n";						
-			
-			// Output the Linking keys combo boxes
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
-			$rowClass = 'data1';
-			for ($i = 0; $i < $linkCount; $i++) {
-				// Initialise variables
-				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
-				echo "<tr>\n<td class=\"$rowClass\">\n";
-							
-				if (!$rsLinkKeys->EOF) {
-					$curLeftLink = htmlspecialchars("\"{$rsLinkKeys->f['p_table']}\".\"{$rsLinkKeys->f['p_field']}\"");
-					$curRightLink = htmlspecialchars("\"{$rsLinkKeys->f['f_table']}\".\"{$rsLinkKeys->f['f_field']}\"");
-					$rsLinkKeys->moveNext();
-				}
-				else {
-					$curLeftLink = '';
-					$curRightLink = '';
-				}
+						
+			if ($rsLinkKeys) {
+				// Output the Linking keys combo boxes
+				echo "<table>\n";
+				echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
+				$rowClass = 'data1';
+				for ($i = 0; $i < $linkCount; $i++) {
+					// Initialise variables
+					if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
+					echo "<tr>\n<td class=\"$rowClass\">\n";
+								
+					if (!$rsLinkKeys->EOF) {
+						$curLeftLink = htmlspecialchars("\"{$rsLinkKeys->f['p_table']}\".\"{$rsLinkKeys->f['p_field']}\"");
+						$curRightLink = htmlspecialchars("\"{$rsLinkKeys->f['f_table']}\".\"{$rsLinkKeys->f['f_field']}\"");
+						$rsLinkKeys->moveNext();
+					}
+					else {
+						$curLeftLink = '';
+						$curRightLink = '';
+					}
+					
+					echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
+					echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
+					echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
+					echo "</td>\n</tr>\n";
+					$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
 				
-				echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
-				echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
-				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
-				echo "</td>\n</tr>\n";
-				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
-			
-			}
-			echo "</table>\n<br />\n";			
+				}
+				echo "</table>\n<br />\n";
+			}						
 						
 			// Output additional conditions			
 			$arrOperators = array('=' => '=', 'LIKE' => 'LIKE', '!=' => '!=', '>' => '>', '<' =>'<', 'IN' => 'IN', '!!=' => '!!=', 'BETWEEN' => 'BETWEEN');

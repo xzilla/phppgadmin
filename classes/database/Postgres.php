@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.211 2004/05/23 15:55:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.212 2004/05/24 01:26:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3338,9 +3338,8 @@ class Postgres extends BaseDB {
 	 */
 	 function &getLinkingKeys($arrTables)
 	 {
-		// Pre 7.3 this does nothing
-		$recordset = new ADORecordSet;
-		return $recordset;
+		// Pre 7.3 this does nothing		
+		return false;
 	 }
 	
 	/**
