@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.101 2003/05/11 15:13:30 chriskl Exp $
+ * $Id: Postgres.php,v 1.102 2003/05/15 03:38:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -28,6 +28,7 @@ class Postgres extends BaseDB {
 		'typdelim' => 'typdelim', 'typbyval' => 'typbyval', 
 		'typalign' => 'typalign', 'typstorage' => 'typstorage');
 	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language', 'setof' => 'proretset' );
+	var $langFields = array('lanname' => 'lanname');
 
 	// Array of allowed type alignments
 	var $typAligns = array('char', 'int2', 'int4', 'double');
