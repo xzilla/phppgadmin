@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.43 2004/05/19 01:28:34 soranzo Exp $
+	 * $Id: database.php,v 1.44 2004/05/26 23:40:20 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -430,17 +430,18 @@
 		echo "<p>{$lang['strsql']}<br />\n";
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
-			
-	    // Check that file uploads are enabled
-	    if (ini_get('file_uploads')) {
-	        // Don't show upload option if max size of uploads is zero
-	        $max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
-	        if (is_double($max_size) && $max_size > 0) {
-    		    echo "<br /><br /><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
-                echo " {$lang['struploadscript']} <input name=\"script\" type=\"file\" /></p>\n";
-            }
-        }
-        else echo "</p>\n";
+		
+		// Check that file uploads are enabled
+		if (ini_get('file_uploads')) {
+			// Don't show upload option if max size of uploads is zero
+			$max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
+			if (is_double($max_size) && $max_size > 0) {
+				echo "<br /><br /><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
+				echo " {$lang['struploadscript']} <input name=\"script\" type=\"file\" /></p>\n";
+			}
+		}
+		else echo "</p>\n";
+
 		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
 		echo "<br />\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";

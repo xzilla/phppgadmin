@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.20 2004/05/09 08:35:55 chriskl Exp $
+	 * $Id: sql.php,v 1.21 2004/05/26 23:40:20 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -22,9 +22,9 @@
 		$_REQUEST['query'] = $_POST['query'];
 	}
 	
-	// Check to see if pagination has been specified.  In that case, send to display
+	// Check to see if pagination has been specified. In that case, send to display
 	// script for pagination
-	if (isset($_POST['paginate'])) {
+	if (isset($_POST['paginate']) && !isset($_POST['explain']) && !isset($_POST['explain_analyze'])) {
 		include('./display.php');
 		exit;
 	}
@@ -48,7 +48,7 @@
 	
 	// Execute the query.  If it's a script upload, special handling is necessary
 	if (isset($_FILES['script']) && $_FILES['script']['size'] > 0)
-	    $rs = $data->executeScript('script');
+		$rs = $data->executeScript('script');
 	else
 		$rs = $data->conn->Execute($_POST['query']);
 
