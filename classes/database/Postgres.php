@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.141 2003/09/02 05:59:50 chriskl Exp $
+ * $Id: Postgres.php,v 1.142 2003/09/03 05:32:13 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1578,6 +1578,59 @@ class Postgres extends BaseDB {
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}	
+
+	// Find object functions
+	
+	/**
+	 * Searches all system catalogs to find objects that match a certain name.
+	 * @param $term The search term
+	 * @return A recordset
+	 */
+	function findObject($term) {
+		global $conf;
+
+		// Escape search term for ~* match
+		// @@ This needs to be improved
+		$term = str_replace('.', '\\.', $term);
+		$term = str_replace('*', '\\*', $term);
+		$this->clean($term);
+
+		// Build SQL, excluding system relations as necessary
+		$sql = "
+			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END AS type, 
+				pc.oid, NULL AS schemaname, NULL AS relname, pc.relname AS name FROM pg_class pc
+				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+
+		$sql .= "				
+			UNION ALL
+			SELECT 'COLUMN', NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
+				pg_attribute pa WHERE pc.oid=pa.attrelid 
+				AND pa.attname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+
+		$sql .= "
+			UNION ALL
+			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname FROM pg_proc pp
+				WHERE proname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
+				
+		$sql .= "
+			UNION ALL
+			SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
+				WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
+		if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql .= "				
+			UNION ALL
+			SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
+				WHERE oprname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+				
+		$sql .= "ORDER BY type, schemaname, relname, name";
+			
+		return $this->selectSet($sql);
+	}
 
 	// Operator functions
 
