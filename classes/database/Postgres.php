@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.34 2003/01/08 05:42:47 chriskl Exp $
+ * $Id: Postgres.php,v 1.35 2003/01/11 02:47:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -428,7 +428,57 @@ class Postgres extends BaseDB {
 		
 		return $rs;
 	}
-	
+
+	/**
+	 * Returns a recordset of all columns in a query.  Supports paging.
+	 * @param $query The SQL SELECT query.
+	 * @param $count The same SQL query, but only retrieves the count of the rows (AS total)
+	 * @param $page The page of the relation to retrieve
+	 * @param $page_size The number of rows per page
+	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
+	 * @return A recordset on success
+	 * @return -1 transaction error
+	 * @return -2 counting error
+	 * @return -3 page or page_size invalid
+	 */
+	function &browseSQL($query, $count, $page, $page_size, &$max_pages) {
+		// Check that we're not going to divide by zero
+		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
+
+		// Open a transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Count the number of rows
+		$total = $this->selectField($count, 'total');
+		if ($total < 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		// Calculate max pages
+		$max_pages = ceil($total / $page_size);
+		
+		// Check that page is less than or equal to max pages
+		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		// Actually retrieve the rows, with offset and limit
+		// @@@@@@@@@@@@@@ THIS NEXT LINE ONLY WORKS IN POSTGRESQL 7.2+ @@@@@@@@@@@@@@@@@
+		//$sql = "SELECT * FROM ($query) LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+
+		$status = $this->endTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		return $rs;
+	}
+		
 	/**
 	 * Returns a recordset of all columns in a table
 	 * @param $table The name of a table
