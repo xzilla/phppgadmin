@@ -1,0 +1,55 @@
+DEVELOPER INFO
+--------------
+
+ WebDB is Open Source, so you're invited to contribute to it.
+ Many great features have been written by other people and you too
+ can help to make WebDB a useful tool.
+ 
+ WebDB has its roots in the phpPgAdmin software.  A complete rewrite was
+ needed for a new version of Postgres, plus also to address many deficiencies
+ in the phpPgAdmin codebase.
+ 
+ If you're planning to contribute source, please read the following 
+ information:
+ 
+ -- Need information here!! --
+ 
+ IMPORTANT:
+  The following method is preferred for new developers:
+  - fetch the current CVS tree over anonymous CVS:
+  
+    cvs -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin login
+    [Password: ]  simply press the Enter key!
+    
+    cvs -z3 -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co webdb
+    [This will create a new sub-directory named webdb] 
+    
+    And you might like to get phpPgAdmin as well for reference purposes:
+
+    cvs -z3 -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
+    [This will create a new sub-directory named phpPgAdmin]
+    
+  - Add your stuff
+  - Send us the file(s) you've modified or send us a patch (preferred).  To generate a patch, do this
+    in your 'webdb' or 'phpPgAdmin' directory:
+
+    	cvs diff -c > file.txt
+
+    Then, just send us the file.txt
+
+  Only project developers can access the CVS tree via ssh and SSH1 must 
+  be installed on your client machine. 
+  
+  	export CVS_RSH=ssh
+  	
+  	login once with ssh to developername@cvs.phppgadmin.sourceforge.net to create required
+  	user directories on the server.
+  	
+  	cvs -z3 -d:ext:developername@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co webdb
+  	cvs -z3 -d:ext:developername@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
+  	
+  Write access to the CVS tree is granted only to developers who have already
+  contributed something useful to WebDB or phpPgAdmin.  If you're interested in that, 
+  please contact us.                                  
+                                 
+                                
