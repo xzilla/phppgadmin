@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc.php,v 1.4 2002/02/18 13:06:13 chriskl Exp $
+	 * $Id: config.inc.php,v 1.5 2002/04/10 04:09:47 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -17,6 +17,7 @@
 	
 	// GUI settings
 	$guiLeftFrameWidth = 200;
+	$guiTheme = 'default';
 
 	// Servers and types
 	$confServers = array();
@@ -76,7 +77,7 @@
 
 	// Theme
 	echo "<style type=\"text/css\">\n<!--\n";
-	include("../themes/default/global.css");
+	include("../themes/{$guiTheme}/global.css");
 	echo "\n-->\n</style>\n";
 	
 ?>

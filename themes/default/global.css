@@ -16,6 +16,95 @@ body, td
 	text-align: left;
 }
 
+body.topbar
+{
+	background-color: #ffffff;
+	margin: 0px 0px;
+	font-family: arial;
+	padding: 0px;
+	font-size: 10pt;
+	text-align: left;
+}
+
+body.browser
+{
+	background-color: #ffffff;
+	/*background-color: #efefef;*/
+	margin: 0px 0px;
+	font-family: arial;
+	padding: 0px;
+	font-size: 10pt;
+	text-align: left;
+}
+
+h2
+{
+	color: #666633;
+	font-size: 16;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+}
+
+th.data
+{
+	color: #000000;
+	background-color: #E6E6CC;
+	text-align: center;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14;
+}
+
+td.data1
+{
+	color: #000000;
+	background-color: #F3F3E9;
+	text-align: left;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 13;
+}
+
+td.data2
+{
+	color: #000000;
+	background-color: #E6E6CC;
+	text-align: left;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 13;
+}
+
+td.opbutton1 {
+	color: #000000;
+	background-color: #F3F3E9;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #706D41;
+	border-bottom: 1px solid #706D41;
+	border-left: 1px solid #FFFFFF;
+	cursor: hand;
+	font-family: Helvetica,Arial,Verdana;
+	font-size: 9pt;
+}
+
+td.opbutton2 {
+	color: #000000;
+	background-color: #E6E6CC;
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #706D41;
+	border-bottom: 1px solid #706D41;
+	border-left: 1px solid #FFFFFF;
+	cursor: hand;
+	font-family: Helvetica,Arial,Verdana;
+	font-size: 9pt;
+}
+
+a.toplink {
+	font-weight: bold;
+}
+
+/*
+
 tr
 {
 	vertical-align: top;
@@ -221,3 +310,4 @@ a.nav:active
 	text-align: left;
 	width: 100%;
 }
+*/
