@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.6 2003/05/31 07:23:24 chriskl Exp $
+	 * $Id: sql.php,v 1.7 2003/07/31 08:39:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,6 +23,13 @@
 
 	$_POST['query'] = trim($_POST['query']);
 	if ($_POST['query'] != '') {
+		
+		// NOTE: This is a quick hack!
+		if (isset($_POST['explain'])) {
+			// TODO: Is there a generic (non PostgreSQL specific) way to do this
+			$_POST['query'] = 'EXPLAIN '.$_POST['query'];
+		}
+		
 		// Set fetch mode to NUM so that duplicate field names are properly returned
 		$localData->conn->setFetchMode(ADODB_FETCH_NUM);
 		// Execute the query

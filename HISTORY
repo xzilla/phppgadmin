@@ -14,6 +14,7 @@ Version 3.1
 * Support for domains in 7.3 and domain constraints in 7.4
 * Add/drop users to/from groups
 * Alter (rename) triggers
+* Pop-up SQL window from Mark Gibson
 
 Version 3.0
 -----------

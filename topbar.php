@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.13 2003/05/28 03:08:45 chriskl Exp $
+	 * $Id: topbar.php,v 1.14 2003/07/31 08:39:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,8 +29,8 @@
 	// For superuser, show user and group admin.  For normal user, show change password.
 	if ($data->isSuperUser($_SESSION['webdbUsername'])) :
 ?>
-			<a class="toplink" href="users.php" target="detail"><?php echo $lang['struseradmin'] ?></a> | 
-			<a class="toplink" href="groups.php" target="detail"><?php echo $lang['strgroupadmin'] ?></a> |
+			<a class="toplink" href="users.php" target="detail"><?php echo $lang['strusers'] ?></a> | 
+			<a class="toplink" href="groups.php" target="detail"><?php echo $lang['strgroups'] ?></a> |
 <?php
 	endif;
 ?>
@@ -38,6 +38,8 @@
 <?php if ($conf['show_reports']) : ?>
 			<a class="toplink" href="reports.php" target="detail"><?php echo $lang['strreports'] ?></a> |
 <?php endif; ?>
+			<a class="toplink" href="sqledit" target="sqledit"					
+				onclick="window.open('sqledit.php','sqledit','toobar=no,width=700,height=420,resizable=yes,scrollbars=yes').focus(); return false;"><?php echo $lang['strsql'] ?></a> |
 			<a class="toplink" href="logout.php" target="_parent"><?php echo $lang['strlogout'] ?></a>
 		</td>
 	</tr>

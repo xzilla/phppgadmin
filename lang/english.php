@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.88 2003/07/30 07:02:30 chriskl Exp $
+	 * $Id: english.php,v 1.89 2003/07/31 08:39:03 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -165,7 +165,6 @@
 	$lang['strcascade'] = 'CASCADE';
 
 	// Users
-	$lang['struseradmin'] = 'User Admin';
 	$lang['struser'] = 'User';
 	$lang['strusers'] = 'Users';
 	$lang['strusername'] = 'Username';
@@ -191,7 +190,6 @@
 	$lang['strpasswordconfirm'] = 'Password does not match confirmation.';
 	
 	// Groups
-	$lang['strgroupadmin'] = 'Group Admin';
 	$lang['strgroup'] = 'Group';
 	$lang['strgroups'] = 'Groups';
 	$lang['strnogroup'] = 'Group not found.';
@@ -465,8 +463,5 @@
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
-
-	// SQL Editor
-	$lang['strsqleditor'] = 'SQL Editor';
 
 ?>
