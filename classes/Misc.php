@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.77 2004/07/15 15:45:48 jollytoad Exp $
+	 * $Id: Misc.php,v 1.78 2004/07/19 08:06:02 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -181,6 +181,7 @@
 					// the whole string then render within a pre-formatted element (<pre>).
 					if (preg_match('/(^ |  |\t|\n )/m', $str)) {
 						$tag = 'pre';
+						$class = 'data';
 						$out = htmlspecialchars($str);
 					} else {
 						$out = nl2br(htmlspecialchars($str));
@@ -397,6 +398,7 @@
 			
 			$databasevar = isset($_REQUEST['database']) ? 'database=' . urlencode($_REQUEST['database']) : '';
 			$schemavar = isset($_REQUEST['schema']) ? '&schema=' . urlencode($_REQUEST['schema']) : '';
+			$hide_advanced = ($conf['show_advanced'] === false);
 			
 			switch ($section) {
 				case 'server':
@@ -456,11 +458,12 @@
 						'languages' => array (
 							'title' => $lang['strlanguages'],
 							'url'   => "languages.php?{$vars}",
+							'hide'  => $hide_advanced,
 						),
 						'casts' => array (
 							'title' => $lang['strcasts'],
 							'url'   => "casts.php?{$vars}",
-							'hide'  => (!$data->hasCasts()),
+							'hide'  => ($hide_advanced || !$data->hasCasts()),
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -471,7 +474,6 @@
 
 				case 'schema':
 					$vars = $databasevar . $schemavar;
-					$hide_advanced = ($conf['show_advanced'] === false);
 					return array (
 						'tables' => array (
 							'title' => $lang['strtables'],
@@ -518,6 +520,11 @@
 							'title' => $lang['strconversions'],
 							'url'   => "conversions.php?{$vars}",
 							'hide'  => ($hide_advanced || !$data->hasConversions()),
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['schema']),
+							'hide'  => (!$data->hasSchemas()),
 						),
 					);
 
