@@ -70,9 +70,9 @@ Tables
 * Insert and edit row aren't smart - eg. it will quote everything including 
   'current_timestamp' in a timestamp field.  We need to detect if they're 
   inserting into a timestamp field with a magic value and then not quote it.
-* Insert needs the ability to use functions. It should also be able to handle 
+* -Insert needs the ability to use functions. It should also be able to handle 
   some keywords (like DEFAULT) though it might be able to use function tech i
-  to accomplish this.
+  to accomplish this. (chriskl)
 * Preserve spaces when displaying user data (half done) (chriskl)
 
 Views
@@ -182,6 +182,7 @@ Exotic
 ------
 
 * Support contrib/tsearch for easy full text indexes
+* Search for object feature
 
 Principles
 ----------

@@ -16,6 +16,7 @@ Version 3.0.0-dev-5
 	- Hide admin for non-super users
 	- Easy change password for any user
 	- Enforceable minimum password length
+* Switched to PEAR's HTML_TreeMenu to avoid license issue
 
 Version 3.0.0-dev-4
 -------------------
