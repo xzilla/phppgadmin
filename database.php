@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.14 2003/04/30 07:28:10 chriskl Exp $
+	 * $Id: database.php,v 1.15 2003/05/19 15:08:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,18 +22,18 @@
 
 		switch ($action) {
 			case 'vacuum':
-				$status = $localData->vacuumDB($_REQUEST['database']);
+				$status = $localData->vacuumDB();
 				if ($status == 0) doAdmin('', $lang['strvacuumgood']);
 				else doAdmin('', $lang['strvacuumbad']);
 				break;
 			case 'analyze':
-				$status = $localData->analyzeDB($_REQUEST['database']);
+				$status = $localData->analyzeDB();
 				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
 				else doAdmin('', $lang['stranalyzebad']);
 				break;
 			default:
 				$misc->printDatabaseNav();
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
 				$misc->printMsg($msg);
 				echo "<ul>\n";
 				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=vacuum\">{$lang['strvacuum']}</a></li>\n";
@@ -54,7 +54,7 @@
 		if (!isset($_POST['query'])) $_POST['query'] = '';
 
 		$misc->printDatabaseNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
 
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"sql.php\" method=\"post\">\n";
@@ -64,9 +64,10 @@
 
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
-			urlencode($_REQUEST['database']), "&action=sql\">\n";
-		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\">\n";
-		echo "<input type=\"submit\" value=\"{$lang['strgo']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
+			urlencode($_REQUEST['database']), "&action=sql\" />\n";
+		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 	}
 
@@ -74,24 +75,25 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $PHP_SELF, $data, $localData;
+		global $PHP_SELF, $data, $localData, $misc;
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
-				htmlspecialchars($_REQUEST['schema']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
+				$misc->printVal($_REQUEST['schema']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdropschema'], htmlspecialchars($_REQUEST['schema'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -119,7 +121,7 @@
 		// Fetch all users from the database
 		$users = &$data->getUsers();
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strcreateschema']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strcreateschema']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -131,15 +133,16 @@
 		while (!$users->EOF) {
 			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
 			echo "<option value=\"{$uname}\"",
-				($uname == $_POST['formAuth']) ? ' selected' : '', ">{$uname}</option>\n";
+				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
 		echo "</select></td></tr>\n";
 		echo "</table>\n";
 		echo "<p>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
-		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</p>\n";
 		echo "</form>\n";
 		
@@ -174,7 +177,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printDatabaseNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strschemas']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strschemas']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		// Check that the DB actually supports schemas
@@ -183,12 +186,13 @@
 
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
-				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
+				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 				$i = 0;
 				while (!$schemas->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr><td class=\"data{$id}\">", htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "</td>\n";
-					echo "<td class=\"data{$id}\">", htmlspecialchars($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
+					echo "<tr><td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspname']]), "</td>\n";
+					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
 					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&database=",
 						urlencode($_REQUEST['database']), "&schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
