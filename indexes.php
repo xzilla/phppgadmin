@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.5 2003/03/12 02:29:47 chriskl Exp $
+	 * $Id: indexes.php,v 1.6 2003/03/12 02:37:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -143,7 +143,7 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF;
-		global $strNoIndexes, $strIndexes, $strActions, $strName, $strDefinition, $strCreateIndex, $strDrop, $strPrivileges;
+		global $strNoIndexes, $strIndexes, $strActions, $strName, $strDefinition, $strCreateIndex, $strDrop;
 
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndexes}</h2>\n";
@@ -153,7 +153,7 @@
 		
 		if ($indexes->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
 			$i = 0;
 			
 			while (!$indexes->EOF) {
@@ -162,9 +162,7 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td>\n";
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
+					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
 
 				$indexes->movenext();
 				$i++;
