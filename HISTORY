@@ -41,6 +41,8 @@ Features:
 * Italian translation update from Nicola Soranzo
 * German update from Markus Bertheau
 * Spanish update from Martin Marques
+* Trad. Chinese update from Chih-Hsin Lee
+* Save selects as views
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.19 2003/08/27 22:55:04 slubek Exp $
+	 * $Id: views.php,v 1.20 2003/09/05 09:06:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -210,8 +210,8 @@
 		global $data, $localData, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
-		if (!isset($_POST['formView'])) $_POST['formView'] = '';
-		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
+		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
+		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = '';
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		
@@ -222,10 +222,10 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 		echo "<tr><td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-			htmlspecialchars($_POST['formView']), "\"></td></tr>\n";
+			htmlspecialchars($_REQUEST['formView']), "\"></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
 		echo $misc->form;
@@ -316,7 +316,7 @@
 			doSelectRows(true);
 			break;
 		case 'save_create':
-			if (isset($_POST['cancel'])) doDefault();
+			if (isset($_REQUEST['cancel'])) doDefault();
 			else doSaveCreate();
 			break;
 		case 'create':

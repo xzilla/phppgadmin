@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.26 2003/09/05 04:58:14 chriskl Exp $
+	 * $Id: display.php,v 1.27 2003/09/05 09:06:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -75,14 +75,16 @@
 	else echo "<p>{$lang['strnodata']}</p>\n";
 	
 	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a>";
-	if ($conf['show_reports'] && is_object($rs) && $rs->recordCount() > 0) {
+	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?action=create&db_name=", urlencode($_REQUEST['database']), "&report_sql=",
 			urlencode($_REQUEST['query']), "\">{$lang['strsaveasreport']}</a>\n";
 	}
-	if (isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
+	if (isset($rs) && is_object($rs) && $rs->recordCount() > 0) {		
+		echo " | <a class=\"navlink\" href=\"views.php?action=create&formDefinition=",
+			urlencode($_REQUEST['query']), "&{$misc->href}\">{$lang['strcreateview']}</a>\n";
 		echo " | <a class=\"navlink\" href=\"dataexport.php?query=",
 				urlencode($_REQUEST['query']), "&{$misc->href}\">{$lang['strdownload']}</a>\n";	
-	}		
+	}
 	echo "</p>\n";
 
 	$misc->printFooter();
