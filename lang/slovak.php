@@ -94,6 +94,15 @@
 	$lang['strinstead'] = 'Urobiť Namiesto';
 	$lang['strwhen'] = 'Kedy';
 	$lang['strformat'] = 'Formát';
+	$lang['strnoaggregates'] = 'Nenájdené žiadne agregáty.';
+	$lang['strscan'] = 'Skenovať';
+	$lang['strread'] = 'Čítať';
+	$lang['strfetch'] = 'Získať';
+	$lang['strheap'] = 'Nahromadiť';
+	$lang['straccessmethod'] = 'Prístupová metóda';
+	$lang['strrowperf'] = 'Row Výkon';
+	$lang['strioperf'] = 'I/O Výkon';
+	$lang['strpercent'] = '%';
 
 	// Error handling
 	$lang['strdata'] = 'Dáta';
@@ -104,13 +113,23 @@
 	$lang['strexplain'] = 'Vysvetliť';
 	$lang['strfind'] = 'Nájsť';
 	$lang['stroptions'] = 'Nastavenia';
+	$lang['strexplainanalyze'] = 'Vysvetliť Analyze';
 	$lang['strrefresh'] = 'Obnoviť';
 	$lang['strdownload'] = 'Download';
 	$lang['strcollapse'] = 'Zmenšiť';
-	$lang['strnoframes'] = 'Potrebuješ prehliadač podporujúci \"frame-y\" pre túto aplikáciu.';
+	$lang['strnoframes'] = 'Potrebuješ prehliadač podporujúci "frame-y" pre túto aplikáciu.';
+	$lang['strdownloadgzipped'] = 'Stiahnuť skomprimované pomocou gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Viac';
+	$lang['strvariables'] = 'Premenné';
+	$lang['strprocess'] = 'Proces';
+	$lang['strprocesses'] = 'Procesy';
+	$lang['strsetting'] = 'Nastavenie';
+	$lang['strparameters'] = 'Parametre';
+	$lang['streditsql'] = 'Upraviť SQL';
+	$lang['strpaginate'] = 'Výsledky stránkovania';
+	$lang['strstarttime'] = 'Čas štartu';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaralý. Musíš vygenerovať nový zo súboru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilované s potrebnou podporou databáz.';
 	$lang['strbadschema'] = 'Špecifikovaná chybná schéma.';
@@ -119,11 +138,15 @@
 	$lang['strinstatement'] = 'Vo výraze:';
 	$lang['strinvalidparam'] = 'Chybné parametre skriptu.';
 	$lang['strnodata'] = 'Nenájdené žiadne záznamy.';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Riady';
 
 	// Tables
 	$lang['strtable'] = 'Tabuľka';
 	$lang['strnoobjects'] = 'Nenájdené žiadne objekty.';
 	$lang['strrownotunique'] = 'Žiadny unikátny identifikárot pre tento riadok.';
+	$lang['strnoreportsdb'] = 'Nebola vytvorené report databáza. Prečítaj si INSTALL súbor s pokynmi.';
 	$lang['strtables'] = 'Tabuľky';
 	$lang['strshowalltables'] = 'Zobraziť Všetky Tabuľky';
 	$lang['strnotables'] = 'Nenájdené žiadne tabuľky.';
@@ -187,6 +210,7 @@
 	$lang['struserupdated'] = 'Užívatelia zmenený.';
 	$lang['struserupdatedbad'] = 'Uživatelia neboli zmenený.';
 	$lang['strshowallusers'] = 'Zobraziť Všetkých Užívateľov';
+	$lang['strsessiondefaults'] = 'Prednastavená Session';
 	$lang['strcreateuser'] = 'Vytvoriť Užívateľa';
 	$lang['strusercreatedbad'] = 'Užívateľ nebol vytvorený.';
 	$lang['strconfdropuser'] = 'Naozaj chceš zmazať užívateľa "%s"?';
@@ -278,6 +302,8 @@
 	// Sequences
 	$lang['strsequence'] = 'Sekvencia';
 	$lang['strsequences'] = 'Sekvencie';
+	$lang['strviewlink'] = 'Linkujúce Kľúče';
+	$lang['strviewconditions'] = 'Doplňujúce Podmienky';
 	$lang['strshowallsequences'] = 'Zobraziť Všetky Sekvencie';
 	$lang['strnosequence'] = 'Nenájdená žiadna sekvencia.';
 	$lang['strnosequences'] = 'nenájdené žiadne sekvencie.';
@@ -299,12 +325,14 @@
 	$lang['strsequencedroppedbad'] = 'Sekvencia nebola zmazaná.';
 	$lang['strsequencereset'] = 'Sekvencia resetovaná.';
 	$lang['strsequenceresetbad'] = 'Sekvencia nebola resetovaná.';
+	$lang['strsequential'] = 'Sekvenčný';
 
 	// Indexes
 	$lang['strindexes'] = 'Indexy';
 	$lang['strindexname'] = 'Názov Indexu';
 	$lang['strshowallindexes'] = 'Zobraziť Všetky Indexy';
 	$lang['strnoindex'] = 'Nenájdený žiadny index.';
+	$lang['strindex'] = 'Index';
 	$lang['strnoindexes'] = 'Nenájdené žiadne indexy.';
 	$lang['strcreateindex'] = 'Vytvoriť Index';
 	$lang['strindexname'] = 'Názov indexu';
@@ -327,6 +355,10 @@
 	$lang['strconfcluster'] = 'Naozaj chceš vytvoriť cluster "%s"?';
 	$lang['strclusteredgood'] = 'Cluster hotový.';
 	$lang['strclusteredbad'] = 'Cluster nebol vytvorený.';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['stridxrowperf'] = 'Index Row Výkon';
+	$lang['stridxioperf'] = 'Index I/O Výkon';
 
 	// Rules
 	$lang['strrules'] = 'Pravidlá';
@@ -435,6 +467,7 @@
 	$lang['strconfdroptype'] = 'Naozaj chceš zmazať typ "%s"?';
 	$lang['strtypedropped'] = 'Typ zmazaný.';
 	$lang['strtypedroppedbad'] = 'Typ nebol zmazaný.';
+	$lang['stralltypes'] = '(Všetky typy)';
 
 	// Schemas
 	$lang['strschema'] = 'Schéma';
@@ -505,6 +538,8 @@
 	$lang['strconfdropoperator'] = 'Naozaj chceš zmazať operátor "%s"?';
 	$lang['stroperatordropped'] = 'Operátor zmazaný.';
 	$lang['stroperatordroppedbad'] = 'Operátor nebol zmazaný.';
+	$lang['stropclasses'] = 'Op Triedy';
+	$lang['strnoopclasses'] = 'Nenájdené žiadne operátorske triedy.';
 
 	//Casts
 	$lang['strcasts'] = 'Casty';
