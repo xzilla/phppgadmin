@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.11 2003/04/18 09:15:55 chriskl Exp $
+	 * $Id: all_db.php,v 1.12 2003/04/18 11:08:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,7 +26,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -142,7 +142,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_REQUEST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.8 2003/03/26 01:23:55 chriskl Exp $
+	 * $Id: rules.php,v 1.9 2003/04/18 11:08:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -98,7 +98,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -163,7 +163,7 @@
 			else createRule(false);
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.9 2003/03/25 00:26:27 chriskl Exp $
+	 * $Id: indexes.php,v 1.10 2003/04/18 11:08:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -123,7 +123,7 @@
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -183,7 +183,7 @@
 			doCreateIndex();
 			break;
 		case 'drop_index':
-			if ($_POST['choice'] == $lang['stryes']) doDropIndex(false);
+			if (isset($_POST['yes'])) doDropIndex(false);
 			else doDefault();
 			break;
 		case 'confirm_drop_index':

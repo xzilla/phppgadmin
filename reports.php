@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.9 2003/04/09 20:11:44 slubek Exp $
+	 * $Id: reports.php,v 1.10 2003/04/18 11:08:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -211,7 +211,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\">\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -290,7 +290,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

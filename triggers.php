@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.10 2003/03/26 02:14:03 chriskl Exp $
+	 * $Id: triggers.php,v 1.11 2003/04/18 11:08:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -182,7 +182,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: sequences.php,v 1.9 2003/04/18 11:08:27 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -107,7 +107,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -217,7 +217,7 @@
 			doProperties();	
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.14 2003/04/18 09:15:55 chriskl Exp $
+	 * $Id: tables.php,v 1.15 2003/04/18 11:08:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -208,8 +208,8 @@
 			echo "<p><input type=hidden name=action value=selectrows>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$lang['strselect']}\">\n";
-			echo "<input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<input type=submit name=select value=\"{$lang['strselect']}\">\n";
+			echo "<input type=submit name=cancel value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -286,9 +286,9 @@
 			echo "<input type=hidden name=action value=insertrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<p><input type=submit name=choice value=\"{$lang['strsave']}\">\n";
-			echo "<input type=submit name=choice value=\"{$lang['strsaveandrepeat']}\">\n";
-			echo "<input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=submit name=save value=\"{$lang['strsave']}\">\n";
+			echo "<input type=submit name=saveandrepeat value=\"{$lang['strsaveandrepeat']}\">\n";
+			echo "<input type=submit name=cancel value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -297,8 +297,7 @@
 
 			$status = $localData->insertRow($_POST['table'], $_POST['values'], $_POST['nulls']);
 			if ($status == 0) {
-				// @@ This test seems a bit dodgy - comparing against the button name!
-				if ($_POST['choice'] == $lang['strsave'])
+				if (isset($_POST['save']))
 					doDefault($lang['strrowinserted']);
 				else {
 					$_REQUEST['values'] = array();
@@ -329,7 +328,7 @@
 			echo "<input type=hidden name=action value=empty>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -359,7 +358,7 @@
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -436,7 +435,7 @@
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
-			echo "<p><input type=submit name=choice value=\"{$lang['strsave']}\"> <input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=submit name=save value=\"{$lang['strsave']}\"> <input type=submit name=cancel value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -472,7 +471,7 @@
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -617,42 +616,42 @@
 			doCreate();
 			break;
 		case 'selectrows':
-			if ($_POST['choice'] != $lang['strcancel']) doSelectRows(false);
+			if (!isset($_POST['cancel'])) doSelectRows(false);
 			else doDefault();
 			break;
 		case 'confselectrows':
 			doSelectRows(true);
 			break;
 		case 'insertrow':
-			if ($_POST['choice'] != $lang['strcancel']) doInsertRow(false);
+			if (!isset($_POST['cancel'])) doInsertRow(false);
 			else doDefault();
 			break;
 		case 'confinsertrow':
 			doInsertRow(true);
 			break;
 		case 'empty':
-			if ($_POST['choice'] == $lang['stryes']) doEmpty(false);
+			if (isset($_POST['yes'])) doEmpty(false);
 			else doDefault();
 			break;
 		case 'confirm_empty':
 			doEmpty(true);
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;
 		case 'editrow':
-			if ($_POST['choice'] == $lang['strsave']) doEditRow(false);
+			if (isset($_POST['save'])) doEditRow(false);
 			else doBrowse();
 			break;
 		case 'confeditrow':
 			doEditRow(true);
 			break;
 		case 'delrow':
-			if ($_POST['choice'] == $lang['stryes']) doDelRow(false);
+			if (isset($_POST['yes'])) doDelRow(false);
 			else doBrowse();
 			break;
 		case 'confdelrow':
