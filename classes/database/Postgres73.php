@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.134 2004/08/03 09:20:15 chriskl Exp $
+ * $Id: Postgres73.php,v 1.135 2004/08/10 12:52:21 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -110,7 +110,7 @@ class Postgres73 extends Postgres72 {
 		global $conf;
 
 		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%'";
-		else $and = '';
+		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
                         FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
 			WHERE pn.nspowner = pu.usesysid

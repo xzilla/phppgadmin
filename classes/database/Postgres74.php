@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.38 2004/07/15 10:59:55 soranzo Exp $
+ * $Id: Postgres74.php,v 1.39 2004/08/10 12:52:22 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -122,7 +122,7 @@ class Postgres74 extends Postgres73 {
 		global $conf;
 		
 		if (!$conf['show_system']) $and = "WHERE nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
-		else $and = '';
+		else $and = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
                         FROM pg_catalog.pg_namespace pn
                         JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)

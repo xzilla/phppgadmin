@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.2 2004/08/10 01:56:42 chriskl Exp $
+ * $Id: Postgres80.php,v 1.3 2004/08/10 12:52:22 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -80,7 +80,7 @@ class Postgres80 extends Postgres74 {
 		global $conf;
 
 		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
-		else $and = '';
+		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment,
 								(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pn.nsptablespace) AS tablespace
                         FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
