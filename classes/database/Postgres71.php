@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.65 2004/08/03 09:20:15 chriskl Exp $
+ * $Id: Postgres71.php,v 1.66 2004/08/03 16:16:02 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -206,21 +206,6 @@ class Postgres71 extends Postgres {
 		return $typname;
 	}
 		
-	/**
-	 * Changes the owner of a table
-	 * @param $table The table whose owner is to change
-	 * @param $owner The new owner (username) of the table
-	 * @return 0 success
-	 */
-	function setOwnerOfTable($table, $owner) {
-		$this->fieldClean($table);
-		$this->fieldClean($owner);
-		
-		$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-
-		return $this->execute($sql);
-	}
-
 	// Sequence functions
 	
 	/** 

@@ -4,14 +4,14 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.242 2004/08/03 09:20:15 chriskl Exp $
+ * $Id: Postgres.php,v 1.243 2004/08/03 16:16:01 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
 
-include_once('./classes/database/BaseDB.php');
+include_once('./classes/database/ADODB_base.php');
 
-class Postgres extends BaseDB {
+class Postgres extends ADODB_base {
 
 	// Array of allowed type alignments
 	var $typAligns = array('char', 'int2', 'int4', 'double');
@@ -151,9 +151,11 @@ class Postgres extends BaseDB {
 	 * @param $conn The database connection
 	 */
 	function Postgres($conn) {
-		$this->BaseDB($conn);
+		$this->ADODB_base($conn);
 	}
 
+	// Formatting functions
+	
 	/**
 	 * Cleans (escapes) a string
 	 * @param $str The string to clean, by reference
@@ -206,6 +208,152 @@ class Postgres extends BaseDB {
 			$arr[$k] = str_replace('"', '""', $v);
 		}
 		return $arr;
+	}
+
+	/**
+	 * Outputs the HTML code for a particular field
+	 * @param $name The name to give the field
+	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
+	 * @param $type The database type of the field
+	 * @param $actions An array of javascript action name to the code to execute on that action
+	 */
+	function printField($name, $value, $type, $actions = array()) {
+		global $lang;
+		
+		// Determine actions string
+		$action_str = '';
+		foreach ($actions as $k => $v) {
+			$action_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
+		}
+		
+		switch ($type) {
+			case 'bool':
+			case 'boolean':
+				if ($value !== null && $value == '') $value = null;
+				elseif ($value == 'true') $value = 't';
+				elseif ($value == 'false') $value = 'f';
+				
+				// If value is null, 't' or 'f'...
+				if ($value === null || $value == 't' || $value == 'f') {
+					echo "<select name=\"", htmlspecialchars($name), "\"{$action_str}>\n";
+					echo "<option value=\"\"", ($value === null) ? ' selected="selected"' : '', "></option>\n";
+					echo "<option value=\"t\"", ($value == 't') ? ' selected="selected"' : '', ">{$lang['strtrue']}</option>\n";
+					echo "<option value=\"f\"", ($value == 'f') ? ' selected="selected"' : '', ">{$lang['strfalse']}</option>\n";
+					echo "</select>\n";
+				}
+				else {
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
+				}				
+				break;
+			case 'text':
+			case 'bytea':
+				// addCSlashes converts all weird ASCII characters to octal representation,
+				// EXCEPT the 'special' ones like \r \n \t, etc.
+				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"75\" wrap=\"virtual\"{$action_str}>\n";
+				echo htmlspecialchars($value);
+				echo "</textarea>\n";
+				break;
+			default:
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
+				break;
+		}		
+	}
+	
+	/**
+	 * Formats a value or expression for sql purposes
+	 * @param $type The type of the field
+	 * @param $format VALUE or EXPRESSION
+	 * @param $value The actual value entered in the field.  Can be NULL
+	 * @return The suitably quoted and escaped value.
+	 */
+	function formatValue($type, $format, $value) {
+		switch ($type) {
+			case 'bool':
+			case 'boolean':
+				if ($value == 't')
+					return 'TRUE';
+				elseif ($value == 'f')
+					return 'FALSE';
+				elseif ($value == '')
+					return 'NULL';
+				else
+					return $value;
+				break;		
+			default:
+				// Checking variable fields is difficult as there might be a size
+				// attribute...			
+				if (strpos($type, 'time') === 0) {
+					// Assume it's one of the time types...
+					if ($value == '') return "''";
+					elseif (strcasecmp($value, 'CURRENT_TIMESTAMP') == 0 
+							|| strcasecmp($value, 'CURRENT_TIME') == 0
+							|| strcasecmp($value, 'CURRENT_DATE') == 0
+							|| strcasecmp($value, 'LOCALTIME') == 0
+							|| strcasecmp($value, 'LOCALTIMESTAMP') == 0) {
+						return $value;
+					}
+					elseif ($format == 'EXPRESSION')
+						return $value;
+					else {
+						$this->clean($value);
+						return "'{$value}'";
+					}
+				}
+				else {
+					if ($format == 'VALUE') {
+						$this->clean($value);
+						return "'{$value}'";					
+					}
+					return $value;
+				}
+		}
+	}
+
+	/**
+	 * Formats a type correctly for display.  Postgres 7.0 had no 'format_type'
+	 * built-in function, and hence we need to do it manually.
+	 * @param $typname The name of the type
+	 * @param $typmod The contents of the typmod field
+	 */
+	function formatType($typname, $typmod) {
+		// This is a specific constant in the 7.0 source
+		$varhdrsz = 4;
+		
+		// If the first character is an underscore, it's an array type
+		$is_array = false;		
+		if (substr($typname, 0, 1) == '_') {
+			$is_array = true;
+			$typname = substr($typname, 1);
+		}	
+		
+		// Show lengths on bpchar and varchar
+		if ($typname == 'bpchar') {
+			$len = $typmod - $varhdrsz;
+			$temp = 'character';
+			if ($len > 1)
+				$temp .= "({$len})";
+		}
+		elseif ($typname == 'varchar') {
+			$temp = 'character varying';
+			if ($typmod != -1)
+				$temp .= "(" . ($typmod - $varhdrsz) . ")";			
+		}
+		elseif ($typname == 'numeric') {
+			$temp = 'numeric';
+			if ($typmod != -1) {
+				$tmp_typmod = $typmod - $varhdrsz;
+				$precision = ($tmp_typmod >> 16) & 0xffff;
+				$scale = $tmp_typmod & 0xffff;
+				$temp .= "({$precision}, {$scale})";
+			}			
+		}
+		else $temp = $typname;
+		
+		// Add array qualifier if it's an array
+		if ($is_array) $temp .= '[]';
+		
+		return $temp;
 	}
 
 	// Database functions
@@ -270,6 +418,40 @@ class Postgres extends BaseDB {
 		return -99;
 	}
 
+	/**
+	 * Creates a database
+	 * @param $database The name of the database to create
+	 * @param $encoding Encoding of the database
+	 * @param $tablespace (optional) The tablespace name
+	 * @return 0 success
+	 */
+	function createDatabase($database, $encoding, $tablespace = '') {
+		$this->fieldClean($database);
+		$this->clean($encoding);
+		$this->fieldClean($tablespace);
+
+		if ($encoding == '') {
+			$sql = "CREATE DATABASE \"{$database}\"";
+		} else {
+			$sql = "CREATE DATABASE \"{$database}\" WITH ENCODING='{$encoding}'";
+		}
+		
+		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
+		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a database
+	 * @param $database The name of the database to drop
+	 * @return 0 success
+	 */
+	function dropDatabase($database) {
+		$this->fieldClean($database);
+		$sql = "DROP DATABASE \"{$database}\"";
+		return $this->execute($sql);
+	}
+	
 	// Schema functions
 	
 	/**
@@ -282,51 +464,393 @@ class Postgres extends BaseDB {
 		return 0;
 	}
 	
+	// Inheritance functions
+	
+	/**
+	 * Finds the names and schemas of parent tables (in order)
+	 * @param $table The table to find the parents for
+	 * @return A recordset
+	 */
+	function &getTableParents($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				NULL AS nspname, relname
+			FROM
+				pg_class pc, pg_inherits pi
+			WHERE
+				pc.oid=pi.inhparent
+				AND pi.inhrelid = (SELECT oid from pg_class WHERE relname='{$table}')
+			ORDER BY
+				pi.inhseqno
+		";
+		
+		return $this->selectSet($sql);					
+	}	
+
+
+	/**
+	 * Finds the names and schemas of child tables
+	 * @param $table The table to find the children for
+	 * @return A recordset
+	 */
+	function &getTableChildren($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				NULL AS nspname, relname
+			FROM
+				pg_class pc, pg_inherits pi
+			WHERE
+				pc.oid=pi.inhrelid
+				AND pi.inhparent = (SELECT oid from pg_class WHERE relname='{$table}')
+		";
+		
+		return $this->selectSet($sql);					
+	}	
+	
 	// Table functions
 
 	/**
-	 * Returns the SQL for changing the current user
-	 * @param $user The user to change to
-	 * @return The SQL
+	 * Returns table information
+	 * @param $table The name of the table
+	 * @return A recordset
 	 */
-	function getChangeUserSQL($user) {
-		$this->fieldClean($user);
-		return "\\connect - \"{$user}\"";
+	function &getTable($table) {
+		$this->clean($table);
+				
+		$sql = "SELECT pc.relname, 
+			pg_get_userbyid(pc.relowner) AS relowner, 
+			(SELECT description FROM pg_description pd 
+                        WHERE pc.oid=pd.objoid) AS relcomment 
+			FROM pg_class pc
+			WHERE pc.relname='{$table}'";
+							
+		return $this->selectSet($sql);
 	}
 
 	/**
-	 * Sets up the data object for a dump.  eg. Starts the appropriate
-	 * transaction, sets variables, etc.
-	 * @return 0 success
+	 * Return all tables in current database
+	 * @param $all True to fetch all tables, false for just in current schema
+	 * @return All tables, sorted alphabetically 
 	 */
-	function beginDump() {
-		// Begin serializable transaction (to dump consistent data)
+	function &getTables($all = false) {
+		global $conf;
+		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
+		else $where = '';
+		
+		$sql = "SELECT NULL AS nspname, c.relname, 
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment
+				FROM pg_class c 
+				WHERE c.relkind='r' 
+					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
+					{$where}
+				ORDER BY relname";
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Retrieve the attribute definition of a table
+	 * @param $table The name of the table
+	 * @param $field (optional) The name of a field to return
+	 * @return All attributes in order
+	 */
+	function &getTableAttributes($table, $field = '') {
+		$this->clean($table);
+		$this->clean($field);
+		
+		if ($field == '') {
+			$sql = "SELECT
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
+					a.attstorage AS typstorage, false AS attisserial, 
+                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
+				FROM
+					pg_attribute a,
+					pg_class c,
+					pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
+				ORDER BY a.attnum";
+		}
+		else {
+			$sql = "SELECT
+					a.attname, t.typname as type, t.typname as base_type, 
+					a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
+					a.attstorage AS typstorage, 
+                                       (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
+				FROM
+					pg_attribute a ,
+					pg_class c,
+					pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid";
+		}
+		
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Checks to see whether or not a table has a unique id column
+	 * @param $table The table name
+	 * @return True if it has a unique id, false otherwise
+	 * @return -99 error
+	 */
+	function hasObjectID($table) {
+		// 7.0 and 7.1 always had an oid column
+		return true;
+	}
+
+	/**
+	 * Creates a new table in the database
+	 * @param $name The name of the table
+	 * @param $fields The number of fields
+	 * @param $field An array of field names
+	 * @param $type An array of field types
+	 * @param $array An array of '' or '[]' for each type if it's an array or not
+	 * @param $length An array of field lengths
+	 * @param $notnull An array of not null
+	 * @param $default An array of default values
+	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
+	 * @param $colcomment An array of comments
+	 * @param $comment Table comment
+	 * @param $tablespace The tablespace name ('' means none/default)
+	 * @return 0 success
+	 * @return -1 no fields supplied
+	 */
+	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
+				$default, $withoutoids, $colcomment, $tblcomment, $tablespace) {
+		$this->fieldClean($name);
+		$this->clean($tblcomment);
+
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
+
+		$found = false;
+		$first = true;
+		$comment_sql = ''; //Accumulate comments for the columns
+		$sql = "CREATE TABLE \"{$name}\" (";
+		for ($i = 0; $i < $fields; $i++) {
+			$this->fieldClean($field[$i]);
+			$this->clean($type[$i]);
+			$this->clean($length[$i]);
+			$this->clean($colcomment[$i]);
+
+			// Skip blank columns - for user convenience
+			if ($field[$i] == '' || $type[$i] == '') continue;
+			// If not the first column, add a comma
+			if (!$first) $sql .= ", ";
+			else $first = false;
+			
+			switch ($type[$i]) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type[$i], 9);
+					$sql .= "\"{$field[$i]}\" timestamp";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type[$i], 4);
+					$sql .= "\"{$field[$i]}\" time";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				default:
+					$sql .= "\"{$field[$i]}\" {$type[$i]}";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+			}
+			// Add array qualifier if necessary
+			if ($array[$i] == '[]') $sql .= '[]';
+			// Add other qualifiers
+			if (isset($notnull[$i])) $sql .= " NOT NULL";
+			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
+
+			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
+
+			$found = true;
+		}
 		
-		// Set serializable
-		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
+		if (!$found) return -1;
+		
+		$sql .= ")";
+		
+		// WITHOUT OIDS
+		if ($this->hasWithoutOIDs() && $withoutoids)
+			$sql .= ' WITHOUT OIDS';
+			
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			$this->fieldClean($tablespace);
+			$sql .= " TABLESPACE \"{$tablespace}\"";
+		}
+		
 		$status = $this->execute($sql);
-		if ($status != 0) {
+		if ($status) {
 			$this->rollbackTransaction();
 			return -1;
 		}
 
-		// Set datestyle to ISO
-		$sql = "SET DATESTYLE = ISO";
-		$status = $this->execute($sql);
+		if ($tblcomment != '') {
+			$status = $this->setComment('TABLE', '', $name, $tblcomment, true);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		if ($comment_sql != '') {
+			$status = $this->execute($comment_sql);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+		return $this->endTransaction();
+		
+	}	
+
+	/**
+	 * Alters a table
+	 * @param $table The name of the table
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table	
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 owner error
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 get existing table error
+	 * @return -6 tablespace error
+	 */
+	function alterTable($table, $name, $owner, $comment, $tablespace) {
+		$this->fieldClean($table);
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+		$this->clean($comment);
+		$this->fieldClean($tablespace);
+
+		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
 		}
+		
+		// Comment
+		$status = $this->setComment('TABLE', '', $table, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+		
+		// Owner
+		if ($this->hasAlterTableOwner() && $owner != '') {
+			// Fetch existing owner
+			$data = &$this->getTable($table);
+			if ($data->recordCount() != 1) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+				
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($data->f['relowner'] != $owner) {
+				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
+		
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -2;
+				}
+			}
+		}
+		
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			// Fetch existing tablespace
+			$data = &$this->getTable($table);
+			if ($data->recordCount() != 1) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+				
+			// If tablespace has been changed, then do the alteration.  We
+			// don't want to do this unnecessarily.
+			if ($data->f['tablespace'] != $tablespace) {
+				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
+		
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -6;
+				}
+			}		
+		}
+
+		// Rename (only if name has changed)
+		if ($name != $table) {
+			$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+				
+		return $this->endTransaction();
+	}
+	
+	/**
+	 * Removes a table from the database
+	 * @param $table The table to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropTable($table, $cascade) {
+		$this->fieldClean($table);
+
+		$sql = "DROP TABLE \"{$table}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
 	}
 
 	/**
-	 * Ends the data object for a dump.
+	 * Empties a table in the database
+	 * @param $table The table to be emptied
 	 * @return 0 success
 	 */
-	function endDump() {
-		return $this->endTransaction();
+	function emptyTable($table) {
+		$this->fieldClean($table);
+
+		$sql = "DELETE FROM \"{$table}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Renames a table
+	 * @param $table The table to be renamed
+	 * @param $newName The new name for the table
+	 * @return 0 success
+	 */
+	function renameTable($table, $newName) {
+		$this->fieldClean($table);
+		$this->fieldClean($newName);
+		
+		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
+
+		return $this->execute($sql);
 	}
 
 	/**
@@ -706,17 +1230,6 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Checks to see whether or not a table has a unique id column
-	 * @param $table The table name
-	 * @return True if it has a unique id, false otherwise
-	 * @return -99 error
-	 */
-	function hasObjectID($table) {
-		// 7.0 and 7.1 always had an oid column
-		return true;
-	}
-
-	/**
 	 * Given an array of attnums and a relation, returns an array mapping
 	 * atttribute number to attribute name.  Relation could be a table OR
 	 * a view.
@@ -752,359 +1265,161 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Get the fields for uniquely identifying a row in a table
-	 * @param $table The table for which to retrieve the identifier
-	 * @return An array mapping attribute number to attribute name, empty for no identifiers
-	 * @return -1 error
+	 * Add a new column to a table
+	 * @param $table The table to add to
+	 * @param $column The name of the new column
+	 * @param $type The type of the column
+	 * @param $array True if array type, false otherwise
+	 * @param $length The optional size of the column (ie. 30 for varchar(30))
+	 * @return 0 success
 	 */
-	function getRowIdentifier($table) {
-		$oldtable = $table;
-		$this->clean($table);
+	function addColumn($table, $column, $type, $array, $length, $comment) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+		$this->clean($type);
+		$this->clean($length);
+		$this->clean($comment);
+
+		if ($length == '')
+			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
+		else {
+			switch ($type) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type, 9);
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" timestamp({$length}){$qual}";
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type, 4);
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" time({$length}){$qual}";
+					break;
+				default:
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
+			}
+		}
 		
+		// Add array qualifier, if requested
+		if ($array) $sql .= '[]';
+
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
-		// Get the first primary or unique index (sorting primary keys first) that
-		// is NOT a partial index.
-		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND indrelid=(SELECT oid FROM pg_class 
-					WHERE relname='{$table}') AND indpred='' AND indproc=0 ORDER BY indisprimary DESC LIMIT 1";
-		$rs = $this->selectSet($sql);
 
-		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
-		// functions check that they're only modiying a single row.  Otherwise, return empty array.
-		if ($rs->recordCount() == 0) {			
-			// Check for OID column
-			$temp = array();
-			if ($this->hasObjectID($table)) {
-				$temp = array('oid');
-			}
-			$this->endTransaction();
-			return $temp;
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
 		}
-		// Otherwise find the names of the keys
-		else {
-			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
-			if (!is_array($attnames)) {
+
+		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		return $this->endTransaction();
+	}
+
+	/**
+	 * Sets default value of a column
+	 * @param $table The table from which to drop
+	 * @param $column The column name to set
+	 * @param $default The new default value
+	 * @return 0 success
+	 */
+	function setColumnDefault($table, $column, $default) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+		
+		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops default value of a column
+	 * @param $table The table from which to drop
+	 * @param $column The column name to drop default
+	 * @return 0 success
+	 */
+	function dropColumnDefault($table, $column) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+
+		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Sets whether or not a column can contain NULLs
+	 * @param $table The table that contains the column
+	 * @param $column The column to alter
+	 * @param $state True to set null, false to set not null
+	 * @return 0 success
+	 * @return -1 attempt to set not null, but column contains nulls
+	 * @return -2 transaction error
+	 * @return -3 lock error
+	 * @return -4 update error
+	 */
+	function setColumnNull($table, $column, $state) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+
+		// Begin transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -2;
+
+		// Properly lock the table
+		$sql = "LOCK TABLE \"{$table}\" IN ACCESS EXCLUSIVE MODE";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		// Check for existing nulls
+		if (!$state) {
+			$sql = "SELECT COUNT(*) AS total FROM \"{$table}\" WHERE \"{$column}\" IS NULL";
+			$result = $this->selectField($sql, 'total');
+			if ($result > 0) {
 				$this->rollbackTransaction();
 				return -1;
 			}
-			else {
-				$this->endTransaction();
-				return $attnames;
-			}
-		}			
-	}
-
-	// Inheritance functions
-	
-	/**
-	 * Finds the names and schemas of parent tables (in order)
-	 * @param $table The table to find the parents for
-	 * @return A recordset
-	 */
-	function &getTableParents($table) {
-		$this->clean($table);
-		
-		$sql = "
-			SELECT 
-				NULL AS nspname, relname
-			FROM
-				pg_class pc, pg_inherits pi
-			WHERE
-				pc.oid=pi.inhparent
-				AND pi.inhrelid = (SELECT oid from pg_class WHERE relname='{$table}')
-			ORDER BY
-				pi.inhseqno
-		";
-		
-		return $this->selectSet($sql);					
-	}	
-
-
-	/**
-	 * Finds the names and schemas of child tables
-	 * @param $table The table to find the children for
-	 * @return A recordset
-	 */
-	function &getTableChildren($table) {
-		$this->clean($table);
-		
-		$sql = "
-			SELECT 
-				NULL AS nspname, relname
-			FROM
-				pg_class pc, pg_inherits pi
-			WHERE
-				pc.oid=pi.inhrelid
-				AND pi.inhparent = (SELECT oid from pg_class WHERE relname='{$table}')
-		";
-		
-		return $this->selectSet($sql);					
-	}	
-	
-	// Formatting functions
-	
-	/**
-	 * Outputs the HTML code for a particular field
-	 * @param $name The name to give the field
-	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
-	 * @param $type The database type of the field
-	 * @param $actions An array of javascript action name to the code to execute on that action
-	 */
-	function printField($name, $value, $type, $actions = array()) {
-		global $lang;
-		
-		// Determine actions string
-		$action_str = '';
-		foreach ($actions as $k => $v) {
-			$action_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
 		}
-		
-		switch ($type) {
-			case 'bool':
-			case 'boolean':
-				if ($value !== null && $value == '') $value = null;
-				elseif ($value == 'true') $value = 't';
-				elseif ($value == 'false') $value = 'f';
-				
-				// If value is null, 't' or 'f'...
-				if ($value === null || $value == 't' || $value == 'f') {
-					echo "<select name=\"", htmlspecialchars($name), "\"{$action_str}>\n";
-					echo "<option value=\"\"", ($value === null) ? ' selected="selected"' : '', "></option>\n";
-					echo "<option value=\"t\"", ($value == 't') ? ' selected="selected"' : '', ">{$lang['strtrue']}</option>\n";
-					echo "<option value=\"f\"", ($value == 'f') ? ' selected="selected"' : '', ">{$lang['strfalse']}</option>\n";
-					echo "</select>\n";
-				}
-				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
-				}				
-				break;
-			case 'text':
-			case 'bytea':
-				// addCSlashes converts all weird ASCII characters to octal representation,
-				// EXCEPT the 'special' ones like \r \n \t, etc.
-				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"75\" wrap=\"virtual\"{$action_str}>\n";
-				echo htmlspecialchars($value);
-				echo "</textarea>\n";
-				break;
-			default:
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
-				break;
-		}		
-	}
-	
-	/**
-	 * Formats a value or expression for sql purposes
-	 * @param $type The type of the field
-	 * @param $format VALUE or EXPRESSION
-	 * @param $value The actual value entered in the field.  Can be NULL
-	 * @return The suitably quoted and escaped value.
-	 */
-	function formatValue($type, $format, $value) {
-		switch ($type) {
-			case 'bool':
-			case 'boolean':
-				if ($value == 't')
-					return 'TRUE';
-				elseif ($value == 'f')
-					return 'FALSE';
-				elseif ($value == '')
-					return 'NULL';
-				else
-					return $value;
-				break;		
-			default:
-				// Checking variable fields is difficult as there might be a size
-				// attribute...			
-				if (strpos($type, 'time') === 0) {
-					// Assume it's one of the time types...
-					if ($value == '') return "''";
-					elseif (strcasecmp($value, 'CURRENT_TIMESTAMP') == 0 
-							|| strcasecmp($value, 'CURRENT_TIME') == 0
-							|| strcasecmp($value, 'CURRENT_DATE') == 0
-							|| strcasecmp($value, 'LOCALTIME') == 0
-							|| strcasecmp($value, 'LOCALTIMESTAMP') == 0) {
-						return $value;
-					}
-					elseif ($format == 'EXPRESSION')
-						return $value;
-					else {
-						$this->clean($value);
-						return "'{$value}'";
-					}
-				}
-				else {
-					if ($format == 'VALUE') {
-						$this->clean($value);
-						return "'{$value}'";					
-					}
-					return $value;
-				}
+
+		// Otherwise update the table.  Note the reverse-sensed $state variable
+		$sql = "UPDATE pg_attribute SET attnotnull = " . (($state) ? 'false' : 'true') . " 
+					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
+					AND attname = '{$column}'";
+
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
 		}
+
+		// Otherwise, close the transaction
+		return $this->endTransaction();
 	}
 
 	/**
-	 * Creates a database
-	 * @param $database The name of the database to create
-	 * @param $encoding Encoding of the database
-	 * @param $tablespace (optional) The tablespace name
+	 * Renames a column in a table
+	 * @param $table The table containing the column to be renamed
+	 * @param $column The column to be renamed
+	 * @param $newName The new name for the column
 	 * @return 0 success
 	 */
-	function createDatabase($database, $encoding, $tablespace = '') {
-		$this->fieldClean($database);
-		$this->clean($encoding);
-		$this->fieldClean($tablespace);
+	function renameColumn($table, $column, $newName) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+		$this->fieldClean($newName);
 
-		if ($encoding == '') {
-			$sql = "CREATE DATABASE \"{$database}\"";
-		} else {
-			$sql = "CREATE DATABASE \"{$database}\" WITH ENCODING='{$encoding}'";
-		}
-		
-		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
-		
+		$sql = "ALTER TABLE \"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
+
 		return $this->execute($sql);
-	}
-
-	/**
-	 * Drops a database
-	 * @param $database The name of the database to drop
-	 * @return 0 success
-	 */
-	function dropDatabase($database) {
-		$this->fieldClean($database);
-		$sql = "DROP DATABASE \"{$database}\"";
-		return $this->execute($sql);
-	}
-	
-	// Table functions
-
-	/**
-	 * Returns table information
-	 * @param $table The name of the table
-	 * @return A recordset
-	 */
-	function &getTable($table) {
-		$this->clean($table);
-				
-		$sql = "SELECT pc.relname, 
-			pg_get_userbyid(pc.relowner) AS relowner, 
-			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid) AS relcomment 
-			FROM pg_class pc
-			WHERE pc.relname='{$table}'";
-							
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Return all tables in current database
-	 * @param $all True to fetch all tables, false for just in current schema
-	 * @return All tables, sorted alphabetically 
-	 */
-	function &getTables($all = false) {
-		global $conf;
-		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
-		else $where = '';
-		
-		$sql = "SELECT NULL AS nspname, c.relname, 
-					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment
-				FROM pg_class c 
-				WHERE c.relkind='r' 
-					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
-					{$where}
-				ORDER BY relname";
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Retrieve the attribute definition of a table
-	 * @param $table The name of the table
-	 * @param $field (optional) The name of a field to return
-	 * @return All attributes in order
-	 */
-	function &getTableAttributes($table, $field = '') {
-		$this->clean($table);
-		$this->clean($field);
-		
-		if ($field == '') {
-			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
-					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage, false AS attisserial, 
-                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
-				FROM
-					pg_attribute a,
-					pg_class c,
-					pg_type t
-				WHERE
-					c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
-				ORDER BY a.attnum";
-		}
-		else {
-			$sql = "SELECT
-					a.attname, t.typname as type, t.typname as base_type, 
-					a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
-					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage, 
-                                       (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
-				FROM
-					pg_attribute a ,
-					pg_class c,
-					pg_type t
-				WHERE
-					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid";
-		}
-		
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Formats a type correctly for display.  Postgres 7.0 had no 'format_type'
-	 * built-in function, and hence we need to do it manually.
-	 * @param $typname The name of the type
-	 * @param $typmod The contents of the typmod field
-	 */
-	function formatType($typname, $typmod) {
-		// This is a specific constant in the 7.0 source
-		$varhdrsz = 4;
-		
-		// If the first character is an underscore, it's an array type
-		$is_array = false;		
-		if (substr($typname, 0, 1) == '_') {
-			$is_array = true;
-			$typname = substr($typname, 1);
-		}	
-		
-		// Show lengths on bpchar and varchar
-		if ($typname == 'bpchar') {
-			$len = $typmod - $varhdrsz;
-			$temp = 'character';
-			if ($len > 1)
-				$temp .= "({$len})";
-		}
-		elseif ($typname == 'varchar') {
-			$temp = 'character varying';
-			if ($typmod != -1)
-				$temp .= "(" . ($typmod - $varhdrsz) . ")";			
-		}
-		elseif ($typname == 'numeric') {
-			$temp = 'numeric';
-			if ($typmod != -1) {
-				$tmp_typmod = $typmod - $varhdrsz;
-				$precision = ($tmp_typmod >> 16) & 0xffff;
-				$scale = $tmp_typmod & 0xffff;
-				$temp .= "({$precision}, {$scale})";
-			}			
-		}
-		else $temp = $typname;
-		
-		// Add array qualifier if it's an array
-		if ($is_array) $temp .= '[]';
-		
-		return $temp;
 	}
 
 	/**
@@ -1188,366 +1503,135 @@ class Postgres extends BaseDB {
 		return $this->endTransaction();
 	}	
 
+	// Row functions
+	
 	/**
-	 * Creates a new table in the database
-	 * @param $name The name of the table
-	 * @param $fields The number of fields
-	 * @param $field An array of field names
-	 * @param $type An array of field types
-	 * @param $array An array of '' or '[]' for each type if it's an array or not
-	 * @param $length An array of field lengths
-	 * @param $notnull An array of not null
-	 * @param $default An array of default values
-	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
-	 * @param $colcomment An array of comments
-	 * @param $comment Table comment
-	 * @param $tablespace The tablespace name ('' means none/default)
+	 * Delete a row from a table
+	 * @param $table The table from which to delete
+	 * @param $key An array mapping column => value to delete
 	 * @return 0 success
-	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
-				$default, $withoutoids, $colcomment, $tblcomment, $tablespace) {
-		$this->fieldClean($name);
-		$this->clean($tblcomment);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
-		$found = false;
-		$first = true;
-		$comment_sql = ''; //Accumulate comments for the columns
-		$sql = "CREATE TABLE \"{$name}\" (";
-		for ($i = 0; $i < $fields; $i++) {
-			$this->fieldClean($field[$i]);
-			$this->clean($type[$i]);
-			$this->clean($length[$i]);
-			$this->clean($colcomment[$i]);
-
-			// Skip blank columns - for user convenience
-			if ($field[$i] == '' || $type[$i] == '') continue;
-			// If not the first column, add a comma
-			if (!$first) $sql .= ", ";
-			else $first = false;
-			
-			switch ($type[$i]) {
-				// Have to account for weird placing of length for with/without
-				// time zone types
-				case 'timestamp with time zone':
-				case 'timestamp without time zone':
-					$qual = substr($type[$i], 9);
-					$sql .= "\"{$field[$i]}\" timestamp";
-					if ($length[$i] != '') $sql .= "({$length[$i]})";
-					$sql .= $qual;
-					break;
-				case 'time with time zone':
-				case 'time without time zone':
-					$qual = substr($type[$i], 4);
-					$sql .= "\"{$field[$i]}\" time";
-					if ($length[$i] != '') $sql .= "({$length[$i]})";
-					$sql .= $qual;
-					break;
-				default:
-					$sql .= "\"{$field[$i]}\" {$type[$i]}";
-					if ($length[$i] != '') $sql .= "({$length[$i]})";
-			}
-			// Add array qualifier if necessary
-			if ($array[$i] == '[]') $sql .= '[]';
-			// Add other qualifiers
-			if (isset($notnull[$i])) $sql .= " NOT NULL";
-			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
-
-			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
-
-			$found = true;
-		}
-		
-		if (!$found) return -1;
-		
-		$sql .= ")";
-		
-		// WITHOUT OIDS
-		if ($this->hasWithoutOIDs() && $withoutoids)
-			$sql .= ' WITHOUT OIDS';
-			
-		// Tablespace
-		if ($this->hasTablespaces() && $tablespace != '') {
-			$this->fieldClean($tablespace);
-			$sql .= " TABLESPACE \"{$tablespace}\"";
-		}
-		
-		$status = $this->execute($sql);
-		if ($status) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
-		if ($tblcomment != '') {
-			$status = $this->setComment('TABLE', '', $name, $tblcomment, true);
-			if ($status) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-		}
-
-		if ($comment_sql != '') {
-			$status = $this->execute($comment_sql);
-			if ($status) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-		}
-		return $this->endTransaction();
-		
-	}	
-
-	/**
-	 * Alters a table
-	 * @param $table The name of the table
-	 * @param $name The new name for the table
-	 * @param $owner The new owner for the table	
-	 * @param $comment The comment on the table
-	 * @param $tablespace The new tablespace for the table ('' means leave as is)
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
-	 * @return -3 rename error
-	 * @return -4 comment error
-	 * @return -5 get existing table error
-	 * @return -6 tablespace error
-	 */
-	function alterTable($table, $name, $owner, $comment, $tablespace) {
-		$this->fieldClean($table);
-		$this->fieldClean($name);
-		$this->fieldClean($owner);
-		$this->clean($comment);
-		$this->fieldClean($tablespace);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-		
-		// Comment
-		$status = $this->setComment('TABLE', '', $table, $comment);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-		
-		// Owner
-		if ($this->hasAlterTableOwner() && $owner != '') {
-			// Fetch existing owner
-			$data = &$this->getTable($table);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-				
-			// If owner has been changed, then do the alteration.  We are
-			// careful to avoid this generally as changing owner is a
-			// superuser only function.
-			if ($data->f['relowner'] != $owner) {
-				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-		
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -2;
-				}
-			}
-		}
-		
-		// Tablespace
-		if ($this->hasTablespaces() && $tablespace != '') {
-			// Fetch existing tablespace
-			$data = &$this->getTable($table);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-				
-			// If tablespace has been changed, then do the alteration.  We
-			// don't want to do this unnecessarily.
-			if ($data->f['tablespace'] != $tablespace) {
-				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
-		
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -6;
-				}
-			}		
-		}
-
-		// Rename (only if name has changed)
-		if ($name != $table) {
-			$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$name}\"";
-			$status = $this->execute($sql);
+	function deleteRow($table, $key) {
+		if (!is_array($key)) return -1;
+		else {
+			// Begin transaction.  We do this so that we can ensure only one row is
+			// deleted
+			$status = $this->beginTransaction();
 			if ($status != 0) {
 				$this->rollbackTransaction();
-				return -3;
+				return -1;
 			}
+			
+			$status = $this->delete($table, $key);
+			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+			
+			// End transaction
+			return $this->endTransaction();
 		}
-				
-		return $this->endTransaction();
 	}
 	
 	/**
-	 * Removes a table from the database
-	 * @param $table The table to drop
-	 * @param $cascade True to cascade drop, false to restrict
+	 * Updates a row in a table
+	 * @param $table The table in which to update
+	 * @param $vars An array mapping new values for the row
+	 * @param $nulls An array mapping column => something if it is to be null
+	 * @param $format An array of the data type (VALUE or EXPRESSION)
+	 * @param $types An array of field types
+	 * @param $keyarr An array mapping column => value to update
 	 * @return 0 success
+	 * @return -1 invalid parameters
 	 */
-	function dropTable($table, $cascade) {
-		$this->fieldClean($table);
+	function editRow($table, $vars, $nulls, $format, $types, $keyarr) {
+		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
+			|| !is_array($types)) return -1;
+		else {
+			$this->fieldClean($table);
 
-		$sql = "DROP TABLE \"{$table}\"";
-		if ($cascade) $sql .= " CASCADE";
+			// Build clause
+			if (sizeof($vars) > 0) {
+				foreach($vars as $key => $value) {
+					$this->fieldClean($key);
+	
+					// Handle NULL values
+					if (isset($nulls[$key])) $tmp = 'NULL';
+					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
+					
+					if (isset($sql)) $sql .= ", \"{$key}\"={$tmp}";
+					else $sql = "UPDATE \"{$table}\" SET \"{$key}\"={$tmp}";
+				}
+				$first = true;
+				foreach ($keyarr as $k => $v) {
+					$this->fieldClean($k);
+					$this->clean($v);
+					if ($first) {
+						$sql .= " WHERE \"{$k}\"='{$v}'";
+						$first = false;
+					}
+					else $sql .= " AND \"{$k}\"='{$v}'";
+				}				
+			}
 
-		return $this->execute($sql);
-	}
+			// Begin transaction.  We do this so that we can ensure only one row is
+			// edited
+			$status = $this->beginTransaction();
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
 
-	/**
-	 * Empties a table in the database
-	 * @param $table The table to be emptied
-	 * @return 0 success
-	 */
-	function emptyTable($table) {
-		$this->fieldClean($table);
-
-		$sql = "DELETE FROM \"{$table}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Renames a table
-	 * @param $table The table to be renamed
-	 * @param $newName The new name for the table
-	 * @return 0 success
-	 */
-	function renameTable($table, $newName) {
-		$this->fieldClean($table);
-		$this->fieldClean($newName);
+			$status = $this->execute($sql);
+			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
+				$this->rollbackTransaction();
+				return -2;
+			}
 		
-		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Finds the number of rows that would be returned by a
-	 * query.
-	 * @param $query The SQL query
-	 * @param $count The count query
-	 * @return The count of rows
-	 * @return -1 error
-	 */
-	function browseQueryCount($query, $count) {
-		// Count the number of rows
-		$rs = $this->selectSet($query);
-		if (!is_object($rs)) {
-			return -1;
+			// End transaction
+			return $this->endTransaction();		
 		}
-		
-		return $rs->recordCount();	
+	}
+
+	/**
+	 * Adds a new row to a table
+	 * @param $table The table in which to insert
+	 * @param $var An array mapping new values for the row
+	 * @param $nulls An array mapping column => something if it is to be null
+	 * @param $format An array of the data type (VALUE or EXPRESSION)
+	 * @param $types An array of field types
+	 * @return 0 success
+	 * @return -1 invalid parameters
+	 */
+	function insertRow($table, $vars, $nulls, $format, $types) {
+		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
+			|| !is_array($types)) return -1;
+		else {
+			$this->fieldClean($table);
+
+			// Build clause
+			if (sizeof($vars) > 0) {
+				$fields = '';
+				$values = '';
+				foreach($vars as $key => $value) {
+					$this->fieldClean($key);
+	
+					// Handle NULL values
+					if (isset($nulls[$key])) $tmp = 'NULL';
+					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
+					
+					if ($fields) $fields .= ", \"{$key}\"";
+					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
+
+					if ($values) $values .= ", {$tmp}";
+					else $values = ") VALUES ({$tmp}";
+				}
+				$sql = $fields . $values . ')';
+			}			
+			return $this->execute($sql);
+		}
 	}
 	
-	/**
-	 * Returns a recordset of all columns in a query.  Supports paging.
-	 * @param $type Either 'QUERY' if it is an SQL query, or 'TABLE' if it is a table identifier,
-	 *              or 'SELECT" if it's a select query
-	 * @param $table The base table of the query.  NULL for no table.
-	 * @param $query The query that is being executed.  NULL for no query.
-	 * @param $sortkey The column number to sort by, or '' or null for no sorting
-	 * @param $sortdir The direction in which to sort the specified column ('asc' or 'desc')
-	 * @param $page The page of the relation to retrieve
-	 * @param $page_size The number of rows per page
-	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
-	 * @return A recordset on success
-	 * @return -1 transaction error
-	 * @return -2 counting error
-	 * @return -3 page or page_size invalid
-	 * @return -4 unknown type
-	 */
-	function &browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
-		// Check that we're not going to divide by zero
-		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
-
-		// If $type is TABLE, then generate the query
-		switch ($type) {
-			case 'TABLE':
-				if (ereg('^[0-9]+$', $sortkey) && $sortkey > 0) $orderby = array($sortkey => $sortdir);
-				else $orderby = array();
-				$query = $this->getSelectSQL($table, array(), array(), array(), $orderby);
-				break;
-			case 'QUERY':
-			case 'SELECT':
-				// Trim query
-				$query = trim($query);
-				// Trim off trailing semi-colon if there is one
-				if (substr($query, strlen($query) - 1, 1) == ';')
-					$query = substr($query, 0, strlen($query) - 1);
-				break;
-			default:
-				return -4;
-		}
-
-		// Generate count query
-		$count = "SELECT COUNT(*) AS total FROM ($query) AS sub";
-
-		// Open a transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-		
-		// Count the number of rows
-		$total = $this->browseQueryCount($query, $count);
-		if ($total < 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
-		// Calculate max pages
-		$max_pages = ceil($total / $page_size);
-		
-		// Check that page is less than or equal to max pages
-		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-
-		// Set fetch mode to NUM so that duplicate field names are properly returned
-		// for non-table queries.  Since the SELECT feature only allows selecting one
-		// table, duplicate fields shouldn't appear.
-		if ($type == 'QUERY') $this->conn->setFetchMode(ADODB_FETCH_NUM);
-
-		// Figure out ORDER BY.  Sort key is always the column number (based from one)
-		// of the column to order by.  Only need to do this for non-TABLE queries
-		if ($type != 'TABLE' && ereg('^[0-9]+$', $sortkey) && $sortkey > 0) {
-			$orderby = " ORDER BY {$sortkey}";
-			// Add sort order
-			if ($sortdir == 'desc')
-				$orderby .= ' DESC';
-			else
-				$orderby .= ' ASC';
-		}	
-		else $orderby = '';
-
-		// Actually retrieve the rows, with offset and limit
-		if ($this->hasFullSubqueries())
-			$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-		else
-			$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-		$status = $this->endTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-		
-		return $rs;
-	}
-		
 	/**
 	 * Returns a recordset of all columns in a table
 	 * @param $table The name of a table
@@ -1568,6 +1652,50 @@ class Postgres extends BaseDB {
 		}
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Get the fields for uniquely identifying a row in a table
+	 * @param $table The table for which to retrieve the identifier
+	 * @return An array mapping attribute number to attribute name, empty for no identifiers
+	 * @return -1 error
+	 */
+	function getRowIdentifier($table) {
+		$oldtable = $table;
+		$this->clean($table);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Get the first primary or unique index (sorting primary keys first) that
+		// is NOT a partial index.
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND indrelid=(SELECT oid FROM pg_class 
+					WHERE relname='{$table}') AND indpred='' AND indproc=0 ORDER BY indisprimary DESC LIMIT 1";
+		$rs = $this->selectSet($sql);
+
+		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
+		// functions check that they're only modiying a single row.  Otherwise, return empty array.
+		if ($rs->recordCount() == 0) {			
+			// Check for OID column
+			$temp = array();
+			if ($this->hasObjectID($table)) {
+				$temp = array('oid');
+			}
+			$this->endTransaction();
+			return $temp;
+		}
+		// Otherwise find the names of the keys
+		else {
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			if (!is_array($attnames)) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			else {
+				$this->endTransaction();
+				return $attnames;
+			}
+		}			
 	}
 
 	// Sequence functions
@@ -1673,6 +1801,51 @@ class Postgres extends BaseDB {
 	}
 
 	// Constraint functions
+
+	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getConstraints($table) {
+		$this->clean($table);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$sql = "
+			SELECT
+				rcname AS conname,
+				'CHECK (' || rcsrc || ')' AS consrc,
+				'c' AS contype,
+				NULL::int2vector AS indkey
+			FROM
+				pg_relcheck
+			WHERE 
+				rcrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			UNION ALL
+			SELECT
+				pc.relname,
+				NULL,
+				CASE WHEN indisprimary THEN
+					'p'
+				ELSE
+					'u'
+				END,
+				indkey
+			FROM
+				pg_class pc,
+				pg_index pi
+			WHERE
+				pc.oid=pi.indexrelid
+				AND (pi.indisunique OR pi.indisprimary)
+				AND pi.indrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			ORDER BY
+				1
+		";
+
+		return $this->selectSet($sql);
+	}
 
 	/**
 	 * Adds a check constraint to a table
@@ -1851,21 +2024,6 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Changes the owner of a table
-	 * @param $table The table whose owner is to change
-	 * @param $owner The new owner (username) of the table
-	 * @return 0 success
-	 */
-	function setOwnerOfTable($table, $owner) {
-		$this->fieldClean($table);
-		$this->fieldClean($owner);
-		
-		$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
 	 * Finds the foreign keys that refer to the specified table
 	 * @param $table The table to find referrers for
 	 * @return A recordset
@@ -1873,208 +2031,6 @@ class Postgres extends BaseDB {
 	function &getReferrers($table) {
 		// In PostgreSQL < 7.3, there is no way to discover foreign keys
 		return -99;
-	}
-
-	// Column Functions
-
-	/**
-	 * Add a new column to a table
-	 * @param $table The table to add to
-	 * @param $column The name of the new column
-	 * @param $type The type of the column
-	 * @param $array True if array type, false otherwise
-	 * @param $length The optional size of the column (ie. 30 for varchar(30))
-	 * @return 0 success
-	 */
-	function addColumn($table, $column, $type, $array, $length, $comment) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
-		$this->clean($type);
-		$this->clean($length);
-		$this->clean($comment);
-
-		if ($length == '')
-			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
-		else {
-			switch ($type) {
-				// Have to account for weird placing of length for with/without
-				// time zone types
-				case 'timestamp with time zone':
-				case 'timestamp without time zone':
-					$qual = substr($type, 9);
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" timestamp({$length}){$qual}";
-					break;
-				case 'time with time zone':
-				case 'time without time zone':
-					$qual = substr($type, 4);
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" time({$length}){$qual}";
-					break;
-				default:
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
-			}
-		}
-		
-		// Add array qualifier, if requested
-		if ($array) $sql .= '[]';
-
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
-		return $this->endTransaction();
-	}
-
-	/**
-	 * Sets default value of a column
-	 * @param $table The table from which to drop
-	 * @param $column The column name to set
-	 * @param $default The new default value
-	 * @return 0 success
-	 */
-	function setColumnDefault($table, $column, $default) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
-		
-		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Drops default value of a column
-	 * @param $table The table from which to drop
-	 * @param $column The column name to drop default
-	 * @return 0 success
-	 */
-	function dropColumnDefault($table, $column) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
-
-		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Sets whether or not a column can contain NULLs
-	 * @param $table The table that contains the column
-	 * @param $column The column to alter
-	 * @param $state True to set null, false to set not null
-	 * @return 0 success
-	 * @return -1 attempt to set not null, but column contains nulls
-	 * @return -2 transaction error
-	 * @return -3 lock error
-	 * @return -4 update error
-	 */
-	function setColumnNull($table, $column, $state) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
-
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -2;
-
-		// Properly lock the table
-		$sql = "LOCK TABLE \"{$table}\" IN ACCESS EXCLUSIVE MODE";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-
-		// Check for existing nulls
-		if (!$state) {
-			$sql = "SELECT COUNT(*) AS total FROM \"{$table}\" WHERE \"{$column}\" IS NULL";
-			$result = $this->selectField($sql, 'total');
-			if ($result > 0) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-		}
-
-		// Otherwise update the table.  Note the reverse-sensed $state variable
-		$sql = "UPDATE pg_attribute SET attnotnull = " . (($state) ? 'false' : 'true') . " 
-					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
-					AND attname = '{$column}'";
-
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-
-		// Otherwise, close the transaction
-		return $this->endTransaction();
-	}
-
-	/**
-	 * Renames a column in a table
-	 * @param $table The table containing the column to be renamed
-	 * @param $column The column to be renamed
-	 * @param $newName The new name for the column
-	 * @return 0 success
-	 */
-	function renameColumn($table, $column, $newName) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
-		$this->fieldClean($newName);
-
-		$sql = "ALTER TABLE \"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Sets the comment for an object in the database
-	 * @pre All parameters must already be cleaned
-	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION'
-	 * @param $obj_name The name of the object for which to attach a comment.
-	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
-	 * @param $comment The comment to add.
-	 * @return 0 success
-	 */
-	function setComment($obj_type, $obj_name, $table, $comment) {
-		$sql = "COMMENT ON {$obj_type} " ;
-
-		switch ($obj_type) {
-			case 'TABLE':
-				$sql .= "\"{$table}\" IS ";
-				break;
-			case 'COLUMN':
-				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
-				break;
-			case 'VIEW':
-			case 'SCHEMA':
-			case 'SEQUENCE':
-			case 'TYPE':
-				$sql .= "\"{$obj_name}\" IS ";
-				break;
-			case 'FUNCTION':				
-				$sql .= "{$obj_name} IS ";
-				break;
-			default:
-				// Unknown object type
-				return -1;
-		}
-
-		if ($comment != '')
-			$sql .= "'{$comment}';";
-		else
-			$sql .= 'NULL;';
-
-		return $this->execute($sql);
-
 	}
 
 	// Index functions
@@ -2163,6 +2119,27 @@ class Postgres extends BaseDB {
 
 	// Rule functions
 	
+	/**
+	 * Returns a list of all rules on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getRules($table) {
+		$this->clean($table);
+
+		$sql = "SELECT
+				*
+			FROM
+				pg_rules
+			WHERE
+				tablename='{$table}'
+			ORDER BY
+				rulename
+		";
+
+		return $this->selectSet($sql);
+	}
+
 	/**
 	 * Removes a rule from a relation
 	 * @param $rule The rule to drop
@@ -2369,160 +2346,6 @@ class Postgres extends BaseDB {
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}	
-
-	// Find object functions
-	
-	/**
-	 * Searches all system catalogs to find objects that match a certain name.
-	 * @param $term The search term
-	 * @param $filter The object type to restrict to ('' means no restriction)
-	 * @return A recordset
-	 */
-	function findObject($term, $filter) {
-		global $conf;
-
-		// Escape search term for ~* match
-		$special = array('.', '*', '^', '$', ':', '?', '+', ',', '=', '!', '[', ']', '(', ')', '{', '}', '<', '>', '-', '\\');
-		foreach ($special as $v) {
-			$term = str_replace($v, "\\{$v}", $term);
-		}
-		$this->clean($term);
-		$this->clean($filter);
-
-		// Build SQL, excluding system relations as necessary
-		// Relations
-		$case_clause = "CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END";
-		$sql = "
-			SELECT {$case_clause} AS type, 
-				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
-				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";			
-		if ($filter == 'TABLE' || $filter == 'VIEW' || $filter == 'SEQUENCE') $sql .= " AND {$case_clause} = '{$filter}'";
-		elseif ($filter != '') $sql .= " AND FALSE";
-
-		// Columns
-		$sql .= "				
-			UNION ALL
-			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'COLUMNVIEW'::VARCHAR ELSE 'COLUMNTABLE'::VARCHAR END) WHEN relkind='v' THEN 'COLUMNVIEW'::VARCHAR END,
-				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
-				pg_attribute pa WHERE pc.oid=pa.attrelid 
-				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";
-		if ($filter != '' && $filter != 'COLUMNTABLE' || $filter != 'COLUMNVIEW') $sql .= " AND FALSE";
-
-		// Functions
-		$sql .= "
-			UNION ALL
-			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname || '(' || oidvectortypes(pp.proargtypes) || ')' FROM pg_proc pp
-				WHERE proname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
-		if ($filter != '' && $filter != 'FUNCTION') $sql .= " AND FALSE";
-			
-		// Indexes
-		$sql .= "
-			UNION ALL
-			SELECT 'INDEX', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
-				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
-				AND pi.indexrelid=pc2.oid
-				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";
-		if ($filter != '' && $filter != 'INDEX') $sql .= " AND FALSE";
-
-		// Check Constraints
-		$sql .= "
-			UNION ALL
-			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
-				pg_relcheck pr WHERE pc.oid=pr.rcrelid
-				AND pr.rcname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
-		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
-		
-		// Unique and Primary Key Constraints
-		$sql .= "
-			UNION ALL
-			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
-				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
-				AND pi.indexrelid=pc2.oid
-				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";	
-		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";			
-
-		// Triggers
-		$sql .= "
-			UNION ALL
-			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
-				pg_trigger pt WHERE pc.oid=pt.tgrelid
-				AND pt.tgname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
-		if ($filter != '' && $filter != 'TRIGGER') $sql .= " AND FALSE";
-
-		// Table Rules
-		$sql .= "
-			UNION ALL
-			SELECT 'RULETABLE', NULL, NULL, c.relname AS tablename, r.rulename
-				FROM pg_rewrite r, pg_class c
-				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
-				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
-		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
-
-		// View Rules
-		$sql .= "
-			UNION ALL
-			SELECT 'RULEVIEW', NULL, NULL, c.relname AS tablename, r.rulename
-				FROM pg_rewrite r, pg_class c
-				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
-				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
-		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
-
-		// Advanced Objects
-		if ($conf['show_advanced']) {
-			// Types
-			$sql .= "
-				UNION ALL
-				SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
-					WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
-			if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
-			if ($filter != '' && $filter != 'TYPE') $sql .= " AND FALSE";
-
-			// Operators
-			$sql .= "				
-				UNION ALL
-				SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
-					WHERE oprname ~* '.*{$term}.*'";
-			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
-			if ($filter != '' && $filter != 'OPERATOR') $sql .= " AND FALSE";
-
-			// Languages
-			$sql .= "				
-				UNION ALL
-				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
-					WHERE lanname ~* '.*{$term}.*'";
-			if (!$conf['show_system']) $sql .= " AND pl.lanispl";
-			if ($filter != '' && $filter != 'LANGUAGE') $sql .= " AND FALSE";
-
-			// Aggregates
-			$sql .= "				
-				UNION ALL
-				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a 
-					WHERE aggname ~* '.*{$term}.*'";
-			if (!$conf['show_system']) $sql .= " AND a.oid > '{$this->_lastSystemOID}'::oid";
-			if ($filter != '' && $filter != 'AGGREGATE') $sql .= " AND FALSE";
-
-			// Op Classes
-			$sql .= "				
-				UNION ALL
-				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po
-					WHERE po.opcname ~* '.*{$term}.*'";
-			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
-			if ($filter != '' && $filter != 'OPCLASS') $sql .= " AND FALSE";
-		}
-				
-		$sql .= " ORDER BY type, schemaname, relname, name";
-			
-		return $this->selectSet($sql);
-	}
 
 	// Operator functions
 
@@ -3419,51 +3242,6 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
-	/**
-	 * Returns a list of all constraints on a table
-	 * @param $table The table to find rules for
-	 * @return A recordset
-	 */
-	function &getConstraints($table) {
-		$this->clean($table);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
-		$sql = "
-			SELECT
-				rcname AS conname,
-				'CHECK (' || rcsrc || ')' AS consrc,
-				'c' AS contype,
-				NULL::int2vector AS indkey
-			FROM
-				pg_relcheck
-			WHERE 
-				rcrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
-			UNION ALL
-			SELECT
-				pc.relname,
-				NULL,
-				CASE WHEN indisprimary THEN
-					'p'
-				ELSE
-					'u'
-				END,
-				indkey
-			FROM
-				pg_class pc,
-				pg_index pi
-			WHERE
-				pc.oid=pi.indexrelid
-				AND (pi.indisunique OR pi.indisprimary)
-				AND pi.indrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
-			ORDER BY
-				1
-		";
-
-		return $this->selectSet($sql);
-	}
-
 	// Function functions
 
 	/**
@@ -3697,29 +3475,6 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}	
 
-	// Rule functions
-
-	/**
-	 * Returns a list of all rules on a table
-	 * @param $table The table to find rules for
-	 * @return A recordset
-	 */
-	function &getRules($table) {
-		$this->clean($table);
-
-		$sql = "SELECT
-				*
-			FROM
-				pg_rules
-			WHERE
-				tablename='{$table}'
-			ORDER BY
-				rulename
-		";
-
-		return $this->selectSet($sql);
-	}
-
 	// Language functions
 	
 	/**
@@ -3815,8 +3570,478 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
-	// Script execution functions
+	// Type conversion routines
+
+	/**
+	 * Change the value of a parameter to 't' or 'f' depending on whether it evaluates to true or false
+	 * @param $parameter the parameter
+	 */
+	function dbBool(&$parameter) {
+		if ($parameter) $parameter = 't';
+		else $parameter = 'f';
+
+		return $parameter;
+	}
+
+	/**
+	 * Change a parameter from 't' or 'f' to a boolean, (others evaluate to false)
+	 * @param $parameter the parameter
+	 */
+	function phpBool($parameter) {
+		$parameter = ($parameter == 't');
+		return $parameter;
+	}
 	
+	// Misc functions
+
+	/**
+	 * Sets the comment for an object in the database
+	 * @pre All parameters must already be cleaned
+	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION'
+	 * @param $obj_name The name of the object for which to attach a comment.
+	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
+	 * @param $comment The comment to add.
+	 * @return 0 success
+	 */
+	function setComment($obj_type, $obj_name, $table, $comment) {
+		$sql = "COMMENT ON {$obj_type} " ;
+
+		switch ($obj_type) {
+			case 'TABLE':
+				$sql .= "\"{$table}\" IS ";
+				break;
+			case 'COLUMN':
+				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
+				break;
+			case 'VIEW':
+			case 'SCHEMA':
+			case 'SEQUENCE':
+			case 'TYPE':
+				$sql .= "\"{$obj_name}\" IS ";
+				break;
+			case 'FUNCTION':				
+				$sql .= "{$obj_name} IS ";
+				break;
+			default:
+				// Unknown object type
+				return -1;
+		}
+
+		if ($comment != '')
+			$sql .= "'{$comment}';";
+		else
+			$sql .= 'NULL;';
+
+		return $this->execute($sql);
+
+	}
+
+	/**
+	 * Returns the SQL for changing the current user
+	 * @param $user The user to change to
+	 * @return The SQL
+	 */
+	function getChangeUserSQL($user) {
+		$this->fieldClean($user);
+		return "\\connect - \"{$user}\"";
+	}
+
+	/**
+	 * Sets up the data object for a dump.  eg. Starts the appropriate
+	 * transaction, sets variables, etc.
+	 * @return 0 success
+	 */
+	function beginDump() {
+		// Begin serializable transaction (to dump consistent data)
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Set serializable
+		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Set datestyle to ISO
+		$sql = "SET DATESTYLE = ISO";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+	}
+
+	/**
+	 * Ends the data object for a dump.
+	 * @return 0 success
+	 */
+	function endDump() {
+		return $this->endTransaction();
+	}
+
+	/**
+	 * Generates the SQL for the 'select' function
+	 * @param $table The table from which to select
+	 * @param $show An array of columns to show.  Empty array means all columns.
+	 * @param $values An array mapping columns to values
+	 * @param $ops An array of the operators to use
+	 * @param $orderby (optional) An array of column numbers (one based) 
+	 *        mapped to sort direction (asc or desc or '' or null) to order by
+	 * @return The SQL query
+	 */
+	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
+		$this->fieldClean($table);
+		$this->fieldArrayClean($show);
+
+		// If an empty array is passed in, then show all columns
+		if (sizeof($show) == 0) {
+			if ($this->hasObjectID($table))
+				$sql = "SELECT \"{$this->id}\", * FROM ";
+			else
+				$sql = "SELECT * FROM ";
+		}
+		else {
+			// Add oid column automatically to results for editing purposes
+			if (!in_array($this->id, $show) && $this->hasObjectID($table))
+				$sql = "SELECT \"{$this->id}\", \"";
+			else
+				$sql = "SELECT \"";
+			
+			$sql .= join('","', $show) . "\" FROM ";
+		}
+			
+		if ($this->hasSchemas() && isset($_REQUEST['schema'])) {
+			$this->fieldClean($_REQUEST['schema']);
+			$sql .= "\"{$_REQUEST['schema']}\".";
+		}
+		$sql .= "\"{$table}\"";
+
+		// If we have values specified, add them to the WHERE clause
+		$first = true;
+		if (is_array($values) && sizeof($values) > 0) {
+			foreach ($values as $k => $v) {
+				if ($v != '' || $this->selectOps[$ops[$k]] == 'p') {
+					$this->fieldClean($k);
+					$this->clean($v);
+					if ($first) {
+						$sql .= " WHERE ";
+						$first = false;
+					} else {
+						$sql .= " AND ";
+					}
+					// Different query format depending on operator type
+					switch ($this->selectOps[$ops[$k]]) {
+						case 'i':
+							$sql .= "\"{$k}\" {$ops[$k]} '{$v}'";
+							break;
+						case 'p':
+							$sql .= "\"{$k}\" {$ops[$k]}";
+							break;
+						case 'x':
+							$sql .= "\"{$k}\" {$ops[$k]} ({$v})";
+							break;
+						default:
+							// Shouldn't happen
+					}
+				}
+			}
+		}
+
+		// ORDER BY
+		if (is_array($orderby) && sizeof($orderby) > 0) {
+			$sql .= " ORDER BY ";
+			foreach ($orderby as $k => $v) {
+				$sql .= $k;
+				if (strtoupper($v) == 'DESC') $sql .= " DESC";
+			}
+		}
+		
+		return $sql;
+	}
+
+	/**
+	 * Finds the number of rows that would be returned by a
+	 * query.
+	 * @param $query The SQL query
+	 * @param $count The count query
+	 * @return The count of rows
+	 * @return -1 error
+	 */
+	function browseQueryCount($query, $count) {
+		// Count the number of rows
+		$rs = $this->selectSet($query);
+		if (!is_object($rs)) {
+			return -1;
+		}
+		
+		return $rs->recordCount();	
+	}
+	
+	/**
+	 * Returns a recordset of all columns in a query.  Supports paging.
+	 * @param $type Either 'QUERY' if it is an SQL query, or 'TABLE' if it is a table identifier,
+	 *              or 'SELECT" if it's a select query
+	 * @param $table The base table of the query.  NULL for no table.
+	 * @param $query The query that is being executed.  NULL for no query.
+	 * @param $sortkey The column number to sort by, or '' or null for no sorting
+	 * @param $sortdir The direction in which to sort the specified column ('asc' or 'desc')
+	 * @param $page The page of the relation to retrieve
+	 * @param $page_size The number of rows per page
+	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
+	 * @return A recordset on success
+	 * @return -1 transaction error
+	 * @return -2 counting error
+	 * @return -3 page or page_size invalid
+	 * @return -4 unknown type
+	 */
+	function &browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
+		// Check that we're not going to divide by zero
+		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
+
+		// If $type is TABLE, then generate the query
+		switch ($type) {
+			case 'TABLE':
+				if (ereg('^[0-9]+$', $sortkey) && $sortkey > 0) $orderby = array($sortkey => $sortdir);
+				else $orderby = array();
+				$query = $this->getSelectSQL($table, array(), array(), array(), $orderby);
+				break;
+			case 'QUERY':
+			case 'SELECT':
+				// Trim query
+				$query = trim($query);
+				// Trim off trailing semi-colon if there is one
+				if (substr($query, strlen($query) - 1, 1) == ';')
+					$query = substr($query, 0, strlen($query) - 1);
+				break;
+			default:
+				return -4;
+		}
+
+		// Generate count query
+		$count = "SELECT COUNT(*) AS total FROM ($query) AS sub";
+
+		// Open a transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Count the number of rows
+		$total = $this->browseQueryCount($query, $count);
+		if ($total < 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		// Calculate max pages
+		$max_pages = ceil($total / $page_size);
+		
+		// Check that page is less than or equal to max pages
+		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		// Set fetch mode to NUM so that duplicate field names are properly returned
+		// for non-table queries.  Since the SELECT feature only allows selecting one
+		// table, duplicate fields shouldn't appear.
+		if ($type == 'QUERY') $this->conn->setFetchMode(ADODB_FETCH_NUM);
+
+		// Figure out ORDER BY.  Sort key is always the column number (based from one)
+		// of the column to order by.  Only need to do this for non-TABLE queries
+		if ($type != 'TABLE' && ereg('^[0-9]+$', $sortkey) && $sortkey > 0) {
+			$orderby = " ORDER BY {$sortkey}";
+			// Add sort order
+			if ($sortdir == 'desc')
+				$orderby .= ' DESC';
+			else
+				$orderby .= ' ASC';
+		}	
+		else $orderby = '';
+
+		// Actually retrieve the rows, with offset and limit
+		if ($this->hasFullSubqueries())
+			$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		else
+			$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		$status = $this->endTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		return $rs;
+	}
+		
+	/**
+	 * Returns a recordset of all columns in a relation.  Used for data export.
+	 * @@ Note: Really needs to use a cursor
+	 * @param $relation The name of a relation
+	 * @return A recordset on success
+	 * @return -1 Failed to set datestyle
+	 */
+	function &dumpRelation($relation, $oids) {
+		$this->fieldClean($relation);
+		
+		// Actually retrieve the rows
+		if ($oids) $oid_str = $this->id . ', ';
+		else $oid_str = '';
+
+		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
+	}
+
+	/**
+	 * Searches all system catalogs to find objects that match a certain name.
+	 * @param $term The search term
+	 * @param $filter The object type to restrict to ('' means no restriction)
+	 * @return A recordset
+	 */
+	function findObject($term, $filter) {
+		global $conf;
+
+		// Escape search term for ~* match
+		$special = array('.', '*', '^', '$', ':', '?', '+', ',', '=', '!', '[', ']', '(', ')', '{', '}', '<', '>', '-', '\\');
+		foreach ($special as $v) {
+			$term = str_replace($v, "\\{$v}", $term);
+		}
+		$this->clean($term);
+		$this->clean($filter);
+
+		// Build SQL, excluding system relations as necessary
+		// Relations
+		$case_clause = "CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END";
+		$sql = "
+			SELECT {$case_clause} AS type, 
+				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
+				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";			
+		if ($filter == 'TABLE' || $filter == 'VIEW' || $filter == 'SEQUENCE') $sql .= " AND {$case_clause} = '{$filter}'";
+		elseif ($filter != '') $sql .= " AND FALSE";
+
+		// Columns
+		$sql .= "				
+			UNION ALL
+			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'COLUMNVIEW'::VARCHAR ELSE 'COLUMNTABLE'::VARCHAR END) WHEN relkind='v' THEN 'COLUMNVIEW'::VARCHAR END,
+				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
+				pg_attribute pa WHERE pc.oid=pa.attrelid 
+				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";
+		if ($filter != '' && $filter != 'COLUMNTABLE' || $filter != 'COLUMNVIEW') $sql .= " AND FALSE";
+
+		// Functions
+		$sql .= "
+			UNION ALL
+			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname || '(' || oidvectortypes(pp.proargtypes) || ')' FROM pg_proc pp
+				WHERE proname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
+		if ($filter != '' && $filter != 'FUNCTION') $sql .= " AND FALSE";
+			
+		// Indexes
+		$sql .= "
+			UNION ALL
+			SELECT 'INDEX', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				AND pi.indexrelid=pc2.oid
+				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";
+		if ($filter != '' && $filter != 'INDEX') $sql .= " AND FALSE";
+
+		// Check Constraints
+		$sql .= "
+			UNION ALL
+			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
+				pg_relcheck pr WHERE pc.oid=pr.rcrelid
+				AND pr.rcname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
+		
+		// Unique and Primary Key Constraints
+		$sql .= "
+			UNION ALL
+			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				AND pi.indexrelid=pc2.oid
+				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";	
+		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";			
+
+		// Triggers
+		$sql .= "
+			UNION ALL
+			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
+				pg_trigger pt WHERE pc.oid=pt.tgrelid
+				AND pt.tgname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'TRIGGER') $sql .= " AND FALSE";
+
+		// Table Rules
+		$sql .= "
+			UNION ALL
+			SELECT 'RULETABLE', NULL, NULL, c.relname AS tablename, r.rulename
+				FROM pg_rewrite r, pg_class c
+				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
+				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
+
+		// View Rules
+		$sql .= "
+			UNION ALL
+			SELECT 'RULEVIEW', NULL, NULL, c.relname AS tablename, r.rulename
+				FROM pg_rewrite r, pg_class c
+				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
+				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
+
+		// Advanced Objects
+		if ($conf['show_advanced']) {
+			// Types
+			$sql .= "
+				UNION ALL
+				SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
+					WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
+			if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'TYPE') $sql .= " AND FALSE";
+
+			// Operators
+			$sql .= "				
+				UNION ALL
+				SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
+					WHERE oprname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'OPERATOR') $sql .= " AND FALSE";
+
+			// Languages
+			$sql .= "				
+				UNION ALL
+				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
+					WHERE lanname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND pl.lanispl";
+			if ($filter != '' && $filter != 'LANGUAGE') $sql .= " AND FALSE";
+
+			// Aggregates
+			$sql .= "				
+				UNION ALL
+				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a 
+					WHERE aggname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND a.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'AGGREGATE') $sql .= " AND FALSE";
+
+			// Op Classes
+			$sql .= "				
+				UNION ALL
+				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po
+					WHERE po.opcname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'OPCLASS') $sql .= " AND FALSE";
+		}
+				
+		$sql .= " ORDER BY type, schemaname, relname, name";
+			
+		return $this->selectSet($sql);
+	}
+
 	/** 
 	 * Executes an SQL script as a series of SQL statements.  Returns
 	 * the result of the final step.
@@ -3861,28 +4086,6 @@ class Postgres extends BaseDB {
 		return new ADORecordSet_empty();
 	}
 
-	// Type conversion routines
-
-	/**
-	 * Change the value of a parameter to 't' or 'f' depending on whether it evaluates to true or false
-	 * @param $parameter the parameter
-	 */
-	function dbBool(&$parameter) {
-		if ($parameter) $parameter = 't';
-		else $parameter = 'f';
-
-		return $parameter;
-	}
-
-	/**
-	 * Change a parameter from 't' or 'f' to a boolean, (others evaluate to false)
-	 * @param $parameter the parameter
-	 */
-	function phpBool($parameter) {
-		$parameter = ($parameter == 't');
-		return $parameter;
-	}
-	
 	// Capabilities
 	function hasSchemas() { return false; }
 	function hasConversions() { return false; }	
