@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.23 2003/09/17 17:04:13 soranzo Exp $
+	 * $Id: polish.php,v 1.24 2003/10/12 21:27:59 slubek Exp $
 	 */
 
 	// Language and character set
@@ -26,6 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Zaloguj';
 	$lang['strloginfailed'] = 'Pr&oacute;ba zalogowania nie powiod&#322;a si&#281;';
+	$lang['strlogindisallowed'] = 'Logowanie niedozwolone';
 	$lang['strserver'] = 'Serwer';
 	$lang['strlogout'] = 'Wyloguj si&#281;';
 	$lang['strowner'] = 'W&#322;a&#347;ciciel';
@@ -86,6 +87,7 @@
 	$lang['strvacuum'] = 'Przeczy&#347;&#263;';
 	$lang['stranalyze'] = 'Analizuj';
 	$lang['strcluster'] = 'Klaster';
+	$lang['strclustered'] = 'Klastrowany?';
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
@@ -105,6 +107,8 @@
 	$lang['stroptions'] = 'Opcje';
 	$lang['strrefresh'] = 'Od&#347;wie&#380;';
 	$lang['strdownload'] = 'Pobierz';
+	$lang['strinfo'] = 'Informacje';
+	$lang['stroids'] = 'OIDy';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
@@ -122,8 +126,8 @@
 	$lang['strtable'] = 'Tabela';
 	$lang['strtables'] = 'Tabele';
 	$lang['strshowalltables'] = 'Poka&#380; wszystkie tabele';
-	$lang['strnotable'] = 'Nie znaleziono tablicy.';
-	$lang['strnotables'] = 'Nie znaleziono tablic.';
+	$lang['strnotable'] = 'Nie znaleziono tabeli.';
+	$lang['strnotables'] = 'Nie znaleziono tabeli.';
 	$lang['strcreatetable'] = 'Utw&oacute;rz tabel&#281;';
 	$lang['strtablename'] = 'Nazwa tabeli';
 	$lang['strtableneedsname'] = 'Musisz nazwa&#263; tabel&#281;.';
@@ -131,12 +135,12 @@
 	$lang['strtableneedscols'] = 'Musisz poda&#263; prawid&#322;ow&#261; liczb&#281; kolumn.';
 	$lang['strtablecreated'] = 'Utworzono tabel&#281;.';
 	$lang['strtablecreatedbad'] = 'Pr&oacute;ba utworzenia tabeli si&#281; nie powiod&#322;a.';
-	$lang['strconfdroptable'] = 'Czy na pewno chcesz usun&#261;&#263; tablic&#281; &quot;%s&quot;?';
-	$lang['strtabledropped'] = 'Tablica usuni&#281;ta.';
-	$lang['strtabledroppedbad'] = 'Pr&oacute;ba usuni&#281;cia tablicy si&#281; nie powiod&#322;a.';
-	$lang['strconfemptytable'] = 'Czy na pewno chcesz wyczy&#347;ci&#263; tablic&#281; &quot;%s&quot;?';
-	$lang['strtableemptied'] = 'Tablica wyczyszczona.';
-	$lang['strtableemptiedbad'] = 'Pr&oacute;ba wyczyszczenia tablicy si&#281; nie powiod&#322;a.';
+	$lang['strconfdroptable'] = 'Czy na pewno chcesz usun&#261;&#263; tabel&#281; &quot;%s&quot;?';
+	$lang['strtabledropped'] = 'Tabela usuni&#281;ta.';
+	$lang['strtabledroppedbad'] = 'Pr&oacute;ba usuni&#281;cia tabeli si&#281; nie powiod&#322;a.';
+	$lang['strconfemptytable'] = 'Czy na pewno chcesz wyczy&#347;ci&#263; tabel&#281; &quot;%s&quot;?';
+	$lang['strtableemptied'] = 'Tabela wyczyszczona.';
+	$lang['strtableemptiedbad'] = 'Pr&oacute;ba wyczyszczenia tabeli si&#281; nie powiod&#322;a.';
 	$lang['strinsertrow'] = 'Wstaw wiersz';
 	$lang['strrowinserted'] = 'Wiersz wstawiony.';
 	$lang['strrowinsertedbad'] = 'Pr&oacute;ba wstawienia wiersza si&#281; nie powiod&#322;a.';
@@ -154,10 +158,11 @@
 	$lang['strfieldneedsname'] = 'Musisz nazwa&#263; pole';
 	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
         $lang['strselectneedscol'] = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
+	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mog&#261; mie&#263; podanej warto&#347;ci';
 	$lang['straltercolumn'] = 'Zmie&#324; kolumn&#281;';
 	$lang['strcolumnaltered'] = 'Kolumna zmodyfikowana.';
 	$lang['strcolumnalteredbad'] = 'Pr&oacute;ba modyfikacji kolumny si&#281; nie powiod&#322;a.';
-	$lang['strconfdropcolumn'] = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tablicy &quot;%s&quot;?';
+	$lang['strconfdropcolumn'] = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tabeli &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Kolumna usuni&#281;ta.';
 	$lang['strcolumndroppedbad'] = 'Pr&oacute;ba usuni&#281;cia kolumny si&#281; nie powiod&#322;a.';
         $lang['straddcolumn'] = 'Dodaj kolumn&#281;';
@@ -169,6 +174,9 @@
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
 	$lang['strtablealteredbad'] = 'Pr&oacute;ba modyfikacji tabeli si&#281; nie powiod&#322;a.';
+	$lang['strdataonly'] = 'Tylko dane';
+	$lang['strstructureonly'] = 'Tylko struktura';
+	$lang['strstructureanddata'] = 'Struktura i dane';
 			
 	// Users
 	$lang['struser'] = 'U&#380;ytkownik';
@@ -183,6 +191,7 @@
 	$lang['struserupdatedbad'] = 'Pr&oacute;ba aktualizacji parametr&oacute;w u&#380;ytkownika si&#281; nie powiod&#322;a.';
         $lang['strshowallusers'] = 'Poka&#380; wszystkich u&#380;ytkownik&oacute;w';
 	$lang['strcreateuser'] = 'Utw&oacute;rz u&#380;ytkownika';
+	$lang['struserneedsname'] = 'Musisz poda&#263; nazw&#281; u&#380;ytkownika.';
 	$lang['strusercreated'] = 'U&#380;ytkownik utworzony.';
 	$lang['strusercreatedbad'] = 'Pr&oacute;ba utworzenia u&#380;ytkownika si&#281; nie powiod&#322;a.';
 	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun&#261;&#263; u&#380;ytkownika &quot;%s&quot;?';
@@ -314,9 +323,12 @@
 	$lang['struniquekey'] = 'Klucz Unikatowy';
 	$lang['strprimarykey'] = 'Klucz G&#322;&oacute;wny';
 	$lang['strindextype'] = 'Typ indeksu';
-	$lang['strtablecolumnlist'] = 'Kolumny w tablicy';
+	$lang['strtablecolumnlist'] = 'Kolumny w tabeli';
 	$lang['strindexcolumnlist'] = 'Kolumny w indeksie';
-
+	$lang['strconfcluster'] = 'Czy na pewno chcesz zklastrowa&#263; &quot;%s&quot;?';
+	$lang['strclusteredgood'] = 'Klastrowanie zako&#324;czone.';
+	$lang['strclusteredbad'] = 'Pr&oacute;ba klastrowania si&#281; nie powiod&#322;a.';
+	
 	// Regu&#322;y
 	$lang['strrule'] = 'Regu&#322;a';
 	$lang['strrules'] = 'Regu&#322;y';
@@ -356,7 +368,7 @@
 	$lang['struniqaddedbad'] = 'Pr&oacute;ba dodania klucza unikatowego si&#281; nie powiod&#322;a.';
         $lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
-	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tablicy docelowej.';
+	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tabeli docelowej.';
 	$lang['strfkadded'] = 'Dodano klucz obcy.';
 	$lang['strfkaddedbad'] = 'Pr&oacute;ba dodania klucza obcego si&#281; nie powiod&#322;a.';
 	$lang['strfktarget'] = 'Tabela docelowa';
@@ -415,7 +427,7 @@
 	$lang['strpassbyval'] = 'Przekazywany przez warto&#347;&#263;?';
 	$lang['stralignment'] = 'Wyr&oacute;wnanie bajtowe';
 	$lang['strelement'] = 'Typ element&oacute;w';
-	$lang['strdelimiter'] = 'Znak oddzielaj&#261;cy elementy tablicy';
+	$lang['strdelimiter'] = 'Znak oddzielaj&#261;cy elementy tabeli';
 	$lang['strstorage'] = 'Technika przechowywania';
 	$lang['strtypeneedsname'] = 'Musisz nazwa&#263; typ.';
 	$lang['strtypeneedslen'] = 'Musisz poda&#263; d&#322;ugo&#347;&#263; typu.';
@@ -486,6 +498,12 @@
 	$lang['stroperatordropped'] = 'Operator usuni&#281;ty.';
 	$lang['stroperatordroppedbad'] = 'Pr&oacute;ba usuni&#281;cia operatora si&#281; nie powiod&#322;a.';
 
+	$lang['strnoinfo'] = 'Brak informacji na ten temat';
+	$lang['strreferringtables'] = 'Tabele zale&#380;ne';
+	$lang['strparenttables'] = 'Tabela nadrz&#281;dne';
+	$lang['strchildtables'] = 'Tabela podrz&#281;dna';
+
+	
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
