@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.4 2003/03/10 02:15:13 chriskl Exp $
+	 * $Id: constraints.php,v 1.5 2003/03/16 10:38:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,14 +13,65 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
+	 * Confirm and then actually add a CHECK constraint
+	 */
+	function addCheck($confirm, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $strAddCheck, $strTables, $strOK, $strCancel;
+		global $strName, $strDefinition, $strCheckNeedsDefinition;
+		global $strCheckAdded, $strCheckAddedBad;
+
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+		if (!isset($_POST['definition'])) $_POST['definition'] = '';
+
+		if ($confirm) {
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
+				htmlspecialchars($_REQUEST['table']), ": {$strAddCheck}</h2>\n";
+			$misc->printMsg($msg);
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$strName}</th>\n";
+			echo "<th class=\"data\">{$strDefinition}</th></tr>\n";
+
+			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['name']), "\"></td>\n";
+
+			echo "<td class=\"data1\">(<input name=\"definition\" size=\"32\" value=\"",
+				htmlspecialchars($_POST['definition']), "\">)</td></tr>\n";
+			echo "</table>\n";
+
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\">\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo $misc->form;
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$strOK}\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "</form>\n";
+
+		}
+		else {
+			if (trim($_POST['definition']) == '')
+				addCheck(true, $strCheckNeedsDefinition);
+			else {
+				$status = $localData->addCheckConstraint($_POST['table'],
+					$_POST['definition'], $_POST['name']);
+				if ($status == 0)
+					doDefault($strCheckAdded);
+				else
+					addCheck(true, $strCheckAddedBad);
+			}
+		}
+	}
+
+	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
 		global $PHP_SELF, $strDrop, $strConfDropConstraint, $strConstraintDropped, $strConstraintDroppedBad, $strYes, $strNo;
+		global $strTables;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['constraint']), ": {$strDrop}</h2>\n";
 
 			echo "<p>", sprintf($strConfDropConstraint, htmlspecialchars($_REQUEST['constraint']),
@@ -41,7 +92,6 @@
 			else
 				doDefault($strConstraintDroppedBad);
 		}
-
 	}
 
 	/**
@@ -91,13 +141,21 @@
 		else
 			echo "<p>{$strNoConstraints}</p>\n";
 		
-		echo "<p><a href=\"\">{$strAddCheck}</a></p>\n";
+		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
+			"\">{$strAddCheck}</a></p>\n";
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strConstraints);
 	$misc->printBody();
 
 	switch ($action) {
+		case 'add_check':
+			addCheck(true);
+			break;
+		case 'save_add_check':
+			if (isset($_POST['cancel'])) doDefault();
+			else addCheck(false);
+			break;
 		case 'save_create':
 			doSaveCreate();
 			break;
