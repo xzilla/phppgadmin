@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.61 2003/08/27 08:09:26 chriskl Exp $
+ * $Id: Postgres73.php,v 1.62 2003/09/03 05:46:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1025,7 +1025,7 @@ class Postgres73 extends Postgres72 {
 			UNION ALL
 			SELECT 'COLUMN', NULL, pn.nspname, pc.relname, pa.attname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_attribute pa WHERE pc.relnamespace=pn.oid AND pc.oid=pa.attrelid 
-				AND pa.attname ILIKE '%{$term}%' {$where}
+				AND pa.attname ILIKE '%{$term}%' AND pa.attnum > 0 AND NOT pa.attisdropped AND pc.relkind IN ('r', 'v') {$where}
 			UNION ALL
 			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
 				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}

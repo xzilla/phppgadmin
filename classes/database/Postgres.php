@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.142 2003/09/03 05:32:13 chriskl Exp $
+ * $Id: Postgres.php,v 1.143 2003/09/03 05:46:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1606,7 +1606,7 @@ class Postgres extends BaseDB {
 			UNION ALL
 			SELECT 'COLUMN', NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
 				pg_attribute pa WHERE pc.oid=pa.attrelid 
-				AND pa.attname ~* '.*{$term}.*'";
+				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
 
 		$sql .= "
@@ -1625,7 +1625,7 @@ class Postgres extends BaseDB {
 			UNION ALL
 			SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
 				WHERE oprname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+		if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid\n";
 				
 		$sql .= "ORDER BY type, schemaname, relname, name";
 			
