@@ -7,6 +7,7 @@ Version 3.6-dev
 Features
 * Allow current database to be at the top
 * Allow base URL of PostgreSQL documentation to be configured
+* Allow variable size textarea when editing values (Juergen Weigert)
 
 Bugs
 * Tree Icons are displayed middle instead of top
