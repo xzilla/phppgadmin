@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.26 2003/05/31 07:23:24 chriskl Exp $
+	 * $Id: tables.php,v 1.27 2003/07/25 08:39:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -619,6 +619,12 @@
 				$i++;
 			}
 			echo "</table>\n";
+
+			// Show page navigation
+			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
+				urlencode($_REQUEST['sortkey']) . "&sortdir=" . urlencode($_REQUEST['sortdir']) . 
+				"&strings=" . urlencode($_REQUEST['strings']) . "&table=" . urlencode($_REQUEST['table']));
+
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";

@@ -5,6 +5,8 @@ Version 3.1
 -----------
 
 * Turkish update from Devrim Gunduz
+* Support zero column tables
+* Add first & last links to nav.  Double number of pages shown.
 
 Version 3.0
 -----------

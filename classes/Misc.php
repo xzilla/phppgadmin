@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.35 2003/06/19 01:45:09 chriskl Exp $
+	 * $Id: Misc.php,v 1.36 2003/07/25 08:39:25 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -290,6 +290,8 @@
 		function printPages($page, $pages, $url, $max_width = 20) {
 			global $lang;
 
+			$window = 10;
+
 			if ($page < 0 || $page > $pages) return;
 			if ($pages < 0) return;
 			if ($max_width <= 0) return;
@@ -297,20 +299,22 @@
 			if ($pages > 1) {
 				echo "<center><p>\n";
 				if ($page != 1) {
+					$temp = str_replace('%s', 1, $url);
+					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strfirst']}</a>\n";
 					$temp = str_replace('%s', $page - 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strprev']}</a>\n";
 				}
 				
-				if ($page <= 5) { 
+				if ($page <= $window) { 
 					$min_page = 1; 
-					$max_page = min(10, $pages); 
+					$max_page = min(2 * $window, $pages); 
 				}
-				elseif ($page > 5 && $pages >= $page + 5) { 
-					$min_page = ($page - 5) + 1; 
-					$max_page = $page + 5; 
+				elseif ($page > $window && $pages >= $page + $window) { 
+					$min_page = ($page - $window) + 1; 
+					$max_page = $page + $window; 
 				}
 				else { 
-					$min_page = ($page - (10 - ($pages - $page))) + 1; 
+					$min_page = ($page - (2 * $window - ($pages - $page))) + 1; 
 					$max_page = $pages; 
 				}
 				
@@ -327,6 +331,8 @@
 				if ($page != $pages) {
 					$temp = str_replace('%s', $page + 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strnext']}</a>\n";
+					$temp = str_replace('%s', $pages, $url);
+					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strlast']}</a>\n";
 				}
 				echo "</p></center>\n";
 			}
