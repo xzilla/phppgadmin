@@ -1,5 +1,13 @@
 WEBDB HISTORY
 
+Version 0.6 - 24-Dec-2002
+-------------------------
+
+* Support short_tags off
+* Fix browsing tables, pagination, etc.
+* Fix all error handling
+* Fix problems with apostrophes in database, usernames or passwords
+
 Version 0.5 - 20-Dec-2002
 -------------------------
 
