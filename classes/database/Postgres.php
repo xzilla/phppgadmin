@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.67 2003/03/26 03:43:53 chriskl Exp $
+ * $Id: Postgres.php,v 1.68 2003/03/26 05:59:05 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1670,6 +1670,8 @@ class Postgres extends BaseDB {
 			$tgdef = 'CREATE CONSTRAINT TRIGGER ';
 		else
 			$tgdef = 'CREATE TRIGGER ';
+
+		$tgdef .= "\"{$trigger['tgname']}\" ";
 
 		// Trigger type
 		$findx = 0;
