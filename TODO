@@ -10,6 +10,12 @@ http://sourceforge.net/projects/phppgadmin/
 An item is marked 'claimed' when a username in brackets is put after the TODO
 item.
 
+Connections
+-----------
+
+* Need to better handle connection errors. Give users a config option to display the error returned 
+  from the database.
+
 Users
 -----
 
@@ -61,14 +67,14 @@ Functions
 
 * We add a {} around function definitions every time they are saved to the
 database. This doesn't break anything, but is annoying after you done it 5 times
-and have 5 pairs in your function. -> Remove the braces {}  (Robert)
+and have 5 pairs in your function. -> Remove the braces {}  [Robert]
 * Need to add a drop link to the properties and edit pages.
 * Resolve quote escaping issue
 
 Sequences
 ---------
 
-* Unimplemented (Robert)
+* Unimplemented [Robert]
 
 Types
 -----
