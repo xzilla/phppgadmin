@@ -20,6 +20,7 @@ Bugs
 * Fix timeouts on long running operations (Adrian Nida)
 * Allow Multiline character and character varying editing and inserting
 * Add automatic browser language selection for all languages
+* Fix using schema enabled dump on non-schema enabled backend
 
 Translations
 * Japanese from Tadashi Jokagi
