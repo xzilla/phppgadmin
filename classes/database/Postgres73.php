@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.12 2003/01/11 09:50:21 chriskl Exp $
+ * $Id: Postgres73.php,v 1.13 2003/01/12 04:19:41 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -208,13 +208,16 @@ class Postgres73 extends Postgres72 {
 			$sql = "
 				SELECT
 					a.attname,
-					format_type(a.atttypid, a.atttypmod) as type,
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					a.attnotnull, a.atthasdef, adef.adsrc
 				FROM
-					pg_attribute a LEFT JOIN pg_attrdef adef
-					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
+					ON a.attrelid=adef.adrelid
+					AND a.attnum=adef.adnum
 				WHERE 
-					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+					a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = '{$this->_schema}'))
 					AND a.attnum > 0 AND NOT a.attisdropped
 				ORDER BY a.attnum";
 		}
@@ -222,13 +225,16 @@ class Postgres73 extends Postgres72 {
 			$sql = "
 				SELECT
 					a.attname,
-					format_type(a.atttypid, a.atttypmod) as type,
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					a.attnotnull, a.atthasdef, adef.adsrc
-				FROM 
-					pg_attribute a LEFT JOIN pg_attrdef adef
-					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				FROM
+					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
+					ON a.attrelid=adef.adrelid
+					AND a.attnum=adef.adnum
 				WHERE
-					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+					a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = '{$this->_schema}'))
 					AND a.attname = '{$field}'
 				ORDER BY a.attnum";
 		}
