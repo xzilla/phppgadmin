@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.82 2004/07/12 01:35:46 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.83 2004/07/19 03:01:54 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -157,6 +157,7 @@
 		// connection.
 		require_once('./classes/database/' . $_type . '.php');
 		$data = new $_type($_connection->conn);
+		$data->platform = $_connection->platform;
 
 		// If schema is defined and database supports schemas, then set the 
 		// schema explicitly.

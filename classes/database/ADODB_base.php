@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.18 2004/07/13 09:00:40 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.19 2004/07/19 03:01:53 chriskl Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -12,6 +12,9 @@ include_once('./libraries/adodb/adodb.inc.php');
 class ADODB_base {
 
 	var $conn;
+	
+	// The backend platform.  Set to UNKNOWN by default.
+	var $platform = 'UNKNOWN';
 
 	/**
 	 * Base constructor

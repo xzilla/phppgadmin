@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.240 2004/07/16 16:01:06 soranzo Exp $
+ * $Id: Postgres.php,v 1.241 2004/07/19 03:01:53 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2652,7 +2652,7 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Determines whether or not a user is a super user
 	 * @param $username The username of the user

@@ -30,7 +30,6 @@ NEEDS TESTING
 * rename function in 7.2 and below doesn't come back to the correct function
 * Fix SQL window parent update to not update any random window
 * Show owner on privileges screen?
- http://devilock.mine.nu/textarea_tab.html
-* fix test for MINGW backend
+* Allows tabs in textareas on IE: http://devilock.mine.nu/textarea_tab.html
 * add help links everywhere.  fix formatting of help links.
 * Deal with named parameters that have ',' in the type name

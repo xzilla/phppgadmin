@@ -13,6 +13,7 @@ Features
 * Allow setting schema search path in SQL window
 * Allow filtering find results by object type
 * Show function arguments in find results
+* Support 7.5's named function arguments
 
 Translations
 * Arabic from Zaki

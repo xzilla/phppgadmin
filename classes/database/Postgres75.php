@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.14 2004/07/13 09:00:40 chriskl Exp $
+ * $Id: Postgres75.php,v 1.15 2004/07/19 03:01:54 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -443,10 +443,7 @@ class Postgres75 extends Postgres74 {
 	}
 		
 	function hasAlterColumnType() { return true; }
-	function hasTablespaces() { 
-		$platform = $this->getPlatform();
-		return $platform != 'MINGW';
-	}
+	function hasTablespaces() { return $this->platform != 'MINGW'; }
 	function hasSignals() { return true; }
 	function hasNamedParams() { return true; }
 	
