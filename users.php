@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: users.php,v 1.6 2003/03/19 03:00:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,10 +32,8 @@
 	function doEdit($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-    // check JMP
-		global $strShowAllUsers;
 	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -60,7 +58,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllUsers}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;username=", 
 			urlencode($_REQUEST['username']), "\">{$lang['strproperties']}</a></p>\n";
 	}
@@ -71,7 +69,6 @@
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-		global $strPrperties, $strShowAllUsers;
 	
 		echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
@@ -89,7 +86,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllUsers}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
 			urlencode($_REQUEST['username']), "\">{$lang['stredit']}</a></p>\n";
 	}
@@ -99,25 +96,25 @@
 	 */
 	function doDrop($confirm) {
 		global $data;
-		global $PHP_SELF;
+		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Drop</h2>\n";
+			echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_REQUEST['username']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the user \"", htmlspecialchars($_REQUEST['username']), "\"?</p>\n";
+			echo "<p>", sprintf($lang['strconfdropuser'], htmlspecialchars($_REQUEST['username'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"Yes\" /> <input type=\"submit\" name=\"choice\" value=\"No\" />\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $data->dropUser($_REQUEST['username']);
 			if ($status == 0)
-				doDefault('User dropped.');
+				doDefault($lang['struserdropped']);
 			else
-				doDefault('User drop failed.');
+				doDefault($lang['struserdroppedbad']);
 		}		
 	}
 	
@@ -133,7 +130,7 @@
 		if (!isset($formUsername)) $formPassword = '';
 		if (!isset($formExpires)) $formExpires = '';
 		
-		echo "<h2>Users: Create User</h2>\n";
+		echo "<h2>{$lang['strusers']}: {$lang['strcreateuser']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -151,22 +148,23 @@
 		echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a></p>\n";
 	}
 	
 	/**
-	 * Actually creates the new view in the database
+	 * Actually creates the new user in the database
 	 */
 	function doSaveCreate() {
 		global $data;
+		global $lang;
 		
 		// @@ NOTE: No groups handled yet
 		$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
 			isset($_POST['formSuper']), isset($_POST['formCreateDB']), $_POST['formExpires'], array());
 		if ($status == 0)
-			doDefault('User created.');
+			doDefault($lang['strusercreated']);
 		else
-			doCreate('User creation failed.');
+			doCreate($lang['strusercreatedbad']);
 	}	
 
 	/**
@@ -176,7 +174,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>Users</h2>\n";
+		echo "<h2>{$lang['strusers']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$users = &$data->getUsers();
@@ -193,9 +191,9 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['ucreatedb']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=",
-					urlencode($users->f[$data->uFields['uname']]), "\">Properties</a></td>\n";
+					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
-					urlencode($users->f[$data->uFields['uname']]), "\">Drop</a></td>\n";
+					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$users->moveNext();
 				$i++;
@@ -206,11 +204,11 @@
 			echo "<p>{$lang['strnousers']}</p>\n";
 		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">Create User</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreateuser']}</a></p>\n";
 
 	}
 
-	$misc->printHeader('Users');
+	$misc->printHeader($lang['strusers']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -221,7 +219,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_REQUEST['choice'] == 'Yes') doDrop(false);
+			if ($_REQUEST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

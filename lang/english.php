@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.62 2003/03/18 09:15:49 chriskl Exp $
+	 * $Id: english.php,v 1.63 2003/03/19 03:00:37 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -145,6 +145,13 @@
 	$lang['strnousers'] = 'No users found.';
         $lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
+	$lang['strshowallusers'] = 'Show All Users';
+	$lang['strcreateuser'] = 'Create User';
+	$lang['strusercreated'] = 'User created.';
+	$lang['strusercreatedbad'] = 'Failed to create user.';
+	$lang['strconfdropuser'] = 'Are you sure you want to drop the user "%s"?';
+	$lang['struserdropped'] = 'User dropped.';
+	$lang['struserdroppedbad'] = 'Failed to drop user.';
 		
 	// Groups
 	$lang['strgroupadmin'] = 'Group Admin';
