@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.25 2003/11/08 09:06:42 chriskl Exp $
+	 * $Id: browser.php,v 1.26 2003/11/21 08:40:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -132,7 +132,7 @@
 			if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()) {
 				$adv_node = &new HTML_TreeNode(array(
 								'text' => $lang['stradvanced'], 
-								'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
+								'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
 								'icon' => 'folder.gif', 
 								'expandedIcon' => 'folder-expanded.gif',
 								'linkTarget' => 'detail'));
