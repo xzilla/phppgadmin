@@ -35,6 +35,8 @@ Features:
 * Download the results of selects and reports
 * Traditional Chinese update from Chih-Hsin Lee
 * Allow listing of operators
+* Polish update from Rafal
+* Swedish translation from Stefan Malqvist
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

@@ -1,0 +1,441 @@
+<?php
+
+	/**
+	 * Swedish language file for phpPgAdmin.
+	 * maintainer S. Malmqvist <samoola@slak.nu>
+	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
+	 *
+	 * $Id: swedish.php,v 1.1 2003/08/28 01:29:33 chriskl Exp $
+	 */
+
+	// Language and character set
+	$lang['applang'] = 'Svenska';
+	$lang['appcharset'] = 'ISO-8859-1';
+	$lang['applocale'] = 'sv_SV';
+
+	// Welcome  
+	$lang['strintro'] = 'V&auml;lkommen till phpPgAdmin.';
+	$lang['strppahome'] = 'phpPgAdmins Hemsida';
+	$lang['strpgsqlhome'] = 'PostgreSQLs Hemsida';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL Dokumentation (lokal)';
+	$lang['strreportbug'] = 'Rapportera ett fel';
+	$lang['strviewfaq'] = 'Visa Fr&aring;gor &amp; Svar';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
+	$lang['strlogin'] = 'Logga in';
+	$lang['strloginfailed'] = 'Inloggningen misslyckades';
+	$lang['strserver'] = 'Server';
+	$lang['strlogout'] = 'Logga ut';
+	$lang['strowner'] = '&Auml;gare';
+	$lang['straction'] = '&Aring;tg&auml;rd';
+	$lang['stractions'] = '&Aring;tg&auml;rder';
+	$lang['strname'] = 'Namn';
+	$lang['strdefinition'] = 'Definition';
+	$lang['stroperators'] = 'Operat&ouml;rer';
+	$lang['straggregates'] = 'Sammanslagningar';
+	$lang['strproperties'] = 'Egenskaper';
+	$lang['strbrowse'] = 'Bl&auml;ddra';
+	$lang['strdrop'] = 'Ta bort';
+	$lang['strdropped'] = 'Borttagen';
+	$lang['strnull'] = 'Ingenting';
+	$lang['strnotnull'] = 'Inte Ingenting';
+	$lang['strprev'] = 'F&ouml;reg&aring;ende';
+	$lang['strnext'] = 'N&auml;sta';
+	$lang['strfailed'] = 'Misslyckades';
+	$lang['strcreate'] = 'Skapa';
+	$lang['strcreated'] = 'Skapad';
+	$lang['strcomment'] = 'Kommentar';
+	$lang['strlength'] = 'L&auml;ngd';
+	$lang['strdefault'] = 'Standardv&auml;rde';
+	$lang['stralter'] = '&Auml;ndra';
+	$lang['strok'] = 'OK';
+	$lang['strcancel'] = '&Aring;ngra';
+	$lang['strsave'] = 'Spara';
+	$lang['strreset'] = 'Nollst&auml;ll';
+	$lang['strinsert'] = 'Infoga';
+	$lang['strselect'] = 'V&auml;lj';
+	$lang['strdelete'] = 'Radera';
+	$lang['strupdate'] = 'Uppdatera';
+	$lang['strreferences'] = 'Referencer';
+	$lang['stryes'] = 'Ja';
+	$lang['strno'] = 'Nej';
+	$lang['strtrue'] = 'Sant';
+	$lang['strfalse'] = 'Falskt';
+	$lang['stredit'] = 'Redigera';
+	$lang['strcolumns'] = 'Kolumner';
+	$lang['strrows'] = 'Rad(er)';
+	$lang['strrowsaff'] = 'Rad(er) P&aring;verkade.';
+	$lang['strexample'] = 't. ex.';
+	$lang['strback'] = 'Bak&aring;t';
+	$lang['strqueryresults'] = 'S&ouml;kresultat';
+	$lang['strshow'] = 'Visa';
+	$lang['strempty'] = 'Tom';
+	$lang['strlanguage'] = 'Spr&aring;k';
+	$lang['strencoding'] = 'Kodning';
+	$lang['strvalue'] = 'V&auml;rde';
+	$lang['strunique'] = 'Unik';
+	$lang['strprimary'] = 'Prim&auml;r';
+	$lang['strexport'] = 'Exportera';
+	$lang['strimport'] = 'Importera';
+	$lang['strsql'] = 'SQL';
+	$lang['strgo'] = 'K&ouml;r';
+	$lang['stradmin'] = 'Admin';
+	$lang['strvacuum'] = 'St&auml;da upp';
+	$lang['stranalyze'] = 'Analysera';
+	$lang['strcluster'] = 'Kluster';
+	$lang['strreindex'] = '&Aring;terindexera';
+	$lang['strrun'] = 'K&ouml;r';
+	$lang['stradd'] = 'L&auml;gg till';
+	$lang['strevent'] = 'H&auml;ndelse';
+	$lang['strwhere'] = 'N&auml;r';
+	$lang['strinstead'] = 'G&ouml;r ist&auml;llet';
+	$lang['strwhen'] = 'N&auml;r';
+	$lang['strformat'] = 'Format';
+	$lang['strdata'] = 'Data';
+	$lang['strconfirm'] = 'Bekr&auml;fta';
+	$lang['strexpression'] = 'Uttryck';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Utvidga';
+	$lang['strcollapse'] = 'Kollapsa';
+
+	// Error handling
+	$lang['strnoframes'] = 'Du beh&ouml;ver en webl&auml;sare som st&ouml;der frames f&ouml;r att anv&auml;nda detta program.';
+	$lang['strbadconfig'] = 'Din config.inc.php &auml;r f&ouml;r gammal. Du beh&ouml;ver skapa en ny fr&aring;n den nya config.inc.php-dist.';
+	$lang['strnotloaded'] = 'Du har inte kompilerat in korrekt databasst&ouml;d i din PHP-installation.';
+	$lang['strbadschema'] = 'Otill&aring;tet schema angivet.';
+	$lang['strbadencoding'] = 'Misslyckades att s&auml;tta klientkodning i databasen.';
+	$lang['strsqlerror'] = 'SQL fel:';
+	$lang['strinstatement'] = 'I p&aring;st&aring;ende:';
+	$lang['strinvalidparam'] = 'Otill&aring;tna scriptparametrar.';
+	$lang['strnodata'] = 'Hittade inga rader.';
+
+	// Tables
+	$lang['strtable'] = 'Tabell';
+	$lang['strtables'] = 'Tabeller';
+	$lang['strshowalltables'] = 'Visa alla tabeller';
+	$lang['strnotables'] = 'Hittade inga tabeller.';
+	$lang['strnotable'] = 'Hittade ingen tabell.';
+	$lang['strcreatetable'] = 'Skapa tabell';
+	$lang['strtablename'] = 'Tabellnamn';
+	$lang['strtableneedsname'] = 'Du m&aring;ste ge ett namn till din tabell.';
+	$lang['strtableneedsfield'] = 'Du m&aring;ste ange minst ett f&auml;lt.';
+	$lang['strtableneedscols'] = 'tabeller kr&auml;ver ett till&aring;tet antal kolumner.';
+	$lang['strtablecreated'] = 'Tabell skapad.';
+	$lang['strtablecreatedbad'] = 'Misslyckades med att skapa Tabell.';
+	$lang['strconfdroptable'] = '&Auml;r du s&auml;ker p&aring; att du vill ta bort tabellen &quot;%s&quot;?';
+	$lang['strtabledropped'] = 'Tabellen borttagen.';
+	$lang['strtabledroppedbad'] = 'Misslyckades med att ta bort tabellen.';
+	$lang['strconfemptytable'] = '&Auml;r du s&auml;ker p&aring; att du vill t&ouml;mma tabellen &quot;%s&quot;?';
+	$lang['strtableemptied'] = 'Tabellen t&ouml;md.';
+	$lang['strtableemptiedbad'] = 'Misslyckades med att t&ouml;mma tabellen';
+	$lang['strinsertrow'] = 'Ifoga rad';
+	$lang['strrowinserted'] = 'Rad infogad.';
+	$lang['strrowinsertedbad'] = 'Misslyckades att infoga rad.';
+	$lang['streditrow'] = 'Redigera Rad';
+	$lang['strrowupdated'] = 'Rad Uppdaterad.';
+	$lang['strrowupdatedbad'] = 'Misslyckades att uppdatera rad.';
+	$lang['strdeleterow'] = 'Radera rad';
+	$lang['strconfdeleterow'] = '&Auml;r du s&auml;ker p&aring; att du vill radera denna rad?';
+	$lang['strrowdeleted'] = 'Raden raderad.';
+	$lang['strrowdeletedbad'] = 'Misslyckades att radera rad.';
+	$lang['strsaveandrepeat'] = 'Spara &amp; upprepa';
+	$lang['strfield'] = 'F&auml;lt';
+	$lang['strfields'] = 'F&auml;lt';
+	$lang['strnumfields'] = 'Antal F&auml;lt';
+	$lang['strfieldneedsname'] = 'Du m&aring;ste namnge f&auml;ltet';
+	$lang['strselectneedscol'] = 'Du m&aring;ste visa minst en kolumn';
+	$lang['straltercolumn'] = '&Auml;ndra kolumn';
+	$lang['strcolumnaltered'] = 'Kolumn &auml;ndrad.';
+	$lang['strcolumnalteredbad'] = 'Misslyckades att &auml;ndra kolumn.';
+	$lang['strconfdropcolumn'] = '&Auml;r du s&auml;ker p&aring; att du vill radera kolumn &quot;%s&quot; fr&aring;n tabell &quot;%s&quot;?';
+	$lang['strcolumndropped'] = 'Kolumn raderad.';
+	$lang['strcolumndroppedbad'] = 'Misslyckades att radera kolumn.';
+	$lang['straddcolumn'] = 'L&auml;gg till kolumn';
+	$lang['strcolumnadded'] = 'Kolumn inlagd.';
+	$lang['strcolumnaddedbad'] = 'Misslyckades att l&auml;gga till kolumne.';
+	$lang['strschemaanddata'] = 'Schema &amp; Data';
+	$lang['strschemaonly'] = 'Endast Schema';
+	$lang['strdataonly'] = 'Endast Data';
+	$lang['strcascade'] = 'KASKAD';
+
+	// Users
+	$lang['struseradmin'] = 'Anv&auml;ndar Admin';
+	$lang['struser'] = 'Anv&auml;ndare';
+	$lang['strusers'] = 'Anv&auml;ndare';
+	$lang['strusername'] = 'Anv&auml;ndarnamn';
+	$lang['strpassword'] = 'L&ouml;senord';
+	$lang['strsuper'] = 'Superanv&auml;ndare?';
+	$lang['strcreatedb'] = 'Skapa Databas?';
+	$lang['strexpires'] = 'Utg&aring;ngsdatum';
+	$lang['strnousers'] = 'Hittade inga anv&auml;ndare.';
+	$lang['struserupdated'] = 'Anv&auml;ndare uppdaterad.';
+	$lang['struserupdatedbad'] = 'Misslyckades att uppdatera anv&auml;ndare.';
+	$lang['strshowallusers'] = 'Visa alla anv&auml;ndare';
+	$lang['strcreateuser'] = 'Skapa anv&auml;ndare';
+	$lang['strusercreated'] = 'Anv&auml;ndare skapad.';
+	$lang['strusercreatedbad'] = 'Misslyckades att skapa anv&auml;ndare.';
+	$lang['strconfdropuser'] = '&Auml;r du s&auml;ker p&aring; att du vill radera anv&auml;ndare &quot;%s&quot;?';
+	$lang['struserdropped'] = 'Anv&auml;ndare raderad.';
+	$lang['struserdroppedbad'] = 'Misslyckades att radera anv&auml;ndare.';
+	$lang['straccount'] = 'Konton';
+	$lang['strchangepassword'] = '&Auml;ndra l&ouml;senord';
+	$lang['strpasswordchanged'] = 'L&ouml;senord &auml;ndrat.';
+	$lang['strpasswordchangedbad'] = 'Misslyckades att &auml;ndra l&ouml;senord.';
+	$lang['strpasswordshort'] = 'F&ouml;r f&aring; tecken i l&ouml;senordet.';
+	$lang['strpasswordconfirm'] = 'L&ouml;senordet &auml;r inte samma som bekr&auml;ftelsen.';
+	
+	// Groups
+	$lang['strgroupadmin'] = 'Grupp Admin';
+	$lang['strgroup'] = 'Grupp';
+	$lang['strgroups'] = 'Grupper';
+	$lang['strnogroup'] = 'Hittade ej grupp.';
+	$lang['strnogroups'] = 'Hittade inga grupper.';
+	$lang['strcreategroup'] = 'Skapa grupp';
+	$lang['strshowallgroups'] = 'Visa alla grupper';
+	$lang['strgroupneedsname'] = 'Du m&aring;ste namnge din grupp.';
+	$lang['strgroupcreated'] = 'Grupp skapad.';
+	$lang['strgroupcreatedbad'] = 'Misslyckades att skapa grupp.';	
+	$lang['strconfdropgroup'] = '&Auml;r du s&auml;ker p&aring; att du vill radera grupp &quot;%s&quot;?';
+	$lang['strgroupdropped'] = 'Grupp raderad.';
+	$lang['strgroupdroppedbad'] = 'Misslyckades att radera grupp.';
+	$lang['strmembers'] = 'Medlemmar';
+
+	// Privilges
+	$lang['strprivilege'] = 'R&auml;ttighet';
+	$lang['strprivileges'] = 'R&auml;ttigheter';
+	$lang['strnoprivileges'] = 'Detta objekt har standard &auml;garr&auml;ttigheter.';
+	$lang['strgrant'] = 'Till&aring;t';
+	$lang['strrevoke'] = 'Ta tillbaka';
+	$lang['strgranted'] = 'R&auml;ttigheter &auml;ndrade.';
+	$lang['strgrantfailed'] = 'Misslyckades att &auml;ndra r&auml;ttigheter.';
+	$lang['strgrantbad'] = 'Du m&aring;ste ange minst en anv&auml;ndare eller grupp och minst en r&auml;ttighet.';
+	$lang['stralterprivs'] = '&Auml;ndra r&auml;ttigheter';
+
+	// Databases
+	$lang['strdatabase'] = 'Databas';
+	$lang['strdatabases'] = 'Databaser';
+	$lang['strshowalldatabases'] = 'Visa alla databaser';
+	$lang['strnodatabase'] = 'Hittade ingen databas.';
+	$lang['strnodatabases'] = 'Hittade inga databaser.';
+	$lang['strcreatedatabase'] = 'Skapa databas';
+	$lang['strdatabasename'] = 'Databasnamn';
+	$lang['strdatabaseneedsname'] = 'Du m&aring;ste namnge databasen.';
+	$lang['strdatabasecreated'] = 'Databas skapad.';
+	$lang['strdatabasecreatedbad'] = 'Misslyckades att skapa databas.';	
+	$lang['strconfdropdatabase'] = '&Auml;r du s&auml;ker p&aring; att du vill radera databas &quot;%s&quot;?';
+	$lang['strdatabasedropped'] = 'Databas raderad.';
+	$lang['strdatabasedroppedbad'] = 'Misslyckades att radera databas.';
+	$lang['strentersql'] = 'Skriv in SQL-kommando att k&ouml;ra nedan:';
+	$lang['strsqlexecuted'] = 'SQL-kommando utf&ouml;rt.';
+	$lang['strvacuumgood'] = 'Uppst&auml;dning utf&ouml;rd.';
+	$lang['strvacuumbad'] = 'Uppst&auml;dning misslyckades.';
+	$lang['stranalyzegood'] = 'Analysen lyckades.';
+	$lang['stranalyzebad'] = 'Analysen misslyckades.';
+
+	// Views
+	$lang['strview'] = 'Vy';
+	$lang['strviews'] = 'Vyer';
+	$lang['strshowallviews'] = 'Visa alla vyer';
+	$lang['strnoview'] = 'Hittade ingen vy.';
+	$lang['strnoviews'] = 'Hittade inga vyer.';
+	$lang['strcreateview'] = 'Skapa vy';
+	$lang['strviewname'] = 'Vynamn';
+	$lang['strviewneedsname'] = 'Du m&aring;ste namnge Vy.';
+	$lang['strviewneedsdef'] = 'Du m&aring;ste ange en definition f&ouml;r din vy.';
+	$lang['strviewcreated'] = 'Vy skapad.';
+	$lang['strviewcreatedbad'] = 'Misslyckades att skapa vy.';
+	$lang['strconfdropview'] = '&Auml;r du s&auml;ker p&aring; att du vill radera vyn &quot;%s&quot;?';
+	$lang['strviewdropped'] = 'Vy raderad.';
+	$lang['strviewdroppedbad'] = 'Misslyckades att radera vy.';
+	$lang['strviewupdated'] = 'Vy uppdaterad.';
+	$lang['strviewupdatedbad'] = 'Misslyckades att uppdatera vy.';
+
+	// Sequences
+	$lang['strsequence'] = 'F&ouml;ljd';
+	$lang['strsequences'] = 'F&ouml;ljder';
+	$lang['strshowallsequences'] = 'Visa alla f&ouml;ljder';
+	$lang['strnosequence'] = 'Hittade ingen f&ouml;ljd.';
+	$lang['strnosequences'] = 'Hittade inga f&ouml;ljder.';
+	$lang['strcreatesequence'] = 'Skapa f&ouml;ljd';
+	$lang['strlastvalue'] = 'Sista v&auml;rde';
+	$lang['strincrementby'] = '&Ouml;ka med';
+	$lang['strstartvalue'] = 'Startv&auml;rde';
+	$lang['strmaxvalue'] = 'St&ouml;rsta v&auml;rde';
+	$lang['strminvalue'] = 'Minsta v&auml;rde';
+	$lang['strcachevalue'] = 'V&auml;rde p&aring; cache';
+	$lang['strlogcount'] = 'R&auml;kna log';
+	$lang['striscycled'] = '&Auml;r upprepad?';
+	$lang['striscalled'] = '&Auml;r kallad?';
+	$lang['strsequenceneedsname'] = 'Du m&aring;ste ge ett namn till din f&ouml;ljd.';
+	$lang['strsequencecreated'] = 'F&ouml;ljd skapad.';
+	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa f&ouml;ljd.'; 
+	$lang['strconfdropsequence'] = '&Auml;r du s&auml;ker p&aring; att du vill radera f&ouml;ljden &quot;%s&quot;?';
+	$lang['strsequencedropped'] = 'F&ouml;ljden borrtagen.';
+	$lang['strsequencedroppedbad'] = 'Misslyckades att radera f&ouml;ljd.';
+
+	// Indexes
+	$lang['strindexes'] = 'Index';
+	$lang['strindexname'] = 'Indexnamn';
+	$lang['strshowallindexes'] = 'Visa alla index';
+	$lang['strnoindex'] = 'Hittade inget index.';
+	$lang['strnoindexes'] = 'Hittade inga index.';
+	$lang['strcreateindex'] = 'Skapa index';
+	$lang['strindexname'] = 'Indexnamn';
+	$lang['strtabname'] = 'Tabellnamn';
+	$lang['strcolumnname'] = 'Kolumnnamn';
+	$lang['strindexneedsname'] = 'Du m&aring;ste ge ett namn f&ouml;r ditt index';
+	$lang['strindexneedscols'] = 'Det kr&auml;vs ett giltigt antal kolumner f&ouml;r index.';
+	$lang['strindexcreated'] = 'Index skapat';
+	$lang['strindexcreatedbad'] = 'Misslyckades att skapa index.';
+	$lang['strconfdropindex'] = '&Auml;r du s&auml;ker p&aring; att du vill radera index &quot;%s&quot;?';
+	$lang['strindexdropped'] = 'Index raderat.';
+	$lang['strindexdroppedbad'] = 'Misslyckades att radera index.';
+	$lang['strkeyname'] = 'Nyckelv&auml;rdesnamn';
+	$lang['struniquekey'] = 'Unikt nyckelv&auml;rde';
+	$lang['strprimarykey'] = 'Prim&auml;rnyckel';
+ 	$lang['strindextype'] = 'Typ av index';
+	$lang['strindexname'] = 'Indexnamn';
+	$lang['strtablecolumnlist'] = 'Tabellkolumner';
+	$lang['strindexcolumnlist'] = 'Indexkolumner';
+
+	// Rules
+	$lang['strrules'] = 'Regler';
+	$lang['strrule'] = 'Regel';
+	$lang['strshowallrules'] = 'Visa alla regler';
+	$lang['strnorule'] = 'Hittade ingen regel.';
+	$lang['strnorules'] = 'Hittade inga regler.';
+	$lang['strcreaterule'] = 'Skapa regel';
+	$lang['strrulename'] = 'Regelnamn';
+	$lang['strruleneedsname'] = 'Du m&aring;ste ge ett namn till din regel.';
+	$lang['strrulecreated'] = 'Regel skapad.';
+	$lang['strrulecreatedbad'] = 'Misslyckades att skapa regel.';
+	$lang['strconfdroprule'] = '&Auml;r du s&auml;ker p&aring; att du vill radera regel &quot;%s&quot; f&ouml;r &quot;%s&quot;?';
+	$lang['strruledropped'] = 'Regel raderat.';
+	$lang['strruledroppedbad'] = 'Misslyckades att radera regel.';
+
+	// Constraints
+	$lang['strconstraints'] = 'Begr&auml;nsningar';
+	$lang['strshowallconstraints'] = 'Visa alla begr&auml;nsningar';
+	$lang['strnoconstraints'] = 'Hittade inga begr&auml;nsningar.';
+	$lang['strcreateconstraint'] = 'Skapa begr&auml;nsning';
+	$lang['strconstraintcreated'] = 'Begr&auml;nsning skapad.';
+	$lang['strconstraintcreatedbad'] = 'Misslyckades att skapa begr&auml;nsning.';
+	$lang['strconfdropconstraint'] = '&Auml;r du s&auml;ker p&aring; att du vill radera begr&auml;nsning &quot;%s&quot; f&ouml;r &quot;%s&quot;?';
+	$lang['strconstraintdropped'] = 'Begr&auml;nsning raderad.';
+	$lang['strconstraintdroppedbad'] = 'Misslyckades att radera begr&auml;nsning.';
+	$lang['straddcheck'] = 'L&auml;gg till en koll';
+	$lang['strcheckneedsdefinition'] = 'En kollbegr&auml;nsning beh&ouml;ver definieras.';
+	$lang['strcheckadded'] = 'Kollbegr&auml;nsning inlagd.';
+	$lang['strcheckaddedbad'] = 'Misslyckades att l&auml;gga till en koll.';
+	$lang['straddpk'] = 'L&auml;gg till prim&auml;rnyckel';
+	$lang['strpkneedscols'] = 'Prim&auml;rnyckel beh&ouml;ver minst en kolumn.';
+	$lang['strpkadded'] = 'Prim&auml;rnyckel inlagd.';
+	$lang['strpkaddedbad'] = 'Misslyckades att l&auml;gga till prim&auml;rnyckel.';
+	$lang['stradduniq'] = 'L&auml;gg till Unikt nyckelv&auml;rde';
+	$lang['struniqneedscols'] = 'Unikt nyckelv&auml;rde beh&ouml;ver minst en kolumn.';
+	$lang['struniqadded'] = 'Unikt nyckelv&auml;rde inlagt.';
+	$lang['struniqaddedbad'] = 'Misslyckades att l&auml;gga till unikt nyckelv&auml;rde.';
+	$lang['straddfk'] = 'L&auml;gg till utomst&aring;ende nyckel';
+	$lang['strfkneedscols'] = 'Utomst&aring;ende nyckel beh&ouml;ver minst en kolumn.';
+	$lang['strfkneedstarget'] = 'Utomst&aring;ende nycket beh&ouml;ver en m&aring;ltabell.';
+	$lang['strfkadded'] = 'Utomst&aring;ende nyckel inlagd.';
+	$lang['strfkaddedbad'] = 'Misslyckades att l&auml;gga till utomst&aring;ende nyckel.';
+	$lang['strfktarget'] = 'M&aring;ltabell';
+	$lang['strfkcolumnlist'] = 'Kolumner i nyckel';
+	$lang['strondelete'] = 'VID RADERING';
+	$lang['stronupdate'] = 'VID UPPDATERING';
+
+	// Functions
+	$lang['strfunction'] = 'Funktion';
+	$lang['strfunctions'] = 'Funktioner';
+	$lang['strshowallfunctions'] = 'Visa alla funktioner';
+	$lang['strnofunction'] = 'Hittade ingen funktion.';
+	$lang['strnofunctions'] = 'Hittade inga funktioner.';
+	$lang['strcreatefunction'] = 'Skapa funktion';
+	$lang['strfunctionname'] = 'Funktionsnamn';
+	$lang['strreturns'] = '&Aring;terger';
+	$lang['strarguments'] = 'Argument';
+	$lang['strfunctionneedsname'] = 'Du m&aring;ste namnge din funktion.';
+	$lang['strfunctionneedsdef'] = 'Du m&aring;ste definiera din funktion.';
+	$lang['strfunctioncreated'] = 'Funktion skapad.';
+	$lang['strfunctioncreatedbad'] = 'Misslyckades att skapa funktion.';
+	$lang['strconfdropfunction'] = '&Auml;r du s&auml;ker p&aring; att du vill radera funktionen &quot;%s&quot;?';
+	$lang['strfunctiondropped'] = 'Funktionen raderad.';
+	$lang['strfunctiondroppedbad'] = 'Misslyckades att radera funktion.';
+	$lang['strfunctionupdated'] = 'Funktion uppdaterad.';
+	$lang['strfunctionupdatedbad'] = 'Misslyckades att uppdatera funktion.';
+
+	// Triggers
+	$lang['strtrigger'] = 'Mekanism';
+	$lang['strtriggers'] = 'Mekanismer';
+	$lang['strshowalltriggers'] = 'Visa alla Mekanismer';
+	$lang['strnotrigger'] = 'Hittade ingen mekanism.';
+	$lang['strnotriggers'] = 'Hittade inga mekanismer.';
+	$lang['strcreatetrigger'] = 'Skapa mekanism';
+	$lang['strtriggerneedsname'] = 'Du m&aring;ste namnge din mekanism.';
+	$lang['strtriggerneedsfunc'] = 'Du m&aring;ste specificera en funktion f&ouml;r din mekanism.';
+	$lang['strtriggercreated'] = 'Mekanism skapad.';
+	$lang['strtriggercreatedbad'] = 'Misslyckades att skapa mekanism.';
+	$lang['strconfdroptrigger'] = '&Auml;r du s&auml;ker p&aring; att du vill radera mekanismen &quot;%s&quot; f&ouml;r &quot;%s&quot;?';
+	$lang['strtriggerdropped'] = 'Mekanism raderad.';
+	$lang['strtriggerdroppedbad'] = 'Misslyckades att radera mekanism.';
+
+	// Types
+	$lang['strtype'] = 'Typ';
+	$lang['strtypes'] = 'Typer';
+	$lang['strshowalltypes'] = 'Visa alla typer';
+	$lang['strnotype'] = 'Hittade ingen typ.';
+	$lang['strnotypes'] = 'Hittade inga typer.';
+	$lang['strcreatetype'] = 'Skapa typ';
+	$lang['strtypename'] = 'Namn p&aring; typen';
+	$lang['strinputfn'] = 'Infogande funktion';
+	$lang['stroutputfn'] = 'Funktion f&ouml;r utv&auml;rden';
+	$lang['strpassbyval'] = 'Genomg&aring;tt utv&auml;rdering?';
+	$lang['stralignment'] = 'Justering';
+	$lang['strelement'] = 'Element';
+	$lang['strdelimiter'] = 'Avgr&auml;nsare';
+	$lang['strstorage'] = 'Lagringstyp';
+	$lang['strtypeneedsname'] = 'Du m&aring;ste namnge din typ.';
+	$lang['strtypeneedslen'] = 'Du m&aring;ste ge din typ en l&auml;ngd.';
+	$lang['strtypecreated'] = 'Typ skapad';
+	$lang['strtypecreatedbad'] = 'Misslyckades att skapa typ.';
+	$lang['strconfdroptype'] = '&Auml;r du s&auml;ker p&aring; att du vill radera typen &quot;%s&quot;?';
+	$lang['strtypedropped'] = 'Typ raderad.';
+	$lang['strtypedroppedbad'] = 'Misslyckades att radera typ.';
+
+	// Schemas
+	$lang['strschema'] = 'Schema';
+	$lang['strschemas'] = 'Scheman';
+	$lang['strshowallschemas'] = 'Visa alla scheman';
+	$lang['strnoschema'] = 'Hittade inget schema.';
+	$lang['strnoschemas'] = 'Hittade inga scheman.';
+	$lang['strcreateschema'] = 'Skapa Schema';
+	$lang['strschemaname'] = 'Schemanamn';
+	$lang['strschemaneedsname'] = 'Du m&aring;ste namnge ditt Schema.';
+	$lang['strschemacreated'] = 'Schema skapat';
+	$lang['strschemacreatedbad'] = 'Misslyckades att skapa schema.';
+	$lang['strconfdropschema'] = '&Auml;r du s&auml;ker p&aring; att du vill radera schemat &quot;%s&quot;?';
+	$lang['strschemadropped'] = 'Schema raderat.';
+	$lang['strschemadroppedbad'] = 'Misslyckades att radera schema.';
+
+	// Reports
+	$lang['strreport'] = 'Rapport';
+	$lang['strreports'] = 'Rapporter';
+	$lang['strshowallreports'] = 'Visa alla rapporter';
+	$lang['strnoreports'] = 'Hittade inga rapporter.';
+	$lang['strcreatereport'] = 'Skapa rapport';
+	$lang['strreportdropped'] = 'Rapport skapad.';
+	$lang['strreportdroppedbad'] = 'Misslyckades att skapa rapport.';
+	$lang['strconfdropreport'] = '&Auml;r du s&auml;ker p&aring; att du vill radera rapporten &quot;%s&quot;?';
+	$lang['strreportneedsname'] = 'Du m&aring;ste namnge din rapport.';
+	$lang['strreportneedsdef'] = 'Du m&aring;ste ange din SQL-fr&aring;ga.';
+	$lang['strreportcreated'] = 'Rapport sparad.';
+	$lang['strreportcreatedbad'] = 'Misslyckades att spara rapport.';
+
+	// Miscellaneous
+	$lang['strtopbar'] = '%s p&aring; port %s:%s -- Du &auml;r inloggad som &quot;%s&quot;, %s';
+	$lang['strtimefmt'] = 'jS M, Y g:iA';
+
+?>
