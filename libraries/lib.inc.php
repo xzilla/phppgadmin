@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.75 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.76 2004/05/31 09:46:37 soranzo Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -97,19 +97,13 @@
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
 	
-	// If login action is set, then set login variables
+	// If login action is set, then set session variables
 	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 
 		isset($_POST['formPassword']) && isset($_POST['formLanguage'])) {
-		$webdbServerID = $_POST['formServer'];
-		$webdbUsername = $_POST['formUsername'];
-		$webdbPassword = $_POST['formPassword'];
-		$webdbLanguage = $_POST['formLanguage'];
-
-		// Register some session variables
-		$_SESSION['webdbServerID'] = $webdbServerID;
-		$_SESSION['webdbUsername'] = $webdbUsername;
-		$_SESSION['webdbPassword'] = $webdbPassword;
-		$_SESSION['webdbLanguage'] = $webdbLanguage;
+		$_SESSION['webdbServerID'] = $_POST['formServer'];
+		$_SESSION['webdbUsername'] = $_POST['formUsername'];
+		$_SESSION['webdbPassword'] = $_POST['formPassword'];
+		$_SESSION['webdbLanguage'] = $_POST['formLanguage'];
 	}
 
 	// If the logged in settings aren't present, put up the login screen.

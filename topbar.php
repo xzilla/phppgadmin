@@ -3,14 +3,14 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.22 2004/05/28 08:41:58 chriskl Exp $
+	 * $Id: topbar.php,v 1.23 2004/05/31 09:46:37 soranzo Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 	
 	// To prevent SQL popup windows from conflicting
-	$window_id = "sqledit_{$_SESSION['webdbServerID']}_" . rand();
+	$window_id = 'sqledit_' . urlencode($conf['servers'][$_SESSION['webdbServerID']]['host'] .'_' . $conf['servers'][$_SESSION['webdbServerID']]['port']);
 	
 	$misc->printHeader();
 	$misc->printBody('topbar');
