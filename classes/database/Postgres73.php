@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.75 2003/10/27 05:43:18 chriskl Exp $
+ * $Id: Postgres73.php,v 1.76 2003/10/28 04:02:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1248,21 +1248,36 @@ class Postgres73 extends Postgres72 {
 	 * @return All casts
 	 */	 
 	function &getCasts() {
-	
-		// @@ TRANSLATION PROBLEM HERE
+		global $conf;
+				
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "
+				AND n1.nspname NOT LIKE 'pg_%'
+				AND n2.nspname NOT LIKE 'pg_%'
+				AND n3.nspname NOT LIKE 'pg_%'
+			";
+
 		$sql = "
 			SELECT
-				castsource::pg_catalog.regtype AS castsource,
-				casttarget::pg_catalog.regtype AS casttarget,
-				CASE WHEN castfunc = 0 THEN '(binary compatible)'
-				ELSE p.proname
-				END AS castfunc,
-				CASE WHEN c.castcontext = 'e' THEN 'no'
-				WHEN c.castcontext = 'a' THEN 'in assignment'
-				ELSE 'yes'
-				END AS castcontext
-			FROM pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p
-				ON c.castfunc = p.oid
+				c.castsource::pg_catalog.regtype AS castsource,
+				c.casttarget::pg_catalog.regtype AS casttarget,
+				CASE WHEN c.castfunc=0 THEN NULL
+				ELSE c.castfunc::pg_catalog.regprocedure END AS castfunc,
+				c.castcontext
+			FROM
+				(pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p ON c.castfunc=p.oid JOIN pg_catalog.pg_namespace n3 ON p.pronamespace=n3.oid),
+				pg_catalog.pg_type t1,
+				pg_catalog.pg_type t2,
+				pg_catalog.pg_namespace n1,
+				pg_catalog.pg_namespace n2				
+			WHERE
+				c.castsource=t1.oid
+				AND c.casttarget=t2.oid
+				AND t1.typnamespace=n1.oid
+				AND t2.typnamespace=n2.oid
+				{$where}
 			ORDER BY 1, 2
 		";
 

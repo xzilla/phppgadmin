@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.2 2003/10/27 05:43:18 chriskl Exp $
+	 * $Id: casts.php,v 1.3 2003/10/28 04:02:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,8 +35,19 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal($casts->f['castsource']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($casts->f['casttarget']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($casts->f['castfunc']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($casts->f['castcontext']), "</td>\n";
+				echo "<td class=\"data{$id}\">", ($casts->f['castfunc'] === null) ? $lang['strbinarycompat'] : $misc->printVal($casts->f['castfunc']), "</td>\n";
+				echo "<td class=\"data{$id}\">";
+				switch ($casts->f['castcontext']) {
+					case 'e':
+						echo $lang['strno'];
+						break;
+					case 'a':
+						echo $lang['strinassignment'];
+						break;
+					default:
+						echo $lang['stryes'];							
+				}
+				echo "</td>\n";
 				echo "</tr>\n";
 				$casts->moveNext();
 				$i++;

@@ -1,4 +1,3 @@
-support for show_system in casts
 fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
 re-enable help system
