@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.2 2004/11/16 01:25:44 chriskl Exp $
+	* $Id: romanian.php,v 1.1.2.1 2004/12/02 02:28:54 chriskl Exp $
 	*/
 
 	// Language and character set

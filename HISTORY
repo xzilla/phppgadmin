@@ -6,9 +6,12 @@ Version 3.5.1
 
 Bugs
 * Support 8.0beta5 schema tablespace changes
+* Help link fixes
+* Estimated row count in 7.0 and 7.1 fixes
 
 Translations
 * Romanian from Alin
+* Italian updates from Nicola
 
 Version 3.5
 -----------
