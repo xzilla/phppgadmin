@@ -14,6 +14,7 @@ Bugs
  non-UTF8 web servers (Markus Bertheau)
 * Fix export to work with release candidates and beta releases as well as finals
  (Russell Smith)
+* Fix port selection for local connections
 
 Version 3.5.1
 -------------
