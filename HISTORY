@@ -7,6 +7,7 @@ Version 3.0
 * Japanese update from Tadashi Jokagi
 * Fix drop database reload browser bug
 * Look & Feel upgrade from Davey
+* Value & expression on edit row
 
 Version 3.0-beta-1
 -------------------

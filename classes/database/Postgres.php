@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.116 2003/05/25 10:47:50 chriskl Exp $
+ * $Id: Postgres.php,v 1.117 2003/05/31 10:55:41 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1949,7 +1949,7 @@ class Postgres extends BaseDB {
 	 * Grabs an array of users and their privileges for an object,
 	 * given its type.
 	 * @param $object The name of the object whose privileges are to be retrieved
-	 * @param $type The type of the object (eg. database, schema, relation, function or language
+	 * @param $type The type of the object (eg. relation, view or sequence)
 	 * @return Privileges array
 	 * @return -1 invalid type
 	 * @return -2 object not found
@@ -1958,25 +1958,11 @@ class Postgres extends BaseDB {
 	function getPrivileges($object, $type) {
 		$this->clean($object);
 
-		// @@ NEED SCHEMA SUPPORT FOR 7.3
 		switch ($type) {
 			case 'table':
 			case 'view':
 			case 'sequence':
-				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname = '{$object}'";
-				break;
-			case 'database':
-				$sql = "SELECT datacl AS acl FROM pg_database WHERE datname = '{$object}'";
-				break;
-			case 'function':
-				$sql = "SELECT proacl AS acl FROM pg_proc WHERE oid = '{$object}'";
-				break;
-			case 'language':
-				$sql = "SELECT lanacl AS acl FROM pg_language WHERE lanname = '{$object}'";
-				break;
-			case 'schema':
-				// @@ MOVE THIS TO 7.3 ONLY
-				$sql = "SELECT nspacl AS acl FROM pg_namespace WHERE nspname = '{$object}'";
+				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname='{$object}'";
 				break;
 			default:
 				return -1;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.46 2003/05/20 05:43:47 chriskl Exp $
+ * $Id: Postgres73.php,v 1.47 2003/05/31 10:55:41 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -806,6 +806,107 @@ class Postgres73 extends Postgres72 {
 		return $this->execute($sql);
 	}
 
+	// Privilege functions
+
+	/**
+	 * Grabs an array of users and their privileges for an object,
+	 * given its type.
+	 * @param $object The name of the object whose privileges are to be retrieved
+	 * @param $type The type of the object (eg. database, schema, relation, function or language)
+	 * @return Privileges array
+	 * @return -1 invalid type
+	 * @return -2 object not found
+	 * @return -3 unknown privilege type
+	 */
+	function getPrivileges($object, $type) {
+		$this->clean($object);
+
+		switch ($type) {
+			case 'table':
+			case 'view':
+			case 'sequence':
+				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname='{$object}'
+						AND relnamespace=(SELECT oid FROM pg_namespace WHERE nspname='{$this->_schema}')";
+				break;
+			case 'database':
+				$sql = "SELECT datacl AS acl FROM pg_database WHERE datname='{$object}'";
+				break;
+			case 'function':
+				// Since we fetch functions by oid, they are already constrained to
+				// the current schema.
+				$sql = "SELECT proacl AS acl FROM pg_proc WHERE oid='{$object}'";
+				break;
+			case 'language':
+				$sql = "SELECT lanacl AS acl FROM pg_language WHERE lanname='{$object}'";
+				break;
+			case 'schema':
+				$sql = "SELECT nspacl AS acl FROM pg_namespace WHERE nspname='{$object}'";
+				break;
+			default:
+				return -1;
+		}
+
+		// Fetch the ACL for object
+		$acl = $this->selectField($sql, 'acl');
+		if ($acl == -1) return -2;
+		elseif ($acl == '') return array();
+
+		// Take off the first and last characters (the braces)
+		$acl = substr($acl, 1, strlen($acl) - 2);
+
+		// Pick out individual ACE's by exploding on the comma
+		$aces = explode(',', $acl);
+
+		// Create the array to be returned
+		$temp = array();
+
+		// For each ACE, generate an entry in $temp
+		foreach ($aces as $v) {
+			// If the ACE begins with a double quote, strip them off both ends
+			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
+
+			// Figure out type of ACE (public, user or group)
+			if (strpos($v, '=') === 0)
+				$atype = 'public';
+			elseif (strpos($v, 'group ') === 0) {
+				$atype = 'group';
+				// Tear off 'group' prefix
+				$v = substr($v, 6);
+			}
+			else
+				$atype = 'user';
+
+			// Separate entity from character list
+			list ($entity, $chars) = explode('=', $v);
+			
+			// New row to be added to $temp
+			// (type, grantee, privilegs, grantor, grant option
+			$row = array($atype, $entity, array(), '', false);
+
+			// Loop over chars and add privs to $row
+			for ($i = 0; $i < strlen($chars); $i++) {
+				// Append to row's privs list the string representing
+				// the privilege
+				$char = substr($chars, $i, 1);
+				if ($char == '*')
+					$row[4] = true;
+				elseif ($char == '/') {
+					$row[5] = substr($chars, $i + 1);
+					break;
+				}
+				if (!isset($this->privmap[$char]))
+					return -3;
+				else
+					$row[2][] = $this->privmap[$char];
+			}
+			
+			// Append row to temp
+			$temp[] = $row;
+		}
+
+		return $temp;
+	}
+	
 	// Capabilities
 	function hasSchemas() { return true; }
 	function hasConversions() { return true; }

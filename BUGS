@@ -1,4 +1,4 @@
 * Fix grant option/grantor stuff
-* Schema support for privileges
 * First and last links in browse table
+* Can't grant/revoke on functions with spaces in them
 
