@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.36 2004/07/13 16:33:37 jollytoad Exp $
+ * $Id: Postgres74.php,v 1.37 2004/07/14 14:52:18 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -214,7 +214,7 @@ class Postgres74 extends Postgres73 {
 					FROM
 						pg_catalog.pg_depend pd,
 						pg_catalog.pg_class pl,
-						pg_index pi
+						pg_catalog.pg_index pi
 					WHERE
 						pd.refclassid=pc.tableoid 
 						AND pd.refobjid=pc.oid
@@ -226,8 +226,8 @@ class Postgres74 extends Postgres73 {
 			FROM
 				pg_catalog.pg_constraint pc
 			WHERE
-				pc.conrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_namespace
+				pc.conrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
 					WHERE nspname='{$this->_schema}'))
 			ORDER BY
 				1
