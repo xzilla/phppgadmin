@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.5 2003/05/19 15:06:52 chriskl Exp $
+	 * $Id: schema.php,v 1.6 2003/08/01 03:59:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,6 +27,7 @@
 		echo "<li><a href=\"views.php?{$misc->href}\">{$lang['strviews']}</a></li>\n";
 		echo "<li><a href=\"sequences.php?{$misc->href}\">{$lang['strsequences']}</a></li>\n";
 		echo "<li><a href=\"functions.php?{$misc->href}\">{$lang['strfunctions']}</a></li>\n";
+		echo "<li><a href=\"domains.php?{$misc->href}\">{$lang['strdomains']}</a></li>\n";
 		echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
 		echo "</ul>\n";
 	}
