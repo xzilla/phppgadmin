@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.19 2002/10/10 18:13:00 xzilla Exp $
+ * $Id: Postgres.php,v 1.20 2002/11/07 09:39:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -149,13 +149,25 @@ class Postgres extends BaseDB {
 	}
 
 	/**
+	 * Creates a database
+	 * @param $database The name of the database to create
+	 * @return 0 success
+	 */
+	function createDatabase($database) {
+		$this->clean($database);
+		$sql = "CREATE DATABASE \"{$database}\"";
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Drops a database
-	 * @param $database The name of the database to retrieve
+	 * @param $database The name of the database to drop
 	 * @return 0 success
 	 */
 	function dropDatabase($database) {
 		$this->clean($database);
 		$sql = "DROP DATABASE \"{$database}\"";
+		return $this->execute($sql);
 	}
 
 	// Table functions
