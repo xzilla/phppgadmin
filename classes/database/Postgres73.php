@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.40 2003/05/05 14:55:08 chriskl Exp $
+ * $Id: Postgres73.php,v 1.41 2003/05/07 06:29:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -708,10 +708,11 @@ class Postgres73 extends Postgres72 {
 	 * Removes a constraint from a relation
 	 * @param $constraint The constraint to drop
 	 * @param $relation The relation from which to drop
+	 * @param $type The type of constraint (c, f, u or p)
 	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropConstraint($constraint, $relation, $cascade) {
+	function dropConstraint($constraint, $relation, $type, $cascade) {
 		$this->fieldClean($constraint);
 		$this->fieldClean($relation);
 
@@ -726,6 +727,7 @@ class Postgres73 extends Postgres72 {
 	function hasConversions() { return true; }
 	function hasCluster() { return true; }
 	function hasDropBehavior() { return true; }
+	function hasDropColumn() { return true; }
 
 }
 

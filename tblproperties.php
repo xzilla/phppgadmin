@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.14 2003/05/01 03:27:54 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.15 2003/05/07 06:29:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -246,7 +246,12 @@
 
 		if ($attrs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+			echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
+			if ($data->hasDropColumn())
+				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+			else
+				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$attrs->EOF) {
 				$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
@@ -257,8 +262,10 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
+				if ($data->hasDropColumn()) {
+					echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+						"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
+				}
 				echo "</tr>\n";
 				$attrs->moveNext();
 				$i++;

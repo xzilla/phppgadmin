@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.29 2003/05/05 03:03:53 chriskl Exp $
+	 * $Id: Misc.php,v 1.30 2003/05/07 06:29:54 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -243,13 +243,19 @@
 		 * Display the navigation header for tables
 		 */
 		function printDatabaseNav() {
-			global $lang;
+			global $lang, $data;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+			// Only show schemas if available
+			if ($data->hasSchemas()) {
+				echo "<td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
+			}
+			// Only show database privs if available
+			if (isset($data->privlist['database'])) {
+				echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+			}
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$lang['strsql']}</a></td>\n";
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$lang['stradmin']}</a></td>\n";
 			//echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";

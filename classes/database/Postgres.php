@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.94 2003/05/06 14:24:37 chriskl Exp $
+ * $Id: Postgres.php,v 1.95 2003/05/07 06:29:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -950,6 +950,37 @@ class Postgres extends BaseDB {
 		return $this->endTransaction();
 	}	
 
+	// Constraint functions
+
+	/**
+	 * Removes a constraint from a relation
+	 * @param $constraint The constraint to drop
+	 * @param $relation The relation from which to drop
+	 * @param $type The type of constraint (c, f, u or p)
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 * @return -99 dropping foreign keys not supported
+	 */
+	function dropConstraint($constraint, $relation, $type, $cascade) {
+		$this->fieldClean($constraint);
+		$this->fieldClean($relation);
+
+		switch ($type) {
+			case 'c':
+				// CHECK constraint		
+				return $this->dropCheckConstraint($relation, $constraint);
+				break;
+			case 'p':
+			case 'u':
+				// PRIMARY KEY or UNIQUE constraint
+				return $this->dropIndex($constraint, $cascade);
+				break;
+			case 'f':
+				// FOREIGN KEY constraint
+				return -99;
+		}				
+	}
+
 	/**
 	 * Adds a unique constraint to a table
 	 * @param $table The table to which to add the unique
@@ -970,20 +1001,6 @@ class Postgres extends BaseDB {
 
 		return $this->execute($sql);
 	}
-
-	/**
-	 * Drops a unique constraint from a table
-	 * @param $table The table from which to drop the unique
-	 * @param $name The name of the unique
-	 * @return 0 success
-	 */
-	function dropUniqueKey($table, $name) {
-		$this->fieldClean($name);
-
-		$sql = "DROP INDEX \"{$name}\"";
-
-		return $this->execute($sql);
-	}	
 
 	/**
 	 * Adds a foreign key constraint to a table
@@ -1029,20 +1046,6 @@ class Postgres extends BaseDB {
 		return -99; // Not supported.
 	}
 
-	/**
-	 * Drops a primary key constraint from a table
-	 * @param $table The table from which to drop the primary key
-	 * @param $name The name of the primary key
-	 * @return 0 success
-	 */
-	function dropPrimaryKey($table, $name) {
-		$this->fieldClean($name);
-		
-		$sql = "DROP INDEX \"{$name}\"";
-
-		return $this->execute($sql);
-	}
-	
 	/**
 	 * Changes the owner of a table
 	 * @param $table The table whose owner is to change
@@ -2289,6 +2292,7 @@ class Postgres extends BaseDB {
 	function hasIndicies() { return true; }
 	function hasRules() { return true; }
 	function hasLanguages() { return true; }
+	function hasDropColumn() { return false; }
 
 }
 

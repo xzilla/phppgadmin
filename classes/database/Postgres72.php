@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.38 2003/05/06 14:24:38 chriskl Exp $
+ * $Id: Postgres72.php,v 1.39 2003/05/07 06:29:54 chriskl Exp $
  */
 
 
@@ -124,17 +124,32 @@ class Postgres72 extends Postgres71 {
 	 * Removes a constraint from a relation
 	 * @param $constraint The constraint to drop
 	 * @param $relation The relation from which to drop
+	 * @param $type The type of constraint (c, f, u or p)
 	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
+	 * @return -99 dropping foreign keys not supported
 	 */
-	function dropConstraint($constraint, $relation, $cascade) {
+	function dropConstraint($constraint, $relation, $type, $cascade) {
 		$this->fieldClean($constraint);
 		$this->fieldClean($relation);
 
-		$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\" RESTRICT";
-		if ($cascade) $sql .= " CASCADE";		
-
-		return $this->execute($sql);
+		switch ($type) {
+			case 'c':
+				// CHECK constraint		
+				$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\" RESTRICT";
+				if ($cascade) $sql .= " CASCADE";		
+		
+				return $this->execute($sql);
+				break;
+			case 'p':
+			case 'u':
+				// PRIMARY KEY or UNIQUE constraint
+				return $this->dropIndex($constraint, $cascade);
+				break;
+			case 'f':
+				// FOREIGN KEY constraint
+				return -99;
+		}				
 	}
 
 	/**
