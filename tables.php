@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.47 2004/04/01 15:10:30 soranzo Exp $
+	 * $Id: tables.php,v 1.48 2004/04/01 15:53:01 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -80,7 +80,7 @@
 
 				// Output table header
 				echo "<table>\n";
-				echo "\t<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+				echo "\t<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
@@ -106,10 +106,10 @@
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
-					echo "\t\t\t</select>\n";
+					echo "\t\t\t</select>\n\t\t</td>\n";
 					
 					// Output array type selector
-					echo "\t\t\t<select name=\"array[{$i}]\">\n";
+					echo "\t\t<td>\n\t\t\t<select name=\"array[{$i}]\">\n";
 					echo "\t\t\t\t<option value=\"\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '') ? ' selected="selected"' : '', "></option>\n";
 					echo "\t\t\t\t<option value=\"[]\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "\t\t\t</select>\n\t\t</td>\n";

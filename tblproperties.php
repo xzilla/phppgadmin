@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.38 2004/03/31 07:31:24 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.39 2004/04/01 15:53:01 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -178,7 +178,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>";
@@ -189,10 +189,10 @@
 						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
 				}
-				echo "</select>";
+				echo "</select></td>";
 				
 				// Output array type selector
-				echo "<select name=\"array\">\n";
+				echo "<td><select name=\"array\">\n";
 				echo "<option value=\"\"", ($_POST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
 				echo "<option value=\"[]\"", ($_POST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 				echo "</select></td>\n";
