@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.60 2004/06/11 05:08:26 xzilla Exp $
+ * $Id: Postgres71.php,v 1.61 2004/06/27 06:22:29 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -68,6 +68,14 @@ class Postgres71 extends Postgres {
 		'runtime_config' => 'runtime-config.html',
 		'processes' => 'monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE',
 		'sql' => 'sql-syntax.html',
+		'views' => 'tutorial-views.html',
+		'create_view' => 'sql-createview.html',
+		'drop_view' => 'sql-dropview.html',
+		'aggregates' => 'xaggr.html',
+		'types' => 'xtypes.html',
+		'create_type' => 'sql-createtype.html',
+		'drop_type' => 'sql-droptype.html',
+		'operators' => 'xoper.html'
 	);
 
 	/**

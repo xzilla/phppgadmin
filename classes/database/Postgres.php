@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.224 2004/06/11 05:36:08 xzilla Exp $
+ * $Id: Postgres.php,v 1.225 2004/06/27 06:22:29 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -146,7 +146,15 @@ class Postgres extends BaseDB {
 		'drop_schema' => 'sql-dropschema.htm',
 		'runtime_config' => 'runtime-config.htm',
 		'processes' => 'monitoring-stats.htm#MONITORING-STATS-VIEWS-TABLE',
-		'sql' => 'sql-syntax.htm'
+		'sql' => 'sql-syntax.htm',
+		'views' => 'tutorial-views.htm',
+		'create_view' => 'sql-createview.htm',
+		'drop_view' => 'sql-dropview.htm',
+		'aggregates' => 'xaggr.htm',
+		'types' => 'xtypes.htm',
+		'create_type' => 'sql-createtype.htm',
+		'drop_type' => 'sql-droptype.htm',
+		'operators' => 'xoper.htm'
 	);
 	
 	/**
