@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.44 2005/02/08 13:32:44 mr-russ Exp $
+	 * $Id: browser.php,v 1.45 2005/03/11 04:32:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,6 +17,7 @@
 	// Output header
 	$misc->printHeader('', "<script src=\"classes/HTML_TreeMenu/TreeMenu.js\" type=\"text/javascript\"></script>\n<script src=\"links.js\" type=\"text/javascript\"></script>");
 	$misc->printBody('browser');
+	echo "<div dir=\"ltr\">\n";
 	
 	// Construct expanding tree
 	$menu  = new HTML_TreeMenu(null, array('usePersistence' => false));
@@ -315,6 +316,7 @@
 	$treeMenu->printMenu();
 
    // Output footer
+   echo "</div>\n";
    $misc->printFooter();
 
 ?>
