@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.13 2003/05/15 13:32:37 chriskl Exp $
+	 * $Id: views.php,v 1.14 2003/05/16 08:55:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['strselect']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strselect']}</h2>\n";
 			$misc->printMsg($msg);
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['view']);
@@ -48,8 +48,8 @@
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['type']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull'])
@@ -116,7 +116,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
@@ -128,7 +128,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
@@ -154,7 +154,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['strproperties']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
@@ -162,7 +162,7 @@
 		if ($viewdata->recordCount() > 0) {
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
 			echo "</table>\n";
@@ -182,9 +182,9 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>", sprintf($lang['strconfdropview'], htmlspecialchars($_REQUEST['view'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
@@ -216,7 +216,7 @@
 		if (!isset($_POST['formView'])) $_POST['formView'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -261,7 +261,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();
@@ -277,8 +277,8 @@
 				$count = urlencode("SELECT COUNT(*) AS total FROM \"{$views->f[$data->vwFields['vwname']]}\"");
 				$return_url = urlencode("views.php?{$misc->href}");
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwowner']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc=",
 					urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strselect']}</a></td>\n"; 
