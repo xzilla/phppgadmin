@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.7 2002/12/23 10:41:32 jmpoure Exp $
+	 * $Id: intro.php,v 1.8 2003/01/02 02:27:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,7 +12,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" />
 <title><?php echo $appName ?></title>
 </head>
 <body>

@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to WebDB.
 	 *
-	 * $Id: index.php,v 1.9 2002/12/23 10:40:31 jmpoure Exp $
+	 * $Id: index.php,v 1.10 2003/01/02 02:27:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,7 +12,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" >
 <title><?php echo $appName ?></title>
 </head>
 

@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.24 2002/12/24 07:35:25 chriskl Exp $
+	 * $Id: english.php,v 1.25 2003/01/02 02:27:47 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -53,6 +53,7 @@
 	$strDefault = 'Default';
 	$strAlter = 'Alter';
 	$strCancel = 'Cancel';
+	$strSave = 'Save';
 	$strPrivileges = 'Privileges';
 	$strInsert = 'Insert';
 	$strSelect = 'Select';
@@ -66,7 +67,8 @@
 	$strEdit = 'Edit';
 	$strInvalidParam = 'Invalid script parameters.';
 	$strRows = 'row(s)';
-
+	$strExample = 'eg.';
+	
 	// Error handling
 	$strSQLError = 'SQL error:';
 	$strInStatement = 'In statement:';
@@ -110,6 +112,15 @@
 	$strColumnName = 'Column Name';
 	$strUniqueKey = 'Unique Key';
 	$strPrimaryKey = 'Primary Key';
+	$strShowAllIndicies = 'Show All Indicies';
+	$strCreateIndex = 'Create Index';
+	$strIndexNeedsName = 'You must give a name for your index';
+	$strIndexNeedsCols = 'You must give a valid number of columns.';
+	$strIndexCreated = 'Index created';
+	$strIndexCreatedBad = 'Index creation failed.';
+	$strConfDropIndex = 'Are you sure you want to drop the index "%s"?';
+	$strIndexDropped = 'Index dropped.';
+	$strIndexDroppedBad = 'Index drop failed.';
 	
 	// Tables
 	$strField = 'Field';
