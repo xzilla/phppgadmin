@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.64 2004/11/04 02:56:50 chriskl Exp $
+	 * $Id: database.php,v 1.65 2004/11/29 01:48:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -586,8 +586,6 @@
 
 		// Fetch all users from the database
 		$users = &$data->getUsers();
-		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
 		$misc->printTrail('database');
 		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
@@ -607,25 +605,7 @@
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
-		echo "\t\t\t</select>\n\t\t</td>\n\t\n";
-		
-		// Tablespace (if there are any)
-		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
-			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
-			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
-			// Always offer the default (empty) option
-			echo "\t\t\t\t<option value=\"\"",
-				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
-			// Display all other tablespaces
-			while (!$tablespaces->EOF) {
-				$spcname = htmlspecialchars($tablespaces->f['spcname']);
-				echo "\t\t\t\t<option value=\"{$spcname}\"",
-					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
-				$tablespaces->moveNext();
-			}
-			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
-		}
-		
+		echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
@@ -647,13 +627,10 @@
 	function doSaveCreate() {
 		global $data, $lang, $_reload_browser;
 
-		// Default tablespace to null if it isn't set
-		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
-
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
 		else {
-			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'], $_POST['formSpc'], $_POST['formComment']);
+			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'], $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemacreated']);
@@ -687,10 +664,6 @@
 					'title' => $lang['strowner'],
 					'field' => 'nspowner',
 				),
-				'tablespace' => array(
-					'title' => $lang['strtablespace'],
-					'field' => 'tablespace',
-				),
 				'actions' => array(
 					'title' => $lang['stractions'],
 				),
@@ -722,8 +695,6 @@
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
-			
-			if (!$data->hasTablespaces()) unset($columns['tablespace']);
 			
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 

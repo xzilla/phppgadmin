@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.140 2004/11/10 01:46:36 chriskl Exp $
+ * $Id: Postgres73.php,v 1.141 2004/11/29 01:48:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -140,19 +140,16 @@ class Postgres73 extends Postgres72 {
 	 * Creates a new schema.
 	 * @param $schemaname The name of the schema to create
 	 * @param $authorization (optional) The username to create the schema for.
-	 * @param $tablespace (optional) The tablespace for the schema, '' indicates default.
 	 * @param $comment (optional) If omitted, defaults to nothing
 	 * @return 0 success
 	 */
-	function createSchema($schemaname, $authorization = '', $tablespace = '', $comment = '') {
+	function createSchema($schemaname, $authorization = '', $comment = '') {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($authorization);
-		$this->fieldClean($tablespace);
 		$this->clean($comment);
 
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
-		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
 		
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;

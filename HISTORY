@@ -4,6 +4,9 @@ phpPgAdmin History
 Version 3.5.1
 -------------
 
+Bugs
+* Support 8.0beta5 schema tablespace changes
+
 Translations
 * Romanian from Alin
 
