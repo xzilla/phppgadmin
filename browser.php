@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.9 2003/05/19 15:06:52 chriskl Exp $
+	 * $Id: browser.php,v 1.10 2003/05/21 05:15:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	$misc->printBody('browser');
 	
 	// Construct expanding tree
-	$menu  = new HTML_TreeMenu();
+	$menu  = new HTML_TreeMenu(null, array('usePersistence' => false));
 	$root = new HTML_TreeNode(array(
 						'text' => addslashes($misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc']))), 
 						'link' => 'all_db.php', 
@@ -147,10 +147,8 @@
 									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
-									// Auto-expand your personal schema. @@ This currently also opens the first
-									// schema if your own schema doesn't exist...
-//									'expanded' => ($schemas->f[$data->nspFields['nspname']] == $_SESSION['webdbUsername']),
-									'expanded' => false,
+									// Auto-expand your personal schema, if it exists
+									'expanded' => ($schemas->f[$data->nspFields['nspname']] == $_SESSION['webdbUsername']),
 									'linkTarget' => 'detail'));
 
 					addNodes(&$schemanode, $querystr);
