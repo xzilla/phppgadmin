@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.19 2003/09/03 05:47:48 chriskl Exp $
+	 * $Id: database.php,v 1.20 2003/09/08 04:28:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -124,7 +124,7 @@
 				
 				echo "<p>", $rs->recordCount(), " ", $lang['strrows'], "</p>\n";
 			}
-			else echo $lang['strnodata'];
+			else echo "<p>{$lang['strnodata']}</p>\n";
 		}		
 	}
 	
