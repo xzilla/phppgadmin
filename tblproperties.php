@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.12 2003/03/26 01:27:17 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.13 2003/04/20 09:45:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,26 +22,21 @@
 
 		echo "<form action=\"tblexport.php\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=data>{$lang['strformat']}:</th><td><select name=\"format\">\n";
+		echo "<tr><th class=\"data\">{$lang['strformat']}:</th><td><select name=\"format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
 		echo "<option value=\"tab\">Tabbed</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
-		/*echo "<tr><th class=data>Content:</th><td><select name=\"content\">\n";
-		echo "<option value=\"all\">{$lang['strschemaanddata']}</option>\n";
-		echo "<option value=\"schema\">{$lang['strschemaonly']}</option>\n";
-		echo "<option value=\"data\">{$lang['strdataonly']}</option>\n";
-		echo "</select></td></tr>";*/
-		echo "<tr><th class=data>OIDS:</th><td><input type=\"checkbox\" name=\"oids\"></td></tr>";
-		echo "<tr><th class=data>Download?</th><td><input type=\"checkbox\" name=\"download\"></td></tr>";
+		echo "<tr><th class=\"data\">OIDS:</th><td><input type=\"checkbox\" name=\"oids\" /></td></tr>";
+		echo "<tr><th class=\"data\">Download?</th><td><input type=\"checkbox\" name=\"download\" /></td></tr>";
 		echo "</table>\n";
 
-		echo "<p><input type=hidden name=action value=export>\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
-		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-		echo "<input type=submit value=\"{$lang['strexport']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
+		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 	}
 
@@ -78,7 +73,7 @@
 				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th></tr>";
 
 				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-					htmlspecialchars($_POST['field']), "\"></td>";
+					htmlspecialchars($_POST['field']), "\" /></td>";
 				echo "<td><select name=\"type\">\n";
 				while (!$types->EOF) {
 					$typname = $types->f[$data->typFields['typname']];
@@ -88,13 +83,13 @@
 				}
 				echo "</select></td>\n";
 				echo "<td><input name=\"length\" size=\"8\" value=\"",
-					htmlspecialchars($_POST['length']), "\"></td></tr>";
+					htmlspecialchars($_POST['length']), "\" /></td></tr>";
 				echo "</table>\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"add_column\">\n";
-				echo "<input type=\"hidden\" name=\"stage\" value=\"2\">\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"add_column\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
 
 				break;
@@ -145,7 +140,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnotnull']}</th><th class=data>{$lang['strdefault']}</th></tr>";
+				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
 
 				$column = &$localData->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $localData->phpBool($column->f['attnotnull']);
@@ -157,20 +152,20 @@
 				}				
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
-					htmlspecialchars($_REQUEST['field']), "\"></td>";
+					htmlspecialchars($_REQUEST['field']), "\" /></td>";
 				echo "<td>", htmlspecialchars($column->f['type']), "</td>";
-				echo "<td><input type=checkbox name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', "></td>\n";
-				echo "<td><input name=\"default\" size=20 value=\"", 
-					htmlspecialchars($_REQUEST['default']), "\"></td>";
+				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', " /></td>\n";
+				echo "<td><input name=\"default\" size=\"20\" value=\"", 
+					htmlspecialchars($_REQUEST['default']), "\" /></td>";
 				
 				echo "</table>\n";
-				echo "<input type=hidden name=action value=properties>\n";
-				echo "<input type=hidden name=stage value=2>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
-				echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
-				echo "<input type=hidden name=olddefault value=\"", htmlspecialchars($_REQUEST['olddefault']), "\">\n";
-				echo "<input type=submit value=\"{$lang['stralter']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 				echo "</form>\n";
 								
 				break;
@@ -215,11 +210,11 @@
 								
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -247,18 +242,18 @@
 
 		if ($attrs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnotnull']}</th><th class=data>{$lang['strdefault']}</th><th colspan=2 class=data>{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$attrs->EOF) {
 				$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($attrs->f['attname']), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['type']), "</td>\n";
-				echo "<td class=data{$id}>", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($attrs->f['attname']), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($attrs->f['type']), "</td>\n";
+				echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$attrs->moveNext();
