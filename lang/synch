@@ -3,21 +3,19 @@
 # english translation using chriskl's langcheck utility.
 # It doesn't translate strings, only inserts english versions
 # to proper positions and deletes removed. And it doesn't 
-# synchronize commented lines. Use it at your own risk!
+# synchronize commented lines. 
 # You need to have GNU ed installed.
 # 
 # Usage: synch <language>
 #
 #   <language> is the filename without the .php extension
+#
+# WARNING!
+#   I've tested it and it seems working fine. But I've not tested 
+#   all combinations of input files lines, so use it at your own 
+#   risk!
+# 
 
-# WARNING: THE SYNCH SCRIPT IS BUGGY.  IT MAY DELETE SOME
-# GOOD TRANSLATIONS.  COMMENT OUT THE LINES BELOW IF YOU
-# KNOW WHAT YOU ARE DOING.
-
-echo "The synch script has been found to be buggy.  We recommend using";
-echo "langcheck instead.  For more information, view the synch source code.";
-exit
-   
 if [ -z $1 ] ; then
 	echo "You must tell me which language I should synchronize."
 	echo -e "for example: \n\t$0 polish"
@@ -28,6 +26,9 @@ if [ ! -f $1.php ] ; then
 	echo "Sorry, I cannot find $1.php"
 	exit
 fi
+
+echo "Making backup of $1.php"
+cp $1.php $1.php.old
 
 php langcheck $1 | awk '
 
@@ -45,6 +46,16 @@ function grep_n(what, where,   n, ln) {
 	return ln;
 }
 
+function add_line(nr, where, what) {
+	print nr"a\n"what"\n.\nw" | "/bin/ed -s "where
+	system ("/bin/sync")
+}
+
+function del_line(nr, where) {
+	print nr"d\nw" | "/bin/ed -s "where
+	system ("/bin/sync")
+}
+
 BEGIN	    { line=1   }
 # Analyse of "php langcheck language" output. 
 # Chris - please, do not change those texts in langcheck :-)
@@ -57,26 +68,17 @@ BEGIN	    { line=1   }
 		# a[2] = strxxxxx
 		# Adding a line
 		if(oper=="+") {
-			line = grep_n("\x27"a[2]"\x27", src) - 1;
+			line = grep_n("\x27"a[2]"\x27", src) ;
 			if (line>0) {
-				print line"a";
-				# New lines got no "\t" at beginning because they are not 
-				# translated yet, so it will help translator to find them
-				print $0;
-				print ".";
+				add_line(line-1, trg, $0)
 			}
 		}
 		# Deleting a line
 		if(oper=="-") {
-			line = grep_n("\x27"a[2]"\x27", trg);
+			line = grep_n("\x5B\x27"a[2]"\x27\x5D", trg);
 			if (line>0) {
-				print line"d"
+				del_line(line, trg)
 			}
 		}
 	    }
-END	{
-	    # Writing changes after every edit
-	    print "w";
-	}
-' | ed $1.php
-
+' 
