@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.69 2005/02/06 00:34:20 mr-russ Exp $
+ * $Id: Postgres71.php,v 1.70 2005/02/06 20:03:20 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -85,7 +85,7 @@ class Postgres71 extends Postgres {
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases() {
+	function &getDatabases($currentdatabase = NULL) {
 		global $conf;
 
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
