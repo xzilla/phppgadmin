@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.120 2003/06/02 01:22:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.121 2003/06/02 01:34:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -905,7 +905,9 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function &resetSequence($sequence) {
+		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
+		$this->clean($sequence);
 		
 		$sql = "SELECT SETVAL('\"{$sequence}\"', 1)";
 		
