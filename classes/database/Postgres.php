@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.109 2003/05/18 11:53:28 chriskl Exp $
+ * $Id: Postgres.php,v 1.110 2003/05/18 12:48:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -722,6 +722,24 @@ class Postgres extends BaseDB {
 	}
 
 	/**
+	 * Finds the number of rows that would be returned by a
+	 * query.
+	 * @param $query The SQL query
+	 * @param $count The count query
+	 * @return The count of rows
+	 * @return -1 error
+	 */
+	function browseSQLCount($query, $count) {
+		// Count the number of rows
+		$rs = $this->selectSet($query);
+		if (!is_object($rs)) {
+			return -1;
+		}
+		
+		return $rs->recordCount();	
+	}
+	
+	/**
 	 * Returns a recordset of all columns in a query.  Supports paging.
 	 * @param $query The SQL SELECT query.
 	 * @param $count The same SQL query, but only retrieves the count of the rows (AS total)
@@ -742,7 +760,7 @@ class Postgres extends BaseDB {
 		if ($status != 0) return -1;
 		
 		// Count the number of rows
-		$total = $this->selectField($count, 'total');
+		$total = $this->browseSQLCount($query, $count);
 		if ($total < 0) {
 			$this->rollbackTransaction();
 			return -2;
@@ -761,8 +779,6 @@ class Postgres extends BaseDB {
 		$this->conn->setFetchMode(ADODB_FETCH_NUM);
 
 		// Actually retrieve the rows, with offset and limit
-		// @@@@@@@@@@@@@@ THIS NEXT LINE ONLY WORKS IN POSTGRESQL 7.2+ @@@@@@@@@@@@@@@@@
-		//$sql = "SELECT * FROM ($query) LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 
 		$status = $this->endTransaction();

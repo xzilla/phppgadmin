@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.33 2003/05/17 15:51:37 chriskl Exp $
+ * $Id: Postgres71.php,v 1.34 2003/05/18 12:48:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -102,7 +102,19 @@ class Postgres71 extends Postgres {
 	}
 
 	// Table functions
-	
+
+	/**
+	 * Finds the number of rows that would be returned by a
+	 * query.
+	 * @param $query The SQL query
+	 * @param $count The count query
+	 * @return The count of rows
+	 * @return -1 error
+	 */
+	function browseSQLCount($query, $count) {
+		return $this->selectField($count, 'total');
+	}
+		
 	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
