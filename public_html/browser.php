@@ -3,7 +3,7 @@
 	/**
 	 * Main object browser
 	 *
-	 * $Id: browser.php,v 1.7 2002/07/11 06:02:57 chriskl Exp $
+	 * $Id: browser.php,v 1.8 2002/10/02 05:05:20 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -12,11 +12,12 @@
 	// Include tree classes
 	include_once('class.tree/class.tree.php');
 ?>
-
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?= $appName ?></title>
-<body class=browser>
+</head>
+<body class="browser">
 <?php
 
 	// Construct expanding tree

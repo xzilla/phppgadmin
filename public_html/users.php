@@ -3,11 +3,17 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.2 2002/05/15 09:57:55 chriskl Exp $
+	 * $Id: users.php,v 1.3 2002/10/02 05:05:20 xzilla Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<?php
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
@@ -41,25 +47,25 @@
 		if ($userdata->recordCount() > 0) {
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			echo "<form action=\"$PHP_SELF\" method=post>\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strUsername}</th><th class=data>{$strSuper}</th><th class=data>{$strCreateDB}</th><th class=data>{$strExpires}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=data1><input type=checkbox name=formSuper", 
-				($userdata->f[$data->uFields['usuper']]) ? ' checked' : '', "></td>\n";
-			echo "<td class=data1><input type=checkbox name=formCreateDB", 
-				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked' : '', "></td>\n";
-			echo "<td class=data1><input size=30 name=formExpires value=\"", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "\"></td></tr>\n";
+			echo "<tr><th class=\"data\">{$strUsername}</th><th class=\"data\">{$strSuper}</th><th class=\"data\">{$strCreateDB}</th><th class=\"data\">{$strExpires}</th></tr>\n";
+			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n";
+			echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "\" /></td></tr>\n";
 			echo "</table>\n";
-			echo "<input type=hidden name=action value=save_edit>\n";
-			echo "<input type=hidden name=username value=\"", htmlspecialchars($_REQUEST['username']), "\">\n";
-			echo "<input type=submit value=Save> <input type=reset>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
+			echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
 			echo "</form>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Users</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=properties&username=", 
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;username=", 
 			urlencode($_REQUEST['username']), "\">Properties</a></p>\n";
 	}
 	
@@ -77,17 +83,17 @@
 		
 		if ($userdata->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strUsername}</th><th class=data>{$strSuper}</th><th class=data>{$strCreateDB}</th><th class=data>{$strExpires}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=data1>", $userdata->f[$data->uFields['usuper']], "</td>\n";
-			echo "<td class=data1>", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
-			echo "<td class=data1>", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$strUsername}</th><th class=\"data\">{$strSuper}</th><th class=\"data\">{$strCreateDB}</th><th class=\"data\">{$strExpires}</th></tr>\n";
+			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
+			echo "<td class=\"data1\">", $userdata->f[$data->uFields['usuper']], "</td>\n";
+			echo "<td class=\"data1\">", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
+			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Users</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&username=", 
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
 			urlencode($_REQUEST['username']), "\">Edit</a></p>\n";
 	}
 	
@@ -104,9 +110,9 @@
 			echo "<p>Are you sure you want to drop the user \"", htmlspecialchars($_REQUEST['username']), "\"?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=username value=\"", htmlspecialchars($_REQUEST['username']), "\">\n";
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"Yes\" /> <input type=\"submit\" name=\"choice\" value=\"No\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -133,22 +139,22 @@
 		echo "<h2>Users: Create User</h2>\n";
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=post>\n";
+		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=data>{$strUsername}</th><th class=data>{$strPassword}</th><th class=data>{$strSuper}</th><th class=data>{$strCreateDB}</th><th class=data>{$strExpires}</th></tr>\n";
-		echo "<tr><td class=data1><input size=15 name=formUsername value=\"", htmlspecialchars($formUsername), "\"></td>\n";
-		echo "<td class=data1><input size=15 name=formPassword value=\"", htmlspecialchars($formPassword), "\"></td>\n";
-		echo "<td class=data1><input type=checkbox name=formSuper", 
-			(isset($formSuper)) ? ' checked' : '', "></td>\n";
-		echo "<td class=data1><input type=checkbox name=formCreateDB", 
-			(isset($formCreateDB)) ? ' checked' : '', "></td>\n";
-		echo "<td class=data1><input size=30 name=formExpires value=\"", htmlspecialchars($formExpires), "\"></td></tr>\n";
+		echo "<tr><th class=\"data\">{$strUsername}</th><th class=\"data\">{$strPassword}</th><th class=\"data\">{$strSuper}</th><th class=\"data\">{$strCreateDB}</th><th class=\"data\">{$strExpires}</th></tr>\n";
+		echo "<tr><td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($formUsername), "\" /></td>\n";
+		echo "<td class=\"data1\"><input size=\"15\" name=\"formPassword\" value=\"", htmlspecialchars($formPassword), "\" /></td>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+			(isset($formSuper)) ? ' checked="checked"' : '', " /></td>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+			(isset($formCreateDB)) ? ' checked="checked"' : '', " /></td>\n";
+		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($formExpires), "\" /></td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Users</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a></p>\n";
 	}
 	
 	/**
@@ -180,18 +186,18 @@
 		
 		if ($users->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strUsername}</th><th class=data>{$strSuper}</th>";
-			echo "<th class=data>{$strCreateDB}</th><th class=data>{$strExpires}</th><th colspan=2 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$strUsername}</th><th class=\"data\">{$strSuper}</th>";
+			echo "<th class=\"data\">{$strCreateDB}</th><th class=\"data\">{$strExpires}</th><th colspan=\"2\" class=\"data\">{$strActions}</th></tr>\n";
 			$i = 0;
 			while (!$users->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($users->f[$data->uFields['uname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($users->f[$data->uFields['usuper']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($users->f[$data->uFields['ucreatedb']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&username=", 
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['usuper']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['ucreatedb']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=", 
 					urlencode($users->f[$data->uFields['uname']]), "\">Properties</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&username=", 
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
 					urlencode($users->f[$data->uFields['uname']]), "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$users->moveNext();
@@ -203,12 +209,15 @@
 			echo "<p>{$strNoUsers}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">Create User</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">Create User</a></p>\n";
 
 	}
 
-	echo "<html>\n";
-	echo "<body>\n";
+?>
+<title><?= $appName ?></title>
+</head>
+<body>
+<?php
 	
 	switch ($action) {
 		case 'save_create':

@@ -60,7 +60,7 @@
     				$this->tree_basefrm = $t_frame;
    			}
 
-			echo "<script>\n";
+			echo "<script type=\"text/javascript\">\n";
 
 			if ($this->usetextlinks) echo "var USETEXTLINKS = 1;\n";
    			else                     echo "var USETEXTLINKS = 0;\n";
@@ -87,7 +87,7 @@ basefrm = <? echo "\"$this->tree_basefrm\""; ?>;
 <script src=<?	echo "\"$this->tree_path/ua.js\""; ?> type="text/javascript">
 </script>
 <script src=<?	echo "\"$this->tree_path/ftiens4.js\""; ?> type="text/javascript"></script>
-<script>
+<script type="text/javascript">
 <?			echo "\n";
 
 			$jsvn = "foldersTree";

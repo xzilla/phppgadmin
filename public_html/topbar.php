@@ -3,29 +3,32 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.5 2002/05/15 09:57:55 chriskl Exp $
+	 * $Id: topbar.php,v 1.6 2002/10/02 05:05:20 xzilla Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
-
 ?>
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<body class=topbar>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?= $appName ?></title>
+</head>
+<body class="topbar">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr> 
-		<td width="211" rowspan="2"><img src="images/themes/<?= $guiTheme ?>/title.gif" width=211 height=50 alt="<? htmlspecialchars($appName) ?>"></td>
+		<td width="211" rowspan="2"><img src="images/themes/<?= $guiTheme ?>/title.gif" width="211" height="50" alt="<?= htmlspecialchars($appName) ?>" /></td>
 		<td width="69%"><?= $confServers[$_COOKIE['webdbServerID']]['type'] ?> running on 
 		<?= htmlspecialchars($confServers[$_COOKIE['webdbServerID']]['host']) ?>:<?= $confServers[$_COOKIE['webdbServerID']]['port'] ?>
 		-- You are logged in as user <b><?= htmlspecialchars($_COOKIE['webdbUsername']) ?></b>, 
-			<?= date('jS M, Y g:iA') ?></font></td>
+			<?= date('jS M, Y g:iA') ?></td>
 	</tr>
 	<tr>
 		<td>
-			<a class=toplink href="users.php" target="detail">User Admin</a> | 
-			<a class=toplink href="groups.php" target="detail">Group Admin</a> | 
-			<a class=toplink href="login.php?mode=logout" target="_parent">Logout</a>
+			<a class="toplink" href="users.php" target="detail">User Admin</a> | 
+			<a class="toplink" href="groups.php" target="detail">Group Admin</a> | 
+			<a class="toplink" href="login.php?mode=logout" target="_parent">Logout</a>
 		</td>
 	</tr>
 </table>
