@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.256 2005/03/11 08:36:08 chriskl Exp $
+ * $Id: Postgres.php,v 1.257 2005/03/18 19:51:57 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -667,11 +667,14 @@ class Postgres extends ADODB_base {
 	 * @param $colcomment An array of comments
 	 * @param $comment Table comment
 	 * @param $tablespace The tablespace name ('' means none/default)
+ 	 * @param $uniquekey An Array indicating the fields that are unique (those indexes that are set)
+ 	 * @param $primarykey An Array indicating the field used for the primarykey (those indexes that are set)
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
 	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
-				$default, $withoutoids, $colcomment, $tblcomment, $tablespace) {
+				$default, $withoutoids, $colcomment, $tblcomment, $tablespace,
+				$uniquekey, $primarykey) {
 		$this->fieldClean($name);
 		$this->clean($tblcomment);
 
@@ -718,7 +721,10 @@ class Postgres extends ADODB_base {
 			// Add array qualifier if necessary
 			if ($array[$i] == '[]') $sql .= '[]';
 			// Add other qualifiers
-			if (isset($notnull[$i])) $sql .= " NOT NULL";
+			if (!isset($primarykey[$i])) {
+ 				if (isset($uniquekey[$i])) $sql .= " UNIQUE";
+ 				if (isset($notnull[$i])) $sql .= " NOT NULL";
+ 			}
 			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
 
 			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
@@ -728,6 +734,17 @@ class Postgres extends ADODB_base {
 		
 		if (!$found) return -1;
 		
+		// PRIMARY KEY
+ 		$primarykeycolumns = array();
+ 		for ($i = 0; $i < $fields; $i++) {
+ 			if (isset($primarykey[$i])) {
+ 				$primarykeycolumns[] = "\"{$field[$i]}\"";
+ 			}
+		}
+ 		if (count($primarykeycolumns) > 0) {
+ 			$sql .= ", PRIMARY KEY (" . implode(", ", $primarykeycolumns) . ")";
+ 		}
+ 		
 		$sql .= ")";
 		
 		// WITHOUT OIDS
@@ -1230,7 +1247,7 @@ class Postgres extends ADODB_base {
 		if ($indexes->recordCount() > 0) {
 			$sql .= "\n-- Indexes\n\n";
 			while (!$indexes->EOF) {
-				$sql .= $indexes->f['idxdef'] . ";\n";
+				$sql .= $indexes->f['inddef'] . ";\n";
 
 				$indexes->moveNext();
 			}

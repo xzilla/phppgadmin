@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.70 2005/03/13 23:15:15 mr-russ Exp $
+	 * $Id: tables.php,v 1.71 2005/03/18 19:51:56 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -104,7 +104,9 @@
 				// Output table header
 				echo "<table>\n";
 				echo "\t<tr><th colspan=\"2\" class=\"data required\">{$lang['strcolumn']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
-				echo"<th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+				echo "<th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
+				echo "<th class=\"data\">{$lang['struniquekey']}</th><th class=\"data\">{$lang['strprimarykey']}</th>";
+				echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
@@ -141,6 +143,11 @@
 					echo "\t\t<td><input name=\"length[{$i}]\" size=\"10\" value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>\n";
+					echo "\t\t<td align=\"center\"><input type=\"checkbox\" name=\"uniquekey[{$i}]\""
+						.(isset($_REQUEST['uniquekey'][$i]) ? ' checked="checked"' :'')." /></td>\n";
+					echo "\t\t<td align=\"center\"><input type=\"checkbox\" name=\"primarykey[{$i}]\" "
+						.(isset($_REQUEST['primarykey'][$i]) ? ' checked="checked"' : '')
+						." /></td>\n";
 					echo "\t\t<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
 						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"", 
@@ -166,8 +173,10 @@
 				break;
 			case 3:
 				global $data, $lang, $_reload_browser;
-
+				
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
+				if (!isset($_REQUEST['uniquekey'])) $_REQUEST['uniquekey'] = array();
+				if (!isset($_REQUEST['primarykey'])) $_REQUEST['primarykey'] = array();
 				// Default tablespace to null if it isn't set
 				if (!isset($_REQUEST['spcname'])) $_REQUEST['spcname'] = null;
 
@@ -186,7 +195,8 @@
 				
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
-								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment'], $_REQUEST['spcname']);
+								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment'], $_REQUEST['spcname'],
+								$_REQUEST['uniquekey'], $_REQUEST['primarykey']);
 
 				if ($status == 0) {
 					$_reload_browser = true;

@@ -11,6 +11,7 @@ Features
 * Allow SQL script upload to parse arbitrary SQL, including multiline
   SQL statements
 * Add support for PostgreSQL 8.1devel
+* primary key and unique key at table creation (Andreas Huber)
   
 Bugs
 * Tree Icons are displayed middle instead of top
@@ -28,6 +29,7 @@ Bugs
 * Fix inability to drop database using the drop link
 * Stop duplicate insert on re-POST of data
 * Correct last internal oid value for PostgreSQL 8.0
+* Fix bug with exporting schema for servers < 7.3
 
 Translations
 * Japanese from Tadashi Jokagi
