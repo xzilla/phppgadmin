@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.30 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: all_db.php,v 1.31 2004/07/19 10:21:36 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -170,7 +170,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => 'database.php?',
+				'url'   => 'redirect.php?section=database&amp;',
 				'vars'  => array('database' => 'datname'),
 			),
 			'drop' => array(
