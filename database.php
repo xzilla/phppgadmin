@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.34 2004/02/02 12:15:57 chriskl Exp $
+	 * $Id: database.php,v 1.35 2004/02/13 08:53:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -38,6 +38,9 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
 		echo "</form>\n";
 		
+		// Default focus
+		$misc->setFocus('forms[0].term');
+
 		// If a search term has been specified, then perform the search
 		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
@@ -372,8 +375,13 @@
 			htmlspecialchars($_REQUEST['query']), "</textarea></p>\n";
 
 		echo $misc->form;
+		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
+		echo "<br /><br />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		echo "</form>\n";
+
+		// Default focus
+		$misc->setFocus('forms[0].query');
 	}
 
 	/**

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.58 2004/02/02 12:15:57 chriskl Exp $
+	 * $Id: Misc.php,v 1.59 2004/02/13 08:53:05 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -386,7 +386,6 @@
 		 * Displays link to the context help.if $conf['docsdir'] is set
 		 * @param $url - last part of a document's url (relative to $conf['docsdir'])
 		 */
-
 		function printHelp($url) {
 			global $lang, $conf;
 
@@ -397,5 +396,17 @@
 			}
 		}
 	
+		/** 
+		 * Outputs JavaScript to set default focus
+		 * @param $object eg. forms[0].username
+		 */
+		function setFocus($object) {
+			echo "<script language=\"JavaScript\">\n";
+			echo "<!--\n";
+			echo "   document.{$object}.focus();\n";
+			echo "-->\n";
+			echo "</script>\n";		
+		}
+		 
 	}
 ?>

@@ -16,6 +16,9 @@ Features
 * Rename user feature for PostgreSQL >= 7.4
 * Create functions returning arrays and table types
 * Allow editing Select results by oid
+* Allow pagination of queries entered in the SQL box
+* Allow EXPLAIN ANALYZE of SQL queries
+* Default cursor conveniently in SQL box and Find
 
 Bugs
 * Object browser fixed for databases with no schemas

@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.10 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: sqledit.php,v 1.11 2004/02/13 08:53:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -59,6 +59,9 @@
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
 		echo "</form>\n";
+
+		// Default focus
+		$misc->setFocus('forms[0].term');
 	}
 
 	/**
@@ -78,13 +81,19 @@
 
 		echo "<textarea style=\"width: 100%\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_POST['query']), "</textarea>\n";
+		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
+		echo "<br />\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
+		echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 
 		echo $misc->form;
 
 		echo "</form>\n";
+		
+		// Default focus
+		$misc->setFocus('forms[0].query');
 	}
 
 	$misc->printHeader($lang['strsql']);

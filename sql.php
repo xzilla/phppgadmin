@@ -6,11 +6,20 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.14 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: sql.php,v 1.15 2004/02/13 08:53:04 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
+
+	// Check to see if pagination has been specified.  In that case, send to display
+	// script for pagination
+	if (isset($_POST['paginate'])) {
+		$_REQUEST['return_url'] = "database.php?{$misc->href}&action=sql&paginate=on&query=" . urlencode($_POST['query']);
+		$_REQUEST['return_desc'] = $lang['streditsql'];
+		include('./display.php');
+		exit;
+	}
 	
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
@@ -20,9 +29,12 @@
 	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
 
 	// NOTE: This is a quick hack!
+	// TODO: Is there a generic (non PostgreSQL specific) way to do this
 	if (isset($_POST['explain']) && isset($_POST['query'])) {
-		// TODO: Is there a generic (non PostgreSQL specific) way to do this
 		$_POST['query'] = 'EXPLAIN ' . $_POST['query'];
+	}
+	elseif (isset($_POST['explain_analyze']) && isset($_POST['query'])) {
+		$_POST['query'] = 'EXPLAIN ANALYZE ' . $_POST['query'];
 	}
 	
 	// Set fetch mode to NUM so that duplicate field names are properly returned
@@ -66,7 +78,7 @@
 	}
 
 	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['strback']}</a>";
+		"&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['streditsql']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?action=create&amp;db_name=", urlencode($_REQUEST['database']), "&amp;report_sql=",
 			urlencode($_POST['query']), "\">{$lang['strcreatereport']}</a>";
