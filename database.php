@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65.2.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: database.php,v 1.65.2.2 2005/03/02 14:40:22 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -738,12 +738,7 @@
 			),
 		);
 		
-		$opts = array(
-			'prexml' =>
-				"<tree text=\"{$lang['strprocesses']}\" action=\"database.php?{$misc->href}&amp;subject=database&amp;action=processes\" target=\"detail\"/>"
-		);
-		
-		$misc->printTreeXML($schemas, $actions, $opts);
+		$misc->printTreeXML($schemas, $actions);
 		exit;
 	}
 	
@@ -752,7 +747,15 @@
 		
 		include_once('classes/ArrayRecordSet.php');
 		$tabs = $misc->getNavTabs('schema');
+		
+		// Remove Privileges link
 		unset($tabs['privileges']);
+		
+		// Remove hidden links
+		foreach ($tabs as $i => $tab) {
+			if (isset($tab['hide']) && $tab['hide'] === true)
+				unset($tabs[$i]);
+		}
 		$items =& new ArrayRecordSet($tabs);
 		
 		$actions = array(
