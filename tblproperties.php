@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.15 2003/05/07 06:29:54 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.16 2003/05/30 08:27:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"tblexport.php\" method=\"post\">\n";
@@ -62,8 +62,8 @@
 				$types = &$localData->getTypes(true);
 
 				$misc->printTableNav();
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
-					htmlspecialchars($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
+					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -78,7 +78,7 @@
 				while (!$types->EOF) {
 					$typname = $types->f[$data->typFields['typname']];
 					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected' : '', ">",
-						htmlspecialchars($typname), "</option>\n";
+						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
 				}
 				echo "</select></td>\n";
@@ -132,8 +132,8 @@
 				global $lang;
 
 				$misc->printTableNav();
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: {$lang['straltercolumn']}: ",
-					htmlspecialchars($_REQUEST['column']), "</h2>\n";
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['straltercolumn']}: ",
+					$misc->printVal($_REQUEST['column']), "</h2>\n";
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -153,7 +153,7 @@
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
-				echo "<td>", htmlspecialchars($column->f['type']), "</td>";
+				echo "<td>", $misc->printVal($column->f['type']), "</td>";
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
@@ -202,11 +202,11 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", 
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['column']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", 
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['column']), ": {$lang['strdrop']}</h2>\n";
 
-                        echo "<p>", sprintf($lang['strconfdropcolumn'], htmlspecialchars($_REQUEST['column']),
-                                htmlspecialchars($_REQUEST['table'])), "</p>\n";
+                        echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
+                                $misc->printVal($_REQUEST['table'])), "</p>\n";
 								
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -239,7 +239,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), "</h2>\n";
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 		$misc->printMsg($msg);
@@ -256,10 +256,10 @@
 			while (!$attrs->EOF) {
 				$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($attrs->f['attname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($attrs->f['type']), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
 				echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
 				if ($data->hasDropColumn()) {
