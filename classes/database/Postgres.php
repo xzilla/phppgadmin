@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.14 2002/09/27 04:02:54 xzilla Exp $
+ * $Id: Postgres.php,v 1.15 2002/09/27 14:15:47 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -335,7 +335,7 @@ class Postgres extends BaseDB {
 	 * Drops a given sequence
 	 * @return 0 success
 	 */
-	function &dropSeqeuce($sequence) {
+	function &dropSequence($sequence) {
 		$this->clean($sequence);
 		$sql = "DROP SEQUENCE {$sequence} ";
 		return $this->execute($sql);

@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.5 2002/09/27 04:02:55 xzilla Exp $
+ *  $Id: sequences.php,v 1.6 2002/09/27 14:15:49 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -42,7 +42,7 @@ function doDefault()
 			echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Properties</a></td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Privileges</td></tr>\n"; 
 
@@ -102,10 +102,10 @@ function doDefault()
 
 	}
 
-	function doDrop($strfirm)
+	function doDrop($confirm)
 	{
 		global $localData, $database;
-		global $PHP_SELF;
+		global $PHP_SELF, $strSequences, $strDropped, $strDrop, $strFailed;
 	
 		if ($confirm) { 
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Drop</h2>\n";
@@ -141,8 +141,12 @@ switch( $action )
 		doProperties();	
 		break;
 	case 'drop':
-		doDrop();
-		break;
+			if ($_POST['choice'] == 'Yes') doDrop(false);
+			else doDefault();
+			break;
+	case 'confirm_drop':
+		doDrop(true);
+		break;			
 	case 'privileges':
 		doPrivileges();
 		break;
