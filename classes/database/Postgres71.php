@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.43 2003/10/13 08:50:04 chriskl Exp $
+ * $Id: Postgres71.php,v 1.44 2003/10/22 07:22:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -182,6 +182,23 @@ class Postgres71 extends Postgres {
 		
 		$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
 
+		return $this->execute($sql);
+	}
+
+	// Sequence functions
+	
+	/** 
+	 * Resets a given sequence to 1
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 */
+	function &resetSequence($sequence) {
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+		
+		$sql = "SELECT SETVAL('\"{$sequence}\"', 1, FALSE)";
+		
 		return $this->execute($sql);
 	}
 
