@@ -8,6 +8,7 @@ Version 3.0.0-dev-4
 * Slovak translation
 * Reload browser after create/drop of database, schemas and tables
 * Select on views
+* Add foreign key constraint, with actions
 
 Version 3.0.0-dev-3
 -------------------

@@ -48,8 +48,8 @@ Databases
 * Add alter database for 7.3+
 * -Execute arbitrary SQL (chriskl)
 * Dump database
-* Creating new database should refresh left pane? What about creating schemas
-  and tables - they're in the left pane too?
+* -Creating new database should refresh left pane? What about creating schemas
+  and tables - they're in the left pane too? (chriskl)
 * -Show encoding of databases (chriskl)
 
 Tables

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.13 2003/04/23 06:27:14 chriskl Exp $
+	 * $Id: constraints.php,v 1.14 2003/04/23 08:56:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -30,7 +30,11 @@
 				// Copy the IndexColumnList variable from stage 2
 				if (isset($_REQUEST['IndexColumnList']) && !isset($_REQUEST['SourceColumnList']))
 					$_REQUEST['SourceColumnList'] = serialize($_REQUEST['IndexColumnList']);
-					
+				
+				// Initialise variables
+				if (!isset($_POST['upd_action'])) $_POST['upd_action'] = null;
+				if (!isset($_POST['del_action'])) $_POST['del_action'] = null;
+				
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
 					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
@@ -64,7 +68,23 @@
 				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strfkcolumnlist']}</th></tr>\n";
 				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
-				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+				echo "<td class=\"data1\">" . $selIndex->fetch() . "</td></tr>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['stractions']}</th></tr>";
+				echo "<tr>";
+				echo "<td class=\"data1\" colspan=\"3\">\n";				
+				// ON SELECT actions
+				echo "{$lang['stronupdate']} <select name=\"upd_action\">";
+				foreach ($data->fkactions as $v) {
+					echo "<option value=\"{$v}\"", ($_POST['upd_action'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
+				}
+				echo "</select><br />\n";
+				// ON DELETE actions
+				echo "{$lang['strondelete']} <select name=\"del_action\">";
+				foreach ($data->fkactions as $v) {
+					echo "<option value=\"{$v}\"", ($_POST['del_action'] == $v) ? ' selected="selected"' : '', ">{$v}</option>\n";
+				}
+				echo "</select>\n";				
+				echo "</td></tr>";
 				echo "</table>\n";
 
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
@@ -88,7 +108,7 @@
 						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
 				else {
 					$status = $localData->addForeignKey($_POST['table'], $_POST['target'], unserialize($_POST['SourceColumnList']), 
-						$_POST['IndexColumnList'], $_POST['name']);
+						$_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strfkadded']);
 					else
@@ -101,6 +121,7 @@
 				$misc->printMsg($msg);
 
 				$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+				$tables = &$localData->getTables(true);
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
 				$selColumns->set_style('width: 10em;');
@@ -135,7 +156,14 @@
 				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
 				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
 				echo "<tr>";
-				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"target\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
+				while (!$tables->EOF) {
+					echo "<option value=\"", htmlspecialchars($tables->f['tablename']), "\">",
+						htmlspecialchars($tables->f['tablename']), "</option>\n";
+					$tables->moveNext();	
+				}
+				echo "</select>\n";
+				echo "</td></tr>";
 				echo "</table>\n";
 
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.78 2003/04/23 06:27:13 chriskl Exp $
+ * $Id: Postgres.php,v 1.79 2003/04/23 08:56:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -47,7 +47,9 @@ class Postgres extends BaseDB {
 		'UPDATE OR DELETE', 'INSERT OR UPDATE OR DELETE');
 	// When to execute the trigger	
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
-
+	// Foreign key actions
+	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
+	
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
@@ -974,11 +976,13 @@ class Postgres extends BaseDB {
 	 * @param $target The table that contains the target columns
 	 * @param $sfields (array) An array of source fields over which to add the foreign key
 	 * @param $tfields (array) An array of target fields over which to add the foreign key
+	 * @param $upd_action The action for updates (eg. RESTRICT)
+	 * @param $del_action The action for deletes (eg. RESTRICT)
 	 * @param $name (optional) The name to give the key, otherwise default name is assigned
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addForeignKey($table, $target, $sfields, $tfields, $name = '') {
+	function addForeignKey($table, $target, $sfields, $tfields, $upd_action, $del_action, $name = '') {
 		if (!is_array($sfields) || sizeof($sfields) == 0 ||
 			!is_array($tfields) || sizeof($tfields) == 0) return -1;
 		$this->fieldClean($table);
@@ -991,6 +995,8 @@ class Postgres extends BaseDB {
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "FOREIGN KEY (\"" . join('","', $sfields) . "\") ";
 		$sql .= "REFERENCES \"{$target}\"(\"" . join('","', $tfields) . "\") ";
+		if ($upd_action != 'NO ACTION') $sql .= " ON UPDATE {$upd_action}";
+		if ($del_action != 'NO ACTION') $sql .= " ON DELETE {$del_action}";
 
 		return $this->execute($sql);
 	}
