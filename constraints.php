@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.6 2003/03/17 05:20:29 chriskl Exp $
+	 * $Id: constraints.php,v 1.7 2003/03/18 09:15:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,22 +17,20 @@
 	 */
 	function addCheck($confirm, $msg = '') {
 		global $PHP_SELF, $data, $localData, $misc;
-		global $strAddCheck, $strTables, $strOK, $strCancel;
-		global $strName, $strDefinition, $strCheckNeedsDefinition;
-		global $strCheckAdded, $strCheckAddedBad;
+		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
 		if (!isset($_POST['definition'])) $_POST['definition'] = '';
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$strAddCheck}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+				htmlspecialchars($_REQUEST['table']), ": {$lang['straddcheck']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th>\n";
-			echo "<th class=\"data\">{$strDefinition}</th></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+			echo "<th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 
 			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\"></td>\n";
@@ -44,20 +42,20 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\">\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$strOK}\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 
 		}
 		else {
 			if (trim($_POST['definition']) == '')
-				addCheck(true, $strCheckNeedsDefinition);
+				addCheck(true, $lang['strcheckneedsdefinition']);
 			else {
 				$status = $localData->addCheckConstraint($_POST['table'],
 					$_POST['definition'], $_POST['name']);
 				if ($status == 0)
-					doDefault($strCheckAdded);
+					doDefault($lang['strcheckadded']);
 				else
-					addCheck(true, $strCheckAddedBad);
+					addCheck(true, $lang['strcheckaddedbad']);
 			}
 		}
 	}
@@ -68,10 +66,9 @@
 	function doDrop($confirm) {
 		global $localData, $misc;
 		global $PHP_SELF, $lang;
-		global $strTables;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
 
 			echo "<p>", sprintf($lang['strconfdropconstraint'], htmlspecialchars($_REQUEST['constraint']),

@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.16 2003/03/18 08:11:27 chriskl Exp $
+	 * $Id: english.php,v 1.17 2003/03/18 09:15:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -285,9 +285,9 @@
 	$lang['strconstraintdropped'] = 'Constraint dropped.';
 	$lang['strconstraintdroppedbad'] = 'Constraint drop failed.';
 	$lang['straddcheck'] = 'Add Check';
-	$strCheckNeedsDefinition = 'Check constraint needs a definition.';
-	$strCheckAdded = 'Check constraint added.';
-	$strCheckAddedBad = 'Failed to add check constraint.';
+	$lang['strcheckneedsdefinition'] = 'Check constraint needs a definition.';
+	$lang['strcheckadded'] = 'Check constraint added.';
+	$lang['strcheckaddedbad'] = 'Failed to add check constraint.';
 
 	// Functions
 	$lang['strfunction'] = 'Function';

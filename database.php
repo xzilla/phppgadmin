@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.8 2003/03/17 05:20:29 chriskl Exp $
+	 * $Id: database.php,v 1.9 2003/03/18 09:14:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,27 +18,26 @@
 	 */
 	function doAdmin($action = '', $msg = '') {
 		global $PHP_SELF, $localData, $misc;
-		global $strAdmin, $strVacuum, $strAnalyze, $strCluster, $strReindex;
-		global $strVacuumGood, $strVacuumBad, $strAnalyzeGood, $strAnalyzeBad;
+		global $lang;
 
 		switch ($action) {
 			case 'vacuum':
 				$status = $localData->vacuumDB($_REQUEST['database']);
-				if ($status == 0) doAdmin('', $strVacuumGood);
-				else doAdmin('', $strVacuumBad);
+				if ($status == 0) doAdmin('', $lang['strvacuumgood']);
+				else doAdmin('', $lang['strvacuumbad']);
 				break;
 			case 'analyze':
 				$status = $localData->analyzeDB($_REQUEST['database']);
-				if ($status == 0) doAdmin('', $strAnalyzeGood);
-				else doAdmin('', $strAnalyzeBad);
+				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
+				else doAdmin('', $lang['stranalyzebad']);
 				break;
 			default:
 				$misc->printDatabaseNav();
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strAdmin}</h2>\n";
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
 				$misc->printMsg($msg);
 				echo "<ul>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=vacuum\">{$strVacuum}</a></li>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=analyze\">{$strAnalyze}</a></li>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=vacuum\">{$lang['strvacuum']}</a></li>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=analyze\">{$lang['stranalyze']}</a></li>\n";
 				echo "</ul>\n";
 
 				break;
