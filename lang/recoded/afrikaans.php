@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.2 2003/11/20 09:23:15 chriskl Exp $
+	 * $Id: afrikaans.php,v 1.3 2004/02/17 01:48:17 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -30,8 +30,8 @@
 	$lang['strserver'] =  'Bediener';
 	$lang['strlogout'] =  'Teken af';
 	$lang['strowner'] =  'Eienaar';
-	$lang['straction'] =  'Aksie';	
-	$lang['stractions'] =  'Aksies';	
+	$lang['straction'] =  'Aksie';
+	$lang['stractions'] =  'Aksies';
 	$lang['strname'] =  'Naam';
 	$lang['strdefinition'] =  'Definisie';
 	$lang['straggregates'] =  'Opsommers';
@@ -43,9 +43,9 @@
 	$lang['strnotnull'] =  'Nie Null';
 	$lang['strprev'] =  'Vorige';
 	$lang['strnext'] =  'Volgende';
-	$lang['strfirst'] =  '<< Eerste';
-	$lang['strlast'] =  'Laaste >>';
-	$lang['strfailed'] =  'misluk';
+	$lang['strfirst'] =  '&lt;&lt; Eerste';
+	$lang['strlast'] =  'Laaste &gt;&gt;';
+	$lang['strfailed'] =  'Het misluk';
 	$lang['strcreate'] =  'Skep';
 	$lang['strcreated'] =  'Geskep';
 	$lang['strcomment'] =  'Kommentaar';
@@ -55,7 +55,7 @@
 	$lang['strok'] =  'OK';
 	$lang['strcancel'] =  'Kanselleer';
 	$lang['strsave'] =  'Bewaar';
-	$lang['strreset'] = 	'Herstel';
+	$lang['strreset'] = 'Herstel';
 	$lang['strinsert'] =  'Voeg in';
 	$lang['strselect'] =  'Selekteer';
 	$lang['strdelete'] =  'Verwyder';
@@ -66,7 +66,7 @@
 	$lang['strtrue'] =  'Waar';
 	$lang['strfalse'] =  'Vals';
 	$lang['stredit'] =  'Redigeer';
-	$lang['strcolumns'] =  'kolomme';
+	$lang['strcolumns'] =  'Kolomme';
 	$lang['strrows'] =  'ry(e)';
 	$lang['strrowsaff'] =  'ry(e) verander.';
 	$lang['strobjects'] = 'objek(te)';
@@ -75,43 +75,53 @@
 	$lang['strqueryresults'] =  'Navraagresultate';
 	$lang['strshow'] =  'Wys';
 	$lang['strempty'] =  'Leeg';
-	$lang['strlanguage'] =  'taal';
+	$lang['strlanguage'] =  'Taal';
 	$lang['strencoding'] =  'Enkodering';
-	$lang['strvalue'] =  'waarde';
-	$lang['strunique'] =  'uniek';
+	$lang['strvalue'] =  'Waarde';
+	$lang['strunique'] =  'Uniek';
 	$lang['strprimary'] =  'Prim&ecirc;r';
-	$lang['strexport'] =  'eksporteer';
+	$lang['strexport'] =  'Eksporteer';
 	$lang['strimport'] =  'Importeer';
 	$lang['strsql'] =  'SQL';
 	$lang['strgo'] =  'Gaan';
 	$lang['stradmin'] =  'Admin';
 	$lang['strvacuum'] =  'Vacuum';
 	$lang['stranalyze'] =  'Analiseer';
-	$lang['strcluster'] =  'Cluster';
-	$lang['strclustered'] = 'Clustered?';
-	$lang['strreindex'] =  'Reindex';
-	$lang['strrun'] =  'Run';
+	$lang['strcluster'] =  'Kluster';
+	$lang['strclustered'] = 'In klusters?';
+	$lang['strreindex'] =  'Herindekseer';
+	$lang['strrun'] =  'Loop';
 	$lang['stradd'] =  'Voeg by';
-	$lang['strevent'] =  'Event';
-	$lang['strwhere'] =  'Where';
-	$lang['strinstead'] =  'Do Instead';
-	$lang['strwhen'] =  'sodra';
-	$lang['strformat'] =  'Format';
+	$lang['strevent'] =  'Gebeurtenis';
+	$lang['strwhere'] =  'Waar';
+	$lang['strinstead'] =  'Doen eerder';
+	$lang['strwhen'] =  'Wanneer';
+	$lang['strformat'] =  'Formaat';
 	$lang['strdata'] =  'Data';
 	$lang['strconfirm'] =  'Bevestig';
 	$lang['strexpression'] =  'Uitdrukking';
 	$lang['strellipsis'] =  '...';
 	$lang['strexpand'] =  'Vou oop';
 	$lang['strcollapse'] =  'Vou toe';
-	$lang['strexplain'] =  'Verklaring';
+	$lang['strexplain'] =  'Verduidelik';
+	$lang['strexplainanalyze'] = 'Verduidelik Analise';
 	$lang['strfind'] =  'Soek';
 	$lang['stroptions'] =  'Opsies';
 	$lang['strrefresh'] =  'Verfris';
 	$lang['strdownload'] =  'Laai af';
+	$lang['strdownloadgzipped'] = 'Laai af ... saamgepers met gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Gevorderd';
-	
+	$lang['strvariables'] = 'Veranderlikes';
+	$lang['strprocess'] = 'Proses';
+	$lang['strprocesses'] = 'Prosesse';
+	$lang['strsetting'] = 'Instelling';
+	$lang['strparameters'] = 'Parameters';
+	$lang['streditsql'] = 'Redigeer SQL';
+	$lang['strpaginate'] = 'Resultate per bladsy';
+	$lang['strstarttime'] = 'Begintyd';
+
 	// Error handling
 	$lang['strnoframes'] =  'Hierdie toepassing maak gebruik van HTML-rame. U het \'n blaaier nodig wat rame ondersteun om hierdie toepassing te kan gebruik. ';
 	$lang['strbadconfig'] =  'Die l&ecirc;er config.inc.php is verouderd. Jy kan  verbeterde weergawe aflei van die l&ecirc;er config.inc.php-dist.';
@@ -119,11 +129,12 @@
 	$lang['strbadschema'] =  'Ongeldige skema gespesifiseer.';
 	$lang['strbadencoding'] =  'Die kli&euml;ntenkodering kon nie in die databasis geplaas word nie.';
 	$lang['strsqlerror'] =  'SQL fout:';
-	$lang['strinstatement'] =  'In statement:';
+	$lang['strinstatement'] =  'In stelling:';
 	$lang['strinvalidparam'] =  'Ongeldige parameters.';
 	$lang['strnodata'] =  'Geen rye gevind.';
 	$lang['strnoobjects'] = 'Geen objekte gevind.';
 	$lang['strrownotunique'] =  'Geen unieke identifiseerder vir hierdie ry.';
+	$lang['strnoreportsdb'] = 'Jy het nie die verslae-databasis geskep nie. Lees asb. die INSTALL-l&ecirc;er vir instruksies.';
 
 	// Tables
 	$lang['strtable'] =  'Tabel';
@@ -155,9 +166,9 @@
 	$lang['strrowdeleted'] =  'Ry is verwyder.';
 	$lang['strrowdeletedbad'] =  'Die ry kon nie verwyder word nie.';
 	$lang['strsaveandrepeat'] =  'Stoor &amp; Herhaal';
-	$lang['strfield'] =  'veld';
-	$lang['strfields'] =  'velde';
-	$lang['strnumfields'] =  'aantal velde';
+	$lang['strfield'] =  'Veld';
+	$lang['strfields'] =  'Velde';
+	$lang['strnumfields'] =  'Aantal velde';
 	$lang['strfieldneedsname'] =  'Jy moet die veld \'n naam gee';
 	$lang['strselectallfields'] =  'Selekteer alle velde';
 	$lang['strselectneedscol'] =  'Jy moet ten minste &eacute;&eacute;n kolom as uitvoer h&ecirc;';
@@ -171,7 +182,7 @@
 	$lang['straddcolumn'] =  'Voeg kolom by';
 	$lang['strcolumnadded'] =  'Kolom is bygevoeg.';
 	$lang['strcolumnaddedbad'] =  'Die kolom kon nie bygevoeg word nie.';
-	$lang['strdataonly'] =  'Data alleen';
+	$lang['strdataonly'] =  'Slegs Data';
 	$lang['strcascade'] =  'CASCADE';
 	$lang['strtablealtered'] =  'Tabel is gewysig.';
 	$lang['strtablealteredbad'] =  'Tabelwysinging het misluk.';
@@ -186,16 +197,17 @@
 	$lang['strpassword'] =  'Wagwoord';
 	$lang['strsuper'] =  'Supergebruiker?';
 	$lang['strcreatedb'] =  'Skep DB?';
-	$lang['strexpires'] =  'Verval';	
+	$lang['strexpires'] =  'Verval';
+	$lang['strsessiondefaults'] = 'Verstekwaardes van sessie';
 	$lang['strnousers'] =  'Geen gebruikers gevind.';
-	$lang['struserupdated'] =  'gebruiker is opgedateer.';
+	$lang['struserupdated'] =  'Gebruiker is opgedateer.';
 	$lang['struserupdatedbad'] =  'Gebruiker kon nie opgedateer word nie.';
 	$lang['strshowallusers'] =  'Wys alle gebruikers';
 	$lang['strcreateuser'] =  'Skep gebruiker';
 	$lang['struserneedsname'] = 'Jy moet \'n naam gee vir die gebruiker.';
 	$lang['strusercreated'] =  'Gebruiker geskep.';
 	$lang['strusercreatedbad'] =  'Die gebruiker kon nie geskep word nie.';
-	$lang['strconfdropuser'] =  'Is u seker dat jy die gebruiker &quot;%s&quot; wil verwyder?';
+	$lang['strconfdropuser'] =  'Is jy seker dat jy die gebruiker &quot;%s&quot; wil verwyder?';
 	$lang['struserdropped'] =  'Gebruiker is verwyder.';
 	$lang['struserdroppedbad'] =  'Verwydering van die gebruiker het misluk.';
 	$lang['straccount'] =  'Gebruiker';
@@ -258,8 +270,8 @@
 	$lang['strsqlexecuted'] =  'SQL uitgevoer.';
 	$lang['strvacuumgood'] =  'Vacuum-bewerking is klaar.';
 	$lang['strvacuumbad'] =  'Vacuum-bewerking het misluk.';
-	$lang['stranalyzegood'] =  'Analyze-bewerking is klaar.';
-	$lang['stranalyzebad'] =  'Analyze-bewerking het misluk.';
+	$lang['stranalyzegood'] =  'Analise is voltooi.';
+	$lang['stranalyzebad'] =  'Analise het misluk.';
 
 	// Views
 	$lang['strview'] =  'Aansig';
@@ -278,6 +290,8 @@
 	$lang['strviewdroppedbad'] =  'Die aansig kon nie verwyder word nie.';
 	$lang['strviewupdated'] =  'Aansig is opgedateer.';
 	$lang['strviewupdatedbad'] =  'Opdatering van aansig het misluk.';
+	$lang['strviewlink'] = 'Sleutels word verbind';
+	$lang['strviewconditions'] = 'Addisionele voorwaardes';
 
 	// Sequences
 	$lang['strsequence'] =  'Reeks';
@@ -286,15 +300,15 @@
 	$lang['strnosequence'] =  'Geen reeks gevind.';
 	$lang['strnosequences'] =  'Geen reekse gevind.';
 	$lang['strcreatesequence'] =  'Skep  reeks';
-	$lang['strlastvalue'] =  'laaste_waarde';
-	$lang['strincrementby'] =  'verhoog_met';	
+	$lang['strlastvalue'] =  'Laaste waarde';
+	$lang['strincrementby'] =  'Verhoog met';	
 	$lang['strstartvalue'] =  'Aanvangswaarde';
 	$lang['strmaxvalue'] =  'maks_waarde';
 	$lang['strminvalue'] =  'min_waarde';
-	$lang['strcachevalue'] =  'cache_waarde';
-	$lang['strlogcount'] =  'log_cnt';
-	$lang['striscycled'] =  'is_siklies';
-	$lang['striscalled'] =  'is_geroep';
+	$lang['strcachevalue'] =  'Kasgeheue-waarde';
+	$lang['strlogcount'] =  'Boekstaaftelling';
+	$lang['striscycled'] =  'is_siklies ?';
+	$lang['striscalled'] =  'is_geroep ?';
 	$lang['strsequenceneedsname'] =  'Jy moet \'n naam gee vir die reeks.';
 	$lang['strsequencecreated'] =  'Reeks is geskep.';
 	$lang['strsequencecreatedbad'] =  'Die reeks kon nie geskep word nie.';
@@ -305,13 +319,14 @@
 	$lang['strsequenceresetbad'] =  'Herstel van reeks het misluk.';
 
 	// Indexes
+	$lang['strindex'] = 'Indeks';
 	$lang['strindexes'] =  'Indekse';
 	$lang['strindexname'] =  'Indeksnaam';
 	$lang['strshowallindexes'] =  'Wys alle indekse';
 	$lang['strnoindex'] =  'Geen indeks gevind.';
 	$lang['strnoindexes'] =  'Geen indekse gevind.';
 	$lang['strcreateindex'] =  'Skep \'n indeks';
-	$lang['strtabname'] =  'Tab Naam';
+	$lang['strtabname'] =  'Tab-naam';
 	$lang['strcolumnname'] =  'Kolomnaam';
 	$lang['strindexneedsname'] =  'Jy moet \'n naam gee vir die index.';
 	$lang['strindexneedscols'] =  'Indekse moet ten minste uit &eacute;&eacute;n kolom bestaan.';
@@ -333,7 +348,7 @@
 	// Rules
 	$lang['strrules'] =  'Re&euml;ls';
 	$lang['strrule'] =  'Re&euml;l';
-	$lang['strshowallrules'] =  'Wys alle Re&euml;ls';
+	$lang['strshowallrules'] =  'Wys alle re&euml;ls';
 	$lang['strnorule'] =  'Geen re&euml;l gevind.';
 	$lang['strnorules'] =  'Geen re&euml;ls gevind.';
 	$lang['strcreaterule'] =  'Skep \'n re&euml;l';
@@ -346,7 +361,7 @@
 	$lang['strruledroppedbad'] =  'Verwydering van die re&euml;l het misluk.';
 
 	// Constraints
-	$lang['strconstraints'] =  'beperkings';
+	$lang['strconstraints'] =  'Beperkings';
 	$lang['strshowallconstraints'] =  'Wys alle beperkings';
 	$lang['strnoconstraints'] =  'Geen beperkings gevind.';
 	$lang['strcreateconstraint'] =  'Skep beperking';
@@ -454,18 +469,18 @@
 	$lang['strschemadroppedbad'] =  'Verwydering van die skema het misluk.';
 
 	// Reports
-	$lang['strreport'] =  'Rapport';
-	$lang['strreports'] =  'Rapporte';
-	$lang['strshowallreports'] =  'Wys alle rapporte';
-	$lang['strnoreports'] =  'Geen rapporte gevind.';
-	$lang['strcreatereport'] =  'Skep rapport';
-	$lang['strreportdropped'] =  'Rapport is verwyder.';
-	$lang['strreportdroppedbad'] =  'Verwydering van rapport het misluk.';
-	$lang['strconfdropreport'] =  'Is jy seker dat jy die rapport &quot;%s&quot; wil verwyder?';
-	$lang['strreportneedsname'] =  'Jy moet \'n naam gee vir die rapport.';
-	$lang['strreportneedsdef'] =  'Jy moet SQL-kode skryf vir die rapport.';
-	$lang['strreportcreated'] =  'Rapport is geskep.';
-	$lang['strreportcreatedbad'] =  'Die rapport kon nie geskep word nie.';
+	$lang['strreport'] =  'Verslag';
+	$lang['strreports'] =  'Verslae';
+	$lang['strshowallreports'] =  'Wys alle verslae';
+	$lang['strnoreports'] =  'Geen verslae gevind.';
+	$lang['strcreatereport'] =  'Skep verslag';
+	$lang['strreportdropped'] =  'Verslag is verwyder.';
+	$lang['strreportdroppedbad'] =  'Verwydering van verslag het misluk.';
+	$lang['strconfdropreport'] =  'Is jy seker dat jy die verslag &quot;%s&quot; wil verwyder?';
+	$lang['strreportneedsname'] =  'Jy moet \'n naam gee vir die verslag.';
+	$lang['strreportneedsdef'] =  'Jy moet SQL-kode skryf vir die verslag.';
+	$lang['strreportcreated'] =  'Verslag is geskep.';
+	$lang['strreportcreatedbad'] =  'Die verslag kon nie geskep word nie.';
 
 	// Domains
 	$lang['strdomain'] =  'Domein';
@@ -474,7 +489,7 @@
 	$lang['strnodomains'] =  'Geen domeine is gevind nie.';
 	$lang['strcreatedomain'] =  'Skep domein';
 	$lang['strdomaindropped'] =  'Domein is verwyder.';
-	$lang['strdomaindroppedbad'] =  'Verwydering van domein het mislukt.';
+	$lang['strdomaindroppedbad'] =  'Verwydering van domein het misluk.';
 	$lang['strconfdropdomain'] =  'Is jy seker dat jy die domein &quot;%s&quot; wil verwyder?';
 	$lang['strdomainneedsname'] =  'Jy moet \'n naam gee vir die domein.';
 	$lang['strdomaincreated'] =  'Domein is geskep.';
@@ -509,8 +524,8 @@
 	$lang['stroperatordroppedbad'] =  'Verwydering van die operator het misluk.';
 
 	// Casts
-	$lang['strcasts'] = 'Casts';
-	$lang['strnocasts'] = 'Geen Casts gevind.';
+	$lang['strcasts'] = 'Ekwivalente';
+	$lang['strnocasts'] = 'Geen ekwivalente gevind.';
 	$lang['strsourcetype'] = 'Brontipe';
 	$lang['strtargettype'] = 'Doeltipe';
 	$lang['strimplicit'] = 'Implisiet';
@@ -533,11 +548,37 @@
 	$lang['strreferringtables'] = 'Verwysende tabelle';
 	$lang['strparenttables'] = 'Parent-tabelle';
 	$lang['strchildtables'] = 'Child-tabelle';
+	
+	// Aggregates
+	$lang['straggregates'] = 'Opsommers';
+	$lang['strnoaggregates'] = 'Geen opsommers gevind.';
+	$lang['stralltypes'] = '(Alle tipes)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Operatorklasse';
+	$lang['strnoopclasses'] = 'Geen operatorklasse gevind.';
+	$lang['straccessmethod'] = 'Toegangmetode';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Ry werkverrigting';
+	$lang['strioperf'] = 'T/A werkverrigting';
+	$lang['stridxrowperf'] = 'Indekseer-ry werkverrigting';
+	$lang['stridxioperf'] = 'Indeks T/A werkverrigting';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sekwensieel';
+	$lang['strscan'] = 'Deursoek';
+	$lang['strread'] = 'Lees';
+	$lang['strfetch'] = 'Gaan haal';
+	$lang['strheap'] = 'Hoop';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST-indeks';
+	$lang['strcache'] = 'Kasgeheue';
+	$lang['strdisk'] = 'Skyf';
+	$lang['strrows2'] = 'Rye';
 
 	// Miscellaneous
 	$lang['strtopbar'] =  '%s loop op %s:%s -- Jy is aangeteken as gebruiker &quot;%s&quot;, %s';
 	$lang['strtimefmt'] =  'jS M, Y g:iA';
-	$lang['strhelp'] =  'Hulp';	
+	$lang['strhelp'] =  'Hulp';
 
 ?>
-
