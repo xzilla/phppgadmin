@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.21 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: database.php,v 1.22 2003/10/01 15:50:30 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -241,17 +241,18 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formName']), "\" /></td>\n";
-		echo "<td class=\"data1\"><select name=\"formAuth\">";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strowner']}</th>\n";
+		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
 			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
-			echo "<option value=\"{$uname}\"",
+			echo "\t\t\t\t<option value=\"{$uname}\"",
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
-		echo "</select></td></tr>\n";
+		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
