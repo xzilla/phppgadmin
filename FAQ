@@ -74,16 +74,23 @@ A: Choosing 'Expression' means that you can use functions, operators, other
 
 Q: When browsing a table, the 'edit' and 'delete' links do not appear.
 
-A: In order to be able to edit or delete a row, you must have a UNIQUE or
-   PRIMARY KEY constraint on your table.  Furthermore, if you have a UNIQUE
-   index, then the value in the index field cannot be NULL.
+A: In order, phpPgAdmin will prefer the following as unique row identifiers:
+
+	1. Primary keys
+	2. Unique keys (cannot be parital or expressional indexes)
+	3. OID column (will be slow to update, unless you index the OID column)
+
+   Furthermore, any NULL values in the unique index will mean that that row
+   will be uneditable.  Also, since OIDs can become duplicated in a table,
+   phpPgAdmin will alter the row, and then check to ensure that exactly one
+   row has been modified - otherwise rollback will occur.
 
 Q: What happened to the database dump feature?
 
 A: It is very difficult keeping up with all the changes to PostgreSQL's pg_dump
    utility.  As a result, phpPgAdmin's database dumps were often incorrect and
    failed to restore properly, if at all.  Hence, we have removed this feature
-   in phpPgAdmin 3.0.  We STRONGLY recommend using PostgreSQL's pg_dump utility
+   in phpPgAdmin 3.x.  We STRONGLY recommend using PostgreSQL's pg_dump utility
    to dump your data.
 
 Q: I would like to help out with the development of phpPgAdmin. How should I
