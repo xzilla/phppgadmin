@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.4 2003/02/20 23:17:05 slubek Exp $
+	 * $Id: functions.php,v 1.5 2003/02/23 11:34:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -91,7 +91,7 @@
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
-		global $strFunctions, $strProperties, $strNoData, $ShowAllFunctions, $strEdit;
+		global $strFunctions, $strProperties, $strNoData, $strShowAllFunctions, $strEdit;
 	
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strProperties}</h2>\n";
 		$misc->printMsg($msg);
