@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.51 2003/12/13 09:28:46 chriskl Exp $
+	 * $Id: Misc.php,v 1.52 2003/12/13 11:04:04 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -264,24 +264,30 @@
 		 * Display the navigation header for tables
 		 */
 		function printDatabaseNav() {
-			global $lang, $data;
+			global $lang, $conf, $data;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
 			// Only show schemas if available
 			if ($data->hasSchemas()) {
-				echo "<td width=\"14%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
+				echo "<td width=\"12%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
 			}
 			// Only show database privs if available
 			if (isset($data->privlist['database'])) {
-				echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+				echo "<td width=\"13%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			}
-			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
+			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
+			// Check that database dumps are enabled.  The is_executable function
+			// check is required as it only appeared in Win32 PHP in version 5.0.0
+			if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != ''
+					&& function_exists('is_executable') && is_executable($conf['pg_dump_path'])) {			
+				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
+			}
 			echo "</tr></table>\n";
 		}
 

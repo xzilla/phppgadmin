@@ -5,6 +5,7 @@ Version 3.3-dev
 ---------------
 
 Features
+* Database dump feature, which uses pg_dump
 * Large speed improvements by reducing number of database
   connections and using external style sheet.
 

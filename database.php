@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.27 2003/12/13 09:28:46 chriskl Exp $
+	 * $Id: database.php,v 1.28 2003/12/13 11:04:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -180,6 +180,56 @@
 			}
 			else echo "<p>{$lang['strnoobjects']}</p>\n";
 		}		
+	}
+
+	/**
+	 * Displays options for database download
+	 */
+	function doExport($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		$misc->printDatabaseNav();
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strexport']}</h2>\n";
+		$misc->printMsg($msg);
+
+		echo "<form action=\"dbexport.php\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
+		// Data only
+		echo "<tr><th class=\"data left\" rowspan=\"2\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"d_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
+		// Structure only
+		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
+		// Structure and data
+		echo "<tr><th class=\"data left\" rowspan=\"3\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"sd_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
+		echo "</table>\n";
+		
+		echo "<h3>{$lang['stroptions']}</h3>\n";
+		echo "<table>\n";		
+		echo "<tr>\n<th class=\"data left\">{$lang['strdownload']}</th>\n";
+		echo "<td><input type=\"checkbox\" name=\"download\" /></td>\n</tr>\n";
+		echo "</table>\n";
+
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
+		echo $misc->form;
+		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
+		echo "</form>\n";
 	}
 	
 	/**
@@ -490,6 +540,9 @@
 			break;
 		case 'processes':
 			doProcesses();
+			break;
+		case 'export':
+			doExport();
 			break;
 		default:
 			doDefault();

@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.29 2003/11/14 09:22:10 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.30 2003/12/13 11:04:04 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -55,6 +55,13 @@
 	// means.
 	$conf['owned_reports_only'] = false;
 
+	// Allow database and cluster dumps?
+	// Note: Set this to the fully qualified path name for your pg_dump and
+	// pg_dumpall utilities.  If you set them to '' or null, then the feature
+	// will be disabled.  Read the INSTALL file for more information.
+	$conf['pg_dump_path'] = '/usr/local/bin/pg_dump';
+	$conf['pg_dumpall_path'] = '/usr/local/bin/pg_dumpall';
+	
 	// Minimum length users can set their password to.
 	$conf['min_password_length'] = 1;
 
@@ -80,6 +87,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 11;
+	$conf['version'] = 12;
 
 ?>

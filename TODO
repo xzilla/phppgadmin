@@ -32,17 +32,17 @@ Databases
 
 * -Fix failure to drop database even tho seemingly no-one is connected to it (chriskl, bryan)
 * Add alter database for 7.3+
-* Dump database using pg_dump streaming
+* -Dump database using pg_dump streaming (chriskl)
 
 Tables
 ------
 
-* Not using proper attFields array for attribute info (i was being lazy)
+* -Not using proper attFields array for attribute info (i was being lazy) (wontfix)
 * -Rename table
 * -Change table owner
 * -Cluster support
 * Vacuum & analyze (half done)
-* ORDER BY in Select function
+* -ORDER BY in Select function (can do so after the fact now - chriskl)
 * -Unify Select and Browse functions (chriskl)
 
 Views
@@ -135,7 +135,6 @@ Miscellaneous
 * Allow setting/dropping comments for all objects
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
-* pg_dump integration
 * -Config option to disallow pgsql and postgres logins
 * Do David Smith's redireect idea to prevent refresh login resending password
 * Translated FAQ
@@ -168,7 +167,6 @@ Principles
 * Put functions in the highest class possible.  For instance, simple selects 
   should be in BaseDB, whereas something that works for 7.1+ should be in the 
   7.1 class.  This will minimise bugs and duplicated code.
-* We primarily support Postgres, and only secondarily support MySQL, etc.
 * Adhere to current coding standards
 * Avoid using global variables if possible
 
