@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.20 2003/03/28 12:29:53 chriskl Exp $
+	 * $Id: Misc.php,v 1.21 2003/03/31 04:02:06 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -65,7 +65,10 @@
 		/**
 		 * Creates a database accessor
 		 */
-		function &getDatabaseAccessor($type, $host, $port, $database, $username, $password) {
+		function &getDatabaseAccessor($host, $port, $database, $username, $password) {
+			global $confServers;
+			$type = $this->getDriver($host, $port, $username, $password, 
+							 $confServers[$_SESSION['webdbServerID']]['type']);
 			include_once('classes/database/' . $type . '.php');
 			$localData = new $type(	$host,
 											$port,

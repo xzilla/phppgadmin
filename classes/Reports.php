@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.3 2003/03/10 02:15:14 chriskl Exp $
+	 * $Id: Reports.php,v 1.4 2003/03/31 04:02:07 chriskl Exp $
 	 */
 
 	class Reports {
@@ -20,7 +20,6 @@
 			// @@ IF THE phppgadmin DATABASE DOES NOT EXIST THEN
 			// @@ LOGIN FAILURE OCCURS
 			$this->driver = &$misc->getDatabaseAccessor(
-				$confServers[$_SESSION['webdbServerID']]['type'],
 				$confServers[$_SESSION['webdbServerID']]['host'],
 				$confServers[$_SESSION['webdbServerID']]['port'],
 				'phppgadmin',
