@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.101 2004/05/09 09:10:04 chriskl Exp $
+ * $Id: Postgres73.php,v 1.102 2004/05/12 22:40:49 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -76,7 +76,7 @@ class Postgres73 extends Postgres72 {
 	
 	/**
 	 * Sets the current schema search path
-	 * @param $path An array of schemas in required search order
+	 * @param $paths An array of schemas in required search order
 	 * @return 0 success
 	 * @return -1 Array not passed
 	 * @return -2 Array must contain at least one item
@@ -235,7 +235,7 @@ class Postgres73 extends Postgres72 {
 
 	/**
 	 * Given an array of attnums and a relation, returns an array mapping
-	 * atttribute number to attribute name.
+	 * attribute number to attribute name.
 	 * @param $table The table to get attributes for
 	 * @param $atts An array of attribute numbers
 	 * @return An array mapping attnum to attname
@@ -939,45 +939,6 @@ class Postgres73 extends Postgres72 {
 
 	// Constraint functions
 
-	/**
-	 * A function for getting all linking fields on the foreign keys based on the table names	 
-	 * @param $table array of table names	 	 
-	 * @return an array of linked tables and fields
-	 */
-	 function &getLinkingKeys($arrTables) {		
-		$this->arrayClean($arrTables);	
-		// Properly quote the tables	
-		$tables = "'" . implode("', '", $arrTables) . "'";
-		
-		$sql = "
-			SELECT										
-				pgc1.relname AS p_table, 	
-				pgc2.relname AS f_table,
-				pfield.attname AS p_field,
-				cfield.attname AS f_field	
-			FROM
-				pg_catalog.pg_constraint AS pc,
-				pg_catalog.pg_class AS pgc1,
-				pg_catalog.pg_class AS pgc2,
-				pg_catalog.pg_attribute AS pfield,
-				pg_catalog.pg_attribute AS cfield
-			WHERE
-				pc.contype = 'f'				
-				AND pc.conrelid = pgc1.relfilenode
-				AND pc.confrelid = pgc2.relfilenode
-				AND pfield.attrelid = pc.conrelid
-				AND cfield.attrelid = pc.confrelid
-				AND pfield.attnum = ANY(pc.conkey)
-				AND cfield.attnum = ANY(pc.confkey)				
-				AND pgc1.relname IN ($tables)	
-				AND pgc2.relname IN ($tables)
-				AND pgc1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}')
-		";
-		
-		return $this->selectSet($sql);			
-	 }
-	
 	/**
 	 * A helper function for getConstraints that translates
 	 * an array of attribute numbers to an array of field names.

@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.37 2004/05/09 06:56:48 chriskl Exp $
+	 * $Id: display.php,v 1.38 2004/05/12 22:40:49 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -37,7 +37,7 @@
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 			$rs = &$data->browseRow($_REQUEST['table'], $key);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"frmedit\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {

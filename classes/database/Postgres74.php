@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.28 2004/05/09 09:10:04 chriskl Exp $
+ * $Id: Postgres74.php,v 1.29 2004/05/12 22:40:49 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -140,7 +140,7 @@ class Postgres74 extends Postgres73 {
 
 		/* This select excludes any indexes that are just base indexes for constraints. */
 		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, i.indisclustered,
-			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) as pg_get_indexdef
+			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) AS pg_get_indexdef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
@@ -194,6 +194,49 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Constraint functions
+
+	/**
+	 * A function for getting all linking columns on the foreign keys based on the table names
+	 * @param $tables Array of table names
+	 * @return A recordset of (constrained table, referenced table, constrained column, referenced column)
+	 * @return -1 $tables isn't an array
+	 */
+	 function &getLinkingKeys($tables) {
+		if (!is_array($tables)) return -1;
+
+		$this->arrayClean($tables);
+		// Properly quote the tables list
+		$tables_list = "'" . implode("', '", $tables) . "'";
+
+		// ct = constrained table, rt = referenced table
+		// cc = constrained column, rc = referenced column
+		$sql = "SELECT
+				ct.relname AS p_table,
+				rt.relname AS f_table,
+				cc.attname AS p_field,
+				rc.attname AS f_field
+			FROM
+				pg_catalog.pg_constraint c,
+				pg_catalog.pg_class ct,
+				pg_catalog.pg_class rt,
+				pg_catalog.pg_attribute cc,
+				pg_catalog.pg_attribute rc
+			WHERE
+				c.contype = 'f'
+				AND c.conrelid = ct.relfilenode
+				AND c.confrelid = rt.relfilenode
+				AND cc.attrelid = c.conrelid
+				AND rc.attrelid = c.confrelid
+				AND cc.attnum = ANY (c.conkey)
+				AND rc.attnum = ANY (c.confkey)
+				AND ct.relname IN ($tables_list)
+				AND rt.relname IN ($tables_list)
+				AND ct.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}')
+		";
+		
+		return $this->selectSet($sql);
+	 }
 
 	/**
 	 * Returns a list of all constraints on a table

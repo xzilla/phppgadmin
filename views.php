@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.31 2004/05/10 15:22:00 chriskl Exp $
+	 * $Id: views.php,v 1.32 2004/05/12 22:40:49 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -170,7 +170,7 @@
 			if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
 			if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 			
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";		
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 			$misc->printMsg($msg);
 			$tblCount = count($_POST['formTables']);
 			// If we have a message that means an error occurred in doSaveCreate, which means POST['formTables'] has quotes
@@ -281,7 +281,7 @@
 		global $PHP_SELF, $lang;
 		$tables = &$data->getTables();
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";		
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 		$misc->printMsg($msg);
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
