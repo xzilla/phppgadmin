@@ -6,7 +6,7 @@
 # It is important to fix first and last lines of the file <?php and ?>
 # using 'awk'
 # 
-# $Id: Makefile,v 1.6 2003/03/14 06:48:42 chriskl Exp $
+# $Id: Makefile,v 1.7 2003/03/14 07:20:12 chriskl Exp $
 #
 DESTDIR=./recoded
 
@@ -43,7 +43,7 @@ italian:
 		> ${DESTDIR}/italian.php
 
 chinese-tr-utf8:
-	cat chinese-tr-utf8.php | recode utf8..html | \
+	cat chinese-tr-utf8.php | recode utf8..html | sed -e "s/&#65307;$$/;/" | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/chinese-tr-utf8.php
 
@@ -53,7 +53,7 @@ chinese-tr-big5:
 		> ${DESTDIR}/chinese-tr-big5.php
 
 chinese-sim-utf8:
-	cat chinese-sim-utf8.php | recode utf8..html | \
+	cat chinese-sim-utf8.php | recode utf8..html | sed -e "s/&#65307;$$/;/" | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/chinese-sim-utf8.php
 
