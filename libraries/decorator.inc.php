@@ -1,5 +1,5 @@
 <?php
-// $Id: decorator.inc.php,v 1.1.2.4 2005/03/09 12:21:10 jollytoad Exp $
+// $Id: decorator.inc.php,v 1.1.2.5 2005/03/14 09:53:58 jollytoad Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
@@ -13,12 +13,32 @@ function field($fieldName, $default = null) {
 	return new FieldDecorator($fieldName, $default);
 }
 
-function merge() {
+function merge(/* ... */) {
 	return new ArrayMergeDecorator(func_get_args());
 }
 
-function concat() {
+function concat(/* ... */) {
 	return new ConcatDecorator(func_get_args());
+}
+
+function callback($callback, $params = null) {
+	return new CallbackDecorator($callback, $params);
+}
+
+function ifempty($value, $empty, $full = null) {
+	return new IfEmptyDecorator($value, $empty, $full);
+}
+
+function url($base, $vars = null /* ... */) {
+	// If more than one array of vars is given,
+	// use an ArrayMergeDecorator to have them merged
+	// at value evaluation time.
+	if (func_num_args() > 2) {
+		$v = func_get_args();
+		array_shift($v);
+		return new UrlDecorator($base, new ArrayMergeDecorator($v));
+	}
+	return new UrlDecorator($base, $vars);
 }
 
 function noEscape($value) {
@@ -33,17 +53,21 @@ function noEscape($value) {
 
 function value(&$var, &$fields, $esc = null) {
 	if (is_a($var, 'Decorator')) {
-		$val = $var->value($fields);
+		$val =& $var->value($fields);
 		if (!$var->esc) $esc = null;
 	} else {
-		$val = $var;
+		$val =& $var;
 	}
 	if (is_string($val)) {
 		switch($esc) {
 			case 'xml':
-				###TODO: proper escaping for XML
+				return strtr($val, array(
+					'&' => '&amp;',
+					"'" => '&apos;', '"' => '&quot;',
+					'<' => '&lt;', '>' => '&gt;'
+				));
 			case 'html':
-				return htmlentities($val);
+				return htmlspecialchars($val);
 			case 'url':
 				return urlencode($val);
 		}
@@ -122,6 +146,61 @@ class ConcatDecorator extends Decorator
 			$accum .= value($var, $fields);
 		}
 		return $accum;
+	}
+}
+
+class CallbackDecorator extends Decorator
+{
+	function CallbackDecorator($callback, $param = null) {
+		$this->fn = $callback;
+		$this->p = $param;
+	}
+	
+	function value($fields) {
+		return call_user_func($this->fn, $fields, $this->p);
+	}
+}
+
+class IfEmptyDecorator extends Decorator
+{
+	function IfEmptyDecorator($value, $empty, $full = null) {
+		$this->v = $value;
+		$this->e = $empty;
+		if ($full !== null) $this->f = $full;
+	}
+	
+	function value($fields) {
+		$val = value($this->v, $fields);
+		if (empty($val))
+			return value($this->e, $fields);
+		else
+			return isset($this->f) ? value($this->f, $fields) : $val;
+	}
+}
+
+class UrlDecorator extends Decorator
+{
+	function UrlDecorator($base, $queryVars = null) {
+		$this->b = $base;
+		if ($queryVars !== null)
+			$this->q = $queryVars;
+	}
+	
+	function value($fields) {
+		$url = value($this->b, $fields);
+		
+		if ($url === false) return '';
+		
+		if (!empty($this->q)) {
+			$queryVars = value($this->q, $fields);
+			
+			$sep = '?';
+			foreach ($queryVars as $var => $value) {
+				$url .= $sep . value_url($var, $fields) . '=' . value_url($value, $fields);
+				$sep = '&';
+			}
+		}
+		return $url;
 	}
 }
 ?>
