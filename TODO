@@ -25,8 +25,7 @@ Groups
 Permissions
 -----------
 
-* Allow display of grants for a user
-* Allow display of grants for a group
+* Grant ... on all tables, views, ... to user, group, public
 
 Databases
 ---------
