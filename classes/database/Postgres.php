@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.201 2004/05/12 15:30:00 chriskl Exp $
+ * $Id: Postgres.php,v 1.202 2004/05/14 01:16:14 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -127,6 +127,8 @@ class Postgres extends BaseDB {
 									'~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 'IS NULL' => 'p', 'IS NOT NULL' => 'p', 
 									'IN' => 'x', 'NOT IN' => 'x');
 
+	//Supported join operations for use with view wizard
+	var $joinOps = array('INNER JOIN' => 'INNER JOIN');
 	/**
 	 * Constructor
 	 * @param $conn The database connection

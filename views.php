@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.32 2004/05/12 22:40:49 soranzo Exp $
+	 * $Id: views.php,v 1.33 2004/05/14 01:16:13 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -186,7 +186,7 @@
 			$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
 			
 			// Update tblcount if we have more foreign keys than tables (perhaps in the case of composite foreign keys)
-			$tblCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
+			$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
 			
 			// Get fieldnames
 			for ($i = 0; $i < $tblCount; $i++) {				
@@ -218,11 +218,10 @@
 			echo "</td>\n</tr>\n</table>\n<br />\n";						
 			
 			// Output the Linking keys combo boxes
-			$arrLinkOperators = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN');
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
 			$rowClass = 'data1';
-			for ($i = 0; $i <= $tblCount; $i++) {
+			for ($i = 0; $i < $linkCount; $i++) {
 				// Initialise variables
 				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
 				echo "<tr>\n<td class=\"$rowClass\">\n";
@@ -238,7 +237,7 @@
 				}
 				
 				echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
-				echo GUI::printCombo($arrLinkOperators, "formLink[$i][operator]", true, $formLink[$i]['operator']);								
+				echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
 				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
 				echo "</td>\n</tr>\n";
 				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
@@ -366,7 +365,9 @@
 		global $data, $lang;
 		
 		// Check that they've given a name and fields they want to select		
-		if (!strlen($_POST['formView']) || !isset($_POST['formFields']) || !count($_POST['formFields']) ) doSetParamsCreate($lang['strviewneedsdef']);
+	
+		if (!strlen($_POST['formView']) ) doSetParamsCreate($lang['strviewneedsname']);
+		else if (!isset($_POST['formFields']) || !count($_POST['formFields']) ) doSetParamsCreate($lang['strviewneedsfields']);
 		else {		 
 			$selTables = implode(', ', $_POST['formTables']);		
 			$selFields = implode(', ', $_POST['formFields']);		
@@ -396,7 +397,11 @@
 												
 						if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
 														
-							$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
+							//make sure for multi-column foreign keys that we use a table alias tables joined to more than once
+							//this can (and should be) more optimized for multi-column foreign keys
+							$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
+							
+							$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
 							$arrJoined[] = $curLink;
 							if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
 							if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
