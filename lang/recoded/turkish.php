@@ -4,16 +4,23 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.1 2003/04/27 11:00:06 chriskl Exp $
+	 * $Id: turkish.php,v 1.2 2003/07/21 00:52:12 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'T&uuml;rk&ccedil;e';
 	$lang['appcharset'] = 'ISO-8859-9';
+	$lang['applocale'] = 'tr_TR';
 
 	// Basic strings
 	$lang['strintro'] = 'phpPgAdmin\'e ho&#351;geldiniz.';
+	$lang['strppahome'] = 'phpPgAdmin Ana Sayfas&#305;';
 	$lang['strlogin'] = 'Giri&#351;';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL Belgeleri (yerel)';
+	$lang['strreportbug'] = 'Hata Bildirin';
+	$lang['strviewfaq'] = 'S&#305;k&ccedil;a Sorulan Sorular';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strloginfailed'] = 'Giri&#351; Ba&#351;ar&#305;s&#305;z';
 	$lang['strserver'] = 'Sunucu';
 	$lang['strlogout'] = '&Ccedil;&#305;k&#305;&#351;';
@@ -53,11 +60,14 @@
 	$lang['stredit'] = 'D&uuml;zenle';
 	$lang['strcolumns'] = 'Kolonlar';
 	$lang['strrows'] = 'sat&#305;r';
+	$lang['strtrue'] = 'True';
+	$lang['strfalse'] = 'False';
 	$lang['strexample'] = '&Ouml;rnek:';
 	$lang['strback'] = 'Geri';
 	$lang['strqueryresults'] = 'Sorgu sonu&ccedil;lar&#305;';
+	$lang['strrowsaff'] = 'sat&#305;r etkilendi.';
 	$lang['strshow'] = 'G&ouml;ster';
-	$lang['strempty'] = 'Bo&#351;';
+	$lang['strempty'] = 'Bo&#351;alt';
 	$lang['strlanguage'] = 'Dil';
 	$lang['strencoding'] = 'Karakter kodlamas&#305;';
 	$lang['strvalue'] = 'De&#287;er';
@@ -67,6 +77,7 @@
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Devam Et';
 	$lang['stradmin'] = 'Y&ouml;netici';
+	$lang['strimport'] = 'Import';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
 	$lang['strcluster'] = 'Cluster';
@@ -81,6 +92,12 @@
 
 	// Error handling
 	$lang['strnoframes'] = 'Bu uygulamay&#305; kullanabilmek i&ccedil;in frame destekleyen bir web istemcisi kullanman&#305;z gerekmektedir.';
+	$lang['strdata'] = 'Veri';
+	$lang['strconfirm'] = 'Onayla';
+	$lang['strexpression'] = '&#304;fade';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Geni&#351;let';
+	$lang['strcollapse'] = 'Daralt';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL deste&#287;i bulunamam&#305;&#351;t&#305;r.';
 	$lang['strbadschema'] = 'Ge&ccedil;ersiz &#351;ema.';
@@ -140,6 +157,7 @@
 
 	// Users
 	$lang['struseradmin'] = 'Kullan&#305;c&#305; Y&ouml;netimi';
+	$lang['strcascade'] = 'CASCADE';
 	$lang['struser'] = 'Kullan&#305;c&#305;';
 	$lang['strusers'] = 'Kullan&#305;c&#305;lar';
 	$lang['strusername'] = 'Kullan&#305;c&#305; Ad&#305;';
@@ -160,7 +178,11 @@
 		
 	// Groups
 	$lang['strgroupadmin'] = 'Grup Y&ouml;netimi';
-	$lang['strgroup'] = 'Grup';
+	$lang['straccount'] = 'Hesap';
+	$lang['strchangepassword'] = '&#350;ifre De&#287;i&#351;tir';
+	$lang['strpasswordchanged'] = '&#350;ifre de&#287;i&#351;tirildi.';
+	$lang['strpasswordchangedbad'] = '&#350;ifre de&#287;i&#351;tirme ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strpasswordconfirm'] = '&#350;ifreler uyu&#351;mad&#305;.';
 	$lang['strgroups'] = 'Gruplar';
 	$lang['strnogroup'] = 'Grup bulunamad&#305;.';
 	$lang['strnogroups'] = 'Grup bulunamad&#305;.';
@@ -182,9 +204,9 @@
 	$lang['strrevoke'] = '&#304;zni kald&#305;r';
 	$lang['strgranted'] = '&#304;zimler verildi.';
 	$lang['strgrantfailed'] = '&#304;zinlerin grant i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
-	$lang['strgrantuser'] = 'Kullan&#305;c&#305; izinlerini d&uuml;zenle';
-	$lang['strgrantgroup'] = 'Grup izinlerini d&uuml;zenle';
 
+	$lang['strgrantbad'] = 'En az bir kullan&#305;c&#305; ya da grup ve en az bir izin belirtmelisiniz.';
+	$lang['stralterprivs'] = '&#304;zinleri de&#287;i&#351;tir (Alter Privileges)';
 	// Databases
 	$lang['strdatabase'] = 'Veritaban&#305;';
 	$lang['strdatabases'] = 'Veritabanlar&#305;';
@@ -201,6 +223,7 @@
 	$lang['strdatabasedroppedbad'] = 'Veritaban&#305; kald&#305;rma ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strentersql'] = 'Veritaban&#305; &uuml;zerinde &ccedil;al&#305;&#351;t&#305;r&#305;lacak sorgu/sorgular&#305; a&#351;a&#287;&#305;ya yaz&#305;n&#305;z:';
 	$lang['strvacuumgood'] = 'Vacuum i&#351;lemi tamamland&#305;.';
+	$lang['strsqlexecuted'] = 'SQL &ccedil;al&#305;&#351;t&#305;r&#305;ld&#305;.';
 	$lang['strvacuumbad'] = 'Vacuum i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['stranalyzegood'] = 'Analyze i&#351;lemi tamamland&#305;.';
 	$lang['stranalyzebad'] = 'Analyze i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
@@ -311,9 +334,13 @@
 	$lang['straddfk'] = '&#304;kincil anahtar ekle';
 	$lang['strfkneedscols'] = '&#304;kincil anahtar yaratmak i&ccedil;in en az bir kolon gerekir.';
 	$lang['strfkadded'] = '&#304;kincil anahtar eklendi.';
+	$lang['strfkneedstarget'] = '&#304;kincil anahtar hedef bir tablo gerektirir.';
 	$lang['strfkaddedbad'] = '&#304;kincil anahtar eklenemedi.';
 	$lang['strfktarget'] = 'Hedef tablo';
 
+	$lang['strfkcolumnlist'] = 'Anahtardaki kolonlar';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 	// Functions
 	$lang['strfunction'] = 'Fonksiyon';
 	$lang['strfunctions'] = 'Fonksiyonlar';
@@ -400,6 +427,7 @@
 	$lang['strreportneedsdef'] = 'Raporunuz i&ccedil;in SQL sorgular&#305; yazmal&#305;s&#305;n&#305;z.';
 	$lang['strreportcreated'] = 'Rapor kaydedildi.';
 	$lang['strreportcreatedbad'] = 'Rapor kaydetme ba&#351;ar&#305;s&#305;z oldu.';
+        $lang['strpgsqlhome'] = 'PostgreSQL Ana Sayfas&#305;';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s,  %s:%s  &uuml;zerinde &ccedil;al&#305;&#351;&#305;yor -- &quot;%s&quot; kullan&#305;c&#305;s&#305; ile , %s tarihinde giri&#351; yapt&#305;n&#305;z';
