@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.38 2004/07/14 19:09:38 soranzo Exp $
+	 * $Id: functions.php,v 1.39 2004/07/15 10:06:24 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -19,11 +19,12 @@
 	function doSaveEdit() {
 		global $data, $lang;
 		
-		// If the backend does not support renaming functions...
-		if (!$data->hasFunctionRename()) $_POST['formFunction'] = $_POST['original_function'];
-
-		if (strtolower($_POST['original_lang']) == 'c') {
+		$fnlang = strtolower($_POST['original_lang']);
+		
+		if ($fnlang == 'c') {
 			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
+		} else if ($fnlang == 'internal'){
+			$def = $_POST['formLinkSymbol'];
 		} else {
 			$def = $_POST['formDefinition'];
 		}
@@ -92,12 +93,7 @@
 			echo "<tr>\n";
 			echo "<td class=\"data1\">";
 			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f['proname']),"\" />\n"; 
-			// If we're 7.4 or above, we can rename functions
-			if ($data->hasFunctionRename()) {
-				echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
-			}
-			else
-				echo $misc->printVal($fndata->f['proname']);
+			echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">", $misc->printVal($args), "\n";
@@ -117,12 +113,16 @@
 			echo "</td>\n";
 			
 			$fnlang = strtolower($fndata->f['prolanguage']);
-			if ($fnlang == 'c' || $fnlang == 'internal') {
+			if ($fnlang == 'c') {
 				echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
 				echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formObjectFile\" style=\"width:100%\" value=\"",
 					htmlspecialchars($_POST['formObjectFile']), "\" /></td>\n";
 				echo "<td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
+			} else if ($fnlang == 'internal') {
+				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
@@ -212,11 +212,14 @@
 			echo "<td class=\"data1\">", $misc->printVal($funcdata->f['prolanguage']), "</td></tr>\n";
 			
 			$fnlang = strtolower($funcdata->f['prolanguage']);
-			if ($fnlang == 'c' || $fnlang == 'internal') {
+			if ($fnlang == 'c') {
 				echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
 				echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($funcdata->f['probin']), "</td>\n";
 				echo "<td class=\"data1\" colspan=\"2\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
+			} else if ($fnlang == 'internal') {
+				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre'), "</td></tr>\n";
@@ -299,8 +302,13 @@
 
 		$types = &$data->getTypes(true, true, true);
 		$langs = &$data->getLanguages(true);
+		$fnlang = strtolower($_POST['formLanguage']);
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ";
+		if ($fnlang == 'c') echo $lang['strcreatecfunction'];
+		else if ($fnlang == 'internal') echo $lang['strcreateinternalfunction'];
+		else echo $lang['strcreateplfunction'];
+		echo "</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
@@ -339,24 +347,32 @@
 		echo "<option value=\"[]\"", ($_POST['formArray'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 		echo "</select></td>\n";
 
-		echo "<td class=\"data1\"><select name=\"formLanguage\">\n";
-		while (!$langs->EOF) {
-			echo "<option value=\"", htmlspecialchars($langs->f['lanname']), "\"",
-				($langs->f['lanname'] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($langs->f['lanname']), "</option>\n";
-			$langs->moveNext();
+		// Output language
+		echo "<td class=\"data1\">";
+		if ($fnlang == 'c' || $fnlang == 'internal') echo $_POST['formLanguage'], "<input type=\"hidden\" name=\"formLanguage\" value=\"{$_POST['formLanguage']}\" />";
+		else {
+			echo "<select name=\"formLanguage\">\n";
+			while (!$langs->EOF) {
+				if (strtolower($langs->f['lanname']) != 'c' && strtolower($langs->f['lanname']) != 'internal')
+					echo "<option value=\"", htmlspecialchars($langs->f['lanname']), "\"",
+						($langs->f['lanname'] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
+						$misc->printVal($langs->f['lanname']), "</option>\n";
+				$langs->moveNext();
+			}
+			echo "</select>\n";
 		}
-		echo "</select>\n";
-
 		echo "</td></tr>\n";
 		
-		$fnlang = strtolower($_POST['formLanguage']);
-		if ($fnlang == 'c' || $fnlang == 'internal') {
+		if ($fnlang == 'c') {
 			echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
 			echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formObjectFile\" style=\"width:100%\" value=\"",
 				htmlspecialchars($_POST['formObjectFile']), "\" /></td>\n";
 			echo "<td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
+		} else if ($fnlang == 'internal') {
+			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
+			echo "<td class=\"data1\" colspan=\"4\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
@@ -395,18 +411,19 @@
 	function doSaveCreate() {
 		global $data, $lang;
 		
-		// Set properties to an empty array if it doesn't exist (for db's without properties)
-		if (!is_array($_POST['formProperties'])) $_POST['formProperties'] = array();
+		$fnlang = strtolower($_POST['formLanguage']);
 		
-		if (strtolower($_POST['formLanguage']) == 'c') {
+		if ($fnlang == 'c') {
 			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
+		} else if ($fnlang == 'internal'){
+			$def = $_POST['formLinkSymbol'];
 		} else {
 			$def = $_POST['formDefinition'];
 		}
 
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
-		elseif (!$def) doCreate($lang['strfunctionneedsdef']);
+		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef']);
 		else {
 			// Append array symbol to type if chosen
 			$status = $data->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
@@ -482,8 +499,9 @@
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions'], 'fnPre');
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;language=c&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strfunctions']);
@@ -506,7 +524,7 @@
 			doDrop(true);
 			break;			
 		case 'save_edit':
-			if (isset($_POST['cancel'])) doProperties();
+			if (isset($_POST['cancel'])) doDefault();
 			else doSaveEdit();
 			break;
 		case 'edit':

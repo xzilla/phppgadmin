@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.19 2004/07/14 10:24:26 jollytoad Exp $
+	 * $Id: sqledit.php,v 1.20 2004/07/15 10:06:24 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -137,7 +137,7 @@
 			if (!isset($_REQUEST['search_path']))
 				$_REQUEST['search_path'] = $data->getSearchPath();
 		
-			echo "\n<label>{$lang['strsearchpath']}:&nbsp;<input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
+			echo "\n<label>{$lang['strsearchpath']}: <input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
 				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
 		}
 		

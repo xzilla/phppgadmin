@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.107 2004/07/12 04:18:42 chriskl Exp $
+	 * $Id: english.php,v 1.108 2004/07/15 10:06:25 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -289,7 +289,7 @@
 	$lang['strfreeze'] = 'Freeze';
 	$lang['strforce'] = 'Force';
 	$lang['strsignalsent'] = 'Signal sent.';
-	$lang['strsignalsentbad'] = 'Failed sending signal.';
+	$lang['strsignalsentbad'] = 'Sending signal failed.';
 	$lang['strallobjects'] = 'All objects';
 
 	// Views
@@ -419,8 +419,8 @@
 	$lang['strshowallfunctions'] = 'Show all functions';
 	$lang['strnofunction'] = 'No function found.';
 	$lang['strnofunctions'] = 'No functions found.';
-	$lang['strcreatefunction'] = 'Create function';
 	$lang['strcreateplfunction'] = 'Create SQL/PL function';
+	$lang['strcreateinternalfunction'] = 'Create internal function';
 	$lang['strcreatecfunction'] = 'Create C function';
 	$lang['strfunctionname'] = 'Function name';
 	$lang['strreturns'] = 'Returns';
@@ -605,8 +605,9 @@
 	$lang['strrows2'] = 'Rows';
 
 	// Tablespaces
-	$lang['strtablespaces'] = 'Tablespaces';
 	$lang['strtablespace'] = 'Tablespace';
+	$lang['strtablespaces'] = 'Tablespaces';
+	$lang['strshowalltablespaces'] = 'Show all tablespaces';
 	$lang['strnotablespaces'] = 'No tablespaces found.';
 	$lang['strcreatetablespace'] = 'Create tablespace';
 	$lang['strlocation'] = 'Location';
@@ -619,7 +620,6 @@
 	$lang['strtablespacedroppedbad'] = 'Tablespace drop failed.';
 	$lang['strtablespacealtered'] = 'Tablespace altered.';
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
-	$lang['strshowalltablespaces'] = 'Show all tablespaces';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
