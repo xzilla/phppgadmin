@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.207 2004/05/16 15:40:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.208 2004/05/16 15:46:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2305,9 +2305,9 @@ class Postgres extends BaseDB {
 		// Build SQL, excluding system relations as necessary
 		// Relations
 		$sql = "
-			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
+			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
-				WHERE relkind IN ('r', 'S') AND relname ~* '.*{$term}.*'";
+				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Columns
