@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.13 2002/09/15 07:29:08 chriskl Exp $
+ * $Id: Postgres71.php,v 1.14 2002/09/16 15:09:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -73,6 +73,42 @@ class Postgres71 extends Postgres {
 	}
 
 	/**
+	 * Returns a list of all functions in the database
+	 * @return All functions
+	 */
+
+	function &getFunctions() {
+		$sql = 	"SELECT
+				pc.oid,
+				proname, 
+				pt.typname AS return_type,
+				oidvectortypes(pc.proargtypes) AS arguments
+			FROM
+				pg_proc pc, pg_user pu, pg_type pt
+			WHERE	
+				pc.proowner = pu.usesysid
+				AND pc.prorettype = pt.oid
+				AND pc.oid > '$this->_lastSystemOID'::oid
+			UNION
+			SELECT 
+				pc.oid,
+				proname, 
+				'OPAQUE' AS result, 
+				oidvectortypes(pc.proargtypes) AS arguments
+			FROM
+				pg_proc pc, pg_user pu, pg_type pt
+			WHERE	
+				pc.proowner = pu.usesysid
+				AND pc.prorettype = 0
+				AND pc.oid > '$this->_lastSystemOID'::oid
+			ORDER BY
+				proname, return_type
+			";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Return all information relating to a table
 	 * @param $table The name of the table
 	 * @return Table information
@@ -113,7 +149,7 @@ class Postgres71 extends Postgres {
 		// @@ How do you do this?
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Adds a check constraint to a table
 	 * @param $table The table to which to add the check
@@ -246,7 +282,7 @@ class Postgres71 extends Postgres {
 		// @@ How do you do this?
 		return $this->execute($sql);
 	}	
-	
+
 	/**
 	 * Changes the owner of a table
 	 * @param $table The table whose owner is to change

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.6 2002/09/15 07:29:08 chriskl Exp $
+ * $Id: Postgres72.php,v 1.7 2002/09/16 15:09:54 chriskl Exp $
  */
 
 
@@ -13,7 +13,8 @@ require_once('../classes/database/Postgres71.php');
 class Postgres72 extends Postgres71 {
 
 	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
-	
+	var $typFields = array('typname' => 'typname');
+
 	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
 
@@ -48,39 +49,25 @@ class Postgres72 extends Postgres71 {
 	}	
 
 	// Function functions
-	
+
 	/**
 	 * Returns a list of all functions in the database
 	 * @return All functions
 	 */
-			
-	function getFunctions() {
-
-		$sql = 	"SELECT 
-				pc.oid,
-				proname, 
-				pt.typname AS return_type, 
-				oidvectortypes(pc.proargtypes) AS arguments
-			FROM 
-				pg_proc pc, pg_user pu, pg_type pt
-			WHERE	
-				pc.proowner = pu.usesysid
-				AND pc.prorettype = pt.oid
-				AND pc.oid > '$this->_lastSystemOID'::oid
-			UNION
-			SELECT 
-				pc.oid,
-				proname, 
-				'OPAQUE' AS result, 
-				oidvectortypes(pc.proargtypes) AS arguments
-			FROM 
-				pg_proc pc, pg_user pu, pg_type pt
-			WHERE	
-				pc.proowner = pu.usesysid
-				AND pc.prorettype = 0
-				AND pc.oid > '$this->_lastSystemOID'::oid
+	function &getFunctions() {
+		$sql = "SELECT
+				p.oid,
+				p.proname,
+				format_type(p.prorettype, NULL) AS return_type,
+				oidvectortypes(p.proargtypes) AS arguments
+			FROM
+				pg_proc p
+			WHERE
+				p.prorettype <> 0
+				AND (pronargs = 0 OR oidvectortypes(p.proargtypes) <> '')
+				AND p.oid > '{$this->_lastSystemOID}'
 			ORDER BY
-				proname, return_type
+				p.proname, return_type
 			";
 
 		return $this->selectSet($sql);
@@ -96,7 +83,7 @@ class Postgres72 extends Postgres71 {
 		
 		$sql = "SELECT 
 					pc.oid,
-					proname, 
+					proname,
 					lanname as language,
 					format_type(prorettype, NULL) as return_type,
 					prosrc as source,
@@ -168,6 +155,25 @@ class Postgres72 extends Postgres71 {
 		
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
+	}
+
+	// Type functions
+
+	/**
+	 * Returns a list of all types in the database
+	 * @return A recordet
+	 */
+	function &getTypes() {
+		$sql = "SELECT
+				format_type(t.oid, NULL) AS typname
+			FROM
+				pg_type t
+			WHERE 
+				t.typrelid = 0 AND t.typname !~ '^_.*'
+			ORDER BY typname
+		";
+
+		return $this->selectSet($sql);
 	}
 
 }

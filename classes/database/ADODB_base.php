@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.3 2002/05/01 09:37:30 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.4 2002/09/16 15:09:54 chriskl Exp $
  */
 
 include_once('../libraries/adodb/adodb-errorhandler.inc.php');
@@ -57,7 +57,7 @@ class ADODB_base {
 		// If failure, return error value
 		return $this->conn->ErrorNo();
 	}
-		
+
 	/**
 	 * Retrieves a ResultSet from a query
 	 * @param $sql The SQL statement to be executed
@@ -111,8 +111,8 @@ class ADODB_base {
 		while(list($key, $value) = each($conditions)) {
 			$this->clean($key);
 			$this->clean($value);
-			if ($sql) $sql .= " AND {$key}='{$value}'";
-			else $sql = "DELETE FROM {$table} WHERE {$key}='{$value}'";
+			if ($sql) $sql .= " AND \"{$key}\"='{$value}'";
+			else $sql = "DELETE FROM \"{$table}\" WHERE \"{$key}\"='{$value}'";
 		}
 
 		// Check for failures
@@ -148,8 +148,8 @@ class ADODB_base {
 			$this->clean($key);
 			$this->clean($value);
 
-			if ($fields) $fields .= ", {$key}";
-			else $fields = "INSERT INTO {$table} ({$key}";
+			if ($fields) $fields .= ", \"{$key}\"";
+			else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
 
 			if ($values) $values .= ", '{$value}'";
 			else $values = ") VALUES ('{$value}'";
@@ -190,23 +190,23 @@ class ADODB_base {
 		while(list($key, $value) = each($vars)) {
 			$this->clean($key);
 			$this->clean($value);
-			if ($setClause) $setClause .= ", {$key}='{$value}'";
-			else $setClause = "UPDATE {$table} SET {$key}='{$value}'";
+			if ($setClause) $setClause .= ", \"{$key}\"='{$value}'";
+			else $setClause = "UPDATE \"{$table}\" SET \"{$key}\"='{$value}'";
 		}
 
 		reset($nulls);
 		while(list(, $value) = each($nulls)) {
 			$this->clean($value);
-			if ($setClause) $setClause .= ", {$value}=NULL";
-			else $setClause = "UPDATE {$table} SET {$value}=NULL";
+			if ($setClause) $setClause .= ", \"{$value}\"=NULL";
+			else $setClause = "UPDATE \"{$table}\" SET \"{$value}\"=NULL";
 		}
 
 		reset($where);
 		while(list($key, $value) = each($where)) {
 			$this->clean($key);
 			$this->clean($value);
-			if ($whereClause) $whereClause .= " AND {$key}='{$value}'";
-			else $whereClause = " WHERE {$key}='{$value}'";
+			if ($whereClause) $whereClause .= " AND \"{$key}\"='{$value}'";
+			else $whereClause = " WHERE \"{$key}\"='{$value}'";
 		}
 
 		// Check for failures

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.3 2002/09/10 18:46:25 xzilla Exp $
+	 * $Id: functions.php,v 1.4 2002/09/16 15:09:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	function doSaveEdit() {
 		global $localData;
 		
-		$status = $localData->setView($_POST['view'], $_POST['formDefinition']);
+		$status = $localData->setFunction($_POST['view'], $_POST['formDefinition']);
 		if ($status == 0)
 			doProperties('Function updated.');
 		else
@@ -33,31 +33,31 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strDefinition;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Edit</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Edit</h2>\n";
 		$misc->printMsg($msg);
+
+		$fndata = &$localData->getFunction($_REQUEST['function']);
 		
-		$viewdata = &$localData->getView($_REQUEST['view']);
-		
-		if ($viewdata->recordCount() > 0) {
+		if ($fndata->recordCount() > 0) {
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
 			echo "<table width=100%>\n";
 			echo "<tr><th class=data>{$strName}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", htmlspecialchars($fndata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
 			echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
-				htmlspecialchars($viewdata->f[$data->vwFields['vwdef']]), "</textarea></td></tr>\n";
+				htmlspecialchars($fndata->f[$data->vwFields['vwdef']]), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
-			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
+			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=submit value=Save> <input type=reset>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($_REQUEST['database']), "&view=", 
-			urlencode($_REQUEST['view']), "\">Properties</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($_REQUEST['database']), "&function=", 
+			urlencode($_REQUEST['function']), "\">Properties</a></p>\n";
 	}
 	
 	/**
@@ -133,25 +133,40 @@
 	}
 	
 	/**
-	 * Displays a screen where they can enter a new view
+	 * Displays a screen where they can enter a new function
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strName, $strArguments, $strReturns, $strDefinition;
 		
-		if (!isset($_POST['formFunc'])) $_POST['formFunc'] = '';
+		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
+		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
+		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: Create View</h2>\n";
+		$types = &$localData->getTypes();
+
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: Create Function</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
 		echo "<tr><th class=data>{$strName}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formView size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
-			htmlspecialchars($_POST['formView']), "\"></td></tr>\n";
+		echo "<tr><td class=data1><input name=formFunction size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+			htmlspecialchars($_POST['formFunction']), "\"></td></tr>\n";
+		echo "<tr><th class=data>{$strArguments}</th></tr>\n";
+		echo "<tr><td class=data1><input name=formArguments style=\"width:100%;\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+			htmlspecialchars($_POST['formArguments']), "\"></td></tr>\n";
+		echo "<tr><th class=data>{$strReturns}</th></tr>\n";
+		echo "<tr><td class=data1><select name=formReturns>\n";
+		while (!$types->EOF) {
+			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\">",
+				htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
+			$types->moveNext();
+		}
+		echo "</td></tr>\n";
 		echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
-		echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
+		echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>",
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
@@ -159,29 +174,29 @@
 		echo "<input type=submit value=Save> <input type=reset>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a></p>\n";
 	}
 	
 	/**
-	 * Actually creates the new view in the database
+	 * Actually creates the new function in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $strViewNeedsName, $strViewNeedsDef;
+		global $localData, $strFunctionNeedsName, $strFunctionNeedsDef;
 		
 		// Check that they've given a name and a definition
-		if ($_POST['formView'] == '') doCreate($strViewNeedsName);
-		elseif ($_POST['formDefinition'] == '') doCreate($strViewNeedsDef);
+		if ($_POST['formFunction'] == '') doCreate($strFunctionNeedsName);
+		elseif ($_POST['formDefinition'] == '') doCreate($strFunctionNeedsDef);
 		else {		 
-			$status = $localData->createView($_POST['formView'], $_POST['formDefinition']);
+			$status = $localData->createFunction($_POST['formFunction'], $_POST['formDefinition']);
 			if ($status == 0)
-				doDefault('View created.');
+				doDefault('Function created.');
 			else
-				doCreate('View creation failed.');
+				doCreate('Function creation failed.');
 		}
 	}	
 
 	/**
-	 * Show default list of views in the database
+	 * Show default list of functions in the database
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database, $func;
@@ -191,20 +206,18 @@
 		$misc->printMsg($msg);
 		
 		$funcs = &$localData->getFunctions();
-		
+
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strArguments}</th><th colspan=3 class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
-
 				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
-
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=", 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=",
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
 				echo "<td class=opbutton{$id}>Edit</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
