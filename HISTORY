@@ -33,6 +33,7 @@ Features:
 * Tick all box on Select feature
 * Export in HTML format
 * Download the results of selects and reports
+* Traditional Chinese update from Chih-Hsin Lee
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.2 2003/05/30 05:47:24 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.3 2003/08/25 04:57:53 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -35,8 +35,8 @@
 	$lang['strbrowse'] = '瀏覽';
 	$lang['strdrop'] = '刪除';
 	$lang['strdropped'] = '已刪除';
-	$lang['strnull'] = '許可空值';
-	$lang['strnotnull'] = '不許空值';
+	$lang['strnull'] = '允許空值';
+	$lang['strnotnull'] = '不允許空值';
 	$lang['strprev'] = '上一個';
 	$lang['strnext'] = '下一個';
 	$lang['strfailed'] = '失敗';
@@ -49,7 +49,7 @@
 	$lang['strok'] = '確定';
 	$lang['strcancel'] = '取消';
 	$lang['strsave'] = '儲存';
-	$lang['strreset'] = '重置';
+	$lang['strreset'] = '重設';
 	$lang['strinsert'] = '插入';
 	$lang['strselect'] = '選取';
 	$lang['strdelete'] = '刪除';
@@ -60,9 +60,9 @@
 	$lang['strtrue'] = '真';
 	$lang['strfalse'] = '假';
 	$lang['stredit'] = '修改';
-	$lang['strcolumns'] = '資料列';
-	$lang['strrows'] = '資料行';
-	$lang['strrowsaff'] = '行受影響。';
+	$lang['strcolumns'] = '資料行';
+	$lang['strrows'] = '資料列';
+	$lang['strrowsaff'] = '資料列受影響。';
 	$lang['strexample'] = '例如：';
 	$lang['strback'] = '返回';
 	$lang['strqueryresults'] = '查詢結果';
@@ -71,10 +71,10 @@
 	$lang['strlanguage'] = '語言';
 	$lang['strencoding'] = '編碼';
 	$lang['strvalue'] = '值';
-	$lang['strunique'] = '唯一鍵';
-	$lang['strprimary'] = '主鍵';
-	$lang['strexport'] = '輸出';
-	$lang['strimport'] = '輸入';
+	$lang['strunique'] = '獨一鍵';
+	$lang['strprimary'] = '主索引鍵';
+	$lang['strexport'] = '匯出';
+	$lang['strimport'] = '匯入';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = '開始';
 	$lang['stradmin'] = '管理';
@@ -290,7 +290,7 @@
 	$lang['strindexdroppedbad'] = '刪除索引作業失敗。';
 	$lang['strkeyname'] = '鍵名';
 	$lang['struniquekey'] = '獨一鍵';
-	$lang['strprimarykey'] = '主鍵';
+	$lang['strprimarykey'] = '主索引鍵';
  	$lang['strindextype'] = '索引類型';
 	$lang['strindexname'] = '索引名';
 	$lang['strtablecolumnlist'] = '資料表所含的資料列';
@@ -308,60 +308,60 @@
 	$lang['strrulecreated'] = '成功建立新規則。';
 	$lang['strrulecreatedbad'] = '建立新規則作業失敗。';
 	$lang['strconfdroprule'] = '您確定要刪除 "%s" 於 "%s"?';
-	$lang['strruledropped'] = '成功規則刪除。';
+	$lang['strruledropped'] = '成功刪除規則。';
 	$lang['strruledroppedbad'] = '刪除規則作業失敗。';
 
 	// Constraints
-	$lang['strconstraints'] = '限制';
-	$lang['strshowallconstraints'] = '顯示所有的限制';
-	$lang['strnoconstraints'] = '找不到此限制。';
-	$lang['strcreateconstraint'] = '建立新限制';
-	$lang['strconstraintcreated'] = '成功建立新限制。';
-	$lang['strconstraintcreatedbad'] = '建立限制作業失敗。';
-	$lang['strconfdropconstraint'] = '您確定要刪除限制 "%s" 於 "%s"?';
-	$lang['strconstraintdropped'] = '成功刪除限制。';
-	$lang['strconstraintdroppedbad'] = '刪除限制作業失敗。';
+	$lang['strconstraints'] = '約束';
+	$lang['strshowallconstraints'] = '顯示所有的約束';
+	$lang['strnoconstraints'] = '找不到此約束。';
+	$lang['strcreateconstraint'] = '建立新約束';
+	$lang['strconstraintcreated'] = '成功建立新約束。';
+	$lang['strconstraintcreatedbad'] = '新建約束作業失敗。';
+	$lang['strconfdropconstraint'] = '您確定要刪除約束 "%s" 於 "%s"?';
+	$lang['strconstraintdropped'] = '成功刪除約束。';
+	$lang['strconstraintdroppedbad'] = '刪除約束作業失敗。';
 	$lang['straddcheck'] = '加入新查驗 (check)';
 	$lang['strcheckneedsdefinition'] = '您需定義您的查驗 (check)。';
 	$lang['strcheckadded'] = '成功加入新查驗 (check)。';
-	$lang['strcheckaddedbad'] = '加入新查驗 (check) 作作業失敗。';
-	$lang['straddpk'] = '加入主鍵';
-	$lang['strpkneedscols'] = '主鍵至少應包含一個資料列。';
-	$lang['strpkadded'] = '成功加入主鍵。';
-	$lang['strpkaddedbad'] = '加入主鍵作作業失敗。';
+	$lang['strcheckaddedbad'] = '加入新查驗 (check) 作業失敗。';
+	$lang['straddpk'] = '加入主索引鍵';
+	$lang['strpkneedscols'] = '主索引鍵至少應包含一個資料行。';
+	$lang['strpkadded'] = '成功加入主索引鍵。';
+	$lang['strpkaddedbad'] = '加入主索引鍵作作業失敗。';
 	$lang['stradduniq'] = '加入獨一鍵';
-	$lang['struniqneedscols'] = '獨一鍵至少應包含一個資料列。';
+	$lang['struniqneedscols'] = '獨一鍵至少應包含一個資料行。';
 	$lang['struniqadded'] = '成功加入獨一鍵。';
-	$lang['struniqaddedbad'] = '加入獨一鍵作作業失敗。';
-	$lang['straddfk'] = '加入外鍵';
-	$lang['strfkneedscols'] = '外鍵至少應包含一個資料列。';
-	$lang['strfkneedstarget'] = '外鍵需參照目標資料表。';
-	$lang['strfkadded'] = '成功加入外鍵。';
-	$lang['strfkaddedbad'] = '加入外鍵作作業失敗。';
+	$lang['struniqaddedbad'] = '加入獨一鍵作業失敗。';
+	$lang['straddfk'] = '加入外部索引鍵';
+	$lang['strfkneedscols'] = '外部索引鍵至少應包含一個資料行。';
+	$lang['strfkneedstarget'] = '外部索引鍵需參照目標資料表。';
+	$lang['strfkadded'] = '成功加入外部索引鍵。';
+	$lang['strfkaddedbad'] = '加入外部索引鍵作業失敗。';
 	$lang['strfktarget'] = '目標資料表';
-	$lang['strfkcolumnlist'] = '鍵所含的資料列';
+	$lang['strfkcolumnlist'] = '鍵所含的資料行';
 	$lang['strondelete'] = '於刪除時';
 	$lang['stronupdate'] = '於更改時';	
 
 	// Functions
-	$lang['strfunction'] = '函式';
-	$lang['strfunctions'] = '函式';
-	$lang['strshowallfunctions'] = '顯示所有的函式';
-	$lang['strnofunction'] = '找不到此函式。';
-	$lang['strnofunctions'] = '找不到任何函式。';
-	$lang['strcreatefunction'] = '建立新函式';
-	$lang['strfunctionname'] = '函式名';
+	$lang['strfunction'] = '函數';
+	$lang['strfunctions'] = '函數';
+	$lang['strshowallfunctions'] = '顯示所有的函數';
+	$lang['strnofunction'] = '找不到此函數。';
+	$lang['strnofunctions'] = '找不到任何函數。';
+	$lang['strcreatefunction'] = '建立新函數';
+	$lang['strfunctionname'] = '函數名';
 	$lang['strreturns'] = '返回';
 	$lang['strarguments'] = '參數';
-	$lang['strfunctionneedsname'] = '您需為您的函式命名。';
-	$lang['strfunctionneedsdef'] = '您必須定義您的函式。';
-	$lang['strfunctioncreated'] = '成功建立新函式。';
-	$lang['strfunctioncreatedbad'] = '建立新函式作業失敗。';
-	$lang['strconfdropfunction'] = '您確定要刪除函式 "%s"?';
-	$lang['strfunctiondropped'] = '成功刪除函式。';
-	$lang['strfunctiondroppedbad'] = '刪除函式作業失敗。';
-	$lang['strfunctionupdated'] = '成功更改函式。';
-	$lang['strfunctionupdatedbad'] = '更改函式作業失敗。';
+	$lang['strfunctionneedsname'] = '您需為您的函數命名。';
+	$lang['strfunctionneedsdef'] = '您必須定義您的函數。';
+	$lang['strfunctioncreated'] = '成功建立新函數。';
+	$lang['strfunctioncreatedbad'] = '新建函數作業失敗。';
+	$lang['strconfdropfunction'] = '您確定要刪除函數 "%s"?';
+	$lang['strfunctiondropped'] = '成功刪除函數。';
+	$lang['strfunctiondroppedbad'] = '刪除函數作業失敗。';
+	$lang['strfunctionupdated'] = '成功更改函數。';
+	$lang['strfunctionupdatedbad'] = '更改函數作業失敗。';
 
 	// Triggers
 	$lang['strtrigger'] = '觸發器';
@@ -371,7 +371,7 @@
 	$lang['strnotriggers'] = '找不到任何觸發器。';
 	$lang['strcreatetrigger'] = '建立新觸發器';
 	$lang['strtriggerneedsname'] = '您需為您的觸發器命名。';
-	$lang['strtriggerneedsfunc'] = '您必須為你的觸發器指定一個函式。';
+	$lang['strtriggerneedsfunc'] = '您必須為你的觸發器指定一個函數。';
 	$lang['strtriggercreated'] = '成功建立新觸發器。';
 	$lang['strtriggercreatedbad'] = '建立觸發器作業失敗。';
 	$lang['strconfdroptrigger'] = '您確定要刪除觸發器 "%s" 於 "%s"?';
@@ -386,8 +386,8 @@
 	$lang['strnotypes'] = '找不到任何類型。';
 	$lang['strcreatetype'] = '建立新類型';
 	$lang['strtypename'] = '類型名';
-	$lang['strinputfn'] = '輸入函式';
-	$lang['stroutputfn'] = '輸出函式';
+	$lang['strinputfn'] = '輸入函數';
+	$lang['stroutputfn'] = '輸出函數';
 	$lang['strpassbyval'] = '以值傳送?';
 	$lang['stralignment'] = '排列';
 	$lang['strelement'] = '元素';
