@@ -76,7 +76,7 @@ A: You have not created your database in the correct encoding.  This problem
 Q: When I drop and re-create a table with the same name, it fails.
 
 A: You need to drop the sequence attached to the SERIAL column of the table
-   as well.  PostgreSQL 7.3 does this automatically.  If you have upgraded
+   as well.  PostgreSQL 7.3 and above do this automatically.  If you have upgraded
    to PostgreSQL 7.3 from an earlier version, you need to run the
    contrib/adddepend script to record all dependencies.
 
@@ -93,7 +93,8 @@ A: In order, phpPgAdmin will prefer the following as unique row identifiers:
 
 	1. Primary keys
 	2. Unique keys (cannot be parital or expressional indexes)
-	3. OID column (will be slow to update, unless you index the OID column)
+	3. OID column (will require a sequential scan to update, unless you 
+	   index the OID column)
 
    Furthermore, any NULL values in the unique index will mean that that row
    will be uneditable.  Also, since OIDs can become duplicated in a table,
@@ -105,6 +106,36 @@ Q: What happened to the database dump feature?
 A: You need to configure phpPgAdmin (in the config.inc.php file) to point
    to the location of the pg_dump and pg_dumpall utilities on your server.
    Once you have done that, the database export feature will appear.
+
+Q: Why can't I reload the SQL script I dumped in the SQL window?
+
+A: The following limitations currently exist in SQL script execution:
+
+	* Only uploaded SQL scripts can contain COPY commands and for
+	  this to work, you must have PHP 4.2 or higher.
+
+	* 'psql' commands such as '\connect' will not work at all.
+
+	* Multiline SQL statements will not work, eg:
+
+		CREATE TABLE example (
+			a INTEGER
+		);
+
+	* You cannot change the current database or current user during
+	  the execution of the script.
+
+   We do intend to work on some of these limitations in the future, but
+   some of them are PostgreSQL restrictions and we recommend using the
+   'psql' utility to restore your full SQL dumps.
+
+Q: Why is there never any information on the 'Info' page of a table?
+
+A: The Info page will show you what other tables have foreign keys to the
+   current table and some data from the PostgreSQL statistics collector.
+   The stats collector is not enabled by default in PostgreSQL.  To enable
+   it, look in your postgresql.conf file for the stats_* options.  Just
+   make them all 'true' and restart PostgreSQL.
 
 Q: I would like to help out with the development of phpPgAdmin. How should I
    proceed?
