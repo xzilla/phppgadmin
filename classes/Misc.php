@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.19 2003/03/27 13:47:15 chriskl Exp $
+	 * $Id: Misc.php,v 1.20 2003/03/28 12:29:53 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -107,7 +107,9 @@
 
 					$version = $params[1]; // eg. 7.3.2
 
-					if (strpos($version, '7.3') === 0)
+					if (strpos($version, '7.4') === 0)
+						return 'Postgres74';
+					elseif (strpos($version, '7.3') === 0)
 						return 'Postgres73';
 					elseif (strpos($version, '7.2') === 0)
 						return 'Postgres72';

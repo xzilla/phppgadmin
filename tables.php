@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: tables.php,v 1.11 2003/03/28 12:29:53 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -521,16 +521,24 @@
 					if ($k == $localData->id && !$guiShowOIDs) continue;
 					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
 					else echo "<td class=data{$id}>", nl2br(htmlspecialchars($v)), "</td>";
-				}							
+				}
 				if (sizeof($key) > 0) {
 					$key_str = '';
+					$has_nulls = false;
 					foreach ($key as $v) {
+						if ($rs->f[$v] === null) {
+							$has_nulls = true;
+							break;
+						}
 						if ($key_str != '') $key_str .= '&';
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
-
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
+					if ($has_nulls) {
+						echo "<td class=opbutton{$id}>&nbsp;</td>\n<td class=opbutton{$id}>&nbsp;</td>\n";
+					} else {
+						echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
+						echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
+					}
 				}
 				echo "</tr>\n";
 				$rs->moveNext();

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.33 2003/03/27 12:56:30 chriskl Exp $
+ * $Id: Postgres73.php,v 1.34 2003/03/28 12:29:53 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -21,7 +21,7 @@ class Postgres73 extends Postgres72 {
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 16974;
-	
+
 	// Max object name length
 	var $_maxNameLen = 63;
 
@@ -273,7 +273,7 @@ class Postgres73 extends Postgres72 {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
-		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND 
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND 
 			indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}' AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))";
 		$rs = $this->selectSet($sql);
