@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.1 2002/11/14 01:04:38 chriskl Exp $
+	 * $Id: tblexport.php,v 1.2 2002/12/27 17:25:57 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -21,8 +21,11 @@
 			$ext = $extensions[$_REQUEST['format']];
 		else
 			$ext = 'txt';
-		
-		header('Content-Disposition: attachment; filename=dump.' . $ext);			
+
+		header('Content-Disposition: attachment; filename=dump.' . $ext);
+	}
+	else {
+		header('Content-Type: text/plain');
 	}
 
 	// Include application functions
@@ -31,37 +34,75 @@
 
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
+	// Return all rows in the table
+	// @@ Note: This should really use a cursor
+	$rs = &$localData->dumpRelation($_REQUEST['table'], isset($_REQUEST['oids']));
+
 	if ($_REQUEST['format'] == 'sql') {
+		$data->fieldClean($_REQUEST['table']);
+		echo "COPY \"{$_REQUEST['table']}\" FROM stdin";
+		if (isset($_REQUEST['oids'])) echo " WITH OIDS";
+		echo ";\n";
+		while (!$rs->EOF) {
+			$first = true;
+			while(list($k, $v) = each($rs->f)) {
+				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
+				// @@ Need escaping here
+				// @@ Need to handle NULL values
+				if ($first) {
+					echo "\"{$v}\"";
+					$first = false;
+				}
+				else echo "\t\"{$v}\"";
+			}
+			echo "\n";
+			$rs->moveNext();
+		}
+		echo "\\.\n";
+	}
+	elseif ($_REQUEST['format'] == 'xml') {
+		echo "<xml>\n";
+		while (!$rs->EOF) {
+			echo "\t<row>\n";
+			while(list($k, $v) = each($rs->f)) {
+				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
+
+				$k = htmlspecialchars($k);
+				$v = htmlspecialchars($v);
+				echo "\t\t<{$k}>{$v}</{$k}>\n";
+			}
+			echo "\t</row>\n";
+			$rs->moveNext();
+		}
+		echo "</xml>\n";
 	}
 	else {
-		// Return all rows in the table
-		// @@ Note: This should really use a cursor
-		$rs = &$localData->browseTable($_REQUEST['table']);
-		
-		if (!isset($_REQUEST['download'])) echo "<pre>\n";
-
 		while (!$rs->EOF) {
+			$first = true;
 			while(list($k, $v) = each($rs->f)) {
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
 				switch ($_REQUEST['format']) {
 					case 'csv':
 						$v = str_replace('"', '""', $v);
-						echo "\"{$v}\",";
+						if ($first) {
+							echo "\"{$v}\"";
+							$first = false;
+						}
+						else echo ",\"{$v}\"";
 						break;
 					case 'tab':
 						$v = str_replace('"', '""', $v);
-						echo "\"{$v}\"\t";
-						break;
-					case 'xml':
+						if ($first) {
+							echo "\"{$v}\"";
+							$first = false;
+						}
+						else echo "\t\"{$v}\"";
 						break;
 				}
 			}
 			echo "\r\n";
 			$rs->moveNext();
 		}
-
-		if (!isset($_REQUEST['download'])) echo "</pre>\n";
-
-	}	
+	}
 
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.5 2002/12/27 16:24:10 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.6 2002/12/27 17:25:56 chriskl Exp $
 	 */
 
 	// Create Misc class references
@@ -96,8 +96,10 @@
 	}
 
 	// Theme
-	echo "<style type=\"text/css\">\n<!--\n";
-	include("../themes/{$guiTheme}/global.css");
-	echo "\n-->\n</style>\n";
+	if (!isset($_no_output)) {
+		echo "<style type=\"text/css\">\n<!--\n";
+		include("../themes/{$guiTheme}/global.css");
+		echo "\n-->\n</style>\n";
+	}
 	
 ?>

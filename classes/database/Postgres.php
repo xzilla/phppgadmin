@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.28 2002/12/27 16:28:00 chriskl Exp $
+ * $Id: Postgres.php,v 1.29 2002/12/27 17:25:56 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -376,7 +376,7 @@ class Postgres extends BaseDB {
 		// @@ How do you do this?
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Returns a recordset of all columns in a relation.  Supports paging.
 	 * @param $relation The name of a relation
@@ -389,7 +389,7 @@ class Postgres extends BaseDB {
 	 * @return -3 page or page_size invalid
 	 */
 	function &browseRelation($relation, $page, $page_size, &$max_pages) {
-		$this->fieldClean($relation);		
+		$this->fieldClean($relation);
 
 		// Check that we're not going to divide by zero
 		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
@@ -414,11 +414,11 @@ class Postgres extends BaseDB {
 			$this->rollbackTransaction();
 			return -3;
 		}
-		
+
 		// Actually retrieve the rows, with offset and limit
 		// @@ WHAT HAPPENS IF THE THING DOESN'T HAVE OIDs???
 		$rs = $this->selectSet("SELECT oid, * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-		
+
 		$status = $this->endTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -426,6 +426,22 @@ class Postgres extends BaseDB {
 		}
 		
 		return $rs;
+	}
+	
+	/**
+	 * Returns a recordset of all columns in a relation.  Used for data export.
+	 * @@ Note: Really needs to use a cursor
+	 * @param $relation The name of a relation
+	 * @return A recordset on success
+	 */
+	function &dumpRelation($relation, $oids) {
+		$this->fieldClean($relation);
+
+		// Actually retrieve the rows
+		if ($oids) $oid_str = 'oid, ';
+		else $oid_str = '';
+
+		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
 	
 	/**
