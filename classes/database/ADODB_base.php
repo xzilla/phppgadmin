@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.19 2004/07/19 03:01:53 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.19.2.1 2004/12/06 02:50:24 chriskl Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -310,6 +310,8 @@ class ADODB_base {
 	 * @return A PHP array
 	 */
 	function phpArray($arr) {
+		if ($arr == '{}') return array();
+		
 		$temp = explode(',', substr($arr, 1, strlen($arr) - 2));
 		// Remove any quoting
 		for ($i = 0; $i < sizeof($temp); $i++) {
