@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.40 2004/07/22 08:50:01 jollytoad Exp $
+	 * $Id: functions.php,v 1.41 2004/08/24 08:59:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -222,7 +222,7 @@
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre', array('lineno' => true)), "</td></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre', array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
 			}
 			
 			// Show flags

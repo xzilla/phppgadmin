@@ -22,6 +22,7 @@ Features
 * Allow creating and viewing composite types
 * pg_dumpall integration.  Now you can download the entire cluster via
   phpPgAdmin.
+* Show line numbers when viewing functions
 
 Translations
 * Arabic from Zaki

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.84 2004/08/04 07:44:03 chriskl Exp $
+	 * $Id: Misc.php,v 1.85 2004/08/24 08:59:51 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -123,19 +123,6 @@
 					$str = substr($str, 0, $maxlen-1) . $ellipsis;
 				}
 			}
-			
-			// Add line numbers if 'lineno' param is true
-			if (isset($params['lineno']) && $params['lineno'] === true) {
-				$lines = explode("\n", $str);
-				// Determine max number of digits and create a formatting string
-				$format = '%' . strlen(count($lines)) . 'u: %s';
-				$i = 1;
-				$str = '';
-				foreach ($lines as $line) {
-					$str .= sprintf($format, $i++, $line) . "\n";
-				}
-				unset($lines);
-			}
 
 			$out = '';
 			
@@ -212,10 +199,25 @@
 			
 			if (isset($tag)) {
 				$alignattr = isset($align) ? " align=\"{$align}\"" : '';
-				$classattr = isset($class) ? " class=\"{$class}\"" : '';
-				return "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
+				$classattr = isset($class) ? " class=\"{$class}\"" : '';				
+				$out = "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
 			}
-			
+
+			// Add line numbers if 'lineno' param is true
+			if (isset($params['lineno']) && $params['lineno'] === true) {
+				$lines = explode("\n", $str);
+				$num = count($lines);
+				if ($num > 0) {
+					$temp = "<table>\n<tr><td class=\"{$class}\" style=\"vertical-align: top; padding-right: 10px;\"><pre class=\"{$class}\">";
+					for ($i = 1; $i <= $num; $i++) {
+						$temp .= $i . "\n";
+					}
+					$temp .= "</pre></td><td class=\"{$class}\" style=\"vertical-align: top;\">{$out}</td></tr></table>\n";
+					$out = $temp;
+				}
+				unset($lines);
+			}
+
 			return $out;
 		}
 

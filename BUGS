@@ -17,6 +17,7 @@ Need to fix:
 * Report login errors
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
+* add different null formats to import and export
 
 NEEDS TESTING
 -------------
