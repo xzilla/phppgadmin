@@ -28,6 +28,13 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
 
+Q: When I enter non-ASCII data into the database via a form, it's inserted
+   as hexadecimal or &#1234; format!
+
+A: You have not created your database in the correct encoding.  This problem
+   will occur when you try to enter an umlaut into an SQL_ASCII database, or
+   SJIS Japanese into an EUC-JP database, etc.
+
 Q: When I drop and re-create a table with the same name, it fails.
 
 A: You need to drop the sequence attached to the SERIAL column of the table
@@ -61,4 +68,4 @@ Q: I would like to help out with the development of phpPgAdmin. How should I
    
 A: Read the DEVELOPERS and TRANSLATORS files.
 
-   
+
