@@ -31,7 +31,7 @@ Groups
 * Alter group
 * -Allow selecting of members when creating group (chriskl)
 
-Permissions [ Robert ]
+Permissions
 -----------
 
 * -Allow granting of perms (chriskl)
@@ -46,8 +46,10 @@ Databases
 
 * -Fix create/drop databases (chriskl)
 * Add alter database for 7.3+
-* -Execute arbitrary SQL (chriskl)
+* Execute arbitrary SQL (chriskl)
 * Dump database
+* Creating new database should refresh left pane?
+* Show encoding of databases (robert)
 
 Tables
 ------
@@ -81,7 +83,7 @@ Sequences
 
 * Create Sequences
 
-Indicies [ Robert ]
+Indicies 
 --------
 
 * -Drop Index (chriskl - bug in message?)
@@ -149,6 +151,7 @@ Schemas
 
 * -Create schema, drop schema (chriskl)
 * -Not all operations yet respect schema settings (chriskl)
+* Schema menu link results in 404 (robert)
 
 Settings
 --------
