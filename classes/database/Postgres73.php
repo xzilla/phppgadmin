@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.42 2003/05/11 10:39:29 chriskl Exp $
+ * $Id: Postgres73.php,v 1.43 2003/05/11 15:13:31 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -515,8 +515,8 @@ class Postgres73 extends Postgres72 {
 				{$distinct}
 				p.oid,
 				p.proname,
-				CASE WHEN p.proretset THEN 'setof ' ELSE '' END ||
-					pg_catalog.format_type(p.prorettype, NULL) AS return_type,
+				p.proretset,
+				pg_catalog.format_type(p.prorettype, NULL) AS return_type,
 				pg_catalog.oidvectortypes(p.proargtypes) AS arguments
 			FROM pg_catalog.pg_proc p
 			LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
@@ -545,10 +545,11 @@ class Postgres73 extends Postgres72 {
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
+	 * @param $setof True if it returns a set, false otherwise
 	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
-	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->fieldClean($returns);
@@ -564,7 +565,9 @@ class Postgres73 extends Postgres72 {
 			$sql .= $args;
 
 		// For some reason, the returns field cannot have quotes...
-		$sql .= ") RETURNS {$returns} AS '\n";
+		$sql .= ") RETURNS ";
+		if ($setof) $sql .= "SETOF ";
+		$sql .= "{$returns} AS '\n";
 		$sql .= $definition;
 		$sql .= "\n'";
 		$sql .= " LANGUAGE \"{$language}\"";
@@ -775,6 +778,7 @@ class Postgres73 extends Postgres72 {
 	function hasCluster() { return true; }
 	function hasDropBehavior() { return true; }
 	function hasDropColumn() { return true; }
+	function hasSRFs() { return true; }
 
 }
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.11 2003/05/11 10:39:29 chriskl Exp $
+	 * $Id: functions.php,v 1.12 2003/05/11 15:13:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -101,17 +101,17 @@
 		
 		if ($funcdata->recordCount() > 0) {
 			$func_full = $funcdata->f[$data->fnFields['fnname']] . "(". $funcdata->f[$data->fnFields['fnarguments']] .")";
-			echo "<table width=90%>\n";
-			echo "<tr><th class=data>{$lang['strfunctions']}</th>\n";
-			echo "<th class=data>{$lang['strarguments']}</th>\n";
-			echo "<th class=data>{$lang['strreturns']}</th>\n";
-			echo "<th class=data>{$lang['strlanguage']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
-			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
-			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
-			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
-			echo "<tr><th class=data colspan=4>{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=data1 colspan=4>", nl2br(htmlspecialchars($funcdata->f[$data->fnFields['fndef']])), "</td></tr>\n";
+			echo "<table width=\"90%\">\n";
+			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th>\n";
+			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
+			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
+			echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
+			echo "<tr><td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
+			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
+			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
+			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\">", nl2br(htmlspecialchars($funcdata->f[$data->fnFields['fndef']])), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -169,6 +169,7 @@
 		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
+		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		
 		$types = &$localData->getTypes(true);
 		$langs = &$localData->getLanguages();
@@ -189,7 +190,16 @@
 		echo "<td class=\"data1\"><input name=\"formArguments\" style=\"width:100%;\" size=\"16\" value=\"",
 			htmlspecialchars($_POST['formArguments']), "\" /></td>\n";
 
-		echo "<td class=\"data1\"><select name=\"formReturns\">\n";
+		echo "<td class=\"data1\">\n";
+		// If supports set-returning-functions, output setof option
+		if ($data->hasSRFs()) {
+			echo "<select name=\"formSetOf\">\n";
+			echo "<option value=\"\"", ($_POST['formSetOf'] == '') ? ' selected' : '', "></option>\n";
+			echo "<option value=\"SETOF\"", ($_POST['formSetOf'] == 'SETOF') ? ' selected' : '', ">SETOF</option>\n";
+			echo "</select>\n";
+		}
+		// Output return type list		
+		echo "<select name=\"formReturns\">\n";
 		while (!$types->EOF) {
 			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
 				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected' : '', ">",
@@ -252,7 +262,7 @@
 		else {		 
 			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
 					$_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
-					$_POST['formProperties'], false);
+					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
 			else
@@ -274,21 +284,25 @@
 
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strfunctions']}</th><th class=data>{$lang['strreturns']}</th><th class=data>{$lang['strarguments']}</th><th colspan=\"4\" class=data>{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th><th class=\"data\">{$lang['strreturns']}</th>\n";
+			echo "<th class=\"data\">{$lang['strarguments']}</th><th colspan=\"4\" class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
+				$funcs->f[$data->fnFields['setof']] = $data->phpBool($funcs->f[$data->fnFields['setof']]);
 				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">";
+				if ($funcs->f[$data->fnFields['setof']]) echo "setof ";
+				echo htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stredit']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"privileges.php?{$misc->href}&function=", 
+				echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&function=", 
 					urlencode($func_full), "&object=",
 					$funcs->f[$data->fnFields['fnoid']], "&type=function\">{$lang['strprivileges']}</a></td>\n";
 				echo "</tr>\n";
@@ -302,7 +316,7 @@
 			echo "<p>{$lang['strnofunctions']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatefunction']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatefunction']}</a></p>\n";
 
 	}
 	

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.41 2003/05/07 15:00:56 chriskl Exp $
+ * $Id: Postgres72.php,v 1.42 2003/05/11 15:13:30 chriskl Exp $
  */
 
 
@@ -12,7 +12,6 @@ include_once('classes/database/Postgres71.php');
 
 class Postgres72 extends Postgres71 {
 
-	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
 	var $langFields = array('lanname' => 'lanname');
 	var $privFields = array('privarr' => 'relacl');
 
@@ -228,6 +227,7 @@ class Postgres72 extends Postgres71 {
 		$sql = "SELECT
 				p.oid,
 				p.proname,
+				false AS proretset,
 				format_type(p.prorettype, NULL) AS return_type,
 				oidvectortypes(p.proargtypes) AS arguments
 			FROM
@@ -277,10 +277,11 @@ class Postgres72 extends Postgres71 {
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
+	 * @param $setof True if returns a set, false otherwise
 	 * @return 0 success
 	 */
-	function setFunction($funcname, $args, $returns, $definition, $language, $flags) {
-		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, true);
+	function setFunction($funcname, $args, $returns, $definition, $language, $flags, $setof) {
+		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
 	}
 
 	// Type functions

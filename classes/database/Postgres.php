@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.100 2003/05/11 10:39:29 chriskl Exp $
+ * $Id: Postgres.php,v 1.101 2003/05/11 15:13:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -27,6 +27,7 @@ class Postgres extends BaseDB {
 		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
 		'typdelim' => 'typdelim', 'typbyval' => 'typbyval', 
 		'typalign' => 'typalign', 'typstorage' => 'typstorage');
+	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language', 'setof' => 'proretset' );
 
 	// Array of allowed type alignments
 	var $typAligns = array('char', 'int2', 'int4', 'double');
@@ -2154,24 +2155,29 @@ class Postgres extends BaseDB {
 	/**
 	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
 	 * so we do it with a drop and a recreate.
-	 * @param $funcname The name of the function to update
-	 * @param $definition The new definition for the function
+	 * @param $funcname The name of the function to create
+	 * @param $args The array of argument types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $setof True if returns a set, false otherwise
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 drop function error
 	 * @return -3 create function error
 	 */
-	function setFunction($funcname, $definition) {
+	function setFunction($funcname, $args, $returns, $definition, $language, $flags, $setof) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$status = $this->dropFunction($funcname);
+		$status = $this->dropFunction($funcname, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
 		
-		$status = $this->createFunction($funcname, $definition);
+		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;
@@ -2189,10 +2195,12 @@ class Postgres extends BaseDB {
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
+	 * @param $setof True if it returns a set, false otherwise
 	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
-	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
+		if ($setof) return -99;
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->fieldClean($returns);
