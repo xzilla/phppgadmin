@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.21 2004/11/15 01:40:12 chriskl Exp $
+    * $Id: german.php,v 1.22 2004/12/20 13:11:49 soranzo Exp $
     */
 
 
@@ -203,7 +203,7 @@
     $lang['strtabbed']  =  'mit Tabluatoren';
     $lang['strauto']  =  'Automatisch';
     $lang['strconfvacuumtable']  =  'Sind sie sicher, dass Sie VACUUM auf "%s" ausführen wollen?';
-    $lang['strestimatedrowcount']  =  'Geschätzte Spaltenanzahl';
+    $lang['strestimatedrowcount']  =  'Geschätzte Anzahl Datensätze';
 
 	// Users
     $lang['struser'] = 'Benutzer';
@@ -387,6 +387,7 @@
     $lang['strruledroppedbad'] = 'Löschen der Regel fehlgeschlagen.';
 
     // Constraints
+    $lang['strconstraint']  =  'Constraint';
     $lang['strconstraints'] = 'Constraints';
     $lang['strshowallconstraints'] = 'Zeige alle Constraints';
     $lang['strnoconstraints'] = 'Keine Constraints gefunden.';
