@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.14 2003/05/23 06:11:06 chriskl Exp $
+	 * $Id: all_db.php,v 1.15 2003/06/04 13:31:16 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -74,7 +74,7 @@
 		echo "</td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
