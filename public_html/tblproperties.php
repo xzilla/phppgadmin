@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.17 2003/01/08 05:38:24 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.18 2003/01/09 06:32:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,11 +32,11 @@
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=triggerprops&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Properties</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=triggerprops&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Properties</td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Drop</td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Privileges</td></tr>\n"; 
+				echo "<a href=\"$PHP_SELF?action=priviledges&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Privileges</td></tr>\n"; 
 				
 				$triggers->movenext();
 				$i++;
@@ -47,8 +47,7 @@
 		else
 			echo "<p>{$strNoTriggers}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createtrigger&database=",
-			urlencode($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createtrigger&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";
 	}
 
 	/**
@@ -74,13 +73,13 @@
 			htmlspecialchars($_POST['formCols']), "\"> ({$strExample} col1, col2)</td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=hidden name=action value=save_create_index>\n";
-		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo $misc->form;
 		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\"></p>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
-			"&table=", urlencode($_REQUEST['table']), "&action=indicies\">{$strShowAllIndicies}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
+			"&action=indicies\">{$strShowAllIndicies}</a></p>\n";
 	}
 
 	/**
@@ -107,7 +106,7 @@
 	 * Show confirmation of drop index and perform actual drop
 	 */
 	function doDropIndex($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF, $strConfDropIndex, $strIndexDropped, $strIndexDroppedBad, $strYes, $strNo;
 
 		if ($confirm) {
@@ -121,7 +120,7 @@
 			echo "<input type=hidden name=action value=drop_index>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
@@ -156,10 +155,10 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
 					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td>\n";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges_index&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=priviledges_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
 				
 				$indexes->movenext();
 				$i++;
@@ -170,8 +169,7 @@
 		else
 			echo "<p>{$strNoIndicies}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&database=",
-			urlencode( $_REQUEST['database'] ), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateIndex}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateIndex}</a></p>\n";		
 	}	
 
 	function doExport($msg = '') {
@@ -200,7 +198,7 @@
 		echo "</table>\n";
 
 		echo "<p><input type=hidden name=action value=export>\n";
-		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo $misc->form;
 		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 		echo "<input type=submit value=\"{$strExport}\"> <input type=reset value=\"{$strReset}\"></p>\n";
 		echo "</form>\n";
@@ -248,7 +246,7 @@
 				echo "</table>\n";
 				echo "<input type=hidden name=action value=properties>\n";
 				echo "<input type=hidden name=stage value=2>\n";
-				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo $misc->form;
 				echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 				echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
 				echo "<input type=submit value=\"{$strAlter}\"> <input type=reset>\n";
@@ -279,14 +277,14 @@
 				echo "<p>Invalid script parameter.</p>\n";
 		}
 					
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
 	}
 
 	/**
 	 * Show confirmation of drop column and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -300,7 +298,7 @@
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
@@ -318,7 +316,7 @@
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData;
+		global $data, $localData, $misc;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTable;
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
 		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
@@ -340,11 +338,9 @@
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['type']), "</td>\n";
 				echo "<td class=data{$id}>", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']),
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
 					"&column=", htmlspecialchars($attrs->f['attname']), "&action=properties\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']),
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
 					"&column=", htmlspecialchars($attrs->f['attname']), "&action=confirm_drop\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
 				$attrs->moveNext();
@@ -354,14 +350,10 @@
 			echo "<br />\n";
 
 			echo "<ul>\n";
-			echo "<li><a href=\"tables.php?action=browse&page=1&database=",
-				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strBrowse}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confselectrows&database=",
-				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strSelect}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confinsertrow&database=",
-				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strInsert}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confirm_drop&database=",
-				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strDrop}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strBrowse}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strSelect}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strInsert}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strDrop}</a></li>\n";
 			echo "</ul>\n";
 		}
 		else {
@@ -370,20 +362,19 @@
 	}
 
 	function doNav() {
-		global $PHP_SELF;
+		global $PHP_SELF, $misc;
 		global $strColumns, $strIndicies, $strConstraints, $strTriggers, $strRules, $strExport, $strPrivileges;
 
-		$vars = 'database=' . urlencode($_REQUEST['database']) . '&table=' . urlencode($_REQUEST['table']);
+		$vars = $misc->href . '&table=' . urlencode($_REQUEST['table']);
 		
 		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-		echo "<tr><td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>";
-		echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&database=", 
-			urlencode($_REQUEST['database']), "&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>";
+		echo "<tr><td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&{$misc->href}&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 		echo "</table>\n";
 	}	
 
