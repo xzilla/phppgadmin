@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.6 2002/09/27 14:15:49 xzilla Exp $
+ *  $Id: sequences.php,v 1.7 2002/10/03 03:59:06 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -99,7 +99,8 @@ function doDefault()
 
 	function doPrivileges()
 	{
-
+		global $localData, $database;
+		global $PHP_SELF, $strSequences ;
 	}
 
 	function doDrop($confirm)
@@ -129,30 +130,46 @@ function doDefault()
 
 	}
 
+
+	function doReset()
+	{
+		global $localData, $database;
+		global $PHP_SELF, $strSequences, $strDropped, $strDrop, $strFailed;
+
+		$status = $localData->resetSequence($_REQUEST['sequence']);
+		if ($status == 0)
+			doDefault("$strSequence has been reset");
+		else	
+			doDefault("$strSequence reset failed");
+	}
+
 echo "<html>\n";
 echo "<body>\n";
 
 switch( $action )
 {
-    case 'create':
-        echo "<p>Creating sequence</p>";
-        break;
+	case 'create':
+        	echo "<p>Creating sequence</p>";
+        	break;
 	case 'properties':
 		doProperties();	
 		break;
 	case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
-			else doDefault();
-			break;
+		if ($_POST['choice'] == 'Yes') doDrop(false);
+		else doDefault();
+		break;
 	case 'confirm_drop':
 		doDrop(true);
 		break;			
 	case 'privileges':
 		doPrivileges();
 		break;
-    default:
-        doDefault();
-        break;
+	case 'reset':
+		doReset();
+		break;
+    	default:
+        	doDefault();
+        	break;
 }
 
 echo "</body>\n";

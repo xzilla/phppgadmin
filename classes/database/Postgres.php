@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.15 2002/09/27 14:15:47 xzilla Exp $
+ * $Id: Postgres.php,v 1.16 2002/10/03 03:59:06 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -341,9 +341,33 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
-/*
-	function setSequence()
-*/
+	/** 
+	 * Creates a new sequence
+	 * @return 0 success
+	 */
+	function &setSequence($sequence,$startval=1) {
+		$this->clean($sequence);
+		$sql = "CREATE SEQUENCE $seq_name START $startval";
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Modifies permissions on a given sequence
+	 * @return 0 success
+	 */
+	function &setSequencePermissions($sequence) {
+
+	}
+
+	/** 
+	 * Resets  a given sequence to 1
+	 * @return 0 success
+	 */
+	function &resetSequence($sequence) {
+		$this->clean($sequence);
+		$sql = "SELECT setval('$sequence',1)";
+		return $this->execute($sql);
+	}
 
 	/**
 	 * Adds a check constraint to a table
