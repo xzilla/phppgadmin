@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.113 2003/10/12 08:55:11 chriskl Exp $
+	 * $Id: english.php,v 1.114 2003/10/14 16:52:55 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -155,10 +155,10 @@
 	$lang['strfield'] = 'Field';
 	$lang['strfields'] = 'Fields';
 	$lang['strnumfields'] = 'Num. Of Fields';
-	$lang['strfieldneedsname'] = 'You must name your field';
+	$lang['strfieldneedsname'] = 'You must name your field.';
 	$lang['strselectallfields'] = 'Select all fields';
-	$lang['strselectneedscol'] = 'You must show at least one column';
-	$lang['strselectunary'] = 'Unary operators cannot have values';
+	$lang['strselectneedscol'] = 'You must show at least one column.';
+	$lang['strselectunary'] = 'Unary operators cannot have values.';
 	$lang['straltercolumn'] = 'Alter Column';
 	$lang['strcolumnaltered'] = 'Column altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';
@@ -168,8 +168,6 @@
 	$lang['straddcolumn'] = 'Add column';
 	$lang['strcolumnadded'] = 'Column added.';
 	$lang['strcolumnaddedbad'] = 'Column add failed.';
-	$lang['strschemaanddata'] = 'Schema & Data';
-	$lang['strschemaonly'] = 'Schema Only';
 	$lang['strdataonly'] = 'Data Only';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Table altered.';
@@ -312,7 +310,7 @@
 	$lang['strcreateindex'] = 'Create index';
 	$lang['strtabname'] = 'Tab name';
 	$lang['strcolumnname'] = 'Column name';
-	$lang['strindexneedsname'] = 'You must give a name for your index';
+	$lang['strindexneedsname'] = 'You must give a name for your index.';
 	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created';
 	$lang['strindexcreatedbad'] = 'Index creation failed.';
@@ -500,9 +498,9 @@
 
 	// Info
 	$lang['strnoinfo'] = 'No information available.';
-	$lang['strreferringtables'] = 'Referring Tables';
-	$lang['strparenttables'] = 'Parent Tables';
-	$lang['strchildtables'] = 'Child Tables';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Parent tables';
+	$lang['strchildtables'] = 'Child tables';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';

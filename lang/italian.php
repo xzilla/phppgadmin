@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.18 2003/10/06 18:10:18 soranzo Exp $
+	 * $Id: italian.php,v 1.19 2003/10/14 16:52:55 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -107,6 +107,8 @@
 	$lang['stroptions'] = 'Opzioni';
 	$lang['strrefresh'] = 'Ricarica';
 	$lang['strdownload'] = 'Scarica';
+	$lang['strinfo'] = 'Informazioni';
+	$lang['stroids'] = 'OIDs';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
@@ -153,24 +155,25 @@
 	$lang['strfield'] = 'Campo';
 	$lang['strfields'] = 'Campi';
 	$lang['strnumfields'] = 'Numero di campi';
-	$lang['strfieldneedsname'] = 'È necessario specificare un nome per i campi';
+	$lang['strfieldneedsname'] = 'È necessario specificare un nome per i campi.';
 	$lang['strselectallfields'] = 'Seleziona tutti i campi';
-        $lang['strselectneedscol'] = 'È necessario scegliere almeno una colonna';
+        $lang['strselectneedscol'] = 'È necessario scegliere almeno una colonna.';
+	$lang['strselectunary'] = 'Gli operatori unari non possono avere un valore.';
 	$lang['straltercolumn'] = 'Modifica colonna';
 	$lang['strcolumnaltered'] = 'Colonna modificata.';
 	$lang['strcolumnalteredbad'] = 'Modifica della colonna fallita.';
 	$lang['strconfdropcolumn'] = 'Sei sicuro di voler eliminare la colonna "%s" dalla tabella "%s"?';
-	$lang['strcolumndropped'] = 'Colonna eliminata';
+	$lang['strcolumndropped'] = 'Colonna eliminata.';
 	$lang['strcolumndroppedbad'] = 'Eliminazione della colonna fallita.';
 	$lang['straddcolumn'] = 'Aggiungi colonna.';
 	$lang['strcolumnadded'] = 'Colonna aggiunta.';
 	$lang['strcolumnaddedbad'] = 'Aggiunta della colonna fallita.';
-        $lang['strschemaanddata'] = 'Schema & Dati';
-	$lang['strschemaonly'] = 'Solamente schema';
-	$lang['strdataonly'] = 'Solamente dati';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Tabella modificata.';
 	$lang['strtablealteredbad'] = 'Modifica della tabella fallita.';
+	$lang['strdataonly'] = 'Solo i dati';
+	$lang['strstructureonly'] = 'Solo la struttura';
+	$lang['strstructureanddata'] = 'Struttura e dati';
 
 	// Users - Utenti
 	$lang['struser'] = 'Utente';
@@ -491,6 +494,12 @@
 	$lang['strconfdropoperator'] = 'Sei sicuro di voler eliminare l\'operatore "%s"?';
 	$lang['stroperatordropped'] = 'Operatore eliminato.';
 	$lang['stroperatordroppedbad'] = 'Eliminazione dell\'operatore fallita.';
+
+	// Info
+	$lang['strnoinfo'] = 'Nessuna informazione disponibile.';
+	$lang['strreferringtables'] = 'Tabella referente';
+	$lang['strparenttables'] = 'Tabella padre';
+	$lang['strchildtables'] = 'Tabella figlia';
 
 	// Miscellaneous - Varie
         $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Sei entrato come utente "%s", %s';
