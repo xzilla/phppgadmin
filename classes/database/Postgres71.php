@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.7 2002/04/15 12:16:35 chriskl Exp $
+ * $Id: Postgres71.php,v 1.8 2002/05/01 09:37:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -16,6 +16,7 @@ class Postgres71 extends BaseDB {
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
+	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 
 	// @@ Should we bother querying for this?
 	var $_lastSystemOID = 18539;
@@ -556,6 +557,94 @@ class Postgres71 extends BaseDB {
 	/**
 	 * Creates a new operator
 	 */
+
+	// User and group functions
+	
+	/**
+	 * Returns all users in the database cluster
+	 * @return All users
+	 */
+	function &getUsers() {
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow ORDER BY usename";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Return information about a single user
+	 * @param $username The username of the user to retrieve
+	 * @return The user's data
+	 */
+	function &getUser($username) {
+		$this->clean($username);
+		
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow WHERE usename='{$username}'";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Creates a new user
+	 * @param $username The username of the user to create
+	 * @param $password A password for the user
+	 * @param $createdb boolean Whether or not the user can create databases
+	 * @param $createuser boolean Whether or not the user can create other users
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
+	 * @param $group (array) The groups to create the user in
+	 * @return 0 success
+	 */
+	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
+		$this->clean($username);
+		// @@ THIS IS A PROBLEM FOR TRIMMING PASSWORD!!!
+		$this->clean($password);
+		$this->clean($expiry);
+		$this->arrayClean($groups);		
+		
+		$sql = "CREATE USER \"{$username}\"";
+		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
+		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP '" . join("', '", $groups) . "'";
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		
+		return $this->execute($sql);
+	}	
+	
+	/**
+	 * Adjusts a user's info
+	 * @param $username The username of the user to modify
+	 * @param $password A new password for the user
+	 * @param $createdb boolean Whether or not the user can create databases
+	 * @param $createuser boolean Whether or not the user can create other users
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
+	 * @return 0 success
+	 */
+	function setUser($username, $password, $createdb, $createuser, $expiry) {
+		$this->clean($username);
+		$this->clean($password);
+		$this->clean($expiry);
+		
+		$sql = "ALTER USER \"{$username}\"";
+		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		
+		return $this->execute($sql);
+	}	
+	
+	/**
+	 * Removes a user
+	 * @param $username The username of the user to drop
+	 * @return 0 success
+	 */
+	function dropUser($username) {
+		$this->clean($username);
+		
+		$sql = "DROP USER \"{$username}\"";
+		
+		return $this->execute($sql);
+	}
 	 
 	// Capabilities
 	function hasTables() { return true; }

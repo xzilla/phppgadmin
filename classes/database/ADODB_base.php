@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.2 2002/02/18 09:46:49 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.3 2002/05/01 09:37:30 chriskl Exp $
  */
 
 include_once('../libraries/adodb/adodb-errorhandler.inc.php');
@@ -33,6 +33,18 @@ class ADODB_base {
 		return $str;
 	}
 
+	/**
+	 * Cleans (escapes) an array
+	 * @param $arr The array to clean, by reference
+	 * @return The cleaned array
+	 */
+	function arrayClean(&$arr) {
+		reset($arr);
+		while(list($k, $v) = each($arr))
+			$arr[$k] = addslashes($v);
+		return $arr;
+	}
+	
 	/**
 	 * Executes a query on the underlying connection
 	 * @param $sql The SQL query to execute
