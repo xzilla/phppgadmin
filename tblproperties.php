@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.40 2004/04/12 06:30:55 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.41 2004/04/12 06:43:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -167,7 +167,7 @@
 				//echo "<option value=\"copy\">COPY</option>\n";
 				//echo "<option value=\"sql\">SQL</option>\n";
 				echo "<option value=\"csv\">CSV</option>\n";
-				//echo "<option value=\"tab\">Tabbed</option>\n";
+				echo "<option value=\"tab\">Tabbed</option>\n";
 				//echo "<option value=\"html\">XHTML</option>\n";
 				//echo "<option value=\"xml\">XML</option>\n";
 				echo "</select>\n</td>\n</tr>\n";

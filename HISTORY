@@ -11,7 +11,7 @@ Features
 * Allow adding array columns to tables
 * Allow creating domains with type length and arrays
 * Show domain base type and comment in domains list
-* Allow import of CSV data
+* Allow import of CSV and Tabbed data
 * Allow upload and execution of _basic_ SQL scripts
 
 Bugs
