@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.11 2003/09/17 17:04:13 soranzo Exp $
+	 * $Id: italian.php,v 1.12 2003/09/30 09:56:39 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -26,6 +26,7 @@
 	// Basic strings - Stringhe basilari
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Login fallito';
+	$lang['strlogindisallowed'] = 'Login disabilitato';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Proprietario';

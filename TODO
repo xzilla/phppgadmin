@@ -42,11 +42,18 @@ Tables
 * -Change table owner
 * Cluster support
 * Vacuum & analyze (half done)
+* ORDER BY in Select function
+* Unify Select and Browse functions
 
 Views
 -----
 
 * Display, add, edit and drop rules on views
+
+Sequences
+---------
+
+* CACHE and CYCLE options in sequence creation
 
 Functions
 ---------
@@ -122,8 +129,9 @@ Miscellaneous
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * pg_dump integration
-* Config option to disallow pgsql and postgres logins
+* -Config option to disallow pgsql and postgres logins
 * Do David Smith's redireect idea to prevent refresh login resending password
+* Translated FAQ
 
 Exotic
 ------
