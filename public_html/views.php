@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.1 2002/04/15 11:57:29 chriskl Exp $
+	 * $Id: views.php,v 1.2 2002/04/15 12:16:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,14 +32,14 @@
 		global $data, $localData, $misc, $database, $view;
 		global $PHP_SELF, $strName, $strDefinition;
 		
-		echo "<h2>", htmlspecialchars($database), ": ", htmlspecialchars($view), "</h2>\n";
+		echo "<h2>", htmlspecialchars($database), ": Views: ", htmlspecialchars($view), ": Edit</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($view);
 		
 		if ($viewdata->recordCount() > 0) {
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
-			echo "<table>\n";
+			echo "<table width=100%>\n";
 			echo "<tr><th class=data>{$strName}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
@@ -56,7 +56,7 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($database), "\">Show All Views</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($database), "&view=", 
-			urlencode($view), "\">Properties</a>\n";
+			urlencode($view), "\">Properties</a></p>\n";
 	}
 	
 	/**
@@ -66,13 +66,13 @@
 		global $data, $localData, $misc, $database, $view;
 		global $PHP_SELF, $strName, $strDefinition;
 	
-		echo "<h2>", htmlspecialchars($database), ": ", htmlspecialchars($view), "</h2>\n";
+		echo "<h2>", htmlspecialchars($database), ": Views: ", htmlspecialchars($view), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($view);
 		
 		if ($viewdata->recordCount() > 0) {
-			echo "<table>\n";
+			echo "<table width=100%>\n";
 			echo "<tr><th class=data>{$strName}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
@@ -83,7 +83,7 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($database), "\">Show All Views</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($database), "&view=", 
-			urlencode($view), "\">Edit</a>\n";
+			urlencode($view), "\">Edit</a></p>\n";
 	}
 	
 	/**
@@ -93,9 +93,9 @@
 		global $localData, $database, $view;
 		global $PHP_SELF;
 
-		echo "<h2>", htmlspecialchars($database), ": ", htmlspecialchars($view), "</h2>\n";
-		
 		if ($confirm) { 
+			echo "<h2>", htmlspecialchars($database), ": Views: ", htmlspecialchars($view), ": Drop</h2>\n";
+			
 			echo "<p>Are you sure you want to drop the view \"", htmlspecialchars($view), "\"?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -113,6 +113,50 @@
 				doDefault('View drop failed.');
 		}
 		
+	}
+	
+	/**
+	 * Displays a screen where they can enter a new view
+	 */
+	function doCreate($msg = '') {
+		global $data, $localData, $misc, $database, $view;
+		global $PHP_SELF, $strName, $strDefinition;
+		global $formView, $formDefinition;
+		
+		if (!isset($formView)) $formView = '';
+		if (!isset($formDefinition)) $formDefinition = '';
+		
+		echo "<h2>", htmlspecialchars($database), ": Views: Create View</h2>\n";
+		$misc->printMsg($msg);
+		
+		echo "<form action=\"$PHP_SELF\" method=post>\n";
+		echo "<table width=100%>\n";
+		echo "<tr><th class=data>{$strName}</th></tr>\n";
+		echo "<tr><td class=data1><input name=formView size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+			htmlspecialchars($formView), "\"></td></tr>\n";
+		echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
+		echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
+			htmlspecialchars($formDefinition), "</textarea></td></tr>\n";
+		echo "</table>\n";
+		echo "<input type=hidden name=action value=save_create>\n";
+		echo "<input type=hidden name=database value=\"", htmlspecialchars($database), "\">\n";
+		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "</form>\n";
+		
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($database), "\">Show All Views</a></p>\n";
+	}
+	
+	/**
+	 * Actually creates the new view in the database
+	 */
+	function doSaveCreate() {
+		global $localData, $formView, $formDefinition;
+		
+		$status = $localData->createView($formView, $formDefinition);
+		if ($status == 0)
+			doDefault('View created.');
+		else
+			doCreate('View creation failed.');
 	}	
 
 	/**
@@ -122,7 +166,7 @@
 		global $data, $localData, $misc, $database, $view;
 		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews;
 		
-		echo "<h2>", htmlspecialchars($database), "</h2>\n";
+		echo "<h2>", htmlspecialchars($database), ": Views</h2>\n";
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();
@@ -146,16 +190,26 @@
 				$views->moveNext();
 				$i++;
 			}
+			echo "</table>\n";
 		}
 		else {
 			echo "<p>{$strNoViews}</p>\n";
 		}
+		
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($database), "\">Create View</a></p>\n";
+
 	}
 
 	echo "<html>\n";
 	echo "<body>\n";
 	
-	switch ($action) {		
+	switch ($action) {
+		case 'save_create':
+			doSaveCreate();
+			break;
+		case 'create':
+			doCreate();
+			break;
 		case 'drop':
 			if ($choice == 'Yes') doDrop(false);
 			else doDefault();
@@ -172,38 +226,8 @@
 		case 'properties':
 			doProperties();
 			break;
-		case 'browse':		
-		/*
-			echo "<h2>", htmlspecialchars($database), ": ", htmlspecialchars($table), "</h2>\n";
-			$rs = &$localData->browseTable($table, $offset, $limit);
-			
-			if ($rs->recordCount() > 0) {
-				echo "<table>\n<tr>";
-				reset($rs->f);
-				while(list($k, ) = each($rs->f)) {
-					echo "<th class=data>", htmlspecialchars($k), "</td>";
-				}			
-				echo "<th colspan=2 class=data>{$strActions}</th>\n";
-				
-				$i = 0;
-				reset($rs->f);
-				while (!$rs->EOF) {
-					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr>\n";
-					while(list(, $v) = each($rs->f)) {
-						echo "<td class=data{$id} nowrap>", nl2br(htmlspecialchars($v)), "</td>";
-					}							
-					echo "<td class=opbutton{$id}>Edit</td>\n";
-					echo "<td class=opbutton{$id}>Delete</td>\n";
-					echo "</tr>\n";
-					$rs->moveNext();
-					$i++;
-				}
-			}
-			else echo "<p>No data.</p>\n";
-				
-			break;
-		*/		
+		case 'browse':
+			// @@ Not yet implemented
 		default:
 			doDefault();
 			break;
