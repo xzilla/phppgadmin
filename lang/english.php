@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.104 2003/09/10 07:25:49 chriskl Exp $
+	 * $Id: english.php,v 1.105 2003/09/16 16:57:23 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -278,15 +278,15 @@
 	$lang['strnosequence'] = 'No sequence found.';
 	$lang['strnosequences'] = 'No sequences found.';
 	$lang['strcreatesequence'] = 'Create sequence';
-	$lang['strlastvalue'] = 'Last Value';
-	$lang['strincrementby'] = 'Increment By';	
-	$lang['strstartvalue'] = 'Start Value';
-	$lang['strmaxvalue'] = 'Max Value';
-	$lang['strminvalue'] = 'Min Value';
-	$lang['strcachevalue'] = 'Cache Value';
-	$lang['strlogcount'] = 'Log Count';
-	$lang['striscycled'] = 'Is Cycled?';
-	$lang['striscalled'] = 'Is Called?';
+	$lang['strlastvalue'] = 'Last value';
+	$lang['strincrementby'] = 'Increment by';	
+	$lang['strstartvalue'] = 'Start value';
+	$lang['strmaxvalue'] = 'Max value';
+	$lang['strminvalue'] = 'Min value';
+	$lang['strcachevalue'] = 'Cache value';
+	$lang['strlogcount'] = 'Log count';
+	$lang['striscycled'] = 'Is cycled?';
+	$lang['striscalled'] = 'Is called?';
 	$lang['strsequenceneedsname'] = 'You must specify a name for your sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
 	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 

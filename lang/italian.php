@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.14 2003/09/12 01:45:43 chriskl Exp $
+	 * $Id: italian.php,v 1.15 2003/09/16 16:57:23 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -128,7 +128,7 @@
 	$lang['strnotable'] = 'Tabella non trovata.';
 	$lang['strcreatetable'] = 'Crea tabella';
 	$lang['strtablename'] = 'Nome tabella';
-	$lang['strtableneedsname'] = 'È necessario dare un nome alla tabella.';
+	$lang['strtableneedsname'] = 'È necessario specificare un nome per la tabella.';
 	$lang['strtableneedsfield'] = 'È necessario specificare almeno un campo.';
 	$lang['strtableneedscols'] = 'Le tabelle richiedono un numero di colonne valido.';
 	$lang['strtablecreated'] = 'Tabella creata.';
@@ -149,11 +149,11 @@
 	$lang['strconfdeleterow'] = 'Sei sicuro di voler cancellare questa riga?';
 	$lang['strrowdeleted'] = 'Riga cancellata.';
 	$lang['strrowdeletedbad'] = 'Cancellazione della riga fallita.';
-	$lang['strsaveandrepeat'] = 'Salva e Ripeti';
+	$lang['strsaveandrepeat'] = 'Salva e ripeti';
 	$lang['strfield'] = 'Campo';
 	$lang['strfields'] = 'Campi';
-	$lang['strnumfields'] = 'Num. Di Campi';
-	$lang['strfieldneedsname'] = 'È necessario dare un nome ai campi';
+	$lang['strnumfields'] = 'Numero di campi';
+	$lang['strfieldneedsname'] = 'È necessario specificare un nome per i campi';
 	$lang['strselectallfields'] = 'Seleziona tutti i campi';
         $lang['strselectneedscol'] = 'È necessario scegliere almeno una colonna';
 	$lang['straltercolumn'] = 'Modifica colonna';
@@ -204,7 +204,7 @@
 	$lang['strnogroups'] = 'Nessun gruppo trovato.';
 	$lang['strcreategroup'] = 'Crea gruppo';
 	$lang['strshowallgroups'] = 'Mostra tutti i gruppi';
-	$lang['strgroupneedsname'] = 'È necessario dare un nome al gruppo.';
+	$lang['strgroupneedsname'] = 'È necessario specificare un nome per il gruppo.';
 	$lang['strgroupcreated'] = 'Gruppo creato.';
 	$lang['strgroupcreatedbad'] = 'Creazione del gruppo fallita.';
 	$lang['strconfdropgroup'] = 'Sei sicuro di voler eliminare il gruppo "%s"?';
@@ -240,7 +240,7 @@
 	$lang['strnodatabases'] = 'Nessun database trovato.';
 	$lang['strcreatedatabase'] = 'Crea database';
 	$lang['strdatabasename'] = 'Nome del database';
-	$lang['strdatabaseneedsname'] = 'È necessario dare un nome al database.';
+	$lang['strdatabaseneedsname'] = 'È necessario specificare un nome per il database.';
 	$lang['strdatabasecreated'] = 'Database creato.';
 	$lang['strdatabasecreatedbad'] = 'Creazione del database fallita.';
 	$lang['strconfdropdatabase'] = 'Sei sicuro di volere eliminare il database "%s"?';
@@ -261,8 +261,8 @@
 	$lang['strnoviews'] = 'Nessuna vista trovata.';
 	$lang['strcreateview'] = 'Crea vista';
 	$lang['strviewname'] = 'Nome vista';
-	$lang['strviewneedsname'] = 'È necessario dare un nome alla vista.';
-	$lang['strviewneedsdef'] = 'È necessario dare una definizione della vista.';
+	$lang['strviewneedsname'] = 'È necessario specificare un nome per la vista.';
+	$lang['strviewneedsdef'] = 'È necessario specificare una definizione per la vista.';
 	$lang['strviewcreated'] = 'Vista creata.';
 	$lang['strviewcreatedbad'] = 'Creazione della vista fallita.';
 	$lang['strconfdropview'] = 'Sei sicuro di volere eliminare la vista "%s"?';
@@ -278,15 +278,15 @@
         $lang['strnosequence'] = 'Sequenza non trovata.';
         $lang['strnosequences'] = 'Nessuna sequenza trovata.';
 	$lang['strcreatesequence'] = 'Crea sequenza';
-	$lang['strlastvalue'] = 'valore precedente';
-	$lang['strincrementby'] = 'incrementa di';
+	$lang['strlastvalue'] = 'Valore precedente';
+	$lang['strincrementby'] = 'Incrementa di';
 	$lang['strstartvalue'] = 'Valore iniziale';
-	$lang['strmaxvalue'] = 'valore max';
-	$lang['strminvalue'] = 'valore min';
-	$lang['strcachevalue'] = 'valore cache';
-	$lang['strlogcount'] = 'conta log';
-	$lang['striscycled'] = 'è iterata?';
-	$lang['striscalled'] = 'è chiamata?';
+	$lang['strmaxvalue'] = 'Valore massimo';
+	$lang['strminvalue'] = 'Valore minimo';
+	$lang['strcachevalue'] = 'Valore cache';
+	$lang['strlogcount'] = 'Conta log';
+	$lang['striscycled'] = 'È iterata?';
+	$lang['striscalled'] = 'È chiamata?';
 	$lang['strsequenceneedsname'] = 'È necessario specificare un nome per la sequenza.';
 	$lang['strsequencecreated'] = 'Sequenza creata.';
 	$lang['strsequencecreatedbad'] = 'Creazione della sequenza fallita.';
@@ -305,7 +305,7 @@
 	$lang['strcreateindex'] = 'Crea Indice';
 	$lang['strtabname'] = 'Nome del tab';
 	$lang['strcolumnname'] = 'Nome della colonna';
-	$lang['strindexneedsname'] = 'È necessario dare un nome all\'indice';
+	$lang['strindexneedsname'] = 'È necessario specificare un nome per l\'indice';
 	$lang['strindexneedscols'] = 'Gli indici richiedono di un numero valido di colonne.';
 	$lang['strindexcreated'] = 'Indice creato';
 	$lang['strindexcreatedbad'] = 'Creazione indice fallita.';
@@ -369,15 +369,15 @@
 	// Functions - Funzioni
 	$lang['strfunction'] = 'Funzione';
 	$lang['strfunctions'] = 'Funzioni';
-	$lang['strshowallfunctions'] = 'Mostra tutte le funzioni.';
+	$lang['strshowallfunctions'] = 'Mostra tutte le funzioni';
 	$lang['strnofunction'] = 'Funzione non trovata.';
 	$lang['strnofunctions'] = 'Nessuna funzione trovata.';
 	$lang['strcreatefunction'] = 'Crea funzione';
 	$lang['strfunctionname'] = 'Nome della funzione';
 	$lang['strreturns'] = 'Restituisce';
 	$lang['strarguments'] = 'Argomenti';
-	$lang['strfunctionneedsname'] = 'È necessario dare un nome alla funzione.';
-	$lang['strfunctionneedsdef'] = 'È necessario dare una definizione della funzione.';
+	$lang['strfunctionneedsname'] = 'È necessario specificare un nome per la funzione.';
+	$lang['strfunctionneedsdef'] = 'È necessario specificare una definizione per la funzione.';
 	$lang['strfunctioncreated'] = 'Funzione creata.';
 	$lang['strfunctioncreatedbad'] = 'Creazione funzione fallita.';
 	$lang['strconfdropfunction'] = 'Sei sicuro di volere eliminare la funzione "%s"?';
@@ -418,8 +418,8 @@
         $lang['strelement'] = 'Elemento';
         $lang['strdelimiter'] = 'Delimitatore';
         $lang['strstorage'] = 'Memorizzazione';
-        $lang['strtypeneedsname'] = 'È necessario dare un nome al tipo.';
-        $lang['strtypeneedslen'] = 'È necessario dare una dimensione al tipo.';
+        $lang['strtypeneedsname'] = 'È necessario specificare un nome per il tipo.';
+        $lang['strtypeneedslen'] = 'È necessario specificare una lunghezza per il tipo.';
         $lang['strtypecreated'] = 'Tipo creato';
         $lang['strtypecreatedbad'] = 'Creazione del tipo fallita.';
         $lang['strconfdroptype'] = 'Sei sicuro di voler eliminare il tipo "%s"?';
@@ -434,7 +434,7 @@
         $lang['strnoschemas'] = 'Nessuno schema trovato.';
         $lang['strcreateschema'] = 'Crea schema';
         $lang['strschemaname'] = 'Nome dello schema';
-        $lang['strschemaneedsname'] = 'È necessario dare un nome allo schema.';
+        $lang['strschemaneedsname'] = 'È necessario spcificare un nome per lo schema.';
         $lang['strschemacreated'] = 'Schema creato';
         $lang['strschemacreatedbad'] = 'Creazione dello schema fallita.';
         $lang['strconfdropschema'] = 'Sei sicuro di volere eliminare lo schema "%s"?';
@@ -450,7 +450,7 @@
         $lang['strreportdropped'] = 'Report eliminato.';
         $lang['strreportdroppedbad'] = 'Eliminazione del report fallita.';
         $lang['strconfdropreport'] = 'Sei sicuro di volere eliminare il report "%s"?';
-        $lang['strreportneedsname'] = 'È necessario dare un nome al report.';
+        $lang['strreportneedsname'] = 'È necessario specificare un nome per il report.';
         $lang['strreportneedsdef'] = 'È necessario inserire il codice SQL per il report.';
         $lang['strreportcreated'] = 'Report salvato';
         $lang['strreportcreatedbad'] = 'Salvataggio del report fallito.';
@@ -464,7 +464,7 @@
 	$lang['strdomaindropped'] = 'Dominio eliminato.';
 	$lang['strdomaindroppedbad'] = 'Eliminazione del dominio fallita.';
 	$lang['strconfdropdomain'] = 'Sei sicuro di voler eliminare il dominio "%s"?';
-	$lang['strdomainneedsname'] = 'È necessario dare un nome al dominio.';
+	$lang['strdomainneedsname'] = 'È necessario specificare un nome per il dominio.';
 	$lang['strdomaincreated'] = 'Dominio creato.';
 	$lang['strdomaincreatedbad'] = 'Creazione del dominio fallita.';	
 	$lang['strdomainaltered'] = 'Dominio modificato.';
@@ -480,7 +480,7 @@
 	$lang['stroperatorname'] = 'Nome dell\'operatore';
 	$lang['strleftarg'] = 'Tipo dell\'argomento di sinistra';
 	$lang['strrightarg'] = 'Tipo dell\'argomento di destra';
-	$lang['stroperatorneedsname'] = 'È necessario dare un nome all\'operatore.';
+	$lang['stroperatorneedsname'] = 'È necessario specificare un nome per l\'operatore.';
 	$lang['stroperatorcreated'] = 'Operatore creato';
 	$lang['stroperatorcreatedbad'] = 'Creazione dell\'operatore fallita.';
 	$lang['strconfdropoperator'] = 'Sei sicuro di voler eliminare l\'operatore "%s"?';
