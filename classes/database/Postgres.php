@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.46 2003/01/21 20:40:24 slubek Exp $
+ * $Id: Postgres.php,v 1.47 2003/01/22 05:52:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -213,13 +213,14 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function createDatabase($database, $encoding) {
-		$this->clean($database);
+		$this->fieldClean($database);
+		$this->clean($encoding);
+
 		if ( $encoding == '' ) {
 			$sql = "CREATE DATABASE \"{$database}\"";
 		} else {
-			$sql = "CREATE DATABASE \"{$database}\" with encoding='{$encoding}'";
+			$sql = "CREATE DATABASE \"{$database}\" WITH ENCODING='{$encoding}'";
 		}
-		echo $sql;
 		return $this->execute($sql);
 	}
 
