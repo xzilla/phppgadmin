@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.20 2004/07/12 04:18:41 chriskl Exp $
+    * $Id: german.php,v 1.21 2004/11/15 01:40:12 chriskl Exp $
     */
 
 
@@ -68,6 +68,7 @@
     $lang['strtrue'] = 'Wahr';
     $lang['strfalse'] = 'Falsch';
     $lang['stredit']  =  'Bearbeiten';
+    $lang['strcolumn']  =  'Spalte';
     $lang['strcolumns']  =  'Spalten';
     $lang['strrows'] = 'Datensätze';
     $lang['strrowsaff']  =  'Datensätze betroffen.';
@@ -105,6 +106,7 @@
     $lang['strconfirm'] = 'Bestätigen';
     $lang['strexpression'] = 'Ausdruck';
     $lang['strellipsis'] = '...';
+    $lang['strseparator']  =  ': ';
     $lang['strexpand'] = 'Aufklappen';
     $lang['strcollapse'] = 'Zuklappen';
     $lang['strexplain'] = 'Explain';
@@ -133,6 +135,8 @@
     $lang['strnoframes'] = 'Für dieses Programm wird ein ein Frame-fähiger Browser benötigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie müssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterstützung.';
+    $lang['strphpversionnotsupported']  =  'PHP-Version wird nicht unterstützt. Bitte erneuert sie PHP auf die Version %s oder eine neuere Version.';
+    $lang['strpostgresqlversionnotsupported']  =  'PostgreSQL-Version wird nicht unterstützt. Bitte erneuert sie PostgreSQL auf Version %s oder eine neuere Version.';
     $lang['strbadschema'] = 'Unzulässiges Schema angegeben.';
     $lang['strbadencoding'] = 'Abbruch beim Setzen der Clientcodierung in der Datenbank.';
     $lang['strsqlerror'] = 'SQL Fehler:';
@@ -175,11 +179,9 @@
     $lang['strconfdeleterow'] = 'Sind Sie sicher, dass Sie diesen Datensatz löschen möchten?';
     $lang['strrowdeleted'] = 'Datensatz gelöscht.';
     $lang['strrowdeletedbad'] = 'Löschen des Datensatzes fehlgeschlagen.';
-    $lang['strsaveandrepeat'] = 'Speichern und Wiederholen';
-    $lang['strfield'] = 'Feld';
-    $lang['strfields'] = 'Felder';
-    $lang['strnumfields'] = 'Anzahl der Felder';
-    $lang['strfieldneedsname'] = 'Sie müssen für das Feld einen Namen angeben';
+    $lang['strinsertandrepeat']  =  'Einfügen und Wiederholen';
+    $lang['strnumcols']  =  'Anzahl Spalten';
+    $lang['strcolneedsname']  =  'Sie müssen einen Namen für die Spalte angeben.';
     $lang['strselectallfields']  =  'Alle Felder auswählen';
     $lang['strselectneedscol'] = 'Sie müssen mindestens eine Spalte anzeigen lassen';
     $lang['strselectunary'] = 'Unäre Operatoren können keine Werte haben.';
@@ -200,6 +202,8 @@
     $lang['strstructureanddata']  =  'Struktur und Daten';
     $lang['strtabbed']  =  'mit Tabluatoren';
     $lang['strauto']  =  'Automatisch';
+    $lang['strconfvacuumtable']  =  'Sind sie sicher, dass Sie VACUUM auf "%s" ausführen wollen?';
+    $lang['strestimatedrowcount']  =  'Geschätzte Spaltenanzahl';
 
 	// Users
     $lang['struser'] = 'Benutzer';
@@ -261,7 +265,6 @@
     $lang['strgranted'] = 'Privilegien vergeben / entzogen.';
     $lang['strgrantfailed'] = 'Vergeben von Privilegien fehlgeschlagen.';
     $lang['strgrantbad'] = 'Sie müssen wenigstens einen Benutzer oder eine Gruppe und wenigstens ein Privileg.';
-    $lang['stralterprivs'] = 'Privilegien ändern';
     $lang['strgrantor'] = 'Privilegienvergeber';
     $lang['strasterisk'] = '*';
 
@@ -290,6 +293,9 @@
     $lang['strfull']  =  'Vollständig';
     $lang['strfreeze']  =  'Einfrieren';
     $lang['strforce']  =  'Erzwingen';
+    $lang['strsignalsent']  =  'Signal gesendet.';
+    $lang['strsignalsentbad']  =  'Senden des Signales fehlgeschlagen.';
+    $lang['strallobjects']  =  'Alle Objekte';
 
     // Views
     $lang['strview'] = 'Sicht';
@@ -418,7 +424,9 @@
     $lang['strshowallfunctions'] = 'Zeige alle Funktionen';
     $lang['strnofunction'] = 'Keine Funktion gefunden.';
     $lang['strnofunctions'] = 'Keine Funktionen gefunden.';
-    $lang['strcreatefunction'] = 'Funktion erstellen';
+    $lang['strcreateplfunction']  =  'SQL/PL-Funktion erstellen';
+    $lang['strcreateinternalfunction']  =  'Interne Funktion erstellen';
+    $lang['strcreatecfunction']  =  'C-Funktion erstellen';
     $lang['strfunctionname'] = 'Name der Funktion';
     $lang['strreturns'] = 'Liefert';
     $lang['strarguments'] = 'Argumente';
@@ -432,6 +440,8 @@
     $lang['strfunctiondroppedbad'] = 'Löschen der Funktion fehlgeschlagen.';
     $lang['strfunctionupdated'] = 'Funktion geändert.';
     $lang['strfunctionupdatedbad'] = 'Ändern der Funktion fehlgeschlagen.';
+    $lang['strobjectfile']  =  'Objektdatei';
+    $lang['strlinksymbol']  =  'Bindesymbol';
 
     // Triggers
     $lang['strtrigger'] = 'Trigger';
@@ -457,6 +467,9 @@
     $lang['strnotype'] = 'Kein Datentyp gefunden.';
     $lang['strnotypes'] = 'Keine Datentypen gefunden.';
     $lang['strcreatetype'] = 'Datentyp erstellen';
+    $lang['strcreatecomptype']  =  'Zusammengesetzten Typ erstellen';
+    $lang['strtypeneedsfield']  =  'Sie müssen wenigstens ein Feld angeben.';
+    $lang['strtypeneedscols']  =  'Sie müssen eine gültige Anzahl an Feldern angeben.';	
     $lang['strtypename'] = 'Name des Datentyps';
     $lang['strinputfn'] = 'Eingabefunktion';
     $lang['stroutputfn'] = 'Ausgabefunktion';
@@ -465,6 +478,8 @@
     $lang['strelement'] = 'Element';
     $lang['strdelimiter'] = 'Trennzeichen';
     $lang['strstorage'] = 'Speicherung';
+    $lang['strfield']  =  'Feld';
+    $lang['strnumfields']  =  'Anzahl Felder';
     $lang['strtypeneedsname'] = 'Sie müssen einen Namen für den Datentyp angeben.';
     $lang['strtypeneedslen'] = 'Sie müssen eine Länge für den Datentyp angeben.';
     $lang['strtypecreated'] = 'Datentyp erstellt.';
@@ -472,6 +487,10 @@
     $lang['strconfdroptype'] = 'Sind Sie sicher, dass Sie den Datentyp "%s" löschen möchten?';
     $lang['strtypedropped'] = 'Datentyp gelöscht.';
     $lang['strtypedroppedbad'] = 'Löschen des Datentyps fehlgeschlagen.';
+    $lang['strflavor']  =  'Art';
+$lang['strbasetype']  =  'Base';
+    $lang['strcompositetype']  =  'Zusammengesetzt';
+    $lang['strpseudotype']  =  'Pseudo';
 
     // Schemas
     $lang['strschema'] = 'Schema';
@@ -489,6 +508,7 @@
     $lang['strschemadroppedbad'] = 'Löschen des Schemas fehlgeschlagen';
     $lang['strschemaaltered']  =  'Schema geändert.';
     $lang['strschemaalteredbad']  =  'Änderung des Schemas fehlgeschlagen.';
+    $lang['strsearchpath']  =  'Schemasuchpfad';
 
 	// Reports
     $lang['strreport']  =  'Bericht';
@@ -598,9 +618,27 @@
 	$lang['strdisk'] = 'Festplatte';
 	$lang['strrows2'] = 'Zeilen';
 
+	// Tablespaces
+    $lang['strtablespace']  =  'Tablespace';
+    $lang['strtablespaces']  =  'Tablespaces';
+    $lang['strshowalltablespaces']  =  'Alle Tablespaces anzeigen';
+    $lang['strnotablespaces']  =  'Keine Tablespaces gefunden.';
+    $lang['strcreatetablespace']  =  'Tablespace erstellen';
+    $lang['strlocation']  =  'Ort';
+    $lang['strtablespaceneedsname']  =  'Sie müssen einen Namen für den Tablespace angeben.';
+    $lang['strtablespaceneedsloc']  =  'Sie müssen ein Verzeichnis angeben, in dem Sie den Tablespace erstellen möchten.';
+    $lang['strtablespacecreated']  =  'Tablespace erstellt.';
+    $lang['strtablespacecreatedbad']  =  'Erstellen des Tablespace fehlgeschlagen.';
+    $lang['strconfdroptablespace']  =  'Sind Sie sicher, dass Sie den Tablespace "%s" löschen wollen?';
+    $lang['strtablespacedropped']  =  'Tablespace gelöscht.';
+    $lang['strtablespacedroppedbad']  =  'Löschen des Tablespace fehlgeschlagen.';
+    $lang['strtablespacealtered']  =  'Tablespace geändert.';
+    $lang['strtablespacealteredbad']  =  'Ändern des Tablespace fehlgeschlagen.';
+
 	// Miscellaneous
     $lang['strtopbar'] = '%s läuft auf %s:%s -- Sie sind als "%s" angemeldet, %s';
     $lang['strtimefmt'] = 'D, j. n. Y, G:i';
     $lang['strhelp'] = 'Hilfe';
+    $lang['strhelpicon']  =  '?';
 
 ?>
