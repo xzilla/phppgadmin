@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.13 2003/09/17 17:04:12 soranzo Exp $
+    * $Id: german.php,v 1.14 2003/10/17 01:41:59 chriskl Exp $
     */
 
 
@@ -26,6 +26,7 @@
     $lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
     $lang['strlogin'] = 'Anmelden';
     $lang['strloginfailed'] = 'Anmelden fehlgeschlagen';
+    $lang['strlogindisallowed'] = 'Anmelden nicht erlaubt';
     $lang['strserver'] = 'Server';
     $lang['strlogout'] = 'Abmelden';
     $lang['strowner'] = 'Besitzer';
@@ -86,6 +87,7 @@
     $lang['stradmin'] = 'Admin';
     $lang['strvacuum'] = 'Vacuum';
     $lang['stranalyze'] = 'Analysieren';
+    $lang['strclustered'] = 'Geclustert?';
     $lang['strcluster'] = 'Cluster';
     $lang['strreindex'] = 'Reindizierung';
     $lang['strrun'] = 'Los';
@@ -105,6 +107,8 @@
     $lang['strcollapse'] = 'Zuklappen';
     $lang['strexplain'] = 'Explain';
     $lang['strfind'] = 'Suchen';
+    $lang['strinfo'] = 'Info';
+    $lang['stroids'] = 'OIDs';
     $lang['stroptions'] = 'Optionen';
     $lang['strrefresh'] = 'Aktualisieren';
     $lang['strdownload'] = 'Download';
@@ -154,6 +158,7 @@
     $lang['strnumfields'] = 'Anzahl der Felder';
     $lang['strfieldneedsname'] = 'Sie m&uuml;ssen f&uuml;r das Feld einen Namen angeben';
     $lang['strselectneedscol'] = 'Sie m&uuml;ssen mindestens eine Spalte anzeigen lassen';
+    $lang['strselectunary'] = 'Un&auml;re Operatoren k&ouml;nnen keine Werte haben.';
     $lang['strselectallfields'] = 'Alle Felder ausw&auml;hlen';
     $lang['straltercolumn'] = 'Spalte &auml;ndern';
     $lang['strcolumnaltered'] = 'Spalte ge&auml;ndert.';
@@ -170,6 +175,8 @@
 
     // Users
     $lang['strcascade'] = 'CASCADE';
+    $lang['strstructureonly'] = 'nur Struktur';
+    $lang['strstructureanddata'] = 'Struktur und Daten';
     $lang['strtablealtered'] = 'Tabelle ge&auml;ndert.';
     $lang['strtablealteredbad'] = '&Auml;ndern der Tabelle fehlgeschlagen.';
     $lang['struser'] = 'Benutzer';
@@ -184,6 +191,7 @@
     $lang['struserupdatedbad'] = '&Auml;ndern des Benutzers fehlgeschlagen.';
     $lang['strshowallusers'] = 'Zeige alle Benutzer';
     $lang['strcreateuser'] = 'Lege Benutzer an';
+    $lang['struserneedsname'] = 'Sie m&uuml;ssen einen Namen f&uuml;r den Benutzer angeben.';
     $lang['strusercreated'] = 'Benutzer angelegt.';
     $lang['strusercreatedbad'] = 'Anlegen des Benutzers fehlgeschlagen.';
     $lang['strconfdropuser'] = 'Sind Sie sicher, dass Sie den Benutzer &quot;%s&quot; l&ouml;schen m&ouml;chten?';
@@ -317,6 +325,9 @@
     $lang['strindextype'] = 'Typ des Index';
     $lang['strindexname'] = 'Name des Index';
     $lang['strtablecolumnlist'] = 'Spalten in der Tabelle';
+    $lang['strconfcluster'] = 'Sind Sie sicher, dass Sie &quot;%s&quot; clustern wollen?';
+    $lang['strclusteredgood'] = 'Clustern abgeschlossen.';
+    $lang['strclusteredbad'] = 'Clustern fehlgeschlagen.';
     $lang['strindexcolumnlist'] = 'Spalten im Index';
 
     // Rules
@@ -443,12 +454,12 @@
     $lang['strschemadroppedbad'] = 'L&ouml;schen des Schemas fehlgeschlagen';
 
     // Views
-    $lang['strreport'] = 'Bericht';
     $lang['strreports'] = 'Berichte';
     $lang['strshowallreports'] = 'Zeige alle Berichte';
     $lang['strnoreports'] = 'Keine Berichte gefunden.';
     $lang['strcreatereport'] = 'Bericht erstellen';
     $lang['strreportdropped'] = 'Bericht gel&ouml;scht.';
+    $lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht &quot;%s&quot; l&ouml;schen wollen?';
     $lang['strreportdroppedbad'] = 'L&ouml;schen des Berichtes fehlgeschlagen.';
     $lang['strreportneedsname'] = 'Sie m&uuml;ssen f&uuml;r den Bericht einen Namen angeben.';
     $lang['strreportneedsdef'] = 'Sie m&uuml;ssen SQL-Code f&uuml;r den Bericht eingeben.';
@@ -458,6 +469,8 @@
 
     // Miscellaneous
     $lang['strtopbar'] = '%s l&auml;uft auf host:%s port:%s -- Sie sind angemeldet als Benutzer &quot;%s&quot;, %s';
+
+    // Domains
     $lang['strdomain'] = 'Domain';
     $lang['strdomains'] = 'Domains';
     $lang['strshowalldomains'] = 'Alle Domains zeigen';
@@ -469,12 +482,12 @@
     $lang['strdomainneedsname'] = 'Sie m&uuml;ssen einen Namen f&uuml;r die Domain angeben.';
     $lang['strdomaincreated'] = 'Domain erstellt.';
     $lang['strdomaincreatedbad'] = 'Erstellen der Domain fehlgeschlagen.';
-    $lang['strdomainaltered'] = 'Domain ge&ouml;ndert.';
+    $lang['strdomainaltered'] = 'Domain ge&auml;ndert.';
     $lang['strdomainalteredbad'] = '&Auml;ndern der Domain fehlgeschlagen.';
     $lang['strtimefmt'] = 'j. M Y H:i:s';
-    $lang['stroperator'] = 'Operator';
 
-    // SQL Editor
+    // Operatoren
+    $lang['stroperator'] = 'Operator';
     $lang['strshowalloperators'] = 'Alle Operatoren zeigen';
     $lang['strnooperator'] = 'Keinen Operator vorhanden.';
     $lang['strnooperators'] = 'Keine Operatoren vorhanden.';
@@ -487,6 +500,10 @@
     $lang['stroperatorcreatedbad'] = 'Erstellen des Operators fehlgeschlagen.';
     $lang['strconfdropoperator'] = 'Sind Sie sicher, dass Sie den Operator &quot;%s&quot; l&ouml;schen wollen?';
     $lang['stroperatordropped'] = 'Operator gel&ouml;scht.';
+    $lang['strnoinfo'] = 'Keine Informationen vorhanden.';
+    $lang['strreferringtables'] = 'Tabellen, die sich mit Fremdschl&uuml;sseln auf diese Tabelle beziehen';
+    $lang['strparenttables'] = 'Elterntabellen';
+    $lang['strchildtables'] = 'Kindtabellen';
     $lang['stroperatordroppedbad'] = 'L&ouml;schen des Operators fehlgeschlagen.';
     $lang['strhelp'] = 'Hilfe';
 
