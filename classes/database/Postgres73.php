@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.17 2003/01/18 06:38:37 chriskl Exp $
+ * $Id: Postgres73.php,v 1.18 2003/01/19 02:47:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -354,7 +354,8 @@ class Postgres73 extends Postgres72 {
 
 		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid) as pg_get_indexdef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
-			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
+			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
+			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 			AND NOT i.indisprimary
 			ORDER BY i.indisunique DESC, c2.relname";
 
@@ -368,14 +369,16 @@ class Postgres73 extends Postgres72 {
 	 */
 	function &getTriggers($table = '') {
 		$this->clean($table);
-		
+
 		$sql = "SELECT t.tgname
 			FROM pg_catalog.pg_trigger t
-			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}') and (not tgisconstraint  OR NOT EXISTS
-			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c 
-			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)    
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+			AND (NOT tgisconstraint OR NOT EXISTS
+			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
 			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
-			
+
 		return $this->selectSet($sql);
 	}
 

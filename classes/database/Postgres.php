@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.44 2003/01/18 09:07:50 chriskl Exp $
+ * $Id: Postgres.php,v 1.45 2003/01/19 02:47:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1337,6 +1337,39 @@ class Postgres extends BaseDB {
 		$this->fieldClean($typname);
 
 		$sql = "DROP TYPE \"{$typname}\"";
+
+		return $this->execute($sql);
+	}
+
+	// Trigger functions
+
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @return A recordset
+	 */
+	function &getTriggers($table = '') {
+		$this->clean($table);
+
+		$sql = "SELECT tgname
+			FROM pg_trigger
+			WHERE tgrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			AND NOT tgisconstraint";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Drops a trigger
+	 * @param $tgname The name of the trigger to drop
+	 * @param $table The table from which to drop the trigger
+	 * @return 0 success
+	 */
+	function dropTrigger($tgname, $table) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+
+		$sql = "DROP TRIGGER \"{$tgname}\" ON \"{$table}\"";
 
 		return $this->execute($sql);
 	}
