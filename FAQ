@@ -1,8 +1,8 @@
 phpPgAdmin FAQ
 --------------
 
-ERRORS
-------
+INSTALLATION ERRORS
+-------------------
 
 Q: I've installed phpPgAdmin but when I try to use it I get an error message
    telling me that I have not compiled proper database support into my
@@ -29,9 +29,30 @@ A: This means that you have not properly compiled PostgreSQL support into
         extension=php_pgsql.dll		;under Windows
 	extension=pgsql.so		;under Linux
 
-   In Redhat-based Linux distributions php extensions are configured by
-   ini files in /etc/php.d directory, so you have to put that line
-   into /etc/php.d/pgsql.ini (or install php-pgsql package)
+   In Linux distributions based on Red Hat or Fedora, PHP extensions are
+   automatically configured in /etc/php.d/pgsql.ini, simply install the
+   php-pgsql package.
+
+
+Q: I get a warning like this when using phpPgAdmin on Windows: 
+
+    "Warning: session_start() [function.session-start]:
+     open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed"
+
+A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this
+   line:
+
+    session.save_path = "/tmp"
+
+   to:
+   
+    session.save_path = "c:\windows\temp"
+
+   And make sure that the folder c:\windows\temp actually exists.
+
+
+LOGIN ERRORS
+------------
 
 Q: I always get "Login failed" even though I'm _sure_ I'm using the right
    username and password.
@@ -52,13 +73,14 @@ A: Check the PostgreSQL log on your server, it will give the exact reason
 
    and then restart PostgreSQL.
 
-   For security reasons login without password or some usernames (postgres,
-   pgsql, root, administrator) is disabled, so you can change 
+Q: For some users I get a "Login disallowed for security" message.
 
-	 $conf['extra_login_security'] = true;
-
-   to false in config.inc.php. Do this only when you understand how to
-   change PostgreSQL's pg_hba.conf to enable passworded local connections.
+A: Logins via phpPgAdmin with no password or certain usernames (pgsql,
+   postgres, root, administrator) are denied by default. Before changing this
+   behaviour (setting $conf['extra_login_security'] to false in the
+   config.inc.php file) please read the PostgreSQL documentation about client
+   authentication and understand how to change PostgreSQL's pg_hba.conf to
+   enable passworded local connections.
 
 Q: I can use any password to log in!
 
@@ -69,29 +91,9 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
 
-Q: I get a warning like this when using phpPgAdmin on Windows: 
 
-    "Warning: session_start() [function.session-start]:
-     open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed"
-
-A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this line:
-
-    session.save_path = "/tmp"
-
-   to:
-   
-    session.save_path = "c:\windows\temp"
-
-   And make sure that the folder c:\windows\temp actually exists.
-
-Q: For some users I get a "Login disallowed for security" message.
-
-A: Logins via phpPgAdmin with no password or certain usernames (pgsql,
-   postgres, root, administrator) are denied by default. Before changing this
-   behaviour (setting $conf['extra_login_security'] to false in the
-   config.inc.php file) please read the PostgreSQL documentation about client
-   authentication and understand how to change PostgreSQL's pg_hba.conf to
-   enable passworded local connections.
+OTHER ERRORS
+------------
 
 Q: When I enter non-ASCII data into the database via a form, it's inserted
    as hexadecimal or &#1234; format!
@@ -103,16 +105,9 @@ A: You have not created your database in the correct encoding.  This problem
 Q: When I drop and re-create a table with the same name, it fails.
 
 A: You need to drop the sequence attached to the SERIAL column of the table
-   as well.  PostgreSQL 7.3 and above do this automatically.  If you have upgraded
-   to PostgreSQL 7.3 from an earlier version, you need to run the
+   as well.  PostgreSQL 7.3 and above do this automatically.  If you have
+   upgraded to PostgreSQL 7.3 from an earlier version, you need to run the
    contrib/adddepend script to record all dependencies.
-
-Q: When inserting a row, what is does the 'Value' or 'Expression' box mean?
-
-A: Choosing 'Expression' means that you can use functions, operators, other 
-   field names, etc. in your value - you need to properly quote any literal 
-   values yourself.  'Value' on the other hand, means that no matter what you
-   enter as the value, it will be inserted as-is into the database.
 
 Q: When browsing a table, the 'edit' and 'delete' links do not appear.
 
@@ -127,6 +122,10 @@ A: In order, phpPgAdmin will prefer the following as unique row identifiers:
    will be uneditable.  Also, since OIDs can become duplicated in a table,
    phpPgAdmin will alter the row, and then check to ensure that exactly one
    row has been modified - otherwise rollback will occur.
+
+
+QUESTIONS ON DUMPS
+------------------
 
 Q: What happened to the database dump feature?
 
@@ -165,6 +164,17 @@ A: The following limitations currently exist in SQL script execution:
    some of them are PostgreSQL restrictions and we recommend using the
    'psql' utility to restore your full SQL dumps.
 
+
+OTHER QUESTIONS
+---------------
+
+Q: When inserting a row, what is does the 'Value' or 'Expression' box mean?
+
+A: Choosing 'Expression' means that you can use functions, operators, other 
+   field names, etc. in your value - you need to properly quote any literal 
+   values yourself.  'Value' on the other hand, means that no matter what you
+   enter as the value, it will be inserted as-is into the database.
+
 Q: Why is there never any information on the 'Info' page of a table?
 
 A: The Info page will show you what other tables have foreign keys to the
@@ -176,5 +186,6 @@ A: The Info page will show you what other tables have foreign keys to the
 Q: I would like to help out with the development of phpPgAdmin. How should I
    proceed?
    
-A: We really would like your help! Please read the DEVELOPERS and TRANSLATORS files.
+A: We really would like your help! Please read the DEVELOPERS and TRANSLATORS
+   files.
 
