@@ -11,7 +11,7 @@ To translate messages, you will need to install GNU Record on your computer.
 
 GNU Recode: http://www.gnu.org/software/recode/recode.html
 
-Your favourite OS should have a GNU Recode package available.
+Your favourite OS should have a GNU Recode package available. (See Bottom For Details)
 
 Once you have Recode installed, these are the steps to creating a new translation:
 
@@ -51,4 +51,8 @@ Once you have Recode installed, these are the steps to creating a new translatio
    thousands more users!
 
 
+Appendix A: Ways to Get Recode
 
+* Bsd : ftp.gnu.org/gnu/recode/
+* Red Hat: rpm -Uvh recode-3.6-6.i386.rpm
+* Debian: available via apt-get
