@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.32 2004/09/08 09:59:32 jollytoad Exp $
+	 * $Id: privileges.php,v 1.33 2004/09/22 10:52:17 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -61,8 +61,8 @@
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$uname = htmlspecialchars($users->f['usename']);				
-				echo "<option value=\"	{$uname}\"",
+				$uname = htmlspecialchars($users->f['usename']);
+				echo "<option value=\"{$uname}\"",
 					in_array($users->f['usename'], $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 				$users->moveNext();
 			}
