@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.82 2004/07/22 08:49:03 jollytoad Exp $
+	 * $Id: Misc.php,v 1.83 2004/07/22 12:47:38 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -100,6 +100,7 @@
 		 *			false    - (type='bool') the representation of false.
 		 *			function - (type='callback') a function name, accepts args ($str, $params) and returns a rendering.
 		 *			lineno   - prefix each line with a line number.
+		 *			map      - an associative array.
 		 *
 		 * @return The HTML rendered value
 		 */
@@ -111,6 +112,8 @@
 				return isset($params['null'])
 						? ($params['null'] === true ? '<i>NULL</i>' : $params['null'])
 						: '';
+			
+			if (isset($params['map']) && isset($params['map'][$str])) $str = $params['map'][$str];
 			
 			// Clip the value if the 'clip' parameter is true.
 			if (isset($params['clip']) && $params['clip'] === true) {
@@ -542,7 +545,7 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['schema']),
+							'url'   => "privileges.php?{$vars}&type=schema&object=" . (isset($_REQUEST['schema']) ? urlencode($_REQUEST['schema']) : ''),
 							'hide'  => (!$data->hasSchemas()),
 						),
 					);
