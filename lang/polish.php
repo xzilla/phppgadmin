@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.12 2003/02/20 23:15:15 slubek Exp $
+	 * $Id: polish.php,v 1.13 2003/02/27 14:30:09 slubek Exp $
 	 */
 
 	// Language and character set
@@ -111,7 +111,7 @@
 	$strNumFields = 'Ilo¶æ pól';
 	$strFieldNeedsName = 'Musisz nazwaæ pole';
         $strSelectNeedsCol = 'Musisz wybraæ przynajmniej jedn± kolumnê';
-	$strAlterColumn = 'Zmieñ kolumnê'
+	$strAlterColumn = 'Zmieñ kolumnê';
 	$strColumnAltered = 'Kolumna zmodyfikowana.';
 	$strColumnAlteredBad = 'Operacja modyfikacji kolumny siê nie powiod³a.';
 	$strConfDropColumn = 'Czy na pewno chcesz usun±æ kolumnê "%s" z tablicy "%s"?';
@@ -343,6 +343,10 @@
 	$strReportDropped = 'Raport usuniêty.';
 	$strReportDroppedBad = 'Próba usuniêcia raportu siê nie powiod³a.';
 	$strConfDropReport = 'Czy na pewno chcesz usun±æ raport "%s"?';
+        $strReportNeedsName = 'Musisz nadaæ raportowi nazwê.';
+	$strReportNeedsDef = 'Musisz zdefiniowaæ zapytanie SQL tworz±ce raport.';
+	$strReportCreated = 'Raport utworzony.';
+	$strReportCreatedBad = 'Próba utworzenia raportu siê nie powiod³a.';
 
 	// Miscellaneous
 	$strTopBar = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';

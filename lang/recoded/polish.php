@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.6 2003/02/20 23:15:17 slubek Exp $
+	 * $Id: polish.php,v 1.7 2003/02/27 14:30:10 slubek Exp $
 	 */
 
 	// Language and character set
@@ -111,7 +111,7 @@
 	$strNumFields = 'Ilo&#347;&#263; p&oacute;l';
 	$strFieldNeedsName = 'Musisz nazwa&#263; pole';
         $strSelectNeedsCol = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
-	$strAlterColumn = 'Zmie&#324; kolumn&#281;'
+	$strAlterColumn = 'Zmie&#324; kolumn&#281;';
 	$strColumnAltered = 'Kolumna zmodyfikowana.';
 	$strColumnAlteredBad = 'Operacja modyfikacji kolumny si&#281; nie powiod&#322;a.';
 	$strConfDropColumn = 'Czy na pewno chcesz usun&#261;&#263; kolumn&#281; &quot;%s&quot; z tablicy &quot;%s&quot;?';
@@ -343,6 +343,10 @@
 	$strReportDropped = 'Raport usuni&#281;ty.';
 	$strReportDroppedBad = 'Pr&oacute;ba usuni&#281;cia raportu si&#281; nie powiod&#322;a.';
 	$strConfDropReport = 'Czy na pewno chcesz usun&#261;&#263; raport &quot;%s&quot;?';
+        $strReportNeedsName = 'Musisz nada&#263; raportowi nazw&#281;.';
+	$strReportNeedsDef = 'Musisz zdefiniowa&#263; zapytanie SQL tworz&#261;ce raport.';
+	$strReportCreated = 'Raport utworzony.';
+	$strReportCreatedBad = 'Pr&oacute;ba utworzenia raportu si&#281; nie powiod&#322;a.';
 
 	// Miscellaneous
 	$strTopBar = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
