@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.23 2003/10/15 16:00:06 soranzo Exp $
+	 * $Id: views.php,v 1.24 2003/11/05 08:32:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,13 +27,25 @@
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['view']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
+				// JavaScript for select all feature
+				echo "<script language=\"JavaScript\">\n";
+				echo "<!--\n";
+				echo "	function selectAll() {\n";
+				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";
+				echo "			var e = document.selectform.elements[i];\n";
+				echo "			if (e.name.indexOf('show') == 0) e.checked = document.selectform.selectall.checked;\n";
+				echo "		}\n";
+				echo "	}\n";
+				echo "//-->\n";
+				echo "</script>\n";
+	
 				echo "<table>\n<tr>";
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strfield']}</th>";
-				echo "<th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnull']}</th>";
+				echo "<th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['stroperator']}</th>";
 				echo "<th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
@@ -42,6 +54,8 @@
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = null;
+					if (!isset($_REQUEST['ops'][$attrs->f['attname']]))
+						$_REQUEST['ops'][$attrs->f['attname']] = null;
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
@@ -49,20 +63,22 @@
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull'])
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					else
-						echo "&nbsp;</td>";
-					echo "<td class=\"data{$id}\" nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
+					foreach (array_keys($localData->selectOps) as $v) {
+						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
+						">", htmlspecialchars($v), "</option>\n";
+					}
+					echo "</select>\n";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
 				}
+				// Select all checkbox
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" name=\"selectall\" onClick=\"javascript:selectAll()\" />{$lang['strselectallfields']}</td>";
 				echo "</table></p>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -75,16 +91,24 @@
 			echo "</form>\n";
 		}
 		else {
-			if (!isset($_POST['show'])) $_POST['show'] = array();
-			if (!isset($_POST['values'])) $_POST['values'] = array();
-			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			if (!isset($_GET['show'])) $_GET['show'] = array();
+			if (!isset($_GET['values'])) $_GET['values'] = array();
+			if (!isset($_GET['nulls'])) $_GET['nulls'] = array();
 			
-			if (sizeof($_POST['show']) == 0)
-				doSelectRows(true, $lang['strselectneedscol']);
+			// Verify that they haven't supplied a value for unary operators
+			foreach ($_GET['ops'] as $k => $v) {
+				if ($localData->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+					doSelectRows(true, $lang['strselectunary']);
+					return;
+				}
+			}
+						
+			if (sizeof($_GET['show']) == 0)
+				doSelectRows(true, $lang['strselectneedscol']);			
 			else {
 				// Generate query SQL
-				$query = $localData->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']),
-					$_POST['values'], array_keys($_POST['nulls']));
+				$query = $localData->getSelectSQL($_REQUEST['view'], array_keys($_GET['show']),
+					$_GET['values'], $_GET['ops']);
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "views.php?action=confselectrows&{$misc->href}&view={$_REQUEST['view']}";
 				$_REQUEST['return_desc'] = $lang['strback'];

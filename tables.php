@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.38 2003/10/13 08:50:03 chriskl Exp $
+	 * $Id: tables.php,v 1.39 2003/11/05 08:32:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -429,268 +429,6 @@
 	}
 
 	/**
-	 * Show confirmation of edit and perform actual update
-	 */
-	function doEditRow($confirm, $msg = '') {
-		global $localData, $database, $misc;
-		global $lang;
-		global $PHP_SELF;
-
-		$key = $_REQUEST['key'];
-
-		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['streditrow']}</h2>\n";
-			$misc->printMsg($msg);
-
-			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
-			$rs = &$localData->browseRow($_REQUEST['table'], $key);
-
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			$error = true;			
-			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
-				echo "<table>\n<tr>";
-
-				// Output table header
-				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
-				echo "<th class=\"data\">{$lang['strformat']}</th>\n";
-				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
-
-				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
-
-				$i = 0;
-				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
-					$id = (($i % 2) == 0 ? '1' : '2');
-					
-					// Initialise variables
-					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
-						$_REQUEST['format'][$attrs->f['attname']] = 'VALUE';
-					
-					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
-						htmlspecialchars($attrs->f['type']), "\" /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
-					echo "</select>\n</td>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull']) {
-						// Set initial null values
-						if ($_REQUEST['action'] == 'confeditrow' && $rs->f[$attrs->f['attname']] === null) {
-							$_REQUEST['nulls'][$attrs->f['attname']] = 'on';
-						}
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					}
-					else
-						echo "&nbsp;</td>";
-
-					echo "<td class=\"data{$id}\" nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
-						$rs->f[$attrs->f['attname']], $attrs->f['type']), "</td>";
-					echo "</tr>\n";
-					$i++;
-					$attrs->moveNext();
-				}
-				echo "</table></p>\n";
-				$error = false;
-			}
-			elseif ($rs->recordCount() != 1) {
-				echo "<p>{$lang['strrownotunique']}</p>\n";				
-			}
-			else {
-				echo "<p>{$lang['strinvalidparam']}</p>\n";
-			}
-
-			echo "<input type=\"hidden\" name=\"action\" value=\"editrow\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
-			echo "<p>";
-			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-			echo "</form>\n";
-		}
-		else {
-			if (!isset($_POST['values'])) $_POST['values'] = array();
-			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			
-			$status = $localData->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
-												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
-			if ($status == 0)
-				doBrowse($lang['strrowupdated']);
-			elseif ($status == -2)
-				doEditRow(true, $lang['strrownotunique']);
-			else
-				doEditRow(true, $lang['strrowupdatedbad']);
-		}
-
-	}	
-
-	/**
-	 * Show confirmation of drop and perform actual drop
-	 */
-	function doDelRow($confirm) {
-		global $localData, $database, $misc;
-		global $lang;
-		global $PHP_SELF;
-
-		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strdeleterow']}</h2>\n";
-
-			echo "<p>{$lang['strconfdeleterow']}</p>\n";
-			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"delrow\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $localData->deleteRow($_POST['table'], unserialize($_POST['key']));
-			if ($status == 0)
-				doBrowse($lang['strrowdeleted']);
-			elseif ($status == -2)
-				doBrowse($lang['strrownotunique']);
-			else			
-				doBrowse($lang['strrowdeletedbad']);
-		}
-		
-	}
-	
-	/**
-	 * Browse a table
-	 */
-	function doBrowse($msg = '') {
-		global $data, $localData, $misc, $conf;
-		global $PHP_SELF, $lang;
-		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strbrowse']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
-		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
-		if (!isset($_REQUEST['sortdir'])) $_REQUEST['sortdir'] = '';
-		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
-
-		// Retrieve page from table.  $max_pages is returned by reference.
-		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['sortdir'], 
-														$_REQUEST['page'], $conf['max_rows'], $max_pages);
-
-		// Fetch unique row identifier, if there is one
-		$key = $localData->getRowIdentifier($_REQUEST['table']);
-
-		if (is_object($rs) && $rs->recordCount() > 0) {
-			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
-				urlencode($_REQUEST['sortkey']) . "&sortdir=" . urlencode($_REQUEST['sortdir']) . 
-				"&strings=" . urlencode($_REQUEST['strings']) . "&table=" . urlencode($_REQUEST['table']));
-			echo "<table>\n<tr>";
-
-			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
-			
-			if (sizeof($key) > 0)
-				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
-
-			reset($rs->f);
-			while(list($k, ) = each($rs->f)) {
-				if ($k == $localData->id && !$conf['show_oids']) continue;
-				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], 
-					"&{$misc->href}&sortkey=", urlencode($k), "&sortdir=";
-					// Sort direction opposite to current direction, unless it's currently ''
-					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == $k) ? 'desc' : 'asc';
-					echo "&strings=", urlencode($_REQUEST['strings']), "&table=", 
-					urlencode($_REQUEST['table']), "\">", $misc->printVal($k), "</a></th>\n";
-			}
-						
-			$i = 0;
-			reset($rs->f);
-			while (!$rs->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n";
-				if (sizeof($key) > 0) {
-					$key_str = '';
-					$has_nulls = false;
-					foreach ($key as $v) {
-						if ($rs->f[$v] === null) {
-							$has_nulls = true;
-							break;
-						}
-						if ($key_str != '') $key_str .= '&';
-						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
-					}
-					if ($has_nulls) {
-						echo "<td class=\"data{$id}\" colspan=\"2\">&nbsp;</td>\n";
-					} else {
-						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&sortkey=", 
-							urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), 
-							"&table=", urlencode($_REQUEST['table']), "&strings=", urlencode($_REQUEST['strings']), 
-							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
-						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&sortkey=", 
-							urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), 
-							"&table=", urlencode($_REQUEST['table']),  "&strings=", urlencode($_REQUEST['strings']), 
-							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
-					}
-				}
-				$j = 0;
-				foreach ($rs->f as $k => $v) {
-					$finfo = $rs->fetchField($j++);
-					if ($k == $localData->id && !$conf['show_oids']) continue;
-					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else {
-						// Trim strings if over length
-						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {							
-							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-						}
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true, $finfo->type), "</td>";
-					}
-				}
-				echo "</tr>\n";
-				$rs->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-
-			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
-				urlencode($_REQUEST['sortkey']) . "&sortdir=" . urlencode($_REQUEST['sortdir']) . 
-				"&strings=" . urlencode($_REQUEST['strings']) . "&table=" . urlencode($_REQUEST['table']));
-
-			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
-		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a> |\n";
-		if ($_REQUEST['strings'] == 'expanded')
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
-				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=collapsed&page=", $_REQUEST['page'], "\">{$lang['strcollapse']}</a>\n";
-		else
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
-				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings=expanded&page=", $_REQUEST['page'], "\">{$lang['strexpand']}</a>\n";
-		echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
-				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
-				"&strings={$_REQUEST['strings']}&page=", $_REQUEST['page'], "\">{$lang['strrefresh']}</a></p>\n";
-		
-	}
-
-	/**
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
@@ -707,20 +445,22 @@
 			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n</tr>\n";
 			$i = 0;
 			while (!$tables->EOF) {
+				$return_url = urlencode("tables.php?{$misc->href}");
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"display.php?{$misc->href}&amp;table=",
+					urlencode($tables->f[$data->tbFields['tbname']]), "&amp;return_url={$return_url}&amp;return_desc=",
+					urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></td>\n";
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_empty&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
@@ -732,7 +472,7 @@
 			echo "<p>{$lang['strnotables']}</p>\n";
 		}
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strtables']);
@@ -770,23 +510,6 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
-			break;
-		case 'editrow':
-			if (isset($_POST['save'])) doEditRow(false);
-			else doBrowse();
-			break;
-		case 'confeditrow':
-			doEditRow(true);
-			break;
-		case 'delrow':
-			if (isset($_POST['yes'])) doDelRow(false);
-			else doBrowse();
-			break;
-		case 'confdelrow':
-			doDelRow(true);
-			break;			
-		case 'browse':
-			doBrowse();
 			break;
 		default:
 			doDefault();

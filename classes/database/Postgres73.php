@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.76 2003/10/28 04:02:15 chriskl Exp $
+ * $Id: Postgres73.php,v 1.77 2003/11/05 08:32:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -222,7 +222,7 @@ class Postgres73 extends Postgres72 {
 		
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Get the first primary or unique index (sorting primary keys first) that
 		// is NOT a partial index.
 		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.29 2003/10/13 08:50:04 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.30 2003/11/05 08:32:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -388,7 +388,9 @@
 		echo "<br />\n";
 
 		echo "<ul>\n";
-		echo "\t<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strbrowse']}</a></li>\n";
+		$return_url = urlencode("tblproperties.php?{$misc->href}&table={$_REQUEST['table']}");
+		echo "\t<li><a href=\"display.php?{$misc->href}&table=", urlencode($_REQUEST['table']), "&return_url={$return_url}&return_desc=",
+			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confirm_empty&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";

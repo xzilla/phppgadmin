@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.160 2003/10/27 05:43:18 chriskl Exp $
+ * $Id: Postgres.php,v 1.161 2003/11/05 08:32:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1295,81 +1295,7 @@ class Postgres extends BaseDB {
 		
 		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
-	}
-
-	/**
-	 * Returns a recordset of all columns in a relation.  Supports paging.
-	 * @param $relation The name of a relation
-	 * @param $sortkey Field over which to sort.  '' for no sort.
-	 * @param $sortdir 'asc' or 'desc'
-	 * @param $page The page of the relation to retrieve
-	 * @param $page_size The number of rows per page
-	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
-	 * @return A recordset on success
-	 * @return -1 transaction error
-	 * @return -2 counting error
-	 * @return -3 page or page_size invalid
-	 */
-	function &browseRelation($relation, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
-		$oldrelation = $relation;
-		$this->fieldClean($relation);
-
-		// Check that we're not going to divide by zero
-		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
-
-		// Open a transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-		
-		// Count the number of rows
-		$sql = "SELECT COUNT(*) AS total FROM \"{$relation}\"";
-		$total = $this->selectField($sql, 'total');
-		if ($total < 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
-		// Calculate max pages
-		$max_pages = ceil($total / $page_size);
-		
-		// Check that page is less than or equal to max pages
-		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-
-		// Figure out ORDER BY
-		if ($sortkey != '') {
-			$this->fieldClean($sortkey);
-			$orderby = " ORDER BY \"{$sortkey}\"";
-			// Add sort order
-			if ($sortdir == 'desc')
-				$orderby .= ' DESC';
-			else
-				$orderby .= ' ASC';
-		}
-		else $orderby = '';
-
-		// We need to do a check to see if the relation has an OID column.  If so, then
-		// we need to include it in the result set, in case the user has created a primary key
-		// constraint on it.
-		$hasID = $this->hasObjectID($oldrelation);
-
-		// Actually retrieve the rows, with offset and limit
-		if ($hasID)
-			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-		else
-			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-			
-		$status = $this->endTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-		
-		return $rs;
 	}
 
 	/**
@@ -1380,7 +1306,7 @@ class Postgres extends BaseDB {
 	 * @return The count of rows
 	 * @return -1 error
 	 */
-	function browseSQLCount($query, $count) {
+	function browseQueryCount($query, $count) {
 		// Count the number of rows
 		$rs = $this->selectSet($query);
 		if (!is_object($rs)) {
@@ -1392,8 +1318,12 @@ class Postgres extends BaseDB {
 	
 	/**
 	 * Returns a recordset of all columns in a query.  Supports paging.
-	 * @param $query The SQL SELECT query.
-	 * @param $count The same SQL query, but only retrieves the count of the rows (AS total)
+	 * @param $type Either 'QUERY' if it is an SQL query, or 'TABLE' if it is a table identifier,
+	 *              or 'SELECT" if it's a select query
+	 * @param $table The base table of the query.  NULL for no table.
+	 * @param $query The query that is being executed.  NULL for no query.
+	 * @param $sortkey The column number to sort by, or '' or null for no sorting
+	 * @param $sortdir The direction in which to sort the specified column ('asc' or 'desc')
 	 * @param $page The page of the relation to retrieve
 	 * @param $page_size The number of rows per page
 	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
@@ -1401,17 +1331,40 @@ class Postgres extends BaseDB {
 	 * @return -1 transaction error
 	 * @return -2 counting error
 	 * @return -3 page or page_size invalid
+	 * @return -4 unknown type
 	 */
-	function &browseSQL($query, $count, $page, $page_size, &$max_pages) {
+	function &browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
 		// Check that we're not going to divide by zero
 		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
+
+		// If $type is TABLE, then generate the query
+		switch ($type) {
+			case 'TABLE':
+				if (ereg('^[0-9]+$', $sortkey) && $sortkey > 0) $orderby = array($sortkey => $sortdir);
+				else $orderby = array();
+				$query = $this->getSelectSQL($table, array(), array(), array(), $orderby);
+				break;
+			case 'QUERY':
+			case 'SELECT':
+				// Trim query
+				$query = trim($query);
+				// Trim off trailing semi-colon if there is one
+				if (substr($query, strlen($query) - 1, 1) == ';')
+					$query = substr($query, 0, strlen($query) - 1);
+				break;
+			default:
+				return -4;
+		}
+
+		// Generate count query
+		$count = "SELECT COUNT(*) AS total FROM ($query) AS sub";
 
 		// Open a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
 		// Count the number of rows
-		$total = $this->browseSQLCount($query, $count);
+		$total = $this->browseQueryCount($query, $count);
 		if ($total < 0) {
 			$this->rollbackTransaction();
 			return -2;
@@ -1427,11 +1380,24 @@ class Postgres extends BaseDB {
 		}
 
 		// Set fetch mode to NUM so that duplicate field names are properly returned
-		$this->conn->setFetchMode(ADODB_FETCH_NUM);
+		// for non-table queries.  Since the SELECT feature only allows selecting one
+		// table, duplicate fields shouldn't appear.
+		if ($type == 'QUERY') $this->conn->setFetchMode(ADODB_FETCH_NUM);
+
+		// Figure out ORDER BY.  Sort key is always the column number (based from one)
+		// of the column to order by.  Only need to do this for non-TABLE queries
+		if ($type != 'TABLE' && ereg('^[0-9]+$', $sortkey) && $sortkey > 0) {
+			$orderby = " ORDER BY {$sortkey}";
+			// Add sort order
+			if ($sortdir == 'desc')
+				$orderby .= ' DESC';
+			else
+				$orderby .= ' ASC';
+		}	
+		else $orderby = '';
 
 		// Actually retrieve the rows, with offset and limit
-		$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-
+		$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		$status = $this->endTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();

@@ -6,6 +6,9 @@ Version 3.2-dev
 
 Features
 * Option to dump table structure, data or structure and data
+* Results of table browse, table select, view browsing and report browsing
+  can now ALL be sorted by column
+* Result rows of table selects can now be edited and deleted
 * Set datestyle and extra_float_digits when dumping data
 * Extra login security to prevent logging into servers as postgres and
   no password - a VERY common newbie error.

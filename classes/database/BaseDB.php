@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.32 2003/10/26 12:12:28 chriskl Exp $
+ * $Id: BaseDB.php,v 1.33 2003/11/05 08:32:03 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -147,16 +147,26 @@ class BaseDB extends ADODB_base {
 	/**
 	 * Generates the SQL for the 'select' function
 	 * @param $table The table from which to select
-	 * @param $show An array of columns to show
+	 * @param $show An array of columns to show.  Empty array means all columns.
 	 * @param $values An array mapping columns to values
 	 * @param $ops An array of the operators to use
-	 * @param $orderby (optional) An array of columns to order by
+	 * @param $orderby (optional) An array of column numbers (one based) 
+	 *        mapped to sort direction (asc or desc or '' or null) to order by
 	 * @return The SQL query
 	 */
 	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
 		$this->fieldClean($table);
+		$this->fieldArrayClean($show);
 
-		$sql = "SELECT \"" . join('","', $show) . "\" FROM ";
+		// If an empty array is passed in, then show all columns
+		if (sizeof($show) == 0) {
+			if ($this->hasObjectID($table))
+				$sql = "SELECT oid, * FROM ";
+			else
+				$sql = "SELECT * FROM ";
+		}
+		else
+			$sql = "SELECT \"" . join('","', $show) . "\" FROM ";
 		if ($this->hasSchemas() && isset($_REQUEST['schema'])) {
 			$this->fieldClean($_REQUEST['schema']);
 			$sql .= "\"{$_REQUEST['schema']}\".";
@@ -196,9 +206,13 @@ class BaseDB extends ADODB_base {
 
 		// ORDER BY
 		if (is_array($orderby) && sizeof($orderby) > 0) {
-			$sql .= " ORDER BY \"" . join('","', $orderby) . "\"";
+			$sql .= " ORDER BY ";
+			foreach ($orderby as $k => $v) {
+				$sql .= $k;
+				if (strtoupper($v) == 'DESC') $sql .= " DESC";
+			}
 		}
-
+		
 		return $sql;
 	}
 

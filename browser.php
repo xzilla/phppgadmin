@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.23 2003/11/03 01:26:37 chriskl Exp $
+	 * $Id: browser.php,v 1.24 2003/11/05 08:32:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -56,6 +56,7 @@
 			
 			$tables = &$localData->getTables();
 			while (!$tables->EOF) {
+				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f[$data->tbFields['tbname']]) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($tables->f[$data->tbFields['tbname']])), 
 								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
@@ -64,7 +65,8 @@
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 								'expanded' => false,
 								'linkTarget' => 'detail',
-								'browseLink' => addslashes(htmlspecialchars('tables.php?action=browse&page=1&table='.urlencode($tables->f[$data->tbFields['tbname']]).'&'.$querystr))
+								'browseLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f[$data->tbFields['tbname']]).'&'.$querystr.
+									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 								));
 
 				// Add table folder to schema

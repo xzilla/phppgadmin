@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.7 2003/10/15 01:23:42 chriskl Exp $
+	 * $Id: Reports.php,v 1.8 2003/11/05 08:32:03 chriskl Exp $
 	 */
 
 	class Reports {
@@ -42,7 +42,7 @@
 
 			$sql = $this->driver->getSelectSQL('ppa_reports',
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
-				$filter, $ops, array('report_name'));
+				$filter, $ops, array(2 => 'asc'));
 
 			return $this->driver->selectSet($sql);
 		}
