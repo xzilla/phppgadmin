@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.18 2003/10/03 07:38:54 chriskl Exp $
+	 * $Id: indexes.php,v 1.19 2003/10/08 02:14:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,10 +17,13 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $localData, $database, $misc;
+		global $localData, $database, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
+			// Default analyze to on
+			if ($action == 'confirm_cluster_index') $_REQUEST['analyze'] = 'on';
+			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strcluster']}</h2>\n";
 
@@ -31,7 +34,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"checkbox\" name=\"analyze\" /> {$lang['stranalyze']}</p>\n";
+			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";

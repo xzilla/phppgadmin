@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.150 2003/10/06 15:26:23 chriskl Exp $
+ * $Id: Postgres.php,v 1.151 2003/10/08 02:14:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -253,6 +253,18 @@ class Postgres extends BaseDB {
 		return -99;
 	}
 
+	// Schema functions
+	
+	/**
+	 * Sets the current working schema.  This is a do nothing method for
+	 * < 7.3 and is just here for polymorphism's sake.
+	 * @param $schema The the name of the schema to work in
+	 * @return 0 success
+	 */
+	function setSchema($schema) {
+		return 0;
+	}
+	
 	// Table functions
 
 	/**
@@ -398,6 +410,8 @@ class Postgres extends BaseDB {
 		}
 
 		$sql .= ")";
+
+		// @@@@ DUMP CLUSTERING INFORMATION
 
 		// Inherits
 		/*
@@ -951,13 +965,14 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Return all tables in current database
+	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables() {
+	function &getTables($all = false) {
 		global $conf;
-		if (!$conf['show_system']) $where = "WHERE tablename NOT LIKE 'pg_%' ";
+		if (!$conf['show_system'] || $all) $where = "WHERE tablename NOT LIKE 'pg_%' ";
 		else $where = '';
-		$sql = "SELECT tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
+		$sql = "SELECT NULL AS schemaname, tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
 		return $this->selectSet($sql);
 	}
 
@@ -1592,7 +1607,8 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Adds a foreign key constraint to a table
-	 * @param $table The table to which to add the foreign key
+	 * @param $targschema The schema that houses the target table to which to add the foreign key
+	 * @param $targtable The table to which to add the foreign key
 	 * @param $target The table that contains the target columns
 	 * @param $sfields (array) An array of source fields over which to add the foreign key
 	 * @param $tfields (array) An array of target fields over which to add the foreign key
@@ -1602,11 +1618,12 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addForeignKey($table, $target, $sfields, $tfields, $upd_action, $del_action, $name = '') {
+	function addForeignKey($table, $targschema, $targtable, $sfields, $tfields, $upd_action, $del_action, $name = '') {
 		if (!is_array($sfields) || sizeof($sfields) == 0 ||
 			!is_array($tfields) || sizeof($tfields) == 0) return -1;
 		$this->fieldClean($table);
-		$this->fieldClean($target);
+		$this->fieldClean($targschema);
+		$this->fieldClean($targtable);
 		$this->fieldArrayClean($sfields);
 		$this->fieldArrayClean($tfields);
 		$this->fieldClean($name);
@@ -1614,7 +1631,12 @@ class Postgres extends BaseDB {
 		$sql = "ALTER TABLE \"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "FOREIGN KEY (\"" . join('","', $sfields) . "\") ";
-		$sql .= "REFERENCES \"{$target}\"(\"" . join('","', $tfields) . "\") ";
+		$sql .= "REFERENCES ";
+		// Target table needs to be fully qualified
+		if ($this->hasSchemas()) {
+			$sql .= "\"{$targschema}\".";
+		}		
+		$sql .= "\"{$targtable}\"(\"" . join('","', $tfields) . "\") ";
 		if ($upd_action != 'NO ACTION') $sql .= " ON UPDATE {$upd_action}";
 		if ($del_action != 'NO ACTION') $sql .= " ON DELETE {$del_action}";
 

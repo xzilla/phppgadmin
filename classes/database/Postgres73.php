@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.65 2003/10/06 15:26:23 chriskl Exp $
+ * $Id: Postgres73.php,v 1.66 2003/10/08 02:14:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -309,12 +309,20 @@ class Postgres73 extends Postgres72 {
 	}
 	
 	/**
-	 * Return all tables in current database
+	 * Return all tables in current database (and schema)
+	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables() {
-		$sql = "SELECT tablename, tableowner FROM pg_catalog.pg_tables
-			WHERE schemaname='{$this->_schema}' ORDER BY tablename";
+	function &getTables($all = false) {
+		if ($all) {
+			// Exclude pg_catalog and information_schema tables
+			$sql = "SELECT schemaname, tablename, tableowner FROM pg_catalog.pg_tables 
+				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+				ORDER BY schemaname, tablename";
+		} else {
+			$sql = "SELECT tablename, tableowner FROM pg_catalog.pg_tables
+				WHERE schemaname='{$this->_schema}' ORDER BY tablename";
+		}		
 
 		return $this->selectSet($sql);
 	}
@@ -403,6 +411,57 @@ class Postgres73 extends Postgres72 {
 
 		return $this->execute($sql);
 	}
+
+	// Inheritance functions
+	
+	/**
+	 * Finds the names and schemas of parent tables (in order)
+	 * @param $table The table to find the parents for
+	 * @return A recordset
+	 */
+	function &getTableParents($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				pn.nspname AS schemaname, relname
+			FROM
+				pg_catalog.pg_class pc, pg_catalog.pg_inherits pi, pg_catalog.pg_namespace pn
+			WHERE
+				pc.oid=pi.inhparent
+				AND pc.relnamespace=pn.oid
+				AND pi.inhrelid = (SELECT oid from pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = '{$this->_schema}'))
+			ORDER BY
+				pi.inhseqno
+		";
+		
+		return $this->selectSet($sql);					
+	}	
+
+
+	/**
+	 * Finds the names and schemas of child tables
+	 * @param $table The table to find the children for
+	 * @return A recordset
+	 */
+	function &getTableChildren($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				pn.nspname AS schemaname, relname
+			FROM
+				pg_catalog.pg_class pc, pg_catalog.pg_inherits pi, pg_catalog.pg_namespace pn
+			WHERE
+				pc.oid=pi.inhrelid
+				AND pc.relnamespace=pn.oid
+				AND pi.inhparent = (SELECT oid from pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = '{$this->_schema}'))
+		";
+		
+		return $this->selectSet($sql);					
+	}	
 
 	// View functions
 	

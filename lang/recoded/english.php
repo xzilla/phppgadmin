@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.61 2003/10/06 18:10:18 soranzo Exp $
+	 * $Id: english.php,v 1.62 2003/10/08 02:14:24 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -495,6 +495,8 @@
 
 	// Info
 	$lang['strreferringtables'] = 'Referring Tables';
+	$lang['strparenttables'] = 'Parent Tables';
+	$lang['strchildtables'] = 'Child Tables';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';

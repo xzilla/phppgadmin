@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.21 2003/10/03 07:38:54 chriskl Exp $
+	 * $Id: constraints.php,v 1.22 2003/10/08 02:14:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,10 +17,13 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $localData, $database, $misc;
+		global $localData, $database, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
+			// Default analyze to on
+			if ($action == 'confirm_cluster_constraint') $_REQUEST['analyze'] = 'on';
+			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strcluster']}</h2>\n";
 
@@ -31,7 +34,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"checkbox\" name=\"analyze\" /> {$lang['stranalyze']}</p>\n";
+			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -65,12 +68,21 @@
 				// Initialise variables
 				if (!isset($_POST['upd_action'])) $_POST['upd_action'] = null;
 				if (!isset($_POST['del_action'])) $_POST['del_action'] = null;
+				$_REQUEST['target'] = unserialize($_REQUEST['target']);
 				
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
 
-				$attrs = &$localData->getTableAttributes($_REQUEST['target']);
+				// Unserialize target and fetch appropriate table.  This is a bit messy
+				// because the table could be in another schema.
+				if ($localData->hasSchemas()) {
+					$localData->setSchema($_REQUEST['target']['schemaname']);
+				}
+				$attrs = &$localData->getTableAttributes($_REQUEST['target']['tablename']);
+				if ($localData->hasSchemas()) {
+					$localData->setSchema($_REQUEST['schema']);
+				}
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
 				$selColumns->set_style('width: 10em;');
@@ -123,24 +135,25 @@
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\" />\n";
-				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars($_REQUEST['target']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars(serialize($_REQUEST['target'])), "\" />\n";
 				echo "<input type=\"hidden\" name=\"SourceColumnList\" value=\"", htmlspecialchars($_REQUEST['SourceColumnList']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
-				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-
-				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
-					"\">{$lang['strshowallconstraints']}</a></p>\n";
 				break;
 			case 3:
+				// Unserialize target
+				$_POST['target'] = unserialize($_POST['target']);
+
 				// Check that they've given at least one column
 				if (isset($_POST['SourceColumnList'])) $temp = unserialize($_POST['SourceColumnList']);
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
 						|| sizeof($_POST['IndexColumnList']) == 0 || !isset($temp) 
 						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
 				else {
-					$status = $localData->addForeignKey($_POST['table'], $_POST['target'], unserialize($_POST['SourceColumnList']), 
-						$_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], $_POST['name']);
+					$status = $localData->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'], 
+						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strfkadded']);
 					else
@@ -190,8 +203,13 @@
 				echo "<tr>";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$tables->EOF) {
-					echo "<option value=\"", htmlspecialchars($tables->f['tablename']), "\">",
-						htmlspecialchars($tables->f['tablename']), "</option>\n";
+					$key = array('schemaname' => $tables->f['schemaname'], 'tablename' => $tables->f['tablename']);
+					$key = serialize($key);
+					echo "<option value=\"", htmlspecialchars($key), "\">";
+					if ($localData->hasSchemas() && $tables->f['schemaname'] != $_REQUEST['schema']) {
+							echo htmlspecialchars($tables->f['schemaname']), '.';
+					}
+					echo htmlspecialchars($tables->f['tablename']), "</option>\n";
 					$tables->moveNext();	
 				}
 				echo "</select>\n";
@@ -202,11 +220,9 @@
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
-				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-
-				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
-					"\">{$lang['strshowallconstraints']}</a></p>\n";
 				break;
 		}
 
@@ -274,11 +290,9 @@
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($type), "\" />\n";
-			echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+			echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
-			
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
-				"\">{$lang['strshowallconstraints']}</a></p>\n";
 		}
 		else {
 			if ($_POST['type'] == 'primary') {
