@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.9 2003/06/17 00:49:41 chriskl Exp $
+	 * $Id: types.php,v 1.10 2003/08/08 03:59:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,19 +27,19 @@
 		
 		if ($typedata->recordCount() > 0) {
 			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
-			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strinputfn']}</th></tr>\n";
-			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['stroutputfn']}</th></tr>\n";
-			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strlength']}</th></tr>\n";
-			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strpassbyval']}</th></tr>\n";
-			echo "<tr><td class=data1>", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['stralignment']}</th></tr>\n";
-			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
+			echo "<table>\n";
+			echo "<tr><th class=data>{$lang['strname']}</th>\n";
+			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['strinputfn']}</th>\n";
+			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['stroutputfn']}</th>\n";
+			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['strlength']}</th>\n";
+			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['strpassbyval']}</th>\n";
+			echo "<td class=data1>", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['stralignment']}</th>\n";
+			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
 			echo "</table>\n";
 
 			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
@@ -67,7 +67,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
+			echo "<input type=submit name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -165,12 +166,11 @@
 		}
 		echo "</select></td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=hidden name=action value=save_create>\n";
+		echo "<p><input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$lang['strcreate']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+		echo "<input type=submit value=\"{$lang['strcreate']}\">\n";
+		echo "<input type=submit name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
 	}
 	
 	/**
@@ -246,14 +246,15 @@
 
 	switch ($action) {
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
-			else doDefault();
+			if (isset($_POST['cancel'])) doDefault();
+			else doDrop(false);
 			break;
 		case 'confirm_drop':
 			doDrop(true);
