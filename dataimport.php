@@ -3,11 +3,151 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.1 2004/04/12 06:43:15 chriskl Exp $
+	 * $Id: dataimport.php,v 1.2 2004/04/12 07:50:33 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
+
+	// Default state for XML parser
+	$state = 'XML';
+	$curr_col_name = null;
+	$curr_col_val = null;
+	$curr_col_null = false;
+	$curr_row = array();
+
+	/**
+	 * Open tag handler for XML import feature
+	 */
+	function _startElement($parser, $name, $attrs) {
+		global $data, $misc, $lang;
+		global $state, $curr_row, $curr_col_name, $curr_col_val, $curr_col_null;
+
+		switch ($name) {
+			case 'DATA':
+				if ($state != 'XML') {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				$state = 'DATA';
+				break;
+			case 'HEADER':
+				if ($state != 'DATA') {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				$state = 'HEADER';
+				break;
+			case 'RECORDS':
+				if ($state != 'READ_HEADER') {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				$state = 'RECORDS';
+				break;
+			case 'ROW':
+				if ($state != 'RECORDS') {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				$state = 'ROW';
+				$curr_row = array();
+				break;
+			case 'COLUMN':
+				// We handle columns in rows
+				if ($state == 'ROW') {
+					$state = 'COLUMN';
+					$curr_col_name = $attrs['NAME'];
+					$curr_col_null = isset($attrs['NULL']);
+				}
+				// And we ignore columns in headers and fail in any other context				
+				elseif ($state != 'HEADER') {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				break;
+			default:
+				// An unrecognised tag means failure
+				$data->rollbackTransaction();
+				$misc->printMsg($lang['strimporterror']);
+				exit;			
+		}
+	}
+	
+	/**
+	 * Close tag handler for XML import feature
+	 */
+	function _endElement($parser, $name) {
+		global $data, $misc, $lang;
+		global $state, $curr_row, $curr_col_name, $curr_col_val, $curr_col_null;
+
+		switch ($name) {
+			case 'DATA':
+				$state = 'READ_DATA';
+				break;
+			case 'HEADER':
+				$state = 'READ_HEADER';
+				break;
+			case 'RECORDS':
+				$state = 'READ_RECORDS';
+				break;
+			case 'ROW':
+				// Build value map in order to insert row into table
+				$vars = array();
+				$nulls = array();
+				$format = array();		
+				$types = array();				
+				foreach ($curr_row as $k => $v) {
+					// Check for nulls
+					if ($v === null) $nulls[$k] = 'on';
+					// Add to value array
+					$vars[$k] = $v;
+					// Format is always VALUE
+					$format[$k] = 'VALUE';
+					// Type is always text
+					$types[$k] = 'text';
+				}
+				$status = $data->insertRow($_REQUEST['table'], $vars, $nulls, $format, $types);
+				if ($status != 0) {
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;
+				}
+				$curr_row = array();
+				$state = 'RECORDS';
+				break;
+			case 'COLUMN':
+				$curr_row[$curr_col_name] = ($curr_col_null ? null : $curr_col_val);
+				$curr_col_name = null;
+				$curr_col_val = null;
+				$curr_col_null = false;
+				$state = 'ROW';
+				break;
+			default:
+				// An unrecognised tag means failure
+				$data->rollbackTransaction();
+				$misc->printMsg($lang['strimporterror']);
+				exit;
+		}
+	}
+
+	/**
+	 * Character data handler for XML import feature
+	 */
+	function _charHandler($parser, $cdata) {
+		global $data, $misc, $lang;
+		global $state, $curr_col_val;
+
+		if ($state == 'COLUMN') {
+			$curr_col_val = $cdata;
+		} 
+	}
+
 
 	$misc->printHeader($lang['strimport']);		
 	$misc->printTableNav();
@@ -24,7 +164,26 @@
 				$misc->printMsg($lang['strimporterror']);
 				exit;
 			}
-			
+
+			// If format is set to 'auto', then determine format automatically from file name
+			$extension = substr(strrchr($_FILES['source']['name'], '.'), 1);
+			switch ($extension) {
+				case 'csv':
+					$_REQUEST['format'] = 'csv';
+					break;
+				case 'txt':
+					$_REQUEST['format'] = 'tab';
+					break;
+				case 'xml':
+					$_REQUEST['format'] = 'xml';
+					break;
+				default:
+					$data->rollbackTransaction();
+					$misc->printMsg($lang['strimporterror']);
+					exit;			
+			}		
+
+			// Do different import technique depending on file format
 			switch ($_REQUEST['format']) {
 				case 'csv':
 				case 'tab':
@@ -40,7 +199,8 @@
 						// Build value map
 						$vars = array();
 						$nulls = array();
-						$format = array();						
+						$format = array();
+						$types = array();
 						$i = 0;
 						foreach ($fields as $f) {
 							// Check that there is a column
@@ -66,6 +226,18 @@
 						}
 						$row++;
 					}
+					break;
+				case 'xml':
+					$parser = xml_parser_create();
+					xml_set_element_handler($parser, '_startElement', '_endElement');
+					xml_set_character_data_handler($parser, '_charHandler');
+					
+					while (!feof($fd)) {
+						$line = fgets($fd, 4096);
+						xml_parse($parser, $line);
+					}
+					
+					xml_parser_free($parser);
 					break;
 				default:
 					// Unknown type

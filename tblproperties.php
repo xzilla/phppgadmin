@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.41 2004/04/12 06:43:15 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.42 2004/04/12 07:50:33 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -112,7 +112,7 @@
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
-		echo "<option value=\"tab\">Tabbed</option>\n";
+		echo "<option value=\"tab\">{$lang['strtabbed']}</option>\n";
 		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
@@ -164,12 +164,12 @@
 				echo "<table>\n";
 				echo "<tr><th class=\"data left required\">{$lang['strformat']}</th>";
 				echo "<td><select name=\"format\">\n";
-				//echo "<option value=\"copy\">COPY</option>\n";
-				//echo "<option value=\"sql\">SQL</option>\n";
+				echo "<option value=\"auto\">{$lang['strauto']}</option>\n";
 				echo "<option value=\"csv\">CSV</option>\n";
-				echo "<option value=\"tab\">Tabbed</option>\n";
-				//echo "<option value=\"html\">XHTML</option>\n";
-				//echo "<option value=\"xml\">XML</option>\n";
+				echo "<option value=\"tab\">{$lang['strtabbed']}</option>\n";
+				if (function_exists('xml_parser_create')) {
+					echo "<option value=\"xml\">XML</option>\n";
+				}
 				echo "</select>\n</td>\n</tr>\n";
 				echo "<tr><th class=\"data left required\">{$lang['strfile']}</th>";
 				echo "<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";

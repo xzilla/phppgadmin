@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.13 2004/04/12 06:30:55 chriskl Exp $
+	 * $Id: dataexport.php,v 1.14 2004/04/12 07:50:32 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -329,7 +329,7 @@
 			echo "<option value=\"sql\">SQL</option>\n";
 		}
 		echo "<option value=\"csv\">CSV</option>\n";
-		echo "<option value=\"tab\">Tabbed</option>\n";
+		echo "<option value=\"tab\">{$lang['strtabbed']}</option>\n";
 		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
