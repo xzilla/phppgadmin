@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.18 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: views.php,v 1.19 2003/08/27 22:55:04 slubek Exp $
 	 */
 
 	// Include application functions
@@ -207,13 +207,15 @@
 	 * Displays a screen where they can enter a new view
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $localData, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formView'])) $_POST['formView'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
+		
+		$misc->printHelp("/sql-createview.html#R2-SQL-CREATEVIEW-1");
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -222,7 +224,7 @@
 		echo "<tr><td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_POST['formView']), "\"></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
@@ -254,10 +256,11 @@
 	 * Show default list of views in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $localData, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
+		$misc->printHelp("/tutorial-views.html");
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();
