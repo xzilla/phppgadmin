@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.51 2003/07/29 09:07:09 chriskl Exp $
+ * $Id: Postgres73.php,v 1.52 2003/07/30 07:02:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -434,6 +434,25 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Grabs a single trigger
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @param $trigger The name of the trigger to retrieve
+	 * @return A recordset
+	 */
+	function &getTrigger($table, $trigger) {
+		$this->clean($table);
+		$this->clean($trigger);
+
+		$sql = "SELECT * FROM pg_catalog.pg_trigger t, pg_catalog.pg_class c
+					WHERE t.tgrelid=c.oid
+					AND c.relname='{$table}'
+					AND t.tgname='{$trigger}'
+					AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Grabs a list of triggers on a table
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
@@ -457,6 +476,23 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
+	
+	/**
+	 * Alters a trigger
+	 * @param $table The name of the table containing the trigger
+	 * @param $trigger The name of the trigger to alter
+	 * @param $name The new name for the trigger
+	 * @return 0 success
+	 */
+	function alterTrigger($table, $trigger, $name) {
+		$this->fieldClean($table);
+		$this->fieldClean($trigger);
+		$this->fieldClean($name);
+		
+		$sql = "ALTER TRIGGER \"{$trigger}\" ON \"{$table}\" RENAME TO \"{$name}\"";
+		
+		return $this->execute($sql);
+	}	
 
 	// Function functions
 
@@ -1016,6 +1052,7 @@ class Postgres73 extends Postgres72 {
 	function hasDropBehavior() { return true; }
 	function hasDropColumn() { return true; }
 	function hasDomains() { return true; }
+	function hasAlterTrigger() { return true; }
 
 }
 

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.87 2003/07/30 03:26:27 chriskl Exp $
+	 * $Id: english.php,v 1.88 2003/07/30 07:02:30 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -394,6 +394,8 @@
 	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger "%s" on "%s"?';
 	$lang['strtriggerdropped'] = 'Trigger dropped.';
 	$lang['strtriggerdroppedbad'] = 'Trigger drop failed.';
+	$lang['strtriggeraltered'] = 'Trigger altered.';
+	$lang['strtriggeralteredbad'] = 'Trigger alter failed.';
 
 	// Types
 	$lang['strtype'] = 'Type';

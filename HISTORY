@@ -13,6 +13,7 @@ Version 3.1
 * Find object feature
 * Support for domains in 7.3 and domain constraints in 7.4
 * Add/drop users to/from groups
+* Alter (rename) triggers
 
 Version 3.0
 -----------
