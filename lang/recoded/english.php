@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.117 2004/09/02 14:03:06 jollytoad Exp $
+	 * $Id: english.php,v 1.118 2004/09/22 10:35:33 jollytoad Exp $
 	 */
 
 	// Language and character set
@@ -380,6 +380,7 @@
 	$lang['strruledroppedbad'] = 'Rule drop failed.';
 
 	// Constraints
+	$lang['strconstraint'] = 'Constraint';
 	$lang['strconstraints'] = 'Constraints';
 	$lang['strshowallconstraints'] = 'Show all constraints';
 	$lang['strnoconstraints'] = 'No constraints found.';
