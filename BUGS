@@ -1,4 +1,3 @@
 * Fix grant option/grantor stuff
 * First and last links in browse table
-* Can't grant/revoke on functions with spaces in them
 

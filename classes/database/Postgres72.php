@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.45 2003/05/19 15:15:49 chriskl Exp $
+ * $Id: Postgres72.php,v 1.46 2003/06/01 11:53:47 chriskl Exp $
  */
 
 
@@ -211,6 +211,7 @@ class Postgres72 extends Postgres71 {
 		
 	/**
 	 * Updates (replaces) a function.
+	 * @param $function_oid The OID of the function
 	 * @param $funcname The name of the function to create
 	 * @param $args The array of argument types
 	 * @param $returns The return type
@@ -220,7 +221,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $setof True if returns a set, false otherwise
 	 * @return 0 success
 	 */
-	function setFunction($funcname, $args, $returns, $definition, $language, $flags, $setof) {
+	function setFunction($function_oid, $funcname, $args, $returns, $definition, $language, $flags, $setof) {
 		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.16 2003/05/31 07:23:24 chriskl Exp $
+	 * $Id: functions.php,v 1.17 2003/06/01 11:53:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	function doSaveEdit() {
 		global $localData, $lang;
 
-		$status = $localData->setFunction($_POST['original_function'], $_POST['original_arguments'], 
+		$status = $localData->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['original_arguments'], 
 														$_POST['original_returns'], $_POST['formDefinition'], 
 														$_POST['original_lang'], $_POST['formProperties'], isset($_POST['original_setof']), true);
 		if ($status == 0)
@@ -181,16 +181,18 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
+			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\">\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropFunction($_POST['function'], isset($_POST['cascade']));
+			$status = $localData->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strfunctiondropped']);
 			else

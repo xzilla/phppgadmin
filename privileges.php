@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.14 2003/05/23 03:10:59 chriskl Exp $
+	 * $Id: privileges.php,v 1.15 2003/06/01 11:53:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,7 +29,9 @@
 		// Set name
 		switch ($_REQUEST['type']) {
 			case 'function':
-				$name = $_REQUEST['function'];
+				$fn = &$localData->getFunction($_REQUEST['object']);
+				$data->fieldClean($fn->f[$data->fnFields['fnname']]);
+				$name = $fn->f[$data->fnFields['fnname']] . "(". $fn->f[$data->fnFields['fnarguments']] .")";
 				break;
 			default:
 				$name = $_REQUEST['object'];
@@ -99,7 +101,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $name,
+			$status = $localData->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']));
 			if ($status == 0)
 				doDefault($lang['strgranted']);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.117 2003/05/31 10:55:41 chriskl Exp $
+ * $Id: Postgres.php,v 1.118 2003/06/01 11:53:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2046,7 +2046,6 @@ class Postgres extends BaseDB {
 	 * @return -4 invalid mode
 	 */
 	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges) {
-		$this->fieldClean($object);
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -2060,26 +2059,29 @@ class Postgres extends BaseDB {
 			$sql = "{$mode} ALL PRIVILEGES ON";
 		else
 			$sql = "{$mode} " . join(', ', $privileges) . " ON";
-		// @@ WE NEED SCHEMA SUPPORT BELOW
 		switch ($type) {
 			case 'table':
 			case 'view':
 			case 'sequence':
+				$this->fieldClean($object);
 				$sql .= " \"{$object}\"";
 				break;
 			case 'database':
+				$this->fieldClean($object);
 				$sql .= " DATABASE \"{$object}\"";
 				break;
 			case 'function':
-				// This is deliberately unquoted - $object is something like
-				// "function(arg1, arg2)"
-				$sql .= " FUNCTION {$object}";
+				// Function comes in with $object as function OID
+				$fn = &$this->getFunction($object);
+				$this->fieldClean($fn->f[$this->fnFields['fnname']]);
+				$sql .= " FUNCTION \"{$fn->f[$this->fnFields['fnname']]}\"({$fn->f[$this->fnFields['fnarguments']]})";
 				break;
 			case 'language':
+				$this->fieldClean($object);
 				$sql .= " LANGUAGE \"{$object}\"";
 				break;
 			case 'schema':
-				// @@ MOVE THIS TO 7.3 ONLY
+				$this->fieldClean($object);
 				$sql .= " SCHEMA \"{$object}\"";
 				break;
 			default:
@@ -2328,6 +2330,7 @@ class Postgres extends BaseDB {
 	/**
 	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
 	 * so we do it with a drop and a recreate.
+	 * @param $function_oid The OID of the function
 	 * @param $funcname The name of the function to create
 	 * @param $args The array of argument types
 	 * @param $returns The return type
@@ -2340,11 +2343,11 @@ class Postgres extends BaseDB {
 	 * @return -2 drop function error
 	 * @return -3 create function error
 	 */
-	function setFunction($funcname, $args, $returns, $definition, $language, $flags, $setof) {
+	function setFunction($function_oid, $funcname, $args, $returns, $definition, $language, $flags, $setof) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$status = $this->dropFunction("$funcname({$args})", false);
+		$status = $this->dropFunction($function_oid, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
@@ -2414,14 +2417,16 @@ class Postgres extends BaseDB {
 		
 	/**
 	 * Drops a function.
-	 * @param $funcname The name of the function to drop
+	 * @param $function_oid The OID of the function to drop
 	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropFunction($funcname, $cascade) {
-		$this->clean($funcname);
-	
-		$sql = "DROP FUNCTION {$funcname} ";
+	function dropFunction($function_oid, $cascade) {
+		// Function comes in with $object as function OID
+		$fn = &$this->getFunction($function_oid);
+		$this->fieldClean($fn->f[$this->fnFields['fnname']]);
+		
+		$sql = "DROP FUNCTION \"{$fn->f[$this->fnFields['fnname']]}\"({$fn->f[$this->fnFields['fnarguments']]})";
 		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);
