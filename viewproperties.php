@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.5 2004/05/30 14:31:34 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.6 2004/05/31 13:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,8 +50,8 @@
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input size=\"64\" name=\"formComment\" value=\"", 
-				htmlspecialchars($_POST['formComment']), "\" /></td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\"><textarea rows=\"3\" cols=\"32\" name=\"formComment\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -131,8 +131,8 @@
 		
 		if ($vdata->recordCount() > 0) {
 			// Show comment if any
-			if ($vdata->f[$data->vwFields['vwcomment']] != null)
-				echo "<p class=\"comment\">", htmlspecialchars($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
+			if ($vdata->f[$data->vwFields['vwcomment']] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
 
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
@@ -188,7 +188,7 @@
 				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
-				echo "<td><input name=\"comment\" size=\"60\" value=\"", 
+				echo "<td><input name=\"comment\" size=\"32\" value=\"", 
 					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
 				
 				echo "</table>\n";
@@ -250,8 +250,8 @@
 		$misc->printMsg($msg);
 
 		// Show comment if any
-		if ($vdata->f[$data->vwFields['vwcomment']] != null)
-			echo "<p class=\"comment\">", htmlspecialchars($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
+		if ($vdata->f[$data->vwFields['vwcomment']] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
 
 		echo "<table>\n";
 		echo "<tr>\n\t<th class=\"data\">{$lang['strfield']}</th>\n";

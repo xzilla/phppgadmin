@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.47 2004/05/17 20:34:57 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.48 2004/05/31 13:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -77,8 +77,8 @@
 			}
 			echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input name=\"comment\" size=\"32\" value=\"", 
-				htmlspecialchars($_POST['comment']), "\" /></td></tr>\n";
+			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
+				htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -500,8 +500,8 @@
 		$misc->printMsg($msg);
 
 		// Show comment if any
-		if ($tdata->f[$data->tbFields['tbcomment']] != null)
-			echo "<p class=\"comment\">", htmlspecialchars($tdata->f[$data->tbFields['tbcomment']]), "</p>\n";
+		if ($tdata->f[$data->tbFields['tbcomment']] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($tdata->f[$data->tbFields['tbcomment']]), "</p>\n";
 
 		echo "<table>\n";
 		echo "<tr>\n\t<th class=\"data\">{$lang['strfield']}</th>\n\t<th class=\"data\">{$lang['strtype']}</th>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.15 2004/05/31 05:56:14 chriskl Exp $
+	 * $Id: schema.php,v 1.16 2004/05/31 13:25:49 chriskl Exp $
 	 */
 
 	include_once('./libraries/lib.inc.php');
@@ -24,8 +24,8 @@
 			$misc->printVal($_REQUEST['schema']), "</h2>\n";
 
 		// Show comment if any
-		if ($schema->f[$data->nspFields['nspcomment']] != null)
-			echo "<p class=\"comment\">", htmlspecialchars($schema->f[$data->nspFields['nspcomment']]), "</p>\n";
+		if ($schema->f[$data->nspFields['nspcomment']] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($schema->f[$data->nspFields['nspcomment']]), "</p>\n";
 
 		$misc->printMsg($msg);
 		
@@ -72,7 +72,7 @@
 			echo "<table>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input type=\"text\" size=\"60\" name =\"comment\" value=\"", htmlspecialchars($_POST['comment']), "\" /></td>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
 			echo "\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

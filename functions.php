@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.30 2004/05/09 09:10:04 chriskl Exp $
+	 * $Id: functions.php,v 1.31 2004/05/31 13:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -97,8 +97,8 @@
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><input name=\"formComment\" style=\"width: 100%\" value=\"", 
-					htmlspecialchars($_POST['formComment']), "\" /></td></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 			// Display function properies
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
@@ -142,6 +142,10 @@
 		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
+			// Show comment if any
+			if ($funcdata->f['funccomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($funcdata->f['funccomment']), "</p>\n";
+
 			$funcdata->f[$data->fnFields['setof']] = $data->phpBool($funcdata->f[$data->fnFields['setof']]);
 			$func_full = $funcdata->f[$data->fnFields['fnname']] . "(". $funcdata->f[$data->fnFields['fnarguments']] .")";
 			echo "<table width=\"90%\">\n";
@@ -157,9 +161,6 @@
 			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
-			// Show comment
-			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['funccomment']), "</td></tr>\n";
 			// Show flags
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				// Fetch an array of the function properties

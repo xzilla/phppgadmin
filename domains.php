@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.11 2004/05/08 14:44:56 chriskl Exp $
+	 * $Id: domains.php,v 1.12 2004/05/31 13:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -182,6 +182,10 @@
 		$domaindata = &$data->getDomain($_REQUEST['domain']);
 		
 		if ($domaindata->recordCount() > 0) {
+			// Show comment if any
+			if ($domaindata->f['domcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($domaindata->f['domcomment']), "</p>\n";
+
 			// Display domain info
 			$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
 			echo "<table>\n";
