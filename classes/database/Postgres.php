@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.126 2003/06/21 09:54:37 chriskl Exp $
+ * $Id: Postgres.php,v 1.127 2003/07/28 07:50:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2039,6 +2039,7 @@ class Postgres extends BaseDB {
 	 * @param $usernames The array of usernames to grant privs to.
 	 * @param $groupnames The array of group names to grant privs to.	 
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
+	 * @param $grantoption True if has grant option, false otherwise
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
@@ -2046,7 +2047,7 @@ class Postgres extends BaseDB {
 	 * @return -4 not granting to anything
 	 * @return -4 invalid mode
 	 */
-	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption) {
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -2116,6 +2117,11 @@ class Postgres extends BaseDB {
 				$sql .= ", GROUP \"{$v}\"";
 			}
 		}			
+
+		// Grant option
+		if ($this->hasGrantOption() && $mode == 'GRANT' && $grantoption) {
+			$sql .= ' WITH GRANT OPTION';
+		}		
 
 		return $this->execute($sql);
 	}

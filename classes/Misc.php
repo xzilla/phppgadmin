@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.36 2003/07/25 08:39:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.37 2003/07/28 07:50:32 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -275,6 +275,7 @@
 				echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			}
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=find\">{$lang['strfind']}</a></td>\n";
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$lang['stradmin']}</a></td>\n";
 			//echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
 			echo "</tr></table>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.15 2003/05/19 15:08:09 chriskl Exp $
+	 * $Id: database.php,v 1.16 2003/07/28 07:50:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,6 +13,75 @@
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
+	/**
+	 * Searches for a named database object
+	 */
+	function doFind($confirm = true, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $lang;
+
+		if (!isset($_GET['term'])) $_GET['term'] = '';
+
+		$misc->printDatabaseNav();
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfind']}</h2>\n";
+		$misc->printMsg($msg);
+		
+		echo "<form action=\"$PHP_SELF\" method=\"get\">\n";
+		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
+			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
+		echo $misc->form;
+		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
+		echo "</form>\n";
+		
+		if ($_GET['term'] != '') {
+			$rs = &$localData->findObject($_GET['term']);
+			if ($rs->recordCount() > 0) {
+				$curr = '';
+				while (!$rs->EOF) {
+					if ($rs->f['type'] != $curr) {
+						if ($curr != '') echo "</ul>\n";
+						$curr = $rs->f['type'];
+						echo "<h2>";
+						switch ($curr) {
+							case 'SCHEMA':
+								echo $lang['strschemas'];
+								break;
+							case 'TABLE':
+								echo $lang['strtables'];
+								break;
+							case 'VIEW':
+								echo $lang['strviews'];
+								break;
+							case 'SEQUENCE':
+								echo $lang['strsequences'];
+								break;
+						}
+						echo "</h2>";
+						echo "<ul>\n";
+					}
+					switch ($curr) {
+						case 'SCHEMA':						
+							echo "<li>", htmlspecialchars($rs->f['name']), "</li>\n";
+							break;
+						case 'TABLE':
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							break;
+						case 'VIEW':
+							echo "<li><a href=\"views.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&view=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							break;
+						case 'SEQUENCE':
+							echo "<li><a href=\"sequences.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&sequence=", urlencode($rs->f['name']), "\">", htmlspecialchars($rs->f['name']), "</a></li>\n";
+							break;
+					}
+					$rs->moveNext();	
+				}			
+				echo "</ul>\n";
+			}
+			else echo $lang['strnodata'];
+		}		
+	}
+	
 	/**
 	 * Allow database administration and tuning tasks
 	 */
@@ -221,6 +290,10 @@
 	$misc->printBody();
 
 	switch ($action) {
+		case 'find':
+			if (isset($_GET['term'])) doFind(false);
+			else doFind(true);
+			break;
 		case 'analyze':
 			doAdmin('analyze');
 			break;

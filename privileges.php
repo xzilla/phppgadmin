@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.16 2003/07/28 07:14:08 chriskl Exp $
+	 * $Id: privileges.php,v 1.17 2003/07/28 07:50:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -49,7 +49,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusers']}</th>\n";
-			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"6\">\n";
+			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
 				$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
 				echo "<option value=\"{$uname}\"",
@@ -62,7 +62,7 @@
 			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' selected="selected"' : ''), " />PUBLIC\n";
 			// Only show groups if there are groups!
 			if ($groups->recordCount() > 0) {
-				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"6\">\n";
+				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"", min(6, $groups->recordCount()), "\">\n";
 				while (!$groups->EOF) {
 					$gname = htmlspecialchars($groups->f[$data->grpFields['groname']]);
 					echo "<option value=\"{$gname}\"",
@@ -80,6 +80,14 @@
 							isset($_REQUEST['privilege'][$v]) ? ' selected="selected"' : '', ">{$v}<br />\n";
 			}
 			echo "</td></tr>\n";
+			// Grant option
+			if ($data->hasGrantOption()) {
+				echo "<tr><th class=\"data\">{$lang['stroptions']}</th>\n";
+				echo "<td class=\"data1\">\n";
+				echo "<input type=\"checkbox\" name=\"grantoption\"", 
+							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', ">GRANT OPTION<br />\n";
+				echo "</td></tr>\n";
+			}
 			echo "</table>\n";
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
@@ -102,7 +110,8 @@
 		}
 		else {
 			$status = $localData->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
-				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']));
+				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
+				isset($_REQUEST['grantoption']) && isset($_REQUEST['grant']));
 			if ($status == 0)
 				doDefault($lang['strgranted']);
 			elseif ($status == -3 || $status == -4)
