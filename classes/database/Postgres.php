@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.216 2004/05/26 14:14:03 chriskl Exp $
+ * $Id: Postgres.php,v 1.217 2004/05/28 07:41:36 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2326,7 +2326,7 @@ class Postgres extends BaseDB {
 		// Build SQL, excluding system relations as necessary
 		// Relations
 		$sql = "
-			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
+			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
@@ -2334,7 +2334,8 @@ class Postgres extends BaseDB {
 		// Columns
 		$sql .= "				
 			UNION ALL
-			SELECT 'COLUMN', NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
+			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'COLUMNVIEW'::VARCHAR ELSE 'COLUMNTABLE'::VARCHAR END) WHEN relkind='v' THEN 'COLUMNVIEW'::VARCHAR END,
+				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
 				pg_attribute pa WHERE pc.oid=pa.attrelid 
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
