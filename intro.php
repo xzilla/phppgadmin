@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.14.2.2 2005/03/08 09:41:24 jollytoad Exp $
+	 * $Id: intro.php,v 1.14.2.3 2005/03/08 12:29:43 jollytoad Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -19,7 +19,7 @@
 
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
-<form method="get">
+<form method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
  <label>
   <select name="language" onchange="this.form.submit()">
 <?php
@@ -31,25 +31,20 @@
 	}
 ?>
   </select>
-  <noscript><input type="submit" value="<?php echo $lang['stralter'] ?>"></noscript>
+  <noscript><input type="submit" value="<?php echo $lang['stralter'] ?>" /></noscript>
  </label>
 </form>
 
 <p><?php echo $lang['strintro'] ?></p>
 
-<ul>
-<li><b><a href="http://phppgadmin.sourceforge.net/" target="_top"><?php echo $lang['strppahome'] ?></a></b></li>
-<li><b><a href="<?php echo $lang['strpgsqlhome_url'] ?>" target="_top"><?php echo $lang['strpgsqlhome'] ?></a></b></li>
-<?php
-	//if ( isset($conf['docdir'])) {
-	//	echo "<li><b><a href=\"". $conf['docdir'] ."\" target=\"_top\">";
-	//	echo $lang['strlocaldocs'] ."</a></b></li>";
-	//}
-?>
-<li><b><a href="http://sourceforge.net/tracker/?group_id=37132&amp;atid=418980" target="_top"><?php echo $lang['strreportbug'] ?></a></b></li>
-<li><b><a href="<?php echo $lang['strviewfaq_url'] ?>" target="_top"><?php echo $lang['strviewfaq'] ?></a></b></li>
+<ul class="intro">
+<li><a href="http://phppgadmin.sourceforge.net/" target="_top"><?php echo $lang['strppahome'] ?></a></li>
+<li><a href="<?php echo $lang['strpgsqlhome_url'] ?>" target="_top"><?php echo $lang['strpgsqlhome'] ?></a></li>
+<li><a href="http://sourceforge.net/tracker/?group_id=37132&amp;atid=418980" target="_top"><?php echo $lang['strreportbug'] ?></a></li>
+<li><a href="<?php echo $lang['strviewfaq_url'] ?>" target="_top"><?php echo $lang['strviewfaq'] ?></a></li>
 </ul>
 
 <?php
+	if (isset($_GET['language'])) $_reload_browser = true;
 	$misc->printFooter();
 ?>
