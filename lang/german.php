@@ -4,14 +4,14 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.11 2003/08/01 06:24:16 chriskl Exp $
+    * $Id: german.php,v 1.12 2003/09/05 01:24:01 chriskl Exp $
     */
 
     // Language and character set
     $lang['applang'] = 'Deutsch';
     $lang['appcharset'] = 'UTF-8';
     $lang['applocale'] = 'de_DE';
-  	 $lang['appdbencoding'] = 'LATIN1';
+    $lang['appdbencoding'] = 'LATIN1';
 
     // Basic strings
     $lang['strintro'] = 'Willkommen bei phpPgAdmin.';
@@ -55,7 +55,7 @@
     $lang['strsave'] = 'Speichern';
     $lang['strreset'] = 'Zurücksetzen';
     $lang['strinsert'] = 'Einfügen';
-    $lang['strselect'] = 'Select-Abfrage';
+    $lang['strselect'] = 'Abfrage';
     $lang['strdelete'] = 'Löschen';
     $lang['strupdate'] = 'Ändern';
     $lang['strreferences'] = 'Referenzen';
@@ -102,6 +102,12 @@
     $lang['strexpand'] = 'Aufklappen';
     $lang['strcollapse'] = 'Zuklappen';
     $lang['strexplain'] = 'Explain';
+    $lang['strfind'] = 'Suchen';
+    $lang['stroptions'] = 'Optionen';
+    $lang['strrefresh'] = 'Aktualisieren';
+    $lang['strtaller'] = 'Größer';
+    $lang['strshorter'] = 'Kleiner';
+    $lang['strdownload'] = 'Download';
     $lang['strnoframes'] = 'Für dieses Programm wird ein ein Frame-fähiger Browser benötigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie müssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterstützung.';
@@ -118,12 +124,12 @@
     $lang['strshowalltables'] = 'Zeige alle Tabellen';
     $lang['strnotables'] = 'Keine Tabellen gefunden.';
     $lang['strnotable'] = 'Keine Tabelle gefunden.';
-    $lang['strcreatetable'] = 'Neue Tabelle erzeugen';
+    $lang['strcreatetable'] = 'Neue Tabelle erstellen';
     $lang['strtablename'] = 'Tabellenname';
     $lang['strtableneedsname'] = 'Sie müssen für die Tabelle einen Namen angeben.';
     $lang['strtableneedsfield'] = 'Sie müssen mindestens ein Feld angeben.';
     $lang['strtableneedscols'] = 'Sie müssen eine zulässige Anzahl an Spalten angeben.';
-    $lang['strtablecreated'] = 'Tabelle erzeugt.';
+    $lang['strtablecreated'] = 'Tabelle erstellt.';
     $lang['strtablecreatedbad'] = 'Erzeugen der Tabelle fehlgeschlagen.';
     $lang['strconfdroptable'] = 'Sind Sie sicher, dass Sie die Tabelle "%s" löschen möchten?';
     $lang['strtabledropped'] = 'Tabelle gelöscht.';
@@ -156,19 +162,19 @@
     $lang['straddcolumn'] = 'Spalte hinzufügen';
     $lang['strcolumnadded'] = 'Spalte hinzugefügt.';
     $lang['strcolumnaddedbad'] = 'Hinzufügen der Spalte fehlgeschlagen.';
-    $lang['strschemaanddata'] = 'Schema und Daten';
     $lang['strschemaonly'] = 'nur das Schema';
     $lang['strdataonly'] = 'nur die Daten';
 
     // Users
     $lang['strcascade'] = 'CASCADE';
-    $lang['struseradmin'] = 'Benutzer-Administration';
+    $lang['strtablealtered'] = 'Tabelle geändert.';
+    $lang['strtablealteredbad'] = 'Ändern der Tabelle fehlgeschlagen.';
     $lang['struser'] = 'Benutzer';
     $lang['strusers'] = 'Benutzer';
     $lang['strusername'] = 'Benutzername';
     $lang['strpassword'] = 'Passwort';
     $lang['strsuper'] = 'Superuser?';
-    $lang['strcreatedb'] = 'Datenbank erzeugen?';
+    $lang['strcreatedb'] = 'Datenbank erstellen?';
     $lang['strexpires'] = 'Gültig bis';
     $lang['strnousers'] = 'Keine Benutzer gefunden.';
     $lang['struserupdated'] = 'Benutzer ändern.';
@@ -181,19 +187,17 @@
     $lang['struserdropped'] = 'Benutzer gelöscht.';
     $lang['struserdroppedbad'] = 'Löschen des Benutzers fehlgeschlagen.';
 
-    // Groups
     $lang['straccount'] = 'Konto';
     $lang['strchangepassword'] = 'Passwort ändern';
     $lang['strpasswordchanged'] = 'Passwort geändert.';
     $lang['strpasswordchangedbad'] = 'Ändern des Passwortes fehlgeschlagen.';
     $lang['strpasswordshort'] = 'Das Passwort ist zu kurz.';
     $lang['strpasswordconfirm'] = 'Die beiden Passwörter stimmen nicht überein.';
-    $lang['strgroupadmin'] = 'Gruppen-Administration';
     $lang['strgroups'] = 'Gruppen';
     $lang['strnogroup'] = 'Gruppe nicht gefunden.';
     $lang['strgroup'] = 'Gruppe';
     $lang['strnogroups'] = 'Keine Gruppen gefunden.';
-    $lang['strcreategroup'] = 'Gruppe erzeugen';
+    $lang['strcreategroup'] = 'Gruppe erstellen';
     $lang['strshowallgroups'] = 'Alle Gruppen anzeigen';
     $lang['strgroupneedsname'] = 'Sie müssen für die Gruppe einen Namen angeben.';
     $lang['strgroupcreated'] = 'Gruppe angelegt.';
@@ -202,15 +206,26 @@
     $lang['strgroupdropped'] = 'Gruppe gelöscht.';
     $lang['strgroupdroppedbad'] = 'Löschen der Gruppe fehlgeschlagen.';
     $lang['strmembers'] = 'Mitglieder';
+    $lang['straddmember'] = 'Mitglied hinzufügen';
+    $lang['strmemberadded'] = 'Mitglied hinzugefügt.';
+    $lang['strmemberaddedbad'] = 'Hinzufügen des Mitglieds fehlgeschlagen.';
+    $lang['strdropmember'] = 'Mitglied löschen';
+    $lang['strconfdropmember'] = 'Sind Sie sicher, dass Sie das Mitglied "%s" aus der Gruppe "%s" löschen wollen?';
+    $lang['strmemberdropped'] = 'Mitglied gelöscht.';
+    $lang['strmemberdroppedbad'] = 'Löschen des Mitglieds fehlgeschlagen.';
 
     // Privilges
     $lang['strprivilege'] = 'Privileg';
     $lang['strprivileges'] = 'Privilegien';
+    $lang['strnoprivileges'] = 'Dieses Objekt hat die Standard-Eigentümerrechte.';
     $lang['strgrant'] = 'Privilegien vergeben';
-    $lang['strgranted'] = 'Privilegien vergeben.';
+    $lang['strrevoke'] = 'Privilegien entziehen';
+    $lang['strgranted'] = 'Privilegien vergeben / entzogen.';
     $lang['strgrantfailed'] = 'Vergeben von Privilegien fehlgeschlagen.';
     $lang['strgrantbad'] = 'Sie müssen wenigstens einen Benutzer oder eine Gruppe und wenigstens ein Privileg.';
     $lang['stralterprivs'] = 'Privilegien ändern';
+    $lang['strgrantor'] = 'Privilegienvergeber';
+    $lang['strasterisk'] = '*';
 
     // Databases
     $lang['strdatabase'] = 'Datenbank';
@@ -218,10 +233,10 @@
     $lang['strshowalldatabases'] = 'Zeige alle Datenbanken';
     $lang['strnodatabase'] = 'Keine Datenbank gefunden.';
     $lang['strnodatabases'] = 'Keine Datenbanken gefunden.';
-    $lang['strcreatedatabase'] = 'Datenbank erzeugen';
+    $lang['strcreatedatabase'] = 'Datenbank erstellen';
     $lang['strdatabasename'] = 'Datenbankname';
     $lang['strdatabaseneedsname'] = 'Sie müssen für die Datenbank einen Namen angeben.';
-    $lang['strdatabasecreated'] = 'Datenbank erzeugt.';
+    $lang['strdatabasecreated'] = 'Datenbank erstellt.';
     $lang['strdatabasecreatedbad'] = 'Erzeugen der Datenbank fehlgeschlagen.';
     $lang['strconfdropdatabase'] = 'Sind Sie sicher, dass Sie die Datenbank "%s" löschen möchten?';
     $lang['strdatabasedropped'] = 'Datenbank gelöscht.';
@@ -239,11 +254,11 @@
     $lang['strshowallviews'] = 'Zeige alle Sichten';
     $lang['strnoview'] = 'Kein Sicht gefunden.';
     $lang['strnoviews'] = 'Keine Sichten gefunden.';
-    $lang['strcreateview'] = 'Sicht erzeugen';
+    $lang['strcreateview'] = 'Sicht erstellen';
     $lang['strviewname'] = 'Name der Sicht';
     $lang['strviewneedsname'] = 'Sie müssen für die Sicht einen Namen angeben.';
     $lang['strviewneedsdef'] = 'Sie müssen für die Sicht eine Definition angeben.';
-    $lang['strviewcreated'] = 'Sicht erzeugt.';
+    $lang['strviewcreated'] = 'Sicht erstellt.';
     $lang['strviewcreatedbad'] = 'Erzeugen der Sicht fehlgeschlagen.';
     $lang['strconfdropview'] = 'Sind Sie sicher, dass Sie die Sicht "%s" löschen möchten?';
     $lang['strviewdropped'] = 'Sicht gelöscht.';
@@ -268,7 +283,7 @@
     $lang['striscycled'] = 'Zyklisch?';
     $lang['striscalled'] = 'Aufgerufen?';
     $lang['strsequenceneedsname'] = 'Sie müssen für die Sequenz einen Namen angeben.';
-    $lang['strsequencecreated'] = 'Sequenz erzeugt.';
+    $lang['strsequencecreated'] = 'Sequenz erstellt.';
     $lang['strsequencecreatedbad'] = 'Erzeugen der Sequenz fehlgeschlagen.';
     $lang['strconfdropsequence'] = 'Sind Sie sicher, dass die die Sequenz "%s" löschen möchten?';
     $lang['strsequencedropped'] = 'Sequenz gelöscht.';
@@ -280,12 +295,12 @@
     $lang['strshowallindexes'] = 'Zeige alle Indizes';
     $lang['strnoindex'] = 'Keinen Index gefunden.';
     $lang['strnoindexes'] = 'Keine Indizes gefunden.';
-    $lang['strcreateindex'] = 'Index erzeugen';
+    $lang['strcreateindex'] = 'Index erstellen';
     $lang['strtabname'] = 'Tab. Name';
     $lang['strcolumnname'] = 'Spaltenname';
     $lang['strindexneedsname'] = 'Sie müssen für den Index einen Namen angeben.';
     $lang['strindexneedscols'] = 'Sie müssen eine zulässige Anzahl an Spalten angeben.';
-    $lang['strindexcreated'] = 'Index erzeugt';
+    $lang['strindexcreated'] = 'Index erstellt';
     $lang['strindexcreatedbad'] = 'Erzeugen des Index fehlgeschlagen.';
     $lang['strconfdropindex'] = 'Sind Sie sicher, dass sie den Index "%s" löschen möchten?';
     $lang['strindexdropped'] = 'Index gelöscht.';
@@ -304,10 +319,10 @@
     $lang['strshowallrules'] = 'Zeige alle Regeln';
     $lang['strnorule'] = 'Keine Regel gefunden.';
     $lang['strnorules'] = 'Keine Regeln gefunden.';
-    $lang['strcreaterule'] = 'Regel erzeugen';
+    $lang['strcreaterule'] = 'Regel erstellen';
     $lang['strrulename'] = 'Regelname';
     $lang['strruleneedsname'] = 'Sie müssen für die Regel einen Namen angeben.';
-    $lang['strrulecreated'] = 'Regel erzeugt.';
+    $lang['strrulecreated'] = 'Regel erstellt.';
     $lang['strrulecreatedbad'] = 'Erzeugen der Regel fehlgeschlagen.';
     $lang['strconfdroprule'] = 'Sind Sie sicher, dass Sie die Regel "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strruledropped'] = 'Regel gelöscht.';
@@ -318,7 +333,7 @@
     $lang['strshowallconstraints'] = 'Zeige alle Constraints';
     $lang['strnoconstraints'] = 'Keine Constraints gefunden.';
     $lang['strcreateconstraint'] = 'Erzeuge Constraint';
-    $lang['strconstraintcreated'] = 'Constraint erzeugt.';
+    $lang['strconstraintcreated'] = 'Constraint erstellt.';
     $lang['strconstraintcreatedbad'] = 'Erzeugen des Constraints fehlgeschlagen.';
     $lang['strconfdropconstraint'] = 'Sind Sie sicher, dass Sie den Constraint "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strconstraintdropped'] = 'Constraint gelöscht.';
@@ -351,13 +366,13 @@
     $lang['strshowallfunctions'] = 'Zeige alle Funktionen';
     $lang['strnofunction'] = 'Keine Funktion gefunden.';
     $lang['strnofunctions'] = 'Keine Funktionen gefunden.';
-    $lang['strcreatefunction'] = 'Funktion erzeugen';
+    $lang['strcreatefunction'] = 'Funktion erstellen';
     $lang['strfunctionname'] = 'Name der Funktion';
     $lang['strreturns'] = 'Liefert';
     $lang['strarguments'] = 'Argumente';
     $lang['strfunctionneedsname'] = 'Sie müssen für die Funktion einen Namen angeben.';
     $lang['strfunctionneedsdef'] = 'Sie müssen für die Funktion eine Definition angeben.';
-    $lang['strfunctioncreated'] = 'Funktion erzeugt.';
+    $lang['strfunctioncreated'] = 'Funktion erstellt.';
     $lang['strfunctioncreatedbad'] = 'Erzeugen der Funktion fehlgeschlagen.';
     $lang['strconfdropfunction'] = 'Sind Sie sicher, dass sie die Funktion "%s" löschen möchten?';
     $lang['strfunctiondropped'] = 'Funktion gelöscht.';
@@ -371,14 +386,16 @@
     $lang['strshowalltriggers'] = 'Zeige alle Trigger';
     $lang['strnotrigger'] = 'Kein Trigger gefunden.';
     $lang['strnotriggers'] = 'Keine Trigger gefunden.';
-    $lang['strcreatetrigger'] = 'Trigger erzeugen';
+    $lang['strcreatetrigger'] = 'Trigger erstellen';
     $lang['strtriggerneedsname'] = 'Sie müssen für den Trigger einen Namen angeben.';
     $lang['strtriggerneedsfunc'] = 'Sie müssen für den Trigger eine Funktion angeben.';
-    $lang['strtriggercreated'] = 'Trigger erzeugt.';
+    $lang['strtriggercreated'] = 'Trigger erstellt.';
     $lang['strtriggercreatedbad'] = 'Erzeugen des Triggers fehlgeschlagen.';
     $lang['strconfdroptrigger'] = 'Sind Sie sicher, dass Sie den Trigger "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strtriggerdropped'] = 'Trigger gelöscht.';
     $lang['strtriggerdroppedbad'] = 'Löschen des Triggers fehlgeschlagen.';
+    $lang['strtriggeraltered'] = 'Trigger geändert.';
+    $lang['strtriggeralteredbad'] = 'Ändern des Triggers fehlgeschlagen.';
 
     // Types
     $lang['strtype'] = 'Datentyp';
@@ -386,7 +403,7 @@
     $lang['strshowalltypes'] = 'Zeige alle Datentypen';
     $lang['strnotype'] = 'Kein Datentyp gefunden.';
     $lang['strnotypes'] = 'Keine Datentypen gefunden.';
-    $lang['strcreatetype'] = 'Datentyp erzeugen';
+    $lang['strcreatetype'] = 'Datentyp erstellen';
     $lang['strtypename'] = 'Name des Datentyps';
     $lang['strinputfn'] = 'Eingabefunktion';
     $lang['stroutputfn'] = 'Ausgabefunktion';
@@ -397,7 +414,7 @@
     $lang['strstorage'] = 'Speicherung';
     $lang['strtypeneedsname'] = 'Sie müssen einen Namen für den Datentyp angeben.';
     $lang['strtypeneedslen'] = 'Sie müssen eine Länge für den Datentyp angeben.';
-    $lang['strtypecreated'] = 'Datentyp erzeugt.';
+    $lang['strtypecreated'] = 'Datentyp erstellt.';
     $lang['strtypecreatedbad'] = 'Erzeugen des Datentypen fehlgeschlagen.';
     $lang['strconfdroptype'] = 'Sind Sie sicher, dass Sie den Datentyp "%s" löschen möchten?';
     $lang['strtypedropped'] = 'Datentyp gelöscht.';
@@ -409,21 +426,20 @@
     $lang['strshowallschemas'] = 'Zeige alle Schemas';
     $lang['strnoschema'] = 'Kein Schema gefunden.';
     $lang['strnoschemas'] = 'Keine Schemas gefunden.';
-    $lang['strcreateschema'] = 'Schema erzeugen';
+    $lang['strcreateschema'] = 'Schema erstellen';
     $lang['strschemaname'] = 'Name des Schema';
     $lang['strschemaneedsname'] = 'Sie müssen für das Schema einen Namen angeben.';
-    $lang['strschemacreated'] = 'Schema erzeugt';
+    $lang['strschemacreated'] = 'Schema erstellt';
     $lang['strschemacreatedbad'] = 'Erzeugen des Schemas fehlgeschlagen.';
     $lang['strconfdropschema'] = 'Sind Sie sicher, dass sie das Schema "%s" löschen möchten?';
     $lang['strschemadropped'] = 'Schema gelöscht.';
     $lang['strschemadroppedbad'] = 'Löschen des Schemas fehlgeschlagen';
 
-    // Reports
     $lang['strreport'] = 'Bericht';
     $lang['strreports'] = 'Berichte';
     $lang['strshowallreports'] = 'Zeige alle Berichte';
     $lang['strnoreports'] = 'Keine Berichte gefunden.';
-    $lang['strcreatereport'] = 'Bericht erzeugen';
+    $lang['strcreatereport'] = 'Bericht erstellen';
     $lang['strreportdropped'] = 'Bericht gelöscht.';
     $lang['strreportdroppedbad'] = 'Löschen des Berichtes fehlgeschlagen.';
     $lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht "%s" löschen wollen?';
@@ -431,12 +447,39 @@
     $lang['strreportneedsdef'] = 'Sie müssen SQL-Code für den Bericht eingeben.';
     $lang['strreportcreated'] = 'Bericht gespeichert.';
     $lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
+    $lang['strsaveasreport'] = 'Als Bericht speichern';
 
     // Miscellaneous
     $lang['strtopbar'] = '%s läuft auf host:%s port:%s -- Sie sind angemeldet als Benutzer "%s", %s';
+    $lang['strdomain'] = 'Domain';
+    $lang['strdomains'] = 'Domains';
+    $lang['strshowalldomains'] = 'Alle Domains zeigen';
+    $lang['strnodomains'] = 'Keine Domains gefunden.';
+    $lang['strcreatedomain'] = 'Domain erstellen';
+    $lang['strdomaindropped'] = 'Domain gelöscht.';
+    $lang['strdomaindroppedbad'] = 'Löschen der Domain fehlgeschlagen.';
+    $lang['strconfdropdomain'] = 'Sind Sie sicher, dass Sie die Domain "%s" löschen wollen?';
+    $lang['strdomainneedsname'] = 'Sie müssen einen Namen für die Domain angeben.';
+    $lang['strdomaincreated'] = 'Domain erstellt.';
+    $lang['strdomaincreatedbad'] = 'Erstellen der Domain fehlgeschlagen.';
+    $lang['strdomainaltered'] = 'Domain geöndert.';
+    $lang['strdomainalteredbad'] = 'Ändern der Domain fehlgeschlagen.';
     $lang['strtimefmt'] = 'j. M Y H:i:s';
+    $lang['stroperator'] = 'Operator';
 
     // SQL Editor
-    $lang['strsqleditor'] = 'SQL Editor';
+    $lang['strshowalloperators'] = 'Alle Operatoren zeigen';
+    $lang['strnooperator'] = 'Keinen Operator vorhanden.';
+    $lang['strnooperators'] = 'Keine Operatoren vorhanden.';
+    $lang['strcreateoperator'] = 'Operator erstellen';
+    $lang['stroperatorname'] = 'Name des Operators';
+    $lang['strleftarg'] = 'Typ des linken Arguments';
+    $lang['strrightarg'] = 'Typ des rechten Arguments';
+    $lang['stroperatorneedsname'] = 'Sie müssen einen Namen für den Operator angeben.';
+    $lang['stroperatorcreated'] = 'Operator erstellt';
+    $lang['stroperatorcreatedbad'] = 'Erstellen des Operators fehlgeschlagen.';
+    $lang['strconfdropoperator'] = 'Sind Sie sicher, dass Sie den Operator "%s" löschen wollen?';
+    $lang['stroperatordropped'] = 'Operator gelösche.';
+    $lang['stroperatordroppedbad'] = 'Löschen des Operators fehlgeschlagen.';
 
 ?>
