@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.36 2003/04/30 06:35:42 chriskl Exp $
+ * $Id: Postgres73.php,v 1.37 2003/04/30 07:02:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -615,13 +615,15 @@ class Postgres73 extends Postgres72 {
 	 * Removes a rule from a relation
 	 * @param $rule The rule to drop
 	 * @param $relation The relation from which to drop
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropRule($rule, $relation) {
+	function dropRule($rule, $relation, $cascade) {
 		$this->fieldClean($rule);
 		$this->fieldClean($relation);
 
 		$sql = "DROP RULE \"{$rule}\" ON \"{$relation}\"";
+		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.9 2003/04/18 11:08:27 chriskl Exp $
+	 * $Id: rules.php,v 1.10 2003/04/30 07:02:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -98,11 +98,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
 			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropRule($_POST['rule'], $_POST['table']);
+			$status = $localData->dropRule($_POST['rule'], $_POST['table'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strruledropped']);
 			else
