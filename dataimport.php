@@ -3,9 +3,11 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.6 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: dataimport.php,v 1.6.2.1 2005/02/09 11:31:49 chriskl Exp $
 	 */
 
+      // Prevent timeouts on large imports
+      set_time_limit(0);
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 

@@ -3,9 +3,11 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.14.2.2 2005/02/02 21:15:04 mr-russ Exp $
+	 * $Id: dbexport.php,v 1.14.2.3 2005/02/09 11:31:49 chriskl Exp $
 	 */
 
+      // Prevent timeouts on large exports
+      set_time_limit(0);
 	// Include application functions
 	$_no_output = true;
 	include_once('./libraries/lib.inc.php');
