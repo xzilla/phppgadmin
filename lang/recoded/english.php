@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.25 2003/04/23 08:56:27 chriskl Exp $
+	 * $Id: english.php,v 1.26 2003/04/30 06:35:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -139,6 +139,7 @@
 	$lang['strschemaanddata'] = 'Schema &amp; Data';
 	$lang['strschemaonly'] = 'Schema Only';
 	$lang['strdataonly'] = 'Data Only';
+	$lang['strcascade'] = 'CASCADE';
 
 	// Users
 	$lang['struseradmin'] = 'User Admin';

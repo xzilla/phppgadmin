@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.17 2003/04/23 08:18:45 chriskl Exp $
+	 * $Id: tables.php,v 1.18 2003/04/30 06:35:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -355,14 +355,18 @@
 			echo "<p>", sprintf($lang['strconfdroptable'], htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropTable($_POST['table']);
+			$status = $localData->dropTable($_POST['table'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strtabledropped']);
