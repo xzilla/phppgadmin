@@ -140,7 +140,7 @@ Principles
   distro is a good way of seeing how to query older versions of postgres for 
   schema information
 * Put functions in the highest class possible.  For instance, simple selects 
-  should be in BaseDB, whereas something that works for 7.1+ should be in the 
+  should be in Postgres, whereas something that works for 7.1+ should be in the 
   7.1 class.  This will minimise bugs and duplicated code.
 * Adhere to current coding standards
 * Avoid using global variables if possible
