@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.48 2003/06/21 09:54:37 chriskl Exp $
+ * $Id: Postgres73.php,v 1.49 2003/07/28 07:14:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -879,8 +879,8 @@ class Postgres73 extends Postgres72 {
 			list ($entity, $chars) = explode('=', $v);
 			
 			// New row to be added to $temp
-			// (type, grantee, privilegs, grantor, grant option
-			$row = array($atype, $entity, array(), '', false);
+			// (type, grantee, privileges, grantor, grant option?
+			$row = array($atype, $entity, array(), '', array());
 
 			// Loop over chars and add privs to $row
 			for ($i = 0; $i < strlen($chars); $i++) {
@@ -888,15 +888,17 @@ class Postgres73 extends Postgres72 {
 				// the privilege
 				$char = substr($chars, $i, 1);
 				if ($char == '*')
-					$row[4] = true;
+					$row[4][] = $this->privmap[substr($chars, $i - 1, 1)];
 				elseif ($char == '/') {
-					$row[5] = substr($chars, $i + 1);
+					$row[3] = substr($chars, $i + 1);
 					break;
 				}
-				if (!isset($this->privmap[$char]))
-					return -3;
-				else
-					$row[2][] = $this->privmap[$char];
+				else {
+					if (!isset($this->privmap[$char]))
+						return -3;
+					else
+						$row[2][] = $this->privmap[$char];
+				}
 			}
 			
 			// Append row to temp
@@ -905,6 +907,30 @@ class Postgres73 extends Postgres72 {
 
 		return $temp;
 	}
+	
+	// Find object functions
+	
+	/**
+	 * Searches all system catalogs to find objects that match a certain name.
+	 * @param $term The search term
+	 * @return A recordset
+	 */
+	function findObject($term) {
+		// Escape search term for LIKE match
+		$term = str_replace('_', '\\_', $term);
+		$term = str_replace('%', '\\%', $term);
+		$this->clean($term);
+		
+		$sql = "
+			SELECT 'SCHEMA' AS type, NULL AS schemaname, nspname AS name FROM pg_catalog.pg_namespace WHERE nspname ILIKE '%{$term}%'
+			UNION ALL
+			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END, 
+				pn.nspname, pc.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn 
+				WHERE pc.relnamespace=pn.oid AND relkind IN ('r', 'v', 'S') AND relname ILIKE '%{$term}%'
+			ORDER BY type, name";
+			
+		return $this->selectSet($sql);
+	}	
 	
 	// Capabilities
 	function hasSchemas() { return true; }

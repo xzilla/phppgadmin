@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.15 2003/06/01 11:53:45 chriskl Exp $
+	 * $Id: privileges.php,v 1.16 2003/07/28 07:14:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -149,7 +149,7 @@
 				echo "<th class=\"data\">{$v2}</th>\n";
 			}
 			if ($data->hasGrantOption()) {
-				echo "<th class=\"data\">Grant Option?</th><th class=\"data\">Grantor</th>";
+				echo "<th class=\"data\">{$lang['strgrantor']}</th>";
 			}
 			echo "</tr>\n";
 
@@ -163,14 +163,17 @@
 				foreach ($data->privlist[$_REQUEST['type']] as $v2) {
 					// Skip over ALL PRIVILEGES
 					if ($v2 == 'ALL PRIVILEGES') continue;
+					echo "<td class=\"data{$id}\">";
 					if (in_array($v2, $v[2]))
-						echo "<td class=\"data{$id}\">{$lang['stryes']}</td>\n";
+						echo $lang['stryes'];
 					else
-						echo "<td class=\"data{$id}\">{$lang['strno']}</td>\n";
+						echo $lang['strno'];
+					// If we have grant option for this, end mark
+					if ($data->hasGrantOption() && in_array($v2, $v[4])) echo $lang['strasterisk'];
+					echo "</td>\n";
 				}
 				if ($data->hasGrantOption()) {
-					echo "<td class=\"data{$id}\">", ($v[3]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-					echo "<td class=\"data{$id}\">", $misc->printVal($v[4]), "</td>\n";
+					echo "<td class=\"data{$id}\">", $misc->printVal($v[3]), "</td>\n";
 				}
 				echo "</tr>\n";
 				$i++;

@@ -8,6 +8,7 @@ Version 3.1
 * Support zero column tables
 * Add first & last links to nav.  Double number of pages shown.
 * German update from Markus Bertheau
+* Display new PostgreSQL 7.4 grant options and grantor in privileges
 
 Version 3.0
 -----------

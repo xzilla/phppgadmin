@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.35 2003/07/25 08:39:25 chriskl Exp $
+	 * $Id: english.php,v 1.36 2003/07/28 07:14:08 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -101,6 +101,7 @@
 	$lang['strexpand'] = 'Expand';
 	$lang['strcollapse'] = 'Collapse';
 	$lang['strexplain'] = 'Explain';
+	$lang['strfind'] = 'Find';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -204,7 +205,7 @@
 	$lang['strgroupdroppedbad'] = 'Group drop failed.';
 	$lang['strmembers'] = 'Members';
 
-	// Privilges
+	// Privileges
 	$lang['strprivilege'] = 'Privilege';
 	$lang['strprivileges'] = 'Privileges';
 	$lang['strnoprivileges'] = 'This object has default owner privileges.';
@@ -214,6 +215,8 @@
 	$lang['strgrantfailed'] = 'Failed to change privileges.';
 	$lang['strgrantbad'] = 'You must specify at least one user or group and at least one privilege.';
 	$lang['stralterprivs'] = 'Alter Privileges';
+	$lang['strgrantor'] = 'Grantor';
+	$lang['strasterisk'] = '*';
 
 	// Databases
 	$lang['strdatabase'] = 'Database';
