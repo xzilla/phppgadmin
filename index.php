@@ -3,16 +3,16 @@
 	/**
 	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.2 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: index.php,v 1.3 2003/03/01 00:56:11 slubek Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 	
-	$misc->printHeader('', false);
+	$misc->printHeader();
 ?>
 <frameset rows="50, *">
-	<frame src="topbar.php" name="topbar" />
+	<frame src="topbar.php" name="topbar" scrolling=no noresize />
 	<frameset cols="<?php echo $guiLeftFrameWidth ?>,*">
 	  <frame src="browser.php" name="browser" />
 	  <frame src="intro.php" name="detail" />
