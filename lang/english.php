@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to WebDB.
 	 *
-	 * $Id: english.php,v 1.1 2002/02/11 09:32:49 chriskl Exp $
+	 * $Id: english.php,v 1.1.1.1 2002/02/11 09:32:49 chriskl Exp $
 	 */
 
 	// Include application functions

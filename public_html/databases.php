@@ -4,7 +4,7 @@
 	 * List databases in a server
 	 * @param $webdbServerID The ID of the current server
 	 *
-	 * $Id: databases.php,v 1.1 2002/02/11 09:33:08 chriskl Exp $
+	 * $Id: databases.php,v 1.1.1.1 2002/02/11 09:33:08 chriskl Exp $
 	 */
 
 	// Include application functions

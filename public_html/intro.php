@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.1 2002/02/11 09:33:08 chriskl Exp $
+	 * $Id: intro.php,v 1.1.1.1 2002/02/11 09:33:08 chriskl Exp $
 	 */
 
 	// Include application functions

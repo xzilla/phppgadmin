@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.1 2002/02/11 09:32:47 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.1.1.1 2002/02/11 09:32:47 chriskl Exp $
  */
 
 include_once('../libraries/adodb/adodb-errorhandler.inc.php');

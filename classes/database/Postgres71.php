@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.1 2002/02/11 09:32:48 chriskl Exp $
+ * $Id: Postgres71.php,v 1.1.1.1 2002/02/11 09:32:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???

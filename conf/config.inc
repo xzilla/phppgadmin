@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc,v 1.1 2002/02/11 09:32:49 chriskl Exp $
+	 * $Id: config.inc,v 1.1.1.1 2002/02/11 09:32:49 chriskl Exp $
 	 */
 
 	// Set error reporting level
