@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.14 2003/05/15 14:37:42 chriskl Exp $
+	 * $Id: functions.php,v 1.15 2003/05/17 15:53:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -321,7 +321,7 @@
 	 * Show default list of functions in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database, $func;
+		global $data, $localData, $misc, $func;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}</h2>\n";
@@ -349,9 +349,12 @@
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stredit']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&function=", 
-					urlencode($func_full), "&object=",
-					$funcs->f[$data->fnFields['fnoid']], "&type=function\">{$lang['strprivileges']}</a></td>\n";
+				if (isset($data->privlist['function'])) {
+					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&function=", 
+						urlencode($func_full), "&object=",
+						$funcs->f[$data->fnFields['fnoid']], "&type=function\">{$lang['strprivileges']}</a></td>\n";
+				}
+				else echo "<td></td>";
 				echo "</tr>\n";
 				$funcs->moveNext();
 				$i++;
