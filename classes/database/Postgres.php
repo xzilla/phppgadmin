@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.157 2003/10/13 08:50:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.158 2003/10/14 05:40:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -281,7 +281,7 @@ class Postgres extends BaseDB {
 	 */
 	function getChangeUserSQL($user) {
 		$this->fieldClean($user);
-		return "\\\\connect - \"{$user}\"";
+		return "\\connect - \"{$user}\"";
 	}
 
 	/**
@@ -1026,7 +1026,7 @@ class Postgres extends BaseDB {
 		
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attstattarget, a.attstorage,
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
 					a.attstorage AS typstorage, false AS attisserial
 				FROM
@@ -1039,7 +1039,7 @@ class Postgres extends BaseDB {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attstattarget, a.attstorage,
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
 					a.attstorage AS typstorage
 				FROM
@@ -1079,7 +1079,7 @@ class Postgres extends BaseDB {
 		elseif ($typname == 'numeric') {
 			$temp = 'numeric';
 			if ($typmod != -1) {
-				$tmp_typmod = $typmod = $varhdrsz;
+				$tmp_typmod = $typmod - $varhdrsz;
 				$precision = ($tmp_typmod >> 16) & 0xffff;
 				$scale = $tmp_typmod & 0xffff;
 				$temp .= "({$precision}, {$scale})";
