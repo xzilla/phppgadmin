@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.14 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: rules.php,v 1.15 2003/10/26 10:59:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -140,7 +140,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", urlencode($rules->f[$data->rlFields['rulename']]),
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</a></td></tr>\n";
 
 				$rules->movenext();
 				$i++;

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.67 2003/10/14 17:55:17 soranzo Exp $
+	 * $Id: english.php,v 1.68 2003/10/26 10:59:17 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -110,6 +110,7 @@
 	$lang['strdownload'] = 'Download';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Advanced';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -488,9 +489,18 @@
 	$lang['strnooperator'] = 'No operator found.';
 	$lang['strnooperators'] = 'No operators found.';
 	$lang['strcreateoperator'] = 'Create operator';
-	$lang['stroperatorname'] = 'Operator name';
 	$lang['strleftarg'] = 'Left Arg Type';
 	$lang['strrightarg'] = 'Right Arg Type';
+	$lang['strcommutator'] = 'Commutator';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Left sort';
+	$lang['strrightsort'] = 'Right sort';
+	$lang['strlessthan'] = 'Less than';
+	$lang['strgreaterthan'] = 'Greater than';
 	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
 	$lang['stroperatorcreated'] = 'Operator created';
 	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';

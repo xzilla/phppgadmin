@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.158 2003/10/14 05:40:30 chriskl Exp $
+ * $Id: Postgres.php,v 1.159 2003/10/26 10:59:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -847,9 +847,9 @@ class Postgres extends BaseDB {
 				// If value is null, 't' or 'f'...
 				if ($value === null || $value == 't' || $value == 'f') {
 					echo "<select name=\"", htmlspecialchars($name), "\">\n";
-					echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
-					echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
-					echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
+					echo "<option value=\"\"", ($value === null) ? ' selected="selected"' : '', "></option>\n";
+					echo "<option value=\"t\"", ($value == 't') ? ' selected="selected"' : '', ">{$lang['strtrue']}</option>\n";
+					echo "<option value=\"f\"", ($value == 'f') ? ' selected="selected"' : '', ">{$lang['strfalse']}</option>\n";
 					echo "</select>\n";
 				}
 				else {
@@ -1524,7 +1524,7 @@ class Postgres extends BaseDB {
 	}
 
 	/** 
-	 * Resets a given sequence to 1
+	 * Resets a given sequence to 2 (lowest possible in 7.0)
 	 * @param $sequence Sequence name
 	 * @return 0 success
 	 */
@@ -2212,28 +2212,64 @@ class Postgres extends BaseDB {
 
 		return $this->selectSet($sql);
 	}
+
+	/**
+	 * Returns all details for a particular operator
+	 * @param $operator_oid The oid of the operator
+	 * @return Function info
+	 */
+	function getOperator($operator_oid) {
+		$this->clean($operator_oid);
+
+		$sql = "
+			SELECT
+            po.oid,
+				po.oprname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname,
+				po.oprcanhash,
+				(SELECT oprname FROM pg_operator po2 WHERE po2.oid=po.oprcom) AS oprcom,
+				(SELECT oprname FROM pg_operator po2 WHERE po2.oid=po.oprnegate) AS oprnegate,
+				(SELECT oprname FROM pg_operator po2 WHERE po2.oid=po.oprlsortop) AS oprlsortop,
+				(SELECT oprname FROM pg_operator po2 WHERE po2.oid=po.oprltcmpop) AS oprltcmpop,
+				(SELECT oprname FROM pg_operator po2 WHERE po2.oid=po.oprgtcmpop) AS oprgtcmpop,
+				po.oprcode::regproc AS oprcode,
+				--(SELECT proname FROM pg_proc pp WHERE pp.oid=po.oprcode) AS oprcode,
+				(SELECT proname FROM pg_proc pp WHERE pp.oid=po.oprrest) AS oprrest,
+				(SELECT proname FROM pg_proc pp WHERE pp.oid=po.oprjoin) AS oprjoin
+			FROM
+				pg_operator po
+			WHERE
+				po.oid='{$operator_oid}'
+		";
 	
+		return $this->selectSet($sql);
+	}
+
 	/**
 	 * Drops an operator
-	 * @param $oprname The name of the operator to drop
-	 * @param $lefttype The left type (NULL for none)
-	 * @param $righttype The right type (NULL for none)
+	 * @param $operator_oid The OID of the operator to drop
 	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropOperator($oprname, $lefttype, $righttype, $cascade) {
-		$this->fieldClean($oprname);
+	function dropOperator($operator_oid, $cascade) {
+		// Function comes in with $object as operator OID
+		$opr = &$this->getOperator($operator_oid);
+		$this->fieldClean($opr->f['oprname']);
 
-		$sql = "DROP OPERATOR \"{$oprname}\"(";
-		echo ($lefttype === null) ? 'NONE' : $lefttype;
-		echo ', ';
-		echo ($righttype === null) ? 'NONE' : $righttype;
-		echo ')';		
+		$sql = "DROP OPERATOR {$opr->f['oprname']} (";
+		// Quoting or formatting here???
+		if ($opr->f['oprleftname'] !== null) $sql .= $opr->f['oprleftname'] . ', ';
+		else $sql .= "NONE, ";
+		if ($opr->f['oprrightname'] !== null) $sql .= $opr->f['oprrightname'] . ')';
+		else $sql .= "NONE)";
+		
 		if ($cascade) $sql .= " CASCADE";
-
+		
 		return $this->execute($sql);
 	}	
-	
+
 	// User functions
 	
 	/**
@@ -3129,7 +3165,7 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Returns all details for a particular function
-	 * @param $func The name of the function to retrieve
+	 * @param $function_oid The OID of the function to retrieve
 	 * @return Function info
 	 */
 	function getFunction($function_oid) {

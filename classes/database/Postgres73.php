@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.71 2003/10/13 08:50:04 chriskl Exp $
+ * $Id: Postgres73.php,v 1.72 2003/10/26 10:59:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -88,7 +88,7 @@ class Postgres73 extends Postgres72 {
 		elseif (sizeof($paths) == 0) return -2;
 		$this->fieldArrayClean($paths);
 
-		$sql = 'SET SEARCH_PATH TO "' . implode('"', $paths) . '"';
+		$sql = 'SET SEARCH_PATH TO "' . implode('"', $paths) . '", pg_catalog';
 		
 		return $this->execute($sql);
 	}
@@ -215,7 +215,7 @@ class Postgres73 extends Postgres72 {
 		if (sizeof($atts) == 0) return array();
 
 		$sql = "SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE 
-			attrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'AND
+			attrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')) 
 			AND attnum IN ('" . join("','", $atts) . "')";
 
@@ -1211,13 +1211,14 @@ class Postgres73 extends Postgres72 {
 	 * @return All operators
 	 */	 
 	function &getOperators() {
+		// We stick with the subselects here, as you cannot ORDER BY a regtype
 		$sql = "
 			SELECT
             po.oid,
 				po.oprname,
 				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
 				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
-				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprresult) AS resultname
+				po.oprresult::pg_catalog.regtype AS resultname
 			FROM
 				pg_catalog.pg_operator po
 			WHERE
@@ -1228,7 +1229,41 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}	
+
+	/**
+	 * Returns all details for a particular operator
+	 * @param $operator_oid The oid of the operator
+	 * @return Function info
+	 */
+	function getOperator($operator_oid) {
+		$this->clean($operator_oid);
+
+		$sql = "
+			SELECT
+            po.oid,
+				po.oprname,
+				oprleft::pg_catalog.regtype AS oprleftname,
+				oprright::pg_catalog.regtype AS oprrightname,
+				oprresult::pg_catalog.regtype AS resultname,
+				po.oprcanhash,
+				oprcom::pg_catalog.regoperator AS oprcom,
+				oprnegate::pg_catalog.regoperator AS oprnegate,
+				oprlsortop::pg_catalog.regoperator AS oprlsortop,
+				oprrsortop::pg_catalog.regoperator AS oprrsortop,
+				oprltcmpop::pg_catalog.regoperator AS oprltcmpop,
+				oprgtcmpop::pg_catalog.regoperator AS oprgtcmpop,
+				po.oprcode::pg_catalog.regproc AS oprcode,
+				po.oprrest::pg_catalog.regproc AS oprrest,
+				po.oprjoin::pg_catalog.regproc AS oprjoin
+			FROM
+				pg_catalog.pg_operator po
+			WHERE
+				po.oid='{$operator_oid}'
+		";
 	
+		return $this->selectSet($sql);
+	}
+		
 	// Capabilities
 	function hasSchemas() { return true; }
 	function hasConversions() { return true; }

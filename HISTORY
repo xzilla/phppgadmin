@@ -24,6 +24,8 @@ Bugs
 * BIGSERIAL missing from PostgreSQL 7.2
 * Types lengths (eg. varchar(255)) weren't being displayed properly
   in PostgreSQL 7.0.x
+* Resetting sequence on 7.1+ now restarts at 1, not 2
+* Remove deprecated column default 'now' from SQL script
 
 Translations
 * Afrikaans from Petri Jooste
