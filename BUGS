@@ -1,6 +1,3 @@
-* Duplicate field names not displayed in select results
-	- Fixed in sql.php, nowhere else
-
+* Browsing reports with two identical column names is broken.
 * Lots more printVal()ing needs to be done.  Whenever displaying user data, 
   it should use $misc->printVal($var) instead of htmlspecialchars($var).
-* COPY produces invalid output when there's newlines, high ascii or tabs in the data
