@@ -9,8 +9,11 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.46 2004/10/13 10:14:24 jollytoad Exp $
+	 * $Id: display.php,v 1.47 2005/02/09 11:26:24 chriskl Exp $
 	 */
+
+	// Prevent timeouts on large result sets
+	set_time_limit(0);
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');

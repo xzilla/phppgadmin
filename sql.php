@@ -6,8 +6,11 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.26 2004/09/02 13:48:23 jollytoad Exp $
+	 * $Id: sql.php,v 1.27 2005/02/09 11:26:25 chriskl Exp $
 	 */
+
+	// Prevent timeouts on large SQL sets
+	set_time_limit(0);
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');

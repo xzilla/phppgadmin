@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.17 2004/11/04 02:56:51 chriskl Exp $
+	 * $Id: dataexport.php,v 1.18 2005/02/09 11:26:24 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -15,6 +15,9 @@
 		'html' => 'html',
 		'xml' => 'xml'
 	);
+
+	// Prevent timeouts on large exports
+	set_time_limit(0);
 
 	// if (!isset($_REQUEST['table']) && !isset($_REQUEST['query']))
 	// What must we do in this case? Maybe redirect to the homepage?
