@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.58 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: english.php,v 1.59 2003/03/17 09:25:45 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -39,6 +39,7 @@
 	$lang['strlength'] = 'Length';
 	$lang['strdefault'] = 'Default';
 	$lang['stralter'] = 'Alter';
+	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancel';
 	$lang['strsave'] = 'Save';
 	$lang['strreset'] = 'Reset';

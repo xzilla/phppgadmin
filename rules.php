@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: rules.php,v 1.6 2003/03/17 09:25:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,30 +26,30 @@
 		if (!isset($_POST['raction'])) $_POST['raction'] = '';
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$strCreateRule}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+				htmlspecialchars($_REQUEST['table']), ": {$lang['strcreaterule']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\"></td></tr>\n";
-			echo "<tr><th class=\"data\">{$strEvent}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strevent']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"event\">\n";
 			foreach ($data->rule_events as $v) {
 				echo "<option value=\"{$v}\"", ($v == $_POST['event']) ? ' selected' : '',
 				">{$v}</option>\n";
 			}
 			echo "</select></td></tr>\n";
-			echo "<tr><th class=\"data\">{$strWhere}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strwhere']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"where\" size=\"32\" value=\"",
 				htmlspecialchars($_POST['where']), "\"></td></tr>\n";
-			echo "<tr><th class=\"data\">{$strInstead}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strinstead']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input type=\"checkbox\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked' : '', ">\n";
 			echo "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$strAction}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['straction']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input type=\"radio\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked' : '', "> NOTHING<br />\n";
 			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked' : '', ">\n";
@@ -60,21 +60,21 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\">\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$strOK}\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 
 		}
 		else {
 			if (trim($_POST['name']) == '')
-				createRule(true, $strRuleNeedsName);
+				createRule(true, $lang['strruleneedsname']);
 			else {
 				$status = $localData->createRule($_POST['name'],
 					$_POST['event'], $_POST['table'], $_POST['where'],
 					isset($_POST['instead']), $_POST['type'], $_POST['raction']);
 				if ($status == 0)
-					doDefault($strRuleCreated);
+					doDefault($lang['strrulecreated']);
 				else
-					createRule(true, $strRuleCreatedBad);
+					createRule(true, $lang['strrulecreatedbad']);
 			}
 		}
 	}
@@ -85,10 +85,9 @@
 	function doDrop($confirm) {
 		global $localData, $misc;
 		global $PHP_SELF, $lang;
-		global $strTables;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['rule']), ": Drop</h2>\n";
 
 			echo "<p>", sprintf($lang['strconfdroprule'], htmlspecialchars($_REQUEST['rule']),
@@ -99,7 +98,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=\"submit\" name=\"choice\" value=\"{$strNo}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -149,7 +148,7 @@
 			echo "<p>{$lang['strnorules']}</p>\n";
 
 		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
-			"\">{$strCreateRule}</a></p>\n";
+			"\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strrules']);
