@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.37 2004/08/30 11:50:32 soranzo Exp $
+	 * $Id: italian.php,v 1.38 2004/11/02 11:39:52 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -198,6 +198,7 @@
 	$lang['strstructureanddata'] = 'Struttura e dati';
 	$lang['strtabbed'] = 'Tabulato';
 	$lang['strauto'] = 'Auto';
+	$lang['strconfvacuumtable'] = 'Sei sicuro di voler effettuare il vacuum su "%s"?';
 
 	// Users - Utenti
 	$lang['struser'] = 'Utente';
@@ -631,5 +632,6 @@
         $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s" connesso il %s';
         $lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
+	$lang['strhelpicon'] = '?';
 
 ?>
