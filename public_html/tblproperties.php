@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.16 2003/01/04 07:08:04 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.17 2003/01/08 05:38:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -176,7 +176,7 @@
 
 	function doExport($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strExport;
+		global $PHP_SELF, $strExport, $strReset;
 		
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strExport}</h2>\n";
