@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.66 2004/08/03 16:16:02 soranzo Exp $
+ * $Id: Postgres71.php,v 1.67 2004/09/07 14:04:20 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -51,49 +51,19 @@ class Postgres71 extends Postgres {
 	// Supported join operations for use with view wizard								
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN', 'FULL JOIN' => 'FULL JOIN');
 
-	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7.1/interactive/';
-
-	// Help sub pages (alphabetical order)
-	var $help_page = array(
-		'add_column' => 'sql-altertable.html',
-		'alter_column' => 'sql-altertable.html',
-		'alter_table' => 'sql-altertable.html',
-		'create_table' => 'sql-createtable.html',
-		'drop_column' => 'sql-altertable.html',
-		'drop_table' => 'sql-droptable.html',
-		'insert' => 'sql-insert.html',
-		'select' => 'sql-select.html',
-		'tables' => 'ddl.html#DDL-BASICS',
-		'schemas' => 'ddl-schemas.html',
-		'create_schema' => 'sql-createschema.html',
-		'alter_schema' => 'sql-alterschema.html',
-		'drop_schema' => 'sql-dropschema.html',
-		'runtime_config' => 'runtime-config.html',
-		'processes' => 'monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE',
-		'sql' => 'sql-syntax.html',
-		'views' => 'tutorial-views.html',
-		'create_view' => 'sql-createview.html',
-		'drop_view' => 'sql-dropview.html',
-		'aggregates' => 'xaggr.html',
-		'types' => 'xtypes.html',
-		'create_type' => 'sql-createtype.html',
-		'drop_type' => 'sql-droptype.html',
-		'operators' => 'xoper.html',
-		'managing_databases' => 'managing-databases.html',
-		'users' => 'user-manag.html#DATABASE-USERS',
-		'groups' => 'groups.html',
-		'create_database' => 'sql-createdatabase.html',
-		'drop_database' => 'sql-dropdatabase.html',
-		'constraints' => 'ddl-constraints.html'
-	);
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
 	 */
 	function Postgres71($conn) {
 		$this->Postgres($conn);
+	}
+
+	// Help functions
+	
+	function &getHelpPages() {
+		include_once('./help/PostgresDoc71.php');
+		return $this->help_page;
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.244 2004/08/25 07:47:34 chriskl Exp $
+ * $Id: Postgres.php,v 1.245 2004/09/07 14:04:21 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -142,37 +142,10 @@ class Postgres extends ADODB_base {
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN');
 	
 	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7/interactive/';
+	var $help_base;
 
 	// Help sub pages
-	var $help_page = array(
-		'create_table' => 'sql-createtable.htm',
-		'drop_table' => 'sql-droptable.htm',
-		'insert' => 'sql-insert.htm',
-		'select' => 'sql-select.htm',
-		'tables' => 'ddl.htm#DDL-BASICS',
-		'schemas' => 'ddl-schemas.htm',
-		'create_schema' => 'sql-createschema.htm',
-		'alter_schema' => 'sql-alterschema.htm',
-		'drop_schema' => 'sql-dropschema.htm',
-		'runtime_config' => 'runtime-config.htm',
-		'processes' => 'monitoring-stats.htm#MONITORING-STATS-VIEWS-TABLE',
-		'sql' => 'sql-syntax.htm',
-		'views' => 'tutorial-views.htm',
-		'create_view' => 'sql-createview.htm',
-		'drop_view' => 'sql-dropview.htm',
-		'aggregates' => 'xaggr.htm',
-		'types' => 'xtypes.htm',
-		'create_type' => 'sql-createtype.htm',
-		'drop_type' => 'sql-droptype.htm',
-		'operators' => 'xoper.htm',
-		'managing_databases' => 'managing-databases.htm',
-		'users' => 'security17760.htm',
-		'groups' => 'security17760.htm',		
-		'create_database' => 'sql-createdatabase.htm',
-		'drop_database' => 'sql-dropdatabase.htm',
-		'constraints' => 'ddl-constraints.htm'
-	);
+	var $help_page;
 	
 	/**
 	 * Constructor
@@ -182,6 +155,35 @@ class Postgres extends ADODB_base {
 		$this->ADODB_base($conn);
 	}
 
+	// Help functions
+	
+	/**
+	 * Fetch a URL (or array of URLs) for a given help page.
+	 */
+	function getHelp($help) {
+		$this->getHelpPages();
+		
+		if (isset($this->help_page[$help])) {
+			if (is_array($this->help_page[$help])) {
+				$urls = array();
+				foreach ($this->help_page[$help] as $link) {
+					$urls[] = $this->help_base . $link;
+				}
+				return $urls;
+			} else
+				return $this->help_base . $this->help_page[$help];
+		} else
+			return null;
+	}
+
+	/**
+	 * Initialize help pages and return the full list
+	 */
+	function &getHelpPages() {
+		include_once('./help/PostgresDoc70.php');
+		return $this->help_page;
+	}
+	
 	// Formatting functions
 	
 	/**
@@ -191,6 +193,7 @@ class Postgres extends ADODB_base {
 	 */
 	function clean(&$str) {
 		if ($str === null) return null;
+		$str = str_replace("\r\n","\n",$str);
 		if (function_exists('pg_escape_string'))
 			$str = pg_escape_string($str);
 		else
@@ -237,7 +240,7 @@ class Postgres extends ADODB_base {
 		}
 		return $arr;
 	}
-
+	
 	/**
 	 * Outputs the HTML code for a particular field
 	 * @param $name The name to give the field

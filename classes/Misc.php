@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.91 2004/09/03 08:24:35 jollytoad Exp $
+	 * $Id: Misc.php,v 1.92 2004/09/07 14:00:26 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -438,24 +438,25 @@
 						'databases' => array (
 							'title' => $lang['strdatabases'],
 							'url'   => "all_db.php",
-							'help'  => 'managing_databases',
+							'help'  => 'pg.database',
 						),
 						'users' => array (
 							'title' => $lang['strusers'],
 							'url'   => "users.php",
 							'hide'  => $hide_users,
-							'help'  => 'users',
+							'help'  => 'pg.user',
 						),
 						'groups' => array (
 							'title' => $lang['strgroups'],
 							'url'   => "groups.php",
 							'hide'  => $hide_users,
-							'help'  => 'groups',
+							'help'  => 'pg.group',
 						),
 						'tablespaces' => array (
 							'title' => $lang['strtablespaces'],
 							'url'   => "tablespaces.php",
 							'hide'  => (!$data->hasTablespaces()),
+							'help'  => 'pg.tablespace',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -471,12 +472,12 @@
 							'title' => $lang['strschemas'],
 							'url'   => "database.php?{$vars}",
 							'hide'  => (!$data->hasSchemas()),
-							'help'  => 'schemas',
+							'help'  => 'pg.schema',
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => "database.php?{$vars}&action=sql",
-							'help'  => 'sql',
+							'help'  => 'pg.sql',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
@@ -486,13 +487,13 @@
 							'title' => $lang['strvariables'],
 							'url'   => "database.php?{$vars}&action=variables",
 							'hide'  => (!$data->hasVariables()),
-							'help'  => 'runtime_config',
+							'help'  => 'pg.variable',
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
 							'url'   => "database.php?{$vars}&action=processes",
 							'hide'  => (!$data->hasProcesses()),
-							'help'  => 'processes',
+							'help'  => 'pg.process',
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
@@ -502,16 +503,19 @@
 							'title' => $lang['strprivileges'],
 							'url'   => "privileges.php?{$vars}",
 							'hide'  => (!isset($data->privlist['database'])),
+							'help'  => 'pg.privilege',
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
 							'url'   => "languages.php?{$vars}",
 							'hide'  => $hide_advanced,
+							'help'  => 'pg.language',
 						),
 						'casts' => array (
 							'title' => $lang['strcasts'],
 							'url'   => "casts.php?{$vars}",
 							'hide'  => ($hide_advanced || !$data->hasCasts()),
+							'help'  => 'pg.cast',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -526,61 +530,64 @@
 						'tables' => array (
 							'title' => $lang['strtables'],
 							'url'   => "tables.php?{$vars}",
-							'help'  => 'tables',
+							'help'  => 'pg.table',
 						),
 						'views' => array (
 							'title' => $lang['strviews'],
 							'url'   => "views.php?{$vars}",
-							'help'  => 'views',
+							'help'  => 'pg.view',
 						),
 						'sequences' => array (
 							'title' => $lang['strsequences'],
 							'url'   => "sequences.php?{$vars}",
-							'help'  => 'sequences',
+							'help'  => 'pg.sequence',
 						),
 						'functions' => array (
 							'title' => $lang['strfunctions'],
 							'url'   => "functions.php?{$vars}",
+							'help'  => 'pg.function',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
 							'url'   => "domains.php?{$vars}",
 							'hide'  => (!$data->hasDomains()),
-							'help'  => 'domains',
+							'help'  => 'pg.domain',
 						),
 						'aggregates' => array (
 							'title' => $lang['straggregates'],
 							'url'   => "aggregates.php?{$vars}",
 							'hide'  => $hide_advanced,
-							'help'  => 'aggregates',
+							'help'  => 'pg.aggregate',
 						),
 						'types' => array (
 							'title' => $lang['strtypes'],
 							'url'   => "types.php?{$vars}",
 							'hide'  => $hide_advanced,
+							'help'  => 'pg.type',
 						),
 						'operators' => array (
 							'title' => $lang['stroperators'],
 							'url'   => "operators.php?{$vars}",
 							'hide'  => $hide_advanced,
-							'help'  => 'operators',
+							'help'  => 'pg.operator',
 						),
 						'opclasses' => array (
 							'title' => $lang['stropclasses'],
 							'url'   => "opclasses.php?{$vars}",
 							'hide'  => $hide_advanced,
-							'help'  => 'opclasses',
+							'help'  => 'pg.opclass',
 						),
 						'conversions' => array (
 							'title' => $lang['strconversions'],
 							'url'   => "conversions.php?{$vars}",
 							'hide'  => ($hide_advanced || !$data->hasConversions()),
-							'help'  => 'conversions',
+							'help'  => 'pg.conversion',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
 							'url'   => "privileges.php?{$vars}",
 							'hide'  => (!$data->hasSchemas()),
+							'help'  => 'pg.privilege',
 						),
 					);
 
@@ -595,19 +602,22 @@
 						'indexes' => array (
 							'title' => $lang['strindexes'],
 							'url'   => "indexes.php?{$vars}",
+							'help'  => 'pg.index',
 						),
 						'constraints' => array (
 							'title' => $lang['strconstraints'],
 							'url'   => "constraints.php?{$vars}",
-							'help'  => 'constraints',
+							'help'  => 'pg.constraint',
 						),
 						'triggers' => array (
 							'title' => $lang['strtriggers'],
 							'url'   => "triggers.php?{$vars}",
+							'help'  => 'pg.trigger',
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
 							'url'   => "rules.php?{$vars}",
+							'help'  => 'pg.rule',
 						),
 						'info' => array (
 							'title' => $lang['strinfo'],
@@ -616,6 +626,7 @@
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
 							'url'   => "privileges.php?{$vars}",
+							'help'  => 'pg.privilege',
 						),
 						'import' => array (
 							'title' => $lang['strimport'],
@@ -642,10 +653,12 @@
 						'rules' => array (
 							'title' => $lang['strrules'],
 							'url'   => "rules.php?{$vars}",
+							'help'  => 'pg.rule',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
 							'url'   => "privileges.php?{$vars}",
+							'help'  => 'pg.privilege',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -674,6 +687,7 @@
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => "sqledit.php?{$vars}&action=sql",
+							'help'  => 'pg.sql',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
@@ -763,6 +777,7 @@
 				'title' => $lang['strserver'],
 				'text'  => $conf['servers'][$_SESSION['webdbServerID']]['desc'],
 				'url'   => 'redirect.php?section=server',
+				'help'  => 'pg.server',
 			);
 			if ($subject == 'server') $done = true;
 			
@@ -772,6 +787,7 @@
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
 					'url'   => "redirect.php?section=database&{$vars}",
+					'help'  => 'pg.database',
 				);
 			}
 			if ($subject == 'database') $done = true;
@@ -782,7 +798,7 @@
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
 					'url'   => "redirect.php?section=schema&{$vars}",
-					'help'  => 'schemas',
+					'help'  => 'pg.schema',
 				);
 			}
 			if ($subject == 'schema') $done = true;
@@ -793,7 +809,7 @@
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'tables',
+					'help'  => 'pg.table',
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
 				$vars .= "section=view&view=".urlencode($_REQUEST['view']);
@@ -801,7 +817,7 @@
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'views',
+					'help'  => 'pg.view',
 				);
 			}
 			if ($subject == 'table' || $subject == 'view') $done = true;
@@ -815,7 +831,7 @@
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
-							'help'  => $subject.'s',
+							'help'  => 'pg.'.$subject,
 						);
 						break;
 					default:
@@ -891,16 +907,16 @@
 
 		/**
 		 * Displays link to the context help.
-		 * @param $str   - a string to place a context help by (already escaped) 
-		 * @param $help  - help section name
+		 * @param $str   - the string that the context help is related to (already escaped) 
+		 * @param $help  - help section identifier
 		 */
 		function printHelp($str, $help) {
 			global $lang, $data;
 			
 			echo $str;
-			if (!is_null($help) && isset($data->help_page[$help])) {
+			if ($help) {
 				echo "<a class=\"help\" href=\"";
-				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
+				echo htmlspecialchars("help.php?help=".urlencode($help));
 				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">{$lang['strhelpicon']}</a>";
 			}
 		}

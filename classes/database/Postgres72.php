@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.75 2004/08/04 02:37:43 chriskl Exp $
+ * $Id: Postgres72.php,v 1.76 2004/09/07 14:04:20 jollytoad Exp $
  */
 
 
@@ -26,9 +26,6 @@ class Postgres72 extends Postgres71 {
 	// Extra "magic" types.  BIGSERIAL was added in PostgreSQL 7.2.
 	var $extraTypes = array('SERIAL', 'BIGSERIAL');
 
-	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7.2/interactive/';
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
@@ -39,6 +36,13 @@ class Postgres72 extends Postgres71 {
 		// Correct the error in the encoding tables, that was
 		// fixed in PostgreSQL 7.2
 		$this->codemap['LATIN5'] = 'ISO-8859-9';
+	}
+
+	// Help functions
+	
+	function &getHelpPages() {
+		include_once('./help/PostgresDoc72.php');
+		return $this->help_page;
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.135 2004/08/10 12:52:21 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.136 2004/09/07 14:04:20 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -44,15 +44,19 @@ class Postgres73 extends Postgres72 {
 									'SIMILAR TO' => 'i', 'NOT SIMILAR TO' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 'IS NULL' => 'p', 'IS NOT NULL' => 'p',
 									'IN' => 'x', 'NOT IN' => 'x');
 
-	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7.3/interactive/';
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
 	 */
 	function Postgres73($conn) {
 		$this->Postgres72($conn);
+	}
+
+	// Help functions
+	
+	function &getHelpPages() {
+		include_once('./help/PostgresDoc73.php');
+		return $this->help_page;
 	}
 
 	// Schema functions

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.3 2004/08/10 12:52:22 jollytoad Exp $
+ * $Id: Postgres80.php,v 1.4 2004/09/07 14:04:21 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -26,15 +26,19 @@ class Postgres80 extends Postgres74 {
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17226;
 
-	// Default help URL
-	var $help_base = 'http://developer.postgresql.org/docs/postgres/';
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
 	 */
 	function Postgres80($conn) {
 		$this->Postgres74($conn);
+	}
+
+	// Help functions
+	
+	function &getHelpPages() {
+		include_once('./help/PostgresDoc80.php');
+		return $this->help_page;
 	}
 
 	// Database functions
