@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.6 2003/09/26 04:51:38 chriskl Exp $
+	 * $Id: japanese.php,v 1.7 2003/12/31 09:54:21 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -26,6 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'ログイン';
 	$lang['strloginfailed'] = 'ログイン失敗';
+	$lang['strlogindisallowed'] = 'ログインが許可されませんでした。';
 	$lang['strserver'] = 'サーバー';
 	$lang['strlogout'] = 'ログアウト';
 	$lang['strowner'] = '所有者';
@@ -33,7 +34,6 @@
 	$lang['stractions'] = '操作一覧';
 	$lang['strname'] = '名前';
 	$lang['strdefinition'] = '定義';
-	$lang['stroperators'] = '操作';
 	$lang['straggregates'] = '総計';
 	$lang['strproperties'] = 'プロパティ';
 	$lang['strbrowse'] = '表示';
@@ -69,6 +69,7 @@
 	$lang['strcolumns'] = 'カラム一覧';
 	$lang['strrows'] = 'レコード';
 	$lang['strrowsaff'] = '影響を受けたレコード';
+	$lang['strobjects'] = 'オブジェクト';
 	$lang['strexample'] = '例)';
 	$lang['strback'] = '戻る';
 	$lang['strqueryresults'] = 'クエリ結果';
@@ -87,6 +88,7 @@
 	$lang['strvacuum'] = 'バキューム';
 	$lang['stranalyze'] = '解析';
 	$lang['strcluster'] = 'クラスター';
+	$lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = '再インデックス';
 	$lang['strrun'] = '実カラム';
 	$lang['stradd'] = '追加';
@@ -95,7 +97,7 @@
 	$lang['strinstead'] = '代行';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'フォーマット';
-	$lang['strdata'] = 'データー';
+	$lang['strdata'] = 'データ';
 	$lang['strconfirm'] = '確認';
 	$lang['strexpression'] = '評価式';
 	$lang['strellipsis'] = '...';
@@ -103,21 +105,32 @@
 	$lang['strcollapse'] = '閉じる';
 	$lang['strexplain'] = '実行時間';
 	$lang['strfind'] = '検索';
-	$lang['stroptions'] = 'Options';
-	$lang['strrefresh'] = 'Refresh';
+	$lang['stroptions'] = 'オプション';
+	$lang['strrefresh'] = '再表示';
 	$lang['strdownload'] = 'ダウンロード';
+	$lang['strinfo'] = '情報';
+	$lang['stroids'] = 'OID一覧';
+	$lang['stradvanced'] = '高度な一覧';
+	$lang['strvariables'] = '変数一覧';
+	$lang['strprocess'] = 'プロセス';
+	$lang['strprocesses'] = 'プロセス一覧';
+	$lang['strsetting'] = '設定';
+	$lang['strparameters'] = 'パラメーター一覧';
+	$lang['strgzip'] = 'GZIP 圧縮';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
 	$lang['strbadconfig'] = 'config.inc.phpが旧式です。新しいconfig.inc.php-distから再作成する必要があります。';
-	$lang['strnotloaded'] = 'データーベースをサポートするようにPHPのコンパイル・インストールがされていません。(システムによってはphpパッケージの他にphp-pgsqlパッケージのインストール・設定などが必要です)';
+	$lang['strnotloaded'] = 'データベースをサポートするようにPHPのコンパイル・インストールがされていません。(システムによってはphpパッケージの他にphp-pgsqlパッケージのインストール・設定などが必要です)';
 	$lang['strbadschema'] = '無効のスキーマが指定されました。';
-	$lang['strbadencoding'] = 'データーベースの中でクライアントエンコードを指定しませんでした。';
+	$lang['strbadencoding'] = 'データベースの中でクライアントエンコードを指定しませんでした。';
 	$lang['strsqlerror'] = 'SQLエラー:';
 	$lang['strinstatement'] = '文:';
 	$lang['strinvalidparam'] = 'スクリプトパラメータが無効です。';
 	$lang['strnodata'] = 'レコードが見つかりません。';
-	$lang['strrownotunique'] = 'このレコードに一意な識別子はありません。';
+	$lang['strnoobjects'] = 'オブジェクトが見つかりません。';
+	$lang['strrownotunique'] = 'No unique identifier for this row.';
+	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにあるINSTALLファイルを読んでください。';
 
 	// Tables
 	$lang['strtable'] = 'テーブル';
@@ -153,7 +166,9 @@
 	$lang['strfields'] = 'フィールド一覧';
 	$lang['strnumfields'] = 'フィールド数';
 	$lang['strfieldneedsname'] = 'フィールド名を指定する必要があります。';
+	$lang['strselectallfields'] = '総てのフィールドを選択';
 	$lang['strselectneedscol'] = '少なくとも一カラムは必要です。';
+	$lang['strselectunary'] = '単項のオペレーターは値を持つことができません。';
 	$lang['straltercolumn'] = 'カラムの変更';
 	$lang['strcolumnaltered'] = 'カラムを変更しました。';
 	$lang['strcolumnalteredbad'] = 'カラムの変更に失敗しました。';
@@ -163,12 +178,13 @@
 	$lang['straddcolumn'] = 'カラム追加';
 	$lang['strcolumnadded'] = 'カラムを追加しました。';
 	$lang['strcolumnaddedbad'] = 'カラムの追加に失敗しました。';
-	$lang['strschemaanddata'] = 'スキーマとデーター';
-	$lang['strschemaonly'] = 'スキーマのみ';
-	$lang['strdataonly'] = 'データーのみ';
+	$lang['strdataonly'] = 'データのみ';
 	$lang['strcascade'] = 'カスケード';
 	$lang['strtablealtered'] = 'テーブルを変更しました。';
 	$lang['strtablealteredbad'] = 'テーブルの変更に失敗しました。';
+	$lang['strdataonly'] = 'データのみ';
+	$lang['strstructureonly'] = '構造のみ';
+	$lang['strstructureanddata'] = '構造とデータ';
 
 	// Users
 	$lang['struser'] = 'ユーザー';
@@ -176,13 +192,14 @@
 	$lang['strusername'] = 'ユーザー名';
 	$lang['strpassword'] = 'パスワード';
 	$lang['strsuper'] = 'スーパーユーザー?';
-	$lang['strcreatedb'] = 'データーベースを作成しますか?';
+	$lang['strcreatedb'] = 'データベースを作成しますか?';
 	$lang['strexpires'] = '有効期限';
 	$lang['strnousers'] = 'ユーザーが見つかりません。';
         $lang['struserupdated'] = 'ユーザーを更新しました。';
 	$lang['struserupdatedbad'] = 'ユーザーの更新に失敗しました。';
 	$lang['strshowallusers'] = '全てのユーザーを見る。';
 	$lang['strcreateuser'] = 'ユーザー作成';
+	$lang['struserneedsname'] = 'ユーザーの名前をが必要です。';
 	$lang['strusercreated'] = 'ユーザーを作成しました。';
 	$lang['strusercreatedbad'] = 'ユーザーの作成に失敗しました。';
 	$lang['strconfdropuser'] = '本当にユーザー「%s」を破棄しますか?';
@@ -231,19 +248,19 @@
 	$lang['strasterisk'] = '*';
 
 	// Databases
-	$lang['strdatabase'] = 'データーベース';
-	$lang['strdatabases'] = 'データーベース一覧';
-	$lang['strshowalldatabases'] = '全データーベースを見る';
-	$lang['strnodatabase'] = 'データーベースが見つかりません。';
-	$lang['strnodatabases'] = 'データーベースが全くありません。';
-	$lang['strcreatedatabase'] = 'データーベース作成';
-	$lang['strdatabasename'] = 'データーベース名';
-	$lang['strdatabaseneedsname'] = 'データーベース名を指定しなければなりません。';
-	$lang['strdatabasecreated'] = 'データーベースを作成しました。';
-	$lang['strdatabasecreatedbad'] = 'データーベースの作成に失敗しました。';	
-	$lang['strconfdropdatabase'] = '本当にデーターベース「%s」を破棄しますか?';
-	$lang['strdatabasedropped'] = 'データーベースを破棄しました。';
-	$lang['strdatabasedroppedbad'] = 'データーベースの破棄に失敗しました。';
+	$lang['strdatabase'] = 'データベース';
+	$lang['strdatabases'] = 'データベース一覧';
+	$lang['strshowalldatabases'] = '全データベースを見る';
+	$lang['strnodatabase'] = 'データベースが見つかりません。';
+	$lang['strnodatabases'] = 'データベースが全くありません。';
+	$lang['strcreatedatabase'] = 'データベース作成';
+	$lang['strdatabasename'] = 'データベース名';
+	$lang['strdatabaseneedsname'] = 'データベース名を指定しなければなりません。';
+	$lang['strdatabasecreated'] = 'データベースを作成しました。';
+	$lang['strdatabasecreatedbad'] = 'データベースの作成に失敗しました。';	
+	$lang['strconfdropdatabase'] = '本当にデータベース「%s」を破棄しますか?';
+	$lang['strdatabasedropped'] = 'データベースを破棄しました。';
+	$lang['strdatabasedroppedbad'] = 'データベースの破棄に失敗しました。';
 	$lang['strentersql'] = '下に実行するSQLを入力します:';
 	$lang['strsqlexecuted'] = 'SQLを実行しました。';
 	$lang['strvacuumgood'] = 'バキュームを完了しました。';
@@ -268,6 +285,8 @@
 	$lang['strviewdroppedbad'] = 'ビューの破棄に失敗しました。';
 	$lang['strviewupdated'] = 'ビューを更新しました。';
 	$lang['strviewupdatedbad'] = 'ビューの更新に失敗しました。';
+	$lang['strviewlink'] = 'Linking Keys';
+	$lang['strviewconditions'] = 'Additional Conditions';
 
 	// Sequences
 	$lang['strsequence'] = 'シーケンス';
@@ -301,7 +320,6 @@
 	$lang['strnoindex'] = 'インデックスがありません。';
 	$lang['strnoindexes'] = 'インデックスが見つかりません。';
 	$lang['strcreateindex'] = 'インデックス作成';
-	$lang['strindexname'] = 'インデックス名';
 	$lang['strtabname'] = 'タブ名';
 	$lang['strcolumnname'] = 'カラム名';
 	$lang['strindexneedsname'] = '有効なインデックス名を指定しなければいけません。';
@@ -315,9 +333,11 @@
 	$lang['struniquekey'] = 'ユニークキー';
 	$lang['strprimarykey'] = 'プライマリキー';
  	$lang['strindextype'] = 'インデックスタイプ';
-	$lang['strindexname'] = 'インデックス名';
 	$lang['strtablecolumnlist'] = 'テーブル中のカラム';
 	$lang['strindexcolumnlist'] = 'インデックス中のカラム';
+	$lang['strconfcluster'] = 'Are you sure you want to cluster "%s"?';
+	$lang['strclusteredgood'] = 'Cluster complete.';
+	$lang['strclusteredbad'] = 'Cluster failed.';
 
 	// Rules
 	$lang['strrules'] = 'ルール一覧';
@@ -330,7 +350,7 @@
 	$lang['strruleneedsname'] = 'ルール名を指定しなければなりません。';
 	$lang['strrulecreated'] = 'ルールを作成しました。';
 	$lang['strrulecreatedbad'] = 'ルールの作成に失敗しました。';
-	$lang['strconfdroprule'] = '本当にルール「%s」をデーターベース「%s」から破棄しますか?';
+	$lang['strconfdroprule'] = '本当にルール「%s」をデータベース「%s」から破棄しますか?';
 	$lang['strruledropped'] = 'ルールを破棄しました。';
 	$lang['strruledroppedbad'] = 'ルールの破棄に失敗しました。';
 
@@ -341,7 +361,7 @@
 	$lang['strcreateconstraint'] = '検査制約の作成';
 	$lang['strconstraintcreated'] = '検査制約を作成しました。';
 	$lang['strconstraintcreatedbad'] = '検査制約の作成に失敗しました。';
-	$lang['strconfdropconstraint'] = '本当に検査制約「%s」をデーターベース「%s」から破棄しますか?';
+	$lang['strconfdropconstraint'] = '本当に検査制約「%s」をデータベース「%s」から破棄しますか?';
 	$lang['strconstraintdropped'] = '検査制約を破棄しました。';
 	$lang['strconstraintdroppedbad'] = '検査制約の破棄に失敗しました。';
 	$lang['straddcheck'] = 'チェック追加';
@@ -398,20 +418,20 @@
 	$lang['strtriggerneedsfunc'] = 'トリガーのための関数を指定しなければなりません。';
 	$lang['strtriggercreated'] = 'トリガーを作成しました。';
 	$lang['strtriggercreatedbad'] = 'トリガーの作成に失敗しました。';
-	$lang['strconfdroptrigger'] = '本当にトリガー「%s」をデーターベース「%s」から破棄しますか?';
+	$lang['strconfdroptrigger'] = '本当にトリガー「%s」をデータベース「%s」から破棄しますか?';
 	$lang['strtriggerdropped'] = 'トリガーを破棄しました。';
 	$lang['strtriggerdroppedbad'] = 'トリガーの破棄に失敗しました。';
 	$lang['strtriggeraltered'] = 'トリガーを変更しました。';
 	$lang['strtriggeralteredbad'] = 'トリガーの変更に失敗しました。';
 
 	// Types
-	$lang['strtype'] = 'データー型';
-	$lang['strtypes'] = 'データー型一覧';
-	$lang['strshowalltypes'] = '全データー型を表示する';
-	$lang['strnotype'] = 'データー型がありません。';
-	$lang['strnotypes'] = 'データー型が見つかりませんでした。';
-	$lang['strcreatetype'] = 'データー型の作成';
-	$lang['strtypename'] = 'データー型名';
+	$lang['strtype'] = 'データ型';
+	$lang['strtypes'] = 'データ型一覧';
+	$lang['strshowalltypes'] = '全データ型を表示する';
+	$lang['strnotype'] = 'データ型がありません。';
+	$lang['strnotypes'] = 'データ型が見つかりませんでした。';
+	$lang['strcreatetype'] = 'データ型の作成';
+	$lang['strtypename'] = 'データ型名';
 	$lang['strinputfn'] = '入力関数';
 	$lang['stroutputfn'] = '出力関数';
 	$lang['strpassbyval'] = 'Passed by val?';
@@ -420,12 +440,12 @@
 	$lang['strdelimiter'] = 'デミリタ';
 	$lang['strstorage'] = 'ストレージ';
 	$lang['strtypeneedsname'] = '型名を指定しなければなりません。';
-	$lang['strtypeneedslen'] = 'データー型の長さを指定しなければなりません。';
-	$lang['strtypecreated'] = 'データー型を作成しました。';
-	$lang['strtypecreatedbad'] = 'データー型の作成に失敗しました';
-	$lang['strconfdroptype'] = '本当にデーター型「%s」を破棄しますか?';
-	$lang['strtypedropped'] = 'データー型を破棄しました。';
-	$lang['strtypedroppedbad'] = 'データー型の破棄に失敗しました。';
+	$lang['strtypeneedslen'] = 'データ型の長さを指定しなければなりません。';
+	$lang['strtypecreated'] = 'データ型を作成しました。';
+	$lang['strtypecreatedbad'] = 'データ型の作成に失敗しました';
+	$lang['strconfdroptype'] = '本当にデータ型「%s」を破棄しますか?';
+	$lang['strtypedropped'] = 'データ型を破棄しました。';
+	$lang['strtypedroppedbad'] = 'データ型の破棄に失敗しました。';
 
 	// Schemas
 	$lang['strschema'] = 'スキーマ';
@@ -478,15 +498,60 @@
 	$lang['strnooperator'] = '演算子が見つかりません。';
 	$lang['strnooperators'] = '演算子クラスが見つかりません。';
 	$lang['strcreateoperator'] = '演算子を作成しました。';
-	$lang['stroperatorname'] = '演算子名';
 	$lang['strleftarg'] = '左引数タイプ';
 	$lang['strrightarg'] = '右引数タイプ';
+	$lang['strcommutator'] = 'Commutator';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Left sort';
+	$lang['strrightsort'] = 'Right sort';
+	$lang['strlessthan'] = 'Less than';
+	$lang['strgreaterthan'] = 'Greater than';
 	$lang['stroperatorneedsname'] = '演算子名を指定する必要があります。';
 	$lang['stroperatorcreated'] = '演算子を作成しました。';
 	$lang['stroperatorcreatedbad'] = '演算子の作成に失敗しました。';
 	$lang['strconfdropoperator'] = '本当に演算子「%s」を破棄しますか?';
 	$lang['stroperatordropped'] = '演算子を破棄しました。';
 	$lang['stroperatordroppedbad'] = '演算子の破棄に失敗しました。';
+
+	// Casts
+	$lang['strcasts'] = 'キャスト一覧';
+	$lang['strnocasts'] = 'キャストが見つかりません。';
+	$lang['strsourcetype'] = 'ソースタイプ';
+	$lang['strtargettype'] = 'ターゲットタイプ';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'In assignment';
+	$lang['strbinarycompat'] = '(Binary compatible)';
+	
+	// Conversions
+	$lang['strconversions'] = '変換一覧';
+	$lang['strnoconversions'] = '変換が見つかりません。';
+	$lang['strsourceencoding'] = '変換元エンコード';
+	$lang['strtargetencoding'] = '変換先エンコード';
+	
+	// Languages
+	$lang['strlanguages'] = '言語一覧';
+	$lang['strnolanguages'] = '言語が存在しません。';
+	$lang['strtrusted'] = 'Trusted';
+	
+	// Info
+	$lang['strnoinfo'] = '有効な情報がありません。';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Parent tables';
+	$lang['strchildtables'] = 'Child tables';
+
+	// Aggregates
+	$lang['straggregates'] = '集計一覧';
+	$lang['strnoaggregates'] = '集計がありません。';
+	$lang['stralltypes'] = '(全てのタイプ)';
+
+	// Operator Classes
+	$lang['stropclasses'] = '演算子クラス一覧';
+	$lang['strnoopclasses'] = '演算子クラスが見つかりません。';
+	$lang['straccessmethod'] = 'アクセス方法';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%sに%sポート番号%sで接続しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
