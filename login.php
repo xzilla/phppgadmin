@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.13 2003/09/30 07:43:08 chriskl Exp $
+	 * $Id: login.php,v 1.14 2003/09/30 09:33:43 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -46,15 +46,15 @@
 				<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<tr>
-						<td><?php echo $lang['strusername'] ?>:</td>
+						<th><?php echo $lang['strusername'] ?>:</td>
 						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24" /></td>
 					</tr>
 					<tr>
-						<td><?php echo $lang['strpassword'] ?>:</td>
+						<th><?php echo $lang['strpassword'] ?>:</td>
 						<td><input type="password" name="formPassword" size="24" /></td>
 					</tr>
 					<tr>
-						<td><?php echo $lang['strserver'] ?>:</td>
+						<th><?php echo $lang['strserver'] ?>:</td>
 						<td><select name="formServer">
 						<?php
 							for ($i = 0; $i < sizeof($conf['servers']); $i++) {
@@ -66,7 +66,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td><?php echo $lang['strlanguage'] ?>:</td>
+						<th><?php echo $lang['strlanguage'] ?>:</td>
 						<td><select name="formLanguage">
 						<?php
 							// Language name already encoded
@@ -78,12 +78,8 @@
 						?>
 						</select></td>
 					</tr>
-					<tr>
-						<td colspan="2" align="right" valign="middle">
-							<input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>" />
-						</td>
-					</tr>
 				</table>
+				<p><input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>" /></p>
 				</form>
 				</center>
 				<script language="javascript">

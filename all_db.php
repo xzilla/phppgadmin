@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.17 2003/08/27 07:54:39 chriskl Exp $
+	 * $Id: all_db.php,v 1.18 2003/09/30 09:33:43 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -65,19 +65,20 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strencoding']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formName']), "\" /></td>";
-		echo "<td class=\"data1\">";
-		echo "<select name=\"formEncoding\">";
-		echo "<option value=\"\"></option>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strencoding']}</th>\n";
+		echo "\t\t<td class=\"data1\">\n";
+		echo "\t\t\t<select name=\"formEncoding\">\n";
+		echo "\t\t\t\t<option value=\"\"></option>\n";
 		while (list ($key) = each ($data->codemap)) {
-		    echo "<option value=\"", htmlspecialchars($key), "\"", 
+		    echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"", 
 				($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($key), "</option>\n";
 		}
-		echo "</select>\n";
-		echo "</td></tr>\n";
+		echo "\t\t\t</select>\n";
+		echo "\t\t</td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
