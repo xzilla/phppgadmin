@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.27 2004/07/07 14:48:19 soranzo Exp $
+	 * $Id: indexes.php,v 1.28 2004/07/10 09:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -76,12 +76,15 @@
 		if (!isset($_POST['formIndexName'])) $_POST['formIndexName'] = '';
 		if (!isset($_POST['formIndexType'])) $_POST['formIndexType'] = null;
 		if (!isset($_POST['formCols'])) $_POST['formCols'] = '';
-		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';		
-
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']}: {$lang['strcreateindex']} </h2>\n";
-		$misc->printMsg($msg);
+		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 
 		$attrs = &$data->getTableAttributes($_REQUEST['table']);
+		// Fetch all tablespaces from the database
+		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+		
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']}: {$lang['strcreateindex']} </h2>\n";
+		$misc->printMsg($msg);
 
 		$selColumns = new XHTML_select("TableColumnList",true,10);
 		$selColumns->set_style("width: 10em;");
@@ -140,6 +143,24 @@
 				htmlspecialchars($_POST['formWhere']), "\" />)</td>";
 			echo "</tr>";
 		}
+		
+		// Tablespace (if there are any)
+		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
+			// Always offer the default (empty) option
+			echo "\t\t\t\t<option value=\"\"",
+				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
+			// Display all other tablespaces
+			while (!$tablespaces->EOF) {
+				$spcname = htmlspecialchars($tablespaces->f['spcname']);
+				echo "\t\t\t\t<option value=\"{$spcname}\"",
+					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+				$tablespaces->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+		}
+
 		echo "</table>";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";
@@ -160,13 +181,15 @@
 		
 		// Handle databases that don't have partial indexes
 		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';
+		// Default tablespace to null if it isn't set
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
 		
 		// Check that they've given a name and at least one column
 		if ($_POST['formIndexName'] == '') doCreateIndex($lang['strindexneedsname']);
 		elseif (!isset($_POST['IndexColumnList']) || $_POST['IndexColumnList'] == '') doCreateIndex($lang['strindexneedscols']);
 		else {
 			$status = $data->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], 
-				$_POST['formIndexType'], isset($_POST['formUnique']), $_POST['formWhere']);
+				$_POST['formIndexType'], isset($_POST['formUnique']), $_POST['formWhere'], $_POST['formSpc']);
 			if ($status == 0)
 				doDefault($lang['strindexcreated']);
 			else

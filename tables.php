@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.58 2004/07/07 02:59:59 chriskl Exp $
+	 * $Id: tables.php,v 1.59 2004/07/10 09:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,9 +23,13 @@
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
 		if (!isset($_REQUEST['tblcomment'])) $_REQUEST['tblcomment'] = '';
+		if (!isset($_REQUEST['spcname'])) $_REQUEST['spcname'] = '';
 
 		switch ($_REQUEST['stage']) {
 			case 1:
+				// Fetch all tablespaces from the database
+				if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+		
 				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $lang['strcreatetable']), 'create_table');
 				$misc->printMsg($msg);
 				
@@ -41,6 +45,23 @@
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n";
 					echo "\t\t<td class=\"data\"><input type=\"checkbox\" name=\"withoutoids\"", 
 						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), " />WITHOUT OIDS</td>\n\t</tr>\n";
+				}
+				
+				// Tablespace (if there are any)
+				if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+					echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"spcname\">\n";
+					// Always offer the default (empty) option
+					echo "\t\t\t\t<option value=\"\"",
+						($_REQUEST['spcname'] == '') ? ' selected="selected"' : '', "></option>\n";
+					// Display all other tablespaces
+					while (!$tablespaces->EOF) {
+						$spcname = htmlspecialchars($tablespaces->f['spcname']);
+						echo "\t\t\t\t<option value=\"{$spcname}\"",
+							($spcname == $_REQUEST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+						$tablespaces->moveNext();
+					}
+					echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 				}
 
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -133,6 +154,9 @@
 					echo "<input type=\"hidden\" name=\"withoutoids\" value=\"true\" />\n";
 				}
 				echo "<input type=\"hidden\" name=\"tblcomment\" value=\"", htmlspecialchars($_REQUEST['tblcomment']), "\" />\n";
+				if (isset($_REQUEST['spcname'])) {
+					echo "<input type=\"hidden\" name=\"spcname\" value=\"", htmlspecialchars($_REQUEST['spcname']), "\" />\n";
+				}
 				echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
@@ -142,6 +166,8 @@
 				global $data, $lang, $_reload_browser;
 
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
+				// Default tablespace to null if it isn't set
+				if (!isset($_REQUEST['spcname'])) $_REQUEST['spcname'] = null;
 
 				// Check inputs
 				$fields = trim($_REQUEST['fields']);
@@ -158,7 +184,7 @@
 				
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
-								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment']);
+								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment'], $_REQUEST['spcname']);
 
 				if ($status == 0) {
 					$_reload_browser = true;
@@ -468,6 +494,10 @@
 				'title' => $lang['strowner'],
 				'field' => 'relowner',
 			),
+			'tablespace' => array(
+				'title' => $lang['strtablespace'],
+				'field' => 'tablespace'
+			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -510,6 +540,8 @@
 			),
 		);
 		
+		if (!$data->hasTablespaces()) unset($columns['tablespace']);
+
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.12 2004/07/10 08:51:01 chriskl Exp $
+ * $Id: Postgres75.php,v 1.13 2004/07/10 09:23:24 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -89,6 +89,34 @@ class Postgres75 extends Postgres74 {
 
 		return $this->selectSet($sql);
 	}
+	
+	// Table functions
+	
+	/**
+	 * Return all tables in current database (and schema)
+	 * @param $all True to fetch all tables, false for just in current schema
+	 * @return All tables, sorted alphabetically 
+	 */
+	function &getTables($all = false) {
+		if ($all) {
+			// Exclude pg_catalog and information_schema tables
+			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relname
+                                FROM pg_catalog.pg_tables 
+				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+				ORDER BY schemaname, tablename";
+		} else {
+			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
+						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
+						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
+					FROM pg_catalog.pg_class c
+					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+					WHERE c.relkind = 'r'
+					AND nspname='{$this->_schema}'
+					ORDER BY c.relname";
+		}		
+
+		return $this->selectSet($sql);
+	}	
 	
 	/**
 	 * Alters a column in a table
@@ -202,6 +230,22 @@ class Postgres75 extends Postgres74 {
 		}
 
 		return $this->endTransaction();
+	}
+
+	// Sequence functions
+
+	/**
+	 * Returns all sequences in the current database
+	 * @return A recordset
+	 */
+	function &getSequences() {
+		$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
+			(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
+			FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
+			WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
+			AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
+			
+		return $this->selectSet( $sql );
 	}
 	
 	// Tablespace functions

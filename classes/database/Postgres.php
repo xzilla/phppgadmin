@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.231 2004/07/10 08:51:01 chriskl Exp $
+ * $Id: Postgres.php,v 1.232 2004/07/10 09:23:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1205,11 +1205,12 @@ class Postgres extends BaseDB {
 	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
 	 * @param $colcomment An array of comments
 	 * @param $comment Table comment
+	 * @param $tablespace The tablespace name ('' means none/default)
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
 	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
-				$default, $withoutoids, $colcomment, $tblcomment) {
+				$default, $withoutoids, $colcomment, $tblcomment, $tablespace) {
 		$this->fieldClean($name);
 		$this->clean($tblcomment);
 
@@ -1271,6 +1272,12 @@ class Postgres extends BaseDB {
 		// WITHOUT OIDS
 		if ($this->hasWithoutOIDs() && $withoutoids)
 			$sql .= ' WITHOUT OIDS';
+			
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			$this->fieldClean($tablespace);
+			$sql .= " TABLESPACE \"{$tablespace}\"";
+		}
 		
 		$status = $this->execute($sql);
 		if ($status) {
@@ -1622,9 +1629,11 @@ class Postgres extends BaseDB {
 	 * @param $startvalue The starting value
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
+	 * @param $tablespace The tablespace ('' means none/default)
 	 * @return 0 success
 	 */
-	function createSequence($sequence, $increment, $minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+	function createSequence($sequence, $increment, $minvalue, $maxvalue, 
+								$startvalue, $cachevalue, $cycledvalue, $tablespace) {
 		$this->fieldClean($sequence);
 		$this->clean($increment);
 		$this->clean($minvalue);
@@ -1640,6 +1649,12 @@ class Postgres extends BaseDB {
 		if ($cachevalue != '') $sql .= " CACHE {$cachevalue}";
 		if ($cycledvalue) $sql .= " CYCLE";
 		
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			$this->fieldClean($tablespace);
+			$sql .= " TABLESPACE \"{$tablespace}\"";
+		}
+
 		return $this->execute($sql);
 	}
 
@@ -2074,9 +2089,10 @@ class Postgres extends BaseDB {
 	 * @param $type The index type
 	 * @param $unique True if unique, false otherwise
 	 * @param $where Index predicate ('' for none)
+	 * @param $tablespace The tablespaces ('' means none/default)
 	 * @return 0 success
 	 */
-	function createIndex($name, $table, $columns, $type, $unique, $where) {
+	function createIndex($name, $table, $columns, $type, $unique, $where, $tablespace) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 		$this->arrayClean($columns);
@@ -2086,6 +2102,13 @@ class Postgres extends BaseDB {
 		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
 		$sql .= "(\"" . implode('","', $columns) . "\")";
 
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			$this->fieldClean($tablespace);
+			$sql .= " TABLESPACE \"{$tablespace}\"";
+		}
+
+		// Predicate
 		if ($this->hasPartialIndexes() && trim($where) != '') {
 			$sql .= " WHERE ({$where})";
 		}
