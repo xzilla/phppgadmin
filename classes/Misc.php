@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.3 2005/03/02 09:47:40 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.4 2005/03/02 13:52:25 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -877,6 +877,10 @@
 			}
 			echo "</select>\n";
 			echo "<noscript><input type=\"submit\" value=\"Set Language\"></noscript>\n";
+			foreach ($_GET as $key => $val) {
+				if ($key == 'language') continue;
+				echo "<input type=\"hidden\" name=\"$key\" value=\"", htmlspecialchars($val), "\" />\n";
+			}
 			echo "</form>\n";
 			
 			echo "</td></tr></table></div>\n";
