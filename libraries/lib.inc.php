@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.91 2005/02/16 10:27:44 jollytoad Exp $
+	 * $Id: lib.inc.php,v 1.92 2005/02/18 11:39:47 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -38,13 +38,15 @@
 	// backwards incompatible changes are made to config.inc.php-dist.
 	$conf['base_version'] = 14;
 
-	// List of available language files
+	// List of available language files.  Remember to update login.php
+	// when you update this list.
 	$appLangFiles = array(
 		'afrikaans' => 'Afrikaans',
 		'arabic' => '&#1593;&#1585;&#1576;&#1610;',
 		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;',
 		'chinese-sim' => '&#31616;&#20307;&#20013;&#25991;',
 		'czech' => '&#268;esky',
+		'danish' => 'Danish',
 		'dutch' => 'Nederlands',
 		'english' => 'English',
 		'french' => 'Fran&ccedil;ais',

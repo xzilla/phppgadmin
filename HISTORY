@@ -18,9 +18,11 @@ Bugs
 * Fix port selection for local connections
 * Fix timeouts on long running operations (Adrian Nida)
 * Allow Multiline character and character varying editing and inserting
+* Add automatic browser language selection for all languages
 
 Translations
 * Japanese from Tadashi Jokagi
+* Danish from Arne Eckmann
 
 Version 3.5.1
 -------------

@@ -20,13 +20,14 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.40 2004/11/10 01:24:49 chriskl Exp $
+# $Id: Makefile,v 1.41 2005/02/18 11:39:47 chriskl Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
 	english \
 	chinese-tr \
 	chinese-sim \
+	danish \
 	dutch \
 	german \
 	spanish \
@@ -75,6 +76,12 @@ dutch:	dutch.php
 	@cat dutch.php | recode latin1..html | ./convert.awk \
 		> ${DESTDIR}/dutch.php
 	@chmod 644 dutch.php ${DESTDIR}/dutch.php
+
+danish:	danish.php
+	@echo "Recoding danish..."
+	@cat danish.php | recode latin1..html | ./convert.awk \
+		> ${DESTDIR}/danish.php
+	@chmod 644 danish.php ${DESTDIR}/danish.php
 
 german:	german.php
 	@echo "Recoding german..."
