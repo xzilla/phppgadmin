@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.51 2003/02/09 10:22:39 chriskl Exp $
+ * $Id: Postgres.php,v 1.52 2003/02/10 14:48:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -838,7 +838,7 @@ class Postgres extends BaseDB {
 	 */
 	function dropUniqueConstraint($table, $name) {
 		$this->fieldClean($name);
-		
+
 		$sql = "DROP INDEX \"{$name}\"";
 
 		return $this->execute($sql);
@@ -1601,6 +1601,64 @@ class Postgres extends BaseDB {
 		}
 
 		return $temp;
+	}
+	
+	/**
+	 * Grants a privilege to a user, group or public
+	 * @param $type The type of object
+	 * @param $object The name of the object
+	 * @param $entity The type of entity (eg. USER, GROUP or PUBLIC)
+	 * @param $name The username or groupname to grant privs to. Ignored for PUBLIC.
+	 * @param $privilege The privilege to grant (eg. SELECT, ALL PRIVILEGES, etc.)
+	 * @return 0 success
+	 * @return -1 invalid type
+	 * @return -2 invalid entity
+	 */
+	function grantPrivileges($type, $object, $entity, $name, $privilege) {
+		$this->fieldClean($privilege);
+		$this->fieldClean($object);
+		$this->fieldClean($name);
+
+		$sql = "GRANT {$privilege} ON";
+		// @@ WE NEED SCHEMA SUPPORT BELOW
+		switch ($type) {
+			case 'table':
+			case 'view':
+			case 'sequence':
+				$sql .= " \"{$object}\"";
+				break;
+			case 'database':
+				$sql .= " DATABASE \"{$object}\"";
+				break;
+			case 'function':
+				$sql .= " FUNCTION \"{$object}\"";
+				break;
+			case 'language':
+				$sql .= " LANGUAGE \"{$object}\"";
+				break;
+			case 'schema':
+				// @@ MOVE THIS TO 7.3 ONLY
+				$sql .= " SCHEMA \"{$object}\"";
+				break;
+			default:
+				return -1;
+		}
+		
+		switch ($entity) {
+			case 'USER':
+				$sql .= " TO \"{$name}\"";
+				break;
+			case 'GROUP':
+				$sql .= " TO GROUP \"{$name}\"";
+				break;
+			case 'PUBLIC':
+				$sql .= " TO PUBLIC";
+				break;
+			default:
+				return -2;
+		}
+		
+		return $this->execute($sql);
 	}
 
 	// Capabilities

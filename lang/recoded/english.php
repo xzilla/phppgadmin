@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.6 2003/02/09 10:22:39 chriskl Exp $
+	 * $Id: english.php,v 1.7 2003/02/10 14:48:56 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -139,10 +139,15 @@
 	$strMembers = 'Members';
 
 	// Privilges
+	$strPrivilege = 'Privilege';
 	$strPrivileges = 'Privileges';
 	$strNoPrivileges = 'This object has no privileges.';
 	$strGrant = 'Grant';
 	$strRevoke = 'Revoke';
+	$strGranted = 'Privileges granted.';
+	$strGrantFailed = 'Failed to grant privileges.';
+	$strGrantUser = 'Grant User';
+	$strGrantGroup = 'Grant Group';
 
 	// Databases
 	$strDatabase = 'Database';
@@ -159,7 +164,7 @@
 	$strDatabaseDropped = 'Database dropped.';
 	$strDatabaseDroppedBad = 'Database drop failed.';
 	$strEnterSQL = 'Enter the SQL to execute below:';
-	
+
 	// Views
 	$strView = 'View';
 	$strViews = 'Views';
