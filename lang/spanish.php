@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.20 2003/11/22 02:01:57 chriskl Exp $
+	 * $Id: spanish.php,v 1.21 2003/12/04 01:47:15 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -467,24 +467,24 @@
 	$lang['strreportneedsdef'] = 'Debe especificar un SQL para el reporte.';
 	$lang['strreportcreated'] = 'Reporte guardado.';
 	$lang['strreportcreatedbad'] = 'Falló al guardar el reporte.';
-	$lang['strdomain'] = 'Domain';
-	$lang['strdomains'] = 'Domains';
-	$lang['strshowalldomains'] = 'Show all domains';
-	$lang['strnodomains'] = 'No domains found.';
-	$lang['strcreatedomain'] = 'Create Domain';
-	$lang['strdomaindropped'] = 'Domain dropped.';
-	$lang['strdomaindroppedbad'] = 'Domain drop failed.';
-	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain "%s"?';
-	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
-	$lang['strdomaincreated'] = 'Domain created.';
-	$lang['strdomaincreatedbad'] = 'Failed to create domain.';
-	$lang['strdomainaltered'] = 'Domain altered.';
-	$lang['strdomainalteredbad'] = 'Failed to alter domain.';
+	$lang['strdomain'] = 'Dominio';
+	$lang['strdomains'] = 'Dominios';
+	$lang['strshowalldomains'] = 'Mostrar todos los dominios';
+	$lang['strnodomains'] = 'No se encontraron dominios.';
+	$lang['strcreatedomain'] = 'Crear dominio';
+	$lang['strdomaindropped'] = 'Dominio eliminado.';
+	$lang['strdomaindroppedbad'] = 'Falló al intentar eliminar el dominio.';
+	$lang['strconfdropdomain'] = 'Esta seguro que quiere eliminar el dominio "%s"?';
+	$lang['strdomainneedsname'] = 'Debe dar un nombre para el dominio.';
+	$lang['strdomaincreated'] = 'Dominio creado.';
+	$lang['strdomaincreatedbad'] = 'Falló al intentar crear el dominio.';
+	$lang['strdomainaltered'] = 'Dominio modificado.';
+	$lang['strdomainalteredbad'] = 'Falló al intentar modificar el dominio.';
 
 	// Operators
         $lang['stroperator'] = 'Operador';
 	$lang['stroperators'] = 'Operadores';
-	$lang['strshowalloperators'] = 'Mostrar todos los operadoress';
+	$lang['strshowalloperators'] = 'Mostrar todos los operadores';
 	$lang['strnooperator'] = 'No se encontró el operador.';
 	$lang['strnooperators'] = 'No se encontraron operadores.';
 	$lang['strcreateoperator'] = 'Crear Operador';
@@ -508,11 +508,11 @@
 	$lang['stroperatordroppedbad'] = 'Falló al intentar eliminar el operador.';
 
 	// Casts
-	$lang['strcasts'] = 'Casts';
-	$lang['strnocasts'] = 'No casts found.';
-	$lang['strsourcetype'] = 'Source type';
-	$lang['strtargettype'] = 'Target type';
-	$lang['strimplicit'] = 'Implicito';
+	$lang['strcasts'] = 'Conversión de tipos';
+	$lang['strnocasts'] = 'No se encontraron conversiones.';
+	$lang['strsourcetype'] = 'Tipo inicial';
+	$lang['strtargettype'] = 'Tipo final';
+	$lang['strimplicit'] = 'Implícito';
 	$lang['strinassignment'] = 'En asignación';
 	$lang['strbinarycompat'] = '(Compatible con binario)';
 
