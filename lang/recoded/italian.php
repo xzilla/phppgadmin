@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.14 2003/10/14 16:52:55 soranzo Exp $
+	 * $Id: italian.php,v 1.15 2003/10/14 17:55:17 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -67,8 +67,9 @@
 	$lang['strfalse'] = 'FALSE';
 	$lang['stredit'] = 'Modifica';
 	$lang['strcolumns'] = 'Colonne';
-	$lang['strrows'] = 'riga(righe)';
-	$lang['strrowsaff'] = 'riga(righe) interessate.';
+	$lang['strrows'] = 'riga(ghe)';
+	$lang['strrowsaff'] = 'riga(ghe) interessata(e).';
+	$lang['strobjects'] = 'oggetto(i)';
 	$lang['strexample'] = 'es.';
 	$lang['strback'] = 'Indietro';
 	$lang['strqueryresults'] = 'Risultato Query';
@@ -120,6 +121,7 @@
 	$lang['strinstatement'] = 'Nel costrutto:';
 	$lang['strinvalidparam'] = 'Parametri di script non validi.';
         $lang['strnodata'] = 'Nessuna riga trovata.';
+	$lang['strnoobjects'] = 'Nessun oggetto trovato.';
 	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
 
         // Tables - Tabelle
