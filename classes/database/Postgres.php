@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.217 2004/05/28 07:41:36 chriskl Exp $
+ * $Id: Postgres.php,v 1.218 2004/05/28 08:17:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2359,14 +2359,14 @@ class Postgres extends BaseDB {
 		// Check Constraints
 		$sql .= "
 			UNION ALL
-			SELECT 'CONSTRAINT', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
+			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
 				pg_relcheck pr WHERE pc.oid=pr.rcrelid
 				AND pr.rcname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 		// Unique and Primary Key Constraints
 		$sql .= "
 			UNION ALL
-			SELECT 'CONSTRAINT', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
+			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";

@@ -9,7 +9,6 @@ re-enable help system
 all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
 need icons and Find for Casts and Conversions, Languages, Aggs and OpClasses
 submit changes to HTML_TreeMenu maintainer
-fix constraint search to get domain and table constraints?
 dump sequences when dumping tables
 fix dumping clustering info
 
@@ -19,6 +18,7 @@ Need to fix:
 * Report login errors
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
+* add drop-down to Find to restrict objects to search over
 
 NEEDS TESTING
 -------------
@@ -33,3 +33,5 @@ NEEDS TESTING
 * getView() isn't schema-aware for 7.3+?
 * rename function in 7.2 and below doesn't come back to the correct function
 * Fix sql window being referenced from two different versions of phppgadmin
+* Check domain constraint search pre 7.3
+

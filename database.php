@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.45 2004/05/28 07:41:36 chriskl Exp $
+	 * $Id: database.php,v 1.46 2004/05/28 08:17:21 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,11 +50,15 @@
 				while (!$rs->EOF) {
 					// Output a new header if the current type has changed, but not if it's just changed the rule type
 					if ($rs->f['type'] != $curr) {
-						// Short-circuit in the case of changing from table rules to view rules or table cols to view cols
+						// Short-circuit in the case of changing from table rules to view rules; table cols to view cols;
+						// table constraints to domain constraints
 						if ($rs->f['type'] == 'RULEVIEW' && $curr == 'RULETABLE') {
 							$curr = $rs->f['type'];
 						}
 						elseif ($rs->f['type'] == 'COLUMNVIEW' && $curr == 'COLUMNTABLE') {
+							$curr = $rs->f['type'];
+						}
+						elseif ($rs->f['type'] == 'CONSTRAINTTABLE' && $curr == 'CONSTRAINTDOMAIN') {
 							$curr = $rs->f['type'];
 						}
 						else {
@@ -81,7 +85,8 @@
 								case 'INDEX':
 									echo $lang['strindexes'];
 									break;
-								case 'CONSTRAINT':
+								case 'CONSTRAINTTABLE':
+								case 'CONSTRAINTDOMAIN':
 									echo $lang['strconstraints'];
 									break;
 								case 'TRIGGER':
@@ -158,8 +163,13 @@
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
-						case 'CONSTRAINT':
+						case 'CONSTRAINTTABLE':
 							echo "<li><a href=\"constraints.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'CONSTRAINTDOMAIN':
+							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;domain=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
