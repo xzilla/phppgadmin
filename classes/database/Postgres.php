@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.206 2004/05/16 14:34:44 chriskl Exp $
+ * $Id: Postgres.php,v 1.207 2004/05/16 15:40:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2305,9 +2305,9 @@ class Postgres extends BaseDB {
 		// Build SQL, excluding system relations as necessary
 		// Relations
 		$sql = "
-			SELECT CASE WHEN relkind='r' THEN 'TABLE'::VARCHAR WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
+			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
-				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
+				WHERE relkind IN ('r', 'S') AND relname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Columns
@@ -2358,12 +2358,23 @@ class Postgres extends BaseDB {
 				AND pt.tgname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
-		// Rules
+		// Table Rules
 		$sql .= "
 			UNION ALL
-			SELECT 'RULE', NULL, NULL, tablename, rulename FROM pg_rules
-				WHERE rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND tablename NOT LIKE 'pg\\\\_%'";				
+			SELECT 'RULETABLE', NULL, NULL, c.relname AS tablename, r.rulename
+				FROM pg_rewrite r, pg_class c
+				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
+				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+
+		// View Rules
+		$sql .= "
+			UNION ALL
+			SELECT 'RULEVIEW', NULL, NULL, c.relname AS tablename, r.rulename
+				FROM pg_rewrite r, pg_class c
+				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
+				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Advanced Objects
 		if ($conf['show_advanced']) {
@@ -2399,7 +2410,7 @@ class Postgres extends BaseDB {
 			$sql .= "				
 				UNION ALL
 				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po
-					WHERE po.opcname ILIKE '%{$term}%'";
+					WHERE po.opcname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
 		}
 				

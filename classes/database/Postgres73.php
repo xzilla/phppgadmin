@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.105 2004/05/16 07:31:21 chriskl Exp $
+ * $Id: Postgres73.php,v 1.106 2004/05/16 15:40:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1325,6 +1325,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $term The search term
 	 * @return A recordset
 	 */
+	 /*
 	function findObject($term) {
 		global $conf;
 
@@ -1339,12 +1340,10 @@ class Postgres73 extends Postgres72 {
 			// it's the quickest fix to exclude the info schema from 7.4
 			$where = " AND pn.nspname NOT LIKE 'pg\\\\_%' AND pn.nspname != 'information_schema'";
 			$lan_where = "AND pl.lanispl";
-			$rule_where = " AND schemaname NOT LIKE 'pg\\\\_%' AND schemaname != 'information_schema'";
 		}
 		else {
 			$where = '';
 			$lan_where = '';
-			$rule_where = '';
 		}
 		
 		$sql = "
@@ -1389,8 +1388,15 @@ class Postgres73 extends Postgres72 {
 					WHERE d.classid = pt.tableoid AND d.objid = pt.oid AND d.deptype = 'i' AND c.contype = 'f'))
 				AND pt.tgname ILIKE '%{$term}%' {$where}
 			UNION ALL
-			SELECT 'RULE', NULL, schemaname, tablename, rulename FROM pg_catalog.pg_rules
-				WHERE rulename ILIKE '%{$term}%' {$rule_where}
+			SELECT 'RULETABLE', NULL, pn.nspname AS schemaname, c.relname AS tablename, r.rulename FROM pg_catalog.pg_rewrite r
+				JOIN pg_catalog.pg_class c ON c.oid = r.ev_class
+				LEFT JOIN pg_catalog.pg_namespace pn ON pn.oid = c.relnamespace
+				WHERE c.relkind='r' AND r.rulename != '_RETURN' AND r.rulename ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'RULEVIEW', NULL, pn.nspname AS schemaname, c.relname AS tablename, r.rulename FROM pg_catalog.pg_rewrite r
+				JOIN pg_catalog.pg_class c ON c.oid = r.ev_class
+				LEFT JOIN pg_catalog.pg_namespace pn ON pn.oid = c.relnamespace
+				WHERE c.relkind='v' AND r.rulename != '_RETURN' AND r.rulename ILIKE '%{$term}%' {$where}
 		";
 
 		// Add advanced objects if show_advanced is set
@@ -1437,7 +1443,7 @@ class Postgres73 extends Postgres72 {
 			
 		return $this->selectSet($sql);
 	}	
-
+*/
 	// Operator functions
 	
 	/**

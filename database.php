@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.41 2004/05/16 07:31:20 chriskl Exp $
+	 * $Id: database.php,v 1.42 2004/05/16 15:40:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -48,65 +48,73 @@
 			if ($rs->recordCount() > 0) {
 				$curr = '';
 				while (!$rs->EOF) {
+					// Output a new header if the current type has changed, but not if it's just changed the rule type
 					if ($rs->f['type'] != $curr) {
-						if ($curr != '') echo "</ul>\n";
-						$curr = $rs->f['type'];
-						echo "<h2>";
-						switch ($curr) {
-							case 'SCHEMA':
-								echo $lang['strschemas'];
-								break;
-							case 'TABLE':
-								echo $lang['strtables'];
-								break;
-							case 'VIEW':
-								echo $lang['strviews'];
-								break;
-							case 'SEQUENCE':
-								echo $lang['strsequences'];
-								break;
-							case 'COLUMN':
-								echo $lang['strcolumns'];
-								break;
-							case 'INDEX':
-								echo $lang['strindexes'];
-								break;
-							case 'CONSTRAINT':
-								echo $lang['strconstraints'];
-								break;
-							case 'TRIGGER':
-								echo $lang['strtriggers'];
-								break;
-							case 'RULE':
-								echo $lang['strrules'];
-								break;
-							case 'FUNCTION':
-								echo $lang['strfunctions'];
-								break;
-							case 'TYPE':
-								echo $lang['strtypes'];
-								break;
-							case 'DOMAIN':
-								echo $lang['strdomains'];
-								break;
-							case 'OPERATOR':
-								echo $lang['stroperators'];
-								break;
-							case 'CONVERSION':
-								echo $lang['strconversions'];
-								break;
-							case 'LANGUAGE':
-								echo $lang['strlanguages'];
-								break;
-							case 'AGGREGATE':
-								echo $lang['straggregates'];
-								break;
-							case 'OPCLASS':
-								echo $lang['stropclasses'];
-								break;
+						// Short-circuit in the case of changing from table rules to view rules
+						if ($rs->f['type'] == 'RULEVIEW' && $curr == 'RULETABLE') {
+							$curr = $rs->f['type'];
 						}
-						echo "</h2>";
-						echo "<ul>\n";
+						else {
+							if ($curr != '') echo "</ul>\n";
+							$curr = $rs->f['type'];
+							echo "<h2>";
+							switch ($curr) {
+								case 'SCHEMA':
+									echo $lang['strschemas'];
+									break;
+								case 'TABLE':
+									echo $lang['strtables'];
+									break;
+								case 'VIEW':
+									echo $lang['strviews'];
+									break;
+								case 'SEQUENCE':
+									echo $lang['strsequences'];
+									break;
+								case 'COLUMN':
+									echo $lang['strcolumns'];
+									break;
+								case 'INDEX':
+									echo $lang['strindexes'];
+									break;
+								case 'CONSTRAINT':
+									echo $lang['strconstraints'];
+									break;
+								case 'TRIGGER':
+									echo $lang['strtriggers'];
+									break;
+								case 'RULETABLE':
+								case 'RULEVIEW':
+									echo $lang['strrules'];
+									break;
+								case 'FUNCTION':
+									echo $lang['strfunctions'];
+									break;
+								case 'TYPE':
+									echo $lang['strtypes'];
+									break;
+								case 'DOMAIN':
+									echo $lang['strdomains'];
+									break;
+								case 'OPERATOR':
+									echo $lang['stroperators'];
+									break;
+								case 'CONVERSION':
+									echo $lang['strconversions'];
+									break;
+								case 'LANGUAGE':
+									echo $lang['strlanguages'];
+									break;
+								case 'AGGREGATE':
+									echo $lang['straggregates'];
+									break;
+								case 'OPCLASS':
+									echo $lang['stropclasses'];
+									break;
+							}
+							echo "</h2>";
+							echo "<ul>\n";
+						}
 					}
 					
 					// Generate schema prefix
@@ -151,8 +159,13 @@
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
-						case 'RULE':
-							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=...&amp;relation=", 
+						case 'RULETABLE':
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=table&amp;relation=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'RULEVIEW':
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=view&amp;relation=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;

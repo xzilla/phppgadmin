@@ -39,6 +39,8 @@ Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
 * In 7.4 pg_dump, specify schema when dumping tables
 * Fix bug in displaying array types in 7.0.x
+* Fix bug where views appeared as tables in 7.0.x search results
+* Fix bug where find object SQL on < 7.2 was broken
 
 Version 3.3.1
 -------------

@@ -34,5 +34,3 @@ NEEDS TESTING
 * highlight things on the info stats page
 * advanced stats functions
 * 7.5 alter column support needs a lot of testing in pre-7.5
-* also, array types are not displayed correcting 7.0
-
