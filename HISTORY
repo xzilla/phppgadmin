@@ -28,10 +28,10 @@ Features
   field while editing data.
 * Show query runtime when executing arbitrary SQL
 * Allow renaming functions when backend supports it
-* Allow adding SERIAL and BIGSERIAL columns in 7.5-dev
 * Views are now more like tables.  They are listed in the browser,
-  you can view the virtual columns of the view and see column defaults.
+  you can view the virtual columns of the view and its column defaults.
   Columns in view can also be renamed and have defaults set.
+* Allow viewing, dropping and creation of rules on views.
 * Support for 7.5-dev ALTER COLUMN TYPE, adding of SERIAL and BIGSERIAL
   columns, adding NOT NULL columns and adding columns with defaults.
 

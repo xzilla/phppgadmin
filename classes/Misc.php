@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.62 2004/05/10 15:22:01 chriskl Exp $
+	 * $Id: Misc.php,v 1.63 2004/05/16 07:31:21 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -271,9 +271,11 @@
 			echo "<td width=\"{$width}\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"rules.php?{$this->href}&amp;reltype=table&amp;relation=", urlencode($_REQUEST['table']), 
+				"\">{$lang['strrules']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"info.php?{$vars}\">{$lang['strinfo']}</a></td>\n";
-			echo "<td width=\"{$width}\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), 
+				"\">{$lang['strprivileges']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=import\">{$lang['strimport']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			echo "</tr></table>\n";
@@ -290,7 +292,8 @@
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
 			echo "<td width=\"12%\"><a href=\"viewproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
 			echo "<td width=\"12%\"><a href=\"viewproperties.php?action=definition&amp;{$vars}\">{$lang['strdefinition']}</a></td>\n";
-			//echo "<td width=\"12%\"><a href=\"rules.php?{$vars}&amp;table=", urlencode($_REQUEST['view']), "\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"rules.php?{$this->href}&amp;reltype=view&amp;relation=", urlencode($_REQUEST['view']), 
+				"\">{$lang['strrules']}</a></td>\n";
 			echo "<td width=\"12%\"><a href=\"privileges.php?{$vars}&amp;type=view&amp;object=", urlencode($_REQUEST['view']), "\">{$lang['strprivileges']}</a></td>\n";
 			//echo "<td width=\"13%\"><a href=\"viewproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			echo "</tr></table>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.40 2004/05/08 14:44:56 chriskl Exp $
+	 * $Id: database.php,v 1.41 2004/05/16 07:31:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -152,7 +152,7 @@
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'RULE':
-							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=...&amp;relation=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
