@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.10 2004/07/08 03:23:02 chriskl Exp $
+ * $Id: Postgres75.php,v 1.11 2004/07/09 01:57:58 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -24,6 +24,39 @@ class Postgres75 extends Postgres74 {
 		$this->Postgres74($conn);
 	}
 
+	// Database functions
+
+	/**
+	 * Return all database available on the server
+	 * @return A list of databases, sorted alphabetically
+	 */
+	function &getDatabases() {
+		global $conf;
+
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
+			$username = $_SESSION['webdbUsername'];
+			$this->clean($username);
+			$clause = " AND pu.usename='{$username}'";
+		}
+		else $clause = '';
+		
+		if (!$conf['show_system'])
+			$where = ' AND NOT pdb.datistemplate';
+		else
+			$where = ' AND pdb.datallowconn';
+
+		$sql = "SELECT pdb.datname AS datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+                               (SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment,
+                               (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace
+                        FROM pg_database pdb, pg_user pu
+			WHERE pdb.datdba = pu.usesysid
+			{$where}
+			{$clause}
+			ORDER BY pdb.datname";
+			
+		return $this->selectSet($sql);
+	}
+	
 	// Schema functions
 
 	/**
