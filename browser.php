@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.27 2003/12/05 07:26:54 chriskl Exp $
+	 * $Id: browser.php,v 1.28 2003/12/05 07:29:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -194,9 +194,6 @@
 								'expanded' => true,
 								'linkTarget' => 'detail'));
 		
-			// Construct database query string
-			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
-
 			// If database supports schemas, add the extra level of hierarchy
 			if ($data->hasSchemas()) {
 				$schemas = &$localData->getSchemas();
@@ -226,9 +223,15 @@
 			}
 			// Database doesn't support schemas
 			else {
+				// Construct database query string
+				$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
+
 				addNodes($db_node, $querystr);
 			}
 			
+			// Reset database query string
+			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
+
 			// Languages
 			if ($conf['show_advanced']) {
 				if ($data->hasLanguages()) {		
