@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.37 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: functions.php,v 1.38 2004/07/14 19:09:38 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -317,16 +317,12 @@
 			htmlspecialchars($_POST['formArguments']), "\" /></td>\n";
 
 		echo "<td class=\"data1\">\n";
-		// If supports set-returning-functions, output setof option
-		if ($data->hasSRFs()) {
-			echo "<select name=\"formSetOf\">\n";
-			echo "<option value=\"\"", ($_POST['formSetOf'] == '') ? ' selected="selected"' : '', "></option>\n";
-			echo "<option value=\"SETOF\"", ($_POST['formSetOf'] == 'SETOF') ? ' selected="selected"' : '', ">SETOF</option>\n";
-			echo "</select>\n";
-		}
-		else {
-			echo "<input type=\"hidden\" name=\"formSetOf\" value=\"\" />\n";
-		}
+		// Output setof option
+		echo "<select name=\"formSetOf\">\n";
+		echo '<option value=""', ($_POST['formSetOf'] == '') ? ' selected="selected"' : '', "></option>\n";
+		echo '<option value="SETOF"', ($_POST['formSetOf'] == 'SETOF') ? ' selected="selected"' : '', ">SETOF</option>\n";
+		echo "</select>\n";
+
 		// Output return type list		
 		echo "<select name=\"formReturns\">\n";
 		while (!$types->EOF) {
