@@ -1,3 +1,8 @@
+Internal Bugs List
+------------------
+
+This file is used to track current working tasks - just ignore it!
+
 better detection for when reports database hasn't been installed.
 fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
@@ -8,4 +13,9 @@ submit changes to HTML_TreeMenu maintainer
 test < 7.3 Find feature for all new objects
 fix constraint search to get domain and table constraints?
 dump sequences when dumping tables
+fix dumping clustering info
+can't edit SELECT results by oid
+use LINK REL to speed up page loading times for CSS
+investigate phpPgInfo
+
 
