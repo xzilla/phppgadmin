@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.26 2003/04/04 01:24:22 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.27 2003/04/04 02:13:30 chriskl Exp $
 	 */
 
 	// Application name 
@@ -38,6 +38,8 @@
 		'french' => 'Fran&ccedil;ais',
 		'german' => 'Deutsch',
 		'italian' => 'Italiano',
+		'japanese-euc' => '&#26085;&#26412;&#35486; (EUC-JP)',
+		'japanese-sjis' => '&#26085;&#26412;&#35486; (SHIFT_JIS)',
 		'polish' => 'Polish',
 		'russian-koi8' => 'Russian KOI8',
 		'russian-cp1251' => 'Russian cp-1251',
