@@ -4,14 +4,14 @@
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
 	 *
 	 *
-	 * $Id: chinese-tr.php,v 1.4 2003/08/25 06:40:16 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.5 2003/08/26 00:42:02 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = '繁體中文（big5）';
 	$lang['appcharset'] = 'big5';
 	$lang['applocale'] = 'zh_TW';
-	$lang['appdbencoding'] = 'LATIN1';
+	$lang['appdbencoding'] = 'EUC_TW';
 	
 	// Welcome  
 	$lang['strintro'] = '歡迎使用phpPgAdmin.';
