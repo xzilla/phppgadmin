@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.193 2004/05/08 11:34:08 chriskl Exp $
+ * $Id: Postgres.php,v 1.194 2004/05/08 14:08:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3314,7 +3314,8 @@ class Postgres extends BaseDB {
 				proname,
 				proretset,
 				pt.typname AS return_type,
-				oidvectortypes(pc.proargtypes) AS arguments
+				oidvectortypes(pc.proargtypes) AS arguments,
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment 
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
 			WHERE
@@ -3327,7 +3328,8 @@ class Postgres extends BaseDB {
 				proname,
 				proretset,
 				'OPAQUE' AS result,
-				oidvectortypes(pc.proargtypes) AS arguments
+				oidvectortypes(pc.proargtypes) AS arguments,
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
 			WHERE	

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.96 2004/05/08 11:36:45 chriskl Exp $
+ * $Id: Postgres73.php,v 1.97 2004/05/08 14:08:09 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -709,7 +709,8 @@ class Postgres73 extends Postgres72 {
 				p.proname,
 				p.proretset,
 				pg_catalog.format_type(p.prorettype, NULL) AS return_type,
-				pg_catalog.oidvectortypes(p.proargtypes) AS arguments
+				pg_catalog.oidvectortypes(p.proargtypes) AS arguments,
+				pg_catalog.obj_description(p.oid, 'pg_proc') AS funccomment
 			FROM pg_catalog.pg_proc p
 			LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
 			WHERE p.prorettype <> 'pg_catalog.cstring'::pg_catalog.regtype

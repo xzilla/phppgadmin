@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.27 2004/01/14 02:14:28 chriskl Exp $
+	 * $Id: functions.php,v 1.28 2004/05/08 14:08:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -335,6 +335,8 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th><th class=\"data\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th><th colspan=\"4\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
 				$funcs->f[$data->fnFields['setof']] = $data->phpBool($funcs->f[$data->fnFields['setof']]);
@@ -357,6 +359,7 @@
 						$funcs->f[$data->fnFields['fnoid']], "&amp;type=function\">{$lang['strprivileges']}</a></td>\n";
 				}
 				else echo "<td></td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f['funccomment']), "</td>\n";				
 				echo "</tr>\n";
 				$funcs->moveNext();
 				$i++;
