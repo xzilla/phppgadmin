@@ -1,5 +1,4 @@
 * Lots more printVal()ing needs to be done.  Whenever displaying user data, 
   it should use $misc->printVal($var) instead of htmlspecialchars($var).
-* Add revoke support
 * Fix grant option/grantor stuff
 * Schema support for privileges
