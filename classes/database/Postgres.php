@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.255 2005/03/07 09:36:19 chriskl Exp $
+ * $Id: Postgres.php,v 1.256 2005/03/11 08:36:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -4103,20 +4103,30 @@ class Postgres extends ADODB_base {
 		return $this->selectSet($sql);
 	}
 
-    /**
-     * A private helper method for executeScript that advances the
-     * character by 1.  In psql this is careful to take into account
-     * multibyte languages, but we don't at the moment, so this function
-     * is someone redundant, since it will always advance by 1
-     * @param &$i The current character position in the line
-     * @param &$prevlen Length of previous character (ie. 1)
-     * @param &$thislen Length of current character (ie. 1)     
-     */
-    function advance_1(&$i, &$prevlen, &$thislen) {
-        $prevlen = $thislen;
-        $i += $thislen;
-        $thislen = 1;
-    }
+	/**    
+	 * Private helper method to detect a valid $foo$ quote delimiter at
+	 * the start of the parameter dquote
+	 * @return True if valid, false otherwise
+	 */    
+	function valid_dolquote($dquote) {
+		// XXX: support multibyte
+		return (ereg('^[$][$]', $dquote) || ereg('^[$][_[:alpha:]][_[:alnum:]]*[$]', $dquote));
+	}
+	
+	/**
+	 * A private helper method for executeScript that advances the
+	 * character by 1.  In psql this is careful to take into account
+	 * multibyte languages, but we don't at the moment, so this function
+	 * is someone redundant, since it will always advance by 1
+	 * @param &$i The current character position in the line
+	 * @param &$prevlen Length of previous character (ie. 1)
+	 * @param &$thislen Length of current character (ie. 1)     
+	 */
+	function advance_1(&$i, &$prevlen, &$thislen) {
+		$prevlen = $thislen;
+		$i += $thislen;
+		$thislen = 1;
+	}
 
 	/** 
 	 * Executes an SQL script as a series of SQL statements.  Returns
@@ -4143,6 +4153,7 @@ class Postgres extends ADODB_base {
 		$in_quote = 0;
 		$in_xcomment = 0;
 		$bslash_count = 0;
+		$dol_quote = null;
 		$paren_level = 0;
 		$len = 0;
 		$i = 0;
@@ -4169,6 +4180,7 @@ class Postgres extends ADODB_base {
     		$thislen = ($len > 0) ? 1 : 0;
     
     		for ($i = 0; $i < $len; $this->advance_1($i, $prevlen, $thislen)) {
+    			
     			/* was the previous character a backslash? */
     			if ($i > 0 && substr($line, $i - $prevlen, 1) == '\\')
     				$bslash_count++;
@@ -4192,6 +4204,16 @@ class Postgres extends ADODB_base {
     					($bslash_count % 2 == 0 || $in_quote == '"'))
     					$in_quote = 0;
     			}
+				
+				/* in or end of $foo$ type quote? */				
+				else if ($dol_quote) {
+					if (strncmp(substr($line, $i), $dol_quote, strlen($dol_quote)) == 0) {
+						$this->advance_1($i, $prevlen, $thislen);
+						while(substr($line, $i, 1) != '$')
+							$this->advance_1($i, $prevlen, $thislen);
+						$dol_quote = null;
+					}
+				}
     
     			/* start of extended comment? */
     			else if (substr($line, $i, 2) == '/*')
@@ -4212,6 +4234,19 @@ class Postgres extends ADODB_base {
     			else if (substr($line, $i, 1) == '\'' || substr($line, $i, 1) == '"') {
     				$in_quote = substr($line, $i, 1);
     		    }
+
+				/* 
+				 * start of $foo$ type quote? 
+				 */
+				else if (!$dol_quote && $this->valid_dolquote(substr($line, $i))) {
+					$dol_end = strpos(substr($line, $i + 1), '$');
+					$dol_quote = substr($line, $i, $dol_end + 1);
+					$this->advance_1($i, $prevlen, $thislen);
+					while (substr($line, $i, 1) != '$') {
+						$this->advance_1($i, $prevlen, $thislen);
+					}
+					
+				}
     
     			/* single-line comment? truncate line */
     			else if (substr($line, $i, 2) == '--')
@@ -4268,11 +4303,27 @@ class Postgres extends ADODB_base {
 					$query_buf = null;
 					$query_start = $i + $thislen;
     			}
+    			
+    			/*
+				 * keyword or identifier? 
+				 * We grab the whole string so that we don't
+				 * mistakenly see $foo$ inside an identifier as the start
+				 * of a dollar quote.
+				 */	
+				// XXX: multibyte here
+				else if (ereg('^[_[:alpha:]]$', substr($line, $i, 1))) {
+					$sub = substr($line, $i, $thislen);
+					while (ereg('^[\$_[:alnum:]]$', $sub)) {
+						/* keep going while we still have identifier chars */
+						$this->advance_1($i, $prevlen, $thislen);
+						$sub = substr($line, $i, $thislen);
+					}
+				}
     	    } // end for
 
     		/* Put the rest of the line in the query buffer. */
-    		$subline = substr($line, $query_start);
-    		if ($in_quote || strspn($subline, " \t\n\r") != strlen($subline))
+    		$subline = substr($line, $query_start);    		
+    		if ($in_quote || $dol_quote || strspn($subline, " \t\n\r") != strlen($subline))
     		{
     			if (strlen($query_buf) > 0)
     			    $query_buf .= "\n";
