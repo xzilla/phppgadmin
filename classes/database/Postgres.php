@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.184 2004/03/06 11:30:00 chriskl Exp $
+ * $Id: Postgres.php,v 1.185 2004/03/12 01:12:09 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1490,20 +1490,25 @@ class Postgres extends BaseDB {
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
 	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
 	 * @return 0 success
 	 */
-	function createSequence($sequence, $increment, $minvalue, $maxvalue, $startvalue) {
+	function createSequence($sequence, $increment, $minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
 		$this->fieldClean($sequence);
 		$this->clean($increment);
 		$this->clean($minvalue);
 		$this->clean($maxvalue);
 		$this->clean($startvalue);
+		$this->clean($cachevalue);
 		
 		$sql = "CREATE SEQUENCE \"{$sequence}\"";
 		if ($increment != '') $sql .= " INCREMENT {$increment}";
 		if ($minvalue != '') $sql .= " MINVALUE {$minvalue}";
 		if ($maxvalue != '') $sql .= " MAXVALUE {$maxvalue}";
 		if ($startvalue != '') $sql .= " START {$startvalue}";
+		if ($cachevalue != '') $sql .= " CACHE {$cachevalue}";
+		if ($cycledvalue) $sql .= " CYCLE";
 		
 		return $this->execute($sql);
 	}

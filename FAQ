@@ -57,6 +57,15 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
 
+Q: For some users I get a "Login disallowed for security" message.
+
+A: Logins via phpPgAdmin with no password or certain usernames (pgsql,
+   postgres, root, administrator) are denied by default. Before changing this
+   behaviour (setting $conf['extra_login_security'] to false in the
+   config.inc.php file) please read the PostgreSQL documentation about client
+   authentication and understand how to change PostgreSQL's pg_hba.conf to
+   enable passworded local connections.
+
 Q: When I enter non-ASCII data into the database via a form, it's inserted
    as hexadecimal or &#1234; format!
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.17 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: sequences.php,v 1.18 2004/03/12 01:12:09 soranzo Exp $
 	 */
 	
 	// Include application functions
@@ -148,9 +148,10 @@
 		
 		if (!isset($_POST['formSequenceName'])) $_POST['formSequenceName'] = '';
 		if (!isset($_POST['formIncrement'])) $_POST['formIncrement'] = '';
-		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = '';
 		if (!isset($_POST['formMinValue'])) $_POST['formMinValue'] = '';
 		if (!isset($_POST['formMaxValue'])) $_POST['formMaxValue'] = '';
+		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = '';
+		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = '';
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : {$lang['strcreatesequence']} </h2>\n";
 		$misc->printMsg($msg);
@@ -166,10 +167,6 @@
 		echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formIncrement']), "\" /> </td></tr>\n";
 		
-		echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
-		echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
-			htmlspecialchars($_POST['formStartValue']), "\" /></td></tr>\n";
-		
 		echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMinValue']), "\" /></td></tr>\n";
@@ -177,6 +174,18 @@
 		echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMaxValue']), "\" /></td></tr>\n";
+		
+		echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
+		echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
+			htmlspecialchars($_POST['formStartValue']), "\" /></td></tr>\n";
+		
+		echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
+		echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
+			htmlspecialchars($_POST['formCacheValue']), "\" /></td></tr>\n";
+		
+		echo "<tr><th class=\"data left\">{$lang['striscycled']}</th>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCycledValue\" value=\"",
+			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), "\" /></td></tr>\n";
 		
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
@@ -197,8 +206,10 @@
 		// Check that they've given a name and at least one column
 		if ($_POST['formSequenceName'] == '') doCreateSequence($lang['strsequenceneedsname']);
 		else {
-			$status = $data->createSequence($_POST['formSequenceName'], $_POST['formIncrement'],
-							$_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue']);
+			$status = $data->createSequence($_POST['formSequenceName'],
+				$_POST['formIncrement'], $_POST['formMinValue'],
+				$_POST['formMaxValue'], $_POST['formStartValue'],
+				$_POST['formCacheValue'], isset($_POST['formCycledValue']));
 			if ($status == 0) {
 				doDefault($lang['strsequencecreated']);
 			} else {

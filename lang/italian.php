@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.27 2004/02/17 01:10:06 soranzo Exp $
+	 * $Id: italian.php,v 1.28 2004/03/12 01:12:11 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -26,7 +26,7 @@
 	// Basic strings - Stringhe basilari
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Login fallito';
-	$lang['strlogindisallowed'] = 'Login disabilitato';
+	$lang['strlogindisallowed'] = 'Login disabilitato per questione di sicurezza';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Proprietario';
@@ -297,7 +297,7 @@ $lang['strviewconditions'] = 'Additional Conditions';
         $lang['strnosequence'] = 'Sequenza non trovata.';
         $lang['strnosequences'] = 'Nessuna sequenza trovata.';
 	$lang['strcreatesequence'] = 'Crea sequenza';
-	$lang['strlastvalue'] = 'Valore precedente';
+	$lang['strlastvalue'] = 'Ultimo valore';
 	$lang['strincrementby'] = 'Incrementa di';
 	$lang['strstartvalue'] = 'Valore iniziale';
 	$lang['strmaxvalue'] = 'Valore massimo';
