@@ -4,6 +4,9 @@ phpPgAdmin History
 Version 3.3-dev
 ---------------
 
+Bugs
+* Object browser fixed for databases with no schemas
+
 Translations
 * Spanish from Martin Marques
 
