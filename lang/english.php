@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.30 2003/01/07 05:43:31 chriskl Exp $
+	 * $Id: english.php,v 1.31 2003/01/07 05:50:06 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -37,7 +37,7 @@
 	$strOperators = 'Operators';
 	$strTypes = 'Types';
 	$strAggregates = 'Aggregates';
-	$strIndicies = 'Indicies';
+	$strIndicies = 'Indexes';
 	$strProperties = 'Properties';
 	$strBrowse = 'Browse';
 	$strDrop = 'Drop';
@@ -86,6 +86,7 @@
 	// Groups
 	$strGroup = 'Group';
 	$strGroups = 'Groups';
+	$strNoGroups = 'No groups found.';
 	$strCreateGroup = 'Create Group';
 	$strShowAllGroups = 'Show All Groups';
 	$strGroupNeedsName = 'You must give a name for your group.';
@@ -129,7 +130,7 @@
 	$strColumnName = 'Column Name';
 	$strUniqueKey = 'Unique Key';
 	$strPrimaryKey = 'Primary Key';
-	$strShowAllIndicies = 'Show All Indicies';
+	$strShowAllIndicies = 'Show All Indexes';
 	$strCreateIndex = 'Create Index';
 	$strIndexNeedsName = 'You must give a name for your index';
 	$strIndexNeedsCols = 'You must give a valid number of columns.';
