@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.33 2004/09/22 10:52:17 jollytoad Exp $
+	 * $Id: privileges.php,v 1.34 2004/09/22 13:53:33 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -235,9 +235,9 @@
 				break;
 		}
 		
-		$subject = urlencode($_REQUEST['subject']);
-		$object = urlencode($_REQUEST[$_REQUEST['subject']]);
-		$alterurl = htmlspecialchars("{$PHP_SELF}?action=alter&{$misc->href}&{$subject}={$object}&subject={$subject}&mode=");
+		$subject = htmlspecialchars(urlencode($_REQUEST['subject']));
+		$object = htmlspecialchars(urlencode($_REQUEST[$_REQUEST['subject']]));
+		$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		
 		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a></p>\n";
