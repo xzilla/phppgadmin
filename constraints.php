@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.27 2004/05/09 06:21:26 chriskl Exp $
+	 * $Id: constraints.php,v 1.28 2004/05/19 01:28:34 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 
 		if ($confirm) {
 			// Default analyze to on
-			if ($action == 'confirm_cluster_constraint') $_REQUEST['analyze'] = 'on';
+			$_REQUEST['analyze'] = true;
 			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strcluster']}</h2>\n";
@@ -30,22 +30,39 @@
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['constraint'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_constraint\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->clusterIndex($_POST['constraint'], $_POST['table'], isset($_POST['analyze']));
+			$status = $data->clusterIndex($_POST['constraint'], $_POST['table']);
 			if ($status == 0)
-				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
+				if (isset($_POST['analyze'])) {
+					$status = $data->analyzeDB($_POST['table']);
+					if ($status == 0)
+						doDefault($lang['strclusteredgood'] . ' ' . $lang['stranalyzegood']);
+					else
+						doDefault($lang['stranalyzebad']);
+				} else
+					doDefault($lang['strclusteredgood']);
 			else
 				doDefault($lang['strclusteredbad']);
 		}
+	}
+
+	function doReindex() {
+		global $data, $lang;
+
+		$status = $data->reindex('INDEX', $_REQUEST['constraint']);
+		if ($status == 0)
+			doDefault($lang['strreindexgood']);
+		else
+			doDefault($lang['strreindexbad']);
 	}
 
 	/**
@@ -448,13 +465,10 @@
 		if ($constraints->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>\n";
-			if ($data->hasCluster()) {
+			if ($data->hasIsClustered()) {
 				echo "<th class=\"data\">{$lang['strclustered']}</th>";
-				echo "<th class=\"data\" colspan=\"2\">{$lang['stractions']}</th>\n";
 			}
-			else {
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-			}
+			echo "<th class=\"data\" colspan=\"3\">{$lang['stractions']}</th>\n";
 			echo "</tr>\n";
 			$i = 0;
 			
@@ -472,27 +486,32 @@
 					echo ")";
 				}
 				echo "</td>";
-				if ($data->hasCluster()) {
-					if ($constraints->f['indisclustered'] !== null) {
+				if ($data->hasIsClustered()) {
+					if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
 						$constraints->f['indisclustered'] = $data->phpBool($constraints->f['indisclustered']);
 						echo "<td class=\"data{$id}\">", ($constraints->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
 					} else {
 						echo "<td class=\"data{$id}\"></td>";
 					}
 				}
+				// You can only cluster primary key and unique constraints!
+				if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
+					echo "<td class=\"opbutton{$id}\">";
+					echo "<a href=\"$PHP_SELF?action=confirm_cluster_constraint&{$misc->href}&constraint=",
+						urlencode($constraints->f[$data->cnFields['conname']]), 
+						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a></td>";
+					echo "<td class=\"opbutton{$id}\">";
+					echo "<a href=\"$PHP_SELF?action=reindex&{$misc->href}&constraint=",
+						urlencode($constraints->f[$data->cnFields['conname']]),
+						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strreindex']}</a></td>";
+				}
+				else {
+					echo "<td class=\"data{$id}\"></td>";
+					echo "<td class=\"data{$id}\"></td>";
+				}
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]),
 					"&table=", urlencode($_REQUEST['table']), "&type=", urlencode($constraints->f['contype']), "\">{$lang['strdrop']}</td>";
-				if ($data->hasCluster()) {
-					echo "<td class=\"opbutton{$id}\">";
-					// You can only cluster primary key and unique constraints!
-					if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
-						echo "<a href=\"$PHP_SELF?action=confirm_cluster_constraint&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]), 
-							"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a>";
-					}
-					echo "</td>\n";
-						
-				}
 				echo "</tr>\n";
 
 				$constraints->moveNext();
@@ -531,6 +550,9 @@
 			break;
 		case 'confirm_cluster_constraint':
 			doClusterIndex(true);
+			break;
+		case 'reindex':
+			doReindex();
 			break;
 		case 'add_foreign_key':
 			addForeignKey(1);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.30 2004/05/14 01:16:14 soranzo Exp $
+ * $Id: Postgres74.php,v 1.31 2004/05/19 01:28:35 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -236,7 +236,24 @@ class Postgres74 extends Postgres73 {
 
 		return $this->selectSet($sql);
 	}
-	
+
+	// Administration functions
+
+	/**
+	 * Recluster a table or all the tables in the current database
+	 * @param $table (optional) The table to recluster
+	 */
+	function recluster($table = '') {
+		if ($table != '') {
+			$this->fieldClean($table);
+			$sql = "CLUSTER \"{$table}\"";
+		}
+		else
+			$sql = "CLUSTER";
+
+		return $this->execute($sql);
+	}
+
 	// Domain functions
 	
 	/**
@@ -413,6 +430,7 @@ class Postgres74 extends Postgres73 {
 	function hasUserRename() { return true; }
 	function hasFunctionRename() { return true; }
 	function hasSchemaDump() { return true; }
+	function hasRecluster() { return true; }
 	
 }
 

@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.23 2004/05/11 07:12:09 chriskl Exp $
+	 * $Id: indexes.php,v 1.24 2004/05/19 01:28:34 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 
 		if ($confirm) {
 			// Default analyze to on
-			if ($action == 'confirm_cluster_index') $_REQUEST['analyze'] = 'on';
+			$_REQUEST['analyze'] = true;
 			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strcluster']}</h2>\n";
@@ -30,23 +30,40 @@
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_index\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
 			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->clusterIndex($_POST['index'], $_POST['table'], isset($_POST['analyze']));
+			$status = $data->clusterIndex($_POST['index'], $_POST['table']);
 			if ($status == 0)
-				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
+				if (isset($_POST['analyze'])){
+					$status = $data->analyzeDB($_POST['table']);
+					if ($status == 0)
+						doDefault($lang['strclusteredgood'] . ' ' . $lang['stranalyzegood']);
+					else
+						doDefault($lang['stranalyzebad']);
+				} else
+					doDefault($lang['strclusteredgood']);
 			else
 				doDefault($lang['strclusteredbad']);
 		}
 
+	}
+
+	function doReindex() {
+		global $data, $lang;
+
+		$status = $data->reindex('INDEX', $_REQUEST['index']);
+		if ($status == 0)
+			doDefault($lang['strreindexgood']);
+		else
+			doDefault($lang['strreindexbad']);
 	}
 
 	/**
@@ -207,13 +224,10 @@
 			echo "<table>\n";
 			echo "<tr>\n";
 			echo "<th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-			if ($data->hasCluster()) {
+			if ($data->hasIsClustered()) {
 				echo "<th class=\"data\">{$lang['strclustered']}</th>";
-				echo "<th class=\"data\" colspan=\"2\">{$lang['stractions']}</th>\n";
 			}
-			else {
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-			}
+			echo "<th class=\"data\" colspan=\"3\">{$lang['stractions']}</th>\n";
 			echo "</tr>\n";
 			$i = 0;
 			
@@ -221,18 +235,19 @@
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxname']]), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxdef']]), "</td>";
-				if ($data->hasCluster()) {
+				if ($data->hasIsClustered()) {
 					$indexes->f['indisclustered'] = $data->phpBool($indexes->f['indisclustered']);
 					echo "<td class=\"data{$id}\">", ($indexes->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
 				}
 				echo "<td class=\"opbutton{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=confirm_cluster_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a></td>";
+				echo "<td class=\"opbutton{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=reindex&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strreindex']}</a></td>";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td>";
-				if ($data->hasCluster()) {
-					echo "<td class=\"opbutton{$id}\">";
-					echo "<a href=\"$PHP_SELF?action=confirm_cluster_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</td>";
-				}
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</a></td>";
 				echo "</tr>\n";
 
 				$indexes->movenext();
@@ -261,6 +276,9 @@
 			break;
 		case 'confirm_cluster_index':
 			doClusterIndex(true);
+			break;
+		case 'reindex':
+			doReindex();
 			break;
 		case 'save_create_index':
 			if (isset($_POST['cancel'])) doDefault();

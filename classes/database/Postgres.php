@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.208 2004/05/16 15:46:24 chriskl Exp $
+ * $Id: Postgres.php,v 1.209 2004/05/19 01:28:34 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -886,7 +886,7 @@ class Postgres extends BaseDB {
 	/**
 	 * Formats a value or expression for sql purposes
 	 * @param $type The type of the field
-	 * @param $mode VALUE or EXPRESSION
+	 * @param $format VALUE or EXPRESSION
 	 * @param $value The actual value entered in the field.  Can be NULL
 	 * @return The suitably quoted and escaped value.
 	 */
@@ -2018,6 +2018,8 @@ class Postgres extends BaseDB {
 
 	}
 
+	// Index functions
+
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
@@ -2072,6 +2074,23 @@ class Postgres extends BaseDB {
 
 		$sql = "DROP INDEX \"{$index}\"";
 		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Clusters an index
+	 * @param $index The name of the index
+	 * @param $table The table the index is on
+	 * @return 0 success
+	 */
+	function clusterIndex($index, $table) {
+		$this->fieldClean($index);
+		$this->fieldClean($table);
+
+		// We don't bother with a transaction here, as there's no point rolling
+		// back an expensive cluster if a cheap analyze fails for whatever reason
+		$sql = "CLUSTER \"{$index}\" ON \"{$table}\"";
 
 		return $this->execute($sql);
 	}
@@ -3255,15 +3274,18 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Vacuums a database
-	 * @param $table (optional) The table to vacuum
+	 * @param $table The table to vacuum
+ 	 * @param $analyze If true, also does analyze
+	 * @param $full If true, selects "full" vacuum (PostgreSQL >= 7.2)
+	 * @param $freeze If true, selects aggressive "freezing" of tuples (PostgreSQL >= 7.2)
 	 */
-	function vacuumDB($table = '') {
+	function vacuumDB($table = '', $analyze = false, $full = false, $freeze = false) {
+		$sql = "VACUUM";
+		if ($analyze) $sql .= " ANALYZE";
 		if ($table != '') {
 			$this->fieldClean($table);
-			$sql = "VACUUM \"{$table}\"";
+			$sql .= " \"{$table}\"";
 		}
-		else
-			$sql = "VACUUM";
 
 		return $this->execute($sql);
 	}
@@ -3280,6 +3302,27 @@ class Postgres extends BaseDB {
 		else
 			$sql = "VACUUM ANALYZE";
 
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Rebuild indexes
+	 * @param $type 'DATABASE' or 'TABLE' or 'INDEX'
+	 * @param $name The name of the specific database, table, or index to be reindexed
+	 * @param $force If true, recreates indexes forcedly in PostgreSQL 7.0-7.1, forces rebuild of system indexes in 7.2-7.3, ignored in >=7.4
+	 */
+	function reindex($type, $name, $force=false) {
+		$this->fieldClean($name);
+		switch($type) {
+			case 'DATABASE':
+			case 'TABLE':
+			case 'INDEX':
+				$sql = "REINDEX {$type} {$name}";
+				if ($force) $sql .= ' FORCE';
+				break;
+			default:
+				return -1;
+		}
 		return $this->execute($sql);
 	}
 
@@ -3775,11 +3818,8 @@ class Postgres extends BaseDB {
 	function hasIndicies() { return true; }
 	function hasRules() { return true; }
 	function hasLanguages() { return true; }
-	function hasDropColumn() { return false; }
 	function hasSRFs() { return true; }
 	function hasOpClasses() { return true; }
-	function hasUserSessionDefaults() { return false; }
-	function hasUserRename() { return false; }
 	function hasFunctionRename() { return true; }
 
 }

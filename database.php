@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.42 2004/05/16 15:40:20 chriskl Exp $
+	 * $Id: database.php,v 1.43 2004/05/19 01:28:34 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -355,13 +355,13 @@
 				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
 				else doAdmin('', $lang['stranalyzebad']);
 				break;
-			case 'cluster':
-				$status = $data->analyzeDB();
+			case 'recluster':
+				$status = $data->recluster();
 				if ($status == 0) doAdmin('', $lang['strclusteredgood']);
-				else doAdmin('', $lang['strclusterbad']);
+				else doAdmin('', $lang['strclusteredbad']);
 				break;				
 			case 'reindex';
-				$status = $data->analyzeDB();
+				$status = $data->reindex('DATABASE', $_REQUEST['database'], isset($_REQUEST['reindex_force']));
 				if ($status == 0) doAdmin('', $lang['strreindexgood']);
 				else doAdmin('', $lang['strreindexbad']);
 				break;
@@ -374,8 +374,10 @@
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 				echo "<h3>{$lang['strvacuum']}</h3>\n";
 				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" />{$lang['stranalyze']}<br />\n";
-				echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
-				echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" />{$lang['strfreeze']}<br />\n";
+				if ($data->hasFullVacuum()) {
+					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
+					echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" />{$lang['strfreeze']}<br />\n";
+				}
 				echo "<input type=\"submit\" value=\"{$lang['strvacuum']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
 				echo $misc->form;
@@ -389,13 +391,15 @@
 				echo $misc->form;
 				echo "</form>\n";								
 				
-				// Cluster
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>{$lang['strcluster']}</h3>\n";				
-				echo "<input type=\"submit\" value=\"{$lang['strcluster']}\" />\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"cluster\" />\n";
-				echo $misc->form;
-				echo "</form>\n";								
+				// Recluster
+				if ($data->hasRecluster()){
+					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+					echo "<h3>{$lang['strcluster']}</h3>\n";
+					echo "<input type=\"submit\" value=\"{$lang['strcluster']}\" />\n";
+					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
+					echo $misc->form;
+					echo "</form>\n";
+				}
 				
 				// Reindex
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
@@ -618,7 +622,7 @@
 			if (isset($_GET['term'])) doFind(false);
 			else doFind(true);
 			break;
-		case 'cluster':
+		case 'recluster':
 		case 'reindex':
 		case 'analyze':
 		case 'vacuum':

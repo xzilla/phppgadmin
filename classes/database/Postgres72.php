@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.64 2004/05/14 07:56:38 chriskl Exp $
+ * $Id: Postgres72.php,v 1.65 2004/05/19 01:28:34 soranzo Exp $
  */
 
 
@@ -379,6 +379,26 @@ class Postgres72 extends Postgres71 {
 	// Administration functions
 
 	/**
+	 * Vacuums a database
+	 * @param $table The table to vacuum
+ 	 * @param $analyze If true, also does analyze
+	 * @param $full If true, selects "full" vacuum (PostgreSQL >= 7.2)
+	 * @param $freeze If true, selects aggressive "freezing" of tuples (PostgreSQL >= 7.2)
+	 */
+	function vacuumDB($table = '', $analyze = false, $full = false, $freeze = false) {
+		$sql = "VACUUM";
+		if ($full) $sql .= " FULL";
+		if ($freeze) $sql .= " FREEZE";
+		if ($analyze) $sql .= " ANALYZE";
+		if ($table != '') {
+			$this->fieldClean($table);
+			$sql .= " \"{$table}\"";
+		}
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Analyze a database
 	 * @note PostgreSQL 7.2 finally had an independent ANALYZE command
 	 * @param $table (optional) The table to analyze
@@ -474,6 +494,7 @@ class Postgres72 extends Postgres71 {
 	function hasPartialIndexes() { return true; }
 	function hasProcesses() { return true; }
 	function hasStatsCollector() { return true; }
+	function hasFullVacuum() { return true; }
 
 }
 

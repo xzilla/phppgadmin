@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.107 2004/05/16 15:42:30 chriskl Exp $
+ * $Id: Postgres73.php,v 1.108 2004/05/19 01:28:34 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -596,31 +596,6 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
-	
-	/**
-	 * Clusters an index
-	 * @param $index The name of the index
-	 * @param $table The table the index is on
-	 * @param $analyze True to run analyze afterward, false otherwise
-	 * @return 0 success
-	 */
-	function clusterIndex($index, $table, $analyze) {
-		$this->fieldClean($index);
-		$this->fieldClean($table);
-
-		// We don't bother with a transaction here, as there's no point rolling
-		// back an expensive cluster if a cheap analyze fails for whatever reason
-		$sql = "CLUSTER \"{$index}\" ON \"{$table}\"";
-		$status = $this->execute($sql);
-		if ($status != 0) return $status;
-		
-		if ($analyze) {
-			$sql = "ANALYZE \"{$table}\"";
-			return $this->execute($sql);
-		}
-		else
-			return $status;
-	}	
 
 	/**
 	 * Grabs a single trigger
@@ -941,30 +916,31 @@ class Postgres73 extends Postgres72 {
 	}
 
 	// Constraint functions
+
 	/**
-	 * A function for getting all linking fields on the foreign keys based on the table names	 
-	 * @param $table array of table names	 	 
-	 * @return an array of linked tables and fields
+	 * A function for getting all columns linked by foreign keys given a group of tables
+	 * @param $tables Array of table names	 	 
+	 * @return An array of linked tables and columns
+	 * @return -1 $tables isn't an array
 	 */
-	 function &getLinkingKeys($arrTables) {		
-		$this->arrayClean($arrTables);
+	 function &getLinkingKeys($tables) {
+		if (!is_array($tables)) return -1;
+
+		$this->arrayClean($tables);
+		$tables_list = "'" . implode("', '", $tables) . "'";
 		$maxDimension = 1;
-			
-		// Properly quote the tables	
-		$tables = "'" . implode("', '", $arrTables) . "'";
-		
-		//7.3 requires some workarounds since ANY doesn't support arrays 
+
 		$sql = "
 			SELECT DISTINCT
 				array_dims(pc.conkey) AS arr_dim,
-				pgc1.relname AS p_table 
-			FROM 
+				pgc1.relname AS p_table
+			FROM
 				pg_catalog.pg_constraint AS pc,
-				pg_catalog.pg_class AS pgc1				
-			WHERE 
+				pg_catalog.pg_class AS pgc1
+			WHERE
 				pc.contype = 'f'
 				AND (pc.conrelid = pgc1.relfilenode OR pc.confrelid = pgc1.relfilenode)
-				AND pgc1.relname IN ($tables)					
+				AND pgc1.relname IN ($tables_list)
 			";
 		
 		//parse our output for find the highest dimension of foreign keys since pc.conkey is stored in an array
@@ -975,20 +951,20 @@ class Postgres73 extends Postgres72 {
 			$maxDimension = $tmpDimension > $maxDimension ? $tmpDimension : $maxDimension;
 			$rs->MoveNext();
 		}
-			
-		//we know the highest index for foreign keys thaat conkey goes up to, expand for us in an IN query				
-		$cons_str = '( (pfield.attnum = conkey[1] AND cfield.attnum = confkey[1]) ';		
+		
+		//we know the highest index for foreign keys that conkey goes up to, expand for us in an IN query
+		$cons_str = '( (pfield.attnum = conkey[1] AND cfield.attnum = confkey[1]) ';
 		for ($i = 2; $i <= $maxDimension; $i++) {
-			$cons_str .= "OR (pfield.attnum = conkey[{$i}] AND cfield.attnum = confkey[{$i}]) "; 		
+			$cons_str .= "OR (pfield.attnum = conkey[{$i}] AND cfield.attnum = confkey[{$i}]) ";
 		}
 		$cons_str .= ') ';
-			
+		
 		$sql = "
-			SELECT										
-				pgc1.relname AS p_table, 	
+			SELECT
+				pgc1.relname AS p_table,
 				pgc2.relname AS f_table,
 				pfield.attname AS p_field,
-				cfield.attname AS f_field	
+				cfield.attname AS f_field
 			FROM
 				pg_catalog.pg_constraint AS pc,
 				pg_catalog.pg_class AS pgc1,
@@ -996,19 +972,19 @@ class Postgres73 extends Postgres72 {
 				pg_catalog.pg_attribute AS pfield,
 				pg_catalog.pg_attribute AS cfield
 			WHERE
-				pc.contype = 'f'				
+				pc.contype = 'f'
 				AND pc.conrelid = pgc1.relfilenode
 				AND pc.confrelid = pgc2.relfilenode
 				AND pfield.attrelid = pc.conrelid
 				AND cfield.attrelid = pc.confrelid
-				AND $cons_str 			
-				AND pgc1.relname IN ($tables)	
-				AND pgc2.relname IN ($tables)
+				AND $cons_str
+				AND pgc1.relname IN ($tables_list)
+				AND pgc2.relname IN ($tables_list)
 				AND pgc1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
 					WHERE nspname='{$this->_schema}')
 		";
 		
-		return $this->selectSet($sql);			
+		return $this->selectSet($sql);
 	 }
 
 	/**
@@ -1670,7 +1646,7 @@ class Postgres73 extends Postgres72 {
 	// Capabilities
 	function hasSchemas() { return true; }
 	function hasConversions() { return true; }
-	function hasCluster() { return true; }
+	function hasIsClustered() { return true; }
 	function hasDropBehavior() { return true; }
 	function hasDropColumn() { return true; }
 	function hasDomains() { return true; }
