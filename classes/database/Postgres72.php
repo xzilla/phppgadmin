@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.70 2004/06/11 05:08:26 xzilla Exp $
+ * $Id: Postgres72.php,v 1.71 2004/06/28 02:26:57 chriskl Exp $
  */
 
 
@@ -383,9 +383,11 @@ class Postgres72 extends Postgres71 {
 	/**
 	 * Returns a list of all types in the database
 	 * @param $all If true, will find all available functions, if false just those in search path
+	 * @param $tabletypes If true, will include table types
+	 * @param $domains Ignored
 	 * @return A recordet
 	 */
-	function &getTypes($all = false, $tabletypes = false) {
+	function &getTypes($all = false, $tabletypes = false, $domains = false) {
 		global $conf;
 		
 		if ($all || $conf['show_system']) {
@@ -396,10 +398,10 @@ class Postgres72 extends Postgres71 {
 		// Never show system table types
 		$where2 = "AND c.oid > '{$this->_lastSystemOID}'::oid";
 		
+		// Create type filter
+		$tqry = "'c'";
 		if ($tabletypes)
-			$tqry = "'c', 'r', 'v'";
-		else
-			$tqry = "'c'";
+			$tqry .= ", 'r', 'v'";
 		
 		$sql = "SELECT
 				pt.typname AS basename,

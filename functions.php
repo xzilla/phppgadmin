@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.32 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: functions.php,v 1.33 2004/06/28 02:26:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -233,8 +233,8 @@
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
-		
-		$types = &$data->getTypes(true, true);
+
+		$types = &$data->getTypes(true, true, true);
 		$langs = &$data->getLanguages(true);
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
