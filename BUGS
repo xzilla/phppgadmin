@@ -3,7 +3,6 @@ Internal Bugs List
 
 This file is used to track current working tasks - just ignore it!
 
-better detection for when reports database hasn't been installed.
 fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
 re-enable help system
@@ -19,3 +18,4 @@ investigate phpPgInfo
 
 Need to fix:
 * Variables and processes views for < 7.3
+* Viewing database properties is broken...

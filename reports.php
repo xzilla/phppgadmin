@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.14 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: reports.php,v 1.15 2003/12/15 08:30:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,10 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-
-	// Create a database accessor for the reports database
-	include_once('classes/Reports.php');
-	$reportsdb = new Reports();
 
 	/**
 	 * Displays a screen where they can edit a report
@@ -272,35 +268,43 @@
 	$misc->printHeader($lang['strreports']);
 	$misc->printBody();
 
-	switch ($action) {
-		case 'save_edit':
-			if (isset($_POST['cancel'])) doDefault();
-			else doSaveEdit();
-			break;
-		case 'edit':
-			doEdit();
-			break;
-		case 'properties':
-			doProperties();
-			break;
-		case 'save_create':
-			if (isset($_POST['cancel'])) doDefault();
-			else doSaveCreate();
-			break;
-		case 'create':
-			doCreate();
-			break;
-		case 'drop':
-			if (isset($_POST['drop'])) doDrop(false);
-			else doDefault();
-			break;
-		case 'confirm_drop':
-			doDrop(true);
-			break;
-		default:
-			doDefault();
-			break;
-	}	
+	// Create a database accessor for the reports database
+	include_once('classes/Reports.php');
+	$reportsdb = new Reports($status);
+	if ($status != 0) {
+		echo "<p>{$lang['strnoreportsdb']}</p>\n";
+	}
+	else {
+		switch ($action) {
+			case 'save_edit':
+				if (isset($_POST['cancel'])) doDefault();
+				else doSaveEdit();
+				break;
+			case 'edit':
+				doEdit();
+				break;
+			case 'properties':
+				doProperties();
+				break;
+			case 'save_create':
+				if (isset($_POST['cancel'])) doDefault();
+				else doSaveCreate();
+				break;
+			case 'create':
+				doCreate();
+				break;
+			case 'drop':
+				if (isset($_POST['drop'])) doDrop(false);
+				else doDefault();
+				break;
+			case 'confirm_drop':
+				doDrop(true);
+				break;
+			default:
+				doDefault();
+				break;
+		}
+	}
 
 	$misc->printFooter();
 

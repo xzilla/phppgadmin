@@ -4,22 +4,27 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.9 2003/12/10 16:03:30 chriskl Exp $
+	 * $Id: Reports.php,v 1.10 2003/12/15 08:30:54 chriskl Exp $
 	 */
 
 	class Reports {
 
 		// A database driver
 		var $driver;
+		var $reports_db = 'phppgadmin';
 
 		/* Constructor */
-		function Reports() {
-			global $misc;
-
-			// Create a new database access object.
-			// @@ IF THE phppgadmin DATABASE DOES NOT EXIST THEN
-			// @@ LOGIN FAILURE OCCURS
-			$this->driver = &$misc->getDatabaseAccessor('phppgadmin');
+		function Reports(&$status) {
+			global $misc, $data;
+			
+			// Check to see if the reports database exists
+			$rs = $data->getDatabase($this->reports_db);
+			if ($rs->recordCount() != 1) $status = -1;
+			else {
+				// Create a new database access object.
+				$this->driver = &$misc->getDatabaseAccessor($this->reports_db);
+				$status = 0;
+			}
 		}
 
 		/**

@@ -12,6 +12,7 @@ Features
 
 Bugs
 * Object browser fixed for databases with no schemas
+* Properly detect that reports database is missing
 
 Translations
 * Spanish from Martin Marques

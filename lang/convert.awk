@@ -1,4 +1,4 @@
-#!/bin/awk -f
+#!/usr/bin/awk -f
 #
 # Script contains all needed conversions of recoded text
 #
