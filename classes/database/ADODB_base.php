@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.1 2002/02/11 09:32:47 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.2 2002/02/18 09:46:49 chriskl Exp $
  */
 
 include_once('../libraries/adodb/adodb-errorhandler.inc.php');
@@ -34,6 +34,19 @@ class ADODB_base {
 	}
 
 	/**
+	 * Executes a query on the underlying connection
+	 * @param $sql The SQL query to execute
+	 * @return A recordset
+	 */
+	function execute($sql) {
+		// Execute the statement
+		$rs = $this->conn->Execute($sql);
+
+		// If failure, return error value
+		return $this->conn->ErrorNo();
+	}
+		
+	/**
 	 * Retrieves a ResultSet from a query
 	 * @param $sql The SQL statement to be executed
 	 * @return A recordset
@@ -41,13 +54,12 @@ class ADODB_base {
 	function selectSet($sql) {
 		// Execute the statement
 		$rs = $this->conn->Execute($sql);
-
-		// If failure, return error value
+		
 		if (!$rs) return $this->conn->ErrorNo();
-
-		return $rs;
-	}
-
+ 
+ 		return $rs;	
+ 	}
+ 	
 	/**
 	 * Retrieves a single value from a query
 	 *
