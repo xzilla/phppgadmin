@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.31 2003/11/10 14:22:23 chriskl Exp $
+	 * $Id: display.php,v 1.32 2003/11/26 06:06:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -348,8 +348,9 @@
 				urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a>\n";
 		}
 		// Create view and download
-		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {		
-			echo " | <a class=\"navlink\" href=\"views.php?action=create&amp;formDefinition=",
+		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
+			// Report views don't set a schema, so we need to disable create view in that case
+			if (isset($_REQUEST['schema'])) echo " | <a class=\"navlink\" href=\"views.php?action=create&amp;formDefinition=",
 				urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a>\n";
 			echo " | <a class=\"navlink\" href=\"dataexport.php?query=",
 					urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strdownload']}</a>\n";	
