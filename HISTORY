@@ -17,11 +17,16 @@ Features
 * Table info - shows table that reference the table, parent tables,
   and child tables.
 * Choice of operator when performing a Select
+* 'Select All' feature of table selects now available on view
+  selects.
 * Removed any trace of MySQL support
 * Show casts
 * Show conversions
 * Show languages
 * Make table icon link to browse table
+* New show_advanced option that allows the hiding or display of
+  "advanced" objects such as conversions, types, operators, casts and
+  languages.
 
 Bugs
 * Added legal DOCTYPE

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.24 2003/11/05 08:32:03 chriskl Exp $
+	 * $Id: browser.php,v 1.25 2003/11/08 09:06:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -128,55 +128,57 @@
 			$schemanode->addItem($dom_node);
 		}
 		// Advanced
-		if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()) {
-			$adv_node = &new HTML_TreeNode(array(
-							'text' => $lang['stradvanced'], 
-							'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
-							'icon' => 'folder.gif', 
-							'expandedIcon' => 'folder-expanded.gif',
-							'linkTarget' => 'detail'));
+		if ($conf['show_advanced']) {
+			if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()) {
+				$adv_node = &new HTML_TreeNode(array(
+								'text' => $lang['stradvanced'], 
+								'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
+								'icon' => 'folder.gif', 
+								'expandedIcon' => 'folder-expanded.gif',
+								'linkTarget' => 'detail'));
 
-			// Add folder to schema
-			$schemanode->addItem($adv_node);			
-		}
-		// Types
-		if ($data->hasTypes()) {
-			$type_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strtypes']), 
-							'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-							'expanded' => false,
-							'linkTarget' => 'detail'));
-
-			// Add folder to schema
-			$adv_node->addItem($type_node);
-		}
-		// Operators
-		if ($data->hasOperators()) {
-			$opr_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['stroperators']), 
-							'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
-							'expanded' => false,
-							'linkTarget' => 'detail'));
-
-			// Add folder to schema
-			$adv_node->addItem($opr_node);
-		}
-		// Conversions
-		if ($data->hasConversions()) {
-			$con_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strconversions']), 
-							'link' => addslashes(htmlspecialchars("conversions.php?{$querystr}")), 
+				// Add folder to schema
+				$schemanode->addItem($adv_node);			
+			}
+			// Types
+			if ($data->hasTypes()) {
+				$type_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['strtypes']), 
+								'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
 								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-							'expanded' => false,
-							'linkTarget' => 'detail'));
+								'expanded' => false,
+								'linkTarget' => 'detail'));
 
-			// Add folder to schema
-			$adv_node->addItem($con_node);
+				// Add folder to schema
+				$adv_node->addItem($type_node);
+			}
+			// Operators
+			if ($data->hasOperators()) {
+				$opr_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['stroperators']), 
+								'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+
+				// Add folder to schema
+				$adv_node->addItem($opr_node);
+			}
+			// Conversions
+			if ($data->hasConversions()) {
+				$con_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['strconversions']), 
+								'link' => addslashes(htmlspecialchars("conversions.php?{$querystr}")), 
+									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+
+				// Add folder to schema
+				$adv_node->addItem($con_node);
+			}
 		}
 	}	
 
@@ -228,31 +230,33 @@
 			}
 			
 			// Languages
-			if ($data->hasLanguages()) {		
-				$lang_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['strlanguages']), 
-								'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+			if ($conf['show_advanced']) {
+				if ($data->hasLanguages()) {		
+					$lang_node = &new HTML_TreeNode(array(
+									'text' => addslashes($lang['strlanguages']), 
+									'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
+									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+									'expanded' => false,
+									'linkTarget' => 'detail'));
 
-				// Add folder to database
-				$db_node->addItem($lang_node);
-			}
-		
-			// Casts
-			if ($data->hasCasts()) {		
-				$cast_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['strcasts']), 
-								'link' => addslashes(htmlspecialchars("casts.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+					// Add folder to database
+					$db_node->addItem($lang_node);
+				}
+			
+				// Casts
+				if ($data->hasCasts()) {		
+					$cast_node = &new HTML_TreeNode(array(
+									'text' => addslashes($lang['strcasts']), 
+									'link' => addslashes(htmlspecialchars("casts.php?{$querystr}")), 
+									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+									'expanded' => false,
+									'linkTarget' => 'detail'));
 
-				// Add folder to database
-				$db_node->addItem($cast_node);
+					// Add folder to database
+					$db_node->addItem($cast_node);
+				}
 			}
 		
 			// Add node to menu
