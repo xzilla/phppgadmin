@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.35 2003/12/21 02:03:15 chriskl Exp $
+	 * $Id: display.php,v 1.36 2004/02/23 07:23:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -332,15 +332,24 @@
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
-	
+
+		// Navigation links	
+		echo "<p>";
 		// Return
-		echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a>\n";
+		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc'])) {
+			echo "<a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a> |\n";
+		}
+		// Edit SQL link
+		if (isset($_REQUEST['query'])) {
+			echo "<a class=\"navlink\" href=\"database.php?{$misc->href}&amp;action=sql&amp;paginate=on&amp;query=" . urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a> |\n";
+		}
+		
 		// Expand/Collapse
 		if ($_REQUEST['strings'] == 'expanded')
-			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
+			echo "<a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
 				urlencode($_REQUEST['page']), "\">{$lang['strcollapse']}</a>\n";
 		else
-			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
+			echo "<a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
 				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a>\n";
 		// Create report
 		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {

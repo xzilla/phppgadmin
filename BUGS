@@ -17,7 +17,6 @@ Need to fix:
 * The getType function needs to be ported to 7.2 and 7.3 classes to add
   pretty type name and schema support
 * Report login errors
-* Edit Query
 * Don't offer owner change feature if user is not superuser
-* fix encoding in popup window
+* check use of apostrophes, etc. in tree menu
 

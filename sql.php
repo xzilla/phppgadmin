@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.17 2004/02/14 11:13:13 chriskl Exp $
+	 * $Id: sql.php,v 1.18 2004/02/23 07:23:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -25,8 +25,6 @@
 	// Check to see if pagination has been specified.  In that case, send to display
 	// script for pagination
 	if (isset($_POST['paginate'])) {
-		$_REQUEST['return_url'] = "database.php?{$misc->href}&action=sql&paginate=on&query=" . urlencode($_POST['query']);
-		$_REQUEST['return_desc'] = $lang['streditsql'];
 		include('./display.php');
 		exit;
 	}
