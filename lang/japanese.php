@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.12 2005/02/09 13:12:33 chriskl Exp $
+	 * $Id: japanese.php,v 1.13 2005/02/22 13:29:36 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -132,7 +132,7 @@
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
 	$lang['strbadconfig'] = 'config.inc.php が旧式です。新しい config.inc.php-dist から再作成する必要があります。';
 	$lang['strnotloaded'] = 'データベースをサポートするように PHP のコンパイル・インストールがされていません(システムによっては php パッケージの他に php-pgsql パッケージのインストール・設定などが必要です)。';
-	$lang['strpostgresqlversionnotsupported'] = 'この PostgreSQL のバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
+	$lang['strpostgresqlversionnotsupported'] = 'このバージョンの PostgreSQL はサポートしていません。バージョン %s 以上にアップグレードしてください。';
 	$lang['strbadschema'] = '無効のスキーマが指定されました。';
 	$lang['strbadencoding'] = 'データベースの中でクライアントエンコードを指定しませんでした。';
 	$lang['strsqlerror'] = 'SQL エラー:';
