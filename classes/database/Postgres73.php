@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.79 2003/11/19 02:12:48 chriskl Exp $
+ * $Id: Postgres73.php,v 1.80 2003/11/22 05:39:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1152,9 +1152,11 @@ class Postgres73 extends Postgres72 {
 
 		// Exclude system relations if necessary
 		if (!$conf['show_system']) {
-			$where = " AND pn.nspname NOT LIKE 'pg\\\\_%'";
+			// XXX: The mention of information_schema here is in the wrong place, but
+			// it's the quickest fix to exclude the info schema from 7.4
+			$where = " AND pn.nspname NOT LIKE 'pg\\\\_%' AND pn.nspname != 'information_schema'";
 			$lan_where = "AND pl.lanispl";
-			$rule_where = " AND schemaname NOT LIKE 'pg\\\\_%'";
+			$rule_where = " AND schemaname NOT LIKE 'pg\\\\_%' AND schemaname != 'information_schema'";
 		}
 		else {
 			$where = '';
