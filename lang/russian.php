@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.5 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: russian.php,v 1.6 2003/11/30 09:55:51 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -14,6 +14,7 @@
   	$lang['appdbencoding'] = 'KOI8';
 
 	// Welcome  
+	$lang['strintro'] = 'Добро пожаловать в phpPgAdmin.';
 	$lang['strppahome'] = 'phpPgAdmin - домашняя страница';
 	$lang['strpgsqlhome'] = 'PostgreSQL - домашняя страница';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
@@ -23,9 +24,9 @@
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
-	$lang['strintro'] = 'Добро пожаловать в phpPgAdmin.';
 	$lang['strlogin'] = 'Логин';
 	$lang['strloginfailed'] = 'Неверный логин';
+	$lang['strlogindisallowed'] = 'Логин недопустим';
 	$lang['strserver'] = 'Сервер';
 	$lang['strlogout'] = 'Перерегистрация';
 	$lang['strowner'] = 'Пользователь';
@@ -66,7 +67,8 @@
 	$lang['strfalse'] = 'Ложь';
 	$lang['stredit'] = 'Редактировать';
 	$lang['strcolumns'] = 'Атрибуты';
-	$lang['strrows'] = 'запис[ь/и/ей]';
+	$lang['strrows'] = 'запис(ь/и/ей)';
+	$lang['strobjects'] = 'объект(а/ов)';
 	$lang['strexample'] = 'и т.д.';
 	$lang['strback'] = 'Назад'; 	
 	$lang['strqueryresults'] = 'Результаты запроса';
@@ -84,7 +86,8 @@
 	$lang['stradmin'] = 'Управление';
 	$lang['strvacuum'] = 'Перестроить';
 	$lang['stranalyze'] = 'Анализировать';
-	$lang['strcluster'] = 'Показать кластеризацию';
+	$lang['strcluster'] = 'Кластеризовать';
+	$lang['strclustered'] = 'Кластеризован?';
 	$lang['strreindex'] = 'Перестроить индекс';
 	$lang['strrun'] = 'Выполнить';
 	$lang['stradd'] = 'Добавить';
@@ -104,6 +107,9 @@
 	$lang['stroptions'] = 'Опции';
 	$lang['strrefresh'] = 'Обновить';
 	$lang['strdownload'] = 'Загрузить';
+	$lang['strinfo'] = 'Сведения';
+	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Дополнительно';
 
 	// Error handling
 	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
@@ -115,6 +121,8 @@
 	$lang['strinstatement'] = 'В операторе:';
 	$lang['strinvalidparam'] = 'Неверный параметр скрипта.';
 	$lang['strnodata'] = 'Данных не обнаружено.';
+	$lang['strnoobjects'] = 'Объектов не обнаружено.';
+	$lang['strrownotunique'] = 'Нет уникального идентификатора для этой записи.';
 
 	// Tables
 	$lang['strtable'] = 'Таблица';
@@ -152,6 +160,7 @@
 	$lang['strfieldneedsname'] = 'Вам необходимо назвать поле';
 	$lang['strselectallfields'] = 'Выбрать все поля';
 	$lang['strselectneedscol'] = 'Вам необходимо указать по крайней мере один атрибут';
+	$lang['strselectunary'] = 'Унарный оператор не может иметь величину.';
 	$lang['straltercolumn'] = 'Изменить атрибут';
 	$lang['strcolumnaltered'] = 'Атрибут изменен.';
 	$lang['strcolumnalteredbad'] = 'Изменение атрибута прервано.';
@@ -161,12 +170,13 @@
 	$lang['straddcolumn'] = 'Добавить атрибут';
 	$lang['strcolumnadded'] = 'Атрибут добавлен.';
 	$lang['strcolumnaddedbad'] = 'Добавление атрибута прервано.';
-	$lang['strschemaanddata'] = 'Схема и данные';
-	$lang['strschemaonly'] = 'Только схему';
 	$lang['strdataonly'] = 'Только данные';
 	$lang['strcascade'] = 'Каскадом';
 	$lang['strtablealtered'] = 'Таблица изменена.';
 	$lang['strtablealteredbad'] = 'Изменение таблицы прервано.';
+	$lang['strdataonly'] = 'Только данные';
+	$lang['strstructureonly'] = 'Только структуру';
+	$lang['strstructureanddata'] = 'Структуру и данные';
 
 	// Users
 	$lang['struser'] = 'Пользователь';
@@ -181,6 +191,7 @@
 	$lang['struserupdatedbad'] = 'Обновление пользователя прервано.';
 	$lang['strshowallusers'] = 'Показать всех пользователей';
 	$lang['strcreateuser'] = 'Создать пользователя';
+	$lang['struserneedsname'] = 'Вы должны ввести имя пользователя.';
 	$lang['strusercreated'] = 'Пользователь создан.';
 	$lang['strusercreatedbad'] = 'Создание пользователя прервано.';
 	$lang['strconfdropuser'] = 'Вы уверены, что хотите удалить пользователя "%s"?';
@@ -288,6 +299,8 @@
 	$lang['strconfdropsequence'] = 'Вы уверены, что хотите уничтожить последовательность "%s"?';
 	$lang['strsequencedropped'] = 'Последовательность уничтожена.';
 	$lang['strsequencedroppedbad'] = 'Уничтожение последовательности прервано.';
+	$lang['strsequencereset'] = 'Последовательность сброшена.';
+	$lang['strsequenceresetbad'] = 'Сброс последовательности прерван.'; 
 
 	// Indexes
 	$lang['strindexes'] = 'Индекс';
@@ -312,6 +325,9 @@
 	$lang['strindexname'] = 'Имя индекса';
 	$lang['strtablecolumnlist'] = 'Атрибутов в таблице';
 	$lang['strindexcolumnlist'] = 'Атрибутов в индексе';
+	$lang['strconfcluster'] = 'Вы уверены, что хотите кластеризовать "%s"?';
+	$lang['strclusteredgood'] = 'Кластеризация завершена.';
+	$lang['strclusteredbad'] = 'Кластеризация прервана.';
 
 	// Rules
 	$lang['strrules'] = 'Правила';
@@ -370,6 +386,7 @@
 	$lang['strfunctionname'] = 'Имя функции';
 	$lang['strreturns'] = 'Возвращаемое значение';
 	$lang['strarguments'] = 'Аргументы';
+	$lang['strproglanguage'] = 'Язык программирования';
 	$lang['strproglanguage'] = 'Язык';
 	$lang['strfunctionneedsname'] = 'Вам необходимо указать имя функции.';
 	$lang['strfunctionneedsdef'] = 'Вам необходимо определить функцию.';
@@ -472,15 +489,50 @@
 	$lang['strnooperator'] = 'Оператор не обнаружен.';
 	$lang['strnooperators'] = 'Операторы не обнаружены.';
 	$lang['strcreateoperator'] = 'Создать оператор';
-	$lang['stroperatorname'] = 'Название оператора';
 	$lang['strleftarg'] = 'Тип левого аргумента';
 	$lang['strrightarg'] = 'Тип правого аргумента';
+	$lang['strcommutator'] = 'Преобразование';
+	$lang['strnegator'] = 'Отрицание';
+	$lang['strrestrict'] = 'Ослабление';
+	$lang['strjoin'] = 'Объединение';
+	$lang['strhashes'] = 'Хеширование';
+	$lang['strmerges'] = 'Слияние';
+	$lang['strleftsort'] = 'Сотировка по левому';
+	$lang['strrightsort'] = 'Сотировка по правому';
+	$lang['strlessthan'] = 'Меньше';
+	$lang['strgreaterthan'] = 'Больше';
 	$lang['stroperatorneedsname'] = 'Вам необходимо указать название оператора.';
 	$lang['stroperatorcreated'] = 'Оператор создан';
 	$lang['stroperatorcreatedbad'] = 'оздание оператора прервано.';
 	$lang['strconfdropoperator'] = 'Вы уверены, что хотите уничтожить оператор "%s"?';
 	$lang['stroperatordropped'] = 'Оператор удален.';
 	$lang['stroperatordroppedbad'] = 'Удаление оператора прервано.';
+
+	// Casts
+	$lang['strcasts'] = 'Образцы';
+	$lang['strnocasts'] = 'Образцов не обнаружено.';
+	$lang['strsourcetype'] = 'Тип источника';
+	$lang['strtargettype'] = 'Тип приемника';
+	$lang['strimplicit'] = 'Неявный';
+	$lang['strinassignment'] = 'В назначении';
+	$lang['strbinarycompat'] = '(двоично совместимый)';
+	
+	// Conversions
+	$lang['strconversions'] = 'Преобразование';
+	$lang['strnoconversions'] = 'Преобразований не обнаружено.';
+	$lang['strsourceencoding'] = 'Кодировка источника';
+	$lang['strtargetencoding'] = 'Кодировка приемника';
+	
+	// Languages
+	$lang['strlanguages'] = 'Языки';
+	$lang['strnolanguages'] = 'Языков не обнаружено.';
+	$lang['strtrusted'] = 'Проверено';
+	
+	// Info
+	$lang['strnoinfo'] = 'Нет доступной информации.';
+	$lang['strreferringtables'] = 'Ссылающиеся таблицы';
+	$lang['strparenttables'] = 'Родительские таблицы';
+	$lang['strchildtables'] = 'Дочерние таблицы';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s", %s';

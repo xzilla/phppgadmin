@@ -1,11 +1,15 @@
 phpPgAdmin History
 ------------------
 
-Version 3.3-dev
------------
+Version 3.2.1
+-------------
+
+Bugs
+* Trailing newline problem in chinese-sim translation fixed
 
 Translations
 * French from Pascal
+* Russian from Step
 
 Version 3.2
 -----------
