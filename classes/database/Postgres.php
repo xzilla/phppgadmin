@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.24 2002/11/18 05:49:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.25 2002/12/14 10:56:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -604,7 +604,7 @@ class Postgres extends BaseDB {
 		$sql = "DROP INDEX \"{$name}\"";
 
 		return $this->execute($sql);
-	}	
+	}
 	
 	/**
 	 * Changes the owner of a table
@@ -810,18 +810,34 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Creates a database
+	 * @param $database The name of the database to create
+	 * @return 0 success
+	 */
+	function createIndex($name, $table, $columns) {
+		$this->fieldClean($name);
+		$this->fieldClean($table);
+		$this->arrayClean($columns);
 
-/*
-	function setIndex()
-	function delIndex()
+		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\"(\"" .
+			implode('","', $columns) . "\")";
+			
+		return $this->execute($sql);
+	}
 
+	/**
+	 * Removes an index from the database
+	 * @param $index The index to drop
+	 * @return 0 success
+	 */
+	function dropIndex($index) {
+		$this->fieldClean($index);
 
-	// DML Functions
+		$sql = "DROP INDEX \"{$index}\"";
 
-	function doSelect()
-	function doDelete()
-	function doUpdate()
-*/
+		return $this->execute($sql);
+	}
 
 	// View functions
 	
