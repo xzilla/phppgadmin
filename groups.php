@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.8 2003/05/08 15:14:14 chriskl Exp $
+	 * $Id: groups.php,v 1.9 2003/05/19 14:49:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strgroup']}: ", htmlspecialchars($_REQUEST['groname']), ": {$lang['strproperties']}</h2>\n";
+		echo "<h2>{$lang['strgroup']}: ", $misc->printVal($_REQUEST['groname']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$groupdata = &$data->getGroup($_REQUEST['groname']);
@@ -29,7 +29,7 @@
 			echo "<table>\n";
            	echo "<tr><th class=\"data\">{$lang['strmembers']}</th></tr>\n";
            	while (!$groupdata->EOF) {
-            	echo "<tr><td class=\"data1\">", htmlspecialchars($groupdata->f[$data->uFields['uname']]), "</td></tr>\n";
+            	echo "<tr><td class=\"data1\">", $misc->printVal($groupdata->f[$data->uFields['uname']]), "</td></tr>\n";
             	$groupdata->moveNext();
            	}
 			echo "</table>\n";
@@ -44,18 +44,19 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strgroups']}: ", htmlspecialchars($_REQUEST['groname']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>{$lang['strgroups']}: ", $misc->printVal($_REQUEST['groname']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>", sprintf($lang['strconfdropgroup'], htmlspecialchars($_REQUEST['groname'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['groname'])), "</p>\n";
 			
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -93,14 +94,15 @@
 			while (!$users->EOF) {
 				$username = $users->f[$data->uFields['uname']];
 				echo "<input type=\"checkbox\" name=\"formMembers[", htmlspecialchars($username), "]\"", 
-					(isset($_POST['formMembers'][$username]) ? ' checked' : ''), ">", htmlspecialchars($username), "<br>\n";
+					(isset($_POST['formMembers'][$username]) ? ' checked="checked"' : ''), " />", $misc->printVal($username), "<br />\n";
 				$users->moveNext();
 			}		
 			echo "</td></tr>\n";
 		}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" /></p>\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
@@ -145,7 +147,7 @@
 			$i = 0;
 			while (!$groups->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($groups->f[$data->grpFields['groname']]), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($groups->f[$data->grpFields['groname']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&groname=",
 					urlencode($groups->f[$data->grpFields['groname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&groname=", 
