@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.11 2003/07/30 03:26:26 chriskl Exp $
+	 * $Id: groups.php,v 1.12 2003/08/08 06:12:28 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -43,8 +43,8 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_member\" />\n";
 			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"user\" value=\"", htmlspecialchars($_REQUEST['user']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -121,8 +121,8 @@
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -141,8 +141,8 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		if (!isset($_POST['formName'])) $_POST['formName'] = '';
-		if (!isset($_POST['formMembers'])) $_POST['formMembers'] = array();
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+		if (!isset($_POST['members'])) $_POST['members'] = array();
 
 		// Fetch a list of all users in the cluster
 		$users = &$data->getUsers();
@@ -153,25 +153,26 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-		echo "<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"formName\" value=\"", htmlspecialchars($_POST['formName']), "\" /></td></tr>\n";
+		echo "<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 		if ($users->recordCount() > 0) {
 			echo "<tr><th class=\"data\">{$lang['strmembers']}</th>\n";
+
 			echo "<td class=\"data\">\n";
+			echo "<select name=\"members[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
 				$username = $users->f[$data->uFields['uname']];
-				echo "<input type=\"checkbox\" name=\"formMembers[", htmlspecialchars($username), "]\"", 
-					(isset($_POST['formMembers'][$username]) ? ' checked="checked"' : ''), " />", $misc->printVal($username), "<br />\n";
+				echo "<option value=\"{$username}\"",
+						(in_array($username, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($username), "</option>\n";
 				$users->moveNext();
-			}		
+			}
+			echo "</select>\n";
 			echo "</td></tr>\n";
-		}
+			}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**
@@ -180,14 +181,14 @@
 	function doSaveCreate() {
 		global $data;
 		global $lang;
-		
-		if (!isset($_POST['formMembers'])) $_POST['formMembers'] = array();
+
+		if (!isset($_POST['members'])) $_POST['members'] = array();
 
 		// Check form vars
-		if (trim($_POST['formName']) == '')
+		if (trim($_POST['name']) == '')
 			doCreate($lang['strgroupneedsname']);
 		else {		
-			$status = $data->createGroup($_POST['formName'], array_keys($_POST['formMembers']));
+			$status = $data->createGroup($_POST['name'], $_POST['members']);
 			if ($status == 0)
 				doDefault($lang['strgroupcreated']);
 			else
@@ -240,20 +241,21 @@
 			doAddMember();
 			break;
 		case 'drop_member':
-			if (isset($_REQUEST['yes'])) doDropMember(false);
+			if (isset($_REQUEST['drop'])) doDropMember(false);
 			else doProperties();
 			break;
 		case 'confirm_drop_member':
 			doDropMember(true);
 			break;			
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_REQUEST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_REQUEST['yes'])) doDrop(false);
+			if (isset($_REQUEST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
