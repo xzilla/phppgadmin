@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65.2.4 2005/03/14 09:58:00 jollytoad Exp $
+	 * $Id: database.php,v 1.65.2.5 2005/03/22 09:29:43 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -684,7 +684,7 @@
 			$actions = array(
 				'properties' => array(
 					'title' => $lang['strproperties'],
-					'url'   => "redirect.php?section=schema&amp;{$href}&amp;",
+					'url'   => "redirect.php?subject=schema&amp;{$href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'drop' => array(

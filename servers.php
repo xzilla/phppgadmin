@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.1.2.3 2005/03/14 09:58:01 jollytoad Exp $
+	 * $Id: servers.php,v 1.1.2.4 2005/03/22 09:29:44 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -63,7 +63,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?section=server&amp;",
+				'url'   => "redirect.php?subject=server&amp;",
 				'vars'  => array('server' => 'id'),
 			),
 			'logout' => array(

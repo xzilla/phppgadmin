@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.11 2005/03/14 09:57:58 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.12 2005/03/22 09:29:34 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -939,7 +939,7 @@
 			
 			$trail['root'] = array(
 				'text'  => $appName,
-				'url'   => 'redirect.php?section=root',
+				'url'   => 'redirect.php?subject=root',
 			);
 			
 			if ($subject == 'root') $done = true;
@@ -950,7 +950,7 @@
 				$trail['server'] = array(
 					'title' => $lang['strserver'],
 					'text'  => $server_info['desc'],
-					'url'   => "redirect.php?section=server&{$vars}",
+					'url'   => "redirect.php?subject=server&{$vars}",
 					'help'  => 'pg.server'
 				);
 			}
@@ -961,7 +961,7 @@
 				$trail['database'] = array(
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
-					'url'   => "redirect.php?section=database&{$vars}",
+					'url'   => "redirect.php?subject=database&{$vars}",
 					'help'  => 'pg.database'
 				);
 			}
@@ -972,14 +972,14 @@
 				$trail['schema'] = array(
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
-					'url'   => "redirect.php?section=schema&{$vars}",
+					'url'   => "redirect.php?subject=schema&{$vars}",
 					'help'  => 'pg.schema'
 				);
 			}
 			if ($subject == 'schema') $done = true;
 			
 			if (isset($_REQUEST['table']) && !$done) {
-				$vars .= "section=table&table=".urlencode($_REQUEST['table']);
+				$vars .= "subject=table&table=".urlencode($_REQUEST['table']);
 				$trail['table'] = array(
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
@@ -987,7 +987,7 @@
 					'help'  => 'pg.table'
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
-				$vars .= "section=view&view=".urlencode($_REQUEST['view']);
+				$vars .= "subject=view&view=".urlencode($_REQUEST['view']);
 				$trail['view'] = array(
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
@@ -1001,7 +1001,7 @@
 				switch ($subject) {
 					case 'function':
 						$vars .= "{$subject}_oid=".urlencode($_REQUEST[$subject.'_oid']).'&';
-						$vars .= "section={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
+						$vars .= "subject={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
 						$trail[$subject] = array(
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],

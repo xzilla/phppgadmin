@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.69.2.2 2005/03/14 09:58:01 jollytoad Exp $
+	 * $Id: tables.php,v 1.69.2.3 2005/03/22 09:29:44 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -562,7 +562,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?section=table&amp;{$misc->href}&amp;",
+				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'browse' => array(

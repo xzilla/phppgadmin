@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47.4.3 2005/03/14 09:58:00 jollytoad Exp $
+	 * $Id: functions.php,v 1.47.4.4 2005/03/22 09:29:44 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -503,7 +503,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?section=function&action=properties&amp;{$misc->href}&amp;",
+				'url'   => "redirect.php?subject=function&action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'alter' => array(
