@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: database.php,v 1.2 2003/01/27 14:09:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,6 +12,33 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Allow execution of arbitrary SQL statements on a database
+	 */
+	function doSQL() {
+		global $PHP_SELF, $localData, $misc;
+		global $strSQL, $strEnterSQL, $strGo;
+
+		if (!isset($_POST['query'])) $_POST['query'] = '';
+
+		$misc->printDatabaseNav();
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strSQL}</h2>\n";
+
+		echo "<p>{$strEnterSQL}</p>\n";
+		echo "<form action=\"display.php\" method=post>\n";
+		echo "<p>{$strSQL}<br>\n";
+		echo "<textarea style=\"width:100%;\" rows=20 cols=50 name=\"query\">",
+			htmlspecialchars($_POST['query']), "</textarea></p>\n";
+
+		echo $misc->form;
+		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=", 
+			urlencode($_REQUEST['database']), "&action=sql\">\n";
+		echo "<input type=\"hidden\" name=\"return_desc\" value=\"Back\">\n";
+		echo "<input type=submit value=\"{$strGo}\"> <input type=reset>\n";
+		echo "</form>\n";
+
+	}
 
 	/**
 	 * Show confirmation of drop and perform actual drop
@@ -108,6 +135,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strOwner, $strSchemas, $strDrop, $strActions, $strCreateSchema, $strNoSchemas;
 		
+		$misc->printDatabaseNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strSchemas}</h2>\n";
 		$misc->printMsg($msg);
 		
@@ -147,6 +175,9 @@
 	$misc->printHeader($strSchemas);
 
 	switch ($action) {
+		case 'sql':
+			doSQL();
+			break;
 		case 'save_create':
 			doSaveCreate();
 			break;

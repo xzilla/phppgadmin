@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: display.php,v 1.2 2003/01/27 14:09:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,13 @@
 	
 	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strQueryResults}</h2>\n";
 	
+	// If current page is not set, default to first page
 	if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
+
+	// If 'count' variable is not set, then set it to select count(*) from
+	// 'query'
+	if (!isset($_REQUEST['count'])) $_REQUEST['count'] = 
+		"SELECT COUNT(*) AS total FROM ({$_REQUEST['query']}) AS sub";
 
 	// Retrieve page from table.  $max_pages is returned by reference.
 	$rs = &$localData->browseSQL($_REQUEST['query'], $_REQUEST['count'], $_REQUEST['page'], $guiMaxRows, $max_pages);

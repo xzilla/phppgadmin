@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.11 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: Misc.php,v 1.12 2003/01/27 14:09:51 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -138,14 +138,15 @@
 		 * Display the navigation header for tables
 		 */
 		function printDatabaseNav() {
-			global $strSchemas, $strExport, $strPrivileges;
+			global $strSchemas, $strExport, $strPrivileges, $strSQL;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"33%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
-			echo "<td width=\"33%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
-			echo "<td width=\"33%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "<tr><td width=\"25%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
+			echo "<td width=\"25%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=sql\">{$strSQL}</a></td>\n";
+			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";
 		}
 
