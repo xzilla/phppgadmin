@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.10 2003/04/04 03:59:36 chriskl Exp $
+	 * $Id: display.php,v 1.11 2003/04/08 12:45:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -52,7 +52,7 @@
 		while(list($k, ) = each($rs->f)) {
 			echo "<th class=data>", htmlspecialchars($k), "</th>";
 		}
-		
+
 		$i = 0;
 		reset($rs->f);
 		while (!$rs->EOF) {
@@ -68,7 +68,7 @@
 		echo "</table>\n";
 		echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 	}
-	else echo "<p>No data.</p>\n";
+	else echo "<p>{$lang['strnodata']}</p>\n";
 	
 	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></p>\n";
 

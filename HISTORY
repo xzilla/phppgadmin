@@ -9,6 +9,7 @@ Version 3.0.0-dev-3
 * Japanese translations
 * Trigger definitions
 * ADODB upgrade
+* Allow editing of non-null unique
 
 Version 3.0.0-dev-2
 -------------------

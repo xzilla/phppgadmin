@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.11 2003/03/26 01:24:17 chriskl Exp $
+	 * $Id: constraints.php,v 1.12 2003/04/08 12:45:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,6 +12,131 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+
+	/**
+	 * Confirm and then actually add a FOREIGN KEY constraint
+	 */
+	function addForeignKey($stage, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $lang;
+
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+		if (!isset($_POST['target'])) $_POST['target'] = '';
+
+		switch ($stage) {
+			case 2:
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+				$misc->printMsg($msg);
+
+				$attrs = &$localData->getTableAttributes($_REQUEST['target']);
+
+				$selColumns = new XHTML_select('TableColumnList', true, 10);
+				$selColumns->set_style('width: 10em;');
+
+				if ($attrs->recordCount() > 0) {
+					while (!$attrs->EOF) {
+						$selColumns->add(new XHTML_Option($attrs->f['attname']));
+						$attrs->moveNext();
+					}
+				}
+
+				$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
+				$selIndex->set_style('width: 10em;');
+				$selIndex->set_attribute('id', 'IndexColumnList');
+				$buttonAdd = new XHTML_Button('add', '>>');
+				$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
+				$buttonAdd->set_attribute('type', 'button');
+
+				$buttonRemove = new XHTML_Button('remove', '<<');
+				$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
+				$buttonRemove->set_attribute('type', 'button');
+
+				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+
+				echo "<table>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
+				echo "<tr>";
+				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
+				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
+				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
+				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
+				echo "<tr>";
+				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"target\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+				echo "</table>\n";
+
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
+				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars($_REQUEST['target']), "\">\n";
+				echo "<input type=\"hidden\" name=\"IndexColumnList\" value=\"", htmlspecialchars(serialize($_REQUEST['IndexColumnList'])), "\">\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"3\">\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+				echo "</form>\n";
+
+				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
+					"\">{$lang['strshowallconstraints']}</a></p>\n";
+				break;
+			default:
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+				$misc->printMsg($msg);
+
+				$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+
+				$selColumns = new XHTML_select('TableColumnList', true, 10);
+				$selColumns->set_style('width: 10em;');
+
+				if ($attrs->recordCount() > 0) {
+					while (!$attrs->EOF) {
+						$selColumns->add(new XHTML_Option($attrs->f['attname']));
+						$attrs->moveNext();
+					}
+				}
+
+				$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
+				$selIndex->set_style('width: 10em;');
+				$selIndex->set_attribute('id', 'IndexColumnList');
+				$buttonAdd = new XHTML_Button('add', '>>');
+				$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
+				$buttonAdd->set_attribute('type', 'button');
+
+				$buttonRemove = new XHTML_Button('remove', '<<');
+				$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
+				$buttonRemove->set_attribute('type', 'button');
+
+				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+
+				echo "<table>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
+				echo "<tr>";
+				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
+				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
+				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
+				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
+				echo "<tr>";
+				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"target\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+				echo "</table>\n";
+
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\">\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+				echo "</form>\n";
+
+				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
+					"\">{$lang['strshowallconstraints']}</a></p>\n";
+				break;
+		}
+
+	}
 
 	/**
 	 * Confirm and then actually add a PRIMARY KEY or UNIQUE constraint
@@ -240,7 +365,9 @@
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_unique_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['stradduniq']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
-			"\">{$lang['straddpk']}</a></p>\n";
+			"\">{$lang['straddpk']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_foreign_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+			"\">{$lang['straddfk']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints'],
@@ -253,6 +380,13 @@
 		$misc->printBody();
 
 	switch ($action) {
+		case 'add_foreign_key':
+			addForeignKey(1);
+			break;
+		case 'save_add_foreign_key':
+			if (isset($_POST['cancel'])) doDefault();
+			else addForeignKey($_REQUEST['stage']);
+			break;
 		case 'add_unique_key':
 			addPrimaryOrUniqueKey('unique', true);
 			break;

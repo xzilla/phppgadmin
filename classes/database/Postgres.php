@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.70 2003/03/27 13:47:15 chriskl Exp $
+ * $Id: Postgres.php,v 1.71 2003/04/08 12:45:18 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -59,18 +59,35 @@ class Postgres extends BaseDB {
 	// database encoding does not appear in this list, then its HTTP
 	// encoding name is the same as its database encoding name.
 	var $codemap = array(
+		'ALT' => 'CP866',
+		'EUC_CN' => 'GB2312',
+		'EUC_JP' => 'EUCJP',
+		'EUC_KR' => 'EUCKR',
+		'EUC_TW' => 'EUCTW', 
+		'ISO_8859-5' => 'ISO 8859-5',
+		'ISO_8859-6' => 'ISO 8859-6',
+		'ISO_8859-7' => 'ISO 8859-7',
+		'ISO_8859-8' => 'ISO 8859-8',
+		'JOHAB' => 'CP1361',
+		'KOI8' => 'KOI8-R',
+		'LATIN1' => 'ISO 8859-1',
+		'LATIN2' => 'ISO 8859-2',
+		'LATIN3' => 'ISO 8859-3',
+		'LATIN4' => 'ISO 8859-4',
+		// The following encoding map is a known error in PostgreSQL < 7.2
+		// See the constructor for Postgres72.
+		'LATIN5' => 'ISO 8859-5',
+		'LATIN6' => 'ISO 8859-10',
+		'LATIN7' => 'ISO 8859-13',
+		'LATIN8' => 'ISO 8859-14',
+		'LATIN9' => 'ISO 8859-15',
+		'LATIN10' => 'ISO 8859-16',
 		'SQL_ASCII' => 'ASCII',
-		'LATIN1' => 'ISO-8859-1',
-		'LATIN2' => 'ISO-8859-2',
-		'LATIN3' => 'ISO-8859-3',
-		'LATIN4' => 'ISO-8859-4',
-		'LATIN5' => 'ISO-8859-9',
-		'LATIN6' => 'ISO-8859-10',
-		'LATIN7' => 'ISO-8859-13',
-		'LATIN8' => 'ISO-8859-14',
-		'LATIN9' => 'ISO-8859-15',
-		'LATIN10' => 'ISO-8859-16',
-		'UNICODE' => 'UTF-8'
+		'TCVN' => 'CP1258',
+		'UNICODE' => 'UTF8',
+		'WIN' => 'CP1251',
+		'WIN874' => 'CP874',
+		'WIN1256' => 'CP1256'
 	);
 	
 	// List of all legal privileges that can be applied to different types

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.30 2003/04/08 07:09:51 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.31 2003/04/08 12:45:19 chriskl Exp $
 	 */
 
 	// Application name 
@@ -152,7 +152,10 @@
 			}
 		}
 		
-		// Get database encoding
+	}
+
+	// Get database encoding
+	if (isset($localData)) {
 		$dbEncoding = $localData->getDatabaseEncoding();
 		
 		// Set client encoding to database encoding
@@ -170,5 +173,18 @@
 				$lang['appcharset'] = $dbEncoding;
 		}
 	}
+	// This experiment didn't quite work - try again later.
+	/*
+	else {
+		$status = $data->setClientEncoding('UNICODE');
+		if ($status != 0) {
+			echo $lang['strbadencoding'];
+			exit;
+		}
+
+		// Override $lang['appcharset']
+		$lang['appcharset'] = $data->codemap['UNICODE'];
+	}
+	*/
 
 ?>
