@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.13 2003/06/05 20:05:44 xzilla Exp $
+	 * $Id: sequences.php,v 1.14 2003/09/08 03:00:12 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -216,9 +216,9 @@
 		
 		$status = $localData->resetSequence($_REQUEST['sequence']);
 		if ($status == 0)
-			doProperties("{$lang['strsequence']} has been reset");
+			doProperties($lang['strsequencereset']);
 		else	
-			doProperties("{$lang['strsequence']} {$lang['strreset']} {$lang['strfailed']}");
+			doProperties($lang['strsequenceresetbad']);
 	}
 	
 	// Print header
