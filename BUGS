@@ -1,4 +1,4 @@
-	Internal Bugs List
+Internal Bugs List
 ------------------
 
 This file is used to track current working tasks - just ignore it!
@@ -23,14 +23,13 @@ Need to fix:
 NEEDS TESTING
 -------------
 
-* Import
 * Script execution needs to support error handling - make it pass thru adodb layer
 * COPY should work in normal sql screen and sql popup window
 * Create view wizard is buggy
-* alter function on < 7.2 needs testing
-* error on viewing reports page
+* notice on viewing reports page - does this still occur?
 * highlight things on the info stats page
 * advanced stats functions
+* prevent the user from dropping all the superusers
 * Find links columns in views incorrectly
 * getView() isn't schema-aware for 7.3+?
 * rename function in 7.2 and below doesn't come back to the correct function
