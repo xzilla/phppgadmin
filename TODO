@@ -1,11 +1,11 @@
 PHPPGADMIN TODO LIST FOR DEVELOPERS
 -----------------------------------
 
-phpPgAdmin is an open source project which means that if you see something on this list
-that you would like to implement, just send us a patch.  You can find our project
-page here:
+phpPgAdmin is an open source project which means that if you see something on 
+this list that you would like to implement, just send us a patch.  You can find
+our project page here:
 
-http://sourceforge.net/projects/phppgadmin/
+	http://sourceforge.net/projects/phppgadmin/
 
 An item is marked 'claimed' when a username in brackets is put after the TODO
 item.
@@ -48,7 +48,8 @@ Databases
 * Add alter database for 7.3+
 * -Execute arbitrary SQL (chriskl)
 * Dump database
-* Creating new database should refresh left pane?
+* Creating new database should refresh left pane? What about creating schemas
+  and tables - they're in the left pane too?
 * -Show encoding of databases (chriskl)
 
 Tables
@@ -89,7 +90,7 @@ Indicies
 --------
 
 * -Drop Index (chriskl - bug in message?)
-* Create index needs more options, eg. hash or btree
+* -Create index needs more options, eg. hash or btree (felix)
 
 Types
 -----
@@ -117,7 +118,7 @@ Rules
 Triggers
 --------
 
-* Create trigger
+* -Create trigger (felix)
 * Alter trigger (7.3+)
 * -Have accessible on a per-table basis (chriskl)
 
@@ -135,7 +136,7 @@ Languages
 Domains (7.3)
 -------------
 
-* Unimplemented
+* Unimplemented.  They do appear as normal types though.
 
 Conversions (7.3)
 -----------------
@@ -179,15 +180,21 @@ Principles
 ----------
 
 * register_globals off support
-* maximum error_reporting support - enforces code quality, reduces bugs and improves security
+* maximum error_reporting support - enforces code quality, reduces bugs and 
+  improves security
 * PHP 4.2 features used
 * No HTML font, colour, layout tags.  Use CSS for everything
 * One day we should make it all XHTML
-* everything properly escaped - prevent sql injection and cross-site scripting probs
+* everything properly escaped - prevent sql injection and cross-site scripting 
+  probs
 * Support Postgres 7.0 and upwards
 * psql -E is a cool way of seeing how to do schema queries
-* Checking out older versions of describe.c in src/bin/psql in the postgres distro is a good way of seeing how to query older versions of postgres for schema information
-* Put functions in the highest class possible.  For instance, simple selects should be in BaseDB, whereas something that works for 7.1+ should be in the 7.1 class.  This will minimise bugs and duplicated code.
+* Checking out older versions of describe.c in src/bin/psql in the postgres 
+  distro is a good way of seeing how to query older versions of postgres for 
+  schema information
+* Put functions in the highest class possible.  For instance, simple selects 
+  should be in BaseDB, whereas something that works for 7.1+ should be in the 
+  7.1 class.  This will minimise bugs and duplicated code.
 * We primarily support Postgres, and only secondarily support MySQL, etc.
 * Adhere to current coding standards
 * Avoid using global variables if possible
