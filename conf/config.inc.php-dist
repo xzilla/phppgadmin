@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.37 2005/02/06 00:34:20 mr-russ Exp $
+	 * $Id: config.inc.php-dist,v 1.38 2005/02/07 22:15:34 mr-russ Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -14,6 +14,7 @@
 	$conf['servers'][0]['desc'] = 'PostgreSQL';
 
 	// Hostname or IP address for server.  Use '' for UNIX domain socket.
+	// use 'localhost' for TCP/IP connection on this computer
 	$conf['servers'][0]['host'] = '';
 
 	// Database port on server (5432 is the PostgreSQL default)

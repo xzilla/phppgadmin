@@ -392,7 +392,7 @@ a different OID if a database must be reloaded. */
 		   	if ($str)  {
 			 	$host = split(":", $str);
 				if ($host[0]) $str = "host='" . addslashes($host[0]) . "'";
-				else $str = 'host=localhost';
+				else $str = '';
 				if (isset($host[1])) $str .= " port='" . addslashes($host[1]) . "'";
 			}
 				if ($user) $str .= " user='" . addslashes($user) . "'";
