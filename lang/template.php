@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: template.php,v 1.8 2002/07/25 13:14:31 shunter10 Exp $
+	 * $Id: template.php,v 1.9 2002/08/30 15:10:09 xzilla Exp $
 	 */
 
 	$appLang = 'english';
@@ -13,6 +13,7 @@
 	$strLogin = 'Login';
 	$strNoTables = 'No tables found.';
 	$strNoViews = 'No views found.';
+	$strNoFunctions = 'No functions found.';
 	$strOwner = 'Owner';
 	$strActions = 'Actions';	
 	$strName = 'Name';
@@ -28,6 +29,8 @@
 	$strOperators = 'Operators';
 	$strTypes = 'Types';
 	$strAggregates = 'Aggregates';
+	$strReturns = 'Returns';
+	$strParams = 'Parameters';
 	
 	// Users
 	$strUsername = 'Username';
@@ -41,8 +44,7 @@
 	$strViewNeedsName = 'You must give a name for your view.';
 	$strViewNeedsDef = 'You must give a definition for your view.';
 
-    // Sequences
-    $strNoSequences = 'No sequences found.';
+	// Sequences
+	$strNoSequences = 'No sequences found.';
 
-    
 ?>
