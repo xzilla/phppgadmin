@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.123 2003/12/16 00:32:28 soranzo Exp $
+	 * $Id: english.php,v 1.124 2003/12/24 11:12:20 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -115,6 +115,7 @@
 	$lang['strprocess'] = 'Process';
 	$lang['strprocesses'] = 'Processes';
 	$lang['strsetting'] = 'Setting';
+	$lang['strparameters'] = 'Parameters';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -538,6 +539,16 @@
 	$lang['strreferringtables'] = 'Referring tables';
 	$lang['strparenttables'] = 'Parent tables';
 	$lang['strchildtables'] = 'Child tables';
+	
+	// Aggregates
+	$lang['straggregates'] = 'Aggregates';
+	$lang['strnoaggregates'] = 'No aggregates found.';
+	$lang['stralltypes'] = '(All types)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Op Classes';
+	$lang['strnoopclasses'] = 'No operator classes found.';
+	$lang['straccessmethod'] = 'Access method';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';

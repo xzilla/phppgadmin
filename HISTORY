@@ -9,6 +9,7 @@ Features
 * Large speed improvements by reducing number of database
   connections and using external style sheet.
 * SQL pop-up window now defaults to the current database
+* Display aggregates and operator classes
 
 Bugs
 * Object browser fixed for databases with no schemas

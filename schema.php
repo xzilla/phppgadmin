@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.12 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: schema.php,v 1.13 2003/12/24 11:12:20 chriskl Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -32,8 +32,10 @@
 		if ($conf['show_advanced']) {
 			echo "<li>{$lang['stradvanced']}</li>\n";
 			echo "<ul>\n";
+			echo "<li><a href=\"aggregates.php?{$misc->href}\">{$lang['straggregates']}</a></li>\n";
 			echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
 			echo "<li><a href=\"operators.php?{$misc->href}\">{$lang['stroperators']}</a></li>\n";
+			echo "<li><a href=\"opclasses.php?{$misc->href}\">{$lang['stropclasses']}</a></li>\n";
 			echo "<li><a href=\"conversions.php?{$misc->href}\">{$lang['strconversions']}</a></li>\n";
 			echo "</ul>\n";
 		}

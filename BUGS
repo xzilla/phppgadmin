@@ -7,7 +7,7 @@ fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
 re-enable help system
 all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
-need icons for Casts and Conversions and Languages
+need icons for Casts and Conversions, Languages, Aggs and OpClasses
 submit changes to HTML_TreeMenu maintainer
 test < 7.3 Find feature for all new objects
 fix constraint search to get domain and table constraints?
@@ -18,4 +18,5 @@ investigate phpPgInfo
 
 Need to fix:
 * Variables and processes views for < 7.3
-* Viewing database properties is broken...
+* Add aggregates and opclasses to Find feature
+* Aggregate and opclass support for < 7.3

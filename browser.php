@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.33 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: browser.php,v 1.34 2003/12/24 11:12:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -126,7 +126,8 @@
 		}
 		// Advanced
 		if ($conf['show_advanced']) {
-			if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()) {
+			if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()
+					|| $data->hasAggregates() || $data->hasOpClasses()) {
 				$adv_node = &new HTML_TreeNode(array(
 								'text' => $lang['stradvanced'], 
 								'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
@@ -136,6 +137,19 @@
 
 				// Add folder to schema
 				$schemanode->addItem($adv_node);			
+			}
+			// Aggregates
+			if ($data->hasAggregates()) {
+				$agg_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['straggregates']), 
+								'link' => addslashes(htmlspecialchars("aggregates.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+
+				// Add folder to schema
+				$adv_node->addItem($agg_node);
 			}
 			// Types
 			if ($data->hasTypes()) {
@@ -162,6 +176,19 @@
 
 				// Add folder to schema
 				$adv_node->addItem($opr_node);
+			}
+			// Operator Classes
+			if ($data->hasOpClasses()) {
+				$opc_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['stropclasses']), 
+								'link' => addslashes(htmlspecialchars("opclasses.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+
+				// Add folder to schema
+				$adv_node->addItem($opc_node);
 			}
 			// Conversions
 			if ($data->hasConversions()) {

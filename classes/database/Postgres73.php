@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.83 2003/12/17 09:11:32 chriskl Exp $
+ * $Id: Postgres73.php,v 1.84 2003/12/24 11:12:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1396,7 +1396,55 @@ class Postgres73 extends Postgres72 {
 		";
 		
 		return $this->selectSet($sql);
-	}	
+	}
+
+	// Aggregate functions
+	
+	/**
+	 * Gets all aggregates
+	 * @return A recordset
+	 */
+	function &getAggregates() {
+		$sql = "
+			SELECT
+				p.proname,
+				CASE p.proargtypes[0]
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype
+					THEN NULL
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END AS proargtypes
+			FROM pg_catalog.pg_proc p
+				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+			WHERE
+				p.proisagg
+				AND n.nspname='{$this->_schema}'
+			ORDER BY 1, 2
+		";
+
+		return $this->selectSet($sql);
+	}
+	
+	// Operator Class functions
+	
+	/**
+	 * Gets all opclasses
+	 * @return A recordset
+	 */
+	function &getOpClasses() {
+		$sql = "
+			SELECT
+				pa.amname, po.opcname, po.opcintype::pg_catalog.regtype AS opcintype, po.opcdefault
+			FROM
+				pg_catalog.pg_opclass po, pg_catalog.pg_am pa, pg_catalog.pg_namespace pn
+			WHERE
+				po.opcamid=pa.oid
+				AND po.opcnamespace=pn.oid
+				AND pn.nspname='{$this->_schema}'
+			ORDER BY 1,2
+		";
+
+		return $this->selectSet($sql);
+	}
 		
 	// Capabilities
 	function hasSchemas() { return true; }
@@ -1407,6 +1455,7 @@ class Postgres73 extends Postgres72 {
 	function hasDomains() { return true; }
 	function hasAlterTrigger() { return true; }
 	function hasCasts() { return true; }
+	function hasPrepare() { return true; }
 
 }
 
