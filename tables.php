@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.27 2003/07/25 08:39:25 chriskl Exp $
+	 * $Id: tables.php,v 1.28 2003/08/04 08:27:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,19 +29,25 @@
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-				echo "<table width=\"100%\">\n";
+				echo "<table>\n";
 				echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 				echo "<tr><td class=\"data1\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 					htmlspecialchars($_REQUEST['name']), "\" /></td></tr>\n";
 				echo "<tr><th class=\"data\">{$lang['strnumfields']}</th></tr>\n";
 				echo "<tr><td class=\"data1\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 					htmlspecialchars($_REQUEST['fields']), "\" /></td></tr>\n";
+				if ($data->hasWithoutOIDs()) {
+					echo "<tr><th class=\"data\">{$lang['stroptions']}</th></tr>\n";
+					echo "<tr><td class=\"data1\"><input type=\"checkbox\" name=\"withoutoids\"", 
+						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), ">WITHOUT OIDS\n";
+					echo "</td></tr>\n";
+				}
 				echo "</table>\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"create\" />\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
-				echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+				echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
 				break;
 			case 2:
@@ -107,6 +113,9 @@
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"fields\" value=\"", htmlspecialchars($_REQUEST['fields']), "\" />\n";
+				if (isset($_REQUEST['withoutoids'])) {
+					echo "<input type=\"hidden\" name=\"withoutoids\" value=\"on\" />\n";
+				}
 				echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 				echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
@@ -131,7 +140,8 @@
 				}
 				
 				$status = $localData->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
-								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default']);
+								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
+								isset($_REQUEST['withoutoids']));
 				if ($status == 0) {
 					$_reload_browser = true;
 					doDefault($lang['strtablecreated']);

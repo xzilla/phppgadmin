@@ -19,6 +19,7 @@ Version 3.1
 * Default database encoding for languages
 * Lots of NULL value in table dump fixes (XML format changed slightly)
 * Convert our images to PNG format
+* Allow creating tables WITHOUT OIDS
 
 Version 3.0
 -----------

@@ -6,5 +6,4 @@
 * Add owner everywhere
 * Cancel/<Action> buttons everywhere
 * pg_dump feature!!!
-
-
+* Add default_db_encoding support to lang files and create database

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.130 2003/07/31 08:28:03 chriskl Exp $
+ * $Id: Postgres.php,v 1.131 2003/08/04 08:27:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -200,7 +200,7 @@ class Postgres extends BaseDB {
 	function &getDatabases() {
 		global $conf;
 
-		if (isset($conf['owned_only']) && $conf['owned_only']) {
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
 			$username = $_SESSION['webdbUsername'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
@@ -595,13 +595,14 @@ class Postgres extends BaseDB {
 	 * @param $length An array of field lengths
 	 * @param $notnull An array of not null
 	 * @param $default An array of default values
+	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $length, $notnull, $default) {
+	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids) {
 		// @@ NOTE: $default field not being cleaned - how on earth DO we clean it??
 		$this->fieldClean($name);
-	
+
 		$found = false;
 		$sql = "CREATE TABLE \"{$name}\" (";
 		
@@ -645,6 +646,10 @@ class Postgres extends BaseDB {
 		if (!$found) return -1;
 		
 		$sql .= ")";
+		
+		// WITHOUT OIDS
+		if ($this->hasWithoutOIDs() && $withoutoids)
+			$sql .= ' WITHOUT OIDS';
 		
 		return $this->execute($sql);
 	}	
@@ -2084,7 +2089,7 @@ class Postgres extends BaseDB {
 						CAST('public' AS TEXT) AS schemaname,
 						CAST(NULL AS TEXT) AS relname,
 						relname AS name,
-						relacl
+						NULL AS relacl
 					FROM
 						pg_class
 					WHERE
@@ -2098,7 +2103,7 @@ class Postgres extends BaseDB {
 		if (!is_object($acls)) return array();
 		
 		// RETURN FORMAT:
-		// ARRAY(type, schemaname, relname, name, ARRAY(privs), ARRAY(grantoptions))
+		// ARRAY(type, schemaname, relname, name, ARRAY(privs), grantor, ARRAY(grantoptions))
 		
 		// Loop over the results and check to see if any of the ACLs apply to the user
 		$temp = array();
@@ -2106,25 +2111,27 @@ class Postgres extends BaseDB {
 			// If they own the table, then do an 'all privileges simulation'
 			if ($acls->f['relacl'] == null) {
 				$temp[] = array($acls->f['type'], $acls->f['schemaname'], $acls->f['relname'], $acls->f['name'],
-										array(), array());
+										array(), $username, array());
 			}
 			else {
 				$privs = $this->_parseACL($acls->f['relacl']);
+				
 				// Loop over all privs to see if we're in there
 				foreach ($privs as $v) {
 					// Skip non-user ACEs
 					if ($v[0] != 'user') continue;
 					// Skip entities that aren't us
-					if ($v[1] != $usernmae) continue;
+					if ($v[1] != $username) continue;
+					echo "<pre>", var_dump($v), "</pre>";
 					// OK, so it's for us...
 					$temp[] = array($acls->f['type'], $acls->f['schemaname'], $acls->f['relname'], $acls->f['name'],
-											$v[2], $v[4]);
+											$v[2], $v[3], $v[4]);
 				}
 			}
 			
 			$acls->moveNext();
 		}
-
+echo "<pre>", var_dump($temp), "</pre>";
 		return $temp;		
 	}	
 	

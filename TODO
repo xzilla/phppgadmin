@@ -117,9 +117,9 @@ Miscellaneous
 Exotic
 ------
 
-* Support contrib/tsearch for easy full text indexes
+* Support contrib/tsearch2 for easy full text indexes
 * -Search for object feature (chriskl, half done)
-* Pivot reports
+* Pivot reports (ADODB has a feature for this)
 
 Principles
 ----------

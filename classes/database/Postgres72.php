@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.46 2003/06/01 11:53:47 chriskl Exp $
+ * $Id: Postgres72.php,v 1.47 2003/08/04 08:27:27 chriskl Exp $
  */
 
 
@@ -276,6 +276,10 @@ class Postgres72 extends Postgres71 {
 
 		return $this->execute($sql);
 	}
+
+	// Capabilities
+	function hasWithoutOIDs() { return true; }
+
 }
 
 ?>
