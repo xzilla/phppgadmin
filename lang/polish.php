@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.21 2003/05/20 22:51:04 slubek Exp $
+	 * $Id: polish.php,v 1.22 2003/05/27 22:48:10 slubek Exp $
 	 */
 
 	// Language and character set
@@ -59,6 +59,8 @@
 	$lang['strreferences'] = 'Odno¶niki';
 	$lang['stryes'] = 'Tak';
 	$lang['strno'] = 'Nie';
+	$lang['strtrue'] = 'Prawda';
+	$lang['strfalse'] = 'Fa³sz';
 	$lang['stredit'] = 'Edycja';
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
@@ -87,10 +89,10 @@
         $lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
-	$lang['strdata'] = 'Dane';
-	$lang['strconfirm'] = 'Potwierd¼';
 	$lang['strwhen'] = 'Kiedy';
 	$lang['strformat'] = 'Format';
+	$lang['strdata'] = 'Dane';
+	$lang['strconfirm'] = 'Potwierd¼';
 	$lang['strexpression'] = 'Wyra¿enie';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Rozwiñ';
@@ -186,10 +188,10 @@
 	$lang['strgroupadmin'] = 'Administracja grupami u¿ytkowników';
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
-	$lang['strshowallgroups'] = 'Poka¿ wszystkie grupy';
 	$lang['strnogroup'] = 'Nie znaleziono grupy.';
 	$lang['strnogroups'] = 'Nie znaleziono grup.';
 	$lang['strcreategroup'] = 'Utwórz grupê';
+	$lang['strshowallgroups'] = 'Poka¿ wszystkie grupy';
 	$lang['strgroupneedsname'] = 'Musisz nazwaæ grupê.';
 	$lang['strgroupcreated'] = 'Grupa utworzona.';
 	$lang['strgroupcreatedbad'] = 'Próba utworzenia grupy siê nie powiod³a.';
@@ -204,10 +206,10 @@
 	$lang['strnoprivileges'] = 'Ten obiekt nie ma uprawnieñ.';
 	$lang['strgrant'] = 'Nadaj';
 	$lang['strrevoke'] = 'Zabierz';
-        $lang['strgranted'] = 'Uprawnienia nadane.';
+	$lang['strgranted'] = 'Uprawnienia nadane.';
 	$lang['strgrantfailed'] = 'Próba nadania uprawnieñ siê nie powiod³a.';
-	$lang['strgrantuser'] = 'Nadaj u¿ytkownikowi';
-	$lang['strgrantgroup'] = 'Nadaj grupie';
+	$lang['strgrantbad'] = 'Musisz podaæ u¿ytkownika lub grupê, a tak¿e uprawnienia, jakie chcesz nadaæ.';
+	$lang['stralterprivs'] = 'Zmieñ uprawnienia';
 				
 	// Databases
 	$lang['strdatabase'] = 'Baza danych';
@@ -272,8 +274,8 @@
 	$lang['strsequencedroppedbad'] = 'Próba usuniêcia sekwencji siê nie powiod³a.';
 						
 	// Indeksy
-	$strIndex = 'Indeks';
 	$lang['strindexes'] = 'Indeksy';
+	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strshowallindexes'] = 'Poka¿ wszystkie indeksy';
 	$lang['strnoindex'] = 'Nie znaleziono indeksu.';
 	$lang['strnoindexes'] = 'Nie znaleziono indeksów.';
