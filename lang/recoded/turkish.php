@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.7 2003/11/24 01:23:50 chriskl Exp $
+	 * $Id: turkish.php,v 1.8 2004/02/17 12:52:52 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -42,8 +42,8 @@
 	$lang['strnext'] = 'Sonraki';
 	$lang['strfailed'] = 'ba&#351;ar&#305;s&#305;z oldu';
 	$lang['strcreate'] = 'Yarat';
-	$lang['strfirst'] = '<< &#304;lk';
-	$lang['strlast'] = 'Son >>';
+	$lang['strfirst'] = '&lt;&lt; &#304;lk';
+	$lang['strlast'] = 'Son &gt;&gt;';
 	$lang['strcreated'] = 'Yarat&#305;ld&#305;';
 	$lang['strcomment'] = 'Yorum';
 	$lang['strlength'] = 'Uzunluk';
@@ -106,6 +106,7 @@
 	$lang['strrefresh'] = 'Yenile';
 	$lang['strdownload'] = '&#304;ndir';
 	$lang['strcollapse'] = 'Daralt';
+	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL deste&#287;i bulunamam&#305;&#351;t&#305;r.';
 	$lang['strbadschema'] = 'Ge&ccedil;ersiz &#351;ema.';
@@ -526,5 +527,38 @@
 	$lang['strparenttables'] = 'Parent tablolar';
 	$lang['strchildtables'] = 'Child tablolar';
 	$lang['strdataonly'] = 'Sadece veri';
-?>
+$lang['strdownloadgzipped'] = 'gzip ile s&#305;k&#305;&#351;t&#305;r&#305;lm&#305;&#351; dosyay&#305; indirin';
+$lang['strvariables'] = 'De&#287;i&#351;kenler';
+$lang['strprocess'] = 'S&uuml;re&ccedil;';
+$lang['strprocesses'] = 'S&uuml;re&ccedil;ler';
+$lang['strsetting'] = 'Ayarlar';
+$lang['streditsql'] = 'SQL D&uuml;zenle';
+$lang['strpaginate'] = 'Sonu&ccedil;lar&#305; sayfaland&#305;rs';
+$lang['strstarttime'] = 'Ba&#351;lama zaman&#305;';
+$lang['strnoreportsdb'] = 'report veritaban&#305; yarat&#305;lmam&#305;&#351;. Y&ouml;nergeler i&ccedil;in INSTALL dosyas&#305;n&#305; okuyunuz.';
+$lang['strsessiondefaults'] = '&Ouml;n tan&#305;ml&#305; Session De&#287;erleri';
+$lang['strviewlink'] = 'Linking Keys';
+$lang['strviewconditions'] = '&#304;lave Durumlar';
+$lang['strindex'] = 'Index';
+$lang['strnoaggregates'] = 'Hi&ccedil; aggregates bulunamad&#305;.';
+$lang['stralltypes'] = '(T&uuml;m veri tipleri)';
+$lang['stropclasses'] = 'Op s&#305;n&#305;flar&#305;';
+$lang['strnoopclasses'] = 'Hi&ccedil; operat&ouml;r s&#305;n&#305;f&#305; bulunamad&#305;.';
+$lang['straccessmethod'] = 'Eri&#351;im Y&ouml;ntemi';
+$lang['strrowperf'] = 'Sat&#305;r Ba&#351;ar&#305;m&#305;';
+$lang['strioperf'] = 'I/O Ba&#351;ar&#305;m&#305;';
+$lang['stridxrowperf'] = 'Index Sat&#305;r Ba&#351;ar&#305;m&#305;';
+$lang['stridxioperf'] = 'Index I/O Ba&#351;ar&#305;m&#305;';
+$lang['strpercent'] = '%';
+$lang['strsequential'] = 'Sequential';
+$lang['strscan'] = 'Scan';
+$lang['strread'] = 'Read';
+$lang['strfetch'] = 'Fetch';
+$lang['strheap'] = 'Heap';
+$lang['strtoast'] = 'TOAST';
+$lang['strtoastindex'] = 'TOAST Index';
+$lang['strcache'] = 'Cache';
+$lang['strdisk'] = 'Disk';
+$lang['strrows2'] = 'Rows';
 
+?>

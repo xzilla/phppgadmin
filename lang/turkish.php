@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.7 2003/11/24 01:23:50 chriskl Exp $
+	 * $Id: turkish.php,v 1.8 2004/02/17 12:52:52 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -106,6 +106,7 @@
 	$lang['strrefresh'] = 'Yenile';
 	$lang['strdownload'] = 'Ýndir';
 	$lang['strcollapse'] = 'Daralt';
+	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz güncel deðil. Bu dosyayý yeni config.inc.php-dist dosyasýndan yaratmanýz gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL desteði bulunamamýþtýr.';
 	$lang['strbadschema'] = 'Geçersiz þema.';
@@ -526,5 +527,40 @@
 	$lang['strparenttables'] = 'Parent tablolar';
 	$lang['strchildtables'] = 'Child tablolar';
 	$lang['strdataonly'] = 'Sadece veri';
+$lang['strdownloadgzipped'] = 'gzip ile sýkýþtýrýlmýþ dosyayý indirin';
+$lang['strvariables'] = 'Deðiþkenler';
+$lang['strprocess'] = 'Süreç';
+$lang['strprocesses'] = 'Süreçler';
+$lang['strsetting'] = 'Ayarlar';
+$lang['streditsql'] = 'SQL Düzenle';
+$lang['strpaginate'] = 'Sonuçlarý sayfalandýrs';
+$lang['strstarttime'] = 'Baþlama zamaný';
+$lang['strnoreportsdb'] = 'report veritabaný yaratýlmamýþ. Yönergeler için INSTALL dosyasýný okuyunuz.';
+$lang['strsessiondefaults'] = 'Ön tanýmlý Session Deðerleri';
+$lang['strviewlink'] = 'Linking Keys';
+$lang['strviewconditions'] = 'Ýlave Durumlar';
+$lang['strindex'] = 'Index';
+$lang['strnoaggregates'] = 'Hiç aggregates bulunamadý.';
+$lang['stralltypes'] = '(Tüm veri tipleri)';
+$lang['stropclasses'] = 'Op sýnýflarý';
+$lang['strnoopclasses'] = 'Hiç operatör sýnýfý bulunamadý.';
+$lang['straccessmethod'] = 'Eriþim Yöntemi';
+$lang['strrowperf'] = 'Satýr Baþarýmý';
+$lang['strioperf'] = 'I/O Baþarýmý';
+$lang['stridxrowperf'] = 'Index Satýr Baþarýmý';
+$lang['stridxioperf'] = 'Index I/O Baþarýmý';
+$lang['strpercent'] = '%';
+$lang['strsequential'] = 'Sequential';
+$lang['strscan'] = 'Scan';
+$lang['strread'] = 'Read';
+$lang['strfetch'] = 'Fetch';
+$lang['strheap'] = 'Heap';
+$lang['strtoast'] = 'TOAST';
+$lang['strtoastindex'] = 'TOAST Index';
+$lang['strcache'] = 'Cache';
+$lang['strdisk'] = 'Disk';
+$lang['strrows2'] = 'Rows';
+
 ?>
+
 
