@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.6 2003/01/02 03:42:08 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.7 2003/01/12 04:37:36 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -13,13 +13,13 @@
 	// App settings
 	$appBase = '../public_html';
 
-	// Language setting.  eg 'english', 'polish', etc.
-	$appLanguage = 'english';
-	
+	// Default language setting.  eg 'english', 'polish', etc.
+	$appDefaultLanguage = 'english';
+
 	/*
 	 * GUI settings
-	 */	 
-	
+	 */
+
 	// Width of the left frame
 	$guiLeftFrameWidth = 200;
 	// Which look & feel theme to use
@@ -55,7 +55,7 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$appConfVersion = 1;
+	$appConfVersion = 2;
 
 	// Main library
 	include_once('../libraries/lib.inc.php');

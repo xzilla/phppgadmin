@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.39 2003/01/11 09:50:21 chriskl Exp $
+	 * $Id: english.php,v 1.40 2003/01/12 04:37:36 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -58,6 +58,7 @@
 	$strQueryResults = 'Query Results';
 	$strShow = 'Show';
 	$strEmpty = 'Empty';
+	$strLanguage = 'Language';
 
 	// Error handling
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
@@ -198,7 +199,6 @@
 	$strFunctions = 'Functions';
 	$strReturns = 'Returns';
 	$strArguments = 'Arguments';
-	$strLanguage = 'Language';
 	$strFunctionNeedsName = 'You must give a name for your function.';
 	$strFunctionNeedsDef = 'You must give a definition for your function.';
 	

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.20 2003/01/11 09:25:21 chriskl Exp $
+	 * $Id: tables.php,v 1.21 2003/01/12 04:37:36 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -213,6 +213,7 @@
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			$localData->getSelectSQL($query, $count);
+
 			$status = $localData->selectRows($_POST['table'], $_POST['values'], $_POST['nulls']);
 			if ($status == 0) {
 				// @@ This test here is sort of dodgy!

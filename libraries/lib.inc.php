@@ -3,27 +3,37 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.10 2003/01/08 06:46:26 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.11 2003/01/12 04:37:36 chriskl Exp $
 	 */
 
 	// Application name 
-	$appName = 'WebDB';
+	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '0.7';
+	$appVersion = '3.0-dev';
 
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 1;
+	$appBaseConfVersion = 2;
+
+	// List of available language files
+	$appLangFiles = array(
+		'chinese-tr-big5' => 'Chinese Trad. (Big5)',
+		'chinese-tr-utf8' => 'Chinese Trad. (UTF-8)',
+		'dutch' => 'Dutch',
+		'english' => 'English',
+		'german' => 'German',
+		'italian' => 'Italian',
+		'polish' => 'Polish',
+		'spanish' => 'Spanish'
+	);
 
 	// Language settings.  Always include english.php, since it's the master
 	// language file, and then overwrite it with the user-specified language.
 	// Default language to English if it's not set.
-	if (!isset($appLanguage)) $appLanguage = 'english';
-	$appLanguage = strtolower($appLanguage);
+	if (!isset($appDefaultLanguage)) $appDefaultLanguage = 'english';
 	include_once('../lang/english.php');
-	include_once("../lang/{$appLanguage}.php");
 
 	// Check for config file version mismatch
 	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
@@ -52,25 +62,32 @@
 	ini_set('magic_quotes_sybase', 0);
 	
 	// If login action is set, then set login variables
-	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && isset($_POST['formPassword'])) {
+	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 
+		isset($_POST['formPassword']) && isset($_POST['formLanguage'])) {
 		$webdbServerID = $_POST['formServer'];
 		$webdbUsername = $_POST['formUsername'];
 		$webdbPassword = $_POST['formPassword'];
+		$webdbLanguage = $_POST['formLanguage'];
 
 		// Register some session variables
 		$_SESSION['webdbServerID'] = $webdbServerID;
 		$_SESSION['webdbUsername'] = $webdbUsername;
 		$_SESSION['webdbPassword'] = $webdbPassword;
+		$_SESSION['webdbLanguage'] = $webdbLanguage;
 	}
-		
+
 	// If the logged in settings aren't present, put up the login screen
 	if (!isset($_SESSION['webdbUsername'])  
 			||	!isset($_SESSION['webdbPassword'])  
-			||	!isset($_SESSION['webdbServerID'])  
+			||	!isset($_SESSION['webdbServerID'])
+			||	!isset($_SESSION['webdbLanguage'])
 			||	!isset($confServers[$_SESSION['webdbServerID']])){
 		include($appBase . '/login.php');
 		exit;
 	}
+	
+	// Import language file
+	include("../lang/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 	
 	// Create data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {

@@ -3,13 +3,15 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.11 2003/01/08 05:48:28 chriskl Exp $
+	 * $Id: login.php,v 1.12 2003/01/12 04:37:36 chriskl Exp $
 	 */
 
 	// Include application functions
 	include('../conf/config.inc.php');
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
+	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;
+
 	// Output header
 	$misc->printHeader($strLogin);
 ?>
@@ -18,7 +20,7 @@
 		<tr height="115">
 			<td height="115" align="center" valign="middle">
 				<center>
-				<h1><?php echo $appName ?> <?php echo $strLogin ?></h1>
+				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $strLogin ?></h1>
 				<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">$strLoginFailed</p>" ?>
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
@@ -35,12 +37,23 @@
 						<td><select name="formServer">
 						<?php
 							for ($i = 0; $i < sizeof($confServers); $i++) {
-								echo "<option value=\"{$i}\"", 
-									($i == $_POST['formServer']) ? ' selected' : '', 
-									">", htmlspecialchars($confServers[$i]['desc']), ' (',
-									htmlspecialchars($confServers[$i]['type']), ")</option>\n";
+								echo "<option value=\"{$i}\"",
+									($i == $_POST['formServer']) ? ' selected' : '',
+									">", htmlspecialchars($confServers[$i]['desc']), "</option>\n";
 							}
-						?>							
+						?>
+						</select></td>
+					</tr>
+					<tr>
+						<td><?php echo $strLanguage ?>:</td>
+						<td><select name="formLanguage">
+						<?php
+							foreach ($appLangFiles as $k => $v) {
+								echo "<option value=\"{$k}\"",
+									($k == $_POST['formLanguage']) ? ' selected' : '',
+									">", htmlspecialchars($v), "</option>\n";
+							}
+						?>
 						</select></td>
 					</tr>
 					<tr>
