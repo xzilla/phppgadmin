@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.17 2003/05/20 05:42:48 chriskl Exp $
+	 * $Id: constraints.php,v 1.18 2003/06/22 09:53:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -65,6 +65,7 @@
 				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
 
 				echo "<table>\n";
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
 				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strfkcolumnlist']}</th></tr>\n";
 				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
