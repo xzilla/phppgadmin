@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.4 2003/01/23 00:44:34 slubek Exp $
+	 * $Id: all_db.php,v 1.5 2003/01/25 23:57:41 slubek Exp $
 	 */
 
 	// Include application functions
@@ -57,7 +57,13 @@
 		echo "<tr><th class=data>{$strName}</th><th class=data>{$strEncoding}</th></tr>\n";
 		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
 			htmlspecialchars($_POST['formName']), "\"></td>";
-		echo "<td class=data1><input name=formEncoding></td></tr>\n";
+		echo "<td class=data1>";
+		echo "<select name=formEncoding>";
+		while (list ($key) = each ($data->codemap)) {
+		    echo "<option>$key</option>\n";
+		}
+		echo "</select>\n";
+		echo "</td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo "<input type=submit value={$strSave}> <input type=reset value={$strReset}>\n";
