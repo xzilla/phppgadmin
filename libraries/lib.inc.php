@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.88 2004/11/15 08:27:05 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.89 2005/01/04 23:49:41 soranzo Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -18,6 +18,10 @@
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
 	$phpMinVer = '4.1';
+
+	// Check the version of PHP
+	if (version_compare(phpversion(), $phpMinVer, '<'))
+		exit(sprintf('Version of PHP not supported. Please upgrade to version %s or later.', $phpMinVer));
 
 	// Check to see if the configuration file exists, if not, explain
 	if (file_exists('conf/config.inc.php')) {

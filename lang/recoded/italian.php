@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.34 2004/12/01 11:11:13 soranzo Exp $
+	 * $Id: italian.php,v 1.35 2005/01/04 23:49:38 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -131,7 +131,6 @@
 	$lang['strnoframes'] = 'Per usare questa applicazione &egrave; necessario usare un browser che supporti i frame.';
 	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. &Egrave; necessario rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
 	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. &Egrave; necessario ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
-	$lang['strphpversionnotsupported'] = 'Versione di PHP non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
 	$lang['strpostgresqlversionnotsupported'] = 'Versione di PostgreSQL non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
 	$lang['strbadschema'] = 'Schema specificato non valido.';
 	$lang['strbadencoding'] = 'Impostazione della codifica del client nel database fallito.';
