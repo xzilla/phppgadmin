@@ -7,14 +7,16 @@ Version 3.2-dev
 Features
 * Extra login security to prevent logging into servers as postgres and
   no password - a VERY common newbie error.
-* Cluster indexes and indexed constraints
+* Cluster indexes and indexed constraints (with analyze)
 * Display clustered status of indexes and indexed constraints
 * Table info - shows table that reference the table, parent tables,
   and child tables.
 
 Bugs
 * Added legal DOCTYPE
-* tabloid columns aligned right
+* Allow creating foreign keys to tables not in current schema
+* Always add brackets around CHECK () constraints
+* Never display an index in both Indexes and Constraints
 
 Translations
 * Afrikaans from Petri Jooste
