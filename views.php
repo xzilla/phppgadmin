@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.16 2003/08/07 07:25:55 chriskl Exp $
+	 * $Id: views.php,v 1.17 2003/08/18 08:27:07 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -269,7 +269,12 @@
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
-				$query = urlencode("SELECT * FROM \"{$views->f[$data->vwFields['vwname']]}\"");
+				if ($data->hasSchemas() && isset($_REQUEST['schema'])) {
+					$data->fieldClean($_REQUEST['schema']);
+					$query = urlencode("SELECT * FROM \"{$_REQUEST['schema']}\".\"{$views->f[$data->vwFields['vwname']]}\"");
+				}
+				else
+					$query = urlencode("SELECT * FROM \"{$views->f[$data->vwFields['vwname']]}\"");
 				$count = urlencode("SELECT COUNT(*) AS total FROM \"{$views->f[$data->vwFields['vwname']]}\"");
 				$return_url = urlencode("views.php?{$misc->href}");
 				$id = (($i % 2) == 0 ? '1' : '2');
