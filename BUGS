@@ -2,3 +2,5 @@
   it should use $misc->printVal($var) instead of htmlspecialchars($var).
 * Fix grant option/grantor stuff
 * Schema support for privileges
+* First and last links in browse table
+

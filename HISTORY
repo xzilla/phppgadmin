@@ -1,6 +1,12 @@
 phpPgAdmin History
 ------------------
 
+Version 3.0
+-----------
+
+* Japanese update from Tadashi Jokagi
+* Fix drop database reload browser bug
+
 Version 3.0-beta-1
 -------------------
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.13 2003/05/17 15:52:48 chriskl Exp $
+	 * $Id: all_db.php,v 1.14 2003/05/23 06:11:06 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $lang, $_reload_browser;
+		global $PHP_SELF, $lang, $_reload_drop_database;
 
 		if ($confirm) { 
 			echo "<h2>{$lang['strdatabases']}: ", $misc->printVal($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
@@ -35,7 +35,7 @@
 			$localData->close();
 			$status = $data->dropDatabase($_POST['database']);
 			if ($status == 0) {
-				$_reload_browser = true;
+				$_reload_drop_database = true;
 				doDefault($lang['strdatabasedropped']);
 			}
 			else

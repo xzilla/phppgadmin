@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.33 2003/05/19 06:08:07 chriskl Exp $
+	 * $Id: Misc.php,v 1.34 2003/05/23 06:11:06 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -196,10 +196,11 @@
 		 * @param $doBody True to output body tag, false otherwise
 		 */
 		function printFooter($doBody = true) {
-			global $_reload_browser;
-			
+			global $_reload_browser, $_reload_drop_database;
+
 			if ($doBody) {
-				if (isset($_reload_browser)) $this->printReload();
+				if (isset($_reload_browser)) $this->printReload(false);
+				elseif (isset($_reload_drop_database)) $this->printReload(true);
 				echo "</body>\n";
 			}
 			echo "</html>\n";
@@ -224,10 +225,14 @@
 
 		/**
 		 * Outputs JavaScript code that will reload the browser
+		 * @param $database True if dropping a database, false otherwise
 		 */
-		function printReload() {
+		function printReload($database) {
 			echo "<script language=\"JavaScript\">\n";
-			echo "\tparent.frames.browser.location.reload();\n";
+			if ($database)
+				echo "\tparent.frames.browser.location.href=\"browser.php\";\n";
+			else
+				echo "\tparent.frames.browser.location.reload();\n";
 			echo "</script>\n";
 		}
 
