@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.7 2002/10/03 03:59:06 xzilla Exp $
+ *  $Id: sequences.php,v 1.8 2002/10/03 22:05:14 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -65,7 +65,7 @@ function doDefault()
 	function doProperties($msg = '') 
 	{
 		global $data, $localData, $misc, $PHP_SELF;
-		global $strSequences, $strSequenceName, $strLastValue, $strIncrementBy, $strMaxValue, $strMinValue, $strCacheValue, $strLogCount, $strIsCycled, $strIsCalled;
+		global $strSequences, $strSequenceName, $strLastValue, $strIncrementBy, $strMaxValue, $strMinValue, $strCacheValue, $strLogCount, $strIsCycled, $strIsCalled, $strReset;
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
@@ -90,7 +90,7 @@ function doDefault()
 			echo "</tr>";
 			echo "</table>";
 			echo "<br /><br />";
-			echo "<a href=\"#\">Reset</a>";		
+			echo "<a href=\"$PHP_SELF?action=reset&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequence->f[$data->sqFields['seqname']]), "\">$strReset</a></td>\n"; 
 
 		}
 		else echo "<p>No data.</p>\n";
@@ -134,13 +134,13 @@ function doDefault()
 	function doReset()
 	{
 		global $localData, $database;
-		global $PHP_SELF, $strSequences, $strDropped, $strDrop, $strFailed;
+		global $PHP_SELF, $strSequence, $strDropped, $strDrop, $strFailed;
 
 		$status = $localData->resetSequence($_REQUEST['sequence']);
 		if ($status == 0)
-			doDefault("$strSequence has been reset");
+			doProperties("$strSequence has been reset");
 		else	
-			doDefault("$strSequence reset failed");
+			doProperties("$strSequence $strReset $strFailed");
 	}
 
 echo "<html>\n";
