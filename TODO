@@ -30,7 +30,7 @@ Permissions
 Databases
 ---------
 
-* Fix failure to drop database even tho seemingly no-one is connected to it
+* -Fix failure to drop database even tho seemingly no-one is connected to it (chriskl, bryan)
 * Add alter database for 7.3+
 * Dump database using pg_dump streaming
 
@@ -43,7 +43,7 @@ Tables
 * -Cluster support
 * Vacuum & analyze (half done)
 * ORDER BY in Select function
-* Unify Select and Browse functions
+* -Unify Select and Browse functions (chriskl)
 
 Views
 -----
@@ -125,7 +125,7 @@ Casts (7.3)
 Settings
 --------
 
-* Postgres 7.3 returns SHOW ALL as a proper result set - makes it easy to do a phpMyAdmin style 'view settings'.
+* -Postgres 7.3 returns SHOW ALL as a proper result set - makes it easy to do a phpMyAdmin style 'view settings'.
 
 Miscellaneous
 -------------

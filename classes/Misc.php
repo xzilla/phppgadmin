@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.50 2003/12/10 16:03:30 chriskl Exp $
+	 * $Id: Misc.php,v 1.51 2003/12/13 09:28:46 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -271,15 +271,17 @@
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
 			// Only show schemas if available
 			if ($data->hasSchemas()) {
-				echo "<td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
+				echo "<td width=\"14%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
 			}
 			// Only show database privs if available
 			if (isset($data->privlist['database'])) {
-				echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+				echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			}
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 

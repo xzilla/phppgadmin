@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.165 2003/12/10 16:03:30 chriskl Exp $
+ * $Id: Postgres.php,v 1.166 2003/12/13 09:28:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -229,6 +229,32 @@ class Postgres extends BaseDB {
 		return $this->selectRow($sql);
 	}
 
+	/**
+	 * Returns all available variable information.
+	 * @return A recordset
+	 */
+	function &getVariables() {
+		$sql = "SHOW ALL";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function &getProcesses($database = null) {
+		if ($database === null)
+			$sql = "SELECT * FROM pg_stat_activity ORDER BY datname, usename, procpid";
+		else {
+			$this->clean($database);
+			$sql = "SELECT * FROM pg_stat_activity WHERE datname='{$database}' ORDER BY usename, procpid";
+		}
+		
+		return $this->selectSet($sql);
+	}
+	
 	/**
 	 * Returns the current database encoding
 	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.

@@ -17,8 +17,5 @@ fix dumping clustering info
 can't edit SELECT results by oid
 investigate phpPgInfo
 
-Fix
----
-
-* Does dropping a database work at all?
-
+Need to fix:
+* Variables and processes views for < 7.3

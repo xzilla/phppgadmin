@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.26 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: database.php,v 1.27 2003/12/13 09:28:46 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -182,6 +182,75 @@
 		}		
 	}
 	
+	/**
+	 * Show the current status of all database variables
+	 */
+	function doVariables() {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		// Fetch the variables from the database
+		$variables = &$data->getVariables();
+		
+		$misc->printDatabaseNav();
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strvariables']}</h2>\n";
+
+		if ($variables->recordCount() > 0) {
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strsetting']}</th></tr>\n";
+			$i = 0;
+			while (!$variables->EOF) {
+				$id = (($i % 2) == 0 ? '1' : '2');
+				echo "<tr>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($variables->f['name']), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($variables->f['setting']), "</td>";
+				echo "</tr>\n";
+				$variables->moveNext();
+				$i++;
+			}
+			echo "</table>\n";
+		}
+		else {
+			echo "<p>{$lang['strnodata']}</p>\n";
+		}
+	}
+
+	/**
+	 * Show all current database connections and any queries they
+	 * are running.
+	 */
+	function doProcesses() {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		// Fetch the processes from the database
+		$processes = &$data->getProcesses($_REQUEST['database']);
+		
+		$misc->printDatabaseNav();
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strprocesses']}</h2>\n";
+
+		if ($processes->recordCount() > 0) {
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strprocess']}</th>";
+			echo "<th class=\"data\">{$lang['strsql']}</th></tr>\n";
+			$i = 0;
+			while (!$processes->EOF) {
+				$id = (($i % 2) == 0 ? '1' : '2');
+				echo "<tr>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['usename']), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['procpid'], false, 'int4'), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['current_query']), "</td>";
+				echo "</tr>\n";
+				$processes->moveNext();
+				$i++;
+			}
+			echo "</table>\n";
+		}
+		else {
+			echo "<p>{$lang['strnodata']}</p>\n";
+		}
+	}
+
 	/**
 	 * Allow database administration and tuning tasks
 	 */
@@ -415,6 +484,12 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
+			break;
+		case 'variables':
+			doVariables();
+			break;
+		case 'processes':
+			doProcesses();
 			break;
 		default:
 			doDefault();
