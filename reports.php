@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.12 2003/08/13 09:17:26 chriskl Exp $
+	 * $Id: reports.php,v 1.13 2003/08/18 08:20:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -128,10 +128,10 @@
 		global $data, $reportsdb, $misc;
 		global $PHP_SELF, $lang;
 
-		if (!isset($_POST['report_name'])) $_POST['report_name'] = '';
-		if (!isset($_POST['db_name'])) $_POST['db_name'] = '';
-		if (!isset($_POST['descr'])) $_POST['descr'] = '';
-		if (!isset($_POST['report_sql'])) $_POST['report_sql'] = '';
+		if (!isset($_REQUEST['report_name'])) $_REQUEST['report_name'] = '';
+		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = '';
+		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
+		if (!isset($_REQUEST['report_sql'])) $_REQUEST['report_sql'] = '';
 
 		$databases = &$data->getDatabases();
 
@@ -142,23 +142,23 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
+			htmlspecialchars($_REQUEST['report_name']), "\" /></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
 			$dbname = $databases->f[$data->dbFields['dbname']];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
-			($dbname == $_POST['db_name']) ? ' selected' : '', ">",
+			($dbname == $_REQUEST['db_name']) ? ' selected' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
 			$databases->moveNext();
 		}
 		echo "</select></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
-			htmlspecialchars($_POST['descr']), "</textarea></td></tr>\n";
+			htmlspecialchars($_REQUEST['descr']), "</textarea></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strsql']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
-			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
+			htmlspecialchars($_REQUEST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";

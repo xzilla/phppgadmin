@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.8 2003/08/05 06:04:36 chriskl Exp $
+	 * $Id: sql.php,v 1.9 2003/08/18 08:20:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -73,7 +73,12 @@
 	else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
 	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&action=sql\">{$lang['strback']}</a></p>\n";
+		"&action=sql\">{$lang['strback']}</a>";
+	if ($conf['show_reports'] && is_object($rs) && $rs->recordCount() > 0) {
+		echo " | <a class=\"navlink\" href=\"reports.php?action=create&db_name=", urlencode($_REQUEST['database']), "&report_sql=",
+			urlencode($_POST['query']), "\">Save As Report</a>";
+	}
+	echo "</p>\n";
 	
 	$misc->printFooter();
 ?>

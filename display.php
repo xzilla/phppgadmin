@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.22 2003/08/18 08:10:16 chriskl Exp $
+	 * $Id: display.php,v 1.23 2003/08/18 08:20:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -72,9 +72,12 @@
 	}
 	else echo "<p>{$lang['strnodata']}</p>\n";
 	
-	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a> |\n";
-	echo "<a class=\"navlink\" href=\"reports.php?action=create&db_name=", urlencode($_REQUEST['database']), "&report_sql=",
-		urlencode($_REQUEST['query']), "\">Save As Report</a></p>\n";
+	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a>";
+	if ($conf['show_reports'] && is_object($rs) && $rs->recordCount() > 0) {
+		echo " | <a class=\"navlink\" href=\"reports.php?action=create&db_name=", urlencode($_REQUEST['database']), "&report_sql=",
+			urlencode($_REQUEST['query']), "\">Save As Report</a></p>\n";
+	}
+	echo "</p>\n";
 
 	$misc->printFooter();
 ?>
