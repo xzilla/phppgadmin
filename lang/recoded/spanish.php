@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.15 2003/09/05 01:31:25 chriskl Exp $
+	 * $Id: spanish.php,v 1.16 2003/09/11 02:10:32 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -77,7 +77,7 @@
 	$lang['strencoding'] = 'Codificaci&oacute;n';
 	$lang['strvalue'] = 'Valor';
 	$lang['strunique'] = '&Uacute;nico';
-	$lang['strprimary'] = 'Primario';
+	$lang['strprimary'] = 'Primaria';
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
 	$lang['strsql'] = 'SQL';
@@ -87,7 +87,7 @@
 	$lang['stranalyze'] = 'Analizar';
 	$lang['strcluster'] = 'Cluster';
 	$lang['strreindex'] = 'Reindexar';
-	$lang['strrun'] = 'Correr';
+	$lang['strrun'] = 'Ejecutar';
 	$lang['stradd'] = 'Agregar';
 	$lang['strevent'] = 'Evento';
 	$lang['strwhere'] = 'Donde';
@@ -100,7 +100,7 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Colapsar';
-        $lang['strexplain'] = 'Explain';
+        $lang['strexplain'] = 'Explicar';
         $lang['strfind'] = 'Buscar';
         $lang['stroptions'] = 'Opciones';
 	$lang['strrefresh'] = 'Refrescar';
@@ -112,11 +112,11 @@
 	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php est&aacute; desactualizado. Deber&aacute; regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versi&oacute;n de PHP no tiene el soporte correcto de bases de datos.';
-	$lang['strbadschema'] = 'El esquema especificado es inv&aacute;lido.';
+	$lang['strbadschema'] = 'El esquema especificado no es v&aacute;lido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificaci&oacute;n del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
 	$lang['strinstatement'] = 'En la declaraci&oacute;n:';
-	$lang['strinvalidparam'] = 'Par&aacute;metros de script inv&aacute;lidos.';
+	$lang['strinvalidparam'] = 'Par&aacute;metros de script no v&aacute;lidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
 
 	// Tables
@@ -131,10 +131,10 @@
 	$lang['strtableneedsfield'] = 'Debe especificar al menos un campo.';
 	$lang['strtableneedscols'] = 'Las tablas requieren un n&uacute;mero v&aacute;lido de columnas.';
 	$lang['strtablecreated'] = 'Tabla creada.';
-	$lang['strtablecreatedbad'] = 'Creaci&oacute;n de la tabla fall&oacute;.';
+	$lang['strtablecreatedbad'] = 'Fall&oacute; al tratar crear la tabla.';
 	$lang['strconfdroptable'] = '&iquest;Est&aacute; seguro que desea eliminar la tabla &quot;%s&quot;?';
 	$lang['strtabledropped'] = 'Tabla eliminada.';
-	$lang['strtabledroppedbad'] = 'La eliminaci&oacute;n tabla fall&oacute;.';
+	$lang['strtabledroppedbad'] = 'Fall&oacute; al tratar de eliminar la tabla.';
 	$lang['strconfemptytable'] = '&iquest;Est&aacute; seguro que desea vaciar la tabla &quot;%s&quot;?';
 	$lang['strtableemptied'] = 'Tabla vaciada.';
 	$lang['strtableemptiedbad'] = 'Fall&oacute; el vaciado de la tabla.';
@@ -143,7 +143,7 @@
 	$lang['strrowinsertedbad'] = 'Fall&oacute; la inserci&oacute;n de fila.';
 	$lang['streditrow'] = 'Editar fila';
 	$lang['strrowupdated'] = 'Fila actualizada.';
-	$lang['strrowupdatedbad'] = 'Actualizaci&oacute;n de fila fall&oacute;.';
+	$lang['strrowupdatedbad'] = 'Fall&oacute; al intentar actualizar la fila.';
 	$lang['strdeleterow'] = 'Eliminar Fila';
 	$lang['strconfdeleterow'] = '&iquest;Est&aacute; seguro que quiere eliminar esta fila?';
 	$lang['strrowdeleted'] = 'Fila eliminada.';
@@ -153,7 +153,8 @@
 	$lang['strfields'] = 'Campos';
 	$lang['strnumfields'] = 'N&uacute;mero de Campos';
 	$lang['strfieldneedsname'] = 'Debe darle un nombre al campo';
-	$lang['strselectneedscol'] = 'Debe mostrar al menos una columna';
+        $lang['strselectallfields'] = 'Seleccionar todos los campos.';
+	$lang['strselectneedscol'] = 'Debe elegir al menos una columna';
 	$lang['straltercolumn'] = 'Modificar Columna';
 	$lang['strcolumnaltered'] = 'Columna Modificada.';
 	$lang['strcolumnalteredbad'] = 'Fall&oacute; la modificaci&oacute;n de columna.';
@@ -179,7 +180,7 @@
 	$lang['strexpires'] = 'Expira';
 	$lang['strnousers'] = 'No se encontraron usuarios.';
         $lang['struserupdated'] = 'Usuario actualizado.';
-	$lang['struserupdatedbad'] = 'Fall&oacute; la actualizaci&oacute;n de usuario.';
+	$lang['struserupdatedbad'] = 'Fall&oacute; la actualizaci&oacute;n del usuario.';
 	$lang['strshowallusers'] = 'Mostrar Todos los Usuarios';
 	$lang['strcreateuser'] = 'Crear Usuario';
 	$lang['strusercreated'] = 'Usuario creado.';
@@ -202,17 +203,17 @@
 	$lang['strshowallgroups'] = 'Mostrar Todos los Grupos';
 	$lang['strgroupneedsname'] = 'Debe darle un nombre al grupo.';
 	$lang['strgroupcreated'] = 'Grupo creado.';
-	$lang['strgroupcreatedbad'] = 'Fall&oacute; la creaci&oacute;n de grupo.';
-	$lang['strconfdropgroup'] = '&iquest;Esta seguro que quiere eliminar el grupo &quot;%s&quot;?';
+	$lang['strgroupcreatedbad'] = 'Fall&oacute; la creaci&oacute;n del grupo.';
+	$lang['strconfdropgroup'] = '&iquest;Est&aacute; seguro que quiere eliminar el grupo &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
-	$lang['straddmember'] = 'Add Member';
-	$lang['strmemberadded'] = 'Member added.';
-	$lang['strmemberaddedbad'] = 'Member add failed.';
-	$lang['strdropmember'] = 'Drop Member';
-	$lang['strconfdropmember'] = 'Are you sure you want to drop the member &quot;%s&quot; from the group &quot;%s&quot;?';
-	$lang['strmemberdropped'] = 'Member dropped.';
-	$lang['strmemberdroppedbad'] = 'Member drop failed.';
-	$lang['strgroupdroppedbad'] = 'Fall&oacute; la eliminaci&oacute;n de grupo.';
+	$lang['straddmember'] = 'Agregar un miembro';
+	$lang['strmemberadded'] = 'Miembro agregado.';
+	$lang['strmemberaddedbad'] = 'Fall&oacute; al intentar agregar nuevo miembro.';
+	$lang['strdropmember'] = 'Sacar miembro';
+	$lang['strconfdropmember'] = '&iquest;Est&aacute; seguro que quiere sacra el miembro &quot;%s&quot; del grupo &quot;%s&quot;?';
+	$lang['strmemberdropped'] = 'Miembro eliminado.';
+	$lang['strmemberdroppedbad'] = 'Fall&oacute; al inytentar sacar un miembro.';
+	$lang['strgroupdroppedbad'] = 'Fall&oacute; la eliminaci&oacute;n del grupo.';
 	$lang['strmembers'] = 'Miembros';
 
 	// Privilges
@@ -221,7 +222,7 @@
 	$lang['strnoprivileges'] = 'Este objeto tiene privilegios de usuario por defecto.';
 	$lang['strgrant'] = 'Otorgar';
 	$lang['strrevoke'] = 'Revocar';
-	$lang['strgranted'] = 'Privilegios otorgados.';
+	$lang['strgranted'] = 'Privilegios otorgados/revocados.';
 	$lang['strgrantfailed'] = 'Fall&oacute; al intendar otorgar privilegios.';
         $lang['strgrantor'] = 'Grantor';
         $lang['strasterisk'] = '*';
@@ -242,12 +243,12 @@
 	$lang['strconfdropdatabase'] = '&iquest;Est&aacute; seguro que quiere eliminar la base de datos &quot;%s&quot;?';
 	$lang['strdatabasedropped'] = 'Base de datos eliminada.';
 	$lang['strdatabasedroppedbad'] = 'Fall&oacute; al eliminar la base de datos.';
-	$lang['strentersql'] = 'Ingrese la sentencia de SQL para ejecutar abajo:';
+	$lang['strentersql'] = 'Ingrese la sentencia de SQL para ejecutar:';
 	$lang['strsqlexecuted'] = 'SQL ejecutada.';
-	$lang['strvacuumgood'] = 'Vacuum completado.';
-	$lang['strvacuumbad'] = 'Vacuum fall&oacute;.';
+	$lang['strvacuumgood'] = 'Limpieza completada.';
+	$lang['strvacuumbad'] = 'Fall&oacute; al intentar limpiar.';
 	$lang['stranalyzegood'] = 'An&aacute;lisis completado.';
-	$lang['stranalyzebad'] = 'An&aacute;lisis fall&oacute;.';
+	$lang['stranalyzebad'] = 'Fall&oacute; al intentar analizar.';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -263,7 +264,7 @@
 	$lang['strviewcreatedbad'] = 'Fall&oacute; al crear la vista.';
 	$lang['strconfdropview'] = '&iquest;Est&aacute; seguro que quiere eliminar la vista &quot;%s&quot;?';
 	$lang['strviewdropped'] = 'Vista eliminada.';
-	$lang['strviewdroppedbad'] = 'Fall&oacute; a eliminar la vista.';
+	$lang['strviewdroppedbad'] = 'Fall&oacute; al intentar eliminar la vista.';
 	$lang['strviewupdated'] = 'Vista actualizada.';
 	$lang['strviewupdatedbad'] = 'Fall&oacute; al actualizar la vista.';
 
@@ -286,7 +287,7 @@
 	$lang['strsequenceneedsname'] = 'Debe darle un nombre a la secuencia.';
 	$lang['strsequencecreated'] = 'Secuencia creada.';
 	$lang['strsequencecreatedbad'] = 'Fall&oacute; la creaci&oacute;n de la secuencia.'; 
-	$lang['strconfdropsequence'] = '&iquest;Esta seguro que quiere eliminar la secuencia &quot;%s&quot;?';
+	$lang['strconfdropsequence'] = '&iquest;Est&aacute; seguro que quiere eliminar la secuencia &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Secuencia eliminada.';
 	$lang['strsequencedroppedbad'] = 'Fall&oacute; la eliminaci&oacute;n de la secuencia.';
 
@@ -300,7 +301,7 @@
 	$lang['strindexname'] = 'Nombre del &Iacute;ndice';
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Nombre de Columna';
-	$lang['strindexneedsname'] = 'debe darle un nombre al &iacute;ndice';
+	$lang['strindexneedsname'] = 'Debe darle un nombre al &iacute;ndice';
 	$lang['strindexneedscols'] = 'Los &iacute;ndices requieren un n&uacute;mero v&aacute;lido de columnas.';
 	$lang['strindexcreated'] = '&Iacute;ndice creado';
 	$lang['strindexcreatedbad'] = 'Fall&oacute; al crear el &iacute;ndice.';
@@ -311,9 +312,9 @@
 	$lang['struniquekey'] = 'Llave &uacute;nica';
 	$lang['strprimarykey'] = 'Llave primaria';
  	$lang['strindextype'] = 'Tipo de &iacute;ndice';
-	$lang['strindexname'] = 'Nombre de &iacute;ndice';
+	$lang['strindexname'] = 'Nombre del &iacute;ndice';
 	$lang['strtablecolumnlist'] = 'Columnas en Tabla';
-	$lang['strindexcolumnlist'] = 'Columnas en &Iacute;ndice';
+	$lang['strindexcolumnlist'] = 'Columnas en el &Iacute;ndice';
 
 	// Rules
 	$lang['strrules'] = 'Reglas';
@@ -379,7 +380,7 @@
 	$lang['strconfdropfunction'] = '&iquest;Est&aacute; seguro que quiere eliminar la funci&oacute;n &quot;%s&quot;?';
 	$lang['strfunctiondropped'] = 'Funci&oacute;n eliminada.';
 	$lang['strfunctiondroppedbad'] = 'Fall&oacute; al eliminar la funci&oacute;n.';
-	$lang['strfunctionupdated'] = 'Funci&oacute;n updated.';
+	$lang['strfunctionupdated'] = 'Funci&oacute;n actualizada.';
 	$lang['strfunctionupdatedbad'] = 'Fall&oacute; al actualizar la funci&oacute;n.';
 
 	// Triggers
@@ -448,7 +449,6 @@
 	$lang['strconfdropreport'] = '&iquest;Est&aacute; seguro que quiere eliminar el reporte &quot;%s&quot;?';
 	$lang['strreportneedsname'] = 'Debe especificar un nombre para el reporte.';
 	$lang['strreportneedsdef'] = 'Debe especificar un SQL para el reporte.';
-        $lang['strsaveasreport'] = 'Guardar como reporte';
 	$lang['strreportcreated'] = 'Reporte guardado.';
 	$lang['strreportcreatedbad'] = 'Fall&oacute; al guardar el reporte.';
 	$lang['strdomain'] = 'Domain';
@@ -468,19 +468,19 @@
 	// Operators
         $lang['stroperator'] = 'Operador';
 	$lang['stroperators'] = 'Operadores';
-	$lang['strshowalloperators'] = 'Show all operators';
-	$lang['strnooperator'] = 'No operator found.';
-	$lang['strnooperators'] = 'No operators found.';
-	$lang['strcreateoperator'] = 'Create Operator';
-	$lang['stroperatorname'] = 'Operator name';
+	$lang['strshowalloperators'] = 'Mostrar todos los operadoress';
+	$lang['strnooperator'] = 'No se encontr&oacute; el operador.';
+	$lang['strnooperators'] = 'No se encontraron operadores.';
+	$lang['strcreateoperator'] = 'Crear Operador';
+	$lang['stroperatorname'] = 'Nombre del operador';
 	$lang['strleftarg'] = 'Left Arg Type';
 	$lang['strrightarg'] = 'Right Arg Type';
-	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
-	$lang['stroperatorcreated'] = 'Operator created';
-	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';
-	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator &quot;%s&quot;?';
-	$lang['stroperatordropped'] = 'Operator dropped.';
-	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
+	$lang['stroperatorneedsname'] = 'Debe darle un nombre a su operador.';
+	$lang['stroperatorcreated'] = 'Operador creado';
+	$lang['stroperatorcreatedbad'] = 'Fall&oacute; al intentar crear el operador.';
+	$lang['strconfdropoperator'] = '&iquest;Est&aacute; seguro que quiere eliminar el operador &quot;%s&quot;?';
+	$lang['stroperatordropped'] = 'Operador eliminado.';
+	$lang['stroperatordroppedbad'] = 'Fall&oacute; al intentar eliminar el operador.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted est&aacute; logueado con usuario &quot;%s&quot;, %s';
