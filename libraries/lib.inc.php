@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.80 2004/06/13 07:08:29 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.81 2004/06/18 14:47:21 soranzo Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -25,7 +25,7 @@
 		include('./conf/config.inc.php');
 	}
 	else {
-		echo "Configuration error: Copy conf/config.inc.php-dist to conf/config.inc.php and edit appropriately.";
+		echo 'Configuration error: Copy conf/config.inc.php-dist to conf/config.inc.php and edit appropriately.';
 		exit;
 	}
 
@@ -57,24 +57,13 @@
 		'turkish' => 'T&uuml;rk&ccedil;e'
 	);
 
-	// Language settings.  Always include english.php, since it's the master
-	// language file, and then overwrite it with the user-specified language if
-	// one has not been selected yet.
+	// Always include english.php, since it's the master language file
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
 	$lang = array();
-	include_once('./lang/recoded/english.php');
-	// Include default language over the top - we really should try to avoid this
-	// in the case when the user has chosen a language.
-	include_once("./lang/recoded/" . strtolower($conf['default_lang']) . ".php");
-
-	// Check for config file version mismatch
-	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
-		echo $lang['strbadconfig'];
-		exit;
-	}
+	require_once('./lang/recoded/english.php');
 
 	// Create Misc class references
-	include_once('./classes/Misc.php');
+	require_once('./classes/Misc.php');
 	$misc = new Misc();
 
 	// Start session (if not auto-started)
@@ -120,15 +109,15 @@
 		exit;
 	}
 
+	// Import language file
+	include('./lang/recoded/' . strtolower($_SESSION['webdbLanguage']) . '.php');
+
 	// If extra login check fails, back to the login screen
 	$_allowed = $misc->checkExtraSecurity();
 	if (!$_allowed) {
 		include('./login.php');
 		exit;
 	}
-
-	// Import language file
-	include("./lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
 	// Check database support is properly compiled in
 	if (!function_exists('pg_connect')) {

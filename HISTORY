@@ -6,6 +6,7 @@ Version 3.5-dev
 
 Features
 * Context-sensitive online help system
+* Use language preferencies from browser (Markus Bertheau, Nicola Soranzo)
 
 Translations
 * Arabic from Zaki

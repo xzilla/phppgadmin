@@ -3,26 +3,84 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.16 2004/05/26 11:27:00 soranzo Exp $
+	 * $Id: login.php,v 1.17 2004/06/18 14:47:21 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
-	include_once('./libraries/lib.inc.php');
-
-	// Unfortunately, since sometimes lib.inc.php has been included, but we still
-	// need the config variables
-	if (file_exists('conf/config.inc.php')) {
-		require('conf/config.inc.php');
-	}
-	else {
-		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings";
-		exit;
-	}
+	require_once('./libraries/lib.inc.php');
 
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
-	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $conf['default_lang'];
+	if (!isset($_POST['formLanguage'])) {
+		// Parse the user acceptable language in HTTP_ACCEPT_LANGUAGE
+		// ( http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4 )
+		// If there's one available, then overwrite the default language.
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			$userLanguage = '';
+			$userLanguages = array();
+			$acceptableLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			foreach ($acceptableLanguages as $accLang) {
+				$languageInfos = explode(';', trim($accLang));
+				$languageRange = strtolower($languageInfos[0]);
+				if (isset($languageInfos[1]) && substr($languageInfos[1], 0, 2) == 'q=')
+					$languageQuality = (float)substr($languageInfos[1], 2, 5);
+				else
+					$languageQuality = 1;
+				// If the language is already in the array, check that we
+				// don't overwrite its quality value with a lower one
+				if ((!array_key_exists($languageRange, $userLanguages))
+					|| ($userLanguages[$languageRange] < $languageQuality))
+					$userLanguages[$languageRange] = $languageQuality;
+			}
+			arsort($userLanguages, SORT_NUMERIC);
+
+			// if it's available 'language-country', but not general 'language' translation
+			// (eg. 'portuguese-br', but not 'portuguese')
+			// specify both 'la' => 'language-country' and 'la-co' => 'language-country'.
+			// See http://www.w3.org/WAI/ER/IG/ert/iso639.htm for language codes
+			$availableLanguages = array(
+				'af' => 'afrikaans',
+				'zh' => 'chinese-tr',
+				'zh-cn' => 'chinese-sim',
+				'cs' => 'czech',
+				'nl' => 'dutch',
+				'en' => 'english',
+				'fr' => 'french',
+				'de' => 'german',
+				'hu' => 'hungarian',
+				'it' => 'italian',
+				'ja' => 'japanese',
+				'pl' => 'polish',
+				'pt' => 'portuguese-br',
+				'pt-br' => 'portuguese-br',
+				'ru' => 'russian',
+				'sk' => 'slovak',
+				'sv' => 'swedish',
+				'es' => 'spanish',
+				'sv' => 'swedish',
+				'tr' => 'turkish'
+			);
+
+			reset($userLanguages);
+			do {
+				$languageRange = key($userLanguages);
+				if (array_key_exists($languageRange, $availableLanguages)) {
+					$userLanguage = $availableLanguages[$languageRange];
+				}
+			} while ($userLanguage == '' && next($userLanguages));
+			if ($userLanguage != '') $conf['default_lang'] = $userLanguage;
+		}
+		$_POST['formLanguage'] = $conf['default_lang'];
+		// Include default language over english.
+		include_once('./lang/recoded/' . strtolower($conf['default_lang']) . '.php');
+	}
+
+	// Check for config file version mismatch
+	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
+		echo $lang['strbadconfig'];
+		exit;
+	}
 
 	// Force encoding to UTF-8
 	$lang['appcharset'] = 'UTF-8';
