@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.12 2003/03/10 02:15:16 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.13 2003/03/27 12:56:30 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -42,15 +42,13 @@
 	$confServers[0]['host'] = 'localhost';
 	$confServers[0]['port'] = 5432;
 	$confServers[0]['type'] = 'Postgres73';
-	$confServers[0]['default'] = 'template1';
-	
+
 	// Servers and types
 	//$confServers[1]['desc'] = 'Development';
 	//$confServers[1]['host'] = 'database-dev';
 	//$confServers[1]['port'] = 5432;
-	//$confServers[1]['type'] = 'Postgres73';
-	//$confServers[1]['default'] = 'template1';
-	
+	//$confServers[1]['type'] = 'Postgres74';
+
 	/*****************************************
 	 * Don't modify anything below this line *
 	 *****************************************/

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.23 2003/03/27 10:56:27 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.24 2003/03/27 12:56:30 chriskl Exp $
 	 */
 
 	// Application name 
@@ -113,7 +113,7 @@
 		require_once('classes/database/' . $_type . '.php');
 		$data = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
 									$confServers[$_SESSION['webdbServerID']]['port'],
-									$confServers[$_SESSION['webdbServerID']]['default'],
+									null,
 									$_SESSION['webdbUsername'],
 									$_SESSION['webdbPassword']);
 	}

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.32 2003/03/26 02:14:04 chriskl Exp $
+ * $Id: Postgres73.php,v 1.33 2003/03/27 12:56:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -41,9 +41,18 @@ class Postgres73 extends Postgres72 {
 		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES')
 	);
 
+	/**
+	 * Constructor
+	 * @param $host The hostname to connect to
+	 * @param $post The port number to connect to
+	 * @param $database The database name to connect to
+	 * @param $user The user to connect as
+	 * @param $password The password to use
+	 */
 	function Postgres73($host, $port, $database, $user, $password) {
 		$this->Postgres72($host, $port, $database, $user, $password);
 	}
+
 
 	// Schema functions
 	

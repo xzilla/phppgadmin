@@ -3,7 +3,7 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.5 2003/01/18 06:38:37 chriskl Exp $
+ * $Id: MySQL.php,v 1.6 2003/03/27 12:56:29 chriskl Exp $
  */
 
 include_once('classes/database/BaseDB.php');
@@ -16,12 +16,21 @@ class MySQL extends BaseDB {
 	// MySQL doesn't have object IDs 
 	var $id = '';
 
+	/**
+	 * Constructor
+	 * @param $host The hostname to connect to
+	 * @param $post The port number to connect to
+	 * @param $database The database to connect to.  NULL for default
+	 * @param $user The user to connect as
+	 * @param $password The password to use
+	 */
 	function MySQL($host, $port, $database, $user, $password) {
 		$this->BaseDB('mysql');
 
-		//$this->Port = $port;
+		$myhost = "{$host}:{$port}";
+		if ($database === null) $database = 'mysql';
 
-		$this->conn->connect($host, $user, $password, $database);
+		$this->conn->connect($myhost, $user, $password, $database);
 	}
 
 	/**

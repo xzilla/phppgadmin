@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.28 2003/03/25 00:26:27 chriskl Exp $
+ * $Id: Postgres71.php,v 1.29 2003/03/27 12:56:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -24,6 +24,14 @@ class Postgres71 extends Postgres {
 		'sequence' => array('SELECT', 'UPDATE', 'ALL')
 	);
 
+	/**
+	 * Constructor
+	 * @param $host The hostname to connect to
+	 * @param $post The port number to connect to
+	 * @param $database The database name to connect to
+	 * @param $user The user to connect as
+	 * @param $password The password to use
+	 */
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->Postgres($host, $port, $database, $user, $password);
 	}
