@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.37 2004/05/26 14:03:17 chriskl Exp $
+	 * $Id: views.php,v 1.38 2004/05/30 04:22:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -172,7 +172,7 @@
 			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 			$misc->printMsg($msg);
-			$tblCount = count($_POST['formTables']);
+			$tblCount = sizeof($_POST['formTables']);
 			// If we have a message that means an error occurred in doSaveCreate, which means POST['formTables'] has quotes
 			// around the table names, but getTableAttributes doesn't accept quoted table names so we strip them here
 			if (strlen($msg)) {
@@ -183,7 +183,7 @@
 						
 			$arrFields = array(); //array that will hold all our table/field names
 
-			//if we can get foreign key info then get our linking keys
+			// If we can get foreign key info then get our linking keys
 			if ($data->hasForeignKeysInfo()) {
 				$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
 			
@@ -206,16 +206,19 @@
 			echo "<tr><th class=\"data\">{$lang['strviewname']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			// View name
-			echo "<input name=\"formView\" id=\"formView\" value=\"", htmlspecialchars($_REQUEST['formView']), "\" style=\"width: 100%;\" />\n";
+			echo "<input name=\"formView\" id=\"formView\" value=\"", htmlspecialchars($_REQUEST['formView']), "\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
 			echo "</td>\n</tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strcomment']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			// View comments			
 			echo "<input name=\"formComment\" id=\"formComment\" value=\"", htmlspecialchars($_REQUEST['formComment']), "\" style=\"width: 100%;\" />\n";
-			echo "</td>\n</tr>\n";									
-			echo "<tr>\n<td class=\"data1\">\n";
+			echo "</td>\n</tr>\n";
+			echo "</table>\n";
 			
 			// Output selector for fields to be retrieved from view
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strfields']}</th></tr>";
+			echo "<tr>\n<td class=\"data1\">\n";			
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);			
 			echo "</td>\n</tr>\n</table>\n<br />\n";						
 						
@@ -383,9 +386,9 @@
 			$selFields = implode(', ', $_POST['formFields']);		
 			
 			$linkFields = '';
-			
+
+			// If we have links, out put the JOIN ... ON statements
 			if (is_array($_POST['formLink']) ) {
-				
 				// Filter out invalid/blank entries for our links
 				$arrLinks = array();
 				foreach ($_POST['formLink'] AS $curLink) {
@@ -394,31 +397,42 @@
 					}
 				}				
 				// We must perform some magic to make sure that we have a valid join order
-				$count = count($arrLinks);
+				$count = sizeof($arrLinks);
 				$arrJoined = array();
 				$arrUsedTbls = array();								
-								
-				$j = 0;
-				while ($j < $count) {					
-					foreach ($arrLinks AS $curLink) {
-						
-						$tbl1 = substr($curLink['leftlink'], 0, strpos($curLink['leftlink'], '.') );
-						$tbl2 = substr($curLink['rightlink'], 0, strpos($curLink['rightlink'], '.') );
-												
-						if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
-														
-							//make sure for multi-column foreign keys that we use a table alias tables joined to more than once
-							//this can (and should be) more optimized for multi-column foreign keys
-							$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
+
+				// If we have at least one join condition, output it
+				if ($count > 0) {
+					$j = 0;
+					while ($j < $count) {					
+						foreach ($arrLinks AS $curLink) {
 							
-							$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
-							$arrJoined[] = $curLink;
-							if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
-							if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
-						}						
+							$tbl1 = substr($curLink['leftlink'], 0, strpos($curLink['leftlink'], '.') );
+							$tbl2 = substr($curLink['rightlink'], 0, strpos($curLink['rightlink'], '.') );
+													
+							if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
+															
+								// Make sure for multi-column foreign keys that we use a table alias tables joined to more than once
+								// This can (and should be) more optimized for multi-column foreign keys
+								$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
+								
+								$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
+								$arrJoined[] = $curLink;
+								if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
+								if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
+							}						
+						}
+						$j++;					
 					}
-					$j++;					
 				}
+				// Otherwise, just select from all seleted tables - a cartesian join
+				else {
+					$linkFields = implode(', ', $_POST['formTables']);
+				}
+			}
+			// Otherwise, just select from all seleted tables - a cartesian join
+			else {
+				$linkFields = implode(', ', $_POST['formTables']);
 			}
 			
 			$addConditions = '';
@@ -436,9 +450,10 @@
 			if (strlen($addConditions) ) $viewQuery .= ' WHERE ' . $addConditions;
 			
 			$status = $data->createView($_POST['formView'], $viewQuery, false, $_POST['formComment']);
-			
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strviewcreated']);
+			}
 			else				
 				doSetParamsCreate($lang['strviewcreatedbad']);
 		}
