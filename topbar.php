@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.6 2003/03/10 02:15:14 chriskl Exp $
+	 * $Id: topbar.php,v 1.7 2003/03/14 07:35:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 			htmlspecialchars($confServers[$_SESSION['webdbServerID']]['host']),
 			htmlspecialchars($confServers[$_SESSION['webdbServerID']]['port']),
 			htmlspecialchars($_SESSION['webdbUsername']), 
-			htmlspecialchars(date($strTimeFmt))) ?></td>
+			date($strTimeFmt)) ?></td>
 	</tr>
 	<tr>
 		<td>
