@@ -37,12 +37,25 @@ body.browser
 	text-align: left;
 }
 
+p.message {
+	color: blue;
+}
+
 h2
 {
 	color: #666633;
 	font-size: 16;
 	font-family: verdana, arial, helvetica, sans-serif;
 	font-weight: bold;
+}
+
+table.error
+{
+	background-color: #E6E6CC;
+}
+
+table.error td {
+	background-color: #E6E6CC;
 }
 
 table.navbar
@@ -205,7 +218,7 @@ a.nav:active
 
 
 /** CLASSES */
-
+/*
 .tabbutton {
 
   border-top: 1px solid #FFFFFF;
@@ -318,9 +331,9 @@ a.nav:active
 {
 	visibility : hidden;
 }
-
+*/
 /** IDs */
-
+/*
 #content
 {
 	height: 100%;

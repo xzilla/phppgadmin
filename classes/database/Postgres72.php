@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.19 2002/12/21 11:16:46 chriskl Exp $
+ * $Id: Postgres72.php,v 1.20 2002/12/22 15:01:29 chriskl Exp $
  */
 
 
@@ -22,6 +22,10 @@ class Postgres72 extends Postgres71 {
 	// This gets it from the database. 
 	// $rs = pg_exec($link, "SELECT oid FROM pg_database WHERE datname='template1'") or pg_die(pg_errormessage(), "", __FILE__, __LINE__);
 	// $builtin_max = pg_result($rs, 0, "oid");
+	
+	function Postgres72($host, $port, $database, $user, $password) {
+		$this->Postgres71($host, $port, $database, $user, $password);
+	}
 
 	// Table functions
 

@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.19 2002/12/21 11:16:46 chriskl Exp $
+	 * $Id: english.php,v 1.20 2002/12/22 15:01:30 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -64,6 +64,10 @@
 	$strEdit = 'Edit';
 	$strInvalidParam = 'Invalid script parameters.';
 
+	// Error handling
+	$strSQLError = 'SQL error:';
+	$strInStatement = 'In statement:';
+	
 	// Users
 	$strUser = 'User';
 	$strGroup = 'Group';
