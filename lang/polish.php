@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.25 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: polish.php,v 1.26 2003/08/26 21:24:21 slubek Exp $
 	 */
 
 	// Language and character set
@@ -43,6 +43,8 @@
 	$lang['strnotnull'] = 'Not Null';
 	$lang['strprev'] = 'Poprzedni';
 	$lang['strnext'] = 'Nastêpny';
+	$lang['strfirst'] = '<< Pierwszy';
+	$lang['strlast'] = 'Ostatni >>';
 	$lang['strfailed'] = 'Nieudany';
 	$lang['strcreate'] = 'Utwórz';
 	$lang['strcreated'] = 'Utworzony';
@@ -99,7 +101,14 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Rozwiñ';
 	$lang['strcollapse'] = 'Zwiñ';
-					
+	$lang['strexplain'] = 'Explain';
+	$lang['strfind'] = 'Znajd¼';
+	$lang['stroptions'] = 'Opcje';
+	$lang['strrefresh'] = 'Od¶wie¿';
+	$lang['strtaller'] = 'D³u¿ej';
+	$lang['strshorter'] = 'Krócej';
+	$lang['strdownload'] = 'Pobierz';
+
 	// Error handling
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$lang['strbadconfig'] = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
@@ -123,23 +132,23 @@
 	$lang['strtableneedsfield'] = 'Musisz podaæ przynajmniej jedno pole.';
 	$lang['strtableneedscols'] = 'Musisz podaæ prawid³ow± liczbê kolumn.';
 	$lang['strtablecreated'] = 'Utworzono tabelê.';
-	$lang['strtablecreatedbad'] = 'Operacja utworzenia tabeli siê nie powiod³a.';
+	$lang['strtablecreatedbad'] = 'Próba utworzenia tabeli siê nie powiod³a.';
 	$lang['strconfdroptable'] = 'Czy na pewno chcesz usun±æ tablicê "%s"?';
 	$lang['strtabledropped'] = 'Tablica usuniêta.';
-	$lang['strtabledroppedbad'] = 'Operacja usuniêcia tablicy siê nie powiod³a.';
+	$lang['strtabledroppedbad'] = 'Próba usuniêcia tablicy siê nie powiod³a.';
 	$lang['strconfemptytable'] = 'Czy na pewno chcesz wyczy¶ciæ tablicê "%s"?';
 	$lang['strtableemptied'] = 'Tablica wyczyszczona.';
-	$lang['strtableemptiedbad'] = 'Operacja wyczyszczenia tablicy siê nie powiod³a.';
+	$lang['strtableemptiedbad'] = 'Próba wyczyszczenia tablicy siê nie powiod³a.';
 	$lang['strinsertrow'] = 'Wstaw wiersz';
 	$lang['strrowinserted'] = 'Wiersz wstawiony.';
-	$lang['strrowinsertedbad'] = 'Operacja wstawienia wiersza siê nie powiod³a.';
+	$lang['strrowinsertedbad'] = 'Próba wstawienia wiersza siê nie powiod³a.';
 	$lang['streditrow'] = 'Edycja wiersza';
 	$lang['strrowupdated'] = 'Wiersz zaktualizowany.';
-	$lang['strrowupdatedbad'] = 'Operacja aktalizacji wiersza siê nie powiod³a.';
+	$lang['strrowupdatedbad'] = 'Próba aktualizacji wiersza siê nie powiod³a.';
 	$lang['strdeleterow'] = 'Usuñ wiersz';
 	$lang['strconfdeleterow'] = 'Czy na pewno chcesz usun±æ ten wiersz?';
 	$lang['strrowdeleted'] = 'Wiersz usuniêty.';
-	$lang['strrowdeletedbad'] = 'Operacja usuniêcia wiersza siê nie powiod³a.';
+	$lang['strrowdeletedbad'] = 'Próba usuniêcia wiersza siê nie powiod³a.';
 	$lang['strsaveandrepeat'] = 'Zapisz i powtórz';
 	$lang['strfield'] = 'Pole';
 	$lang['strfields'] = 'Pola';
@@ -148,20 +157,21 @@
         $lang['strselectneedscol'] = 'Musisz wybraæ przynajmniej jedn± kolumnê';
 	$lang['straltercolumn'] = 'Zmieñ kolumnê';
 	$lang['strcolumnaltered'] = 'Kolumna zmodyfikowana.';
-	$lang['strcolumnalteredbad'] = 'Operacja modyfikacji kolumny siê nie powiod³a.';
+	$lang['strcolumnalteredbad'] = 'Próba modyfikacji kolumny siê nie powiod³a.';
 	$lang['strconfdropcolumn'] = 'Czy na pewno chcesz usun±æ kolumnê "%s" z tablicy "%s"?';
 	$lang['strcolumndropped'] = 'Kolumna usuniêta.';
-	$lang['strcolumndroppedbad'] = 'Operacja usuniêcia kolumny siê nie powiod³a.';
+	$lang['strcolumndroppedbad'] = 'Próba usuniêcia kolumny siê nie powiod³a.';
         $lang['straddcolumn'] = 'Dodaj kolumnê';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
-	$lang['strcolumnaddedbad'] = 'Operacja dodania kolumny siê nie powiod³a.';
+	$lang['strcolumnaddedbad'] = 'Próba dodania kolumny siê nie powiod³a.';
         $lang['strschemaanddata'] = 'Schemat i Dane';
 	$lang['strschemaonly'] = 'Tylko schemat';
 	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strcascade'] = 'CASCADE';
+	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
+	$lang['strtablealteredbad'] = 'Próba modyfikacji tabeli siê nie powiod³a.';
 			
 	// Users
-	$lang['struseradmin'] = 'Administracja kontami';
 	$lang['struser'] = 'U¿ytkownik';
 	$lang['strusers'] = 'U¿ytkownicy';
 	$lang['strusername'] = 'Nazwa u¿ytkownika';
@@ -171,23 +181,21 @@
 	$lang['strexpires'] = 'Wygasa';	
 	$lang['strnousers'] = 'Nie znaleziono u¿ytkowników.';
 	$lang['struserupdated'] = 'Parametry u¿ytkownika zaktualizowane.';
-	$lang['struserupdatedbad'] = 'Operacja aktualizacji parametrów u¿ytkownika siê nie powiod³a.';
+	$lang['struserupdatedbad'] = 'Próba aktualizacji parametrów u¿ytkownika siê nie powiod³a.';
         $lang['strshowallusers'] = 'Poka¿ wszystkich u¿ytkowników';
 	$lang['strcreateuser'] = 'Utwórz u¿ytkownika';
 	$lang['strusercreated'] = 'U¿ytkownik utworzony.';
-	$lang['strusercreatedbad'] = 'Operacja utworzenia u¿ytkownika siê nie powiod³a.';
+	$lang['strusercreatedbad'] = 'Próba utworzenia u¿ytkownika siê nie powiod³a.';
 	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun±æ u¿ytkownika "%s"?';
 	$lang['struserdropped'] = 'U¿ytkownik usuniêty.';
-	$lang['struserdroppedbad'] = 'Operacja usuniêcia u¿ytkownika siê nie powiod³a.';
+	$lang['struserdroppedbad'] = 'Próba usuniêcia u¿ytkownika siê nie powiod³a.';
 	$lang['straccount'] = 'Konto';
 	$lang['strchangepassword'] = 'Zmieñ has³o';
 	$lang['strpasswordchanged'] = 'Has³o zmienione.';
-	$lang['strpasswordchangedbad'] = 'Operacja zmiany has³a siê nie powiod³a.';
+	$lang['strpasswordchangedbad'] = 'Próba zmiany has³a siê nie powiod³a.';
 	$lang['strpasswordshort'] = 'Has³o jest za krótkie.';
 	$lang['strpasswordconfirm'] = 'Has³o i potwierdzenie musz± byæ takie same.';
 							
-	// Groups
-	$lang['strgroupadmin'] = 'Administracja grupami';
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
 	$lang['strnogroup'] = 'Nie znaleziono grupy.';
@@ -199,8 +207,15 @@
 	$lang['strgroupcreatedbad'] = 'Próba utworzenia grupy siê nie powiod³a.';
 	$lang['strconfdropgroup'] = 'Czy na pewno chcesz utworzyæ grupê "%s"?';
 	$lang['strgroupdropped'] = 'Grupa usuniêta.';
-	$lang['strgroupdroppedbad'] = 'Usuniêcie grupy siê nie powiod³o.';
+	$lang['strgroupdroppedbad'] = 'Próba usuniêcia grupy siê nie powiod³a.';
 	$lang['strmembers'] = 'Cz³onkowie';
+	$lang['straddmember'] = 'Dodaj cz³onka grupy';
+	$lang['strmemberadded'] = 'Cz³onek grupy dodany.';
+	$lang['strmemberaddedbad'] = 'Próba dodania cz³onka grupy siê nie powiod³a.';
+	$lang['strdropmember'] = 'Usuñ cz³onka grupy';
+	$lang['strconfdropmember'] = 'Czy na pewno chcesz usun±æ "%s" z grupy "%s"?';
+	$lang['strmemberdroppedbad'] = 'Próba usuniêcia cz³onka grupy siê nie powiod³a.';
+	$lang['strmemberdropped'] = 'Cz³onek grupy usuniêty.';
 
 	// Privileges
 	$lang['strprivilege'] = 'Uprawnienie';
@@ -212,6 +227,8 @@
 	$lang['strgrantfailed'] = 'Próba nadania uprawnieñ siê nie powiod³a.';
 	$lang['strgrantbad'] = 'Musisz podaæ u¿ytkownika lub grupê, a tak¿e uprawnienia, jakie chcesz nadaæ.';
 	$lang['stralterprivs'] = 'Zmieñ uprawnienia';
+	$lang['strgrantor'] = 'Grantor';
+	$lang['strasterisk'] = '*';
 				
 	// Databases
 	$lang['strdatabase'] = 'Baza danych';
@@ -229,10 +246,10 @@
 	$lang['strdatabasedroppedbad'] = 'Próba usuniêcia bazy danych siê nie powiod³a.';
 	$lang['strentersql'] = 'Podaj polecenie SQL do wykonania:';
 	$lang['strsqlexecuted'] = 'Wykonano polecenie SQL.';
-	$lang['strvacuumgood'] = 'Operacja czyszczenia bazy zakoñczona.';
-	$lang['strvacuumbad'] = 'Operacja czyszczenia bazy siê nie powiod³a.';
-	$lang['stranalyzegood'] = 'Operacja analizy zakoñczona.';
-	$lang['stranalyzebad'] = 'Operacja analizy siê nie powiod³a.';
+	$lang['strvacuumgood'] = 'Czyszczenie bazy zakoñczone.';
+	$lang['strvacuumbad'] = 'Próba czyszczenia bazy siê nie powiod³a.';
+	$lang['stranalyzegood'] = 'Analiza bazy zakoñczona.';
+	$lang['stranalyzebad'] = 'Próba analizy siê nie powiod³a.';
 
 	// Views
 	$lang['strview'] = 'Widok';
@@ -313,7 +330,7 @@
 	$lang['strrulecreatedbad'] = 'Próba utworzenia regu³y siê nie powiod³a.';
 	$lang['strconfdroprule'] = 'Czy na pewno chcesz usun±æ regu³ê "%s" na "%s"?';
 	$lang['strruledropped'] = 'Regu³a usuniêta.';
-	$lang['strruledroppedbad'] = 'Operacja usuniêcia regu³y siê nie powiod³a.';
+	$lang['strruledroppedbad'] = 'Próba usuniêcia regu³y siê nie powiod³a.';
 	
 	// Wiêzy integralno¶ci
 	$lang['strconstraints'] = 'Wiêzy integralno¶ci';
@@ -324,7 +341,7 @@
 	$lang['strconstraintcreatedbad'] = 'Próba utworzenia wiêzów integralno¶ci siê nie powiod³a.';
 	$lang['strconfdropconstraint'] = 'Czy na pewno chcesz usun±æ wiêzy integralno¶ci "%s" na "%s"?';
 	$lang['strconstraintdropped'] = 'Wiêzy integralno¶ci usuniête.';
-	$lang['strconstraintdroppedbad'] = 'Operacja usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
+	$lang['strconstraintdroppedbad'] = 'Próba usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
 	$lang['straddcheck'] = 'Dodaj warunek';
         $lang['strcheckneedsdefinition'] = 'Musisz zdefiniowaæ warunek.';
 	$lang['strcheckadded'] = 'Dodano warunek.';
@@ -332,16 +349,16 @@
 	$lang['straddpk'] = 'Dodaj klucz g³ówny';
 	$lang['strpkneedscols'] = 'Klucz g³ówny musi zawieraæ przynajmniej jedn± kolumnê.';
 	$lang['strpkadded'] = 'Dodano klucz g³ówny.';
-	$lang['strpkaddedbad'] = 'Operacja dodania klucza g³ównego siê nie powiod³a.';
+	$lang['strpkaddedbad'] = 'Próba dodania klucza g³ównego siê nie powiod³a.';
 	$lang['stradduniq'] = 'Dodaj klucz unikatowy';
 	$lang['struniqneedscols'] = 'Klucz unikatowy musi zawieraæ przynajmniej jedn± kolumnê.';
 	$lang['struniqadded'] = 'Dodano klucz unikatowy.';
-	$lang['struniqaddedbad'] = 'Operacja dodania klucza unikatowego siê nie powiod³a.';
+	$lang['struniqaddedbad'] = 'Próba dodania klucza unikatowego siê nie powiod³a.';
         $lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawieraæ przynajmniej jedn± kolumnê.';
 	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tablicy docelowej.';
 	$lang['strfkadded'] = 'Dodano klucz obcy.';
-	$lang['strfkaddedbad'] = 'Operacja dodania klucza obcego siê nie powiod³a.';
+	$lang['strfkaddedbad'] = 'Próba dodania klucza obcego siê nie powiod³a.';
 	$lang['strfktarget'] = 'Tabela docelowa';
 	$lang['strfkcolumnlist'] = 'Kolumna w kluczu';
 	$lang['strondelete'] = 'ON DELETE';
@@ -363,9 +380,9 @@
 	$lang['strfunctioncreatedbad'] = 'Próba utworzenia funkcji siê nie powiod³a';
         $lang['strconfdropfunction'] = 'Czy na pewno chcesz usun±æ funkcjê "%s"?';
 	$lang['strfunctiondropped'] = 'Funkcja usuniêta.';
-	$lang['strfunctiondroppedbad'] = 'Operacja usuniêcia funkcji siê nie powiod³a.';
+	$lang['strfunctiondroppedbad'] = 'Próba usuniêcia funkcji siê nie powiod³a.';
 	$lang['strfunctionupdated'] = 'Funkcja zaktualizowana.';
-	$lang['strfunctionupdatedbad'] = 'Operacja aktualizacji funkcji siê nie powiod³a.';
+	$lang['strfunctionupdatedbad'] = 'Próba aktualizacji funkcji siê nie powiod³a.';
 
 	// Triggers
 	$lang['strtrigger'] = 'Procedura wyzwalana';
@@ -380,7 +397,9 @@
 	$lang['strtriggercreatedbad'] = 'Próba utworzenia procedury wyzwalanej siê nie powiod³a';
         $lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
 	$lang['strtriggerdropped'] = 'Procedura wyzwalana usuniêta.';
-	$lang['strtriggerdroppedbad'] = 'Operacja usuniêcia procedury wyzwalanej siê nie powiod³a.';
+	$lang['strtriggerdroppedbad'] = 'Próba usuniêcia procedury wyzwalanej siê nie powiod³a.';
+	$lang['strtriggeraltered'] = 'Procedura wyzwalana zmieniona.';
+	$lang['strtriggeralteredbad'] = 'Próba modyfikacji procedury wyzwalanej siê nie powiod³a.';
 		
 	// Types
 	$lang['strtype'] = 'Typ';
@@ -429,13 +448,45 @@
 	$lang['strreportdropped'] = 'Raport usuniêty.';
 	$lang['strreportdroppedbad'] = 'Próba usuniêcia raportu siê nie powiod³a.';
 	$lang['strconfdropreport'] = 'Czy na pewno chcesz usun±æ raport "%s"?';
-        $lang['strreportneedsname'] = 'Musisz nadaæ raportowi nazwê.';
+        $lang['strreportneedsname'] = 'Musisz nazwaæ raport.';
 	$lang['strreportneedsdef'] = 'Musisz zdefiniowaæ zapytanie SQL tworz±ce raport.';
 	$lang['strreportcreated'] = 'Raport utworzony.';
 	$lang['strreportcreatedbad'] = 'Próba utworzenia raportu siê nie powiod³a.';
+	$lang['strsaveasreport'] = 'Zapisz jako raport';
+
+	// Domeny
+	$lang['strdomain'] = 'Domena';
+	$lang['strdomains'] = 'Domeny';
+	$lang['strshowalldomains'] = 'Pokar¿ wszystkie domeny';
+	$lang['strnodomains'] = 'Nie znaleziono domen.';
+	$lang['strcreatedomain'] = 'Utwórz domenê';
+	$lang['strdomaindropped'] = 'Domena usuniêta.';
+	$lang['strdomaindroppedbad'] = 'Próba usuniêcia domeny siê nie powiod³a.';
+	$lang['strconfdropdomain'] = 'Czy na pewno chcesz usun±æ domenê "%s"?';
+	$lang['strdomainneedsname'] = 'Musisz nazwaæ domenê.';
+	$lang['strdomaincreated'] = 'Domena utworzona.';
+	$lang['strdomaincreatedbad'] = 'Próba utworzenia domeny siê nie powiod³a.';
+	$lang['strdomainaltered'] = 'Domena zmieniona.';
+	$lang['strdomainalteredbad'] = 'Próba modyfikacji domeny siê nie powiod³a.';
+
+	// Operators
+	$lang['stroperator'] = 'Operator';
+	$lang['stroperators'] = 'Operatory';
+	$lang['strshowalloperators'] = 'Poka¿ wszystkie operatory';
+	$lang['strnooperator'] = 'Nie znaleziono operatora.';
+	$lang['strnooperators'] = 'Nie znaleziono operatorów.';
+	$lang['strcreateoperator'] = 'Utwórz operator';
+	$lang['stroperatorname'] = 'Nazwa operatora';
+	$lang['strleftarg'] = 'Typ lewego argumentu';
+	$lang['strrightarg'] = 'Typ prawego argumentu';
+	$lang['stroperatorneedsname'] = 'Musisz nazwaæ operator.';
+	$lang['stroperatorcreated'] = 'Operator utworzony.';
+	$lang['stroperatorcreatedbad'] = 'Próba utworzenia operatora siê nie powiod³a.';
+	$lang['strconfdropoperator'] = 'Czy na pewno chcesz usun±æ operator "%s"?';
+	$lang['stroperatordropped'] = 'Operator usuniêty.';
+	$lang['stroperatordroppedbad'] = 'Próba usuniêcia operatora siê nie powiod³a.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
-
 ?>
