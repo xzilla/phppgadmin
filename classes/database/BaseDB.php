@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.26 2003/08/18 08:20:43 chriskl Exp $
+ * $Id: BaseDB.php,v 1.27 2003/09/01 03:15:43 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -138,7 +138,6 @@ class BaseDB extends ADODB_base {
 					if ($first) {
 						$this->fieldClean($k);
 						$this->clean($v);
-						// @@ FIX THIS QUOTING
 						$sql .= " WHERE \"{$k}\"='{$v}'";
 						$first = false;
 					} else {
@@ -152,11 +151,11 @@ class BaseDB extends ADODB_base {
 		if (is_array($nulls) && sizeof($nulls) > 0) {
 			foreach ($nulls as $v) {
 				if ($first) {
-					$this->fieldClean($k);
-					$sql .= " WHERE \"{$k}\" IS NULL";
+					$this->fieldClean($v);
+					$sql .= " WHERE \"{$v}\" IS NULL";
 					$first = false;
 				} else {
-					$sql .= " AND \"{$k}\" IS NULL";
+					$sql .= " AND \"{$v}\" IS NULL";
 				}
 			}
 		}
