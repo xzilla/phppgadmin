@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.15 2003/03/12 02:29:47 chriskl Exp $
+	 * $Id: Misc.php,v 1.16 2003/03/16 10:43:40 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -13,8 +13,6 @@
 		
 		/* Constructor */
 		function Misc() {
-			$this->setHREF();
-			$this->setForm();
 		}
 
 		/**
@@ -35,9 +33,9 @@
 		function setForm() {
 			$this->form = '';
 			if (isset($_REQUEST['database'])) {
-				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\">\n";;
+				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\">\n";
 				if (isset($_REQUEST['schema']))
-					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\">\n";;
+					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\">\n";
 			}
 		}
 
@@ -63,7 +61,7 @@
 		function printMsg($msg) {
 			if ($msg != '') echo "<p class=\"message\">", htmlspecialchars($msg), "</p>\n";
 		}
-		
+
 		/**
 		 * Creates a database accessor
 		 */
@@ -155,15 +153,16 @@
 		 * Display the navigation header for tables
 		 */
 		function printDatabaseNav() {
-			global $strSchemas, $strExport, $strPrivileges, $strSQL;
+			global $strSchemas, $strExport, $strPrivileges, $strSQL, $strAdmin;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"25%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
-			echo "<td width=\"25%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$strPrivileges}</a></td>\n";
-			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=sql\">{$strSQL}</a></td>\n";
-			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "<tr><td width=\"20%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$strSQL}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$strAdmin}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";
 		}
 
