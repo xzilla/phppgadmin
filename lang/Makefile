@@ -6,11 +6,11 @@
 # It is important to fix first and last lines of the file <?php and ?>
 # using 'awk'
 # 
-# $Id: Makefile,v 1.11 2003/04/04 02:13:28 chriskl Exp $
+# $Id: Makefile,v 1.12 2003/04/07 05:46:38 chriskl Exp $
 #
 DESTDIR=./recoded
 
-all:	polish english chinese-tr-utf8 chinese-tr-big5 chinese-sim-utf8 chinese-sim-gb2312 dutch german spanish italian french russian-cp1251 russian-koi8 japanese
+all:	polish english chinese dutch german spanish italian french russian japanese
 
 polish:
 	cat polish.php | recode latin2..html | \
@@ -41,6 +41,7 @@ italian:
 	cat italian.php | recode latin1..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/italian.php
+chinese: chinese-tr-utf8 chinese-tr-big5 chinese-sim-utf8 chinese-sim-gb2312
 
 chinese-tr-utf8:
 	cat chinese-tr-utf8.php | recode utf8..html  | \
@@ -78,6 +79,8 @@ japanese-sjis:
 	cat japanese-sjis.php | recode sjis..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/japanese-sjis.php
+
+russian: russian-cp1251 russian-koi8 
 
 russian-cp1251:
 	cat russian-cp1251.php | recode cp1251..html | \
