@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.182 2004/02/13 12:42:12 chriskl Exp $
+ * $Id: Postgres.php,v 1.183 2004/02/25 15:46:22 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3425,8 +3425,9 @@ class Postgres extends BaseDB {
 	function &getStatsTableTuples($table) {
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_stat_all_tables WHERE schemaname='{$this->_schema}'
-			AND relname='{$table}'";
+		$sql = 'SELECT * FROM pg_stat_all_tables WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}'";
 
 		return $this->selectSet($sql);
 	}
@@ -3439,8 +3440,9 @@ class Postgres extends BaseDB {
 	function &getStatsTableIO($table) {
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_statio_all_tables WHERE schemaname='{$this->_schema}'
-			AND relname='{$table}'";
+		$sql = 'SELECT * FROM pg_statio_all_tables WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}'";
 
 		return $this->selectSet($sql);
 	}
@@ -3453,8 +3455,9 @@ class Postgres extends BaseDB {
 	function &getStatsIndexTuples($table) {
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_stat_all_indexes WHERE schemaname='{$this->_schema}'
-			AND relname='{$table}' ORDER BY indexrelname";
+		$sql = 'SELECT * FROM pg_stat_all_indexes WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}' ORDER BY indexrelname";
 
 		return $this->selectSet($sql);
 	}
@@ -3467,8 +3470,9 @@ class Postgres extends BaseDB {
 	function &getStatsIndexIO($table) {
 		$this->clean($table);
 
-		$sql = "SELECT * FROM pg_statio_all_indexes WHERE schemaname='{$this->_schema}'
-			AND relname='{$table}' ORDER BY indexrelname";
+		$sql = 'SELECT * FROM pg_statio_all_indexes WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}' ORDER BY indexrelname";
 
 		return $this->selectSet($sql);
 	}

@@ -1,9 +1,9 @@
 <?php
 	/**
-	 * Does an export of a database to the screen or as a download.
-	 * Can also dump a specific table of a database.
+	 * Does an export of a database or a table (via pg_dump)
+	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.7 2004/01/29 07:30:11 chriskl Exp $
+	 * $Id: dbexport.php,v 1.8 2004/02/25 15:46:22 soranzo Exp $
 	 */
 
 	// Include application functions
