@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.35 2004/02/13 08:53:04 chriskl Exp $
+	 * $Id: database.php,v 1.36 2004/02/14 04:21:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -374,10 +374,17 @@
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_REQUEST['query']), "</textarea></p>\n";
 
-		echo $misc->form;
 		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
-		echo "<br /><br />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
+		echo "<br />\n";
+		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
+		if ($data->hasFullExplain()) {
+			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
+			echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
+		}
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+
+		echo $misc->form;
+
 		echo "</form>\n";
 
 		// Default focus

@@ -6,12 +6,20 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.15 2004/02/13 08:53:04 chriskl Exp $
+	 * $Id: sql.php,v 1.16 2004/02/14 04:21:02 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
+	// Determine explain version of SQL
+	if ($data->hasFullExplain() && isset($_POST['explain']) && isset($_POST['query'])) {
+		$_POST['query'] = $data->getExplainSQL($_POST['query'], false)
+	}
+	elseif ($data->hasFullExplain() && isset($_POST['explain_analyze']) && isset($_POST['query'])) {
+		$_POST['query'] = $data->getExplainSQL($_POST['query'], true)
+	}
+	
 	// Check to see if pagination has been specified.  In that case, send to display
 	// script for pagination
 	if (isset($_POST['paginate'])) {
@@ -28,15 +36,6 @@
 	$misc->printDatabaseNav();
 	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
 
-	// NOTE: This is a quick hack!
-	// TODO: Is there a generic (non PostgreSQL specific) way to do this
-	if (isset($_POST['explain']) && isset($_POST['query'])) {
-		$_POST['query'] = 'EXPLAIN ' . $_POST['query'];
-	}
-	elseif (isset($_POST['explain_analyze']) && isset($_POST['query'])) {
-		$_POST['query'] = 'EXPLAIN ANALYZE ' . $_POST['query'];
-	}
-	
 	// Set fetch mode to NUM so that duplicate field names are properly returned
 	$data->conn->setFetchMode(ADODB_FETCH_NUM);
 	// Execute the query
