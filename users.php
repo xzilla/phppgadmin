@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.10 2003/05/08 15:14:14 chriskl Exp $
+	 * $Id: users.php,v 1.11 2003/05/16 06:49:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -201,26 +201,29 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc, $username;
-		global $formUsername, $formPassword, $formSuper, $formCreateDB, $formExpires;
 		global $PHP_SELF, $lang;
 		
-		if (!isset($formUsername)) $formUsername = '';
-		if (!isset($formUsername)) $formPassword = '';
-		if (!isset($formExpires)) $formExpires = '';
+		if (!isset($_POST['formUsername'])) $_POST['formUsername'] = '';
+		if (!isset($_POST['formPassword'])) $_POST['formPassword'] = '';
+		if (!isset($_POST['formConfirm'])) $_POST['formConfirm'] = '';
+		if (!isset($_POST['formExpires'])) $_POST['formExpires'] = '';
 		
 		echo "<h2>{$lang['strusers']}: {$lang['strcreateuser']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strpassword']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($formUsername), "\" /></td>\n";
-		echo "<td class=\"data1\"><input size=\"15\" name=\"formPassword\" value=\"", htmlspecialchars($formPassword), "\" /></td>\n";
+		echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strpassword']}</th><th class=\"data\">{$lang['strconfirm']}</th>";
+		echo "<th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th>";
+		echo "<th class=\"data\">{$lang['strexpires']}</th></tr>\n";
+		echo "<tr><td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n";
+		echo "<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n";
+		echo "<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
-			(isset($formSuper)) ? ' checked="checked"' : '', " /></td>\n";
+			(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
-			(isset($formCreateDB)) ? ' checked="checked"' : '', " /></td>\n";
-		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($formExpires), "\" /></td></tr>\n";
+			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n";
+		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
@@ -235,14 +238,18 @@
 	function doSaveCreate() {
 		global $data;
 		global $lang;
-		
-		// @@ NOTE: No groups handled yet
-		$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
-			isset($_POST['formSuper']), isset($_POST['formCreateDB']), $_POST['formExpires'], array());
-		if ($status == 0)
-			doDefault($lang['strusercreated']);
-		else
-			doCreate($lang['strusercreatedbad']);
+
+		// Check data
+		if ($_POST['formPassword'] != $_POST['formConfirm'])
+			doCreate($lang['strpasswordconfirm']);
+		else {		
+			$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
+				isset($_POST['formSuper']), isset($_POST['formCreateDB']), $_POST['formExpires'], array());
+			if ($status == 0)
+				doDefault($lang['strusercreated']);
+			else
+				doCreate($lang['strusercreatedbad']);
+		}
 	}	
 
 	/**
