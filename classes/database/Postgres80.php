@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.6 2004/10/11 11:27:27 jollytoad Exp $
+ * $Id: Postgres80.php,v 1.7 2004/11/10 01:46:36 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -14,7 +14,7 @@ class Postgres80 extends Postgres74 {
 	// of objects.
 	var $privlist = array(
 		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
-		'view' => array('SELECT', 'RULE', 'ALL PRIVILEGES'),
+		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
 		'database' => array('CREATE', 'TEMPORARY', 'ALL PRIVILEGES'),
 		'function' => array('EXECUTE', 'ALL PRIVILEGES'),

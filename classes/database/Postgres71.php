@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.67 2004/09/07 14:04:20 jollytoad Exp $
+ * $Id: Postgres71.php,v 1.68 2004/11/10 01:46:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -20,7 +20,7 @@ class Postgres71 extends Postgres {
 	// of objects.
 	var $privlist = array(
 		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'ALL'),
-		'view' => array('SELECT', 'RULE', 'ALL'),
+		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'ALL'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL')
 	);
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.249 2004/11/02 03:33:35 chriskl Exp $
+ * $Id: Postgres.php,v 1.250 2004/11/10 01:46:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -115,7 +115,7 @@ class Postgres extends ADODB_base {
 	// of objects.
 	var $privlist = array(
 		'table' => array('SELECT', 'INSERT', 'UPDATE', 'RULE', 'ALL'),
-		'view' => array('SELECT', 'RULE', 'ALL'),
+		'view' => array('SELECT', 'INSERT', 'UPDATE', 'RULE', 'ALL'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL')
 	);
 
