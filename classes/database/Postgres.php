@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.39 2003/01/11 09:50:21 chriskl Exp $
+ * $Id: Postgres.php,v 1.40 2003/01/14 00:28:18 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -17,7 +17,7 @@ class Postgres extends BaseDB {
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
-	var $grpFields = array('groname' => 'groname');
+	var $grpFields = array('groname' => 'groname', 'grolist' => 'grolist');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
@@ -1149,6 +1149,28 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
+
+
+	/**
+	 * Return information about a specific group
+	 * @param $groname The name of the group
+	 * @return All groups
+	 */
+	function &getGroup($groname) {
+		$this->clean($groname);
+
+		$sql = "SELECT grolist FROM pg_group WHERE groname = '{$groname}'";
+      
+		$grodata = $this->selectSet($sql);
+		$members = $grodata->f['grolist'];
+		$members = ereg_replace("\{|\}","",$members);
+		$this->clean($members);
+
+		$sql = "SELECT usename FROM pg_user WHERE usesysid IN ({$members}) ORDER BY usename";
+
+		return $this->selectSet($sql);
+	}
+
 	
 	/**
 	 * Creates a new group

@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.2 2003/01/07 08:56:06 chriskl Exp $
+	 * $Id: groups.php,v 1.3 2003/01/14 00:28:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -31,12 +31,13 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
+		global $PHP_SELF, $strShowAllGroups, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
+		global $strProperties, $strEdit;
 	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Edit</h2>\n";
+		echo "<h2>Users: ", htmlspecialchars($_REQUEST['groname']), ": $strEdit</h2>\n";
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($_REQUEST['username']);
+		$userdata = &$data->getUser($_REQUEST['groname']);
 		
 		if ($userdata->recordCount() > 0) {
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
@@ -58,9 +59,9 @@
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;username=", 
-			urlencode($_REQUEST['username']), "\">Properties</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllGroups}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;groname=", 
+			urlencode($_REQUEST['groname']), "\">{$strProperties}</a></p>\n";
 	}
 	
 	/**
@@ -68,27 +69,28 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
+		global $PHP_SELF, $strShowAllGroups, $strMembers, $strCreateDB, $strExpires, $strActions, $strNoUsers, $strEdit;
 	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Properties</h2>\n";
+		echo "<h2>Group: ", htmlspecialchars($_REQUEST['groname']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($_REQUEST['username']);
+		$groupdata = &$data->getUser($_REQUEST['groname']);
 		
-		if ($userdata->recordCount() > 0) {
+		if ($groupdata->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strUsername}</th><th class=\"data\">{$strSuper}</th><th class=\"data\">{$strCreateDB}</th><th class=\"data\">{$strExpires}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['usuper']], "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
+           	echo "<tr><th class=\"data\">{$strMembers}</th></tr>\n";
+           	while (!$groupdata->EOF) {
+            	echo "<tr><td class=\"data1\">", htmlspecialchars($groupdata->f[$data->uFields['uname']]), "</td></tr>\n";
+            	$groupdata->moveNext();
+           	}
 			echo "</table>\n";
+
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
-			urlencode($_REQUEST['username']), "\">Edit</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllGroups}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;groname=", 
+			urlencode($_REQUEST['groname']), "\">{$strEdit}</a></p>\n";
 	}
 	
 	/**
