@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.69 2003/04/13 08:24:24 jmpoure Exp $
+	 * $Id: english.php,v 1.70 2003/04/13 10:34:49 jmpoure Exp $
 	 */
 
 	// Language and character set
@@ -104,10 +104,10 @@
 	$lang['strtableneedscols'] = 'Tables require a valid number of columns.';
 	$lang['strtablecreated'] = 'Table created.';
 	$lang['strtablecreatedbad'] = 'Table creation failed.';
-	$lang['strconfdroptable'] = 'Are you sure you want to drop the table "%s"?';
+	$lang['strconfdroptable'] = 'Are you sure you want to drop the table \"%s\"?';
 	$lang['strtabledropped'] = 'Table dropped.';
 	$lang['strtabledroppedbad'] = 'Table drop failed.';
-	$lang['strconfemptytable'] = 'Are you sure you want to empty the table "%s"?';
+	$lang['strconfemptytable'] = 'Are you sure you want to empty the table \"%s\"?';
 	$lang['strtableemptied'] = 'Table emptied.';
 	$lang['strtableemptiedbad'] = 'Table empty failed.';
 	$lang['strinsertrow'] = 'Insert Row';
@@ -129,7 +129,7 @@
 	$lang['straltercolumn'] = 'Alter Column';
 	$lang['strcolumnaltered'] = 'Column Altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';
-        $lang['strconfdropcolumn'] = 'Are you sure you want to drop column "%s" from table "%s"?';
+        $lang['strconfdropcolumn'] = 'Are you sure you want to drop column \"%s\" from table \"%s\"?';
 	$lang['strcolumndropped'] = 'Column dropped.';
 	$lang['strcolumndroppedbad'] = 'Column drop failed.';
 	$lang['straddcolumn'] = 'Add column';
@@ -155,7 +155,7 @@
 	$lang['strcreateuser'] = 'Create User';
 	$lang['strusercreated'] = 'User created.';
 	$lang['strusercreatedbad'] = 'Failed to create user.';
-	$lang['strconfdropuser'] = 'Are you sure you want to drop the user "%s"?';
+	$lang['strconfdropuser'] = 'Are you sure you want to drop the user \"%s\"?';
 	$lang['struserdropped'] = 'User dropped.';
 	$lang['struserdroppedbad'] = 'Failed to drop user.';
 		
@@ -170,7 +170,7 @@
 	$lang['strgroupneedsname'] = 'You must give a name for your group.';
 	$lang['strgroupcreated'] = 'Group created.';
 	$lang['strgroupcreatedbad'] = 'Group creation failed.';	
-	$lang['strconfdropgroup'] = 'Are you sure you want to drop the group "%s"?';
+	$lang['strconfdropgroup'] = 'Are you sure you want to drop the group \"%s\"?';
 	$lang['strgroupdropped'] = 'Group dropped.';
 	$lang['strgroupdroppedbad'] = 'Group drop failed.';
 	$lang['strmembers'] = 'Members';
@@ -197,7 +197,7 @@
 	$lang['strdatabaseneedsname'] = 'You must give a name for your database.';
 	$lang['strdatabasecreated'] = 'Database created.';
 	$lang['strdatabasecreatedbad'] = 'Database creation failed.';	
-	$lang['strconfdropdatabase'] = 'Are you sure you want to drop the database "%s"?';
+	$lang['strconfdropdatabase'] = 'Are you sure you want to drop the database \"%s\"?';
 	$lang['strdatabasedropped'] = 'Database dropped.';
 	$lang['strdatabasedroppedbad'] = 'Database drop failed.';
 	$lang['strentersql'] = 'Enter the SQL to execute below:';
@@ -218,7 +218,7 @@
 	$lang['strviewneedsdef'] = 'You must give a definition for your view.';
 	$lang['strviewcreated'] = 'View created.';
 	$lang['strviewcreatedbad'] = 'View creation failed.';
-	$lang['strconfdropview'] = 'Are you sure you want to drop the view "%s"?';
+	$lang['strconfdropview'] = 'Are you sure you want to drop the view \"%s\"?';
 	$lang['strviewdropped'] = 'View dropped.';
 	$lang['strviewdroppedbad'] = 'View drop failed.';
 	$lang['strviewupdated'] = 'View updated.';
@@ -243,7 +243,7 @@
 	$lang['strsequenceneedsname'] = 'You must specify a name for your sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
 	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 
-	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence "%s"?';
+	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence \"%s\"?';
 	$lang['strsequencedropped'] = 'Sequence dropped.';
 	$lang['strsequencedroppedbad'] = 'Sequence drop failed.';
 
@@ -261,7 +261,7 @@
 	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created';
 	$lang['strindexcreatedbad'] = 'Index creation failed.';
-	$lang['strconfdropindex'] = 'Are you sure you want to drop the index "%s"?';
+	$lang['strconfdropindex'] = 'Are you sure you want to drop the index \"%s\"?';
 	$lang['strindexdropped'] = 'Index dropped.';
 	$lang['strindexdroppedbad'] = 'Index drop failed.';
 	$lang['strkeyname'] = 'Key Name';
@@ -283,7 +283,7 @@
 	$lang['strruleneedsname'] = 'You must specify a name for your rule.';
 	$lang['strrulecreated'] = 'Rule created.';
 	$lang['strrulecreatedbad'] = 'Rule creation failed.';
-	$lang['strconfdroprule'] = 'Are you sure you want to drop the rule "%s" on "%s"?';
+	$lang['strconfdroprule'] = 'Are you sure you want to drop the rule \"%s\" on \"%s\"?';
 	$lang['strruledropped'] = 'Rule dropped.';
 	$lang['strruledroppedbad'] = 'Rule drop failed.';
 
@@ -294,7 +294,7 @@
 	$lang['strcreateconstraint'] = 'Create Constraint';
 	$lang['strconstraintcreated'] = 'Constraint created.';
 	$lang['strconstraintcreatedbad'] = 'Constraint creation failed.';
-	$lang['strconfdropconstraint'] = 'Are you sure you want to drop the constraint "%s" on "%s"?';
+	$lang['strconfdropconstraint'] = 'Are you sure you want to drop the constraint \"%s\" on \"%s\"?';
 	$lang['strconstraintdropped'] = 'Constraint dropped.';
 	$lang['strconstraintdroppedbad'] = 'Constraint drop failed.';
 	$lang['straddcheck'] = 'Add Check';
@@ -329,7 +329,7 @@
 	$lang['strfunctionneedsdef'] = 'You must give a definition for your function.';
 	$lang['strfunctioncreated'] = 'Function created.';
 	$lang['strfunctioncreatedbad'] = 'Function creation failed.';
-	$lang['strconfdropfunction'] = 'Are you sure you want to drop the function "%s"?';
+	$lang['strconfdropfunction'] = 'Are you sure you want to drop the function \"%s\"?';
 	$lang['strfunctiondropped'] = 'Function dropped.';
 	$lang['strfunctiondroppedbad'] = 'Function drop failed.';
 	$lang['strfunctionupdated'] = 'Function updated.';
@@ -346,7 +346,7 @@
 	$lang['strtriggerneedsfunc'] = 'You must specify a function for your trigger.';
 	$lang['strtriggercreated'] = 'Trigger created.';
 	$lang['strtriggercreatedbad'] = 'Trigger creation failed.';
-	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger "%s" on "%s"?';
+	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger \"%s\" on \"%s\"?';
 	$lang['strtriggerdropped'] = 'Trigger dropped.';
 	$lang['strtriggerdroppedbad'] = 'Trigger drop failed.';
 
@@ -369,7 +369,7 @@
 	$lang['strtypeneedslen'] = 'You must give a length for your type.';
 	$lang['strtypecreated'] = 'Type created';
 	$lang['strtypecreatedbad'] = 'Type creation failed.';
-	$lang['strconfdroptype'] = 'Are you sure you want to drop the type "%s"?';
+	$lang['strconfdroptype'] = 'Are you sure you want to drop the type \"%s\"?';
 	$lang['strtypedropped'] = 'Type dropped.';
 	$lang['strtypedroppedbad'] = 'Type drop failed.';
 
@@ -384,7 +384,7 @@
 	$lang['strschemaneedsname'] = 'You must give a name for your schema.';
 	$lang['strschemacreated'] = 'Schema created';
 	$lang['strschemacreatedbad'] = 'Schema creation failed.';
-	$lang['strconfdropschema'] = 'Are you sure you want to drop the schema "%s"?';
+	$lang['strconfdropschema'] = 'Are you sure you want to drop the schema \"%s\"?';
 	$lang['strschemadropped'] = 'Schema dropped.';
 	$lang['strschemadroppedbad'] = 'Schema drop failed.';
 
@@ -396,14 +396,14 @@
 	$lang['strcreatereport'] = 'Create Report';
 	$lang['strreportdropped'] = 'Report dropped.';
 	$lang['strreportdroppedbad'] = 'Report drop failed.';
-	$lang['strconfdropreport'] = 'Are you sure you want to drop the report "%s"?';
+	$lang['strconfdropreport'] = 'Are you sure you want to drop the report \"%s\"?';
 	$lang['strreportneedsname'] = 'You must give a name for your report.';
 	$lang['strreportneedsdef'] = 'You must give SQL for your report.';
 	$lang['strreportcreated'] = 'Report saved.';
 	$lang['strreportcreatedbad'] = 'Failed to save report.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
+	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user \"%s\", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>
