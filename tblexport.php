@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.10 2003/08/18 07:28:15 chriskl Exp $
+	 * $Id: tblexport.php,v 1.11 2003/08/21 04:49:36 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -11,6 +11,7 @@
 		'copy' => 'sql',
 		'csv' => 'csv',
 		'tab' => 'txt',
+		'html' => 'html',
 		'xml' => 'xml'
 	);
 	 
@@ -96,6 +97,34 @@
 			$rs->moveNext();
 		}
 		echo "</records>\n";
+	}
+	elseif ($_REQUEST['format'] == 'html') {
+		echo "<html>\n";
+		echo "<body>\n";
+		echo "<table class=\"phppgadmin\">\n";
+		echo "\t<tr>\n\t\t";
+		if (!$rs->EOF) {
+			// Output header row
+			$j = 0;
+			foreach ($rs->f as $k => $v) {
+				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
+				echo "<th>", $misc->printVal($k, true), "</th>";
+			}
+		}
+		echo "\n\t</tr>\n";
+		while (!$rs->EOF) {
+			echo "\t<tr>\n\t\t";
+			foreach ($rs->f as $k => $v) {
+				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
+				$finfo = $rs->fetchField($j++);
+				echo "<td>", $misc->printVal($v, true, $finfo->type), "</td>";
+			}
+			echo "\n\t</tr>\n";
+			$rs->moveNext();
+		}
+		echo "</table>\n";
+		echo "</body>\n";
+		echo "</html>\n";
 	}
 	elseif ($_REQUEST['format'] == 'sql') {
 		$data->fieldClean($_REQUEST['table']);

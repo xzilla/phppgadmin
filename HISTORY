@@ -31,6 +31,7 @@ Features:
   tag names, outputs column type information, and is in correct XML format!
 * 'Save as Report' feature when viewing record sets
 * Tick all box on Select feature
+* Export in HTML format
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
