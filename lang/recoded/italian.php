@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.21 2004/01/18 16:03:11 soranzo Exp $
+	 * $Id: italian.php,v 1.22 2004/02/17 01:10:06 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -34,17 +34,16 @@
 	$lang['stractions'] = 'Azioni';
 	$lang['strname'] = 'Nome';
 	$lang['strdefinition'] = 'Definizione';
-	$lang['straggregates'] = 'Aggregazioni';
 	$lang['strproperties'] = 'Propriet&agrave;';
 	$lang['strbrowse'] = 'Visualizza';
 	$lang['strdrop'] = 'Elimina';
 	$lang['strdropped'] = 'Eliminato';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Non Nullo';
-	$lang['strprev'] = '< Prec.';
-	$lang['strnext'] = 'Succ. >';
-	$lang['strfirst'] = '<< Primo';
-	$lang['strlast'] = 'Ultimo >>';
+	$lang['strprev'] = '&lt; Prec.';
+	$lang['strnext'] = 'Succ. &gt;';
+	$lang['strfirst'] = '&lt;&lt; Primo';
+	$lang['strlast'] = 'Ultimo &gt;&gt;';
 	$lang['strfailed'] = 'Fallito';
 	$lang['strcreate'] = 'Crea';
 	$lang['strcreated'] = 'Creato';
@@ -103,7 +102,8 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Espandi';
 	$lang['strcollapse'] = 'Raccogli';
-	$lang['strexplain'] = 'Spiega';
+	$lang['strexplain'] = 'Explain';
+	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strfind'] = 'Trova';
 	$lang['stroptions'] = 'Opzioni';
 	$lang['strrefresh'] = 'Ricarica';
@@ -116,6 +116,9 @@
 	$lang['strprocess'] = 'Processo';
 	$lang['strprocesses'] = 'Processi';
 	$lang['strsetting'] = 'Valore';
+	$lang['streditsql'] = 'Modifica SQL';
+	$lang['strpaginate'] = 'Dividi in pagine i risultati';
+	$lang['strstarttime'] = 'Inizio';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
@@ -284,6 +287,8 @@
 	$lang['strviewdroppedbad'] = 'Eliminazione della vista fallita.';
 	$lang['strviewupdated'] = 'Vista aggiornata.';
 	$lang['strviewupdatedbad'] = 'Aggiornamento della vista fallito.';
+$lang['strviewlink'] = 'Linking Keys';
+$lang['strviewconditions'] = 'Additional Conditions';
 
 	// Sequences - Sequenze
 	$lang['strsequence'] = 'Sequenza';
@@ -311,6 +316,7 @@
 	$lang['strsequenceresetbad'] = 'Reset della sequenza fallito.'; 
 
 	// Indexes - Indici
+	$lang['strindex'] = 'Indice';
 	$lang['strindexes'] = 'Indici';
 	$lang['strindexname'] = 'Nome dell\'indice';
 	$lang['strshowallindexes'] = 'Mostra tutti gli indici';
@@ -536,9 +542,36 @@
 
 	// Info
 	$lang['strnoinfo'] = 'Nessuna informazione disponibile.';
-	$lang['strreferringtables'] = 'Tabella referente';
+	$lang['strreferringtables'] = 'Tabelle referenti';
 	$lang['strparenttables'] = 'Tabella padre';
 	$lang['strchildtables'] = 'Tabella figlia';
+
+	// Aggregates - Aggregazioni
+	$lang['straggregates'] = 'Aggregazioni';
+	$lang['strnoaggregates'] = 'Nessuna aggregazione trovata.';
+	$lang['stralltypes'] = '(Tutti i tipi)';
+
+	// Operator classes - Classi di operatori
+	$lang['stropclasses'] = 'Classi di operatori';
+	$lang['strnoopclasses'] = 'Nessuna classe di operatori trovata.';
+	$lang['straccessmethod'] = 'Metodo di accesso';
+
+	// Stats and performance - Statistiche e performance
+	$lang['strrowperf'] = 'Performance sulle righe';
+	$lang['strioperf'] = 'Performance sull\'I/O';
+	$lang['stridxrowperf'] = 'Performance sulle righe per gli indici';
+	$lang['stridxioperf'] = 'Performance sull\'I/O per gli indici';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequenziale';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disco';
+	$lang['strrows2'] = 'Righe';
 
 	// Miscellaneous - Varie
         $lang['strtopbar'] = '%s in esecuzione su %s:%s -- Sei entrato come utente &quot;%s&quot;, %s';
