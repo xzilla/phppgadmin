@@ -9,7 +9,8 @@ Features
 * Allow base URL of PostgreSQL documentation to be configured
 * Allow variable size textarea when editing values (Juergen Weigert)
 * Allow SQL script upload to parse arbitrary SQL, including multiline
-  SQL statements
+  SQL statements.  Improve output to show every command as its executed
+  and SELECT results.
 * Add support for PostgreSQL 8.1devel
 * primary key and unique key at table creation (Andreas Huber)
   
