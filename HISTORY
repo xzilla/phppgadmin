@@ -1,6 +1,16 @@
 phpPgAdmin History
 ------------------
 
+Version DEV_TREE branch
+-----------------------
+
+Features
+* Allow login to several servers simultaneously
+* Rearrange frame layout to suit multi-server support
+* New browser tree with dynamically loading branches
+  (Using XLoadTree from http://webfx.eae.net/)
+* Allow language change on the fly
+
 Version 3.6-dev
 ---------------
 
@@ -20,7 +30,6 @@ Bugs
 * Fix timeouts on long running operations (Adrian Nida)
 * Allow Multiline character and character varying editing and inserting
 * Add automatic browser language selection for all languages
-* Fix using schema enabled dump on non-schema enabled backend
 
 Translations
 * Japanese from Tadashi Jokagi
