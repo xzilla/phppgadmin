@@ -6,7 +6,7 @@
 # It is important to fix first and last lines of the file <?php and ?>
 # using 'awk'
 # 
-# $Id: Makefile,v 1.26 2003/08/28 01:29:33 chriskl Exp $
+# $Id: Makefile,v 1.27 2003/09/08 02:54:34 chriskl Exp $
 #
 DESTDIR=./recoded
 
@@ -69,7 +69,7 @@ russian:
 		> ${DESTDIR}/russian.php
 
 slovak:
-	cat slovak.php | recode cp1250..html | \
+	cat slovak.php | recode utf-8..html | \
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/slovak.php
 
