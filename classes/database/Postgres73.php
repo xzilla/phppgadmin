@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.13 2003/01/12 04:19:41 chriskl Exp $
+ * $Id: Postgres73.php,v 1.14 2003/01/16 14:45:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -442,7 +442,7 @@ class Postgres73 extends Postgres72 {
 	}
 	
 	// Rule functions
-	
+
 	/**
 	 * Returns a list of all rules on a table
 	 * @param $table The table to find rules for
@@ -462,6 +462,60 @@ class Postgres73 extends Postgres72 {
 				rulename
 		";
 		
+		return $this->selectSet($sql);
+	}
+	
+	// Constraint functions
+
+	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getConstraints($table) {
+		$this->clean($table);
+
+		$sql = "
+			SELECT conname, consrc, contype FROM (
+				SELECT
+					conname,
+					CASE WHEN contype='f' THEN
+						pg_catalog.pg_get_constraintdef(oid)
+					ELSE
+						'CHECK ' || consrc
+					END AS consrc,
+					contype,
+					conrelid AS relid
+				FROM
+					pg_catalog.pg_constraint
+				WHERE
+					contype IN ('f', 'c')
+				UNION ALL
+				SELECT
+					pc.relname,
+					CASE WHEN indisprimary THEN
+						'PRIMARY KEY (' || 'keys here' || ')'
+					ELSE
+						'UNIQUE (' || 'keys here' || ')'
+					END,
+					CASE WHEN indisprimary THEN
+						'p'
+					ELSE
+						'u'
+					END,
+					pi.indrelid
+				FROM
+					pg_catalog.pg_class pc,
+					pg_catalog.pg_index pi
+				WHERE
+					pc.oid=pi.indexrelid
+					AND (pi.indisunique OR pi.indisprimary)
+			) AS sub
+			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_namespace
+					WHERE nspname='{$this->_schema}'))
+		";
+
 		return $this->selectSet($sql);
 	}
 

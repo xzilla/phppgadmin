@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.40 2003/01/14 00:28:18 xzilla Exp $
+ * $Id: Postgres.php,v 1.41 2003/01/16 14:45:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -22,6 +22,7 @@ class Postgres extends BaseDB {
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
 	var $tgFields = array('tgname' => 'tgname');
+	var $cnFields = array('conname' => 'conname', 'consrc' => 'consrc', 'contype' => 'contype');
 	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
 		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
 		'typdelim' => 'typdelim', 'typbyval' => 'typbyval', 
@@ -865,7 +866,7 @@ class Postgres extends BaseDB {
 			WHERE c.oid = '16977' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 			ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname";
 
-		
+
 		if ($table != '')
 			$where = "WHERE relname='{$table}' AND ";
 		elseif (!$this->_showSystem)
@@ -932,6 +933,24 @@ class Postgres extends BaseDB {
 
 		return $this->execute($sql);
 	}
+
+	// Rule functions
+	
+	/**
+	 * Removes a rule from a relation
+	 * @param $rule The rule to drop
+	 * @param $relation The relation from which to drop
+	 * @return 0 success
+	 */
+	function dropRule($rule, $relation) {
+		$this->fieldClean($rule);
+		$this->fieldClean($relation);
+
+		$sql = "DROP RULE \"{$rule}\" ON \"{$relation}\"";
+
+		return $this->execute($sql);
+	}
+
 
 	// View functions
 	
@@ -1090,7 +1109,7 @@ class Postgres extends BaseDB {
 		$this->clean($password);
 		$this->clean($expiry);
 		$this->arrayClean($groups);		
-		
+
 		$sql = "CREATE USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';

@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.40 2003/01/12 04:37:36 chriskl Exp $
+	 * $Id: english.php,v 1.41 2003/01/16 14:45:30 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -175,6 +175,9 @@
 	$strRule = 'Rule';
 	$strNoRules = 'No rules found.';
 	$strCreateRule = 'Create Rule';
+	$strConfDropRule = 'Are you sure you want to drop the rule "%s" on "%s"?';
+	$strRuleDropped = 'Rule dropped.';
+	$strRuleDroppedBad = 'Rule drop failed.';
 
 	// Tables
 	$strField = 'Field';

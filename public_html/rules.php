@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.1 2003/01/11 09:50:22 chriskl Exp $
+	 * $Id: rules.php,v 1.2 2003/01/16 14:45:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,9 +13,10 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Displays a screen where they can enter a new index
+	 * Displays a screen where they can enter a new rule
 	 */
-	function doCreateIndex($msg = '') {
+	/*
+	function doCreate($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strDefinition, $strCreateIndex, $strIndexes, $strShowAllIndexes, $strColumns, $strSave, $strReset, $strExample;
 
@@ -43,11 +44,11 @@
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$strShowAllIndexes}</a></p>\n";
 	}
-
+	*/
 	/**
-	 * Actually creates the new index in the database
-	 * @@ Note: this function can't handle columns with commas in them
+	 * Actually creates the new rule in the database
 	 */
+	/*
 	function doSaveCreateIndex() {
 		global $localData;
 		global $strIndexNeedsName, $strIndexNeedsCols, $strIndexCreated, $strIndexCreatedBad;
@@ -63,34 +64,35 @@
 				doCreateIndex($strIndexCreatedBad);
 		}
 	}
-
+	*/
 	/**
-	 * Show confirmation of drop index and perform actual drop
+	 * Show confirmation of drop and perform actual drop
 	 */
-	function doDropIndex($confirm) {
-		global $localData, $database, $misc;
-		global $PHP_SELF, $strConfDropIndex, $strIndexDropped, $strIndexDroppedBad, $strYes, $strNo;
+	function doDrop($confirm) {
+		global $localData, $misc;
+		global $PHP_SELF, $strConfDropRule, $strRuleDropped, $strRuleDroppedBad, $strYes, $strNo;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['index']), ": Drop</h2>\n";
+				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['rule']), ": Drop</h2>\n";
 
-			echo "<p>", sprintf($strConfDropIndex, htmlspecialchars($_REQUEST['index'])), "</p>\n";
+			echo "<p>", sprintf($strConfDropRule, htmlspecialchars($_REQUEST['rule']),
+				htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop_index>\n";
+			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
+			echo "<input type=hidden name=rule value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
 			echo $misc->form;
 			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropIndex($_POST['index'], 'RESTRICT');
+			$status = $localData->dropRule($_POST['rule'], $_POST['table']);
 			if ($status == 0)
-				doDefault($strIndexDropped);
+				doDefault($strRuleDropped);
 			else
-				doDefault($strIndexDroppedBad);
+				doDefault($strRuleDroppedBad);
 		}
 
 	}
@@ -119,7 +121,7 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['rulename']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", htmlspecialchars( $rules->f[$data->rulFields['rulename']]),
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", htmlspecialchars( $rules->f[$data->rlFields['rulename']]),
 					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
 
 				$rules->movenext();
@@ -131,7 +133,7 @@
 		else
 			echo "<p>{$strNoRules}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateRule}</a></p>\n";
+		//echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateRule}</a></p>\n";
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strRules);

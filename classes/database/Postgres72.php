@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.22 2003/01/11 09:50:21 chriskl Exp $
+ * $Id: Postgres72.php,v 1.23 2003/01/16 14:45:30 chriskl Exp $
  */
 
 
@@ -324,7 +324,7 @@ class Postgres72 extends Postgres71 {
 		$sql = "SELECT
 				*
 			FROM
-				pg_catalog.pg_rules
+				pg_rules
 			WHERE
 				tablename='{$table}'
 			ORDER BY
