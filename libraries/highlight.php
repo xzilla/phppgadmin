@@ -1,4 +1,4 @@
-<?
+<?php
 /* This software is licensed through a BSD-style License.
  * http://www.opensource.org/licenses/bsd-license.php
 
