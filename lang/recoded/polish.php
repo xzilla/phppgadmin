@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.29 2004/04/01 20:51:10 slubek Exp $
+	 * $Id: polish.php,v 1.30 2004/04/13 20:33:16 slubek Exp $
 	 */
 
 	// Language and character set
@@ -118,7 +118,10 @@
 	$lang['strsetting'] = 'Ustawienie';
 	$lang['streditsql'] = 'Edycja zapytania SQL';
 	$lang['strpaginate'] = 'Wy&#347;wietl wyniki stronami';
+	$lang['struploadscript'] = 'lub za&#322;aduj skrypt SQL:';
 	$lang['strstarttime'] = 'Czas pocz&#261;tku';
+	$lang['strfile'] = 'Plik';
+	$lang['strfileimported']  = 'Plik zaimportowany.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
@@ -133,6 +136,9 @@
 	$lang['strnoobjects'] = 'Nie znaleziono obiekt&oacute;w.';
 	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
 	$lang['strnoreportsdb'] = 'Nie utworzy&#322;e&#347; bazy raport&oacute;w. Instrukcj&#281; znajdziesz w pliku INSTALL.';
+	$lang['strnouploads']  =  '&#321;adowanie plik&oacute;w wy&#322;&#261;czone.';
+	$lang['strimporterror']  =  'B&#322;&#261;d importu.';
+	$lang['strimporterrorline']  =  'B&#322;&#261;d importu w linii %s.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
@@ -186,6 +192,8 @@
 	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strstructureonly'] = 'Tylko struktura';
 	$lang['strstructureanddata'] = 'Struktura i dane';
+	$lang['strtabbed']  =  'Z tabulacjami';
+	$lang['strauto']  =  'Automatyczny';
 			
 	// Users
 	$lang['struser'] = 'U&#380;ytkownik';
