@@ -1,0 +1,30 @@
+WebDB Installation Guide
+------------------------
+
+We have tried to code WebDB in a secure fashion, and as such it is a little
+more difficult installing WebDB than phpPgAdmin.
+
+1. Unpack your download
+
+   tar -xvzf webdb-*.tar.gz
+
+2. The webdb/public_html directory is the only directory that should be
+   made public.  You should prevent people from browsing to any other
+   directory.
+
+3. Configure WebDB
+
+   cp webdb/config.inc.php-dist webdb/config.inc.php
+
+   Then edit config.inc.php and configure WebDB to your requirements.
+
+4. Configure your PHP installation (optional)
+
+   There are several settings you can use for optimal and more secure
+   WebDB operation.  WebDB will still function regardless of these
+   settings however.
+
+   register_globals Off
+   magic_quotes_gpc Off
+   url_fopen Off
+
