@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.4 2002/11/18 04:57:34 chriskl Exp $
+	 * $Id: login.php,v 1.5 2002/12/23 10:17:01 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,7 +13,7 @@
 
 <html>
 	<head>
-	<title><?= $appName ?> :: <?= $strLogin ?></title>
+	<title><?php $appName ?> :: <?php $strLogin ?></title>
 	</head>
 	
 	<body>
@@ -21,9 +21,9 @@
 			<tr height="115">
 				<td height="115" align="center" valign="middle">
 					<center>
-					<h1><?= $appName ?> <?= $strLogin ?></h1>
+					<h1><?php $appName ?> <?php $strLogin ?></h1>
 					<table class="navbar" border="0" cellpadding="5" cellspacing="3">
-						<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">						
+						<form action="<?php $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 						<tr>
 							<td>Username:</td>
 							<td><input type="text" name="formUsername" value="<?php isset($webdbUsername) ? htmlspecialchars($webdbUsername) : '' ?>" size="24"></td>
