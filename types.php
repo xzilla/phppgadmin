@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.8 2003/06/05 20:05:45 xzilla Exp $
+	 * $Id: types.php,v 1.9 2003/06/17 00:49:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -105,7 +105,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo "<table width=\"100%\">\n";
+		echo "<table>\n";
 		echo "<tr><th class=data><b>{$lang['strname']}</b></th>\n";
 		echo "<td class=data1><input name=typname size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
 			htmlspecialchars($_POST['typname']), "\"></td></tr>\n";
