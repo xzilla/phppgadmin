@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.23 2003/03/12 05:25:03 chriskl Exp $
+ * $Id: Postgres73.php,v 1.24 2003/03/14 03:14:53 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -28,6 +28,18 @@ class Postgres73 extends Postgres72 {
 	// System schema ids and names
 	var $_schemaOIDs = array(11, 99);
 	var $_schemaNames = array('pg_catalog', 'pg_toast');
+
+	// List of all legal privileges that can be applied to different types
+	// of objects.
+	var $privlist = array(
+		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
+		'view' => array('SELECT', 'RULE', 'ALL PRIVILEGES'),
+		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
+		'database' => array('CREATE', 'TEMPORARY', 'ALL PRIVILEGES'),
+		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
+		'language' => array('USAGE', 'ALL PRIVILEGES'),
+		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES')
+	);
 
 	function Postgres73($host, $port, $database, $user, $password) {
 		$this->Postgres72($host, $port, $database, $user, $password);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.26 2003/02/09 09:23:39 chriskl Exp $
+ * $Id: Postgres72.php,v 1.27 2003/03/14 03:14:52 chriskl Exp $
  */
 
 
@@ -16,8 +16,16 @@ class Postgres72 extends Postgres71 {
 	var $langFields = array('lanname' => 'lanname');
 	var $privFields = array('privarr' => 'relacl');
 
-	// @@ Set the maximum built-in ID. Should we bother querying for this?
+	// Set the maximum built-in ID.
 	var $_lastSystemOID = 16554;
+
+	// List of all legal privileges that can be applied to different types
+	// of objects.
+	var $privlist = array(
+		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
+		'view' => array('SELECT', 'RULE', 'ALL PRIVILEGES'),
+		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES')
+	);
 
 	// This gets it from the database.
 	// $rs = pg_exec($link, "SELECT oid FROM pg_database WHERE datname='template1'") or pg_die(pg_errormessage(), "", __FILE__, __LINE__);
