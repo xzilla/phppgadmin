@@ -3,9 +3,10 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.92.2.3 2005/03/02 09:47:40 jollytoad Exp $
+	 * $Id: lib.inc.php,v 1.92.2.4 2005/03/02 13:54:28 jollytoad Exp $
 	 */
 	include_once('decorator.inc.php');
+	include_once('./lang/translations.php');
 	
 	// Set error reporting level to max
 	error_reporting(E_ALL);
@@ -38,35 +39,6 @@
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
 	$conf['base_version'] = 14;
-
-	// List of available language files.  Remember to update login.php
-	// when you update this list.
-	$appLangFiles = array(
-		'afrikaans' => 'Afrikaans',
-		'arabic' => '&#1593;&#1585;&#1576;&#1610;',
-		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;',
-		'chinese-sim' => '&#31616;&#20307;&#20013;&#25991;',
-		'czech' => '&#268;esky',
-		'danish' => 'Danish',
-		'dutch' => 'Nederlands',
-		'english' => 'English',
-		'french' => 'Fran&ccedil;ais',
-		'german' => 'Deutsch',
-		'hebrew' => 'Hebrew',
-		'italian' => 'Italiano',
-		'japanese' => '&#26085;&#26412;&#35486;',
-		'hungarian' => 'Magyar',
-		'mongol' => 'Mongolian',
-		'polish' => 'Polski',
-		'portuguese-br' => 'Portugu&ecirc;s-Brasileiro',
-		'romanian' => 'Rom&acirc;n&#259;',
-		'russian' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
-		'slovak' => 'Slovensky',
-		'swedish' => 'Svenska',
-		'spanish' => 'Espa&ntilde;ol',
-		'turkish' => 'T&uuml;rk&ccedil;e',
-		'ukrainian' => '&#1059;&#1082;&#1088;&#1072;&#9558;&#1085;&#1089;&#1100;&#1082;&#1072;'
-	);
 
 	// Always include english.php, since it's the master language file
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
@@ -101,13 +73,6 @@
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
 	
-	if (isset($_REQUEST['language'])) {
-		$_language = strtolower($_REQUEST['language']);
-		if (isset($appLangFiles[$_language])) {
-			$_SESSION['webdbLanguage'] = $_language;
-		}
-	}
-	
 	// If login action is set, then set session variables
 	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) && 
 		isset($_POST['loginPassword'])) {
@@ -120,9 +85,52 @@
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 	}
 
-	// Import language file
-	if (isset($_SESSION['webdbLanguage']))
-		include("./lang/recoded/{$_SESSION['webdbLanguage']}.php");
+	// Determine language file to import:
+	
+	// 1. Check for the language from a request var
+	if (isset($_REQUEST['language'])) {
+		$_language = strtolower($_REQUEST['language']);
+		if (!isset($appLangFiles[$_language]))
+			unset($_language);
+	}
+	
+	// 2. Check for language session var
+	if (!isset($_language) && isset($_SESSION['webdbLanguage']) && isset($appLangFiles[$_SESSION['webdbLanguage']])) {
+		$_language = $_SESSION['webdbLanguage'];
+	}
+	
+	// 3. Check for acceptable languages in HTTP_ACCEPT_LANGUAGE var
+	if (!isset($_language) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+		// extract acceptable language tags
+		// (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
+		preg_match_all('/\s*([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;q=([01](?:.[0-9]{0,3})?))?\s*(?:,|$)/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $_m, PREG_SET_ORDER);
+		foreach($_m as $_l) {  // $_l[1] = language tag, [2] = quality
+			if (!isset($_l[2])) $_l[2] = 1;  // Default quality to 1
+			if ($_l[2] > 0 && $_l[2] <= 1 && isset($availableLanguages[$_l[1]])) {
+				// Build up array of (quality => language_file)
+				$_acceptLang[$_l[2]] = $availableLanguages[$_l[1]];
+			}
+		}
+		unset($_m);
+		unset($_l);
+		if (isset($_acceptLang)) {
+			// Sort acceptable languages by quality
+			krsort($_acceptLang, SORT_NUMERIC);
+			$_language = reset($_acceptLang);
+			unset($_acceptLang);
+		}
+	}
+	
+	// 4. Otherwise resort to the default set in the config file
+	if (!isset($_language) && isset($appLangFiles[$conf['default_lang']])) {
+		$_language = $conf['default_lang'];
+	}
+	
+	// Import the language file
+	if (isset($_language)) {
+		include("./lang/recoded/{$_language}.php");
+		$_SESSION['webdbLanguage'] = $_language;
+	}
 
 	// Check database support is properly compiled in
 	if (!function_exists('pg_connect')) {
