@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.5 2002/04/10 04:09:47 chriskl Exp $
+ * $Id: Postgres71.php,v 1.6 2002/04/15 11:57:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -15,6 +15,7 @@ class Postgres71 extends BaseDB {
 
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
+	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 
 	// @@ Should we bother querying for this?
 	var $_lastSystemOID = 18539;
@@ -435,6 +436,93 @@ class Postgres71 extends BaseDB {
 	function doUpdate()
 */
 
+	// View functions
+	
+	/**
+	 * Returns a list of all views in the database
+	 * @return All views
+	 */
+	function getViews() {
+		if (!$this->_showSystem)
+			$where = "WHERE viewname NOT LIKE 'pg_%'";
+		else $where  = '';
+		
+		$sql = "SELECT viewname, viewowner FROM pg_views {$where} ORDER BY viewname";
+
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns all details for a particular view
+	 * @param $view The name of the view to retrieve
+	 * @return View info
+	 */
+	function getView($view) {
+		$this->clean($view);
+		
+		$sql = "SELECT viewname, viewowner, definition FROM pg_views WHERE viewname='$view'";
+
+		return $this->selectSet($sql);
+	}	
+
+	/**
+	 * Creates a new view.
+	 * @param $viewname The name of the view to create
+	 * @param $definition The definition for the new view
+	 * @return 0 success
+	 */
+	function createView($viewname, $definition) {
+		$this->clean($viewname);
+		// Note: $definition not cleaned
+		
+		$sql = "CREATE VIEW \"{$viewname}\" AS {$definition}";
+		
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Drops a view.
+	 * @param $viewname The name of the view to drop
+	 * @return 0 success
+	 */
+	function dropView($viewname) {
+		$this->clean($viewname);
+		
+		$sql = "DROP VIEW \"{$viewname}\"";
+		
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Updates a view.  Postgres doesn't have CREATE OR REPLACE view,
+	 * so we do it with a drop and a recreate.
+	 * @param $viewname The name fo the view to update
+	 * @param $definition The new definition for the view
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 drop view error
+	 * @return -3 create view error
+	 */
+	function setView($viewname, $definition) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		$status = $this->dropView($viewname);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		
+		$status = $this->createView($viewname, $definition);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+		
+		$status = $this->endTransaction();
+		return ($status == 0) ? 0 : -1;
+	}	
+
 	// Operator functions
 	
 	/**
@@ -442,7 +530,7 @@ class Postgres71 extends BaseDB {
 	 * @return All operators
 	 */
 	function getOperators() {
-		if ($this->_showSystem)
+		if (!$this->_showSystem)
 			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
 		else $where  = '';
 		

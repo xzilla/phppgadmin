@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc.php,v 1.5 2002/04/10 04:09:47 chriskl Exp $
+	 * $Id: config.inc.php,v 1.6 2002/04/15 11:57:28 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -74,6 +74,10 @@
 											$webdbUsername,
 											$webdbPassword);
 	}
+
+	// Create Misc class references
+	include_once('../classes/Misc.php');
+	$misc = new Misc();
 
 	// Theme
 	echo "<style type=\"text/css\">\n<!--\n";

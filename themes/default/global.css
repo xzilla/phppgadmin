@@ -99,7 +99,7 @@ td.opbutton2 {
 	font-size: 9pt;
 }
 
-a.toplink {
+a.toplink, a.navlink {
 	font-weight: bold;
 }
 
@@ -114,6 +114,11 @@ p
 {
 	padding: 0px;
 	margin: 0px;
+}
+
+p.message
+{
+	color: blue;
 }
 
 a:link
