@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.161 2003/11/05 08:32:03 chriskl Exp $
+ * $Id: Postgres.php,v 1.162 2003/11/05 15:06:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1397,7 +1397,10 @@ class Postgres extends BaseDB {
 		else $orderby = '';
 
 		// Actually retrieve the rows, with offset and limit
-		$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		if ($this->hasFullSubqueries())
+			$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		else
+			$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		$status = $this->endTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();

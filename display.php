@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.29 2003/11/05 08:32:03 chriskl Exp $
+	 * $Id: display.php,v 1.30 2003/11/05 15:06:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -265,12 +265,18 @@
 					continue;
 				}
 				$finfo = $rs->fetchField($j);
-				// Display column headers with sorting options
-				echo "<th class=\"data\"><a href=\"display.php?{$str}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
-				// Sort direction opposite to current direction, unless it's currently ''
-				echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
-				echo "&amp;strings=", urlencode($_REQUEST['strings']), "\">", 
-					$misc->printVal($finfo->name), "</a></th>\n";
+				// Display column headers with sorting options, unless we're PostgreSQL
+				// 7.0 and it's a non-TABLE mode
+				if (!$localData->hasFullSubqueries() && $type != 'TABLE') {
+					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
+				}
+				else {
+					echo "<th class=\"data\"><a href=\"display.php?{$str}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
+					// Sort direction opposite to current direction, unless it's currently ''
+					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
+					echo "&amp;strings=", urlencode($_REQUEST['strings']), "\">", 
+						$misc->printVal($finfo->name), "</a></th>\n";
+				}
 				$j++;
 			}
 	
