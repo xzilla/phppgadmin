@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.9 2003/01/06 05:11:48 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.10 2003/01/08 06:46:26 chriskl Exp $
 	 */
 
 	// Application name 
@@ -35,10 +35,8 @@
 	include_once('../classes/Misc.php');
 	$misc = new Misc();
 
+	// Start session
 	session_start();
-	//session_register('webdbServerID');
-	//session_register('webdbUsername');
-	//session_register('webdbPassword');
 
 	// Do basic PHP configuration checks
 	if (ini_get('magic_quotes_gpc')) {
@@ -48,6 +46,7 @@
 		$misc->stripVar($_REQUEST);
 	}
 
+	// Enforce PHP environment
 	ini_set('magic_quotes_gpc', 0);
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
@@ -58,16 +57,10 @@
 		$webdbUsername = $_POST['formUsername'];
 		$webdbPassword = $_POST['formPassword'];
 
+		// Register some session variables
 		$_SESSION['webdbServerID'] = $webdbServerID;
 		$_SESSION['webdbUsername'] = $webdbUsername;
 		$_SESSION['webdbPassword'] = $webdbPassword;
-
-		//setCookie('webdbServerID', $webdbServerID);
-		//setCookie('webdbUsername', $webdbUsername);
-		//setCookie('webdbPassword', $webdbPassword);
-		//$_COOKIE['webdbServerID'] = $webdbServerID;
-		//$_COOKIE['webdbUsername'] = $webdbUsername;
-		//$_COOKIE['webdbPassword'] = $webdbPassword;
 	}
 		
 	// If the logged in settings aren't present, put up the login screen
@@ -91,6 +84,8 @@
 	}
 	
 	// Check that the database functions are loaded
+	// @@ NOTE: THIS IS WRONG. IT NEEDS TO BE DONE BEFORE THE ABOVE, BUT
+	// RELIES ON THE ABOVE!!
 	if (!$data->isLoaded()) {
 		echo $strNotLoaded;
 		exit;
