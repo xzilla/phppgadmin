@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.25 2003/04/21 06:36:24 chriskl Exp $
+	 * $Id: Misc.php,v 1.26 2003/04/23 06:34:10 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -145,7 +145,7 @@
 			if (!isset($_no_output)) {
 				// Send XHTML headers, or regular HTML headers
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
-					header('Content-Type: text/xml');
+					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 				} else {
