@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.7 2003/01/04 07:08:04 chriskl Exp $
+	 * $Id: views.php,v 1.8 2003/01/08 07:29:11 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -49,14 +49,14 @@
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
 			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit value=Save> <input type=reset>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($_REQUEST['database']), "&view=", 
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Views</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&view=", 
 			urlencode($_REQUEST['view']), "\">Properties</a></p>\n";
 	}
 	
@@ -82,8 +82,8 @@
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($_REQUEST['database']), "&view=", 
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Views</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&view=", 
 			urlencode($_REQUEST['view']), "\">Edit</a></p>\n";
 	}
 	
@@ -91,7 +91,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database;
+		global $localData, $misc;
 		global $PHP_SELF, $strViews;
 
 		if ($confirm) { 
@@ -102,7 +102,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
@@ -139,11 +139,11 @@
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo $misc->form;
 		echo "<input type=submit value=Save> <input type=reset>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Views</a></p>\n";
 	}
 	
 	/**
@@ -168,7 +168,7 @@
 	 * Show default list of views in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database, $view;
+		global $data, $localData, $misc;
 		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews, $strViews;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}</h2>\n";
@@ -184,13 +184,10 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Browse</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Browse</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Properties</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Drop</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Properties</a></td>\n"; 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Drop</a></td>\n"; 
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;
@@ -201,7 +198,7 @@
 			echo "<p>{$strNoViews}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">Create View</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">Create View</a></p>\n";
 
 	}
 
