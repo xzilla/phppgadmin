@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.25 2003/03/16 10:54:14 chriskl Exp $
+ * $Id: Postgres73.php,v 1.26 2003/03/17 01:52:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -602,39 +602,6 @@ class Postgres73 extends Postgres72 {
 			WHERE attnum IN ('" . join("','", $colnums) . "')
 			AND attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}'))";
-
-		$rs = $this->selectSet($sql);
-
-		$temp = array();
-		while (!$rs->EOF) {
-			$temp[$rs->f['attnum']] = $rs->f['attname'];
-			$rs->moveNext();
-		}
-
-		$atts = array();
-		foreach ($colnums as $v) {
-			$atts[] = '"' . $temp[$v] . '"';
-		}
-		
-		return $atts;
-	}
-
-	/**
-	 * A helper function for getConstraints that translates
-	 * an array of attribute numbers to an array of field names.
-	 * @param $table The name of the table
-	 * @param $columsn An array of column ids
-	 * @return An array of column names
-	 */
-	function &getKeys($table, $colnums) {
-		$this->clean($table);
-		$this->arrayClean($colnums);
-
-		$sql = "SELECT attnum, attname FROM pg_attribute
-			WHERE attnum IN ('" . join("','", $colnums) . "')
-			AND attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_namespace
 					WHERE nspname='{$this->_schema}'))";
 
 		$rs = $this->selectSet($sql);
