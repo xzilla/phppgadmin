@@ -38,6 +38,7 @@ Features
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
 * In 7.4 pg_dump, specify schema when dumping tables
+* Fix bug in displaying array types in 7.0.x
 
 Version 3.3.1
 -------------

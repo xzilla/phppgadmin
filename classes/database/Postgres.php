@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.205 2004/05/16 09:35:28 chriskl Exp $
+ * $Id: Postgres.php,v 1.206 2004/05/16 14:34:44 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1056,6 +1056,13 @@ class Postgres extends BaseDB {
 		// This is a specific constant in the 7.0 source
 		$varhdrsz = 4;
 		
+		// If the first character is an underscore, it's an array type
+		$is_array = false;		
+		if (substr($typname, 0, 1) == '_') {
+			$is_array = true;
+			$typname = substr($typname, 1);
+		}	
+		
 		// Show lengths on bpchar and varchar
 		if ($typname == 'bpchar') {
 			$len = $typmod - $varhdrsz;
@@ -1078,6 +1085,9 @@ class Postgres extends BaseDB {
 			}			
 		}
 		else $temp = $typname;
+		
+		// Add array qualifier if it's an array
+		if ($is_array) $temp .= '[]';
 		
 		return $temp;
 	}
