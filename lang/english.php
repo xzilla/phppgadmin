@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.29 2003/01/04 07:56:23 chriskl Exp $
+	 * $Id: english.php,v 1.30 2003/01/07 05:43:31 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -75,7 +75,7 @@
 	
 	// Users
 	$strUser = 'User';
-	$strGroup = 'Group';
+	$strUsers = 'Users';
 	$strUsername = 'Username';
 	$strPassword = 'Password';
 	$strSuper = 'Superuser?';
@@ -83,6 +83,18 @@
 	$strExpires = 'Expires';	
 	$strNoUsers = 'No users found.';
 	
+	// Groups
+	$strGroup = 'Group';
+	$strGroups = 'Groups';
+	$strCreateGroup = 'Create Group';
+	$strShowAllGroups = 'Show All Groups';
+	$strGroupNeedsName = 'You must give a name for your group.';
+	$strGroupCreated = 'Group created.';
+	$strGroupCreatedBad = 'Group creation failed.';	
+	$strConfDropGroup = 'Are you sure you want to drop the group "%s"?';	
+	$strGroupDropped = 'Group dropped.';
+	$strGroupDroppedBad = 'Group drop failed.';
+
 	// Privilges
 	$strPrivileges = 'Privileges';
 	$strGrant = 'Grant';

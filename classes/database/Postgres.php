@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.31 2003/01/04 08:55:28 chriskl Exp $
+ * $Id: Postgres.php,v 1.32 2003/01/07 05:43:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -17,6 +17,7 @@ class Postgres extends BaseDB {
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
+	var $grpFields = array('groname' => 'groname');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $tgFields = array('tgname' => 'tgname');
@@ -1002,11 +1003,7 @@ class Postgres extends BaseDB {
 	}
 	
 	
-	/**
-	 * Creates a new operator
-	 */
-
-	// User and group functions
+	// User functions
 	
 	/**
 	 * Returns all users in the database cluster
@@ -1090,6 +1087,45 @@ class Postgres extends BaseDB {
 		$this->clean($username);
 		
 		$sql = "DROP USER \"{$username}\"";
+		
+		return $this->execute($sql);
+	}
+	
+	
+	// Group functions
+	
+	/**
+	 * Returns all groups in the database cluser
+	 * @return All groups
+	 */
+	function &getGroups() {
+		$sql = "SELECT groname FROM pg_group ORDER BY groname";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Creates a new group
+	 * @param $groname The name of the group
+	 * @return 0 success
+	 */
+	function createGroup($groname) {
+		$this->clean($groname);
+
+		$sql = "CREATE GROUP \"{$groname}\"";
+		
+		return $this->execute($sql);
+	}	
+	
+	/**
+	 * Removes a group
+	 * @param $groname The name of the group to drop
+	 * @return 0 success
+	 */
+	function dropGroup($groname) {
+		$this->clean($groname);
+		
+		$sql = "DROP GROUP \"{$groname}\"";
 		
 		return $this->execute($sql);
 	}
