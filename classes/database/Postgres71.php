@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.9 2002/07/11 06:02:57 chriskl Exp $
+ * $Id: Postgres71.php,v 1.10 2002/07/25 13:14:31 shunter10 Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -438,6 +438,14 @@ class Postgres71 extends BaseDB {
 	function doUpdate()
 */
 
+    function &getSequences()
+    {
+		$sql = "SELECT relname FROM pg_class WHERE NOT relname ~ 'pg_.*' AND relkind ='S' ORDER BY relname";
+		return $this->selectSet( $sql );
+    }
+
+    
+    
 	// View functions
 	
 	/**
@@ -645,7 +653,8 @@ class Postgres71 extends BaseDB {
 		
 		return $this->execute($sql);
 	}
-	 
+
+    
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }
@@ -659,5 +668,8 @@ class Postgres71 extends BaseDB {
 	function hasSchemas() { return false; }
 
 }
+
+
+
 
 ?>
