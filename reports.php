@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.4 2003/02/26 04:38:14 chriskl Exp $
+	 * $Id: reports.php,v 1.5 2003/02/26 04:39:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -148,7 +148,7 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($reports->f['report_name']), "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($reports->f['created_by']), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?database=", urlencode($_REQUEST['database']), "&query={$query}&return_url={$return_url}&return_desc={$return_desc}\">{$strBrowse}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?database=", urlencode($reports->f['db_name']), "&query={$query}&return_url={$return_url}&return_desc={$return_desc}\">{$strBrowse}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&report_id=",
 					$reports->f['report_id'], "\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
