@@ -87,11 +87,9 @@ A: In order, phpPgAdmin will prefer the following as unique row identifiers:
 
 Q: What happened to the database dump feature?
 
-A: It is very difficult keeping up with all the changes to PostgreSQL's pg_dump
-   utility.  As a result, phpPgAdmin's database dumps were often incorrect and
-   failed to restore properly, if at all.  Hence, we have removed this feature
-   in phpPgAdmin 3.x.  We STRONGLY recommend using PostgreSQL's pg_dump utility
-   to dump your data.
+A: You need to configure phpPgAdmin (in the config.inc.php file) to point
+   to the location of the pg_dump and pg_dumpall utilities on your server.
+   Once you have done that, the database export feature will appear.
 
 Q: I would like to help out with the development of phpPgAdmin. How should I
    proceed?
