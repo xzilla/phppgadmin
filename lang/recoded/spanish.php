@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.21 2004/01/03 07:05:45 chriskl Exp $
+	 * $Id: spanish.php,v 1.22 2004/03/07 03:19:55 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Acciones';
 	$lang['strname'] = 'Nombre';
 	$lang['strdefinition'] = 'Definici&oacute;n';
-	$lang['straggregates'] = 'Agregados';
 	$lang['strproperties'] = 'Propiedades';
 	$lang['strbrowse'] = 'Examinar';
 	$lang['strdrop'] = 'Eliminar';
@@ -43,8 +42,8 @@
 	$lang['strnotnull'] = 'No Nulo';
 	$lang['strprev'] = 'Previo';
 	$lang['strnext'] = 'Pr&oacute;ximo';
-        $lang['strfirst'] = '<< Principio';
-        $lang['strlast'] = 'Final >>';
+        $lang['strfirst'] = '&lt;&lt; Principio';
+        $lang['strlast'] = 'Final &gt;&gt;';
 	$lang['strfailed'] = 'Fall&oacute;';
 	$lang['strcreate'] = 'Crear';
 	$lang['strcreated'] = 'Creado';
@@ -69,7 +68,7 @@
 	$lang['strcolumns'] = 'Columnas';
 	$lang['strrows'] = 'fila(s)';
 	$lang['strrowsaff'] = 'fila(s) afectadas.';
-	$lang['strobjects'] = 'objecto(s)';
+	$lang['strobjects'] = 'objeto(s)';
 	$lang['strexample'] = 'ej.';
 	$lang['strback'] = 'Atr&aacute;s';
 	$lang['strqueryresults'] = 'Resultado de la consulta';
@@ -83,7 +82,7 @@
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Seguir';
+	$lang['strgo'] = 'Ejecutar';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
@@ -104,13 +103,22 @@
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Colapsar';
         $lang['strexplain'] = 'Explicar';
+	$lang['strexplainanalyze'] = 'Explicar analizando';
         $lang['strfind'] = 'Buscar';
         $lang['stroptions'] = 'Opciones';
 	$lang['strrefresh'] = 'Refrescar';
 	$lang['strdownload'] = 'Bajar';
+	$lang['strdownloadgzipped'] = 'Bajar comprimido con gzip';
 	$lang['strinfo'] = 'Informaci&oacute;n';
 	$lang['stroids'] = 'OIDs';
-	$lang['stradvanced'] = 'Advanzado';
+	$lang['stradvanced'] = 'Avanzado';
+	$lang['strvariables'] = 'Variables';
+	$lang['strprocess'] = 'Proceso';
+	$lang['strprocesses'] = 'Procesos';
+	$lang['strsetting'] = 'Setear';
+	$lang['streditsql'] = 'Editar SQL';
+	$lang['strpaginate'] = 'Paginar resultados';
+	$lang['strstarttime'] = 'Hora de comienzo';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesit&aacute;s un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
@@ -122,8 +130,9 @@
 	$lang['strinstatement'] = 'En la declaraci&oacute;n:';
 	$lang['strinvalidparam'] = 'Par&aacute;metros de script no v&aacute;lidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
-	$lang['strnoobjects'] = 'No se encontraron objectos.';
+	$lang['strnoobjects'] = 'No se encontraron objetos.';
 	$lang['strrownotunique'] = 'No existe un identificador &uacute;nico para este registro.';
+	$lang['strnoreportsdb'] = 'No ha creado a&uacute;n la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -186,6 +195,7 @@
 	$lang['strsuper'] = '&iquest;Es administrador?';
 	$lang['strcreatedb'] = '&iquest;Puede crear BD?';
 	$lang['strexpires'] = 'Expira';
+	$lang['strsessiondefaults'] = 'Valores predeterminados de la sesi&oacute;n.';
 	$lang['strnousers'] = 'No se encontraron usuarios.';
         $lang['struserupdated'] = 'Usuario actualizado.';
 	$lang['struserupdatedbad'] = 'Fall&oacute; la actualizaci&oacute;n del usuario.';
@@ -233,7 +243,7 @@
 	$lang['strgrant'] = 'Otorgar';
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados/revocados.';
-	$lang['strgrantfailed'] = 'Fall&oacute; al intendar otorgar privilegios.';
+	$lang['strgrantfailed'] = 'Fall&oacute; al intentar otorgar privilegios.';
         $lang['strgrantor'] = 'Cedente';
         $lang['strasterisk'] = '*';
 	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
@@ -277,6 +287,8 @@
 	$lang['strviewdroppedbad'] = 'Fall&oacute; al intentar eliminar la vista.';
 	$lang['strviewupdated'] = 'Vista actualizada.';
 	$lang['strviewupdatedbad'] = 'Fall&oacute; al actualizar la vista.';
+	$lang['strviewlink'] = 'Linking Keys';
+	$lang['strviewconditions'] = 'Additional Conditions';
 
 	// Sequences
 	$lang['strsequence'] = 'Secuencia';
@@ -304,6 +316,7 @@
 	$lang['strsequenceresetbad'] = 'Fall&oacute; al intentar reiniciar la secuencia.'; 
 
 	// Indexes
+	$lang['strindex'] = '&Iacute;ndice';
 	$lang['strindexes'] = '&Iacute;ndices';
 	$lang['strindexname'] = 'Nombre del &Iacute;ndice';
 	$lang['strshowallindexes'] = 'Mostrar Todos los &Iacute;ndices';
@@ -420,7 +433,7 @@
 	$lang['strtype'] = 'Tipo';
 	$lang['strtypes'] = 'Tipos';
 	$lang['strshowalltypes'] = 'Mostrar todos los tipos';
-	$lang['strnotype'] = 'No se encontro el tipo.';
+	$lang['strnotype'] = 'No se encontr&oacute; el tipo.';
 	$lang['strnotypes'] = 'No se encontraron tipos.';
 	$lang['strcreatetype'] = 'Crear Tipo';
 	$lang['strtypename'] = 'Nombre del tipo';
@@ -458,7 +471,7 @@
 	$lang['strreport'] = 'Reporte';
 	$lang['strreports'] = 'Reportes';
 	$lang['strshowallreports'] = 'Mostrar todos los reportes';
-	$lang['strnoreports'] = 'No se encontro el reporte.';
+	$lang['strnoreports'] = 'No se encontr&oacute; el reporte.';
 	$lang['strcreatereport'] = 'Crear Reporte';
 	$lang['strreportdropped'] = 'Reporte eliminado.';
 	$lang['strreportdroppedbad'] = 'Fall&oacute; al eliminar el Reporte.';
@@ -532,6 +545,33 @@
 	$lang['strreferringtables'] = 'Referring tables';
 	$lang['strparenttables'] = 'Parent tables';
 	$lang['strchildtables'] = 'Child tables';
+
+	// Aggregates
+	$lang['straggregates'] = 'Agregadas';
+	$lang['strnoaggregates'] = 'No se encontraron agregadas.';
+	$lang['stralltypes'] = '(Todos los tipos)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Clases de operadores';
+	$lang['strnoopclasses'] = 'No se encontraron clases de operadores.';
+	$lang['straccessmethod'] = 'M&eacute;todo de acceso';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Row Performance';
+	$lang['strioperf'] = 'I/O Performance';
+	$lang['stridxrowperf'] = 'Index Row Performance';
+	$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequential';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rows';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted est&aacute; logueado con usuario &quot;%s&quot;, %s';
