@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.12 2003/05/21 09:06:23 chriskl Exp $
+	 * $Id: privileges.php,v 1.13 2003/05/22 04:11:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -57,15 +57,19 @@
 			echo "</select></td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strgroups']}</th>\n";
 			echo "<td class=\"data1\">\n";
-			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' selected="selected"' : ''), " />PUBLIC<br />\n";
-			echo "<select name=\"groupname[]\" multiple=\"multiple\" size=\"6\">\n";
-			while (!$groups->EOF) {
-				$gname = htmlspecialchars($groups->f[$data->grpFields['groname']]);
-				echo "<option value=\"{$gname}\"",
-					($gname == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
-				$groups->moveNext();
+			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' selected="selected"' : ''), " />PUBLIC\n";
+			// Only show groups if there are groups!
+			if ($groups->recordCount() > 0) {
+				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"6\">\n";
+				while (!$groups->EOF) {
+					$gname = htmlspecialchars($groups->f[$data->grpFields['groname']]);
+					echo "<option value=\"{$gname}\"",
+						($gname == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
+					$groups->moveNext();
+				}
+				echo "</select>\n";
 			}
-			echo "</select></td></tr>\n";
+			echo "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strprivileges']}</th>\n";
 			echo "<td class=\"data1\">\n";
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
