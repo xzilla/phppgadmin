@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.40 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: tables.php,v 1.41 2003/12/13 16:17:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -273,7 +273,7 @@
 	 * Ask for insert parameters and then actually insert row
 	 */
 	function doInsertRow($confirm, $msg = '') {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 
