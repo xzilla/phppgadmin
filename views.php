@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.21 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: views.php,v 1.22 2003/09/10 07:13:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -215,7 +215,7 @@
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		
-		$misc->printHelp("/sql-createview.html#R2-SQL-CREATEVIEW-1");
+		//$misc->printHelp("/sql-createview.html#R2-SQL-CREATEVIEW-1");
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -260,7 +260,7 @@
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
-		$misc->printHelp("/tutorial-views.html");
+		//$misc->printHelp("/tutorial-views.html");
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();
