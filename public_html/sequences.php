@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.9 2002/10/15 20:46:17 xzilla Exp $
+ *  $Id: sequences.php,v 1.10 2002/10/23 22:15:55 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -17,15 +17,16 @@ if( !isset( $msg) )
 $PHP_SELF = $_SERVER['PHP_SELF'];
 
 // {{{ doDefault()
-function doDefault()
+function doDefault($msg='')
 {
     global $data, $localData, $misc, $database, $sequences; 
     global $PHP_SELF;
     global $strNoSequences, $strSequences, $strOwner, $strActions;
 
     echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": Sequences</h2>\n";
-
-    $sequences = &$localData->getSequences();
+	$misc->printMsg($msg);
+  
+	$sequences = &$localData->getSequences();
 
     if( $sequences->recordCount() > 0 )
     {
@@ -105,7 +106,7 @@ function doDefault()
 	function doDrop($confirm)
 	{
 		global $localData, $database;
-		global $PHP_SELF, $strSequences, $strDropped, $strDrop, $strFailed;
+		global $PHP_SELF, $strSequences, $strSequence, $strDropped, $strDrop, $strFailed;
 	
 		if ($confirm) { 
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Drop</h2>\n";
