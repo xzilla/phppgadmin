@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.3 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: russian.php,v 1.4 2003/09/08 02:40:29 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,6 @@
 	$lang['stractions'] = 'Действия';
 	$lang['strname'] = 'Имя';
 	$lang['strdefinition'] = 'Определение';
-	$lang['stroperators'] = 'Операторы';
 	$lang['straggregates'] = 'Агрегатные функции';
 	$lang['strproperties'] = 'Свойства';
 	$lang['strbrowse'] = 'Просмотреть';
@@ -41,8 +40,10 @@
 	$lang['strdropped'] = 'Удалено';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Not Null';
-	$lang['strprev'] = 'Предыд.';
-	$lang['strnext'] = 'След.';
+	$lang['strprev'] = '< Предыд.';
+	$lang['strnext'] = 'След. >';
+	$lang['strfirst'] = '<< Перв.';
+	$lang['strlast'] = 'Посл. >>';
 	$lang['strfailed'] = 'Прервано';
 	$lang['strcreate'] = 'Создать';
 	$lang['strcreated'] = 'Создано';
@@ -98,11 +99,18 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Расширить';
 	$lang['strcollapse'] = 'Свернуть';
+	$lang['strexplain'] = 'Объяснить';
+	$lang['strfind'] = 'Найти';
+	$lang['stroptions'] = 'Опции';
+	$lang['strrefresh'] = 'Обновить';
+	$lang['strtaller'] = 'Выше';
+	$lang['strshorter'] = 'Ниже';
+	$lang['strdownload'] = 'Загрузить';
 
 	// Error handling
 	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
 	$lang['strbadconfig'] = 'Ваш config.inc.php является устаревшим. Вам необходимо обновить его из config.inc.php-dist.';
-	$lang['strnotloaded'] = 'Вы не имеете надлежащей поддержки работы с базами данных в Вашей инсталяции РНР.';
+	$lang['strnotloaded'] = 'Ваша инсталяция PHP не поддерживает PostgreSQL. Вам необходимо пересобрать PHP, используя параметр --with-pgsql для configure.';
 	$lang['strbadschema'] = 'Обнаружена неверная схема.';
 	$lang['strbadencoding'] = 'Failed to set client encoding in database.';
 	$lang['strsqlerror'] = 'Ошибка SQL:';
@@ -139,11 +147,12 @@
 	$lang['strconfdeleterow'] = 'Вы уверены, что хотите удалить запись?';
 	$lang['strrowdeleted'] = 'Запись удалена.';
 	$lang['strrowdeletedbad'] = 'Удаление записи прервано.';
-	$lang['strsaveandrepeat'] = 'Сохранить и повторить';
+	$lang['strsaveandrepeat'] = 'Вставить и повторить';
 	$lang['strfield'] = 'Поле';
 	$lang['strfields'] = 'Поля';
 	$lang['strnumfields'] = 'Кол-во полей';
 	$lang['strfieldneedsname'] = 'Вам необходимо назвать поле';
+	$lang['strselectallfields'] = 'Выбрать все поля';
 	$lang['strselectneedscol'] = 'Вам необходимо указать по крайней мере один атрибут';
 	$lang['straltercolumn'] = 'Изменить атрибут';
 	$lang['strcolumnaltered'] = 'Атрибут изменен.';
@@ -158,9 +167,10 @@
 	$lang['strschemaonly'] = 'Только схему';
 	$lang['strdataonly'] = 'Только данные';
 	$lang['strcascade'] = 'Каскадом';
+	$lang['strtablealtered'] = 'Таблица изменена.';
+	$lang['strtablealteredbad'] = 'Изменение таблицы прервано.';
 
 	// Users
-	$lang['struseradmin'] = 'Пользователи';
 	$lang['struser'] = 'Пользователь';
 	$lang['strusers'] = 'Пользователи';
 	$lang['strusername'] = 'Имя пользователя';
@@ -186,7 +196,6 @@
 	$lang['strpasswordconfirm'] = 'Пароль не соответствует подтверждению.';
 
 	// Groups
-	$lang['strgroupadmin'] = 'Группы';
 	$lang['strgroup'] = 'Группа';
 	$lang['strgroups'] = 'Группы';
 	$lang['strnogroup'] = 'Группа не обнаружена.';
@@ -200,6 +209,13 @@
 	$lang['strgroupdropped'] = 'Группа удалена.';
 	$lang['strgroupdroppedbad'] = 'Удаление группы прервано.';
 	$lang['strmembers'] = 'Участников';
+	$lang['straddmember'] = 'Добавить участника';
+	$lang['strmemberadded'] = 'Участник добавлен.';
+	$lang['strmemberaddedbad'] = 'Добавление участника прервано.';
+	$lang['strdropmember'] = 'Удалить участника';
+	$lang['strconfdropmember'] = 'Вы уверены, что хотите удалить участника "%s" из группы "%s"?';
+	$lang['strmemberdropped'] = 'Участник удален.';
+	$lang['strmemberdroppedbad'] = 'Удаление участника прервано.';
 
 	// Privilges
 	$lang['strprivilege'] = 'Привилегия';
@@ -211,6 +227,8 @@
 	$lang['strgrantfailed'] = 'Изменение привилегий прервано.';
 	$lang['strgrantbad'] = 'Вам необходимо указать хотя бы одного пользователя или группу и хотя бы одну привилегию.';
 	$lang['stralterprivs'] = 'Изменить привилегии';
+	$lang['strgrantor'] = 'Донор';
+	$lang['strasterisk'] = '*';
 
 	// Databases
 	$lang['strdatabase'] = 'База данных';
@@ -280,7 +298,6 @@
 	$lang['strnoindex'] = 'Индекс не обнаружен.';
 	$lang['strnoindexes'] = 'Ни одного индекса не обнаружено.';
 	$lang['strcreateindex'] = 'Создать индекс';
-
 	$lang['strtabname'] = 'Имя таблицы';
 	$lang['strcolumnname'] = 'Имя атрибута';
 	$lang['strindexneedsname'] = 'Вам необходимо указать имя индекса';
@@ -293,7 +310,7 @@
 	$lang['strkeyname'] = 'Имя ключа';
 	$lang['struniquekey'] = 'Уникальный ключ';
 	$lang['strprimarykey'] = 'Первичный ключ';
-	 $lang['strindextype'] = 'Вид индекса';
+	$lang['strindextype'] = 'Вид индекса';
 	$lang['strindexname'] = 'Имя индекса';
 	$lang['strtablecolumnlist'] = 'Атрибутов в таблице';
 	$lang['strindexcolumnlist'] = 'Атрибутов в индексе';
@@ -379,6 +396,8 @@
 	$lang['strconfdroptrigger'] = 'Вы уверены, что хотите уничтожить триггер "%s" на "%s"?';
 	$lang['strtriggerdropped'] = 'Триггер уничтожен.';
 	$lang['strtriggerdroppedbad'] = 'Уничтожение триггера прервано.';
+	$lang['strtriggeraltered'] = 'Триггер изменен.';
+	$lang['strtriggeralteredbad'] = 'Изменение триггера прервано.';
 
 	// Types
 	$lang['strtype'] = 'Тип данных';
@@ -431,9 +450,43 @@
 	$lang['strreportneedsdef'] = 'Вам необходимо указать SQL-запрос для Вашего отчета.';
 	$lang['strreportcreated'] = 'Отчет сохранен.';
 	$lang['strreportcreatedbad'] = 'Сохранение отчета прервано.';
+	$lang['strsaveasreport'] = 'Сохранить как отчет';
+
+	// Domains
+	$lang['strdomain'] = 'Домен';
+	$lang['strdomains'] = 'Домены';
+	$lang['strshowalldomains'] = 'Показать все домены';
+	$lang['strnodomains'] = 'Ни одного домена не обнаружено.';
+	$lang['strcreatedomain'] = 'Создать домен';
+	$lang['strdomaindropped'] = 'Домен удален.';
+	$lang['strdomaindroppedbad'] = 'Удаление домена прервано.';
+	$lang['strconfdropdomain'] = 'Вы уверены, что хотите удалить домен "%s"?';
+	$lang['strdomainneedsname'] = 'Вам необходимо указать имя домена.';
+	$lang['strdomaincreated'] = 'Домен создан.';
+	$lang['strdomaincreatedbad'] = 'Создание домена прервано.';	
+	$lang['strdomainaltered'] = 'Домен изменен.';
+	$lang['strdomainalteredbad'] = 'Изменение домена прервано.';	
+
+	// Operators
+	$lang['stroperator'] = 'Оператор';
+	$lang['stroperators'] = 'Операторы';
+	$lang['strshowalloperators'] = 'Показать все операторы';
+	$lang['strnooperator'] = 'Оператор не обнаружен.';
+	$lang['strnooperators'] = 'Операторы не обнаружены.';
+	$lang['strcreateoperator'] = 'Создать оператор';
+	$lang['stroperatorname'] = 'Название оператора';
+	$lang['strleftarg'] = 'Тип левого аргумента';
+	$lang['strrightarg'] = 'Тип правого аргумента';
+	$lang['stroperatorneedsname'] = 'Вам необходимо указать название оператора.';
+	$lang['stroperatorcreated'] = 'Оператор создан';
+	$lang['stroperatorcreatedbad'] = 'оздание оператора прервано.';
+	$lang['strconfdropoperator'] = 'Вы уверены, что хотите уничтожить оператор "%s"?';
+	$lang['stroperatordropped'] = 'Оператор удален.';
+	$lang['stroperatordroppedbad'] = 'Удаление оператора прервано.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s", %s';
 	$lang['strtimefmt'] = ' j-m-Y  g:i';
 
 ?>
+                                 
