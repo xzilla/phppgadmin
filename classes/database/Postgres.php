@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.254 2005/02/20 04:47:46 mr-russ Exp $
+ * $Id: Postgres.php,v 1.254.2.1 2005/03/01 10:33:24 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -405,10 +405,12 @@ class Postgres extends ADODB_base {
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function &getDatabases($currentdatabase = NULL) {
-		global $conf;
+		global $conf, $misc;
 
-		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
-			$username = $_SESSION['webdbUsername'];
+		$server_info = $misc->getServerInfo();
+		
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
+			$username = $server_info['username'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
 		}
@@ -3323,7 +3325,9 @@ class Postgres extends ADODB_base {
 				pt.typname AS proresult,
 				pl.lanname AS prolanguage,
 				oidvectortypes(pc.proargtypes) AS proarguments,
-				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
+				proname || ' (' || proarguments || ')' AS proproto,
+				CASE WHEN proretset THEN 'setof ' ELSE '' END || pt.typname AS proreturns
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
 			WHERE
@@ -3338,7 +3342,9 @@ class Postgres extends ADODB_base {
 				proretset,
 				'OPAQUE' AS proresult,
 				oidvectortypes(pc.proargtypes) AS proarguments,
-				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
+				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
+				proname || ' (' || proarguments || ')' AS proproto,
+				CASE WHEN proretset THEN 'setof ' ELSE '' END || 'OPAQUE' AS proreturns
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
 			WHERE	

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.10 2005/02/06 00:34:20 mr-russ Exp $
+ * $Id: Postgres80.php,v 1.10.2.1 2005/03/01 10:33:24 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -48,10 +48,12 @@ class Postgres80 extends Postgres74 {
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function &getDatabases($currentdatabase = NULL) {
-		global $conf;
-
-		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
-			$username = $_SESSION['webdbUsername'];
+		global $conf, $misc;
+		
+		$server_info = $misc->getServerInfo();
+		
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
+			$username = $server_info['username'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
 		}
