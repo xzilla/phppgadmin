@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.5 2002/07/26 09:03:06 chriskl Exp $
+	 * $Id: views.php,v 1.6 2002/12/23 01:18:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -31,9 +31,9 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strName, $strDefinition, $strViews ;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Edit</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": Edit</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
@@ -65,9 +65,9 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strName, $strDefinition, $strViews;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Properties</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
@@ -92,10 +92,10 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database;
-		global $PHP_SELF;
+		global $PHP_SELF, $strViews;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": Drop</h2>\n";
 			
 			echo "<p>Are you sure you want to drop the view \"", htmlspecialchars($_REQUEST['view']), "\"?</p>\n";
 			
@@ -121,12 +121,12 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strName, $strDefinition, $strViews;
 		
 		if (!isset($_POST['formView'])) $_POST['formView'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: Create View</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: Create View</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
@@ -169,9 +169,9 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database, $view;
-		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews;
+		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews, $strViews;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();

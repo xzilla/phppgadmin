@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.10 2002/12/19 22:27:38 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.11 2002/12/23 01:18:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -137,7 +137,7 @@
 	function doIndicies($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF;
-		global $strNoIndicies, $strIndicies, $strActions, $strName;
+		global $strNoIndicies, $strIndicies, $strActions, $strName, $strDefinition ;
 
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndicies}</h2>\n";
@@ -147,7 +147,7 @@
 		
 		if ($indexes->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">Definition</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
 			$i = 0;
 			
 			while (!$indexes->EOF) {
@@ -319,8 +319,8 @@
 	function doDefault($msg = '') {
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
-		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
-		global $strKeyName, $strUnique, $strField, $strAction, $strPrimary,$strPrivileges;
+		global $strBrowse, $strProperties, $strDrop, $strShowAllTables, $strPrivileges;
+		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
 
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
@@ -329,7 +329,7 @@
 
 		if ($attrs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>Field</th><th class=data>Type</th><th class=data>Not Null</th><th class=data>Default</th><th colspan=2 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th><th colspan=2 class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$attrs->EOF) {
 				$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
@@ -398,16 +398,17 @@ EOF;
 
 	function doNav() {
 		global $PHP_SELF;
+		global $strColumns, $strIndicies, $strConstraints, $strTriggers, $strRules, $strExport;
 
 		$vars = 'database=' . urlencode($_REQUEST['database']) . '&table=' . urlencode($_REQUEST['table']);
 		
 		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-		echo "<tr><td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}\">Columns</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">Indexes</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">Constraints</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">Triggers</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">Rules</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">Export</a></td></tr>";
+		echo "<tr><td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>";
 		echo "</table>\n";
 	}	
 
