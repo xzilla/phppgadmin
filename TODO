@@ -15,8 +15,9 @@ An item is marked with a '-' if it has been completed.
 Connections
 -----------
 
-* Need to better handle connection errors. Give users a config option to display the error returned 
-  from the database.
+* -Need to better handle connection errors. (chriskl)
+* -Give users a config option to display the error returned 
+  from the database. (chriskl - not done, security hole?)
 
 Users
 -----
@@ -50,7 +51,7 @@ Tables
 * -Browse doesn't implement paging (chriskl)
 * -Browse only shows 30 rows at the moment! (chriskl)
 * Have a common browse function for 'select' and 'browse' actions on a table
-* Create table (chriskl)
+* -Create table (chriskl)
 * -Modify column - default, nullability, etc. (chriskl)
 * Constraints - note massive 7.3 changes here
 * Vacuum & analyze
