@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.122.2.3 2005/03/08 12:32:25 jollytoad Exp $
+	 * $Id: english.php,v 1.122.2.4 2005/03/09 10:14:29 jollytoad Exp $
 	 */
 
 	// Language and character set

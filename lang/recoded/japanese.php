@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.13 2005/02/22 13:29:37 chriskl Exp $
+	 * $Id: japanese.php,v 1.13.2.1 2005/03/09 10:14:29 jollytoad Exp $
 	 */
 
 	// Language and character set
