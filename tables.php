@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.68 2004/10/11 10:29:15 jollytoad Exp $
+	 * $Id: tables.php,v 1.69 2005/01/23 12:42:35 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -226,7 +226,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
-				echo "<script language=\"JavaScript\">\n";
+				echo "<script type=\"text/javascript\">\n";
 				echo "<!--\n";
 				echo "	function selectAll() {\n";
 				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";

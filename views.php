@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.51 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: views.php,v 1.52 2005/01/23 12:42:35 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
-				echo "<script language=\"JavaScript\">\n";
+				echo "<script type=\"text/javascript\">\n";
 				echo "<!--\n";
 				echo "	function selectAll() {\n";
 				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";

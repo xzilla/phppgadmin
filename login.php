@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.20 2005/01/19 16:09:08 soranzo Exp $
+	 * $Id: login.php,v 1.21 2005/01/23 12:42:35 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -86,19 +86,23 @@
 	// Force encoding to UTF-8
 	$lang['appcharset'] = 'UTF-8';
 
-	// Output header	
-	$misc->printHeader($lang['strlogin'], "<script language=\"javascript\" type=\"text/javascript\"><!--
-		// show login form in top frame
-		if (top != self) {
-			window.top.location.href='{$_SERVER['REQUEST_URI']}';
-		}
-		//-->
-		</script>");
+	// Output header
+	if (isset($_failed) && $_failed) {
+		$misc->printHeader($lang['strlogin'], "<script type=\"text/javascript\"><!--
+	// show login form in top frame
+	if (top != self) {
+		window.top.location.href='{$_SERVER['REQUEST_URI']}';
+	}
+	//-->
+</script>");
+	} else {
+		$misc->printHeader($lang['strlogin']);
+	}
 	$misc->printBody();
 ?>
 
-	<table class="navbar" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
-		<tr height="115">
+	<table class="navbar" border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%">
+		<tr>
 			<td height="115" align="center" valign="middle">
 				<center>
 				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $lang['strlogin'] ?></h1>				
@@ -113,15 +117,15 @@
 				<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<tr>
-						<th><?php echo $lang['strusername'] ?>:</td>
+						<th><?php echo $lang['strusername'] ?>:</th>
 						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $lang['strpassword'] ?>:</td>
+						<th><?php echo $lang['strpassword'] ?>:</th>
 						<td><input type="password" name="formPassword" size="24" /></td>
 					</tr>
 					<tr>
-						<th><?php echo $lang['strserver'] ?>:</td>
+						<th><?php echo $lang['strserver'] ?>:</th>
 						<td><select name="formServer">
 						<?php
 							for ($i = 0; $i < sizeof($conf['servers']); $i++) {
@@ -133,7 +137,7 @@
 						</select></td>
 					</tr>
 					<tr>
-						<th><?php echo $lang['strlanguage'] ?>:</td>
+						<th><?php echo $lang['strlanguage'] ?>:</th>
 						<td><select name="formLanguage">
 						<?php
 							// Language name already encoded
@@ -149,7 +153,7 @@
 				<p><input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>" /></p>
 				</form>
 				</center>
-				<script language="javascript">
+				<script type="text/javascript">
 				<!--
 					var uname = document.login_form.formUsername;
 					var pword = document.login_form.formPassword;
@@ -158,7 +162,7 @@
 					} else {
 						pword.focus();
 					}
-				-->
+				//-->
 				</script>
 			</td>
 		</tr>

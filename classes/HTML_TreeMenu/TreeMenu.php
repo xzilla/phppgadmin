@@ -33,7 +33,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.php,v 1.4 2004/02/02 06:32:18 chriskl Exp $
+// $Id: TreeMenu.php,v 1.5 2005/01/23 12:42:36 soranzo Exp $
 
 /**
 * HTML_TreeMenu Class
@@ -628,7 +628,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
         $menuObj     = 'objTreeMenu_' . ++$count;
 
         $html  = "\n";
-        $html .= '<script language="javascript" type="text/javascript">' . "\n\t";
+        $html .= '<script type="text/javascript">' . "\n\t";
         $html .= sprintf('%s = new TreeMenu("%s", "%s", "%s", "%s", %s, %s);',
                          $menuObj,
                          $this->images,

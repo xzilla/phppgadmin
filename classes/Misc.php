@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.97 2005/01/21 18:05:02 soranzo Exp $
+	 * $Id: Misc.php,v 1.98 2005/01/23 12:42:35 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -364,7 +364,7 @@
 		 * @param $database True if dropping a database, false otherwise
 		 */
 		function printReload($database) {
-			echo "<script language=\"JavaScript\">\n";
+			echo "<script type=\"text/javascript\">\n";
 			if ($database)
 				echo "\tparent.frames.browser.location.href=\"browser.php\";\n";
 			else
@@ -928,7 +928,7 @@
 		 * @param $object eg. forms[0].username
 		 */
 		function setFocus($object) {
-			echo "<script language=\"JavaScript\">\n";
+			echo "<script type=\"text/javascript\">\n";
 			echo "<!--\n";
 			echo "   document.{$object}.focus();\n";
 			echo "-->\n";
