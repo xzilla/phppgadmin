@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.74 2004/07/15 09:32:52 jollytoad Exp $
+	 * $Id: Misc.php,v 1.75 2004/07/15 09:52:20 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -637,6 +637,8 @@
 		 * Get the URL for the last active tab of a particular tab bar.
 		 */
 		function getLastTabURL($section) {
+			global $data;
+			
 			switch ($section) {
 				case 'database':
 				case 'schema':
