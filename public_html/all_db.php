@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.3 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: all_db.php,v 1.4 2003/01/06 04:39:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data, $database;
+		global $data, $localData, $database;
 		global $PHP_SELF;
 
 		if ($confirm) { 
@@ -32,6 +32,7 @@
 			echo "</form>\n";
 		}
 		else {
+			$localData->close();
 			$status = $data->dropDatabase($_POST['database']);
 			if ($status == 0)
 				doDefault('Database dropped.');
