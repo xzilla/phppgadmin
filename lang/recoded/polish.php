@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.28 2004/02/13 00:15:27 slubek Exp $
+	 * $Id: polish.php,v 1.29 2004/04/01 20:51:10 slubek Exp $
 	 */
 
 	// Language and character set
@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Akcje';	
 	$lang['strname'] = 'Nazwa';
 	$lang['strdefinition'] = 'Definicja';
-	$lang['straggregates'] = 'Funkcje agreguj&#261;ce';
 	$lang['strproperties'] = 'W&#322;a&#347;ciwo&#347;ci';
 	$lang['strbrowse'] = 'Przegl&#261;daj';
 	$lang['strdrop'] = 'Usu&#324;';
@@ -104,6 +103,7 @@
 	$lang['strexpand'] = 'Rozwi&#324;';
 	$lang['strcollapse'] = 'Zwi&#324;';
 	$lang['strexplain'] = 'Explain';
+	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strfind'] = 'Znajd&#378;';
 	$lang['stroptions'] = 'Opcje';
 	$lang['strrefresh'] = 'Od&#347;wie&#380;';
@@ -116,8 +116,8 @@
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
-	$lang['strparameters'] = 'Parametery';
-	$lang['streditquery'] = 'Edytuj zapytanie';
+	$lang['streditsql'] = 'Edycja zapytania SQL';
+	$lang['strpaginate'] = 'Wy&#347;wietl wyniki stronami';
 	$lang['strstarttime'] = 'Czas pocz&#261;tku';
 
 	// Error handling
@@ -138,8 +138,8 @@
 	$lang['strtable'] = 'Tabela';
 	$lang['strtables'] = 'Tabele';
 	$lang['strshowalltables'] = 'Poka&#380; wszystkie tabele';
-	$lang['strnotable'] = 'Nie znaleziono tabeli.';
-	$lang['strnotables'] = 'Nie znaleziono tabeli.';
+	$lang['strnotables'] = 'Nie znaleziono tabel.';
+	$lang['strnotable']  =  'Nie znaleziono tabeli.';
 	$lang['strcreatetable'] = 'Utw&oacute;rz tabel&#281;';
 	$lang['strtablename'] = 'Nazwa tabeli';
 	$lang['strtableneedsname'] = 'Musisz nazwa&#263; tabel&#281;.';
@@ -180,7 +180,6 @@
 	$lang['straddcolumn'] = 'Dodaj kolumn&#281;';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Pr&oacute;ba dodania kolumny si&#281; nie powiod&#322;a.';
-	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
 	$lang['strtablealteredbad'] = 'Pr&oacute;ba modyfikacji tabeli si&#281; nie powiod&#322;a.';
@@ -234,8 +233,8 @@
 	$lang['strmemberaddedbad'] = 'Pr&oacute;ba dodania cz&#322;onka grupy si&#281; nie powiod&#322;a.';
 	$lang['strdropmember'] = 'Usu&#324; cz&#322;onka grupy';
 	$lang['strconfdropmember'] = 'Czy na pewno chcesz usun&#261;&#263; &quot;%s&quot; z grupy &quot;%s&quot;?';
-	$lang['strmemberdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia cz&#322;onka grupy si&#281; nie powiod&#322;a.';
 	$lang['strmemberdropped'] = 'Cz&#322;onek grupy usuni&#281;ty.';
+	$lang['strmemberdroppedbad']  =  'Pr&oacute;ba usuni&#281;cia cz&#322;onka grupy si&#281; nie powiod&#322;a.';
 
 	// Privileges
 	$lang['strprivilege'] = 'Uprawnienie';
@@ -465,6 +464,8 @@
 	$lang['strconfdropschema'] = 'Czy na pewno chcesz usun&#261;&#263; schemat &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Schemat usuni&#281;ty.';
 	$lang['strschemadroppedbad'] = 'Pr&oacute;ba usuni&#281;cia schematu si&#281; nie powiod&#322;a.';
+	$lang['strschemaaltered']  =  'Schemat zmieniony.';
+	$lang['strschemaalteredbad']  =  'Pr&oacute;ba zmiany schematu si&#281; nie powiod&#322;a';
 
 	// Reports
 	$lang['strreport'] = 'Raport';

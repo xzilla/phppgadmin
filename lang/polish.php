@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.34 2004/02/04 00:22:18 slubek Exp $
+	 * $Id: polish.php,v 1.35 2004/04/01 20:51:00 slubek Exp $
 	 */
 
 	// Language and character set
@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Akcje';	
 	$lang['strname'] = 'Nazwa';
 	$lang['strdefinition'] = 'Definicja';
-	$lang['straggregates'] = 'Funkcje agreguj±ce';
 	$lang['strproperties'] = 'W³a¶ciwo¶ci';
 	$lang['strbrowse'] = 'Przegl±daj';
 	$lang['strdrop'] = 'Usuñ';
@@ -104,6 +103,7 @@
 	$lang['strexpand'] = 'Rozwiñ';
 	$lang['strcollapse'] = 'Zwiñ';
 	$lang['strexplain'] = 'Explain';
+	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strfind'] = 'Znajd¼';
 	$lang['stroptions'] = 'Opcje';
 	$lang['strrefresh'] = 'Od¶wie¿';
@@ -116,8 +116,8 @@
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
-	$lang['strparameters'] = 'Parametery';
-	$lang['streditquery'] = 'Edytuj zapytanie';
+	$lang['streditsql'] = 'Edycja zapytania SQL';
+	$lang['strpaginate'] = 'Wy¶wietl wyniki stronami';
 	$lang['strstarttime'] = 'Czas pocz±tku';
 
 	// Error handling
@@ -138,8 +138,8 @@
 	$lang['strtable'] = 'Tabela';
 	$lang['strtables'] = 'Tabele';
 	$lang['strshowalltables'] = 'Poka¿ wszystkie tabele';
-	$lang['strnotable'] = 'Nie znaleziono tabeli.';
-	$lang['strnotables'] = 'Nie znaleziono tabeli.';
+	$lang['strnotables'] = 'Nie znaleziono tabel.';
+	$lang['strnotable']  =  'Nie znaleziono tabeli.';
 	$lang['strcreatetable'] = 'Utwórz tabelê';
 	$lang['strtablename'] = 'Nazwa tabeli';
 	$lang['strtableneedsname'] = 'Musisz nazwaæ tabelê.';
@@ -180,7 +180,6 @@
 	$lang['straddcolumn'] = 'Dodaj kolumnê';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Próba dodania kolumny siê nie powiod³a.';
-	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
 	$lang['strtablealteredbad'] = 'Próba modyfikacji tabeli siê nie powiod³a.';
@@ -234,8 +233,8 @@
 	$lang['strmemberaddedbad'] = 'Próba dodania cz³onka grupy siê nie powiod³a.';
 	$lang['strdropmember'] = 'Usuñ cz³onka grupy';
 	$lang['strconfdropmember'] = 'Czy na pewno chcesz usun±æ "%s" z grupy "%s"?';
-	$lang['strmemberdroppedbad'] = 'Próba usuniêcia cz³onka grupy siê nie powiod³a.';
 	$lang['strmemberdropped'] = 'Cz³onek grupy usuniêty.';
+	$lang['strmemberdroppedbad']  =  'Próba usuniêcia cz³onka grupy siê nie powiod³a.';
 
 	// Privileges
 	$lang['strprivilege'] = 'Uprawnienie';
@@ -465,6 +464,8 @@
 	$lang['strconfdropschema'] = 'Czy na pewno chcesz usun±æ schemat "%s"?';
 	$lang['strschemadropped'] = 'Schemat usuniêty.';
 	$lang['strschemadroppedbad'] = 'Próba usuniêcia schematu siê nie powiod³a.';
+	$lang['strschemaaltered']  =  'Schemat zmieniony.';
+	$lang['strschemaalteredbad']  =  'Próba zmiany schematu siê nie powiod³a';
 
 	// Reports
 	$lang['strreport'] = 'Raport';
@@ -562,8 +563,8 @@
 	$lang['strioperf'] = 'Wydajno¶æ I/O';
 $lang['stridxrowperf'] = 'Index Row Performance';
 $lang['stridxioperf'] = 'Index I/O Performance';
-$lang['strpercent'] = '%';
-$lang['strsequential'] = 'Sekwencyjny';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sekwencyjny';
 	$lang['strscan'] = 'Skanuj';
 	$lang['strread'] = 'Czytaj';
 	$lang['strfetch'] = 'Pobierz';
