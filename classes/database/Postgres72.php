@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.43 2003/05/15 08:59:49 chriskl Exp $
+ * $Id: Postgres72.php,v 1.44 2003/05/15 14:34:47 chriskl Exp $
  */
 
 
@@ -238,58 +238,6 @@ class Postgres72 extends Postgres71 {
 			";
 
 		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Returns all details for a particular function
-	 * @param $func The name of the function to retrieve
-	 * @return Function info
-	 */
-	function getFunction($function_oid) {
-		$this->clean($function_oid);
-		
-		$sql = "SELECT 
-					pc.oid,
-					proname,
-					lanname as language,
-					format_type(prorettype, NULL) as return_type,
-					prosrc as source,
-					probin as binary,
-					proretset,
-					proisstrict,
-					proiscachable,
-					oidvectortypes(pc.proargtypes) AS arguments
-				FROM
-					pg_proc pc, pg_language pl
-				WHERE 
-					pc.oid = '$function_oid'::oid
-				AND pc.prolang = pl.oid
-				";
-	
-		return $this->selectSet($sql);
-	}
-	
-	/** 
-	 * Returns an array containing a function's properties
-	 * @param $f The array of data for the function
-	 * @return An array containing the properties
-	 */
-	function getFunctionProperties($f) {
-		$temp = array();
-
-		// Strict
-		if ($f['proisstrict'])
-			$temp[] = 'ISSTRICT';
-		else
-			$temp[] = '';
-		
-		// Cachable
-		if ($f['proiscachable'])
-			$temp[] = 'ISCACHABLE';
-		else
-			$temp[] = '';
-					
-		return $temp;
 	}
 		
 	/**

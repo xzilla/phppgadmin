@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.105 2003/05/15 10:02:22 chriskl Exp $
+ * $Id: Postgres.php,v 1.106 2003/05/15 14:34:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -442,21 +442,11 @@ class Postgres extends BaseDB {
 	 * @return All tables, sorted alphabetically 
 	 */
 	function &getTables() {
-		if (!$this->_showSystem) $where = "WHERE tablename NOT LIKE 'pg_%' ";
+		global $conf;
+		if (!$conf['show_system']) $where = "WHERE tablename NOT LIKE 'pg_%' ";
 		else $where = '';
 		$sql = "SELECT tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
 		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Return all information relating to a table
-	 * @param $table The name of the table
-	 * @return Table information
-	 */
-	function &getTableByName($table) {
-		$this->clean($table);
-		$sql = "SELECT * FROM pg_class WHERE relname='{$table}'";
-		return $this->selectRow($sql);
 	}
 
 	/**
@@ -816,9 +806,7 @@ class Postgres extends BaseDB {
 	 * @return A recordset
 	 */
 	function &getSequences() {
-		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
-		else $where = '';
-		$sql = "SELECT c.relname, u.usename  FROM pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S'{$where} ORDER BY relname";
+		$sql = "SELECT c.relname, u.usename FROM pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY relname";
 		
 		return $this->selectSet( $sql );
 	}
@@ -831,8 +819,6 @@ class Postgres extends BaseDB {
 	function &getSequence($sequence) {
 		$this->fieldClean($sequence);
 		
-		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
-		else $where = '';
 		$sql = "SELECT sequence_name AS relname, * FROM \"{$sequence}\""; 
 		
 		return $this->selectSet( $sql );
@@ -1115,7 +1101,6 @@ class Postgres extends BaseDB {
 	function setColumnDefault($table, $column, $default) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-		// @@ How the heck do you clean default clause?
 		
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 
@@ -1134,7 +1119,6 @@ class Postgres extends BaseDB {
 
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}
 
@@ -1350,7 +1334,8 @@ class Postgres extends BaseDB {
 	 * @return All views
 	 */
 	function &getViews() {
-		if (!$this->_showSystem)
+		global $conf;
+		if (!$conf['show_system'])
 			$where = "WHERE viewname NOT LIKE 'pg_%'";
 		else $where  = '';
 		
@@ -1657,6 +1642,13 @@ class Postgres extends BaseDB {
 	 * @return A recordet
 	 */
 	function &getTypes($all = false) {
+		global $conf;
+		
+		if ($all || $conf['show_system'])
+			$where = '';
+		else
+			$where = "AND pt.oid > '{$this->_lastSystemOID}'::oid";
+		
 		$sql = "SELECT
 				pt.typname,
 				pu.usename AS typowner
@@ -1667,6 +1659,7 @@ class Postgres extends BaseDB {
 				pt.typowner = pu.usesysid
 				AND typrelid = 0
 				AND typname !~ '^_.*'
+				{$where}
 			ORDER BY typname
 		";
 
@@ -2164,6 +2157,58 @@ class Postgres extends BaseDB {
 	}
 
 	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+		
+		$sql = "SELECT 
+					pc.oid,
+					proname,
+					lanname as language,
+					format_type(prorettype, NULL) as return_type,
+					prosrc as source,
+					probin as binary,
+					proretset,
+					proisstrict,
+					proiscachable,
+					oidvectortypes(pc.proargtypes) AS arguments
+				FROM
+					pg_proc pc, pg_language pl
+				WHERE 
+					pc.oid = '$function_oid'::oid
+				AND pc.prolang = pl.oid
+				";
+	
+		return $this->selectSet($sql);
+	}
+
+	/** 
+	 * Returns an array containing a function's properties
+	 * @param $f The array of data for the function
+	 * @return An array containing the properties
+	 */
+	function getFunctionProperties($f) {
+		$temp = array();
+
+		// Strict
+		if ($f['proisstrict'])
+			$temp[] = 'ISSTRICT';
+		else
+			$temp[] = '';
+		
+		// Cachable
+		if ($f['proiscachable'])
+			$temp[] = 'ISCACHABLE';
+		else
+			$temp[] = '';
+					
+		return $temp;
+	}
+	
+	/**
 	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
 	 * so we do it with a drop and a recreate.
 	 * @param $funcname The name of the function to create
@@ -2182,7 +2227,7 @@ class Postgres extends BaseDB {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$status = $this->dropFunction($funcname, false);
+		$status = $this->dropFunction("$funcname({$args})", false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
@@ -2211,7 +2256,6 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
-		if ($setof) return -99;
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->fieldClean($returns);
@@ -2230,7 +2274,7 @@ class Postgres extends BaseDB {
 		$sql .= ") RETURNS {$returns} AS '\n";
 		$sql .= $definition;
 		$sql .= "\n'";
-		$sql .= " LANGUAGE \"{$language}\"";
+		$sql .= " LANGUAGE '{$language}'";
 		
 		// Add flags
 		$first = true;
@@ -2324,6 +2368,7 @@ class Postgres extends BaseDB {
 	function hasRules() { return true; }
 	function hasLanguages() { return true; }
 	function hasDropColumn() { return false; }
+	function hasSRFs() { return true; }
 
 }
 

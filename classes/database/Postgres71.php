@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.30 2003/04/30 06:49:12 chriskl Exp $
+ * $Id: Postgres71.php,v 1.31 2003/05/15 14:34:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -39,23 +39,14 @@ class Postgres71 extends Postgres {
 	// Table functions
 
 	/**
-	 * Return all tables in current database
-	 * @return All tables, sorted alphabetically 
-	 */
-	function &getTables() {
-		if (!$this->_showSystem) $where = "WHERE tablename NOT LIKE 'pg_%' ";
-		else $where = '';
-		$sql = "SELECT tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
-		return $this->selectSet($sql);
-	}
-
-	/**
 	 * Returns a list of all functions in the database
  	 * @param $all If true, will find all available functions, if false just userland ones
 	 * @return All functions
 	 */
 	function &getFunctions($all = false) {
-		if ($all)
+		global $conf;
+		
+		if ($all || $conf['show_system'])
 			$where = '';
 		else
 			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
@@ -63,6 +54,7 @@ class Postgres71 extends Postgres {
 		$sql = 	"SELECT
 				pc.oid,
 				proname,
+				proretset,
 				pt.typname AS return_type,
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM
@@ -75,6 +67,7 @@ class Postgres71 extends Postgres {
 			SELECT 
 				pc.oid,
 				proname,
+				proretset,
 				'OPAQUE' AS result,
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM
@@ -91,163 +84,18 @@ class Postgres71 extends Postgres {
 	}
 
 	/**
-	 * Return all information relating to a table
-	 * @param $table The name of the table
-	 * @return Table information
-	 */
-	function &getTableByName($table) {
-		$this->clean($table);
-		$sql = "SELECT * FROM pg_class WHERE relname='{$table}'";
-		return $this->selectRow($sql);
-	}
-
-	/**
-	 * Renames a table
-	 * @param $table The table to be renamed
-	 * @param $newName The new name for the table
-	 * @return 0 success
-	 */
-	function renameTable($table, $newName) {
-		$this->clean($table);
-		$this->clean($newName);
-		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-
-	/**
 	 * Changes the owner of a table
 	 * @param $table The table whose owner is to change
 	 * @param $owner The new owner (username) of the table
 	 * @return 0 success
 	 */
 	function setOwnerOfTable($table, $owner) {
-		$this->clean($table);
-		$this->clean($owner);
+		$this->fieldClean($table);
+		$this->fieldClean($owner);
 		
 		$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
-	}
-
-	// Column Functions
-
-	/**
-	 * Add a new column to a table
-	 * @param $table The table to add to
-	 * @param $column The name of the new column
-	 * @param $type The type of the column
-	 * @param $size (optional) The optional size of the column (ie. 30 for varchar(30))
-	 * @return 0 success
-	 */
-	function addColumnToTable($table, $column, $type, $size = '') {
-		$this->clean($table);
-		$this->clean($column);
-		$this->clean($type);
-		$this->clean($size);
-		// @@ How the heck do you properly clean type and size?
-		
-		if ($size == '')
-			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
-		else
-			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$size})";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Sets default value of a column
-	 * @param $table The table from which to drop
-	 * @param $column The column name to set
-	 * @param $default The new default value
-	 * @return 0 success
-	 */
-	function setColumnDefault($table, $column, $default) {
-		$this->clean($table);
-		$this->clean($column);
-		// @@ How the heck do you clean default clause?
-		
-		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Drops default value of a column
-	 * @param $table The table from which to drop
-	 * @param $column The column name to drop default
-	 * @return 0 success
-	 */
-	function dropColumnDefault($table, $column) {
-		$this->clean($table);
-		$this->clean($column);
-
-		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Sets whether or not a column can contain NULLs
-	 * @param $table The table that contains the column
-	 * @param $column The column to alter
-	 * @param $state True to set null, false to set not null
-	 * @return 0 success
-	 * @return -1 attempt to set not null, but column contains nulls
-	 * @return -2 transaction error
-	 * @return -3 lock error
-	 * @return -4 update error
-	 */
-
-	/**
-	 * Renames a column in a table
-	 * @param $table The table containing the column to be renamed
-	 * @param $column The column to be renamed
-	 * @param $newName The new name for the column
-	 * @return 0 success
-	 */
-	function renameColumn($table, $column, $newName) {
-		$this->clean($table);
-		$this->clean($column);
-		$this->clean($newName);
-
-		$sql = "ALTER TABLE \"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
-
-		// @@ how?
-		return $this->execute($sql);
-	}
-
-	// Operator functions
-	
-	/**
-	 * Returns a list of all operators in the database
-	 * @return All operators
-	 */
-	function getOperators() {
-		if (!$this->_showSystem)
-			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
-		else $where  = '';
-		
-		$sql = "
-			SELECT
-            po.oid,
-				po.oprname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname
-			FROM
-				pg_operator po
-			{$where}
-			ORDER BY
-				po.oprname, po.oid
-		";
-
-		return $this->selectSet($sql);
 	}
 
 	// Capabilities

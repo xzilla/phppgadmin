@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.44 2003/05/15 08:59:51 chriskl Exp $
+ * $Id: Postgres73.php,v 1.45 2003/05/15 14:34:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -98,15 +98,13 @@ class Postgres73 extends Postgres72 {
 	 * @return All schemas, sorted alphabetically - but with PUBLIC first (if it exists)
 	 */
 	function &getSchemas() {
-		if (!$this->_showSystem) $and = "AND nspname NOT LIKE 'pg_%'";
+		global $conf;
+		
+		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg_%'";
 		else $and = '';
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_namespace pn, pg_user pu
 			WHERE pn.nspowner = pu.usesysid
-			AND nspname = 'public'
-			UNION ALL
-			SELECT pn.nspname, pu.usename AS nspowner FROM pg_namespace pn, pg_user pu
-			WHERE pn.nspowner = pu.usesysid
-			AND nspname != 'public' {$and}ORDER BY nspname";
+			{$and}ORDER BY nspname";
 
 		return $this->selectSet($sql);
 	}
@@ -415,35 +413,6 @@ class Postgres73 extends Postgres72 {
 		$sql = "SELECT sequence_name AS relname, * FROM \"{$sequence}\""; 
 		
 		return $this->selectSet( $sql );
-	}
-
-	// Operator functions
-
-	/**
-	 * Returns a list of all operators in the database
-	 * @return All operators
-	 */
-	function getOperators() {
-		if (!$this->_showSystem)
-			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
-		else $where  = '';
-		
-		$sql = "
-			SELECT
-            po.oid,
-				po.oprname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
-				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname
-			FROM
-				pg_operator po
-			{$where}				
-			ORDER BY
-				po.oprname, po.oid
-		";
-
-		return $this->selectSet($sql);
-
 	}
 
 	/**
@@ -841,7 +810,6 @@ class Postgres73 extends Postgres72 {
 	function hasCluster() { return true; }
 	function hasDropBehavior() { return true; }
 	function hasDropColumn() { return true; }
-	function hasSRFs() { return true; }
 
 }
 
