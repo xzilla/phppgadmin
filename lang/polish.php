@@ -4,16 +4,16 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.33 2003/12/15 19:56:22 slubek Exp $
+	 * $Id: polish.php,v 1.34 2004/02/04 00:22:18 slubek Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Polski';
 	$lang['appcharset'] = 'ISO-8859-2';
 	$lang['applocale'] = 'pl_PL';
-  	$lang['appdbencoding'] = 'LATIN2';
-  
-  	// Welcome
+	$lang['appdbencoding'] = 'LATIN2';
+ 
+	// Welcome
 	$lang['strintro'] = 'Witaj w phpPgAdmin.';
 	$lang['strppahome'] = 'Strona domowa phpPgAdmin';
 	$lang['strpgsqlhome'] = 'Strona domowa PostgreSQL';
@@ -92,7 +92,7 @@
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
-        $lang['strevent'] = 'Zdarzenie';
+	$lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
 	$lang['strwhen'] = 'Kiedy';
@@ -108,6 +108,7 @@
 	$lang['stroptions'] = 'Opcje';
 	$lang['strrefresh'] = 'Od¶wie¿';
 	$lang['strdownload'] = 'Pobierz';
+	$lang['strdownloadgzipped'] = 'Pobierz skompresowane gzip-em';
 	$lang['strinfo'] = 'Informacje';
 	$lang['stroids'] = 'OIDy';
 	$lang['stradvanced'] = 'Zaawansowane';
@@ -115,6 +116,9 @@
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
+	$lang['strparameters'] = 'Parametery';
+	$lang['streditquery'] = 'Edytuj zapytanie';
+	$lang['strstarttime'] = 'Czas pocz±tku';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
@@ -165,7 +169,7 @@
 	$lang['strnumfields'] = 'Ilo¶æ pól';
 	$lang['strfieldneedsname'] = 'Musisz nazwaæ pole';
 	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
-        $lang['strselectneedscol'] = 'Musisz wybraæ przynajmniej jedn± kolumnê';
+	$lang['strselectneedscol'] = 'Musisz wybraæ przynajmniej jedn± kolumnê';
 	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mog± mieæ podanej warto¶ci';
 	$lang['straltercolumn'] = 'Zmieñ kolumnê';
 	$lang['strcolumnaltered'] = 'Kolumna zmodyfikowana.';
@@ -173,7 +177,7 @@
 	$lang['strconfdropcolumn'] = 'Czy na pewno chcesz usun±æ kolumnê "%s" z tabeli "%s"?';
 	$lang['strcolumndropped'] = 'Kolumna usuniêta.';
 	$lang['strcolumndroppedbad'] = 'Próba usuniêcia kolumny siê nie powiod³a.';
-        $lang['straddcolumn'] = 'Dodaj kolumnê';
+	$lang['straddcolumn'] = 'Dodaj kolumnê';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Próba dodania kolumny siê nie powiod³a.';
 	$lang['strdataonly'] = 'Tylko dane';
@@ -192,10 +196,11 @@
 	$lang['strsuper'] = 'Administrator?';
 	$lang['strcreatedb'] = 'Tworzenie BD?';
 	$lang['strexpires'] = 'Wygasa';	
+	$lang['strsessiondefaults'] = 'Warto¶ci domy¶lne sesji';
 	$lang['strnousers'] = 'Nie znaleziono u¿ytkowników.';
 	$lang['struserupdated'] = 'Parametry u¿ytkownika zaktualizowane.';
 	$lang['struserupdatedbad'] = 'Próba aktualizacji parametrów u¿ytkownika siê nie powiod³a.';
-        $lang['strshowallusers'] = 'Poka¿ wszystkich u¿ytkowników';
+	$lang['strshowallusers'] = 'Poka¿ wszystkich u¿ytkowników';
 	$lang['strcreateuser'] = 'Utwórz u¿ytkownika';
 	$lang['struserneedsname'] = 'Musisz podaæ nazwê u¿ytkownika.';
 	$lang['strusercreated'] = 'U¿ytkownik utworzony.';
@@ -283,6 +288,8 @@
 	$lang['strviewdroppedbad'] = 'Próba usuniêcia widoku siê nie powiod³a.';
 	$lang['strviewupdated'] = 'Widok zaktualizowany.';
 	$lang['strviewupdatedbad'] = 'Próba aktualizacji widoku siê nie powiod³a.';
+	$lang['strviewlink'] = 'Klucze ³±cz±ce';
+	$lang['strviewconditions'] = 'Dodatkowe warunki';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekwencja';
@@ -310,6 +317,7 @@
 	$lang['strsequenceresetbad'] = 'Próba zresetowania sekwencji siê nie powiod³a.';
 						
 	// Indeksy
+	$lang['strindex'] = 'Indeks';
 	$lang['strindexes'] = 'Indeksy';
 	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strshowallindexes'] = 'Poka¿ wszystkie indeksy';
@@ -361,7 +369,7 @@
 	$lang['strconstraintdropped'] = 'Wiêzy integralno¶ci usuniête.';
 	$lang['strconstraintdroppedbad'] = 'Próba usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
 	$lang['straddcheck'] = 'Dodaj warunek';
-        $lang['strcheckneedsdefinition'] = 'Musisz zdefiniowaæ warunek.';
+	$lang['strcheckneedsdefinition'] = 'Musisz zdefiniowaæ warunek.';
 	$lang['strcheckadded'] = 'Dodano warunek.';
 	$lang['strcheckaddedbad'] = 'peracja dodania warunku siê nie powiod³a.';
 	$lang['straddpk'] = 'Dodaj klucz g³ówny';
@@ -372,7 +380,7 @@
 	$lang['struniqneedscols'] = 'Klucz unikatowy musi zawieraæ przynajmniej jedn± kolumnê.';
 	$lang['struniqadded'] = 'Dodano klucz unikatowy.';
 	$lang['struniqaddedbad'] = 'Próba dodania klucza unikatowego siê nie powiod³a.';
-        $lang['straddfk'] = 'Dodaj klucz obcy';
+	$lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawieraæ przynajmniej jedn± kolumnê.';
 	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tabeli docelowej.';
 	$lang['strfkadded'] = 'Dodano klucz obcy.';
@@ -397,7 +405,7 @@
 	$lang['strfunctionneedsdef'] = 'Musisz zdefiniowaæ funkcjê.';
 	$lang['strfunctioncreated'] = 'Utworzono funkcjê.';
 	$lang['strfunctioncreatedbad'] = 'Próba utworzenia funkcji siê nie powiod³a';
-        $lang['strconfdropfunction'] = 'Czy na pewno chcesz usun±æ funkcjê "%s"?';
+	$lang['strconfdropfunction'] = 'Czy na pewno chcesz usun±æ funkcjê "%s"?';
 	$lang['strfunctiondropped'] = 'Funkcja usuniêta.';
 	$lang['strfunctiondroppedbad'] = 'Próba usuniêcia funkcji siê nie powiod³a.';
 	$lang['strfunctionupdated'] = 'Funkcja zaktualizowana.';
@@ -414,7 +422,7 @@
 	$lang['strtriggerneedsfunc'] = 'Musisz podac funkcje swojego tragarza.';
 	$lang['strtriggercreated'] = 'Utworzono procedurê wyzwalan±.';
 	$lang['strtriggercreatedbad'] = 'Próba utworzenia procedury wyzwalanej siê nie powiod³a';
-        $lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
+	$lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
 	$lang['strtriggerdropped'] = 'Procedura wyzwalana usuniêta.';
 	$lang['strtriggerdroppedbad'] = 'Próba usuniêcia procedury wyzwalanej siê nie powiod³a.';
 	$lang['strtriggeraltered'] = 'Procedura wyzwalana zmieniona.';
@@ -467,7 +475,7 @@
 	$lang['strreportdropped'] = 'Raport usuniêty.';
 	$lang['strreportdroppedbad'] = 'Próba usuniêcia raportu siê nie powiod³a.';
 	$lang['strconfdropreport'] = 'Czy na pewno chcesz usun±æ raport "%s"?';
-        $lang['strreportneedsname'] = 'Musisz nazwaæ raport.';
+	$lang['strreportneedsname'] = 'Musisz nazwaæ raport.';
 	$lang['strreportneedsdef'] = 'Musisz podaæ zapytanie SQL definiuj±ce raport.';
 	$lang['strreportcreated'] = 'Raport utworzony.';
 	$lang['strreportcreatedbad'] = 'Próba utworzenia raportu siê nie powiod³a.';
@@ -538,7 +546,34 @@
 	$lang['strreferringtables'] = 'Tabele zale¿ne';
 	$lang['strparenttables'] = 'Tabela nadrzêdne';
 	$lang['strchildtables'] = 'Tabela podrzêdna';
-	
+
+	// Aggregates
+	$lang['straggregates'] = 'Funkcje agreguj±ce';
+	$lang['strnoaggregates'] = 'Nie znaleziono funkcji agreguj±cych.';
+	$lang['stralltypes'] = '(Wszystkie typy)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Klasy operatorów';
+	$lang['strnoopclasses'] = 'Nie znaleziono klas operatorów.';
+	$lang['straccessmethod'] = 'Metoda dostêpu';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Wydajno¶æ wierszowa';
+	$lang['strioperf'] = 'Wydajno¶æ I/O';
+$lang['stridxrowperf'] = 'Index Row Performance';
+$lang['stridxioperf'] = 'Index I/O Performance';
+$lang['strpercent'] = '%';
+$lang['strsequential'] = 'Sekwencyjny';
+	$lang['strscan'] = 'Skanuj';
+	$lang['strread'] = 'Czytaj';
+	$lang['strfetch'] = 'Pobierz';
+	$lang['strheap'] = 'Sterta';
+$lang['strtoast'] = 'TOAST';
+$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Kesz';
+	$lang['strdisk'] = 'Dysk';
+	$lang['strrows2'] = 'Wiersze';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
