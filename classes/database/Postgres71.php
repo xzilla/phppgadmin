@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.25 2003/03/16 10:51:01 chriskl Exp $
+ * $Id: Postgres71.php,v 1.26 2003/03/22 15:18:00 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -51,10 +51,10 @@ class Postgres71 extends Postgres {
 			$where = '';
 		else
 			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
-		
+
 		$sql = 	"SELECT
 				pc.oid,
-				proname, 
+				proname,
 				pt.typname AS return_type,
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM
@@ -66,8 +66,8 @@ class Postgres71 extends Postgres {
 			UNION
 			SELECT 
 				pc.oid,
-				proname, 
-				'OPAQUE' AS result, 
+				proname,
+				'OPAQUE' AS result,
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
@@ -83,6 +83,13 @@ class Postgres71 extends Postgres {
 	}
 
 	/**
+	 * Returns a list of all functions that can be used in triggers
+	 */
+	function &getTriggerFunctions() {
+		return $this->getFunctions(true);
+	}
+
+	/**
 	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
 	 * so we do it with a drop and a recreate.
 	 * @param $funcname The name of the function to update
@@ -95,7 +102,7 @@ class Postgres71 extends Postgres {
 	function setFunction($funcname, $definition) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		$status = $this->dropFunction($funcname);
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -107,7 +114,7 @@ class Postgres71 extends Postgres {
 			$this->rollbackTransaction();
 			return -3;
 		}
-		
+
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}

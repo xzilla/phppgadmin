@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.61 2003/03/18 07:35:11 chriskl Exp $
+ * $Id: Postgres.php,v 1.62 2003/03/22 15:17:59 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -43,9 +43,10 @@ class Postgres extends BaseDB {
 	// Default index type 
 	var $typIndexDef = 'BTREE';
 	// Array of allowed trigger events	
-	var $triggerEvents= array('INSERT','UPDATE','DELETE','INSERT OR UPDATE');
+	var $triggerEvents= array('INSERT', 'UPDATE', 'DELETE', 'INSERT OR UPDATE', 'INSERT OR DELETE', 
+		'UPDATE OR DELETE', 'INSERT OR UPDATE OR DELETE');
 	// When to execute the trigger	
-	var $triggerExecTimes = array('BEFORE','AFTER');
+	var $triggerExecTimes = array('BEFORE', 'AFTER');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -1667,9 +1668,10 @@ class Postgres extends BaseDB {
 	 * @param $tgproc The function to execute
 	 * @param $tgtime BEFORE or AFTER
 	 * @param $tgevent Event
+	 * @param $tgargs The function arguments
 	 * @return 0 success
 	 */
-	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent) {
+	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent, $tgargs) {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 		$this->fieldClean($tgproc);
@@ -1677,7 +1679,7 @@ class Postgres extends BaseDB {
 		/* No Statement Level Triggers in PostgreSQL (by now) */
 		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime} 
 				{$tgevent} ON \"{$table}\"
-				FOR EACH ROW EXECUTE PROCEDURE \"{$tgproc}\"()";
+				FOR EACH ROW EXECUTE PROCEDURE \"{$tgproc}\"({$tgargs})";
 				
 		return $this->execute($sql);
 	}

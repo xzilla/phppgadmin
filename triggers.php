@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.6 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: triggers.php,v 1.7 2003/03/22 15:17:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -33,13 +33,13 @@
 	function getTriggerEvent($type) {
 		if ($type & TRIGGER_TYPE_INSERT) $event = "INSERT";
 		elseif ($type & TRIGGER_TYPE_DELETE) $event = "DELETE";
-		
+
 		if ($type & TRIGGER_TYPE_UPDATE) $event .= (empty($event)) ? "UPDATE" : " OR UPDATE";
-		
+
 		return $event;
 
 	}
-	
+
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -78,69 +78,82 @@
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
-    // global $lang['strcreatetrigger'], $lang['strsave'], $lang['strreset'], $lang['strfunction'],$lang['strtriggername'],
-		global $strTriggerEvents, $strTriggerWhen,$strTriggerNeedsFunction;
-		global $strTriggerFunction,$strTriggerEvent,$strTriggerExecTimes;
-		global $strTriggerArgs;
-		
 		
 		echo "<h2>{$lang['strcreatetrigger']}</h2>";
-
 		$misc->printMsg($msg);
 		
-		// List only functions, that return "trigger"
-		$funcs = &$localData->getFunctions(false, 'trigger');
-
+		// Get all the functions that can be used in triggers
+		$funcs = &$localData->getTriggerFunctions();
 		if ($funcs->recordCount() == 0) {
-			echo "<p class='message'>" . $strTriggerNeedsFunction . "</p>";
+			doDefault($lang['strnofunctions']);
 			return;
 		}
-
 		
 		/* Populate functions */
-		$sel0 = new XHTML_Select("formFunction");
-		$sel0->set_style("width: 20em;");
+		$sel0 = new XHTML_Select('formFunction');
 		while (!$funcs->EOF) {
 			$sel0->add(new XHTML_Option($funcs->f[$data->fnFields['fnname']]));
 			$funcs->moveNext();
-		}	
+		}
 
+		/* Populate times */
 		$sel1 = new XHTML_Select('formExecTime');
-		$sel1->set_style("width: 7em;");
 		$sel1->set_data($localData->triggerExecTimes);
 
 		/* Populate events */
 		$sel2 = new XHTML_Select('formEvent');
-		$sel2->set_style("width: 7em;");
 		$sel2->set_data($localData->triggerEvents);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
-		echo "<table>";
-		echo "<tr><th colspan=\"4\" class=\"data\">{$lang['strtriggername']}</th>";
-		echo "</tr>";
-		echo "<tr><td colspan=\"4\" class=\"data1\"><input type=\"text\" name=\"formTriggerName\" size=\"80\"/></th>";
-		echo "</tr>";
-		echo "<tr><th class=\"data\">&nbsp;</th>";
-		echo "    <th class=\"data\">{$lang['strfunction']}</th>";
-		echo "    <th class=\"data\">{$strTriggerWhen}</th>";
-		echo "    <th class=\"data\">{$strTriggerEvent}</th>";
-		echo "</tr>";
-		echo " <tr><td class=\"data1\">{$strTriggerFunction}</td>\n";
-		echo "     <td class=\"data1\">" . $sel0->fetch() ."</td>";
-		echo "     <td class=\"data1\">" . $sel1->fetch() . "</td>";
-		echo "     <td class=\"data1\">" . $sel2->fetch() . "</td>";
-		echo "</tr>";
-		echo "<th colspan=\"4\" class=\"data\">{$strTriggerArgs}</th>";
-		echo "<tr><td colspan=\"4\" class=\"data1\"><input type=\"text\" name=\"formTriggerArgs\" size=\"80\"/></th>";
-		echo "</table>";
-		echo "<p><input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
-		echo "<input type=hidden value=save_create name=\"action\">";
-		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-	    echo $misc->form;
-		echo "</form>";
+		echo "<table>\n";
+		echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strname']}</th></tr>\n";
+		echo "<tr><td colspan=\"2\" class=\"data1\"><input type=\"text\" name=\"formTriggerName\" size=\"32\"/></td></tr>\n";
+		echo "<tr>\n";
+		echo "    <th class=\"data\">{$lang['strwhen']}</th>\n";
+		echo "    <th class=\"data\">{$lang['strevent']}</th>\n";
+		echo "</tr>\n";
+		echo "<tr>\n";
+		echo "     <td class=\"data1\">", $sel1->fetch(), "</td>\n";
+		echo "     <td class=\"data1\">", $sel2->fetch(), "</td>\n";
+		echo "</tr>\n";
+		echo "<tr><th class=\"data\">{$lang['strfunction']}</th>\n";
+		echo "<th class=\"data\">{$lang['strarguments']}</th></tr>\n";
+		echo "<tr><td class=\"data1\">", $sel0->fetch(), "</td>\n";
+		echo "<td class=\"data1\">(<input type=\"text\" name=\"formTriggerArgs\" size=\"32\"/>)</td>\n";
+		echo "</tr></table>\n";
+		echo "<p><input type=\"submit\" value=\"{$lang['strsave']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
+		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+	    	echo $misc->form;
+		echo "</form>\n";
 	}
 	
-		
+	/**
+	 * Actually creates the new trigger in the database
+	 */
+	function doSaveCreate() {
+		global $localData;
+		global $PHP_SELF, $lang;		
+	
+		// Check that they've given a name and a definition
+
+		if ($_POST['formFunction'] == '')
+			doCreate($lang['strtriggerneedsfunc']);
+		elseif ($_POST['formTriggerName'] == '')
+			doCreate($lang['strtriggerneedsname']);
+		elseif ($_POST['formEvent'] == '') 
+			doCreate();
+		else {		 
+			$status = &$localData->createTrigger($_POST['formTriggerName'], $_POST['table'],
+					$_POST['formFunction'], $_POST['formExecTime'], $_POST['formEvent'],
+					$_POST['formTriggerArgs']);
+			if ($status == 0)
+				doDefault($lang['strtriggercreated']);
+			else
+				doCreate($lang['strtriggercreatedbad']);
+		}
+	}	
+
 	/**
 	 * List all the triggers on the table
 	 */
@@ -182,34 +195,6 @@
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
-	/**
-	 * Actually creates the new trigger in the database
-	 */
-	function doSaveCreate() {
-		global $data, $localData, $misc, $database;
-		global $PHP_SELF, $lang;
-		global $strTriggerNeedsFunction, $strTriggerDone;
-		
-	
-		// Check that they've given a name and a definition
-
-		if ($_POST['formFunction'] == '') 
-			doCreate($strTriggerNeedsFunction);
-		elseif ($_POST['formExecTime'] == '') 
-			doCreate();
-		elseif ($_POST['formTriggerName'] == '') 
-			doCreate($lang['strtriggerneedsname']);
-		elseif ($_POST['formEvent'] == '') 
-			doCreate();
-		else {		 
-			$status = &$localData->createTrigger($_POST['formTriggerName'],$_POST['table'], $_POST['formFunction'], $_POST['formExecTime'] , $_POST['formEvent']);
-			if ($status == 0)
-				doDefault($strTriggerDone);
-			else
-				doCreate($strTriggerFailed);
-		}
-	}	
-	
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
 
 	switch ($action) {

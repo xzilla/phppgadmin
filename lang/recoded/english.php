@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.18 2003/03/19 03:00:38 chriskl Exp $
+	 * $Id: english.php,v 1.19 2003/03/22 15:18:01 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -76,6 +76,7 @@
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
 	$lang['strinstead'] = 'Do Instead';
+	$lang['strwhen'] = 'When';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -323,15 +324,14 @@
 	$lang['strnotrigger'] = 'No trigger found.';
 	$lang['strnotriggers'] = 'No triggers found.';
 	$lang['strcreatetrigger'] = 'Create Trigger';
-	$lang['strtriggername'] = 'Trigger name';
 	$lang['strtriggerneedsname'] = 'You must specify a name for your trigger.';
+	$lang['strtriggerneedsfunc'] = 'You must specify a function for your trigger.';
 	$lang['strtriggercreated'] = 'Trigger created.';
 	$lang['strtriggercreatedbad'] = 'Trigger creation failed.';
 	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger &quot;%s&quot; on &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Trigger dropped.';
 	$lang['strtriggerdroppedbad'] = 'Trigger drop failed.';
 
-	
 	// Types
 	$lang['strtype'] = 'Type';
 	$lang['strtypes'] = 'Types';

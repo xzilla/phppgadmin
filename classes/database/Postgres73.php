@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.27 2003/03/18 07:35:11 chriskl Exp $
+ * $Id: Postgres73.php,v 1.28 2003/03/22 15:18:00 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -501,14 +501,14 @@ class Postgres73 extends Postgres72 {
 		if ($all) {
 			$where = 'pg_catalog.pg_function_is_visible(p.oid)';
 			$distinct = 'DISTINCT ON (p.proname)';
-		}
-		else {
-			$where = "n.nspname = '{$this->_schema}'";
 			
 			if ($type) {
 				$where .= " AND p.prorettype = (select oid from pg_catalog.pg_type p where p.typname = 'trigger') ";
 			}
-			
+		}
+		else {
+			$where = "n.nspname = '{$this->_schema}'";
+
 			$distinct = '';
 		}
 
@@ -529,6 +529,13 @@ class Postgres73 extends Postgres72 {
 			";
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Returns a list of all functions that can be used in triggers
+	 */
+	function &getTriggerFunctions() {
+		return $this->getFunctions(true, 'trigger');
 	}
 
 	// Type functions
