@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.1.2.1 2005/03/01 10:48:24 jollytoad Exp $
+	 * $Id: servers.php,v 1.1.2.2 2005/03/08 09:45:22 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -17,8 +17,9 @@
 	function doLogout() {
 		global $misc, $lang;
 		
+		$server_info = $misc->getServerInfo($_REQUEST['logoutServer']);
 		$misc->setServerInfo(null,null,$_REQUEST['logoutServer']);
-		doDefault(sprintf($lang['strlogoutmsg'], $_REQUEST['logoutServer']));
+		doDefault(sprintf($lang['strlogoutmsg'], $server_info['desc']));
 	}
 
 	function doDefault($msg = '') {
