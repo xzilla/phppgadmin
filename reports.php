@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.10 2003/04/18 11:08:26 chriskl Exp $
+	 * $Id: reports.php,v 1.11 2003/05/19 05:53:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -42,7 +42,7 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['report_name']), "\"></td></tr>\n";
+			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
@@ -61,11 +61,12 @@
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\">\n";
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
-		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\">\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\" />\n";
 		echo "</form>\n";
 
-		echo "<p><a class=navlink href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
 	}
 
 	/**
@@ -107,19 +108,19 @@
 		if ($report->recordCount() == 1) {
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($report->f['report_name']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->f['report_name']), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($report->f['db_name']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->f['db_name']), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"2\">", nl2br(htmlspecialchars($report->f['descr'])), "</td></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($report->f['descr']), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strsql']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"2\">", nl2br(htmlspecialchars($report->f['report_sql'])), "</td></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($report->f['report_sql']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<p><a class=navlink href=\"$PHP_SELF\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -143,7 +144,7 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['report_name']), "\"></td></tr>\n";
+			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
@@ -161,11 +162,12 @@
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
-		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=\"{$lang['strreset']}\"></p>\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 
-		echo "<p><a class=navlink href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
 	}
 
 	/**
@@ -204,9 +206,9 @@
 			// Fetch report from the database
 			$report = &$reportsdb->getReport($_REQUEST['report_id']);
 
-			echo "<h2>{$lang['strreports']}: ", htmlspecialchars($report->f['report_name']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>{$lang['strreports']}: ", $misc->printVal($report->f['report_name']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdropreport'], htmlspecialchars($report->f['report_name'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->f['report_name'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
@@ -246,9 +248,9 @@
 				$return_url = urlencode('reports.php');
 				$return_desc = urlencode($lang['strback']);
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($reports->f['report_name']), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($reports->f['db_name']), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($reports->f['date_created']), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($reports->f['report_name']), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['db_name']), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['date_created']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?database=", urlencode($reports->f['db_name']),
 					"&query={$query}&return_url={$return_url}&return_desc={$return_desc}\">{$lang['strrun']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&report_id=",
