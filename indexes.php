@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.14 2003/06/05 20:05:44 xzilla Exp $
+	 * $Id: indexes.php,v 1.15 2003/07/31 08:28:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -161,7 +161,7 @@
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxname']]), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxdef']]), "</td>";
-				echo "<td class=\"data{$id}\">";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
 					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 

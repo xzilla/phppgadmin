@@ -20,7 +20,7 @@ Users
 Groups
 ------
 
-* Alter group
+* -Alter group (chriskl)
 
 Permissions
 -----------
@@ -78,7 +78,7 @@ Operator Classes
 Triggers
 --------
 
-* Alter trigger (7.3+) (eg. rename trigger)
+* -Alter trigger (7.3+) (eg. rename trigger) (chriskl)
 
 Aggregates
 ----------
@@ -118,7 +118,7 @@ Exotic
 ------
 
 * Support contrib/tsearch for easy full text indexes
-* Search for object feature
+* -Search for object feature (chriskl, half done)
 * Pivot reports
 
 Principles

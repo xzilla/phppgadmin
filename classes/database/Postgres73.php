@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.52 2003/07/30 07:02:30 chriskl Exp $
+ * $Id: Postgres73.php,v 1.53 2003/07/31 08:28:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -884,67 +884,37 @@ class Postgres73 extends Postgres72 {
 		// Fetch the ACL for object
 		$acl = $this->selectField($sql, 'acl');
 		if ($acl == -1) return -2;
-		elseif ($acl == '') return array();
-
-		// Take off the first and last characters (the braces)
-		$acl = substr($acl, 1, strlen($acl) - 2);
-
-		// Pick out individual ACE's by exploding on the comma
-		$aces = explode(',', $acl);
-
-		// Create the array to be returned
-		$temp = array();
-
-		// For each ACE, generate an entry in $temp
-		foreach ($aces as $v) {
-			// If the ACE begins with a double quote, strip them off both ends
-			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
-
-			// Figure out type of ACE (public, user or group)
-			if (strpos($v, '=') === 0)
-				$atype = 'public';
-			elseif (strpos($v, 'group ') === 0) {
-				$atype = 'group';
-				// Tear off 'group' prefix
-				$v = substr($v, 6);
-			}
-			else
-				$atype = 'user';
-
-			// Separate entity from character list
-			list ($entity, $chars) = explode('=', $v);
-			
-			// New row to be added to $temp
-			// (type, grantee, privileges, grantor, grant option?
-			$row = array($atype, $entity, array(), '', array());
-
-			// Loop over chars and add privs to $row
-			for ($i = 0; $i < strlen($chars); $i++) {
-				// Append to row's privs list the string representing
-				// the privilege
-				$char = substr($chars, $i, 1);
-				if ($char == '*')
-					$row[4][] = $this->privmap[substr($chars, $i - 1, 1)];
-				elseif ($char == '/') {
-					$row[3] = substr($chars, $i + 1);
-					break;
-				}
-				else {
-					if (!isset($this->privmap[$char]))
-						return -3;
-					else
-						$row[2][] = $this->privmap[$char];
-				}
-			}
-			
-			// Append row to temp
-			$temp[] = $row;
-		}
-
-		return $temp;
+		elseif ($acl == '' || $acl == null) return array();
+		else return $this->_parseACL($acl);
 	}
 	
 	// Domain functions
+	
+	/**
+	 * Gets all information for a single domain
+	 * @param $domain The name of the domain to fetch
+	 * @return A recordset
+	 */
+	function &getDomain($domain) {
+		$this->clean($domain);
+		
+		$sql = "
+			SELECT
+				t.typname AS domname, 
+				pg_catalog.format_type(t.typbasetype, t.typtypmod) AS domtype,
+				t.typnotnull AS domnotnull,
+				t.typdefault AS domdef,
+				pg_catalog.pg_get_userbyid(t.typowner) AS domowner
+			FROM 
+				pg_catalog.pg_type t
+			WHERE 
+				t.typtype = 'd'
+				AND t.typname = '{$domain}'
+				AND t.typnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname = '{$this->_schema}')";
+
+		return $this->selectSet($sql);		
+	}
 	
 	/**
 	 * Return all domains in current schema.  Excludes domain constraints.
@@ -1039,7 +1009,9 @@ class Postgres73 extends Postgres72 {
 				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'TYPE', pt.oid, pn.nspname, NULL, pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
-				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%' {$where}
+				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
+				AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
+				{$where}
 			ORDER BY type, schemaname, relname, name";
 			
 		return $this->selectSet($sql);

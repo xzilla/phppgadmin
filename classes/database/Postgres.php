@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.129 2003/07/30 03:26:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.130 2003/07/31 08:28:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1933,7 +1933,7 @@ class Postgres extends BaseDB {
 
 		return $this->selectSet($sql);
 	}
-
+	
 	/**
 	 * Creates a trigger
 	 * @param $tgname The name of the trigger to create
@@ -1977,33 +1977,11 @@ class Postgres extends BaseDB {
 	// Privilege functions
 
 	/**
-	 * Grabs an array of users and their privileges for an object,
-	 * given its type.
-	 * @param $object The name of the object whose privileges are to be retrieved
-	 * @param $type The type of the object (eg. relation, view or sequence)
+	 * Internal function used for parsing ACLs
+	 * @param $acl The ACL to parse (of type aclitem[])
 	 * @return Privileges array
-	 * @return -1 invalid type
-	 * @return -2 object not found
-	 * @return -3 unknown privilege type
 	 */
-	function getPrivileges($object, $type) {
-		$this->clean($object);
-
-		switch ($type) {
-			case 'table':
-			case 'view':
-			case 'sequence':
-				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname='{$object}'";
-				break;
-			default:
-				return -1;
-		}
-
-		// Fetch the ACL for object
-		$acl = $this->selectField($sql, 'acl');
-		if ($acl == -1) return -2;
-		elseif ($acl == '') return array();
-
+	function _parseACL($acl) {
 		// Take off the first and last characters (the braces)
 		$acl = substr($acl, 1, strlen($acl) - 2);
 
@@ -2061,6 +2039,94 @@ class Postgres extends BaseDB {
 
 		return $temp;
 	}
+	
+	/**
+	 * Grabs an array of users and their privileges for an object,
+	 * given its type.
+	 * @param $object The name of the object whose privileges are to be retrieved
+	 * @param $type The type of the object (eg. relation, view or sequence)
+	 * @return Privileges array
+	 * @return -1 invalid type
+	 * @return -2 object not found
+	 * @return -3 unknown privilege type
+	 */
+	function getPrivileges($object, $type) {
+		$this->clean($object);
+
+		switch ($type) {
+			case 'table':
+			case 'view':
+			case 'sequence':
+				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname='{$object}'";
+				break;
+			default:
+				return -1;
+		}
+
+		// Fetch the ACL for object
+		$acl = $this->selectField($sql, 'acl');
+		if ($acl == -1) return -2;
+		elseif ($acl == '' || $acl == null) return array();
+		else return $this->_parseACL($acl);
+	}
+	
+	/**
+	 * Grabs an array of privileges that a user has
+	 * @param $username The user who we are checking
+	 * @return Privileges array
+	 */
+	function getUserPrivileges($username) {
+		$this->clean($username);
+		
+		$sql = "
+					SELECT
+						CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END AS type,
+						CAST('public' AS TEXT) AS schemaname,
+						CAST(NULL AS TEXT) AS relname,
+						relname AS name,
+						relacl
+					FROM
+						pg_class
+					WHERE
+						relkind IN ('r', 'v', 'S')
+						AND (relacl IS NOT NULL OR relowner=(SELECT usesysid FROM pg_user WHERE usename='{$username}'))
+					ORDER BY
+						1, 2, 3, 4";
+
+		// Fetch the ACL for object
+		$acls = $this->selectSet($sql);
+		if (!is_object($acls)) return array();
+		
+		// RETURN FORMAT:
+		// ARRAY(type, schemaname, relname, name, ARRAY(privs), ARRAY(grantoptions))
+		
+		// Loop over the results and check to see if any of the ACLs apply to the user
+		$temp = array();
+		while (!$acls->EOF) {
+			// If they own the table, then do an 'all privileges simulation'
+			if ($acls->f['relacl'] == null) {
+				$temp[] = array($acls->f['type'], $acls->f['schemaname'], $acls->f['relname'], $acls->f['name'],
+										array(), array());
+			}
+			else {
+				$privs = $this->_parseACL($acls->f['relacl']);
+				// Loop over all privs to see if we're in there
+				foreach ($privs as $v) {
+					// Skip non-user ACEs
+					if ($v[0] != 'user') continue;
+					// Skip entities that aren't us
+					if ($v[1] != $usernmae) continue;
+					// OK, so it's for us...
+					$temp[] = array($acls->f['type'], $acls->f['schemaname'], $acls->f['relname'], $acls->f['name'],
+											$v[2], $v[4]);
+				}
+			}
+			
+			$acls->moveNext();
+		}
+
+		return $temp;		
+	}	
 	
 	/**
 	 * Grants a privilege to a user, group or public

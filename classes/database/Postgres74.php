@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.6 2003/07/29 09:07:09 chriskl Exp $
+ * $Id: Postgres74.php,v 1.7 2003/07/31 08:28:03 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -80,7 +80,70 @@ class Postgres74 extends Postgres73 {
 
 		return $this->selectSet($sql);
 	}
+	
+	// Domain functions
+	
+	/**
+	 * Get domain constraints
+	 * @param $domain The name of the domain whose constraints to fetch
+	 * @return A recordset
+	 */
+	function &getDomainConstraints($domain) {
+		$this->clean($domain);
+		
+		$sql = "
+			SELECT
+				conname,
+				contype,
+				pg_catalog.pg_get_constraintdef(oid) AS consrc
+			FROM
+				pg_catalog.pg_constraint
+			WHERE
+				contypid = (SELECT oid FROM pg_catalog.pg_type
+								WHERE typname='{$domain}'
+								AND typnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+															WHERE nspname = '{$this->_schema}'))
+			ORDER BY
+				conname";
+				
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Drop a domain constraint
+	 * @param $domain The domain from which to remove the constraint
+	 * @param $constraint The constraint to remove
+	 * @param $cascade True to cascade, false otherwise
+	 * @return 0 success
+	 */
+	function dropDomainConstraint($domain, $constraint, $cascade) {
+		$this->fieldClean($domain);
+		$this->fieldClean($constraint);
+		
+		$sql = "ALTER DOMAIN \"{$domain}\" DROP CONSTRAINT \"{$constraint}\"";
+		if ($cascade) $sql .= " CASCADE";
 
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Adds a check constraint to a domain
+	 * @param $table The table to which to add the check
+	 * @param $definition The definition of the check
+	 * @param $name (optional) The name to give the check, otherwise default name is assigned
+	 * @return 0 success
+	 */
+	function addDomainCheckConstraint($domain, $definition, $name = '') {
+		$this->fieldClean($domain);
+		$this->fieldClean($name);
+
+		$sql = "ALTER DOMAIN \"{$domain}\" ADD ";
+		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
+		$sql .= "CHECK ({$definition})";
+
+		return $this->execute($sql);
+	}
+	
 	// Capabilities
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }

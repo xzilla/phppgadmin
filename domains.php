@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.1 2003/07/30 03:36:37 chriskl Exp $
+	 * $Id: domains.php,v 1.2 2003/07/31 08:28:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,45 +27,93 @@
 	}
 	
 	/**
-	 * Function to allow editing of a domain
+	 * Confirm and then actually add a CHECK constraint
 	 */
-	function doEdit($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $lang;
-		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['stredit']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		$domaindata = &$localData->getDomain($_REQUEST['domain']);
-		
-		if ($domaindata->recordCount() > 0) {
-			
-			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $domaindata->f[$data->vwFields['vwdef']];
-			
+	function addCheck($confirm, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $lang;
+
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+		if (!isset($_POST['definition'])) $_POST['definition'] = '';
+
+		if ($confirm) {
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ",
+				$misc->printVal($_REQUEST['domain']), ": {$lang['straddcheck']}</h2>\n";
+			$misc->printMsg($msg);
+
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table width=\"100%\">\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($domaindata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+			echo "<th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
+
+			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['name']), "\" /></td>\n";
+
+			echo "<td class=\"data1\">(<input name=\"definition\" size=\"32\" value=\"",
+				htmlspecialchars($_POST['definition']), "\" />)</td></tr>\n";
 			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+
+		}
+		else {
+			if (trim($_POST['definition']) == '')
+				addCheck(true, $lang['strcheckneedsdefinition']);
+			else {
+				$status = $localData->addDomainCheckConstraint($_POST['domain'],
+					$_POST['definition'], $_POST['name']);
+				if ($status == 0)
+					doProperties($lang['strcheckadded']);
+				else
+					addCheck(true, $lang['strcheckaddedbad']);
+			}
+		}
+	}
+
+	/**
+	 * Show confirmation of drop constraint and perform actual drop
+	 */
+	function doDropConstraint($confirm, $msg = '') {
+		global $localData, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) { 
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", 
+				$misc->printVal($_REQUEST['domain']), ": ", $misc->printVal($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printMsg($msg);
+			
+			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']), 
+				$misc->printVal($_REQUEST['domain'])), "</p>\n";	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_con\" />\n";
+			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
+			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
+		else {
+			$status = $localData->dropDomainConstraint($_POST['domain'], $_POST['constraint'], isset($_POST['cascade']));
+			if ($status == 0)
+				doProperties($lang['strconstraintdropped']);
+			else
+				doDropConstraint(true, $lang['strconstraintdroppedbad']);
+		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&{$misc->href}&domain=", 
-			urlencode($_REQUEST['domain']), "\">{$lang['strproperties']}</a></p>\n";
 	}
 	
 	/**
-	 * Show read only properties for a domain
+	 * Show properties for a domain.  Allow manipulating constraints as well.
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
@@ -77,16 +125,53 @@
 		$domaindata = &$localData->getDomain($_REQUEST['domain']);
 		
 		if ($domaindata->recordCount() > 0) {
-			echo "<table width=\"100%\">\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($domaindata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($domaindata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
+			// Display domain info
+			$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
+			echo "<table>\n";
+			echo "<tr><th class=\"data\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
+			echo "<td class=\"data1\">", ($domaindata->f['domnotnull'] ? 'NOT NULL' : ''), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domdef']), "</td></tr>\n";
 			echo "</table>\n";
+			
+			// Display domain constraints
+			if ($data->hasDomainConstraints()) {
+				$domaincons = &$localData->getDomainConstraints($_REQUEST['domain']);
+				if ($domaincons->recordCount() > 0) {
+					echo "<h3>{$lang['strconstraints']}</h3>\n";
+					echo "<table>\n";
+					echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
+					$i = 0;
+					
+					while (!$domaincons->EOF) {
+						$id = (($i % 2 ) == 0 ? '1' : '2');
+						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->f[$data->cnFields['conname']]), "</td>";
+						echo "<td class=\"data{$id}\">";
+						echo $misc->printVal($domaincons->f[$data->cnFields['consrc']]);
+						echo "</td>";
+						echo "<td class=\"opbutton{$id}\">";
+						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&{$misc->href}&constraint=", urlencode($domaincons->f[$data->cnFields['conname']]),
+							"&domain=", urlencode($_REQUEST['domain']), "&type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
+		
+						$domaincons->moveNext();
+						$i++;
+					}
+					
+					echo "</table>\n";
+				}
+			}
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a> |\n";
+		if ($data->hasDomainConstraints()) {
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&domain=", urlencode($_REQUEST['domain']),
+				"\">{$lang['straddcheck']}</a> |\n";
+		}
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&{$misc->href}&domain=", 
 			urlencode($_REQUEST['domain']), "\">{$lang['stredit']}</a></p>\n";
 	}
@@ -243,13 +328,20 @@
 	$misc->printBody();
 
 	switch ($action) {
-		case 'selectrows':
-			if (!isset($_POST['cancel'])) doSelectRows(false);
-			else doDefault();
+		case 'add_check':
+			addCheck(true);
 			break;
-		case 'confselectrows':
-			doSelectRows(true);
+		case 'save_add_check':
+			if (isset($_POST['cancel'])) doProperties();
+			else addCheck(false);
 			break;
+		case 'drop_con':
+			if (isset($_POST['yes'])) doDropConstraint(false);
+			else doProperties();
+			break;
+		case 'confirm_drop_con':
+			doDropConstraint(true);
+			break;			
 		case 'save_create':
 			doSaveCreate();
 			break;

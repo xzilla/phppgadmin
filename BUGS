@@ -4,6 +4,7 @@
 * Backport findObject to pre-7.3
 * Add db comments everywhere
 * Add owner everywhere
-* Proper use of "opbutton" class everywhere
-* Cancel/OK buttons everywhere
+* Cancel/<Action> buttons everywhere
+* pg_dump feature!!!
+
 

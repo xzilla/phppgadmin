@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.18 2003/06/22 09:53:55 chriskl Exp $
+	 * $Id: constraints.php,v 1.19 2003/07/31 08:28:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -396,7 +396,7 @@
 					echo ")";
 				}
 				echo "</td>";
-				echo "<td class=\"data{$id}\">";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]),
 					"&table=", urlencode($_REQUEST['table']), "&type=", urlencode($constraints->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
 

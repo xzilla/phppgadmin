@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.12 2003/05/29 06:05:34 chriskl Exp $
+ * $Id: global.css,v 1.13 2003/07/31 08:28:03 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -57,6 +57,14 @@ h2
 {
 	color: #666633;
 	font-size: medium; /*1.3em;*/
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-weight: bold;
+}
+
+h3
+{
+	color: #666633;
+	font-size: small;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 }

@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.10 2003/05/07 01:40:07 chriskl Exp $
+	 * $Id: login.php,v 1.11 2003/07/31 08:28:03 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
@@ -24,7 +24,10 @@
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $conf['default_lang'];
 
-	// Output header
+	// Force encoding to UTF-8
+	$lang['appcharset'] = 'UTF-8';
+
+	// Output header	
 	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
 ?>
