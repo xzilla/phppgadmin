@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.4 2002/09/16 10:12:01 chriskl Exp $
+	 * $Id: english.php,v 1.5 2002/09/17 21:38:51 xzilla Exp $
 	 */
 
 	$appLang = 'english';
@@ -61,4 +61,6 @@
 	$strReturns = 'Returns';
 	$strArguments = 'Arguments';
 	$strLanguage = 'Language';
+	$strFunctionNeedsName = 'You must give a name for your function.';
+	$strFunctionNeedsDef = 'You must give a definition for your function.';
 ?>

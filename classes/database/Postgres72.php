@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.8 2002/09/17 12:40:01 chriskl Exp $
+ * $Id: Postgres72.php,v 1.9 2002/09/17 21:38:51 xzilla Exp $
  */
 
 
@@ -14,6 +14,7 @@ class Postgres72 extends Postgres71 {
 
 	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
 	var $typFields = array('typname' => 'typname');
+	var $langFields = array('lanname' => 'lanname');
 
 	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
@@ -111,22 +112,47 @@ class Postgres72 extends Postgres71 {
 	 * @return 0 success
 	 */
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
+		/*
+		RE: arguments implementation It seem to me that we should be  getting passed a comma delimited string
+		and that we need a comma delimited string
+		So why go through the array end around 
+		ADODB throws errors if you leave it blank, and join complaines as well
+		
+
+		Also I'm dropping support for the WITH option for now
+		Given that there are only 3 options, this might best be implemented with hardcoding
+		*/
+
 		$this->clean($funcname);
-		$this->arrayClean($args);
+//		if (is_array($args)) {
+//			$this->arrayClean($args);
+//		}
+		$this->clean($args);
 		$this->clean($returns);
 		$this->clean($definition);
 		$this->clean($language);
-		$this->arrayClean($flags);
+//		if (is_array($flags)) {
+//			$this->arrayClean($flags);
+//		}
+		$this->clean($replace);
 
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
 		$sql .= " FUNCTION \"{$funcname}\" (";
+/*
 		if (sizeof($args) > 0)
 			$sql .= '"' . join('", "', $args) . '"';
+*/
+		if ($args)
+			$sql .= $args;
+
 		$sql .= ") RETURNS \"{$returns}\" AS '\n{$definition}\n'";
 		$sql .= " LANGUAGE \"{$language}\"";
+/*
 		if (sizeof($flags) > 0)
 			$sql .= ' WITH ("' . join('", "', $flags) . '")';
+*/
+
 
 		return $this->execute($sql);
 	}
@@ -185,6 +211,19 @@ class Postgres72 extends Postgres71 {
 
 		return $this->selectSet($sql);
 	}
+
+	// Function Languages
+
+	/**
+	 * Returns a list of all languages in the database
+	 * @return A recordset
+	 */
+	function &getLangs() {
+		$sql = "SELECT lanname FROM pg_language ORDER BY lanname DESC";
+
+		return $this->selectSet($sql);
+	}
+
 
 }
 

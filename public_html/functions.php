@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.4 2002/09/16 15:09:54 chriskl Exp $
+	 * $Id: functions.php,v 1.5 2002/09/17 21:38:51 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -31,21 +31,47 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strFunction, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Edit</h2>\n";
 		$misc->printMsg($msg);
 
-		$fndata = &$localData->getFunction($_REQUEST['function']);
+		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
 		
 		if ($fndata->recordCount() > 0) {
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
-			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$strName}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($fndata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
-			echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
-				htmlspecialchars($fndata->f[$data->vwFields['vwdef']]), "</textarea></td></tr>\n";
+			echo "<table width=90%>\n";
+			echo "<tr>\n";
+			echo "<th class=data>{$strFunction}</th>\n";
+			echo "<th class=data>{$strArguments}</th>\n";
+			echo "<th class=data>{$strReturns}</th>\n";
+			echo "<th class=data>{$strLanguage}</th>\n";
+			echo "</tr>\n";
+				
+
+			echo "<tr>\n";
+			echo "<td class=data1><input type=text name=function value=", 
+					htmlspecialchars($fndata->f[$data->fnFields['fnname']]), 
+					">\n";
+			echo "<input type=hidden name=original_function value=", 
+					htmlspecialchars($fndata->f[$data->fnFields['fnname']]), 
+					"></td>\n";
+
+			echo "<td class=data1><input type=text name=arguments value=", 
+					htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),
+					">\n";
+			echo "<input type=hidden name=original_arguments value=", 
+					htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]), 
+					"></td>\n";
+
+
+			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "</td>\n";
+			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "</td>\n";
+			echo "</tr>\n";
+
+			echo "<tr><th class=data colspan=8>{$strDefinition}</th></tr>\n";
+			echo "<tr><td class=data1 colspan=8><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
+				htmlspecialchars($fndata->f[$data->fnFields['fndef']]), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
@@ -137,36 +163,50 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strArguments, $strReturns, $strDefinition;
+		global $PHP_SELF, $strName, $strArguments, $strReturns, $strDefinition, $strLanguage;
 		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
 		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
+		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
 		$types = &$localData->getTypes();
+		$langs = &$localData->getLangs();
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: Create Function</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th></tr>\n";
+		echo "<table width=90%>\n";
+		echo "<tr><th class=data>{$strName}</th>\n";
+		echo "<th class=data>{$strArguments}</th>\n";
+		echo "<th class=data>{$strReturns}</th>\n";
+		echo "<th class=data>{$strLanguage}</th></tr>\n";
+
 		echo "<tr><td class=data1><input name=formFunction size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formFunction']), "\"></td></tr>\n";
-		echo "<tr><th class=data>{$strArguments}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formArguments style=\"width:100%;\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formArguments']), "\"></td></tr>\n";
-		echo "<tr><th class=data>{$strReturns}</th></tr>\n";
-		echo "<tr><td class=data1><select name=formReturns>\n";
+			htmlspecialchars($_POST['formFunction']), "\"></td>\n";
+
+		echo "<td class=data1><input name=formArguments style=\"width:100%;\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+			htmlspecialchars($_POST['formArguments']), "\"></td>\n";
+
+		echo "<td class=data1><select name=formReturns>\n";
 		while (!$types->EOF) {
 			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\">",
 				htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
+
+		echo "<td class=data1><select name=formLanguage>\n";
+		while (!$langs->EOF) {
+			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\">",
+				htmlspecialchars($langs->f[$data->langFields['lanname']]), "</option>\n";
+			$langs->moveNext();
+		}
+
 		echo "</td></tr>\n";
-		echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
-		echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>",
+		echo "<tr><th class=data colspan=4>{$strDefinition}</th></tr>\n";
+		echo "<tr><td class=data1 colspan=4><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>",
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
@@ -187,7 +227,7 @@
 		if ($_POST['formFunction'] == '') doCreate($strFunctionNeedsName);
 		elseif ($_POST['formDefinition'] == '') doCreate($strFunctionNeedsDef);
 		else {		 
-			$status = $localData->createFunction($_POST['formFunction'], $_POST['formDefinition']);
+			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , $_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'],0,"true");
 			if ($status == 0)
 				doDefault('Function created.');
 			else
@@ -219,7 +259,8 @@
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=",
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
-				echo "<td class=opbutton{$id}>Edit</td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&database=",
+					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Edit</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
 				echo "</tr>\n";
