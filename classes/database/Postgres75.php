@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.5 2004/05/23 04:10:20 chriskl Exp $
+ * $Id: Postgres75.php,v 1.6 2004/06/06 08:50:28 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -12,6 +12,9 @@ class Postgres75 extends Postgres74 {
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17137;
+
+	// Default help URL
+	var $help_base = 'http://developer.postgresql.org/docs/postgres/';
 
 	/**
 	 * Constructor

@@ -4,6 +4,12 @@ phpPgAdmin History
 Version 3.5-dev
 -----------
 
+Features
+* Context-sensitive online help system
+
+Version 3.4.1
+-------------
+
 Bugs
 * Fix export of mixed case tables pre 7.4
 

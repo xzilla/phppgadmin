@@ -25,7 +25,6 @@ NEEDS TESTING
 
 * Script execution needs to support error handling - make it pass thru adodb layer
 * COPY should work in normal sql screen and sql popup window
-* Create view wizard is buggy
 * notice on viewing reports page - does this still occur?
 * highlight things on the info stats page
 * advanced stats functions

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.63 2004/05/16 07:31:21 chriskl Exp $
+	 * $Id: Misc.php,v 1.64 2004/06/06 08:50:27 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -140,6 +140,37 @@
 			}
 			else
 				$var = stripslashes($var);	
+		}
+		
+		/**
+		 * Print out the page heading and help link
+		 * @param $arr Array of heading items, already escaped
+		 * @param $help (optional) The identifier for the help link
+		 */
+		function printTitle($arr, $help = null) {
+			global $data, $lang;
+
+			// Don't continue unles we are actually displaying something			
+			if (!is_array($arr) || sizeof($arr) == 0) return;
+			
+			if ($help !== null && isset($data->help_page[$help])) {
+				echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n";
+				echo "<tr><td><h2>";
+				// Join array with separator character
+				echo implode($lang['strseparator'], $arr);
+				echo "</h2></td><td style=\"text-align: right\"><a class=\"navlink help\" href=\"";
+				// Output URL to help
+				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
+				echo "\" target=\"ppa_help\">{$lang['strhelp']}</a></td></tr>\n";
+				echo "</table>\n";
+				echo "<br />\n";
+			}
+			else {
+				echo "<h2>";
+				// Join array with separator character
+				echo implode($lang['strseparator'], $arr);
+				echo "</h2>\n";
+			}
 		}
 		
 		/**

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.58 2004/05/26 13:54:42 chriskl Exp $
+ * $Id: Postgres71.php,v 1.59 2004/06/06 08:50:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -48,8 +48,20 @@ class Postgres71 extends Postgres {
 	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 'LIKE' => 'i', 'NOT LIKE' => 'i', 
 									'ILIKE' => 'i', 'NOT ILIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 
 									'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
-	//Supported join operations for use with view wizard								
+	// Supported join operations for use with view wizard								
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN', 'FULL JOIN' => 'FULL JOIN');
+
+	// Default help URL
+	var $help_base = 'http://www.postgresql.org/docs/7.1/static/';
+
+	// Help sub pages (alphabetical order)
+	var $help_page = array(
+		'create_table' => 'sql-createtable.html',
+		'drop_table' => 'sql-droptable.html',
+		'insert' => 'sql-insert.html',
+		'select' => 'sql-select.html',
+		'tables' => 'ddl.html#DDL-BASICS'
+	);
 
 	/**
 	 * Constructor

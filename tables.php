@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.53 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: tables.php,v 1.54 2004/06/06 08:50:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,7 +26,7 @@
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $lang['strcreatetable']), 'create_table');
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -73,7 +73,7 @@
 
 				$types = &$data->getTypes(true);
 	
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $lang['strcreatetable']), 'create_table');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -190,7 +190,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strselect']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strselect']), 'select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -297,7 +297,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strinsertrow']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strinsertrow']), 'insert');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -389,7 +389,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strempty']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strempty']));
 
 			echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -419,7 +419,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strdrop']), 'drop_table');
 
 			echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -454,7 +454,7 @@
 		global $data, $conf, $misc, $data;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables']), 'tables');
 			
 		$tables = &$data->getTables();
 		

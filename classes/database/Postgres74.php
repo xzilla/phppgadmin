@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.32 2004/06/03 07:34:56 chriskl Exp $
+ * $Id: Postgres74.php,v 1.33 2004/06/06 08:50:28 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -17,6 +17,9 @@ class Postgres74 extends Postgres73 {
 	// Max object name length
 	var $_maxNameLen = 63;
 
+	// Default help URL
+	var $help_base = 'http://www.postgresql.org/docs/7.4/static/';
+	
 	/**
 	 * Constructor
 	 * @param $conn The database connection

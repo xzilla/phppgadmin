@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.118 2004/06/04 05:26:35 chriskl Exp $
+ * $Id: Postgres73.php,v 1.119 2004/06/06 08:50:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -48,6 +48,9 @@ class Postgres73 extends Postgres72 {
 	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 'LIKE' => 'i', 'NOT LIKE' => 'i', 'ILIKE' => 'i', 'NOT ILIKE' => 'i', 
 									'SIMILAR TO' => 'i', 'NOT SIMILAR TO' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 'IS NULL' => 'p', 'IS NOT NULL' => 'p',
 									'IN' => 'x', 'NOT IN' => 'x');
+
+	// Default help URL
+	var $help_base = 'http://www.postgresql.org/docs/7.3/static/';
 
 	/**
 	 * Constructor

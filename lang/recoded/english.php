@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.98 2004/05/26 11:27:00 soranzo Exp $
+	 * $Id: english.php,v 1.99 2004/06/06 08:50:28 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -100,6 +100,7 @@
 	$lang['strconfirm'] = 'Confirm';
 	$lang['strexpression'] = 'Expression';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Expand';
 	$lang['strcollapse'] = 'Collapse';
 	$lang['strexplain'] = 'Explain';
