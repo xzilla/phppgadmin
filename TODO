@@ -43,7 +43,7 @@ Permissions [ Robert ]
 Databases
 ---------
 
-* Fix create/drop databases
+* -Fix create/drop databases (chriskl)
 * Add alter database for 7.3+
 
 Tables
@@ -61,7 +61,6 @@ Tables
 * Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
   in a timestamp field.  We need to detect if they're inserting into a timestamp field with a magic
   value and then not quote it.
-* Create index
 
 Views
 -----
@@ -146,7 +145,7 @@ Schemas
 -------
 
 * -Create schema, drop schema (chriskl)
-* Not all operations yet respect schema settings
+* -Not all operations yet respect schema settings (chriskl)
 
 Settings
 --------
@@ -157,6 +156,11 @@ Translations
 ------------
 
 * There's heaps of hard-coded English strings in the code.  (Due to sheer laziness)
+
+Miscellaneous
+-------------
+
+* Add support for RESTRICT/CASCADE in 7.3
 
 Exotic
 ------
