@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.30 2003/01/04 07:08:02 chriskl Exp $
+ * $Id: Postgres.php,v 1.31 2003/01/04 08:55:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -393,7 +393,7 @@ class Postgres extends BaseDB {
 
 		// Check that we're not going to divide by zero
 		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
-		
+
 		// Open a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
@@ -1013,7 +1013,7 @@ class Postgres extends BaseDB {
 	 * @return All users
 	 */
 	function &getUsers() {
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow ORDER BY usename";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_user ORDER BY usename";
 		
 		return $this->selectSet($sql);
 	}
@@ -1026,7 +1026,7 @@ class Postgres extends BaseDB {
 	function &getUser($username) {
 		$this->clean($username);
 		
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow WHERE usename='{$username}'";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_user WHERE usename='{$username}'";
 		
 		return $this->selectSet($sql);
 	}

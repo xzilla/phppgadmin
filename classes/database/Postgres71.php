@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.20 2002/12/27 16:28:01 chriskl Exp $
+ * $Id: Postgres71.php,v 1.21 2003/01/04 08:55:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -516,31 +516,6 @@ class Postgres71 extends Postgres {
 	/**
 	 * Creates a new operator
 	 */
-
-	// User and group functions
-	
-	/**
-	 * Returns all users in the database cluster
-	 * @return All users
-	 */
-	function &getUsers() {
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow ORDER BY usename";
-		
-		return $this->selectSet($sql);
-	}
-	
-	/**
-	 * Return information about a single user
-	 * @param $username The username of the user to retrieve
-	 * @return The user's data
-	 */
-	function &getUser($username) {
-		$this->clean($username);
-		
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil FROM pg_shadow WHERE usename='{$username}'";
-		
-		return $this->selectSet($sql);
-	}
 	
 	/**
 	 * Creates a new user
