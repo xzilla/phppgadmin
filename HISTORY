@@ -27,6 +27,7 @@ Version 3.0-beta-1
 	  see full strings or trimmed strings.
 * Revoke on objects.  Grant or revoke to multiple groups
   and users at once.
+* Brazilian Portuguese translation from Angelo Rigo
 
 Version 3.0.0-dev-4
 -------------------

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.49 2003/05/22 01:30:32 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.50 2003/05/22 01:44:34 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -43,6 +43,7 @@
 		'italian' => 'Italiano',
 		'japanese' => '&#26085;&#26412;&#35486;',
 		'polish' => 'Polski',
+		'portuguese-br' => 'Portugu&ecirc;s-Brasileiro',
 		'russian' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
 		'slovak' => 'Slovensky',
 		'spanish' => 'Espa&ntilde;ol',
