@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.21 2003/03/17 09:02:45 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.22 2003/03/18 03:28:27 chriskl Exp $
 	 */
 
 	// Application name 
@@ -28,7 +28,7 @@
 	$appBaseConfVersion = 4;
 
 	// List of available language files
-	$applangFiles = array(
+	$appLangFiles = array(
 		'chinese-tr-big5' => '&#32321;&#39636;&#20013;&#25991;&#65288;big5&#65289;',
 		'chinese-tr-utf8' => '&#32321;&#39636;&#20013;&#25991;&#65288;&#33836;&#22283;&#30908;&#65289;',
 		'chinese-sim-gb2312' => '&#31616;&#20307;&#20013;&#25991;&#65288;gb2132&#65289;',

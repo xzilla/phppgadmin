@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.7 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: login.php,v 1.8 2003/03/18 03:28:26 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
@@ -62,7 +62,7 @@
 						<td><select name="formLanguage">
 						<?php
 							// Language name already encoded
-							foreach ($applangFiles as $k => $v) {
+							foreach ($appLangFiles as $k => $v) {
 								echo "<option value=\"{$k}\"",
 									($k == $_POST['formLanguage']) ? ' selected' : '',
 									">{$v}</option>\n";
