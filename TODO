@@ -3,6 +3,16 @@ Views
 
 * Basically stable as far as I can see
 
+Users
+-----
+
+* Basically done
+
+Groups
+------
+
+* Unimplemented
+
 Tables
 ------
 
@@ -15,15 +25,69 @@ Tables
 * Vacuum & analyze
 * Dumps as CSV, XML or database specific bulk load format
 * Create table (chriskl)
+* Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
+  in a timestamp field.  We need to detect if they're inserting into a timestamp field with a magic
+  value and then not quote it.
 
 Functions
 ---------
 
-* we add a {} around function definitions every time they are saved to the
+* We add a {} around function definitions every time they are saved to the
 database. This doesn't break anything, but is annoying after you done it 5 times
-and have 5 pairs in your function.
+and have 5 pairs in your function. -> Remove the braces {}
+* Need to add a drop link to the properties and edit pages.
+* Resolve quote escaping issue
 
-* need to add a drop link to the properties and edit pages.
+Sequences
+---------
+
+* Unimplemented
+
+Types
+-----
+
+* Unimplemented
+* Support new 7.3 anonymous composite types
+
+Operators
+---------
+
+* Unimplemented
+
+Rules
+-----
+
+* Unimplemented
+* Have accessible on a per-table basis
+
+Triggers
+--------
+
+* Unimplemented
+* Have accessible on a per-table basis
+
+Languages
+---------
+
+* Unimplemented
+* Note: Are not in schemas in 7.3 - they are database-wide
+
+Domains (7.3)
+-------------
+
+* Unimplemented
+* Note: will need to be added to lists of types when creating tables, etc.
+
+Conversions (7.3)
+-----------------
+
+* Some functions implemented in 73
+* No interface done
+
+Casts (7.3)
+-----------
+
+* Unimplemented
 
 Schemas
 -------
@@ -44,8 +108,8 @@ Translations
 
 * There's heaps of hard-coded English strings in the code.  (Due to sheer laziness)
 
-Priciples
----------
+Principles
+----------
 
 * register_globals off support
 * maximum error_reporting support - enforces code quality, reduces bugs and improves security
@@ -59,5 +123,10 @@ Priciples
 * Put functions in the highest class possible.  For instance, simple selects should be in BaseDB, whereas something that works for 7.1+ should be in the 7.1 class.  This will minimise bugs and duplicated code.
 * We primarily support Postgres, and only secondarily support MySQL, etc.
 
+PHP
+---
 
+* Check for register_globals
+* Check for magic_quotes - ALL CURRENT CODE ASSUMES MAGIC_QUOTES OFF
+* Check for postgres/mysql/oracle/whatever functions compiled in and give good help on how to compile it in
 
