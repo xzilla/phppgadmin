@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.6 2004/08/05 01:44:13 chriskl Exp $
+ * $Id: Connection.php,v 1.6.2.1 2005/02/01 16:49:02 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -87,3 +87,5 @@ class Connection {
 			return pg_last_error($this->conn->_connectionID);
 	}
 }
+
+?>
