@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.6 2002/12/22 15:01:28 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.7 2003/01/06 04:38:43 chriskl Exp $
  */
 
 include_once('../libraries/errorhandler.inc.php');
@@ -66,6 +66,14 @@ class ADODB_base {
 
 		// If failure, return error value
 		return $this->conn->ErrorNo();
+	}
+
+	/**
+	 * Closes the connection the database class
+	 * relies on.
+	 */
+	function close() {
+		$this->conn->close();
 	}
 
 	/**
