@@ -1,194 +1,247 @@
 <?php
 
-	/**
-	 * Chinese language file.  UTF-8 encoded.
-	 * @maintainer Chan Min Wai [dcmwai@amtb-m.org.my]
-	 *
-	 * $Id: chinese-tr-utf8.php,v 1.1 2003/01/06 02:16:34 chriskl Exp $
-	 */
+/**
+* @maintainer Chan Min Wai [dcmwai@amtb-m.org.my] 
+* Direct conver from Simplify Chinese @He Wei Ping [laser@zhengmai.com.cn] 
+*/
 
-	$appLang = '繁體中文（萬國碼）';
-	$appCharset = 'UTF-8';
+// Language and character set
+$appLang = '繁體中文（萬國碼）'；
+$appCharset = 'utf8'；
 
-	$strIntro = '歡迎使用 WebDB。';
-	$strNoFrames = '您必須使用有框架結構的瀏覽器以執行本程式。';
-	$strBadConfig = '您的 config.inc.php 已經不適用了。您需要自行的由 config.inc.php-dist 進行修改。';
-	$strLogin = '登入';
-	$strLoginFailed = '登入失敗';
-	$strServer = '伺服器';
-	$strNoTables = '資料表不存在。';
-	$strNoTable = '資料表不存在。';
-	$strNoViews = '觀看不存在。';
-	$strNoFunctions = '功能不存在。';
-	$strOwner = '所有人';
-	$strAction = 'Action';	
-	$strActions = 'Actions';	
-	$strName = '名字';
-	$strTable = '資料表';
-	$strTables = '資料表';
-	$strView = '觀看';
-	$strViews = '觀看';
-	$strDefinition = '解說';
-	$strRules = '規則';
-	$strSequence = '次序';
-	$strSequences = '次序';
-	$strFunction = '功能';
-	$strFunctions = '功能';
-	$strOperators = '操作員';
-	$strTypes = '類型';
-	$strAggregates = 'Aggregates';
-	$strIndicies = '索引';
-	$strProperties = '內容';
-	$strBrowse = '瀏覽';
-	$strDrop = '丟棄';
-	$strDropped = '已丟棄';
-	$strNull = 'Null';
-	$strNotNull = 'Not Null';
-	$strPrev = '前一筆';
-	$strNext = '下一筆';
-	$strFailed = '失敗';
-	$strNotLoaded = '您的 PHP 中並無完整的資料庫字支援。';
-	$strCreate = '新增';
-	$strComment = '注釋|';
-	//$strNext = 'Next'; (Double)
-	$strLength = '長度';
-	$strDefault = '預置值';
-	$strAlter = '更改';
-	$strCancel = '取消';
-	$strSave = '儲蓄';
-	$strInsert = '插入';
-	$strSelect = '選擇';
-	$strDelete = '刪除';
-	$strUpdate = '更新';
-	$strRule = '規則';
-	$strReferences = '參考';
-	$strYes = '是';
-	$strNo = '否';
-	$strEdit = '編輯';
-	$strInvalidParam = 'Invalid script parameters.';
-	$strRows = '行';
-	$strExample = '如：';
-	
-	// Error handling
-	$strSQLError = 'SQL 錯誤:';
-	$strInStatement = 'In statement:';
-	
-	// Users
-	$strUser = '使用者';
-	$strGroup = '群組';
-	$strUsername = '用戶名稱';
-	$strPassword = '密碼';
-	$strSuper = '超級用戶？';
-	$strCreateDB = '新增資料庫？';
-	$strExpires = '過期';	
-	$strNoUsers = '查無此使用者';
-	
-	// Privilges
-	$strPrivileges = '特權';
-	$strGrant = '準予';
-	$strRevoke = '撤回';
+// Basic strings
+$strIntro = '迎使用 WebDB。'；
+$strLogin = '登錄'；
+$strLoginFailed = '登錄失敗'；
+$strServer = '服務器'；
+$strLogout = '注銷'；
+$strOwner = '所屬人'；
+$strAction = '功能'；
+$strActions = '功能'；
+$strName = '名字'；
+$strDefinition = '定義'；
+$strSequence = '序列'；
+$strSequences = '序列'；
+$strOperators = '操作'；
+$strTypes = '類型'；
+$strAggregates = '聚集'；
+$strProperties = '屬性'；
+$strBrowse = '瀏覽'；
+$strDrop = '刪除'；
+$strDropped = '已刪除'；
+$strNull = '空'；
+$strNotNull = '非空'；
+$strPrev = '上一個'；
+$strNext = '下一個'；
+$strFailed = '失敗'；
+$strCreate = '創建'；
+$strComment = '注釋'；
+//$strNext = 'Next'；
+$strLength = '長度'；
+$strDefault = '默認'；
+$strAlter = '更改'；
+$strCancel = '取消'；
+$strSave = '存儲'；
+$strInsert = '插入'；
+$strSelect = '選取'；
+$strDelete = '刪除'；
+$strUpdate = '更新'；
+$strReferences = '參考'；
+$strYes = '是'；
+$strNo = '否'；
+$strEdit = '編輯'；
+$strRows = '行'；
+$strExample = '如：'；
+$strBack = '返回'；
+$strQueryResults = '查尋結果'；
+$strShow = '顯示'；
+$strEmpty = '空'；
+$strLanguage = '語言'；
 
-	// Databases
-	$strDatabase = '資料庫';
-	$strDatabases = '資料庫';
-	$strNoDatabases = '查無此資料庫。';
-	$strDatabaseNeedsName = '您必須給資料庫一固名稱';
-	
-	// Views
-	$strViewNeedsName = '您的觀看必須有一個名稱。';
-	$strViewNeedsDef = '您的觀看必須有一個解說。';
+// Error handling
+$strNoFrames = '您必使用支持框架的瀏覽器瀏覽本程序。'；
+$strBadConfig = '您的 config.inc.php 已失效。您需要自行通過 config.inc.php-ist 修改。'；
+$strNotLoaded = '您的 PHP 中沒有完整的數據庫支持。'；
+$strSQLError = 'SQL:錯誤'；
+$strInStatement = 'In statement：'；
+$strInvalidParam = '無效的腳本參數'；
+$strNoData = '查無此行。'；
 
-	// Sequences
-	$strNoSequences = '查無次序。';
-	$strSequenceName = '次序名稱';
-	$strLastValue = '最後的數目';
-	$strIncrementBy = '增量（加／減）';	
-	$strMaxValue = '最大值';
-	$strMinValue = '最小值';
-	$strCacheValue = 'cache_value';
-	$strLogCount = 'log_cnt';
-	$strIsCycled = 'is_cycled';
-	$strIsCalled = 'is_called';
-	$strReset =	'重設';
+// Tables
+$strNoTables = '查無此表。'；
+$strNoTable = '查無此表。'；
+$strTable = '數據表'；
+$strTables = '數據表'；
+$strTableCreated = '建表完成。'；
+$strTableCreatedBad = '建表失敗'；
+$strTableNeedsField = '至少需要一個數據段。'；
+$strInsertRow = '插入行'；
+$strRowInserted = '插入行完成。'；
+$strRowInsertedBad = '先插入行。'；
+$strEditRow = '更改行'；
+$strRowUpdated = '完成行更新。'；
+$strRowUpdatedBad = '更新行失敗。'；
+$strDeleteRow = '刪除行'；
+$strConfDeleteRow = '真的要除所有的行？'；
+$strRowDeleted = '刪除除行完成。'；
+$strRowDeletedBad = '除行失敗。'；
+$strSaveAndRepeat = '重復存儲'；
+$strConfEmptyTable = '真的要清空"%s"數據表？'；
+$strTableEmptied = '數據表清空完成。'；
+$strTableEmptiedBad = '數據表清空失敗。'；
+$strConfDropTable = '真的要刪除除"%s"數據表？'；
+$strTableDropped = '善除數據表完成。'；
+$strTableDroppedBad = '刪除數據表失敗。'；
 
-	// Indicies
-	$strIndexName = '索引名稱';
-	$strTabName = 'Tab Name';
-	$strColumnName = '行列名稱';
-	$strUniqueKey = '唯一';
-	$strPrimaryKey = '主鍵';
-	$strShowAllIndicies = 'Show All Indicies';
-	$strCreateIndex = 'Create Index';
-	$strIndexNeedsName = 'You must give a name for your index';
-	$strIndexNeedsCols = 'You must give a valid number of columns.';
-	$strIndexCreated = 'Index created';
-	$strIndexCreatedBad = 'Index creation failed.';
-	$strConfDropIndex = 'Are you sure you want to drop the index "%s"?';
-	$strIndexDropped = 'Index dropped.';
-	$strIndexDroppedBad = 'Index drop failed.';
-	
-	// Tables
-	$strField = 'Field';
-	$strFields = 'Fields';
-	$strType = 'Type';
-	$strValue = 'Value';
-	$strShowAllTables = 'Show All Tables';
-	$strUnique = 'Unique';
-	$strPrimary = 'Primary';
-	$strKeyName = 'Key Name';
-	$strNumFields = 'Num. Of Fields';
-	$strCreateTable = 'Create Table';
-	$strTableNeedsName = 'You must give a name for your table.';
-	$strTableNeedsCols = 'You must give a valid number of columns.';
-	$strExport = 'Export';
-	$strConstraints = 'Constraints';
-	$strColumns = 'Columns';
-	
-	// Functions
-	$strReturns = 'Returns';
-	$strArguments = 'Arguments';
-	$strLanguage = 'Language';
-	$strFunctionNeedsName = 'You must give a name for your function.';
-	$strFunctionNeedsDef = 'You must give a definition for your function.';
-	
-	// Triggers
-	$strTrigger = 'Trigger';
-	$strTriggers = 'Triggers';
-	$strNoTriggers = 'No triggers found.';
-	$strCreateTrigger = 'Create Trigger';
-	
-	// Types
-	$strType = 'Type';
-	$strTypes = 'Types';
-	$strNoTypes = 'No types found.';
-	$strCreateType = 'Create Type';
-	$strConfDropType = 'Are you sure you want to drop the type "%s"?';
-	$strTypeDropped = 'Type dropped.';
-	$strTypeDroppedBad = 'Type drop failed.';
-	$strTypeCreated = 'Type created';
-	$strTypeCreatedBad = 'Type creation failed.';
-	$strShowAllTypes = 'Show all types';
-	$strInputFn = 'Input function';
-	$strOutputFn = 'Output function';
-	$strPassByVal = 'Passed by val?';
-	$strAlignment = 'Alignment';
-	$strElement = 'Element';
-	$strDelimiter = 'Delimiter';
-	$strStorage = 'Storage';
-	$strTypeNeedsName = 'You must give a name for your type.';
-	$strTypeNeedsLen = 'You must give a length for your type.';
+// Users
+$strUserAdmin = '用戶管理'；
+$strUser = '用戶'；
+$strUsers = '用戶'；
+$strUsername = '用名'；
+$strPassword = '密碼'；
+$strSuper = '超級用戶'；
+$strCreateDB = '建庫'；
+$strExpires = '過期'；
+$strNoUsers = '查無此用戶'；
 
-	// Schemas
-	$strSchema = 'Schema';
-	$strSchemas = 'Schemas';
-	$strCreateSchema = 'Create Schema';
-	$strNoSchemas = 'No schemas found.';
-	$strConfDropSchema = 'Are you sure you want to drop the schema "%s"?';
-	$strSchemaDropped = 'Schema dropped.';
-	$strSchemaDroppedBad = 'Schema drop failed.';
-	$strSchemaCreated = 'Schema created';
-	$strSchemaCreatedBad = 'Schema creation failed.';
-	$strShowAllSchemas = 'Show All Schemas';
-	$strSchemaNeedsName = 'You must give a name for your schema.';
+// Groups
+$strGroupAdmin = '組管理'；
+$strGroup = '組'；
+$strGroups = '群組'；
+$strNoGroups = '查無群組。'；
+$strCreateGroup = '創建組'；
+$strShowAllGroups = '顯示所有群組'；
+$strGroupNeedsName = '你必給您組命名。'；
+$strGroupCreated = '建組完成。'；
+$strGroupCreatedBad = '建組失敗。'；
+$strConfDropGroup = '真的要刪除"%s"組？'；
+$strGroupDropped = '刪除組完成。'；
+$strGroupDroppedBad = '刪除組失敗。'；
+$strMembers = '成員'；
 
-?>
+// Privilges
+$strPrivileges = '特權'；
+$strGrant = '賦予'；
+$strRevoke = '撤回'；
+
+// Databases
+$strDatabase = '數據庫'；
+$strDatabases = '數據庫'；
+$strNoDatabases = '查無此數據庫。'；
+$strDatabaseNeedsName = '你必須給您的數據庫命名。'；
+
+// Views
+$strViewNeedsName = '你必須給您的視圖命名。'；
+$strViewNeedsDef = '你必須定義您的視圖。'；
+$strCreateView = '建立視圖'；
+$strNoViews = '查無視圖。'；
+$strView = '視圖'；
+$strViews = '視圖';
+
+// Sequences
+$strNoSequences = '查無序列。'；
+$strSequenceName = '序列名稱'；
+$strLastValue = '最後的數目'；
+$strIncrementBy = '增量（加／減）'；
+$strMaxValue = '最大值'；
+$strMinValue = '最小值'；
+$strCacheValue = 'cache_value'；
+$strLogCount = 'log_cnt'；
+$strIsCycled = 'is_cycled'；
+$strIsCalled = 'is_called'；
+$strReset = '重置'；
+
+// Indexes
+$strIndexes = '索引'；
+$strIndexName = '索引名'；
+$strTabName = 'Tab Name'；
+$strColumnName = 'Column Name'；
+$strUniqueKey = '唯一鍵'；
+$strPrimaryKey = '主鍵'；
+$strShowAllIndexes = '顯示所有索引'；
+$strCreateIndex = '創建索引'；
+$strIndexNeedsName = '你必須給您的索引命名。'；
+$strIndexNeedsCols = '你必須給你的字段賦予一個正整數。'；
+$strIndexCreated = '創建索引完成'；
+$strIndexCreatedBad = '創建索引失敗.'；
+$strConfDropIndex = '真的要刪除"%s"索引？'；
+$strIndexDropped = '刪除索引完成。'；
+$strIndexDroppedBad = '刪除除索引失敗。'；
+
+// Rules
+$strRules = '規則'；
+$strRule = '規則'；
+$strNoRules = '查無此規則'；
+$strCreateRule = '創建規則'；
+
+// Tables
+$strField = '列'；
+$strFields = '列'；
+$strType = '類型'；
+$strValue = '值'；
+$strShowAllTables = '示所有表。'；
+$strUnique = '唯一'；
+$strPrimary = '主'；
+$strKeyName = '鍵名'；
+$strNumFields = '列數'；
+$strCreateTable = '創建表'；
+$strTableNeedsName = '你必您的索引命名。'；
+$strTableNeedsCols = '你必須給你的字段賦予一個正整數。'；
+$strExport = '導出'；
+$strConstraints = '強制'；
+$strColumns = '列'；
+
+// Functions
+$strNoFunctions = '查無此函數'；
+$strFunction = '函數'；
+$strFunctions = '函數'；
+$strReturns = 'Returns'
+$strArguments = '參數'；
+$strFunctionNeedsName = '你必須給您的函數命名。'；
+$strFunctionNeedsDef = '你必須定義您的函數。'；
+
+// Triggers
+$strTrigger = '觸發器'；
+$strTriggers = '觸發器'；
+$strNoTriggers = '查無此觸發器。'；
+$strCreateTrigger = '創建觸發器'；
+
+// Types
+$strType = '類型'；
+$strTypes = '類型'；
+$strNoTypes = '查無此類型。'；
+$strCreateType = '創建類型'；
+$strConfDropType = '真的要刪除"%s"類型？'；
+$strTypeDropped = '刪除類型完成。'；
+$strTypeDroppedBad = '刪除類型失敗。'；
+$strTypeCreated = '創建類型完成。'；
+$strTypeCreatedBad = '建型失敗。'；
+$strShowAllTypes = '顯示所有的類型'；
+$strInputFn = '輸入功能'；
+$strOutputFn = '輸出功能'；
+$strPassByVal = 'Passed by val？'；
+$strAlignment = 'Alignment'；
+$strElement = '元素'；
+$strDelimiter = '分隔符'；
+$strStorage = '磁盤存儲'；
+$strTypeNeedsName = '你必給您的類型命名。'；
+$strTypeNeedsLen = '你必給您的類型定義一個長度。'；
+
+// Schemas
+$strSchema = '模式'；
+$strSchemas = '模式'；
+$strCreateSchema = '創建模式'；
+$strNoSchemas = '沒有此模式'；
+$strConfDropSchema = '你確定要刪除"%s"模式麼？'；
+$strSchemaDropped = '模式已刪除'；
+$strSchemaDroppedBad = '模式刪除失敗'；
+$strSchemaCreated = '模式已建立'；
+$strSchemaCreatedBad = '創建模式失敗'；
+$strShowAllSchemas = '顯示所有模式?'；
+$strSchemaNeedsName = '必須給模式命名'；
+
+// Miscellaneous
+$strTopBar = '%s 架于 %s：%s － 您是 "%s"， %s'；
+$strTimeFmt = 'jS M， Y g：iA'；
+
+?> 
