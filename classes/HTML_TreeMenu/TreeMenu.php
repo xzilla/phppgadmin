@@ -33,7 +33,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.php,v 1.2 2003/11/03 01:26:37 chriskl Exp $
+// $Id: TreeMenu.php,v 1.3 2004/01/04 08:13:41 chriskl Exp $
 
 /**
 * HTML_TreeMenu Class
@@ -303,10 +303,10 @@ class HTML_TreeNode
     var $linkTarget;
 
     /**
-    * The link for browsing a specific table
+    * The link on the icon
     * @var string
     */
-    var $browseLink;
+    var $iconLink;
 
     /**
     * Indexed array of subnodes
@@ -380,7 +380,7 @@ class HTML_TreeNode
         $this->isDynamic     = true;
         $this->ensureVisible = false;
         $this->linkTarget    = null;
-	$this->browseLink    = '';
+	$this->iconLink    = '';
 
         $this->parent        = null;
         $this->events        = $events;
@@ -641,7 +641,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
                         $nodeObj->cssClass,
                         $nodeObj->linkTarget,
                         !empty($nodeObj->expandedIcon) ? "'" . $nodeObj->expandedIcon . "'" : 'null',
-			$nodeObj->browseLink
+			$nodeObj->iconLink
 			);
 
         foreach ($nodeObj->events as $event => $handler) {
