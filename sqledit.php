@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.6 2003/10/15 16:00:06 soranzo Exp $
+	 * $Id: sqledit.php,v 1.7 2003/10/31 02:36:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -76,9 +76,7 @@
 		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
 		_printDatabases();
 
-		$rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 10;
-
-		echo "<textarea style=\"width: 100%\" rows=\"{$rows}\" cols=\"50\" name=\"query\">",
+		echo "<textarea style=\"width: 100%\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_POST['query']), "</textarea>\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
