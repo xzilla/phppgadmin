@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.78 2004/06/06 06:34:28 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.79 2004/06/07 11:38:39 soranzo Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -15,6 +15,9 @@
 	// Application version
 	$appVersion = '3.5-dev';
 
+	// PostgreSQL and PHP minimum version
+	$postgresqlMinVer = '7.0';
+	$phpMinVer = '4.1';
 
 	// Check to see if the configuration file exists, if not, explain
 	if (file_exists('conf/config.inc.php')) {
@@ -154,7 +157,10 @@
 		// Get the name of the database driver we need to use.  The description
 		// of the server is returned and placed into the conf array.
 		$_type = $_connection->getDriver($conf['description']);
-		// XXX: NEED TO CHECK RETURN STATUS HERE
+		if ($_type === null) {
+			printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer);
+			exit;
+		}
 
 		// Create a database wrapper class for easy manipulation of the
 		// connection.

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.54 2004/06/06 08:50:27 chriskl Exp $
+	 * $Id: tables.php,v 1.55 2004/06/07 11:38:38 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -317,8 +317,8 @@
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = $attrs->f['adsrc'];
-					// Default format to 'LITERAL' if there is no default, otherwise
-					// default to 'EXPRESSION'...
+					// Default format to 'VALUE' if there is no default,
+					// otherwise default to 'EXPRESSION'
 					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
 						$_REQUEST['format'][$attrs->f['attname']] = ($attrs->f['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
@@ -354,8 +354,8 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strinsert']}\" />\n";
-			echo "<input type=\"submit\" name=\"saveandrepeat\" value=\"{$lang['strsaveandrepeat']}\" />\n";
+			echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
+			echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
@@ -366,7 +366,7 @@
 			$status = $data->insertRow($_POST['table'], $_POST['values'], 
 												$_POST['nulls'], $_POST['format'], $_POST['types']);
 			if ($status == 0) {
-				if (isset($_POST['save']))
+				if (isset($_POST['insert']))
 					doDefault($lang['strrowinserted']);
 				else {
 					$_REQUEST['values'] = array();

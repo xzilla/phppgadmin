@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.119 2004/06/06 08:50:28 chriskl Exp $
+ * $Id: Postgres73.php,v 1.120 2004/06/07 11:38:39 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1015,39 +1015,6 @@ class Postgres73 extends Postgres72 {
 		";		
 		return $this->selectSet($sql);
 	 }
-
-	/**
-	 * A helper function for getConstraints that translates
-	 * an array of attribute numbers to an array of field names.
-	 * @param $table The name of the table
-	 * @param $columsn An array of column ids
-	 * @return An array of column names
-	 */
-	function &getKeys($table, $colnums) {
-		$this->clean($table);
-		$this->arrayClean($colnums);
-
-		$sql = "SELECT attnum, attname FROM pg_catalog.pg_attribute
-			WHERE attnum IN ('" . join("','", $colnums) . "')
-			AND attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}'))";
-
-		$rs = $this->selectSet($sql);
-
-		$temp = array();
-		while (!$rs->EOF) {
-			$temp[$rs->f['attnum']] = $rs->f['attname'];
-			$rs->moveNext();
-		}
-
-		$atts = array();
-		foreach ($colnums as $v) {
-			$atts[] = '"' . $temp[$v] . '"';
-		}
-		
-		return $atts;
-	}
 
 	/**
 	 * Returns a list of all constraints on a table

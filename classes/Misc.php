@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.64 2004/06/06 08:50:27 chriskl Exp $
+	 * $Id: Misc.php,v 1.65 2004/06/07 11:38:38 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -150,7 +150,7 @@
 		function printTitle($arr, $help = null) {
 			global $data, $lang;
 
-			// Don't continue unles we are actually displaying something			
+			// Don't continue unless we are actually displaying something			
 			if (!is_array($arr) || sizeof($arr) == 0) return;
 			
 			if ($help !== null && isset($data->help_page[$help])) {
@@ -459,38 +459,39 @@
 			echo "<!--\n";
 			echo "   document.{$object}.focus();\n";
 			echo "-->\n";
-			echo "</script>\n";		
+			echo "</script>\n";
 		}
 
-        /**
-         * Converts a PHP.INI size variable to bytes.  Taken from publically available
-         * function by Chris DeRose, here: http://www.php.net/manual/en/configuration.directives.php#ini.file-uploads
-         * @param $strIniSize The PHP.INI variable
-         * @return size in bytes, false on failure
-         */
-        function inisizeToBytes($strIniSize) {
-           // This function will take the string value of an ini 'size' parameter,
-           // and return a double (64-bit float) representing the number of bytes that the parameter represents. Or false if $strIniSize is unparseable.
-           $a_IniParts = array();
-        
-           if (!is_string( $strIniSize ))
-               return false;
-        
-           if (!preg_match ('/^(\d+)([bkm]*)$/i', $strIniSize,$a_IniParts))
-               return false;
-          
-           $nSize    = (double) $a_IniParts[1];
-           $strUnit = strtolower($a_IniParts[2]);
-          
-           switch($strUnit) {
-               case 'm':
-                   return ($nSize * (double) 1048576);
-               case 'k':
-                   return ($nSize * (double) 1024);
-               case 'b':
-               default:
-                   return $nSize;
-           }
-        }		 
+		/**
+		 * Converts a PHP.INI size variable to bytes.  Taken from publically available
+		 * function by Chris DeRose, here: http://www.php.net/manual/en/configuration.directives.php#ini.file-uploads
+		 * @param $strIniSize The PHP.INI variable
+		 * @return size in bytes, false on failure
+		 */
+	        function inisizeToBytes($strIniSize) {
+			// This function will take the string value of an ini 'size' parameter,
+			// and return a double (64-bit float) representing the number of bytes
+			// that the parameter represents. Or false if $strIniSize is unparseable.
+			$a_IniParts = array();
+
+			if (!is_string($strIniSize))
+				return false;
+
+			if (!preg_match ('/^(\d+)([bkm]*)$/i', $strIniSize,$a_IniParts))
+				return false;
+
+			$nSize = (double) $a_IniParts[1];
+			$strUnit = strtolower($a_IniParts[2]);
+
+			switch($strUnit) {
+				case 'm':
+					return ($nSize * (double) 1048576);
+				case 'k':
+					return ($nSize * (double) 1024);
+				case 'b':
+				default:
+					return $nSize;
+			}
+        	}		 
 	}
 ?>

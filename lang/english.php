@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.146 2004/06/06 08:50:28 chriskl Exp $
+	 * $Id: english.php,v 1.147 2004/06/07 11:38:39 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -129,6 +129,8 @@
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Your PHP installation does not support PostgreSQL. You need to recompile PHP using the --with-pgsql configure option.';
+	$lang['strphpversionnotsupported'] = 'Version of PHP not supported. Please upgrade to version %s or later.';
+	$lang['strpostgresqlversionnotsupported'] = 'Version of PostgreSQL not supported. Please upgrade to version %s or later.';
 	$lang['strbadschema'] = 'Invalid schema specified.';
 	$lang['strbadencoding'] = 'Failed to set client encoding in database.';
 	$lang['strsqlerror'] = 'SQL error:';
@@ -171,7 +173,7 @@
 	$lang['strconfdeleterow'] = 'Are you sure you want to delete this row?';
 	$lang['strrowdeleted'] = 'Row deleted.';
 	$lang['strrowdeletedbad'] = 'Row deletion failed.';
-	$lang['strsaveandrepeat'] = 'Insert & Repeat';
+	$lang['strinsertandrepeat'] = 'Insert & Repeat';
 	$lang['strfield'] = 'Field';
 	$lang['strfields'] = 'Fields';
 	$lang['strnumfields'] = 'Num. of fields';

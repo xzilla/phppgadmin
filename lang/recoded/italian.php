@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.26 2004/05/26 11:27:00 soranzo Exp $
+	 * $Id: italian.php,v 1.27 2004/06/07 11:38:39 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -100,6 +100,7 @@
 	$lang['strconfirm'] = 'Conferma';
 	$lang['strexpression'] = 'Espressione';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Espandi';
 	$lang['strcollapse'] = 'Raccogli';
 	$lang['strexplain'] = 'Explain';
@@ -125,9 +126,11 @@
 	$lang['strfileimported'] = 'File importato.';
 
 	// Error handling - Gestione degli errori
-	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
-	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. Devi rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
-	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. Devi ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
+	$lang['strnoframes'] = 'Per usare questa applicazione &egrave; necessario usare un browser che supporti i frame.';
+	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. &Egrave; necessario rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
+	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. &Egrave; necessario ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
+	$lang['strphpversionnotsupported'] = 'Versione di PHP non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
+	$lang['strpostgresqlversionnotsupported'] = 'Versione di PostgreSQL non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
 	$lang['strbadschema'] = 'Schema specificato non valido.';
 	$lang['strbadencoding'] = 'Impostazione della codifica del client nel database fallito.';
 	$lang['strsqlerror'] = 'Errore SQL:';
@@ -170,7 +173,7 @@
 	$lang['strconfdeleterow'] = 'Sei sicuro di voler cancellare questa riga?';
 	$lang['strrowdeleted'] = 'Riga cancellata.';
 	$lang['strrowdeletedbad'] = 'Cancellazione della riga fallita.';
-	$lang['strsaveandrepeat'] = 'Salva e ripeti';
+	$lang['strinsertandrepeat'] = 'Inserisci e ripeti';
 	$lang['strfield'] = 'Campo';
 	$lang['strfields'] = 'Campi';
 	$lang['strnumfields'] = 'Numero di campi';

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.28 2004/05/19 01:28:34 soranzo Exp $
+	 * $Id: constraints.php,v 1.29 2004/06/07 11:38:31 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -480,7 +480,7 @@
 				if ($constraints->f['consrc'] !== null)
 					echo $misc->printVal($constraints->f[$data->cnFields['consrc']]);
 				else {
-					$atts = &$data->getKeys($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
+					$atts = &$data->getAttributeNames($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
 					echo ($constraints->f['contype'] == 'u') ? "UNIQUE (" : "PRIMARY KEY (";
 					echo join(',', $atts);
 					echo ")";

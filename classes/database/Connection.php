@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.3 2004/04/17 12:59:04 chriskl Exp $
+ * $Id: Connection.php,v 1.4 2004/06/07 11:38:39 soranzo Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -33,6 +33,7 @@ class Connection {
 	 * Gets the name of the correct database driver to use
 	 * @param (return-by-ref) $description A description of the database and version
 	 * @return The class name of the driver eg. Postgres73
+	 * @return null if version is < 7.0
 	 * @return -3 Database-specific failure
 	 */
 	function getDriver(&$description) {
@@ -51,7 +52,9 @@ class Connection {
 		// If unknown version, then default to latest driver
 		// All 6.x versions default to oldest driver, even though
 		// it won't work with those versions.
-		if (strpos($version, '7.4') === 0)
+		if ((int)substr($version, 0, 1) < 7)
+			return null;
+		elseif (strpos($version, '7.4') === 0)
 			return 'Postgres74';
 		elseif (strpos($version, '7.3') === 0)
 			return 'Postgres73';
@@ -59,8 +62,7 @@ class Connection {
 			return 'Postgres72';
 		elseif (strpos($version, '7.1') === 0)
 			return 'Postgres71';
-		elseif (strpos($version, '7.0') === 0
-				|| strpos($version, '6.') === 0)
+		elseif (strpos($version, '7.0') === 0)
 			return 'Postgres';
 		else
 			return 'Postgres75';
