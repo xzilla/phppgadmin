@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.8 2003/05/12 09:55:14 chriskl Exp $
+	 * $Id: browser.php,v 1.9 2003/05/19 15:06:52 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 	// Construct expanding tree
 	$menu  = new HTML_TreeMenu();
 	$root = new HTML_TreeNode(array(
-						'text' => addslashes(htmlspecialchars(($conf['servers'][$_SESSION['webdbServerID']]['desc']))), 
+						'text' => addslashes($misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc']))), 
 						'link' => 'all_db.php', 
 						'icon' => 'folder.gif', 
 						'expandedIcon' => 'folder-expanded.gif',
@@ -36,7 +36,7 @@
 	 * @param $schemanode Node onto which to add
 	 */	
 	function addNodes(&$schemanode, $querystr) {
-		global $data, $localData, $lang, $conf;
+		global $data, $localData, $misc, $lang, $conf;
 		
 		// Tables
 		if ($data->hasTables()) {
@@ -54,7 +54,7 @@
 			$tables = &$localData->getTables();
 			while (!$tables->EOF) {
 				$item_node = &new HTML_TreeNode(array(
-								'text' => addslashes(htmlspecialchars($tables->f[$data->tbFields['tbname']])), 
+								'text' => addslashes($misc->printVal($tables->f[$data->tbFields['tbname']])), 
 								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
 									urlencode($tables->f[$data->tbFields['tbname']]))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/tables.gif", 
@@ -127,7 +127,7 @@
 		// If database is selected, show folder, otherwise show document
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
 			$db_node = &new HTML_TreeNode(array(
-								'text' => addslashes(htmlspecialchars($databases->f[$data->dbFields['dbname']])), 
+								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
 								'link' => addslashes(htmlspecialchars('database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/database.gif", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.gif",
@@ -143,7 +143,7 @@
 					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
 							urlencode($schemas->f[$data->nspFields['nspname']]);
 					$schemanode = &new HTML_TreeNode(array(
-									'text' => addslashes(htmlspecialchars($schemas->f[$data->nspFields['nspname']])), 
+									'text' => addslashes($misc->printVal($schemas->f[$data->nspFields['nspname']])), 
 									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
@@ -174,7 +174,7 @@
 
 		} else {
 			$db_node = &new HTML_TreeNode(array(
-								'text' => addslashes(htmlspecialchars($databases->f[$data->dbFields['dbname']])), 
+								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
 								'link' => addslashes(htmlspecialchars("{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/database.gif", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.gif",

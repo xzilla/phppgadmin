@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.4 2003/03/25 06:50:37 chriskl Exp $
+	 * $Id: schema.php,v 1.5 2003/05/19 15:06:52 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,8 @@
 	function doDefault($msg = '') {
 		global $misc, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strschemas']}: ", htmlspecialchars($_REQUEST['schema']), "</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strschemas']}: ", 
+			$misc->printVal($_REQUEST['schema']), "</h2>\n";
 		
 		echo "<ul>\n";
 		echo "<li><a href=\"tables.php?{$misc->href}\">{$lang['strtables']}</a></li>\n";
