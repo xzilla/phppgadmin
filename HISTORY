@@ -20,6 +20,11 @@ Version 3.0.0-dev-5
 * Function editor can handle setof functions, and all
   function properties for volatility, etc.
 * Manage permissions on functions
+* Massive table browsing improvements:
+	- Sort ascending and descending by clicking
+	  on field name
+	- Trim long strings.  Use 'expand' and 'collapse' to
+	  see full strings or trimmed strings.
 
 Version 3.0.0-dev-4
 -------------------
