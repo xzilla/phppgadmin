@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.7 2003/04/04 20:04:09 slubek Exp $
+	 * $Id: users.php,v 1.8 2003/04/19 09:25:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -106,7 +106,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -219,7 +219,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_REQUEST['choice'] == $lang['stryes']) doDrop(false);
+			if (isset($_REQUEST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
