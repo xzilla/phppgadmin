@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.123 2003/06/17 00:41:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.124 2003/06/18 04:23:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1868,10 +1868,10 @@ class Postgres extends BaseDB {
 		$tgdef .= "EXECUTE PROCEDURE \"{$trigger['tgfname']}\"(";
 		
 		// Parameters
-		// Note: It was really hard to get this to work :(  pg_escape_bytea is
-		// a bit of a hack, but the PHP functions don't seem to like the embedded nulls
-		// in the tgargs string...
-		$params = explode('\\\\000', pg_escape_bytea($trigger['tgargs']));
+		// Escape null characters
+		$v = addCSlashes($trigger['tgargs'], "\0");
+		// Split on escaped null characters
+		$params = explode('\\000', $v);		
 		for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
 			$param = "'" . str_replace('\'', '\\\'', $params[$findx]) . "'";
 			$tgdef .= $param;
