@@ -2,7 +2,7 @@
 
 	/**
 	 * Hungarian language file for phpPgAdmin.
-	 * maintainer: Sulyok P&eacute;ter <sp@elte.hu>
+	 * maintainer: Sulyok P&eacute;ter &lt;sp@elte.hu&gt;
 	 *
 	 *
 	 */
@@ -34,17 +34,16 @@
 	$lang['stractions'] = 'M&#369;veletek';
 	$lang['strname'] = 'N&eacute;v';
 	$lang['strdefinition'] = 'Defin&iacute;ci&oacute;';
-	$lang['straggregates'] = 'Aggreg&aacute;ci&oacute;k';
 	$lang['strproperties'] = 'Tulajdons&aacute;gok';
 	$lang['strbrowse'] = 'Tall&oacute;z&aacute;s';
 	$lang['strdrop'] = 'T&ouml;rl&eacute;s';
 	$lang['strdropped'] = 'T&ouml;rl&ouml;lve';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Not Null';
-	$lang['strprev'] = '< El&#337;z&#337;';
-	$lang['strnext'] = 'K&ouml;vetkez&#337; >';
-	$lang['strfirst'] = '<< Els&#337;';
-	$lang['strlast'] = 'Utols&oacute; >>';
+	$lang['strprev'] = '&lt; El&#337;z&#337;';
+	$lang['strnext'] = 'K&ouml;vetkez&#337; &gt;';
+	$lang['strfirst'] = '&lt;&lt; Els&#337;';
+	$lang['strlast'] = 'Utols&oacute; &gt;&gt;';
 	$lang['strfailed'] = 'Sikertelen';
 	$lang['strcreate'] = 'L&eacute;trehoz&aacute;s';
 	$lang['strcreated'] = 'L&eacute;trehozva';
@@ -103,14 +102,24 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'N&ouml;vel&eacute;s';
 	$lang['strcollapse'] = 'Cs&ouml;kkent&eacute;s';
-	$lang['strexplain'] = 'Magyar&aacute;zat';
+	$lang['strexplain'] = 'Kifejt&eacute;s';
+	$lang['strexplainanalyze'] = 'Elemz&eacute;s kifejt&eacute;se';
 	$lang['strfind'] = 'Keres&eacute;s';
 	$lang['stroptions'] = 'Be&aacute;ll&iacute;t&aacute;sok';
 	$lang['strrefresh'] = 'Friss&iacute;t&eacute;s';
 	$lang['strdownload'] = 'Let&ouml;lt&eacute;s';
+	$lang['strdownloadgzipped'] = 'Gzippel t&ouml;m&ouml;r&iacute;tett let&ouml;lt&eacute;s';
 	$lang['strinfo'] = 'Inf&oacute;';
 	$lang['stroids'] = 'OID-k';
 	$lang['stradvanced'] = 'Halad&oacute;';
+	$lang['strvariables'] = 'V&aacute;ltoz&oacute;k';
+	$lang['strprocess'] = 'Folyamat';
+	$lang['strprocesses'] = 'Folyamatok';
+	$lang['strsetting'] = 'Be&aacute;ll&iacute;t&aacute;s';
+	$lang['strparameters'] = 'Param&eacute;terek';
+	$lang['streditsql'] = 'SQL-szerkeszt&eacute;s';
+	$lang['strpaginate'] = 'Oldalakra t&ouml;rdel&eacute;s';
+	$lang['strstarttime'] = 'Kezd&eacute;si id&#337;';
 
 	// Error handling
 	$lang['strnoframes'] = 'Ezen alkalmaz&aacute;s haszn&aacute;lat&aacute;hoz kereteket t&aacute;mogat&oacute; b&ouml;ng&eacute;sz&#337; sz&uuml;ks&eacute;ges.';
@@ -124,6 +133,7 @@
 	$lang['strnodata'] = 'Nincs tal&aacute;lt sor.';
 	$lang['strnoobjects'] = 'Nincs tal&aacute;lt objektum.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonos&iacute;t&oacute; ehhez a sorhoz.';
+	$lang['strnoreportsdb'] = '&Ouml;n nem hozota m&eacute;g l&eacute;tre a jelent&eacute;sek adatb&aacute;zis&aacute;t. Olvassa el az INSTALL f&aacute;jlt tov&aacute;bbi &uacute;tmutat&aacute;s&eacute;rt.';
 
 	// Tables
 	$lang['strtable'] = 'T&aacute;bla';
@@ -187,6 +197,7 @@
 	$lang['strcreatedb'] = 'L&eacute;trehozhat AB-t?';
 	$lang['strexpires'] = 'Lej&aacute;r';
 	$lang['strnousers'] = 'Nincsenek felhaszn&aacute;l&oacute;k.';
+	$lang['strsessiondefaults'] = 'Munkamenet alap&eacute;rt&eacute;kei';
 	$lang['struserupdated'] = 'A felhaszn&aacute;l&oacute; id&#337;szer&#369;s&iacute;tve.';
 	$lang['struserupdatedbad'] = 'Nem siker&uuml;lt a felhaszn&aacute;l&oacute;t id&#337;szer&#369;s&iacute;teni.';
 	$lang['strshowallusers'] = 'Minden felhaszn&aacute;l&oacute; megjelen&iacute;t&eacute;se';
@@ -277,7 +288,8 @@
 	$lang['strviewdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a n&eacute;zetet.';
 	$lang['strviewupdated'] = 'A n&eacute;zet id&#337;szer&#369;s&iacute;tve.';
 	$lang['strviewupdatedbad'] = 'Nem siker&uuml;lt id&#337;szer&#369;s&iacute;teni a n&eacute;zetet.';
-
+	$lang['strviewlink'] = 'K&ouml;t&#337;kulcsok';
+	$lang['strviewconditions'] = 'Tov&aacute;bbi felt&eacute;telek';
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
@@ -305,6 +317,7 @@
 
 	// Indexes
 	$lang['strindexes'] = 'Indexek';
+	$lang['strindex'] = 'Index';
 	$lang['strindexname'] = 'Indexn&eacute;v';
 	$lang['strshowallindexes'] = 'Minden index megjelen&iacute;t&eacute;se';
 	$lang['strnoindex'] = 'Nincs index.';
@@ -532,6 +545,33 @@
 	$lang['strreferringtables'] = 'Kapcsol&oacute;d&oacute; t&aacute;bl&aacute;k';
 	$lang['strparenttables'] = 'Sz&uuml;l&#337;t&aacute;bl&aacute;k';
 	$lang['strchildtables'] = 'Gyerekt&aacute;bl&aacute;k';
+
+	// Aggregates
+	$lang['straggregates'] = 'Aggreg&aacute;ci&oacute;k';
+	$lang['strnoaggregates'] = 'Nincsenek aggreg&aacute;tumok.';
+	$lang['stralltypes'] = '(Minden t&iacute;pus)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'M&#369;v oszt&aacute;lyok';
+	$lang['strnoopclasses'] = 'Nincsenek m&#369;veleti oszt&aacute;lyok.';
+	$lang['straccessmethod'] = 'Hozz&aacute;f&eacute;r&eacute;si elj&aacute;r&aacute;s';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Sorteljes&iacute;tm&eacute;ny';
+	$lang['strioperf'] = 'I/O-teljes&iacute;tm&eacute;ny';
+	$lang['stridxrowperf'] = 'Indexsor-teljes&iacute;tm&eacute;ny';
+	$lang['stridxioperf'] = 'Index-I/O-teljes&iacute;tm&eacute;ny';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Szekvenci&aacute;lis';
+	$lang['strscan'] = 'Keres&eacute;s';
+	$lang['strread'] = 'Olvas&aacute;s';
+	$lang['strfetch'] = 'Leh&iacute;v&aacute;s';
+	$lang['strheap'] = 'Kupac';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Gyorst&aacute;r';
+	$lang['strdisk'] = 'Lemez';
+	$lang['strrows2'] = 'Sorok';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s fut %s:%s c&iacute;men -- &Ouml;n &bdquo;%s&rdquo; n&eacute;ven jelentkezett be, %s';

@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Műveletek';
 	$lang['strname'] = 'Név';
 	$lang['strdefinition'] = 'Definíció';
-	$lang['straggregates'] = 'Aggregációk';
 	$lang['strproperties'] = 'Tulajdonságok';
 	$lang['strbrowse'] = 'Tallózás';
 	$lang['strdrop'] = 'Törlés';
@@ -103,14 +102,24 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Növelés';
 	$lang['strcollapse'] = 'Csökkentés';
-	$lang['strexplain'] = 'Magyarázat';
+	$lang['strexplain'] = 'Kifejtés';
+	$lang['strexplainanalyze'] = 'Elemzés kifejtése';
 	$lang['strfind'] = 'Keresés';
 	$lang['stroptions'] = 'Beállítások';
 	$lang['strrefresh'] = 'Frissítés';
 	$lang['strdownload'] = 'Letöltés';
+	$lang['strdownloadgzipped'] = 'Gzippel tömörített letöltés';
 	$lang['strinfo'] = 'Infó';
 	$lang['stroids'] = 'OID-k';
 	$lang['stradvanced'] = 'Haladó';
+	$lang['strvariables'] = 'Változók';
+	$lang['strprocess'] = 'Folyamat';
+	$lang['strprocesses'] = 'Folyamatok';
+	$lang['strsetting'] = 'Beállítás';
+	$lang['strparameters'] = 'Paraméterek';
+	$lang['streditsql'] = 'SQL-szerkesztés';
+	$lang['strpaginate'] = 'Oldalakra tördelés';
+	$lang['strstarttime'] = 'Kezdési idő';
 
 	// Error handling
 	$lang['strnoframes'] = 'Ezen alkalmazás használatához kereteket támogató böngésző szükséges.';
@@ -124,6 +133,7 @@
 	$lang['strnodata'] = 'Nincs talált sor.';
 	$lang['strnoobjects'] = 'Nincs talált objektum.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonosító ehhez a sorhoz.';
+	$lang['strnoreportsdb'] = 'Ön nem hozota még létre a jelentések adatbázisát. Olvassa el az INSTALL fájlt további útmutatásért.';
 
 	// Tables
 	$lang['strtable'] = 'Tábla';
@@ -187,6 +197,7 @@
 	$lang['strcreatedb'] = 'Létrehozhat AB-t?';
 	$lang['strexpires'] = 'Lejár';
 	$lang['strnousers'] = 'Nincsenek felhasználók.';
+	$lang['strsessiondefaults'] = 'Munkamenet alapértékei';
 	$lang['struserupdated'] = 'A felhasználó időszerűsítve.';
 	$lang['struserupdatedbad'] = 'Nem sikerült a felhasználót időszerűsíteni.';
 	$lang['strshowallusers'] = 'Minden felhasználó megjelenítése';
@@ -277,7 +288,8 @@
 	$lang['strviewdroppedbad'] = 'Nem sikerült törölni a nézetet.';
 	$lang['strviewupdated'] = 'A nézet időszerűsítve.';
 	$lang['strviewupdatedbad'] = 'Nem sikerült időszerűsíteni a nézetet.';
-
+	$lang['strviewlink'] = 'Kötőkulcsok';
+	$lang['strviewconditions'] = 'További feltételek';
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
@@ -305,6 +317,7 @@
 
 	// Indexes
 	$lang['strindexes'] = 'Indexek';
+	$lang['strindex'] = 'Index';
 	$lang['strindexname'] = 'Indexnév';
 	$lang['strshowallindexes'] = 'Minden index megjelenítése';
 	$lang['strnoindex'] = 'Nincs index.';
@@ -532,6 +545,33 @@
 	$lang['strreferringtables'] = 'Kapcsolódó táblák';
 	$lang['strparenttables'] = 'Szülőtáblák';
 	$lang['strchildtables'] = 'Gyerektáblák';
+
+	// Aggregates
+	$lang['straggregates'] = 'Aggregációk';
+	$lang['strnoaggregates'] = 'Nincsenek aggregátumok.';
+	$lang['stralltypes'] = '(Minden típus)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Műv osztályok';
+	$lang['strnoopclasses'] = 'Nincsenek műveleti osztályok.';
+	$lang['straccessmethod'] = 'Hozzáférési eljárás';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Sorteljesítmény';
+	$lang['strioperf'] = 'I/O-teljesítmény';
+	$lang['stridxrowperf'] = 'Indexsor-teljesítmény';
+	$lang['stridxioperf'] = 'Index-I/O-teljesítmény';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Szekvenciális';
+	$lang['strscan'] = 'Keresés';
+	$lang['strread'] = 'Olvasás';
+	$lang['strfetch'] = 'Lehívás';
+	$lang['strheap'] = 'Kupac';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Gyorstár';
+	$lang['strdisk'] = 'Lemez';
+	$lang['strrows2'] = 'Sorok';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s fut %s:%s címen -- Ön „%s” néven jelentkezett be, %s';
