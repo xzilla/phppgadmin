@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.32 2003/05/16 05:58:08 chriskl Exp $
+ * $Id: Postgres71.php,v 1.33 2003/05/17 15:51:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -24,6 +24,26 @@ class Postgres71 extends Postgres {
 		'sequence' => array('SELECT', 'UPDATE', 'ALL')
 	);
 
+	// List of characters in acl lists and the privileges they
+	// refer to.
+	var $privmap = array(
+		'r' => 'SELECT',
+		'w' => 'UPDATE',
+		'a' => 'INSERT',
+		'd' => 'DELETE',
+		'R' => 'RULE',
+		'x' => 'REFERENCES',
+		't' => 'TRIGGER',
+		'X' => 'EXECUTE',
+		'U' => 'USAGE',
+		'C' => 'CREATE',
+		'T' => 'TEMPORARY'
+	);	
+	
+	// Function properties
+	var $funcprops = array(array('', 'ISSTRICT'), array('', 'ISCACHABLE'));
+	var $defaultprops = array('', '');
+
 	/**
 	 * Constructor
 	 * @param $host The hostname to connect to
@@ -34,6 +54,19 @@ class Postgres71 extends Postgres {
 	 */
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->Postgres($host, $port, $database, $user, $password);
+	}
+
+	/**
+	 * Sets the client encoding
+	 * @param $encoding The encoding to for the client
+	 * @return 0 success
+	 */
+	function setClientEncoding($encoding) {
+		$this->clean($encoding);
+
+		$sql = "SET CLIENT_ENCODING TO '{$encoding}'";
+		
+		return $this->execute($sql);
 	}
 
 	// Database functions
@@ -69,52 +102,45 @@ class Postgres71 extends Postgres {
 	}
 
 	// Table functions
-
+	
 	/**
-	 * Returns a list of all functions in the database
- 	 * @param $all If true, will find all available functions, if false just userland ones
-	 * @return All functions
+	 * Retrieve the attribute definition of a table
+	 * @param $table The name of the table
+	 * @param $field (optional) The name of a field to return
+	 * @return All attributes in order
 	 */
-	function &getFunctions($all = false) {
-		global $conf;
+	function &getTableAttributes($table, $field = '') {
+		$this->clean($table);
+		$this->clean($field);
 		
-		if ($all || $conf['show_system'])
-			$where = '';
-		else
-			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
-
-		$sql = 	"SELECT
-				pc.oid,
-				proname,
-				proretset,
-				pt.typname AS return_type,
-				oidvectortypes(pc.proargtypes) AS arguments
-			FROM
-				pg_proc pc, pg_user pu, pg_type pt
-			WHERE
-				pc.proowner = pu.usesysid
-				AND pc.prorettype = pt.oid
-				{$where}
-			UNION
-			SELECT 
-				pc.oid,
-				proname,
-				proretset,
-				'OPAQUE' AS result,
-				oidvectortypes(pc.proargtypes) AS arguments
-			FROM
-				pg_proc pc, pg_user pu, pg_type pt
-			WHERE	
-				pc.proowner = pu.usesysid
-				AND pc.prorettype = 0
-				{$where}
-			ORDER BY
-				proname, return_type
-			";
-
+		if ($field == '') {
+			$sql = "SELECT
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+				FROM
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_class c,
+					pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
+				ORDER BY a.attnum";
+		}
+		else {
+			$sql = "SELECT
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+				FROM
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_class c,
+					pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid
+				ORDER BY a.attnum";
+		}
+		
 		return $this->selectSet($sql);
 	}
-
+	
 	/**
 	 * Changes the owner of a table
 	 * @param $table The table whose owner is to change
@@ -130,6 +156,128 @@ class Postgres71 extends Postgres {
 		return $this->execute($sql);
 	}
 
+	// Function functions
+	
+	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+		
+		$sql = "SELECT 
+					pc.oid,
+					proname,
+					lanname as language,
+					format_type(prorettype, NULL) as return_type,
+					prosrc as source,
+					probin as binary,
+					proretset,
+					proisstrict,
+					proiscachable,
+					oidvectortypes(pc.proargtypes) AS arguments
+				FROM
+					pg_proc pc, pg_language pl
+				WHERE 
+					pc.oid = '$function_oid'::oid
+				AND pc.prolang = pl.oid
+				";
+	
+		return $this->selectSet($sql);
+	}
+
+	/** 
+	 * Returns an array containing a function's properties
+	 * @param $f The array of data for the function
+	 * @return An array containing the properties
+	 */
+	function getFunctionProperties($f) {
+		$temp = array();
+
+		// Strict
+		if ($f['proisstrict'])
+			$temp[] = 'ISSTRICT';
+		else
+			$temp[] = '';
+		
+		// Cachable
+		if ($f['proiscachable'])
+			$temp[] = 'ISCACHABLE';
+		else
+			$temp[] = '';
+					
+		return $temp;
+	}
+	
+	// Constraint functions
+	
+	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getConstraints($table) {
+		$this->clean($table);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$sql = "
+			SELECT conname, consrc, contype, indkey FROM (
+				SELECT
+					rcname AS conname,
+					'CHECK ' || rcsrc AS consrc,
+					'c' AS contype,
+					rcrelid AS relid,
+					NULL AS indkey
+				FROM
+					pg_relcheck
+				UNION ALL
+				SELECT
+					pc.relname,
+					NULL,
+					CASE WHEN indisprimary THEN
+						'p'
+					ELSE
+						'u'
+					END,
+					pi.indrelid,
+					indkey
+				FROM
+					pg_class pc,
+					pg_index pi
+				WHERE
+					pc.oid=pi.indexrelid
+					AND (pi.indisunique OR pi.indisprimary)
+			) AS sub
+			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+		";
+
+		return $this->selectSet($sql);
+	}	
+	
+	// Trigger functions
+	
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @return A recordset
+	 */
+	function &getTriggers($table = '') {
+		$this->clean($table);
+
+		// We include constraint triggers
+		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
+			t.tgargs, t.tgnargs, t.tgconstrrelid, p.proname AS tgfname, c.relname, NULL AS tgdef
+			FROM pg_trigger t LEFT JOIN pg_proc p
+			ON t.tgfoid=p.oid, pg_class c
+			WHERE t.tgrelid=c.oid
+			AND c.relname='{$table}'";
+
+		return $this->selectSet($sql);
+	}	
+		
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }

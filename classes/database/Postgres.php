@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.107 2003/05/16 05:58:08 chriskl Exp $
+ * $Id: Postgres.php,v 1.108 2003/05/17 15:51:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -52,8 +52,8 @@ class Postgres extends BaseDB {
 	// Foreign key actions
 	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
 	// Function properties
-	var $funcprops = array(array('', 'ISSTRICT'), array('', 'ISCACHABLE'));
-	var $defaultprops = array('', '');
+	var $funcprops = array(array('', 'ISCACHABLE'));
+	var $defaultprops = array('');
 	
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -100,7 +100,7 @@ class Postgres extends BaseDB {
 	// List of all legal privileges that can be applied to different types
 	// of objects.
 	var $privlist = array(
-		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'ALL'),
+		'table' => array('SELECT', 'INSERT', 'UPDATE', 'RULE', 'ALL'),
 		'view' => array('SELECT', 'RULE', 'ALL'),
 		'sequence' => array('SELECT', 'UPDATE', 'ALL')
 	);
@@ -111,14 +111,7 @@ class Postgres extends BaseDB {
 		'r' => 'SELECT',
 		'w' => 'UPDATE',
 		'a' => 'INSERT',
-		'd' => 'DELETE',
-		'R' => 'RULE',
-		'x' => 'REFERENCES',
-		't' => 'TRIGGER',
-		'X' => 'EXECUTE',
-		'U' => 'USAGE',
-		'C' => 'CREATE',
-		'T' => 'TEMPORARY'
+		'R' => 'RULE'
 	);
 	
 	// Rule action types
@@ -221,8 +214,9 @@ class Postgres extends BaseDB {
 		else
 			$where = '';
 
-		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, NULL AS description FROM
-					pg_database pdb, pg_user pu
+		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, 
+					(SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS description 
+					FROM pg_database pdb, pg_user pu
 					WHERE pdb.datdba = pu.usesysid
 					{$where}
 					{$clause}
@@ -258,11 +252,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function setClientEncoding($encoding) {
-		$this->clean($encoding);
-
-		$sql = "SET CLIENT_ENCODING TO '{$encoding}'";
-		
-		return $this->execute($sql);
+		return -99;
 	}
 
 	// Table functions
@@ -465,10 +455,10 @@ class Postgres extends BaseDB {
 		
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, 
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc
 				FROM
-					pg_attribute a LEFT JOIN pg_attrdef adef
-					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_attribute a,
 					pg_class c,
 					pg_type t
 				WHERE
@@ -477,10 +467,10 @@ class Postgres extends BaseDB {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef,
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc
 				FROM
-					pg_attribute a LEFT JOIN pg_attrdef adef
-					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_attribute a ,
 					pg_class c,
 					pg_type t
 				WHERE
@@ -1738,11 +1728,11 @@ class Postgres extends BaseDB {
 	function &getTriggerDef($trigger) {
 		// Constants to figure out tgtype
 
-		define ('TRIGGER_TYPE_ROW', (1 << 0) );
-		define ('TRIGGER_TYPE_BEFORE', (1 << 1) );
-		define ('TRIGGER_TYPE_INSERT', (1 << 2) );
-		define ('TRIGGER_TYPE_DELETE', (1 << 3) );
-		define ('TRIGGER_TYPE_UPDATE', (1 << 4) );
+		if (!defined('TRIGGER_TYPE_ROW')) define ('TRIGGER_TYPE_ROW', (1 << 0) );
+		if (!defined('TRIGGER_TYPE_BEFORE')) define ('TRIGGER_TYPE_BEFORE', (1 << 1) );
+		if (!defined('TRIGGER_TYPE_INSERT')) define ('TRIGGER_TYPE_INSERT', (1 << 2) );
+		if (!defined('TRIGGER_TYPE_DELETE')) define ('TRIGGER_TYPE_DELETE', (1 << 3) );
+		if (!defined('TRIGGER_TYPE_UPDATE')) define ('TRIGGER_TYPE_UPDATE', (1 << 4) );
 
 		$trigger['tgisconstraint'] = $this->phpBool($trigger['tgisconstraint']);
 		$trigger['tgdeferrable'] = $this->phpBool($trigger['tgdeferrable']);
@@ -1809,19 +1799,16 @@ class Postgres extends BaseDB {
 		$tgdef .= "EXECUTE PROCEDURE \"{$trigger['tgfname']}\"(";
 		
 		// Parameters
-		// @@ WHY DOESN'T ALL THIS WORK?
-		// @@ ACTUALLY, pg_unescape_bytea is unnecessary
-		/*
-		if (function_exists('pg_unescape_bytea')) {
-			$params = explode('\000', pg_unescape_bytea($trigger['tgargs']));
-			for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
-				$param = str_replace('\'', '\\\'', $params[$findx]);
-				$tgdef .= $param;
-				if ($findx < ($trigger['tgnargs'] - 1))
-					$tgdef .= ', ';
-			}
-		}		
-		else */ $tgdef .= "args here";
+		// Note: It was really hard to get this to work :(  pg_escape_bytea is
+		// a bit of a hack, but the PHP functions don't seem to like the embedded nulls
+		// in the tgargs string...
+		$params = explode('\\\\000', pg_escape_bytea($trigger['tgargs']));
+		for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
+			$param = "'" . str_replace('\'', '\\\'', $params[$findx]) . "'";
+			$tgdef .= $param;
+			if ($findx < ($trigger['tgnargs'] - 1))
+				$tgdef .= ', ';
+		}
 		
 		// Finish it off
 		$tgdef .= ')';
@@ -1839,9 +1826,11 @@ class Postgres extends BaseDB {
 
 		// We include constraint triggers
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, p.proname AS tgfname, c.relname, NULL AS tgdef
-			FROM pg_trigger t LEFT JOIN pg_proc p
-			ON t.tgfoid=p.oid, pg_class c
+			t.tgargs, t.tgnargs, t.tgconstrrelid,
+			(SELECT relname FROM pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
+			(SELECT proname FROM pg_proc p WHERE t.tgfoid=p.oid) AS tgfname, 
+			c.relname, NULL AS tgdef
+			FROM pg_trigger t, pg_class c
 			WHERE t.tgrelid=c.oid
 			AND c.relname='{$table}'";
 
@@ -2118,34 +2107,32 @@ class Postgres extends BaseDB {
 		if ($status != 0) return -1;
 
 		$sql = "
-			SELECT conname, consrc, contype, indkey FROM (
-				SELECT
-					rcname AS conname,
-					'CHECK ' || rcsrc AS consrc,
-					'c' AS contype,
-					rcrelid AS relid,
-					NULL AS indkey
-				FROM
-					pg_relcheck
-				UNION ALL
-				SELECT
-					pc.relname,
-					NULL,
-					CASE WHEN indisprimary THEN
-						'p'
-					ELSE
-						'u'
-					END,
-					pi.indrelid,
-					indkey
-				FROM
-					pg_class pc,
-					pg_index pi
-				WHERE
-					pc.oid=pi.indexrelid
-					AND (pi.indisunique OR pi.indisprimary)
-			) AS sub
-			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			SELECT
+				rcname AS conname,
+				'CHECK ' || rcsrc AS consrc,
+				'c' AS contype,
+				NULL::int2vector AS indkey
+			FROM
+				pg_relcheck
+			WHERE 
+				rcrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			UNION ALL
+			SELECT
+				pc.relname,
+				NULL,
+				CASE WHEN indisprimary THEN
+					'p'
+				ELSE
+					'u'
+				END,
+				indkey
+			FROM
+				pg_class pc,
+				pg_index pi
+			WHERE
+				pc.oid=pi.indexrelid
+				AND (pi.indisunique OR pi.indisprimary)
+				AND pi.indrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
 		";
 
 		return $this->selectSet($sql);
@@ -2153,6 +2140,51 @@ class Postgres extends BaseDB {
 
 	// Function functions
 
+	/**
+	 * Returns a list of all functions in the database
+ 	 * @param $all If true, will find all available functions, if false just userland ones
+	 * @return All functions
+	 */
+	function &getFunctions($all = false) {
+		global $conf;
+		
+		if ($all || $conf['show_system'])
+			$where = '';
+		else
+			$where = "AND pc.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql = 	"SELECT
+				pc.oid,
+				proname,
+				proretset,
+				pt.typname AS return_type,
+				oidvectortypes(pc.proargtypes) AS arguments
+			FROM
+				pg_proc pc, pg_user pu, pg_type pt
+			WHERE
+				pc.proowner = pu.usesysid
+				AND pc.prorettype = pt.oid
+				{$where}
+			UNION
+			SELECT 
+				pc.oid,
+				proname,
+				proretset,
+				'OPAQUE' AS result,
+				oidvectortypes(pc.proargtypes) AS arguments
+			FROM
+				pg_proc pc, pg_user pu, pg_type pt
+			WHERE	
+				pc.proowner = pu.usesysid
+				AND pc.prorettype = 0
+				{$where}
+			ORDER BY
+				proname, return_type
+			";
+
+		return $this->selectSet($sql);
+	}
+	
 	/**
 	 * Returns a list of all functions that can be used in triggers
 	 */
@@ -2172,18 +2204,18 @@ class Postgres extends BaseDB {
 					pc.oid,
 					proname,
 					lanname as language,
-					format_type(prorettype, NULL) as return_type,
+					pt.typname as return_type,
 					prosrc as source,
 					probin as binary,
 					proretset,
-					proisstrict,
 					proiscachable,
 					oidvectortypes(pc.proargtypes) AS arguments
 				FROM
-					pg_proc pc, pg_language pl
+					pg_proc pc, pg_language pl, pg_type pt
 				WHERE 
 					pc.oid = '$function_oid'::oid
-				AND pc.prolang = pl.oid
+					AND pc.prolang = pl.oid
+					AND pc.prorettype = pt.oid
 				";
 	
 		return $this->selectSet($sql);
@@ -2197,12 +2229,6 @@ class Postgres extends BaseDB {
 	function getFunctionProperties($f) {
 		$temp = array();
 
-		// Strict
-		if ($f['proisstrict'])
-			$temp[] = 'ISSTRICT';
-		else
-			$temp[] = '';
-		
 		// Cachable
 		if ($f['proiscachable'])
 			$temp[] = 'ISCACHABLE';
