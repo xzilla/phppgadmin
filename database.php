@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.57 2004/08/04 02:07:02 chriskl Exp $
+	 * $Id: database.php,v 1.58 2004/08/04 07:44:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -315,6 +315,7 @@
 		echo "<br /><input type=\"radio\" name=\"output\" value=\"gzipped\" />{$lang['strdownloadgzipped']}</p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
+		echo "<p><input type=\"hidden\" name=\"mode\" value=\"database\" />\n";		
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

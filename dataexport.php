@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.15 2004/06/07 15:39:38 chriskl Exp $
+	 * $Id: dataexport.php,v 1.16 2004/08/04 07:44:03 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -32,7 +32,7 @@
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()
 						&& ($_REQUEST['d_format'] == 'copy' || $_REQUEST['d_format'] == 'sql')) {
-					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);
@@ -53,7 +53,7 @@
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()) {
-					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);
@@ -70,7 +70,7 @@
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()) {
-					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
 					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);

@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.11 2004/06/06 06:34:28 chriskl Exp $
+	 * $Id: dbexport.php,v 1.12 2004/08/04 07:44:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,10 +35,17 @@
 		// Prepare command line arguments
 		$hostname = $conf['servers'][$_SESSION['webdbServerID']]['host'];
 		$port = $conf['servers'][$_SESSION['webdbServerID']]['port'];
-		$database = escapeshellarg($_REQUEST['database']);		
-
-		// Build command for executing pg_dump
-		$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i";
+		
+		// Check if we're doing a cluster-wide dump or just a per-database dump
+		if ($_REQUEST['mode'] == 'database') {
+			// Build command for executing pg_dump.  '-i' means ignore version differences.
+			$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i";
+		}
+		else {
+			// Build command for executing pg_dump.  '-i' means ignore version differences.
+			$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']) . " -i";
+		}
+		
 		if ($hostname !== null && $hostname != '') {
 			$cmd .= " -h " . escapeshellarg($hostname);
 		}
@@ -47,7 +54,7 @@
 		}
 		
 		// Check for a table specified
-		if (isset($_REQUEST['table'])) {			
+		if (isset($_REQUEST['table']) && $_REQUEST['mode'] == 'database') {			
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
@@ -63,7 +70,7 @@
 		}
 
 		// Check for GZIP compression specified
-		if ($_REQUEST['output'] == 'gzipped') {
+		if ($_REQUEST['output'] == 'gzipped' && $_REQUEST['mode'] == 'database') {
 			$cmd .= " -Z 9";
 		}
 				
@@ -84,7 +91,9 @@
 				break;
 		}
 		
-		$cmd .= " {$database}";
+		if ($_REQUEST['mode'] == 'database') {
+			$cmd .= " " . escapeshellarg($_REQUEST['database']);
+		}
 
 		// Execute command and return the output to the screen
 		passthru($cmd);

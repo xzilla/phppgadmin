@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.31 2004/07/19 10:21:36 jollytoad Exp $
+	 * $Id: all_db.php,v 1.32 2004/08/04 07:44:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,6 +21,7 @@
 		global $PHP_SELF, $lang, $_reload_drop_database;
 
 		if ($confirm) {
+			$misc->printNav('server','databases');
 			$misc->printTitle(array($lang['strdatabases'], $misc->printVal($_REQUEST['db']), $lang['strdrop']), 'drop_database');
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['db'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -63,8 +64,10 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
+		$misc->printNav('server','databases');
 		$misc->printTitle(array($lang['strdatabases'], $lang['strcreatedatabase']), 'create_database');
 		$misc->printMsg($msg);
+		
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
@@ -130,12 +133,62 @@
 	}	
 
 	/**
+	 * Displays options for cluster download
+	 */
+	function doExport($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		$misc->printNav('server','export');
+		$misc->printTitle(array($lang['strdatabases'], $lang['strexport']));
+		$misc->printMsg($msg);
+
+		echo "<form action=\"dbexport.php\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
+		// Data only
+		echo "<tr><th class=\"data left\" rowspan=\"2\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"d_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
+		// Structure only
+		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
+		// Structure and data
+		echo "<tr><th class=\"data left\" rowspan=\"3\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"sd_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
+		echo "</table>\n";
+		
+		echo "<h3>{$lang['stroptions']}</h3>\n";
+		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
+		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
+
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
+		echo "<p><input type=\"hidden\" name=\"mode\" value=\"cluster\" />\n";		
+		echo $misc->form;
+		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
+		echo "</form>\n";
+	}
+
+	/**
 	 * Show default list of databases in the server
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
+		$misc->printNav('server','databases');
 		$misc->printTitle(array($lang['strdatabases']), 'managing_databases');
 		$misc->printMsg($msg);
 		
@@ -195,10 +248,12 @@
 	}
 
 	$misc->printHeader($lang['strdatabases']);
-	$misc->printBody();
-	$misc->printNav('server','databases');
+	$misc->printBody();	
 
 	switch ($action) {
+		case 'export':
+			doExport();
+			break;
 		case 'save_create':
 			if (isset($_POST['cancel'])) doDefault();
 			else doSaveCreate();

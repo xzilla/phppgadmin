@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.83 2004/07/22 12:47:38 jollytoad Exp $
+	 * $Id: Misc.php,v 1.84 2004/08/04 07:44:03 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -440,6 +440,11 @@
 							'url'   => "tablespaces.php",
 							'hide'  => (!$data->hasTablespaces()),
 						),
+						'export' => array (
+							'title' => $lang['strexport'],
+							'url'   => "all_db.php?action=export",
+							'hide'  => (!$this->isDumpEnabled()),
+						),
 					);
 
 				case 'database':
@@ -474,7 +479,8 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=database&object=" . urlencode($_REQUEST['database']),
+							// Handle either 'object' or 'database' being set
+							'url'   => "privileges.php?{$vars}&type=database&object=" . urlencode((isset($_REQUEST['database']) ? $_REQUEST['database'] : $_REQUEST['object'])),
 							'hide'  => (!isset($data->privlist['database'])),
 						),
 						'languages' => array (

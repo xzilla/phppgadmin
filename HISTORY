@@ -20,6 +20,8 @@ Features
   jumping between areas.
 * Much improved grant/revoke feature
 * Allow creating and viewing composite types
+* pg_dumpall integration.  Now you can download the entire cluster via
+  phpPgAdmin.
 
 Translations
 * Arabic from Zaki
