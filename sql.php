@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.1 2003/04/19 11:59:09 chriskl Exp $
+	 * $Id: sql.php,v 1.2 2003/05/05 03:03:53 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,7 +35,7 @@
 				echo "<table>\n<tr>";
 				reset($rs->f);
 				while(list($k, ) = each($rs->f)) {
-					echo "<th class=\"data\">", htmlspecialchars($k), "</th>";
+					echo "<th class=\"data\">", $misc->printVal($k), "</th>";
 				}
 
 				$i = 0;
@@ -44,7 +44,7 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					while(list($k, $v) = each($rs->f)) {
-						echo "<td class=\"data{$id}\">", nl2br(htmlspecialchars($v)), "</td>";
+						echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
 					}							
 					echo "</tr>\n";
 					$rs->moveNext();

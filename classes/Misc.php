@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.28 2003/04/29 03:05:44 chriskl Exp $
+	 * $Id: Misc.php,v 1.29 2003/05/05 03:03:53 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -37,6 +37,20 @@
 				if (isset($_REQUEST['schema']))
 					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\" />\n";
 			}
+		}
+
+		/**
+		 * Replace all spaces with &nbsp; in a string
+		 * @param $str The string to change
+		 * @return The string with replacements
+		 */
+		function printVal($str) {
+			// If the string contains at least one instance of >1 space in a row, then
+			// substitute all spaces for &nbsp;s
+			if (strstr($str, '  '))
+				return nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($str)));
+			else
+				return nl2br(htmlspecialchars($str));
 		}
 
 		/**

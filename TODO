@@ -73,6 +73,7 @@ Tables
 * Insert needs the ability to use functions. It should also be able to handle 
   some keywords (like DEFAULT) though it might be able to use function tech i
   to accomplish this.
+* Preserve spaces when displaying user data (half done) (chriskl)
 
 Views
 -----

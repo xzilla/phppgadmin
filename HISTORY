@@ -6,6 +6,7 @@ Version 3.0.0-dev-5
 
 * Cascade drop on columns and constraints
 * Czech translation
+* Preserve spaces when displaying data
 
 Version 3.0.0-dev-4
 -------------------

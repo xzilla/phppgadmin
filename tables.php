@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.18 2003/04/30 06:35:41 chriskl Exp $
+	 * $Id: tables.php,v 1.19 2003/05/05 03:03:53 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -399,7 +399,8 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnull']}</th><th class=data>{$lang['strvalue']}</th></tr>";
+				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
 
@@ -408,22 +409,22 @@
 					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
-					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
-					echo "<td class=data{$id} nowrap>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull']) {
 						// Set initial null values
 						if ($_REQUEST['action'] == 'confeditrow' && $rs->f[$attrs->f['attname']] === null) {
 							$_REQUEST['nulls'][$attrs->f['attname']] = 'on';
 						}
-						echo "<input type=checkbox name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
+						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
 					}
 					else
 						echo "&nbsp;</td>";
 
-					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
 						$rs->f[$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -433,13 +434,14 @@
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-			echo "<input type=hidden name=action value=editrow>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"editrow\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
-			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
-			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
-			echo "<p><input type=submit name=save value=\"{$lang['strsave']}\"> <input type=submit name=cancel value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
+			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -469,13 +471,14 @@
 			echo "<p>{$lang['strconfdeleterow']}</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=delrow>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"delrow\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
-			echo "<input type=hidden name=sortkey value=\"", htmlspecialchars($_REQUEST['sortkey']), "\">\n";
-			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
-			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -516,7 +519,7 @@
 			while(list($k, ) = each($rs->f)) {
 				if ($k == $localData->id && !$conf['show_oids']) continue;
 				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], "&{$misc->href}&sortkey=", urlencode($k), "&table=", 
-					urlencode($_REQUEST['table']), "\">", htmlspecialchars($k), "</a></th>\n";
+					urlencode($_REQUEST['table']), "\">", $misc->printVal($k), "</a></th>\n";
 			}
 			
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
@@ -532,7 +535,7 @@
 				while(list($k, $v) = each($rs->f)) {
 					if ($k == $localData->id && !$conf['show_oids']) continue;
 					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else echo "<td class=\"data{$id}\">", nl2br(htmlspecialchars($v)), "</td>";
+					else echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
 				}
 				if (sizeof($key) > 0) {
 					$key_str = '';
