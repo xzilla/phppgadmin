@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.22 2004/01/07 16:29:40 soranzo Exp $
+ * $Id: Postgres74.php,v 1.23 2004/01/18 16:03:10 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -368,6 +368,40 @@ class Postgres74 extends Postgres73 {
 		$sql = "ALTER USER \"{$username}\" RENAME TO \"{$newname}\"";
 
 		return $this->execute($sql);
+	}
+
+	/**
+	 * Adjusts a user's info and renames the user
+	 * @param $username The username of the user to modify
+	 * @param $password A new password for the user
+	 * @param $createdb boolean Whether or not the user can create databases
+	 * @param $createuser boolean Whether or not the user can create other users
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire.
+	 * @param $newname The new name of the user
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 set user attributes error
+	 * @return -3 rename error
+	 */
+	function setRenameUser($username, $password, $createdb, $createuser, $expiry, $newname) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$status = $this->setUser($username, $password, $createdb, $createuser, $expiry);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		if ($username != $newname){
+			$status = $this->renameUser($username, $newname);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		return $this->endTransaction();
 	}
 
 	// Capabilities

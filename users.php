@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.22 2004/01/03 19:15:44 soranzo Exp $
+	 * $Id: users.php,v 1.23 2004/01/18 16:03:07 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -38,7 +38,7 @@
 			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
 			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td>\n";
+			echo "\t<td class=\"data1\">", ($userdata->f[$data->uFields['uexpires']] == 'infinity' ? '' : $misc->printVal($userdata->f[$data->uFields['uexpires']])), "</td>\n";
 			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['udefaults']]), "</td>\n";
 			echo "</tr>\n</table>\n";
 		}
@@ -106,20 +106,22 @@
 		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
+			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $_SESSION['webdbUsername']);
 			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 
 			if (!isset($_POST['formExpires'])){
+				if ($canRename) $_POST['newname'] = $userdata->f[$data->uFields['uname']];
 				if ($userdata->f[$data->uFields['usuper']]) $_POST['formSuper'] = '';
 				if ($userdata->f[$data->uFields['ucreatedb']]) $_POST['formCreateDB'] = '';
-				$_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']];
+				$_POST['formExpires'] = $userdata->f[$data->uFields['uexpires']] == 'infinity' ? '' : $userdata->f[$data->uFields['uexpires']];
 				$_POST['formPassword'] = '';
 			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
-			echo "\t\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f[$data->uFields['uname']])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
 				(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
@@ -148,11 +150,14 @@
 	function doSaveEdit() {
 		global $data, $lang;
 		
-		// Check password
-		if ($_POST['formPassword'] != $_POST['formConfirm'])
+		// Check name and password
+		if (isset($_POST['newname']) && $_POST['newname'] == '')
+			doEdit($lang['struserneedsname']);
+		else if ($_POST['formPassword'] != $_POST['formConfirm'])
 			doEdit($lang['strpasswordconfirm']);
-		else {		
-			$status = $data->setUser($_POST['username'], $_POST['formPassword'], isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
+		else {
+			if (isset($_POST['newname'])) $status = $data->setRenameUser($_POST['username'], $_POST['formPassword'], isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires'], $_POST['newname']);
+			else $status = $data->setUser($_POST['username'], $_POST['formPassword'], isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
 			if ($status == 0)
 				doDefault($lang['struserupdated']);
 			else
@@ -273,7 +278,7 @@
 				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uname']]), "</td>\n";
 				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
 				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uexpires']]), "</td>\n";
+				echo "\t<td class=\"data{$id}\">", ($users->f[$data->uFields['uexpires']] == 'infinity' ? '' : $misc->printVal($users->f[$data->uFields['uexpires']])), "</td>\n";
 				if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['udefaults']]), "</td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;username=",
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['stralter']}</a></td>\n";
@@ -320,7 +325,7 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
-			break;			
+			break;
 		case 'save_edit':
 			if (isset($_REQUEST['cancel'])) doDefault();
 			else doSaveEdit();

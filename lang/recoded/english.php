@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.81 2004/01/07 16:29:41 soranzo Exp $
+	 * $Id: english.php,v 1.82 2004/01/18 16:03:11 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -195,11 +195,7 @@
 	$lang['strcreatedb'] = 'Create DB?';
 	$lang['strexpires'] = 'Expires';
 	$lang['strsessiondefaults'] = 'Session Defaults';
-	$lang['strnewname'] = 'New name';
 	$lang['strnousers'] = 'No users found.';
-	$lang['strrename'] = 'Rename';
-	$lang['struserrenamed'] = 'User renamed.';
-	$lang['struserrenamedbad'] = 'Failed to rename user.';
 	$lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
 	$lang['strshowallusers'] = 'Show all users';

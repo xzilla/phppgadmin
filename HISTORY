@@ -13,6 +13,7 @@ Features
 * Integration with the PostgreSQL statistics collector.  See
   table and index performance and usage information.
 * Display user session defaults for PostgreSQL >= 7.3
+* Rename user feature for PostgreSQL >= 7.4
 * Create functions returning arrays and table types
 
 Bugs
