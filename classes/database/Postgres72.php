@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.48 2003/08/12 08:18:54 chriskl Exp $
+ * $Id: Postgres72.php,v 1.49 2003/09/03 06:27:56 chriskl Exp $
  */
 
 
@@ -233,6 +233,13 @@ class Postgres72 extends Postgres71 {
 	 * @return A recordet
 	 */
 	function &getTypes($all = false) {
+		global $conf;
+		
+		if ($all || $conf['show_system'])
+			$where = '';
+		else
+			$where = "AND pt.oid > '{$this->_lastSystemOID}'::oid";
+		
 		$sql = "SELECT
 				format_type(pt.oid, NULL) AS typname,
 				pu.usename AS typowner
@@ -242,6 +249,7 @@ class Postgres72 extends Postgres71 {
 			WHERE
 				pt.typowner = pu.usesysid
 				AND typrelid = 0
+				{$where}
 			UNION
 			SELECT
 				pt.typname,
@@ -253,6 +261,7 @@ class Postgres72 extends Postgres71 {
 				pt.typowner = pu.usesysid
 				AND typrelid = 0
 				AND typname !~ '^_.*'
+				{$where}
 			ORDER BY typname
 		";
 
