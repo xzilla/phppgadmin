@@ -1,31 +1,58 @@
 <?php
 
 	/**
-	 * Main access point to WebDB.
+	 * Language template file for WebDB.  Use this to base language
+	 * files.
 	 *
-	 * $Id: english.php,v 1.1 2002/02/11 09:32:49 chriskl Exp $
+	 * $Id: english.php,v 1.2 2002/09/11 15:19:30 xzilla Exp $
 	 */
 
-	// Include application functions
-	include_once('../conf/config.inc');
+	$appLang = 'english';
 
+	$strNoFrames = 'You need a frames-enabled browser to use this application.';
+	$strLogin = 'Login';
+	$strNoTables = 'No tables found.';
+	$strNoViews = 'No views found.';
+	$strNoFunctions = 'No functions found.';
+	$strOwner = 'Owner';
+	$strActions = 'Actions';	
+	$strName = 'Name';
+	$strTable = 'Table';
+	$strTables = 'Tables';
+	$strView = 'View';
+	$strViews = 'Views';
+	$strDefinition = 'Definition';
+	$strTriggers = 'Triggers';
+	$strRules = 'Rules';
+	$strSequences = 'Sequences';
+	$strFunction = 'Function';
+	$strFunctions = 'Functions';
+	$strOperators = 'Operators';
+	$strTypes = 'Types';
+	$strAggregates = 'Aggregates';
+	
+	// Users
+	$strUsername = 'Username';
+	$strPassword = 'Password';
+	$strSuper = 'Superuser?';
+	$strCreateDB = 'Create DB?';
+	$strExpires = 'Expires';	
+	$strNoUsers = 'No users found.';
+	
+	// Views
+	$strViewNeedsName = 'You must give a name for your view.';
+	$strViewNeedsDef = 'You must give a definition for your view.';
+
+	// Sequences
+	$strNoSequences = 'No sequences found.';
+	
+	// Tables
+	$strField = 'Field';
+	$strType = 'Type';
+	$strValue = 'Value';
+
+	// Functions
+	$strReturns = 'Returns';
+	$strArguments = 'Arguments';
+	$strLanguage = 'Language';
 ?>
-
-<html>
-<head>
-<title><?= $appName ?></title>
-</head>
-
-<frameset rows="50, *" border="0" frameborder="0">
-	<frame src="topbar.php" name="topbar">
-	<frameset cols="<?= $guiLeftFrameWidth ?>,*" border="0" frameborder="0">
-	  <frame src="browser.php" name="browser">
-	  <frame src="detail.php" name="detail">
-	</frameset>
-</frameset>
-<noframes>
-<body>
-	<?= $strNoFrames ?>
-</body>
-</noframes>
-</html>
