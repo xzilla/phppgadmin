@@ -4,43 +4,29 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.5 2003/01/08 22:15:24 slubek Exp $
+	 * $Id: polish.php,v 1.6 2003/01/19 20:51:51 slubek Exp $
 	 */
 
+	// Language and character set
 	$appLang = 'Polish';
 	$appCharset = 'ISO-8859-2';
 
+	// Basic strings
 	$strIntro = 'Witaj w WebDB.';
-	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
-	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
 	$strLogin = '- Zaloguj';
 	$strLoginFailed = 'Próba zalogowania nie powiod³a siê';
 	$strServer = 'Serwer';
-	$strUserAdmin = 'Administracja kontami u¿ytkowników';
-	$strGroupAdmin = 'Administracja grupami u¿ytkowników';
 	$strLogout = 'Wyloguj siê';
-	$strNoTables = 'Nie znaleziono tablic.';
-	$strNoTable = 'Nie znaleziono tablicy.';
-	$strNoViews = 'Nie znaleziono widoków.';
-	$strNoFunctions = 'Nie znaleziono funkcji.';
 	$strOwner = 'W³a¶ciciel';
 	$strAction = 'Akcja';	
 	$strActions = 'Akcje';	
 	$strName = 'Nazwa';
-	$strTable = 'Tabela';
-	$strTables = 'Tabele';
-	$strView = 'Widok';
-	$strViews = 'Widoki';
 	$strDefinition = 'Definicja';
-	$strRules = 'Regu³y';
 	$strSequence = 'Sekwencja';
 	$strSequences = 'Sekwencje';
-	$strFunction = 'Funkcja';
-	$strFunctions = 'Funkcje';
 	$strOperators = 'Operatory';
 	$strTypes = 'Typy';
 	$strAggregates = 'Funkcje agreguj±ce';
-	$strIndicies = 'Indeksy';
 	$strProperties = 'W³a¶ciwo¶ci';
 	$strBrowse = 'Przegl±daj';
 	$strDrop = 'Usuñ';
@@ -50,10 +36,8 @@
 	$strPrev = 'Poprzedni';
 	$strNext = 'Nastêpny';
 	$strFailed = 'Failed';
-	$strNotLoaded = 'Nie wkompilowa³e¶ do PHP obs³ugi tej bazy danych.';
 	$strCreate = 'Utwórz';
 	$strComment = 'Skomentuj';
-	$strNext = 'Nastêpny';
 	$strLength = 'D³ugo¶æ';
 	$strDefault = 'Domy¶lny';
 	$strAlter = 'Zmieñ';
@@ -63,20 +47,57 @@
 	$strSelect = 'Wybierz';
 	$strDelete = 'Usuñ';
 	$strUpdate = 'Zmieñ';
-	$strRule = 'Regu³a';
 	$strReferences = 'Odno¶niki';
 	$strYes = 'Tak';
 	$strNo = 'Nie';
 	$strEdit = 'Edycja';
-	$strInvalidScriptParam = 'B³êdny parametr skryptu.';
 	$strRows = 'wiersz(y)';
 	$strExample = 'np.';
-
+	$strBack = 'Wstecz';
+	$strQueryResults = 'Wyniki zapytania';
+	$strShow = 'Poka¿';
+ 	$strEmpty = 'Pusty';
+	$strLanguage = 'Jêzyk';
+	
 	// Error handling
-        $strSQLError = 'B³±d SQL:';
-        $strInStatement = 'W poleceniu:';
-			
+	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
+	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
+	$strNotLoaded = 'Nie wkompilowa³e¶ do PHP obs³ugi tej bazy danych.';
+	$strBadSchema = 'Invalid schema specified.';
+	$strBadEncoding = 'Failed to set client encoding in database.';
+	$strSQLError = 'B³±d SQL:';
+	$strInStatement = 'W poleceniu:';
+	$strInvalidScriptParam = 'B³êdny parametr skryptu.';
+	$strNoData = 'Nie znaleziono danych.';
+
+	// Tables
+	$strNoTables = 'Nie znaleziono tablic.';
+	$strNoTable = 'Nie znaleziono tablicy.';
+	$strTable = 'Tabela';
+	$strTables = 'Tabele';
+	$strTableCreated = 'Utworzono tabelê.';
+	$strTableCreatedBad = 'Operacja utworzenia tabeli siê nie powiod³a.';
+	$strTableNeedsField = 'Musisz podaæ przynajmniej jedno pole.';
+	$strInsertRow = 'Wstaw wiersz';
+	$strRowInserted = 'Wiersz wstawiony.';
+	$strRowInsertedBad = 'Operacja wstawienia wiersza siê nie powiod³a.';
+	$strEditRow = 'Edycja wiersza';
+	$strRowUpdated = 'Wiersz zaktualizowany.';
+	$strRowUpdatedBad = 'Operacja aktalizacji wiersza siê nie powiod³a.';
+	$strDeleteRow = 'Usuñ wiersz';
+	$strConfDeleteRow = 'Czy na pewno chcesz usun±æ ten wiersz?';
+	$strRowDeleted = 'Wiersz usuniêty.';
+	$strRowDeletedBad = 'Operacja usuniêcia wiersza siê nie powiod³a.';
+	$strSaveAndRepeat = 'Zapisz i powtórz';
+	$strConfEmptyTable = 'Czy na pewno chcesz wyczy¶ciæ tablicê "%s"?';
+	$strTableEmptied = 'Tablica wyczyszczona.';
+	$strTableEmptiedBad = 'Operacja wyczyszczenia tablicy siê nie powiod³a.';
+	$strConfDropTable = 'Czy na pewno chcesz usun±æ tablicê "%s"?';
+	$strTableDropped = 'Tablica usuniêta.';
+	$strTableDroppedBad = 'Operacja usuniêcia tablicy siê nie powiod³a.';
+
 	// Users
+	$strUserAdmin = 'Administracja kontami u¿ytkowników';
 	$strUser = 'U¿ytkownik';
 	$strUsers = 'U¿ytkownicy';
 	$strUsername = 'Nazwa u¿ytkownika';
@@ -85,26 +106,27 @@
 	$strCreateDB = 'Tworzenie BD?';
 	$strExpires = 'Wygasa';	
 	$strNoUsers = 'Nie znaleziono u¿ytkowników.';
-	
+
 	// Groups
+	$strGroupAdmin = 'Administracja grupami u¿ytkowników';
 	$strGroup = 'Grupa';
 	$strGroups = 'Grupy';
 	$strNoGroups = 'Nie znaleziono grup.';
 	$strCreateGroup = 'Utwórz grupê';
-        $strShowAllGroups = 'Poka¿ wszystkie grupy';
-        $strGroupNeedsName = 'Musisz nazwaæ grupê.';
-        $strGroupCreated = 'Grupa utworzona.';
-        $strGroupCreatedBad = 'Próba utworzenia grupy siê nie powiod³a.';
-        $strConfDropGroup = 'Czy na pewno chcesz utworzyæ grupê "%s"?';
-        $strGroupDropped = 'Grupa usuniêta.';
-        $strGroupDroppedBad = 'Usuniêcie grupy siê nie powiod³o.';
-        $strMembers = 'Cz³onkowie';
+	$strShowAllGroups = 'Poka¿ wszystkie grupy';
+	$strGroupNeedsName = 'Musisz nazwaæ grupê.';
+	$strGroupCreated = 'Grupa utworzona.';
+	$strGroupCreatedBad = 'Próba utworzenia grupy siê nie powiod³a.';
+	$strConfDropGroup = 'Czy na pewno chcesz utworzyæ grupê "%s"?';
+	$strGroupDropped = 'Grupa usuniêta.';
+	$strGroupDroppedBad = 'Usuniêcie grupy siê nie powiod³o.';
+	$strMembers = 'Cz³onkowie';
 
 	// Privileges
 	$strPrivileges = 'Uprawnienia';
 	$strGrant = 'Nadaj';
 	$strRevoke = 'Zabierz';
-	
+
 	// Databases
 	$strDatabase = 'Baza danych';
 	$strDatabases = 'Bazy danych';
@@ -114,6 +136,10 @@
 	// Views
 	$strViewNeedsName = 'Musisz nazwaæ widok.';
 	$strViewNeedsDef = 'Musisz zdefiniowaæ widok.';
+	$strCreateView = 'Utwórz widok';
+	$strNoViews = 'Nie znaleziono widoków.';
+	$strView = 'Widok';
+	$strViews = 'Widoki';
 
 	// Sequences
 	$strNoSequences = 'Nie znaleziono sekwencji.';
@@ -128,7 +154,8 @@
 	$strIsCalled = 'is_called';
 	$strReset =	'Wyczy¶æ';
 
-	// Indicies
+	// Indeksy
+	$strIndexes = 'Indeksy';
 	$strIndexName = 'Nazwa Indeksu';
 	$strTabName = 'Tab Name';
 	$strColumnName = 'Nazwa Kolumny';
@@ -144,7 +171,16 @@
 	$strIndexDropped = 'Indeks usuniêty.';
 	$strIndexDroppedBad = 'Próba usuniêcia indeksu siê nie powiod³a.';
 	
-	// Tables
+	// Regu³y
+	$strRule = 'Regu³a';
+	$strRules = 'Regu³y';
+	$strNoRules = 'Nie znaleziono regu³.';
+	$strCreateRule = 'Utwórz regu³ê';
+	$strConfDropRule = 'Czy na pewno chcesz usun±æ regu³ê "%s" na "%s"?';
+	$strRuleDropped = 'Regu³a usuniêta.';
+	$strRuleDroppedBad = 'Operacja usuniêcia regu³y siê nie powiod³a.';
+	
+	// Tablice
 	$strField = 'Pole';
 	$strFields = 'Pola';
 	$strType = 'Typ';
@@ -152,28 +188,40 @@
 	$strShowAllTables = 'Poka¿ wszystkie tablice';
 	$strUnique = 'Unikatowy';
 	$strPrimary = 'G³ówny';
-	$strKeyName = 'Nazwa Klucza';
-	$strNumFields = 'Ilo¶æ Pól';
-	$strCreateTable = 'Utwórz Tabelê';
+	$strKeyName = 'Nazwa klucza';
+	$strNumFields = 'Ilo¶æ pól';
+	$strCreateTable = 'Utwórz tabelê';
 	$strTableNeedsName = 'Musisz nazwaæ tabelê.';
 	$strTableNeedsCols = 'Musisz podaæ prawid³ow± liczbê kolumn.';
 	$strExport = 'Eksport';
-        $strConstraints = 'Wiêzy integralno¶ci';
-        $strColumns = 'Kolumny';
+	$strColumns = 'Kolumny';
+
+	// Wiêzy integralno¶ci
+	$strConstraints = 'Wiêzy integralno¶ci';
+	$strNoConstraints = 'Nie znaleziono wiêzów integralno¶ci.';
+	$strCreateConstraint = 'Utwórz wiêzy integralno¶ci';
+	$strConfDropConstraint = 'Czy na pewno chcesz usun±æ wiêzy integralno¶ci "%s" na "%s"?';
+	$strConstraintDropped = 'Wiêzy integralno¶ci usuniête.';
+	$strConstraintDroppedBad = 'Operacja usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
 		
 	// Functions
+	$strNoFunctions = 'Nie znaleziono funkcji.';
+	$strFunction = 'Funkcja';
+	$strFunctions = 'Funkcje';
 	$strReturns = 'Zwraca';
 	$strArguments = 'Parametry';
-	$strLanguage = 'Jêzyk';
 	$strFunctionNeedsName = 'Musisz nazwaæ funkcjê.';
 	$strFunctionNeedsDef = 'Musisz zdefiniowaæ funkcjê.';
 	
 	// Triggers
-	$strTrigger = 'Trigger';
-	$strTriggers = 'Wiêzy integralno¶ci';
-	$strNoTriggers = 'Nie znaleziono triggerów.';
-	$strCreateTrigger = 'Utwórz Trigger';
-
+	$strTrigger = 'Procedura wyzwalana';
+	$strTriggers = 'Procedury wyzwalane';
+	$strNoTriggers = 'Nie znaleziono procedur wyzwalanych.';
+	$strCreateTrigger = 'Utwórz procedurê wyzwalan±';
+        $strConfDropTrigger = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
+	$strTriggerDropped = 'Procedura wyzwalana usuniêta.';
+	$strTriggerDroppedBad = 'Operacja usuniêcia procedury wyzwalanej siê nie powiod³a.';
+		
 	// Types
 	$strType = 'Typ';
 	$strTypes = 'Typy';
@@ -207,5 +255,9 @@
 	$strSchemaCreatedBad = 'Próba utworzenia schematu siê nie powiod³a.';
 	$strShowAllSchemas = 'Poka¿ wszystkie schematy';
 	$strSchemaNeedsName = 'Musisz nadaæ schematowi nazwê.';
+
+	// Miscellaneous
+	$strTopBar = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';
+	$strTimeFmt = 'jS M, Y g:iA';
 
 ?>
