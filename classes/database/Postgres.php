@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.220 2004/06/03 06:42:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.220.2.1 2004/06/28 01:23:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3328,7 +3328,7 @@ class Postgres extends BaseDB {
 			case 'DATABASE':
 			case 'TABLE':
 			case 'INDEX':
-				$sql = "REINDEX {$type} {$name}";
+				$sql = "REINDEX {$type} \"{$name}\"";
 				if ($force) $sql .= ' FORCE';
 				break;
 			default:

@@ -8,6 +8,7 @@ Bugs
 * Fix export of mixed case tables pre 7.4
 * Fix table export problems pre 7.3
 * Fix join clause created by view wizard for pre 7.3
+* Fix reindex of mixed case indexes
 
 Translations
 * Japanese from Tadashi
