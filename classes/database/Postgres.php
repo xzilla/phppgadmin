@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.149 2003/10/06 11:13:13 chriskl Exp $
+ * $Id: Postgres.php,v 1.150 2003/10/06 15:26:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -256,6 +256,16 @@ class Postgres extends BaseDB {
 	// Table functions
 
 	/**
+	 * Returns the SQL for changing the current user
+	 * @param $user The user to change to
+	 * @return The SQL
+	 */
+	function getChangeUserSQL($user) {
+		$this->fieldClean($user);
+		return "\\\\connect - \"{$user}\"";
+	}
+
+	/**
 	 * Returns the SQL definition for the table
 	 * @param $table The table to define
 	 * @return A string containing the formatted SQL code
@@ -294,20 +304,28 @@ class Postgres extends BaseDB {
 		
 		// Fetch table
 		$t = &$this->getTable($table);
-		if (!is_object($t) || $t->recordCount() != 1) return null;
+		if (!is_object($t) || $t->recordCount() != 1) {
+			$this->rollbackTransaction();
+			return null;
+		}
 		$this->fieldClean($t->f['tablename']);
-		$this->fieldClean($t->f['tableowner']);
 
 		// Fetch attributes
 		$atts = &$this->getTableAttributes($table);
-		if (!is_object($atts)) return null;
+		if (!is_object($atts)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
 		// Fetch constraints
 		$cons = &$this->getConstraints($table);
-		if (!is_object($cons)) return null;
+		if (!is_object($cons)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
 		// Output a reconnect command to create the table as the correct user
-		$sql = "\\\\connect - \"{$t->f['tableowner']}\"\n\n";
+		$sql = $this->getChangeUserSQL($t->f['tableowner']) . "\n\n";
 
 		// Set schema search path if we support schemas
 		if ($this->hasSchemas()) {
@@ -316,15 +334,21 @@ class Postgres extends BaseDB {
 		
 		// Begin CREATE TABLE definition
 		$sql .= "-- Definition\n\n";
-		$sql .= "-- DROP TABLE \"{$t->f['tablename']}\";\n";
+		// DROP TABLE must be fully qualified in case a table with the same name exists
+		// in pg_catalog.
+		$sql .= "-- DROP TABLE ";
+		if ($this->hasSchemas()) {
+			$sql .= "\"{$this->_schema}\".";
+		}
+		$sql .= "\"{$t->f['tablename']}\";\n";
 		$sql .= "CREATE TABLE \"{$t->f['tablename']}\" (\n";
 
 		// Output all table columns
-		$num = $atts->recordCount();
+		$num = $atts->recordCount() + $cons->recordCount();
 		$i = 1;
 		while (!$atts->EOF) {
 			$this->fieldClean($atts->f['attname']);
-			// @@@@ attlen and typmod here
+			// @@@@ attlen and typmod here for < 7.1
 			// @@@@ SERIAL[8] COLUMNS!!!
 			$sql .= "    \"{$atts->f['attname']}\" {$atts->f['type']}";
 			// Add NOT NULL if necessary
@@ -341,10 +365,46 @@ class Postgres extends BaseDB {
 			$atts->moveNext();
 			$i++;
 		}
+		// Output all table constraints
+		while (!$cons->EOF) {
+			$this->fieldClean($cons->f['conname']);
+			$sql .= "    CONSTRAINT \"{$cons->f['conname']}\" ";
+			// Nasty hack to support pre-7.4 PostgreSQL
+			if ($cons->f['consrc'] !== null)
+				$sql .= $cons->f['consrc'];
+			else {
+				switch ($cons->f['contype']) {
+					case 'p':
+						$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
+						$sql .= "PRIMARY KEY (" . join(',', $keys) . ")";
+						break;
+					case 'u':
+						$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
+						$sql .= "UNIQUE (" . join(',', $keys) . ")";
+						break;
+					default:
+						// Unrecognised constraint
+						$this->rollbackTransaction();
+						return null;
+				}
+			}
+
+			// Output comma or not
+			if ($i < $num) $sql .= ",\n";
+			else $sql .= "\n";
+
+			$cons->moveNext();
+			$i++;
+		}
 
 		$sql .= ")";
 
 		// Inherits
+		/*
+		 * XXX: This is currently commented out as handling inheritance isn't this simple.
+		 * You also need to make sure you don't dump inherited columns and default, as well
+		 * as inherited NOT NULL and CHECK constraints.  So for the time being, we just do
+		 * not claim to support inheritance.
 		$parents = &$this->getTableParents($table);
 		if ($parents->recordCount() > 0) {
 			$sql .= " INHERITS (";
@@ -362,6 +422,7 @@ class Postgres extends BaseDB {
 			}			
 			$sql .= ")";
 		}
+		*/
 
 		// Handle WITHOUT OIDS
 		if ($this->hasWithoutOIDs()) {
@@ -373,6 +434,45 @@ class Postgres extends BaseDB {
 
 		$sql .= ";\n";
 
+		// Column storage and statistics
+		$atts->moveFirst();
+		$first = true;
+		while (!$atts->EOF) {
+			$this->fieldClean($atts->f['attname']);
+			// Statistics first
+			if ($atts->f['attstattarget'] >= 0) {
+				if ($first) {
+					$sql .= "\n";
+					$first = false;
+				}
+				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STATISTICS {$atts->f['attstattarget']};\n";
+			}
+			// Then storage
+			if ($atts->f['attstorage'] != $atts->f['typstorage']) {
+				switch ($atts->f['attstorage']) {
+					case 'p':
+						$storage = 'PLAIN';
+						break;
+					case 'e':
+						$storage = 'EXTERNAL';
+						break;
+					case 'm':
+						$storage = 'MAIN';
+						break;
+					case 'x':
+						$storage = 'EXTENDED';
+						break;
+					default:
+						// Unknown storage type
+						$this->rollbackTransaction();
+						return null;
+				}
+				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STORAGE {$storage};\n";
+			}
+
+			$atts->moveNext();
+		}
+
 		// Comment
 		if ($t->f['tablecomment'] !== null) {
 				$this->clean($t->f['tablecomment']);
@@ -383,7 +483,10 @@ class Postgres extends BaseDB {
 		// Indexes
 		if ($this->hasIndicies()) {
 			$indexs = &$this->getIndexes($table);
-			if (!is_object($indexs)) return null;
+			if (!is_object($indexs)) {
+				$this->rollbackTransaction();
+				return null;
+			}
 
 			if ($indexs->recordCount() > 0) {
 				$sql .= "\n-- Indexes\n\n";
@@ -395,41 +498,13 @@ class Postgres extends BaseDB {
 			}
 		}
 
-		// Constraints
-		if ($cons->recordCount() > 0) {
-			$sql .= "\n-- Constraints\n\n";
-			while (!$cons->EOF) {
-				$this->fieldClean($cons->f['conname']);
-				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ADD CONSTRAINT \"{$cons->f['conname']}\" ";
-				// Nasty hack to support pre-7.4 PostgreSQL
-				if ($cons->f['consrc'] !== null)
-					$sql .= $cons->f['consrc'];
-				else {
-					switch ($cons->f['contype']) {
-						case 'p':
-							$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
-							$sql .= "PRIMARY KEY (" . join(',', $keys) . ")";
-							break;
-						case 'u':
-							$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
-							$sql .= "UNIQUE (" . join(',', $keys) . ")";
-							break;
-						default:
-							// Unrecognised constraint
-							return null;
-					}
-				}
-
-				$sql .= ";\n";
-
-				$cons->moveNext();
-			}
-		}
-
 		// Triggers
 		if ($this->hasTriggers()) {
 			$triggers = &$this->getTriggers($table);
-			if (!is_object($triggers)) return null;
+			if (!is_object($triggers)) {
+				$this->rollbackTransaction();
+				return null;
+			}
 
 			if ($triggers->recordCount() > 0) {
 				$sql .= "\n-- Triggers\n\n";
@@ -450,7 +525,10 @@ class Postgres extends BaseDB {
 		// Rules
 		if ($this->hasRules()) {
 			$rules = &$this->getRules($table);
-			if (!is_object($rules)) return null;
+			if (!is_object($rules)) {
+				$this->rollbackTransaction();
+				return null;
+			}
 
 			if ($rules->recordCount() > 0) {
 				$sql .= "\n-- Rules\n\n";
@@ -464,15 +542,18 @@ class Postgres extends BaseDB {
 
 		// Privileges
 		$privs = &$this->getPrivileges($table, 'table');
-		if (!is_array($privs)) return null;
+		if (!is_array($privs)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
 		if (sizeof($privs) > 0) {
 			$sql .= "\n-- Privileges\n\n";
 			/*
-          * Always start with REVOKE ALL FROM PUBLIC, so that we don't have to
-          * wire-in knowledge about the default public privileges for different
-          * kinds of objects.
-          */
+			 * Always start with REVOKE ALL FROM PUBLIC, so that we don't have to
+			 * wire-in knowledge about the default public privileges for different
+			 * kinds of objects.
+			 */
 			$sql .= "REVOKE ALL ON TABLE \"{$t->f['tablename']}\" FROM PUBLIC;\n";
 			foreach ($privs as $v) {
 				// Get non-GRANT OPTION privs
@@ -504,6 +585,7 @@ class Postgres extends BaseDB {
 						break;
 					default:
 						// Unknown privilege type - fail
+						$this->rollbackTransaction();
 						return null;
 				}
 
@@ -891,8 +973,9 @@ class Postgres extends BaseDB {
 		
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, 
-					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attstattarget, a.attstorage,
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
+					a.attstorage AS typstorage
 				FROM
 					pg_attribute a,
 					pg_class c,
@@ -903,8 +986,9 @@ class Postgres extends BaseDB {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef,
-					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attstattarget, a.attstorage,
+					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
+					a.attstorage AS typstorage
 				FROM
 					pg_attribute a ,
 					pg_class c,

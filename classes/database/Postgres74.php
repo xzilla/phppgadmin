@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.15 2003/10/03 07:38:55 chriskl Exp $
+ * $Id: Postgres74.php,v 1.16 2003/10/06 15:26:23 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -75,6 +75,38 @@ class Postgres74 extends Postgres73 {
 				return $attnames;
 			}
 		}			
+	}
+
+	/**
+	 * Returns a recordset of all columns in a relation.  Used for data export.
+	 * @@ Note: Really needs to use a cursor
+	 * @param $relation The name of a relation
+	 * @return A recordset on success
+	 * @return -1 Failed to set datestyle
+	 * @return -2 Failed to set extra_float_digits
+	 */
+	function &dumpRelation($relation, $oids) {
+		$this->fieldClean($relation);
+		
+		// Set datestyle to ISO
+		$sql = "SET DATESTYLE = ISO";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			return -1;
+		}
+		
+		// Set extra_float_digits to 2
+		$sql = "SET extra_float_digits TO 2";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			return -2;
+		}
+
+		// Actually retrieve the rows
+		if ($oids) $oid_str = $this->id . ', ';
+		else $oid_str = '';
+
+		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
 
 	// Group functions

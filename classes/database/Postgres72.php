@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.49 2003/09/03 06:27:56 chriskl Exp $
+ * $Id: Postgres72.php,v 1.50 2003/10/06 15:26:23 chriskl Exp $
  */
 
 
@@ -75,10 +75,12 @@ class Postgres72 extends Postgres71 {
 				SELECT
 					a.attname,
 					format_type(a.atttypid, a.atttypmod) as type,
-					a.attnotnull, a.atthasdef, adef.adsrc
+					a.attnotnull, a.atthasdef, adef.adsrc,
+					-1 AS attstattarget, a.attstorage, t.typstorage
 				FROM 
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+					LEFT JOIN pg_type t ON a.atttypid=t.oid
 				WHERE 
 					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
 					AND a.attnum > 0
@@ -89,10 +91,12 @@ class Postgres72 extends Postgres71 {
 				SELECT
 					a.attname,
 					format_type(a.atttypid, a.atttypmod) as type,
-					a.attnotnull, a.atthasdef, adef.adsrc
+					a.attnotnull, a.atthasdef, adef.adsrc,
+					-1 AS attstattarget, a.attstorage, t.typstorage
 				FROM 
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+					LEFT JOIN pg_type t ON a.atttypid=t.oid
 				WHERE 
 					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
 					AND a.attname = '{$field}'

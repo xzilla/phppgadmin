@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.38 2003/10/03 07:38:55 chriskl Exp $
+ * $Id: Postgres71.php,v 1.39 2003/10/06 15:26:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -127,7 +127,8 @@ class Postgres71 extends Postgres {
 		
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, 
+					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
@@ -139,7 +140,8 @@ class Postgres71 extends Postgres {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, 
+					a.atthasdef, adef.adsrc, a.attstattarget, a.attstorage, t.typstorage
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.28 2003/09/08 09:26:17 chriskl Exp $
+ * $Id: BaseDB.php,v 1.29 2003/10/06 15:26:23 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -206,17 +206,25 @@ class BaseDB extends ADODB_base {
 	 * @@ Note: Really needs to use a cursor
 	 * @param $relation The name of a relation
 	 * @return A recordset on success
+	 * @return -1 Failed to set datestyle
 	 */
 	function &dumpRelation($relation, $oids) {
 		$this->fieldClean($relation);
-
+		
+		// Set datestyle to ISO
+		$sql = "SET DATESTYLE = ISO";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			return -1;
+		}
+		
 		// Actually retrieve the rows
 		if ($oids) $oid_str = $this->id . ', ';
 		else $oid_str = '';
 
 		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
-		
+
 	// Capabilities
 	function hasTables() { return false; }
 	function hasViews() { return false; }

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.64 2003/10/03 07:38:55 chriskl Exp $
+ * $Id: Postgres73.php,v 1.65 2003/10/06 15:26:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -174,6 +174,16 @@ class Postgres73 extends Postgres72 {
 	// Table functions
 
 	/**
+	 * Returns the SQL for changing the current user
+	 * @param $user The user to change to
+	 * @return The SQL
+	 */
+	function getChangeUserSQL($user) {
+		$this->clean($user);
+		return "SET SESSION AUTHORIZATION '{$user}';";
+	}
+
+	/**
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
@@ -324,11 +334,13 @@ class Postgres73 extends Postgres72 {
 				SELECT
 					a.attname,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
-					a.attnotnull, a.atthasdef, adef.adsrc
+					a.attnotnull, a.atthasdef, adef.adsrc,
+					a.attstattarget, a.attstorage, t.typstorage
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 					ON a.attrelid=adef.adrelid
 					AND a.attnum=adef.adnum
+					LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
 				WHERE 
 					a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
@@ -341,11 +353,13 @@ class Postgres73 extends Postgres72 {
 				SELECT
 					a.attname,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
-					a.attnotnull, a.atthasdef, adef.adsrc
+					a.attnotnull, a.atthasdef, adef.adsrc,
+					a.attstattarget, a.attstorage, t.typstorage
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 					ON a.attrelid=adef.adrelid
 					AND a.attnum=adef.adnum
+					LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
 				WHERE
 					a.attrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
