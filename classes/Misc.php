@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.75 2004/07/15 09:52:20 jollytoad Exp $
+	 * $Id: Misc.php,v 1.76 2004/07/15 09:55:00 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -651,7 +651,7 @@
 					$tabs = $this->getNavTabs($section);
 			}
 			
-			if (isset($_SESSION['webdbLastTab'][$section]))
+			if (isset($_SESSION['webdbLastTab'][$section]) && isset($tabs[$_SESSION['webdbLastTab'][$section]]))
 				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];
 			else
 				$tab = reset($tabs);
