@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.9 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: privileges.php,v 1.10 2003/05/15 08:59:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,18 +24,20 @@
 
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = '';
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = '';
+		
+		// Set name
+		switch ($_REQUEST['type']) {
+			case 'function':
+				$name = $_REQUEST['function'];
+				break;
+			default:
+				$name = $_REQUEST['object'];
+		}
 
 		if ($confirm) {
 			// Get users from the database
 			$users = &$localData->getUsers();
 
-			switch ($_REQUEST['type']) {
-				case 'function':
-					$name = $_REQUEST['function'];
-					break;
-				default:
-					$name = $_REQUEST['object'];
-			}
 			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
@@ -80,7 +82,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->grantPrivileges($_REQUEST['type'], $_REQUEST['object'],
+			$status = $localData->grantPrivileges($_REQUEST['type'], $name,
 				($_REQUEST['username'] == 'PUBLIC') ? 'PUBLIC' : 'USER',
 				$_REQUEST['username'], $_REQUEST['privilege']);
 			if ($status == 0)
@@ -102,17 +104,19 @@
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = '';
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = '';
 
+		// Set name
+		switch ($_REQUEST['type']) {
+			case 'function':
+				$name = $_REQUEST['function'];
+				break;
+			default:
+				$name = $_REQUEST['object'];
+		}
+
 		if ($confirm) {
 			// Get groups from the database
 			$groups = &$localData->getGroups();
 
-			switch ($_REQUEST['type']) {
-				case 'function':
-					$name = $_REQUEST['function'];
-					break;
-				default:
-					$name = $_REQUEST['object'];
-			}
 			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
@@ -157,7 +161,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->grantPrivileges($_REQUEST['type'], $_REQUEST['object'],
+			$status = $localData->grantPrivileges($_REQUEST['type'], $name,
 				($_REQUEST['groupname'] == 'PUBLIC') ? 'PUBLIC' : 'GROUP',
 				$_REQUEST['groupname'], $_REQUEST['privilege']);
 			if ($status == 0)

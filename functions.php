@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.12 2003/05/11 15:13:29 chriskl Exp $
+	 * $Id: functions.php,v 1.13 2003/05/15 08:59:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,8 +18,10 @@
 	 */
 	function doSaveEdit() {
 		global $localData, $lang;
-		
-		$status = $localData->setFunction($_POST['original_function'], $_POST['original_arguments'] , $_POST['original_returns'] , $_POST['formDefinition'] , $_POST['original_lang'],0,true);
+
+		$status = $localData->setFunction($_POST['original_function'], $_POST['original_arguments'], 
+														$_POST['original_returns'], $_POST['formDefinition'], 
+														$_POST['original_lang'], $_POST['formProperties'], isset($_POST['original_setof']), true);
 		if ($status == 0)
 			doProperties($lang['strfunctionupdated']);
 		else
@@ -37,53 +39,81 @@
 		$misc->printMsg($msg);
 
 		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
-		
+
 		if ($fndata->recordCount() > 0) {
+			$fndata->f[$data->fnFields['setof']] = $data->phpBool($fndata->f[$data->fnFields['setof']]);
+
+			// Initialise variables
+			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $fndata->f[$data->fnFields['fndef']];
+			if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $localData->getFunctionProperties($fndata->f);
+
 			$func_full = $fndata->f[$data->fnFields['fnname']] . "(". $fndata->f[$data->fnFields['fnarguments']] .")";
-			echo "<form action=\"$PHP_SELF\" method=post>\n";
-			echo "<table width=90%>\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table width=\"90%\">\n";
 			echo "<tr>\n";
-			echo "<th class=data>{$lang['strfunction']}</th>\n";
-			echo "<th class=data>{$lang['strarguments']}</th>\n";
-			echo "<th class=data>{$lang['strreturns']}</th>\n";
-			echo "<th class=data>{$lang['strlanguage']}</th>\n";
+			echo "<th class=\"data\">{$lang['strfunction']}</th>\n";
+			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
+			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
+			echo "<th class=\"data\">{$lang['strlanguage']}</th>\n";
 			echo "</tr>\n";
 				
 
 			echo "<tr>\n";
-			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\n";
-			echo "<input type=hidden name=original_function value=",htmlspecialchars($fndata->f[$data->fnFields['fnname']]),">"; 
+			echo "<td class=\"data1\">", htmlspecialchars($fndata->f[$data->fnFields['fnname']]), "\n";
+			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),"\n";
-			echo "<input type=hidden name=original_arguments value=",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),">"; 
+			echo "<td class=\"data1\">", htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]), "\n";
+			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),"\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]),"\n";
-			echo "<input type=hidden name=original_returns value=",htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]),">"; 
+			echo "<td class=data1>";
+			if ($fndata->f[$data->fnFields['setof']]) echo "setof ";
+			echo htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "\n";
+			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "\" />\n"; 
+			if ($fndata->f[$data->fnFields['setof']])
+				echo "<input type=\"hidden\" name=\"original_setof\" value=\"yes\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnlang']]),"\n";
-			echo "<input type=hidden name=original_lang value=",htmlspecialchars($fndata->f[$data->fnFields['fnlang']]),">"; 
+			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\n";
+			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\" />\n"; 
 			echo "</td>\n";
 
-			echo "<tr><th class=data colspan=8>{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=data1 colspan=8><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
-				htmlspecialchars($fndata->f[$data->fnFields['fndef']]), "</textarea></td></tr>\n";
+			echo "<tr><th class=\"data\" colspan=\"8\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"8\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			// Display function properies
+			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
+				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
+				$i = 0;
+				foreach ($data->funcprops as $k => $v) {
+					echo "<select name=\"formProperties[{$i}]\">\n";
+					foreach ($v as $p) {
+						echo "<option value=\"", htmlspecialchars($p), "\"", 
+							($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
+							">", htmlspecialchars($p), "</option>\n";
+					}
+					echo "</select><br />\n";
+					$i++;
+				}
+				echo "</td></tr>\n";
+			}		
 			echo "</table>\n";
-			echo "<input type=hidden name=action value=save_edit>\n";
-			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
-			echo "<input type=hidden name=function_oid value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
 			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['strproperties']}</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
 			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></p>\n";
 	}
 
@@ -100,6 +130,7 @@
 		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
+			$funcdata->f[$data->fnFields['setof']] = $data->phpBool($funcdata->f[$data->fnFields['setof']]);
 			$func_full = $funcdata->f[$data->fnFields['fnname']] . "(". $funcdata->f[$data->fnFields['fnarguments']] .")";
 			echo "<table width=\"90%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th>\n";
@@ -108,10 +139,22 @@
 			echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
 			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
+			echo "<td class=\"data1\">";
+			if ($funcdata->f[$data->fnFields['setof']]) echo "setof ";			
+			echo htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
 			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\">", nl2br(htmlspecialchars($funcdata->f[$data->fnFields['fndef']])), "</td></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
+			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
+				// Fetch an array of the function properties
+				$funcprops = $localData->getFunctionProperties($funcdata->f);
+				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
+				foreach ($funcprops as $v) {
+					echo htmlspecialchars($v), "<br />\n";
+				}
+				echo "</td></tr>\n";
+			}		
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -221,6 +264,7 @@
 		echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+		// Display function properies
 		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\">\n";
@@ -235,8 +279,8 @@
 				echo "</select><br />\n";
 				$i++;
 			}
+			echo "</td></tr>\n";
 		}		
-		echo "</td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;

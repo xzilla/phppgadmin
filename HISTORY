@@ -17,6 +17,9 @@ Version 3.0.0-dev-5
 	- Easy change password for any user
 	- Enforceable minimum password length
 * Switched to PEAR's HTML_TreeMenu to avoid license issue
+* Function editor can handle setof functions, and all
+  function properties for volatility, etc.
+* Manage permissions on functions
 
 Version 3.0.0-dev-4
 -------------------

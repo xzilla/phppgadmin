@@ -35,7 +35,7 @@ Permissions
 -----------
 
 * -Allow granting of perms (chriskl)
-* Allow granting on functions
+* -Allow granting on functions
 * Allow revoking of perms
 * -Allow display of grants on an object
 * Allow display of grants for a user
@@ -85,7 +85,7 @@ Functions
 
 * -Need to add a drop link to the properties and edit pages.(robert)
 * -Add Postgres 7.3 support(robert)
-* Add support for immutable+ (7.3) and iscacheable+ (7.2) 
+* -Add support for immutable+ (7.3) and iscacheable+ (7.2) 
 
 
 Sequences

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.43 2003/05/11 15:13:31 chriskl Exp $
+ * $Id: Postgres73.php,v 1.44 2003/05/15 08:59:51 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -42,7 +42,7 @@ class Postgres73 extends Postgres72 {
 	);
 	// Function properties
 	var $funcprops = array( array('', 'VOLATILE', 'IMMUTABLE', 'STABLE'), 
-							array('', 'CALLED ON NULL INPUT', 'RETURNS NULL ON NULL INPUT', 'STRICT'),
+							array('', 'CALLED ON NULL INPUT', 'RETURNS NULL ON NULL INPUT'),
 							array('', 'SECURITY INVOKER', 'SECURITY DEFINER'));
 	var $defaultprops = array('', '', '');
 	
@@ -529,6 +529,69 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
+
+	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+		
+		$sql = "SELECT 
+					pc.oid,
+					proname,
+					lanname as language,
+					format_type(prorettype, NULL) as return_type,
+					prosrc as source,
+					probin as binary,
+					proretset,
+					proisstrict,
+					provolatile,
+					prosecdef,
+					oidvectortypes(pc.proargtypes) AS arguments
+				FROM
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
+				WHERE 
+					pc.oid = '$function_oid'::oid
+				AND pc.prolang = pl.oid
+				";
+	
+		return $this->selectSet($sql);
+	}
+	
+	/** 
+	 * Returns an array containing a function's properties
+	 * @param $f The array of data for the function
+	 * @return An array containing the properties
+	 */
+	function getFunctionProperties($f) {
+		$temp = array();
+		
+		// Volatility
+		if ($f['provolatile'] == 'v')
+			$temp[] = 'VOLATILE';
+		elseif ($f['provolatile'] == 'i')
+			$temp[] = 'IMMUTABLE';
+		elseif ($f['provolatile'] == 's')
+			$temp[] = 'STABLE';
+		else
+			return -1;
+		
+		// Null handling
+		if ($f['proisstrict'])
+			$temp[] = 'RETURNS NULL ON NULL INPUT';
+		else
+			$temp[] = 'CALLED ON NULL INPUT';
+		
+		// Security
+		if ($f['prosecdef'])
+			$temp[] = 'SECURITY DEFINER';
+		else
+			$temp[] = 'SECURITY INVOKER';
+			
+		return $temp;
+	}	
 
 	/**
 	 * Returns a list of all functions that can be used in triggers

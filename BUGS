@@ -4,3 +4,4 @@
 * Lots more printVal()ing needs to be done.  Whenever displaying user data, 
   it should use $misc->printVal($var) instead of htmlspecialchars($var).
 * COPY produces invalid output when there's newlines, high ascii or tabs in the data
+* Display NULL in italics in results

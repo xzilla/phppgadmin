@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.102 2003/05/15 03:38:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.103 2003/05/15 08:59:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2010,7 +2010,9 @@ class Postgres extends BaseDB {
 				$sql .= " DATABASE \"{$object}\"";
 				break;
 			case 'function':
-				$sql .= " FUNCTION \"{$object}\"";
+				// This is deliberately unquoted - $object is something like
+				// "function(arg1, arg2)"
+				$sql .= " FUNCTION {$object}";
 				break;
 			case 'language':
 				$sql .= " LANGUAGE \"{$object}\"";
