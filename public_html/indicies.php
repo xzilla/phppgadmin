@@ -3,7 +3,7 @@
  *  FILENAME:   index.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: indicies.php,v 1.2 2002/10/08 21:31:18 xzilla Exp $
+ *  $Id: indicies.php,v 1.3 2002/10/10 18:13:00 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -37,13 +37,13 @@ function doDefault()
         while( !$indexs->EOF )
         {
             $id = ( ($i % 2 ) == 0 ? '1' : '2' );
-            echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "</td>";
+            echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexs->f[$data->ixFields['idxname']]), "</td>";
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Properties</a></td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->ixFields['idxname']]), "\">Properties</a></td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->ixFields['idxname']]), "\">Drop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Privileges</td></tr>\n"; 
+				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->ixFields['idxname']]), "\">Privileges</td></tr>\n"; 
 
 			$indexs->movenext();
 			$i++;
@@ -77,11 +77,11 @@ function doDefault()
 			echo"<table border=0>";
 			echo "<tr><th class=\"data\">$strIndexName</th><th class=\"data\">$strTabName</th><th class=\"data\">$strColumnName</th><th class=\"data\">$strUniqueKey</th><th class=\"data\">$strPrimaryKey</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\">", $index->f[$data->sqFields['idxname']], "</td>";
-			echo "<td class=\"data1\">", $index->f[$data->sqFields['tabname']], "</td>";
-			echo "<td class=\"data1\">", $index->f[$data->sqFields['columnname']], "</td>";
-			echo "<td class=\"data1\">", $index->f[$data->sqFields['uniquekey']], "</td>";
-			echo "<td class=\"data1\">", $index->f[$data->sqFields['primarykey']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->ixFields['idxname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->ixFields['tabname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->ixFields['columnname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->ixFields['uniquekey']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->ixFields['primarykey']], "</td>";
 			echo "</tr>";
 			echo "</table>";
 			echo "<br /><br />";

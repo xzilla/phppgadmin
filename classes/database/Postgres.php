@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.18 2002/10/08 21:31:18 xzilla Exp $
+ * $Id: Postgres.php,v 1.19 2002/10/10 18:13:00 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -18,7 +18,7 @@ class Postgres extends BaseDB {
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
-	var $ixFields = array('idxname' => 'relname');
+	var $ixFields = array('idxname' => 'relname', 'tabname' => 'tab_name', 'columnname' => 'column_name', 'uniquekey' => 'unique_key', 'primarykey' => 'primary_key');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -670,7 +670,7 @@ class Postgres extends BaseDB {
 
 	function &getIndex($idxname) {
 		$sql = "SELECT
-					ic.relname AS index_name,
+					ic.relname AS relname,
 					bc.relname AS tab_name,
 					ta.attname AS column_name,
 					i.indisunique AS unique_key,
@@ -690,7 +690,7 @@ class Postgres extends BaseDB {
 					AND ta.attrelid = i.indrelid
 					AND ta.attnum = i.indkey[ia.attnum-1]
 				ORDER BY
-					index_name, tab_name, column_name";
+					relname, tab_name, column_name";
 
 		return $this->selectSet($sql);
 	}
