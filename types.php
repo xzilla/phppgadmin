@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.25 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: types.php,v 1.25.2.1 2005/03/14 11:08:46 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,14 +27,14 @@
 		$misc->printTitle($lang['strproperties'], 'pg.type');
 		$misc->printMsg($msg);
 		
+		function attPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+		}
+
 		if ($typedata->recordCount() > 0) {
 			switch ($typedata->f['typtype']) {
 			case 'c':
-				function attPre(&$rowdata) {
-					global $data;
-					$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
-				}
-				
 				$attrs = &$data->getTableAttributes($_REQUEST['type']);
 				
 				$columns = array(
