@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.35 2003/04/28 12:07:28 chriskl Exp $
+ * $Id: Postgres72.php,v 1.36 2003/04/30 06:49:12 chriskl Exp $
  */
 
 
@@ -232,78 +232,6 @@ class Postgres72 extends Postgres71 {
 				";
 	
 		return $this->selectSet($sql);
-	}	
-
-	/**
-	 * Creates a new function.
-	 * @param $funcname The name of the function to create
-	 * @param $args The array of argument types
-	 * @param $returns The return type
-	 * @param $definition The definition for the new function
-	 * @param $language The language the function is written for
-	 * @param $flags An array of optional flags
-	 * @param $replace (optional) True if OR REPLACE, false for normal
-	 * @return 0 success
-	 */
-	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
-		/*
-		RE: arguments implementation It seem to me that we should be  getting passed a comma delimited string
-		and that we need a comma delimited string
-		So why go through the array end around 
-		ADODB throws errors if you leave it blank, and join complaines as well
-		
-
-		Also I'm dropping support for the WITH option for now
-		Given that there are only 3 options, this might best be implemented with hardcoding
-		*/
-
-		$this->clean($funcname);
-//		if (is_array($args)) {
-//			$this->arrayClean($args);
-//		}
-		$this->clean($args);
-		$this->clean($returns);
-		$this->clean($definition);
-		$this->clean($language);
-//		if (is_array($flags)) {
-//			$this->arrayClean($flags);
-//		}
-
-		$sql = "CREATE";
-		if ($replace) $sql .= " OR REPLACE";
-		$sql .= " FUNCTION \"{$funcname}\" (";
-/*
-		if (sizeof($args) > 0)
-			$sql .= '"' . join('", "', $args) . '"';
-*/
-		if ($args)
-			$sql .= $args;
-
-		// For some reason, the returns field cannot have quotes...
-		$sql .= ") RETURNS {$returns} AS '\n";
-		$sql .= $definition;
-		$sql .= "\n'";
-		$sql .= " LANGUAGE \"{$language}\"";
-/*
-		if (sizeof($flags) > 0)
-			$sql .= ' WITH ("' . join('", "', $flags) . '")';
-*/
-
-
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Drops a function.
-	 * @param $funcname The name of the function to drop
-	 * @return 0 success
-	 */
-	function dropFunction($funcname) {
-		$this->clean($funcname);
-	
-		$sql = "DROP FUNCTION {$funcname} ";
-		
-		return $this->execute($sql);
 	}
 	
 	/**

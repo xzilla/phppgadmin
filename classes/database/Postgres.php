@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.81 2003/04/30 06:35:41 chriskl Exp $
+ * $Id: Postgres.php,v 1.82 2003/04/30 06:49:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2104,7 +2104,120 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
-		// Type conversion routines
+	// Function functions
+
+	/**
+	 * Returns a list of all functions that can be used in triggers
+	 */
+	function &getTriggerFunctions() {
+		return $this->getFunctions(true);
+	}
+
+	/**
+	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
+	 * so we do it with a drop and a recreate.
+	 * @param $funcname The name of the function to update
+	 * @param $definition The new definition for the function
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 drop function error
+	 * @return -3 create function error
+	 */
+	function setFunction($funcname, $definition) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$status = $this->dropFunction($funcname);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		
+		$status = $this->createFunction($funcname, $definition);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		$status = $this->endTransaction();
+		return ($status == 0) ? 0 : -1;
+	}
+	
+	/**
+	 * Creates a new function.
+	 * @param $funcname The name of the function to create
+	 * @param $args The array of argument types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $replace (optional) True if OR REPLACE, false for normal
+	 * @return 0 success
+	 */
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
+		/*
+		RE: arguments implementation It seem to me that we should be  getting passed a comma delimited string
+		and that we need a comma delimited string
+		So why go through the array end around 
+		ADODB throws errors if you leave it blank, and join complaines as well
+		
+
+		Also I'm dropping support for the WITH option for now
+		Given that there are only 3 options, this might best be implemented with hardcoding
+		*/
+
+		$this->clean($funcname);
+//		if (is_array($args)) {
+//			$this->arrayClean($args);
+//		}
+		$this->clean($args);
+		$this->clean($returns);
+		$this->clean($definition);
+		$this->clean($language);
+//		if (is_array($flags)) {
+//			$this->arrayClean($flags);
+//		}
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " FUNCTION \"{$funcname}\" (";
+/*
+		if (sizeof($args) > 0)
+			$sql .= '"' . join('", "', $args) . '"';
+*/
+		if ($args)
+			$sql .= $args;
+
+		// For some reason, the returns field cannot have quotes...
+		$sql .= ") RETURNS {$returns} AS '\n";
+		$sql .= $definition;
+		$sql .= "\n'";
+		$sql .= " LANGUAGE \"{$language}\"";
+/*
+		if (sizeof($flags) > 0)
+			$sql .= ' WITH ("' . join('", "', $flags) . '")';
+*/
+
+
+		return $this->execute($sql);
+	}
+		
+	/**
+	 * Drops a function.
+	 * @param $funcname The name of the function to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropFunction($funcname, $cascade) {
+		$this->clean($funcname);
+	
+		$sql = "DROP FUNCTION {$funcname} ";
+		if ($cascade) $sql .= " CASCADE";
+		
+		return $this->execute($sql);
+	}	
+
+	// Type conversion routines
 
 	/**
 	 * Change the value of a parameter to 't' or 'f' depending on whether it evaluates to true or false
