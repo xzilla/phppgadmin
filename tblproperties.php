@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.37 2004/03/12 08:56:51 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.38 2004/03/31 07:31:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -163,6 +163,7 @@
 				// Set variable defaults
 				if (!isset($_POST['field'])) $_POST['field'] = '';
 				if (!isset($_POST['type'])) $_POST['type'] = '';
+				if (!isset($_POST['array'])) $_POST['array'] = '';
 				if (!isset($_POST['length'])) $_POST['length'] = '';
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 
@@ -188,7 +189,14 @@
 						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
 				}
+				echo "</select>";
+				
+				// Output array type selector
+				echo "<select name=\"array\">\n";
+				echo "<option value=\"\"", ($_POST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
+				echo "<option value=\"[]\"", ($_POST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 				echo "</select></td>\n";
+
 				echo "<td><input name=\"length\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>";
 				echo "<td><input name=\"comment\" size=\"60\" value=\"",
@@ -214,7 +222,7 @@
 				}
 				
 				$status = $data->addColumn($_POST['table'], $_POST['field'],
-							   $_POST['type'], $_POST['length'],$_POST['comment']);
+							   $_POST['type'], $_POST['array'] != '', $_POST['length'], $_POST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnadded']);
 				else {

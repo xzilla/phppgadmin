@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.187 2004/03/29 02:05:31 chriskl Exp $
+ * $Id: Postgres.php,v 1.188 2004/03/31 07:31:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1766,10 +1766,11 @@ class Postgres extends BaseDB {
 	 * @param $table The table to add to
 	 * @param $column The name of the new column
 	 * @param $type The type of the column
+	 * @param $array True if array type, false otherwise
 	 * @param $length The optional size of the column (ie. 30 for varchar(30))
 	 * @return 0 success
 	 */
-	function addColumn($table, $column, $type, $length, $comment) {
+	function addColumn($table, $column, $type, $array, $length, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
 		$this->clean($type);
@@ -1796,6 +1797,9 @@ class Postgres extends BaseDB {
 					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
 			}
 		}
+		
+		// Add array qualifier, if requested
+		if ($array) $sql .= '[]';
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
