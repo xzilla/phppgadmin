@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.85 2003/07/28 07:50:32 chriskl Exp $
+	 * $Id: english.php,v 1.86 2003/07/29 09:07:09 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -439,6 +439,19 @@
 	$lang['strreportneedsdef'] = 'You must give SQL for your report.';
 	$lang['strreportcreated'] = 'Report saved.';
 	$lang['strreportcreatedbad'] = 'Failed to save report.';
+
+	// Domains
+	$lang['strdomain'] = 'Domain';
+	$lang['strdomains'] = 'Domains';
+	$lang['strshowalldomains'] = 'Show all domains';
+	$lang['strnodomains'] = 'No domains found.';
+	$lang['strcreatedomain'] = 'Create Domain';
+	$lang['strdomaindropped'] = 'Domain dropped.';
+	$lang['strdomaindroppedbad'] = 'Domain drop failed.';
+	$lang['strconfdropdomain'] = 'Are you sure you want to drop the domain "%s"?';
+	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
+	$lang['strdomaincreated'] = 'Domain created.';
+	$lang['strdomaincreatedbad'] = 'Failed to create domain.';	
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';

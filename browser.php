@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.13 2003/06/22 09:43:21 chriskl Exp $
+	 * $Id: browser.php,v 1.14 2003/07/29 09:07:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -107,9 +107,22 @@
 			// Add folder to schema
 			$schemanode->addItem($func_node);
 		}
+		// Domains
+		if ($data->hasDomains()) {
+			$dom_node = &new HTML_TreeNode(array(
+							'text' => addslashes($lang['strdomains']), 
+							'link' => addslashes(htmlspecialchars("domains.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/types.gif", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.gif",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+
+			// Add folder to schema
+			$schemanode->addItem($dom_node);
+		}
 		// Types
 		if ($data->hasTypes()) {
-			$func_node = &new HTML_TreeNode(array(
+			$type_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strtypes']), 
 							'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/types.gif", 
@@ -118,7 +131,7 @@
 							'linkTarget' => 'detail'));
 
 			// Add folder to schema
-			$schemanode->addItem($func_node);
+			$schemanode->addItem($type_node);
 		}
 	}	
 

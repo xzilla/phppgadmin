@@ -11,6 +11,7 @@ Version 3.1
 * Allow granting privileges WITH GRANT OPTION for 7.4
 * Display new PostgreSQL 7.4 grant options and grantor in privileges
 * Find Object feature
+* Support for domains in 7.3 and domain constraints in 7.4
 
 Version 3.0
 -----------
