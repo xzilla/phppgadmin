@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.12 2003/04/18 11:08:26 chriskl Exp $
+	 * $Id: all_db.php,v 1.13 2003/05/17 15:52:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,16 +17,18 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data, $localData, $database;
+		global $data, $localData, $misc;
 		global $PHP_SELF, $lang, $_reload_browser;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strdatabases']}: ", htmlspecialchars($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
-			echo "<p>", sprintf($lang['strconfdropdatabase'], htmlspecialchars($_REQUEST['database'])), "</p>\n";	
+			echo "<h2>{$lang['strdatabases']}: ", $misc->printVal($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
+			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"database\" value=\"", 
+				htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -50,28 +52,33 @@
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
+		if (!isset($_POST['formEncoding'])) $_POST['formEncoding'] = '';
 		
 		echo "<h2>{$lang['strdatabases']}: {$lang['strcreatedatabase']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$lang['strname']}</th><th class=data>{$lang['strencoding']}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formName']), "\"></td>";
-		echo "<td class=data1>";
-		echo "<select name=formEncoding>";
+		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strencoding']}</th></tr>\n";
+		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['formName']), "\" /></td>";
+		echo "<td class=\"data1\">";
+		echo "<select name=\"formEncoding\">";
+		echo "<option value=\"\"></option>\n";
 		while (list ($key) = each ($data->codemap)) {
-		    echo "<option>$key</option>\n";
+		    echo "<option value=\"", htmlspecialchars($key), "\"", 
+				($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
+				$misc->printVal($key), "</option>\n";
 		}
 		echo "</select>\n";
 		echo "</td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=submit value={$lang['strsave']}> <input type=reset value={$lang['strreset']}>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">{$lang['strshowalldatabases']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowalldatabases']}</a></p>\n";
 	}
 	
 	/**
@@ -104,18 +111,19 @@
 		$misc->printMsg($msg);
 		
 		$databases = &$data->getDatabases();
-		
 		if ($databases->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strdatabase']}</th><th class=data>{$lang['strowner']}</th><th class=data>{$lang['strencoding']}</th><th class=data>{$lang['strcomment']}</th><th class=data>{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strdatabase']}</th><th class=\"data\">{$lang['strowner']}</th>";
+			echo "<th class=\"data\">{$lang['strencoding']}</th><th class=\"data\">{$lang['strcomment']}</th>";
+			echo "<th class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			while (!$databases->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['owner']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['encoding']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['dbname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['owner']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['encoding']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&database=",
 					urlencode($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
@@ -127,7 +135,7 @@
 			echo "<p>{$lang['strnodatabases']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">{$lang['strcreatedatabase']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
 
