@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.6 2003/11/24 01:23:50 chriskl Exp $
+	 * $Id: swedish.php,v 1.7 2004/01/13 00:27:29 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -35,7 +35,6 @@
 	$lang['stractions'] = 'Åtgärder';
 	$lang['strname'] = 'Namn';
 	$lang['strdefinition'] = 'Definition';
-	$lang['straggregates'] = 'Sammanslagningar';
 	$lang['strproperties'] = 'Egenskaper';
 	$lang['strbrowse'] = 'Bläddra';
 	$lang['strdrop'] = 'Ta bort';
@@ -109,9 +108,15 @@
 	$lang['strcollapse'] = 'Förminska';
 	$lang['strexpand'] = 'Utöka';
 	$lang['strdownload'] = 'Ladda ner';
+	$lang['strdownloadgzipped'] = 'Ladda ner komprimerat med gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Avancerat';
+	$lang['strvariables'] = 'Variabler';
+	$lang['strprocess'] = 'Process';
+	$lang['strprocesses'] = 'Processer';
+	$lang['strsetting'] = 'Inställning';
+	$lang['strparameters'] = 'Parametrar';
 
 	// Error handling
 	$lang['strnoframes'] = 'Du behöver en webläsare som stöder frames för att använda detta program.';
@@ -125,6 +130,7 @@
 	$lang['strnodata'] = 'Hittade inga rader.';
 	$lang['strnoobjects'] = 'Hittade inga objekt.';
 	$lang['strrownotunique'] = 'Ingen unik nyckel för denna rad.';
+	$lang['strnoreportsdb'] = 'Du har inte skapat någon rapportdatabas. Läs filen INSTALL för instruktioner.';
 
 	// Tables
 	$lang['strtable'] = 'Tabell';
@@ -176,15 +182,22 @@
 	$lang['strdataonly'] = 'Endast Data';
 	$lang['strtablealtered'] = 'Tabell ändrad.';
 	$lang['strtablealteredbad'] = 'Misslyckades att ändra tabell.';
+	
+	// Users
 	$lang['struser'] = 'Användare';
-	$lang['struserupdated'] = 'Användare uppdaterad.';
-	$lang['strexpires'] = 'Utgångsdatum';
 	$lang['strusers'] = 'Användare';
 	$lang['strusername'] = 'Användarnamn';
 	$lang['strpassword'] = 'Lösenord';
 	$lang['strsuper'] = 'Superanvändare?';
 	$lang['strcreatedb'] = 'Skapa Databas?';
+	$lang['strexpires'] = 'Utgångsdatum';
+	$lang['strsessiondefaults'] = 'Sessionsinställningar';
+	$lang['strnewname'] = 'Nytt namn';
 	$lang['strnousers'] = 'Hittade inga användare.';
+	$lang['strrename'] = 'Döp om';
+	$lang['struserrenamed'] = 'Användarnamn ändrat.';
+	$lang['struserrenamedbad'] = 'Misslyckades att döpa om användare.';
+	$lang['struserupdated'] = 'Användare uppdaterad.';
 	$lang['struserupdatedbad'] = 'Misslyckades att uppdatera användare.';
 	$lang['strshowallusers'] = 'Visa alla användare';
 	$lang['strcreateuser'] = 'Skapa användare';
@@ -270,6 +283,8 @@
 	$lang['strviewdroppedbad'] = 'Misslyckades att radera vy.';
 	$lang['strviewupdated'] = 'Vy uppdaterad.';
 	$lang['strviewupdatedbad'] = 'Misslyckades att uppdatera vy.';
+	$lang['strviewlink'] = 'Länkade nycklar';
+	$lang['strviewconditions'] = 'Ytterligare villkor';
 
 	// Sequences
 	$lang['strsequence'] = 'Följd';
@@ -295,6 +310,7 @@
 	$lang['strsequencedroppedbad'] = 'Misslyckades att radera följd.';
 
 	// Indexes
+	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Index';
 	$lang['strindexname'] = 'Indexnamn';
 	$lang['strshowallindexes'] = 'Visa alla index';
@@ -529,6 +545,33 @@
 	$lang['strreferringtables'] = 'Refererande tabeller';
 	$lang['strparenttables'] = 'Ovanstående tabeller';
 	$lang['strchildtables'] = 'Underliggande tabeller';
+
+	// Aggregates
+	$lang['straggregates'] = 'Sammanslagningar';
+	$lang['strnoaggregates'] = 'Hittade inga sammanslagningar.';
+	$lang['stralltypes'] = '(Alla typer)';
+	
+	// Operator Classes
+	$lang['stropclasses'] = 'Op Klasser';
+	$lang['strnoopclasses'] = 'Hittade inga operandklasser.';
+	$lang['straccessmethod'] = 'Kopplingsmetod';
+	
+	// Stats and performance
+	$lang['strrowperf'] = 'Radprestanda';
+	$lang['strioperf'] = 'I/O Prestanda';
+	$lang['stridxrowperf'] = 'Index Radprestanda';
+	$lang['stridxioperf'] = 'Index I/O Prestanda';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sekventiell';
+	$lang['strscan'] = 'Scanna';
+	$lang['strread'] = 'Läs';
+	$lang['strfetch'] = 'Hämta';
+	$lang['strheap'] = 'Bunt';
+	$lang['strtoast'] = 'Bränn';
+	$lang['strtoastindex'] = 'Bränn Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rader';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s Körs på %s:%s -- Du är inloggad som användare "%s", %s';
