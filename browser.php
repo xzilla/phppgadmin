@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.21 2003/10/27 03:49:19 chriskl Exp $
+	 * $Id: browser.php,v 1.22 2003/10/27 05:43:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -223,6 +223,20 @@
 				addNodes($db_node, $querystr);
 			}
 			
+			// Languages
+			if ($data->hasLanguages()) {		
+				$lang_node = &new HTML_TreeNode(array(
+								'text' => addslashes($lang['strlanguages']), 
+								'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+
+				// Add folder to database
+				$db_node->addItem($lang_node);
+			}
+		
 			// Casts
 			if ($data->hasCasts()) {		
 				$cast_node = &new HTML_TreeNode(array(

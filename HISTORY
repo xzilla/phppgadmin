@@ -17,6 +17,7 @@ Features
 * Removed any trace of MySQL support
 * Show casts
 * Show conversions
+* Show languages
 
 Bugs
 * Added legal DOCTYPE

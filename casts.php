@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.1 2003/10/26 12:12:28 chriskl Exp $
+	 * $Id: casts.php,v 1.2 2003/10/27 05:43:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -46,31 +46,12 @@
 		else {
 			echo "<p>{$lang['strnocasts']}</p>\n";
 		}
-		
-//		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatecast']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strcasts']);
 	$misc->printBody();
 
 	switch ($action) {
-		case 'save_create':
-			if (isset($_POST['cancel'])) doDefault();
-			else doSaveCreate();
-			break;
-		case 'create':
-			doCreate();
-			break;
-		case 'drop':
-			if (isset($_POST['cancel'])) doDefault();
-			else doDrop(false);
-			break;
-		case 'confirm_drop':
-			doDrop(true);
-			break;			
-		case 'properties':
-			doProperties();
-			break;
 		default:
 			doDefault();
 			break;

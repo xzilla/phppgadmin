@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.21 2003/09/17 17:04:11 soranzo Exp $
+	 * $Id: functions.php,v 1.22 2003/10/27 05:43:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -211,7 +211,7 @@
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		
 		$types = &$localData->getTypes(true);
-		$langs = &$localData->getLanguages();
+		$langs = &$localData->getLanguages(true);
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
 		$misc->printMsg($msg);

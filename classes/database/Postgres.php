@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.159 2003/10/26 10:59:16 chriskl Exp $
+ * $Id: Postgres.php,v 1.160 2003/10/27 05:43:18 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -920,26 +920,6 @@ class Postgres extends BaseDB {
 					return $value;
 				}
 		}
-	}
-
-	/**
-	 * Return all database available on the server
-	 * @return A list of databases, sorted alphabetically
-	 */
-	function &getLanguages() {
-		$sql = "SELECT lanname, lanispl, lanpltrusted FROM pg_language ORDER BY lanname";
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Return all information about a particular database
-	 * @param $database The name of the database to retrieve
-	 * @return The database info
-	 */
-	function &getLanguage($database) {
-		$this->clean($database);
-		$sql = "SELECT * FROM pg_database WHERE datname='{$database}'";
-		return $this->selectRow($sql);
 	}
 
 	/**
@@ -3336,6 +3316,38 @@ class Postgres extends BaseDB {
 				rulename
 		";
 
+		return $this->selectSet($sql);
+	}
+
+	// Language functions
+	
+	/**
+	 * Gets all languages
+	 * @param $all True to get all languages, regardless of show_system
+	 * @return A recordset
+	 */
+	function &getLanguages($all = false) {
+		global $conf;
+		
+		if ($conf['show_system'] || $all)
+			$where = '';
+		else
+			$where = 'AND lanispl';
+
+		$sql = "
+			SELECT
+				pl.lanname,
+				pl.lanpltrusted,
+				pp.proname AS lanplcallf
+			FROM
+				pg_language pl, pg_proc pp
+			WHERE
+				pl.lanplcallfoid = pp.oid
+				{$where}
+			ORDER BY
+				lanname
+		";
+		
 		return $this->selectSet($sql);
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.8 2003/10/26 10:59:16 chriskl Exp $
+	 * $Id: schema.php,v 1.9 2003/10/27 05:43:18 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,6 +32,7 @@
 		echo "<ul>\n";
 		echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
 		echo "<li><a href=\"operators.php?{$misc->href}\">{$lang['stroperators']}</a></li>\n";
+		echo "<li><a href=\"conversions.php?{$misc->href}\">{$lang['strconversions']}</a></li>\n";
 		echo "</ul>\n";
 		echo "</ul>\n";
 	}

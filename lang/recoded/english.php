@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.70 2003/10/27 03:49:20 chriskl Exp $
+	 * $Id: english.php,v 1.71 2003/10/27 05:43:18 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -520,6 +520,11 @@
 	$lang['strnoconversions'] = 'No conversions found.';
 	$lang['strsourceencoding'] = 'Source encoding';
 	$lang['strtargetencoding'] = 'Target encoding';
+	
+	// Languages
+	$lang['strlanguages'] = 'Languages';
+	$lang['strnolanguages'] = 'No languages found.';
+	$lang['strtrusted'] = 'Trusted';
 	
 	// Info
 	$lang['strnoinfo'] = 'No information available.';

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.74 2003/10/27 03:49:19 chriskl Exp $
+ * $Id: Postgres73.php,v 1.75 2003/10/27 05:43:18 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1288,6 +1288,36 @@ class Postgres73 extends Postgres72 {
 			ORDER BY 1;
 		";
 
+		return $this->selectSet($sql);
+	}
+	
+	// Language functions
+	
+	/**
+	 * Gets all languages
+	 * @param $all True to get all languages, regardless of show_system
+	 * @return A recordset
+	 */
+	function &getLanguages($all = false) {
+		global $conf;
+		
+		if ($conf['show_system'] || $all)
+			$where = '';
+		else
+			$where = 'WHERE lanispl';
+
+		$sql = "
+			SELECT
+				lanname,
+				lanpltrusted,
+				lanplcallfoid::pg_catalog.regproc AS lanplcallf
+			FROM
+				pg_catalog.pg_language
+			{$where}
+			ORDER BY
+				lanname
+		";
+		
 		return $this->selectSet($sql);
 	}	
 		
