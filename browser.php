@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.10 2003/05/21 05:15:26 chriskl Exp $
+	 * $Id: browser.php,v 1.11 2003/05/21 05:17:36 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -147,8 +147,10 @@
 									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
-									// Auto-expand your personal schema, if it exists
-									'expanded' => ($schemas->f[$data->nspFields['nspname']] == $_SESSION['webdbUsername']),
+									// Auto-expand your personal schema, if it exists.  Also expand schema if there is
+									// only one schema in the database.
+									'expanded' => ($schemas->f[$data->nspFields['nspname']] == $_SESSION['webdbUsername']
+															|| $schemas->recordCount() == 1),
 									'linkTarget' => 'detail'));
 
 					addNodes(&$schemanode, $querystr);
