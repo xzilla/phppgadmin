@@ -1,7 +1,7 @@
 /**
- * Default style sheet, based of the work of Juri Aksenov
+ * Default style sheet
  *
- * $Id: global.css,v 1.11 2003/05/28 06:03:51 chriskl Exp $
+ * $Id: global.css,v 1.12 2003/05/29 06:05:34 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -56,7 +56,7 @@ p.message {
 h2
 {
 	color: #666633;
-	font-size: large; /*1.3em;*/
+	font-size: medium; /*1.3em;*/
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 }
@@ -77,7 +77,7 @@ table.navbar
 
 table.navbar td
 {
-	height:	25;
+	height:	25px;
 	color: #000000;
 	background-color: #F3F3E9;
 	text-align:	center;
@@ -132,7 +132,7 @@ td.opbutton1
 	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
-	cursor:	hand;
+	cursor:	pointer;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /*0.8em;*/
 	padding-left: 6px;
@@ -167,7 +167,7 @@ a,a:active
 a:link
 {
 	color: #336699;
-	font-family: arial;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	text-decoration: none;
 }
 
