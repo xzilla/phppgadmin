@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.44.2.3 2005/03/07 22:16:41 xzilla Exp $
+	 * $Id: browser.php,v 1.44.2.4 2005/03/08 09:17:23 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -42,8 +42,9 @@ webFXTreeConfig.blankIcon		= "<?php echo $misc->icon('blank') ?>";
 webFXTreeConfig.loadingIcon		= "<?php echo $misc->icon('loading') ?>";
 webFXTreeConfig.loadingText		= "<?php echo $lang['strloading']; ?>";
 
+WebFXTreeAbstractNode.prototype.target = 'detail';
+
 var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
-tree.target = "detail";
 
 tree.write();
 tree.setExpanded(true);

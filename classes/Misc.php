@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.5 2005/03/03 14:43:46 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.6 2005/03/08 09:17:21 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1379,12 +1379,11 @@
 					$itemaction =& $actions['item'];
 				}
 				
-				echo $this->printActionUrl($itemaction, $treedata->f, ' action');
+				echo $this->printActionUrl($itemaction, $treedata->f, 'action');
 				
 				if (!empty($actions['expand'])) {
 					echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
 				}
-				echo ' target="detail"';
 				
 				if (!empty($actions['item']['icon'])) {
 					$icon = $this->icon(value_xml($actions['item']['icon'], $treedata->f));
