@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.10 2005/02/06 00:34:20 mr-russ Exp $
+ * $Id: Postgres80.php,v 1.11 2005/03/15 02:55:45 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -24,7 +24,7 @@ class Postgres80 extends Postgres74 {
 	);
 
 	// Last oid assigned to a system object
-	var $_lastSystemOID = 17226;
+	var $_lastSystemOID = 17228;
 
 	/**
 	 * Constructor
