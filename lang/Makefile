@@ -18,3 +18,8 @@ english:
 		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
 		> ${DESTDIR}/english.php
 
+chinese-utf8:
+	cat chinese-tr-utf8.php | recode utf8..html | \
+		awk '{ gsub("&gt;",">"); gsub("&lt;","<"); print $0}' \
+		> ${DESTDIR}/chinese-tr-utf8.php
+
