@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.16 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: domains.php,v 1.17 2004/07/23 12:05:19 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -61,7 +61,7 @@
 			echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" value=\"", 
 				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"domowner\">";
@@ -322,11 +322,11 @@
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", 
 			(isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
-		echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+		echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" value=\"", 
 			htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
 		if ($data->hasDomainConstraints()) {
 			echo "<tr><th class=\"data left\">{$lang['strconstraints']}</th>\n";
-			echo "<td class=\"data1\">CHECK (<input name=\"domcheck\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "<td class=\"data1\">CHECK (<input name=\"domcheck\" size=\"32\" value=\"", 
 				htmlspecialchars($_POST['domcheck']), "\" />)</td></tr>\n";
 		}
 		echo "</table>\n";
