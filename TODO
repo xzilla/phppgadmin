@@ -34,6 +34,7 @@ Databases
 * Add alter database for 7.3+
 * -Dump database using pg_dump streaming (chriskl)
 * Comments on databases
+* -Vacuum & analyze (bryan)
 
 Tables
 ------
@@ -42,7 +43,7 @@ Tables
 * -Rename table
 * -Change table owner
 * -Cluster support
-* -Vacuum & analyze (bryan)
+*  Vacuum & analyze individual tables
 * -ORDER BY in Select function (can do so after the fact now - chriskl)
 * -Unify Select and Browse functions (chriskl)
 * Add option for showing table size counts
