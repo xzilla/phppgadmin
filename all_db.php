@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: all_db.php,v 1.11 2003/04/18 09:15:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $localData, $database;
-		global $PHP_SELF, $lang;
+		global $PHP_SELF, $lang, $_reload_browser;
 
 		if ($confirm) { 
 			echo "<h2>{$lang['strdatabases']}: ", htmlspecialchars($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
@@ -32,8 +32,10 @@
 		else {
 			$localData->close();
 			$status = $data->dropDatabase($_POST['database']);
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strdatabasedropped']);
+			}
 			else
 				doDefault($lang['strdatabasedroppedbad']);
 		}
@@ -76,14 +78,16 @@
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $data, $lang;
+		global $data, $lang, $_reload_browser;
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
 			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding']);
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);
+			}
 			else
 				doCreate($lang['strdatabasecreatedbad']);
 		}

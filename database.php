@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.11 2003/04/04 03:59:36 chriskl Exp $
+	 * $Id: database.php,v 1.12 2003/04/18 09:15:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -76,7 +76,7 @@
 	 */
 	function doDrop($confirm) {
 		global $PHP_SELF, $data, $localData;
-		global $lang;
+		global $lang, $_reload_browser;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
@@ -93,8 +93,10 @@
 		}
 		else {
 			$status = $localData->dropSchema($_POST['schema']);
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strschemadropped']);
+			}
 			else
 				doDefault($lang['strschemadroppedbad']);
 		}
@@ -146,14 +148,16 @@
 	 * Actually creates the new schema in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $lang;
+		global $localData, $lang, $_reload_browser;
 
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
 		else {
 			$status = $localData->createSchema($_POST['formName'], $_POST['formAuth']);
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strschemacreated']);
+			}
 			else
 				doCreate($lang['strschemacreatedbad']);
 		}

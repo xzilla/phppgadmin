@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.21 2003/03/31 04:02:06 chriskl Exp $
+	 * $Id: Misc.php,v 1.22 2003/04/18 09:15:55 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -165,7 +165,12 @@
 		 * @param $doBody True to output body tag, false otherwise
 		 */
 		function printFooter($doBody = true) {
-			if ($doBody) echo "</body>\n";
+			global $_reload_browser;
+			
+			if ($doBody) {
+				if (isset($_reload_browser)) $this->printReload();
+				echo "</body>\n";
+			}
 			echo "</html>\n";
 		}
 
@@ -175,16 +180,25 @@
 		 * @param $bodyClass - name of body class
 		 */
 		function printBody($bodyClass = '', $doBody = true ) {
-			global $_no_output;
+			global $_no_output;			
 
 			if (!isset($_no_output)) {
 				if ($doBody) {
 					$bodyClass = htmlspecialchars($bodyClass);
-					echo "<body", ($bodyClass == '' ? '' : " class=\"{$bodyClass}\"") , ">\n";
+					echo "<body", ($bodyClass == '' ? '' : " class=\"{$bodyClass}\"");
+					echo ">\n";
 				}
 			}
 		}
 
+		/**
+		 * Outputs JavaScript code that will reload the browser
+		 */
+		function printReload() {
+			echo "<script language=\"JavaScript\">\n";
+			echo "\tparent.frames.browser.location.reload();\n";
+			echo "</script>\n";
+		}
 
 		/**
 		 * Display the navigation header for tables

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.13 2003/04/14 04:50:27 chriskl Exp $
+	 * $Id: tables.php,v 1.14 2003/04/18 09:15:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -111,7 +111,7 @@
 								
 				break;
 			case 3:
-				global $localData, $lang;
+				global $localData, $lang, $_reload_browser;
 
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
 
@@ -130,8 +130,10 @@
 				
 				$status = $localData->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default']);
-				if ($status == 0)
+				if ($status == 0) {
+					$_reload_browser = true;
 					doDefault($lang['strtablecreated']);
+				}
 				elseif ($status == -1) {
 					$_REQUEST['stage'] = 2;
 					doCreate($lang['strtableneedsfield']);
@@ -345,7 +347,7 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database, $misc;
-		global $lang;
+		global $lang, $_reload_browser;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -362,8 +364,10 @@
 		}
 		else {
 			$status = $localData->dropTable($_POST['table']);
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strtabledropped']);
+			}
 			else
 				doDefault($lang['strtabledroppedbad']);
 		}
