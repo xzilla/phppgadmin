@@ -2,9 +2,9 @@
 
 	/**
 	 * Brazilian Portuguese language file for phpPgAdmin.
-	 * @maintainer Angelo Rigo (angelo_rigo@yahoo.com.br)
+	 * @maintainer Ângelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.1 2003/05/22 01:44:34 chriskl Exp $
+	 * $Id: portuguese-br.php,v 1.2 2003/05/27 02:16:10 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -14,6 +14,12 @@
   
 	// Basic strings
 	$lang['strintro'] = 'Bem-vindo ao phpPgAdmin.';	
+$lang['strppahome'] = 'Página inicial phpPgAdmin ';
+$lang['strpgsqlhome'] = 'Página inicial PostgreSQL ';
+$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+$lang['strreportbug'] = 'Reportar um Bug';
+$lang['strviewfaq'] = 'Visualizar FAQ';
+$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strlogin'] = 'Identificação';					
 	$lang['strloginfailed'] = 'Falha na identificação';		
 	$lang['strserver'] = 'Servidor';					
@@ -68,6 +74,7 @@
 	$lang['strexport'] = 'Exportar';				
 	$lang['strsql'] = 'SQL';						
 	$lang['strgo'] = 'Ir';							
+$lang['strimport'] = 'Importar';
 	$lang['stradmin'] = 'Administrador';					
 	$lang['strvacuum'] = 'Vácuo';					
 	$lang['stranalyze'] = 'Analiza';				
@@ -82,6 +89,12 @@
 	$lang['strformat'] = 'Formato';					
 
 	// Error handling
+$lang['strdata'] = 'Data';
+$lang['strconfirm'] = 'Confirmar';
+$lang['strexpression'] = 'Expressão';
+$lang['strellipsis'] = '...';
+$lang['strexpand'] = 'Expandir';
+$lang['strcollapse'] = 'Diminuir';
 	$lang['strnoframes'] = 'Você necessita um navegador com suporte a frames para utilizar esta aplicação.';
 	$lang['strbadconfig'] = 'Seu config.inc.php está desatualizado. Você deve gerá-lo novamente a partir do novo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Você não compilou suporte à banco de dados apropriado em sua instalação do PHP.';
@@ -141,6 +154,7 @@
 	$lang['strdataonly'] = 'Dados apenas';
 
 	// Users
+$lang['strcascade'] = 'CASCATA';
 	$lang['struseradmin'] = 'Administração de usuário ';
 	$lang['struser'] = 'Usuário';
 	$lang['strusers'] = 'Usuários';
@@ -161,12 +175,16 @@
 	$lang['struserdroppedbad'] = 'Falha ao deletar usuário.';
 		
 	// Groups
+$lang['straccount'] = 'Conta';
+$lang['strchangepassword'] = 'Alterar senha';
+$lang['strpasswordchanged'] = 'Senha alterada.';
+$lang['strpasswordchangedbad'] = 'Falha ao alterar senha.';
+$lang['strpasswordshort'] = 'Senha muito curta.';
+$lang['strpasswordconfirm'] = 'Senha não confere com a confirmação.';
 	$lang['strgroupadmin'] = 'Administração de Grupo';
 	$lang['strgroup'] = 'Grupo';
 	$lang['strgroups'] = 'Grupos';
-	$lang['strnogroup'] = 'Grupo não encontrado.';
 	$lang['strnogroups'] = 'Grupos não encotrados.';
-	$lang['strcreategroup'] = 'Criar Grupo';
 	$lang['strshowallgroups'] = 'Exibir todos os grupos';
 	$lang['strgroupneedsname'] = 'Você deve dar um nome ao seu grupo.';
 	$lang['strgroupcreated'] = 'Grupo criado.';
@@ -184,8 +202,8 @@
 	$lang['strrevoke'] = 'Revoga';
 	$lang['strgranted'] = 'Privilágios concedidos.';
 	$lang['strgrantfailed'] = 'Falha ao conceder privilégios.';
-	$lang['strgrantuser'] = 'Concessão de Usuário';
-	$lang['strgrantgroup'] = 'Concessão de Grupo';
+$lang['strgrantbad'] = 'Você deve especificar ao menos um usuário ou grupo e ao menos um privilégio.';
+$lang['stralterprivs'] = 'Alterar privilégios';
 
 	// Databases
 	$lang['strdatabase'] = 'Banco de dados';
