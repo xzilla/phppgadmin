@@ -1,8 +1,8 @@
 phpPgAdmin History
 ------------------
 
-Version 3.1
------------
+Version 3.1-dev
+---------------
 
 Features:
 * Turkish update from Devrim Gunduz
@@ -34,6 +34,20 @@ Bug Fixes:
 * Correctly display the contents of bytea fields
 * Consider information_schema to be a system object
 * Remember fields if index creation fails
+* Fix saving and loading function volatility
+* Don't list domains under types
+* Lots of reports fixes (titles, page reloads, etc.)
+
+Version 3.0.1
+-------------
+
+Bug Fixes
+* Lots of NULL value in table dump fixes (XML format changed slightly)
+* Support zero column tables
+* Correctly display the contents of bytea fields
+* Error in ADODB_base.php
+* Fix saving and loading function volatility
+* Don't list domains under types
 
 Version 3.0
 -----------

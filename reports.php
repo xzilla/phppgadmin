@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.11 2003/05/19 05:53:42 chriskl Exp $
+	 * $Id: reports.php,v 1.12 2003/08/13 09:17:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,8 +24,8 @@
 		global $PHP_SELF, $lang;
 
 		// If it's a first, load then get the data from the database
-		if ($_REQUEST['action'] == 'edit') {
-			$report = &$reportsdb->getReport($_REQUEST['report_id']);
+		$report = &$reportsdb->getReport($_REQUEST['report_id']);
+		if ($_REQUEST['action'] == 'edit') {			
 			$_POST['report_name'] = $report->f['report_name'];
 			$_POST['db_name'] = $report->f['db_name'];
 			$_POST['descr'] = $report->f['descr'];
@@ -35,11 +35,11 @@
 		// Get a list of available databases
 		$databases = &$data->getDatabases();
 
-		echo "<h2>{$lang['strreports']}: {$lang['strcreatereport']}</h2>\n";
+		echo "<h2>{$lang['strreports']}: ", htmlspecialchars($report->f['report_name']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo "<table width=\"100%\">\n";
+		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
@@ -62,11 +62,9 @@
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\">\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\" />\n";
 		echo "</form>\n";
-
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
 	}
 
 	/**
@@ -81,15 +79,15 @@
 		if (!isset($_POST['report_sql'])) $_POST['report_sql'] = '';
 
 		// Check that they've given a name and a definition
-		if ($_POST['report_name'] == '') doCreate($lang['strreportneedsname']);
-		elseif ($_POST['report_sql'] == '') doCreate($lang['strreportneedsdef']);
+		if ($_POST['report_name'] == '') doEdit($lang['strreportneedsname']);
+		elseif ($_POST['report_sql'] == '') doEdit($lang['strreportneedsdef']);
 		else {
 			$status = $reportsdb->alterReport($_POST['report_id'], $_POST['report_name'], $_POST['db_name'],
 								$_POST['descr'], $_POST['report_sql']);
 			if ($status == 0)
 				doDefault($lang['strreportcreated']);
 			else
-				doCreate($lang['strreportcreatedbad']);
+				doEdit($lang['strreportcreatedbad']);
 		}
 	}
 
@@ -102,11 +100,11 @@
 
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
 
-		echo "<h2>{$lang['strreports']}: {$lang['strreport']}</h2>\n";
+		echo "<h2>{$lang['strreports']}: ", htmlspecialchars($report->f['report_name']), "</h2>\n";
 		$misc->printMsg($msg);
 
 		if ($report->recordCount() == 1) {
-			echo "<table width=\"100%\">\n";
+			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($report->f['report_name']), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
@@ -164,10 +162,8 @@
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-		echo "<input type=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a></p>\n";
 	}
 
 	/**
@@ -213,7 +209,8 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\">\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -277,7 +274,8 @@
 
 	switch ($action) {
 		case 'save_edit':
-			doSaveEdit();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveEdit();
 			break;
 		case 'edit':
 			doEdit();
@@ -286,13 +284,14 @@
 			doProperties();
 			break;
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
