@@ -57,7 +57,9 @@ find the rest of these steps too difficult.
 8. To add your language to phpPgAdmin's login screen, edit the
    libraries/lib.inc.php file and add your language to the $appLangFiles array.
    You must include the HTML encoded version of your language's name.  You can
-   get this from the recoded version of your translated strings file.
+   get this from the recoded version of your translated strings file.  Also,
+   edit the login.php and add your language to the list of languages for
+   browser auto detection.
 
 9. Send your contribution to us.  We need the lib.inc.php entry as well as the
    yourlanguage.php file in lang/.  We don't need the recoded file as we can
