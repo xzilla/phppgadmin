@@ -9,13 +9,16 @@ Features
   no password - a VERY common newbie error.
 * Cluster indexes and indexed constraints
 * Display clustered status of indexes and indexed constraints
+* Table info - shows table that reference the table, parent tables,
+  and child tables.
 
 Bugs
 * Added legal DOCTYPE
 * tabloid columns aligned right
 
 Translations
-* Afrikaans from Petri Jooste [rkwjpj@puk.ac.za]
+* Afrikaans from Petri Jooste
+* Hungarian from Sulyok Péter
 
 Version 3.1
 -----------
