@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.39 2003/05/07 06:29:54 chriskl Exp $
+ * $Id: Postgres72.php,v 1.40 2003/05/07 06:41:47 chriskl Exp $
  */
 
 
@@ -137,7 +137,6 @@ class Postgres72 extends Postgres71 {
 			case 'c':
 				// CHECK constraint		
 				$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\" RESTRICT";
-				if ($cascade) $sql .= " CASCADE";		
 		
 				return $this->execute($sql);
 				break;
