@@ -3,14 +3,14 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.11 2003/01/12 04:37:36 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.12 2003/01/17 01:26:39 chriskl Exp $
 	 */
 
 	// Application name 
-	$appName = 'phpPgAdmin';
+	$appName = 'WebDB';
 
 	// Application version
-	$appVersion = '3.0-dev';
+	$appVersion = '0.6.5';
 
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
@@ -60,6 +60,7 @@
 	ini_set('magic_quotes_gpc', 0);
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
+	ini_set('session.use_cookies', 1);
 	
 	// If login action is set, then set login variables
 	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 
