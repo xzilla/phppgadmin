@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.93 2003/05/06 08:59:24 chriskl Exp $
+ * $Id: Postgres.php,v 1.94 2003/05/06 14:24:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2231,6 +2231,29 @@ class Postgres extends BaseDB {
 		
 		return $this->execute($sql);
 	}	
+
+	// Rule functions
+
+	/**
+	 * Returns a list of all rules on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getRules($table) {
+		$this->clean($table);
+
+		$sql = "SELECT
+				*
+			FROM
+				pg_rules
+			WHERE
+				tablename='{$table}'
+			ORDER BY
+				rulename
+		";
+
+		return $this->selectSet($sql);
+	}
 
 	// Type conversion routines
 
