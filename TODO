@@ -37,7 +37,7 @@ Permissions [ Robert ]
 * -Allow granting of perms (chriskl)
 * Allow granting on functions
 * Allow revoking of perms
-* Allow display of grants on an object
+* -Allow display of grants on an object
 * Allow display of grants for a user
 * Allow display of grants for a group
 
@@ -132,7 +132,6 @@ Domains (7.3)
 -------------
 
 * Unimplemented
-* Note: will need to be added to lists of types when creating tables, etc.
 
 Conversions (7.3)
 -----------------
