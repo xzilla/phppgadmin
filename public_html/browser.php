@@ -1,9 +1,11 @@
 <?php
 
 	/**
-	 * Main object browser
+	 * Main object browser.  This page first shows a list of databases and then
+	 * if you click on a database it shows a list of database objects in that
+	 * database.
 	 *
-	 * $Id: browser.php,v 1.11 2002/10/23 21:59:13 xzilla Exp $
+	 * $Id: browser.php,v 1.12 2002/11/14 01:04:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,61 +29,74 @@
 
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
-		$node = $tree->add_folder($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
-			'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-		if ($data->hasSchemas()) {
-			$schemas = &$data->getSchemas();
-			while (!$schemas->EOF) {
-				$schemanode = $tree->add_folder($node, htmlspecialchars($schemas->f[$data->nspFields['nspname']]), 
-					'schema.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' . 
-					urlencode($schemas->f[$data->nspFields['nspname']]));			
-				if ($data->hasTables())
-					$tree->add_document($schemanode, $strTables, 'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/tables.gif");
-				if ($data->hasViews())
-					$tree->add_document($schemanode, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/views.gif");
-		/*		if ($data->hasTriggers())
-					$tree->add_document($node, $strTriggers, 'triggers.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-				if ($data->hasRules())
-					$tree->add_document($node, $strRules, 'rules.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));*/
-				if ($data->hasSequences())
-					$tree->add_document($schemanode, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/sequences.gif");
-				if ($data->hasFunctions())
-					$tree->add_document($schemanode, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/functions.gif");
-				if ($data->hasOperators())
-					$tree->add_document($schemanode, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-				if ($data->hasTypes())
-					$tree->add_document($schemanode, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-				if ($data->hasAggregates())
-					$tree->add_document($schemanode, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-				$schemas->moveNext();
+		// If database is selected, show folder, otherwise show document
+		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
+			$node = $tree->add_folder($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
+				'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+				
+			if ($data->hasSchemas()) {
+				$schemas = &$data->getSchemas();
+				while (!$schemas->EOF) {
+					$schemanode = $tree->add_folder($node, htmlspecialchars($schemas->f[$data->nspFields['nspname']]), 
+						'schema.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' . 
+						urlencode($schemas->f[$data->nspFields['nspname']]), '_self');			
+					if ($data->hasTables()) {
+						$tree->add_document($schemanode, $strTables, 'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/tables.gif");
+					}
+					if ($data->hasViews())
+						$tree->add_document($schemanode, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/views.gif");
+			/*		if ($data->hasTriggers())
+						$tree->add_document($node, $strTriggers, 'triggers.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+					if ($data->hasRules())
+						$tree->add_document($node, $strRules, 'rules.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));*/
+					if ($data->hasSequences())
+						$tree->add_document($schemanode, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/sequences.gif");
+					if ($data->hasFunctions())
+						$tree->add_document($schemanode, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/functions.gif");
+					if ($data->hasOperators())
+						$tree->add_document($schemanode, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/operators.gif");
+					if ($data->hasTypes())
+						$tree->add_document($schemanode, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+					if ($data->hasAggregates())
+						$tree->add_document($schemanode, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+					$schemas->moveNext();
+				}
 			}
-		}
-		// Database doesn't support schemas
-		else {
-			if ($data->hasTables())
-				$tree->add_document($node, $strTables, 'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/tables.gif");
-			if ($data->hasViews())
-				$tree->add_document($node, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/views.gif");
-	/*		if ($data->hasTriggers())
-				$tree->add_document($node, $strTriggers, 'triggers.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-			if ($data->hasRules())
-				$tree->add_document($node, $strRules, 'rules.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));*/
-			if ($data->hasSequences())
-				$tree->add_document($node, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/sequences.gif");
-			if ($data->hasFunctions())
-				$tree->add_document($node, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), "../images/themes/{$guiTheme}/functions.gif");
-			if ($data->hasOperators())
-				$tree->add_document($node, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-			if ($data->hasTypes())
-				$tree->add_document($node, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-			if ($data->hasAggregates())
-				$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-			if ($data->hasIndicies())
-				$tree->add_document($node, $strIndicies, 'indicies.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-	}
+			// Database doesn't support schemas
+			else {
+				if ($data->hasTables()) {
+					$tables = &$localData->getTables();
+					$table_node = $tree->add_folder($node, $strTables, 
+						'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+					while (!$tables->EOF) {
+						$tree->add_document($table_node, htmlspecialchars($tables->f[$data->tbFields['tbname']]), 
+							'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&table=' .
+							urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../images/themes/{$guiTheme}/tables.gif");
+						$tables->moveNext();
+					}
+				}
+				if ($data->hasViews())
+					$tree->add_document($node, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/views.gif");
+				if ($data->hasSequences())
+					$tree->add_document($node, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/sequences.gif");
+				if ($data->hasFunctions())
+					$tree->add_document($node, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/functions.gif");
+				if ($data->hasOperators())
+					$tree->add_document($node, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/operators.gif");
+				if ($data->hasTypes())
+					$tree->add_document($node, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+				if ($data->hasAggregates())
+					$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+				if ($data->hasIndicies())
+					$tree->add_document($node, $strIndicies, 'indicies.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+			}
+		} else {
+			$node = $tree->add_document($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
+				"{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]), '_self', "../images/themes/{$guiTheme}/database.gif");
+		}		
+
 		$databases->moveNext();
-	}
-	
+	}		
    $tree->close_tree ( );
 
 ?>

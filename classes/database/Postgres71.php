@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.18 2002/11/12 09:34:40 chriskl Exp $
+ * $Id: Postgres71.php,v 1.19 2002/11/14 01:04:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -374,45 +374,6 @@ class Postgres71 extends Postgres {
 	 * @return -3 lock error
 	 * @return -4 update error
 	 */
-	function setColumnNull($table, $column, $state) {
-		$this->clean($table);
-		$this->clean($column);
-
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -2;
-
-		// Properly lock the table
-		$sql = "LOCK TABLE \"{$table}\" IN ACCESS EXCLUSIVE MODE";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-
-		// Check for existing nulls
-		if (!$state) {
-			$sql = "SELECT COUNT(*) AS total FROM \"{$table}\" WHERE \"{$column}\" IS NULL";
-			$result = $this->selectField($sql, 'total');
-			if ($result > 0) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-		}
-		
-		// Otherwise update the table.  Note the reverse-sensed $state variable
-		$sql = "UPDATE pg_attribute SET attnotnull = " . ($state) ? 'false' : 'true' . " 
-					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
-					AND attname = '{$column}'";
-	   $status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-
-		// Otherwise, close the transaction
-		return $this->endTransaction();
-	}
 
 	/**
 	 * Renames a column in a table

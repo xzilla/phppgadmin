@@ -48,13 +48,13 @@ Tables
 
 * Not using proper attFields array for attribute info (i was being lazy)
 * Browse doesn't implement paging
+* Browse only shows 30 rows at the moment!
 * Have a common browse function for 'select' and 'browse' actions on a table
-* -Create table
-* Modify column - default, nullability, etc.
+* -Create table (chriskl)
+* -Modify column - default, nullability, etc. (chriskl)
 * Constraints - note massive 7.3 changes here
 * Vacuum & analyze
 * Dumps as CSV, XML or database specific bulk load format
-* Create table (chriskl)
 * Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
   in a timestamp field.  We need to detect if they're inserting into a timestamp field with a magic
   value and then not quote it.
@@ -178,6 +178,6 @@ PHP
 ---
 
 * Check for register_globals
-* Check for magic_quotes - ALL CURRENT CODE ASSUMES MAGIC_QUOTES OFF
+* -Check for magic_quotes - automatically stripslashes (chriskl)
 * Check for postgres/mysql/oracle/whatever functions compiled in and give good help on how to compile it in
 

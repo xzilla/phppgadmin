@@ -95,7 +95,7 @@ basefrm = <? echo "\"$this->tree_basefrm\""; ?>;
 			return ($jsvn);
 		}
 
-		function add_folder ($t_parent, $t_text, $t_url, 
+		function add_folder ($t_parent, $t_text, $t_url, $t_frame,
 				     $t_imgopen = "", $t_imgclosed = "") 
 		{  
 			$jsvn = "aux".$this->tree_count;
@@ -106,16 +106,16 @@ basefrm = <? echo "\"$this->tree_basefrm\""; ?>;
 				$t_imgclosed = $this->tree_ftv2folderclosed;
 
 			echo "$jsvn = insFld($t_parent, gFld (\"$t_text\", ";
-			echo "\"$t_url\", \"$t_imgopen\", \"$t_imgclosed\"));\n";
+			echo "\"$t_url\", \"$t_frame\", \"$t_imgopen\", \"$t_imgclosed\"));\n";
 
 			return ($jsvn);
 		}		
 
-		function add_document ($t_parent, $t_text, $t_url, $t_img = "") 
+		function add_document ($t_parent, $t_text, $t_url, $t_frame, $t_img = "") 
 		{ 
 			if (!strlen($t_img)) $t_img = $this->tree_ftv2doc;
 			echo "insDoc($t_parent, gLnk ($t_parent, \"$t_text\", ";
-			echo "\"$t_url\", \"$t_img\"));\n";
+			echo "\"$t_url\", \"$t_frame\", \"$t_img\"));\n";
 		}	
 
 		function close_tree ( )

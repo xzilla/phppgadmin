@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.21 2002/11/12 09:34:40 chriskl Exp $
+ * $Id: Postgres.php,v 1.22 2002/11/14 01:04:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -193,23 +193,36 @@ class Postgres extends BaseDB {
 		$sql = "SELECT * FROM pg_class WHERE relname='{$table}'";
 		return $this->selectRow($sql);
 	}
-	
+
 	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
+	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table) {
+	function &getTableAttributes($table, $field = '') {
 		$this->clean($table);
-
-		$sql = "SELECT
-				a.attname, t.typname as type,a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
-			FROM
-				pg_class c, pg_attribute a, pg_type t
-			WHERE
-				c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
-			ORDER BY a.attnum";
-
+		$this->clean($field);
+		
+		if ($field == '') {
+			$sql = "SELECT
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
+				FROM
+					pg_class c, pg_attribute a, pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
+				ORDER BY a.attnum";
+		}
+		else {
+			$sql = "SELECT
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
+				FROM
+					pg_class c, pg_attribute a, pg_type t
+				WHERE
+					c.relname = '{$table}' AND a.attname='{$column}' AND a.attrelid = c.oid AND a.atttypid = t.oid
+				ORDER BY a.attnum";				
+		}
+		
 		return $this->selectSet($sql);
 	}
 
@@ -224,6 +237,43 @@ class Postgres extends BaseDB {
 	function dropColumn($table, $column, $behavior) {
 		return -99;
 	}
+	
+	/**
+	 * Alters a column in a table
+	 * @param $table The table in which the column resides
+	 * @param $column The column to alter
+	 * @param $name The new name for the column
+	 * @param $notnull (boolean) True if not null, false otherwise
+	 * @param $default The new default for the column
+	 * @return 0 success
+	 * @return -1 set not null error
+	 * @return -2 set default error
+	 * @return -3 rename column error
+	 */
+	function alterColumn($table, $column, $name, $notnull, $default) {
+		$this->beginTransaction();
+
+		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
+		$status = $this->setColumnNull($table, $column, !$notnull);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		$status = $this->setColumnDefault($table, $column, $default);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		$status = $this->renameColumn($table, $column, $name);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		return $this->endTransaction();
+	}	
 
 	/**
 	 * Creates a new table in the database
@@ -330,7 +380,7 @@ class Postgres extends BaseDB {
 	 * @param $limit The maximum number of records to return at once
 	 * @return A recordset
 	 */
-	function &browseTable($table, $offset, $limit) {
+	function &browseTable($table, $offset = null, $limit = null) {
 		$this->fieldClean($table);		
 		
 		return $this->selectTable("SELECT oid, * FROM \"{$table}\"", $offset, $limit);
@@ -614,13 +664,12 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function setColumnDefault($table, $column, $default) {
-		$this->clean($table);
-		$this->clean($column);
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 		// @@ How the heck do you clean default clause?
 		
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}
 
@@ -676,11 +725,12 @@ class Postgres extends BaseDB {
 				return -1;
 			}
 		}
-		
+
 		// Otherwise update the table.  Note the reverse-sensed $state variable
-		$sql = "UPDATE pg_attribute SET attnotnull = " . ($state) ? 'false' : 'true' . " 
+		$sql = "UPDATE pg_attribute SET attnotnull = " . (($state) ? 'false' : 'true') . " 
 					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
 					AND attname = '{$column}'";
+
 	   $status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -699,13 +749,12 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function renameColumn($table, $column, $newName) {
-		$this->clean($table);
-		$this->clean($column);
-		$this->clean($newName);
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+		$this->fieldClean($newName);
 
 		$sql = "ALTER TABLE \"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
 
-		// @@ how?
 		return $this->execute($sql);
 	}
 

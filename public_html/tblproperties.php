@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.5 2002/11/05 21:07:39 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.6 2002/11/14 01:04:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,6 +11,114 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	function doExport($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $strExport;
+		
+		doNav();
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strExport}</h2>\n";
+		$misc->printMsg($msg);
+
+		echo "<form action=\"tblexport.php\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=data>Format:</th><td><select name=\"format\">\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "<option value=\"csv\">CSV</option>\n";
+		echo "<option value=\"tab\">Tabbed</option>\n";
+		echo "<option value=\"xml\">XML</option>\n";
+		echo "</select></td></tr>";
+		/*echo "<tr><th class=data>Content:</th><td><select name=\"content\">\n";
+		echo "<option value=\"all\">Schema &amp; Data</option>\n";
+		echo "<option value=\"schema\">Schema Only</option>\n";
+		echo "<option value=\"data\">Data Only</option>\n";
+		echo "</select></td></tr>";*/
+		echo "<tr><th class=data>OIDS:</th><td><input type=\"checkbox\" name=\"oids\"></td></tr>";
+		echo "<tr><th class=data>Download?</th><td><input type=\"checkbox\" name=\"download\"></td></tr>";
+		echo "</table>\n";
+
+		echo "<p><input type=hidden name=action value=export>\n";
+		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+		echo "<input type=submit value=\"{$strExport}\"> <input type=reset></p>\n";
+		echo "</form>\n";
+	}	
+
+	/**
+	 * Displays a screen where they can enter a new table
+	 */
+	function doProperties($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $strTables, $strShowAllTables;
+		
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;		
+		
+		switch ($_REQUEST['stage']) {
+			case 1:
+				global $strField, $strType, $strNotNull, $strDefault, $strAlter;
+
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: Alter Column: ",
+					htmlspecialchars($_REQUEST['column']), "</h2>\n";
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+				// Output table header
+				echo "<table>\n<tr>";
+				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th></tr>";
+				
+				$column = &$localData->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
+				$column->f['attnotnull'] = $localData->phpBool($column->f['attnotnull']);
+				
+				if (!isset($_REQUEST['default'])) {
+					$_REQUEST['field'] = $column->f['attname'];
+					$_REQUEST['default'] = $column->f['adsrc'];
+					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
+				}				
+				
+				echo "<tr><td><input name=\"field\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+					htmlspecialchars($_REQUEST['field']), "\"></td>";
+				echo "<td>", htmlspecialchars($column->f['type']), "</td>";
+				echo "<td><input type=checkbox name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', "></td>\n";
+				echo "<td><input name=\"default\" size=20 value=\"", 
+					htmlspecialchars($_REQUEST['default']), "\"></td>";
+				
+				echo "</table>\n";
+				echo "<input type=hidden name=action value=properties>\n";
+				echo "<input type=hidden name=stage value=2>\n";
+				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+				echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
+				echo "<input type=submit value=\"{$strAlter}\"> <input type=reset>\n";
+				echo "</form>\n";
+								
+				break;
+			case 2:
+				global $localData;
+
+				// Check inputs
+				if (trim($_REQUEST['field']) == '') {
+					$_REQUEST['stage'] = 1;
+					doProperties('You must name your field.');
+					return;
+				}
+				
+				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
+								isset($_REQUEST['notnull']), $_REQUEST['default']);
+				if ($status == 0)
+					doDefault('Column altered.');
+				else {
+					$_REQUEST['stage'] = 1;
+					doCreate('Column altering failed.');
+					return;
+				}
+				break;
+			default:
+				echo "<p>Invalid script parameter.</p>\n";
+		}
+					
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
+	}
 
 	/**
 	 * Show confirmation of drop column and perform actual drop
@@ -53,6 +161,7 @@
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
 		global $strKeyName, $strUnique, $strField, $strAction, $strPrimary;
 
+		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -140,34 +249,7 @@ echo <<<EOF
 		<input type="hidden" name="server" value="2">
 	</form>
 <li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a>
-<li><form method="post" action="tbl_dump.php">View dump (schema) of table<br>
-<table>
-    <tr>
-        <td>
-
-            <input type="radio" name="what" value="structure" checked>Structure only        </td>
-        <td>
-            <input type="checkbox" name="drop" value="1">Add 'drop table'        </td>
-        <td colspan="3">
-            <input type="submit" value="Go">
-        </td>
-    </tr>
-    <tr>
-
-        <td>
-            <input type="radio" name="what" value="data">Structure and data        </td>
-        <td>
-            <input type="checkbox" name="asfile" value="sendit">send        </td>
-    </tr>
-    <tr>
-        <td>
-            <input type="radio" name="what" value="csv">CSV data        </td>
-
-        <td>
-            terminated by <input type="text" name="separator" size=1 value=";">
-        </td>
-    </tr>
-</table>
+<li>
 EOF;
 
 
@@ -179,10 +261,31 @@ EOF;
 		echo "<p><a class=navlink href=\"tables.php?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
 	}
 
+	function doNav() {
+		global $PHP_SELF;
+		
+		$vars = 'database=' . urlencode($_REQUEST['database']) . '&table=' . urlencode($_REQUEST['table']);
+		
+		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
+		echo "<tr><td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}\">Columns</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indexes\">Indexes</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">Constraints</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">Triggers</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">Rules</a></td>";
+		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">Export</a></td></tr>";
+		echo "</table>\n";
+	}	
+
 	echo "<html>\n";
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'export':
+			doExport();
+			break;
+		case 'properties':
+			doProperties();
+			break;
 		case 'drop':
 			if ($_POST['choice'] == 'Yes') doDrop(false);
 			else doDefault();

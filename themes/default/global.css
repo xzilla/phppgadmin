@@ -45,6 +45,23 @@ h2
 	font-weight: bold;
 }
 
+table.navbar
+{
+	background-color: #E6E6CC;
+}
+
+table.navbar td
+{
+	height: 25;
+	color: #000000;
+	background-color: #F3F3E9;
+	text-align: center;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 14;
+	font-weight: bold;
+}
+
+
 th.data
 {
 	color: #000000;

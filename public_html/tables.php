@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.10 2002/11/12 09:34:40 chriskl Exp $
+	 * $Id: tables.php,v 1.11 2002/11/14 01:04:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,7 +13,7 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Displays a screen where they can enter a new view
+	 * Displays a screen where they can enter a new table
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
@@ -89,7 +89,7 @@
 					echo "</select></td>";
 					echo "<td><input name=\"length[{$i}]\" size=10 value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\"></td>";
-					echo "<td><input type=checkbox name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? 'checked' : '', "></td>\n";
+					echo "<td><input type=checkbox name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked' : '', "></td>\n";
 					echo "<td><input name=\"default[{$i}]\" size=20 value=\"", 
 						htmlspecialchars($_REQUEST['default'][$i]), "\"></td>";
 				}				
@@ -141,7 +141,7 @@
 				echo "<p>Invalid script parameter.</p>\n";
 		}
 					
-			echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
 	}
 
 	/**

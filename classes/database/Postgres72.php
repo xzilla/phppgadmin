@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.14 2002/11/05 21:07:38 xzilla Exp $
+ * $Id: Postgres72.php,v 1.15 2002/11/14 01:04:38 chriskl Exp $
  */
 
 
@@ -28,26 +28,44 @@ class Postgres72 extends Postgres71 {
 	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
+	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table) {
+	function &getTableAttributes($table, $field = '') {
 		$this->clean($table);
-		
-		$sql = "
-			SELECT
-				a.attname,
-				format_type(a.atttypid, a.atttypmod) as type,
-				a.attnotnull, a.atthasdef, adef.adsrc
-			FROM 
-				pg_attribute a LEFT JOIN pg_attrdef adef
-				ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
-			WHERE 
-				a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
-				AND a.attnum > 0
-			ORDER BY a.attnum";
-			
+		$this->clean($field);
+
+		if ($field == '') {		
+			$sql = "
+				SELECT
+					a.attname,
+					format_type(a.atttypid, a.atttypmod) as type,
+					a.attnotnull, a.atthasdef, adef.adsrc
+				FROM 
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				WHERE 
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
+					AND a.attnum > 0
+				ORDER BY a.attnum";
+		}
+		else {
+			$sql = "
+				SELECT
+					a.attname,
+					format_type(a.atttypid, a.atttypmod) as type,
+					a.attnotnull, a.atthasdef, adef.adsrc
+				FROM 
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+				WHERE 
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
+					AND a.attname = '{$field}'
+				ORDER BY a.attnum";
+		}
+					
 		return $this->selectSet($sql);
-	}	
+	}
 
 	function getTableKeys($table) {
 		$this->clean($table);

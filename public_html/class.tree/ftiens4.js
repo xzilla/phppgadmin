@@ -23,13 +23,14 @@
 // Definition of class Folder 
 // ***************************************************************** 
  
-function Folder(folderDescription, hreference, open, closed) //constructor 
+function Folder(folderDescription, hreference, framename, open, closed) //constructor 
 { 
   //constant data 
   this.imgopen = open;
   this.imgclosed = closed;
   this.desc = folderDescription 
   this.hreference = hreference 
+  this.framename = framename
   this.id = -1   
   this.navObj = 0  
   this.iconImg = 0  
@@ -214,7 +215,7 @@ function outputFolderLink()
 { 
   if (this.hreference) 
   { 
-    doc.write("<a href='" + this.hreference + "' TARGET=\""+basefrm+"\" ") 
+    doc.write("<a href='" + this.hreference + "' TARGET=\""+this.framename+"\" ") 
     if (browserVersion > 0) 
       doc.write("onClick='javascript:clickOnFolder("+this.id+")'") 
     doc.write(">") 
@@ -423,19 +424,19 @@ function clickOnNode(folderId)
 // Auxiliary Functions for Folder-Tree backward compatibility 
 // *********************************************************** 
  
-function gFld(description, hreference, open, closed) 
+function gFld(description, hreference, framename, open, closed) 
 { 
-  folder = new Folder(description, hreference, open, closed) 
+  folder = new Folder(description, hreference, framename, open, closed) 
   return folder 
 } 
  
-function gLnk(target, description, linkData, image) 
+function gLnk(target, description, linkData, framename, image) 
 { 
   fullLink = "" 
  
   if (target==0) 
   { 
-    fullLink = "'"+linkData+"' target=\""+basefrm+"\"" 
+    fullLink = "'"+linkData+"' target=\""+framename+"\"" 
   } 
   else 
   { 
@@ -443,8 +444,8 @@ function gLnk(target, description, linkData, image)
        // fullLink = "'http://"+linkData+"' target=_blank" 
        fullLink = "'"+linkData+"' target=_blank" 
     else 
-       // fullLink = "'http://"+linkData+"' target=\""+basefrm+"\"" 
-       fullLink = "'"+linkData+"' target=\""+basefrm+"\"" 
+       // fullLink = "'http://"+linkData+"' target=\""+framename+"\"" 
+       fullLink = "'"+linkData+"' target=\""+framename+"\"" 
   } 
  
   linkItem = new Item(description, fullLink, image)   
