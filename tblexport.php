@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.8 2003/08/03 03:14:13 chriskl Exp $
+	 * $Id: tblexport.php,v 1.7.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	$extensions = array(

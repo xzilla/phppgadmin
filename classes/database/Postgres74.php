@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.11 2003/08/12 01:33:56 chriskl Exp $
+ * $Id: Postgres74.php,v 1.5.2.1 2003/08/13 03:58:26 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -17,6 +17,10 @@ class Postgres74 extends Postgres73 {
 	// Max object name length
 	var $_maxNameLen = 63;
 
+	// System schema ids and names
+	var $_schemaOIDs = array(11, 99);
+	var $_schemaNames = array('pg_catalog', 'pg_toast');
+
 	/**
 	 * Constructor
 	 * @param $host The hostname to connect to
@@ -28,57 +32,7 @@ class Postgres74 extends Postgres73 {
 	function Postgres74($host, $port, $database, $user, $password) {
 		$this->Postgres73($host, $port, $database, $user, $password);
 	}
-	
-	// Group functions
-	
-	/**
-	 * Return users in a specific group
-	 * @param $groname The name of the group
-	 * @return All users in the group
-	 */
-	function &getGroup($groname) {
-		$this->clean($groname);
 
-		$sql = "SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g 
-					WHERE g.groname='{$groname}' AND s.usesysid = ANY (g.grolist)
-					ORDER BY s.usename";
-
-		return $this->selectSet($sql);
-	}
-	
-	// Schema functions
-	
-	/**
-	 * Return all schemas in the current database.  This differs from the version
-	 * in 7.3 only in that it considers the information_schema to be a system schema.
-	 * @return All schemas, sorted alphabetically
-	 */
-	function &getSchemas() {
-		global $conf;
-		
-		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg_%' AND nspname != 'information_schema'";
-		else $and = '';
-		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
-			WHERE pn.nspowner = pu.usesysid
-			{$and}ORDER BY nspname";
-
-		return $this->selectSet($sql);
-	}	
-
-	// View functions
-	
-	/**
-	 * Returns all details for a particular view
-	 * @param $view The name of the view to retrieve
-	 * @return View info
-	 */
-	function &getView($view) {
-		$this->clean($view);
-		
-		$sql = "SELECT viewname, viewowner, pg_catalog.pg_get_viewdef(viewname, true) AS definition FROM pg_catalog.pg_views WHERE viewname='$view'";
-
-		return $this->selectSet($sql);
-	}	
 
 	// Trigger functions
 	
@@ -126,131 +80,9 @@ class Postgres74 extends Postgres73 {
 
 		return $this->selectSet($sql);
 	}
-	
-	// Domain functions
-	
-	/**
-	 * Get domain constraints
-	 * @param $domain The name of the domain whose constraints to fetch
-	 * @return A recordset
-	 */
-	function &getDomainConstraints($domain) {
-		$this->clean($domain);
-		
-		$sql = "
-			SELECT
-				conname,
-				contype,
-				pg_catalog.pg_get_constraintdef(oid) AS consrc
-			FROM
-				pg_catalog.pg_constraint
-			WHERE
-				contypid = (SELECT oid FROM pg_catalog.pg_type
-								WHERE typname='{$domain}'
-								AND typnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-															WHERE nspname = '{$this->_schema}'))
-			ORDER BY
-				conname";
-				
-		return $this->selectSet($sql);
-	}
-	
-	/**
-	 * Drop a domain constraint
-	 * @param $domain The domain from which to remove the constraint
-	 * @param $constraint The constraint to remove
-	 * @param $cascade True to cascade, false otherwise
-	 * @return 0 success
-	 */
-	function dropDomainConstraint($domain, $constraint, $cascade) {
-		$this->fieldClean($domain);
-		$this->fieldClean($constraint);
-		
-		$sql = "ALTER DOMAIN \"{$domain}\" DROP CONSTRAINT \"{$constraint}\"";
-		if ($cascade) $sql .= " CASCADE";
 
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Adds a check constraint to a domain
-	 * @param $domain The domain to which to add the check
-	 * @param $definition The definition of the check
-	 * @param $name (optional) The name to give the check, otherwise default name is assigned
-	 * @return 0 success
-	 */
-	function addDomainCheckConstraint($domain, $definition, $name = '') {
-		$this->fieldClean($domain);
-		$this->fieldClean($name);
-
-		$sql = "ALTER DOMAIN \"{$domain}\" ADD ";
-		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
-		$sql .= "CHECK ({$definition})";
-
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Alters a domain
-	 * @param $domain The domain to alter
-	 * @param $domdefault The domain default
-	 * @param $domnotnull True for NOT NULL, false otherwise
-	 * @param $domowner The domain owner
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 default error
-	 * @return -3 not null error
-	 * @return -4 owner error
-	 */
-	function alterDomain($domain, $domdefault, $domnotnull, $domowner) {
-		$this->fieldClean($domain);
-		$this->fieldClean($domowner);
-		
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-		
-		// Default
-		if ($domdefault == '')
-			$sql = "ALTER DOMAIN \"{$domain}\" DROP DEFAULT";
-		else
-			$sql = "ALTER DOMAIN \"{$domain}\" SET DEFAULT {$domdefault}";
-		
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-		
-		// NOT NULL
-		if ($domnotnull)
-			$sql = "ALTER DOMAIN \"{$domain}\" SET NOT NULL";
-		else
-			$sql = "ALTER DOMAIN \"{$domain}\" DROP NOT NULL";
-
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-		
-		// Owner
-		$sql = "ALTER DOMAIN \"{$domain}\" OWNER TO \"{$domowner}\"";
-
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-		
-		return $this->endTransaction();
-	}	
-	 
 	// Capabilities
 	function hasGrantOption() { return true; }
-	function hasDomainConstraints() { return true; }
 	
 }
 

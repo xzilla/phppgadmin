@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.13 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: rules.php,v 1.12.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	// Include application functions

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.138 2003/08/12 08:18:54 chriskl Exp $
+ * $Id: Postgres.php,v 1.126.2.1 2003/08/13 03:58:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -200,7 +200,7 @@ class Postgres extends BaseDB {
 	function &getDatabases() {
 		global $conf;
 
-		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
+		if (isset($conf['owned_only']) && $conf['owned_only']) {
 			$username = $_SESSION['webdbUsername'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
@@ -348,20 +348,11 @@ class Postgres extends BaseDB {
 			case 'bool':
 			case 'boolean':
 				if ($value !== null && $value == '') $value = null;
-				elseif ($value == 'true') $value = 't';
-				elseif ($value == 'false') $value = 'f';
-				
-				// If value is null, 't' or 'f'...
-				if ($value === null || $value == 't' || $value == 'f') {
-					echo "<select name=\"", htmlspecialchars($name), "\">\n";
-					echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
-					echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
-					echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
-					echo "</select>\n";
-				}
-				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
-				}				
+				echo "<select name=\"", htmlspecialchars($name), "\">\n";
+				echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
+				echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
+				echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
+				echo "</select>\n";
 				break;
 			case 'text':
 			case 'bytea':
@@ -393,10 +384,8 @@ class Postgres extends BaseDB {
 					return 'TRUE';
 				elseif ($value == 'f')
 					return 'FALSE';
-				elseif ($value == '')
-					return 'NULL';
 				else
-					return $value;
+					return "''";
 				break;		
 			default:
 				// Checking variable fields is difficult as there might be a size
@@ -489,18 +478,6 @@ class Postgres extends BaseDB {
 	}
 
 	// Table functions
-
-	/**
-	 * Returns table information
-	 * @param $table The name of the table
-	 * @return A recordset
-	 */
-	function &getTable($table) {
-		$this->clean($table);
-		
-		$sql = "SELECT tablename, tableowner FROM pg_tables WHERE tablename='{$table}'";
-		return $this->selectSet($sql);
-	}
 
 	/**
 	 * Return all tables in current database
@@ -621,14 +598,13 @@ class Postgres extends BaseDB {
 	 * @param $length An array of field lengths
 	 * @param $notnull An array of not null
 	 * @param $default An array of default values
-	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids) {
+	function createTable($name, $fields, $field, $type, $length, $notnull, $default) {
 		// @@ NOTE: $default field not being cleaned - how on earth DO we clean it??
 		$this->fieldClean($name);
-
+	
 		$found = false;
 		$sql = "CREATE TABLE \"{$name}\" (";
 		
@@ -673,57 +649,8 @@ class Postgres extends BaseDB {
 		
 		$sql .= ")";
 		
-		// WITHOUT OIDS
-		if ($this->hasWithoutOIDs() && $withoutoids)
-			$sql .= ' WITHOUT OIDS';
-		
 		return $this->execute($sql);
 	}	
-
-	/**
-	 * Alters a table
-	 * @param $table The name of the table
-	 * @param $name The new name for the table
-	 * @param $owner The new owner for the table	 
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
-	 * @return -3 rename error
-	 */
-	function alterTable($table, $name, $owner) {
-		$this->fieldClean($table);
-		$this->fieldClean($name);
-		$this->fieldClean($owner);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-		
-		// Owner
-		if ($this->hasAlterTableOwner() && $owner != '') {
-			$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-	
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -2;
-			}
-		}
-
-		// Rename (only if name has changed)
-		if ($name != $table) {
-			$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$name}\"";
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
-		}
-				
-		return $this->endTransaction();
-	}
 	
 	/**
 	 * Removes a table from the database
@@ -1349,23 +1276,16 @@ class Postgres extends BaseDB {
 	 * @param $table The table on which to add the index
 	 * @param $columns An array of columns that form the index
 	 * @param $type The index type
-	 * @param $unique True if unique, false otherwise
-	 * @param $where Index predicate ('' for none)
 	 * @return 0 success
 	 */
-	function createIndex($name, $table, $columns, $type, $unique, $where) {
+	function createIndex($name, $table, $columns, $type) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 		$this->arrayClean($columns);
 
-		$sql = "CREATE";
-		if ($unique) $sql .= " UNIQUE";
-		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
+		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
 		$sql .= "(\"" . implode('","', $columns) . "\")";
-
-		if ($this->hasPartialIndexes() && trim($where) != '') {
-			$sql .= " WHERE ({$where})";
-		}
+			
 
 		return $this->execute($sql);
 	}
@@ -1722,9 +1642,9 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Return users in a specific group
+	 * Return information about a specific group
 	 * @param $groname The name of the group
-	 * @return All users in the group
+	 * @return All groups
 	 */
 	function &getGroup($groname) {
 		$this->clean($groname);
@@ -1744,6 +1664,7 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
+	
 	/**
 	 * Creates a new group
 	 * @param $groname The name of the group
@@ -1773,36 +1694,6 @@ class Postgres extends BaseDB {
 		
 		$sql = "DROP GROUP \"{$groname}\"";
 		
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Adds a group member
-	 * @param $groname The name of the group
-	 * @param $user The name of the user to add to the group
-	 * @return 0 success
-	 */
-	function addGroupMember($groname, $user) {
-		$this->fieldClean($groname);
-		$this->fieldClean($user);
-		
-		$sql = "ALTER GROUP \"{$groname}\" ADD USER \"{$user}\"";
-
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Removes a group member
-	 * @param $groname The name of the group
-	 * @param $user The name of the user to remove from the group
-	 * @return 0 success
-	 */
-	function dropGroupMember($groname, $user) {
-		$this->fieldClean($groname);
-		$this->fieldClean($user);
-		
-		$sql = "ALTER GROUP \"{$groname}\" DROP USER \"{$user}\"";
-
 		return $this->execute($sql);
 	}
 	
@@ -2015,7 +1906,7 @@ class Postgres extends BaseDB {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Creates a trigger
 	 * @param $tgname The name of the trigger to create
@@ -2059,130 +1950,6 @@ class Postgres extends BaseDB {
 	// Privilege functions
 
 	/**
-	 * Internal function used for parsing ACLs
-	 * @param $acl The ACL to parse (of type aclitem[])
-	 * @return Privileges array
-	 */
-	function _parseACL($acl) {
-		// Take off the first and last characters (the braces)
-		$acl = substr($acl, 1, strlen($acl) - 2);
-
-		// Pick out individual ACE's by carefully parsing.  This is necessary in order
-		// to cope with usernames and stuff that contain commas
-		$aces = array();
-		$i = $j = 0;		
-		$in_quotes = false;
-		while ($i < strlen($acl)) {
-			// If current char is a double quote and it's not escaped, then
-			// enter quoted bit
-			$char = substr($acl, $i, 1);
-			if ($char == '"' && ($i == 0 || substr($acl, $i - 1, 1) != '\\')) 
-				$in_quotes = !$in_quotes;
-			elseif ($char == ',' && !$in_quotes) {
-				// Add text so far to the array
-				$aces[] = substr($acl, $j, $i - $j);
-				$j = $i + 1;
-			}
-			$i++;
-		}
-		// Add final text to the array
-		$aces[] = substr($acl, $j);
-
-		// Create the array to be returned
-		$temp = array();
-
-		// For each ACE, generate an entry in $temp
-		foreach ($aces as $v) {
-			
-			// If the ACE begins with a double quote, strip them off both ends
-			// and unescape backslashes and double quotes
-			$unquote = false;
-			if (strpos($v, '"') === 0) {
-				$v = substr($v, 1, strlen($v) - 2);
-				$v = str_replace('\\"', '"', $v);
-				$v = str_replace('\\\\', '\\', $v);
-			}
-			
-			// Figure out type of ACE (public, user or group)
-			if (strpos($v, '=') === 0)
-				$atype = 'public';
-			elseif (strpos($v, 'group ') === 0) {
-				$atype = 'group';
-				// Tear off 'group' prefix
-				$v = substr($v, 6);
-			}
-			else
-				$atype = 'user';
-
-			// Break on unquoted equals sign...
-			$i = 0;		
-			$in_quotes = false;
-			$entity = null;
-			$chars = null;	
-			while ($i < strlen($v)) {
-				// If current char is a double quote and it's not escaped, then
-				// enter quoted bit
-				$char = substr($v, $i, 1);
-				$next_char = substr($v, $i + 1, 1);
-				if ($char == '"' && ($i == 0 || $next_char != '"')) {
-					$in_quotes = !$in_quotes;
-				}
-				// Skip over escaped double quotes
-				elseif ($char == '"' && $next_char == '"') {
-					$i++;
-				}
-				elseif ($char == '=' && !$in_quotes) {
-					// Split on current equals sign					
-					$entity = substr($v, 0, $i);
-					$chars = substr($v, $i + 1);
-					break;
-				}
-				$i++;
-			}
-			
-			// Check for quoting on entity name, and unescape if necessary
-			if (strpos($entity, '"') === 0) {
-				$entity = substr($entity, 1, strlen($entity) - 2);
-				$entity = str_replace('""', '"', $entity);
-			}
-			
-			// New row to be added to $temp
-			// (type, grantee, privileges, grantor, grant option?
-			$row = array($atype, $entity, array(), '', array());
-
-			// Loop over chars and add privs to $row
-			for ($i = 0; $i < strlen($chars); $i++) {
-				// Append to row's privs list the string representing
-				// the privilege
-				$char = substr($chars, $i, 1);
-				if ($char == '*')
-					$row[4][] = $this->privmap[substr($chars, $i - 1, 1)];
-				elseif ($char == '/') {
-					$grantor = substr($chars, $i + 1);
-					// Check for quoting
-					if (strpos($grantor, '"') === 0) {
-						$grantor = substr($grantor, 1, strlen($grantor) - 2);
-						$grantor = str_replace('""', '"', $grantor);
-					}
-					$row[3] = $grantor;
-					break;
-				}
-				else {
-					if (!isset($this->privmap[$char]))
-						return -3;
-					else
-						$row[2][] = $this->privmap[$char];
-				}
-			}
-			
-			// Append row to temp
-			$temp[] = $row;
-		}
-
-		return $temp;
-	}
-	
-	/**
 	 * Grabs an array of users and their privileges for an object,
 	 * given its type.
 	 * @param $object The name of the object whose privileges are to be retrieved
@@ -2208,8 +1975,62 @@ class Postgres extends BaseDB {
 		// Fetch the ACL for object
 		$acl = $this->selectField($sql, 'acl');
 		if ($acl == -1) return -2;
-		elseif ($acl == '' || $acl == null) return array();
-		else return $this->_parseACL($acl);
+		elseif ($acl == '') return array();
+
+		// Take off the first and last characters (the braces)
+		$acl = substr($acl, 1, strlen($acl) - 2);
+
+		// Pick out individual ACE's by exploding on the comma
+		$aces = explode(',', $acl);
+
+		// Create the array to be returned
+		$temp = array();
+
+		// For each ACE, generate an entry in $temp
+		foreach ($aces as $v) {
+			// If the ACE begins with a double quote, strip them off both ends
+			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
+
+			// Figure out type of ACE (public, user or group)
+			if (strpos($v, '=') === 0)
+				$atype = 'public';
+			elseif (strpos($v, 'group ') === 0) {
+				$atype = 'group';
+				// Tear off 'group' prefix
+				$v = substr($v, 6);
+			}
+			else
+				$atype = 'user';
+
+			// Separate entity from character list
+			list ($entity, $chars) = explode('=', $v);
+			
+			// New row to be added to $temp
+			// (type, grantee, privilegs, grantor, grant option
+			$row = array($atype, $entity, array(), '', false);
+
+			// Loop over chars and add privs to $row
+			for ($i = 0; $i < strlen($chars); $i++) {
+				// Append to row's privs list the string representing
+				// the privilege
+				$char = substr($chars, $i, 1);
+				if ($char == '*')
+					$row[4] = true;
+				elseif ($char == '/') {
+					$row[5] = substr($chars, $i + 1);
+					break;
+				}
+				if (!isset($this->privmap[$char]))
+					return -3;
+				else
+					$row[2][] = $this->privmap[$char];
+			}
+			
+			// Append row to temp
+			$temp[] = $row;
+		}
+
+		return $temp;
 	}
 	
 	/**
@@ -2221,8 +2042,6 @@ class Postgres extends BaseDB {
 	 * @param $usernames The array of usernames to grant privs to.
 	 * @param $groupnames The array of group names to grant privs to.	 
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
-	 * @param $grantoption True if has grant option, false otherwise
-	 * @param $cascade True for cascade revoke, false otherwise
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
@@ -2230,7 +2049,7 @@ class Postgres extends BaseDB {
 	 * @return -4 not granting to anything
 	 * @return -4 invalid mode
 	 */
-	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption, $cascade) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges) {
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -2240,17 +2059,10 @@ class Postgres extends BaseDB {
 			(!$public && sizeof($usernames) == 0 && sizeof($groupnames) == 0)) return -4;
 		if ($mode != 'GRANT' && $mode != 'REVOKE') return -5;
 
-		$sql = $mode;
-
-		// Grant option
-		if ($this->hasGrantOption() && $mode == 'REVOKE' && $grantoption) {
-			$sql .= ' GRANT OPTION FOR';
-		}		
-
 		if (in_array('ALL PRIVILEGES', $privileges))
-			$sql .= " ALL PRIVILEGES ON";
+			$sql = "{$mode} ALL PRIVILEGES ON";
 		else
-			$sql .= " " . join(', ', $privileges) . " ON";
+			$sql = "{$mode} " . join(', ', $privileges) . " ON";
 		switch ($type) {
 			case 'table':
 			case 'view':
@@ -2307,16 +2119,6 @@ class Postgres extends BaseDB {
 				$sql .= ", GROUP \"{$v}\"";
 			}
 		}			
-
-		// Grant option
-		if ($this->hasGrantOption() && $mode == 'GRANT' && $grantoption) {
-			$sql .= ' WITH GRANT OPTION';
-		}
-		
-		// Cascade revoke
-		if ($this->hasGrantOption() && $mode == 'REVOKE' && $cascade) {
-			$sql .= ' CASCADE';
-		}
 
 		return $this->execute($sql);
 	}
@@ -2521,7 +2323,6 @@ class Postgres extends BaseDB {
 		$temp = array();
 
 		// Cachable
-		$f['proiscachable'] = $this->phpBool($f['proiscachable']);
 		if ($f['proiscachable'])
 			$temp[] = 'ISCACHABLE';
 		else

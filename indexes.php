@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.17 2003/08/12 08:18:53 chriskl Exp $
+	 * $Id: indexes.php,v 1.14.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,11 +21,9 @@
 		global $PHP_SELF, $lang;
 
 		if (!isset($_POST['formIndexName'])) $_POST['formIndexName'] = '';
-		if (!isset($_POST['formIndexType'])) $_POST['formIndexType'] = null;
 		if (!isset($_POST['formCols'])) $_POST['formCols'] = '';
-		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';		
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']}: {$lang['strcreateindex']} </h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']} : {$lang['strcreateindex']} </h2>\n";
 		$misc->printMsg($msg);
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -51,14 +49,16 @@
 		$buttonRemove->set_attribute("onclick", "buttonPressed(this);");		
 		$buttonRemove->set_attribute("type", "button");
 
+		$selTypes = new XHTML_select("formIndexType");
+		$selTypes->set_data($localData->typIndexes);
+				
 		echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";
 
 
 		echo "<table>\n";
 		echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th></tr>";
 		echo "<tr>";
-		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-			htmlspecialchars($_POST['formIndexName']), "\" /></td></tr>";
+		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
 		echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th>";
 		echo "<th class=\"data\">{$lang['strindexcolumnlist']}</th></tr>\n";
 		echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
@@ -69,32 +69,20 @@
 		echo "<table> \n";
 		echo "<tr>";
 		echo "<th class=\"data\">{$lang['strindextype']}</th>";
-		echo "<td class=\"data1\"><select name=\"formIndexType\">";
-		foreach ($localData->typIndexes as $v) {
-			echo "<option value=\"", htmlspecialchars($v), "\"",
-				($v == $_POST['formIndexType']) ? ' selected="selected"' : '', ">", htmlspecialchars($v), "</option>\n";
-		}
-		echo "</select></td></tr>\n";				
+		echo "<td>" . $selTypes->fetch() . "</td>";
 		echo "</tr>";
-		echo "<tr>";
-		echo "<th class=\"data\">{$lang['strunique']}</th>";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
-		echo "</tr>";
-		if ($data->hasPartialIndexes()) {
-			echo "<tr>";
-			echo "<th class=\"data\">{$lang['strwhere']}</th>";
-			echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				htmlspecialchars($_POST['formWhere']), "\" />)</td>";
-			echo "</tr>";
-		}
 		echo "</table>";
+		
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+		echo "<input type=reset value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
+		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
+			"\">{$lang['strshowallindexes']}</a></p>\n";
 	}
 
 	/**
@@ -105,15 +93,11 @@
 		global $localData;
 		global $lang;
 		
-		// Handle databases that don't have partial indexes
-		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';
-		
 		// Check that they've given a name and at least one column
 		if ($_POST['formIndexName'] == '') doCreateIndex($lang['strindexneedsname']);
-		elseif (!isset($_POST['IndexColumnList']) || $_POST['IndexColumnList'] == '') doCreateIndex($lang['strindexneedscols']);
+		elseif ($_POST['IndexColumnList'] == '') doCreate($lang['strindexneedscols']);
 		else {
-			$status = $localData->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], 
-				$_POST['formIndexType'], isset($_POST['formUnique']), $_POST['formWhere']);
+			$status = $localData->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], $_POST['formIndexType']);
 			if ($status == 0)
 				doDefault($lang['strindexcreated']);
 			else
@@ -143,8 +127,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -202,14 +186,13 @@
 	
 	switch ($action) {
 		case 'save_create_index':
-			if (isset($_POST['cancel'])) doDefault();
-			else doSaveCreateIndex();
+			doSaveCreateIndex();
 			break;
 		case 'create_index':
 			doCreateIndex();
 			break;
 		case 'drop_index':
-			if (isset($_POST['drop'])) doDropIndex(false);
+			if (isset($_POST['yes'])) doDropIndex(false);
 			else doDefault();
 			break;
 		case 'confirm_drop_index':

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.58 2003/08/12 01:33:56 chriskl Exp $
+ * $Id: Postgres73.php,v 1.48.2.1 2003/08/13 03:58:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -24,6 +24,10 @@ class Postgres73 extends Postgres72 {
 
 	// Max object name length
 	var $_maxNameLen = 63;
+
+	// System schema ids and names
+	var $_schemaOIDs = array(11, 99);
+	var $_schemaNames = array('pg_catalog', 'pg_toast');
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.
@@ -98,7 +102,7 @@ class Postgres73 extends Postgres72 {
 		
 		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg_%'";
 		else $and = '';
-		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_namespace pn, pg_user pu
 			WHERE pn.nspowner = pu.usesysid
 			{$and}ORDER BY nspname";
 
@@ -112,7 +116,7 @@ class Postgres73 extends Postgres72 {
 	 */
 	function &getSchemaByName($schema) {
 		$this->clean($schema);
-		$sql = "SELECT * FROM pg_catalog.pg_namespace WHERE nspname='{$schema}'";
+		$sql = "SELECT * FROM pg_namespace WHERE nspname='{$schema}'";
 		return $this->selectRow($sql);
 	}
 
@@ -155,7 +159,7 @@ class Postgres73 extends Postgres72 {
 	 * @return All conversions, sorted alphabetically
 	 */
 	function &getConversions() {
-		$sql = "SELECT conname, conowner FROM pg_catalog.pg_conversion ORDER BY conname";
+		$sql = "SELECT conname, conowner FROM pg_conversion ORDER BY conname";
 				  
 		return $this->selectSet($sql);
 	}
@@ -167,7 +171,7 @@ class Postgres73 extends Postgres72 {
 	 */
 	function &getConversionByName($conversion) {
 		$this->clean($conversion);
-		$sql = "SELECT * FROM pg_catalog.pg_conversion WHERE conname='{$conversion}'";
+		$sql = "SELECT * FROM pg_conversion WHERE conname='{$conversion}'";
 		return $this->selectRow($sql);
 	}
 
@@ -182,8 +186,8 @@ class Postgres73 extends Postgres72 {
 	function hasObjectID($table) {
 		$this->clean($table);
 
-		$sql = "SELECT relhasoids FROM pg_catalog.pg_class WHERE relname='{$table}' 
-			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
+		$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}' 
+			AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname='{$this->_schema}')";
 
 		$rs = $this->selectSet($sql);
 		if ($rs->recordCount() != 1) return -99;
@@ -210,8 +214,8 @@ class Postgres73 extends Postgres72 {
 
 		if (sizeof($atts) == 0) return array();
 
-		$sql = "SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE 
-			attrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'AND
+		$sql = "SELECT attnum, attname FROM pg_attribute WHERE 
+			attrelid=(SELECT oid FROM pg_class WHERE relname='{$table}'AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')) 
 			AND attnum IN ('" . join("','", $atts) . "')";
 
@@ -242,8 +246,8 @@ class Postgres73 extends Postgres72 {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
-		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND 
-			indrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND 
+			indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}' AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))";
 		$rs = $this->selectSet($sql);
 
@@ -268,25 +272,11 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
-	 * Returns table information
-	 * @param $table The name of the table
-	 * @return A recordset
-	 */
-	function &getTable($table) {
-		$this->clean($table);
-		
-		$sql = "SELECT tablename, tableowner FROM pg_catalog.pg_tables
-			WHERE tablename='{$table}' AND schemaname='{$this->_schema}'";
-			
-		return $this->selectSet($sql);
-	}
-	
-	/**
 	 * Return all tables in current database
 	 * @return All tables, sorted alphabetically 
 	 */
 	function &getTables() {
-		$sql = "SELECT tablename, tableowner FROM pg_catalog.pg_tables
+		$sql = "SELECT tablename, tableowner FROM pg_tables
 			WHERE schemaname='{$this->_schema}' ORDER BY tablename";
 
 		return $this->selectSet($sql);
@@ -380,7 +370,7 @@ class Postgres73 extends Postgres72 {
 	 * @return All views
 	 */
 	function getViews() {
-		$sql = "SELECT viewname, viewowner FROM pg_catalog.pg_views
+		$sql = "SELECT viewname, viewowner FROM pg_views
 			WHERE schemaname='{$this->_schema}' ORDER BY viewname";
 
 		return $this->selectSet($sql);
@@ -444,25 +434,6 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
-	 * Grabs a single trigger
-	 * @param $table The name of a table whose triggers to retrieve
-	 * @param $trigger The name of the trigger to retrieve
-	 * @return A recordset
-	 */
-	function &getTrigger($table, $trigger) {
-		$this->clean($table);
-		$this->clean($trigger);
-
-		$sql = "SELECT * FROM pg_catalog.pg_trigger t, pg_catalog.pg_class c
-					WHERE t.tgrelid=c.oid
-					AND c.relname='{$table}'
-					AND t.tgname='{$trigger}'
-					AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
-
-		return $this->selectSet($sql);
-	}
-
-	/**
 	 * Grabs a list of triggers on a table
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
@@ -486,23 +457,6 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
-	
-	/**
-	 * Alters a trigger
-	 * @param $table The name of the table containing the trigger
-	 * @param $trigger The name of the trigger to alter
-	 * @param $name The new name for the trigger
-	 * @return 0 success
-	 */
-	function alterTrigger($table, $trigger, $name) {
-		$this->fieldClean($table);
-		$this->fieldClean($trigger);
-		$this->fieldClean($name);
-		
-		$sql = "ALTER TRIGGER \"{$trigger}\" ON \"{$table}\" RENAME TO \"{$name}\"";
-		
-		return $this->execute($sql);
-	}	
 
 	// Function functions
 
@@ -828,8 +782,8 @@ class Postgres73 extends Postgres72 {
 					pc.oid=pi.indexrelid
 					AND (pi.indisunique OR pi.indisprimary)
 			) AS sub
-			WHERE relid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_namespace
 					WHERE nspname='{$this->_schema}'))
 		";
 
@@ -873,22 +827,22 @@ class Postgres73 extends Postgres72 {
 			case 'table':
 			case 'view':
 			case 'sequence':
-				$sql = "SELECT relacl AS acl FROM pg_catalog.pg_class WHERE relname='{$object}'
-						AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
+				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname='{$object}'
+						AND relnamespace=(SELECT oid FROM pg_namespace WHERE nspname='{$this->_schema}')";
 				break;
 			case 'database':
-				$sql = "SELECT datacl AS acl FROM pg_catalog.pg_database WHERE datname='{$object}'";
+				$sql = "SELECT datacl AS acl FROM pg_database WHERE datname='{$object}'";
 				break;
 			case 'function':
 				// Since we fetch functions by oid, they are already constrained to
 				// the current schema.
-				$sql = "SELECT proacl AS acl FROM pg_catalog.pg_proc WHERE oid='{$object}'";
+				$sql = "SELECT proacl AS acl FROM pg_proc WHERE oid='{$object}'";
 				break;
 			case 'language':
-				$sql = "SELECT lanacl AS acl FROM pg_catalog.pg_language WHERE lanname='{$object}'";
+				$sql = "SELECT lanacl AS acl FROM pg_language WHERE lanname='{$object}'";
 				break;
 			case 'schema':
-				$sql = "SELECT nspacl AS acl FROM pg_catalog.pg_namespace WHERE nspname='{$object}'";
+				$sql = "SELECT nspacl AS acl FROM pg_namespace WHERE nspname='{$object}'";
 				break;
 			default:
 				return -1;
@@ -898,137 +852,62 @@ class Postgres73 extends Postgres72 {
 		$acl = $this->selectField($sql, 'acl');
 		if ($acl == -1) return -2;
 		elseif ($acl == '' || $acl == null) return array();
-		else return $this->_parseACL($acl);
-	}
-	
-	// Domain functions
-	
-	/**
-	 * Gets all information for a single domain
-	 * @param $domain The name of the domain to fetch
-	 * @return A recordset
-	 */
-	function &getDomain($domain) {
-		$this->clean($domain);
-		
-		$sql = "
-			SELECT
-				t.typname AS domname, 
-				pg_catalog.format_type(t.typbasetype, t.typtypmod) AS domtype,
-				t.typnotnull AS domnotnull,
-				t.typdefault AS domdef,
-				pg_catalog.pg_get_userbyid(t.typowner) AS domowner
-			FROM 
-				pg_catalog.pg_type t
-			WHERE 
-				t.typtype = 'd'
-				AND t.typname = '{$domain}'
-				AND t.typnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname = '{$this->_schema}')";
 
-		return $this->selectSet($sql);		
-	}
-	
-	/**
-	 * Return all domains in current schema.  Excludes domain constraints.
-	 * @return All tables, sorted alphabetically 
-	 */
-	function &getDomains() {
-		$sql = "		
-			SELECT
-				t.typname AS domname, 
-				pg_catalog.format_type(t.typbasetype, t.typtypmod) AS domtype,
-				t.typnotnull AS domnotnull,
-				t.typdefault AS domdef,
-				pg_catalog.pg_get_userbyid(t.typowner) AS domowner
-			FROM 
-				pg_catalog.pg_type t
-			WHERE 
-				t.typtype = 'd'
-				AND t.typnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}')
-			ORDER BY t.typname";
+		// Take off the first and last characters (the braces)
+		$acl = substr($acl, 1, strlen($acl) - 2);
 
-		return $this->selectSet($sql);
-	}
+		// Pick out individual ACE's by exploding on the comma
+		$aces = explode(',', $acl);
 
-	/**
-	 * Creates a domain
-	 * @param $domain The name of the domain to create
-	 * @param $type The base type for the domain
-	 * @param $notnull True for NOT NULL, false otherwise
-	 * @param $default Default value for domain	
-	 * @param $check A CHECK constraint if there is one
-	 * @return 0 success
-	 */
-	function createDomain($domain, $type, $notnull, $default, $check) {
-		$this->fieldClean($domain);
-		
-		$sql = "CREATE DOMAIN \"{$domain}\" AS {$type}";
-		if ($notnull) $sql .= ' NOT NULL';
-		if ($default != '') $sql .= " DEFAULT {$default}";
-		if ($this->hasDomainConstraints() && $check != '') $sql .= " CHECK ({$check})";
+		// Create the array to be returned
+		$temp = array();
 
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Drops a domain.
-	 * @param $domain The name of the domain to drop
-	 * @param $cascade True to cascade drop, false to restrict
-	 * @return 0 success
-	 */
-	function dropDomain($domain, $cascade) {
-		$this->fieldClean($domain);
+		// For each ACE, generate an entry in $temp
+		foreach ($aces as $v) {
+			// If the ACE begins with a double quote, strip them off both ends
+			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
 
-		$sql = "DROP DOMAIN \"{$domain}\"";
-		if ($cascade) $sql .= " CASCADE";
+			// Figure out type of ACE (public, user or group)
+			if (strpos($v, '=') === 0)
+				$atype = 'public';
+			elseif (strpos($v, 'group ') === 0) {
+				$atype = 'group';
+				// Tear off 'group' prefix
+				$v = substr($v, 6);
+			}
+			else
+				$atype = 'user';
 
-		return $this->execute($sql);
-	}	
-	
-	// Find object functions
-	
-	/**
-	 * Searches all system catalogs to find objects that match a certain name.
-	 * @param $term The search term
-	 * @return A recordset
-	 */
-	function findObject($term) {
-		global $conf;
-
-		// Escape search term for ILIKE match
-		$term = str_replace('_', '\\_', $term);
-		$term = str_replace('%', '\\%', $term);
-		$this->clean($term);
-
-		// Exclude system relations if necessary
-		if (!$conf['show_system']) $where = " AND pn.nspname NOT LIKE 'pg_%'";
-		else $where = '';
-		
-		$sql = "
-			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name 
-				FROM pg_catalog.pg_namespace pn WHERE nspname ILIKE '%{$term}%' {$where}
-			UNION ALL
-			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END, pc.oid,
-				pn.nspname, NULL, pc.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn 
-				WHERE pc.relnamespace=pn.oid AND relkind IN ('r', 'v', 'S') AND relname ILIKE '%{$term}%' {$where}
-			UNION ALL
-			SELECT 'COLUMN', NULL, pn.nspname, pc.relname, pa.attname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
-				pg_catalog.pg_attribute pa WHERE pc.relnamespace=pn.oid AND pc.oid=pa.attrelid 
-				AND pa.attname ILIKE '%{$term}%' {$where}
-			UNION ALL
-			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
-				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}
-			UNION ALL
-			SELECT 'TYPE', pt.oid, pn.nspname, NULL, pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
-				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
-				AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
-				{$where}
-			ORDER BY type, schemaname, relname, name";
+			// Separate entity from character list
+			list ($entity, $chars) = explode('=', $v);
 			
-		return $this->selectSet($sql);
-	}	
+			// New row to be added to $temp
+			// (type, grantee, privilegs, grantor, grant option
+			$row = array($atype, $entity, array(), '', false);
+
+			// Loop over chars and add privs to $row
+			for ($i = 0; $i < strlen($chars); $i++) {
+				// Append to row's privs list the string representing
+				// the privilege
+				$char = substr($chars, $i, 1);
+				if ($char == '*')
+					$row[4] = true;
+				elseif ($char == '/') {
+					$row[5] = substr($chars, $i + 1);
+					break;
+				}
+				if (!isset($this->privmap[$char]))
+					return -3;
+				else
+					$row[2][] = $this->privmap[$char];
+			}
+			
+			// Append row to temp
+			$temp[] = $row;
+		}
+
+		return $temp;
+	}
 	
 	// Capabilities
 	function hasSchemas() { return true; }
@@ -1036,8 +915,6 @@ class Postgres73 extends Postgres72 {
 	function hasCluster() { return true; }
 	function hasDropBehavior() { return true; }
 	function hasDropColumn() { return true; }
-	function hasDomains() { return true; }
-	function hasAlterTrigger() { return true; }
 
 }
 

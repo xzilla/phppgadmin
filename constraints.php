@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.19 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: constraints.php,v 1.18.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	// Include application functions

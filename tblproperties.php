@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.19 2003/08/07 06:19:25 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.16.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,75 +12,6 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	/** 
-	 * Function to save after altering a table
-	 */
-	function doSaveAlter() {
-		global $localData, $lang, $_reload_browser;
-
-		// For databases that don't allow owner change
-		if (!isset($_POST['owner'])) $_POST['owner'] = '';
-		
-		$status = $localData->alterTable($_POST['table'], $_POST['name'], $_POST['owner']);
-		if ($status == 0) {
-			// Jump them to the new table name
-			$_REQUEST['table'] = $_POST['name'];
-			// Force a browser reload
-			$_reload_browser = true;
-			doDefault($lang['strtablealtered']);
-		}
-		else
-			doAlter($lang['strtablealteredbad']);
-	}
-
-	/**
-	 * Function to allow altering of a table
-	 */
-	function doAlter($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $lang;
-		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['stralter']}</h2>\n";
-		$misc->printMsg($msg);
-
-		// Fetch table info		
-		$table = &$localData->getTable($_REQUEST['table']);
-		// Fetch all users
-		$users = &$data->getUsers();
-		
-		if ($table->recordCount() > 0) {
-			
-			if (!isset($_POST['name'])) $_POST['name'] = $table->f[$data->tbFields['tbname']];
-			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f[$data->tbFields['tbowner']];
-			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">";
-			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				htmlspecialchars($_POST['name']), "\" />\n";
-			if ($data->hasAlterTableOwner()) {
-				echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
-				echo "<td class=\"data1\"><select name=\"owner\">";
-				while (!$users->EOF) {
-					$uname = $users->f[$data->uFields['uname']];
-					echo "<option value=\"", htmlspecialchars($uname), "\"",
-						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
-					$users->moveNext();
-				}
-				echo "</select></td></tr>\n";				
-			}
-			echo "</table>\n";
-			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			echo $misc->form;
-			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-			echo "</form>\n";
-		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
-	}
-	
 	function doExport($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
@@ -130,6 +61,7 @@
 				// Fetch all available types
 				$types = &$localData->getTypes(true);
 
+				$misc->printTableNav();
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
 				$misc->printMsg($msg);
@@ -157,8 +89,7 @@
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
-				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
 
 				break;
@@ -200,6 +131,7 @@
 			case 1:
 				global $lang;
 
+				$misc->printTableNav();
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['straltercolumn']}: ",
 					$misc->printVal($_REQUEST['column']), "</h2>\n";
 				$misc->printMsg($msg);
@@ -227,14 +159,13 @@
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
 				
 				echo "</table>\n";
-				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
-				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
-				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 				echo "</form>\n";
 								
 				break;
@@ -287,8 +218,7 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -330,7 +260,7 @@
 			echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 			echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
+				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
 			if ($data->hasDropColumn()) {
 				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
@@ -348,7 +278,6 @@
 		echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
 		echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
 		echo "<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-		echo "<li><a href=\"{$PHP_SELF}?action=confirm_alter&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
 		echo "</ul>\n";
 	}
 
@@ -356,26 +285,17 @@
 	$misc->printBody();
 
 	switch ($action) {
-		case 'alter':
-			if (isset($_POST['alter'])) doSaveAlter();
-			else doDefault();
-			break;
-		case 'confirm_alter':
-			doAlter();
-			break;
 		case 'export':
 			doExport();
 			break;
 		case 'add_column':
-			if (isset($_POST['cancel'])) doDefault();
-			else doAddColumn();
+			doAddColumn();
 			break;
 		case 'properties':
-			if (isset($_POST['cancel'])) doDefault();
-			else doProperties();
+			doProperties();
 			break;
 		case 'drop':
-			if (isset($_POST['drop'])) doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

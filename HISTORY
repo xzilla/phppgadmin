@@ -1,39 +1,16 @@
 phpPgAdmin History
 ------------------
 
-Version 3.1
------------
+Version 3.0.1
+-------------
 
-Features:
-* Turkish update from Devrim Gunduz
-* Add first & last links to nav.  Double number of pages shown.
-* German update from Markus Bertheau
-* Allow granting privileges WITH GRANT OPTION for 7.4
-* Allow revoking GRANT OPTION with CASCADE option for 7.4
-* Display new PostgreSQL 7.4 grant options and grantor in privileges
-* Find object feature
-* Support for domains in 7.3 and domain constraints and alter domain in 7.4
-* Add/drop users to/from groups
-* Alter (rename) triggers
-* Pop-up SQL window from Mark Gibson
-* Superusers can always see all databases
-* Default database encoding for languages
-* Convert our images to PNG format
-* Allow creating tables WITHOUT OIDS
-* Show boolean values as TRUE or FALSE when viewing data
-* Allow renaming table and changing table owner
-* Refresh feature on table browse
-* Support better formatted view dumps in 7.4
-* When browsing data, numeric types are aligned right
-* Ability to create unique and partial indexes
-
-Bug Fixes:
+Bug Fixes
 * Lots of NULL value in table dump fixes (XML format changed slightly)
-* Boolean default values and general boolean field handling fixes
 * Support zero column tables
 * Correctly display the contents of bytea fields
-* Consider information_schema to be a system object
-* Remember fields if index creation fails
+* Error in ADODB_base.php
+* Fix saving and loading function volatility
+* Don't list domains under types
 
 Version 3.0
 -----------

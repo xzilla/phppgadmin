@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.16 2003/07/30 07:02:29 chriskl Exp $
+	 * $Id: triggers.php,v 1.15.2.1 2003/08/13 03:58:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,53 +13,6 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	/** 
-	 * Function to save after altering a trigger
-	 */
-	function doSaveAlter() {
-		global $localData, $lang;
-		
-		$status = $localData->alterTrigger($_POST['table'], $_POST['trigger'], $_POST['name']);
-		if ($status == 0)
-			doDefault($lang['strtriggeraltered']);
-		else
-			doAlter($lang['strtriggeralteredbad']);
-	}
-
-	/**
-	 * Function to allow altering of a trigger
-	 */
-	function doAlter($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $lang;
-		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtriggers']}: ", $misc->printVal($_REQUEST['trigger']), ": {$lang['stralter']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		$triggerdata = &$localData->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
-		
-		if ($triggerdata->recordCount() > 0) {
-			
-			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->f[$data->tgFields['tgname']];
-			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">";
-			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				htmlspecialchars($_POST['name']), "\" />\n";
-			echo "</table>\n";
-			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
-			echo $misc->form;
-			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['strok']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-			echo "</form>\n";
-		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
-	}
-	
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -197,7 +150,7 @@
 		if ($triggers->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-			echo "<th class=\"data\" colspan=\"", ($data->hasAlterTrigger() ? 2 : 1), "\">{$lang['stractions']}</th>\n";
+			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 
 			while (!$triggers->EOF) {
@@ -209,14 +162,9 @@
 					echo $misc->printVal($triggers->f[$data->tgFields['tgdef']]);
 				else 
 					echo $misc->printVal($localData->getTriggerDef($triggers->f));
-				echo "</td>\n";				
-				if ($data->hasAlterTrigger()) {
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_alter&{$misc->href}&trigger=", urlencode($triggers->f[$data->tgFields['tgname']]),
-						"&table=", urlencode($_REQUEST['table']), "\">{$lang['stralter']}</td>\n";
-				}
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode($triggers->f[$data->tgFields['tgname']]),
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td>\n";
-				echo "</tr>\n";
+				echo "</td>\n<td class=\"opbutton{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode( $triggers->f[$data->tgFields['tgname']]),
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$triggers->moveNext();
 				$i++;
@@ -234,13 +182,6 @@
 	$misc->printBody();
 
 	switch ($action) {
-		case 'alter':
-			if (isset($_POST['alter'])) doSaveAlter();
-			else doDefault();
-			break;
-		case 'confirm_alter':
-			doAlter();
-			break;
 		case 'save_create':
 			doSaveCreate();
 			break;
