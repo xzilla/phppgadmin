@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.95 2004/11/02 11:46:53 soranzo Exp $
+	 * $Id: Misc.php,v 1.96 2004/12/06 03:03:00 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -1109,6 +1109,38 @@
 				}
 				return false;
 			}
+		}
+		
+		/**
+		 * Function to escape command line parameters
+		 * @param $str The string to escape
+		 * @return The escaped string
+		 */
+		function escapeShellArg($str) {
+			global $data;
+			
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+				$data->fieldClean($str);
+				return '"' . $str . '"';
+			}
+			else	
+				return escapeshellarg($str);
+		}
+
+		/**
+		 * Function to escape command line programs
+		 * @param $str The string to escape
+		 * @return The escaped string
+		 */
+		function escapeShellCmd($str) {
+			global $data;
+			
+			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+				$data->fieldClean($str);
+				return '"' . $str . '"';
+			}
+			else	
+				return escapeshellcmd($str);
 		}
 	}
 ?>
