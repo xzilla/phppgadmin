@@ -3,11 +3,14 @@
 	/**
 	 * Main object browser
 	 *
-	 * $Id: browser.php,v 1.3 2002/02/12 06:58:18 chriskl Exp $
+	 * $Id: browser.php,v 1.4 2002/02/18 13:06:13 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
+	
+	// Include tree classes
+	include_once('class.tree/class.tree.php');
 ?>
 
 <html>
@@ -16,30 +19,37 @@
 <body>
 <?php
 
+	// Construct expanding tree
+   $tree = new Tree ('class.tree');
+   $tree->set_frame ('detail');
+   $root  = $tree->open_tree (htmlspecialchars($confServers[$webdbServerID]['desc']), '');
+
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
-		echo htmlspecialchars($databases->f[$data->dbFields['dbname']]), "<br>\n";
+		$node = $tree->add_folder($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
+			'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
 		if ($data->hasTables())
-			echo "&nbsp;&nbsp;<a href=\"tables.php?database=", 
-				urlencode($databases->f[$data->dbFields['dbname']]), "\" target=detail>Tables</a><br>\n";
+			$tree->add_document($node, $strTables, 'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
 		if ($data->hasViews())
-			echo "&nbsp;&nbsp;<a href=\"views.php\" target=detail>Views</a><br>\n";
-		if ($data->hasSequences())
-			echo "&nbsp;&nbsp;<a href=\"sequences.php\" target=detail>Sequences</a><br>\n";
-		if ($data->hasFunctions())
-			echo "&nbsp;&nbsp;<a href=\"functions.php\" target=detail>Functions</a><br>\n";
-		if ($data->hasTriggers())
-			echo "&nbsp;&nbsp;<a href=\"triggers.php\" target=detail>Triggers</a><br>\n";
-		if ($data->hasOperators())
-			echo "&nbsp;&nbsp;<a href=\"operators.php\" target=detail>Operators</a><br>\n";
-		if ($data->hasTypes())
-			echo "&nbsp;&nbsp;<a href=\"types.php\" target=detail>Types</a><br>\n";
-		if ($data->hasAggregates())
-			echo "&nbsp;&nbsp;<a href=\"aggregates.php\" target=detail>Aggregates</a><br>\n";
+			$tree->add_document($node, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+/*		if ($data->hasTriggers())
+			$tree->add_document($node, $strTriggers, 'triggers.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
 		if ($data->hasRules())
-			echo "&nbsp;&nbsp;<a href=\"rules.php\" target=detail>Rules</a><br>\n";
+			$tree->add_document($node, $strRules, 'rules.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+		if ($data->hasSequences())*/
+			$tree->add_document($node, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+		if ($data->hasFunctions())
+			$tree->add_document($node, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+		if ($data->hasOperators())
+			$tree->add_document($node, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+		if ($data->hasTypes())
+			$tree->add_document($node, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+		if ($data->hasAggregates())
+			$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
 		$databases->moveNext();
 	}
+	
+   $tree->close_tree ( );
 
 ?>
 </body>

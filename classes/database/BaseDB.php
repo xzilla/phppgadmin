@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.1 2002/02/11 09:32:47 chriskl Exp $
+ * $Id: BaseDB.php,v 1.2 2002/02/18 13:06:13 chriskl Exp $
  */
 
 include_once('../classes/database/ADODB_base.php');
@@ -12,8 +12,9 @@ include_once('../classes/database/ADODB_base.php');
 class BaseDB extends ADODB_base {
 
 	// Filter objects for user?
-	var $_filterTables = true;
-
+//	var $_filterTables = true;
+	var $_showSystem = false;
+	
 	function BaseDB($type) {
 		$this->ADODB_base($type);
 	}
@@ -22,9 +23,19 @@ class BaseDB extends ADODB_base {
 	 * Set object filtering for user
 	 * @param $state (boolean)
 	 */
-	function setFilterTables($state) {
-		$this->$_filterTables = $state;
+//	function setFilterTables($state) {
+//		$this->_filterTables = $state;
+//	}
+	
+	/**
+	 * Turn off or on the showing of 'system' object
+	 * @param True to turn system objects on, false to turn them off
+	 */
+	function setShowSystem($state) {
+		$this->_showSystem = $state;
 	}
+	
+	 
 
 /*
 	// Feature functions

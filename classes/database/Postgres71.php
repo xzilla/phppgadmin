@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.3 2002/02/12 08:50:26 chriskl Exp $
+ * $Id: Postgres71.php,v 1.4 2002/02/18 13:06:13 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -14,7 +14,10 @@ include_once('../classes/database/BaseDB.php');
 class Postgres71 extends BaseDB {
 
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
-	var $tbFields = array('tbname' => 'relname', 'tbowner' => 'relowner');
+	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
+
+	// @@ Should we bother querying for this?
+	var $_lastSystemOID = 18539;
 
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
@@ -30,8 +33,9 @@ class Postgres71 extends BaseDB {
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function &getDatabases() {
-		$sql = "SELECT pdb.datname, pdb.datistemplate, pde.description FROM 
+		$sql = "SELECT pdb.datname, pde.description FROM 
 					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid
+					WHERE NOT pdb.datistemplate
 					ORDER BY pdb.datname";
 		return $this->selectSet($sql);
 	}
@@ -64,7 +68,9 @@ class Postgres71 extends BaseDB {
 	 * @return All tables, sorted alphabetically 
 	 */
 	function &getTables() {
-		$sql = "SELECT relname, relowner FROM pg_class ORDER BY relname";
+		if (!$this->_showSystem) $where = "WHERE tablename NOT LIKE 'pg_%' ";
+		else $where = '';
+		$sql = "SELECT tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
 		return $this->selectSet($sql);
 	}
 
@@ -415,6 +421,39 @@ class Postgres71 extends BaseDB {
 	function doUpdate()
 */
 
+	// Operator functions
+	
+	/**
+	 * Returns a list of all operators in the database
+	 * @return All operators
+	 */
+	function getOperators() {
+		if ($this->_showSystem)
+			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
+		else $where  = '';
+		
+		$sql = "
+			SELECT
+            po.oid,
+				po.oprname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
+				(SELECT typname FROM pg_type pt WHERE pt.oid=po.oprresult) AS resultname
+			FROM
+				pg_operator po
+			{$where}				
+			ORDER BY
+				po.oprname, po.oid
+		";
+
+		return $this->selectSet($sql);
+	}
+	
+	
+	/**
+	 * Creates a new operator
+	 */
+	 
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }
