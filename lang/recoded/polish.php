@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.24 2003/10/12 21:27:59 slubek Exp $
+	 * $Id: polish.php,v 1.25 2003/11/05 00:43:30 slubek Exp $
 	 */
 
 	// Language and character set
@@ -69,6 +69,7 @@
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
 	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
+	$lang['strobjects'] = 'obiekty';
 	$lang['strexample'] = 'np.';
 	$lang['strback'] = 'Wstecz';
 	$lang['strqueryresults'] = 'Wyniki zapytania';
@@ -109,6 +110,7 @@
 	$lang['strdownload'] = 'Pobierz';
 	$lang['strinfo'] = 'Informacje';
 	$lang['stroids'] = 'OIDy';
+	$lang['stradvanced'] = 'Zaawansowane';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
@@ -120,6 +122,8 @@
 	$lang['strinstatement'] = 'W poleceniu:';
 	$lang['strinvalidparam'] = 'B&#322;&#281;dny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
+	$lang['strnoobjects'] = 'Nie znaleziono obiekt&oacute;w.';
+
 	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
 
 	// Tables
@@ -168,8 +172,6 @@
         $lang['straddcolumn'] = 'Dodaj kolumn&#281;';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Pr&oacute;ba dodania kolumny si&#281; nie powiod&#322;a.';
-        $lang['strschemaanddata'] = 'Schemat i Dane';
-	$lang['strschemaonly'] = 'Tylko schemat';
 	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Tabela zmodyfikowana.';
@@ -488,9 +490,18 @@
 	$lang['strnooperator'] = 'Nie znaleziono operatora.';
 	$lang['strnooperators'] = 'Nie znaleziono operator&oacute;w.';
 	$lang['strcreateoperator'] = 'Utw&oacute;rz operator';
-	$lang['stroperatorname'] = 'Nazwa operatora';
 	$lang['strleftarg'] = 'Typ lewego argumentu';
 	$lang['strrightarg'] = 'Typ prawego argumentu';
+    $lang['strcommutator'] = 'Commutator';
+	$lang['strnegator'] = 'Negacja';
+	$lang['strrestrict'] = 'Zastrze&#380;enie';
+	$lang['strjoin'] = 'Po&#322;&#261;czenie';
+    $lang['strhashes'] = 'Hashes';
+    $lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Lewe sortowanie';
+	$lang['strrightsort'] = 'Prawe sortowanie';
+	$lang['strlessthan'] = 'Mniej ni&#380;';
+	$lang['strgreaterthan'] = 'Wi&#281;cej ni&#380;';
 	$lang['stroperatorneedsname'] = 'Musisz nazwa&#263; operator.';
 	$lang['stroperatorcreated'] = 'Operator utworzony.';
 	$lang['stroperatorcreatedbad'] = 'Pr&oacute;ba utworzenia operatora si&#281; nie powiod&#322;a.';
@@ -498,11 +509,31 @@
 	$lang['stroperatordropped'] = 'Operator usuni&#281;ty.';
 	$lang['stroperatordroppedbad'] = 'Pr&oacute;ba usuni&#281;cia operatora si&#281; nie powiod&#322;a.';
 
+	// Casts
+	$lang['strcasts'] = 'Rzutowania';
+	$lang['strnocasts'] = 'Nie znaleziono rzutowa&#324;.';
+	$lang['strsourcetype'] = 'Typ &#378;r&oacute;d&#322;owy';
+	$lang['strtargettype'] = 'Typ docelowy';
+	$lang['strimplicit'] = 'Niezaprzeczalny';
+	$lang['strinassignment'] = 'W przydziale';
+	$lang['strbinarycompat'] = '(Kompatybilny binarnie)';
+
+	// Conversions
+	$lang['strconversions'] = 'Konwersje';
+	$lang['strnoconversions'] = 'Nie znaleziono konwersji.';
+	$lang['strsourceencoding'] = 'Kodowanie &#378;r&oacute;d&#322;owe';
+	$lang['strtargetencoding'] = 'Kodowanie docelowe';
+
+	// Languages
+	$lang['strlanguages'] = 'J&#281;zyki';
+	$lang['strnolanguages'] = 'Nie znaleziono j&#281;zyk&oacute;w.';
+	$lang['strtrusted'] = 'Zaufany';
+
+	// Info
 	$lang['strnoinfo'] = 'Brak informacji na ten temat';
 	$lang['strreferringtables'] = 'Tabele zale&#380;ne';
 	$lang['strparenttables'] = 'Tabela nadrz&#281;dne';
 	$lang['strchildtables'] = 'Tabela podrz&#281;dna';
-
 	
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
