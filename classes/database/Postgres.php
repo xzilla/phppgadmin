@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.228 2004/07/07 03:00:07 chriskl Exp $
+ * $Id: Postgres.php,v 1.229 2004/07/08 17:57:31 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -137,7 +137,11 @@ class Postgres extends BaseDB {
 		'types' => 'xtypes.htm',
 		'create_type' => 'sql-createtype.htm',
 		'drop_type' => 'sql-droptype.htm',
-		'operators' => 'xoper.htm'
+		'operators' => 'xoper.htm',
+		'managing_databases' => 'managing-databases.htm',
+		'create_database' => 'sql-createdatabase.htm',
+		'drop_database' => 'sql-dropdatabase.htm',
+		'constraints' => 'ddl-constraints.htm'
 	);
 	
 	/**
@@ -884,7 +888,7 @@ class Postgres extends BaseDB {
 				// addCSlashes converts all weird ASCII characters to octal representation,
 				// EXCEPT the 'special' ones like \r \n \t, etc.
 				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\"{$action_str}>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"75\" wrap=\"virtual\"{$action_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;

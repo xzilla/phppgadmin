@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.24 2004/07/07 02:59:56 chriskl Exp $
+	 * $Id: all_db.php,v 1.25 2004/07/08 17:57:32 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 		global $PHP_SELF, $lang, $_reload_drop_database;
 
 		if ($confirm) { 
-			echo "<h2>{$lang['strdatabases']}: ", $misc->printVal($_REQUEST['db']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($lang['strdatabases'], $misc->printVal($_REQUEST['db']), $lang['strdrop']), 'drop_database');
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['db'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
@@ -59,7 +59,7 @@
 				$_POST['formEncoding'] = '';
 		}
 		
-		echo "<h2>{$lang['strdatabases']}: {$lang['strcreatedatabase']}</h2>\n";
+		$misc->printTitle(array($lang['strdatabases'], $lang['strcreatedatabase']), 'create_database');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -111,7 +111,7 @@
 		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printTitle(array($lang['strdatabases']), '');
+		$misc->printTitle(array($lang['strdatabases']), 'managing_databases');
 		$misc->printMsg($msg);
 		
 		$databases = &$data->getDatabases();

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.31 2004/07/07 02:59:56 chriskl Exp $
+	 * $Id: constraints.php,v 1.32 2004/07/08 17:57:32 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -479,7 +479,7 @@
 		}
 		
 		$misc->printTableNav();
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strconstraints']));
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strconstraints']),'constraints');
 		$misc->printMsg($msg);
 
 		$constraints = &$data->getConstraints($_REQUEST['table']);
