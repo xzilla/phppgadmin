@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.42 2003/01/18 06:38:37 chriskl Exp $
+ * $Id: Postgres.php,v 1.43 2003/01/18 07:49:34 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -43,6 +43,23 @@ class Postgres extends BaseDB {
 	
 	// Name of id column
 	var $id = 'oid';
+	
+	// Map of database encoding names to HTTP encoding names.  If a
+	// database encoding does not appear in this list, then its HTTP
+	// encoding name is the same as its database encoding name.
+	var $codemap = array(
+		'SQL_ASCII' => 'ASCII',
+		'LATIN1' => 'ISO-8859-1',
+		'LATIN2' => 'ISO-8859-2',
+		'LATIN3' => 'ISO-8859-3',
+		'LATIN4' => 'ISO-8859-4',
+		'LATIN5' => 'ISO-8859-9',
+		'LATIN6' => 'ISO-8859-10',
+		'LATIN7' => 'ISO-8859-13',
+		'LATIN8' => 'ISO-8859-14',
+		'LATIN9' => 'ISO-8859-15',
+		'LATIN10' => 'ISO-8859-16'
+	);
 
 	function Postgres($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
@@ -61,6 +78,29 @@ class Postgres extends BaseDB {
 	 */
 	function isLoaded() {
 		return function_exists('pg_connect');
+	}
+
+	/**
+	 * Returns the current database encoding
+	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
+	 */
+	function getDatabaseEncoding() {
+		$sql = "SELECT getdatabaseencoding() AS encoding";
+		
+		return $this->selectField($sql, 'encoding');
+	}
+	
+	/**
+	 * Sets the client encoding
+	 * @param $encoding The encoding to for the client
+	 * @return 0 success
+	 */
+	function setClientEncoding($encoding) {
+		$this->clean($encoding);
+
+		$sql = "SET CLIENT_ENCODING TO '{$encoding}'";
+		
+		return $this->execute($sql);
 	}
 
 	// Table functions
