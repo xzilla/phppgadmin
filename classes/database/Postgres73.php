@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.4 2002/09/14 11:21:31 chriskl Exp $
+ * $Id: Postgres73.php,v 1.5 2002/09/15 07:29:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -107,7 +107,7 @@ class Postgres73 extends Postgres71 {
 	function createSchema($schemaname, $authorization = '') {
 		$this->clean($schemaname);
 		$this->clean($authorization);
-		
+
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
 		
@@ -211,22 +211,53 @@ class Postgres73 extends Postgres71 {
 	 */
 	function &getTableAttributes($table) {
 		$this->clean($table);
-		
+
 		$sql = "
 			SELECT
 				a.attname,
 				pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 				a.attnotnull, a.atthasdef, adef.adsrc
-			FROM 
-				pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef	
+			FROM
+				pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 				ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
-			WHERE 
+			WHERE
 				a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
 				AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum";
-			
+
 		return $this->selectSet($sql);
-	}	
+	}
+
+	/**
+	 * Empties a table in the database.  Truncate is safe in 7.3 upwards.
+	 * @param $table The table to be emptied
+	 * @return 0 success
+	 */
+	function emptyTable($table) {
+		$this->clean($table);
+
+		$sql = "TRUNCATE \"{$table}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a column from a table
+	 * @param $table The table from which to drop a column
+	 * @param $column The column to be dropped
+	 * @param $behavior CASCADE or RESTRICT or empty
+	 * @return 0 success
+	 */
+	function dropColumn($table, $column, $behavior) {
+		$this->clean($table);
+		$this->clean($column);
+		$this->clean($behavior);
+
+		$sql = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$column}\" " .
+			($behavior == 'CASCADE') ? 'CASCADE' : 'RESTRICT';
+
+		return $this->execute($sql);
+	}
 
 	/**
 	 * Sets whether or not a column can contain NULLs
@@ -234,10 +265,6 @@ class Postgres73 extends Postgres71 {
 	 * @param $column The column to alter
 	 * @param $state True to set null, false to set not null
 	 * @return 0 success
-	 * @return -1 attempt to set not null, but column contains nulls
-	 * @return -2 transaction error
-	 * @return -3 lock error
-	 * @return -4 update error
 	 */
 	function setColumnNull($table, $column, $state) {
 		$this->clean($table);
@@ -290,6 +317,7 @@ class Postgres73 extends Postgres71 {
 		";
 
 		return $this->selectSet($sql);
+
 	}
 	 
 	// Capabilities

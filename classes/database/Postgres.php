@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.6 2002/09/14 11:21:31 chriskl Exp $
+ * $Id: Postgres.php,v 1.7 2002/09/15 07:29:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -173,22 +173,55 @@ class Postgres extends BaseDB {
 	 * @return All attributes in order
 	 */
 	function &getTableAttributes($table) {
-		// @@ NEED THIS DONE
-	}	 
+		$this->clean($table);
 
+		$sql = "SELECT
+				a.attname, t.typname as type,a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
+			FROM
+				pg_class c, pg_attribute a, pg_type t
+			WHERE
+				c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
+			ORDER BY a.attnum";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Drops a column from a table
+	 * @param $table The table from which to drop a column
+	 * @param $column The column to be dropped
+	 * @param $behavior CASCADE or RESTRICT or empty
+	 * @return 0 success
+	 * @return -99 not implemented
+	 */
+	function dropColumn($table, $column, $behavior) {
+		return -99;
+	}
 	// @@ Need create table - tricky!!
 	
 	/**
 	 * Removes a table from the database
-	 * @param $table
+	 * @param $table The table to drop
 	 * @return 0 success
 	 */
 	function dropTable($table) {
 		$this->clean($table);
-		
+
 		$sql = "DROP TABLE \"{$table}\"";
 
-		// @@ How do you do this?
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Empties a table in the database
+	 * @param $table The table to be emptied
+	 * @return 0 success
+	 */
+	function emptyTable($table) {
+		$this->clean($table);
+
+		$sql = "DELETE FROM \"{$table}\"";
+
 		return $this->execute($sql);
 	}
 
@@ -242,7 +275,7 @@ class Postgres extends BaseDB {
 			$this->clean($v);
 			$sql .= " AND \"{$k}\"='{$v}'";
 		}
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -252,7 +285,7 @@ class Postgres extends BaseDB {
 	function &selectTable($sql, $offset, $limit) {
 		return $this->selectSet($sql, $offset, $limit);
 	}
-	
+
 	// Sequence functions
 	
 	/**

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.1 2002/09/14 11:21:32 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.2 2002/09/15 07:29:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", 
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['column']), ": Drop</h2>\n";
-			
+
 			echo "<p>Are you sure you want to drop the column \"", htmlspecialchars($_REQUEST['column']),
 				"\" from table \"", htmlspecialchars($_REQUEST['table']), "\"?</p>\n";
 			
@@ -35,7 +35,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropColumn($_POST['table'], $_POST['column']);
+			$status = $localData->dropColumn($_POST['table'], $_POST['column'], 'RESTRICT');
 			if ($status == 0)
 				doDefault('Column dropped.');
 			else
@@ -68,10 +68,10 @@
 				echo "<td class=data{$id}>", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?database=",
-					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($_REQUEST['table']),
+					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']),
 					"&column=", htmlspecialchars($attrs->f['attname']), "&action=properties\">{$strProperties}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?database=",
-					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($_REQUEST['table']),
+					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']),
 					"&column=", htmlspecialchars($attrs->f['attname']), "&action=confirm_drop\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
 				$attrs->moveNext();

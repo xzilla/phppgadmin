@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.5 2002/09/14 11:21:31 chriskl Exp $
+ * $Id: Postgres72.php,v 1.6 2002/09/15 07:29:08 chriskl Exp $
  */
 
 
@@ -22,7 +22,7 @@ class Postgres72 extends Postgres71 {
 	// $builtin_max = pg_result($rs, 0, "oid");
 
 	// Table functions
-	
+
 	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
@@ -37,7 +37,7 @@ class Postgres72 extends Postgres71 {
 				format_type(a.atttypid, a.atttypmod) as type,
 				a.attnotnull, a.atthasdef, adef.adsrc
 			FROM 
-				pg_attribute a LEFT JOIN pg_attrdef adef	
+				pg_attribute a LEFT JOIN pg_attrdef adef
 				ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 			WHERE 
 				a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 

@@ -3,15 +3,73 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.6 2002/09/14 11:21:32 chriskl Exp $
+	 * $Id: tables.php,v 1.7 2002/09/15 07:29:08 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
-	
+
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-	
+
+	/**
+	 * Show confirmation of empty and perform actual empty
+	 */
+	function doEmpty($confirm) {
+		global $localData, $database;
+		global $PHP_SELF;
+
+		if ($confirm) {
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", htmlspecialchars($_REQUEST['table']), ": Empty</h2>\n";
+
+			echo "<p>Are you sure you want to empty the table \"", htmlspecialchars($_REQUEST['table']), "\"?</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=hidden name=action value=empty>\n";
+			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->emptyTable($_POST['table']);
+			if ($status == 0)
+				doDefault('Table emptied.');
+			else
+				doDefault('Table empty failed.');
+		}
+		
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
+	function doDrop($confirm) {
+		global $localData, $database;
+		global $PHP_SELF;
+
+		if ($confirm) {
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", htmlspecialchars($_REQUEST['table']), ": Drop</h2>\n";
+
+			echo "<p>Are you sure you want to drop the table \"", htmlspecialchars($_REQUEST['table']), "\"?</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=hidden name=action value=drop>\n";
+			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->dropTable($_POST['table']);
+			if ($status == 0)
+				doDefault('Table dropped.');
+			else
+				doDefault('Table drop failed.');
+		}
+		
+	}
+
 	/**
 	 * Show confirmation of edit and perform actual update
 	 */
@@ -165,7 +223,7 @@
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
 		global $strBrowse, $strProperties;
 		
-		echo "<h2>", htmlspecialchars($_GET['database']), "</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), "</h2>\n";
 			
 		$tables = &$localData->getTables();
 		
@@ -178,13 +236,15 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
+					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
 				echo "<td class=opbutton{$id}>Insert</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?database=", 
-					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}>Empty</td>\n";
-				echo "<td class=opbutton{$id}>Drop</td>\n";
+				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Empty</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
 				$i++;
@@ -199,6 +259,20 @@
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'empty':
+			if ($_POST['choice'] == 'Yes') doEmpty(false);
+			else doDefault();
+			break;
+		case 'confirm_empty':
+			doEmpty(true);
+			break;
+		case 'drop':
+			if ($_POST['choice'] == 'Yes') doDrop(false);
+			else doDefault();
+			break;
+		case 'confirm_drop':
+			doDrop(true);
+			break;
 		case 'editrow':
 			if ($_POST['choice'] == 'Save') doEditRow(false);
 			else doBrowse();
