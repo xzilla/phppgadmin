@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.16 2003/08/05 08:54:20 chriskl Exp $
+	 * $Id: users.php,v 1.17 2003/08/08 05:58:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -96,7 +96,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -127,15 +127,11 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+			echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;username=", 
-			urlencode($_REQUEST['username']), "\">{$lang['strproperties']}</a></p>\n";
 	}
 	
 	/** 
@@ -183,7 +179,7 @@
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
-			urlencode($_REQUEST['username']), "\">{$lang['stredit']}</a></p>\n";
+			urlencode($_REQUEST['username']), "\">{$lang['stralter']}</a></p>\n";
 	}
 	
 	/**
@@ -201,8 +197,8 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -243,12 +239,10 @@
 			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n";
 		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a></p>\n";
 	}
 	
 	/**
@@ -329,20 +323,22 @@
 			doAccount();
 			break;
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_REQUEST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
-		case 'create':
+		case 'create':			
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_REQUEST['yes'])) doDrop(false);
-			else doDefault();
+			if (isset($_REQUEST['cancel'])) doDefault();
+			else doDrop(false);
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;			
 		case 'save_edit':
-			doSaveEdit();
+			if (isset($_REQUEST['cancel'])) doProperties();
+			else doSaveEdit();
 			break;
 		case 'edit':
 			doEdit();
