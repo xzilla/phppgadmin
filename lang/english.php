@@ -4,40 +4,30 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.34 2003/01/11 02:45:42 chriskl Exp $
+	 * $Id: english.php,v 1.35 2003/01/11 04:32:39 chriskl Exp $
 	 */
 
+	// Language and character set
 	$appLang = 'English';
 	$appCharset = 'ISO-8859-1';
 
+	// Basic strings
 	$strIntro = 'Welcome to WebDB.';
-	$strNoFrames = 'You need a frames-enabled browser to use this application.';
-	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
 	$strLogin = 'Login';
 	$strLoginFailed = 'Login failed';
 	$strServer = 'Server';
-	$strUserAdmin = 'User Admin';
-	$strGroupAdmin = 'Group Admin';
 	$strLogout = 'Logout';
-	$strNoTables = 'No tables found.';
-	$strNoTable = 'No table found.';
-	$strNoFunctions = 'No functions found.';
 	$strOwner = 'Owner';
 	$strAction = 'Action';	
 	$strActions = 'Actions';	
 	$strName = 'Name';
-	$strTable = 'Table';
-	$strTables = 'Tables';
 	$strDefinition = 'Definition';
 	$strRules = 'Rules';
 	$strSequence = 'Sequence';
 	$strSequences = 'Sequences';
-	$strFunction = 'Function';
-	$strFunctions = 'Functions';
 	$strOperators = 'Operators';
 	$strTypes = 'Types';
 	$strAggregates = 'Aggregates';
-	$strIndicies = 'Indexes';
 	$strProperties = 'Properties';
 	$strBrowse = 'Browse';
 	$strDrop = 'Drop';
@@ -47,7 +37,6 @@
 	$strPrev = 'Prev';
 	$strNext = 'Next';
 	$strFailed = 'Failed';
-	$strNotLoaded = 'You have not compiled proper database support into your PHP installation.';
 	$strCreate = 'Create';
 	$strComment = 'Comment';
 	$strNext = 'Next';
@@ -65,27 +54,60 @@
 	$strYes = 'Yes';
 	$strNo = 'No';
 	$strEdit = 'Edit';
-	$strInvalidParam = 'Invalid script parameters.';
 	$strRows = 'row(s)';
 	$strExample = 'eg.';
 	$strBack = 'Back';
 	$strQueryResults = 'Query Results';
-	
+	$strShow = 'Show';
+	$strEmpty = 'Empty';
+
 	// Error handling
+	$strNoFrames = 'You need a frames-enabled browser to use this application.';
+	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
+	$strNotLoaded = 'You have not compiled proper database support into your PHP installation.';
 	$strSQLError = 'SQL error:';
 	$strInStatement = 'In statement:';
-	
+	$strInvalidParam = 'Invalid script parameters.';
+
+	// Tables
+	$strNoTables = 'No tables found.';
+	$strNoTable = 'No table found.';
+	$strTable = 'Table';
+	$strTables = 'Tables';
+	$strTableCreated = 'Table created.';
+	$strTableCreatedBad = 'Table creation failed.';
+	$strTableNeedsField = 'You must specify at least one field.';
+	$strInsertRow = 'Insert Row';
+	$strRowInserted = 'Row inserted.';
+	$strRowInsertedBad = 'Row insert failed.';
+	$strEditRow = 'Edit Row';
+	$strRowUpdated = 'Row updated.';
+	$strRowUpdatedBad = 'Row update failed.';
+	$strDeleteRow = 'Delete Row';
+	$strConfDeleteRow = 'Are you sure you want to delete this row?';
+	$strRowDeleted = 'Row deleted.';
+	$strRowDeletedBad = 'Row deletion failed.';
+	$strSaveAndRepeat = 'Save & Repeat';
+	$strConfEmptyTable = 'Are you sure you want to empty the table "%s"?';
+	$strTableEmptied = 'Table emptied.';
+	$strTableEmptiedBad = 'Table empty failed.';
+	$strConfDropTable = 'Are you sure you want to drop the table "%s"?';
+	$strTableDropped = 'Table dropped.';
+	$strTableDroppedBad = 'Table drop failed.';
+
 	// Users
+	$strUserAdmin = 'User Admin';
 	$strUser = 'User';
 	$strUsers = 'Users';
 	$strUsername = 'Username';
 	$strPassword = 'Password';
 	$strSuper = 'Superuser?';
 	$strCreateDB = 'Create DB?';
-	$strExpires = 'Expires';	
+	$strExpires = 'Expires';
 	$strNoUsers = 'No users found.';
-	
+
 	// Groups
+	$strGroupAdmin = 'Group Admin';
 	$strGroup = 'Group';
 	$strGroups = 'Groups';
 	$strNoGroups = 'No groups found.';
@@ -94,7 +116,7 @@
 	$strGroupNeedsName = 'You must give a name for your group.';
 	$strGroupCreated = 'Group created.';
 	$strGroupCreatedBad = 'Group creation failed.';	
-	$strConfDropGroup = 'Are you sure you want to drop the group "%s"?';	
+	$strConfDropGroup = 'Are you sure you want to drop the group "%s"?';
 	$strGroupDropped = 'Group dropped.';
 	$strGroupDroppedBad = 'Group drop failed.';
 	$strMembers = 'Members';
@@ -131,7 +153,8 @@
 	$strIsCalled = 'is_called';
 	$strReset =	'Reset';
 
-	// Indicies
+	// Indexes
+	$strIndicies = 'Indexes';
 	$strIndexName = 'Index Name';
 	$strTabName = 'Tab Name';
 	$strColumnName = 'Column Name';
@@ -165,6 +188,9 @@
 	$strColumns = 'Columns';
 	
 	// Functions
+	$strNoFunctions = 'No functions found.';
+	$strFunction = 'Function';
+	$strFunctions = 'Functions';
 	$strReturns = 'Returns';
 	$strArguments = 'Arguments';
 	$strLanguage = 'Language';

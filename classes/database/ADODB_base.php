@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.7 2003/01/06 04:38:43 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.8 2003/01/11 04:32:37 chriskl Exp $
  */
 
 include_once('../libraries/errorhandler.inc.php');
@@ -21,6 +21,14 @@ class ADODB_base {
 		$this->conn->databaseType = $type;
 		$this->conn = &ADONewConnection($type);
 		$this->conn->setFetchMode($fetchMode);
+	}
+
+	/**
+	 * Turns on or off query debugging
+	 * @param $debug True to turn on debugging, false otherwise
+	 */
+	function setDebug($debug) {
+		$this->conn->debug = $debug;
 	}
 
 	/**
@@ -157,24 +165,27 @@ class ADODB_base {
 	function insert($table, $vars) {
 		$this->fieldClean($table);
 
-		reset($vars);
-
 		// Build clause
-		$fields = '';
-		$values = '';
-		while(list($key, $value) = each($vars)) {
-			$this->clean($key);
-			$this->clean($value);
+		if (sizeof($vars) > 0) {
+			$fields = '';
+			$values = '';
+			foreach($vars as $key => $value) {
+				$this->clean($key);
+				$this->clean($value);
 
-			if ($fields) $fields .= ", \"{$key}\"";
-			else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
+				if ($fields) $fields .= ", \"{$key}\"";
+				else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
 
-			if ($values) $values .= ", '{$value}'";
-			else $values = ") VALUES ('{$value}'";
+				if ($values) $values .= ", '{$value}'";
+				else $values = ") VALUES ('{$value}'";
+			}
+			$sql = $fields . $values . ')';
+		} else {
+			$sql = "INSERT INTO \"{$table}\" DEFAULT VALUES";
 		}
 
 		// Check for failures
-		if (!$this->conn->Execute($fields . $values . ')')) {
+		if (!$this->conn->Execute($sql)) {
 			// Check for unique constraint failure
 			if (stristr($this->conn->ErrorMsg(), 'unique'))
 				return -1;
