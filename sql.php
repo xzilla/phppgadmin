@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.2 2003/05/05 03:03:53 chriskl Exp $
+	 * $Id: sql.php,v 1.3 2003/05/06 06:17:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,6 +23,8 @@
 
 	$_POST['query'] = trim($_POST['query']);
 	if ($_POST['query'] != '') {
+		// Set fetch mode to NUM so that duplicate field names are properly returned
+		$localData->conn->setFetchMode(ADODB_FETCH_NUM);
 		// Execute the query
 		$rs = $localData->conn->Execute($_POST['query']);
 
@@ -33,17 +35,16 @@
 			// First, if rows returned, then display the results
 			if ($rs->recordCount() > 0) {
 				echo "<table>\n<tr>";
-				reset($rs->f);
-				while(list($k, ) = each($rs->f)) {
-					echo "<th class=\"data\">", $misc->printVal($k), "</th>";
+				foreach ($rs->f as $k => $v) {
+					$finfo = $rs->fetchField($k);
+					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 				}
 
-				$i = 0;
-				reset($rs->f);
+				$i = 0;		
 				while (!$rs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					while(list($k, $v) = each($rs->f)) {
+					foreach ($rs->f as $k => $v) {
 						echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
 					}							
 					echo "</tr>\n";
