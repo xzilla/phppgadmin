@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.18 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: domains.php,v 1.19 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -35,7 +35,7 @@
 		global $PHP_SELF, $lang;
 	
 		$misc->printTrail('domain');
-		$misc->printTitle($lang['stralter']);
+		$misc->printTitle($lang['stralter'],'pg.domain.alter');
 		$misc->printMsg($msg);
 		
 		// Fetch domain info
@@ -96,7 +96,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('domain');
-			$misc->printTitle($lang['straddcheck']);
+			$misc->printTitle($lang['straddcheck'],'pg.constraint.check');
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -142,7 +142,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('domain');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.constraint.drop');
 			$misc->printMsg($msg);
 			
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']), 
@@ -178,7 +178,7 @@
 		global $PHP_SELF, $lang;
 	
 		$misc->printTrail('domain');
-		$misc->printTitle($lang['strproperties']);
+		$misc->printTitle($lang['strproperties'],'pg.domain');
 		$misc->printMsg($msg);
 		
 		$domaindata = &$data->getDomain($_REQUEST['domain']);
@@ -251,7 +251,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('domain');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.domain.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -293,7 +293,7 @@
 		$types = &$data->getTypes(true);
 		
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strcreatedomain']);
+		$misc->printTitle($lang['strcreatedomain'],'pg.domain.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

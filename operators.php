@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.16 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: operators.php,v 1.17 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTrail('operator');
-		$misc->printTitle($lang['strproperties'],'operators');
+		$misc->printTitle($lang['strproperties'],'pg.operator');
 		$misc->printMsg($msg);
 		
 		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
@@ -72,7 +72,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('operator');
-			$misc->printTitle($lang['strdrop'], 'drop_operator');
+			$misc->printTitle($lang['strdrop'], 'pg.operator.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropoperator'], $misc->printVal($_REQUEST['operator'])), "</p>\n";	
 			

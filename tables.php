@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.66 2004/09/02 13:53:56 jollytoad Exp $
+	 * $Id: tables.php,v 1.67 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
 				if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 				
 				$misc->printTrail('schema');
-				$misc->printTitle($lang['strcreatetable'], 'create_table');
+				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -96,7 +96,7 @@
 				$types = &$data->getTypes(true, false, true);
 	
 				$misc->printTrail('schema');
-				$misc->printTitle($lang['strcreatetable'], 'create_table');
+				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -218,7 +218,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strselect'], 'select');
+			$misc->printTitle($lang['strselect'], 'pg.sql.select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -327,7 +327,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strinsertrow'], 'insert');
+			$misc->printTitle($lang['strinsertrow'], 'pg.sql.insert');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -420,7 +420,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strempty']);
+			$misc->printTitle($lang['strempty'],'pg.table.empty');
 
 			echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -451,7 +451,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strdrop'], 'drop_table');
+			$misc->printTitle($lang['strdrop'], 'pg.table.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -490,7 +490,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strvacuum'], 'vacuum');
+			$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
 			echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.28 2004/09/02 13:41:56 jollytoad Exp $
+	 * $Id: users.php,v 1.29 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 		$_REQUEST['user'] = $_SESSION['webdbUsername'];
 		
 		$misc->printTrail('user');
-		$misc->printTitle($lang['straccount']);
+		$misc->printTitle($lang['straccount'],'pg.user');
 		$misc->printMsg($msg);
 
 		if ($userdata->recordCount() > 0) {
@@ -59,7 +59,7 @@
 		if ($confirm) {
 			$_REQUEST['user'] = $_SESSION['webdbUsername'];
 			$misc->printTrail('user');
-			$misc->printTitle($lang['strchangepassword']);
+			$misc->printTitle($lang['strchangepassword'],'pg.user.alter');
 			$misc->printMsg($msg);
 			
 			if (!isset($_POST['password'])) $_POST['password'] = '';
@@ -104,7 +104,7 @@
 		global $PHP_SELF, $lang;
 	
 		$misc->printTrail('user');
-		$misc->printTitle($lang['stralter']);
+		$misc->printTitle($lang['stralter'],'pg.user.alter');
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -178,7 +178,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('user');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.user.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
@@ -211,7 +211,7 @@
 		if (!isset($_POST['formExpires'])) $_POST['formExpires'] = '';
 		
 		$misc->printTrail('server');
-		$misc->printTitle($lang['strcreateuser']);
+		$misc->printTitle($lang['strcreateuser'],'pg.user.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

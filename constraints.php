@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.39 2004/09/01 16:35:57 jollytoad Exp $
+	 * $Id: constraints.php,v 1.40 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -42,7 +42,7 @@
 					$_REQUEST['target'] = unserialize($_REQUEST['target']);
 					
 					$misc->printTrail('table');
-					$misc->printTitle($lang['straddfk']);
+					$misc->printTitle($lang['straddfk'],'pg.constraint.foreign_key');
 					$misc->printMsg($msg);
 
 					// Unserialize target and fetch appropriate table. This is a bit messy
@@ -150,7 +150,7 @@
 				break;
 			default:
 				$misc->printTrail('table');
-				$misc->printTitle($lang['straddfk']);
+				$misc->printTitle($lang['straddfk'],'pg.constraint.foreign_key');
 				$misc->printMsg($msg);
 
 				$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -227,21 +227,27 @@
 		if ($confirm) {
 			if (!isset($_POST['name'])) $_POST['name'] = '';
 			if (!isset($_POST['tablespace'])) $_POST['tablespace'] = '';
-
-			if ($type == 'primary') $desc = $lang['straddpk'];
-			elseif ($type == 'unique') $desc = $lang['stradduniq'];
-			else {
-				doDefault($lang['strinvalidparam']);
-				return;
+			
+			$misc->printTrail('table');
+			
+			switch ($type) {
+				case 'primary':
+					$misc->printTitle($lang['straddpk'],'pg.constraint.primary_key');
+					break;
+				case 'unique':
+					$misc->printTitle($lang['stradduniq'],'pg.constraint.unique_key');
+					break;
+				default:
+					doDefault($lang['strinvalidparam']);
+					return;
 			}
+			
+			$misc->printMsg($msg);
 			
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 			// Fetch all tablespaces from the database
 			if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
-			$misc->printTrail('table');
-			$misc->printTitle($desc);
-			$misc->printMsg($msg);
 			
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
 			$selColumns->set_style('width: 10em;');
@@ -347,7 +353,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['straddcheck']);
+			$misc->printTitle($lang['straddcheck'],'pg.constraint.check');
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -393,7 +399,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('constraint');
-			$misc->printTitle($lang['strdrop'],'constraint');
+			$misc->printTitle($lang['strdrop'],'pg.constraint.drop');
 
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.44 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: functions.php,v 1.45 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -48,7 +48,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('function');
-		$misc->printTitle($lang['stralter']);
+		$misc->printTitle($lang['stralter'],'pg.function.alter');
 		$misc->printMsg($msg);
 
 		$fndata = &$data->getFunction($_REQUEST['function_oid']);
@@ -176,7 +176,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('function');
-		$misc->printTitle($lang['strproperties'],'functions');
+		$misc->printTitle($lang['strproperties'],'pg.function');
 		$misc->printMsg($msg);
 		
 		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
@@ -274,7 +274,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('schema');
-			$misc->printTitle($lang['strdrop'],'drop_function');
+			$misc->printTitle($lang['strdrop'],'pg.function.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
 			
@@ -327,15 +327,15 @@
 
 		switch ($fnlang) {
 			case 'c':
-				$desc = $lang['strcreatecfunction'];
+				$misc->printTitle($lang['strcreatecfunction'],'pg.function.create.c');
 				break;
 			case 'internal':
-				$desc = $lang['strcreateinternalfunction'];
+				$misc->printTitle($lang['strcreateinternalfunction'],'pg.function.create.internal');
 				break;
 			default:
-				$desc = $lang['strcreateplfunction'];
+				$misc->printTitle($lang['strcreateplfunction'],'pg.function.create.pl');
+				break;
 		}
-		$misc->printTitle($desc, 'functions');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.34 2004/09/01 16:35:57 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('database');
-			$misc->printTitle($lang['strdrop'], 'drop_database');
+			$misc->printTitle($lang['strdrop'], 'pg.database.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -53,7 +53,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('server');
-		$misc->printTitle($lang['strcreatedatabase'], 'create_database');
+		$misc->printTitle($lang['strcreatedatabase'], 'pg.database.create');
 		$misc->printMsg($msg);
 		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';

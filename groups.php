@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.18 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: groups.php,v 1.19 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -36,7 +36,7 @@
 
 		if ($confirm) { 
 			$misc->printTrail('group');
-			$misc->printTitle($lang['strdropmember']);
+			$misc->printTitle($lang['strdropmember'],'pg.group.alter');
 			
 			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
@@ -67,7 +67,7 @@
 		if (!isset($_POST['user'])) $_POST['user'] = '';
 	
 		$misc->printTrail('group');
-		$misc->printTitle($lang['strproperties'],'groups');
+		$misc->printTitle($lang['strproperties'],'pg.group');
 		$misc->printMsg($msg);
 		
 		$groupdata = &$data->getGroup($_REQUEST['group']);
@@ -117,7 +117,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('group');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.group.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
@@ -151,7 +151,7 @@
 		$users = &$data->getUsers();
 		
 		$misc->printTrail('server');
-		$misc->printTitle($lang['strcreategroup'],'groups');
+		$misc->printTitle($lang['strcreategroup'],'pg.group.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.30 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: privileges.php,v 1.31 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -46,10 +46,14 @@
 			// Get groups from the database
 			$groups = &$data->getGroups();
 
-			if ($mode == 'grant') $desc = $lang['strgrant'];
-			else if ($mode == 'revoke') $desc = $lang['strrevoke'];
-			
-			$misc->printTitle($desc);
+			switch ($mode) {
+				case 'grant':
+					$misc->printTitle($lang['strgrant'],'pg.privilege.grant');
+					break;
+				case 'revoke':
+					$misc->printTitle($lang['strrevoke'],'pg.privilege.revoke');
+					break;
+			}
 			$misc->printMsg($msg);
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -153,7 +157,7 @@
 				$misc->printTabs($_REQUEST['subject'], 'privileges');
 				break;
 			default:
-				$misc->printTitle($lang['strprivileges']);
+				$misc->printTitle($lang['strprivileges'], 'pg.privilege');
 		}
 		$misc->printMsg($msg);
 

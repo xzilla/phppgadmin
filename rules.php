@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.22 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: rules.php,v 1.23 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
-			$misc->printTitle($lang['strcreaterule']);
+			$misc->printTitle($lang['strcreaterule'],'pg.rule.create');
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -91,7 +91,7 @@
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'].'pg.rule.drop');
 
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
 				$misc->printVal($_REQUEST[$_REQUEST['subject']])), "</p>\n";

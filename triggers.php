@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.22 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: triggers.php,v 1.23 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -34,7 +34,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('trigger');
-		$misc->printTitle($lang['stralter']);
+		$misc->printTitle($lang['stralter'],'pg.trigger.alter');
 		$misc->printMsg($msg);
 		
 		$triggerdata = &$data->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
@@ -70,7 +70,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('trigger');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'].'pg.trigger.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
@@ -106,7 +106,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('table');
-		$misc->printTitle($lang['strcreatetrigger']);
+		$misc->printTitle($lang['strcreatetrigger'],'pg.trigger.create');
 		$misc->printMsg($msg);
 		
 		// Get all the functions that can be used in triggers

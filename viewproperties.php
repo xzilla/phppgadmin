@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.12 2004/09/02 13:53:57 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.13 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('view');
-		$misc->printTitle($lang['stredit']);
+		$misc->printTitle($lang['stredit'],'pg.view.alter');
 		$misc->printMsg($msg);
 		
 		$viewdata = &$data->getView($_REQUEST['view']);
@@ -168,7 +168,7 @@
 				global $lang;
 
 				$misc->printTrail('column');
-				$misc->printTitle($lang['straltercolumn']); 
+				$misc->printTitle($lang['straltercolumn'],'pg.column.alter'); 
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.50 2004/09/02 13:53:57 jollytoad Exp $
+	 * $Id: views.php,v 1.51 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('view');
-			$misc->printTitle($lang['strselect'], 'select');
+			$misc->printTitle($lang['strselect'], 'pg.sql.select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['view']);
@@ -132,7 +132,7 @@
 
 		if ($confirm) { 
 			$misc->printTrail('view');
-			$misc->printTitle($lang['strdrop'],'drop_view');
+			$misc->printTitle($lang['strdrop'],'pg.view.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";
 			
@@ -175,7 +175,7 @@
 			if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 			
 			$misc->printTrail('schema');
-			$misc->printTitle($lang['strcreateviewwiz'], 'create_view');
+			$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 			$misc->printMsg($msg);
 			
 			$tblCount = sizeof($_POST['formTables']);
@@ -311,7 +311,7 @@
 		$tables = &$data->getTables(true);
 		
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strcreateviewwiz'], 'create_view');
+		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -355,7 +355,7 @@
 		if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 		
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strcreateview'], 'create_view');
+		$misc->printTitle($lang['strcreateview'], 'pg.view.create');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

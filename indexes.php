@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.33 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: indexes.php,v 1.34 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 			$_REQUEST['analyze'] = true;
 			
 			$misc->printTrail('index');
-			$misc->printTitle($lang['strcluster']);
+			$misc->printTitle($lang['strcluster'],'pg.index.cluster');
 
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
@@ -84,7 +84,7 @@
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 		
 		$misc->printTrail('table');
-		$misc->printTitle($lang['strcreateindex']);
+		$misc->printTitle($lang['strcreateindex'],'pg.index.create');
 		$misc->printMsg($msg);
 
 		$selColumns = new XHTML_select("TableColumnList",true,10);
@@ -207,7 +207,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('index');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.index.drop');
 
 			echo "<p>", sprintf($lang['strconfdropindex'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.60 2004/09/02 13:53:57 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.61 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -47,7 +47,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('table');
-		$misc->printTitle($lang['stralter'], 'alter_table');
+		$misc->printTitle($lang['stralter'], 'pg.table.alter');
 		$misc->printMsg($msg);
 
 		// Fetch table info		
@@ -234,7 +234,7 @@
 				$types = &$data->getTypes(true, false, true);
 
 				$misc->printTrail('table');
-				$misc->printTitle($lang['straddcolumn'], 'add_column');
+				$misc->printTitle($lang['straddcolumn'], 'pg.column.add');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -331,7 +331,7 @@
 				global $lang;
 
 				$misc->printTrail('column');
-				$misc->printTitle($lang['straltercolumn'], 'alter_column'); 
+				$misc->printTitle($lang['straltercolumn'], 'pg.column.alter'); 
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -478,7 +478,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('column');
-			$misc->printTitle($lang['strdrop'], 'drop_column');
+			$misc->printTitle($lang['strdrop'], 'pg.column.drop');
 
             echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
                     $misc->printVal($_REQUEST['table'])), "</p>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.62 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: database.php,v 1.63 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -437,7 +437,9 @@
 				
 				// Vacuum
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>{$lang['strvacuum']}</h3>\n";
+				echo "<h3>";
+				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum');
+				echo "</h3>\n";
 				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" />{$lang['stranalyze']}<br />\n";
 				if ($data->hasFullVacuum()) {
 					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
@@ -450,16 +452,20 @@
 
 				// Analyze
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>{$lang['stranalyze']}</h3>\n";				
+				echo "<h3>";
+				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
+				echo "</h3>\n";
 				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
 				echo $misc->form;
-				echo "</form>\n";								
+				echo "</form>\n";
 				
 				// Recluster
 				if ($data->hasRecluster()){
 					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-					echo "<h3>{$lang['strcluster']}</h3>\n";
+					echo "<h3>";
+					$misc->printHelp($lang['strcluster'],'pg.index.cluster');
+					echo "</h3>\n";
 					echo "<input type=\"submit\" value=\"{$lang['strcluster']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 					echo $misc->form;
@@ -468,12 +474,14 @@
 				
 				// Reindex
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>{$lang['strreindex']}</h3>\n";
+				echo "<h3>";
+				$misc->printHelp($lang['strreindex'],'pg.index.reindex');
+				echo "</h3>\n";
 				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" />{$lang['strforce']}<br />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
 				echo $misc->form;
-				echo "</form>\n";				
+				echo "</form>\n";
 				break;
 		}
 	}
@@ -533,7 +541,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('schema');
-			$misc->printTitle($lang['strdrop'],'drop_schema');
+			$misc->printTitle($lang['strdrop'],'pg.schema.drop');
 
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
@@ -579,7 +587,7 @@
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
 		$misc->printTrail('database');
-		$misc->printTitle($lang['strcreateschema'],'create_schema');
+		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -669,7 +677,7 @@
 
 			$columns = array(
 				'schema' => array(
-					'title' => $lang['strname'],
+					'title' => $lang['strschema'],
 					'field' => 'nspname',
 				),
 				'owner' => array(
@@ -732,7 +740,7 @@
 		global $data, $misc,$PHP_SELF, $lang;
 		
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['stralter'],'alter_schema');
+		$misc->printTitle($lang['stralter'],'pg.schema.alter');
 		$misc->printMsg($msg);
 
 		$schema = &$data->getSchemaByName($_REQUEST['schema']);

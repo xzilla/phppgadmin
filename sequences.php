@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.26 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: sequences.php,v 1.27 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -76,7 +76,7 @@
 		global $lang;
 		
 		$misc->printTrail('sequence');
-		$misc->printTitle($lang['strproperties']);
+		$misc->printTitle($lang['strproperties'],'pg.sequence');
 		$misc->printMsg($msg);
 		
 		// Fetch the sequence information
@@ -130,7 +130,7 @@
 		
 		if ($confirm) {
 			$misc->printTrail('sequence');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.sequence.drop');
 			$misc->printMsg($msg);
 			
 			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
@@ -171,7 +171,7 @@
 		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = '';
 		
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strcreatesequence']);
+		$misc->printTitle($lang['strcreatesequence'],'pg.sequence.create');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

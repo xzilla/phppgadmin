@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.5 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: tablespaces.php,v 1.6 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('tablespace');
-		$misc->printTitle($lang['stralter']);
+		$misc->printTitle($lang['stralter'],'pg.tablespace.alter');
 		$misc->printMsg($msg);
 
 		// Fetch tablespace info		
@@ -93,7 +93,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('tablespace');
-			$misc->printTitle($lang['strdrop']);
+			$misc->printTitle($lang['strdrop'],'pg.tablespace.drop');
 			
 			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['tablespace'])), "</p>\n";	
 			
@@ -128,7 +128,7 @@
 		$users = &$data->getUsers();
 		
 		$misc->printTrail('server');
-		$misc->printTitle($lang['strcreatetablespace']);
+		$misc->printTitle($lang['strcreatetablespace'],'pg.tablespace.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.24 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: types.php,v 1.25 2004/09/07 13:58:21 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$typedata = &$data->getType($_REQUEST['type']);
 
 		$misc->printTrail('type');
-		$misc->printTitle($lang['strproperties'], 'types');
+		$misc->printTitle($lang['strproperties'], 'pg.type');
 		$misc->printMsg($msg);
 		
 		if ($typedata->recordCount() > 0) {
@@ -90,7 +90,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('type');
-			$misc->printTitle($lang['strdrop'], 'drop_type');
+			$misc->printTitle($lang['strdrop'], 'pg.type.drop');
 
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
@@ -131,7 +131,7 @@
 		switch ($_REQUEST['stage']) {
 			case 1:
 				$misc->printTrail('type');
-				$misc->printTitle($lang['strcreatecomptype'], 'create_type');
+				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -174,7 +174,7 @@
 				$types = &$data->getTypes(true, false, true);
 
 				$misc->printTrail('type');
-				$misc->printTitle($lang['strcreatecomptype'], 'create_type');
+				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -286,7 +286,7 @@
 		$types = &$data->getTypes(true);
 
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strcreatetype'], 'create_type');
+		$misc->printTitle($lang['strcreatetype'], 'pg.type.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
