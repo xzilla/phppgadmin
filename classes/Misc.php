@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.73 2004/07/13 16:13:14 jollytoad Exp $
+	 * $Id: Misc.php,v 1.74 2004/07/15 09:32:52 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -460,6 +460,7 @@
 						'casts' => array (
 							'title' => $lang['strcasts'],
 							'url'   => "casts.php?{$vars}",
+							'hide'  => (!$data->hasCasts()),
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -491,6 +492,7 @@
 						'domains' => array (
 							'title' => $lang['strdomains'],
 							'url'   => "domains.php?{$vars}",
+							'hide'  => (!$data->hasDomains()),
 						),
 						'aggregates' => array (
 							'title' => $lang['straggregates'],
@@ -515,7 +517,7 @@
 						'conversions' => array (
 							'title' => $lang['strconversions'],
 							'url'   => "conversions.php?{$vars}",
-							'hide'  => $hide_advanced,
+							'hide'  => ($hide_advanced || !$data->hasConversions()),
 						),
 					);
 
@@ -620,7 +622,6 @@
 						$this->printTabs($this->getNavTabs('database'),$activetab);
 						$this->printTabs($this->getNavTabs('schema'),$activetab);
 						$_SESSION['webdbLastTab']['database'] = $activetab;
-						$_SESSION['webdbLastTab']['schema'] = $activetab;
 						break;
 					}
 				default:
@@ -636,7 +637,17 @@
 		 * Get the URL for the last active tab of a particular tab bar.
 		 */
 		function getLastTabURL($section) {
-			$tabs = $this->getNavTabs($section);
+			switch ($section) {
+				case 'database':
+				case 'schema':
+					if ($data->hasSchemas() === false) {
+						$section = 'database';
+						$tabs = array_merge($this->getNavTabs('schema'), $this->getNavTabs('database'));
+						break;
+					}
+				default:
+					$tabs = $this->getNavTabs($section);
+			}
 			
 			if (isset($_SESSION['webdbLastTab'][$section]))
 				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];
