@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.213 2004/05/25 00:46:52 soranzo Exp $
+ * $Id: Postgres.php,v 1.214 2004/05/26 13:39:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3770,8 +3770,11 @@ class Postgres extends BaseDB {
 			$sql = fgets($fd, 32768);
 			// Check that the query is something...
 			if (trim($sql) == '') continue;
-			// Execute the query
-			$res = pg_query($conn, $sql);
+			// Execute the query (supporting 4.1.x PHP...)
+			if (function_exists('pg_query'))
+				$res = pg_query($conn, $sql);
+			else
+				$res = pg_exec($conn, $sql);
 			// Check for COPY request
 			if (pg_result_status($res) == 4) { // 4 == PGSQL_COPY_FROM
 				while (!feof($fd)) {
