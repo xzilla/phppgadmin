@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.45 2004/09/02 13:53:56 jollytoad Exp $
+	 * $Id: display.php,v 1.46 2004/10/13 10:14:24 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -267,6 +267,7 @@
 		if (isset($_REQUEST['count'])) $str .= "&amp;count=" . urlencode($_REQUEST['count']);
 		if (isset($_REQUEST['return_url'])) $str .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
 		if (isset($_REQUEST['return_desc'])) $str .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
+		if (isset($_REQUEST['search_path'])) $str .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
 		
 		// This string just contains sort info
 		$str2 = "sortkey=" . urlencode($_REQUEST['sortkey']) . 
