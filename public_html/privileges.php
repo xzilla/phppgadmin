@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: privileges.php,v 1.3 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: privileges.php,v 1.4 2003/01/17 23:10:11 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -395,55 +395,58 @@
 		global $PHP_SELF, $strPrivileges, $strGrant, $strRevoke; 
 		global $strUser,$strGroup,$strSelect,$strInsert,$strUpdate,$strDelete,$strRule;
 		global $strReferences,$strTrigger,$strAction,$strYes,$strNo;
-		
-		$object = $_REQUEST['object'];
+	
+
+		// the intention here is to look for an 'object' in the request array, and if found
+		// use it, if not found, use table. unfortunatly this throws an error (though it works)
+	
+		$object = $_REQUEST['object'] ? $_REQUEST['object'] : $_REQUEST['table'];
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strPrivileges : $object</h2>\n";
 		$misc->printMsg($msg);
 
-		$privs = &$localData->getPrivileges($object);
+		$privileges = &$localData->getPrivileges($object);
 
 		// We must return only one row from the above query
 
-		if ($privs->recordCount() == 1) {
-			echo "<table border=1>\n";
-			echo "<tr>\n";
-			echo "<th>$strUser/$strGroup</th><th>$strSelect</th><th>$strInsert</th><th>$strUpdate</th><th>$strDelete</th><th>$strRule</th><th>$strReferences</th><th>$strTrigger</th><th colspan=\"2\">$strAction</th>\n";
-			echo "</tr>\n";
+		echo '<table border="1">';
+				
+		for ($y=0;$y<count($privileges);$y++)
+		{
+			$thisuser = explode('@!@',$privileges[$y]);
 
-			$priv = trim(ereg_replace("[\{\"]", "", $privs->f[$data->privFields['privarr']]));
+			$otf = '<td>'; $ctf = '</td>';
 
-			$users = explode(",", $priv);
-
-			for ($iUsers = 0; $iUsers < count($users); $iUsers++) {
-				$aryUser = explode("=", $users[$iUsers]);
-				$username = $aryUser[0] ? $aryUser[0] : "public";
-				$privilege = $aryUser[1]; 
-					
-				echo "<tr>\n";
-				echo "<td>$username</td>\n";
-		
-				$arrAcl = array('r','a','w','d','R','x','t');
-				for ($i = 0; $i < 7; $i++) {
-			
-					echo '<td>';	
-					echo strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
-					echo '</td>';
-				}
-
-				echo "<td><a href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "&object=", urlencode($object), "&action=grant&user=", urlencode($username), "\">$strGrant</a></td>";
-
-				echo "<td><a href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "&object=", urlencode($object), "&action=revoke&user=", urlencode($username), "\">$strRevoke</a></td>";
-
-				echo "</tr>\n";
-	
+			if ($y==0) {
+				$otf = '<th>'; $ctf = '</th>';
 			}
 
-			echo "</table>\n";
+			echo '<tr>';
 
-		} else {
-			echo "Could Not Retrieve ACL for Object $object";
+			for ($x=0;$x<count($thisuser);$x++)
+			{
+
+				echo "$otf". $thisuser[$x] ."$ctf";
+			}	
+
+			// $endcap = "<td><a href=#>$strGrant</a></td><td><a href=#>$strRevoke</a>";
+			$endcap = "<td><a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database']) ."&object=". urlencode($object) ."&action=grant&user=". urlencode($thisuser[0]) ."\">$strGrant</a></td><td><a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database'])  ."&object=". urlencode($object)  ."&action=revoke&user=". urlencode($thisuser[0])  ."\">$strRevoke</a></td>";
+
+			if ($y==0) {
+				$endcap = "<th colspan=2>$strAction</td>";
+			}
+
+			echo $endcap;
+			echo '</tr>';
+
 		}
+
+		echo '</table>';
+
+
+		//} else {
+		//	echo "Could Not Retrieve ACL for Object $object";
+		//}
 
 	}
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.23 2003/01/16 14:45:30 chriskl Exp $
+ * $Id: Postgres72.php,v 1.24 2003/01/17 23:10:10 xzilla Exp $
  */
 
 
@@ -337,47 +337,43 @@ class Postgres72 extends Postgres71 {
     /**
      * Grabs a list of privileges for an object
      * @param $object The object whose privileges are to be retrived
-     * @return A recordset
+     * @return array containing username and privileges 
      */
 
 	function getPrivileges($object = '') {
 		$this->clean($object);
 
 		$sql = "SELECT relacl FROM pg_class WHERE relname = '$object'";
-
-		return $this->selectSet($sql);
-	}
-
-/*	
-	function get_privilege ($table) {
-	global $link, $strYes, $strNo, $arrPrivileges, $arrAcl;
-	$sql_get_privilege = "SELECT relacl FROM pg_class WHERE relname = '$table'";
-
-	if (!$res = @pg_exec($link, $sql_get_privilege)) {
-		pg_die(pg_errormessage($link), $sql_get_privilege, __FILE__, __LINE__);
-	} else {
-		// query must return exactly one row (check this ?)
-		if (!($row = @pg_fetch_array($res, 0))) {
-			echo "Error: unable to retrieve ACL for view: $table";
-		}
-		$priv = trim(ereg_replace("[\{\"]", "", $row[relacl]));
 		
-		$users = explode(",", $priv);
-		for ($iUsers = 0; $iUsers < count($users); $iUsers++) {
-			$aryUser = explode("=", $users[$iUsers]);
-			$privilege = $aryUser[1]; 
+		$acl = $this->selectField($sql, 'relacl');
 
-			for ($i = 0; $i < 7; $i++) {
-				// $result[$username][$arrPrivileges[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
-				$aryUser[0] = $aryUser[0] ? $aryUser[0] : "public";
-				// echo $aryUser[0], ": ", $arrAcl[$i], ":", $privilege, "<br>";
-				$result[trim($aryUser[0])][$arrPrivileges[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
+		$acldata = trim(ereg_replace("[\{\"]", "", $acl));
+ 
+		$users = explode(',',$acldata);
+		$numusers = count($users);		
+	
+		// Hardcode in the field names we intend to use in our displays
+		// this needs to be converted to strings really
+		$privileges[0] = 'user/group@!@select@!@insert@!@update@!@delete@!@rule@!@references@!@trigger';
+	
+		for ($i=0; $i<$numusers; $i++) 
+		{
+			$userarray = explode("=", $users[$i]);
+			$username = $userarray[0] ? $userarray[0] : "public";
+			$privlist = $userarray[1];
+
+			$privileges[$i+1] = $username;
+
+			$pgAcl = array('r','a','w','d','R','x','t');
+			for  ($n = 0; $n < 7; $n++)
+			{
+				$privileges[$i+1] .= strchr($privlist, $pgAcl[$n]) ? '@!@Yes' : '@!@No';
 			}
+
 		}
+	
+		return $privileges;
 	}
-	return $result;
-	}
-*/
 
 
 }
