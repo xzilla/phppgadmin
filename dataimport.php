@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.2 2004/04/12 07:50:33 chriskl Exp $
+	 * $Id: dataimport.php,v 1.3 2004/07/01 06:41:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -144,7 +144,7 @@
 		global $state, $curr_col_val;
 
 		if ($state == 'COLUMN') {
-			$curr_col_val = $cdata;
+			$curr_col_val .= $cdata;
 		} 
 	}
 

@@ -22,6 +22,7 @@ Bugs
 * Fix join clause created by view wizard for pre 7.3
 * Fix reindex of mixed case indexes
 * Show domains in type lists in appropriate places
+* Fix for multiline CDATA parsing in XML import
 
 Version 3.4
 -----------
