@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.19 2003/05/05 03:03:53 chriskl Exp $
+	 * $Id: tables.php,v 1.20 2003/05/10 13:15:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -250,30 +250,44 @@
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			if ($attrs->recordCount() > 0) {
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 
 				// Output table header
-				echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnull']}</th><th class=data>{$lang['strvalue']}</th></tr>";
+				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strformat']}</th>";
+				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 				
 				$i = 0;
 				while (!$attrs->EOF) {
 					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
-						$_REQUEST['values'][$attrs->f['attname']] = null;
+						$_REQUEST['values'][$attrs->f['attname']] = $attrs->f['adsrc'];
+					// Default format to 'LITERAL' if there is no default, otherwise
+					// default to 'EXPRESSION'...
+					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
+						$_REQUEST['format'][$attrs->f['attname']] = ($attrs->f['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
-					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
-					echo "<td class=data{$id} nowrap>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", htmlspecialchars($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo htmlspecialchars($attrs->f['type']);
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected' : '', ">{$lang['strexpression']}</option>\n";
+					echo "</select>\n</td>\n";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull'])
-						echo "<input type=checkbox name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
+						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->f['attname']), "]\"",
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
 					else
 						echo "&nbsp;</td>";
-					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -283,19 +297,20 @@
 			}
 			else echo "<p>{$lang['strnodata']}</p>\n";
 
-			echo "<input type=hidden name=action value=insertrow>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=submit name=save value=\"{$lang['strsave']}\">\n";
-			echo "<input type=submit name=saveandrepeat value=\"{$lang['strsaveandrepeat']}\">\n";
-			echo "<input type=submit name=cancel value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"submit\" name=\"saveandrepeat\" value=\"{$lang['strsaveandrepeat']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 
-			$status = $localData->insertRow($_POST['table'], $_POST['values'], $_POST['nulls']);
+			$status = $localData->insertRow($_POST['table'], $_POST['values'], 
+												$_POST['nulls'], $_POST['format'], $_POST['types']);
 			if ($status == 0) {
 				if (isset($_POST['save']))
 					doDefault($lang['strrowinserted']);
