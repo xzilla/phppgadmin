@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.24 2004/06/19 12:52:38 xzilla Exp $
+	 * $Id: spanish.php,v 1.25 2004/06/29 01:05:52 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -129,8 +129,8 @@
 	$lang['strnoframes'] = 'Necesit&aacute;s un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php est&aacute; desactualizado. Deber&aacute; regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versi&oacute;n de PHP no tiene el soporte correcto de bases de datos.';
-        $lang['strphpversionnotsupported']  =  'Su versi&oacute;n de PHP no tiene el soporte. Por favor mejora a la versi&oacute;n %s o m&aacute;s reciente.';
-        $lang['strpostgresqlversionnotsupported']  =  'Su versi&oacute;n de PostgreSQL no tiene el soporte. Por favor mejora a la versi&oacute;n %s o m&aacute;s reciente.';
+        $lang['strphpversionnotsupported']  =  'Su versi&oacute;n de PHP no est&aacute; soportada. Por favor actualice a la versi&oacute;n %s o m&aacute;s reciente.';
+        $lang['strpostgresqlversionnotsupported']  =  'Su versi&oacute;n de PostgreSQL no est&aacute; soportado. Por favor actualice a la versi&oacute;n %s o m&aacute;s reciente.';
 	$lang['strbadschema'] = 'El esquema especificado no es v&aacute;lido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificaci&oacute;n del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
@@ -140,7 +140,7 @@
 	$lang['strnoobjects'] = 'No se encontraron objetos.';
 	$lang['strrownotunique'] = 'No existe un identificador &uacute;nico para este registro.';
 	$lang['strnoreportsdb'] = 'No ha creado a&uacute;n la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
-	$lang['strnouploads'] = 'Est&aacute; desabilitada la subida de archivos.';
+	$lang['strnouploads'] = 'Est&aacute; deshabilitada la subida de archivos.';
 	$lang['strimporterror'] = 'Error de importaci&oacute;n.';
 	$lang['strimporterrorline'] = 'Error de importaci&oacute;n en la l&iacute;nea %s.';
 
@@ -297,7 +297,7 @@
 	$lang['strviewname'] = 'Nombre de Vista';
 	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
 	$lang['strviewneedsdef'] = 'Debe darle una definici&oacute;n a su vista.';
-        $lang['strviewneedsfields'] = 'Seleccione por favor los campos que decea en su vista.';
+        $lang['strviewneedsfields'] = 'Seleccione por favor los campos que desea en su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Fall&oacute; al crear la vista.';
 	$lang['strconfdropview'] = '&iquest;Est&aacute; seguro que quiere eliminar la vista &quot;%s&quot;?';
