@@ -2,17 +2,20 @@
 
 	/**
 	 * Polish language file for WebDB.
-	 * @maintainer Rafal Slubowski [rafal@gem.pl]
+	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.3 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: polish.php,v 1.4 2003/01/08 21:46:57 slubek Exp $
 	 */
 
 	$appLang = 'Polish';
 	$appCharset = 'ISO-8859-2';
 
+	$strIntro = 'Witaj w WebDB.';
 	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
+	$strBadConfig = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
 	$strLogin = '- Zaloguj';
 	$strLoginFailed = 'Próba zalogowania nie powiod³a siê';
+	$strServer = 'Serwer';
 	$strNoTables = 'Nie znaleziono tablic.';
 	$strNoTable = 'Nie znaleziono tablicy.';
 	$strNoViews = 'Nie znaleziono widoków.';
@@ -26,7 +29,6 @@
 	$strView = 'Widok';
 	$strViews = 'Widoki';
 	$strDefinition = 'Definicja';
-	$strTriggers = 'Wiêzy integralno¶ci';
 	$strRules = 'Regu³y';
 	$strSequence = 'Sekwencja';
 	$strSequences = 'Sekwencje';
@@ -54,14 +56,12 @@
 	$strAlter = 'Zmieñ';
 	$strCancel = 'Anuluj';
 	$strSave = 'Zapisz';
-	$strPrivileges = 'Uprawnienia';
 	$strInsert = 'Wstaw';
 	$strSelect = 'Wybierz';
 	$strDelete = 'Usuñ';
 	$strUpdate = 'Zmieñ';
 	$strRule = 'Regu³a';
 	$strReferences = 'Odno¶niki';
-	$strTrigger = 'Trigger';
 	$strYes = 'Tak';
 	$strNo = 'Nie';
 	$strEdit = 'Edycja';
@@ -75,13 +75,32 @@
 			
 	// Users
 	$strUser = 'U¿ytkownik';
-	$strGroup = 'Grupa';
+	$strUsers = 'U¿ytkownicy';
 	$strUsername = 'Nazwa u¿ytkownika';
 	$strPassword = 'Has³o';
 	$strSuper = 'Administrator?';
 	$strCreateDB = 'Tworzenie BD?';
 	$strExpires = 'Wygasa';	
 	$strNoUsers = 'Nie znaleziono u¿ytkowników.';
+	
+	// Groups
+	$strGroup = 'Grupa';
+	$strGroups = 'Grupy';
+	$strNoGroups = 'Nie znaleziono grup.';
+	$strCreateGroup = 'Utwórz grupê';
+        $strShowAllGroups = 'Poka¿ wszystkie grupy';
+        $strGroupNeedsName = 'Musisz nazwaæ grupê.';
+        $strGroupCreated = 'Grupa utworzona.';
+        $strGroupCreatedBad = 'Próba utworzenia grupy siê nie powiod³a.';
+        $strConfDropGroup = 'Czy na pewno chcesz utworzyæ grupê "%s"?';
+        $strGroupDropped = 'Grupa usuniêta.';
+        $strGroupDroppedBad = 'Usuniêcie grupy siê nie powiod³o.';
+        $strMembers = 'Cz³onkowie';
+
+	// Privileges
+	$strPrivileges = 'Uprawnienia';
+	$strGrant = 'Nadaj';
+	$strRevoke = 'Zabierz';
 	
 	// Databases
 	$strDatabase = 'Baza danych';
@@ -147,7 +166,8 @@
 	$strFunctionNeedsDef = 'Musisz zdefiniowaæ funkcjê.';
 	
 	// Triggers
-	$strTriggers = 'Triggery';
+	$strTrigger = 'Trigger';
+	$strTriggers = 'Wiêzy integralno¶ci';
 	$strNoTriggers = 'Nie znaleziono triggerów.';
 	$strCreateTrigger = 'Utwórz Trigger';
 
@@ -171,5 +191,18 @@
 	$strStorage = 'Technika przechowywania';
 	$strTypeNeedsName = 'Musisz nazwaæ typ.';
 	$strTypeNeedsLen = 'Musisz podaæ d³ugo¶æ typu.';
-																				
+
+	// Schemas
+	$strSchema = 'Schemat';
+	$strSchemas = 'Schematy';
+	$strCreateSchema = 'Utwórz schemat';
+	$strNoSchemas = 'Nie znaleziono schematów.';
+	$strConfDropSchema = 'Czy na pewno chcesz usun±æ schemat "%s"?';
+	$strSchemaDropped = 'Schemat usuniêty.';
+	$strSchemaDroppedBad = 'Próba usuniêcia schematu siê nie powiod³a.';
+	$strSchemaCreated = 'Schemat zosta³ utworzony';
+	$strSchemaCreatedBad = 'Próba utworzenia schematu siê nie powiod³a.';
+	$strShowAllSchemas = 'Poka¿ wszystkie schematy';
+	$strSchemaNeedsName = 'Musisz nadaæ schematowi nazwê.';
+
 ?>
