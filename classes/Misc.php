@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.70 2004/07/09 18:51:02 xzilla Exp $
+	 * $Id: Misc.php,v 1.71 2004/07/12 04:18:40 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -159,7 +159,7 @@
 				echo "<tr><td><h2>";
 				// Join array with separator character
 				echo implode($lang['strseparator'], $arr);
-				echo "</h2></td><td style=\"text-align: right\"><a class=\"navlink help\" href=\"";
+				echo "</h2></td><td width=\"1\"><a class=\"navlink help\" href=\"";
 				// Output URL to help
 				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
 				echo "\" target=\"ppa_help\">{$lang['strhelp']}</a></td></tr>\n";
@@ -225,10 +225,14 @@
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
 					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Transitional.dtd\">\n";
-					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n";
+					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"{$lang['applocale']}\" lang=\"{$lang['applocale']}\"";
+					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
+					echo ">\n";
 				} else {
 					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-					echo "<html>\n";
+					echo "<html";
+					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
+					echo ">\n";
 				}
 				echo "<head>\n";
 				echo "<title>", htmlspecialchars($appName);

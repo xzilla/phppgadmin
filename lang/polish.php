@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.39 2004/06/08 20:18:17 slubek Exp $
+	 * $Id: polish.php,v 1.40 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-2';
 	$lang['applocale'] = 'pl_PL';
 	$lang['appdbencoding'] = 'LATIN2';
+	$lang['applangdir'] = 'ltr';
  
 	// Welcome
 	$lang['strintro'] = 'Witaj w phpPgAdmin.';

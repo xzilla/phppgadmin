@@ -10,8 +10,9 @@
 	$lang['applang'] = '&#268;esky';
 	$lang['appcharset'] = 'utf8';
 	$lang['applocale'] = 'cs_CZ';
-
 	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applangdir'] = 'ltr';
+
 	// Basic strings
 	$lang['strintro'] = 'V&iacute;tejte v phpPgAdminu.';
 	$lang['strlogin'] = 'P&#345;ihl&aacute;&scaron;en&iacute;';

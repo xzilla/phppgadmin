@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'UTF-8';
 	$lang['applocale'] = 'hu_HU';
 	$lang['appdbencoding'] = 'LATIN2';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = '&Uuml;dv&ouml;zli a phpPgAdmin!';

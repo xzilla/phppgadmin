@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.11 2004/05/17 03:14:34 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.12 2004/07/12 04:18:41 chriskl Exp $
 	 *
 	 *
 	 */
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'big5';
 	$lang['applocale'] = 'zh_TW';
 	$lang['appdbencoding'] = 'EUC_TW';
+	$lang['applangdir'] = 'ltr';
 	
 	// Welcome  
 	$lang['strintro'] = 'Åwªï¨Ï¥ÎphpPgAdmin.';

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.106 2004/07/10 08:51:02 chriskl Exp $
+	 * $Id: english.php,v 1.107 2004/07/12 04:18:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'en_US';
 	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = 'Welcome to phpPgAdmin.';
@@ -289,6 +290,7 @@
 	$lang['strforce'] = 'Force';
 	$lang['strsignalsent'] = 'Signal sent.';
 	$lang['strsignalsentbad'] = 'Failed sending signal.';
+	$lang['strallobjects'] = 'All objects';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -618,7 +620,7 @@
 	$lang['strtablespacealtered'] = 'Tablespace altered.';
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
 	$lang['strshowalltablespaces'] = 'Show all tablespaces';
-	
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';

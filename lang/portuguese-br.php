@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Ângelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.4 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: portuguese-br.php,v 1.5 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'pt_BR';
   	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
   
 	// Basic strings
 	$lang['strintro'] = 'Bem-vindo ao phpPgAdmin.';	

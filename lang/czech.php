@@ -10,8 +10,9 @@
 	$lang['applang'] = 'Česky';
 	$lang['appcharset'] = 'utf8';
 	$lang['applocale'] = 'cs_CZ';
-
 	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applangdir'] = 'ltr';
+
 	// Basic strings
 	$lang['strintro'] = 'Vítejte v phpPgAdminu.';
 	$lang['strlogin'] = 'Přihlášení';

@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.8 2004/05/31 01:26:14 chriskl Exp $
+	 * $Id: russian.php,v 1.9 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'KOI8-R';
 	$lang['applocale'] = 'ru_RU';
   	$lang['appdbencoding'] = 'KOI8';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = 'Добро пожаловать в phpPgAdmin.';

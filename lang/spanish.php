@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.25 2004/06/29 01:05:52 chriskl Exp $
+	 * $Id: spanish.php,v 1.26 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'es_ES';
   	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
         // Bienvenido
 	$lang['strintro'] = 'Bienvenido a phpPgAdmin.';

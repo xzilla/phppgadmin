@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.24 2004/07/04 15:02:35 chriskl Exp $
+	 * $Id: topbar.php,v 1.25 2004/07/12 04:18:40 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	$misc->printBody('topbar');
 	$dbselected = isset($_REQUEST['database']) ? '&database=' . $_REQUEST['database'] : '';
 ?>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="topbar">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="topbar" dir="ltr">
 	<tr>
 		<td width="211" rowspan="2"><a href="intro.php" target="detail"><img style="border: none" src="images/themes/<?php echo $conf['theme'] ?>/title.png" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></td>
 		<td class="topbar" width="5" rowspan="2">&nbsp;</td>

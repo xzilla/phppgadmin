@@ -4,7 +4,7 @@
 	 * Mongolian  language file for phpPgAdmin. 
 	 * @maintainer Erdenemandal Bat-Erdene [endeeuk@yahoo.com]
 	 *
-	 * $Id: mongol.php,v 1.1 2004/07/12 01:35:46 chriskl Exp $
+	 * $Id: mongol.php,v 1.2 2004/07/12 04:18:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-5';
 	$lang['applocale'] = 'mn_MN';
   	$lang['appdbencoding'] = 'ISO_8859_5';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = 'phpPgAdmin-&#1060; &#1076;&#1057;&#1079;&#1076;&#1057;&#1066; &#1069;&#1071;&#1074;&#1065;&#1068;&#1070;&#1071; &#1077;&#1077;.';

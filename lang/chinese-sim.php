@@ -9,6 +9,7 @@ $lang['applang'] = '简体中文（统一码）';
 $lang['appcharset'] = 'gb2312';
 $lang['applocale'] = 'zh_CN';
 $lang['appdbencoding'] = 'EUC_CN';
+$lang['applangdir'] = 'ltr';
 
 // Basic strings
 $lang['strintro'] = '迎使用 phpPgAdmin。';

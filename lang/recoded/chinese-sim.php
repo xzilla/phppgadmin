@@ -9,6 +9,7 @@ $lang['applang'] = '&#31616;&#20307;&#20013;&#25991;&#65288;&#32479;&#19968;&#30
 $lang['appcharset'] = 'gb2312';
 $lang['applocale'] = 'zh_CN';
 $lang['appdbencoding'] = 'EUC_CN';
+$lang['applangdir'] = 'ltr';
 
 // Basic strings
 $lang['strintro'] = '&#36814;&#20351;&#29992; phpPgAdmin&#12290;';

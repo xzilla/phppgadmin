@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.3 2004/02/17 01:48:17 chriskl Exp $
+	 * $Id: afrikaans.php,v 1.4 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] =  'ISO-8859-1';
 	$lang['applocale'] =  'af_ZA';
 	$lang['appdbencoding'] =  'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] =  'Welkom by phpPgAdmin.';

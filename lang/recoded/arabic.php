@@ -4,7 +4,7 @@
 	 * Arabic language file
 	 * @maintainer Zaki Almuallim [zaki (at) star2000.net]
 	 *
-	 * $Id: arabic.php,v 1.1 2004/06/13 07:08:29 chriskl Exp $
+	 * $Id: arabic.php,v 1.2 2004/07/12 04:18:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'UTF-8';
 	$lang['applocale'] = 'ar';
 	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applangdir'] = 'rtl';
 
 	// Welcome
 	 $lang['strintro'] = '&#1605;&#1585;&#1581;&#1576;&#1575; &#1575;&#1604;&#1609; phpPgAdmin.';

@@ -10,6 +10,7 @@
 	$lang['appcharset'] = 'UTF-8';
 	$lang['applocale'] = 'sk_SK';
 	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Basic strings
 	$lang['strintro'] = 'Vitaje vo phpPgAdmin-e.';

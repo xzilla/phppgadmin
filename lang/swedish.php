@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.7 2004/01/13 00:27:29 chriskl Exp $
+	 * $Id: swedish.php,v 1.8 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -13,6 +13,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'sv_SE';
 	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = 'Välkommen till phpPgAdmin.';

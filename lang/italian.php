@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.33 2004/07/05 09:21:10 soranzo Exp $
+	 * $Id: italian.php,v 1.34 2004/07/12 04:18:41 chriskl Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'it_IT';
 	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome - Benvenuto
 	$lang['strintro'] = 'Benvenuto in phpPgAdmin.';
