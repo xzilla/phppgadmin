@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.14 2003/03/01 00:53:50 slubek Exp $
+	 * $Id: Misc.php,v 1.15 2003/03/12 02:29:47 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -82,8 +82,9 @@
 		 * Prints the page header.  If global variable $_no_output is
 		 * set then no header is drawn.
 		 * @param $title The title of the page
+		 * @param $script script tag
 		 */
-		function printHeader($title = '') {
+		function printHeader($title = '', $script = null) {
 			global $appName, $appCharset, $_no_output, $guiTheme;
 
 			if (!isset($_no_output)) {
@@ -95,11 +96,12 @@
 				if ($title != '') echo " - ", htmlspecialchars($title);
 				echo "</title>\n";
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$appCharset}\" />\n";
-
+				
 				// Theme
 				echo "<style type=\"text/css\">\n<!--\n";
 				include("themes/{$guiTheme}/global.css");
 				echo "\n-->\n</style>\n";
+				if ($script) echo "\n {$script} \n";
 				echo "</head>\n";
 			}
 		}

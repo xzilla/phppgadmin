@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.55 2003/03/10 02:15:17 chriskl Exp $
+	 * $Id: english.php,v 1.56 2003/03/12 02:29:47 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -250,6 +250,10 @@
 	$strKeyName = 'Key Name';
 	$strUniqueKey = 'Unique Key';
 	$strPrimaryKey = 'Primary Key';
+ 	$strIndexType = 'Type of index';
+	$strIndexName = 'Name of index';
+	$strTableColumnList = 'Columns in Table';
+	$strIndexColumnList = 'Columns in Index';
 
 	// Rules
 	$strRules = 'Rules';
@@ -312,6 +316,7 @@
 	$strConfDropTrigger = 'Are you sure you want to drop the trigger "%s" on "%s"?';
 	$strTriggerDropped = 'Trigger dropped.';
 	$strTriggerDroppedBad = 'Trigger drop failed.';
+
 	
 	// Types
 	$strType = 'Type';

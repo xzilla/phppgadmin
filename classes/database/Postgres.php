@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.54 2003/03/10 02:15:15 chriskl Exp $
+ * $Id: Postgres.php,v 1.55 2003/03/12 02:29:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -21,7 +21,7 @@ class Postgres extends BaseDB {
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
-	var $tgFields = array('tgname' => 'tgname');
+	var $tgFields = array('tgname' => 'tgname', 'tgtype' => 'tgtype', 'proname' => 'proname');
 	var $cnFields = array('conname' => 'conname', 'consrc' => 'consrc', 'contype' => 'contype');
 	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
 		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
@@ -38,6 +38,14 @@ class Postgres extends BaseDB {
 	var $typStorageDef = 'plain';
 	// Extra "magic" types
 	var $extraTypes = array('SERIAL');
+	// Array of allowed index types
+	var $typIndexes = array('BTREE', 'RTREE', 'GiST', 'HASH');
+	// Default index type 
+	var $typIndexDef = 'BTREE';
+	// Array of allowed trigger events	
+	var $triggerEvents= array('INSERT','UPDATE','DELETE','INSERT OR UPDATE');
+	// When to execute the trigger	
+	var $triggerExecTimes = array('BEFORE','AFTER');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -1552,12 +1560,33 @@ class Postgres extends BaseDB {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT tgname
-			FROM pg_trigger
+		$sql = "SELECT tgname,tgtype,tgargs,proname
+			FROM pg_trigger, pg_proc
 			WHERE tgrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
-			AND NOT tgisconstraint";
+			  AND pg_proc.oid = pg_trigger.tgfoid			
+			  AND NOT tgisconstraint";
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Create Trigger
+	 *  
+	 * @param $tgname 	The name of the trigger to create
+	 * @param $table    The name of the table
+	 * @param $trgpoc   The function to execute
+	 * @param $trgevent The action
+	 * @param $trevent  Event
+	 */
+	function createTrigger($trgName, $table, $trgFunction, $trgExecTime, $trgEvent) {
+		
+		/* No Statement Level Triggers in PostgreSQL (by now) */
+		$sql = "CREATE TRIGGER {$trgName} {$trgExecTime} 
+				{$trgEvent} ON {$table}
+				FOR EACH ROW EXECUTE PROCEDURE {$trgFunction} ();";
+				
+		return $this->execute($sql);
+	
 	}
 
 	/**

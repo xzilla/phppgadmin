@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.21 2003/03/10 02:15:16 chriskl Exp $
+ * $Id: Postgres73.php,v 1.22 2003/03/12 02:29:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -451,14 +451,17 @@ class Postgres73 extends Postgres72 {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT t.tgname
-			FROM pg_catalog.pg_trigger t
-			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
-			AND (NOT tgisconstraint OR NOT EXISTS
-			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
-			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
+		$sql = "SELECT 
+					t.tgname,t.tgargs,t.tgtype,p.proname
+				FROM pg_catalog.pg_trigger t,pg_catalog.pg_proc p
+			    
+				WHERE t.tgrelid   =(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+				  AND (p.oid = t.tgfoid)
+	   			  AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+ 				  AND (NOT tgisconstraint OR NOT EXISTS (SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+				  ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+
+   				WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
 
 		return $this->selectSet($sql);
 	}
@@ -468,15 +471,22 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Returns a list of all functions in the database
 	 * @param $all If true, will find all available functions, if false just those in search path
-	 * @return All functions
+	 * @param $type If not null, will find all functions with return value = type 
+	 *
+  	 * @return All functions
 	 */
-	function &getFunctions($all = false) {
+	function &getFunctions($all = false, $type = null) {
 		if ($all) {
 			$where = 'pg_catalog.pg_function_is_visible(p.oid)';
 			$distinct = 'DISTINCT ON (p.proname)';
 		}
 		else {
 			$where = "n.nspname = '{$this->_schema}'";
+			
+			if ($type) {
+				$where .= " AND p.prorettype = (select oid from pg_catalog.pg_type p where p.typname = 'trigger') ";
+			}
+			
 			$distinct = '';
 		}
 
