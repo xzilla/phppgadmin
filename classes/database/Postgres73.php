@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.117 2004/06/03 07:34:56 chriskl Exp $
+ * $Id: Postgres73.php,v 1.118 2004/06/04 05:26:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -936,15 +936,21 @@ class Postgres73 extends Postgres72 {
 
 	/**
 	 * A function for getting all columns linked by foreign keys given a group of tables
-	 * @param $tables Array of table names	 	 
+	 * @param $tables multi dimensional assoc array that holds schema and table name
 	 * @return An array of linked tables and columns
 	 * @return -1 $tables isn't an array
 	 */
 	 function &getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
 
-		$this->arrayClean($tables);
-		$tables_list = "'" . implode("', '", $tables) . "'";
+ 		$tables_list = "'{$tables[0]['tablename']}'";
+ 		$schema_list = "'{$tables[0]['schemaname']}'";
+ 		$schema_tables_list = "'{$tables[0]['schemaname']}.{$tables[0]['tablename']}'";
+ 		for ($i = 1; $i < sizeof($tables); $i++) {
+ 			$tables_list .= ", '{$tables[$i]['tablename']}'";
+ 			$schema_list .= ", '{$tables[$i]['schemaname']}'";
+ 			$schema_tables_list .= ", '{$tables[$i]['schemaname']}.{$tables[$i]['tablename']}'";
+ 		}
 		$maxDimension = 1;
 
 		$sql = "
@@ -960,7 +966,7 @@ class Postgres73 extends Postgres72 {
 				AND pgc1.relname IN ($tables_list)
 			";
 		
-		//parse our output for find the highest dimension of foreign keys since pc.conkey is stored in an array
+		//parse our output to find the highest dimension of foreign keys since pc.conkey is stored in an array
 		$rs = $this->selectSet($sql);
 		while (!$rs->EOF) {
 			$arrData = explode(':', $rs->fields['arr_dim']);
@@ -981,26 +987,29 @@ class Postgres73 extends Postgres72 {
 				pgc1.relname AS p_table,
 				pgc2.relname AS f_table,
 				pfield.attname AS p_field,
-				cfield.attname AS f_field
+				cfield.attname AS f_field,
+				pgns1.nspname AS p_schema,
+				pgns2.nspname AS f_schema
 			FROM
 				pg_catalog.pg_constraint AS pc,
 				pg_catalog.pg_class AS pgc1,
 				pg_catalog.pg_class AS pgc2,
 				pg_catalog.pg_attribute AS pfield,
-				pg_catalog.pg_attribute AS cfield
+				pg_catalog.pg_attribute AS cfield,
+				(SELECT oid AS ns_id, nspname FROM pg_catalog.pg_namespace WHERE nspname IN ($schema_list) ) AS pgns1,
+ 				(SELECT oid AS ns_id, nspname FROM pg_catalog.pg_namespace WHERE nspname IN ($schema_list) ) AS pgns2
 			WHERE
 				pc.contype = 'f'
+				AND pgc1.relnamespace = pgns1.ns_id
+ 				AND pgc2.relnamespace = pgns2.ns_id
 				AND pc.conrelid = pgc1.relfilenode
 				AND pc.confrelid = pgc2.relfilenode
 				AND pfield.attrelid = pc.conrelid
 				AND cfield.attrelid = pc.confrelid
 				AND $cons_str
-				AND pgc1.relname IN ($tables_list)
-				AND pgc2.relname IN ($tables_list)
-				AND pgc1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}')
-		";
-		
+				AND pgns1.nspname || '.' || pgc1.relname IN ($schema_tables_list)
+				AND pgns2.nspname || '.' || pgc2.relname IN ($schema_tables_list)				
+		";		
 		return $this->selectSet($sql);
 	 }
 

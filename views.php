@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.41 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: views.php,v 1.42 2004/06/04 05:26:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -172,33 +172,46 @@
 			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 			$misc->printMsg($msg);
-			$tblCount = sizeof($_POST['formTables']);
-			// If we have a message that means an error occurred in doSaveCreate, which means POST['formTables'] has quotes
-			// around the table names, but getTableAttributes doesn't accept quoted table names so we strip them here
-			if (strlen($msg)) {
-				for ($i = 0; $i < $tblCount; $i++) {
-					$_POST['formTables'][$i] = str_replace('"', '', $_POST['formTables'][$i]);
-				}
-			}
-						
-			$arrFields = array(); //array that will hold all our table/field names
-
+			
+			$tblCount = sizeof($_POST['formTables']);						
+			//unserialize our schema/table information and store in arrSelTables
+			for ($i = 0; $i < $tblCount; $i++) {
+				$arrSelTables[] = unserialize($_POST['formTables'][$i]);
+			}									
+			
+			$linkCount = $tblCount;						
 			// If we can get foreign key info then get our linking keys
 			if ($data->hasForeignKeysInfo()) {
-				$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
-			
+				$rsLinkKeys = $data->getLinkingKeys($arrSelTables);
 				$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
 			}
 			
-			// Get fieldnames
-			for ($i = 0; $i < $tblCount; $i++) {				
-				$attrs = &$data->getTableAttributes($_POST['formTables'][$i]);
-				while (!$attrs->EOF) {
-					// Quote table/field name
-					$arrFields["\"{$_POST['formTables'][$i]}\"." . "\"{$attrs->f['attname']}\""] = "\"{$_POST['formTables'][$i]}\"." . "\"{$attrs->f['attname']}\"";
+			$arrFields = array(); //array that will hold all our table/field names
+			
+			//if we have schemas we need to specify the correct schema for each table we're retrieiving
+			//with getTableAttributes
+			$curSchema = $data->hasSchemas() ? $data->_schema : NULL;
+			for ($i = 0; $i < $tblCount; $i++) {
+				if ($data->hasSchemas() && $data->_schema != $arrSelTables[$i]['schemaname']) {
+					$data->setSchema($arrSelTables[$i]['schemaname']);
+				}
+				
+				$attrs = &$data->getTableAttributes($arrSelTables[$i]['tablename']);
+				while (!$attrs->EOF) {						
+					if ($data->hasSchemas() ) {
+						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
+					}
+					else {
+						$arrFields["{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => NULL, 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
+					}
 					$attrs->moveNext();
 				}
-			}
+				
+				//reset back to our original schema in case we switched from it
+				if ($data->hasSchemas() ) {				
+					$data->setSchema($curSchema);
+				}
+			}						
 			asort($arrFields);			
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -211,7 +224,8 @@
 			echo "<tr><th class=\"data\">{$lang['strcomment']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			// View comments			
-			echo "<input name=\"formComment\" id=\"formComment\" value=\"", htmlspecialchars($_REQUEST['formComment']), "\" style=\"width: 100%;\" />\n";
+			echo "<textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_REQUEST['formComment']), "</textarea>\n";
 			echo "</td>\n</tr>\n";
 			echo "</table>\n";
 			
@@ -219,51 +233,48 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strfields']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";			
-			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);			
+			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);
 			echo "</td>\n</tr>\n</table>\n<br />\n";						
-						
-			if ($data->hasForeignKeysInfo()) {
-				// Output the Linking keys combo boxes
-				echo "<table>\n";
-				echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
-				$rowClass = 'data1';
-				for ($i = 0; $i < $linkCount; $i++) {
-					// Initialise variables
-					if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
-					echo "<tr>\n<td class=\"$rowClass\">\n";
-								
-					if (!$rsLinkKeys->EOF) {
-						$curLeftLink = htmlspecialchars("\"{$rsLinkKeys->f['p_table']}\".\"{$rsLinkKeys->f['p_field']}\"");
-						$curRightLink = htmlspecialchars("\"{$rsLinkKeys->f['f_table']}\".\"{$rsLinkKeys->f['f_field']}\"");
-						$rsLinkKeys->moveNext();
-					}
-					else {
-						$curLeftLink = '';
-						$curRightLink = '';
-					}
-					
-					echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
-					echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
-					echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
-					echo "</td>\n</tr>\n";
-					$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
-				
+									
+			// Output the Linking keys combo boxes only if we detect linking keys
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
+			$rowClass = 'data1';
+			for ($i = 0; $i < $linkCount; $i++) {
+				// Initialise variables
+				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
+				echo "<tr>\n<td class=\"$rowClass\">\n";
+							
+				if ($data->hasForeignKeysInfo() && !$rsLinkKeys->EOF) {
+					$curLeftLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['p_schema'], 'tablename' => $rsLinkKeys->f['p_table'], 'fieldname' => $rsLinkKeys->f['p_field']) ) );
+					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['f_schema'], 'tablename' => $rsLinkKeys->f['f_table'], 'fieldname' => $rsLinkKeys->f['f_field']) ) );						
+					$rsLinkKeys->moveNext();
 				}
-				echo "</table>\n<br />\n";
-			}						
-						
-			// Output additional conditions
-			
+				else {
+					$curLeftLink = '';
+					$curRightLink = '';
+				}
+				
+				echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
+				echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
+				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
+				echo "</td>\n</tr>\n";
+				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';			
+			}
+			echo "</table>\n<br />\n";
+								
 			// Build list of available operators (infix only)
 			$arrOperators = array();
 			foreach ($data->selectOps as $k => $v) {
 				if ($v == 'i') $arrOperators[$k] = $k;
 			}
 
+			// Output additional conditions, note that this portion of the wizard treats the right hand side as literal values 
+			//(not as database objects) so field names will be treated as strings, use the above linking keys section to perform joins
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strviewconditions']}</th></tr>";					
 			$rowClass = 'data1';
-			for ($i = 0; $i < 3; $i++) {				
+			for ($i = 0; $i < $linkCount; $i++) {				
 				echo "<tr>\n<td class=\"$rowClass\">\n";
 				echo GUI::printCombo($arrFields, "formCondition[$i][field]");
 				echo GUI::printCombo($arrOperators, "formCondition[$i][operator]", false, false);
@@ -276,8 +287,8 @@
 			echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 						
-			foreach ($_POST['formTables'] AS $curTable) {
-				echo "<input type=\"hidden\" name=\"formTables[]\" id=\"formTables[]\" value=\"" . htmlspecialchars("\"$curTable\"") . "\" />\n";
+			foreach ($arrSelTables AS $curTable) {				
+				echo "<input type=\"hidden\" name=\"formTables[]\" id=\"formTables[]\" value=\"" . htmlspecialchars(serialize($curTable) ) . "\" />\n";
 			}
 			
 			echo $misc->form;
@@ -291,8 +302,7 @@
 	function doWizardCreate($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-		$tables = &$data->getTables();
-		
+		$tables = &$data->getTables(true);				
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 		$misc->printMsg($msg);
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -301,8 +311,16 @@
 		echo "<tr>\n<td class=\"data1\">\n";		
 		
 		$arrTables = array();
-		while (!$tables->EOF) {			
-			$arrTables[$tables->f[$data->tbFields['tbname']]] = $tables->f[$data->tbFields['tbname']];			
+		while (!$tables->EOF) {						
+			$arrTmp = array();
+			$arrTmp['schemaname'] = $tables->f['schemaname'];
+			$arrTmp['tablename'] = $tables->f['tablename'];
+			if ($data->hasSchemas() ) { //if schemas aren't available don't show them in the interface
+				$arrTables[$tables->f['schemaname'] . '.' . $tables->f['tablename']] = serialize($arrTmp);
+			}
+			else {
+				$arrTables[$tables->f['tablename']] = serialize($arrTmp);
+			}
 			$tables->moveNext();
 		}		
 		echo GUI::printCombo($arrTables, 'formTables[]', false, '', true);			
@@ -381,9 +399,17 @@
 	
 		if (!strlen($_POST['formView']) ) doSetParamsCreate($lang['strviewneedsname']);
 		else if (!isset($_POST['formFields']) || !count($_POST['formFields']) ) doSetParamsCreate($lang['strviewneedsfields']);
-		else {		 
-			$selTables = implode(', ', $_POST['formTables']);		
-			$selFields = implode(', ', $_POST['formFields']);		
+		else {						
+			$selFields = '';						
+			foreach ($_POST['formFields'] AS $curField) {
+				$arrTmp = unserialize($curField);
+				if ($data->hasSchemas() ) {					
+					$selFields .= strlen($selFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"";
+				}
+				else {
+					$selFields .= strlen($selFields) ? ", \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"" : "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"";
+				}				
+			}			
 			
 			$linkFields = '';
 
@@ -407,16 +433,25 @@
 					while ($j < $count) {					
 						foreach ($arrLinks AS $curLink) {
 							
-							$tbl1 = substr($curLink['leftlink'], 0, strpos($curLink['leftlink'], '.') );
-							$tbl2 = substr($curLink['rightlink'], 0, strpos($curLink['rightlink'], '.') );
+							$arrLeftLink = unserialize($curLink['leftlink']);
+							$arrRightLink = unserialize($curLink['rightlink']);
+							
+							$tbl1 = $data->hasSchemas() ? "\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\"" : $arrLeftLink['tablename'];
+							$tbl2 = $data->hasSchemas() ? "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"" : $arrLeftLink['tablename'];												
 													
 							if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
 															
 								// Make sure for multi-column foreign keys that we use a table alias tables joined to more than once
 								// This can (and should be) more optimized for multi-column foreign keys
 								$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
+																						
+								if ($data->hasSchemas() ) {	
+									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
+								}
+								else {
+									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
+								}								
 								
-								$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
 								$arrJoined[] = $curLink;
 								if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
 								if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
@@ -424,22 +459,34 @@
 						}
 						$j++;					
 					}
-				}
-				// Otherwise, just select from all seleted tables - a cartesian join
-				else {
-					$linkFields = implode(', ', $_POST['formTables']);
-				}
-			}
-			// Otherwise, just select from all seleted tables - a cartesian join
-			else {
-				$linkFields = implode(', ', $_POST['formTables']);
-			}
+				}				
+			} 			
+			
+			//if linkfields has no length then either _POST['formLink'] was not set, or there were no join conditions 
+			//just select from all seleted tables - a cartesian join do a
+			if (!strlen($linkFields) ) {
+				foreach ($_POST['formTables'] AS $curTable) {
+					$arrTmp = unserialize($curTable);
+					if ($data->hasSchemas() ) {					
+						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
+					}
+					else {
+						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['tablename']}\"" : "\"{$arrTmp['tablename']}\"";
+					}				
+				}				
+			}			
 			
 			$addConditions = '';
 			if (is_array($_POST['formCondition']) ) {
 				foreach ($_POST['formCondition'] AS $curCondition) {
-					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
-						$addConditions .= strlen($addConditions) ? ' AND ' . "{$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' " : " {$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' ";
+					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {						
+						$arrTmp = unserialize($curCondition['field']);
+						if ($data->hasSchemas() ) {
+							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
+						}						
+						else {
+							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
+						}						
 					}	
 				}		
 			}
