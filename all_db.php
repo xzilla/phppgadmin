@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.28 2004/07/10 08:51:01 chriskl Exp $
+	 * $Id: all_db.php,v 1.29 2004/07/10 08:57:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -186,6 +186,7 @@
 		);
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
+		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 		
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
 
