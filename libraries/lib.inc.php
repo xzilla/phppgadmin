@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.63 2003/09/22 06:21:11 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.64 2003/09/30 07:43:09 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.1';
+	$appVersion = '3.2-dev';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -29,7 +29,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$conf['base_version'] = 9;
+	$conf['base_version'] = 10;
 
 	// List of available language files
 	$appLangFiles = array(
@@ -110,12 +110,19 @@
 		$_SESSION['webdbLanguage'] = $webdbLanguage;
 	}
 
-	// If the logged in settings aren't present, put up the login screen
+	// If the logged in settings aren't present, put up the login screen.
 	if (!isset($_SESSION['webdbUsername'])
 			||	!isset($_SESSION['webdbPassword'])
 			||	!isset($_SESSION['webdbServerID'])
 			||	!isset($_SESSION['webdbLanguage'])
-			||	!isset($conf['servers'][$_SESSION['webdbServerID']])){
+			||	!isset($conf['servers'][$_SESSION['webdbServerID']])) {
+		include('login.php');
+		exit;
+	}
+
+	// If extra login check fails, back to the login screen
+	$_allowed = $misc->checkExtraSecurity();
+	if (!$_allowed) {
 		include('login.php');
 		exit;
 	}

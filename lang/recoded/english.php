@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.58 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: english.php,v 1.59 2003/09/30 07:43:09 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -26,6 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Login failed';
+	$lang['strlogindisallowed'] = 'Login disallowed';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Owner';

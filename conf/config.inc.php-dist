@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.26 2003/09/10 07:13:18 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.27 2003/09/30 07:43:08 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -27,6 +27,12 @@
 	// Default language setting.  eg 'english', 'polish', etc.
 	$conf['default_lang'] = 'english';
 	
+	// If extra login security is true, then logins via phpPgAdmin with no password
+	// or certain usernames (pgsql, postgres, root, administrator) will be denied.
+	// Only turn this off once you have read the FAQ and understand how to change
+	// PostgreSQL's pg_hba.conf to enable passworded local connections.
+	$conf['extra_login_security'] = true;
+
 	// Only show owned databases?
 	// Note: This will simply hide other databases in the list - this does not
 	// in any way prevent your users from seeing other database by other means.
@@ -69,6 +75,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 9;
+	$conf['version'] = 10;
 
 ?>

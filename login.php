@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.12 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: login.php,v 1.13 2003/09/30 07:43:08 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -37,7 +37,12 @@
 			<td height="115" align="center" valign="middle">
 				<center>
 				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $lang['strlogin'] ?></h1>				
-				<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">{$lang['strloginfailed']}</p>" ?>
+				<?php 
+					if (isset($_failed) && $_failed) 
+						echo "<p class=\"message\">{$lang['strloginfailed']}</p>";
+					elseif (isset($_allowed) && !$_allowed)
+						echo "<p class=\"message\">{$lang['strlogindisallowed']}</p>";
+				?>
 				<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<tr>

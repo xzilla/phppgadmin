@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.43 2003/09/05 04:58:14 chriskl Exp $
+	 * $Id: Misc.php,v 1.44 2003/09/30 07:43:08 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -13,6 +13,25 @@
 		
 		/* Constructor */
 		function Misc() {
+		}
+
+		/**
+		 * Checks whether a login is allowed
+		 * @return True if login is allowed to be used
+		 */
+		function checkExtraSecurity() {
+			global $conf;
+
+			// Disallowed logins if extra_login_security is enabled.  These must be lowercase.
+			$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
+			
+			// If extra security is off, return true
+			if (!$conf['extra_login_security']) return true;
+			elseif (trim($_SESSION['webdbPassword']) == '') return false;
+			else {
+				$username = strtolower($_SESSION['webdbUsername']);
+				return !in_array($username, $bad_usernames);
+			}
 		}
 
 		/**
@@ -205,9 +224,10 @@
 				// Send XHTML headers, or regular HTML headers
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
 					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
-					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
+					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n";
 				} else {
+					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 					echo "<html>\n";
 				}
 				echo "<head>\n";

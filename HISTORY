@@ -1,6 +1,18 @@
 phpPgAdmin History
 ------------------
 
+Version 3.2-dev
+---------------
+
+Features
+--------
+* Extra login security to prevent logging into servers as postgres and
+  no password - a VERY common newbie error.
+
+Bugs
+----
+* Added legal DOCTYPE
+
 Version 3.1
 -----------
 
