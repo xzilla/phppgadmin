@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.91 2004/03/12 08:56:54 chriskl Exp $
+ * $Id: Postgres73.php,v 1.92 2004/03/31 07:46:39 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1177,15 +1177,42 @@ class Postgres73 extends Postgres72 {
 	 * Creates a domain
 	 * @param $domain The name of the domain to create
 	 * @param $type The base type for the domain
+	 * @param $length Optional type length
+	 * @param $array True for array type, false otherwise
 	 * @param $notnull True for NOT NULL, false otherwise
 	 * @param $default Default value for domain	
 	 * @param $check A CHECK constraint if there is one
 	 * @return 0 success
 	 */
-	function createDomain($domain, $type, $notnull, $default, $check) {
+	function createDomain($domain, $type, $length, $array, $notnull, $default, $check) {
 		$this->fieldClean($domain);
 		
-		$sql = "CREATE DOMAIN \"{$domain}\" AS {$type}";
+		$sql = "CREATE DOMAIN \"{$domain}\" AS ";
+
+		if ($length == '')
+			$sql .= $type;
+		else {
+			switch ($type) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type, 9);
+					$sql .= "timestamp({$length}){$qual}";
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type, 4);
+					$sql .= "time({$length}){$qual}";
+					break;
+				default:
+					$sql .= "{$type}({$length})";
+			}
+		}
+		
+		// Add array qualifier, if requested
+		if ($array) $sql .= '[]';
+		
 		if ($notnull) $sql .= ' NOT NULL';
 		if ($default != '') $sql .= " DEFAULT {$default}";
 		if ($this->hasDomainConstraints() && $check != '') $sql .= " CHECK ({$check})";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.8 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: domains.php,v 1.9 2004/03/31 07:46:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -278,6 +278,8 @@
 		
 		if (!isset($_POST['domname'])) $_POST['domname'] = '';
 		if (!isset($_POST['domtype'])) $_POST['domtype'] = '';
+		if (!isset($_POST['domlength'])) $_POST['domlength'] = '';
+		if (!isset($_POST['domarray'])) $_POST['domarray'] = '';
 		if (!isset($_POST['domdefault'])) $_POST['domdefault'] = '';
 		if (!isset($_POST['domcheck'])) $_POST['domcheck'] = '';
 
@@ -301,8 +303,17 @@
 				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
-		echo "</select>\n";		
-		echo "</td></tr>\n";
+		echo "</select>\n";
+		
+		// Type length
+		echo "<input type=\"text\" size=\"4\" name=\"domlength\" value=\"", htmlspecialchars($_POST['domlength']), "\" />";
+
+		// Output array type selector
+		echo "<select name=\"domarray\">\n";
+		echo "<option value=\"\"", ($_POST['domarray'] == '') ? ' selected="selected"' : '', "></option>\n";
+		echo "<option value=\"[]\"", ($_POST['domarray'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+		echo "</select></td></tr>\n";
+
 		echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", 
 			(isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
@@ -333,7 +344,7 @@
 		// Check that they've given a name and a definition
 		if ($_POST['domname'] == '') doCreate($lang['strdomainneedsname']);
 		else {		 
-			$status = $data->createDomain($_POST['domname'], $_POST['domtype'], 
+			$status = $data->createDomain($_POST['domname'], $_POST['domtype'], $_POST['domlength'], $_POST['domarray'] != '',
 																isset($_POST['domnotnull']), $_POST['domdefault'], $_POST['domcheck']);
 			if ($status == 0)
 				doDefault($lang['strdomaincreated']);
