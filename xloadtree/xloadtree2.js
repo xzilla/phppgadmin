@@ -51,6 +51,9 @@
 
 webFXTreeConfig.loadingText = "Loading...";
 webFXTreeConfig.loadingIcon = "images/loading.gif";
+webFXTreeConfig.errorIcon = "images/exclamation.16.gif";
+webFXTreeConfig.errorLoadingText = "Error Loading";
+webFXTreeConfig.reloadText = "Click to reload";
 
 
 function WebFXLoadTree(sText, sXmlSrc, oAction, sBehavior, sIcon, sOpenIcon)
@@ -412,11 +415,11 @@ WebFXLoadTree.documentLoaded = function (jsNode)
 	{
 		if (!doc || doc.parseError.errorCode == 0)
 		{
-			jsNode.errorText = "Error loading " + jsNode.src + " (" + jsNode._xmlHttp.status + ": " + jsNode._xmlHttp.statusText + ")";
+			jsNode.errorText = webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (" + jsNode._xmlHttp.status + ": " + jsNode._xmlHttp.statusText + ")";
 		}
 		else
 		{
-			jsNode.errorText = "Error loading " + jsNode.src + " (" + doc.parseError.reason + ")";
+			jsNode.errorText =  webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (" + doc.parseError.reason + ")";
 		}
 	}
 	else
@@ -440,16 +443,16 @@ WebFXLoadTree.documentLoaded = function (jsNode)
 		// if no children we got an error
 		if (count == 0)
 		{
-			jsNode.errorText = "Error loading " + jsNode.src + " (???)";
+			jsNode.errorText =  webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (???)";
 		}
 	}
 
 	if (jsNode.errorText != "")
 	{
-		jsNode._loadingItem.icon = "images/exclamation.16.gif";
+		jsNode._loadingItem.icon = webFXTreeConfig.errorIcon;
 		jsNode._loadingItem.text = jsNode.errorText;
 		jsNode._loadingItem.action = WebFXLoadTree._reloadParent;
-		jsNode._loadingItem.toolTip = "Click to reload";
+		jsNode._loadingItem.toolTip = webFXTreeConfig.reloadText;
 
 		t.setSuspendRedraw(oldSuspend);
 
