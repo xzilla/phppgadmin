@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.4 2003/03/26 01:27:17 chriskl Exp $
+	 * $Id: tblexport.php,v 1.5 2003/04/20 10:11:40 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -46,13 +46,13 @@
 			$first = true;
 			while(list($k, $v) = each($rs->f)) {
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
-				// @@ Need escaping here
-				// @@ Need to handle NULL values
+				// Escape value
+				$data->clean($v);
 				if ($first) {
-					echo "\"{$v}\"";
+					echo ($v === null) ? '\\N' : $v;
 					$first = false;
 				}
-				else echo "\t\"{$v}\"";
+				else echo "\t", ($v === null) ? '\\N' : $v;
 			}
 			echo "\n";
 			$rs->moveNext();
@@ -75,41 +75,31 @@
 		}
 		echo "</xml>\n";
 	}
-
-        elseif ($_REQUEST['format'] == 'sql') {
-
-                $escapeme = array('varchar','char','text');
-
-                while (!$rs->EOF) {
-
-                echo "INSERT INTO \"{$_REQUEST['table']}\" ";
-
-                        $first = true;
-                        $fields = "(";
-                        $values = "VALUES (";
-                        while(list($k, $v) = each($rs->f)) {
-                                if ($first) {
-                                        $fields .= "\"$k\"";
-                                        $values .= "\"$v\"";
-                                        $first = false;
-                                }
-                                else {
-                                        $fields .= ",\"$k\"";
-                                        //if ( in_array(pg_fieldtype($k),$escapeme) ){
-                                                $values .= ",\"$v\"";
-                                        //}
-                                        //else {
-                                        //      $values .= ",$v";
-                                        //}
-                                }
-                        }
-
-                        echo $fields .") ". $values .")";
-                        echo ";\n";
-
-                        $rs->moveNext();
-                }
-        }
+	elseif ($_REQUEST['format'] == 'sql') {
+		$data->fieldClean($_REQUEST['table']);
+		while (!$rs->EOF) {
+			echo "INSERT INTO \"{$_REQUEST['table']}\" (";
+			$first = true;
+			while(list($k, $v) = each($rs->f)) {
+				// SQL (INSERT) format cannot handle oids
+				if ($k == $localData->id) continue;
+				// Output field
+				$data->fieldClean($k);
+				if ($first) echo "\"{$k}\"";
+				else echo ", \"{$k}\"";
+				
+				// Output value
+				$data->clean($v);
+				if ($first) {
+					$values = ($v === null) ? 'NULL' : "'{$v}'";
+					$first = false;
+				}
+				else $values .= ', ' . (($v === null) ? 'NULL' : "'{$v}'");
+			}
+			echo ") VALUES ({$values});\n";
+			$rs->moveNext();
+		}
+	}
 	else {
 		while (!$rs->EOF) {
 			$first = true;
