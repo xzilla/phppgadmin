@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.39 2003/08/06 07:04:44 chriskl Exp $
+	 * $Id: Misc.php,v 1.40 2003/08/11 04:52:32 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -48,13 +48,23 @@
 		 */
 		function printVal($str, $shownull = false, $type = null) {
 			global $lang;
-			
+
 			// If the string contains at least one instance of >1 space in a row, a tab character, a
 			// space at the start of a line, or a space at the start of the whole string then
 			// substitute all spaces for &nbsp;s
 			if ($str === null && $shownull) return '<i>NULL</i>';
 			else {
 				switch ($type) {
+					case 'int2':
+					case 'int4':
+					case 'int8':
+					case 'float4':
+					case 'float8':
+					case 'money':
+					case 'numeric':
+					case 'oid':
+						return "<div align=\"right\">" . nl2br(htmlspecialchars($str)) . "</div>";
+						break;
 					case 'bool':
 					case 'boolean':
 						if ($str == 't') return $lang['strtrue'];
