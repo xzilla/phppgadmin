@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.46 2004/09/17 11:45:46 jollytoad Exp $
+	 * $Id: functions.php,v 1.47 2004/09/18 11:59:40 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -493,8 +493,8 @@
 				'field' => '+proreturns',
 				'type'  => 'verbatim',
 			),
-			'language' => array(
-				'title' => $lang['strlanguage'],
+			'proglanguage' => array(
+				'title' => $lang['strproglanguage'],
 				'field' => 'prolanguage',
 			),
 			'actions' => array(
