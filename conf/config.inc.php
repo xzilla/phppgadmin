@@ -3,7 +3,7 @@
 	/**
 	 * Central WebDB configuration
 	 *
-	 * $Id: config.inc.php,v 1.1 2002/02/12 01:12:20 kkemp102294 Exp $
+	 * $Id: config.inc.php,v 1.2 2002/02/12 06:57:33 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -20,12 +20,19 @@
 
 	// Servers and types
 	$confServers = array();
-	$confServers[0]['desc'] = 'Home';
+	$confServers[0]['desc'] = 'Home-PG';
 	$confServers[0]['host'] = 'localhost';
 	$confServers[0]['port'] = '5432';
 	$confServers[0]['type'] = 'Postgres71';
 	$confServers[0]['default'] = 'template1';
-
+	
+	// MySQL example
+	$confServers[1]['desc'] = 'Home-MySQL';
+	$confServers[1]['host'] = 'localhost';
+	$confServers[1]['port'] = 'xxx'; // Port isn't being used anywhere yet
+	$confServers[1]['type'] = 'MySQL';
+	$confServers[1]['default'] = '';
+	
 	// Language
 	include_once ('../lang/template.php');
 	
