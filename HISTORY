@@ -27,11 +27,13 @@ Bugs
 * Reload browser after executing arbitrary SQL
 * Fix inability to drop database using the drop link
 * Stop duplicate insert on re-POST of data
+* Correct last internal oid value for PostgreSQL 8.0
 
 Translations
 * Japanese from Tadashi Jokagi
 * Danish from Arne Eckmann
 * Arabic from Zaki
+* Portuguese from Francisco
 
 Version 3.5.2
 -------------

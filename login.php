@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.23 2005/02/18 11:39:46 chriskl Exp $
+	 * $Id: login.php,v 1.24 2005/03/16 01:48:59 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -56,8 +56,9 @@
 				'hu' => 'hungarian',
 				'mn' => 'mongol',
 				'pl' => 'polish',
-				'pt' => 'portuguese-br',
+				'pt' => 'portuguese-pt',
 				'pt-br' => 'portuguese-br',
+				'pt-pt' => 'portuguese-pt',
 				'ro' => 'romanian',
 				'ru' => 'russian',
 				'sk' => 'slovak',
