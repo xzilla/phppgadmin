@@ -34,3 +34,5 @@ NEEDS TESTING
 * highlight things on the info stats page
 * advanced stats functions
 * 7.5 alter column support needs a lot of testing in pre-7.5
+* Alter view column broken? (it is on 7.0)
+

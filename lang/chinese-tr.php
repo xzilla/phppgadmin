@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.10 2004/02/16 03:28:42 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.11 2004/05/17 03:14:34 chriskl Exp $
 	 *
 	 *
 	 */
@@ -34,17 +34,16 @@
 	$lang['stractions'] = '功能';
 	$lang['strname'] = '名字';
 	$lang['strdefinition'] = '定義';
-	$lang['straggregates'] = '匯總';
 	$lang['strproperties'] = '屬性';
 	$lang['strbrowse'] = '瀏覽';
 	$lang['strdrop'] = '刪除';
 	$lang['strdropped'] = '已刪除';
 	$lang['strnull'] = '允許空值';
 	$lang['strnotnull'] = '不允許空值';
-	$lang['strprev'] = '< 上一筆';
-	$lang['strnext'] = '下一筆 >';
-	$lang['strfirst'] = '<< 第一筆';
-	$lang['strlast'] = '最後一筆 >>';
+	$lang['strprev'] = '< 上一步';
+	$lang['strnext'] = '下一步 >';
+	$lang['strfirst'] = '<< 第一步';
+	$lang['strlast'] = '最後一步 >>';
 	$lang['strfailed'] = '失敗';
 	$lang['strcreate'] = '建立';
 	$lang['strcreated'] = '已建立';
@@ -117,10 +116,13 @@
 	$lang['strprocess'] = '程序';
 	$lang['strprocesses'] = '程序';
 	$lang['strsetting'] = '設定';
-	$lang['strparameters'] = '參數';
 	$lang['streditsql'] = '編輯SQL';
+	$lang['strruntime'] = '總共執行時間: %s ms';
 	$lang['strpaginate'] = '分頁顯示結果';
+	$lang['struploadscript'] = '或是上傳一個SQL指令檔:';
 	$lang['strstarttime'] = '開始時間';
+	$lang['strfile'] = '檔案';
+	$lang['strfileimported'] = '檔案已匯入。';
 
 	// Error handling
 	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
@@ -135,7 +137,10 @@
 	$lang['strnoobjects'] = '找不到任何物件。';
 	$lang['strrownotunique'] = '此顯料列無獨特識別項。';
 	$lang['strnoreportsdb'] = '您尚未建新報表資料庫，請參閱INSTALL檔說明。';
-	
+	$lang['strnouploads'] = '上傳檔案功能已停用。';
+	$lang['strimporterror'] = '匯入錯誤。';
+	$lang['strimporterrorline'] = '匯入錯誤發生於第 %s 行。';
+
 	// Tables
 	$lang['strtable'] = '資料表';
 	$lang['strtables'] = '資料表';
@@ -179,17 +184,18 @@
 	$lang['strconfdropcolumn'] = '您確定要刪除資料列 "%s" 於資料表 "%s"?';
 	$lang['strcolumndropped'] = '成功刪除資料列。';
 	$lang['strcolumndroppedbad'] = '刪除資料列作業失敗。';
-	$lang['straddcolumn'] = '加入新資料列';
-	$lang['strcolumnadded'] = '成功加入資料列。';
-	$lang['strcolumnaddedbad'] = '加入資料列作業失敗。';
-	$lang['strdataonly'] = '只顯示資料';
+	$lang['straddcolumn'] = '加入新資料欄';
+	$lang['strcolumnadded'] = '成功加入資料欄。';
+	$lang['strcolumnaddedbad'] = '加入資料欄作業失敗。';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = '資料表已修改。';
 	$lang['strtablealteredbad'] = '資料表修改作業失敗。';
-	$lang['strdataonly'] = '只有資料'; 
+	$lang['strdataonly'] = '只顯示資料'; 
     $lang['strstructureonly'] = '只有結構'; 
     $lang['strstructureanddata'] = '資料和結構'; 
-	
+	$lang['strtabbed'] = 'Tabbed';
+	$lang['strauto'] = '自動';
+
 	// Users
 	$lang['struser'] = '用戶';
 	$lang['strusers'] = '用戶';
@@ -272,7 +278,12 @@
 	$lang['strvacuumbad'] = '清空作業失敗。';
 	$lang['stranalyzegood'] = '分析作業完成。';
 	$lang['stranalyzebad'] = '分析作業失敗.';
-
+	$lang['strreindexgood'] = '索引重建完成。';
+	$lang['strreindexbad'] = '索引重建失敗。';
+	$lang['strfull'] = '完整';
+	$lang['strfreeze'] = '凍結';
+	$lang['strforce'] = '強制';
+	
 	// Views
 	$lang['strview'] = '視表';
 	$lang['strviews'] = '視表';
@@ -283,6 +294,7 @@
 	$lang['strviewname'] = '視表名';
 	$lang['strviewneedsname'] = '您需為您的視表命名。';
 	$lang['strviewneedsdef'] = '您必須定義你的視表。';
+	$lang['strviewneedsfields'] = '請選擇要加入視表的資料欄。';
 	$lang['strviewcreated'] = '成功建立新視表。';
 	$lang['strviewcreatedbad'] = '建立新視表作業失敗';
 	$lang['strconfdropview'] = '您確定要刪除視表 "%s"?';
@@ -292,6 +304,7 @@
 	$lang['strviewupdatedbad'] = '更新視表作業失敗。';
 	$lang['strviewlink'] = '連結索引';
 	$lang['strviewconditions'] = '額外條件';
+	$lang['strcreateviewwiz'] = '使用視表精靈';
 
 	// Sequences
 	$lang['strsequence'] = '序列';
@@ -454,19 +467,21 @@
 	$lang['strtypedroppedbad'] = '刪除類型作業失敗。';
 
 	// Schemas
-	$lang['strschema'] = '模式 (schema)';
-	$lang['strschemas'] = '模式 (schemas)';
-	$lang['strshowallschemas'] = '顯示所有的模式 (schemas)';
-	$lang['strnoschema'] = '找不到此模式 (schema)。';
-	$lang['strnoschemas'] = '找不到任何模式 (schema)。';
-	$lang['strcreateschema'] = '建立新模式 (schema)';
-	$lang['strschemaname'] = '模式 (schema) 名';
-	$lang['strschemaneedsname'] = '您需為您的模式 (schema) 命名。';
-	$lang['strschemacreated'] = '成功建立新模式 (schema)。';
-	$lang['strschemacreatedbad'] = '建立模式 (schema) 作業失敗。';
-	$lang['strconfdropschema'] = '您確定要刪除模式 (schema) "%s"?';
-	$lang['strschemadropped'] = '成功刪除模式 (schema)。 ';
-	$lang['strschemadroppedbad'] = '刪除模式 (schema) 作業失敗。';
+	$lang['strschema'] = '模式';
+	$lang['strschemas'] = '模式';
+	$lang['strshowallschemas'] = '顯示所有的模式';
+	$lang['strnoschema'] = '找不到此模式';
+	$lang['strnoschemas'] = '找不到任何模式。';
+	$lang['strcreateschema'] = '建立新模式';
+	$lang['strschemaname'] = '模式名';
+	$lang['strschemaneedsname'] = '您需為您的模式命名。';
+	$lang['strschemacreated'] = '成功建立新模式。';
+	$lang['strschemacreatedbad'] = '建立模式作業失敗。';
+	$lang['strconfdropschema'] = '您確定要刪除模式 "%s"?';
+	$lang['strschemadropped'] = '成功刪除模式。 ';
+	$lang['strschemadroppedbad'] = '刪除模式作業失敗。';
+	$lang['strschemaaltered'] = '成功修改模式';
+	$lang['strschemaalteredbad'] = '修改模式失敗。';
 	
 	// Reports
 	$lang['strreport'] = '報表';

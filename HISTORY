@@ -42,6 +42,9 @@ Bugs
 * Fix bug where views appeared as tables in 7.0.x search results
 * Fix bug where find object SQL on < 7.2 was broken
 
+Translations
+* Trad. Chinese from Chih-Hsin Lee
+
 Version 3.3.1
 -------------
 
