@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.2 2004/07/09 01:50:43 chriskl Exp $
+	 * $Id: tablespaces.php,v 1.3 2004/07/10 08:51:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -182,30 +182,44 @@
 		$misc->printMsg($msg);
 		
 		$tablespaces = &$data->getTablespaces();
+
+		$columns = array(
+			'database' => array(
+				'title' => $lang['strname'],
+				'field' => 'spcname'
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'spcowner'
+			),
+			'location' => array(
+				'title' => $lang['strlocation'],
+				'field' => 'spclocation'
+			),
+			'actions' => array(
+				'title' => $lang['stractions']
+			)
+		);
 		
-		if ($tablespaces->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th><th class=\"data\">{$lang['strlocation']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
-			$i = 0;
-			while (!$tablespaces->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($tablespaces->f['spcname']), "</td>\n";
-				echo "\t<td class=\"data{$id}\">", $misc->printVal($tablespaces->f['spcowner']), "</td>\n";
-				echo "\t<td class=\"data{$id}\">", $misc->printVal($tablespaces->f['spclocation']), "</td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;spcname=",
-					urlencode($tablespaces->f['spcname']), "\">{$lang['stralter']}</a></td>\n";
-				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;spcname=", 
-					urlencode($tablespaces->f['spcname']), "\">{$lang['strdrop']}</a></td>\n";
-				echo "</tr>\n";
-				$tablespaces->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnotablespaces']}</p>\n";
-		}
+		$actions = array(
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=edit&amp;",
+				'vars'  => array('spcname' => 'spcname')
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
+				'vars'  => array('spcname' => 'spcname')
+			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?type=tablespace&amp;",
+				'vars'  => array('object' => 'spcname')
+			)
+		);
+				
+		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatetablespace']}</a></p>\n";
 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.52 2004/07/07 02:59:59 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.53 2004/07/10 08:51:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -44,7 +44,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['stralter']), 'alter_table');
 		$misc->printMsg($msg);
 
 		// Fetch table info		
@@ -60,12 +60,12 @@
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 			if ($data->hasAlterTableOwner() && $data->isSuperUser($_SESSION['webdbUsername'])) {
-				echo "<tr><th class=\"data required\">{$lang['strowner']}</th>\n";
+				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
 					$uname = $users->f['usename'];
@@ -75,7 +75,7 @@
 				}
 				echo "</select></td></tr>\n";				
 			}
-			echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
 				htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
@@ -98,7 +98,7 @@
 		$hasID = $data->hasObjectID($_REQUEST['table']);
 		
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strexport']));
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dataexport.php\" method=\"post\">\n";
@@ -152,7 +152,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strimport']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strimport']));
 		$misc->printMsg($msg);
 
 		// Check that file uploads are enabled
@@ -209,8 +209,7 @@
 				// Fetch all available types
 				$types = &$data->getTypes(true, false, true);
 
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
-					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['straddcolumn']), 'add_column');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -306,8 +305,8 @@
 			case 1:
 				global $lang;
 
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['straltercolumn']}: ",
-					$misc->printVal($_REQUEST['column']), "</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
+					$lang['straltercolumn'], $misc->printVal($_REQUEST['column'])), 'alter_column');
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -453,11 +452,10 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", 
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['column']), ": {$lang['strdrop']}</h2>\n";
-
-                        echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
-                                $misc->printVal($_REQUEST['table'])), "</p>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
+				$misc->printVal($_REQUEST['column']), $lang['strdrop']), 'drop_column');
+            echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
+                    $misc->printVal($_REQUEST['table'])), "</p>\n";
 								
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";

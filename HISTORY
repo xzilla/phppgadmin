@@ -9,6 +9,7 @@ Features
 * Use language preferencies from browser (Markus Bertheau, Nicola Soranzo)
 * Tablespace support for 7.5
 * Support cancelling and killing backend processes in 7.5
+* Allow setting privileges on databases
 
 Translations
 * Arabic from Zaki

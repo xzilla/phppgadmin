@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.24 2004/07/07 02:59:58 chriskl Exp $
+	 * $Id: privileges.php,v 1.25 2004/07/10 08:51:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -134,10 +134,6 @@
 		global $PHP_SELF, $lang;
 
 		switch ($_REQUEST['type']) {
-			case 'database':
-				$misc->printDatabaseNav();
-				$name = $_REQUEST['object'];
-				break;
 			case 'table':
 				$misc->printTableNav();
 				$name = $_REQUEST['object'];
@@ -220,8 +216,9 @@
 				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a></p>\n";
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"all_db.php\">{$lang['strshowalldatabases']}</a></p>\n";
 				break;
 			case 'function':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
@@ -233,6 +230,11 @@
 					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";
+				break;
+			case 'tablespace':
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"tablespaces.php\">{$lang['strshowalltablespaces']}</a></p>\n";
 				break;
 		}
 		echo "</p>\n";

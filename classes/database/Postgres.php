@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.230 2004/07/09 01:50:43 chriskl Exp $
+ * $Id: Postgres.php,v 1.231 2004/07/10 08:51:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3257,6 +3257,10 @@ class Postgres extends BaseDB {
 			case 'schema':
 				$this->fieldClean($object);
 				$sql .= " SCHEMA \"{$object}\"";
+				break;
+			case 'tablespace':
+				$this->fieldClean($object);
+				$sql .= " TABLESPACE \"{$object}\"";
 				break;
 			default:
 				return -1;

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.105 2004/07/08 03:23:02 chriskl Exp $
+	 * $Id: english.php,v 1.106 2004/07/10 08:51:02 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -617,7 +617,8 @@
 	$lang['strtablespacedroppedbad'] = 'Tablespace drop failed.';
 	$lang['strtablespacealtered'] = 'Tablespace altered.';
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
-
+	$lang['strshowalltablespaces'] = 'Show all tablespaces';
+	
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';

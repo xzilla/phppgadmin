@@ -3,12 +3,25 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.11 2004/07/09 01:57:58 chriskl Exp $
+ * $Id: Postgres75.php,v 1.12 2004/07/10 08:51:01 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
 
 class Postgres75 extends Postgres74 {
+
+	// List of all legal privileges that can be applied to different types
+	// of objects.
+	var $privlist = array(
+		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
+		'view' => array('SELECT', 'RULE', 'ALL PRIVILEGES'),
+		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
+		'database' => array('CREATE', 'TEMPORARY', 'ALL PRIVILEGES'),
+		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
+		'language' => array('USAGE', 'ALL PRIVILEGES'),
+		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES'),
+		'tablespace' => array('CREATE', 'ALL PRIVILEGES')
+	);
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17137;

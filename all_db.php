@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.27 2004/07/09 01:57:58 chriskl Exp $
+	 * $Id: all_db.php,v 1.28 2004/07/10 08:51:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -178,6 +178,11 @@
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
 				'vars'  => array('db' => 'datname'),
 			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?type=database&amp;",
+				'vars'  => array('object' => 'datname'),
+			)
 		);
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
