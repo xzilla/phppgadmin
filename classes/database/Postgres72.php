@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.1 2002/08/30 15:12:56 xzilla Exp $
+ * $Id: Postgres72.php,v 1.2 2002/09/09 05:08:55 chriskl Exp $
  */
 
 
@@ -13,6 +13,9 @@ include_once('../classes/database/Postgres71.php');
 class Postgres72 extends Postgres71 {
 
 	var $fnFields = array('fnname' => 'proname', 'fnresult' => 'result', 'fnarguments' => 'arguments');
+
+	// Last oid assigned to a system object
+	var $_lastSystemOID = 16554;
 
 	// Function functions
 	
