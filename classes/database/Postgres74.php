@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.10 2003/08/11 05:48:04 chriskl Exp $
+ * $Id: Postgres74.php,v 1.11 2003/08/12 01:33:56 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -16,10 +16,6 @@ class Postgres74 extends Postgres73 {
 
 	// Max object name length
 	var $_maxNameLen = 63;
-
-	// System schema ids and names
-	var $_schemaOIDs = array(11, 99);
-	var $_schemaNames = array('pg_catalog', 'pg_toast');
 
 	/**
 	 * Constructor
@@ -48,7 +44,26 @@ class Postgres74 extends Postgres73 {
 					ORDER BY s.usename";
 
 		return $this->selectSet($sql);
-	}		
+	}
+	
+	// Schema functions
+	
+	/**
+	 * Return all schemas in the current database.  This differs from the version
+	 * in 7.3 only in that it considers the information_schema to be a system schema.
+	 * @return All schemas, sorted alphabetically
+	 */
+	function &getSchemas() {
+		global $conf;
+		
+		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg_%' AND nspname != 'information_schema'";
+		else $and = '';
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
+			WHERE pn.nspowner = pu.usesysid
+			{$and}ORDER BY nspname";
+
+		return $this->selectSet($sql);
+	}	
 
 	// View functions
 	

@@ -31,6 +31,7 @@ Bug Fixes:
 * Boolean default values and general boolean field handling fixes
 * Support zero column tables
 * Correctly display the contents of bytea fields
+* Consider information_schema to be a system object
 
 Version 3.0
 -----------

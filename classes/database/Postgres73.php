@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.57 2003/08/06 02:09:25 chriskl Exp $
+ * $Id: Postgres73.php,v 1.58 2003/08/12 01:33:56 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -24,10 +24,6 @@ class Postgres73 extends Postgres72 {
 
 	// Max object name length
 	var $_maxNameLen = 63;
-
-	// System schema ids and names
-	var $_schemaOIDs = array(11, 99);
-	var $_schemaNames = array('pg_catalog', 'pg_toast');
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.
