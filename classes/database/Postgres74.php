@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.12 2003/09/03 03:14:16 chriskl Exp $
+ * $Id: Postgres74.php,v 1.13 2003/09/14 10:03:28 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -28,7 +28,55 @@ class Postgres74 extends Postgres73 {
 	function Postgres74($host, $port, $database, $user, $password) {
 		$this->Postgres73($host, $port, $database, $user, $password);
 	}
+
+	// Table functions
 	
+	/**
+	 * Get the fields for uniquely identifying a row in a table
+	 * @param $table The table for which to retrieve the identifier
+	 * @return An array mapping attribute number to attribute name, empty for no identifiers
+	 * @return -1 error
+	 */
+	function getRowIdentifier($table) {
+		$oldtable = $table;
+		$this->clean($table);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Get the first primary or unique index (sorting primary keys first) that
+		// is NOT a partial index.
+		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND 
+			indrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
+			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+			AND indpred IS NULL AND indproc IS NULL ORDER BY indisprimary DESC LIMIT 1";
+		$rs = $this->selectSet($sql);
+
+		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
+		// functions check that they're only modiying a single row.  Otherwise, return empty array.
+		if ($rs->recordCount() == 0) {			
+			// Check for OID column
+			$temp = array();
+			if ($this->hasObjectID($table)) {
+				$temp = array('oid');
+			}
+			$this->endTransaction();
+			return $temp;
+		}
+		// Otherwise find the names of the keys
+		else {
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			if (!is_array($attnames)) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			else {
+				$this->endTransaction();
+				return $attnames;
+			}
+		}			
+	}
+
 	// Group functions
 	
 	/**
