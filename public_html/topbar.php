@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.11 2003/01/04 07:08:04 chriskl Exp $
+	 * $Id: topbar.php,v 1.12 2003/01/08 22:12:49 slubek Exp $
 	 */
 
 	// Include application functions
@@ -21,9 +21,9 @@
 	</tr>
 	<tr>
 		<td>
-			<a class="toplink" href="users.php" target="detail">User Admin</a> | 
-			<a class="toplink" href="groups.php" target="detail">Group Admin</a> | 
-			<a class="toplink" href="logout.php" target="_parent">Logout</a>
+			<a class="toplink" href="users.php" target="detail"><?php global $strUserAdmin; echo $strUserAdmin ?></a> | 
+			<a class="toplink" href="groups.php" target="detail"><?php global $strGroupAdmin; echo $strGroupAdmin ?></a> | 
+			<a class="toplink" href="logout.php" target="_parent"><?php global $strLogout; echo $strLogout ?></a>
 		</td>
 	</tr>
 </table>
