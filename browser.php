@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.44.2.4 2005/03/08 09:17:23 jollytoad Exp $
+	 * $Id: browser.php,v 1.44.2.5 2005/03/08 12:24:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -40,9 +40,26 @@ webFXTreeConfig.tMinusIcon		= "<?php echo $misc->icon('Tminus') ?>";
 webFXTreeConfig.tPlusIcon		= "<?php echo $misc->icon('Tplus') ?>";
 webFXTreeConfig.blankIcon		= "<?php echo $misc->icon('blank') ?>";
 webFXTreeConfig.loadingIcon		= "<?php echo $misc->icon('loading') ?>";
-webFXTreeConfig.loadingText		= "<?php echo $lang['strloading']; ?>";
+webFXTreeConfig.loadingText		= "<?php echo $lang['strloading'] ?>";
+webFXTreeConfig.errorIcon		= "<?php echo $misc->icon('error') ?>";
+webFXTreeConfig.errorLoadingText = "<?php echo $lang['strerrorloading'] ?>";
+webFXTreeConfig.reloadText		= "<?php echo $lang['strclicktoreload'] ?>";
 
+// Set default target frame:
 WebFXTreeAbstractNode.prototype.target = 'detail';
+
+// Disable double click:
+WebFXTreeAbstractNode.prototype._onDblClick = function(){}
+
+// Show tree XML on double click - for debugging purposes only
+// TODO: REMOVE THIS BEFORE RELEASE
+WebFXTreeAbstractNode.prototype._onDblClick = function(e){
+	var el = e.target || e.srcElement;
+
+	if (this.src != null)
+		window.open(this.src, this.target || "_self");
+	return false;
+};
 
 var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
 
