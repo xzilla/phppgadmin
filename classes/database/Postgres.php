@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.153 2003/10/10 09:29:49 chriskl Exp $
+ * $Id: Postgres.php,v 1.154 2003/10/12 05:46:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -285,22 +285,21 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Returns the SQL definition for the table
-	 * @param $table The table to define
-	 * @return A string containing the formatted SQL code
-	 * @return null On error
+	 * Sets up the data object for a dump.  eg. Starts the appropriate
+	 * transaction, sets variables, etc.
+	 * @return 0 success
 	 */
-	function &getTableDef($table) {
+	function beginDump() {
 		// Begin serializable transaction (to dump consistent data)
 		$status = $this->beginTransaction();
-		if ($status != 0) return null;
+		if ($status != 0) return -1;
 		
 		// Set serializable
 		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
 		$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
-			return null;
+			return -1;
 		}
 
 		// Set datestyle to ISO
@@ -308,19 +307,27 @@ class Postgres extends BaseDB {
 		$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
-			return null;
+			return -1;
 		}
-		
-		// Set extra_float_digits to 2
-		/*  @@@ THIS IS VERSION DEPENDENT!!
-		$sql = "SET extra_float_digits TO 2";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return null;
-		}
-		*/
-		
+	}
+
+	/**
+	 * Ends the data object for a dump.
+	 * @return 0 success
+	 */
+	function endDump() {
+		return $this->endTransaction();
+	}
+
+	/**
+	 * Returns the SQL definition for the table.
+	 * @pre MUST be run within a transaction
+	 * @param $table The table to define
+	 * @param $clean True to issue drop command, false otherwise
+	 * @return A string containing the formatted SQL code
+	 * @return null On error
+	 */
+	function &getTableDefPrefix($table, $clean = false) {
 		// Fetch table
 		$t = &$this->getTable($table);
 		if (!is_object($t) || $t->recordCount() != 1) {
@@ -355,7 +362,8 @@ class Postgres extends BaseDB {
 		$sql .= "-- Definition\n\n";
 		// DROP TABLE must be fully qualified in case a table with the same name exists
 		// in pg_catalog.
-		$sql .= "-- DROP TABLE ";
+		if (!$clean) $sql .= "-- ";
+		$sql .= "DROP TABLE ";
 		if ($this->hasSchemas()) {
 			$sql .= "\"{$this->_schema}\".";
 		}
@@ -368,14 +376,25 @@ class Postgres extends BaseDB {
 		while (!$atts->EOF) {
 			$this->fieldClean($atts->f['attname']);
 			// @@@@ attlen and typmod here for < 7.1
-			// @@@@ SERIAL[8] COLUMNS!!!
-			$sql .= "    \"{$atts->f['attname']}\" {$atts->f['type']}";
-			// Add NOT NULL if necessary
-			if ($this->phpBool($atts->f['attnotnull']))
-				$sql .= " NOT NULL";
-			// Add default if necessary
-			if ($atts->f['adsrc'] !== null) 
-				$sql .= " DEFAULT {$atts->f['adsrc']}";
+			$sql .= "    \"{$atts->f['attname']}\"";
+			// Dump SERIAL and BIGSERIAL columns correctly
+			if ($this->phpBool($atts->f['attisserial']) && 
+					($atts->f['type'] == 'integer' || $atts->f['type'] == 'bigint')) {
+				if ($atts->f['type'] == 'integer')
+					$sql .= " SERIAL";
+				else
+					$sql .= " BIGSERIAL";
+			}
+			else {
+				$sql .= " {$atts->f['type']}";
+
+				// Add NOT NULL if necessary
+				if ($this->phpBool($atts->f['attnotnull']))
+					$sql .= " NOT NULL";
+				// Add default if necessary
+				if ($atts->f['adsrc'] !== null) 
+					$sql .= " DEFAULT {$atts->f['adsrc']}";
+			}
 
 			// Output comma or not
 			if ($i < $num) $sql .= ",\n";
@@ -423,7 +442,7 @@ class Postgres extends BaseDB {
 		// Inherits
 		/*
 		 * XXX: This is currently commented out as handling inheritance isn't this simple.
-		 * You also need to make sure you don't dump inherited columns and default, as well
+		 * You also need to make sure you don't dump inherited columns and defaults, as well
 		 * as inherited NOT NULL and CHECK constraints.  So for the time being, we just do
 		 * not claim to support inheritance.
 		$parents = &$this->getTableParents($table);
@@ -499,66 +518,6 @@ class Postgres extends BaseDB {
 				$this->clean($t->f['tablecomment']);
 				$sql .= "\n-- Comment\n\n";
 				$sql .= "COMMENT ON TABLE \"{$t->f['tablename']}\" IS '{$t->f['tablecomment']}';\n";
-		}
-
-		// Indexes
-		if ($this->hasIndicies()) {
-			$indexs = &$this->getIndexes($table);
-			if (!is_object($indexs)) {
-				$this->rollbackTransaction();
-				return null;
-			}
-
-			if ($indexs->recordCount() > 0) {
-				$sql .= "\n-- Indexes\n\n";
-				while (!$indexs->EOF) {
-					$sql .= $indexs->f['pg_get_indexdef'] . ";\n";
-
-					$indexs->moveNext();
-				}
-			}
-		}
-
-		// Triggers
-		if ($this->hasTriggers()) {
-			$triggers = &$this->getTriggers($table);
-			if (!is_object($triggers)) {
-				$this->rollbackTransaction();
-				return null;
-			}
-
-			if ($triggers->recordCount() > 0) {
-				$sql .= "\n-- Triggers\n\n";
-				while (!$triggers->EOF) {
-					// Nasty hack to support pre-7.4 PostgreSQL
-					if ($triggers->f['tgdef'] !== null)
-						$sql .= $triggers->f['tgdef'];
-					else 
-						$sql .= $this->getTriggerDef($triggers->f);	
-
-					$sql .= ";\n";
-
-					$triggers->moveNext();
-				}
-			}
-		}
-
-		// Rules
-		if ($this->hasRules()) {
-			$rules = &$this->getRules($table);
-			if (!is_object($rules)) {
-				$this->rollbackTransaction();
-				return null;
-			}
-
-			if ($rules->recordCount() > 0) {
-				$sql .= "\n-- Rules\n\n";
-				while (!$rules->EOF) {
-					$sql .= $rules->f['definition'] . "\n";
-
-					$rules->moveNext();
-				}
-			}
 		}
 
 		// Privileges
@@ -659,7 +618,80 @@ class Postgres extends BaseDB {
 
 		// Add a newline to separate data that follows (if any)
 		$sql .= "\n";
-		
+
+		return $sql;
+	}
+
+	/**
+	 * Returns extra table definition information that is most usefully
+	 * dumped after the table contents for speed and efficiency reasons
+	 * @param $table The table to define
+	 * @return A string containing the formatted SQL code
+	 * @return null On error
+	 */
+	function &getTableDefSuffix($table) {
+		$sql = '';
+
+		// Indexes
+		if ($this->hasIndicies()) {
+			$indexes = &$this->getIndexes($table);
+			if (!is_object($indexes)) {
+				$this->rollbackTransaction();
+				return null;
+			}
+
+			if ($indexes->recordCount() > 0) {
+				$sql .= "\n-- Indexes\n\n";
+				while (!$indexes->EOF) {
+					$sql .= $indexes->f['pg_get_indexdef'] . ";\n";
+
+					$indexes->moveNext();
+				}
+			}
+		}
+
+		// Triggers
+		if ($this->hasTriggers()) {
+			$triggers = &$this->getTriggers($table);
+			if (!is_object($triggers)) {
+				$this->rollbackTransaction();
+				return null;
+			}
+
+			if ($triggers->recordCount() > 0) {
+				$sql .= "\n-- Triggers\n\n";
+				while (!$triggers->EOF) {
+					// Nasty hack to support pre-7.4 PostgreSQL
+					if ($triggers->f['tgdef'] !== null)
+						$sql .= $triggers->f['tgdef'];
+					else 
+						$sql .= $this->getTriggerDef($triggers->f);	
+
+					$sql .= ";\n";
+
+					$triggers->moveNext();
+				}
+			}
+		}
+
+		// Rules
+		if ($this->hasRules()) {
+			$rules = &$this->getRules($table);
+			if (!is_object($rules)) {
+				$this->rollbackTransaction();
+				return null;
+			}
+
+			if ($rules->recordCount() > 0) {
+				$sql .= "\n-- Rules\n\n";
+				while (!$rules->EOF) {
+					$sql .= $rules->f['definition'] . "\n";
+
+					$rules->moveNext();
+				}
+			}
+		}
+
 		return $sql;
 	}
 
@@ -1000,7 +1032,7 @@ class Postgres extends BaseDB {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage
+					a.attstorage AS typstorage, false AS attisserial
 				FROM
 					pg_attribute a,
 					pg_class c,
@@ -1025,6 +1057,55 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
+
+	/**
+	 * Formats a type correctly for display.  Postgres 7.0 had no 'format_type'
+	 * built-in function, and hence we need to do it manually.
+	 * @param $typname The name of the type
+	 * @param $typmod The contents of the typmod field
+	 */
+	 /*
+	function formatType($typname, $typmod) {
+		$temp = '';
+		
+		// Show lengths on bpchar and varchar
+		if ($typname == 'bpchar') {
+			$temp = 'character';
+
+		if (!strcmp(typname, "bpchar"))
+		{
+			int			len = (typmod - VARHDRSZ);
+
+			appendPQExpBuffer(buf, "character");
+			if (len > 1)
+				appendPQExpBuffer(buf, "(%d)",
+								  typmod - VARHDRSZ);
+		}
+		else if (!strcmp(typname, "varchar"))
+		{
+			appendPQExpBuffer(buf, "character varying");
+			if (typmod != -1)
+				appendPQExpBuffer(buf, "(%d)",
+								  typmod - VARHDRSZ);
+		}
+		else if (!strcmp(typname, "numeric"))
+		{
+			appendPQExpBuffer(buf, "numeric");
+			if (typmod != -1)
+			{
+				int32		tmp_typmod;
+				int			precision;
+				int			scale;
+
+				tmp_typmod = typmod - VARHDRSZ;
+				precision = (tmp_typmod >> 16) & 0xffff;
+				scale = tmp_typmod & 0xffff;
+				appendPQExpBuffer(buf, "(%d,%d)",
+								  precision, scale);
+			}
+		}
+	}
+	*/
 
 	/**
 	 * Drops a column from a table

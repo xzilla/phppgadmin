@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.50 2003/10/06 15:26:23 chriskl Exp $
+ * $Id: Postgres72.php,v 1.51 2003/10/12 05:46:32 chriskl Exp $
  */
 
 
@@ -23,6 +23,9 @@ class Postgres72 extends Postgres71 {
 		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES')
 	);
 
+	// Extra "magic" types.  BIGSERIAL was added in PostgreSQL 7.2.
+	var $extraTypes = array('SERIAL', 'BIGSERIAL');
+
 	/**
 	 * Constructor
 	 * @param $host The hostname to connect to
@@ -40,6 +43,16 @@ class Postgres72 extends Postgres71 {
 	}
 
 	// Table functions
+
+	/**
+	 * Returns the SQL for changing the current user
+	 * @param $user The user to change to
+	 * @return The SQL
+	 */
+	function getChangeUserSQL($user) {
+		$this->clean($user);
+		return "SET SESSION AUTHORIZATION '{$user}';";
+	}
 
 	/**
 	 * Checks to see whether or not a table has a unique id column
@@ -76,7 +89,7 @@ class Postgres72 extends Postgres71 {
 					a.attname,
 					format_type(a.atttypid, a.atttypmod) as type,
 					a.attnotnull, a.atthasdef, adef.adsrc,
-					-1 AS attstattarget, a.attstorage, t.typstorage
+					-1 AS attstattarget, a.attstorage, t.typstorage, false AS attisserial
 				FROM 
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum

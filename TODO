@@ -40,7 +40,7 @@ Tables
 * Not using proper attFields array for attribute info (i was being lazy)
 * -Rename table
 * -Change table owner
-* Cluster support
+* -Cluster support
 * Vacuum & analyze (half done)
 * ORDER BY in Select function
 * Unify Select and Browse functions

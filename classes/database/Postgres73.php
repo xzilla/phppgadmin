@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.69 2003/10/10 09:29:49 chriskl Exp $
+ * $Id: Postgres73.php,v 1.70 2003/10/12 05:46:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -58,7 +58,6 @@ class Postgres73 extends Postgres72 {
 	function Postgres73($host, $port, $database, $user, $password) {
 		$this->Postgres72($host, $port, $database, $user, $password);
 	}
-
 
 	// Schema functions
 	
@@ -177,16 +176,6 @@ class Postgres73 extends Postgres72 {
 	}
 
 	// Table functions
-
-	/**
-	 * Returns the SQL for changing the current user
-	 * @param $user The user to change to
-	 * @return The SQL
-	 */
-	function getChangeUserSQL($user) {
-		$this->clean($user);
-		return "SET SESSION AUTHORIZATION '{$user}';";
-	}
 
 	/**
 	 * Checks to see whether or not a table has a unique id column
@@ -343,12 +332,26 @@ class Postgres73 extends Postgres72 {
 		$this->clean($field);
 
 		if ($field == '') {
+			// This query is made much more complex by the addition of the 'attisserial' field.
+			// The subquery to get that field checks to see if there is an internally dependent 
+			// sequence on the field.
 			$sql = "
 				SELECT
 					a.attname,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					a.attnotnull, a.atthasdef, adef.adsrc,
-					a.attstattarget, a.attstorage, t.typstorage
+					a.attstattarget, a.attstorage, t.typstorage,
+					(
+						SELECT 1 FROM pg_catalog.pg_depend pd, pg_catalog.pg_class pc
+						WHERE pd.objid=pc.oid 
+						AND pd.classid=pc.tableoid 
+						AND pd.refclassid=pc.tableoid
+						AND pd.refobjid=a.attrelid
+						AND pd.refobjsubid=a.attnum
+						AND pd.deptype='i'
+						AND pc.relkind='S'
+					) IS NOT NULL AS attisserial
+
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 					ON a.attrelid=adef.adrelid

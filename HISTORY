@@ -9,6 +9,7 @@ Features
   no password - a VERY common newbie error.
 * Cluster indexes and indexed constraints (with analyze)
 * Display clustered status of indexes and indexed constraints
+* Set datestyle and extra_float_digits when dumping data
 * Table info - shows table that reference the table, parent tables,
   and child tables.
 * Choice of operator when performing a Select
@@ -18,6 +19,7 @@ Bugs
 * Allow creating foreign keys to tables not in current schema
 * Always add brackets around CHECK () constraints
 * Never display an index in both Indexes and Constraints
+* BIGSERIAL missing from PostgreSQL 7.2
 
 Translations
 * Afrikaans from Petri Jooste

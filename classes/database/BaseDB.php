@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.30 2003/10/10 09:29:49 chriskl Exp $
+ * $Id: BaseDB.php,v 1.31 2003/10/12 05:46:32 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -211,13 +211,6 @@ class BaseDB extends ADODB_base {
 	 */
 	function &dumpRelation($relation, $oids) {
 		$this->fieldClean($relation);
-		
-		// Set datestyle to ISO
-		$sql = "SET DATESTYLE = ISO";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			return -1;
-		}
 		
 		// Actually retrieve the rows
 		if ($oids) $oid_str = $this->id . ', ';
