@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.34 2003/05/23 06:11:06 chriskl Exp $
+	 * $Id: Misc.php,v 1.35 2003/06/19 01:45:09 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -91,7 +91,8 @@
 			
 			$desc = null;
 			$type = $this->getDriver($host, $port, $username, $password, 
-							 $conf['servers'][$_SESSION['webdbServerID']]['type'], $desc);
+							 $conf['servers'][$_SESSION['webdbServerID']]['type'], 
+							 $conf['servers'][$_SESSION['webdbServerID']]['defaultdb'], $desc);
 			include_once('classes/database/' . $type . '.php');
 			$localData = new $type(	$host,
 											$port,
@@ -109,13 +110,14 @@
 		 * @param $user The username to use
 		 * @param $password The password to use
 		 * @param $type The ADODB database type name.
+		 * @param $database The default database to which to connect
 		 * @param (return-by-ref) $description A description of the database and version
 		 * @return The class name of the driver eg. Postgres73
 		 * @return -1 Database functions not compiled in
 		 * @return -2 Invalid database type
 		 * @return -3 Database-specific failure
 		 */
-		function getDriver($host, $port, $user, $password, $type, &$description) {
+		function getDriver($host, $port, $user, $password, $type, $database, &$description) {
 			switch ($type) {
 				case 'postgres7':
 					// Check functions are loaded
@@ -124,7 +126,7 @@
 					include_once('classes/database/ADODB_base.php');
 					$adodb = new ADODB_base('postgres7');
 
-					$adodb->conn->connect(($host === null || $host == '') ? null : "{$host}:{$port}", $user, $password, 'template1');
+					$adodb->conn->connect(($host === null || $host == '') ? null : "{$host}:{$port}", $user, $password, $database);
 
 					$sql = "SELECT VERSION() AS version";
 					$field = $adodb->selectField($sql, 'version');

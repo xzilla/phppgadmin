@@ -5,11 +5,14 @@ Version 3.0-rc-2
 ----------------
 
 * Slovak update from Andrej Misovic
+* Japanese update from Tadashi Jokagi
+* Added 'defaultdb' per-connection variable
+  for installations where connection to template1
+  is disabled.
 
 Version 3.0-rc-1
 ----------------
 
-* Japanese update from Tadashi Jokagi
 * Fix drop database reload browser bug
 * Look & Feel upgrade from Davey
 * Value & expression on edit row

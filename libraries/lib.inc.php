@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.52 2003/06/02 08:40:58 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.53 2003/06/19 01:45:09 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.0-rc-1';
+	$appVersion = '3.0-rc-2';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -29,7 +29,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$conf['base_version'] = 8;
+	$conf['base_version'] = 9;
 
 	// List of available language files
 	$appLangFiles = array(
@@ -129,6 +129,7 @@
 							$_SESSION['webdbUsername'],
 							$_SESSION['webdbPassword'],
 							$conf['servers'][$_SESSION['webdbServerID']]['type'],
+							$conf['servers'][$_SESSION['webdbServerID']]['defaultdb'],
 							$conf['description']);
 			// Check return type
 			if ($_type == -1) {
@@ -140,7 +141,7 @@
 			require_once('classes/database/' . $_type . '.php');
 			$data = new $_type($conf['servers'][$_SESSION['webdbServerID']]['host'],
 						$conf['servers'][$_SESSION['webdbServerID']]['port'],
-						null,
+						$conf['servers'][$_SESSION['webdbServerID']]['defaultdb'],
 						$_SESSION['webdbUsername'],
 						$_SESSION['webdbPassword']);
 		}
