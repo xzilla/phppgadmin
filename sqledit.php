@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.4 2003/09/11 03:27:44 chriskl Exp $
+	 * $Id: sqledit.php,v 1.5 2003/09/17 09:03:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
 					htmlspecialchars($dbname), "</option>\n";
 				$databases->moveNext();
 			}
-			echo "</select>\n";
+			echo "</select></p>\n";
 		}
 		else {
 			echo "<input type=\"hidden\" name=\"database\" value=\"", 
@@ -75,16 +75,14 @@
 
 		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
 		_printDatabases();
-		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
+
+		$rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 10;
+
+		echo "<textarea rows=\"{$rows}\" cols=\"50\" name=\"query\">",
+			htmlspecialchars($_POST['query']), "</textarea>\n";
+		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
-		echo "<input type=\"button\" value=\"{$lang['strtaller']}\" onclick=\"document.forms[0].query.rows += 2;\" />\n";
-		echo "<input type=\"button\" value=\"{$lang['strshorter']}\" onclick=\"document.forms[0].query.rows -= 2;\" />\n";
-
-		$rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 17;
-
-		echo "<textarea style=\"width:100%\" rows=\"{$rows}\" cols=\"50\" name=\"query\" id=\"query\">",
-			htmlspecialchars($_POST['query']), "</textarea></p>\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 
 		echo $misc->form;
 
