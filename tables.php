@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.67 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: tables.php,v 1.68 2004/10/11 10:29:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -544,6 +544,11 @@
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
 				'field' => 'tablespace'
+			),
+			'tuples' => array(
+				'title' => $lang['strestimatedrowcount'],
+				'field' => 'reltuples',
+				'type'  => 'numeric'
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
