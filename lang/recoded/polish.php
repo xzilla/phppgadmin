@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.16 2003/05/30 22:14:07 slubek Exp $
+	 * $Id: polish.php,v 1.17 2003/05/31 21:50:09 slubek Exp $
 	 */
 
 	// Language and character set
@@ -17,6 +17,7 @@
 	$lang['strppahome'] = 'Strona domowa phpPgAdmin';
 	$lang['strpgsqlhome'] = 'Strona domowa PostgreSQL';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'Dokumentacja PostgreSQL (lokalna)';
 	$lang['strreportbug'] = 'Zg&#322;o&#347; raport o b&#322;&#281;dzie';
 	$lang['strviewfaq'] = 'Przejrzyj FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';

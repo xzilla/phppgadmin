@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.81 2003/05/22 14:04:31 chriskl Exp $
+	 * $Id: english.php,v 1.82 2003/05/31 21:50:08 slubek Exp $
 	 */
 
 	// Language and character set
@@ -17,6 +17,7 @@
 	$lang['strppahome'] = 'phpPgAdmin Homepage';
 	$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL Documentation (local)';
 	$lang['strreportbug'] = 'Report a Bug';
 	$lang['strviewfaq'] = 'View FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';

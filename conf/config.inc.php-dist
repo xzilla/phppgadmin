@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.23 2003/05/22 01:30:32 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.24 2003/05/31 21:50:08 slubek Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -60,6 +60,12 @@
 
 	// Send XHTML headers?  Unless debugging, it's best to leave this off
 	$conf['use_xhtml'] = false;
+
+	// Where is local documentation of PostgreSQL? 
+	// /doc/ should be defined as an alias in httpd.conf - you shouldn't
+	// allow http users accessing your /usr filesystem directly, via 
+	// file:// method!
+	//$conf['docdir'] = '/doc/postgresql-7.2.1/html';
 
 	/*****************************************
 	 * Don't modify anything below this line *
