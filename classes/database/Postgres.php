@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.26 2002/12/21 11:16:46 chriskl Exp $
+ * $Id: Postgres.php,v 1.27 2002/12/24 07:35:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -375,31 +375,56 @@ class Postgres extends BaseDB {
 	}
 	
 	/**
-	 * Returns a recordset of all columns in a table
-	 * @param $table The name of a table
-	 * @param $offset The offset into the table
-	 * @param $limit The maximum number of records to return at once
-	 * @return A recordset
+	 * Returns a recordset of all columns in a relation.  Supports paging.
+	 * @param $relation The name of a relation
+	 * @param $page The page of the relation to retrieve
+	 * @param $page_size The number of rows per page
+	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
+	 * @return A recordset on success
+	 * @return -1 transaction error
+	 * @return -2 counting error
+	 * @return -3 page or page_size invalid
 	 */
-	function &getTableRows($table) {
-		$this->fieldClean($table);		
+	function &browseRelation($relation, $page, $page_size, &$max_pages) {
+		$this->fieldClean($relation);		
 
-		return $this->selectTable("SELECT COUNT(*) FROM \"{$table}\"", $offset, $limit);
-	}	
-	
-	/**
-	 * Returns a recordset of all columns in a table
-	 * @param $table The name of a table
-	 * @param $offset The offset into the table
-	 * @param $limit The maximum number of records to return at once
-	 * @return A recordset
-	 */
-	function &browseTable($table, $offset = null, $limit = null) {
-		$this->fieldClean($table);		
+		// Check that we're not going to divide by zero
+		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
 		
-		return $this->selectTable("SELECT oid, * FROM \"{$table}\"", $offset, $limit);
+		// Open a transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Count the number of rows
+		$sql = "SELECT COUNT(*) AS total FROM \"{$relation}\"";
+		$total = $this->selectField($sql, 'total');
+		if ($total < 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		
+		// Calculate max pages
+		$max_pages = ceil($total / $page_size);
+		
+		// Check that page is less than or equal to max pages
+		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+		
+		// Actually retrieve the rows, with offset and limit
+		// @@ WHAT HAPPENS IF THE THING DOESN'T HAVE OIDs???
+		$rs = $this->selectSet("SELECT oid, * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		
+		$status = $this->endTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		return $rs;
 	}
-
+	
 	/**
 	 * Returns a recordset of all columns in a table
 	 * @param $table The name of a table
@@ -417,13 +442,6 @@ class Postgres extends BaseDB {
 		}
 
 		return $this->selectSet($sql);
-	}
-
-	/**
-	 *
-	 */
-	function &selectTable($sql, $offset, $limit) {
-		return $this->selectSet($sql, $offset, $limit);
 	}
 
 	// Sequence functions

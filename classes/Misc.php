@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.4 2002/12/21 11:16:46 chriskl Exp $
+	 * $Id: Misc.php,v 1.5 2002/12/24 07:35:25 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -54,16 +54,15 @@
 		 * @param $url the url to refer to with the page number inserted
 		 * @param $max_width the number of pages to make available at any one time (default = 20)
 		 */
-		// @@ CHECK THAT WE CAN USE THIS CODE - chriskl
-		function printPages($page, $pages, $url, $max_width = 10) {
+		function printPages($page, $pages, $url, $max_width = 20) {
 			global $strPrev, $strNext;
-			
-			if ($current_page < 0 || $current_page > $max_page) return;
-			if ($max_page < 0) return;
+
+			if ($page < 0 || $page > $pages) return;
+			if ($pages < 0) return;
 			if ($max_width <= 0) return;
-			
+
 			if ($pages > 1) {
-				echo "<p>\n";
+				echo "<center><p>\n";
 				if ($page != 1) {
 					$temp = str_replace('%s', $page - 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$strPrev}</a>\n";
@@ -96,7 +95,7 @@
 					$temp = str_replace('%s', $page + 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$strNext}</a>\n";
 				}
-				echo "</p>\n";
+				echo "</p></center>\n";
 			}
 		}		
 	

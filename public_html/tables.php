@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.12 2002/12/21 11:16:46 chriskl Exp $
+	 * $Id: tables.php,v 1.13 2002/12/24 07:35:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -408,8 +408,7 @@
 			echo "<input type=hidden name=action value=editrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=hidden name=offset value=\"", htmlspecialchars($_REQUEST['offset']), "\">\n";
-			echo "<input type=hidden name=limit value=\"", htmlspecialchars($_REQUEST['limit']), "\">\n";
+			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
 			echo "<input type=submit name=choice value=\"Save\"> <input type=submit name=choice value=\"Cancel\">\n";
 			echo "</form>\n";
@@ -440,8 +439,7 @@
 			echo "<input type=hidden name=action value=delrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=hidden name=offset value=\"", htmlspecialchars($_REQUEST['offset']), "\">\n";
-			echo "<input type=hidden name=limit value=\"", htmlspecialchars($_REQUEST['limit']), "\">\n";
+			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
@@ -460,18 +458,24 @@
 	 * Browse a table
 	 */
 	function doBrowse($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables;
+		global $data, $localData, $misc, $guiMaxRows, $strBrowse;
+		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables, $strRows;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strBrowse}</h2>\n";
 		$misc->printMsg($msg);
+		
+		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
 
-		$rs = &$localData->browseTable($_REQUEST['table'], $_REQUEST['offset'], $_REQUEST['limit']);
+		// Retrieve page from table.  $max_pages is returned by reference.
+		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['page'], $guiMaxRows, $max_pages);
 
 		// Fetch unique row identifier, if there is one
 		$key = $localData->getRowIdentifier($_REQUEST['table']);
 		
-		if ($rs->recordCount() > 0) {
+		if (is_object($rs) && $rs->recordCount() > 0) {
+			// Show page navigation
+			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&database=" . 
+				urlencode($_REQUEST['database']) . "&table=" . urlencode($_REQUEST['table']));
 			echo "<table>\n<tr>";
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
@@ -501,15 +505,16 @@
 					}
 					
 					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&database=", urlencode($_REQUEST['database']),
-						"&table=", urlencode($_REQUEST['table']), "&offset=", $_REQUEST['offset'], "&limit=", $_REQUEST['limit'], "&{$key_str}\">Edit</a></td>\n";
+						"&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Edit</a></td>\n";
 					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&database=", urlencode($_REQUEST['database']),
-						"&table=", urlencode($_REQUEST['table']), "&offset=", $_REQUEST['offset'], "&limit=", $_REQUEST['limit'], "&{$key_str}\">Delete</a></td>\n";
+						"&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Delete</a></td>\n";
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
 				$i++;
 			}
 			echo "</table>\n";
+			echo "<p>", $rs->recordCount(), " {$strRows}</p>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
@@ -595,7 +600,7 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&offset=0&limit=30&database=", 
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&database=", 
 					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&database=",
 					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Select</a></td>\n";

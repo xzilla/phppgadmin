@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.13 2002/12/23 02:16:25 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.14 2002/12/24 07:35:26 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -319,8 +319,9 @@
 	function doDefault($msg = '') {
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTable;
-		global $strBrowse, $strProperties, $strDrop, $strShowAllTables, $strPrivileges;
+		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
 		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
+		global $strSelect, $strInsert, $strDrop;
 
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
@@ -351,27 +352,16 @@
 			echo "</table>\n";
 			echo "<br />\n";
 
-	// For the record, all of these EOF code fragments need to be cleaned up and removed
-	
-echo <<<EOF
-				
-<div align="left">
-<ul>
-<li><a href="tbl_properties.php?printview=1&server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Print</a>
-
-EOF;
-
-				echo "<li><a href=\"$PHP_SELF?action=confselectrows&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strBrowse}</a></li>\n";
-				echo "<li><a href=\"$PHP_SELF?action=confselectrows&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Select</a></li>\n";
-				echo "<li><a href=\"$PHP_SELF?action=confinsertrow&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Insert</a></li>\n";
-				echo "<li><a href=\"$PHP_SELF?action=confirm_drop&database=",
-					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Drop</a></li>\n";
-				echo "<li><a href=\"privileges.php?action=get_privileges&database=",
-					htmlspecialchars($_REQUEST['database']), "&object=", urlencode($_REQUEST['table']),"\">$strPrivileges</a></li>\n";
-
+			echo "<ul>\n";
+			echo "<li><a href=\"tables.php?action=browse&page=1&database=",
+				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strBrowse}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confselectrows&database=",
+				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strSelect}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confinsertrow&database=",
+				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strInsert}</a></li>\n";
+			echo "<li><a href=\"tables.php?action=confirm_drop&database=",
+				urlencode($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">{$strDrop}</a></li>\n";
+			echo "</ul>\n";
 		}
 		else {
 			echo "<p>{$strNoTable}</p>\n";
@@ -380,17 +370,19 @@ EOF;
 
 	function doNav() {
 		global $PHP_SELF;
-		global $strColumns, $strIndicies, $strConstraints, $strTriggers, $strRules, $strExport;
+		global $strColumns, $strIndicies, $strConstraints, $strTriggers, $strRules, $strExport, $strPrivileges;
 
 		$vars = 'database=' . urlencode($_REQUEST['database']) . '&table=' . urlencode($_REQUEST['table']);
 		
 		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-		echo "<tr><td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>";
-		echo "<td width=\"17%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>";
+		echo "<tr><td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>";
+		echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&database=", 
+			urlencode($_REQUEST['database']), "&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>";
+		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>";
 		echo "</table>\n";
 	}	
 
