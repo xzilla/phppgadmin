@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.36 2004/05/25 00:46:52 soranzo Exp $
+	 * $Id: views.php,v 1.37 2004/05/26 14:03:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -249,8 +249,14 @@
 				echo "</table>\n<br />\n";
 			}						
 						
-			// Output additional conditions			
-			$arrOperators = array('=' => '=', 'LIKE' => 'LIKE', '!=' => '!=', '>' => '>', '<' =>'<', 'IN' => 'IN', '!!=' => '!!=', 'BETWEEN' => 'BETWEEN');
+			// Output additional conditions
+			
+			// Build list of available operators (infix only)
+			$arrOperators = array();
+			foreach ($data->selectOps as $k => $v) {
+				if ($v == 'i') $arrOperators[$k] = $k;
+			}
+
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strviewconditions']}</th></tr>";					
 			$rowClass = 'data1';
