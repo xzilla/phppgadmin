@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.148 2003/10/03 07:38:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.149 2003/10/06 11:13:13 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -256,6 +256,308 @@ class Postgres extends BaseDB {
 	// Table functions
 
 	/**
+	 * Returns the SQL definition for the table
+	 * @param $table The table to define
+	 * @return A string containing the formatted SQL code
+	 * @return null On error
+	 */
+	function &getTableDef($table) {
+		// Begin serializable transaction (to dump consistent data)
+		$status = $this->beginTransaction();
+		if ($status != 0) return null;
+		
+		// Set serializable
+		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return null;
+		}
+
+		// Set datestyle to ISO
+		$sql = "SET DATESTYLE = ISO";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return null;
+		}
+		
+		// Set extra_float_digits to 2
+		/*  @@@ THIS IS VERSION DEPENDENT!!
+		$sql = "SET extra_float_digits TO 2";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return null;
+		}
+		*/
+		
+		// Fetch table
+		$t = &$this->getTable($table);
+		if (!is_object($t) || $t->recordCount() != 1) return null;
+		$this->fieldClean($t->f['tablename']);
+		$this->fieldClean($t->f['tableowner']);
+
+		// Fetch attributes
+		$atts = &$this->getTableAttributes($table);
+		if (!is_object($atts)) return null;
+
+		// Fetch constraints
+		$cons = &$this->getConstraints($table);
+		if (!is_object($cons)) return null;
+
+		// Output a reconnect command to create the table as the correct user
+		$sql = "\\\\connect - \"{$t->f['tableowner']}\"\n\n";
+
+		// Set schema search path if we support schemas
+		if ($this->hasSchemas()) {
+			$sql .= "SET search_path = \"{$this->_schema}\", pg_catalog;\n\n";
+		}
+		
+		// Begin CREATE TABLE definition
+		$sql .= "-- Definition\n\n";
+		$sql .= "-- DROP TABLE \"{$t->f['tablename']}\";\n";
+		$sql .= "CREATE TABLE \"{$t->f['tablename']}\" (\n";
+
+		// Output all table columns
+		$num = $atts->recordCount();
+		$i = 1;
+		while (!$atts->EOF) {
+			$this->fieldClean($atts->f['attname']);
+			// @@@@ attlen and typmod here
+			// @@@@ SERIAL[8] COLUMNS!!!
+			$sql .= "    \"{$atts->f['attname']}\" {$atts->f['type']}";
+			// Add NOT NULL if necessary
+			if ($this->phpBool($atts->f['attnotnull']))
+				$sql .= " NOT NULL";
+			// Add default if necessary
+			if ($atts->f['adsrc'] !== null) 
+				$sql .= " DEFAULT {$atts->f['adsrc']}";
+
+			// Output comma or not
+			if ($i < $num) $sql .= ",\n";
+			else $sql .= "\n";
+
+			$atts->moveNext();
+			$i++;
+		}
+
+		$sql .= ")";
+
+		// Inherits
+		$parents = &$this->getTableParents($table);
+		if ($parents->recordCount() > 0) {
+			$sql .= " INHERITS (";
+			while (!$parents->EOF) {
+				$this->fieldClean($parents->f['relname']);
+				// Qualify the parent table if it's in another schema
+				if ($this->hasSchemas() && $parents->f['schemaname'] != $this->_schema) {
+					$this->fieldClean($parents->f['schemaname']);
+					$sql .= "\"{$parents->f['schemaname']}\".";
+				}
+				$sql .= "\"{$parents->f['relname']}\"";
+				
+				$parents->moveNext();
+				if (!$parents->EOF) $sql .= ', ';
+			}			
+			$sql .= ")";
+		}
+
+		// Handle WITHOUT OIDS
+		if ($this->hasWithoutOIDs()) {
+			if ($this->hasObjectID($table))
+				$sql .= " WITH OIDS";
+			else
+				$sql .= " WITHOUT OIDS";
+		}
+
+		$sql .= ";\n";
+
+		// Comment
+		if ($t->f['tablecomment'] !== null) {
+				$this->clean($t->f['tablecomment']);
+				$sql .= "\n-- Comment\n\n";
+				$sql .= "COMMENT ON TABLE \"{$t->f['tablename']}\" IS '{$t->f['tablecomment']}';\n";
+		}
+
+		// Indexes
+		if ($this->hasIndicies()) {
+			$indexs = &$this->getIndexes($table);
+			if (!is_object($indexs)) return null;
+
+			if ($indexs->recordCount() > 0) {
+				$sql .= "\n-- Indexes\n\n";
+				while (!$indexs->EOF) {
+					$sql .= $indexs->f['pg_get_indexdef'] . ";\n";
+
+					$indexs->moveNext();
+				}
+			}
+		}
+
+		// Constraints
+		if ($cons->recordCount() > 0) {
+			$sql .= "\n-- Constraints\n\n";
+			while (!$cons->EOF) {
+				$this->fieldClean($cons->f['conname']);
+				$sql .= "ALTER TABLE ONLY \"{$t->f['tablename']}\" ADD CONSTRAINT \"{$cons->f['conname']}\" ";
+				// Nasty hack to support pre-7.4 PostgreSQL
+				if ($cons->f['consrc'] !== null)
+					$sql .= $cons->f['consrc'];
+				else {
+					switch ($cons->f['contype']) {
+						case 'p':
+							$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
+							$sql .= "PRIMARY KEY (" . join(',', $keys) . ")";
+							break;
+						case 'u':
+							$keys = &$this->getKeys($table, explode(' ', $cons->f['indkey']));
+							$sql .= "UNIQUE (" . join(',', $keys) . ")";
+							break;
+						default:
+							// Unrecognised constraint
+							return null;
+					}
+				}
+
+				$sql .= ";\n";
+
+				$cons->moveNext();
+			}
+		}
+
+		// Triggers
+		if ($this->hasTriggers()) {
+			$triggers = &$this->getTriggers($table);
+			if (!is_object($triggers)) return null;
+
+			if ($triggers->recordCount() > 0) {
+				$sql .= "\n-- Triggers\n\n";
+				while (!$triggers->EOF) {
+					// Nasty hack to support pre-7.4 PostgreSQL
+					if ($triggers->f['tgdef'] !== null)
+						$sql .= $triggers->f['tgdef'];
+					else 
+						$sql .= $this->getTriggerDef($triggers->f);	
+
+					$sql .= ";\n";
+
+					$triggers->moveNext();
+				}
+			}
+		}
+
+		// Rules
+		if ($this->hasRules()) {
+			$rules = &$this->getRules($table);
+			if (!is_object($rules)) return null;
+
+			if ($rules->recordCount() > 0) {
+				$sql .= "\n-- Rules\n\n";
+				while (!$rules->EOF) {
+					$sql .= $rules->f['definition'] . "\n";
+
+					$rules->moveNext();
+				}
+			}
+		}
+
+		// Privileges
+		$privs = &$this->getPrivileges($table, 'table');
+		if (!is_array($privs)) return null;
+
+		if (sizeof($privs) > 0) {
+			$sql .= "\n-- Privileges\n\n";
+			/*
+          * Always start with REVOKE ALL FROM PUBLIC, so that we don't have to
+          * wire-in knowledge about the default public privileges for different
+          * kinds of objects.
+          */
+			$sql .= "REVOKE ALL ON TABLE \"{$t->f['tablename']}\" FROM PUBLIC;\n";
+			foreach ($privs as $v) {
+				// Get non-GRANT OPTION privs
+				$nongrant = array_diff($v[2], $v[4]);
+				
+				// Skip empty or owner ACEs
+				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->f['tableowner'])) continue;
+				
+				// Change user if necessary
+				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+					$grantor = $v[3];
+					$this->clean($grantor);
+					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
+				}				
+				
+				// Output privileges with no GRANT OPTION
+				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->f['tablename']}\" TO ";
+				switch ($v[0]) {
+					case 'public':
+						$sql .= "PUBLIC;\n";
+						break;
+					case 'user':
+						$this->fieldClean($v[1]);
+						$sql .= "\"{$v[1]}\";\n";
+						break;
+					case 'group':
+						$this->fieldClean($v[1]);
+						$sql .= "GROUP \"{$v[1]}\";\n";
+						break;
+					default:
+						// Unknown privilege type - fail
+						return null;
+				}
+
+				// Reset user if necessary
+				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+					$sql .= "RESET SESSION AUTHORIZATION;\n";
+				}				
+				
+				// Output privileges with GRANT OPTION
+				
+				// Skip empty or owner ACEs
+				if (!$this->hasGrantOption() || sizeof($v[4]) == 0) continue;
+
+				// Change user if necessary
+				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+					$grantor = $v[3];
+					$this->clean($grantor);
+					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
+				}				
+				
+				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->f['tablename']}\" TO ";
+				switch ($v[0]) {
+					case 'public':
+						$sql .= "PUBLIC";
+						break;
+					case 'user':
+						$this->fieldClean($v[1]);
+						$sql .= "\"{$v[1]}\"";
+						break;
+					case 'group':
+						$this->fieldClean($v[1]);
+						$sql .= "GROUP \"{$v[1]}\"";
+						break;
+					default:
+						// Unknown privilege type - fail
+						return null;
+				}
+				$sql .= " WITH GRANT OPTION;\n";
+				
+				// Reset user if necessary
+				if ($this->hasGrantOption() && $v[3] != $t->f['tableowner']) {
+					$sql .= "RESET SESSION AUTHORIZATION;\n";
+				}				
+
+			}
+		}
+
+		// End transaction
+		$this->endTransaction();
+
+		return $sql;
+	}
+
+	/**
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
@@ -344,6 +646,55 @@ class Postgres extends BaseDB {
 		}			
 	}
 
+	// Inheritance functions
+	
+	/**
+	 * Finds the names and schemas of parent tables (in order)
+	 * @param $table The table to find the parents for
+	 * @return A recordset
+	 */
+	function &getTableParents($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				NULL AS schemaname, relname
+			FROM
+				pg_class pc, pg_inherits pi
+			WHERE
+				pc.oid=pi.inhparent
+				AND pi.inhrelid = (SELECT oid from pg_class WHERE relname='{$table}')
+			ORDER BY
+				pi.inhseqno
+		";
+		
+		return $this->selectSet($sql);					
+	}	
+
+
+	/**
+	 * Finds the names and schemas of child tables
+	 * @param $table The table to find the children for
+	 * @return A recordset
+	 */
+	function &getTableChildren($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT 
+				NULL AS schemaname, relname
+			FROM
+				pg_class pc, pg_inherits pi
+			WHERE
+				pc.oid=pi.inhrelid
+				AND pi.inhparent = (SELECT oid from pg_class WHERE relname='{$table}')
+		";
+		
+		return $this->selectSet($sql);					
+	}	
+	
+	// Formatting functions
+	
 	/**
 	 * Outputs the HTML code for a particular field
 	 * @param $name The name to give the field
@@ -640,12 +991,10 @@ class Postgres extends BaseDB {
 	 * @return -1 no fields supplied
 	 */
 	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids) {
-		// @@ NOTE: $default field not being cleaned - how on earth DO we clean it??
 		$this->fieldClean($name);
 
 		$found = false;
 		$sql = "CREATE TABLE \"{$name}\" (";
-		
 		for ($i = 0; $i < $fields; $i++) {
 			$this->fieldClean($field[$i]);
 			$this->clean($type[$i]);
