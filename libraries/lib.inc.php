@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.92.2.4 2005/03/02 13:54:28 jollytoad Exp $
+	 * $Id: lib.inc.php,v 1.92.2.5 2005/03/03 14:46:28 jollytoad Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -83,6 +83,8 @@
 		$_server_info['password'] = $_POST['loginPassword'];
 		
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
+		
+		$_reload_browser = true;
 	}
 
 	// Determine language file to import:
