@@ -4,13 +4,14 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.22 2003/04/04 08:28:27 chriskl Exp $
+	 * $Id: english.php,v 1.23 2003/04/19 11:57:33 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'English';
 	$lang['appcharset'] = 'ISO-8859-1';
-
+	$lang['applocale'] = 'en_US';
+  
 	// Basic strings
 	$lang['strintro'] = 'Welcome to phpPgAdmin.';
 	$lang['strlogin'] = 'Login';
@@ -53,6 +54,7 @@
 	$lang['stredit'] = 'Edit';
 	$lang['strcolumns'] = 'Columns';
 	$lang['strrows'] = 'row(s)';
+	$lang['strrowsaff'] = 'row(s) affected.';
 	$lang['strexample'] = 'eg.';
 	$lang['strback'] = 'Back';
 	$lang['strqueryresults'] = 'Query Results';
@@ -100,7 +102,7 @@
 	$lang['strtablename'] = 'Table name';
 	$lang['strtableneedsname'] = 'You must give a name for your table.';
 	$lang['strtableneedsfield'] = 'You must specify at least one field.';
-	$lang['strtableneedscols'] = 'You must give a valid number of columns.';
+	$lang['strtableneedscols'] = 'Tables require a valid number of columns.';
 	$lang['strtablecreated'] = 'Table created.';
 	$lang['strtablecreatedbad'] = 'Table creation failed.';
 	$lang['strconfdroptable'] = 'Are you sure you want to drop the table &quot;%s&quot;?';
@@ -128,7 +130,7 @@
 	$lang['straltercolumn'] = 'Alter Column';
 	$lang['strcolumnaltered'] = 'Column Altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';
-        $lang['strconfdropcolumn'] = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
+	$lang['strconfdropcolumn'] = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Column dropped.';
 	$lang['strcolumndroppedbad'] = 'Column drop failed.';
 	$lang['straddcolumn'] = 'Add column';
@@ -200,6 +202,7 @@
 	$lang['strdatabasedropped'] = 'Database dropped.';
 	$lang['strdatabasedroppedbad'] = 'Database drop failed.';
 	$lang['strentersql'] = 'Enter the SQL to execute below:';
+	$lang['strsqlexecuted'] = 'SQL executed.';
 	$lang['strvacuumgood'] = 'Vacuum complete.';
 	$lang['strvacuumbad'] = 'Vacuum failed.';
 	$lang['stranalyzegood'] = 'Analyze complete.';
@@ -257,7 +260,7 @@
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Column Name';
 	$lang['strindexneedsname'] = 'You must give a name for your index';
-	$lang['strindexneedscols'] = 'You must give a valid number of columns.';
+	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created';
 	$lang['strindexcreatedbad'] = 'Index creation failed.';
 	$lang['strconfdropindex'] = 'Are you sure you want to drop the index &quot;%s&quot;?';
@@ -310,9 +313,11 @@
 	$lang['struniqaddedbad'] = 'Failed to add unique key.';
 	$lang['straddfk'] = 'Add Foreign Key';
 	$lang['strfkneedscols'] = 'Foreign key requires at least one column.';
+	$lang['strfkneedstarget'] = 'Foreign key requires a target table.';
 	$lang['strfkadded'] = 'Foreign key added.';
 	$lang['strfkaddedbad'] = 'Failed to add foreign key.';
 	$lang['strfktarget'] = 'Target table';
+	$lang['strfkcolumnlist'] = 'Columns in key';
 
 	// Functions
 	$lang['strfunction'] = 'Function';
