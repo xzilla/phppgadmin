@@ -2,7 +2,7 @@
 -- 
 -- To run, type: psql template1 < reports-pgsql.sql
 --
--- $Id: reports-pgsql.sql,v 1.2 2003/05/07 01:01:05 chriskl Exp $
+-- $Id: reports-pgsql.sql,v 1.3 2003/10/23 08:32:20 chriskl Exp $
 
 CREATE DATABASE phppgadmin;
 
@@ -12,7 +12,7 @@ CREATE TABLE ppa_reports (
 	report_id SERIAL,
 	report_name varchar(255) NOT NULL,
 	db_name varchar(255) NOT NULL,
-	date_created date DEFAULT 'now' NOT NULL,
+	date_created date DEFAULT NOW() NOT NULL,
 	created_by varchar(255) NOT NULL,
 	descr text,
 	report_sql text NOT NULL,
