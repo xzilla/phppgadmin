@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.6 2003/04/21 06:36:23 chriskl Exp $
+	 * $Id: browser.php,v 1.7 2003/04/23 03:36:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 	while (!$databases->EOF) {
 		// If database is selected, show folder, otherwise show document
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
-			$node = $tree->add_folder($root, addslashes($databases->f[$data->dbFields['dbname']]),
+			$node = $tree->add_folder($root, addslashes(htmlspecialchars($databases->f[$data->dbFields['dbname']])),
 				'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 
 			if ($data->hasSchemas()) {
@@ -94,7 +94,7 @@
 //					$tree->add_document($node, $lang['straggregates'], 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 			}
 		} else {
-			$node = $tree->add_document($root, addslashes($databases->f[$data->dbFields['dbname']]),
+			$node = $tree->add_document($root, addslashes(htmlspecialchars($databases->f[$data->dbFields['dbname']])),
 				"{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]), '_self', "../../images/themes/{$conf['theme']}/database.gif");
 		}		
 
