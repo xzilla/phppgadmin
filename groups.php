@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.16 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: groups.php,v 1.17 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -239,6 +239,7 @@
 
 	$misc->printHeader($lang['strgroups']);
 	$misc->printBody();
+	$misc->printNav('server','groups');
 
 	switch ($action) {
 		case 'add_member':

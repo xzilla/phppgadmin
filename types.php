@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.18 2004/07/07 03:00:00 chriskl Exp $
+	 * $Id: types.php,v 1.19 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -259,6 +259,7 @@
 
 	$misc->printHeader($lang['strtypes']);
 	$misc->printBody();
+	$misc->printNav('schema','types');
 
 	switch ($action) {
 		case 'save_create':

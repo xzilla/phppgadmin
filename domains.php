@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.14 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: domains.php,v 1.15 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -423,6 +423,7 @@
 
 	$misc->printHeader($lang['strdomains']);
 	$misc->printBody();
+	$misc->printNav('schema','domains');
 
 	switch ($action) {
 		case 'add_check':

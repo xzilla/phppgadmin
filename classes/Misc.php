@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.71 2004/07/12 04:18:40 chriskl Exp $
+	 * $Id: Misc.php,v 1.72 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -294,182 +294,283 @@
 
 		/**
 		 * Display navigation tabs
-		 * @params $tabs An associative array of tabs definitions, see printTableNav() for an example.
+		 * @param $tabs An associative array of tabs definitions, see printNav() for an example.
+		 * @param $activetab The name of the tab to be highlighted.
 		 */
-		function printTabs($tabs) {
+		function printTabs($tabs, $activetab) {
+			global $misc;
+			
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
 			
+			# FIXME: don't count hiden tags
 			$width = round(100 / count($tabs)).'%';
-			if (!isset($_REQUEST['tab'])) $_REQUEST['tab'] = '';
 			
 			foreach ($tabs as $tab_id => $tab) {
-				if ($tab_id == $_REQUEST['tab'])
-					$class = ' class="active"';
-				else
-					$class = '';
-				echo "<td width=\"{$width}\"{$class}><a href=\"{$tab['url']}&amp;tab={$tab_id}\">{$tab['title']}</a></td>\n";
+				$class = ($tab_id == $activetab) ? ' class="active"' : '';
+				
+				if (!isset($tab['hide']) || $tab['hide'] !== true)
+					echo "<td width=\"{$width}\"{$class}><a href=\"" . htmlspecialchars($tab['url']) . "\">{$tab['title']}</a></td>\n";
 			}
 			
 			echo "</tr></table>\n";
 		}
+
+		/**
+		 * Retreive the tab info for a specific tab bar.
+		 * @param $section The name of the tab bar.
+		 */
+		function getNavTabs($section) {
+			global $data, $lang, $conf;
+			
+			$databasevar = isset($_REQUEST['database']) ? 'database=' . urlencode($_REQUEST['database']) : '';
+			$schemavar = isset($_REQUEST['schema']) ? '&schema=' . urlencode($_REQUEST['schema']) : '';
+			
+			switch ($section) {
+				case 'server':
+					$hide_users = !$data->isSuperUser($_SESSION['webdbUsername']);
+					return array (
+						'databases' => array (
+							'title' => $lang['strdatabases'],
+							'url'   => "all_db.php",
+						),
+						'users' => array (
+							'title' => $lang['strusers'],
+							'url'   => "users.php",
+							'hide'  => $hide_users,
+						),
+						'groups' => array (
+							'title' => $lang['strgroups'],
+							'url'   => "groups.php",
+							'hide'  => $hide_users,
+						),
+					);
+
+				case 'database':
+					$vars = $databasevar;
+					return array (
+						'schemas' => array (
+							'title' => $lang['strschemas'],
+							'url'   => "database.php?{$vars}",
+							'hide'  => (!$data->hasSchemas()),
+						),
+						'sql' => array (
+							'title' => $lang['strsql'],
+							'url'   => "database.php?{$vars}&action=sql",
+						),
+						'find' => array (
+							'title' => $lang['strfind'],
+							'url'   => "database.php?{$vars}&action=find",
+						),
+						'variables' => array (
+							'title' => $lang['strvariables'],
+							'url'   => "database.php?{$vars}&action=variables",
+							'hide'  => (!$data->hasVariables()),
+						),
+						'processes' => array (
+							'title' => $lang['strprocesses'],
+							'url'   => "database.php?{$vars}&action=processes",
+							'hide'  => (!$data->hasProcesses()),
+						),
+						'admin' => array (
+							'title' => $lang['stradmin'],
+							'url'   => "database.php?{$vars}&action=admin",
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => "privileges.php?{$vars}&type=database&object=" . urlencode($_REQUEST['database']),
+							'hide'  => (!isset($data->privlist['database'])),
+						),
+						'languages' => array (
+							'title' => $lang['strlanguages'],
+							'url'   => "languages.php?{$vars}",
+						),
+						'casts' => array (
+							'title' => $lang['strcasts'],
+							'url'   => "casts.php?{$vars}",
+						),
+						'export' => array (
+							'title' => $lang['strexport'],
+							'url'   => "database.php?{$vars}&action=export",
+							'hide'  => (!$this->isDumpEnabled()),
+						),
+					);
+
+				case 'schema':
+					$vars = $databasevar . $schemavar;
+					$hide_advanced = ($conf['show_advanced'] === false);
+					return array (
+						'tables' => array (
+							'title' => $lang['strtables'],
+							'url'   => "tables.php?{$vars}",
+						),
+						'views' => array (
+							'title' => $lang['strviews'],
+							'url'   => "views.php?{$vars}",
+						),
+						'sequences' => array (
+							'title' => $lang['strsequences'],
+							'url'   => "sequences.php?{$vars}",
+						),
+						'functions' => array (
+							'title' => $lang['strfunctions'],
+							'url'   => "functions.php?{$vars}",
+						),
+						'domains' => array (
+							'title' => $lang['strdomains'],
+							'url'   => "domains.php?{$vars}",
+						),
+						'aggregates' => array (
+							'title' => $lang['straggregates'],
+							'url'   => "aggregates.php?{$vars}",
+							'hide'  => $hide_advanced,
+						),
+						'types' => array (
+							'title' => $lang['strtypes'],
+							'url'   => "types.php?{$vars}",
+							'hide'  => $hide_advanced,
+						),
+						'operators' => array (
+							'title' => $lang['stroperators'],
+							'url'   => "operators.php?{$vars}",
+							'hide'  => $hide_advanced,
+						),
+						'opclasses' => array (
+							'title' => $lang['stropclasses'],
+							'url'   => "opclasses.php?{$vars}",
+							'hide'  => $hide_advanced,
+						),
+						'conversions' => array (
+							'title' => $lang['strconversions'],
+							'url'   => "conversions.php?{$vars}",
+							'hide'  => $hide_advanced,
+						),
+					);
+
+				case 'table':
+					$table = urlencode($_REQUEST['table']);
+					$vars = $databasevar . $schemavar . "&table={$table}";
+					return array (
+						'columns' => array (
+							'title' => $lang['strcolumns'],
+							'url'   => "tblproperties.php?{$vars}",
+						),
+						'indexes' => array (
+							'title' => $lang['strindexes'],
+							'url'   => "indexes.php?{$vars}",
+						),
+						'constraints' => array (
+							'title' => $lang['strconstraints'],
+							'url'   => "constraints.php?{$vars}",
+						),
+						'triggers' => array (
+							'title' => $lang['strtriggers'],
+							'url'   => "triggers.php?{$vars}",
+						),
+						'rules' => array (
+							'title' => $lang['strrules'],
+							'url'   => "rules.php?{$vars}&reltype=table&relation={$table}",
+						),
+						'info' => array (
+							'title' => $lang['strinfo'],
+							'url'   => "info.php?{$vars}",
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => "privileges.php?{$vars}&type=table&object={$table}",
+						),
+						'import' => array (
+							'title' => $lang['strimport'],
+							'url'   => "tblproperties.php?{$vars}&action=import",
+						),
+						'export' => array (
+							'title' => $lang['strexport'],
+							'url'   => "tblproperties.php?{$vars}&action=export",
+						),
+					);
+				
+				case 'view':
+					$view = urlencode($_REQUEST['view']);
+					$vars = $databasevar . $schemavar . "&view={$view}";
+					return array (
+						'columns' => array (
+							'title' => $lang['strcolumns'],
+							'url'   => "viewproperties.php?{$vars}",
+						),
+						'definition' => array (
+							'title' => $lang['strdefinition'],
+							'url'   => "viewproperties.php?{$vars}&action=definition",
+						),
+						'rules' => array (
+							'title' => $lang['strrules'],
+							'url'   => "rules.php?{$vars}&reltype=view&relation={$view}",
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => "privileges.php?{$vars}&type=view&object={$view}",
+						),
+						'export' => array (
+							'title' => $lang['strexport'],
+							'url'   => "viewproperties.php?{$vars}&action=export",
+						),
+					);
+
+				case 'popup':
+					$vars = $databasevar;
+					return array (
+						'sql' => array (
+							'title' => $lang['strsql'],
+							'url'   => "sqledit.php?{$vars}&action=sql",
+						),
+						'find' => array (
+							'title' => $lang['strfind'],
+							'url'   => "sqledit.php?{$vars}&action=find",
+						),
+					);
+				
+				default:
+					return array();
+			}
+		}
 		
 		/**
-		 * Display the navigation header for tables
+		 * Display a navigation tab bar.
+		 * @param $section The name of the tab bar.
+		 * @param $activetab The tab to highlight and set as default for the bar.
 		 */
-		function printTableNav() {
-			global $lang;
+		function printNav($section, $activetab) {
+			global $data;
 			
-			$vars = $this->href . '&amp;table=' . urlencode($_REQUEST['table']);
-			
-			$tabs = array (
-				'columns' => array (
-					'title' => $lang['strcolumns'],
-					'url'   => "tblproperties.php?{$vars}",
-				),
-				'indexes' => array (
-					'title' => $lang['strindexes'],
-					'url'   => "indexes.php?{$vars}",
-				),
-				'constraints' => array (
-					'title' => $lang['strconstraints'],
-					'url'   => "constraints.php?{$vars}",
-				),
-				'triggers' => array (
-					'title' => $lang['strtriggers'],
-					'url'   => "triggers.php?{$vars}",
-				),
-				'rules' => array (
-					'title' => $lang['strrules'],
-					'url'   => "rules.php?{$this->href}&amp;reltype=table&amp;relation=" . urlencode($_REQUEST['table']),
-				),
-				'info' => array (
-					'title' => $lang['strinfo'],
-					'url'   => "info.php?{$vars}",
-				),
-				'privileges' => array (
-					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?{$vars}&amp;type=table&amp;object=" . urlencode($_REQUEST['table']),
-				),
-				'import' => array (
-					'title' => $lang['strimport'],
-					'url'   => "tblproperties.php?{$vars}&amp;action=import",
-				),
-				'export' => array (
-					'title' => $lang['strexport'],
-					'url'   => "tblproperties.php?{$vars}&amp;action=export",
-				),
-			);
-			
-			$this->printTabs($tabs);
+			switch ($section) {
+				case 'database':
+				case 'schema':
+					if ($data->hasSchemas() === false) {
+						$this->printTabs($this->getNavTabs('database'),$activetab);
+						$this->printTabs($this->getNavTabs('schema'),$activetab);
+						$_SESSION['webdbLastTab']['database'] = $activetab;
+						$_SESSION['webdbLastTab']['schema'] = $activetab;
+						break;
+					}
+				default:
+					$tabs = $this->getNavTabs($section);
+					if (!empty($tabs)) {
+						$this->printTabs($tabs, $activetab);
+						$_SESSION['webdbLastTab'][$section] = $activetab;
+					}
+			}
 		}
-
+		
 		/**
-		 * Display the navigation header for views
+		 * Get the URL for the last active tab of a particular tab bar.
 		 */
-		function printViewNav() {
-			global $lang;
-
-			$vars = $this->href . '&amp;view=' . urlencode($_REQUEST['view']);
+		function getLastTabURL($section) {
+			$tabs = $this->getNavTabs($section);
 			
-			$tabs = array (
-				'columns' => array (
-					'title' => $lang['strcolumns'],
-					'url'   => "viewproperties.php?{$vars}",
-				),
-				'definition' => array (
-					'title' => $lang['strdefinition'],
-					'url'   => "viewproperties.php?action=definition&amp;{$vars}",
-				),
-				'rules' => array (
-					'title' => $lang['strrules'],
-					'url'   => "rules.php?{$this->href}&amp;reltype=view&amp;relation=" . urlencode($_REQUEST['view']),
-				),
-				'privileges' => array (
-					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?{$vars}&amp;type=view&amp;object=" . urlencode($_REQUEST['view']),
-				),
-				'export' => array (
-					'title' => $lang['strexport'],
-					'url'   => "viewproperties.php?action=export&amp;{$vars}",
-				),
-		);
+			if (isset($_SESSION['webdbLastTab'][$section]))
+				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];
+			else
+				$tab = reset($tabs);
 			
-			$this->printTabs($tabs);
-		}
-
-		/**
-		 * Display the navigation header for tables
-		 */
-		function printDatabaseNav() {
-			global $lang, $conf, $data;
-
-			$vars = 'database=' . urlencode($_REQUEST['database']);
-			
-			$tabs = array (
-				'schemas' => array (
-					'title' => $lang['strschemas'],
-					'url'   => "database.php?{$vars}",
-				),
-				'sql' => array (
-					'title' => $lang['strsql'],
-					'url'   => "database.php?{$vars}&amp;action=sql",
-				),
-				'find' => array (
-					'title' => $lang['strfind'],
-					'url'   => "database.php?{$vars}&amp;action=find",
-				),
-				'variables' => array (
-					'title' => $lang['strvariables'],
-					'url'   => "database.php?{$vars}&amp;action=variables",
-				),
-				'processes' => array (
-					'title' => $lang['strprocesses'],
-					'url'   => "database.php?{$vars}&amp;action=processes",
-				),
-				'admin' => array (
-					'title' => $lang['stradmin'],
-					'url'   => "database.php?{$vars}&amp;action=admin",
-				),
-				'privileges' => array (
-					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?{$vars}&amp;type=database&amp;object=" . urlencode($_REQUEST['database']),
-				),
-				'export' => array (
-					'title' => $lang['strexport'],
-					'url'   => "database.php?{$vars}&amp;action=export",
-				),
-			);
-			
-			if (!$data->hasSchemas()) unset($tabs['schemas']);
-			if (!$data->hasVariables()) unset($tabs['variables']);
-			if (!$data->hasProcesses()) unset($tabs['processes']);
-			if (!isset($data->privlist['database'])) unset($tabs['privileges']);
-			if (!$this->isDumpEnabled()) unset($tabs['export']);
-
-			$this->printTabs($tabs);
-		}
-
-		/**
-		 * Display the navigation header for popup window
-		 */
-		function printPopUpNav() {
-			global $lang, $data;
-
-			if (isset($_REQUEST['database'])) $url = '&amp;database=' . urlencode($_REQUEST['database']);
-			else $url = '';
-
-			$tabs = array (
-				'sql' => array (
-					'title' => $lang['strsql'],
-					'url'   => "sqledit.php?action=sql{$url}",
-				),
-				'find' => array (
-					'title' => $lang['strfind'],
-					'url'   => "sqledit.php?action=find{$url}",
-				),
-			);
-			
-			$this->printTabs($tabs);
+			return isset($tab['url']) ? $tab['url'] : null;
 		}
 		
 		/**

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.45 2004/07/07 03:00:00 chriskl Exp $
+	 * $Id: views.php,v 1.46 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -549,7 +549,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'	=> "viewproperties.php?{$misc->href}&amp;",
+				'url'	=> "redirect.php?section=view&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 			'browse' => array(
@@ -586,6 +586,7 @@
 
 	$misc->printHeader($lang['strviews']);
 	$misc->printBody();
+	$misc->printNav('schema','views');
 
 	switch ($action) {
 		case 'selectrows':

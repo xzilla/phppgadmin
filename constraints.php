@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.32 2004/07/08 17:57:32 xzilla Exp $
+	 * $Id: constraints.php,v 1.33 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -285,7 +285,7 @@
 				doDefault($lang['strinvalidparam']);
 				return;
 			}
-
+			
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": {$desc}</h2>\n";
 			$misc->printMsg($msg);
@@ -478,7 +478,6 @@
 			}
 		}
 		
-		$misc->printTableNav();
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strconstraints']),'constraints');
 		$misc->printMsg($msg);
 
@@ -547,6 +546,8 @@
 		echo "<body onload=\"init();\">";
 	else
 		$misc->printBody();
+
+	$misc->printNav('table','constraints');
 
 	switch ($action) {
 		case 'cluster_constraint':

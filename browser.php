@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.39 2004/07/07 02:59:56 chriskl Exp $
+	 * $Id: browser.php,v 1.40 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 	$menu  = new HTML_TreeMenu(null, array('usePersistence' => false));
 	$root = new HTML_TreeNode(array(
 						'text' => $misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc'])), 
-						'link' => addslashes('all_db.php?' . SID), 
+						'link' => addslashes('redirect.php?section=server&amp;' . SID), 
 						'icon' => 'folder.gif', 
 						'expandedIcon' => 'folder-expanded.gif',
 						'expanded' => true,
@@ -34,7 +34,7 @@
 	/**
 	 * Helper function for adding nodes
 	 * @param $schemanode Node onto which to add
-	 */	
+	 */
 	function addNodes(&$schemanode, $querystr) {
 		global $data, $misc, $lang, $conf;
 		
@@ -56,7 +56,7 @@
 				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f['relname']) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
 								'text' => $misc->printVal($tables->f['relname']), 
-								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
+								'link' => addslashes(htmlspecialchars("redirect.php?section=table&{$querystr}&table=" .
 									urlencode($tables->f['relname']))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
@@ -90,7 +90,7 @@
 				$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f['relname']) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
 								'text' => $misc->printVal($views->f['relname']), 
-								'link' => addslashes(htmlspecialchars("viewproperties.php?{$querystr}&view=" .
+								'link' => addslashes(htmlspecialchars("redirect.php?section=view&{$querystr}&view=" .
 									urlencode($views->f['relname']))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
@@ -152,7 +152,7 @@
 					|| $data->hasAggregates() || $data->hasOpClasses()) {
 				$adv_node = &new HTML_TreeNode(array(
 								'text' => $lang['stradvanced'], 
-								'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
+#								'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
 								'icon' => 'folder.gif', 
 								'expandedIcon' => 'folder-expanded.gif',
 								'linkTarget' => 'detail'));
@@ -237,7 +237,7 @@
 			$querystr = 'database=' . urlencode($databases->f['datname']) . '&' . SID;
 			$db_node = &new HTML_TreeNode(array(
 								'text' => $misc->printVal($databases->f['datname']), 
-								'link' => addslashes(htmlspecialchars("database.php?{$querystr}")),
+								'link' => addslashes(htmlspecialchars("redirect.php?section=database&{$querystr}")),
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
@@ -253,7 +253,7 @@
 							urlencode($schemas->f['nspname']) . '&' . SID;
 					$schemanode = &new HTML_TreeNode(array(
 									'text' => $misc->printVal($schemas->f['nspname']), 
-									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
+									'link' => addslashes(htmlspecialchars("redirect.php?section=schema&{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
 									// Auto-expand your personal schema, if it exists.  Also expand schema if there is

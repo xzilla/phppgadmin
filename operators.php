@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.14 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: operators.php,v 1.15 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -155,6 +155,7 @@
 
 	$misc->printHeader($lang['stroperators']);
 	$misc->printBody();
+	$misc->printNav('schema','operators');
 
 	switch ($action) {
 		case 'save_create':

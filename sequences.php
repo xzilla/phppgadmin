@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.23 2004/07/12 07:13:32 chriskl Exp $
+	 * $Id: sequences.php,v 1.24 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -249,7 +249,8 @@
 	// Print header
 	$misc->printHeader($lang['strsequences']);
 	$misc->printBody();
-	
+	$misc->printNav('schema','sequences');
+
 	switch($action) {
 		case 'create':
 			doCreateSequence();

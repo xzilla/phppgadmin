@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.53 2004/07/12 07:13:32 chriskl Exp $
+	 * $Id: database.php,v 1.54 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -40,7 +40,7 @@
 		if (!isset($_GET['term'])) $_GET['term'] = '';
 		if (!isset($_GET['filter'])) $_GET['filter'] = '';
 
-		$misc->printDatabaseNav();
+		$misc->printNav('database','find');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strfind']));
 		$misc->printMsg($msg);
 		
@@ -290,7 +290,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printDatabaseNav();
+		$misc->printNav('database','export');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strexport']));
 		$misc->printMsg($msg);
 
@@ -342,8 +342,7 @@
 		// Fetch the variables from the database
 		$variables = &$data->getVariables();
 		
-		$misc->printDatabaseNav();
-
+		$misc->printNav('database','variables');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strvariables']),'runtime_config');
 
 		$columns = array(
@@ -373,7 +372,7 @@
 		// Fetch the processes from the database
 		$processes = &$data->getProcesses($_REQUEST['database']);
 		
-		$misc->printDatabaseNav();
+		$misc->printNav('database','processes');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strprocesses']), 'processes');
 		$misc->printMsg($msg);
 		
@@ -448,7 +447,7 @@
 				else doAdmin('', $lang['strreindexbad']);
 				break;
 			default:
-				$misc->printDatabaseNav();
+				$misc->printNav('database','admin');
 				$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['stradmin']));
 				$misc->printMsg($msg);
 				
@@ -504,7 +503,7 @@
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
-		$misc->printDatabaseNav();
+		$misc->printNav('database','sql');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strsql']),'sql');
 
 		echo "<p>{$lang['strentersql']}</p>\n";
@@ -549,6 +548,7 @@
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
+			$misc->printNav('database','schemas');
 			$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['strdrop']),'drop_schema');
 
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
@@ -594,6 +594,7 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
+		$misc->printNav('database','schemas');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strcreateschema']),'create_schema');
 		$misc->printMsg($msg);
 		
@@ -674,7 +675,7 @@
 		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
-		$misc->printDatabaseNav();
+		$misc->printNav('database','schemas');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strschemas']),'schemas');
 		$misc->printMsg($msg);
 		
@@ -707,7 +708,7 @@
 			$actions = array(
 				'properties' => array(
 					'title' => $lang['strproperties'],
-					'url'   => 'schema.php?database='.urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "redirect.php?section=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'drop' => array(

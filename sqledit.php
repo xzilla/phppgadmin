@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.17 2004/07/12 07:13:32 chriskl Exp $
+	 * $Id: sqledit.php,v 1.18 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -61,7 +61,7 @@
 		if (!isset($_GET['term'])) $_GET['term'] = '';
 		if (!isset($_GET['filter'])) $_GET['filter'] = '';
 
-		$misc->printPopUpNav();
+		$misc->printNav('popup','find');
 		echo "<h2>{$lang['strfind']}</h2>\n";
 		
 		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n<p>";
@@ -126,7 +126,7 @@
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
-		$misc->printPopUpNav();
+		$misc->printNav('popup','sql');
 		echo "<h2>{$lang['strsql']}</h2>\n";
 
 		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n<p>";

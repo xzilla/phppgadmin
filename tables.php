@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.59 2004/07/10 09:23:24 chriskl Exp $
+	 * $Id: tables.php,v 1.60 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -510,7 +510,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "tblproperties.php?{$misc->href}&amp;",
+				'url'   => "redirect.php?section=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'browse' => array(
@@ -549,6 +549,7 @@
 	
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();
+	$misc->printNav('schema','tables');
 
 	switch ($action) {
 		case 'create':

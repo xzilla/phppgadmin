@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.35 2004/07/13 09:00:32 chriskl Exp $
+	 * $Id: functions.php,v 1.36 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -490,6 +490,7 @@
 	
 	$misc->printHeader($lang['strfunctions']);
 	$misc->printBody();
+	$misc->printNav('schema','functions');
 
 	switch ($action) {
 		case 'save_create':

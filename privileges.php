@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.25 2004/07/10 08:51:01 chriskl Exp $
+	 * $Id: privileges.php,v 1.26 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -134,14 +134,6 @@
 		global $PHP_SELF, $lang;
 
 		switch ($_REQUEST['type']) {
-			case 'table':
-				$misc->printTableNav();
-				$name = $_REQUEST['object'];
-				break;
-			case 'view':
-				$misc->printViewNav();
-				$name = $_REQUEST['object'];
-				break;
 			case 'function':
 				$name = $_REQUEST['function'];
 				break;
@@ -242,6 +234,7 @@
 
 	$misc->printHeader($lang['strprivileges']);
 	$misc->printBody();
+	$misc->printNav($_REQUEST['type'], 'privileges');
 
 	switch ($action) {
 		case 'save':

@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.6 2004/07/07 02:59:56 chriskl Exp $
+	 * $Id: conversions.php,v 1.7 2004/07/13 15:24:40 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -58,6 +58,7 @@
 
 	$misc->printHeader($lang['strconversions']);
 	$misc->printBody();
+	$misc->printNav('schema','conversions');
 
 	switch ($action) {
 		default:

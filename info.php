@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.6 2004/03/06 11:30:00 chriskl Exp $
+	 * $Id: info.php,v 1.7 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 		global $data, $misc;
 		global $lang;
 
-		$misc->printTableNav();
+		$misc->printNav('table','info');
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strinfo']}</h2>\n";
 		$misc->printMsg($msg);
 

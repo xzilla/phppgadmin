@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.20 2004/07/07 02:59:59 chriskl Exp $
+	 * $Id: triggers.php,v 1.21 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -196,7 +196,6 @@
 									: $data->getTriggerDef($rowdata->f);
 		}
 		
-		$misc->printTableNav();
 		$misc->printTitle(array($misc->printVal($_REQUEST['database'])), $misc->printVal($_REQUEST['table']), $lang['strtriggers']);
 		$misc->printMsg($msg);
 
@@ -238,6 +237,7 @@
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
 	$misc->printBody();
+	$misc->printNav('table','triggers');
 
 	switch ($action) {
 		case 'alter':

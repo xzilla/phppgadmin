@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.8 2004/07/09 18:51:02 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.9 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -74,7 +74,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printViewNav();
+		$misc->printNav('view','export');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['view']), $lang['strexport']));
 		$misc->printMsg($msg);
 
@@ -133,7 +133,7 @@
 		// Get view
 		$vdata = &$data->getView($_REQUEST['view']);
 
-		$misc->printViewNav();
+		$misc->printNav('view','definition');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strdefinition']));
 		$misc->printMsg($msg);
 		
@@ -166,6 +166,7 @@
 			case 1:
 				global $lang;
 
+				$misc->printNav('view','columns');
 				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['straltercolumn'],	$misc->printVal($_REQUEST['column'])));
 				$misc->printMsg($msg);
 
@@ -252,7 +253,7 @@
 			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
 		}
 		
-		$misc->printViewNav();
+		$misc->printNav('view','columns');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view'])));
 		$misc->printMsg($msg);
 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.54 2004/07/13 09:00:39 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.55 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -46,6 +46,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
+		$misc->printNav('table','columns');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['stralter']), 'alter_table');
 		$misc->printMsg($msg);
 
@@ -120,7 +121,7 @@
 		// Determine whether or not the table has an object ID
 		$hasID = $data->hasObjectID($_REQUEST['table']);
 		
-		$misc->printTableNav();
+		$misc->printNav('table','export');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strexport']));
 		$misc->printMsg($msg);
 
@@ -174,7 +175,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printTableNav();
+		$misc->printNav('table','import');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strimport']));
 		$misc->printMsg($msg);
 
@@ -232,6 +233,7 @@
 				// Fetch all available types
 				$types = &$data->getTypes(true, false, true);
 
+				$misc->printNav('table','columns');
 				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['straddcolumn']), 'add_column');
 				$misc->printMsg($msg);
 
@@ -328,6 +330,7 @@
 			case 1:
 				global $lang;
 
+				$misc->printNav('table','columns');
 				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
 					$lang['straltercolumn'], $misc->printVal($_REQUEST['column'])), 'alter_column');
 				$misc->printMsg($msg);
@@ -475,6 +478,7 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
+			$misc->printNav('table','columns');
 			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), 
 				$misc->printVal($_REQUEST['column']), $lang['strdrop']), 'drop_column');
             echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
@@ -516,7 +520,7 @@
 			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
 		}
 		
-		$misc->printTableNav();
+		$misc->printNav('table','columns');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table'])));
 		$misc->printMsg($msg);
 

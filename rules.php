@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.19 2004/07/07 02:59:58 chriskl Exp $
+	 * $Id: rules.php,v 1.20 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -127,9 +127,6 @@
 		global $PHP_SELF;
 		global $lang;
 
-		if ($_REQUEST['reltype'] == 'table') $misc->printTableNav();
-		else $misc->printViewNav();		
-		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['relation']), $lang['strrules']));
 		$misc->printMsg($msg);
 
@@ -174,7 +171,8 @@
 		$misc->printHeader($lang['strviews'] . ' - ' . $_REQUEST['relation'] . ' - ' . $lang['strrules']);
 	}
 	$misc->printBody();
-	
+	$misc->printNav($_REQUEST['reltype'],'rules');
+
 	switch ($action) {
 		case 'create_rule':
 			createRule(true);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.24 2004/07/07 03:00:00 chriskl Exp $
+	 * $Id: users.php,v 1.25 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -325,6 +325,7 @@
 
 	$misc->printHeader($lang['strusers']);
 	$misc->printBody();
+	$misc->printNav('server','users');
 
 	switch ($action) {
 		case 'changepassword':

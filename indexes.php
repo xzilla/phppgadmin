@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.28 2004/07/10 09:23:24 chriskl Exp $
+	 * $Id: indexes.php,v 1.29 2004/07/13 15:24:41 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -237,7 +237,6 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$misc->printTableNav();
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strindexes']));
 		$misc->printMsg($msg);
 
@@ -295,7 +294,9 @@
 		echo "<body onload=\"init();\">";
 	else
 		$misc->printBody();
-	
+
+	$misc->printNav('table','indexes');
+
 	switch ($action) {
 		case 'cluster_index':
 			if (isset($_POST['cluster'])) doClusterIndex(false);
