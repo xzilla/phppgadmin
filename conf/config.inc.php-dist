@@ -4,65 +4,70 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.31 2003/12/13 16:15:48 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.32 2004/01/29 07:30:12 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
 	// indexed from zero upwards.
-	$conf['servers'][0]['desc'] = 'PostgreSQL'; // Display name for server
-	$conf['servers'][0]['host'] = '';  // Hostname or IP address for server.
-                                      // Null or '' indicates UNIX domain
-                                      // socket.
-	$conf['servers'][0]['port'] = 5432;         // Database port on server
-	$conf['servers'][0]['defaultdb'] = 'template1';  // Default database to connect to.
-                                                    // Only change this if your administrator
-                                                    // has disabled connections to template1.
+
+	// Display name for the server on the login screen
+	$conf['servers'][0]['desc'] = 'PostgreSQL';
+
+	// Hostname or IP address for server.  Use '' for UNIX domain socket.
+	$conf['servers'][0]['host'] = '';
+
+	// Database port on server (5432 is the PostgreSQL default)
+	$conf['servers'][0]['port'] = 5432;
+
+	// Change the default database only if you cannot connect to template1
+	$conf['servers'][0]['defaultdb'] = 'template1';
+
+	// Specify the path to the database dump utilities for this server.
+	// You can set these to '' if no dumper is available.
+	$conf['servers'][0]['pg_dump_path'] = '/usr/bin/pg_dump';
+	$conf['servers'][0]['pg_dumpall_path'] = '/usr/bin/pg_dumpall';
 
 	// Example for a second server
-	//$conf['servers'][1]['desc'] = 'Dev Server';
+	//$conf['servers'][1]['desc'] = 'Test Server';
 	//$conf['servers'][1]['host'] = '192.168.0.1';
 	//$conf['servers'][1]['port'] = 5432;
 	//$conf['servers'][1]['defaultdb'] = 'template1';
+	//$conf['servers'][1]['pg_dump_path'] = 'c:/cygwin/bin/pg_dump.exe';
+	//$conf['servers'][1]['pg_dumpall_path'] = '';
 
 	// Default language setting.  eg 'english', 'polish', etc.
 	$conf['default_lang'] = 'english';
 	
-	// If extra login security is true, then logins via phpPgAdmin with no password
-	// or certain usernames (pgsql, postgres, root, administrator) will be denied.
-	// Only turn this off once you have read the FAQ and understand how to change
-	// PostgreSQL's pg_hba.conf to enable passworded local connections.
+	// If extra login security is true, then logins via phpPgAdmin with no
+	// password or certain usernames (pgsql, postgres, root, administrator)
+	// will be denied. Only turn this off once you have read the FAQ and
+	// understand how to change PostgreSQL's pg_hba.conf to enable
+	// passworded local connections.
 	$conf['extra_login_security'] = true;
 
 	// Only show owned databases?
-	// Note: This will simply hide other databases in the list - this does not
-	// in any way prevent your users from seeing other database by other means.
-	// (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
+	// Note: This will simply hide other databases in the list - this does
+	// not in any way prevent your users from seeing other database by
+	// other means. (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
 	$conf['owned_only'] = false;
 
-	// Display "advanced" objects?  Setting this to true will show types, operators
-	// conversions, languages and casts in phpPgAdmin.  These objects are rarely
-	// administered and can clutter the interface.
+	// Display "advanced" objects?  Setting this to true will show types,
+	// operators conversions, languages and casts in phpPgAdmin.  These
+	// objects are rarely administered and can clutter the interface.
 	$conf['show_advanced'] = false;
 
 	// Display "system" objects?
 	$conf['show_system'] = false;
 
-	// Display reports feature?
+	// Display reports feature?  For this feature to work, you must
+	// install the reports database as explained in the INSTALL file.
 	$conf['show_reports'] = true;
 
 	// Only show owned reports?
-	// Note: This does not prevent people from accessing other reports by other
-	// means.
+	// Note: This does not prevent people from accessing other reports by
+	// other means.
 	$conf['owned_reports_only'] = false;
 
-	// Allow database and cluster dumps?
-	// Note: Set this to the fully qualified path name for your pg_dump 
-	// and pg_dumpall utilities.  If you set them to '' or null, then the 
-	// feature will be disabled.  Read the INSTALL file for more
-	// information.  Usual Win32 Cygwin dir is 'c:/cygwin/bin/pg_dump.exe'
-	$conf['pg_dump_path'] = '/usr/bin/pg_dump';
-	$conf['pg_dumpall_path'] = '/usr/bin/pg_dumpall';
-	
 	// Minimum length users can set their password to.
 	$conf['min_password_length'] = 1;
 

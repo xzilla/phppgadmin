@@ -20,10 +20,18 @@ phpPgAdmin Installation Guide
 
 4. If you run your PHP installation in safe mode, in order that the database
    dump feature can work correctly, you need to set the 'safe_mode_allowed_env_vars'
-   php.ini variable to include the PGPASSWORD environmental variable.
+   php.ini variable to include the PGPASSWORD environmental variable and the
+   safe_mode_exec_dir to include /usr/local/bin.
+   
+   	eg. safe_mode_allowed_env_vars = PHP_,PGPASSWORD
+   	    safe_mode_exec_dir = /usr/bin
+   
+   Given that you usually don't want to allow everything in /usr/bin to
+   be executed, you might want to copy the pg_dump and pg_dumpall utilities
+   to a directory by themselves.
    
    Also, you will need to ensure that your 'pg_dump' and 'pg_dumpall' utilities
-   are executable by the PHP process.
+   are executable by the PHP process, if you want dump support in phpPgAdmin.
 
 5. Enable the statistics collector in PostgreSQL.  phpPgAdmin will display
    table and index performance and usage statistics if you have enabled the
@@ -31,9 +39,9 @@ phpPgAdmin Installation Guide
    following lines in your postgresql.conf and enable them:
 
    	stats_start_collector = true
-	stats_command_string = true
-	stats_block_level = true
-	stats_row_level = true
+		stats_command_string = true
+		stats_block_level = true
+		stats_row_level = true
 
 6. Browse to the phpPgAdmin installation using a web browser.  You might
    need cookies enabled for phpPgAdmin to work.

@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.10 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: dataexport.php,v 1.11 2004/01/29 07:30:11 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -30,7 +30,7 @@
 			case 'dataonly':
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
-				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != ''
+				if ($misc->isDumpEnabled()
 						&& ($_REQUEST['d_format'] == 'copy' || $_REQUEST['d_format'] == 'sql')) {
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
@@ -51,7 +51,7 @@
 			case 'structureonly':
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
-				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+				if ($misc->isDumpEnabled()) {
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
@@ -67,7 +67,7 @@
 			case 'structureanddata':
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
-				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+				if ($misc->isDumpEnabled()) {
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);

@@ -3,7 +3,7 @@
 	 * Does an export of a database to the screen or as a download.
 	 * Can also dump a specific table of a database.
 	 *
-	 * $Id: dbexport.php,v 1.6 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: dbexport.php,v 1.7 2004/01/29 07:30:11 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,7 @@
 	include_once('./libraries/lib.inc.php');
 	
 	// Check that database dumps are enabled.
-	if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+	if ($misc->isDumpEnabled()) {
 
 		// Make it do a download, if necessary
 		switch($_REQUEST['output']){
@@ -38,7 +38,7 @@
 		$database = escapeshellarg($_REQUEST['database']);		
 
 		// Build command for executing pg_dump
-		$cmd = escapeshellcmd($conf['pg_dump_path']) . " -i -U {$username}";
+		$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i -U {$username}";
 		if ($hostname !== null && $hostname != '') {
 			$cmd .= " -h " . escapeshellarg($hostname);
 		}

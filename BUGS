@@ -21,4 +21,6 @@ Need to fix:
 * Aggregate and opclass support for < 7.3
 * The getType function needs to be ported to 7.2 and 7.3 classes to add
   pretty type name and schema support
+* Add query start time to processes view for 7.4+
+* Report login errors
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.177 2004/01/18 11:09:12 chriskl Exp $
+ * $Id: Postgres.php,v 1.178 2004/01/29 07:30:12 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -965,17 +965,6 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 	
-	/**
-	 * Dumps a database
-	 */
-	function dbDump($database) {
-		global $appDumper;
-
-		$database = escapeshellarg($database);
-
-		passthru("/usr/local/bin/pg_dump {$database}");
-	}
-
 	// Table functions
 
 	/**

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.56 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: Misc.php,v 1.57 2004/01/29 07:30:12 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -13,6 +13,22 @@
 		
 		/* Constructor */
 		function Misc() {
+		}
+
+		/** 
+		 * Checks if dumps are properly set up
+		 * @param $all (optional) True to check pg_dumpall, false to just check pg_dump
+		 * @return True, dumps are set up, false otherwise
+		 */
+		function isDumpEnabled($all = false) {
+			global $conf;
+			
+			if ($all)
+				return ($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path'] !== null 
+								&& $conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path'] != '');
+			else 
+				return ($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path'] !== null 
+								&& $conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path'] != '');
 		}
 
 		/**
@@ -283,7 +299,7 @@
 				echo "<td width=\"13%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			}
 			// Check that database dumps are enabled.
-			if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+			if ($this->isDumpEnabled()) {
 				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			}
 			echo "</tr></table>\n";
