@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.132 2004/07/22 13:26:03 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.133 2004/07/22 13:29:19 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -881,6 +881,7 @@ class Postgres73 extends Postgres72 {
 				t.typname AS basename,
 				pg_catalog.format_type(t.oid, NULL) AS typname,
 				pu.usename AS typowner,
+				t.typtype,
 				pg_catalog.obj_description(t.oid, 'pg_type') AS typcomment
 			FROM (pg_catalog.pg_type t
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace)

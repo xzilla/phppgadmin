@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.19 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: types.php,v 1.20 2004/07/22 13:29:20 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -29,21 +29,49 @@
 		
 		
 		if ($typedata->recordCount() > 0) {
-			$byval = $data->phpBool($typedata->f['typbyval']);
-			echo "<table>\n";
-			echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typname']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typin']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['stroutputfn']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typout']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strlength']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typlen']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strpassbyval']}</th>\n";
-			echo "<td class=\"data1\">", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['stralignment']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($typedata->f['typalign']), "</td></tr>\n";
-			echo "</table>\n";
+			switch ($typedata->f['typtype']) {
+			case 'c':
+				function attPre(&$rowdata) {
+					global $data;
+					$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+				}
+				
+				$attrs = &$data->getTableAttributes($_REQUEST['type']);
+				
+				$columns = array(
+					'field' => array(
+						'title' => $lang['strfield'],
+						'field' => 'attname',
+					),
+					'type' => array(
+						'title' => $lang['strtype'],
+						'field' => '+type',
+					),
+				);
+				
+				$actions = array();
+				
+				$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+				
+				break;
+
+			default:
+				$byval = $data->phpBool($typedata->f['typbyval']);
+				echo "<table>\n";
+				echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typname']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typin']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['stroutputfn']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typout']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strlength']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typlen']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strpassbyval']}</th>\n";
+				echo "<td class=\"data1\">", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['stralignment']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typalign']), "</td></tr>\n";
+				echo "</table>\n";
+			}
 
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
 		else
@@ -229,6 +257,20 @@
 				'title' => $lang['strowner'],
 				'field' => 'typowner',
 			),
+			'flavour' => array(
+				'title' => $lang['strflavour'],
+				'field' => 'typtype',
+				'type'  => 'verbatim',
+				'params'=> array(
+					'map' => array(
+						'b' => $lang['strbasetype'],
+						'c' => $lang['strcompositetype'],
+						'd' => $lang['strdomain'],
+						'p' => $lang['strpseudotype'],
+					),
+					'align' => 'center',
+				),
+			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -237,6 +279,8 @@
 				'field' => 'typcomment',
 			),
 		);
+		
+		if (!isset($types->f['typtype'])) unset($columns['flavour']);
 
 		$actions = array(
 			'properties' => array(
