@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.30 2003/12/15 07:59:22 chriskl Exp $
+	 * $Id: browser.php,v 1.31 2003/12/16 00:32:28 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -196,7 +196,7 @@
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
-								'linkTarget' => 'detail'));
+								'linkTarget' => '_self'));
 		
 			// If database supports schemas, add the extra level of hierarchy
 			if ($data->hasSchemas()) {

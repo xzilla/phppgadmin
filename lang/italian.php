@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.21 2003/11/26 20:39:13 soranzo Exp $
+	 * $Id: italian.php,v 1.22 2003/12/16 00:32:28 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -111,6 +111,10 @@
 	$lang['strinfo'] = 'Informazioni';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Avanzato';
+	$lang['strvariables'] = 'Variabili';
+	$lang['strprocess'] = 'Processo';
+	$lang['strprocesses'] = 'Processi';
+	$lang['strsetting'] = 'Valore';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
@@ -124,6 +128,7 @@
         $lang['strnodata'] = 'Nessuna riga trovata.';
 	$lang['strnoobjects'] = 'Nessun oggetto trovato.';
 	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
+	$lang['strnoreportsdb'] = 'Non è stato creato il database dei report. Leggere il file INSTALL per istruzioni.';
 
         // Tables - Tabelle
 	$lang['strtable'] = 'Tabella';

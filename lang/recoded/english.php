@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.74 2003/12/15 08:30:54 chriskl Exp $
+	 * $Id: english.php,v 1.75 2003/12/16 00:32:28 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -128,7 +128,7 @@
 	$lang['strnodata'] = 'No rows found.';
 	$lang['strnoobjects'] = 'No objects found.';
 	$lang['strrownotunique'] = 'No unique identifier for this row.';
-	$lang['strnoreportsdb'] = 'You have not created the reports database.  Read the INSTALL file for directions.';
+	$lang['strnoreportsdb'] = 'You have not created the reports database. Read the INSTALL file for directions.';
 
 	// Tables
 	$lang['strtable'] = 'Table';
