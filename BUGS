@@ -5,7 +5,6 @@ This file is used to track current working tasks - just ignore it!
 
 fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
-re-enable help system
 all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
 need icons and Find for Casts and Conversions, Languages, Aggs and OpClasses
 submit changes to HTML_TreeMenu maintainer
@@ -18,7 +17,6 @@ Need to fix:
 * Report login errors
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
-* add drop-down to Find to restrict objects to search over
 
 NEEDS TESTING
 -------------
@@ -30,10 +28,9 @@ NEEDS TESTING
 * advanced stats functions
 * prevent the user from dropping all the superusers
 * rename function in 7.2 and below doesn't come back to the correct function
-* 7.5 function named parameters are not supported
 * Fix SQL window parent update to not update any random window
 * Show owner on privileges screen?
  http://devilock.mine.nu/textarea_tab.html
-* privs on tablespaces
-* creating objects in tablespaces
 * fix test for MINGW backend
+* add help links everywhere.  fix formatting of help links.
+* Deal with named parameters that have ',' in the type name

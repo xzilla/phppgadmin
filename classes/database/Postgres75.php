@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.13 2004/07/10 09:23:24 chriskl Exp $
+ * $Id: Postgres75.php,v 1.14 2004/07/13 09:00:40 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -117,7 +117,30 @@ class Postgres75 extends Postgres74 {
 
 		return $this->selectSet($sql);
 	}	
-	
+
+	/**
+	 * Returns table information
+	 * @param $table The name of the table
+	 * @return A recordset
+	 */
+	function &getTable($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT
+			  c.relname, u.usename AS relowner,
+			  pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
+			  (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
+			FROM pg_catalog.pg_class c
+			     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
+			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+			WHERE c.relkind = 'r'
+			      AND n.nspname = '{$this->_schema}'
+			      AND c.relname = '{$table}'";		
+			
+		return $this->selectSet($sql);
+	}
+		
 	/**
 	 * Alters a column in a table
 	 * @param $table The table in which the column resides
@@ -252,15 +275,16 @@ class Postgres75 extends Postgres74 {
 	
 	/**
 	 * Retrieves information for all tablespaces
+	 * @param $all Include all tablespaces (necessary when moving objects back to the default space)
 	 * @return A recordset
 	 */
-	function getTablespaces() {
+	function getTablespaces($all = false) {
 		global $conf;
 		
 		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
 					FROM pg_catalog.pg_tablespace";
 					
-		if (!$conf['show_system']) {
+		if (!$conf['show_system'] && !$all) {
 			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
 		}
 		
@@ -385,12 +409,45 @@ class Postgres75 extends Postgres74 {
 		elseif ($val == '1') return 0;
 		else return -1;
 	}
+
+	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+		
+		$sql = "SELECT 
+					pc.oid AS prooid,
+					proname,
+					lanname as prolanguage,
+					pg_catalog.format_type(prorettype, NULL) as proresult,
+					prosrc,
+					probin,
+					proretset,
+					proisstrict,
+					provolatile,
+					prosecdef,
+					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
+					proargnames AS proargnames,
+					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
+				FROM
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
+				WHERE 
+					pc.oid = '{$function_oid}'::oid
+				AND pc.prolang = pl.oid
+				";
 	
+		return $this->selectSet($sql);
+	}
+		
 	function hasAlterColumnType() { return true; }
 	function hasTablespaces() { 
 		$platform = $this->getPlatform();
 		return $platform != 'MINGW';
 	}
 	function hasSignals() { return true; }
+	function hasNamedParams() { return true; }
 	
 }

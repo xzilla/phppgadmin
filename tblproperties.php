@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.53 2004/07/10 08:51:01 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.54 2004/07/13 09:00:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,8 +20,10 @@
 
 		// For databases that don't allow owner change
 		if (!isset($_POST['owner'])) $_POST['owner'] = '';
+		// Default tablespace to null if it isn't set
+		if (!isset($_POST['spcname'])) $_POST['spcname'] = null;
 		
-		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment']);
+		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment'], $_POST['spcname']);
 		if ($status == 0) {
 			// If table has been renamed, need to change to the new name and
 			// reload the browser frame.
@@ -51,12 +53,15 @@
 		$table = &$data->getTable($_REQUEST['table']);
 		// Fetch all users
 		$users = &$data->getUsers();
+		// Fetch all tablespaces from the database
+		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces(true);
 		
 		if ($table->recordCount() > 0) {
 			
 			if (!isset($_POST['name'])) $_POST['name'] = $table->f['relname'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f['relowner'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f['relcomment'];
+			if ($data->hasTablespaces() && !isset($_POST['spcname'])) $_POST['spcname'] = $table->f['tablespace'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -75,6 +80,24 @@
 				}
 				echo "</select></td></tr>\n";				
 			}
+
+			// Tablespace (if there are any)
+			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+				echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"spcname\">\n";
+				// Always offer the default (empty) option
+				echo "\t\t\t\t<option value=\"\"",
+					($_POST['spcname'] == '') ? ' selected="selected"' : '', "></option>\n";
+				// Display all other tablespaces
+				while (!$tablespaces->EOF) {
+					$spcname = htmlspecialchars($tablespaces->f['spcname']);
+					echo "\t\t\t\t<option value=\"{$spcname}\"",
+						($spcname == $_POST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+					$tablespaces->moveNext();
+				}
+				echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+			}
+			
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.233 2004/07/12 07:13:32 chriskl Exp $
+ * $Id: Postgres.php,v 1.234 2004/07/13 09:00:40 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1310,18 +1310,21 @@ class Postgres extends BaseDB {
 	 * @param $name The new name for the table
 	 * @param $owner The new owner for the table	
 	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 owner error
 	 * @return -3 rename error
 	 * @return -4 comment error
-	 * @return -5 get existing owner error
+	 * @return -5 get existing table error
+	 * @return -6 tablespace error
 	 */
-	function alterTable($table, $name, $owner, $comment) {
+	function alterTable($table, $name, $owner, $comment, $tablespace) {
 		$this->fieldClean($table);
 		$this->fieldClean($name);
 		$this->fieldClean($owner);
 		$this->clean($comment);
+		$this->fieldClean($tablespace);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -1357,6 +1360,28 @@ class Postgres extends BaseDB {
 					return -2;
 				}
 			}
+		}
+		
+		// Tablespace
+		if ($this->hasTablespaces() && $tablespace != '') {
+			// Fetch existing tablespace
+			$data = &$this->getTable($table);
+			if ($data->recordCount() != 1) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+				
+			// If tablespace has been changed, then do the alteration.  We
+			// don't want to do this unnecessarily.
+			if ($data->f['tablespace'] != $tablespace) {
+				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
+		
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -6;
+				}
+			}		
 		}
 
 		// Rename (only if name has changed)

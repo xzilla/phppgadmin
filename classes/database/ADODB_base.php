@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.17 2004/07/04 15:02:35 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.18 2004/07/13 09:00:40 chriskl Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -301,6 +301,26 @@ class ADODB_base {
 		return $parameter;
 	}
 
+	/**
+	 * Change a db array into a PHP array
+	 * @param $arr String representing the DB array
+	 * @return A PHP array
+	 */
+	function phpArray($arr) {
+		$temp = explode(',', substr($arr, 1, strlen($arr) - 2));
+		// Remove any quoting
+		for ($i = 0; $i < sizeof($temp); $i++) {
+			if (substr($temp[$i], 0, 1) == '"' && substr($temp[$i], strlen($temp[$i]) - 1, 1) == '"') {
+				// Strip double quotes
+				$temp[$i] = substr($temp[$i], 1, strlen($temp[$i]) - 2);	
+				// Unescape backslashes
+				$temp[$i] = str_replace('\\\\', '\\', $temp[$i]);
+				// Unescape double quotes
+				$temp[$i] = str_replace('\\"', '"', $temp[$i]);
+			}
+		}
+		return $temp;
+	}
 }
 
 ?>

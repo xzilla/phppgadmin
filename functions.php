@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.34 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: functions.php,v 1.35 2004/07/13 09:00:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -62,6 +62,22 @@
 			if (!isset($_POST['formObjectFile'])) $_POST['formObjectFile'] = $fndata->f['probin'];
 			if (!isset($_POST['formLinkSymbol'])) $_POST['formLinkSymbol'] = $fndata->f['prosrc'];
 
+			// Deal with named parameters
+			if ($data->hasNamedParams()) {
+				$args_arr = explode(', ', $fndata->f['proarguments']);
+				$names_arr = $data->phpArray($fndata->f['proargnames']);
+				$args = '';
+				$i = 0;
+				for ($i = 0; $i < sizeof($args_arr); $i++) {
+					if ($i != 0) $args .= ', ';
+					$data->fieldClean($names_arr[$i]);					
+					$args .= '"' . $names_arr[$i] . '" ' . $args_arr[$i];
+				}
+			}
+			else {
+				$args = $fndata->f['proarguments'];
+			}
+
 			$func_full = $fndata->f['proname'] . "(". $fndata->f['proarguments'] .")";
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"90%\">\n";
@@ -84,8 +100,8 @@
 				echo $misc->printVal($fndata->f['proname']);
 			echo "</td>\n";
 
-			echo "<td class=\"data1\">", $misc->printVal($fndata->f['proarguments']), "\n";
-			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($fndata->f['proarguments']),"\" />\n"; 
+			echo "<td class=\"data1\">", $misc->printVal($args), "\n";
+			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($args),"\" />\n"; 
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">";
@@ -161,6 +177,22 @@
 		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
+			// Deal with named parameters
+			if ($data->hasNamedParams()) {
+				$args_arr = explode(', ', $funcdata->f['proarguments']);
+				$names_arr = $data->phpArray($funcdata->f['proargnames']);
+				$args = '';
+				$i = 0;
+				for ($i = 0; $i < sizeof($args_arr); $i++) {
+					if ($i != 0) $args .= ', ';
+					$data->fieldClean($names_arr[$i]);					
+					$args .= '"' . $names_arr[$i] . '" ' . $args_arr[$i];
+				}
+			}
+			else {
+				$args = $funcdata->f['proarguments'];
+			}
+
 			// Show comment if any
 			if ($funcdata->f['procomment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($funcdata->f['procomment']), "</p>\n";
@@ -173,7 +205,7 @@
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->f['proname']), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($funcdata->f['proarguments']), "</td>\n";
+			echo "<td class=\"data1\">", $misc->printVal($args), "</td>\n";
 			echo "<td class=\"data1\">";
 			if ($funcdata->f['proretset']) echo "setof ";			
 			echo $misc->printVal($funcdata->f['proresult']), "</td>\n";
