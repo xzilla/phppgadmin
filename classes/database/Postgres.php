@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.239 2004/07/16 11:38:21 soranzo Exp $
+ * $Id: Postgres.php,v 1.240 2004/07/16 16:01:06 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3882,15 +3882,36 @@ class Postgres extends BaseDB {
 	}
 	
 	// Capabilities
-	function hasTables() { return true; }
-	function hasViews() { return true; }
-	function hasSequences() { return true; }
-	function hasFunctions() { return true; }
-	function hasOperators() { return true; }
-	function hasTypes() { return true; }
-	function hasAggregates() { return true; }
-	function hasLanguages() { return true; }
-	function hasOpClasses() { return true; }
+	function hasSchemas() { return false; }
+	function hasConversions() { return false; }	
+	function hasGrantOption() { return false; }
+	function hasIsClustered() { return false; }
+	function hasDropBehavior() { return false; }
+	function hasDropColumn() { return false; }
+	function hasDomains() { return false; }
+	function hasDomainConstraints() { return false; }
+	function hasAlterTrigger() { return false; }
+	function hasWithoutOIDs() { return false; }
+	function hasAlterTableOwner() { return false; }
+	function hasPartialIndexes() { return false; }
+	function hasCasts() { return false; }
+	function hasFullSubqueries() { return false; }
+	function hasPrepare() { return false; }
+	function hasProcesses() { return false; }
+	function hasVariables() { return false; }
+	function hasFullExplain() { return false; }
+	function hasStatsCollector() { return false; }
+	function hasSchemaDump() { return false; }
+	function hasAlterColumnType() { return false; }
+	function hasUserSessionDefaults() { return false; }
+	function hasUserRename() { return false; }
+	function hasRecluster() { return false; }
+	function hasFullVacuum() { return false; }
+	function hasForeignKeysInfo() { return false; }
+	function hasViewColumnRename() { return false; }
+	function hasTablespaces() { return false; }
+	function hasSignals() { return false; }
+	function hasNamedParams() { return false; }
 
 }
 

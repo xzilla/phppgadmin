@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.55 2004/07/16 11:38:21 soranzo Exp $
+ * $Id: BaseDB.php,v 1.56 2004/07/16 16:01:06 soranzo Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -241,46 +241,6 @@ class BaseDB extends ADODB_base {
 		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
 
-	// Capabilities
-	function hasTables() { return false; }
-	function hasViews() { return false; }
-	function hasSequences() { return false; }
-	function hasFunctions() { return false; }
-	function hasOperators() { return false; }
-	function hasTypes() { return false; }
-	function hasAggregates() { return false; }
-	function hasLanguages() { return false; }
-	function hasSchemas() { return false; }
-	function hasConversions() { return false; }	
-	function hasGrantOption() { return false; }
-	function hasIsClustered() { return false; }
-	function hasDropBehavior() { return false; }
-	function hasDropColumn() { return false; }
-	function hasDomains() { return false; }
-	function hasDomainConstraints() { return false; }
-	function hasAlterTrigger() { return false; }
-	function hasWithoutOIDs() { return false; }
-	function hasAlterTableOwner() { return false; }
-	function hasPartialIndexes() { return false; }
-	function hasCasts() { return false; }
-	function hasFullSubqueries() { return false; }
-	function hasPrepare() { return false; }
-	function hasOpClasses() { return false; }
-	function hasProcesses() { return false; }
-	function hasVariables() { return false; }
-	function hasFullExplain() { return false; }
-	function hasStatsCollector() { return false; }
-	function hasSchemaDump() { return false; }
-	function hasAlterColumnType() { return false; }
-	function hasUserSessionDefaults() { return false; }
-	function hasUserRename() { return false; }
-	function hasRecluster() { return false; }
-	function hasFullVacuum() { return false; }
-	function hasForeignKeysInfo() { return false; }
-	function hasViewColumnRename() { return false; }
-	function hasTablespaces() { return false; }
-	function hasSignals() { return false; }
-	function hasNamedParams() { return false; }
 }
 
 ?>

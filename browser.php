@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.40 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: browser.php,v 1.41 2004/07/16 16:01:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -39,100 +39,88 @@
 		global $data, $misc, $lang, $conf;
 		
 		// Tables
-		if ($data->hasTables()) {
-			$table_node = &new HTML_TreeNode(array(
-							'text' => $lang['strtables'], 
-							'link' => addslashes(htmlspecialchars("tables.php?{$querystr}")), 
+		$table_node = &new HTML_TreeNode(array(
+						'text' => $lang['strtables'], 
+						'link' => addslashes(htmlspecialchars("tables.php?{$querystr}")), 
+						'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
+						'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
+						'expanded' => false,
+						'linkTarget' => 'detail'));
+		// Add table folder to schema
+		$schemanode->addItem($table_node);
+
+		$tables = &$data->getTables();
+		while (!$tables->EOF) {
+			$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f['relname']) . "&{$querystr}");
+			$item_node = &new HTML_TreeNode(array(
+							'text' => $misc->printVal($tables->f['relname']), 
+							'link' => addslashes(htmlspecialchars("redirect.php?section=table&{$querystr}&table=" . urlencode($tables->f['relname']))), 
 							'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 							'expanded' => false,
-							'linkTarget' => 'detail'));
-
+							'linkTarget' => 'detail',
+							'iconLink' => addslashes(htmlspecialchars('display.php?table=' . urlencode($tables->f['relname']) . '&objtype=table&' . $querystr . "&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
+							));
 			// Add table folder to schema
-			$schemanode->addItem($table_node);
-			
-			$tables = &$data->getTables();
-			while (!$tables->EOF) {
-				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f['relname']) . "&{$querystr}");
-				$item_node = &new HTML_TreeNode(array(
-								'text' => $misc->printVal($tables->f['relname']), 
-								'link' => addslashes(htmlspecialchars("redirect.php?section=table&{$querystr}&table=" .
-									urlencode($tables->f['relname']))), 
-								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
-								'expanded' => false,
-								'linkTarget' => 'detail',
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f['relname']).'&objtype=table&'.$querystr.
-									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
-								));
+			$table_node->addItem($item_node);
 
-				// Add table folder to schema
-				$table_node->addItem($item_node);
-
-				$tables->moveNext();
-			}
+			$tables->moveNext();
 		}
+
 		// Views
-		if ($data->hasViews()) {
-			$view_node = &new HTML_TreeNode(array(
-							'text' => $lang['strviews'], 
-							'link' => addslashes(htmlspecialchars("views.php?{$querystr}")), 
+		$view_node = &new HTML_TreeNode(array(
+						'text' => $lang['strviews'], 
+						'link' => addslashes(htmlspecialchars("views.php?{$querystr}")), 
+						'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
+						'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
+						'expanded' => false,
+						'linkTarget' => 'detail'));
+		// Add view folder to schema
+		$schemanode->addItem($view_node);
+
+		$views = &$data->getViews();
+		while (!$views->EOF) {
+			$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f['relname']) . "&{$querystr}");
+			$item_node = &new HTML_TreeNode(array(
+							'text' => $misc->printVal($views->f['relname']), 
+							'link' => addslashes(htmlspecialchars("redirect.php?section=view&{$querystr}&view=" .
+								urlencode($views->f['relname']))), 
 							'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
 							'expanded' => false,
-							'linkTarget' => 'detail'));
-
+							'linkTarget' => 'detail',
+							// XXX: FIX BROWSE
+							'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f['relname']).'&objtype=view&'.$querystr.
+								"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
+							));
 			// Add view folder to schema
-			$schemanode->addItem($view_node);
-			
-			$views = &$data->getViews();
-			while (!$views->EOF) {
-				$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f['relname']) . "&{$querystr}");
-				$item_node = &new HTML_TreeNode(array(
-								'text' => $misc->printVal($views->f['relname']), 
-								'link' => addslashes(htmlspecialchars("redirect.php?section=view&{$querystr}&view=" .
-									urlencode($views->f['relname']))), 
-								'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
-								'expanded' => false,
-								'linkTarget' => 'detail',
-								// XXX: FIX BROWSE
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f['relname']).'&objtype=view&'.$querystr.
-									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
-								));
+			$view_node->addItem($item_node);
 
-				// Add view folder to schema
-				$view_node->addItem($item_node);
-
-				$views->moveNext();
-			}
+			$views->moveNext();
 		}
+
 		// Sequences
-		if ($data->hasSequences()) {
-			$seq_node = &new HTML_TreeNode(array(
-							'text' => $lang['strsequences'], 
-							'link' => addslashes(htmlspecialchars("sequences.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/sequences.png", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/sequences.png",
-							'expanded' => false,
-							'linkTarget' => 'detail'));
+		$seq_node = &new HTML_TreeNode(array(
+						'text' => $lang['strsequences'], 
+						'link' => addslashes(htmlspecialchars("sequences.php?{$querystr}")), 
+						'icon' => "../../../images/themes/{$conf['theme']}/sequences.png", 
+						'expandedIcon' => "../../../images/themes/{$conf['theme']}/sequences.png",
+						'expanded' => false,
+						'linkTarget' => 'detail'));
+		// Add folder to schema
+		$schemanode->addItem($seq_node);
 
-			// Add folder to schema
-			$schemanode->addItem($seq_node);
-		}
 		// Functions
-		if ($data->hasFunctions()) {
-			$func_node = &new HTML_TreeNode(array(
-							'text' => $lang['strfunctions'], 
-							'link' => addslashes(htmlspecialchars("functions.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/functions.png", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/functions.png",
-							'expanded' => false,
-							'linkTarget' => 'detail'));
+		$func_node = &new HTML_TreeNode(array(
+						'text' => $lang['strfunctions'], 
+						'link' => addslashes(htmlspecialchars("functions.php?{$querystr}")), 
+						'icon' => "../../../images/themes/{$conf['theme']}/functions.png", 
+						'expandedIcon' => "../../../images/themes/{$conf['theme']}/functions.png",
+						'expanded' => false,
+						'linkTarget' => 'detail'));
+		// Add folder to schema
+		$schemanode->addItem($func_node);
 
-			// Add folder to schema
-			$schemanode->addItem($func_node);
-		}
 		// Domains
 		if ($data->hasDomains()) {
 			$dom_node = &new HTML_TreeNode(array(
@@ -146,72 +134,62 @@
 			// Add folder to schema
 			$schemanode->addItem($dom_node);
 		}
+
 		// Advanced
 		if ($conf['show_advanced']) {
-			if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()
-					|| $data->hasAggregates() || $data->hasOpClasses()) {
-				$adv_node = &new HTML_TreeNode(array(
-								'text' => $lang['stradvanced'], 
-#								'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
-								'icon' => 'folder.gif', 
-								'expandedIcon' => 'folder-expanded.gif',
-								'linkTarget' => 'detail'));
+			$adv_node = &new HTML_TreeNode(array(
+							'text' => $lang['stradvanced'], 
+#							'link' => ($data->hasSchemas()) ? addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)) : null, 
+							'icon' => 'folder.gif', 
+							'expandedIcon' => 'folder-expanded.gif',
+							'linkTarget' => 'detail'));
+			// Add folder to schema
+			$schemanode->addItem($adv_node);			
 
-				// Add folder to schema
-				$schemanode->addItem($adv_node);			
-			}
 			// Aggregates
-			if ($data->hasAggregates()) {
-				$agg_node = &new HTML_TreeNode(array(
-								'text' => $lang['straggregates'], 
-								'link' => addslashes(htmlspecialchars("aggregates.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+			$agg_node = &new HTML_TreeNode(array(
+							'text' => $lang['straggregates'], 
+							'link' => addslashes(htmlspecialchars("aggregates.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+			// Add folder to schema
+			$adv_node->addItem($agg_node);
 
-				// Add folder to schema
-				$adv_node->addItem($agg_node);
-			}
 			// Types
-			if ($data->hasTypes()) {
-				$type_node = &new HTML_TreeNode(array(
-								'text' => $lang['strtypes'], 
-								'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+			$type_node = &new HTML_TreeNode(array(
+							'text' => $lang['strtypes'], 
+							'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+			// Add folder to schema
+			$adv_node->addItem($type_node);
 
-				// Add folder to schema
-				$adv_node->addItem($type_node);
-			}
 			// Operators
-			if ($data->hasOperators()) {
-				$opr_node = &new HTML_TreeNode(array(
-								'text' => $lang['stroperators'], 
-								'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+			$opr_node = &new HTML_TreeNode(array(
+							'text' => $lang['stroperators'], 
+							'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+			// Add folder to schema
+			$adv_node->addItem($opr_node);
 
-				// Add folder to schema
-				$adv_node->addItem($opr_node);
-			}
 			// Operator Classes
-			if ($data->hasOpClasses()) {
-				$opc_node = &new HTML_TreeNode(array(
-								'text' => $lang['stropclasses'], 
-								'link' => addslashes(htmlspecialchars("opclasses.php?{$querystr}")), 
-								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
-								'expanded' => false,
-								'linkTarget' => 'detail'));
+			$opc_node = &new HTML_TreeNode(array(
+							'text' => $lang['stropclasses'], 
+							'link' => addslashes(htmlspecialchars("opclasses.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+			// Add folder to schema
+			$adv_node->addItem($opc_node);
 
-				// Add folder to schema
-				$adv_node->addItem($opc_node);
-			}
 			// Conversions
 			if ($data->hasConversions()) {
 				$con_node = &new HTML_TreeNode(array(
@@ -283,18 +261,15 @@
 
 			// Languages
 			if ($conf['show_advanced']) {
-				if ($data->hasLanguages()) {		
-					$lang_node = &new HTML_TreeNode(array(
-									'text' => $lang['strlanguages'], 
-									'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
-									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
-									'expanded' => false,
-									'linkTarget' => 'detail'));
-
-					// Add folder to database
-					$db_node->addItem($lang_node);
-				}
+				$lang_node = &new HTML_TreeNode(array(
+								'text' => $lang['strlanguages'], 
+								'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+								'expanded' => false,
+								'linkTarget' => 'detail'));
+				// Add folder to database
+				$db_node->addItem($lang_node);
 			
 				// Casts
 				if ($data->hasCasts()) {		
