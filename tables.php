@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.35 2003/09/05 01:50:27 chriskl Exp $
+	 * $Id: tables.php,v 1.36 2003/09/08 09:26:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -39,8 +39,7 @@
 				if ($data->hasWithoutOIDs()) {
 					echo "<tr><th class=\"data\">{$lang['stroptions']}</th></tr>\n";
 					echo "<tr><td class=\"data1\"><input type=\"checkbox\" name=\"withoutoids\"", 
-						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), ">WITHOUT OIDS\n";
-					echo "</td></tr>\n";
+						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), " />WITHOUT OIDS</td></tr>\n";
 				}
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
@@ -74,8 +73,8 @@
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
-				echo "<table>\n<tr>";
-				echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
+				echo "<table>\n";
+				echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>\n";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
@@ -83,28 +82,28 @@
 					if (!isset($_REQUEST['default'][$i])) $_REQUEST['default'][$i] = '';
 					echo "<tr><td>", $i + 1, ".&nbsp;</td>";
 					echo "<td><input name=\"field[{$i}]\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-						htmlspecialchars($_REQUEST['field'][$i]), "\"></td>";
+						htmlspecialchars($_REQUEST['field'][$i]), "\" /></td>";
 					echo "<td><select name=\"type[{$i}]\">\n";
 					// Output any "magic" types
 					foreach ($localData->extraTypes as $v) {
-						echo "<option value=\"", htmlspecialchars($v), "\"",
-						(isset($_REQUEST['type'][$i]) && $v == $_REQUEST['type'][$i]) ? ' selected' : '', ">",
+						echo "\t<option value=\"", htmlspecialchars($v), "\"",
+						(isset($_REQUEST['type'][$i]) && $v == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
 					}
 					$types->moveFirst();
 					while (!$types->EOF) {
 						$typname = $types->f[$data->typFields['typname']];
-						echo "<option value=\"", htmlspecialchars($typname), "\"",
-						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected' : '', ">",
+						echo "\t<option value=\"", htmlspecialchars($typname), "\"",
+						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
 					echo "</select></td>";
 					echo "<td><input name=\"length[{$i}]\" size=\"10\" value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>";
-					echo "<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked' : '', " /></td>\n";
+					echo "<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>";
 					echo "<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
-						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td>";
+						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td></tr>\n";
 				}				
 				
 				echo "</table>\n";
@@ -209,14 +208,14 @@
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
+						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['type']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull'])
 						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					else
 						echo "&nbsp;</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
@@ -303,14 +302,14 @@
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull'])
 						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->f['attname']), "]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					else
 						echo "&nbsp;</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
@@ -366,10 +365,10 @@
 			echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=empty>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"empty\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=submit name=empty value=\"{$lang['strempty']}\"> <input type=submit name=cancel value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"submit\" name=\"empty\" value=\"{$lang['strempty']}\" /> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -396,15 +395,15 @@
 			echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -437,6 +436,7 @@
 			$rs = &$localData->browseRow($_REQUEST['table'], $key);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
 				echo "<table>\n<tr>";
 
@@ -464,8 +464,8 @@
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
@@ -475,7 +475,7 @@
 							$_REQUEST['nulls'][$attrs->f['attname']] = 'on';
 						}
 						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', " /></td>";
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					}
 					else
 						echo "&nbsp;</td>";
@@ -487,8 +487,14 @@
 					$attrs->moveNext();
 				}
 				echo "</table></p>\n";
+				$error = false;
 			}
-			else echo "<p>{$lang['strinvalidparam']}</p>\n";
+			elseif ($rs->recordCount() != 1) {
+				echo "<p>{$lang['strrownotunique']}</p>\n";				
+			}
+			else {
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
+			}
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"editrow\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -498,7 +504,8 @@
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
-			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			echo "<p>";
+			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
@@ -510,8 +517,10 @@
 												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
+			elseif ($status == -2)
+				doEditRow(true, $lang['strrownotunique']);
 			else
-				doEditRow($lang['strrowupdatedbad']);
+				doEditRow(true, $lang['strrowupdatedbad']);
 		}
 
 	}	
@@ -546,7 +555,9 @@
 			$status = $localData->deleteRow($_POST['table'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowdeleted']);
-			else
+			elseif ($status == -2)
+				doBrowse($lang['strrownotunique']);
+			else			
 				doBrowse($lang['strrowdeletedbad']);
 		}
 		
@@ -614,7 +625,7 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 					if ($has_nulls) {
-						echo "<td class=\"opbutton{$id}\">&nbsp;</td>\n<td class=\"opbutton{$id}\">&nbsp;</td>\n";
+						echo "<td class=\"data{$id}\" colspan=\"2\">&nbsp;</td>\n";
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&sortkey=", 
 							urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), 
@@ -682,22 +693,24 @@
 		
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strtable']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<tr>\n\t<th class=\"data\">{$lang['strtable']}</th>\n\t<th class=\"data\">{$lang['strowner']}</th>\n";
+			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n</tr>\n";
 			$i = 0;
 			while (!$tables->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
+				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
+				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();

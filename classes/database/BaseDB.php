@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.27 2003/09/01 03:15:43 chriskl Exp $
+ * $Id: BaseDB.php,v 1.28 2003/09/08 09:26:17 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -25,7 +25,24 @@ class BaseDB extends ADODB_base {
 	 */
 	function deleteRow($table, $key) {
 		if (!is_array($key)) return -1;
-		else return $this->delete($table, $key);
+		else {
+			// Begin transaction.  We do this so that we can ensure only one row is
+			// deleted
+			$status = $this->beginTransaction();
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			
+			$status = $this->delete($table, $key);
+			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+			
+			// End transaction
+			return $this->endTransaction();
+		}
 	}
 	
 	/**
@@ -67,8 +84,24 @@ class BaseDB extends ADODB_base {
 					}
 					else $sql .= " AND \"{$k}\"='{$v}'";
 				}				
-			}			
-			return $this->execute($sql);
+			}
+
+			// Begin transaction.  We do this so that we can ensure only one row is
+			// edited
+			$status = $this->beginTransaction();
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+
+			$status = $this->execute($sql);
+			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+		
+			// End transaction
+			return $this->endTransaction();		
 		}
 	}
 

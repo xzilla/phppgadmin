@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.54 2003/09/08 03:00:13 chriskl Exp $
+	 * $Id: english.php,v 1.55 2003/09/08 09:26:17 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -118,6 +118,7 @@
 	$lang['strinstatement'] = 'In statement:';
 	$lang['strinvalidparam'] = 'Invalid script parameters.';
 	$lang['strnodata'] = 'No rows found.';
+	$lang['strrownotunique'] = 'No unique identifier for this row.';
 
 	// Tables
 	$lang['strtable'] = 'Table';

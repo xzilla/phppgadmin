@@ -1,4 +1,0 @@
-* Get table comments for pre-7.3
-* make getrowidentifier prefer unique indexes that don't allow nulls,
-  and don't use partial indexes
-* Use explicit session names

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.145 2003/09/08 04:35:17 chriskl Exp $
+ * $Id: Postgres.php,v 1.146 2003/09/08 09:26:17 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -313,14 +313,22 @@ class Postgres extends BaseDB {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
-		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')";
+		// Get the first primary or unique index (sorting primary keys first) that
+		// is NOT a partial index.
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND indrelid=(SELECT oid FROM pg_class 
+					WHERE relname='{$table}') AND indpred='' AND indproc='-' ORDER BY indisprimary DESC LIMIT 1";
 		$rs = $this->selectSet($sql);
 
-		// If none, return an empty array.  We can't search for an OID column
-		// as there's no guarantee that it will be unique.
-		if ($rs->recordCount() == 0) {
+		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
+		// functions check that they're only modiying a single row.  Otherwise, return empty array.
+		if ($rs->recordCount() == 0) {			
+			// Check for OID column
+			$temp = array();
+			if ($this->hasObjectID($table)) {
+				$temp = array('oid');
+			}
 			$this->endTransaction();
-			return array();
+			return $temp;
 		}
 		// Otherwise find the names of the keys
 		else {

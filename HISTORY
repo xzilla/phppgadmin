@@ -43,6 +43,9 @@ Features:
 * Spanish update from Martin Marques
 * Trad. Chinese update from Chih-Hsin Lee
 * Save selects as views
+* Russian update from Step
+* Slovak update from Andrej
+* Can now safely edit row based on OID.  Guards are in place against duplicate OIDs.
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
