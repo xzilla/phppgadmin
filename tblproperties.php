@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.6 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.7 2003/03/19 03:36:06 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -49,7 +49,7 @@
 	 */
 	function doAddColumn($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $lang, $strInvalidScriptParam;
+		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 
@@ -118,7 +118,7 @@
 				}
 				break;
 			default:
-				echo "<p>{$strInvalidScriptParam}</p>\n";
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 	}
 
@@ -174,7 +174,7 @@
 								
 				break;
 			case 2:
-				global $localData, $lang, $strInvalidScriptParam;
+				global $localData, $lang;
 
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
@@ -194,7 +194,7 @@
 				}
 				break;
 			default:
-				echo "<p>{$strInvalidScriptParam}</p>\n";
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 	}
 
