@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.60 2004/04/12 06:30:55 chriskl Exp $
+	 * $Id: Misc.php,v 1.61 2004/05/08 13:06:09 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -318,7 +318,7 @@
 		function printPopUpNav() {
 			global $lang, $data;
 
-			if (isset($_REQUEST['seldatabase'])) $url = '&amp;seldatabase=' . urlencode($_REQUEST['seldatabase']);
+			if (isset($_REQUEST['database'])) $url = '&amp;database=' . urlencode($_REQUEST['database']);
 			else $url = '';
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";

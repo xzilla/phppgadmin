@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.20 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: topbar.php,v 1.21 2004/05/08 13:06:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,7 @@
 	
 	$misc->printHeader();
 	$misc->printBody('topbar');
-	$dbselected = isset($_REQUEST['database']) ? '&seldatabase=' . $_REQUEST['database'] : '';
+	$dbselected = isset($_REQUEST['database']) ? '&database=' . $_REQUEST['database'] : '';
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="topbar">
 	<tr>

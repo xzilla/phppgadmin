@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.12 2004/02/14 04:21:02 chriskl Exp $
+	 * $Id: sqledit.php,v 1.13 2004/05/08 13:06:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,16 +18,26 @@
 	 */
 	function _printDatabases() {
 		global $data, $lang, $conf;
-		
+
 		// Get the list of all databases
 		$databases = &$data->getDatabases();
 
-		if ($databases->recordCount() > 0) {
-			echo "<p>{$lang['strdatabase']}: <select name=\"database\">\n";
+		if ($databases->recordCount() > 0) {			
+			// The javascript action on the select box reloads the popup whenever the database is changed.
+			// This ensures that the correct page encoding is used.  The exact URL to reload to is different
+			// between SQL and Find mode, however.
+			if (!isset($_REQUEST['action']) || $_REQUEST['action'] == 'sql')
+				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
+						urlencode($_REQUEST['action']) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) + (paginate.checked ? '&paginate=on' : '')  + '&" . 
+						SID . "'\">\n";
+			else
+				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
+						urlencode($_REQUEST['action']) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&" . SID . "'\">\n";
+			
 			while (!$databases->EOF) {
 				$dbname = $databases->f[$data->dbFields['dbname']];
 				echo "<option value=\"", htmlspecialchars($dbname), "\"",
-				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database']) || (isset($_REQUEST['seldatabase']) && $dbname == $_REQUEST['seldatabase'])) ? ' selected="selected"' : '', ">",
+				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
 					htmlspecialchars($dbname), "</option>\n";
 				$databases->moveNext();
 			}
@@ -71,7 +81,7 @@
 		global $PHP_SELF, $data, $data, $misc;
 		global $lang, $conf;
 
-		if (!isset($_POST['query'])) $_POST['query'] = '';
+		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
 		$misc->printPopUpNav();
 		echo "<h2>{$lang['strsql']}</h2>\n";
@@ -80,7 +90,7 @@
 		_printDatabases();
 
 		echo "<textarea style=\"width: 100%\" rows=\"10\" cols=\"50\" name=\"query\">",
-			htmlspecialchars($_POST['query']), "</textarea>\n";
+			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
 		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
 		echo "<br />\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";

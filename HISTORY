@@ -17,6 +17,8 @@ Features
 * Allow upload and execution of _basic_ SQL scripts
 * More admin features available: vacuum, analyze, cluster all and reindex
   (with all options) (Bryan Encina)
+* Fix SQL popup window to reload when the database is changed so
+  that the correct page encoding is used.
 
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
