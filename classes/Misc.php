@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.12 2003/01/27 14:09:51 chriskl Exp $
+	 * $Id: Misc.php,v 1.13 2003/02/09 09:23:39 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -129,7 +129,7 @@
 			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$strConstraints}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$strTriggers}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$strRules}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&type=table&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";
 		}
@@ -144,7 +144,7 @@
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
 			echo "<tr><td width=\"25%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
-			echo "<td width=\"25%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"25%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$strPrivileges}</a></td>\n";
 			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=sql\">{$strSQL}</a></td>\n";
 			echo "<td width=\"25%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";

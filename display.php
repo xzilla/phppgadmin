@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.4 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: display.php,v 1.5 2003/02/09 09:23:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -43,7 +43,7 @@
 		echo "<table>\n<tr>";
 		reset($rs->f);
 		while(list($k, ) = each($rs->f)) {
-			echo "<th class=data>", htmlspecialchars($k), "</td>";
+			echo "<th class=data>", htmlspecialchars($k), "</th>";
 		}
 		
 		$i = 0;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.49 2003/01/27 06:08:35 chriskl Exp $
+ * $Id: Postgres.php,v 1.50 2003/02/09 09:23:39 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -60,6 +60,34 @@ class Postgres extends BaseDB {
 		'LATIN9' => 'ISO-8859-15',
 		'LATIN10' => 'ISO-8859-16',
 		'UNICODE' => 'UTF-8'
+	);
+	
+	// List of all legal privileges that can be applied to different types
+	// of objects.
+	var $privlist = array(
+		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
+		'view' => array('SELECT', 'RULE', 'ALL PRIVILEGES'),
+		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
+		'database' => array('CREATE', 'TEMPORARY', 'ALL PRIVILEGES'),
+		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
+		'language' => array('USAGE', 'ALL PRIVILEGES'),
+		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES')
+	);
+
+	// List of characters in acl lists and the privileges they
+	// refer to.
+	var $privmap = array(
+		'r' => 'SELECT',
+		'w' => 'UPDATE',
+		'a' => 'INSERT',
+		'd' => 'DELETE',
+		'R' => 'RULE',
+		'x' => 'REFERENCES',
+		't' => 'TRIGGER',
+		'X' => 'EXECUTE',
+		'U' => 'USAGE',
+		'C' => 'CREATE',
+		'T' => 'TEMPORARY'
 	);
 
 	function Postgres($host, $port, $database, $user, $password) {
@@ -308,6 +336,17 @@ class Postgres extends BaseDB {
 		$this->clean($database);
 		$sql = "DROP DATABASE \"{$database}\"";
 		return $this->execute($sql);
+	}
+	
+	/**
+	 * Dumps a database
+	 */
+	function dbDump($database) {
+		global $appDumper;
+
+		$database = escapeshellarg($database);
+
+		passthru("/usr/local/bin/pg_dump {$database}");
 	}
 
 	// Table functions
@@ -1462,6 +1501,106 @@ class Postgres extends BaseDB {
 		$sql = "DROP TRIGGER \"{$tgname}\" ON \"{$table}\"";
 
 		return $this->execute($sql);
+	}
+
+	// Privilege functions
+
+	/**
+	 * Grabs an array of users and their privileges for an object,
+	 * given its type.
+	 * @param $object The name of the object whose privileges are to be retrieved
+	 * @param $type The type of the object (eg. database, schema, relation, function or language
+	 * @return Privileges array
+	 * @return -1 invalid type
+	 * @return -2 object not found
+	 * @return -3 unknown privilege type
+	 */
+	function getPrivileges($object, $type) {
+		$this->clean($object);
+
+		// @@ NEED SCHEMA SUPPORT FOR 7.3
+		switch ($type) {
+			case 'table':
+			case 'view':
+			case 'sequence':
+				$sql = "SELECT relacl AS acl FROM pg_class WHERE relname = '{$object}'";
+				break;
+			case 'database':
+				$sql = "SELECT datacl AS acl FROM pg_database WHERE datname = '{$object}'";
+				break;
+			case 'function':
+				$sql = "SELECT proacl AS acl FROM pg_proc WHERE proname = '{$object}'";
+				break;
+			case 'language':
+				$sql = "SELECT lanacl AS acl FROM pg_language WHERE lanname = '{$object}'";
+				break;
+			case 'schema':
+				// @@ MOVE THIS TO 7.3 ONLY
+				$sql = "SELECT nspacl AS acl FROM pg_namespace WHERE nspname = '{$object}'";
+				break;
+			default:
+				return -1;
+		}
+
+		// Fetch the ACL for object
+		$acl = $this->selectField($sql, 'acl');
+		if ($acl == -1) return -2;
+		elseif ($acl == '') return array();
+
+		// Take off the first and last characters (the braces)
+		$acl = substr($acl, 1, strlen($acl) - 2);
+
+		// Pick out individual ACE's by exploding on the comma
+		$aces = explode(',', $acl);
+
+		// Create the array to be returned
+		$temp = array();
+
+		// For each ACE, generate an entry in $temp
+		foreach ($aces as $v) {
+			// If the ACE begins with a double quote, strip them off both ends
+			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
+
+			// Figure out type of ACE (public, user or group)
+			if (strpos($v, '=') === 0)
+				$atype = 'public';
+			elseif (strpos($v, 'group ') === 0) {
+				$atype = 'group';
+				// Tear off 'group' prefix
+				$v = substr($v, 6);
+			}
+			else
+				$atype = 'user';
+
+			// Separate entity from character list
+			list ($entity, $chars) = explode('=', $v);
+			
+			// New row to be added to $temp
+			// (type, grantee, privilegs, grantor, grant option
+			$row = array($atype, $entity, array(), '', false);
+
+			// Loop over chars and add privs to $row
+			for ($i = 0; $i < strlen($chars); $i++) {
+				// Append to row's privs list the string representing
+				// the privilege
+				$char = substr($chars, $i, 1);
+				if ($char == '*')
+					$row[4] = true;
+				elseif ($char == '/') {
+					$row[5] = substr($chars, $i + 1);
+					break;
+				}
+				if (!isset($this->privmap[$char]))
+					return -3;
+				else
+					$row[2][] = $this->privmap[$char];
+			}
+			
+			// Append row to temp
+			$temp[] = $row;
+		}
+
+		return $temp;
 	}
 
 	// Capabilities

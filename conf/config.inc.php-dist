@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.10 2003/02/07 17:34:36 xzilla Exp $
+	 * $Id: config.inc.php-dist,v 1.11 2003/02/09 09:23:40 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -12,7 +12,10 @@
 
 	// Default language setting.  eg 'english', 'polish', etc.
 	$appDefaultLanguage = 'english';
-
+	
+	// Name for reports database
+	$appReportsDB = 'phppgadmin';
+	
 	/*
 	 * GUI settings
 	 */
@@ -36,11 +39,11 @@
 	$confServers[0]['default'] = 'template1';
 	
 	// Servers and types
-	$confServers[1]['desc'] = 'Development';
-	$confServers[1]['host'] = 'database-dev';
-	$confServers[1]['port'] = 5432;
-	$confServers[1]['type'] = 'Postgres73';
-	$confServers[1]['default'] = 'template1';
+	//$confServers[1]['desc'] = 'Development';
+	//$confServers[1]['host'] = 'database-dev';
+	//$confServers[1]['port'] = 5432;
+	//$confServers[1]['type'] = 'Postgres73';
+	//$confServers[1]['default'] = 'template1';
 	
 	/*****************************************
 	 * Don't modify anything below this line *
