@@ -2,19 +2,23 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.3 2003/08/25 04:57:53 chriskl Exp $
+	 *
+	 *
+	 * $Id: chinese-tr.php,v 1.4 2003/08/25 06:40:16 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = '繁體中文（big5）';
 	$lang['appcharset'] = 'big5';
 	$lang['applocale'] = 'zh_TW';
-
+	$lang['appdbencoding'] = 'LATIN1';
+	
 	// Welcome  
 	$lang['strintro'] = '歡迎使用phpPgAdmin.';
 	$lang['strppahome'] = 'phpPgAdmin首頁';
 	$lang['strpgsqlhome'] = 'PostgreSQL首頁';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL 文件 (本機)';
 	$lang['strreportbug'] = '通報程式臭蟲';
 	$lang['strviewfaq'] = '常見問與答';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
@@ -37,8 +41,10 @@
 	$lang['strdropped'] = '已刪除';
 	$lang['strnull'] = '允許空值';
 	$lang['strnotnull'] = '不允許空值';
-	$lang['strprev'] = '上一個';
-	$lang['strnext'] = '下一個';
+	$lang['strprev'] = '< 上一筆';
+	$lang['strnext'] = '下一筆 >';
+	$lang['strfirst'] = '<< 第一筆';
+	$lang['strlast'] = '最後一筆 >>';
 	$lang['strfailed'] = '失敗';
 	$lang['strcreate'] = '建立';
 	$lang['strcreated'] = '已建立';
@@ -95,6 +101,12 @@
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '摺疊';
+	$lang['strexplain'] = '闡明';
+	$lang['strfind'] = '尋找';
+	$lang['stroptions'] = '選項';
+	$lang['strrefresh'] = '重新整理';
+	$lang['strtaller'] = '高於';
+	$lang['strshorter'] = '低於';
 
 	// Error handling
 	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
@@ -154,10 +166,11 @@
 	$lang['strschemaanddata'] = '模式和資料';
 	$lang['strschemaonly'] = '只顯示模式';
 	$lang['strdataonly'] = '只顯示資料';
-	$lang['strcascade'] = '串聯';
-
+	$lang['strcascade'] = 'CASCADE';
+	$lang['strtablealtered'] = '資料表已修改。';
+	$lang['strtablealteredbad'] = '資料表修改作業失敗。';
+	
 	// Users
-	$lang['struseradmin'] = '用戶管理';
 	$lang['struser'] = '用戶';
 	$lang['strusers'] = '用戶';
 	$lang['strusername'] = '用戶名';
@@ -183,7 +196,6 @@
 	$lang['strpasswordconfirm'] = '所輸入的兩組密碼不同。';
 	
 	// Groups
-	$lang['strgroupadmin'] = '群組管理';
 	$lang['strgroup'] = '群組';
 	$lang['strgroups'] = '群組';
 	$lang['strnogroup'] = '找不到此群組。';
@@ -196,8 +208,15 @@
 	$lang['strconfdropgroup'] = '您確定刪除群組 "%s"?';
 	$lang['strgroupdropped'] = '成功刪除群組。';
 	$lang['strgroupdroppedbad'] = '刪除群組作業失敗。';
-	$lang['strmembers'] = '成員';
-
+	$lang['strmembers'] = '用戶';
+	$lang['straddmember'] = '新增用戶';
+	$lang['strmemberadded'] = '已加入用戶。';
+	$lang['strmemberaddedbad'] = '新增用戶失敗。';
+	$lang['strdropmember'] = '刪除用戶';
+	$lang['strconfdropmember'] = '您確定要刪除用戶 "%s" 從群組 "%s"中?';
+	$lang['strmemberdropped'] = '用戶已刪除。';
+	$lang['strmemberdroppedbad'] = '刪除用戶作業失敗。';
+	
 	// Privilges
 	$lang['strprivilege'] = '特權';
 	$lang['strprivileges'] = '特權';
@@ -208,7 +227,9 @@
 	$lang['strgrantfailed'] = '更改特權作業失敗。';
 	$lang['strgrantbad'] = '您應為一名使用者或群組指定至少一個特權。';
 	$lang['stralterprivs'] = '更改特權';
-
+	$lang['strgrantor'] = '授權者';
+	$lang['strasterisk'] = '*';
+	
 	// Databases
 	$lang['strdatabase'] = '資料庫';
 	$lang['strdatabases'] = '資料庫';
@@ -377,6 +398,8 @@
 	$lang['strconfdroptrigger'] = '您確定要刪除觸發器 "%s" 於 "%s"?';
 	$lang['strtriggerdropped'] = '成功刪除觸發器。';
 	$lang['strtriggerdroppedbad'] = '刪除觸發器作業失敗。';
+	$lang['strtriggeraltered'] = '觸發器已修改。';
+	$lang['strtriggeralteredbad'] = '修改觸發器作業失敗。';
 
 	// Types
 	$lang['strtype'] = '類型';
@@ -415,7 +438,7 @@
 	$lang['strconfdropschema'] = '您確定要刪除模式 (schema) "%s"?';
 	$lang['strschemadropped'] = '成功刪除模式 (schema)。 ';
 	$lang['strschemadroppedbad'] = '刪除模式 (schema) 作業失敗。';
-
+	
 	// Reports
 	$lang['strreport'] = '報表';
 	$lang['strreports'] = '報表';
@@ -429,6 +452,21 @@
 	$lang['strreportneedsdef'] = '您需給您的報表 SQL。';
 	$lang['strreportcreated'] = '成功儲存報表。';
 	$lang['strreportcreatedbad'] = '無法儲存報表。';
+	
+	// Domains
+	$lang['strdomain'] = '領域';
+	$lang['strdomains'] = '領域';
+	$lang['strshowalldomains'] = '顯示所有領域';
+	$lang['strnodomains'] = '找不到任何領域。';
+	$lang['strcreatedomain'] = '新建領域';
+	$lang['strdomaindropped'] = '領域已刪除。';
+	$lang['strdomaindroppedbad'] = '領域刪除作業失敗。';
+	$lang['strconfdropdomain'] = '您確定要刪除領域 "%s"?';
+	$lang['strdomainneedsname'] = '您需為此領域命名。';
+	$lang['strdomaincreated'] = '領域已建立。';
+	$lang['strdomaincreatedbad'] = '新建領域作業失敗。';	
+	$lang['strdomainaltered'] = '領域已修改。';
+	$lang['strdomainalteredbad'] = '修改領域作業失敗。';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
