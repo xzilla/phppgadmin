@@ -24,6 +24,7 @@
 	 */
 	var $dataProvider = "native";
 	var $fields = false; 	/// holds the current row data
+	var $f = false; 	/// phpPgAdmin specific shortcut
 	var $blobSize = 64; 	/// any varchar/char field this size or greater is treated as a blob
 							/// in other words, we use a text area for editting.
 	var $canSeek = false; 	/// indicates that seek is supported
@@ -66,6 +67,7 @@
 	function ADORecordSet($queryID) 
 	{
 		$this->_queryID = $queryID;
+		$this->f = &$this->fields;
 	}
 	
 	

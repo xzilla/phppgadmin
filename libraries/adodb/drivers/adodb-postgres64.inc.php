@@ -391,13 +391,13 @@ a different OID if a database must be reloaded. */
 		if ($user || $pwd || $db) {
 		   	if ($str)  {
 			 	$host = split(":", $str);
-				if ($host[0]) $str = "host=$host[0]";
+				if ($host[0]) $str = "host='" . addslashes($host[0]) . "'";
 				else $str = 'localhost';
-				if (isset($host[1])) $str .= " port=$host[1]";
+				if (isset($host[1])) $str .= " port='" . addslashes($host[1]) . "'";
 			}
-		   		if ($user) $str .= " user=".$user;
-		   		if ($pwd)  $str .= " password=".$pwd;
-			if ($db)   $str .= " dbname=".$db;
+				if ($user) $str .= " user='" . addslashes($user) . "'";
+				if ($pwd)  $str .= " password='" . addslashes($pwd) . "'";
+				if ($db)   $str .= " dbname='" . addslashes($db) . "'";
 		}
 		
 		//if ($user) $linea = "user=$user host=$linea password=$pwd dbname=$db port=5432";
@@ -415,15 +415,15 @@ a different OID if a database must be reloaded. */
 	function _pconnect($str,$user='',$pwd='',$db='')
 	{
 		if ($user || $pwd || $db) {
-		   		if ($str)  {
+		   	if ($str)  {
 			 	$host = split(":", $str);
-				if ($host[0]) $str = "host=$host[0]";
+				if ($host[0]) $str = "host='" . addslashes($host[0]) . "'";
 				else $str = 'localhost';
-				if (isset($host[1])) $str .= " port=$host[1]";
+				if (isset($host[1])) $str .= " port='" . addslashes($host[1]) . "'";
 			}
-		   		if ($user) $str .= " user=".$user;
-		   		if ($pwd)  $str .= " password=".$pwd;
-			if ($db)   $str .= " dbname=".$db;
+				if ($user) $str .= " user='" . addslashes($user) . "'";
+				if ($pwd)  $str .= " password='" . addslashes($pwd) . "'";
+				if ($db)   $str .= " dbname='" . addslashes($db) . "'";
 		}//print $str;
 		$this->_connectionID = pg_pconnect($str);
 		if ($this->_connectionID === false) return false;
