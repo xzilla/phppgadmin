@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.35 2005/01/04 23:49:38 soranzo Exp $
+	 * $Id: italian.php,v 1.35.2.1 2005/03/02 17:32:02 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Login fallito';
 	$lang['strlogindisallowed'] = 'Login disabilitato per ragioni di sicurezza';
 	$lang['strserver'] = 'Server';
+	$lang['strservers'] = 'Server';
+	$lang['strintroduction'] = 'Introduzione';
+	$lang['strhost'] = 'Host';
+	$lang['strport'] = 'Porta';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Proprietario';
 	$lang['straction'] = 'Azione';
@@ -128,7 +132,8 @@
 	$lang['strfileimported'] = 'File importato.';
 
 	// Error handling - Gestione degli errori
-	$lang['strnoframes'] = 'Per usare questa applicazione &egrave; necessario usare un browser che supporti i frame.';
+	$lang['strnoframes'] = 'Questa applicazione funziona al meglio utilizzando un browser che supporti i frame, ma pu&ograve; essere usata senza frame seguendo il link sottostante.';
+	$lang['strnoframeslink'] = 'Usa senza frame';
 	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. &Egrave; necessario rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
 	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. &Egrave; necessario ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
 	$lang['strpostgresqlversionnotsupported'] = 'Versione di PostgreSQL non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
@@ -634,5 +639,7 @@
         $lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
 	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle'] = 'Login su %s';
+	$lang['strlogoutmsg'] = 'Logout da %s effettuato';
 
 ?>
