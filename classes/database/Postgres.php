@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.156 2003/10/13 01:42:05 chriskl Exp $
+ * $Id: Postgres.php,v 1.157 2003/10/13 08:50:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -375,7 +375,6 @@ class Postgres extends BaseDB {
 		$i = 1;
 		while (!$atts->EOF) {
 			$this->fieldClean($atts->f['attname']);
-			// @@@@ attlen and typmod here for < 7.1
 			$sql .= "    \"{$atts->f['attname']}\"";
 			// Dump SERIAL and BIGSERIAL columns correctly
 			if ($this->phpBool($atts->f['attisserial']) && 
@@ -386,7 +385,7 @@ class Postgres extends BaseDB {
 					$sql .= " BIGSERIAL";
 			}
 			else {
-				$sql .= " {$atts->f['type']}";
+				$sql .= " " . $this->formatType($atts->f['type'], $atts->f['atttypmod']);
 
 				// Add NOT NULL if necessary
 				if ($this->phpBool($atts->f['attnotnull']))
@@ -1061,48 +1060,35 @@ class Postgres extends BaseDB {
 	 * @param $typname The name of the type
 	 * @param $typmod The contents of the typmod field
 	 */
-	 /*
 	function formatType($typname, $typmod) {
-		$temp = '';
+		// This is a specific constant in the 7.0 source
+		$varhdrsz = 4;
 		
 		// Show lengths on bpchar and varchar
 		if ($typname == 'bpchar') {
+			$len = $typmod - $varhdrsz;
 			$temp = 'character';
-
-		if (!strcmp(typname, "bpchar"))
-		{
-			int			len = (typmod - VARHDRSZ);
-
-			appendPQExpBuffer(buf, "character");
-			if (len > 1)
-				appendPQExpBuffer(buf, "(%d)",
-								  typmod - VARHDRSZ);
+			if ($len > 1)
+				$temp .= "({$len})";
 		}
-		else if (!strcmp(typname, "varchar"))
-		{
-			appendPQExpBuffer(buf, "character varying");
-			if (typmod != -1)
-				appendPQExpBuffer(buf, "(%d)",
-								  typmod - VARHDRSZ);
+		elseif ($typname == 'varchar') {
+			$temp = 'character varying';
+			if ($typmod != -1)
+				$temp .= "(" . ($typmod - $varhdrsz) . ")";			
 		}
-		else if (!strcmp(typname, "numeric"))
-		{
-			appendPQExpBuffer(buf, "numeric");
-			if (typmod != -1)
-			{
-				int32		tmp_typmod;
-				int			precision;
-				int			scale;
-
-				tmp_typmod = typmod - VARHDRSZ;
-				precision = (tmp_typmod >> 16) & 0xffff;
-				scale = tmp_typmod & 0xffff;
-				appendPQExpBuffer(buf, "(%d,%d)",
-								  precision, scale);
-			}
+		elseif ($typname == 'numeric') {
+			$temp = 'numeric';
+			if ($typmod != -1) {
+				$tmp_typmod = $typmod = $varhdrsz;
+				$precision = ($tmp_typmod >> 16) & 0xffff;
+				$scale = $tmp_typmod & 0xffff;
+				$temp .= "({$precision}, {$scale})";
+			}			
 		}
+		else $temp = $typname;
+		
+		return $temp;
 	}
-	*/
 
 	/**
 	 * Drops a column from a table

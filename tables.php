@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.37 2003/10/10 09:29:49 chriskl Exp $
+	 * $Id: tables.php,v 1.38 2003/10/13 08:50:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -212,7 +212,7 @@
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
 					foreach (array_keys($localData->selectOps) as $v) {
@@ -307,7 +307,7 @@
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($attrs->f['type']);
+					echo $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
@@ -469,7 +469,7 @@
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($attrs->f['type']);
+					echo $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";

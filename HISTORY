@@ -21,6 +21,8 @@ Bugs
 * Always add brackets around CHECK () constraints
 * Never display an index in both Indexes and Constraints
 * BIGSERIAL missing from PostgreSQL 7.2
+* Types lengths (eg. varchar(255)) weren't being displayed properly
+  in PostgreSQL 7.0.x
 
 Translations
 * Afrikaans from Petri Jooste

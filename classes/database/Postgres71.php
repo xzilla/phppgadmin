@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.42 2003/10/12 05:46:32 chriskl Exp $
+ * $Id: Postgres71.php,v 1.43 2003/10/13 08:50:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -160,7 +160,16 @@ class Postgres71 extends Postgres {
 		
 		return $this->selectSet($sql);
 	}
-	
+
+	/**
+	 * Formats a type correctly for display.  This is a no-op in PostgreSQL 7.1+
+	 * @param $typname The name of the type
+	 * @param $typmod The contents of the typmod field
+	 */
+	function formatType($typname, $typmod) {
+		return $typname;
+	}
+		
 	/**
 	 * Changes the owner of a table
 	 * @param $table The table whose owner is to change

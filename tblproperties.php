@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.28 2003/10/12 13:08:59 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.29 2003/10/13 08:50:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -257,7 +257,7 @@
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
-				echo "<td>", $misc->printVal($column->f['type']), "</td>";
+				echo "<td>", $misc->printVal($localData->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
@@ -286,7 +286,6 @@
 				
 				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
 								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
-echo "status: $status";		
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {
@@ -372,7 +371,7 @@ echo "status: $status";
 			$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 			$id = (($i % 2) == 0 ? '1' : '2');
 			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
+			echo "\t<td class=\"data{$id}\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
 			echo "\t<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),

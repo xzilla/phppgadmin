@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.51 2003/10/12 05:46:32 chriskl Exp $
+ * $Id: Postgres72.php,v 1.52 2003/10/13 08:50:04 chriskl Exp $
  */
 
 
@@ -87,7 +87,7 @@ class Postgres72 extends Postgres71 {
 			$sql = "
 				SELECT
 					a.attname,
-					format_type(a.atttypid, a.atttypmod) as type,
+					format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
 					-1 AS attstattarget, a.attstorage, t.typstorage, false AS attisserial
 				FROM 
@@ -103,7 +103,7 @@ class Postgres72 extends Postgres71 {
 			$sql = "
 				SELECT
 					a.attname,
-					format_type(a.atttypid, a.atttypmod) as type,
+					format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
 					-1 AS attstattarget, a.attstorage, t.typstorage
 				FROM 
