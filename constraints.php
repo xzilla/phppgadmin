@@ -3,14 +3,90 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: constraints.php,v 1.9 2003/03/24 06:59:23 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
+	include_once('classes/class.select.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Confirm and then actually add a PRIMARY KEY constraint
+	 */
+	function addPrimaryKey($confirm, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $lang;
+
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+
+		if ($confirm) {
+			if (!isset($_POST['name'])) $_POST['name'] = '';
+			//if (!isset($_POST['cols'])) $_POST['cols'] = '';
+	
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+				htmlspecialchars($_REQUEST['table']), ": {$lang['straddpk']}</h2>\n";
+			$misc->printMsg($msg);
+			
+			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+	
+			$selColumns = new XHTML_select('TableColumnList', true, 10);
+			$selColumns->set_style('width: 10em;');
+	
+			if ($attrs->recordCount() > 0) {
+				while (!$attrs->EOF) {
+					$selColumns->add(new XHTML_Option($attrs->f['attname']));
+					$attrs->moveNext();
+				} 
+			}
+	
+			$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
+			$selIndex->set_style('width: 10em;');
+			$selIndex->set_attribute('id', 'IndexColumnList');
+			$buttonAdd = new XHTML_Button('add', '>>');
+			$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
+			$buttonAdd->set_attribute('type', 'button');
+	
+			$buttonRemove = new XHTML_Button('remove', '<<');
+			$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
+			$buttonRemove->set_attribute('type', 'button');
+	
+			echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+	
+			echo "<table>\n";
+			echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
+			echo "<tr>";
+			echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+			echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
+			echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
+			echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
+			echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+			echo "</table>\n";
+	
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\">\n";
+			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
+			echo "</form>\n";
+			
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
+				"\">{$lang['strshowallconstraints']}</a></p>\n";
+		}
+		else {
+			// Check that they've given at least one column
+			if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList']) 
+					|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryKey(true, $lang['strpkneedscols']);
+			else {
+				$status = $localData->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+				if ($status == 0)
+					doDefault($lang['strpkadded']);
+				else
+					addPrimaryKey(true, $lang['strpkaddedbad']);
+			}
+		}
+	}
 
 	/**
 	 * Confirm and then actually add a CHECK constraint
@@ -138,13 +214,24 @@
 			echo "<p>{$lang['strnoconstraints']}</p>\n";
 		
 		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
-			"\">{$lang['straddcheck']}</a></p>\n";
+			"\">{$lang['straddcheck']}</a> |\n";
+		echo "<a href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+			"\">{$lang['straddpk']}</a></p>\n";
 	}
 
-	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints']);
-	$misc->printBody();
+	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints'],
+		"<script src=\"indexes.js\" type=\"text/javascript\"></script>");
+
+	echo "<body onload=\"init();\">";
 
 	switch ($action) {
+		case 'add_primary_key':
+			addPrimaryKey(true);
+			break;
+		case 'save_add_primary_key':
+			if (isset($_POST['cancel'])) doDefault();
+			else addPrimaryKey(false);
+			break;
 		case 'add_check':
 			addCheck(true);
 			break;

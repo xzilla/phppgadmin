@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.26 2003/03/22 15:18:00 chriskl Exp $
+ * $Id: Postgres71.php,v 1.27 2003/03/24 06:59:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -249,19 +249,6 @@ class Postgres71 extends Postgres {
 		return $this->execute($sql);
 	}	
 	 
-	/**
-	 * Adds a primary key constraint to a table
-	 * @param $table The table to which to add the primery key
-	 * @param $fields (array) An array of fields over which to add the primary key
-	 * @param $name (optional) The name to give the key, otherwise default name is assigned
-	 * @return 0 success
-	 */
-	function addPrimaryKeyConstraint($table, $fields, $name = '') {
-		// This function can be faked with a unique index and a catalog twiddle, however
-		// how do we ensure that it's only used on NOT NULL fields?
-		return -99; // Not supported.
-	}
-
 	/**
 	 * Drops a primary key constraint from a table
 	 * @param $table The table from which to drop the primary key

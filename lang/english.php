@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.64 2003/03/22 15:18:00 chriskl Exp $
+	 * $Id: english.php,v 1.65 2003/03/24 06:59:24 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -77,6 +77,7 @@
 	$lang['strwhere'] = 'Where';
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'When';
+	$lang['strformat'] = 'Format';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -133,6 +134,9 @@
 	$lang['straddcolumn'] = 'Add column';
 	$lang['strcolumnadded'] = 'Column added.';
 	$lang['strcolumnaddedbad'] = 'Column add failed.';
+	$lang['strschemaanddata'] = 'Schema & Data';
+	$lang['strschemaonly'] = 'Schema Only';
+	$lang['strdataonly'] = 'Data Only';
 
 	// Users
 	$lang['struseradmin'] = 'User Admin';
@@ -296,6 +300,10 @@
 	$lang['strcheckneedsdefinition'] = 'Check constraint needs a definition.';
 	$lang['strcheckadded'] = 'Check constraint added.';
 	$lang['strcheckaddedbad'] = 'Failed to add check constraint.';
+	$lang['straddpk'] = 'Add Primary Key';
+	$lang['strpkneedscols'] = 'Primary key requires at least one column.';
+	$lang['strpkadded'] = 'Primary key added.';
+	$lang['strpkaddedbad'] = 'Failed to add primary key.';
 
 	// Functions
 	$lang['strfunction'] = 'Function';

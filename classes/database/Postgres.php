@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.62 2003/03/22 15:17:59 chriskl Exp $
+ * $Id: Postgres.php,v 1.63 2003/03/24 06:59:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -944,7 +944,7 @@ class Postgres extends BaseDB {
 	 * @param $name (optional) The name to give the key, otherwise default name is assigned
 	 * @return 0 success
 	 */
-	function addPrimaryKeyConstraint($table, $fields, $name = '') {
+	function addPrimaryKey($table, $fields, $name = '') {
 		// This function can be faked with a unique index and a catalog twiddle, however
 		// how do we ensure that it's only used on NOT NULL fields?
 		return -99; // Not supported.
@@ -956,7 +956,7 @@ class Postgres extends BaseDB {
 	 * @param $name The name of the primary key
 	 * @return 0 success
 	 */
-	function dropPrimaryKeyConstraint($table, $name) {
+	function dropPrimaryKey($table, $name) {
 		$this->fieldClean($name);
 		
 		$sql = "DROP INDEX \"{$name}\"";
