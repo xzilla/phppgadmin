@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.27 2004/11/10 01:37:43 chriskl Exp $
+	 * $Id: spanish.php,v 1.27.4.1 2005/03/03 14:51:30 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -25,11 +25,17 @@
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 
 	// Basic strings
+	$lang['strlogintitle'] = 'Autenticar a %s';
+	$lang['strlogoutmsg'] = 'Salir a %s';
 	$lang['strlogin'] = 'Autenticar';
 	$lang['strloginfailed'] = 'Falló la autenticación';
 	$lang['strlogindisallowed'] = 'Ingreso no autorizado';
 	$lang['strserver'] = 'Servidor';
+	$lang['strservers'] = 'Servdores';
+	$lang['strhost'] = 'Host';
+	$lang['strport'] = 'Port';
 	$lang['strlogout'] = 'Salir';
+	$lang['strintroduction'] = 'Introducción';
 	$lang['strowner'] = 'Propietario';
 	$lang['straction'] = 'Acción';
 	$lang['stractions'] = 'Acciones';
@@ -129,10 +135,10 @@
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesitás un navegador con soporte de marcos para usar esta aplicación.';
+	$lang['strnoframeslink'] = 'Usar sin marcos';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php está desactualizado. Deberá regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versión de PHP no tiene el soporte correcto de bases de datos.';
-        $lang['strphpversionnotsupported']  =  'Su versión de PHP no está soportada. Por favor actualice a la versión %s o más reciente.';
-        $lang['strpostgresqlversionnotsupported']  =  'Su versión de PostgreSQL no está soportado. Por favor actualice a la versión %s o más reciente.';
+    $lang['strpostgresqlversionnotsupported']  =  'Su versión de PostgreSQL no está soportado. Por favor actualice a la versión %s o más reciente.';
 	$lang['strbadschema'] = 'El esquema especificado no es válido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificación del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
@@ -381,7 +387,8 @@
 	$lang['strruledroppedbad'] = 'Falló al eliminar la regla.';
 
 	// Constraints
-	$lang['strconstraints'] = 'Restricción';
+	$lang['strconstraints'] = 'Restricciónes';
+	$lang['strconstraint'] = 'Restricción';
 	$lang['strshowallconstraints'] = 'Mostrar todas las restricciones';
 	$lang['strnoconstraints'] = 'No se encontraron restricciones.';
 	$lang['strcreateconstraint'] = 'Crear Restricción';
