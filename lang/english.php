@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.67 2003/04/04 08:28:26 chriskl Exp $
+	 * $Id: english.php,v 1.68 2003/04/11 04:44:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -100,7 +100,7 @@
 	$lang['strtablename'] = 'Table name';
 	$lang['strtableneedsname'] = 'You must give a name for your table.';
 	$lang['strtableneedsfield'] = 'You must specify at least one field.';
-	$lang['strtableneedscols'] = 'You must give a valid number of columns.';
+	$lang['strtableneedscols'] = 'Tables require a valid number of columns.';
 	$lang['strtablecreated'] = 'Table created.';
 	$lang['strtablecreatedbad'] = 'Table creation failed.';
 	$lang['strconfdroptable'] = 'Are you sure you want to drop the table "%s"?';
@@ -257,7 +257,7 @@
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Column Name';
 	$lang['strindexneedsname'] = 'You must give a name for your index';
-	$lang['strindexneedscols'] = 'You must give a valid number of columns.';
+	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created';
 	$lang['strindexcreatedbad'] = 'Index creation failed.';
 	$lang['strconfdropindex'] = 'Are you sure you want to drop the index "%s"?';
