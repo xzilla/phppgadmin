@@ -4,13 +4,14 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.68 2003/04/11 04:44:34 chriskl Exp $
+	 * $Id: english.php,v 1.69 2003/04/13 08:24:24 jmpoure Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'English';
 	$lang['appcharset'] = 'ISO-8859-1';
-
+	$lang['applocale'] = 'en_US';
+  
 	// Basic strings
 	$lang['strintro'] = 'Welcome to phpPgAdmin.';
 	$lang['strlogin'] = 'Login';

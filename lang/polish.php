@@ -4,13 +4,14 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.16 2003/04/04 20:28:02 slubek Exp $
+	 * $Id: polish.php,v 1.17 2003/04/13 08:24:24 jmpoure Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Polski';
 	$lang['appcharset'] = 'ISO-8859-2';
-
+	$lang['applocale'] = 'pl_PL';
+  
 	// Basic strings
 	$lang['strintro'] = 'Witaj w phpPgAdmin.';
 	$lang['strlogin'] = '- Zaloguj';

@@ -4,13 +4,14 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese-sjis.php,v 1.2 2003/04/11 04:47:52 chriskl Exp $
+	 * $Id: japanese-sjis.php,v 1.3 2003/04/13 08:24:24 jmpoure Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = '日本語(SHIFT_JIS)';
 	$lang['appcharset'] = 'SHIFT_JIS';
-
+	$lang['applocale'] = 'ja_JP';
+  
 	// Basic strings
 	$lang['strintro'] = 'ようこそphpPgAdminへ。';
 	$lang['strlogin'] = 'ログイン';

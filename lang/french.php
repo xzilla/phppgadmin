@@ -4,13 +4,14 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.4 2003/04/09 08:32:03 jmpoure Exp $
+	 * $Id: french.php,v 1.5 2003/04/13 08:24:24 jmpoure Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Français';
 	$lang['appcharset'] = 'ISO-8859-1';
-
+	$lang['applocale'] = 'fr_FR';
+  
 	// Basic strings
 	$lang['strintro'] = 'Bienvenue sur phpPgAdmin.';
 	$lang['strlogin'] = 'Login';

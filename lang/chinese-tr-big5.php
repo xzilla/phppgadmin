@@ -2,13 +2,14 @@
 
 /**
 * @maintainer Chan Min Wai [dcmwai@amtb-m.org.my] 
-* Direct conver from Simplify Chinese @He Wei Ping [laser@zhengmai.com.cn] 
+* Direct convert from Simplify Chinese @He Wei Ping [laser@zhengmai.com.cn] 
 */
 
 // Language and character set
 $lang['applang'] = '繁體中文（big5）';
 $lang['appcharset'] = 'big5';
-
+$lang['applocale'] = 'zh_CN';
+  
 // Basic strings
 $lang['strintro'] = '迎使用 WebDB。';
 $lang['strlogin'] = '登錄';

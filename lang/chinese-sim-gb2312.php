@@ -2,11 +2,13 @@
 
 /**
 * @maintainer He Wei Ping [laser@zhengmai.com.cn] 
+*
 */
 
 // Language and character set
 $lang['applang'] = '简体中文（gb2132）';
 $lang['appcharset'] = 'gb2132';
+$lang['applocale'] = 'zh_CN';
 
 // Basic strings
 $lang['strintro'] = '迎使用 WebDB。';

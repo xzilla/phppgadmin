@@ -3,12 +3,13 @@
 	 * Italian language template, based on the english language template file for WebDB.
 	 * @maintainer Calogero Calì [<kalef@libero.it>]
 	 *	
-	 * $Id: italian.php,v 1.6 2003/04/04 08:28:27 chriskl Exp $
+	 * $Id: italian.php,v 1.7 2003/04/13 08:24:24 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Italiano';
 	$lang['appcharset'] = 'ISO-8859-1';
-
+	$lang['applocale'] = 'it_IT';
+  
 	$lang['strnoframes'] = '&Egrave; necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Tabelle non trovate.';

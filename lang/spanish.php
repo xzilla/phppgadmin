@@ -4,12 +4,13 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Robert Treat [xzilla@users.sourceforge.net]
 	 *
-	 * $Id: spanish.php,v 1.4 2003/03/17 05:20:31 chriskl Exp $
+	 * $Id: spanish.php,v 1.5 2003/04/13 08:24:25 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Spanish';
 	$lang['appcharset'] = 'ISO-8859-1';
-
+	$lang['applocale'] = 'es_ES';
+  
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'No se han encontrado tablas.';
