@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.1 2002/02/11 09:32:48 chriskl Exp $
+ * $Id: Postgres71.php,v 1.2 2002/02/12 06:55:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -12,6 +12,8 @@
 include_once('../classes/database/BaseDB.php');
 
 class Postgres71 extends BaseDB {
+
+	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
 
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
