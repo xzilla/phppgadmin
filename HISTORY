@@ -46,6 +46,7 @@ Bugs
   not want to use the same pop-up.
 * Fix create table if you don't supply as many fields as you originally
   specified.
+* Fix schema support for views
 
 Translations
 * Trad. Chinese from Chih-Hsin Lee

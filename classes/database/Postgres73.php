@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.116 2004/06/03 06:42:20 chriskl Exp $
+ * $Id: Postgres73.php,v 1.117 2004/06/03 07:34:56 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -529,6 +529,23 @@ class Postgres73 extends Postgres72 {
                         FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
                         WHERE (n.nspname='{$this->_schema}') AND (c.relkind = 'v'::\"char\")  ORDER BY viewname";
 
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns all details for a particular view
+	 * @param $view The name of the view to retrieve
+	 * @return View info
+	 */
+	function &getView($view) {
+		$this->clean($view);
+
+		$sql = "SELECT c.relname AS viewname, pg_catalog.pg_get_userbyid(c.relowner) AS viewowner, 
+                          pg_catalog.pg_get_viewdef(c.oid) AS definition, pg_catalog.obj_description(c.oid, 'pg_class') AS comment
+                        FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
+                        WHERE (c.relname = '$view')
+                        AND n.nspname='{$this->_schema}'";
+ 
 		return $this->selectSet($sql);
 	}
 	

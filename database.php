@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.46 2004/05/28 08:17:21 chriskl Exp $
+	 * $Id: database.php,v 1.47 2004/06/03 07:34:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -548,8 +548,9 @@
 		echo "\t\t\t</select>\n\t\t</td>\n\t\n";
 		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><input name=\"formComment\" size=\"60\" value=\"",
-			htmlspecialchars($_POST['formComment']), "\" /></td>\n\t</tr>\n";
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
+			
 		echo "\t</tr>\n";
 		echo "</table>\n";
 		echo "<p>\n";
@@ -615,6 +616,10 @@
 					echo "<td class=\"opbutton{$id}\"><a href=\"schema.php?database=",
 						urlencode($_REQUEST['database']), "&amp;schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;action=alter\">{$lang['stralter']}</a></td>\n";
+					// Trim long comments
+					if (strlen($schemas->f[$data->nspFields['nspcomment']]) > $conf['max_chars']) {
+						$schemas->f[$data->nspFields['nspcomment']] = substr($schemas->f[$data->nspFields['nspcomment']], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+					}
 					if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspcomment']]), "</td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
