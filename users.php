@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.12 2003/05/19 13:10:59 chriskl Exp $
+	 * $Id: users.php,v 1.13 2003/06/05 20:40:24 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -244,7 +244,7 @@
 		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		

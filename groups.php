@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.9 2003/05/19 14:49:20 chriskl Exp $
+	 * $Id: groups.php,v 1.10 2003/06/05 20:40:24 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -101,7 +101,7 @@
 		}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		
