@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.23 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: rules.php,v 1.24 2004/09/28 13:08:39 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -91,15 +91,16 @@
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
-			$misc->printTitle($lang['strdrop'].'pg.rule.drop');
-
+			$misc->printTitle($lang['strdrop'],'pg.rule.drop');
+			
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
-				$misc->printVal($_REQUEST[$_REQUEST['subject']])), "</p>\n";
+				$misc->printVal($_REQUEST[$_REQUEST['reltype']])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"relation\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['reltype']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['reltype']),
+					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['reltype']]), "\" />\n";
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
@@ -111,7 +112,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropRule($_POST['rule'], $_POST['relation'], isset($_POST['cascade']));
+			$status = $data->dropRule($_POST['rule'], $_POST[$_POST['subject']], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strruledropped']);
 			else
@@ -154,7 +155,7 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
 				'vars'  => array('rule' => 'rulename'),
 			),
 		);
