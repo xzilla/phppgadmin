@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.198 2004/05/09 06:21:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.199 2004/05/09 06:56:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -835,9 +835,17 @@ class Postgres extends BaseDB {
 	 * @param $name The name to give the field
 	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
 	 * @param $type The database type of the field
+	 * @param $actions An array of javascript action name to the code to execute on that action
 	 */
-	function printField($name, $value, $type) {
+	function printField($name, $value, $type, $actions = array()) {
 		global $lang;
+		
+		// Determine actions string
+		$action_str = '';
+		foreach ($actions as $k => $v) {
+			$action_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
+		}
+		
 		switch ($type) {
 			case 'bool':
 			case 'boolean':
@@ -847,14 +855,14 @@ class Postgres extends BaseDB {
 				
 				// If value is null, 't' or 'f'...
 				if ($value === null || $value == 't' || $value == 'f') {
-					echo "<select name=\"", htmlspecialchars($name), "\">\n";
+					echo "<select name=\"", htmlspecialchars($name), "\"{$action_str}>\n";
 					echo "<option value=\"\"", ($value === null) ? ' selected="selected"' : '', "></option>\n";
 					echo "<option value=\"t\"", ($value == 't') ? ' selected="selected"' : '', ">{$lang['strtrue']}</option>\n";
 					echo "<option value=\"f\"", ($value == 'f') ? ' selected="selected"' : '', ">{$lang['strfalse']}</option>\n";
 					echo "</select>\n";
 				}
 				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
 				}				
 				break;
 			case 'text':
@@ -862,13 +870,12 @@ class Postgres extends BaseDB {
 				// addCSlashes converts all weird ASCII characters to octal representation,
 				// EXCEPT the 'special' ones like \r \n \t, etc.
 				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\">\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\"{$action_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
 			default:
-//				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" onBlur=\"isEmpty(this);\" />\n";
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
 				break;
 		}		
 	}

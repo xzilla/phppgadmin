@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.36 2004/02/23 07:23:15 chriskl Exp $
+	 * $Id: display.php,v 1.37 2004/05/09 06:56:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -37,7 +37,8 @@
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 			$rs = &$data->browseRow($_REQUEST['table'], $key);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"frmedit\">\n";
+			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
 				echo "<table>\n<tr>";
@@ -62,11 +63,13 @@
 					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					$elements++;
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
+					$elements++;
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->f['attnotnull']) {
@@ -75,13 +78,24 @@
 							$_REQUEST['nulls'][$attrs->f['attname']] = 'on';
 						}
 						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>\n";
+						$elements++;
 					}
 					else
 						echo "&nbsp;</td>";
 
-					echo "<td class=\"data{$id}\" nowrap>", $data->printField("values[{$attrs->f['attname']}]",
-						$rs->f[$attrs->f['attname']], $attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap>";
+					// If the column allows nulls, then we put a JavaScript action on the data field to unset the
+					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to 
+					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
+					// as it contains '[' and ']' characters.
+					if (!$attrs->f['attnotnull'])
+						echo $data->printField("values[{$attrs->f['attname']}]", $rs->f[$attrs->f['attname']], $attrs->f['type'], 
+													array('onChange' => 'elements[' . ($elements - 1) . '].checked = false;'));
+					else
+						echo $data->printField("values[{$attrs->f['attname']}]", $rs->f[$attrs->f['attname']], $attrs->f['type']);
+					echo "</td>";
+					$elements++;
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();

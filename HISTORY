@@ -24,6 +24,8 @@ Features
 * Create view wizard (Bryan Encina)
 * Allow specification of MATCH, DEFERRABLE and INITIALLY DEFERRED on
   foreign keys.
+* Automatically uncheck the NULL checkbox when data is typed in the value
+  field while editing data.
 
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
