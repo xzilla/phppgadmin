@@ -3,7 +3,7 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.1 2002/02/12 06:53:30 chriskl Exp $
+ * $Id: MySQL.php,v 1.2 2002/02/12 08:53:15 chriskl Exp $
  */
 
 include_once('../classes/database/BaseDB.php');
@@ -11,6 +11,7 @@ include_once('../classes/database/BaseDB.php');
 class MySQL extends BaseDB {
 
 	var $dbFields = array('dbname' => 'Database');
+	var $tbFields = array('tbname' => 'Name', 'tbowner' => '');
 
 	function MySQL($host, $port, $database, $user, $password) {
 		$this->BaseDB('mysql');
