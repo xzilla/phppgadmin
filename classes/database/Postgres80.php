@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.4 2004/09/07 14:04:21 jollytoad Exp $
+ * $Id: Postgres80.php,v 1.5 2004/10/11 10:27:34 jollytoad Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -105,12 +105,13 @@ class Postgres80 extends Postgres74 {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relname
-                                FROM pg_catalog.pg_tables 
-				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-				ORDER BY schemaname, tablename";
+					FROM pg_catalog.pg_tables 
+					WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+					ORDER BY schemaname, tablename";
 		} else {
 			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
 						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
+						reltuples::integer,
 						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
 					FROM pg_catalog.pg_class c
 					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace

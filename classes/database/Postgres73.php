@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.138 2004/09/17 11:45:44 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.139 2004/10/11 10:27:34 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -363,18 +363,19 @@ class Postgres73 extends Postgres72 {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
-                                FROM pg_catalog.pg_tables 
-				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-				ORDER BY schemaname, tablename";
+					FROM pg_catalog.pg_tables 
+					WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
+					ORDER BY schemaname, tablename";
 		} else {
 			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
-						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment
+						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
+						reltuples::integer
 					FROM pg_catalog.pg_class c
 					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 					WHERE c.relkind = 'r'
 					AND nspname='{$this->_schema}'
 					ORDER BY c.relname";
-		}		
+		}
 
 		return $this->selectSet($sql);
 	}

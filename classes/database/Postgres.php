@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.247 2004/10/06 08:43:33 jollytoad Exp $
+ * $Id: Postgres.php,v 1.248 2004/10/11 10:27:33 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -574,7 +574,8 @@ class Postgres extends ADODB_base {
 		
 		$sql = "SELECT NULL AS nspname, c.relname, 
 					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment,
+					reltuples::integer
 				FROM pg_class c 
 				WHERE c.relkind='r' 
 					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.76 2004/09/07 14:04:20 jollytoad Exp $
+ * $Id: Postgres72.php,v 1.77 2004/10/11 10:27:34 jollytoad Exp $
  */
 
 
@@ -122,7 +122,8 @@ class Postgres72 extends Postgres71 {
 		
 		$sql = "SELECT NULL AS nspname, c.relname, 
 					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS relcomment
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS relcomment,
+					reltuples::integer
 			 FROM pg_class c WHERE c.relkind='r' {$where}ORDER BY relname";
 		return $this->selectSet($sql);
 	}
