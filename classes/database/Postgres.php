@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.60 2003/03/16 10:49:17 chriskl Exp $
+ * $Id: Postgres.php,v 1.61 2003/03/18 07:35:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -769,57 +769,73 @@ class Postgres extends BaseDB {
 		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
 		else $where = '';
 		$sql = "SELECT c.relname, u.usename  FROM pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S'{$where} ORDER BY relname";
+		
 		return $this->selectSet( $sql );
 	}
 
 	/**
 	 * Returns properties of a single sequence
+	 * @param $sequence Sequence name
 	 * @return A recordset
 	 */
 	function &getSequence($sequence) {
+		$this->fieldClean($sequence);
+		
 		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
 		else $where = '';
-		$sql = "SELECT sequence_name as relname,* FROM $sequence"; 
+		$sql = "SELECT sequence_name AS relname, * FROM \"{$sequence}\""; 
+		
 		return $this->selectSet( $sql );
 	}
 
 	/** 
 	 * Drops a given sequence
+	 * @param $sequence Sequence name
 	 * @return 0 success
 	 */
 	function &dropSequence($sequence) {
+		$this->fieldClean($sequence);
+		
+		$sql = "DROP SEQUENCE \"{$sequence}\"";
+		
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Resets a given sequence to 1
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 */
+	function &resetSequence($sequence) {
 		$this->clean($sequence);
-		$sql = "DROP SEQUENCE {$sequence} ";
+		
+		$sql = "SELECT SETVAL('{$sequence}', 1)";
+		
 		return $this->execute($sql);
 	}
 
 	/**
 	 * Creates a new sequence
+	 * @param $sequence Sequence name
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
 	 * @return 0 success
 	 */
-	function &setSequence($sequence,$startval=1) {
-		$this->clean($sequence);
-		$sql = "CREATE SEQUENCE $seq_name START $startval";
+	function createSequence($sequence, $increment, $minvalue, $maxvalue, $startvalue) {
+		$this->fieldClean($sequence);
+		
+		$sql = "CREATE SEQUENCE \"{$sequence}\"";
+		if ($increment != '') $sql .= " INCREMENT {$increment}";
+		if ($minvalue != '') $sql .= " MINVALUE {$minvalue}";
+		if ($maxvalue != '') $sql .= " MAXVALUE {$maxvalue}";
+		if ($startvalue != '') $sql .= " START {$startvalue}";
+		
 		return $this->execute($sql);
 	}
 
-	/** 
-	 * Modifies permissions on a given sequence
-	 * @return 0 success
-	 */
-	function &setSequencePermissions($sequence) {
-
-	}
-
-	/** 
-	 * Resets  a given sequence to 1
-	 * @return 0 success
-	 */
-	function &resetSequence($sequence) {
-		$this->clean($sequence);
-		$sql = "SELECT setval('$sequence',1)";
-		return $this->execute($sql);
-	}
+	// Constraint functions
 
 	/**
 	 * Adds a check constraint to a table
@@ -1645,23 +1661,25 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Create Trigger
-	 *  
-	 * @param $tgname 	The name of the trigger to create
-	 * @param $table    The name of the table
-	 * @param $trgpoc   The function to execute
-	 * @param $trgevent The action
-	 * @param $trevent  Event
+	 * Creates a trigger
+	 * @param $tgname The name of the trigger to create
+	 * @param $table The name of the table
+	 * @param $tgproc The function to execute
+	 * @param $tgtime BEFORE or AFTER
+	 * @param $tgevent Event
+	 * @return 0 success
 	 */
-	function createTrigger($trgName, $table, $trgFunction, $trgExecTime, $trgEvent) {
+	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+		$this->fieldClean($tgproc);
 		
 		/* No Statement Level Triggers in PostgreSQL (by now) */
-		$sql = "CREATE TRIGGER {$trgName} {$trgExecTime} 
-				{$trgEvent} ON {$table}
-				FOR EACH ROW EXECUTE PROCEDURE {$trgFunction} ();";
+		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime} 
+				{$tgevent} ON \"{$table}\"
+				FOR EACH ROW EXECUTE PROCEDURE \"{$tgproc}\"()";
 				
 		return $this->execute($sql);
-	
 	}
 
 	/**

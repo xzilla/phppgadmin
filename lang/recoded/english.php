@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.14 2003/03/17 09:25:46 chriskl Exp $
+	 * $Id: english.php,v 1.15 2003/03/18 07:35:11 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -218,16 +218,16 @@
 	$lang['strnosequence'] = 'No sequence found.';
 	$lang['strnosequences'] = 'No sequences found.';
 	$lang['strcreatesequence'] = 'Create sequence';
-	$lang['strsequencename'] = 'sequence_name';
-	$lang['strlastvalue'] = 'last_value';
-	$lang['strincrementby'] = 'increment_by';	
-	$lang['strmaxvalue'] = 'max_value';
-	$lang['strminvalue'] = 'min_value';
-	$lang['strcachevalue'] = 'cache_value';
-	$lang['strlogcount'] = 'log_cnt';
-	$lang['striscycled'] = 'is_cycled';
-	$lang['striscalled'] = 'is_called';
-	$lang['strsequenceneedsname'] = 'You must specify a name of sequence.';
+	$lang['strlastvalue'] = 'Last Value';
+	$lang['strincrementby'] = 'Increment By';	
+	$lang['strstartvalue'] = 'Start Value';
+	$lang['strmaxvalue'] = 'Max Value';
+	$lang['strminvalue'] = 'Min Value';
+	$lang['strcachevalue'] = 'Cache Value';
+	$lang['strlogcount'] = 'Log Count';
+	$lang['striscycled'] = 'Is Cycled?';
+	$lang['striscalled'] = 'Is Called?';
+	$lang['strsequenceneedsname'] = 'You must specify a name for you sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
 	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 
 	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence &quot;%s&quot;?';
