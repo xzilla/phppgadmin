@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.18 2004/02/18 09:46:56 chriskl Exp $
+    * $Id: german.php,v 1.19 2004/05/21 14:38:44 chriskl Exp $
     */
 
 
@@ -24,6 +24,8 @@
     $lang['strreportbug'] = 'Fehler berichten';
     $lang['strviewfaq'] = 'FAQ ansehen';
     $lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
     $lang['strlogin'] = 'Anmelden';
     $lang['strloginfailed'] = 'Anmelden fehlgeschlagen';
     $lang['strlogindisallowed'] = 'Anmelden nicht erlaubt';
@@ -34,8 +36,6 @@
     $lang['stractions'] = 'Aktionen';
     $lang['strname'] = 'Name';
     $lang['strdefinition'] = 'Definition';
-    $lang['stroperators'] = 'Operatoren';
-    $lang['straggregates'] = 'Aggregate';
     $lang['strproperties'] = 'Eigenschaften';
     $lang['strbrowse'] = 'Durchsuchen';
     $lang['strdrop'] = 'Löschen';
@@ -44,10 +44,10 @@
     $lang['strnotnull'] = 'Nicht Null';
     $lang['strprev'] = 'zurück';
     $lang['strnext'] = 'weiter';
-    $lang['strfailed'] = 'fehlgeschlagen';
-    $lang['strcreate'] = 'Erstellen';
     $lang['strfirst'] = '<< Anfang';
     $lang['strlast'] = 'Ende >>';
+    $lang['strfailed']  =  'Fehlgeschlagen';
+    $lang['strcreate']  =  'Erstellen';
     $lang['strcreated'] = 'Erstellt';
     $lang['strcomment'] = 'Kommentar';
     $lang['strlength'] = 'Länge';
@@ -64,17 +64,17 @@
     $lang['strreferences'] = 'Referenzen';
     $lang['stryes'] = 'Ja';
     $lang['strno'] = 'Nein';
-    $lang['stredit'] = 'Bearbeiten';
-    $lang['strcolumns'] = 'Spalten';
     $lang['strtrue'] = 'Wahr';
     $lang['strfalse'] = 'Falsch';
+    $lang['stredit']  =  'Bearbeiten';
+    $lang['strcolumns']  =  'Spalten';
     $lang['strrows'] = 'Datensätze';
+    $lang['strrowsaff']  =  'Datensätze betroffen.';
     $lang['strobjects'] = 'Objekt(e)';
     $lang['strexample'] = 'z.B.';
     $lang['strback'] = 'Zurück';
-    $lang['strrowsaff'] = 'Datensätze betroffen.';
     $lang['strqueryresults'] = 'Abfrageergebnis';
-    $lang['strshow'] = 'Zeigen';
+    $lang['strshow'] = 'Anzeigen';
     $lang['strempty'] = 'Leeren';
     $lang['strlanguage'] = 'Sprache';
     $lang['strencoding'] = 'Codierung';
@@ -82,14 +82,14 @@
     $lang['strunique'] = 'eindeutig';
     $lang['strprimary'] = 'Primär';
     $lang['strexport'] = 'Exportieren';
+    $lang['strimport']  =  'Importieren';
     $lang['strsql'] = 'SQL';
     $lang['strgo'] = 'Los';
-    $lang['strimport'] = 'Importieren';
     $lang['stradmin'] = 'Admin';
     $lang['strvacuum'] = 'Vacuum';
     $lang['stranalyze'] = 'Analysieren';
-    $lang['strclustered'] = 'Geclustert?';
     $lang['strcluster'] = 'Cluster';
+    $lang['strclustered']  =  'Geclustert?';
     $lang['strreindex'] = 'Reindizierung';
     $lang['strrun'] = 'Los';
     $lang['stradd'] = 'Hinzufügen';
@@ -104,11 +104,14 @@
     $lang['strconfirm'] = 'Bestätigen';
     $lang['strexpression'] = 'Ausdruck';
     $lang['strellipsis'] = '...';
-    $lang['strexplainanalyze'] = 'Explain Analyze';
     $lang['strexpand'] = 'Aufklappen';
     $lang['strcollapse'] = 'Zuklappen';
     $lang['strexplain'] = 'Explain';
+    $lang['strexplainanalyze']  =  'Explain Analyze';
     $lang['strfind'] = 'Suchen';
+    $lang['stroptions']  =  'Optionen';
+    $lang['strrefresh']  =  'Aktualisieren';
+    $lang['strdownload']  =  'Download';
     $lang['strdownloadgzipped'] = 'gzip-komprimiert herunterladen';
     $lang['strinfo'] = 'Info';
     $lang['stroids'] = 'OIDs';
@@ -117,13 +120,15 @@
     $lang['strprocess'] = 'Prozess';
     $lang['strprocesses'] = 'Prozesse';
     $lang['strsetting'] = 'Einstellung';
-    $lang['strparameters'] = 'Parameter';
     $lang['streditsql'] = 'SQL bearbeiten';
+    $lang['strruntime']  =  'Laufzeit gesamt: %s ms';
     $lang['strpaginate'] = 'Ergebnisse paginieren';
+    $lang['struploadscript']  =  'oder laden Sie ein SQL-Script hoch:';
     $lang['strstarttime'] = 'Startzeitpunkt';
-    $lang['stroptions'] = 'Optionen';
-    $lang['strrefresh'] = 'Aktualisieren';
-    $lang['strdownload'] = 'Download';
+    $lang['strfile']  =  'Datei';
+    $lang['strfileimported']  =  'Datei importiert.';
+
+	// Error handling
     $lang['strnoframes'] = 'Für dieses Programm wird ein ein Frame-fähiger Browser benötigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie müssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterstützung.';
@@ -132,10 +137,13 @@
     $lang['strsqlerror'] = 'SQL Fehler:';
     $lang['strinstatement'] = 'In der Anweisung:';
     $lang['strinvalidparam'] = 'Unzulässige Skriptparameter.';
-    $lang['strnoobjects'] = 'Keine Objekte gefunden.';
     $lang['strnodata'] = 'Keine Datensätze gefunden.';
-    $lang['strnoreportsdb'] = 'Sie haben die Berichtsdatenbank nicht installiert. In der Datei INSTALL befinden sich entsprechende Anweisungen.';
+    $lang['strnoobjects']  =  'Keine Objekte gefunden.';
     $lang['strrownotunique'] = 'Für diesen Datensatz ist kein eindeutiges Merkmal vorhanden.';
+    $lang['strnoreportsdb']  =  'Sie haben die Berichtsdatenbank nicht angelegt. In der Datei INSTALL befinden sich Anweisungen dazu.';
+    $lang['strnouploads']  =  'Das Hochladen von Dateien ist ausgeschaltet.';
+    $lang['strimporterror']  =  'Importfehler.';
+    $lang['strimporterrorline']  =  'Importfehler auf Zeile %s.';
 
     // Tables
     $lang['strtable'] = 'Tabelle';
@@ -171,9 +179,9 @@
     $lang['strfields'] = 'Felder';
     $lang['strnumfields'] = 'Anzahl der Felder';
     $lang['strfieldneedsname'] = 'Sie müssen für das Feld einen Namen angeben';
+    $lang['strselectallfields']  =  'Alle Felder auswählen';
     $lang['strselectneedscol'] = 'Sie müssen mindestens eine Spalte anzeigen lassen';
     $lang['strselectunary'] = 'Unäre Operatoren können keine Werte haben.';
-    $lang['strselectallfields'] = 'Alle Felder auswählen';
     $lang['straltercolumn'] = 'Spalte ändern';
     $lang['strcolumnaltered'] = 'Spalte geändert.';
     $lang['strcolumnalteredbad'] = 'Ändern der Spalte fehlgeschlagen.';
@@ -183,22 +191,24 @@
     $lang['straddcolumn'] = 'Spalte hinzufügen';
     $lang['strcolumnadded'] = 'Spalte hinzugefügt.';
     $lang['strcolumnaddedbad'] = 'Hinzufügen der Spalte fehlgeschlagen.';
-    $lang['strdataonly'] = 'nur die Daten';
-
-    // Users
     $lang['strcascade'] = 'CASCADE';
-    $lang['strstructureonly'] = 'nur Struktur';
-    $lang['strstructureanddata'] = 'Struktur und Daten';
     $lang['strtablealtered'] = 'Tabelle geändert.';
     $lang['strtablealteredbad'] = 'Ändern der Tabelle fehlgeschlagen.';
+    $lang['strdataonly']  =  'Nur Daten';
+    $lang['strstructureonly']  =  'Nur die Struktur';
+    $lang['strstructureanddata']  =  'Struktur und Daten';
+    $lang['strtabbed']  =  'mit Tabluatoren';
+    $lang['strauto']  =  'Automatisch';
+
+	// Users
     $lang['struser'] = 'Benutzer';
     $lang['strusers'] = 'Benutzer';
     $lang['strusername'] = 'Benutzername';
     $lang['strpassword'] = 'Passwort';
     $lang['strsuper'] = 'Superuser?';
-    $lang['strsessiondefaults'] = 'Standardeinstellungen für die Sitzung';
     $lang['strcreatedb'] = 'Datenbank erstellen?';
     $lang['strexpires'] = 'Gültig bis';
+    $lang['strsessiondefaults']  =  'Sitzungsstandards';
     $lang['strnousers'] = 'Keine Benutzer gefunden.';
     $lang['struserupdated'] = 'Benutzer ändern.';
     $lang['struserupdatedbad'] = 'Ändern des Benutzers fehlgeschlagen.';
@@ -218,9 +228,11 @@
     $lang['strpasswordchangedbad'] = 'Ändern des Passwortes fehlgeschlagen.';
     $lang['strpasswordshort'] = 'Das Passwort ist zu kurz.';
     $lang['strpasswordconfirm'] = 'Die beiden Passwörter stimmen nicht überein.';
+	
+	// Groups
+    $lang['strgroup']  =  'Gruppe';
     $lang['strgroups'] = 'Gruppen';
     $lang['strnogroup'] = 'Gruppe nicht gefunden.';
-    $lang['strgroup'] = 'Gruppe';
     $lang['strnogroups'] = 'Keine Gruppen gefunden.';
     $lang['strcreategroup'] = 'Gruppe erstellen';
     $lang['strshowallgroups'] = 'Alle Gruppen anzeigen';
@@ -272,6 +284,11 @@
     $lang['strvacuumbad'] = 'Vacuum fehlgeschlagen.';
     $lang['stranalyzegood'] = 'Analysieren abgeschlossen.';
     $lang['stranalyzebad'] = 'Analysieren fehlgeschlagen.';
+    $lang['strreindexgood']  =  'Reindex abgeschlossen.';
+    $lang['strreindexbad']  =  'Reindex fehlgeschlagen.';
+    $lang['strfull']  =  'Vollständig';
+    $lang['strfreeze']  =  'Einfrieren';
+    $lang['strforce']  =  'Erzwingen';
 
     // Views
     $lang['strview'] = 'Sicht';
@@ -283,15 +300,17 @@
     $lang['strviewname'] = 'Name der Sicht';
     $lang['strviewneedsname'] = 'Sie müssen für die Sicht einen Namen angeben.';
     $lang['strviewneedsdef'] = 'Sie müssen für die Sicht eine Definition angeben.';
+    $lang['strviewneedsfields']  =  'Sie müssen die Spalten angeben, die sie in der Sicht haben wollen.';
     $lang['strviewcreated'] = 'Sicht erstellt.';
     $lang['strviewcreatedbad'] = 'Erstellen der Sicht fehlgeschlagen.';
     $lang['strconfdropview'] = 'Sind Sie sicher, dass Sie die Sicht "%s" löschen möchten?';
     $lang['strviewdropped'] = 'Sicht gelöscht.';
     $lang['strviewdroppedbad'] = 'Löschen der Sicht fehlgeschlagen.';
-$lang['strviewlink'] = 'Linking Keys';
-    $lang['strviewconditions'] = 'Zusätzliche Bedingungen';
     $lang['strviewupdated'] = 'Sicht geändert.';
     $lang['strviewupdatedbad'] = 'Ändern der Sicht fehlgeschlagen.';
+    $lang['strviewlink']  =  'Verbindende Schlüssel';
+    $lang['strviewconditions']  =  'Zusätzliche Bedingungen';
+    $lang['strcreateviewwiz']  =  'Sicht mit dem Assistenten erstellen';
 
     // Sequences
     $lang['strsequence'] = 'Sequenz';
@@ -317,9 +336,9 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['strsequencedroppedbad'] = 'Löschen der Sequenz fehlgeschlagen.';
     $lang['strsequencereset'] = 'Sequenz zurückgesetzt..';
     $lang['strsequenceresetbad'] = 'Rücksetzen der Sequenz fehlgeschlagen.';
-    $lang['strindex'] = 'Index';
 
     // Indexes
+    $lang['strindex']  =  'Index';
     $lang['strindexes'] = 'Indizes';
     $lang['strindexname'] = 'Name des Index';
     $lang['strshowallindexes'] = 'Zeige alle Indizes';
@@ -339,12 +358,11 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['struniquekey'] = 'Eindeutiger Schlüssel';
     $lang['strprimarykey'] = 'Primärerschlüssel';
     $lang['strindextype'] = 'Typ des Index';
-    $lang['strindexname'] = 'Name des Index';
     $lang['strtablecolumnlist'] = 'Spalten in der Tabelle';
+    $lang['strindexcolumnlist']  =  'Spalten im Index';
     $lang['strconfcluster'] = 'Sind Sie sicher, dass Sie "%s" clustern wollen?';
     $lang['strclusteredgood'] = 'Clustern abgeschlossen.';
     $lang['strclusteredbad'] = 'Clustern fehlgeschlagen.';
-    $lang['strindexcolumnlist'] = 'Spalten im Index';
 
     // Rules
     $lang['strrules'] = 'Regeln';
@@ -385,12 +403,12 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['struniqaddedbad'] = 'Hinzufügen eines eindeutigen Schlüssels fehlgeschlagen.';
     $lang['straddfk'] = 'Fremdschlüssel hinzufügen';
     $lang['strfkneedscols'] = 'Ein Fremdschlüssel benötigt mindestens eine Spalte.';
-    $lang['strfkadded'] = 'Fremdschlüssel hinzugefügt.';
     $lang['strfkneedstarget'] = 'Ein Fremdschlüssel benötigt eine Zieltabelle.';
+    $lang['strfkadded']  =  'Fremdschlüssel hinzugefügt.';
     $lang['strfkaddedbad'] = 'Hinzufügen eines Fremdschlüssels fehlgeschlagen.';
     $lang['strfktarget'] = 'Zieltabelle';
-    $lang['strondelete'] = 'ON DELETE';
     $lang['strfkcolumnlist'] = 'Spalten im Schlüssel';
+    $lang['strondelete']  =  'ON DELETE';
     $lang['stronupdate'] = 'ON UPDATE';
 
     // Functions
@@ -467,24 +485,23 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['strschemacreatedbad'] = 'Erstellen des Schemas fehlgeschlagen.';
     $lang['strconfdropschema'] = 'Sind Sie sicher, dass sie das Schema "%s" löschen möchten?';
     $lang['strschemadropped'] = 'Schema gelöscht.';
-    $lang['strreport'] = 'Bericht';
     $lang['strschemadroppedbad'] = 'Löschen des Schemas fehlgeschlagen';
+    $lang['strschemaaltered']  =  'Schema geändert.';
+    $lang['strschemaalteredbad']  =  'Änderung des Schemas fehlgeschlagen.';
 
-    // Views
+	// Reports
+    $lang['strreport']  =  'Bericht';
     $lang['strreports'] = 'Berichte';
     $lang['strshowallreports'] = 'Zeige alle Berichte';
     $lang['strnoreports'] = 'Keine Berichte gefunden.';
     $lang['strcreatereport'] = 'Bericht erstellen';
     $lang['strreportdropped'] = 'Bericht gelöscht.';
-    $lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht "%s" löschen wollen?';
     $lang['strreportdroppedbad'] = 'Löschen des Berichtes fehlgeschlagen.';
+    $lang['strconfdropreport']  =  'Sind Sie sicher, dass Sie den Bericht "%s" löschen wollen?';
     $lang['strreportneedsname'] = 'Sie müssen für den Bericht einen Namen angeben.';
     $lang['strreportneedsdef'] = 'Sie müssen SQL-Code für den Bericht eingeben.';
     $lang['strreportcreated'] = 'Bericht gespeichert.';
     $lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
-
-    // Miscellaneous
-    $lang['strtopbar'] = '%s läuft auf host:%s port:%s -- Sie sind angemeldet als Benutzer "%s", %s';
 
     // Domains
     $lang['strdomain'] = 'Domain';
@@ -500,9 +517,16 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['strdomaincreatedbad'] = 'Erstellen der Domain fehlgeschlagen.';
     $lang['strdomainaltered'] = 'Domain geändert.';
     $lang['strdomainalteredbad'] = 'Ändern der Domain fehlgeschlagen.';
-    $lang['strtimefmt'] = 'j. M Y H:i:s';
 
-    // Operatoren
+	// Operators
+    $lang['stroperator']  =  'Operator';
+    $lang['stroperators']  =  'Operatoren';
+    $lang['strshowalloperators']  =  'Alle Operatoren zeigen';
+    $lang['strnooperator']  =  'Kein Operator gefunden.';
+    $lang['strnooperators']  =  'Keine Operatoren gefunden.';
+    $lang['strcreateoperator']  =  'Operator erstellen';
+    $lang['strleftarg']  =  'Typ des linken Arguments';
+    $lang['strrightarg']  =  'Typ des rechter Arguments';
     $lang['strcommutator'] = 'Commutator';
     $lang['strnegator'] = 'Negator';
     $lang['strrestrict'] = 'Restrict';
@@ -513,13 +537,14 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['strrightsort'] = 'Right sort';
     $lang['strlessthan'] = 'Kleiner als';
     $lang['strgreaterthan'] = 'Größer als';
-    $lang['stroperator'] = 'Operator';
-    $lang['strshowalloperators'] = 'Alle Operatoren zeigen';
-    $lang['strnooperator'] = 'Keinen Operator vorhanden.';
-    $lang['strnooperators'] = 'Keine Operatoren vorhanden.';
-    $lang['strcreateoperator'] = 'Operator erstellen';
-    $lang['strleftarg'] = 'Typ des linken Arguments';
-    $lang['strrightarg'] = 'Typ des rechten Arguments';
+    $lang['stroperatorneedsname']  =  'Sie müssen einen Namen für den Operator angeben.';
+    $lang['stroperatorcreated']  =  'Operator erstellt';
+    $lang['stroperatorcreatedbad']  =  'Erstellen des Operators fehlgeschlagen.';
+    $lang['strconfdropoperator']  =  'Sind Sie sicher, dass Sie den Operator "%s" löschen wollen?';
+    $lang['stroperatordropped']  =  'Operator gelöscht.';
+    $lang['stroperatordroppedbad']  =  'Löschen des Operators fehlgeschlagen.';
+
+	// Casts
     $lang['strcasts'] = 'Typumwandlungen';
     $lang['strnocasts'] = 'Keine Typumwandlungen gefunden.';
     $lang['strsourcetype'] = 'Quelltyp';
@@ -527,29 +552,31 @@ $lang['strviewlink'] = 'Linking Keys';
     $lang['strimplicit'] = 'Implizit';
     $lang['strinassignment'] = 'Während Zuweisung';
     $lang['strbinarycompat'] = '(binärkompatibel)';
-    $lang['stroperatorneedsname'] = 'Sie müssen einen Namen für den Operator angeben.';
-    $lang['stroperatorcreated'] = 'Operator erstellt';
+	
+	// Conversions
     $lang['strconversions'] = 'Konvertierungen';
     $lang['strnoconversions'] = 'Keine Konvertierungen gefunden.';
     $lang['strsourceencoding'] = 'Quellkodierung';
     $lang['strtargetencoding'] = 'Zielkodierung';
-    $lang['stroperatorcreatedbad'] = 'Erstellen des Operators fehlgeschlagen.';
-    $lang['strconfdropoperator'] = 'Sind Sie sicher, dass Sie den Operator "%s" löschen wollen?';
+	
+	// Languages
     $lang['strlanguages'] = 'Sprachen';
     $lang['strnolanguages'] = 'Keine Sprachen gefunden.';
     $lang['strtrusted'] = 'vertrauenswürdig';
-    $lang['stroperatordropped'] = 'Operator gelöscht.';
+	
+	// Info
     $lang['strnoinfo'] = 'Keine Informationen vorhanden.';
     $lang['strreferringtables'] = 'Tabellen, die sich mit Fremdschlüsseln auf diese Tabelle beziehen';
     $lang['strparenttables'] = 'Elterntabellen';
     $lang['strchildtables'] = 'Kindtabellen';
-    $lang['stroperatordroppedbad'] = 'Löschen des Operators fehlgeschlagen.';
-    $lang['strhelp'] = 'Hilfe';
+	
+	// Aggregates
+    $lang['straggregates']  =  'Aggregate';
     $lang['strnoaggregates'] = 'Keine Aggregate gefunden.';
     $lang['stralltypes'] = '(Alle Typen)';
 
     // Operator Classes
-    $lang['stropclasses'] = 'Operatorklasse';
+    $lang['stropclasses'] = 'Operatorklassen';
     $lang['strnoopclasses'] = 'Keine Operatorklassen gefunden.';
     $lang['straccessmethod'] = 'Zugriffsmethode';
 
@@ -569,4 +596,10 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strcache'] = 'Cache';
 	$lang['strdisk'] = 'Festplatte';
 	$lang['strrows2'] = 'Zeilen';
+
+	// Miscellaneous
+    $lang['strtopbar'] = '%s läuft auf %s:%s -- Sie sind als "%s" angemeldet, %s';
+    $lang['strtimefmt'] = 'D, j. n. Y, G:i';
+    $lang['strhelp'] = 'Hilfe';
+
 ?>
