@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.23 2004/05/18 00:45:29 soranzo Exp $
+	 * $Id: spanish.php,v 1.24 2004/06/19 12:52:37 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -100,6 +100,7 @@
 	$lang['strconfirm'] = 'Confirmar';
 	$lang['strexpression'] = 'Expresión';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Colapsar';
         $lang['strexplain'] = 'Explicar';
@@ -128,6 +129,8 @@
 	$lang['strnoframes'] = 'Necesitás un navegador con soporte de marcos para usar esta aplicación.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php está desactualizado. Deberá regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versión de PHP no tiene el soporte correcto de bases de datos.';
+        $lang['strphpversionnotsupported']  =  'Su versión de PHP no tiene el soporte. Por favor mejora a la versión %s o más reciente.';
+        $lang['strpostgresqlversionnotsupported']  =  'Su versión de PostgreSQL no tiene el soporte. Por favor mejora a la versión %s o más reciente.';
 	$lang['strbadschema'] = 'El esquema especificado no es válido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificación del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
@@ -170,7 +173,7 @@
 	$lang['strconfdeleterow'] = '¿Está seguro que quiere eliminar esta fila?';
 	$lang['strrowdeleted'] = 'Fila eliminada.';
 	$lang['strrowdeletedbad'] = 'Falló la eliminación de fila.';
-	$lang['strsaveandrepeat'] = 'Guardar y Repetir';
+        $lang['strinsertandrepeat']  =  'Insertar y Repite';
 	$lang['strfield'] = 'Campo';
 	$lang['strfields'] = 'Campos';
 	$lang['strnumfields'] = 'Número de Campos';
@@ -187,10 +190,10 @@
         $lang['straddcolumn'] = 'Agregar Columna';
 	$lang['strcolumnadded'] = 'Columna agregada.';
 	$lang['strcolumnaddedbad'] = 'Falló el agregado de columna.';
-	$lang['strdataonly'] = 'Datos solamente';
 	$lang['strcascade'] = 'EN CASCADA';
 	$lang['strtablealtered'] = 'Tabla modificada.';
 	$lang['strtablealteredbad'] = 'Falló la modificación  de la Tabla.';
+        $lang['strdataonly'] = 'Datos solamente';
 	$lang['strstructureonly'] = 'Solo la estructura';
 	$lang['strstructureanddata'] = 'Estructura y datos';
 	$lang['strtabbed'] = 'Tabulado';
@@ -213,8 +216,8 @@
 	$lang['struserneedsname'] = 'Debe dar un nombre a su usuario.';
 	$lang['strusercreated'] = 'Usuario creado.';
 	$lang['strusercreatedbad'] = 'Falló al crear usuario.';
-        $lang['struserdropped'] = 'Usuario eliminado.';
 	$lang['strconfdropuser'] = '¿Está seguro que quiere eliminar el usuario "%s"?';
+        $lang['struserdropped'] = 'Usuario eliminado.';
 	$lang['struserdroppedbad'] = 'Falló al eliminar el usuario.';
 	$lang['straccount'] = 'Cuenta';
 	$lang['strchangepassword'] = 'Cambiar Contraseña';
@@ -224,8 +227,8 @@
 	$lang['strpasswordconfirm'] = 'Las contraseñas no coinciden.';
 
         // Groups
-	$lang['strgroups'] = 'Grupos';
         $lang['strgroup'] = 'Grupo';
+	$lang['strgroups']  =  'Grupos';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
 	$lang['strnogroups'] = 'No se encontraron grupos.';
 	$lang['strcreategroup'] = 'Crear Grupo';
@@ -235,6 +238,8 @@
 	$lang['strgroupcreatedbad'] = 'Falló la creación del grupo.';
 	$lang['strconfdropgroup'] = '¿Está seguro que quiere eliminar el grupo "%s"?';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
+        $lang['strgroupdroppedbad'] = 'Falló la eliminación del grupo.';
+        $lang['strmembers'] = 'Miembros';
 	$lang['straddmember'] = 'Agregar un miembro';
 	$lang['strmemberadded'] = 'Miembro agregado.';
 	$lang['strmemberaddedbad'] = 'Falló al intentar agregar nuevo miembro.';
@@ -242,8 +247,6 @@
 	$lang['strconfdropmember'] = '¿Está seguro que quiere sacra el miembro "%s" del grupo "%s"?';
 	$lang['strmemberdropped'] = 'Miembro eliminado.';
 	$lang['strmemberdroppedbad'] = 'Falló al intentar sacar un miembro.';
-	$lang['strgroupdroppedbad'] = 'Falló la eliminación del grupo.';
-	$lang['strmembers'] = 'Miembros';
 
 	// Privilges
 	$lang['strprivilege'] = 'Privilegio';
@@ -253,10 +256,10 @@
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados/revocados.';
 	$lang['strgrantfailed'] = 'Falló al intentar otorgar privilegios.';
-        $lang['strgrantor'] = 'Cedente';
-        $lang['strasterisk'] = '*';
 	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
 	$lang['stralterprivs'] = 'Cambiar Privilegios';
+	$lang['strgrantor']  =  'Cedente';
+	$lang['strasterisk']  =  '*';
 
 	// Databases
 	$lang['strdatabase'] = 'Base de Datos';
@@ -293,8 +296,8 @@
 	$lang['strcreateview'] = 'Crear Vista';
 	$lang['strviewname'] = 'Nombre de Vista';
 	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
-	$lang['strviewneedsfields'] = 'Seleccione por favor los campos que decea en su vista.';
 	$lang['strviewneedsdef'] = 'Debe darle una definición a su vista.';
+        $lang['strviewneedsfields'] = 'Seleccione por favor los campos que decea en su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Falló al crear la vista.';
 	$lang['strconfdropview'] = '¿Está seguro que quiere eliminar la vista "%s"?';
@@ -339,7 +342,6 @@
 	$lang['strnoindex'] = 'No se encontró el índice.';
 	$lang['strnoindexes'] = 'No se encontraron índices.';
 	$lang['strcreateindex'] = 'Crear Índice';
-	$lang['strindexname'] = 'Nombre del Índice';
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Nombre de Columna';
 	$lang['strindexneedsname'] = 'Debe darle un nombre al índice';
@@ -353,7 +355,6 @@
 	$lang['struniquekey'] = 'Llave única';
 	$lang['strprimarykey'] = 'Llave primaria';
  	$lang['strindextype'] = 'Tipo de índice';
-	$lang['strindexname'] = 'Nombre del índice';
 	$lang['strtablecolumnlist'] = 'Columnas en Tabla';
 	$lang['strindexcolumnlist'] = 'Columnas en el Índice';
 	$lang['strconfcluster'] = 'Está seguro que quiere ordenar la tabla "%s"?';
@@ -440,10 +441,10 @@
 	$lang['strtriggercreated'] = 'Disparador creado.';
 	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
 	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el disparador "%s" en "%s"?';
-        $lang['strtriggeraltered'] = 'Disparador modificado.';
-        $lang['strtriggeralteredbad'] = 'Falló la modificación del disparador.';
 	$lang['strtriggerdropped'] = 'Disparador eliminado.';
 	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
+        $lang['strtriggeraltered'] = 'Disparador modificado.';
+        $lang['strtriggeralteredbad'] = 'Falló la modificación del disparador.';
 
 	// Types
 	$lang['strtype'] = 'Tipo';
