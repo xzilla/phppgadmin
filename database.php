@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.31 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: database.php,v 1.32 2004/01/04 07:30:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -111,61 +111,61 @@
 							echo "<li><a href=\"database.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TABLE':
-							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'VIEW':
-							echo "<li><a href=\"views.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&view=", 
+							echo "<li><a href=\"views.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;view=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'SEQUENCE':
-							echo "<li><a href=\"sequences.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), 
-								"&sequence=", urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"sequences.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), 
+								"&amp;sequence=", urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'COLUMN':
-							echo "<li><a href=\"tblproperties.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
-								urlencode($rs->f['relname']), "&column=", urlencode($rs->f['name']), "&action=properties\">", 
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
+								urlencode($rs->f['relname']), "&amp;column=", urlencode($rs->f['name']), "&amp;action=properties\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'INDEX':
-							echo "<li><a href=\"indexes.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+							echo "<li><a href=\"indexes.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'CONSTRAINT':
-							echo "<li><a href=\"constraints.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+							echo "<li><a href=\"constraints.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TRIGGER':
-							echo "<li><a href=\"triggers.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+							echo "<li><a href=\"triggers.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'RULE':
-							echo "<li><a href=\"rules.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
 								urlencode($rs->f['relname']), "\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'FUNCTION':
-							echo "<li><a href=\"functions.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&function=", 
-								urlencode($rs->f['name']), "&function_oid=", urlencode($rs->f['oid']), "\">", 
+							echo "<li><a href=\"functions.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;function=", 
+								urlencode($rs->f['name']), "&amp;function_oid=", urlencode($rs->f['oid']), "\">", 
 								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TYPE':
-							echo "<li><a href=\"types.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&type=", 
+							echo "<li><a href=\"types.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;type=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'DOMAIN':
-							echo "<li><a href=\"domains.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&domain=", 
+							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;domain=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'OPERATOR':
-							echo "<li><a href=\"operators.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&operator=", 
+							echo "<li><a href=\"operators.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;operator=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'CONVERSION':
-							echo "<li><a href=\"conversions.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), 
+							echo "<li><a href=\"conversions.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), 
 								"\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'LANGUAGE':
@@ -323,8 +323,8 @@
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
 				$misc->printMsg($msg);
 				echo "<ul>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=vacuum\">{$lang['strvacuum']}</a></li>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=analyze\">{$lang['stranalyze']}</a></li>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&amp;action=vacuum\">{$lang['strvacuum']}</a></li>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&amp;action=analyze\">{$lang['stranalyze']}</a></li>\n";
 				echo "</ul>\n";
 
 				break;
@@ -375,8 +375,8 @@
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -412,7 +412,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strowner']}</th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
 			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
@@ -425,13 +425,10 @@
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 		echo "</p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?database=", 
-			urlencode($_REQUEST['database']), "\">{$lang['strshowallschemas']}</a></p>\n";
 	}
 	
 	/**
@@ -477,12 +474,12 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr><td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspname']]), "</td>\n";
 					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&database=",
-						urlencode($_REQUEST['database']), "&schema=",
+					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;database=",
+						urlencode($_REQUEST['database']), "&amp;schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
 					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?database=",
-						urlencode($_REQUEST['database']), "&object=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$lang['strprivileges']}</a></td>\n";
+						urlencode($_REQUEST['database']), "&amp;object=",
+						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;type=schema\">{$lang['strprivileges']}</a></td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
 					$i++;
@@ -494,7 +491,7 @@
 			}
 
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
-				"&action=create\">{$lang['strcreateschema']}</a></p>\n";
+				"&amp;action=create\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";
@@ -522,13 +519,14 @@
 			doSQL();
 			break;
 		case 'save_create':
-			doSaveCreate();
+			if (!isset($_POST['cancel'])) doSaveCreate();
+			else doDefault();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

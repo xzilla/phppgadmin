@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.21 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: all_db.php,v 1.22 2004/01/04 07:30:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,8 +27,8 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"db\" value=\"", 
 				htmlspecialchars($_REQUEST['db']), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -67,7 +67,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strencoding']}</th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strencoding']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n";
 		echo "\t\t\t<select name=\"formEncoding\">\n";
 		echo "\t\t\t\t<option value=\"\"></option>\n";
@@ -155,7 +155,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_REQUEST['yes'])) doDrop(false);
+			if (isset($_REQUEST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
