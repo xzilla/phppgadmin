@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.10 2002/09/23 06:18:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.11 2002/09/25 22:10:20 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -17,6 +17,7 @@ class Postgres extends BaseDB {
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
+	var $sqFields = array('seqname' => 'relname');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;

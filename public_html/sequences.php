@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.2 2002/07/26 09:03:06 chriskl Exp $
+ *  $Id: sequences.php,v 1.3 2002/09/25 22:10:21 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -20,7 +20,7 @@ $PHP_SELF = $_SERVER['PHP_SELF'];
 // {{{ doDefault()
 function doDefault()
 {
-    global $data, $localData, $misc, $database; 
+    global $data, $localData, $misc, $database, $sequences; 
     global $PHP_SELF;
     global $strNoSequences, $strSequences, $strOwner, $strActions;
 
@@ -33,13 +33,17 @@ function doDefault()
         echo "<table>\n";
         echo "<tr><th class=\"data\">{$strSequences}</th><th class=\"data\">{$strOwner}</th><th colspan=\"4\" class=\"data\">{$strActions}</th>\n";
         $i = 0;
-        /*
+
         while( !$sequences->EOF )
         {
             $id = ( ($i % 2 ) == 0 ? '1' : '2' );
-            //echo "<tr><td class=\"data{$id}", htmlspecialchars( $sequences->f[$data->seqFields['seqname']]), "</td>\n"; 
+            echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "</td><td>Owner</td><td>Actions</td></tr>\n"; 
+
+			$sequences->movenext();
+			$i++;
         }
-        */
+
+
         echo "</table>\n";
     }
     else
