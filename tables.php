@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.3 2003/01/25 23:59:08 slubek Exp $
+	 * $Id: tables.php,v 1.4 2003/01/27 15:18:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -154,7 +154,7 @@
 		global $localData, $database, $misc;
 		global $strField, $strType, $strNull, $strFunction, $strValue, $strTables, $strSelect;
 		global $strShow, $strInvalidParam, $strCancel, $strRowInserted, $strRowInsertedBad;
-		global $strSave;
+		global $strSave, $strBack, $strSelectNeedsCol;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -168,7 +168,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=data>{$strShow}</th><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strFunction}</th><th class=data>{$strValue}</th></tr>";
+				echo "<tr><th class=data>{$strShow}</th><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strValue}</th></tr>";
 
 				$i = 0;
 				while (!$attrs->EOF) {
@@ -191,7 +191,6 @@
 							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
 					else
 						echo "&nbsp;</td>";
-					echo "<td class=data{$id} nowrap><input size=10 name=\"function[{$attrs->f['attname']}]\"></td>";
 					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
@@ -210,23 +209,23 @@
 			echo "</form>\n";
 		}
 		else {
+			if (!isset($_POST['show'])) $_POST['show'] = array();
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			$localData->getSelectSQL($query, $count);
+			
+			if (sizeof($_POST['show']) == 0)
+				doSelectRows(true, $strSelectNeedsCol);
+			else {
+				// Generate query SQL
+				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
+					$_POST['values'], array_keys($_POST['nulls']));
+				$_REQUEST['query'] = $query;
+				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
+				$_REQUEST['return_desc'] = $strBack;
 
-			$status = $localData->selectRows($_POST['table'], $_POST['values'], $_POST['nulls']);
-			if ($status == 0) {
-				// @@ This test here is sort of dodgy!
-				if ($_POST['choice'] == $strSave)
-					doDefault($strRowInserted);
-				else {
-					$_REQUEST['values'] = array();
-					$_REQUEST['nulls'] = array();
-					doInsertRow(true, $strRowInserted);
-				}
+				include('display.php');
+				exit;
 			}
-			else
-				doInsertRow(true, $strRowInsertedBad);
 		}
 
 	}

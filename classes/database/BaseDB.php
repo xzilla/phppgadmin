@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.8 2003/01/18 06:38:37 chriskl Exp $
+ * $Id: BaseDB.php,v 1.9 2003/01/27 15:18:03 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -82,6 +82,53 @@ class BaseDB extends ADODB_base {
 		}
 	}
 	
+	/**
+	 * Generates the SQL for the 'select' function
+	 * @param $table The table from which to select
+	 * @param $show An array of columns to show
+	 * @param $values An array mapping columns to values
+	 * @param $nulls An array of columns that are null
+	 * @return The SQL query
+	 */
+	function getSelectSQL($table, $show, $values, $nulls) {
+		$this->fieldClean($table);
+
+		$sql = "SELECT \"" . join('","', $show) . "\" FROM \"{$table}\"";
+
+		// If we have values specified, add them to the WHERE clause
+		$first = true;
+		if (sizeof($values) > 0) {
+			foreach ($values as $k => $v) {
+				if ($v != '' && !in_array($k, $nulls)) {
+					if ($first) {
+						$this->fieldClean($k);
+						$this->clean($v);
+						// @@ FIX THIS QUOTING
+						$sql .= " WHERE \"{$k}\"='{$v}'";
+						$first = false;
+					} else {
+						$sql .= " AND \"{$k}\"='{$v}'";
+					}
+				}
+			}
+		}
+
+		// If we have NULL values specified, add them to the WHERE clause
+		if (sizeof($nulls) > 0) {
+			foreach ($nulls as $v) {
+				if ($first) {
+					$this->fieldClean($k);
+					$sql .= " WHERE \"{$k}\" IS NULL";
+					$first = false;
+				} else {
+					$sql .= " AND \"{$k}\" IS NULL";
+				}
+			}
+		}
+
+		return $sql;
+	}
+
 	/**
 	 * Returns a recordset of all columns in a relation.  Used for data export.
 	 * @@ Note: Really needs to use a cursor

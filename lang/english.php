@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.48 2003/01/27 14:09:52 chriskl Exp $
+	 * $Id: english.php,v 1.49 2003/01/27 15:18:03 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -109,6 +109,7 @@
 	$strField = 'Field';
 	$strFields = 'Fields';
 	$strNumFields = 'Num. Of Fields';
+	$strSelectNeedsCol = 'You must show at least one column';
 
 	// Users
 	$strUserAdmin = 'User Admin';

@@ -9,11 +9,13 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.2 2003/01/27 14:09:51 chriskl Exp $
+	 * $Id: display.php,v 1.3 2003/01/27 15:18:03 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('conf/config.inc.php');
+
+	global $strQueryResults, $guiMaxRows, $strRows;
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
