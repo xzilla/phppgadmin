@@ -116,10 +116,13 @@
 	$lang['strprocess'] = 'Folyamat';
 	$lang['strprocesses'] = 'Folyamatok';
 	$lang['strsetting'] = 'Beállítás';
-	$lang['strparameters'] = 'Paraméterek';
 	$lang['streditsql'] = 'SQL-szerkesztés';
+	$lang['strruntime'] = 'Teljes futási idő: %s ms';
 	$lang['strpaginate'] = 'Oldalakra tördelés';
+	$lang['struploadscript'] = 'vagy egy SQL-írás feltöltése:';
 	$lang['strstarttime'] = 'Kezdési idő';
+	$lang['strfile'] = 'Fájl';
+	$lang['strfileimported'] = 'Fájl behozva.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Ezen alkalmazás használatához kereteket támogató böngésző szükséges.';
@@ -134,6 +137,9 @@
 	$lang['strnoobjects'] = 'Nincs talált objektum.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonosító ehhez a sorhoz.';
 	$lang['strnoreportsdb'] = 'Ön nem hozota még létre a jelentések adatbázisát. Olvassa el az INSTALL fájlt további útmutatásért.';
+	$lang['strnouploads'] = 'Fájl feltöltése letiltva.';
+	$lang['strimporterror'] = 'Behozatali hiba.';
+	$lang['strimporterrorline'] = 'Behozatali hiba a %s. sorban.';
 
 	// Tables
 	$lang['strtable'] = 'Tábla';
@@ -187,6 +193,8 @@
 	$lang['strdataonly'] = 'Csak adatok';
 	$lang['strstructureonly'] = 'Csak struktúra';
 	$lang['strstructureanddata'] = 'Struktúra és adatok';
+	$lang['strtabbed'] = 'Füles';
+	$lang['strauto'] = 'Autó';
 
 	// Users
 	$lang['struser'] = 'Felhasználó';
@@ -270,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Nem sikerült kitakarítani.';
 	$lang['stranalyzegood'] = 'Az elemzés kész.';
 	$lang['stranalyzebad'] = 'Nem sikerült kielemezni.';
+	$lang['strreindexgood'] = 'Újraindexelés kész.';
+	$lang['strreindexbad'] = 'Újraindexelés sikertelen.';
+	$lang['strfull'] = 'Teljes';
+	$lang['strfreeze'] = 'Befagyasztás';
+	$lang['strforce'] = 'Kényszerítés';
 
 	// Views
 	$lang['strview'] = 'Nézet';
@@ -281,6 +294,7 @@
 	$lang['strviewname'] = 'Nézetnév';
 	$lang['strviewneedsname'] = 'Meg kell adni a nézetnevet.';
 	$lang['strviewneedsdef'] = 'Meg kell adni a nézet definícióját.';
+	$lang['strviewneedsfields'] = 'Meg kell adnia a oszlopokat, amiket ki akar jelölni a nézetben.';
 	$lang['strviewcreated'] = 'A nézet létrehozva.';
 	$lang['strviewcreatedbad'] = 'Nem sikerült a létrehozni a nézetet.';
 	$lang['strconfdropview'] = 'Biztosan törölni kívánja „%s” nézetet?';
@@ -290,6 +304,8 @@
 	$lang['strviewupdatedbad'] = 'Nem sikerült időszerűsíteni a nézetet.';
 	$lang['strviewlink'] = 'Kötőkulcsok';
 	$lang['strviewconditions'] = 'További feltételek';
+	$lang['strcreateviewwiz'] = 'Nézet teremtése varázslóval';
+
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
@@ -464,6 +480,8 @@
 	$lang['strconfdropschema'] = 'Biztosan törölni kívánja „%s” sémát?';
 	$lang['strschemadropped'] = 'A séma törölve.';
 	$lang['strschemadroppedbad'] = 'Nem sikerült a sémát törölni.';
+	$lang['strschemaaltered'] = 'Séma megváltoztatva.';
+	$lang['strschemaalteredbad'] = 'Séma magváltoztatása sikertelen.';
 
 	// Reports
 	$lang['strreport'] = 'Jelentés';

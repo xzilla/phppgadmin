@@ -116,10 +116,13 @@
 	$lang['strprocess'] = 'Folyamat';
 	$lang['strprocesses'] = 'Folyamatok';
 	$lang['strsetting'] = 'Be&aacute;ll&iacute;t&aacute;s';
-	$lang['strparameters'] = 'Param&eacute;terek';
 	$lang['streditsql'] = 'SQL-szerkeszt&eacute;s';
+	$lang['strruntime'] = 'Teljes fut&aacute;si id&#337;: %s ms';
 	$lang['strpaginate'] = 'Oldalakra t&ouml;rdel&eacute;s';
+	$lang['struploadscript'] = 'vagy egy SQL-&iacute;r&aacute;s felt&ouml;lt&eacute;se:';
 	$lang['strstarttime'] = 'Kezd&eacute;si id&#337;';
+	$lang['strfile'] = 'F&aacute;jl';
+	$lang['strfileimported'] = 'F&aacute;jl behozva.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Ezen alkalmaz&aacute;s haszn&aacute;lat&aacute;hoz kereteket t&aacute;mogat&oacute; b&ouml;ng&eacute;sz&#337; sz&uuml;ks&eacute;ges.';
@@ -134,6 +137,9 @@
 	$lang['strnoobjects'] = 'Nincs tal&aacute;lt objektum.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonos&iacute;t&oacute; ehhez a sorhoz.';
 	$lang['strnoreportsdb'] = '&Ouml;n nem hozota m&eacute;g l&eacute;tre a jelent&eacute;sek adatb&aacute;zis&aacute;t. Olvassa el az INSTALL f&aacute;jlt tov&aacute;bbi &uacute;tmutat&aacute;s&eacute;rt.';
+	$lang['strnouploads'] = 'F&aacute;jl felt&ouml;lt&eacute;se letiltva.';
+	$lang['strimporterror'] = 'Behozatali hiba.';
+	$lang['strimporterrorline'] = 'Behozatali hiba a %s. sorban.';
 
 	// Tables
 	$lang['strtable'] = 'T&aacute;bla';
@@ -187,6 +193,8 @@
 	$lang['strdataonly'] = 'Csak adatok';
 	$lang['strstructureonly'] = 'Csak strukt&uacute;ra';
 	$lang['strstructureanddata'] = 'Strukt&uacute;ra &eacute;s adatok';
+	$lang['strtabbed'] = 'F&uuml;les';
+	$lang['strauto'] = 'Aut&oacute;';
 
 	// Users
 	$lang['struser'] = 'Felhaszn&aacute;l&oacute;';
@@ -270,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Nem siker&uuml;lt kitakar&iacute;tani.';
 	$lang['stranalyzegood'] = 'Az elemz&eacute;s k&eacute;sz.';
 	$lang['stranalyzebad'] = 'Nem siker&uuml;lt kielemezni.';
+	$lang['strreindexgood'] = '&Uacute;jraindexel&eacute;s k&eacute;sz.';
+	$lang['strreindexbad'] = '&Uacute;jraindexel&eacute;s sikertelen.';
+	$lang['strfull'] = 'Teljes';
+	$lang['strfreeze'] = 'Befagyaszt&aacute;s';
+	$lang['strforce'] = 'K&eacute;nyszer&iacute;t&eacute;s';
 
 	// Views
 	$lang['strview'] = 'N&eacute;zet';
@@ -281,6 +294,7 @@
 	$lang['strviewname'] = 'N&eacute;zetn&eacute;v';
 	$lang['strviewneedsname'] = 'Meg kell adni a n&eacute;zetnevet.';
 	$lang['strviewneedsdef'] = 'Meg kell adni a n&eacute;zet defin&iacute;ci&oacute;j&aacute;t.';
+	$lang['strviewneedsfields'] = 'Meg kell adnia a oszlopokat, amiket ki akar jel&ouml;lni a n&eacute;zetben.';
 	$lang['strviewcreated'] = 'A n&eacute;zet l&eacute;trehozva.';
 	$lang['strviewcreatedbad'] = 'Nem siker&uuml;lt a l&eacute;trehozni a n&eacute;zetet.';
 	$lang['strconfdropview'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; n&eacute;zetet?';
@@ -290,6 +304,8 @@
 	$lang['strviewupdatedbad'] = 'Nem siker&uuml;lt id&#337;szer&#369;s&iacute;teni a n&eacute;zetet.';
 	$lang['strviewlink'] = 'K&ouml;t&#337;kulcsok';
 	$lang['strviewconditions'] = 'Tov&aacute;bbi felt&eacute;telek';
+	$lang['strcreateviewwiz'] = 'N&eacute;zet teremt&eacute;se var&aacute;zsl&oacute;val';
+
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
@@ -464,6 +480,8 @@
 	$lang['strconfdropschema'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; s&eacute;m&aacute;t?';
 	$lang['strschemadropped'] = 'A s&eacute;ma t&ouml;r&ouml;lve.';
 	$lang['strschemadroppedbad'] = 'Nem siker&uuml;lt a s&eacute;m&aacute;t t&ouml;r&ouml;lni.';
+	$lang['strschemaaltered'] = 'S&eacute;ma megv&aacute;ltoztatva.';
+	$lang['strschemaalteredbad'] = 'S&eacute;ma magv&aacute;ltoztat&aacute;sa sikertelen.';
 
 	// Reports
 	$lang['strreport'] = 'Jelent&eacute;s';
