@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.6 2003/04/13 08:24:24 jmpoure Exp $
+	 * $Id: dutch.php,v 1.7 2003/04/13 10:49:24 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -45,7 +45,7 @@
 	$lang['strnext'] = 'Volgende';
 	$lang['strfailed'] = 'mislukt';
 	$lang['strnotloaded'] = 'Deze PHP-install is zonder ondersteuning dit type database niet gecompileerd.';
-	$lang['strcreate'] = 'Cre&euml;er';
+	$lang['strcreate'] = 'Creëer';
 	$lang['strcomment'] = 'Commentaar';
 
 	$lang['strlength'] = 'Lengte';
@@ -87,7 +87,7 @@
 	
 	// Views
 	$lang['strviewneedsname'] = 'U dient uw view een naam te geven.';
-	$lang['strviewneedsdef'] = 'U dinet uw view te defini&euml;ren.';
+	$lang['strviewneedsdef'] = 'U dinet uw view te definiëren.';
 
 	// Sequences
 	$lang['strnosequences'] = 'Geen sequences gevonden.';
@@ -119,7 +119,7 @@
 	$lang['strprimary'] = 'Primair';
 	$lang['strkeyname'] = 'sleutel naam';
 	$lang['strnumfields'] = 'aantal velden';
-	$lang['strcreatetable'] = 'cre&euml;er tabel';
+	$lang['strcreatetable'] = 'creëer tabel';
 	$lang['strtableneedsname'] = 'U dient uw tabel een naam te geven.';
 	$lang['strtableneedscols'] = 'U dient uw tabel een geldig aantal kolommen te geven.';
 	$lang['strexport'] = 'exporteer';
@@ -131,22 +131,22 @@
 	$lang['strarguments'] = 'Argumenten';
 	$lang['strlanguage'] = 'taal';
 	$lang['strfunctionneedsname'] = 'U dient uw functie een naam te geven.';
-	$lang['strfunctionneedsdef'] = 'U dient uw functie te defini&euml;ren.';
+	$lang['strfunctionneedsdef'] = 'U dient uw functie te definiëren.';
 	
 	// Triggers
 	$lang['strtriggers'] = 'Triggers';
 	$lang['strnotriggers'] = 'Geen triggers gevonden.';
-	$lang['strcreatetrigger'] = 'cre&euml;er trigger';
+	$lang['strcreatetrigger'] = 'creëer trigger';
 	
 	// Types
 	$lang['strtype'] = 'Type';
 	$lang['strtypes'] = 'Types';
 	$lang['strnotypes'] = 'Geen types gevonden.';
-	$lang['strcreatetype'] = 'cre&euml;er type';
+	$lang['strcreatetype'] = 'creëer type';
 	$lang['strconfdroptype'] = 'Weet u zeker dat u het type "%s" wilt verwijderen?';
 	$lang['strtypedropped'] = 'Type verwijderd.';
 	$lang['strtypedroppedbad'] = 'Verwijdering van het type mislukt.';
-	$lang['strtypecreated'] = 'Type gecre&euml;erd';
+	$lang['strtypecreated'] = 'Type gecreëerd';
 	$lang['strtypecreatedbad'] = 'Type creatie mislukt.';
 	$lang['strshowalltypes'] = 'Toon alle types';
 	$lang['strinputfn'] = 'Invoer functie';

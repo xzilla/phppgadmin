@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Robert Treat [xzilla@users.sourceforge.net]
 	 *
-	 * $Id: spanish.php,v 1.5 2003/04/13 08:24:25 jmpoure Exp $
+	 * $Id: spanish.php,v 1.6 2003/04/13 10:49:41 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Spanish';
@@ -15,9 +15,9 @@
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'No se han encontrado tablas.';
 	$lang['strnoviews'] = 'No views found.';
-	$lang['strnofunctions'] = 'No se han encontrado funci&oacute;nes.';
+	$lang['strnofunctions'] = 'No se han encontrado funciónes.';
 	$lang['strowner'] = 'Owner';
-	$lang['stractions'] = 'Acci&oacute;nes';
+	$lang['stractions'] = 'Acciónes';
 	$lang['strname'] = 'Nombre';
 	$lang['strtable'] = 'Tabla ';
 	$lang['strtables'] = 'Tablas';
@@ -27,8 +27,8 @@
 	$lang['strtriggers'] = 'Triggers';
 	$lang['strrules'] = 'Rules';
 	$lang['strsequences'] = 'Sequences';
-	$lang['strfunction'] = 'Funci&oacute;n';
-	$lang['strfunctions'] = 'Funci&oacute;nes';
+	$lang['strfunction'] = 'Función';
+	$lang['strfunctions'] = 'Funciónes';
 	$lang['stroperators'] = 'Operators';
 	$lang['strtypes'] = 'Tipos';
 	$lang['straggregates'] = 'Aggregates';
