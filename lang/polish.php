@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.6 2003/01/19 20:51:51 slubek Exp $
+	 * $Id: polish.php,v 1.7 2003/01/21 20:36:33 slubek Exp $
 	 */
 
 	// Language and character set
@@ -12,7 +12,7 @@
 	$appCharset = 'ISO-8859-2';
 
 	// Basic strings
-	$strIntro = 'Witaj w WebDB.';
+	$strIntro = 'Witaj w phpPgAdmin.';
 	$strLogin = '- Zaloguj';
 	$strLoginFailed = 'Próba zalogowania nie powiod³a siê';
 	$strServer = 'Serwer';
@@ -35,7 +35,7 @@
 	$strNotNull = 'Not Null';
 	$strPrev = 'Poprzedni';
 	$strNext = 'Nastêpny';
-	$strFailed = 'Failed';
+	$strFailed = 'Nieudany';
 	$strCreate = 'Utwórz';
 	$strComment = 'Skomentuj';
 	$strLength = 'D³ugo¶æ';
