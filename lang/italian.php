@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.34 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: italian.php,v 1.35 2004/07/15 10:11:00 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -125,6 +125,7 @@
 	$lang['strstarttime'] = 'Inizio';
 	$lang['strfile'] = 'File';
 	$lang['strfileimported'] = 'File importato.';
+	$lang['strkill'] = 'Termina';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Per usare questa applicazione è necessario usare un browser che supporti i frame.';
@@ -287,6 +288,9 @@
 	$lang['strfull'] = 'Completo';
 	$lang['strfreeze'] = 'Freeze';
 	$lang['strforce'] = 'Forza';
+	$lang['strsignalsent'] = 'Segnale inviato.';
+	$lang['strsignalsentbad'] = 'Invio del segnale fallito.';
+	$lang['strallobjects'] = 'Tutti gli oggetti';
 
 	// Views - Viste
 	$lang['strview'] = 'Vista';
@@ -415,7 +419,9 @@
 	$lang['strshowallfunctions'] = 'Mostra tutte le funzioni';
 	$lang['strnofunction'] = 'Funzione non trovata.';
 	$lang['strnofunctions'] = 'Nessuna funzione trovata.';
-	$lang['strcreatefunction'] = 'Crea funzione';
+	$lang['strcreateplfunction'] = 'Crea funzione SQL/PL';
+	$lang['strcreateinternalfunction'] = 'Crea funzione internal';
+	$lang['strcreatecfunction'] = 'Crea funzione C';
 	$lang['strfunctionname'] = 'Nome della funzione';
 	$lang['strreturns'] = 'Restituisce';
 	$lang['strarguments'] = 'Argomenti';
@@ -429,6 +435,8 @@
         $lang['strfunctiondroppedbad'] = 'Eliminazione della funzione fallita.';
         $lang['strfunctionupdated'] = 'Funzione aggiornata.';
         $lang['strfunctionupdatedbad'] = 'Aggiornamento della funzione fallito.';
+	$lang['strobjectfile'] = 'File oggetto';
+	$lang['strlinksymbol'] = 'Simbolo di collegamento';
 
         // Triggers - Trigger
         $lang['strtrigger'] = 'Trigger';
@@ -486,6 +494,7 @@
         $lang['strschemadroppedbad'] = 'Eliminazione dello schema fallita.';
 	$lang['strschemaaltered'] = 'Schema modificato.';
 	$lang['strschemaalteredbad'] = 'Modifica dello schema fallita.';
+	$lang['strsearchpath'] = 'Ordine di ricerca dello schema';
 
         // Reports - Report
         $lang['strreport'] = 'Report';
@@ -595,8 +604,10 @@
 	$lang['strdisk'] = 'Disco';
 	$lang['strrows2'] = 'Righe';
 
-	// Tablespaces
+	// Tablespaces - Tablespace
+	$lang['strtablespace'] = 'Tablespace';
 	$lang['strtablespaces'] = 'Tablespace';
+	$lang['strshowalltablespaces'] = 'Mostra tutti i tablespace';
 	$lang['strnotablespaces'] = 'Nessun tablespace trovato.';
 	$lang['strcreatetablespace'] = 'Crea tablespace';
 	$lang['strlocation'] = 'Directory';
