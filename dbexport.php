@@ -1,8 +1,9 @@
 <?php
 	/**
-	 * Does an export of a database to the screen or as a download
+	 * Does an export of a database to the screen or as a download.
+	 * Can also dump a specific table of a database.
 	 *
-	 * $Id: dbexport.php,v 1.3 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: dbexport.php,v 1.4 2003/12/21 10:44:52 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -28,7 +29,7 @@
 		$hostname = $conf['servers'][$_SESSION['webdbServerID']]['host'];
 		$port = $conf['servers'][$_SESSION['webdbServerID']]['port'];
 		$username = escapeshellarg($_SESSION['webdbUsername']);
-		$database = escapeshellarg($_REQUEST['database']);
+		$database = escapeshellarg($_REQUEST['database']);		
 
 		// Build command for executing pg_dump
 		$cmd = escapeshellcmd($conf['pg_dump_path']) . " -i -U {$username}";
@@ -37,6 +38,11 @@
 		}
 		if ($port !== null && $port != '') {
 			$cmd .= " -p " . escapeshellarg($port);
+		}
+		
+		// Check for a table specified
+		if (isset($_REQUEST['table'])) {
+			$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
 		}
 				
 		switch ($_REQUEST['what']) {
@@ -50,7 +56,7 @@
 				if (isset($_REQUEST['s_clean'])) $cmd .= ' -c';
 				break;
 			case 'structureanddata':
-				if ($_REQUEST['sd_format'] == 'sql') $cmd .= ' -d';				
+				if ($_REQUEST['sd_format'] == 'sql') $cmd .= ' -d';
 				elseif (isset($_REQUEST['sd_oids'])) $cmd .= ' -o';
 				if (isset($_REQUEST['sd_clean'])) $cmd .= ' -c';
 				break;

@@ -1,9 +1,10 @@
 <?php
 
 	/**
-	 * Does an export to the screen or as a download
+	 * Does an export to the screen or as a download.  This checks to
+	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.7 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: dataexport.php,v 1.8 2003/12/21 10:44:52 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -20,19 +21,67 @@
 
 	// If format is set, then perform the export
 	if (isset($_REQUEST['what'])) {		 
-		 
+
+		// Include application functions
+		$_no_output = true;
+		include_once('./libraries/lib.inc.php');
+
 		switch ($_REQUEST['what']) {
 			case 'dataonly':
-				$format = $_REQUEST['d_format'];
-				$oids = $_REQUEST['d_oids'];
+				// Check to see if they have pg_dump set up and if they do, use that
+				// instead of custom dump code
+				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != ''
+						&& ($_REQUEST['d_format'] == 'copy' || $_REQUEST['d_format'] == 'sql')) {
+					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url .= '&what=' . urlencode($_REQUEST['what']);
+					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&d_format=' . urlencode($_REQUEST['d_format']);
+					if (isset($_REQUEST['d_oids'])) $url .= '&d_oids=' . urlencode($_REQUEST['d_oids']);
+					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					
+					header("Location: {$url}");
+					exit;
+				}
+				else {
+					$format = $_REQUEST['d_format'];
+					$oids = isset($_REQUEST['d_oids']);
+				}
 				break;
 			case 'structureonly':
-				$clean = $_REQUEST['s_clean'];
+				// Check to see if they have pg_dump set up and if they do, use that
+				// instead of custom dump code
+				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url .= '&what=' . urlencode($_REQUEST['what']);
+					$url .= '&table=' . urlencode($_REQUEST['table']);
+					if (isset($_REQUEST['s_clean'])) $url .= '&s_clean=' . urlencode($_REQUEST['s_clean']);
+					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					
+					header("Location: {$url}");
+					exit;
+				}
+				else $clean = isset($_REQUEST['s_clean']);
 				break;
 			case 'structureanddata':
-				$format = $_REQUEST['sd_format'];
-				$clean = $_REQUEST['sd_clean'];
-				$oids = $_REQUEST['sd_oids'];
+				// Check to see if they have pg_dump set up and if they do, use that
+				// instead of custom dump code
+				if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
+					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
+					$url .= '&what=' . urlencode($_REQUEST['what']);
+					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&sd_format=' . urlencode($_REQUEST['sd_format']);
+					if (isset($_REQUEST['sd_clean'])) $url .= '&sd_clean=' . urlencode($_REQUEST['sd_clean']);
+					if (isset($_REQUEST['sd_oids'])) $url .= '&sd_oids=' . urlencode($_REQUEST['sd_oids']);
+					if (isset($_REQUEST['download'])) $url .= '&download=' . urlencode($_REQUEST['download']);
+					
+					header("Location: {$url}");
+					exit;
+				}
+				else {
+					$format = $_REQUEST['sd_format'];
+					$clean = isset($_REQUEST['sd_clean']);
+					$oids = isset($_REQUEST['sd_oids']);
+				}
 				break;
 		}
 
@@ -51,10 +100,6 @@
 			header('Content-Type: text/plain');
 		}
 	
-		// Include application functions
-		$_no_output = true;
-		include_once('./libraries/lib.inc.php');
-	
 		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
 
 		// Set up the dump transaction
@@ -62,7 +107,7 @@
 
 		// If the dump is not dataonly then dump the structure prefix
 		if ($_REQUEST['what'] != 'dataonly')
-			echo $data->getTableDefPrefix($_REQUEST['table'], isset($clean));
+			echo $data->getTableDefPrefix($_REQUEST['table'], $clean);
 
 		// If the dump is not structureonly then dump the actual data
 		if ($_REQUEST['what'] != 'structureonly') {
@@ -74,14 +119,14 @@
 
 			// Execute the query, if set, otherwise grab all rows from the table
 			if (isset($_REQUEST['table']))
-				$rs = &$data->dumpRelation($_REQUEST['table'], isset($oids));
+				$rs = &$data->dumpRelation($_REQUEST['table'], $oids);
 			else
 				$rs = $data->conn->Execute($_REQUEST['query']);
 
 			if ($format == 'copy') {
 				$data->fieldClean($_REQUEST['table']);
 				echo "COPY \"{$_REQUEST['table']}\"";
-				if (isset($oids)) echo " WITH OIDS";
+				if ($oids) echo " WITH OIDS";
 				echo " FROM stdin;\n";
 				while (!$rs->EOF) {
 					$first = true;
@@ -118,7 +163,7 @@
 					$j = 0;
 					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $data->id && !isset($oids)) continue;
+						if ($finfo->name == $data->id && !$oids) continue;
 						echo "\t\t<th>", $misc->printVal($finfo->name, true), "</th>\r\n";
 					}
 				}
@@ -128,7 +173,7 @@
 					$j = 0;
 					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $data->id && !isset($oids)) continue;
+						if ($finfo->name == $data->id && !$oids) continue;
 						echo "\t\t<td>", $misc->printVal($v, true, $finfo->type), "</td>\r\n";
 					}
 					echo "\t</tr>\r\n";
