@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.189 2004/04/01 01:13:22 chriskl Exp $
+ * $Id: Postgres.php,v 1.190 2004/04/01 15:10:31 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1133,17 +1133,18 @@ class Postgres extends BaseDB {
 	 * @param $fields The number of fields
 	 * @param $field An array of field names
 	 * @param $type An array of field types
-	 * @param $array An array of '' or [] for each type if it's an array or not
+	 * @param $array An array of '' or '[]' for each type if it's an array or not
 	 * @param $length An array of field lengths
 	 * @param $notnull An array of not null
 	 * @param $default An array of default values
 	 * @param $withoutoids True if WITHOUT OIDS, false otherwise
+	 * @param $colcomment An array of comments
 	 * @param $comment Table comment
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
 	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
-									$default, $withoutoids, $colcomment, $tblcomment) {
+				$default, $withoutoids, $colcomment, $tblcomment) {
 		$this->fieldClean($name);
 		$this->fieldClean($tblcomment);
 
