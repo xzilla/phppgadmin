@@ -59,8 +59,8 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
 
 Q: I get a warning like this when using phpPgAdmin on Windows: 
 
-      Warning: session_start() [function.session-start]: 
-       open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed
+    "Warning: session_start() [function.session-start]:
+     open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed"
 
 A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this line:
 
@@ -164,6 +164,5 @@ A: The Info page will show you what other tables have foreign keys to the
 Q: I would like to help out with the development of phpPgAdmin. How should I
    proceed?
    
-A: Read the DEVELOPERS and TRANSLATORS files.
-
+A: We really would like your help! Please read the DEVELOPERS and TRANSLATORS files.
 
