@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.12 2003/04/18 09:15:55 chriskl Exp $
+	 * $Id: database.php,v 1.13 2003/04/19 11:59:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -57,18 +57,17 @@
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
 
 		echo "<p>{$lang['strentersql']}</p>\n";
-		echo "<form action=\"display.php\" method=post>\n";
+		echo "<form action=\"sql.php\" method=\"post\">\n";
 		echo "<p>{$lang['strsql']}<br>\n";
-		echo "<textarea style=\"width:100%;\" rows=20 cols=50 name=\"query\">",
+		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_POST['query']), "</textarea></p>\n";
 
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
 			urlencode($_REQUEST['database']), "&action=sql\">\n";
 		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\">\n";
-		echo "<input type=submit value=\"{$lang['strgo']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+		echo "<input type=\"submit\" value=\"{$lang['strgo']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
-
 	}
 
 	/**
@@ -88,7 +87,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\">\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -122,7 +121,7 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"{$data->_maxNameLen}\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\"></td>\n";
 		echo "<td class=\"data1\"><select name=\"formAuth\">";
 		while (!$users->EOF) {
@@ -180,16 +179,16 @@
 
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
-				echo "<tr><th class=data>{$lang['strname']}</th><th class=data>{$lang['strowner']}</th><th colspan=\"2\" class=data>{$lang['stractions']}</th>\n";
+				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 				$i = 0;
 				while (!$schemas->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr><td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "</td>\n";
-					echo "<td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
-					echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
+					echo "<tr><td class=\"data{$id}\">", htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "</td>\n";
+					echo "<td class=\"data{$id}\">", htmlspecialchars($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
+					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&database=",
 						urlencode($_REQUEST['database']), "&schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"privileges.php?database=",
+					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?database=",
 						urlencode($_REQUEST['database']), "&object=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$lang['strprivileges']}</a></td>\n";
 					echo "</tr>\n";
@@ -202,7 +201,7 @@
 				echo "<p>{$lang['strnoschemas']}</p>\n";
 			}
 
-			echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
 				"&action=create\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
@@ -233,7 +232,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
