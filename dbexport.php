@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.8 2004/02/25 15:46:22 soranzo Exp $
+	 * $Id: dbexport.php,v 1.9 2004/03/14 06:55:53 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -28,17 +28,17 @@
 				break;
 		}
 
-		// Set environmental variable for password that pg_dump uses
+		// Set environmental variable for user and password that pg_dump uses
 		putenv('PGPASSWORD=' . $_SESSION['webdbPassword']);
+		putenv('PGUSER=' . $_SESSION['webdbUsername']);
 
 		// Prepare command line arguments
 		$hostname = $conf['servers'][$_SESSION['webdbServerID']]['host'];
 		$port = $conf['servers'][$_SESSION['webdbServerID']]['port'];
-		$username = escapeshellarg($_SESSION['webdbUsername']);
 		$database = escapeshellarg($_REQUEST['database']);		
 
 		// Build command for executing pg_dump
-		$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i -U {$username}";
+		$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i";
 		if ($hostname !== null && $hostname != '') {
 			$cmd .= " -h " . escapeshellarg($hostname);
 		}
@@ -73,7 +73,7 @@
 				break;
 		}
 		
-		$cmd .= " -U {$username} {$database}";
+		$cmd .= " {$database}";
 
 		// Execute command and return the output to the screen
 		passthru($cmd);

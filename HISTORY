@@ -8,6 +8,9 @@ Features
 * Add CACHE and CYCLE parameters in sequence creation
 * View, add, edit and delete comments on views, schemas and columns (Dan Boren)
 
+Bugs
+* Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
+
 Version 3.3.1
 -------------
 
