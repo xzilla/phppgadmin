@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.144 2004/05/24 15:01:22 chriskl Exp $
+	 * $Id: english.php,v 1.145 2004/05/26 11:27:00 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -20,13 +20,13 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL Documentation (local)';
 	$lang['strreportbug'] = 'Report a Bug';
-	$lang['strviewfaq'] = 'View FAQ';
+	$lang['strviewfaq'] = 'View online FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Login failed';
-	$lang['strlogindisallowed'] = 'Login disallowed for security reasons.  Please read the FAQ and check the \'extra_login_security\' option in your configuration file.';
+	$lang['strlogindisallowed'] = 'Login disallowed for security reasons.';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Owner';
