@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.32 2003/11/05 00:43:30 slubek Exp $
+	 * $Id: polish.php,v 1.33 2003/12/15 19:56:22 slubek Exp $
 	 */
 
 	// Language and character set
@@ -111,6 +111,10 @@
 	$lang['strinfo'] = 'Informacje';
 	$lang['stroids'] = 'OIDy';
 	$lang['stradvanced'] = 'Zaawansowane';
+	$lang['strvariables'] = 'Zmienne';
+	$lang['strprocess'] = 'Proces';
+	$lang['strprocesses'] = 'Procesy';
+	$lang['strsetting'] = 'Ustawienie';
 
 	// Error handling
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
@@ -123,8 +127,8 @@
 	$lang['strinvalidparam'] = 'B³êdny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
 	$lang['strnoobjects'] = 'Nie znaleziono obiektów.';
-
 	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
+	$lang['strnoreportsdb'] = 'Nie utworzy³e¶ bazy raportów. Instrukcjê znajdziesz w pliku INSTALL.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
