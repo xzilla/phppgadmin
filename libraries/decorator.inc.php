@@ -1,8 +1,8 @@
 <?php
-// $Id: decorator.inc.php,v 1.1.2.2 2005/03/08 12:27:06 jollytoad Exp $
+// $Id: decorator.inc.php,v 1.1.2.3 2005/03/08 12:35:04 jollytoad Exp $
 
 // Field decorator
-function &field($fieldname, $default = null, $escape = true) {
+function &field($fieldname, $default = null) {
 	$dec = new Decorator();
 	$dec->f = $fieldname;
 	if ($default !== null) $dec->d = $default;
@@ -30,6 +30,7 @@ function &noEscape($value) {
 // Resolve a value
 function value(&$var, &$fields) {
 	if (is_a($var, 'Decorator')) {
+		if (isset($var->v)) return $var->v;
 		if (isset($var->f)) {
 			return isset($fields[$var->f]) ? $fields[$var->f] : (isset($var->d) ? $var->d : null);
 		}
