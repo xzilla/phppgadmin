@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: database.php,v 1.11 2003/04/04 03:59:36 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -65,7 +65,7 @@
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
 			urlencode($_REQUEST['database']), "&action=sql\">\n";
-		echo "<input type=\"hidden\" name=\"return_desc\" value=\"Back\">\n";
+		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\">\n";
 		echo "<input type=submit value=\"{$lang['strgo']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
 

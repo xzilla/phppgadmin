@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.9 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: display.php,v 1.10 2003/04/04 03:59:36 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -70,7 +70,7 @@
 	}
 	else echo "<p>No data.</p>\n";
 	
-	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">", urlencode($_REQUEST['return_desc']), "</a></p>\n";
+	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></p>\n";
 
 	$misc->printFooter();
 ?>
