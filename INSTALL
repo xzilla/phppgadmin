@@ -25,10 +25,20 @@ phpPgAdmin Installation Guide
    Also, you will need to ensure that your 'pg_dump' and 'pg_dumpall' utilities
    are executable by the PHP process.
 
-5. Browse to the phpPgAdmin installation using a web browser.  You might
+5. Enable the statistics collector in PostgreSQL.  phpPgAdmin will display
+   table and index performance and usage statistics if you have enabled the
+   PostgreSQL statistics collector.  To enable the collector, uncomment the
+   following lines in your postgresql.conf and enable them:
+
+   	stats_start_collector = true
+	stats_command_string = true
+	stats_block_level = true
+	stats_row_level = true
+
+6. Browse to the phpPgAdmin installation using a web browser.  You might
    need cookies enabled for phpPgAdmin to work.
 
-6. IMPORTANT - SECURITY
+7. IMPORTANT - SECURITY
 
    PostgreSQL by default does not require you to use a password to log in.
    We STRONGLY recomment that you enable md5 passwords for local connections
@@ -44,3 +54,4 @@ phpPgAdmin Installation Guide
    Once you are certain you have properly secured your database server, you
    can then disable 'extra_login_security' so that you can log in as your
    database administrator using the administrator password.
+

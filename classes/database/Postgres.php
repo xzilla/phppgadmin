@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.170 2003/12/30 03:09:29 chriskl Exp $
+ * $Id: Postgres.php,v 1.171 2004/01/02 12:53:36 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3399,7 +3399,78 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
-	
+
+	// Statistics collector functions
+
+	/**
+	 * Fetches statistics for a database
+	 * @param $database The database to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsDatabase($database) {
+		$this->clean($database);
+
+		$sql = "SELECT * FROM pg_stat_database WHERE datname='{$database}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches tuple statistics for a table
+	 * @param $table The table to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsTableTuples($table) {
+		$this->clean($table);
+
+		$sql = "SELECT * FROM pg_stat_all_tables WHERE schemaname='{$this->_schema}'
+			AND relname='{$table}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches I/0 statistics for a table
+	 * @param $table The table to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsTableIO($table) {
+		$this->clean($table);
+
+		$sql = "SELECT * FROM pg_statio_all_tables WHERE schemaname='{$this->_schema}'
+			AND relname='{$table}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches tuple statistics for all indexes on a table
+	 * @param $table The table to fetch index stats for
+	 * @return A recordset
+	 */
+	function &getStatsIndexTuples($table) {
+		$this->clean($table);
+
+		$sql = "SELECT * FROM pg_stat_all_indexes WHERE schemaname='{$this->_schema}'
+			AND relname='{$table}' ORDER BY indexrelname";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches I/0 statistics for all indexes on a table
+	 * @param $table The table to fetch index stats for
+	 * @return A recordset
+	 */
+	function &getStatsIndexIO($table) {
+		$this->clean($table);
+
+		$sql = "SELECT * FROM pg_statio_all_indexes WHERE schemaname='{$this->_schema}'
+			AND relname='{$table}' ORDER BY indexrelname";
+
+		return $this->selectSet($sql);
+	}
+
 	// Type conversion routines
 
 	/**

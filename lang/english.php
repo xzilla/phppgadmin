@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.126 2003/12/31 15:44:27 soranzo Exp $
+	 * $Id: english.php,v 1.127 2004/01/02 12:53:36 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -314,6 +314,7 @@
 	$lang['strsequenceresetbad'] = 'Sequence reset failed.'; 
 
 	// Indexes
+	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Indexes';
 	$lang['strindexname'] = 'Index Name';
 	$lang['strshowallindexes'] = 'Show all indexes';
@@ -553,9 +554,27 @@
 	$lang['strnoopclasses'] = 'No operator classes found.';
 	$lang['straccessmethod'] = 'Access method';
 
+	// Stats & Performance
+	$lang['strrowperf'] = 'Row Performance';
+	$lang['strioperf'] = 'I/O Performance';
+	$lang['stridxrowperf'] = 'Index Row Performance';
+	$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequential';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rows';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
+
 
 ?>
