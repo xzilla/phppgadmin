@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.34 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.35 2004/07/04 09:34:14 soranzo Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -35,7 +35,8 @@
 	//$conf['servers'][1]['pg_dump_path'] = 'c:/cygwin/bin/pg_dump.exe';
 	//$conf['servers'][1]['pg_dumpall_path'] = '';
 
-	// Default language setting.  eg 'english', 'polish', etc.
+	// Default language for the login screen, if none is supplied by the
+	// user's browser.  Eg: 'english', 'polish', etc.
 	$conf['default_lang'] = 'english';
 	
 	// If extra login security is true, then logins via phpPgAdmin with no
