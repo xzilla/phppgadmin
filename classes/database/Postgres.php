@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.215 2004/05/26 13:54:42 chriskl Exp $
+ * $Id: Postgres.php,v 1.216 2004/05/26 14:14:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3733,7 +3733,7 @@ class Postgres extends BaseDB {
 				po.opcname, 
 				(SELECT typname FROM pg_type t WHERE t.oid=opcdeftype) AS opcintype,
 				TRUE AS opcdefault,
-				NULL AS opccomment
+				NULL::text AS opccomment
 			FROM
 				pg_opclass po, pg_am pa, pg_amop pam
 			WHERE
