@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.15 2004/12/06 03:03:00 chriskl Exp $
+	 * $Id: dbexport.php,v 1.16 2005/02/01 22:03:00 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -69,7 +69,7 @@
 			
 			// Obtain the pg_dump version number
 			$version = array();
-			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?$/", exec($exe . " --version"), $version);
+			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec($exe . " --version"), $version);
 			
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
 			// set dump schema as well.  Also, mixed case dumping has been fixed
