@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.47 2003/05/31 10:55:41 chriskl Exp $
+ * $Id: Postgres73.php,v 1.48 2003/06/21 09:54:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -586,7 +586,6 @@ class Postgres73 extends Postgres72 {
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
 		$this->fieldClean($funcname);
 		$this->clean($args);
-		$this->fieldClean($returns);
 		$this->clean($definition);
 		$this->clean($language);
 		$this->arrayClean($flags);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.125 2003/06/19 01:45:09 chriskl Exp $
+ * $Id: Postgres.php,v 1.126 2003/06/21 09:54:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2379,7 +2379,6 @@ class Postgres extends BaseDB {
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
 		$this->fieldClean($funcname);
 		$this->clean($args);
-		$this->fieldClean($returns);
 		$this->clean($definition);
 		$this->clean($language);
 		$this->arrayClean($flags);
@@ -2392,7 +2391,9 @@ class Postgres extends BaseDB {
 			$sql .= $args;
 
 		// For some reason, the returns field cannot have quotes...
-		$sql .= ") RETURNS {$returns} AS '\n";
+		$sql .= ") RETURNS ";
+		if ($setof) $sql .= "SETOF ";
+		$sql .= "{$returns} AS '\n";
 		$sql .= $definition;
 		$sql .= "\n'";
 		$sql .= " LANGUAGE '{$language}'";
