@@ -8,7 +8,7 @@
 	 * @param $return_url The return URL
 	 * @param $return_desc The return link name
 	 *
-	 * $Id: sql.php,v 1.5 2003/05/21 02:07:42 chriskl Exp $
+	 * $Id: sql.php,v 1.6 2003/05/31 07:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 	$misc->printDatabaseNav();
-	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
+	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
 
 	$_POST['query'] = trim($_POST['query']);
 	if ($_POST['query'] != '') {

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.10 2003/04/30 07:02:20 chriskl Exp $
+	 * $Id: rules.php,v 1.11 2003/05/31 07:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,8 +26,8 @@
 		if (!isset($_POST['raction'])) $_POST['raction'] = '';
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$lang['strcreaterule']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": {$lang['strcreaterule']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -87,11 +87,11 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['rule']), ": Drop</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['rule']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdroprule'], htmlspecialchars($_REQUEST['rule']),
-				htmlspecialchars($_REQUEST['table'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
+				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
@@ -124,7 +124,7 @@
 		global $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strrules']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strrules']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$rules = &$localData->getRules($_REQUEST['table']);
@@ -136,8 +136,8 @@
 			
 			while (!$rules->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['rulename']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['ruledef']]), "</td>";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $rules->f[$data->rlFields['rulename']]), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", urlencode($rules->f[$data->rlFields['rulename']]),
 					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";

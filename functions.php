@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.15 2003/05/17 15:53:56 chriskl Exp $
+	 * $Id: functions.php,v 1.16 2003/05/31 07:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,7 +35,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}: ", htmlspecialchars($_REQUEST['function']), ": {$lang['stredit']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
@@ -59,23 +59,23 @@
 				
 
 			echo "<tr>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($fndata->f[$data->fnFields['fnname']]), "\n";
+			echo "<td class=\"data1\">", $misc->printVal($fndata->f[$data->fnFields['fnname']]), "\n";
 			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=\"data1\">", htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]), "\n";
+			echo "<td class=\"data1\">", $misc->printVal($fndata->f[$data->fnFields['fnarguments']]), "\n";
 			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),"\" />\n"; 
 			echo "</td>\n";
 
 			echo "<td class=data1>";
 			if ($fndata->f[$data->fnFields['setof']]) echo "setof ";
-			echo htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "\n";
+			echo $misc->printVal($fndata->f[$data->fnFields['fnreturns']]), "\n";
 			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "\" />\n"; 
 			if ($fndata->f[$data->fnFields['setof']])
 				echo "<input type=\"hidden\" name=\"original_setof\" value=\"yes\" />\n"; 
 			echo "</td>\n";
 
-			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\n";
+			echo "<td class=data1>", $misc->printVal($fndata->f[$data->fnFields['fnlang']]), "\n";
 			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\" />\n"; 
 			echo "</td>\n";
 
@@ -92,7 +92,7 @@
 					foreach ($v as $p) {
 						echo "<option value=\"", htmlspecialchars($p), "\"", 
 							($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
-							">", htmlspecialchars($p), "</option>\n";
+							">", $misc->printVal($p), "</option>\n";
 					}
 					echo "</select><br />\n";
 					$i++;
@@ -124,7 +124,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}: ", htmlspecialchars($_REQUEST['function']), ": {$lang['strproperties']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
@@ -137,12 +137,12 @@
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
+			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
 			echo "<td class=\"data1\">";
 			if ($funcdata->f[$data->fnFields['setof']]) echo "setof ";			
-			echo htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
-			echo "<td class=\"data1\">", htmlspecialchars($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
+			echo $misc->printVal($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
+			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
@@ -151,7 +151,7 @@
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
 				foreach ($funcprops as $v) {
-					echo htmlspecialchars($v), "<br />\n";
+					echo $misc->printVal($v), "<br />\n";
 				}
 				echo "</td></tr>\n";
 			}		
@@ -174,9 +174,9 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}: ", htmlspecialchars($_REQUEST['function']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>", sprintf($lang['strconfdropfunction'], htmlspecialchars($_REQUEST['function'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
@@ -217,7 +217,7 @@
 		$types = &$localData->getTypes(true);
 		$langs = &$localData->getLanguages();
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
@@ -249,7 +249,7 @@
 		while (!$types->EOF) {
 			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
 				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected' : '', ">",
-				htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
+				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
 		echo "</select>\n";
@@ -258,7 +258,7 @@
 		while (!$langs->EOF) {
 			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\"",
 				($langs->f[$data->langFields['lanname']] == $_POST['formLanguage']) ? ' selected' : '', ">",
-				htmlspecialchars($langs->f[$data->langFields['lanname']]), "</option>\n";
+				$misc->printVal($langs->f[$data->langFields['lanname']]), "</option>\n";
 			$langs->moveNext();
 		}
 		echo "</select>\n";
@@ -277,7 +277,7 @@
 				foreach ($v as $p) {
 					echo "<option value=\"", htmlspecialchars($p), "\"", 
 						($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
-						">", htmlspecialchars($p), "</option>\n";
+						">", $misc->printVal($p), "</option>\n";
 				}
 				echo "</select><br />\n";
 				$i++;
@@ -324,7 +324,7 @@
 		global $data, $localData, $misc, $func;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strfunctions']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$funcs = &$localData->getFunctions();
@@ -338,11 +338,11 @@
 				$funcs->f[$data->fnFields['setof']] = $data->phpBool($funcs->f[$data->fnFields['setof']]);
 				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($funcs->f[$data->fnFields['fnname']]), "</td>\n";
 				echo "<td class=\"data{$id}\">";
 				if ($funcs->f[$data->fnFields['setof']]) echo "setof ";
-				echo htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
+				echo $misc->printVal($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
 					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 

@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.19 2003/05/21 02:07:42 chriskl Exp $
+	 * $Id: display.php,v 1.20 2003/05/31 07:23:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 
-	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strqueryresults']}</h2>\n";
+	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strqueryresults']}</h2>\n";
 	
 	// If current page is not set, default to first page
 	if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
