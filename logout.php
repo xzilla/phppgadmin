@@ -3,9 +3,10 @@
 /**
  * Logs a user out of the app
  *
- * $Id: logout.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+ * $Id: logout.php,v 1.2 2003/09/08 04:37:16 chriskl Exp $
  */
 
+session_name('PPA_ID');
 session_start();
 unset($_SESSION);
 session_destroy();

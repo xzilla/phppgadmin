@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.57 2003/09/02 04:15:08 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.58 2003/09/08 04:37:16 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -72,7 +72,8 @@
 	$misc = new Misc();
 
 	// Start session (if not auto-started)
-	if (!ini_get('session.auto_start')) session_start();
+	session_name('PPA_ID'); 
+	session_start();
 
 	// Do basic PHP configuration checks
 	if (ini_get('magic_quotes_gpc')) {
