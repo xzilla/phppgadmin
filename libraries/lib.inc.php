@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.19 2003/03/16 10:45:07 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.20 2003/03/17 05:20:31 chriskl Exp $
 	 */
 
 	// Application name 
@@ -28,7 +28,7 @@
 	$appBaseConfVersion = 4;
 
 	// List of available language files
-	$appLangFiles = array(
+	$applangFiles = array(
 //		'chinese-tr-big5' => '',
 		'chinese-tr-utf8' => '&#32321;&#39636;&#20013;&#25991;&#65288;&#33836;&#22283;&#30908;&#65289;',
 		//'chinese-sim-gb2312' => '',
@@ -49,7 +49,7 @@
 
 	// Check for config file version mismatch
 	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
-		echo $strBadConfig;
+		echo $lang['strbadconfig'];
 		exit;
 	}
 
@@ -121,7 +121,7 @@
 	// @@ NOTE: THIS IS WRONG. IT NEEDS TO BE DONE BEFORE THE ABOVE, BUT
 	// RELIES ON THE ABOVE!!
 	if (!$data->isLoaded()) {
-		echo $strNotLoaded;
+		echo $lang['strnotloaded'];
 		exit;
 	}	
 
@@ -139,7 +139,7 @@
 		if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
 			$status = $localData->setSchema($_REQUEST['schema']);
 			if ($status != 0) {
-				echo $strBadSchema;
+				echo $lang['strbadschema'];
 				exit;
 			}
 		}
@@ -151,15 +151,15 @@
 		if ($dbEncoding != '') {
 			$status = $localData->setClientEncoding($dbEncoding);
 			if ($status != 0) {
-				echo $strBadEncoding;
+				echo $lang['strbadencoding'];
 				exit;
 			}
 		
-			// Override $appCharset
+			// Override $lang['appcharset']
 			if (isset($localData->codemap[$dbEncoding]))
-				$appCharset = $localData->codemap[$dbEncoding];
+				$lang['appcharset'] = $localData->codemap[$dbEncoding];
 			else
-				$appCharset = $dbEncoding;
+				$lang['appcharset'] = $dbEncoding;
 		}
 	}
 

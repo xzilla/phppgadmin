@@ -3,88 +3,88 @@
 	 * Italian language template, based on the english language template file for WebDB.
 	 * @maintainer Calogero Cal� [<kalef@libero.it>]
 	 *	
-	 * $Id: italian.php,v 1.4 2003/01/02 03:42:08 chriskl Exp $
+	 * $Id: italian.php,v 1.5 2003/03/17 05:20:31 chriskl Exp $
 	 */
 
-	$appLang = 'Italiano';
-	$appCharset = 'ISO-8859-1';
+	$lang['applang'] = 'Italiano';
+	$lang['appcharset'] = 'ISO-8859-1';
 
-	$strNoFrames = '&Egrave; necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
-	$strLogin = 'Login';
-	$strNoTables = 'Tabelle non trovate.';
-	$strNoTable = 'Tabella non trovata.';
-	$strNoViews = 'Viste non trovate.';
-	$strNoFunctions = 'Funzioni non trovate.';
-	$strOwner = 'Proprietario';
-	$strActions = 'Azioni';	
-	$strName = 'Nome';
-	$strTable = 'Tabella';
-	$strTables = 'Tabelle';
-	$strView = 'Vista';
-	$strViews = 'Viste';
-	$strDefinition = 'Definizione';
-	$strTriggers = 'Triggers';
-	$strRules = 'Regole';
-	$strSequence = 'Sequenza';
-	$strSequences = 'Sequenze';
-	$strFunction = 'Funzione';
-	$strFunctions = 'Funzioni';
-	$strOperators = 'Operatori';
-	$strTypes = 'Tipi';
-	$strAggregates = 'Aggregazioni';
+	$lang['strnoframes'] = '&Egrave; necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
+	$lang['strlogin'] = 'Login';
+	$lang['strnotables'] = 'Tabelle non trovate.';
+	$lang['strnotable'] = 'Tabella non trovata.';
+	$lang['strnoviews'] = 'Viste non trovate.';
+	$lang['strnofunctions'] = 'Funzioni non trovate.';
+	$lang['strowner'] = 'Proprietario';
+	$lang['stractions'] = 'Azioni';	
+	$lang['strname'] = 'Nome';
+	$lang['strtable'] = 'Tabella';
+	$lang['strtables'] = 'Tabelle';
+	$lang['strview'] = 'Vista';
+	$lang['strviews'] = 'Viste';
+	$lang['strdefinition'] = 'Definizione';
+	$lang['strtriggers'] = 'Triggers';
+	$lang['strrules'] = 'Regole';
+	$lang['strsequence'] = 'Sequenza';
+	$lang['strsequences'] = 'Sequenze';
+	$lang['strfunction'] = 'Funzione';
+	$lang['strfunctions'] = 'Funzioni';
+	$lang['stroperators'] = 'Operatori';
+	$lang['strtypes'] = 'Tipi';
+	$lang['straggregates'] = 'Aggregazioni';
 	$strIndicies = 'Indici';
-	$strProperties = 'Proprietà';
-	$strBrowse = 'Mostra';
-	$strDrop = 'Elimina';
-	$strDropped = 'Eliminato';
-	$strNull = 'Null';
-	$strPrev = 'Precedente';
-	$strNext = 'Successivo';
-	$strFailed = 'Fallito';
-	$strNotLoaded = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
+	$lang['strproperties'] = 'Proprietà';
+	$lang['strbrowse'] = 'Mostra';
+	$lang['strdrop'] = 'Elimina';
+	$lang['strdropped'] = 'Eliminato';
+	$lang['strnull'] = 'Null';
+	$lang['strprev'] = 'Precedente';
+	$lang['strnext'] = 'Successivo';
+	$lang['strfailed'] = 'Fallito';
+	$lang['strnotloaded'] = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
 	
 	// Users - Utenti
-	$strUsername = 'Username';
-	$strPassword = 'Password';
-	$strSuper = 'Superuser?';
-	$strCreateDB = 'Creare DB?';
-	$strExpires = 'Scaduto';	
-	$strNoUsers = 'Nessun utente trovato';
+	$lang['strusername'] = 'Username';
+	$lang['strpassword'] = 'Password';
+	$lang['strsuper'] = 'Superuser?';
+	$lang['strcreatedb'] = 'Creare DB?';
+	$lang['strexpires'] = 'Scaduto';	
+	$lang['strnousers'] = 'Nessun utente trovato';
 	
 	// Views - Viste
-	$strViewNeedsName = '&Egrave; necessario un nome per la Vista.';
-	$strViewNeedsDef = '&Egrave; necessaria una definizione della Vista.';
+	$lang['strviewneedsname'] = '&Egrave; necessario un nome per la Vista.';
+	$lang['strviewneedsdef'] = '&Egrave; necessaria una definizione della Vista.';
 
 	// Sequences - Sequenze
-	$strNoSequences = 'Nessuna sequenza trovata.';
-	$strSequenceName = 'nome_sequenza';
-	$strLastValue = 'valore_precedente';
-	$strIncrementBy = 'incrementa_di';	
-	$strMaxValue = 'valore_max';
-	$strMinValue = 'valore_min';
-	$strCacheValue = 'valore_cache';
-	$strLogCount = 'conta_log';
-	$strIsCycled = '&egrave;_iterata';
-	$strIsCalled = '&egrave;_chiamata';
-	$strReset =	'Reset';
+	$lang['strnosequences'] = 'Nessuna sequenza trovata.';
+	$lang['strsequencename'] = 'nome_sequenza';
+	$lang['strlastvalue'] = 'valore_precedente';
+	$lang['strincrementby'] = 'incrementa_di';	
+	$lang['strmaxvalue'] = 'valore_max';
+	$lang['strminvalue'] = 'valore_min';
+	$lang['strcachevalue'] = 'valore_cache';
+	$lang['strlogcount'] = 'conta_log';
+	$lang['striscycled'] = '&egrave;_iterata';
+	$lang['striscalled'] = '&egrave;_chiamata';
+	$lang['strreset'] =	'Reset';
 
 	// Indicies
-	$strIndexName = 'Nome dell\'indice';
-	$strTabName = 'Tab Name';
-	$strColumnName = 'Nome della colonna';
-	$strUniqueKey = 'Chiave Univoca';
-	$strPrimaryKey = 'Chiave Primaria';
+	$lang['strindexname'] = 'Nome dell\'indice';
+	$lang['strtabname'] = 'Tab Name';
+	$lang['strcolumnname'] = 'Nome della colonna';
+	$lang['struniquekey'] = 'Chiave Univoca';
+	$lang['strprimarykey'] = 'Chiave Primaria';
 	
 	// Tables
-	$strField = 'Campo';
-	$strType = 'Tipo';
-	$strValue = 'Valore';
-	$strShowAllTables = 'Mostra tutte le Tabelle';
+	$lang['strfield'] = 'Campo';
+	$lang['strtype'] = 'Tipo';
+	$lang['strvalue'] = 'Valore';
+	$lang['strshowalltables'] = 'Mostra tutte le Tabelle';
 
 	// Functions
-	$strReturns = 'Restituisce';
-	$strArguments = 'Argomenti';
-	$strLanguage = 'Lingua';
-	$strFunctionNeedsName = 'Devi dare un nome alla funzione.';
-	$strFunctionNeedsDef = 'Devi dare una definizione alla tua funzione.';
+	$lang['strreturns'] = 'Restituisce';
+	$lang['strarguments'] = 'Argomenti';
+	$lang['strlanguage'] = 'Lingua';
+	$lang['strfunctionneedsname'] = 'Devi dare un nome alla funzione.';
+	$lang['strfunctionneedsdef'] = 'Devi dare una definizione alla tua funzione.';
 ?>

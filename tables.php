@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.8 2003/03/10 02:15:14 chriskl Exp $
+	 * $Id: tables.php,v 1.9 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,8 +17,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strNumFields, $strNext, $strTables, $strReset;
-		global $strCreateTable, $strShowAllTables, $strTableNeedsName, $strTableNeedsCols;
+		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
@@ -26,50 +25,50 @@
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=post>\n";
 				echo "<table width=100%>\n";
-				echo "<tr><th class=data>{$strName}</th></tr>\n";
+				echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
 				echo "<tr><td class=data1><input name=name size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
 					htmlspecialchars($_REQUEST['name']), "\"></td></tr>\n";
-				echo "<tr><th class=data>{$strNumFields}</th></tr>\n";
+				echo "<tr><th class=data>{$lang['strnumfields']}</th></tr>\n";
 				echo "<tr><td class=data1><input name=fields size=5 maxlength={$data->_maxNameLen} value=\"", 
 					htmlspecialchars($_REQUEST['fields']), "\"></td></tr>\n";
 				echo "</table>\n";
 				echo "<input type=hidden name=action value=create>\n";
 				echo "<input type=hidden name=stage value=2>\n";
 				echo $misc->form;
-				echo "<input type=submit value=\"{$strNext}\"> <input type=reset value=\"$strReset\">\n";
+				echo "<input type=submit value=\"{$lang['strnext']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 				echo "</form>\n";
 				break;
 			case 2:
-				global $strCreate, $strField, $strType, $strLength, $strNotNull, $strDefault;
+				global $lang;
 
 				// Check inputs
 				$fields = trim($_REQUEST['fields']);
 				if (trim($_REQUEST['name']) == '') {
 					$_REQUEST['stage'] = 1;
-					doCreate($strTableNeedsName);
+					doCreate($lang['strtableneedsname']);
 					return;
 				}
 				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields < 1)  {
 					$_REQUEST['stage'] = 1;
-					doCreate($strTableNeedsCols);
+					doCreate($lang['strtableneedscols']);
 					return;
 				}
 
 				$types = &$localData->getTypes(true);
 	
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th colspan=\"2\" class=\"data\">{$strField}</th><th class=\"data\">{$strType}</th><th class=\"data\">{$strLength}</th><th class=\"data\">{$strNotNull}</th><th class=\"data\">{$strDefault}</th></tr>";
+				echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
@@ -107,13 +106,12 @@
 				echo $misc->form;
 				echo "<input type=hidden name=name value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
 				echo "<input type=hidden name=fields value=\"", htmlspecialchars($_REQUEST['fields']), "\">\n";
-				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset value=\"$strReset\"></p>\n";
+				echo "<input type=submit value=\"{$lang['strcreate']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
 				echo "</form>\n";
 								
 				break;
 			case 3:
-				global $localData, $strTableNeedsField;
-				global $strTableCreated, $strTableCreatedBad;
+				global $localData, $lang;
 
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
 
@@ -121,36 +119,36 @@
 				$fields = trim($_REQUEST['fields']);
 				if (trim($_REQUEST['name']) == '') {
 					$_REQUEST['stage'] = 1;
-					doCreate($strTableNeedsName);
+					doCreate($lang['strtableneedsname']);
 					return;
 				}
 				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields <= 0)  {
 					$_REQUEST['stage'] = 1;
-					doCreate($strTableNeedsCols);	
+					doCreate($lang['strtableneedscols']);	
 					return;
 				}
 				
 				$status = $localData->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default']);
 				if ($status == 0)
-					doDefault($strTableCreated);
+					doDefault($lang['strtablecreated']);
 				elseif ($status == -1) {
 					$_REQUEST['stage'] = 2;
-					doCreate($strTableNeedsField);
+					doCreate($lang['strtableneedsfield']);
 					return;
 				}
 				else {
 					$_REQUEST['stage'] = 2;
-					doCreate($strTableCreatedBad);
+					doCreate($lang['strtablecreatedbad']);
 					return;
 				}
 				break;
 			default:
-				global $strInvalidParam;
-				echo "<p>{$strInvalidParam}</p>\n";
+				global $lang;
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 					
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
 	}
 
 	/**
@@ -158,13 +156,11 @@
 	 */
 	function doSelectRows($confirm, $msg = '') {
 		global $localData, $database, $misc;
-		global $strField, $strType, $strNull, $strFunction, $strValue, $strTables, $strSelect;
-		global $strShow, $strInvalidParam, $strCancel, $strRowInserted, $strRowInsertedBad;
-		global $strSave, $strBack, $strSelectNeedsCol;
+		global $lang;
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strSelect}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['strselect']}</h2>\n";
 			$misc->printMsg($msg);
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -174,7 +170,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=data>{$strShow}</th><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strValue}</th></tr>";
+				echo "<tr><th class=data>{$lang['strshow']}</th><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnull']}</th><th class=data>{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
 				while (!$attrs->EOF) {
@@ -205,13 +201,13 @@
 				}
 				echo "</table></p>\n";
 			}
-			else echo "<p>{$strInvalidParam}</p>\n";
+			else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
 			echo "<p><input type=hidden name=action value=selectrows>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strSelect}\">\n";
-			echo "<input type=submit name=choice value=\"{$strCancel}\"></p>\n";
+			echo "<input type=submit name=choice value=\"{$lang['strselect']}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -220,14 +216,14 @@
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
 			if (sizeof($_POST['show']) == 0)
-				doSelectRows(true, $strSelectNeedsCol);
+				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
 				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
 					$_POST['values'], array_keys($_POST['nulls']));
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
-				$_REQUEST['return_desc'] = $strBack;
+				$_REQUEST['return_desc'] = $lang['strback'];
 
 				include('display.php');
 				exit;
@@ -241,12 +237,11 @@
 	 */
 	function doInsertRow($confirm, $msg = '') {
 		global $localData, $database, $misc;
-		global $strField, $strType, $strNull, $strValue, $strRowInserted, $strRowInsertedBad;
-		global $strSave, $strSaveAndRepeat, $strCancel, $strTables, $strInsertRow, $strNoData;
+		global $lang;
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strInsertRow}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['strinsertrow']}</h2>\n";
 			$misc->printMsg($msg);
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -256,7 +251,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strValue}</th></tr>";
+				echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnull']}</th><th class=data>{$lang['strvalue']}</th></tr>";
 				
 				$i = 0;
 				while (!$attrs->EOF) {
@@ -284,14 +279,14 @@
 				}
 				echo "</table></p>\n";
 			}
-			else echo "<p>{$strNoData}</p>\n";
+			else echo "<p>{$lang['strnodata']}</p>\n";
 
 			echo "<input type=hidden name=action value=insertrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<p><input type=submit name=choice value=\"{$strSave}\">\n";
-			echo "<input type=submit name=choice value=\"{$strSaveAndRepeat}\">\n";
-			echo "<input type=submit name=choice value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=submit name=choice value=\"{$lang['strsave']}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['strsaveandrepeat']}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -301,16 +296,16 @@
 			$status = $localData->insertRow($_POST['table'], $_POST['values'], $_POST['nulls']);
 			if ($status == 0) {
 				// @@ This test seems a bit dodgy - comparing against the button name!
-				if ($_POST['choice'] == $strSave)
-					doDefault($strRowInserted);
+				if ($_POST['choice'] == $lang['strsave'])
+					doDefault($lang['strrowinserted']);
 				else {
 					$_REQUEST['values'] = array();
 					$_REQUEST['nulls'] = array();
-					doInsertRow(true, $strRowInserted);
+					doInsertRow(true, $lang['strrowinserted']);
 				}
 			}
 			else
-				doInsertRow(true, $strRowInsertedBad);
+				doInsertRow(true, $lang['strrowinsertedbad']);
 		}
 
 	}
@@ -320,27 +315,27 @@
 	 */
 	function doEmpty($confirm) {
 		global $localData, $database, $misc;
-		global $strTables, $strEmpty, $strConfEmptyTable, $strTableEmptied, $strTableEmptiedBad;
-		global $PHP_SELF, $strYes, $strNo;
+		global $lang;
+		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strEmpty}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['strempty']}</h2>\n";
 
-			echo "<p>", sprintf($strConfEmptyTable, htmlspecialchars($_REQUEST['table'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfemptytable'], htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=empty>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->emptyTable($_POST['table']);
 			if ($status == 0)
-				doDefault($strTableEmptied);
+				doDefault($lang['strtableemptied']);
 			else
-				doDefault($strTableEmptiedBad);
+				doDefault($lang['strtableemptiedbad']);
 		}
 		
 	}
@@ -350,28 +345,27 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database, $misc;
-		global $strTables, $strDrop, $strConfDropTable, $strTableDropped, $strTableDroppedBad;
-		global $strYes, $strNo;
+		global $lang;
 		global $PHP_SELF;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strDrop}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($strConfDropTable, htmlspecialchars($_REQUEST['table'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroptable'], htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropTable($_POST['table']);
 			if ($status == 0)
-				doDefault($strTableDropped);
+				doDefault($lang['strtabledropped']);
 			else
-				doDefault($strTableDroppedBad);
+				doDefault($lang['strtabledroppedbad']);
 		}
 		
 	}
@@ -381,14 +375,13 @@
 	 */
 	function doEditRow($confirm, $msg = '') {
 		global $localData, $database, $misc;
-		global $strField, $strType, $strNull, $strValue, $strTables, $strEditRow;
-		global $strInvalidParam, $strSave, $strCancel, $strRowUpdated, $strRowUpdatedBad;
+		global $lang;
 		global $PHP_SELF;
 
 		$key = $_REQUEST['key'];
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strEditRow}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['streditrow']}</h2>\n";
 			$misc->printMsg($msg);
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -399,7 +392,7 @@
 				echo "<table>\n<tr>";
 
 				// Output table header
-				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strValue}</th></tr>";
+				echo "<tr><th class=data>{$lang['strfield']}</th><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strnull']}</th><th class=data>{$lang['strvalue']}</th></tr>";
 
 				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
 
@@ -431,14 +424,14 @@
 				}
 				echo "</table></p>\n";
 			}
-			else echo "<p>{$strInvalidParam}</p>\n";
+			else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
 			echo "<input type=hidden name=action value=editrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($key)), "\">\n";
-			echo "<p><input type=submit name=choice value=\"{$strSave}\"> <input type=submit name=choice value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=submit name=choice value=\"{$lang['strsave']}\"> <input type=submit name=choice value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -447,9 +440,9 @@
 			
 			$status = $localData->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], unserialize($_POST['key']));
 			if ($status == 0)
-				doBrowse($strRowUpdated);
+				doBrowse($lang['strrowupdated']);
 			else
-				doEditRow($strRowUpdatedBad);
+				doEditRow($lang['strrowupdatedbad']);
 		}
 
 	}	
@@ -459,14 +452,13 @@
 	 */
 	function doDelRow($confirm) {
 		global $localData, $database, $misc;
-		global $strTables, $strDeleteRow, $strConfDeleteRow, $strRowDeleted, $strRowDeletedBad;
-		global $strYes, $strNo;
+		global $lang;
 		global $PHP_SELF;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strDeleteRow}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ", htmlspecialchars($_REQUEST['table']), ": {$lang['strdeleterow']}</h2>\n";
 
-			echo "<p>{$strConfDeleteRow}</p>\n";
+			echo "<p>{$lang['strconfdeleterow']}</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=delrow>\n";
@@ -474,15 +466,15 @@
 			echo $misc->form;
 			echo "<input type=hidden name=page value=\"", htmlspecialchars($_REQUEST['page']), "\">\n";
 			echo "<input type=hidden name=key value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\">\n";
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->deleteRow($_POST['table'], unserialize($_POST['key']));
 			if ($status == 0)
-				doBrowse($strRowDeleted);
+				doBrowse($lang['strrowdeleted']);
 			else
-				doBrowse($strRowDeletedBad);
+				doBrowse($lang['strrowdeletedbad']);
 		}
 		
 	}
@@ -491,11 +483,10 @@
 	 * Browse a table
 	 */
 	function doBrowse($msg = '') {
-		global $data, $localData, $misc, $guiMaxRows, $strBrowse;
-		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables, $strRows;
-		global $strNoData, $strEdit, $strDelete;
+		global $data, $localData, $misc, $guiMaxRows, $guiShowOIDs;
+		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strBrowse}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strbrowse']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
@@ -519,7 +510,7 @@
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
 			
 			if (sizeof($key) > 0)
-				echo "<th colspan=2 class=data>{$strActions}</th>\n";
+				echo "<th colspan=2 class=data>{$lang['stractions']}</th>\n";
 			
 			$i = 0;
 			reset($rs->f);
@@ -538,19 +529,19 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$strEdit}</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$strDelete}</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
 				$i++;
 			}
 			echo "</table>\n";
-			echo "<p>", $rs->recordCount(), " {$strRows}</p>\n";
+			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 		}
-		else echo "<p>{$strNoData}</p>\n";
+		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
 	}
 
 	/**
@@ -558,8 +549,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $localData;
-		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
-		global $strBrowse, $strProperties, $strCreateTable, $strSelect, $strInsert, $strEmpty, $strDrop;
+		global $PHP_SELF, $lang;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), "</h2>\n";
 			
@@ -567,24 +557,24 @@
 		
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strTable}</th><th class=data>{$strOwner}</th><th colspan=6 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$lang['strtable']}</th><th class=data>{$lang['strowner']}</th><th colspan=6 class=data>{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$tables->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
-					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
+					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strSelect}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strInsert}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=",
-					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
+					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strEmpty}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strDrop}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
 				$i++;
@@ -592,13 +582,13 @@
 			echo "</table>\n";
 		}
 		else {
-			echo "<p>{$strNoTables}</p>\n";
+			echo "<p>{$lang['strnotables']}</p>\n";
 		}
 
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateTable}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
 	
-	$misc->printHeader($strTables);
+	$misc->printHeader($lang['strtables']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -606,42 +596,42 @@
 			doCreate();
 			break;
 		case 'selectrows':
-			if ($_POST['choice'] != $strCancel) doSelectRows(false);
+			if ($_POST['choice'] != $lang['strcancel']) doSelectRows(false);
 			else doDefault();
 			break;
 		case 'confselectrows':
 			doSelectRows(true);
 			break;
 		case 'insertrow':
-			if ($_POST['choice'] != $strCancel) doInsertRow(false);
+			if ($_POST['choice'] != $lang['strcancel']) doInsertRow(false);
 			else doDefault();
 			break;
 		case 'confinsertrow':
 			doInsertRow(true);
 			break;
 		case 'empty':
-			if ($_POST['choice'] == $strYes) doEmpty(false);
+			if ($_POST['choice'] == $lang['stryes']) doEmpty(false);
 			else doDefault();
 			break;
 		case 'confirm_empty':
 			doEmpty(true);
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $strYes) doDrop(false);
+			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;
 		case 'editrow':
-			if ($_POST['choice'] == $strSave) doEditRow(false);
+			if ($_POST['choice'] == $lang['strsave']) doEditRow(false);
 			else doBrowse();
 			break;
 		case 'confeditrow':
 			doEditRow(true);
 			break;
 		case 'delrow':
-			if ($_POST['choice'] == $strYes) doDelRow(false);
+			if ($_POST['choice'] == $lang['stryes']) doDelRow(false);
 			else doBrowse();
 			break;
 		case 'confdelrow':

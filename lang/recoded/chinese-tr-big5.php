@@ -6,4 +6,4 @@
 */
 
 // Language and character set
-$appLang = '&#34652;
+$lang['applang'] = '&#34652;

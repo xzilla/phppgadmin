@@ -4,57 +4,57 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Robert Treat [xzilla@users.sourceforge.net]
 	 *
-	 * $Id: spanish.php,v 1.3 2003/03/13 01:50:44 chriskl Exp $
+	 * $Id: spanish.php,v 1.4 2003/03/17 05:20:31 chriskl Exp $
 	 */
 
-	$appLang = 'Spanish';
-	$appCharset = 'ISO-8859-1';
+	$lang['applang'] = 'Spanish';
+	$lang['appcharset'] = 'ISO-8859-1';
 
-	$strNoFrames = 'You need a frames-enabled browser to use this application.';
-	$strLogin = 'Login';
-	$strNoTables = 'No se han encontrado tablas.';
-	$strNoViews = 'No views found.';
-	$strNoFunctions = 'No se han encontrado funci&amp;oacute;nes.';
-	$strOwner = 'Owner';
-	$strActions = 'Acci&amp;oacute;nes';
-	$strName = 'Nombre';
-	$strTable = 'Tabla ';
-	$strTables = 'Tablas';
-	$strView = 'View';
-	$strViews = 'Views';
-	$strDefinition = 'Definition';
-	$strTriggers = 'Triggers';
-	$strRules = 'Rules';
-	$strSequences = 'Sequences';
-	$strFunction = 'Funci&amp;oacute;n';
-	$strFunctions = 'Funci&amp;oacute;nes';
-	$strOperators = 'Operators';
-	$strTypes = 'Tipos';
-	$strAggregates = 'Aggregates';
+	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
+	$lang['strlogin'] = 'Login';
+	$lang['strnotables'] = 'No se han encontrado tablas.';
+	$lang['strnoviews'] = 'No views found.';
+	$lang['strnofunctions'] = 'No se han encontrado funci&amp;oacute;nes.';
+	$lang['strowner'] = 'Owner';
+	$lang['stractions'] = 'Acci&amp;oacute;nes';
+	$lang['strname'] = 'Nombre';
+	$lang['strtable'] = 'Tabla ';
+	$lang['strtables'] = 'Tablas';
+	$lang['strview'] = 'View';
+	$lang['strviews'] = 'Views';
+	$lang['strdefinition'] = 'Definition';
+	$lang['strtriggers'] = 'Triggers';
+	$lang['strrules'] = 'Rules';
+	$lang['strsequences'] = 'Sequences';
+	$lang['strfunction'] = 'Funci&amp;oacute;n';
+	$lang['strfunctions'] = 'Funci&amp;oacute;nes';
+	$lang['stroperators'] = 'Operators';
+	$lang['strtypes'] = 'Tipos';
+	$lang['straggregates'] = 'Aggregates';
 	
 	// Users
-	$strUsername = 'Usario';
-	$strPassword = 'Password';
-	$strSuper = 'Superuser?';
-	$strCreateDB = 'Create DB?';
-	$strExpires = 'Expires';	
-	$strNoUsers = 'No users found.';
+	$lang['strusername'] = 'Usario';
+	$lang['strpassword'] = 'Password';
+	$lang['strsuper'] = 'Superuser?';
+	$lang['strcreatedb'] = 'Create DB?';
+	$lang['strexpires'] = 'Expires';	
+	$lang['strnousers'] = 'No users found.';
 	
 	// Views
-	$strViewNeedsName = 'You must give a name for your view.';
-	$strViewNeedsDef = 'You must give a definition for your view.';
+	$lang['strviewneedsname'] = 'You must give a name for your view.';
+	$lang['strviewneedsdef'] = 'You must give a definition for your view.';
 
 	// Sequences
-	$strNoSequences = 'No sequences found.';
+	$lang['strnosequences'] = 'No sequences found.';
 	
 	// Tables
-	$strField = 'Campo';
-	$strType = 'Tipo';
-	$strValue = 'Valor';
+	$lang['strfield'] = 'Campo';
+	$lang['strtype'] = 'Tipo';
+	$lang['strvalue'] = 'Valor';
 
 	// Functions
-	$strReturns = 'Returns';
-	$strArguments = 'Arguments';
-	$strLanguage = 'Language';
+	$lang['strreturns'] = 'Returns';
+	$lang['strarguments'] = 'Arguments';
+	$lang['strlanguage'] = 'Language';
 
 ?>

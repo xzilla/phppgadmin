@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.5 2003/03/16 11:01:41 chriskl Exp $
+	 * $Id: triggers.php,v 1.6 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -45,13 +45,13 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
-		global $PHP_SELF, $strDrop, $strConfDropTrigger, $strTriggerDropped, $strTriggerDroppedBad, $strYes, $strNo;
+		global $PHP_SELF, $lang;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['trigger']), ": {$strDrop}</h2>\n";
+				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['trigger']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($strConfDropTrigger, htmlspecialchars($_REQUEST['trigger']),
+			echo "<p>", sprintf($lang['strconfdroptrigger'], htmlspecialchars($_REQUEST['trigger']),
 				htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -59,15 +59,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=\"submit\" name=\"choice\" value=\"{$strNo}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropTrigger($_POST['trigger'], $_POST['table']);
 			if ($status == 0)
-				doDefault($strTriggerDropped);
+				doDefault($lang['strtriggerdropped']);
 			else
-				doDefault($strTriggerDroppedBad);
+				doDefault($lang['strtriggerdroppedbad']);
 		}
 
 	}
@@ -77,13 +77,14 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF;
-		global $strTriggerEvents, $strTriggerWhen, $strCreateTrigger,$strTriggerNeedsFunction;
-		global $strTriggerFunction,$strTriggerEvent,$strTriggerExecTimes, $strSave, $strReset;
-		global $strFunction,$strTriggerName,$strTriggerArgs;
+		global $PHP_SELF, $lang;
+    // global $lang['strcreatetrigger'], $lang['strsave'], $lang['strreset'], $lang['strfunction'],$lang['strtriggername'],
+		global $strTriggerEvents, $strTriggerWhen,$strTriggerNeedsFunction;
+		global $strTriggerFunction,$strTriggerEvent,$strTriggerExecTimes;
+		global $strTriggerArgs;
 		
 		
-		echo "<h2>",$strCreateTrigger,"</h2>";
+		echo "<h2>{$lang['strcreatetrigger']}</h2>";
 
 		$misc->printMsg($msg);
 		
@@ -115,12 +116,12 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
 		echo "<table>";
-		echo "<tr><th colspan=\"4\" class=\"data\">{$strTriggerName}</th>";
+		echo "<tr><th colspan=\"4\" class=\"data\">{$lang['strtriggername']}</th>";
 		echo "</tr>";
 		echo "<tr><td colspan=\"4\" class=\"data1\"><input type=\"text\" name=\"formTriggerName\" size=\"80\"/></th>";
 		echo "</tr>";
 		echo "<tr><th class=\"data\">&nbsp;</th>";
-		echo "    <th class=\"data\">{$strFunction}</th>";
+		echo "    <th class=\"data\">{$lang['strfunction']}</th>";
 		echo "    <th class=\"data\">{$strTriggerWhen}</th>";
 		echo "    <th class=\"data\">{$strTriggerEvent}</th>";
 		echo "</tr>";
@@ -132,7 +133,7 @@
 		echo "<th colspan=\"4\" class=\"data\">{$strTriggerArgs}</th>";
 		echo "<tr><td colspan=\"4\" class=\"data1\"><input type=\"text\" name=\"formTriggerArgs\" size=\"80\"/></th>";
 		echo "</table>";
-		echo "<p><input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\"></p>\n";
+		echo "<p><input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
 		echo "<input type=hidden value=save_create name=\"action\">";
 		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 	    echo $misc->form;
@@ -146,18 +147,17 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database;
 		global $PHP_SELF;
-		global $strTriggers, $strName, $strActions, $strNoTriggers, $strCreateTrigger, $strDrop;
-		global $strDefinition;
+		global $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strtriggers']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$triggers = &$localData->getTriggers($_REQUEST['table']);
 
 		if ($triggers->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 
 			while (!$triggers->EOF) {
@@ -168,7 +168,7 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
+					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$triggers->moveNext();
 				$i++;
@@ -177,9 +177,9 @@
 			echo "</table>\n";
 			}
 		else
-			echo "<p>{$strNoTriggers}</p>\n";
+			echo "<p>{$lang['strnotriggers']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
 	/**
@@ -187,8 +187,8 @@
 	 */
 	function doSaveCreate() {
 		global $data, $localData, $misc, $database;
-		global $PHP_SELF;
-		global $strTriggerNeedsFunction, $strTriggerDone, $strTriggerNeedsName;
+		global $PHP_SELF, $lang;
+		global $strTriggerNeedsFunction, $strTriggerDone;
 		
 	
 		// Check that they've given a name and a definition
@@ -198,7 +198,7 @@
 		elseif ($_POST['formExecTime'] == '') 
 			doCreate();
 		elseif ($_POST['formTriggerName'] == '') 
-			doCreate($strTriggerNeedsName);
+			doCreate($lang['strtriggerneedsname']);
 		elseif ($_POST['formEvent'] == '') 
 			doCreate();
 		else {		 
@@ -210,7 +210,7 @@
 		}
 	}	
 	
-	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strTriggers);
+	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
 
 	switch ($action) {
 		case 'save_create':
@@ -220,7 +220,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $strYes) doDrop(false);
+			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

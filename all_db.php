@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.8 2003/03/10 02:15:13 chriskl Exp $
+	 * $Id: all_db.php,v 1.9 2003/03/17 05:20:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,24 +18,24 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $localData, $database;
-		global $PHP_SELF, $strDatabases, $strConfDropDatabase, $strDrop, $strYes, $strNo, $strDatabaseDropped, $strDatabaseDroppedBad;
+		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>{$strDatabases}: ", htmlspecialchars($_REQUEST['database']), ": {$strDrop}</h2>\n";
-			echo "<p>", sprintf($strConfDropDatabase, htmlspecialchars($_REQUEST['database'])), "</p>\n";	
+			echo "<h2>{$lang['strdatabases']}: ", htmlspecialchars($_REQUEST['database']), ": {$lang['strdrop']}</h2>\n";
+			echo "<p>", sprintf($lang['strconfdropdatabase'], htmlspecialchars($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$localData->close();
 			$status = $data->dropDatabase($_POST['database']);
 			if ($status == 0)
-				doDefault($strDatabaseDropped);
+				doDefault($lang['strdatabasedropped']);
 			else
-				doDefault($strDatabaseDroppedBad);
+				doDefault($lang['strdatabasedroppedbad']);
 		}
 		
 	}
@@ -45,16 +45,16 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strName, $strDatabases, $strCreateDatabase, $strShowAllDatabases, $strEncoding, $strSave, $strReset;
+		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		
-		echo "<h2>{$strDatabases}: {$strCreateDatabase}</h2>\n";
+		echo "<h2>{$lang['strdatabases']}: {$lang['strcreatedatabase']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th><th class=data>{$strEncoding}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strname']}</th><th class=data>{$lang['strencoding']}</th></tr>\n";
 		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
 			htmlspecialchars($_POST['formName']), "\"></td>";
 		echo "<td class=data1>";
@@ -66,26 +66,26 @@
 		echo "</td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=submit value={$strSave}> <input type=reset value={$strReset}>\n";
+		echo "<input type=submit value={$lang['strsave']}> <input type=reset value={$lang['strreset']}>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">{$strShowAllDatabases}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF\">{$lang['strshowalldatabases']}</a></p>\n";
 	}
 	
 	/**
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $data, $strDatabaseNeedsName, $strDatabaseCreated, $strDatabaseCreatedBad;
+		global $data, $lang;
 		
 		// Check that they've given a name and a definition
-		if ($_POST['formName'] == '') doCreate($strDatabaseNeedsName);
+		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
 			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding']);
 			if ($status == 0)
-				doDefault($strDatabaseCreated);
+				doDefault($lang['strdatabasecreated']);
 			else
-				doCreate($strDatabaseCreatedBad);
+				doCreate($lang['strdatabasecreatedbad']);
 		}
 	}	
 
@@ -94,17 +94,16 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strDatabase, $strDatabases, $strComment, $strActions, $strNoDatabases, $strCreateDatabase, $strDrop;
-		global $strEncoding, $strOwner;
+		global $PHP_SELF, $lang;
 		
-		echo "<h2>{$strDatabases}</h2>\n";
+		echo "<h2>{$lang['strdatabases']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$databases = &$data->getDatabases();
 		
 		if ($databases->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strDatabase}</th><th class=data>{$strOwner}</th><th class=data>{$strEncoding}</th><th class=data>{$strComment}</th><th class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$lang['strdatabase']}</th><th class=data>{$lang['strowner']}</th><th class=data>{$lang['strencoding']}</th><th class=data>{$lang['strcomment']}</th><th class=data>{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$databases->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
@@ -113,7 +112,7 @@
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['encoding']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">{$strDrop}</a></td>\n";
+					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
 				$i++;
@@ -121,14 +120,14 @@
 			echo "</table>\n";
 		}
 		else {
-			echo "<p>{$strNoDatabases}</p>\n";
+			echo "<p>{$lang['strnodatabases']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">{$strCreateDatabase}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
 
-	$misc->printHeader($strDatabases);
+	$misc->printHeader($lang['strdatabases']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -139,7 +138,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $strYes) doDrop(false);
+			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -9,21 +9,21 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.7 2003/03/10 02:15:13 chriskl Exp $
+	 * $Id: display.php,v 1.8 2003/03/17 05:20:29 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 
-	global $strQueryResults, $guiMaxRows, $strRows;
+	global $guiMaxRows, $lang;
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	$misc->printHeader($strQueryResults);
+	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 
-	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strQueryResults}</h2>\n";
+	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strqueryresults']}</h2>\n";
 	
 	// If current page is not set, default to first page
 	if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
@@ -66,7 +66,7 @@
 			$i++;
 		}
 		echo "</table>\n";
-		echo "<p>", $rs->recordCount(), " {$strRows}</p>\n";
+		echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 	}
 	else echo "<p>No data.</p>\n";
 	

@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   operators.php
  *
- *  $Id: operators.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
+ *  $Id: operators.php,v 1.4 2003/03/17 05:20:30 chriskl Exp $
  */
 
 include_once( 'libraries/lib.inc.php' );
@@ -19,8 +19,8 @@ $PHP_SELF = $_SERVER['PHP_SELF'];
 function doDefault()
 {
     global $data, $localData, $misc, $database, $operators; 
-    global $PHP_SELF;
-    global $strNooperators, $stroperators, $strOwner, $strActions;
+    global $PHP_SELF, $lang;
+    global $strnooperators, $stroperators;
 
     echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": operators</h2>\n";
 
@@ -29,7 +29,7 @@ function doDefault()
     if( $operators->recordCount() > 0 )
     {
         echo "<table>\n";
-        echo "<tr><th class=\"data\">{$stroperators}</th><th colspan=\"3\" class=\"data\">{$strActions}</th>\n";
+        echo "<tr><th class=\"data\">{$stroperators}</th><th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>\n";
         $i = 0;
 
         while( !$operators->EOF )
@@ -51,7 +51,7 @@ function doDefault()
     }
     else
     {
-        echo "<p>{$strNooperators}</p>\n";
+        echo "<p>{$strnooperators}</p>\n";
     }
     
     echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&database=", urlencode( $_REQUEST['database'] ), "\">Create operators</a></p>\n";
@@ -62,7 +62,7 @@ function doDefault()
 	function doProperties($msg = '') 
 	{
 		global $data, $localData, $misc, $PHP_SELF;
-		global $stroperators, $stroperatorsName, $strTabName, $strColumnName, $strUniqueKey, $strPrimaryKey;
+		global $stroperators, $stroperatorsName, $lang;
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $stroperators : ", htmlspecialchars($_REQUEST['operators']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
@@ -73,7 +73,7 @@ function doDefault()
 		if ($operators->recordCount() > 0) {
 
 			echo"<table border=0>";
-			echo "<tr><th class=\"data\">$stroperatorsName</th><th class=\"data\">$strTabName</th><th class=\"data\">$strColumnName</th><th class=\"data\">$strUniqueKey</th><th class=\"data\">$strPrimaryKey</th></tr>";
+			echo "<tr><th class=\"data\">$stroperatorsName</th><th class=\"data\">$lang['strtabname']</th><th class=\"data\">$lang['strcolumnname']</th><th class=\"data\">$lang['struniquekey']</th><th class=\"data\">$lang['strprimarykey']</th></tr>";
 			echo "<tr>";
 			echo "<td class=\"data1\">", $operators->f[$data->opFields['idxname']], "</td>";
 			echo "<td class=\"data1\">", $operators->f[$data->opFields['tabname']], "</td>";
@@ -97,7 +97,7 @@ function doDefault()
 	function doDrop($confirm)
 	{
 		global $localData, $database;
-		global $PHP_SELF, $stroperators, $strDropped, $strDrop, $strFailed;
+		global $PHP_SELF, $stroperators, $lang;
 	
 		if ($confirm) { 
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $stroperators : ", htmlspecialchars($_REQUEST['operators']), ": Drop</h2>\n";
@@ -114,15 +114,15 @@ function doDefault()
 		else {
 			$status = $localData->dropoperators($_POST['operators']);
 			if ($status == 0)
-				doDefault("$stroperators $strDropped.");
+				doDefault("$stroperators $lang['strdropped'].");
 			else
-				doDefault("$stroperators $strDrop $strFailed.");
+				doDefault("$stroperators $lang['strdrop'] $lang['strfailed'].");
 		}
 
 	}
 
 
-$misc->printHeader($strOperators);
+$misc->printHeader($lang['stroperators']);
 $misc->printBody();
 
 switch( $action )

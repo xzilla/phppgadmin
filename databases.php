@@ -4,13 +4,13 @@
 	 * List databases in a server
 	 * @param $webdbServerID The ID of the current server
 	 *
-	 * $Id: databases.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: databases.php,v 1.4 2003/03/17 05:20:29 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 
-	$misc->printHeader($strDatabases);
+	$misc->printHeader($lang['strdatabases']);
 	$misc->printBody();
 ?>
 

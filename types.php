@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: types.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,11 +18,9 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strTypes, $strInvalidParam, $strShowAllTypes;
-		global $strInputFn, $strOutputFn, $strLength, $strPassByVal, $strAlignment;
-		global $strProperties, $strYes, $strNo;
+		global $PHP_SELF, $lang;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTypes}: ", htmlspecialchars($_REQUEST['type']), ": {$strProperties}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: ", htmlspecialchars($_REQUEST['type']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$typedata = &$localData->getType($_REQUEST['type']);
@@ -30,23 +28,23 @@
 		if ($typedata->recordCount() > 0) {
 			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
 			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$strName}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strInputFn}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strinputfn']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strOutputFn}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['stroutputfn']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strLength}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strlength']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strPassByVal}</th></tr>\n";
-			echo "<tr><td class=data1>", ($byval) ? $strYes : $strNo, "</td></tr>\n";
-			echo "<tr><th class=data>{$strAlignment}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strpassbyval']}</th></tr>\n";
+			echo "<tr><td class=data1>", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<tr><th class=data>{$lang['stralignment']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTypes}</a></p>\n";		}
+			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
 		else
-			doDefault($strInvalidParam);
+			doDefault($lang['strinvalidparam']);
 	}
 	
 	/**
@@ -54,27 +52,26 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database, $misc;
-		global $PHP_SELF, $strTypes, $strDrop, $strConfDropType, $strNo, $strYes;
-		global $strTypeDropped, $strTypeDroppedBad;
+		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTypes}: ", htmlspecialchars($_REQUEST['type']), ": {$strDrop}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: ", htmlspecialchars($_REQUEST['type']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($strConfDropType, htmlspecialchars($_REQUEST['type'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroptype'], htmlspecialchars($_REQUEST['type'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropType($_POST['type']);
 			if ($status == 0)
-				doDefault($strTypeDropped);
+				doDefault($lang['strtypedropped']);
 			else
-				doDefault($strTypeDroppedBad);
+				doDefault($lang['strtypedroppedbad']);
 		}
 		
 	}
@@ -84,9 +81,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strTypes, $strCreateType, $strShowAllTypes;
-		global $strInputFn, $strOutputFn, $strLength, $strDefault;
-		global $strElement, $strDelimiter, $strPassByVal, $strAlignment, $strStorage, $strSave, $strReset;
+		global $PHP_SELF, $lang;
 
 		if (!isset($_POST['typname'])) $_POST['typname'] = '';
 		if (!isset($_POST['typin'])) $_POST['typin'] = '';
@@ -102,15 +97,15 @@
 		$funcs = &$localData->getFunctions(true);
 		$types = &$localData->getTypes();
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTypes}: {$strCreateType}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: {$lang['strcreatetype']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=data><b>{$strName}</b></th></tr>\n";
+		echo "<tr><th class=data><b>{$lang['strname']}</b></th></tr>\n";
 		echo "<tr><td class=data1><input name=typname size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
 			htmlspecialchars($_POST['typname']), "\"></td></tr>\n";
-		echo "<tr><th class=data><b>{$strInputFn}</b></th></tr>\n";
+		echo "<tr><th class=data><b>{$lang['strinputfn']}</b></th></tr>\n";
 		echo "<tr><td class=data1><select name=typin>";
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
@@ -119,7 +114,7 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$strOutputFn}</b></th></tr>\n";
+		echo "<tr><th class=data><b>{$lang['stroutputfn']}</b></th></tr>\n";
 		echo "<tr><td class=data1><select name=typout>";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
@@ -129,13 +124,13 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$strLength}</b></th></tr>\n";
+		echo "<tr><th class=data><b>{$lang['strlength']}</b></th></tr>\n";
 		echo "<tr><td class=data1><input name=typlen size=8 value=\"",
 			htmlspecialchars($_POST['typlen']), "\"></td></tr>";
-		echo "<tr><th class=data>{$strDefault}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strdefault']}</th></tr>\n";
 		echo "<tr><td class=data1><input name=typdef size=8 value=\"",
 			htmlspecialchars($_POST['typdef']), "\"></td></tr>";
-		echo "<tr><th class=data>{$strElement}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strelement']}</th></tr>\n";
 		echo "<tr><td class=data1><select name=typelem>";
 		echo "<option value=\"\"></option>\n";
 		while (!$types->EOF) {
@@ -145,20 +140,20 @@
 			$types->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$strDelimiter}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strdelimiter']}</th></tr>\n";
 		echo "<tr><td class=data1><input name=typdelim size=1 maxlength=1 value=\"",
 			htmlspecialchars($_POST['typdelim']), "\"></td></tr>";
-		echo "<tr><th class=data>{$strPassByVal}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strpassbyval']}</th></tr>\n";
 		echo "<tr><td class=data1><input type=checkbox name=typbyval", 
 			isset($_POST['typbyval']) ? ' checked' : '', "></td></tr>";
-		echo "<tr><th class=data>{$strAlignment}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['stralignment']}</th></tr>\n";
 		echo "<tr><td class=data1><select name=typalign>";
 		foreach ($data->typAligns as $v) {
 			echo "<option value=\"{$v}\"",
 				($v == $_POST['typalign']) ? ' selected' : '', ">{$v}</option>\n";
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$strStorage}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strstorage']}</th></tr>\n";
 		echo "<tr><td class=data1><select name=typstorage>";
 		foreach ($data->typStorages as $v) {
 			echo "<option value=\"{$v}\"",
@@ -168,10 +163,10 @@
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
+		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTypes}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
 	}
 	
 	/**
@@ -179,14 +174,13 @@
 	 */
 	function doSaveCreate() {
 		global $localData;
-		global $strTypeCreated, $strTypeCreatedBad;
-		global $strTypeNeedsName, $strTypeNeedsLen;
+		global $lang;
 
 		// Check that they've given a name and a length.
 		// Note: We're assuming they've given in and out functions here
 		// which might be unwise...
-		if ($_POST['typname'] == '') doCreate($strTypeNeedsName);
-		elseif ($_POST['typlen'] == '') doCreate($strTypeNeedsLen);
+		if ($_POST['typname'] == '') doCreate($lang['strtypeneedsname']);
+		elseif ($_POST['typlen'] == '') doCreate($lang['strtypeneedslen']);
 		else {		 
 			$status = $localData->createType(
 				$_POST['typname'],
@@ -201,9 +195,9 @@
 				$_POST['typstorage']
 			);
 			if ($status == 0)
-				doDefault($strTypeCreated);
+				doDefault($lang['strtypecreated']);
 			else
-				doCreate($strTypeCreatedBad);
+				doCreate($lang['strtypecreatedbad']);
 		}
 	}	
 
@@ -212,24 +206,23 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database;
-		global $PHP_SELF, $strType, $strTypes, $strOwner, $strActions, $strNoTypes, $strCreateType;
-		global $strProperties, $strDrop;
+		global $PHP_SELF, $lang;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTypes}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$types = &$localData->getTypes();
 
 		if ($types->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strType}</th><th class=data>{$strOwner}</th><th colspan=\"2\" class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strowner']}</th><th colspan=\"2\" class=data>{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$types->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strDrop}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strproperties']}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$types->moveNext();
 				$i++;
@@ -237,14 +230,14 @@
 			echo "</table>\n";
 		}
 		else {
-			echo "<p>{$strNoTypes}</p>\n";
+			echo "<p>{$lang['strnotypes']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateType}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetype']}</a></p>\n";
 
 	}
 
-	$misc->printHeader($strTypes);
+	$misc->printHeader($lang['strtypes']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -255,7 +248,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == "{$strYes}") doDrop(false);
+			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

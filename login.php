@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.6 2003/03/10 02:15:14 chriskl Exp $
+	 * $Id: login.php,v 1.7 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
@@ -25,7 +25,7 @@
 	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;
 
 	// Output header
-	$misc->printHeader($strLogin);
+	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
 ?>
 
@@ -33,20 +33,20 @@
 		<tr height="115">
 			<td height="115" align="center" valign="middle">
 				<center>
-				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $strLogin ?></h1>
-				<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">$strLoginFailed</p>" ?>
+				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $lang['strlogin'] ?></h1>
+				<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">{$lang['strloginfailed']}</p>" ?>
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 					<tr>
-						<td><?php echo $strUsername ?>:</td>
+						<td><?php echo $lang['strusername'] ?>:</td>
 						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24"></td>
 					</tr>
 					<tr>
-						<td><?php echo $strPassword ?>:</td>
+						<td><?php echo $lang['strpassword'] ?>:</td>
 						<td><input type="password" name="formPassword" size="24"></td>
 					</tr>
 					<tr>
-						<td><?php echo $strServer ?>:</td>
+						<td><?php echo $lang['strserver'] ?>:</td>
 						<td><select name="formServer">
 						<?php
 							for ($i = 0; $i < sizeof($confServers); $i++) {
@@ -58,11 +58,11 @@
 						</select></td>
 					</tr>
 					<tr>
-						<td><?php echo $strLanguage ?>:</td>
+						<td><?php echo $lang['strlanguage'] ?>:</td>
 						<td><select name="formLanguage">
 						<?php
 							// Language name already encoded
-							foreach ($appLangFiles as $k => $v) {
+							foreach ($applangFiles as $k => $v) {
 								echo "<option value=\"{$k}\"",
 									($k == $_POST['formLanguage']) ? ' selected' : '',
 									">{$v}</option>\n";

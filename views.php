@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: views.php,v 1.6 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Function to save after editing a view
 	 */
 	function doSaveEdit() {
-		global $localData, $strViewUpdated, $strViewUpdatedBad;
+		global $localData, $lang;
 		
 		$status = $localData->setView($_POST['view'], $_POST['formDefinition']);
 		if ($status == 0)
-			doProperties($strViewUpdated);
+			doProperties($lang['strviewupdated']);
 		else
-			doEdit($strViewUpdatedBad);
+			doEdit($lang['strviewupdatedbad']);
 	}
 	
 	/**
@@ -31,9 +31,9 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition, $strViews, $strEdit, $strSave, $strReset, $strNoData, $strShowAllViews, $strProperties ;
+		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": {$strEdit}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
@@ -41,23 +41,23 @@
 		if ($viewdata->recordCount() > 0) {
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
 			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$strName}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
 				htmlspecialchars($viewdata->f[$data->vwFields['vwdef']]), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
 			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
+			echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 			echo "</form>\n";
 		}
-		else echo "<p>{$strNoData}</p>\n";
+		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllViews}</a> |\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&view=", 
-			urlencode($_REQUEST['view']), "\">{$strProperties}</a></p>\n";
+			urlencode($_REQUEST['view']), "\">{$lang['strproperties']}</a></p>\n";
 	}
 	
 	/**
@@ -65,26 +65,26 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition, $strViews, $strShowAllViews, $strEdit, $strProperties, $strNoData;
+		global $PHP_SELF, $lang;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": {$strProperties}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$viewdata = &$localData->getView($_REQUEST['view']);
 		
 		if ($viewdata->recordCount() > 0) {
 			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$strName}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
+			echo "<tr><th class=data>{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=data1>", nl2br(htmlspecialchars($viewdata->f[$data->vwFields['vwdef']])), "</td></tr>\n";
 			echo "</table>\n";
 		}
-		else echo "<p>{$strNoData}</p>\n";
+		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllViews}</a> |\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&view=", 
-			urlencode($_REQUEST['view']), "\">{$strEdit}</a></p>\n";
+			urlencode($_REQUEST['view']), "\">{$lang['stredit']}</a></p>\n";
 	}
 	
 	/**
@@ -92,25 +92,25 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
-		global $PHP_SELF, $strViews, $strDrop, $strYes, $strNo, $strConfDropView, $strViewDropped, $strViewDroppedBad;
+		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: ", htmlspecialchars($_REQUEST['view']), ": {$strDrop}</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: ", htmlspecialchars($_REQUEST['view']), ": {$lang['strdrop']}</h2>\n";
 			
-			echo "<p>", sprintf($strConfDropView, htmlspecialchars($_REQUEST['view'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropview'], htmlspecialchars($_REQUEST['view'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=view value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=submit name=choice value=\"{$lang['stryes']}\"> <input type=submit name=choice value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropView($_POST['view']);
 			if ($status == 0)
-				doDefault($strViewDropped);
+				doDefault($lang['strviewdropped']);
 			else
-				doDefault($strViewDroppedBad);
+				doDefault($lang['strviewdroppedbad']);
 		}
 		
 	}
@@ -120,46 +120,46 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition, $strViews, $strCreateView, $strSave, $strReset, $strShowAllViews;
+		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formView'])) $_POST['formView'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}: {$strCreateView}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
 		echo "<tr><td class=data1><input name=formView size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
 			htmlspecialchars($_POST['formView']), "\"></td></tr>\n";
-		echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
+		echo "<tr><th class=data>{$lang['strdefinition']}</th></tr>\n";
 		echo "<tr><td class=data1><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
+		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllViews}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 	}
 	
 	/**
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $strViewNeedsName, $strViewNeedsDef, $strViewCreated, $strViewCreatedBad;
+		global $localData, $lang;
 		
 		// Check that they've given a name and a definition
-		if ($_POST['formView'] == '') doCreate($strViewNeedsName);
-		elseif ($_POST['formDefinition'] == '') doCreate($strViewNeedsDef);
+		if ($_POST['formView'] == '') doCreate($lang['strviewneedsname']);
+		elseif ($_POST['formDefinition'] == '') doCreate($lang['strviewneedsdef']);
 		else {		 
 			$status = $localData->createView($_POST['formView'], $_POST['formDefinition']);
 			if ($status == 0)
-				doDefault($strViewCreated);
+				doDefault($lang['strviewcreated']);
 			else
-				doCreate($strViewCreatedBad);
+				doCreate($lang['strviewcreatedbad']);
 		}
 	}	
 
@@ -168,18 +168,16 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews, $strViews;
-		global $strBrowse, $strProperties, $strDrop, $strCreateView, $strBack;
-		global $strPrivileges;
+		global $PHP_SELF, $lang;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$views = &$localData->getViews();
 		
 		if ($views->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strView}</th><th class=data>{$strOwner}</th><th colspan=\"5\" class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$lang['strview']}</th><th class=data>{$lang['strowner']}</th><th colspan=\"5\" class=data>{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
@@ -189,12 +187,12 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc={$strBack}\">{$strBrowse}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc={$lang['strback']}\">{$lang['strbrowse']}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strProperties}</a></td>\n"; 
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strDrop}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strproperties']}</a></td>\n"; 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"privileges.php?{$misc->href}&object=", urlencode($views->f[$data->vwFields['vwname']]),
-					"&type=view\">{$strPrivileges}</a></td>\n";
+					"&type=view\">{$lang['strprivileges']}</a></td>\n";
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;
@@ -202,14 +200,14 @@
 			echo "</table>\n";
 		}
 		else {
-			echo "<p>{$strNoViews}</p>\n";
+			echo "<p>{$lang['strnoviews']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateView}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a></p>\n";
 
 	}
 
-	$misc->printHeader($strViews);
+	$misc->printHeader($lang['strviews']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -220,7 +218,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == "{$strYes}") doDrop(false);
+			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

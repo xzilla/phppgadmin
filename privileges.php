@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: privileges.php,v 1.8 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,8 +20,7 @@
 	 */
 	function doGrantUser($confirm, $msg = '') {
 		global $data, $localData, $misc;
-  		global $PHP_SELF, $strPrivilege, $strPrivileges, $strGrant, $strCancel, $strUser;
-		global $strGranted, $strGrantFailed;
+  		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = '';
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = '';
@@ -37,12 +36,12 @@
 				default:
 					$name = $_REQUEST['object'];
 			}
-			echo "<h2>$strPrivileges: ", htmlspecialchars($name), ": {$strGrant}</h2>\n";
+			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strUser}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['struser']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username\">\n";
 			// Automatically prepend PUBLIC to the list of users
 			echo "<option value=\"PUBLIC\"",
@@ -54,7 +53,7 @@
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";
-			echo "<tr><th class=\"data\">{$strPrivilege}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strprivilege']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"privilege\">\n";
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
@@ -77,7 +76,7 @@
 				default:
 			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"confirm\" value=\"$strGrant\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -85,9 +84,9 @@
 				($_REQUEST['username'] == 'PUBLIC') ? 'PUBLIC' : 'USER',
 				$_REQUEST['username'], $_REQUEST['privilege']);
 			if ($status == 0)
-				doDefault($strGranted);
+				doDefault($lang['strgranted']);
 			else
-				doDefault($strGrantFailed);
+				doDefault($lang['strgrantfailed']);
 		}
 	}
 
@@ -98,8 +97,7 @@
 	 */
 	function doGrantGroup($confirm, $msg = '') {
 		global $data, $localData, $misc;
-  		global $PHP_SELF, $strPrivilege, $strPrivileges, $strGrant, $strCancel, $strGroup;
-		global $strGranted, $strGrantFailed;
+  		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = '';
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = '';
@@ -115,12 +113,12 @@
 				default:
 					$name = $_REQUEST['object'];
 			}
-			echo "<h2>$strPrivileges: ", htmlspecialchars($name), ": {$strGrant}</h2>\n";
+			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strGroup}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strgroup']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"groupname\">\n";
 			// Automatically prepend PUBLIC to the list of groups
 			echo "<option value=\"PUBLIC\"",
@@ -132,7 +130,7 @@
 				$groups->moveNext();
 			}
 			echo "</select></td></tr>\n";
-			echo "<tr><th class=\"data\">{$strPrivilege}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strprivilege']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"privilege\">\n";
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
@@ -155,7 +153,7 @@
 				default:
 			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"confirm\" value=\"$strGrant\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -163,9 +161,9 @@
 				($_REQUEST['groupname'] == 'PUBLIC') ? 'PUBLIC' : 'GROUP',
 				$_REQUEST['groupname'], $_REQUEST['privilege']);
 			if ($status == 0)
-				doDefault($strGranted);
+				doDefault($lang['strgranted']);
 			else
-				doDefault($strGrantFailed);
+				doDefault($lang['strgrantfailed']);
 		}
 	}
 
@@ -174,10 +172,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database;
-		global $PHP_SELF, $strPrivileges, $strGrant, $strRevoke;
-		global $strUser, $strGroup, $strYes, $strNo, $strType;
-		global $strShowAllViews, $strShowAllSequences, $strShowAllFunctions, $strNoPrivileges;
-		global $strShowAllSchemas, $strGrantUser, $strGrantGroup;
+		global $PHP_SELF, $lang;
 
 		switch ($_REQUEST['type']) {
 			case 'database':
@@ -194,7 +189,7 @@
 			default:
 				$name = $_REQUEST['object'];
 		}
-		echo "<h2>$strPrivileges: ", htmlspecialchars($name), "</h2>\n";
+		echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), "</h2>\n";
 		$misc->printMsg($msg);
 
 		// Get the privileges on the object, given its type
@@ -202,7 +197,7 @@
 
 		if (sizeof($privileges) > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strType}</th><th class=\"data\">{$strUser}/{$strGroup}</th>";
+			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['struser']}/{$lang['strgroup']}</th>";
 			foreach ($data->privlist[$_REQUEST['type']] as $v2) {
 				// Skip over ALL PRIVILEGES
 				if ($v2 == 'ALL PRIVILEGES') continue;
@@ -224,12 +219,12 @@
 					// Skip over ALL PRIVILEGES
 					if ($v2 == 'ALL PRIVILEGES') continue;
 					if (in_array($v2, $v[2]))
-						echo "<td class=\"data{$id}\">$strYes</td>\n";
+						echo "<td class=\"data{$id}\">{$lang['stryes']}</td>\n";
 					else
-						echo "<td class=\"data{$id}\">$strNo</td>\n";
+						echo "<td class=\"data{$id}\">{$lang['strno']}</td>\n";
 				}
 				if ($data->hasGrantOption()) {
-					echo "<td class=\"data{$id}\">", ($v[3]) ? $strYes : $strNo, "</td>\n";
+					echo "<td class=\"data{$id}\">", ($v[3]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
 					echo "<td class=\"data{$id}\">", htmlspecialchars($v[4]), "</td>\n";
 				}
 				echo "</tr>\n";
@@ -239,57 +234,57 @@
 			echo "</table>";
 		}
 		else {
-			echo "<p>{$strNoPrivileges}</p>\n";
+			echo "<p>{$lang['strnoprivileges']}</p>\n";
 		}
 		
 		// Links for granting to a user or group
 		switch ($_REQUEST['type']) {
 			case 'table':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$strGrantGroup}</a>\n";
+					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strgrantgroup']}</a>\n";
 				break;
 			case 'view':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantGroup}</a>\n";
-				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$strShowAllViews}</a></p>\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 				break;
 			case 'sequence':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantGroup}</a>\n";
-				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$strShowAllSequences}</a></p>\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantGroup}</a>\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
 				break;
 			case 'function':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$strGrantGroup}</a>\n";
-				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">$strShowAllFunctions</a></p>\n";
+					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$lang['strgrantgroup']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantUser}</a> |\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$strGrantGroup}</a>\n";
+					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"database.php?database=", htmlspecialchars($_REQUEST['database']),
-					"\">$strShowAllSchemas</a></p>\n";
+					"\">{$lang['strshowallschemas']}</a></p>\n";
 				break;
 		}
 		echo "</p>\n";
 	}
 
-	$misc->printHeader($strPrivileges);
+	$misc->printHeader($lang['strprivileges']);
 	$misc->printBody();
 
 	switch ($action) {

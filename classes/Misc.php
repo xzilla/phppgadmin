@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.16 2003/03/16 10:43:40 chriskl Exp $
+	 * $Id: Misc.php,v 1.17 2003/03/17 05:20:30 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -83,7 +83,7 @@
 		 * @param $script script tag
 		 */
 		function printHeader($title = '', $script = null) {
-			global $appName, $appCharset, $_no_output, $guiTheme;
+			global $appName, $lang, $_no_output, $guiTheme;
 
 			if (!isset($_no_output)) {
 				// Commented out, as we're not XHTML compliant yet!
@@ -93,7 +93,7 @@
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo " - ", htmlspecialchars($title);
 				echo "</title>\n";
-				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$appCharset}\" />\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
 				
 				// Theme
 				echo "<style type=\"text/css\">\n<!--\n";
@@ -134,18 +134,18 @@
 		 * Display the navigation header for tables
 		 */
 		function printTableNav() {
-			global $strColumns, $strIndexes, $strConstraints, $strTriggers, $strRules, $strExport, $strPrivileges;
+			global $lang;
 
 			$vars = $this->href . '&table=' . urlencode($_REQUEST['table']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$strColumns}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"indexes.php?{$vars}\">{$strIndexes}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$strConstraints}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$strTriggers}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$strRules}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&type=table&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "<tr><td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&type=table&object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
 			echo "</table>\n";
 		}
 
@@ -153,16 +153,16 @@
 		 * Display the navigation header for tables
 		 */
 		function printDatabaseNav() {
-			global $strSchemas, $strExport, $strPrivileges, $strSQL, $strAdmin;
+			global $lang;
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"20%\"><a href=\"database.php?{$vars}\">{$strSchemas}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$strPrivileges}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$strSQL}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$strAdmin}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "<tr><td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$lang['stradmin']}</a></td>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
 			echo "</table>\n";
 		}
 
@@ -174,7 +174,7 @@
 		 * @param $max_width the number of pages to make available at any one time (default = 20)
 		 */
 		function printPages($page, $pages, $url, $max_width = 20) {
-			global $strPrev, $strNext;
+			global $lang;
 
 			if ($page < 0 || $page > $pages) return;
 			if ($pages < 0) return;
@@ -184,7 +184,7 @@
 				echo "<center><p>\n";
 				if ($page != 1) {
 					$temp = str_replace('%s', $page - 1, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$strPrev}</a>\n";
+					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strprev']}</a>\n";
 				}
 				
 				if ($page <= 5) { 
@@ -212,7 +212,7 @@
 				}
 				if ($page != $pages) {
 					$temp = str_replace('%s', $page + 1, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$strNext}</a>\n";
+					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strnext']}</a>\n";
 				}
 				echo "</p></center>\n";
 			}

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.4 2003/03/16 10:41:14 chriskl Exp $
+	 * $Id: rules.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,9 +17,7 @@
 	 */
 	function createRule($confirm, $msg = '') {
 		global $PHP_SELF, $data, $localData, $misc;
-		global $strCreateRule, $strTables, $strOK, $strCancel;
-		global $strName, $strEvent, $strWhere, $strInstead, $strAction;
-		global $strRuleNeedsName, $strRuleCreated, $strRuleCreatedBad;
+		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
 		if (!isset($_POST['event'])) $_POST['event'] = '';
@@ -86,14 +84,14 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
-		global $PHP_SELF, $strConfDropRule, $strRuleDropped, $strRuleDroppedBad, $strYes, $strNo;
+		global $PHP_SELF, $lang;
 		global $strTables;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['rule']), ": Drop</h2>\n";
 
-			echo "<p>", sprintf($strConfDropRule, htmlspecialchars($_REQUEST['rule']),
+			echo "<p>", sprintf($lang['strconfdroprule'], htmlspecialchars($_REQUEST['rule']),
 				htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -107,9 +105,9 @@
 		else {
 			$status = $localData->dropRule($_POST['rule'], $_POST['table']);
 			if ($status == 0)
-				doDefault($strRuleDropped);
+				doDefault($lang['strruledropped']);
 			else
-				doDefault($strRuleDroppedBad);
+				doDefault($lang['strruledroppedbad']);
 		}
 
 	}
@@ -120,17 +118,17 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF;
-		global $strRules, $strName, $strDefinition, $strActions, $strNoRules, $strCreateRule, $strDrop;
+		global $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strRules}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strrules']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$rules = &$localData->getRules($_REQUEST['table']);
 		
 		if ($rules->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			
 			while (!$rules->EOF) {
@@ -139,7 +137,7 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", htmlspecialchars( $rules->f[$data->rlFields['rulename']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
+					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$rules->movenext();
 				$i++;
@@ -148,13 +146,13 @@
 			echo "</table>\n";
 			}
 		else
-			echo "<p>{$strNoRules}</p>\n";
+			echo "<p>{$lang['strnorules']}</p>\n";
 
 		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
 			"\">{$strCreateRule}</a></p>\n";
 	}
 
-	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strRules);
+	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strrules']);
 	$misc->printBody();
 	
 	switch ($action) {
@@ -166,7 +164,7 @@
 			else createRule(false);
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $strYes) doDrop(false);
+			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

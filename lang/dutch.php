@@ -4,159 +4,159 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.3 2002/12/24 02:44:21 chriskl Exp $
+	 * $Id: dutch.php,v 1.4 2003/03/17 05:20:30 chriskl Exp $
 	 */
 
-	$appLang = 'Nederlands';
-	$appCharset = 'ISO-8859-1';
+	$lang['applang'] = 'Nederlands';
+	$lang['appcharset'] = 'ISO-8859-1';
 
-	$strNoFrames = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
-	$strLogin = 'Login';
-	$strNoTables = 'Geen tabellen gevonden.';
-	$strNoTable = 'Geen tabel gevonden.';
-	$strNoViews = 'Geen views gevonden.';
-	$strNoFunctions = 'Geen functies gevonden.';
-	$strOwner = 'Eigenaar';
-	$strAction = 'Actie';	
-	$strActions = 'Acties';	
-	$strName = 'Naam';
-	$strTable = 'Tabel';
-	$strTables = 'Tabellen';
-	$strView = 'View';
-	$strViews = 'Views';
-	$strDefinition = 'Definitie';
-	$strTriggers = 'Triggers';
-	$strRules = 'Regels';
-	$strSequence = 'Sequence';
-	$strSequences = 'Sequences';
-	$strFunction = 'Functie';
-	$strFunctions = 'Functies';
-	$strOperators = 'Operatoren';
-	$strTypes = 'Types';
-	$strAggregates = 'Aggregaten';
+	$lang['strnoframes'] = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
+	$lang['strlogin'] = 'Login';
+	$lang['strnotables'] = 'Geen tabellen gevonden.';
+	$lang['strnotable'] = 'Geen tabel gevonden.';
+	$lang['strnoviews'] = 'Geen views gevonden.';
+	$lang['strnofunctions'] = 'Geen functies gevonden.';
+	$lang['strowner'] = 'Eigenaar';
+	$lang['straction'] = 'Actie';	
+	$lang['stractions'] = 'Acties';	
+	$lang['strname'] = 'Naam';
+	$lang['strtable'] = 'Tabel';
+	$lang['strtables'] = 'Tabellen';
+	$lang['strview'] = 'View';
+	$lang['strviews'] = 'Views';
+	$lang['strdefinition'] = 'Definitie';
+	$lang['strtriggers'] = 'Triggers';
+	$lang['strrules'] = 'Regels';
+	$lang['strsequence'] = 'Sequence';
+	$lang['strsequences'] = 'Sequences';
+	$lang['strfunction'] = 'Functie';
+	$lang['strfunctions'] = 'Functies';
+	$lang['stroperators'] = 'Operatoren';
+	$lang['strtypes'] = 'Types';
+	$lang['straggregates'] = 'Aggregaten';
 	$strIndicies = 'Indices';
-	$strProperties = 'Eigenschappen';
-	$strBrowse = 'Bekijk';
-	$strDrop = 'Verwijder';
-	$strDropped = 'Verwijderd';
-	$strNull = 'Null';
-	$strNotNull = 'Niet Null';
-	$strPrev = 'Vorige';
-	$strNext = 'Volgende';
-	$strFailed = 'mislukt';
-	$strNotLoaded = 'Deze PHP-install is zonder ondersteuning dit type database niet gecompileerd.';
-	$strCreate = 'Cre&euml;er';
-	$strComment = 'Commentaar';
+	$lang['strproperties'] = 'Eigenschappen';
+	$lang['strbrowse'] = 'Bekijk';
+	$lang['strdrop'] = 'Verwijder';
+	$lang['strdropped'] = 'Verwijderd';
+	$lang['strnull'] = 'Null';
+	$lang['strnotnull'] = 'Niet Null';
+	$lang['strprev'] = 'Vorige';
+	$lang['strnext'] = 'Volgende';
+	$lang['strfailed'] = 'mislukt';
+	$lang['strnotloaded'] = 'Deze PHP-install is zonder ondersteuning dit type database niet gecompileerd.';
+	$lang['strcreate'] = 'Cre&euml;er';
+	$lang['strcomment'] = 'Commentaar';
 
-	$strLength = 'Lengte';
-	$strDefault = 'Standaard';
-	$strAlter = 'Wijzig';
-	$strCancel = 'Cancel';
-	$strPrivileges = 'Privileges';
-	$strInsert = 'Voeg in';
-	$strSelect = 'Selecteer';
-	$strDelete = 'Verwijder';
-	$strUpdate = 'Vernieuw';
-	$strRule = 'Regel';
-	$strReferences = 'Referenties';
-	$strTrigger = 'Triggers';
-	$strYes = 'Ja';
-	$strNo = 'Nee';
-	$strEdit = 'Edit';
-	$strInvalidParam = 'Ongeldige parameters.';
+	$lang['strlength'] = 'Lengte';
+	$lang['strdefault'] = 'Standaard';
+	$lang['stralter'] = 'Wijzig';
+	$lang['strcancel'] = 'Cancel';
+	$lang['strprivileges'] = 'Privileges';
+	$lang['strinsert'] = 'Voeg in';
+	$lang['strselect'] = 'Selecteer';
+	$lang['strdelete'] = 'Verwijder';
+	$lang['strupdate'] = 'Vernieuw';
+	$lang['strrule'] = 'Regel';
+	$lang['strreferences'] = 'Referenties';
+	$lang['strtrigger'] = 'Triggers';
+	$lang['stryes'] = 'Ja';
+	$lang['strno'] = 'Nee';
+	$lang['stredit'] = 'Edit';
+	$lang['strinvalidparam'] = 'Ongeldige parameters.';
 
 	// Error handling
-	$strSQLError = 'SQL fout:';
-	$strInStatement = 'In statement:';
+	$lang['strsqlerror'] = 'SQL fout:';
+	$lang['strinstatement'] = 'In statement:';
 	
 	// Users
-	$strUser = 'Gebruiker';
-	$strGroup = 'Groep';
-	$strUsername = 'Gebruikersnaam';
-	$strPassword = 'wachtwoord';
-	$strSuper = 'Superuser?';
-	$strCreateDB = 'Cre&eumler DB?';
-	$strExpires = 'Verloopt';	
-	$strNoUsers = 'Geen gebruikers gevonden.';
+	$lang['struser'] = 'Gebruiker';
+	$lang['strgroup'] = 'Groep';
+	$lang['strusername'] = 'Gebruikersnaam';
+	$lang['strpassword'] = 'wachtwoord';
+	$lang['strsuper'] = 'Superuser?';
+	$lang['strcreatedb'] = 'Cre&eumler DB?';
+	$lang['strexpires'] = 'Verloopt';	
+	$lang['strnousers'] = 'Geen gebruikers gevonden.';
 	
 	// Databases
-	$strDatabase = 'Database';
-	$strDatabases = 'Databases';
-	$strNoDatabases = 'Geen Databases gevonden.';
-	$strDatabaseNeedsName = 'U dient uw database een naam te geven.';
+	$lang['strdatabase'] = 'Database';
+	$lang['strdatabases'] = 'Databases';
+	$lang['strnodatabases'] = 'Geen Databases gevonden.';
+	$lang['strdatabaseneedsname'] = 'U dient uw database een naam te geven.';
 	
 	// Views
-	$strViewNeedsName = 'U dient uw view een naam te geven.';
-	$strViewNeedsDef = 'U dinet uw view te defini&euml;ren.';
+	$lang['strviewneedsname'] = 'U dient uw view een naam te geven.';
+	$lang['strviewneedsdef'] = 'U dinet uw view te defini&euml;ren.';
 
 	// Sequences
-	$strNoSequences = 'Geen sequences gevonden.';
-	$strSequenceName = 'sequence_naam';
-	$strLastValue = 'laatste_waarde';
-	$strIncrementBy = 'verhoog_met';	
-	$strMaxValue = 'max_waarde';
-	$strMinValue = 'min_waarde';
-	$strCacheValue = 'cache_waarde';
-	$strLogCount = 'log_cnt';
-	$strIsCycled = 'is_cyclisch';
-	$strIsCalled = 'is_aangeroepen';
-	$strReset =	'Reset';
+	$lang['strnosequences'] = 'Geen sequences gevonden.';
+	$lang['strsequencename'] = 'sequence_naam';
+	$lang['strlastvalue'] = 'laatste_waarde';
+	$lang['strincrementby'] = 'verhoog_met';	
+	$lang['strmaxvalue'] = 'max_waarde';
+	$lang['strminvalue'] = 'min_waarde';
+	$lang['strcachevalue'] = 'cache_waarde';
+	$lang['strlogcount'] = 'log_cnt';
+	$lang['striscycled'] = 'is_cyclisch';
+	$lang['striscalled'] = 'is_aangeroepen';
+	$lang['strreset'] =	'Reset';
 
 	// Indicies
-	$strIndexName = 'Index Naam';
-	$strTabName = 'Tab Naam';
-	$strColumnName = 'Kolom Naam';
-	$strUniqueKey = 'Unieke sleutel';
-	$strPrimaryKey = 'Primaire sleutel';
+	$lang['strindexname'] = 'Index Naam';
+	$lang['strtabname'] = 'Tab Naam';
+	$lang['strcolumnname'] = 'Kolom Naam';
+	$lang['struniquekey'] = 'Unieke sleutel';
+	$lang['strprimarykey'] = 'Primaire sleutel';
 	
 	// Tables
-	$strField = 'veld';
-	$strFields = 'velden';
-	$strType = 'type';
-	$strValue = 'waarde';
-	$strShowAllTables = 'Toon alle tabellen';
-	$strUnique = 'uniek';
-	$strPrimary = 'Primair';
-	$strKeyName = 'sleutel naam';
-	$strNumFields = 'aantal velden';
-	$strCreateTable = 'cre&euml;er tabel';
-	$strTableNeedsName = 'U dient uw tabel een naam te geven.';
-	$strTableNeedsCols = 'U dient uw tabel een geldig aantal kolommen te geven.';
-	$strExport = 'exporteer';
-	$strConstraints = 'constraints';
-	$strColumns = 'kolommen';
+	$lang['strfield'] = 'veld';
+	$lang['strfields'] = 'velden';
+	$lang['strtype'] = 'type';
+	$lang['strvalue'] = 'waarde';
+	$lang['strshowalltables'] = 'Toon alle tabellen';
+	$lang['strunique'] = 'uniek';
+	$lang['strprimary'] = 'Primair';
+	$lang['strkeyname'] = 'sleutel naam';
+	$lang['strnumfields'] = 'aantal velden';
+	$lang['strcreatetable'] = 'cre&euml;er tabel';
+	$lang['strtableneedsname'] = 'U dient uw tabel een naam te geven.';
+	$lang['strtableneedscols'] = 'U dient uw tabel een geldig aantal kolommen te geven.';
+	$lang['strexport'] = 'exporteer';
+	$lang['strconstraints'] = 'constraints';
+	$lang['strcolumns'] = 'kolommen';
 	
 	// Functions
-	$strReturns = 'Retourneert';
-	$strArguments = 'Argumenten';
-	$strLanguage = 'taal';
-	$strFunctionNeedsName = 'U dient uw functie een naam te geven.';
-	$strFunctionNeedsDef = 'U dient uw functie te defini&euml;ren.';
+	$lang['strreturns'] = 'Retourneert';
+	$lang['strarguments'] = 'Argumenten';
+	$lang['strlanguage'] = 'taal';
+	$lang['strfunctionneedsname'] = 'U dient uw functie een naam te geven.';
+	$lang['strfunctionneedsdef'] = 'U dient uw functie te defini&euml;ren.';
 	
 	// Triggers
-	$strTriggers = 'Triggers';
-	$strNoTriggers = 'Geen triggers gevonden.';
-	$strCreateTrigger = 'cre&euml;er trigger';
+	$lang['strtriggers'] = 'Triggers';
+	$lang['strnotriggers'] = 'Geen triggers gevonden.';
+	$lang['strcreatetrigger'] = 'cre&euml;er trigger';
 	
 	// Types
-	$strType = 'Type';
-	$strTypes = 'Types';
-	$strNoTypes = 'Geen types gevonden.';
-	$strCreateType = 'cre&euml;er type';
-	$strConfDropType = 'Weet u zeker dat u het type "%s" wilt verwijderen?';
-	$strTypeDropped = 'Type verwijderd.';
-	$strTypeDroppedBad = 'Verwijdering van het type mislukt.';
-	$strTypeCreated = 'Type gecre&euml;erd';
-	$strTypeCreatedBad = 'Type creatie mislukt.';
-	$strShowAllTypes = 'Toon alle types';
-	$strInputFn = 'Invoer functie';
-	$strOutputFn = 'Uitvoer functie';
-	$strPassByVal = 'Passed by val?';
-	$strAlignment = 'Alignment';
-	$strElement = 'Element';
-	$strDelimiter = 'Scheidingsteken';
-	$strStorage = 'Opslag';
-	$strTypeNeedsName = 'U dient uw type een naam te geven.';
-	$strTypeNeedsLen = 'U dient uw type een lengte te geven.';
+	$lang['strtype'] = 'Type';
+	$lang['strtypes'] = 'Types';
+	$lang['strnotypes'] = 'Geen types gevonden.';
+	$lang['strcreatetype'] = 'cre&euml;er type';
+	$lang['strconfdroptype'] = 'Weet u zeker dat u het type "%s" wilt verwijderen?';
+	$lang['strtypedropped'] = 'Type verwijderd.';
+	$lang['strtypedroppedbad'] = 'Verwijdering van het type mislukt.';
+	$lang['strtypecreated'] = 'Type gecre&euml;erd';
+	$lang['strtypecreatedbad'] = 'Type creatie mislukt.';
+	$lang['strshowalltypes'] = 'Toon alle types';
+	$lang['strinputfn'] = 'Invoer functie';
+	$lang['stroutputfn'] = 'Uitvoer functie';
+	$lang['strpassbyval'] = 'Passed by val?';
+	$lang['stralignment'] = 'Alignment';
+	$lang['strelement'] = 'Element';
+	$lang['strdelimiter'] = 'Scheidingsteken';
+	$lang['strstorage'] = 'Opslag';
+	$lang['strtypeneedsname'] = 'U dient uw type een naam te geven.';
+	$lang['strtypeneedslen'] = 'U dient uw type een lengte te geven.';
 
 ?>

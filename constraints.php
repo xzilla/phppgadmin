@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.5 2003/03/16 10:38:38 chriskl Exp $
+	 * $Id: constraints.php,v 1.6 2003/03/17 05:20:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -67,14 +67,14 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
-		global $PHP_SELF, $strDrop, $strConfDropConstraint, $strConstraintDropped, $strConstraintDroppedBad, $strYes, $strNo;
+		global $PHP_SELF, $lang;
 		global $strTables;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['constraint']), ": {$strDrop}</h2>\n";
+				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($strConfDropConstraint, htmlspecialchars($_REQUEST['constraint']),
+			echo "<p>", sprintf($lang['strconfdropconstraint'], htmlspecialchars($_REQUEST['constraint']),
 				htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -82,15 +82,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=\"submit\" name=\"choice\" value=\"{$strNo}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropConstraint($_POST['constraint'], $_POST['table']);
 			if ($status == 0)
-				doDefault($strConstraintDropped);
+				doDefault($lang['strconstraintdropped']);
 			else
-				doDefault($strConstraintDroppedBad);
+				doDefault($lang['strconstraintdroppedbad']);
 		}
 	}
 
@@ -100,18 +100,17 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF;
-		global $strConstraints, $strName, $strDefinition, $strActions, $strNoConstraints, $strCreateConstraint, $strDrop;
-		global $strAddCheck;
+		global $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strConstraints}</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strconstraints']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$constraints = &$localData->getConstraints($_REQUEST['table']);
 
 		if ($constraints->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			
 			while (!$constraints->EOF) {
@@ -130,7 +129,7 @@
 				echo "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", htmlspecialchars($constraints->f[$data->cnFields['conname']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
+					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$constraints->moveNext();
 				$i++;
@@ -139,13 +138,13 @@
 			echo "</table>\n";
 			}
 		else
-			echo "<p>{$strNoConstraints}</p>\n";
+			echo "<p>{$lang['strnoconstraints']}</p>\n";
 		
 		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
-			"\">{$strAddCheck}</a></p>\n";
+			"\">{$lang['straddcheck']}</a></p>\n";
 	}
 
-	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strConstraints);
+	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints']);
 	$misc->printBody();
 
 	switch ($action) {
@@ -163,7 +162,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == $strYes) doDrop(false);
+			if ($_POST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
