@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.8 2003/01/11 09:25:21 chriskl Exp $
+	 * $Id: Misc.php,v 1.9 2003/01/14 22:16:43 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -120,7 +120,7 @@
 			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$strConstraints}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$strTriggers}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$strRules}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}\">{$strPrivileges}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
 			echo "</table>\n";
 		}
