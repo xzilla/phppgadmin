@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.14 2004/11/04 02:56:51 chriskl Exp $
+	 * $Id: dbexport.php,v 1.14.2.1 2004/12/06 03:07:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -47,21 +47,21 @@
 		// Check if we're doing a cluster-wide dump or just a per-database dump
 		if ($_REQUEST['mode'] == 'database') {
 			// Get path of the pg_dump executable.
-			$exe = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']);
+			$exe = $misc->escapeShellCmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']);
 		}
 		else {
 			// Get path of the pg_dumpall executable.
-			$exe = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']);
+			$exe = $misc->escapeShellCmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']);
 		}
 		
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
 		
 		if ($hostname !== null && $hostname != '') {
-			$cmd .= " -h " . escapeshellarg($hostname);
+			$cmd .= " -h " . $misc->escapeShellArg($hostname);
 		}
 		if ($port !== null && $port != '') {
-			$cmd .= " -p " . escapeshellarg($port);
+			$cmd .= " -p " . $misc->escapeShellArg($port);
 		}
 		
 		// Check for a table specified
@@ -75,13 +75,13 @@
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
 			if (((float) $version[1]) >= 7.4) {
-				$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
-				$cmd .= " -n " . escapeshellarg($_REQUEST['schema']);
+				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST['table']);
+				$cmd .= " -n " . $misc->escapeShellArg($_REQUEST['schema']);
 			}
 			else {
 				// This is an annoying hack needed to work around a bug in dumping
 				// mixed case tables in pg_dump prior to 7.4
-				$cmd .= " -t " . escapeshellarg('"' . $_REQUEST['table'] . '"');
+				$cmd .= " -t " . $misc->escapeShellArg('"' . $_REQUEST['table'] . '"');
 			}
 		}
 
@@ -108,7 +108,7 @@
 		}
 		
 		if ($_REQUEST['mode'] == 'database') {
-			$cmd .= " " . escapeshellarg($_REQUEST['database']);
+			$cmd .= " " . $misc->escapeShellArg($_REQUEST['database']);
 		}
 
 		// Execute command and return the output to the screen

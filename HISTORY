@@ -10,6 +10,7 @@ Bugs
 * Estimated row count in 7.0 and 7.1 fixes
 * Priviliges nav fix
 * Search path fix
+* pg_dump on win32 8.0 native fix
 
 Translations
 * Romanian from Alin
