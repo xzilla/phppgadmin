@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.9 2003/03/23 01:08:05 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -233,7 +233,7 @@
 	}
 
 	/**
-	 * Show default list of tables in the database
+	 * Show default list of columns in the table
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
@@ -243,6 +243,7 @@
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+		$misc->printMsg($msg);
 
 		if ($attrs->recordCount() > 0) {
 			echo "<table>\n";
@@ -255,10 +256,10 @@
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['type']), "</td>\n";
 				echo "<td class=data{$id}>", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
-					"&column=", htmlspecialchars($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
-					"&column=", htmlspecialchars($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlentities($_REQUEST['table']),
+					"&column=", htmlentities($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$attrs->moveNext();
 				$i++;
@@ -281,7 +282,7 @@
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table']);
 	$misc->printBody();
-	
+
 	switch ($action) {
 		case 'export':
 			doExport();

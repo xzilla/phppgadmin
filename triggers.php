@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.7 2003/03/22 15:17:58 chriskl Exp $
+	 * $Id: triggers.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -88,7 +88,7 @@
 			doDefault($lang['strnofunctions']);
 			return;
 		}
-		
+
 		/* Populate functions */
 		$sel0 = new XHTML_Select('formFunction');
 		while (!$funcs->EOF) {
@@ -180,8 +180,8 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode( $triggers->f[$data->tgFields['tgname']]),
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$triggers->moveNext();
 				$i++;
@@ -191,11 +191,12 @@
 			}
 		else
 			echo "<p>{$lang['strnotriggers']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
+
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'save_create':

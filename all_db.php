@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.9 2003/03/17 05:20:29 chriskl Exp $
+	 * $Id: all_db.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -55,7 +55,7 @@
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
 		echo "<tr><th class=data>{$lang['strname']}</th><th class=data>{$lang['strencoding']}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
+		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
 			htmlspecialchars($_POST['formName']), "\"></td>";
 		echo "<td class=data1>";
 		echo "<select name=formEncoding>";
@@ -112,7 +112,7 @@
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['encoding']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
+					urlencode($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
 				$i++;

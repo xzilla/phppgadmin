@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.8 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: privileges.php,v 1.9 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -241,43 +241,43 @@
 		switch ($_REQUEST['type']) {
 			case 'table':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "&table=", urlencode($_REQUEST['table']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strgrantgroup']}</a>\n";
+					urlencode($_REQUEST['object']), "&table=", urlencode($_REQUEST['table']), "\">{$lang['strgrantgroup']}</a>\n";
 				break;
 			case 'view':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 				break;
 			case 'sequence':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
 				break;
 			case 'function':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "&function=", urlencode($_REQUEST['function']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "&function=", htmlspecialchars($_REQUEST['function']), "\">{$lang['strgrantgroup']}</a>\n";
+					urlencode($_REQUEST['object']), "&function=", urlencode($_REQUEST['function']), "\">{$lang['strgrantgroup']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=grantuser&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantuser']}</a> |\n";
 				echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=grantgroup&{$misc->href}&type={$_REQUEST['type']}&object=",
-					htmlspecialchars($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"database.php?database=", htmlspecialchars($_REQUEST['database']),
+					urlencode($_REQUEST['object']), "\">{$lang['strgrantgroup']}</a>\n";
+				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";
 				break;
 		}

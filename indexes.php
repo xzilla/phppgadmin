@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.7 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: indexes.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -116,8 +116,8 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['index']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
+				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['index']), ": {$lang['strdrop']}</h2>\n";
 
 			echo "<p>", sprintf($lang['strconfdropindex'], htmlspecialchars($_REQUEST['index'])), "</p>\n";
 
@@ -159,8 +159,8 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$indexes->movenext();
 				$i++;
@@ -171,7 +171,7 @@
 		else
 			echo "<p>{$lang['strnoindexes']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
 
 	$misc->printHeader($lang['strindexes'], "<script src=\"indexes.js\" type=\"text/javascript\"></script>");

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.6 2003/03/17 09:25:44 chriskl Exp $
+	 * $Id: rules.php,v 1.7 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -135,8 +135,8 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['rulename']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars( $rules->f[$data->rlFields['ruledef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", htmlspecialchars( $rules->f[$data->rlFields['rulename']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&rule=", urlencode($rules->f[$data->rlFields['rulename']]),
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$rules->movenext();
 				$i++;
@@ -147,7 +147,7 @@
 		else
 			echo "<p>{$lang['strnorules']}</p>\n";
 
-		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
+		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['strcreaterule']}</a></p>\n";
 	}
 

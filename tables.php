@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.9 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: tables.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -564,13 +564,13 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
-					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=",
-					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
+					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",

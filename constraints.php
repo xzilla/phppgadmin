@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.7 2003/03/18 09:15:49 chriskl Exp $
+	 * $Id: constraints.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -125,8 +125,8 @@
 				}
 				echo "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", htmlspecialchars($constraints->f[$data->cnFields['conname']]),
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]),
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
 				$constraints->moveNext();
 				$i++;
@@ -137,7 +137,7 @@
 		else
 			echo "<p>{$lang['strnoconstraints']}</p>\n";
 		
-		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
+		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a></p>\n";
 	}
 

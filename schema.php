@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: schema.php,v 1.2 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: schema.php,v 1.3 2003/03/23 03:13:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -152,11 +152,11 @@
 					echo "<tr><td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "</td>\n";
 					echo "<td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
 					echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-						htmlspecialchars($_REQUEST['database']), "&schema=",
-						htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
+						urlencode($_REQUEST['database']), "&schema=",
+						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
 					echo "<td class=opbutton{$id}><a href=\"privileges.php?database=",
-						htmlspecialchars($_REQUEST['database']), "&object=",
-						htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$lang['strprivileges']}</a></td>\n";
+						urlencode($_REQUEST['database']), "&object=",
+						urlencode($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$lang['strprivileges']}</a></td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
 					$i++;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.7 2003/03/18 07:35:11 chriskl Exp $
+	 * $Id: sequences.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -36,11 +36,11 @@
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($sequences->f[$data->sqFields['seqname']]), "</td>";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($sequences->f[$data->sqFields['seqowner']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&{$misc->href}&sequence=", htmlspecialchars($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strproperties']}</a></td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=properties&{$misc->href}&sequence=", urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", htmlspecialchars($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"privileges.php?{$misc->href}&object=", htmlspecialchars($sequences->f[$data->sqFields['seqname']]),
+				echo "<a href=\"privileges.php?{$misc->href}&object=", urlencode($sequences->f[$data->sqFields['seqname']]),
 				"&type=sequence\">{$lang['strprivileges']}</td></tr>\n";
 				
 				$sequences->movenext();
@@ -84,7 +84,7 @@
 			echo "</tr>";
 			echo "</table>";
 			
-			echo "<p><a href=\"{$PHP_SELF}?action=reset&{$misc->href}&sequence=", htmlspecialchars($sequence->f[$data->sqFields['seqname']]), "\">{$lang['strreset']}</a> |\n";
+			echo "<p><a href=\"{$PHP_SELF}?action=reset&{$misc->href}&sequence=", urlencode($sequence->f[$data->sqFields['seqname']]), "\">{$lang['strreset']}</a> |\n";
 			echo "<a href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}.</p>\n";
