@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.10 2004/03/29 02:05:31 chriskl Exp $
+	 * $Id: dbexport.php,v 1.11 2004/06/06 06:34:28 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -47,13 +47,19 @@
 		}
 		
 		// Check for a table specified
-		if (isset($_REQUEST['table'])) {
-			$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
+		if (isset($_REQUEST['table'])) {			
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
-			// set dump schema as well.
+			// set dump schema as well.  Also, mixed case dumping has been fixed
+			// then..
 			if ($data->hasSchemaDump()) {
+				$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
 				$cmd .= " -n " . escapeshellarg($_REQUEST['schema']);
-			}			
+			}
+			else {
+				// This is an annoying hack needed to work around a bug in dumping
+				// mixed case tables in pg_dump prior to 7.4
+				$cmd .= " -t " . escapeshellarg('"' . $_REQUEST['table'] . '"');
+			}
 		}
 
 		// Check for GZIP compression specified
