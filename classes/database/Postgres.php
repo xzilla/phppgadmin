@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.73 2003/04/14 04:42:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.74 2003/04/18 08:30:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -343,22 +343,24 @@ class Postgres extends BaseDB {
 	 * @param $type The database type of the field
 	 */
 	function printField($name, $value, $type) {
+		global $lang;
+		
 		switch ($type) {
 			case 'bool':
 			case 'boolean':
 				echo "<select name=\"", htmlspecialchars($name), "\">\n";
-				echo "<option value=\"Y\"", ($value) ? ' selected' : '', ">Yes</option>\n";
-				echo "<option value=\"N\"", (!$value) ? ' selected' : '', ">No</option>\n";
+				echo "<option value=\"Y\"", ($value) ? ' selected' : '', ">{$lang['stryes']}</option>\n";
+				echo "<option value=\"N\"", (!$value) ? ' selected' : '', ">{$lang['strno']}</option>\n";
 				echo "</select>\n";
 				break;
 			case 'text':
 			case 'bytea':
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=5 cols=28 wrap=virtual style=\"width: 100%\">\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\" style=\"width: 100%\">\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
 			default:
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=35>\n";
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
 				break;
 		}		
 	}	
@@ -407,7 +409,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropDatabase($database) {
-		$this->clean($database);
+		$this->fieldClean($database);
 		$sql = "DROP DATABASE \"{$database}\"";
 		return $this->execute($sql);
 	}
@@ -961,6 +963,33 @@ class Postgres extends BaseDB {
 
 		return $this->execute($sql);
 	}	
+
+	/**
+	 * Adds a foreign key constraint to a table
+	 * @param $table The table to which to add the foreign key
+	 * @param $target The table that contains the target columns
+	 * @param $sfields (array) An array of source fields over which to add the foreign key
+	 * @param $tfields (array) An array of target fields over which to add the foreign key
+	 * @param $name (optional) The name to give the key, otherwise default name is assigned
+	 * @return 0 success
+	 * @return -1 no fields given
+	 */
+	function addForeignKey($table, $target, $sfields, $tfields, $name = '') {
+		if (!is_array($sfields) || sizeof($sfields) == 0 ||
+			!is_array($tfields) || sizeof($tfields) == 0) return -1;
+		$this->fieldClean($table);
+		$this->fieldClean($target);
+		$this->fieldArrayClean($sfields);
+		$this->fieldArrayClean($tfields);
+		$this->fieldClean($name);
+
+		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
+		$sql .= "FOREIGN KEY (\"" . join('","', $sfields) . "\") ";
+		$sql .= "REFERENCES (\"" . join('","', $tfields) . "\") ";
+
+		return $this->execute($sql);
+	}
 	 
 	/**
 	 * Adds a primary key constraint to a table
@@ -1175,33 +1204,6 @@ class Postgres extends BaseDB {
 		else $where  = '';
 		
 		$sql = "SELECT relname FROM pg_class {$where} relkind ='i' ORDER BY relname";
-
-		return $this->selectSet($sql);
-	}
-
-	function &getIndex($idxname) {
-		$sql = "SELECT
-					ic.relname AS relname,
-					bc.relname AS tab_name,
-					ta.attname AS column_name,
-					i.indisunique AS unique_key,
-					i.indisprimary AS primary_key
-				FROM
-					pg_class bc,
-					pg_class ic,
-					pg_index i,
-					pg_attribute ta,
-					pg_attribute ia
-				WHERE
-					bc.oid = i.indrelid
-					AND ic.oid = i.indexrelid
-					AND ia.attrelid = i.indexrelid
-					AND ta.attrelid = bc.oid
-					AND ic.relname = '$idxname'
-					AND ta.attrelid = i.indrelid
-					AND ta.attnum = i.indkey[ia.attnum-1]
-				ORDER BY
-					relname, tab_name, column_name";
 
 		return $this->selectSet($sql);
 	}
@@ -1471,17 +1473,16 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
-		$this->clean($username);
-		// @@ THIS IS A PROBLEM FOR TRIMMING PASSWORD!!!
+		$this->fieldClean($username);
 		$this->clean($password);
 		$this->clean($expiry);
-		$this->arrayClean($groups);		
+		$this->fieldArrayClean($groups);		
 
 		$sql = "CREATE USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
-		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP '" . join("', '", $groups) . "'";
+		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
 		
 		return $this->execute($sql);
@@ -1497,7 +1498,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function setUser($username, $password, $createdb, $createuser, $expiry) {
-		$this->clean($username);
+		$this->fieldClean($username);
 		$this->clean($password);
 		$this->clean($expiry);
 		
@@ -1516,13 +1517,12 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropUser($username) {
-		$this->clean($username);
+		$this->fieldClean($username);
 		
 		$sql = "DROP USER \"{$username}\"";
 		
 		return $this->execute($sql);
 	}
-	
 	
 	// Group functions
 	
@@ -1535,7 +1535,6 @@ class Postgres extends BaseDB {
 		
 		return $this->selectSet($sql);
 	}
-
 
 	/**
 	 * Return information about a specific group
@@ -1570,7 +1569,7 @@ class Postgres extends BaseDB {
 		$sql = "CREATE GROUP \"{$groname}\"";
 		
 		if (is_array($users) && sizeof($users) > 0) {
-			$this->arrayClean($users);
+			$this->fieldArrayClean($users);
 			$sql .= ' WITH USER "' . join('", "', $users) . '"';			
 		}		
 		
@@ -1620,7 +1619,7 @@ class Postgres extends BaseDB {
 	 * @return Type info
 	 */
 	function &getType($typname) {
-		$this->fieldClean($typname);
+		$this->clean($typname);
 		
 		$sql = "SELECT *, typinput AS typin, typoutput AS typout 
 			FROM pg_type WHERE typname='{$typname}'";
@@ -1636,6 +1635,8 @@ class Postgres extends BaseDB {
 	function createType($typname, $typin, $typout, $typlen, $typdef,
 				$typelem, $typdelim, $typbyval, $typalign, $typstorage) {
 		$this->fieldClean($typname);
+		$this->fieldClean($typin);
+		$this->fieldClean($typout);
 
 		$sql = "
 			CREATE TYPE \"{$typname}\" (
@@ -1938,7 +1939,6 @@ class Postgres extends BaseDB {
 	 * @return -2 invalid entity
 	 */
 	function grantPrivileges($type, $object, $entity, $name, $privilege) {
-		$this->fieldClean($privilege);
 		$this->fieldClean($object);
 		$this->fieldClean($name);
 
