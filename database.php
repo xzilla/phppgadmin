@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.6 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: database.php,v 1.7 2003/03/16 10:58:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,6 +12,38 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Allow database administration and tuning tasks
+	 */
+	function doAdmin($action = '', $msg = '') {
+		global $PHP_SELF, $localData, $misc;
+		global $strAdmin, $strVacuum, $strAnalyze, $strCluster, $strReindex;
+		global $strVacuumGood, $strVacuumBad, $strAnalyzeGood, $strAnalyzeBad;
+
+		switch ($action) {
+			case 'vacuum':
+				$status = $localData->vacuumDB($_REQUEST['database']);
+				if ($status == 0) doAdmin('', $strVacuumGood);
+				else doAdmin('', $strVacuumBad);
+				break;
+			case 'analyze':
+				$status = $localData->analyzeDB($_REQUEST['database']);
+				if ($status == 0) doAdmin('', $strAnalyzeGood);
+				else doAdmin('', $strAnalyzeBad);
+				break;
+			default:
+				$misc->printDatabaseNav();
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strAdmin}</h2>\n";
+				$misc->printMsg($msg);
+				echo "<ul>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=vacuum\">{$strVacuum}</a></li>\n";
+				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&action=analyze\">{$strAnalyze}</a></li>\n";
+				echo "</ul>\n";
+
+				break;
+		}
+	}
 
 	/**
 	 * Allow execution of arbitrary SQL statements on a database
@@ -32,7 +64,7 @@
 			htmlspecialchars($_POST['query']), "</textarea></p>\n";
 
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=", 
+		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
 			urlencode($_REQUEST['database']), "&action=sql\">\n";
 		echo "<input type=\"hidden\" name=\"return_desc\" value=\"Back\">\n";
 		echo "<input type=submit value=\"{$strGo}\"> <input type=reset value=\"{$strReset}\">\n";
@@ -180,6 +212,15 @@
 	$misc->printBody();
 
 	switch ($action) {
+		case 'analyze':
+			doAdmin('analyze');
+			break;
+		case 'vacuum':
+			doAdmin('vacuum');
+			break;
+		case 'admin':
+			doAdmin();
+			break;
 		case 'sql':
 			doSQL();
 			break;
