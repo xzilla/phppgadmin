@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.19 2003/08/07 06:19:25 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.20 2003/08/13 09:21:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 		// For databases that don't allow owner change
 		if (!isset($_POST['owner'])) $_POST['owner'] = '';
 		
-		$status = $localData->alterTable($_POST['table'], $_POST['name'], $_POST['owner']);
+		$status = $localData->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment']);
 		if ($status == 0) {
 			// Jump them to the new table name
 			$_REQUEST['table'] = $_POST['name'];
@@ -52,13 +52,14 @@
 			
 			if (!isset($_POST['name'])) $_POST['name'] = $table->f[$data->tbFields['tbname']];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f[$data->tbFields['tbowner']];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f[$data->tbFields['tbcomment']];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				htmlspecialchars($_POST['name']), "\" />\n";
+				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 			if ($data->hasAlterTableOwner()) {
 				echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
@@ -70,6 +71,10 @@
 				}
 				echo "</select></td></tr>\n";				
 			}
+			echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input name=\"comment\" size=\"32\" value=\"", 
+				htmlspecialchars($_POST['comment']), "\" /></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -311,8 +316,15 @@
 		$misc->printTableNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), "</h2>\n";
 
-		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+		// Get table
+		$tdata = &$localData->getTable($_REQUEST['table']);
+		// Get columns
+		$attrs = &$localData->getTableAttributes($_REQUEST['table']);		
 		$misc->printMsg($msg);
+
+		// Show comment if any
+		if ($tdata->f[$data->tbFields['tbcomment']] != null)
+			echo "<p><i>", htmlspecialchars($tdata->f[$data->tbFields['tbcomment']]), "</i></p>\n";
 
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";

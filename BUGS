@@ -3,8 +3,8 @@
 * Backport findObject to pre-7.3
 * Add db comments everywhere
 * Add owner everywhere
-* Cancel/<Action> buttons everywhere
 * pg_dump feature!!!
 * reports - unindexed fk's
 	  - slow indexes
+* Get table comments for pre-7.3
 

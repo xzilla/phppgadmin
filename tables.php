@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.30 2003/08/07 06:19:25 chriskl Exp $
+	 * $Id: tables.php,v 1.31 2003/08/13 09:21:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -662,29 +662,28 @@
 		global $data, $misc, $localData;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), "</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}</h2>\n";
 			
 		$tables = &$localData->getTables();
 		
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strtable']}</th><th class=data>{$lang['strowner']}</th><th colspan=6 class=data>{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strtable']}</th><th class=\"data\">{$lang['strowner']}</th>";
+			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			while (!$tables->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
-				echo "<td class=data{$id}>", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strbrowse']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strinsert']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
@@ -696,7 +695,7 @@
 			echo "<p>{$lang['strnotables']}</p>\n";
 		}
 
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strtables']);

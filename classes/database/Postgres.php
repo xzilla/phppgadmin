@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.138 2003/08/12 08:18:54 chriskl Exp $
+ * $Id: Postgres.php,v 1.139 2003/08/13 09:21:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -14,7 +14,7 @@ include_once('classes/database/BaseDB.php');
 class Postgres extends BaseDB {
 
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description', 'encoding' => 'encoding', 'owner' => 'owner');
-	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
+	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner', 'tbcomment' => 'tablecomment');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 	var $grpFields = array('groname' => 'groname', 'grolist' => 'grolist');
@@ -498,7 +498,8 @@ class Postgres extends BaseDB {
 	function &getTable($table) {
 		$this->clean($table);
 		
-		$sql = "SELECT tablename, tableowner FROM pg_tables WHERE tablename='{$table}'";
+		// @@ Need to add proper comments here
+		$sql = "SELECT relname AS tablename, tableowner, NULL AS tablecomment FROM pg_tables WHERE tablename='{$table}'";
 		return $this->selectSet($sql);
 	}
 
@@ -684,21 +685,35 @@ class Postgres extends BaseDB {
 	 * Alters a table
 	 * @param $table The name of the table
 	 * @param $name The new name for the table
-	 * @param $owner The new owner for the table	 
+	 * @param $owner The new owner for the table	
+	 * @param $comment The comment on the table
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 owner error
 	 * @return -3 rename error
+	 * @return -4 comment error
 	 */
-	function alterTable($table, $name, $owner) {
+	function alterTable($table, $name, $owner, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($name);
 		$this->fieldClean($owner);
+		$this->clean($comment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
+		}
+		
+		// Comment
+		$sql = "COMMENT ON TABLE \"{$table}\" IS ";
+		if ($comment == '') $sql .= 'NULL';
+		else $sql .= "'{$comment}'";
+
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
 		}
 		
 		// Owner
