@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.19 2004/04/12 06:30:55 chriskl Exp $
+	 * $Id: sql.php,v 1.20 2004/05/09 08:35:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -39,11 +39,27 @@
 	// Set fetch mode to NUM so that duplicate field names are properly returned
 	$data->conn->setFetchMode(ADODB_FETCH_NUM);
 	
+	// May as well try to time the query
+	if (function_exists('microtime')) {
+		list($usec, $sec) = explode(' ', microtime());
+		$start_time = ((float)$usec + (float)$sec);
+	}
+	else $start_time = null;
+	
 	// Execute the query.  If it's a script upload, special handling is necessary
 	if (isset($_FILES['script']) && $_FILES['script']['size'] > 0)
 	    $rs = $data->executeScript('script');
 	else
 		$rs = $data->conn->Execute($_POST['query']);
+
+	// May as well try to time the query
+	if ($start_time !== null) {
+		list($usec, $sec) = explode(' ', microtime());
+		$end_time = ((float)$usec + (float)$sec);	
+		// Get duration in milliseconds, round to 3dp's	
+		$duration = number_format(($end_time - $start_time) * 1000, 3);
+	}
+	else $duration = null;
 
 	// $rs will only be an object if there is no error
 	if (is_object($rs)) {
@@ -78,6 +94,11 @@
 		}
 		// Else say success
 		else echo "<p>{$lang['strsqlexecuted']}</p>\n";
+		
+		// Display duration if we know it
+		if ($duration !== null) {
+			echo "<p>", sprintf($lang['strruntime'], $duration), "</p>\n";
+		}
 	}
 
 	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
