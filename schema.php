@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.10 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: schema.php,v 1.11 2003/12/10 16:07:04 chriskl Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -18,7 +18,7 @@
 	 * Show schema properties
 	 */
 	function doDefault($msg = '') {
-		global $misc, $lang;
+		global $misc, $lang, $conf;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strschemas']}: ", 
 			$misc->printVal($_REQUEST['schema']), "</h2>\n";
@@ -29,12 +29,14 @@
 		echo "<li><a href=\"sequences.php?{$misc->href}\">{$lang['strsequences']}</a></li>\n";
 		echo "<li><a href=\"functions.php?{$misc->href}\">{$lang['strfunctions']}</a></li>\n";
 		echo "<li><a href=\"domains.php?{$misc->href}\">{$lang['strdomains']}</a></li>\n";
-		echo "<li>{$lang['stradvanced']}</li>\n";
-		echo "<ul>\n";
-		echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
-		echo "<li><a href=\"operators.php?{$misc->href}\">{$lang['stroperators']}</a></li>\n";
-		echo "<li><a href=\"conversions.php?{$misc->href}\">{$lang['strconversions']}</a></li>\n";
-		echo "</ul>\n";
+		if ($conf['show_advanced']) {
+			echo "<li>{$lang['stradvanced']}</li>\n";
+			echo "<ul>\n";
+			echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
+			echo "<li><a href=\"operators.php?{$misc->href}\">{$lang['stroperators']}</a></li>\n";
+			echo "<li><a href=\"conversions.php?{$misc->href}\">{$lang['strconversions']}</a></li>\n";
+			echo "</ul>\n";
+		}
 		echo "</ul>\n";
 	}
 
