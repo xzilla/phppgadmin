@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.20 2003/05/10 13:15:42 chriskl Exp $
+	 * $Id: tables.php,v 1.21 2003/05/15 03:35:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -530,28 +530,24 @@
 			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
 				urlencode($_REQUEST['sortkey']) . "&table=" . urlencode($_REQUEST['table']));
 			echo "<table>\n<tr>";
+
+			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
+			
+			if (sizeof($key) > 0)
+				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
 				if ($k == $localData->id && !$conf['show_oids']) continue;
 				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], "&{$misc->href}&sortkey=", urlencode($k), "&table=", 
 					urlencode($_REQUEST['table']), "\">", $misc->printVal($k), "</a></th>\n";
 			}
-			
-			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
-			
-			if (sizeof($key) > 0)
-				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
-			
+						
 			$i = 0;
 			reset($rs->f);
 			while (!$rs->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
-				while(list($k, $v) = each($rs->f)) {
-					if ($k == $localData->id && !$conf['show_oids']) continue;
-					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
-				}
 				if (sizeof($key) > 0) {
 					$key_str = '';
 					$has_nulls = false;
@@ -573,6 +569,11 @@
 							urlencode($_REQUEST['sortkey']), "&table=", urlencode($_REQUEST['table']), 
 							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
 					}
+				}
+				while(list($k, $v) = each($rs->f)) {
+					if ($k == $localData->id && !$conf['show_oids']) continue;
+					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
+					else echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
