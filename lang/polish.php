@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.18 2003/05/09 23:02:58 slubek Exp $
+	 * $Id: polish.php,v 1.19 2003/05/12 09:50:24 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -423,5 +423,3 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>
-
-
