@@ -3,12 +3,12 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.3 2003/03/23 00:58:45 xzilla Exp $
+	 * $Id: tblexport.php,v 1.4 2003/03/26 01:27:17 chriskl Exp $
 	 */
 
 	$extensions = array(
 		'sql' => 'sql',
-		'copy' => 'copy',
+		'copy' => 'sql',
 		'csv' => 'csv',
 		'tab' => 'txt',
 		'xml' => 'xml'

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.11 2003/03/23 10:11:29 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.12 2003/03/26 01:27:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,17 +22,17 @@
 
 		echo "<form action=\"tblexport.php\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=data>Format:</th><td><select name=\"format\">\n";
-		echo "<option value=\"copy\">Copy</option>\n";
+		echo "<tr><th class=data>{$lang['strformat']}:</th><td><select name=\"format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
 		echo "<option value=\"tab\">Tabbed</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select></td></tr>";
 		/*echo "<tr><th class=data>Content:</th><td><select name=\"content\">\n";
-		echo "<option value=\"all\">Schema &amp; Data</option>\n";
-		echo "<option value=\"schema\">Schema Only</option>\n";
-		echo "<option value=\"data\">Data Only</option>\n";
+		echo "<option value=\"all\">{$lang['strschemaanddata']}</option>\n";
+		echo "<option value=\"schema\">{$lang['strschemaonly']}</option>\n";
+		echo "<option value=\"data\">{$lang['strdataonly']}</option>\n";
 		echo "</select></td></tr>";*/
 		echo "<tr><th class=data>OIDS:</th><td><input type=\"checkbox\" name=\"oids\"></td></tr>";
 		echo "<tr><th class=data>Download?</th><td><input type=\"checkbox\" name=\"download\"></td></tr>";
