@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.54 2003/08/03 07:18:01 chriskl Exp $
+ * $Id: Postgres73.php,v 1.55 2003/08/04 05:20:02 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -674,6 +674,7 @@ class Postgres73 extends Postgres72 {
 				LEFT JOIN pg_catalog.pg_user pu ON t.typowner = pu.usesysid
 			WHERE (t.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid)) AND t.typname !~ '^_'
 			AND {$where}
+			AND t.typtype != 'd'
 			ORDER BY typname
 		";
 
@@ -1027,6 +1028,7 @@ class Postgres73 extends Postgres72 {
 	function hasDropColumn() { return true; }
 	function hasDomains() { return true; }
 	function hasAlterTrigger() { return true; }
+	function hasWithoutOIDs() { return true; }
 
 }
 
