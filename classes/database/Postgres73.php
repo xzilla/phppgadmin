@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.59 2003/08/13 09:21:43 chriskl Exp $
+ * $Id: Postgres73.php,v 1.60 2003/08/26 05:59:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1036,6 +1036,31 @@ class Postgres73 extends Postgres72 {
 				{$where}
 			ORDER BY type, schemaname, relname, name";
 			
+		return $this->selectSet($sql);
+	}	
+
+	// Operator functions
+	
+	/**
+	 * Returns a list of all operators in the database
+	 * @return All operators
+	 */	 
+	function &getOperators() {
+		$sql = "
+			SELECT
+            po.oid,
+				po.oprname,
+				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprleft) AS oprleftname,
+				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprright) AS oprrightname,
+				(SELECT pg_catalog.format_type(oid, NULL) FROM pg_catalog.pg_type pt WHERE pt.oid=po.oprresult) AS resultname
+			FROM
+				pg_catalog.pg_operator po
+			WHERE
+				po.oprnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')
+			ORDER BY
+				po.oprname, oprleftname, oprrightname
+		";
+
 		return $this->selectSet($sql);
 	}	
 	

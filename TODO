@@ -56,7 +56,7 @@ Functions
 Indexes 
 -------
 
-* Partial indexes
+* -Partial indexes (chriskl)
 * Functional indexes
 
 Types
@@ -67,7 +67,9 @@ Types
 Operators
 ---------
 
-* Unimplemented
+* Properties
+* Drop
+* Create
 
 Operator Classes
 ----------------

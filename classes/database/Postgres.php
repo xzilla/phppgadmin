@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.139 2003/08/13 09:21:43 chriskl Exp $
+ * $Id: Postgres.php,v 1.140 2003/08/26 05:59:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -373,6 +373,7 @@ class Postgres extends BaseDB {
 				echo "</textarea>\n";
 				break;
 			default:
+//				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" onBlur=\"isEmpty(this);\" />\n";
 				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
 				break;
 		}		
@@ -1579,13 +1580,14 @@ class Postgres extends BaseDB {
 	}	
 
 	// Operator functions
-	
+
 	/**
 	 * Returns a list of all operators in the database
 	 * @return All operators
 	 */
-	function getOperators() {
-		if (!$this->_showSystem)
+	function &getOperators() {
+		global $conf;
+		if (!$conf['show_system'])
 			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
 		else $where  = '';
 		
@@ -1600,12 +1602,11 @@ class Postgres extends BaseDB {
 				pg_operator po
 			{$where}				
 			ORDER BY
-				po.oprname, po.oid
+				po.oprname, oprleftname, oprrightname
 		";
 
 		return $this->selectSet($sql);
 	}
-	
 	
 	// User functions
 	

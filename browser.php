@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.16 2003/08/04 06:18:10 chriskl Exp $
+	 * $Id: browser.php,v 1.17 2003/08/26 05:59:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -132,6 +132,19 @@
 
 			// Add folder to schema
 			$schemanode->addItem($type_node);
+		}
+		// Operators
+		if ($data->hasOperators()) {
+			$opr_node = &new HTML_TreeNode(array(
+							'text' => addslashes($lang['stroperators']), 
+							'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
+							'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+
+			// Add folder to schema
+			$schemanode->addItem($opr_node);
 		}
 	}	
 

@@ -34,6 +34,7 @@ Features:
 * Export in HTML format
 * Download the results of selects and reports
 * Traditional Chinese update from Chih-Hsin Lee
+* Allow listing of operators
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

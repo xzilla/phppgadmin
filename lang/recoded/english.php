@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.50 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: english.php,v 1.51 2003/08/26 05:59:49 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -469,6 +469,23 @@
 	$lang['strdomaincreatedbad'] = 'Failed to create domain.';	
 	$lang['strdomainaltered'] = 'Domain altered.';
 	$lang['strdomainalteredbad'] = 'Failed to alter domain.';	
+
+	// Operators
+	$lang['stroperator'] = 'Operator';
+	$lang['stroperators'] = 'Operators';
+	$lang['strshowalloperators'] = 'Show all operators';
+	$lang['strnooperator'] = 'No operator found.';
+	$lang['strnooperators'] = 'No operators found.';
+	$lang['strcreateoperator'] = 'Create Operator';
+	$lang['stroperatorname'] = 'Operator name';
+	$lang['strleftarg'] = 'Left Arg Type';
+	$lang['strrightarg'] = 'Right Arg Type';
+	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
+	$lang['stroperatorcreated'] = 'Operator created';
+	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';
+	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator &quot;%s&quot;?';
+	$lang['stroperatordropped'] = 'Operator dropped.';
+	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
