@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.47 2003/01/22 05:52:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.48 2003/01/27 05:22:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -81,6 +81,44 @@ class Postgres extends BaseDB {
 		return function_exists('pg_connect');
 	}
 
+	/**
+	 * Cleans (escapes) a string
+	 * @param $str The string to clean, by reference
+	 * @return The cleaned string
+	 */
+	function clean(&$str) {
+		if (function_exists('pg_escape_string'))
+			$str = pg_escape_string($str);
+		else
+			$str = addslashes($str);
+		return $str;
+	}
+	
+	/**
+	 * Cleans (escapes) an object name (eg. table, field)
+	 * @param $str The string to clean, by reference
+	 * @return The cleaned string
+	 */
+	function fieldClean(&$str) {
+		$str = str_replace('"', '""', $str);
+		return $str;
+	}
+
+	/**
+	 * Cleans (escapes) an array
+	 * @param $arr The array to clean, by reference
+	 * @return The cleaned array
+	 */
+	function arrayClean(&$arr) {
+		foreach ($arr as $k => $v) {
+			if (function_exists('pg_escape_string'))
+				$arr[$k] = pg_escape_string($v);
+			else
+				$arr[$k] = addslashes($v);
+		}
+		return $arr;
+	}
+	
 	/**
 	 * Returns the current database encoding
 	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
