@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.23 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: constraints.php,v 1.24 2003/12/15 15:42:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -341,7 +341,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-			echo "<th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<th class=\"data required\">{$lang['strdefinition']}</th></tr>\n";
 
 			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\" /></td>\n";
@@ -353,7 +353,8 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" /> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['stradd']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 
 		}

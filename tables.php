@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.41 2003/12/13 16:17:09 chriskl Exp $
+	 * $Id: tables.php,v 1.42 2003/12/15 15:42:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -30,15 +30,15 @@
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 				echo "<table>\n";
-				echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
-				echo "<tr><td class=\"data1\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
+				echo "<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 					htmlspecialchars($_REQUEST['name']), "\" /></td></tr>\n";
-				echo "<tr><th class=\"data\">{$lang['strnumfields']}</th></tr>\n";
-				echo "<tr><td class=\"data1\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				echo "<tr><th class=\"data left required\">{$lang['strnumfields']}</th>\n";
+				echo "<td class=\"data\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 					htmlspecialchars($_REQUEST['fields']), "\" /></td></tr>\n";
 				if ($data->hasWithoutOIDs()) {
-					echo "<tr><th class=\"data\">{$lang['stroptions']}</th></tr>\n";
-					echo "<tr><td class=\"data1\"><input type=\"checkbox\" name=\"withoutoids\"", 
+					echo "<tr><th class=\"data left\">{$lang['stroptions']}</th>\n";
+					echo "<td class=\"data\"><input type=\"checkbox\" name=\"withoutoids\"", 
 						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), " />WITHOUT OIDS</td></tr>\n";
 				}
 				echo "</table>\n";
@@ -166,7 +166,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -365,7 +365,7 @@
 	 * Show confirmation of empty and perform actual empty
 	 */
 	function doEmpty($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -395,7 +395,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $database, $misc;
+		global $data, $misc;
 		global $lang, $_reload_browser;
 		global $PHP_SELF;
 

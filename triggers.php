@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.17 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: triggers.php,v 1.18 2003/12/15 15:42:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -147,7 +147,7 @@
 		echo "<td class=\"data1\">(<input type=\"text\" name=\"formTriggerArgs\" size=\"32\" />)</td>\n";
 		echo "</tr></table>\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		echo $misc->form;
@@ -242,7 +242,8 @@
 			doAlter();
 			break;
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();

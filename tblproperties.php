@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.31 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.32 2003/12/15 15:42:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -56,12 +56,12 @@
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 			if ($data->hasAlterTableOwner()) {
-				echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
+				echo "<tr><th class=\"data required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
 					$uname = $users->f[$data->uFields['uname']];
@@ -174,7 +174,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th></tr>";
 
 				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>";
@@ -244,7 +244,7 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
 
 				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
