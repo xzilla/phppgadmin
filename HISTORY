@@ -1,6 +1,12 @@
 phpPgAdmin History
 ------------------
 
+Version 3.2.2
+-------------
+
+Bugs
+* Alter column on Postgres 7.1 was broken
+
 Version 3.2.1
 -------------
 
