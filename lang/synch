@@ -9,6 +9,14 @@
 # Usage: synch <language>
 #
 #   <language> is the filename without the .php extension
+
+# WARNING: THE SYNCH SCRIPT IS BUGGY.  IT MAY DELETE SOME
+# GOOD TRANSLATIONS.  COMMENT OUT THE LINES BELOW IF YOU
+# KNOW WHAT YOU ARE DOING.
+
+echo "The synch script has been found to be buggy.  We recommend using";
+echo "langcheck instead.  For more information, view the synch source code.";
+exit
    
 if [ -z $1 ] ; then
 	echo "You must tell me which language I should synchronize."
