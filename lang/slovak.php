@@ -64,6 +64,7 @@
 	$lang['strtrue'] = 'True';
 	$lang['strfalse'] = 'False';
 	$lang['stredit']  =  'Upraviť';
+	$lang['strcolumn']  =  'Stĺpec';
 	$lang['strcolumns']  =  'Stĺpce';
 	$lang['strrows'] = 'riadky';
 	$lang['strrowsaff']  =  'riadkov ovplyvnených.';
@@ -99,6 +100,7 @@
 	$lang['strconfirm'] = 'Potvrdiť';
 	$lang['strexpression'] = 'Výraz';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Rozšíriť';
 	$lang['strcollapse']  =  'Zbaliť';
 	$lang['strexplain'] = 'Vysvetliť';
@@ -127,6 +129,8 @@
 	$lang['strnoframes']  =  'K správnemu behu aplikácie potrebuješ prehliadač podporujúci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaralý. Musíš vygenerovať nový zo súboru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilované s potrebnou podporou databáz.';
+	$lang['strphpversionnotsupported']  =  'Tvoja verzia PHP nie je podporovaná.  Prosím aktualizuj ho na verziu %s alebo vyššiu.';
+	$lang['strpostgresqlversionnotsupported']  =  'Tvoja verzia PostgreSQL nie je podporovaná. Prosím aktualizuj ju na verziu %s alebo vyššiu.';
 	$lang['strbadschema'] = 'Špecifikovaná chybná schéma.';
 	$lang['strbadencoding'] = 'Nastavenie kódovania v databáze zlyhalo.';
 	$lang['strsqlerror'] = 'SQL chyba:';
@@ -169,11 +173,9 @@
 	$lang['strconfdeleterow'] = 'Si si istý, že chceš zmazať tento riadok?';
 	$lang['strrowdeleted'] = 'Riadok zmazaný.';
 	$lang['strrowdeletedbad'] = 'Riadok nebol zmazaný.';
-	$lang['strsaveandrepeat'] = 'Uložiť & Zopakovať';
-	$lang['strfield'] = 'Pole';
-	$lang['strfields'] = 'Polia';
-	$lang['strnumfields'] = 'Počet Polí';
-	$lang['strfieldneedsname'] = 'Musíš pomenovať tvoje pole';
+	$lang['strinsertandrepeat']  =  'Vložiť & Zopakovať';
+	$lang['strnumcols']  =  'Počet stĺpcov';
+	$lang['strcolneedsname']  =  'Musíš zadať názov pre tvoj stĺpec';
 	$lang['strselectallfields'] = 'Vybrať všetky polia';
 	$lang['strselectneedscol']  =  'Musíš označiť aspoň jeden stĺpec.';
 	$lang['strselectunary']  =  'Unárne operátory nemôžu mať hodnoty.';
@@ -194,6 +196,8 @@
 	$lang['strstructureanddata'] = 'Štruktúra a Dáta';
 	$lang['strtabbed']  =  'Tabbed';
 	$lang['strauto']  =  'Auto';
+	$lang['strconfvacuumtable']  =  'Naozaj chceš vyčistiť "%s"?';
+	$lang['strestimatedrowcount']  =  'Odhadovaný počet riadkov';
 
 	// Users
 	$lang['struser'] = 'Užívateľ';
@@ -255,7 +259,6 @@
 	$lang['strgranted'] = 'Privilégiá pridané.';
 	$lang['strgrantfailed'] = 'Privilégiá neboli pridané.';
 	$lang['strgrantbad'] = 'Musíš špecifikovat aspoň jedného užívateľa/skupinu a aspoň jedno privilégium.';
-	$lang['stralterprivs']  =  'Zmeniť privilégiá';
 	$lang['strgrantor'] = 'Prideľovateľ';
 	$lang['strasterisk'] = '*';
 
@@ -284,6 +287,9 @@
 	$lang['strfull']  =  'Full'; //todo - konzultovat!!
 	$lang['strfreeze']  =  'Freeze'; //deto
 	$lang['strforce']  =  'Force'; // -||-
+	$lang['strsignalsent']  =  'Signál odoslaný.';
+	$lang['strsignalsentbad']  =  'Odoslanie signálu zlyhalo.';
+	$lang['strallobjects']  =  'Všetky objekty';
 
 	// Views
 	$lang['strview'] = 'Náhľad';
@@ -412,7 +418,9 @@
 	$lang['strshowallfunctions'] = 'Zobraziť vŠetky funkcie';
 	$lang['strnofunction'] = 'Nenájdená žiadna funkcia.';
 	$lang['strnofunctions'] = 'Nenájdené žiadne funkcie.';
-	$lang['strcreatefunction'] = 'Vytvoriť funkciu';
+	$lang['strcreateplfunction']  =  'Vytvoriť SQL/PL funkciu';
+	$lang['strcreateinternalfunction']  =  'Vytvoriť internú funkciu';
+	$lang['strcreatecfunction']  =  'Vytvoriť C funkciu';
 	$lang['strfunctionname'] = 'Názov funkcie';
 	$lang['strreturns'] = 'Vracia';
 	$lang['strarguments'] = 'Argumenty';
@@ -426,6 +434,8 @@
 	$lang['strfunctiondroppedbad'] = 'Funkcia nebola zmazaná.';
 	$lang['strfunctionupdated'] = 'Funkcia upravená.';
 	$lang['strfunctionupdatedbad'] = 'Funkcia nebola upravená.';
+	$lang['strobjectfile']  =  'Objektový súbor';
+	$lang['strlinksymbol']  =  'Link symbol';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger'; //su to medzipravidla ?? po cesky spouste..
@@ -451,6 +461,9 @@
 	$lang['strnotype'] = 'Nenájdený žiadny typ.';
 	$lang['strnotypes'] = 'Nenájdené žiadne typy.';
 	$lang['strcreatetype'] = 'Vytvoriť Typ';
+	$lang['strcreatecomptype']  =  'Vytvoriť kompozitný typ';
+	$lang['strtypeneedsfield']  =  'Musíš vybrať aspoň jedno pole.';
+	$lang['strtypeneedscols']  =  'Musíš zadať správny počet polí.';	
 	$lang['strtypename'] = 'Názov typu';
 	$lang['strinputfn'] = 'Vstupná funkcia';
 	$lang['stroutputfn'] = 'Výstupná funkcia';
@@ -459,6 +472,8 @@
 	$lang['strelement'] = 'Element';
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
+	$lang['strfield']  =  'Pole';
+	$lang['strnumfields']  =  'Počet polí';
 	$lang['strtypeneedsname'] = 'Musíš zadať názov pre tvoj typ.';
 	$lang['strtypeneedslen'] = 'Musíš zadať dĺžku pre tvoj typ.';
 	$lang['strtypecreated'] = 'Typ Vytvorený';
@@ -466,6 +481,10 @@
 	$lang['strconfdroptype'] = 'Naozaj chceš zmazať typ "%s"?';
 	$lang['strtypedropped'] = 'Typ zmazaný.';
 	$lang['strtypedroppedbad'] = 'Typ nebol zmazaný.';
+	$lang['strflavor']  =  'Flavor'; //todo
+	$lang['strbasetype']  =  'Základný';
+	$lang['strcompositetype']  =  'Kompozitný';
+	$lang['strpseudotype']  =  'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Schéma';
@@ -483,6 +502,7 @@
 	$lang['strschemadroppedbad'] = 'Schéma nebola zmazaná.';
 	$lang['strschemaaltered']  =  'Schéma zmenená.';
 	$lang['strschemaalteredbad']  =  'Schéma nebola zmenená.';
+	$lang['strsearchpath']  =  'Cesta k nájdeniu Schémy';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -592,9 +612,27 @@
 	$lang['strdisk']  =  'Disk';
 	$lang['strrows2']  =  'Riadkov';
 
+	// Tablespaces
+	$lang['strtablespace']  =  'Priestor pre tabuľku';
+	$lang['strtablespaces']  =  'Priestory tabuliek';
+	$lang['strshowalltablespaces']  =  'Zobraziť všetky priestory pre tabuľky';
+	$lang['strnotablespaces']  =  'Nenájdené žiadne priestory tabuliek.';
+	$lang['strcreatetablespace']  =  'Vytvoriť priestor pre tabuľku';
+	$lang['strlocation']  =  'Umiestnenie';
+	$lang['strtablespaceneedsname']  =  'Musíš zadať názov priestoru tabuľky.';
+	$lang['strtablespaceneedsloc']  =  'Musíš zadať adresár, vktorom sa má vytvoriť priestor pre tabuľku.';
+	$lang['strtablespacecreated']  =  'Priestor pre tabuľku bol vytvorený.';
+	$lang['strtablespacecreatedbad']  =  'Vytvorenie priestoru pre tabuľku zlyhalo.';
+	$lang['strconfdroptablespace']  =  'Naozaj chceš odstrániť priestor tabuľky "%s"?';
+	$lang['strtablespacedropped']  =  'Priestor pre tabuľku bol odstránený.';
+	$lang['strtablespacedroppedbad']  =  'Odstránenie priestoru zlyhalo.';
+	$lang['strtablespacealtered']  =  'Priestor tabuľky zmenený.';
+	$lang['strtablespacealteredbad']  =  'Zmenenie priestoru tabuľky zlyhalo.';
+
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s beží na %s:%s -- Si prihlásený ako "%s", %s';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Pomoc';
+	$lang['strhelpicon']  =  '?';
 
 ?>

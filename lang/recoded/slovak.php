@@ -64,6 +64,7 @@
 	$lang['strtrue'] = 'True';
 	$lang['strfalse'] = 'False';
 	$lang['stredit']  =  'Upravi&#357;';
+	$lang['strcolumn']  =  'St&#314;pec';
 	$lang['strcolumns']  =  'St&#314;pce';
 	$lang['strrows'] = 'riadky';
 	$lang['strrowsaff']  =  'riadkov ovplyvnen&yacute;ch.';
@@ -99,6 +100,7 @@
 	$lang['strconfirm'] = 'Potvrdi&#357;';
 	$lang['strexpression'] = 'V&yacute;raz';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Roz&scaron;&iacute;ri&#357;';
 	$lang['strcollapse']  =  'Zbali&#357;';
 	$lang['strexplain'] = 'Vysvetli&#357;';
@@ -127,6 +129,8 @@
 	$lang['strnoframes']  =  'K spr&aacute;vnemu behu aplik&aacute;cie potrebuje&scaron; prehliada&#269; podporuj&uacute;ci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaral&yacute;. Mus&iacute;&scaron; vygenerova&#357; nov&yacute; zo s&uacute;boru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilovan&eacute; s potrebnou podporou datab&aacute;z.';
+	$lang['strphpversionnotsupported']  =  'Tvoja verzia PHP nie je podporovan&aacute;.  Pros&iacute;m aktualizuj ho na verziu %s alebo vy&scaron;&scaron;iu.';
+	$lang['strpostgresqlversionnotsupported']  =  'Tvoja verzia PostgreSQL nie je podporovan&aacute;. Pros&iacute;m aktualizuj ju na verziu %s alebo vy&scaron;&scaron;iu.';
 	$lang['strbadschema'] = '&Scaron;pecifikovan&aacute; chybn&aacute; sch&eacute;ma.';
 	$lang['strbadencoding'] = 'Nastavenie k&oacute;dovania v datab&aacute;ze zlyhalo.';
 	$lang['strsqlerror'] = 'SQL chyba:';
@@ -169,11 +173,9 @@
 	$lang['strconfdeleterow'] = 'Si si ist&yacute;, &#382;e chce&scaron; zmaza&#357; tento riadok?';
 	$lang['strrowdeleted'] = 'Riadok zmazan&yacute;.';
 	$lang['strrowdeletedbad'] = 'Riadok nebol zmazan&yacute;.';
-	$lang['strsaveandrepeat'] = 'Ulo&#382;i&#357; &amp; Zopakova&#357;';
-	$lang['strfield'] = 'Pole';
-	$lang['strfields'] = 'Polia';
-	$lang['strnumfields'] = 'Po&#269;et Pol&iacute;';
-	$lang['strfieldneedsname'] = 'Mus&iacute;&scaron; pomenova&#357; tvoje pole';
+	$lang['strinsertandrepeat']  =  'Vlo&#382;i&#357; &amp; Zopakova&#357;';
+	$lang['strnumcols']  =  'Po&#269;et st&#314;pcov';
+	$lang['strcolneedsname']  =  'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj st&#314;pec';
 	$lang['strselectallfields'] = 'Vybra&#357; v&scaron;etky polia';
 	$lang['strselectneedscol']  =  'Mus&iacute;&scaron; ozna&#269;i&#357; aspo&#328; jeden st&#314;pec.';
 	$lang['strselectunary']  =  'Un&aacute;rne oper&aacute;tory nem&ocirc;&#382;u ma&#357; hodnoty.';
@@ -194,6 +196,8 @@
 	$lang['strstructureanddata'] = '&Scaron;trukt&uacute;ra a D&aacute;ta';
 	$lang['strtabbed']  =  'Tabbed';
 	$lang['strauto']  =  'Auto';
+	$lang['strconfvacuumtable']  =  'Naozaj chce&scaron; vy&#269;isti&#357; &quot;%s&quot;?';
+	$lang['strestimatedrowcount']  =  'Odhadovan&yacute; po&#269;et riadkov';
 
 	// Users
 	$lang['struser'] = 'U&#382;&iacute;vate&#318;';
@@ -255,7 +259,6 @@
 	$lang['strgranted'] = 'Privil&eacute;gi&aacute; pridan&eacute;.';
 	$lang['strgrantfailed'] = 'Privil&eacute;gi&aacute; neboli pridan&eacute;.';
 	$lang['strgrantbad'] = 'Mus&iacute;&scaron; &scaron;pecifikovat aspo&#328; jedn&eacute;ho u&#382;&iacute;vate&#318;a/skupinu a aspo&#328; jedno privil&eacute;gium.';
-	$lang['stralterprivs']  =  'Zmeni&#357; privil&eacute;gi&aacute;';
 	$lang['strgrantor'] = 'Pride&#318;ovate&#318;';
 	$lang['strasterisk'] = '*';
 
@@ -284,6 +287,9 @@
 	$lang['strfull']  =  'Full'; //todo - konzultovat!!
 	$lang['strfreeze']  =  'Freeze'; //deto
 	$lang['strforce']  =  'Force'; // -||-
+	$lang['strsignalsent']  =  'Sign&aacute;l odoslan&yacute;.';
+	$lang['strsignalsentbad']  =  'Odoslanie sign&aacute;lu zlyhalo.';
+	$lang['strallobjects']  =  'V&scaron;etky objekty';
 
 	// Views
 	$lang['strview'] = 'N&aacute;h&#318;ad';
@@ -412,7 +418,9 @@
 	$lang['strshowallfunctions'] = 'Zobrazi&#357; v&Scaron;etky funkcie';
 	$lang['strnofunction'] = 'Nen&aacute;jden&aacute; &#382;iadna funkcia.';
 	$lang['strnofunctions'] = 'Nen&aacute;jden&eacute; &#382;iadne funkcie.';
-	$lang['strcreatefunction'] = 'Vytvori&#357; funkciu';
+	$lang['strcreateplfunction']  =  'Vytvori&#357; SQL/PL funkciu';
+	$lang['strcreateinternalfunction']  =  'Vytvori&#357; intern&uacute; funkciu';
+	$lang['strcreatecfunction']  =  'Vytvori&#357; C funkciu';
 	$lang['strfunctionname'] = 'N&aacute;zov funkcie';
 	$lang['strreturns'] = 'Vracia';
 	$lang['strarguments'] = 'Argumenty';
@@ -426,6 +434,8 @@
 	$lang['strfunctiondroppedbad'] = 'Funkcia nebola zmazan&aacute;.';
 	$lang['strfunctionupdated'] = 'Funkcia upraven&aacute;.';
 	$lang['strfunctionupdatedbad'] = 'Funkcia nebola upraven&aacute;.';
+	$lang['strobjectfile']  =  'Objektov&yacute; s&uacute;bor';
+	$lang['strlinksymbol']  =  'Link symbol';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger'; //su to medzipravidla ?? po cesky spouste..
@@ -451,6 +461,9 @@
 	$lang['strnotype'] = 'Nen&aacute;jden&yacute; &#382;iadny typ.';
 	$lang['strnotypes'] = 'Nen&aacute;jden&eacute; &#382;iadne typy.';
 	$lang['strcreatetype'] = 'Vytvori&#357; Typ';
+	$lang['strcreatecomptype']  =  'Vytvori&#357; kompozitn&yacute; typ';
+	$lang['strtypeneedsfield']  =  'Mus&iacute;&scaron; vybra&#357; aspo&#328; jedno pole.';
+	$lang['strtypeneedscols']  =  'Mus&iacute;&scaron; zada&#357; spr&aacute;vny po&#269;et pol&iacute;.';	
 	$lang['strtypename'] = 'N&aacute;zov typu';
 	$lang['strinputfn'] = 'Vstupn&aacute; funkcia';
 	$lang['stroutputfn'] = 'V&yacute;stupn&aacute; funkcia';
@@ -459,6 +472,8 @@
 	$lang['strelement'] = 'Element';
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
+	$lang['strfield']  =  'Pole';
+	$lang['strnumfields']  =  'Po&#269;et pol&iacute;';
 	$lang['strtypeneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj typ.';
 	$lang['strtypeneedslen'] = 'Mus&iacute;&scaron; zada&#357; d&#314;&#382;ku pre tvoj typ.';
 	$lang['strtypecreated'] = 'Typ Vytvoren&yacute;';
@@ -466,6 +481,10 @@
 	$lang['strconfdroptype'] = 'Naozaj chce&scaron; zmaza&#357; typ &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Typ zmazan&yacute;.';
 	$lang['strtypedroppedbad'] = 'Typ nebol zmazan&yacute;.';
+	$lang['strflavor']  =  'Flavor'; //todo
+	$lang['strbasetype']  =  'Z&aacute;kladn&yacute;';
+	$lang['strcompositetype']  =  'Kompozitn&yacute;';
+	$lang['strpseudotype']  =  'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Sch&eacute;ma';
@@ -483,6 +502,7 @@
 	$lang['strschemadroppedbad'] = 'Sch&eacute;ma nebola zmazan&aacute;.';
 	$lang['strschemaaltered']  =  'Sch&eacute;ma zmenen&aacute;.';
 	$lang['strschemaalteredbad']  =  'Sch&eacute;ma nebola zmenen&aacute;.';
+	$lang['strsearchpath']  =  'Cesta k n&aacute;jdeniu Sch&eacute;my';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -592,9 +612,27 @@
 	$lang['strdisk']  =  'Disk';
 	$lang['strrows2']  =  'Riadkov';
 
+	// Tablespaces
+	$lang['strtablespace']  =  'Priestor pre tabu&#318;ku';
+	$lang['strtablespaces']  =  'Priestory tabuliek';
+	$lang['strshowalltablespaces']  =  'Zobrazi&#357; v&scaron;etky priestory pre tabu&#318;ky';
+	$lang['strnotablespaces']  =  'Nen&aacute;jden&eacute; &#382;iadne priestory tabuliek.';
+	$lang['strcreatetablespace']  =  'Vytvori&#357; priestor pre tabu&#318;ku';
+	$lang['strlocation']  =  'Umiestnenie';
+	$lang['strtablespaceneedsname']  =  'Mus&iacute;&scaron; zada&#357; n&aacute;zov priestoru tabu&#318;ky.';
+	$lang['strtablespaceneedsloc']  =  'Mus&iacute;&scaron; zada&#357; adres&aacute;r, vktorom sa m&aacute; vytvori&#357; priestor pre tabu&#318;ku.';
+	$lang['strtablespacecreated']  =  'Priestor pre tabu&#318;ku bol vytvoren&yacute;.';
+	$lang['strtablespacecreatedbad']  =  'Vytvorenie priestoru pre tabu&#318;ku zlyhalo.';
+	$lang['strconfdroptablespace']  =  'Naozaj chce&scaron; odstr&aacute;ni&#357; priestor tabu&#318;ky &quot;%s&quot;?';
+	$lang['strtablespacedropped']  =  'Priestor pre tabu&#318;ku bol odstr&aacute;nen&yacute;.';
+	$lang['strtablespacedroppedbad']  =  'Odstr&aacute;nenie priestoru zlyhalo.';
+	$lang['strtablespacealtered']  =  'Priestor tabu&#318;ky zmenen&yacute;.';
+	$lang['strtablespacealteredbad']  =  'Zmenenie priestoru tabu&#318;ky zlyhalo.';
+
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s be&#382;&iacute; na %s:%s -- Si prihl&aacute;sen&yacute; ako &quot;%s&quot;, %s';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Pomoc';
+	$lang['strhelpicon']  =  '?';
 
 ?>
