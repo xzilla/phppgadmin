@@ -10,6 +10,9 @@ Bugs
 * Fix port selection for local connections (Russell Smith)
 * Fix timeouts on long running operations (Adrian Nida)
 
+Translations
+* Japanese from Tadashi
+
 Version 3.5.1
 -------------
 

@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.11 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: japanese.php,v 1.11.2.1 2005/02/09 13:18:12 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -19,7 +19,7 @@
 	$lang['strppahome'] = 'phpPgAdmin ホームページ';
 	$lang['strpgsqlhome'] = 'PostgreSQL ホームページ';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
-	$lang['strlocaldocs'] = 'PostgreSQL ドキュメント (local)';
+	$lang['strlocaldocs'] = 'PostgreSQL ドキュメント (ローカル)';
 	$lang['strreportbug'] = 'バグレポート';
 	$lang['strviewfaq'] = 'FAQを見る';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
@@ -64,9 +64,10 @@
 	$lang['strreferences'] = '参照';
 	$lang['stryes'] = 'はい';
 	$lang['strno'] = 'いいえ';
-	$lang['strtrue'] = '真(true)';
-	$lang['strfalse'] = '偽(false)';
+	$lang['strtrue'] = '真';
+	$lang['strfalse'] = '偽';
 	$lang['stredit'] = '編集';
+	$lang['strcolumn'] = 'カラム';
 	$lang['strcolumns'] = 'カラム一覧';
 	$lang['strrows'] = 'レコード';
 	$lang['strrowsaff'] = '影響を受けたレコード';
@@ -111,15 +112,15 @@
 	$lang['stroptions'] = 'オプション';
 	$lang['strrefresh'] = '再表示';
 	$lang['strdownload'] = 'ダウンロード';
-	$lang['strdownloadgzipped'] = 'gzipで圧縮してダウンロード';
+	$lang['strdownloadgzipped'] = 'gzip で圧縮してダウンロード';
 	$lang['strinfo'] = '情報';
-	$lang['stroids'] = 'OID一覧';
+	$lang['stroids'] = 'OID 一覧';
 	$lang['stradvanced'] = '高度な一覧';
 	$lang['strvariables'] = '変数一覧';
 	$lang['strprocess'] = 'プロセス';
 	$lang['strprocesses'] = 'プロセス一覧';
 	$lang['strsetting'] = '設定';
-	$lang['streditsql'] = 'SQL編集';
+	$lang['streditsql'] = 'SQL 編集';
 	$lang['strruntime'] = '総実行時間: %s ms';
 	$lang['strpaginate'] = 'Paginate results';
 	$lang['struploadscript'] = 'or upload an SQL script:';
@@ -129,19 +130,19 @@
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
-	$lang['strbadconfig'] = 'config.inc.phpが旧式です。新しいconfig.inc.php-distから再作成する必要があります。';
-	$lang['strnotloaded'] = 'データベースをサポートするようにPHPのコンパイル・インストールがされていません。(システムによってはphpパッケージの他にphp-pgsqlパッケージのインストール・設定などが必要です)';
-	$lang['strphpversionnotsupported'] = 'このPHPのバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
-	$lang['strpostgresqlversionnotsupported'] = 'このPostgreSQLのバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
+	$lang['strbadconfig'] = 'config.inc.php が旧式です。新しい config.inc.php-dist から再作成する必要があります。';
+	$lang['strnotloaded'] = 'データベースをサポートするように PHP のコンパイル・インストールがされていません(システムによっては php パッケージの他に php-pgsql パッケージのインストール・設定などが必要です)。';
+	$lang['strphpversionnotsupported'] = 'この PHP のバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
+	$lang['strpostgresqlversionnotsupported'] = 'この PostgreSQL のバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
 	$lang['strbadschema'] = '無効のスキーマが指定されました。';
 	$lang['strbadencoding'] = 'データベースの中でクライアントエンコードを指定しませんでした。';
-	$lang['strsqlerror'] = 'SQLエラー:';
+	$lang['strsqlerror'] = 'SQL エラー:';
 	$lang['strinstatement'] = '文:';
 	$lang['strinvalidparam'] = 'スクリプトパラメータが無効です。';
 	$lang['strnodata'] = 'レコードが見つかりません。';
 	$lang['strnoobjects'] = 'オブジェクトが見つかりません。';
 	$lang['strrownotunique'] = 'このレコードには一意識別子がありません。';
-	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにあるINSTALLファイルを読んでください。';
+	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにある INSTALL ファイルを読んでください。';
 	$lang['strnouploads'] = 'ファイルアップロードが無効です。';
 	$lang['strimporterror'] = 'インポートエラー';
 	$lang['strimporterrorline'] = '%s 行目がインポートエラーです。';
@@ -176,10 +177,9 @@
 	$lang['strrowdeleted'] = 'レコードを削除しました。';
 	$lang['strrowdeletedbad'] = 'レコードの削除に失敗しました。';
 	$lang['strinsertandrepeat'] = '挿入と繰り返し';
-	$lang['strfield'] = 'フィールド';
-	$lang['strfields'] = 'フィールド一覧';
-	$lang['strnumfields'] = 'フィールド数';
-	$lang['strfieldneedsname'] = 'フィールド名を指定する必要があります。';
+	$lang['strnumcols'] = 'Number of columns';
+	$lang['strcolneedsname'] = 'You must specify a name for the column';
+	$lang['strtypeneedscols'] = 'You must specify a valid number of fields.';
 	$lang['strselectallfields'] = '総てのフィールドを選択';
 	$lang['strselectneedscol'] = '少なくとも一カラムは必要です。';
 	$lang['strselectunary'] = '単項のオペレーターは値を持つことができません。';
@@ -201,6 +201,8 @@
 	$lang['strstructureanddata'] = '構造とデータ';
 	$lang['strtabbed'] = 'Tabbed';
 	$lang['strauto'] = '自動';
+	$lang['strconfvacuumtable'] = '本当に "%s" を vacuum しますか?';
+	$lang['strestimatedrowcount'] = 'Estimated Row Count';
 
 	// Users
 	$lang['struser'] = 'ユーザー';
@@ -260,7 +262,6 @@
 	$lang['strgranted'] = '特権を与えました。';
 	$lang['strgrantfailed'] = '特権を与える事に失敗しました。';
 	$lang['strgrantbad'] = '少なくとも一人のユーザーかグループに、少なくともひとつの特権を指定しなければなりません。';
-	$lang['stralterprivs'] = '特権の変更';
 	$lang['strgrantor'] = '譲与';
 	$lang['strasterisk'] = '*';
 
@@ -289,6 +290,9 @@
 	$lang['strfull'] = 'すべて';
 	$lang['strfreeze'] = 'フリーズ';
 	$lang['strforce'] = '強制';
+	$lang['strsignalsent'] = 'シグナル送信';
+	$lang['strsignalsentbad'] = 'シグナル送信に失敗しました';
+	$lang['strallobjects'] = 'すべてのオブジェクト一覧';
 
 	// Views
 	$lang['strview'] = 'ビュー';
@@ -300,7 +304,7 @@
 	$lang['strviewname'] = 'ビュー名';
 	$lang['strviewneedsname'] = 'ビュー名を指定しなければなりません。';
 	$lang['strviewneedsdef'] = '定義名を指定しなければなりません。';
-	$lang['strviewneedsfields'] = 'You must give the columns you want selected in your view.';
+	$lang['strviewneedsfields'] = 'ビューのの中から選択し、希望のカラムを指定しなければなりません。';
 	$lang['strviewcreated'] = 'ビューを作成しました。';
 	$lang['strviewcreatedbad'] = 'ビューの作成に失敗しました。';
 	$lang['strconfdropview'] = '本当にビュー「%s」を破棄しますか?';
@@ -417,7 +421,9 @@
 	$lang['strshowallfunctions'] = '全関数の表示';
 	$lang['strnofunction'] = '関数がありません。';
 	$lang['strnofunctions'] = '関数が見つかりません。';
-	$lang['strcreatefunction'] = '関数作成';
+	$lang['strcreateplfunction'] = 'SQL/PL 関数作成';
+	$lang['strcreateinternalfunction'] = 'Create internal function';
+	$lang['strcreatecfunction'] = 'C 関数作成';
 	$lang['strfunctionname'] = '関数名';
 	$lang['strreturns'] = '返り値';
 	$lang['strarguments'] = '引数';
@@ -431,6 +437,8 @@
 	$lang['strfunctiondroppedbad'] = '関数の破棄に失敗しました。';
 	$lang['strfunctionupdated'] = '関数を更新しました。';
 	$lang['strfunctionupdatedbad'] = '関数の更新に失敗しました。';
+	$lang['strobjectfile'] = 'オブジェクトファイル';
+	$lang['strlinksymbol'] = 'リンクシンボル';
 
 	// Triggers
 	$lang['strtrigger'] = 'トリガー';
@@ -456,6 +464,9 @@
 	$lang['strnotype'] = 'データ型がありません。';
 	$lang['strnotypes'] = 'データ型が見つかりませんでした。';
 	$lang['strcreatetype'] = 'データ型の作成';
+	$lang['strcreatecomptype'] = '複合型作成';
+	$lang['strtypeneedsfield'] = '少なくとも 1 つのフィールドを指定しなければなりません。';
+	$lang['strtypeneedscols'] = '有効なフィールドの数を指定しなければなりません。';
 	$lang['strtypename'] = 'データ型名';
 	$lang['strinputfn'] = '入力関数';
 	$lang['stroutputfn'] = '出力関数';
@@ -464,6 +475,8 @@
 	$lang['strelement'] = '要素';
 	$lang['strdelimiter'] = 'デミリタ';
 	$lang['strstorage'] = 'ストレージ';
+	$lang['strfield'] = 'フィールド';
+	$lang['strnumfields'] = 'フィールド数';
 	$lang['strtypeneedsname'] = '型名を指定しなければなりません。';
 	$lang['strtypeneedslen'] = 'データ型の長さを指定しなければなりません。';
 	$lang['strtypecreated'] = 'データ型を作成しました。';
@@ -471,6 +484,10 @@
 	$lang['strconfdroptype'] = '本当にデータ型「%s」を破棄しますか?';
 	$lang['strtypedropped'] = 'データ型を破棄しました。';
 	$lang['strtypedroppedbad'] = 'データ型の破棄に失敗しました。';
+	$lang['strflavor'] = 'Flavor';
+	$lang['strbasetype'] = '基本';
+	$lang['strcompositetype'] = '複合型';
+	$lang['strpseudotype'] = 'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'スキーマ';
@@ -488,6 +505,7 @@
 	$lang['strschemadroppedbad'] = 'スキーマの破棄に失敗しました。';
 	$lang['strschemaaltered'] = 'スキーマを変更しました。';
 	$lang['strschemaalteredbad'] = 'スキーマの変更に失敗しました。';
+        $lang['strsearchpath'] = 'スキーマ検索パス';
 
 	// Reports
 	$lang['strreport'] = 'レポート';
@@ -527,9 +545,9 @@
 	$lang['strcreateoperator'] = '演算子を作成しました。';
 	$lang['strleftarg'] = '左引数タイプ';
 	$lang['strrightarg'] = '右引数タイプ';
-	$lang['strcommutator'] = 'Commutator';
-	$lang['strnegator'] = 'Negator';
-	$lang['strrestrict'] = 'Restrict';
+	$lang['strcommutator'] = '交代';
+	$lang['strnegator'] = '否定';
+	$lang['strrestrict'] = '制限';
 	$lang['strjoin'] = '結合';
 	$lang['strhashes'] = 'ハッシュ';
 	$lang['strmerges'] = '併合';
@@ -580,26 +598,43 @@
 	$lang['strnoopclasses'] = '演算子クラスが見つかりません。';
 	$lang['straccessmethod'] = 'アクセス方法';
 
-	// Stats & Performance
-	$lang['strrowperf'] = 'レコードパフォーマンス';
-	$lang['strioperf'] = 'I/Oパフォーマンス';
-	$lang['stridxrowperf'] = 'インデックスレポー土パフォーマンス';
-	$lang['stridxioperf'] = 'インデックスI/Oパフォーマンス';
+	// Stats and performance
+	$lang['strrowperf'] = '行パフォーマンス';
+	$lang['strioperf'] = 'I/O パフォーマンス';
+	$lang['stridxrowperf'] = 'インデックス行パフォーマンス';
+	$lang['stridxioperf'] = 'インデックス I/O パフォーマンス';
 	$lang['strpercent'] = '%';
 	$lang['strsequential'] = 'シーケンシャル';
-	$lang['strscan'] = 'スキャン';
-	$lang['strread'] = '読み込み';
-	$lang['strfetch'] = 'クエリ';
+	$lang['strscan'] = '検索';
+	$lang['strread'] = '読込';
+	$lang['strfetch'] = '取得';
 	$lang['strheap'] = 'ヒープ';
 	$lang['strtoast'] = 'TOAST';
-	$lang['strtoastindex'] = 'TOASTインデックス';
+	$lang['strtoastindex'] = 'TOAST インデックス';
 	$lang['strcache'] = 'キャッシュ';
 	$lang['strdisk'] = 'ディスク';
-	$lang['strrows2'] = 'Rows';
+	$lang['strrows2'] = '行';
+
+	// Tablespaces
+	$lang['strtablespaces'] = 'テーブル空間';
+	$lang['strtablespace'] = 'テーブル空間';
+	$lang['strshowalltablespaces'] = 'すべてのテーブルスペースを表示';
+	$lang['strnotablespaces'] = 'テーブル空間が見つかりません。';
+	$lang['strcreatetablespace'] = 'テーブル空間作成';
+	$lang['strlocation'] = 'ロケーション';
+	$lang['strtablespaceneedsname'] = 'テーブル空間名を指定する必要があります。';
+	$lang['strtablespaceneedsloc'] = 'テーブル空間作成をするディレクトリを指定する必要があります。';
+	$lang['strtablespacecreated'] = 'テーブル空間を作成しました。';
+	$lang['strtablespacecreatedbad'] = 'テーブル空間の作成に失敗しました。';
+	$lang['strconfdroptablespace'] = '本当にテーブル空間「%s」を破棄しますか?';
+	$lang['strtablespacedropped'] = 'テーブル空間を破棄しました。';
+	$lang['strtablespacedroppedbad'] = 'テーブル空間の破棄に失敗しました。';
+	$lang['strtablespacealtered'] = 'テーブル空間を変更しました。';
+	$lang['strtablespacealteredbad'] = 'テーブル空間の変更に失敗しました。';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%sに%sポート番号%sで接続しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
-	$lang['strtimefmt'] = 'Y年n月j日 G:i';
+	$lang['strtopbar'] = '%s に %s ポート番号 %s で接続 -- ユーザー「%s」でホスト「%s」にログイン';
+	$lang['strtimefmt'] = 'Y 年 n 月 j 日 G:i';
 	$lang['strhelp'] = 'ヘルプ';
-
+	$lang['strhelpicon'] = '?';
 ?>
