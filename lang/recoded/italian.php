@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.24 2004/04/05 21:22:19 soranzo Exp $
+	 * $Id: italian.php,v 1.25 2004/05/17 20:35:00 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -117,8 +117,12 @@
 	$lang['strprocesses'] = 'Processi';
 	$lang['strsetting'] = 'Valore';
 	$lang['streditsql'] = 'Modifica SQL';
+	$lang['strruntime'] = 'Tempo di esecuzione totale: %s ms';
 	$lang['strpaginate'] = 'Dividi in pagine i risultati';
+	$lang['struploadscript'] = 'oppure esegui l\'upload di uno script SQL:';
 	$lang['strstarttime'] = 'Inizio';
+	$lang['strfile'] = 'File';
+	$lang['strfileimported'] = 'File importato.';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
@@ -133,6 +137,9 @@
 	$lang['strnoobjects'] = 'Nessun oggetto trovato.';
 	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
 	$lang['strnoreportsdb'] = 'Non &egrave; stato creato il database dei report. Leggere il file INSTALL per istruzioni.';
+	$lang['strnouploads'] = 'L\'upload dei file &egrave; disabilitato.';
+	$lang['strimporterror'] = 'Errore durante l\'import.';
+	$lang['strimporterrorline'] = 'Errore durante l\'import alla linea %s.';
 
         // Tables - Tabelle
 	$lang['strtable'] = 'Tabella';
@@ -177,7 +184,7 @@
 	$lang['strconfdropcolumn'] = 'Sei sicuro di voler eliminare la colonna &quot;%s&quot; dalla tabella &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Colonna eliminata.';
 	$lang['strcolumndroppedbad'] = 'Eliminazione della colonna fallita.';
-	$lang['straddcolumn'] = 'Aggiungi colonna.';
+	$lang['straddcolumn'] = 'Aggiungi colonna';
 	$lang['strcolumnadded'] = 'Colonna aggiunta.';
 	$lang['strcolumnaddedbad'] = 'Aggiunta della colonna fallita.';
 	$lang['strcascade'] = 'CASCADE';
@@ -186,6 +193,8 @@
 	$lang['strdataonly'] = 'Solo i dati';
 	$lang['strstructureonly'] = 'Solo la struttura';
 	$lang['strstructureanddata'] = 'Struttura e dati';
+	$lang['strtabbed'] = 'Tabulato';
+	$lang['strauto'] = 'Auto';
 
 	// Users - Utenti
 	$lang['struser'] = 'Utente';
@@ -269,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Vacuum fallito.';
 	$lang['stranalyzegood'] = 'Analyze completato.';
 	$lang['stranalyzebad'] = 'Analyze fallito';
+	$lang['strreindexgood'] = 'Reindicizzamento completato.';
+	$lang['strreindexbad'] = 'Reindicizzamento fallito.';
+	$lang['strfull'] = 'Completo';
+	$lang['strfreeze'] = 'Freeze';
+	$lang['strforce'] = 'Forza';
 
 	// Views - Viste
 	$lang['strview'] = 'Vista';
@@ -280,6 +294,7 @@
 	$lang['strviewname'] = 'Nome vista';
 	$lang['strviewneedsname'] = '&Egrave; necessario specificare un nome per la vista.';
 	$lang['strviewneedsdef'] = '&Egrave; necessario specificare una definizione per la vista.';
+	$lang['strviewneedsfields'] = '&Egrave; necessario specificare le colonne da selezionare nella vista.';
 	$lang['strviewcreated'] = 'Vista creata.';
 	$lang['strviewcreatedbad'] = 'Creazione della vista fallita.';
 	$lang['strconfdropview'] = 'Sei sicuro di volere eliminare la vista &quot;%s&quot;?';
@@ -287,8 +302,9 @@
 	$lang['strviewdroppedbad'] = 'Eliminazione della vista fallita.';
 	$lang['strviewupdated'] = 'Vista aggiornata.';
 	$lang['strviewupdatedbad'] = 'Aggiornamento della vista fallito.';
-$lang['strviewlink'] = 'Linking Keys';
-$lang['strviewconditions'] = 'Additional Conditions';
+	$lang['strviewlink'] = 'Chiavi collegate';
+	$lang['strviewconditions'] = 'Condizioni aggiuntive';
+	$lang['strcreateviewwiz'] = 'Crea vista tramite wizard';
 
 	// Sequences - Sequenze
 	$lang['strsequence'] = 'Sequenza';

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.95 2004/05/14 01:16:15 soranzo Exp $
+	 * $Id: english.php,v 1.96 2004/05/17 20:35:01 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -294,7 +294,7 @@
 	$lang['strviewname'] = 'View name';
 	$lang['strviewneedsname'] = 'You must give a name for your view.';
 	$lang['strviewneedsdef'] = 'You must give a definition for your view.';
-	$lang['strviewneedsfields'] = 'Please select the fields you want selected in your view.';
+	$lang['strviewneedsfields'] = 'You must give the columns you want selected in your view.';
 	$lang['strviewcreated'] = 'View created.';
 	$lang['strviewcreatedbad'] = 'View creation failed.';
 	$lang['strconfdropview'] = 'Are you sure you want to drop the view &quot;%s&quot;?';

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.46 2004/05/14 14:46:46 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.47 2004/05/17 20:34:57 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -155,11 +155,11 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strimport']}</h2>\n";
 		$misc->printMsg($msg);
 
-	    // Check that file uploads are enabled
-	    if (ini_get('file_uploads')) {
-	        // Don't show upload option if max size of uploads is zero
-	        $max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
-	        if (is_double($max_size) && $max_size > 0) {
+		// Check that file uploads are enabled
+		if (ini_get('file_uploads')) {
+			// Don't show upload option if max size of uploads is zero
+			$max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
+			if (is_double($max_size) && $max_size > 0) {
 				echo "<form action=\"dataimport.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
 				echo "<table>\n";
 				echo "<tr><th class=\"data left required\">{$lang['strformat']}</th>";
@@ -180,9 +180,9 @@
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strimport']}\" /></p>\n";
 				echo "</form>\n";
-            }
-        }
-        else echo "<p>{$lang['strnouploads']}</p>\n";		
+			}
+		}
+		else echo "<p>{$lang['strnouploads']}</p>\n";		
 	}	
 
 	/**
