@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.3 2003/02/09 10:22:38 chriskl Exp $
+ *  $Id: sequences.php,v 1.4 2003/02/18 00:53:19 slubek Exp $
  */
 
 include_once( 'libraries/lib.inc.php' );
@@ -21,9 +21,9 @@ function doDefault($msg='')
 {
     global $data, $localData, $misc, $database, $sequences; 
     global $PHP_SELF, $strPrivileges, $strDrop, $strProperties;
-    global $strNoSequences, $strSequences, $strOwner, $strActions;
+    global $strNoSequences, $strSequences, $strOwner, $strActions, $strCreateSequence;
 
-    echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": Sequences</h2>\n";
+    echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": {$strSequences}</h2>\n";
 	$misc->printMsg($msg);
   
 	$sequences = &$localData->getSequences();
@@ -58,7 +58,7 @@ function doDefault($msg='')
         echo "<p>{$strNoSequences}</p>\n";
     }
     
-    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">Create Sequence</a></p>\n";
+    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">$strCreateSequence</a></p>\n";
 
 }
 // }}}
@@ -66,9 +66,9 @@ function doDefault($msg='')
 	function doProperties($msg = '') 
 	{
 		global $data, $localData, $misc, $PHP_SELF;
-		global $strSequences, $strSequenceName, $strLastValue, $strIncrementBy, $strMaxValue, $strMinValue, $strCacheValue, $strLogCount, $strIsCycled, $strIsCalled, $strReset;
+		global $strSequences, $strSequenceName, $strLastValue, $strIncrementBy, $strMaxValue, $strMinValue, $strCacheValue, $strLogCount, $strIsCycled, $strIsCalled, $strReset, $strProperties, $strNoData;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Properties</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": {$strProperties}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$sequence = &$localData->getSequence($_REQUEST['sequence']);
@@ -94,7 +94,7 @@ function doDefault($msg='')
 			echo "<a href=\"$PHP_SELF?action=reset&{$misc->href}&sequence=", htmlspecialchars( $sequence->f[$data->sqFields['seqname']]), "\">$strReset</a></td>\n"; 
 
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>{$strNoData}.</p>\n";
 	}
 
 
@@ -107,26 +107,27 @@ function doDefault($msg='')
 	function doDrop($confirm)
 	{
 		global $localData, $database, $misc;
-		global $PHP_SELF, $strSequences, $strSequence, $strDropped, $strDrop, $strFailed;
+		global $PHP_SELF, $strSequences, $strSequence, $strSequenceDropped, $strSequenceDroppedBad, $strFailed, $strConfDropSequence, $strDrop;
+		global $strYes, $strNo;
 	
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": {$strDrop}</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the sequence \"", htmlspecialchars($_REQUEST['sequence']), "\"?</p>\n";
+			echo "<p>", sprintf($strConfDropSequence, htmlspecialchars($_REQUEST['sequence'])), "?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=sequence value=\"", htmlspecialchars($_REQUEST['sequence']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropSequence($_POST['sequence']);
 			if ($status == 0)
-				doDefault("$strSequence $strDropped.");
+				doDefault("$strSequenceDropped.");
 			else
-				doDefault("$strSequence $strDrop $strFailed.");
+				doDefault("$strSequenceDroppedBad.");
 		}
 
 	}
@@ -155,7 +156,7 @@ switch( $action )
 		doProperties();	
 		break;
 	case 'drop':
-		if ($_POST['choice'] == 'Yes') doDrop(false);
+		if ($_POST['choice'] == "$strYes") doDrop(false);
 		else doDefault();
 		break;
 	case 'confirm_drop':
