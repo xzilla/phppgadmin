@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.29 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: database.php,v 1.30 2003/12/30 03:09:28 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -224,6 +224,8 @@
 		echo "<table>\n";		
 		echo "<tr>\n<th class=\"data left\">{$lang['strdownload']}</th>\n";
 		echo "<td><input type=\"checkbox\" name=\"download\" /></td>\n</tr>\n";
+		echo "<tr>\n<th class=\"data left\">{$lang['strgzip']}</th>\n";
+		echo "<td><input type=\"checkbox\" name=\"compress\" /></td>\n</tr>\n";
 		echo "</table>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
@@ -545,7 +547,10 @@
 			doExport();
 			break;
 		default:
-			doDefault();
+			if ($data->hasSchemas())
+				doDefault();
+			else
+				doSQL();
 			break;
 	}
 

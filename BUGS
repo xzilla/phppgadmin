@@ -20,3 +20,6 @@ Need to fix:
 * Variables and processes views for < 7.3
 * Add aggregates and opclasses to Find feature
 * Aggregate and opclass support for < 7.3
+* The getType function needs to be ported to 7.2 and 7.3 classes to add
+  pretty type name and schema support
+

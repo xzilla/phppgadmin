@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.7 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: domains.php,v 1.8 2003/12/30 03:09:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -54,16 +54,16 @@
 			// Display domain info
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
+			echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
+			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"domowner\">";
 			while (!$users->EOF) {
 				$uname = $users->f[$data->uFields['uname']];
@@ -101,7 +101,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
-			echo "<th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<th class=\"data required\">{$lang['strdefinition']}</th></tr>\n";
 
 			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\" /></td>\n";
@@ -113,7 +113,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
+			echo "<p><input type=\"submit\" name=\"add\" value=\"{$lang['stradd']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 
@@ -155,8 +155,8 @@
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -185,15 +185,15 @@
 			// Display domain info
 			$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
 			echo "<table>\n";
-			echo "<tr><th class=\"data\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
 			echo "<td class=\"data1\">", ($domaindata->f['domnotnull'] ? 'NOT NULL' : ''), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domdef']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domowner']), "</td></tr>\n";
 			echo "</table>\n";
 			
@@ -213,8 +213,8 @@
 						echo $misc->printVal($domaincons->f[$data->cnFields['consrc']]);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&{$misc->href}&constraint=", urlencode($domaincons->f[$data->cnFields['conname']]),
-							"&domain=", urlencode($_REQUEST['domain']), "&type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
+						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f[$data->cnFields['conname']]),
+							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
 		
 						$domaincons->moveNext();
 						$i++;
@@ -228,9 +228,9 @@
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&domain=", urlencode($_REQUEST['domain']),
+			echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
 				"\">{$lang['straddcheck']}</a>\n";
-			echo "| <a class=\"navlink\" href=\"$PHP_SELF?action=alter&{$misc->href}&domain=", 
+			echo "| <a class=\"navlink\" href=\"$PHP_SELF?action=alter&amp;{$misc->href}&amp;domain=", 
 				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a>\n";
 		}
 		echo "</p>\n";
@@ -288,10 +288,10 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\" width=\"70\">{$lang['strname']}</th>\n";
+		echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"domname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_POST['domname']), "\" /></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";
 		echo "<td class=\"data1\">\n";
 		// Output return type list		
 		echo "<select name=\"domtype\">\n";
@@ -303,14 +303,14 @@
 		}
 		echo "</select>\n";		
 		echo "</td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", 
 			(isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "<tr><th class=\"data\">{$lang['strconstraints']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strconstraints']}</th>\n";
 			echo "<td class=\"data1\">CHECK (<input name=\"domcheck\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['domcheck']), "\" />)</td></tr>\n";
 		}
@@ -367,8 +367,8 @@
 				echo "<td class=\"data{$id}\">", ($domains->f['domnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domdef']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domowner']), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$domains->moveNext();
 				$i++;
@@ -379,7 +379,7 @@
 			echo "<p>{$lang['strnodomains']}</p>\n";
 		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
 	}
 
@@ -395,7 +395,7 @@
 			else addCheck(false);
 			break;
 		case 'drop_con':
-			if (isset($_POST['yes'])) doDropConstraint(false);
+			if (isset($_POST['drop'])) doDropConstraint(false);
 			else doProperties();
 			break;
 		case 'confirm_drop_con':

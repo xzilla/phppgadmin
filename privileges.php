@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.21 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: privileges.php,v 1.22 2003/12/30 03:09:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -48,7 +48,7 @@
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusers']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
 				$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
@@ -57,7 +57,7 @@
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strgroups']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strgroups']}</th>\n";
 			echo "<td class=\"data1\">\n";
 			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' selected="selected"' : ''), " />PUBLIC\n";
 			// Only show groups if there are groups!
@@ -72,7 +72,7 @@
 				echo "</select>\n";
 			}
 			echo "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strprivileges']}</th>\n";
+			echo "<tr><th class=\"data left required\">{$lang['strprivileges']}</th>\n";
 			echo "<td class=\"data1\">\n";
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
@@ -82,7 +82,7 @@
 			echo "</td></tr>\n";
 			// Grant option
 			if ($data->hasGrantOption()) {
-				echo "<tr><th class=\"data\">{$lang['stroptions']}</th>\n";
+				echo "<tr><th class=\"data left\">{$lang['stroptions']}</th>\n";
 				echo "<td class=\"data1\">\n";
 				echo "<input type=\"checkbox\" name=\"grantoption\"", 
 							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', " />GRANT OPTION<br />\n";
@@ -199,30 +199,30 @@
 		// Links for granting to a user or group
 		switch ($_REQUEST['type']) {
 			case 'table':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "&table=", urlencode($_REQUEST['table']), "\">{$lang['stralterprivs']}</a></p>\n";
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['stralterprivs']}</a></p>\n";
 				break;
 			case 'view':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
 					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 				break;
 			case 'sequence':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
 					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
 					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a></p>\n";
 				break;
 			case 'function':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "&function=", urlencode($_REQUEST['function']), "\">{$lang['stralterprivs']}</a>\n";
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
+					urlencode($_REQUEST['object']), "&amp;function=", urlencode($_REQUEST['function']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
 					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.25 2003/12/21 02:03:15 chriskl Exp $
+	 * $Id: functions.php,v 1.26 2003/12/30 03:09:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,10 +51,10 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"90%\">\n";
 			echo "<tr>\n";
-			echo "<th class=\"data\">{$lang['strfunction']}</th>\n";
+			echo "<th class=\"data required\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
-			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
-			echo "<th class=\"data\">{$lang['strproglanguage']}</th>\n";
+			echo "<th class=\"data required\">{$lang['strreturns']}</th>\n";
+			echo "<th class=\"data required\">{$lang['strproglanguage']}</th>\n";
 			echo "</tr>\n";
 				
 
@@ -79,7 +79,7 @@
 			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "\" />\n"; 
 			echo "</td>\n";
 
-			echo "<tr><th class=\"data\" colspan=\"8\">{$lang['strdefinition']}</th></tr>\n";
+			echo "<tr><th class=\"data required\" colspan=\"8\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"8\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			// Display function properies
@@ -153,11 +153,11 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
-			urlencode($func_full), "&function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></td>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;function=", 
+			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;function=",
+			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></td>\n";
 	}
 	
 	/**
@@ -218,10 +218,10 @@
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+		echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
 		echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
-		echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
-		echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
+		echo "<th class=\"data required\">{$lang['strreturns']}</th>\n";
+		echo "<th class=\"data required\">{$lang['strproglanguage']}</th></tr>\n";
 
 		echo "<tr><td class=\"data1\"><input name=\"formFunction\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formFunction']), "\" /></td>\n";
@@ -260,7 +260,7 @@
 		echo "</select>\n";
 
 		echo "</td></tr>\n";
-		echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+		echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		// Display function properies
@@ -337,16 +337,16 @@
 				if ($funcs->f[$data->fnFields['setof']]) echo "setof ";
 				echo $misc->printVal($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stralter']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;function=", 
+					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strproperties']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;function=", 
+					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['stralter']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;function=",
+					urlencode($func_full), "&amp;function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$lang['strdrop']}</a></td>\n";
 				if (isset($data->privlist['function'])) {
-					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&function=", 
-						urlencode($func_full), "&object=",
-						$funcs->f[$data->fnFields['fnoid']], "&type=function\">{$lang['strprivileges']}</a></td>\n";
+					echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&amp;function=", 
+						urlencode($func_full), "&amp;object=",
+						$funcs->f[$data->fnFields['fnoid']], "&amp;type=function\">{$lang['strprivileges']}</a></td>\n";
 				}
 				else echo "<td></td>";
 				echo "</tr>\n";
@@ -360,7 +360,7 @@
 			echo "<p>{$lang['strnofunctions']}</p>\n";
 		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatefunction']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatefunction']}</a></p>\n";
 
 	}
 	

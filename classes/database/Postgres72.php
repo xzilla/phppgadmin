@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.54 2003/12/17 09:11:32 chriskl Exp $
+ * $Id: Postgres72.php,v 1.55 2003/12/30 03:09:29 chriskl Exp $
  */
 
 
@@ -254,6 +254,7 @@ class Postgres72 extends Postgres71 {
 			$where = "AND pt.oid > '{$this->_lastSystemOID}'::oid";
 		
 		$sql = "SELECT
+				pt.typname AS basename,
 				format_type(pt.oid, NULL) AS typname,
 				pu.usename AS typowner
 			FROM
@@ -265,6 +266,7 @@ class Postgres72 extends Postgres71 {
 				{$where}
 			UNION
 			SELECT
+				pt.typname AS basename,
 				pt.typname,
 				pu.usename AS typowner
 			FROM

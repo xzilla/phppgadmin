@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.16 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: sequences.php,v 1.17 2003/12/30 03:09:29 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -28,8 +28,8 @@
 		
 		if (is_object($sequences) && $sequences->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strsequences']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
+			echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			
 			while (!$sequences->EOF) {
@@ -37,14 +37,14 @@
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqname']]), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqowner']]), "</td>";
 				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&{$misc->href}&sequence=", 
+				echo "<a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;sequence=", 
 					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;sequence=", 
 					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
 				echo "<td class=\"opbutton{$id}\">";
-				echo "<a href=\"privileges.php?{$misc->href}&object=", urlencode($sequences->f[$data->sqFields['seqname']]),
-					"&type=sequence\">{$lang['strprivileges']}</td></tr>\n";
+				echo "<a href=\"privileges.php?{$misc->href}&amp;object=", urlencode($sequences->f[$data->sqFields['seqname']]),
+					"&amp;type=sequence\">{$lang['strprivileges']}</td></tr>\n";
 				
 				$sequences->movenext();
 				$i++;
@@ -55,7 +55,7 @@
 		else
 			echo "<p>{$lang['strnosequences']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
 	}
 	
 	/**
@@ -72,6 +72,8 @@
 		$sequence = &$data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {			
+			$sequence->f[$data->sqFields['iscycled']] = $data->phpBool($sequence->f[$data->sqFields['iscycled']]);
+			$sequence->f[$data->sqFields['iscalled']] = $data->phpBool($sequence->f[$data->sqFields['iscalled']]);
 			echo "<table border=\"0\">";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strlastvalue']}</th>";
 			echo "<th class=\"data\">{$lang['strincrementby']}</th><th class=\"data\">{$lang['strmaxvalue']}</th>";
@@ -92,12 +94,12 @@
 			if (isset($sequence->f[$data->sqFields['logcount']])) {
 				echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['logcount']]), "</td>";
 			}
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['iscycled']]), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f[$data->sqFields['iscalled']]), "</td>";
+			echo "<td class=\"data1\">", (($sequence->f[$data->sqFields['iscycled']]) ? $lang['stryes'] : $lang['strno']), "</td>";
+			echo "<td class=\"data1\">", (($sequence->f[$data->sqFields['iscalled']]) ? $lang['stryes'] : $lang['strno']), "</td>";
 			echo "</tr>";
 			echo "</table>";
 			
-			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&{$misc->href}&sequence=", urlencode($sequence->f[$data->sqFields['seqname']]), "\">{$lang['strreset']}</a> |\n";
+			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f[$data->sqFields['seqname']]), "\">{$lang['strreset']}</a> |\n";
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}.</p>\n";
@@ -124,8 +126,8 @@
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -156,23 +158,23 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
 		
-		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formSequenceName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formSequenceName']), "\" /></td></tr>\n";
 		
-		echo "<tr><th class=\"data\">{$lang['strincrementby']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formIncrement']), "\" /> </td></tr>\n";
 		
-		echo "<tr><th class=\"data\">{$lang['strstartvalue']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formStartValue']), "\" /></td></tr>\n";
 		
-		echo "<tr><th class=\"data\">{$lang['strminvalue']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMinValue']), "\" /></td></tr>\n";
 		
-		echo "<tr><th class=\"data\">{$lang['strmaxvalue']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMaxValue']), "\" /></td></tr>\n";
 		
@@ -180,11 +182,9 @@
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&sequence=", urlencode($_REQUEST['sequence']), "\">{$lang['strshowallsequences']}</a></p>\n";
 	}
 
 	/**
@@ -230,13 +230,14 @@
 			doCreateSequence();
 			break;
 		case 'save_create_sequence':
-			doSaveCreateSequence();
+			if (isset($_POST['create'])) doSaveCreateSequence();
+			else doDefault();
 			break;
 		case 'properties':
 			doProperties();	
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

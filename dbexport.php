@@ -3,7 +3,7 @@
 	 * Does an export of a database to the screen or as a download.
 	 * Can also dump a specific table of a database.
 	 *
-	 * $Id: dbexport.php,v 1.4 2003/12/21 10:44:52 chriskl Exp $
+	 * $Id: dbexport.php,v 1.5 2003/12/30 03:09:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,10 @@
 		// Make it do a download, if necessary
 		if (isset($_REQUEST['download'])) {
 			header('Content-Type: application/download');
-			header('Content-Disposition: attachment; filename=dbdump.sql');
+			if (isset($_REQUEST['compress']))
+				header('Content-Disposition: attachment; filename=dump.sql.gz');
+			else
+				header('Content-Disposition: attachment; filename=dump.sql');
 		}
 		else {
 			header('Content-Type: text/plain');
@@ -43,6 +46,11 @@
 		// Check for a table specified
 		if (isset($_REQUEST['table'])) {
 			$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
+		}
+
+		// Check for GZIP compression specified
+		if (isset($_REQUEST['compress'])) {
+			$cmd .= " -Z 9";
 		}
 				
 		switch ($_REQUEST['what']) {

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.55 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: Misc.php,v 1.56 2003/12/30 03:09:29 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -273,15 +273,15 @@
 			if ($data->hasSchemas()) {
 				echo "<td width=\"12%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
 			}
-			// Only show database privs if available
-			if (isset($data->privlist['database'])) {
-				echo "<td width=\"13%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
-			}
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
 			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
 			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
+			// Only show database privs if available
+			if (isset($data->privlist['database'])) {
+				echo "<td width=\"13%\"><a href=\"privileges.php?{$vars}&amp;type=database&amp;object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
+			}
 			// Check that database dumps are enabled.
 			if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {
 				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";

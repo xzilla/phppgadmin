@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.169 2003/12/24 11:12:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.170 2003/12/30 03:09:29 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1487,16 +1487,22 @@ class Postgres extends BaseDB {
 	}
 
 	/** 
-	 * Resets a given sequence to 2 (lowest possible in 7.0)
+	 * Resets a given sequence to min value of sequence
 	 * @param $sequence Sequence name
 	 * @return 0 success
+	 * @return -1 sequence not found
 	 */
 	function &resetSequence($sequence) {
+		// Get the minimum value of the sequence
+		$seq = &$this->getSequence($sequence);
+		if ($seq->recordCount() != 1) return -1;
+		$minvalue = $seq->f[$this->sqFields['minvalue']];
+
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
 		
-		$sql = "SELECT SETVAL('\"{$sequence}\"', 1)";
+		$sql = "SELECT SETVAL('\"{$sequence}\"', {$minvalue})";
 		
 		return $this->execute($sql);
 	}
@@ -1512,6 +1518,10 @@ class Postgres extends BaseDB {
 	 */
 	function createSequence($sequence, $increment, $minvalue, $maxvalue, $startvalue) {
 		$this->fieldClean($sequence);
+		$this->clean($increment);
+		$this->clean($minvalue);
+		$this->clean($maxvalue);
+		$this->clean($startvalue);
 		
 		$sql = "CREATE SEQUENCE \"{$sequence}\"";
 		if ($increment != '') $sql .= " INCREMENT {$increment}";
@@ -2518,6 +2528,7 @@ class Postgres extends BaseDB {
 			$where = "AND pt.oid > '{$this->_lastSystemOID}'::oid";
 		
 		$sql = "SELECT
+				pt.typname AS basename,
 				pt.typname,
 				pu.usename AS typowner
 			FROM
