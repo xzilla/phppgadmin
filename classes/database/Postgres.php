@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.122 2003/06/16 05:38:46 chriskl Exp $
+ * $Id: Postgres.php,v 1.123 2003/06/17 00:41:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -46,7 +46,7 @@ class Postgres extends BaseDB {
 	var $typIndexDef = 'BTREE';
 	// Array of allowed trigger events	
 	var $triggerEvents= array('INSERT', 'UPDATE', 'DELETE', 'INSERT OR UPDATE', 'INSERT OR DELETE', 
-		'UPDATE OR DELETE', 'INSERT OR UPDATE OR DELETE');
+		'DELETE OR UPDATE', 'INSERT OR DELETE OR UPDATE');
 	// When to execute the trigger	
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
 	// Foreign key actions
