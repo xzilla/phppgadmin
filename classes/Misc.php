@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.81 2004/07/22 04:19:43 chriskl Exp $
+	 * $Id: Misc.php,v 1.82 2004/07/22 08:49:03 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -99,6 +99,7 @@
 		 *			true     - (type='bool') the representation of true.
 		 *			false    - (type='bool') the representation of false.
 		 *			function - (type='callback') a function name, accepts args ($str, $params) and returns a rendering.
+		 *			lineno   - prefix each line with a line number.
 		 *
 		 * @return The HTML rendered value
 		 */
@@ -120,6 +121,19 @@
 				}
 			}
 			
+			// Add line numbers if 'lineno' param is true
+			if (isset($params['lineno']) && $params['lineno'] === true) {
+				$lines = explode("\n", $str);
+				// Determine max number of digits and create a formatting string
+				$format = '%' . strlen(count($lines)) . 'u: %s';
+				$i = 1;
+				$str = '';
+				foreach ($lines as $line) {
+					$str .= sprintf($format, $i++, $line) . "\n";
+				}
+				unset($lines);
+			}
+
 			$out = '';
 			
 			switch ($type) {
@@ -528,7 +542,7 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['object']),
+							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['schema']),
 							'hide'  => (!$data->hasSchemas()),
 						),
 					);
