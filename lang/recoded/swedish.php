@@ -5,12 +5,13 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.1 2003/08/28 01:29:33 chriskl Exp $
+	 * $Id: swedish.php,v 1.2 2003/08/29 02:18:37 chriskl Exp $
 	 */
 
 	// Language and character set
-	$lang['applang'] = 'Svenska';
+	$lang['applang'] = 'Swedish';
 	$lang['appcharset'] = 'ISO-8859-1';
+	$lang['appdbencoding'] = 'LATIN1';
 	$lang['applocale'] = 'sv_SV';
 
 	// Welcome  
@@ -42,6 +43,8 @@
 	$lang['strnull'] = 'Ingenting';
 	$lang['strnotnull'] = 'Inte Ingenting';
 	$lang['strprev'] = 'F&ouml;reg&aring;ende';
+	$lang['strfirst'] = '<< F&ouml;rsta';
+	$lang['strlast'] = 'Sista >>';
 	$lang['strnext'] = 'N&auml;sta';
 	$lang['strfailed'] = 'Misslyckades';
 	$lang['strcreate'] = 'Skapa';
@@ -97,8 +100,15 @@
 	$lang['strconfirm'] = 'Bekr&auml;fta';
 	$lang['strexpression'] = 'Uttryck';
 	$lang['strellipsis'] = '...';
-	$lang['strexpand'] = 'Utvidga';
-	$lang['strcollapse'] = 'Kollapsa';
+	$lang['strexpand'] = 'Ut&ouml;ka vy';
+	$lang['strexplain'] = 'F&ouml;rklara';
+	$lang['strfind'] = 'S&ouml;k';
+	$lang['stroptions'] = 'Val';
+	$lang['strrefresh'] = 'Uppdatera';
+	$lang['strtaller'] = 'L&auml;ngre';
+	$lang['strshorter'] = 'Kortare';
+	$lang['strdownload'] = 'Ladda ner';
+	$lang['strcollapse'] = 'F&ouml;rminska vy';
 
 	// Error handling
 	$lang['strnoframes'] = 'Du beh&ouml;ver en webl&auml;sare som st&ouml;der frames f&ouml;r att anv&auml;nda detta program.';
@@ -151,17 +161,17 @@
 	$lang['strcolumnalteredbad'] = 'Misslyckades att &auml;ndra kolumn.';
 	$lang['strconfdropcolumn'] = '&Auml;r du s&auml;ker p&aring; att du vill radera kolumn &quot;%s&quot; fr&aring;n tabell &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Kolumn raderad.';
-	$lang['strcolumndroppedbad'] = 'Misslyckades att radera kolumn.';
 	$lang['straddcolumn'] = 'L&auml;gg till kolumn';
 	$lang['strcolumnadded'] = 'Kolumn inlagd.';
 	$lang['strcolumnaddedbad'] = 'Misslyckades att l&auml;gga till kolumne.';
 	$lang['strschemaanddata'] = 'Schema &amp; Data';
 	$lang['strschemaonly'] = 'Endast Schema';
 	$lang['strdataonly'] = 'Endast Data';
+	$lang['strtablealtered'] = 'Tabell &auml;ndrad.';
+	$lang['strtablealteredbad'] = 'Misslyckades att &auml;ndra tabell.';
 	$lang['strcascade'] = 'KASKAD';
 
 	// Users
-	$lang['struseradmin'] = 'Anv&auml;ndar Admin';
 	$lang['struser'] = 'Anv&auml;ndare';
 	$lang['strusers'] = 'Anv&auml;ndare';
 	$lang['strusername'] = 'Anv&auml;ndarnamn';
@@ -176,7 +186,6 @@
 	$lang['strcreateuser'] = 'Skapa anv&auml;ndare';
 	$lang['strusercreated'] = 'Anv&auml;ndare skapad.';
 	$lang['strusercreatedbad'] = 'Misslyckades att skapa anv&auml;ndare.';
-	$lang['strconfdropuser'] = '&Auml;r du s&auml;ker p&aring; att du vill radera anv&auml;ndare &quot;%s&quot;?';
 	$lang['struserdropped'] = 'Anv&auml;ndare raderad.';
 	$lang['struserdroppedbad'] = 'Misslyckades att radera anv&auml;ndare.';
 	$lang['straccount'] = 'Konton';
@@ -187,7 +196,6 @@
 	$lang['strpasswordconfirm'] = 'L&ouml;senordet &auml;r inte samma som bekr&auml;ftelsen.';
 	
 	// Groups
-	$lang['strgroupadmin'] = 'Grupp Admin';
 	$lang['strgroup'] = 'Grupp';
 	$lang['strgroups'] = 'Grupper';
 	$lang['strnogroup'] = 'Hittade ej grupp.';
@@ -198,6 +206,13 @@
 	$lang['strgroupcreated'] = 'Grupp skapad.';
 	$lang['strgroupcreatedbad'] = 'Misslyckades att skapa grupp.';	
 	$lang['strconfdropgroup'] = '&Auml;r du s&auml;ker p&aring; att du vill radera grupp &quot;%s&quot;?';
+	$lang['straddmember'] = 'L&auml;gg till medlem';
+	$lang['strmemberadded'] = 'Medlem inlagd.';
+	$lang['strmemberaddedbad'] = 'Misslyckades att l&auml;gga till medlem.';
+	$lang['strdropmember'] = 'Radera medlem';
+	$lang['strconfdropmember'] = '&Auml;r du s&auml;ker p&aring; att du vill radera medlem &quot;%s&quot; fr&aring;n gruppen &quot;%s&quot;?';
+	$lang['strmemberdropped'] = 'Medlem raderad.';
+	$lang['strmemberdroppedbad'] = 'Misslyckades radera medlem.';
 	$lang['strgroupdropped'] = 'Grupp raderad.';
 	$lang['strgroupdroppedbad'] = 'Misslyckades att radera grupp.';
 	$lang['strmembers'] = 'Medlemmar';
@@ -209,6 +224,8 @@
 	$lang['strgrant'] = 'Till&aring;t';
 	$lang['strrevoke'] = 'Ta tillbaka';
 	$lang['strgranted'] = 'R&auml;ttigheter &auml;ndrade.';
+	$lang['strgrantor'] = 'R&auml;ttighetsgivare';
+	$lang['strasterisk'] = '*';
 	$lang['strgrantfailed'] = 'Misslyckades att &auml;ndra r&auml;ttigheter.';
 	$lang['strgrantbad'] = 'Du m&aring;ste ange minst en anv&auml;ndare eller grupp och minst en r&auml;ttighet.';
 	$lang['stralterprivs'] = '&Auml;ndra r&auml;ttigheter';
@@ -378,6 +395,8 @@
 	$lang['strtriggerneedsfunc'] = 'Du m&aring;ste specificera en funktion f&ouml;r din mekanism.';
 	$lang['strtriggercreated'] = 'Mekanism skapad.';
 	$lang['strtriggercreatedbad'] = 'Misslyckades att skapa mekanism.';
+	$lang['strtriggeraltered'] = 'Mekanism &auml;ndrad.';
+	$lang['strtriggeralteredbad'] = 'Misslyckades att &auml;ndra mekanism.';
 	$lang['strconfdroptrigger'] = '&Auml;r du s&auml;ker p&aring; att du vill radera mekanismen &quot;%s&quot; f&ouml;r &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Mekanism raderad.';
 	$lang['strtriggerdroppedbad'] = 'Misslyckades att radera mekanism.';
@@ -430,11 +449,39 @@
 	$lang['strreportdroppedbad'] = 'Misslyckades att skapa rapport.';
 	$lang['strconfdropreport'] = '&Auml;r du s&auml;ker p&aring; att du vill radera rapporten &quot;%s&quot;?';
 	$lang['strreportneedsname'] = 'Du m&aring;ste namnge din rapport.';
+	$lang['strsaveasreport'] = 'Spara som rapport';
 	$lang['strreportneedsdef'] = 'Du m&aring;ste ange din SQL-fr&aring;ga.';
 	$lang['strreportcreated'] = 'Rapport sparad.';
+	$lang['strdomain'] = 'Dom&auml;n';
+	$lang['strdomains'] = 'Dom&auml;ner';
+	$lang['strshowalldomains'] = 'Visa alla dom&auml;ner';
+	$lang['strnodomains'] = 'Hittade inga dom&auml;ner.';
+	$lang['strcreatedomain'] = 'Skapa dom&auml;n';
+	$lang['strdomaindropped'] = 'Dom&auml;n raderad.';
+	$lang['strdomaindroppedbad'] = 'Misslyckades att radera dom&auml;n.';
+	$lang['strconfdropdomain'] = '&Auml;r du s&auml;ker p&aring; att du vill radera dom&auml;nen &quot;%s&quot;?';
+	$lang['strdomainneedsname'] = 'Du m&aring;ste namnge din dom&auml;n.';
+	$lang['strdomaincreated'] = 'Dom&auml;n skapad.';
+	$lang['strdomaincreatedbad'] = 'Misslyckades att skapa dom&auml;n.';
+	$lang['strdomainaltered'] = 'Dom&auml;n &auml;ndrad.';
+	$lang['strdomainalteredbad'] = 'Misslyckades att &auml;ndra dom&auml;n.';
 	$lang['strreportcreatedbad'] = 'Misslyckades att spara rapport.';
 
 	// Miscellaneous
+	$lang['stroperator'] = 'Operand';
+	$lang['strshowalloperators'] = 'Visa alla operander';
+	$lang['strnooperator'] = 'Hittade ingen operand.';
+	$lang['strnooperators'] = 'Hittade inga operander.';
+	$lang['strcreateoperator'] = 'Skapa operand';
+	$lang['stroperatorname'] = 'Operandnamn';
+	$lang['strleftarg'] = 'Arg typ v&auml;nster';
+	$lang['strrightarg'] = 'Arg typ h&ouml;ger';
+	$lang['stroperatorneedsname'] = 'Du m&aring;ste namnge din operand.';
+	$lang['stroperatorcreated'] = 'Operand skapad';
+	$lang['stroperatorcreatedbad'] = 'Mislyckades att skapa operand.';
+	$lang['strconfdropoperator'] = '&Auml;r du s&auml;ker p&aring; att du vill radera operanden &quot;%s&quot;?';
+	$lang['stroperatordropped'] = 'Operand raderad.';
+	$lang['stroperatordroppedbad'] = 'Misslyckades att radera operand.';
 	$lang['strtopbar'] = '%s p&aring; port %s:%s -- Du &auml;r inloggad som &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
