@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.91 2003/05/05 14:55:08 chriskl Exp $
+ * $Id: Postgres.php,v 1.92 2003/05/06 07:04:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -39,7 +39,7 @@ class Postgres extends BaseDB {
 	// Extra "magic" types
 	var $extraTypes = array('SERIAL');
 	// Array of allowed index types
-	var $typIndexes = array('BTREE', 'RTREE', 'GiST', 'HASH');
+	var $typIndexes = array('BTREE', 'RTREE', 'GIST', 'HASH');
 	// Default index type 
 	var $typIndexDef = 'BTREE';
 	// Array of allowed trigger events	
@@ -366,7 +366,7 @@ class Postgres extends BaseDB {
 				break;
 			case 'text':
 			case 'bytea':
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\" style=\"width: 100%\">\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"28\" wrap=\"virtual\">\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
@@ -1219,16 +1219,20 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Creates an index
-	 * @param $database The name of the database to create
+	 * @param $name The index name
+	 * @param $table The table on which to add the index
+	 * @param $columns An array of columns that form the index
+	 * @param $type The index type
 	 * @return 0 success
 	 */
-	function createIndex($name, $table, $columns) {
+	function createIndex($name, $table, $columns, $type) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 		$this->arrayClean($columns);
 
-		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\"(\"" .
-			implode('","', $columns) . "\")";
+		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
+		$sql .= "(\"" . implode('","', $columns) . "\")";
+			
 
 		return $this->execute($sql);
 	}
