@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.9 2005/03/09 10:18:39 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.10 2005/03/09 12:23:00 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1391,7 +1391,11 @@
 					}
 					if (isset($icon))
 						echo " openIcon=\"{$icon}\"";
-						
+					
+					if (!empty($actions['item']['toolTip'])) {
+						echo value_xml_attr('toolTip', $actions['item']['toolTip'], $treedata->f);
+					}
+					
 					echo "/>\n";
 					
 					$treedata->moveNext();
