@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.248 2004/10/11 10:27:33 jollytoad Exp $
+ * $Id: Postgres.php,v 1.249 2004/11/02 03:33:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1302,10 +1302,12 @@ class Postgres extends ADODB_base {
 	 * @param $column The name of the new column
 	 * @param $type The type of the column
 	 * @param $array True if array type, false otherwise
+	 * @param $notnull True if NOT NULL, false otherwise
+	 * @param $default The default for the column.  '' for none.
 	 * @param $length The optional size of the column (ie. 30 for varchar(30))
 	 * @return 0 success
 	 */
-	function addColumn($table, $column, $type, $array, $length, $comment) {
+	function addColumn($table, $column, $type, $array, $length, $notnull, $default, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
 		$this->clean($type);
@@ -1335,6 +1337,15 @@ class Postgres extends ADODB_base {
 		
 		// Add array qualifier, if requested
 		if ($array) $sql .= '[]';
+		
+		// If we have advanced column adding, add the extra qualifiers
+		if ($this->hasAlterColumnType()) {
+			// NOT NULL clause
+			if ($notnull) $sql .= ' NOT NULL';
+			
+			// DEFAULT clause
+			if ($default != '') $sql .= ' DEFAULT ' . $default;
+		}
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;

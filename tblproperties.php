@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.61 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.62 2004/11/02 03:33:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -280,6 +280,9 @@
 					echo "<td><input name=\"default\" size=\"20\" value=\"",
 						htmlspecialchars($_POST['default']), "\" /></td>";
 				}
+				else {
+					echo "<input type=\"hidden\" name=\"default\" value=\"\" />\n";	
+				}
 				echo "<td><input name=\"comment\" size=\"40\" value=\"",
 					htmlspecialchars($_POST['comment']), "\" /></td></tr>";
 				echo "</table>\n";
@@ -301,9 +304,10 @@
 					doAddColumn($lang['strcolneedsname']);
 					return;
 				}
-				
+
 				$status = $data->addColumn($_POST['table'], $_POST['field'],
-							   $_POST['type'], $_POST['array'] != '', $_POST['length'], $_POST['comment']);
+							   $_POST['type'], $_POST['array'] != '', $_POST['length'], isset($_POST['notnull']),
+							   $_POST['default'], $_POST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnadded']);
 				else {
