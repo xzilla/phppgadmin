@@ -108,7 +108,7 @@ Miscellaneous
 -------------
 
 * Printable view of things
-* Allow simultaneous logins to different clusters
+* Allow simultaneous logins to different clusters (Mark Gibson)
 * Show comments for all objects (Dan Boren)
 * Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
