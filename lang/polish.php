@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.42 2005/02/12 21:55:59 slubek Exp $
+	 * $Id: polish.php,v 1.43 2005/02/17 22:13:22 slubek Exp $
 	 */
 
 	// Language and character set
@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczy¶æ';
 	$lang['stranalyze'] = 'Analizuj';
-	$lang['strcluster'] = 'Klaster';
+	$lang['strcluster'] = 'Klastruj';
 	$lang['strclustered'] = 'Klastrowany?';
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
@@ -283,9 +283,9 @@
 	$lang['stranalyzebad'] = 'Próba analizy siê nie powiod³a.';
 	$lang['strreindexgood']  =  'Reindeksacja zosta³a zakoñczona.';
 	$lang['strreindexbad']  =  'Próba reindeksacji siê nie powiod³a.';
-    $lang['strfull']  =  'Pe³ny(a)';
-    $lang['strfreeze']  =  'Zamro¿ony(a)';
-    $lang['strforce']  =  'Wymuszony(a)';
+	$lang['strfull']  =  'Pe³ne';
+	$lang['strfreeze']  =  'Zamro¿enie';
+	$lang['strforce']  =  'Wymuszenie';
 	$lang['strsignalsent']  =  'Sygna³ zosta³ wys³any.';
 	$lang['strsignalsentbad']  =  'Próba wys³ania sygna³u siê nie powiod³a.';
 	$lang['strallobjects']  =  'Wszystkie obiekty';
@@ -606,8 +606,8 @@
 	$lang['strread'] = 'Czytaj';
 	$lang['strfetch'] = 'Pobierz';
 	$lang['strheap'] = 'Sterta';
-$lang['strtoast'] = 'TOAST';
-$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'Indeks TOAST';
 	$lang['strcache'] = 'Kesz';
 	$lang['strdisk'] = 'Dysk';
 	$lang['strrows2'] = 'Wiersze';

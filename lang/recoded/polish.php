@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.36 2005/02/12 21:55:59 slubek Exp $
+	 * $Id: polish.php,v 1.37 2005/02/17 22:13:22 slubek Exp $
 	 */
 
 	// Language and character set
@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczy&#347;&#263;';
 	$lang['stranalyze'] = 'Analizuj';
-	$lang['strcluster'] = 'Klaster';
+	$lang['strcluster'] = 'Klastruj';
 	$lang['strclustered'] = 'Klastrowany?';
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
@@ -283,9 +283,9 @@
 	$lang['stranalyzebad'] = 'Pr&oacute;ba analizy si&#281; nie powiod&#322;a.';
 	$lang['strreindexgood']  =  'Reindeksacja zosta&#322;a zako&#324;czona.';
 	$lang['strreindexbad']  =  'Pr&oacute;ba reindeksacji si&#281; nie powiod&#322;a.';
-    $lang['strfull']  =  'Pe&#322;ny(a)';
-    $lang['strfreeze']  =  'Zamro&#380;ony(a)';
-    $lang['strforce']  =  'Wymuszony(a)';
+	$lang['strfull']  =  'Pe&#322;ne';
+	$lang['strfreeze']  =  'Zamro&#380;enie';
+	$lang['strforce']  =  'Wymuszenie';
 	$lang['strsignalsent']  =  'Sygna&#322; zosta&#322; wys&#322;any.';
 	$lang['strsignalsentbad']  =  'Pr&oacute;ba wys&#322;ania sygna&#322;u si&#281; nie powiod&#322;a.';
 	$lang['strallobjects']  =  'Wszystkie obiekty';
