@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.11 2002/12/23 01:18:57 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.12 2002/12/23 01:28:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -318,7 +318,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData;
-		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
+		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTable;
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables, $strPrivileges;
 		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
 
@@ -371,24 +371,6 @@ EOF;
 					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Drop</a></li>\n";
 				echo "<li><a href=\"privileges.php?action=get_privileges&database=",
 					htmlspecialchars($_REQUEST['database']), "&object=", urlencode($_REQUEST['table']),"\">$strPrivileges</a></li>\n";
-
-echo <<<EOF
-
-<li>
-	<form method="post" action="tbl_addfield.php">
-		Add new field: 
-		<select name="num_fields">
-		<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>		</select>
-
-		<input type="submit" value="Go">
-		<input type="hidden" name="table" value="med_practice">
-		<input type="hidden" name="db" value="mojo5">
-		<input type="hidden" name="server" value="2">
-	</form>
-<li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a>
-<li>
-EOF;
-
 
 		}
 		else {

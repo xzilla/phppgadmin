@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.20 2002/12/22 15:01:30 chriskl Exp $
+	 * $Id: english.php,v 1.21 2002/12/23 01:28:49 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -12,7 +12,7 @@
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strLogin = 'Login';
 	$strNoTables = 'No tables found.';
-	$strNoTable = 'No table found';
+	$strNoTable = 'No table found.';
 	$strNoViews = 'No views found.';
 	$strNoFunctions = 'No functions found.';
 	$strOwner = 'Owner';
@@ -122,6 +122,8 @@
 	$strTableNeedsName = 'You must give a name for your table.';
 	$strTableNeedsCols = 'You must give a valid number of columns.';
 	$strExport = 'Export';
+	$strConstraints = 'Constraints';
+	$strColumns = 'Columns';
 	
 	// Functions
 	$strReturns = 'Returns';
