@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.90 2004/09/02 14:03:06 jollytoad Exp $
+	 * $Id: Misc.php,v 1.91 2004/09/03 08:24:35 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -248,8 +248,8 @@
 		function printTitle($title, $help = null) {
 			global $data, $lang;
 			
-			echo "<h2>{$title}";
-			$this->printHelp($help);
+			echo "<h2>";
+			$this->printHelp($title, $help);
 			echo "</h2>\n";
 		}
 		
@@ -404,9 +404,14 @@
 				$active = ($tab_id == $activetab) ? ' active' : '';
 				
 				if (!isset($tab['hide']) || $tab['hide'] !== true) {
-					echo "<td width=\"{$width}\" class=\"tab{$active}\"><a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a>";
+					$tablink = "<a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a>";
 					
-					if (isset($tab['help'])) $this->printHelp($tab['help']);
+					echo "<td width=\"{$width}\" class=\"tab{$active}\">";
+					
+					if (isset($tab['help']))
+						$this->printHelp($tablink, $tab['help']);
+					else
+						echo $tablink;
 					
 					echo "</td>\n";
 				}
@@ -720,18 +725,22 @@
 			echo "<div class=\"trail\">";
 			
 			foreach ($trail as $crumb) {
-				echo "<span class=\"crumb\"><a";
+				echo "<span class=\"crumb\">";
+				
+				$crumblink = "<a";
 				
 				if (isset($crumb['url']))
-					echo ' href="' . $this->printVal($crumb['url'], 'nbsp') . '"';
+					$crumblink .= ' href="' . $this->printVal($crumb['url'], 'nbsp') . '"';
 				
 				if (isset($crumb['title']))
-					echo " title=\"{$crumb['title']}\"";
+					$crumblink .= " title=\"{$crumb['title']}\"";
 				
-				echo ">" . htmlspecialchars($crumb['text']) . "</a>";
+				$crumblink .= ">" . htmlspecialchars($crumb['text']) . "</a>";
 				
 				if (isset($crumb['help']))
-					$this->printHelp($crumb['help']);
+					$this->printHelp($crumblink, $crumb['help']);
+				else
+					echo $crumblink;
 				
 				echo "</span>{$lang['strseparator']}";
 			}
@@ -882,11 +891,13 @@
 
 		/**
 		 * Displays link to the context help.
-		 * @param $help - help section name
+		 * @param $str   - a string to place a context help by (already escaped) 
+		 * @param $help  - help section name
 		 */
-		function printHelp($help) {
+		function printHelp($str, $help) {
 			global $lang, $data;
 			
+			echo $str;
 			if (!is_null($help) && isset($data->help_page[$help])) {
 				echo "<a class=\"help\" href=\"";
 				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
@@ -1008,9 +1019,11 @@
 							echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
 							break;
 						default:
-							echo "<th class=\"data\">{$column['title']}";
+							echo "<th class=\"data\">";
 							if (isset($column['help']))
-								$this->printHelp($column['help']);
+								$this->printHelp($column['title'], $column['help']);
+							else
+								echo $column['title'];
 							echo "</th>\n";
 							break;
 					}
