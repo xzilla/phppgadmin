@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.18 2004/02/23 07:23:15 chriskl Exp $
+	 * $Id: sql.php,v 1.19 2004/04/12 06:30:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -38,8 +38,12 @@
 
 	// Set fetch mode to NUM so that duplicate field names are properly returned
 	$data->conn->setFetchMode(ADODB_FETCH_NUM);
-	// Execute the query
-	$rs = $data->conn->Execute($_POST['query']);
+	
+	// Execute the query.  If it's a script upload, special handling is necessary
+	if (isset($_FILES['script']) && $_FILES['script']['size'] > 0)
+	    $rs = $data->executeScript('script');
+	else
+		$rs = $data->conn->Execute($_POST['query']);
 
 	// $rs will only be an object if there is no error
 	if (is_object($rs)) {

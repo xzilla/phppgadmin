@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.59 2004/02/13 08:53:05 chriskl Exp $
+	 * $Id: Misc.php,v 1.60 2004/04/12 06:30:55 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -263,16 +263,19 @@
 			global $lang;
 
 			$vars = $this->href . '&amp;table=' . urlencode($_REQUEST['table']);
-
+			// Width of each cell
+			$width = round(100 / 9) . '%';
+			
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"12%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"info.php?{$vars}\">{$lang['strinfo']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"info.php?{$vars}\">{$lang['strinfo']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=import\">{$lang['strimport']}</a></td>\n";
+			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 
@@ -407,6 +410,36 @@
 			echo "-->\n";
 			echo "</script>\n";		
 		}
-		 
+
+        /**
+         * Converts a PHP.INI size variable to bytes.  Taken from publically available
+         * function by Chris DeRose, here: http://www.php.net/manual/en/configuration.directives.php#ini.file-uploads
+         * @param $strIniSize The PHP.INI variable
+         * @return size in bytes, false on failure
+         */
+        function inisizeToBytes($strIniSize) {
+           // This function will take the string value of an ini 'size' parameter,
+           // and return a double (64-bit float) representing the number of bytes that the parameter represents. Or false if $strIniSize is unparseable.
+           $a_IniParts = array();
+        
+           if (!is_string( $strIniSize ))
+               return false;
+        
+           if (!preg_match ('/^(\d+)([bkm]*)$/i', $strIniSize,$a_IniParts))
+               return false;
+          
+           $nSize    = (double) $a_IniParts[1];
+           $strUnit = strtolower($a_IniParts[2]);
+          
+           switch($strUnit) {
+               case 'm':
+                   return ($nSize * (double) 1048576);
+               case 'k':
+                   return ($nSize * (double) 1024);
+               case 'b':
+               default:
+                   return $nSize;
+           }
+        }		 
 	}
 ?>

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.190 2004/04/01 15:10:31 soranzo Exp $
+ * $Id: Postgres.php,v 1.191 2004/04/12 06:30:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3611,6 +3611,33 @@ class Postgres extends BaseDB {
 		";
 
 		return $this->selectSet($sql);
+	}
+
+	// Script execution functions
+	
+	/** 
+	 * Executes an SQL script as a series of SQL statements.  Returns
+	 * the result of the final step.
+	 * @param $name Entry in $_FILES to use
+	 * @return Result of final query, false on any failure.
+	 */
+	function executeScript($name) {
+		if (!is_uploaded_file($_FILES[$name]['tmp_name'])) return false;
+
+		$fd = fopen($_FILES[$name]['tmp_name'], 'r');
+		if (!$fd) return false;
+		
+		// Loop over each line in the file
+		while (!feof($fd)) {
+ 		  $sql = fgets($fd, 32768);
+ 		  // Execute the query, ignoring errors for the time being
+ 		  // XXX: This needs to handle COPY to and from
+ 		  $res = @pg_query($sql);
+		}
+		
+		fclose($fd);
+		
+		return new ADORecordSet_empty();
 	}
 
 	// Type conversion routines

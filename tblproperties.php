@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.39 2004/04/01 15:53:01 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.40 2004/04/12 06:30:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -146,6 +146,44 @@
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}
+	
+	function doImport($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		$misc->printTableNav();
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strimport']}</h2>\n";
+		$misc->printMsg($msg);
+
+	    // Check that file uploads are enabled
+	    if (ini_get('file_uploads')) {
+	        // Don't show upload option if max size of uploads is zero
+	        $max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
+	        if (is_double($max_size) && $max_size > 0) {
+				echo "<form action=\"dataimport.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
+				echo "<table>\n";
+				echo "<tr><th class=\"data left required\">{$lang['strformat']}</th>";
+				echo "<td><select name=\"format\">\n";
+				//echo "<option value=\"copy\">COPY</option>\n";
+				//echo "<option value=\"sql\">SQL</option>\n";
+				echo "<option value=\"csv\">CSV</option>\n";
+				//echo "<option value=\"tab\">Tabbed</option>\n";
+				//echo "<option value=\"html\">XHTML</option>\n";
+				//echo "<option value=\"xml\">XML</option>\n";
+				echo "</select>\n</td>\n</tr>\n";
+				echo "<tr><th class=\"data left required\">{$lang['strfile']}</th>";
+				echo "<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
+				echo "<input type=\"file\" name=\"source\" />\n";
+				echo "</table>\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"import\" />\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strimport']}\" /></p>\n";
+				echo "</form>\n";
+            }
+        }
+        else echo "<p>{$lang['strnouploads']}</p>\n";		
+	}	
 
 	/**
 	 * Displays a screen where they can add a column
@@ -428,6 +466,9 @@
 			break;
 		case 'confirm_alter':
 			doAlter();
+			break;
+		case 'import':
+			doImport();
 			break;
 		case 'export':
 			doExport();

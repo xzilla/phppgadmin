@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.12 2004/03/29 02:05:31 chriskl Exp $
+	 * $Id: dataexport.php,v 1.13 2004/04/12 06:30:55 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -348,6 +348,8 @@
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
+		
+		$misc->printFooter();
 	}	
 
 ?>

@@ -22,3 +22,9 @@ Need to fix:
 
 * Fix all uses of setComment that do double escaping
 
+NEEDS TESTING
+-------------
+
+* Comment stuff
+* Import
+* Script execution

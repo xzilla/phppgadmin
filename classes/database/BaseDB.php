@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.42 2004/03/29 02:05:31 chriskl Exp $
+ * $Id: BaseDB.php,v 1.43 2004/04/12 06:30:55 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -108,7 +108,7 @@ class BaseDB extends ADODB_base {
 	/**
 	 * Adds a new row to a table
 	 * @param $table The table in which to insert
-	 * @param $values An array mapping new values for the row
+	 * @param $var An array mapping new values for the row
 	 * @param $nulls An array mapping column => something if it is to be null
 	 * @param $format An array of the data type (VALUE or EXPRESSION)
 	 * @param $types An array of field types

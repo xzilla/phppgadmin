@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.89 2004/04/05 21:22:19 soranzo Exp $
+	 * $Id: english.php,v 1.90 2004/04/12 06:30:56 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -118,7 +118,10 @@
 	$lang['strsetting'] = 'Setting';
 	$lang['streditsql'] = 'Edit SQL';
 	$lang['strpaginate'] = 'Paginate results';
+	$lang['struploadscript'] = 'or upload an SQL script:';
 	$lang['strstarttime'] = 'Start Time';
+	$lang['strfile'] = 'File';
+	$lang['strfileimported'] = 'File imported.';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -133,6 +136,9 @@
 	$lang['strnoobjects'] = 'No objects found.';
 	$lang['strrownotunique'] = 'No unique identifier for this row.';
 	$lang['strnoreportsdb'] = 'You have not created the reports database. Read the INSTALL file for directions.';
+	$lang['strnouploads'] = 'File uploads are disabled.';
+	$lang['strimporterror'] = 'Import error.';
+	$lang['strimporterrorline'] = 'Import error on line %s.';
 
 	// Tables
 	$lang['strtable'] = 'Table';
