@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.17 2003/07/28 07:50:31 chriskl Exp $
+	 * $Id: privileges.php,v 1.18 2003/08/11 09:15:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -86,6 +86,8 @@
 				echo "<td class=\"data1\">\n";
 				echo "<input type=\"checkbox\" name=\"grantoption\"", 
 							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', ">GRANT OPTION<br />\n";
+				echo "<input type=\"checkbox\" name=\"cascade\"", 
+							isset($_REQUEST['cascade']) ? ' selected="selected"' : '', ">CASCADE ({$lang['strrevoke']})<br />\n";
 				echo "</td></tr>\n";
 			}
 			echo "</table>\n";
@@ -111,7 +113,7 @@
 		else {
 			$status = $localData->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
-				isset($_REQUEST['grantoption']) && isset($_REQUEST['grant']));
+				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strgranted']);
 			elseif ($status == -3 || $status == -4)

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.136 2003/08/11 05:48:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.137 2003/08/11 09:15:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2212,6 +2212,7 @@ class Postgres extends BaseDB {
 	 * @param $groupnames The array of group names to grant privs to.	 
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
 	 * @param $grantoption True if has grant option, false otherwise
+	 * @param $cascade True for cascade revoke, false otherwise
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
@@ -2219,7 +2220,7 @@ class Postgres extends BaseDB {
 	 * @return -4 not granting to anything
 	 * @return -4 invalid mode
 	 */
-	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption, $cascade) {
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -2229,10 +2230,17 @@ class Postgres extends BaseDB {
 			(!$public && sizeof($usernames) == 0 && sizeof($groupnames) == 0)) return -4;
 		if ($mode != 'GRANT' && $mode != 'REVOKE') return -5;
 
+		$sql = $mode;
+
+		// Grant option
+		if ($this->hasGrantOption() && $mode == 'REVOKE' && $grantoption) {
+			$sql .= ' GRANT OPTION FOR';
+		}		
+
 		if (in_array('ALL PRIVILEGES', $privileges))
-			$sql = "{$mode} ALL PRIVILEGES ON";
+			$sql .= " ALL PRIVILEGES ON";
 		else
-			$sql = "{$mode} " . join(', ', $privileges) . " ON";
+			$sql .= " " . join(', ', $privileges) . " ON";
 		switch ($type) {
 			case 'table':
 			case 'view':
@@ -2293,7 +2301,12 @@ class Postgres extends BaseDB {
 		// Grant option
 		if ($this->hasGrantOption() && $mode == 'GRANT' && $grantoption) {
 			$sql .= ' WITH GRANT OPTION';
-		}		
+		}
+		
+		// Cascade revoke
+		if ($this->hasGrantOption() && $mode == 'REVOKE' && $cascade) {
+			$sql .= ' CASCADE';
+		}
 
 		return $this->execute($sql);
 	}
