@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.3 2003/10/28 04:02:14 chriskl Exp $
+	 * $Id: casts.php,v 1.4 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Show default list of casts in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strcasts']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$casts = &$localData->getcasts();
+		$casts = &$data->getcasts();
 
 		if ($casts->recordCount() > 0) {
 			echo "<table>\n";

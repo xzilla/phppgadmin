@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.14 2003/09/08 03:00:12 chriskl Exp $
+	 * $Id: sequences.php,v 1.15 2003/12/10 16:03:29 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -17,14 +17,14 @@
 	 * Display list of all sequences in the database/schema
 	 */	
 	function doDefault($msg = '')	{
-		global $data, $localData, $misc; 
+		global $data, $misc; 
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		// Get all sequences
-		$sequences = &$localData->getSequences();
+		$sequences = &$data->getSequences();
 		
 		if (is_object($sequences) && $sequences->recordCount() > 0) {
 			echo "<table>\n";
@@ -62,14 +62,14 @@
 	 * Display the properties of a sequence
 	 */	 
 	function doProperties($msg = '') {
-		global $data, $localData, $misc, $PHP_SELF;
+		global $data, $misc, $PHP_SELF;
 		global $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : ", $misc->printVal($_REQUEST['sequence']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		// Fetch the sequence information
-		$sequence = &$localData->getSequence($_REQUEST['sequence']);		
+		$sequence = &$data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {			
 			echo "<table border=\"0\">";
@@ -107,7 +107,7 @@
 	 * Drop a sequence
 	 */	 	
 	function doDrop($confirm, $msg = '') {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		if ($confirm) { 
@@ -121,7 +121,7 @@
 			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
@@ -129,7 +129,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropSequence($_POST['sequence'], isset($_POST['cascade']));
+			$status = $data->dropSequence($_POST['sequence'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strsequencedropped']);
 			else
@@ -141,7 +141,7 @@
 	 * Displays a screen where they can enter a new sequence
 	 */
 	function doCreateSequence($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formSequenceName'])) $_POST['formSequenceName'] = '';
@@ -191,13 +191,13 @@
 	 * Actually creates the new sequence in the database
 	 */
 	function doSaveCreateSequence() {
-		global $localData;
+		global $data;
 		global $lang;
 		
 		// Check that they've given a name and at least one column
 		if ($_POST['formSequenceName'] == '') doCreateSequence($lang['strsequenceneedsname']);
 		else {
-			$status = $localData->createSequence($_POST['formSequenceName'], $_POST['formIncrement'],
+			$status = $data->createSequence($_POST['formSequenceName'], $_POST['formIncrement'],
 							$_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue']);
 			if ($status == 0) {
 				doDefault($lang['strsequencecreated']);
@@ -211,10 +211,10 @@
 	 * Resets a sequence
 	 */
 	function doReset() {
-		global $localData;
+		global $data;
 		global $PHP_SELF, $lang;
 		
-		$status = $localData->resetSequence($_REQUEST['sequence']);
+		$status = $data->resetSequence($_REQUEST['sequence']);
 		if ($status == 0)
 			doProperties($lang['strsequencereset']);
 		else	

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.49 2003/12/10 14:23:39 chriskl Exp $
+	 * $Id: Misc.php,v 1.50 2003/12/10 16:03:30 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -137,80 +137,31 @@
 		/**
 		 * Creates a database accessor
 		 */
-		function &getDatabaseAccessor($host, $port, $database, $username, $password) {
+		function &getDatabaseAccessor($database) {
 			global $conf;
-			
-			$desc = null;
-			$type = $this->getDriver($host, $port, $username, $password, 
-							 $conf['servers'][$_SESSION['webdbServerID']]['type'], 
-							 $conf['servers'][$_SESSION['webdbServerID']]['defaultdb'], $desc);
-			include_once('classes/database/' . $type . '.php');
-			$localData = new $type(	$host,
-											$port,
-											$database,
-											$username,
-											$password);
-			
-			return $localData;
+
+			// Create the connection object and make the connection
+			$_connection = new Connection(
+				$conf['servers'][$_SESSION['webdbServerID']]['host'],
+				$conf['servers'][$_SESSION['webdbServerID']]['port'],
+				$_SESSION['webdbUsername'],
+				$_SESSION['webdbPassword'],
+				$database
+			);
+
+			// Get the name of the database driver we need to use.  The description
+			// of the server is returned and placed into the conf array.
+			$_type = $_connection->getDriver($desc);
+			// XXX: NEED TO CHECK RETURN STATUS HERE
+
+			// Create a database wrapper class for easy manipulation of the
+			// connection.
+			include_once('classes/database/' . $_type . '.php');
+			$data = &new $_type($_connection->conn);
+
+			return $data;
 		}
 
-		/**
-		 * Gets the name of the correct database driver to use
-		 * @param $host The hostname to connect to
-		 * @param $port The port to connect to
-		 * @param $user The username to use
-		 * @param $password The password to use
-		 * @param $type The ADODB database type name.
-		 * @param $database The default database to which to connect
-		 * @param (return-by-ref) $description A description of the database and version
-		 * @return The class name of the driver eg. Postgres73
-		 * @return -1 Database functions not compiled in
-		 * @return -2 Invalid database type
-		 * @return -3 Database-specific failure
-		 */
-		function getDriver($host, $port, $user, $password, $type, $database, &$description) {
-			switch ($type) {
-				case 'postgres7':
-					// Check functions are loaded
-					if (!function_exists('pg_connect')) return -1;
-
-					include_once('classes/database/ADODB_base.php');
-					$adodb = new ADODB_base('postgres7');
-
-					$adodb->conn->connect(($host === null || $host == '') ? null : "{$host}:{$port}", $user, $password, $database);
-
-					$sql = "SELECT VERSION() AS version";
-					$field = $adodb->selectField($sql, 'version');
-
-					$params = explode(' ', $field);
-					if (!isset($params[1])) return -3;
-
-					$version = $params[1]; // eg. 7.3.2
-					$description = "PostgreSQL {$params[1]}";
-
-					// Detect version and choose appropriate database driver
-					// If unknown version, then default to latest driver
-					// All 6.x versions default to oldest driver, even though
-					// it won't work with those versions.
-					if (strpos($version, '7.4') === 0)
-						return 'Postgres74';
-					elseif (strpos($version, '7.3') === 0)
-						return 'Postgres73';
-					elseif (strpos($version, '7.2') === 0)
-						return 'Postgres72';
-					elseif (strpos($version, '7.1') === 0)
-						return 'Postgres71';
-					elseif (strpos($version, '7.0') === 0
-							|| strpos($version, '6.') === 0)
-						return 'Postgres';
-					else
-						return 'Postgres75';
-
-					break;
-				default:
-					return -2;
-			}
-		}
 
 		/**
 		 * Prints the page header.  If global variable $_no_output is
@@ -239,7 +190,7 @@
 				
 				// Theme
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
-				if ($script) echo "\n {$script} \n";
+				if ($script) echo "{$script}\n";
 				echo "</head>\n";
 			}
 		}

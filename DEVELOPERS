@@ -72,8 +72,7 @@ HREFs and htmlspecialchars() variables in forms.
 COMMON VARIABLES
 ----------------
 
-$data - A data connection to the template1 database.
-$localData - A data connection to the current database.
+$data - A data connection to the current or default database.
 $misc - Contains miscellaneous functions.  eg. printing headers and footers, etc.
 $lang - Global array containing translated strings.  The strings in this array have already
         been converted to HTML, so you should not htmlspecialchars() them.

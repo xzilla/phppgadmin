@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.28 2003/12/05 07:29:58 chriskl Exp $
+	 * $Id: browser.php,v 1.29 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -36,7 +36,7 @@
 	 * @param $schemanode Node onto which to add
 	 */	
 	function addNodes(&$schemanode, $querystr) {
-		global $data, $localData, $misc, $lang, $conf;
+		global $data, $misc, $lang, $conf;
 		
 		// Session tracking
 		$querystr .= '&' . SID;
@@ -54,7 +54,7 @@
 			// Add table folder to schema
 			$schemanode->addItem($table_node);
 			
-			$tables = &$localData->getTables();
+			$tables = &$data->getTables();
 			while (!$tables->EOF) {
 				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f[$data->tbFields['tbname']]) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
@@ -196,9 +196,9 @@
 		
 			// If database supports schemas, add the extra level of hierarchy
 			if ($data->hasSchemas()) {
-				$schemas = &$localData->getSchemas();
+				$schemas = &$data->getSchemas();
 				while (!$schemas->EOF) {
-					$localData->setSchema($schemas->f[$data->nspFields['nspname']]);
+					$data->setSchema($schemas->f[$data->nspFields['nspname']]);
 					// Construct database & schema query string
 					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
 							urlencode($schemas->f[$data->nspFields['nspname']]);

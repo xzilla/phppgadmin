@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.5 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: domains.php,v 1.6 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,9 +17,9 @@
 	 * Function to save after altering a domain
 	 */
 	function doSaveAlter() {
-		global $localData, $lang;
+		global $data, $lang;
 		
-		$status = $localData->alterDomain($_POST['domain'], $_POST['domdefault'], 
+		$status = $data->alterDomain($_POST['domain'], $_POST['domdefault'], 
 			isset($_POST['domnotnull']), $_POST['domowner']);
 		if ($status == 0)
 			doProperties($lang['strdomainaltered']);
@@ -31,14 +31,14 @@
 	 * Allow altering a domain
 	 */
 	function doAlter($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		// Fetch domain info
-		$domaindata = &$localData->getDomain($_REQUEST['domain']);
+		$domaindata = &$data->getDomain($_REQUEST['domain']);
 		// Fetch all users
 		$users = &$data->getUsers();
 		
@@ -87,7 +87,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -122,7 +122,7 @@
 			if (trim($_POST['definition']) == '')
 				addCheck(true, $lang['strcheckneedsdefinition']);
 			else {
-				$status = $localData->addDomainCheckConstraint($_POST['domain'],
+				$status = $data->addDomainCheckConstraint($_POST['domain'],
 					$_POST['definition'], $_POST['name']);
 				if ($status == 0)
 					doProperties($lang['strcheckadded']);
@@ -136,7 +136,7 @@
 	 * Show confirmation of drop constraint and perform actual drop
 	 */
 	function doDropConstraint($confirm, $msg = '') {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -152,7 +152,7 @@
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
@@ -160,7 +160,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropDomainConstraint($_POST['domain'], $_POST['constraint'], isset($_POST['cascade']));
+			$status = $data->dropDomainConstraint($_POST['domain'], $_POST['constraint'], isset($_POST['cascade']));
 			if ($status == 0)
 				doProperties($lang['strconstraintdropped']);
 			else
@@ -173,13 +173,13 @@
 	 * Show properties for a domain.  Allow manipulating constraints as well.
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$domaindata = &$localData->getDomain($_REQUEST['domain']);
+		$domaindata = &$data->getDomain($_REQUEST['domain']);
 		
 		if ($domaindata->recordCount() > 0) {
 			// Display domain info
@@ -199,7 +199,7 @@
 			
 			// Display domain constraints
 			if ($data->hasDomainConstraints()) {
-				$domaincons = &$localData->getDomainConstraints($_REQUEST['domain']);
+				$domaincons = &$data->getDomainConstraints($_REQUEST['domain']);
 				if ($domaincons->recordCount() > 0) {
 					echo "<h3>{$lang['strconstraints']}</h3>\n";
 					echo "<table>\n";
@@ -240,7 +240,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -252,7 +252,7 @@
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -260,7 +260,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropDomain($_POST['domain'], isset($_POST['cascade']));
+			$status = $data->dropDomain($_POST['domain'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strdomaindropped']);
 			else
@@ -273,7 +273,7 @@
 	 * Displays a screen where they can enter a new domain
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['domname'])) $_POST['domname'] = '';
@@ -281,7 +281,7 @@
 		if (!isset($_POST['domdefault'])) $_POST['domdefault'] = '';
 		if (!isset($_POST['domcheck'])) $_POST['domcheck'] = '';
 
-		$types = &$localData->getTypes(true);
+		$types = &$data->getTypes(true);
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: {$lang['strcreatedomain']}</h2>\n";
 		$misc->printMsg($msg);
@@ -326,14 +326,14 @@
 	 * Actually creates the new domain in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $lang;
+		global $data, $lang;
 		
 		if (!isset($_POST['domcheck'])) $_POST['domcheck'] = '';
 
 		// Check that they've given a name and a definition
 		if ($_POST['domname'] == '') doCreate($lang['strdomainneedsname']);
 		else {		 
-			$status = $localData->createDomain($_POST['domname'], $_POST['domtype'], 
+			$status = $data->createDomain($_POST['domname'], $_POST['domtype'], 
 																isset($_POST['domnotnull']), $_POST['domdefault'], $_POST['domcheck']);
 			if ($status == 0)
 				doDefault($lang['strdomaincreated']);
@@ -346,13 +346,13 @@
 	 * Show default list of domains in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$domains = &$localData->getDomains();
+		$domains = &$data->getDomains();
 		
 		if ($domains->recordCount() > 0) {
 			echo "<table>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.16 2003/07/30 07:02:29 chriskl Exp $
+	 * $Id: triggers.php,v 1.17 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,9 +17,9 @@
 	 * Function to save after altering a trigger
 	 */
 	function doSaveAlter() {
-		global $localData, $lang;
+		global $data, $lang;
 		
-		$status = $localData->alterTrigger($_POST['table'], $_POST['trigger'], $_POST['name']);
+		$status = $data->alterTrigger($_POST['table'], $_POST['trigger'], $_POST['name']);
 		if ($status == 0)
 			doDefault($lang['strtriggeraltered']);
 		else
@@ -30,13 +30,13 @@
 	 * Function to allow altering of a trigger
 	 */
 	function doAlter($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtriggers']}: ", $misc->printVal($_REQUEST['trigger']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$triggerdata = &$localData->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
+		$triggerdata = &$data->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
 		
 		if ($triggerdata->recordCount() > 0) {
 			
@@ -64,7 +64,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -80,7 +80,7 @@
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
@@ -88,7 +88,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropTrigger($_POST['trigger'], $_POST['table'], isset($_POST['cascade']));
+			$status = $data->dropTrigger($_POST['trigger'], $_POST['table'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strtriggerdropped']);
 			else
@@ -101,14 +101,14 @@
 	 * Let them create s.th.
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>{$lang['strcreatetrigger']}</h2>";
 		$misc->printMsg($msg);
 		
 		// Get all the functions that can be used in triggers
-		$funcs = &$localData->getTriggerFunctions();
+		$funcs = &$data->getTriggerFunctions();
 		if ($funcs->recordCount() == 0) {
 			doDefault($lang['strnofunctions']);
 			return;
@@ -123,11 +123,11 @@
 
 		/* Populate times */
 		$sel1 = new XHTML_Select('formExecTime');
-		$sel1->set_data($localData->triggerExecTimes);
+		$sel1->set_data($data->triggerExecTimes);
 
 		/* Populate events */
 		$sel2 = new XHTML_Select('formEvent');
-		$sel2->set_data($localData->triggerEvents);
+		$sel2->set_data($data->triggerEvents);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
 		echo "<table>\n";
@@ -158,7 +158,7 @@
 	 * Actually creates the new trigger in the database
 	 */
 	function doSaveCreate() {
-		global $localData;
+		global $data;
 		global $PHP_SELF, $lang;		
 	
 		// Check that they've given a name and a definition
@@ -170,7 +170,7 @@
 		elseif ($_POST['formEvent'] == '') 
 			doCreate();
 		else {		 
-			$status = &$localData->createTrigger($_POST['formTriggerName'], $_POST['table'],
+			$status = &$data->createTrigger($_POST['formTriggerName'], $_POST['table'],
 					$_POST['formFunction'], $_POST['formExecTime'], $_POST['formEvent'],
 					$_POST['formTriggerArgs']);
 			if ($status == 0)
@@ -184,7 +184,7 @@
 	 * List all the triggers on the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF;
 		global $lang;
 
@@ -192,7 +192,7 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strtriggers']}</h2>\n";
 		$misc->printMsg($msg);
 
-		$triggers = &$localData->getTriggers($_REQUEST['table']);
+		$triggers = &$data->getTriggers($_REQUEST['table']);
 
 		if ($triggers->recordCount() > 0) {
 			echo "<table>\n";
@@ -208,7 +208,7 @@
 				if ($triggers->f[$data->tgFields['tgdef']] !== null)
 					echo $misc->printVal($triggers->f[$data->tgFields['tgdef']]);
 				else 
-					echo $misc->printVal($localData->getTriggerDef($triggers->f));
+					echo $misc->printVal($data->getTriggerDef($triggers->f));
 				echo "</td>\n";				
 				if ($data->hasAlterTrigger()) {
 					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_alter&{$misc->href}&trigger=", urlencode($triggers->f[$data->tgFields['tgname']]),

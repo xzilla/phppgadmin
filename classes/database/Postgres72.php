@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.52 2003/10/13 08:50:04 chriskl Exp $
+ * $Id: Postgres72.php,v 1.53 2003/12/10 16:03:30 chriskl Exp $
  */
 
 
@@ -28,14 +28,10 @@ class Postgres72 extends Postgres71 {
 
 	/**
 	 * Constructor
-	 * @param $host The hostname to connect to
-	 * @param $post The port number to connect to
-	 * @param $database The database name to connect to
-	 * @param $user The user to connect as
-	 * @param $password The password to use
+	 * @param $conn The database connection
 	 */
-	function Postgres72($host, $port, $database, $user, $password) {
-		$this->Postgres71($host, $port, $database, $user, $password);
+	function Postgres72($conn) {
+		$this->Postgres71($conn);
 
 		// Correct the error in the encoding tables, that was
 		// fixed in PostgreSQL 7.2

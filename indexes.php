@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.19 2003/10/08 02:14:24 chriskl Exp $
+	 * $Id: indexes.php,v 1.20 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $localData, $database, $misc, $action;
+		global $database, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -40,7 +40,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->clusterIndex($_POST['index'], $_POST['table'], isset($_POST['analyze']));
+			$status = $data->clusterIndex($_POST['index'], $_POST['table'], isset($_POST['analyze']));
 			if ($status == 0)
 				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
 			else
@@ -53,7 +53,7 @@
 	 * Displays a screen where they can enter a new index
 	 */
 	function doCreateIndex($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_POST['formIndexName'])) $_POST['formIndexName'] = '';
@@ -64,7 +64,7 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']}: {$lang['strcreateindex']} </h2>\n";
 		$misc->printMsg($msg);
 
-		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+		$attrs = &$data->getTableAttributes($_REQUEST['table']);
 
 		$selColumns = new XHTML_select("TableColumnList",true,10);
 		$selColumns->set_style("width: 10em;");
@@ -106,7 +106,7 @@
 		echo "<tr>";
 		echo "<th class=\"data\">{$lang['strindextype']}</th>";
 		echo "<td class=\"data1\"><select name=\"formIndexType\">";
-		foreach ($localData->typIndexes as $v) {
+		foreach ($data->typIndexes as $v) {
 			echo "<option value=\"", htmlspecialchars($v), "\"",
 				($v == $_POST['formIndexType']) ? ' selected="selected"' : '', ">", htmlspecialchars($v), "</option>\n";
 		}
@@ -138,7 +138,7 @@
 	 * @@ Note: this function can't handle columns with commas in them
 	 */
 	function doSaveCreateIndex() {
-		global $localData;
+		global $data;
 		global $lang;
 		
 		// Handle databases that don't have partial indexes
@@ -148,7 +148,7 @@
 		if ($_POST['formIndexName'] == '') doCreateIndex($lang['strindexneedsname']);
 		elseif (!isset($_POST['IndexColumnList']) || $_POST['IndexColumnList'] == '') doCreateIndex($lang['strindexneedscols']);
 		else {
-			$status = $localData->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], 
+			$status = $data->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], 
 				$_POST['formIndexType'], isset($_POST['formUnique']), $_POST['formWhere']);
 			if ($status == 0)
 				doDefault($lang['strindexcreated']);
@@ -161,7 +161,7 @@
 	 * Show confirmation of drop index and perform actual drop
 	 */
 	function doDropIndex($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -176,7 +176,7 @@
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -184,7 +184,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropIndex($_POST['index'], isset($_POST['cascade']));
+			$status = $data->dropIndex($_POST['index'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strindexdropped']);
 			else
@@ -194,14 +194,14 @@
 	}
 
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strindexes']}</h2>\n";
 		$misc->printMsg($msg);
 
-		$indexes = &$localData->getIndexes($_REQUEST['table']);
+		$indexes = &$data->getIndexes($_REQUEST['table']);
 		
 		if ($indexes->recordCount() > 0) {
 			echo "<table>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.7 2003/10/26 10:59:16 chriskl Exp $
+	 * $Id: operators.php,v 1.8 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,14 +17,14 @@
 	 * Show read only properties for an operator
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stroperators']}: ", $misc->printVal($_REQUEST['operator']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$oprdata = &$localData->getOperator($_REQUEST['operator_oid']);
-		$oprdata->f['oprcanhash'] = $localData->phpBool($oprdata->f['oprcanhash']);
+		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
+		$oprdata->f['oprcanhash'] = $data->phpBool($oprdata->f['oprcanhash']);
 
 		if ($oprdata->recordCount() > 0) {
 			echo "<table>\n";
@@ -66,7 +66,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -80,7 +80,7 @@
 			echo "<input type=\"hidden\" name=\"operator_oid\" value=\"", htmlspecialchars($_REQUEST['operator_oid']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -88,7 +88,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropOperator($_POST['operator_oid'], isset($_POST['cascade']));
+			$status = $data->dropOperator($_POST['operator_oid'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['stroperatordropped']);
 			else
@@ -101,13 +101,13 @@
 	 * Show default list of operators in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stroperators']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$operators = &$localData->getOperators();
+		$operators = &$data->getOperators();
 
 		if ($operators->recordCount() > 0) {
 			echo "<table>\n";

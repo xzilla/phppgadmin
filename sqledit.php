@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.7 2003/10/31 02:36:49 chriskl Exp $
+	 * $Id: sqledit.php,v 1.8 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -65,7 +65,7 @@
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doDefault() {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang, $conf;
 
 		if (!isset($_POST['query'])) $_POST['query'] = '';

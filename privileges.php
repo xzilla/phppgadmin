@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.19 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: privileges.php,v 1.20 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	 * @param $msg (optional) A message to show
 	 */
 	function doAlter($confirm, $msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
   		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = array();
@@ -29,7 +29,7 @@
 		// Set name
 		switch ($_REQUEST['type']) {
 			case 'function':
-				$fn = &$localData->getFunction($_REQUEST['object']);
+				$fn = &$data->getFunction($_REQUEST['object']);
 				$data->fieldClean($fn->f[$data->fnFields['fnname']]);
 				$name = $fn->f[$data->fnFields['fnname']] . "(". $fn->f[$data->fnFields['fnarguments']] .")";
 				break;
@@ -39,9 +39,9 @@
 
 		if ($confirm) {
 			// Get users from the database
-			$users = &$localData->getUsers();
+			$users = &$data->getUsers();
 			// Get groups from the database
-			$groups = &$localData->getGroups();
+			$groups = &$data->getGroups();
 
 			echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['stralterprivs']}</h2>\n";
 			$misc->printMsg($msg);
@@ -111,7 +111,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
+			$status = $data->setPrivileges(isset($_REQUEST['grant']) ? 'GRANT' : 'REVOKE', $_REQUEST['type'], $_REQUEST['object'],
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
 				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
 			if ($status == 0)
@@ -127,7 +127,7 @@
 	 * Show permissions on a database, namespace, relation, language or function
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		switch ($_REQUEST['type']) {
@@ -149,7 +149,7 @@
 		$misc->printMsg($msg);
 
 		// Get the privileges on the object, given its type
-		$privileges = $localData->getPrivileges($_REQUEST['object'], $_REQUEST['type']);
+		$privileges = $data->getPrivileges($_REQUEST['object'], $_REQUEST['type']);
 
 		if (sizeof($privileges) > 0) {
 			echo "<table>\n";

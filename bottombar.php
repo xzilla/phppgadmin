@@ -1,12 +1,13 @@
 <?php
 
 	/**
-	 * Top menu for phpPgAdmin
+	 * Bottom bar
 	 *
-	 * $Id: bottombar.php,v 1.1 2003/05/26 11:33:22 chriskl Exp $
+	 * $Id: bottombar.php,v 1.2 2003/12/10 16:03:29 chriskl Exp $
 	 */	
 
-        // Include application functions
+	// Include application functions (no db conn)
+	$_no_db_connection = true;
         include_once('libraries/lib.inc.php');
 
 	$misc->printHeader();

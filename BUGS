@@ -15,7 +15,10 @@ fix constraint search to get domain and table constraints?
 dump sequences when dumping tables
 fix dumping clustering info
 can't edit SELECT results by oid
-use LINK REL to speed up page loading times for CSS
 investigate phpPgInfo
 
+Fix
+---
+
+* Does dropping a database work at all?
 

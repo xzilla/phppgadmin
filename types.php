@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.11 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: types.php,v 1.12 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Show read only properties for a type
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: ", $misc->printVal($_REQUEST['type']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$typedata = &$localData->getType($_REQUEST['type']);
+		$typedata = &$data->getType($_REQUEST['type']);
 		
 		if ($typedata->recordCount() > 0) {
 			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
@@ -51,7 +51,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -64,7 +64,7 @@
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -72,7 +72,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropType($_POST['type'], isset($_POST['cascade']));
+			$status = $data->dropType($_POST['type'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strtypedropped']);
 			else
@@ -85,7 +85,7 @@
 	 * Displays a screen where they can enter a new type
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_POST['typname'])) $_POST['typname'] = '';
@@ -99,8 +99,8 @@
 		if (!isset($_POST['typstorage'])) $_POST['typstorage'] = $data->typStorageDef;
 
 		// Retrieve all functions and types in the database
-		$funcs = &$localData->getFunctions(true);
-		$types = &$localData->getTypes();
+		$funcs = &$data->getFunctions(true);
+		$types = &$data->getTypes();
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: {$lang['strcreatetype']}</h2>\n";
 		$misc->printMsg($msg);
@@ -177,7 +177,7 @@
 	 * Actually creates the new type in the database
 	 */
 	function doSaveCreate() {
-		global $localData;
+		global $data;
 		global $lang;
 
 		// Check that they've given a name and a length.
@@ -186,7 +186,7 @@
 		if ($_POST['typname'] == '') doCreate($lang['strtypeneedsname']);
 		elseif ($_POST['typlen'] == '') doCreate($lang['strtypeneedslen']);
 		else {		 
-			$status = $localData->createType(
+			$status = $data->createType(
 				$_POST['typname'],
 				$_POST['typin'],
 				$_POST['typout'],
@@ -209,13 +209,13 @@
 	 * Show default list of types in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$types = &$localData->getTypes();
+		$types = &$data->getTypes();
 
 		if ($types->recordCount() > 0) {
 			echo "<table>\n";

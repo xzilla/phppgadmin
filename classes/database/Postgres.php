@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.164 2003/11/19 02:12:47 chriskl Exp $
+ * $Id: Postgres.php,v 1.165 2003/12/10 16:03:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -126,22 +126,10 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Constructor
-	 * @param $host The hostname to connect to
-	 * @param $post The port number to connect to
-	 * @param $database The database name to connect to.
-	 * @param $user The user to connect as
-	 * @param $password The password to use
+	 * @param $conn The database connection
 	 */
-	function Postgres($host, $port, $database, $user, $password) {
-		$this->BaseDB('postgres7');
-
-		// Ignore host if null
-		if ($host === null || $host == '')
-			$pghost = '';
-		else
-			$pghost = "{$host}:{$port}";
-
-		$this->conn->connect($pghost, $user, $password, $database);
+	function Postgres($conn) {
+		$this->BaseDB($conn);
 	}
 
 	/**

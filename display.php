@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.32 2003/11/26 06:06:49 chriskl Exp $
+	 * $Id: display.php,v 1.33 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 	 * Show confirmation of edit and perform actual update
 	 */
 	function doEditRow($confirm, $msg = '') {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -34,8 +34,8 @@
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['streditrow']}</h2>\n";
 			$misc->printMsg($msg);
 
-			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
-			$rs = &$localData->browseRow($_REQUEST['table'], $key);
+			$attrs = &$data->getTableAttributes($_REQUEST['table']);
+			$rs = &$data->browseRow($_REQUEST['table'], $key);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			$error = true;			
@@ -49,7 +49,7 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
 					
 					// Initialise variables
@@ -59,7 +59,7 @@
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod']));
+					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
@@ -80,7 +80,7 @@
 					else
 						echo "&nbsp;</td>";
 
-					echo "<td class=\"data{$id}\" nowrap>", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap>", $data->printField("values[{$attrs->f['attname']}]",
 						$rs->f[$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -122,7 +122,7 @@
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
-			$status = $localData->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
+			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
 												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
@@ -138,7 +138,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDelRow($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -170,7 +170,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->deleteRow($_POST['table'], unserialize($_POST['key']));
+			$status = $data->deleteRow($_POST['table'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowdeleted']);
 			elseif ($status == -2)
@@ -185,7 +185,7 @@
 	 * Displays requested data
 	 */
 	function doBrowse() {
-		global $localData, $conf, $misc, $lang;
+		global $data, $conf, $misc, $lang;
 		
 		// If current page is not set, default to first page
 		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
@@ -215,12 +215,12 @@
 	
 		// Fetch unique row identifier, if this is a table browse request.
 		if (isset($_REQUEST['table']))
-			$key = $localData->getRowIdentifier($_REQUEST['table']);
+			$key = $data->getRowIdentifier($_REQUEST['table']);
 		else
 			$key = array();
 		
 		// Retrieve page from query.  $max_pages is returned by reference.
-		$rs = &$localData->browseQuery($type, 
+		$rs = &$data->browseQuery($type, 
 			isset($_REQUEST['table']) ? $_REQUEST['table'] : null, 
 			isset($_REQUEST['query']) ? $_REQUEST['query'] : null, 
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
@@ -260,14 +260,14 @@
 
 			$j = 0;		
 			foreach ($rs->f as $k => $v) {
-				if (isset($_REQUEST['table']) && $k == $localData->id && !$conf['show_oids']) {
+				if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) {
 					$j++;
 					continue;
 				}
 				$finfo = $rs->fetchField($j);
 				// Display column headers with sorting options, unless we're PostgreSQL
 				// 7.0 and it's a non-TABLE mode
-				if (!$localData->hasFullSubqueries() && $type != 'TABLE') {
+				if (!$data->hasFullSubqueries() && $type != 'TABLE') {
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
 				}
 				else {
@@ -314,7 +314,7 @@
 				$j = 0;
 				foreach ($rs->f as $k => $v) {
 					$finfo = $rs->fetchField($j++);
-					if (isset($_REQUEST['table']) && $k == $localData->id && !$conf['show_oids']) continue;
+					if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) continue;
 					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
 					else {
 						// Trim strings if over length

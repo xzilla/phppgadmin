@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.2 2003/10/13 01:42:04 chriskl Exp $
+	 * $Id: info.php,v 1.3 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * List all the information on the table
 	 */
 	function doDefault($msg = '') {
-		global $localData, $misc;
+		global $data, $misc;
 		global $lang;
 
 		$misc->printTableNav();
@@ -24,9 +24,9 @@
 		$misc->printMsg($msg);
 
 		// Fetch info
-		$referrers = &$localData->getReferrers($_REQUEST['table']);
-		$parents = &$localData->getTableParents($_REQUEST['table']);
-		$children = &$localData->getTableChildren($_REQUEST['table']);
+		$referrers = &$data->getReferrers($_REQUEST['table']);
+		$parents = &$data->getTableParents($_REQUEST['table']);
+		$children = &$data->getTableChildren($_REQUEST['table']);
 
 		// Check that there is some info
 		if (($referrers === -99 || ($referrers !== -99 && $referrers->recordCount() == 0)) 
@@ -39,7 +39,7 @@
 				echo "<h3>{$lang['strreferringtables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t";
-				if ($localData->hasSchemas()) {
+				if ($data->hasSchemas()) {
 					echo "<th class=\"data\">{$lang['strschema']}</th>";
 				}
 				echo "<th class=\"data\">{$lang['strtable']}</th>";
@@ -51,7 +51,7 @@
 				while (!$referrers->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n\t\t";
-					if ($localData->hasSchemas()) {
+					if ($data->hasSchemas()) {
 						echo "<td class=\"data{$id}\">", $misc->printVal($referrers->f['nspname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->f['relname']), "</td>";
@@ -73,7 +73,7 @@
 				echo "<h3>{$lang['strparenttables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t";
-				if ($localData->hasSchemas()) {			
+				if ($data->hasSchemas()) {			
 					echo "<th class=\"data\">{$lang['strschema']}</th>";
 				}
 				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
@@ -84,7 +84,7 @@
 				while (!$parents->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n";
-					if ($localData->hasSchemas()) {
+					if ($data->hasSchemas()) {
 						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->f['schemaname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($parents->f['relname']), "</td>";
@@ -104,7 +104,7 @@
 				echo "<h3>{$lang['strchildtables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n";
-				if ($localData->hasSchemas()) {			
+				if ($data->hasSchemas()) {			
 					echo "<th class=\"data\">{$lang['strschema']}</th>";
 				}
 				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
@@ -115,7 +115,7 @@
 				while (!$children->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n";
-					if ($localData->hasSchemas()) {
+					if ($data->hasSchemas()) {
 						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($children->f['schemaname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($children->f['relname']), "</td>";

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.30 2003/11/05 08:32:03 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.31 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,12 +16,12 @@
 	 * Function to save after altering a table
 	 */
 	function doSaveAlter() {
-		global $localData, $lang, $_reload_browser;
+		global $data, $lang, $_reload_browser;
 
 		// For databases that don't allow owner change
 		if (!isset($_POST['owner'])) $_POST['owner'] = '';
 		
-		$status = $localData->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment']);
+		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment']);
 		if ($status == 0) {
 			// Jump them to the new table name
 			$_REQUEST['table'] = $_POST['name'];
@@ -37,14 +37,14 @@
 	 * Function to allow altering of a table
 	 */
 	function doAlter($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 
 		// Fetch table info		
-		$table = &$localData->getTable($_REQUEST['table']);
+		$table = &$data->getTable($_REQUEST['table']);
 		// Fetch all users
 		$users = &$data->getUsers();
 		
@@ -87,11 +87,11 @@
 	}
 	
 	function doExport($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		// Determine whether or not the table has an object ID
-		$hasID = $localData->hasObjectID($_REQUEST['table']);
+		$hasID = $data->hasObjectID($_REQUEST['table']);
 		
 		$misc->printTableNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
@@ -149,7 +149,7 @@
 	 * Displays a screen where they can add a column
 	 */
 	function doAddColumn($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -164,7 +164,7 @@
 				if (!isset($_POST['length'])) $_POST['length'] = '';
 
 				// Fetch all available types
-				$types = &$localData->getTypes(true);
+				$types = &$data->getTypes(true);
 
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
@@ -199,7 +199,7 @@
 
 				break;
 			case 2:
-				global $localData, $lang;
+				global $data, $lang;
 
 				// Check inputs
 				if (trim($_POST['field']) == '') {
@@ -208,7 +208,7 @@
 					return;
 				}
 				
-				$status = $localData->addColumn($_POST['table'], $_POST['field'],
+				$status = $data->addColumn($_POST['table'], $_POST['field'],
 								$_POST['type'], $_POST['length']);
 				if ($status == 0)
 					doDefault($lang['strcolumnadded']);
@@ -227,7 +227,7 @@
 	 * Displays a screen where they can alter a column
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -246,8 +246,8 @@
 				echo "<table>\n<tr>";
 				echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th></tr>";
 
-				$column = &$localData->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
-				$column->f['attnotnull'] = $localData->phpBool($column->f['attnotnull']);
+				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
+				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
 
 				if (!isset($_REQUEST['default'])) {
 					$_REQUEST['field'] = $column->f['attname'];
@@ -257,7 +257,7 @@
 
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
-				echo "<td>", $misc->printVal($localData->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
@@ -275,7 +275,7 @@
 								
 				break;
 			case 2:
-				global $localData, $lang;
+				global $data, $lang;
 
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
@@ -284,7 +284,7 @@
 					return;
 				}
 				
-				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
+				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
 								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
@@ -303,7 +303,7 @@
 	 * Show confirmation of drop column and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database, $misc;
+		global $data, $database, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -320,7 +320,7 @@
 			echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -328,7 +328,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropColumn($_POST['table'], $_POST['column'], isset($_POST['cascade']));
+			$status = $data->dropColumn($_POST['table'], $_POST['column'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strcolumndropped']);
 			else
@@ -341,16 +341,16 @@
 	 * Show default list of columns in the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), "</h2>\n";
 
 		// Get table
-		$tdata = &$localData->getTable($_REQUEST['table']);
+		$tdata = &$data->getTable($_REQUEST['table']);
 		// Get columns
-		$attrs = &$localData->getTableAttributes($_REQUEST['table']);		
+		$attrs = &$data->getTableAttributes($_REQUEST['table']);		
 		$misc->printMsg($msg);
 
 		// Show comment if any
@@ -368,10 +368,10 @@
 
 		$i = 0;
 		while (!$attrs->EOF) {
-			$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+			$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 			$id = (($i % 2) == 0 ? '1' : '2');
 			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
+			echo "\t<td class=\"data{$id}\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
 			echo "\t<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.19 2003/11/19 02:12:48 chriskl Exp $
+ * $Id: Postgres74.php,v 1.20 2003/12/10 16:03:30 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -19,14 +19,10 @@ class Postgres74 extends Postgres73 {
 
 	/**
 	 * Constructor
-	 * @param $host The hostname to connect to
-	 * @param $post The port number to connect to
-	 * @param $database The database name to connect to
-	 * @param $user The user to connect as
-	 * @param $password The password to use
+	 * @param $conn The database connection
 	 */
-	function Postgres74($host, $port, $database, $user, $password) {
-		$this->Postgres73($host, $port, $database, $user, $password);
+	function Postgres74($conn) {
+		$this->Postgres73($conn);
 	}
 
 	// Table functions

@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.1 2003/10/27 06:37:25 chriskl Exp $
+	 * $Id: languages.php,v 1.2 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Show default list of languages in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database;
+		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strlanguages']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$languages = &$localData->getlanguages();
+		$languages = &$data->getlanguages();
 
 		if ($languages->recordCount() > 0) {
 			echo "<table>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.22 2003/10/08 02:14:24 chriskl Exp $
+	 * $Id: constraints.php,v 1.23 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show confirmation of cluster index and perform actual cluster
 	 */
 	function doClusterIndex($confirm) {
-		global $localData, $database, $misc, $action;
+		global $database, $misc, $action;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -40,7 +40,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->clusterIndex($_POST['constraint'], $_POST['table'], isset($_POST['analyze']));
+			$status = $data->clusterIndex($_POST['constraint'], $_POST['table'], isset($_POST['analyze']));
 			if ($status == 0)
 				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
 			else
@@ -52,7 +52,7 @@
 	 * Confirm and then actually add a FOREIGN KEY constraint
 	 */
 	function addForeignKey($stage, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -76,12 +76,12 @@
 
 				// Unserialize target and fetch appropriate table.  This is a bit messy
 				// because the table could be in another schema.
-				if ($localData->hasSchemas()) {
-					$localData->setSchema($_REQUEST['target']['schemaname']);
+				if ($data->hasSchemas()) {
+					$data->setSchema($_REQUEST['target']['schemaname']);
 				}
-				$attrs = &$localData->getTableAttributes($_REQUEST['target']['tablename']);
-				if ($localData->hasSchemas()) {
-					$localData->setSchema($_REQUEST['schema']);
+				$attrs = &$data->getTableAttributes($_REQUEST['target']['tablename']);
+				if ($data->hasSchemas()) {
+					$data->setSchema($_REQUEST['schema']);
 				}
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
@@ -152,7 +152,7 @@
 						|| sizeof($_POST['IndexColumnList']) == 0 || !isset($temp) 
 						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
 				else {
-					$status = $localData->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'], 
+					$status = $data->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'], 
 						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strfkadded']);
@@ -165,8 +165,8 @@
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
 
-				$attrs = &$localData->getTableAttributes($_REQUEST['table']);
-				$tables = &$localData->getTables(true);
+				$attrs = &$data->getTableAttributes($_REQUEST['table']);
+				$tables = &$data->getTables(true);
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
 				$selColumns->set_style('width: 10em;');
@@ -206,7 +206,7 @@
 					$key = array('schemaname' => $tables->f['schemaname'], 'tablename' => $tables->f['tablename']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($localData->hasSchemas() && $tables->f['schemaname'] != $_REQUEST['schema']) {
+					if ($data->hasSchemas() && $tables->f['schemaname'] != $_REQUEST['schema']) {
 							echo htmlspecialchars($tables->f['schemaname']), '.';
 					}
 					echo htmlspecialchars($tables->f['tablename']), "</option>\n";
@@ -232,7 +232,7 @@
 	 * Confirm and then actually add a PRIMARY KEY or UNIQUE constraint
 	 */
 	function addPrimaryOrUniqueKey($type, $confirm, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -251,7 +251,7 @@
 				$misc->printVal($_REQUEST['table']), ": {$desc}</h2>\n";
 			$misc->printMsg($msg);
 			
-			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 	
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
 			$selColumns->set_style('width: 10em;');
@@ -300,7 +300,7 @@
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
 						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['strpkneedscols']);
 				else {
-					$status = $localData->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					$status = $data->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strpkadded']);
 					else
@@ -312,7 +312,7 @@
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
 						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['struniqneedscols']);
 				else {
-					$status = $localData->addUniqueKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					$status = $data->addUniqueKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['struniqadded']);
 					else
@@ -327,7 +327,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -361,7 +361,7 @@
 			if (trim($_POST['definition']) == '')
 				addCheck(true, $lang['strcheckneedsdefinition']);
 			else {
-				$status = $localData->addCheckConstraint($_POST['table'],
+				$status = $data->addCheckConstraint($_POST['table'],
 					$_POST['definition'], $_POST['name']);
 				if ($status == 0)
 					doDefault($lang['strcheckadded']);
@@ -375,7 +375,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -392,7 +392,7 @@
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" />\n";
@@ -400,7 +400,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropConstraint($_POST['constraint'], $_POST['table'], $_POST['type'], isset($_POST['cascade']));
+			$status = $data->dropConstraint($_POST['constraint'], $_POST['table'], $_POST['type'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strconstraintdropped']);
 			else
@@ -412,7 +412,7 @@
 	 * List all the constraints on the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF;
 		global $lang;
 
@@ -420,7 +420,7 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strconstraints']}</h2>\n";
 		$misc->printMsg($msg);
 
-		$constraints = &$localData->getConstraints($_REQUEST['table']);
+		$constraints = &$data->getConstraints($_REQUEST['table']);
 
 		if ($constraints->recordCount() > 0) {
 			echo "<table>\n";
@@ -443,7 +443,7 @@
 				if ($constraints->f['consrc'] !== null)
 					echo $misc->printVal($constraints->f[$data->cnFields['consrc']]);
 				else {
-					$atts = &$localData->getKeys($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
+					$atts = &$data->getKeys($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
 					echo ($constraints->f['contype'] == 'u') ? "UNIQUE (" : "PRIMARY KEY (";
 					echo join(',', $atts);
 					echo ")";

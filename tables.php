@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.39 2003/11/05 08:32:03 chriskl Exp $
+	 * $Id: tables.php,v 1.40 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Displays a screen where they can enter a new table
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -65,7 +65,7 @@
 					return;
 				}
 
-				$types = &$localData->getTypes(true);
+				$types = &$data->getTypes(true);
 	
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
 				$misc->printMsg($msg);
@@ -85,7 +85,7 @@
 						htmlspecialchars($_REQUEST['field'][$i]), "\" /></td>";
 					echo "<td><select name=\"type[{$i}]\">\n";
 					// Output any "magic" types
-					foreach ($localData->extraTypes as $v) {
+					foreach ($data->extraTypes as $v) {
 						echo "\t<option value=\"", htmlspecialchars($v), "\"",
 						(isset($_REQUEST['type'][$i]) && $v == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
@@ -121,7 +121,7 @@
 								
 				break;
 			case 3:
-				global $localData, $lang, $_reload_browser;
+				global $data, $lang, $_reload_browser;
 
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
 
@@ -138,7 +138,7 @@
 					return;
 				}
 				
-				$status = $localData->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
+				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
 								isset($_REQUEST['withoutoids']));
 				if ($status == 0) {
@@ -166,7 +166,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -174,7 +174,7 @@
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strselect']}</h2>\n";
 			$misc->printMsg($msg);
 
-			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -199,7 +199,7 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = null;
@@ -212,15 +212,15 @@
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
-					foreach (array_keys($localData->selectOps) as $v) {
+					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -246,7 +246,7 @@
 			
 			// Verify that they haven't supplied a value for unary operators
 			foreach ($_GET['ops'] as $k => $v) {
-				if ($localData->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+				if ($data->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
 					doSelectRows(true, $lang['strselectunary']);
 					return;
 				}
@@ -256,7 +256,7 @@
 				doSelectRows(true, $lang['strselectneedscol']);			
 			else {
 				// Generate query SQL
-				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_GET['show']),
+				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_GET['show']),
 					$_GET['values'], $_GET['ops']);
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
@@ -273,7 +273,7 @@
 	 * Ask for insert parameters and then actually insert row
 	 */
 	function doInsertRow($confirm, $msg = '') {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -281,7 +281,7 @@
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strinsertrow']}</h2>\n";
 			$misc->printMsg($msg);
 
-			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -294,7 +294,7 @@
 				
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = $attrs->f['adsrc'];
@@ -307,7 +307,7 @@
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod']));
+					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->f['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
@@ -322,7 +322,7 @@
 							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					else
 						echo "&nbsp;</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -344,7 +344,7 @@
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 
-			$status = $localData->insertRow($_POST['table'], $_POST['values'], 
+			$status = $data->insertRow($_POST['table'], $_POST['values'], 
 												$_POST['nulls'], $_POST['format'], $_POST['types']);
 			if ($status == 0) {
 				if (isset($_POST['save']))
@@ -365,7 +365,7 @@
 	 * Show confirmation of empty and perform actual empty
 	 */
 	function doEmpty($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -382,7 +382,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->emptyTable($_POST['table']);
+			$status = $data->emptyTable($_POST['table']);
 			if ($status == 0)
 				doDefault($lang['strtableemptied']);
 			else
@@ -395,7 +395,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang, $_reload_browser;
 		global $PHP_SELF;
 
@@ -409,7 +409,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -417,7 +417,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropTable($_POST['table'], isset($_POST['cascade']));
+			$status = $data->dropTable($_POST['table'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strtabledropped']);
@@ -432,12 +432,12 @@
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc, $localData;
+		global $data, $misc, $data;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}</h2>\n";
 			
-		$tables = &$localData->getTables();
+		$tables = &$data->getTables();
 		
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";

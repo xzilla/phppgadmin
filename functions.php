@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.22 2003/10/27 05:43:18 chriskl Exp $
+	 * $Id: functions.php,v 1.23 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,9 +17,9 @@
 	 * Function to save after editing a function
 	 */
 	function doSaveEdit() {
-		global $localData, $lang;
+		global $data, $lang;
 
-		$status = $localData->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['original_arguments'], 
+		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['original_arguments'], 
 														$_POST['original_returns'], $_POST['formDefinition'], 
 														$_POST['original_lang'], $_POST['formProperties'], isset($_POST['original_setof']), true);
 		if ($status == 0)
@@ -32,20 +32,20 @@
 	 * Function to allow editing of a Function
 	 */
 	function doEdit($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['stralter']}</h2>\n";
 		$misc->printMsg($msg);
 
-		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
+		$fndata = &$data->getFunction($_REQUEST['function_oid']);
 
 		if ($fndata->recordCount() > 0) {
 			$fndata->f[$data->fnFields['setof']] = $data->phpBool($fndata->f[$data->fnFields['setof']]);
 
 			// Initialise variables
 			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $fndata->f[$data->fnFields['fndef']];
-			if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $localData->getFunctionProperties($fndata->f);
+			if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->getFunctionProperties($fndata->f);
 
 			$func_full = $fndata->f[$data->fnFields['fnname']] . "(". $fndata->f[$data->fnFields['fnarguments']] .")";
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -115,13 +115,13 @@
 	 * Show read only properties of a function
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: ", $misc->printVal($_REQUEST['function']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
+		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
 			$funcdata->f[$data->fnFields['setof']] = $data->phpBool($funcdata->f[$data->fnFields['setof']]);
@@ -141,7 +141,7 @@
 			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				// Fetch an array of the function properties
-				$funcprops = $localData->getFunctionProperties($funcdata->f);
+				$funcprops = $data->getFunctionProperties($funcdata->f);
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
 				foreach ($funcprops as $v) {
@@ -164,7 +164,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -178,7 +178,7 @@
 			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -186,7 +186,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
+			$status = $data->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strfunctiondropped']);
 			else
@@ -199,7 +199,7 @@
 	 * Displays a screen where they can enter a new function
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
@@ -210,8 +210,8 @@
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		
-		$types = &$localData->getTypes(true);
-		$langs = &$localData->getLanguages(true);
+		$types = &$data->getTypes(true);
+		$langs = &$data->getLanguages(true);
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
 		$misc->printMsg($msg);
@@ -292,7 +292,7 @@
 	 * Actually creates the new function in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $lang;
+		global $data, $lang;
 		
 		// Set properties to an empty array if it doesn't exist (for db's without properties)
 		if (!is_array($_POST['formProperties'])) $_POST['formProperties'] = array();
@@ -301,7 +301,7 @@
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strfunctionneedsdef']);
 		else {		 
-			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
+			$status = $data->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
 					$_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
 			if ($status == 0)
@@ -315,13 +315,13 @@
 	 * Show default list of functions in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $func;
+		global $data, $misc, $func;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$funcs = &$localData->getFunctions();
+		$funcs = &$data->getFunctions();
 
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";

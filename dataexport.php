@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: dataexport.php,v 1.5 2003/10/12 13:08:59 soranzo Exp $
+	 * $Id: dataexport.php,v 1.6 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -58,25 +58,25 @@
 		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
 
 		// Set up the dump transaction
-		$status = $localData->beginDump();
+		$status = $data->beginDump();
 
 		// If the dump is not dataonly then dump the structure prefix
 		if ($_REQUEST['what'] != 'dataonly')
-			echo $localData->getTableDefPrefix($_REQUEST['table'], isset($clean));
+			echo $data->getTableDefPrefix($_REQUEST['table'], isset($clean));
 
 		// If the dump is not structureonly then dump the actual data
 		if ($_REQUEST['what'] != 'structureonly') {
 			// Get database encoding
-			$dbEncoding = $localData->getDatabaseEncoding();
+			$dbEncoding = $data->getDatabaseEncoding();
 
 			// Set fetch mode to NUM so that duplicate field names are properly returned
-			$localData->conn->setFetchMode(ADODB_FETCH_NUM);
+			$data->conn->setFetchMode(ADODB_FETCH_NUM);
 
 			// Execute the query, if set, otherwise grab all rows from the table
 			if (isset($_REQUEST['table']))
-				$rs = &$localData->dumpRelation($_REQUEST['table'], isset($oids));
+				$rs = &$data->dumpRelation($_REQUEST['table'], isset($oids));
 			else
-				$rs = $localData->conn->Execute($_REQUEST['query']);
+				$rs = $data->conn->Execute($_REQUEST['query']);
 
 			if ($format == 'copy') {
 				$data->fieldClean($_REQUEST['table']);
@@ -108,7 +108,7 @@
 				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n";
 				echo "<head>\r\n";
 				echo "\t<title></title>\r\n";
-				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$localData->codemap[$dbEncoding]}\" />\r\n";
+				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$data->codemap[$dbEncoding]}\" />\r\n";
 				echo "</head>\r\n";
 				echo "<body>\r\n";
 				echo "<table class=\"phppgadmin\">\r\n";
@@ -118,7 +118,7 @@
 					$j = 0;
 					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $localData->id && !isset($oids)) continue;
+						if ($finfo->name == $data->id && !isset($oids)) continue;
 						echo "\t\t<th>", $misc->printVal($finfo->name, true), "</th>\r\n";
 					}
 				}
@@ -128,7 +128,7 @@
 					$j = 0;
 					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
-						if ($finfo->name == $localData->id && !isset($oids)) continue;
+						if ($finfo->name == $data->id && !isset($oids)) continue;
 						echo "\t\t<td>", $misc->printVal($v, true, $finfo->type), "</td>\r\n";
 					}
 					echo "\t</tr>\r\n";
@@ -140,8 +140,8 @@
 			}
 			elseif ($format == 'xml') {
 				echo "<?xml version=\"1.0\"";
-				if (isset($localData->codemap[$dbEncoding]))
-					echo " encoding=\"{$localData->codemap[$dbEncoding]}\"";
+				if (isset($data->codemap[$dbEncoding]))
+					echo " encoding=\"{$data->codemap[$dbEncoding]}\"";
 				echo " ?>\n";
 				echo "<data>\n";
 				if (!$rs->EOF) {
@@ -182,7 +182,7 @@
 						$finfo = $rs->fetchField($j++);
 						$k = $finfo->name;
 						// SQL (INSERT) format cannot handle oids
-	//						if ($k == $localData->id) continue;
+	//						if ($k == $data->id) continue;
 						// Output field
 						$data->fieldClean($k);
 						if ($first) echo "\"{$k}\"";
@@ -252,12 +252,12 @@
 		// If the dump is not dataonly then dump the structure suffix
 		if ($_REQUEST['what'] != 'dataonly') {
 			// Set fetch mode back to ASSOC for the table suffix to work
-			$localData->conn->setFetchMode(ADODB_FETCH_ASSOC);
-			echo $localData->getTableDefSuffix($_REQUEST['table']);
+			$data->conn->setFetchMode(ADODB_FETCH_ASSOC);
+			echo $data->getTableDefSuffix($_REQUEST['table']);
 		}
 
 		// Finish the dump transaction
-		$status = $localData->endDump();
+		$status = $data->endDump();
 	}
 	else {
 		if (!isset($msg)) $msg = null;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.25 2003/11/15 11:09:32 chriskl Exp $
+	 * $Id: database.php,v 1.26 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 	 * Searches for a named database object
 	 */
 	function doFind($confirm = true, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_GET['term'])) $_GET['term'] = '';
@@ -41,7 +41,7 @@
 		// If a search term has been specified, then perform the search
 		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
-			$rs = &$localData->findObject($_GET['term']);
+			$rs = &$data->findObject($_GET['term']);
 			if ($rs->recordCount() > 0) {
 				$curr = '';
 				while (!$rs->EOF) {
@@ -101,7 +101,7 @@
 					}
 					
 					// Generate schema prefix
-					if ($localData->hasSchemas())
+					if ($data->hasSchemas())
 						$prefix = $rs->f['schemaname'] . '.';
 					else
 						$prefix = '';
@@ -186,17 +186,17 @@
 	 * Allow database administration and tuning tasks
 	 */
 	function doAdmin($action = '', $msg = '') {
-		global $PHP_SELF, $localData, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		switch ($action) {
 			case 'vacuum':
-				$status = $localData->vacuumDB();
+				$status = $data->vacuumDB();
 				if ($status == 0) doAdmin('', $lang['strvacuumgood']);
 				else doAdmin('', $lang['strvacuumbad']);
 				break;
 			case 'analyze':
-				$status = $localData->analyzeDB();
+				$status = $data->analyzeDB();
 				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
 				else doAdmin('', $lang['stranalyzebad']);
 				break;
@@ -217,7 +217,7 @@
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doSQL() {
-		global $PHP_SELF, $localData, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
@@ -240,7 +240,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
@@ -254,7 +254,7 @@
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
@@ -262,7 +262,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropSchema($_POST['schema'], isset($_POST['cascade']));
+			$status = $data->dropSchema($_POST['schema'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemadropped']);
@@ -320,12 +320,12 @@
 	 * Actually creates the new schema in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $lang, $_reload_browser;
+		global $data, $lang, $_reload_browser;
 
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
 		else {
-			$status = $localData->createSchema($_POST['formName'], $_POST['formAuth']);
+			$status = $data->createSchema($_POST['formName'], $_POST['formAuth']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemacreated']);
@@ -339,7 +339,7 @@
 	 * Show default list of schemas in the server
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		$misc->printDatabaseNav();
@@ -348,7 +348,7 @@
 		
 		// Check that the DB actually supports schemas
 		if ($data->hasSchemas()) {
-			$schemas = &$localData->getSchemas();
+			$schemas = &$data->getSchemas();
 
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";

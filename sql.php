@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.12 2003/11/15 11:09:32 chriskl Exp $
+	 * $Id: sql.php,v 1.13 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,9 +26,9 @@
 	}
 	
 	// Set fetch mode to NUM so that duplicate field names are properly returned
-	$localData->conn->setFetchMode(ADODB_FETCH_NUM);
+	$data->conn->setFetchMode(ADODB_FETCH_NUM);
 	// Execute the query
-	$rs = $localData->conn->Execute($_POST['query']);
+	$rs = $data->conn->Execute($_POST['query']);
 
 	// $rs will only be an object if there is no error
 	if (is_object($rs)) {
@@ -58,8 +58,8 @@
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 		}
 		// Otherwise if any rows have been affected
-		elseif ($localData->conn->Affected_Rows() > 0) {
-			echo "<p>", $localData->conn->Affected_Rows(), " {$lang['strrowsaff']}</p>\n";
+		elseif ($data->conn->Affected_Rows() > 0) {
+			echo "<p>", $data->conn->Affected_Rows(), " {$lang['strrowsaff']}</p>\n";
 		}
 		// Else say success
 		else echo "<p>{$lang['strsqlexecuted']}</p>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.24 2003/11/05 08:32:03 chriskl Exp $
+	 * $Id: views.php,v 1.25 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $localData, $database, $misc;
+		global $database, $misc;
 		global $lang;
 		global $PHP_SELF;
 
@@ -25,7 +25,7 @@
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strselect']}</h2>\n";
 			$misc->printMsg($msg);
 
-			$attrs = &$localData->getTableAttributes($_REQUEST['view']);
+			$attrs = &$data->getTableAttributes($_REQUEST['view']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -50,7 +50,7 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = null;
@@ -63,15 +63,15 @@
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($localData->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
-					foreach (array_keys($localData->selectOps) as $v) {
+					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -97,7 +97,7 @@
 			
 			// Verify that they haven't supplied a value for unary operators
 			foreach ($_GET['ops'] as $k => $v) {
-				if ($localData->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+				if ($data->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
 					doSelectRows(true, $lang['strselectunary']);
 					return;
 				}
@@ -107,7 +107,7 @@
 				doSelectRows(true, $lang['strselectneedscol']);			
 			else {
 				// Generate query SQL
-				$query = $localData->getSelectSQL($_REQUEST['view'], array_keys($_GET['show']),
+				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_GET['show']),
 					$_GET['values'], $_GET['ops']);
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "views.php?action=confselectrows&{$misc->href}&view={$_REQUEST['view']}";
@@ -124,9 +124,9 @@
 	 * Function to save after editing a view
 	 */
 	function doSaveEdit() {
-		global $localData, $lang;
+		global $data, $lang;
 		
-		$status = $localData->setView($_POST['view'], $_POST['formDefinition']);
+		$status = $data->setView($_POST['view'], $_POST['formDefinition']);
 		if ($status == 0)
 			doProperties($lang['strviewupdated']);
 		else
@@ -137,13 +137,13 @@
 	 * Function to allow editing of a view
 	 */
 	function doEdit($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['stredit']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$viewdata = &$localData->getView($_REQUEST['view']);
+		$viewdata = &$data->getView($_REQUEST['view']);
 		
 		if ($viewdata->recordCount() > 0) {
 			
@@ -169,13 +169,13 @@
 	 * Show read only properties for a view
 	 */
 	function doProperties($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
-		$viewdata = &$localData->getView($_REQUEST['view']);
+		$viewdata = &$data->getView($_REQUEST['view']);
 		
 		if ($viewdata->recordCount() > 0) {
 			echo "<table width=\"100%\">\n";
@@ -196,7 +196,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
@@ -208,7 +208,7 @@
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -216,7 +216,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropView($_POST['view'], isset($_POST['cascade']));
+			$status = $data->dropView($_POST['view'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strviewdropped']);
 			else
@@ -229,7 +229,7 @@
 	 * Displays a screen where they can enter a new view
 	 */
 	function doCreate($msg = '') {
-		global $data, $localData, $misc, $conf;
+		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
@@ -260,13 +260,13 @@
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $lang;
+		global $data, $lang;
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formView'] == '') doCreate($lang['strviewneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strviewneedsdef']);
 		else {		 
-			$status = $localData->createView($_POST['formView'], $_POST['formDefinition'], false);
+			$status = $data->createView($_POST['formView'], $_POST['formDefinition'], false);
 			if ($status == 0)
 				doDefault($lang['strviewcreated']);
 			else
@@ -278,14 +278,14 @@
 	 * Show default list of views in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $conf;
+		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
 		//$misc->printHelp("/tutorial-views.html");
 		$misc->printMsg($msg);
 		
-		$views = &$localData->getViews();
+		$views = &$data->getViews();
 		
 		if ($views->recordCount() > 0) {
 			echo "<table>\n";

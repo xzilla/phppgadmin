@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.14 2003/07/31 01:17:05 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.15 2003/12/10 16:03:30 chriskl Exp $
  */
 
 include_once('libraries/errorhandler.inc.php');
@@ -15,11 +15,10 @@ class ADODB_base {
 
 	/**
 	 * Base constructor
-	 * @param $fetchMode Defaults to associative.  Override for different behaviour
+	 * @param &$conn The connection object
 	 */
-	function ADODB_base($type, $fetchMode = ADODB_FETCH_ASSOC) {
-		$this->conn = &ADONewConnection($type);
-		$this->conn->setFetchMode($fetchMode);
+	function ADODB_base(&$conn) {
+		$this->conn = $conn;
 	}
 
 	/**

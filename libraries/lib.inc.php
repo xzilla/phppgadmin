@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.68 2003/11/28 01:20:38 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.69 2003/12/10 16:03:30 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.2';
+	$appVersion = '3.3-dev';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -132,85 +132,68 @@
 	// Import language file
 	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
-	// Create data accessor object, if valid, and if necessary
-	if (!isset($_no_db_connection)) {
-		if (isset($_SESSION['webdbServerID']) && isset($conf['servers'][$_SESSION['webdbServerID']])) {
-			if (!isset($conf['servers'][$_SESSION['webdbServerID']]['type']))
-				$conf['servers'][$_SESSION['webdbServerID']]['type'] = 'postgres7';
-			$_type = $misc->getDriver($conf['servers'][$_SESSION['webdbServerID']]['host'],
-							$conf['servers'][$_SESSION['webdbServerID']]['port'],
-							$_SESSION['webdbUsername'],
-							$_SESSION['webdbPassword'],
-							$conf['servers'][$_SESSION['webdbServerID']]['type'],
-							$conf['servers'][$_SESSION['webdbServerID']]['defaultdb'],
-							$conf['description']);
-			// Check return type
-			if ($_type == -1) {
-				echo $lang['strnotloaded'];
-				exit;
-			}
-			// @@ NEED TO CHECK MORE RETURN VALS HERE
-
-			require_once('classes/database/' . $_type . '.php');
-			$data = new $_type($conf['servers'][$_SESSION['webdbServerID']]['host'],
-						$conf['servers'][$_SESSION['webdbServerID']]['port'],
-						$conf['servers'][$_SESSION['webdbServerID']]['defaultdb'],
-						$_SESSION['webdbUsername'],
-						$_SESSION['webdbPassword']);
-		}
-
-		// Create local (database-specific) data accessor object, if valid
-		if (isset($_SESSION['webdbServerID']) && isset($conf['servers'][$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
-			require_once('classes/database/' . $_type . '.php');
-			$localData = new $_type(	$conf['servers'][$_SESSION['webdbServerID']]['host'],
-												$conf['servers'][$_SESSION['webdbServerID']]['port'],
-												$_REQUEST['database'],
-												$_SESSION['webdbUsername'],
-												$_SESSION['webdbPassword']);
-
-			// If schema is defined and database supports schemas, then set the schema explicitly
-			if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
-				$status = $localData->setSchema($_REQUEST['schema']);
-				if ($status != 0) {
-					echo $lang['strbadschema'];
-					exit;
-				}
-			}
-
-		}
+	// Check database support is properly compiled in
+	if (!function_exists('pg_connect')) {
+		echo $lang['strnotloaded'];
+		exit;
 	}
 
-	// Get database encoding
-	if (isset($localData)) {
-		$dbEncoding = $localData->getDatabaseEncoding();
+	// Create data accessor object, if necessary
+	if (!isset($_no_db_connection)) {
+		// Connect to the current database, or if one is not specified
+		// then connect to the default database.
+		if (isset($_REQUEST['database']))
+			$_curr_db = $_REQUEST['database'];
+		else
+			$_curr_db = $conf['servers'][$_SESSION['webdbServerID']]['defaultdb'];
+
+		// Create the connection object and make the connection
+		include_once('classes/database/Connection.php');
+		$_connection = new Connection(
+			$conf['servers'][$_SESSION['webdbServerID']]['host'],
+			$conf['servers'][$_SESSION['webdbServerID']]['port'],
+			$_SESSION['webdbUsername'],
+			$_SESSION['webdbPassword'],
+			$_curr_db
+		);
+
+		// Get the name of the database driver we need to use.  The description
+		// of the server is returned and placed into the conf array.
+		$_type = $_connection->getDriver($conf['description']);
+		// XXX: NEED TO CHECK RETURN STATUS HERE
+
+		// Create a database wrapper class for easy manipulation of the
+		// connection.
+		require_once('classes/database/' . $_type . '.php');
+		$data = new $_type($_connection->conn);
+
+		// If schema is defined and database supports schemas, then set the 
+		// schema explicitly.
+		if (isset($_REQUEST['database']) && isset($_REQUEST['schema']) && $data->hasSchemas()) {
+			$status = $data->setSchema($_REQUEST['schema']);
+			if ($status != 0) {
+				echo $lang['strbadschema'];
+				exit;
+			}
+		}
+
+		// Get database encoding
+		$dbEncoding = $data->getDatabaseEncoding();
 		
 		// Set client encoding to database encoding
 		if ($dbEncoding != '') {
-			$status = $localData->setClientEncoding($dbEncoding);
+			$status = $data->setClientEncoding($dbEncoding);
 			if ($status != 0 && $status != -99) {
 				echo $lang['strbadencoding'];
 				exit;
 			}
 		
 			// Override $lang['appcharset']
-			if (isset($localData->codemap[$dbEncoding]))
-				$lang['appcharset'] = $localData->codemap[$dbEncoding];
+			if (isset($data->codemap[$dbEncoding]))
+				$lang['appcharset'] = $data->codemap[$dbEncoding];
 			else
 				$lang['appcharset'] = $dbEncoding;
 		}
 	}
-	// This experiment didn't quite work - try again later.
-	/*
-	else {
-		$status = $data->setClientEncoding('UNICODE');
-		if ($status != 0) {
-			echo $lang['strbadencoding'];
-			exit;
-		}
-
-		// Override $lang['appcharset']
-		$lang['appcharset'] = $data->codemap['UNICODE'];
-	}
-	*/
 
 ?>

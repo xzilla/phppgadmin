@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.15 2003/10/26 10:59:16 chriskl Exp $
+	 * $Id: rules.php,v 1.16 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Confirm and then actually create a rule
 	 */
 	function createRule($confirm, $msg = '') {
-		global $PHP_SELF, $data, $localData, $misc;
+		global $PHP_SELF, $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -68,7 +68,7 @@
 			if (trim($_POST['name']) == '')
 				createRule(true, $lang['strruleneedsname']);
 			else {
-				$status = $localData->createRule($_POST['name'],
+				$status = $data->createRule($_POST['name'],
 					$_POST['event'], $_POST['table'], $_POST['where'],
 					isset($_POST['instead']), $_POST['type'], $_POST['raction']);
 				if ($status == 0)
@@ -83,7 +83,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -99,14 +99,14 @@
 			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
-			if ($localData->hasDropBehavior()) {
+			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropRule($_POST['rule'], $_POST['table'], isset($_POST['cascade']));
+			$status = $data->dropRule($_POST['rule'], $_POST['table'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strruledropped']);
 			else
@@ -119,7 +119,7 @@
 	 * List all the rules on the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
+		global $data, $misc;
 		global $PHP_SELF;
 		global $lang;
 
@@ -127,7 +127,7 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strrules']}</h2>\n";
 		$misc->printMsg($msg);
 
-		$rules = &$localData->getRules($_REQUEST['table']);
+		$rules = &$data->getRules($_REQUEST['table']);
 		
 		if ($rules->recordCount() > 0) {
 			echo "<table>\n";

@@ -3,10 +3,11 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.9 2003/10/27 05:43:18 chriskl Exp $
+	 * $Id: schema.php,v 1.10 2003/12/10 16:03:29 chriskl Exp $
 	 */
 
-	// Include application functions
+	// Include application functions (no db conn)
+	$_no_db_connection = true;
 	include_once('libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
