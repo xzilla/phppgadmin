@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.55 2004/06/07 11:38:38 soranzo Exp $
+	 * $Id: tables.php,v 1.56 2004/06/26 22:24:09 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -471,7 +471,7 @@
 				echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f[$data->tbFields['tbowner']]), "</td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"display.php?{$misc->href}&amp;table=",
-					urlencode($tables->f[$data->tbFields['tbname']]), "&amp;return_url={$return_url}&amp;return_desc=",
+					urlencode($tables->f[$data->tbFields['tbname']]), "&amp;objtype=table&amp;return_url={$return_url}&amp;return_desc=",
 					urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strselect']}</a></td>\n";

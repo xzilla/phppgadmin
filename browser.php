@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.37 2004/05/10 15:21:59 chriskl Exp $
+	 * $Id: browser.php,v 1.38 2004/06/26 22:24:09 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -62,7 +62,7 @@
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 								'expanded' => false,
 								'linkTarget' => 'detail',
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f[$data->tbFields['tbname']]).'&'.$querystr.
+								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($tables->f[$data->tbFields['tbname']]).'&objtype=table&'.$querystr.
 									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 								));
 
@@ -97,7 +97,7 @@
 								'expanded' => false,
 								'linkTarget' => 'detail',
 								// XXX: FIX BROWSE
-								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f[$data->vwFields['vwname']]).'&'.$querystr.
+								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f[$data->vwFields['vwname']]).'&objtype=view&'.$querystr.
 									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 								));
 

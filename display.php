@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.38 2004/05/12 22:40:49 soranzo Exp $
+	 * $Id: display.php,v 1.39 2004/06/26 22:24:09 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -114,6 +114,8 @@
 			echo $misc->form;
 			if (isset($_REQUEST['table']))
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			if (isset($_REQUEST['objtype']))
+				echo "<input type=\"hidden\" name=\"objtype\" value=\"", htmlspecialchars($_REQUEST['objtype']), "\" />\n";
 			if (isset($_REQUEST['query']))
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
@@ -166,6 +168,8 @@
 			echo $misc->form;
 			if (isset($_REQUEST['table']))
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			if (isset($_REQUEST['objtype']))
+				echo "<input type=\"hidden\" name=\"objtype\" value=\"", htmlspecialchars($_REQUEST['objtype']), "\" />\n";
 			if (isset($_REQUEST['query']))
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
@@ -243,6 +247,7 @@
 		// Build strings for GETs
 		$str = 	$misc->href; // . "&amp;page=" . urlencode($_REQUEST['page']);
 		if (isset($_REQUEST['table'])) $str .= "&amp;table=" . urlencode($_REQUEST['table']);
+		if (isset($_REQUEST['objtype'])) $str .= "&amp;objtype=" . urlencode($_REQUEST['objtype']);
 		if (isset($_REQUEST['query'])) $str .= "&amp;query=" . urlencode($_REQUEST['query']);
 		if (isset($_REQUEST['count'])) $str .= "&amp;count=" . urlencode($_REQUEST['count']);
 		if (isset($_REQUEST['return_url'])) $str .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
@@ -378,11 +383,17 @@
 			echo " | <a class=\"navlink\" href=\"dataexport.php?query=",
 					urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strdownload']}</a>\n";	
 		}
+
+		// Insert
+		if ( isset($_REQUEST['table']) && ( isset($_REQUEST['objtype']) && $_REQUEST['objtype'] == 'table') ) {
+			echo " | <a class=\"navlink\" href=\"tables.php?action=confinsertrow&amp;table=",
+				urlencode($_REQUEST['table']), "&amp;{$misc->href}\">{$lang['strinsert']}</a>\n";
+		}
+
 		// Refresh
 		echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
 			"&amp;page=" . urlencode($_REQUEST['page']),
 			"\">{$lang['strrefresh']}</a></p>\n";
-				
 		echo "</p>\n";
 	}
 	
