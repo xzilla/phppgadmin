@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.7 2003/05/30 08:49:09 chriskl Exp $
+	 * $Id: types.php,v 1.8 2003/06/05 20:05:45 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -106,11 +106,11 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=data><b>{$lang['strname']}</b></th></tr>\n";
-		echo "<tr><td class=data1><input name=typname size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+		echo "<tr><th class=data><b>{$lang['strname']}</b></th>\n";
+		echo "<td class=data1><input name=typname size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
 			htmlspecialchars($_POST['typname']), "\"></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['strinputfn']}</b></th></tr>\n";
-		echo "<tr><td class=data1><select name=typin>";
+		echo "<tr><th class=data><b>{$lang['strinputfn']}</b></th>\n";
+		echo "<td class=data1><select name=typin>";
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
 			echo "<option value=\"{$proname}\"",
@@ -118,8 +118,8 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['stroutputfn']}</b></th></tr>\n";
-		echo "<tr><td class=data1><select name=typout>";
+		echo "<tr><th class=data><b>{$lang['stroutputfn']}</b></th>\n";
+		echo "<td class=data1><select name=typout>";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
@@ -128,14 +128,14 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['strlength']}</b></th></tr>\n";
-		echo "<tr><td class=data1><input name=typlen size=8 value=\"",
+		echo "<tr><th class=data><b>{$lang['strlength']}</b></th>\n";
+		echo "<td class=data1><input name=typlen size=8 value=\"",
 			htmlspecialchars($_POST['typlen']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strdefault']}</th></tr>\n";
-		echo "<tr><td class=data1><input name=typdef size=8 value=\"",
+		echo "<tr><th class=data>{$lang['strdefault']}</th>\n";
+		echo "<td class=data1><input name=typdef size=8 value=\"",
 			htmlspecialchars($_POST['typdef']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strelement']}</th></tr>\n";
-		echo "<tr><td class=data1><select name=typelem>";
+		echo "<tr><th class=data>{$lang['strelement']}</th>\n";
+		echo "<td class=data1><select name=typelem>";
 		echo "<option value=\"\"></option>\n";
 		while (!$types->EOF) {
 			$currname = htmlspecialchars($types->f[$data->typFields['typname']]);
@@ -144,21 +144,21 @@
 			$types->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$lang['strdelimiter']}</th></tr>\n";
-		echo "<tr><td class=data1><input name=typdelim size=1 maxlength=1 value=\"",
+		echo "<tr><th class=data>{$lang['strdelimiter']}</th>\n";
+		echo "<td class=data1><input name=typdelim size=1 maxlength=1 value=\"",
 			htmlspecialchars($_POST['typdelim']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strpassbyval']}</th></tr>\n";
-		echo "<tr><td class=data1><input type=checkbox name=typbyval", 
+		echo "<tr><th class=data>{$lang['strpassbyval']}</th>\n";
+		echo "<td class=data1><input type=checkbox name=typbyval", 
 			isset($_POST['typbyval']) ? ' checked' : '', "></td></tr>";
-		echo "<tr><th class=data>{$lang['stralignment']}</th></tr>\n";
-		echo "<tr><td class=data1><select name=typalign>";
+		echo "<tr><th class=data>{$lang['stralignment']}</th>\n";
+		echo "<td class=data1><select name=typalign>";
 		foreach ($data->typAligns as $v) {
 			echo "<option value=\"{$v}\"",
 				($v == $_POST['typalign']) ? ' selected' : '', ">{$v}</option>\n";
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$lang['strstorage']}</th></tr>\n";
-		echo "<tr><td class=data1><select name=typstorage>";
+		echo "<tr><th class=data>{$lang['strstorage']}</th>\n";
+		echo "<td class=data1><select name=typstorage>";
 		foreach ($data->typStorages as $v) {
 			echo "<option value=\"{$v}\"",
 				($v == $_POST['typstorage']) ? ' selected' : '', ">{$v}</option>\n";
@@ -167,7 +167,7 @@
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+		echo "<input type=submit value=\"{$lang['strcreate']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";

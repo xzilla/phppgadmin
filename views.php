@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.14 2003/05/16 08:55:18 chriskl Exp $
+	 * $Id: views.php,v 1.15 2003/06/05 20:05:45 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -230,7 +230,7 @@
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
 		echo $misc->form;
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";

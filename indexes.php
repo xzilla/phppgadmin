@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.13 2003/05/20 05:49:54 chriskl Exp $
+	 * $Id: indexes.php,v 1.14 2003/06/05 20:05:44 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -77,7 +77,7 @@
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=reset value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		

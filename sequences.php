@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.12 2003/05/28 16:51:36 killroyboy Exp $
+	 * $Id: sequences.php,v 1.13 2003/06/05 20:05:44 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -180,7 +180,7 @@
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		

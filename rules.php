@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.11 2003/05/31 07:23:24 chriskl Exp $
+	 * $Id: rules.php,v 1.12 2003/06/05 20:05:44 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -60,7 +60,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\">\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strcreate']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 			echo "</form>\n";
 
 		}

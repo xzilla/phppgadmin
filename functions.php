@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.17 2003/06/01 11:53:45 chriskl Exp $
+	 * $Id: functions.php,v 1.18 2003/06/05 20:05:43 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -289,7 +289,7 @@
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
