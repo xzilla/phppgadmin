@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.26 2003/01/02 03:42:08 chriskl Exp $
+	 * $Id: english.php,v 1.27 2003/01/03 20:49:17 xzilla Exp $
 	 */
 
 	$appLang = 'English';
@@ -28,7 +28,6 @@
 	$strView = 'View';
 	$strViews = 'Views';
 	$strDefinition = 'Definition';
-	$strTriggers = 'Triggers';
 	$strRules = 'Rules';
 	$strSequence = 'Sequence';
 	$strSequences = 'Sequences';
@@ -56,14 +55,12 @@
 	$strAlter = 'Alter';
 	$strCancel = 'Cancel';
 	$strSave = 'Save';
-	$strPrivileges = 'Privileges';
 	$strInsert = 'Insert';
 	$strSelect = 'Select';
 	$strDelete = 'Delete';
 	$strUpdate = 'Update';
 	$strRule = 'Rule';
 	$strReferences = 'References';
-	$strTrigger = 'References';
 	$strYes = 'Yes';
 	$strNo = 'No';
 	$strEdit = 'Edit';
@@ -85,6 +82,11 @@
 	$strExpires = 'Expires';	
 	$strNoUsers = 'No users found.';
 	
+	// Privilges
+	$strPrivileges = 'Privileges';
+	$strGrant = 'Grant';
+	$strRevoke = 'Revoke';
+
 	// Databases
 	$strDatabase = 'Database';
 	$strDatabases = 'Databases';
@@ -149,6 +151,7 @@
 	$strFunctionNeedsDef = 'You must give a definition for your function.';
 	
 	// Triggers
+	$strTrigger = 'Trigger';
 	$strTriggers = 'Triggers';
 	$strNoTriggers = 'No triggers found.';
 	$strCreateTrigger = 'Create Trigger';

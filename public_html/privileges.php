@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: privileges.php,v 1.1 2002/12/19 22:27:38 xzilla Exp $
+	 * $Id: privileges.php,v 1.2 2003/01/03 20:49:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -162,32 +162,253 @@
 			else
 				doCreate('View creation failed.');
 		}
+/*
+	$i = 0;
+	while ($p = $arrPrivileges[$i]) {
+		$cb_priv[$p] = '<input type="checkbox" name="privileges[]" value="'. "$p\"> ". ucfirst($p) ."</input>";
+		$i++;
+	}
+	$Expected = $strYes;
+	$Action = "grant";
+	$strToFrom = "to";
+
+	$privileges = get_privilege($table);
+	switch ($action) {
+		case "revoke":
+			$Expected =  $strNo;
+			$Action = "revoke";
+			$strToFrom = "from";
+		case "grant":
+			$name = rawurldecode($user);
+
+			$i = 0;
+			while ($p = $arrPrivileges[$i]) {
+				if ($privileges[$name][$p] == $Expected) {
+					unset($cb_priv[$p]); }
+				$i++;
+			}
+			$user = "$cfgQuotes$name$cfgQuotes";
+			$user = eregi_replace("${cfgQuotes}group ", "GROUP $cfgQuotes", $user);
+			$user = eregi_replace("${cfgQuotes}public$cfgQuotes", "PUBLIC", $user);
+			$input_user = '<input type="hidden" name="user" value="'. rawurlencode($user) .'">';
+			break;
+		case "grantuser":
+			$qrUsers = "SELECT 'public'::text AS thename UNION SELECT '$cfgQuotes' || usename || '$cfgQuotes' AS thename FROM pg_user WHERE usename NOT IN ('root', '$cfgSuperUser'";
+			@reset($privileges);
+			while (list($key) = @each ($privileges))
+				if (!ereg("group ", $key))
+					$qrUsers .= ", '$key'";
+			$qrUsers .= ") ORDER BY thename";
+		case "grantgroup":
+			if (!isset($qrUsers)) {
+				$qrUsers = "SELECT 'group $cfgQuotes' || groname || '$cfgQuotes' AS thename FROM pg_group";
+				@reset($privileges);
+				while (list($key) = @each($privileges)) 
+					if (ereg("^group (.+)$", $key, $regs))
+						$tmp .=", '".$regs[1]."'";
+				if (isset($tmp)) {
+					$tmp[0] = '(';
+					$qrUsers .= " WHERE groname NOT IN $tmp)";
+				}
+				$qrUsers .= " ORDER BY thename";
+			}
+			if (!$res = @pg_exec($link, $qrUsers)) {
+				pg_die(pg_errormessage($link), $qrUsers, __FILE__, __LINE__);
+			} else {
+				$name = '<select name="user">';
+			        $num_rows = pg_numrows($res);
+				for ($i = 0; $i < $num_rows; $i++) {
+			                $row = pg_fetch_array($res, $i);
+					$name .= '<option value="'.rawurlencode($row['thename']) . '">'. $row['thename'] ."</option>";
+				}
+				$name .= "</select>\n";
+			}
+		}
+	unset($action);
+*/
+
+
 	}	
+
+	/**
+	* Show the grant menu on the screen
+	*/
+
+	function doModify($action) {
+		global $data, $localData, $misc, $database;
+		global $PHP_SELF, $strPrivileges, $strGrant, $strRevoke, $strCancel; 
+		global $strUser,$strGroup,$strSelect,$strInsert,$strUpdate,$strDelete,$strRule;
+		global $strReferences,$strTrigger,$strAction,$strYes,$strNo;
+
+		$object = $_REQUEST['object'];
+		// $server = $_REQUEST['server'];
+		$server = 'deprecated';
+		$user = $_REQUEST['user'];
+		$db = $_REQUEST['database'];
+
+		$arrPrivileges = array('select',	'insert', 	'update', 	'delete', 	'rule',	'references', 	'trigger');
+		$arrAcl        = array('r',      	'a',      	'w',      	'd',		'R',	'x',			't');		
+
+		$i = 0;
+		while ($p = $arrPrivileges[$i]) {
+			$cb_priv[$p] = '<input type="checkbox" name="privileges[]" value="'. "$p\"> ". ucfirst($p) ."</input>";
+			$i++;
+		}
+
+		// $privileges = get_privilege($table);
+		$privileges = &$localData->getPrivileges($object);
+	
+		$GrantRevoke = $strGrant;
+		$ToFrom = 'to';
+		$Expected = $strYes;
+
+		switch ($action) {
+			case "revoke":
+				$GrantRevoke = $strRevoke;
+				$ToFrom = 'from';
+				$Expected =  $strNo;
+			case "grant":
+
+				$name = rawurldecode($user);
+
+				$i = 0;
+				while ($p = $arrPrivileges[$i]) {
+					echo $privileges[$name][$p];
+					if ($privileges[$name][$p] == $Expected) {
+						unset($cb_priv[$p]); }
+					$i++;
+				}
+				$user = "\"$name\"";
+				$user = eregi_replace("group", "GROUP", $user);
+				$user = eregi_replace("public", "PUBLIC", $user);
+				$input_user = '<input type="hidden" name="user" value="'. rawurlencode($user) .'">';
+				break;
+			case "grantuser":
+				$qrUsers = "SELECT 'public'::text AS thename UNION SELECT '$cfgQuotes' || usename || '$cfgQuotes' AS thename FROM pg_user WHERE usename NOT IN ('root', '$cfgSuperUser'";
+				@reset($privileges);
+				while (list($key) = @each ($privileges))
+					if (!ereg("group ", $key))
+						$qrUsers .= ", '$key'";
+				$qrUsers .= ") ORDER BY thename";
+			case "grantgroup":
+				if (!isset($qrUsers)) {
+					$qrUsers = "SELECT 'group $cfgQuotes' || groname || '$cfgQuotes' AS thename FROM pg_group";
+					@reset($privileges);
+					while (list($key) = @each($privileges)) 
+						if (ereg("^group (.+)$", $key, $regs))
+							$tmp .=", '".$regs[1]."'";
+					if (isset($tmp)) {
+						$tmp[0] = '(';
+						$qrUsers .= " WHERE groname NOT IN $tmp)";
+					}
+					$qrUsers .= " ORDER BY thename";
+				}
+				if (!$res = @pg_exec($link, $qrUsers)) {
+					pg_die(pg_errormessage($link), $qrUsers, __FILE__, __LINE__);
+				} else {
+					$name = '<select name="user">';
+				        $num_rows = pg_numrows($res);
+					for ($i = 0; $i < $num_rows; $i++) {
+				                $row = pg_fetch_array($res, $i);
+						$name .= '<option value="'.rawurlencode($row['thename']) . '">'. $row['thename'] ."</option>";
+					}
+					$name .= "</select>\n";
+				}
+			}
+		unset($action);
+
+		echo "<h2>", htmlspecialchars($db), ": $strPrivileges : $object : $GrantRevoke</h2>\n";
+
+		echo strtoupper($GrantRevoke);
+	
+		echo '<form method="post" action="$PHP_SELF">';
+		
+		$i = 0;
+		while ($p = $arrPrivileges[$i]) {
+			if (isset($cb_priv[$p])) { 
+				echo $cb_priv[$p], "<br>";
+			}
+		$i++;
+		}
+ 
+		echo "ON $object ". strtoupper($ToFrom) ." $name";
+
+		echo '<input type="hidden" name="server" value="'. rawurlencode($server) ."\">\n";
+		echo '<input type="hidden" name="object" value="'. $object ."\">\n";
+		echo '<input type="hidden" name="db" value="'. $db ."\">\n";
+		echo $input_user;
+		echo '<p>';
+		echo '<input type="submit" name="todo" value="'. strtoupper($GrantRevoke) ."\">\n";
+		echo '<input type="button" value="'. $strCancel .'" onClick="history.back()">';
+		echo '</form>';
+
+
+
+/*
+		$privs = &$localData->getPrivileges($object);
+
+		if ($privs->recordCount() == 1) {
+
+			$i = 0;
+			while ($p = $privs[$i]) {
+			$cb_priv[$p] = '<input type="checkbox" name="privileges[]" value="'. "$p\"> ". ucfirst($p) ."</input>";
+				$i++;
+			}
+			$Expected = $strYes;
+			$strToFrom = "to";
+
+
+			$name = rawurldecode($_REQUEST['user']);
+
+			$i = 0;
+			while ($p = $privs[$i]) {
+				if ($privs[$name][$p] == $Expected) {
+					unset($cb_priv[$p]); }
+				$i++;
+			}
+			$user = "$name";
+			$user = eregi_replace(" ", "GROUP", $user);
+			$user = eregi_replace(" ", "PUBLIC", $user);
+			$input_user = '<input type="hidden" name="user" value="'. rawurlencode($user) .'">';
+		}	
+
+		echo '<form method="post" action="$PHP_SELF">';
+		
+		$i = 0;
+		while ($p = $arrPrivileges[$i]) {
+			if (isset($cb_priv[$p])) { 
+				echo $cb_priv[$p], "<br>";
+			}
+		$i++;
+		}
+
+*/
+	}
+
 
 	/**
 	 * Show default list of views in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc, $database, $view;
-		global $PHP_SELF, $strPrivileges, $strOwner, $strActions, $strNoViews;
-		global $strUser,$strGroup,$strSelect,$strInsert,$strUpdate,$strDelete,$strRule,$strReferences,$strTrigger,$strAction,$strYes,$strNo;
+		global $data, $localData, $misc, $database;
+		global $PHP_SELF, $strPrivileges, $strGrant, $strRevoke; 
+		global $strUser,$strGroup,$strSelect,$strInsert,$strUpdate,$strDelete,$strRule;
+		global $strReferences,$strTrigger,$strAction,$strYes,$strNo;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strPrivileges</h2>\n";
-		$misc->printMsg($msg);
-
-
 		$object = $_REQUEST['object'];
+
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strPrivileges : $object</h2>\n";
+		$misc->printMsg($msg);
 
 		$privs = &$localData->getPrivileges($object);
 
 		// We must return only one row from the above query
 
 		if ($privs->recordCount() == 1) {
-			echo "<table border=0>\n";
+			echo "<table border=1>\n";
 			echo "<tr>\n";
 			echo "<th>$strUser/$strGroup</th><th>$strSelect</th><th>$strInsert</th><th>$strUpdate</th><th>$strDelete</th><th>$strRule</th><th>$strReferences</th><th>$strTrigger</th><th colspan=\"2\">$strAction</th>\n";
 			echo "</tr>\n";
-
 
 			$priv = trim(ereg_replace("[\{\"]", "", $privs->f[$data->privFields['privarr']]));
 
@@ -197,25 +418,21 @@
 				$aryUser = explode("=", $users[$iUsers]);
 				$username = $aryUser[0] ? $aryUser[0] : "public";
 				$privilege = $aryUser[1]; 
-			
-
 					
 				echo "<tr>\n";
 				echo "<td>$username</td>\n";
 		
-				$arrAcl = array('a','r','w','d','R','x','t');
-				$arrAcl = array('r','a','w','d','R','t');
-				$arrPrivs = array();
+				$arrAcl = array('r','a','w','d','R','x','t');
 				for ($i = 0; $i < 7; $i++) {
 			
 					echo '<td>';	
 					echo strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
 					echo '</td>';
-	
-					// $priv[$username][$arrPrivs[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
-					//echo $aryUser[0], ": ", $arrPrivs[$i], ":", $privilege, "<br>";
-					//	$result[trim($aryUser[0])][$arrPrivs[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
 				}
+
+				echo "<td><a href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "&object=", urlencode($object), "&action=grant&user=", urlencode($username), "\">$strGrant</a></td>";
+
+				echo "<td><a href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "&object=", urlencode($object), "&action=revoke&user=", urlencode($username), "\">$strRevoke</a></td>";
 
 				echo "</tr>\n";
 	
@@ -226,95 +443,6 @@
 		} else {
 			echo "Could Not Retrieve ACL for Object $object";
 		}
-
-
-echo <<<EOF
-		<table border=0>
-		<tr>
-		<th>$strUser/$strGroup</th><th>$strSelect</th><th>$strInsert</th><th>$strUpdate</th><th>$strDelete</th><th>$strRule</th><th>$strReferences</th><th>$strTrigger</th><th colspan="2">$strAction</th>
-		</tr>
-		
-		<tr bgcolor="#DDDDDD">
-		<td>public</td>
-		<td>No</td>
-		<td>No</td>
-		<td>No</td>
-
-		<td>No</td>
-		<td>No</td>
-		<td>No</td>
-		<td>No</td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=grant&user=public">Grant</a></td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=revoke&user=public">Revoke</a></td>
-
-		</td>
-		<tr bgcolor="#CCCCCC">
-		<td>postgres</td>
-		<td>Yes</td>
-		<td>Yes</td>
-		<td>Yes</td>
-		<td>Yes</td>
-
-		<td>Yes</td>
-		<td>Yes</td>
-		<td>Yes</td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=grant&user=postgres">Grant</a></td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=revoke&user=postgres">Revoke</a></td>
-		</td>
-
-		<tr bgcolor="#CCCCCC">
-		<td>rms</td>
-		<td>Yes</td>
-		<td>Yes</td>
-		<td>Yes</td>
-		<td>Yes</td>
-
-		<td>No</td>
-		<td>No</td>
-		<td>No</td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=grant&user=rms">Grant</a></td>
-		<td><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=revoke&user=rms">Revoke</a></td>
-		</td>
-
-</table>	<br>
-	<li><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=grantuser">Add User</a>
-	<li><a href="tbl_privilege.php?server=2&db=1.01&table=region_entity_counts_view&goto=tbl_privilege.php&action=grantgroup">Add Group</a>
-    </td>
-  </tr>
-</table>
-
-EOF;
-
-	
-		$views = &$localData->getViews();
-		
-		if ($views->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=data>{$strView}</th><th class=data>{$strOwner}</th><th colspan=4 class=data>{$strActions}</th>\n";
-			$i = 0;
-			while (!$views->EOF) {
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Browse</a></td>\n";
-				echo "<td class=opbutton{$id}>Select</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Properties</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
-					htmlspecialchars($_REQUEST['database']), "&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Drop</a></td>\n";
-				echo "</tr>\n";
-				$views->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$strNoViews}</p>\n";
-		}
-		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">Create View</a></p>\n";
-
 
 	}
 
@@ -344,8 +472,12 @@ EOF;
 		case 'properties':
 			doProperties();
 			break;
-		case 'browse':
-			// @@ Not yet implemented
+		case 'grant':
+			doModify('grant');
+			break;
+		case 'revoke':
+			doModify('revoke');
+			break;
 		default:
 			doDefault();
 			break;
