@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.11 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.12 2004/09/02 13:53:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -302,20 +302,8 @@
 		echo "<br />\n";
 
 		echo "<ul>\n";
-
-		// @@@@@@@@@ FIX THIS!!!!!
-		$data->fieldClean($_REQUEST['view']);
-		if ($data->hasSchemas() && isset($_REQUEST['schema'])) {
-			$data->fieldClean($_REQUEST['schema']);
-			$query = urlencode("SELECT * FROM \"{$_REQUEST['schema']}\".\"{$_REQUEST['view']}\"");
-		}
-		else
-			$query = urlencode("SELECT * FROM \"{$_REQUEST['view']}\"");
-			
-		$count = urlencode("SELECT COUNT(*) AS total FROM \"{$_REQUEST['view']}\"");
 		$return_url = urlencode("viewproperties.php?{$misc->href}&view=" . urlencode($_REQUEST['view']));
-
-		echo "\t<li><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc=",
+		echo "\t<li><a href=\"display.php?{$misc->href}&view=", urlencode($_REQUEST['view']), "&subject=view&return_url={$return_url}&return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"views.php?action=confselectrows&{$misc->href}&view=", urlencode($_REQUEST['view']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"views.php?action=confirm_drop&{$misc->href}&view=", urlencode($_REQUEST['view']),"\">{$lang['strdrop']}</a></li>\n";

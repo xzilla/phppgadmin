@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.49 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: views.php,v 1.50 2004/09/02 13:53:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -87,6 +87,7 @@
 
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"selectrows\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"view\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"select\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -520,17 +521,6 @@
 		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
-		function vwPre(&$rowdata) {
-			global $data;
-			if ($data->hasSchemas() && isset($_REQUEST['schema'])) {
-				$data->fieldClean($_REQUEST['schema']);
-				$rowdata->f['+vwquery'] = "SELECT * FROM \"{$_REQUEST['schema']}\".\"{$rowdata->f['relname']}\"";
-			} else {
-				$rowdata->f['+vwquery'] = "SELECT * FROM \"{$rowdata->f['relname']}\"";
-			}
-			$rowdata->f['+vwcount'] = "SELECT COUNT(*) AS total FROM \"{$rowdata->f['relname']}\"";
-		}
-		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','views');
 		$misc->printMsg($msg);
@@ -563,8 +553,8 @@
 			),
 			'browse' => array(
 				'title'	=> $lang['strbrowse'],
-				'url'	=> "display.php?{$misc->href}&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
-				'vars'	=> array('query' => '+vwquery', 'count' => '+vwcount'),
+				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'vars'	=> array('view' => 'relname'),
 			),
 			'select' => array(
 				'title'	=> $lang['strselect'],
@@ -586,7 +576,7 @@
 			),
 		);
 		
-		$misc->printTable($views, $columns, $actions, $lang['strnoviews'], 'vwPre');
+		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";

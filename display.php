@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.44 2004/09/02 09:01:16 jollytoad Exp $
+	 * $Id: display.php,v 1.45 2004/09/02 13:53:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,8 @@
 		$key = $_REQUEST['key'];
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['streditrow']}</h2>\n";
+			$misc->printTrail($_REQUEST['subject']);
+			$misc->printTitle($lang['streditrow']);
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -114,8 +115,8 @@
 			echo $misc->form;
 			if (isset($_REQUEST['table']))
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			if (isset($_REQUEST['objtype']))
-				echo "<input type=\"hidden\" name=\"objtype\" value=\"", htmlspecialchars($_REQUEST['objtype']), "\" />\n";
+			if (isset($_REQUEST['subject']))
+				echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
 			if (isset($_REQUEST['query']))
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
@@ -158,8 +159,9 @@
 		global $lang;
 		global $PHP_SELF;
 
-		if ($confirm) { 
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strdeleterow']}</h2>\n";
+		if ($confirm) {
+			$misc->printTrail($_REQUEST['subject']);
+			$misc->printTitle($lang['strdeleterow']);
 
 			echo "<p>{$lang['strconfdeleterow']}</p>\n";
 			
@@ -168,8 +170,8 @@
 			echo $misc->form;
 			if (isset($_REQUEST['table']))
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			if (isset($_REQUEST['objtype']))
-				echo "<input type=\"hidden\" name=\"objtype\" value=\"", htmlspecialchars($_REQUEST['objtype']), "\" />\n";
+			if (isset($_REQUEST['subject']))
+				echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
 			if (isset($_REQUEST['query']))
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
@@ -207,18 +209,24 @@
 		
 		// If current page is not set, default to first page
 		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
+		
+		if (isset($_REQUEST['subject'])) {
+			$subject = $_REQUEST['subject'];
+			if (isset($_REQUEST[$subject])) $object = $_REQUEST[$subject];
+		}
 	
-		// If 'table' is not set, default to '' and set type
-		if (isset($_REQUEST['table']) && isset($_REQUEST['query'])) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strselect']}</h2>\n";
-			$type = 'SELECT';
-		}
-		elseif (isset($_REQUEST['table'])) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ", $misc->printVal($_REQUEST['table']), ": {$lang['strbrowse']}</h2>\n";
-			$type = 'TABLE';
-		}
-		else {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strqueryresults']}</h2>\n";
+		$misc->printTrail(isset($subject) ? $subject : 'database');
+		
+		if (isset($object)) {
+			if (isset($_REQUEST['query'])) {
+				$misc->printTitle($lang['strselect']);
+				$type = 'SELECT';
+			} else {
+				$misc->printTitle($lang['strbrowse']);
+				$type = 'TABLE';
+			}
+		} else {
+			$misc->printTitle($lang['strqueryresults']);
 			$type = 'QUERY';
 		}
 
@@ -232,8 +240,8 @@
 		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
 	
 		// Fetch unique row identifier, if this is a table browse request.
-		if (isset($_REQUEST['table']))
-			$key = $data->getRowIdentifier($_REQUEST['table']);
+		if (isset($object))
+			$key = $data->getRowIdentifier($object);
 		else
 			$key = array();
 		
@@ -246,15 +254,15 @@
 
 		// Retrieve page from query.  $max_pages is returned by reference.
 		$rs = &$data->browseQuery($type, 
-			isset($_REQUEST['table']) ? $_REQUEST['table'] : null, 
+			isset($object) ? $object : null, 
 			isset($_REQUEST['query']) ? $_REQUEST['query'] : null, 
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
 	
 		// Build strings for GETs
 		$str = 	$misc->href; // . "&amp;page=" . urlencode($_REQUEST['page']);
-		if (isset($_REQUEST['table'])) $str .= "&amp;table=" . urlencode($_REQUEST['table']);
-		if (isset($_REQUEST['objtype'])) $str .= "&amp;objtype=" . urlencode($_REQUEST['objtype']);
+		if (isset($object)) $str .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
+		if (isset($subject)) $str .= "&amp;subject=" . urlencode($subject);
 		if (isset($_REQUEST['query'])) $str .= "&amp;query=" . urlencode($_REQUEST['query']);
 		if (isset($_REQUEST['count'])) $str .= "&amp;count=" . urlencode($_REQUEST['count']);
 		if (isset($_REQUEST['return_url'])) $str .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
@@ -286,7 +294,7 @@
 
 			$j = 0;		
 			foreach ($rs->f as $k => $v) {
-				if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) {
+				if (isset($object) && $k == $data->id && !$conf['show_oids']) {
 					$j++;
 					continue;
 				}
@@ -391,9 +399,9 @@
 		}
 
 		// Insert
-		if ( isset($_REQUEST['table']) && ( isset($_REQUEST['objtype']) && $_REQUEST['objtype'] == 'table') ) {
+		if (isset($object) && (isset($subject) && $subject == 'table')) {
 			echo " | <a class=\"navlink\" href=\"tables.php?action=confinsertrow&amp;table=",
-				urlencode($_REQUEST['table']), "&amp;{$misc->href}\">{$lang['strinsert']}</a>\n";
+				urlencode($object), "&amp;{$misc->href}\">{$lang['strinsert']}</a>\n";
 		}
 
 		// Refresh
@@ -404,10 +412,11 @@
 	}
 	
 	// If a table is specified, then set the title differently
-	if (isset($_REQUEST['table']))
+	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']]))
 		$misc->printHeader($lang['strtables']);
 	else	
 		$misc->printHeader($lang['strqueryresults']);
+
 	$misc->printBody();
 
 	switch ($action) {

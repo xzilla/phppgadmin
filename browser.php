@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.41 2004/07/16 16:01:06 soranzo Exp $
+	 * $Id: browser.php,v 1.42 2004/09/02 13:53:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -59,7 +59,7 @@
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 							'expanded' => false,
 							'linkTarget' => 'detail',
-							'iconLink' => addslashes(htmlspecialchars('display.php?table=' . urlencode($tables->f['relname']) . '&objtype=table&' . $querystr . "&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
+							'iconLink' => addslashes(htmlspecialchars('display.php?table=' . urlencode($tables->f['relname']) . '&subject=table&' . $querystr . "&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 							));
 			// Add table folder to schema
 			$table_node->addItem($item_node);
@@ -90,7 +90,7 @@
 							'expanded' => false,
 							'linkTarget' => 'detail',
 							// XXX: FIX BROWSE
-							'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f['relname']).'&objtype=view&'.$querystr.
+							'iconLink' => addslashes(htmlspecialchars('display.php?view='.urlencode($views->f['relname']).'&subject=view&'.$querystr.
 								"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
 							));
 			// Add view folder to schema

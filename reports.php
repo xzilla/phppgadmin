@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.18 2004/07/07 02:59:58 chriskl Exp $
+	 * $Id: reports.php,v 1.19 2004/09/02 13:53:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,9 @@
 		// Get a list of available databases
 		$databases = &$data->getDatabases();
 
-		echo "<h2>{$lang['strreports']}: ", htmlspecialchars($report->f['report_name']), ": {$lang['stredit']}</h2>\n";
+		$_REQUEST['report'] = $report->f['report_name'];
+		$misc->printTrail('report');
+		$misc->printTitle($lang['stredit']);
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -96,7 +98,9 @@
 
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
 
-		echo "<h2>{$lang['strreports']}: ", htmlspecialchars($report->f['report_name']), "</h2>\n";
+		$_REQUEST['report'] = $report->f['report_name'];
+		$misc->printTrail('report');
+		$misc->printTitle($lang['strproperties']);
 		$misc->printMsg($msg);
 
 		if ($report->recordCount() == 1) {
@@ -131,7 +135,8 @@
 
 		$databases = &$data->getDatabases();
 
-		echo "<h2>{$lang['strreports']}: {$lang['strcreatereport']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strcreatereport']);
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -198,7 +203,9 @@
 			// Fetch report from the database
 			$report = &$reportsdb->getReport($_REQUEST['report_id']);
 
-			echo "<h2>{$lang['strreports']}: ", $misc->printVal($report->f['report_name']), ": {$lang['strdrop']}</h2>\n";
+			$_REQUEST['report'] = $report->f['report_name'];
+			$misc->printTrail('report');
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->f['report_name'])), "</p>\n";
 
@@ -226,42 +233,59 @@
 		global $data, $misc, $reportsdb;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>{$lang['strreports']}</h2>\n";
+		$misc->printTrail('server');
+		$misc->printTitle($lang['strreports']);
 		$misc->printMsg($msg);
-			
+		
 		$reports = &$reportsdb->getReports();
 		
-		if ($reports->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strreport']}</th><th class=\"data\">{$lang['strdatabase']}</th><th class=\"data\">{$lang['strcreated']}</th><th colspan=\"4\" class=\"data\">{$lang['stractions']}</th>\n";
-			$i = 0;
-			while (!$reports->EOF) {
-				// @@@@@@@@@ FIX THIS!!!!!
-				$query = urlencode($reports->f['report_sql']);
-				$return_url = urlencode('reports.php');
-				$return_desc = urlencode($lang['strback']);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($reports->f['report_name']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['db_name']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['date_created']), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?database=", urlencode($reports->f['db_name']),
-					"&amp;query={$query}&amp;return_url={$return_url}&amp;return_desc={$return_desc}\">{$lang['strrun']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;report_id=",
-					$reports->f['report_id'], "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;report_id=",
-					$reports->f['report_id'], "\">{$lang['stredit']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;report_id=",
-					$reports->f['report_id'], "\">{$lang['strdrop']}</a></td>\n";
-				echo "</tr>\n";
-				$reports->moveNext();
-				$i++;
-			}
-			echo "</table>\n";
-		}
-		else {
-			echo "<p>{$lang['strnoreports']}</p>\n";
-		}
-
+		$columns = array(
+			'report' => array(
+				'title' => $lang['strreport'],
+				'field' => 'report_name',
+			),
+			'database' => array(
+				'title' => $lang['strdatabase'],
+				'field' => 'db_name',
+			),
+			'created' => array(
+				'title' => $lang['strcreated'],
+				'field' => 'date_created',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'descr',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;",
+				'vars'  => array('report_id' => 'report_id'),
+			),
+			'run' => array(
+				'title' => $lang['strrun'],
+				'url'   => "display.php?subject=report&amp;return_url={$PHP_SELF}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'query' => 'report_sql'),
+			),
+			'edit' => array(
+				'title' => $lang['stredit'],
+				'url'   => "{$PHP_SELF}?action=edit&amp;",
+				'vars'  => array('report_id' => 'report_id'),
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
+				'vars'  => array('report_id' => 'report_id'),
+			),
+		);
+		
+		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
+		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatereport']}</a></p>\n";
 	}
 	

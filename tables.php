@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.65 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: tables.php,v 1.66 2004/09/02 13:53:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -281,6 +281,7 @@
 
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"selectrows\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"select\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -561,7 +562,7 @@
 			),
 			'browse' => array(
 				'title' => $lang['strbrowse'],
-				'url'   => "display.php?{$misc->href}&amp;objtype=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'select' => array(

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.59 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.60 2004/09/02 13:53:57 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -581,7 +581,7 @@
 
 		echo "<ul>\n";
 		$return_url = urlencode("tblproperties.php?{$misc->href}&table={$_REQUEST['table']}");
-		echo "\t<li><a href=\"display.php?{$misc->href}&table=", urlencode($_REQUEST['table']), "&objtype=table&return_url={$return_url}&return_desc=",
+		echo "\t<li><a href=\"display.php?{$misc->href}&table=", urlencode($_REQUEST['table']), "&subject=table&return_url={$return_url}&return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
