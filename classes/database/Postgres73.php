@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.125 2004/07/10 08:51:01 chriskl Exp $
+ * $Id: Postgres73.php,v 1.126 2004/07/12 07:13:33 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -730,14 +730,14 @@ class Postgres73 extends Postgres72 {
 					pc.oid AS prooid,
 					proname,
 					lanname as prolanguage,
-					format_type(prorettype, NULL) as proresult,
+					pg_catalog.format_type(prorettype, NULL) as proresult,
 					prosrc,
 					probin,
 					proretset,
 					proisstrict,
 					provolatile,
 					prosecdef,
-					oidvectortypes(pc.proargtypes) AS proarguments,
+					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
 					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
 				FROM
 					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
@@ -1308,15 +1308,17 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Searches all system catalogs to find objects that match a certain name.
 	 * @param $term The search term
+	 * @param $filter The object type to restrict to ('' means no restriction)
 	 * @return A recordset
 	 */
-	function findObject($term) {
+	function findObject($term, $filter) {
 		global $conf;
 
 		// Escape search term for ILIKE match
 		$term = str_replace('_', '\\_', $term);
 		$term = str_replace('%', '\\%', $term);
 		$this->clean($term);
+		$this->clean($filter);
 
 		// Exclude system relations if necessary
 		if (!$conf['show_system']) {
@@ -1330,7 +1332,13 @@ class Postgres73 extends Postgres72 {
 			$lan_where = '';
 		}
 		
-		$sql = "
+		// Apply outer filter
+		$sql = '';
+		if ($filter != '') {
+			$sql = "SELECT * FROM (";
+		}
+		
+		$sql .= "
 			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name 
 				FROM pg_catalog.pg_namespace pn WHERE nspname ILIKE '%{$term}%' {$where}
 			UNION ALL
@@ -1342,7 +1350,7 @@ class Postgres73 extends Postgres72 {
 				pg_catalog.pg_attribute pa WHERE pc.relnamespace=pn.oid AND pc.oid=pa.attrelid 
 				AND pa.attname ILIKE '%{$term}%' AND pa.attnum > 0 AND NOT pa.attisdropped AND pc.relkind IN ('r', 'v') {$where}
 			UNION ALL
-			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
+			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname || '(' || pg_catalog.oidvectortypes(pp.proargtypes) || ')' FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
 				WHERE pp.pronamespace=pn.oid AND NOT pp.proisagg AND pp.proname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
@@ -1427,8 +1435,13 @@ class Postgres73 extends Postgres72 {
 			";
 		}
 
+		if ($filter != '') {
+			// We use like to make RULE, CONSTRAINT and COLUMN searches work
+			$sql .= ") AS sub WHERE type LIKE '{$filter}%' ";
+		}
+
 		$sql .= "ORDER BY type, schemaname, relname, name";
-			
+
 		return $this->selectSet($sql);
 	}	
 

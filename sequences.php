@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.22 2004/07/10 09:23:24 chriskl Exp $
+	 * $Id: sequences.php,v 1.23 2004/07/12 07:13:32 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -35,10 +35,6 @@
 				'title' => $lang['strowner'],
 				'field' => 'seqowner',
 			),
-			'tablespace' => array(
-				'title' => $lang['strtablespace'],
-				'field' => 'tablespace'
-			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -65,8 +61,6 @@
 				'vars'  => array('object' => 'seqname'),
 			),
 		);
-		
-		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 		
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
@@ -172,10 +166,6 @@
 		if (!isset($_POST['formMaxValue'])) $_POST['formMaxValue'] = '';
 		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = '';
 		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = '';
-		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
-		
-		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']} : {$lang['strcreatesequence']} </h2>\n";
 		$misc->printMsg($msg);
@@ -211,23 +201,6 @@
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCycledValue\" value=\"",
 			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), "\" /></td></tr>\n";
 
-		// Tablespace (if there are any)
-		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
-			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
-			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
-			// Always offer the default (empty) option
-			echo "\t\t\t\t<option value=\"\"",
-				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
-			// Display all other tablespaces
-			while (!$tablespaces->EOF) {
-				$spcname = htmlspecialchars($tablespaces->f['spcname']);
-				echo "\t\t\t\t<option value=\"{$spcname}\"",
-					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
-				$tablespaces->moveNext();
-			}
-			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
-		}
-								
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
 		echo $misc->form;
@@ -244,16 +217,13 @@
 		global $data;
 		global $lang;
 		
-		// Default tablespace to null if it isn't set
-		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
-		
 		// Check that they've given a name and at least one column
 		if ($_POST['formSequenceName'] == '') doCreateSequence($lang['strsequenceneedsname']);
 		else {
 			$status = $data->createSequence($_POST['formSequenceName'],
 				$_POST['formIncrement'], $_POST['formMinValue'],
 				$_POST['formMaxValue'], $_POST['formStartValue'],
-				$_POST['formCacheValue'], isset($_POST['formCycledValue']), $_POST['formSpc']);
+				$_POST['formCacheValue'], isset($_POST['formCycledValue']));
 			if ($status == 0) {
 				doDefault($lang['strsequencecreated']);
 			} else {

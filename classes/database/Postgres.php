@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.232 2004/07/10 09:23:24 chriskl Exp $
+ * $Id: Postgres.php,v 1.233 2004/07/12 07:13:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1629,11 +1629,10 @@ class Postgres extends BaseDB {
 	 * @param $startvalue The starting value
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
-	 * @param $tablespace The tablespace ('' means none/default)
 	 * @return 0 success
 	 */
 	function createSequence($sequence, $increment, $minvalue, $maxvalue, 
-								$startvalue, $cachevalue, $cycledvalue, $tablespace) {
+								$startvalue, $cachevalue, $cycledvalue) {
 		$this->fieldClean($sequence);
 		$this->clean($increment);
 		$this->clean($minvalue);
@@ -1649,12 +1648,6 @@ class Postgres extends BaseDB {
 		if ($cachevalue != '') $sql .= " CACHE {$cachevalue}";
 		if ($cycledvalue) $sql .= " CYCLE";
 		
-		// Tablespace
-		if ($this->hasTablespaces() && $tablespace != '') {
-			$this->fieldClean($tablespace);
-			$sql .= " TABLESPACE \"{$tablespace}\"";
-		}
-
 		return $this->execute($sql);
 	}
 
@@ -2362,9 +2355,10 @@ class Postgres extends BaseDB {
 	/**
 	 * Searches all system catalogs to find objects that match a certain name.
 	 * @param $term The search term
+	 * @param $filter The object type to restrict to ('' means no restriction)
 	 * @return A recordset
 	 */
-	function findObject($term) {
+	function findObject($term, $filter) {
 		global $conf;
 
 		// Escape search term for ~* match
@@ -2373,14 +2367,18 @@ class Postgres extends BaseDB {
 			$term = str_replace($v, "\\{$v}", $term);
 		}
 		$this->clean($term);
+		$this->clean($filter);
 
 		// Build SQL, excluding system relations as necessary
 		// Relations
+		$case_clause = "CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END";
 		$sql = "
-			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
+			SELECT {$case_clause} AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";			
+		if ($filter == 'TABLE' || $filter == 'VIEW' || $filter == 'SEQUENCE') $sql .= " AND {$case_clause} = '{$filter}'";
+		elseif ($filter != '') $sql .= " AND FALSE";
 
 		// Columns
 		$sql .= "				
@@ -2389,14 +2387,16 @@ class Postgres extends BaseDB {
 				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
 				pg_attribute pa WHERE pc.oid=pa.attrelid 
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";
+		if ($filter != '' && $filter != 'COLUMNTABLE' || $filter != 'COLUMNVIEW') $sql .= " AND FALSE";
 
 		// Functions
 		$sql .= "
 			UNION ALL
-			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname FROM pg_proc pp
+			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname || '(' || oidvectortypes(pp.proargtypes) || ')' FROM pg_proc pp
 				WHERE proname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
+		if ($filter != '' && $filter != 'FUNCTION') $sql .= " AND FALSE";
 			
 		// Indexes
 		$sql .= "
@@ -2405,7 +2405,8 @@ class Postgres extends BaseDB {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";
+		if ($filter != '' && $filter != 'INDEX') $sql .= " AND FALSE";
 
 		// Check Constraints
 		$sql .= "
@@ -2414,6 +2415,8 @@ class Postgres extends BaseDB {
 				pg_relcheck pr WHERE pc.oid=pr.rcrelid
 				AND pr.rcname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
+		
 		// Unique and Primary Key Constraints
 		$sql .= "
 			UNION ALL
@@ -2421,7 +2424,8 @@ class Postgres extends BaseDB {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";	
+		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";			
 
 		// Triggers
 		$sql .= "
@@ -2430,6 +2434,7 @@ class Postgres extends BaseDB {
 				pg_trigger pt WHERE pc.oid=pt.tgrelid
 				AND pt.tgname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'TRIGGER') $sql .= " AND FALSE";
 
 		// Table Rules
 		$sql .= "
@@ -2439,6 +2444,7 @@ class Postgres extends BaseDB {
 				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// View Rules
 		$sql .= "
@@ -2448,6 +2454,7 @@ class Postgres extends BaseDB {
 				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// Advanced Objects
 		if ($conf['show_advanced']) {
@@ -2457,6 +2464,7 @@ class Postgres extends BaseDB {
 				SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
 					WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
 			if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'TYPE') $sql .= " AND FALSE";
 
 			// Operators
 			$sql .= "				
@@ -2464,6 +2472,7 @@ class Postgres extends BaseDB {
 				SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
 					WHERE oprname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'OPERATOR') $sql .= " AND FALSE";
 
 			// Languages
 			$sql .= "				
@@ -2471,6 +2480,7 @@ class Postgres extends BaseDB {
 				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
 					WHERE lanname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND pl.lanispl";
+			if ($filter != '' && $filter != 'LANGUAGE') $sql .= " AND FALSE";
 
 			// Aggregates
 			$sql .= "				
@@ -2478,6 +2488,7 @@ class Postgres extends BaseDB {
 				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a 
 					WHERE aggname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND a.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'AGGREGATE') $sql .= " AND FALSE";
 
 			// Op Classes
 			$sql .= "				
@@ -2485,6 +2496,7 @@ class Postgres extends BaseDB {
 				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po
 					WHERE po.opcname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+			if ($filter != '' && $filter != 'OPCLASS') $sql .= " AND FALSE";
 		}
 				
 		$sql .= " ORDER BY type, schemaname, relname, name";

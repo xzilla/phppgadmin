@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.52 2004/07/09 01:50:43 chriskl Exp $
+	 * $Id: database.php,v 1.53 2004/07/12 07:13:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,9 +35,10 @@
 	 */
 	function doFind($confirm = true, $msg = '') {
 		global $PHP_SELF, $data, $data, $misc;
-		global $lang;
+		global $lang, $conf;
 
 		if (!isset($_GET['term'])) $_GET['term'] = '';
+		if (!isset($_GET['filter'])) $_GET['filter'] = '';
 
 		$misc->printDatabaseNav();
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strfind']));
@@ -46,6 +47,44 @@
 		echo "<form action=\"$PHP_SELF\" method=\"get\">\n";
 		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
+		// Output list of filters.  This is complex due to all the 'has' and 'conf' feature possibilities
+		echo "<select name=\"filter\">\n";
+		echo "\t<option value=\"\"", ($_GET['filter'] == '') ? ' selected="selected"' : '', ">{$lang['strallobjects']}</option>\n";
+		if ($data->hasSchemas())
+			echo "\t<option value=\"SCHEMA\"", ($_GET['filter'] == 'SCHEMA') ? ' selected="selected"' : '', ">{$lang['strschemas']}</option>\n";
+		if ($data->hasTables())
+			echo "\t<option value=\"TABLE\"", ($_GET['filter'] == 'TABLE') ? ' selected="selected"' : '', ">{$lang['strtables']}</option>\n";
+		if ($data->hasViews())
+			echo "\t<option value=\"VIEW\"", ($_GET['filter'] == 'VIEW') ? ' selected="selected"' : '', ">{$lang['strviews']}</option>\n";
+		if ($data->hasSequences())
+			echo "\t<option value=\"SEQUENCE\"", ($_GET['filter'] == 'SEQUENCE') ? ' selected="selected"' : '', ">{$lang['strsequences']}</option>\n";
+		if ($data->hasTables() || $data->hasViews()) {
+			echo "\t<option value=\"COLUMN\"", ($_GET['filter'] == 'COLUMN') ? ' selected="selected"' : '', ">{$lang['strcolumns']}</option>\n";
+			echo "\t<option value=\"RULE\"", ($_GET['filter'] == 'RULE') ? ' selected="selected"' : '', ">{$lang['strrules']}</option>\n";
+		}
+		if ($data->hasTables()) {
+			echo "\t<option value=\"INDEX\"", ($_GET['filter'] == 'INDEX') ? ' selected="selected"' : '', ">{$lang['strindexes']}</option>\n";
+			echo "\t<option value=\"TRIGGER\"", ($_GET['filter'] == 'TRIGGER') ? ' selected="selected"' : '', ">{$lang['strtriggers']}</option>\n";
+		}
+		if ($data->hasTables() || $data->hasDomainConstraints())
+			echo "\t<option value=\"CONSTRAINT\"", ($_GET['filter'] == 'CONSTRAINT') ? ' selected="selected"' : '', ">{$lang['strconstraints']}</option>\n";
+		if ($data->hasFunctions())
+			echo "\t<option value=\"FUNCTION\"", ($_GET['filter'] == 'FUNCTION') ? ' selected="selected"' : '', ">{$lang['strfunctions']}</option>\n";
+		if ($data->hasTypes() && $conf['show_advanced'])
+			echo "\t<option value=\"TYPE\"", ($_GET['filter'] == 'TYPE') ? ' selected="selected"' : '', ">{$lang['strtypes']}</option>\n";
+		if ($data->hasDomains())
+			echo "\t<option value=\"DOMAIN\"", ($_GET['filter'] == 'DOMAIN') ? ' selected="selected"' : '', ">{$lang['strdomains']}</option>\n";
+		if ($data->hasOperators() && $conf['show_advanced'])
+			echo "\t<option value=\"OPERATOR\"", ($_GET['filter'] == 'OPERATOR') ? ' selected="selected"' : '', ">{$lang['stroperators']}</option>\n";
+		if ($data->hasConversions() && $conf['show_advanced'])
+			echo "\t<option value=\"CONVERSION\"", ($_GET['filter'] == 'CONVERSION') ? ' selected="selected"' : '', ">{$lang['strconversions']}</option>\n";
+		if ($data->hasLanguages() && $conf['show_advanced'])
+			echo "\t<option value=\"LANGUAGE\"", ($_GET['filter'] == 'LANGUAGE') ? ' selected="selected"' : '', ">{$lang['strlanguages']}</option>\n";
+		if ($data->hasAggregates() && $conf['show_advanced'])
+			echo "\t<option value=\"AGGREGATE\"", ($_GET['filter'] == 'AGGREGATE') ? ' selected="selected"' : '', ">{$lang['straggregates']}</option>\n";
+		if ($data->hasOpClasses() && $conf['show_advanced'])
+			echo "\t<option value=\"OPCLASS\"", ($_GET['filter'] == 'OPCLASS') ? ' selected="selected"' : '', ">{$lang['stropclasses']}</option>\n";
+		echo "</select>\n";
 		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
@@ -57,7 +96,7 @@
 		// If a search term has been specified, then perform the search
 		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
-			$rs = &$data->findObject($_GET['term']);
+			$rs = &$data->findObject($_GET['term'], $_GET['filter']);
 			if ($rs->recordCount() > 0) {
 				$curr = '';
 				while (!$rs->EOF) {

@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.16 2004/07/09 03:24:12 chriskl Exp $
+	 * $Id: sqledit.php,v 1.17 2004/07/12 07:13:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,13 +26,15 @@
 			// The javascript action on the select box reloads the popup whenever the database is changed.
 			// This ensures that the correct page encoding is used.  The exact URL to reload to is different
 			// between SQL and Find mode, however.
-			if ($action == 'sql')
+			if ($action == 'sql') {
 				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) + (paginate.checked ? '&paginate=on' : '')  + '&" . 
-						SID . "'\">\n";
+						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) ";
+				if ($data->hasSchemas()) echo "+ '&search_path=' + encodeURI(search_path.value) ";
+				echo "+ (paginate.checked ? '&paginate=on' : '')  + '&" . SID . "'\">\n";
+			}
 			else
 				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&" . SID . "'\">\n";
+						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&filter=' + encodeURI(filter.value) + '&" . SID . "'\">\n";
 			
 			while (!$databases->EOF) {
 				$dbname = $databases->f['datname'];
@@ -54,9 +56,10 @@
 	 */
 	function doFind() {
 		global $PHP_SELF, $data, $misc;
-		global $lang;
+		global $lang, $conf;
 
 		if (!isset($_GET['term'])) $_GET['term'] = '';
+		if (!isset($_GET['filter'])) $_GET['filter'] = '';
 
 		$misc->printPopUpNav();
 		echo "<h2>{$lang['strfind']}</h2>\n";
@@ -65,6 +68,46 @@
 		_printDatabases();
 		echo "</p><p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
+			
+		// Output list of filters.  This is complex due to all the 'has' and 'conf' feature possibilities
+		echo "<select name=\"filter\">\n";
+		echo "\t<option value=\"\"", ($_GET['filter'] == '') ? ' selected="selected"' : '', ">{$lang['strallobjects']}</option>\n";
+		if ($data->hasSchemas())
+			echo "\t<option value=\"SCHEMA\"", ($_GET['filter'] == 'SCHEMA') ? ' selected="selected"' : '', ">{$lang['strschemas']}</option>\n";
+		if ($data->hasTables())
+			echo "\t<option value=\"TABLE\"", ($_GET['filter'] == 'TABLE') ? ' selected="selected"' : '', ">{$lang['strtables']}</option>\n";
+		if ($data->hasViews())
+			echo "\t<option value=\"VIEW\"", ($_GET['filter'] == 'VIEW') ? ' selected="selected"' : '', ">{$lang['strviews']}</option>\n";
+		if ($data->hasSequences())
+			echo "\t<option value=\"SEQUENCE\"", ($_GET['filter'] == 'SEQUENCE') ? ' selected="selected"' : '', ">{$lang['strsequences']}</option>\n";
+		if ($data->hasTables() || $data->hasViews()) {
+			echo "\t<option value=\"COLUMN\"", ($_GET['filter'] == 'COLUMN') ? ' selected="selected"' : '', ">{$lang['strcolumns']}</option>\n";
+			echo "\t<option value=\"RULE\"", ($_GET['filter'] == 'RULE') ? ' selected="selected"' : '', ">{$lang['strrules']}</option>\n";
+		}
+		if ($data->hasTables()) {
+			echo "\t<option value=\"INDEX\"", ($_GET['filter'] == 'INDEX') ? ' selected="selected"' : '', ">{$lang['strindexes']}</option>\n";
+			echo "\t<option value=\"TRIGGER\"", ($_GET['filter'] == 'TRIGGER') ? ' selected="selected"' : '', ">{$lang['strtriggers']}</option>\n";
+		}
+		if ($data->hasTables() || $data->hasDomainConstraints())
+			echo "\t<option value=\"CONSTRAINT\"", ($_GET['filter'] == 'CONSTRAINT') ? ' selected="selected"' : '', ">{$lang['strconstraints']}</option>\n";
+		if ($data->hasFunctions())
+			echo "\t<option value=\"FUNCTION\"", ($_GET['filter'] == 'FUNCTION') ? ' selected="selected"' : '', ">{$lang['strfunctions']}</option>\n";
+		if ($data->hasTypes() && $conf['show_advanced'])
+			echo "\t<option value=\"TYPE\"", ($_GET['filter'] == 'TYPE') ? ' selected="selected"' : '', ">{$lang['strtypes']}</option>\n";
+		if ($data->hasDomains())
+			echo "\t<option value=\"DOMAIN\"", ($_GET['filter'] == 'DOMAIN') ? ' selected="selected"' : '', ">{$lang['strdomains']}</option>\n";
+		if ($data->hasOperators() && $conf['show_advanced'])
+			echo "\t<option value=\"OPERATOR\"", ($_GET['filter'] == 'OPERATOR') ? ' selected="selected"' : '', ">{$lang['stroperators']}</option>\n";
+		if ($data->hasConversions() && $conf['show_advanced'])
+			echo "\t<option value=\"CONVERSION\"", ($_GET['filter'] == 'CONVERSION') ? ' selected="selected"' : '', ">{$lang['strconversions']}</option>\n";
+		if ($data->hasLanguages() && $conf['show_advanced'])
+			echo "\t<option value=\"LANGUAGE\"", ($_GET['filter'] == 'LANGUAGE') ? ' selected="selected"' : '', ">{$lang['strlanguages']}</option>\n";
+		if ($data->hasAggregates() && $conf['show_advanced'])
+			echo "\t<option value=\"AGGREGATE\"", ($_GET['filter'] == 'AGGREGATE') ? ' selected="selected"' : '', ">{$lang['straggregates']}</option>\n";
+		if ($data->hasOpClasses() && $conf['show_advanced'])
+			echo "\t<option value=\"OPCLASS\"", ($_GET['filter'] == 'OPCLASS') ? ' selected="selected"' : '', ">{$lang['stropclasses']}</option>\n";
+		echo "</select>\n";
+					
 		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" /></p>\n";

@@ -10,6 +10,9 @@ Features
 * Tablespace support for 7.5
 * Support cancelling and killing backend processes in 7.5
 * Allow setting privileges on databases
+* Allow setting schema search path in SQL window
+* Allow filtering find results by object type
+* Show function arguments in find results
 
 Translations
 * Arabic from Zaki
