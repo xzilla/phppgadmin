@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.29 2003/03/24 06:59:24 chriskl Exp $
+ * $Id: Postgres73.php,v 1.30 2003/03/25 00:26:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -385,6 +385,21 @@ class Postgres73 extends Postgres72 {
 	// Constraint functions
 	
 	/**
+	 * Drops a unique constraint from a table
+	 * @param $table The table from which to drop the unique key
+	 * @param $name The name of the unique key
+	 * @return 0 success
+	 */
+	function dropUniqueKey($table, $name) {
+		$this->fieldClean($table);
+		$this->fieldClean($name);
+
+		$sql = "ALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$name}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Drops a primary key constraint from a table
 	 * @param $table The table from which to drop the primary key
 	 * @param $name The name of the primary key
@@ -393,12 +408,12 @@ class Postgres73 extends Postgres72 {
 	function dropPrimaryKey($table, $name) {
 		$this->fieldClean($table);
 		$this->fieldClean($name);
-		
+
 		$sql = "ALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$name}\"";
 
 		return $this->execute($sql);
 	}
-		
+
 	// View functions
 	
 	/**

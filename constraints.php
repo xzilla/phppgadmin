@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.9 2003/03/24 06:59:23 chriskl Exp $
+	 * $Id: constraints.php,v 1.10 2003/03/25 00:26:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,9 +14,9 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Confirm and then actually add a PRIMARY KEY constraint
+	 * Confirm and then actually add a PRIMARY KEY or UNIQUE constraint
 	 */
-	function addPrimaryKey($confirm, $msg = '') {
+	function addPrimaryOrUniqueKey($type, $confirm, $msg = '') {
 		global $PHP_SELF, $data, $localData, $misc;
 		global $lang;
 
@@ -24,10 +24,16 @@
 
 		if ($confirm) {
 			if (!isset($_POST['name'])) $_POST['name'] = '';
-			//if (!isset($_POST['cols'])) $_POST['cols'] = '';
-	
+
+			if ($type == 'primary') $desc = $lang['straddpk'];
+			elseif ($type == 'unique') $desc = $lang['stradduniq'];
+			else {
+				doDefault($lang['strinvalidparam']);
+				return;
+			}
+
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$lang['straddpk']}</h2>\n";
+				htmlspecialchars($_REQUEST['table']), ": {$desc}</h2>\n";
 			$misc->printMsg($msg);
 			
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -68,6 +74,7 @@
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($type), "\">\n";
 			echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
 			echo "</form>\n";
 			
@@ -75,16 +82,31 @@
 				"\">{$lang['strshowallconstraints']}</a></p>\n";
 		}
 		else {
-			// Check that they've given at least one column
-			if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList']) 
-					|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryKey(true, $lang['strpkneedscols']);
-			else {
-				$status = $localData->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
-				if ($status == 0)
-					doDefault($lang['strpkadded']);
-				else
-					addPrimaryKey(true, $lang['strpkaddedbad']);
+			if ($_POST['type'] == 'primary') {
+				// Check that they've given at least one column
+				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
+						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['strpkneedscols']);
+				else {
+					$status = $localData->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					if ($status == 0)
+						doDefault($lang['strpkadded']);
+					else
+						addPrimaryOrUniqueKey($_POST['type'], true, $lang['strpkaddedbad']);
+				}
 			}
+			elseif ($_POST['type'] == 'unique') {
+				// Check that they've given at least one column
+				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
+						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['struniqneedscols']);
+				else {
+					$status = $localData->addUniqueKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					if ($status == 0)
+						doDefault($lang['struniqadded']);
+					else
+						addPrimaryOrUniqueKey($_POST['type'], true, $lang['struniqaddedbad']);
+				}
+			}
+			else doDefault($lang['strinvalidparam']);
 		}
 	}
 
@@ -215,6 +237,8 @@
 		
 		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a> |\n";
+		echo "<a href=\"{$PHP_SELF}?action=add_unique_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+			"\">{$lang['stradduniq']}</a> |\n";
 		echo "<a href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddpk']}</a></p>\n";
 	}
@@ -222,15 +246,26 @@
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints'],
 		"<script src=\"indexes.js\" type=\"text/javascript\"></script>");
 
-	echo "<body onload=\"init();\">";
+	if ($action == 'add_unique_key' || $action == 'save_add_unique_key'
+			|| $action == 'add_primary_key' || $action == 'save_add_primary_key')
+		echo "<body onload=\"init();\">";
+	else
+		$misc->printBody();
 
 	switch ($action) {
+		case 'add_unique_key':
+			addPrimaryOrUniqueKey('unique', true);
+			break;
+		case 'save_add_unique_key':
+			if (isset($_POST['cancel'])) doDefault();
+			else addPrimaryOrUniqueKey('unique', false);
+			break;
 		case 'add_primary_key':
-			addPrimaryKey(true);
+			addPrimaryOrUniqueKey('primary', true);
 			break;
 		case 'save_add_primary_key':
 			if (isset($_POST['cancel'])) doDefault();
-			else addPrimaryKey(false);
+			else addPrimaryOrUniqueKey('primary', false);
 			break;
 		case 'add_check':
 			addCheck(true);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.63 2003/03/24 06:59:23 chriskl Exp $
+ * $Id: Postgres.php,v 1.64 2003/03/25 00:26:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -884,7 +884,7 @@ class Postgres extends BaseDB {
 
 		// Delete the check constraint
 		$sql = "DELETE FROM pg_relcheck WHERE rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}') AND rcname='{$name}'";
-	   $status = $this->execute($sql);
+	   	$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
@@ -894,7 +894,7 @@ class Postgres extends BaseDB {
 		$sql = "UPDATE pg_class SET relchecks=(SELECT COUNT(*) FROM pg_relcheck WHERE 
 					rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')) 
 					WHERE relname='{$table}'";
-	   $status = $this->execute($sql);
+	   	$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
@@ -910,10 +910,12 @@ class Postgres extends BaseDB {
 	 * @param $fields (array) An array of fields over which to add the unique
 	 * @param $name (optional) The name to give the unique, otherwise default name is assigned
 	 * @return 0 success
+	 * @return -1 invalid fields
 	 */
-	function addUniqueConstraint($table, $fields, $name = '') {
+	function addUniqueKey($table, $fields, $name = '') {
+		if (!is_array($fields) || sizeof($fields) == 0) return -1;
 		$this->fieldClean($table);
-		$this->arrayClean($fields);
+		$this->fieldArrayClean($fields);
 		$this->fieldClean($name);
 		
 		if ($name != '')
@@ -929,7 +931,7 @@ class Postgres extends BaseDB {
 	 * @param $name The name of the unique
 	 * @return 0 success
 	 */
-	function dropUniqueConstraint($table, $name) {
+	function dropUniqueKey($table, $name) {
 		$this->fieldClean($name);
 
 		$sql = "DROP INDEX \"{$name}\"";

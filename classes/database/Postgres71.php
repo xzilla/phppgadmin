@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.27 2003/03/24 06:59:23 chriskl Exp $
+ * $Id: Postgres71.php,v 1.28 2003/03/25 00:26:27 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -144,126 +144,6 @@ class Postgres71 extends Postgres {
 		// @@ How do you do this?
 		return $this->execute($sql);
 	}
-
-	/**
-	 * Adds a check constraint to a table
-	 * @param $table The table to which to add the check
-	 * @param $definition The definition of the check
-	 * @param $name (optional) The name to give the check, otherwise default name is assigned
-	 * @return 0 success
-	 */
-	function addCheckConstraint($table, $definition, $name = '') {
-		$this->clean($table);
-		$this->clean($name);
-		// @@ how the heck do you clean definition???
-		
-		if ($name != '')
-			$sql = "ALTER TABLE \"{$table}\" ADD CONSTRAINT \"{$name}\" CHECK ({$definition})";
-		else
-			$sql = "ALTER TABLE \"{$table}\" ADD CHECK ({$definition})";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-	
-	/**
-	 * Drops a check constraint from a table
-	 * @param $table The table from which to drop the check
-	 * @param $name The name of the check to be dropped
-	 * @return 0 success
-	 * @return -2 transaction error
-	 * @return -3 lock error
-	 * @return -4 check drop error
-	 */
-	function dropCheckConstraint($table, $name) {
-		$this->clean($table);
-		$this->clean($name);
-		
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -2;
-
-		// Properly lock the table
-		$sql = "LOCK TABLE \"{$table}\" IN ACCESS EXCLUSIVE MODE";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-
-		// Delete the check constraint
-		$sql = "DELETE FROM pg_relcheck WHERE rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}') AND rcname='{$name}'";
-	   $status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-		
-		// Update the pg_class catalog to reflect the new number of checks
-		$sql = "UPDATE pg_class SET relchecks=(SELECT COUNT(*) FROM pg_relcheck WHERE 
-					rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')) 
-					WHERE relname='{$table}'";
-	   $status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
-
-		// Otherwise, close the transaction
-		return $this->endTransaction();
-	}	
-
-	/**
-	 * Adds a unique constraint to a table
-	 * @param $table The table to which to add the unique
-	 * @param $fields (array) An array of fields over which to add the unique
-	 * @param $name (optional) The name to give the unique, otherwise default name is assigned
-	 * @return 0 success
-	 */
-	function addUniqueConstraint($table, $fields, $name = '') {
-		$this->clean($table);
-		$this->arrayClean($fields);
-		$this->clean($name);
-		
-		if ($name != '')
-			$sql = "CREATE UNIQUE INDEX \"{$name}\" ON \"{$table}\"(\"" . join('","', $fields) . "\")";
-		else return -99; // Not supported
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Drops a unique constraint from a table
-	 * @param $table The table from which to drop the unique
-	 * @param $name The name of the unique
-	 * @return 0 success
-	 */
-	function dropUniqueConstraint($table, $name) {
-		$this->clean($table);
-		$this->clean($name);
-		
-		$sql = "DROP INDEX \"{$name}\"";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}	
-	 
-	/**
-	 * Drops a primary key constraint from a table
-	 * @param $table The table from which to drop the primary key
-	 * @param $name The name of the primary key
-	 * @return 0 success
-	 */
-	function dropPrimaryKeyConstraint($table, $name) {
-		$this->clean($table);
-		$this->clean($name);
-		
-		$sql = "DROP INDEX \"{$name}\"";
-
-		// @@ How do you do this?
-		return $this->execute($sql);
-	}	
 
 	/**
 	 * Changes the owner of a table

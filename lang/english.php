@@ -1,10 +1,10 @@
 <?php
 
 	/**
-	 * Language template file for WebDB. Use this to base language
-	 * files.
+	 * English language file for phpPgAdmin.  Use this as a basis
+	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.65 2003/03/24 06:59:24 chriskl Exp $
+	 * $Id: english.php,v 1.66 2003/03/25 00:26:29 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -304,6 +304,10 @@
 	$lang['strpkneedscols'] = 'Primary key requires at least one column.';
 	$lang['strpkadded'] = 'Primary key added.';
 	$lang['strpkaddedbad'] = 'Failed to add primary key.';
+	$lang['stradduniq'] = 'Add Unique Key';
+	$lang['struniqneedscols'] = 'Unique key requires at least one column.';
+	$lang['struniqadded'] = 'Unique key added.';
+	$lang['struniqaddedbad'] = 'Failed to add unique key.';
 
 	// Functions
 	$lang['strfunction'] = 'Function';

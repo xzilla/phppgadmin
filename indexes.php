@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.8 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: indexes.php,v 1.9 2003/03/25 00:26:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strindexes']} : {$lang['strcreateindex']} </h2>\n";
 		$misc->printMsg($msg);
-		
+
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 
 		$selColumns = new XHTML_select("TableColumnList",true,10);
@@ -35,7 +35,7 @@
 			while (!$attrs->EOF) {
 				$selColumns->add(new XHTML_Option($attrs->f['attname']));
 				$attrs->moveNext();
-			} 
+			}
 		}
 
 		$selIndex = new XHTML_select("IndexColumnList[]", true, 10);
@@ -57,8 +57,8 @@
 
 		echo "<table>\n";
 		echo "<tr>";
-        echo "<th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th>";
-        echo "</tr>";
+        	echo "<th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th>";
+        	echo "</tr>";
 		echo "<tr>";
 		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"80\" maxlength=\"300\"/></td></tr>";
 		echo "<tr><th class=data>{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
@@ -92,14 +92,11 @@
 	function doSaveCreateIndex() {
 		global $localData;
 		global $lang;
-
-
 		
 		// Check that they've given a name and at least one column
-		if ($_POST['formIndexName'] == '') doCreateIndex("{$lang['strindexneedsname']}");
-		elseif ($_POST['IndexColumnList'] == '') doCreate("{$lang['strindexneedscols']}");
+		if ($_POST['formIndexName'] == '') doCreateIndex($lang['strindexneedsname']);
+		elseif ($_POST['IndexColumnList'] == '') doCreate($lang['strindexneedscols']);
 		else {
-
 			$status = $localData->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], $_POST['formIndexType']);
 			if ($status == 0)
 				doDefault($lang['strindexcreated']);

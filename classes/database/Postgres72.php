@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.28 2003/03/24 06:59:24 chriskl Exp $
+ * $Id: Postgres72.php,v 1.29 2003/03/25 00:26:28 chriskl Exp $
  */
 
 
@@ -113,6 +113,42 @@ class Postgres72 extends Postgres71 {
 	// Constraint functions
 	
 	/**
+	 * Drops a check constraint from a table
+	 * @param $table The table from which to drop the check
+	 * @param $name The name of the check to be dropped
+	 * @return 0 success
+	 */
+	function dropCheckConstraint($table, $name) {
+		$this->fieldClean($table);
+		$this->fieldClean($name);
+
+		$sql = "ALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$name}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Adds a unique constraint to a table
+	 * @param $table The table to which to add the unique key
+	 * @param $fields (array) An array of fields over which to add the unique key
+	 * @param $name (optional) The name to give the key, otherwise default name is assigned
+	 * @return 0 success
+	 * @return -1 no fields given
+	 */
+	function addUniqueKey($table, $fields, $name = '') {
+		if (!is_array($fields) || sizeof($fields) == 0) return -1;
+		$this->fieldClean($table);
+		$this->fieldArrayClean($fields);
+		$this->fieldClean($name);
+
+		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
+		$sql .= "UNIQUE (\"" . join('","', $fields) . "\")";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Adds a primary key constraint to a table
 	 * @param $table The table to which to add the primery key
 	 * @param $fields (array) An array of fields over which to add the primary key
@@ -125,7 +161,7 @@ class Postgres72 extends Postgres71 {
 		$this->fieldClean($table);
 		$this->fieldArrayClean($fields);
 		$this->fieldClean($name);
-		
+
 		$sql = "ALTER TABLE \"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "PRIMARY KEY (\"" . join('","', $fields) . "\")";
