@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.34 2003/04/17 06:11:41 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.35 2003/04/18 08:43:40 chriskl Exp $
 	 */
 
 	// Application name 
@@ -108,48 +108,50 @@
 	// Import language file
 	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
-	// Create data accessor object, if valid
-	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
-		if (!isset($confServers[$_SESSION['webdbServerID']]['type']))
-			$confServers[$_SESSION['webdbServerID']]['type'] = 'postgres7';
-		$_type = $misc->getDriver($confServers[$_SESSION['webdbServerID']]['host'],
-						$confServers[$_SESSION['webdbServerID']]['port'],
-						$_SESSION['webdbUsername'],
-						$_SESSION['webdbPassword'],
-						$confServers[$_SESSION['webdbServerID']]['type']);
-		// Check return type
-		if ($_type == -1) {
-			echo $lang['strnotloaded'];
-			exit;
-		}
-		// @@ NEED TO CHECK MORE RETURN VALS HERE
-
-		require_once('classes/database/' . $_type . '.php');
-		$data = new $_type($confServers[$_SESSION['webdbServerID']]['host'],
-					$confServers[$_SESSION['webdbServerID']]['port'],
-					null,
-					$_SESSION['webdbUsername'],
-					$_SESSION['webdbPassword']);
-	}
-
-	// Create local (database-specific) data accessor object, if valid
-	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
-		require_once('classes/database/' . $_type . '.php');
-		$localData = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
-											$confServers[$_SESSION['webdbServerID']]['port'],
-											$_REQUEST['database'],
-											$_SESSION['webdbUsername'],
-											$_SESSION['webdbPassword']);
-		
-		// If schema is defined and database supports schemas, then set the schema explicitly
-		if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
-			$status = $localData->setSchema($_REQUEST['schema']);
-			if ($status != 0) {
-				echo $lang['strbadschema'];
+	// Create data accessor object, if valid, and if necessary
+	if (!isset($_no_db_connection)) {
+		if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
+			if (!isset($confServers[$_SESSION['webdbServerID']]['type']))
+				$confServers[$_SESSION['webdbServerID']]['type'] = 'postgres7';
+			$_type = $misc->getDriver($confServers[$_SESSION['webdbServerID']]['host'],
+							$confServers[$_SESSION['webdbServerID']]['port'],
+							$_SESSION['webdbUsername'],
+							$_SESSION['webdbPassword'],
+							$confServers[$_SESSION['webdbServerID']]['type']);
+			// Check return type
+			if ($_type == -1) {
+				echo $lang['strnotloaded'];
 				exit;
 			}
+			// @@ NEED TO CHECK MORE RETURN VALS HERE
+
+			require_once('classes/database/' . $_type . '.php');
+			$data = new $_type($confServers[$_SESSION['webdbServerID']]['host'],
+						$confServers[$_SESSION['webdbServerID']]['port'],
+						null,
+						$_SESSION['webdbUsername'],
+						$_SESSION['webdbPassword']);
 		}
-		
+
+		// Create local (database-specific) data accessor object, if valid
+		if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
+			require_once('classes/database/' . $_type . '.php');
+			$localData = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
+												$confServers[$_SESSION['webdbServerID']]['port'],
+												$_REQUEST['database'],
+												$_SESSION['webdbUsername'],
+												$_SESSION['webdbPassword']);
+
+			// If schema is defined and database supports schemas, then set the schema explicitly
+			if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
+				$status = $localData->setSchema($_REQUEST['schema']);
+				if ($status != 0) {
+					echo $lang['strbadschema'];
+					exit;
+				}
+			}
+
+		}
 	}
 
 	// Get database encoding

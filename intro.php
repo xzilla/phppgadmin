@@ -3,10 +3,11 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.4 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: intro.php,v 1.5 2003/04/18 08:43:41 chriskl Exp $
 	 */
 
-	// Include application functions
+	// Include application functions (no db conn)
+	$_no_db_connection = true;
 	include_once('libraries/lib.inc.php');
 	
 	$misc->printHeader();
