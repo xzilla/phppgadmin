@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.27 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: users.php,v 1.28 2004/09/02 13:41:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -22,13 +22,14 @@
 	function doAccount($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
-	
+		
+		$userdata = &$data->getUser($_SESSION['webdbUsername']);
+		$_REQUEST['user'] = $_SESSION['webdbUsername'];
+		
 		$misc->printTrail('user');
 		$misc->printTitle($lang['straccount']);
 		$misc->printMsg($msg);
-		
-		$userdata = &$data->getUser($_SESSION['webdbUsername']);
-		
+
 		if ($userdata->recordCount() > 0) {
 			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
 			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
@@ -56,6 +57,7 @@
 		global $PHP_SELF, $lang, $conf;
 
 		if ($confirm) {
+			$_REQUEST['user'] = $_SESSION['webdbUsername'];
 			$misc->printTrail('user');
 			$misc->printTitle($lang['strchangepassword']);
 			$misc->printMsg($msg);
