@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.12 2005/03/22 09:29:34 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.13 2005/03/29 07:57:45 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -22,7 +22,7 @@
 		 */
 		function isDumpEnabled($all = false) {
 			$info = $this->getServerInfo();
-			return !empty($info[$all ? 'pg_dumpall_path' : 'pg_dump']);
+			return !empty($info[$all ? 'pg_dumpall_path' : 'pg_dump_path']);
 		}
 
 		/**
