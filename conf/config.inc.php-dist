@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.32 2004/01/29 07:30:12 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.33 2004/03/04 20:12:24 xzilla Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -40,7 +40,7 @@
 	
 	// If extra login security is true, then logins via phpPgAdmin with no
 	// password or certain usernames (pgsql, postgres, root, administrator)
-	// will be denied. Only turn this off once you have read the FAQ and
+	// will be denied. Only set this false once you have read the FAQ and
 	// understand how to change PostgreSQL's pg_hba.conf to enable
 	// passworded local connections.
 	$conf['extra_login_security'] = true;
