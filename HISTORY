@@ -9,6 +9,9 @@ Bugs
 * Fix table export problems pre 7.3
 * Fix join clause created by view wizard for pre 7.3
 
+Translations
+* Japanese from Tadashi
+
 Version 3.4
 -----------
 
