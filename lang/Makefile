@@ -20,7 +20,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.36 2004/07/12 01:35:46 chriskl Exp $
+# $Id: Makefile,v 1.37 2004/08/17 03:31:20 xzilla Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -42,6 +42,7 @@ TARGETS=polish \
 	afrikaans \
 	arabic \
 	mongol \
+	ukranian \
 	hungarian
 
 all:	prepare ${TARGETS}
@@ -163,15 +164,21 @@ hungarian:	hungarian.php
 		> ${DESTDIR}/hungarian.php
 	@chmod 644 hungarian.php ${DESTDIR}/hungarian.php
 
-arabic:	arabic.php
+arabic:		arabic.php
 	@echo "Recoding arabic..."
 	@cat arabic.php | recode utf-8..html | ./convert.awk \
 		> ${DESTDIR}/arabic.php
 	@chmod 644 arabic.php ${DESTDIR}/arabic.php
 
-mongol:	mongol.php
+mongol:		mongol.php
 	@echo "Recoding mongol..."
 	@cat mongol.php | recode iso-8859-5..html | ./convert.awk \
 		> ${DESTDIR}/mongol.php
 	@chmod 644 mongol.php ${DESTDIR}/mongol.php
+
+ukrainian:	ukrainian.php
+	@echo "Recoding ukrainian..."
+	@cat ukrainian.php | recode koi8..html | ./convert.awk \
+		> ${DESTDIR}/ukrainian.php
+	@chmod 644 ukrainian.php ${DESTDIR}/ukrainian.php
 
