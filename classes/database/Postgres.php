@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.238 2004/07/15 10:59:55 soranzo Exp $
+ * $Id: Postgres.php,v 1.239 2004/07/16 11:38:21 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -647,44 +647,40 @@ class Postgres extends BaseDB {
 		$sql = '';
 
 		// Indexes
-		if ($this->hasIndicies()) {
-			$indexes = &$this->getIndexes($table);
-			if (!is_object($indexes)) {
-				$this->rollbackTransaction();
-				return null;
-			}
+		$indexes = &$this->getIndexes($table);
+		if (!is_object($indexes)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
-			if ($indexes->recordCount() > 0) {
-				$sql .= "\n-- Indexes\n\n";
-				while (!$indexes->EOF) {
-					$sql .= $indexes->f['idxdef'] . ";\n";
+		if ($indexes->recordCount() > 0) {
+			$sql .= "\n-- Indexes\n\n";
+			while (!$indexes->EOF) {
+				$sql .= $indexes->f['idxdef'] . ";\n";
 
-					$indexes->moveNext();
-				}
+				$indexes->moveNext();
 			}
 		}
 
 		// Triggers
-		if ($this->hasTriggers()) {
-			$triggers = &$this->getTriggers($table);
-			if (!is_object($triggers)) {
-				$this->rollbackTransaction();
-				return null;
-			}
+		$triggers = &$this->getTriggers($table);
+		if (!is_object($triggers)) {
+			$this->rollbackTransaction();
+			return null;
+		}
 
-			if ($triggers->recordCount() > 0) {
-				$sql .= "\n-- Triggers\n\n";
-				while (!$triggers->EOF) {
-					// Nasty hack to support pre-7.4 PostgreSQL
-					if ($triggers->f['tgdef'] !== null)
-						$sql .= $triggers->f['tgdef'];
-					else 
-						$sql .= $this->getTriggerDef($triggers->f);	
+		if ($triggers->recordCount() > 0) {
+			$sql .= "\n-- Triggers\n\n";
+			while (!$triggers->EOF) {
+				// Nasty hack to support pre-7.4 PostgreSQL
+				if ($triggers->f['tgdef'] !== null)
+					$sql .= $triggers->f['tgdef'];
+				else 
+					$sql .= $this->getTriggerDef($triggers->f);	
 
-					$sql .= ";\n";
+				$sql .= ";\n";
 
-					$triggers->moveNext();
-				}
+				$triggers->moveNext();
 			}
 		}
 
@@ -3890,11 +3886,9 @@ class Postgres extends BaseDB {
 	function hasViews() { return true; }
 	function hasSequences() { return true; }
 	function hasFunctions() { return true; }
-	function hasTriggers() { return true; }
 	function hasOperators() { return true; }
 	function hasTypes() { return true; }
 	function hasAggregates() { return true; }
-	function hasIndicies() { return true; }
 	function hasLanguages() { return true; }
 	function hasOpClasses() { return true; }
 
