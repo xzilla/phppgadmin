@@ -111,8 +111,8 @@ Operator Classes
 Rules
 -----
 
-* Create rule
-* Alter rule
+* -Create rule (chriskl)
+* -Alter rule (chriskl)
 * -Have accessible on a per-table basis (chriskl)
 
 Triggers
