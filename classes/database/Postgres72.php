@@ -4,11 +4,11 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.24 2003/01/17 23:10:10 xzilla Exp $
+ * $Id: Postgres72.php,v 1.25 2003/01/18 06:38:37 chriskl Exp $
  */
 
 
-require_once('../classes/database/Postgres71.php');
+include_once('classes/database/Postgres71.php');
 
 class Postgres72 extends Postgres71 {
 

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.10 2003/01/16 15:20:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.11 2003/01/18 06:38:36 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -68,7 +68,7 @@
 		 * Creates a database accessor
 		 */
 		function &getDatabaseAccessor($type, $host, $port, $database, $username, $password) {
-			include_once('../classes/database/' . $type . '.php');
+			include_once('classes/database/' . $type . '.php');
 			$localData = new $type(	$host,
 											$port,
 											$database,
@@ -99,7 +99,7 @@
 
 				// Theme
 				echo "<style type=\"text/css\">\n<!--\n";
-				include("../themes/{$guiTheme}/global.css");
+				include("themes/{$guiTheme}/global.css");
 				echo "\n-->\n</style>\n";
 				echo "</head>\n";
 				if ($doBody) echo "<body>\n";

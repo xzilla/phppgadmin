@@ -3,7 +3,7 @@
 /**
  * Overrides default ADODB error handler to provide nicer error handling.
  *
- * $Id: errorhandler.inc.php,v 1.7 2003/01/12 04:37:36 chriskl Exp $
+ * $Id: errorhandler.inc.php,v 1.8 2003/01/18 06:38:37 chriskl Exp $
  */
 
 define('ADODB_ERROR_HANDLER','Error_Handler');
@@ -21,7 +21,7 @@ define('ADODB_ERROR_HANDLER','Error_Handler');
 function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 {
 	global $strSQLError, $strInStatement, $strLogin, $strLoginFailed;
-	global $misc, $appName, $appVersion, $appBase, $guiTheme, $appLangFiles;
+	global $misc, $appName, $appVersion, $guiTheme, $appLangFiles;
 	global $strUsername, $strPassword, $strServer, $strLanguage;
 
 	switch($fn) {
@@ -41,9 +41,9 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 		$_failed = true;
 		// Theme
 		echo "<style type=\"text/css\">\n<!--\n";
-		include("../themes/{$guiTheme}/global.css");
+		include("themes/{$guiTheme}/global.css");
 		echo "\n-->\n</style>\n";
-		include($appBase . '/login.php');
+		include('login.php');
 		exit;
 		break;
 	default:

@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.42 2003/01/16 15:04:28 chriskl Exp $
+	 * $Id: english.php,v 1.43 2003/01/18 06:38:37 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,7 +12,7 @@
 	$appCharset = 'ISO-8859-1';
 
 	// Basic strings
-	$strIntro = 'Welcome to WebDB.';
+	$strIntro = 'Welcome to phpPgAdmin.';
 	$strLogin = 'Login';
 	$strLoginFailed = 'Login failed';
 	$strServer = 'Server';

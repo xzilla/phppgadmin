@@ -3,14 +3,14 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.12 2003/01/17 01:26:39 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.13 2003/01/18 06:38:37 chriskl Exp $
 	 */
 
 	// Application name 
-	$appName = 'WebDB';
+	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '0.6.5';
+	$appVersion = '3.0-dev';
 
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
@@ -33,7 +33,7 @@
 	// language file, and then overwrite it with the user-specified language.
 	// Default language to English if it's not set.
 	if (!isset($appDefaultLanguage)) $appDefaultLanguage = 'english';
-	include_once('../lang/english.php');
+	include_once('lang/english.php');
 
 	// Check for config file version mismatch
 	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
@@ -42,7 +42,7 @@
 	}
 
 	// Create Misc class references
-	include_once('../classes/Misc.php');
+	include_once('classes/Misc.php');
 	$misc = new Misc();
 
 	// Start session
@@ -83,17 +83,17 @@
 			||	!isset($_SESSION['webdbServerID'])
 			||	!isset($_SESSION['webdbLanguage'])
 			||	!isset($confServers[$_SESSION['webdbServerID']])){
-		include($appBase . '/login.php');
+		include('login.php');
 		exit;
 	}
 	
 	// Import language file
-	include("../lang/" . strtolower($_SESSION['webdbLanguage']) . ".php");
+	include("lang/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 	
 	// Create data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
 		$_type = $confServers[$_SESSION['webdbServerID']]['type'];
-		require_once('../classes/database/' . $_type . '.php');
+		require_once('classes/database/' . $_type . '.php');
 		$data = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
 									$confServers[$_SESSION['webdbServerID']]['port'],
 									$confServers[$_SESSION['webdbServerID']]['default'],
@@ -112,7 +112,7 @@
 	// Create local (database-specific) data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
 		$_type = $confServers[$_SESSION['webdbServerID']]['type'];
-		require_once('../classes/database/' . $_type . '.php');
+		require_once('classes/database/' . $_type . '.php');
 		$localData = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
 											$confServers[$_SESSION['webdbServerID']]['port'],
 											$_REQUEST['database'],

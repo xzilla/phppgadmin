@@ -3,10 +3,10 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.4 2003/01/08 05:42:47 chriskl Exp $
+ * $Id: MySQL.php,v 1.5 2003/01/18 06:38:37 chriskl Exp $
  */
 
-include_once('../classes/database/BaseDB.php');
+include_once('classes/database/BaseDB.php');
 
 class MySQL extends BaseDB {
 

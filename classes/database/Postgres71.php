@@ -4,12 +4,12 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.21 2003/01/04 08:55:28 chriskl Exp $
+ * $Id: Postgres71.php,v 1.22 2003/01/18 06:38:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
 
-include_once('../classes/database/Postgres.php');
+include_once('classes/database/Postgres.php');
 
 class Postgres71 extends Postgres {
 
