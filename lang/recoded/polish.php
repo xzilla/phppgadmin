@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.21 2003/09/02 18:26:59 slubek Exp $
+	 * $Id: polish.php,v 1.22 2003/09/16 19:53:28 slubek Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,6 @@
 	$lang['stractions'] = 'Akcje';	
 	$lang['strname'] = 'Nazwa';
 	$lang['strdefinition'] = 'Definicja';
-	$lang['stroperators'] = 'Operatory';
 	$lang['straggregates'] = 'Funkcje agreguj&#261;ce';
 	$lang['strproperties'] = 'W&#322;a&#347;ciwo&#347;ci';
 	$lang['strbrowse'] = 'Przegl&#261;daj';
@@ -119,6 +118,7 @@
 	$lang['strinstatement'] = 'W poleceniu:';
 	$lang['strinvalidparam'] = 'B&#322;&#281;dny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
+	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
@@ -197,6 +197,7 @@
 	$lang['strpasswordshort'] = 'Has&#322;o jest za kr&oacute;tkie.';
 	$lang['strpasswordconfirm'] = 'Has&#322;o i potwierdzenie musz&#261; by&#263; takie same.';
 							
+	// Groups
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
 	$lang['strnogroup'] = 'Nie znaleziono grupy.';
@@ -292,6 +293,8 @@
 	$lang['strconfdropsequence'] = 'Czy na pewno chcesz usun&#261;&#263; sekwencj&#281; &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Sekwencja usuni&#281;ta.';
 	$lang['strsequencedroppedbad'] = 'Pr&oacute;ba usuni&#281;cia sekwencji si&#281; nie powiod&#322;a.';
+	$lang['strsequencereset'] = 'Sekwencja zresetowana.';
+	$lang['strsequenceresetbad'] = 'Pr&oacute;ba zresetowania sekwencji si&#281; nie powiod&#322;a.';
 						
 	// Indeksy
 	$lang['strindexes'] = 'Indeksy';
@@ -300,7 +303,6 @@
 	$lang['strnoindex'] = 'Nie znaleziono indeksu.';
 	$lang['strnoindexes'] = 'Nie znaleziono indeks&oacute;w.';
 	$lang['strcreateindex'] = 'Utw&oacute;rz indeks';
-	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Nazwa kolumny';
 	$lang['strindexneedsname'] = 'Musisz nazwa&#263; indeks.';
@@ -314,7 +316,6 @@
 	$lang['struniquekey'] = 'Klucz Unikatowy';
 	$lang['strprimarykey'] = 'Klucz G&#322;&oacute;wny';
 	$lang['strindextype'] = 'Typ indeksu';
-	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strtablecolumnlist'] = 'Kolumny w tablicy';
 	$lang['strindexcolumnlist'] = 'Kolumny w indeksie';
 
@@ -450,10 +451,9 @@
 	$lang['strreportdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia raportu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropreport'] = 'Czy na pewno chcesz usun&#261;&#263; raport &quot;%s&quot;?';
         $lang['strreportneedsname'] = 'Musisz nazwa&#263; raport.';
-	$lang['strreportneedsdef'] = 'Musisz zdefiniowa&#263; zapytanie SQL tworz&#261;ce raport.';
+	$lang['strreportneedsdef'] = 'Musisz poda&#263; zapytanie SQL definiuj&#261;ce raport.';
 	$lang['strreportcreated'] = 'Raport utworzony.';
 	$lang['strreportcreatedbad'] = 'Pr&oacute;ba utworzenia raportu si&#281; nie powiod&#322;a.';
-	$lang['strsaveasreport'] = 'Zapisz jako raport';
 
 	// Domeny
 	$lang['strdomain'] = 'Domena';

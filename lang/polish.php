@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.28 2003/09/02 18:26:59 slubek Exp $
+	 * $Id: polish.php,v 1.29 2003/09/16 19:53:28 slubek Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,6 @@
 	$lang['stractions'] = 'Akcje';	
 	$lang['strname'] = 'Nazwa';
 	$lang['strdefinition'] = 'Definicja';
-	$lang['stroperators'] = 'Operatory';
 	$lang['straggregates'] = 'Funkcje agreguj±ce';
 	$lang['strproperties'] = 'W³a¶ciwo¶ci';
 	$lang['strbrowse'] = 'Przegl±daj';
@@ -119,6 +118,7 @@
 	$lang['strinstatement'] = 'W poleceniu:';
 	$lang['strinvalidparam'] = 'B³êdny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
+	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
@@ -197,6 +197,7 @@
 	$lang['strpasswordshort'] = 'Has³o jest za krótkie.';
 	$lang['strpasswordconfirm'] = 'Has³o i potwierdzenie musz± byæ takie same.';
 							
+	// Groups
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
 	$lang['strnogroup'] = 'Nie znaleziono grupy.';
@@ -292,6 +293,8 @@
 	$lang['strconfdropsequence'] = 'Czy na pewno chcesz usun±æ sekwencjê "%s"?';
 	$lang['strsequencedropped'] = 'Sekwencja usuniêta.';
 	$lang['strsequencedroppedbad'] = 'Próba usuniêcia sekwencji siê nie powiod³a.';
+	$lang['strsequencereset'] = 'Sekwencja zresetowana.';
+	$lang['strsequenceresetbad'] = 'Próba zresetowania sekwencji siê nie powiod³a.';
 						
 	// Indeksy
 	$lang['strindexes'] = 'Indeksy';
@@ -300,7 +303,6 @@
 	$lang['strnoindex'] = 'Nie znaleziono indeksu.';
 	$lang['strnoindexes'] = 'Nie znaleziono indeksów.';
 	$lang['strcreateindex'] = 'Utwórz indeks';
-	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Nazwa kolumny';
 	$lang['strindexneedsname'] = 'Musisz nazwaæ indeks.';
@@ -314,7 +316,6 @@
 	$lang['struniquekey'] = 'Klucz Unikatowy';
 	$lang['strprimarykey'] = 'Klucz G³ówny';
 	$lang['strindextype'] = 'Typ indeksu';
-	$lang['strindexname'] = 'Nazwa indeksu';
 	$lang['strtablecolumnlist'] = 'Kolumny w tablicy';
 	$lang['strindexcolumnlist'] = 'Kolumny w indeksie';
 
@@ -450,10 +451,9 @@
 	$lang['strreportdroppedbad'] = 'Próba usuniêcia raportu siê nie powiod³a.';
 	$lang['strconfdropreport'] = 'Czy na pewno chcesz usun±æ raport "%s"?';
         $lang['strreportneedsname'] = 'Musisz nazwaæ raport.';
-	$lang['strreportneedsdef'] = 'Musisz zdefiniowaæ zapytanie SQL tworz±ce raport.';
+	$lang['strreportneedsdef'] = 'Musisz podaæ zapytanie SQL definiuj±ce raport.';
 	$lang['strreportcreated'] = 'Raport utworzony.';
 	$lang['strreportcreatedbad'] = 'Próba utworzenia raportu siê nie powiod³a.';
-	$lang['strsaveasreport'] = 'Zapisz jako raport';
 
 	// Domeny
 	$lang['strdomain'] = 'Domena';
