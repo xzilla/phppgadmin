@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.12 2002/09/27 04:02:54 xzilla Exp $
+ * $Id: Postgres72.php,v 1.13 2002/10/23 23:01:58 xzilla Exp $
  */
 
 
@@ -146,7 +146,7 @@ class Postgres72 extends Postgres71 {
 			$sql .= $args;
 
 		$sql .= ") RETURNS \"{$returns}\" AS '\n"; 
-		$sql .= stripslashes($definition);
+		$sql .= $definition;
 		$sql .= "\n'";
 		$sql .= " LANGUAGE \"{$language}\"";
 /*
