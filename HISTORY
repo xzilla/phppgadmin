@@ -9,6 +9,7 @@ Bugs
  (Russell Smith)
 * Fix port selection for local connections (Russell Smith)
 * Fix timeouts on long running operations (Adrian Nida)
+* Allow Multiline character and character varying editing and inserting
 
 Translations
 * Japanese from Tadashi
