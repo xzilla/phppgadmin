@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.20 2004/07/22 13:29:20 jollytoad Exp $
+	 * $Id: types.php,v 1.21 2004/07/22 13:39:11 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -46,6 +46,10 @@
 					'type' => array(
 						'title' => $lang['strtype'],
 						'field' => '+type',
+					),
+					'comment' => array(
+						'title' => $lang['strcomment'],
+						'field' => 'comment',
 					),
 				);
 				
