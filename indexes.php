@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.31 2004/07/13 16:33:53 jollytoad Exp $
+	 * $Id: indexes.php,v 1.32 2004/07/15 09:30:27 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -302,7 +302,7 @@
 			),
 		);
 		
-		if (!$data->hasIsClustered()) unset($column['clustered']);
+		if (!$data->hasIsClustered()) unset($columns['clustered']);
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
