@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.9 2003/04/21 06:36:23 chriskl Exp $
+	 * $Id: login.php,v 1.10 2003/05/07 01:40:07 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
@@ -72,7 +72,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="right" valign="middle">
-							<input type="submit" name="submitLogin" value="Login">
+							<input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>">
 						</td>
 					</tr>
 				</table>
