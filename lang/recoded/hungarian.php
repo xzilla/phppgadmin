@@ -18,7 +18,7 @@
 	$lang['strppahome'] = 'A phpPgAdmin honlapja';
 	$lang['strpgsqlhome'] = 'A PostgreSQL honlapja';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
-	$lang['strlocaldocs'] = 'PostgreSQL Dokument&aacute;ci&oacute; (helyi)';
+	$lang['strlocaldocs'] = 'A PostgreSQL (helyi) dokument&aacute;ci&oacute;ja';
 	$lang['strreportbug'] = 'Hibajelent&eacute;s felad&aacute;sa';
 	$lang['strviewfaq'] = 'GY&Iacute;K megtekint&eacute;se';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
@@ -26,6 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Bejelentkez&eacute;s';
 	$lang['strloginfailed'] = 'Sikertelen bejelentkez&eacute;s';
+	$lang['strlogindisallowed'] = 'Bejelentkez&eacute;s nem enged&eacute;lyezett';
 	$lang['strserver'] = 'Kiszolg&aacute;l&oacute;';
 	$lang['strlogout'] = 'Kil&eacute;p&eacute;s';
 	$lang['strowner'] = 'Tulajdonos';
@@ -35,7 +36,7 @@
 	$lang['strdefinition'] = 'Defin&iacute;ci&oacute;';
 	$lang['straggregates'] = 'Aggreg&aacute;ci&oacute;k';
 	$lang['strproperties'] = 'Tulajdons&aacute;gok';
-	$lang['strbrowse'] = 'Tall&oacute;z';
+	$lang['strbrowse'] = 'Tall&oacute;z&aacute;s';
 	$lang['strdrop'] = 'T&ouml;rl&eacute;s';
 	$lang['strdropped'] = 'T&ouml;rl&ouml;lve';
 	$lang['strnull'] = 'Null';
@@ -45,18 +46,18 @@
 	$lang['strfirst'] = '<< Els&#337;';
 	$lang['strlast'] = 'Utols&oacute; >>';
 	$lang['strfailed'] = 'Sikertelen';
-	$lang['strcreate'] = 'L&eacute;trehoz';
+	$lang['strcreate'] = 'L&eacute;trehoz&aacute;s';
 	$lang['strcreated'] = 'L&eacute;trehozva';
 	$lang['strcomment'] = 'Megjegyz&eacute;s';
 	$lang['strlength'] = 'Hossz';
 	$lang['strdefault'] = 'Alap&eacute;rtelmez&eacute;s';
-	$lang['stralter'] = 'M&oacute;dos&iacute;t';
+	$lang['stralter'] = 'M&oacute;dos&iacute;t&aacute;s';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'M&eacute;gsem';
 	$lang['strsave'] = 'Ment&eacute;s';
 	$lang['strreset'] = '&Uacute;jra';
 	$lang['strinsert'] = 'Besz&uacute;r&aacute;s';
-	$lang['strselect'] = 'Kiv&aacute;laszt';
+	$lang['strselect'] = 'Kiv&aacute;laszt&aacute;s';
 	$lang['strdelete'] = 'T&ouml;rl&eacute;s';
 	$lang['strupdate'] = 'Id&#337;szer&#369;s&iacute;t&eacute;s';
 	$lang['strreferences'] = 'Referenci&aacute;k';
@@ -64,34 +65,36 @@
 	$lang['strno'] = 'Nem';
 	$lang['strtrue'] = 'IGAZ';
 	$lang['strfalse'] = 'HAMIS';
-	$lang['stredit'] = 'Szerkeszt';
+	$lang['stredit'] = 'Szerkeszt&eacute;s';
 	$lang['strcolumns'] = 'Oszlopok';
 	$lang['strrows'] = 'sor';
 	$lang['strrowsaff'] = 'sor &eacute;rintett.';
+	$lang['strobjects'] = 'objektum';
 	$lang['strexample'] = 'pl.';
 	$lang['strback'] = 'Vissza';
 	$lang['strqueryresults'] = 'Lek&eacute;rdez&eacute;s-eredm&eacute;nyek';
-	$lang['strshow'] = 'Mutat';
-	$lang['strempty'] = '&Uuml;res';
+	$lang['strshow'] = 'Megjelen&iacute;t&eacute;s';
+	$lang['strempty'] = '&Uuml;r&iacute;t&eacute;s';
 	$lang['strlanguage'] = 'Nyelv';
 	$lang['strencoding'] = 'K&oacute;dol&aacute;s';
 	$lang['strvalue'] = '&Eacute;rt&eacute;k';
 	$lang['strunique'] = 'egyedi';
 	$lang['strprimary'] = 'Els&#337;dleges';
-	$lang['strexport'] = 'Export&aacute;l';
-	$lang['strimport'] = 'Import&aacute;l';
+	$lang['strexport'] = 'Export&aacute;l&aacute;s';
+	$lang['strimport'] = 'Import&aacute;l&aacute;s';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Menj';
+	$lang['strgo'] = 'V&eacute;grehajt&aacute;s';
 	$lang['stradmin'] = 'Admin';
-	$lang['strvacuum'] = 'Takar&iacute;t';
-	$lang['stranalyze'] = 'Elemez';
-	$lang['strcluster'] = 'F&uuml;rt';
+	$lang['strvacuum'] = 'Takar&iacute;t&aacute;s';
+	$lang['stranalyze'] = 'Elemz&eacute;s';
+	$lang['strcluster'] = 'F&uuml;rt&ouml;z&eacute;s';
+	$lang['strclustered'] = 'F&uuml;rt&ouml;zve?';
 	$lang['strreindex'] = '&Uacute;jraindexel&eacute;s';
 	$lang['strrun'] = 'Futtat&aacute;s';
-	$lang['stradd'] = 'Hozz&aacute;ad';
+	$lang['stradd'] = 'Hozz&aacute;ad&aacute;s';
 	$lang['strevent'] = 'Esem&eacute;ny';
 	$lang['strwhere'] = 'Hol';
-	$lang['strinstead'] = 'Ink&aacute;bb csin&aacute;ld';
+	$lang['strinstead'] = 'Ink&aacute;bb';
 	$lang['strwhen'] = 'Mikor';
 	$lang['strformat'] = 'Form&aacute;tum';
 	$lang['strdata'] = 'Adatok';
@@ -105,6 +108,9 @@
 	$lang['stroptions'] = 'Be&aacute;ll&iacute;t&aacute;sok';
 	$lang['strrefresh'] = 'Friss&iacute;t&eacute;s';
 	$lang['strdownload'] = 'Let&ouml;lt&eacute;s';
+	$lang['strinfo'] = 'Inf&oacute;';
+	$lang['stroids'] = 'OID-k';
+	$lang['stradvanced'] = 'Halad&oacute;';
 
 	// Error handling
 	$lang['strnoframes'] = 'Ezen alkalmaz&aacute;s haszn&aacute;lat&aacute;hoz kereteket t&aacute;mogat&oacute; b&ouml;ng&eacute;sz&#337; sz&uuml;ks&eacute;ges.';
@@ -116,25 +122,26 @@
 	$lang['strinstatement'] = 'A k&ouml;vetkez&#337; kifejez&eacute;sben:';
 	$lang['strinvalidparam'] = '&Eacute;rv&eacute;nytelen script-param&eacute;terek.';
 	$lang['strnodata'] = 'Nincs tal&aacute;lt sor.';
+	$lang['strnoobjects'] = 'Nincs tal&aacute;lt objektum.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonos&iacute;t&oacute; ehhez a sorhoz.';
 
 	// Tables
 	$lang['strtable'] = 'T&aacute;bla';
 	$lang['strtables'] = 'T&aacute;bl&aacute;k';
-	$lang['strshowalltables'] = 'Minden t&aacute;bla megmutat&aacute;sa';
+	$lang['strshowalltables'] = 'Minden t&aacute;bla megjelen&iacute;t&eacute;se';
 	$lang['strnotables'] = 'Nincsenek t&aacute;bl&aacute;k.';
 	$lang['strnotable'] = 'Nincs t&aacute;bla.';
-	$lang['strcreatetable'] = 'T&aacute;bl&aacute;t l&eacute;trehoz';
+	$lang['strcreatetable'] = 'T&aacute;bla l&eacute;trehoz&aacute;sa';
 	$lang['strtablename'] = 'T&aacute;blan&eacute;v';
 	$lang['strtableneedsname'] = 'Meg kell adni a t&aacute;blanevet.';
 	$lang['strtableneedsfield'] = 'Legal&aacute;bb egy mez&#337;t meg kell adni.';
 	$lang['strtableneedscols'] = 'A t&aacute;bl&aacute;hoz &eacute;rv&eacute;nyes sz&aacute;m&uacute; sor kell.';
 	$lang['strtablecreated'] = 'A t&aacute;bla l&eacute;trehozva.';
 	$lang['strtablecreatedbad'] = 'Nem siker&uuml;lt a t&aacute;bl&aacute;t l&eacute;trehozni.';
-	$lang['strconfdroptable'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; t&aacute;bl&aacute;t?';
+	$lang['strconfdroptable'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; t&aacute;bl&aacute;t?';
 	$lang['strtabledropped'] = 'A t&aacute;bla t&ouml;r&ouml;lve.';
 	$lang['strtabledroppedbad'] = 'Nem siker&uuml;lt a t&aacute;bl&aacute;t t&ouml;r&ouml;lni.';
-	$lang['strconfemptytable'] = 'Biztos, hogy ki akarja &uuml;r&iacute;teni a(z) &quot;%s&quot; t&aacute;bl&aacute;t?';
+	$lang['strconfemptytable'] = 'Biztosan ki k&iacute;v&aacute;nja &uuml;r&iacute;teni &bdquo;%s&rdquo; t&aacute;bl&aacute;t?';
 	$lang['strtableemptied'] = 'A t&aacute;bla ki&uuml;r&iacute;tve.';
 	$lang['strtableemptiedbad'] = 'Nem siker&uuml;lt a t&aacute;bl&aacute;t ki&uuml;r&iacute;teni.';
 	$lang['strinsertrow'] = 'Sor besz&uacute;r&aacute;sa';
@@ -144,7 +151,7 @@
 	$lang['strrowupdated'] = 'A sor id&#337;szer&#369;s&iacute;tve.';
 	$lang['strrowupdatedbad'] = 'Nem siker&uuml;lt a sort id&#337;szer&#369;s&iacute;teni.';
 	$lang['strdeleterow'] = 'Sor t&ouml;rl&eacute;se';
-	$lang['strconfdeleterow'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja ezt a sort?';
+	$lang['strconfdeleterow'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja ezt a sort?';
 	$lang['strrowdeleted'] = 'A sor t&ouml;r&ouml;lve.';
 	$lang['strrowdeletedbad'] = 'Nem siker&uuml;lt a sort t&ouml;r&ouml;lni.';
 	$lang['strsaveandrepeat'] = 'Besz&uacute;r&aacute;s &amp; ism&eacute;tl&eacute;s';
@@ -154,21 +161,22 @@
 	$lang['strfieldneedsname'] = 'A mez&#337;t el kell nevezni';
 	$lang['strselectallfields'] = 'Minden mez&#337; kijel&ouml;l&eacute;se';
 	$lang['strselectneedscol'] = 'Ki kell v&aacute;lasztani egy oszlopot';
+	$lang['strselectunary'] = 'Egyv&aacute;ltoz&oacute;s m&#369;veleteknek nem lehetnek &eacute;rt&eacute;kei';
 	$lang['straltercolumn'] = 'Oszlop v&aacute;ltoztat&aacute;sa';
 	$lang['strcolumnaltered'] = 'Az oszlop megv&aacute;ltoztatva.';
 	$lang['strcolumnalteredbad'] = 'Nem siker&uuml;lt az oszlopot megv&aacute;ltoztatni.';
-	$lang['strconfdropcolumn'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; oszlopot a(z) &quot;%s&quot; t&aacute;bl&aacute;b&oacute;l?';
+	$lang['strconfdropcolumn'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; oszlopot a(z) &bdquo;%s&rdquo; t&aacute;bl&aacute;b&oacute;l?';
 	$lang['strcolumndropped'] = 'Az oszlop t&ouml;r&ouml;lve.';
 	$lang['strcolumndroppedbad'] = 'Nem siker&uuml;lt az oszlopot t&ouml;r&ouml;lni.';
 	$lang['straddcolumn'] = 'Oszlop hozz&aacute;ad&aacute;sa';
 	$lang['strcolumnadded'] = 'Az oszlop hozz&aacute;adva.';
 	$lang['strcolumnaddedbad'] = 'Nem siker&uuml;lt az oszlopot hozz&aacute;adni.';
-	$lang['strschemaanddata'] = 'S&eacute;ma &amp; adatok';
-	$lang['strschemaonly'] = 'Csak s&eacute;ma';
-	$lang['strdataonly'] = 'Csak adatok';
 	$lang['strcascade'] = 'KASZK&Aacute;D';
 	$lang['strtablealtered'] = 'A t&aacute;bla megv&aacute;ltoztatva.';
 	$lang['strtablealteredbad'] = 'Nem siker&uuml;lt a t&aacute;bl&aacute;t megv&aacute;ltoztatni.';
+	$lang['strdataonly'] = 'Csak adatok';
+	$lang['strstructureonly'] = 'Csak strukt&uacute;ra';
+	$lang['strstructureanddata'] = 'Strukt&uacute;ra &eacute;s adatok';
 
 	// Users
 	$lang['struser'] = 'Felhaszn&aacute;l&oacute;';
@@ -176,16 +184,17 @@
 	$lang['strusername'] = 'Felhaszn&aacute;l&oacute;n&eacute;v';
 	$lang['strpassword'] = 'Jelsz&oacute;';
 	$lang['strsuper'] = 'Adminisztr&aacute;tor?';
-	$lang['strcreatedb'] = 'L&eacute;trehoz AB-t?';
+	$lang['strcreatedb'] = 'L&eacute;trehozhat AB-t?';
 	$lang['strexpires'] = 'Lej&aacute;r';
 	$lang['strnousers'] = 'Nincsenek felhaszn&aacute;l&oacute;k.';
 	$lang['struserupdated'] = 'A felhaszn&aacute;l&oacute; id&#337;szer&#369;s&iacute;tve.';
 	$lang['struserupdatedbad'] = 'Nem siker&uuml;lt a felhaszn&aacute;l&oacute;t id&#337;szer&#369;s&iacute;teni.';
-	$lang['strshowallusers'] = 'Minden felhaszn&aacute;l&oacute; mutat&aacute;sa';
+	$lang['strshowallusers'] = 'Minden felhaszn&aacute;l&oacute; megjelen&iacute;t&eacute;se';
 	$lang['strcreateuser'] = 'Felhaszn&aacute;l&oacute; l&eacute;trehoz&aacute;sa';
+	$lang['struserneedsname'] = 'A felhaszn&aacute;l&oacute;nak nevet kell adni.';
 	$lang['strusercreated'] = 'A felhaszn&aacute;l&oacute; l&eacute;trehozva.';
 	$lang['strusercreatedbad'] = 'Nem siker&uuml;lt a felhaszn&aacute;l&oacute;t l&eacute;trehozni.';
-	$lang['strconfdropuser'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; felhaszn&aacute;l&oacute;t?';
+	$lang['strconfdropuser'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; felhaszn&aacute;l&oacute;t?';
 	$lang['struserdropped'] = 'A felhaszn&aacute;l&oacute; t&ouml;r&ouml;lve.';
 	$lang['struserdroppedbad'] = 'Nem siker&uuml;lt a felhaszn&aacute;l&oacute;t t&ouml;r&ouml;lni.';
 	$lang['straccount'] = 'Sz&aacute;mla';
@@ -201,11 +210,11 @@
 	$lang['strnogroup'] = 'Nincs csoport.';
 	$lang['strnogroups'] = 'Nincsenek csoportok.';
 	$lang['strcreategroup'] = 'Csoport l&eacute;trehoz&aacute;sa';
-	$lang['strshowallgroups'] = 'Minden csoport mutat&aacute;sa';
+	$lang['strshowallgroups'] = 'Minden csoport megjelen&iacute;t&eacute;se';
 	$lang['strgroupneedsname'] = 'A csoportnak nevet kell adni.';
 	$lang['strgroupcreated'] = 'A csoport l&eacute;trehozva.';
 	$lang['strgroupcreatedbad'] = 'Nem siker&uuml;lt a csoportot l&eacute;trehozni.';	
-	$lang['strconfdropgroup'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; csoportot?';
+	$lang['strconfdropgroup'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; csoportot?';
 	$lang['strgroupdropped'] = 'A csoport t&ouml;r&ouml;lve.';
 	$lang['strgroupdroppedbad'] = 'Nem siker&uuml;lt a csoportot t&ouml;r&ouml;lni.';
 	$lang['strmembers'] = 'Tagok';
@@ -213,7 +222,7 @@
 	$lang['strmemberadded'] = 'A tag hozz&aacute;adva.';
 	$lang['strmemberaddedbad'] = 'Nem siker&uuml;lt a tagot hozz&aacute;adni.';
 	$lang['strdropmember'] = 'Tag t&ouml;rl&eacute;se';
-	$lang['strconfdropmember'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; tagot a(z) &quot;%s&quot; nev&#369; csoportb&oacute;l?';
+	$lang['strconfdropmember'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; tagot a(z) &bdquo;%s&rdquo; csoportb&oacute;l?';
 	$lang['strmemberdropped'] = 'A tag t&ouml;r&ouml;lve.';
 	$lang['strmemberdroppedbad'] = 'Nem siker&uuml;lt a tagot t&ouml;r&ouml;lni.';
 
@@ -233,7 +242,7 @@
 	// Databases
 	$lang['strdatabase'] = 'Adatb&aacute;zis';
 	$lang['strdatabases'] = 'Adatb&aacute;zisok';
-	$lang['strshowalldatabases'] = 'Minden adatb&aacute;zis mutat&aacute;sa';
+	$lang['strshowalldatabases'] = 'Minden adatb&aacute;zis megjelen&iacute;t&eacute;se';
 	$lang['strnodatabase'] = 'Nincs adatb&aacute;zis.';
 	$lang['strnodatabases'] = 'Nincsenek adatb&aacute;zisok.';
 	$lang['strcreatedatabase'] = 'Adatb&aacute;zis l&eacute;trehoz&aacute;sa';
@@ -241,7 +250,7 @@
 	$lang['strdatabaseneedsname'] = 'Meg kell adni az adatb&aacute;zisnevet.';
 	$lang['strdatabasecreated'] = 'Az adatb&aacute;zis l&eacute;trehozva.';
 	$lang['strdatabasecreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni az adatb&aacute;zist.';
-	$lang['strconfdropdatabase'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; adatb&aacute;zist?';
+	$lang['strconfdropdatabase'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; adatb&aacute;zist?';
 	$lang['strdatabasedropped'] = 'Az adatb&aacute;zis t&ouml;r&ouml;lve.';
 	$lang['strdatabasedroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni az adatb&aacute;zist.';
 	$lang['strentersql'] = '&Iacute;rja be a v&eacute;grehajtand&oacute; SQL-kifejez&eacute;seket ide:';
@@ -254,7 +263,7 @@
 	// Views
 	$lang['strview'] = 'N&eacute;zet';
 	$lang['strviews'] = 'N&eacute;zetek';
-	$lang['strshowallviews'] = 'Minden n&eacute;zet mutat&aacute;sa';
+	$lang['strshowallviews'] = 'Minden n&eacute;zet megjelen&iacute;t&eacute;se';
 	$lang['strnoview'] = 'Nincs n&eacute;zet.';
 	$lang['strnoviews'] = 'Nincsenek n&eacute;zetek.';
 	$lang['strcreateview'] = 'N&eacute;zet l&eacute;trehoz&aacute;sa';
@@ -263,7 +272,7 @@
 	$lang['strviewneedsdef'] = 'Meg kell adni a n&eacute;zet defin&iacute;ci&oacute;j&aacute;t.';
 	$lang['strviewcreated'] = 'A n&eacute;zet l&eacute;trehozva.';
 	$lang['strviewcreatedbad'] = 'Nem siker&uuml;lt a l&eacute;trehozni a n&eacute;zetet.';
-	$lang['strconfdropview'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; n&eacute;zetet?';
+	$lang['strconfdropview'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; n&eacute;zetet?';
 	$lang['strviewdropped'] = 'A n&eacute;zet t&ouml;r&ouml;lve.';
 	$lang['strviewdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a n&eacute;zetet.';
 	$lang['strviewupdated'] = 'A n&eacute;zet id&#337;szer&#369;s&iacute;tve.';
@@ -272,7 +281,7 @@
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
-	$lang['strshowallsequences'] = 'Minden sorozat mutat&aacute;sa';
+	$lang['strshowallsequences'] = 'Minden sorozat megjelen&iacute;t&eacute;se';
 	$lang['strnosequence'] = 'Nincs sorozat.';
 	$lang['strnosequences'] = 'Nincsenek sorozatok.';
 	$lang['strcreatesequence'] = 'Sorozat l&eacute;trehoz&aacute;sa';
@@ -282,45 +291,48 @@
 	$lang['strmaxvalue'] = 'Fels&#337; korl&aacute;t';
 	$lang['strminvalue'] = 'Als&oacute; korl&aacute;t';
 	$lang['strcachevalue'] = 'Gyorst&aacute;r &eacute;rt&eacute;ke';
-	$lang['strlogcount'] = 'Log count';
+	$lang['strlogcount'] = 'Sz&aacute;ml&aacute;l&oacute;';
 	$lang['striscycled'] = 'Ciklikus?';
 	$lang['striscalled'] = 'Hivatkozott?';
 	$lang['strsequenceneedsname'] = 'Meg kell adni a sorozatnevet.';
 	$lang['strsequencecreated'] = 'A sorozat l&eacute;trehozva.';
 	$lang['strsequencecreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a sorozatot.'; 
-	$lang['strconfdropsequence'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; sorozatot?';
+	$lang['strconfdropsequence'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; sorozatot?';
 	$lang['strsequencedropped'] = 'A sorozat t&ouml;r&ouml;lve.';
 	$lang['strsequencedroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a sorozatot.';
-	$lang['strsequencereset'] = 'Sorozat &uacute;jrabe&aacute;ll&iacute;t&aacute;sa.';
-	$lang['strsequenceresetbad'] = 'Nem siker&uuml;lt &uacute;jra be&aacute;ll&iacute;tani a sorozatot.'; 
+	$lang['strsequencereset'] = 'Sorozat null&aacute;z&aacute;sa.';
+	$lang['strsequenceresetbad'] = 'Nem siker&uuml;lt null&aacute;zni a sorozatot.'; 
 
 	// Indexes
 	$lang['strindexes'] = 'Indexek';
 	$lang['strindexname'] = 'Indexn&eacute;v';
-	$lang['strshowallindexes'] = 'Minden index mutat&aacute;sa';
+	$lang['strshowallindexes'] = 'Minden index megjelen&iacute;t&eacute;se';
 	$lang['strnoindex'] = 'Nincs index.';
 	$lang['strnoindexes'] = 'Nincsenek indexek.';
 	$lang['strcreateindex'] = 'Index l&eacute;trehoz&aacute;sa';
-	$lang['strtabname'] = 'Tabn&eacute;v';
+	$lang['strtabname'] = 'T&aacute;blan&eacute;v';
 	$lang['strcolumnname'] = 'Oszlopn&eacute;v';
 	$lang['strindexneedsname'] = 'Meg kell adni az indexnevet.';
 	$lang['strindexneedscols'] = 'Meg kell adni az (&eacute;rv&eacute;nyes) oszlopsz&aacute;mot.';
 	$lang['strindexcreated'] = 'Az index l&eacute;trehozva';
 	$lang['strindexcreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni az indexet.';
-	$lang['strconfdropindex'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; indexet?';
+	$lang['strconfdropindex'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; indexet?';
 	$lang['strindexdropped'] = 'Az index t&ouml;r&ouml;lve.';
 	$lang['strindexdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni az indexet.';
 	$lang['strkeyname'] = 'Kulcsn&eacute;v';
-	$lang['struniquekey'] = 'egyedi kulcs';
-	$lang['strprimarykey'] = 'Els&#337;dleges kulcs';
+	$lang['struniquekey'] = 'Egyedi kulcs';
+	$lang['strprimarykey'] = 'Szuperkulcs';
  	$lang['strindextype'] = 'Indext&iacute;pus';
 	$lang['strtablecolumnlist'] = 'A t&aacute;bla oszlopai';
 	$lang['strindexcolumnlist'] = 'Az index oszlopai';
+	$lang['strconfcluster'] = 'Biztosan f&uuml;rt&ouml;zni k&iacute;v&aacute;nja &bdquo;%s&rdquo;-t?';
+	$lang['strclusteredgood'] = 'F&uuml;rt k&eacute;sz.';
+	$lang['strclusteredbad'] = 'F&uuml;rt nem siker&uuml;lt.';
 
 	// Rules
 	$lang['strrules'] = 'Szab&aacute;lyok';
 	$lang['strrule'] = 'Szab&aacute;ly';
-	$lang['strshowallrules'] = 'Minden szab&aacute;ly mutat&aacute;sa';
+	$lang['strshowallrules'] = 'Minden szab&aacute;ly megjelen&iacute;t&eacute;se';
 	$lang['strnorule'] = 'Nincs szab&aacute;ly.';
 	$lang['strnorules'] = 'Nincsenek szab&aacute;lyok.';
 	$lang['strcreaterule'] = 'Szab&aacute;ly l&eacute;trehoz&aacute;sa';
@@ -328,27 +340,27 @@
 	$lang['strruleneedsname'] = 'Meg kell adni a szab&aacute;lynevet.';
 	$lang['strrulecreated'] = 'A szab&aacute;ly l&eacute;trehozva.';
 	$lang['strrulecreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a szab&aacute;lyt.';
-	$lang['strconfdroprule'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; szab&aacute;lyt a(z) &quot;%s&quot; nev&#369; t&aacute;bl&aacute;n?';
+	$lang['strconfdroprule'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; szab&aacute;lyt a(z) &bdquo;%s&rdquo; t&aacute;bl&aacute;n?';
 	$lang['strruledropped'] = 'A szab&aacute;ly t&ouml;r&ouml;lve.';
 	$lang['strruledroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a szab&aacute;lyt.';
 
 	// Constraints
 	$lang['strconstraints'] = 'Megszor&iacute;t&aacute;sok';
-	$lang['strshowallconstraints'] = 'Minden megszor&iacute;t&aacute;s mutat&aacute;sa';
+	$lang['strshowallconstraints'] = 'Minden megszor&iacute;t&aacute;s megjelen&iacute;t&eacute;se';
 	$lang['strnoconstraints'] = 'Nincsenek megszor&iacute;t&aacute;sok.';
 	$lang['strcreateconstraint'] = 'Megszor&iacute;t&aacute;s l&eacute;trehoz&aacute;sa';
 	$lang['strconstraintcreated'] = 'A megszor&iacute;t&aacute;s l&eacute;trehozva.';
 	$lang['strconstraintcreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a megszor&iacute;t&aacute;st.';
-	$lang['strconfdropconstraint'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; megszor&iacute;t&aacute;st a(z) &quot;%s&quot; nev&#369; t&aacute;bl&aacute;n?';
+	$lang['strconfdropconstraint'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; megszor&iacute;t&aacute;st a(z) &bdquo;%s&rdquo; t&aacute;bl&aacute;n?';
 	$lang['strconstraintdropped'] = 'A megszor&iacute;t&aacute;s t&ouml;r&ouml;lve.';
 	$lang['strconstraintdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a megszor&iacute;t&aacute;st.';
 	$lang['straddcheck'] = 'Ellen&#337;rz&eacute;s hozz&aacute;ad&aacute;sa';
 	$lang['strcheckneedsdefinition'] = 'Meg kell adni az ellen&#337;rz&eacute;s defin&iacute;ci&oacute;j&aacute;t.';
 	$lang['strcheckadded'] = 'Az ellen&#337;rz&eacute;s hozz&aacute;adva.';
 	$lang['strcheckaddedbad'] = 'Nem siker&uuml;lt hozz&aacute;adni az ellen&#337;rz&eacute;st.';
-	$lang['straddpk'] = 'Els&#337;dleges kulcs hozz&aacute;ad&aacute;sa';
-	$lang['strpkneedscols'] = 'Legal&aacute;bb egy oszlopot meg kell adni els&#337;dleges kulcsnak.';
-	$lang['strpkadded'] = 'Els&#337;dleges kulcs hozz&aacute;adva.';
+	$lang['straddpk'] = 'Szuperkulcs hozz&aacute;ad&aacute;sa';
+	$lang['strpkneedscols'] = 'Legal&aacute;bb egy oszlopot meg kell adni szuperkulcsnak.';
+	$lang['strpkadded'] = 'Szuperkulcs hozz&aacute;adva.';
 	$lang['strpkaddedbad'] = 'Nem siker&uuml;lt hozz&aacute;adni az els&#337;dleges kulcsot.';
 	$lang['stradduniq'] = 'egyedi kulcs hozz&aacute;ad&aacute;sa';
 	$lang['struniqneedscols'] = 'Legal&aacute;bb egy oszlopot meg kell adni egyedi kulcsnak.';
@@ -367,7 +379,7 @@
 	// Functions
 	$lang['strfunction'] = 'F&uuml;ggv&eacute;ny';
 	$lang['strfunctions'] = 'F&uuml;ggv&eacute;nyek';
-	$lang['strshowallfunctions'] = 'Minden f&uuml;ggv&eacute;ny mutat&aacute;sa';
+	$lang['strshowallfunctions'] = 'Minden f&uuml;ggv&eacute;ny megjelen&iacute;t&eacute;se';
 	$lang['strnofunction'] = 'Nincs f&uuml;ggv&eacute;ny.';
 	$lang['strnofunctions'] = 'Nincsenek f&uuml;ggv&eacute;nyek.';
 	$lang['strcreatefunction'] = 'F&uuml;ggv&eacute;ny l&eacute;trehoz&aacute;sa';
@@ -379,7 +391,7 @@
 	$lang['strfunctionneedsdef'] = 'Meg kell adni a f&uuml;ggv&eacute;ny defin&iacute;ci&oacute;j&aacute;t.';
 	$lang['strfunctioncreated'] = 'A f&uuml;ggv&eacute;ny l&eacute;trehozva.';
 	$lang['strfunctioncreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a f&uuml;ggv&eacute;nyt.';
-	$lang['strconfdropfunction'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; f&uuml;ggv&eacute;nyt?';
+	$lang['strconfdropfunction'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; f&uuml;ggv&eacute;nyt?';
 	$lang['strfunctiondropped'] = 'A f&uuml;ggv&eacute;ny t&ouml;r&ouml;lve.';
 	$lang['strfunctiondroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a f&uuml;ggv&eacute;nyt.';
 	$lang['strfunctionupdated'] = 'A f&uuml;ggv&eacute;ny id&#337;szer&#369;s&iacute;tve.';
@@ -388,7 +400,7 @@
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
 	$lang['strtriggers'] = 'Triggerek';
-	$lang['strshowalltriggers'] = 'Minden trigger mutat&aacute;sa';
+	$lang['strshowalltriggers'] = 'Minden trigger megjelen&iacute;t&eacute;se';
 	$lang['strnotrigger'] = 'Nincs trigger.';
 	$lang['strnotriggers'] = 'Nincsenek triggerek.';
 	$lang['strcreatetrigger'] = 'Trigger l&eacute;trehoz&aacute;sa';
@@ -396,7 +408,7 @@
 	$lang['strtriggerneedsfunc'] = 'Meg kell adni egy f&uuml;ggv&eacute;nynevet a triggerhez.';
 	$lang['strtriggercreated'] = 'A trigger l&eacute;trehozva.';
 	$lang['strtriggercreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a triggert.';
-	$lang['strconfdroptrigger'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; triggert a(z) &quot;%s&quot; nev&#369; t&aacute;bl&aacute;n?';
+	$lang['strconfdroptrigger'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; triggert a(z) &bdquo;%s&rdquo; t&aacute;bl&aacute;n?';
 	$lang['strtriggerdropped'] = 'A trigger t&ouml;r&ouml;lve.';
 	$lang['strtriggerdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a triggert.';
 	$lang['strtriggeraltered'] = 'A trigger megv&aacute;ltoztatva.';
@@ -405,9 +417,9 @@
 	// Types
 	$lang['strtype'] = 'T&iacute;pus';
 	$lang['strtypes'] = 'T&iacute;pusok';
-	$lang['strshowalltypes'] = 'Minden t&iacute;pus mutat&aacute;sa';
+	$lang['strshowalltypes'] = 'Minden t&iacute;pus megjelen&iacute;t&eacute;se';
 	$lang['strnotype'] = 'Nincs t&iacute;pus.';
-	$lang['strnotypes'] = 'Nincsenek t&iacute;pusok found.';
+	$lang['strnotypes'] = 'Nincsenek t&iacute;pusok.';
 	$lang['strcreatetype'] = 'T&iacute;pus l&eacute;trehoz&aacute;sa';
 	$lang['strtypename'] = 'T&iacute;pusn&eacute;v';
 	$lang['strinputfn'] = 'Beviteli f&uuml;ggv&eacute;ny';
@@ -421,14 +433,14 @@
 	$lang['strtypeneedslen'] = 'Meg kell adni a t&iacute;pus hossz&aacute;t.';
 	$lang['strtypecreated'] = 'A t&iacute;pus l&eacute;trehozva';
 	$lang['strtypecreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a t&iacute;pust.';
-	$lang['strconfdroptype'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; t&iacute;pust?';
+	$lang['strconfdroptype'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &quot;%s&quot; t&iacute;pust?';
 	$lang['strtypedropped'] = 'A t&iacute;pus t&ouml;r&ouml;lve.';
 	$lang['strtypedroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a t&iacute;pust.';
 
 	// Schemas
 	$lang['strschema'] = 'S&eacute;ma';
 	$lang['strschemas'] = 'S&eacute;m&aacute;k';
-	$lang['strshowallschemas'] = 'Minden s&eacute;ma mutat&aacute;sa';
+	$lang['strshowallschemas'] = 'Minden s&eacute;ma megjelen&iacute;t&eacute;se';
 	$lang['strnoschema'] = 'Nincs s&eacute;ma.';
 	$lang['strnoschemas'] = 'Nincsenek s&eacute;m&aacute;k.';
 	$lang['strcreateschema'] = 'S&eacute;ma l&eacute;trehoz&aacute;sa';
@@ -436,19 +448,19 @@
 	$lang['strschemaneedsname'] = 'Meg kell adni a s&eacute;manevet.';
 	$lang['strschemacreated'] = 'A s&eacute;ma l&eacute;trehozva';
 	$lang['strschemacreatedbad'] = 'Nem siker&uuml;lt a s&eacute;m&aacute;t l&eacute;trehozni.';
-	$lang['strconfdropschema'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; s&eacute;m&aacute;t?';
+	$lang['strconfdropschema'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; s&eacute;m&aacute;t?';
 	$lang['strschemadropped'] = 'A s&eacute;ma t&ouml;r&ouml;lve.';
 	$lang['strschemadroppedbad'] = 'Nem siker&uuml;lt a s&eacute;m&aacute;t t&ouml;r&ouml;lni.';
 
 	// Reports
 	$lang['strreport'] = 'Jelent&eacute;s';
 	$lang['strreports'] = 'Jelent&eacute;sek';
-	$lang['strshowallreports'] = 'Minden jelent&eacute;s mutat&aacute;sa';
+	$lang['strshowallreports'] = 'Minden jelent&eacute;s megjelen&iacute;t&eacute;se';
 	$lang['strnoreports'] = 'Nincsenek jelent&eacute;sek.';
 	$lang['strcreatereport'] = 'Jelent&eacute;s l&eacute;trehoz&aacute;sa';
 	$lang['strreportdropped'] = 'A jelent&eacute;s t&ouml;r&ouml;lve.';
 	$lang['strreportdroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a jelent&eacute;st.';
-	$lang['strconfdropreport'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; jelent&eacute;st?';
+	$lang['strconfdropreport'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; jelent&eacute;st?';
 	$lang['strreportneedsname'] = 'Meg kell adni a jelent&eacute;snevet.';
 	$lang['strreportneedsdef'] = 'SQL kifejez&eacute;st kell hozz&aacute;adni a jelent&eacute;shez.';
 	$lang['strreportcreated'] = 'A jelent&eacute;s elmentve.';
@@ -457,12 +469,12 @@
 	// Domains
 	$lang['strdomain'] = 'Tartom&aacute;ny';
 	$lang['strdomains'] = 'Tartom&aacute;nyok';
-	$lang['strshowalldomains'] = 'Minden tartom&aacute;ny mutat&aacute;sa';
+	$lang['strshowalldomains'] = 'Minden tartom&aacute;ny megjelen&iacute;t&eacute;se';
 	$lang['strnodomains'] = 'Nincsnek tartom&aacute;nyok.';
 	$lang['strcreatedomain'] = 'Tartom&aacute;ny l&eacute;trehoz&aacute;sa';
 	$lang['strdomaindropped'] = 'A tartom&aacute;ny t&ouml;r&ouml;lve.';
 	$lang['strdomaindroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni a tartom&aacute;nyt.';
-	$lang['strconfdropdomain'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; tartom&aacute;nyt?';
+	$lang['strconfdropdomain'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; tartom&aacute;nyt?';
 	$lang['strdomainneedsname'] = 'Meg kell adni a tartom&aacute;nynevet.';
 	$lang['strdomaincreated'] = 'A tartom&aacute;ny l&eacute;trehozva.';
 	$lang['strdomaincreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni a tartom&aacute;nyt.';	
@@ -472,23 +484,58 @@
 	// Operators
 	$lang['stroperator'] = 'Oper&aacute;tor';
 	$lang['stroperators'] = 'Oper&aacute;torok';
-	$lang['strshowalloperators'] = 'Minden oper&aacute;tor mutat&aacute;sa';
+	$lang['strshowalloperators'] = 'Minden oper&aacute;tor megjelen&iacute;t&eacute;se';
 	$lang['strnooperator'] = 'Nincs oper&aacute;tor.';
 	$lang['strnooperators'] = 'Nincsenek oper&aacute;torok.';
 	$lang['strcreateoperator'] = 'Oper&aacute;tor l&eacute;trehoz&aacute;sa';
-	$lang['stroperatorname'] = 'Oper&aacute;torn&eacute;v';
-	$lang['strleftarg'] = 'Bal Arg T&iacute;pus';
-	$lang['strrightarg'] = 'Jobb Arg T&iacute;pus';
+	$lang['strleftarg'] = 'Bal arg t&iacute;pus';
+	$lang['strrightarg'] = 'Jobb arg t&iacute;pus';
+	$lang['strcommutator'] = 'Kommut&aacute;tor';
+	$lang['strnegator'] = 'Tagad&oacute;';
+	$lang['strrestrict'] = 'Megszor&iacute;t&aacute;s';
+	$lang['strjoin'] = '&Ouml;sszekapcsol&aacute;s';
+	$lang['strhashes'] = 'Has&iacute;t';
+	$lang['strmerges'] = '&Ouml;sszef&eacute;s&uuml;l';
+	$lang['strleftsort'] = 'Balrendez&eacute;s';
+	$lang['strrightsort'] = 'Jobbrendez&eacute;s';
+	$lang['strlessthan'] = 'Kisebb mint';
+	$lang['strgreaterthan'] = 'Nagyobb mint';
 	$lang['stroperatorneedsname'] = 'Meg kell adni az oper&aacute;tornevet.';
 	$lang['stroperatorcreated'] = 'Az oper&aacute;tor l&eacute;trehozva';
 	$lang['stroperatorcreatedbad'] = 'Nem siker&uuml;lt l&eacute;trehozni az oper&aacute;tort.';
-	$lang['strconfdropoperator'] = 'Biztos, hogy t&ouml;r&ouml;lni akarja a(z) &quot;%s&quot; nev&#369; oper&aacute;tort?';
+	$lang['strconfdropoperator'] = 'Biztosan t&ouml;r&ouml;lni k&iacute;v&aacute;nja &bdquo;%s&rdquo; oper&aacute;tort?';
 	$lang['stroperatordropped'] = 'Az oper&aacute;tor t&ouml;r&ouml;lve.';
 	$lang['stroperatordroppedbad'] = 'Nem siker&uuml;lt t&ouml;r&ouml;lni az oper&aacute;tort.';
 
+	// Casts
+	$lang['strcasts'] = 'Kasztok';
+	$lang['strnocasts'] = 'Nincsenek kasztok.';
+	$lang['strsourcetype'] = 'Forr&aacute;st&iacute;pus';
+	$lang['strtargettype'] = 'C&eacute;lt&iacute;pus';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = '&Eacute;rt&eacute;kad&aacute;sban';
+	$lang['strbinarycompat'] = '(Bin&aacute;risan kompatibilis)';
+	
+	// Conversions
+	$lang['strconversions'] = '&Aacute;talak&iacute;t&aacute;sok';
+	$lang['strnoconversions'] = 'Nincsenek &aacute;talak&iacute;t&aacute;sok.';
+	$lang['strsourceencoding'] = 'Forr&aacute;sk&oacute;dol&aacute;s';
+	$lang['strtargetencoding'] = 'C&eacute;lk&oacute;dol&aacute;s';
+	
+	// Languages
+	$lang['strlanguages'] = 'Nyelvek';
+	$lang['strnolanguages'] = 'Nincsenek nyelvek.';
+	$lang['strtrusted'] = 'Hiteles';
+	
+	// Info
+	$lang['strnoinfo'] = 'Nincs el&eacute;rhet&#337; inform&aacute;ci&oacute;.';
+	$lang['strreferringtables'] = 'Kapcsol&oacute;d&oacute; t&aacute;bl&aacute;k';
+	$lang['strparenttables'] = 'Sz&uuml;l&#337;t&aacute;bl&aacute;k';
+	$lang['strchildtables'] = 'Gyerekt&aacute;bl&aacute;k';
+
 	// Miscellaneous
-	$lang['strtopbar'] = '%s fut a %s:%s c&iacute;men -- &Ouml;n &quot;%s&quot; n&eacute;ven jelentkezett be, %s';
-	$lang['strtimefmt'] = 'Y/m/d H:i';
+	$lang['strtopbar'] = '%s fut %s:%s c&iacute;men -- &Ouml;n &bdquo;%s&rdquo; n&eacute;ven jelentkezett be, %s';
+	$lang['strtimefmt'] = 'Y.m.d. H:i';
 	$lang['strhelp'] = 'S&uacute;g&oacute;';
 
 ?>
