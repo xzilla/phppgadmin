@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.108 2003/10/03 07:38:55 chriskl Exp $
+	 * $Id: english.php,v 1.109 2003/10/06 18:10:18 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -186,6 +186,7 @@
 	$lang['struserupdatedbad'] = 'User update failed.';
 	$lang['strshowallusers'] = 'Show all users';
 	$lang['strcreateuser'] = 'Create user';
+	$lang['struserneedsname'] = 'You must give a name for your user.';
 	$lang['strusercreated'] = 'User created.';
 	$lang['strusercreatedbad'] = 'Failed to create user.';
 	$lang['strconfdropuser'] = 'Are you sure you want to drop the user "%s"?';

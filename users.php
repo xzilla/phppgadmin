@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.17 2003/08/08 05:58:47 chriskl Exp $
+	 * $Id: users.php,v 1.18 2003/10/06 18:10:14 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -60,12 +60,13 @@
 			
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $lang['strpassword'], "<br />\n";
-			echo "<input type=\"password\" name=\"password\" size=\"32\" value=\"", 
-				htmlspecialchars($_POST['password']), "\" /><br /><br />\n";
-			echo $lang['strconfirm'], "<br />\n";
-			echo "<input type=\"password\" name=\"confirm\" size=\"32\" value=\"", 
-				htmlspecialchars($_POST['confirm']), "\" /><br /><br />\n";
+			echo "<table>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
+			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
+				htmlspecialchars($_POST['password']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconfirm']}</th>\n";
+			echo "\t\t<td><input type=\"password\" name=\"confirm\" size=\"32\" value=\"\" /></td>\n\t</tr>\n";
+			echo "<table>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
 			echo "<input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -111,19 +112,20 @@
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th>";
-			echo "<th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
-				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
-				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n";
-			echo "<td class=\"data1\"><input size=\"22\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
-			echo "</table><br />\n";
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strpassword']}</th><th class=\"data\">{$lang['strconfirm']}</th></tr>";
-			echo "<td class=\"data1\"><input size=\"16\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n";
-			echo "<td class=\"data1\"><input size=\"16\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td></tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcreatedb']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input size=\"16\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"16\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconfirm']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"16\" name=\"formConfirm\" value=\"\" /></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
@@ -146,42 +148,12 @@
 		else {		
 			$status = $data->setUser($_POST['username'], $_POST['formPassword'], isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
 			if ($status == 0)
-				doProperties($lang['struserupdated']);
+				doDefault($lang['struserupdated']);
 			else
 				doEdit($lang['struserupdatedbad']);
 		}
 	}
-		
-	/**
-	 * Show read only properties for a user
-	 */
-	function doProperties($msg = '') {
-		global $data, $misc;
-		global $PHP_SELF, $lang;
-	
-		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['strproperties']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		$userdata = &$data->getUser($_REQUEST['username']);
-		
-		if ($userdata->recordCount() > 0) {
-			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
-			echo "</table>\n";
-		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
-			urlencode($_REQUEST['username']), "\">{$lang['stralter']}</a></p>\n";
-	}
-	
+
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -227,17 +199,20 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strpassword']}</th><th class=\"data\">{$lang['strconfirm']}</th>";
-		echo "<th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th>";
-		echo "<th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n";
-		echo "<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n";
-		echo "<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
-			(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
-			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n";
-		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td></tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strusername']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconfirm']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+			(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcreatedb']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
@@ -253,7 +228,9 @@
 		global $lang;
 
 		// Check data
-		if ($_POST['formPassword'] != $_POST['formConfirm'])
+		if ($_POST['formUsername'] == '')
+			doCreate($lang['struserneedsname']);
+		else if ($_POST['formPassword'] != $_POST['formConfirm'])
 			doCreate($lang['strpasswordconfirm']);
 		else {		
 			$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
@@ -290,8 +267,8 @@
 				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
 				echo "<td class=\"data{$id}\">", ($users->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($users->f[$data->uFields['uexpires']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=",
-					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strproperties']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;username=",
+					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['stralter']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
@@ -337,14 +314,11 @@
 			doDrop(true);
 			break;			
 		case 'save_edit':
-			if (isset($_REQUEST['cancel'])) doProperties();
+			if (isset($_REQUEST['cancel'])) doDefault();
 			else doSaveEdit();
 			break;
 		case 'edit':
 			doEdit();
-			break;
-		case 'properties':
-			doProperties();
 			break;
 		default:
 			doDefault();

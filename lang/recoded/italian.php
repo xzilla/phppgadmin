@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.12 2003/09/30 09:56:39 soranzo Exp $
+	 * $Id: italian.php,v 1.13 2003/10/06 18:10:20 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -86,7 +86,8 @@
 	$lang['stradmin'] = 'Amministratore';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analizza';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strcluster'] = 'Clusterizza';
+	$lang['strclustered'] = 'Clusterizzato?';
 	$lang['strreindex'] = 'Reindicizza';
 	$lang['strrun'] = 'Esegui';
 	$lang['stradd'] = 'Aggiungi';
@@ -184,6 +185,7 @@
 	$lang['struserupdatedbad'] = 'Aggiornamento utente fallito.';
 	$lang['strshowallusers'] = 'Mostra tutti gli utenti';
 	$lang['strcreateuser'] = 'Crea utente';
+	$lang['struserneedsname'] = '&Egrave; necessario specificare un nome per l\'utente.';
 	$lang['strusercreated'] = 'Utente creato.';
 	$lang['strusercreatedbad'] = 'Creazione dell\'utente fallita.';
 	$lang['strconfdropuser'] = 'Sei sicuro di voler eliminare l\'utente &quot;%s&quot;?';
@@ -226,7 +228,7 @@
 	$lang['strrevoke'] = 'Revoca';
 	$lang['strgranted'] = 'Privilegi concessi.';
 	$lang['strgrantfailed'] = 'Concessione dei privilegi fallita.';
-	$lang['strgrantbad'] = 'Devi specificare almeno un utente o gruppo e almeno un privilegio.';
+	$lang['strgrantbad'] = '&Egrave; necessario specificare almeno un utente o gruppo ed almeno un privilegio.';
 	$lang['stralterprivs'] = 'Modifica Privilegi';
 	$lang['strgrantor'] = 'Grantor'; // ???
 	$lang['strasterisk'] = '*';
@@ -317,6 +319,9 @@
 	$lang['strindextype'] = 'Tipo di indice';
 	$lang['strtablecolumnlist'] = 'Colonne nella tabella';
 	$lang['strindexcolumnlist'] = 'Colonne nell\'indice';
+	$lang['strconfcluster'] = 'Sei sicuro di voler clusterizzare &quot;%s&quot;?';
+	$lang['strclusteredgood'] = 'Clusterizzazione completata.';
+	$lang['strclusteredbad'] = 'Clusterizzazione fallita.';
 
         // Rules - Regole
 	$lang['strrules'] = 'Regole';
