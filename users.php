@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.13 2003/06/05 20:40:24 xzilla Exp $
+	 * $Id: users.php,v 1.14 2003/06/26 02:50:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -263,7 +263,7 @@
 			doCreate($lang['strpasswordconfirm']);
 		else {		
 			$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
-				isset($_POST['formSuper']), isset($_POST['formCreateDB']), $_POST['formExpires'], array());
+				isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires'], array());
 			if ($status == 0)
 				doDefault($lang['strusercreated']);
 			else
