@@ -7,14 +7,14 @@ Version 3.0-beta-1
 * Cascade drop on columns and constraints
 * Czech translation
 * Preserve spaces when displaying data
-* Greatly improved PostgreSQL 7.2 and 7.1 support
+* Greatly improved PostgreSQL 7.2, 7.1 and 7.0support
 * Italian translation
 * Show database version in top bar 
 * Many features useful for PostgreSQL hosting:
 	- Hide reports
 	- Filter for owned reports
 	- Hide admin for non-super users
-	- Easy change password for any user
+	- Easy for a user to change their own password
 	- Enforceable minimum password length
 * Switched to PEAR's HTML_TreeMenu to avoid license issue
 * Function editor can handle setof functions, and all
