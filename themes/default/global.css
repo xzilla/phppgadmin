@@ -1,7 +1,7 @@
 /**
  * Default style sheet, based of the work of Juri Aksenov
  *
- * $Id: global.css,v 1.9 2003/05/28 02:01:34 chriskl Exp $
+ * $Id: global.css,v 1.10 2003/05/28 03:08:45 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -12,12 +12,8 @@ body, td
 	margin:	4px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	padding: 0px;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
 	text-align:	left;
-}
-
-.foo {
-	font-size: 1em;
 }
 
 body.topbar
@@ -26,7 +22,7 @@ body.topbar
 	margin:	0px;
 	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
+	font-size: smaller; /* 1em; */
 	text-align:	left;
 	border-bottom: 2px solid #000000;
 }
@@ -38,7 +34,7 @@ body.browser
 	margin:	0px;
 	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
+	font-size: smaller; /*1em;*/
 	text-align:	left;
 	border-right: 1px dashed #c0c0c0;
 }
@@ -48,7 +44,7 @@ body.bottombar {
 	margin:	0px;
 	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
+	font-size: smaller; /*1em;*/
 	text-align:	left;
 	border-top:	1px solid #000000;
 }
@@ -60,7 +56,7 @@ p.message {
 h2
 {
 	color: #666633;
-	font-size: 1.3em;
+	font-size: large; /*1.3em;*/
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 }
@@ -86,7 +82,7 @@ table.navbar td
 	background-color: #F3F3E9;
 	text-align:	center;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.9em;
+	font-size: smaller; /* 0.9em */
 	font-weight: bold;
 }
 
@@ -97,7 +93,7 @@ th.data
 	background-color: #E6E6CC;
 	text-align:	center;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.9em;
+	font-size: smaller; /* 0.9em */
 }
 
 td.topbar
@@ -106,7 +102,7 @@ td.topbar
 	margin:	0px	0px;
 	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
 	text-align:	left;
 }
 
@@ -116,7 +112,7 @@ td.data1
 	background-color: #F3F3E9;
 	text-align:	left;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
 }
 
 td.data2
@@ -125,7 +121,7 @@ td.data2
 	background-color: #E6E6CC;
 	text-align:	left;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
 }
 
 td.opbutton1 
@@ -136,11 +132,12 @@ td.opbutton1
 	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
-	padding-left: 6px;
-	padding-right: 6px;
 	cursor:	hand;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
+	padding-left: 6px;
+	padding-right: 6px;
+	text-align: center;
 }
 
 td.opbutton2 
@@ -151,11 +148,12 @@ td.opbutton2
 	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
-	padding-left: 6px;
-	padding-right: 6px;
 	cursor:	pointer;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 0.8em;
+	font-size: smaller; /*0.8em;*/
+	padding-left: 6px;
+	padding-right: 6px;
+	text-align: center;
 }
 
 a,a:active 
@@ -170,7 +168,6 @@ a:link
 {
 	color: #336699;
 	font-family: arial;
-	font-size: 1em;
 	text-decoration: none;
 }
 
@@ -178,7 +175,6 @@ a:visited
 {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	text-decoration: none;
 }
 
@@ -186,7 +182,6 @@ a:hover
 {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	text-decoration: none;
 }
 
@@ -194,7 +189,6 @@ a.navlink:link, a.toplink:link
 {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -203,7 +197,6 @@ a.navlink:visited, a.toplink:visited
 {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -212,7 +205,6 @@ a.navlink:hover, a.toplink:hover
 {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	font-weight: bold;
 	text-decoration: none;
 }
@@ -221,7 +213,8 @@ a.navlink:active, a.toplink:active
 {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: 1em;
 	font-weight: bold;
 	text-decoration: none;
+	font-size: 1.2em;
 }
+

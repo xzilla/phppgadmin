@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.12 2003/05/26 11:33:22 chriskl Exp $
+	 * $Id: topbar.php,v 1.13 2003/05/28 03:08:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,11 +12,11 @@
 	$misc->printHeader();
 	$misc->printBody('topbar');
 ?>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #CECF9C;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="topbar">
 	<tr>
 		<td width="211" rowspan="2"><img src="images/themes/<?php echo $conf['theme'] ?>/title.gif" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" /></td>
-		<td style="background-color: #CECF9C;" width="5" rowspan="2">&nbsp;</td>
-		<td style="background-color: #CECF9C;">
+		<td class="topbar" width="5" rowspan="2">&nbsp;</td>
+		<td class="topbar">
 		<?php echo sprintf($lang['strtopbar'], htmlspecialchars($conf['description']),
 			htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['host']),
 			htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['port']),
@@ -24,7 +24,7 @@
 			date($lang['strtimefmt'])) ?></td>
 	</tr>
 	<tr>
-		<td style="background-color: #CECF9C;">
+		<td class="topbar">
 <?php
 	// For superuser, show user and group admin.  For normal user, show change password.
 	if ($data->isSuperUser($_SESSION['webdbUsername'])) :
