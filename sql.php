@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.10 2003/09/05 04:58:14 chriskl Exp $
+	 * $Id: sql.php,v 1.11 2003/09/10 07:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -69,7 +69,7 @@
 		"&amp;action=sql\">{$lang['strback']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?action=create&amp;db_name=", urlencode($_REQUEST['database']), "&amp;report_sql=",
-			urlencode($_POST['query']), "\">{$lang['strsaveasreport']}</a>";
+			urlencode($_POST['query']), "\">{$lang['strcreatereport']}</a>";
 	}
 	echo "</p>\n";
 	

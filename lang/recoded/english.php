@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.55 2003/09/08 09:26:17 chriskl Exp $
+	 * $Id: english.php,v 1.56 2003/09/10 07:25:49 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -454,7 +454,6 @@
 	$lang['strreportneedsdef'] = 'You must give SQL for your report.';
 	$lang['strreportcreated'] = 'Report saved.';
 	$lang['strreportcreatedbad'] = 'Failed to save report.';
-	$lang['strsaveasreport'] = 'Save as Report';
 
 	// Domains
 	$lang['strdomain'] = 'Domain';

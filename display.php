@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.27 2003/09/05 09:06:45 chriskl Exp $
+	 * $Id: display.php,v 1.28 2003/09/10 07:25:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -77,7 +77,7 @@
 	echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?action=create&db_name=", urlencode($_REQUEST['database']), "&report_sql=",
-			urlencode($_REQUEST['query']), "\">{$lang['strsaveasreport']}</a>\n";
+			urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a>\n";
 	}
 	if (isset($rs) && is_object($rs) && $rs->recordCount() > 0) {		
 		echo " | <a class=\"navlink\" href=\"views.php?action=create&formDefinition=",
