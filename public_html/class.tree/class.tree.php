@@ -1,4 +1,4 @@
-<?
+<?php
 	// class.tree.php3 v1.01
         // (c) 1999, 2000, 2001 Patrick Hess <hess@posi.de>
 
@@ -69,26 +69,26 @@
    			else                     echo "var STARTALLOPEN = 0;\n";
 
 ?>
-classPath = <? echo "\"$this->tree_path\";\n"; ?>
-ftv2blank = <? echo "\"$tree_ftv2blank\""; ?>;
-ftv2doc = <? echo "\"$this->tree_ftv2doc\""; ?>;
-ftv2folderclosed = <? echo "\"$this->tree_ftv2folderclosed\""; ?>;
-ftv2folderopen = <? echo "\"$this->tree_ftv2folderopen\""; ?>;
-ftv2lastnode = <? echo "\"$tree_ftv2lastnode\""; ?>;
-ftv2link = <? echo "\"$tree_ftv2link\""; ?>;
-ftv2mlastnode = <? echo "\"$tree_ftv2mlastnode\""; ?>;
-ftv2mnode = <? echo "\"$tree_ftv2mnode\""; ?>;
-ftv2node = <? echo "\"$tree_ftv2node\""; ?>;
-ftv2plastnode = <? echo "\"$tree_ftv2plastnode\""; ?>;
-ftv2pnode = <? echo "\"$tree_ftv2pnode\""; ?>;
-ftv2vertline = <? echo "\"$tree_ftv2vertline\""; ?>;
-basefrm = <? echo "\"$this->tree_basefrm\""; ?>;
+classPath = <?php echo "\"$this->tree_path\";\n"; ?>
+ftv2blank = <?php echo "\"$tree_ftv2blank\""; ?>;
+ftv2doc = <?php echo "\"$this->tree_ftv2doc\""; ?>;
+ftv2folderclosed = <?php echo "\"$this->tree_ftv2folderclosed\""; ?>;
+ftv2folderopen = <?php echo "\"$this->tree_ftv2folderopen\""; ?>;
+ftv2lastnode = <?php echo "\"$tree_ftv2lastnode\""; ?>;
+ftv2link = <?php echo "\"$tree_ftv2link\""; ?>;
+ftv2mlastnode = <?php echo "\"$tree_ftv2mlastnode\""; ?>;
+ftv2mnode = <?php echo "\"$tree_ftv2mnode\""; ?>;
+ftv2node = <?php echo "\"$tree_ftv2node\""; ?>;
+ftv2plastnode = <?php echo "\"$tree_ftv2plastnode\""; ?>;
+ftv2pnode = <?php echo "\"$tree_ftv2pnode\""; ?>;
+ftv2vertline = <?php echo "\"$tree_ftv2vertline\""; ?>;
+basefrm = <?php echo "\"$this->tree_basefrm\""; ?>;
 </script>
-<script src=<?	echo "\"$this->tree_path/ua.js\""; ?> type="text/javascript">
+<script src=<?php	echo "\"$this->tree_path/ua.js\""; ?> type="text/javascript">
 </script>
-<script src=<?	echo "\"$this->tree_path/ftiens4.js\""; ?> type="text/javascript"></script>
+<script src=<?php	echo "\"$this->tree_path/ftiens4.js\""; ?> type="text/javascript"></script>
 <script type="text/javascript">
-<?			echo "\n";
+<?php			echo "\n";
 
 			$jsvn = "foldersTree";
 			echo "$jsvn = gFld(\"$t_text\", \"$t_url\", \"$this->tree_ftv2folderopen\", \"$this->tree_ftv2folderclosed\");\n";

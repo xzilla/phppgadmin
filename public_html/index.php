@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to WebDB.
 	 *
-	 * $Id: index.php,v 1.8 2002/12/23 10:28:19 jmpoure Exp $
+	 * $Id: index.php,v 1.9 2002/12/23 10:40:31 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,18 +13,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php= $appName ?></title>
+<title><?php echo $appName ?></title>
 </head>
 
 <frameset rows="50, *">
 	<frame src="topbar.php" name="topbar" />
-	<frameset cols="<?php= $guiLeftFrameWidth ?>,*">
+	<frameset cols="<?php echo $guiLeftFrameWidth ?>,*">
 	  <frame src="browser.php" name="browser" />
 	  <frame src="intro.php" name="detail" />
 	</frameset>
 	<noframes>
 	<body>
-		<?php= $strNoFrames ?>
+		<?php echo $strNoFrames ?>
 	</body>
 	</noframes>
 </frameset>

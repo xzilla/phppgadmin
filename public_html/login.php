@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.6 2002/12/23 10:29:56 jmpoure Exp $
+	 * $Id: login.php,v 1.7 2002/12/23 10:38:16 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,7 +13,7 @@
 
 <html>
 	<head>
-	<title><?php= $appName ?> :: <?php= $strLogin ?></title>
+	<title><?php echo $appName ?> :: <?php echo $strLogin ?></title>
 	</head>
 	
 	<body>
@@ -21,12 +21,12 @@
 			<tr height="115">
 				<td height="115" align="center" valign="middle">
 					<center>
-					<h1><?php= $appName ?> <?php= $strLogin ?></h1>
+					<h1><?php echo $appName ?> <?php echo $strLogin ?></h1>
 					<table class="navbar" border="0" cellpadding="5" cellspacing="3">
-						<form action="<?php= $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
+						<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 						<tr>
 							<td>Username:</td>
-							<td><input type="text" name="formUsername" value="<?php= isset($webdbUsername) ? htmlspecialchars($webdbUsername) : '' ?>" size="24"></td>
+							<td><input type="text" name="formUsername" value="<?php if(isset($webdbUsername)==true) {echo htmlspecialchars($webdbUsername); } else { echo '';} ?>" size="24"></td>
 						</tr>
 						<tr>
 							<td>Password:</td>

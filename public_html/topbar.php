@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.8 2002/12/23 10:24:15 jmpoure Exp $
+	 * $Id: topbar.php,v 1.9 2002/12/23 10:43:34 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -13,16 +13,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php= $appName ?></title>
+<title><?php echo $appName ?></title>
 </head>
 <body class="topbar">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr> 
-		<td width="211" rowspan="2"><img src="images/themes/<?php= $guiTheme ?>/title.gif" width="211" height="50" alt="<?php= htmlspecialchars($appName) ?>" /></td>
-		<td width="69%"><?php= $confServers[$_SESSION['webdbServerID']]['type'] ?> running on 
-		<?php= htmlspecialchars($confServers[$_SESSION['webdbServerID']]['host']) ?>:<?php= $confServers[$_SESSION['webdbServerID']]['port'] ?>
-		-- You are logged in as user <b><?php= htmlspecialchars($_SESSION['webdbUsername']) ?></b>, 
-			<?php= date('jS M, Y g:iA') ?></td>
+	<tr>
+		<td width="211" rowspan="2"><img src="images/themes/<?php echo $guiTheme ?>/title.gif" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" /></td>
+		<td width="69%"><?php echo $confServers[$_SESSION['webdbServerID']]['type'] ?> running on 
+		<?php echo htmlspecialchars($confServers[$_SESSION['webdbServerID']]['host']) ?>:<?php echo $confServers[$_SESSION['webdbServerID']]['port'] ?>
+		-- You are logged in as user <b><?php echo htmlspecialchars($_SESSION['webdbUsername']) ?></b>, 
+			<?php echo date('jS M, Y g:iA') ?></td>
 	</tr>
 	<tr>
 		<td>

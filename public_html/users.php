@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.4 2002/12/23 10:24:58 jmpoure Exp $
+	 * $Id: users.php,v 1.5 2002/12/23 10:44:15 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -214,7 +214,7 @@
 	}
 
 ?>
-<title><?php= $appName ?></title>
+<title><?php echo $appName ?></title>
 </head>
 <body>
 <?php
