@@ -8,7 +8,9 @@ Features
 * Allow current database to be at the top
 * Allow base URL of PostgreSQL documentation to be configured
 * Allow variable size textarea when editing values (Juergen Weigert)
-
+* Allow SQL script upload to parse arbitrary SQL, including multiline
+  SQL statements
+  
 Bugs
 * Tree Icons are displayed middle instead of top
 * Ensure login frame is always at top level (Russell Smith)
@@ -28,14 +30,36 @@ Translations
 * Japanese from Tadashi Jokagi
 * Danish from Arne Eckmann
 
+Version 3.5.2
+-------------
+
+Bugs
+* Fix export to work with release candidates and beta releases as well as finals
+ (Russell Smith)
+* Fix port selection for local connections (Russell Smith)
+* Fix timeouts on long running operations (Adrian Nida)
+* Allow Multiline character and character varying editing and inserting
+* Do browser language detection for all languages
+
+Translations
+* Japanese from Tadashi
+* Danish from Arne
+
 Version 3.5.1
 -------------
 
 Bugs
 * Support 8.0beta5 schema tablespace changes
+* Help link fixes
+* Estimated row count in 7.0 and 7.1 fixes
+* Priviliges nav fix
+* Function privileges fix
+* Search path fix
+* pg_dump on win32 8.0 native fix
 
 Translations
 * Romanian from Alin
+* Italian updates from Nicola
 
 Version 3.5
 -----------
