@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.69 2005/01/23 12:42:35 soranzo Exp $
+	 * $Id: tables.php,v 1.70 2005/03/13 23:15:15 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -380,8 +380,11 @@
 				echo "</table></p>\n";
 			}
 			else echo "<p>{$lang['strnodata']}</p>\n";
+			
+			if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
+			echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
@@ -393,19 +396,22 @@
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 
-			$status = $data->insertRow($_POST['table'], $_POST['values'], 
-												$_POST['nulls'], $_POST['format'], $_POST['types']);
-			if ($status == 0) {
-				if (isset($_POST['insert']))
-					doDefault($lang['strrowinserted']);
-				else {
-					$_REQUEST['values'] = array();
-					$_REQUEST['nulls'] = array();
-					doInsertRow(true, $lang['strrowinserted']);
+			if ($_SESSION['counter']++ == $_POST['protection_counter']) {
+				$status = $data->insertRow($_POST['table'], $_POST['values'], 
+													$_POST['nulls'], $_POST['format'], $_POST['types']);
+				if ($status == 0) {
+					if (isset($_POST['insert']))
+						doDefault($lang['strrowinserted']);
+					else {
+						$_REQUEST['values'] = array();
+						$_REQUEST['nulls'] = array();
+						doInsertRow(true, $lang['strrowinserted']);
+					}
 				}
-			}
-			else
-				doInsertRow(true, $lang['strrowinsertedbad']);
+				else
+					doInsertRow(true, $lang['strrowinsertedbad']);
+			} else
+				doInsertRow(true, $lang['strrowduplicate']);
 		}
 
 	}

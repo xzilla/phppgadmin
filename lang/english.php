@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.169 2005/01/04 23:49:17 soranzo Exp $
+	 * $Id: english.php,v 1.170 2005/03/13 23:15:17 mr-russ Exp $
 	 */
 
 	// Language and character set
@@ -167,6 +167,7 @@
 	$lang['strinsertrow'] = 'Insert row';
 	$lang['strrowinserted'] = 'Row inserted.';
 	$lang['strrowinsertedbad'] = 'Row insert failed.';
+	$lang['strrowduplicate'] = 'Row insert failed, attempted to do duplicate insert.';
 	$lang['streditrow'] = 'Edit row';
 	$lang['strrowupdated'] = 'Row updated.';
 	$lang['strrowupdatedbad'] = 'Row update failed.';

@@ -25,6 +25,7 @@ Bugs
 * Fix using schema enabled dump on non-schema enabled backend
 * Reload browser after executing arbitrary SQL
 * Fix inability to drop database using the drop link
+* Stop duplicate insert on re-POST of data
 
 Translations
 * Japanese from Tadashi Jokagi
