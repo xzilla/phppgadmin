@@ -2,7 +2,9 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.9 2003/11/20 09:09:14 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.10 2004/02/16 03:28:42 chriskl Exp $
+	 *
+	 *
 	 */
 
 	// Language and character set
@@ -74,7 +76,6 @@
 	$lang['strshow'] = '顯示';
 	$lang['strempty'] = '空';
 	$lang['strlanguage'] = '語言';
-	$lang['strproglanguage'] = '語言';
 	$lang['strencoding'] = '編碼';
 	$lang['strvalue'] = '值';
 	$lang['strunique'] = '獨一鍵';
@@ -103,15 +104,24 @@
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '摺疊';
 	$lang['strexplain'] = '闡明';
+	$lang['strexplainanalyze'] = '闡明分析';
 	$lang['strfind'] = '尋找';
 	$lang['stroptions'] = '選項';
 	$lang['strrefresh'] = '重新整理';
 	$lang['strdownload'] = '下載';
+	$lang['strdownloadgzipped'] = '以gzip壓縮後下載';
 	$lang['strinfo'] = '資訊'; 
     $lang['stroids'] = 'OIDs'; 
-    $lang['stradvanced'] = '進階'; 
+    $lang['stradvanced'] = '進階';
+	$lang['strvariables'] = '變數';
+	$lang['strprocess'] = '程序';
+	$lang['strprocesses'] = '程序';
+	$lang['strsetting'] = '設定';
+	$lang['strparameters'] = '參數';
+	$lang['streditsql'] = '編輯SQL';
+	$lang['strpaginate'] = '分頁顯示結果';
+	$lang['strstarttime'] = '開始時間';
 
-	
 	// Error handling
 	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
 	$lang['strbadconfig'] = '您的 config.inc.php 無效。請利用 config.inc.php-dist 建立您的 config.inc.php 檔。';
@@ -124,6 +134,8 @@
 	$lang['strnodata'] = '找不到任何資料列。';
 	$lang['strnoobjects'] = '找不到任何物件。';
 	$lang['strrownotunique'] = '此顯料列無獨特識別項。';
+	$lang['strnoreportsdb'] = '您尚未建新報表資料庫，請參閱INSTALL檔說明。';
+	
 	// Tables
 	$lang['strtable'] = '資料表';
 	$lang['strtables'] = '資料表';
@@ -186,6 +198,7 @@
 	$lang['strsuper'] = '超級用戶?';
 	$lang['strcreatedb'] = '允許建立資料庫?';
 	$lang['strexpires'] = '失效';
+	$lang['strsessiondefaults'] = '預設Session';
 	$lang['strnousers'] = '找不到此用戶。';
 	$lang['struserupdated'] = '成功更新用戶。';
 	$lang['struserupdatedbad'] = '更新用戶作業失敗。';
@@ -277,6 +290,8 @@
 	$lang['strviewdroppedbad'] = '刪除視表作業失敗。';
 	$lang['strviewupdated'] = '成功更新視表。';
 	$lang['strviewupdatedbad'] = '更新視表作業失敗。';
+	$lang['strviewlink'] = '連結索引';
+	$lang['strviewconditions'] = '額外條件';
 
 	// Sequences
 	$lang['strsequence'] = '序列';
@@ -303,8 +318,8 @@
 	$lang['strsequencereset'] = '已重設序列。'; 
     $lang['strsequenceresetbad'] = '重設序列失敗。'; 
     
-
 	// Indexes
+	$lang['strindex'] = '索引';
 	$lang['strindexes'] = '索引';
 	$lang['strindexname'] = '索引名';
 	$lang['strshowallindexes'] = '顯示所有的索引';
@@ -387,6 +402,7 @@
 	$lang['strfunctionname'] = '函數名';
 	$lang['strreturns'] = '返回';
 	$lang['strarguments'] = '參數';
+	$lang['strproglanguage'] = '程式語言';
 	$lang['strfunctionneedsname'] = '您需為您的函數命名。';
 	$lang['strfunctionneedsdef'] = '您必須定義您的函數。';
 	$lang['strfunctioncreated'] = '成功建立新函數。';
@@ -508,8 +524,8 @@
 	$lang['stroperatordroppedbad'] = '運算子刪除失敗。';
 
 	// Casts 
-    $lang['strcasts'] = '型別轉換'; 
-    $lang['strnocasts'] = '找不到型別轉換。'; 
+   $lang['strcasts'] = '型別轉換'; 
+   $lang['strnocasts'] = '找不到型別轉換。'; 
    $lang['strsourcetype'] = '原始型別'; 
    $lang['strtargettype'] = '目摽型別'; 
    $lang['strimplicit'] = '隱含'; 
@@ -533,10 +549,36 @@
    $lang['strparenttables'] = '父資料表'; 
    $lang['strchildtables'] = '子資料表'; 
 
+   // Aggregates
+   $lang['straggregates'] = '匯總';
+   $lang['strnoaggregates'] = '找不到任何匯總。';
+   $lang['stralltypes'] = '(全部類型)';	
 	
+   // Operator Classes
+   $lang['stropclasses'] = '運算子類別';
+   $lang['strnoopclasses'] = '找不到任何運算類別。';
+   $lang['straccessmethod'] = '拒絕存取';
+   
+   // Stats and performance
+   $lang['strrowperf'] = '資料行效率';
+   $lang['strioperf'] = 'I/O效率';
+   $lang['stridxrowperf'] = '索引行效率';
+   $lang['stridxioperf'] = '索引I/O效率';
+   $lang['strpercent'] = '%';
+   $lang['strsequential'] = '循序';
+   $lang['strscan'] = '掃描';
+   $lang['strread'] = '讀取';
+   $lang['strfetch'] = 'Fetch';
+   $lang['strheap'] = 'Heap';
+   $lang['strtoast'] = 'TOAST';
+   $lang['strtoastindex'] = 'TOAST索引';
+   $lang['strcache'] = '快取';
+   $lang['strdisk'] = '磁碟';
+   $lang['strrows2'] = '資料行';
+   
 	// Miscellaneous
-	$lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
-	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = '說明';
+   $lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
+   $lang['strtimefmt'] = 'jS M, Y g:iA';
+   $lang['strhelp'] = '說明';
 	
 ?>
