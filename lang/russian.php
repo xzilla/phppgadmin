@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.6 2003/11/30 09:55:51 chriskl Exp $
+	 * $Id: russian.php,v 1.7 2004/02/25 01:17:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Действия';
 	$lang['strname'] = 'Имя';
 	$lang['strdefinition'] = 'Определение';
-	$lang['straggregates'] = 'Агрегатные функции';
 	$lang['strproperties'] = 'Свойства';
 	$lang['strbrowse'] = 'Просмотреть';
 	$lang['strdrop'] = 'Удалить';
@@ -68,6 +67,7 @@
 	$lang['stredit'] = 'Редактировать';
 	$lang['strcolumns'] = 'Атрибуты';
 	$lang['strrows'] = 'запис(ь/и/ей)';
+	$lang['strrowsaff'] = 'запис(ь/и/ей) обработано.';
 	$lang['strobjects'] = 'объект(а/ов)';
 	$lang['strexample'] = 'и т.д.';
 	$lang['strback'] = 'Назад'; 	
@@ -103,13 +103,22 @@
 	$lang['strexpand'] = 'Расширить';
 	$lang['strcollapse'] = 'Свернуть';
 	$lang['strexplain'] = 'Объяснить';
+	$lang['strexplainanalyze'] = 'Объяснить анализ';
 	$lang['strfind'] = 'Найти';
 	$lang['stroptions'] = 'Опции';
 	$lang['strrefresh'] = 'Обновить';
 	$lang['strdownload'] = 'Загрузить';
+	$lang['strdownloadgzipped'] = 'Загрузить архив gzip';
 	$lang['strinfo'] = 'Сведения';
 	$lang['stroids'] = 'OIDs';
 	$lang['stradvanced'] = 'Дополнительно';
+	$lang['strvariables'] = 'Переменные';
+	$lang['strprocess'] = 'Процесс';
+	$lang['strprocesses'] = 'Процессы';
+	$lang['strsetting'] = 'Опции';
+	$lang['streditsql'] = 'Редактировать SQL';
+	$lang['strpaginate'] = 'Нумеровать страницы с результатами';
+	$lang['strstarttime'] = 'Время начала';
 
 	// Error handling
 	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
@@ -120,15 +129,16 @@
 	$lang['strsqlerror'] = 'Ошибка SQL:';
 	$lang['strinstatement'] = 'В операторе:';
 	$lang['strinvalidparam'] = 'Неверный параметр скрипта.';
-	$lang['strnodata'] = 'Данных не обнаружено.';
-	$lang['strnoobjects'] = 'Объектов не обнаружено.';
+	$lang['strnodata'] = 'Данных не найдено.';
+	$lang['strnoobjects'] = 'Объектов не найдено.';
 	$lang['strrownotunique'] = 'Нет уникального идентификатора для этой записи.';
+ 	$lang['strnoreportsdb'] = 'Вы не создали базу данных отчетов. Читайте разъяснения в файле INSTALL.';
 
 	// Tables
 	$lang['strtable'] = 'Таблица';
 	$lang['strtables'] = 'Таблицы';
 	$lang['strshowalltables'] = 'Показать все таблицы';
-	$lang['strnotables'] = 'Таблиц не обнаружено.';
+	$lang['strnotables'] = 'Таблиц не найдено.';
 	$lang['strnotable'] = ' Таблица не обнаружена.';
 	$lang['strcreatetable'] = 'Создать таблицу';
 	$lang['strtablename'] = 'Имя таблицы';
@@ -186,6 +196,7 @@
 	$lang['strsuper'] = 'Суперпользователь?';
 	$lang['strcreatedb'] = 'Создать базу данных?';
 	$lang['strexpires'] = 'Срок действия';
+	$lang['strsessiondefaults'] = 'Опции сеанса по умолчанию';
 	$lang['strnousers'] = 'Нет таких пользователей.';
 	$lang['struserupdated'] = 'Пользователь обновлен.';
 	$lang['struserupdatedbad'] = 'Обновление пользователя прервано.';
@@ -208,7 +219,7 @@
 	$lang['strgroup'] = 'Группа';
 	$lang['strgroups'] = 'Группы';
 	$lang['strnogroup'] = 'Группа не обнаружена.';
-	$lang['strnogroups'] = 'Ни одной группы не обнаружено.';
+	$lang['strnogroups'] = 'Ни одной группы не найдено.';
 	$lang['strcreategroup'] = 'Создать группу';
 	$lang['strshowallgroups'] = 'Показать все группы';
 	$lang['strgroupneedsname'] = 'Вам необходимо указать название группы.';
@@ -244,7 +255,7 @@
 	$lang['strdatabases'] = 'Базы данных';
 	$lang['strshowalldatabases'] = 'Показать все базы данных';
 	$lang['strnodatabase'] = 'База данных не обнаружена.';
-	$lang['strnodatabases'] = 'Ни одной базы данных не обнаружено.';
+	$lang['strnodatabases'] = 'Ни одной базы данных не найдено.';
 	$lang['strcreatedatabase'] = 'Создать базу данных';
 	$lang['strdatabasename'] = 'Имя базы данных';
 	$lang['strdatabaseneedsname'] = 'Вам необходимо присвоить имя Вашей базе данных.';
@@ -254,6 +265,7 @@
 	$lang['strdatabasedropped'] = ' База данных уничтожена.';
 	$lang['strdatabasedroppedbad'] = 'Уничтожение базы данных прервано.';
 	$lang['strentersql'] = 'Введите SQL-запрос ниже:';
+	$lang['strsqlexecuted'] = 'SQL-запрос выполнен.';
 	$lang['strvacuumgood'] = 'Операция перестройки завершена.';
 	$lang['strvacuumbad'] = 'Операция перестройки прервана.';
 	$lang['stranalyzegood'] = ' Операция анализа завершена.';
@@ -263,8 +275,8 @@
 	$lang['strview'] = 'Представление';
 	$lang['strviews'] = 'Представления';
 	$lang['strshowallviews'] = 'Показать все представления';
-	$lang['strnoview'] = 'Представление не обнаружено.';
-	$lang['strnoviews'] = 'Ни одного представления не обнаружено.';
+	$lang['strnoview'] = 'Представление не найдено.';
+	$lang['strnoviews'] = 'Ни одного представления не найдено.';
 	$lang['strcreateview'] = 'Создать представление';
 	$lang['strviewname'] = 'Имя представления';
 	$lang['strviewneedsname'] = 'Вам необходимо указать имя представления.';
@@ -276,13 +288,15 @@
 	$lang['strviewdroppedbad'] = 'Уничтожение представления прервано.';
 	$lang['strviewupdated'] = 'Представление обновлено.';
 	$lang['strviewupdatedbad'] = 'Обновление представления прервано.';
+	$lang['strviewlink'] = 'Связанные ключи';
+	$lang['strviewconditions'] = 'Дополнительные условия';
 
 	// Sequences
 	$lang['strsequence'] = 'Последовательность';
 	$lang['strsequences'] = ' Последовательности';
 	$lang['strshowallsequences'] = 'Показать все последовательности';
 	$lang['strnosequence'] = 'Последовательность не обнаружена.';
-	$lang['strnosequences'] = 'Ни одной последовательности не обнаружено.';
+	$lang['strnosequences'] = 'Ни одной последовательности не найдено.';
 	$lang['strcreatesequence'] = 'Создать последовательность';
 	$lang['strlastvalue'] = 'Последнее значение';
 	$lang['strincrementby'] = 'Увеличение на';
@@ -303,11 +317,12 @@
 	$lang['strsequenceresetbad'] = 'Сброс последовательности прерван.'; 
 
 	// Indexes
-	$lang['strindexes'] = 'Индекс';
+	$lang['strindex'] = 'Индекс';
+	$lang['strindexes'] = 'Индексы';
 	$lang['strindexname'] = 'Имя индекса';
 	$lang['strshowallindexes'] = 'Показать все индексы';
 	$lang['strnoindex'] = 'Индекс не обнаружен.';
-	$lang['strnoindexes'] = 'Ни одного индекса не обнаружено.';
+	$lang['strnoindexes'] = 'Ни одного индекса не найдено.';
 	$lang['strcreateindex'] = 'Создать индекс';
 	$lang['strtabname'] = 'Имя таблицы';
 	$lang['strcolumnname'] = 'Имя атрибута';
@@ -333,8 +348,8 @@
 	$lang['strrules'] = 'Правила';
 	$lang['strrule'] = 'Правило';
 	$lang['strshowallrules'] = 'Показать все правила';
-	$lang['strnorule'] = 'Правило не обнаружено.';
-	$lang['strnorules'] = 'Ни одного правила не обнаружено.';
+	$lang['strnorule'] = 'Правило не найдено.';
+	$lang['strnorules'] = 'Ни одного правила не найдено.';
 	$lang['strcreaterule'] = 'Создать правило';
 	$lang['strrulename'] = 'Имя правила';
 	$lang['strruleneedsname'] = 'Вам необходимо указать имя правила.';
@@ -347,7 +362,7 @@
 	// Constraints
 	$lang['strconstraints'] = 'Ограничения';
 	$lang['strshowallconstraints'] = 'Показать все ограничения';
-	$lang['strnoconstraints'] = 'Ни одного ограничения не обнаружено.';
+	$lang['strnoconstraints'] = 'Ни одного ограничения не найдено.';
 	$lang['strcreateconstraint'] = 'Создать ограничение';
 	$lang['strconstraintcreated'] = 'Ограничение создано.';
 	$lang['strconstraintcreatedbad'] = 'Создание ограничения прервано.';
@@ -381,7 +396,7 @@
 	$lang['strfunctions'] = ' Функции';
 	$lang['strshowallfunctions'] = 'Показать все функции';
 	$lang['strnofunction'] = 'Функция не обнаружена.';
-	$lang['strnofunctions'] = 'Ни одной функции не обнаружено.';
+	$lang['strnofunctions'] = 'Ни одной функции не найдено.';
 	$lang['strcreatefunction'] = 'Создать функцию';
 	$lang['strfunctionname'] = 'Имя функции';
 	$lang['strreturns'] = 'Возвращаемое значение';
@@ -403,7 +418,7 @@
 	$lang['strtriggers'] = ' Триггеры';
 	$lang['strshowalltriggers'] = 'Показать все триггеры';
 	$lang['strnotrigger'] = 'Триггер не обнаружен.';
-	$lang['strnotriggers'] = 'Ни одного триггера не обнаружено.';
+	$lang['strnotriggers'] = 'Ни одного триггера не найдено.';
 	$lang['strcreatetrigger'] = 'Создать триггер';
 	$lang['strtriggerneedsname'] = 'Вам необходимо указать имя триггера.';
 	$lang['strtriggerneedsfunc'] = 'Вам необходимо определить функцию триггера.';
@@ -420,7 +435,7 @@
 	$lang['strtypes'] = 'Типы данных';
 	$lang['strshowalltypes'] = 'Показать все типы данных';
 	$lang['strnotype'] = 'Тип данных не обнаружен.';
-	$lang['strnotypes'] = 'Ни одного типа данных не обнаружено.';
+	$lang['strnotypes'] = 'Ни одного типа данных не найдено.';
 	$lang['strcreatetype'] = 'Создать тип данных';
 	$lang['strtypename'] = 'Имя типа данных';
 	$lang['strinputfn'] = 'Функция ввода';
@@ -443,7 +458,7 @@
 	$lang['strschemas'] = 'Схемы';
 	$lang['strshowallschemas'] = 'Показать все схемы';
 	$lang['strnoschema'] = 'Схема не обнаружена.';
-	$lang['strnoschemas'] = 'Ни одной схемы не обнаружено.';
+	$lang['strnoschemas'] = 'Ни одной схемы не найдено.';
 	$lang['strcreateschema'] = 'Создать схему';
 	$lang['strschemaname'] = 'Имя схемы';
 	$lang['strschemaneedsname'] = 'Вам необходимо указать имя схемы.';
@@ -471,7 +486,7 @@
 	$lang['strdomain'] = 'Домен';
 	$lang['strdomains'] = 'Домены';
 	$lang['strshowalldomains'] = 'Показать все домены';
-	$lang['strnodomains'] = 'Ни одного домена не обнаружено.';
+	$lang['strnodomains'] = 'Ни одного домена не найдено.';
 	$lang['strcreatedomain'] = 'Создать домен';
 	$lang['strdomaindropped'] = 'Домен удален.';
 	$lang['strdomaindroppedbad'] = 'Удаление домена прервано.';
@@ -503,14 +518,14 @@
 	$lang['strgreaterthan'] = 'Больше';
 	$lang['stroperatorneedsname'] = 'Вам необходимо указать название оператора.';
 	$lang['stroperatorcreated'] = 'Оператор создан';
-	$lang['stroperatorcreatedbad'] = 'оздание оператора прервано.';
+	$lang['stroperatorcreatedbad'] = 'Создание оператора прервано.';
 	$lang['strconfdropoperator'] = 'Вы уверены, что хотите уничтожить оператор "%s"?';
 	$lang['stroperatordropped'] = 'Оператор удален.';
 	$lang['stroperatordroppedbad'] = 'Удаление оператора прервано.';
 
 	// Casts
 	$lang['strcasts'] = 'Образцы';
-	$lang['strnocasts'] = 'Образцов не обнаружено.';
+	$lang['strnocasts'] = 'Образцов не найдено.';
 	$lang['strsourcetype'] = 'Тип источника';
 	$lang['strtargettype'] = 'Тип приемника';
 	$lang['strimplicit'] = 'Неявный';
@@ -519,13 +534,13 @@
 	
 	// Conversions
 	$lang['strconversions'] = 'Преобразование';
-	$lang['strnoconversions'] = 'Преобразований не обнаружено.';
+	$lang['strnoconversions'] = 'Преобразований не найдено.';
 	$lang['strsourceencoding'] = 'Кодировка источника';
 	$lang['strtargetencoding'] = 'Кодировка приемника';
 	
 	// Languages
 	$lang['strlanguages'] = 'Языки';
-	$lang['strnolanguages'] = 'Языков не обнаружено.';
+	$lang['strnolanguages'] = 'Языков не найдено.';
 	$lang['strtrusted'] = 'Проверено';
 	
 	// Info
@@ -534,8 +549,36 @@
 	$lang['strparenttables'] = 'Родительские таблицы';
 	$lang['strchildtables'] = 'Дочерние таблицы';
 
+	// Aggregates
+	$lang['straggregates'] = 'Агрегатные выражения';
+	$lang['strnoaggregates'] = 'Агрегатных выражений не найдено.';
+	$lang['stralltypes'] = '(Все типы)';
+
+	// Operator Classes
+	$lang['stropclasses'] = 'Классы операторов';
+	$lang['strnoopclasses'] = 'Классов операторов не найдено.';
+	$lang['straccessmethod'] = 'Метод доступа';
+
+	// Stats and performance
+	$lang['strrowperf'] = 'Представление записи';
+	$lang['strioperf'] = 'Представление ввода/вывода';
+	$lang['stridxrowperf'] = 'Представление индекса записи';
+	$lang['stridxioperf'] = 'Представление индекса ввода/вывода';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Последовательный';
+	$lang['strscan'] = 'Сканировать';
+	$lang['strread'] = 'Читать';
+	$lang['strfetch'] = 'Извлечь';
+	$lang['strheap'] = 'Мусор';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST индекс';
+	$lang['strcache'] = 'Кеш';
+	$lang['strdisk'] = 'Диск';
+	$lang['strrows2'] = 'Записи';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s", %s';
 	$lang['strtimefmt'] = ' j-m-Y  g:i';
+	$lang['strhelp'] = 'Помощь';
 
 ?>
