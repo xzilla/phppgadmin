@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.104 2003/05/15 09:48:40 chriskl Exp $
+ * $Id: Postgres.php,v 1.105 2003/05/15 10:02:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -356,9 +356,11 @@ class Postgres extends BaseDB {
 		switch ($type) {
 			case 'bool':
 			case 'boolean':
+				if ($value !== null && $value == '') $value = null;
 				echo "<select name=\"", htmlspecialchars($name), "\">\n";
-				echo "<option value=\"Y\"", ($value) ? ' selected' : '', ">{$lang['stryes']}</option>\n";
-				echo "<option value=\"N\"", (!$value) ? ' selected' : '', ">{$lang['strno']}</option>\n";
+				echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
+				echo "<option value=\"Y\"", ($value !== null && $value) ? ' selected' : '', ">{$lang['stryes']}</option>\n";
+				echo "<option value=\"N\"", ($value !== null && !$value) ? ' selected' : '', ">{$lang['strno']}</option>\n";
 				echo "</select>\n";
 				break;
 			case 'text':
