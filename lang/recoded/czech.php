@@ -8,16 +8,25 @@
 
 	// Language and character set
 	$lang['applang'] = '&#268;esky';
-	$lang['appcharset'] = 'windows-1250';
+	$lang['appcharset'] = 'utf8';
 	$lang['applocale'] = 'cs_CZ';
 
+	$lang['appdbencoding'] = 'UNICODE';
 	// Basic strings
 	$lang['strintro'] = 'V&iacute;tejte v phpPgAdminu.';
 	$lang['strlogin'] = 'P&#345;ihl&aacute;&scaron;en&iacute;';
+	$lang['strppahome'] = 'Domovsk&aacute; str&aacute;nka phpPgAdmin';
+	$lang['strpgsqlhome'] = 'Domovsk&aacute; str&aacute;nka PostgreSQL';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'Lok&aacute;ln&iacute; dokumentace k PostgreSQL';
+	$lang['strreportbug'] = 'Nahl&aacute;sit chybu';
+	$lang['strviewfaq'] = 'Prohl&eacute;dnout FAQ';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strloginfailed'] = 'P&#345;ihl&aacute;&scaron;en&iacute; selhalo';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Odhl&aacute;sit';
 	$lang['strowner'] = 'Vlastn&iacute;k';
+	$lang['strlogindisallowed'] = 'P&#345;ihl&aacute;&scaron;en&iacute; zak&aacute;z&aacute;no';
 	$lang['straction'] = 'Akce';
 	$lang['stractions'] = 'Akce';
 	$lang['strname'] = 'Jm&eacute;no';
@@ -34,6 +43,8 @@
 	$lang['strnext'] = 'Dal&scaron;&iacute;';
 	$lang['strfailed'] = 'Selhalo';
 	$lang['strcreate'] = 'Vytvo&#345;it';
+	$lang['strfirst'] = '&lt;&lt; Prvn&iacute;';
+	$lang['strlast'] = 'Posledn&iacute; &gt;&gt;';
 	$lang['strcreated'] = 'Vytvo&#345;en&eacute;';
 	$lang['strcomment'] = 'Koment&aacute;&#345;';
 	$lang['strlength'] = 'D&eacute;lka';
@@ -52,9 +63,13 @@
 	$lang['strno'] = 'Ne';
 	$lang['stredit'] = 'Upravit';
 	$lang['strcolumns'] = 'Sloupce';
+	$lang['strtrue'] = 'PRAVDA';
+	$lang['strfalse'] = 'NEPRAVDA';
 	$lang['strrows'] = '&#344;&aacute;dky';
 	$lang['strexample'] = 'nap&#345;.';
 	$lang['strback'] = 'Zp&#283;t';
+	$lang['strrowsaff'] = '&#345;&aacute;dk&#367; zm&#283;n&#283;no.';
+	$lang['strobjects'] = 'objekt&#367;';
 	$lang['strqueryresults'] = 'V&yacute;sledky dotazu';
 	$lang['strshow'] = 'Uk&aacute;zat';
 	$lang['strempty'] = 'Vypr&aacute;zdnit';
@@ -66,12 +81,14 @@
 	$lang['strexport'] = 'Exportovat';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Vykonej';
+	$lang['strimport'] = 'Import';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyzovt&#357;';
 	$lang['strcluster'] = 'Cluster';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spustit';
+	$lang['strclustered'] = 'Clustered?';
 	$lang['stradd'] = 'P&#345;idat';
 	$lang['strevent'] = 'Ud&aacute;lost';
 	$lang['strwhere'] = 'Kde';
@@ -80,6 +97,30 @@
 	$lang['strformat'] = 'Form&aacute;t';
 
 	// Error handling
+	$lang['strdata'] = 'Data';
+	$lang['strconfirm'] = 'Potvrzen&iacute;';
+	$lang['strexpression'] = 'V&yacute;raz';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Rozbal';
+	$lang['strcollapse'] = 'Sbal';
+	$lang['strexplain'] = 'Vysv&#283;tli';
+	$lang['strexplainanalyze'] = 'Vysv&#283;tli anal&yacute;zu';
+	$lang['strfind'] = 'Hledej';
+	$lang['stroptions'] = 'Nastaven&iacute;';
+	$lang['strrefresh'] = 'Obnov';
+	$lang['strdownload'] = 'St&aacute;hnout';
+	$lang['strdownloadgzipped'] = 'Komprimovat gzipem a st&aacute;hnout';
+	$lang['strinfo'] = 'Info';
+	$lang['stroids'] = 'OIDy';
+	$lang['stradvanced'] = 'Pokro&#269;il&eacute;';
+	$lang['strvariables'] = 'Prom&#283;nn&eacute;';
+	$lang['strprocess'] = 'Proces';
+	$lang['strprocesses'] = 'Processy';
+	$lang['strsetting'] = 'Nastaven&iacute;';
+	$lang['strparameters'] = 'Parametry';
+	$lang['streditsql'] = 'Uprav SQL';
+	$lang['strpaginate'] = 'Str&aacute;nkov&aacute;n&iacute; v&yacute;sledk&#367;';
+	$lang['strstarttime'] = 'Po&#269;&aacute;te&#269;n&iacute; &#269;as';
 	$lang['strnoframes'] = 'Tato aplikace vy&#382;aduje prohl&iacute;&#382;ec s podporou fram&#367;.';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
 	$lang['strnotloaded'] = 'PHP nen&iacute; zakompilov&aacute;no s podporou PostgreSQL';
@@ -91,6 +132,9 @@
 	$lang['strnodata'] = 'Nenalezeny &#382;&aacute;dn&eacute; z&aacute;znamy.';
 
 	// Tables
+	$lang['strnoobjects'] = '&#381;&aacute;dn&eacute; objekty nenalezeny.';
+	$lang['strrownotunique'] = '&#381;&aacute;dn&yacute; jednozna&#269;n&yacute; identifik&aacute;tor pro tento &#345;&aacute;dek.';
+	$lang['strnoreportsdb'] = 'Nevytvo&#345;il jsi datab&aacute;z&iacute; pro reporty. P&#345;&iacute;slu&scaron;n&eacute; pokyny najde&scaron; v souboru INSTALL.';
 	$lang['strtable'] = 'Tabulka';
 	$lang['strtables'] = 'Tabulky';
 	$lang['strshowalltables'] = 'Zobrazit v&scaron;echny tabulky';
@@ -126,7 +170,9 @@
 	$lang['strfieldneedsname'] = 'Mus&iacute;&scaron; pomenovat pole';
 	$lang['strselectneedscol'] = 'Mus&iacute;&scaron; vybrat aspo&#328; jeden stoupec';
 	$lang['straltercolumn'] = 'Zm&#283;nit sloupec';
+	$lang['strselectallfields'] = 'Ozna&#269; v&scaron;echny pole';
 	$lang['strcolumnaltered'] = 'Sloupec zm&#283;n&#283;n&yacute;.';
+	$lang['strselectunary'] = 'Un&aacute;rn&iacute; oper&aacute;tory nemohou m&iacute;t hodnoty.';
 	$lang['strcolumnalteredbad'] = 'Sloupec nebyl zm&#283;n&#283;n&yacute;.';
 	$lang['strconfdropcolumn'] = 'Opravdu chce&scaron; smazat sloupec &quot;%s&quot; z tabulky &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Sloupec smaz&aacute;n.';
@@ -134,35 +180,41 @@
 	$lang['straddcolumn'] = 'P&#345;idat sloupec';
 	$lang['strcolumnadded'] = 'Sloupec p&#345;idan&yacute;.';
 	$lang['strcolumnaddedbad'] = 'Sloupec nebyl p&#345;idan&yacute;.';
-	$lang['strschemaanddata'] = 'Sch&eacute;ma &amp; D&aacute;ta';
-	$lang['strschemaonly'] = 'Jen Sch&eacute;ma';
-	$lang['strdataonly'] = 'Jen D&aacute;ta';
+	$lang['strcascade'] = 'CASCADE';
+	$lang['strtablealtered'] = 'Tabulka zm&#283;n&#283;na.';
+	$lang['strtablealteredbad'] = 'Zm&#283;na tabulky se nepoda&#345;ila.';
 
+	$lang['strstructureonly'] = 'Pouze struktura';
+	$lang['strstructureanddata'] = 'Struktura a data';
 	// Users
-	$lang['struseradmin'] = 'Spr&aacute;va u&#382;ivatel&#367;';
 	$lang['struser'] = 'U&#382;ivatel';
-	$lang['strusers'] = 'U&#382;ivatel&eacute;';
 	$lang['strusername'] = 'Jm&eacute;no u&#382;ivatele';
 	$lang['strpassword'] = 'Heslo';
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Vytv&aacute;&#345;et DB?';
 	$lang['strexpires'] = 'Expiruje';
+	$lang['strsessiondefaults'] = 'Standardn&iacute; hodnoty session';
 	$lang['strnousers'] = 'Nenalezen &#382;&aacute;dn&yacute; u&#382;ivatel.';
 	$lang['struserupdated'] = 'U&#382;ivatel upraven.';
 	$lang['struserupdatedbad'] = 'U&#382;ivatel nebyl upraven.';
 	$lang['strshowallusers'] = 'Zobrazit v&scaron;echny u&#382;ivatele';
 	$lang['strcreateuser'] = 'Vytvo&#345;it u&#382;ivatele';
+	$lang['struserneedsname'] = 'Mus&iacute;te zadat jm&eacute;no u&#382;ivatele.';
 	$lang['strusercreated'] = 'U&#382;&iacute;vatel vytvo&#345;en&yacute;.';
 	$lang['strusercreatedbad'] = 'U&#382;&iacute;vatel nebyl vytvo&#345;en&yacute;.';
 	$lang['strconfdropuser'] = 'Opravdu chce&scaron; smazat u&#382;ivatele &quot;%s&quot;?';
 	$lang['struserdropped'] = 'U&#382;ivatel smaz&aacute;n.';
 	$lang['struserdroppedbad'] = 'U&#382;ivatel nebyl smaz&aacute;n.';
+	$lang['straccount'] = '&Uacute;&#269;et';
+	$lang['strchangepassword'] = 'Zm&#283;na hesla';
+	$lang['strpasswordchanged'] = 'Heslo zm&#283;n&#283;no.';
+	$lang['strpasswordchangedbad'] = 'Zm&#283;na hesla se nepoda&#345;ila.';
+	$lang['strpasswordshort'] = 'Heslo je p&#345;&iacute;li&scaron; kr&aacute;tk&eacute;.';
+	$lang['strpasswordconfirm'] = 'Heslo a jeho ov&#283;&#345;en&iacute; neodpov&iacute;d&aacute;.';
 		
 	// Groups
-	$lang['strgroupadmin'] = 'Spr&aacute;va skupin';
 	$lang['strgroup'] = 'Skupina';
 	$lang['strgroups'] = 'Skupiny';
-	$lang['strnogroup'] = 'Skupina nenalezena.';
 	$lang['strnogroups'] = 'Nebyly nalezeny &#382;&aacute;dn&eacute; skupiny.';
 	$lang['strcreategroup'] = 'Vytvo&#345;it skupinu';
 	$lang['strshowallgroups'] = 'Zobrazit v&scaron;echny skupiny';
@@ -172,23 +224,30 @@
 	$lang['strconfdropgroup'] = 'Opravdu chce&scaron; smazat skupinu &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Skupina smaz&aacute;na.';
 	$lang['strgroupdroppedbad'] = 'Skupina nebyla smaz&aacute;na.';
+	$lang['straddmember'] = 'P&#345;idej &#269;lena';
+	$lang['strmemberadded'] = '&#268;len p&#345;id&aacute;n.';
+	$lang['strmemberaddedbad'] = 'P&#345;id&aacute;n&iacute; &#269;lena se nepovedlo.';
+	$lang['strdropmember'] = 'Odstra&#328; &#269;lena';
+	$lang['strconfdropmember'] = 'Jse&scaron; si opravdu jist, &#382;e chce&scaron; odstranit &#269;lena &quot;%s&quot; ze skupiny &quot;%s&quot;?';
+	$lang['strmemberdropped'] = '&#268;len odstran&#283;n.';
+	$lang['strmemberdroppedbad'] = 'Odstran&#283;n&iacute; &#269;lena se nepovedlo.';
 	$lang['strmembers'] = '&#268;lenov&eacute;';
 
 	// Privileges
-	$lang['strprivilege'] = 'Pr&aacute;vo';
-	$lang['strprivileges'] = 'Pr&aacute;va';
-	$lang['strnoprivileges'] = 'Tento objekt nem&aacute; pr&aacute;va.';
+	$lang['strprivilege'] = 'Opr&aacute;vn&#283;n&iacute;';
+	$lang['strprivileges'] = 'Opr&aacute;vn&#283;n&iacute;';
+	$lang['strnoprivileges'] = 'Tento objekt nem&aacute; opr&aacute;vn&#283;n&iacute;.';
 	$lang['strgrant'] = 'Povolit';
 	$lang['strrevoke'] = 'Odobrat';
-	$lang['strgranted'] = 'Pr&aacute;vo p&#345;idan&eacute;.';
-	$lang['strgrantfailed'] = 'Pr&aacute;vo nebylo p&#345;idan&eacute;.';
-	$lang['strgrantuser'] = 'Povolit u&#382;ivatele';
-	$lang['strgrantgroup'] = 'Povolit skupinu';
+	$lang['strgranted'] = 'Opr&aacute;vn&#283;n&iacute; p&#345;idan&eacute;.';
+	$lang['strgrantbad'] = 'Mus&iacute;te specifikovat alespo&#328; jednoho u&#382;ivatele &#269;i skupinu a aspo&#328; jedno opr&aacute;vn&#283;n&iacute;.';
+	$lang['stralterprivs'] = 'Uprav opr&aacute;vn&#283;n&iacute;';
+	$lang['strgrantor'] = 'Poskytovatel opr&aacute;vn&#283;n&iacute;';
+	$lang['strasterisk'] = '*';
+	$lang['strgrantfailed'] = 'Opr&aacute;vn&#283;n&iacute; nebylo p&#345;idan&eacute;.';
 
 	
-
 	// Databases
-	$lang['strdatabase'] = 'Datab&aacute;ze';
 	$lang['strdatabases'] = 'Datab&aacute;ze';
 	$lang['strshowalldatabases'] = 'Zobrazit v&scaron;echny datab&aacute;ze';
 	$lang['strnodatabase'] = 'Nenalezena &#382;&aacute;dn&aacute; datab&aacute;ze.';
@@ -197,6 +256,7 @@
 	$lang['strdatabasename'] = 'N&aacute;zev datab&aacute;ze';
 	$lang['strdatabaseneedsname'] = 'Mus&iacute;&scaron; zadat n&aacute;zev pro datab&aacute;zi.';
 	$lang['strdatabasecreated'] = 'Datab&aacute;ze vytvo&#345;ena.';
+	$lang['strsqlexecuted'] = 'SQL provedeno.';
 	$lang['strdatabasecreatedbad'] = 'Datab&aacute;ze nebyla vytvo&#345;ena.';	
 	$lang['strconfdropdatabase'] = 'Opravdu chce&scaron; smazat datab&aacute;zi &quot;%s&quot;?';
 	$lang['strdatabasedropped'] = 'Datab&aacute;ze smaz&aacute;na.';
@@ -219,6 +279,8 @@
 	$lang['strviewneedsdef'] = 'Mus&iacute;&scaron; zadat definici n&aacute;hledu.';
 	$lang['strviewcreated'] = 'N&aacute;hled vytvo&#345;en.';
 	$lang['strviewcreatedbad'] = 'N&aacute;hled nebyl vytvo&#345;en.';
+	$lang['strviewlink'] = 'Spojovac&iacute; kl&iacute;&#269;e';
+	$lang['strviewconditions'] = 'Uprav podm&iacute;nky';
 	$lang['strconfdropview'] = 'Opravdu chce&scaron; smazat n&aacute;hled &quot;%s&quot;?';
 	$lang['strviewdropped'] = 'N&aacute;hled smaz&aacute;n.';
 	$lang['strviewdroppedbad'] = 'N&aacute;hled nebyl smaz&aacute;n.';
@@ -242,8 +304,11 @@
 	$lang['striscycled'] = 'Je cyklick&aacute;?';
 	$lang['striscalled'] = 'Je called?';
 	$lang['strsequenceneedsname'] = 'Mus&iacute;&scaron; zadat n&aacute;zev sekvence.';
+	$lang['strsequencereset'] = 'Reset sekvence.';
+	$lang['strsequenceresetbad'] = 'Reset sekvence se nepovedl.';
 	$lang['strsequencecreated'] = 'Sekvence vytvo&#345;ena.';
 	$lang['strsequencecreatedbad'] = 'Sekvence nebyla vytvo&#345;ena.'; 
+	$lang['strindex'] = 'Index';
 	$lang['strconfdropsequence'] = 'Opravdu chce&scaron; smazat sekvence &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Sekvence smaz&aacute;na.';
 	$lang['strsequencedroppedbad'] = 'Sekvence nebyla smaz&aacute;na.';
@@ -265,6 +330,9 @@
 	$lang['strconfdropindex'] = 'Opravdu chce&scaron; smazat index &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Index smaz&aacute;n.';
 	$lang['strindexdroppedbad'] = 'Index nebyl smaz&aacute;n.';
+	$lang['strconfcluster'] = 'Chcete opravdu clusterovat &quot;%s&quot;?';
+	$lang['strclusteredgood'] = 'Cluster proveden.';
+	$lang['strclusteredbad'] = 'Cluster se nepovedl.';
 	$lang['strkeyname'] = 'N&aacute;zev kl&iacute;&#269;e';
 	$lang['struniquekey'] = 'Unik&aacute;tn&iacute; kl&iacute;&#269;';
 	$lang['strprimarykey'] = 'Prim&aacute;rn&iacute; kl&iacute;&#269;';
@@ -305,9 +373,13 @@
 	$lang['straddpk'] = 'P&#345;idat prim&aacute;rn&iacute; kl&iacute;&#269;';
 	$lang['strpkneedscols'] = 'Prim&aacute;rn&iacute; kl&iacute;&#269; vy&#382;aduje alespo&#328; jeden sloupec.';
 	$lang['strpkadded'] = 'Prim&aacute;rn&iacute; kl&iacute;&#269; p&#345;id&aacute;n.';
+	$lang['strfkneedstarget'] = 'Ciz&iacute; kl&iacute;&#269; vy&#382;aduje c&iacute;lovou tabulku.';
 	$lang['strpkaddedbad'] = 'Prim&aacute;rn&iacute; kl&iacute;&#269; nebyl p&#345;id&aacute;n.';
 	$lang['stradduniq'] = 'P&#345;idat unik&aacute;tn&iacute; kl&iacute;&#269;';
 	$lang['struniqneedscols'] = 'Unik&aacute;tn&iacute; kl&iacute;&#269; vy&#382;aduje alespo&#328; jeden sloupec.';
+	$lang['strfkcolumnlist'] = 'Sloupce v kl&iacute;&#269;i';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 	$lang['struniqadded'] = 'Unik&aacute;tn&iacute; kl&iacute;&#269; p&#345;id&aacute;n.';
 	$lang['struniqaddedbad'] = 'Unik&aacute;tn&iacute; kl&iacute;&#269; nebyl p&#345;id&aacute;n.';
 	$lang['straddfk'] = 'P&#345;idat ciz&iacute; kl&iacute;&#269;';
@@ -344,6 +416,8 @@
 	$lang['strnotrigger'] = 'Nenalezen &#382;&aacute;dn&yacute; trigger.';
 	$lang['strnotriggers'] = 'Nenalezeny &#382;&aacute;dn&eacute; triggery.';
 	$lang['strcreatetrigger'] = 'Vytvo&#345;it trigger';
+	$lang['strtriggeraltered'] = 'Trigger zm&#283;n&#283;n.';
+	$lang['strtriggeralteredbad'] = 'Zm&#283;na triggeru se nepovedla.';
 	$lang['strtriggerneedsname'] = 'Mus&iacute;&scaron; zadat n&aacute;zev triggeru.';
 	$lang['strtriggerneedsfunc'] = 'Mus&iacute;&scaron; zadat funkci triggeru.';
 	$lang['strtriggercreated'] = 'Trigger vytvo&#345;en.';
@@ -398,14 +472,94 @@
 	$lang['strcreatereport'] = 'Vytvo&#345;it report';
 	$lang['strreportdropped'] = 'Report smaz&aacute;n.';
 	$lang['strreportdroppedbad'] = 'Report nebyl smaz&aacute;n.';
+	$lang['strdomain'] = 'Dom&eacute;na';
+	$lang['strdomains'] = 'Dom&eacute;ny';
+	$lang['strshowalldomains'] = 'Uka&#382; v&scaron;echny dom&eacute;ny';
+	$lang['strnodomains'] = '&#381;&aacute;dn&eacute; dom&eacute;ny nenalezeny.';
+	$lang['strcreatedomain'] = 'Vytvo&#345; dom&eacute;nu';
+	$lang['strdomaindropped'] = 'Dom&eacute;na odstran&#283;na.';
+	$lang['strdomaindroppedbad'] = 'Odstran&#283;n&iacute; dom&eacute;ny se nepovedlo.';
+	$lang['strconfdropdomain'] = 'Chce&scaron; opravdu odstranit dom&eacute;nu &quot;%s&quot;?';
+	$lang['strdomainneedsname'] = 'Mus&iacute;te zadat jm&eacute;no dom&eacute;ny.';
+	$lang['strdomaincreated'] = 'Dom&eacute;na vytvo&#345;ena.';
+	$lang['strdomaincreatedbad'] = 'Vytvo&#345;en&iacute; dom&eacute;ny se nepovedlo.';
+	$lang['strdomainaltered'] = 'Domain zm&#283;n&#283;na.';
+	$lang['strdomainalteredbad'] = 'Zm&#283;na dom&eacute;ny se nepovelda.';
 	$lang['strconfdropreport'] = 'Opravdu chce&scaron; smazat report &quot;%s&quot;?';
 	$lang['strreportneedsname'] = 'Mus&iacute;&scaron; zadat n&aacute;zev reportu.';
+	$lang['stroperator'] = 'Oper&aacute;tor';
 	$lang['strreportneedsdef'] = 'Mus&iacute;&scaron; zadat SQL dotaz pro report.';
+	$lang['strshowalloperators'] = 'Uka&#382; v&scaron;echny oper&aacute;tory';
+	$lang['strnooperator'] = '&#381;&aacute;dn&yacute; oper&aacute;tor nenalezen.';
+	$lang['strnooperators'] = '&#381;&aacute;dn&eacute; oper&aacute;tory nenalezeny.';
+	$lang['strcreateoperator'] = 'Vytvo&#345; oper&aacute;tor';
+	$lang['strleftarg'] = 'Typ lev&eacute;ho argumentu';
+	$lang['strrightarg'] = 'Typ prav&eacute;ho argumenti';
+	$lang['strcommutator'] = 'Komut&aacute;tor';
+	$lang['strnegator'] = 'Neg&aacute;tor';
+	$lang['strrestrict'] = 'Omezen&iacute;';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Lev&eacute; t&#345;&iacute;d&#283;n&iacute;';
+	$lang['strrightsort'] = 'Prav&eacute; t&#345;&iacute;d&#283;n&iacute;';
+	$lang['strlessthan'] = 'M&eacute;n&#283; ne&#382;';
+	$lang['strgreaterthan'] = 'V&iacute;ce ne&#382;';
+	$lang['stroperatorneedsname'] = 'Mus&iacute;te zadat jm&eacute;no oper&aacute;toru.';
+	$lang['stroperatorcreated'] = 'Oper&aacute;tor vytvo&#345;en';
+	$lang['stroperatorcreatedbad'] = 'Vytvo&#345;en&iacute; oper&aacute;toru se nepovedlo.';
+	$lang['strconfdropoperator'] = 'Opravdu chce&scaron; smazat oper&aacute;tor &quot;%s&quot;?';
+	$lang['stroperatordropped'] = 'Oper&aacute;tor smaz&aacute;n.';
+	$lang['stroperatordroppedbad'] = 'Smaz&aacute;n&iacute; oper&aacute;toru se nepovedlo.';
 	$lang['strreportcreated'] = 'Report ulo&#382;en.';
 	$lang['strreportcreatedbad'] = 'Report nebyl ulo&#382;en.';
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'No casts found.';
+	$lang['strsourcetype'] = 'Zdrojov&yacute; typ';
+	$lang['strtargettype'] = 'C&iacute;lov&yacute; typ';
+	$lang['strimplicit'] = 'Implictn&#283;';
+	$lang['strinassignment'] = 'V p&#345;i&#345;azen&iacute;';
+	$lang['strbinarycompat'] = '(bin&aacute;rn&#283; kompatibiln&iacute;)';
 
 	// Miscellaneous
+	$lang['strconversions'] = 'Konverze';
+	$lang['strnoconversions'] = '&#381;&aacute;dn&eacute; konverze nenalezeny.';
+	$lang['strsourceencoding'] = 'Zdrojov&eacute; k&oacute;dov&aacute;n&iacute;';
+	$lang['strtargetencoding'] = 'Cilov&eacute; k&oacute;dov&aacute;n&iacute;';
 	$lang['strtopbar'] = '%s be&#382;&iacute; na %s:%s -- Jsi p&#345;ihl&aacute;&scaron;en&yacute; jako &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
+	$lang['strlanguages'] = 'Jazyky';
+	$lang['strnolanguages'] = '&#381;&aacute;dn&eacute; jazyky nenalezeny.';
+	$lang['strtrusted'] = 'D&#367;v&#283;ryhodn&yacute;';
+
+	$lang['strdataonly'] = 'Pouze data';
+	$lang['strusers'] = 'U&#382;ivatel&eacute;';
+	$lang['strnogroup'] = 'Skupina nenalezena.';
+	$lang['strdatabase'] = 'Datab&aacute;ze';
+	$lang['strnoinfo'] = 'Nejsou dostupn&eacute; &#382;&aacute;dn&eacute; informace.';
+	$lang['strreferringtables'] = 'Odkazovan&eacute; tabulky';
+	$lang['strparenttables'] = 'Tabulky rodi&#269;&#367;';
+	$lang['strchildtables'] = 'Tabulky potomk&#367;';
+	$lang['strnoaggregates'] = 'Nebyla nalezena &#382;&aacute;dn&aacute; agregace.';
+	$lang['stralltypes'] = '(V&scaron;echny typy)';
+	$lang['stropclasses'] = 'T&#345;&iacute;dy oper&aacute;tor&#367;';
+	$lang['strnoopclasses'] = 'Nebyly nalezeny &#382;&aacute;dn&eacute; t&#345;&iacute;dy oper&aacute;tor&#367;.';
+	$lang['straccessmethod'] = 'P&#345;&iacute;stupov&aacute; metoda';	
+	$lang['strrowperf'] = 'V&yacute;kon &#345;&aacute;dku';
+	$lang['strioperf'] = 'I/O v&yacute;kon';
+	$lang['stridxrowperf'] = 'V&yacute;kon indexu &#345;&aacute;dku';
+	$lang['stridxioperf'] = 'I/O v&yacute;kon indexu';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sekven&#269;n&iacute;&eacute;';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = '&#344;&aacute;dk&#367;';
+	$lang['strhelp'] = 'N&aacute;pov&#283;da';
 
 ?>
