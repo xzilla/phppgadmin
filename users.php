@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.6 2003/03/19 03:00:32 chriskl Exp $
+	 * $Id: users.php,v 1.7 2003/04/04 20:04:09 slubek Exp $
 	 */
 
 	// Include application functions
@@ -145,7 +145,7 @@
 		echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($formExpires), "\" /></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a></p>\n";
@@ -187,8 +187,8 @@
 			while (!$users->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uname']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['usuper']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['ucreatedb']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", (htmlspecialchars($users->f[$data->uFields['usuper']])==='t') ? $lang['stryes'] : $lang['strno'], "</td>\n";
+				echo "<td class=\"data{$id}\">", (htmlspecialchars($users->f[$data->uFields['ucreatedb']])==='t') ? $lang['stryes'] : $lang['strno'], "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=",
 					urlencode($users->f[$data->uFields['uname']]), "\">{$lang['strproperties']}</a></td>\n";
