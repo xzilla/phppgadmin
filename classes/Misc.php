@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.96 2004/12/06 03:03:00 chriskl Exp $
+	 * $Id: Misc.php,v 1.97 2005/01/21 18:05:02 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -300,6 +300,7 @@
 			global $appName, $lang, $_no_output, $conf;
 
 			if (!isset($_no_output)) {
+				header("Content-Type: text/html; charset=" . $lang['appcharset']);
 				// Send XHTML headers, or regular HTML headers
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
 					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
