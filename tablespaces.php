@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.3 2004/07/10 08:51:01 chriskl Exp $
+	 * $Id: tablespaces.php,v 1.4 2004/07/21 07:44:44 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -227,6 +227,7 @@
 
 	$misc->printHeader($lang['strtablespaces']);
 	$misc->printBody();
+	$misc->printNav('server','tablespaces');
 
 	switch ($action) {
 		case 'save_create':
