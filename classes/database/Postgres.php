@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.17 2002/10/07 21:59:38 xzilla Exp $
+ * $Id: Postgres.php,v 1.18 2002/10/08 21:31:18 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -655,9 +655,11 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
-
+	/**
+	 * grabs a list of indicies in the database
+	 */
 	function &getIndicies() {
-		if (!$this->_show_System)
+		if (!$this->_showSystem)
 			$where = "WHERE relname NOT LIKE 'pg_%' AND ";
 		else $where  = '';
 		
@@ -666,10 +668,35 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
+	function &getIndex($idxname) {
+		$sql = "SELECT
+					ic.relname AS index_name,
+					bc.relname AS tab_name,
+					ta.attname AS column_name,
+					i.indisunique AS unique_key,
+					i.indisprimary AS primary_key
+				FROM
+					pg_class bc,
+					pg_class ic,
+					pg_index i,
+					pg_attribute ta,
+					pg_attribute ia
+				WHERE
+					bc.oid = i.indrelid
+					AND ic.oid = i.indexrelid
+					AND ia.attrelid = i.indexrelid
+					AND ta.attrelid = bc.oid
+					AND ic.relname = '$idxname'
+					AND ta.attrelid = i.indrelid
+					AND ta.attnum = i.indkey[ia.attnum-1]
+				ORDER BY
+					index_name, tab_name, column_name";
+
+		return $this->selectSet($sql);
+	}
 
 
 /*
-	function &getIndex()
 	function setIndex()
 	function delIndex()
 

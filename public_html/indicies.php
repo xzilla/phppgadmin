@@ -1,9 +1,9 @@
 <?php
 /**
- *  FILENAME:   sequence.php
+ *  FILENAME:   index.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: indicies.php,v 1.1 2002/10/07 22:00:20 xzilla Exp $
+ *  $Id: indicies.php,v 1.2 2002/10/08 21:31:18 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -20,32 +20,32 @@ $PHP_SELF = $_SERVER['PHP_SELF'];
 // {{{ doDefault()
 function doDefault()
 {
-    global $data, $localData, $misc, $database, $sequences; 
+    global $data, $localData, $misc, $database, $indexs; 
     global $PHP_SELF;
     global $strNoIndicies, $strIndicies, $strOwner, $strActions;
 
     echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": Indicies</h2>\n";
 
-    $sequences = &$localData->getIndicies();
+    $indexs = &$localData->getIndicies();
 
-    if( $sequences->recordCount() > 0 )
+    if( $indexs->recordCount() > 0 )
     {
         echo "<table>\n";
         echo "<tr><th class=\"data\">{$strIndicies}</th><th colspan=\"3\" class=\"data\">{$strActions}</th>\n";
         $i = 0;
 
-        while( !$sequences->EOF )
+        while( !$indexs->EOF )
         {
             $id = ( ($i % 2 ) == 0 ? '1' : '2' );
-            echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "</td>";
+            echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "</td>";
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Properties</a></td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Properties</a></td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Privileges</td></tr>\n"; 
+				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&index=", htmlspecialchars( $indexs->f[$data->sqFields['seqname']]), "\">Privileges</td></tr>\n"; 
 
-			$sequences->movenext();
+			$indexs->movenext();
 			$i++;
         }
 
@@ -56,7 +56,7 @@ function doDefault()
         echo "<p>{$strNoIndicies}</p>\n";
     }
     
-    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&database=", urlencode( $_REQUEST['database'] ), "\">Create Sequence</a></p>\n";
+    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&database=", urlencode( $_REQUEST['database'] ), "\">Create index</a></p>\n";
 
 }
 // }}}
@@ -64,33 +64,27 @@ function doDefault()
 	function doProperties($msg = '') 
 	{
 		global $data, $localData, $misc, $PHP_SELF;
-		global $strIndicies, $strSequenceName, $strLastValue, $strIncrementBy, $strMaxValue, $strMinValue, $strCacheValue, $strLogCount, $strIsCycled, $strIsCalled, $strReset;
+		global $strIndicies, $strIndexName, $strTabName, $strColumnName, $strUniqueKey, $strPrimaryKey;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strIndicies : ", htmlspecialchars($_REQUEST['sequence']), ": Properties</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strIndicies : ", htmlspecialchars($_REQUEST['index']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
-		$sequence = &$localData->getSequence($_REQUEST['sequence']);
+		$index = &$localData->getindex($_REQUEST['index']);
 
 	
-		if ($sequence->recordCount() > 0) {
+		if ($index->recordCount() > 0) {
 
 			echo"<table border=0>";
-			echo "<tr><th class=\"data\">$strSequenceName</th><th class=\"data\">$strLastValue</th><th class=\"data\">$strIncrementBy</th><th class=\"data\">$strMaxValue</th><th class=\"data\">$strMinValue</th><th class=\"data\">$strCacheValue</th><th class=\"data\">$strLogCount</th><th class=\"data\">$strIsCycled</th><th class=\"data\">$strIsCalled</th></tr>";
+			echo "<tr><th class=\"data\">$strIndexName</th><th class=\"data\">$strTabName</th><th class=\"data\">$strColumnName</th><th class=\"data\">$strUniqueKey</th><th class=\"data\">$strPrimaryKey</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['seqname']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['lastvalue']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['incrementby']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['maxvalue']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['minvalue']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['cachevalue']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['logcount']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['iscycled']], "</td>";
-			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['iscalled']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->sqFields['idxname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->sqFields['tabname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->sqFields['columnname']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->sqFields['uniquekey']], "</td>";
+			echo "<td class=\"data1\">", $index->f[$data->sqFields['primarykey']], "</td>";
 			echo "</tr>";
 			echo "</table>";
 			echo "<br /><br />";
-			echo "<a href=\"$PHP_SELF?action=reset&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequence->f[$data->sqFields['seqname']]), "\">$strReset</a></td>\n"; 
-
 		}
 		else echo "<p>No data.</p>\n";
 	}
@@ -108,39 +102,27 @@ function doDefault()
 		global $PHP_SELF, $strIndicies, $strDropped, $strDrop, $strFailed;
 	
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strIndicies : ", htmlspecialchars($_REQUEST['sequence']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strIndicies : ", htmlspecialchars($_REQUEST['index']), ": Drop</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the sequence \"", htmlspecialchars($_REQUEST['sequence']), "\"?</p>\n";
+			echo "<p>Are you sure you want to drop the index \"", htmlspecialchars($_REQUEST['index']), "\"?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=sequence value=\"", htmlspecialchars($_REQUEST['sequence']), "\">\n";
+			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropSequence($_POST['sequence']);
+			$status = $localData->dropindex($_POST['index']);
 			if ($status == 0)
-				doDefault("$strSequence $strDropped.");
+				doDefault("$strindex $strDropped.");
 			else
-				doDefault("$strSequence $strDrop $strFailed.");
+				doDefault("$strindex $strDrop $strFailed.");
 		}
 
 	}
 
-
-	function doReset()
-	{
-		global $localData, $database;
-		global $PHP_SELF, $strSequence, $strDropped, $strDrop, $strFailed;
-
-		$status = $localData->resetSequence($_REQUEST['sequence']);
-		if ($status == 0)
-			doProperties("$strSequence has been reset");
-		else	
-			doProperties("$strSequence $strReset $strFailed");
-	}
 
 echo "<html>\n";
 echo "<body>\n";
@@ -148,7 +130,7 @@ echo "<body>\n";
 switch( $action )
 {
 	case 'create':
-        	echo "<p>Creating sequence</p>";
+        	echo "<p>Creating index</p>";
         	break;
 	case 'properties':
 		doProperties();	
@@ -163,10 +145,7 @@ switch( $action )
 	case 'privileges':
 		doPrivileges();
 		break;
-	case 'reset':
-		doReset();
-		break;
-    	default:
+    default:
         	doDefault();
         	break;
 }
