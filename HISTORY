@@ -5,6 +5,7 @@ Version 3.2-dev
 ---------------
 
 Features
+* PostgreSQL 7.5 CVS support
 * Option to dump table structure, data or structure and data
 * Results of table browse, table select, view browsing and report browsing
   can now ALL be sorted by column
