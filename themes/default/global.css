@@ -1,7 +1,7 @@
 /**
  * Default style sheet, based of the work of Juri Aksenov
  *
- * $Id: global.css,v 1.8 2003/05/26 11:33:22 chriskl Exp $
+ * $Id: global.css,v 1.9 2003/05/28 02:01:34 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -136,6 +136,8 @@ td.opbutton1
 	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
+	padding-left: 6px;
+	padding-right: 6px;
 	cursor:	hand;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: 0.8em;
@@ -149,6 +151,8 @@ td.opbutton2
 	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
+	padding-left: 6px;
+	padding-right: 6px;
 	cursor:	pointer;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: 0.8em;
