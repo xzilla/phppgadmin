@@ -4,14 +4,23 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.1 2003/05/01 01:40:43 chriskl Exp $
+	 * $Id: russian.php,v 1.2 2003/06/30 01:13:54 chriskl Exp $
 	 */
 
 	// Language and character set
-	$lang['applang'] = 'Русский';
+	$lang['applang'] = 'Русский КОИ8';
 	$lang['appcharset'] = 'KOI8-R';
 	$lang['applocale'] = 'ru_RU';
 
+	// Welcome  
+	$lang['strppahome'] = 'phpPgAdmin - домашняя страница';
+	$lang['strpgsqlhome'] = 'PostgreSQL - домашняя страница';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL - документация (локально)';
+	$lang['strreportbug'] = 'Отчет об ошибках';
+	$lang['strviewfaq'] = 'Просмотр FAQ';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
 	// Basic strings
 	$lang['strintro'] = 'Добро пожаловать в phpPgAdmin.';
 	$lang['strlogin'] = 'Логин';
@@ -51,6 +60,8 @@
 	$lang['strreferences'] = 'Ссылки';
 	$lang['stryes'] = 'Да';
 	$lang['strno'] = 'Нет';
+	$lang['strtrue'] = 'Истина';
+	$lang['strfalse'] = 'Ложь';
 	$lang['stredit'] = 'Редактировать';
 	$lang['strcolumns'] = 'Атрибуты';
 	$lang['strrows'] = 'запис[ь/и/ей]';
@@ -65,6 +76,7 @@
 	$lang['strunique'] = 'Уникальный';
 	$lang['strprimary'] = 'Первичный';
 	$lang['strexport'] = 'Экспорт';
+	$lang['strimport'] = 'Импорт';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Выполнить';
 	$lang['stradmin'] = 'Управление';
@@ -79,6 +91,12 @@
 	$lang['strinstead'] = 'Делать вместо';
 	$lang['strwhen'] = 'Когда';
 	$lang['strformat'] = 'Формат';
+	$lang['strdata'] = 'Данные';
+	$lang['strconfirm'] = 'Подтвердить';
+	$lang['strexpression'] = 'Выражение';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Расширить';
+	$lang['strcollapse'] = 'Свернуть';
 
 	// Error handling
 	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
@@ -159,6 +177,12 @@
 	$lang['strconfdropuser'] = 'Вы уверены, что хотите удалить пользователя "%s"?';
 	$lang['struserdropped'] = 'Пользователь удален.';
 	$lang['struserdroppedbad'] = 'Удаление пользователя прервано.';
+	$lang['straccount'] = 'Аккаунт';
+	$lang['strchangepassword'] = 'Изменить пароль';
+	$lang['strpasswordchanged'] = 'Пароль изменен.';
+	$lang['strpasswordchangedbad'] = 'Изменение пароля прервано.';
+	$lang['strpasswordshort'] = 'Пароль слишком короткий.';
+	$lang['strpasswordconfirm'] = 'Пароль не соответствует подтверждению.';
 
 	// Groups
 	$lang['strgroupadmin'] = 'Группы';
@@ -182,10 +206,10 @@
 	$lang['strnoprivileges'] = 'Объект не имеет привилегий.';
 	$lang['strgrant'] = 'Усилить';
 	$lang['strrevoke'] = 'Ослабить';
-	$lang['strgranted'] = 'Привилегии усилены.';
-	$lang['strgrantfailed'] = 'Усиление привилегий прервано.';
-	$lang['strgrantuser'] = 'Усилить пользователя';
-	$lang['strgrantgroup'] = 'Усилить группу';
+	$lang['strgranted'] = 'Привилегии изменены.';
+	$lang['strgrantfailed'] = 'Изменение привилегий прервано.';
+	$lang['strgrantbad'] = 'Вам необходимо указать хотя бы одного пользователя или группу и хотя бы одну привилегию.';
+	$lang['stralterprivs'] = 'Изменить привилегии';
 
 	// Databases
 	$lang['strdatabase'] = 'База данных';
@@ -320,9 +344,9 @@
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';	
 
-// Functions
-$lang['strfunction'] = 'Функция';
-$lang['strfunctions'] = ' Функции';
+	// Functions
+	$lang['strfunction'] = 'Функция';
+	$lang['strfunctions'] = ' Функции';
 	$lang['strshowallfunctions'] = 'Показать все функции';
 	$lang['strnofunction'] = 'Функция не обнаружена.';
 	$lang['strnofunctions'] = 'Ни одной функции не обнаружено.';
@@ -412,4 +436,3 @@ $lang['strfunctions'] = ' Функции';
 	$lang['strtimefmt'] = ' j-m-Y  g:i';
 
 ?>
-
