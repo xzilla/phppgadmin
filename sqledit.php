@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.18 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: sqledit.php,v 1.19 2004/07/14 10:24:26 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -135,7 +135,7 @@
 
 		if ($data->hasSchemas()) {
 			if (!isset($_REQUEST['search_path']))
-				$_REQUEST['search_path'] = '$user, public';  // Should this be retrieved from a $data function?
+				$_REQUEST['search_path'] = $data->getSearchPath();
 		
 			echo "\n<label>{$lang['strsearchpath']}:&nbsp;<input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
 				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
