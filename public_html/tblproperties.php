@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.2 2002/09/15 07:29:08 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.3 2002/09/16 10:12:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,7 +50,7 @@
 	function doDefault($msg = '') {
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
-		global $strBrowse, $strProperties, $strDrop;
+		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 
@@ -77,10 +77,13 @@
 				$attrs->moveNext();
 				$i++;
 			}
+			echo "</table>\n";
 		}
 		else {
 			echo "<p>{$strNoTable}</p>\n";
 		}
+		
+		echo "<p><a class=navlink href=\"tables.php?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
 	}
 
 	echo "<html>\n";

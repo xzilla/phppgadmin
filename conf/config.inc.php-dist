@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.2 2002/09/14 11:21:31 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.3 2002/09/16 10:12:01 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -24,6 +24,8 @@
 	$guiLeftFrameWidth = 200;
 	// Which look & feel theme to use
 	$guiTheme = 'default';
+	// Show OIDs?
+	$guiShowOIDs = false;
 
 	// Servers and types
 	$confServers = array();

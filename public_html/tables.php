@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.7 2002/09/15 07:29:08 chriskl Exp $
+	 * $Id: tables.php,v 1.8 2002/09/16 10:12:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,6 +11,83 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Ask for insert parameters and then actually insert row
+	 */
+	function doInsertRow($confirm, $msg = '') {
+		global $localData, $database, $misc;
+		global $strField, $strType, $strNull, $strValue;
+		global $PHP_SELF;
+
+		if ($confirm) { 
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", htmlspecialchars($_REQUEST['table']), ": Insert Row</h2>\n";
+			$misc->printMsg($msg);
+
+			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			if ($attrs->recordCount() > 0) {
+				echo "<table>\n<tr>";
+				
+				// Output table header
+				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNull}</th><th class=data>{$strValue}</th></tr>";
+				
+				$i = 0;
+				while (!$attrs->EOF) {
+					$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+					// Set up default value if there isn't one already
+					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
+						$_REQUEST['values'][$attrs->f['attname']] = null;
+					// Continue drawing row
+					$id = (($i % 2) == 0 ? '1' : '2');
+					echo "<tr>\n";
+					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
+					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
+					echo "<td class=data{$id} nowrap>";
+					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
+					if (!$attrs->f['attnotnull'])
+						echo "<input type=checkbox name=\"nulls[{$attrs->f['attname']}]\"", 
+							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
+					else
+						echo "&nbsp;</td>";
+					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$attrs->f['attname']}]", 
+						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
+					echo "</tr>\n";
+					$i++;
+					$attrs->moveNext();
+				}
+				echo "</table></p>\n";
+			}
+			else echo "<p>No data.</p>\n";
+
+			echo "<input type=hidden name=action value=insertrow>\n";
+			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo "<input type=submit name=choice value=\"Save\">\n";
+			echo "<input type=submit name=choice value=\"Save &amp; Repeat\">\n";
+			echo "<input type=submit name=choice value=\"Cancel\">\n";
+			echo "</form>\n";
+		}
+		else {
+			if (!isset($_POST['values'])) $_POST['values'] = array();
+			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			$status = $localData->insertRow($_POST['table'], $_POST['values'], $_POST['nulls']);
+			if ($status == 0) {
+				// @@@ AAARGH - THIS WON'T WORK WITH OTHER LANGUAGES!!
+				if ($_POST['choice'] == 'Save')
+					doDefault('Row inserted.');
+				else {
+					$_REQUEST['values'] = array();
+					$_REQUEST['nulls'] = array();
+					doInsertRow(true, 'Row inserted.');
+				}				
+			}
+			else
+				doInsertRow(true, 'Row insert failed.');
+		}
+		
+	}
 
 	/**
 	 * Show confirmation of empty and perform actual empty
@@ -84,10 +161,11 @@
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", htmlspecialchars($_REQUEST['table']), ": Edit Row</h2>\n";
 			$misc->printMsg($msg);
 
+			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 			$rs = &$localData->browseRow($_REQUEST['table'], $key);
-			
+
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			if ($rs->recordCount() == 1) {
+			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
 				echo "<table>\n<tr>";
 				
 				// Output table header
@@ -96,19 +174,21 @@
 				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
 				
 				$i = 0;
-				foreach ($rs->f as $k => $v) {
+				while (!$attrs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=data{$id} nowrap>", htmlspecialchars($k), "</td>";
-					echo "<td class=data{$id} nowrap>Type</td>";
-					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$k}]", $v, 'type goes here'), "</td>";
+					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
+					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
+					echo "<td class=data{$id} nowrap>", $localData->printField("values[{$attrs->f['attname']}]", 
+						$rs->f[$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
+					$attrs->moveNext();
 				}
 				echo "</table></p>\n";
 			}
 			else echo "<p>No data.</p>\n";
-			
+
 			echo "<input type=hidden name=action value=editrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
@@ -165,7 +245,7 @@
 	 */
 	function doBrowse($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strActions;
+		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 		$misc->printMsg($msg);
@@ -179,6 +259,7 @@
 			echo "<table>\n<tr>";
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
+				if ($k == $localData->id && !$guiShowOIDs) continue;
 				echo "<th class=data>", htmlspecialchars($k), "</td>";
 			}
 			
@@ -192,7 +273,8 @@
 			while (!$rs->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
-				while(list(, $v) = each($rs->f)) {
+				while(list($k, $v) = each($rs->f)) {
+					if ($k == $localData->id && !$guiShowOIDs) continue;
 					echo "<td class=data{$id} nowrap>", nl2br(htmlspecialchars($v)), "</td>";
 				}							
 				if (sizeof($key) > 0) {
@@ -213,6 +295,8 @@
 			}
 		}
 		else echo "<p>No data.</p>\n";
+		
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
 	}
 	
 	/**
@@ -238,7 +322,8 @@
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&offset=0&limit=30&database=", 
 					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
-				echo "<td class=opbutton{$id}>Insert</td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&database=",
+					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($tables->f[$data->tbFields['tbname']]), "\">Insert</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?database=",
 					htmlspecialchars($_REQUEST['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&database=",
@@ -259,6 +344,13 @@
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'insertrow':
+			if ($_POST['choice'] != 'Cancel') doInsertRow(false);
+			else doDefault();
+			break;
+		case 'confinsertrow':
+			doInsertRow(true);
+			break;			
 		case 'empty':
 			if ($_POST['choice'] == 'Yes') doEmpty(false);
 			else doDefault();

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.7 2002/09/15 07:29:08 chriskl Exp $
+ * $Id: Postgres.php,v 1.8 2002/09/16 10:12:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -21,6 +21,9 @@ class Postgres extends BaseDB {
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
+	
+	// Name of id column
+	var $id = 'oid';
 
 	function Postgres($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
@@ -89,7 +92,7 @@ class Postgres extends BaseDB {
 	/**
 	 * Outputs the HTML code for a particular field
 	 * @param $name The name to give the field
-	 * @param $value The value of the field
+	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
 	 * @param $type The database type of the field
 	 */
 	function printField($name, $value, $type) {
@@ -103,7 +106,7 @@ class Postgres extends BaseDB {
 				break;
 			case 'text':
 			case 'bytea':
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=5 cols=35 wrap=virtual>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=5 cols=28 wrap=virtual style=\"width: 100%\">\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;

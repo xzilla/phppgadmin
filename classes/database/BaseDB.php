@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.4 2002/09/09 10:16:29 chriskl Exp $
+ * $Id: BaseDB.php,v 1.5 2002/09/16 10:12:01 chriskl Exp $
  */
 
 include_once('../classes/database/ADODB_base.php');
@@ -49,10 +49,30 @@ class BaseDB extends ADODB_base {
 	function editRow($table, $values, $key) {
 		if (!is_array($values) || !is_array($key)) return -1;
 		// @@ WE NEED TO SUPPORT NULL VALUES HERE!
-		// @@ ALSO, WE CANNOT USE update AS WE NEED TO NO QUOTE SOME THINGS
+		// @@ ALSO, WE CANNOT USE update AS WE NEED TO NOT QUOTE SOME THINGS
 		else return $this->update($table, $values, $key);
-	}	
+	}
 	
+	/**
+	 * Adds a new row to a table
+	 * @param $table The table in which to insert
+	 * @param $values An array mapping new values for the row
+	 * @param $nulls An array mapping column => something if it is to be null
+	 * @return 0 success
+	 */
+	function insertRow($table, $values, $nulls) {
+		if (!is_array($values) || !is_array($nulls)) return -1;
+		// @@ WE CANNOT USE insert AS WE NEED TO NOT QUOTE SOME THINGS
+		// @@ WHAT ABOUT BOOLEANS??
+		else {
+			$temp = array();
+			foreach($values as $k => $v) {
+				if (!isset($nulls[$k])) $temp[$k] = $v;
+			}
+			return $this->insert($table, $temp);
+		}
+	}
+		
 	// Capabilities
 	function hasTables() { return false; }
 	function hasViews() { return false; }
