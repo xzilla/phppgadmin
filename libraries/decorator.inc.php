@@ -1,8 +1,8 @@
 <?php
-// $Id: decorator.inc.php,v 1.1.2.1 2005/03/01 10:40:15 jollytoad Exp $
+// $Id: decorator.inc.php,v 1.1.2.2 2005/03/08 12:27:06 jollytoad Exp $
 
 // Field decorator
-function &field($fieldname, $default = null) {
+function &field($fieldname, $default = null, $escape = true) {
 	$dec = new Decorator();
 	$dec->f = $fieldname;
 	if ($default !== null) $dec->d = $default;
@@ -13,6 +13,17 @@ function &field($fieldname, $default = null) {
 function &merge() {
 	$dec = new Decorator();
 	$dec->m = func_get_args();
+	return $dec;
+}
+
+function &noEscape($value) {
+	if (is_a($value, 'Decorator')) {
+		$value->noEscape = true;
+		return $value;
+	}
+	$dec = new Decorator();
+	$dec->v = $value;
+	$dec->noEscape = true;
 	return $dec;
 }
 
@@ -36,14 +47,21 @@ function value(&$var, &$fields) {
 		return $var;
 }
 
-// Resolve a value, and escape for an XML/HTML doc
+// Resolve a value, and escape for an XML doc
 function value_xml(&$var, &$fields) {
-	return htmlentities(value($var, $fields));
+	if (is_a($var, 'Decorator') && isset($var->noEscape) && $var->noEscape === true)
+		return value($var, $fields);
+	else
+		### TODO: Escape for XML's limited entities rather than for HTML
+		return htmlentities(value($var, $fields));
 }
 
 // Resolve a value, and escape for a URL
 function value_url(&$var, &$fields) {
-	return urlencode(value($var, $fields));
+	if (is_a($var, 'Decorator') && isset($var->noEscape) && $var->noEscape === true)
+		return value($var, $fields);
+	else
+		return urlencode(value($var, $fields));
 }
 
 // Resolve a value as an XML/HTML attribute

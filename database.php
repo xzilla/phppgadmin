@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65.2.2 2005/03/02 14:40:22 jollytoad Exp $
+	 * $Id: database.php,v 1.65.2.3 2005/03/08 12:27:06 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -760,7 +760,7 @@
 		
 		$actions = array(
 			'item' => array(
-				'text' => field('title'),
+				'text' => noEscape(field('title')),
 				'icon' => field('icon', 'folder'),
 				'url'  => field('url'),
 				'urlvars' => field('urlvars', array()),
