@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.12 2003/04/30 06:56:31 chriskl Exp $
+	 * $Id: indexes.php,v 1.13 2003/05/20 05:49:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		if (!isset($_POST['formIndexName'])) $_POST['formIndexName'] = '';
 		if (!isset($_POST['formCols'])) $_POST['formCols'] = '';
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strindexes']} : {$lang['strcreateindex']} </h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strindexes']} : {$lang['strcreateindex']} </h2>\n";
 		$misc->printMsg($msg);
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -56,15 +56,14 @@
 
 
 		echo "<table>\n";
+		echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th></tr>";
 		echo "<tr>";
-        	echo "<th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th>";
-        	echo "</tr>";
-		echo "<tr>";
-		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"80\" maxlength=\"300\"/></td></tr>";
-		echo "<tr><th class=data>{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
-		echo "<tr><td class=data1>" . $selColumns->fetch() . "</td>\n";
+		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+		echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th>";
+		echo "<th class=\"data\">{$lang['strindexcolumnlist']}</th></tr>\n";
+		echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 		echo "<td class=\"data1\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
-		echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+		echo "<td class=\"data1\">" . $selIndex->fetch() . "</td></tr>\n";
 		echo "</table>\n";
 
 		echo "<table> \n";
@@ -75,13 +74,14 @@
 		echo "</table>";
 		
 
-		echo "<p><input type=hidden name=action value=save_create_index>\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";
 		echo $misc->form;
-		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
+		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=reset value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
 			"\">{$lang['strshowallindexes']}</a></p>\n";
 	}
 
@@ -113,21 +113,22 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['index']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdropindex'], htmlspecialchars($_REQUEST['index'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropindex'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop_index\">\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_index\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -145,20 +146,21 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strindexes']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strindexes']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$indexes = &$localData->getIndexes($_REQUEST['table']);
 		
 		if ($indexes->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
+			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			
 			while (!$indexes->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxname']]), "</td>";
+				echo "<td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
 					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
