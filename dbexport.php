@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.18 2005/02/24 09:41:59 chriskl Exp $
+	 * $Id: dbexport.php,v 1.17.2.1 2005/03/01 10:52:23 jollytoad Exp $
 	 */
 
 	// Prevent timeouts on large exports
@@ -39,22 +39,24 @@
 				break;
 		}
 
+		$server_info = $misc->getServerInfo();
+		
 		// Set environmental variable for user and password that pg_dump uses
-		putenv('PGPASSWORD=' . $_SESSION['webdbPassword']);
-		putenv('PGUSER=' . $_SESSION['webdbUsername']);
+		putenv('PGPASSWORD=' . $server_info['password'];
+		putenv('PGUSER=' . $server_info['username'];
 
 		// Prepare command line arguments
-		$hostname = $conf['servers'][$_SESSION['webdbServerID']]['host'];
-		$port = $conf['servers'][$_SESSION['webdbServerID']]['port'];
+		$hostname = $server_info['host'];
+		$port = $server_info['port'];
 		
 		// Check if we're doing a cluster-wide dump or just a per-database dump
 		if ($_REQUEST['mode'] == 'database') {
 			// Get path of the pg_dump executable.
-			$exe = $misc->escapeShellCmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']);
+			$exe = $misc->escapeShellCmd($server_info['pg_dump_path']);
 		}
 		else {
 			// Get path of the pg_dumpall executable.
-			$exe = $misc->escapeShellCmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']);
+			$exe = $misc->escapeShellCmd($server_info['pg_dumpall_path']);
 		}
 		
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
