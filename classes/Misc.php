@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.5 2002/12/24 07:35:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.6 2003/01/04 07:08:02 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -46,7 +46,44 @@
 			
 			return $localData;
 		}
+
+		/**
+		 * Prints the page header.  If global variable $_no_output is
+		 * set then no header is drawn.
+		 * @param $title The title of the page
+		 * @param $doBody True to output body tag, false otherwise
+		 */
+		function printHeader($title = '', $doBody = true) {
+			global $appName, $appCharset, $_no_output, $guiTheme;
+
+			if (!isset($_no_output)) {
+				// Commented out, as we're not XHTML compliant yet!
+				//echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
+				echo "<html>\n";
+				echo "<head>\n";
+				echo "<title>", htmlspecialchars($appName);
+				if ($title != '') echo " - ", htmlspecialchars($title);
+				echo "</title>\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$appCharset}\" />\n";
+
+				// Theme
+				echo "<style type=\"text/css\">\n<!--\n";
+				include("../themes/{$guiTheme}/global.css");
+				echo "\n-->\n</style>\n";
+				echo "</head>\n";
+				if ($doBody) echo "<body>\n";
+			}
+		}
 		
+		/**
+		 * Prints the page footer
+		 * @param $doBody True to output body tag, false otherwise
+		 */
+		function printFooter($doBody = true) {
+			if ($doBody) echo "</body>\n";
+			echo "</html>\n";
+		}
+
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.
 		 * @param $page the page currently viewed

@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   operators.php
  *
- *  $Id: operators.php,v 1.2 2002/10/15 20:46:17 xzilla Exp $
+ *  $Id: operators.php,v 1.3 2003/01/04 07:08:03 chriskl Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -122,8 +122,7 @@ function doDefault()
 	}
 
 
-echo "<html>\n";
-echo "<body>\n";
+$misc->printHeader($strOperators);
 
 switch( $action )
 {
@@ -148,7 +147,6 @@ switch( $action )
         	break;
 }
 
-echo "</body>\n";
-echo "</html>\n";
+$misc->printFooter();
 
 ?>

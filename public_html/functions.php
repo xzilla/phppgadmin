@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.7 2002/12/27 16:31:32 chriskl Exp $
+	 * $Id: functions.php,v 1.8 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -265,10 +265,9 @@
 		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">Create Function</a></p>\n";
 
 	}
-
-	echo "<html>\n";
-	echo "<body>\n";
 	
+	$misc->printHeader($strFunctions);
+
 	switch ($action) {
 		case 'save_create':
 			doSaveCreate();
@@ -299,7 +298,6 @@
 			break;
 	}	
 
-	echo "</body>\n";
-	echo "</html>\n";
+	$misc->printFooter();
 	
 ?>

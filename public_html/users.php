@@ -3,17 +3,11 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.6 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: users.php,v 1.7 2003/01/04 07:08:04 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" />
-<?php
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
@@ -195,7 +189,7 @@
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['usuper']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['ucreatedb']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", htmlspecialchars($users->f[$data->uFields['uexpires']]), "</td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=", 
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;username=",
 					urlencode($users->f[$data->uFields['uname']]), "\">Properties</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;username=", 
 					urlencode($users->f[$data->uFields['uname']]), "\">Drop</a></td>\n";
@@ -213,12 +207,8 @@
 
 	}
 
-?>
-<title><?php echo $appName ?></title>
-</head>
-<body>
-<?php
-	
+	$misc->printHeader('Users');
+
 	switch ($action) {
 		case 'save_create':
 			doSaveCreate();
@@ -247,7 +237,6 @@
 			break;
 	}	
 
-	echo "</body>\n";
-	echo "</html>\n";
-	
+	$misc->printFooter();
+
 ?>

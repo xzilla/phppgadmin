@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.2 2002/11/07 09:39:49 chriskl Exp $
+	 * $Id: all_db.php,v 1.3 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -119,9 +119,8 @@
 
 	}
 
-	echo "<html>\n";
-	echo "<body>\n";
-	
+	$misc->printHeader($strDatabases);
+
 	switch ($action) {
 		case 'save_create':
 			doSaveCreate();
@@ -141,7 +140,6 @@
 			break;
 	}	
 
-	echo "</body>\n";
-	echo "</html>\n";
-	
+	$misc->printFooter();
+
 ?>

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.18 2002/12/27 16:29:54 chriskl Exp $
+	 * $Id: browser.php,v 1.19 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,19 +13,14 @@
 	
 	// Include tree classes
 	include_once('class.tree/class.tree.php');
-?>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" />
-<title><?php echo $appName ?></title>
-</head>
-<body class="browser">
-<?php
+
+	// Output header
+	$misc->printHeader();
 
 	// Construct expanding tree
-   $tree = new Tree ('class.tree');
-   $tree->set_frame ('detail');
-   $root  = $tree->open_tree ('<a href=\"all_db.php\" target=\"detail\">'. htmlspecialchars($confServers[$_SESSION['webdbServerID']]['desc']) .'</a>', '');
+	$tree = new Tree ('class.tree');
+	$tree->set_frame ('detail');
+	$root  = $tree->open_tree ('<a href=\"all_db.php\" target=\"detail\">'. htmlspecialchars($confServers[$_SESSION['webdbServerID']]['desc']) .'</a>', '');
 
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
@@ -90,12 +85,12 @@
 					$tree->add_document($node, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/sequences.gif");
 				if ($data->hasFunctions())
 					$tree->add_document($node, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/functions.gif");
-				if ($data->hasOperators())
-					$tree->add_document($node, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/operators.gif");
+//				if ($data->hasOperators())
+//					$tree->add_document($node, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/operators.gif");
 				if ($data->hasTypes())
 					$tree->add_document($node, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
-				if ($data->hasAggregates())
-					$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+//				if ($data->hasAggregates())
+//					$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 			}
 		} else {
 			$node = $tree->add_document($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
@@ -106,6 +101,7 @@
 	}		
    $tree->close_tree ( );
 
+   // Output footer
+   $misc->printFooter();
+
 ?>
-</body>
-</html>

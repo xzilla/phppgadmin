@@ -1,22 +1,19 @@
 <?php
 
 	/**
-	 * List databases in a server
-	 * @param $webdbServerID The ID of the current server
+	 * List database controls
 	 *
-	 * $Id: database.php,v 1.5 2002/12/23 10:39:29 jmpoure Exp $
+	 * $Id: database.php,v 1.6 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
 
+	$misc->printHeader();
 ?>
-
-<html>
-<body>
 
 <h2><?php echo $appName ?> :: <?php echo $_GET['database'] ?></h2>
 
-
-</body>
-</html>
+<?php
+	$misc->printFooter();
+?>

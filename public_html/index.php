@@ -1,21 +1,16 @@
 <?php
 
 	/**
-	 * Main access point to WebDB.
+	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.10 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: index.php,v 1.11 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
+	
+	$misc->printHeader('', false);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" >
-<title><?php echo $appName ?></title>
-</head>
-
 <frameset rows="50, *">
 	<frame src="topbar.php" name="topbar" />
 	<frameset cols="<?php echo $guiLeftFrameWidth ?>,*">
@@ -28,4 +23,6 @@
 	</body>
 	</noframes>
 </frameset>
-</html>
+<?php
+	$misc->printFooter(false);
+?>

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.6 2002/12/23 01:18:57 chriskl Exp $
+	 * $Id: views.php,v 1.7 2003/01/04 07:08:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -205,9 +205,8 @@
 
 	}
 
-	echo "<html>\n";
-	echo "<body>\n";
-	
+	$misc->printHeader($strViews);
+
 	switch ($action) {
 		case 'save_create':
 			doSaveCreate();
@@ -238,7 +237,6 @@
 			break;
 	}	
 
-	echo "</body>\n";
-	echo "</html>\n";
+	$misc->printFooter();
 	
 ?>

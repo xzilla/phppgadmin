@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.27 2003/01/03 20:49:17 xzilla Exp $
+	 * $Id: english.php,v 1.28 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -15,6 +15,7 @@
 	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
 	$strLogin = 'Login';
 	$strLoginFailed = 'Login failed';
+	$strServer = 'Server';
 	$strNoTables = 'No tables found.';
 	$strNoTable = 'No table found.';
 	$strNoViews = 'No views found.';
@@ -177,4 +178,6 @@
 	$strTypeNeedsName = 'You must give a name for your type.';
 	$strTypeNeedsLen = 'You must give a length for your type.';
 
+	// Schemas
+	$strCreateSchema = 'Create Schema';
 ?>

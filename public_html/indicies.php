@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   index.php
  *
- *  $Id: indicies.php,v 1.4 2002/10/15 20:46:16 xzilla Exp $
+ *  $Id: indicies.php,v 1.5 2003/01/04 07:08:03 chriskl Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -123,8 +123,7 @@ function doDefault()
 	}
 
 
-echo "<html>\n";
-echo "<body>\n";
+$misc->printHeader($strIndicies);
 
 switch( $action )
 {
@@ -149,7 +148,6 @@ switch( $action )
         	break;
 }
 
-echo "</body>\n";
-echo "</html>\n";
+$misc->printFooter();
 
 ?>

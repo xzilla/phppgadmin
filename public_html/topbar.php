@@ -3,19 +3,14 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.10 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: topbar.php,v 1.11 2003/01/04 07:08:04 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
+	
+	$misc->printHeader();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" />
-<title><?php echo $appName ?></title>
-</head>
-<body class="topbar">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="211" rowspan="2"><img src="images/themes/<?php echo $guiTheme ?>/title.gif" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" /></td>
@@ -32,16 +27,6 @@
 		</td>
 	</tr>
 </table>
-</body>
-</html>
-
-<!--
-
-<p>
-<a href="">Refresh</a> | 
-<a href="">Execute SQL</a> | 
-<a href="">Advanced</a> | 
-<a href="">Preferences</a> | 
-<a href="">Logout</a>
-</p>
--->
+<?php
+	$misc->printFooter();
+?>

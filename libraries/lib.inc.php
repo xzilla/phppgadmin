@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.7 2003/01/02 03:42:08 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.8 2003/01/04 07:08:03 chriskl Exp $
 	 */
 
 	// Application name 
@@ -72,13 +72,8 @@
 	if (!isset($_SESSION['webdbUsername'])  
 			||	!isset($_SESSION['webdbPassword'])  
 			||	!isset($_SESSION['webdbServerID'])  
-			||	!isset($confServers[$_SESSION['webdbServerID']])
-	){
+			||	!isset($confServers[$_SESSION['webdbServerID']])){
 		include($appBase . '/login.php');
-		// Theme
-		echo "<style type=\"text/css\">\n<!--\n";
-		include("../themes/{$guiTheme}/global.css");
-		echo "\n-->\n</style>\n";
 		exit;
 	}
 	
@@ -118,11 +113,4 @@
 		}
 	}
 
-	// Theme
-	if (!isset($_no_output)) {
-		echo "<style type=\"text/css\">\n<!--\n";
-		include("../themes/{$guiTheme}/global.css");
-		echo "\n-->\n</style>\n";
-	}
-	
 ?>

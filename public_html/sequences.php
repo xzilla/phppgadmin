@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.11 2002/11/21 20:31:42 xzilla Exp $
+ *  $Id: sequences.php,v 1.12 2003/01/04 07:08:04 chriskl Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -143,8 +143,7 @@ function doDefault($msg='')
 			doProperties("$strSequence $strReset $strFailed");
 	}
 
-echo "<html>\n";
-echo "<body>\n";
+$misc->printHeader($strSequences);
 
 switch( $action )
 {
@@ -172,7 +171,6 @@ switch( $action )
         	break;
 }
 
-echo "</body>\n";
-echo "</html>\n";
+$misc->printFooter();
 
 ?>
