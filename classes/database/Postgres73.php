@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.19 2003/01/27 06:08:35 chriskl Exp $
+ * $Id: Postgres73.php,v 1.20 2003/02/16 05:32:42 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -202,7 +202,81 @@ class Postgres73 extends Postgres72 {
 			return $rs->f['relhasoids'];
 		}
 	}
-	
+
+	/**
+	 * Given an array of attnums and a relation, returns an array mapping
+	 * atttribute number to attribute name.
+	 * @param $table The table to get attributes for
+	 * @param $atts An array of attribute numbers
+	 * @return An array mapping attnum to attname
+	 * @return -1 $atts must be an array
+	 * @return -2 wrong number of attributes found
+	 */
+	function getAttributeNames($table, $atts) {
+		$this->clean($table);
+		$this->arrayClean($atts);
+
+		if (!is_array($atts)) return -1;
+
+		if (sizeof($atts) == 0) return array();
+
+		$sql = "SELECT attnum, attname FROM pg_attribute WHERE 
+			attrelid=(SELECT oid FROM pg_class WHERE relname='{$table}'AND
+			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')) 
+			AND attnum IN ('" . join("','", $atts) . "')";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != sizeof($atts)) {
+			return -2;
+		}
+		else {
+			$temp = array();
+			while (!$rs->EOF) {
+				$temp[$rs->f['attnum']] = $rs->f['attname'];
+				$rs->moveNext();
+			}
+			return $temp;
+		}
+	}
+
+	/**
+	 * Get the fields for uniquely identifying a row in a table
+	 * @param $table The table for which to retrieve the identifier
+	 * @return An array mapping attribute number to attribute name, empty for no identifiers
+	 * @return -1 error
+	 */
+	function getRowIdentifier($table) {
+		$oldtable = $table;
+		$this->clean($table);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND 
+			indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}' AND
+			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))";
+		$rs = $this->selectSet($sql);
+
+		// If none, return an empty array.  We can't search for an OID column
+		// as there's no guarantee that it will be unique.
+		if ($rs->recordCount() == 0) {
+			$this->endTransaction();
+			return array();
+		}
+		// Otherwise find the names of the keys
+		else {
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			if (!is_array($attnames)) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			else {
+				$this->endTransaction();
+				return $attnames;
+			}
+		}			
+	}
+
 	/**
 	 * Return all tables in current database
 	 * @return All tables, sorted alphabetically 
