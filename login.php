@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.23.2.2 2005/03/03 14:54:07 jollytoad Exp $
+	 * $Id: login.php,v 1.23.2.3 2005/03/08 09:43:38 jollytoad Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -26,8 +26,10 @@
 
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 <?php
+	if (!empty($_POST)) $vars =& $_POST;
+	else $vars =& $_GET;
 	// Pass request vars through form (is this a security risk???)
-	foreach ($_GET as $key => $val) {
+	foreach ($vars as $key => $val) {
 		if (substr($key,0,5) == 'login') continue;
 		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
 	}
