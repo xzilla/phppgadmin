@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.35 2004/05/24 01:26:16 chriskl Exp $
+	 * $Id: views.php,v 1.36 2004/05/25 00:46:52 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -181,12 +181,14 @@
 				}
 			}
 						
-			$arrFields = array(); //array that will hold all our table/field names						
+			$arrFields = array(); //array that will hold all our table/field names
+
+			//if we can get foreign key info then get our linking keys
+			if ($data->hasForeignKeysInfo()) {
+				$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
 			
-			$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
-			
-			// Update tblcount if we have more foreign keys than tables (perhaps in the case of composite foreign keys)  test if rsLinkKeys, because pre-7.3 it may be false and not a valid adodb recordset obj
-			$linkCount = ($rsLinkKeys && ($rsLinkKeys->recordCount() > $tblCount) ) ? $rsLinkKeys->recordCount() : $tblCount;
+				$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
+			}
 			
 			// Get fieldnames
 			for ($i = 0; $i < $tblCount; $i++) {				
@@ -217,7 +219,7 @@
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);			
 			echo "</td>\n</tr>\n</table>\n<br />\n";						
 						
-			if ($rsLinkKeys) {
+			if ($data->hasForeignKeysInfo()) {
 				// Output the Linking keys combo boxes
 				echo "<table>\n";
 				echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					

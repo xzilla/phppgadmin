@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.109 2004/05/23 04:10:20 chriskl Exp $
+ * $Id: Postgres73.php,v 1.110 2004/05/25 00:46:53 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1657,6 +1657,7 @@ class Postgres73 extends Postgres72 {
 	function hasVariables() { return true; }
 	function hasFullExplain() { return true; }
 	function hasFunctionRename() { return false; }
+	function hasForeignKeysInfo() { return true; }
 
 }
 
