@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.167 2004/11/02 11:39:52 soranzo Exp $
+	 * $Id: english.php,v 1.168 2004/12/01 11:11:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -199,7 +199,7 @@
 	$lang['strtabbed'] = 'Tabbed';
 	$lang['strauto'] = 'Auto';
 	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum "%s"?';
-	$lang['strestimatedrowcount'] = 'Estimated Row Count';
+	$lang['strestimatedrowcount'] = 'Estimated row count';
 
 	// Users
 	$lang['struser'] = 'User';
@@ -381,6 +381,7 @@
 	$lang['strruledroppedbad'] = 'Rule drop failed.';
 
 	// Constraints
+	$lang['strconstraint'] = 'Constraint';
 	$lang['strconstraints'] = 'Constraints';
 	$lang['strshowallconstraints'] = 'Show all constraints';
 	$lang['strnoconstraints'] = 'No constraints found.';
