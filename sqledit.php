@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.22 2004/07/16 16:01:06 soranzo Exp $
+	 * $Id: sqledit.php,v 1.23 2004/07/22 13:26:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -123,7 +123,7 @@
 
 		if ($data->hasSchemas()) {
 			if (!isset($_REQUEST['search_path']))
-				$_REQUEST['search_path'] = $data->getSearchPath();
+				$_REQUEST['search_path'] = implode(',',$data->getSearchPath());
 		
 			echo "\n<label>{$lang['strsearchpath']}: <input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
 				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
