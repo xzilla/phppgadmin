@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.12 2003/04/30 07:35:32 chriskl Exp $
+	 * $Id: triggers.php,v 1.13 2003/05/17 15:55:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -158,7 +158,7 @@
 				if ($triggers->f[$data->tgFields['tgdef']] !== null)
 					echo htmlspecialchars($triggers->f[$data->tgFields['tgdef']]);
 				else 
-					echo $localData->getTriggerDef($triggers->f);
+					echo htmlspecialchars($localData->getTriggerDef($triggers->f));
 				echo "</td>\n<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode( $triggers->f[$data->tgFields['tgname']]),
 					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
