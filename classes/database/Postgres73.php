@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.41 2003/05/07 06:29:54 chriskl Exp $
+ * $Id: Postgres73.php,v 1.42 2003/05/11 10:39:29 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -40,7 +40,12 @@ class Postgres73 extends Postgres72 {
 		'language' => array('USAGE', 'ALL PRIVILEGES'),
 		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES')
 	);
-
+	// Function properties
+	var $funcprops = array( array('', 'VOLATILE', 'IMMUTABLE', 'STABLE'), 
+							array('', 'CALLED ON NULL INPUT', 'RETURNS NULL ON NULL INPUT', 'STRICT'),
+							array('', 'SECURITY INVOKER', 'SECURITY DEFINER'));
+	var $defaultprops = array('', '', '');
+	
 	/**
 	 * Constructor
 	 * @param $host The hostname to connect to
@@ -532,6 +537,48 @@ class Postgres73 extends Postgres72 {
 		return $this->getFunctions(true, 'trigger');
 	}
 
+	/**
+	 * Creates a new function.
+	 * @param $funcname The name of the function to create
+	 * @param $args A comma separated string of types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $replace (optional) True if OR REPLACE, false for normal
+	 * @return 0 success
+	 */
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
+		$this->fieldClean($funcname);
+		$this->clean($args);
+		$this->fieldClean($returns);
+		$this->clean($definition);
+		$this->clean($language);
+		$this->arrayClean($flags);
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " FUNCTION \"{$funcname}\" (";
+		
+		if ($args != '')
+			$sql .= $args;
+
+		// For some reason, the returns field cannot have quotes...
+		$sql .= ") RETURNS {$returns} AS '\n";
+		$sql .= $definition;
+		$sql .= "\n'";
+		$sql .= " LANGUAGE \"{$language}\"";
+		
+		// Add flags
+		foreach ($flags as  $v) {
+			// Skip default flags
+			if ($v == '') continue;
+			else $sql .= "\n{$v}";
+		}
+
+		return $this->execute($sql);
+	}
+	
 	// Type functions
 
 	/**

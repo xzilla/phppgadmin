@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.10 2003/04/30 06:49:11 chriskl Exp $
+	 * $Id: functions.php,v 1.11 2003/05/11 10:39:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -168,6 +168,7 @@
 		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
 		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
+		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		
 		$types = &$localData->getTypes(true);
 		$langs = &$localData->getLanguages();
@@ -176,45 +177,64 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table width=90%>\n";
-		echo "<tr><th class=data>{$lang['strname']}</th>\n";
-		echo "<th class=data>{$lang['strarguments']}</th>\n";
-		echo "<th class=data>{$lang['strreturns']}</th>\n";
-		echo "<th class=data>{$lang['strlanguage']}</th></tr>\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+		echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
+		echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
+		echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
 
-		echo "<tr><td class=data1><input name=formFunction size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formFunction']), "\"></td>\n";
+		echo "<tr><td class=\"data1\"><input name=\"formFunction\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['formFunction']), "\" /></td>\n";
 
-		echo "<td class=data1><input name=formArguments style=\"width:100%;\" size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formArguments']), "\"></td>\n";
+		echo "<td class=\"data1\"><input name=\"formArguments\" style=\"width:100%;\" size=\"16\" value=\"",
+			htmlspecialchars($_POST['formArguments']), "\" /></td>\n";
 
-		echo "<td class=data1><select name=formReturns>\n";
+		echo "<td class=\"data1\"><select name=\"formReturns\">\n";
 		while (!$types->EOF) {
-			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\">",
+			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
+				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected' : '', ">",
 				htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
 		echo "</select>\n";
 
-		echo "<td class=data1><select name=formLanguage>\n";
+		echo "<td class=\"data1\"><select name=\"formLanguage\">\n";
 		while (!$langs->EOF) {
-			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\">",
+			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\"",
+				($langs->f[$data->langFields['lanname']] == $_POST['formLanguage']) ? ' selected' : '', ">",
 				htmlspecialchars($langs->f[$data->langFields['lanname']]), "</option>\n";
 			$langs->moveNext();
 		}
 		echo "</select>\n";
 
 		echo "</td></tr>\n";
-		echo "<tr><th class=data colspan=4>{$lang['strdefinition']}</th></tr>\n";
-		echo "<tr><td class=data1 colspan=4><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>",
+		echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
+		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
+			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\">\n";
+			$i = 0;
+			foreach ($data->funcprops as $k => $v) {
+				echo "<select name=\"formProperties[{$i}]\">\n";
+				foreach ($v as $p) {
+					echo "<option value=\"", htmlspecialchars($p), "\"", 
+						($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
+						">", htmlspecialchars($p), "</option>\n";
+				}
+				echo "</select><br />\n";
+				$i++;
+			}
+		}		
+		echo "</td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=hidden name=action value=save_create>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$lang['strsave']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 	}
 	
 	/**
@@ -223,11 +243,16 @@
 	function doSaveCreate() {
 		global $localData, $lang;
 		
+		// Set properties to an empty array if it doesn't exist (for db's without properties)
+		if (!is_array($_POST['formProperties'])) $_POST['formProperties'] = array();
+		
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strfunctionneedsdef']);
 		else {		 
-			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , $_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'],0);
+			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
+					$_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
+					$_POST['formProperties'], false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
 			else

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.99 2003/05/08 15:25:58 chriskl Exp $
+ * $Id: Postgres.php,v 1.100 2003/05/11 10:39:29 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -49,6 +49,9 @@ class Postgres extends BaseDB {
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
 	// Foreign key actions
 	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
+	// Function properties
+	var $funcprops = array(array('', 'ISSTRICT'), array('', 'ISCACHABLE'));
+	var $defaultprops = array('', '');
 	
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -2181,7 +2184,7 @@ class Postgres extends BaseDB {
 	/**
 	 * Creates a new function.
 	 * @param $funcname The name of the function to create
-	 * @param $args The array of argument types
+	 * @param $args A comma separated string of types
 	 * @param $returns The return type
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
@@ -2190,37 +2193,18 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
-		/*
-		RE: arguments implementation It seem to me that we should be  getting passed a comma delimited string
-		and that we need a comma delimited string
-		So why go through the array end around 
-		ADODB throws errors if you leave it blank, and join complaines as well
-		
-
-		Also I'm dropping support for the WITH option for now
-		Given that there are only 3 options, this might best be implemented with hardcoding
-		*/
-
-		$this->clean($funcname);
-//		if (is_array($args)) {
-//			$this->arrayClean($args);
-//		}
+		$this->fieldClean($funcname);
 		$this->clean($args);
-		$this->clean($returns);
+		$this->fieldClean($returns);
 		$this->clean($definition);
 		$this->clean($language);
-//		if (is_array($flags)) {
-//			$this->arrayClean($flags);
-//		}
+		$this->arrayClean($flags);
 
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
 		$sql .= " FUNCTION \"{$funcname}\" (";
-/*
-		if (sizeof($args) > 0)
-			$sql .= '"' . join('", "', $args) . '"';
-*/
-		if ($args)
+		
+		if ($args != '')
 			$sql .= $args;
 
 		// For some reason, the returns field cannot have quotes...
@@ -2228,11 +2212,22 @@ class Postgres extends BaseDB {
 		$sql .= $definition;
 		$sql .= "\n'";
 		$sql .= " LANGUAGE \"{$language}\"";
-/*
-		if (sizeof($flags) > 0)
-			$sql .= ' WITH ("' . join('", "', $flags) . '")';
-*/
-
+		
+		// Add flags
+		$first = true;
+		foreach ($flags as  $v) {
+			// Skip default flags
+			if ($v == '') continue;
+			elseif ($first) {
+				$sql .= " WITH ({$v}";
+				$first = false;
+			}
+			else {
+				$sql .= ", {$v}";
+			}
+		}
+		// Close off WITH clause if necessary
+		if (!$first) $sql .= ")";
 
 		return $this->execute($sql);
 	}
