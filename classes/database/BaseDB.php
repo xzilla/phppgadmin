@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.17 2003/05/17 15:51:37 chriskl Exp $
+ * $Id: BaseDB.php,v 1.18 2003/05/25 09:41:57 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -63,8 +63,6 @@ class BaseDB extends ADODB_base {
 	function insertRow($table, $vars, $nulls, $format, $types) {
 		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
 			|| !is_array($types)) return -1;
-		// @@ WE CANNOT USE insert AS WE NEED TO NOT QUOTE SOME THINGS
-		// @@ WHAT ABOUT BOOLEANS??
 		else {
 			$this->fieldClean($table);
 
@@ -74,17 +72,18 @@ class BaseDB extends ADODB_base {
 				$values = '';
 				foreach($vars as $key => $value) {
 					$doEscape = $format[$key] == 'VALUE';
-					$this->clean($key);
+					$this->fieldClean($key);
 					if ($doEscape) $this->clean($value);
-	
-					if ($fields) $fields .= ", \"{$key}\"";
-					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
 	
 					// Handle NULL values
 					if (isset($nulls[$key])) $tmp = 'NULL';
-					elseif ($doEscape) $tmp = "'{$value}'";
-					else $tmp = $value;
+					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
 					
+					// If format Value retuns a null value, then don't bother
+					// inserting a value for that column.
+					if ($fields) $fields .= ", \"{$key}\"";
+					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
+
 					if ($values) $values .= ", {$tmp}";
 					else $values = ") VALUES ({$tmp}";
 				}

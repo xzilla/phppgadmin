@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.114 2003/05/21 09:06:23 chriskl Exp $
+ * $Id: Postgres.php,v 1.115 2003/05/25 09:41:57 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -353,8 +353,8 @@ class Postgres extends BaseDB {
 				if ($value !== null && $value == '') $value = null;
 				echo "<select name=\"", htmlspecialchars($name), "\">\n";
 				echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
-				echo "<option value=\"Y\"", ($value !== null && $value) ? ' selected' : '', ">{$lang['stryes']}</option>\n";
-				echo "<option value=\"N\"", ($value !== null && !$value) ? ' selected' : '', ">{$lang['strno']}</option>\n";
+				echo "<option value=\"TRUE\"", ($value !== null && $value) ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
+				echo "<option value=\"FALSE\"", ($value !== null && !$value) ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
 				echo "</select>\n";
 				break;
 			case 'text':
@@ -367,7 +367,58 @@ class Postgres extends BaseDB {
 				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
 				break;
 		}		
-	}	
+	}
+	
+	/**
+	 * Formats a value or expression for sql purposes
+	 * @param $type The type of the field
+	 * @param $mode VALUE or EXPRESSION
+	 * @param $value The actual value entered in the field.  Can be NULL
+	 * @return The suitably quoted and escaped value.
+	 */
+	function formatValue($type, $format, $value) {
+		switch ($type) {
+			case 'bool':
+			case 'boolean':
+				if ($format == 'VALUE') {
+					if ($value == 'TRUE')
+						return 'TRUE';
+					elseif ($value == 'FALSE')
+						return 'FALSE';
+					else
+						return "''";
+				}
+				else return $value;
+				break;		
+			default:
+				// Checking variable fields is difficult as there might be a size
+				// attribute...			
+				if (strpos($type, 'time') === 0) {
+					// Assume it's one of the time types...
+					if ($value == '') return "''";
+					elseif (strcasecmp($value, 'CURRENT_TIMESTAMP') == 0 
+							|| strcasecmp($value, 'CURRENT_TIME') == 0
+							|| strcasecmp($value, 'CURRENT_DATE') == 0
+							|| strcasecmp($value, 'LOCALTIME') == 0
+							|| strcasecmp($value, 'LOCALTIMESTAMP') == 0) {
+						return $value;
+					}
+					elseif ($format == 'EXPRESSION')
+						return $value;
+					else {
+						$this->clean($value);
+						return "'{$value}'";
+					}
+				}
+				else {
+					if ($format == 'VALUE') {
+						$this->clean($value);
+						return "'{$value}'";					
+					}
+					return $value;
+				}
+		}
+	}
 
 	/**
 	 * Return all database available on the server
