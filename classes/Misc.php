@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.2 2005/03/02 09:19:34 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.3 2005/03/02 09:47:40 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -23,27 +23,6 @@
 		function isDumpEnabled($all = false) {
 			$info = $this->getServerInfo();
 			return !empty($info[$all ? 'pg_dumpall_path' : 'pg_dump']);
-		}
-
-		/**
-		 * Checks whether a login is allowed
-		 * @return True if login is allowed to be used
-		 */
-		function checkExtraSecurity() {
-			global $conf;
-			
-			// If extra security is off, return true
-			if (!$conf['extra_login_security']) return true;
-			
-			// Disallowed logins if extra_login_security is enabled.  These must be lowercase.
-			$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
-			
-			$server_info = $this->getServerInfo();
-			
-			if ($server_info['password'] == '') return false;
-			
-			$username = strtolower($server_info['username']);
-			return !in_array($username, $bad_usernames);
 		}
 
 		/**
@@ -277,10 +256,26 @@
 		 * Creates a database accessor
 		 */
 		function &getDatabaseAccessor($database, $server_id = null) {
-			global $conf;
+			global $lang, $conf, $misc;
 			
 			$server_info = $this->getServerInfo($server_id);
 
+			// Perform extra security checks if this config option is set
+			if ($conf['extra_login_security']) {
+				// Disallowed logins if extra_login_security is enabled.
+				// These must be lowercase.
+				$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
+				
+				$username = strtolower($server_info['username']);
+				
+				if ($server_info['password'] == '' || in_array($username, $bad_usernames)) {
+					unset($_SESSION['webdbLogin'][$_REQUEST['server']]);
+					$msg = $lang['strloginfailed'];
+					include('./login.php');
+					exit;
+				}
+			}
+			
 			// Create the connection object and make the connection
 			$_connection = new Connection(
 				$server_info['host'],

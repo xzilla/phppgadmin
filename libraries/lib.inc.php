@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.92.2.2 2005/03/02 09:19:35 jollytoad Exp $
+	 * $Id: lib.inc.php,v 1.92.2.3 2005/03/02 09:47:40 jollytoad Exp $
 	 */
 	include_once('decorator.inc.php');
 	
@@ -135,13 +135,6 @@
 		if (!isset($_REQUEST['server'])) {
 			die('No server supplied!');
 			# TODO: nice error
-		}
-		
-		// If extra login check fails, back to the login screen
-		$_allowed = $misc->checkExtraSecurity();
-		if (!$_allowed) {
-			include('./login.php');
-			exit;
 		}
 		
 		$_server_info = $misc->getServerInfo();
