@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.74 2004/07/15 10:59:55 soranzo Exp $
+ * $Id: Postgres72.php,v 1.75 2004/08/04 02:37:43 chriskl Exp $
  */
 
 
@@ -253,18 +253,23 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to which to add the unique key
 	 * @param $fields (array) An array of fields over which to add the unique key
 	 * @param $name (optional) The name to give the key, otherwise default name is assigned
+	 * @param $tablespace (optional) The tablespace for the schema, '' indicates default.
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addUniqueKey($table, $fields, $name = '') {
+	function addUniqueKey($table, $fields, $name = '', $tablespace = '') {
 		if (!is_array($fields) || sizeof($fields) == 0) return -1;
 		$this->fieldClean($table);
 		$this->fieldArrayClean($fields);
 		$this->fieldClean($name);
+		$this->fieldClean($tablespace);
 
 		$sql = "ALTER TABLE \"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "UNIQUE (\"" . join('","', $fields) . "\")";
+
+		if ($tablespace != '' && $this->hasTablespaces())
+			$sql .= " USING INDEX TABLESPACE \"{$tablespace}\"";
 
 		return $this->execute($sql);
 	}
@@ -274,19 +279,24 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to which to add the primery key
 	 * @param $fields (array) An array of fields over which to add the primary key
 	 * @param $name (optional) The name to give the key, otherwise default name is assigned
+	 * @param $tablespace (optional) The tablespace for the schema, '' indicates default.
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addPrimaryKey($table, $fields, $name = '') {
+	function addPrimaryKey($table, $fields, $name = '', $tablespace = '') {
 		if (!is_array($fields) || sizeof($fields) == 0) return -1;
 		$this->fieldClean($table);
 		$this->fieldArrayClean($fields);
 		$this->fieldClean($name);
+		$this->fieldClean($tablespace);
 
 		$sql = "ALTER TABLE \"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "PRIMARY KEY (\"" . join('","', $fields) . "\")";
 
+		if ($tablespace != '' && $this->hasTablespaces())
+			$sql .= " USING INDEX TABLESPACE \"{$tablespace}\"";
+		
 		return $this->execute($sql);
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.35 2004/07/13 16:33:37 jollytoad Exp $
+	 * $Id: constraints.php,v 1.36 2004/08/04 02:37:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -226,6 +226,7 @@
 
 		if ($confirm) {
 			if (!isset($_POST['name'])) $_POST['name'] = '';
+			if (!isset($_POST['tablespace'])) $_POST['tablespace'] = '';
 
 			if ($type == 'primary') $desc = $lang['straddpk'];
 			elseif ($type == 'unique') $desc = $lang['stradduniq'];
@@ -234,12 +235,14 @@
 				return;
 			}
 			
+			$attrs = &$data->getTableAttributes($_REQUEST['table']);
+			// Fetch all tablespaces from the database
+			if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
 				$misc->printVal($_REQUEST['table']), ": {$desc}</h2>\n";
 			$misc->printMsg($msg);
 			
-			$attrs = &$data->getTableAttributes($_REQUEST['table']);
-	
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
 			$selColumns->set_style('width: 10em;');
 	
@@ -266,11 +269,30 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
+			echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), 
+				"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
 			echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 			echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 			echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
+
+			// Tablespace (if there are any)
+			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strtablespace']}</th></tr>";
+				echo "<tr><td class=\"data1\" colspan=\"3\"><select name=\"tablespace\">\n";
+				// Always offer the default (empty) option
+				echo "\t\t\t\t<option value=\"\"",
+					($_POST['tablespace'] == '') ? ' selected="selected"' : '', "></option>\n";
+				// Display all other tablespaces
+				while (!$tablespaces->EOF) {
+					$spcname = htmlspecialchars($tablespaces->f['spcname']);
+					echo "\t\t\t\t<option value=\"{$spcname}\"",
+						($spcname == $_POST['tablespace']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+					$tablespaces->moveNext();
+				}
+				echo "</select></td></tr>\n";
+			}
+
 			echo "</table>\n";
 	
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\" />\n";
@@ -282,12 +304,15 @@
 			echo "</form>\n";
 		}
 		else {
+			// Default tablespace to empty if it isn't set
+			if (!isset($_POST['tablespace'])) $_POST['tablespace'] = '';
+		
 			if ($_POST['type'] == 'primary') {
 				// Check that they've given at least one column
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
 						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['strpkneedscols']);
 				else {
-					$status = $data->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					$status = $data->addPrimaryKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name'], $_POST['tablespace']);
 					if ($status == 0)
 						doDefault($lang['strpkadded']);
 					else
@@ -299,7 +324,7 @@
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
 						|| sizeof($_POST['IndexColumnList']) == 0) addPrimaryOrUniqueKey($_POST['type'], true, $lang['struniqneedscols']);
 				else {
-					$status = $data->addUniqueKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name']);
+					$status = $data->addUniqueKey($_POST['table'], $_POST['IndexColumnList'], $_POST['name'], $_POST['tablespace']);
 					if ($status == 0)
 						doDefault($lang['struniqadded']);
 					else
