@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.225 2004/06/27 06:22:29 xzilla Exp $
+ * $Id: Postgres.php,v 1.226 2004/06/28 01:22:58 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3350,18 +3350,19 @@ class Postgres extends BaseDB {
 	 * @param $name The name of the specific database, table, or index to be reindexed
 	 * @param $force If true, recreates indexes forcedly in PostgreSQL 7.0-7.1, forces rebuild of system indexes in 7.2-7.3, ignored in >=7.4
 	 */
-	function reindex($type, $name, $force=false) {
+	function reindex($type, $name, $force = false) {
 		$this->fieldClean($name);
 		switch($type) {
 			case 'DATABASE':
 			case 'TABLE':
 			case 'INDEX':
-				$sql = "REINDEX {$type} {$name}";
+				$sql = "REINDEX {$type} \"{$name}\"";
 				if ($force) $sql .= ' FORCE';
 				break;
 			default:
 				return -1;
 		}
+
 		return $this->execute($sql);
 	}
 

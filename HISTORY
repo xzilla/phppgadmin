@@ -11,6 +11,7 @@ Features
 Translations
 * Arabic from Zaki
 * Japanese from Tadashi
+* Spanish from Robert
 
 Version 3.4.1
 -------------
@@ -19,6 +20,7 @@ Bugs
 * Fix export of mixed case tables pre 7.4
 * Fix table export problems pre 7.3
 * Fix join clause created by view wizard for pre 7.3
+* Fix reindex of mixed case indexes
 
 Version 3.4
 -----------
