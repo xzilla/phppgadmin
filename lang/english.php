@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.15 2002/11/14 01:04:38 chriskl Exp $
+	 * $Id: english.php,v 1.16 2002/11/18 05:49:55 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -109,4 +109,11 @@
 	$strLanguage = 'Language';
 	$strFunctionNeedsName = 'You must give a name for your function.';
 	$strFunctionNeedsDef = 'You must give a definition for your function.';
+	
+	// Triggers
+	$strTriggers = 'Triggers';
+	$strNoTriggers = 'No triggers found.';
+	$strCreateTrigger = 'Create Trigger';
+	
+	
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.7 2002/11/18 04:57:34 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.8 2002/11/18 05:49:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,10 +12,48 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
+	function doTriggers($msg = '') {
+		global $data, $localData, $misc; 
+		global $PHP_SELF;
+		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName;
+		
+		doNav();
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
+		
+		$triggers = &$localData->getTriggers($_REQUEST['table']);
+		
+		if ($triggers->recordCount() > 0) {
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$strName}</th><th colspan=\"3\" class=\"data\">{$strActions}</th>\n";
+			$i = 0;
+			
+			while (!$triggers->EOF) {
+				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=triggerprops&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Properties</td>\n"; 
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Drop</td>\n"; 
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Privileges</td></tr>\n"; 
+				
+				$triggers->movenext();
+				$i++;
+			}
+			
+			echo "</table>\n";
+			}
+		else
+			echo "<p>{$strNoTriggers}</p>\n";
+		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createtrigger&database=", 
+			urlencode($_REQUEST['database']), "&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";		
+	}
+
 	function doIndicies($msg = '') {
 		global $data, $localData, $misc; 
 		global $PHP_SELF;
-		global $strNoIndicies, $strIndicies, $strOwner, $strActions, $strName;
+		global $strNoIndicies, $strIndicies, $strActions, $strName;
 		
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndicies}</h2>\n";
@@ -317,6 +355,9 @@ EOF;
 	echo "<body>\n";
 	
 	switch ($action) {
+		case 'triggers':
+			doTriggers();
+			break;
 		case 'indicies':
 			doIndicies();
 			break;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.16 2002/11/18 04:57:33 chriskl Exp $
+ * $Id: Postgres72.php,v 1.17 2002/11/18 05:49:55 chriskl Exp $
  */
 
 
@@ -291,6 +291,20 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @return A recordset
+	 */
+	function &getTriggers($table = '') {
+		$this->clean($table);
+		
+		$sql = "SELECT t.tgname
+					FROM pg_trigger t, pg_class c
+					WHERE c.relname='{$table}' AND c.oid = t.tgrelid AND NOT t.tgisconstraint";
+			
+		return $this->selectSet($sql);
+	}
 }
 
 ?>

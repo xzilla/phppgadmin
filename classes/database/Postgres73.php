@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.6 2002/11/18 04:57:33 chriskl Exp $
+ * $Id: Postgres73.php,v 1.7 2002/11/18 05:49:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -333,6 +333,24 @@ class Postgres73 extends Postgres71 {
 			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 			ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname";
 
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @return A recordset
+	 */
+	function &getTriggers($table = '') {
+		$this->clean($table);
+		
+		$sql = "SELECT t.tgname
+			FROM pg_catalog.pg_trigger t
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}') and (not tgisconstraint  OR NOT EXISTS  
+			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c 
+			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)    
+			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
+			
 		return $this->selectSet($sql);
 	}
 	 
