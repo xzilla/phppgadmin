@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.48 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.49 2004/06/10 07:16:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -518,9 +518,9 @@
 			$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 			$id = (($i % 2) == 0 ? '1' : '2');
 			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
+			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>\n";
+			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
+			echo "\t<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
 			if ($data->hasDropColumn()) {
