@@ -1,20 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 # This script will synchronize language file with the master 
-# english translation using chriskl's langcheck utility.
+# english translation using diff(1) utility.
 # It doesn't translate strings, only inserts english versions
 # to proper positions and deletes removed. And it doesn't 
 # synchronize commented lines. 
-# You need to have GNU ed installed.
+# You need to have GNU ed and diff installed in $PATH.
 # 
 # Usage: synch <language>
 #
 #   <language> is the filename without the .php extension
 #
-# WARNING!
-#   I've tested it and it seems working fine. But I've not tested 
-#   all combinations of input files lines, so use it at your own 
-#   risk!
-# 
+# BTW, diff should create better ed scripts than previous 
+# version of synch (that one with awk code). If it will not, 
+# be frightened about patching Linux kernel sources ;-)
 
 if [ -z $1 ] ; then
 	echo "You must tell me which language I should synchronize."
@@ -30,55 +28,44 @@ fi
 echo "Making backup of $1.php"
 cp $1.php $1.php.old
 
-php langcheck $1 | awk '
+# Find variables names ( "$lang['strfoo']" part )
+cat english.php | awk -F"=" '{print $1}' > english.tmp
+cat $1.php | awk -F"=" '{print $1}' > $1.tmp
 
+# diff variable names and create ed script
+diff --ignore-case --ignore-all-space --ignore-blank-lines \
+	--ignore-matching-lines="*" \
+	--ignore-matching-lines="[^:]//" \
+	--ed \
+	$1.tmp english.tmp > diff.ed
+
+# No more need for .tmp files
+rm *.tmp
+
+# Add english values and ed destination file
+cat diff.ed | awk '
 function grep_n(what, where,   n, ln) {
-# Returns "last occurance" line number
-	n=1;	# current index
-	ln=-1	# line number
-	while ( (getline line < where ) > 0 ) {
-		if (index(line, what)>0) {
-	        	ln=n;
-		}
-		n++;
-	}
+# Returns line with searched text
+
+    while ( (getline line < where ) > 0 ) {
+	if (index(line, what)>0) {
+	    gsub("^\t","",what);
+	    split(line,a,"=");
+	    print what" = "a[2];
+    }
+}
 	close(where);
-	return ln;
 }
 
-function add_line(nr, where, what) {
-	print nr"a\n"what"\n.\nw" | "/bin/ed -s "where
-	system ("/bin/sync")
-}
+BEGIN	{ FS="=" }
 
-function del_line(nr, where) {
-	print nr"d\nw" | "/bin/ed -s "where
-	system ("/bin/sync")
-}
+/\$lang/{ grep_n($1, "english.php") ;
+	  next;	}
 
-BEGIN	    { line=1   }
-# Analyse of "php langcheck language" output. 
-# Chris - please, do not change those texts in langcheck :-)
-/^Missing/  { oper="+" }
-/^Deleted/  { oper="-" }
-/^Source/   { src=$3   }
-/^Target/   { trg=$3   }
-/\$lang/    {
-		split($1, a, "\\x27");
-		# a[2] = strxxxxx
-		# Adding a line
-		if(oper=="+") {
-			line = grep_n("\x27"a[2]"\x27", src) ;
-			if (line>0) {
-				add_line(line-1, trg, $0)
-			}
-		}
-		# Deleting a line
-		if(oper=="-") {
-			line = grep_n("\x5B\x27"a[2]"\x27\x5D", trg);
-			if (line>0) {
-				del_line(line, trg)
-			}
-		}
-	    }
-' 
+	{ print	}
+END	{ print "w" }' \
+| ed $1.php
+
+# Clean temporary files
+# rm *.ed
+
