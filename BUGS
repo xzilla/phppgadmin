@@ -1,7 +1,5 @@
 * Fix grant option/grantor stuff
 * First and last links in browse table
 * Create trigger screen doesn't save fields if it fails creating trigger
-* Since trigger type is "trigger", it's not possible to create trigger
-  functions in function editor
 
 
