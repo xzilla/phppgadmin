@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.3 2003/01/04 07:08:04 chriskl Exp $
+	 * $Id: types.php,v 1.4 2003/01/09 06:44:21 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -44,7 +44,7 @@
 			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTypes}</a></p>\n";		}
+			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTypes}</a></p>\n";		}
 		else
 			doDefault($strInvalidParam);
 	}
@@ -65,7 +65,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\">\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
@@ -167,11 +167,11 @@
 		echo "</select></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+		echo $misc->form;
 		echo "<input type=submit value=Save> <input type=reset>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTypes}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTypes}</a></p>\n";
 	}
 	
 	/**
@@ -228,10 +228,8 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=",
-					htmlspecialchars($_REQUEST['database']), "&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
-					htmlspecialchars($_REQUEST['database']), "&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strDrop}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strProperties}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
 				$types->moveNext();
 				$i++;
@@ -242,7 +240,7 @@
 			echo "<p>{$strNoTypes}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&database=", urlencode($_REQUEST['database']), "\">{$strCreateType}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateType}</a></p>\n";
 
 	}
 
