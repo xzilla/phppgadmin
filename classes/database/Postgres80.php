@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.8 2004/11/29 01:48:39 chriskl Exp $
+ * $Id: Postgres80.php,v 1.9 2005/02/01 16:41:19 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -450,3 +450,5 @@ class Postgres80 extends Postgres74 {
 	function hasNamedParams() { return true; }
 	
 }
+
+?>
