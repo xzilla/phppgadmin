@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.79 2004/06/07 11:38:39 soranzo Exp $
+	 * $Id: lib.inc.php,v 1.80 2004/06/13 07:08:29 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -37,6 +37,7 @@
 	// List of available language files
 	$appLangFiles = array(
 		'afrikaans' => 'Afrikaans',
+		'arabic' => '&#1593;&#1585;&#1576;&#1610;',
 		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;',
 		'chinese-sim' => '&#31616;&#20307;&#20013;&#25991;',
 		'czech' => '&#268;esky',

@@ -31,3 +31,8 @@ NEEDS TESTING
 * prevent the user from dropping all the superusers
 * rename function in 7.2 and below doesn't come back to the correct function
 * 7.5 function named parameters are not supported
+* Fix SQL window parent update to not update any random window
+* Show owner on privileges screen?
+ http://devilock.mine.nu/textarea_tab.html
+
+* DOMAINS NOT SHOWN IN TYPE LISTS!
