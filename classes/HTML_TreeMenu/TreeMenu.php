@@ -33,7 +33,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.php,v 1.1 2003/05/12 09:55:14 chriskl Exp $
+// $Id: TreeMenu.php,v 1.2 2003/11/03 01:26:37 chriskl Exp $
 
 /**
 * HTML_TreeMenu Class
@@ -303,6 +303,12 @@ class HTML_TreeNode
     var $linkTarget;
 
     /**
+    * The link for browsing a specific table
+    * @var string
+    */
+    var $browseLink;
+
+    /**
     * Indexed array of subnodes
     * @var array
     */
@@ -374,6 +380,7 @@ class HTML_TreeNode
         $this->isDynamic     = true;
         $this->ensureVisible = false;
         $this->linkTarget    = null;
+	$this->browseLink    = '';
 
         $this->parent        = null;
         $this->events        = $events;
@@ -623,7 +630,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
     {
         $expanded  = $this->isDynamic ? ($nodeObj->expanded  ? 'true' : 'false') : 'true';
         $isDynamic = $this->isDynamic ? ($nodeObj->isDynamic ? 'true' : 'false') : 'false';
-        $html = sprintf("\t %s = %s.addItem(new TreeNode('%s', %s, %s, %s, %s, '%s', '%s', %s));\n",
+        $html = sprintf("\t %s = %s.addItem(new TreeNode('%s', %s, %s, %s, %s, '%s', '%s', %s, '%s'));\n",
                         $return,
                         $prefix,
                         $nodeObj->text,
@@ -633,7 +640,9 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
                         $isDynamic,
                         $nodeObj->cssClass,
                         $nodeObj->linkTarget,
-                        !empty($nodeObj->expandedIcon) ? "'" . $nodeObj->expandedIcon . "'" : 'null');
+                        !empty($nodeObj->expandedIcon) ? "'" . $nodeObj->expandedIcon . "'" : 'null',
+			$nodeObj->browseLink
+			);
 
         foreach ($nodeObj->events as $event => $handler) {
             $html .= sprintf("\t %s.setEvent('%s', '%s');\n",

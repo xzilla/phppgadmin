@@ -32,7 +32,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.js,v 1.2 2003/05/25 07:00:26 chriskl Exp $
+// $Id: TreeMenu.js,v 1.3 2003/11/03 01:26:37 chriskl Exp $
 
 
 /**
@@ -182,7 +182,7 @@
 	        * Branch images
 	        */
 			var gifname = nodes[i].n.length && this.doesMenu() && nodes[i].isDynamic ? (expanded ? 'minus' : 'plus') : 'branch';
-			var iconimg = nodes[i].icon ? this.stringFormat('<img src="{0}/{1}" width="20" height="20" align="top" id="icon_{2}">', this.iconpath, nodes[i].icon, layerID) : '';
+			var iconimg = nodes[i].icon ? this.stringFormat('<img border="0" src="{0}/{1}" width="20" height="20" align="top" id="icon_{2}">', this.iconpath, nodes[i].icon, layerID) : '';
 			
 			/**
 			* Add event handlers
@@ -197,18 +197,22 @@
 			* IMPORTANT:
 			* document.write()ing the string: '<div style="display:...' will screw up nn4.x
 	        */
-			var layerTag  = this.doesMenu() ? this.stringFormat('<div id="{0}" style="display: {1}" class="{2}">', layerID, visibility, (nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass)) : this.stringFormat('<div class="{0}">', nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass);
-			var onMDown   = this.doesMenu() && nodes[i].n.length  && nodes[i].isDynamic ? this.stringFormat('onmousedown="{0}.toggleBranch(\'{1}\', true)" style="cursor: pointer; cursor: hand"', this.myname, layerID) : '';
-			var imgTag    = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" border="0" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
-			var linkTarget= nodes[i].linkTarget ? nodes[i].linkTarget : this.linkTarget;
-			var linkStart = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, linkTarget) : '';
-			var linkEnd   = nodes[i].link ? '</a>' : '';
+			var layerTag    = this.doesMenu() ? this.stringFormat('<div id="{0}" style="display: {1}" class="{2}">', layerID, visibility, (nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass)) : this.stringFormat('<div class="{0}">', nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass);
+			var onMDown     = this.doesMenu() && nodes[i].n.length  && nodes[i].isDynamic ? this.stringFormat('onmousedown="{0}.toggleBranch(\'{1}\', true)" style="cursor: pointer; cursor: hand"', this.myname, layerID) : '';
+			var imgTag      = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" border="0" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
+			var linkTarget  = nodes[i].linkTarget ? nodes[i].linkTarget : this.linkTarget;
+			var linkStart   = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, linkTarget) : '';
+			var linkEnd     = nodes[i].link ? '</a>' : '';
+                	var browseStart = nodes[i].browseLink ? '<a target="detail" href="'+nodes[i].browseLink+'">' : '';
+                	var browseEnd   = nodes[i].browseLink ? '</a>' : '';
 
-			output = this.stringFormat('{0}<nobr>{1}{2}{3}{4}<span {5}>{6}</span>{7}</nobr><br></div>',
+			output = this.stringFormat('{0}<nobr>{1}{2}{3}{4}{5}{6}<span {7}>{8}</span>{9}</nobr><br></div>',
 			                  layerTag,
 							  prepend,
 			                  parentLayerID == null && (nodes.length == 1 || this.noTopLevelImages) ? '' : imgTag,
+							  browseStart,
 							  iconimg,
+							  browseEnd,
 							  linkStart,
 							  eventHandlers,
 							  nodes[i].title,
@@ -525,7 +529,7 @@
 /**
 * TreeNode Class
 */
-	function TreeNode(title, icon, link, expanded, isDynamic, cssClass, linkTarget, expandedIcon)
+	function TreeNode(title, icon, link, expanded, isDynamic, cssClass, linkTarget, expandedIcon, browseLink)
 	{
 		this.title        = title;
 		this.icon         = icon;
@@ -541,6 +545,7 @@
 		this.oncollapse   = null;
 		this.onexpand     = null;
 		this.ontoggle     = null;
+		this.browseLink   = browseLink;
 	}
 
 /**

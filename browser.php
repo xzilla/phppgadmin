@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.22 2003/10/27 05:43:18 chriskl Exp $
+	 * $Id: browser.php,v 1.23 2003/11/03 01:26:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -63,7 +63,9 @@
 								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 								'expanded' => false,
-								'linkTarget' => 'detail'));
+								'linkTarget' => 'detail',
+								'browseLink' => addslashes(htmlspecialchars('tables.php?action=browse&page=1&table='.urlencode($tables->f[$data->tbFields['tbname']]).'&'.$querystr))
+								));
 
 				// Add table folder to schema
 				$table_node->addItem($item_node);
