@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.18 2004/03/12 01:12:09 soranzo Exp $
+	 * $Id: sequences.php,v 1.19 2004/05/09 02:00:25 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Display list of all sequences in the database/schema
 	 */	
 	function doDefault($msg = '')	{
-		global $data, $misc; 
+		global $data, $conf, $misc; 
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsequences']}</h2>\n";
@@ -29,7 +29,9 @@
 		if (is_object($sequences) && $sequences->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "</tr>\n";
 			$i = 0;
 			
 			while (!$sequences->EOF) {
@@ -44,8 +46,9 @@
 					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"privileges.php?{$misc->href}&amp;object=", urlencode($sequences->f[$data->sqFields['seqname']]),
-					"&amp;type=sequence\">{$lang['strprivileges']}</td></tr>\n";
-				
+					"&amp;type=sequence\">{$lang['strprivileges']}</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f['seqcomment']), "</td>\n";
+				echo "</tr>\n";				
 				$sequences->movenext();
 				$i++;
 			}

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.195 2004/05/08 15:21:42 chriskl Exp $
+ * $Id: Postgres.php,v 1.196 2004/05/09 02:00:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1487,7 +1487,12 @@ class Postgres extends BaseDB {
 	 * @return A recordset
 	 */
 	function &getSequences() {
-		$sql = "SELECT c.relname, u.usename FROM pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY relname";
+		$sql = "SELECT
+					c.relname,
+					u.usename,
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS seqcomment
+				FROM 
+					pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY relname";
 		
 		return $this->selectSet( $sql );
 	}
