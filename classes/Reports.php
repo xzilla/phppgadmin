@@ -2,7 +2,7 @@
 	/**
 	 * Class to manage reports
 	 *
-	 * $Id: Reports.php,v 1.1 2003/02/16 05:30:53 chriskl Exp $
+	 * $Id: Reports.php,v 1.2 2003/02/23 12:51:32 chriskl Exp $
 	 */
 
 	class Reports {
@@ -47,6 +47,26 @@
 			$sql = "SELECT * FROM ppa_reports WHERE report_id='{$report_id}'";
 
 			return $this->driver->selectSet($sql);
+		}
+		
+		/**
+		 * Creates a report
+		 * @param $report_name The name of the report
+		 * @param $db_name The name of the database
+		 * @param $descr The comment on the report
+		 * @param $report_sql The SQL for the report
+		 * @return 0 success
+		 */
+		function createReport($report_name, $db_name, $descr, $report_sql) {
+			$temp = array(
+				'report_name' => $report_name,
+				'db_name' => $db_name,
+				'created_by' => $_SESSION['webdbUsername'],
+				'report_sql' => $report_sql
+			);
+			if ($descr != '') $temp['descr'] = $descr;
+			
+			return $this->driver->insert('ppa_reports', $temp);
 		}
 
 		/**

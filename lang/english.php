@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.53 2003/02/20 23:15:16 slubek Exp $
+	 * $Id: english.php,v 1.54 2003/02/23 12:51:32 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -343,6 +343,10 @@
 	$strReportDropped = 'Report dropped.';
 	$strReportDroppedBad = 'Report drop failed.';
 	$strConfDropReport = 'Are you sure you want to drop the report "%s"?';
+	$strReportNeedsName = 'You must give a name for your report.';
+	$strReportNeedsDef = 'You must give SQL for your report.';
+	$strReportCreated = 'Report created.';
+	$strReportCreatedBad = 'Report creation failed.';
 
 	// Miscellaneous
 	$strTopBar = '%s running on %s:%s -- You are logged in as user "%s", %s';
