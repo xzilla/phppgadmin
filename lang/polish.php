@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.37 2004/04/21 22:23:50 slubek Exp $
+	 * $Id: polish.php,v 1.38 2004/05/29 11:04:01 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -117,6 +117,7 @@
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
 	$lang['streditsql'] = 'Edycja zapytania SQL';
+	$lang['strruntime']  =  'Ca³kowity czas pracy: %s ms';
 	$lang['strpaginate'] = 'Wy¶wietl wyniki stronami';
 	$lang['struploadscript'] = 'lub za³aduj skrypt SQL:';
 	$lang['strstarttime'] = 'Czas pocz±tku';
@@ -293,6 +294,7 @@
 	$lang['strviewname'] = 'Nazwa widoku';
 	$lang['strviewneedsname'] = 'Musisz nazwaæ widok.';
 	$lang['strviewneedsdef'] = 'Musisz zdefiniowaæ widok.';
+	$lang['strviewneedsfields']  =  'Musisz podaæ kolumny, które maj± byæ widoczne w widoku.';
 	$lang['strviewcreated'] = 'Widok utworzony.';
 	$lang['strviewcreatedbad'] = 'Próba utworzenia widoku siê nie powiod³a.';
 	$lang['strconfdropview'] = 'Czy na pewno chcesz usun±æ widok "%s"?';
@@ -302,6 +304,7 @@
 	$lang['strviewupdatedbad'] = 'Próba aktualizacji widoku siê nie powiod³a.';
 	$lang['strviewlink'] = 'Klucze ³±cz±ce';
 	$lang['strviewconditions'] = 'Dodatkowe warunki';
+	$lang['strcreateviewwiz']  =  'Utwórz widok przy u¿yciu kreatora widoków';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekwencja';
@@ -355,9 +358,9 @@
 	$lang['strclusteredgood'] = 'Klastrowanie zakoñczone.';
 	$lang['strclusteredbad'] = 'Próba klastrowania siê nie powiod³a.';
 	
-	// Regu³y
-	$lang['strrule'] = 'Regu³a';
+	// Rules
 	$lang['strrules'] = 'Regu³y';
+	$lang['strrule']  =  'Regu³a';
 	$lang['strshowallrules'] = 'Poka¿ wszystkie regu³y';
 	$lang['strnorule'] = 'Nie znaleziono regu³y.';
 	$lang['strnorules'] = 'Nie znaleziono regu³.';

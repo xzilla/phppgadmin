@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.31 2004/04/21 22:23:57 slubek Exp $
+	 * $Id: polish.php,v 1.32 2004/05/29 11:04:01 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -117,6 +117,7 @@
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
 	$lang['streditsql'] = 'Edycja zapytania SQL';
+	$lang['strruntime']  =  'Ca&#322;kowity czas pracy: %s ms';
 	$lang['strpaginate'] = 'Wy&#347;wietl wyniki stronami';
 	$lang['struploadscript'] = 'lub za&#322;aduj skrypt SQL:';
 	$lang['strstarttime'] = 'Czas pocz&#261;tku';
@@ -293,6 +294,7 @@
 	$lang['strviewname'] = 'Nazwa widoku';
 	$lang['strviewneedsname'] = 'Musisz nazwa&#263; widok.';
 	$lang['strviewneedsdef'] = 'Musisz zdefiniowa&#263; widok.';
+	$lang['strviewneedsfields']  =  'Musisz poda&#263; kolumny, kt&oacute;re maj&#261; by&#263; widoczne w widoku.';
 	$lang['strviewcreated'] = 'Widok utworzony.';
 	$lang['strviewcreatedbad'] = 'Pr&oacute;ba utworzenia widoku si&#281; nie powiod&#322;a.';
 	$lang['strconfdropview'] = 'Czy na pewno chcesz usun&#261;&#263; widok &quot;%s&quot;?';
@@ -302,6 +304,7 @@
 	$lang['strviewupdatedbad'] = 'Pr&oacute;ba aktualizacji widoku si&#281; nie powiod&#322;a.';
 	$lang['strviewlink'] = 'Klucze &#322;&#261;cz&#261;ce';
 	$lang['strviewconditions'] = 'Dodatkowe warunki';
+	$lang['strcreateviewwiz']  =  'Utw&oacute;rz widok przy u&#380;yciu kreatora widok&oacute;w';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekwencja';
@@ -355,9 +358,9 @@
 	$lang['strclusteredgood'] = 'Klastrowanie zako&#324;czone.';
 	$lang['strclusteredbad'] = 'Pr&oacute;ba klastrowania si&#281; nie powiod&#322;a.';
 	
-	// Regu&#322;y
-	$lang['strrule'] = 'Regu&#322;a';
+	// Rules
 	$lang['strrules'] = 'Regu&#322;y';
+	$lang['strrule']  =  'Regu&#322;a';
 	$lang['strshowallrules'] = 'Poka&#380; wszystkie regu&#322;y';
 	$lang['strnorule'] = 'Nie znaleziono regu&#322;y.';
 	$lang['strnorules'] = 'Nie znaleziono regu&#322;.';
