@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.9 2003/04/23 08:19:03 chriskl Exp $
+	 * $Id: views.php,v 1.10 2003/04/30 07:42:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -185,11 +185,15 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submi\"t name=\"no\" value=\"{$lang['strno']}\">\n";
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropView($_POST['view']);
+			$status = $localData->dropView($_POST['view'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strviewdropped']);
 			else

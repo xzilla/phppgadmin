@@ -175,7 +175,7 @@ Translations
 Miscellaneous
 -------------
 
-* Add support for RESTRICT/CASCADE in 7.3
+* -Add support for RESTRICT/CASCADE in 7.3 (chriskl)
 
 Exotic
 ------

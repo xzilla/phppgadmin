@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.87 2003/04/30 07:37:39 chriskl Exp $
+ * $Id: Postgres.php,v 1.88 2003/04/30 07:42:58 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1390,12 +1390,14 @@ class Postgres extends BaseDB {
 	/**
 	 * Drops a view.
 	 * @param $viewname The name of the view to drop
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropView($viewname) {
+	function dropView($viewname, $cascade) {
 		$this->fieldClean($viewname);
 
 		$sql = "DROP VIEW \"{$viewname}\"";
+		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
 	}
