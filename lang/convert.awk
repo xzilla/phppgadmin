@@ -10,9 +10,7 @@ BEGIN	{ while (index($0,"&lt;?php")==0) { getline; continue }
 # (as there should be only one occurance, thats no problem)
 /\?\&gt;/ { print "?>"; exit }
 
-	{ # I'm not sure if its still needed
-	  gsub("&gt;",">"); 
-	  gsub("&lt;","<"); 
+	{ 
 	  # Convert CRLF -> LF (== "remove CR" ) ;-)
 	  gsub("&#13;","");
 	  print $0
