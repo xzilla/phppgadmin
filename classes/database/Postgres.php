@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.79 2003/04/23 08:56:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.80 2003/04/28 12:00:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -130,8 +130,13 @@ class Postgres extends BaseDB {
 	function Postgres($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
 
-		$pghost = "{$host}:{$port}";
-		if ($database === null) $database = 'template1';
+		// Ignore host if null
+		if ($host === null || $host == '')
+			$pghost = '';
+		else
+			$pghost = "{$host}:{$port}";
+
+		if ($database === null || $database == '') $database = 'template1';
 
 		$this->conn->connect($pghost, $user, $password, $database);
 	}
@@ -1252,14 +1257,13 @@ class Postgres extends BaseDB {
 	/**
 	 * Removes a rule from a relation
 	 * @param $rule The rule to drop
-	 * @param $relation The relation from which to drop
+	 * @param $relation The relation from which to drop (unused)
 	 * @return 0 success
 	 */
 	function dropRule($rule, $relation) {
 		$this->fieldClean($rule);
-		$this->fieldClean($relation);
 
-		$sql = "DROP RULE \"{$rule}\" ON \"{$relation}\"";
+		$sql = "DROP RULE \"{$rule}\"";
 
 		return $this->execute($sql);
 	}
