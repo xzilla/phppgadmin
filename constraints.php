@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: constraints.php,v 1.4 2003/03/10 02:15:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,6 +51,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF;
 		global $strConstraints, $strName, $strDefinition, $strActions, $strNoConstraints, $strCreateConstraint, $strDrop;
+		global $strAddCheck;
 
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strConstraints}</h2>\n";
@@ -65,10 +66,20 @@
 			
 			while (!$constraints->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $constraints->f[$data->cnFields['conname']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $constraints->f[$data->cnFields['consrc']]), "</td>";
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($constraints->f[$data->cnFields['conname']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", htmlspecialchars( $constraints->f[$data->cnFields['conname']]),
+				// Nasty hack to support pre-7.4 PostgreSQL
+				if ($constraints->f['consrc'] !== null)
+					echo, htmlspecialchars($constraints->f[$data->cnFields['consrc']]);
+				else {
+					$atts = &$localData->getKeys($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
+					echo ($constraints->f['contype'] == 'u') ? "UNIQUE (" : "PRIMARY KEY (";
+					echo join(',', $atts);
+					echo ")";
+				}
+				echo "</td>";
+				echo "<td class=\"data{$id}\">";
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", htmlspecialchars($constraints->f[$data->cnFields['conname']]),
 					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
 
 				$constraints->moveNext();
@@ -80,7 +91,7 @@
 		else
 			echo "<p>{$strNoConstraints}</p>\n";
 		
-		//echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateRule}</a></p>\n";
+		echo "<p><a href=\"\">{$strAddCheck}</a></p>\n";
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strConstraints);

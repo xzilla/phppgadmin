@@ -7,7 +7,7 @@ Translation is slightly complicated in phpPgAdmin compared to other PHP software
 since we support viewing database encodings that are different to your language
 encoding.
 
-To translate messages, you will need to install GNU Record on your computer.
+To translate messages, you will need to install GNU Recode on your computer.
 
 GNU Recode: http://www.gnu.org/software/recode/recode.html
 

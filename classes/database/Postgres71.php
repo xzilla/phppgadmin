@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.22 2003/01/18 06:38:37 chriskl Exp $
+ * $Id: Postgres71.php,v 1.23 2003/03/10 02:15:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -13,39 +13,11 @@ include_once('classes/database/Postgres.php');
 
 class Postgres71 extends Postgres {
 
-	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
-	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
-	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
-	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
-
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
 
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->Postgres($host, $port, $database, $user, $password);
-	}
-
-	/**
-	 * Return all database available on the server
-	 * @return A list of databases, sorted alphabetically
-	 */
-	function &getDatabases() {
-		$sql = "SELECT pdb.datname, pde.description FROM 
-					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid
-					WHERE NOT pdb.datistemplate
-					ORDER BY pdb.datname";
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Return all information about a particular database
-	 * @param $database The name of the database to retrieve
-	 * @return The database info
-	 */
-	function &getDatabase($database) {
-		$this->clean($database);
-		$sql = "SELECT * FROM pg_database WHERE datname='{$database}'";
-		return $this->selectRow($sql);
 	}
 
 	// Table functions

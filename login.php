@@ -3,12 +3,23 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: login.php,v 1.6 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
-	// Include application functions
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
+	// Check to see if the configuration file exists, if not, explain
 	include_once('libraries/lib.inc.php');
+
+	// Unfortunately, since sometimes lib.inc.php has been included, but we still
+	// need the config variables
+	if (file_exists('conf/config.inc.php')) {
+		require('conf/config.inc.php');
+	}
+	else {
+		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings";
+		exit;
+	}
+
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;

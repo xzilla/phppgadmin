@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.15 2003/02/07 17:34:37 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.16 2003/03/10 02:15:18 chriskl Exp $
 	 */
 
 	// Application name 
@@ -14,20 +14,18 @@
 
 
 	// Check to see if the configuration file exists, if not, explain
-	if (file_exists('conf/config.inc.php')) { 
+	if (file_exists('conf/config.inc.php')) {
 		include('conf/config.inc.php');
 	}
-	else 
-	{
-		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings"; 
+	else {
+		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings";
 		exit;
 	}
-
 
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 3;
+	$appBaseConfVersion = 4;
 
 	// List of available language files
 	$appLangFiles = array(
@@ -89,18 +87,18 @@
 	}
 
 	// If the logged in settings aren't present, put up the login screen
-	if (!isset($_SESSION['webdbUsername'])  
-			||	!isset($_SESSION['webdbPassword'])  
+	if (!isset($_SESSION['webdbUsername'])
+			||	!isset($_SESSION['webdbPassword'])
 			||	!isset($_SESSION['webdbServerID'])
 			||	!isset($_SESSION['webdbLanguage'])
 			||	!isset($confServers[$_SESSION['webdbServerID']])){
 		include('login.php');
 		exit;
 	}
-	
+
 	// Import language file
 	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
-	
+
 	// Create data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
 		$_type = $confServers[$_SESSION['webdbServerID']]['type'];

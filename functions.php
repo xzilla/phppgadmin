@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.6 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: functions.php,v 1.7 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -166,7 +166,7 @@
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: {$strCreateFunction}</h2>\n";
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=90%>\n";
 		echo "<tr><th class=data>{$strName}</th>\n";
@@ -186,6 +186,7 @@
 				htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
+		echo "</select>\n";
 
 		echo "<td class=data1><select name=formLanguage>\n";
 		while (!$langs->EOF) {
@@ -193,6 +194,7 @@
 				htmlspecialchars($langs->f[$data->langFields['lanname']]), "</option>\n";
 			$langs->moveNext();
 		}
+		echo "</select>\n";
 
 		echo "</td></tr>\n";
 		echo "<tr><th class=data colspan=4>{$strDefinition}</th></tr>\n";

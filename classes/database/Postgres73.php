@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.20 2003/02/16 05:32:42 chriskl Exp $
+ * $Id: Postgres73.php,v 1.21 2003/03/10 02:15:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -14,7 +14,7 @@ include_once('classes/database/Postgres72.php');
 class Postgres73 extends Postgres72 {
 
 	var $nspFields = array('nspname' => 'nspname', 'nspowner' => 'nspowner');
-	var $conFields = array('conname' => 'conname', 'conowner' => 'conownder');
+	var $conFields = array('conname' => 'conname', 'conowner' => 'conowner');
 
 	// Store the current schema
 	var $_schema;
@@ -337,19 +337,6 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
-	 * Empties a table in the database.  Truncate is safe in 7.3 upwards.
-	 * @param $table The table to be emptied
-	 * @return 0 success
-	 */
-	function emptyTable($table) {
-		$this->clean($table);
-
-		$sql = "TRUNCATE \"{$table}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
 	 * Drops a column from a table
 	 * @param $table The table from which to drop a column
 	 * @param $column The column to be dropped
@@ -564,6 +551,39 @@ class Postgres73 extends Postgres72 {
 	}
 	
 	// Constraint functions
+	
+	/**
+	 * A helper function for getConstraints that translates
+	 * an array of attribute numbers to an array of field names.
+	 * @param $table The name of the table
+	 * @param $columsn An array of column ids
+	 * @return An array of column names
+	 */
+	function &getKeys($table, $colnums) {
+		$this->clean($table);
+		$this->arrayClean($colnums);
+
+		$sql = "SELECT attnum, attname FROM pg_attribute
+			WHERE attnum IN ('" . join("','", $colnums) . "')
+			AND attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_namespace
+					WHERE nspname='{$this->_schema}'))";
+
+		$rs = $this->selectSet($sql);
+
+		$temp = array();
+		while (!$rs->EOF) {
+			$temp[$rs->f['attnum']] = $rs->f['attname'];
+			$rs->moveNext();
+		}
+
+		$atts = array();
+		foreach ($colnums as $v) {
+			$atts[] = '"' . $temp[$v] . '"';
+		}
+		
+		return $atts;
+	}
 
 	/**
 	 * Returns a list of all constraints on a table
@@ -573,8 +593,11 @@ class Postgres73 extends Postgres72 {
 	function &getConstraints($table) {
 		$this->clean($table);
 
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
 		$sql = "
-			SELECT conname, consrc, contype FROM (
+			SELECT conname, consrc, contype, indkey FROM (
 				SELECT
 					conname,
 					CASE WHEN contype='f' THEN
@@ -583,7 +606,8 @@ class Postgres73 extends Postgres72 {
 						'CHECK ' || consrc
 					END AS consrc,
 					contype,
-					conrelid AS relid
+					conrelid AS relid,
+					NULL AS indkey
 				FROM
 					pg_catalog.pg_constraint
 				WHERE
@@ -591,17 +615,14 @@ class Postgres73 extends Postgres72 {
 				UNION ALL
 				SELECT
 					pc.relname,
-					CASE WHEN indisprimary THEN
-						'PRIMARY KEY (' || 'keys here' || ')'
-					ELSE
-						'UNIQUE (' || 'keys here' || ')'
-					END,
+					NULL,
 					CASE WHEN indisprimary THEN
 						'p'
 					ELSE
 						'u'
 					END,
-					pi.indrelid
+					pi.indrelid,
+					indkey
 				FROM
 					pg_catalog.pg_class pc,
 					pg_catalog.pg_index pi

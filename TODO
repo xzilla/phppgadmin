@@ -161,7 +161,7 @@ Settings
 Translations
 ------------
 
-* There's heaps of hard-coded English strings in the code.  (Due to sheer laziness)
+* -There's heaps of hard-coded English strings in the code.  (Due to sheer laziness) (chriskl, rafal)
 
 Miscellaneous
 -------------
@@ -193,7 +193,6 @@ Principles
 PHP
 ---
 
-* Check for register_globals
 * -Check for magic_quotes - automatically stripslashes (chriskl)
 * Check for postgres/mysql/oracle/whatever functions compiled in and give good help on how to compile it in
 

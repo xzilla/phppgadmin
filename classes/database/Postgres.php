@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.53 2003/02/23 11:37:09 chriskl Exp $
+ * $Id: Postgres.php,v 1.54 2003/03/10 02:15:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -13,7 +13,7 @@ include_once('classes/database/BaseDB.php');
 
 class Postgres extends BaseDB {
 
-	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
+	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description', 'encoding' => 'encoding', 'owner' => 'owner');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
@@ -101,7 +101,7 @@ class Postgres extends BaseDB {
 
 		$this->conn->connect($pghost, $user, $password, $database);
 	}
-	
+
 	/**
 	 * A function to check that the database functions are installed
 	 * and running.
@@ -148,7 +148,45 @@ class Postgres extends BaseDB {
 		}
 		return $arr;
 	}
-	
+
+	// Database functions
+
+	/**
+	 * Return all database available on the server
+	 * @return A list of databases, sorted alphabetically
+	 */
+	function &getDatabases() {
+		global $appShowOwnedDB;
+
+		if (isset($appShowOwnedDB) && $appShowOwnedDB) {
+			$username = $_SESSION['webdbUsername'];
+			$this->clean($username);
+			$clause = " AND pu.usename='{$username}'";
+		}
+		else $clause = '';
+
+		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, pde.description FROM
+					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid,
+					pg_user pu
+					WHERE pdb.datdba = pu.usesysid
+					AND NOT pdb.datistemplate
+					{$clause}
+					ORDER BY pdb.datname";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Return all information about a particular database
+	 * @param $database The name of the database to retrieve
+	 * @return The database info
+	 */
+	function &getDatabase($database) {
+		$this->clean($database);
+		$sql = "SELECT * FROM pg_database WHERE datname='{$database}'";
+		return $this->selectRow($sql);
+	}
+
 	/**
 	 * Returns the current database encoding
 	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
@@ -489,12 +527,32 @@ class Postgres extends BaseDB {
 			$this->fieldClean($field[$i]);
 			$this->clean($type[$i]);
 			$this->clean($length[$i]);
-			
+
 			// Skip blank columns - for user convenience
 			if ($field[$i] == '' || $type[$i] == '') continue;
 			
-			$sql .= "\"{$field[$i]}\" {$type[$i]}";
-			if ($length[$i] != '') $sql .= "({$length[$i]})";
+			switch ($type[$i]) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type[$i], 9);
+					$sql .= "\"{$field[$i]}\" timestamp";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type[$i], 4);
+					$sql .= "\"{$field[$i]}\" time";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				default:
+					$sql .= "\"{$field[$i]}\" {$type[$i]}";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+			}
+
 			if (isset($notnull[$i])) $sql .= " NOT NULL";
 			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
 			if ($i != $fields - 1) $sql .= ", ";
@@ -894,22 +952,35 @@ class Postgres extends BaseDB {
 	 * @param $table The table to add to
 	 * @param $column The name of the new column
 	 * @param $type The type of the column
-	 * @param $size (optional) The optional size of the column (ie. 30 for varchar(30))
+	 * @param $length The optional size of the column (ie. 30 for varchar(30))
 	 * @return 0 success
 	 */
-	function addColumnToTable($table, $column, $type, $size = '') {
-		$this->clean($table);
-		$this->clean($column);
+	function addColumn($table, $column, $type, $length) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 		$this->clean($type);
-		$this->clean($size);
-		// @@ How the heck do you properly clean type and size?
-		
-		if ($size == '')
+		$this->clean($length);
+		// @@ How do we reliably escape the type here?
+		if ($length == '')
 			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
-		else
-			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$size})";
-
-		// @@ How do you do this?
+		else {
+			switch ($type) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type, 9);
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" timestamp({$length}){$qual}";
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type, 4);
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" time({$length}){$qual}";
+					break;
+				default:
+					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
+			}
+		}
 		return $this->execute($sql);
 	}
 
@@ -947,8 +1018,8 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropColumnDefault($table, $column) {
-		$this->clean($table);
-		$this->clean($column);
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
 
@@ -968,8 +1039,8 @@ class Postgres extends BaseDB {
 	 * @return -4 update error
 	 */
 	function setColumnNull($table, $column, $state) {
-		$this->clean($table);
-		$this->clean($column);
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 
 		// Begin transaction
 		$status = $this->beginTransaction();
@@ -1661,9 +1732,80 @@ class Postgres extends BaseDB {
 		
 		return $this->execute($sql);
 	}
+ 
+	// Administration functions
 	
-	// Reports functions
-	
+	/**
+	 * Vacuums a database
+	 * @param $database The database to vacuum
+	 */
+	function vacuumDB($database) {
+		$this->fieldClean($database);
+
+		$sql = "VACUUM \"{$database}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Analyze a database
+	 * @param $database The database to analyze
+	 */
+	function analyzeDB($database) {
+		$this->fieldClean($database);
+
+		$sql = "ANALYZE \"{$database}\"";
+
+		return $this->execute($sql);
+	}
+
+	// Constraint functions
+
+	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function &getConstraints($table) {
+		$this->clean($table);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$sql = "
+			SELECT conname, consrc, contype, indkey FROM (
+				SELECT
+					rcname AS conname,
+					'CHECK (' || rcsrc || ')' AS consrc
+					'c' AS contype,
+					rcrelid AS relid,
+					NULL AS indkey
+				FROM
+					pg_catalog.pg_relcheck
+				UNION ALL
+				SELECT
+					pc.relname,
+					NULL,
+					CASE WHEN indisprimary THEN
+						'p'
+					ELSE
+						'u'
+					END,
+					pi.indrelid,
+					indkey
+				FROM
+					pg_catalog.pg_class pc,
+					pg_catalog.pg_index pi
+				WHERE
+					pc.oid=pi.indexrelid
+					AND (pi.indisunique OR pi.indisprimary)
+			) AS sub
+			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+		";
+
+		return $this->selectSet($sql);
+	}
+
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }

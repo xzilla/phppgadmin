@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.54 2003/02/23 12:51:32 chriskl Exp $
+	 * $Id: english.php,v 1.55 2003/03/10 02:15:17 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -19,7 +19,7 @@
 	$strLogout = 'Logout';
 	$strOwner = 'Owner';
 	$strAction = 'Action';	
-	$strActions = 'Actions';	
+	$strActions = 'Actions';
 	$strName = 'Name';
 	$strDefinition = 'Definition';
 	$strOperators = 'Operators';
@@ -34,6 +34,7 @@
 	$strNext = 'Next';
 	$strFailed = 'Failed';
 	$strCreate = 'Create';
+	$strCreated = 'Created';
 	$strComment = 'Comment';
 	$strLength = 'Length';
 	$strDefault = 'Default';
@@ -64,6 +65,13 @@
 	$strExport = 'Export';
 	$strSQL = 'SQL';
 	$strGo = 'Go';
+	$strAdmin = 'Admin';
+	$strVacuum = 'Vacuum';
+	$strAnalyze = 'Analyze';
+	$strCluster = 'Cluster';
+	$strReindex = 'Reindex';
+	$strRun = 'Run';
+	$strAdd = 'Add';
 
 	// Error handling
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
@@ -117,7 +125,10 @@
         $strConfDropColumn = 'Are you sure you want to drop column "%s" from table "%s"?';
 	$strColumnDropped = 'Column dropped.';
 	$strColumnDroppedBad = 'Column drop failed.';
-			
+	$strAddColumn = 'Add column';
+	$strColumnAdded = 'Column added.';
+	$strColumnAddedBad = 'Column add failed.';
+
 	// Users
 	$strUserAdmin = 'User Admin';
 	$strUser = 'User';
@@ -173,6 +184,10 @@
 	$strDatabaseDropped = 'Database dropped.';
 	$strDatabaseDroppedBad = 'Database drop failed.';
 	$strEnterSQL = 'Enter the SQL to execute below:';
+	$strVacuumGood = 'Vacuum complete.';
+	$strVacuumBad = 'Vacuum failed.';
+	$strAnalyzeGood = 'Analyze complete.';
+	$strAnalyzeBad = 'Analyze failed.';
 
 	// Views
 	$strView = 'View';
@@ -261,6 +276,7 @@
 	$strConfDropConstraint = 'Are you sure you want to drop the constraint "%s" on "%s"?';
 	$strConstraintDropped = 'Constraint dropped.';
 	$strConstraintDroppedBad = 'Constraint drop failed.';
+	$strAddCheck = 'Add Check';
 
 	// Functions
 	$strFunction = 'Function';
@@ -338,6 +354,7 @@
 	// Reports
 	$strReport = 'Report';
 	$strReports = 'Reports';
+	$strShowAllReports = 'Show all reports';
 	$strNoReports = 'No reports found.';
 	$strCreateReport = 'Create Report';
 	$strReportDropped = 'Report dropped.';
@@ -345,8 +362,8 @@
 	$strConfDropReport = 'Are you sure you want to drop the report "%s"?';
 	$strReportNeedsName = 'You must give a name for your report.';
 	$strReportNeedsDef = 'You must give SQL for your report.';
-	$strReportCreated = 'Report created.';
-	$strReportCreatedBad = 'Report creation failed.';
+	$strReportCreated = 'Report saved.';
+	$strReportCreatedBad = 'Failed to save report.';
 
 	// Miscellaneous
 	$strTopBar = '%s running on %s:%s -- You are logged in as user "%s", %s';

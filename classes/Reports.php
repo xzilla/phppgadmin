@@ -1,15 +1,17 @@
 <?php
 	/**
-	 * Class to manage reports
+	 * Class to manage reports.  Note how this class is designed to use
+	 * the functions provided by the database driver exclusively, and hence
+	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.2 2003/02/23 12:51:32 chriskl Exp $
+	 * $Id: Reports.php,v 1.3 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
 	class Reports {
-	
+
 		// A database driver
 		var $driver;
-		
+
 		/* Constructor */
 		function Reports() {
 			global $confServers, $misc;
@@ -31,7 +33,9 @@
 		 * @return A recordset
 		 */
 		function &getReports() {
-			$sql = "SELECT * FROM ppa_reports ORDER BY report_name";
+			$sql = $this->driver->getSelectSQL('ppa_reports',
+				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
+				array(), array(), array('report_name'));
 
 			return $this->driver->selectSet($sql);
 		}
@@ -42,9 +46,9 @@
 		 * @return A recordset
 		 */
 		function &getReport($report_id) {
-			$this->driver->clean($report_id);
-
-			$sql = "SELECT * FROM ppa_reports WHERE report_id='{$report_id}'";
+			$sql = $this->driver->getSelectSQL('ppa_reports',
+				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
+				array('report_id' => $report_id), array());
 
 			return $this->driver->selectSet($sql);
 		}
@@ -65,8 +69,30 @@
 				'report_sql' => $report_sql
 			);
 			if ($descr != '') $temp['descr'] = $descr;
-			
+
 			return $this->driver->insert('ppa_reports', $temp);
+		}
+
+		/**
+		 * Alters a report
+		 * @param $report_id The ID of the report
+		 * @param $report_name The name of the report
+		 * @param $db_name The name of the database
+		 * @param $descr The comment on the report
+		 * @param $report_sql The SQL for the report
+		 * @return 0 success
+		 */
+		function alterReport($report_id, $report_name, $db_name, $descr, $report_sql) {
+			$temp = array(
+				'report_name' => $report_name,
+				'db_name' => $db_name,
+				'created_by' => $_SESSION['webdbUsername'],
+				'report_sql' => $report_sql
+			);
+			if ($descr != '') $temp['descr'] = $descr;
+
+			return $this->driver->update('ppa_reports', $temp,
+							array('report_id' => $report_id));
 		}
 
 		/**
@@ -77,47 +103,6 @@
 		function dropReport($report_id) {
 			return $this->driver->delete('ppa_reports', array('report_id' => $report_id));
 		}
-
-		/**
-		 * Checks to see if the reports database has been
-		 * initialized.
-		 * @return True if database has been initialized
-		 */
-/*
-		function isInitialized() {
-			global $appReportsDB;
-
-			// Copy off database name and escape it
-			$dbname = $appReportsDB;
-			$this->clean($dbname);
-
-			$sql = "SELECT datname FROM pg_database WHERE datname='{$dbname}'";
-
-			$rs = $driver->selectSet($sql);
-
-			return ($rs->recordCount() == 1);
-		}
-*/
-		/**
-		 * Initialize the reports database.
-		 * @return 0 success
-		 */
-/*
-		function initReportsDB() {
-			global $appReportsDB;
-
-			return $this->driver->createDatabase($appReportsDB);
-		}
-*/
-		/**
-		 * Initialize the reports table.
-		 * @return 0 success
-		 */
-/*
-		function initReportsTable() {
-
-		}
-*/
 
 	}
 ?>

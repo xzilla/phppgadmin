@@ -1,10 +1,10 @@
 <?php
 
 	/**
-	 * Central WebDB configuration.  As a user you may modify the
+	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.11 2003/02/09 09:23:40 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.12 2003/03/10 02:15:16 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -16,6 +16,12 @@
 	// Name for reports database
 	$appReportsDB = 'phppgadmin';
 	
+	// Only show owned databases?
+	// Note: This will simply hide other databases in the list - this does not
+	// in any way prevent your users from seeing other database by other means.
+	// (eg. In PostgreSQL, go 'SELECT * FROM pg_database' in the SQL area.)
+	$appShowOwnedDB = false;
+
 	/*
 	 * GUI settings
 	 */
@@ -49,6 +55,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$appConfVersion = 3;
+	$appConfVersion = 4;
 
 ?>

@@ -1,25 +1,15 @@
-WebDB Installation Guide
-------------------------
+phpPgAdmin Installation Guide
+-----------------------------
 
 1. Unpack your download
 
-   tar -xvzf webdb-*.tar.gz
+   tar -xvzf phppgadmin-*.tar.gz
 
-2. Configure WebDB
+2. Configure phpPgAdmin
 
-   cp webdb/config.inc.php-dist webdb/config.inc.php
+   cp phppgadmin/conf/config.inc.php-dist phppgadmin/conf/config.inc.php
 
-   Then edit config.inc.php and configure WebDB to your requirements.
-
-3. Configure your PHP installation (optional)
-
-   There are several settings you can use for optimal and more secure
-   WebDB operation.  WebDB will still function regardless of these
-   settings however.
-
-   register_globals Off
-   magic_quotes_gpc Off
-   url_fopen Off
+   Then edit config.inc.php and configure phgPgAdmin to your requirements.
 
 4. Browse to the phpPgAdmin installation using a web browser.  You must
    have cookies enabled for phpPgAdmin to work.

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: tables.php,v 1.8 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -529,7 +529,7 @@
 				while(list($k, $v) = each($rs->f)) {
 					if ($k == $localData->id && !$guiShowOIDs) continue;
 					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else echo "<td class=data{$id} nowrap>", nl2br(htmlspecialchars($v)), "</td>";
+					else echo "<td class=data{$id}>", nl2br(htmlspecialchars($v)), "</td>";
 				}							
 				if (sizeof($key) > 0) {
 					$key_str = '';

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: tblproperties.php,v 1.5 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,48 +12,10 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	function doTriggers($msg = '') {
-		global $data, $localData, $misc; 
-		global $PHP_SELF;
-		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName, $strPrivileges, $strProperties, $strDrop, $strPrivileges;
-
-		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
-		$misc->printMsg($msg);
-
-		$triggers = &$localData->getTriggers($_REQUEST['table']);
-
-		if ($triggers->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th colspan=\"3\" class=\"data\">{$strActions}</th>\n";
-			$i = 0;
-
-			while (!$triggers->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=triggerprops&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strProperties}</td>\n"; 
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strDrop}</td>\n"; 
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strPrivileges}</td></tr>\n"; 
-				
-				$triggers->movenext();
-				$i++;
-			}
-			
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$strNoTriggers}</p>\n";
-
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createtrigger&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";
-	}
-
 	function doExport($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strExport, $strReset;
-		
+
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strExport}</h2>\n";
 		$misc->printMsg($msg);
@@ -80,7 +42,86 @@
 		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 		echo "<input type=submit value=\"{$strExport}\"> <input type=reset value=\"{$strReset}\"></p>\n";
 		echo "</form>\n";
-	}	
+	}
+
+	/**
+	 * Displays a screen where they can add a column
+	 */
+	function doAddColumn($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $strShowAllTables, $strInvalidScriptParam;
+
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+
+		switch ($_REQUEST['stage']) {
+			case 1:
+				global $strField, $strType, $strAdd, $strReset;
+				global $strLength, $strAddColumn;
+
+				// Set variable defaults
+				if (!isset($_POST['field'])) $_POST['field'] = '';
+				if (!isset($_POST['type'])) $_POST['type'] = '';
+				if (!isset($_POST['length'])) $_POST['length'] = '';
+
+				// Fetch all available types
+				$types = &$localData->getTypes(true);
+
+				$misc->printTableNav();
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
+					htmlspecialchars($_REQUEST['table']), ": {$strAddColumn}</h2>\n";
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+				// Output table header
+				echo "<table>\n<tr>";
+				echo "<tr><th class=\"data\">{$strField}</th><th class=\"data\">{$strType}</th><th class=\"data\">{$strLength}</th></tr>";
+
+				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+					htmlspecialchars($_POST['field']), "\"></td>";
+				echo "<td><select name=\"type\">\n";
+				while (!$types->EOF) {
+					$typname = $types->f[$data->typFields['typname']];
+					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected' : '', ">",
+						htmlspecialchars($typname), "</option>\n";
+					$types->moveNext();
+				}
+				echo "</select></td>\n";
+				echo "<td><input name=\"length\" size=\"8\" value=\"",
+					htmlspecialchars($_POST['length']), "\"></td></tr>";
+				echo "</table>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"add_column\">\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\">\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+				echo "<p><input type=\"submit\" value=\"{$strAdd}\"> <input type=\"reset\" value=\"{$strReset}\"></p>\n";
+				echo "</form>\n";
+
+				break;
+			case 2:
+				global $localData, $strFieldNeedsName, $strColumnAdded, $strColumnAddedBad;
+
+				// Check inputs
+				if (trim($_POST['field']) == '') {
+					$_REQUEST['stage'] = 1;
+					doAddColumn($strFieldNeedsName);
+					return;
+				}
+				
+				$status = $localData->addColumn($_POST['table'], $_POST['field'],
+								$_POST['type'], $_POST['length']);
+				if ($status == 0)
+					doDefault($strColumnAdded);
+				else {
+					$_REQUEST['stage'] = 1;
+					doAddColumn($strColumnAddedBad);
+					return;
+				}
+				break;
+			default:
+				echo "<p>{$strInvalidScriptParam}</p>\n";
+		}
+	}
 
 	/**
 	 * Displays a screen where they can alter a column
@@ -88,13 +129,14 @@
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strTables, $strShowAllTables;
-		
-		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;		
-		
+
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+
 		switch ($_REQUEST['stage']) {
 			case 1:
 				global $strField, $strType, $strNotNull, $strDefault, $strAlter, $strReset, $strAlterColumn;
 
+				$misc->printTableNav();
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strAlterColumn}: ",
 					htmlspecialchars($_REQUEST['column']), "</h2>\n";
 				$misc->printMsg($msg);
@@ -104,10 +146,10 @@
 				// Output table header
 				echo "<table>\n<tr>";
 				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th></tr>";
-				
+
 				$column = &$localData->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $localData->phpBool($column->f['attnotnull']);
-				
+
 				if (!isset($_REQUEST['default'])) {
 					$_REQUEST['field'] = $column->f['attname'];
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
@@ -155,8 +197,6 @@
 			default:
 				echo "<p>{$strInvalidScriptParam}</p>\n";
 		}
-					
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
 	}
 
 	/**
@@ -173,7 +213,7 @@
                         echo "<p>", sprintf($strConfDropColumn, htmlspecialchars($_REQUEST['column']),
                                 htmlspecialchars($_REQUEST['table'])), "</p>\n";
 								
-			
+
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
@@ -200,7 +240,7 @@
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTable;
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
 		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
-		global $strSelect, $strInsert, $strDrop;
+		global $strSelect, $strInsert, $strAddColumn, $strDrop;
 
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
@@ -234,6 +274,7 @@
 			echo "<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strSelect}</a></li>\n";
 			echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strInsert}</a></li>\n";
 			echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strDrop}</a></li>\n";
+			echo "<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$strAddColumn}</a></li>\n";
 			echo "</ul>\n";
 		}
 		else {
@@ -245,11 +286,11 @@
 	$misc->printBody();
 	
 	switch ($action) {
-		case 'triggers':
-			doTriggers();
-			break;
 		case 'export':
 			doExport();
+			break;
+		case 'add_column':
+			doAddColumn();
 			break;
 		case 'properties':
 			doProperties();

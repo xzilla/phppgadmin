@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.10 2003/02/09 10:22:38 chriskl Exp $
+ * $Id: BaseDB.php,v 1.11 2003/03/10 02:15:14 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -88,16 +88,17 @@ class BaseDB extends ADODB_base {
 	 * @param $show An array of columns to show
 	 * @param $values An array mapping columns to values
 	 * @param $nulls An array of columns that are null
+	 * @param $orderby (optional) An array of columns to order by
 	 * @return The SQL query
 	 */
-	function getSelectSQL($table, $show, $values, $nulls) {
+	function getSelectSQL($table, $show, $values, $nulls, $orderby = array()) {
 		$this->fieldClean($table);
 
 		$sql = "SELECT \"" . join('","', $show) . "\" FROM \"{$table}\"";
 
 		// If we have values specified, add them to the WHERE clause
 		$first = true;
-		if (sizeof($values) > 0) {
+		if (is_array($values) && sizeof($values) > 0) {
 			foreach ($values as $k => $v) {
 				if ($v != '' && !in_array($k, $nulls)) {
 					if ($first) {
@@ -114,7 +115,7 @@ class BaseDB extends ADODB_base {
 		}
 
 		// If we have NULL values specified, add them to the WHERE clause
-		if (sizeof($nulls) > 0) {
+		if (is_array($nulls) && sizeof($nulls) > 0) {
 			foreach ($nulls as $v) {
 				if ($first) {
 					$this->fieldClean($k);
@@ -124,6 +125,11 @@ class BaseDB extends ADODB_base {
 					$sql .= " AND \"{$k}\" IS NULL";
 				}
 			}
+		}
+
+		// ORDER BY
+		if (is_array($orderby) && sizeof($orderby) > 0) {
+			$sql .= " ORDER BY \"" . join('","', $orderby) . "\"";
 		}
 
 		return $sql;

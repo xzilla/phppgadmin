@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: all_db.php,v 1.8 2003/03/10 02:15:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -95,6 +95,7 @@
 	function doDefault($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $strDatabase, $strDatabases, $strComment, $strActions, $strNoDatabases, $strCreateDatabase, $strDrop;
+		global $strEncoding, $strOwner;
 		
 		echo "<h2>{$strDatabases}</h2>\n";
 		$misc->printMsg($msg);
@@ -103,13 +104,15 @@
 		
 		if ($databases->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strDatabase}</th><th class=data>{$strComment}</th><th class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strDatabase}</th><th class=data>{$strOwner}</th><th class=data>{$strEncoding}</th><th class=data>{$strComment}</th><th class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$databases->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbname']]), "</td>\n";
+				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['owner']]), "</td>\n";
+				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['encoding']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
 					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();

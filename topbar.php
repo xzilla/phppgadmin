@@ -1,9 +1,9 @@
 <?php
 
 	/**
-	 * Top menu for WebDB
+	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: topbar.php,v 1.6 2003/03/10 02:15:14 chriskl Exp $
 	 */
 
 	// Include application functions

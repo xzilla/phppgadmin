@@ -1,13 +1,13 @@
 DEVELOPER INFO
 --------------
 
- WebDB is Open Source, so you're invited to contribute to it.
+ phpPgAdmin is Open Source, so you're invited to contribute to it.
  Many great features have been written by other people and you too
- can help to make WebDB a useful tool.
+ can help to make phpPgAdmin a useful tool.
  
- WebDB has its roots in the phpPgAdmin software.  A complete rewrite was
- needed for a new version of Postgres, plus also to address many deficiencies
- in the phpPgAdmin codebase.
+ phpPgAdmin 3.0 has its roots in the phpPgAdmin 2.4 software.  A complete 
+ rewrite was necessary to support PostgreSQL 7.3 and to address problems
+ in the phpPgAdmin 2.4 codebase.
  
  If you're planning to contribute source, please read the following 
  information:
@@ -48,6 +48,6 @@ DEVELOPER INFO
   	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
   	
   Write access to the CVS tree is granted only to developers who have already
-  contributed something useful to WebDB or phpPgAdmin.  If you're interested in that, 
+  contributed something useful to phpPgAdmin.  If you're interested in that, 
   please contact us.                                  
                                  
