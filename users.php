@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: users.php,v 1.3 2003/02/20 23:19:38 slubek Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Function to save after editing a user
 	 */
 	function doSaveEdit() {
-		global $data;
+		global $data, $strUserUpdated, $strUserUpdatedBad;
 		
 		$status = $data->setUser($_POST['username'], '', isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
 		if ($status == 0)
-			doProperties('User updated.');
+			doProperties($strUserUpdated);
 		else
-			doEdit('User update failed.');
+			doEdit($strUserUpdatedBad);
 	}
 	
 	/**
@@ -31,9 +31,10 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
+		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers, $strSave, $strReset;
+		global $strShowAllUsers, $strNodata, $strProperties, $strEdit;
 	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Edit</h2>\n";
+		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": {$strEdit}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -53,14 +54,14 @@
 			echo "</table>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
+			echo "<input type=\"submit\" value=\"{$strSave}\" /> <input type=\"reset\" value=\"$strReset\" />\n";
 			echo "</form>\n";
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>{$strNoData}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllUsers}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;username=", 
-			urlencode($_REQUEST['username']), "\">Properties</a></p>\n";
+			urlencode($_REQUEST['username']), "\">{$strProperties}</a></p>\n";
 	}
 	
 	/**
@@ -69,8 +70,9 @@
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
+		global $strPrperties, $strShowAllUsers, $strEdit, $strNoData, $strUsers;
 	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Properties</h2>\n";
+		echo "<h2>{$strUsers}: ", htmlspecialchars($_REQUEST['username']), ": {$strProperties}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$userdata = &$data->getUser($_REQUEST['username']);
@@ -84,11 +86,11 @@
 			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>$strNoData}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">Show All Users</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$strShowAllUsers}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
-			urlencode($_REQUEST['username']), "\">Edit</a></p>\n";
+			urlencode($_REQUEST['username']), "\">{$strEdit}</a></p>\n";
 	}
 	
 	/**
