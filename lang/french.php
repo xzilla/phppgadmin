@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.10 2003/09/24 08:49:03 chriskl Exp $
+	 * $Id: french.php,v 1.11 2003/11/28 05:58:13 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -33,7 +33,7 @@
 	$lang['strdefinition'] = 'Définition';
 	$lang['stroperators'] = 'Opérateurs';
 	$lang['straggregates'] = 'Aggrégats';
-	$lang['strproperties'] = 'Propriétées';
+	$lang['strproperties'] = 'Propriétés';
 	$lang['strbrowse'] = 'Parcourir';
 	$lang['strdrop'] = 'Supprimer';
 	$lang['strdropped'] = 'Supprimé';
@@ -43,7 +43,7 @@
 	$lang['strnext'] = 'Suivant';
 	$lang['strfailed'] = 'Echec';
         $lang['strfirst'] = '<< Début';
-        $lang['strlast'] = 'Fin >>';
+	$lang['strlast'] = 'Fin >>';
 	$lang['strcreate'] = 'Créer';
 	$lang['strcreated'] = 'Créé';
 	$lang['strcomment'] = 'Commentaire';
@@ -64,7 +64,7 @@
 	$lang['stredit'] = 'Editer';
 	$lang['strtrue'] = 'TRUE';
 	$lang['strfalse'] = 'FALSE';
-	$lang['strcolumns'] = 'Colones';
+	$lang['strcolumns'] = 'Colonnes';
 	$lang['strrows'] = 'ligne(s)';
 	$lang['strexample'] = 'Exple.';
 	$lang['strrowsaff'] = 'ligne(s) affectée(s).';
@@ -162,10 +162,6 @@
 	$lang['straddcolumn'] = 'Ajouter une colonne';
 	$lang['strcolumnadded'] = 'Colonne ajoutée.';
 	$lang['strcolumnaddedbad'] = 'Echec d\'ajout de colonne.';
-	$lang['strschemaanddata'] = 'Schema & Données';
-	$lang['strschemaonly'] = 'Schema seul';
-	$lang['strdataonly'] = 'Données seules';
-
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Table modifiée.';
 	$lang['strtablealteredbad'] = 'Echec à la modification de la table.';
@@ -226,7 +222,7 @@
 	$lang['strgrantfailed'] = 'Echec de l\'octroi de privilèges.';
 
 	$lang['strgrantbad'] = 'Vous devez spécifier au moins un utilisateur ou groupe et au moins un privilège.';
-	$lang['stralterprivs'] = 'Alter Privileges';
+	$lang['stralterprivs'] = 'Modifier Privilèges(Alter)';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 	// Databases
@@ -477,7 +473,6 @@
 	$lang['strnooperator'] = 'Pas d\'opérateur trouvé.';
 	$lang['strnooperators'] = 'Pas d\'opérateur trouvé.';
 	$lang['strcreateoperator'] = 'Créer un opérateur';
-	$lang['stroperatorname'] = 'Nom de l\'opérateur';
 	$lang['strleftarg'] = 'Type de l\'argument de gauche';
 	$lang['strrightarg'] = 'Type de l\'argument de droite';
 	$lang['stroperatorneedsname'] = 'Vous devez donner un nom pour votre opérateur.';
@@ -492,5 +487,50 @@
 	$lang['strtopbar'] = '%s Lancé sur %s:%s -- Vous êtes connecté sous le nom "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Aide';
+
+
+
+	$lang['strlogindisallowed'] = 'Login disallowed';
+	$lang['strobjects'] = 'objet(s)';
+	$lang['strclustered'] = 'Cluster?';
+	$lang['strinfo'] = 'Info';
+	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Avancé';
+	$lang['strnoobjects'] = 'Aucun objet trouvé.';
+	$lang['strselectunary'] = 'Les opérateurs unaires ne peuvent pas avoir de valeur.';
+	$lang['strstructureonly'] = 'Structure seulement';
+	$lang['strstructureanddata'] = 'Structure et données';
+	$lang['struserneedsname'] = 'Vous devez donner un nom pour votre utilisateur.';
+	$lang['strconfcluster'] = 'Etes-vous sure de vouloir réaliser le cluster "%s"?';
+	$lang['strclusteredgood'] = 'Cluster réalisé.';
+	$lang['strclusteredbad'] = 'Echec lors de la création du cluster.';
+	$lang['strcommutator'] = 'Commutateur';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Left sort';
+	$lang['strrightsort'] = 'Right sort';
+	$lang['strlessthan'] = 'Plus petit que';
+	$lang['strgreaterthan'] = 'Plus grand que';
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'No casts found.';
+	$lang['strsourcetype'] = 'Source type';
+	$lang['strtargettype'] = 'Target type';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'In assignment';
+	$lang['strbinarycompat'] = '(Binary compatible)';
+	$lang['strconversions'] = 'Conversions';
+	$lang['strnoconversions'] = 'Pas de Conversion trouvé.';
+	$lang['strsourceencoding'] = 'Source encoding';
+	$lang['strtargetencoding'] = 'Target encoding';
+	$lang['strlanguages'] = 'Langages';
+	$lang['strnolanguages'] = 'Pas de langage trouvé.';
+	$lang['strtrusted'] = 'Trusted';
+	$lang['strnoinfo'] = 'Pas d\'information disponible.';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Tables Parents';
+	$lang['strchildtables'] = 'Tables Enfants';
 
 ?>
