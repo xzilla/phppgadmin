@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.17 2003/08/18 08:27:07 chriskl Exp $
+	 * $Id: views.php,v 1.18 2003/08/25 01:44:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -94,7 +94,7 @@
 			}
 		}
 
-}
+	}
 	
 	/** 
 	 * Function to save after editing a view

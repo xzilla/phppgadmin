@@ -1,5 +1,3 @@
-* Create trigger screen doesn't save fields if it fails creating trigger
-* XML output can't use field names as tag names...
 * Backport findObject to pre-7.3
 * Add db comments everywhere
 * Add owner everywhere
@@ -7,4 +5,7 @@
 * reports - unindexed fk's
 	  - slow indexes
 * Get table comments for pre-7.3
+* make getrowidentifier prefer unique indexes that don't allow nulls,
+  and don't use partial indexes
+* remove tblexport.php from cvs
 

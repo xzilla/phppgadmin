@@ -32,6 +32,7 @@ Features:
 * 'Save as Report' feature when viewing record sets
 * Tick all box on Select feature
 * Export in HTML format
+* Download the results of selects and reports
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.22 2003/08/21 04:49:36 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.23 2003/08/25 01:44:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -94,7 +94,7 @@
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
 		$misc->printMsg($msg);
 
-		echo "<form action=\"tblexport.php\" method=\"post\">\n";
+		echo "<form action=\"dataexport.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strformat']}:</th><td><select name=\"format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
@@ -111,7 +111,7 @@
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.32 2003/08/19 04:04:12 chriskl Exp $
+	 * $Id: tables.php,v 1.33 2003/08/25 01:44:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -177,7 +177,7 @@
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script language=\"JavaScript\">\n";
@@ -240,16 +240,16 @@
 			echo "</form>\n";
 		}
 		else {
-			if (!isset($_POST['show'])) $_POST['show'] = array();
-			if (!isset($_POST['values'])) $_POST['values'] = array();
-			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			if (!isset($_GET['show'])) $_GET['show'] = array();
+			if (!isset($_GET['values'])) $_GET['values'] = array();
+			if (!isset($_GET['nulls'])) $_GET['nulls'] = array();
 			
-			if (sizeof($_POST['show']) == 0)
+			if (sizeof($_GET['show']) == 0)
 				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
-				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
-					$_POST['values'], array_keys($_POST['nulls']));
+				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_GET['show']),
+					$_GET['values'], array_keys($_GET['nulls']));
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
