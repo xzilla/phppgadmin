@@ -3,7 +3,7 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.2 2002/02/12 08:53:15 chriskl Exp $
+ * $Id: MySQL.php,v 1.3 2003/01/08 05:39:20 chriskl Exp $
  */
 
 include_once('../classes/database/BaseDB.php');
@@ -19,6 +19,24 @@ class MySQL extends BaseDB {
 		//$this->Port = $port;
 
 		$this->conn->connect($host, $user, $password, $database);
+	}
+
+	/**
+	 * A function to check that the database functions are installed
+	 * and running.
+	 * @return True on success, false otherwise
+	 */
+	function isLoaded() {
+		return function_exists('mysql_connect');
+	}
+
+	/**
+	 * Cleans (escapes) an object name (eg. table, field)
+	 * @param $str The string to clean, by reference
+	 * @return The cleaned string
+	 */
+	function fieldClean(&$str) {
+		return $str;
 	}
 
 	/**
@@ -105,32 +123,6 @@ class MySQL extends BaseDB {
 	}
 
 	/**
-	 * Adds a check constraint to a table
-	 * @param $table The table to which to add the check
-	 * @param $definition The definition of the check
-	 * @param $name (optional) The name to give the check, otherwise default name is assigned
-	 * @return 0 success
-	 */
-	function addCheckConstraint($table, $definition, $name = '') {
-		// Not implemented
-		return -99;
-	}
-	
-	/**
-	 * Drops a check constraint from a table
-	 * @param $table The table from which to drop the check
-	 * @param $name The name of the check to be dropped
-	 * @return 0 success
-	 * @return -2 transaction error
-	 * @return -3 lock error
-	 * @return -4 check drop error
-	 */
-	function dropCheckConstraint($table, $name) {
-		// Not implemented
-		return -99;
-	}	
-
-	/**
 	 * Adds a unique constraint to a table
 	 * @param $table The table to which to add the unique
 	 * @param $fields (array) An array of fields over which to add the unique
@@ -204,17 +196,6 @@ class MySQL extends BaseDB {
 		return $this->execute($sql);
 	}	
 	
-	/**
-	 * Changes the owner of a table
-	 * @param $table The table whose owner is to change
-	 * @param $owner The new owner (username) of the table
-	 * @return 0 success
-	 */
-	function setOwnerOfTable($table, $owner) {
-		// Not implemented
-		return -99;
-	}
-
 	// Column Functions
 
 	/**
@@ -317,34 +298,21 @@ class MySQL extends BaseDB {
 		// Not implemented without knowing column type
 		return -99;
 	}
-/*
-	function &getIndices()
-	function &getIndex()
-	function setIndex()
-	function delIndex()
 
-	function &getSequences()
-	function &getSequence()
-	function setSequence()
-	function delSequence()
+	/**
+	 * Returns a recordset of all columns in a relation.  Used for data export.
+	 * @@ Note: Really needs to use a cursor
+	 * @param $relation The name of a relation
+	 * @return A recordset on success
+	 */
+	function &dumpRelation($relation, $oids) {
+		$this->fieldClean($relation);
 
-	// DML Functions
-
-	function doSelect()
-	function doDelete()
-	function doUpdate()
-*/
-
+		return $this->selectSet("SELECT * FROM {$relation}");
+	}
+	
 	// Capabilities
 	function hasTables() { return true; }
-	function hasViews() { return false; }
-	function hasSequences() { return false; }
-	function hasFunctions() { return true; }
-	function hasTriggers() { return false; }
-	function hasOperators() { return false; }
-	function hasTypes() { return false; }
-	function hasAggregates() { return false; }
-	function hasRules() { return false; }
 
 }
 
