@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.17 2003/05/19 06:08:07 chriskl Exp $
+	 * $Id: display.php,v 1.18 2003/05/19 13:12:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -28,7 +28,7 @@
 	// If current page is not set, default to first page
 	if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
 
-	$sub = $_REQUEST['query'];
+	$sub = trim($_REQUEST['query']);
 	// Trim off trailing semi-colon if there is one
 	if (substr($sub, strlen($sub) - 1, 1) == ';')
 		$sub = substr($sub, 0, strlen($sub) - 1);
