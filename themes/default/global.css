@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.31 2004/11/02 11:46:53 soranzo Exp $
+ * $Id: global.css,v 1.31.4.1 2005/03/01 10:43:10 jollytoad Exp $
  */
 
 /** ELEMENTS */
@@ -15,14 +15,18 @@ body, td
 	font-size: smaller; /*0.8em;*/
 }
 
-body.topbar
+img { border: none; }
+
+div.logo
 {
 	background-color: #CECF9C;
 	margin:	0px;
 	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /* 1em; */
+	border: none;
 	border-bottom: 2px solid #000000;
+	margin-bottom: 2px;
 }
 
 body.browser
@@ -194,7 +198,7 @@ td.opbutton2
 	padding: 2px 1em;
 }
 
-.trail
+.trail, .topbar
 {
 	margin-bottom: 2px;
 }
@@ -219,6 +223,19 @@ td.opbutton2
 .tabs .active
 {
 	background-color: #E6E6CC;
+}
+
+.topbar {
+	border: 2px solid #CECF9C;
+	padding: 2px 1em;
+}
+
+.topbar, .topbar td {
+	background-color: #CECF9C;
+}
+
+.topbar .platform, .topbar .host, .topbar .username {
+	font-weight: bold;
 }
 
 a:active 
@@ -311,3 +328,28 @@ pre.data
 .keyword {color: #FF8000}
 .literal {color: #808080}
 
+/* Browser Tree */
+.webfx-tree-container {
+	margin: 0px;
+	padding: 0px;
+	font: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	white-space: nowrap;
+}
+
+.webfx-tree-item {
+	padding: 0px;
+	margin: 0px;
+	font: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	white-space: nowrap;
+	height: 20px;
+}
+
+.webfx-tree-item img {
+	vertical-align: middle;
+	border: 0px;
+}
+
+.webfx-tree-icon {
+	width: 20px;
+	height: 20px;
+}
