@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.11 2004/01/29 07:30:11 chriskl Exp $
+	 * $Id: dataexport.php,v 1.12 2004/03/29 02:05:31 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -35,6 +35,7 @@
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&schema=' . urlencode($_REQUEST['schema']);
 					$url .= '&d_format=' . urlencode($_REQUEST['d_format']);
 					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['d_oids'])) $url .= '&d_oids=' . urlencode($_REQUEST['d_oids']);
@@ -55,6 +56,7 @@
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&schema=' . urlencode($_REQUEST['schema']);
 					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['s_clean'])) $url .= '&s_clean=' . urlencode($_REQUEST['s_clean']);
 					$url .= "&" . SID;
@@ -71,6 +73,7 @@
 					$url = 'dbexport.php?database=' . urlencode($_REQUEST['database']);
 					$url .= '&what=' . urlencode($_REQUEST['what']);
 					$url .= '&table=' . urlencode($_REQUEST['table']);
+					$url .= '&schema=' . urlencode($_REQUEST['schema']);
 					$url .= '&sd_format=' . urlencode($_REQUEST['sd_format']);
 					$url .= '&output=' . urlencode($_REQUEST['output']);
 					if (isset($_REQUEST['sd_clean'])) $url .= '&sd_clean=' . urlencode($_REQUEST['sd_clean']);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.186 2004/03/12 08:56:53 chriskl Exp $
+ * $Id: Postgres.php,v 1.187 2004/03/29 02:05:31 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1132,6 +1132,7 @@ class Postgres extends BaseDB {
 	 * @param $fields The number of fields
 	 * @param $field An array of field names
 	 * @param $type An array of field types
+	 * @param $array An array of '' or [] for each type if it's an array or not
 	 * @param $length An array of field lengths
 	 * @param $notnull An array of not null
 	 * @param $default An array of default values
@@ -1140,7 +1141,8 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $length, $notnull, $default, $withoutoids, $colcomment, $tblcomment) {
+	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
+									$default, $withoutoids, $colcomment, $tblcomment) {
 		$this->fieldClean($name);
 		$this->fieldClean($tblcomment);
 
@@ -1180,7 +1182,9 @@ class Postgres extends BaseDB {
 					$sql .= "\"{$field[$i]}\" {$type[$i]}";
 					if ($length[$i] != '') $sql .= "({$length[$i]})";
 			}
-
+			// Add array qualifier if necessary
+			if ($array[$i] == '[]') $sql .= '[]';
+			// Add other qualifiers
 			if (isset($notnull[$i])) $sql .= " NOT NULL";
 			if ($default[$i] != '') $sql .= " DEFAULT {$default[$i]}";
 			if ($i != $fields - 1) $sql .= ", ";

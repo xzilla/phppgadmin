@@ -3,13 +3,13 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.9 2004/03/14 06:55:53 chriskl Exp $
+	 * $Id: dbexport.php,v 1.10 2004/03/29 02:05:31 chriskl Exp $
 	 */
 
 	// Include application functions
 	$_no_output = true;
 	include_once('./libraries/lib.inc.php');
-	
+
 	// Check that database dumps are enabled.
 	if ($misc->isDumpEnabled()) {
 
@@ -49,6 +49,11 @@
 		// Check for a table specified
 		if (isset($_REQUEST['table'])) {
 			$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
+			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
+			// set dump schema as well.
+			if ($data->hasSchemaDump()) {
+				$cmd .= " -n " . escapeshellarg($_REQUEST['schema']);
+			}			
 		}
 
 		// Check for GZIP compression specified

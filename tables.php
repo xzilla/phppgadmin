@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.45 2004/03/12 08:56:51 chriskl Exp $
+	 * $Id: tables.php,v 1.46 2004/03/29 02:05:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -105,7 +105,14 @@
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
-					echo "</select></td>";
+					echo "</select>";
+					
+					// Output array type selector
+					echo "<select name=\"array[{$i}]\">\n";
+					echo "<option value=\"\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '') ? ' selected="selected"' : '', "></option>\n";
+					echo "<option value=\"[]\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+					echo "</select></td>\n";
+					
 					echo "<td><input name=\"length[{$i}]\" size=\"10\" value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>";
 					echo "<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>";
@@ -147,7 +154,7 @@
 				}
 				
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
-								$_REQUEST['type'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
+								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
 								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment']);
 				if ($status == 0) {
 					$_reload_browser = true;
