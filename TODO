@@ -1,0 +1,15 @@
+Tables
+------
+
+* Not using proper attFields array for attribute info
+* Browse doesn't implement paging
+
+Functions
+---------
+
+* we add a {} around function definitions every time they are saved to the
+database. This doesn't break anything, but is annoying after you done it 5 times
+and have 5 pairs in your function.
+
+* need to add a drop link to the properties and edit pages.
+
