@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.16 2003/05/30 08:27:04 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.17 2003/07/23 01:42:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -244,46 +244,41 @@
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 		$misc->printMsg($msg);
 
-		if ($attrs->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
-			echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
-			if ($data->hasDropColumn())
-				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
-			else
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-			$i = 0;
-			while (!$attrs->EOF) {
-				$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
-				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
-				echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
+		echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
+		if ($data->hasDropColumn())
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+		else
+			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+		$i = 0;
+		while (!$attrs->EOF) {
+			$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
+			$id = (($i % 2) == 0 ? '1' : '2');
+			echo "<tr><td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
+			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
+			echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
+			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
+			echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
+			if ($data->hasDropColumn()) {
 				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
-				if ($data->hasDropColumn()) {
-					echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-						"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
-				}
-				echo "</tr>\n";
-				$attrs->moveNext();
-				$i++;
+					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 			}
-			echo "</table>\n";
-			echo "<br />\n";
+			echo "</tr>\n";
+			$attrs->moveNext();
+			$i++;
+		}
+		echo "</table>\n";
+		echo "<br />\n";
 
-			echo "<ul>\n";
-			echo "<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strbrowse']}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
-			echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
-			echo "<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-			echo "</ul>\n";
-		}
-		else {
-			echo "<p>{$lang['strnotable']}</p>\n";
-		}
+		echo "<ul>\n";
+		echo "<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strbrowse']}</a></li>\n";
+		echo "<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
+		echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
+		echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
+		echo "<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
+		echo "</ul>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table']);
