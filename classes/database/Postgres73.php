@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.97 2004/05/08 14:08:09 chriskl Exp $
+ * $Id: Postgres73.php,v 1.98 2004/05/08 15:21:43 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -863,7 +863,8 @@ class Postgres73 extends Postgres72 {
 		$sql = "SELECT
 				t.typname AS basename,
 				pg_catalog.format_type(t.oid, NULL) AS typname,
-				pu.usename AS typowner
+				pu.usename AS typowner,
+				pg_catalog.obj_description(t.oid, 'pg_type') AS typcomment
 			FROM (pg_catalog.pg_type t
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace)
 				LEFT JOIN pg_catalog.pg_user pu ON t.typowner = pu.usesysid
@@ -1556,7 +1557,11 @@ class Postgres73 extends Postgres72 {
 	function &getOpClasses() {
 		$sql = "
 			SELECT
-				pa.amname, po.opcname, po.opcintype::pg_catalog.regtype AS opcintype, po.opcdefault
+				pa.amname,
+				po.opcname,
+				po.opcintype::pg_catalog.regtype AS opcintype,
+				po.opcdefault,
+				pg_catalog.obj_description(po.oid, 'pg_opclass') AS opccomment
 			FROM
 				pg_catalog.pg_opclass po, pg_catalog.pg_am pa, pg_catalog.pg_namespace pn
 			WHERE

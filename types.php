@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.15 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: types.php,v 1.16 2004/05/08 15:21:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -212,7 +212,7 @@
 	 * Show default list of types in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc, $database;
+		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
@@ -223,7 +223,9 @@
 		if ($types->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$types->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
@@ -233,6 +235,7 @@
 					urlencode($types->f['basename']), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;type=", 
 					urlencode($types->f['basename']), "\">{$lang['strdrop']}</a></td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($types->f['typcomment']), "</td>\n";				
 				echo "</tr>\n";
 				$types->moveNext();
 				$i++;

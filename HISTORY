@@ -7,8 +7,8 @@ Version 3.4-dev
 Features
 * Add CACHE and CYCLE parameters in sequence creation
 * View, add, edit and delete comments on tables, views, schemas, 
-  aggregates, conversions, operators, functions and 
-  columns (Dan Boren & ChrisKL)
+  aggregates, conversions, operators, functions, types,
+  opclasses and columns (Dan Boren & ChrisKL)
 * Add config file option for turning off the display of comments
 * Allow creating array columns in tables
 * Allow adding array columns to tables

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.61 2004/05/08 14:08:09 chriskl Exp $
+ * $Id: Postgres72.php,v 1.62 2004/05/08 15:21:43 chriskl Exp $
  */
 
 
@@ -320,7 +320,8 @@ class Postgres72 extends Postgres71 {
 		$sql = "SELECT
 				pt.typname AS basename,
 				format_type(pt.oid, NULL) AS typname,
-				pu.usename AS typowner
+				pu.usename AS typowner,
+				(SELECT description FROM pg_description pd WHERE pt.oid=pd.objoid) AS typcomment
 			FROM
 				pg_type pt,
 				pg_user pu

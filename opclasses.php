@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.1 2003/12/24 11:12:20 chriskl Exp $
+	 * $Id: opclasses.php,v 1.2 2004/05/08 15:21:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Show default list of opclasss in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $conf, $misc;
 		global $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stropclasses']}</h2>\n";
@@ -30,6 +30,7 @@
 			echo "<th class=\"data\">{$lang['strname']}</th>";
 			echo "<th class=\"data\">{$lang['strtype']}</th>";
 			echo "<th class=\"data\">{$lang['strdefault']}</th>";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$opclasses->EOF) {
@@ -39,6 +40,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($opclasses->f['opcname']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($opclasses->f['opcintype']), "</td>\n";
 				echo "<td class=\"data{$id}\">", (($opclasses->f['opcdefault']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($opclasses->f['opccomment']), "</td>\n";				
 				echo "</tr>\n";
 				$opclasses->moveNext();
 				$i++;
