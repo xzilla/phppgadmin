@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.10 2003/03/18 07:35:11 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.11 2003/03/27 13:47:15 chriskl Exp $
  */
 
 include_once('libraries/errorhandler.inc.php');
@@ -282,68 +282,18 @@ class ADODB_base {
 	// Type conversion routines
 
 	/**
-	 * Converts an array of identifiers into a bitset, given a bitset definition
-	 * Duplicate flags are silently ignored.
-	 * Note: This is not case insensitive.
-	 * @param flags An array of identifiers
-	 * @param allowed The definition of allowed identifiers, mapping identifier -> bit index
-	 * @return A string representation of the bitset
-	 */
-	function dbBitSet(&$flags, &$allowed) {
-		$bitset = (int)0;
-		for ($i = 0; $i < sizeof($flags); $i++) {
-			if (isset($allowed[$flags[$i]])) {
-				$bitset |= (1 << $allowed[$flags[$i]]);
-			}
-		}
-
-		// Left-pad the bitset to match the database size
-		// Important!
-		$bitset = decbin($bitset);
-		$bitset = str_pad($bitset, sizeof($allowed), '0', STR_PAD_LEFT);
-
-		return 'b' . $bitset;
-	}
-
-	/** 
-	 * Change an int from a database bitset field back into an array of identifiers
-	 * @param $bitset The database bitset, in database format (B'10101')
-	 * @param $allowed The definition of allowed identifiers, mapping identifier -> bit index
-	 * @return An array of identifiers
-	 */
-	function phpBitSet($bitset, &$allowed) {
-		// @@ NOTE: Should we be doing better error handling here?
-		// @@ This condition will catch both NULL values (correctly) and borked values (incorrectly)
-		if (!ereg("^[01]+$", $bitset)) return array();
-
-		$intset = bindec($bitset);
-
-		$temp = array();
-
-		reset($allowed);
-		while (list($k, $v) = each($allowed)) {
-			if ($intset & (1 << $v)) $temp[] = $k;
-		}
-		return $temp;
-	}
-
-	/** 
-	 * Change the value of a parameter to 't' or 'f' depending on whether it evaluates to true or false
+	 * Change the value of a parameter to database representation depending on whether it evaluates to true or false
 	 * @param $parameter the parameter
 	 */
 	function dbBool(&$parameter) {
-		if ($parameter) $parameter = 't';
-		else $parameter = 'f';
-
 		return $parameter;
 	}
 
-	/** 
-	 * Change a parameter from 't' or 'f' to a boolean, (others evaluate to false)
+	/**
+	 * Change a parameter from database representation to a boolean, (others evaluate to false)
 	 * @param $parameter the parameter
 	 */
 	function phpBool($parameter) {
-		$parameter = ($parameter == 't');
 		return $parameter;
 	}
 

@@ -3,7 +3,7 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.6 2003/03/27 12:56:29 chriskl Exp $
+ * $Id: MySQL.php,v 1.7 2003/03/27 13:47:15 chriskl Exp $
  */
 
 include_once('classes/database/BaseDB.php');
@@ -31,15 +31,6 @@ class MySQL extends BaseDB {
 		if ($database === null) $database = 'mysql';
 
 		$this->conn->connect($myhost, $user, $password, $database);
-	}
-
-	/**
-	 * A function to check that the database functions are installed
-	 * and running.
-	 * @return True on success, false otherwise
-	 */
-	function isLoaded() {
-		return function_exists('mysql_connect');
 	}
 
 	/**

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.69 2003/03/27 12:56:29 chriskl Exp $
+ * $Id: Postgres.php,v 1.70 2003/03/27 13:47:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -115,15 +115,6 @@ class Postgres extends BaseDB {
 		if ($database === null) $database = 'template1';
 
 		$this->conn->connect($pghost, $user, $password, $database);
-	}
-
-	/**
-	 * A function to check that the database functions are installed
-	 * and running.
-	 * @return True on success, false otherwise
-	 */
-	function isLoaded() {
-		return function_exists('pg_connect');
 	}
 
 	/**
@@ -2070,6 +2061,28 @@ class Postgres extends BaseDB {
 		";
 
 		return $this->selectSet($sql);
+	}
+
+		// Type conversion routines
+
+	/**
+	 * Change the value of a parameter to 't' or 'f' depending on whether it evaluates to true or false
+	 * @param $parameter the parameter
+	 */
+	function dbBool(&$parameter) {
+		if ($parameter) $parameter = 't';
+		else $parameter = 'f';
+
+		return $parameter;
+	}
+
+	/**
+	 * Change a parameter from 't' or 'f' to a boolean, (others evaluate to false)
+	 * @param $parameter the parameter
+	 */
+	function phpBool($parameter) {
+		$parameter = ($parameter == 't');
+		return $parameter;
 	}
 
 	// Capabilities

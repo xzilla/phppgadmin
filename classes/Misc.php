@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.18 2003/03/23 10:53:45 chriskl Exp $
+	 * $Id: Misc.php,v 1.19 2003/03/27 13:47:15 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -74,6 +74,57 @@
 											$password);
 			
 			return $localData;
+		}
+
+		/**
+		 * Gets the name of the correct database driver to use
+		 * @param $host The hostname to connect to
+		 * @param $port The port to connect to
+		 * @param $user The username to use
+		 * @param $password The password to use
+		 * @param $type The ADODB database type name.
+		 * @return The class name of the driver eg. Postgres73
+		 * @return -1 Database functions not compiled in
+		 * @return -2 Invalid database type
+		 * @return -3 Database-specific failure
+		 */
+		function getDriver($host, $port, $user, $password, $type) {
+			switch ($type) {
+				case 'postgres7':
+					// Check functions are loaded
+					if (!function_exists('pg_connect')) return -1;
+
+					include_once('classes/database/ADODB_base.php');
+					$adodb = new ADODB_base('postgres7');
+
+					$adodb->conn->connect("{$host}:{$port}", $user, $password, 'template1');
+
+					$sql = "SELECT VERSION() AS version";
+					$field = $adodb->selectField($sql, 'version');
+
+					$params = explode(' ', $field);
+					if (!isset($params[1])) return -3;
+
+					$version = $params[1]; // eg. 7.3.2
+
+					if (strpos($version, '7.3') === 0)
+						return 'Postgres73';
+					elseif (strpos($version, '7.2') === 0)
+						return 'Postgres72';
+					elseif (strpos($version, '7.1') === 0)
+						return 'Postgres71';
+					else
+						return 'Postgres';
+
+					break;
+				case 'mysql':
+					// Check functions are loaded
+					if (!function_exists('mysql_connect')) return -1;
+					return 'MySQL';
+					break;
+				default:
+					return -2;
+			}
 		}
 
 		/**

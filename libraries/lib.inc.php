@@ -3,14 +3,14 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.24 2003/03/27 12:56:30 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.25 2003/03/27 13:47:16 chriskl Exp $
 	 */
 
 	// Application name 
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.0-dev';
+	$appVersion = '3.0.0-dev-3';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -25,7 +25,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 4;
+	$appBaseConfVersion = 5;
 
 	// List of available language files
 	$appLangFiles = array(
@@ -109,26 +109,30 @@
 
 	// Create data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
-		$_type = $confServers[$_SESSION['webdbServerID']]['type'];
+		if (!isset($confServers[$_SESSION['webdbServerID']]['type']))
+			$confServers[$_SESSION['webdbServerID']]['type'] = 'postgres7';
+		$_type = $misc->getDriver($confServers[$_SESSION['webdbServerID']]['host'],
+						$confServers[$_SESSION['webdbServerID']]['port'],
+						$_SESSION['webdbUsername'],
+						$_SESSION['webdbPassword'],
+						$confServers[$_SESSION['webdbServerID']]['type']);
+		// Check return type
+		if ($_type == -1) {
+			echo $lang['strnotloaded'];
+			exit;
+		}
+		// @@ NEED TO CHECK MORE RETURN VALS HERE
+
 		require_once('classes/database/' . $_type . '.php');
-		$data = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
-									$confServers[$_SESSION['webdbServerID']]['port'],
-									null,
-									$_SESSION['webdbUsername'],
-									$_SESSION['webdbPassword']);
+		$data = new $_type($confServers[$_SESSION['webdbServerID']]['host'],
+					$confServers[$_SESSION['webdbServerID']]['port'],
+					null,
+					$_SESSION['webdbUsername'],
+					$_SESSION['webdbPassword']);
 	}
-	
-	// Check that the database functions are loaded
-	// @@ NOTE: THIS IS WRONG. IT NEEDS TO BE DONE BEFORE THE ABOVE, BUT
-	// RELIES ON THE ABOVE!!
-	if (!$data->isLoaded()) {
-		echo $lang['strnotloaded'];
-		exit;
-	}	
 
 	// Create local (database-specific) data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
-		$_type = $confServers[$_SESSION['webdbServerID']]['type'];
 		require_once('classes/database/' . $_type . '.php');
 		$localData = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
 											$confServers[$_SESSION['webdbServerID']]['port'],
