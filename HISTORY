@@ -8,7 +8,7 @@ Features
 * Context-sensitive online help system
 * Use language preferencies from browser (Markus Bertheau, Nicola Soranzo)
 * Tablespace support for 7.5
-* Support cancelling and killing backend processes in 7.5
+* Support cancelling backend processes in 7.5
 * Allow setting privileges on databases
 * Allow setting schema search path in SQL window
 * Allow filtering find results by object type

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.15 2004/07/19 03:01:54 chriskl Exp $
+ * $Id: Postgres75.php,v 1.16 2004/08/04 02:07:03 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -387,7 +387,7 @@ class Postgres75 extends Postgres74 {
 	/**
 	 * Sends a cancel or kill command to a process
 	 * @param $pid The ID of the backend process
-	 * @param $signal 'CANCEL' or 'KILL'
+	 * @param $signal 'CANCEL'
 	 * @return 0 success
 	 * @return -1 invalid signal type
 	 */
@@ -397,8 +397,6 @@ class Postgres75 extends Postgres74 {
 		
 		if ($signal == 'CANCEL')
 			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
-		elseif ($signal == 'KILL')
-			$sql = "SELECT pg_catalog.pg_terminate_backend({$pid}) AS val";
 		else
 			return -1;
 			

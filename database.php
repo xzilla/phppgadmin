@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.56 2004/07/22 08:47:34 jollytoad Exp $
+	 * $Id: database.php,v 1.57 2004/08/04 02:07:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -390,11 +390,6 @@
 				'cancel' => array(
 					'title' => $lang['strcancel'],
 					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;database=" . urlencode($_REQUEST['database']) . "&amp;",
-					'vars'  => array('procpid' => 'procpid')
-				),
-				'kill' => array(
-					'title' => $lang['strkill'],
-					'url'   => "{$PHP_SELF}?action=signal&amp;signal=KILL&amp;database=" . urlencode($_REQUEST['database']) . "&amp;",
 					'vars'  => array('procpid' => 'procpid')
 				)
 			);
