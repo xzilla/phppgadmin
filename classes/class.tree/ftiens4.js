@@ -485,6 +485,7 @@ function initializeDocument()
 { 
   switch(navigator.family)
   {
+    case 'opera':
     case 'ie4':
       browserVersion = 1 //IE4   
       break;
