@@ -19,6 +19,18 @@ A: Check the PostgreSQL log on your server, it will give the exact reason
    why the login is failing.  Edit the pg_hba.conf file in your PostgreSQL
    data dir and make sure you have enabled access to the server properly.
 
+   Another likely reason is that you have not started your PostgreSQL with
+   TCP/IP sockets enabled.  To enable this, edit your postgresql.conf file
+   and change this line:
+
+   	#tcpip_socket = false
+
+   to:
+
+   	tcpip_socket = true
+
+   and then restart PostgreSQL.
+
 Q: I can use any password to log in!
 
 A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
