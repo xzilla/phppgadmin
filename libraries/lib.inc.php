@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.45 2003/05/08 15:14:15 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.46 2003/05/12 02:07:17 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -50,10 +50,14 @@
 	);
 
 	// Language settings.  Always include english.php, since it's the master
-	// language file, and then overwrite it with the user-specified language.
-	// Default language to English if it's not set.
+	// language file, and then overwrite it with the user-specified language if
+	// one has not been selected yet.
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
+	$lang = array();
 	include_once('lang/recoded/english.php');
+	// Include default language over the top - we really should try to avoid this
+	// in the case when the user has chosen a language.
+	include_once("lang/recoded/" . strtolower($conf['default_lang']) . ".php");
 
 	// Check for config file version mismatch
 	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
@@ -112,7 +116,6 @@
 	}
 
 	// Import language file
-	$lang = array();
 	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
 	// Create data accessor object, if valid, and if necessary
