@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.39 2005/02/08 13:32:45 mr-russ Exp $
+	 * $Id: config.inc.php-dist,v 1.40 2005/02/11 11:22:24 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -28,13 +28,13 @@
 	$conf['servers'][0]['pg_dump_path'] = '/usr/bin/pg_dump';
 	$conf['servers'][0]['pg_dumpall_path'] = '/usr/bin/pg_dumpall';
 
-	// Example for a second server
+	// Example for a second server (PostgreSQL for Windows)
 	//$conf['servers'][1]['desc'] = 'Test Server';
-	//$conf['servers'][1]['host'] = '192.168.0.1';
+	//$conf['servers'][1]['host'] = '127.0.0.1';
 	//$conf['servers'][1]['port'] = 5432;
 	//$conf['servers'][1]['defaultdb'] = 'template1';
-	//$conf['servers'][1]['pg_dump_path'] = 'c:/cygwin/bin/pg_dump.exe';
-	//$conf['servers'][1]['pg_dumpall_path'] = '';
+	//$conf['servers'][1]['pg_dump_path'] = 'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dump.exe';
+	//$conf['servers'][1]['pg_dumpall_path'] = 'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dumpall.exe';
 
 	// Default language for the login screen if there's no translation
 	// matching user's browser request. Eg: 'english', 'polish', etc.
