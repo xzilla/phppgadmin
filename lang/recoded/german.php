@@ -1,11 +1,13 @@
 <?php
 
+    // vim: ts=4 sw=4 et
     /**
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.10 2003/09/05 06:48:04 chriskl Exp $
+    * $Id: german.php,v 1.11 2003/09/12 02:06:14 chriskl Exp $
     */
+
 
     // Language and character set
     $lang['applang'] = 'Deutsch';
@@ -117,6 +119,7 @@
     $lang['strinstatement'] = 'In der Anweisung:';
     $lang['strinvalidparam'] = 'Unzul&auml;ssige Skriptparameter.';
     $lang['strnodata'] = 'Keine Datens&auml;tze gefunden.';
+    $lang['strrownotunique'] = 'F&uuml;r diesen Datensatz ist kein eindeutiges Merkmal vorhanden.';
 
     // Tables
     $lang['strtable'] = 'Tabelle';
@@ -153,6 +156,7 @@
     $lang['strnumfields'] = 'Anzahl der Felder';
     $lang['strfieldneedsname'] = 'Sie m&uuml;ssen f&uuml;r das Feld einen Namen angeben';
     $lang['strselectneedscol'] = 'Sie m&uuml;ssen mindestens eine Spalte anzeigen lassen';
+    $lang['strselectallfields'] = 'Alle Felder ausw&auml;hlen';
     $lang['straltercolumn'] = 'Spalte &auml;ndern';
     $lang['strcolumnaltered'] = 'Spalte ge&auml;ndert.';
     $lang['strcolumnalteredbad'] = '&Auml;ndern der Spalte fehlgeschlagen.';
@@ -163,6 +167,7 @@
     $lang['strcolumnadded'] = 'Spalte hinzugef&uuml;gt.';
     $lang['strcolumnaddedbad'] = 'Hinzuf&uuml;gen der Spalte fehlgeschlagen.';
     $lang['strschemaonly'] = 'nur das Schema';
+    $lang['strschemaanddata'] = 'Schema und Daten';
     $lang['strdataonly'] = 'nur die Daten';
 
     // Users
@@ -289,6 +294,8 @@
     $lang['strconfdropsequence'] = 'Sind Sie sicher, dass die die Sequenz &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strsequencedropped'] = 'Sequenz gel&ouml;scht.';
     $lang['strsequencedroppedbad'] = 'L&ouml;schen der Sequenz fehlgeschlagen.';
+    $lang['strsequencereset'] = 'Sequenz zur&uuml;ckgesetzt..';
+    $lang['strsequenceresetbad'] = 'R&uuml;cksetzen der Sequenz fehlgeschlagen.';
 
     // Indexes
     $lang['strindexes'] = 'Indizes';
@@ -444,12 +451,10 @@
     $lang['strcreatereport'] = 'Bericht erstellen';
     $lang['strreportdropped'] = 'Bericht gel&ouml;scht.';
     $lang['strreportdroppedbad'] = 'L&ouml;schen des Berichtes fehlgeschlagen.';
-    $lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht &quot;%s&quot; l&ouml;schen wollen?';
     $lang['strreportneedsname'] = 'Sie m&uuml;ssen f&uuml;r den Bericht einen Namen angeben.';
     $lang['strreportneedsdef'] = 'Sie m&uuml;ssen SQL-Code f&uuml;r den Bericht eingeben.';
     $lang['strreportcreated'] = 'Bericht gespeichert.';
     $lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
-    $lang['strsaveasreport'] = 'Als Bericht speichern';
 
     // Miscellaneous
     $lang['strtopbar'] = '%s l&auml;uft auf host:%s port:%s -- Sie sind angemeldet als Benutzer &quot;%s&quot;, %s';
@@ -481,7 +486,8 @@
     $lang['stroperatorcreated'] = 'Operator erstellt';
     $lang['stroperatorcreatedbad'] = 'Erstellen des Operators fehlgeschlagen.';
     $lang['strconfdropoperator'] = 'Sind Sie sicher, dass Sie den Operator &quot;%s&quot; l&ouml;schen wollen?';
-    $lang['stroperatordropped'] = 'Operator gel&ouml;sche.';
+    $lang['stroperatordropped'] = 'Operator gel&ouml;scht.';
     $lang['stroperatordroppedbad'] = 'L&ouml;schen des Operators fehlgeschlagen.';
+    $lang['strhelp'] = 'Hilfe';
 
 ?>

@@ -1,11 +1,13 @@
 <?php
 
+    // vim: ts=4 sw=4 et
     /**
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.13 2003/09/05 06:48:04 chriskl Exp $
+    * $Id: german.php,v 1.14 2003/09/12 02:06:12 chriskl Exp $
     */
+
 
     // Language and character set
     $lang['applang'] = 'Deutsch';
@@ -117,6 +119,7 @@
     $lang['strinstatement'] = 'In der Anweisung:';
     $lang['strinvalidparam'] = 'Unzulässige Skriptparameter.';
     $lang['strnodata'] = 'Keine Datensätze gefunden.';
+    $lang['strrownotunique'] = 'Für diesen Datensatz ist kein eindeutiges Merkmal vorhanden.';
 
     // Tables
     $lang['strtable'] = 'Tabelle';
@@ -153,6 +156,7 @@
     $lang['strnumfields'] = 'Anzahl der Felder';
     $lang['strfieldneedsname'] = 'Sie müssen für das Feld einen Namen angeben';
     $lang['strselectneedscol'] = 'Sie müssen mindestens eine Spalte anzeigen lassen';
+    $lang['strselectallfields'] = 'Alle Felder auswählen';
     $lang['straltercolumn'] = 'Spalte ändern';
     $lang['strcolumnaltered'] = 'Spalte geändert.';
     $lang['strcolumnalteredbad'] = 'Ändern der Spalte fehlgeschlagen.';
@@ -163,6 +167,7 @@
     $lang['strcolumnadded'] = 'Spalte hinzugefügt.';
     $lang['strcolumnaddedbad'] = 'Hinzufügen der Spalte fehlgeschlagen.';
     $lang['strschemaonly'] = 'nur das Schema';
+    $lang['strschemaanddata'] = 'Schema und Daten';
     $lang['strdataonly'] = 'nur die Daten';
 
     // Users
@@ -289,6 +294,8 @@
     $lang['strconfdropsequence'] = 'Sind Sie sicher, dass die die Sequenz "%s" löschen möchten?';
     $lang['strsequencedropped'] = 'Sequenz gelöscht.';
     $lang['strsequencedroppedbad'] = 'Löschen der Sequenz fehlgeschlagen.';
+    $lang['strsequencereset'] = 'Sequenz zurückgesetzt..';
+    $lang['strsequenceresetbad'] = 'Rücksetzen der Sequenz fehlgeschlagen.';
 
     // Indexes
     $lang['strindexes'] = 'Indizes';
@@ -444,12 +451,10 @@
     $lang['strcreatereport'] = 'Bericht erstellen';
     $lang['strreportdropped'] = 'Bericht gelöscht.';
     $lang['strreportdroppedbad'] = 'Löschen des Berichtes fehlgeschlagen.';
-    $lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht "%s" löschen wollen?';
     $lang['strreportneedsname'] = 'Sie müssen für den Bericht einen Namen angeben.';
     $lang['strreportneedsdef'] = 'Sie müssen SQL-Code für den Bericht eingeben.';
     $lang['strreportcreated'] = 'Bericht gespeichert.';
     $lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
-    $lang['strsaveasreport'] = 'Als Bericht speichern';
 
     // Miscellaneous
     $lang['strtopbar'] = '%s läuft auf host:%s port:%s -- Sie sind angemeldet als Benutzer "%s", %s';
@@ -481,7 +486,8 @@
     $lang['stroperatorcreated'] = 'Operator erstellt';
     $lang['stroperatorcreatedbad'] = 'Erstellen des Operators fehlgeschlagen.';
     $lang['strconfdropoperator'] = 'Sind Sie sicher, dass Sie den Operator "%s" löschen wollen?';
-    $lang['stroperatordropped'] = 'Operator gelösche.';
+    $lang['stroperatordropped'] = 'Operator gelöscht.';
     $lang['stroperatordroppedbad'] = 'Löschen des Operators fehlgeschlagen.';
+    $lang['strhelp'] = 'Hilfe';
 
 ?>
