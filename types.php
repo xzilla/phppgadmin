@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.6 2003/04/30 07:37:39 chriskl Exp $
+	 * $Id: types.php,v 1.7 2003/05/30 08:49:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: ", htmlspecialchars($_REQUEST['type']), ": {$lang['strproperties']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: ", $misc->printVal($_REQUEST['type']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$typedata = &$localData->getType($_REQUEST['type']);
@@ -29,17 +29,17 @@
 			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
 			echo "<table width=100%>\n";
 			echo "<tr><th class=data>{$lang['strname']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$lang['strinputfn']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$lang['stroutputfn']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$lang['strlength']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
 			echo "<tr><th class=data>{$lang['strpassbyval']}</th></tr>\n";
 			echo "<tr><td class=data1>", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=data>{$lang['stralignment']}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
+			echo "<tr><td class=data1>", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
 			echo "</table>\n";
 
 			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
@@ -55,9 +55,9 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: ", htmlspecialchars($_REQUEST['type']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: ", $misc->printVal($_REQUEST['type']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdroptype'], htmlspecialchars($_REQUEST['type'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
@@ -101,7 +101,7 @@
 		$funcs = &$localData->getFunctions(true);
 		$types = &$localData->getTypes();
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}: {$lang['strcreatetype']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}: {$lang['strcreatetype']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -212,7 +212,7 @@
 		global $data, $localData, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtypes']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$types = &$localData->getTypes();
@@ -223,8 +223,8 @@
 			$i = 0;
 			while (!$types->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($types->f[$data->typFields['typowner']]), "</td>\n";
+				echo "<tr><td class=data{$id}>", $misc->printVal($types->f[$data->typFields['typname']]), "</td>\n";
+				echo "<td class=data{$id}>", $misc->printVal($types->f[$data->typFields['typowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strproperties']}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
