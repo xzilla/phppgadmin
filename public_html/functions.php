@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.6 2002/09/18 19:01:47 xzilla Exp $
+	 * $Id: functions.php,v 1.7 2002/12/27 16:31:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -159,8 +159,8 @@
 		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = '';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		
-		$types = &$localData->getTypes();
-		$langs = &$localData->getLangs();
+		$types = &$localData->getTypes(true);
+		$langs = &$localData->getLanguages();
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: Create Function</h2>\n";
 		$misc->printMsg($msg);
@@ -249,7 +249,7 @@
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&database=",
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Edit</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
 				echo "</tr>\n";
 				$funcs->moveNext();

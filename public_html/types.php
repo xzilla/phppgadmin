@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.1 2002/12/21 11:16:46 chriskl Exp $
+	 * $Id: types.php,v 1.2 2002/12/27 16:31:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -99,12 +99,12 @@
 		if (!isset($_POST['typstorage'])) $_POST['typstorage'] = $data->typStorageDef;
 
 		// Retrieve all functions and types in the database
-		$funcs = &$localData->getFunctions();
+		$funcs = &$localData->getFunctions(true);
 		$types = &$localData->getTypes();
 
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTypes}: {$strCreateType}</h2>\n";
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=data><b>{$strName}</b></th></tr>\n";
