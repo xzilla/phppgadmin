@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.132 2004/02/13 08:53:05 chriskl Exp $
+	 * $Id: english.php,v 1.133 2004/02/17 00:12:11 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -34,7 +34,6 @@
 	$lang['stractions'] = 'Actions';
 	$lang['strname'] = 'Name';
 	$lang['strdefinition'] = 'Definition';
-	$lang['straggregates'] = 'Aggregates';
 	$lang['strproperties'] = 'Properties';
 	$lang['strbrowse'] = 'Browse';
 	$lang['strdrop'] = 'Drop';
@@ -117,7 +116,6 @@
 	$lang['strprocess'] = 'Process';
 	$lang['strprocesses'] = 'Processes';
 	$lang['strsetting'] = 'Setting';
-	$lang['strparameters'] = 'Parameters';
 	$lang['streditsql'] = 'Edit SQL';
 	$lang['strpaginate'] = 'Paginate results';
 	$lang['strstarttime'] = 'Start Time';
@@ -182,7 +180,6 @@
 	$lang['straddcolumn'] = 'Add column';
 	$lang['strcolumnadded'] = 'Column added.';
 	$lang['strcolumnaddedbad'] = 'Column add failed.';
-	$lang['strdataonly'] = 'Data Only';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Table altered.';
 	$lang['strtablealteredbad'] = 'Table alteration failed.';

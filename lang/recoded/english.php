@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.84 2004/02/13 08:53:05 chriskl Exp $
+	 * $Id: english.php,v 1.85 2004/02/17 00:12:21 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -34,17 +34,16 @@
 	$lang['stractions'] = 'Actions';
 	$lang['strname'] = 'Name';
 	$lang['strdefinition'] = 'Definition';
-	$lang['straggregates'] = 'Aggregates';
 	$lang['strproperties'] = 'Properties';
 	$lang['strbrowse'] = 'Browse';
 	$lang['strdrop'] = 'Drop';
 	$lang['strdropped'] = 'Dropped';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Not Null';
-	$lang['strprev'] = '< Prev';
-	$lang['strnext'] = 'Next >';
-	$lang['strfirst'] = '<< First';
-	$lang['strlast'] = 'Last >>';
+	$lang['strprev'] = '&lt; Prev';
+	$lang['strnext'] = 'Next &gt;';
+	$lang['strfirst'] = '&lt;&lt; First';
+	$lang['strlast'] = 'Last &gt;&gt;';
 	$lang['strfailed'] = 'Failed';
 	$lang['strcreate'] = 'Create';
 	$lang['strcreated'] = 'Created';
@@ -182,7 +181,6 @@
 	$lang['straddcolumn'] = 'Add column';
 	$lang['strcolumnadded'] = 'Column added.';
 	$lang['strcolumnaddedbad'] = 'Column add failed.';
-	$lang['strdataonly'] = 'Data Only';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Table altered.';
 	$lang['strtablealteredbad'] = 'Table alteration failed.';
