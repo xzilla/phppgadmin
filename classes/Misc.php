@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98 2005/01/23 12:42:35 soranzo Exp $
+	 * $Id: Misc.php,v 1.98.2.1 2005/03/01 10:34:12 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -21,14 +21,8 @@
 		 * @return True, dumps are set up, false otherwise
 		 */
 		function isDumpEnabled($all = false) {
-			global $conf;
-			
-			if ($all)
-				return ($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path'] !== null 
-								&& $conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path'] != '');
-			else 
-				return ($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path'] !== null 
-								&& $conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path'] != '');
+			$info = $this->getServerInfo();
+			return !empty($info[$all ? 'pg_dumpall_path' : 'pg_dump']);
 		}
 
 		/**
@@ -43,23 +37,37 @@
 			
 			// If extra security is off, return true
 			if (!$conf['extra_login_security']) return true;
-			elseif ($_SESSION['webdbPassword'] == '') return false;
-			else {
-				$username = strtolower($_SESSION['webdbUsername']);
-				return !in_array($username, $bad_usernames);
-			}
+			
+			$server_info = $this->getServerInfo();
+			
+			if ($server_info['password'] == '') return false;
+			
+			$username = strtolower($server_info['username']);
+			return !in_array($username, $bad_usernames);
 		}
 
 		/**
 		 * Sets the href tracking variable
 		 */
 		function setHREF() {
-			$this->href = '';
-			if (isset($_REQUEST['database'])) {
-				$this->href .= 'database=' . urlencode($_REQUEST['database']);
-				if (isset($_REQUEST['schema']))
-					$this->href .= '&amp;schema=' . urlencode($_REQUEST['schema']);
+			$this->href = $this->getHREF();
+		}
+		
+		/**
+		 * Get a href query string, excluding objects below the given object type (inclusive)
+		 */
+		function getHREF($exclude_from = null) {
+			$href = '';
+			if (isset($_REQUEST['server']) && $exclude_from != 'server') {
+				$href .= 'server=' . urlencode($_REQUEST['server']);
+				if (isset($_REQUEST['database']) && $exclude_from != 'database') {
+					$href .= '&amp;database=' . urlencode($_REQUEST['database']);
+					if (isset($_REQUEST['schema']) && $exclude_from != 'schema') {
+						$href .= '&amp;schema=' . urlencode($_REQUEST['schema']);
+					}
+				}
 			}
+			return $href;
 		}
 
 		/**
@@ -67,10 +75,14 @@
 		 */
 		function setForm() {
 			$this->form = '';
-			if (isset($_REQUEST['database'])) {
-				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\" />\n";
-				if (isset($_REQUEST['schema']))
-					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\" />\n";
+			if (isset($_REQUEST['server'])) {
+				$this->form .= "<input type=\"hidden\" name=\"server\" value=\"" . htmlspecialchars($_REQUEST['server']) . "\" />\n";
+				if (isset($_REQUEST['database'])) {
+					$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\" />\n";
+					if (isset($_REQUEST['schema'])) {
+						$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\" />\n";
+					}
+				}
 			}
 		}
 
@@ -264,27 +276,34 @@
 		/**
 		 * Creates a database accessor
 		 */
-		function &getDatabaseAccessor($database) {
+		function &getDatabaseAccessor($database, $server_id = null) {
 			global $conf;
+			
+			$server_info = $this->getServerInfo($server_id);
 
 			// Create the connection object and make the connection
 			$_connection = new Connection(
-				$conf['servers'][$_SESSION['webdbServerID']]['host'],
-				$conf['servers'][$_SESSION['webdbServerID']]['port'],
-				$_SESSION['webdbUsername'],
-				$_SESSION['webdbPassword'],
+				$server_info['host'],
+				$server_info['port'],
+				$server_info['username'],
+				$server_info['password'],
 				$database
 			);
 
-			// Get the name of the database driver we need to use.  The description
-			// of the server is returned and placed into the conf array.
-			$_type = $_connection->getDriver($desc);
-			// XXX: NEED TO CHECK RETURN STATUS HERE
-
+			// Get the name of the database driver we need to use.
+			// The description of the server is returned in $platform.
+			$_type = $_connection->getDriver($platform);
+			if ($_type === null) {
+				printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer);
+				exit;
+			}
+			$this->setServerInfo('platform', $platform, $server_id);
+			
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
 			include_once('./classes/database/' . $_type . '.php');
-			$data = &new $_type($_connection->conn);
+			$data =& new $_type($_connection->conn);
+			$data->platform = $_connection->platform;
 
 			return $data;
 		}
@@ -405,7 +424,7 @@
 				$active = ($tab_id == $activetab) ? ' active' : '';
 				
 				if (!isset($tab['hide']) || $tab['hide'] !== true) {
-					$tablink = "<a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a>";
+					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">{$tab['title']}</a>";
 					
 					echo "<td width=\"{$width}\" class=\"tab{$active}\">";
 					
@@ -428,271 +447,362 @@
 		function getNavTabs($section) {
 			global $data, $lang, $conf;
 			
-			$databasevar = isset($_REQUEST['database']) ? 'database=' . urlencode($_REQUEST['database']) : '';
-			$schemavar = isset($_REQUEST['schema']) ? '&schema=' . urlencode($_REQUEST['schema']) : '';
+#			$servervar = isset($_REQUEST['server']) ? 'server=' . urlencode($_REQUEST['server']) : '';
+#			$databasevar = isset($_REQUEST['database']) ? '&database=' . urlencode($_REQUEST['database']) : '';
+#			$schemavar = isset($_REQUEST['schema']) ? '&schema=' . urlencode($_REQUEST['schema']) : '';
 			$hide_advanced = ($conf['show_advanced'] === false);
 			
 			switch ($section) {
+				case 'root':
+					return array (
+						'intro' => array (
+							'title' => $lang['strintroduction'],
+							'url'   => "intro.php",
+						),
+						'servers' => array (
+							'title' => $lang['strservers'],
+							'url'   => "servers.php",
+						),
+					);
+
 				case 'server':
-					$hide_users = !$data->isSuperUser($_SESSION['webdbUsername']);
+#					$vars = $servervar . $databasevar . '&subject=server';
+					$server_info = $this->getServerInfo();
+					$hide_users = !$data->isSuperUser($server_info['username']);
+					#$hide_users = false;
 					return array (
 						'databases' => array (
 							'title' => $lang['strdatabases'],
-							'url'   => "all_db.php",
+							'url'   => 'all_db.php',
+							'urlvars' => array('subject' => 'server'),
 							'help'  => 'pg.database',
 						),
 						'users' => array (
 							'title' => $lang['strusers'],
-							'url'   => "users.php",
+							'url'   => 'users.php',
+							'urlvars' => array('subject' => 'server'),
 							'hide'  => $hide_users,
 							'help'  => 'pg.user',
 						),
 						'groups' => array (
 							'title' => $lang['strgroups'],
-							'url'   => "groups.php",
+							'url'   => 'groups.php',
+							'urlvars' => array('subject' => 'server'),
 							'hide'  => $hide_users,
 							'help'  => 'pg.group',
 						),
+						'account' => array (
+							'title' => $lang['straccount'],
+							'url'   => 'users.php',
+							'urlvars' => array('subject' => 'server', 'action' => 'action'),
+							'hide'  => !$hide_users,
+							'help'  => 'pg.user',
+						),
 						'tablespaces' => array (
 							'title' => $lang['strtablespaces'],
-							'url'   => "tablespaces.php",
+							'url'   => 'tablespaces.php',
+							'urlvars' => array('subject' => 'server'),
 							'hide'  => (!$data->hasTablespaces()),
 							'help'  => 'pg.tablespace',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
-							'url'   => "all_db.php?action=export",
+							'url'   => 'all_db.php',
+							'urlvars' => array('subject' => 'server', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
+						),
+						'reports' => array (
+							'title' => $lang['strreports'],
+							'url'   => 'reports.php',
+							'urlvars' => array('subject' => 'server'),
 						),
 					);
 
 				case 'database':
-					$vars = $databasevar . '&subject=database';
+#					$vars = $servervar . $databasevar . '&subject=database';
 					return array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
-							'url'   => "database.php?{$vars}",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
-							'url'   => "database.php?{$vars}&action=sql",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'sql'),
 							'help'  => 'pg.sql',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
-							'url'   => "database.php?{$vars}&action=find",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'find'),
 						),
 						'variables' => array (
 							'title' => $lang['strvariables'],
-							'url'   => "database.php?{$vars}&action=variables",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'variables'),
 							'hide'  => (!$data->hasVariables()),
 							'help'  => 'pg.variable',
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
-							'url'   => "database.php?{$vars}&action=processes",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'processes'),
 							'hide'  => (!$data->hasProcesses()),
 							'help'  => 'pg.process',
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
-							'url'   => "database.php?{$vars}&action=admin",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'admin'),
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}",
+							'url'   => 'privileges.php',
+							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!isset($data->privlist['database'])),
 							'help'  => 'pg.privilege',
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
-							'url'   => "languages.php?{$vars}",
+							'url'   => 'languages.php',
+							'urlvars' => array('subject' => 'database'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.language',
 						),
 						'casts' => array (
 							'title' => $lang['strcasts'],
-							'url'   => "casts.php?{$vars}",
+							'url'   => 'casts.php',
+							'urlvars' => array('subject' => 'database'),
 							'hide'  => ($hide_advanced || !$data->hasCasts()),
 							'help'  => 'pg.cast',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
-							'url'   => "database.php?{$vars}&action=export",
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
 						),
 					);
 
 				case 'schema':
-					$vars = $databasevar . $schemavar . '&subject=schema';
+#					$vars = $servervar . $databasevar . $schemavar . '&subject=schema';
 					return array (
 						'tables' => array (
 							'title' => $lang['strtables'],
-							'url'   => "tables.php?{$vars}",
+							'url'   => 'tables.php',
+							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.table',
+							'icon'  => 'tables',
 						),
 						'views' => array (
 							'title' => $lang['strviews'],
-							'url'   => "views.php?{$vars}",
+							'url'   => 'views.php',
+							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.view',
+							'icon'  => 'views',
 						),
 						'sequences' => array (
 							'title' => $lang['strsequences'],
-							'url'   => "sequences.php?{$vars}",
+							'url'   => 'sequences.php',
+							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.sequence',
+							'icon'  => 'sequences',
 						),
 						'functions' => array (
 							'title' => $lang['strfunctions'],
-							'url'   => "functions.php?{$vars}",
+							'url'   => 'functions.php',
+							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.function',
+							'icon'  => 'functions',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
-							'url'   => "domains.php?{$vars}",
+							'url'   => 'domains.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => (!$data->hasDomains()),
 							'help'  => 'pg.domain',
+							'icon'  => 'domains',
 						),
 						'aggregates' => array (
 							'title' => $lang['straggregates'],
-							'url'   => "aggregates.php?{$vars}",
+							'url'   => 'aggregates.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.aggregate',
+							'icon'  => 'functions',
 						),
 						'types' => array (
 							'title' => $lang['strtypes'],
-							'url'   => "types.php?{$vars}",
+							'url'   => 'types.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.type',
+							'icon'  => 'types',
 						),
 						'operators' => array (
 							'title' => $lang['stroperators'],
-							'url'   => "operators.php?{$vars}",
+							'url'   => 'operators.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.operator',
+							'icon'  => 'operators',
 						),
 						'opclasses' => array (
 							'title' => $lang['stropclasses'],
-							'url'   => "opclasses.php?{$vars}",
+							'url'   => 'opclasses.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.opclass',
+							'icon'  => 'operators',
 						),
 						'conversions' => array (
 							'title' => $lang['strconversions'],
-							'url'   => "conversions.php?{$vars}",
+							'url'   => 'conversions.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => ($hide_advanced || !$data->hasConversions()),
 							'help'  => 'pg.conversion',
+							'icon'  => 'types',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}",
+							'url'   => 'privileges.php',
+							'urlvars' => array('subject' => 'schema'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
 						),
 					);
 
 				case 'table':
-					$table = urlencode($_REQUEST['table']);
-					$vars = $databasevar . $schemavar . "&table={$table}&subject=table";
+#					$table = urlencode($_REQUEST['table']);
+#					$vars = $servervar . $databasevar . $schemavar . "&table={$table}&subject=table";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
-							'url'   => "tblproperties.php?{$vars}",
+							'url'   => 'tblproperties.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 						),
 						'indexes' => array (
 							'title' => $lang['strindexes'],
-							'url'   => "indexes.php?{$vars}",
+							'url'   => 'indexes.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.index',
 						),
 						'constraints' => array (
 							'title' => $lang['strconstraints'],
-							'url'   => "constraints.php?{$vars}",
+							'url'   => 'constraints.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.constraint',
 						),
 						'triggers' => array (
 							'title' => $lang['strtriggers'],
-							'url'   => "triggers.php?{$vars}",
+							'url'   => 'triggers.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.trigger',
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
-							'url'   => "rules.php?{$vars}",
+							'url'   => 'rules.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.rule',
 						),
 						'info' => array (
 							'title' => $lang['strinfo'],
-							'url'   => "info.php?{$vars}",
+							'url'   => 'info.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}",
+							'url'   => 'privileges.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.privilege',
 						),
 						'import' => array (
 							'title' => $lang['strimport'],
-							'url'   => "tblproperties.php?{$vars}&action=import",
+							'url'   => 'tblproperties.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'import'),
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
-							'url'   => "tblproperties.php?{$vars}&action=export",
+							'url'   => 'tblproperties.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'export'),
 						),
 					);
 				
 				case 'view':
-					$view = urlencode($_REQUEST['view']);
-					$vars = $databasevar . $schemavar . "&view={$view}&subject=view";
+#					$view = urlencode($_REQUEST['view']);
+#					$vars = $servervar . $databasevar . $schemavar . "&view={$view}&subject=view";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
-							'url'   => "viewproperties.php?{$vars}",
+							'url'   => 'viewproperties.php',
+							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 						),
 						'definition' => array (
 							'title' => $lang['strdefinition'],
-							'url'   => "viewproperties.php?{$vars}&action=definition",
+							'url'   => 'viewproperties.php',
+							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'definition'),
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
-							'url'   => "rules.php?{$vars}",
+							'url'   => 'rules.php',
+							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.rule',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}",
+							'url'   => 'privileges.php',
+							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.privilege',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
-							'url'   => "viewproperties.php?{$vars}&action=export",
+							'url'   => 'viewproperties.php',
+							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'export'),
 						),
 					);
 				
 				case 'function':
-					$funcnam = urlencode($_REQUEST['function']);
-					$funcoid = urlencode($_REQUEST['function_oid']);
-					$vars = $databasevar . $schemavar . "&function={$funcnam}&function_oid={$funcoid}&subject=function";
+#					$funcnam = urlencode($_REQUEST['function']);
+#					$funcoid = urlencode($_REQUEST['function_oid']);
+#					$vars = $servervar . $databasevar . $schemavar . "&function={$funcnam}&function_oid={$funcoid}&subject=function";
 					return array (
 						'definition' => array (
 							'title' => $lang['strdefinition'],
-							'url'   => "functions.php?{$vars}&action=properties",
+							'url'   => 'functions.php',
+							'urlvars' => array(
+									'subject' => 'function',
+									'function' => field('function'),
+									'function_oid' => field('function_oid'),
+									'action' => 'properties',
+								),
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}",
+							'url'   => 'privileges.php',
+							'urlvars' => array(
+									'subject' => 'function',
+									'function' => field('function'),
+									'function_oid' => field('function_oid'),
+								),
 						),
 					);
 				
 				case 'popup':
-					$vars = $databasevar;
+#					$vars = $servervar . $databasevar;
 					return array (
 						'sql' => array (
 							'title' => $lang['strsql'],
-							'url'   => "sqledit.php?{$vars}&action=sql",
+							'url'   => 'sqledit.php',
+							'urlvars' => array('subject' => 'schema', 'action' => 'sql'),
 							'help'  => 'pg.sql',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
-							'url'   => "sqledit.php?{$vars}&action=find",
+							'url'   => 'sqledit.php',
+							'urlvars' => array('subject' => 'schema', 'action' => 'find'),
 						),
 					);
 				
@@ -727,11 +837,63 @@
 			return isset($tab['url']) ? $tab['url'] : null;
 		}
 
+		function printTopbar() {
+			global $lang, $conf, $appName, $appVersion, $appLangFiles;
+			
+			$server_info = $this->getServerInfo();
+			
+			echo "<div class=\"topbar\"><table width=\"100%\"><tr><td>";
+			
+			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {
+				echo sprintf($lang['strtopbar'],
+					'<span class="platform">'.htmlspecialchars($server_info['platform']).'</span>',
+					'<span class="host">'.htmlspecialchars($server_info['host']).'</span>',
+					'<span class="port">'.htmlspecialchars($server_info['port']).'</span>',
+					'<span class="username">'.htmlspecialchars($server_info['username']).'</span>',
+					'<span class="date">'.date($lang['strtimefmt']).'</span>');
+			} else {
+				echo "<span class=\"appname\">$appName</span> <span class=\"version\">$appVersion</span>";
+			}
+			
+			echo "</td>";
+
+			if (isset($_REQUEST['server'])) {
+				$url = "sqledit.php?{$this->href}&amp;action=";
+				
+				$window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
+				
+				echo "<td align=\"right\">";
+				
+				echo "<a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a> | ";
+				
+				echo "<a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a>";
+				
+				echo "</td>";
+			}
+			
+			echo "<td align=\"right\" width=\"1%\">";
+			
+			echo "<form method=\"get\"><select name=\"language\" onchange=\"this.form.submit()\">\n";
+			$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
+			foreach ($appLangFiles as $k => $v) {
+				echo "<option value=\"{$k}\"",
+					($k == $language) ? ' selected="selected"' : '',
+					">{$v}</option>\n";
+			}
+			echo "</select>\n";
+			echo "<noscript><input type=\"submit\" value=\"Set Language\"></noscript>\n";
+			echo "</form>\n";
+			
+			echo "</td></tr></table></div>\n";
+		}
+		
 		/**
 		 * Display a bread crumb trail.
 		 */
 		function printTrail($trail = array()) {
 			global $lang;
+			
+			$this->printTopbar();
 			
 			if (is_string($trail)) {
 				$trail = $this->getTrail($trail);
@@ -768,22 +930,33 @@
 		 * @param $object The type of object at the end of the trail.
 		 */
 		function getTrail($subject = null) {
-			global $lang, $conf;
+			global $lang, $conf, $data, $appName;
 			
 			$trail = array();
 			$vars = '';
 			$done = false;
 			
-			$trail['server'] = array(
-				'title' => $lang['strserver'],
-				'text'  => $conf['servers'][$_SESSION['webdbServerID']]['desc'],
-				'url'   => 'redirect.php?section=server',
-				'help'  => 'pg.server'
+			$trail['root'] = array(
+				'text'  => $appName,
+				'url'   => 'redirect.php?section=root',
 			);
+			
+			if ($subject == 'root') $done = true;
+			
+			if (!$done) {
+				$vars = 'server='.urlencode($_REQUEST['server']).'&';
+				$server_info = $this->getServerInfo();
+				$trail['server'] = array(
+					'title' => $lang['strserver'],
+					'text'  => $server_info['desc'],
+					'url'   => "redirect.php?section=server&{$vars}",
+					'help'  => 'pg.server'
+				);
+			}
 			if ($subject == 'server') $done = true;
 			
 			if (isset($_REQUEST['database']) && !$done) {
-				$vars = 'database='.urlencode($_REQUEST['database']).'&';
+				$vars .= 'database='.urlencode($_REQUEST['database']).'&';
 				$trail['database'] = array(
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
@@ -918,7 +1091,7 @@
 			echo $str;
 			if ($help) {
 				echo "<a class=\"help\" href=\"";
-				echo htmlspecialchars("help.php?help=".urlencode($help));
+				echo htmlspecialchars("help.php?help=".urlencode($help)."&server=".urlencode($_REQUEST['server']));
 				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">{$lang['strhelpicon']}</a>";
 			}
 		}
@@ -934,6 +1107,18 @@
 			echo "-->\n";
 			echo "</script>\n";
 		}
+		
+		/**
+		 * Outputs JavaScript to set the name of the browser window.
+		 * @param $name the window name
+		 * @param $addServer if true (default) then the server id is
+		 *        attached to the name.
+		 */
+		function setWindowName($name, $addServer = true) {
+			echo "<script type=\"text/javascript\">\n<!--\n";
+			echo "   window.name = '{$name}", ($addServer ? ':'.htmlspecialchars($_REQUEST['server']) : ''), "';\n";
+			echo "-->\n</script>\n";
+		}
 
 		/**
 		 * Converts a PHP.INI size variable to bytes.  Taken from publically available
@@ -941,7 +1126,7 @@
 		 * @param $strIniSize The PHP.INI variable
 		 * @return size in bytes, false on failure
 		 */
-	        function inisizeToBytes($strIniSize) {
+		function inisizeToBytes($strIniSize) {
 			// This function will take the string value of an ini 'size' parameter,
 			// and return a double (64-bit float) representing the number of bytes
 			// that the parameter represents. Or false if $strIniSize is unparseable.
@@ -965,8 +1150,70 @@
 				default:
 					return $nSize;
 			}
-        	}		 
+		}
 
+		/**
+		 * Display a URL given an action associative array.
+		 * @param $action An associative array of the follow properties:
+		 *			'url'  => A static URL
+		 *			'vars' => Associative array of (URL variable => field name)
+		 *						these are appended to the URL, whether 'url' or
+		 *						'urlfield' is used.
+		 *			'urlvars'
+		 *			'urlfn' => Function to apply to URL before display
+		 * @param $fields Field data from which 'urlfield' and 'vars' are obtained.
+		 * @param $attr If supplied then the URL will be quoted and prefixed with
+		 *				'$attr='.
+		 */
+		function printActionUrl(&$action, &$fields, $attr = null) {
+/*
+			if (!empty($action['urlfield'])) {
+				$url = htmlentities($fields[$action['urlfield']]);
+				
+				if (!empty($action['urlappend']))
+					$url .= $action['urlappend'];
+				
+			} else if (!empty($action['url']))
+				$url = $action['url'];
+*/
+			if (!empty($action['urlvars'])) {
+				$urlvars = value($action['urlvars'], $fields);
+			} else {
+				$urlvars = array();
+			}
+			
+			if (isset($urlvars['subject'])) {
+				$subject = value($urlvars['subject'], $fields);
+				if (isset($_REQUEST['server']) && $subject != 'root') {
+					$urlvars['server'] = $_REQUEST['server'];
+					if (isset($_REQUEST['database']) && $subject != 'server') {
+						$urlvars['database'] = $_REQUEST['database'];
+						if (isset($_REQUEST['schema']) && $subject != 'database') {
+							$urlvars['schema'] = $_REQUEST['schema'];
+						}
+					}
+				}
+			}
+
+			$url = value($action['url'], $fields);
+			
+			$sep = '?';
+			foreach ($urlvars as $var => $varfield) {
+				$url .= $sep . value_url($var, $fields) . '=' . value_url($varfield, $fields);
+				$sep = '&';
+			}
+			if (!empty($action['urlfn'])) {
+				$fn = value($action['urlfn'], $fields);
+				$url = $fn($url, $action, $fields);
+			}
+			$url = htmlentities($url);
+			
+			if ($attr !== null)
+				return ' '.$attr.'="'.$url.'"';
+			else
+				return $url;
+		}
+		
 		function printUrlVars(&$vars, &$fields) {
 			foreach ($vars as $var => $varfield) {
 				echo "{$var}=", urlencode($fields[$varfield]), "&amp;";
@@ -1067,7 +1314,7 @@
 						switch ($column_id) {
 							case 'actions':
 								foreach ($alt_actions as $action) {
-									if (isset($action['disable'])) {
+									if (isset($action['disable']) && $action['disable'] === true) {
 										echo "<td class=\"data{$id}\"></td>";
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
@@ -1079,15 +1326,17 @@
 								break;
 							default;
 								echo "<td class=\"data{$id}\">";
-								if (isset($column['url'])) {
-									echo "<a href=\"{$column['url']}";
-									$misc->printUrlVars($column['vars'], $tabledata->f);
-									echo "\">";
-								}
+								if (isset($tabledata->f[$column['field']])) {
+									if (isset($column['url'])) {
+										echo "<a href=\"{$column['url']}";
+										$misc->printUrlVars($column['vars'], $tabledata->f);
+										echo "\">";
+									}
 								
-								$type = isset($column['type']) ? $column['type'] : null;
-								$params = isset($column['params']) ? $column['params'] : array();
-								echo $misc->printVal($tabledata->f[$column['field']], $type, $params);
+									$type = isset($column['type']) ? $column['type'] : null;
+									$params = isset($column['params']) ? $column['params'] : array();
+									echo $misc->printVal($tabledata->f[$column['field']], $type, $params);
+								}
 								
 								if (isset($column['url'])) echo "</a>";
 
@@ -1110,6 +1359,68 @@
 				}
 				return false;
 			}
+		}
+		
+		/** Produce XML data for the browser tree
+		 * @param $treedata A set of records to populate the tree.
+		 * @param $actions The actions to perform for the items,
+		 *        similar to the $actions array given to printTable.
+		 *        Two actions may be specified:
+		 *        'item' - the action from clicking the item,
+		 *        'expand' - the action to return XML for the subtree.
+		 * @param $opts Associative array of optional arguments:
+		 *        'prexml' - static XML to place before items.
+		 *        'postxml' - static XML to place after items.
+		 */
+		function printTreeXML(&$treedata, &$actions, $opts = array()) {
+			global $conf;
+			$test = false;
+			header("Content-Type: text/xml");
+			header("Cache-Control: no-cache");
+			
+			echo "<?xml version=\"1.0\"?>\n";
+			echo "<tree>";
+			
+			if (!empty($opts['prexml'])) echo $opts['prexml'];
+			
+			while (!$treedata->EOF) {
+				echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
+				if ($test) {
+					$itemaction =& $actions['expand'];
+				} else {
+					$itemaction =& $actions['item'];
+				}
+				
+				echo $this->printActionUrl($itemaction, $treedata->f, ' action');
+				
+				if (!empty($actions['expand'])) {
+					echo $this->printActionUrl($actions['expand'], $treedata->f, ' src');
+				}
+				echo ' target="detail"';
+				
+				if (!empty($actions['item']['icon'])) {
+					$icon = $this->icon(value_xml($actions['item']['icon'], $treedata->f));
+					echo " icon=\"{$icon}\"";
+				}
+				if (!empty($actions['item']['openIcon'])) {
+					$icon = $this->icon(value_xml($actions['item']['openIcon'], $treedata->f));
+				}
+				if (isset($icon))
+					echo " openIcon=\"{$icon}\"";
+				
+				echo "/>\n";
+				
+				$treedata->moveNext();
+			}
+			
+			if (!empty($opts['postxml'])) echo $opts['postxml'];
+			
+			echo "</tree>";
+		}
+		
+		function icon($icon) {
+			global $conf;
+			return "images/themes/{$conf['theme']}/{$icon}.png";
 		}
 		
 		/**
@@ -1142,6 +1453,89 @@
 			}
 			else	
 				return escapeshellcmd($str);
+		}
+		
+		/**
+		 * Get list of servers
+		 * @param $recordset return as RecordSet suitable for printTable if true,
+		 *                   otherwise just return an array.
+		 */
+		function &getServers($recordset = false) {
+			global $conf;
+			
+			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
+			
+			foreach($conf['servers'] as $idx => $info) {
+				$server_id = $info['host'].':'.$info['port'];
+				
+				if (!isset($srvs[$server_id])) {
+					$srvs[$server_id] = $info;
+				}
+				$srvs[$server_id]['id'] = $server_id;
+			}
+			
+			function _cmp_desc($a, $b) {
+				return strcmp($a['desc'], $b['desc']);
+			}
+			uasort($srvs, '_cmp_desc');
+			
+			if ($recordset) {
+				include_once('classes/ArrayRecordSet.php');
+				return new ArrayRecordSet($srvs);
+			}
+			return $srvs;
+		}
+		
+		/**
+		 * Get information on a server.
+		 * If the parameter isn't supplied then the currently
+		 * connected server is returned.
+		 * @param $server_id A server identifier (host:port)
+		 * @return An associative array of server properties
+		 */
+		function getServerInfo($server_id = null) {
+			global $conf;
+			
+			if ($server_id === null && isset($_REQUEST['server']))
+				$server_id = $_REQUEST['server'];
+			
+			// Check for the server in the logged-in list
+			if (isset($_SESSION['webdbLogin'][$server_id]))
+				return $_SESSION['webdbLogin'][$server_id];
+			
+			// Otherwise, look for it in the conf file
+			foreach($conf['servers'] as $idx => $info) {
+				if ($server_id == $info['host'].':'.$info['port'])
+					return $info;
+			}
+			
+			return null;
+		}
+		
+		/**
+		 * Set server information.
+		 * @param $key parameter name to set, or null to replace all
+		 *             params with the assoc-array in $value.
+		 * @param $value the new value, or null to unset the parameter
+		 * @param $server_id the server identifier, or null for current
+		 *                   server.
+		 */
+		function setServerInfo($key, $value, $server_id = null)
+		{
+			if ($server_id === null && isset($_REQUEST['server']))
+				$server_id = $_REQUEST['server'];
+			
+			if ($key === null) {
+				if ($value === null)
+					unset($_SESSION['webdbLogin'][$server_id]);
+				else
+					$_SESSION['webdbLogin'][$server_id] = $value;
+			} else {
+				if ($value === null)
+					unset($_SESSION['webdbLogin'][$server_id][$key]);
+				else
+					$_SESSION['webdbLogin'][$server_id][$key] = $value;
+			}
 		}
 	}
 ?>

@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.11 2004/07/01 07:15:11 chriskl Exp $
+	 * $Id: Reports.php,v 1.11.4.1 2005/03/01 10:34:12 jollytoad Exp $
 	 */
 
 	class Reports {
@@ -34,10 +34,11 @@
 		 * @return A recordset
 		 */
 		function &getReports() {
-			global $conf;
+			global $conf, $misc;
 			// Filter for owned reports if necessary
 			if ($conf['owned_reports_only']) {
-				$filter['created_by'] = $_SESSION['webdbUsername'];
+				$server_info = $misc->getServerInfo();
+				$filter['created_by'] = $server_info['username'];
 				$ops = array('created_by' => '=');
 			}
 			else $filter = $ops = array();
@@ -71,10 +72,12 @@
 		 * @return 0 success
 		 */
 		function createReport($report_name, $db_name, $descr, $report_sql) {
+			global $misc;
+			$server_info = $misc->getServerInfo();
 			$temp = array(
 				'report_name' => $report_name,
 				'db_name' => $db_name,
-				'created_by' => $_SESSION['webdbUsername'],
+				'created_by' => $server_info['username'],
 				'report_sql' => $report_sql
 			);
 			if ($descr != '') $temp['descr'] = $descr;
@@ -92,10 +95,12 @@
 		 * @return 0 success
 		 */
 		function alterReport($report_id, $report_name, $db_name, $descr, $report_sql) {
+			global $misc;
+			$server_info = $misc->getServerInfo();
 			$temp = array(
 				'report_name' => $report_name,
 				'db_name' => $db_name,
-				'created_by' => $_SESSION['webdbUsername'],
+				'created_by' => $server_info['username'],
 				'report_sql' => $report_sql
 			);
 			if ($descr != '') $temp['descr'] = $descr;
