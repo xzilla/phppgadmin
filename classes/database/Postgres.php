@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.131 2003/08/04 08:27:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.132 2003/08/05 01:54:10 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -348,11 +348,20 @@ class Postgres extends BaseDB {
 			case 'bool':
 			case 'boolean':
 				if ($value !== null && $value == '') $value = null;
-				echo "<select name=\"", htmlspecialchars($name), "\">\n";
-				echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
-				echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
-				echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
-				echo "</select>\n";
+				elseif ($value == 'true') $value = 't';
+				elseif ($value == 'false') $value = 'f';
+				
+				// If value is null, 't' or 'f'...
+				if ($value === null || $value == 't' || $value == 'f') {
+					echo "<select name=\"", htmlspecialchars($name), "\">\n";
+					echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
+					echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
+					echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
+					echo "</select>\n";
+				}
+				else {
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\" />\n";
+				}				
 				break;
 			case 'text':
 			case 'bytea':
@@ -381,8 +390,10 @@ class Postgres extends BaseDB {
 					return 'TRUE';
 				elseif ($value == 'f')
 					return 'FALSE';
+				elseif ($value == '')
+					return 'NULL';
 				else
-					return "''";
+					return $value;
 				break;		
 			default:
 				// Checking variable fields is difficult as there might be a size
@@ -2089,7 +2100,7 @@ class Postgres extends BaseDB {
 						CAST('public' AS TEXT) AS schemaname,
 						CAST(NULL AS TEXT) AS relname,
 						relname AS name,
-						NULL AS relacl
+						relacl
 					FROM
 						pg_class
 					WHERE
@@ -2431,6 +2442,7 @@ echo "<pre>", var_dump($temp), "</pre>";
 		$temp = array();
 
 		// Cachable
+		$f['proiscachable'] = $this->phpBool($f['proiscachable']);
 		if ($f['proiscachable'])
 			$temp[] = 'ISCACHABLE';
 		else

@@ -4,8 +4,8 @@ phpPgAdmin History
 Version 3.1
 -----------
 
+Features:
 * Turkish update from Devrim Gunduz
-* Support zero column tables
 * Add first & last links to nav.  Double number of pages shown.
 * German update from Markus Bertheau
 * Allow granting privileges WITH GRANT OPTION for 7.4
@@ -17,9 +17,13 @@ Version 3.1
 * Pop-up SQL window from Mark Gibson
 * Superusers can always see all databases
 * Default database encoding for languages
-* Lots of NULL value in table dump fixes (XML format changed slightly)
 * Convert our images to PNG format
 * Allow creating tables WITHOUT OIDS
+
+Bug Fixes:
+* Lots of NULL value in table dump fixes (XML format changed slightly)
+* Boolean default values and general boolean field handling fixes
+* Support zero column tables
 
 Version 3.0
 -----------
