@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.59 2003/03/14 03:14:49 chriskl Exp $
+ * $Id: Postgres.php,v 1.60 2003/03/16 10:49:17 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -21,7 +21,7 @@ class Postgres extends BaseDB {
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $rlFields = array('rulename' => 'rulename', 'ruledef' => 'definition');
-	var $tgFields = array('tgname' => 'tgname', 'tgtype' => 'tgtype', 'proname' => 'proname');
+	var $tgFields = array('tgname' => 'tgname', 'tgdef' => 'tgdef');
 	var $cnFields = array('conname' => 'conname', 'consrc' => 'consrc', 'contype' => 'contype');
 	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
 		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
@@ -95,6 +95,9 @@ class Postgres extends BaseDB {
 		'C' => 'CREATE',
 		'T' => 'TEMPORARY'
 	);
+	
+	// Rule action types
+	var $rule_events = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
 
 	function Postgres($host, $port, $database, $user, $password) {
 		$this->BaseDB('postgres7');
@@ -149,6 +152,18 @@ class Postgres extends BaseDB {
 				$arr[$k] = pg_escape_string($v);
 			else
 				$arr[$k] = addslashes($v);
+		}
+		return $arr;
+	}
+
+	/**
+	 * Cleans (escapes) an array of field names
+	 * @param $arr The array to clean, by reference
+	 * @return The cleaned array
+	 */
+	function fieldArrayClean(&$arr) {
+		foreach ($arr as $k => $v) {
+			$arr[$k] = str_replace('"', '""', $v);
 		}
 		return $arr;
 	}
@@ -816,14 +831,12 @@ class Postgres extends BaseDB {
 	function addCheckConstraint($table, $definition, $name = '') {
 		$this->fieldClean($table);
 		$this->fieldClean($name);
-		// @@ how the heck do you clean definition???
-		
-		if ($name != '')
-			$sql = "ALTER TABLE \"{$table}\" ADD CONSTRAINT \"{$name}\" CHECK ({$definition})";
-		else
-			$sql = "ALTER TABLE \"{$table}\" ADD CHECK ({$definition})";
+		// @@ How the heck do you clean a definition???
 
-		// @@ How do you do this?
+		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
+		$sql .= "CHECK ({$definition})";
+
 		return $this->execute($sql);
 	}
 	
@@ -1152,7 +1165,7 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Creates a database
+	 * Creates an index
 	 * @param $database The name of the database to create
 	 * @return 0 success
 	 */
@@ -1163,7 +1176,7 @@ class Postgres extends BaseDB {
 
 		$sql = "CREATE INDEX \"{$name}\" ON \"{$table}\"(\"" .
 			implode('","', $columns) . "\")";
-			
+
 		return $this->execute($sql);
 	}
 
@@ -1197,6 +1210,72 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
+	/**
+	 * Creates a rule
+	 * @param $name The name of the new rule
+	 * @param $event SELECT, INSERT, UPDATE or DELETE
+	 * @param $table Table on which to create the rule
+	 * @param $where When to execute the rule, '' indicates always
+	 * @param $instead True if an INSTEAD rule, false otherwise
+	 * @param $type NOTHING for a do nothing rule, SOMETHING to use given action
+	 * @param $action The action to take
+	 * @param $replace (optional) True to replace existing rule, false otherwise
+	 * @return 0 success
+	 * @return -1 invalid event
+	 */
+	function createRule($name, $event, $table, $where, $instead, $type, $action, $replace = false) {
+		$this->fieldClean($name);
+		$this->fieldClean($table);
+		if (!in_array($event, $this->rule_events)) return -1;
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " RULE \"{$name}\" AS ON {$event} TO \"{$table}\"";
+		// Can't escape WHERE clause
+		if ($where != '') $sql .= " WHERE {$where}";
+		$sql .= " DO";
+		if ($instead) $sql .= " INSTEAD";
+		if ($type == 'NOTHING') 
+			$sql .= " NOTHING";
+		else $sql .= " ({$action})";
+
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Edits a rule
+	 * @param $name The name of the new rule
+	 * @param $event SELECT, INSERT, UPDATE or DELETE
+	 * @param $table Table on which to create the rule
+	 * @param $where When to execute the rule, '' indicates always
+	 * @param $instead True if an INSTEAD rule, false otherwise
+	 * @param $type NOTHING for a do nothing rule, SOMETHING to use given action
+	 * @param $action The action to take
+	 * @return 0 success
+	 * @return -1 invalid event
+	 * @return -2 transaction error
+	 * @return -3 drop existing rule error
+	 * @return -4 create new rule error
+	 */
+	function setRule($name, $event, $table, $where, $instead, $type, $action) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -2;
+
+		$status = $this->dropRule($name, $table);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		$status = $this->createRule($name, $event, $table, $where, $instead, $type, $action);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+		
+		$status = $this->endTransaction();
+		return ($status == 0) ? 0 : -2;
+	}
 
 	// View functions
 	
@@ -1234,7 +1313,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function createView($viewname, $definition) {
-		$this->clean($viewname);
+		$this->fieldClean($viewname);
 		// Note: $definition not cleaned
 		
 		$sql = "CREATE VIEW \"{$viewname}\" AS {$definition}";
@@ -1248,7 +1327,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropView($viewname) {
-		$this->clean($viewname);
+		$this->fieldClean($viewname);
 
 		$sql = "DROP VIEW \"{$viewname}\"";
 
@@ -1759,7 +1838,7 @@ class Postgres extends BaseDB {
 	}
  
 	// Administration functions
-	
+
 	/**
 	 * Vacuums a database
 	 * @param $database The database to vacuum
