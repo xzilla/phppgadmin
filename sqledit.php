@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.13 2004/05/08 13:06:09 chriskl Exp $
+	 * $Id: sqledit.php,v 1.14 2004/06/30 10:09:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Private function to display list of databases
 	 */
 	function _printDatabases() {
-		global $data, $lang, $conf;
+		global $data, $lang, $conf, $action;
 
 		// Get the list of all databases
 		$databases = &$data->getDatabases();
@@ -26,13 +26,13 @@
 			// The javascript action on the select box reloads the popup whenever the database is changed.
 			// This ensures that the correct page encoding is used.  The exact URL to reload to is different
 			// between SQL and Find mode, however.
-			if (!isset($_REQUEST['action']) || $_REQUEST['action'] == 'sql')
+			if ($action == 'sql')
 				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($_REQUEST['action']) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) + (paginate.checked ? '&paginate=on' : '')  + '&" . 
+						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) + (paginate.checked ? '&paginate=on' : '')  + '&" . 
 						SID . "'\">\n";
 			else
 				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($_REQUEST['action']) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&" . SID . "'\">\n";
+						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&" . SID . "'\">\n";
 			
 			while (!$databases->EOF) {
 				$dbname = $databases->f[$data->dbFields['dbname']];
