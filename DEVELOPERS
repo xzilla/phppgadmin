@@ -15,15 +15,15 @@ DEVELOPER INFO
  The following method is preferred for new developers:
   - fetch the current CVS tree over anonymous CVS:
   
-    cvs -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin login
+    cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin login
     [Password: ]  simply press the Enter key!
     
-    cvs -z3 -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co webdb
+    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co webdb
     [This will create a new sub-directory named webdb] 
     
     And you might like to get phpPgAdmin as well for reference purposes:
 
-    cvs -z3 -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
+    cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
     [This will create a new sub-directory named phpPgAdmin]
     
   - Add your stuff
@@ -34,6 +34,8 @@ DEVELOPER INFO
 
     Then, just send us the file.txt
 
+	Please note submitting code is considered a transfer of copyright to the phppgadmin project.
+
   Only project developers can access the CVS tree via ssh and SSH1 must 
   be installed on your client machine. 
   
@@ -42,8 +44,8 @@ DEVELOPER INFO
   	login once with ssh to developername@cvs.phppgadmin.sourceforge.net to create required
   	user directories on the server.
   	
-  	cvs -z3 -d:ext:developername@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co webdb
-  	cvs -z3 -d:ext:developername@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
+  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co webdb
+  	cvs -z3 -d:ext:developername@cvs.sourceforge.net:/cvsroot/phppgadmin co phpPgAdmin
   	
   Write access to the CVS tree is granted only to developers who have already
   contributed something useful to WebDB or phpPgAdmin.  If you're interested in that, 
