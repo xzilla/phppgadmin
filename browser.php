@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.44.2.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: browser.php,v 1.44.2.2 2005/03/03 14:52:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -13,12 +13,17 @@
 	include_once('./libraries/lib.inc.php');
 	
 	// Output header
-	$misc->printHeader('', "<script src=\"xloadtree/xtree.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xmlextras.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xloadtree.js\" type=\"text/javascript\"></script>");
+	$misc->printHeader('', "<script src=\"xloadtree/xmlextras.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xtree2.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xloadtree2.js\" type=\"text/javascript\"></script>");
 	$misc->printBody('browser');
 ?>
 
-	<div class="logo"><a href="intro.php" target="detail"><img src="images/themes/<?php echo $conf['theme'] ?>/title.png" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
+	<div class="logo"><a href="intro.php" target="detail"><img src="<?php echo $misc->icon('title') ?>" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
 
+<style type="text/css">
+.webfx-tree-children {
+	background-image:	url("<?php echo $misc->icon('I') ?>");
+}
+</style>
 <script type="text/javascript">
 
 webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('root') ?>";
@@ -34,11 +39,13 @@ webFXTreeConfig.tIcon			= "<?php echo $misc->icon('T') ?>";
 webFXTreeConfig.tMinusIcon		= "<?php echo $misc->icon('Tminus') ?>";
 webFXTreeConfig.tPlusIcon		= "<?php echo $misc->icon('Tplus') ?>";
 webFXTreeConfig.blankIcon		= "<?php echo $misc->icon('blank') ?>";
+webFXTreeConfig.loadingIcon		= "<?php echo $misc->icon('loading') ?>";
+webFXTreeConfig.loadingText		= "<?php echo $lang['strloading']; ?>";
 
 var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
-tree.target = 'detail';
+tree.target = "detail";
 
-document.write(tree);
+tree.write();
 
 </script>
 

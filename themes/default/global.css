@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.31.4.1 2005/03/01 10:43:10 jollytoad Exp $
+ * $Id: global.css,v 1.31.4.2 2005/03/03 14:52:18 jollytoad Exp $
  */
 
 /** ELEMENTS */
@@ -328,28 +328,32 @@ pre.data
 .keyword {color: #FF8000}
 .literal {color: #808080}
 
-/* Browser Tree */
-.webfx-tree-container {
-	margin: 0px;
-	padding: 0px;
-	font: arial, tahoma, verdana, helvetica, sans-serif, serif;
+/* Browser Tree using XLoadTree 2 */
+.webfx-tree-row {
 	white-space: nowrap;
+	font: arial, tahoma, verdana, helvetica, sans-serif, serif;
 }
 
-.webfx-tree-item {
-	padding: 0px;
-	margin: 0px;
-	font: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	white-space: nowrap;
-	height: 20px;
+.webfx-tree-children {
+	background-repeat: repeat-y;
+	background-position-y: 1px !important;	/* IE only */
 }
 
-.webfx-tree-item img {
+.webfx-tree-row img {
 	vertical-align: middle;
-	border: 0px;
+	height: 20px;
 }
 
 .webfx-tree-icon {
 	width: 20px;
-	height: 20px;
+	cursor: hand;
+	cursor: pointer;
+}
+
+.webfx-tree-expand-icon {
+	width: 20px;
+}
+
+.webfx-tree-hide-root {
+	display: none;
 }
