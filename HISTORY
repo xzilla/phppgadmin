@@ -5,6 +5,7 @@ Version 3.6-dev
 ---------------
 
 Bugs
+* Tree Icons are displayed middle instead of top
 * Ensure login frame is always at top level (Russell Smith)
 
 Version 3.5.1
