@@ -32,5 +32,3 @@ NEEDS TESTING
 * prevent the user from dropping all the superusers
 * getView() isn't schema-aware for 7.3+?
 * rename function in 7.2 and below doesn't come back to the correct function
-* Check domain constraint search pre 7.3
-

@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.4 2004/05/23 04:10:19 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.5 2004/05/30 14:31:34 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -175,10 +175,16 @@
 					$_REQUEST['field'] = $column->f['attname'];
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
 					$_REQUEST['comment'] = $column->f['comment'];
-				}				
+				}
 
-				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
-					htmlspecialchars($_REQUEST['field']), "\" /></td>";
+				// If name of view column is editable, make it a field
+				if ($data->hasViewColumnRename()) {
+					echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
+						htmlspecialchars($_REQUEST['field']), "\" /></td>";
+				}
+				else {
+					echo "<tr><td>", htmlspecialchars($column->f['attname']), "</td>";					
+				}
 				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
@@ -201,12 +207,16 @@
 				global $data, $lang;
 
 				// Check inputs
-				if (trim($_REQUEST['field']) == '') {
+				if ($data->hasViewColumnRename() && trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
 					doProperties($lang['strfieldneedsname']);
 					return;
 				}
 				
+				// If we aren't able to rename view columns, set new name to equal old name always
+				if (!$data->hasViewColumnRename()) $_REQUEST['field'] = $_REQUEST['column'];
+				
+				// Alter the view column
 				$status = $data->alterColumn($_REQUEST['view'], $_REQUEST['column'], $_REQUEST['field'], 
 							     false, false, $_REQUEST['default'], $_REQUEST['olddefault'],
 							     '', '', '', '', $_REQUEST['comment']);
