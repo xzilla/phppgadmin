@@ -55,7 +55,7 @@ Tables
 * -Modify column - default, nullability, etc. (chriskl)
 * Constraints - note massive 7.3 changes here
 * Vacuum & analyze
-* Dumps as CSV, XML or database specific bulk load format
+* -Dumps as CSV, XML or database specific bulk load format (chriskl)
 * Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
   in a timestamp field.  We need to detect if they're inserting into a timestamp field with a magic
   value and then not quote it.
@@ -142,8 +142,8 @@ Casts (7.3)
 Schemas
 -------
 
-* Create schema, drop schema
-* No operations yet respect schema settings
+* -Create schema, drop schema (chriskl)
+* Not all operations yet respect schema settings
 
 Settings
 --------
