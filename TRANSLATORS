@@ -80,4 +80,4 @@ Appendix A: Ways to Get Recode
 * BSD: ftp.gnu.org/gnu/recode/
 * Red Hat: rpm -Uvh recode-3.6-6.i386.rpm
 * Debian: Available via apt-get
-
+* Win32: http://unxutils.sourceforge.net
