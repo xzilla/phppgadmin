@@ -29,6 +29,10 @@ A: This means that you have not properly compiled PostgreSQL support into
         extension=php_pgsql.dll		;under Windows
 	extension=pgsql.so		;under Linux
 
+   In Redhat-based Linux distributions php extensions are configured by
+   ini files in /etc/php.d directory, so you have to put that line
+   into /etc/php.d/pgsql.ini (or install php-pgsql package)
+
 Q: I always get "Login failed" even though I'm _sure_ I'm using the right
    username and password.
 
@@ -47,6 +51,14 @@ A: Check the PostgreSQL log on your server, it will give the exact reason
    	tcpip_socket = true
 
    and then restart PostgreSQL.
+
+   For security reasons login without password or some usernames (postgres,
+   pgsql, root, administrator) is disabled, so you can change 
+
+	 $conf['extra_login_security'] = true;
+
+   to false in config.inc.php. Do this only when you understand how to
+   change PostgreSQL's pg_hba.conf to enable passworded local connections.
 
 Q: I can use any password to log in!
 
