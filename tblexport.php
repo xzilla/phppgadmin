@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.6 2003/05/18 11:52:03 chriskl Exp $
+	 * $Id: tblexport.php,v 1.7 2003/06/30 02:14:03 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -53,10 +53,10 @@
 				// We add an extra escaping slash onto octal encoded characters
 				$v = ereg_replace('\\\\([0-7]{3})', '\\\\\1', $v);
 				if ($first) {
-					echo ($v === null) ? '\\N' : $v;
+					echo ($v == null) ? '\\N' : $v;
 					$first = false;
 				}
-				else echo "\t", ($v === null) ? '\\N' : $v;
+				else echo "\t", ($v == null) ? '\\N' : $v;
 			}
 			echo "\n";
 			$rs->moveNext();
