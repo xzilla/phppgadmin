@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.92 2003/05/06 07:04:48 chriskl Exp $
+ * $Id: Postgres.php,v 1.93 2003/05/06 08:59:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -472,21 +472,27 @@ class Postgres extends BaseDB {
 		
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
 				FROM
-					pg_class c, pg_attribute a, pg_type t
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_class c,
+					pg_type t
 				WHERE
 					c.relname = '{$table}' AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
 				ORDER BY a.attnum";
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, a.attnum
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, adef.adsrc
 				FROM
-					pg_class c, pg_attribute a, pg_type t
+					pg_attribute a LEFT JOIN pg_attrdef adef
+					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
+					pg_class c,
+					pg_type t
 				WHERE
 					c.relname = '{$table}' AND a.attname='{$column}' AND a.attrelid = c.oid AND a.atttypid = t.oid
-				ORDER BY a.attnum";				
+				ORDER BY a.attnum";
 		}
 		
 		return $this->selectSet($sql);
