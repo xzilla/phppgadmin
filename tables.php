@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.21 2003/05/15 03:35:08 chriskl Exp $
+	 * $Id: tables.php,v 1.22 2003/05/15 09:48:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -454,6 +454,8 @@
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
 			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -491,6 +493,8 @@
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
@@ -518,9 +522,12 @@
 		
 		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
 		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
+		if (!isset($_REQUEST['sortdir'])) $_REQUEST['sortdir'] = '';
+		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
 
 		// Retrieve page from table.  $max_pages is returned by reference.
-		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['page'], $conf['max_rows'], $max_pages);
+		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['sortdir'], 
+														$_REQUEST['page'], $conf['max_rows'], $max_pages);
 
 		// Fetch unique row identifier, if there is one
 		$key = $localData->getRowIdentifier($_REQUEST['table']);
@@ -528,7 +535,8 @@
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
 			$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?action=browse&page=%s&{$misc->href}&sortkey=" .
-				urlencode($_REQUEST['sortkey']) . "&table=" . urlencode($_REQUEST['table']));
+				urlencode($_REQUEST['sortkey']) . "&sortdir=" . urlencode($_REQUEST['sortdir']) . 
+				"&strings=" . urlencode($_REQUEST['strings']) . "&table=" . urlencode($_REQUEST['table']));
 			echo "<table>\n<tr>";
 
 			// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
@@ -539,7 +547,11 @@
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
 				if ($k == $localData->id && !$conf['show_oids']) continue;
-				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], "&{$misc->href}&sortkey=", urlencode($k), "&table=", 
+				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], 
+					"&{$misc->href}&sortkey=", urlencode($k), "&sortdir=";
+					// Sort direction opposite to current direction, unless it's currently ''
+					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == $k) ? 'desc' : 'asc';
+					echo "&strings=", urlencode($_REQUEST['strings']), "&table=", 
 					urlencode($_REQUEST['table']), "\">", $misc->printVal($k), "</a></th>\n";
 			}
 						
@@ -563,17 +575,25 @@
 						echo "<td class=\"opbutton{$id}\">&nbsp;</td>\n<td class=\"opbutton{$id}\">&nbsp;</td>\n";
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&sortkey=", 
-							urlencode($_REQUEST['sortkey']), "&table=", urlencode($_REQUEST['table']), 
+							urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), 
+							"&table=", urlencode($_REQUEST['table']), "&strings=", urlencode($_REQUEST['strings']), 
 							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['stredit']}</a></td>\n";
 						echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&sortkey=", 
-							urlencode($_REQUEST['sortkey']), "&table=", urlencode($_REQUEST['table']), 
+							urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), 
+							"&table=", urlencode($_REQUEST['table']),  "&strings=", urlencode($_REQUEST['strings']), 
 							"&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
 				while(list($k, $v) = each($rs->f)) {
 					if ($k == $localData->id && !$conf['show_oids']) continue;
-					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
-					else echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
+					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
+					else {
+						// Trim strings if over length
+						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {							
+							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+						}
+						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v), "</td>";
+					}
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
@@ -584,7 +604,16 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a> |\n";
+		if ($_REQUEST['strings'] == 'expanded')
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
+				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
+				"&strings=collapsed&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strcollapse']}</a></p>\n";
+		else
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=browse&{$misc->href}&sortkey=", 
+				urlencode($_REQUEST['sortkey']), "&sortdir=", urlencode($_REQUEST['sortdir']), "&table=", urlencode($_REQUEST['table']), 
+				"&strings=expanded&page=", $_REQUEST['page'], "&{$key_str}\">{$lang['strexpand']}</a></p>\n";
+		
 	}
 
 	/**

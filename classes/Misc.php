@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.31 2003/05/08 14:15:57 chriskl Exp $
+	 * $Id: Misc.php,v 1.32 2003/05/15 09:48:40 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -47,7 +47,8 @@
 		function printVal($str) {
 			// If the string contains at least one instance of >1 space in a row, then
 			// substitute all spaces for &nbsp;s
-			if (strstr($str, '  '))
+			if ($str === null) return '<i>NULL</i>';
+			elseif (strstr($str, '  '))
 				return nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($str)));
 			else
 				return nl2br(htmlspecialchars($str));

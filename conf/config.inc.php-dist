@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.20 2003/05/08 15:14:15 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.21 2003/05/15 09:48:41 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -51,6 +51,9 @@
 	
 	// Max rows to show on a page when browsing record sets
 	$conf['max_rows'] = 30;
+
+	// Max chars of each field to display by default in browse mode
+	$conf['max_chars'] = 50;
 
 	// Send XHTML headers?  Unless debugging, it's best to leave this off
 	$conf['use_xhtml'] = false;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.103 2003/05/15 08:59:48 chriskl Exp $
+ * $Id: Postgres.php,v 1.104 2003/05/15 09:48:40 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -666,6 +666,7 @@ class Postgres extends BaseDB {
 	 * Returns a recordset of all columns in a relation.  Supports paging.
 	 * @param $relation The name of a relation
 	 * @param $sortkey Field over which to sort.  '' for no sort.
+	 * @param $sortdir 'asc' or 'desc'
 	 * @param $page The page of the relation to retrieve
 	 * @param $page_size The number of rows per page
 	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
@@ -674,7 +675,7 @@ class Postgres extends BaseDB {
 	 * @return -2 counting error
 	 * @return -3 page or page_size invalid
 	 */
-	function &browseRelation($relation, $sortkey, $page, $page_size, &$max_pages) {
+	function &browseRelation($relation, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
 		$oldrelation = $relation;
 		$this->fieldClean($relation);
 
@@ -706,6 +707,11 @@ class Postgres extends BaseDB {
 		if ($sortkey != '') {
 			$this->fieldClean($sortkey);
 			$orderby = " ORDER BY \"{$sortkey}\"";
+			// Add sort order
+			if ($sortdir == 'desc')
+				$orderby .= ' DESC';
+			else
+				$orderby .= ' ASC';
 		}
 		else $orderby = '';
 
@@ -716,9 +722,9 @@ class Postgres extends BaseDB {
 
 		// Actually retrieve the rows, with offset and limit
 		if ($hasID)
-			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" {$orderby}LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		else
-			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" {$orderby}LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 			
 		$status = $this->endTransaction();
 		if ($status != 0) {
