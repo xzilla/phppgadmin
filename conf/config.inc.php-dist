@@ -4,16 +4,21 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.17 2003/04/29 02:30:06 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.18 2003/05/08 02:03:53 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
 	// indexed from zero upwards.
 	$conf['servers'][0]['desc'] = 'PostgreSQL'; // Display name for server
-	$conf['servers'][0]['host'] = null;  // Hostname or IP address for server
-	                                     // Null or '' indicates unix
-					     // domain socket.
+	$conf['servers'][0]['host'] = '';  // Hostname or IP address for server.
+	                                   // Null or '' indicates UNIX domain
+					   // socket.
 	$conf['servers'][0]['port'] = 5432;         // Database port on server
+
+	// Example for a second server
+	//$conf['servers'][1]['desc'] = 'Dev Server';
+	//$conf['servers'][1]['host'] = '192.168.0.1';
+	//$conf['servers'][1]['port'] = 5432;
 
 	// Default language setting.  eg 'english', 'polish', etc.
 	$conf['default_lang'] = 'english';
@@ -21,7 +26,7 @@
 	// Only show owned databases?
 	// Note: This will simply hide other databases in the list - this does not
 	// in any way prevent your users from seeing other database by other means.
-	// (eg. In PostgreSQL, go 'SELECT * FROM pg_database' in the SQL area.)
+	// (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
 	$conf['owned_only'] = false;
 
 	// Width of the left frame in pixels (object browser)
