@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.40 2004/05/31 13:34:40 chriskl Exp $
+	 * $Id: views.php,v 1.41 2004/06/03 06:42:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -496,6 +496,10 @@
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strselect']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\"><a href=\"viewproperties.php?{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
+				// Trim long comments
+				if (strlen($views->f[$data->vwFields['vwcomment']]) > $conf['max_chars']) {
+					$views->f[$data->vwFields['vwcomment']] = substr($views->f[$data->vwFields['vwcomment']], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+				}
 				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwcomment']]), "</td>\n";
 				echo "</tr>\n";
 				$views->moveNext();

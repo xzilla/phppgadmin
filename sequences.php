@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.19 2004/05/09 02:00:25 chriskl Exp $
+	 * $Id: sequences.php,v 1.20 2004/06/03 06:42:20 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -47,6 +47,10 @@
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"privileges.php?{$misc->href}&amp;object=", urlencode($sequences->f[$data->sqFields['seqname']]),
 					"&amp;type=sequence\">{$lang['strprivileges']}</td>\n";
+				// Trim long comments
+				if (strlen($sequences->f['seqcomment']) > $conf['max_chars']) {
+					$sequences->f['seqcomment'] = substr($sequences->f['seqcomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+				}
 				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f['seqcomment']), "</td>\n";
 				echo "</tr>\n";				
 				$sequences->movenext();
@@ -74,9 +78,14 @@
 		// Fetch the sequence information
 		$sequence = &$data->getSequence($_REQUEST['sequence']);		
 		
-		if (is_object($sequence) && $sequence->recordCount() > 0) {			
+		if (is_object($sequence) && $sequence->recordCount() > 0) {						
 			$sequence->f[$data->sqFields['iscycled']] = $data->phpBool($sequence->f[$data->sqFields['iscycled']]);
 			$sequence->f[$data->sqFields['iscalled']] = $data->phpBool($sequence->f[$data->sqFields['iscalled']]);
+
+			// Show comment if any
+			if ($sequence->f['seqcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($sequence->f['seqcomment']), "</p>\n";
+
 			echo "<table border=\"0\">";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strlastvalue']}</th>";
 			echo "<th class=\"data\">{$lang['strincrementby']}</th><th class=\"data\">{$lang['strmaxvalue']}</th>";

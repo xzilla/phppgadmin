@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.31 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: functions.php,v 1.32 2004/06/03 06:42:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -382,6 +382,10 @@
 						$funcs->f[$data->fnFields['fnoid']], "&amp;type=function\">{$lang['strprivileges']}</a></td>\n";
 				}
 				else echo "<td></td>";
+				// Trim long comments
+				if (strlen($funcs->f['funccomment']) > $conf['max_chars']) {
+					$funcs->f['funccomment'] = substr($funcs->f['funccomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+				}
 				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($funcs->f['funccomment']), "</td>\n";				
 				echo "</tr>\n";
 				$funcs->moveNext();

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.52 2004/05/31 13:34:40 chriskl Exp $
+	 * $Id: tables.php,v 1.53 2004/06/03 06:42:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -159,6 +159,7 @@
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
 								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment']);
+
 				if ($status == 0) {
 					$_reload_browser = true;
 					doDefault($lang['strtablecreated']);
@@ -482,6 +483,10 @@
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
+				// Trim long comments
+				if (strlen($tables->f['tablecomment']) > $conf['max_chars']) {
+					$tables->f['tablecomment'] = substr($tables->f['tablecomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+				}
 				if ($conf['show_comments']) echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f['tablecomment']), "</td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.12 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: domains.php,v 1.13 2004/06/03 06:42:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -387,6 +387,10 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domowner']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
+				// Trim long comments
+				if (strlen($domains->f['domcomment']) > $conf['max_chars']) {
+					$domains->f['domcomment'] = substr($domains->f['domcomment'], 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
+				}
 				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domcomment']), "</td>\n";
 				echo "</tr>\n";
 				$domains->moveNext();

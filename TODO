@@ -133,6 +133,8 @@ Settings
 Miscellaneous
 -------------
 
+* Support 7.5 functions for killing backend processes
+* Printable view of things
 * Allow simultaneous logins to different clusters (mark gibson)
 * Show comments for all objects (Dan Boren)
 * Allow setting/dropping comments for all objects (Dan Boren)
