@@ -3,10 +3,10 @@
 /**
  * Help links for PostgreSQL 8.0 documentation
  *
- * $Id: PostgresDoc80.php,v 1.2 2004/11/07 12:27:14 soranzo Exp $
+ * $Id: PostgresDoc80.php,v 1.3 2004/11/26 09:32:51 soranzo Exp $
  */
 
-include('./help/PostgresDocLinks.php');
+include('./help/PostgresDoc74.php');
 
 $this->help_base = 'http://developer.postgresql.org/docs/postgres/';
 

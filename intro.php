@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.12 2004/11/25 21:31:09 xzilla Exp $
+	 * $Id: intro.php,v 1.13 2004/11/26 09:32:51 soranzo Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -14,7 +14,7 @@
 	$misc->printBody();
 ?>
 
-<h1><?php echo "$appName $appVersion (PHP ". $phpversion() .')' ?></h1>
+<h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
 <p><?php echo $lang['strintro'] ?></p>
 
