@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.4 2005/03/02 13:52:25 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.5 2005/03/03 14:43:46 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1154,27 +1154,15 @@
 		/**
 		 * Display a URL given an action associative array.
 		 * @param $action An associative array of the follow properties:
-		 *			'url'  => A static URL
-		 *			'vars' => Associative array of (URL variable => field name)
-		 *						these are appended to the URL, whether 'url' or
-		 *						'urlfield' is used.
-		 *			'urlvars'
+		 *			'url'  => The first part of the URL (before the ?)
+		 *			'urlvars' => Associative array of (URL variable => field name)
+		 *						these are appended to the URL
 		 *			'urlfn' => Function to apply to URL before display
 		 * @param $fields Field data from which 'urlfield' and 'vars' are obtained.
 		 * @param $attr If supplied then the URL will be quoted and prefixed with
 		 *				'$attr='.
 		 */
 		function printActionUrl(&$action, &$fields, $attr = null) {
-/*
-			if (!empty($action['urlfield'])) {
-				$url = htmlentities($fields[$action['urlfield']]);
-				
-				if (!empty($action['urlappend']))
-					$url .= $action['urlappend'];
-				
-			} else if (!empty($action['url']))
-				$url = $action['url'];
-*/
 			if (!empty($action['urlvars'])) {
 				$urlvars = value($action['urlvars'], $fields);
 			} else {
@@ -1207,7 +1195,7 @@
 			}
 			$url = htmlentities($url);
 			
-			if ($attr !== null)
+			if ($attr !== null && $url != '')
 				return ' '.$attr.'="'.$url.'"';
 			else
 				return $url;
@@ -1378,12 +1366,13 @@
 			header("Cache-Control: no-cache");
 			
 			echo "<?xml version=\"1.0\"?>\n";
-			echo "<tree>";
+			echo "<tree>\n";
 			
 			if (!empty($opts['prexml'])) echo $opts['prexml'];
 			
 			while (!$treedata->EOF) {
 				echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
+				
 				if ($test) {
 					$itemaction =& $actions['expand'];
 				} else {
@@ -1393,7 +1382,7 @@
 				echo $this->printActionUrl($itemaction, $treedata->f, ' action');
 				
 				if (!empty($actions['expand'])) {
-					echo $this->printActionUrl($actions['expand'], $treedata->f, ' src');
+					echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
 				}
 				echo ' target="detail"';
 				
@@ -1406,7 +1395,7 @@
 				}
 				if (isset($icon))
 					echo " openIcon=\"{$icon}\"";
-				
+					
 				echo "/>\n";
 				
 				$treedata->moveNext();
@@ -1414,12 +1403,18 @@
 			
 			if (!empty($opts['postxml'])) echo $opts['postxml'];
 			
-			echo "</tree>";
+			echo "</tree>\n";
 		}
 		
 		function icon($icon) {
 			global $conf;
-			return "images/themes/{$conf['theme']}/{$icon}.png";
+			$path = "images/themes/{$conf['theme']}/{$icon}";
+			if (file_exists($path.'.png')) return $path.'.png';
+			if (file_exists($path.'.gif')) return $path.'.gif';
+			$path = "images/themes/default/{$icon}";
+			if (file_exists($path.'.png')) return $path.'.png';
+			if (file_exists($path.'.gif')) return $path.'.gif';
+			return '';
 		}
 		
 		/**
