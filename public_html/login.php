@@ -3,12 +3,13 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.8 2002/12/24 04:03:29 chriskl Exp $
+	 * $Id: login.php,v 1.9 2002/12/24 05:25:18 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
-
+	// Prepare form variables
+	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 ?>
 
 <html>
@@ -27,7 +28,7 @@
 						<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 						<tr>
 							<td>Username:</td>
-							<td><input type="text" name="formUsername" value="<?php if(isset($webdbUsername)==true) {echo htmlspecialchars($webdbUsername); } else { echo '';} ?>" size="24"></td>
+							<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24"></td>
 						</tr>
 						<tr>
 							<td>Password:</td>
@@ -38,7 +39,9 @@
 							<td><select name="formServer">
 							<?php
 								for ($i = 0; $i < sizeof($confServers); $i++) {
-									echo "<option value=\"{$i}\">", htmlspecialchars($confServers[$i]['desc']), ' (',
+									echo "<option value=\"{$i}\"", 
+										($i == $_POST['formServer']) ? ' selected' : '', 
+										">", htmlspecialchars($confServers[$i]['desc']), ' (',
 										htmlspecialchars($confServers[$i]['type']), ")</option>\n";
 								}
 							?>							
