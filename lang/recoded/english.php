@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.1 2003/01/18 08:23:24 chriskl Exp $
+	 * $Id: english.php,v 1.2 2003/01/18 09:07:51 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -87,11 +87,11 @@
 	$strConfDeleteRow = 'Are you sure you want to delete this row?';
 	$strRowDeleted = 'Row deleted.';
 	$strRowDeletedBad = 'Row deletion failed.';
-	$strSaveAndRepeat = 'Save &amp;amp; Repeat';
-	$strConfEmptyTable = 'Are you sure you want to empty the table &amp;quot;%s&amp;quot;?';
+	$strSaveAndRepeat = 'Save &amp; Repeat';
+	$strConfEmptyTable = 'Are you sure you want to empty the table &quot;%s&quot;?';
 	$strTableEmptied = 'Table emptied.';
 	$strTableEmptiedBad = 'Table empty failed.';
-	$strConfDropTable = 'Are you sure you want to drop the table &amp;quot;%s&amp;quot;?';
+	$strConfDropTable = 'Are you sure you want to drop the table &quot;%s&quot;?';
 	$strTableDropped = 'Table dropped.';
 	$strTableDroppedBad = 'Table drop failed.';
 
@@ -116,7 +116,7 @@
 	$strGroupNeedsName = 'You must give a name for your group.';
 	$strGroupCreated = 'Group created.';
 	$strGroupCreatedBad = 'Group creation failed.';	
-	$strConfDropGroup = 'Are you sure you want to drop the group &amp;quot;%s&amp;quot;?';
+	$strConfDropGroup = 'Are you sure you want to drop the group &quot;%s&quot;?';
 	$strGroupDropped = 'Group dropped.';
 	$strGroupDroppedBad = 'Group drop failed.';
 	$strMembers = 'Members';
@@ -166,7 +166,7 @@
 	$strIndexNeedsCols = 'You must give a valid number of columns.';
 	$strIndexCreated = 'Index created';
 	$strIndexCreatedBad = 'Index creation failed.';
-	$strConfDropIndex = 'Are you sure you want to drop the index &amp;quot;%s&amp;quot;?';
+	$strConfDropIndex = 'Are you sure you want to drop the index &quot;%s&quot;?';
 	$strIndexDropped = 'Index dropped.';
 	$strIndexDroppedBad = 'Index drop failed.';
 
@@ -175,7 +175,7 @@
 	$strRule = 'Rule';
 	$strNoRules = 'No rules found.';
 	$strCreateRule = 'Create Rule';
-	$strConfDropRule = 'Are you sure you want to drop the rule &amp;quot;%s&amp;quot; on &amp;quot;%s&amp;quot;?';
+	$strConfDropRule = 'Are you sure you want to drop the rule &quot;%s&quot; on &quot;%s&quot;?';
 	$strRuleDropped = 'Rule dropped.';
 	$strRuleDroppedBad = 'Rule drop failed.';
 
@@ -199,7 +199,7 @@
 	$strConstraints = 'Constraints';
 	$strNoConstraints = 'No constraints found.';
 	$strCreateConstraint = 'Create Constraint';
-	$strConfDropConstraint = 'Are you sure you want to drop the constraint &amp;quot;%s&amp;quot; on &amp;quot;%s&amp;quot;?';
+	$strConfDropConstraint = 'Are you sure you want to drop the constraint &quot;%s&quot; on &quot;%s&quot;?';
 	$strConstraintDropped = 'Constraint dropped.';
 	$strConstraintDroppedBad = 'Constraint drop failed.';
 
@@ -223,7 +223,7 @@
 	$strTypes = 'Types';
 	$strNoTypes = 'No types found.';
 	$strCreateType = 'Create Type';
-	$strConfDropType = 'Are you sure you want to drop the type &amp;quot;%s&amp;quot;?';
+	$strConfDropType = 'Are you sure you want to drop the type &quot;%s&quot;?';
 	$strTypeDropped = 'Type dropped.';
 	$strTypeDroppedBad = 'Type drop failed.';
 	$strTypeCreated = 'Type created';
@@ -244,7 +244,7 @@
 	$strSchemas = 'Schemas';
 	$strCreateSchema = 'Create Schema';
 	$strNoSchemas = 'No schemas found.';
-	$strConfDropSchema = 'Are you sure you want to drop the schema &amp;quot;%s&amp;quot;?';
+	$strConfDropSchema = 'Are you sure you want to drop the schema &quot;%s&quot;?';
 	$strSchemaDropped = 'Schema dropped.';
 	$strSchemaDroppedBad = 'Schema drop failed.';
 	$strSchemaCreated = 'Schema created';
@@ -253,7 +253,7 @@
 	$strSchemaNeedsName = 'You must give a name for your schema.';
 	
 	// Miscellaneous
-	$strTopBar = '%s running on %s:%s -- You are logged in as user &amp;quot;%s&amp;quot;, %s';
+	$strTopBar = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
 	$strTimeFmt = 'jS M, Y g:iA';
 
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.13 2003/01/18 06:38:37 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.14 2003/01/18 09:07:51 chriskl Exp $
 	 */
 
 	// Application name 
@@ -19,21 +19,20 @@
 
 	// List of available language files
 	$appLangFiles = array(
-		'chinese-tr-big5' => 'Chinese Trad. (Big5)',
-		'chinese-tr-utf8' => 'Chinese Trad. (UTF-8)',
-		'dutch' => 'Dutch',
+		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;&#65288;&#33836;&#22283;&#30908;&#65289;',
+		'dutch' => 'Nederlands',
 		'english' => 'English',
-		'german' => 'German',
-		'italian' => 'Italian',
+		'german' => 'Deutsch',
+		'italian' => 'Italiano',
 		'polish' => 'Polish',
-		'spanish' => 'Spanish'
+		'spanish' => 'Espa&ntilde;ol'
 	);
 
 	// Language settings.  Always include english.php, since it's the master
 	// language file, and then overwrite it with the user-specified language.
 	// Default language to English if it's not set.
 	if (!isset($appDefaultLanguage)) $appDefaultLanguage = 'english';
-	include_once('lang/english.php');
+	include_once('lang/recoded/english.php');
 
 	// Check for config file version mismatch
 	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
@@ -88,7 +87,7 @@
 	}
 	
 	// Import language file
-	include("lang/" . strtolower($_SESSION['webdbLanguage']) . ".php");
+	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 	
 	// Create data accessor object, if valid
 	if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
@@ -123,8 +122,27 @@
 		if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
 			$status = $localData->setSchema($_REQUEST['schema']);
 			if ($status != 0) {
-				echo "<p class=\"message\">Invalid schema specified.</p>\n";
+				echo $strBadSchema;
+				exit;
 			}
+		}
+		
+		// Get database encoding
+		$dbEncoding = $localData->getDatabaseEncoding();
+		
+		// Set client encoding to database encoding
+		if ($dbEncoding != '') {
+			$status = $localData->setClientEncoding($dbEncoding);
+			if ($status != 0) {
+				echo $strBadEncoding;
+				exit;
+			}
+		
+			// Override $appCharset
+			if (isset($localData->codemap[$dbEncoding]))
+				$appCharset = $localData->codemap[$dbEncoding];
+			else
+				$appCharset = $dbEncoding;
 		}
 	}
 

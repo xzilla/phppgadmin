@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.43 2003/01/18 07:49:34 chriskl Exp $
+ * $Id: Postgres.php,v 1.44 2003/01/18 09:07:50 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -58,7 +58,8 @@ class Postgres extends BaseDB {
 		'LATIN7' => 'ISO-8859-13',
 		'LATIN8' => 'ISO-8859-14',
 		'LATIN9' => 'ISO-8859-15',
-		'LATIN10' => 'ISO-8859-16'
+		'LATIN10' => 'ISO-8859-16',
+		'UNICODE' => 'UTF-8'
 	);
 
 	function Postgres($host, $port, $database, $user, $password) {

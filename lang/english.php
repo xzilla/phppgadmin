@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.43 2003/01/18 06:38:37 chriskl Exp $
+	 * $Id: english.php,v 1.44 2003/01/18 09:07:51 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -64,6 +64,8 @@
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
 	$strNotLoaded = 'You have not compiled proper database support into your PHP installation.';
+	$strBadSchema = 'Invalid schema specified.';
+	$strBadEncoding = 'Failed to set client encoding in database.';
 	$strSQLError = 'SQL error:';
 	$strInStatement = 'In statement:';
 	$strInvalidParam = 'Invalid script parameters.';

@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.8 2003/01/18 06:38:37 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.9 2003/01/18 09:07:51 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -26,27 +26,21 @@
 	// Max rows to show
 	$guiMaxRows = 30;
 
-	// Servers and types
+	// An example server.  Create as many of these as you wish,
+	// indexed from zero upwards.
 	$confServers = array();
-	$confServers[0]['desc'] = 'Home-PG';
+	$confServers[0]['desc'] = 'PostgreSQL';
 	$confServers[0]['host'] = 'localhost';
-	$confServers[0]['port'] = '5432';
-	$confServers[0]['type'] = 'Postgres71';
+	$confServers[0]['port'] = 5432;
+	$confServers[0]['type'] = 'Postgres73';
 	$confServers[0]['default'] = 'template1';
 	
 	// Servers and types
-	$confServers[1]['desc'] = 'Dev-PG';
+	$confServers[1]['desc'] = 'Development';
 	$confServers[1]['host'] = 'database-dev';
-	$confServers[1]['port'] = '5432';
-	$confServers[1]['type'] = 'Postgres71';
+	$confServers[1]['port'] = 5432;
+	$confServers[1]['type'] = 'Postgres73';
 	$confServers[1]['default'] = 'template1';
-	
-	// MySQL example
-	$confServers[2]['desc'] = 'Home-MySQL';
-	$confServers[2]['host'] = 'localhost';
-	$confServers[2]['port'] = 'xxx'; // Port isn't being used anywhere yet
-	$confServers[2]['type'] = 'MySQL';
-	$confServers[2]['default'] = '';
 	
 	/*****************************************
 	 * Don't modify anything below this line *

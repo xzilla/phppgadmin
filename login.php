@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: login.php,v 1.2 2003/01/18 09:07:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -48,10 +48,11 @@
 						<td><?php echo $strLanguage ?>:</td>
 						<td><select name="formLanguage">
 						<?php
+							// Language name already encoded
 							foreach ($appLangFiles as $k => $v) {
 								echo "<option value=\"{$k}\"",
 									($k == $_POST['formLanguage']) ? ' selected' : '',
-									">", htmlspecialchars($v), "</option>\n";
+									">{$v}</option>\n";
 							}
 						?>
 						</select></td>

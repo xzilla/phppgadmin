@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: tables.php,v 1.2 2003/01/18 09:07:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -568,15 +568,15 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=", 
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&page=1&{$misc->href}&table=",
 					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confselectrows&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strSelect}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=", 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confinsertrow&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strInsert}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=", 
+				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?{$misc->href}&table=",
 					htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=", 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_empty&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strEmpty}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$strDrop}</a></td>\n";
