@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.133 2003/08/05 08:54:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.134 2003/08/06 02:09:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -488,6 +488,18 @@ class Postgres extends BaseDB {
 	// Table functions
 
 	/**
+	 * Returns table information
+	 * @param $table The name of the table
+	 * @return A recordset
+	 */
+	function &getTable($table) {
+		$this->clean($table);
+		
+		$sql = "SELECT tablename, tableowner FROM pg_tables WHERE tablename='{$table}'";
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Return all tables in current database
 	 * @return All tables, sorted alphabetically 
 	 */
@@ -664,6 +676,51 @@ class Postgres extends BaseDB {
 		
 		return $this->execute($sql);
 	}	
+
+	/**
+	 * Alters a table
+	 * @param $table The name of the table
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table	 
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 owner error
+	 * @return -3 rename error
+	 */
+	function alterTable($table, $name, $owner) {
+		$this->fieldClean($table);
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		// Owner
+		if ($this->hasAlterTableOwner() && $owner != '') {
+			$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
+	
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+		}
+
+		// Rename (only if name has changed)
+		if ($name != $table) {
+			$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+				
+		return $this->endTransaction();
+	}
 	
 	/**
 	 * Removes a table from the database
@@ -2556,6 +2613,7 @@ class Postgres extends BaseDB {
 	function hasLanguages() { return true; }
 	function hasDropColumn() { return false; }
 	function hasSRFs() { return true; }
+	function hasAlterTableOwner() { return false; }
 
 }
 

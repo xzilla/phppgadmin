@@ -20,6 +20,7 @@ Features:
 * Convert our images to PNG format
 * Allow creating tables WITHOUT OIDS
 * Show boolean values as TRUE or FALSE when viewing data
+* Allow renaming table and changing table owner
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
