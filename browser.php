@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.29 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: browser.php,v 1.30 2003/12/15 07:59:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -15,7 +15,7 @@
 	include_once('classes/HTML_TreeMenu/TreeMenu.php');
 
 	// Output header
-	$misc->printHeader('', "<script src=\"classes/HTML_TreeMenu/TreeMenu.js\" type=\"text/javascript\"></script>");
+	$misc->printHeader('', "<script src=\"classes/HTML_TreeMenu/TreeMenu.js\" type=\"text/javascript\"></script>\n<script src=\"links.js\" type=\"text/javascript\"></script>");
 	$misc->printBody('browser');
 	
 	// Construct expanding tree
@@ -186,9 +186,13 @@
 	while (!$databases->EOF) {
 		// If database is selected, show folder, otherwise show document
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
+			// Very ugly hack to work around the fact that the PEAR HTML_Tree can't have links with embedded
+			// apostrophes create the get string we need to append
+			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID));
+			$jsLink = "javascript:updateLinks(' + \"'{$jsLink}'\" + ')";
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => addslashes(htmlspecialchars('database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID)), 
+								'link' => $jsLink,
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
@@ -266,9 +270,13 @@
 			$root->addItem($db_node);
 
 		} else {
+			// Very ugly hack to work around the fact that the PEAR HTML_Tree can't have links with embedded
+			// apostrophes create the get string we need to append
+			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID));
+			$jsLink = "javascript:updateLinks(' + \"'{$jsLink}'\" + ')";
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => addslashes(htmlspecialchars("{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID)), 
+								'link' => $jsLink,
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => false,

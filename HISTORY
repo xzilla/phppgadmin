@@ -8,6 +8,7 @@ Features
 * Database dump feature, which uses pg_dump
 * Large speed improvements by reducing number of database
   connections and using external style sheet.
+* SQL pop-up window now defaults to the current database
 
 Bugs
 * Object browser fixed for databases with no schemas
