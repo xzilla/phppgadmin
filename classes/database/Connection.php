@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.6.2.1 2005/02/01 16:49:02 chriskl Exp $
+ * $Id: Connection.php,v 1.6.2.2 2005/02/06 04:18:29 mr-russ Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -25,7 +25,10 @@ class Connection {
 
 		// Ignore host if null
 		if ($host === null || $host == '')
-			$pghost = '';
+			if ($port !== null && $port != '')
+				$pghost = ':'.$port;
+			else
+				$pghost = '';
 		else
 			$pghost = "{$host}:{$port}";
 
