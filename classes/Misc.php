@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.27 2003/04/29 03:05:07 chriskl Exp $
+	 * $Id: Misc.php,v 1.28 2003/04/29 03:05:44 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -101,7 +101,7 @@
 					include_once('classes/database/ADODB_base.php');
 					$adodb = new ADODB_base('postgres7');
 
-					$adodb->conn->connect(($host === null) ? null : "{$host}:{$port}", $user, $password, 'template1');
+					$adodb->conn->connect(($host === null || $host == '') ? null : "{$host}:{$port}", $user, $password, 'template1');
 
 					$sql = "SELECT VERSION() AS version";
 					$field = $adodb->selectField($sql, 'version');
