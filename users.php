@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.20 2004/01/02 20:00:12 soranzo Exp $
+	 * $Id: users.php,v 1.21 2004/01/03 07:24:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -67,10 +67,10 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconfirm']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"confirm\" size=\"32\" value=\"\" /></td>\n\t</tr>\n";
 			echo "<table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
 			echo "<input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</form>\n";
+			echo "</p></form>\n";
 		}
 		else {
 			// Check that password is minimum length
