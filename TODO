@@ -119,6 +119,7 @@ Exotic
 
 * Support contrib/tsearch for easy full text indexes
 * Search for object feature
+* Pivot reports
 
 Principles
 ----------
