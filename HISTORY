@@ -25,6 +25,8 @@ Version 3.0-beta-1
 	  on field name
 	- Trim long strings.  Use 'expand' and 'collapse' to
 	  see full strings or trimmed strings.
+* Revoke on objects.  Grant or revoke to multiple groups
+  and users at once.
 
 Version 3.0.0-dev-4
 -------------------

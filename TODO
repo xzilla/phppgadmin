@@ -25,7 +25,6 @@ Groups
 Permissions
 -----------
 
-* Allow revoking of perms
 * Allow display of grants for a user
 * Allow display of grants for a group
 

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.79 2003/05/20 09:01:58 chriskl Exp $
+	 * $Id: english.php,v 1.80 2003/05/21 09:06:24 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -204,10 +204,10 @@
 	$lang['strnoprivileges'] = 'This object has default owner privileges.';
 	$lang['strgrant'] = 'Grant';
 	$lang['strrevoke'] = 'Revoke';
-	$lang['strgranted'] = 'Privileges granted.';
-	$lang['strgrantfailed'] = 'Failed to grant privileges.';
-	$lang['strgrantuser'] = 'Grant User';
-	$lang['strgrantgroup'] = 'Grant Group';
+	$lang['strgranted'] = 'Privileges changed.';
+	$lang['strgrantfailed'] = 'Failed to change privileges.';
+	$lang['strgrantbad'] = 'You must specify at least one user or group and at least one privilege.';
+	$lang['stralterprivs'] = 'Alter Privileges';
 
 	// Databases
 	$lang['strdatabase'] = 'Database';

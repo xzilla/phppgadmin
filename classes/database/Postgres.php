@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.113 2003/05/20 03:54:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.114 2003/05/21 09:06:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1998,20 +1998,35 @@ class Postgres extends BaseDB {
 	
 	/**
 	 * Grants a privilege to a user, group or public
+	 * @param $mode 'GRANT' or 'REVOKE';
 	 * @param $type The type of object
 	 * @param $object The name of the object
-	 * @param $entity The type of entity (eg. USER, GROUP or PUBLIC)
-	 * @param $name The username or groupname to grant privs to. Ignored for PUBLIC.
-	 * @param $privilege The privilege to grant (eg. SELECT, ALL PRIVILEGES, etc.)
+	 * @param $public True to grant to public, false otherwise
+	 * @param $usernames The array of usernames to grant privs to.
+	 * @param $groupnames The array of group names to grant privs to.	 
+	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
+	 * @return -3 invalid privileges
+	 * @return -4 not granting to anything
+	 * @return -4 invalid mode
 	 */
-	function grantPrivileges($type, $object, $entity, $name, $privilege) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges) {
 		$this->fieldClean($object);
-		$this->fieldClean($name);
+		$this->fieldArrayClean($usernames);
+		$this->fieldArrayClean($groupnames);
 
-		$sql = "GRANT {$privilege} ON";
+		// Input checking
+		if (!is_array($privileges) || sizeof($privileges) == 0) return -3;
+		if (!is_array($usernames) || !is_array($groupnames) || 
+			(!$public && sizeof($usernames) == 0 && sizeof($groupnames) == 0)) return -4;
+		if ($mode != 'GRANT' && $mode != 'REVOKE') return -5;
+
+		if (in_array('ALL PRIVILEGES', $privileges))
+			$sql = "{$mode} ALL PRIVILEGES ON";
+		else
+			$sql = "{$mode} " . join(', ', $privileges) . " ON";
 		// @@ WE NEED SCHEMA SUPPORT BELOW
 		switch ($type) {
 			case 'table':
@@ -2038,20 +2053,34 @@ class Postgres extends BaseDB {
 				return -1;
 		}
 		
-		switch ($entity) {
-			case 'USER':
-				$sql .= " TO \"{$name}\"";
-				break;
-			case 'GROUP':
-				$sql .= " TO GROUP \"{$name}\"";
-				break;
-			case 'PUBLIC':
-				$sql .= " TO PUBLIC";
-				break;
-			default:
-				return -2;
+		// Dump PUBLIC
+		$first = true;
+		$sql .= ($mode == 'GRANT') ? ' TO ' : ' FROM ';
+		if ($public) {
+			$sql .= 'PUBLIC';
+			$first = false;
 		}
-		
+		// Dump users
+		foreach ($usernames as $v) {
+			if ($first) {
+				$sql .= "\"{$v}\"";
+				$first = false;
+			}
+			else {
+				$sql .= ", \"{$v}\"";
+			}
+		}			
+		// Dump groups
+		foreach ($groupnames as $v) {
+			if ($first) {
+				$sql .= "GROUP \"{$v}\"";
+				$first = false;
+			}
+			else {
+				$sql .= ", GROUP \"{$v}\"";
+			}
+		}			
+
 		return $this->execute($sql);
 	}
  
