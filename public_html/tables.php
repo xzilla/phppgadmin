@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.13 2002/12/24 07:35:26 chriskl Exp $
+	 * $Id: tables.php,v 1.14 2002/12/27 04:06:28 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -81,9 +81,10 @@
 					echo "<td><select name=\"type[{$i}]\">\n";
 					$types->moveFirst();
 					while (!$types->EOF) {
-						// @@@@@@@ MAKE THIS REMEMBER TYPE
-						echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\">",
-							htmlspecialchars($types->f[$data->typFields['typname']]), "</option>\n";
+						$typname = $types->f[$data->typFields['typname']];
+						echo "<option value=\"", htmlspecialchars($typname), "\"",
+						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected' : '', ">",
+							htmlspecialchars($typname), "</option>\n";
 						$types->moveNext();
 					}
 					echo "</select></td>";
