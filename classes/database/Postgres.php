@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.106 2003/05/15 14:34:46 chriskl Exp $
+ * $Id: Postgres.php,v 1.107 2003/05/16 05:58:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -216,11 +216,15 @@ class Postgres extends BaseDB {
 		}
 		else $clause = '';
 
-		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, pde.description FROM
-					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid,
-					pg_user pu
+		if (!$conf['show_system'])
+			$where = "AND pdb.datname NOT IN ('template1')";
+		else
+			$where = '';
+
+		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, NULL AS description FROM
+					pg_database pdb, pg_user pu
 					WHERE pdb.datdba = pu.usesysid
-					AND NOT pdb.datistemplate
+					{$where}
 					{$clause}
 					ORDER BY pdb.datname";
 

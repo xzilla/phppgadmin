@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.31 2003/05/15 14:34:47 chriskl Exp $
+ * $Id: Postgres71.php,v 1.32 2003/05/16 05:58:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -34,6 +34,38 @@ class Postgres71 extends Postgres {
 	 */
 	function Postgres71($host, $port, $database, $user, $password) {
 		$this->Postgres($host, $port, $database, $user, $password);
+	}
+
+	// Database functions
+
+	/**
+	 * Return all database available on the server
+	 * @return A list of databases, sorted alphabetically
+	 */
+	function &getDatabases() {
+		global $conf;
+
+		if (isset($conf['owned_only']) && $conf['owned_only']) {
+			$username = $_SESSION['webdbUsername'];
+			$this->clean($username);
+			$clause = " AND pu.usename='{$username}'";
+		}
+		else $clause = '';
+		
+		if (!$conf['show_system'])
+			$where = 'AND NOT pdb.datistemplate';
+		else
+			$where = 'AND pdb.datallowconn';
+
+		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, pde.description FROM
+					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid,
+					pg_user pu
+					WHERE pdb.datdba = pu.usesysid
+					{$where}
+					{$clause}
+					ORDER BY pdb.datname";
+
+		return $this->selectSet($sql);
 	}
 
 	// Table functions
