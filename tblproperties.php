@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.62.4.1 2005/03/01 10:47:04 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.62.4.2 2005/03/29 09:33:49 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -168,6 +168,7 @@
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
+		echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

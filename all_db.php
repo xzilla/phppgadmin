@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.35.4.4 2005/03/22 09:29:43 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35.4.5 2005/03/29 09:33:46 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -176,7 +176,7 @@
 		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
-		echo "<p><input type=\"hidden\" name=\"mode\" value=\"cluster\" />\n";		
+		echo "<p><input type=\"hidden\" name=\"subject\" value=\"server\" />\n";		
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

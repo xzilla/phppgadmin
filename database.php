@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65.2.5 2005/03/22 09:29:43 jollytoad Exp $
+	 * $Id: database.php,v 1.65.2.6 2005/03/29 09:33:47 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -318,7 +318,7 @@
 		}
 		echo "</p>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
-		echo "<p><input type=\"hidden\" name=\"mode\" value=\"database\" />\n";		
+		echo "<input type=\"hidden\" name=\"subject\" value=\"database\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

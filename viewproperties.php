@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.13.4.1 2005/03/01 10:47:04 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.13.4.2 2005/03/29 09:33:49 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -119,7 +119,8 @@
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"subject\" value=\"view\" />\n";
+		echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}

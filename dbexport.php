@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.17.2.1 2005/03/01 10:52:23 jollytoad Exp $
+	 * $Id: dbexport.php,v 1.17.2.2 2005/03/29 09:33:47 jollytoad Exp $
 	 */
 
 	// Prevent timeouts on large exports
@@ -42,22 +42,18 @@
 		$server_info = $misc->getServerInfo();
 		
 		// Set environmental variable for user and password that pg_dump uses
-		putenv('PGPASSWORD=' . $server_info['password'];
-		putenv('PGUSER=' . $server_info['username'];
+		putenv('PGPASSWORD=' . $server_info['password']);
+		putenv('PGUSER=' . $server_info['username']);
 
 		// Prepare command line arguments
 		$hostname = $server_info['host'];
 		$port = $server_info['port'];
 		
-		// Check if we're doing a cluster-wide dump or just a per-database dump
-		if ($_REQUEST['mode'] == 'database') {
-			// Get path of the pg_dump executable.
-			$exe = $misc->escapeShellCmd($server_info['pg_dump_path']);
-		}
-		else {
-			// Get path of the pg_dumpall executable.
-			$exe = $misc->escapeShellCmd($server_info['pg_dumpall_path']);
-		}
+		// Are we doing a cluster-wide dump or just a per-database dump
+		$dumpall = ($_REQUEST['subject'] == 'server');
+		
+		// Get the path og the pg_dump/pg_dumpall executable
+		$exe = $misc->escapeShellCmd($server_info[$dumpall ? 'pg_dumpall_path' : 'pg_dump_path']);
 		
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
@@ -69,9 +65,10 @@
 			$cmd .= " -p " . $misc->escapeShellArg($port);
 		}
 		
-		// Check for a table specified
-		if (isset($_REQUEST['table']) && $_REQUEST['mode'] == 'database') {
-			
+		// Check for a specified table/view
+		switch ($_REQUEST['subject']) {
+		case 'table':
+		case 'view':
 			// Obtain the pg_dump version number
 			$version = array();
 			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec($exe . " --version"), $version);
@@ -80,7 +77,7 @@
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
 			if (((float) $version[1]) >= 7.4) {
-				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST['table']);
+				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST[$_REQUEST['subject']]);
 				// Even though they're using a schema-enabled pg_dump, the backend database
 				// may not support schemas.
 				if ($data->hasSchemas()) {
@@ -90,12 +87,12 @@
 			else {
 				// This is an annoying hack needed to work around a bug in dumping
 				// mixed case tables in pg_dump prior to 7.4
-				$cmd .= " -t " . $misc->escapeShellArg('"' . $_REQUEST['table'] . '"');
+				$cmd .= " -t " . $misc->escapeShellArg('"' . $_REQUEST[$_REQUEST['subject']] . '"');
 			}
 		}
 
 		// Check for GZIP compression specified
-		if ($_REQUEST['output'] == 'gzipped' && $_REQUEST['mode'] == 'database') {
+		if ($_REQUEST['output'] == 'gzipped' && !$dumpall) {
 			$cmd .= " -Z 9";
 		}
 				
@@ -116,7 +113,7 @@
 				break;
 		}
 		
-		if ($_REQUEST['mode'] == 'database') {
+		if (!$dumpall) {
 			$cmd .= " " . $misc->escapeShellArg($_REQUEST['database']);
 		}
 
