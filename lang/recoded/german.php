@@ -1,10 +1,10 @@
-&lt;?php
+<?php
 
 	/**
 	 * German Language file for WebDB.
 	 * @maintainer Albin Blaschka [blaschka@unix.sbg.ac.at]
 	 *
-	 * $Id: german.php,v 1.1 2003/01/18 08:23:24 chriskl Exp $
+	 * $Id: german.php,v 1.2 2003/03/13 01:44:13 chriskl Exp $
 	 */
 
 	$appLang = 'Deutsch';
@@ -100,4 +100,4 @@
 	$strLanguage = 'Sprache';
 	$strFunctionNeedsName = 'Sie m&amp;uuml;ssen der Funktion einen Namen geben';
 	$strFunctionNeedsDef = 'Sie m&amp;uuml;ssen die Funktion definieren';
-?&gt;
+?>
