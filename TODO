@@ -1,8 +1,20 @@
+Views
+-----
+
+* Basically stable as far as I can see
+
 Tables
 ------
 
-* Not using proper attFields array for attribute info
+* Not using proper attFields array for attribute info (i was being lazy)
 * Browse doesn't implement paging
+* Have a common browse function for 'select' and 'browse' actions on a table
+* Create table
+* Modify column - default, nullability, etc.
+* Constraints - note massive 7.3 changes here
+* Vacuum & analyze
+* Dumps as CSV, XML or database specific bulk load format
+* Create table (chriskl)
 
 Functions
 ---------
@@ -12,4 +24,40 @@ database. This doesn't break anything, but is annoying after you done it 5 times
 and have 5 pairs in your function.
 
 * need to add a drop link to the properties and edit pages.
+
+Schemas
+-------
+
+I added schema support to the left nav bar, however I discovered that it doesn't work as-is.  The problem is that it always gets the list of schemas from template1 - because we're always connected to that database.  If you changed it to reconnect for every database while drawing the left nav it'd be really slow.  Hence I propose that the left nav is modified somewhat to be like this:
+
+* Initially, a list of hrefs to databases
+* When a database href is clicked on, the page reloads with plain hrefs to the other databases, but an expandable tree for the selected database.
+* That way, everything should be nice
+
+Settings
+--------
+
+* Postgres 7.3 returns SHOW ALL as a proper result set - makes it easy to do a phpMyAdmin style 'view settings'.
+
+Translations
+------------
+
+* There's heaps of hard-coded English strings in the code.  (Due to sheer laziness)
+
+Priciples
+---------
+
+* register_globals off support
+* maximum error_reporting support - enforces code quality, reduces bugs and improves security
+* PHP 4.2 features used
+* No HTML font, colour, layout tags.  Use CSS for everything
+* One day we should make it all XHTML
+* everything properly escaped - prevent sql injection and cross-site scripting probs
+* Support Postgres 7.0 and upwards
+* psql -E is a cool way of seeing how to do schema queries
+* Checking out older versions of describe.c in src/bin/psql in the postgres distro is a good way of seeing how to query older versions of postgres for schema information
+* Put functions in the highest class possible.  For instance, simple selects should be in BaseDB, whereas something that works for 7.1+ should be in the 7.1 class.  This will minimise bugs and duplicated code.
+* We primarily support Postgres, and only secondarily support MySQL, etc.
+
+
 
