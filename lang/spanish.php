@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martin Marques (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.7 2003/04/30 01:42:23 chriskl Exp $
+	 * $Id: spanish.php,v 1.8 2003/05/07 01:16:46 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -14,8 +14,8 @@
   
 	// Basic strings
 	$lang['strintro'] = 'Bienvenido a phpPgAdmin.';
-	$lang['strlogin'] = 'Login';
-	$lang['strloginfailed'] = 'Login falló';
+	$lang['strlogin'] = 'Autenticación';
+	$lang['strloginfailed'] = 'Falló la autenticación';
 	$lang['strserver'] = 'Servidor';
 	$lang['strlogout'] = 'Salir';
 	$lang['strowner'] = 'Propietario';
@@ -36,7 +36,7 @@
 	$lang['strfailed'] = 'Falló';
 	$lang['strcreate'] = 'Crear';
 	$lang['strcreated'] = 'Creado';
-	$lang['strcomment'] = 'Commentario';
+	$lang['strcomment'] = 'Comentario';
 	$lang['strlength'] = 'Longitud';
 	$lang['strdefault'] = 'Predeterminado';
 	$lang['stralter'] = 'Modificar';
@@ -63,7 +63,7 @@
 	$lang['strlanguage'] = 'Lenguaje';
 	$lang['strencoding'] = 'Codificación';
 	$lang['strvalue'] = 'Valor';
-	$lang['strunique'] = 'Unico';
+	$lang['strunique'] = 'Único';
 	$lang['strprimary'] = 'Primario';
 	$lang['strexport'] = 'Exportar';
 	$lang['strsql'] = 'SQL';
@@ -84,12 +84,12 @@
 	// Error handling
 	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicación.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php está desactualizado. Deberá regenerarlo a partir del archivo nuevo config.inc.php-dist.';
-	$lang['strnotloaded'] = 'Su versión de PHP instalada no tiene el correcto soporte de bases de datos.';
+	$lang['strnotloaded'] = 'Su versión de PHP instalada no tiene el soporte correcto de bases de datos.';
 	$lang['strbadschema'] = 'El esquema especificado es invalido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificación del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
 	$lang['strinstatement'] = 'En la declaración:';
-	$lang['strinvalidparam'] = 'Parametros de script invalidos.';
+	$lang['strinvalidparam'] = 'Parámetros de script inválidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
 
 	// Tables
@@ -97,7 +97,7 @@
 	$lang['strtables'] = 'Tablas';
 	$lang['strshowalltables'] = 'Mostrar Todas las Tablas';
 	$lang['strnotables'] = 'No se encontraron tablas.';
-	$lang['strnotable'] = 'No se encontro la tabla.';
+	$lang['strnotable'] = 'No se encontró la tabla.';
 	$lang['strcreatetable'] = 'Crear tabla';
 	$lang['strtablename'] = 'Nombre de la tabla';
 	$lang['strtableneedsname'] = 'Debe darle un nombre a la tabla.';
@@ -126,7 +126,7 @@
 	$lang['strfields'] = 'Campos';
 	$lang['strnumfields'] = 'Num. de Campos';
 	$lang['strfieldneedsname'] = 'Debe darle un nombre al campo';
-	$lang['strselectneedscol'] = 'Debe mostar al menos una columna';
+	$lang['strselectneedscol'] = 'Debe mostrar al menos una columna';
 	$lang['straltercolumn'] = 'Modificar Columna';
 	$lang['strcolumnaltered'] = 'Columna Modificada.';
 	$lang['strcolumnalteredbad'] = 'Modificación de columna falló.';
@@ -152,7 +152,7 @@
 	$lang['strnousers'] = 'No se encontraron usuarios.';
         $lang['struserupdated'] = 'Usuario actualizado.';
 	$lang['struserupdatedbad'] = 'Actualización de usuario falló.';
-	$lang['strshowallusers'] = 'Mostar Todos los Usuarios';
+	$lang['strshowallusers'] = 'Mostrar Todos los Usuarios';
 	$lang['strcreateuser'] = 'Crear Usuario';
 	$lang['strusercreated'] = 'Usuario creado.';
 	$lang['strusercreatedbad'] = 'Falló al crear usuario.';
