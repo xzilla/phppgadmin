@@ -31,3 +31,6 @@ NEEDS TESTING
 * error on viewing reports page
 * highlight things on the info stats page
 * advanced stats functions
+* Find links columns in views incorrectly
+* getView() isn't schema-aware for 7.3+?
+* rename function in 7.2 and below doesn't come back to the correct function
