@@ -1,15 +1,15 @@
 <?php
 	/**
 	 * Italian language template, based on the english language template file for WebDB.
-	 * Calogero Cal&igrave;
-     *	
-	 * $Id: italian.php,v 1.1 2002/10/23 22:09:09 xzilla Exp $
-	 * 
+	 * @maintainer Calogero Calì [<kalef@libero.it>]
+	 *	
+	 * $Id: italian.php,v 1.2 2002/12/24 02:07:55 chriskl Exp $
 	 */
 
 	$appLang = 'italiano';
+	$appCharset = 'utf-8';
 
-	$strNoFrames = '&Egrave; necessario abilitare il browser all'uso dei file per usare questa applicazione.';
+	$strNoFrames = '&Egrave; necessario abilitare il browser all\'uso dei file per usare questa applicazione.';
 	$strLogin = 'Login';
 	$strNoTables = 'Tabelle non trovate.';
 	$strNoTable = 'Tabella non trovata.';

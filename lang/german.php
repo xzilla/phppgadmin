@@ -2,14 +2,16 @@
 
 	/**
 	 * German Language file for WebDB.
+	 * @maintainer Albin Blaschka [blaschka@unix.sbg.ac.at]
 	 *
-	 * $Id: german.php,v 1.1 2002/11/09 15:59:40 xzilla Exp $
+	 * $Id: german.php,v 1.2 2002/12/24 02:11:37 chriskl Exp $
 	 */
 
 	$appLang = 'deutsch';
+	$appCharset = 'utf-8';
 
 	$strNoFrames = 'F&uuml;r dieses Programm wird ein ein Frame-fähiger Browser ben&ouml;tigt';
-    $strLogin = 'Login';
+        $strLogin = 'Login';
 	$strNoTables = 'Keine Tabellen vorhanden';
 	$strNoTable = 'Keine Tabelle vorhanden';
 	$strNoViews = 'Keine Views vorhanden';

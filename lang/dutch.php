@@ -2,11 +2,13 @@
 
 	/**
 	 * Dutch Language file for WebDB.
+	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.1 2002/12/24 01:19:00 chriskl Exp $
+	 * $Id: dutch.php,v 1.2 2002/12/24 02:09:52 chriskl Exp $
 	 */
 
 	$appLang = 'nederlands';
+	$appCharset = 'utf-8';
 
 	$strNoFrames = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
 	$strLogin = 'Login';
