@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.162 2003/11/05 15:06:23 chriskl Exp $
+ * $Id: Postgres.php,v 1.163 2003/11/15 10:40:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2097,12 +2097,14 @@ class Postgres extends BaseDB {
 		$this->clean($term);
 
 		// Build SQL, excluding system relations as necessary
+		// Relations
 		$sql = "
 			SELECT CASE WHEN relkind='r' THEN 'TABLE'::VARCHAR WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
 
+		// Columns
 		$sql .= "				
 			UNION ALL
 			SELECT 'COLUMN', NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
@@ -2110,25 +2112,78 @@ class Postgres extends BaseDB {
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
 
+		// Functions
 		$sql .= "
 			UNION ALL
 			SELECT 'FUNCTION', pp.oid, NULL, NULL, pp.proname FROM pg_proc pp
 				WHERE proname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
-				
+			
+		// Indexes
 		$sql .= "
 			UNION ALL
-			SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
-				WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
-		if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
+			SELECT 'INDEX', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				AND pi.indexrelid=pc2.oid
+				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg_%'";				
 
-		$sql .= "				
+		// Check Constraints
+		$sql .= "
 			UNION ALL
-			SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
-				WHERE oprname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid\n";
+			SELECT 'CONSTRAINT', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
+				pg_relcheck pr WHERE pc.oid=pr.rcrelid
+				AND pr.rcname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+		// Unique and Primary Key Constraints
+		$sql .= "
+			UNION ALL
+			SELECT 'CONSTRAINT', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				AND pi.indexrelid=pc2.oid
+				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg_%'";				
+
+		// Triggers
+		$sql .= "
+			UNION ALL
+			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
+				pg_trigger pt WHERE pc.oid=pt.tgrelid
+				AND pt.tgname ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+
+		// Rules
+		$sql .= "
+			UNION ALL
+			SELECT 'RULE', NULL, NULL, tablename, rulename FROM pg_rules
+				WHERE rulename ~* '.*{$term}.*'";
+		if (!$conf['show_system']) $sql .= " AND tablename NOT LIKE 'pg_%'";				
+
+		// Advanced Objects
+		if ($conf['show_advanced']) {
+			// Types
+			$sql .= "
+				UNION ALL
+				SELECT 'TYPE', pt.oid, NULL, NULL, pt.typname FROM pg_type pt
+					WHERE typname ~* '.*{$term}.*' AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_class c WHERE c.oid = pt.typrelid))";
+			if (!$conf['show_system']) $sql .= " AND pt.oid > '{$this->_lastSystemOID}'::oid";
+
+			// Operators
+			$sql .= "				
+				UNION ALL
+				SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
+					WHERE oprname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
+
+			// Languages
+			$sql .= "				
+				UNION ALL
+				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
+					WHERE lanname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND pl.lanispl";
+		}
 				
-		$sql .= "ORDER BY type, schemaname, relname, name";
+		$sql .= " ORDER BY type, schemaname, relname, name";
 			
 		return $this->selectSet($sql);
 	}
