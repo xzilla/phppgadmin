@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.112 2004/08/04 02:07:03 chriskl Exp $
+	 * $Id: english.php,v 1.113 2004/08/22 00:06:34 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -155,7 +155,7 @@
 	$lang['strtablename'] = 'Table name';
 	$lang['strtableneedsname'] = 'You must give a name for your table.';
 	$lang['strtableneedsfield'] = 'You must specify at least one field.';
-	$lang['strtableneedscols'] = 'Tables require a valid number of columns.';
+	$lang['strtableneedscols'] = 'You must specify a valid number of columns.';
 	$lang['strtablecreated'] = 'Table created.';
 	$lang['strtablecreatedbad'] = 'Table creation failed.';
 	$lang['strconfdroptable'] = 'Are you sure you want to drop the table &quot;%s&quot;?';
@@ -462,7 +462,7 @@
 	$lang['strcreatetype'] = 'Create type';
 	$lang['strcreatecomptype'] = 'Create composite type';
 	$lang['strtypeneedsfield'] = 'You must specify at least one field.';
-	$lang['strtypeneedscols'] = 'Composite types require a valid number of columns.';	
+	$lang['strtypeneedscols'] = 'You must specify a valid number of fields.';	
 	$lang['strtypename'] = 'Type name';
 	$lang['strinputfn'] = 'Input function';
 	$lang['stroutputfn'] = 'Output function';
@@ -478,7 +478,7 @@
 	$lang['strconfdroptype'] = 'Are you sure you want to drop the type &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Type dropped.';
 	$lang['strtypedroppedbad'] = 'Type drop failed.';
-	$lang['strflavour'] = 'Flavor';
+	$lang['strflavor'] = 'Flavor';
 	$lang['strbasetype'] = 'Base';
 	$lang['strcompositetype'] = 'Composite';
 	$lang['strpseudotype'] = 'Pseudo';

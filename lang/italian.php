@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.35 2004/07/15 10:11:00 soranzo Exp $
+	 * $Id: italian.php,v 1.36 2004/08/22 00:06:34 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -125,7 +125,6 @@
 	$lang['strstarttime'] = 'Inizio';
 	$lang['strfile'] = 'File';
 	$lang['strfileimported'] = 'File importato.';
-	$lang['strkill'] = 'Termina';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Per usare questa applicazione è necessario usare un browser che supporti i frame.';
@@ -156,7 +155,7 @@
 	$lang['strtablename'] = 'Nome tabella';
 	$lang['strtableneedsname'] = 'È necessario specificare un nome per la tabella.';
 	$lang['strtableneedsfield'] = 'È necessario specificare almeno un campo.';
-	$lang['strtableneedscols'] = 'Le tabelle richiedono un numero di colonne valido.';
+	$lang['strtableneedscols'] = 'È necessario specificare un numero di colonne valido.';
 	$lang['strtablecreated'] = 'Tabella creata.';
 	$lang['strtablecreatedbad'] = 'Creazione della tabella fallita.';
 	$lang['strconfdroptable'] = 'Sei sicuro di voler eliminare la tabella "%s"?';
@@ -259,7 +258,6 @@
 	$lang['strgranted'] = 'Privilegi concessi.';
 	$lang['strgrantfailed'] = 'Concessione dei privilegi fallita.';
 	$lang['strgrantbad'] = 'È necessario specificare almeno un utente o gruppo ed almeno un privilegio.';
-	$lang['stralterprivs'] = 'Modifica privilegi';
 	$lang['strgrantor'] = 'Grantor'; // ???
 	$lang['strasterisk'] = '*';
 
@@ -462,6 +460,9 @@
         $lang['strnotype'] = 'Tipo non trovato.';
         $lang['strnotypes'] = 'Nessun tipo trovato.';
         $lang['strcreatetype'] = 'Crea Tipo';
+	$lang['strcreatecomptype'] = 'Crea tipo composto';
+	$lang['strtypeneedsfield'] = 'È necessario specificare almeno un campo.';
+	$lang['strtypeneedscols'] = 'È necessario specificare un numero di campi valido.';	
         $lang['strtypename'] = 'Nome Tipo';
         $lang['strinputfn'] = 'Funzione di input';
         $lang['stroutputfn'] = 'Funzione di output';
@@ -477,6 +478,10 @@
         $lang['strconfdroptype'] = 'Sei sicuro di voler eliminare il tipo "%s"?';
         $lang['strtypedropped'] = 'Tipo eliminato.';
         $lang['strtypedroppedbad'] = 'Eliminazione del tipo fallita.';
+	$lang['strflavor'] = 'Varietà';
+	$lang['strbasetype'] = 'Base';
+	$lang['strcompositetype'] = 'Composto';
+	$lang['strpseudotype'] = 'Pseudo-tipo';
 
         // Schemas - Schemi
         $lang['strschema'] = 'Schema';

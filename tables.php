@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.60 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: tables.php,v 1.61 2004/08/22 00:06:33 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -202,7 +202,6 @@
 				}
 				break;
 			default:
-				global $lang;
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 	}

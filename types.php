@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.22 2004/08/03 09:20:14 chriskl Exp $
+	 * $Id: types.php,v 1.23 2004/08/22 00:06:33 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -258,7 +258,6 @@
 				}
 				break;
 			default:
-				global $lang;
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 	}
@@ -409,7 +408,7 @@
 				'field' => 'typowner',
 			),
 			'flavour' => array(
-				'title' => $lang['strflavour'],
+				'title' => $lang['strflavor'],
 				'field' => 'typtype',
 				'type'  => 'verbatim',
 				'params'=> array(
