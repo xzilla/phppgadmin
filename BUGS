@@ -13,7 +13,6 @@ test < 7.3 Find feature for all new objects
 fix constraint search to get domain and table constraints?
 dump sequences when dumping tables
 fix dumping clustering info
-can't edit SELECT results by oid
 
 Need to fix:
 * The getType function needs to be ported to 7.2 and 7.3 classes to add
@@ -21,5 +20,5 @@ Need to fix:
 * Report login errors
 * Edit Query
 * Don't offer owner change feature if user is not superuser
-
+* fix encoding in popup window
 
