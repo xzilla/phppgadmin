@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.66 2004/05/23 04:10:20 chriskl Exp $
+ * $Id: Postgres72.php,v 1.67 2004/05/26 13:54:43 chriskl Exp $
  */
 
 
@@ -165,8 +165,7 @@ class Postgres72 extends Postgres71 {
                                         LEFT JOIN pg_description d ON (a.attrelid = d.objoid AND a.attnum = d.objsubid)
 				WHERE 
 					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
-					AND a.attname = '{$field}'
-				ORDER BY a.attnum";
+					AND a.attname = '{$field}'";
 		}
 					
 		return $this->selectSet($sql);
