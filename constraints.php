@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.16 2003/05/07 06:29:53 chriskl Exp $
+	 * $Id: constraints.php,v 1.17 2003/05/20 05:42:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,8 +35,8 @@
 				if (!isset($_POST['upd_action'])) $_POST['upd_action'] = null;
 				if (!isset($_POST['del_action'])) $_POST['del_action'] = null;
 				
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+					$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
 
 				$attrs = &$localData->getTableAttributes($_REQUEST['target']);
@@ -116,8 +116,8 @@
 				}
 				break;
 			default:
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+					$misc->printVal($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
 
 				$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -199,8 +199,8 @@
 				return;
 			}
 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$desc}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": {$desc}</h2>\n";
 			$misc->printMsg($msg);
 			
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -288,8 +288,8 @@
 		if (!isset($_POST['definition'])) $_POST['definition'] = '';
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": {$lang['straddcheck']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": {$lang['straddcheck']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -333,11 +333,11 @@
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strdrop']}</h2>\n";
 
-			echo "<p>", sprintf($lang['strconfdropconstraint'], htmlspecialchars($_REQUEST['constraint']),
-				htmlspecialchars($_REQUEST['table'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']),
+				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
@@ -371,7 +371,7 @@
 		global $lang;
 
 		$misc->printTableNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strconstraints']}</h2>\n";
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strconstraints']}</h2>\n";
 		$misc->printMsg($msg);
 
 		$constraints = &$localData->getConstraints($_REQUEST['table']);
@@ -383,11 +383,11 @@
 			
 			while (!$constraints->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars($constraints->f[$data->cnFields['conname']]), "</td>";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($constraints->f[$data->cnFields['conname']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				// Nasty hack to support pre-7.4 PostgreSQL
 				if ($constraints->f['consrc'] !== null)
-					echo, htmlspecialchars($constraints->f[$data->cnFields['consrc']]);
+					echo $misc->printVal($constraints->f[$data->cnFields['consrc']]);
 				else {
 					$atts = &$localData->getKeys($_REQUEST['table'], explode(' ', $constraints->f['indkey']));
 					echo ($constraints->f['contype'] == 'u') ? "UNIQUE (" : "PRIMARY KEY (";
