@@ -33,7 +33,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.php,v 1.3 2004/01/04 08:13:41 chriskl Exp $
+// $Id: TreeMenu.php,v 1.4 2004/02/02 06:32:18 chriskl Exp $
 
 /**
 * HTML_TreeMenu Class
@@ -100,7 +100,7 @@ class HTML_TreeMenu
     * are Wolfram Kriesings' PEAR Tree class, and Richard Heyes' (me!)
     * Tree class (available here: http://www.phpguru.org/). This
     * method is intended to be used statically, eg:
-    * $treeMenu = &HTML_TreeMenu::import($myTreeStructureObj);
+    * $treeMenu = &HTML_TreeMenu::createFromStructure($myTreeStructureObj);
     *
     * @param  array  $params   An array of parameters that determine
     *                          how the import happens. This can consist of:
@@ -171,7 +171,38 @@ class HTML_TreeMenu
                 break;
 
             /**
-            * Richard Heyes' (me!) Tree class
+            * Richard Heyes' (me!) second (array based) Tree class
+            */
+            case 'heyes_array':
+                // Need to create a HTML_TreeMenu object ?
+                if (!isset($params['treeMenu'])) {
+                    $treeMenu = &new HTML_TreeMenu();
+                    $parentID = 0;
+                } else {
+                    $treeMenu = &$params['treeMenu'];
+                    $parentID = $params['parentID'];
+                }
+                
+                // Loop thru the trees nodes
+                foreach ($params['structure']->getChildren($parentID) as $nodeID) {
+                    $data = $params['structure']->getData($nodeID);
+                    $parentNode = &$treeMenu->addItem(new HTML_TreeNode(array_merge($params['nodeOptions'], $data)));
+
+                    // Recurse ?
+                    if ($params['structure']->hasChildren($nodeID)) {
+                        $recurseParams['type']        = 'heyes_array';
+                        $recurseParams['parentID']    = $nodeID;
+                        $recurseParams['nodeOptions'] = $params['nodeOptions'];
+                        $recurseParams['structure']   = &$params['structure'];
+                        $recurseParams['treeMenu']    = &$parentNode;
+                        HTML_TreeMenu::createFromStructure($recurseParams);
+                    }
+                }
+                
+                break;
+
+            /**
+            * Richard Heyes' (me!) original OO based Tree class
             */
             case 'heyes':
             default:
@@ -201,55 +232,55 @@ class HTML_TreeMenu
 
         return $treeMenu;
     }
-	
-	/**
+    
+    /**
     * Creates a treeMenu from XML. The structure of your XML should be
-	* like so:
-	*
-	* <treemenu>
-	*     <node text="First node" icon="folder.gif" expandedIcon="folder-expanded.gif" />
-	*     <node text="Second node" icon="folder.gif" expandedIcon="folder-expanded.gif">
-	*         <node text="Sub node" icon="folder.gif" expandedIcon="folder-expanded.gif" />
-	*     </node>
-	*     <node text="Third node" icon="folder.gif" expandedIcon="folder-expanded.gif">
-	* </treemenu>
-	*
-	* Any of the options you can supply to the HTML_TreeNode constructor can be supplied as
-	* attributes to the <node> tag. If there are no subnodes for a particular node, you can
-	* use the XML shortcut <node ... /> instead of <node ... ></node>. The $xml argument can
-	* be either the XML as a string, or an pre-created XML_Tree object. Also, this method
-	* REQUIRES my own Tree class to work (http://phpguru.org/tree.html). If this has not
-	* been include()ed or require()ed this method will die().
-	*
-	* @param  mixed  $xml  This can be either a string containing the XML, or an XML_Tree object
-	*                      (the PEAR::XML_Tree package).
-	* @return object       The HTML_TreeMenu object
+    * like so:
+    *
+    * <treemenu>
+    *     <node text="First node" icon="folder.gif" expandedIcon="folder-expanded.gif" />
+    *     <node text="Second node" icon="folder.gif" expandedIcon="folder-expanded.gif">
+    *         <node text="Sub node" icon="folder.gif" expandedIcon="folder-expanded.gif" />
+    *     </node>
+    *     <node text="Third node" icon="folder.gif" expandedIcon="folder-expanded.gif">
+    * </treemenu>
+    *
+    * Any of the options you can supply to the HTML_TreeNode constructor can be supplied as
+    * attributes to the <node> tag. If there are no subnodes for a particular node, you can
+    * use the XML shortcut <node ... /> instead of <node ... ></node>. The $xml argument can
+    * be either the XML as a string, or an pre-created XML_Tree object. Also, this method
+    * REQUIRES my own Tree class to work (http://phpguru.org/tree.html). If this has not
+    * been include()ed or require()ed this method will die().
+    *
+    * @param  mixed  $xml  This can be either a string containing the XML, or an XML_Tree object
+    *                      (the PEAR::XML_Tree package).
+    * @return object       The HTML_TreeMenu object
     */
-	function createFromXML($xml)
-	{
-		if (!class_exists('Tree')) {
-			die('Could not find Tree class');
-		}
+    function createFromXML($xml)
+    {
+        if (!class_exists('Tree')) {
+            die('Could not find Tree class');
+        }
 
-		// Supplied $xml is a string
-		if (is_string($xml)) {
-			require_once('XML/Tree.php');
-			$xmlTree = &new XML_Tree();
-			$xmlTree->getTreeFromString($xml);
+        // Supplied $xml is a string
+        if (is_string($xml)) {
+            require_once('XML/Tree.php');
+            $xmlTree = &new XML_Tree();
+            $xmlTree->getTreeFromString($xml);
 
-		// Supplied $xml is an XML_Tree object
-		} else {
-			$xmlTree = $xml;
-		}
+        // Supplied $xml is an XML_Tree object
+        } else {
+            $xmlTree = $xml;
+        }
 
-		// Now process the XML_Tree object, setting the XML attributes
-		// to be the tag data (with out the XML tag name or contents).
-		$treeStructure = Tree::createFromXMLTree($xmlTree, true);
-		$treeStructure->nodes->traverse(create_function('&$node', '$tagData = $node->getTag(); $node->setTag($tagData["attributes"]);'));
+        // Now process the XML_Tree object, setting the XML attributes
+        // to be the tag data (with out the XML tag name or contents).
+        $treeStructure = Tree::createFromXMLTree($xmlTree, true);
+        $treeStructure->nodes->traverse(create_function('&$node', '$tagData = $node->getTag(); $node->setTag($tagData["attributes"]);'));
 
-		
-		return HTML_TreeMenu::createFromStructure(array('structure' => $treeStructure));
-	}
+        
+        return HTML_TreeMenu::createFromStructure(array('structure' => $treeStructure));
+    }
 } // HTML_TreeMenu
 
 
@@ -354,10 +385,12 @@ class HTML_TreeNode
     *                         o link          The link for the node, defaults to blank
     *                         o icon          The icon for the node, defaults to blank
     *                         o expandedIcon  The icon to show when the node is expanded
-    *                         o class         The CSS class for this node, defaults to blank
+    *                         o cssClass      The CSS class for this node, defaults to blank
     *                         o expanded      The default expanded status of this node, defaults to false
     *                                         This doesn't affect non dynamic presentation types
     *                         o linkTarget    Target for the links. Defaults to linkTarget of the
+    *                                         HTML_TreeMenu_Presentation.
+    *                         o iconLink      Target for the icon link. Defaults to iconLink of the
     *                                         HTML_TreeMenu_Presentation.
     *                         o isDynamic     If this node is dynamic or not. Only affects
     *                                         certain presentation types.
@@ -380,7 +413,7 @@ class HTML_TreeNode
         $this->isDynamic     = true;
         $this->ensureVisible = false;
         $this->linkTarget    = null;
-	$this->iconLink    = '';
+        $this->iconLink      = null;
 
         $this->parent        = null;
         $this->events        = $events;
@@ -552,6 +585,9 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
     *                         is achieved using cookies. Default is true.
     *  o noTopLevelImages  -  Whether to skip displaying the first level of images if
     *                         there is multiple top level branches.
+    *  o maxDepth          -  The maximum depth of indentation. Useful for ensuring
+    *                         deeply nested trees don't go way off to the right of your
+    *                         page etc. Defaults to no limit.
     *
     * And also a boolean for whether the entire tree is dynamic or not.
     * This overrides any perNode dynamic settings.
@@ -567,6 +603,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
 
         // Defaults
         $this->images           = 'images';
+        $this->maxDepth         = 0;        // No limit
         $this->linkTarget       = '_self';
         $this->defaultClass     = '';
         $this->usePersistence   = true;
@@ -588,7 +625,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
     function toHTML()
     {
         static $count = 0;
-        $menuObj = 'objTreeMenu_' . ++$count;
+        $menuObj     = 'objTreeMenu_' . ++$count;
 
         $html  = "\n";
         $html .= '<script language="javascript" type="text/javascript">' . "\n\t";
@@ -612,7 +649,9 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
             }
         }
 
-         $html .= sprintf("\n\t%s.drawMenu();", $menuObj);
+        $html .= sprintf("\n\t%s.drawMenu();", $menuObj);
+        $html .= sprintf("\n\t%s.writeOutput();", $menuObj);
+
         if ($this->usePersistence && $this->isDynamic) {
             $html .= sprintf("\n\t%s.resetBranches();", $menuObj);
         }
@@ -626,29 +665,34 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
     *
     * @access private
     */
-    function _nodeToHTML($nodeObj, $prefix, $return = 'newNode')
+    function _nodeToHTML($nodeObj, $prefix, $return = 'newNode', $currentDepth = 0, $maxDepthPrefix = null)
     {
+        $prefix = empty($maxDepthPrefix) ? $prefix : $maxDepthPrefix;
+        
         $expanded  = $this->isDynamic ? ($nodeObj->expanded  ? 'true' : 'false') : 'true';
         $isDynamic = $this->isDynamic ? ($nodeObj->isDynamic ? 'true' : 'false') : 'false';
         $html = sprintf("\t %s = %s.addItem(new TreeNode('%s', %s, %s, %s, %s, '%s', '%s', %s, '%s'));\n",
                         $return,
                         $prefix,
-                        $nodeObj->text,
-                        !empty($nodeObj->icon) ? "'" . $nodeObj->icon . "'" : 'null',
+                        addSlashes($nodeObj->text),
+                        !empty($nodeObj->icon) ? "'" . addSlashes($nodeObj->icon) . "'" : 'null',
                         !empty($nodeObj->link) ? "'" . $nodeObj->link . "'" : 'null',
                         $expanded,
                         $isDynamic,
-                        $nodeObj->cssClass,
-                        $nodeObj->linkTarget,
-                        !empty($nodeObj->expandedIcon) ? "'" . $nodeObj->expandedIcon . "'" : 'null',
-			$nodeObj->iconLink
-			);
+                        addSlashes($nodeObj->cssClass),
+                        addSlashes($nodeObj->linkTarget),
+                        !empty($nodeObj->expandedIcon) ? "'" . addSlashes($nodeObj->expandedIcon) . "'" : 'null',
+                        $nodeObj->iconLink);
 
         foreach ($nodeObj->events as $event => $handler) {
             $html .= sprintf("\t %s.setEvent('%s', '%s');\n",
                              $return,
                              $event,
-                             str_replace(array("\r", "\n", "'"), array('\r', '\n', "\'"), $handler));
+                             str_replace(array("\r", "\n", "'", "\\"), array('\r', '\n', "\'", "\\\\"), $handler));
+        }
+
+        if ($this->maxDepth > 0 AND $currentDepth == $this->maxDepth) {
+            $maxDepthPrefix = $prefix;
         }
 
         /**
@@ -656,7 +700,7 @@ class HTML_TreeMenu_DHTML extends HTML_TreeMenu_Presentation
         */
         if (!empty($nodeObj->items)) {
             for ($i=0; $i<count($nodeObj->items); $i++) {
-                $html .= $this->_nodeToHTML($nodeObj->items[$i], $return, $return . '_' . ($i + 1));
+                $html .= $this->_nodeToHTML($nodeObj->items[$i], $return, $return . '_' . ($i + 1), $currentDepth + 1, $maxDepthPrefix);
             }
         }
 

@@ -32,8 +32,26 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.js,v 1.4 2004/01/04 08:13:41 chriskl Exp $
+// $Id: TreeMenu.js,v 1.5 2004/02/02 06:32:18 chriskl Exp $
 
+/**
+* Function to create copies of objects which are
+* normally passed around by references (Arrays for example)
+*/
+function arrayCopy(input)
+{
+	var output = new Array(input.length);
+
+	for (i in input) {
+		if (typeof(input[i]) == 'array') {
+			output[i] = arrayCopy(input[i]);
+		} else {
+			output[i] = input[i];
+		}
+	}
+
+	return output;
+}
 
 /**
 * TreeMenu class
@@ -48,7 +66,8 @@
 		this.usePersistence   = usePersistence;
 		this.noTopLevelImages = noTopLevelImages;
 		this.n                = new Array();
-	
+		this.output           = '';
+
 		this.nodeRefs       = new Array();
 		this.branches       = new Array();
 		this.branchStatus   = new Array();
@@ -114,14 +133,14 @@
 		var expanded      = arguments[3] ? arguments[3] : false;
 		var visibility    = arguments[4] ? arguments[4] : 'inline';
 		var parentLayerID = arguments[5] ? arguments[5] : null;
-	
+
 		var currentlevel  = level.length;
-	
+
 		for (var i=0; i<nodes.length; i++) {
 		
 			level[currentlevel] = i+1;
 			layerID = this.myname + '_' + 'node_' + this.implode('_', level);
-	
+
 			/**
             * Store this object in the nodeRefs array
             */
@@ -160,7 +179,7 @@
 	        * Make sure visibility is correct based on parent status
 	        */
 			visibility =  this.checkParentVisibility(layerID) ? visibility : 'none';
-	
+
 			/**
 	        * Setup branch status and build an indexed array
 			* of branch layer ids
@@ -181,8 +200,9 @@
 			/**
 	        * Branch images
 	        */
-			var gifname = nodes[i].n.length && this.doesMenu() && nodes[i].isDynamic ? (expanded ? 'minus' : 'plus') : 'branch';
-			var iconimg = nodes[i].icon ? this.stringFormat('<img border="0" src="{0}/{1}" width="20" height="20" align="top" id="icon_{2}">', this.iconpath, nodes[i].icon, layerID) : '';
+			var gifname  = nodes[i].n.length && this.doesMenu() && nodes[i].isDynamic ? (expanded ? 'minus' : 'plus') : 'branch';
+			var iconName = expanded && nodes[i].expandedIcon ? nodes[i].expandedIcon : nodes[i].icon;
+			var iconimg  = nodes[i].icon ? this.stringFormat('<img src="{0}/{1}" width="20" height="20" border="0" align="top" id="icon_{2}">', this.iconpath, iconName, layerID) : '';
 			
 			/**
 			* Add event handlers
@@ -197,16 +217,17 @@
 			* IMPORTANT:
 			* document.write()ing the string: '<div style="display:...' will screw up nn4.x
 	        */
-			var layerTag    = this.doesMenu() ? this.stringFormat('<div id="{0}" style="display: {1}" class="{2}">', layerID, visibility, (nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass)) : this.stringFormat('<div class="{0}">', nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass);
-			var onMDown     = this.doesMenu() && nodes[i].n.length  && nodes[i].isDynamic ? this.stringFormat('onmousedown="{0}.toggleBranch(\'{1}\', true)" style="cursor: pointer; cursor: hand"', this.myname, layerID) : '';
-			var imgTag      = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" border="0" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
-			var linkTarget  = nodes[i].linkTarget ? nodes[i].linkTarget : this.linkTarget;
-			var linkStart   = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, linkTarget) : '';
-			var linkEnd     = nodes[i].link ? '</a>' : '';
-                	var browseStart = nodes[i].iconLink ? '<a target="detail" href="'+nodes[i].iconLink+'">' : '';
-                	var browseEnd   = nodes[i].iconLink ? '</a>' : '';
+			var layerTag  = this.doesMenu() ? this.stringFormat('<div id="{0}" style="display: {1}" class="{2}">', layerID, visibility, (nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass)) : this.stringFormat('<div class="{0}">', nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass);
+			var onMDown   = this.doesMenu() && nodes[i].n.length  && nodes[i].isDynamic ? this.stringFormat('onmousedown="{0}.toggleBranch(\'{1}\', true)" style="cursor: pointer; cursor: hand"', this.myname, layerID) : '';
+			var imgTag    = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" border="0" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
+			var linkTarget= nodes[i].linkTarget ? nodes[i].linkTarget : this.linkTarget;
+			var linkStart = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, linkTarget) : '';
 
-			output = this.stringFormat('{0}<nobr>{1}{2}{3}{4}{5}{6}<span {7}>{8}</span>{9}</nobr><br></div>',
+			var linkEnd   = nodes[i].link ? '</a>' : '';
+       	var browseStart = nodes[i].iconLink ? '<a target="detail" href="'+nodes[i].iconLink+'">' : '';
+       	var browseEnd   = nodes[i].iconLink ? '</a>' : '';
+
+			this.output += this.stringFormat('{0}<nobr>{1}{2}{3}{4}{5}{6}<span {7}>{8}</span>{9}</nobr><br></div>',
 			                  layerTag,
 							  prepend,
 			                  parentLayerID == null && (nodes.length == 1 || this.noTopLevelImages) ? '' : imgTag,
@@ -217,14 +238,6 @@
 							  eventHandlers,
 							  nodes[i].title,
 							  linkEnd);
-	
-			/**
-	        * Write out the HTML. Uses document.write for speed over layers and
-			* innerHTML. This however means no dynamic adding/removing nodes on
-			* the client side. This could be conditional I guess if dynamic
-			* adding/removing is required.
-	        */
-			document.write(output + "\r\n");
 
 			/**
 	        * Traverse sub nodes ?
@@ -244,15 +257,23 @@
 				} else {
 					var newPrepend = prepend + this.stringFormat('<img src="{0}/linebottom.gif" width="20" height="20" align="top">', this.iconpath);
 				}
-	
+
 				this.drawMenu(nodes[i].n,
-				              level,
+				              arrayCopy(level),
 				              newPrepend,
 				              nodes[i].expanded,
 				              expanded ? 'inline' : 'none',
 				              layerID);
 			}
 		}
+	}
+
+/**
+* Writes the output generated by drawMenu() to the page
+*/
+	TreeMenu.prototype.writeOutput = function ()
+	{
+		document.write(this.output);
 	}
 
 /**
@@ -264,9 +285,9 @@
 		var currentDisplay = this.getLayer(layerID).style.display;
 		var newDisplay     = (this.branchStatus[layerID] && currentDisplay == 'inline') ? 'none' : 'inline';
 		var fireEvents     = arguments[2] != null ? arguments[2] : true;
-	
+
 		for (var i=0; i<this.layerRelations[layerID].length; i++) {
-	
+
 			if (this.branchStatus[this.layerRelations[layerID][i]]) {
 				this.toggleBranch(this.layerRelations[layerID][i], false);
 			}
@@ -337,7 +358,6 @@
 			var imgSrc = document.images['icon_' + layerID].src;
 	
 			if (this.nodeRefs[layerID].icon && this.nodeRefs[layerID].expandedIcon) {
-				//alert(imgSrc.indexOf(this.nodeRefs[layerID].expandedIcon));
 				var newSrc = (imgSrc.indexOf(this.nodeRefs[layerID].expandedIcon) == -1 ? this.nodeRefs[layerID].expandedIcon : this.nodeRefs[layerID].icon);
 	
 				document.images['icon_' + layerID].src = this.iconpath + '/' + newSrc;
@@ -350,7 +370,7 @@
 */
 	TreeMenu.prototype.doesMenu = function ()
 	{
-		return (is_ie4up || is_nav6up || is_gecko || is_opera7 || is_konqueror);
+		return (is_ie4up || is_nav6up || is_gecko || is_opera7);
 	}
 
 /**
@@ -442,7 +462,7 @@
 		if (!this.doesPersistence()) {
 			return false;
 		}
-
+		
 		this.loadCookie();
 
 		for (var i=0; i<this.branches.length; i++) {
@@ -669,6 +689,14 @@
 	
 	var is_opera  = (agt.indexOf("opera") != -1);
 	var is_opera7 = is_opera && (agt.indexOf("opera 7") != -1);
-	
-	var is_konqueror  = (agt.indexOf("konqueror") != -1);	
+
+	// Patch from Harald Fielker
+    if (agt.indexOf('konqueror') != -1) {
+        var is_nav    = false;
+        var is_nav6up = false;
+        var is_gecko  = false;
+        var is_ie     = true;
+        var is_ie4    = true;
+        var is_ie4up  = true;
+    }
 //--> end hide JavaScript
