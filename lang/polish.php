@@ -4,11 +4,11 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.15 2003/03/17 05:20:31 chriskl Exp $
+	 * $Id: polish.php,v 1.16 2003/04/04 20:28:02 slubek Exp $
 	 */
 
 	// Language and character set
-	$lang['applang'] = 'Polish';
+	$lang['applang'] = 'Polski';
 	$lang['appcharset'] = 'ISO-8859-2';
 
 	// Basic strings
@@ -72,7 +72,12 @@
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
-
+        $lang['strevent'] = 'Zdarzenie';
+	$lang['strwhere'] = 'Gdzie';
+	$lang['strinstead'] = 'Wykonaj zamiast';
+	$lang['strwhen'] = 'Kiedy';
+	$lang['strformat'] = 'Format';
+					
 	// Error handling
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$lang['strbadconfig'] = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
@@ -81,7 +86,7 @@
 	$lang['strbadencoding'] = 'B³êdne kodowanie bazy.';
 	$lang['strsqlerror'] = 'B³±d SQL:';
 	$lang['strinstatement'] = 'W poleceniu:';
-	$strInvalidScriptParam = 'B³êdny parametr skryptu.';
+	$lang['strinvalidparam'] = 'B³êdny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
 
 	// Tables
@@ -128,7 +133,10 @@
         $lang['straddcolumn'] = 'Dodaj kolumnê';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Operacja dodania kolumny siê nie powiod³a.';
-
+        $lang['strschemaanddata'] = 'Schemat i Dane';
+	$lang['strschemaonly'] = 'Tylko schemat';
+	$lang['strdataonly'] = 'Tylko dane';
+			
 	// Users
 	$lang['struseradmin'] = 'Administracja kontami u¿ytkowników';
 	$lang['struser'] = 'U¿ytkownik';
@@ -141,7 +149,14 @@
 	$lang['strnousers'] = 'Nie znaleziono u¿ytkowników.';
 	$lang['struserupdated'] = 'Parametry u¿ytkownika zaktualizowane.';
 	$lang['struserupdatedbad'] = 'Operacja aktualizacji parametrów u¿ytkownika siê nie powiod³a.';
-	
+        $lang['strshowallusers'] = 'Poka¿ wszystkich u¿ytkowników';
+	$lang['strcreateuser'] = 'Utwórz u¿ytkownika';
+	$lang['strusercreated'] = 'U¿ytkownik utworzony.';
+	$lang['strusercreatedbad'] = 'Operacja utworzenia u¿ytkownika siê nie powiod³a.';
+	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun±æ u¿ytkownika "%s"?';
+	$lang['struserdropped'] = 'U¿ytkownik usuniêty.';
+	$lang['struserdroppedbad'] = 'Operacja usuniêcia u¿ytkownika siê nie powiod³a.';
+							
 	// Groups
 	$lang['strgroupadmin'] = 'Administracja grupami u¿ytkowników';
 	$lang['strgroup'] = 'Grupa';
@@ -214,11 +229,11 @@
 	$lang['strnosequence'] = 'Nie znaleziono sekwencji.';
 	$lang['strnosequences'] = 'Nie znaleziono sekwencji.';
 	$lang['strcreatesequence'] = 'Utwórz sekwencjê';
-	$lang['strsequencename'] = 'Nazwa sekwencji';
-	$lang['strlastvalue'] = 'last_value';
-	$lang['strincrementby'] = 'increment_by';	
-	$lang['strmaxvalue'] = 'max_value';
-	$lang['strminvalue'] = 'min_value';
+	$lang['strlastvalue'] = 'Ostatnia warto¶æ';
+	$lang['strincrementby'] = 'Zwiêkszana o';	
+	$lang['strstartvalue'] = 'Warto¶æ pocz±tkowa';
+	$lang['strmaxvalue'] = 'Warto¶æ maks.';
+	$lang['strminvalue'] = 'Warto¶æ min.';
 	$lang['strcachevalue'] = 'cache_value';
 	$lang['strlogcount'] = 'log_cnt';
 	$lang['striscycled'] = 'is_cycled';
@@ -280,8 +295,24 @@
 	$lang['strconfdropconstraint'] = 'Czy na pewno chcesz usun±æ wiêzy integralno¶ci "%s" na "%s"?';
 	$lang['strconstraintdropped'] = 'Wiêzy integralno¶ci usuniête.';
 	$lang['strconstraintdroppedbad'] = 'Operacja usuniêcia wiêzów integralno¶ci siê nie powiod³a.';
-	$lang['straddcheck'] = 'Dodaj sprawdzenie';
-
+	$lang['straddcheck'] = 'Dodaj warunek';
+        $lang['strcheckneedsdefinition'] = 'Musisz zdefiniowaæ warunek.';
+	$lang['strcheckadded'] = 'Dodano warunek.';
+	$lang['strcheckaddedbad'] = 'peracja dodania warunku siê nie powiod³a.';
+	$lang['straddpk'] = 'Dodaj klucz g³ówny';
+	$lang['strpkneedscols'] = 'Klucz g³ówny musi zawieraæ przynajmniej jedn± kolumnê.';
+	$lang['strpkadded'] = 'Dodano klucz g³ówny.';
+	$lang['strpkaddedbad'] = 'Operacja dodania klucza g³ównego siê nie powiod³a.';
+	$lang['stradduniq'] = 'Dodaj klucz unikatowy';
+	$lang['struniqneedscols'] = 'Klucz unikatowy musi zawieraæ przynajmniej jedn± kolumnê.';
+	$lang['struniqadded'] = 'Dodano klucz unikatowy.';
+	$lang['struniqaddedbad'] = 'Operacja dodania klucza unikatowego siê nie powiod³a.';
+        $lang['straddfk'] = 'Dodaj klucz obcy';
+	$lang['strfkneedscols'] = 'Obcy klucz musi zawieraæ przynajmniej jedn± kolumnê.';
+	$lang['strfkadded'] = 'Dodano klucz obcy.';
+	$lang['strfkaddedbad'] = 'Operacja dodania klucza obcego siê nie powiod³a.';
+	$lang['strfktarget'] = 'Tabela docelowa';
+					
 	// Functions
 	$lang['strfunction'] = 'Funkcja';
 	$lang['strfunctions'] = 'Funkcje';

@@ -4,11 +4,11 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.9 2003/03/17 05:20:31 chriskl Exp $
+	 * $Id: polish.php,v 1.10 2003/04/04 20:28:03 slubek Exp $
 	 */
 
 	// Language and character set
-	$lang['applang'] = 'Polish';
+	$lang['applang'] = 'Polski';
 	$lang['appcharset'] = 'ISO-8859-2';
 
 	// Basic strings
@@ -72,7 +72,12 @@
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
-
+        $lang['strevent'] = 'Zdarzenie';
+	$lang['strwhere'] = 'Gdzie';
+	$lang['strinstead'] = 'Wykonaj zamiast';
+	$lang['strwhen'] = 'Kiedy';
+	$lang['strformat'] = 'Format';
+					
 	// Error handling
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
 	$lang['strbadconfig'] = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
@@ -81,7 +86,7 @@
 	$lang['strbadencoding'] = 'B&#322;&#281;dne kodowanie bazy.';
 	$lang['strsqlerror'] = 'B&#322;&#261;d SQL:';
 	$lang['strinstatement'] = 'W poleceniu:';
-	$strInvalidScriptParam = 'B&#322;&#281;dny parametr skryptu.';
+	$lang['strinvalidparam'] = 'B&#322;&#281;dny parametr.';
 	$lang['strnodata'] = 'Nie znaleziono danych.';
 
 	// Tables
@@ -128,7 +133,10 @@
         $lang['straddcolumn'] = 'Dodaj kolumn&#281;';
 	$lang['strcolumnadded'] = 'Kolumna dodana.';
 	$lang['strcolumnaddedbad'] = 'Operacja dodania kolumny si&#281; nie powiod&#322;a.';
-
+        $lang['strschemaanddata'] = 'Schemat i Dane';
+	$lang['strschemaonly'] = 'Tylko schemat';
+	$lang['strdataonly'] = 'Tylko dane';
+			
 	// Users
 	$lang['struseradmin'] = 'Administracja kontami u&#380;ytkownik&oacute;w';
 	$lang['struser'] = 'U&#380;ytkownik';
@@ -141,7 +149,14 @@
 	$lang['strnousers'] = 'Nie znaleziono u&#380;ytkownik&oacute;w.';
 	$lang['struserupdated'] = 'Parametry u&#380;ytkownika zaktualizowane.';
 	$lang['struserupdatedbad'] = 'Operacja aktualizacji parametr&oacute;w u&#380;ytkownika si&#281; nie powiod&#322;a.';
-	
+        $lang['strshowallusers'] = 'Poka&#380; wszystkich u&#380;ytkownik&oacute;w';
+	$lang['strcreateuser'] = 'Utw&oacute;rz u&#380;ytkownika';
+	$lang['strusercreated'] = 'U&#380;ytkownik utworzony.';
+	$lang['strusercreatedbad'] = 'Operacja utworzenia u&#380;ytkownika si&#281; nie powiod&#322;a.';
+	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun&#261;&#263; u&#380;ytkownika &quot;%s&quot;?';
+	$lang['struserdropped'] = 'U&#380;ytkownik usuni&#281;ty.';
+	$lang['struserdroppedbad'] = 'Operacja usuni&#281;cia u&#380;ytkownika si&#281; nie powiod&#322;a.';
+							
 	// Groups
 	$lang['strgroupadmin'] = 'Administracja grupami u&#380;ytkownik&oacute;w';
 	$lang['strgroup'] = 'Grupa';
@@ -214,11 +229,11 @@
 	$lang['strnosequence'] = 'Nie znaleziono sekwencji.';
 	$lang['strnosequences'] = 'Nie znaleziono sekwencji.';
 	$lang['strcreatesequence'] = 'Utw&oacute;rz sekwencj&#281;';
-	$lang['strsequencename'] = 'Nazwa sekwencji';
-	$lang['strlastvalue'] = 'last_value';
-	$lang['strincrementby'] = 'increment_by';	
-	$lang['strmaxvalue'] = 'max_value';
-	$lang['strminvalue'] = 'min_value';
+	$lang['strlastvalue'] = 'Ostatnia warto&#347;&#263;';
+	$lang['strincrementby'] = 'Zwi&#281;kszana o';	
+	$lang['strstartvalue'] = 'Warto&#347;&#263; pocz&#261;tkowa';
+	$lang['strmaxvalue'] = 'Warto&#347;&#263; maks.';
+	$lang['strminvalue'] = 'Warto&#347;&#263; min.';
 	$lang['strcachevalue'] = 'cache_value';
 	$lang['strlogcount'] = 'log_cnt';
 	$lang['striscycled'] = 'is_cycled';
@@ -280,8 +295,24 @@
 	$lang['strconfdropconstraint'] = 'Czy na pewno chcesz usun&#261;&#263; wi&#281;zy integralno&#347;ci &quot;%s&quot; na &quot;%s&quot;?';
 	$lang['strconstraintdropped'] = 'Wi&#281;zy integralno&#347;ci usuni&#281;te.';
 	$lang['strconstraintdroppedbad'] = 'Operacja usuni&#281;cia wi&#281;z&oacute;w integralno&#347;ci si&#281; nie powiod&#322;a.';
-	$lang['straddcheck'] = 'Dodaj sprawdzenie';
-
+	$lang['straddcheck'] = 'Dodaj warunek';
+        $lang['strcheckneedsdefinition'] = 'Musisz zdefiniowa&#263; warunek.';
+	$lang['strcheckadded'] = 'Dodano warunek.';
+	$lang['strcheckaddedbad'] = 'peracja dodania warunku si&#281; nie powiod&#322;a.';
+	$lang['straddpk'] = 'Dodaj klucz g&#322;&oacute;wny';
+	$lang['strpkneedscols'] = 'Klucz g&#322;&oacute;wny musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
+	$lang['strpkadded'] = 'Dodano klucz g&#322;&oacute;wny.';
+	$lang['strpkaddedbad'] = 'Operacja dodania klucza g&#322;&oacute;wnego si&#281; nie powiod&#322;a.';
+	$lang['stradduniq'] = 'Dodaj klucz unikatowy';
+	$lang['struniqneedscols'] = 'Klucz unikatowy musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
+	$lang['struniqadded'] = 'Dodano klucz unikatowy.';
+	$lang['struniqaddedbad'] = 'Operacja dodania klucza unikatowego si&#281; nie powiod&#322;a.';
+        $lang['straddfk'] = 'Dodaj klucz obcy';
+	$lang['strfkneedscols'] = 'Obcy klucz musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
+	$lang['strfkadded'] = 'Dodano klucz obcy.';
+	$lang['strfkaddedbad'] = 'Operacja dodania klucza obcego si&#281; nie powiod&#322;a.';
+	$lang['strfktarget'] = 'Tabela docelowa';
+					
 	// Functions
 	$lang['strfunction'] = 'Funkcja';
 	$lang['strfunctions'] = 'Funkcje';
