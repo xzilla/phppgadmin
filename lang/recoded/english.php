@@ -4,9 +4,10 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.113 2004/08/22 00:06:34 soranzo Exp $
+	 * $Id: english.php,v 1.114 2004/08/25 17:23:21 xzilla Exp $
 	 */
 
+	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum "%s"?';
 	// Language and character set
 	$lang['applang'] = 'English';
 	$lang['appcharset'] = 'ISO-8859-1';

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.61 2004/08/22 00:06:33 soranzo Exp $
+	 * $Id: tables.php,v 1.62 2004/08/25 17:23:20 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -472,6 +472,45 @@
 		
 	}
 
+
+	/**
+	 * Show confirmation of vacuum and perform actual vacuum
+	 */
+	function doVacuum($confirm) {
+		global $data, $misc;
+		global $lang, $_reload_browser;
+		global $PHP_SELF;
+
+		if ($confirm) {
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strvacuum']), '');
+
+			echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo $misc->form;
+			// Show vacuum full option if supportd
+			if ($data->hasFullVacuum()) {
+				echo "<p><input type=\"checkbox\" name=\"vacuum_full\" /> {$lang['strfull']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"vacuum_analyze\" /> {$lang['stranalyze']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"vacuum\" value=\"{$lang['strvacuum']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $data->vacuumDB($_POST['table'], isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
+			if ($status == 0) {
+				$_reload_browser = true;
+				doDefault($lang['strvacuumgood']);
+			}
+			else
+				doDefault($lang['strvacuumbad']);
+		}
+		
+	}
+
 	/**
 	 * Show default list of tables in the database
 	 */
@@ -537,7 +576,12 @@
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
-		);
+			'vacuum' => array(
+				'title' => $lang['strvacuum'],
+				'url'   => "{$PHP_SELF}?action=confirm_vacuum&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+	);
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
@@ -582,6 +626,13 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
+			break;
+		case 'vacuum':
+			if (isset($_POST['vacuum'])) doVacuum(false);
+			else doDefault();
+			break;
+		case 'confirm_vacuum':
+			doVacuum(true);
 			break;
 		default:
 			doDefault();
