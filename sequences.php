@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.11 2003/05/23 03:11:59 chriskl Exp $
+	 * $Id: sequences.php,v 1.12 2003/05/28 16:51:36 killroyboy Exp $
 	 */
 	
 	// Include application functions
@@ -36,13 +36,13 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqname']]), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal($sequences->f[$data->sqFields['seqowner']]), "</td>";
-				echo "<td class=\"data{$id}\">";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=properties&{$misc->href}&sequence=", 
 					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strproperties']}</a></td>\n"; 
-				echo "<td class=\"data{$id}\">";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", 
 					urlencode($sequences->f[$data->sqFields['seqname']]), "\">{$lang['strdrop']}</td>\n"; 
-				echo "<td class=\"data{$id}\">";
+				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"privileges.php?{$misc->href}&object=", urlencode($sequences->f[$data->sqFields['seqname']]),
 					"&type=sequence\">{$lang['strprivileges']}</td></tr>\n";
 				
