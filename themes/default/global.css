@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.19 2004/07/07 03:00:08 chriskl Exp $
+ * $Id: global.css,v 1.20 2004/07/07 14:48:19 soranzo Exp $
  */
 
 /** ELEMENTS */
@@ -116,7 +116,7 @@ th.data a:active, th.data a:link, th.data a:visited, th.data a:hover
 	font-weight: bold;
 }
 
-.left, th[scope="row"]
+.left
 {
 	text-align: left;
 }

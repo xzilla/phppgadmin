@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.26 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: indexes.php,v 1.27 2004/07/07 14:48:19 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -121,7 +121,7 @@
 
 		echo "<table> \n";
 		echo "<tr>";
-		echo "<th class=\"data required\" scope=\"row\">{$lang['strindextype']}</th>";
+		echo "<th class=\"data left required\" scope=\"row\">{$lang['strindextype']}</th>";
 		echo "<td class=\"data1\"><select name=\"formIndexType\">";
 		foreach ($data->typIndexes as $v) {
 			echo "<option value=\"", htmlspecialchars($v), "\"",
@@ -130,12 +130,12 @@
 		echo "</select></td></tr>\n";				
 		echo "</tr>";
 		echo "<tr>";
-		echo "<th class=\"data\" scope=\"row\">{$lang['strunique']}</th>";
+		echo "<th class=\"data left\" scope=\"row\">{$lang['strunique']}</th>";
 		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
 		echo "</tr>";
 		if ($data->hasPartialIndexes()) {
 			echo "<tr>";
-			echo "<th class=\"data\" scope=\"row\">{$lang['strwhere']}</th>";
+			echo "<th class=\"data left\" scope=\"row\">{$lang['strwhere']}</th>";
 			echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['formWhere']), "\" />)</td>";
 			echo "</tr>";
