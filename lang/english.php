@@ -4,13 +4,15 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.25 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: english.php,v 1.26 2003/01/02 03:42:08 chriskl Exp $
 	 */
 
 	$appLang = 'English';
 	$appCharset = 'ISO-8859-1';
 
+	$strIntro = 'Welcome to WebDB.';
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
+	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
 	$strLogin = 'Login';
 	$strLoginFailed = 'Login failed';
 	$strNoTables = 'No tables found.';

@@ -3,8 +3,31 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.6 2002/12/27 17:25:56 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.7 2003/01/02 03:42:08 chriskl Exp $
 	 */
+
+	// Application name 
+	$appName = 'WebDB';
+
+	// Application version
+	$appVersion = '0.7';
+
+	// Configuration file version.  If this is greater than that in config.inc.php, then
+	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
+	// backwards incompatible changes are made to config.inc.php-dist.
+	$appBaseConfVersion = 1;
+
+	// Language settings.  Always include english.php, since it's the master
+	// language file, and then overwrite it with the user-specified language.
+	$appLanguage = strtolower($appLanguage);
+	include_once('../lang/english.php');
+	include_once("../lang/{$appLanguage}.php");
+
+	// Check for config file version mismatch
+	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
+		echo $strBadConfig;
+		exit;
+	}
 
 	// Create Misc class references
 	include_once('../classes/Misc.php');

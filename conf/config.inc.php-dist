@@ -4,17 +4,17 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.5 2002/12/24 07:38:23 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.6 2003/01/02 03:42:08 chriskl Exp $
 	 */
 
 	// Set error reporting level
 	error_reporting(E_ALL);
 
 	// App settings
-	$appName = 'WebDB';
-	$appIntro = 'Welcome to WebDB.';
 	$appBase = '../public_html';
-	$appVersion = '0.6';
+
+	// Language setting.  eg 'english', 'polish', etc.
+	$appLanguage = 'english';
 	
 	/*
 	 * GUI settings
@@ -55,9 +55,8 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	// Language
-	include_once('../lang/english.php');
-	
+	$appConfVersion = 1;
+
 	// Main library
 	include_once('../libraries/lib.inc.php');
 	

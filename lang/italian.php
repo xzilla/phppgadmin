@@ -3,7 +3,7 @@
 	 * Italian language template, based on the english language template file for WebDB.
 	 * @maintainer Calogero Calì [<kalef@libero.it>]
 	 *	
-	 * $Id: italian.php,v 1.3 2002/12/24 02:44:21 chriskl Exp $
+	 * $Id: italian.php,v 1.4 2003/01/02 03:42:08 chriskl Exp $
 	 */
 
 	$appLang = 'Italiano';
@@ -41,7 +41,7 @@
 	$strPrev = 'Precedente';
 	$strNext = 'Successivo';
 	$strFailed = 'Fallito';
-	$strNotLoaded = 'Non &egrave; stato compilato un adeguato supporto ai database nell'installazione di PHP';
+	$strNotLoaded = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
 	
 	// Users - Utenti
 	$strUsername = 'Username';

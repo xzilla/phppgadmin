@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.8 2003/01/02 02:27:47 chriskl Exp $
+	 * $Id: intro.php,v 1.9 2003/01/02 03:42:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 
 <h1><?php echo $appName ?></h1>
 
-<p><?php echo $appIntro ?></p>
+<p><?php echo $strIntro ?></p>
 
 </body>
 </html>
