@@ -26,6 +26,8 @@ Features
 * Syntax highlighting for PL/SQL, PL/PgSQL, PL/PHP, PL/Ruby, PL/Java, 
   PL/J, PL/Python and PL/Perl functions, thanks to Jacob D. Cohen's
   BSD-licensed highlighting code on rafb.net
+* Add page navigation links at the bottom as well as the top of the page
+  when browsing results.
 
 Translations
 * Arabic from Zaki
@@ -36,6 +38,7 @@ Translations
 
 Bugs
 * Fix that non-Auto mode import didn't work (Adrian Nida)
+* Fix inability to drop constraints when using a non-english translation
 
 Version 3.4.1
 -------------

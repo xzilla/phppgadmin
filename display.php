@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.42 2004/08/30 11:50:31 soranzo Exp $
+	 * $Id: display.php,v 1.43 2004/09/02 08:39:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -354,8 +354,10 @@
 				$rs->moveNext();
 				$i++;
 			}
-			echo "</table>\n";
+			echo "</table>\n";			
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
+			// Show page navigation
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}");
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
