@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.27 2004/02/04 00:22:18 slubek Exp $
+	 * $Id: polish.php,v 1.28 2004/02/13 00:15:27 slubek Exp $
 	 */
 
 	// Language and character set
@@ -43,8 +43,8 @@
 	$lang['strnotnull'] = 'Not Null';
 	$lang['strprev'] = 'Poprzedni';
 	$lang['strnext'] = 'Nast&#281;pny';
-	$lang['strfirst'] = '<< Pierwszy';
-	$lang['strlast'] = 'Ostatni >>';
+	$lang['strfirst'] = '&lt;&lt; Pierwszy';
+	$lang['strlast'] = 'Ostatni &gt;&gt;';
 	$lang['strfailed'] = 'Nieudany';
 	$lang['strcreate'] = 'Utw&oacute;rz';
 	$lang['strcreated'] = 'Utworzony';
@@ -562,8 +562,8 @@
 	$lang['strioperf'] = 'Wydajno&#347;&#263; I/O';
 $lang['stridxrowperf'] = 'Index Row Performance';
 $lang['stridxioperf'] = 'Index I/O Performance';
-$lang['strpercent'] = '%';
-$lang['strsequential'] = 'Sekwencyjny';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sekwencyjny';
 	$lang['strscan'] = 'Skanuj';
 	$lang['strread'] = 'Czytaj';
 	$lang['strfetch'] = 'Pobierz';
