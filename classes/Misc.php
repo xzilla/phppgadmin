@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.79 2004/07/21 07:44:43 jollytoad Exp $
+	 * $Id: Misc.php,v 1.80 2004/07/21 08:26:43 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -408,11 +408,6 @@
 							'title' => $lang['strdatabases'],
 							'url'   => "all_db.php",
 						),
-						'tablespaces' => array (
-							'title' => $lang['strtablespaces'],
-							'url'   => "tablespaces.php",
-							'hide'  => (!$data->hasTablespaces()),
-						),
 						'users' => array (
 							'title' => $lang['strusers'],
 							'url'   => "users.php",
@@ -422,6 +417,11 @@
 							'title' => $lang['strgroups'],
 							'url'   => "groups.php",
 							'hide'  => $hide_users,
+						),
+						'tablespaces' => array (
+							'title' => $lang['strtablespaces'],
+							'url'   => "tablespaces.php",
+							'hide'  => (!$data->hasTablespaces()),
 						),
 					);
 
