@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.56 2004/01/14 02:14:28 chriskl Exp $
+ * $Id: Postgres72.php,v 1.57 2004/02/02 12:15:58 chriskl Exp $
  */
 
 
@@ -38,6 +38,22 @@ class Postgres72 extends Postgres71 {
 		$this->codemap['LATIN5'] = 'ISO-8859-9';
 	}
 
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function &getProcesses($database = null) {
+		if ($database === null)
+			$sql = "SELECT * FROM pg_stat_activity ORDER BY datname, usename, procpid";
+		else {
+			$this->clean($database);
+			$sql = "SELECT * FROM pg_stat_activity WHERE datname='{$database}' ORDER BY usename, procpid";
+		}
+		
+		return $this->selectSet($sql);
+	}
+	
 	// Table functions
 
 	/**
@@ -300,6 +316,7 @@ class Postgres72 extends Postgres71 {
 	// Capabilities
 	function hasWithoutOIDs() { return true; }
 	function hasPartialIndexes() { return true; }
+	function hasProcesses() { return true; }
 
 }
 

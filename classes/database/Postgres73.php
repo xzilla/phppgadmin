@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.88 2004/01/30 05:58:45 chriskl Exp $
+ * $Id: Postgres73.php,v 1.89 2004/02/02 12:15:58 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -150,6 +150,32 @@ class Postgres73 extends Postgres72 {
 		return $this->execute($sql);
 	}
 
+	/**
+	 * Returns all available variable information.
+	 * @return A recordset
+	 */
+	function &getVariables() {
+		$sql = "SHOW ALL";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function &getProcesses($database = null) {
+		if ($database === null)
+			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
+		else {
+			$this->clean($database);
+			$sql = "SELECT * FROM pg_catalog.pg_stat_activity WHERE datname='{$database}' ORDER BY usename, procpid";
+		}
+		
+		return $this->selectSet($sql);
+	}
+	
 	// Table functions
 
 	/**
@@ -1477,6 +1503,7 @@ class Postgres73 extends Postgres72 {
 	function hasCasts() { return true; }
 	function hasPrepare() { return true; }
 	function hasUserSessionDefaults() { return true; }
+	function hasVariables() { return true; }
 
 }
 

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.35 2004/01/04 08:13:41 chriskl Exp $
+	 * $Id: browser.php,v 1.36 2004/02/02 12:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,8 +21,8 @@
 	// Construct expanding tree
 	$menu  = new HTML_TreeMenu(null, array('usePersistence' => false));
 	$root = new HTML_TreeNode(array(
-						'text' => addslashes($misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc']))), 
-						'link' => 'all_db.php?' . SID, 
+						'text' => $misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc'])), 
+						'link' => addslashes('all_db.php?' . SID), 
 						'icon' => 'folder.gif', 
 						'expandedIcon' => 'folder-expanded.gif',
 						'expanded' => true,
@@ -41,7 +41,7 @@
 		// Tables
 		if ($data->hasTables()) {
 			$table_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strtables']), 
+							'text' => $lang['strtables'], 
 							'link' => addslashes(htmlspecialchars("tables.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
@@ -55,7 +55,7 @@
 			while (!$tables->EOF) {
 				$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f[$data->tbFields['tbname']]) . "&{$querystr}");
 				$item_node = &new HTML_TreeNode(array(
-								'text' => addslashes($misc->printVal($tables->f[$data->tbFields['tbname']])), 
+								'text' => $misc->printVal($tables->f[$data->tbFields['tbname']]), 
 								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
 									urlencode($tables->f[$data->tbFields['tbname']]))), 
 								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
@@ -75,7 +75,7 @@
 		// Views
 		if ($data->hasViews()) {
 			$view_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strviews']), 
+							'text' => $lang['strviews'], 
 							'link' => addslashes(htmlspecialchars("views.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
@@ -88,7 +88,7 @@
 		// Sequences
 		if ($data->hasSequences()) {
 			$seq_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strsequences']), 
+							'text' => $lang['strsequences'], 
 							'link' => addslashes(htmlspecialchars("sequences.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/sequences.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/sequences.png",
@@ -101,7 +101,7 @@
 		// Functions
 		if ($data->hasFunctions()) {
 			$func_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strfunctions']), 
+							'text' => $lang['strfunctions'], 
 							'link' => addslashes(htmlspecialchars("functions.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/functions.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/functions.png",
@@ -114,7 +114,7 @@
 		// Domains
 		if ($data->hasDomains()) {
 			$dom_node = &new HTML_TreeNode(array(
-							'text' => addslashes($lang['strdomains']), 
+							'text' => $lang['strdomains'], 
 							'link' => addslashes(htmlspecialchars("domains.php?{$querystr}")), 
 							'icon' => "../../../images/themes/{$conf['theme']}/domains.png", 
 							'expandedIcon' => "../../../images/themes/{$conf['theme']}/domains.png",
@@ -141,7 +141,7 @@
 			// Aggregates
 			if ($data->hasAggregates()) {
 				$agg_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['straggregates']), 
+								'text' => $lang['straggregates'], 
 								'link' => addslashes(htmlspecialchars("aggregates.php?{$querystr}")), 
 								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
@@ -154,7 +154,7 @@
 			// Types
 			if ($data->hasTypes()) {
 				$type_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['strtypes']), 
+								'text' => $lang['strtypes'], 
 								'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
 								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
@@ -167,7 +167,7 @@
 			// Operators
 			if ($data->hasOperators()) {
 				$opr_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['stroperators']), 
+								'text' => $lang['stroperators'], 
 								'link' => addslashes(htmlspecialchars("operators.php?{$querystr}")), 
 								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
@@ -180,7 +180,7 @@
 			// Operator Classes
 			if ($data->hasOpClasses()) {
 				$opc_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['stropclasses']), 
+								'text' => $lang['stropclasses'], 
 								'link' => addslashes(htmlspecialchars("opclasses.php?{$querystr}")), 
 								'icon' => "../../../images/themes/{$conf['theme']}/operators.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/operators.png",
@@ -193,10 +193,10 @@
 			// Conversions
 			if ($data->hasConversions()) {
 				$con_node = &new HTML_TreeNode(array(
-								'text' => addslashes($lang['strconversions']), 
+								'text' => $lang['strconversions'], 
 								'link' => addslashes(htmlspecialchars("conversions.php?{$querystr}")), 
-									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
-									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
 								'expanded' => false,
 								'linkTarget' => 'detail'));
 
@@ -214,7 +214,7 @@
 			// apostrophes create the get string we need to append
 			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
 			$db_node = &new HTML_TreeNode(array(
-								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
+								'text' => $misc->printVal($databases->f[$data->dbFields['dbname']]), 
 								'link' => addslashes(htmlspecialchars("database.php?{$querystr}")),
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
@@ -230,7 +230,7 @@
 					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
 							urlencode($schemas->f[$data->nspFields['nspname']]) . '&' . SID;
 					$schemanode = &new HTML_TreeNode(array(
-									'text' => addslashes($misc->printVal($schemas->f[$data->nspFields['nspname']])), 
+									'text' => $misc->printVal($schemas->f[$data->nspFields['nspname']]), 
 									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
@@ -263,7 +263,7 @@
 			if ($conf['show_advanced']) {
 				if ($data->hasLanguages()) {		
 					$lang_node = &new HTML_TreeNode(array(
-									'text' => addslashes($lang['strlanguages']), 
+									'text' => $lang['strlanguages'], 
 									'link' => addslashes(htmlspecialchars("languages.php?{$querystr}")), 
 									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
 									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
@@ -277,7 +277,7 @@
 				// Casts
 				if ($data->hasCasts()) {		
 					$cast_node = &new HTML_TreeNode(array(
-									'text' => addslashes($lang['strcasts']), 
+									'text' => $lang['strcasts'], 
 									'link' => addslashes(htmlspecialchars("casts.php?{$querystr}")), 
 									'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
 									'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
@@ -298,12 +298,12 @@
 			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID));
 			$jsLink = "javascript:updateLinks(' + \"'{$jsLink}'\" + ')";
 			$db_node = &new HTML_TreeNode(array(
-								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => $jsLink,
-								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
-								'expanded' => false,
-								'linkTarget' => '_self'));
+									'text' => $misc->printVal($databases->f[$data->dbFields['dbname']]), 
+									'link' => $jsLink,
+									'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
+									'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
+									'expanded' => false,
+									'linkTarget' => '_self'));
 		
 			// Add node to menu
 			$root->addItem($db_node);

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.57 2004/01/29 07:30:12 chriskl Exp $
+	 * $Id: Misc.php,v 1.58 2004/02/02 12:15:57 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -291,8 +291,12 @@
 			}
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=sql\">{$lang['strsql']}</a></td>\n";
 			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=find\">{$lang['strfind']}</a></td>\n";
-			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
-			echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
+			if ($data->hasVariables()) {
+				echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=variables\">{$lang['strvariables']}</a></td>\n";
+			}
+			if ($data->hasProcesses()) {
+				echo "<td width=\"13%\"><a href=\"database.php?{$vars}&amp;action=processes\">{$lang['strprocesses']}</a></td>\n";
+			}
 			echo "<td width=\"12%\"><a href=\"database.php?{$vars}&amp;action=admin\">{$lang['stradmin']}</a></td>\n";
 			// Only show database privs if available
 			if (isset($data->privlist['database'])) {

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.33 2004/01/30 05:58:44 chriskl Exp $
+	 * $Id: database.php,v 1.34 2004/02/02 12:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -295,7 +295,11 @@
 		if ($processes->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strprocess']}</th>";
-			echo "<th class=\"data\">{$lang['strsql']}</th></tr>\n";
+			echo "<th class=\"data\">{$lang['strsql']}</th>";
+			// Show query start time for 7.4+
+			if (isset($processes->f['query_start'])) echo "<th class=\"data\">{$lang['strstarttime']}</th>";
+			echo "</tr>\n";
+			
 			$i = 0;
 			while (!$processes->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
@@ -303,6 +307,10 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['usename']), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['procpid'], false, 'int4'), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['current_query']), "</td>";
+				// Show query start time for 7.4+
+				if (isset($processes->f['query_start'])) {
+					echo "<td class=\"data{$id}\">", $misc->printVal($processes->f['query_start']), "</td>";				
+				}
 				echo "</tr>\n";
 				$processes->moveNext();
 				$i++;
