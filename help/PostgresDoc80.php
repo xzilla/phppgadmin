@@ -3,12 +3,12 @@
 /**
  * Help links for PostgreSQL 8.0 documentation
  *
- * $Id: PostgresDoc80.php,v 1.4 2005/02/15 12:48:49 jollytoad Exp $
+ * $Id: PostgresDoc80.php,v 1.5 2005/02/16 10:27:44 jollytoad Exp $
  */
 
 include('./help/PostgresDoc74.php');
 
-$this->help_base = 'http://www.postgresql.org/docs/8.0/interactive/';
+$this->help_base = sprintf($GLOBALS['conf']['help_base'], '8.0');
 
 $this->help_page['pg.column.add'][0] = 'ddl-alter.html#AEN2217';
 $this->help_page['pg.column.drop'][0] = 'ddl-alter.html#AEN2226';

@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.40 2005/02/11 11:22:24 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.41 2005/02/16 10:27:44 jollytoad Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -95,10 +95,15 @@
 	// Send XHTML headers?  Unless debugging, it's best to leave this off
 	$conf['use_xhtml'] = false;
 
+	// Base URL for PostgreSQL documentation.
+	// '%s', if present, will be replaced with the PostgreSQL version
+	// (7, 7.1, 7.2, 7.3, 7.4, or 8.0)
+	$conf['help_base'] = 'http://www.postgresql.org/docs/%s/interactive/';
+	
 	/*****************************************
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 13;
+	$conf['version'] = 14;
 
 ?>

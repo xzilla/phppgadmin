@@ -3,12 +3,12 @@
 /**
  * Help links for PostgreSQL 7.4 documentation
  *
- * $Id: PostgresDoc74.php,v 1.3 2004/11/15 17:25:03 soranzo Exp $
+ * $Id: PostgresDoc74.php,v 1.4 2005/02/16 10:27:44 jollytoad Exp $
  */
  
 include('./help/PostgresDoc73.php');
 
-$this->help_base = 'http://www.postgresql.org/docs/7.4/interactive/';
+$this->help_base = sprintf($GLOBALS['conf']['help_base'], '7.4');
 
 $this->help_page['pg.aggregate.alter'] = 'sql-alteraggregate.html';
 
