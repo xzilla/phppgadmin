@@ -1,6 +1,11 @@
 phpPgAdmin History
 ------------------
 
+Version 3.0.0-dev-5
+-------------------
+
+* Cascade drop on columns and constraints
+
 Version 3.0.0-dev-4
 -------------------
 
@@ -17,7 +22,7 @@ Version 3.0.0-dev-3
 -------------------
 
 * French translation
-* Russion translations
+* Russian translations
 * Japanese translations
 * Trigger definitions
 * ADODB upgrade

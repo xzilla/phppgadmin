@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.14 2003/04/23 08:56:26 chriskl Exp $
+	 * $Id: constraints.php,v 1.15 2003/05/01 03:27:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -344,11 +344,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\">\n";
 			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropConstraint($_POST['constraint'], $_POST['table']);
+			$status = $localData->dropConstraint($_POST['constraint'], $_POST['table'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strconstraintdropped']);
 			else

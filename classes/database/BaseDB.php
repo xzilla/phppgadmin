@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.13 2003/04/30 06:35:41 chriskl Exp $
+ * $Id: BaseDB.php,v 1.14 2003/05/01 03:27:54 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -69,16 +69,34 @@ class BaseDB extends ADODB_base {
 	 * @return 0 success
 	 * @return -1 invalid parameters
 	 */
-	function insertRow($table, $values, $nulls) {
-		if (!is_array($values) || !is_array($nulls)) return -1;
+	function insertRow($table, $vars, $nulls) {
+		if (!is_array($vars) || !is_array($nulls)) return -1;
 		// @@ WE CANNOT USE insert AS WE NEED TO NOT QUOTE SOME THINGS
 		// @@ WHAT ABOUT BOOLEANS??
 		else {
-			$temp = array();
-			foreach($values as $k => $v) {
-				if (!isset($nulls[$k])) $temp[$k] = $v;
-			}
-			return $this->insert($table, $temp);
+			$this->fieldClean($table);
+	
+			// Build clause
+			if (sizeof($vars) > 0) {
+				$fields = '';
+				$values = '';
+				foreach($vars as $key => $value) {
+					$this->clean($key);
+					$this->clean($value);
+	
+					if ($fields) $fields .= ", \"{$key}\"";
+					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
+	
+					// Handle NULL values
+					if (isset($nulls[$key])) $tmp = 'NULL';
+					else $tmp = "'{$value}'";
+					
+					if ($values) $values .= ", {$tmp}";
+					else $values = ") VALUES ({$tmp}";
+				}
+				$sql = $fields . $values . ')';
+			}			
+			return $this->execute($sql);
 		}
 	}
 	

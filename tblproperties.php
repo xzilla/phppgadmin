@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.13 2003/04/20 09:45:39 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.14 2003/05/01 03:27:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -214,11 +214,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropColumn($_POST['table'], $_POST['column'], 'RESTRICT');
+			$status = $localData->dropColumn($_POST['table'], $_POST['column'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strcolumndropped']);
 			else
@@ -289,7 +293,7 @@
 			doProperties();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
+			if (isset($_POST['yes'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

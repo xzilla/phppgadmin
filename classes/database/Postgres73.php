@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.38 2003/04/30 07:28:11 chriskl Exp $
+ * $Id: Postgres73.php,v 1.39 2003/05/01 03:27:54 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -331,16 +331,15 @@ class Postgres73 extends Postgres72 {
 	 * Drops a column from a table
 	 * @param $table The table from which to drop a column
 	 * @param $column The column to be dropped
-	 * @param $behavior CASCADE or RESTRICT or empty
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropColumn($table, $column, $behavior) {
-		$this->clean($table);
-		$this->clean($column);
-		$this->clean($behavior);
+	function dropColumn($table, $column, $cascade) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 
-		$sql = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$column}\" " .
-			(($behavior == 'CASCADE') ? 'CASCADE' : 'RESTRICT');
+		$sql = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$column}\"";
+		if ($cascade) $sql .= " CASCADE";		
 
 		return $this->execute($sql);
 	}
@@ -353,42 +352,10 @@ class Postgres73 extends Postgres72 {
 	 * @return 0 success
 	 */
 	function setColumnNull($table, $column, $state) {
-		$this->clean($table);
-		$this->clean($column);
+		$this->fieldClean($table);
+		$this->fieldClean($column);
 
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" " . (($state) ? 'DROP' : 'SET') . " NOT NULL";
-
-		return $this->execute($sql);
-	}
-
-	// Constraint functions
-
-	/**
-	 * Drops a unique constraint from a table
-	 * @param $table The table from which to drop the unique key
-	 * @param $name The name of the unique key
-	 * @return 0 success
-	 */
-	function dropUniqueKey($table, $name) {
-		$this->fieldClean($table);
-		$this->fieldClean($name);
-
-		$sql = "ALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$name}\"";
-
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Drops a primary key constraint from a table
-	 * @param $table The table from which to drop the primary key
-	 * @param $name The name of the primary key
-	 * @return 0 success
-	 */
-	function dropPrimaryKey($table, $name) {
-		$this->fieldClean($table);
-		$this->fieldClean($name);
-
-		$sql = "ALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$name}\"";
 
 		return $this->execute($sql);
 	}
@@ -728,13 +695,15 @@ class Postgres73 extends Postgres72 {
 	 * Removes a constraint from a relation
 	 * @param $constraint The constraint to drop
 	 * @param $relation The relation from which to drop
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropConstraint($constraint, $relation) {
+	function dropConstraint($constraint, $relation, $cascade) {
 		$this->fieldClean($constraint);
 		$this->fieldClean($relation);
 
 		$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\"";
+		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
 	}

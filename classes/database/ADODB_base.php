@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.11 2003/03/27 13:47:15 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.12 2003/05/01 03:27:54 chriskl Exp $
  */
 
 include_once('libraries/errorhandler.inc.php');
@@ -180,9 +180,6 @@ class ADODB_base {
 				else $values = ") VALUES ('{$value}'";
 			}
 			$sql = $fields . $values . ')';
-		} else {
-			// @@ THIS IS TOTALLY WRONG!!!
-			$sql = "INSERT INTO \"{$table}\" DEFAULT VALUES";
 		}
 
 		// Check for failures
