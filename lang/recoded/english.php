@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.38 2003/07/29 09:07:09 chriskl Exp $
+	 * $Id: english.php,v 1.39 2003/07/30 03:26:27 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -205,6 +205,13 @@
 	$lang['strgroupdropped'] = 'Group dropped.';
 	$lang['strgroupdroppedbad'] = 'Group drop failed.';
 	$lang['strmembers'] = 'Members';
+	$lang['straddmember'] = 'Add Member';
+	$lang['strmemberadded'] = 'Member added.';
+	$lang['strmemberaddedbad'] = 'Member add failed.';
+	$lang['strdropmember'] = 'Drop Member';
+	$lang['strconfdropmember'] = 'Are you sure you want to drop the member &quot;%s&quot; from the group &quot;%s&quot;?';
+	$lang['strmemberdropped'] = 'Member dropped.';
+	$lang['strmemberdroppedbad'] = 'Member drop failed.';
 
 	// Privileges
 	$lang['strprivilege'] = 'Privilege';

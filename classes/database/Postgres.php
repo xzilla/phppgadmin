@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.128 2003/07/29 00:37:43 chriskl Exp $
+ * $Id: Postgres.php,v 1.129 2003/07/30 03:26:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1691,6 +1691,36 @@ class Postgres extends BaseDB {
 		
 		$sql = "DROP GROUP \"{$groname}\"";
 		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Adds a group member
+	 * @param $groname The name of the group
+	 * @param $user The name of the user to add to the group
+	 * @return 0 success
+	 */
+	function addGroupMember($groname, $user) {
+		$this->fieldClean($groname);
+		$this->fieldClean($user);
+		
+		$sql = "ALTER GROUP \"{$groname}\" ADD USER \"{$user}\"";
+
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Removes a group member
+	 * @param $groname The name of the group
+	 * @param $user The name of the user to remove from the group
+	 * @return 0 success
+	 */
+	function dropGroupMember($groname, $user) {
+		$this->fieldClean($groname);
+		$this->fieldClean($user);
+		
+		$sql = "ALTER GROUP \"{$groname}\" DROP USER \"{$user}\"";
+
 		return $this->execute($sql);
 	}
 	
