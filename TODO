@@ -1,7 +1,7 @@
-WEBDB TODO LIST FOR DEVELOPERS
-------------------------------
+PHPPGADMIN TODO LIST FOR DEVELOPERS
+-----------------------------------
 
-WebDB is an open source project which means that if you see something on this list
+phpPgAdmin is an open source project which means that if you see something on this list
 that you would like to implement, just send us a patch.  You can find our project
 page here:
 
@@ -45,6 +45,8 @@ Databases
 
 * -Fix create/drop databases (chriskl)
 * Add alter database for 7.3+
+* -Execute arbitrary SQL (chriskl)
+* Dump database
 
 Tables
 ------
@@ -55,7 +57,7 @@ Tables
 * -Have a common browse function (chriskl)
 * -Create table (chriskl)
 * -Modify column - default, nullability, etc. (chriskl)
-* Constraints - note massive 7.3 changes here
+* -Constraints - note massive 7.3 changes here (chriskl)
 * Vacuum & analyze
 * -Dumps as CSV, XML or database specific bulk load format (chriskl)
 * Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
@@ -103,14 +105,16 @@ Operator Classes
 Rules
 -----
 
-* Unimplemented
-* Have accessible on a per-table basis
+* Create rule
+* Alter rule
+* -Have accessible on a per-table basis (chriskl)
 
 Triggers
 --------
 
-* Unimplemented
-* Have accessible on a per-table basis
+* Create trigger
+* Alter trigger (7.3+)
+* -Have accessible on a per-table basis (chriskl)
 
 Aggregates
 ----------
