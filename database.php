@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.38 2004/04/12 06:30:55 chriskl Exp $
+	 * $Id: database.php,v 1.39 2004/04/20 01:34:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -330,11 +330,10 @@
 	 */
 	function doAdmin($action = '', $msg = '') {
 		global $PHP_SELF, $data, $misc;
-		global $lang;
-
+		global $lang;		
 		switch ($action) {
-			case 'vacuum':
-				$status = $data->vacuumDB();
+			case 'vacuum':				
+				$status = $data->vacuumDB('', isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), isset($_REQUEST['vacuum_freeze']) );
 				if ($status == 0) doAdmin('', $lang['strvacuumgood']);
 				else doAdmin('', $lang['strvacuumbad']);
 				break;
@@ -343,15 +342,56 @@
 				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
 				else doAdmin('', $lang['stranalyzebad']);
 				break;
+			case 'cluster':
+				$status = $data->analyzeDB();
+				if ($status == 0) doAdmin('', $lang['strclusteredgood']);
+				else doAdmin('', $lang['strclusterbad']);
+				break;				
+			case 'reindex';
+				$status = $data->analyzeDB();
+				if ($status == 0) doAdmin('', $lang['strreindexgood']);
+				else doAdmin('', $lang['strreindexbad']);
+				break;
 			default:
 				$misc->printDatabaseNav();
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
 				$misc->printMsg($msg);
-				echo "<ul>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&amp;action=vacuum\">{$lang['strvacuum']}</a></li>\n";
-				echo "<li><a href=\"{$PHP_SELF}?{$misc->href}&amp;action=analyze\">{$lang['stranalyze']}</a></li>\n";
-				echo "</ul>\n";
+				
+				// Vacuum
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<h3>{$lang['strvacuum']}</h3>\n";
+				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" />{$lang['stranalyze']}<br />\n";
+				echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
+				echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" />{$lang['strfreeze']}<br />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strvacuum']}\" />\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
+				echo $misc->form;
+				echo "</form>\n";								
 
+				// Analyze
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<h3>{$lang['stranalyze']}</h3>\n";				
+				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
+				echo $misc->form;
+				echo "</form>\n";								
+				
+				// Cluster
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<h3>{$lang['strcluster']}</h3>\n";				
+				echo "<input type=\"submit\" value=\"{$lang['strcluster']}\" />\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"cluster\" />\n";
+				echo $misc->form;
+				echo "</form>\n";								
+				
+				// Reindex
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<h3>{$lang['strreindex']}</h3>\n";
+				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" />{$lang['strforce']}<br />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
+				echo $misc->form;
+				echo "</form>\n";				
 				break;
 		}
 	}
@@ -546,7 +586,7 @@
 			else {
 				echo "<p>{$lang['strnoschemas']}</p>\n";
 			}
-
+	
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
 				"&amp;action=create\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
@@ -563,11 +603,11 @@
 			if (isset($_GET['term'])) doFind(false);
 			else doFind(true);
 			break;
+		case 'cluster':
+		case 'reindex':
 		case 'analyze':
-			doAdmin('analyze');
-			break;
 		case 'vacuum':
-			doAdmin('vacuum');
+			doAdmin($action);
 			break;
 		case 'admin':
 			doAdmin();

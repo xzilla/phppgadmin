@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.138 2004/04/12 07:50:33 chriskl Exp $
+	 * $Id: english.php,v 1.139 2004/04/20 01:34:43 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -277,6 +277,11 @@
 	$lang['strvacuumbad'] = 'Vacuum failed.';
 	$lang['stranalyzegood'] = 'Analyze complete.';
 	$lang['stranalyzebad'] = 'Analyze failed.';
+	$lang['strreindexgood'] = 'Reindex complete.';
+	$lang['strreindexbad'] = 'Reindex failed.';
+	$lang['strfull'] = 'Full';
+	$lang['strfreeze'] = 'Freeze';
+	$lang['strforce'] = 'Force';
 
 	// Views
 	$lang['strview'] = 'View';
