@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.1 2004/07/05 14:06:10 chriskl Exp $
+	 * $Id: tablespaces.php,v 1.2 2004/07/09 01:50:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 
 		// Fetch tablespace info		
 		$tablespace = &$data->getTablespace($_REQUEST['spcname']);
-		// Fetch all users
+		// Fetch all users		
 		$users = &$data->getUsers();
 		
 		if ($tablespace->recordCount() > 0) {
@@ -42,7 +42,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"owner\">";
 			while (!$users->EOF) {
-				$uname = $users->f[$data->uFields['uname']];
+				$uname = $users->f['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
 					($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
@@ -121,7 +121,7 @@
 		if (!isset($_POST['formSpcname'])) $_POST['formSpcname'] = '';
 		if (!isset($_POST['formOwner'])) $_POST['formOwner'] = $_SESSION['webdbUsername'];
 		if (!isset($_POST['formLoc'])) $_POST['formLoc'] = '';
-		
+
 		// Fetch all users
 		$users = &$data->getUsers();
 		
@@ -135,7 +135,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\"><select name=\"formOwner\">\n";
 		while (!$users->EOF) {
-			$uname = $users->f[$data->uFields['uname']];
+			$uname = $users->f['usename'];
 			echo "\t\t\t<option value=\"", htmlspecialchars($uname), "\"",
 				($uname == $_POST['formOwner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 			$users->moveNext();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.51 2004/07/08 03:23:01 chriskl Exp $
+	 * $Id: database.php,v 1.52 2004/07/09 01:50:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -588,7 +588,7 @@
 					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 				$tablespaces->moveNext();
 			}
-			echo "\t\t\t</select>\n\t\t</td>\n\t\n";
+			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		}
 		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.25 2004/07/08 17:57:32 xzilla Exp $
+	 * $Id: all_db.php,v 1.26 2004/07/09 01:50:43 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -58,7 +58,11 @@
 			else
 				$_POST['formEncoding'] = '';
 		}
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		
+		// Fetch all tablespaces from the database
+		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+
 		$misc->printTitle(array($lang['strdatabases'], $lang['strcreatedatabase']), 'create_database');
 		$misc->printMsg($msg);
 		
@@ -78,6 +82,24 @@
 		}
 		echo "\t\t\t</select>\n";
 		echo "\t\t</td>\n\t</tr>\n";
+		
+		// Tablespace (if there are any)
+		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
+			// Always offer the default (empty) option
+			echo "\t\t\t\t<option value=\"\"",
+				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
+			// Display all other tablespaces
+			while (!$tablespaces->EOF) {
+				$spcname = htmlspecialchars($tablespaces->f['spcname']);
+				echo "\t\t\t\t<option value=\"{$spcname}\"",
+					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+				$tablespaces->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+		}
+		
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
@@ -91,10 +113,13 @@
 	function doSaveCreate() {
 		global $data, $lang, $_reload_browser;
 		
+		// Default tablespace to null if it isn't set
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
+
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
-			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding']);
+			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);
