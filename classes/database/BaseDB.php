@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.24 2003/08/12 08:18:54 chriskl Exp $
+ * $Id: BaseDB.php,v 1.25 2003/08/18 08:10:16 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -123,7 +123,12 @@ class BaseDB extends ADODB_base {
 	function getSelectSQL($table, $show, $values, $nulls, $orderby = array()) {
 		$this->fieldClean($table);
 
-		$sql = "SELECT \"" . join('","', $show) . "\" FROM \"{$table}\"";
+		$sql = "SELECT \"" . join('","', $show) . "\" FROM ";
+		if ($this->hasSchemas()) {
+			$this->fieldClean($_REQUEST['schema']);
+			$sql .= "\"{$_REQUEST['schema']}\".";
+		}
+		$sql .= "\"{$table}\"";
 
 		// If we have values specified, add them to the WHERE clause
 		$first = true;
