@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.34 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: constraints.php,v 1.35 2004/07/13 16:33:37 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -12,58 +12,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-
-	/**
-	 * Show confirmation of cluster index and perform actual cluster
-	 */
-	function doClusterIndex($confirm) {
-		global $data, $misc, $action;
-		global $PHP_SELF, $lang;
-
-		if ($confirm) {
-			// Default analyze to on
-			$_REQUEST['analyze'] = true;
-			
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
-				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strcluster']}</h2>\n";
-
-			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['constraint'])), "</p>\n";
-
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_constraint\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
-			echo $misc->form;
-			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $data->clusterIndex($_POST['constraint'], $_POST['table']);
-			if ($status == 0)
-				if (isset($_POST['analyze'])) {
-					$status = $data->analyzeDB($_POST['table']);
-					if ($status == 0)
-						doDefault($lang['strclusteredgood'] . ' ' . $lang['stranalyzegood']);
-					else
-						doDefault($lang['stranalyzebad']);
-				} else
-					doDefault($lang['strclusteredgood']);
-			else
-				doDefault($lang['strclusteredbad']);
-		}
-	}
-
-	function doReindex() {
-		global $data, $lang;
-
-		$status = $data->reindex('INDEX', $_REQUEST['constraint']);
-		if ($status == 0)
-			doDefault($lang['strreindexgood']);
-		else
-			doDefault($lang['strreindexbad']);
-	}
 
 	/**
 	 * Confirm and then actually add a FOREIGN KEY constraint
@@ -242,13 +190,13 @@
 				echo "<tr>";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$tables->EOF) {
-					$key = array('schemaname' => $tables->f['schemaname'], 'tablename' => $tables->f['tablename']);
+					$key = array('schemaname' => $tables->f['nspname'], 'tablename' => $tables->f['relname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($data->hasSchemas() && $tables->f['schemaname'] != $_REQUEST['schema']) {
-							echo htmlspecialchars($tables->f['schemaname']), '.';
+					if ($data->hasSchemas() && $tables->f['nspname'] != $_REQUEST['schema']) {
+							echo htmlspecialchars($tables->f['nspname']), '.';
 					}
-					echo htmlspecialchars($tables->f['tablename']), "</option>\n";
+					echo htmlspecialchars($tables->f['relname']), "</option>\n";
 					$tables->moveNext();	
 				}
 				echo "</select>\n";
@@ -456,25 +404,13 @@
 		global $PHP_SELF;
 		global $lang;
 
-		function cnPre(&$rowdata, $actions) {
+		function cnPre(&$rowdata) {
 			global $data, $lang;
 			if (is_null($rowdata->f['consrc'])) {
 				$atts = &$data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->f['indkey']));
 				$rowdata->f['+definition'] = ($rowdata->f['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
 			} else {
 				$rowdata->f['+definition'] = $rowdata->f['consrc'];
-			}
-			
-			if ($rowdata->f['contype'] == 'u' || $rowdata->f['contype'] == 'p') {
-				$rowdata->f['+clustered'] = $rowdata->f['indisclustered'];
-				//$rowdata->f['+clustered'] = $data->phpBool($rowdata->f['indisclustered']) ? $lang['stryes'] : $lang['strno'];
-			} else {
-				$rowdata->f['+clustered'] = '';
-				
-				// Disable actions for non index constraints
-				$actions['cluster']['disable'] = true;
-				$actions['reindex']['disable'] = true;
-				return $actions;
 			}
 		}
 		
@@ -493,30 +429,15 @@
 				'field' => '+definition',
 				'type'  => 'pre',
 			),
-			'clustered' => array(
-				'title' => $lang['strclustered'],
-				'field' => '+clustered',
-				'type'  => 'yesno',
-			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 		);
 		
 		$actions = array(
-			'cluster' => array(
-				'title' => $lang['strcluster'],
-				'url'   => "{$PHP_SELF}?action=confirm_cluster_constraint&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('constraint' => 'conname'),
-			),
-			'reindex' => array(
-				'title' => $lang['strreindex'],
-				'url'   => "{$PHP_SELF}?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('constraint' => 'conname'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
 			),
 		);
@@ -548,16 +469,6 @@
 	$misc->printNav('table','constraints');
 
 	switch ($action) {
-		case 'cluster_constraint':
-			if (isset($_POST['cluster'])) doClusterIndex(false);
-			else doDefault();
-			break;
-		case 'confirm_cluster_constraint':
-			doClusterIndex(true);
-			break;
-		case 'reindex':
-			doReindex();
-			break;
 		case 'add_foreign_key':
 			addForeignKey(1);
 			break;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.126 2004/07/12 07:13:33 chriskl Exp $
+ * $Id: Postgres73.php,v 1.127 2004/07/13 16:33:36 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -345,7 +345,7 @@ class Postgres73 extends Postgres72 {
 	function &getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relname
+			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
                                 FROM pg_catalog.pg_tables 
 				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 				ORDER BY schemaname, tablename";
@@ -597,17 +597,11 @@ class Postgres73 extends Postgres72 {
 	function &getIndexes($table = '') {
 		$this->clean($table);
 		
-		/* This select excludes any indexes that are just base indexes for constraints. */
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
 			pg_catalog.pg_get_indexdef(i.indexrelid) AS inddef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			AND NOT EXISTS (
-				SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
-				ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-				WHERE d.classid = c2.tableoid AND d.objid = c2.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
-			)
 			ORDER BY c2.relname";
 
 		return $this->selectSet($sql);

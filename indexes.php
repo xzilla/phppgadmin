@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.30 2004/07/13 16:13:15 jollytoad Exp $
+	 * $Id: indexes.php,v 1.31 2004/07/13 16:33:53 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -237,6 +237,23 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
+		function indPre(&$rowdata, $actions) {
+			global $data, $lang;
+			
+			if ($data->phpBool($rowdata->f['indisprimary'])) {
+				$rowdata->f['+constraints'] = $lang['strprimarykey'];
+				$actions['drop']['disable'] = true;
+			}
+			elseif ($data->phpBool($rowdata->f['indisunique'])) {
+				$rowdata->f['+constraints'] = $lang['struniquekey'];
+				$actions['drop']['disable'] = true;
+			}
+			else
+				$rowdata->f['+constraints'] = '';
+			
+			return $actions;
+		}
+		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['table']), $lang['strindexes']));
 		$misc->printMsg($msg);
 
@@ -250,6 +267,12 @@
 			'definition' => array(
 				'title' => $lang['strdefinition'],
 				'field' => 'inddef',
+			),
+			'constraints' => array(
+				'title' => $lang['strconstraints'],
+				'field' => '+constraints',
+				'type'  => 'verbatim',
+				'params'=> array('align' => 'center'),
 			),
 			'clustered' => array(
 				'title' => $lang['strclustered'],
@@ -281,7 +304,7 @@
 		
 		if (!$data->hasIsClustered()) unset($column['clustered']);
 		
-		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes']);
+		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
