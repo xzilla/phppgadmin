@@ -2,11 +2,11 @@
 -- 
 -- To run, type: psql template1 < reports-pgsql.sql
 --
--- $Id: reports-pgsql.sql,v 1.1 2003/03/10 02:29:17 chriskl Exp $
+-- $Id: reports-pgsql.sql,v 1.2 2003/05/07 01:01:05 chriskl Exp $
 
 CREATE DATABASE phppgadmin;
 
-\c phppgadmin
+\connect phppgadmin
 
 CREATE TABLE ppa_reports (
 	report_id SERIAL,
@@ -22,4 +22,5 @@ CREATE TABLE ppa_reports (
 -- Allow everyone to do everything with reports.  This may
 -- or may not be what you want.
 GRANT SELECT,INSERT,UPDATE,DELETE ON ppa_reports TO PUBLIC;
+GRANT SELECT,UPDATE ON ppa_reports_report_id_seq TO PUBLIC;
 
