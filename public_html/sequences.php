@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.12 2003/01/04 07:08:04 chriskl Exp $
+ *  $Id: sequences.php,v 1.13 2003/01/09 06:35:13 chriskl Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -40,11 +40,11 @@ function doDefault($msg='')
             echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "</td>";
 			echo "<td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqowner']]), "</td>";
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strProperties</a></td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=properties&{$misc->href}&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strProperties</a></td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strDrop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strDrop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"privileges.php?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strPrivileges</td></tr>\n"; 
+				echo "<a href=\"privileges.php?action=priviledges&{$misc->href}&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strPrivileges</td></tr>\n"; 
 
 			$sequences->movenext();
 			$i++;
@@ -57,7 +57,7 @@ function doDefault($msg='')
         echo "<p>{$strNoSequences}</p>\n";
     }
     
-    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&database=", urlencode( $_REQUEST['database'] ), "\">Create Sequence</a></p>\n";
+    echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">Create Sequence</a></p>\n";
 
 }
 // }}}
@@ -90,7 +90,7 @@ function doDefault($msg='')
 			echo "</tr>";
 			echo "</table>";
 			echo "<br /><br />";
-			echo "<a href=\"$PHP_SELF?action=reset&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequence->f[$data->sqFields['seqname']]), "\">$strReset</a></td>\n"; 
+			echo "<a href=\"$PHP_SELF?action=reset&{$misc->href}&sequence=", htmlspecialchars( $sequence->f[$data->sqFields['seqname']]), "\">$strReset</a></td>\n"; 
 
 		}
 		else echo "<p>No data.</p>\n";
@@ -105,7 +105,7 @@ function doDefault($msg='')
 
 	function doDrop($confirm)
 	{
-		global $localData, $database;
+		global $localData, $database, $misc;
 		global $PHP_SELF, $strSequences, $strSequence, $strDropped, $strDrop, $strFailed;
 	
 		if ($confirm) { 
@@ -116,7 +116,7 @@ function doDefault($msg='')
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=sequence value=\"", htmlspecialchars($_REQUEST['sequence']), "\">\n";
-			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo $misc->form;
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
