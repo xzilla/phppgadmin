@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.22 2003/04/18 09:15:55 chriskl Exp $
+	 * $Id: Misc.php,v 1.23 2003/04/19 09:28:39 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -143,11 +143,13 @@
 
 			if (!isset($_no_output)) {
 				// Commented out, as we're not XHTML compliant yet!
+				//header('Content-Type: text/xml');
 				//echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
+				//echo "<xml>\n";
 				echo "<html>\n";
 				echo "<head>\n";
 				echo "<title>", htmlspecialchars($appName);
-				if ($title != '') echo " - ", htmlspecialchars($title);
+				if ($title != '') echo " - {$title}";
 				echo "</title>\n";
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
 				
