@@ -105,7 +105,7 @@ class XHtmlElement extends XHtmlSimpleElement {
 	* @param	XHtmlElement 	The element to become a child of element
 	*/
 	function add(&$object) {
-		array_push($this->_siblings,& $object);
+		array_push($this->_siblings, $object);
 	}
 
 
