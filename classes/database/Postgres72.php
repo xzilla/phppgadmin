@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.73 2004/07/14 18:32:02 soranzo Exp $
+ * $Id: Postgres72.php,v 1.74 2004/07/15 10:59:55 soranzo Exp $
  */
 
 
@@ -337,8 +337,9 @@ class Postgres72 extends Postgres71 {
 	 * @param $comment The comment on the function	 
 	 * @return 0 success
 	 * @return -1 transaction error
-	 * @return -2 commenting error
-	 * @return -3 rename error
+	 * @return -2 drop function error
+	 * @return -3 create function error
+	 * @return -4 comment error
 	 */
 	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
 		// Begin a transaction
@@ -349,30 +350,33 @@ class Postgres72 extends Postgres71 {
 		}
 
 		// Replace the existing function
-		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
+		if ($funcname != $newname) {
+			$status = $this->dropFunction($function_oid, false);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -2;
+			}
 
-		// Comment on the function
-		$this->fieldClean($funcname);
-		$this->clean($comment);
-		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
-		// Rename the function, if necessary
-		$this->fieldClean($newname);
-		if ($funcname != $newname && $this->hasFunctionRename()) {
-			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) RENAME TO \"{$newname}\"";
-			$status = $this->execute($sql);
+			$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, false);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;
 			}
+		} else {
+			$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		// Comment on the function
+		$this->fieldClean($newname);
+		$this->clean($comment);
+		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
 		}
 		
 		return $this->endTransaction();

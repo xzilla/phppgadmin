@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.37 2004/07/14 14:52:18 jollytoad Exp $
+ * $Id: Postgres74.php,v 1.38 2004/07/15 10:59:55 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -374,6 +374,8 @@ class Postgres74 extends Postgres73 {
 		return $this->endTransaction();
 	}	
 
+	// User functions
+
 	/**
 	 * Renames a user
 	 * @param $username The username of the user to rename
@@ -423,11 +425,68 @@ class Postgres74 extends Postgres73 {
 		return $this->endTransaction();
 	}
 
+	// Function functions
+
+	/**
+	 * Updates (replaces) a function.
+	 * @param $function_oid The OID of the function
+	 * @param $funcname The name of the function to create
+	 * @param $newname The new name for the function
+	 * @param $args The array of argument types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $setof True if returns a set, false otherwise
+	 * @param $comment The comment on the function	 
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -3 create function error
+	 * @return -4 comment error
+	 * @return -5 rename function error
+	 */
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
+		// Begin a transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Replace the existing function
+		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		// Comment on the function
+		$this->fieldClean($funcname);
+		$this->clean($comment);
+		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		// Rename the function, if necessary
+		$this->fieldClean($newname);
+		if ($funcname != $newname) {
+			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) RENAME TO \"{$newname}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+		}
+		
+		return $this->endTransaction();
+	}
+
 	// Capabilities
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }
 	function hasUserRename() { return true; }
-	function hasFunctionRename() { return true; }
 	function hasSchemaDump() { return true; }
 	function hasRecluster() { return true; }
 	
