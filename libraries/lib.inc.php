@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.40 2003/04/29 08:40:03 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.41 2003/05/01 01:40:40 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.0.0-dev-4';
+	$appVersion = '3.0.0-dev-5';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -42,7 +42,7 @@
 		'italian' => 'Italiano',
 		'japanese-euc' => '&#26085;&#26412;&#35486;',
 		'polish' => 'Polski',
-		'russian-koi8' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
+		'russian' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
 		'slovak' => 'Slovensky',
 		'spanish' => 'Espa&ntilde;ol',
 		'turkish' => 'T&uuml;rk&ccedil;e'
