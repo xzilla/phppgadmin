@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.56 2003/03/12 02:29:47 chriskl Exp $
+	 * $Id: english.php,v 1.57 2003/03/16 10:46:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -18,7 +18,7 @@
 	$strServer = 'Server';
 	$strLogout = 'Logout';
 	$strOwner = 'Owner';
-	$strAction = 'Action';	
+	$strAction = 'Action';
 	$strActions = 'Actions';
 	$strName = 'Name';
 	$strDefinition = 'Definition';
@@ -72,6 +72,9 @@
 	$strReindex = 'Reindex';
 	$strRun = 'Run';
 	$strAdd = 'Add';
+	$strEvent = 'Event';
+	$strWhere = 'Where';
+	$strInstead = 'Do Instead';
 
 	// Error handling
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
@@ -263,7 +266,7 @@
 	$strNoRules = 'No rules found.';
 	$strCreateRule = 'Create rule';
 	$strRuleName = 'Rule name';
-	$strRuleNeedsName = 'You must specify a name of rule.';
+	$strRuleNeedsName = 'You must specify a name for your rule.';
 	$strRuleCreated = 'Rule created.';
 	$strRuleCreatedBad = 'Rule creation failed.';
 	$strConfDropRule = 'Are you sure you want to drop the rule "%s" on "%s"?';
@@ -281,6 +284,9 @@
 	$strConstraintDropped = 'Constraint dropped.';
 	$strConstraintDroppedBad = 'Constraint drop failed.';
 	$strAddCheck = 'Add Check';
+	$strCheckNeedsDefinition = 'Check constraint needs a definition.';
+	$strCheckAdded = 'Check constraint added.';
+	$strCheckAddedBad = 'Failed to add check constraint.';
 
 	// Functions
 	$strFunction = 'Function';
