@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.8 2003/09/19 01:56:34 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.9 2003/11/20 09:09:14 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -24,6 +24,7 @@
 	// Basic strings
 	$lang['strlogin'] = '登入';
 	$lang['strloginfailed'] = '登入失敗';
+	$lang['strlogindisallowed'] = '伺服器拒絕登入';
 	$lang['strserver'] = '伺服器';
 	$lang['strlogout'] = '退出';
 	$lang['strowner'] = '所屬人';
@@ -31,7 +32,7 @@
 	$lang['stractions'] = '功能';
 	$lang['strname'] = '名字';
 	$lang['strdefinition'] = '定義';
-	$lang['straggregates'] = '集合';
+	$lang['straggregates'] = '匯總';
 	$lang['strproperties'] = '屬性';
 	$lang['strbrowse'] = '瀏覽';
 	$lang['strdrop'] = '刪除';
@@ -66,6 +67,7 @@
 	$lang['strcolumns'] = '資料行';
 	$lang['strrows'] = '資料列';
 	$lang['strrowsaff'] = '資料列受影響。';
+	$lang['strobjects'] = '物件';
 	$lang['strexample'] = '例如：';
 	$lang['strback'] = '返回';
 	$lang['strqueryresults'] = '查詢結果';
@@ -85,6 +87,7 @@
 	$lang['strvacuum'] = '清空';
 	$lang['stranalyze'] = '分析';
 	$lang['strcluster'] = '叢集';
+	$lang['strclustered'] = '叢集?';
 	$lang['strreindex'] = '重建索引';
 	$lang['strrun'] = '執行';
 	$lang['stradd'] = '加入';
@@ -104,6 +107,10 @@
 	$lang['stroptions'] = '選項';
 	$lang['strrefresh'] = '重新整理';
 	$lang['strdownload'] = '下載';
+	$lang['strinfo'] = '資訊'; 
+    $lang['stroids'] = 'OIDs'; 
+    $lang['stradvanced'] = '進階'; 
+
 	
 	// Error handling
 	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
@@ -115,6 +122,7 @@
 	$lang['strinstatement'] = '於陳述內：';
 	$lang['strinvalidparam'] = '無效的 script 變數。';
 	$lang['strnodata'] = '找不到任何資料列。';
+	$lang['strnoobjects'] = '找不到任何物件。';
 	$lang['strrownotunique'] = '此顯料列無獨特識別項。';
 	// Tables
 	$lang['strtable'] = '資料表';
@@ -148,10 +156,11 @@
 	$lang['strsaveandrepeat'] = '儲存並重覆';
 	$lang['strfield'] = '欄位';
 	$lang['strfields'] = '欄位';
+	$lang['strnumfields'] = '欄位數目';
+	$lang['strfieldneedsname'] = '您需為您的欄位命名。';
 	$lang['strselectallfields'] = '選擇所有欄位';
-	$lang['strnumfields'] = '欄位數';
-	$lang['strfieldneedsname'] = '您需為您的欄位命名';
-	$lang['strselectneedscol'] = '至少應顯示一資料列';
+	$lang['strselectneedscol'] = '至少應顯示一資料列。';
+	$lang['strselectunary'] = '不能為一元運算子指定數值。';
 	$lang['straltercolumn'] = '修改資料列';
 	$lang['strcolumnaltered'] = '成功修改資料列。';
 	$lang['strcolumnalteredbad'] = '修改資料列作業失敗。';
@@ -161,12 +170,13 @@
 	$lang['straddcolumn'] = '加入新資料列';
 	$lang['strcolumnadded'] = '成功加入資料列。';
 	$lang['strcolumnaddedbad'] = '加入資料列作業失敗。';
-	$lang['strschemaanddata'] = '模式和資料';
-	$lang['strschemaonly'] = '只顯示模式';
 	$lang['strdataonly'] = '只顯示資料';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = '資料表已修改。';
 	$lang['strtablealteredbad'] = '資料表修改作業失敗。';
+	$lang['strdataonly'] = '只有資料'; 
+    $lang['strstructureonly'] = '只有結構'; 
+    $lang['strstructureanddata'] = '資料和結構'; 
 	
 	// Users
 	$lang['struser'] = '用戶';
@@ -181,6 +191,7 @@
 	$lang['struserupdatedbad'] = '更新用戶作業失敗。';
 	$lang['strshowallusers'] = '顯示所有用戶';
 	$lang['strcreateuser'] = '建立新用戶';
+	$lang['struserneedsname'] = '請為此用戶命戶';
 	$lang['strusercreated'] = '成功建立新用戶。';
 	$lang['strusercreatedbad'] = '建立新用戶作業失敗。';
 	$lang['strconfdropuser'] = '您確定要刪除用戶 "%s"?';
@@ -315,6 +326,9 @@
  	$lang['strindextype'] = '索引類型';
 	$lang['strtablecolumnlist'] = '資料表所含的資料列';
 	$lang['strindexcolumnlist'] = '索引所含的資料列';
+    $lang['strconfcluster'] = '您確定要叢集 "%s"?'; 
+    $lang['strclusteredgood'] = '叢集完成。'; 
+    $lang['strclusteredbad'] = '叢集失敗。'; 
 
 	// Rules
 	$lang['strrules'] = '規則';
@@ -474,9 +488,18 @@
 	$lang['strnooperator'] = '找不到運算子。';
 	$lang['strnooperators'] = '找不到任何運算子。';
 	$lang['strcreateoperator'] = '新建運算子';
-	$lang['stroperatorname'] = '運算子名';
 	$lang['strleftarg'] = '左引數型態';
 	$lang['strrightarg'] = '右引數型態';
+    $lang['strcommutator'] = '轉換器'; 
+    $lang['strnegator'] = '否定器'; 
+    $lang['strrestrict'] = '限制'; 
+    $lang['strjoin'] = '結合'; 
+    $lang['strhashes'] = 'Hashes'; 
+    $lang['strmerges'] = '合併'; 
+    $lang['strleftsort'] = '左排序'; 
+    $lang['strrightsort'] = '右排序'; 
+    $lang['strlessthan'] = '小於'; 
+    $lang['strgreaterthan'] = '大於'; 
 	$lang['stroperatorneedsname'] = '您需為您的運算子命名。';
 	$lang['stroperatorcreated'] = '運算子已建立';
 	$lang['stroperatorcreatedbad'] = '運算子新建作業失敗。';
@@ -484,6 +507,33 @@
 	$lang['stroperatordropped'] = '運算子已刪除。';
 	$lang['stroperatordroppedbad'] = '運算子刪除失敗。';
 
+	// Casts 
+    $lang['strcasts'] = '型別轉換'; 
+    $lang['strnocasts'] = '找不到型別轉換。'; 
+   $lang['strsourcetype'] = '原始型別'; 
+   $lang['strtargettype'] = '目摽型別'; 
+   $lang['strimplicit'] = '隱含'; 
+   $lang['strinassignment'] = '指派中'; 
+   $lang['strbinarycompat'] = '(二元相符)'; 
+
+   // Conversions 
+   $lang['strconversions'] = '轉換'; 
+   $lang['strnoconversions'] = '找不到轉換。'; 
+   $lang['strsourceencoding'] = '原始編碼'; 
+   $lang['strtargetencoding'] = '目標編碼'; 
+
+   // Languages 
+   $lang['strlanguages'] = '語言'; 
+   $lang['strnolanguages'] = '找不到語言。'; 
+   $lang['strtrusted'] = '受信任的'; 
+
+   // Info 
+   $lang['strnoinfo'] = '無法取得資訊。'; 
+   $lang['strreferringtables'] = '參照資料表'; 
+   $lang['strparenttables'] = '父資料表'; 
+   $lang['strchildtables'] = '子資料表'; 
+
+	
 	// Miscellaneous
 	$lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
