@@ -1,0 +1,17 @@
+Translators
+-----------
+
+This directory contains the HTML Unicode recodings of the source
+language files.  These are the actual files used by phpPgAdmin
+when displaying strings.
+
+Instructions on recoding:
+
+UTF-8:  recode u8..html chinese.php
+LATIN1: record latin1..html english.php
+
+etc. 
+
+After recoding, you will need to fix the <?php and ?> tags at the
+top and bottom of the file.
+

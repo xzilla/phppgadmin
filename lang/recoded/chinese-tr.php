@@ -1,10 +1,10 @@
-&lt;?php
+<?php
 
 	/**
 	 * Chinese language file.  UTF-8 encoded.
 	 * @maintainer Chan Min Wai [dcmwai@amtb-m.org.my]
 	 *
-	 * $Id: chinese-tr-unicodehtml.php,v 1.1 2003/01/16 09:01:46 jmpoure Exp $
+	 * $Id: chinese-tr.php,v 1.1 2003/01/18 08:23:24 chriskl Exp $
 	 */
 
 	$appLang = '&#32321;&#39636;&#20013;&#25991;&#65288;&#33836;&#22283;&#30908;&#65289;';
@@ -191,4 +191,4 @@
 	$strShowAllSchemas = 'Show All Schemas';
 	$strSchemaNeedsName = 'You must give a name for your schema.';
 
-?&gt;
+?>
