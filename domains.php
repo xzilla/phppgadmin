@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.4 2003/08/07 07:25:55 chriskl Exp $
+	 * $Id: domains.php,v 1.5 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -59,7 +59,7 @@
 			echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked' : ''), " /></td></tr>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
@@ -248,8 +248,8 @@
 			
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
@@ -297,7 +297,7 @@
 		echo "<select name=\"domtype\">\n";
 		while (!$types->EOF) {
 			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
-				($types->f[$data->typFields['typname']] == $_POST['domtype']) ? ' selected' : '', ">",
+				($types->f[$data->typFields['typname']] == $_POST['domtype']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}

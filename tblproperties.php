@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.23 2003/08/25 01:44:04 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.24 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -151,7 +151,7 @@
 				echo "<td><select name=\"type\">\n";
 				while (!$types->EOF) {
 					$typname = $types->f[$data->typFields['typname']];
-					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected' : '', ">",
+					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected="selected"' : '', ">",
 						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
 				}
@@ -228,7 +228,7 @@
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
 				echo "<td>", $misc->printVal($column->f['type']), "</td>";
-				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked' : '', " /></td>\n";
+				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
 				
@@ -328,24 +328,26 @@
 			echo "<p class=\"comment\">", htmlspecialchars($tdata->f[$data->tbFields['tbcomment']]), "</p>\n";
 
 		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";
-		echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
+		echo "<tr>\n\t<th class=\"data\">{$lang['strfield']}</th>\n\t<th class=\"data\">{$lang['strtype']}</th>\n";
+		echo "\t<th class=\"data\">{$lang['strnotnull']}</th>\n\t<th class=\"data\">{$lang['strdefault']}</th>\n";
 		if ($data->hasDropColumn())
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "\t<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 		else
-			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+			echo "\t<th class=\"data\">{$lang['stractions']}</th>\n";
+		echo "</tr>\n";
+
 		$i = 0;
 		while (!$attrs->EOF) {
 			$attrs->f['attnotnull'] = $localData->phpBool($attrs->f['attnotnull']);
 			$id = (($i % 2) == 0 ? '1' : '2');
-			echo "<tr><td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
-			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
-			echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
-			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
-			echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+			echo "<tr>\n\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['attname']), "</td>\n";
+			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['type']), "</td>\n";
+			echo "\t<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
+			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
+			echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
 			if ($data->hasDropColumn()) {
-				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 			}
 			echo "</tr>\n";
@@ -356,12 +358,13 @@
 		echo "<br />\n";
 
 		echo "<ul>\n";
-		echo "<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strbrowse']}</a></li>\n";
-		echo "<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
-		echo "<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
-		echo "<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
-		echo "<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-		echo "<li><a href=\"{$PHP_SELF}?action=confirm_alter&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=browse&page=1&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strbrowse']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confirm_empty&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
+		echo "\t<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
+		echo "\t<li><a href=\"{$PHP_SELF}?action=confirm_alter&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
 		echo "</ul>\n";
 	}
 

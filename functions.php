@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.19 2003/08/08 03:01:35 chriskl Exp $
+	 * $Id: functions.php,v 1.20 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -91,7 +91,7 @@
 					echo "<select name=\"formProperties[{$i}]\">\n";
 					foreach ($v as $p) {
 						echo "<option value=\"", htmlspecialchars($p), "\"", 
-							($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
+							($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '', 
 							">", $misc->printVal($p), "</option>\n";
 					}
 					echo "</select><br />\n";
@@ -173,16 +173,16 @@
 			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
-			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -233,8 +233,8 @@
 		// If supports set-returning-functions, output setof option
 		if ($data->hasSRFs()) {
 			echo "<select name=\"formSetOf\">\n";
-			echo "<option value=\"\"", ($_POST['formSetOf'] == '') ? ' selected' : '', "></option>\n";
-			echo "<option value=\"SETOF\"", ($_POST['formSetOf'] == 'SETOF') ? ' selected' : '', ">SETOF</option>\n";
+			echo "<option value=\"\"", ($_POST['formSetOf'] == '') ? ' selected="selected"' : '', "></option>\n";
+			echo "<option value=\"SETOF\"", ($_POST['formSetOf'] == 'SETOF') ? ' selected="selected"' : '', ">SETOF</option>\n";
 			echo "</select>\n";
 		}
 		else {
@@ -244,7 +244,7 @@
 		echo "<select name=\"formReturns\">\n";
 		while (!$types->EOF) {
 			echo "<option value=\"", htmlspecialchars($types->f[$data->typFields['typname']]), "\"", 
-				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected' : '', ">",
+				($types->f[$data->typFields['typname']] == $_POST['formReturns']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($types->f[$data->typFields['typname']]), "</option>\n";
 			$types->moveNext();
 		}
@@ -253,7 +253,7 @@
 		echo "<td class=\"data1\"><select name=\"formLanguage\">\n";
 		while (!$langs->EOF) {
 			echo "<option value=\"", htmlspecialchars($langs->f[$data->langFields['lanname']]), "\"",
-				($langs->f[$data->langFields['lanname']] == $_POST['formLanguage']) ? ' selected' : '', ">",
+				($langs->f[$data->langFields['lanname']] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($langs->f[$data->langFields['lanname']]), "</option>\n";
 			$langs->moveNext();
 		}
@@ -272,7 +272,7 @@
 				echo "<select name=\"formProperties[{$i}]\">\n";
 				foreach ($v as $p) {
 					echo "<option value=\"", htmlspecialchars($p), "\"", 
-						($p == $_POST['formProperties'][$i]) ? ' selected' : '', 
+						($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '', 
 						">", $misc->printVal($p), "</option>\n";
 				}
 				echo "</select><br />\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.18 2003/08/11 09:15:32 chriskl Exp $
+	 * $Id: privileges.php,v 1.19 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -77,7 +77,7 @@
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
 				echo "<input type=\"checkbox\" name=\"privilege[$v]\"", 
-							isset($_REQUEST['privilege'][$v]) ? ' selected="selected"' : '', ">{$v}<br />\n";
+							isset($_REQUEST['privilege'][$v]) ? ' selected="selected"' : '', " />{$v}<br />\n";
 			}
 			echo "</td></tr>\n";
 			// Grant option
@@ -85,9 +85,9 @@
 				echo "<tr><th class=\"data\">{$lang['stroptions']}</th>\n";
 				echo "<td class=\"data1\">\n";
 				echo "<input type=\"checkbox\" name=\"grantoption\"", 
-							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', ">GRANT OPTION<br />\n";
+							isset($_REQUEST['grantoption']) ? ' selected="selected"' : '', " />GRANT OPTION<br />\n";
 				echo "<input type=\"checkbox\" name=\"cascade\"", 
-							isset($_REQUEST['cascade']) ? ' selected="selected"' : '', ">CASCADE ({$lang['strrevoke']})<br />\n";
+							isset($_REQUEST['cascade']) ? ' selected="selected"' : '', " />CASCADE ({$lang['strrevoke']})<br />\n";
 				echo "</td></tr>\n";
 			}
 			echo "</table>\n";

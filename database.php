@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.20 2003/09/08 04:28:17 chriskl Exp $
+	 * $Id: database.php,v 1.21 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -173,7 +173,7 @@
 
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"sql.php\" method=\"post\">\n";
-		echo "<p>{$lang['strsql']}<br>\n";
+		echo "<p>{$lang['strsql']}<br />\n";
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_POST['query']), "</textarea></p>\n";
 
@@ -243,7 +243,7 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th></tr>\n";
 		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formName']), "\"></td>\n";
+			htmlspecialchars($_POST['formName']), "\" /></td>\n";
 		echo "<td class=\"data1\"><select name=\"formAuth\">";
 		while (!$users->EOF) {
 			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.19 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: constraints.php,v 1.20 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -88,14 +88,14 @@
 				echo "</td></tr>";
 				echo "</table>\n";
 
-				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\" />\n";
 				echo $misc->form;
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
-				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars($_REQUEST['target']), "\">\n";
-				echo "<input type=\"hidden\" name=\"SourceColumnList\" value=\"", htmlspecialchars($_REQUEST['SourceColumnList']), "\">\n";
-				echo "<input type=\"hidden\" name=\"stage\" value=\"3\">\n";
-				echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars($_REQUEST['target']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"SourceColumnList\" value=\"", htmlspecialchars($_REQUEST['SourceColumnList']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
 
 				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
@@ -167,11 +167,11 @@
 				echo "</td></tr>";
 				echo "</table>\n";
 
-				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\" />\n";
 				echo $misc->form;
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<input type=\"hidden\" name=\"stage\" value=\"2\">\n";
-				echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 				echo "</form>\n";
 
 				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
@@ -239,11 +239,11 @@
 			echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
 			echo "</table>\n";
 	
-			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\">\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\" />\n";
 			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($type), "\">\n";
-			echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=reset value=\"{$lang['strreset']}\"></p>\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($type), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 			echo "</form>\n";
 			
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
@@ -299,16 +299,16 @@
 			echo "<th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 
 			echo "<tr><td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['name']), "\"></td>\n";
+				htmlspecialchars($_POST['name']), "\" /></td>\n";
 
 			echo "<td class=\"data1\">(<input name=\"definition\" size=\"32\" value=\"",
-				htmlspecialchars($_POST['definition']), "\">)</td></tr>\n";
+				htmlspecialchars($_POST['definition']), "\" />)</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\">\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" /> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 
 		}

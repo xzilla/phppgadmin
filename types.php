@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.10 2003/08/08 03:59:17 chriskl Exp $
+	 * $Id: types.php,v 1.11 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -28,21 +28,21 @@
 		if ($typedata->recordCount() > 0) {
 			$byval = $data->phpBool($typedata->f[$data->typFields['typbyval']]);
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strname']}</th>\n";
-			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strinputfn']}</th>\n";
-			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['stroutputfn']}</th>\n";
-			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strlength']}</th>\n";
-			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['strpassbyval']}</th>\n";
-			echo "<td class=data1>", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=data>{$lang['stralignment']}</th>\n";
-			echo "<td class=data1>", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typname']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strinputfn']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typin']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['stroutputfn']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typout']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strlength']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typlen']]), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strpassbyval']}</th>\n";
+			echo "<td class=\"data1\">", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['stralignment']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($typedata->f[$data->typFields['typalign']]), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
 		else
 			doDefault($lang['strinvalidparam']);
 	}
@@ -60,15 +60,15 @@
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
-			echo "<input type=submit name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -107,69 +107,69 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=data><b>{$lang['strname']}</b></th>\n";
-		echo "<td class=data1><input name=typname size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['typname']), "\"></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['strinputfn']}</b></th>\n";
-		echo "<td class=data1><select name=typin>";
+		echo "<tr><th class=\"data\"><b>{$lang['strname']}</b></th>\n";
+		echo "<td class=\"data1\"><input name=\"typname\" size=\"{$data->_maxNameLen}\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['typname']), "\" /></td></tr>\n";
+		echo "<tr><th class=\"data\"><b>{$lang['strinputfn']}</b></th>\n";
+		echo "<td class=\"data1\"><select name=\"typin\">";
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
 			echo "<option value=\"{$proname}\"",
-				($proname == $_POST['typin']) ? ' selected' : '', ">{$proname}</option>\n";
+				($proname == $_POST['typin']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['stroutputfn']}</b></th>\n";
-		echo "<td class=data1><select name=typout>";
+		echo "<tr><th class=\"data\"><b>{$lang['stroutputfn']}</b></th>\n";
+		echo "<td class=\"data1\"><select name=\"typout\">";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->f[$data->fnFields['fnname']]);
 			echo "<option value=\"{$proname}\"",
-				($proname == $_POST['typout']) ? ' selected' : '', ">{$proname}</option>\n";
+				($proname == $_POST['typout']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data><b>{$lang['strlength']}</b></th>\n";
-		echo "<td class=data1><input name=typlen size=8 value=\"",
-			htmlspecialchars($_POST['typlen']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strdefault']}</th>\n";
-		echo "<td class=data1><input name=typdef size=8 value=\"",
-			htmlspecialchars($_POST['typdef']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strelement']}</th>\n";
-		echo "<td class=data1><select name=typelem>";
+		echo "<tr><th class=\"data\"><b>{$lang['strlength']}</b></th>\n";
+		echo "<td class=\"data1\"><input name=\"typlen\" size=\"8\" value=\"",
+			htmlspecialchars($_POST['typlen']), "\" /></td></tr>";
+		echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+		echo "<td class=\"data1\"><input name=\"typdef\" size=\"8\" value=\"",
+			htmlspecialchars($_POST['typdef']), "\" /></td></tr>";
+		echo "<tr><th class=\"data\">{$lang['strelement']}</th>\n";
+		echo "<td class=\"data1\"><select name=\"typelem\">";
 		echo "<option value=\"\"></option>\n";
 		while (!$types->EOF) {
 			$currname = htmlspecialchars($types->f[$data->typFields['typname']]);
 			echo "<option value=\"{$currname}\"",
-				($currname == $_POST['typelem']) ? ' selected' : '', ">{$currname}</option>\n";
+				($currname == $_POST['typelem']) ? ' selected="selected"' : '', ">{$currname}</option>\n";
 			$types->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$lang['strdelimiter']}</th>\n";
-		echo "<td class=data1><input name=typdelim size=1 maxlength=1 value=\"",
-			htmlspecialchars($_POST['typdelim']), "\"></td></tr>";
-		echo "<tr><th class=data>{$lang['strpassbyval']}</th>\n";
-		echo "<td class=data1><input type=checkbox name=typbyval", 
-			isset($_POST['typbyval']) ? ' checked' : '', "></td></tr>";
-		echo "<tr><th class=data>{$lang['stralignment']}</th>\n";
-		echo "<td class=data1><select name=typalign>";
+		echo "<tr><th class=\"data\">{$lang['strdelimiter']}</th>\n";
+		echo "<td class=\"data1\"><input name=\"typdelim\" size=\"1\" maxlength=\"1\" value=\"",
+			htmlspecialchars($_POST['typdelim']), "\" /></td></tr>";
+		echo "<tr><th class=\"data\">{$lang['strpassbyval']}</th>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"typbyval\"", 
+			isset($_POST['typbyval']) ? ' checked="checked"' : '', " /></td></tr>";
+		echo "<tr><th class=\"data\">{$lang['stralignment']}</th>\n";
+		echo "<td class=\"data1\"><select name=\"typalign\">";
 		foreach ($data->typAligns as $v) {
 			echo "<option value=\"{$v}\"",
-				($v == $_POST['typalign']) ? ' selected' : '', ">{$v}</option>\n";
+				($v == $_POST['typalign']) ? ' selected="selected"' : '', ">{$v}</option>\n";
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=data>{$lang['strstorage']}</th>\n";
-		echo "<td class=data1><select name=typstorage>";
+		echo "<tr><th class=\"data\">{$lang['strstorage']}</th>\n";
+		echo "<td class=\"data1\"><select name=\"typstorage\">";
 		foreach ($data->typStorages as $v) {
 			echo "<option value=\"{$v}\"",
-				($v == $_POST['typstorage']) ? ' selected' : '', ">{$v}</option>\n";
+				($v == $_POST['typstorage']) ? ' selected="selected"' : '', ">{$v}</option>\n";
 		}
 		echo "</select></td></tr>\n";
 		echo "</table>\n";
-		echo "<p><input type=hidden name=action value=save_create>\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
-		echo "<input type=submit value=\"{$lang['strcreate']}\">\n";
-		echo "<input type=submit name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
 	}
 	
@@ -219,14 +219,14 @@
 
 		if ($types->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$lang['strtype']}</th><th class=data>{$lang['strowner']}</th><th colspan=\"2\" class=data>{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strowner']}</th><th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 			$i = 0;
 			while (!$types->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr><td class=data{$id}>", $misc->printVal($types->f[$data->typFields['typname']]), "</td>\n";
-				echo "<td class=data{$id}>", $misc->printVal($types->f[$data->typFields['typowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strdrop']}</a></td>\n";
+				echo "<tr><td class=\"data{$id}\">", $misc->printVal($types->f[$data->typFields['typname']]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($types->f[$data->typFields['typowner']]), "</td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strproperties']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&type=", urlencode($types->f[$data->typFields['typname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$types->moveNext();
 				$i++;
@@ -237,7 +237,7 @@
 			echo "<p>{$lang['strnotypes']}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetype']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreatetype']}</a></p>\n";
 
 	}
 

@@ -3,10 +3,10 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.11 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: login.php,v 1.12 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
-	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
+	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
 	include_once('libraries/lib.inc.php');
 
@@ -42,11 +42,11 @@
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 					<tr>
 						<td><?php echo $lang['strusername'] ?>:</td>
-						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24"></td>
+						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24" /></td>
 					</tr>
 					<tr>
 						<td><?php echo $lang['strpassword'] ?>:</td>
-						<td><input type="password" name="formPassword" size="24"></td>
+						<td><input type="password" name="formPassword" size="24" /></td>
 					</tr>
 					<tr>
 						<td><?php echo $lang['strserver'] ?>:</td>
@@ -54,7 +54,7 @@
 						<?php
 							for ($i = 0; $i < sizeof($conf['servers']); $i++) {
 								echo "<option value=\"{$i}\"",
-									($i == $_POST['formServer']) ? ' selected' : '',
+									($i == $_POST['formServer']) ? ' selected="selected"' : '',
 									">", htmlspecialchars($conf['servers'][$i]['desc']), "</option>\n";
 							}
 						?>
@@ -67,7 +67,7 @@
 							// Language name already encoded
 							foreach ($appLangFiles as $k => $v) {
 								echo "<option value=\"{$k}\"",
-									($k == $_POST['formLanguage']) ? ' selected' : '',
+									($k == $_POST['formLanguage']) ? ' selected="selected"' : '',
 									">{$v}</option>\n";
 							}
 						?>
@@ -75,7 +75,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="right" valign="middle">
-							<input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>">
+							<input type="submit" name="submitLogin" value="<?php echo $lang['strlogin'] ?>" />
 						</td>
 					</tr>
 				</table>

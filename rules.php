@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.13 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: rules.php,v 1.14 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -34,33 +34,33 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['name']), "\"></td></tr>\n";
+				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strevent']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"event\">\n";
 			foreach ($data->rule_events as $v) {
-				echo "<option value=\"{$v}\"", ($v == $_POST['event']) ? ' selected' : '',
+				echo "<option value=\"{$v}\"", ($v == $_POST['event']) ? ' selected="selected"' : '',
 				">{$v}</option>\n";
 			}
 			echo "</select></td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strwhere']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"where\" size=\"32\" value=\"",
-				htmlspecialchars($_POST['where']), "\"></td></tr>\n";
+				htmlspecialchars($_POST['where']), "\" /></td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strinstead']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"checkbox\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked' : '', ">\n";
+			echo "<input type=\"checkbox\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked="checked"' : '', " />\n";
 			echo "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['straction']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"radio\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked' : '', "> NOTHING<br />\n";
-			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked' : '', ">\n";
+			echo "<input type=\"radio\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked="checked"' : '', " /> NOTHING<br />\n";
+			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked="checked"' : '', " />\n";
 			echo "(<input name=\"raction\" size=\"32\" value=\"",
-				htmlspecialchars($_POST['raction']), "\">)</td></tr>\n";
+				htmlspecialchars($_POST['raction']), "\" />)</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\">\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strcreate']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$lang['strcreate']}\" /> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 
 		}
@@ -94,15 +94,15 @@
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.20 2003/09/05 09:06:45 chriskl Exp $
+	 * $Id: views.php,v 1.21 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -182,15 +182,15 @@
 			
 			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($localData->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -222,15 +222,15 @@
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 		echo "<tr><td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-			htmlspecialchars($_REQUEST['formView']), "\"></td></tr>\n";
+			htmlspecialchars($_REQUEST['formView']), "\" /></td></tr>\n";
 		echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
-		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
-		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\">\n";
-		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
 	}
 	

@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.13 2003/08/18 08:20:43 chriskl Exp $
+	 * $Id: reports.php,v 1.14 2003/09/09 06:23:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -48,7 +48,7 @@
 		while (!$databases->EOF) {
 			$dbname = $databases->f[$data->dbFields['dbname']];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
-			($dbname == $_POST['db_name']) ? ' selected' : '', ">",
+			($dbname == $_POST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
 			$databases->moveNext();
 		}
@@ -60,7 +60,7 @@
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
-		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\">\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\" />\n";
@@ -148,7 +148,7 @@
 		while (!$databases->EOF) {
 			$dbname = $databases->f[$data->dbFields['dbname']];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
-			($dbname == $_REQUEST['db_name']) ? ' selected' : '', ">",
+			($dbname == $_REQUEST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
 			$databases->moveNext();
 		}
@@ -207,10 +207,10 @@
 			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->f['report_name'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\">\n";
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
