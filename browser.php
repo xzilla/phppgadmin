@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.14 2003/07/29 09:07:09 chriskl Exp $
+	 * $Id: browser.php,v 1.15 2003/08/04 05:47:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -112,8 +112,8 @@
 			$dom_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strdomains']), 
 							'link' => addslashes(htmlspecialchars("domains.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/types.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/domains.gif", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/domains.gif",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
