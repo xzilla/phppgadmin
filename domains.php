@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.2 2003/07/31 08:28:03 chriskl Exp $
+	 * $Id: domains.php,v 1.3 2003/08/01 01:45:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,16 +14,73 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 	/** 
-	 * Function to save after editing a domain
+	 * Function to save after altering a domain
 	 */
-	function doSaveEdit() {
+	function doSaveAlter() {
 		global $localData, $lang;
 		
-		$status = $localData->setDomain($_POST['domain'], $_POST['formDefinition']);
+		$status = $localData->alterDomain($_POST['domain'], $_POST['domdefault'], 
+			isset($_POST['domnotnull']), $_POST['domowner']);
 		if ($status == 0)
-			doProperties($lang['strdomainupdated']);
+			doProperties($lang['strdomainaltered']);
 		else
-			doEdit($lang['strdomainupdatedbad']);
+			doAlter($lang['strdomainalteredbad']);
+	}
+
+	/**
+	 * Allow altering a domain
+	 */
+	function doAlter($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $lang;
+	
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}: ", $misc->printVal($_REQUEST['domain']), ": {$lang['stralter']}</h2>\n";
+		$misc->printMsg($msg);
+		
+		// Fetch domain info
+		$domaindata = &$localData->getDomain($_REQUEST['domain']);
+		// Fetch all users
+		$users = &$data->getUsers();
+		
+		if ($domaindata->recordCount() > 0) {
+			if (!isset($_POST['domname'])) {				
+				$_POST['domtype'] = $domaindata->f['domtype'];
+				$_POST['domdefault'] = $domaindata->f['domdef'];
+				$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
+				if ($domaindata->f['domnotnull']) $_POST['domnotnull'] = 'on';
+				$_POST['domowner'] = $domaindata->f['domowner'];
+			}
+			
+			// Display domain info
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strtype']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strnotnull']}</th>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked' : ''), " /></td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
+			echo "<td class=\"data1\"><select name=\"domowner\">";
+			while (!$users->EOF) {
+				$uname = $users->f[$data->uFields['uname']];
+				echo "<option value=\"", htmlspecialchars($uname), "\"",
+					($uname == $_POST['domowner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+				$users->moveNext();
+			}
+			echo "</select></td></tr>\n";				
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_alter\" />\n";
+			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
 	
 	/**
@@ -136,6 +193,8 @@
 			echo "<td class=\"data1\">", ($domaindata->f['domnotnull'] ? 'NOT NULL' : ''), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domdef']), "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strowner']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domowner']), "</td></tr>\n";
 			echo "</table>\n";
 			
 			// Display domain constraints
@@ -167,13 +226,14 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&domain=", urlencode($_REQUEST['domain']),
-				"\">{$lang['straddcheck']}</a> |\n";
+			echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&domain=", urlencode($_REQUEST['domain']),
+				"\">{$lang['straddcheck']}</a>\n";
+			echo "| <a class=\"navlink\" href=\"$PHP_SELF?action=alter&{$misc->href}&domain=", 
+				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a>\n";
 		}
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&{$misc->href}&domain=", 
-			urlencode($_REQUEST['domain']), "\">{$lang['stredit']}</a></p>\n";
+		echo "</p>\n";
 	}
 	
 	/**
@@ -355,11 +415,12 @@
 		case 'confirm_drop':
 			doDrop(true);
 			break;			
-		case 'save_edit':
-			doSaveEdit();
+		case 'save_alter':
+			if (isset($_POST['alter'])) doSaveAlter();
+			else doProperties();
 			break;
-		case 'edit':
-			doEdit();
+		case 'alter':
+			doAlter();
 			break;
 		case 'properties':
 			doProperties();

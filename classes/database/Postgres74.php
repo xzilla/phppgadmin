@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.7 2003/07/31 08:28:03 chriskl Exp $
+ * $Id: Postgres74.php,v 1.8 2003/08/01 01:45:30 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -12,7 +12,7 @@ include_once('classes/database/Postgres73.php');
 class Postgres74 extends Postgres73 {
 
 	// Last oid assigned to a system object
-	var $_lastSystemOID = 16974;
+	var $_lastSystemOID = 17137;
 
 	// Max object name length
 	var $_maxNameLen = 63;
@@ -32,7 +32,6 @@ class Postgres74 extends Postgres73 {
 	function Postgres74($host, $port, $database, $user, $password) {
 		$this->Postgres73($host, $port, $database, $user, $password);
 	}
-
 
 	// Trigger functions
 	
@@ -128,7 +127,7 @@ class Postgres74 extends Postgres73 {
 
 	/**
 	 * Adds a check constraint to a domain
-	 * @param $table The table to which to add the check
+	 * @param $domain The domain to which to add the check
 	 * @param $definition The definition of the check
 	 * @param $name (optional) The name to give the check, otherwise default name is assigned
 	 * @return 0 success
@@ -144,6 +143,64 @@ class Postgres74 extends Postgres73 {
 		return $this->execute($sql);
 	}
 	
+	/**
+	 * Alters a domain
+	 * @param $domain The domain to alter
+	 * @param $domdefault The domain default
+	 * @param $domnotnull True for NOT NULL, false otherwise
+	 * @param $domowner The domain owner
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 default error
+	 * @return -3 not null error
+	 * @return -4 owner error
+	 */
+	function alterDomain($domain, $domdefault, $domnotnull, $domowner) {
+		$this->fieldClean($domain);
+		$this->fieldClean($domowner);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		// Default
+		if ($domdefault == '')
+			$sql = "ALTER DOMAIN \"{$domain}\" DROP DEFAULT";
+		else
+			$sql = "ALTER DOMAIN \"{$domain}\" SET DEFAULT {$domdefault}";
+		
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		
+		// NOT NULL
+		if ($domnotnull)
+			$sql = "ALTER DOMAIN \"{$domain}\" SET NOT NULL";
+		else
+			$sql = "ALTER DOMAIN \"{$domain}\" DROP NOT NULL";
+
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+		
+		// Owner
+		$sql = "ALTER DOMAIN \"{$domain}\" OWNER TO \"{$domowner}\"";
+
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+		
+		return $this->endTransaction();
+	}	
+	 
 	// Capabilities
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }

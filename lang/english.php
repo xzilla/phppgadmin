@@ -4,13 +4,14 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.89 2003/07/31 08:39:03 chriskl Exp $
+	 * $Id: english.php,v 1.90 2003/08/01 01:45:30 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'English';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'en_US';
+	$lang['appdbencoding'] = 'SQL_ASCII';
 
 	// Welcome  
 	$lang['strintro'] = 'Welcome to phpPgAdmin.';
@@ -459,6 +460,8 @@
 	$lang['strdomainneedsname'] = 'You must give a name for your domain.';
 	$lang['strdomaincreated'] = 'Domain created.';
 	$lang['strdomaincreatedbad'] = 'Failed to create domain.';	
+	$lang['strdomainaltered'] = 'Domain altered.';
+	$lang['strdomainalteredbad'] = 'Failed to alter domain.';	
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
