@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.9 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.10 2004/09/20 14:41:38 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $lang;
 
 		$misc->printTrail('schema');
-		$misc->printTabs('schema', 'pg.aggregate');
+		$misc->printTabs('schema', 'aggregates');
 		$misc->printMsg($msg);
 		
 		$aggregates = &$data->getAggregates();
