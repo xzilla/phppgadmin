@@ -21,3 +21,13 @@ phpPgAdmin Installation Guide
 4. Browse to the phpPgAdmin installation using a web browser.  You must
    have cookies enabled for phpPgAdmin to work.
 
+5. IMPORTANT - SECURITY
+
+   PostgreSQL by default does not require you to use a password to log in.
+   This means that if you set up phpPgAdmin where the world can see it,
+   someone could just come along and type username 'postgres' or 'pgsql'
+   with no password and easily log in as a super user.
+
+   We STRONGLY recomment that you enable md5 passwords for local connections
+   in your pg_hba.conf, and set a password for the default superuser account.
+
