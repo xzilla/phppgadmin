@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.32 2003/01/07 08:56:05 chriskl Exp $
+	 * $Id: english.php,v 1.33 2003/01/08 22:15:23 slubek Exp $
 	 */
 
 	$appLang = 'English';
@@ -16,6 +16,9 @@
 	$strLogin = 'Login';
 	$strLoginFailed = 'Login failed';
 	$strServer = 'Server';
+	$strUserAdmin = 'User Admin';
+	$strGroupAdmin = 'Group Admin';
+	$strLogout = 'Logout';
 	$strNoTables = 'No tables found.';
 	$strNoTable = 'No table found.';
 	$strNoViews = 'No views found.';

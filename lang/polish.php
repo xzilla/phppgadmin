@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.4 2003/01/08 21:46:57 slubek Exp $
+	 * $Id: polish.php,v 1.5 2003/01/08 22:15:24 slubek Exp $
 	 */
 
 	$appLang = 'Polish';
@@ -16,6 +16,9 @@
 	$strLogin = '- Zaloguj';
 	$strLoginFailed = 'Próba zalogowania nie powiod³a siê';
 	$strServer = 'Serwer';
+	$strUserAdmin = 'Administracja kontami u¿ytkowników';
+	$strGroupAdmin = 'Administracja grupami u¿ytkowników';
+	$strLogout = 'Wyloguj siê';
 	$strNoTables = 'Nie znaleziono tablic.';
 	$strNoTable = 'Nie znaleziono tablicy.';
 	$strNoViews = 'Nie znaleziono widoków.';
