@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.26 2003/10/01 15:50:30 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.27 2003/10/12 08:55:11 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -90,25 +90,52 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $lang;
 
+		// Determine whether or not the table has an object ID
+		$hasID = $localData->hasObjectID($_REQUEST['table']);
+		
 		$misc->printTableNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strexport']}</h2>\n";
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dataexport.php\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strformat']}</th>\n";
-		echo "\t\t<td>\n\t\t\t<select name=\"format\">\n";
-		echo "\t\t\t\t<option value=\"copy\">COPY</option>\n";
-		echo "\t\t\t\t<option value=\"sql\">SQL</option>\n";
-		echo "\t\t\t\t<option value=\"csv\">CSV</option>\n";
-		echo "\t\t\t\t<option value=\"tab\">Tabbed</option>\n";
-		echo "\t\t\t\t<option value=\"html\">XHTML</option>\n";
-		echo "\t\t\t\t<option value=\"xml\">XML</option>\n";
-		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">OIDS?</th>\n";
-		echo "\t\t<td><input type=\"checkbox\" name=\"oids\" /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">Download?</th>\n";
-		echo "\t\t<td><input type=\"checkbox\" name=\"download\" /></td>\n\t</tr>\n";
+		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
+		// Data only
+		echo "<tr><th class=\"data left\" rowspan=\"", ($hasID) ? 2 : 1, "\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "<option value=\"csv\">CSV</option>\n";
+		echo "<option value=\"tab\">Tabbed</option>\n";
+		echo "<option value=\"html\">XHTML</option>\n";
+		echo "<option value=\"xml\">XML</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		if ($hasID) {
+			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"oids\" /></td>\n</tr>\n";
+		}
+		// Structure only
+		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"clean\" /></td>\n</tr>\n";
+		// Structure and data
+		echo "<tr><th class=\"data left\" rowspan=\"", ($hasID) ? 3 : 2, "\">";
+		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"format2\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"clean\" /></td>\n</tr>\n";
+		if ($hasID) {
+			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"oids\" /></td>\n</tr>\n";
+		}
+		echo "</table>\n";
+		
+		echo "<h3>{$lang['stroptions']}</h3>\n";
+		echo "<table>\n";		
+		echo "<tr>\n<th class=\"data left\">{$lang['strdownload']}</th>\n";
+		echo "<td><input type=\"checkbox\" name=\"download\" /></td>\n</tr>\n";
 		echo "</table>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
@@ -259,6 +286,7 @@
 				
 				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
 								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
+echo "status: $status";		
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {

@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: dataexport.php,v 1.3 2003/10/12 05:46:32 chriskl Exp $
+	 * $Id: dataexport.php,v 1.4 2003/10/12 08:55:11 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -42,10 +42,10 @@
 			// Set up the dump transaction
 			$status = $localData->beginDump();
 
-                        // If the dump is not dataonly then dump the structure prefix
-                        if (isset($_REQUEST['what']) && $_REQUEST['what'] != 'dataonly') {
+			// If the dump is not dataonly then dump the structure prefix
+			if (isset($_REQUEST['what']) && $_REQUEST['what'] != 'dataonly') {
 				echo $localData->getTableDefPrefix($_REQUEST['table'], isset($_REQUEST['clean']));
-                        }
+			}
 
 			// If the dump is not structureonly then dump the actual data
 			if (isset($_REQUEST['what']) && $_REQUEST['what'] != 'structureonly') {
@@ -61,7 +61,8 @@
 				else
 					$rs = $localData->conn->Execute($_REQUEST['query']);
 
-				if ($_REQUEST['format'] == 'copy') {
+				if (($_REQUEST['format'] == 'copy' && $_REQUEST['what'] == 'dataonly') || 
+						($_REQUEST['what'] != 'dataonly' && $_REQUEST['format2'] == 'copy')) {
 					$data->fieldClean($_REQUEST['table']);
 					echo "COPY \"{$_REQUEST['table']}\"";
 					if (isset($_REQUEST['oids'])) echo " WITH OIDS";
@@ -155,7 +156,8 @@
 					echo "\t</records>\n";
 					echo "</data>\n";
 				}
-				elseif ($_REQUEST['format'] == 'sql') {
+				elseif (($_REQUEST['format'] == 'sql' && $_REQUEST['what'] == 'dataonly') || 
+						($_REQUEST['what'] != 'dataonly' && $_REQUEST['format2'] == 'sql')) {
 					$data->fieldClean($_REQUEST['table']);
 					while (!$rs->EOF) {
 						echo "INSERT INTO \"{$_REQUEST['table']}\" (";
@@ -270,6 +272,7 @@
 		echo "</table>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
+		echo "<input type=\"hidden\" name=\"what\" value=\"dataonly\" />\n";
 		if (isset($_REQUEST['table'])) {
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		}

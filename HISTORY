@@ -5,6 +5,7 @@ Version 3.2-dev
 ---------------
 
 Features
+* Option to dump table structure, data or structure and data
 * Extra login security to prevent logging into servers as postgres and
   no password - a VERY common newbie error.
 * Cluster indexes and indexed constraints (with analyze)
