@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.17 2003/04/13 08:24:24 jmpoure Exp $
+	 * $Id: polish.php,v 1.18 2003/05/09 23:02:58 slubek Exp $
 	 */
 
 	// Language and character set
@@ -40,6 +40,7 @@
 	$lang['strlength'] = 'D³ugo¶æ';
 	$lang['strdefault'] = 'Domy¶lny';
 	$lang['stralter'] = 'Zmieñ';
+	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Anuluj';
 	$lang['strsave'] = 'Zapisz';
 	$lang['strreset'] = 'Wyczy¶æ';
@@ -53,6 +54,7 @@
 	$lang['stredit'] = 'Edycja';
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
+	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
 	$lang['strexample'] = 'np.';
 	$lang['strback'] = 'Wstecz';
 	$lang['strqueryresults'] = 'Wyniki zapytania';
@@ -64,6 +66,7 @@
 	$lang['strunique'] = 'Unikatowy';
 	$lang['strprimary'] = 'G³ówny';
 	$lang['strexport'] = 'Eksport';
+	$lang['strimport'] = 'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Wykonaj';
 	$lang['stradmin'] = 'Administruj';
@@ -76,6 +79,8 @@
         $lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
+	$lang['strdata'] = 'Dane';
+	$lang['strconfirm'] = 'Potwierd¼';
 	$lang['strwhen'] = 'Kiedy';
 	$lang['strformat'] = 'Format';
 					
@@ -137,6 +142,7 @@
         $lang['strschemaanddata'] = 'Schemat i Dane';
 	$lang['strschemaonly'] = 'Tylko schemat';
 	$lang['strdataonly'] = 'Tylko dane';
+	$lang['strcascade'] = 'CASCADE';
 			
 	// Users
 	$lang['struseradmin'] = 'Administracja kontami u¿ytkowników';
@@ -157,6 +163,12 @@
 	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun±æ u¿ytkownika "%s"?';
 	$lang['struserdropped'] = 'U¿ytkownik usuniêty.';
 	$lang['struserdroppedbad'] = 'Operacja usuniêcia u¿ytkownika siê nie powiod³a.';
+	$lang['straccount'] = 'Konto';
+	$lang['strchangepassword'] = 'Zmieñ has³o';
+	$lang['strpasswordchanged'] = 'Has³o zmienione.';
+	$lang['strpasswordchangedbad'] = 'Operacja zmiany has³a siê nie powiod³a.';
+	$lang['strpasswordshort'] = 'Has³o jest za krótkie.';
+	$lang['strpasswordconfirm'] = 'Has³o i potwierdzenie musz± byæ takie same.';
 							
 	// Groups
 	$lang['strgroupadmin'] = 'Administracja grupami u¿ytkowników';
@@ -200,6 +212,7 @@
 	$lang['strdatabasedropped'] = 'Baza danych usuniêta.';
 	$lang['strdatabasedroppedbad'] = 'Próba usuniêcia bazy danych siê nie powiod³a.';
 	$lang['strentersql'] = 'Podaj polecenie SQL do wykonania:';
+	$lang['strsqlexecuted'] = 'Wykonano polecenie SQL.';
 	$lang['strvacuumgood'] = 'Operacja czyszczenia bazy zakoñczona.';
 	$lang['strvacuumbad'] = 'Operacja czyszczenia bazy siê nie powiod³a.';
 	$lang['stranalyzegood'] = 'Operacja analizy zakoñczona.';
@@ -310,9 +323,13 @@
 	$lang['struniqaddedbad'] = 'Operacja dodania klucza unikatowego siê nie powiod³a.';
         $lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawieraæ przynajmniej jedn± kolumnê.';
+	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tablicy docelowej.';
 	$lang['strfkadded'] = 'Dodano klucz obcy.';
 	$lang['strfkaddedbad'] = 'Operacja dodania klucza obcego siê nie powiod³a.';
 	$lang['strfktarget'] = 'Tabela docelowa';
+	$lang['strfkcolumnlist'] = 'Kolumna w kluczu';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 					
 	// Functions
 	$lang['strfunction'] = 'Funkcja';
@@ -341,8 +358,8 @@
 	$lang['strnotrigger'] = 'Nie znaleziono procedury wyzwalanej.';
 	$lang['strnotriggers'] = 'Nie znaleziono procedur wyzwalanych.';
 	$lang['strcreatetrigger'] = 'Utwórz procedurê wyzwalan±';
-	$lang['strtriggername'] = 'Nazwa procedury wyzwalanej';
 	$lang['strtriggerneedsname'] = 'Musisz nazwaæ procedurê wyzwalan±';
+	$lang['strtriggerneedsfunc'] = 'Musisz podac funkcje swojego tragarza.';
 	$lang['strtriggercreated'] = 'Utworzono procedurê wyzwalan±.';
 	$lang['strtriggercreatedbad'] = 'Próba utworzenia procedury wyzwalanej siê nie powiod³a';
         $lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun±æ procedurê "%s" wyzwalan± przez "%s"?';
@@ -406,3 +423,5 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>
+
+

@@ -4,13 +4,14 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.10 2003/04/04 20:28:03 slubek Exp $
+	 * $Id: polish.php,v 1.11 2003/05/09 23:02:58 slubek Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Polski';
 	$lang['appcharset'] = 'ISO-8859-2';
-
+	$lang['applocale'] = 'pl_PL';
+  
 	// Basic strings
 	$lang['strintro'] = 'Witaj w phpPgAdmin.';
 	$lang['strlogin'] = '- Zaloguj';
@@ -39,6 +40,7 @@
 	$lang['strlength'] = 'D&#322;ugo&#347;&#263;';
 	$lang['strdefault'] = 'Domy&#347;lny';
 	$lang['stralter'] = 'Zmie&#324;';
+	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Anuluj';
 	$lang['strsave'] = 'Zapisz';
 	$lang['strreset'] = 'Wyczy&#347;&#263;';
@@ -52,6 +54,7 @@
 	$lang['stredit'] = 'Edycja';
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
+	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
 	$lang['strexample'] = 'np.';
 	$lang['strback'] = 'Wstecz';
 	$lang['strqueryresults'] = 'Wyniki zapytania';
@@ -63,6 +66,7 @@
 	$lang['strunique'] = 'Unikatowy';
 	$lang['strprimary'] = 'G&#322;&oacute;wny';
 	$lang['strexport'] = 'Eksport';
+	$lang['strimport'] = 'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Wykonaj';
 	$lang['stradmin'] = 'Administruj';
@@ -75,6 +79,8 @@
         $lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
+	$lang['strdata'] = 'Dane';
+	$lang['strconfirm'] = 'Potwierd&#378;';
 	$lang['strwhen'] = 'Kiedy';
 	$lang['strformat'] = 'Format';
 					
@@ -136,6 +142,7 @@
         $lang['strschemaanddata'] = 'Schemat i Dane';
 	$lang['strschemaonly'] = 'Tylko schemat';
 	$lang['strdataonly'] = 'Tylko dane';
+	$lang['strcascade'] = 'CASCADE';
 			
 	// Users
 	$lang['struseradmin'] = 'Administracja kontami u&#380;ytkownik&oacute;w';
@@ -156,6 +163,12 @@
 	$lang['strconfdropuser'] = 'Czy na pewno chcesz usun&#261;&#263; u&#380;ytkownika &quot;%s&quot;?';
 	$lang['struserdropped'] = 'U&#380;ytkownik usuni&#281;ty.';
 	$lang['struserdroppedbad'] = 'Operacja usuni&#281;cia u&#380;ytkownika si&#281; nie powiod&#322;a.';
+	$lang['straccount'] = 'Konto';
+	$lang['strchangepassword'] = 'Zmie&#324; has&#322;o';
+	$lang['strpasswordchanged'] = 'Has&#322;o zmienione.';
+	$lang['strpasswordchangedbad'] = 'Operacja zmiany has&#322;a si&#281; nie powiod&#322;a.';
+	$lang['strpasswordshort'] = 'Has&#322;o jest za kr&oacute;tkie.';
+	$lang['strpasswordconfirm'] = 'Has&#322;o i potwierdzenie musz&#261; by&#263; takie same.';
 							
 	// Groups
 	$lang['strgroupadmin'] = 'Administracja grupami u&#380;ytkownik&oacute;w';
@@ -199,6 +212,7 @@
 	$lang['strdatabasedropped'] = 'Baza danych usuni&#281;ta.';
 	$lang['strdatabasedroppedbad'] = 'Pr&oacute;ba usuni&#281;cia bazy danych si&#281; nie powiod&#322;a.';
 	$lang['strentersql'] = 'Podaj polecenie SQL do wykonania:';
+	$lang['strsqlexecuted'] = 'Wykonano polecenie SQL.';
 	$lang['strvacuumgood'] = 'Operacja czyszczenia bazy zako&#324;czona.';
 	$lang['strvacuumbad'] = 'Operacja czyszczenia bazy si&#281; nie powiod&#322;a.';
 	$lang['stranalyzegood'] = 'Operacja analizy zako&#324;czona.';
@@ -309,9 +323,13 @@
 	$lang['struniqaddedbad'] = 'Operacja dodania klucza unikatowego si&#281; nie powiod&#322;a.';
         $lang['straddfk'] = 'Dodaj klucz obcy';
 	$lang['strfkneedscols'] = 'Obcy klucz musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
+	$lang['strfkneedstarget'] = 'Klucz obcy wymaga podania nazwy tablicy docelowej.';
 	$lang['strfkadded'] = 'Dodano klucz obcy.';
 	$lang['strfkaddedbad'] = 'Operacja dodania klucza obcego si&#281; nie powiod&#322;a.';
 	$lang['strfktarget'] = 'Tabela docelowa';
+	$lang['strfkcolumnlist'] = 'Kolumna w kluczu';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 					
 	// Functions
 	$lang['strfunction'] = 'Funkcja';
@@ -340,8 +358,8 @@
 	$lang['strnotrigger'] = 'Nie znaleziono procedury wyzwalanej.';
 	$lang['strnotriggers'] = 'Nie znaleziono procedur wyzwalanych.';
 	$lang['strcreatetrigger'] = 'Utw&oacute;rz procedur&#281; wyzwalan&#261;';
-	$lang['strtriggername'] = 'Nazwa procedury wyzwalanej';
 	$lang['strtriggerneedsname'] = 'Musisz nazwa&#263; procedur&#281; wyzwalan&#261;';
+	$lang['strtriggerneedsfunc'] = 'Musisz podac funkcje swojego tragarza.';
 	$lang['strtriggercreated'] = 'Utworzono procedur&#281; wyzwalan&#261;.';
 	$lang['strtriggercreatedbad'] = 'Pr&oacute;ba utworzenia procedury wyzwalanej si&#281; nie powiod&#322;a';
         $lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun&#261;&#263; procedur&#281; &quot;%s&quot; wyzwalan&#261; przez &quot;%s&quot;?';
@@ -405,3 +423,5 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>
+
+
