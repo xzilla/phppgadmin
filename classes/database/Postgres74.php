@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.23 2004/01/18 16:03:10 soranzo Exp $
+ * $Id: Postgres74.php,v 1.24 2004/02/19 04:20:00 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -163,7 +163,8 @@ class Postgres74 extends Postgres73 {
 	function &getView($view) {
 		$this->clean($view);
 		
-		$sql = "SELECT viewname, viewowner, pg_catalog.pg_get_viewdef(viewname, true) AS definition FROM pg_catalog.pg_views WHERE viewname='$view'";
+		$sql = "SELECT relname AS viewname, pg_catalog.pg_get_userbyid(relowner) AS viewowner, pg_catalog.pg_get_viewdef(oid, true) AS definition
+            FROM pg_class WHERE relkind='v' AND relname='{$view}'";
 
 		return $this->selectSet($sql);
 	}	
