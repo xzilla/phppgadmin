@@ -4,14 +4,14 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.7 2002/11/18 05:49:55 chriskl Exp $
+ * $Id: Postgres73.php,v 1.8 2002/12/19 22:27:38 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
 
-include_once('../classes/database/Postgres71.php');
+include_once('../classes/database/Postgres72.php');
 
-class Postgres73 extends Postgres71 {
+class Postgres73 extends Postgres72 {
 
 	var $nspFields = array('nspname' => 'nspname', 'nspowner' => 'nspowner');
 	var $conFields = array('conname' => 'conname', 'conowner' => 'conownder');

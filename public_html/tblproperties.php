@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.9 2002/12/14 10:56:26 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.10 2002/12/19 22:27:38 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -15,7 +15,7 @@
 	function doTriggers($msg = '') {
 		global $data, $localData, $misc; 
 		global $PHP_SELF;
-		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName;
+		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName, $strPrivileges;
 		
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
@@ -320,7 +320,7 @@
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
 		global $strBrowse, $strProperties, $strDrop, $strShowAllTables;
-		global $strKeyName, $strUnique, $strField, $strAction, $strPrimary;
+		global $strKeyName, $strUnique, $strField, $strAction, $strPrimary,$strPrivileges;
 
 		doNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
@@ -350,6 +350,8 @@
 			}
 			echo "</table>\n";
 			echo "<br />\n";
+
+	// For the record, all of these EOF code fragments need to be cleaned up and removed
 	
 echo <<<EOF
 				
@@ -367,6 +369,27 @@ EOF;
 					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Insert</a></li>\n";
 				echo "<li><a href=\"$PHP_SELF?action=confirm_drop&database=",
 					htmlspecialchars($_REQUEST['database']), "&table=", urlencode($_REQUEST['table']),"\">Drop</a></li>\n";
+				echo "<li><a href=\"privileges.php?action=get_privileges&database=",
+					htmlspecialchars($_REQUEST['database']), "&object=", urlencode($_REQUEST['table']),"\">$strPrivileges</a></li>\n";
+
+echo <<<EOF
+
+<li>
+	<form method="post" action="tbl_addfield.php">
+		Add new field: 
+		<select name="num_fields">
+		<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>		</select>
+
+		<input type="submit" value="Go">
+		<input type="hidden" name="table" value="med_practice">
+		<input type="hidden" name="db" value="mojo5">
+		<input type="hidden" name="server" value="2">
+	</form>
+<li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a>
+<li>
+EOF;
+
+
 		}
 		else {
 			echo "<p>{$strNoTable}</p>\n";

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.17 2002/11/18 05:49:55 chriskl Exp $
+ * $Id: Postgres72.php,v 1.18 2002/12/19 22:27:38 xzilla Exp $
  */
 
 
@@ -15,6 +15,7 @@ class Postgres72 extends Postgres71 {
 	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
 	var $typFields = array('typname' => 'typname');
 	var $langFields = array('lanname' => 'lanname');
+	var $privFields = array('privarr' => 'relacl');
 
 	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
@@ -305,6 +306,54 @@ class Postgres72 extends Postgres71 {
 			
 		return $this->selectSet($sql);
 	}
+
+
+    /**
+     * Grabs a list of privileges for an object
+     * @param $object The object whose privileges are to be retrived
+     * @return A recordset
+     */
+
+	function getPrivileges($object = '') {
+		$this->clean($object);
+
+		$sql = "SELECT relacl FROM pg_class WHERE relname = '$object'";
+
+		return $this->selectSet($sql);
+	}
+
+/*	
+	function get_privilege ($table) {
+	global $link, $strYes, $strNo, $arrPrivileges, $arrAcl;
+	$sql_get_privilege = "SELECT relacl FROM pg_class WHERE relname = '$table'";
+
+	if (!$res = @pg_exec($link, $sql_get_privilege)) {
+		pg_die(pg_errormessage($link), $sql_get_privilege, __FILE__, __LINE__);
+	} else {
+		// query must return exactly one row (check this ?)
+		if (!($row = @pg_fetch_array($res, 0))) {
+			echo "Error: unable to retrieve ACL for view: $table";
+		}
+		$priv = trim(ereg_replace("[\{\"]", "", $row[relacl]));
+		
+		$users = explode(",", $priv);
+		for ($iUsers = 0; $iUsers < count($users); $iUsers++) {
+			$aryUser = explode("=", $users[$iUsers]);
+			$privilege = $aryUser[1]; 
+
+			for ($i = 0; $i < 7; $i++) {
+				// $result[$username][$arrPrivileges[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
+				$aryUser[0] = $aryUser[0] ? $aryUser[0] : "public";
+				// echo $aryUser[0], ": ", $arrAcl[$i], ":", $privilege, "<br>";
+				$result[trim($aryUser[0])][$arrPrivileges[$i]] = strchr($privilege, $arrAcl[$i]) ? $strYes : $strNo;
+			}
+		}
+	}
+	return $result;
+	}
+*/
+
+
 }
 
 ?>
