@@ -190,7 +190,8 @@ a different OID if a database must be reloaded. */
 		}
 		
 		//if ($user) $linea = "user=$user host=$linea password=$pwd dbname=$db port=5432";
-		$this->_connectionID = pg_connect($str);
+		$this->_connectionID = @pg_connect($str);
+
 		if ($this->_connectionID === false) return false;
 		$this->Execute("set datestyle='ISO'");
                 return true;
@@ -214,7 +215,7 @@ a different OID if a database must be reloaded. */
            		if ($pwd)  $str .= " password='{$pwd}'";
 			if ($db)   $str .= " dbname='{$db}'";
 		}//print $str;
-		$this->_connectionID = pg_pconnect($str);
+		$this->_connectionID = @pg_pconnect($str);
 		if ($this->_connectionID === false) return false;
 		$this->Execute("set datestyle='ISO'");
 		return true;

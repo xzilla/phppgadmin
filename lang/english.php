@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.22 2002/12/24 02:44:21 chriskl Exp $
+	 * $Id: english.php,v 1.23 2002/12/24 04:03:29 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -12,6 +12,7 @@
 
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strLogin = 'Login';
+	$strLoginFailed = 'Login failed';
 	$strNoTables = 'No tables found.';
 	$strNoTable = 'No table found.';
 	$strNoViews = 'No views found.';

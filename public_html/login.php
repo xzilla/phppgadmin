@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.7 2002/12/23 10:38:16 jmpoure Exp $
+	 * $Id: login.php,v 1.8 2002/12/24 04:03:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,6 +22,7 @@
 				<td height="115" align="center" valign="middle">
 					<center>
 					<h1><?php echo $appName ?> <?php echo $strLogin ?></h1>
+					<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">$strLoginFailed</p>" ?>
 					<table class="navbar" border="0" cellpadding="5" cellspacing="3">
 						<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 						<tr>
