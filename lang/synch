@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # This script will synchronize language file with the master 
 # english translation using chriskl's langcheck utility.
 # It doesn't translate strings, only inserts english versions
