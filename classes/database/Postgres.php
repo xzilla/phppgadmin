@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.155 2003/10/12 09:28:55 chriskl Exp $
+ * $Id: Postgres.php,v 1.156 2003/10/13 01:42:05 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1759,6 +1759,16 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
+	/**
+	 * Finds the foreign keys that refer to the specified table
+	 * @param $table The table to find referrers for
+	 * @return A recordset
+	 */
+	function &getReferrers($table) {
+		// In PostgreSQL < 7.3, there is no way to discover foreign keys
+		return -99;
+	}
+
 	// Column Functions
 
 	/**
@@ -1774,7 +1784,7 @@ class Postgres extends BaseDB {
 		$this->fieldClean($column);
 		$this->clean($type);
 		$this->clean($length);
-		// @@ How do we reliably escape the type here?
+
 		if ($length == '')
 			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
 		else {

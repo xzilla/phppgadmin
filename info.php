@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.1 2003/10/09 06:39:10 chriskl Exp $
+	 * $Id: info.php,v 1.2 2003/10/13 01:42:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,12 +29,13 @@
 		$children = &$localData->getTableChildren($_REQUEST['table']);
 
 		// Check that there is some info
-		if ($referrers->recordCount() == 0 && $parents->recordCount() == 0 && $children->recordCount() == 0) {
+		if (($referrers === -99 || ($referrers !== -99 && $referrers->recordCount() == 0)) 
+				&& $parents->recordCount() == 0 && $children->recordCount() == 0) {
 			$misc->printMsg($lang['strnoinfo']);
 		}
 		else {
 			// Referring foreign tables
-			if ($referrers->recordCount() > 0) {
+			if ($referrers !== -99 && $referrers->recordCount() > 0) {
 				echo "<h3>{$lang['strreferringtables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t";
