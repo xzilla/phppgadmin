@@ -20,4 +20,6 @@ Need to fix:
   pretty type name and schema support
 * Report login errors
 * Edit Query
+* Don't offer owner change feature if user is not superuser
+
 

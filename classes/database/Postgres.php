@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.180 2004/02/02 12:15:58 chriskl Exp $
+ * $Id: Postgres.php,v 1.181 2004/02/06 01:48:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1184,6 +1184,7 @@ class Postgres extends BaseDB {
 	 * @return -2 owner error
 	 * @return -3 rename error
 	 * @return -4 comment error
+	 * @return -5 get existing owner error
 	 */
 	function alterTable($table, $name, $owner, $comment) {
 		$this->fieldClean($table);
@@ -1210,12 +1211,24 @@ class Postgres extends BaseDB {
 		
 		// Owner
 		if ($this->hasAlterTableOwner() && $owner != '') {
-			$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-	
-			$status = $this->execute($sql);
-			if ($status != 0) {
+			// Fetch existing owner
+			$data = &$this->getTable($table);
+			if ($data->recordCount() != 1) {
 				$this->rollbackTransaction();
-				return -2;
+				return -5;
+			}
+				
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($data->f[$this->tbFields['tbowner']] != $owner) {
+				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
+		
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -2;
+				}
 			}
 		}
 
