@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.196 2004/05/09 02:00:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.197 2004/05/09 04:31:25 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3224,6 +3224,18 @@ class Postgres extends BaseDB {
 
 	// Constraint functions
 
+	/**
+	 * A function for getting all linking fields on the foreign keys based on the table names	 
+	 * @param $table array of table names	 	 
+	 * @return an array of linked tables and fields
+	 */
+	 function &getLinkingKeys($arrTables)
+	 {
+		// Pre 7.3 this does nothing
+		$recordset = new ADORecordSet;
+		return $recordset;
+	 }
+	
 	/**
 	 * A helper function for getConstraints that translates
 	 * an array of attribute numbers to an array of field names.

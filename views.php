@@ -3,11 +3,12 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.29 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: views.php,v 1.30 2004/05/09 04:31:24 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
+	include_once('./classes/Gui.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
@@ -234,6 +235,154 @@
 	}
 	
 	/**
+	 * Sets up choices for table linkage, and which fields to select for the view we're creating
+	 */
+	function doSetParamsCreate($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+		
+		// Check that they've chosen tables for the view definition
+		if (!isset($_POST['formTables']) ) doWizardCreate($lang['strviewneedsdef']);
+		else {
+			// Initialise variables
+			if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
+			if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
+			
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";		
+			$misc->printMsg($msg);
+			$tblCount = count($_POST['formTables']);
+			// If we have a message that means an error occurred in doSaveCreate, which means POST['formTables'] has quotes
+			// around the table names, but getTableAttributes doesn't accept quoted table names so we strip them here
+			if (strlen($msg)) {
+				for ($i = 0; $i < $tblCount; $i++) {
+					$_POST['formTables'][$i] = str_replace('"', '', $_POST['formTables'][$i]);
+				}
+			}
+						
+			$arrFields = array(); //array that will hold all our table/field names						
+			
+			$rsLinkKeys = $data->getLinkingKeys($_POST['formTables']);
+			
+			// Update tblcount if we have more foreign keys than tables (perhaps in the case of composite foreign keys)
+			$tblCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
+			
+			// Get fieldnames
+			for ($i = 0; $i < $tblCount; $i++) {				
+				$attrs = &$data->getTableAttributes($_POST['formTables'][$i]);
+				while (!$attrs->EOF) {
+					// Quote table/field name
+					$arrFields["\"{$_POST['formTables'][$i]}\"." . "\"{$attrs->f['attname']}\""] = "\"{$_POST['formTables'][$i]}\"." . "\"{$attrs->f['attname']}\"";
+					$attrs->moveNext();
+				}
+			}
+			asort($arrFields);			
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strviewname']}</th></tr>";
+			echo "<tr>\n<td class=\"data1\">\n";
+			// View name
+			echo "<input name=\"formView\" id=\"formView\" value=\"", htmlspecialchars($_REQUEST['formView']), "\" style=\"width: 100%;\" />\n";
+			echo "</td>\n</tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strcomment']}</th></tr>";
+			echo "<tr>\n<td class=\"data1\">\n";
+			// View comments			
+			echo "<input name=\"formComment\" id=\"formComment\" value=\"", htmlspecialchars($_REQUEST['formComment']), "\" style=\"width: 100%;\" />\n";
+			echo "</td>\n</tr>\n";									
+			echo "<tr>\n<td class=\"data1\">\n";
+			
+			// Output selector for fields to be retrieved from view
+			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);			
+			echo "</td>\n</tr>\n</table>\n<br />\n";						
+			
+			// Output the Linking keys combo boxes
+			$arrLinkOperators = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN');
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
+			$rowClass = 'data1';
+			for ($i = 0; $i <= $tblCount; $i++) {
+				// Initialise variables
+				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
+				echo "<tr>\n<td class=\"$rowClass\">\n";
+							
+				if (!$rsLinkKeys->EOF) {
+					$curLeftLink = htmlspecialchars("\"{$rsLinkKeys->f['p_table']}\".\"{$rsLinkKeys->f['p_field']}\"");
+					$curRightLink = htmlspecialchars("\"{$rsLinkKeys->f['f_table']}\".\"{$rsLinkKeys->f['f_field']}\"");
+					$rsLinkKeys->moveNext();
+				}
+				else {
+					$curLeftLink = '';
+					$curRightLink = '';
+				}
+				
+				echo GUI::printCombo($arrFields, "formLink[$i][leftlink]", true, $curLeftLink, false );
+				echo GUI::printCombo($arrLinkOperators, "formLink[$i][operator]", true, $formLink[$i]['operator']);								
+				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
+				echo "</td>\n</tr>\n";
+				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
+			
+			}
+			echo "</table>\n<br />\n";			
+						
+			// Output additional conditions			
+			$arrOperators = array('=' => '=', 'LIKE' => 'LIKE', '!=' => '!=', '>' => '>', '<' =>'<', 'IN' => 'IN', '!!=' => '!!=', 'BETWEEN' => 'BETWEEN');
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$lang['strviewconditions']}</th></tr>";					
+			$rowClass = 'data1';
+			for ($i = 0; $i < 3; $i++) {				
+				echo "<tr>\n<td class=\"$rowClass\">\n";
+				echo GUI::printCombo($arrFields, "formCondition[$i][field]");
+				echo GUI::printCombo($arrOperators, "formCondition[$i][operator]", false, false);
+				echo "<input type=\"text\" name=\"formCondition[$i][txt]\" />\n";
+				echo "</td>\n</tr>\n";
+				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
+			}			
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" id=\"action\" value=\"save_create_wiz\" />\n";			
+			echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+						
+			foreach ($_POST['formTables'] AS $curTable) {
+				echo "<input type=\"hidden\" name=\"formTables[]\" id=\"formTables[]\" value=\"" . htmlspecialchars("\"$curTable\"") . "\" />\n";
+			}
+			
+			echo $misc->form;
+			echo "</form>\n";
+		}	
+	}
+	
+	/**
+	 * Display a wizard where they can enter a new view
+	 */
+	function doWizardCreate($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+		$tables = &$data->getTables();
+		
+		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateview']}</h2>\n";		
+		$misc->printMsg($msg);
+		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strtables']}</th></tr>";		
+		echo "<tr>\n<td class=\"data1\">\n";		
+		
+		$arrTables = array();
+		while (!$tables->EOF) {			
+			$arrTables[$tables->f[$data->tbFields['tbname']]] = $tables->f[$data->tbFields['tbname']];			
+			$tables->moveNext();
+		}		
+		echo GUI::printCombo($arrTables, 'formTables[]', false, '', true);			
+		
+		echo "</td>\n</tr>\n";		
+		echo "</table>\n";		
+		echo "<p><input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+		echo "<input type=\"hidden\" name=\"action\" id=\"action\" value=\"set_params_create\" />\n";
+		echo $misc->form;
+		echo "</form>\n";
+	}
+	
+	/**
 	 * Displays a screen where they can enter a new view
 	 */
 	function doCreate($msg = '') {
@@ -286,6 +435,76 @@
 		}
 	}	
 
+  	/**
+	 * Actually creates the new wizard view in the database
+	 */
+	function doSaveCreateWiz() {
+		global $data, $lang;
+		
+		// Check that they've given a name and fields they want to select		
+		if (!strlen($_POST['formView']) || !isset($_POST['formFields']) || !count($_POST['formFields']) ) doSetParamsCreate($lang['strviewneedsdef']);
+		else {		 
+			$selTables = implode(', ', $_POST['formTables']);		
+			$selFields = implode(', ', $_POST['formFields']);		
+			
+			$linkFields = '';
+			
+			if (is_array($_POST['formLink']) ) {
+				
+				// Filter out invalid/blank entries for our links
+				$arrLinks = array();
+				foreach ($_POST['formLink'] AS $curLink) {
+					if (strlen($curLink['leftlink']) && strlen($curLink['rightlink']) && strlen($curLink['operator'])) {
+						$arrLinks[] = $curLink;
+					}
+				}				
+				// We must perform some magic to make sure that we have a valid join order
+				$count = count($arrLinks);
+				$arrJoined = array();
+				$arrUsedTbls = array();								
+								
+				$j = 0;
+				while ($j < $count) {					
+					foreach ($arrLinks AS $curLink) {
+						
+						$tbl1 = substr($curLink['leftlink'], 0, strpos($curLink['leftlink'], '.') );
+						$tbl2 = substr($curLink['rightlink'], 0, strpos($curLink['rightlink'], '.') );
+												
+						if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
+														
+							$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) " : "$tbl1 {$curLink['operator']} $tbl2 ON ({$curLink['leftlink']} = {$curLink['rightlink']}) ";
+							$arrJoined[] = $curLink;
+							if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
+							if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
+						}						
+					}
+					$j++;					
+				}
+			}
+			
+			$addConditions = '';
+			if (is_array($_POST['formCondition']) ) {
+				foreach ($_POST['formCondition'] AS $curCondition) {
+					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
+						$addConditions .= strlen($addConditions) ? ' AND ' . "{$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' " : " {$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' ";
+					}	
+				}		
+			}
+			
+			$viewQuery = "SELECT $selFields FROM $linkFields ";
+			
+			//add where from additional conditions
+			if (strlen($addConditions) ) $viewQuery .= ' WHERE ' . $addConditions;
+			
+			$status = $data->createView($_POST['formView'], $viewQuery, false, $_POST['formComment']);
+			
+			if ($status == 0)
+				doDefault($lang['strviewcreated']);
+			else				
+				doSetParamsCreate($lang['strviewcreatedbad']);
+		}
+	}	
+	
 	/**
 	 * Show default list of views in the database
 	 */
@@ -336,7 +555,8 @@
 			echo "<p>{$lang['strnoviews']}</p>\n";
 		}
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
 
 	}
 
@@ -351,6 +571,17 @@
 		case 'confselectrows':
 			doSelectRows(true);
 			break;
+		case 'save_create_wiz':
+			if (isset($_REQUEST['cancel'])) doDefault();
+			else doSaveCreateWiz();
+			break;
+		case 'wiz_create':
+			doWizardCreate();
+			break;
+		case 'set_params_create':
+			if (isset($_POST['cancel'])) doDefault();
+			else doSetParamsCreate();
+  			break;
 		case 'save_create':
 			if (isset($_REQUEST['cancel'])) doDefault();
 			else doSaveCreate();

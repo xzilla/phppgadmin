@@ -21,6 +21,7 @@ Features
   (with all options) (Bryan Encina)
 * Fix SQL popup window to reload when the database is changed so
   that the correct page encoding is used.
+* Create view wizard (Bryan Encina)
 
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x

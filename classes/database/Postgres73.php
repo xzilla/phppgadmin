@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.99 2004/05/09 02:00:26 chriskl Exp $
+ * $Id: Postgres73.php,v 1.100 2004/05/09 04:31:42 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -346,7 +346,7 @@ class Postgres73 extends Postgres72 {
 	function &getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname, tablename, tableowner,pg_catalog.obj_description(c.oid, 'pg_class') AS tablecomment  
+			$sql = "SELECT schemaname, tablename, tableowner
                                 FROM pg_catalog.pg_tables 
 				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 				ORDER BY schemaname, tablename";
@@ -937,6 +937,45 @@ class Postgres73 extends Postgres72 {
 	}
 
 	// Constraint functions
+
+	/**
+	 * A function for getting all linking fields on the foreign keys based on the table names	 
+	 * @param $table array of table names	 	 
+	 * @return an array of linked tables and fields
+	 */
+	 function &getLinkingKeys($arrTables) {		
+		$this->arrayClean($arrTables);	
+		// Properly quote the tables	
+		$tables = "'" . implode("', '", $arrTables) . "'";
+		
+		$sql = "
+			SELECT										
+				pgc1.relname AS p_table, 	
+				pgc2.relname AS f_table,
+				pfield.attname AS p_field,
+				cfield.attname AS f_field	
+			FROM
+				pg_catalog.pg_constraint AS pc,
+				pg_catalog.pg_class AS pgc1,
+				pg_catalog.pg_class AS pgc2,
+				pg_catalog.pg_attribute AS pfield,
+				pg_catalog.pg_attribute AS cfield
+			WHERE
+				pc.contype = 'f'				
+				AND pc.conrelid = pgc1.relfilenode
+				AND pc.confrelid = pgc2.relfilenode
+				AND pfield.attrelid = pc.conrelid
+				AND cfield.attrelid = pc.confrelid
+				AND pfield.attnum = ANY(pc.conkey)
+				AND cfield.attnum = ANY(pc.confkey)				
+				AND pgc1.relname IN ($tables)	
+				AND pgc2.relname IN ($tables)
+				AND pgc1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}')
+		";
+		
+		return $this->selectSet($sql);			
+	 }
 	
 	/**
 	 * A helper function for getConstraints that translates

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.139 2004/04/20 01:34:43 chriskl Exp $
+	 * $Id: english.php,v 1.140 2004/05/09 04:31:42 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -302,6 +302,7 @@
 	$lang['strviewupdatedbad'] = 'View update failed.';
 	$lang['strviewlink'] = 'Linking Keys';
 	$lang['strviewconditions'] = 'Additional Conditions';
+	$lang['strcreateviewwiz'] = 'Create view with wizard';
 
 	// Sequences
 	$lang['strsequence'] = 'Sequence';
