@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.18 2003/01/19 02:47:25 chriskl Exp $
+ * $Id: Postgres73.php,v 1.19 2003/01/27 06:08:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -183,6 +183,26 @@ class Postgres73 extends Postgres72 {
 */
 	// Table functions
 
+	/**
+	 * Checks to see whether or not a table has a unique id column
+	 * @param $table The table name
+	 * @return True if it has a unique id, false otherwise
+	 * @return -99 error
+	 */
+	function hasObjectID($table) {
+		$this->clean($table);
+
+		$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}' 
+			AND relnamespace = (SELECT oid FROM pg_namespace WHERE nspname='{$this->_schema}')";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != 1) return -99;
+		else {
+			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
+			return $rs->f['relhasoids'];
+		}
+	}
+	
 	/**
 	 * Return all tables in current database
 	 * @return All tables, sorted alphabetically 

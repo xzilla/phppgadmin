@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.48 2003/01/27 05:22:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.49 2003/01/27 06:08:35 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -143,6 +143,60 @@ class Postgres extends BaseDB {
 	}
 
 	// Table functions
+
+	/**
+	 * Checks to see whether or not a table has a unique id column
+	 * @param $table The table name
+	 * @return True if it has a unique id, false otherwise
+	 * @return -99 error
+	 */
+	function hasObjectID($table) {
+		$this->clean($table);
+
+		$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}'";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != 1) return -99;
+		else {
+			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
+			return $rs->f['relhasoids'];
+		}
+	}
+
+	/**
+	 * Given an array of attnums and a relation, returns an array mapping
+	 * atttribute number to attribute name.
+	 * @param $table The table to get attributes for
+	 * @param $atts An array of attribute numbers
+	 * @return An array mapping attnum to attname
+	 * @return -1 $atts must be an array
+	 * @return -2 wrong number of attributes found
+	 */
+	function getAttributeNames($table, $atts) {
+		$this->clean($table);
+		$this->arrayClean($atts);
+		
+		if (!is_array($atts)) return -1;
+
+		if (sizeof($atts) == 0) return array();
+
+		// @@@ THERE IS A SCHEMA SUPPORT ERROR HERE!!!
+		$sql = "SELECT attnum, attname FROM pg_attribute WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='{$table}') AND attnum IN ('" .  
+			join("','", $atts) . "')";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != sizeof($atts)) {
+			return -2;
+		}
+		else {
+			$temp = array();
+			while (!$rs->EOF) {
+				$temp[$rs->f['attnum']] = $rs->f['attname'];
+				$rs->moveNext();
+			}
+			return $temp;
+		}			
+	}
 	
 	/**
 	 * Get the fields for uniquely identifying a row in a table
@@ -151,6 +205,7 @@ class Postgres extends BaseDB {
 	 * @return -1 error
 	 */
 	function getRowIdentifier($table) {
+		$oldtable = $table;
 		$this->clean($table);
 		
 		$status = $this->beginTransaction();
@@ -159,41 +214,23 @@ class Postgres extends BaseDB {
 		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')";
 		$rs = $this->selectSet($sql);
 		
-		// If none, search for OID column
+		// If none, return an empty array.  We can't search for an OID column
+		// as there's no guarantee that it will be unique.
 		if ($rs->recordCount() == 0) {
-			$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}'";
-			$rs2 = $this->selectSet($sql);
-			if ($rs2->recordCount() == 0) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-			elseif ($rs2->f['relhasoids'] == 'f') {
-				$this->endTransaction();
-				return array();
-			}
-			else {
-				$this->endTransaction();
-				return array(-2 => 'oid');
-			}
+			$this->endTransaction();
+			return array();
 		}
-		// Otherwise select to find the names of the keys
+		// Otherwise find the names of the keys
 		else {		
-			$in = str_replace(' ', ',', $rs->f['indkey']);
-			$sql = "SELECT attnum, attname FROM pg_attribute WHERE attrelid='{$rs->f['indrelid']}' AND attnum IN ({$in})";
-			$rs2 = $this->selectSet($sql);
-			if ($rs2->recordCount() == 0) {
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			if (!is_array($attnames)) {
 				$this->rollbackTransaction();
 				return -1;
 			}
 			else {
-				$temp = array();
-				while (!$rs2->EOF) {
-					$temp[$rs2->f['attnum']] = $rs2->f['attname'];
-					$rs2->moveNext();
-				}
 				$this->endTransaction();
-				return $temp;
-			}			
+				return $attnames;
+			}
 		}			
 	}
 	
@@ -486,6 +523,7 @@ class Postgres extends BaseDB {
 	 * @return -3 page or page_size invalid
 	 */
 	function &browseRelation($relation, $page, $page_size, &$max_pages) {
+		$oldrelation = $relation;
 		$this->fieldClean($relation);
 
 		// Check that we're not going to divide by zero
@@ -512,10 +550,17 @@ class Postgres extends BaseDB {
 			return -3;
 		}
 
-		// Actually retrieve the rows, with offset and limit
-		// @@ OIDs???
-		$rs = $this->selectSet("SELECT * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		// We need to do a check to see if the relation has an OID column.  If so, then
+		// we need to include it in the result set, in case the user has created a primary key
+		// constraint on it.
+		$hasID = $this->hasObjectID($oldrelation);
 
+		// Actually retrieve the rows, with offset and limit
+		if ($hasID)
+			$rs = $this->selectSet("SELECT \"{$this->id}\",* FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		else
+			$rs = $this->selectSet("SELECT * FROM \"{$relation}\" LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+			
 		$status = $this->endTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
