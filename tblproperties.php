@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.43 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.44 2004/05/12 15:30:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -295,7 +295,8 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
@@ -323,6 +324,7 @@
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
+				if ($column->f['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
@@ -339,7 +341,8 @@
 				}
 				
 				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
-							     isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault'],$_REQUEST['comment']);
+							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']), $_REQUEST['default'], 
+							     $_REQUEST['olddefault'],$_REQUEST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {

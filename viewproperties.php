@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.1 2004/05/10 15:22:00 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.2 2004/05/12 15:30:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -139,6 +139,83 @@
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=edit&{$misc->href}&view=", 
 			urlencode($_REQUEST['view']), "\">{$lang['stralter']}</a></p>\n";
 	}
+
+	/**
+	 * Displays a screen where they can alter a column in a view
+	 */
+	function doProperties($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+
+		switch ($_REQUEST['stage']) {
+			case 1:
+				global $lang;
+
+				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['straltercolumn']}: ",
+					$misc->printVal($_REQUEST['column']), "</h2>\n";
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+				// Output view header
+				echo "<table>\n<tr>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
+
+				$column = &$data->getTableAttributes($_REQUEST['view'], $_REQUEST['column']);
+
+				if (!isset($_REQUEST['default'])) {
+					$_REQUEST['field'] = $column->f['attname'];
+					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
+					$_REQUEST['comment'] = $column->f['comment'];
+				}				
+
+				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
+					htmlspecialchars($_REQUEST['field']), "\" /></td>";
+				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+				echo "<td><input name=\"default\" size=\"20\" value=\"", 
+					htmlspecialchars($_REQUEST['default']), "\" /></td>";
+				echo "<td><input name=\"comment\" size=\"60\" value=\"", 
+					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
+				
+				echo "</table>\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "</form>\n";
+								
+				break;
+			case 2:
+				global $data, $lang;
+
+				// Check inputs
+				if (trim($_REQUEST['field']) == '') {
+					$_REQUEST['stage'] = 1;
+					doProperties($lang['strfieldneedsname']);
+					return;
+				}
+				
+				$status = $data->alterColumn($_REQUEST['view'], $_REQUEST['column'], $_REQUEST['field'], 
+							     false, false, $_REQUEST['default'], $_REQUEST['olddefault'],$_REQUEST['comment']);
+				if ($status == 0)
+					doDefault($lang['strcolumnaltered']);
+				else {
+					$_REQUEST['stage'] = 1;
+					doProperties($lang['strcolumnalteredbad']);
+					return;
+				}
+				break;
+			default:
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
+		}
+	}
 	
 	/**
 	 * Show view definition and virtual columns
@@ -221,6 +298,10 @@
 			break;
 		case 'definition':
 			doDefinition();
+			break;
+		case 'properties':
+			if (isset($_POST['cancel'])) doDefault();
+			else doProperties();
 			break;
 		case 'drop':
 			if (isset($_POST['drop'])) doDrop(false);

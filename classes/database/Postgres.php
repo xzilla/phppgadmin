@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.200 2004/05/09 09:10:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.201 2004/05/12 15:30:00 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -705,7 +705,8 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Given an array of attnums and a relation, returns an array mapping
-	 * atttribute number to attribute name.
+	 * atttribute number to attribute name.  Relation could be a table OR
+	 * a view.
 	 * @param $table The table to get attributes for
 	 * @param $atts An array of attribute numbers
 	 * @return An array mapping attnum to attname
@@ -1087,11 +1088,12 @@ class Postgres extends BaseDB {
 	}
 	
 	/**
-	 * Alters a column in a table
+	 * Alters a column in a table OR view
 	 * @param $table The table in which the column resides
 	 * @param $column The column to alter
 	 * @param $name The new name for the column
 	 * @param $notnull (boolean) True if not null, false otherwise
+	 * @param $oldnotnull (boolean) True if column is already not null, false otherwise
 	 * @param $default The new default for the column
 	 * @param $olddefault The old default for the column
 	 * @param $comment Comment for the column
@@ -1101,17 +1103,19 @@ class Postgres extends BaseDB {
 	 * @return -3 rename column error
 	 * @return -4 comment error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $default, $olddefault, $comment) {
+	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, $comment) {
 	  	$this->clean($comment);
 		$this->beginTransaction();
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
-		$status = $this->setColumnNull($table, $column, !$notnull);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
+		if ($notnull != $oldnotnull) {
+			$status = $this->setColumnNull($table, $column, !$notnull);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
 		}
-
+		
 		// Set default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '')
@@ -1125,7 +1129,7 @@ class Postgres extends BaseDB {
 			}
 		}
 
-		$status = $this->setComment('COLUMN', ($column != $name) ? $name: $column, $table, $comment);
+		$status = $this->setComment('COLUMN', $column, $table, $comment);
 		if ($status != 0) {
 		  $this->rollbackTransaction();
 		  return -4;
