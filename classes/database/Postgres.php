@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.108 2003/05/17 15:51:37 chriskl Exp $
+ * $Id: Postgres.php,v 1.109 2003/05/18 11:53:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -756,6 +756,9 @@ class Postgres extends BaseDB {
 			$this->rollbackTransaction();
 			return -3;
 		}
+
+		// Set fetch mode to NUM so that duplicate field names are properly returned
+		$this->conn->setFetchMode(ADODB_FETCH_NUM);
 
 		// Actually retrieve the rows, with offset and limit
 		// @@@@@@@@@@@@@@ THIS NEXT LINE ONLY WORKS IN POSTGRESQL 7.2+ @@@@@@@@@@@@@@@@@

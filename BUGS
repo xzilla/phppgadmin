@@ -1,3 +1,2 @@
-* Browsing reports with two identical column names is broken.
 * Lots more printVal()ing needs to be done.  Whenever displaying user data, 
   it should use $misc->printVal($var) instead of htmlspecialchars($var).

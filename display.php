@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.15 2003/05/05 14:46:41 chriskl Exp $
+	 * $Id: display.php,v 1.16 2003/05/18 11:53:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -41,30 +41,31 @@
 
 	// Retrieve page from table.  $max_pages is returned by reference.
 	$rs = &$localData->browseSQL($sub, $_REQUEST['count'], $_REQUEST['page'], $conf['max_rows'], $max_pages);
-
+	
 	if (is_object($rs) && $rs->recordCount() > 0) {
 		// Show page navigation
 		$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&{$misc->href}&query=" .
 			urlencode($_REQUEST['query']) . '&count=' . urlencode($_REQUEST['count']) . '&return_url=' .
 			urlencode($_REQUEST['return_url']) . '&return_desc=' . urlencode($_REQUEST['return_desc']));
 		echo "<table>\n<tr>";
-		reset($rs->f);
-		while(list($k, ) = each($rs->f)) {
-			echo "<th class=\"data\">", $misc->printVal($k), "</th>";
+		
+		foreach ($rs->f as $k => $v) {
+			$finfo = $rs->fetchField($k);
+			echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 		}
 
-		$i = 0;
-		reset($rs->f);
+		$i = 0;		
 		while (!$rs->EOF) {
 			$id = (($i % 2) == 0 ? '1' : '2');
 			echo "<tr>\n";
-			while(list($k, $v) = each($rs->f)) {
+			foreach ($rs->f as $k => $v) {
 				echo "<td class=\"data{$id}\">", $misc->printVal($v), "</td>";
 			}							
 			echo "</tr>\n";
 			$rs->moveNext();
 			$i++;
 		}
+		
 		echo "</table>\n";
 		echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 	}
