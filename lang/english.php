@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.157 2004/07/22 13:29:19 jollytoad Exp $
+	 * $Id: english.php,v 1.158 2004/07/23 07:28:24 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -476,7 +476,7 @@
 	$lang['strconfdroptype'] = 'Are you sure you want to drop the type "%s"?';
 	$lang['strtypedropped'] = 'Type dropped.';
 	$lang['strtypedroppedbad'] = 'Type drop failed.';
-	$lang['strflavour'] = 'Flavour';
+	$lang['strflavour'] = 'Flavor';
 	$lang['strbasetype'] = 'Base';
 	$lang['strcompositetype'] = 'Composite';
 	$lang['strpseudotype'] = 'Pseudo';
