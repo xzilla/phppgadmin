@@ -23,6 +23,7 @@ Bugs
 * Fix reindex of mixed case indexes
 * Show domains in type lists in appropriate places
 * Fix for multiline CDATA parsing in XML import
+* Fix missing _schema notice in reports
 
 Version 3.4
 -----------
