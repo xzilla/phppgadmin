@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.13 2003/09/11 03:30:19 chriskl Exp $
+	 * $Id: italian.php,v 1.14 2003/09/12 01:45:43 chriskl Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -118,6 +118,7 @@
 	$lang['strinstatement'] = 'Nel costrutto:';
 	$lang['strinvalidparam'] = 'Parametri di script non validi.';
         $lang['strnodata'] = 'Nessuna riga trovata.';
+	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
 
         // Tables - Tabelle
 	$lang['strtable'] = 'Tabella';
@@ -292,6 +293,8 @@
 	$lang['strconfdropsequence'] = 'Sei sicuro di volere eliminare la sequenza "%s"?';
 	$lang['strsequencedropped'] = 'Sequenza eliminata.';
 	$lang['strsequencedroppedbad'] = 'Eliminazione della sequenza fallita.';
+	$lang['strsequencereset'] = 'Reset della sequenza effettuato.';
+	$lang['strsequenceresetbad'] = 'Reset della sequenza fallito.'; 
 
 	// Indexes - Indici
 	$lang['strindexes'] = 'Indici';
@@ -451,7 +454,6 @@
         $lang['strreportneedsdef'] = 'È necessario inserire il codice SQL per il report.';
         $lang['strreportcreated'] = 'Report salvato';
         $lang['strreportcreatedbad'] = 'Salvataggio del report fallito.';
-	$lang['strsaveasreport'] = 'Salva come Report';
 
 	// Domains - Domini
 	$lang['strdomain'] = 'Dominio';
