@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.19 2003/01/11 08:32:27 chriskl Exp $
+	 * $Id: tables.php,v 1.20 2003/01/11 09:25:21 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -180,12 +180,8 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					echo "<td class=data{$id} nowrap>";
-					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull'])
-						echo "<input type=checkbox name=\"show[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
-					else
-						echo "&nbsp;</td>";
+					echo "<input type=checkbox name=\"show[{$attrs->f['attname']}]\"",
+						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
 					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
 					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
 					echo "<td class=data{$id} nowrap>";
@@ -216,6 +212,7 @@
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			$localData->getSelectSQL($query, $count);
 			$status = $localData->selectRows($_POST['table'], $_POST['values'], $_POST['nulls']);
 			if ($status == 0) {
 				// @@ This test here is sort of dodgy!

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.7 2003/01/08 06:45:41 chriskl Exp $
+	 * $Id: Misc.php,v 1.8 2003/01/11 09:25:21 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -104,6 +104,25 @@
 				echo "</head>\n";
 				if ($doBody) echo "<body>\n";
 			}
+		}
+		
+		/** 
+		 * Display the navigation header for tables
+		 */
+		function printTableNav() {
+			global $strColumns, $strIndexes, $strConstraints, $strTriggers, $strRules, $strExport, $strPrivileges;
+
+			$vars = $this->href . '&table=' . urlencode($_REQUEST['table']);
+
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
+			echo "<tr><td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$strColumns}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"indexes.php?{$vars}\">{$strIndexes}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$strConstraints}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$strTriggers}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$strRules}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
+			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
+			echo "</table>\n";
 		}
 		
 		/**

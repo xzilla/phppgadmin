@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.20 2003/01/11 09:04:57 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.21 2003/01/11 09:25:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,8 +16,8 @@
 		global $data, $localData, $misc; 
 		global $PHP_SELF;
 		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName, $strPrivileges;
-		
-		doNav();
+
+		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
 		$misc->printMsg($msg);
 
@@ -50,133 +50,11 @@
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=createtrigger&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateTrigger}</a></p>\n";
 	}
 
-	/**
-	 * Displays a screen where they can enter a new index
-	 */
-	function doCreateIndex($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition, $strCreateIndex, $strIndicies, $strShowAllIndicies, $strColumns, $strSave, $strReset, $strExample;
-
-		if (!isset($_POST['formIndex'])) $_POST['formIndex'] = '';
-		if (!isset($_POST['formCols'])) $_POST['formCols'] = '';
-
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strIndicies} : {$strCreateIndex} </h2>\n";
-		$misc->printMsg($msg);
-		
-		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formIndex size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formIndex']), "\"></td></tr>\n";
-		echo "<tr><th class=data>{$strColumns}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formCols size={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formCols']), "\"> ({$strExample} col1, col2)</td></tr>\n";
-		echo "</table>\n";
-		echo "<p><input type=hidden name=action value=save_create_index>\n";
-		echo $misc->form;
-		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\"></p>\n";
-		echo "</form>\n";
-		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']), 
-			"&action=indicies\">{$strShowAllIndicies}</a></p>\n";
-	}
-
-	/**
-	 * Actually creates the new index in the database
-	 * @@ Note: this function can't handle columns with commas in them
-	 */
-	function doSaveCreateIndex() {
-		global $localData;
-		global $strIndexNeedsName, $strIndexNeedsCols, $strIndexCreated, $strIndexCreatedBad;
-		
-		// Check that they've given a name and at least one column
-		if ($_POST['formIndex'] == '') doCreateIndex("{$strIndexNeedsName}");
-		elseif ($_POST['formCols'] == '') doCreate("{$strIndexNeedsCols}");
-		else {
-			$status = $localData->createIndex($_POST['formIndex'], $_POST['table'], explode(',', $_POST['formCols']));
-			if ($status == 0)
-				doIndicies("{$strIndexCreated}");
-			else
-				doCreateIndex("{$strIndexCreatedBad}");
-		}
-	}
-
-	/**
-	 * Show confirmation of drop index and perform actual drop
-	 */
-	function doDropIndex($confirm) {
-		global $localData, $database, $misc;
-		global $PHP_SELF, $strConfDropIndex, $strIndexDropped, $strIndexDroppedBad, $strYes, $strNo;
-
-		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['index']), ": Drop</h2>\n";
-
-			echo "<p>{$strConfDropIndex} \"", htmlspecialchars($_REQUEST['index']),
-				"\" from table \"", htmlspecialchars($_REQUEST['table']), "\"?</p>\n";
-			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop_index>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
-			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $localData->dropIndex($_POST['index'], 'RESTRICT');
-			if ($status == 0)
-				doIndicies("{$strIndexDropped}");
-			else
-				doIndicies("{$strIndexDroppedBad}");
-		}
-
-	}
-
-	function doIndicies($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF;
-		global $strNoIndicies, $strIndicies, $strActions, $strName, $strDefinition, $strCreateIndex, $strDrop, $strPrivileges;
-
-		doNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strIndicies}</h2>\n";
-		$misc->printMsg($msg);
-
-		$indexes = &$localData->getIndexes($_REQUEST['table']);
-		
-		if ($indexes->recordCount() > 0) {
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th colspan=\"2\" class=\"data\">{$strActions}</th>\n";
-			$i = 0;
-			
-			while (!$indexes->EOF) {
-				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $indexes->f[$data->ixFields['idxdef']]), "</td>";
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td>\n";
-				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges_index&{$misc->href}&index=", htmlspecialchars( $indexes->f[$data->ixFields['idxname']]), "\">{$strPrivileges}</td></tr>\n";
-
-				$indexes->movenext();
-				$i++;
-			}
-
-			echo "</table>\n";
-			}
-		else
-			echo "<p>{$strNoIndicies}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateIndex}</a></p>\n";		
-	}	
-
 	function doExport($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strExport, $strReset;
 		
-		doNav();
+		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strExport}</h2>\n";
 		$misc->printMsg($msg);
 
@@ -323,7 +201,7 @@
 		global $strKeyName, $strUnique, $strField, $strType, $strNotNull, $strDefault, $strAction, $strPrimary;
 		global $strSelect, $strInsert, $strDrop;
 
-		doNav();
+		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), "</h2>\n";
 
 		$attrs = &$localData->getTableAttributes($_REQUEST['table']);
@@ -362,44 +240,11 @@
 		}
 	}
 
-	function doNav() {
-		global $PHP_SELF, $misc;
-		global $strColumns, $strIndicies, $strConstraints, $strTriggers, $strRules, $strExport, $strPrivileges;
-
-		$vars = $misc->href . '&table=' . urlencode($_REQUEST['table']);
-		
-		echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-		echo "<tr><td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}\">{$strColumns}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=indicies\">{$strIndicies}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=constraints\">{$strConstraints}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=triggers\">{$strTriggers}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=rules\">{$strRules}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"privileges.php?action=get_privileges&{$misc->href}&object=", urlencode($_REQUEST['table']), "\">{$strPrivileges}</a></td>\n";
-		echo "<td width=\"14%\"><a href=\"{$PHP_SELF}?{$vars}&action=export\">{$strExport}</a></td></tr>\n";
-		echo "</table>\n";
-	}	
-
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table']);
 	
 	switch ($action) {
 		case 'triggers':
 			doTriggers();
-			break;
-		case 'save_create_index':
-			doSaveCreateIndex();
-			break;
-		case 'create_index':
-			doCreateIndex();
-			break;
-		case 'drop_index':
-			if ($_POST['choice'] == 'Yes') doDropIndex(false);
-			else doIndicies();
-			break;
-		case 'confirm_drop_index':
-			doDropIndex(true);
-			break;
-		case 'indicies':
-			doIndicies();
 			break;
 		case 'export':
 			doExport();

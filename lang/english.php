@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.37 2003/01/11 08:32:26 chriskl Exp $
+	 * $Id: english.php,v 1.38 2003/01/11 09:25:21 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -155,13 +155,13 @@
 	$strReset =	'Reset';
 
 	// Indexes
-	$strIndicies = 'Indexes';
+	$strIndexes = 'Indexes';
 	$strIndexName = 'Index Name';
 	$strTabName = 'Tab Name';
 	$strColumnName = 'Column Name';
 	$strUniqueKey = 'Unique Key';
 	$strPrimaryKey = 'Primary Key';
-	$strShowAllIndicies = 'Show All Indexes';
+	$strShowAllIndexes = 'Show All Indexes';
 	$strCreateIndex = 'Create Index';
 	$strIndexNeedsName = 'You must give a name for your index';
 	$strIndexNeedsCols = 'You must give a valid number of columns.';
