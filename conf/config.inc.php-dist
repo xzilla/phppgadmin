@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.38 2005/02/07 22:15:34 mr-russ Exp $
+	 * $Id: config.inc.php-dist,v 1.39 2005/02/08 13:32:45 mr-russ Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -94,9 +94,6 @@
 
 	// Send XHTML headers?  Unless debugging, it's best to leave this off
 	$conf['use_xhtml'] = false;
-
-	// Show current database at top of list?
-	$conf['current_db_at_top'] = false;
 
 	/*****************************************
 	 * Don't modify anything below this line *
