@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.5 2003/09/17 17:04:13 soranzo Exp $
+	 * $Id: turkish.php,v 1.6 2003/09/19 01:56:35 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -157,6 +157,7 @@
 	$lang['strcolumnalteredbad'] = 'Kolon de&#287;i&#351;tirilme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strcolumndropped'] = 'Kolon silindi.';
 	$lang['strcolumndroppedbad'] = 'Kolon silme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strconfdropcolumn'] = '&quot;%s&quot; kolonunu &quot;%s&quot; tablosundan silmek istedi&#287;inize emin misiniz?';
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
@@ -177,6 +178,7 @@
 	$lang['strexpires'] = 'Expires';
         $lang['struserupdated'] = 'Kullan&#305;c&#305; g&uuml;ncellendi.';
 	$lang['struserupdatedbad'] = 'Kullan&#305;c&#305; g&uuml;ncelleme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strnousers'] = 'Hi&ccedil; bir kullan&#305;c&#305; bulunamad&#305;.';
 	$lang['strshowallusers'] = 'T&uuml;m kullan&#305;c&#305;lar&#305; g&ouml;ster.';
 	$lang['strcreateuser'] = 'Yeni kullan&#305;c&#305; yarat';
 	$lang['strusercreated'] = 'Kullan&#305;c&#305; yarat&#305;ld&#305;.';

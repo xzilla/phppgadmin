@@ -2,8 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 *
-	 * $Id: chinese-tr.php,v 1.7 2003/09/17 17:04:11 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.8 2003/09/19 01:56:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -32,7 +31,6 @@
 	$lang['stractions'] = '功能';
 	$lang['strname'] = '名字';
 	$lang['strdefinition'] = '定義';
-	$lang['stroperators'] = '運算子';
 	$lang['straggregates'] = '集合';
 	$lang['strproperties'] = '屬性';
 	$lang['strbrowse'] = '瀏覽';
@@ -74,6 +72,7 @@
 	$lang['strshow'] = '顯示';
 	$lang['strempty'] = '空';
 	$lang['strlanguage'] = '語言';
+	$lang['strproglanguage'] = '語言';
 	$lang['strencoding'] = '編碼';
 	$lang['strvalue'] = '值';
 	$lang['strunique'] = '獨一鍵';
@@ -116,7 +115,7 @@
 	$lang['strinstatement'] = '於陳述內：';
 	$lang['strinvalidparam'] = '無效的 script 變數。';
 	$lang['strnodata'] = '找不到任何資料列。';
-
+	$lang['strrownotunique'] = '此顯料列無獨特識別項。';
 	// Tables
 	$lang['strtable'] = '資料表';
 	$lang['strtables'] = '資料表';
@@ -149,6 +148,7 @@
 	$lang['strsaveandrepeat'] = '儲存並重覆';
 	$lang['strfield'] = '欄位';
 	$lang['strfields'] = '欄位';
+	$lang['strselectallfields'] = '選擇所有欄位';
 	$lang['strnumfields'] = '欄位數';
 	$lang['strfieldneedsname'] = '您需為您的欄位命名';
 	$lang['strselectneedscol'] = '至少應顯示一資料列';
@@ -289,6 +289,9 @@
 	$lang['strconfdropsequence'] = '您確定要刪除序列 "%s"?';
 	$lang['strsequencedropped'] = '成功刪除序列。';
 	$lang['strsequencedroppedbad'] = '刪除序列作業失敗。';
+	$lang['strsequencereset'] = '已重設序列。'; 
+    $lang['strsequenceresetbad'] = '重設序列失敗。'; 
+    
 
 	// Indexes
 	$lang['strindexes'] = '索引';
@@ -297,7 +300,6 @@
 	$lang['strnoindex'] = '找不到此索引。';
 	$lang['strnoindexes'] = '找不到任何索引。';
 	$lang['strcreateindex'] = '建立新索引';
-	$lang['strindexname'] = '索引名';
 	$lang['strtabname'] = '檢索名';
 	$lang['strcolumnname'] = '資料列名';
 	$lang['strindexneedsname'] = '您需為您的索引命名。';
@@ -311,7 +313,6 @@
 	$lang['struniquekey'] = '獨一鍵';
 	$lang['strprimarykey'] = '主索引鍵';
  	$lang['strindextype'] = '索引類型';
-	$lang['strindexname'] = '索引名';
 	$lang['strtablecolumnlist'] = '資料表所含的資料列';
 	$lang['strindexcolumnlist'] = '索引所含的資料列';
 
@@ -372,7 +373,6 @@
 	$lang['strfunctionname'] = '函數名';
 	$lang['strreturns'] = '返回';
 	$lang['strarguments'] = '參數';
-	$lang['strproglanguage'] = '語言';
 	$lang['strfunctionneedsname'] = '您需為您的函數命名。';
 	$lang['strfunctionneedsdef'] = '您必須定義您的函數。';
 	$lang['strfunctioncreated'] = '成功建立新函數。';

@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.5 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: turkish.php,v 1.6 2003/09/19 01:56:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -157,6 +157,7 @@
 	$lang['strcolumnalteredbad'] = 'Kolon deðiþtirilme iþlemi baþarýsýz oldu.';
 	$lang['strcolumndropped'] = 'Kolon silindi.';
 	$lang['strcolumndroppedbad'] = 'Kolon silme iþlemi baþarýsýz oldu.';
+	$lang['strconfdropcolumn'] = '"%s" kolonunu "%s" tablosundan silmek istediðinize emin misiniz?';
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
@@ -177,6 +178,7 @@
 	$lang['strexpires'] = 'Expires';
         $lang['struserupdated'] = 'Kullanýcý güncellendi.';
 	$lang['struserupdatedbad'] = 'Kullanýcý güncelleme iþlemi baþarýsýz oldu.';
+	$lang['strnousers'] = 'Hiç bir kullanýcý bulunamadý.';
 	$lang['strshowallusers'] = 'Tüm kullanýcýlarý göster.';
 	$lang['strcreateuser'] = 'Yeni kullanýcý yarat';
 	$lang['strusercreated'] = 'Kullanýcý yaratýldý.';

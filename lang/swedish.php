@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.4 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: swedish.php,v 1.5 2003/09/19 01:56:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -103,9 +103,11 @@
 	$lang['strfind'] = 'Sök';
 	$lang['stroptions'] = 'Alternativ';
 	$lang['strrefresh'] = 'Uppdatera';
-	$lang['strdownload'] = 'Ladda ner';
 	$lang['strcollapse'] = 'Förminska';
 	$lang['strexpand'] = 'Utöka';
+	$lang['strdownload'] = 'Ladda ner';
+
+	// Error handling
 	$lang['strnoframes'] = 'Du behöver en webläsare som stöder frames för att använda detta program.';
 	$lang['strnotloaded'] = 'Du har inte kompilerat in korrekt databasstöd i din PHP-installation.';
 	$lang['strbadconfig'] = 'Din config.inc.php är ej uppdaterad. Du måste återskapa den från den nya config.inc.php-dist.';
@@ -367,12 +369,12 @@
 	$lang['strfunctionname'] = 'Funktionsnamn';
 	$lang['strreturns'] = 'Återger';
 	$lang['strarguments'] = 'Argument';
-	$lang['strproglanguage'] = 'Språk';
 	$lang['strfunctionneedsname'] = 'Du måste namnge din funktion.';
 	$lang['strfunctionneedsdef'] = 'Du måste definiera din funktion.';
 	$lang['strfunctioncreated'] = 'Funktion skapad.';
 	$lang['strfunctioncreatedbad'] = 'Misslyckades att skapa funktion.';
 	$lang['strconfdropfunction'] = 'Är du säker på att du vill radera funktionen "%s"?';
+	$lang['strproglanguage'] = 'Programmeringsspråk';
 	$lang['strfunctiondropped'] = 'Funktionen raderad.';
 	$lang['strfunctiondroppedbad'] = 'Misslyckades att radera funktion.';
 	$lang['strfunctionupdated'] = 'Funktion uppdaterad.';

@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.18 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: spanish.php,v 1.19 2003/09/19 01:56:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -107,7 +107,7 @@
 	$lang['strdownload'] = 'Bajar';
 
 	// Error handling
-	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicación.';
+	$lang['strnoframes'] = 'Necesitás un navegador con soporte de marcos para usar esta aplicación.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php está desactualizado. Deberá regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versión de PHP no tiene el soporte correcto de bases de datos.';
 	$lang['strbadschema'] = 'El esquema especificado no es válido.';
@@ -116,6 +116,7 @@
 	$lang['strinstatement'] = 'En la declaración:';
 	$lang['strinvalidparam'] = 'Parámetros de script no válidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
+	$lang['strrownotunique'] = 'No existe un identificador único para este registro.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -169,6 +170,7 @@
 	$lang['strtablealtered'] = 'Tabla modificada.';
 	$lang['strtablealteredbad'] = 'Falló la modificación  de la Tabla.';
 
+        // Users
 	$lang['struser'] = 'Usuario';
 	$lang['strusers'] = 'Usuarios';
 	$lang['strusername'] = 'Nombre de usuario';
@@ -193,6 +195,7 @@
 	$lang['strpasswordshort'] = 'La contraseña es muy corta.';
 	$lang['strpasswordconfirm'] = 'Las contraseñas no coinciden.';
 
+        // Groups
 	$lang['strgroups'] = 'Grupos';
         $lang['strgroup'] = 'Grupo';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
@@ -222,7 +225,7 @@
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados/revocados.';
 	$lang['strgrantfailed'] = 'Falló al intendar otorgar privilegios.';
-        $lang['strgrantor'] = 'Grantor';
+        $lang['strgrantor'] = 'Cedente';
         $lang['strasterisk'] = '*';
 	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
 	$lang['stralterprivs'] = 'Cambiar Privilegios';
@@ -288,6 +291,8 @@
 	$lang['strconfdropsequence'] = '¿Está seguro que quiere eliminar la secuencia "%s"?';
 	$lang['strsequencedropped'] = 'Secuencia eliminada.';
 	$lang['strsequencedroppedbad'] = 'Falló la eliminación de la secuencia.';
+	$lang['strsequencereset'] = 'Secuencia reiniciada.';
+	$lang['strsequenceresetbad'] = 'Falló al intentar reiniciar la secuencia.'; 
 
 	// Indexes
 	$lang['strindexes'] = 'Índices';
@@ -371,7 +376,7 @@
 	$lang['strfunctionname'] = 'Nombre de la función';
 	$lang['strreturns'] = 'Devuelve';
 	$lang['strarguments'] = 'Argumentos';
-	$lang['strproglanguage'] = 'Idioma';
+        $lang['strproglanguage'] = 'Lenguaje de programación';
 	$lang['strfunctionneedsname'] = 'Debe darle un nombre a la función.';
 	$lang['strfunctionneedsdef'] = 'Debe darle una definición a la función.';
 	$lang['strfunctioncreated'] = 'Función creada.';
@@ -409,7 +414,7 @@
 	$lang['strtypename'] = 'Nombre del tipo';
 	$lang['strinputfn'] = 'Función de entrada';
 	$lang['stroutputfn'] = 'Función de salida';
-	$lang['strpassbyval'] = '¿Pasar por valor?';
+	$lang['strpassbyval'] = '¿Pasar valor?';
 	$lang['stralignment'] = 'Alineamiento';
 	$lang['strelement'] = 'Elemento';
 	$lang['strdelimiter'] = 'Delimitador';
@@ -472,9 +477,9 @@
 	$lang['strnooperators'] = 'No se encontraron operadores.';
 	$lang['strcreateoperator'] = 'Crear Operador';
 	$lang['stroperatorname'] = 'Nombre del operador';
-	$lang['strleftarg'] = 'Left Arg Type';
-	$lang['strrightarg'] = 'Right Arg Type';
-	$lang['stroperatorneedsname'] = 'Debe darle un nombre a su operador.';
+	$lang['strleftarg'] = 'Tipo de datos del arg. izquierdo';
+	$lang['strrightarg'] = 'Tipo de datos del arg. derecho';
+	$lang['stroperatorneedsname'] = 'Debe darle un nombre al operador.';
 	$lang['stroperatorcreated'] = 'Operador creado';
 	$lang['stroperatorcreatedbad'] = 'Falló al intentar crear el operador.';
 	$lang['strconfdropoperator'] = '¿Está seguro que quiere eliminar el operador "%s"?';

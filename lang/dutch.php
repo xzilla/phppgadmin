@@ -4,17 +4,24 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.11 2003/09/17 17:04:11 soranzo Exp $
+	 * $Id: dutch.php,v 1.12 2003/09/19 01:56:34 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'nl_NL';
-  	$lang['appdbencoding'] = 'LATIN1';
+	$lang['appdbencoding'] = 'LATIN1';
   
 	$lang['strnoframes'] = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Geen tabellen gevonden.';
+$lang['strppahome'] = 'phpPgAdmin Homepage';
+$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
+$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+$lang['strlocaldocs'] = 'PostgreSQL Documentatie (lokaal)';
+$lang['strreportbug'] = 'Meldt een fout';
+$lang['strviewfaq'] = 'Bekijk FAQ';
+$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strnotable'] = 'Geen tabel gevonden.';
 	$lang['strnoviews'] = 'Geen views gevonden.';
 	$lang['strnofunctions'] = 'Geen functies gevonden.';
@@ -45,7 +52,7 @@
 	$lang['strprev'] = 'Vorige';
 	$lang['strnext'] = 'Volgende';
 	$lang['strfailed'] = 'mislukt';
-	$lang['strnotloaded'] = 'Deze PHP-install is zonder ondersteuning dit type database niet gecompileerd.';
+	$lang['strnotloaded'] = 'Deze PHP-installatie is zonder ondersteuning van dit type database gecompileerd.';
 	$lang['strcreate'] = 'Creëer';
 	$lang['strcomment'] = 'Commentaar';
 
@@ -54,6 +61,8 @@
 	$lang['stralter'] = 'Wijzig';
 	$lang['strcancel'] = 'Cancel';
 	$lang['strprivileges'] = 'Privileges';
+$lang['strtrue'] = 'True';
+$lang['strfalse'] = 'False';
 	$lang['strinsert'] = 'Voeg in';
 	$lang['strselect'] = 'Selecteer';
 	$lang['strdelete'] = 'Verwijder';
@@ -65,11 +74,11 @@
 	$lang['strno'] = 'Nee';
 	$lang['stredit'] = 'Edit';
 	$lang['strinvalidparam'] = 'Ongeldige parameters.';
-	$lang['strlanguage'] = 'taal';
 
 	// Error handling
 	$lang['strsqlerror'] = 'SQL fout:';
 	$lang['strinstatement'] = 'In statement:';
+$lang['strimport'] = 'Importeer';
 	
 	// Users
 	$lang['struser'] = 'Gebruiker';
@@ -84,6 +93,12 @@
 	// Databases
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabases'] = 'Databases';
+$lang['strdata'] = 'Data';
+$lang['strconfirm'] = 'Bevestig';
+$lang['strexpression'] = 'Uitdrukking';
+$lang['strellipsis'] = '...';
+$lang['strexpand'] = 'Uitvouwen';
+$lang['strcollapse'] = 'Inklappen';
 	$lang['strnodatabases'] = 'Geen Databases gevonden.';
 	$lang['strdatabaseneedsname'] = 'U dient uw database een naam te geven.';
 	
@@ -131,7 +146,7 @@
 	// Functions
 	$lang['strreturns'] = 'Retourneert';
 	$lang['strarguments'] = 'Argumenten';
-	$lang['strproglanguage'] = 'taal';
+	$lang['strlanguage'] = 'taal';
 	$lang['strfunctionneedsname'] = 'U dient uw functie een naam te geven.';
 	$lang['strfunctionneedsdef'] = 'U dient uw functie te definiëren.';
 	
@@ -143,6 +158,7 @@
 	// Types
 	$lang['strtype'] = 'Type';
 	$lang['strtypes'] = 'Types';
+$lang['strcascade'] = 'CASCADE';
 	$lang['strnotypes'] = 'Geen types gevonden.';
 	$lang['strcreatetype'] = 'creëer type';
 	$lang['strconfdroptype'] = 'Weet u zeker dat u het type \"%s\" wilt verwijderen?';
@@ -163,7 +179,13 @@
 
 	// New translations
 	$lang['strintro'] = 'Welkom bij phpPgAdmin.';
-	$lang['strloginfailed'] = 'Inloggen mislukt failed';
+$lang['straccount'] = 'Account';
+$lang['strchangepassword'] = 'Verander wachtwoord';
+$lang['strpasswordchanged'] = 'Wachtwoord veranderd.';
+$lang['strpasswordchangedbad'] = 'Wachtwoord veranderen mislukt.';
+$lang['strpasswordshort'] = 'Wachtwoord is te kort.';
+$lang['strpasswordconfirm'] = 'Wachtwoord verschilt van bevestigings-wachtwoord.';
+	$lang['strloginfailed'] = 'Inloggen mislukt';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Log uit';
 	$lang['strcreated'] = 'Aangemaakt';
@@ -188,6 +210,9 @@
 	$lang['stradd'] = 'Voeg toe';
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
+$lang['strgrantbad'] = 'U dient minstens &eacute;&eacute;n gebruiker of
+groep en minstens &eacute;&eacute;n privilege op te geven.';
+$lang['stralterprivs'] = 'Wijzig privilege';
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'zodra';
 	$lang['strformat'] = 'Format';
@@ -196,7 +221,7 @@
 	$lang['strbadencoding'] = 'Het zetten van de client encoding in de database is mislukt.';
 	$lang['strnodata'] = 'Geen rijen gevonden.';
 	$lang['strtablename'] = 'Tabelnaam';
-	$lang['strtableneedsfield'] = 'U dient ten minste éé veld te specificeren.';
+	$lang['strtableneedsfield'] = 'U dient ten minste één veld te specificeren.';
 	$lang['strtablecreated'] = 'Tabel aangemaakt.';
 	$lang['strtablecreatedbad'] = 'Het aanmaken van de tabel is mislukt.';
 	$lang['strconfdroptable'] = 'Weet u zeker dat u de tabel "%s" wilt verwijderen?';
@@ -230,18 +255,14 @@
 	$lang['strschemaanddata'] = 'Schema & Data';
 	$lang['strschemaonly'] = 'Enkel schema';
 	$lang['strdataonly'] = 'Enkel data';
-	$lang['struseradmin'] = 'Gebruikers Admin';
 	$lang['strusers'] = 'gebruikers';
 	$lang['struserupdated'] = 'gebruiker geupdate.';
 	$lang['struserupdatedbad'] = 'gebruikerupdate mislukt.';
 	$lang['strshowallusers'] = 'Toon alle gebruikers';
-	$lang['strcreateuser'] = 'Maak gebruiker aan';
 	$lang['strusercreated'] = 'Gebruiker aangemaakt.';
-	$lang['strusercreatedbad'] = 'Het aanmaken van een gebruiker is mislukt.';
 	$lang['strconfdropuser'] = 'Weet u zeker dat u de gebruiker "%s" wilt verwijderen?';
 	$lang['struserdropped'] = 'Gebruiker verwijderd.';
 	$lang['struserdroppedbad'] = 'Verwijdering van de gebruiker mislukt.';
-	$lang['strgroupadmin'] = 'Groep Admin';
 	$lang['strgroups'] = 'Groepen';
 	$lang['strnogroup'] = 'Groep niet gevonden.';
 	$lang['strnogroups'] = 'Geen groepen gevonden.';
@@ -260,8 +281,6 @@
 	$lang['strrevoke'] = 'Ontzeg';
 	$lang['strgranted'] = 'Rechten toegevoegd.';
 	$lang['strgrantfailed'] = 'Rechten toevoegen is mislukt.';
-	$lang['strgrantuser'] = 'Sta gebruiker toe';
-	$lang['strgrantgroup'] = 'Sta groep toe';
 	$lang['strshowalldatabases'] = 'Toon alle databases';
 	$lang['strnodatabase'] = 'Geen database gevonden.';
 	$lang['strcreatedatabase'] = 'Maak database aan';

@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.17 2003/09/17 17:04:13 soranzo Exp $
+	 * $Id: spanish.php,v 1.18 2003/09/19 01:56:35 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -107,7 +107,7 @@
 	$lang['strdownload'] = 'Bajar';
 
 	// Error handling
-	$lang['strnoframes'] = 'Necesitas un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
+	$lang['strnoframes'] = 'Necesit&aacute;s un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php est&aacute; desactualizado. Deber&aacute; regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versi&oacute;n de PHP no tiene el soporte correcto de bases de datos.';
 	$lang['strbadschema'] = 'El esquema especificado no es v&aacute;lido.';
@@ -116,6 +116,7 @@
 	$lang['strinstatement'] = 'En la declaraci&oacute;n:';
 	$lang['strinvalidparam'] = 'Par&aacute;metros de script no v&aacute;lidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
+	$lang['strrownotunique'] = 'No existe un identificador &uacute;nico para este registro.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -169,6 +170,7 @@
 	$lang['strtablealtered'] = 'Tabla modificada.';
 	$lang['strtablealteredbad'] = 'Fall&oacute; la modificaci&oacute;n  de la Tabla.';
 
+        // Users
 	$lang['struser'] = 'Usuario';
 	$lang['strusers'] = 'Usuarios';
 	$lang['strusername'] = 'Nombre de usuario';
@@ -193,6 +195,7 @@
 	$lang['strpasswordshort'] = 'La contrase&ntilde;a es muy corta.';
 	$lang['strpasswordconfirm'] = 'Las contrase&ntilde;as no coinciden.';
 
+        // Groups
 	$lang['strgroups'] = 'Grupos';
         $lang['strgroup'] = 'Grupo';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
@@ -222,7 +225,7 @@
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados/revocados.';
 	$lang['strgrantfailed'] = 'Fall&oacute; al intendar otorgar privilegios.';
-        $lang['strgrantor'] = 'Grantor';
+        $lang['strgrantor'] = 'Cedente';
         $lang['strasterisk'] = '*';
 	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
 	$lang['stralterprivs'] = 'Cambiar Privilegios';
@@ -288,6 +291,8 @@
 	$lang['strconfdropsequence'] = '&iquest;Est&aacute; seguro que quiere eliminar la secuencia &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Secuencia eliminada.';
 	$lang['strsequencedroppedbad'] = 'Fall&oacute; la eliminaci&oacute;n de la secuencia.';
+	$lang['strsequencereset'] = 'Secuencia reiniciada.';
+	$lang['strsequenceresetbad'] = 'Fall&oacute; al intentar reiniciar la secuencia.'; 
 
 	// Indexes
 	$lang['strindexes'] = '&Iacute;ndices';
@@ -371,7 +376,7 @@
 	$lang['strfunctionname'] = 'Nombre de la funci&oacute;n';
 	$lang['strreturns'] = 'Devuelve';
 	$lang['strarguments'] = 'Argumentos';
-	$lang['strproglanguage'] = 'Idioma';
+        $lang['strproglanguage'] = 'Lenguaje de programaci&oacute;n';
 	$lang['strfunctionneedsname'] = 'Debe darle un nombre a la funci&oacute;n.';
 	$lang['strfunctionneedsdef'] = 'Debe darle una definici&oacute;n a la funci&oacute;n.';
 	$lang['strfunctioncreated'] = 'Funci&oacute;n creada.';
@@ -409,7 +414,7 @@
 	$lang['strtypename'] = 'Nombre del tipo';
 	$lang['strinputfn'] = 'Funci&oacute;n de entrada';
 	$lang['stroutputfn'] = 'Funci&oacute;n de salida';
-	$lang['strpassbyval'] = '&iquest;Pasar por valor?';
+	$lang['strpassbyval'] = '&iquest;Pasar valor?';
 	$lang['stralignment'] = 'Alineamiento';
 	$lang['strelement'] = 'Elemento';
 	$lang['strdelimiter'] = 'Delimitador';
@@ -472,9 +477,9 @@
 	$lang['strnooperators'] = 'No se encontraron operadores.';
 	$lang['strcreateoperator'] = 'Crear Operador';
 	$lang['stroperatorname'] = 'Nombre del operador';
-	$lang['strleftarg'] = 'Left Arg Type';
-	$lang['strrightarg'] = 'Right Arg Type';
-	$lang['stroperatorneedsname'] = 'Debe darle un nombre a su operador.';
+	$lang['strleftarg'] = 'Tipo de datos del arg. izquierdo';
+	$lang['strrightarg'] = 'Tipo de datos del arg. derecho';
+	$lang['stroperatorneedsname'] = 'Debe darle un nombre al operador.';
 	$lang['stroperatorcreated'] = 'Operador creado';
 	$lang['stroperatorcreatedbad'] = 'Fall&oacute; al intentar crear el operador.';
 	$lang['strconfdropoperator'] = '&iquest;Est&aacute; seguro que quiere eliminar el operador &quot;%s&quot;?';
