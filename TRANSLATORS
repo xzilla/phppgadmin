@@ -20,8 +20,8 @@ Once you have Recode installed, these are the steps to creating a new translatio
 2. Copy english.php to yourlanguage.php
 
 3. Update the comment at the top of the file.  Put yourself as the language maintainer.
-   Edit the $appLang variable and put your language's name in it, in your language.
-   Edit the $appCharSet variable and put in the name of the encoding for your language.
+   Edit the 'applang' variable and put your language's name in it, in your language.
+   Edit the 'appcharset' variable and put in the name of the encoding for your language.
 
 4. Go through as much of the rest of the file as you wish, replacing the English strings
    with strings in your language.
@@ -39,7 +39,7 @@ Once you have Recode installed, these are the steps to creating a new translatio
    characters as well as the characters of the language in your database.
 
 8. To add your language to phpPgAdmin's login screen, edit libraries/lib.inc.php and add
-   your language to the $appLangFiles array.  You must include the HTML encoding version
+   your language to the $appLangFiles array.  You must include the HTML encoded version
    of your language's name.  You can get this from the recoded version of your translated
    strings file.
 
@@ -49,6 +49,10 @@ Once you have Recode installed, these are the steps to creating a new translatio
 
 10. Thank you for your contribution!  You have just made phpPgAdmin accessible to
    thousands more users!
+
+11. There exists a tool named 'langcheck' in the lang/ directory.  To run it, just type
+   'php langcheck <language>'.  It will give you a report about which strings are missing
+   from your language file and which need to be deleted.
 
 
 Appendix A: Ways to Get Recode
