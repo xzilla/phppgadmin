@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.112 2003/05/19 15:15:49 chriskl Exp $
+ * $Id: Postgres.php,v 1.113 2003/05/20 03:54:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -68,9 +68,9 @@ class Postgres extends BaseDB {
 	var $codemap = array(
 		'ALT' => 'CP866',
 		'EUC_CN' => 'GB2312',
-		'EUC_JP' => 'EUCJP',
-		'EUC_KR' => 'EUCKR',
-		'EUC_TW' => 'EUCTW', 
+		'EUC_JP' => 'EUC-JP',
+		'EUC_KR' => 'EUC-KR',
+		'EUC_TW' => 'EUC-TW', 
 		'ISO_8859_5' => 'ISO-8859-5',
 		'ISO_8859_6' => 'ISO-8859-6',
 		'ISO_8859_7' => 'ISO-8859-7',
