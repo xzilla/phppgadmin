@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.31 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: privileges.php,v 1.32 2004/09/08 09:59:32 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -23,8 +23,6 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		$misc->printTrail($_REQUEST['subject']);
-		
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = array();
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = array();
 		if (!isset($_REQUEST['privilege'])) $_REQUEST['privilege'] = array();
@@ -45,7 +43,9 @@
 			$users = &$data->getUsers();
 			// Get groups from the database
 			$groups = &$data->getGroups();
-
+		
+			$misc->printTrail($_REQUEST['subject']);
+			
 			switch ($mode) {
 				case 'grant':
 					$misc->printTitle($lang['strgrant'],'pg.privilege.grant');
