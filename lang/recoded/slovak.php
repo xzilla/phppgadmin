@@ -20,18 +20,18 @@
 	$lang['strreportbug'] = 'Ozn&aacute;mi&#357; Chybu';
 	$lang['strviewfaq'] = 'Zobrazi&#357; FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
 	$lang['strlogin'] = 'Prihl&aacute;senie';
 	$lang['strloginfailed'] = 'Prihl&aacute;senie zlyhalo';
+	$lang['strlogindisallowed']  =  'Prihl&aacute;senie je vypnut&eacute; k&ocirc;li bezpe&#269;nosti';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Odhl&aacute;si&#357;';
 	$lang['strowner'] = 'Vlastn&iacute;k';
 	$lang['straction'] = 'Akcia';
-	$lang['strlogindisallowed'] = 'Prihl&aacute;senie nie je dostupn&eacute;';
 	$lang['stractions'] = 'Akcie';
 	$lang['strname'] = 'Meno';
 	$lang['strdefinition'] = 'Defin&iacute;cia';
-	$lang['stroperators'] = 'Oper&aacute;tory';
-	$lang['straggregates'] = 'Agreg&aacute;ty';
 	$lang['strproperties'] = 'Vlastnosti';
 	$lang['strbrowse'] = 'Prehliada&#357;';
 	$lang['strdrop'] = 'Odstr&aacute;ni&#357;';
@@ -40,9 +40,9 @@
 	$lang['strnotnull'] = 'Ne-nulov&yacute;';
 	$lang['strprev'] = 'Predch&aacute;dzaj&uacute;ci';
 	$lang['strnext'] = '&#270;a&#318;&scaron;&iacute;';
-	$lang['strfailed'] = 'Zlyhalo';
 	$lang['strfirst'] = '&lt;&lt; Prv&yacute;';
 	$lang['strlast'] = 'Posledn&yacute; &gt;&gt;';
+	$lang['strfailed']  =  'Chyba.';
 	$lang['strcreate'] = 'Vytvori&#357;';
 	$lang['strcreated'] = 'Vytvoren&eacute;';
 	$lang['strcomment'] = 'Koment&aacute;r';
@@ -60,16 +60,16 @@
 	$lang['strreferences'] = 'Referencie';
 	$lang['stryes'] = '&Aacute;no';
 	$lang['strno'] = 'Nie';
-	$lang['stredit'] = 'Upravi&#357;';
-	$lang['strcolumns'] = 'St&#314;pce';
 	$lang['strtrue'] = 'True';
 	$lang['strfalse'] = 'False';
+	$lang['stredit']  =  'Upravi&#357;';
+	$lang['strcolumns']  =  'St&#314;pce';
 	$lang['strrows'] = 'riadky';
+	$lang['strrowsaff']  =  'riadkov ovplyvnen&yacute;ch.';
+	$lang['strobjects']  =  'objekt(y)';
 	$lang['strexample'] = 'napr.';
 	$lang['strback'] = 'Sp&auml;&#357;';
-	$lang['strrowsaff'] = 'ovplyvnen&yacute;ch riadkov.';
 	$lang['strqueryresults'] = 'V&yacute;sledky Dotazu';
-	$lang['strobjects'] = 'objekt(y)';
 	$lang['strshow'] = 'Uk&aacute;za&#357;';
 	$lang['strempty'] = 'Vypr&aacute;zdni&#357;';
 	$lang['strlanguage'] = 'Jazyk';
@@ -78,46 +78,34 @@
 	$lang['strunique'] = 'Unik&aacute;tny';
 	$lang['strprimary'] = 'Prim&aacute;rny';
 	$lang['strexport'] = 'Exportova&#357;';
+	$lang['strimport']  =  'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Vykonaj';
-	$lang['strimport'] = 'Importova&#357;';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vy&#269;isti&#357;';
 	$lang['stranalyze'] = 'Analyzova&#357;';
 	$lang['strcluster'] = 'Cluster';
+	$lang['strclustered']  =  'Clustered?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spusti&#357;';
 	$lang['stradd'] = 'Prida&#357;';
-	$lang['strclustered'] = 'Clustered?';
 	$lang['strevent'] = 'Pr&iacute;padne';
 	$lang['strwhere'] = 'Kde';
 	$lang['strinstead'] = 'Urobi&#357; Namiesto';
 	$lang['strwhen'] = 'Kedy';
 	$lang['strformat'] = 'Form&aacute;t';
-	$lang['strnoaggregates'] = 'Nen&aacute;jden&eacute; &#382;iadne agreg&aacute;ty.';
-	$lang['strscan'] = 'Skenova&#357;';
-	$lang['strread'] = '&#268;&iacute;ta&#357;';
-	$lang['strfetch'] = 'Z&iacute;ska&#357;';
-	$lang['strheap'] = 'Nahromadi&#357;';
-	$lang['straccessmethod'] = 'Pr&iacute;stupov&aacute; met&oacute;da';
-	$lang['strrowperf'] = 'Row V&yacute;kon';
-	$lang['strioperf'] = 'I/O V&yacute;kon';
-	$lang['strpercent'] = '%';
-
-	// Error handling
 	$lang['strdata'] = 'D&aacute;ta';
 	$lang['strconfirm'] = 'Potvrdi&#357;';
 	$lang['strexpression'] = 'V&yacute;raz';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Roz&scaron;&iacute;ri&#357;';
+	$lang['strcollapse']  =  'Zbali&#357;';
 	$lang['strexplain'] = 'Vysvetli&#357;';
+	$lang['strexplainanalyze']  =  'Vysvetli&#357; Analyze';
 	$lang['strfind'] = 'N&aacute;js&#357;';
 	$lang['stroptions'] = 'Nastavenia';
-	$lang['strexplainanalyze'] = 'Vysvetli&#357; Analyze';
 	$lang['strrefresh'] = 'Obnovi&#357;';
 	$lang['strdownload'] = 'Download';
-	$lang['strcollapse'] = 'Zmen&scaron;i&#357;';
-	$lang['strnoframes'] = 'Potrebuje&scaron; prehliada&#269; podporuj&uacute;ci &quot;frame-y&quot; pre t&uacute;to aplik&aacute;ciu.';
 	$lang['strdownloadgzipped'] = 'Stiahnu&#357; skomprimovan&eacute; pomocou gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
@@ -126,10 +114,16 @@
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Nastavenie';
-	$lang['strparameters'] = 'Parametre';
 	$lang['streditsql'] = 'Upravi&#357; SQL';
+	$lang['strruntime']  =  'Celkov&yacute; beh: %s ms';
 	$lang['strpaginate'] = 'V&yacute;sledky str&aacute;nkovania';
+	$lang['struploadscript']  =  'alebo uploadni SQL skript:';
 	$lang['strstarttime'] = '&#268;as &scaron;tartu';
+	$lang['strfile']  =  'S&uacute;bor';
+	$lang['strfileimported']  =  'S&uacute;bor importovan&yacute;.';
+
+	// Error handling
+	$lang['strnoframes']  =  'K spr&aacute;vnemu behu aplik&aacute;cie potrebuje&scaron; prehliada&#269; podporuj&uacute;ci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaral&yacute;. Mus&iacute;&scaron; vygenerova&#357; nov&yacute; zo s&uacute;boru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilovan&eacute; s potrebnou podporou datab&aacute;z.';
 	$lang['strbadschema'] = '&Scaron;pecifikovan&aacute; chybn&aacute; sch&eacute;ma.';
@@ -138,15 +132,15 @@
 	$lang['strinstatement'] = 'Vo v&yacute;raze:';
 	$lang['strinvalidparam'] = 'Chybn&eacute; parametre skriptu.';
 	$lang['strnodata'] = 'Nen&aacute;jden&eacute; &#382;iadne z&aacute;znamy.';
-	$lang['strcache'] = 'Cache';
-	$lang['strdisk'] = 'Disk';
-	$lang['strrows2'] = 'Riady';
-
-	// Tables
-	$lang['strtable'] = 'Tabu&#318;ka';
 	$lang['strnoobjects'] = 'Nen&aacute;jden&eacute; &#382;iadne objekty.';
 	$lang['strrownotunique'] = '&#381;iadny unik&aacute;tny identifik&aacute;rot pre tento riadok.';
 	$lang['strnoreportsdb'] = 'Nebola vytvoren&eacute; report datab&aacute;za. Pre&#269;&iacute;taj si INSTALL s&uacute;bor s pokynmi.';
+	$lang['strnouploads']  =  'Upload s&uacute;borov je vypnut&yacute;.';
+	$lang['strimporterror']  =  'Chyba Import-u.';
+	$lang['strimporterrorline']  =  'Chyba Import-u na riadku %s.';
+
+	// Tables
+	$lang['strtable']  =  'Tabu&#318;ka';
 	$lang['strtables'] = 'Tabu&#318;ky';
 	$lang['strshowalltables'] = 'Zobrazi&#357; V&scaron;etky Tabu&#318;ky';
 	$lang['strnotables'] = 'Nen&aacute;jden&eacute; &#382;iadne tabu&#318;ky.';
@@ -179,26 +173,28 @@
 	$lang['strfields'] = 'Polia';
 	$lang['strnumfields'] = 'Po&#269;et Pol&iacute;';
 	$lang['strfieldneedsname'] = 'Mus&iacute;&scaron; pomenova&#357; tvoje pole';
-	$lang['strselectneedscol'] = 'Mus&iacute;&scaron; vybra&#357; aspo&#328; jeden st&#314;pec';
 	$lang['strselectallfields'] = 'Vybra&#357; v&scaron;etky polia';
-	$lang['strcolumnaltered'] = 'St&#314;pec zmenen&yacute;.';
+	$lang['strselectneedscol']  =  'Mus&iacute;&scaron; ozna&#269;i&#357; aspo&#328; jeden st&#314;pec.';
+	$lang['strselectunary']  =  'Un&aacute;rne oper&aacute;tory nem&ocirc;&#382;u ma&#357; hodnoty.';
 	$lang['straltercolumn'] = 'Zmeni&#357; St&#314;pec';
+	$lang['strcolumnaltered']  =  'St&#314;pec zmenen&yacute;.';
 	$lang['strcolumnalteredbad'] = 'St&#314;pec nebol zmenen&yacute;.';
-	$lang['strselectunary'] = 'Un&aacute;rne oper&aacute;tory nem&ocirc;&#382;u ma&#357; hodnoty.';
 	$lang['strconfdropcolumn'] = 'Naozaj chce&scaron; zmaza&#357; st&#314;pec &quot;%s&quot; z tabu&#318;ky &quot;%s&quot;?';
+	$lang['strcolumndropped']  =  'St&#314;pec zmenen&yacute;.';
 	$lang['strcolumndroppedbad'] = 'St&#314;pec nebol zmazan&yacute;.';
 	$lang['straddcolumn'] = 'Prida&#357; St&#314;pec';
 	$lang['strcolumnadded'] = 'St&#314;pec pridan&yacute;.';
-	$lang['strcolumndropped'] = 'St&#314;pec zmazan&yacute;.';
 	$lang['strcolumnaddedbad'] = 'St&#314;pec nebol pridan&yacute;.';
+	$lang['strcascade']  =  'CASCADE';
+	$lang['strtablealtered']  =  'Tabu&#318;ka zmenen&aacute;.';
+	$lang['strtablealteredbad']  =  'Tabu&#318;ka nebola zmenen&aacute;.';
 	$lang['strdataonly'] = 'Iba D&aacute;ta';
 	$lang['strstructureonly'] = 'Iba &Scaron;trukt&uacute;ra';
 	$lang['strstructureanddata'] = '&Scaron;trukt&uacute;ra a D&aacute;ta';
+	$lang['strtabbed']  =  'Tabbed';
+	$lang['strauto']  =  'Auto';
 
 	// Users
-	$lang['strtablealtered'] = 'Tabu&#318;ka zmenen&aacute;.';
-	$lang['strtablealteredbad'] = 'Tabu&#318;ka nebola zmenen&aacute;.';
-	$lang['strcascade'] = 'KASK&Aacute;DA';
 	$lang['struser'] = 'U&#382;&iacute;vate&#318;';
 	$lang['strusers'] = 'U&#382;&iacute;vatelia';
 	$lang['strusername'] = 'Meno u&#382;&iacute;vate&#318;a';
@@ -206,16 +202,16 @@
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Vytv&aacute;ranie DB?';
 	$lang['strexpires'] = 'Expiruje';
+	$lang['strsessiondefaults']  =  'Sessions defaults'; //s cim to tak suvis??:)
 	$lang['strnousers'] = 'Nen&aacute;jden&yacute; &#382;iadny u&#382;&iacute;vatelia.';
 	$lang['struserupdated'] = 'U&#382;&iacute;vatelia zmenen&yacute;.';
 	$lang['struserupdatedbad'] = 'U&#382;ivatelia neboli zmenen&yacute;.';
 	$lang['strshowallusers'] = 'Zobrazi&#357; V&scaron;etk&yacute;ch U&#382;&iacute;vate&#318;ov';
-	$lang['strsessiondefaults'] = 'Prednastaven&aacute; Session';
 	$lang['strcreateuser'] = 'Vytvori&#357; U&#382;&iacute;vate&#318;a';
-	$lang['strusercreatedbad'] = 'U&#382;&iacute;vate&#318; nebol vytvoren&yacute;.';
-	$lang['strconfdropuser'] = 'Naozaj chce&scaron; zmaza&#357; u&#382;&iacute;vate&#318;a &quot;%s&quot;?';
 	$lang['struserneedsname'] = 'Mus&iacute;&scaron; zada&#357; meno pre svojho u&#382;&iacute;vate&#318;a.';
 	$lang['strusercreated'] = 'U&#382;&iacute;vate&#318; vytvoren&yacute;.';
+	$lang['strusercreatedbad']  =  'U&#382;&iacute;vate&#318; nebol vztvoren&yacute;.';
+	$lang['strconfdropuser']  =  'Naozaj chce&scaron; zmaza&#357; u&#382;&iacute;vate&#318;a &quot;%s&quot;?';
 	$lang['struserdropped'] = 'U&#382;&iacute;vate&#318; zmazan&yacute;.';
 	$lang['struserdroppedbad'] = 'U&#382;&iacute;vate&#318; nebol zmazan&yacute;.';
 
@@ -223,9 +219,11 @@
 	$lang['straccount'] = 'Konto';
 	$lang['strchangepassword'] = 'Zmeni&#357; Heslo';
 	$lang['strpasswordchanged'] = 'Heslo zmenen&eacute;.';
-	$lang['strpasswordconfirm'] = 'Heslo sa nezhoduje s kontroln&yacute;m heslom.';
-	$lang['strpasswordchangedbad'] = 'Heslo NEbolo zmenen&eacute;.';
+	$lang['strpasswordchangedbad'] = 'Heslo NEBOLO zmenen&eacute;.';
 	$lang['strpasswordshort'] = 'Heslo je pr&iacute;li&scaron; kr&aacute;tke.';
+	$lang['strpasswordconfirm']  =  'Heslo sa nezhoduje so zadan&yacute;m overovac&iacute;m heslom.';
+	
+	// Groups
 	$lang['strgroup'] = 'Skupina';
 	$lang['strgroups'] = 'Skupiny';
 	$lang['strnogroup'] = 'Skupina nen&aacute;jden&aacute;.';
@@ -238,6 +236,7 @@
 	$lang['strconfdropgroup'] = 'Naozaj chce&scaron; zmaza&#357; skupinu &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Skupina zmazan&aacute;.';
 	$lang['strgroupdroppedbad'] = 'Skupina nebola zmazan&aacute;.';
+	$lang['strmembers']  =  '&#268;lenovia';
 	$lang['straddmember'] = 'Prida&#357; &#269;lena';
 	$lang['strmemberadded'] = '&#268;len pridan&yacute;.';
 	$lang['strmemberaddedbad'] = '&#268;len nebol pridan&yacute;.';
@@ -245,7 +244,6 @@
 	$lang['strconfdropmember'] = 'Naozaj chce&scaron; zmaza&#357; c&#318;ena &quot;%s&quot; zo skupiny &quot;%s&quot;?';
 	$lang['strmemberdropped'] = '&#268;len zmazan&yacute;.';
 	$lang['strmemberdroppedbad'] = '&#268;len nebol zmazan&yacute;.';
-	$lang['strmembers'] = '&#268;lenovia';
 
 	// Privilges
 	$lang['strprivilege'] = 'Privil&eacute;gi&aacute;';
@@ -256,9 +254,9 @@
 	$lang['strgranted'] = 'Privil&eacute;gi&aacute; pridan&eacute;.';
 	$lang['strgrantfailed'] = 'Privil&eacute;gi&aacute; neboli pridan&eacute;.';
 	$lang['strgrantbad'] = 'Mus&iacute;&scaron; &scaron;pecifikovat aspo&#328; jedn&eacute;ho u&#382;&iacute;vate&#318;a/skupinu a aspo&#328; jedno privil&eacute;gium.';
+	$lang['stralterprivs']  =  'Zmeni&#357; privil&eacute;gi&aacute;';
 	$lang['strgrantor'] = 'Pride&#318;ovate&#318;';
 	$lang['strasterisk'] = '*';
-	$lang['stralterprivs'] = 'Zmeni&#357; Privil&eacute;gi&aacute;';
 
 	// Databases
 	$lang['strdatabase'] = 'Datab&aacute;za';
@@ -280,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Vy&#269;istnie zlyhalo.';
 	$lang['stranalyzegood'] = 'Analyzovanie kompletn&eacute;.';
 	$lang['stranalyzebad'] = 'Analyzovanie zlyhalo.';
+	$lang['strreindexgood']  =  'Reindex hotov&yacute;.';
+	$lang['strreindexbad']  =  'Reindex zlyhal.';
+	$lang['strfull']  =  'Full'; //todo - konzultovat!!
+	$lang['strfreeze']  =  'Freeze'; //deto
+	$lang['strforce']  =  'Force'; // -||-
 
 	// Views
 	$lang['strview'] = 'N&aacute;h&#318;ad';
@@ -291,6 +294,7 @@
 	$lang['strviewname'] = 'N&aacute;zov n&aacute;h&#318;adu';
 	$lang['strviewneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj n&aacute;h&#318;ad.';
 	$lang['strviewneedsdef'] = 'Mus&iacute;&scaron; zada&#357; defin&iacute;ciu pre tvoj n&aacute;h&#318;ad.';
+	$lang['strviewneedsfields']  =  'Mu&scaron;&iacute;&scaron; zvoli&#357; st&#314;pce, ktor&eacute; chce&scaron; ma&#357; vo svojom n&aacute;h&#318;ade.';
 	$lang['strviewcreated'] = 'N&aacute;h&#318;ad vytvoren&yacute;.';
 	$lang['strviewcreatedbad'] = 'N&aacute;h&#318;ad nebol vytvoren&yacute;.';
 	$lang['strconfdropview'] = 'Naozaj chce&scaron; zmaza&#357; n&aacute;h&#318;ad &quot;%s&quot;?';
@@ -298,12 +302,13 @@
 	$lang['strviewdroppedbad'] = 'N&aacute;h&#318;ad nebol zmazan&yacute;.';
 	$lang['strviewupdated'] = 'N&aacute;h&#318;ad upraven&yacute;.';
 	$lang['strviewupdatedbad'] = 'N&aacute;h&#318;ad nebol upraven&yacute;.';
+	$lang['strviewlink']  =  'Linkuj&uacute;ce K&#318;&uacute;&#269;e';
+	$lang['strviewconditions']  =  'Dopl&#328;uj&uacute;ce Podmienky';
+	$lang['strcreateviewwiz']  =  'Vytvori&#357; n&aacute;h&#318;ad cez \&quot;pomocn&iacute;ka\&quot;';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekvencia';
 	$lang['strsequences'] = 'Sekvencie';
-	$lang['strviewlink'] = 'Linkuj&uacute;ce K&#318;&uacute;&#269;e';
-	$lang['strviewconditions'] = 'Dopl&#328;uj&uacute;ce Podmienky';
 	$lang['strshowallsequences'] = 'Zobrazi&#357; V&scaron;etky Sekvencie';
 	$lang['strnosequence'] = 'Nen&aacute;jden&aacute; &#382;iadna sekvencia.';
 	$lang['strnosequences'] = 'nen&aacute;jden&eacute; &#382;iadne sekvencie.';
@@ -325,17 +330,15 @@
 	$lang['strsequencedroppedbad'] = 'Sekvencia nebola zmazan&aacute;.';
 	$lang['strsequencereset'] = 'Sekvencia resetovan&aacute;.';
 	$lang['strsequenceresetbad'] = 'Sekvencia nebola resetovan&aacute;.';
-	$lang['strsequential'] = 'Sekven&#269;n&yacute;';
 
 	// Indexes
+	$lang['strindex']  =  'Index';
 	$lang['strindexes'] = 'Indexy';
 	$lang['strindexname'] = 'N&aacute;zov Indexu';
 	$lang['strshowallindexes'] = 'Zobrazi&#357; V&scaron;etky Indexy';
 	$lang['strnoindex'] = 'Nen&aacute;jden&yacute; &#382;iadny index.';
-	$lang['strindex'] = 'Index';
 	$lang['strnoindexes'] = 'Nen&aacute;jden&eacute; &#382;iadne indexy.';
 	$lang['strcreateindex'] = 'Vytvori&#357; Index';
-	$lang['strindexname'] = 'N&aacute;zov indexu';
 	$lang['strtabname'] = 'Tab Meno';
 	$lang['strcolumnname'] = 'N&aacute;zov st&aring;pca';
 	$lang['strindexneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj index';
@@ -349,16 +352,11 @@
 	$lang['struniquekey'] = 'Unik&aacute;tny K&#318;&uacute;&#269;';
 	$lang['strprimarykey'] = 'Prim&aacute;rny K&#318;&uacute;&#269;';
 	$lang['strindextype'] = 'Typ indexu';
-	$lang['strindexname'] = 'N&aacute;zov indexu';
 	$lang['strtablecolumnlist'] = 'St&#314;pce v Tabu&#318;ke';
 	$lang['strindexcolumnlist'] = 'St&#318;pce v Indexe';
 	$lang['strconfcluster'] = 'Naozaj chce&scaron; vytvori&#357; cluster &quot;%s&quot;?';
 	$lang['strclusteredgood'] = 'Cluster hotov&yacute;.';
 	$lang['strclusteredbad'] = 'Cluster nebol vytvoren&yacute;.';
-	$lang['strtoast'] = 'TOAST';
-	$lang['strtoastindex'] = 'TOAST Index';
-	$lang['stridxrowperf'] = 'Index Row V&yacute;kon';
-	$lang['stridxioperf'] = 'Index I/O V&yacute;kon';
 
 	// Rules
 	$lang['strrules'] = 'Pravidl&aacute;';
@@ -430,20 +428,20 @@
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger'; //su to medzipravidla ?? po cesky spouste..
-	$lang['strtriggers'] = 'Triggers';
-	$lang['strshowalltriggers'] = 'Zobrazi&#357; V&scaron;etky \&quot;Triggers\&quot;';
-	$lang['strnotrigger'] = 'Nen&aacute;jden&aacute; &#382;iadna \&quot;Trigger\&quot;.';
-	$lang['strnotriggers'] = 'Nen&aacute;jden&eacute; &#382;iadne \&quot;Triggers\&quot;.';
-	$lang['strcreatetrigger'] = 'Vytvori&#357; \&quot;Trigger\&quot;';
-	$lang['strtriggerneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoju \&quot;Trigger\&quot;.';
-	$lang['strtriggerneedsfunc'] = 'Mus&iacute;&scaron; zada&#357; funkciu pre tvoju \&quot;Trigger\&quot;.';
-	$lang['strtriggercreated'] = '\&quot;Trigger\&quot; vytvoren&aacute;.';
-	$lang['strtriggercreatedbad'] = '\&quot;Trigger\&quot; nebola vytvoren&aacute;.';
-	$lang['strtriggeraltered'] = '\&quot;Trigger\&quot; zmenen&aacute;.';
-	$lang['strtriggeralteredbad'] = '\&quot;Trigger\&quot; nebola zmenen&aacute;.';
-	$lang['strconfdroptrigger'] = 'Naozaj chce&scaron; zmaza&#357; \&quot;Trigger\&quot; &quot;%s&quot; na &quot;%s&quot;?';
-	$lang['strtriggerdropped'] = '\&quot;Trigger\&quot; zmazan&aacute;.';
-	$lang['strtriggerdroppedbad'] = '\&quot;Trigger\&quot; nebola zmazan&aacute;.';
+	$lang['strtriggers'] = 'Trigger-y';
+	$lang['strshowalltriggers'] = 'Zobrazi&#357; V&scaron;etky Trigger-y';
+	$lang['strnotrigger'] = 'Nen&aacute;jden&yacute; &#382;iadny Trigger.';
+	$lang['strnotriggers'] = 'Nen&aacute;jden&eacute; &#382;iadne Trigger-y.';
+	$lang['strcreatetrigger'] = 'Vytvori&#357; Trigger';
+	$lang['strtriggerneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj Trigger.';
+	$lang['strtriggerneedsfunc'] = 'Mus&iacute;&scaron; zada&#357; funkciu pre tvoj Trigger.';
+	$lang['strtriggercreated'] = 'Trigger vytvoren&yacute;.';
+	$lang['strtriggercreatedbad'] = 'Trigger nebol vytvoren&yacute;.';
+	$lang['strconfdroptrigger'] = 'Naozaj chce&scaron; zmaza&#357; Trigger &quot;%s&quot; na &quot;%s&quot;?';
+	$lang['strtriggerdropped'] = 'Trigger zmazan&yacute;.';
+	$lang['strtriggerdroppedbad'] = 'Trigger nebol zmazan&yacute;.';
+	$lang['strtriggeraltered']  =  'Trigger zmenen&yacute;.';
+	$lang['strtriggeralteredbad']  =  'Trigger nebol zmenen&yacute;.';
 
 	// Types
 	$lang['strtype'] = 'Typ';
@@ -467,7 +465,6 @@
 	$lang['strconfdroptype'] = 'Naozaj chce&scaron; zmaza&#357; typ &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Typ zmazan&yacute;.';
 	$lang['strtypedroppedbad'] = 'Typ nebol zmazan&yacute;.';
-	$lang['stralltypes'] = '(V&scaron;etky typy)';
 
 	// Schemas
 	$lang['strschema'] = 'Sch&eacute;ma';
@@ -483,6 +480,8 @@
 	$lang['strconfdropschema'] = 'Naozaj chce&scaron; zmaza&#357; sch&eacute;mu &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Sch&eacute;ma zmazan&aacute;.';
 	$lang['strschemadroppedbad'] = 'Sch&eacute;ma nebola zmazan&aacute;.';
+	$lang['strschemaaltered']  =  'Sch&eacute;ma zmenen&aacute;.';
+	$lang['strschemaalteredbad']  =  'Sch&eacute;ma nebola zmenen&aacute;.';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -501,9 +500,9 @@
 	//Domains
 	$lang['strdomain'] = 'Dom&eacute;na';
 	$lang['strdomains'] = 'Dom&eacute;ny';
-	$lang['strcreatedomain'] = 'Vytvori&#357; Dom&eacute;nu';
 	$lang['strshowalldomains'] = 'Zobrazi&#357; V&scaron;etky Dom&eacute;ny';
 	$lang['strnodomains'] = 'Nen&aacute;jden&eacute; &#382;iadne dom&eacute;ny.';
+	$lang['strcreatedomain']  =  'Vytvori&#357; dom&eacute;nu';
 	$lang['strdomaindropped'] = 'Dom&eacute;na zmazan&aacute;.';
 	$lang['strdomaindroppedbad'] = 'Dom&eacute;na nebola zmazan&aacute;.';
 	$lang['strconfdropdomain'] = 'Naozaj chce&scaron; zmaza&#357; dom&eacute;nu &quot;%s&quot;?';
@@ -512,15 +511,16 @@
 	$lang['strdomaincreatedbad'] = 'Dom&eacute;na nebola vytvoren&aacute;.';
 	$lang['strdomainaltered'] = 'Dom&eacute;na zmenen&aacute;.';
 	$lang['strdomainalteredbad'] = 'Dom&eacute;na nebola zmenen&aacute;.';
-	$lang['strreportcreatedbad'] = 'Report nebol ulo&#382;en&yacute;.';
 
 	//Operators
 	$lang['stroperator'] = 'Oper&aacute;tor';
+	$lang['stroperators']  =  'Oper&aacute;tory';
 	$lang['strshowalloperators'] = 'Zobrazi&#357; V&scaron;etky Oper&aacute;tory';
 	$lang['strnooperator'] = 'Nen&aacute;jden&yacute; &#382;iadny oper&aacute;tor.';
 	$lang['strnooperators'] = 'Nen&aacute;jden&eacute; &#382;iadne oper&aacute;tory.';
 	$lang['strcreateoperator'] = 'Vytvori&#357; Oper&aacute;tor';
-	$lang['strleftarg'] = 'Left Arg Type';
+	$lang['strleftarg'] = '&#317;av&yacute; Arg Typ';
+	$lang['strrightarg']  =  'Prav&yacute; Arg Typ';
 	$lang['strcommutator'] = 'Komut&aacute;tor';
 	$lang['strnegator'] = 'Neg&aacute;tor';
 	$lang['strrestrict'] = 'Obmedzi&#357;';
@@ -531,15 +531,12 @@
 	$lang['strrightsort'] = 'Prav&yacute; sort';
 	$lang['strlessthan'] = 'Menej ako';
 	$lang['strgreaterthan'] = 'Viac ako';
-	$lang['strrightarg'] = 'Right Arg Typ';
 	$lang['stroperatorneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj oper&aacute;tor.';
 	$lang['stroperatorcreated'] = 'Oper&aacute;tor vytvoren&yacute;';
 	$lang['stroperatorcreatedbad'] = 'Oper&aacute;tor nebol vytvoren&yacute;.';
 	$lang['strconfdropoperator'] = 'Naozaj chce&scaron; zmaza&#357; oper&aacute;tor &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Oper&aacute;tor zmazan&yacute;.';
 	$lang['stroperatordroppedbad'] = 'Oper&aacute;tor nebol zmazan&yacute;.';
-	$lang['stropclasses'] = 'Op Triedy';
-	$lang['strnoopclasses'] = 'Nen&aacute;jden&eacute; &#382;iadne oper&aacute;torske triedy.';
 
 	//Casts
 	$lang['strcasts'] = 'Casty';
@@ -550,20 +547,53 @@
 	$lang['strinassignment'] = 'V priraden&iacute;';
 	$lang['strbinarycompat'] = '(Bin&aacute;rne identick&eacute;)';
 
-	//Misc
-	$lang['strtopbar'] = '%s be&#382;&iacute; na %s:%s -- Si prihl&aacute;sen&yacute; ako &quot;%s&quot;, %s';
+	// Conversions
 	$lang['strconversions'] = 'Konverzie';
 	$lang['strnoconversions'] = 'Nen&aacute;jden&eacute; &#382;iadne konverzie.';
 	$lang['strsourceencoding'] = 'Zdojov&eacute; k&oacute;dovanie';
 	$lang['strtargetencoding'] = 'Cie&#318;ov&eacute; k&oacute;dovanie';
-	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = 'Pomoc';
+	
+	// Languages
 	$lang['strlanguages'] = 'Jazyky';
 	$lang['strnolanguages'] = 'Nen&aacute;jden&eacute; &#382;iadne jazyky.';
 	$lang['strtrusted'] = 'Trusted';
+	
+	// Info
 	$lang['strnoinfo'] = 'Inform&aacute;cie nedostupn&eacute;.';
 	$lang['strreferringtables'] = 'Referuj&uacute;ce tabu&#318;ky';
 	$lang['strparenttables'] = 'Rodi&#269;ovsk&eacute; tabu&#318;ky';
 	$lang['strchildtables'] = 'Dc&eacute;rske tabu&#318;ky';
+
+	// Aggregates
+	$lang['straggregates']  =  'Agreg&aacute;ty';
+	$lang['strnoaggregates']  =  'Nen&aacute;jden&eacute; &#382;iadne agreg&aacute;ty.';
+	$lang['stralltypes']  =  '(V&scaron;etky typy)';
+
+	// Operator Classes
+	$lang['stropclasses']  =  'Op Triedy';
+	$lang['strnoopclasses']  =  'Nen&aacute;jden&eacute; &#382;iadne op. triedy.';
+	$lang['straccessmethod']  =  'Pr&iacute;stupov&eacute; met&oacute;dy';
+
+	// Stats and performance
+	$lang['strrowperf']  =  'V&yacute;konnos&#357; Riadku'; //to znie dost tupo..
+	$lang['strioperf']  =  'I/O V&yacute;kon';
+	$lang['stridxrowperf']  =  'V&yacute;konnos&#357; Indexovania Riadkov';
+	$lang['stridxioperf']  =  'Index I/O V&yacute;kon';
+	$lang['strpercent']  =  '%';
+	$lang['strsequential']  =  'Sekven&#269;n&yacute;';
+	$lang['strscan']  =  'Scan'; //co s tymto tu???
+	$lang['strread']  =  'Na&#269;&iacute;ta&#357;';
+	$lang['strfetch']  =  'Z&iacute;ska&#357;';
+	$lang['strheap']  =  'Heap';
+	$lang['strtoast']  =  'TOAST';
+	$lang['strtoastindex']  =  'TOAST Index';
+	$lang['strcache']  =  'Cache';
+	$lang['strdisk']  =  'Disk';
+	$lang['strrows2']  =  'Riadkov';
+
+	// Miscellaneous
+	$lang['strtopbar']  =  '%s be&#382;&iacute; na %s:%s -- Si prihl&aacute;sen&yacute; ako &quot;%s&quot;, %s';
+	$lang['strtimefmt']  =  'jS M, Y g:iA';
+	$lang['strhelp']  =  'Pomoc';
 
 ?>

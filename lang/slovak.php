@@ -20,18 +20,18 @@
 	$lang['strreportbug'] = 'Oznámiť Chybu';
 	$lang['strviewfaq'] = 'Zobraziť FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
+	// Basic strings
 	$lang['strlogin'] = 'Prihlásenie';
 	$lang['strloginfailed'] = 'Prihlásenie zlyhalo';
+	$lang['strlogindisallowed']  =  'Prihlásenie je vypnuté kôli bezpečnosti';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Odhlásiť';
 	$lang['strowner'] = 'Vlastník';
 	$lang['straction'] = 'Akcia';
-	$lang['strlogindisallowed'] = 'Prihlásenie nie je dostupné';
 	$lang['stractions'] = 'Akcie';
 	$lang['strname'] = 'Meno';
 	$lang['strdefinition'] = 'Definícia';
-	$lang['stroperators'] = 'Operátory';
-	$lang['straggregates'] = 'Agregáty';
 	$lang['strproperties'] = 'Vlastnosti';
 	$lang['strbrowse'] = 'Prehliadať';
 	$lang['strdrop'] = 'Odstrániť';
@@ -40,9 +40,9 @@
 	$lang['strnotnull'] = 'Ne-nulový';
 	$lang['strprev'] = 'Predchádzajúci';
 	$lang['strnext'] = 'Ďaľší';
-	$lang['strfailed'] = 'Zlyhalo';
 	$lang['strfirst'] = '<< Prvý';
 	$lang['strlast'] = 'Posledný >>';
+	$lang['strfailed']  =  'Chyba.';
 	$lang['strcreate'] = 'Vytvoriť';
 	$lang['strcreated'] = 'Vytvorené';
 	$lang['strcomment'] = 'Komentár';
@@ -60,16 +60,16 @@
 	$lang['strreferences'] = 'Referencie';
 	$lang['stryes'] = 'Áno';
 	$lang['strno'] = 'Nie';
-	$lang['stredit'] = 'Upraviť';
-	$lang['strcolumns'] = 'Stĺpce';
 	$lang['strtrue'] = 'True';
 	$lang['strfalse'] = 'False';
+	$lang['stredit']  =  'Upraviť';
+	$lang['strcolumns']  =  'Stĺpce';
 	$lang['strrows'] = 'riadky';
+	$lang['strrowsaff']  =  'riadkov ovplyvnených.';
+	$lang['strobjects']  =  'objekt(y)';
 	$lang['strexample'] = 'napr.';
 	$lang['strback'] = 'Späť';
-	$lang['strrowsaff'] = 'ovplyvnených riadkov.';
 	$lang['strqueryresults'] = 'Výsledky Dotazu';
-	$lang['strobjects'] = 'objekt(y)';
 	$lang['strshow'] = 'Ukázať';
 	$lang['strempty'] = 'Vyprázdniť';
 	$lang['strlanguage'] = 'Jazyk';
@@ -78,46 +78,34 @@
 	$lang['strunique'] = 'Unikátny';
 	$lang['strprimary'] = 'Primárny';
 	$lang['strexport'] = 'Exportovať';
+	$lang['strimport']  =  'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Vykonaj';
-	$lang['strimport'] = 'Importovať';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vyčistiť';
 	$lang['stranalyze'] = 'Analyzovať';
 	$lang['strcluster'] = 'Cluster';
+	$lang['strclustered']  =  'Clustered?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spustiť';
 	$lang['stradd'] = 'Pridať';
-	$lang['strclustered'] = 'Clustered?';
 	$lang['strevent'] = 'Prípadne';
 	$lang['strwhere'] = 'Kde';
 	$lang['strinstead'] = 'Urobiť Namiesto';
 	$lang['strwhen'] = 'Kedy';
 	$lang['strformat'] = 'Formát';
-	$lang['strnoaggregates'] = 'Nenájdené žiadne agregáty.';
-	$lang['strscan'] = 'Skenovať';
-	$lang['strread'] = 'Čítať';
-	$lang['strfetch'] = 'Získať';
-	$lang['strheap'] = 'Nahromadiť';
-	$lang['straccessmethod'] = 'Prístupová metóda';
-	$lang['strrowperf'] = 'Row Výkon';
-	$lang['strioperf'] = 'I/O Výkon';
-	$lang['strpercent'] = '%';
-
-	// Error handling
 	$lang['strdata'] = 'Dáta';
 	$lang['strconfirm'] = 'Potvrdiť';
 	$lang['strexpression'] = 'Výraz';
 	$lang['strellipsis'] = '...';
 	$lang['strexpand'] = 'Rozšíriť';
+	$lang['strcollapse']  =  'Zbaliť';
 	$lang['strexplain'] = 'Vysvetliť';
+	$lang['strexplainanalyze']  =  'Vysvetliť Analyze';
 	$lang['strfind'] = 'Nájsť';
 	$lang['stroptions'] = 'Nastavenia';
-	$lang['strexplainanalyze'] = 'Vysvetliť Analyze';
 	$lang['strrefresh'] = 'Obnoviť';
 	$lang['strdownload'] = 'Download';
-	$lang['strcollapse'] = 'Zmenšiť';
-	$lang['strnoframes'] = 'Potrebuješ prehliadač podporujúci "frame-y" pre túto aplikáciu.';
 	$lang['strdownloadgzipped'] = 'Stiahnuť skomprimované pomocou gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
@@ -126,10 +114,16 @@
 	$lang['strprocess'] = 'Proces';
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Nastavenie';
-	$lang['strparameters'] = 'Parametre';
 	$lang['streditsql'] = 'Upraviť SQL';
+	$lang['strruntime']  =  'Celkový beh: %s ms';
 	$lang['strpaginate'] = 'Výsledky stránkovania';
+	$lang['struploadscript']  =  'alebo uploadni SQL skript:';
 	$lang['strstarttime'] = 'Čas štartu';
+	$lang['strfile']  =  'Súbor';
+	$lang['strfileimported']  =  'Súbor importovaný.';
+
+	// Error handling
+	$lang['strnoframes']  =  'K správnemu behu aplikácie potrebuješ prehliadač podporujúci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaralý. Musíš vygenerovať nový zo súboru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilované s potrebnou podporou databáz.';
 	$lang['strbadschema'] = 'Špecifikovaná chybná schéma.';
@@ -138,15 +132,15 @@
 	$lang['strinstatement'] = 'Vo výraze:';
 	$lang['strinvalidparam'] = 'Chybné parametre skriptu.';
 	$lang['strnodata'] = 'Nenájdené žiadne záznamy.';
-	$lang['strcache'] = 'Cache';
-	$lang['strdisk'] = 'Disk';
-	$lang['strrows2'] = 'Riady';
-
-	// Tables
-	$lang['strtable'] = 'Tabuľka';
 	$lang['strnoobjects'] = 'Nenájdené žiadne objekty.';
 	$lang['strrownotunique'] = 'Žiadny unikátny identifikárot pre tento riadok.';
 	$lang['strnoreportsdb'] = 'Nebola vytvorené report databáza. Prečítaj si INSTALL súbor s pokynmi.';
+	$lang['strnouploads']  =  'Upload súborov je vypnutý.';
+	$lang['strimporterror']  =  'Chyba Import-u.';
+	$lang['strimporterrorline']  =  'Chyba Import-u na riadku %s.';
+
+	// Tables
+	$lang['strtable']  =  'Tabuľka';
 	$lang['strtables'] = 'Tabuľky';
 	$lang['strshowalltables'] = 'Zobraziť Všetky Tabuľky';
 	$lang['strnotables'] = 'Nenájdené žiadne tabuľky.';
@@ -179,26 +173,28 @@
 	$lang['strfields'] = 'Polia';
 	$lang['strnumfields'] = 'Počet Polí';
 	$lang['strfieldneedsname'] = 'Musíš pomenovať tvoje pole';
-	$lang['strselectneedscol'] = 'Musíš vybrať aspoň jeden stĺpec';
 	$lang['strselectallfields'] = 'Vybrať všetky polia';
-	$lang['strcolumnaltered'] = 'Stĺpec zmenený.';
+	$lang['strselectneedscol']  =  'Musíš označiť aspoň jeden stĺpec.';
+	$lang['strselectunary']  =  'Unárne operátory nemôžu mať hodnoty.';
 	$lang['straltercolumn'] = 'Zmeniť Stĺpec';
+	$lang['strcolumnaltered']  =  'Stĺpec zmenený.';
 	$lang['strcolumnalteredbad'] = 'Stĺpec nebol zmenený.';
-	$lang['strselectunary'] = 'Unárne operátory nemôžu mať hodnoty.';
 	$lang['strconfdropcolumn'] = 'Naozaj chceš zmazať stĺpec "%s" z tabuľky "%s"?';
+	$lang['strcolumndropped']  =  'Stĺpec zmenený.';
 	$lang['strcolumndroppedbad'] = 'Stĺpec nebol zmazaný.';
 	$lang['straddcolumn'] = 'Pridať Stĺpec';
 	$lang['strcolumnadded'] = 'Stĺpec pridaný.';
-	$lang['strcolumndropped'] = 'Stĺpec zmazaný.';
 	$lang['strcolumnaddedbad'] = 'Stĺpec nebol pridaný.';
+	$lang['strcascade']  =  'CASCADE';
+	$lang['strtablealtered']  =  'Tabuľka zmenená.';
+	$lang['strtablealteredbad']  =  'Tabuľka nebola zmenená.';
 	$lang['strdataonly'] = 'Iba Dáta';
 	$lang['strstructureonly'] = 'Iba Štruktúra';
 	$lang['strstructureanddata'] = 'Štruktúra a Dáta';
+	$lang['strtabbed']  =  'Tabbed';
+	$lang['strauto']  =  'Auto';
 
 	// Users
-	$lang['strtablealtered'] = 'Tabuľka zmenená.';
-	$lang['strtablealteredbad'] = 'Tabuľka nebola zmenená.';
-	$lang['strcascade'] = 'KASKÁDA';
 	$lang['struser'] = 'Užívateľ';
 	$lang['strusers'] = 'Užívatelia';
 	$lang['strusername'] = 'Meno užívateľa';
@@ -206,16 +202,16 @@
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Vytváranie DB?';
 	$lang['strexpires'] = 'Expiruje';
+	$lang['strsessiondefaults']  =  'Sessions defaults'; //s cim to tak suvis??:)
 	$lang['strnousers'] = 'Nenájdený žiadny užívatelia.';
 	$lang['struserupdated'] = 'Užívatelia zmenený.';
 	$lang['struserupdatedbad'] = 'Uživatelia neboli zmenený.';
 	$lang['strshowallusers'] = 'Zobraziť Všetkých Užívateľov';
-	$lang['strsessiondefaults'] = 'Prednastavená Session';
 	$lang['strcreateuser'] = 'Vytvoriť Užívateľa';
-	$lang['strusercreatedbad'] = 'Užívateľ nebol vytvorený.';
-	$lang['strconfdropuser'] = 'Naozaj chceš zmazať užívateľa "%s"?';
 	$lang['struserneedsname'] = 'Musíš zadať meno pre svojho užívateľa.';
 	$lang['strusercreated'] = 'Užívateľ vytvorený.';
+	$lang['strusercreatedbad']  =  'Užívateľ nebol vztvorený.';
+	$lang['strconfdropuser']  =  'Naozaj chceš zmazať užívateľa "%s"?';
 	$lang['struserdropped'] = 'Užívateľ zmazaný.';
 	$lang['struserdroppedbad'] = 'Užívateľ nebol zmazaný.';
 
@@ -223,9 +219,11 @@
 	$lang['straccount'] = 'Konto';
 	$lang['strchangepassword'] = 'Zmeniť Heslo';
 	$lang['strpasswordchanged'] = 'Heslo zmenené.';
-	$lang['strpasswordconfirm'] = 'Heslo sa nezhoduje s kontrolným heslom.';
-	$lang['strpasswordchangedbad'] = 'Heslo NEbolo zmenené.';
+	$lang['strpasswordchangedbad'] = 'Heslo NEBOLO zmenené.';
 	$lang['strpasswordshort'] = 'Heslo je príliš krátke.';
+	$lang['strpasswordconfirm']  =  'Heslo sa nezhoduje so zadaným overovacím heslom.';
+	
+	// Groups
 	$lang['strgroup'] = 'Skupina';
 	$lang['strgroups'] = 'Skupiny';
 	$lang['strnogroup'] = 'Skupina nenájdená.';
@@ -238,6 +236,7 @@
 	$lang['strconfdropgroup'] = 'Naozaj chceš zmazať skupinu "%s"?';
 	$lang['strgroupdropped'] = 'Skupina zmazaná.';
 	$lang['strgroupdroppedbad'] = 'Skupina nebola zmazaná.';
+	$lang['strmembers']  =  'Členovia';
 	$lang['straddmember'] = 'Pridať člena';
 	$lang['strmemberadded'] = 'Člen pridaný.';
 	$lang['strmemberaddedbad'] = 'Člen nebol pridaný.';
@@ -245,7 +244,6 @@
 	$lang['strconfdropmember'] = 'Naozaj chceš zmazať cľena "%s" zo skupiny "%s"?';
 	$lang['strmemberdropped'] = 'Člen zmazaný.';
 	$lang['strmemberdroppedbad'] = 'Člen nebol zmazaný.';
-	$lang['strmembers'] = 'Členovia';
 
 	// Privilges
 	$lang['strprivilege'] = 'Privilégiá';
@@ -256,9 +254,9 @@
 	$lang['strgranted'] = 'Privilégiá pridané.';
 	$lang['strgrantfailed'] = 'Privilégiá neboli pridané.';
 	$lang['strgrantbad'] = 'Musíš špecifikovat aspoň jedného užívateľa/skupinu a aspoň jedno privilégium.';
+	$lang['stralterprivs']  =  'Zmeniť privilégiá';
 	$lang['strgrantor'] = 'Prideľovateľ';
 	$lang['strasterisk'] = '*';
-	$lang['stralterprivs'] = 'Zmeniť Privilégiá';
 
 	// Databases
 	$lang['strdatabase'] = 'Databáza';
@@ -280,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Vyčistnie zlyhalo.';
 	$lang['stranalyzegood'] = 'Analyzovanie kompletné.';
 	$lang['stranalyzebad'] = 'Analyzovanie zlyhalo.';
+	$lang['strreindexgood']  =  'Reindex hotový.';
+	$lang['strreindexbad']  =  'Reindex zlyhal.';
+	$lang['strfull']  =  'Full'; //todo - konzultovat!!
+	$lang['strfreeze']  =  'Freeze'; //deto
+	$lang['strforce']  =  'Force'; // -||-
 
 	// Views
 	$lang['strview'] = 'Náhľad';
@@ -291,6 +294,7 @@
 	$lang['strviewname'] = 'Názov náhľadu';
 	$lang['strviewneedsname'] = 'Musíš zadať názov pre tvoj náhľad.';
 	$lang['strviewneedsdef'] = 'Musíš zadať definíciu pre tvoj náhľad.';
+	$lang['strviewneedsfields']  =  'Mušíš zvoliť stĺpce, ktoré chceš mať vo svojom náhľade.';
 	$lang['strviewcreated'] = 'Náhľad vytvorený.';
 	$lang['strviewcreatedbad'] = 'Náhľad nebol vytvorený.';
 	$lang['strconfdropview'] = 'Naozaj chceš zmazať náhľad "%s"?';
@@ -298,12 +302,13 @@
 	$lang['strviewdroppedbad'] = 'Náhľad nebol zmazaný.';
 	$lang['strviewupdated'] = 'Náhľad upravený.';
 	$lang['strviewupdatedbad'] = 'Náhľad nebol upravený.';
+	$lang['strviewlink']  =  'Linkujúce Kľúče';
+	$lang['strviewconditions']  =  'Doplňujúce Podmienky';
+	$lang['strcreateviewwiz']  =  'Vytvoriť náhľad cez \"pomocníka\"';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekvencia';
 	$lang['strsequences'] = 'Sekvencie';
-	$lang['strviewlink'] = 'Linkujúce Kľúče';
-	$lang['strviewconditions'] = 'Doplňujúce Podmienky';
 	$lang['strshowallsequences'] = 'Zobraziť Všetky Sekvencie';
 	$lang['strnosequence'] = 'Nenájdená žiadna sekvencia.';
 	$lang['strnosequences'] = 'nenájdené žiadne sekvencie.';
@@ -325,17 +330,15 @@
 	$lang['strsequencedroppedbad'] = 'Sekvencia nebola zmazaná.';
 	$lang['strsequencereset'] = 'Sekvencia resetovaná.';
 	$lang['strsequenceresetbad'] = 'Sekvencia nebola resetovaná.';
-	$lang['strsequential'] = 'Sekvenčný';
 
 	// Indexes
+	$lang['strindex']  =  'Index';
 	$lang['strindexes'] = 'Indexy';
 	$lang['strindexname'] = 'Názov Indexu';
 	$lang['strshowallindexes'] = 'Zobraziť Všetky Indexy';
 	$lang['strnoindex'] = 'Nenájdený žiadny index.';
-	$lang['strindex'] = 'Index';
 	$lang['strnoindexes'] = 'Nenájdené žiadne indexy.';
 	$lang['strcreateindex'] = 'Vytvoriť Index';
-	$lang['strindexname'] = 'Názov indexu';
 	$lang['strtabname'] = 'Tab Meno';
 	$lang['strcolumnname'] = 'Názov ståpca';
 	$lang['strindexneedsname'] = 'Musíš zadať názov pre tvoj index';
@@ -349,16 +352,11 @@
 	$lang['struniquekey'] = 'Unikátny Kľúč';
 	$lang['strprimarykey'] = 'Primárny Kľúč';
 	$lang['strindextype'] = 'Typ indexu';
-	$lang['strindexname'] = 'Názov indexu';
 	$lang['strtablecolumnlist'] = 'Stĺpce v Tabuľke';
 	$lang['strindexcolumnlist'] = 'Stľpce v Indexe';
 	$lang['strconfcluster'] = 'Naozaj chceš vytvoriť cluster "%s"?';
 	$lang['strclusteredgood'] = 'Cluster hotový.';
 	$lang['strclusteredbad'] = 'Cluster nebol vytvorený.';
-	$lang['strtoast'] = 'TOAST';
-	$lang['strtoastindex'] = 'TOAST Index';
-	$lang['stridxrowperf'] = 'Index Row Výkon';
-	$lang['stridxioperf'] = 'Index I/O Výkon';
 
 	// Rules
 	$lang['strrules'] = 'Pravidlá';
@@ -430,20 +428,20 @@
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger'; //su to medzipravidla ?? po cesky spouste..
-	$lang['strtriggers'] = 'Triggers';
-	$lang['strshowalltriggers'] = 'Zobraziť Všetky \"Triggers\"';
-	$lang['strnotrigger'] = 'Nenájdená žiadna \"Trigger\".';
-	$lang['strnotriggers'] = 'Nenájdené žiadne \"Triggers\".';
-	$lang['strcreatetrigger'] = 'Vytvoriť \"Trigger\"';
-	$lang['strtriggerneedsname'] = 'Musíš zadať názov pre tvoju \"Trigger\".';
-	$lang['strtriggerneedsfunc'] = 'Musíš zadať funkciu pre tvoju \"Trigger\".';
-	$lang['strtriggercreated'] = '\"Trigger\" vytvorená.';
-	$lang['strtriggercreatedbad'] = '\"Trigger\" nebola vytvorená.';
-	$lang['strtriggeraltered'] = '\"Trigger\" zmenená.';
-	$lang['strtriggeralteredbad'] = '\"Trigger\" nebola zmenená.';
-	$lang['strconfdroptrigger'] = 'Naozaj chceš zmazať \"Trigger\" "%s" na "%s"?';
-	$lang['strtriggerdropped'] = '\"Trigger\" zmazaná.';
-	$lang['strtriggerdroppedbad'] = '\"Trigger\" nebola zmazaná.';
+	$lang['strtriggers'] = 'Trigger-y';
+	$lang['strshowalltriggers'] = 'Zobraziť Všetky Trigger-y';
+	$lang['strnotrigger'] = 'Nenájdený žiadny Trigger.';
+	$lang['strnotriggers'] = 'Nenájdené žiadne Trigger-y.';
+	$lang['strcreatetrigger'] = 'Vytvoriť Trigger';
+	$lang['strtriggerneedsname'] = 'Musíš zadať názov pre tvoj Trigger.';
+	$lang['strtriggerneedsfunc'] = 'Musíš zadať funkciu pre tvoj Trigger.';
+	$lang['strtriggercreated'] = 'Trigger vytvorený.';
+	$lang['strtriggercreatedbad'] = 'Trigger nebol vytvorený.';
+	$lang['strconfdroptrigger'] = 'Naozaj chceš zmazať Trigger "%s" na "%s"?';
+	$lang['strtriggerdropped'] = 'Trigger zmazaný.';
+	$lang['strtriggerdroppedbad'] = 'Trigger nebol zmazaný.';
+	$lang['strtriggeraltered']  =  'Trigger zmenený.';
+	$lang['strtriggeralteredbad']  =  'Trigger nebol zmenený.';
 
 	// Types
 	$lang['strtype'] = 'Typ';
@@ -467,7 +465,6 @@
 	$lang['strconfdroptype'] = 'Naozaj chceš zmazať typ "%s"?';
 	$lang['strtypedropped'] = 'Typ zmazaný.';
 	$lang['strtypedroppedbad'] = 'Typ nebol zmazaný.';
-	$lang['stralltypes'] = '(Všetky typy)';
 
 	// Schemas
 	$lang['strschema'] = 'Schéma';
@@ -483,6 +480,8 @@
 	$lang['strconfdropschema'] = 'Naozaj chceš zmazať schému "%s"?';
 	$lang['strschemadropped'] = 'Schéma zmazaná.';
 	$lang['strschemadroppedbad'] = 'Schéma nebola zmazaná.';
+	$lang['strschemaaltered']  =  'Schéma zmenená.';
+	$lang['strschemaalteredbad']  =  'Schéma nebola zmenená.';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -501,9 +500,9 @@
 	//Domains
 	$lang['strdomain'] = 'Doména';
 	$lang['strdomains'] = 'Domény';
-	$lang['strcreatedomain'] = 'Vytvoriť Doménu';
 	$lang['strshowalldomains'] = 'Zobraziť Všetky Domény';
 	$lang['strnodomains'] = 'Nenájdené žiadne domény.';
+	$lang['strcreatedomain']  =  'Vytvoriť doménu';
 	$lang['strdomaindropped'] = 'Doména zmazaná.';
 	$lang['strdomaindroppedbad'] = 'Doména nebola zmazaná.';
 	$lang['strconfdropdomain'] = 'Naozaj chceš zmazať doménu "%s"?';
@@ -512,15 +511,16 @@
 	$lang['strdomaincreatedbad'] = 'Doména nebola vytvorená.';
 	$lang['strdomainaltered'] = 'Doména zmenená.';
 	$lang['strdomainalteredbad'] = 'Doména nebola zmenená.';
-	$lang['strreportcreatedbad'] = 'Report nebol uložený.';
 
 	//Operators
 	$lang['stroperator'] = 'Operátor';
+	$lang['stroperators']  =  'Operátory';
 	$lang['strshowalloperators'] = 'Zobraziť Všetky Operátory';
 	$lang['strnooperator'] = 'Nenájdený žiadny operátor.';
 	$lang['strnooperators'] = 'Nenájdené žiadne operátory.';
 	$lang['strcreateoperator'] = 'Vytvoriť Operátor';
-	$lang['strleftarg'] = 'Left Arg Type';
+	$lang['strleftarg'] = 'Ľavý Arg Typ';
+	$lang['strrightarg']  =  'Pravý Arg Typ';
 	$lang['strcommutator'] = 'Komutátor';
 	$lang['strnegator'] = 'Negátor';
 	$lang['strrestrict'] = 'Obmedziť';
@@ -531,15 +531,12 @@
 	$lang['strrightsort'] = 'Pravý sort';
 	$lang['strlessthan'] = 'Menej ako';
 	$lang['strgreaterthan'] = 'Viac ako';
-	$lang['strrightarg'] = 'Right Arg Typ';
 	$lang['stroperatorneedsname'] = 'Musíš zadať názov pre tvoj operátor.';
 	$lang['stroperatorcreated'] = 'Operátor vytvorený';
 	$lang['stroperatorcreatedbad'] = 'Operátor nebol vytvorený.';
 	$lang['strconfdropoperator'] = 'Naozaj chceš zmazať operátor "%s"?';
 	$lang['stroperatordropped'] = 'Operátor zmazaný.';
 	$lang['stroperatordroppedbad'] = 'Operátor nebol zmazaný.';
-	$lang['stropclasses'] = 'Op Triedy';
-	$lang['strnoopclasses'] = 'Nenájdené žiadne operátorske triedy.';
 
 	//Casts
 	$lang['strcasts'] = 'Casty';
@@ -550,20 +547,53 @@
 	$lang['strinassignment'] = 'V priradení';
 	$lang['strbinarycompat'] = '(Binárne identické)';
 
-	//Misc
-	$lang['strtopbar'] = '%s beží na %s:%s -- Si prihlásený ako "%s", %s';
+	// Conversions
 	$lang['strconversions'] = 'Konverzie';
 	$lang['strnoconversions'] = 'Nenájdené žiadne konverzie.';
 	$lang['strsourceencoding'] = 'Zdojové kódovanie';
 	$lang['strtargetencoding'] = 'Cieľové kódovanie';
-	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = 'Pomoc';
+	
+	// Languages
 	$lang['strlanguages'] = 'Jazyky';
 	$lang['strnolanguages'] = 'Nenájdené žiadne jazyky.';
 	$lang['strtrusted'] = 'Trusted';
+	
+	// Info
 	$lang['strnoinfo'] = 'Informácie nedostupné.';
 	$lang['strreferringtables'] = 'Referujúce tabuľky';
 	$lang['strparenttables'] = 'Rodičovské tabuľky';
 	$lang['strchildtables'] = 'Dcérske tabuľky';
+
+	// Aggregates
+	$lang['straggregates']  =  'Agregáty';
+	$lang['strnoaggregates']  =  'Nenájdené žiadne agregáty.';
+	$lang['stralltypes']  =  '(Všetky typy)';
+
+	// Operator Classes
+	$lang['stropclasses']  =  'Op Triedy';
+	$lang['strnoopclasses']  =  'Nenájdené žiadne op. triedy.';
+	$lang['straccessmethod']  =  'Prístupové metódy';
+
+	// Stats and performance
+	$lang['strrowperf']  =  'Výkonnosť Riadku'; //to znie dost tupo..
+	$lang['strioperf']  =  'I/O Výkon';
+	$lang['stridxrowperf']  =  'Výkonnosť Indexovania Riadkov';
+	$lang['stridxioperf']  =  'Index I/O Výkon';
+	$lang['strpercent']  =  '%';
+	$lang['strsequential']  =  'Sekvenčný';
+	$lang['strscan']  =  'Scan'; //co s tymto tu???
+	$lang['strread']  =  'Načítať';
+	$lang['strfetch']  =  'Získať';
+	$lang['strheap']  =  'Heap';
+	$lang['strtoast']  =  'TOAST';
+	$lang['strtoastindex']  =  'TOAST Index';
+	$lang['strcache']  =  'Cache';
+	$lang['strdisk']  =  'Disk';
+	$lang['strrows2']  =  'Riadkov';
+
+	// Miscellaneous
+	$lang['strtopbar']  =  '%s beží na %s:%s -- Si prihlásený ako "%s", %s';
+	$lang['strtimefmt']  =  'jS M, Y g:iA';
+	$lang['strhelp']  =  'Pomoc';
 
 ?>
