@@ -1,7 +1,7 @@
-phpPgAdmin FAQ
---------------
+phpPgAdmin Frequently Asked Questions
+-------------------------------------
 
-INSTALLATION ERRORS
+Installation errors
 -------------------
 
 Q: I've installed phpPgAdmin but when I try to use it I get an error message
@@ -39,7 +39,7 @@ Q: I get a warning like this when using phpPgAdmin on Windows:
     "Warning: session_start() [function.session-start]:
      open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed"
 
-A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this
+A: You need to edit your PHP.INI file (usually in c:\windows) and change this
    line:
 
     session.save_path = "/tmp"
@@ -51,7 +51,7 @@ A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this
    And make sure that the folder c:\windows\temp actually exists.
 
 
-LOGIN ERRORS
+Login errors
 ------------
 
 Q: I always get "Login failed" even though I'm _sure_ I'm using the right
@@ -61,9 +61,10 @@ A: Check the PostgreSQL log on your server, it will give the exact reason
    why the login is failing.  Edit the pg_hba.conf file in your PostgreSQL
    data dir and make sure you have enabled access to the server properly.
 
-   Another likely reason is that you have not started your PostgreSQL with
-   TCP/IP sockets enabled.  To enable this, edit your postgresql.conf file
-   and change this line:
+   If you've installed phpPgAdmin on a computer different from the PostgreSQL
+   server, another likely reason may be that you have not started the
+   PostgreSQL server with TCP/IP sockets enabled. To enable this, edit your
+   postgresql.conf file and change this line:
 
    	#tcpip_socket = false
 
@@ -92,7 +93,7 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    .pgpass file - explained in the PostgreSQL documentation.
 
 
-OTHER ERRORS
+Other errors
 ------------
 
 Q: When I enter non-ASCII data into the database via a form, it's inserted
@@ -124,7 +125,7 @@ A: In order, phpPgAdmin will prefer the following as unique row identifiers:
    row has been modified - otherwise rollback will occur.
 
 
-QUESTIONS ON DUMPS
+Questions on dumps
 ------------------
 
 Q: What happened to the database dump feature?
@@ -134,13 +135,16 @@ A: You need to configure phpPgAdmin (in the config.inc.php file) to point
    Once you have done that, the database export feature will appear.
 
 Q: I would like to use the pg_dump integration for database and table
-dumps on Windows.  How do I get pg_dump.exe on Windows?
+dumps on Windows. How do I get pg_dump.exe on Windows?
 
-A: To get pg_dump.exe on Windows, you need to install the Cygwin
-version of PostgreSQL.  Go to http://www.cygwin.com/ and download and
-run the setup.exe.  During setup of Cygwin, choose database/PostgreSQL
-as an extra package. Once installation is complete, you will have
-pg_dump.exe installed.
+A: To get the pg_dump utilities on Windows, you need to install PostgreSQL 8.0
+   for Windows. It is available for download at
+   http://www.postgresql.org/ftp/win32/ .
+   Once you have installed that, set the pg_dump and pg_dumpall locations
+   in the config.inc.php file to
+   'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dump.exe' and
+   'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dumpall.exe', or wherever you
+   installed them.
 
 Q: Why can't I reload the SQL script I dumped in the SQL window?
 
@@ -165,7 +169,7 @@ A: The following limitations currently exist in SQL script execution:
    'psql' utility to restore your full SQL dumps.
 
 
-OTHER QUESTIONS
+Other questions
 ---------------
 
 Q: When inserting a row, what is does the 'Value' or 'Expression' box mean?
