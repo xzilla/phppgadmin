@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.4 2004/04/17 12:59:03 chriskl Exp $
+	 * $Id: conversions.php,v 1.5 2004/05/08 14:44:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 * Show default list of conversions in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc, $database;
+		global $data, $conf, $misc, $database;
 		global $PHP_SELF, $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strconversions']}</h2>\n";
@@ -29,7 +29,7 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strsourceencoding']}</th>";
 			echo "<th class=\"data\">{$lang['strtargetencoding']}</th><th class=\"data\">{$lang['strdefault']}</th>";
-			echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$conversions->EOF) {
@@ -39,7 +39,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['conforencoding']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['contoencoding']), "</td>\n";
 				echo "<td class=\"data{$id}\">", ($conversions->f['condefault']) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['concomment']), "</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($conversions->f['concomment']), "</td>\n";
 				echo "</tr>\n";
 				$conversions->moveNext();
 				$i++;

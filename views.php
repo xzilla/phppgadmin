@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.28 2004/03/12 08:56:52 chriskl Exp $
+	 * $Id: views.php,v 1.29 2004/05/08 14:45:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -294,7 +294,6 @@
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}</h2>\n";
-		//$misc->printHelp("/tutorial-views.html");
 		$misc->printMsg($msg);
 		
 		$views = &$data->getViews();
@@ -303,7 +302,8 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strview']}</th><th class=\"data\">{$lang['strowner']}</th>";
 			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th>\n";
-			echo "<th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
@@ -325,7 +325,7 @@
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$lang['strdrop']}</a></td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"privileges.php?{$misc->href}&object=", urlencode($views->f[$data->vwFields['vwname']]),
 					"&type=view\">{$lang['strprivileges']}</a></td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwcomment']]), "</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($views->f[$data->vwFields['vwcomment']]), "</td>\n";
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;

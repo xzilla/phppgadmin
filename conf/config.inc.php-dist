@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.33 2004/03/04 20:12:24 xzilla Exp $
+	 * $Id: config.inc.php-dist,v 1.34 2004/05/08 14:45:10 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -51,6 +51,10 @@
 	// other means. (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
 	$conf['owned_only'] = false;
 
+	// Display comments on objects?  Comments are a good way of documenting
+	// a database, but they do take up space in the interface.
+	$conf['show_comments'] = true;
+
 	// Display "advanced" objects?  Setting this to true will show types,
 	// operators conversions, languages and casts in phpPgAdmin.  These
 	// objects are rarely administered and can clutter the interface.
@@ -93,6 +97,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 12;
+	$conf['version'] = 13;
 
 ?>

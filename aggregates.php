@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.2 2004/04/17 12:59:03 chriskl Exp $
+	 * $Id: aggregates.php,v 1.3 2004/05/08 14:44:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Show default list of aggregates in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $conf, $misc;
 		global $lang;
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['straggregates']}</h2>\n";
@@ -27,7 +27,7 @@
 		if ($aggregates->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strtype']}</th>";
-			echo "<th class=\"data\">{$lang['strcomment']}</th>";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
 			echo "</tr>\n";
 			$i = 0;
 			while (!$aggregates->EOF) {
@@ -40,7 +40,7 @@
 				else
 					echo $misc->printVal($aggregates->f['proargtypes']);
 				echo "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($aggregates->f['aggcomment']), "</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($aggregates->f['aggcomment']), "</td>\n";
 				echo "</tr>\n";
 				$aggregates->moveNext();
 				$i++;

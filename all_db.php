@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.22 2004/01/04 07:30:12 chriskl Exp $
+	 * $Id: all_db.php,v 1.23 2004/05/08 14:44:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -108,7 +108,7 @@
 	 * Show default list of databases in the server
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>{$lang['strdatabases']}</h2>\n";
@@ -118,17 +118,19 @@
 		if ($databases->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strdatabase']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th class=\"data\">{$lang['strencoding']}</th><th class=\"data\">{$lang['strcomment']}</th>";
-			echo "<th class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<th class=\"data\">{$lang['strencoding']}</th>";
+			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$databases->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['dbname']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['owner']]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($databases->f[$data->dbFields['encoding']]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;db=",
 					urlencode($databases->f[$data->dbFields['dbname']]), "\">{$lang['strdrop']}</a></td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
 				$i++;

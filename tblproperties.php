@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.42 2004/04/12 07:50:33 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.43 2004/05/08 14:45:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -395,7 +395,7 @@
 	 * Show default list of columns in the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 
 		$misc->printTableNav();
@@ -418,8 +418,8 @@
 			echo "\t<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 		else
 			echo "\t<th class=\"data\">{$lang['stractions']}</th>\n";
-		echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n"; 
-	        echo "</tr>\n";
+		if ($conf['show_comments']) echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n"; 
+		echo "</tr>\n";
 
 		$i = 0;
 		while (!$attrs->EOF) {
@@ -435,7 +435,7 @@
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 			}
-			echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['comment']), "</td>\n"; 
+			if ($conf['show_comments']) echo "\t<td class=\"data{$id}\">", $misc->printVal($attrs->f['comment']), "</td>\n"; 
 			echo "</tr>\n";
 			$attrs->moveNext();
 			$i++;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.10 2004/03/31 08:09:55 chriskl Exp $
+	 * $Id: domains.php,v 1.11 2004/05/08 14:44:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -357,7 +357,7 @@
 	 * Show default list of domains in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $conf, $misc;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strdomains']}</h2>\n";
@@ -369,7 +369,9 @@
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strdomain']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
 			echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>";
+			if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$domains->EOF) {
 				$domains->f['domnotnull'] = $data->phpBool($domains->f['domnotnull']);
@@ -381,7 +383,7 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domowner']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domcomment']), "</td>\n";
+				if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domcomment']), "</td>\n";
 				echo "</tr>\n";
 				$domains->moveNext();
 				$i++;

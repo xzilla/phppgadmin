@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.39 2004/04/20 01:34:43 chriskl Exp $
+	 * $Id: database.php,v 1.40 2004/05/08 14:44:56 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -547,7 +547,7 @@
 	 * Show default list of schemas in the server
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
+		global $data, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		$misc->printDatabaseNav();
@@ -561,7 +561,9 @@
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
 				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
-				echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th><th class=\"data\">{$lang['strcomment']}</th>\n";
+				echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>";
+				if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
+				echo "</tr>\n";
 				$i = 0;
 				while (!$schemas->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
@@ -576,7 +578,7 @@
 					echo "<td class=\"opbutton{$id}\"><a href=\"schema.php?database=",
 						urlencode($_REQUEST['database']), "&amp;schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "&amp;action=alter\">{$lang['stralter']}</a></td>\n";
-					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspcomment']]), "</td>\n";
+					if ($conf['show_comments']) echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspcomment']]), "</td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
 					$i++;

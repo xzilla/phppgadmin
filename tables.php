@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.49 2004/04/17 12:59:04 chriskl Exp $
+	 * $Id: tables.php,v 1.50 2004/05/08 14:45:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -449,7 +449,7 @@
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc, $data;
+		global $data, $conf, $misc, $data;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}</h2>\n";
@@ -459,7 +459,9 @@
 		if ($tables->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr>\n\t<th class=\"data\">{$lang['strtable']}</th>\n\t<th class=\"data\">{$lang['strowner']}</th>\n";
-			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n\t<th class=\"data\">{$lang['strcomment']}</th>\n</tr>\n";
+			echo "\t<th colspan=\"6\" class=\"data\">{$lang['stractions']}</th>\n";
+			if ($conf['show_comments']) echo "\t<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "</tr>\n";
 			$i = 0;
 			while (!$tables->EOF) {
 				$return_url = urlencode("tables.php?{$misc->href}");
@@ -479,7 +481,7 @@
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strempty']}</a></td>\n";
 				echo "\t<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;table=",
 					urlencode($tables->f[$data->tbFields['tbname']]), "\">{$lang['strdrop']}</a></td>\n";
-				echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f['tablecomment']), "</td>\n";
+				if ($conf['show_comments']) echo "\t<td class=\"data{$id}\">", $misc->printVal($tables->f['tablecomment']), "</td>\n";
 				echo "</tr>\n";
 				$tables->moveNext();
 				$i++;
