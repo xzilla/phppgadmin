@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.22 2004/03/07 03:19:55 chriskl Exp $
+	 * $Id: spanish.php,v 1.23 2004/05/18 00:45:29 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -117,8 +117,12 @@
 	$lang['strprocesses'] = 'Procesos';
 	$lang['strsetting'] = 'Setear';
 	$lang['streditsql'] = 'Editar SQL';
+	$lang['strruntime'] = 'Tiempo total de ejecución: %s ms';
 	$lang['strpaginate'] = 'Paginar resultados';
+	$lang['struploadscript'] = 'o subir un script SQL:';
 	$lang['strstarttime'] = 'Hora de comienzo';
+	$lang['strfile'] = 'Archivo';
+	$lang['strfileimported'] = 'Archivo importado.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesitás un navegador con soporte de marcos para usar esta aplicación.';
@@ -133,6 +137,9 @@
 	$lang['strnoobjects'] = 'No se encontraron objetos.';
 	$lang['strrownotunique'] = 'No existe un identificador único para este registro.';
 	$lang['strnoreportsdb'] = 'No ha creado aún la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
+	$lang['strnouploads'] = 'Está desabilitada la subida de archivos.';
+	$lang['strimporterror'] = 'Error de importación.';
+	$lang['strimporterrorline'] = 'Error de importación en la línea %s.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -186,6 +193,8 @@
 	$lang['strtablealteredbad'] = 'Falló la modificación  de la Tabla.';
 	$lang['strstructureonly'] = 'Solo la estructura';
 	$lang['strstructureanddata'] = 'Estructura y datos';
+	$lang['strtabbed'] = 'Tabulado';
+	$lang['strauto'] = 'Automático';
 
         // Users
 	$lang['struser'] = 'Usuario';
@@ -269,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Falló al intentar limpiar.';
 	$lang['stranalyzegood'] = 'Análisis completado.';
 	$lang['stranalyzebad'] = 'Falló al intentar analizar.';
+	$lang['strreindexgood'] = 'Reindexado completo.';
+	$lang['strreindexbad'] = 'Falló el reindexado.';
+	$lang['strfull'] = 'Full';
+	$lang['strfreeze'] = 'Freeze';
+	$lang['strforce'] = 'Force';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -279,6 +293,7 @@
 	$lang['strcreateview'] = 'Crear Vista';
 	$lang['strviewname'] = 'Nombre de Vista';
 	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
+	$lang['strviewneedsfields'] = 'Seleccione por favor los campos que decea en su vista.';
 	$lang['strviewneedsdef'] = 'Debe darle una definición a su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Falló al crear la vista.';
@@ -289,6 +304,7 @@
 	$lang['strviewupdatedbad'] = 'Falló al actualizar la vista.';
 	$lang['strviewlink'] = 'Linking Keys';
 	$lang['strviewconditions'] = 'Additional Conditions';
+	$lang['strcreateviewwiz'] = 'Crear vista con Asistente';
 
 	// Sequences
 	$lang['strsequence'] = 'Secuencia';
@@ -466,6 +482,8 @@
 	$lang['strconfdropschema'] = '¿Está seguro que quiere eliminar el esquema "%s"?';
 	$lang['strschemadropped'] = 'Esquema eliminado.';
 	$lang['strschemadroppedbad'] = 'Falló al eliminar el esquema.';
+	$lang['strschemaaltered'] = 'Esquema modificado.';
+	$lang['strschemaalteredbad'] = 'Modificación del esquema falló.';
 
 	// Reports
 	$lang['strreport'] = 'Reporte';

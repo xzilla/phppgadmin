@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.22 2004/03/07 03:19:55 chriskl Exp $
+	 * $Id: spanish.php,v 1.23 2004/05/18 00:45:31 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -117,8 +117,12 @@
 	$lang['strprocesses'] = 'Procesos';
 	$lang['strsetting'] = 'Setear';
 	$lang['streditsql'] = 'Editar SQL';
+	$lang['strruntime'] = 'Tiempo total de ejecuci&oacute;n: %s ms';
 	$lang['strpaginate'] = 'Paginar resultados';
+	$lang['struploadscript'] = 'o subir un script SQL:';
 	$lang['strstarttime'] = 'Hora de comienzo';
+	$lang['strfile'] = 'Archivo';
+	$lang['strfileimported'] = 'Archivo importado.';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesit&aacute;s un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
@@ -133,6 +137,9 @@
 	$lang['strnoobjects'] = 'No se encontraron objetos.';
 	$lang['strrownotunique'] = 'No existe un identificador &uacute;nico para este registro.';
 	$lang['strnoreportsdb'] = 'No ha creado a&uacute;n la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
+	$lang['strnouploads'] = 'Est&aacute; desabilitada la subida de archivos.';
+	$lang['strimporterror'] = 'Error de importaci&oacute;n.';
+	$lang['strimporterrorline'] = 'Error de importaci&oacute;n en la l&iacute;nea %s.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -186,6 +193,8 @@
 	$lang['strtablealteredbad'] = 'Fall&oacute; la modificaci&oacute;n  de la Tabla.';
 	$lang['strstructureonly'] = 'Solo la estructura';
 	$lang['strstructureanddata'] = 'Estructura y datos';
+	$lang['strtabbed'] = 'Tabulado';
+	$lang['strauto'] = 'Autom&aacute;tico';
 
         // Users
 	$lang['struser'] = 'Usuario';
@@ -269,6 +278,11 @@
 	$lang['strvacuumbad'] = 'Fall&oacute; al intentar limpiar.';
 	$lang['stranalyzegood'] = 'An&aacute;lisis completado.';
 	$lang['stranalyzebad'] = 'Fall&oacute; al intentar analizar.';
+	$lang['strreindexgood'] = 'Reindexado completo.';
+	$lang['strreindexbad'] = 'Fall&oacute; el reindexado.';
+	$lang['strfull'] = 'Full';
+	$lang['strfreeze'] = 'Freeze';
+	$lang['strforce'] = 'Force';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -279,6 +293,7 @@
 	$lang['strcreateview'] = 'Crear Vista';
 	$lang['strviewname'] = 'Nombre de Vista';
 	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
+	$lang['strviewneedsfields'] = 'Seleccione por favor los campos que decea en su vista.';
 	$lang['strviewneedsdef'] = 'Debe darle una definici&oacute;n a su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Fall&oacute; al crear la vista.';
@@ -289,6 +304,7 @@
 	$lang['strviewupdatedbad'] = 'Fall&oacute; al actualizar la vista.';
 	$lang['strviewlink'] = 'Linking Keys';
 	$lang['strviewconditions'] = 'Additional Conditions';
+	$lang['strcreateviewwiz'] = 'Crear vista con Asistente';
 
 	// Sequences
 	$lang['strsequence'] = 'Secuencia';
@@ -466,6 +482,8 @@
 	$lang['strconfdropschema'] = '&iquest;Est&aacute; seguro que quiere eliminar el esquema &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Esquema eliminado.';
 	$lang['strschemadroppedbad'] = 'Fall&oacute; al eliminar el esquema.';
+	$lang['strschemaaltered'] = 'Esquema modificado.';
+	$lang['strschemaalteredbad'] = 'Modificaci&oacute;n del esquema fall&oacute;.';
 
 	// Reports
 	$lang['strreport'] = 'Reporte';
