@@ -25,6 +25,7 @@ Bugs
 * Properly detect that reports database is missing
 * Fix for alter column on PostgreSQL 7.1
 * phpPgAdmin now works without '.' in the include_path
+* Can now remove expire dates on user accounts
 
 Translations
 * Spanish from Martin Marques

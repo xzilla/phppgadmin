@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.16 2004/02/14 04:21:02 chriskl Exp $
+	 * $Id: sql.php,v 1.17 2004/02/14 11:13:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,10 +14,12 @@
 
 	// Determine explain version of SQL
 	if ($data->hasFullExplain() && isset($_POST['explain']) && isset($_POST['query'])) {
-		$_POST['query'] = $data->getExplainSQL($_POST['query'], false)
+		$_POST['query'] = $data->getExplainSQL($_POST['query'], false);
+		$_REQUEST['query'] = $_POST['query'];
 	}
 	elseif ($data->hasFullExplain() && isset($_POST['explain_analyze']) && isset($_POST['query'])) {
-		$_POST['query'] = $data->getExplainSQL($_POST['query'], true)
+		$_POST['query'] = $data->getExplainSQL($_POST['query'], true);
+		$_REQUEST['query'] = $_POST['query'];
 	}
 	
 	// Check to see if pagination has been specified.  In that case, send to display
