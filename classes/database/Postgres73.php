@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.129 2004/07/15 08:02:11 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.130 2004/07/15 09:35:30 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -957,14 +957,15 @@ class Postgres73 extends Postgres72 {
 	 function &getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
 
- 		$tables_list = "'{$tables[0]['relname']}'";
- 		$schema_list = "'{$tables[0]['nspname']}'";
- 		$schema_tables_list = "'{$tables[0]['nspname']}.{$tables[0]['relname']}'";
- 		for ($i = 1; $i < sizeof($tables); $i++) {
- 			$tables_list .= ", '{$tables[$i]['relname']}'";
- 			$schema_list .= ", '{$tables[$i]['nspname']}'";
- 			$schema_tables_list .= ", '{$tables[$i]['nspname']}.{$tables[$i]['relname']}'";
- 		}
+		
+		$tables_list = "'{$tables[0]['schemaname']}'";
+		$schema_list = "'{$tables[0]['tablename']}'";
+		$schema_tables_list = "'{$tables[0]['schemaname']}.{$tables[0]['tablename']}'";
+		for ($i = 1; $i < sizeof($tables); $i++) {
+			$tables_list .= ", '{$tables[$i]['tablename']}'";
+			$schema_list .= ", '{$tables[$i]['schemaname']}'";
+			$schema_tables_list .= ", '{$tables[$i]['schemaname']}.{$tables[$i]['tablename']}'";
+		}
 		$maxDimension = 1;
 
 		$sql = "

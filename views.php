@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.46 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: views.php,v 1.47 2004/07/15 09:35:30 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -313,13 +313,13 @@
 		$arrTables = array();
 		while (!$tables->EOF) {						
 			$arrTmp = array();
-			$arrTmp['schemaname'] = $tables->f['schemaname'];
-			$arrTmp['tablename'] = $tables->f['tablename'];
+			$arrTmp['schemaname'] = $tables->f['nspname'];
+			$arrTmp['tablename'] = $tables->f['relname'];
 			if ($data->hasSchemas() ) { //if schemas aren't available don't show them in the interface
-				$arrTables[$tables->f['schemaname'] . '.' . $tables->f['tablename']] = serialize($arrTmp);
+				$arrTables[$tables->f['nspname'] . '.' . $tables->f['relname']] = serialize($arrTmp);
 			}
 			else {
-				$arrTables[$tables->f['tablename']] = serialize($arrTmp);
+				$arrTables[$tables->f['relname']] = serialize($arrTmp);
 			}
 			$tables->moveNext();
 		}		
