@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.10 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.11 2003/03/23 10:11:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -258,8 +258,8 @@
 				echo "<td class=data{$id}>", htmlspecialchars($attrs->f['adsrc']), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", htmlentities($_REQUEST['table']),
-					"&column=", htmlentities($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
+					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$attrs->moveNext();
 				$i++;
