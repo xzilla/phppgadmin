@@ -49,6 +49,8 @@ Sequences
 Functions
 ---------
 
+* Support 8.1 IN, OUT and INOUT parameters.
+
 Indexes 
 -------
 
