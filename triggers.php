@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.11 2003/04/18 11:08:27 chriskl Exp $
+	 * $Id: triggers.php,v 1.12 2003/04/30 07:35:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,11 +32,15 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\">\n";
 			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropTrigger($_POST['trigger'], $_POST['table']);
+			$status = $localData->dropTrigger($_POST['trigger'], $_POST['table'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strtriggerdropped']);
 			else

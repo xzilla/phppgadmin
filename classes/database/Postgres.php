@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.85 2003/04/30 07:31:16 chriskl Exp $
+ * $Id: Postgres.php,v 1.86 2003/04/30 07:35:32 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -833,7 +833,7 @@ class Postgres extends BaseDB {
 	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function &dropSequence($sequence, $cascade) {
+	function dropSequence($sequence, $cascade) {
 		$this->fieldClean($sequence);
 		
 		$sql = "DROP SEQUENCE \"{$sequence}\"";
@@ -1838,13 +1838,15 @@ class Postgres extends BaseDB {
 	 * Drops a trigger
 	 * @param $tgname The name of the trigger to drop
 	 * @param $table The table from which to drop the trigger
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropTrigger($tgname, $table) {
+	function dropTrigger($tgname, $table, $cascade) {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 
 		$sql = "DROP TRIGGER \"{$tgname}\" ON \"{$table}\"";
+		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
 	}
