@@ -1,0 +1,100 @@
+#!/usr/bin/php -f
+<?php
+/**
+	* This script creates a po file for for a new language.
+	* based on english.php
+	* Be aware that the variables in the 'Language and character set'
+	* section ($lang['app...']) are not for translation, but settings.
+	* 
+	* $Id: php2po,v 1.1 2004/11/10 01:28:10 chriskl Exp $
+	*/
+
+
+switch ($argc)
+{
+	case 2:
+		$slang = 'english';
+		$dlang = $argv[1];
+		break;
+	case 3:
+		$slang = $argv[1];
+		$dlang = $argv[2];
+		break;
+	default:
+		echo "\nUsage: $argv[0] [srclang] dstlang\n\n";
+		exit();
+}
+
+$scode = file ($slang.".php");
+
+// Parse source code
+for ($i = 0; $i < count($scode); $i++)
+{
+	$scode[$i] = trim($scode[$i]);
+	if (substr($scode[$i], 0, 2) == '//')
+	{
+		$group = substr($scode[$i], 2);
+		$src[$group] = array();
+	}
+	
+	preg_match("/.lang\['(.*?)'\] = '(.*?)';/", $scode[$i], $ret);
+	
+	if (count($ret))
+	{
+		$src[$group][$ret[1]] = $ret[2];
+	}
+}
+
+// Parse destination (if it exists)
+if (file_exists($dlang.".php"))
+{
+	$dcode = file ($dlang.".php");
+	
+	for ($i = 0; $i < count($dcode); $i++)
+	{
+		$dcode[$i] = trim($dcode[$i]);
+		
+		preg_match("/.lang\['(.*?)'\] = '(.*?)';/", $dcode[$i], $ret);
+		
+		if (count($ret))
+		{
+			$dst[$ret[1]] = $ret[2];
+		}
+	}
+}
+
+// Create po file
+if (! $fres = fopen($dlang.".po", "w"))
+{
+	echo "\nError: cannot open file ".$dlang.".po for writing\n\n";
+	exit();
+}
+
+fwrite($fres, "#\n#\n#\n#\n\n\n\n\n");
+fwrite($fres, "msgid \"\"\n");
+fwrite($fres, "msgstr \"\"\n\n\n\n");
+
+foreach ($src as $group => $strings)
+{
+	fwrite($fres, "\n");
+	fwrite($fres, "#. group $group\n");
+	
+	foreach($strings as $var => $string)
+	{
+		$string = str_replace('"', '\\"', $string);
+		fwrite($fres, "#. str $var\n");
+		fwrite($fres, "msgid \"$string\"\n");
+		fwrite($fres, "msgstr \"");
+		if ($dst[$var])
+		{
+			$tstring = str_replace('"', '\\"', $dst[$var]);
+			fwrite($fres, $tstring);
+		}
+		fwrite($fres, "\"\n\n");
+	}
+	
+}
+
+fclose($fres);
+
+?>

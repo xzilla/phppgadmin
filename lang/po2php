@@ -1,0 +1,74 @@
+#!/usr/bin/php -f
+<?php
+/**
+	* This script converts a po file generated from english.php by php2po
+	* into a new_language.php
+	* The resulted php file still needs some manual editing 
+	* (header & $lang['app...'] variables)
+	* 
+	* $Id: po2php,v 1.1 2004/11/10 01:28:10 chriskl Exp $
+	*/
+
+switch ($argc)
+{
+	case 2:
+		$dlang = $argv[1];
+		break;
+	default:
+		echo "\nUsage: $argv[0] dstlang\n\n";
+		exit();
+}
+
+
+if (!file_exists($dlang.".po"))
+{
+	echo "\nError: file not found: $dlang.po\n\n";
+	exit();
+}
+
+if (file_exists($dlang.".php"))
+{
+	echo "\nError: file $dlang.php already exists\n\n";
+	exit();
+}
+
+$scode = file ($dlang.".po");
+
+// Create lang.php file
+if (! $fres = fopen($dlang.".php", "w"))
+{
+	echo "\nError: cannot open file ".$dlang.".php for writing\n\n";
+	exit();
+}
+
+fwrite($fres, "<?php\n\n\n");
+
+// Parse source code
+for ($i = 0; $i < count($scode); $i++)
+{
+	if (preg_match("/^#. group (.*)$/", $scode[$i], $ret))
+	{
+		fwrite($fres, "\n\t//".$ret[1]."\n");
+	}
+	elseif (preg_match("/^#. str (.*)$/", $scode[$i], $ret))
+	{
+		$langvar = $ret[1];
+	}
+	elseif (preg_match("/^msgid \"(.*)\"$/", $scode[$i], $ret))
+	{
+		$base = $ret[1];
+	}
+	elseif (preg_match("/^msgstr \"(.*)\"$/", $scode[$i], $ret))
+	{
+		if (! $ret[1])
+			$ret[1] = $base;
+		
+		fwrite($fres, "\t\$lang['".$langvar."'] = '".str_replace('\\"', '"', $ret[1])."';\n");
+	}
+}
+
+fwrite($fres, "\n\n\n?>\n");
+
+fclose($fres);
+
+?>
