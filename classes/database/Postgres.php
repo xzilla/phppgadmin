@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.55 2003/03/12 02:29:47 chriskl Exp $
+ * $Id: Postgres.php,v 1.56 2003/03/12 03:13:29 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1805,7 +1805,7 @@ class Postgres extends BaseDB {
 			SELECT conname, consrc, contype, indkey FROM (
 				SELECT
 					rcname AS conname,
-					'CHECK (' || rcsrc || ')' AS consrc
+					'CHECK (' || rcsrc || ')' AS consrc,
 					'c' AS contype,
 					rcrelid AS relid,
 					NULL AS indkey
