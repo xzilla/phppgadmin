@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.11 2003/11/28 05:58:13 chriskl Exp $
+	 * $Id: french.php,v 1.10.4.1 2003/12/03 02:36:03 chriskl Exp $
 	 */
 
 	// Language and character set

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.68 2003/11/28 01:20:38 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.68.2.1 2003/12/03 02:36:03 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.2';
+	$appVersion = '3.2.1';
 
 
 	// Check to see if the configuration file exists, if not, explain
