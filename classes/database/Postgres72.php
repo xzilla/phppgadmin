@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.67 2004/05/26 13:54:43 chriskl Exp $
+ * $Id: Postgres72.php,v 1.68 2004/05/26 14:29:50 chriskl Exp $
  */
 
 
@@ -171,6 +171,47 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	// View functions
+	
+	/**
+	 * Returns a list of all views in the database
+	 * @return All views
+	 */
+	function &getViews() {
+		global $conf;
+
+		if (!$conf['show_system'])
+			$where = " WHERE viewname NOT LIKE 'pg\\\\_%'";
+		else
+			$where = '';
+
+		$sql = "SELECT viewname, viewowner, definition,
+			      (SELECT description FROM pg_description pd, pg_class pc 
+			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS comment
+			FROM pg_views v
+			{$where}
+			ORDER BY viewname";
+
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns all details for a particular view
+	 * @param $view The name of the view to retrieve
+	 * @return View info
+	 */
+	function &getView($view) {
+		$this->clean($view);
+		
+		$sql = "SELECT viewname, viewowner, definition,
+			  (SELECT description FROM pg_description pd, pg_class pc 
+			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS comment
+			FROM pg_views v
+			WHERE viewname='{$view}'";
+			
+		return $this->selectSet($sql);
+	}
+	
 	// Constraint functions
 
 	/**
