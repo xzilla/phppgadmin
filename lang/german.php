@@ -4,7 +4,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.12 2003/09/05 01:24:01 chriskl Exp $
+    * $Id: german.php,v 1.13 2003/09/05 06:48:04 chriskl Exp $
     */
 
     // Language and character set
@@ -130,7 +130,7 @@
     $lang['strtableneedsfield'] = 'Sie müssen mindestens ein Feld angeben.';
     $lang['strtableneedscols'] = 'Sie müssen eine zulässige Anzahl an Spalten angeben.';
     $lang['strtablecreated'] = 'Tabelle erstellt.';
-    $lang['strtablecreatedbad'] = 'Erzeugen der Tabelle fehlgeschlagen.';
+    $lang['strtablecreatedbad'] = 'Erstellen der Tabelle fehlgeschlagen.';
     $lang['strconfdroptable'] = 'Sind Sie sicher, dass Sie die Tabelle "%s" löschen möchten?';
     $lang['strtabledropped'] = 'Tabelle gelöscht.';
     $lang['strtabledroppedbad'] = 'Löschen der Tabelle fehlgeschlagen.';
@@ -187,6 +187,7 @@
     $lang['struserdropped'] = 'Benutzer gelöscht.';
     $lang['struserdroppedbad'] = 'Löschen des Benutzers fehlgeschlagen.';
 
+    // Groups
     $lang['straccount'] = 'Konto';
     $lang['strchangepassword'] = 'Passwort ändern';
     $lang['strpasswordchanged'] = 'Passwort geändert.';
@@ -237,7 +238,7 @@
     $lang['strdatabasename'] = 'Datenbankname';
     $lang['strdatabaseneedsname'] = 'Sie müssen für die Datenbank einen Namen angeben.';
     $lang['strdatabasecreated'] = 'Datenbank erstellt.';
-    $lang['strdatabasecreatedbad'] = 'Erzeugen der Datenbank fehlgeschlagen.';
+    $lang['strdatabasecreatedbad'] = 'Erstellen der Datenbank fehlgeschlagen.';
     $lang['strconfdropdatabase'] = 'Sind Sie sicher, dass Sie die Datenbank "%s" löschen möchten?';
     $lang['strdatabasedropped'] = 'Datenbank gelöscht.';
     $lang['strdatabasedroppedbad'] = 'Löschen der Datenbank fehlgeschlagen.';
@@ -259,7 +260,7 @@
     $lang['strviewneedsname'] = 'Sie müssen für die Sicht einen Namen angeben.';
     $lang['strviewneedsdef'] = 'Sie müssen für die Sicht eine Definition angeben.';
     $lang['strviewcreated'] = 'Sicht erstellt.';
-    $lang['strviewcreatedbad'] = 'Erzeugen der Sicht fehlgeschlagen.';
+    $lang['strviewcreatedbad'] = 'Erstellen der Sicht fehlgeschlagen.';
     $lang['strconfdropview'] = 'Sind Sie sicher, dass Sie die Sicht "%s" löschen möchten?';
     $lang['strviewdropped'] = 'Sicht gelöscht.';
     $lang['strviewdroppedbad'] = 'Löschen der Sicht fehlgeschlagen.';
@@ -272,7 +273,7 @@
     $lang['strshowallsequences'] = 'Zeige alle Sequenzen';
     $lang['strnosequence'] = 'Keine Sequenz gefunden.';
     $lang['strnosequences'] = 'Keine Sequenzen gefunden.';
-    $lang['strcreatesequence'] = 'Erzeuge Sequenz';
+    $lang['strcreatesequence'] = 'Erstelle Sequenz';
     $lang['strlastvalue'] = 'Letzer Wert';
     $lang['strincrementby'] = 'Erhöhen um';
     $lang['strstartvalue'] = 'Startwert';
@@ -284,7 +285,7 @@
     $lang['striscalled'] = 'Aufgerufen?';
     $lang['strsequenceneedsname'] = 'Sie müssen für die Sequenz einen Namen angeben.';
     $lang['strsequencecreated'] = 'Sequenz erstellt.';
-    $lang['strsequencecreatedbad'] = 'Erzeugen der Sequenz fehlgeschlagen.';
+    $lang['strsequencecreatedbad'] = 'Erstellen der Sequenz fehlgeschlagen.';
     $lang['strconfdropsequence'] = 'Sind Sie sicher, dass die die Sequenz "%s" löschen möchten?';
     $lang['strsequencedropped'] = 'Sequenz gelöscht.';
     $lang['strsequencedroppedbad'] = 'Löschen der Sequenz fehlgeschlagen.';
@@ -301,7 +302,7 @@
     $lang['strindexneedsname'] = 'Sie müssen für den Index einen Namen angeben.';
     $lang['strindexneedscols'] = 'Sie müssen eine zulässige Anzahl an Spalten angeben.';
     $lang['strindexcreated'] = 'Index erstellt';
-    $lang['strindexcreatedbad'] = 'Erzeugen des Index fehlgeschlagen.';
+    $lang['strindexcreatedbad'] = 'Erstellen des Index fehlgeschlagen.';
     $lang['strconfdropindex'] = 'Sind Sie sicher, dass sie den Index "%s" löschen möchten?';
     $lang['strindexdropped'] = 'Index gelöscht.';
     $lang['strindexdroppedbad'] = 'Löschen des Index fehlgeschlagen.';
@@ -323,7 +324,7 @@
     $lang['strrulename'] = 'Regelname';
     $lang['strruleneedsname'] = 'Sie müssen für die Regel einen Namen angeben.';
     $lang['strrulecreated'] = 'Regel erstellt.';
-    $lang['strrulecreatedbad'] = 'Erzeugen der Regel fehlgeschlagen.';
+    $lang['strrulecreatedbad'] = 'Erstellen der Regel fehlgeschlagen.';
     $lang['strconfdroprule'] = 'Sind Sie sicher, dass Sie die Regel "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strruledropped'] = 'Regel gelöscht.';
     $lang['strruledroppedbad'] = 'Löschen der Regel fehlgeschlagen.';
@@ -332,9 +333,9 @@
     $lang['strconstraints'] = 'Constraints';
     $lang['strshowallconstraints'] = 'Zeige alle Constraints';
     $lang['strnoconstraints'] = 'Keine Constraints gefunden.';
-    $lang['strcreateconstraint'] = 'Erzeuge Constraint';
+    $lang['strcreateconstraint'] = 'Constraint erstellen';
     $lang['strconstraintcreated'] = 'Constraint erstellt.';
-    $lang['strconstraintcreatedbad'] = 'Erzeugen des Constraints fehlgeschlagen.';
+    $lang['strconstraintcreatedbad'] = 'Erstellen des Constraints fehlgeschlagen.';
     $lang['strconfdropconstraint'] = 'Sind Sie sicher, dass Sie den Constraint "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strconstraintdropped'] = 'Constraint gelöscht.';
     $lang['strconstraintdroppedbad'] = 'Löschen des Constraints fehlgeschlagen.';
@@ -373,7 +374,7 @@
     $lang['strfunctionneedsname'] = 'Sie müssen für die Funktion einen Namen angeben.';
     $lang['strfunctionneedsdef'] = 'Sie müssen für die Funktion eine Definition angeben.';
     $lang['strfunctioncreated'] = 'Funktion erstellt.';
-    $lang['strfunctioncreatedbad'] = 'Erzeugen der Funktion fehlgeschlagen.';
+    $lang['strfunctioncreatedbad'] = 'Erstellen der Funktion fehlgeschlagen.';
     $lang['strconfdropfunction'] = 'Sind Sie sicher, dass sie die Funktion "%s" löschen möchten?';
     $lang['strfunctiondropped'] = 'Funktion gelöscht.';
     $lang['strfunctiondroppedbad'] = 'Löschen der Funktion fehlgeschlagen.';
@@ -390,7 +391,7 @@
     $lang['strtriggerneedsname'] = 'Sie müssen für den Trigger einen Namen angeben.';
     $lang['strtriggerneedsfunc'] = 'Sie müssen für den Trigger eine Funktion angeben.';
     $lang['strtriggercreated'] = 'Trigger erstellt.';
-    $lang['strtriggercreatedbad'] = 'Erzeugen des Triggers fehlgeschlagen.';
+    $lang['strtriggercreatedbad'] = 'Erstellen des Triggers fehlgeschlagen.';
     $lang['strconfdroptrigger'] = 'Sind Sie sicher, dass Sie den Trigger "%s" in der Tabelle "%s" löschen möchten?';
     $lang['strtriggerdropped'] = 'Trigger gelöscht.';
     $lang['strtriggerdroppedbad'] = 'Löschen des Triggers fehlgeschlagen.';
@@ -415,7 +416,7 @@
     $lang['strtypeneedsname'] = 'Sie müssen einen Namen für den Datentyp angeben.';
     $lang['strtypeneedslen'] = 'Sie müssen eine Länge für den Datentyp angeben.';
     $lang['strtypecreated'] = 'Datentyp erstellt.';
-    $lang['strtypecreatedbad'] = 'Erzeugen des Datentypen fehlgeschlagen.';
+    $lang['strtypecreatedbad'] = 'Erstellen des Datentypen fehlgeschlagen.';
     $lang['strconfdroptype'] = 'Sind Sie sicher, dass Sie den Datentyp "%s" löschen möchten?';
     $lang['strtypedropped'] = 'Datentyp gelöscht.';
     $lang['strtypedroppedbad'] = 'Löschen des Datentyps fehlgeschlagen.';
@@ -430,11 +431,12 @@
     $lang['strschemaname'] = 'Name des Schema';
     $lang['strschemaneedsname'] = 'Sie müssen für das Schema einen Namen angeben.';
     $lang['strschemacreated'] = 'Schema erstellt';
-    $lang['strschemacreatedbad'] = 'Erzeugen des Schemas fehlgeschlagen.';
+    $lang['strschemacreatedbad'] = 'Erstellen des Schemas fehlgeschlagen.';
     $lang['strconfdropschema'] = 'Sind Sie sicher, dass sie das Schema "%s" löschen möchten?';
     $lang['strschemadropped'] = 'Schema gelöscht.';
     $lang['strschemadroppedbad'] = 'Löschen des Schemas fehlgeschlagen';
 
+    // Views
     $lang['strreport'] = 'Bericht';
     $lang['strreports'] = 'Berichte';
     $lang['strshowallreports'] = 'Zeige alle Berichte';

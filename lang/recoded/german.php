@@ -4,7 +4,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.9 2003/09/05 01:24:01 chriskl Exp $
+    * $Id: german.php,v 1.10 2003/09/05 06:48:04 chriskl Exp $
     */
 
     // Language and character set
@@ -130,7 +130,7 @@
     $lang['strtableneedsfield'] = 'Sie m&uuml;ssen mindestens ein Feld angeben.';
     $lang['strtableneedscols'] = 'Sie m&uuml;ssen eine zul&auml;ssige Anzahl an Spalten angeben.';
     $lang['strtablecreated'] = 'Tabelle erstellt.';
-    $lang['strtablecreatedbad'] = 'Erzeugen der Tabelle fehlgeschlagen.';
+    $lang['strtablecreatedbad'] = 'Erstellen der Tabelle fehlgeschlagen.';
     $lang['strconfdroptable'] = 'Sind Sie sicher, dass Sie die Tabelle &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strtabledropped'] = 'Tabelle gel&ouml;scht.';
     $lang['strtabledroppedbad'] = 'L&ouml;schen der Tabelle fehlgeschlagen.';
@@ -187,6 +187,7 @@
     $lang['struserdropped'] = 'Benutzer gel&ouml;scht.';
     $lang['struserdroppedbad'] = 'L&ouml;schen des Benutzers fehlgeschlagen.';
 
+    // Groups
     $lang['straccount'] = 'Konto';
     $lang['strchangepassword'] = 'Passwort &auml;ndern';
     $lang['strpasswordchanged'] = 'Passwort ge&auml;ndert.';
@@ -237,7 +238,7 @@
     $lang['strdatabasename'] = 'Datenbankname';
     $lang['strdatabaseneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Datenbank einen Namen angeben.';
     $lang['strdatabasecreated'] = 'Datenbank erstellt.';
-    $lang['strdatabasecreatedbad'] = 'Erzeugen der Datenbank fehlgeschlagen.';
+    $lang['strdatabasecreatedbad'] = 'Erstellen der Datenbank fehlgeschlagen.';
     $lang['strconfdropdatabase'] = 'Sind Sie sicher, dass Sie die Datenbank &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strdatabasedropped'] = 'Datenbank gel&ouml;scht.';
     $lang['strdatabasedroppedbad'] = 'L&ouml;schen der Datenbank fehlgeschlagen.';
@@ -259,7 +260,7 @@
     $lang['strviewneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Sicht einen Namen angeben.';
     $lang['strviewneedsdef'] = 'Sie m&uuml;ssen f&uuml;r die Sicht eine Definition angeben.';
     $lang['strviewcreated'] = 'Sicht erstellt.';
-    $lang['strviewcreatedbad'] = 'Erzeugen der Sicht fehlgeschlagen.';
+    $lang['strviewcreatedbad'] = 'Erstellen der Sicht fehlgeschlagen.';
     $lang['strconfdropview'] = 'Sind Sie sicher, dass Sie die Sicht &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strviewdropped'] = 'Sicht gel&ouml;scht.';
     $lang['strviewdroppedbad'] = 'L&ouml;schen der Sicht fehlgeschlagen.';
@@ -272,7 +273,7 @@
     $lang['strshowallsequences'] = 'Zeige alle Sequenzen';
     $lang['strnosequence'] = 'Keine Sequenz gefunden.';
     $lang['strnosequences'] = 'Keine Sequenzen gefunden.';
-    $lang['strcreatesequence'] = 'Erzeuge Sequenz';
+    $lang['strcreatesequence'] = 'Erstelle Sequenz';
     $lang['strlastvalue'] = 'Letzer Wert';
     $lang['strincrementby'] = 'Erh&ouml;hen um';
     $lang['strstartvalue'] = 'Startwert';
@@ -284,7 +285,7 @@
     $lang['striscalled'] = 'Aufgerufen?';
     $lang['strsequenceneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Sequenz einen Namen angeben.';
     $lang['strsequencecreated'] = 'Sequenz erstellt.';
-    $lang['strsequencecreatedbad'] = 'Erzeugen der Sequenz fehlgeschlagen.';
+    $lang['strsequencecreatedbad'] = 'Erstellen der Sequenz fehlgeschlagen.';
     $lang['strconfdropsequence'] = 'Sind Sie sicher, dass die die Sequenz &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strsequencedropped'] = 'Sequenz gel&ouml;scht.';
     $lang['strsequencedroppedbad'] = 'L&ouml;schen der Sequenz fehlgeschlagen.';
@@ -301,7 +302,7 @@
     $lang['strindexneedsname'] = 'Sie m&uuml;ssen f&uuml;r den Index einen Namen angeben.';
     $lang['strindexneedscols'] = 'Sie m&uuml;ssen eine zul&auml;ssige Anzahl an Spalten angeben.';
     $lang['strindexcreated'] = 'Index erstellt';
-    $lang['strindexcreatedbad'] = 'Erzeugen des Index fehlgeschlagen.';
+    $lang['strindexcreatedbad'] = 'Erstellen des Index fehlgeschlagen.';
     $lang['strconfdropindex'] = 'Sind Sie sicher, dass sie den Index &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strindexdropped'] = 'Index gel&ouml;scht.';
     $lang['strindexdroppedbad'] = 'L&ouml;schen des Index fehlgeschlagen.';
@@ -323,7 +324,7 @@
     $lang['strrulename'] = 'Regelname';
     $lang['strruleneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Regel einen Namen angeben.';
     $lang['strrulecreated'] = 'Regel erstellt.';
-    $lang['strrulecreatedbad'] = 'Erzeugen der Regel fehlgeschlagen.';
+    $lang['strrulecreatedbad'] = 'Erstellen der Regel fehlgeschlagen.';
     $lang['strconfdroprule'] = 'Sind Sie sicher, dass Sie die Regel &quot;%s&quot; in der Tabelle &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strruledropped'] = 'Regel gel&ouml;scht.';
     $lang['strruledroppedbad'] = 'L&ouml;schen der Regel fehlgeschlagen.';
@@ -332,9 +333,9 @@
     $lang['strconstraints'] = 'Constraints';
     $lang['strshowallconstraints'] = 'Zeige alle Constraints';
     $lang['strnoconstraints'] = 'Keine Constraints gefunden.';
-    $lang['strcreateconstraint'] = 'Erzeuge Constraint';
+    $lang['strcreateconstraint'] = 'Constraint erstellen';
     $lang['strconstraintcreated'] = 'Constraint erstellt.';
-    $lang['strconstraintcreatedbad'] = 'Erzeugen des Constraints fehlgeschlagen.';
+    $lang['strconstraintcreatedbad'] = 'Erstellen des Constraints fehlgeschlagen.';
     $lang['strconfdropconstraint'] = 'Sind Sie sicher, dass Sie den Constraint &quot;%s&quot; in der Tabelle &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strconstraintdropped'] = 'Constraint gel&ouml;scht.';
     $lang['strconstraintdroppedbad'] = 'L&ouml;schen des Constraints fehlgeschlagen.';
@@ -373,7 +374,7 @@
     $lang['strfunctionneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Funktion einen Namen angeben.';
     $lang['strfunctionneedsdef'] = 'Sie m&uuml;ssen f&uuml;r die Funktion eine Definition angeben.';
     $lang['strfunctioncreated'] = 'Funktion erstellt.';
-    $lang['strfunctioncreatedbad'] = 'Erzeugen der Funktion fehlgeschlagen.';
+    $lang['strfunctioncreatedbad'] = 'Erstellen der Funktion fehlgeschlagen.';
     $lang['strconfdropfunction'] = 'Sind Sie sicher, dass sie die Funktion &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strfunctiondropped'] = 'Funktion gel&ouml;scht.';
     $lang['strfunctiondroppedbad'] = 'L&ouml;schen der Funktion fehlgeschlagen.';
@@ -390,7 +391,7 @@
     $lang['strtriggerneedsname'] = 'Sie m&uuml;ssen f&uuml;r den Trigger einen Namen angeben.';
     $lang['strtriggerneedsfunc'] = 'Sie m&uuml;ssen f&uuml;r den Trigger eine Funktion angeben.';
     $lang['strtriggercreated'] = 'Trigger erstellt.';
-    $lang['strtriggercreatedbad'] = 'Erzeugen des Triggers fehlgeschlagen.';
+    $lang['strtriggercreatedbad'] = 'Erstellen des Triggers fehlgeschlagen.';
     $lang['strconfdroptrigger'] = 'Sind Sie sicher, dass Sie den Trigger &quot;%s&quot; in der Tabelle &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strtriggerdropped'] = 'Trigger gel&ouml;scht.';
     $lang['strtriggerdroppedbad'] = 'L&ouml;schen des Triggers fehlgeschlagen.';
@@ -415,7 +416,7 @@
     $lang['strtypeneedsname'] = 'Sie m&uuml;ssen einen Namen f&uuml;r den Datentyp angeben.';
     $lang['strtypeneedslen'] = 'Sie m&uuml;ssen eine L&auml;nge f&uuml;r den Datentyp angeben.';
     $lang['strtypecreated'] = 'Datentyp erstellt.';
-    $lang['strtypecreatedbad'] = 'Erzeugen des Datentypen fehlgeschlagen.';
+    $lang['strtypecreatedbad'] = 'Erstellen des Datentypen fehlgeschlagen.';
     $lang['strconfdroptype'] = 'Sind Sie sicher, dass Sie den Datentyp &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strtypedropped'] = 'Datentyp gel&ouml;scht.';
     $lang['strtypedroppedbad'] = 'L&ouml;schen des Datentyps fehlgeschlagen.';
@@ -430,11 +431,12 @@
     $lang['strschemaname'] = 'Name des Schema';
     $lang['strschemaneedsname'] = 'Sie m&uuml;ssen f&uuml;r das Schema einen Namen angeben.';
     $lang['strschemacreated'] = 'Schema erstellt';
-    $lang['strschemacreatedbad'] = 'Erzeugen des Schemas fehlgeschlagen.';
+    $lang['strschemacreatedbad'] = 'Erstellen des Schemas fehlgeschlagen.';
     $lang['strconfdropschema'] = 'Sind Sie sicher, dass sie das Schema &quot;%s&quot; l&ouml;schen m&ouml;chten?';
     $lang['strschemadropped'] = 'Schema gel&ouml;scht.';
     $lang['strschemadroppedbad'] = 'L&ouml;schen des Schemas fehlgeschlagen';
 
+    // Views
     $lang['strreport'] = 'Bericht';
     $lang['strreports'] = 'Berichte';
     $lang['strshowallreports'] = 'Zeige alle Berichte';
