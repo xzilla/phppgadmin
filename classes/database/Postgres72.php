@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.33 2003/04/08 12:45:18 chriskl Exp $
+ * $Id: Postgres72.php,v 1.34 2003/04/08 12:51:44 chriskl Exp $
  */
 
 
@@ -40,7 +40,7 @@ class Postgres72 extends Postgres71 {
 
 		// Correct the error in the encoding tables, that was
 		// fixed in PostgreSQL 7.2
-		$this->codemap['LATIN5'] = 'ISO 8859-9';
+		$this->codemap['LATIN5'] = 'ISO-8859-9';
 	}
 
 	// Table functions
