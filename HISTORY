@@ -30,6 +30,9 @@ Translations
 * Mongolian from Erdenemandal
 * Ukrainian from Alex Rootoff
 
+Bugs
+* Fix that non-Auto mode import didn't work (Adrian Nida)
+
 Version 3.4.1
 -------------
 

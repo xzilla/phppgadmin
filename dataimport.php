@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.4 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: dataimport.php,v 1.5 2004/08/19 01:21:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -166,22 +166,24 @@
 			}
 
 			// If format is set to 'auto', then determine format automatically from file name
-			$extension = substr(strrchr($_FILES['source']['name'], '.'), 1);
-			switch ($extension) {
-				case 'csv':
-					$_REQUEST['format'] = 'csv';
-					break;
-				case 'txt':
-					$_REQUEST['format'] = 'tab';
-					break;
-				case 'xml':
-					$_REQUEST['format'] = 'xml';
-					break;
-				default:
-					$data->rollbackTransaction();
-					$misc->printMsg($lang['strimporterror']);
-					exit;			
-			}		
+			if ($_REQUEST['format'] == 'auto') {
+				$extension = substr(strrchr($_FILES['source']['name'], '.'), 1);
+				switch ($extension) {
+					case 'csv':
+						$_REQUEST['format'] = 'csv';
+						break;
+					case 'txt':
+						$_REQUEST['format'] = 'tab';
+						break;
+					case 'xml':
+						$_REQUEST['format'] = 'xml';
+						break;
+					default:
+						$data->rollbackTransaction();
+						$misc->printMsg($lang['strimporterror']);
+						exit;			
+				}
+			}
 
 			// Do different import technique depending on file format
 			switch ($_REQUEST['format']) {
