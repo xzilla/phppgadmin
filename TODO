@@ -132,8 +132,8 @@ Miscellaneous
 -------------
 
 * Allow simultaneous logins to different clusters (mark gibson)
-* Show comments for all objects
-* Allow setting/dropping comments for all objects
+* Show comments for all objects (Dan Boren)
+* Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * -Config option to disallow pgsql and postgres logins
