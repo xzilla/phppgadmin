@@ -39,6 +39,8 @@ Features:
 * Swedish translation from Stefan Malqvist
 * Add a robots.txt file to prevent search engine indexation
 * Italian translation update from Nicola Soranzo
+* German update from Markus Bertheau
+* Spanish update from Martin Marques
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
@@ -50,6 +52,7 @@ Bug Fixes:
 * Fix saving and loading function volatility
 * Don't list domains under types
 * Lots of reports fixes (titles, page reloads, etc.)
+* Selecting for NULL values in Select feature
 
 Version 3.0.1
 -------------

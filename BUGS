@@ -1,11 +1,4 @@
-* Backport findObject to pre-7.3
-* Add db comments everywhere
-* Add owner everywhere
-* pg_dump feature!!!
-* reports - unindexed fk's
-	  - slow indexes
 * Get table comments for pre-7.3
 * make getrowidentifier prefer unique indexes that don't allow nulls,
   and don't use partial indexes
-* remove tblexport.php from cvs
-
+* Use explicit session names

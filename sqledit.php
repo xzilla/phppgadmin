@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.2 2003/08/12 01:57:21 chriskl Exp $
+	 * $Id: sqledit.php,v 1.3 2003/09/05 04:58:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,20 +14,13 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Allow execution of arbitrary SQL statements on a database
+	 * Private function to display list of databases
 	 */
-	function doDefault() {
-		global $PHP_SELF, $data, $localData, $misc;
-		global $lang, $conf;
-
-		if (!isset($_POST['query'])) $_POST['query'] = '';
-
+	function _printDatabases() {
+		global $data, $lang, $conf;
+		
 		// Get the list of all databases
 		$databases = &$data->getDatabases();
-
-		echo "<h2>{$lang['strsql']}</h2>\n";
-
-		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
 
 		if ($databases->recordCount() > 0) {
 			echo "<p>{$lang['strdatabase']}: <select name=\"database\">\n";
@@ -43,25 +36,58 @@
 		else {
 			echo "<input type=\"hidden\" name=\"database\" value=\"", 
 				htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['defaultdb']), "\" />\n";
-		}
+		}		
+	}	
+
+	/**
+	 * Searches for a named database object
+	 */
+	function doFind() {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		if (!isset($_GET['term'])) $_GET['term'] = '';
+
+		$misc->printPopUpNav();
+		echo "<h2>{$lang['strfind']}</h2>\n";
+		
+		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n";
+		_printDatabases();
+		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
+			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
+		echo $misc->form;
+		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
+		echo "</form>\n";
+	}
+
+	/**
+	 * Allow execution of arbitrary SQL statements on a database
+	 */
+	function doDefault() {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $lang, $conf;
+
+		if (!isset($_POST['query'])) $_POST['query'] = '';
+
+		$misc->printPopUpNav();
+		echo "<h2>{$lang['strsql']}</h2>\n";
+
+		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
+		_printDatabases();
 		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "<input type=\"button\" value=\"{$lang['strtaller']}\" onclick=\"document.forms[0].query.rows += 2;\" />\n";
 		echo "<input type=\"button\" value=\"{$lang['strshorter']}\" onclick=\"document.forms[0].query.rows -= 2;\" />\n";
 
-		$rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 20;
+		$rows = isset($_REQUEST['rows']) ? $_REQUEST['rows'] : 17;
 
 		echo "<textarea style=\"width:100%; height:100%;\" rows=\"{$rows}\" cols=\"50\" name=\"query\" id=\"query\">",
 			htmlspecialchars($_POST['query']), "</textarea></p>\n";
 
 		echo $misc->form;
 
-//		HMMM: Not sure what the back link could do in this situation, any ideas?
-
-//		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
-//			urlencode($_REQUEST['database']), " />\n";
-//		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\" />\n";
 		echo "</form>\n";
 	}
 
@@ -71,6 +97,10 @@
 	echo "<body onLoad=\"window.focus();\">\n";
 	
 	switch ($action) {
+		case 'find':
+			doFind();
+			break;
+		case 'sql':
 		default:
 			doDefault();
 			break;

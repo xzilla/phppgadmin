@@ -38,8 +38,8 @@ Tables
 ------
 
 * Not using proper attFields array for attribute info (i was being lazy)
-* Rename table
-* Change table owner
+* -Rename table
+* -Change table owner
 * Cluster support
 * Vacuum & analyze (half done)
 
@@ -116,6 +116,11 @@ Miscellaneous
 -------------
 
 * Allow simultaneous logins to different clusters (mark gibson)
+* Show comments for all objects
+* Allow setting/dropping comments for all objects
+* Show owner for all objects
+* Allow changing owner for objects that have this feature (7.4+ generally)
+* pg_dump integration
 
 Exotic
 ------

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.42 2003/08/27 22:52:43 slubek Exp $
+	 * $Id: Misc.php,v 1.43 2003/09/05 04:58:14 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -313,6 +313,18 @@
 			echo "</tr></table>\n";
 		}
 
+		/**
+		 * Display the navigation header for popup window
+		 */
+		function printPopUpNav() {
+			global $lang, $data;
+
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			echo "<td width=\"50%\"><a href=\"sqledit.php?action=sql\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"50%\"><a href=\"sqledit.php?action=find\">{$lang['strfind']}</a></td>\n";
+			echo "</tr></table>\n";
+		}
+		
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.
 		 * @param $page the page currently viewed

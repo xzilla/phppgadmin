@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.143 2003/09/03 05:46:20 chriskl Exp $
+ * $Id: Postgres.php,v 1.144 2003/09/05 04:58:14 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1590,9 +1590,10 @@ class Postgres extends BaseDB {
 		global $conf;
 
 		// Escape search term for ~* match
-		// @@ This needs to be improved
-		$term = str_replace('.', '\\.', $term);
-		$term = str_replace('*', '\\*', $term);
+		$special = array('.', '*', '^', '$', ':', '?', '+', ',', '=', '!', '[', ']', '(', ')', '{', '}', '<', '>', '-', '\\');
+		foreach ($special as $v) {
+			$term = str_replace($v, "\\{$v}", $term);
+		}
 		$this->clean($term);
 
 		// Build SQL, excluding system relations as necessary
