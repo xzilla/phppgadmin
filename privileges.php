@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.13 2003/05/22 04:11:35 chriskl Exp $
+	 * $Id: privileges.php,v 1.14 2003/05/23 03:10:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -188,12 +188,12 @@
 				break;
 			case 'view':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 				break;
 			case 'sequence':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 				break;
 			case 'database':
@@ -202,12 +202,12 @@
 				break;
 			case 'function':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "&function=", urlencode($_REQUEST['function']), "\">{$lang['stralterprivs']}</a> |\n";
+					urlencode($_REQUEST['object']), "&function=", urlencode($_REQUEST['function']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></p>\n";
 				break;
 			case 'schema':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&{$misc->href}&type={$_REQUEST['type']}&object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a> |\n";
+					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
 				echo "| <a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
 					"\">{$lang['strshowallschemas']}</a></p>\n";
 				break;
