@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.93 2004/09/23 12:06:46 soranzo Exp $
+	 * $Id: Misc.php,v 1.94 2004/09/30 12:49:08 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -736,9 +736,10 @@
 				$trail = $this->getTrail($trail);
 			}
 			
-			echo "<div class=\"trail\">";
+			echo "<div class=\"trail\"><table><tr>";
 			
 			foreach ($trail as $crumb) {
+				echo "<td>";
 				$crumblink = "<a";
 				
 				if (isset($crumb['url']))
@@ -755,9 +756,10 @@
 					echo $crumblink;
 				
 				echo "{$lang['strseparator']}";
+				echo "</td>";
 			}
 			
-			echo "</div>\n";
+			echo "</tr></table></div>\n";
 		}
 
 		/**
