@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.12 2004/08/04 07:44:03 chriskl Exp $
+	 * $Id: dbexport.php,v 1.13 2004/10/06 08:39:49 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -38,13 +38,16 @@
 		
 		// Check if we're doing a cluster-wide dump or just a per-database dump
 		if ($_REQUEST['mode'] == 'database') {
-			// Build command for executing pg_dump.  '-i' means ignore version differences.
-			$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']) . " -i";
+			// Get path of the pg_dump executable.
+			$exe = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dump_path']);
 		}
 		else {
-			// Build command for executing pg_dump.  '-i' means ignore version differences.
-			$cmd = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']) . " -i";
+			// Get path of the pg_dumpall executable.
+			$exe = escapeshellcmd($conf['servers'][$_SESSION['webdbServerID']]['pg_dumpall_path']);
 		}
+		
+		// Build command for executing pg_dump.  '-i' means ignore version differences.
+		$cmd = $exe . " -i";
 		
 		if ($hostname !== null && $hostname != '') {
 			$cmd .= " -h " . escapeshellarg($hostname);
@@ -54,11 +57,16 @@
 		}
 		
 		// Check for a table specified
-		if (isset($_REQUEST['table']) && $_REQUEST['mode'] == 'database') {			
+		if (isset($_REQUEST['table']) && $_REQUEST['mode'] == 'database') {
+			
+			// Obtain the pg_dump version number
+			$version = array();
+			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?$/", exec($exe . " --version"), $version);
+			
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
-			if ($data->hasSchemaDump()) {
+			if (((float) $version[1]) >= 7.4) {
 				$cmd .= " -t " . escapeshellarg($_REQUEST['table']);
 				$cmd .= " -n " . escapeshellarg($_REQUEST['schema']);
 			}
