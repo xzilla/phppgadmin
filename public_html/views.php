@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.8 2003/01/08 07:29:11 chriskl Exp $
+	 * $Id: views.php,v 1.9 2003/01/10 06:55:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -170,6 +170,7 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews, $strViews;
+		global $strBrowse, $strProperties, $strDrop, $strCreateView, $strBack;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}</h2>\n";
 		$misc->printMsg($msg);
@@ -181,13 +182,17 @@
 			echo "<tr><th class=data>{$strView}</th><th class=data>{$strOwner}</th><th colspan=4 class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$views->EOF) {
+				// @@@@@@@@@ FIX THIS!!!!!
+				$query = urlencode("SELECT * FROM \"{$views->f[$data->vwFields['vwname']]}\"");
+				$count = urlencode("SELECT COUNT(*) AS total FROM \"{$views->f[$data->vwFields['vwname']]}\"");
+				$return_url = urlencode("views.php?{$misc->href}");
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($views->f[$data->vwFields['vwowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Browse</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc={$strBack}\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Properties</a></td>\n"; 
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">Drop</a></td>\n"; 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strProperties}</a></td>\n"; 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strDrop}</a></td>\n"; 
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;
@@ -198,7 +203,7 @@
 			echo "<p>{$strNoViews}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">Create View</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateView}</a></p>\n";
 
 	}
 
