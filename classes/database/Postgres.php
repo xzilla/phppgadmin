@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.115 2003/05/25 09:41:57 chriskl Exp $
+ * $Id: Postgres.php,v 1.116 2003/05/25 10:47:50 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -346,15 +346,14 @@ class Postgres extends BaseDB {
 	 */
 	function printField($name, $value, $type) {
 		global $lang;
-		
 		switch ($type) {
 			case 'bool':
 			case 'boolean':
 				if ($value !== null && $value == '') $value = null;
 				echo "<select name=\"", htmlspecialchars($name), "\">\n";
 				echo "<option value=\"\"", ($value === null) ? ' selected' : '', "></option>\n";
-				echo "<option value=\"TRUE\"", ($value !== null && $value) ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
-				echo "<option value=\"FALSE\"", ($value !== null && !$value) ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
+				echo "<option value=\"t\"", ($value == 't') ? ' selected' : '', ">{$lang['strtrue']}</option>\n";
+				echo "<option value=\"f\"", ($value == 'f') ? ' selected' : '', ">{$lang['strfalse']}</option>\n";
 				echo "</select>\n";
 				break;
 			case 'text':
@@ -380,15 +379,12 @@ class Postgres extends BaseDB {
 		switch ($type) {
 			case 'bool':
 			case 'boolean':
-				if ($format == 'VALUE') {
-					if ($value == 'TRUE')
-						return 'TRUE';
-					elseif ($value == 'FALSE')
-						return 'FALSE';
-					else
-						return "''";
-				}
-				else return $value;
+				if ($value == 't')
+					return 'TRUE';
+				elseif ($value == 'f')
+					return 'FALSE';
+				else
+					return "''";
 				break;		
 			default:
 				// Checking variable fields is difficult as there might be a size
