@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: privileges.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: privileges.php,v 1.2 2003/01/26 00:00:27 slubek Exp $
 	 */
 
 	// Include application functions
@@ -409,36 +409,46 @@
 
 		// We must return only one row from the above query
 
-		echo '<table border="1">';
-				
+		echo "<table>\n";
+
+		$i = 1;
 		for ($y=0;$y<count($privileges);$y++)
 		{
 			$thisuser = explode('@!@',$privileges[$y]);
-
-			$otf = '<td>'; $ctf = '</td>';
-
+			$id = (($i % 2) == 0 ? '1' : '2');
 			if ($y==0) {
-				$otf = '<th>'; $ctf = '</th>';
+				$otf = '<th class=data>';
+				$ctf = '</th>';
+			} else {
+				$otf = "<td class=data{$id}>";
+				$ctf = '</td>';
 			}
 
-			echo '<tr>';
+			echo "<tr>";
 
 			for ($x=0;$x<count($thisuser);$x++)
 			{
-
-				echo "$otf". $thisuser[$x] ."$ctf";
+				echo "$otf";
+				switch ($thisuser[$x]) {
+					case 'Yes':	echo $strYes;
+							break;
+					case 'No':	echo $strNo;
+							break;
+					default:	echo $thisuser[$x];
+				}
+				echo "$ctf";
 			}	
 
 			// $endcap = "<td><a href=#>$strGrant</a></td><td><a href=#>$strRevoke</a>";
-			$endcap = "<td><a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database']) ."&object=". urlencode($object) ."&action=grant&user=". urlencode($thisuser[0]) ."\">$strGrant</a></td><td><a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database'])  ."&object=". urlencode($object)  ."&action=revoke&user=". urlencode($thisuser[0])  ."\">$strRevoke</a></td>";
+			$endcap = $otf . "<a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database']) ."&object=". urlencode($object) ."&action=grant&user=". urlencode($thisuser[0]) ."\">$strGrant</a>" . $ctf . $otf ."<a href=\"$PHP_SELF?database=". urlencode($_REQUEST['database'])  ."&object=". urlencode($object)  ."&action=revoke&user=". urlencode($thisuser[0])  ."\">$strRevoke</a>" . $ctf;
 
 			if ($y==0) {
-				$endcap = "<th colspan=2>$strAction</td>";
+				$endcap = "<th colspan=2 class=data>$strAction</td>";
 			}
 
 			echo $endcap;
-			echo '</tr>';
-
+			echo "</tr>\n";
+			$i++;
 		}
 
 		echo '</table>';
