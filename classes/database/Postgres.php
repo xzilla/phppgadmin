@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.209 2004/05/19 01:28:34 soranzo Exp $
+ * $Id: Postgres.php,v 1.210 2004/05/23 04:10:19 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1126,7 +1126,6 @@ class Postgres extends BaseDB {
 	 */
 	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, 
 									$type, $length, $array, $oldtype, $comment) {
-	  	$this->clean($comment);
 		$this->beginTransaction();
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
@@ -1151,12 +1150,6 @@ class Postgres extends BaseDB {
 			}
 		}
 
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
-		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -4;
-		}
-
 		// Rename the column, if it has been changed
 		if ($column != $name) {
 			$status = $this->renameColumn($table, $column, $name);
@@ -1164,6 +1157,17 @@ class Postgres extends BaseDB {
 				$this->rollbackTransaction();
 				return -3;
 			}
+		}
+		
+		// Parameters must be cleaned for the setComment function.  It's ok to do
+		// that here since this is the last time these variables are used.
+		$this->fieldClean($name);
+		$this->fieldClean($table);
+		$this->clean($comment);	
+		$status = $this->setComment('COLUMN', $name, $table, $comment);
+		if ($status != 0) {
+		  $this->rollbackTransaction();
+		  return -4;
 		}
 
 		return $this->endTransaction();
@@ -1188,7 +1192,7 @@ class Postgres extends BaseDB {
 	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
 				$default, $withoutoids, $colcomment, $tblcomment) {
 		$this->fieldClean($name);
-		$this->fieldClean($tblcomment);
+		$this->clean($tblcomment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
@@ -1253,10 +1257,10 @@ class Postgres extends BaseDB {
 		}
 
 		if ($tblcomment != '') {
-			$status = $this->setComment('TABLE', '', $name, $tblcomment);
+			$status = $this->setComment('TABLE', '', $name, $tblcomment, true);
 			if ($status) {
 				$this->rollbackTransaction();
-			return -1;
+				return -1;
 			}
 		}
 
@@ -1977,15 +1981,14 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Sets the comment for an object in the database
+	 * @pre All parameters must already be cleaned
 	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION'
-	 * @param $obj_name The name of the object for which to attach a comment
+	 * @param $obj_name The name of the object for which to attach a comment.
 	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
-	 * @param $comment The comment to add
+	 * @param $comment The comment to add.
 	 * @return 0 success
 	 */
 	function setComment($obj_type, $obj_name, $table, $comment) {
-		$this->clean($comment);
-		
 		$sql = "COMMENT ON {$obj_type} " ;
 
 		switch ($obj_type) {
@@ -3539,7 +3542,7 @@ class Postgres extends BaseDB {
 	 * @return -3 create function error
 	 * @return -4 comment error
 	 */
-	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {		
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 		
@@ -3559,6 +3562,7 @@ class Postgres extends BaseDB {
 		
 		// Comment on the function
 		$this->fieldClean($newname);
+		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
 		if ($status != 0) {
 		  $this->rollbackTransaction();

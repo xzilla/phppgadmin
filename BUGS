@@ -20,12 +20,9 @@ Need to fix:
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
 
-* Fix all uses of setComment that do double escaping
-
 NEEDS TESTING
 -------------
 
-* Comment stuff
 * Import
 * Script execution
 * Create view wizard looks buggy
@@ -33,6 +30,4 @@ NEEDS TESTING
 * error on viewing reports page
 * highlight things on the info stats page
 * advanced stats functions
-* 7.5 alter column support needs a lot of testing in pre-7.5
-* Alter view column broken? (it is on 7.0)
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.33 2004/05/14 01:16:13 soranzo Exp $
+	 * $Id: views.php,v 1.34 2004/05/23 04:10:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -328,8 +328,8 @@
 		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><input style=\"width: 100%;\" name=\"formComment\" value='", 
-			htmlspecialchars($_REQUEST['formComment']), "' /></td>\n\t</tr>\n";
+		echo "\t\t<td class=\"data1\"><input size=\"64\" name=\"formComment\" value=\"", 
+			htmlspecialchars($_REQUEST['formComment']), "\" /></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.4 2004/05/14 07:56:38 chriskl Exp $
+ * $Id: Postgres75.php,v 1.5 2004/05/23 04:10:20 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -45,6 +45,7 @@ class Postgres75 extends Postgres74 {
 									$type, $length, $array, $oldtype, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
+		$this->clean($comment);
 
 		// Initialise an empty SQL string
 		$sql = '';

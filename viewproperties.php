@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.3 2004/05/14 07:56:37 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.4 2004/05/23 04:10:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,8 +50,8 @@
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input style=\"width: 100%;\" name=\"formComment\" value='", 
-				htmlspecialchars($_POST['formComment']), "' /></td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\"><input size=\"64\" name=\"formComment\" value=\"", 
+				htmlspecialchars($_POST['formComment']), "\" /></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
@@ -208,7 +208,8 @@
 				}
 				
 				$status = $data->alterColumn($_REQUEST['view'], $_REQUEST['column'], $_REQUEST['field'], 
-							     false, false, $_REQUEST['default'], $_REQUEST['olddefault'],$_REQUEST['comment']);
+							     false, false, $_REQUEST['default'], $_REQUEST['olddefault'],
+							     '', '', '', '', $_REQUEST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {

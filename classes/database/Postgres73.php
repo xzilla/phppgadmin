@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.108 2004/05/19 01:28:34 soranzo Exp $
+ * $Id: Postgres73.php,v 1.109 2004/05/23 04:10:20 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -181,7 +181,7 @@ class Postgres73 extends Postgres72 {
 	 */
 	function updateSchema($schemaname, $comment) {
 		$this->fieldClean($schemaname);
-		$this->fieldClean($comment);
+		$this->clean($comment);
 		return $this->setComment('SCHEMA', $schemaname, '', $comment);
 	}
 
