@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.7 2003/04/18 11:08:26 chriskl Exp $
+	 * $Id: groups.php,v 1.8 2003/05/08 15:14:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,7 +35,7 @@
 			echo "</table>\n";
 
 		}
-		else echo "<p>{$lang['strinvalidparam']}</p>\n";
+		else echo "<p>{$lang['strnousers']}</p>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.10 2003/05/08 14:15:55 chriskl Exp $
+	 * $Id: topbar.php,v 1.11 2003/05/08 15:14:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -32,12 +32,9 @@
 			<a class="toplink" href="users.php" target="detail"><?php echo $lang['struseradmin'] ?></a> | 
 			<a class="toplink" href="groups.php" target="detail"><?php echo $lang['strgroupadmin'] ?></a> |
 <?php
-	else :
-?>
-			<a class="toplink" href="users.php?action=account" target="detail"><?php echo $lang['straccount'] ?></a> |
-<?php
 	endif;
 ?>
+			<a class="toplink" href="users.php?action=account" target="detail"><?php echo $lang['straccount'] ?></a> |
 <?php if ($conf['show_reports']) : ?>
 			<a class="toplink" href="reports.php" target="detail"><?php echo $lang['strreports'] ?></a> |
 <?php endif; ?>

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.97 2003/05/08 14:15:57 chriskl Exp $
+ * $Id: Postgres.php,v 1.98 2003/05/08 15:14:14 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1453,6 +1453,21 @@ class Postgres extends BaseDB {
 	// User functions
 	
 	/**
+	 * Changes a user's password
+	 * @param $username The username
+	 * @param $password The new password
+	 * @return 0 success
+	 */
+	function changePassword($username, $password) {
+		$this->fieldClean($username);
+		$this->clean($password);
+		
+		$sql = "ALTER USER \"{$username}\" WITH PASSWORD '{$password}'";
+		
+		return $this->execute($sql);
+	}
+	
+	/**
 	 * Returns all users in the database cluster
 	 * @return All users
 	 */
@@ -1575,11 +1590,14 @@ class Postgres extends BaseDB {
 		$sql = "SELECT grolist FROM pg_group WHERE groname = '{$groname}'";
       
 		$grodata = $this->selectSet($sql);
-		$members = $grodata->f['grolist'];
-		$members = ereg_replace("\{|\}","",$members);
-		$this->clean($members);
+		if ($grodata->f['grolist'] !== null && $grodata->f['grolist'] != '{}') {
+			$members = $grodata->f['grolist'];
+			$members = ereg_replace("\{|\}","",$members);
+			$this->clean($members);
 
-		$sql = "SELECT usename FROM pg_user WHERE usesysid IN ({$members}) ORDER BY usename";
+			$sql = "SELECT usename FROM pg_user WHERE usesysid IN ({$members}) ORDER BY usename";
+		}
+		else $sql = "SELECT usename FROM pg_user WHERE false";
 
 		return $this->selectSet($sql);
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.44 2003/05/08 14:15:59 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.45 2003/05/08 15:14:15 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -29,7 +29,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$conf['base_version'] = 6;
+	$conf['base_version'] = 7;
 
 	// List of available language files
 	$appLangFiles = array(

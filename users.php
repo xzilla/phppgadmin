@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.9 2003/05/08 14:15:56 chriskl Exp $
+	 * $Id: users.php,v 1.10 2003/05/08 15:14:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,11 +29,13 @@
 		$userdata = &$data->getUser($_SESSION['webdbUsername']);
 		
 		if ($userdata->recordCount() > 0) {
+			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
+			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['usuper']], "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
+			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -42,6 +44,51 @@
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=confchangepassword\">{$lang['strchangepassword']}</a></p>\n";
 	}
 	
+	/**
+	 * Show confirmation of change password and actually change password
+	 */
+	function doChangePassword($confirm, $msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang, $conf;
+
+		if ($confirm) { 
+			echo "<h2>{$lang['strusers']}: ", htmlspecialchars($_SESSION['webdbUsername']), ": {$lang['strchangepassword']}</h2>\n";
+			$misc->printMsg($msg);
+						
+			if (!isset($_POST['password'])) $_POST['password'] = '';
+			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
+			
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $lang['strpassword'], "<br />\n";
+			echo "<input type=\"password\" name=\"password\" size=\"32\" value=\"", 
+				htmlspecialchars($_POST['password']), "\" /><br /><br />\n";
+			echo $lang['strconfirm'], "<br />\n";
+			echo "<input type=\"password\" name=\"confirm\" size=\"32\" value=\"", 
+				htmlspecialchars($_POST['confirm']), "\" /><br /><br />\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
+			echo "<input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			// Check that password is minimum length
+			if (strlen($_POST['password']) < $conf['min_password_length'])
+				doChangePassword(true, $lang['strpasswordshort']);
+			// Check that password matches confirmation password
+			elseif ($_POST['password'] != $_POST['confirm'])
+				doChangePassword(true, $lang['strpasswordconfirm']);
+			else {
+				$status = $data->changePassword($_SESSION['webdbUsername'], 
+					$_POST['password']);
+				if ($status == 0)
+					doAccount($lang['strpasswordchanged']);
+				else
+					doAccount($lang['strpasswordchangedbad']);
+			}
+		}		
+	}
+
 	/** 
 	 * Function to save after editing a user
 	 */
@@ -105,11 +152,13 @@
 		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
+			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
+			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['usuper']], "</td>\n";
-			echo "<td class=\"data1\">", $userdata->f[$data->uFields['ucreatedb']], "</td>\n";
+			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "<td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -241,6 +290,13 @@
 	$misc->printBody();
 
 	switch ($action) {
+		case 'changepassword':
+			if (isset($_REQUEST['ok'])) doChangePassword(false);
+			else doAccount();
+			break;
+		case 'confchangepassword':
+			doChangePassword(true);
+			break;			
 		case 'account':
 			doAccount();
 			break;

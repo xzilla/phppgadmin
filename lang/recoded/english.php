@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.27 2003/05/08 14:15:59 chriskl Exp $
+	 * $Id: english.php,v 1.28 2003/05/08 15:14:15 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -66,6 +66,7 @@
 	$lang['strunique'] = 'Unique';
 	$lang['strprimary'] = 'Primary';
 	$lang['strexport'] = 'Export';
+	$lang['strimport'] = 'Import';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Go';
 	$lang['stradmin'] = 'Admin';
@@ -80,6 +81,8 @@
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'Format';
+	$lang['strdata'] = 'Data';
+	$lang['strconfirm'] = 'Confirm';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -151,7 +154,7 @@
 	$lang['strcreatedb'] = 'Create DB?';
 	$lang['strexpires'] = 'Expires';
 	$lang['strnousers'] = 'No users found.';
-        $lang['struserupdated'] = 'User updated.';
+	$lang['struserupdated'] = 'User updated.';
 	$lang['struserupdatedbad'] = 'User update failed.';
 	$lang['strshowallusers'] = 'Show All Users';
 	$lang['strcreateuser'] = 'Create User';
@@ -162,7 +165,11 @@
 	$lang['struserdroppedbad'] = 'Failed to drop user.';
 	$lang['straccount'] = 'Account';
 	$lang['strchangepassword'] = 'Change Password';
-		
+	$lang['strpasswordchanged'] = 'Password changed.';
+	$lang['strpasswordchangedbad'] = 'Failed to change password.';
+	$lang['strpasswordshort'] = 'Password is too short.';
+	$lang['strpasswordconfirm'] = 'Password does not match confirmation.';
+	
 	// Groups
 	$lang['strgroupadmin'] = 'Group Admin';
 	$lang['strgroup'] = 'Group';
