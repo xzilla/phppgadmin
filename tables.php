@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.2 2003/01/18 09:07:50 chriskl Exp $
+	 * $Id: tables.php,v 1.3 2003/01/25 23:59:08 slubek Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strNumFields, $strNext, $strTables;
+		global $PHP_SELF, $strName, $strNumFields, $strNext, $strTables, $strReset;
 		global $strCreateTable, $strShowAllTables, $strTableNeedsName, $strTableNeedsCols;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -41,7 +41,7 @@
 				echo "<input type=hidden name=action value=create>\n";
 				echo "<input type=hidden name=stage value=2>\n";
 				echo $misc->form;
-				echo "<input type=submit value=\"{$strNext}\"> <input type=reset>\n";
+				echo "<input type=submit value=\"{$strNext}\"> <input type=reset value=\"$strReset\">\n";
 				echo "</form>\n";
 				break;
 			case 2:
@@ -101,7 +101,7 @@
 				echo $misc->form;
 				echo "<input type=hidden name=name value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
 				echo "<input type=hidden name=fields value=\"", htmlspecialchars($_REQUEST['fields']), "\">\n";
-				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset></p>\n";
+				echo "<input type=submit value=\"{$strCreate}\"> <input type=reset value=\"$strReset\"></p>\n";
 				echo "</form>\n";
 								
 				break;
@@ -237,7 +237,7 @@
 	function doInsertRow($confirm, $msg = '') {
 		global $localData, $database, $misc;
 		global $strField, $strType, $strNull, $strValue, $strRowInserted, $strRowInsertedBad;
-		global $strSave, $strSaveAndRepeat, $strCancel, $strTables, $strInsertRow;
+		global $strSave, $strSaveAndRepeat, $strCancel, $strTables, $strInsertRow, $strNoData;
 		global $PHP_SELF;
 
 		if ($confirm) {
@@ -279,7 +279,7 @@
 				}
 				echo "</table></p>\n";
 			}
-			else echo "<p>No data.</p>\n";
+			else echo "<p>{$strNoData}</p>\n";
 
 			echo "<input type=hidden name=action value=insertrow>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
@@ -316,7 +316,7 @@
 	function doEmpty($confirm) {
 		global $localData, $database, $misc;
 		global $strTables, $strEmpty, $strConfEmptyTable, $strTableEmptied, $strTableEmptiedBad;
-		global $PHP_SELF;
+		global $PHP_SELF, $strYes, $strNo;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", htmlspecialchars($_REQUEST['table']), ": {$strEmpty}</h2>\n";
@@ -327,7 +327,7 @@
 			echo "<input type=hidden name=action value=empty>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -488,7 +488,7 @@
 	function doBrowse($msg = '') {
 		global $data, $localData, $misc, $guiMaxRows, $strBrowse;
 		global $PHP_SELF, $strActions, $guiShowOIDs, $strShowAllTables, $strRows;
-		global $strNoData;
+		global $strNoData, $strEdit, $strDelete;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strBrowse}</h2>\n";
 		$misc->printMsg($msg);
@@ -533,8 +533,8 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
 					}
 
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Edit</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">Delete</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confeditrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$strEdit}</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=confdelrow&{$misc->href}&table=", urlencode($_REQUEST['table']), "&page=", $_REQUEST['page'], "&{$key_str}\">{$strDelete}</a></td>\n";
 				}
 				echo "</tr>\n";
 				$rs->moveNext();
@@ -600,42 +600,42 @@
 			doCreate();
 			break;
 		case 'selectrows':
-			if ($_POST['choice'] != 'Cancel') doSelectRows(false);
+			if ($_POST['choice'] != $strCancel) doSelectRows(false);
 			else doDefault();
 			break;
 		case 'confselectrows':
 			doSelectRows(true);
 			break;
 		case 'insertrow':
-			if ($_POST['choice'] != 'Cancel') doInsertRow(false);
+			if ($_POST['choice'] != $strCancel) doInsertRow(false);
 			else doDefault();
 			break;
 		case 'confinsertrow':
 			doInsertRow(true);
 			break;
 		case 'empty':
-			if ($_POST['choice'] == 'Yes') doEmpty(false);
+			if ($_POST['choice'] == $strYes) doEmpty(false);
 			else doDefault();
 			break;
 		case 'confirm_empty':
 			doEmpty(true);
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == $strYes) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;
 		case 'editrow':
-			if ($_POST['choice'] == 'Save') doEditRow(false);
+			if ($_POST['choice'] == $strSave) doEditRow(false);
 			else doBrowse();
 			break;
 		case 'confeditrow':
 			doEditRow(true);
 			break;
 		case 'delrow':
-			if ($_POST['choice'] == 'Yes') doDelRow(false);
+			if ($_POST['choice'] == $strYes) doDelRow(false);
 			else doBrowse();
 			break;
 		case 'confdelrow':
@@ -643,9 +643,6 @@
 			break;			
 		case 'browse':
 			doBrowse();
-			break;
-		case 'create':
-			doCreate();
 			break;
 		default:
 			doDefault();
