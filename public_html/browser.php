@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.13 2002/11/18 04:57:34 chriskl Exp $
+	 * $Id: browser.php,v 1.14 2002/12/23 10:08:40 jmpoure Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?= $appName ?></title>
+<title><?php= $appName ?></title>
 </head>
 <body class="browser">
 <?php
