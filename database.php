@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.58 2004/08/04 07:44:03 chriskl Exp $
+	 * $Id: database.php,v 1.59 2004/08/09 09:25:45 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -702,12 +702,12 @@
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?type=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
-					'vars'  => array('schema' => 'nspname', 'object' => 'nspname'),
+					'url'   => "privileges.php?subject=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'vars'  => array('schema' => 'nspname'),
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "schema.php?action=alter&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "{$PHP_SELF}?action=alter_schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
@@ -722,6 +722,53 @@
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";
 		}
+	}
+	
+	/**
+	 * Display a form to permit editing schema properies.
+	 * TODO: permit changing name, owner
+	 */
+	function doAlterSchema($msg = '') {
+		global $data, $misc,$PHP_SELF, $lang;
+		
+		$misc->printNav('database','schemas');
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['stralter']),'alter_schema');
+		$misc->printMsg($msg);
+
+		$schema = &$data->getSchemaByName($_REQUEST['schema']);
+		if ($schema->recordCount() > 0) {
+			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
+			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "\t<tr>\n";
+			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter_schema\" />\n";
+			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_POST['schema']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		} else {
+			echo "<p>{$lang['strnodata']}</p>\n";
+		}
+	}
+
+	/**
+	 * Save the form submission containing changes to a schema
+	 */
+	function doSaveAlterSchema($msg = '') {
+		global $data, $misc,$PHP_SELF, $lang;
+		
+		$status = $data->updateSchema($_POST['schema'], $_POST['comment']);
+		if ($status == 0)
+			doDefault($lang['strschemaaltered']);
+		else
+			doAlterSchema($lang['strschemaalteredbad']);
 	}
 
 	$misc->printHeader($lang['strschemas']);
@@ -769,6 +816,11 @@
 			break;
 		case 'signal':
 			doSignal();
+			break;
+		case 'alter_schema':
+			if (isset($_POST['cancel'])) doDefault();
+			elseif (isset($_POST['alter'])) doSaveAlterSchema();
+			else doAlterSchema();
 			break;
 		default:
 			if ($data->hasSchemas())
