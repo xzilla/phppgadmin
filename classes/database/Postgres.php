@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.57 2003/03/12 03:15:43 chriskl Exp $
+ * $Id: Postgres.php,v 1.58 2003/03/12 05:25:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1791,6 +1791,37 @@ class Postgres extends BaseDB {
 	// Constraint functions
 
 	/**
+	 * A helper function for getConstraints that translates
+	 * an array of attribute numbers to an array of field names.
+	 * @param $table The name of the table
+	 * @param $columsn An array of column ids
+	 * @return An array of column names
+	 */
+	function &getKeys($table, $colnums) {
+		$this->clean($table);
+		$this->arrayClean($colnums);
+
+		$sql = "SELECT attnum, attname FROM pg_attribute
+			WHERE attnum IN ('" . join("','", $colnums) . "')
+			AND attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')";
+
+		$rs = $this->selectSet($sql);
+
+		$temp = array();
+		while (!$rs->EOF) {
+			$temp[$rs->f['attnum']] = $rs->f['attname'];
+			$rs->moveNext();
+		}
+
+		$atts = array();
+		foreach ($colnums as $v) {
+			$atts[] = '"' . $temp[$v] . '"';
+		}
+		
+		return $atts;
+	}
+
+	/**
 	 * Returns a list of all constraints on a table
 	 * @param $table The table to find rules for
 	 * @return A recordset
@@ -1805,7 +1836,7 @@ class Postgres extends BaseDB {
 			SELECT conname, consrc, contype, indkey FROM (
 				SELECT
 					rcname AS conname,
-					'CHECK (' || rcsrc || ')' AS consrc,
+					'CHECK ' || rcsrc AS consrc,
 					'c' AS contype,
 					rcrelid AS relid,
 					NULL AS indkey
