@@ -1,83 +1,127 @@
 <?php
-// $Id: decorator.inc.php,v 1.1.2.3 2005/03/08 12:35:04 jollytoad Exp $
+// $Id: decorator.inc.php,v 1.1.2.4 2005/03/09 12:21:10 jollytoad Exp $
 
-// Field decorator
-function &field($fieldname, $default = null) {
-	$dec = new Decorator();
-	$dec->f = $fieldname;
-	if ($default !== null) $dec->d = $default;
-	return $dec;
+// This group of functions and classes provides support for
+// resolving values in a lazy manner (ie, as and when required)
+// using the Decorator pattern.
+
+###TODO: Better documentation!!!
+
+// Construction functions:
+
+function field($fieldName, $default = null) {
+	return new FieldDecorator($fieldName, $default);
 }
 
-// Merge arrays decorator
-function &merge() {
-	$dec = new Decorator();
-	$dec->m = func_get_args();
-	return $dec;
+function merge() {
+	return new ArrayMergeDecorator(func_get_args());
 }
 
-function &noEscape($value) {
+function concat() {
+	return new ConcatDecorator(func_get_args());
+}
+
+function noEscape($value) {
 	if (is_a($value, 'Decorator')) {
-		$value->noEscape = true;
+		$value->esc = false;
 		return $value;
 	}
-	$dec = new Decorator();
-	$dec->v = $value;
-	$dec->noEscape = true;
-	return $dec;
+	return new Decorator($value, false);
 }
 
-// Resolve a value
-function value(&$var, &$fields) {
+// Resolving functions:
+
+function value(&$var, &$fields, $esc = null) {
 	if (is_a($var, 'Decorator')) {
-		if (isset($var->v)) return $var->v;
-		if (isset($var->f)) {
-			return isset($fields[$var->f]) ? $fields[$var->f] : (isset($var->d) ? $var->d : null);
+		$val = $var->value($fields);
+		if (!$var->esc) $esc = null;
+	} else {
+		$val = $var;
+	}
+	if (is_string($val)) {
+		switch($esc) {
+			case 'xml':
+				###TODO: proper escaping for XML
+			case 'html':
+				return htmlentities($val);
+			case 'url':
+				return urlencode($val);
 		}
-		if (isset($var->m)) {
-			foreach ($var->m as $dec) {
-				$val = value($dec, $fields);
-				if (!isset($accum))
-					$accum = $val;
-				else
-					$accum = array_merge($accum, $val);
-			}
-			return $accum;
-		}
-	} else
-		return $var;
+	}
+	return $val;
 }
 
-// Resolve a value, and escape for an XML doc
 function value_xml(&$var, &$fields) {
-	if (is_a($var, 'Decorator') && isset($var->noEscape) && $var->noEscape === true)
-		return value($var, $fields);
-	else
-		### TODO: Escape for XML's limited entities rather than for HTML
-		return htmlentities(value($var, $fields));
+	return value($var, $fields, 'xml');
 }
 
-// Resolve a value, and escape for a URL
-function value_url(&$var, &$fields) {
-	if (is_a($var, 'Decorator') && isset($var->noEscape) && $var->noEscape === true)
-		return value($var, $fields);
-	else
-		return urlencode(value($var, $fields));
-}
-
-// Resolve a value as an XML/HTML attribute
 function value_xml_attr($attr, &$var, &$fields) {
-	$value = value_xml($var, $fields);
-	if (!empty($value))
-		return " {$attr}=\"{$value}\"";
+	$val = value($var, $fields, 'xml');
+	if (!empty($val))
+		return " {$attr}=\"{$val}\"";
 	else
 		return '';
 }
 
+function value_url(&$var, &$fields) {
+	return value($var, $fields, 'url');
+}
+
+// Underlying classes:
+
 class Decorator
 {
-	function Decorator() {
+	var $esc = true;
+	
+	function Decorator($value, $esc = true) {
+		$this->v = $value;
+		$this->esc = $esc;
+	}
+	
+	function value() {
+		return $this->v;
 	}
 }
 
+class FieldDecorator extends Decorator
+{
+	function FieldDecorator($fieldName, $default = null) {
+		$this->f = $fieldName;
+		if ($default !== null) $this->d = $default;
+	}
+	
+	function value($fields) {
+		return isset($fields[$this->f]) ? $fields[$this->f] : (isset($this->d) ? $this->d : null);
+	}
+}
+
+class ArrayMergeDecorator extends Decorator
+{
+	function ArrayMergeDecorator($arrays) {
+		$this->m = $arrays;
+	}
+	
+	function value($fields) {
+		$accum = array();
+		foreach($this->m as $var) {
+			$accum = array_merge($accum, value($var, $fields));
+		}
+		return $accum;
+	}
+}
+
+class ConcatDecorator extends Decorator
+{
+	function ConcatDecorator($values) {
+		$this->c = $values;
+	}
+	
+	function value($fields) {
+		$accum = '';
+		foreach($this->c as $var) {
+			$accum .= value($var, $fields);
+		}
+		return $accum;
+	}
+}
 ?>
