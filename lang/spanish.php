@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martin Marques (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.10 2003/05/15 13:33:15 chriskl Exp $
+	 * $Id: spanish.php,v 1.11 2003/05/18 10:06:53 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -356,19 +356,19 @@
 	$lang['strfunctionupdatedbad'] = 'Falló al actualizar la función.';
 
 	// Triggers
-	$lang['strtrigger'] = 'Gatillo';
-	$lang['strtriggers'] = 'Gatillos';
-	$lang['strshowalltriggers'] = 'Mostrar todos los gatillos';
-	$lang['strnotrigger'] = 'No se encontró el gatillo.';
-	$lang['strnotriggers'] = 'No se encontraron gatillos.';
-	$lang['strcreatetrigger'] = 'Crear Gatillo';
-	$lang['strtriggerneedsname'] = 'Debe darle un nombre al gatillo.';
-	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el gatillo.';
-	$lang['strtriggercreated'] = 'Gatillo creado.';
-	$lang['strtriggercreatedbad'] = 'Falló la creación del gatillo.';
-	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el gatillo "%s" en "%s"?';
-	$lang['strtriggerdropped'] = 'Gatillo eliminado.';
-	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el gatillo.';
+	$lang['strtrigger'] = 'Disparador';
+	$lang['strtriggers'] = 'Disparadores';
+	$lang['strshowalltriggers'] = 'Mostrar todos los disparadores';
+	$lang['strnotrigger'] = 'No se encontró el disparador.';
+	$lang['strnotriggers'] = 'No se encontraron disparadores.';
+	$lang['strcreatetrigger'] = 'Crear Disparador';
+	$lang['strtriggerneedsname'] = 'Debe darle un nombre al disparador.';
+	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el disparador.';
+	$lang['strtriggercreated'] = 'Disparador creado.';
+	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
+	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el disparador "%s" en "%s"?';
+	$lang['strtriggerdropped'] = 'Disparador eliminado.';
+	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
 
 	// Types
 	$lang['strtype'] = 'Tipo';
