@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.23 2003/10/14 17:55:17 soranzo Exp $
+	 * $Id: database.php,v 1.24 2003/11/08 10:33:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -63,14 +63,35 @@
 							case 'COLUMN':
 								echo $lang['strcolumns'];
 								break;
+							case 'INDEX':
+								echo $lang['strindexes'];
+								break;
+							case 'CONSTRAINT':
+								echo $lang['strconstraints'];
+								break;
+							case 'TRIGGER':
+								echo $lang['strtriggers'];
+								break;
+							case 'RULE':
+								echo $lang['strrules'];
+								break;
 							case 'FUNCTION':
 								echo $lang['strfunctions'];
 								break;
 							case 'TYPE':
 								echo $lang['strtypes'];
 								break;
+							case 'DOMAIN':
+								echo $lang['strdomains'];
+								break;
 							case 'OPERATOR':
 								echo $lang['stroperators'];
+								break;
+							case 'CONVERSION':
+								echo $lang['strconversions'];
+								break;
+							case 'LANGUAGE':
+								echo $lang['strlanguages'];
 								break;
 						}
 						echo "</h2>";
@@ -104,6 +125,26 @@
 								urlencode($rs->f['relname']), "&column=", urlencode($rs->f['name']), "&action=properties\">", 
 								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
+						case 'INDEX':
+							echo "<li><a href=\"indexes.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'CONSTRAINT':
+							echo "<li><a href=\"constraints.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'TRIGGER':
+							echo "<li><a href=\"triggers.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'RULE':
+							echo "<li><a href=\"rules.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&table=", 
+								urlencode($rs->f['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
 						case 'FUNCTION':
 							echo "<li><a href=\"functions.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&function=", 
 								urlencode($rs->f['name']), "&function_oid=", urlencode($rs->f['oid']), "\">", 
@@ -113,9 +154,20 @@
 							echo "<li><a href=\"types.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&type=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
+						case 'DOMAIN':
+							echo "<li><a href=\"domains.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&domain=", 
+								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
 						case 'OPERATOR':
 							echo "<li><a href=\"operators.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&operator=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'CONVERSION':
+							echo "<li><a href=\"conversions.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), 
+								"\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'LANGUAGE':
+							echo "<li><a href=\"languages.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 					}
 					$rs->moveNext();	

@@ -27,6 +27,8 @@ Features
 * New show_advanced option that allows the hiding or display of
   "advanced" objects such as conversions, types, operators, casts and
   languages.
+* Find Object feature can now find conversions, languages, domains,
+  constraints, indexes, rules and triggers.
 
 Bugs
 * Added legal DOCTYPE

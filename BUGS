@@ -5,5 +5,8 @@ re-enable help system
 all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
 need icons for Casts and Conversions and Languages
 submit changes to HTML_TreeMenu maintainer
-update Find feature for all new objects
+update < 7.3 Find feature for all new objects
+fix index search to not get constraints, etc.
+fix constraint search to get domain and table constraints?
+fix trigger search to definitely not show constraint triggers
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.77 2003/11/05 08:32:04 chriskl Exp $
+ * $Id: Postgres73.php,v 1.78 2003/11/08 10:33:57 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1151,8 +1151,16 @@ class Postgres73 extends Postgres72 {
 		$this->clean($term);
 
 		// Exclude system relations if necessary
-		if (!$conf['show_system']) $where = " AND pn.nspname NOT LIKE 'pg_%'";
-		else $where = '';
+		if (!$conf['show_system']) {
+			$where = " AND pn.nspname NOT LIKE 'pg_%'";
+			$lan_where = "AND pl.lanispl";
+			$rule_where = " AND schemaname NOT LIKE 'pg_%'";
+		}
+		else {
+			$where = '';
+			$lan_where = '';
+			$rule_where = '';
+		}
 		
 		$sql = "
 			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name 
@@ -1169,14 +1177,56 @@ class Postgres73 extends Postgres72 {
 			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
 				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}
 			UNION ALL
-			SELECT 'TYPE', pt.oid, pn.nspname, NULL, pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
-				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
-				AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
-				{$where}
+			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_index pi, pg_catalog.pg_class pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pi.indrelid 
+				AND pi.indexrelid=pc2.oid
+				AND pc2.relname ILIKE '%{$term}%' {$where}
 			UNION ALL
-			SELECT 'OPERATOR', po.oid, pn.nspname, NULL, po.oprname FROM pg_catalog.pg_operator po, pg_catalog.pg_namespace pn 
-				WHERE po.oprnamespace=pn.oid AND oprname ILIKE '%{$term}%' {$where}
-			ORDER BY type, schemaname, relname, name";
+			SELECT 'CONSTRAINT', NULL, pn.nspname, pc.relname, pc2.conname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_constraint pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pc2.conrelid AND pc2.conrelid != 0
+				AND pc2.conname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'TRIGGER', NULL, pn.nspname, pc.relname, pt.tgname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_trigger pt WHERE pc.relnamespace=pn.oid AND pc.oid=pt.tgrelid AND NOT pt.tgisconstraint
+				AND pt.tgname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'RULE', NULL, schemaname, tablename, rulename FROM pg_catalog.pg_rules
+				WHERE rulename ILIKE '%{$term}%' {$rule_where}
+		";
+
+		// Add advanced objects if show_advanced is set
+		if ($conf['show_advanced']) {
+			$sql .= "
+				UNION ALL
+				SELECT CASE WHEN pt.typtype='d' THEN 'DOMAIN' ELSE 'TYPE' END, pt.oid, pn.nspname, NULL, 
+					pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
+					WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
+					AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
+					{$where}
+			 	UNION ALL
+				SELECT 'OPERATOR', po.oid, pn.nspname, NULL, po.oprname FROM pg_catalog.pg_operator po, pg_catalog.pg_namespace pn 
+					WHERE po.oprnamespace=pn.oid AND oprname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT 'CONVERSION', pc.oid, pn.nspname, NULL, pc.conname FROM pg_catalog.pg_conversion pc,
+					pg_catalog.pg_namespace pn WHERE pc.connamespace=pn.oid AND conname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_catalog.pg_language pl
+					WHERE lanname ILIKE '%{$term}%' {$lan_where}
+			";
+		}
+		// Otherwise just add domains
+		else {
+			$sql .= "
+				UNION ALL
+				SELECT 'DOMAIN', pt.oid, pn.nspname, NULL, 
+					pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn 
+					WHERE pt.typnamespace=pn.oid AND pt.typtype='d' AND typname ILIKE '%{$term}%'
+					AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
+					{$where}
+			";
+		}
+
+		$sql .= "ORDER BY type, schemaname, relname, name";
 			
 		return $this->selectSet($sql);
 	}	
