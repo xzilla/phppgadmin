@@ -3,7 +3,7 @@
 /**
  * A class that implements the DB interface for MySQL 3.23 and up
  *
- * $Id: MySQL.php,v 1.3 2003/01/08 05:39:20 chriskl Exp $
+ * $Id: MySQL.php,v 1.4 2003/01/08 05:42:47 chriskl Exp $
  */
 
 include_once('../classes/database/BaseDB.php');
@@ -12,6 +12,9 @@ class MySQL extends BaseDB {
 
 	var $dbFields = array('dbname' => 'Database');
 	var $tbFields = array('tbname' => 'Name', 'tbowner' => '');
+
+	// MySQL doesn't have object IDs 
+	var $id = '';
 
 	function MySQL($host, $port, $database, $user, $password) {
 		$this->BaseDB('mysql');
@@ -299,18 +302,6 @@ class MySQL extends BaseDB {
 		return -99;
 	}
 
-	/**
-	 * Returns a recordset of all columns in a relation.  Used for data export.
-	 * @@ Note: Really needs to use a cursor
-	 * @param $relation The name of a relation
-	 * @return A recordset on success
-	 */
-	function &dumpRelation($relation, $oids) {
-		$this->fieldClean($relation);
-
-		return $this->selectSet("SELECT * FROM {$relation}");
-	}
-	
 	// Capabilities
 	function hasTables() { return true; }
 

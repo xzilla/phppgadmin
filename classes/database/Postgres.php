@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.33 2003/01/07 08:56:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.34 2003/01/08 05:42:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -427,22 +427,6 @@ class Postgres extends BaseDB {
 		}
 		
 		return $rs;
-	}
-	
-	/**
-	 * Returns a recordset of all columns in a relation.  Used for data export.
-	 * @@ Note: Really needs to use a cursor
-	 * @param $relation The name of a relation
-	 * @return A recordset on success
-	 */
-	function &dumpRelation($relation, $oids) {
-		$this->fieldClean($relation);
-
-		// Actually retrieve the rows
-		if ($oids) $oid_str = 'oid, ';
-		else $oid_str = '';
-
-		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
 	
 	/**

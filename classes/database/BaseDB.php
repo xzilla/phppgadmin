@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.5 2002/09/16 10:12:01 chriskl Exp $
+ * $Id: BaseDB.php,v 1.6 2003/01/08 05:42:47 chriskl Exp $
  */
 
 include_once('../classes/database/ADODB_base.php');
@@ -71,6 +71,22 @@ class BaseDB extends ADODB_base {
 			}
 			return $this->insert($table, $temp);
 		}
+	}	
+	
+	/**
+	 * Returns a recordset of all columns in a relation.  Used for data export.
+	 * @@ Note: Really needs to use a cursor
+	 * @param $relation The name of a relation
+	 * @return A recordset on success
+	 */
+	function &dumpRelation($relation, $oids) {
+		$this->fieldClean($relation);
+
+		// Actually retrieve the rows
+		if ($oids) $oid_str = $this->id . ', ';
+		else $oid_str = '';
+
+		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
 		
 	// Capabilities
