@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.60 2003/08/26 05:59:49 chriskl Exp $
+ * $Id: Postgres73.php,v 1.61 2003/08/27 08:09:26 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1034,6 +1034,9 @@ class Postgres73 extends Postgres72 {
 				WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
 				AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
 				{$where}
+			UNION ALL
+			SELECT 'OPERATOR', po.oid, pn.nspname, NULL, po.oprname FROM pg_catalog.pg_operator po, pg_catalog.pg_namespace pn 
+				WHERE po.oprnamespace=pn.oid AND oprname ILIKE '%{$term}%' {$where}
 			ORDER BY type, schemaname, relname, name";
 			
 		return $this->selectSet($sql);

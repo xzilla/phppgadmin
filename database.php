@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.17 2003/07/29 00:36:44 chriskl Exp $
+	 * $Id: database.php,v 1.18 2003/08/27 08:09:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -69,6 +69,9 @@
 							case 'TYPE':
 								echo $lang['strtypes'];
 								break;
+							case 'OPERATOR':
+								echo $lang['stroperators'];
+								break;
 						}
 						echo "</h2>";
 						echo "<ul>\n";
@@ -101,6 +104,10 @@
 							break;
 						case 'TYPE':
 							echo "<li><a href=\"types.php?action=properties&{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&type=", 
+								urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'OPERATOR':
+							echo "<li><a href=\"operators.php?{$misc->href}&schema=", urlencode($rs->f['schemaname']), "&operator=", 
 								urlencode($rs->f['name']), "\">", $misc->printVal($rs->f['schemaname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 					}
