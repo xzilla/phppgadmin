@@ -14,6 +14,7 @@ Features
 * Table info - shows table that reference the table, parent tables,
   and child tables.
 * Choice of operator when performing a Select
+* Removed any trace of MySQL support
 
 Bugs
 * Added legal DOCTYPE

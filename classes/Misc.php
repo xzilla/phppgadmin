@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.45 2003/10/09 06:39:10 chriskl Exp $
+	 * $Id: Misc.php,v 1.46 2003/10/17 07:33:49 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -199,12 +199,6 @@
 					else
 						return 'Postgres';
 
-					break;
-				case 'mysql':
-					// Check functions are loaded
-					$description = 'MySQL';
-					if (!function_exists('mysql_connect')) return -1;
-					return 'MySQL';
 					break;
 				default:
 					return -2;
