@@ -6,11 +6,11 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.13 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: sql.php,v 1.14 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 

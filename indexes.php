@@ -3,12 +3,12 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.20 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: indexes.php,v 1.21 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
-	include_once('classes/class.select.php');
+	include_once('./libraries/lib.inc.php');
+	include_once('./classes/class.select.php');
 		
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];

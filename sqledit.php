@@ -3,11 +3,11 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.9 2003/12/15 07:59:22 chriskl Exp $
+	 * $Id: sqledit.php,v 1.10 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';

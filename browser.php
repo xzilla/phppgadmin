@@ -5,14 +5,14 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.32 2003/12/16 17:17:43 soranzo Exp $
+	 * $Id: browser.php,v 1.33 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	// Include tree classe
-	include_once('classes/HTML_TreeMenu/TreeMenu.php');
+	include_once('./classes/HTML_TreeMenu/TreeMenu.php');
 
 	// Output header
 	$misc->printHeader('', "<script src=\"classes/HTML_TreeMenu/TreeMenu.js\" type=\"text/javascript\"></script>\n<script src=\"links.js\" type=\"text/javascript\"></script>");

@@ -3,11 +3,11 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.15 2003/12/15 08:30:54 chriskl Exp $
+	 * $Id: reports.php,v 1.16 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
@@ -269,7 +269,7 @@
 	$misc->printBody();
 
 	// Create a database accessor for the reports database
-	include_once('classes/Reports.php');
+	include_once('./classes/Reports.php');
 	$reportsdb = new Reports($status);
 	if ($status != 0) {
 		echo "<p>{$lang['strnoreportsdb']}</p>\n";

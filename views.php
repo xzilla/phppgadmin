@@ -3,11 +3,11 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.25 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: views.php,v 1.26 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
@@ -113,7 +113,7 @@
 				$_REQUEST['return_url'] = "views.php?action=confselectrows&{$misc->href}&view={$_REQUEST['view']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
 
-				include('display.php');
+				include('./display.php');
 				exit;
 			}
 		}

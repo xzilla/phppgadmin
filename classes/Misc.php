@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.54 2003/12/15 08:10:50 chriskl Exp $
+	 * $Id: Misc.php,v 1.55 2003/12/17 09:11:32 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -156,7 +156,7 @@
 
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
-			include_once('classes/database/' . $_type . '.php');
+			include_once('./classes/database/' . $_type . '.php');
 			$data = &new $_type($_connection->conn);
 
 			return $data;

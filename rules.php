@@ -3,11 +3,11 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.16 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: rules.php,v 1.17 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];

@@ -2,12 +2,12 @@
 	/**
 	 * Does an export of a database to the screen or as a download
 	 *
-	 * $Id: dbexport.php,v 1.2 2003/12/13 16:15:43 chriskl Exp $
+	 * $Id: dbexport.php,v 1.3 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
 	$_no_output = true;
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	// Check that database dumps are enabled.
 	if ($conf['pg_dump_path'] !== null && $conf['pg_dump_path'] != '') {

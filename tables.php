@@ -3,11 +3,11 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.42 2003/12/15 15:42:45 chriskl Exp $
+	 * $Id: tables.php,v 1.43 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
@@ -262,7 +262,7 @@
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
 
-				include('display.php');
+				include('./display.php');
 				exit;
 			}
 		}

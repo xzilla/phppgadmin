@@ -3,12 +3,12 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.14 2003/09/30 09:33:43 soranzo Exp $
+	 * $Id: login.php,v 1.15 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	// Unfortunately, since sometimes lib.inc.php has been included, but we still
 	// need the config variables

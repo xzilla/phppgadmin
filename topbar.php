@@ -3,11 +3,11 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.19 2003/12/15 07:59:22 chriskl Exp $
+	 * $Id: topbar.php,v 1.20 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	$misc->printHeader();
 	$misc->printBody('topbar');

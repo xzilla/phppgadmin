@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: dataexport.php,v 1.6 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: dataexport.php,v 1.7 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -53,7 +53,7 @@
 	
 		// Include application functions
 		$_no_output = true;
-		include_once('libraries/lib.inc.php');
+		include_once('./libraries/lib.inc.php');
 	
 		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
 
@@ -263,7 +263,7 @@
 		if (!isset($msg)) $msg = null;
 		
 		// Include application functions
-		include_once('libraries/lib.inc.php');
+		include_once('./libraries/lib.inc.php');
 
 		$misc->printHeader($lang['strexport']);		
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strexport']}</h2>\n";

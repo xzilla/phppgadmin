@@ -13,6 +13,8 @@ Features
 Bugs
 * Object browser fixed for databases with no schemas
 * Properly detect that reports database is missing
+* Fix for alter column on PostgreSQL 7.1
+* phpPgAdmin now works without '.' in the include_path
 
 Translations
 * Spanish from Martin Marques

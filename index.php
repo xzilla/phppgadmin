@@ -3,11 +3,11 @@
 	/**
 	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.7 2003/05/26 11:33:22 chriskl Exp $
+	 * $Id: index.php,v 1.8 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	$misc->printHeader();
 ?>

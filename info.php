@@ -3,11 +3,11 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.3 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: info.php,v 1.4 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];

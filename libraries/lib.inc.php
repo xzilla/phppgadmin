@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.70 2003/12/13 11:04:04 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.71 2003/12/17 09:11:32 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -19,7 +19,7 @@
 	// Check to see if the configuration file exists, if not, explain
 	if (file_exists('conf/config.inc.php')) {
 		$conf = array();
-		include('conf/config.inc.php');
+		include('./conf/config.inc.php');
 	}
 	else {
 		echo "Configuration error: Copy conf/config.inc.php-dist to conf/config.inc.php and edit appropriately.";
@@ -58,10 +58,10 @@
 	// one has not been selected yet.
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
 	$lang = array();
-	include_once('lang/recoded/english.php');
+	include_once('./lang/recoded/english.php');
 	// Include default language over the top - we really should try to avoid this
 	// in the case when the user has chosen a language.
-	include_once("lang/recoded/" . strtolower($conf['default_lang']) . ".php");
+	include_once("./lang/recoded/" . strtolower($conf['default_lang']) . ".php");
 
 	// Check for config file version mismatch
 	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
@@ -70,7 +70,7 @@
 	}
 
 	// Create Misc class references
-	include_once('classes/Misc.php');
+	include_once('./classes/Misc.php');
 	$misc = new Misc();
 
 	// Start session (if not auto-started)
@@ -118,19 +118,19 @@
 			||	!isset($_SESSION['webdbServerID'])
 			||	!isset($_SESSION['webdbLanguage'])
 			||	!isset($conf['servers'][$_SESSION['webdbServerID']])) {
-		include('login.php');
+		include('./login.php');
 		exit;
 	}
 
 	// If extra login check fails, back to the login screen
 	$_allowed = $misc->checkExtraSecurity();
 	if (!$_allowed) {
-		include('login.php');
+		include('./login.php');
 		exit;
 	}
 
 	// Import language file
-	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
+	include("./lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
 	// Check database support is properly compiled in
 	if (!function_exists('pg_connect')) {
@@ -148,7 +148,7 @@
 			$_curr_db = $conf['servers'][$_SESSION['webdbServerID']]['defaultdb'];
 
 		// Create the connection object and make the connection
-		include_once('classes/database/Connection.php');
+		include_once('./classes/database/Connection.php');
 		$_connection = new Connection(
 			$conf['servers'][$_SESSION['webdbServerID']]['host'],
 			$conf['servers'][$_SESSION['webdbServerID']]['port'],

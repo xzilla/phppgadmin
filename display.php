@@ -9,11 +9,11 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.33 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: display.php,v 1.34 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 
 	global $conf, $lang;
 

@@ -3,11 +3,11 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.8 2003/12/10 16:03:29 chriskl Exp $
+	 * $Id: operators.php,v 1.9 2003/12/17 09:11:32 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('libraries/lib.inc.php');
+	include_once('./libraries/lib.inc.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';

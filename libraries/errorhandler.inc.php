@@ -3,7 +3,7 @@
 /**
  * Overrides default ADODB error handler to provide nicer error handling.
  *
- * $Id: errorhandler.inc.php,v 1.13 2003/10/03 07:38:55 chriskl Exp $
+ * $Id: errorhandler.inc.php,v 1.14 2003/12/17 09:11:32 chriskl Exp $
  */
 
 define('ADODB_ERROR_HANDLER','Error_Handler');
@@ -38,7 +38,7 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 	case 'PCONNECT':
 	case 'CONNECT':
 		$_failed = true;
-		include('login.php');
+		include('./login.php');
 		exit;
 		break;
 	default:
