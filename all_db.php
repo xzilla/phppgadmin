@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.16 2003/08/01 06:24:15 chriskl Exp $
+	 * $Id: all_db.php,v 1.17 2003/08/27 07:54:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -79,12 +79,10 @@
 		echo "</select>\n";
 		echo "</td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowalldatabases']}</a></p>\n";
 	}
 	
 	/**
@@ -150,7 +148,8 @@
 
 	switch ($action) {
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
