@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.19 2003/09/19 01:56:34 chriskl Exp $
+	 * $Id: spanish.php,v 1.20 2003/11/22 02:01:57 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -26,6 +26,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Autenticar';
 	$lang['strloginfailed'] = 'Falló la autenticación';
+	$lang['strlogindisallowed'] = 'Ingreso no autorizado';
 	$lang['strserver'] = 'Servidor';
 	$lang['strlogout'] = 'Salir';
 	$lang['strowner'] = 'Propietario';
@@ -68,6 +69,7 @@
 	$lang['strcolumns'] = 'Columnas';
 	$lang['strrows'] = 'fila(s)';
 	$lang['strrowsaff'] = 'fila(s) afectadas.';
+	$lang['strobjects'] = 'objecto(s)';
 	$lang['strexample'] = 'ej.';
 	$lang['strback'] = 'Atrás';
 	$lang['strqueryresults'] = 'Resultado de la consulta';
@@ -81,11 +83,12 @@
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Ir';
+	$lang['strgo'] = 'Seguir';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strcluster'] = 'Ordenar tabla';
+	$lang['strclustered'] = '¿Tabla Ordenada?';
 	$lang['strreindex'] = 'Reindexar';
 	$lang['strrun'] = 'Ejecutar';
 	$lang['stradd'] = 'Agregar';
@@ -105,6 +108,9 @@
         $lang['stroptions'] = 'Opciones';
 	$lang['strrefresh'] = 'Refrescar';
 	$lang['strdownload'] = 'Bajar';
+	$lang['strinfo'] = 'Información';
+	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Advanzado';
 
 	// Error handling
 	$lang['strnoframes'] = 'Necesitás un navegador con soporte de marcos para usar esta aplicación.';
@@ -116,6 +122,7 @@
 	$lang['strinstatement'] = 'En la declaración:';
 	$lang['strinvalidparam'] = 'Parámetros de script no válidos.';
 	$lang['strnodata'] = 'No se encontraron filas.';
+	$lang['strnoobjects'] = 'No se encontraron objectos.';
 	$lang['strrownotunique'] = 'No existe un identificador único para este registro.';
 
 	// Tables
@@ -154,6 +161,7 @@
 	$lang['strfieldneedsname'] = 'Debe darle un nombre al campo';
         $lang['strselectallfields'] = 'Seleccionar todos los campos.';
 	$lang['strselectneedscol'] = 'Debe elegir al menos una columna';
+	$lang['strselectunary'] = 'Operaciones unitarias no pueden tener valores.';
 	$lang['straltercolumn'] = 'Modificar Columna';
 	$lang['strcolumnaltered'] = 'Columna Modificada.';
 	$lang['strcolumnalteredbad'] = 'Falló la modificación de columna.';
@@ -163,12 +171,12 @@
         $lang['straddcolumn'] = 'Agregar Columna';
 	$lang['strcolumnadded'] = 'Columna agregada.';
 	$lang['strcolumnaddedbad'] = 'Falló el agregado de columna.';
-	$lang['strschemaanddata'] = 'Esquema y datos';
-	$lang['strschemaonly'] = 'Esquemas solamente';
 	$lang['strdataonly'] = 'Datos solamente';
-	$lang['strcascade'] = 'CASCADEAR';
+	$lang['strcascade'] = 'EN CASCADA';
 	$lang['strtablealtered'] = 'Tabla modificada.';
 	$lang['strtablealteredbad'] = 'Falló la modificación  de la Tabla.';
+	$lang['strstructureonly'] = 'Solo la estructura';
+	$lang['strstructureanddata'] = 'Estructura y datos';
 
         // Users
 	$lang['struser'] = 'Usuario';
@@ -183,6 +191,7 @@
 	$lang['struserupdatedbad'] = 'Falló la actualización del usuario.';
 	$lang['strshowallusers'] = 'Mostrar Todos los Usuarios';
 	$lang['strcreateuser'] = 'Crear Usuario';
+	$lang['struserneedsname'] = 'Debe dar un nombre a su usuario.';
 	$lang['strusercreated'] = 'Usuario creado.';
 	$lang['strusercreatedbad'] = 'Falló al crear usuario.';
         $lang['struserdropped'] = 'Usuario eliminado.';
@@ -213,7 +222,7 @@
 	$lang['strdropmember'] = 'Sacar miembro';
 	$lang['strconfdropmember'] = '¿Está seguro que quiere sacra el miembro "%s" del grupo "%s"?';
 	$lang['strmemberdropped'] = 'Miembro eliminado.';
-	$lang['strmemberdroppedbad'] = 'Falló al inytentar sacar un miembro.';
+	$lang['strmemberdroppedbad'] = 'Falló al intentar sacar un miembro.';
 	$lang['strgroupdroppedbad'] = 'Falló la eliminación del grupo.';
 	$lang['strmembers'] = 'Miembros';
 
@@ -318,6 +327,9 @@
 	$lang['strindexname'] = 'Nombre del índice';
 	$lang['strtablecolumnlist'] = 'Columnas en Tabla';
 	$lang['strindexcolumnlist'] = 'Columnas en el Índice';
+	$lang['strconfcluster'] = 'Está seguro que quiere ordenar la tabla "%s"?';
+	$lang['strclusteredgood'] = 'Ordenado completo.';
+	$lang['strclusteredbad'] = 'Falló al ordenar tabla.';
 
 	// Rules
 	$lang['strrules'] = 'Reglas';
@@ -388,21 +400,21 @@
 	$lang['strfunctionupdatedbad'] = 'Falló al actualizar la función.';
 
 	// Triggers
-	$lang['strtrigger'] = 'Gatillo';
-	$lang['strtriggers'] = 'Gatillos';
-	$lang['strshowalltriggers'] = 'Mostrar todos los gatillos';
-	$lang['strnotrigger'] = 'No se encontró el gatillo.';
-	$lang['strnotriggers'] = 'No se encontraron gatillos.';
-	$lang['strcreatetrigger'] = 'Crear Gatillo';
-	$lang['strtriggerneedsname'] = 'Debe darle un nombre al gatillo.';
-	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el gatillo.';
-	$lang['strtriggercreated'] = 'Gatillo creado.';
-	$lang['strtriggercreatedbad'] = 'Falló la creación del gatillo.';
-	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el gatillo "%s" en "%s"?';
-        $lang['strtriggeraltered'] = 'Gatillo modificado.';
-        $lang['strtriggeralteredbad'] = 'Falló la modificación del gatillo.';
-	$lang['strtriggerdropped'] = 'Gatillo eliminado.';
-	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el gatillo.';
+	$lang['strtrigger'] = 'Disparador';
+	$lang['strtriggers'] = 'Disparadores';
+	$lang['strshowalltriggers'] = 'Mostrar todos los disparadores';
+	$lang['strnotrigger'] = 'No se encontró el disparador.';
+	$lang['strnotriggers'] = 'No se encontraron disparadores.';
+	$lang['strcreatetrigger'] = 'Crear Disparador';
+	$lang['strtriggerneedsname'] = 'Debe darle un nombre al disparador.';
+	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el disparador.';
+	$lang['strtriggercreated'] = 'Disparador creado.';
+	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
+	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el disparador "%s" en "%s"?';
+        $lang['strtriggeraltered'] = 'Disparador modificado.';
+        $lang['strtriggeralteredbad'] = 'Falló la modificación del disparador.';
+	$lang['strtriggerdropped'] = 'Disparador eliminado.';
+	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
 
 	// Types
 	$lang['strtype'] = 'Tipo';
@@ -476,15 +488,50 @@
 	$lang['strnooperator'] = 'No se encontró el operador.';
 	$lang['strnooperators'] = 'No se encontraron operadores.';
 	$lang['strcreateoperator'] = 'Crear Operador';
-	$lang['stroperatorname'] = 'Nombre del operador';
 	$lang['strleftarg'] = 'Tipo de datos del arg. izquierdo';
 	$lang['strrightarg'] = 'Tipo de datos del arg. derecho';
+	$lang['strcommutator'] = 'Conmutador';
+	$lang['strnegator'] = 'Negación';
+	$lang['strrestrict'] = 'Restringir';
+	$lang['strjoin'] = 'Unión';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Fusiones';
+	$lang['strleftsort'] = 'Ordenado izquierdo';
+	$lang['strrightsort'] = 'Ordenado derecho';
+	$lang['strlessthan'] = 'Menor que';
+	$lang['strgreaterthan'] = 'Mayor que';
 	$lang['stroperatorneedsname'] = 'Debe darle un nombre al operador.';
 	$lang['stroperatorcreated'] = 'Operador creado';
 	$lang['stroperatorcreatedbad'] = 'Falló al intentar crear el operador.';
 	$lang['strconfdropoperator'] = '¿Está seguro que quiere eliminar el operador "%s"?';
 	$lang['stroperatordropped'] = 'Operador eliminado.';
 	$lang['stroperatordroppedbad'] = 'Falló al intentar eliminar el operador.';
+
+	// Casts
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'No casts found.';
+	$lang['strsourcetype'] = 'Source type';
+	$lang['strtargettype'] = 'Target type';
+	$lang['strimplicit'] = 'Implicito';
+	$lang['strinassignment'] = 'En asignación';
+	$lang['strbinarycompat'] = '(Compatible con binario)';
+
+	// Conversions
+	$lang['strconversions'] = 'Conversiones';
+	$lang['strnoconversions'] = 'No se encontraron conversiones.';
+	$lang['strsourceencoding'] = 'Source encoding';
+	$lang['strtargetencoding'] = 'Target encoding';
+
+	// Languages
+	$lang['strlanguages'] = 'Lenguajes';
+	$lang['strnolanguages'] = 'No se encontraron lenguajes.';
+	$lang['strtrusted'] = 'Trusted';
+
+	// Info
+	$lang['strnoinfo'] = 'No hay información disponible.';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Parent tables';
+	$lang['strchildtables'] = 'Child tables';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted está logueado con usuario "%s", %s';
