@@ -205,7 +205,7 @@ class XHTML_Select extends XHTMLElement {
 	}
 	
 	function fetch() {
-		if ($this->_data) {
+		if (isset($this->_data) && $this->_data) {
 			foreach ($this->_data as $value) { $this->add(new XHTML_Option($value)); }
 		}
 		return parent::fetch();
