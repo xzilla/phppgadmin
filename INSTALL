@@ -20,10 +20,10 @@ phpPgAdmin Installation Guide
 
 4. If you run your PHP installation in safe mode, in order that the database
    dump feature can work correctly, you need to set the 'safe_mode_allowed_env_vars'
-   php.ini variable to include the PGPASSWORD environmental variable and the
-   safe_mode_exec_dir to include /usr/local/bin.
+   php.ini variable to include the PGPASSWORD and PGUSER environmental variables
+   and the safe_mode_exec_dir to include /usr/local/bin.
    
-   	eg. safe_mode_allowed_env_vars = PHP_,PGPASSWORD
+   	eg. safe_mode_allowed_env_vars = PHP_,PGPASSWORD,PGUSER
    	    safe_mode_exec_dir = /usr/bin
    
    Given that you usually don't want to allow everything in /usr/bin to
