@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   operators.php
  *
- *  $Id: operators.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+ *  $Id: operators.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
  */
 
 include_once( 'libraries/lib.inc.php' );
@@ -123,6 +123,7 @@ function doDefault()
 
 
 $misc->printHeader($strOperators);
+$misc->printBody();
 
 switch( $action )
 {

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.2 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: browser.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -16,6 +16,7 @@
 
 	// Output header
 	$misc->printHeader();
+	$misc->printBody('browser');
 
 	// Construct expanding tree
 	$tree = new Tree ('classes/class.tree');

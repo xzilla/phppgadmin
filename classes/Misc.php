@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.13 2003/02/09 09:23:39 chriskl Exp $
+	 * $Id: Misc.php,v 1.14 2003/03/01 00:53:50 slubek Exp $
 	 */
 	 
 	class Misc {
@@ -82,9 +82,8 @@
 		 * Prints the page header.  If global variable $_no_output is
 		 * set then no header is drawn.
 		 * @param $title The title of the page
-		 * @param $doBody True to output body tag, false otherwise
 		 */
-		function printHeader($title = '', $doBody = true) {
+		function printHeader($title = '') {
 			global $appName, $appCharset, $_no_output, $guiTheme;
 
 			if (!isset($_no_output)) {
@@ -102,7 +101,6 @@
 				include("themes/{$guiTheme}/global.css");
 				echo "\n-->\n</style>\n";
 				echo "</head>\n";
-				if ($doBody) echo "<body>\n";
 			}
 		}
 
@@ -114,6 +112,23 @@
 			if ($doBody) echo "</body>\n";
 			echo "</html>\n";
 		}
+
+		/**
+		 * Prints the page body.
+		 * @param $doBody True to output body tag, false otherwise
+		 * @param $bodyClass - name of body class
+		 */
+		function printBody($bodyClass = '', $doBody = true ) {
+			global $_no_output;
+
+			if (!isset($_no_output)) {
+				if ($doBody) {
+					$bodyClass = htmlspecialchars($bodyClass);
+					echo "<body", ($bodyClass == '' ? '' : " class=\"{$bodyClass}\"") , ">\n";
+				}
+			}
+		}
+
 
 		/**
 		 * Display the navigation header for tables

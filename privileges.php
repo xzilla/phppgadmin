@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.6 2003/02/10 14:48:53 chriskl Exp $
+	 * $Id: privileges.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -290,6 +290,7 @@
 	}
 
 	$misc->printHeader($strPrivileges);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'savegrantgroup':

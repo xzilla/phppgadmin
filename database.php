@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.5 2003/02/20 23:17:05 slubek Exp $
+	 * $Id: database.php,v 1.6 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -177,6 +177,7 @@
 	}
 
 	$misc->printHeader($strSchemas);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'sql':

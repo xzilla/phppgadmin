@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.3 2003/02/20 23:19:38 slubek Exp $
+	 * $Id: users.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -210,6 +210,7 @@
 	}
 
 	$misc->printHeader('Users');
+	$misc->printBody();
 
 	switch ($action) {
 		case 'save_create':

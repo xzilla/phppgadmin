@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.4 2003/02/18 00:53:19 slubek Exp $
+ *  $Id: sequences.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
  */
 
 include_once( 'libraries/lib.inc.php' );
@@ -146,6 +146,7 @@ function doDefault($msg='')
 	}
 
 $misc->printHeader($strSequences);
+	$misc->printBody();
 
 switch( $action )
 {

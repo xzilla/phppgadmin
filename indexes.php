@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.3 2003/02/21 06:43:21 chriskl Exp $
+	 * $Id: indexes.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -132,6 +132,7 @@
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strIndexes);
+	$misc->printBody();
 	
 	switch ($action) {
 		case 'save_create_index':

@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.4 2003/02/08 15:25:58 xzilla Exp $
+	 * $Id: login.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -15,6 +15,7 @@
 
 	// Output header
 	$misc->printHeader($strLogin);
+	$misc->printBody();
 ?>
 
 	<table class="navbar" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">

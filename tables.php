@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.6 2003/02/23 11:37:09 chriskl Exp $
+	 * $Id: tables.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -599,6 +599,7 @@
 	}
 	
 	$misc->printHeader($strTables);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'create':

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.6 2003/02/07 17:34:32 xzilla Exp $
+	 * $Id: all_db.php,v 1.7 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -126,6 +126,7 @@
 	}
 
 	$misc->printHeader($strDatabases);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'save_create':

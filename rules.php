@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: rules.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -137,6 +137,7 @@
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strRules);
+	$misc->printBody();
 	
 	switch ($action) {
 		case 'save_create':

@@ -3,13 +3,14 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.4 2003/02/16 05:30:53 chriskl Exp $
+	 * $Id: topbar.php,v 1.5 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 	
 	$misc->printHeader();
+	$misc->printBody('topbar');
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>

@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.3 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: groups.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -218,6 +218,7 @@
 	}
 
 	$misc->printHeader($strGroups);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'save_create':

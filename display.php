@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.5 2003/02/09 09:23:37 chriskl Exp $
+	 * $Id: display.php,v 1.6 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,8 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	$misc->printHeader($strQueryResults);
-	
+	$misc->printBody();
+
 	echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strQueryResults}</h2>\n";
 	
 	// If current page is not set, default to first page

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.3 2003/02/20 23:17:05 slubek Exp $
+	 * $Id: tblproperties.php,v 1.4 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -242,6 +242,7 @@
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table']);
+	$misc->printBody();
 	
 	switch ($action) {
 		case 'triggers':

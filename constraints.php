@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.2 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: constraints.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -84,7 +84,8 @@
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strConstraints);
-	
+	$misc->printBody();
+
 	switch ($action) {
 		case 'save_create':
 			doSaveCreate();

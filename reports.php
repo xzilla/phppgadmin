@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.5 2003/02/26 04:39:50 chriskl Exp $
+	 * $Id: reports.php,v 1.6 2003/03/01 00:53:51 slubek Exp $
 	 */
 
 	// Include application functions
@@ -165,6 +165,7 @@
 	}
 	
 	$misc->printHeader($strReports);
+	$misc->printBody();
 
 	switch ($action) {
 		case 'save_create':
