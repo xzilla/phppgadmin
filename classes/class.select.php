@@ -31,17 +31,17 @@ class XHtmlSimpleElement {
 	}
 
 	function set_style($style) {
-		$this->set_attribute("style", $style);
+		$this->set_attribute('style', $style);
 	}
 	
 	function set_class($class) {
-		$this->set_attribute("class", $class);
+		$this->set_attribute('class', $class);
 	}
 
 	
 	function is_element() {
 		return 
-			str_replace("xhtml_", "", get_class($this));
+			str_replace('xhtml_', '', strtolower(get_class($this)));
 	}
 
 	/**
