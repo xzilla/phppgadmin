@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.24 2003/11/08 10:33:57 chriskl Exp $
+	 * $Id: database.php,v 1.25 2003/11/15 11:09:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -38,6 +38,8 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
 		echo "</form>\n";
 		
+		// If a search term has been specified, then perform the search
+		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
 			$rs = &$localData->findObject($_GET['term']);
 			if ($rs->recordCount() > 0) {
@@ -218,7 +220,7 @@
 		global $PHP_SELF, $localData, $misc;
 		global $lang;
 
-		if (!isset($_POST['query'])) $_POST['query'] = '';
+		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
 		$misc->printDatabaseNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
@@ -227,14 +229,10 @@
 		echo "<form action=\"sql.php\" method=\"post\">\n";
 		echo "<p>{$lang['strsql']}<br />\n";
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
-			htmlspecialchars($_POST['query']), "</textarea></p>\n";
+			htmlspecialchars($_REQUEST['query']), "</textarea></p>\n";
 
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=",
-			urlencode($_REQUEST['database']), "&action=sql\" />\n";
-		echo "<input type=\"hidden\" name=\"return_desc\" value=\"{$lang['strback']}\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 		echo "</form>\n";
 	}
 

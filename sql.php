@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.11 2003/09/10 07:25:49 chriskl Exp $
+	 * $Id: sql.php,v 1.12 2003/11/15 11:09:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,9 +20,9 @@
 	echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}: {$lang['strqueryresults']}</h2>\n";
 
 	// NOTE: This is a quick hack!
-	if (isset($_POST['explain'])) {
+	if (isset($_POST['explain']) && isset($_POST['query'])) {
 		// TODO: Is there a generic (non PostgreSQL specific) way to do this
-		$_POST['query'] = 'EXPLAIN '.$_POST['query'];
+		$_POST['query'] = 'EXPLAIN ' . $_POST['query'];
 	}
 	
 	// Set fetch mode to NUM so that duplicate field names are properly returned
@@ -66,7 +66,7 @@
 	}
 
 	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&amp;action=sql\">{$lang['strback']}</a>";
+		"&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['strback']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?action=create&amp;db_name=", urlencode($_REQUEST['database']), "&amp;report_sql=",
 			urlencode($_POST['query']), "\">{$lang['strcreatereport']}</a>";

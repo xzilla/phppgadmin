@@ -15,7 +15,7 @@ Features
   no password - a VERY common newbie error.
 * Cluster indexes and indexed constraints (with analyze)
 * Display clustered status of indexes and indexed constraints
-* Table info - shows table that reference the table, parent tables,
+* Table info - shows tables that reference the table, parent tables,
   and child tables.
 * Choice of operator when performing a Select
 * 'Select All' feature of table selects now available on view
@@ -31,6 +31,7 @@ Features
 * Find Object feature can now find conversions, languages, domains,
   constraints, indexes, rules and triggers.
 * Better language Makefile for translators
+* The SQL box now remembers your query when you click 'Back'.
 
 Bugs
 * Added legal DOCTYPE
