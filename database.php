@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.32 2004/01/04 07:30:12 chriskl Exp $
+	 * $Id: database.php,v 1.33 2004/01/30 05:58:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -95,6 +95,12 @@
 							case 'LANGUAGE':
 								echo $lang['strlanguages'];
 								break;
+							case 'AGGREGATE':
+								echo $lang['straggregates'];
+								break;
+							case 'OPCLASS':
+								echo $lang['stropclasses'];
+								break;
 						}
 						echo "</h2>";
 						echo "<ul>\n";
@@ -170,6 +176,14 @@
 							break;
 						case 'LANGUAGE':
 							echo "<li><a href=\"languages.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'AGGREGATE':
+							echo "<li><a href=\"aggregates.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "\">",
+								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							break;
+						case 'OPCLASS':
+							echo "<li><a href=\"opclasses.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "\">",
+								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
 							break;
 					}
 					$rs->moveNext();	

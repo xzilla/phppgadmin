@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.87 2004/01/14 02:14:28 chriskl Exp $
+ * $Id: Postgres73.php,v 1.88 2004/01/30 05:58:45 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1185,7 +1185,7 @@ class Postgres73 extends Postgres72 {
 				AND pa.attname ILIKE '%{$term}%' AND pa.attnum > 0 AND NOT pa.attisdropped AND pc.relkind IN ('r', 'v') {$where}
 			UNION ALL
 			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn 
-				WHERE pp.pronamespace=pn.oid AND proname ILIKE '%{$term}%' {$where}
+				WHERE pp.pronamespace=pn.oid AND NOT pp.proisagg AND pp.proname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_index pi, pg_catalog.pg_class pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pi.indrelid 
@@ -1236,6 +1236,14 @@ class Postgres73 extends Postgres72 {
 				UNION ALL
 				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_catalog.pg_language pl
 					WHERE lanname ILIKE '%{$term}%' {$lan_where}
+				UNION ALL
+				SELECT DISTINCT ON (p.proname) 'AGGREGATE', p.oid, pn.nspname, NULL, p.proname FROM pg_catalog.pg_proc p
+					LEFT JOIN pg_catalog.pg_namespace pn ON p.pronamespace=pn.oid
+					WHERE p.proisagg AND p.proname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, pn.nspname, NULL, po.opcname FROM pg_catalog.pg_opclass po,
+					pg_catalog.pg_namespace pn WHERE po.opcnamespace=pn.oid
+					AND po.opcname ILIKE '%{$term}%' {$where}
 			";
 		}
 		// Otherwise just add domains

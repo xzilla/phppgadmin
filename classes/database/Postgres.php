@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.178 2004/01/29 07:30:12 chriskl Exp $
+ * $Id: Postgres.php,v 1.179 2004/01/30 05:58:44 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2194,6 +2194,20 @@ class Postgres extends BaseDB {
 				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
 					WHERE lanname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND pl.lanispl";
+
+			// Aggregates
+			$sql .= "				
+				UNION ALL
+				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a 
+					WHERE aggname ~* '.*{$term}.*'";
+			if (!$conf['show_system']) $sql .= " AND a.oid > '{$this->_lastSystemOID}'::oid";
+
+			// Op Classes
+			$sql .= "				
+				UNION ALL
+				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po,
+					WHERE po.opcname ILIKE '%{$term}%'";
+			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
 		}
 				
 		$sql .= " ORDER BY type, schemaname, relname, name";
