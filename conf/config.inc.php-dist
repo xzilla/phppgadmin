@@ -4,13 +4,15 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.16 2003/04/21 06:36:24 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.17 2003/04/29 02:30:06 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
 	// indexed from zero upwards.
 	$conf['servers'][0]['desc'] = 'PostgreSQL'; // Display name for server
-	$conf['servers'][0]['host'] = 'localhost';  // Hostname or IP address for server
+	$conf['servers'][0]['host'] = null;  // Hostname or IP address for server
+	                                     // Null or '' indicates unix
+					     // domain socket.
 	$conf['servers'][0]['port'] = 5432;         // Database port on server
 
 	// Default language setting.  eg 'english', 'polish', etc.
