@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.4 2002/11/18 04:57:34 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.5 2002/12/27 16:24:10 chriskl Exp $
 	 */
 
 	// Create Misc class references
@@ -85,6 +85,14 @@
 											$_REQUEST['database'],
 											$_SESSION['webdbUsername'],
 											$_SESSION['webdbPassword']);
+		
+		// If schema is defined and database supports schemas, then set the schema explicitly
+		if (isset($_REQUEST['schema']) && $localData->hasSchemas()) {
+			$status = $localData->setSchema($_REQUEST['schema']);
+			if ($status != 0) {
+				echo "<p class=\"message\">Invalid schema specified.</p>\n";
+			}
+		}
 	}
 
 	// Theme
