@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.9 2004/03/31 07:46:39 chriskl Exp $
+	 * $Id: domains.php,v 1.10 2004/03/31 08:09:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -367,19 +367,21 @@
 		
 		if ($domains->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strdomain']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
+			echo "<tr><th class=\"data\">{$lang['strdomain']}</th><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
 			echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th></tr>\n";
+			echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 			$i = 0;
 			while (!$domains->EOF) {
 				$domains->f['domnotnull'] = $data->phpBool($domains->f['domnotnull']);
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal($domains->f['domname']), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domtype']), "</td>\n";
 				echo "<td class=\"data{$id}\">", ($domains->f['domnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domdef']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domowner']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strproperties']}</a></td>\n"; 
 				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($domains->f['domname']), "\">{$lang['strdrop']}</a></td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($domains->f['domcomment']), "</td>\n";
 				echo "</tr>\n";
 				$domains->moveNext();
 				$i++;
