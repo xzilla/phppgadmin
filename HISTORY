@@ -6,6 +6,7 @@ Version 3.5.3-dev
 
 Bugs
 * Fix using schema enabled dump on non-schema enabled backend
+* Don't try setting no timeout when in safe mode
 
 Version 3.5.2
 -------------
