@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.171 2004/01/02 12:53:36 chriskl Exp $
+ * $Id: Postgres.php,v 1.172 2004/01/03 07:19:29 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2359,7 +2359,7 @@ class Postgres extends BaseDB {
 	 * @param $password A password for the user
 	 * @param $createdb boolean Whether or not the user can create databases
 	 * @param $createuser boolean Whether or not the user can create other users
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
 	 * @param $group (array) The groups to create the user in
 	 * @return 0 success
 	 */
@@ -2375,6 +2375,7 @@ class Postgres extends BaseDB {
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		else $sql .= " VALID UNTIL 'infinity'";
 		
 		return $this->execute($sql);
 	}	
@@ -2385,7 +2386,7 @@ class Postgres extends BaseDB {
 	 * @param $password A new password for the user
 	 * @param $createdb boolean Whether or not the user can create databases
 	 * @param $createuser boolean Whether or not the user can create other users
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  When the account expires.
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire.
 	 * @return 0 success
 	 */
 	function setUser($username, $password, $createdb, $createuser, $expiry) {
@@ -2398,6 +2399,7 @@ class Postgres extends BaseDB {
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		else $sql .= " VALID UNTIL 'infinity'";
 		
 		return $this->execute($sql);
 	}	
