@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.9 2003/09/19 08:26:54 chriskl Exp $
+	 * $Id: dutch.php,v 1.10 2004/02/12 03:20:51 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -15,13 +15,13 @@
 	$lang['strnoframes'] = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Geen tabellen gevonden.';
-$lang['strppahome'] = 'phpPgAdmin Homepage';
-$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
-$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
-$lang['strlocaldocs'] = 'PostgreSQL Documentatie (lokaal)';
-$lang['strreportbug'] = 'Meldt een fout';
-$lang['strviewfaq'] = 'Bekijk FAQ';
-$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strppahome'] = 'phpPgAdmin Homepage';
+	$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL Documentatie (lokaal)';
+	$lang['strreportbug'] = 'Meldt een fout';
+	$lang['strviewfaq'] = 'Bekijk FAQ';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strnotable'] = 'Geen tabel gevonden.';
 	$lang['strnoviews'] = 'Geen views gevonden.';
 	$lang['strnofunctions'] = 'Geen functies gevonden.';
@@ -61,8 +61,8 @@ $lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['stralter'] = 'Wijzig';
 	$lang['strcancel'] = 'Cancel';
 	$lang['strprivileges'] = 'Privileges';
-$lang['strtrue'] = 'True';
-$lang['strfalse'] = 'False';
+	$lang['strtrue'] = 'True';
+	$lang['strfalse'] = 'False';
 	$lang['strinsert'] = 'Voeg in';
 	$lang['strselect'] = 'Selecteer';
 	$lang['strdelete'] = 'Verwijder';
@@ -78,7 +78,7 @@ $lang['strfalse'] = 'False';
 	// Error handling
 	$lang['strsqlerror'] = 'SQL fout:';
 	$lang['strinstatement'] = 'In statement:';
-$lang['strimport'] = 'Importeer';
+	$lang['strimport'] = 'Importeer';
 	
 	// Users
 	$lang['struser'] = 'Gebruiker';
@@ -86,19 +86,19 @@ $lang['strimport'] = 'Importeer';
 	$lang['strusername'] = 'Gebruikersnaam';
 	$lang['strpassword'] = 'wachtwoord';
 	$lang['strsuper'] = 'Superuser?';
-	$lang['strcreatedb'] = 'Cre&amp;eumler DB?';
+	$lang['strcreatedb'] = 'Cre&euml;er DB?';
 	$lang['strexpires'] = 'Verloopt';	
 	$lang['strnousers'] = 'Geen gebruikers gevonden.';
 	
 	// Databases
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabases'] = 'Databases';
-$lang['strdata'] = 'Data';
-$lang['strconfirm'] = 'Bevestig';
-$lang['strexpression'] = 'Uitdrukking';
-$lang['strellipsis'] = '...';
-$lang['strexpand'] = 'Uitvouwen';
-$lang['strcollapse'] = 'Inklappen';
+	$lang['strdata'] = 'Data';
+	$lang['strconfirm'] = 'Bevestig';
+	$lang['strexpression'] = 'Uitdrukking';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Uitvouwen';
+	$lang['strcollapse'] = 'Inklappen';
 	$lang['strnodatabases'] = 'Geen Databases gevonden.';
 	$lang['strdatabaseneedsname'] = 'U dient uw database een naam te geven.';
 	
@@ -136,7 +136,7 @@ $lang['strcollapse'] = 'Inklappen';
 	$lang['strprimary'] = 'Primair';
 	$lang['strkeyname'] = 'sleutel naam';
 	$lang['strnumfields'] = 'aantal velden';
-	$lang['strcreatetable'] = 'cre&euml;er tabel';
+	$lang['strcreatetable'] = 'Cre&euml;er tabel';
 	$lang['strtableneedsname'] = 'U dient uw tabel een naam te geven.';
 	$lang['strtableneedscols'] = 'U dient uw tabel een geldig aantal kolommen te geven.';
 	$lang['strexport'] = 'exporteer';
@@ -153,15 +153,15 @@ $lang['strcollapse'] = 'Inklappen';
 	// Triggers
 	$lang['strtriggers'] = 'Triggers';
 	$lang['strnotriggers'] = 'Geen triggers gevonden.';
-	$lang['strcreatetrigger'] = 'cre&euml;er trigger';
+	$lang['strcreatetrigger'] = 'Cre&euml;er trigger';
 	
 	// Types
 	$lang['strtype'] = 'Type';
 	$lang['strtypes'] = 'Types';
-$lang['strcascade'] = 'CASCADE';
+	$lang['strcascade'] = 'CASCADE';
 	$lang['strnotypes'] = 'Geen types gevonden.';
-	$lang['strcreatetype'] = 'cre&euml;er type';
-	$lang['strconfdroptype'] = 'Weet u zeker dat u het type \&quot;%s\&quot; wilt verwijderen?';
+	$lang['strcreatetype'] = 'Cre&euml;er type';
+	$lang['strconfdroptype'] = 'Weet u zeker dat u het type &quot;%s&quot; wilt verwijderen?';
 	$lang['strtypedropped'] = 'Type verwijderd.';
 	$lang['strtypedroppedbad'] = 'Verwijdering van het type mislukt.';
 	$lang['strtypecreated'] = 'Type gecre&euml;erd';
@@ -179,12 +179,12 @@ $lang['strcascade'] = 'CASCADE';
 
 	// New translations
 	$lang['strintro'] = 'Welkom bij phpPgAdmin.';
-$lang['straccount'] = 'Account';
-$lang['strchangepassword'] = 'Verander wachtwoord';
-$lang['strpasswordchanged'] = 'Wachtwoord veranderd.';
-$lang['strpasswordchangedbad'] = 'Wachtwoord veranderen mislukt.';
-$lang['strpasswordshort'] = 'Wachtwoord is te kort.';
-$lang['strpasswordconfirm'] = 'Wachtwoord verschilt van bevestigings-wachtwoord.';
+	$lang['straccount'] = 'Account';
+	$lang['strchangepassword'] = 'Verander wachtwoord';
+	$lang['strpasswordchanged'] = 'Wachtwoord veranderd.';
+	$lang['strpasswordchangedbad'] = 'Wachtwoord veranderen mislukt.';
+	$lang['strpasswordshort'] = 'Wachtwoord is te kort.';
+	$lang['strpasswordconfirm'] = 'Wachtwoord verschilt van bevestigings-wachtwoord.';
 	$lang['strloginfailed'] = 'Inloggen mislukt';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Log uit';
@@ -210,9 +210,8 @@ $lang['strpasswordconfirm'] = 'Wachtwoord verschilt van bevestigings-wachtwoord.
 	$lang['stradd'] = 'Voeg toe';
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
-$lang['strgrantbad'] = 'U dient minstens &amp;eacute;&amp;eacute;n gebruiker of
-groep en minstens &amp;eacute;&amp;eacute;n privilege op te geven.';
-$lang['stralterprivs'] = 'Wijzig privilege';
+	$lang['strgrantbad'] = 'U dient minstens een gebruiker of groep en minstens een privilege op te geven.';
+	$lang['stralterprivs'] = 'Wijzig privilege';
 	$lang['strinstead'] = 'Do Instead';
 	$lang['strwhen'] = 'zodra';
 	$lang['strformat'] = 'Format';
@@ -326,8 +325,7 @@ $lang['stralterprivs'] = 'Wijzig privilege';
 	$lang['strindexneedscols'] = 'Indices dienen uit minimaal &eacute;&eacute;n kolom te bestaan.';
 	$lang['strindexcreated'] = 'Index aangemaakt';
 	$lang['strindexcreatedbad'] = 'Het aanmaken van de index is mislukt.';
-	$lang['strconfdropindex'] = 'Weet u zeker dat u de index &quot;%s&quot; wilt
-	verwijderen?';
+	$lang['strconfdropindex'] = 'Weet u zeker dat u de index &quot;%s&quot; wilt verwijderen?';
 	$lang['strindexdropped'] = 'Index verwijderd.';
 	$lang['strindexdroppedbad'] = 'Verwijdering van de index mislukt.';
 	$lang['strindextype'] = 'Type van de index';
@@ -423,63 +421,62 @@ $lang['stralterprivs'] = 'Wijzig privilege';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
 
-// These were missing after using the language conversion tool :(
+	// These were missing after using the language conversion tool :(
 
-$lang['strfirst'] = '<< Eerste';
-$lang['strlast'] = 'Laatste >>';
-$lang['strexplain'] = 'Verklaring';
-$lang['strfind'] = 'Zoek';
-$lang['stroptions'] = 'Opties';
-$lang['strrefresh'] = 'Ververs';
-$lang['strdownload'] = 'Download';
-$lang['strrownotunique'] = 'Geen unieke identifier voor deze rij.';
-$lang['strselectallfields'] = 'Selecteer alle velden';
-$lang['strtablealtered'] = 'Tabel gewijzigd.';
-$lang['strtablealteredbad'] = 'Tabel wijzigen mislukt.';
-$lang['strcreateuser'] = 'Cre&amp;euml;er gebruiker';
-$lang['strusercreatedbad'] = 'Gebruiker cre&amp;euml;ren mislukt.';
-$lang['straddmember'] = 'Voeg groepslid toe';
-$lang['strmemberadded'] = 'Groepslid toegevoegd.';
-$lang['strmemberaddedbad'] = 'Toevoegen groepslid mislukt.';
-$lang['strdropmember'] = 'Verwijder groepslid';
-$lang['strconfdropmember'] = 'Weet u zeker dat u &quot;%s&quot; uit groep &quot;%s&quot; wilt verwijderen?';
-$lang['strmemberdropped'] = 'Groepslid verwijderd.';
-$lang['strmemberdroppedbad'] = 'Verwijderen van groepslid mislukt.';
-$lang['strgrantor'] = 'Grantor';
-$lang['strasterisk'] = '*';
-$lang['strsequencereset'] = 'Sequence reset.';
-$lang['strsequenceresetbad'] = 'Sequence reset mislukt.';
-$lang['strproglanguage'] = 'Programmeertaal';
-$lang['strtriggeraltered'] = 'Trigger gewijzigd.';
-$lang['strtriggeralteredbad'] = 'Trigger wijziging mislukt.';
-$lang['strdomain'] = 'Domein';
-$lang['strdomains'] = 'Domeinen';
-$lang['strshowalldomains'] = 'Toon alle domeinen';
-$lang['strnodomains'] = 'Geen domeinen gevonden.';
-$lang['strcreatedomain'] = 'Cre&amp;euml;er domein';
-$lang['strdomaindropped'] = 'Domein verwijderd.';
-$lang['strdomaindroppedbad'] = 'Verwijderen van domein mislukt.';
-$lang['strconfdropdomain'] = 'Weet u zeker dat u het domein &quot;%s&quot; wilt verwijderen?';
-$lang['strdomainneedsname'] = 'U dient een naam op te geven voor uw domein.';
-$lang['strdomaincreated'] = 'Domein gecre&amp;euml;erd.';
-$lang['strdomaincreatedbad'] = 'Domeincreatie mislukt.';
-$lang['strdomainaltered'] = 'Domein gewijzigd.';
-$lang['strdomainalteredbad'] = 'Wijzigen van het domein mislukt.';
-$lang['stroperator'] = 'Operator';
-$lang['strshowalloperators'] = 'Toon alle operators';
-$lang['strnooperator'] = 'Geen operator gevonden.';
-$lang['strnooperators'] = 'Geen operators gevonden.';
-$lang['strcreateoperator'] = 'Cre&amp;eumler operator';
-$lang['stroperatorname'] = 'Naam van de operator';
-$lang['strleftarg'] = 'Linkerargument type';
-$lang['strrightarg'] = 'Rechterargument type';
-$lang['stroperatorneedsname'] = 'U dient een naam op te geven voor uw operator.';
-$lang['stroperatorcreated'] = 'Operator gecre&amp;euml;erd';
-$lang['stroperatorcreatedbad'] = 'Operator creatie mislukt.';
-$lang['strconfdropoperator'] = 'Weet u zeker dat u de operator &quot;%s&quot; wilt verwijderen?';
-$lang['stroperatordropped'] = 'Operator verwijderd.';
-$lang['stroperatordroppedbad'] = 'Verwijderen van de operator mislukt.';
-$lang['strhelp'] = 'Help';
-
+	$lang['strfirst'] = '<< Eerste';
+	$lang['strlast'] = 'Laatste >>';
+	$lang['strexplain'] = 'Verklaring';
+	$lang['strfind'] = 'Zoek';
+	$lang['stroptions'] = 'Opties';
+	$lang['strrefresh'] = 'Ververs';
+	$lang['strdownload'] = 'Download';
+	$lang['strrownotunique'] = 'Geen unieke identifier voor deze rij.';
+	$lang['strselectallfields'] = 'Selecteer alle velden';
+	$lang['strtablealtered'] = 'Tabel gewijzigd.';
+	$lang['strtablealteredbad'] = 'Tabel wijzigen mislukt.';
+	$lang['strcreateuser'] = 'Cre&euml;er gebruiker';
+	$lang['strusercreatedbad'] = 'Gebruiker cre&euml;ren mislukt.';
+	$lang['straddmember'] = 'Voeg groepslid toe';
+	$lang['strmemberadded'] = 'Groepslid toegevoegd.';
+	$lang['strmemberaddedbad'] = 'Toevoegen groepslid mislukt.';
+	$lang['strdropmember'] = 'Verwijder groepslid';
+	$lang['strconfdropmember'] = 'Weet u zeker dat u &quot;%s&quot; uit groep &quot;%s&quot; wilt verwijderen?';
+	$lang['strmemberdropped'] = 'Groepslid verwijderd.';
+	$lang['strmemberdroppedbad'] = 'Verwijderen van groepslid mislukt.';
+	$lang['strgrantor'] = 'Grantor';
+	$lang['strasterisk'] = '*';
+	$lang['strsequencereset'] = 'Sequence reset.';
+	$lang['strsequenceresetbad'] = 'Sequence reset mislukt.';
+	$lang['strproglanguage'] = 'Programmeertaal';
+	$lang['strtriggeraltered'] = 'Trigger gewijzigd.';
+	$lang['strtriggeralteredbad'] = 'Trigger wijziging mislukt.';
+	$lang['strdomain'] = 'Domein';
+	$lang['strdomains'] = 'Domeinen';
+	$lang['strshowalldomains'] = 'Toon alle domeinen';
+	$lang['strnodomains'] = 'Geen domeinen gevonden.';
+	$lang['strcreatedomain'] = 'Cre&euml;er domein';
+	$lang['strdomaindropped'] = 'Domein verwijderd.';
+	$lang['strdomaindroppedbad'] = 'Verwijderen van domein mislukt.';
+	$lang['strconfdropdomain'] = 'Weet u zeker dat u het domein &quot;%s&quot; wilt verwijderen?';
+	$lang['strdomainneedsname'] = 'U dient een naam op te geven voor uw domein.';
+	$lang['strdomaincreated'] = 'Domein gecre&euml;erd.';
+	$lang['strdomaincreatedbad'] = 'Domeincreatie mislukt.';
+	$lang['strdomainaltered'] = 'Domein gewijzigd.';
+	$lang['strdomainalteredbad'] = 'Wijzigen van het domein mislukt.';
+	$lang['stroperator'] = 'Operator';
+	$lang['strshowalloperators'] = 'Toon alle operators';
+	$lang['strnooperator'] = 'Geen operator gevonden.';
+	$lang['strnooperators'] = 'Geen operators gevonden.';
+	$lang['strcreateoperator'] = 'Cre&euml;er operator';
+	$lang['stroperatorname'] = 'Naam van de operator';
+	$lang['strleftarg'] = 'Linkerargument type';
+	$lang['strrightarg'] = 'Rechterargument type';
+	$lang['stroperatorneedsname'] = 'U dient een naam op te geven voor uw operator.';
+	$lang['stroperatorcreated'] = 'Operator gecre&euml;erd';
+	$lang['stroperatorcreatedbad'] = 'Operator creatie mislukt.';
+	$lang['strconfdropoperator'] = 'Weet u zeker dat u de operator &quot;%s&quot; wilt verwijderen?';
+	$lang['stroperatordropped'] = 'Operator verwijderd.';
+	$lang['stroperatordroppedbad'] = 'Verwijderen van de operator mislukt.';
+	$lang['strhelp'] = 'Help';
 
 ?>
