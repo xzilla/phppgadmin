@@ -6,3 +6,6 @@
 * Add owner everywhere
 * Cancel/<Action> buttons everywhere
 * pg_dump feature!!!
+* reports - unindexed fk's
+	  - slow indexes
+

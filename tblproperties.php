@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.18 2003/08/06 02:09:25 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.19 2003/08/07 06:19:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -130,7 +130,6 @@
 				// Fetch all available types
 				$types = &$localData->getTypes(true);
 
-				$misc->printTableNav();
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
 				$misc->printMsg($msg);
@@ -158,7 +157,8 @@
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
 
 				break;
@@ -200,7 +200,6 @@
 			case 1:
 				global $lang;
 
-				$misc->printTableNav();
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['straltercolumn']}: ",
 					$misc->printVal($_REQUEST['column']), "</h2>\n";
 				$misc->printMsg($msg);
@@ -228,13 +227,14 @@
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
 				
 				echo "</table>\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
-				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" /> <input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
 								
 				break;
@@ -287,7 +287,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -329,7 +330,7 @@
 			echo "<td class=\"data{$id}\">", ($attrs->f['attnotnull'] ? 'NOT NULL' : ''), "</td>\n";
 			echo "<td class=\"data{$id}\">", $misc->printVal($attrs->f['adsrc']), "</td>\n";
 			echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
-				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['strproperties']}</a></td>\n";
+				"&column=", urlencode($attrs->f['attname']), "&action=properties\">{$lang['stralter']}</a></td>\n";
 			if ($data->hasDropColumn()) {
 				echo "<td class=\"opbutton{$id}\"><a href=\"{$PHP_SELF}?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"&column=", urlencode($attrs->f['attname']), "&action=confirm_drop\">{$lang['strdrop']}</a></td>\n";
@@ -366,13 +367,15 @@
 			doExport();
 			break;
 		case 'add_column':
-			doAddColumn();
+			if (isset($_POST['cancel'])) doDefault();
+			else doAddColumn();
 			break;
 		case 'properties':
-			doProperties();
+			if (isset($_POST['cancel'])) doDefault();
+			else doProperties();
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.29 2003/08/06 07:04:43 chriskl Exp $
+	 * $Id: tables.php,v 1.30 2003/08/07 06:19:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -47,7 +47,7 @@
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
-				echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
 				break;
 			case 2:
@@ -117,7 +117,7 @@
 					echo "<input type=\"hidden\" name=\"withoutoids\" value=\"on\" />\n";
 				}
 				echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-				echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
 								
 				break;
@@ -161,8 +161,6 @@
 				global $lang;
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
-					
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltables']}</a></p>\n";
 	}
 
 	/**
@@ -314,7 +312,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			echo "<p><input type=\"submit\" name=\"save\" value=\"{$lang['strinsert']}\" />\n";
 			echo "<input type=\"submit\" name=\"saveandrepeat\" value=\"{$lang['strsaveandrepeat']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
@@ -357,7 +355,7 @@
 			echo "<input type=hidden name=action value=empty>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
+			echo "<input type=submit name=empty value=\"{$lang['strempty']}\"> <input type=submit name=cancel value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -391,7 +389,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -705,7 +704,8 @@
 
 	switch ($action) {
 		case 'create':
-			doCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doCreate();
 			break;
 		case 'selectrows':
 			if (!isset($_POST['cancel'])) doSelectRows(false);
@@ -722,14 +722,14 @@
 			doInsertRow(true);
 			break;
 		case 'empty':
-			if (isset($_POST['yes'])) doEmpty(false);
+			if (isset($_POST['empty'])) doEmpty(false);
 			else doDefault();
 			break;
 		case 'confirm_empty':
 			doEmpty(true);
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

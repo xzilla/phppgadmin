@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.45 2003/08/06 07:04:46 chriskl Exp $
+	 * $Id: english.php,v 1.46 2003/08/07 06:19:26 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -146,14 +146,14 @@
 	$lang['strconfdeleterow'] = 'Are you sure you want to delete this row?';
 	$lang['strrowdeleted'] = 'Row deleted.';
 	$lang['strrowdeletedbad'] = 'Row deletion failed.';
-	$lang['strsaveandrepeat'] = 'Save &amp; Repeat';
+	$lang['strsaveandrepeat'] = 'Insert &amp; Repeat';
 	$lang['strfield'] = 'Field';
 	$lang['strfields'] = 'Fields';
 	$lang['strnumfields'] = 'Num. Of Fields';
 	$lang['strfieldneedsname'] = 'You must name your field';
 	$lang['strselectneedscol'] = 'You must show at least one column';
 	$lang['straltercolumn'] = 'Alter Column';
-	$lang['strcolumnaltered'] = 'Column Altered.';
+	$lang['strcolumnaltered'] = 'Column altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';
 	$lang['strconfdropcolumn'] = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Column dropped.';
@@ -232,8 +232,8 @@
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabases'] = 'Databases';
 	$lang['strshowalldatabases'] = 'Show all databases';
-	$lang['strnodatabase'] = 'No Database found.';
-	$lang['strnodatabases'] = 'No Databases found.';
+	$lang['strnodatabase'] = 'No database found.';
+	$lang['strnodatabases'] = 'No databases found.';
 	$lang['strcreatedatabase'] = 'Create database';
 	$lang['strdatabasename'] = 'Database name';
 	$lang['strdatabaseneedsname'] = 'You must give a name for your database.';
