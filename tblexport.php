@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.5 2003/04/20 10:11:40 chriskl Exp $
+	 * $Id: tblexport.php,v 1.6 2003/05/18 11:52:03 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -39,15 +39,19 @@
 
 	if ($_REQUEST['format'] == 'copy') {
 		$data->fieldClean($_REQUEST['table']);
-		echo "COPY \"{$_REQUEST['table']}\" FROM stdin";
+		echo "COPY \"{$_REQUEST['table']}\"";
 		if (isset($_REQUEST['oids'])) echo " WITH OIDS";
-		echo ";\n";
+		echo " FROM stdin;\n";
 		while (!$rs->EOF) {
 			$first = true;
 			while(list($k, $v) = each($rs->f)) {
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
 				// Escape value
-				$data->clean($v);
+				// addCSlashes converts all weird ASCII characters to octal representation,
+				// EXCEPT the 'special' ones like \r \n \t, etc.
+				$v = addCSlashes($v, "\0..\37\177..\377");
+				// We add an extra escaping slash onto octal encoded characters
+				$v = ereg_replace('\\\\([0-7]{3})', '\\\\\1', $v);
 				if ($first) {
 					echo ($v === null) ? '\\N' : $v;
 					$first = false;
@@ -89,7 +93,13 @@
 				else echo ", \"{$k}\"";
 				
 				// Output value
-				$data->clean($v);
+				// addCSlashes converts all weird ASCII characters to octal representation,
+				// EXCEPT the 'special' ones like \r \n \t, etc.
+				$v = addCSlashes($v, "\0..\37\177..\377");
+				// We add an extra escaping slash onto octal encoded characters
+				$v = ereg_replace('\\\\([0-7]{3})', '\\\1', $v);
+				// Finally, escape all apostrophes
+				$v = str_replace("'", "''", $v);
 				if ($first) {
 					$values = ($v === null) ? 'NULL' : "'{$v}'";
 					$first = false;
