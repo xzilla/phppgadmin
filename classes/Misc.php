@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.7 2005/03/08 09:41:23 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.8 2005/03/08 10:48:11 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1363,7 +1363,6 @@
 		 */
 		function printTreeXML(&$treedata, &$actions, $opts = array()) {
 			global $conf;
-			$test = false;
 			header("Content-Type: text/xml");
 			header("Cache-Control: no-cache");
 			
@@ -1375,13 +1374,7 @@
 			while (!$treedata->EOF) {
 				echo "<tree", value_xml_attr('text', $actions['item']['text'], $treedata->f);
 				
-				if ($test) {
-					$itemaction =& $actions['expand'];
-				} else {
-					$itemaction =& $actions['item'];
-				}
-				
-				echo $this->printActionUrl($itemaction, $treedata->f, 'action');
+				echo $this->printActionUrl($actions['item'], $treedata->f, 'action');
 				
 				if (!empty($actions['expand'])) {
 					echo $this->printActionUrl($actions['expand'], $treedata->f, 'src');
