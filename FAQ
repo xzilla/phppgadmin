@@ -12,6 +12,17 @@ A: This means that you have not properly compiled PostgreSQL support into
    your PHP.  The correct configure flag to use is '--with-pgsql'.  Read the
    PHP manual and website for more help with this.
 
+   Under Windows, you cannot easily recompile PHP.  In this case, open your
+   php.ini file (usually in C:\WINDOWS or C:\WINNT) and change this line:
+
+        ;extension=php_pgsql.dll
+
+   to:
+
+        extension=php_pgsql.dll
+
+   and then restart your web server.
+
 Q: I always get "Login failed" even though I'm _sure_ I'm using the right
    username and password.
 

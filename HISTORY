@@ -1,6 +1,14 @@
 phpPgAdmin History
 ------------------
 
+Version 3.1-rc-1
+----------------
+
+Bug Fixes
+* Table browsing for != 7.3
+* SQL window improvements
+* Translation improvements
+
 Version 3.1-beta-1
 ------------------
 

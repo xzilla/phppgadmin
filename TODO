@@ -128,6 +128,7 @@ Exotic
 * Support contrib/tsearch2 for easy full text indexes
 * -Search for object feature (chriskl)
 * Pivot reports (ADODB has a feature for this)
+* Parameratised reports (use prepared queries)
 
 Principles
 ----------

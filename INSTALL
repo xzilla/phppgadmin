@@ -7,7 +7,7 @@ phpPgAdmin Installation Guide
 
 2. Configure phpPgAdmin
 
-   edit phppgadmin/conf/config.inc.php
+   edit phpPgAdmin/conf/config.inc.php
 
    If you mess up the configuration file, you can recover it from the
    config.inc.php-dist file.
@@ -18,8 +18,8 @@ phpPgAdmin Installation Guide
    the 'sql' subdirectory and view the SQL script for your database.  It
    will contain instructions on how to set up the reports database.
 
-4. Browse to the phpPgAdmin installation using a web browser.  You must
-   have cookies enabled for phpPgAdmin to work.
+4. Browse to the phpPgAdmin installation using a web browser.  You might
+   need cookies enabled for phpPgAdmin to work.
 
 5. IMPORTANT - SECURITY
 

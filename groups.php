@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.12 2003/08/08 06:12:28 chriskl Exp $
+	 * $Id: groups.php,v 1.13 2003/09/18 08:07:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -88,7 +88,7 @@
 		else echo "<p>{$lang['strnousers']}</p>\n";
 
 		// Display form for adding a user to the group			
-		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+		echo "<p><form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<select name=\"user\">";
 		while (!$users->EOF) {
 			$uname = $misc->printVal($users->f[$data->uFields['uname']]);
@@ -101,7 +101,7 @@
 		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
-		echo "</form>\n";
+		echo "</form></p>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
 	}
