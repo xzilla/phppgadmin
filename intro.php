@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.10 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: intro.php,v 1.11 2004/09/23 12:06:46 soranzo Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -31,7 +31,6 @@
 <li><b><a href="<?php echo $lang['strviewfaq_url'] ?>" target="_top"><?php echo $lang['strviewfaq'] ?></a></b></li>
 </ul>
 
-</p>
 <?php
 	$misc->printFooter();
 ?>

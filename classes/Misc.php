@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.92 2004/09/07 14:00:26 jollytoad Exp $
+	 * $Id: Misc.php,v 1.93 2004/09/23 12:06:46 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -309,7 +309,7 @@
 					echo ">\n";
 				} else {
 					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-					echo "<html";
+					echo "<html lang=\"{$lang['applocale']}\"";
 					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
 					echo ">\n";
 				}
@@ -739,8 +739,6 @@
 			echo "<div class=\"trail\">";
 			
 			foreach ($trail as $crumb) {
-				echo "<span class=\"crumb\">";
-				
 				$crumblink = "<a";
 				
 				if (isset($crumb['url']))
@@ -756,7 +754,7 @@
 				else
 					echo $crumblink;
 				
-				echo "</span>{$lang['strseparator']}";
+				echo "{$lang['strseparator']}";
 			}
 			
 			echo "</div>\n";
