@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.18 2003/03/14 07:33:32 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.19 2003/03/16 10:45:07 chriskl Exp $
 	 */
 
 	// Application name 
@@ -67,6 +67,10 @@
 		$misc->stripVar($_COOKIE);
 		$misc->stripVar($_REQUEST);
 	}
+
+	// This has to be deferred until after stripVar above
+	$misc->setHREF();
+	$misc->setForm();
 
 	// Enforce PHP environment
 	ini_set('magic_quotes_gpc', 0);
