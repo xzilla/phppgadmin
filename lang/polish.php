@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.41 2004/11/09 23:31:08 slubek Exp $
+	 * $Id: polish.php,v 1.42 2005/02/12 21:55:59 slubek Exp $
 	 */
 
 	// Language and character set
@@ -131,7 +131,6 @@
 	$lang['strnoframes'] = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$lang['strbadconfig'] = 'Twój plik config.inc.php jest przestarza³y. Musisz go utworzyæ ponownie wykorzystuj±c nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowa³e¶ do PHP obs³ugi tej bazy danych.';
-	$lang['strphpversionnotsupported']  =  'Nieobs³ugiwana wersja PHP. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strpostgresqlversionnotsupported']  =  'Nieobs³ugiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strbadschema'] = 'Podano b³êdny schemat.';
 	$lang['strbadencoding'] = 'B³êdne kodowanie bazy.';
@@ -259,7 +258,7 @@
 	$lang['strgranted'] = 'Uprawnienia zosta³y nadane.';
 	$lang['strgrantfailed'] = 'Próba nadania uprawnieñ siê nie powiod³a.';
 	$lang['strgrantbad'] = 'Musisz podaæ u¿ytkownika lub grupê, a tak¿e uprawnienia, jakie chcesz nadaæ.';
-    $lang['strgrantor'] = 'Grantor';
+	$lang['strgrantor'] = 'Kto nada³';
 	$lang['strasterisk'] = '*';
 				
 	// Databases
@@ -380,7 +379,8 @@
 	$lang['strruledropped'] = 'Regu³a zosta³a usuniêta.';
 	$lang['strruledroppedbad'] = 'Próba usuniêcia regu³y siê nie powiod³a.';
 	
-	// Wiêzy integralno¶ci
+	// Constraints
+	$lang['strconstraint']  =  'Wiêz integralno¶ci';
 	$lang['strconstraints'] = 'Wiêzy integralno¶ci';
 	$lang['strshowallconstraints'] = 'Poka¿ wszystkie wiêzy integralno¶ci';
 	$lang['strnoconstraints'] = 'Nie znaleziono wiêzów integralno¶ci.';

@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.35 2004/11/09 23:31:09 slubek Exp $
+	 * $Id: polish.php,v 1.36 2005/02/12 21:55:59 slubek Exp $
 	 */
 
 	// Language and character set
@@ -131,7 +131,6 @@
 	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
 	$lang['strbadconfig'] = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowa&#322;e&#347; do PHP obs&#322;ugi tej bazy danych.';
-	$lang['strphpversionnotsupported']  =  'Nieobs&#322;ugiwana wersja PHP. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strpostgresqlversionnotsupported']  =  'Nieobs&#322;ugiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strbadschema'] = 'Podano b&#322;&#281;dny schemat.';
 	$lang['strbadencoding'] = 'B&#322;&#281;dne kodowanie bazy.';
@@ -259,7 +258,7 @@
 	$lang['strgranted'] = 'Uprawnienia zosta&#322;y nadane.';
 	$lang['strgrantfailed'] = 'Pr&oacute;ba nadania uprawnie&#324; si&#281; nie powiod&#322;a.';
 	$lang['strgrantbad'] = 'Musisz poda&#263; u&#380;ytkownika lub grup&#281;, a tak&#380;e uprawnienia, jakie chcesz nada&#263;.';
-    $lang['strgrantor'] = 'Grantor';
+	$lang['strgrantor'] = 'Kto nada&#322;';
 	$lang['strasterisk'] = '*';
 				
 	// Databases
@@ -380,7 +379,8 @@
 	$lang['strruledropped'] = 'Regu&#322;a zosta&#322;a usuni&#281;ta.';
 	$lang['strruledroppedbad'] = 'Pr&oacute;ba usuni&#281;cia regu&#322;y si&#281; nie powiod&#322;a.';
 	
-	// Wi&#281;zy integralno&#347;ci
+	// Constraints
+	$lang['strconstraint']  =  'Wi&#281;z integralno&#347;ci';
 	$lang['strconstraints'] = 'Wi&#281;zy integralno&#347;ci';
 	$lang['strshowallconstraints'] = 'Poka&#380; wszystkie wi&#281;zy integralno&#347;ci';
 	$lang['strnoconstraints'] = 'Nie znaleziono wi&#281;z&oacute;w integralno&#347;ci.';
