@@ -187,6 +187,10 @@ A: The Info page will show you what other tables have foreign keys to the
    it, look in your postgresql.conf file for the stats_* options.  Just
    make them all 'true' and restart PostgreSQL.
 
+Q: Why can't I download data from queries executed in the SQL window?
+
+A: You need to check the 'Paginate results' option to allow downloads.
+
 Q: I would like to help out with the development of phpPgAdmin. How should I
    proceed?
    
