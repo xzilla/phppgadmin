@@ -6,6 +6,7 @@ Version 3.0.0-dev-4
 
 * Sort on a column when browsing a table
 * Slovak translation
+* German translation
 * Reload browser after create/drop of database, schemas and tables
 * Select on views
 * Add foreign key constraint, with actions
