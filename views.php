@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.39 2004/05/30 10:31:39 chriskl Exp $
+	 * $Id: views.php,v 1.40 2004/05/31 13:34:40 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -341,8 +341,8 @@
 		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><input size=\"64\" name=\"formComment\" value=\"", 
-			htmlspecialchars($_REQUEST['formComment']), "\" /></td>\n\t</tr>\n";
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			htmlspecialchars($_REQUEST['formComment']), "</textarea></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
