@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.22 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: privileges.php,v 1.23 2004/05/10 15:22:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -99,6 +99,9 @@
 				case 'table':
 					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 					break;
+				case 'view':
+					echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+					break;
 				case 'function':
 					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
 					break;
@@ -137,6 +140,10 @@
 				break;
 			case 'table':
 				$misc->printTableNav();
+				$name = $_REQUEST['object'];
+				break;
+			case 'view':
+				$misc->printViewNav();
 				$name = $_REQUEST['object'];
 				break;
 			case 'function':
@@ -204,8 +211,7 @@
 				break;
 			case 'view':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",
-					urlencode($_REQUEST['object']), "\">{$lang['stralterprivs']}</a>\n";
-				echo "| <a class=\"navlink\" href=\"views.php?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
+					urlencode($_REQUEST['object']), "&amp;view=", urlencode($_REQUEST['view']), "\">{$lang['stralterprivs']}</a></p>\n";
 				break;
 			case 'sequence':
 				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;type={$_REQUEST['type']}&amp;object=",

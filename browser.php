@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.36 2004/02/02 12:15:57 chriskl Exp $
+	 * $Id: browser.php,v 1.37 2004/05/10 15:21:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -82,8 +82,30 @@
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
-			// Add folder to schema
+			// Add view folder to schema
 			$schemanode->addItem($view_node);
+			
+			$views = &$data->getViews();
+			while (!$views->EOF) {
+				$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f[$data->vwFields['vwname']]) . "&{$querystr}");
+				$item_node = &new HTML_TreeNode(array(
+								'text' => $misc->printVal($views->f[$data->vwFields['vwname']]), 
+								'link' => addslashes(htmlspecialchars("viewproperties.php?{$querystr}&view=" .
+									urlencode($views->f[$data->vwFields['vwname']]))), 
+								'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
+								'expanded' => false,
+								'linkTarget' => 'detail',
+								// XXX: FIX BROWSE
+								'iconLink' => addslashes(htmlspecialchars('display.php?table='.urlencode($views->f[$data->vwFields['vwname']]).'&'.$querystr.
+									"&return_url={$return_url}&return_desc=" . urlencode($lang['strback'])))
+								));
+
+				// Add view folder to schema
+				$view_node->addItem($item_node);
+
+				$views->moveNext();
+			}
 		}
 		// Sequences
 		if ($data->hasSequences()) {

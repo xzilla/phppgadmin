@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.61 2004/05/08 13:06:09 chriskl Exp $
+	 * $Id: Misc.php,v 1.62 2004/05/10 15:22:01 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -276,6 +276,23 @@
 			echo "<td width=\"{$width}\"><a href=\"privileges.php?{$vars}&amp;type=table&amp;object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=import\">{$lang['strimport']}</a></td>\n";
 			echo "<td width=\"{$width}\"><a href=\"tblproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
+			echo "</tr></table>\n";
+		}
+
+		/**
+		 * Display the navigation header for views
+		 */
+		function printViewNav() {
+			global $lang;
+
+			$vars = $this->href . '&amp;view=' . urlencode($_REQUEST['view']);
+
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			echo "<td width=\"12%\"><a href=\"viewproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"viewproperties.php?action=definition&amp;{$vars}\">{$lang['strdefinition']}</a></td>\n";
+			//echo "<td width=\"12%\"><a href=\"rules.php?{$vars}&amp;table=", urlencode($_REQUEST['view']), "\">{$lang['strrules']}</a></td>\n";
+			echo "<td width=\"12%\"><a href=\"privileges.php?{$vars}&amp;type=view&amp;object=", urlencode($_REQUEST['view']), "\">{$lang['strprivileges']}</a></td>\n";
+			//echo "<td width=\"13%\"><a href=\"viewproperties.php?{$vars}&amp;action=export\">{$lang['strexport']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 

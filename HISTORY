@@ -28,6 +28,8 @@ Features
   field while editing data.
 * Show query runtime when executing arbitrary SQL
 * Allow renaming functions when backend supports it
+* Views are now more like tables.  They are listed in the browser,
+  you can view the virtual columns of the view and see column defaults.
 
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x
