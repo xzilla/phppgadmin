@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.2 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: functions.php,v 1.3 2003/02/09 10:22:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -229,6 +229,7 @@
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database, $func;
 		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions;
+		global $strCreateFunction, $strProperties, $strEdit, $strDrop, $strPrivileges;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions</h2>\n";
 		$misc->printMsg($msg);
@@ -237,7 +238,7 @@
 
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strArguments}</th><th colspan=3 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strArguments}</th><th colspan=\"4\" class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
 				$func_full = $funcs->f[$data->fnFields['fnname']] . "(". $funcs->f[$data->fnFields['fnarguments']] .")";
@@ -246,11 +247,14 @@
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$strProperties}</a></td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Edit</a></td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=", 
-					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$strEdit}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&function=",
+					urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">{$strDrop}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"privileges.php?{$misc->href}&function=", 
+					urlencode($func_full), "&object=",
+					$funcs->f[$data->fnFields['fnoid']], "&type=function\">{$strPrivileges}</a></td>\n";
 				echo "</tr>\n";
 				$funcs->moveNext();
 				$i++;
@@ -262,7 +266,7 @@
 			echo "<p>{$strNoFunctions}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">Create Function</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create&{$misc->href}\">{$strCreateFunction}</a></p>\n";
 
 	}
 	

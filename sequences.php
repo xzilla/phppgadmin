@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+ *  $Id: sequences.php,v 1.3 2003/02/09 10:22:38 chriskl Exp $
  */
 
 include_once( 'libraries/lib.inc.php' );
@@ -44,7 +44,8 @@ function doDefault($msg='')
 			echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strDrop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"privileges.php?action=priviledges&{$misc->href}&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strPrivileges</td></tr>\n"; 
+				echo "<a href=\"privileges.php?{$misc->href}&object=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]),
+					"&type=sequence\">$strPrivileges</td></tr>\n";
 
 			$sequences->movenext();
 			$i++;

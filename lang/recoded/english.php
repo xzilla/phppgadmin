@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.5 2003/01/27 15:19:49 chriskl Exp $
+	 * $Id: english.php,v 1.6 2003/02/09 10:22:39 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -140,6 +140,7 @@
 
 	// Privilges
 	$strPrivileges = 'Privileges';
+	$strNoPrivileges = 'This object has no privileges.';
 	$strGrant = 'Grant';
 	$strRevoke = 'Revoke';
 

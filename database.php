@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.3 2003/02/07 17:34:34 xzilla Exp $
+	 * $Id: database.php,v 1.4 2003/02/09 10:22:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -133,7 +133,8 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strOwner, $strSchemas, $strDrop, $strActions, $strCreateSchema, $strNoSchemas;
+		global $PHP_SELF, $strName, $strOwner, $strSchemas, $strDrop, $strActions;
+		global $strCreateSchema, $strNoSchemas, $strPrivileges;
 		
 		$misc->printDatabaseNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strSchemas}</h2>\n";
@@ -145,7 +146,7 @@
 
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
-				echo "<tr><th class=data>{$strName}</th><th class=data>{$strOwner}</th><th class=data>{$strActions}</th>\n";
+				echo "<tr><th class=data>{$strName}</th><th class=data>{$strOwner}</th><th colspan=\"2\" class=data>{$strActions}</th>\n";
 				$i = 0;
 				while (!$schemas->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
@@ -154,6 +155,9 @@
 					echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
 						htmlspecialchars($_REQUEST['database']), "&schema=",
 						htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "\">{$strDrop}</a></td>\n";
+					echo "<td class=opbutton{$id}><a href=\"privileges.php?database=",
+						htmlspecialchars($_REQUEST['database']), "&object=",
+						htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$strPrivileges}</a></td>\n";
 					echo "</tr>\n";
 					$schemas->moveNext();
 					$i++;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: views.php,v 1.3 2003/02/09 10:22:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -171,6 +171,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strView, $strOwner, $strActions, $strNoViews, $strViews;
 		global $strBrowse, $strProperties, $strDrop, $strCreateView, $strBack;
+		global $strPrivileges;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strViews}</h2>\n";
 		$misc->printMsg($msg);
@@ -179,7 +180,7 @@
 		
 		if ($views->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strView}</th><th class=data>{$strOwner}</th><th colspan=4 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strView}</th><th class=data>{$strOwner}</th><th colspan=\"5\" class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
@@ -192,7 +193,9 @@
 				echo "<td class=opbutton{$id}><a href=\"display.php?{$misc->href}&query={$query}&count={$count}&return_url={$return_url}&return_desc={$strBack}\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strProperties}</a></td>\n"; 
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strDrop}</a></td>\n"; 
+				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&view=", urlencode($views->f[$data->vwFields['vwname']]), "\">{$strDrop}</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"privileges.php?{$misc->href}&object=", urlencode($views->f[$data->vwFields['vwname']]),
+					"&type=view\">{$strPrivileges}</a></td>\n";
 				echo "</tr>\n";
 				$views->moveNext();
 				$i++;
