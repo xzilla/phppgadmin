@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.9 2002/09/23 06:11:38 chriskl Exp $
+ * $Id: Postgres.php,v 1.10 2002/09/23 06:18:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -217,7 +217,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropTable($table) {
-		$this->clean($table);
+		$this->fieldClean($table);
 
 		$sql = "DROP TABLE \"{$table}\"";
 
@@ -230,7 +230,7 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function emptyTable($table) {
-		$this->clean($table);
+		$this->fieldClean($table);
 
 		$sql = "DELETE FROM \"{$table}\"";
 
@@ -244,8 +244,9 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function renameTable($table, $newName) {
-		$this->clean($table);
-		$this->clean($newName);
+		$this->fieldClean($table);
+		$this->fieldClean($newName);
+		
 		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
 
 		// @@ How do you do this?
@@ -284,10 +285,12 @@ class Postgres extends BaseDB {
 	 * @param $key The associative array holding the key to retrieve
 	 * @return A recordset
 	 */
-	function &browseRow($table, $key) {		
+	function &browseRow($table, $key) {
+		$this->fieldClean($table);
+		
 		$sql = "SELECT * FROM \"{$table}\" WHERE true";
 		foreach ($key as $k => $v) {
-			$this->clean($k);
+			$this->fieldClean($k);
 			$this->clean($v);
 			$sql .= " AND \"{$k}\"='{$v}'";
 		}
@@ -323,8 +326,8 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function addCheckConstraint($table, $definition, $name = '') {
-		$this->clean($table);
-		$this->clean($name);
+		$this->fieldClean($table);
+		$this->fieldClean($name);
 		// @@ how the heck do you clean definition???
 		
 		if ($name != '')
@@ -391,15 +394,14 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function addUniqueConstraint($table, $fields, $name = '') {
-		$this->clean($table);
+		$this->fieldClean($table);
 		$this->arrayClean($fields);
-		$this->clean($name);
+		$this->fieldClean($name);
 		
 		if ($name != '')
 			$sql = "CREATE UNIQUE INDEX \"{$name}\" ON \"{$table}\"(\"" . join('","', $fields) . "\")";
 		else return -99; // Not supported
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}
 
@@ -410,12 +412,10 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropUniqueConstraint($table, $name) {
-		$this->clean($table);
-		$this->clean($name);
+		$this->fieldClean($name);
 		
 		$sql = "DROP INDEX \"{$name}\"";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}	
 	 
@@ -439,12 +439,10 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function dropPrimaryKeyConstraint($table, $name) {
-		$this->clean($table);
-		$this->clean($name);
+		$this->fieldClean($name);
 		
 		$sql = "DROP INDEX \"{$name}\"";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}	
 	
@@ -455,12 +453,11 @@ class Postgres extends BaseDB {
 	 * @return 0 success
 	 */
 	function setOwnerOfTable($table, $owner) {
-		$this->clean($table);
-		$this->clean($owner);
+		$this->fieldClean($table);
+		$this->fieldClean($owner);
 		
 		$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
 
-		// @@ How do you do this?
 		return $this->execute($sql);
 	}
 
