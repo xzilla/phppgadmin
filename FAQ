@@ -57,6 +57,21 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
 
+Q: I get a warning like this when using phpPgAdmin on Windows: 
+
+      Warning: session_start() [function.session-start]: 
+       open(/tmp\sess_5a401ef1e67fb7a176a95236116fe348, O_RDWR) failed
+
+A: You need to edit your PHP.INI file (usually in C:\WINDOWS) and change this line:
+
+    session.save_path = "/tmp"
+
+   to:
+   
+    session.save_path = "c:\windows\temp"
+
+   And make sure that the folder c:\windows\temp actually exists.
+
 Q: For some users I get a "Login disallowed for security" message.
 
 A: Logins via phpPgAdmin with no password or certain usernames (pgsql,
