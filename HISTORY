@@ -6,6 +6,7 @@ Version 3.4.1
 
 Bugs
 * Fix export of mixed case tables pre 7.4
+* Fix table export problems pre 7.3
 
 Version 3.4
 -----------
