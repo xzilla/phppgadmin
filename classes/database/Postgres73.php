@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.80 2003/11/22 05:39:16 chriskl Exp $
+ * $Id: Postgres73.php,v 1.81 2003/11/24 13:59:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1182,14 +1182,28 @@ class Postgres73 extends Postgres72 {
 			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_index pi, pg_catalog.pg_class pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
+				AND NOT EXISTS (
+					SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pc2.tableoid AND d.objid = pc2.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+				)
 				AND pc2.relname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'CONSTRAINT', NULL, pn.nspname, pc.relname, pc2.conname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_constraint pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pc2.conrelid AND pc2.conrelid != 0
+				AND CASE WHEN pc2.contype IN ('f', 'c') THEN TRUE ELSE NOT EXISTS (
+					SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pc2.tableoid AND d.objid = pc2.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+				) END
 				AND pc2.conname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'TRIGGER', NULL, pn.nspname, pc.relname, pt.tgname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
-				pg_catalog.pg_trigger pt WHERE pc.relnamespace=pn.oid AND pc.oid=pt.tgrelid AND NOT pt.tgisconstraint
+				pg_catalog.pg_trigger pt WHERE pc.relnamespace=pn.oid AND pc.oid=pt.tgrelid
+					AND (NOT pt.tgisconstraint OR NOT EXISTS
+					(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pt.tableoid AND d.objid = pt.oid AND d.deptype = 'i' AND c.contype = 'f'))
 				AND pt.tgname ILIKE '%{$term}%' {$where}
 			UNION ALL
 			SELECT 'RULE', NULL, schemaname, tablename, rulename FROM pg_catalog.pg_rules

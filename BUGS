@@ -6,7 +6,6 @@ all DROP and ALTER commands MUST be fully schema-qualified otherwise you can acc
 need icons for Casts and Conversions and Languages
 submit changes to HTML_TreeMenu maintainer
 test < 7.3 Find feature for all new objects
-fix index search to not get constraints, etc.
 fix constraint search to get domain and table constraints?
-fix trigger search to definitely not show constraint triggers
+dump sequences when dumping tables
 
