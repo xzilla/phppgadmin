@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.15 2003/07/31 08:39:03 chriskl Exp $
+	 * $Id: users.php,v 1.16 2003/08/05 08:54:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,36 +12,6 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-
-	/**
-	 * Show access privileges that a user posesses
-	 */
-	function doPrivileges($msg = '') {
-		global $data, $misc;
-		global $PHP_SELF, $lang;
-	
-		echo "<h2>{$lang['strusers']}: ", $misc->printVal($_REQUEST['username']), ": {$lang['strprivileges']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		$userdata = &$data->getUserPrivileges($_REQUEST['username']);
-		
-		if ($userdata->recordCount() > 0) {
-			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['usuper']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", (($userdata->f[$data->uFields['ucreatedb']]) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "<td class=\"data1\">", $misc->printVal($userdata->f[$data->uFields['uexpires']]), "</td></tr>\n";
-			echo "</table>\n";
-		}
-		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallusers']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;username=", 
-			urlencode($_REQUEST['username']), "\">{$lang['stredit']}</a></p>\n";
-	}
 		
 	/**
 	 * If a user is not a superuser, then we have an 'account management' page
