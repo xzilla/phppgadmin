@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.2 2003/01/21 20:40:22 slubek Exp $
+	 * $Id: all_db.php,v 1.3 2003/01/21 23:09:53 slubek Exp $
 	 */
 
 	// Include application functions
@@ -72,16 +72,16 @@
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $data, $strDatabaseNeedsName;
+		global $data, $strDatabaseNeedsName, $strDatabaseCreated, $strDatabaseCreatedBad;
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($strDatabaseNeedsName);
 		else {
 			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding']);
 			if ($status == 0)
-				doDefault('Database created.']);
+				doDefault($strDatabaseCreated);
 			else
-				doCreate('Database creation failed.');
+				doCreate($strDatabaseCreatedBad);
 		}
 	}	
 

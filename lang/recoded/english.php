@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.2 2003/01/18 09:07:51 chriskl Exp $
+	 * $Id: english.php,v 1.3 2003/01/21 23:09:54 slubek Exp $
 	 */
 
 	// Language and character set
@@ -64,6 +64,8 @@
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strBadConfig = 'Your config.inc.php is out of date.  You will need to regenerate it from the new config.inc.php-dist.';
 	$strNotLoaded = 'You have not compiled proper database support into your PHP installation.';
+	$strBadSchema = 'Invalid schema specified.';
+	$strBadEncoding = 'Failed to set client encoding in database.';
 	$strSQLError = 'SQL error:';
 	$strInStatement = 'In statement:';
 	$strInvalidParam = 'Invalid script parameters.';
@@ -131,7 +133,9 @@
 	$strDatabases = 'Databases';
 	$strNoDatabases = 'No Databases found.';
 	$strDatabaseNeedsName = 'You must give a name for your database.';
-	
+	$strDatabaseCreated = 'Database created.';
+	$strDatabaseCreatedBad = 'Database creation failed.';	
+
 	// Views
 	$strViewNeedsName = 'You must give a name for your view.';
 	$strViewNeedsDef = 'You must give a definition for your view.';
@@ -211,13 +215,16 @@
 	$strArguments = 'Arguments';
 	$strFunctionNeedsName = 'You must give a name for your function.';
 	$strFunctionNeedsDef = 'You must give a definition for your function.';
-	
+
 	// Triggers
 	$strTrigger = 'Trigger';
 	$strTriggers = 'Triggers';
 	$strNoTriggers = 'No triggers found.';
 	$strCreateTrigger = 'Create Trigger';
-	
+	$strConfDropTrigger = 'Are you sure you want to drop the trigger &quot;%s&quot; on &quot;%s&quot;?';
+	$strTriggerDropped = 'Trigger dropped.';
+	$strTriggerDroppedBad = 'Trigger drop failed.';
+
 	// Types
 	$strType = 'Type';
 	$strTypes = 'Types';

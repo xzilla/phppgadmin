@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.7 2003/01/21 20:36:33 slubek Exp $
+	 * $Id: polish.php,v 1.8 2003/01/21 23:09:53 slubek Exp $
 	 */
 
 	// Language and character set
@@ -132,6 +132,8 @@
 	$strDatabases = 'Bazy danych';
 	$strNoDatabases = 'Nie znaleziono ¿adnej bazy danych.';
 	$strDatabaseNeedsName = 'Musisz nazwaæ bazê danych.';
+	$strDatabaseCreated = 'Baza danych utworzona.';
+	$strDatabaseCreatedBad = 'Próba utworzenia bazy danych siê nie powiod³a.';
 	
 	// Views
 	$strViewNeedsName = 'Musisz nazwaæ widok.';

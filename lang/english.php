@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.45 2003/01/19 02:48:22 chriskl Exp $
+	 * $Id: english.php,v 1.46 2003/01/21 23:09:53 slubek Exp $
 	 */
 
 	// Language and character set
@@ -133,7 +133,9 @@
 	$strDatabases = 'Databases';
 	$strNoDatabases = 'No Databases found.';
 	$strDatabaseNeedsName = 'You must give a name for your database.';
-	
+	$strDatabaseCreated = 'Database created.';
+	$strDatabaseCreatedBad = 'Database creation failed.';	
+
 	// Views
 	$strViewNeedsName = 'You must give a name for your view.';
 	$strViewNeedsDef = 'You must give a definition for your view.';
