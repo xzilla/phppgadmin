@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.30 2003/11/05 15:06:23 chriskl Exp $
+	 * $Id: display.php,v 1.31 2003/11/10 14:22:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -227,7 +227,7 @@
 			$conf['max_rows'], $max_pages);
 	
 		// Build strings for GETs
-		$str = 	$misc->href . "&amp;page=" . urlencode($_REQUEST['page']);
+		$str = 	$misc->href; // . "&amp;page=" . urlencode($_REQUEST['page']);
 		if (isset($_REQUEST['table'])) $str .= "&amp;table=" . urlencode($_REQUEST['table']);
 		if (isset($_REQUEST['query'])) $str .= "&amp;query=" . urlencode($_REQUEST['query']);
 		if (isset($_REQUEST['count'])) $str .= "&amp;count=" . urlencode($_REQUEST['count']);
@@ -274,7 +274,8 @@
 					echo "<th class=\"data\"><a href=\"display.php?{$str}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
 					// Sort direction opposite to current direction, unless it's currently ''
 					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
-					echo "&amp;strings=", urlencode($_REQUEST['strings']), "\">", 
+					echo "&amp;strings=", urlencode($_REQUEST['strings']), 
+						"&amp;page=" . urlencode($_REQUEST['page']), "\">", 
 						$misc->printVal($finfo->name), "</a></th>\n";
 				}
 				$j++;
@@ -303,9 +304,11 @@
 						echo "<td class=\"data{$id}\" colspan=\"2\">&nbsp;</td>\n";
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confeditrow&amp;strings=", 
-							urlencode($_REQUEST['strings']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['stredit']}</a></td>\n";
+							urlencode($_REQUEST['strings']), "&amp;page=", 
+							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['stredit']}</a></td>\n";
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confdelrow&amp;strings=", 
-							urlencode($_REQUEST['strings']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['strdelete']}</a></td>\n";
+							urlencode($_REQUEST['strings']), "&amp;page=", 
+							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
 				$j = 0;
@@ -334,9 +337,11 @@
 		echo "<p><a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a>\n";
 		// Expand/Collapse
 		if ($_REQUEST['strings'] == 'expanded')
-			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed\">{$lang['strcollapse']}</a>\n";
+			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
+				urlencode($_REQUEST['page']), "\">{$lang['strcollapse']}</a>\n";
 		else
-			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded\">{$lang['strexpand']}</a>\n";
+			echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
+				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a>\n";
 		// Create report
 		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 			echo " | <a class=\"navlink\" href=\"reports.php?action=create&amp;db_name=", urlencode($_REQUEST['database']), "&amp;report_sql=",
@@ -351,6 +356,7 @@
 		}
 		// Refresh
 		echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
+			"&amp;page=" . urlencode($_REQUEST['page']),
 			"\">{$lang['strrefresh']}</a></p>\n";
 				
 		echo "</p>\n";
