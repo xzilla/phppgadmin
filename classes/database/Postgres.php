@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.13 2002/09/26 22:04:18 xzilla Exp $
+ * $Id: Postgres.php,v 1.14 2002/09/27 04:02:54 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -17,7 +17,7 @@ class Postgres extends BaseDB {
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
-	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value' );
+	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -320,7 +320,10 @@ class Postgres extends BaseDB {
 		return $this->selectSet( $sql );
 	}
 
-
+	/**
+	 * Returns properties of a single sequence
+	 * @return A recordset
+	 */
 	function &getSequence($sequence) {
 		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
 		else $where = '';
@@ -328,9 +331,18 @@ class Postgres extends BaseDB {
 		return $this->selectSet( $sql );
 	}
 
+	/** 
+	 * Drops a given sequence
+	 * @return 0 success
+	 */
+	function &dropSeqeuce($sequence) {
+		$this->clean($sequence);
+		$sql = "DROP SEQUENCE {$sequence} ";
+		return $this->execute($sql);
+	}
+
 /*
 	function setSequence()
-	function delSequence()
 */
 
 	/**

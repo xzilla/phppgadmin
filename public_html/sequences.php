@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.4 2002/09/26 22:04:18 xzilla Exp $
+ *  $Id: sequences.php,v 1.5 2002/09/27 04:02:55 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -81,14 +81,16 @@ function doDefault()
 			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['seqname']], "</td>";
 			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['lastvalue']], "</td>";
 			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['incrementby']], "</td>";
-			echo "<td class=\"data1\">&nbsp;2147483647&nbsp;</td>";
-			echo "<td class=\"data1\">&nbsp;1&nbsp;</td>";
-			echo "<td class=\"data1\">&nbsp;1&nbsp;</td>";
-			echo "<td class=\"data1\">&nbsp;0&nbsp;</td>";
-			echo "<td class=\"data1\">&nbsp;No&nbsp;</td>";
-			echo "<td class=\"data1\">&nbsp;Yes&nbsp;</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['maxvalue']], "</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['minvalue']], "</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['cachevalue']], "</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['logcount']], "</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['iscycled']], "</td>";
+			echo "<td class=\"data1\">", $sequence->f[$data->sqFields['iscalled']], "</td>";
 			echo "</tr>";
-			echo "</table>";		
+			echo "</table>";
+			echo "<br /><br />";
+			echo "<a href=\"#\">Reset</a>";		
 
 		}
 		else echo "<p>No data.</p>\n";
@@ -100,8 +102,30 @@ function doDefault()
 
 	}
 
-	function doDrop()
+	function doDrop($strfirm)
 	{
+		global $localData, $database;
+		global $PHP_SELF;
+	
+		if ($confirm) { 
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": $strSequences : ", htmlspecialchars($_REQUEST['sequence']), ": Drop</h2>\n";
+			
+			echo "<p>Are you sure you want to drop the sequence \"", htmlspecialchars($_REQUEST['sequence']), "\"?</p>\n";
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=hidden name=action value=drop>\n";
+			echo "<input type=hidden name=sequence value=\"", htmlspecialchars($_REQUEST['sequence']), "\">\n";
+			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->dropSequence($_POST['sequence']);
+			if ($status == 0)
+				doDefault("$strSequence $strDropped.");
+			else
+				doDefault("$strSequence $strDrop $strFailed.");
+		}
 
 	}
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.11 2002/09/23 06:11:38 chriskl Exp $
+ * $Id: Postgres72.php,v 1.12 2002/09/27 04:02:54 xzilla Exp $
  */
 
 
@@ -160,7 +160,7 @@ class Postgres72 extends Postgres71 {
 	
 	/**
 	 * Drops a function.
-	 * @param $funcname The name of the view to drop
+	 * @param $funcname The name of the function to drop
 	 * @return 0 success
 	 */
 	function dropFunction($funcname) {
