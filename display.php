@@ -9,13 +9,13 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.11 2003/04/08 12:45:18 chriskl Exp $
+	 * $Id: display.php,v 1.12 2003/04/21 06:36:23 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('libraries/lib.inc.php');
 
-	global $guiMaxRows, $lang;
+	global $conf, $lang;
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
@@ -40,7 +40,7 @@
 	}
 
 	// Retrieve page from table.  $max_pages is returned by reference.
-	$rs = &$localData->browseSQL($sub, $_REQUEST['count'], $_REQUEST['page'], $guiMaxRows, $max_pages);
+	$rs = &$localData->browseSQL($sub, $_REQUEST['count'], $_REQUEST['page'], $conf['max_rows'], $max_pages);
 
 	if (is_object($rs) && $rs->recordCount() > 0) {
 		// Show page navigation

@@ -3,8 +3,11 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.36 2003/04/20 10:30:58 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.37 2003/04/21 06:36:25 chriskl Exp $
 	 */
+	
+	// Set error reporting level to max
+	error_reporting(E_ALL);
 
 	// Application name 
 	$appName = 'phpPgAdmin';
@@ -23,9 +26,9 @@
 	}
 
 	// Configuration file version.  If this is greater than that in config.inc.php, then
-	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
+	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 6;
+	$conf['base_version'] = 6;
 
 	// List of available language files
 	$appLangFiles = array(
@@ -46,11 +49,11 @@
 	// Language settings.  Always include english.php, since it's the master
 	// language file, and then overwrite it with the user-specified language.
 	// Default language to English if it's not set.
-	if (!isset($appDefaultLanguage)) $appDefaultLanguage = 'english';
+	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
 	include_once('lang/recoded/english.php');
 
 	// Check for config file version mismatch
-	if (!isset($appConfVersion) || $appBaseConfVersion > $appConfVersion) {
+	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
 		echo $lang['strbadconfig'];
 		exit;
 	}
@@ -100,7 +103,7 @@
 			||	!isset($_SESSION['webdbPassword'])
 			||	!isset($_SESSION['webdbServerID'])
 			||	!isset($_SESSION['webdbLanguage'])
-			||	!isset($confServers[$_SESSION['webdbServerID']])){
+			||	!isset($conf['servers'][$_SESSION['webdbServerID']])){
 		include('login.php');
 		exit;
 	}
@@ -110,14 +113,14 @@
 
 	// Create data accessor object, if valid, and if necessary
 	if (!isset($_no_db_connection)) {
-		if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']])) {
-			if (!isset($confServers[$_SESSION['webdbServerID']]['type']))
-				$confServers[$_SESSION['webdbServerID']]['type'] = 'postgres7';
-			$_type = $misc->getDriver($confServers[$_SESSION['webdbServerID']]['host'],
-							$confServers[$_SESSION['webdbServerID']]['port'],
+		if (isset($_SESSION['webdbServerID']) && isset($conf['servers'][$_SESSION['webdbServerID']])) {
+			if (!isset($conf['servers'][$_SESSION['webdbServerID']]['type']))
+				$conf['servers'][$_SESSION['webdbServerID']]['type'] = 'postgres7';
+			$_type = $misc->getDriver($conf['servers'][$_SESSION['webdbServerID']]['host'],
+							$conf['servers'][$_SESSION['webdbServerID']]['port'],
 							$_SESSION['webdbUsername'],
 							$_SESSION['webdbPassword'],
-							$confServers[$_SESSION['webdbServerID']]['type']);
+							$conf['servers'][$_SESSION['webdbServerID']]['type']);
 			// Check return type
 			if ($_type == -1) {
 				echo $lang['strnotloaded'];
@@ -126,18 +129,18 @@
 			// @@ NEED TO CHECK MORE RETURN VALS HERE
 
 			require_once('classes/database/' . $_type . '.php');
-			$data = new $_type($confServers[$_SESSION['webdbServerID']]['host'],
-						$confServers[$_SESSION['webdbServerID']]['port'],
+			$data = new $_type($conf['servers'][$_SESSION['webdbServerID']]['host'],
+						$conf['servers'][$_SESSION['webdbServerID']]['port'],
 						null,
 						$_SESSION['webdbUsername'],
 						$_SESSION['webdbPassword']);
 		}
 
 		// Create local (database-specific) data accessor object, if valid
-		if (isset($_SESSION['webdbServerID']) && isset($confServers[$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
+		if (isset($_SESSION['webdbServerID']) && isset($conf['servers'][$_SESSION['webdbServerID']]) && isset($_REQUEST['database'])) {
 			require_once('classes/database/' . $_type . '.php');
-			$localData = new $_type(	$confServers[$_SESSION['webdbServerID']]['host'],
-												$confServers[$_SESSION['webdbServerID']]['port'],
+			$localData = new $_type(	$conf['servers'][$_SESSION['webdbServerID']]['host'],
+												$conf['servers'][$_SESSION['webdbServerID']]['port'],
 												$_REQUEST['database'],
 												$_SESSION['webdbUsername'],
 												$_SESSION['webdbPassword']);

@@ -90,7 +90,7 @@ function detectBrowser()
 
 	var i = 0;
 	var ua = window.navigator.userAgent.toLowerCase();
-	
+
 	if (ua.indexOf('opera') != -1)
 	{
 		i = ua.indexOf('opera');

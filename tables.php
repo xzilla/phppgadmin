@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.15 2003/04/18 11:08:27 chriskl Exp $
+	 * $Id: tables.php,v 1.16 2003/04/21 06:36:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -488,7 +488,7 @@
 	 * Browse a table
 	 */
 	function doBrowse($msg = '') {
-		global $data, $localData, $misc, $guiMaxRows, $guiShowOIDs;
+		global $data, $localData, $misc, $conf;
 		global $PHP_SELF, $lang;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$lang['strbrowse']}</h2>\n";
@@ -498,7 +498,7 @@
 		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
 
 		// Retrieve page from table.  $max_pages is returned by reference.
-		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['page'], $guiMaxRows, $max_pages);
+		$rs = &$localData->browseRelation($_REQUEST['table'], $_REQUEST['sortkey'], $_REQUEST['page'], $conf['max_rows'], $max_pages);
 
 		// Fetch unique row identifier, if there is one
 		$key = $localData->getRowIdentifier($_REQUEST['table']);
@@ -510,7 +510,7 @@
 			echo "<table>\n<tr>";
 			reset($rs->f);
 			while(list($k, ) = each($rs->f)) {
-				if ($k == $localData->id && !$guiShowOIDs) continue;
+				if ($k == $localData->id && !$conf['show_oids']) continue;
 				echo "<th class=\"data\"><a href=\"{$PHP_SELF}?action=browse&page=", $_REQUEST['page'], "&{$misc->href}&sortkey=", urlencode($k), "&table=", 
 					urlencode($_REQUEST['table']), "\">", htmlspecialchars($k), "</a></th>\n";
 			}
@@ -526,7 +526,7 @@
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
 				while(list($k, $v) = each($rs->f)) {
-					if ($k == $localData->id && !$guiShowOIDs) continue;
+					if ($k == $localData->id && !$conf['show_oids']) continue;
 					elseif ($v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
 					else echo "<td class=\"data{$id}\">", nl2br(htmlspecialchars($v)), "</td>";
 				}

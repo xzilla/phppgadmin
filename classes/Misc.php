@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.24 2003/04/20 10:30:58 chriskl Exp $
+	 * $Id: Misc.php,v 1.25 2003/04/21 06:36:24 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -66,9 +66,10 @@
 		 * Creates a database accessor
 		 */
 		function &getDatabaseAccessor($host, $port, $database, $username, $password) {
-			global $confServers;
+			global $conf;
+			
 			$type = $this->getDriver($host, $port, $username, $password, 
-							 $confServers[$_SESSION['webdbServerID']]['type']);
+							 $conf['servers'][$_SESSION['webdbServerID']]['type']);
 			include_once('classes/database/' . $type . '.php');
 			$localData = new $type(	$host,
 											$port,
@@ -139,7 +140,7 @@
 		 * @param $script script tag
 		 */
 		function printHeader($title = '', $script = null) {
-			global $appName, $lang, $_no_output, $guiTheme, $conf;
+			global $appName, $lang, $_no_output, $conf;
 
 			if (!isset($_no_output)) {
 				// Send XHTML headers, or regular HTML headers
@@ -158,7 +159,7 @@
 				
 				// Theme
 				echo "<style type=\"text/css\">\n<!--\n";
-				include("themes/{$guiTheme}/global.css");
+				include("themes/{$conf['theme']}/global.css");
 				echo "\n-->\n</style>\n";
 				if ($script) echo "\n {$script} \n";
 				echo "</head>\n";

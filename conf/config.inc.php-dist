@@ -4,53 +4,43 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.15 2003/04/20 10:30:58 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.16 2003/04/21 06:36:24 chriskl Exp $
 	 */
 
-	// Set error reporting level
-	error_reporting(E_ALL);
+	// An example server.  Create as many of these as you wish,
+	// indexed from zero upwards.
+	$conf['servers'][0]['desc'] = 'PostgreSQL'; // Display name for server
+	$conf['servers'][0]['host'] = 'localhost';  // Hostname or IP address for server
+	$conf['servers'][0]['port'] = 5432;         // Database port on server
 
 	// Default language setting.  eg 'english', 'polish', etc.
-	$appDefaultLanguage = 'english';
-	
-	// Name for reports database
-	$appReportsDB = 'phppgadmin';
+	$conf['default_lang'] = 'english';
 	
 	// Only show owned databases?
 	// Note: This will simply hide other databases in the list - this does not
 	// in any way prevent your users from seeing other database by other means.
 	// (eg. In PostgreSQL, go 'SELECT * FROM pg_database' in the SQL area.)
-	$appShowOwnedDB = false;
+	$conf['owned_only'] = false;
 
-	/*
-	 * GUI settings
-	 */
-
-	// Width of the left frame
-	$guiLeftFrameWidth = 200;
-	// Which look & feel theme to use
-	$guiTheme = 'default';
-	// Show OIDs?
-	$guiShowOIDs = false;
-	// Max rows to show
-	$guiMaxRows = 30;
-
-	// An example server.  Create as many of these as you wish,
-	// indexed from zero upwards.
-	$confServers = array();
-	$confServers[0]['desc'] = 'PostgreSQL'; // Display name for server
-	$confServers[0]['host'] = 'localhost';  // Hostname or IP address for server
-	$confServers[0]['port'] = 5432;         // Database port on server
-
-	// Miscellaneous config options
+	// Width of the left frame in pixels (object browser)
+	$conf['left_width'] = 200;
 	
+	// Which look & feel theme to use
+	$conf['theme'] = 'default';
+	
+	// Show OIDs when browsing tables?
+	$conf['show_oids'] = false;
+	
+	// Max rows to show on a page when browsing record sets
+	$conf['max_rows'] = 30;
+
 	// Send XHTML headers?  Unless debugging, it's best to leave this off
-	$conf['use_xml'] = false;
+	$conf['use_xhtml'] = false;
 
 	/*****************************************
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$appConfVersion = 6;
+	$conf['version'] = 6;
 
 ?>

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.5 2003/03/17 05:20:29 chriskl Exp $
+	 * $Id: browser.php,v 1.6 2003/04/21 06:36:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 	// Construct expanding tree
 	$tree = new Tree ('classes/class.tree');
 	$tree->set_frame ('detail');
-	$root  = $tree->open_tree ('<a href=\"all_db.php\" target=\"detail\">'. htmlspecialchars($confServers[$_SESSION['webdbServerID']]['desc']) .'</a>', '');
+	$root  = $tree->open_tree ('<a href=\"all_db.php\" target=\"detail\">'. htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['desc']) .'</a>', '');
 
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
@@ -48,18 +48,18 @@
 							$tree->add_document($table_node, addslashes($tables->f[$data->tbFields['tbname']]),
 								'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' .
 								urlencode($schemas->f[$data->nspFields['nspname']]) . '&table=' .
-								urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$guiTheme}/tables.gif");
+								urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$conf['theme']}/tables.gif");
 							$tables->moveNext();
 						}
 					}
 					if ($data->hasViews())
-						$tree->add_document($schemanode, $lang['strviews'], "views.php?{$querystr}", 'detail', "../../images/themes/{$guiTheme}/views.gif");
+						$tree->add_document($schemanode, $lang['strviews'], "views.php?{$querystr}", 'detail', "../../images/themes/{$conf['theme']}/views.gif");
 					if ($data->hasSequences())
-						$tree->add_document($schemanode, $lang['strsequences'], "sequences.php?{$querystr}", 'detail', "../../images/themes/{$guiTheme}/sequences.gif");
+						$tree->add_document($schemanode, $lang['strsequences'], "sequences.php?{$querystr}", 'detail', "../../images/themes/{$conf['theme']}/sequences.gif");
 					if ($data->hasFunctions())
-						$tree->add_document($schemanode, $lang['strfunctions'], "functions.php?{$querystr}", 'detail', "../../images/themes/{$guiTheme}/functions.gif");
+						$tree->add_document($schemanode, $lang['strfunctions'], "functions.php?{$querystr}", 'detail', "../../images/themes/{$conf['theme']}/functions.gif");
 //					if ($data->hasOperators())
-//						$tree->add_document($schemanode, $lang['stroperators'], "operators.php?{$querystr}", 'detail', "../../images/themes/{$guiTheme}/operators.gif");
+//						$tree->add_document($schemanode, $lang['stroperators'], "operators.php?{$querystr}", 'detail', "../../images/themes/{$conf['theme']}/operators.gif");
 					if ($data->hasTypes())
 						$tree->add_document($schemanode, $lang['strtypes'], "types.php?{$querystr}", 'detail');
 //					if ($data->hasAggregates())
@@ -76,18 +76,18 @@
 					while (!$tables->EOF) {
 						$tree->add_document($table_node, addslashes($tables->f[$data->tbFields['tbname']]), 
 							'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&table=' .
-							urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$guiTheme}/tables.gif");
+							urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$conf['theme']}/tables.gif");
 						$tables->moveNext();
 					}
 				}
 				if ($data->hasViews())
-					$tree->add_document($node, $lang['strviews'], 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$guiTheme}/views.gif");
+					$tree->add_document($node, $lang['strviews'], 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$conf['theme']}/views.gif");
 				if ($data->hasSequences())
-					$tree->add_document($node, $lang['strsequences'], 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$guiTheme}/sequences.gif");
+					$tree->add_document($node, $lang['strsequences'], 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$conf['theme']}/sequences.gif");
 				if ($data->hasFunctions())
-					$tree->add_document($node, $lang['strfunctions'], 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$guiTheme}/functions.gif");
+					$tree->add_document($node, $lang['strfunctions'], 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$conf['theme']}/functions.gif");
 //				if ($data->hasOperators())
-//					$tree->add_document($node, $lang['stroperators'], 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$guiTheme}/operators.gif");
+//					$tree->add_document($node, $lang['stroperators'], 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../../images/themes/{$conf['theme']}/operators.gif");
 				if ($data->hasTypes())
 					$tree->add_document($node, $lang['strtypes'], 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 //				if ($data->hasAggregates())
@@ -95,7 +95,7 @@
 			}
 		} else {
 			$node = $tree->add_document($root, addslashes($databases->f[$data->dbFields['dbname']]),
-				"{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]), '_self', "../../images/themes/{$guiTheme}/database.gif");
+				"{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]), '_self', "../../images/themes/{$conf['theme']}/database.gif");
 		}		
 
 		$databases->moveNext();

@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.4 2003/03/31 04:02:07 chriskl Exp $
+	 * $Id: Reports.php,v 1.5 2003/04/21 06:36:24 chriskl Exp $
 	 */
 
 	class Reports {
@@ -14,14 +14,14 @@
 
 		/* Constructor */
 		function Reports() {
-			global $confServers, $misc;
+			global $conf, $misc;
 
 			// Create a new database access object.
 			// @@ IF THE phppgadmin DATABASE DOES NOT EXIST THEN
 			// @@ LOGIN FAILURE OCCURS
 			$this->driver = &$misc->getDatabaseAccessor(
-				$confServers[$_SESSION['webdbServerID']]['host'],
-				$confServers[$_SESSION['webdbServerID']]['port'],
+				$conf['servers'][$_SESSION['webdbServerID']]['host'],
+				$conf['servers'][$_SESSION['webdbServerID']]['port'],
 				'phppgadmin',
 				$_SESSION['webdbUsername'],
 				$_SESSION['webdbPassword']);

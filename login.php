@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.8 2003/03/18 03:28:26 chriskl Exp $
+	 * $Id: login.php,v 1.9 2003/04/21 06:36:23 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
@@ -22,7 +22,7 @@
 
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
-	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;
+	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $conf['default_lang'];
 
 	// Output header
 	$misc->printHeader($lang['strlogin']);
@@ -33,10 +33,10 @@
 		<tr height="115">
 			<td height="115" align="center" valign="middle">
 				<center>
-				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $lang['strlogin'] ?></h1>
+				<h1><?php echo $appName ?> <?php echo $appVersion ?> <?php echo $lang['strlogin'] ?></h1>				
 				<?php if (isset($_failed) && $_failed) echo "<p class=\"message\">{$lang['strloginfailed']}</p>" ?>
+				<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 				<table class="navbar" border="0" cellpadding="5" cellspacing="3">
-					<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 					<tr>
 						<td><?php echo $lang['strusername'] ?>:</td>
 						<td><input type="text" name="formUsername" value="<?php echo (isset($_POST['formUsername'])) ? htmlspecialchars($_POST['formUsername']) : '' ?>" size="24"></td>
@@ -49,10 +49,10 @@
 						<td><?php echo $lang['strserver'] ?>:</td>
 						<td><select name="formServer">
 						<?php
-							for ($i = 0; $i < sizeof($confServers); $i++) {
+							for ($i = 0; $i < sizeof($conf['servers']); $i++) {
 								echo "<option value=\"{$i}\"",
 									($i == $_POST['formServer']) ? ' selected' : '',
-									">", htmlspecialchars($confServers[$i]['desc']), "</option>\n";
+									">", htmlspecialchars($conf['servers'][$i]['desc']), "</option>\n";
 							}
 						?>
 						</select></td>
@@ -75,8 +75,8 @@
 							<input type="submit" name="submitLogin" value="Login">
 						</td>
 					</tr>
-					</form>
 				</table>
+				</form>
 				</center>
 				<script language="javascript">
 				<!--
@@ -92,9 +92,6 @@
 			</td>
 		</tr>
 	</table>
-    </td>
-  </tr>
-</table>
 <?php
 	// Output footer
 	$misc->printFooter();

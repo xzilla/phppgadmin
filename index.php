@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.4 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: index.php,v 1.5 2003/04/21 06:36:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,7 +13,7 @@
 ?>
 <frameset rows="50, *">
 	<frame src="topbar.php" name="topbar" scrolling=no noresize />
-	<frameset cols="<?php echo $guiLeftFrameWidth ?>,*">
+	<frameset cols="<?php echo $conf['left_width'] ?>,*">
 	  <frame src="browser.php" name="browser" />
 	  <frame src="intro.php" name="detail" />
 	</frameset>

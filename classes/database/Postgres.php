@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.76 2003/04/20 09:53:52 chriskl Exp $
+ * $Id: Postgres.php,v 1.77 2003/04/21 06:36:24 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -195,9 +195,9 @@ class Postgres extends BaseDB {
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function &getDatabases() {
-		global $appShowOwnedDB;
+		global $conf;
 
-		if (isset($appShowOwnedDB) && $appShowOwnedDB) {
+		if (isset($conf['owned_only']) && $conf['owned_only']) {
 			$username = $_SESSION['webdbUsername'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
