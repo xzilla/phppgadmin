@@ -4,10 +4,11 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.21 2002/12/23 01:28:49 chriskl Exp $
+	 * $Id: english.php,v 1.22 2002/12/24 02:44:21 chriskl Exp $
 	 */
 
-	$appLang = 'english';
+	$appLang = 'English';
+	$appCharset = 'ISO-8859-1';
 
 	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 	$strLogin = 'Login';

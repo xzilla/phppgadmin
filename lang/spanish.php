@@ -1,13 +1,14 @@
 <?php
 
 	/**
-	 * Language template file for WebDB.  Use this to base language
-	 * files.
+	 * Spanish language file for WebDB.
+	 * @maintainer Robert Treat [xzilla@users.sourceforge.net]
 	 *
-	 * $Id: spanish.php,v 1.1 2002/09/11 15:20:24 xzilla Exp $
+	 * $Id: spanish.php,v 1.2 2002/12/24 02:44:21 chriskl Exp $
 	 */
 
-	$appLang = 'spanish';
+	$appLang = 'Spanish';
+	$appCharset = 'ISO-8859-1';
 
 -	$strNoFrames = 'You need a frames-enabled browser to use this application.';
 -	$strLogin = 'Login';

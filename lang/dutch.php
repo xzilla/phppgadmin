@@ -4,11 +4,11 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.2 2002/12/24 02:09:52 chriskl Exp $
+	 * $Id: dutch.php,v 1.3 2002/12/24 02:44:21 chriskl Exp $
 	 */
 
-	$appLang = 'nederlands';
-	$appCharset = 'utf-8';
+	$appLang = 'Nederlands';
+	$appCharset = 'ISO-8859-1';
 
 	$strNoFrames = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
 	$strLogin = 'Login';

@@ -4,11 +4,11 @@
 	 * German Language file for WebDB.
 	 * @maintainer Albin Blaschka [blaschka@unix.sbg.ac.at]
 	 *
-	 * $Id: german.php,v 1.2 2002/12/24 02:11:37 chriskl Exp $
+	 * $Id: german.php,v 1.3 2002/12/24 02:44:21 chriskl Exp $
 	 */
 
-	$appLang = 'deutsch';
-	$appCharset = 'utf-8';
+	$appLang = 'Deutsch';
+	$appCharset = 'ISO-8859-1';
 
 	$strNoFrames = 'F&uuml;r dieses Programm wird ein ein Frame-fähiger Browser ben&ouml;tigt';
         $strLogin = 'Login';

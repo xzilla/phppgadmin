@@ -1,12 +1,14 @@
 <?php
 
 	/**
-	 * Polish language file for WebDB WebDB.	 
+	 * Polish language file for WebDB.
+	 * @maintainer Rafal Slubowski [rafal@gem.pl]
 	 *
-	 * $Id: polish.php,v 1.1 2002/12/23 01:18:56 chriskl Exp $
+	 * $Id: polish.php,v 1.2 2002/12/24 02:44:21 chriskl Exp $
 	 */
 
-	$appLang = 'polish';
+	$appLang = 'Polish';
+	$appCharset = 'ISO-8859-1';
 
 	$strNoFrames = 'Aby u¿ywaæ tej aplikacji potrzebujesz przegl±darki obs³uguj±cej ramki.';
 	$strLogin = '- Zaloguj';
