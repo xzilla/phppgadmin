@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.45 2004/05/14 07:56:37 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.46 2004/05/14 14:46:46 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -364,13 +364,11 @@
 					$types = &$data->getTypes(true);
 					
 					echo "<td><select name=\"type\">\n";				
-					// Output any "magic" types.  This came in with the alter column type so we'll check that
-					if ($data->hasAlterColumnType()) {
-						foreach ($data->extraTypes as $v) {
-							echo "<option value=\"", htmlspecialchars($v), "\"",
-							($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
-								$misc->printVal($v), "</option>\n";
-						}
+					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that
+					foreach ($data->extraTypes as $v) {
+						echo "<option value=\"", htmlspecialchars($v), "\"",
+						($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
+							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
 						$typname = $types->f[$data->typFields['typname']];
