@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.4 2002/05/01 09:37:30 chriskl Exp $
+	 * $Id: topbar.php,v 1.5 2002/05/15 09:57:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,9 +16,9 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr> 
 		<td width="211" rowspan="2"><img src="images/themes/<?= $guiTheme ?>/title.gif" width=211 height=50 alt="<? htmlspecialchars($appName) ?>"></td>
-		<td width="69%"><?= $confServers[$webdbServerID]['type'] ?> running on 
-		<?= htmlspecialchars($confServers[$webdbServerID]['host']) ?>:<?= $confServers[$webdbServerID]['port'] ?>
-		-- You are logged in as user <b><?= htmlspecialchars($webdbUsername) ?></b>, 
+		<td width="69%"><?= $confServers[$_COOKIE['webdbServerID']]['type'] ?> running on 
+		<?= htmlspecialchars($confServers[$_COOKIE['webdbServerID']]['host']) ?>:<?= $confServers[$_COOKIE['webdbServerID']]['port'] ?>
+		-- You are logged in as user <b><?= htmlspecialchars($_COOKIE['webdbUsername']) ?></b>, 
 			<?= date('jS M, Y g:iA') ?></font></td>
 	</tr>
 	<tr>

@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.2 2002/02/12 01:11:58 kkemp102294 Exp $
+	 * $Id: login.php,v 1.3 2002/05/15 09:57:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 			<tr height="115">
 				<td height="115" align="center" valign="middle">
 					<table border="0" cellpadding="2" cellspacing="0">
-						<form action="<?= $PHP_SELF ?>" method="post" name="login_form">
+						<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 						<tr>
 							<td class="form">Username:</td>
 							<td><input type="text" name="formUsername" value="<?php isset($webdbUsername) ? htmlspecialchars($webdbUsername) : '' ?>" size="24"></td>
@@ -49,17 +49,17 @@
 						</tr>
 						</form>
 					</table>
+					<script language=javascript>
+						var uname = document.login_form.formUsername;
+						var pword = document.login_form.formPassword;
+						if (uname.value == "") { 
+							uname.focus();
+						} else {
+							pword.focus();
+						}
+					</script>
 				</td>
 			</tr>
-		<script language=javascript>
-			var uname = document.login_form.set_username;
-			var pword = document.login_form.set_password;
-			if (uname.value == "") { 
-				uname.focus();
-			} else {
-				pword.focus();
-			}
-		</script>
 		</table>	
     </td>
   </tr>

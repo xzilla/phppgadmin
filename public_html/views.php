@@ -3,14 +3,15 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.2 2002/04/15 12:16:35 chriskl Exp $
+	 * $Id: views.php,v 1.3 2002/05/15 09:57:55 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
 	
-	if (!isset($action)) $action = '';
+	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
+	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 	/** 
 	 * Function to save after editing a view

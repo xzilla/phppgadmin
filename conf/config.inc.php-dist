@@ -1,0 +1,60 @@
+<?php
+
+	/**
+	 * Central WebDB configuration.  As a user you may modify the
+	 * settings here for your particular configuration.
+	 *
+	 * $Id: config.inc.php-dist,v 1.1 2002/05/15 09:57:55 chriskl Exp $
+	 */
+
+	// Set error reporting level
+	error_reporting(E_ALL);
+
+	// App settings
+	$appName = 'WebDB';
+	$appIntro = 'Welcome to WebDB.';
+	$appBase = '../public_html';
+	$appVersion = '0.1-dev';
+	
+	/*
+	 * GUI settings
+	 */	 
+	
+	// Width of the left frame
+	$guiLeftFrameWidth = 200;
+	// Which look & feel theme to use
+	$guiTheme = 'default';
+
+	// Servers and types
+	$confServers = array();
+	$confServers[0]['desc'] = 'Home-PG';
+	$confServers[0]['host'] = 'localhost';
+	$confServers[0]['port'] = '5432';
+	$confServers[0]['type'] = 'Postgres71';
+	$confServers[0]['default'] = 'template1';
+	
+	// Servers and types
+	$confServers[1]['desc'] = 'Dev-PG';
+	$confServers[1]['host'] = 'database-dev';
+	$confServers[1]['port'] = '5432';
+	$confServers[1]['type'] = 'Postgres71';
+	$confServers[1]['default'] = 'template1';
+	
+	// MySQL example
+	$confServers[2]['desc'] = 'Home-MySQL';
+	$confServers[2]['host'] = 'localhost';
+	$confServers[2]['port'] = 'xxx'; // Port isn't being used anywhere yet
+	$confServers[2]['type'] = 'MySQL';
+	$confServers[2]['default'] = '';
+	
+	/*****************************************
+	 * Don't modify anything below this line *
+	 *****************************************/
+
+	// Language
+	include_once('../lang/template.php');
+	
+	// Main library
+	include_once('../libraries/lib.inc.php');
+	
+?>

@@ -3,13 +3,14 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.2 2002/04/10 04:09:47 chriskl Exp $
+	 * $Id: tables.php,v 1.3 2002/05/15 09:57:55 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
 	
-	if (!isset($action)) $action = '';
+	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
+	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 ?>
 
@@ -20,8 +21,8 @@
 
 switch ($action) {
 	case 'browse':		
-		echo "<h2>", htmlspecialchars($database), ": ", htmlspecialchars($table), "</h2>\n";
-		$rs = &$localData->browseTable($table, $offset, $limit);
+		echo "<h2>", htmlspecialchars($_GET['database']), ": ", htmlspecialchars($_GET['table']), "</h2>\n";
+		$rs = &$localData->browseTable($_GET['table'], $_GET['offset'], $_GET['limit']);
 		
 		if ($rs->recordCount() > 0) {
 			echo "<table>\n<tr>";
@@ -50,7 +51,7 @@ switch ($action) {
 			
 		break;
 	default:
-		echo "<h2>", htmlspecialchars($database), "</h2>\n";
+		echo "<h2>", htmlspecialchars($_GET['database']), "</h2>\n";
 		
 		$tables = &$localData->getTables();
 		
@@ -62,8 +63,8 @@ switch ($action) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
-				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($database), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">Browse</a></td>\n";
+				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&offset=0&limit=30&database=", 
+					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">Browse</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
 				echo "<td class=opbutton{$id}>Insert</td>\n";
 				echo "<td class=opbutton{$id}>Properties</td>\n";

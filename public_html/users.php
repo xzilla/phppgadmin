@@ -3,22 +3,23 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.1 2002/05/01 09:37:30 chriskl Exp $
+	 * $Id: users.php,v 1.2 2002/05/15 09:57:55 chriskl Exp $
 	 */
 
 	// Include application functions
 	include_once('../conf/config.inc.php');
-	
-	if (!isset($action)) $action = '';
+
+	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
+	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/** 
 	 * Function to save after editing a user
 	 */
 	function doSaveEdit() {
-		global $data, $username, $formCreateDB, $formSuper, $formExpires, $form;
+		global $data;
 		
-		$status = $data->setUser($username, '', isset($formCreateDB), isset($formSuper), $formExpires);
+		$status = $data->setUser($_POST['username'], '', isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
 		if ($status == 0)
 			doProperties('User updated.');
 		else
@@ -29,13 +30,13 @@
 	 * Function to allow editing of a user
 	 */
 	function doEdit($msg = '') {
-		global $data, $misc, $username;
+		global $data, $misc;
 		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
 	
-		echo "<h2>Users: ", htmlspecialchars($username), ": Edit</h2>\n";
+		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Edit</h2>\n";
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($username);
+		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
 			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
@@ -51,7 +52,7 @@
 			echo "<td class=data1><input size=30 name=formExpires value=\"", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "\"></td></tr>\n";
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
-			echo "<input type=hidden name=username value=\"", htmlspecialchars($username), "\">\n";
+			echo "<input type=hidden name=username value=\"", htmlspecialchars($_REQUEST['username']), "\">\n";
 			echo "<input type=submit value=Save> <input type=reset>\n";
 			echo "</form>\n";
 		}
@@ -59,20 +60,20 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Users</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&username=", 
-			urlencode($username), "\">Properties</a></p>\n";
+			urlencode($_REQUEST['username']), "\">Properties</a></p>\n";
 	}
 	
 	/**
 	 * Show read only properties for a user
 	 */
 	function doProperties($msg = '') {
-		global $data, $misc, $username;
+		global $data, $misc;
 		global $PHP_SELF, $strUsername, $strSuper, $strCreateDB, $strExpires, $strActions, $strNoUsers;
 	
-		echo "<h2>Users: ", htmlspecialchars($username), ": Properties</h2>\n";
+		echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($username);
+		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
 			echo "<table>\n";
@@ -87,29 +88,29 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Users</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&username=", 
-			urlencode($username), "\">Edit</a></p>\n";
+			urlencode($_REQUEST['username']), "\">Edit</a></p>\n";
 	}
 	
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data, $username;
+		global $data;
 		global $PHP_SELF;
 
 		if ($confirm) { 
-			echo "<h2>Users: ", htmlspecialchars($username), ": Drop</h2>\n";
+			echo "<h2>Users: ", htmlspecialchars($_REQUEST['username']), ": Drop</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the user \"", htmlspecialchars($username), "\"?</p>\n";
+			echo "<p>Are you sure you want to drop the user \"", htmlspecialchars($_REQUEST['username']), "\"?</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=username value=\"", htmlspecialchars($username), "\">\n";
+			echo "<input type=hidden name=username value=\"", htmlspecialchars($_REQUEST['username']), "\">\n";
 			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropUser($username);
+			$status = $data->dropUser($_REQUEST['username']);
 			if ($status == 0)
 				doDefault('User dropped.');
 			else
@@ -154,10 +155,11 @@
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $data, $formUsername, $formPassword, $formSuper, $formCreateDB, $formExpires;
+		global $data;
 		
 		// @@ NOTE: No groups handled yet
-		$status = $data->createUser($formUsername, $formPassword, isset($formSuper), isset($formCreateDB), $formExpires, array());
+		$status = $data->createUser($_POST['formUsername'], $_POST['formPassword'], 
+			isset($_POST['formSuper']), isset($_POST['formCreateDB']), $_POST['formExpires'], array());
 		if ($status == 0)
 			doDefault('User created.');
 		else
@@ -216,7 +218,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($choice == 'Yes') doDrop(false);
+			if ($_REQUEST['choice'] == 'Yes') doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
