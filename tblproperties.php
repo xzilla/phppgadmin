@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.20 2003/08/13 09:21:42 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.21 2003/08/18 08:06:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -324,7 +324,7 @@
 
 		// Show comment if any
 		if ($tdata->f[$data->tbFields['tbcomment']] != null)
-			echo "<p><i>", htmlspecialchars($tdata->f[$data->tbFields['tbcomment']]), "</i></p>\n";
+			echo "<p class=\"comment\">", htmlspecialchars($tdata->f[$data->tbFields['tbcomment']]), "</p>\n";
 
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strfield']}</th><th class=\"data\">{$lang['strtype']}</th>";

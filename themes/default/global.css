@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.13 2003/07/31 08:28:03 chriskl Exp $
+ * $Id: global.css,v 1.14 2003/08/18 08:07:53 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -51,6 +51,10 @@ body.bottombar {
 
 p.message {
 	color: blue;
+}
+
+p.comment {
+	font-style: italic;
 }
 
 h2
