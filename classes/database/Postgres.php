@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.252 2005/02/06 00:34:20 mr-russ Exp $
+ * $Id: Postgres.php,v 1.253 2005/02/10 21:21:00 mr-russ Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -256,8 +256,8 @@ class Postgres extends ADODB_base {
 		foreach ($actions as $k => $v) {
 			$action_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
 		}
-		
-		switch ($type) {
+
+		switch (substr($type,0,9)) {
 			case 'bool':
 			case 'boolean':
 				if ($value !== null && $value == '') $value = null;
@@ -276,12 +276,17 @@ class Postgres extends ADODB_base {
 					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
 				}				
 				break;
-			case 'text':
 			case 'bytea':
 				// addCSlashes converts all weird ASCII characters to octal representation,
 				// EXCEPT the 'special' ones like \r \n \t, etc.
-				if ($type == 'bytea') $value = addCSlashes($value, "\0..\37\177..\377");
+				$value = addCSlashes($value, "\0..\37\177..\377");
+			case 'text':
 				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"5\" cols=\"75\" wrap=\"virtual\"{$action_str}>\n";
+				echo htmlspecialchars($value);
+				echo "</textarea>\n";
+				break;
+			case 'character':
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"2\" cols=\"35\" wrap=\"virtual\"{$action_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
