@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.19 2003/01/11 08:32:27 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.20 2003/01/11 09:04:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -232,7 +232,7 @@
 				
 				if (!isset($_REQUEST['default'])) {
 					$_REQUEST['field'] = $column->f['attname'];
-					$_REQUEST['default'] = $column->f['adsrc'];
+					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
 					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
 				}				
 				
@@ -249,6 +249,7 @@
 				echo $misc->form;
 				echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 				echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
+				echo "<input type=hidden name=olddefault value=\"", htmlspecialchars($_REQUEST['olddefault']), "\">\n";
 				echo "<input type=submit value=\"{$strAlter}\"> <input type=reset>\n";
 				echo "</form>\n";
 								
@@ -264,7 +265,7 @@
 				}
 				
 				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
-								isset($_REQUEST['notnull']), $_REQUEST['default']);
+								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
 				if ($status == 0)
 					doDefault('Column altered.');
 				else {

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.37 2003/01/11 08:22:34 chriskl Exp $
+ * $Id: Postgres.php,v 1.38 2003/01/11 09:04:57 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -260,12 +260,13 @@ class Postgres extends BaseDB {
 	 * @param $name The new name for the column
 	 * @param $notnull (boolean) True if not null, false otherwise
 	 * @param $default The new default for the column
+	 * @param $olddefault THe old default for the column
 	 * @return 0 success
 	 * @return -1 set not null error
 	 * @return -2 set default error
 	 * @return -3 rename column error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $default) {
+	function alterColumn($table, $column, $name, $notnull, $default, $olddefault) {
 		$this->beginTransaction();
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
@@ -275,9 +276,13 @@ class Postgres extends BaseDB {
 			return -1;
 		}
 
-		// Set default
-		if ($default != '') {
-			$status = $this->setColumnDefault($table, $column, $default);
+		// Set default, if it has changed
+		if ($default != $olddefault) {
+			if ($default == '')
+				$status = $this->dropColumnDefault($table, $column);
+			else 
+				$status = $this->setColumnDefault($table, $column, $default);
+
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -2;
