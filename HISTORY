@@ -1,13 +1,11 @@
 phpPgAdmin History
 ------------------
 
-Version 3.1-dev
----------------
+Version 3.1-beta-1
+------------------
 
 Features:
-* Turkish update from Devrim Gunduz
 * Add first & last links to nav.  Double number of pages shown.
-* German update from Markus Bertheau
 * Allow granting privileges WITH GRANT OPTION for 7.4
 * Allow revoking GRANT OPTION with CASCADE option for 7.4
 * Display new PostgreSQL 7.4 grant options and grantor in privileges
@@ -29,22 +27,12 @@ Features:
 * View and edit table comments
 * Changed XML format significantly.  Now doesn't use field names as
   tag names, outputs column type information, and is in correct XML format!
-* 'Save as Report' feature when viewing record sets
+* Save result sets as views and reports in most cases 
+* Download the results of selects and reports
 * Tick all box on Select feature
 * Export in HTML format
-* Download the results of selects and reports
-* Traditional Chinese update from Chih-Hsin Lee
 * Allow listing of operators
-* Polish update from Rafal
-* Swedish translation from Stefan Malqvist
 * Add a robots.txt file to prevent search engine indexation
-* Italian translation update from Nicola Soranzo
-* German update from Markus Bertheau
-* Spanish update from Martin Marques
-* Trad. Chinese update from Chih-Hsin Lee
-* Save selects as views
-* Russian update from Step
-* Slovak update from Andrej
 * Can now safely edit row based on OID.  Guards are in place against duplicate OIDs.
 * Works properly if you have cookies disabled
 
@@ -59,6 +47,20 @@ Bug Fixes:
 * Don't list domains under types
 * Lots of reports fixes (titles, page reloads, etc.)
 * Selecting for NULL values in Select feature
+
+Translations:
+* Italian translation update from Nicola Soranzo
+* German update from Markus Bertheau
+* Spanish update from Martin Marques
+* Trad. Chinese update from Chih-Hsin Lee
+* Russian update from Step
+* Slovak update from Andrej
+* Polish update from Rafal
+* Swedish translation from Stefan Malqvist
+* Turkish update from Devrim Gunduz
+* German update from Markus Bertheau
+* Traditional Chinese update from Chih-Hsin Lee
+* Spanish update from Martin
 
 Version 3.0.1
 -------------

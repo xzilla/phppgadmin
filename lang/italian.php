@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.12 2003/09/01 03:08:12 chriskl Exp $
+	 * $Id: italian.php,v 1.13 2003/09/11 03:30:19 chriskl Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -20,7 +20,7 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'Documentazione su PostgreSQL (locale)';
 	$lang['strreportbug'] = 'Riferisci un bug';
-	$lang['strviewfaq'] = 'Visualizza le FAQ';
+	$lang['strviewfaq'] = 'Visualizza le FAQ (domande ricorrenti)';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 
 	// Basic strings - Stringhe basilari
@@ -56,7 +56,7 @@
 	$lang['strsave'] = 'Salva';
 	$lang['strreset'] = 'Reset';
 	$lang['strinsert'] = 'Inserisci';
-	$lang['strselect'] = 'Seleziona righe';
+	$lang['strselect'] = 'Seleziona';
 	$lang['strdelete'] = 'Cancella';
 	$lang['strupdate'] = 'Aggiorna';
 	$lang['strreferences'] = 'Riferimenti'; 
