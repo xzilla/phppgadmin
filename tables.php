@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.31 2003/08/13 09:21:41 chriskl Exp $
+	 * $Id: tables.php,v 1.32 2003/08/19 04:04:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -177,8 +177,20 @@
 
 			$attrs = &$localData->getTableAttributes($_REQUEST['table']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
+				// JavaScript for select all feature
+				echo "<script language=\"JavaScript\">\n";
+				echo "<!--\n";
+				echo "	function selectAll() {\n";
+				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";
+				echo "			var e = document.selectform.elements[i];\n";
+				echo "			if (e.name.indexOf('show') == 0) e.checked = document.selectform.selectall.checked;\n";
+				echo "		}\n";
+				echo "	}\n";
+				echo "//-->\n";
+				echo "</script>\n";
+	
 				echo "<table>\n<tr>";
 
 				// Output table header
@@ -213,6 +225,9 @@
 					$i++;
 					$attrs->moveNext();
 				}
+				// Select all checkbox
+				echo "<tr><td><input type=\"checkbox\" name=\"selectall\" onClick=\"javascript:selectAll()\" /></td>";
+				echo "<td colspan=\"4\"></td></tr>\n";
 				echo "</table></p>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
