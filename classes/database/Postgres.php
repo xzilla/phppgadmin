@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.12 2002/09/26 19:25:16 xzilla Exp $
+ * $Id: Postgres.php,v 1.13 2002/09/26 22:04:18 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -17,7 +17,7 @@ class Postgres extends BaseDB {
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
-	var $sqFields = array('seqname' => 'relname');
+	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value' );
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -316,9 +316,22 @@ class Postgres extends BaseDB {
 	function &getSequences() {
 		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
 		else $where = '';
-		$sql = "SELECT relname FROM pg_class WHERE relkind = 'S'{$where} ORDER BY relname";
+		$sql = "SELECT c.relname, u.usename  FROM pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S'{$where} ORDER BY relname";
 		return $this->selectSet( $sql );
 	}
+
+
+	function &getSequence($sequence) {
+		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
+		else $where = '';
+		$sql = "SELECT sequence_name as relname,* FROM $sequence"; 
+		return $this->selectSet( $sql );
+	}
+
+/*
+	function setSequence()
+	function delSequence()
+*/
 
 	/**
 	 * Adds a check constraint to a table
@@ -607,10 +620,6 @@ class Postgres extends BaseDB {
 	function setIndex()
 	function delIndex()
 
-	function &getSequences()
-	function &getSequence()
-	function setSequence()
-	function delSequence()
 
 	// DML Functions
 
