@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.78 2003/11/08 10:33:57 chriskl Exp $
+ * $Id: Postgres73.php,v 1.79 2003/11/19 02:12:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -99,8 +99,8 @@ class Postgres73 extends Postgres72 {
 	 */
 	function &getSchemas() {
 		global $conf;
-		
-		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg_%'";
+
+		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%'";
 		else $and = '';
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
 			WHERE pn.nspowner = pu.usesysid
@@ -1152,9 +1152,9 @@ class Postgres73 extends Postgres72 {
 
 		// Exclude system relations if necessary
 		if (!$conf['show_system']) {
-			$where = " AND pn.nspname NOT LIKE 'pg_%'";
+			$where = " AND pn.nspname NOT LIKE 'pg\\\\_%'";
 			$lan_where = "AND pl.lanispl";
-			$rule_where = " AND schemaname NOT LIKE 'pg_%'";
+			$rule_where = " AND schemaname NOT LIKE 'pg\\\\_%'";
 		}
 		else {
 			$where = '';
@@ -1304,9 +1304,9 @@ class Postgres73 extends Postgres72 {
 			$where = '';
 		else
 			$where = "
-				AND n1.nspname NOT LIKE 'pg_%'
-				AND n2.nspname NOT LIKE 'pg_%'
-				AND n3.nspname NOT LIKE 'pg_%'
+				AND n1.nspname NOT LIKE 'pg\\\\_%'
+				AND n2.nspname NOT LIKE 'pg\\\\_%'
+				AND n3.nspname NOT LIKE 'pg\\\\_%'
 			";
 
 		$sql = "

@@ -43,6 +43,7 @@ Bugs
   in PostgreSQL 7.0.x
 * Resetting sequence on 7.1+ now restarts at 1, not 2
 * Remove deprecated column default 'now' from SQL script
+* Properly escape pg_ in internal queries
 
 Translations
 * Afrikaans from Petri Jooste

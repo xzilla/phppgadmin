@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.163 2003/11/15 10:40:25 chriskl Exp $
+ * $Id: Postgres.php,v 1.164 2003/11/19 02:12:47 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -988,7 +988,7 @@ class Postgres extends BaseDB {
 	 */
 	function &getTables($all = false) {
 		global $conf;
-		if (!$conf['show_system'] || $all) $where = "WHERE tablename NOT LIKE 'pg_%' ";
+		if (!$conf['show_system'] || $all) $where = "WHERE tablename NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
 		$sql = "SELECT NULL AS schemaname, tablename, tableowner FROM pg_tables {$where}ORDER BY tablename";
 		return $this->selectSet($sql);
@@ -1995,7 +1995,7 @@ class Postgres extends BaseDB {
 	function &getViews() {
 		global $conf;
 		if (!$conf['show_system'])
-			$where = "WHERE viewname NOT LIKE 'pg_%'";
+			$where = "WHERE viewname NOT LIKE 'pg\\\\_%'";
 		else $where  = '';
 		
 		$sql = "SELECT viewname, viewowner FROM pg_views {$where} ORDER BY viewname";
@@ -2102,7 +2102,7 @@ class Postgres extends BaseDB {
 			SELECT CASE WHEN relkind='r' THEN 'TABLE'::VARCHAR WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Columns
 		$sql .= "				
@@ -2110,7 +2110,7 @@ class Postgres extends BaseDB {
 			SELECT 'COLUMN', NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
 				pg_attribute pa WHERE pc.oid=pa.attrelid 
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Functions
 		$sql .= "
@@ -2126,7 +2126,7 @@ class Postgres extends BaseDB {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Check Constraints
 		$sql .= "
@@ -2134,7 +2134,7 @@ class Postgres extends BaseDB {
 			SELECT 'CONSTRAINT', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
 				pg_relcheck pr WHERE pc.oid=pr.rcrelid
 				AND pr.rcname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 		// Unique and Primary Key Constraints
 		$sql .= "
 			UNION ALL
@@ -2142,7 +2142,7 @@ class Postgres extends BaseDB {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Triggers
 		$sql .= "
@@ -2150,14 +2150,14 @@ class Postgres extends BaseDB {
 			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
 				pg_trigger pt WHERE pc.oid=pt.tgrelid
 				AND pt.tgname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
 
 		// Rules
 		$sql .= "
 			UNION ALL
 			SELECT 'RULE', NULL, NULL, tablename, rulename FROM pg_rules
 				WHERE rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND tablename NOT LIKE 'pg_%'";				
+		if (!$conf['show_system']) $sql .= " AND tablename NOT LIKE 'pg\\\\_%'";				
 
 		// Advanced Objects
 		if ($conf['show_advanced']) {
