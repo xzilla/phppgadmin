@@ -2,7 +2,7 @@
 /**
  *  FILENAME:   sequence.php
  *
- *  $Id: sequences.php,v 1.10 2002/10/23 22:15:55 xzilla Exp $
+ *  $Id: sequences.php,v 1.11 2002/11/21 20:31:42 xzilla Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -20,7 +20,7 @@ $PHP_SELF = $_SERVER['PHP_SELF'];
 function doDefault($msg='')
 {
     global $data, $localData, $misc, $database, $sequences; 
-    global $PHP_SELF;
+    global $PHP_SELF, $strPrivileges, $strDrop, $strProperties;
     global $strNoSequences, $strSequences, $strOwner, $strActions;
 
     echo '<h2>', htmlspecialchars( $_REQUEST['database']), ": Sequences</h2>\n";
@@ -40,11 +40,11 @@ function doDefault($msg='')
             echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "</td>";
 			echo "<td class=\"data{$id}\">", htmlspecialchars( $sequences->f[$data->sqFields['seqowner']]), "</td>";
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Properties</a></td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=properties&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strProperties</a></td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strDrop</td>\n"; 
 			echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">Privileges</td></tr>\n"; 
+				echo "<a href=\"privileges.php?action=priviledges&database=", htmlspecialchars($_REQUEST['database']), "&sequence=", htmlspecialchars( $sequences->f[$data->sqFields['seqname']]), "\">$strPrivileges</td></tr>\n"; 
 
 			$sequences->movenext();
 			$i++;
