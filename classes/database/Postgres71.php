@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.59 2004/06/06 08:50:28 chriskl Exp $
+ * $Id: Postgres71.php,v 1.60 2004/06/11 05:08:26 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -52,7 +52,7 @@ class Postgres71 extends Postgres {
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN', 'FULL JOIN' => 'FULL JOIN');
 
 	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7.1/static/';
+	var $help_base = 'http://www.postgresql.org/docs/7.1/interactive/';
 
 	// Help sub pages (alphabetical order)
 	var $help_page = array(
@@ -60,7 +60,14 @@ class Postgres71 extends Postgres {
 		'drop_table' => 'sql-droptable.html',
 		'insert' => 'sql-insert.html',
 		'select' => 'sql-select.html',
-		'tables' => 'ddl.html#DDL-BASICS'
+		'tables' => 'ddl.html#DDL-BASICS',
+		'schemas' => 'ddl-schemas.html',
+		'create_schema' => 'sql-createschema.html',
+		'alter_schema' => 'sql-alterschema.html',
+		'drop_schema' => 'sql-dropschema.html',
+		'runtime_config' => 'runtime-config.html',
+		'processes' => 'monitoring-stats.html#MONITORING-STATS-VIEWS-TABLE',
+		'sql' => 'sql-syntax.html',
 	);
 
 	/**

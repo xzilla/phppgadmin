@@ -3,7 +3,7 @@
 	/**
 	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.16 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: schema.php,v 1.17 2004/06/11 05:08:25 xzilla Exp $
 	 */
 
 	include_once('./libraries/lib.inc.php');
@@ -20,8 +20,7 @@
 
 		$schema = &$data->getSchemaByName($_REQUEST['schema']);
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strschemas']}: ", 
-			$misc->printVal($_REQUEST['schema']), "</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strschemas'],$misc->printVal($_REQUEST['schema'])),'schemas');
 
 		// Show comment if any
 		if ($schema->f[$data->nspFields['nspcomment']] !== null)
@@ -60,7 +59,7 @@
 	function doAlter($msg = '') {
 		global $data, $misc,$PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['schema']), ": {$lang['stralter']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['stralter']),'alter_schema');
 		$misc->printMsg($msg);
 
 		$schema = &$data->getSchemaByName($_REQUEST['schema']);

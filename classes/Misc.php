@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.65 2004/06/07 11:38:38 soranzo Exp $
+	 * $Id: Misc.php,v 1.66 2004/06/11 05:08:26 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -154,7 +154,7 @@
 			if (!is_array($arr) || sizeof($arr) == 0) return;
 			
 			if ($help !== null && isset($data->help_page[$help])) {
-				echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n";
+				echo "<br /><table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\">\n";
 				echo "<tr><td><h2>";
 				// Join array with separator character
 				echo implode($lang['strseparator'], $arr);

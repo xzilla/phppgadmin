@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.47 2004/06/03 07:34:56 chriskl Exp $
+	 * $Id: database.php,v 1.48 2004/06/11 05:08:19 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 		if (!isset($_GET['term'])) $_GET['term'] = '';
 
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfind']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strfind']));
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"get\">\n";
@@ -64,7 +64,7 @@
 						else {
 							if ($curr != '') echo "</ul>\n";
 							$curr = $rs->f['type'];
-							echo "<h2>";
+							echo "<h3>";
 							switch ($curr) {
 								case 'SCHEMA':
 									echo $lang['strschemas'];
@@ -121,7 +121,7 @@
 									echo $lang['stropclasses'];
 									break;
 							}
-							echo "</h2>";
+							echo "</h3>";
 							echo "<ul>\n";
 						}
 					}
@@ -239,7 +239,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strexport']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strexport']));
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dbexport.php\" method=\"post\">\n";
@@ -291,7 +291,8 @@
 		$variables = &$data->getVariables();
 		
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strvariables']}</h2>\n";
+
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strvariables']),'runtime_config');
 
 		if ($variables->recordCount() > 0) {
 			echo "<table>\n";
@@ -325,7 +326,7 @@
 		$processes = &$data->getProcesses($_REQUEST['database']);
 		
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strprocesses']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strprocesses']),'processes');
 
 		if ($processes->recordCount() > 0) {
 			echo "<table>\n";
@@ -386,7 +387,7 @@
 				break;
 			default:
 				$misc->printDatabaseNav();
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['stradmin']}</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['stradmin']));
 				$misc->printMsg($msg);
 				
 				// Vacuum
@@ -442,7 +443,7 @@
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
 
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strsql']),'sql');
 
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"sql.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
@@ -486,8 +487,7 @@
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
-			echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
-				$misc->printVal($_REQUEST['schema']), ": {$lang['strdrop']}</h2>\n";
+			$misc->printTitle(array($misc->printVal($_REQUEST['database']),$misc->printVal($_REQUEST['schema']),$lang['strdrop']),'drop_schema');
 
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
@@ -529,7 +529,7 @@
 		// Fetch all users from the database
 		$users = &$data->getUsers();
 
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strcreateschema']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strcreateschema']),'create_schema');
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -589,7 +589,7 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printDatabaseNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strschemas']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strschemas']),'schemas');
 		$misc->printMsg($msg);
 		
 		// Check that the DB actually supports schemas

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.120 2004/06/07 11:38:39 soranzo Exp $
+ * $Id: Postgres73.php,v 1.121 2004/06/11 05:08:27 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -50,7 +50,7 @@ class Postgres73 extends Postgres72 {
 									'IN' => 'x', 'NOT IN' => 'x');
 
 	// Default help URL
-	var $help_base = 'http://www.postgresql.org/docs/7.3/static/';
+	var $help_base = 'http://www.postgresql.org/docs/7.3/interactive/';
 
 	/**
 	 * Constructor
