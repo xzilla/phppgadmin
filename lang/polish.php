@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.22 2003/05/27 22:48:10 slubek Exp $
+	 * $Id: polish.php,v 1.23 2003/05/30 22:14:06 slubek Exp $
 	 */
 
 	// Language and character set
@@ -159,7 +159,7 @@
 	$lang['strcascade'] = 'CASCADE';
 			
 	// Users
-	$lang['struseradmin'] = 'Administracja kontami u¿ytkowników';
+	$lang['struseradmin'] = 'Administracja kontami';
 	$lang['struser'] = 'U¿ytkownik';
 	$lang['strusers'] = 'U¿ytkownicy';
 	$lang['strusername'] = 'Nazwa u¿ytkownika';
@@ -185,7 +185,7 @@
 	$lang['strpasswordconfirm'] = 'Has³o i potwierdzenie musz± byæ takie same.';
 							
 	// Groups
-	$lang['strgroupadmin'] = 'Administracja grupami u¿ytkowników';
+	$lang['strgroupadmin'] = 'Administracja grupami';
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
 	$lang['strnogroup'] = 'Nie znaleziono grupy.';
