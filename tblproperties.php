@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.35 2004/01/03 19:15:44 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.36 2004/02/05 06:45:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,10 +23,14 @@
 		
 		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment']);
 		if ($status == 0) {
-			// Jump them to the new table name
-			$_REQUEST['table'] = $_POST['name'];
-			// Force a browser reload
-			$_reload_browser = true;
+			// If table has been renamed, need to change to the new name and
+			// reload the browser frame.
+			if ($_POST['table'] != $_POST['name']) {
+				// Jump them to the new table name
+				$_REQUEST['table'] = $_POST['name'];
+				// Force a browser reload
+				$_reload_browser = true;
+			}
 			doDefault($lang['strtablealtered']);
 		}
 		else
