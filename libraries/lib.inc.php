@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.88.2.2 2005/02/18 11:54:17 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.88.2.3 2005/02/24 09:57:44 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.5.2';
+	$appVersion = '3.5.3-dev';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';

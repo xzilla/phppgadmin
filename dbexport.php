@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.14.2.3 2005/02/09 11:31:49 chriskl Exp $
+	 * $Id: dbexport.php,v 1.14.2.4 2005/02/24 09:57:44 chriskl Exp $
 	 */
 
       // Prevent timeouts on large exports
@@ -78,7 +78,11 @@
 			// then..
 			if (((float) $version[1]) >= 7.4) {
 				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST['table']);
-				$cmd .= " -n " . $misc->escapeShellArg($_REQUEST['schema']);
+				// Even though they're using a schema-enabled pg_dump, the backend database
+				// may not support schemas.
+				if ($data->hasSchemas()) {
+					$cmd .= " -n " . $misc->escapeShellArg($_REQUEST['schema']);
+				}
 			}
 			else {
 				// This is an annoying hack needed to work around a bug in dumping
