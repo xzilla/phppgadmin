@@ -5,7 +5,8 @@ ERRORS
 ------
 
 Q: I've installed phpPgAdmin but when I try to use it I get an error message
-   about the "pg_connect" function not existing.
+   telling me that I have not compiled proper database support into my
+   PHP installation. 
 
 A: This means that you have not properly compiled PostgreSQL support into
    your PHP.  The correct configure flag to use is '--with-pgsql'.  Read the
@@ -26,15 +27,6 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    that if you change the 'local' login type to 'md5', then you might need
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
-
-Q: I get all sorts of errors about "pg_namespace" and "schema".  What's going
-   on?
-
-A: The default database driver specified in the config.inc.php file is the
-   "Postgres73" driver.  This will only work for PostgreSQL 7.3 series.
-   Change this driver to "Postgres72" for the 7.2 series, "Postgres71" for the
-   7.1 series or "Postgres" for 7.0.  Versions of PostgreSQL below 7.0 are not
-   supported.  However, patches are welcome!
 
 Q: I'm running phpPgAdmin on Win32 and I always get the message that the
    "config.inc.php is not found".  I have copied the config.inc.php-dist file
