@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.25 2002/12/14 10:56:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.26 2002/12/21 11:16:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -20,6 +20,19 @@ class Postgres extends BaseDB {
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
 	var $ixFields = array('idxname' => 'relname', 'idxdef' => 'pg_get_indexdef', 'uniquekey' => 'indisunique', 'primarykey' => 'indisprimary');
 	var $tgFields = array('tgname' => 'tgname');
+	var $typFields = array('typname' => 'typname', 'typowner' => 'typowner', 'typin' => 'typin',
+		'typout' => 'typout', 'typlen' => 'typlen', 'typdef' => 'typdef', 'typelem' => 'typelem',
+		'typdelim' => 'typdelim', 'typbyval' => 'typbyval', 
+		'typalign' => 'typalign', 'typstorage' => 'typstorage');
+
+	// Array of allowed type alignments
+	var $typAligns = array('char', 'int2', 'int4', 'double');
+	// The default type alignment
+	var $typAlignDef = 'int4';
+	// Array of allowed type storage attributes
+	var $typStorages = array('plain', 'external', 'extended', 'main');
+	// The default type storage
+	var $typStorageDef = 'plain';
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -447,7 +460,7 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
-	/** 
+	/**
 	 * Creates a new sequence
 	 * @return 0 success
 	 */
@@ -474,9 +487,6 @@ class Postgres extends BaseDB {
 		$sql = "SELECT setval('$sequence',1)";
 		return $this->execute($sql);
 	}
-
-
-
 
 	/**
 	 * Adds a check constraint to a table
@@ -732,7 +742,7 @@ class Postgres extends BaseDB {
 					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
 					AND attname = '{$column}'";
 
-	   $status = $this->execute($sql);
+		$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
@@ -845,7 +855,7 @@ class Postgres extends BaseDB {
 	 * Returns a list of all views in the database
 	 * @return All views
 	 */
-	function getViews() {
+	function &getViews() {
 		if (!$this->_showSystem)
 			$where = "WHERE viewname NOT LIKE 'pg_%'";
 		else $where  = '';
@@ -860,7 +870,7 @@ class Postgres extends BaseDB {
 	 * @param $view The name of the view to retrieve
 	 * @return View info
 	 */
-	function getView($view) {
+	function &getView($view) {
 		$this->clean($view);
 		
 		$sql = "SELECT viewname, viewowner, definition FROM pg_views WHERE viewname='$view'";
@@ -890,14 +900,14 @@ class Postgres extends BaseDB {
 	 */
 	function dropView($viewname) {
 		$this->clean($viewname);
-		
+
 		$sql = "DROP VIEW \"{$viewname}\"";
-		
+
 		return $this->execute($sql);
 	}
-	
+
 	/**
-	 * Updates a view.  Postgres doesn't have CREATE OR REPLACE view,
+	 * Updates a view.  Postgres 7.1 and below don't have CREATE OR REPLACE view,
 	 * so we do it with a drop and a recreate.
 	 * @param $viewname The name fo the view to update
 	 * @param $definition The new definition for the view
@@ -1046,7 +1056,80 @@ class Postgres extends BaseDB {
 		
 		return $this->execute($sql);
 	}
-	 
+	
+	// Type functions
+
+	/**
+	 * Returns a list of all types in the database
+	 * @return A recordet
+	 */
+	function &getTypes() {
+		$sql = "SELECT
+				typname
+			FROM
+				pg_type
+			WHERE
+				typrelid = 0
+				AND typname !~ '^_.*'
+			ORDER BY typname
+		";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Returns all details for a particular type
+	 * @param $typname The name of the view to retrieve
+	 * @return Type info
+	 */
+	function &getType($typname) {
+		$this->fieldClean($typname);
+		
+		$sql = "SELECT *, typinput AS typin, typoutput AS typout 
+			FROM pg_type WHERE typname='{$typname}'";
+
+		return $this->selectSet($sql);
+	}	
+	
+	/**
+	 * Creates a new type
+	 * @param ...
+	 * @return 0 success
+	 */
+	function createType($typname, $typin, $typout, $typlen, $typdef,
+				$typelem, $typdelim, $typbyval, $typalign, $typstorage) {
+		$this->fieldClean($typname);
+
+		$sql = "
+			CREATE TYPE \"{$typname}\" (
+				INPUT = \"{$typin}\",
+				OUTPUT = \"{$typout}\",
+				INTERNALLENGTH = {$typlen}";
+		if ($typdef != '') $sql .= ", DEFAULT = {$typdef}";
+		if ($typelem != '') $sql .= ", ELEMENT = {$typelem}";
+		if ($typdelim != '') $sql .= ", DELIMITER = {$typdelim}";
+		if ($typbyval) $sql .= ", PASSEDBYVALUE, ";
+		if ($typalign != '') $sql .= ", ALIGNMENT = {$typalign}";
+		if ($typstorage != '') $sql .= ", STORAGE = {$typstorage}";
+		
+		$sql .= ")";
+
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Drops a type.
+	 * @param $typname The name of the type to drop
+	 * @return 0 success
+	 */
+	function dropType($typname) {
+		$this->fieldClean($typname);
+
+		$sql = "DROP TYPE \"{$typname}\"";
+
+		return $this->execute($sql);
+	}
+
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }

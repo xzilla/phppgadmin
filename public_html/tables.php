@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.11 2002/11/14 01:04:38 chriskl Exp $
+	 * $Id: tables.php,v 1.12 2002/12/21 11:16:46 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -383,12 +383,12 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
 				echo "<table>\n<tr>";
-				
+
 				// Output table header
 				echo "<tr><th class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strValue}</th></tr>";
 				
 				// @@ CHECK THAT KEY ACTUALLY IS IN THE RESULT SET...
-				
+
 				$i = 0;
 				while (!$attrs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
@@ -515,7 +515,66 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">{$strShowAllTables}</a></p>\n";
 	}
-	
+
+	/**
+	 * Displays a screen where they can enter a new table
+	 */
+/*
+	function doCreate($msg = '') {
+		global $data, $localData, $misc;
+		global $PHP_SELF, $strName, $strFields;
+
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+
+		switch ($_REQUEST['stage']) {
+			case 2:
+				
+				break;
+			case 1:
+				if (!isset($_REQUEST['formTable'])) $_REQUEST['formTable'] = '';
+				if (!isset($_REQUEST['formFields'])) $_REQUEST['formFields'] = 1;
+
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: Create Table</h2>\n";
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=post>\n";
+				echo "<table>\n";
+				echo "<tr><th class=data>{$strName}</th></tr>\n";
+				echo "<tr><td class=data1><input name=formTable size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+					htmlspecialchars($_REQUEST['formTable']), "\"></td></tr>\n";
+				echo "<tr><th class=data>{$strFields}</th></tr>\n";
+				echo "<tr><td class=data1><input name=formFields size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
+					htmlspecialchars($_REQUEST['formFields']), "\"></td></tr>\n";
+				echo "</table>\n";
+				echo "<p><input type=hidden name=action value=create>\n";
+				echo "<input type=hidden name=stage value=2>\n";
+				echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
+				echo "<input type=submit name=button value=Next> <input type=submit name=button value=Cancel></p>\n";
+				echo "</form>\n";
+				break;
+		}
+
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Tables</a></p>\n";
+	}
+*/
+	/**
+	 * Actually creates the new view in the database
+	 */
+	function doSaveCreate() {
+		global $localData, $strViewNeedsName, $strViewNeedsDef;
+
+		// Check that they've given a name and a definition
+		if ($_POST['formView'] == '') doCreate($strViewNeedsName);
+		elseif ($_POST['formDefinition'] == '') doCreate($strViewNeedsDef);
+		else {		 
+			$status = $localData->createView($_POST['formView'], $_POST['formDefinition']);
+			if ($status == 0)
+				doDefault('View created.');
+			else
+				doCreate('View creation failed.');
+		}
+	}
+
 	/**
 	 * Show default list of tables in the database
 	 */
@@ -612,6 +671,12 @@
 			break;			
 		case 'browse':
 			doBrowse();
+			break;
+		case 'save_create':
+			doSaveCreate();
+			break;
+		case 'create':
+			doCreate();
 			break;
 		default:
 			doDefault();

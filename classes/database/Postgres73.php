@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.8 2002/12/19 22:27:38 xzilla Exp $
+ * $Id: Postgres73.php,v 1.9 2002/12/21 11:16:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -20,11 +20,11 @@ class Postgres73 extends Postgres72 {
 	var $_schema;
 
 	// Last oid assigned to a system object
-	var $_lastSystemOID = 16568;
+	var $_lastSystemOID = 16974;
 	var $_maxNameLen = 63;
 
 	function Postgres73($host, $port, $database, $user, $password) {
-		$this->Postgres71($host, $port, $database, $user, $password);
+		$this->Postgres72($host, $port, $database, $user, $password);
 	}
 
 	// Schema functions

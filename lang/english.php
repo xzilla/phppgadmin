@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.18 2002/12/19 22:27:38 xzilla Exp $
+	 * $Id: english.php,v 1.19 2002/12/21 11:16:46 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -50,6 +50,7 @@
 	$strLength = 'Length';
 	$strDefault = 'Default';
 	$strAlter = 'Alter';
+	$strCancel = 'Cancel';
 	$strPrivileges = 'Privileges';
 	$strInsert = 'Insert';
 	$strSelect = 'Select';
@@ -60,8 +61,9 @@
 	$strTrigger = 'References';
 	$strYes = 'Yes';
 	$strNo = 'No';
+	$strEdit = 'Edit';
+	$strInvalidParam = 'Invalid script parameters.';
 
-		
 	// Users
 	$strUser = 'User';
 	$strGroup = 'Group';
@@ -104,6 +106,7 @@
 	
 	// Tables
 	$strField = 'Field';
+	$strFields = 'Fields';
 	$strType = 'Type';
 	$strValue = 'Value';
 	$strShowAllTables = 'Show All Tables';
@@ -128,5 +131,25 @@
 	$strNoTriggers = 'No triggers found.';
 	$strCreateTrigger = 'Create Trigger';
 	
-	
+	// Types
+	$strType = 'Type';
+	$strTypes = 'Types';
+	$strNoTypes = 'No types found.';
+	$strCreateType = 'Create Type';
+	$strConfDropType = 'Are you sure you want to drop the type "%s"?';
+	$strTypeDropped = 'Type dropped.';
+	$strTypeDroppedBad = 'Type drop failed.';
+	$strTypeCreated = 'Type created';
+	$strTypeCreatedBad = 'Type creation failed.';
+	$strShowAllTypes = 'Show all types';
+	$strInputFn = 'Input function';
+	$strOutputFn = 'Output function';
+	$strPassByVal = 'Passed by val?';
+	$strAlignment = 'Alignment';
+	$strElement = 'Element';
+	$strDelimiter = 'Delimiter';
+	$strStorage = 'Storage';
+	$strTypeNeedsName = 'You must give a name for your type.';
+	$strTypeNeedsLen = 'You must give a length for your type.';
+
 ?>

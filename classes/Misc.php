@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.3 2002/09/23 06:11:38 chriskl Exp $
+	 * $Id: Misc.php,v 1.4 2002/12/21 11:16:46 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -46,7 +46,7 @@
 			
 			return $localData;
 		}
-
+		
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.
 		 * @param $page the page currently viewed

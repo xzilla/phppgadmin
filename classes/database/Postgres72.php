@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.18 2002/12/19 22:27:38 xzilla Exp $
+ * $Id: Postgres72.php,v 1.19 2002/12/21 11:16:46 chriskl Exp $
  */
 
 
@@ -13,7 +13,6 @@ require_once('../classes/database/Postgres71.php');
 class Postgres72 extends Postgres71 {
 
 	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
-	var $typFields = array('typname' => 'typname');
 	var $langFields = array('lanname' => 'lanname');
 	var $privFields = array('privarr' => 'relacl');
 
@@ -238,33 +237,6 @@ class Postgres72 extends Postgres71 {
 		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, true);
 	}
 
-	// Type functions
-
-	/**
-	 * Returns a list of all types in the database
-	 * @return A recordet
-	 */
-	function &getTypes() {
-		$sql = "SELECT
-				format_type(t.oid, NULL) AS typname
-			FROM
-				pg_type t
-			WHERE
-				typrelid = 0
-			UNION
-			SELECT
-				typname
-			FROM
-				pg_type
-			WHERE
-				typrelid = 0
-				AND typname !~ '^_.*'
-			ORDER BY typname
-		";
-
-		return $this->selectSet($sql);
-	}
-
 	// Function Languages
 
 	/**
@@ -307,6 +279,38 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	// Type functions
+	
+	/**
+	 * Returns a list of all types in the database
+	 * @return A recordet
+	 */
+	function &getTypes() {
+		$sql = "SELECT
+				format_type(pt.oid, NULL) AS typname,
+				pu.usename AS typowner
+			FROM
+				pg_type pt,
+				pg_user pu
+			WHERE
+				pt.typowner = pu.usesysid
+				AND typrelid = 0
+			UNION
+			SELECT
+				pt.typname,
+				pu.usename AS typowner
+			FROM
+				pg_type pt,
+				pg_user pu
+			WHERE
+				pt.typowner = pu.usesysid
+				AND typrelid = 0
+				AND typname !~ '^_.*'
+			ORDER BY typname
+		";
+
+		return $this->selectSet($sql);
+	}
 
     /**
      * Grabs a list of privileges for an object
