@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.1 2003/02/16 05:30:53 chriskl Exp $
+	 * $Id: reports.php,v 1.2 2003/02/20 23:17:05 slubek Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 	function doCreate($msg = '') {
 		global $reportsdb, $misc;
 		global $PHP_SELF, $strName, $strDatabase, $strComment, $strSQL;
-		global $strCreateReport, $strReports;
+		global $strCreateReport, $strReports, $strSave, $strReset, $strShowAllViews;
 
 		if (!isset($_POST['report_name'])) $_POST['report_name'] = '';
 		if (!isset($_POST['db_name'])) $_POST['db_name'] = '';
@@ -43,17 +43,17 @@
 		echo "</table>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
 		echo $misc->form;
-		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "<input type=submit value=\"{$strSave}\"> <input type=\"{$strReset}\">\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Views</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllViews}</a></p>\n";
 	}
 	
 	/**
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
-		global $localData, $strViewNeedsName, $strViewNeedsDef;
+		global $localData, $strViewNeedsName, $strViewNeedsDef, $strViewCreated, $strViewCreatedBad;
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formView'] == '') doCreate($strViewNeedsName);
@@ -61,9 +61,9 @@
 		else {
 			$status = $localData->createView($_POST['formView'], $_POST['formDefinition']);
 			if ($status == 0)
-				doDefault('View created.');
+				doDefault($strViewCreated);
 			else
-				doCreate('View creation failed.');
+				doCreate($strViewCreatedBad);
 		}
 	}
 

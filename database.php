@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.4 2003/02/09 10:22:38 chriskl Exp $
+	 * $Id: database.php,v 1.5 2003/02/20 23:17:05 slubek Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 	 */
 	function doSQL() {
 		global $PHP_SELF, $localData, $misc;
-		global $strSQL, $strEnterSQL, $strGo;
+		global $strSQL, $strEnterSQL, $strGo, $strReset;
 
 		if (!isset($_POST['query'])) $_POST['query'] = '';
 
@@ -35,7 +35,7 @@
 		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=", 
 			urlencode($_REQUEST['database']), "&action=sql\">\n";
 		echo "<input type=\"hidden\" name=\"return_desc\" value=\"Back\">\n";
-		echo "<input type=submit value=\"{$strGo}\"> <input type=reset>\n";
+		echo "<input type=submit value=\"{$strGo}\"> <input type=reset value=\"{$strReset}\">\n";
 		echo "</form>\n";
 
 	}
@@ -45,7 +45,7 @@
 	 */
 	function doDrop($confirm) {
 		global $PHP_SELF, $data, $localData;
-		global $strDrop, $strConfDropSchema, $strSchemaDropped, $strSchemaDroppedBad;
+		global $strDrop, $strConfDropSchema, $strSchemaDropped, $strSchemaDroppedBad, $strYes, $strNo;
 
 		if ($confirm) {
 			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
@@ -57,7 +57,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\">\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"Yes\"> <input type=\"submit\" name=\"choice\" value=\"No\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=\"submit\" name=\"choice\" value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -75,7 +75,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strName, $strOwner, $strCreateSchema, $strShowAllSchemas;
+		global $PHP_SELF, $strName, $strOwner, $strCreateSchema, $strShowAllSchemas, $strSave, $strReset;
 
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $_SESSION['webdbUsername'];
@@ -103,7 +103,7 @@
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
 		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-		echo "<input type=\"submit\" value=\"Save\"> <input type=\"reset\">\n";
+		echo "<input type=\"submit\" value=\"{$strSave}\"> <input type=\"reset\" value=\"{$strReset}\">\n";
 		echo "</p>\n";
 		echo "</form>\n";
 		
@@ -189,7 +189,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == "{$strYes}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

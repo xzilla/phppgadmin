@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.3 2003/02/20 23:17:05 slubek Exp $
 	 */
 
 	// Include application functions
@@ -15,7 +15,7 @@
 	function doTriggers($msg = '') {
 		global $data, $localData, $misc; 
 		global $PHP_SELF;
-		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName, $strPrivileges;
+		global $strTriggers, $strNoTriggers, $strCreateTrigger, $strActions, $strName, $strPrivileges, $strProperties, $strDrop, $strPrivileges;
 
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
@@ -32,11 +32,11 @@
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=triggerprops&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Properties</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=triggerprops&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strProperties}</td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Drop</td>\n"; 
+				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strDrop}</td>\n"; 
 				echo "<td class=\"data{$id}\">";
-				echo "<a href=\"$PHP_SELF?action=priviledges&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">Privileges</td></tr>\n"; 
+				echo "<a href=\"$PHP_SELF?action=priviledges&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "\">{$strPrivileges}</td></tr>\n"; 
 				
 				$triggers->movenext();
 				$i++;
@@ -93,9 +93,9 @@
 		
 		switch ($_REQUEST['stage']) {
 			case 1:
-				global $strField, $strType, $strNotNull, $strDefault, $strAlter;
+				global $strField, $strType, $strNotNull, $strDefault, $strAlter, $strReset, $strAlterColumn;
 
-				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: Alter Column: ",
+				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strAlterColumn}: ",
 					htmlspecialchars($_REQUEST['column']), "</h2>\n";
 				$misc->printMsg($msg);
 
@@ -128,32 +128,32 @@
 				echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 				echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
 				echo "<input type=hidden name=olddefault value=\"", htmlspecialchars($_REQUEST['olddefault']), "\">\n";
-				echo "<input type=submit value=\"{$strAlter}\"> <input type=reset>\n";
+				echo "<input type=submit value=\"{$strAlter}\"> <input type=reset value=\"{$strReset}\">\n";
 				echo "</form>\n";
 								
 				break;
 			case 2:
-				global $localData;
+				global $localData, $strFieldNeedsName, $strColumnAltered, $strColumnAlteredBad, $strInvalidScriptParam;
 
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
-					doProperties('You must name your field.');
+					doProperties($strFieldNeedsName);
 					return;
 				}
 				
 				$status = $localData->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
 								isset($_REQUEST['notnull']), $_REQUEST['default'], $_REQUEST['olddefault']);
 				if ($status == 0)
-					doDefault('Column altered.');
+					doDefault($strColumnAltered);
 				else {
 					$_REQUEST['stage'] = 1;
-					doProperties('Column altering failed.');
+					doProperties($strColumnAlteredBad);
 					return;
 				}
 				break;
 			default:
-				echo "<p>Invalid script parameter.</p>\n";
+				echo "<p>{$strInvalidScriptParam}</p>\n";
 		}
 					
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTables}</a></p>\n";
@@ -164,29 +164,30 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database, $misc;
-		global $PHP_SELF;
+		global $PHP_SELF, $strTables, $strDrop, $strConfDropColumn, $strYes, $strNo, $strColumnDropped, $strColumnDroppedBad;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ", 
-				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['column']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ", 
+				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['column']), ": {$strDrop}</h2>\n";
 
-			echo "<p>Are you sure you want to drop the column \"", htmlspecialchars($_REQUEST['column']),
-				"\" from table \"", htmlspecialchars($_REQUEST['table']), "\"?</p>\n";
+                        echo "<p>", sprintf($strConfDropColumn, htmlspecialchars($_REQUEST['column']),
+                                htmlspecialchars($_REQUEST['table'])), "</p>\n";
+								
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 			echo "<input type=hidden name=column value=\"", htmlspecialchars($_REQUEST['column']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropColumn($_POST['table'], $_POST['column'], 'RESTRICT');
 			if ($status == 0)
-				doDefault('Column dropped.');
+				doDefault($strColumnDropped);
 			else
-				doDefault('Column drop failed.');
+				doDefault($strColumnDroppedBad);
 		}
 		
 	}
@@ -253,7 +254,7 @@
 			doProperties();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == "{$strYes}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

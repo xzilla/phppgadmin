@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: types.php,v 1.3 2003/02/20 23:17:05 slubek Exp $
 	 */
 
 	// Include application functions
@@ -86,7 +86,7 @@
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strTypes, $strCreateType, $strShowAllTypes;
 		global $strInputFn, $strOutputFn, $strLength, $strDefault;
-		global $strElement, $strDelimiter, $strPassByVal, $strAlignment, $strStorage;
+		global $strElement, $strDelimiter, $strPassByVal, $strAlignment, $strStorage, $strSave, $strReset;
 
 		if (!isset($_POST['typname'])) $_POST['typname'] = '';
 		if (!isset($_POST['typin'])) $_POST['typin'] = '';
@@ -168,7 +168,7 @@
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllTypes}</a></p>\n";
@@ -254,7 +254,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == "{$strYes}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':

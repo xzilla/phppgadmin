@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.3 2003/02/09 10:22:38 chriskl Exp $
+	 * $Id: functions.php,v 1.4 2003/02/20 23:17:05 slubek Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 * Function to save after editing a function
 	 */
 	function doSaveEdit() {
-		global $localData;
+		global $localData, $strFunctionUpdated, $strFunctionUpdatedBad;
 		
 		$status = $localData->setFunction($_POST['original_function'], $_POST['original_arguments'] , $_POST['original_returns'] , $_POST['formDefinition'] , $_POST['original_lang'],0,true);
 		if ($status == 0)
-			doProperties('Function updated.');
+			doProperties($strFunctionUpdated);
 		else
-			doEdit('Function update failed.');
+			doEdit($strFunctionUpdatedBad);
 	}
 	
 	/**
@@ -32,8 +32,9 @@
 	function doEdit($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strFunction, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
+		global $strSave, $strReset, $strNoData, $strFunctions, $strEdit, $strProperties, $strShowAllFunctions;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Edit</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strEdit}</h2>\n";
 		$misc->printMsg($msg);
 
 		$fndata = &$localData->getFunction($_REQUEST['function_oid']);
@@ -74,14 +75,14 @@
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
 			echo "<input type=hidden name=function_oid value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit value=Save> <input type=reset>\n";
+			echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
 			echo "</form>\n";
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>{$strNoData}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a> |\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllFunctions}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Properties</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strProperties}</a></p>\n";
 	}
 
 	/**
@@ -90,8 +91,9 @@
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
+		global $strFunctions, $strProperties, $strNoData, $ShowAllFunctions, $strEdit;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Properties</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strProperties}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
@@ -110,11 +112,11 @@
 			echo "<tr><td class=data1 colspan=4>", nl2br(htmlspecialchars($funcdata->f[$data->fnFields['fndef']])), "</td></tr>\n";
 			echo "</table>\n";
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>{$strNoData}</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a> |\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllFunctions}</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&{$misc->href}&function=", 
-			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Edit</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">{$strEdit}</a></p>\n";
 	}
 	
 	/**
@@ -122,26 +124,25 @@
 	 */
 	function doDrop($confirm) {
 		global $localData, $database, $misc;
-		global $PHP_SELF;
+		global $PHP_SELF, $strFunctions, $strDrop, $strConfDropFunction, $strYes, $strNo, $strFunctionDropped, $strFunctionDroppedBad;
 
 		if ($confirm) { 
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Drop</h2>\n";
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: ", htmlspecialchars($_REQUEST['function']), ": {$strDrop}</h2>\n";
 			
-			echo "<p>Are you sure you want to drop the function \"", htmlspecialchars($_REQUEST['function']), "\"?</p>\n";
-			
+			echo "<p>", sprintf($strConfDropFunction, htmlspecialchars($_REQUEST['function'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $localData->dropFunction($_POST['function']);
 			if ($status == 0)
-				doDefault('Function dropped.');
+				doDefault($strFunctionDropped);
 			else
-				doDefault('Function drop failed.');
+				doDefault($strFunctionDroppedBad);
 		}
 		
 	}
@@ -152,6 +153,7 @@
 	function doCreate($msg = '') {
 		global $data, $localData, $misc;
 		global $PHP_SELF, $strName, $strArguments, $strReturns, $strDefinition, $strLanguage;
+		global $strFunctions, $strCreateFunction, $strSave, $strReset, $strShowAllFunctions;
 		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
@@ -162,7 +164,7 @@
 		$types = &$localData->getTypes(true);
 		$langs = &$localData->getLanguages();
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: Create Function</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}: {$strCreateFunction}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
@@ -199,10 +201,10 @@
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo $misc->form;
-		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\">\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">Show All Functions</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}\">{$strShowAllFunctions}</a></p>\n";
 	}
 	
 	/**
@@ -210,6 +212,7 @@
 	 */
 	function doSaveCreate() {
 		global $localData, $strFunctionNeedsName, $strFunctionNeedsDef;
+		global $strFunctionCreated, $strFunctionCreatedBad;
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($strFunctionNeedsName);
@@ -217,9 +220,9 @@
 		else {		 
 			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , $_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'],0);
 			if ($status == 0)
-				doDefault('Function created.');
+				doDefault($strFunctionCreated);
 			else
-				doCreate('Function creation failed.');
+				doCreate($strFunctionCreatedBad);
 		}
 	}	
 
@@ -231,7 +234,7 @@
 		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions;
 		global $strCreateFunction, $strProperties, $strEdit, $strDrop, $strPrivileges;
 		
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strFunctions}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$funcs = &$localData->getFunctions();
@@ -280,7 +283,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == "{$strYes}") doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
