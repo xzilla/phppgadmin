@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.14 2003/07/31 08:39:03 chriskl Exp $
+	 * $Id: topbar.php,v 1.15 2003/08/04 06:18:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,7 +14,7 @@
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="topbar">
 	<tr>
-		<td width="211" rowspan="2"><img src="images/themes/<?php echo $conf['theme'] ?>/title.gif" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" /></td>
+		<td width="211" rowspan="2"><img src="images/themes/<?php echo $conf['theme'] ?>/title.png" width="211" height="50" alt="<?php echo htmlspecialchars($appName) ?>" /></td>
 		<td class="topbar" width="5" rowspan="2">&nbsp;</td>
 		<td class="topbar">
 		<?php echo sprintf($lang['strtopbar'], htmlspecialchars($conf['description']),

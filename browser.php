@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.15 2003/08/04 05:47:02 chriskl Exp $
+	 * $Id: browser.php,v 1.16 2003/08/04 06:18:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -43,8 +43,8 @@
 			$table_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strtables']), 
 							'link' => addslashes(htmlspecialchars("tables.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/tables.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -57,8 +57,8 @@
 								'text' => addslashes($misc->printVal($tables->f[$data->tbFields['tbname']])), 
 								'link' => addslashes(htmlspecialchars("tblproperties.php?{$querystr}&table=" .
 									urlencode($tables->f[$data->tbFields['tbname']]))), 
-								'icon' => "../../../images/themes/{$conf['theme']}/tables.gif", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.gif",
+								'icon' => "../../../images/themes/{$conf['theme']}/tables.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/tables.png",
 								'expanded' => false,
 								'linkTarget' => 'detail'));
 
@@ -73,8 +73,8 @@
 			$view_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strviews']), 
 							'link' => addslashes(htmlspecialchars("views.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/views.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/views.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/views.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -86,8 +86,8 @@
 			$seq_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strsequences']), 
 							'link' => addslashes(htmlspecialchars("sequences.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/sequences.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/sequences.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/sequences.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/sequences.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -99,8 +99,8 @@
 			$func_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strfunctions']), 
 							'link' => addslashes(htmlspecialchars("functions.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/functions.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/functions.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/functions.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/functions.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -112,8 +112,8 @@
 			$dom_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strdomains']), 
 							'link' => addslashes(htmlspecialchars("domains.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/domains.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/domains.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/domains.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/domains.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -125,8 +125,8 @@
 			$type_node = &new HTML_TreeNode(array(
 							'text' => addslashes($lang['strtypes']), 
 							'link' => addslashes(htmlspecialchars("types.php?{$querystr}")), 
-							'icon' => "../../../images/themes/{$conf['theme']}/types.gif", 
-							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.gif",
+							'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+							'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
 							'expanded' => false,
 							'linkTarget' => 'detail'));
 
@@ -142,8 +142,8 @@
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
 								'link' => addslashes(htmlspecialchars('database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]))), 
-								'icon' => "../../../images/themes/{$conf['theme']}/database.gif", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.gif",
+								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
 								'linkTarget' => 'detail'));
 		
@@ -189,8 +189,8 @@
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
 								'link' => addslashes(htmlspecialchars("{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]))), 
-								'icon' => "../../../images/themes/{$conf['theme']}/database.gif", 
-								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.gif",
+								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => false,
 								'linkTarget' => '_self'));
 		
