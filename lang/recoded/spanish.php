@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.12 2003/05/28 01:32:03 chriskl Exp $
+	 * $Id: spanish.php,v 1.13 2003/06/07 14:32:34 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -17,6 +17,7 @@
 	$lang['strppahome'] = 'P&aacute;gina web de phpPgAdmin';
 	$lang['strpgsqlhome'] = 'P&aacute;gina web de PostgreSQL';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'Documentaci&oacute;n de PostgreSQL (local)';
 	$lang['strreportbug'] = 'Reportar problemas';
 	$lang['strviewfaq'] = 'Ver Preguntas Frecuentes';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
