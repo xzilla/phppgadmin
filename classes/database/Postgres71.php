@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.51 2004/01/03 19:15:44 soranzo Exp $
+ * $Id: Postgres71.php,v 1.52 2004/01/18 10:39:45 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -331,6 +331,37 @@ class Postgres71 extends Postgres {
 
 		return $this->selectSet($sql);
 	}	
+
+	// Aggregate functions
+	
+	/**
+	 * Gets all aggregates
+	 * @return A recordset
+	 */
+	function &getAggregates() {
+		global $conf;
+		
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "WHERE a.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql = "
+			SELECT
+				a.aggname AS proname,
+				CASE a.aggbasetype
+					WHEN 0 THEN NULL
+					ELSE format_type(a.aggbasetype, NULL)
+				END AS proargtypes
+			FROM 
+				pg_aggregate a
+			{$where}
+			ORDER BY
+				1, 2;
+		";
+
+		return $this->selectSet($sql);
+	}
 		
 	// Capabilities
 	function hasAlterTableOwner() { return true; }

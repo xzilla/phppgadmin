@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.175 2004/01/14 02:14:28 chriskl Exp $
+ * $Id: Postgres.php,v 1.176 2004/01/18 10:39:45 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3485,6 +3485,37 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
+	// Aggregate functions
+	
+	/**
+	 * Gets all aggregates
+	 * @return A recordset
+	 */
+	function &getAggregates() {
+		global $conf;
+		
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "WHERE a.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql = "
+			SELECT
+				a.aggname AS proname,
+				CASE a.aggbasetype
+					WHEN 0 THEN NULL
+					ELSE (SELECT typname FROM pg_type t WHERE t.oid=a.aggbasetype)
+				END AS proargtypes
+			FROM 
+				pg_aggregate a
+			{$where}
+			ORDER BY
+				1, 2;
+		";
+
+		return $this->selectSet($sql);
+	}
+	
 	// Type conversion routines
 
 	/**
