@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.9 2003/09/17 17:04:12 soranzo Exp $
+	 * $Id: french.php,v 1.10 2003/09/24 08:49:03 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -15,6 +15,13 @@
 
 	// Basic strings
 	$lang['strintro'] = 'Bienvenue sur phpPgAdmin.';
+	$lang['strppahome'] = 'Page d\'accueil phpPgAdmin';
+	$lang['strpgsqlhome'] = 'Page d\'accueil PostgreSQL';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strlocaldocs'] = 'PostgreSQL Documentation (local)';
+	$lang['strreportbug'] = 'Rapporter un Bug';
+	$lang['strviewfaq'] = 'Voir la FAQ';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	$lang['strlogin'] = 'Login';
 	$lang['strloginfailed'] = 'Echec de la connexion';
 	$lang['strserver'] = 'Serveur';
@@ -35,6 +42,8 @@
 	$lang['strprev'] = 'Précédent';
 	$lang['strnext'] = 'Suivant';
 	$lang['strfailed'] = 'Echec';
+        $lang['strfirst'] = '<< Début';
+        $lang['strlast'] = 'Fin >>';
 	$lang['strcreate'] = 'Créer';
 	$lang['strcreated'] = 'Créé';
 	$lang['strcomment'] = 'Commentaire';
@@ -53,9 +62,12 @@
 	$lang['stryes'] = 'Oui';
 	$lang['strno'] = 'Non';
 	$lang['stredit'] = 'Editer';
+	$lang['strtrue'] = 'TRUE';
+	$lang['strfalse'] = 'FALSE';
 	$lang['strcolumns'] = 'Colones';
 	$lang['strrows'] = 'ligne(s)';
 	$lang['strexample'] = 'Exple.';
+	$lang['strrowsaff'] = 'ligne(s) affectée(s).';
 	$lang['strback'] = 'Retour';
 	$lang['strqueryresults'] = 'Résultats de la requête';
 	$lang['strshow'] = 'Voir';
@@ -67,6 +79,7 @@
 	$lang['strprimary'] = 'Primaire';
 	$lang['strexport'] = 'Exporter';
 	$lang['strsql'] = 'SQL';
+	$lang['strimport'] = 'Import';
 	$lang['strgo'] = 'Go';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
@@ -81,6 +94,17 @@
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'Format';
   
+	$lang['strdata'] = 'Donnée';
+	$lang['strconfirm'] = 'Confirmer';
+	$lang['strexpression'] = 'Expression';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = 'Etendre';
+	$lang['strcollapse'] = 'Réduire';
+	$lang['strexplain'] = 'Explain';
+	$lang['strfind'] = 'Rechercher';
+	$lang['stroptions'] = 'Options';
+	$lang['strrefresh'] = 'Raffraichir';
+	$lang['strdownload'] = 'Télécharger';
 	// Error handling
 	$lang['strnoframes'] = 'Vous avez besoin d\'activer les frames de votre navigateur pour utiliser cette application.';
 	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsolète. Vous avez besoin de le regénerer à partir de config.inc.php-dist.';
@@ -92,13 +116,14 @@
 	$lang['strinvalidparam'] = 'Paramètres de script invalides.';
 	$lang['strnodata'] = 'Pas de Résultats.';
 
+	$lang['strrownotunique'] = 'Pas d\identifiant unique pour cette ligne.';
 	// Tables
 	$lang['strtable'] = 'Table';
 	$lang['strtables'] = 'Tables';
 	$lang['strshowalltables'] = 'Voir toutes les tables';
 	$lang['strnotables'] = 'Aucune table trouvée.';
 	$lang['strnotable'] = 'Aucune table trouvée.';
-	$lang['strcreatetable'] = 'Créer table';
+	$lang['strcreatetable'] = 'Créer une table';
 	$lang['strtablename'] = 'Nom de la table';
 	$lang['strtableneedsname'] = 'Vous devez donner un nom pour votre table.';
 	$lang['strtableneedsfield'] = 'Vous devez spécifier au moins un champ.';
@@ -127,6 +152,7 @@
 	$lang['strnumfields'] = 'Nombre de Champs';
 	$lang['strfieldneedsname'] = 'Vous devez choisir un nom pour le champ.';
 	$lang['strselectneedscol'] = 'Vous devez montrer au moins une colonne';
+	$lang['strselectallfields'] = 'Sélectionner tous les champs';
 	$lang['straltercolumn'] = 'Modifier colonne';
 	$lang['strcolumnaltered'] = 'Colonne modifiée.';
 	$lang['strcolumnalteredbad'] = 'Echec de modification de la colonne.';
@@ -140,6 +166,9 @@
 	$lang['strschemaonly'] = 'Schema seul';
 	$lang['strdataonly'] = 'Données seules';
 
+	$lang['strcascade'] = 'CASCADE';
+	$lang['strtablealtered'] = 'Table modifiée.';
+	$lang['strtablealteredbad'] = 'Echec à la modification de la table.';
 	// Users
 	$lang['struser'] = 'Utilisateur';
 	$lang['strusers'] = 'Utilisateurs';
@@ -149,7 +178,7 @@
 	$lang['strcreatedb'] = 'Créer base de données?';
 	$lang['strexpires'] = 'Expiration';
 	$lang['strnousers'] = 'Aucun utilisateur trouvé.';
-  $lang['struserupdated'] = 'Utilisateur mis à jour.';
+	$lang['struserupdated'] = 'Utilisateur mis à jour.';
 	$lang['struserupdatedbad'] = 'Echec de mise à jour de l\'utilisateur.';
 	$lang['strshowallusers'] = 'Voir tous les utilisateurs';
 	$lang['strcreateuser'] = 'Créer un utilisateur';
@@ -159,6 +188,12 @@
 	$lang['struserdropped'] = 'Utilisateur supprimé.';
 	$lang['struserdroppedbad'] = 'Echec de suppression de l\'utilisateur.';
 		
+	$lang['straccount'] = 'Comptes';
+        $lang['strchangepassword'] = 'Modifier le mot de passe';
+	$lang['strpasswordchanged'] = 'Mot de passe modifié.';
+	$lang['strpasswordchangedbad'] = 'Echec à la modification du mot de passe.';
+	$lang['strpasswordshort'] = 'Le mot de passe est trop court.';
+	$lang['strpasswordconfirm'] = 'Le mot de passe de confirmation est différent.';
 	// Groups
 	$lang['strgroup'] = 'Groupe';
 	$lang['strgroups'] = 'Groupes';
@@ -174,15 +209,26 @@
 	$lang['strgroupdroppedbad'] = 'Echec de suppression du groupe.';
 	$lang['strmembers'] = 'Membres';
 
+	$lang['straddmember'] = 'Ajouter un membre';
+	$lang['strmemberadded'] = 'Membre ajouté.';
+	$lang['strmemberaddedbad'] = 'Echec pendant l\'ajout de membre.';
+	$lang['strdropmember'] = 'Supprimer un membre';
+	$lang['strconfdropmember'] = 'Etes-vous sur de vouloir supprimer le membre "%s" pour le groupe "%s"?';
+	$lang['strmemberdropped'] = 'Membre supprimé.';
+	$lang['strmemberdroppedbad'] = 'Echec à la suppression de membre.';
 	// Privilges
 	$lang['strprivilege'] = 'Privilège';
 	$lang['strprivileges'] = 'Privilèges';
-	$lang['strnoprivileges'] = 'Cet object n\'a pas de privilèges.';
+	$lang['strnoprivileges'] = 'Cet objet n\'a pas de privilèges.';
 	$lang['strgrant'] = 'Accorder(Grant)';
 	$lang['strrevoke'] = 'Révoquer';
 	$lang['strgranted'] = 'Privilèges accordés.';
 	$lang['strgrantfailed'] = 'Echec de l\'octroi de privilèges.';
 
+	$lang['strgrantbad'] = 'Vous devez spécifier au moins un utilisateur ou groupe et au moins un privilège.';
+	$lang['stralterprivs'] = 'Alter Privileges';
+	$lang['strgrantor'] = 'Grantor';
+	$lang['strasterisk'] = '*';
 	// Databases
 	$lang['strdatabase'] = 'Base de Données';
 	$lang['strdatabases'] = 'Bases de Données';
@@ -199,6 +245,7 @@
 	$lang['strdatabasedroppedbad'] = 'Echec de suppression de la base de données.';
 	$lang['strentersql'] = 'Veuillez saisir ci-dessous la requête SQL à exécuter :';
 	$lang['strvacuumgood'] = 'Vacuum effectué.';
+	$lang['strsqlexecuted'] = 'Reguete SQL exécutée.';
 	$lang['strvacuumbad'] = 'Echec du Vacuum.';
 	$lang['stranalyzegood'] = 'Analyse effectuée.';
 	$lang['stranalyzebad'] = 'Echec de l\'analyse.';
@@ -244,6 +291,8 @@
 	$lang['strsequencedropped'] = 'Séquence supprimée.';
 	$lang['strsequencedroppedbad'] = 'Echec de suppression de la séquence.';
 
+	$lang['strsequencereset'] = 'Sequence initialisée.';
+	$lang['strsequenceresetbad'] = 'Echec de l\'initialisation de la séquence.';
 	// Indexes
 	$lang['strindexes'] = 'Index';
 	$lang['strindexname'] = 'Nom de l\'index';
@@ -297,6 +346,23 @@
 	$lang['straddcheck'] = 'Ajouter une Contrainte';
 	$lang['strcheckneedsdefinition'] = 'La Contrainte a besoin d\'une définition.';
 	$lang['strcheckadded'] = 'Contrainte ajoutée.';
+	$lang['straddpk'] = 'Ajouter un clé primaire';
+	$lang['strpkneedscols'] = 'La clé primaire nécessite au moins une colonne.';
+	$lang['strpkadded'] = 'Primary key added.';
+	$lang['strpkaddedbad'] = 'Echec lors de l\'ajout de la clé primaire.';
+	$lang['stradduniq'] = 'Ajouter une clé Unique';
+	$lang['struniqneedscols'] = 'Une Clé Unique nécessite au moins une colonne.';
+	$lang['struniqadded'] = 'La Clé unique a été rajoutée.';
+	$lang['struniqaddedbad'] = 'Echec lors de la création de la clé Unique.';
+	$lang['straddfk'] = 'Ajouter une clé Etrangère';
+	$lang['strfkneedscols'] = 'Une Clé Etrangère nécessite au moins une colonne.';
+	$lang['strfkneedstarget'] = 'Une clé Etrangère nécessite une table Cible.';
+	$lang['strfkadded'] = 'La Clé Etrangère a été rajoutée.';
+	$lang['strfkaddedbad'] = 'Echec lors de la création de la clé Etrangère.';
+	$lang['strfktarget'] = 'Table Cible';
+	$lang['strfkcolumnlist'] = 'Liste des Colonnes de la clé';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';
 	$lang['strcheckaddedbad'] = 'Echec de la création de la contrainte.';
 
 	// Functions
@@ -333,6 +399,8 @@
 	$lang['strtriggercreatedbad'] = 'Echec de création du trigger.';
 	$lang['strconfdroptrigger'] = 'Etes-vous sûr de vouloir supprimer le trigger "%s" sur "%s"?';
 	$lang['strtriggerdropped'] = 'Trigger supprimé.';
+	$lang['strtriggeraltered'] = 'Trigger modifié.';
+	$lang['strtriggeralteredbad'] = 'Echec lors de la modification du Trigger.';
 	$lang['strtriggerdroppedbad'] = 'Echec de suppression du trigger.';
 
 	// Types
@@ -387,8 +455,42 @@
 	$lang['strreportcreated'] = 'Rapport sauvegardé.';
 	$lang['strreportcreatedbad'] = 'Echec de sauvegarde du rapport.';
 
+        // Domains
+	$lang['strdomain'] = 'Domaine';
+	$lang['strdomains'] = 'Domaines';
+	$lang['strshowalldomains'] = 'Voir tous les domaines';
+	$lang['strnodomains'] = 'Pas de domaine trouvé.';
+	$lang['strcreatedomain'] = 'Créer un domaine';
+	$lang['strdomaindropped'] = 'Domaine supprimé.';
+	$lang['strdomaindroppedbad'] = 'Echec de la suppression.';
+	$lang['strconfdropdomain'] = 'Etes vous sur de vouloir supprimer le domaine "%s"?';
+	$lang['strdomainneedsname'] = 'Vous devez donner un nom pour votre domaine.';
+	$lang['strdomaincreated'] = 'Domaine créé.';
+	$lang['strdomaincreatedbad'] = 'Echec à la création du domaine.';	
+	$lang['strdomainaltered'] = 'Domaine modifié.';
+	$lang['strdomainalteredbad'] = 'Echec à la modification du domaine.';	
+
+	// Operators
+	$lang['stroperator'] = 'Operateur';
+	$lang['stroperators'] = 'Operateurs';
+	$lang['strshowalloperators'] = 'Voir tous les opérateurs';
+	$lang['strnooperator'] = 'Pas d\'opérateur trouvé.';
+	$lang['strnooperators'] = 'Pas d\'opérateur trouvé.';
+	$lang['strcreateoperator'] = 'Créer un opérateur';
+	$lang['stroperatorname'] = 'Nom de l\'opérateur';
+	$lang['strleftarg'] = 'Type de l\'argument de gauche';
+	$lang['strrightarg'] = 'Type de l\'argument de droite';
+	$lang['stroperatorneedsname'] = 'Vous devez donner un nom pour votre opérateur.';
+	$lang['stroperatorcreated'] = 'Opérateur créé';
+	$lang['stroperatorcreatedbad'] = 'Echec à la création de l\'opérateur.';
+	$lang['strconfdropoperator'] = 'Etes-vous sur de vouloir supprimer l\'opérateur "%s"?';
+	$lang['stroperatordropped'] = 'Opérateur supprimé.';
+	$lang['stroperatordroppedbad'] = 'Echec à la suppression de l\'opérateur.';
+
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s Lancé sur %s:%s -- Vous êtes connecté sous le nom "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
+	$lang['strhelp'] = 'Aide';
 
 ?>

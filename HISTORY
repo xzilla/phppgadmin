@@ -1,8 +1,8 @@
 phpPgAdmin History
 ------------------
 
-Version 3.1 (19-Sep-2003)
--------------------------
+Version 3.1
+-----------
 
 Bug Fixes:
 * Table browsing for 7.4 fixed
@@ -17,6 +17,7 @@ Translations:
 * Spanish
 * Swedish
 * Turkish
+* French
 
 Version 3.1-rc-1
 ----------------
