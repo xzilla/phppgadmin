@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.28 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: english.php,v 1.29 2003/01/04 07:56:23 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -179,5 +179,16 @@
 	$strTypeNeedsLen = 'You must give a length for your type.';
 
 	// Schemas
+	$strSchema = 'Schema';
+	$strSchemas = 'Schemas';
 	$strCreateSchema = 'Create Schema';
+	$strNoSchemas = 'No schemas found.';
+	$strConfDropSchema = 'Are you sure you want to drop the schema "%s"?';
+	$strSchemaDropped = 'Schema dropped.';
+	$strSchemaDroppedBad = 'Schema drop failed.';
+	$strSchemaCreated = 'Schema created';
+	$strSchemaCreatedBad = 'Schema creation failed.';
+	$strShowAllSchemas = 'Show All Schemas';
+	$strSchemaNeedsName = 'You must give a name for your schema.';
+
 ?>

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.10 2002/12/27 16:28:01 chriskl Exp $
+ * $Id: Postgres73.php,v 1.11 2003/01/04 07:56:23 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -74,9 +74,13 @@ class Postgres73 extends Postgres72 {
 	function &getSchemas() {
 		if (!$this->_showSystem) $and = "AND nspname NOT LIKE 'pg_%'";
 		else $and = '';
-		$sql = "SELECT nspname, nspowner FROM pg_namespace WHERE nspname = 'public'
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner FROM pg_namespace pn, pg_user pu
+			WHERE pn.nspowner = pu.usesysid
+			AND nspname = 'public'
 			UNION ALL
-			SELECT nspname, nspowner FROM pg_namespace WHERE nspname != 'public' {$and}ORDER BY nspname";
+			SELECT pn.nspname, pu.usename AS nspowner FROM pg_namespace pn, pg_user pu
+			WHERE pn.nspowner = pu.usesysid
+			AND nspname != 'public' {$and}ORDER BY nspname";
 
 		return $this->selectSet($sql);
 	}
@@ -100,8 +104,8 @@ class Postgres73 extends Postgres72 {
 	 * @return 0 success
 	 */
 	function createSchema($schemaname, $authorization = '') {
-		$this->clean($schemaname);
-		$this->clean($authorization);
+		$this->fieldClean($schemaname);
+		$this->fieldClean($authorization);
 
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
@@ -115,7 +119,7 @@ class Postgres73 extends Postgres72 {
 	 * @return 0 success
 	 */
 	function dropSchema($schemaname) {
-		$this->clean($schemaname);
+		$this->fieldClean($schemaname);
 		
 		$sql = "DROP SCHEMA \"{$schemaname}\"";
 		
