@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.8 2003/08/03 03:14:13 chriskl Exp $
+	 * $Id: tblexport.php,v 1.9 2003/08/18 07:21:45 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -64,20 +64,34 @@
 		echo "\\.\n";
 	}
 	elseif ($_REQUEST['format'] == 'xml') {
-		echo "<xml>\n";
+		echo "<?xml version=\"1.0\" ?>\n";
+		echo "<records>\n";
+		if (!$rs->EOF) {
+			// Output header row
+			$j = 0;
+			echo "\t<header>\n";
+			foreach ($rs->f as $k => $v) {
+				$finfo = $rs->fetchField($j++);
+				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
+				$k = htmlspecialchars($k);
+				$type = htmlspecialchars($finfo->type);
+				echo "\t\t<column name=\"{$k}\" type=\"{$type}\" />\n";
+			}
+			echo "\t</header>\n";
+		}
 		while (!$rs->EOF) {
 			echo "\t<row>\n";
-			while(list($k, $v) = each($rs->f)) {
+			foreach ($rs->f as $k => $v) {
 				if ($k == $localData->id && !isset($_REQUEST['oids'])) continue;
 
 				$k = htmlspecialchars($k);
-				$v = htmlspecialchars($v);
-				echo "\t\t<{$k}", ($v == null ? ' null="true"' : ''), ">{$v}</{$k}>\n";
+				if ($v != null) $v = htmlspecialchars($v);
+				echo "\t\t<column name=\"{$k}\"", ($v == null ? ' null="yes"' : ''), ">{$v}</column>\n";
 			}
 			echo "\t</row>\n";
 			$rs->moveNext();
 		}
-		echo "</xml>\n";
+		echo "</records>\n";
 	}
 	elseif ($_REQUEST['format'] == 'sql') {
 		$data->fieldClean($_REQUEST['table']);

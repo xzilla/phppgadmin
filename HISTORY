@@ -27,6 +27,8 @@ Features:
 * When browsing data, numeric types are aligned right
 * Ability to create unique and partial indexes
 * View and edit table comments
+* Changed XML format significantly.  Now doesn't use field names as
+  tag names, outputs column type information, and is in correct XML format!
 
 Bug Fixes:
 * Lots of NULL value in table dump fixes (XML format changed slightly)
