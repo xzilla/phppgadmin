@@ -20,7 +20,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.37 2004/08/17 03:31:20 xzilla Exp $
+# $Id: Makefile,v 1.38 2004/08/17 04:36:44 chriskl Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -42,7 +42,7 @@ TARGETS=polish \
 	afrikaans \
 	arabic \
 	mongol \
-	ukranian \
+	ukrainian \
 	hungarian
 
 all:	prepare ${TARGETS}
@@ -178,7 +178,7 @@ mongol:		mongol.php
 
 ukrainian:	ukrainian.php
 	@echo "Recoding ukrainian..."
-	@cat ukrainian.php | recode koi8..html | ./convert.awk \
+	@cat ukrainian.php | recode koi8-r..html | ./convert.awk \
 		> ${DESTDIR}/ukrainian.php
 	@chmod 644 ukrainian.php ${DESTDIR}/ukrainian.php
 
