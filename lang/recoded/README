@@ -1,17 +1,24 @@
 Translators
 -----------
 
+Please read the TRANSLATORS file in the top directory.
+
 This directory contains the HTML Unicode recodings of the source
 language files.  These are the actual files used by phpPgAdmin
 when displaying strings.
 
 Instructions on recoding:
 
-UTF-8:  recode u8..html chinese.php
-LATIN1: record latin1..html english.php
+cd lang
+make <language>  (eg. 'french')
 
-etc. 
+Running make with no arguments will recode all language files:
 
-After recoding, you will need to fix the <?php and ?> tags at the
-top and bottom of the file.
+cd lang
+make
+
+To check your translation:
+
+cd lang
+php langcheck <language> (eg. 'french');
 

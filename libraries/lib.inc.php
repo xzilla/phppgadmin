@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.22 2003/03/18 03:28:27 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.23 2003/03/27 10:56:27 chriskl Exp $
 	 */
 
 	// Application name 
@@ -35,6 +35,7 @@
 		'chinese-sim-utf8' => '&#31616;&#20307;&#20013;&#25991;&#65288;&#32479;&#19968;&#30721;&#65289;',
 		'dutch' => 'Nederlands',
 		'english' => 'English',
+		'french' => 'Fran&ccedil;ais',
 		'german' => 'Deutsch',
 		'italian' => 'Italiano',
 		'polish' => 'Polish',

@@ -27,7 +27,7 @@ Users
 Groups
 ------
 
-* Group properties / membership
+* -Group properties / membership
 * Alter group
 * -Allow selecting of members when creating group (chriskl)
 
@@ -90,8 +90,8 @@ Sequences
 
 * -Create Sequences (Shannon Peevey, chriskl)
 
-Indicies 
---------
+Indexes 
+-------
 
 * -Drop Index (chriskl - bug in message?)
 * -Create index needs more options, eg. hash or btree (felix)

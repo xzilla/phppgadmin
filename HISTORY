@@ -1,6 +1,13 @@
 phpPgAdmin History
 ------------------
 
+Version 3.0.0-dev-3
+-------------------
+
+* French translation
+* Trigger definitions
+* ADODB upgrade
+
 Version 3.0.0-dev-2
 -------------------
 
