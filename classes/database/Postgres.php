@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.75 2003/04/18 08:34:41 chriskl Exp $
+ * $Id: Postgres.php,v 1.76 2003/04/20 09:53:52 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -140,6 +140,7 @@ class Postgres extends BaseDB {
 	 * @return The cleaned string
 	 */
 	function clean(&$str) {
+		if ($str === null) return null;
 		if (function_exists('pg_escape_string'))
 			$str = pg_escape_string($str);
 		else
@@ -153,6 +154,7 @@ class Postgres extends BaseDB {
 	 * @return The cleaned string
 	 */
 	function fieldClean(&$str) {
+		if ($str === null) return null;
 		$str = str_replace('"', '""', $str);
 		return $str;
 	}
@@ -164,6 +166,7 @@ class Postgres extends BaseDB {
 	 */
 	function arrayClean(&$arr) {
 		foreach ($arr as $k => $v) {
+			if ($v === null) continue;
 			if (function_exists('pg_escape_string'))
 				$arr[$k] = pg_escape_string($v);
 			else
@@ -179,6 +182,7 @@ class Postgres extends BaseDB {
 	 */
 	function fieldArrayClean(&$arr) {
 		foreach ($arr as $k => $v) {
+			if ($v === null) continue;
 			$arr[$k] = str_replace('"', '""', $v);
 		}
 		return $arr;
