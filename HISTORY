@@ -10,6 +10,7 @@ Features
 * Allow variable size textarea when editing values (Juergen Weigert)
 * Allow SQL script upload to parse arbitrary SQL, including multiline
   SQL statements
+* Add support for PostgreSQL 8.1devel
   
 Bugs
 * Tree Icons are displayed middle instead of top
