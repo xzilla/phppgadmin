@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.12 2003/05/28 06:06:07 chriskl Exp $
+	 * $Id: browser.php,v 1.13 2003/06/22 09:43:21 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -153,7 +153,7 @@
 															|| $schemas->recordCount() == 1),
 									'linkTarget' => 'detail'));
 
-					addNodes(&$schemanode, $querystr);
+					addNodes($schemanode, $querystr);
 
 					// Add schema to database
 					$db_node->addItem($schemanode);
@@ -166,7 +166,7 @@
 				// Construct database query string
 				$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]);
 				
-				addNodes(&$db_node, $querystr);
+				addNodes($db_node, $querystr);
 			}
 
 			// Add node to menu

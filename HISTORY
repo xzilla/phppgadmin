@@ -9,6 +9,8 @@ Version 3.0-rc-2
 * Added 'defaultdb' per-connection variable
   for installations where connection to template1
   is disabled.
+* Removed uses of call time pass by reference,
+  since it is a deprecated feature of PHP. 
 
 Version 3.0-rc-1
 ----------------
