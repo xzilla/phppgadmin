@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.106 2004/05/16 15:40:20 chriskl Exp $
+ * $Id: Postgres73.php,v 1.107 2004/05/16 15:42:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1325,7 +1325,6 @@ class Postgres73 extends Postgres72 {
 	 * @param $term The search term
 	 * @return A recordset
 	 */
-	 /*
 	function findObject($term) {
 		global $conf;
 
@@ -1443,7 +1442,7 @@ class Postgres73 extends Postgres72 {
 			
 		return $this->selectSet($sql);
 	}	
-*/
+
 	// Operator functions
 	
 	/**
