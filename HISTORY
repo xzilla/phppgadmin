@@ -1,4 +1,22 @@
-WEBDB HISTORY
+phpPgAdmin History
+------------------
+
+Version 3.0.0-dev-2
+-------------------
+
+* Language files now use an array of strings
+* Almost complete Chinese translation
+* Create sequence
+* Create trigger
+* Create index
+* Add check constraint
+* Lots of small fixes
+
+Version 3.0.0-dev-1
+-------------------
+
+* Renamed to phpPgAdmin from WebDB
+* Heaps of other stuff
 
 Version 0.6 - 24-Dec-2002
 -------------------------
