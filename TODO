@@ -29,7 +29,7 @@ Groups
 
 * Group properties / membership
 * Alter group
-* Allow selecting of members when creating group
+* -Allow selecting of members when creating group (chriskl)
 
 Permissions [ Robert ]
 -----------

@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.1 2003/01/07 05:49:38 chriskl Exp $
+	 * $Id: groups.php,v 1.2 2003/01/07 08:56:06 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -122,10 +122,14 @@
 	 * Displays a screen where they can enter a new group
 	 */
 	function doCreate($msg = '') {
-		global $data, $misc, $formName;
-		global $PHP_SELF, $strName, $strGroups, $strCreateGroup, $strShowAllGroups;
+		global $data, $misc;
+		global $PHP_SELF, $strName, $strGroups, $strCreateGroup, $strShowAllGroups, $strMembers, $strNoUsers;
 		
-		if (!isset($formName)) $formName = '';
+		if (!isset($_POST['formName'])) $_POST['formName'] = '';
+		if (!isset($_POST['formMembers'])) $_POST['formMembers'] = array();
+
+		// Fetch a list of all users in the cluster
+		$users = &$data->getUsers();
 		
 		echo "<h2>{$strGroups}: {$strCreateGroup}</h2>\n";
 		$misc->printMsg($msg);
@@ -133,7 +137,18 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$strName}</th>\n";
-		echo "<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"formName\" value=\"", htmlspecialchars($formName), "\" /></td></tr>\n";
+		echo "<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"formName\" value=\"", htmlspecialchars($_POST['formName']), "\" /></td></tr>\n";
+		if ($users->recordCount() > 0) {
+			echo "<tr><th class=\"data\">{$strMembers}</th>\n";
+			echo "<td class=\"data\">\n";
+			while (!$users->EOF) {
+				$username = $users->f[$data->uFields['uname']];
+				echo "<input type=\"checkbox\" name=\"formMembers[", htmlspecialchars($username), "]\"", 
+					(isset($_POST['formMembers'][$username]) ? ' checked' : ''), ">", htmlspecialchars($username), "<br>\n";
+				$users->moveNext();
+			}		
+			echo "</td></tr>\n";
+		}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" /></p>\n";
@@ -149,11 +164,13 @@
 		global $data;
 		global $strGroupNeedsName, $strGroupCreated, $strGroupCreatedBad;
 		
+		if (!isset($_POST['formMembers'])) $_POST['formMembers'] = array();
+
 		// Check form vars
 		if (trim($_POST['formName']) == '')
 			doCreate($strGroupNeedsName);
 		else {		
-			$status = $data->createGroup($_POST['formName']);
+			$status = $data->createGroup($_POST['formName'], array_keys($_POST['formMembers']));
 			if ($status == 0)
 				doDefault($strGroupCreated);
 			else

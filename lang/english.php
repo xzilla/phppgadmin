@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.31 2003/01/07 05:50:06 chriskl Exp $
+	 * $Id: english.php,v 1.32 2003/01/07 08:56:05 chriskl Exp $
 	 */
 
 	$appLang = 'English';
@@ -95,6 +95,7 @@
 	$strConfDropGroup = 'Are you sure you want to drop the group "%s"?';	
 	$strGroupDropped = 'Group dropped.';
 	$strGroupDroppedBad = 'Group drop failed.';
+	$strMembers = 'Members';
 
 	// Privilges
 	$strPrivileges = 'Privileges';
