@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.58 2003/09/08 04:37:16 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.59 2003/09/10 01:55:52 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -72,8 +72,10 @@
 	$misc = new Misc();
 
 	// Start session (if not auto-started)
-	session_name('PPA_ID'); 
-	session_start();
+	if (!ini_get('session.auto_start')) {
+		session_name('PPA_ID'); 
+		session_start();
+	}
 
 	// Do basic PHP configuration checks
 	if (ini_get('magic_quotes_gpc')) {
@@ -91,7 +93,7 @@
 	ini_set('magic_quotes_gpc', 0);
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
-	ini_set('session.use_cookies', 1);
+	ini_set('arg_separator.output', '&amp;');
 	
 	// If login action is set, then set login variables
 	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 

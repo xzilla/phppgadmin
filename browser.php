@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.17 2003/08/26 05:59:49 chriskl Exp $
+	 * $Id: browser.php,v 1.18 2003/09/10 01:55:52 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -22,7 +22,7 @@
 	$menu  = new HTML_TreeMenu(null, array('usePersistence' => false));
 	$root = new HTML_TreeNode(array(
 						'text' => addslashes($misc->printVal(($conf['servers'][$_SESSION['webdbServerID']]['desc']))), 
-						'link' => 'all_db.php', 
+						'link' => 'all_db.php?' . SID, 
 						'icon' => 'folder.gif', 
 						'expandedIcon' => 'folder-expanded.gif',
 						'expanded' => true,
@@ -37,6 +37,9 @@
 	 */	
 	function addNodes(&$schemanode, $querystr) {
 		global $data, $localData, $misc, $lang, $conf;
+		
+		// Session tracking
+		$querystr .= '&' . SID;
 		
 		// Tables
 		if ($data->hasTables()) {
@@ -154,7 +157,7 @@
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => addslashes(htmlspecialchars('database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]))), 
+								'link' => addslashes(htmlspecialchars('database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID)), 
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
@@ -170,7 +173,7 @@
 							urlencode($schemas->f[$data->nspFields['nspname']]);
 					$schemanode = &new HTML_TreeNode(array(
 									'text' => addslashes($misc->printVal($schemas->f[$data->nspFields['nspname']])), 
-									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
+									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
 									// Auto-expand your personal schema, if it exists.  Also expand schema if there is
@@ -190,7 +193,7 @@
 			// Database doesn't support schemas
 			else {
 				// Construct database query string
-				$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]);
+				$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
 				
 				addNodes($db_node, $querystr);
 			}
@@ -201,7 +204,7 @@
 		} else {
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => addslashes(htmlspecialchars("{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]))), 
+								'link' => addslashes(htmlspecialchars("{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID)), 
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => false,
