@@ -3,7 +3,7 @@
 	/**
 	 * Main object browser
 	 *
-	 * $Id: browser.php,v 1.9 2002/10/07 21:59:38 xzilla Exp $
+	 * $Id: browser.php,v 1.10 2002/10/15 20:39:40 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 	// Construct expanding tree
    $tree = new Tree ('class.tree');
    $tree->set_frame ('detail');
-   $root  = $tree->open_tree (htmlspecialchars($confServers[$_COOKIE['webdbServerID']]['desc']), '');
+   $root  = $tree->open_tree ('<a href=\"all_db.php\" target=\"detail\">'. htmlspecialchars($confServers[$_COOKIE['webdbServerID']]['desc']) .'</a>', '');
 
 	$databases = &$data->getDatabases();
 	while (!$databases->EOF) {
