@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.41 2003/01/16 14:45:30 chriskl Exp $
+	 * $Id: english.php,v 1.42 2003/01/16 15:04:28 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -193,9 +193,16 @@
 	$strTableNeedsName = 'You must give a name for your table.';
 	$strTableNeedsCols = 'You must give a valid number of columns.';
 	$strExport = 'Export';
-	$strConstraints = 'Constraints';
 	$strColumns = 'Columns';
-	
+
+	// Constraints
+	$strConstraints = 'Constraints';
+	$strNoConstraints = 'No constraints found.';
+	$strCreateConstraint = 'Create Constraint';
+	$strConfDropConstraint = 'Are you sure you want to drop the constraint "%s" on "%s"?';
+	$strConstraintDropped = 'Constraint dropped.';
+	$strConstraintDroppedBad = 'Constraint drop failed.';
+
 	// Functions
 	$strNoFunctions = 'No functions found.';
 	$strFunction = 'Function';
