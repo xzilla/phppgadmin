@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.13 2004/11/26 09:32:51 soranzo Exp $
+	 * $Id: intro.php,v 1.14 2005/01/17 10:09:43 jollytoad Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -19,6 +19,7 @@
 <p><?php echo $lang['strintro'] ?></p>
 
 <ul>
+<li><b><a href="all_db.php"><?php echo $lang['strdatabases'] ?></a></b></li>
 <li><b><a href="http://phppgadmin.sourceforge.net/" target="_top"><?php echo $lang['strppahome'] ?></a></b></li>
 <li><b><a href="<?php echo $lang['strpgsqlhome_url'] ?>" target="_top"><?php echo $lang['strpgsqlhome'] ?></a></b></li>
 <?php
