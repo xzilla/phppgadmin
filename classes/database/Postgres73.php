@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.39 2003/05/01 03:27:54 chriskl Exp $
+ * $Id: Postgres73.php,v 1.40 2003/05/05 14:55:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -371,6 +371,19 @@ class Postgres73 extends Postgres72 {
 			WHERE schemaname='{$this->_schema}' ORDER BY viewname";
 
 		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Updates a view.
+	 * @param $viewname The name fo the view to update
+	 * @param $definition The new definition for the view
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 drop view error
+	 * @return -3 create view error
+	 */
+	function setView($viewname, $definition) {
+		return $this->createView($viewname, $definition, true);
 	}
 
 	// Sequence functions

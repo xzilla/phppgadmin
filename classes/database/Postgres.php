@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.90 2003/05/05 14:45:18 chriskl Exp $
+ * $Id: Postgres.php,v 1.91 2003/05/05 14:55:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1366,13 +1366,16 @@ class Postgres extends BaseDB {
 	 * Creates a new view.
 	 * @param $viewname The name of the view to create
 	 * @param $definition The definition for the new view
+	 * @param $replace True to replace the view, false otherwise
 	 * @return 0 success
 	 */
-	function createView($viewname, $definition) {
+	function createView($viewname, $definition, $replace) {
 		$this->fieldClean($viewname);
 		// Note: $definition not cleaned
 		
-		$sql = "CREATE VIEW \"{$viewname}\" AS {$definition}";
+		$sql = "CREATE ";
+		if ($replace) $sql .= "OR REPLACE ";		
+		$sql .= "VIEW \"{$viewname}\" AS {$definition}";
 		
 		return $this->execute($sql);
 	}
@@ -1412,7 +1415,7 @@ class Postgres extends BaseDB {
 			return -2;
 		}
 		
-		$status = $this->createView($viewname, $definition);
+		$status = $this->createView($viewname, $definition, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;
