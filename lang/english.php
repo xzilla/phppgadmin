@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.158 2004/07/23 07:28:24 chriskl Exp $
+	 * $Id: english.php,v 1.159 2004/08/03 09:20:16 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -461,6 +461,9 @@
 	$lang['strnotype'] = 'No type found.';
 	$lang['strnotypes'] = 'No types found.';
 	$lang['strcreatetype'] = 'Create type';
+	$lang['strcreatecomptype'] = 'Create composite type';
+	$lang['strtypeneedsfield'] = 'You must specify at least one field.';
+	$lang['strtypeneedscols'] = 'Composite types require a valid number of columns.';	
 	$lang['strtypename'] = 'Type name';
 	$lang['strinputfn'] = 'Input function';
 	$lang['stroutputfn'] = 'Output function';

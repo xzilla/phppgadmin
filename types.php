@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.21 2004/07/22 13:39:11 jollytoad Exp $
+	 * $Id: types.php,v 1.22 2004/08/03 09:20:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,7 +50,7 @@
 					'comment' => array(
 						'title' => $lang['strcomment'],
 						'field' => 'comment',
-					),
+					)
 				);
 				
 				$actions = array();
@@ -114,6 +114,153 @@
 				doDefault($lang['strtypedroppedbad']);
 		}
 		
+	}
+
+	/**
+	 * Displays a screen where they can enter a new composite type
+	 */
+	function doCreateComposite($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
+		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
+		if (!isset($_REQUEST['typcomment'])) $_REQUEST['typcomment'] = '';
+
+		switch ($_REQUEST['stage']) {
+			case 1:
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes'], $lang['strcreatecomptype']), 'create_type');
+				$misc->printMsg($msg);
+				
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<table>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+					htmlspecialchars($_REQUEST['name']), "\" /></td>\n\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnumfields']}</th>\n";
+				echo "\t\t<td class=\"data\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
+
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "\t\t<td><textarea name=\"typcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+					htmlspecialchars($_REQUEST['typcomment']), "</textarea></td>\n\t</tr>\n";
+
+				echo "</table>\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"create_comp\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo $misc->form;
+				echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				global $lang;
+
+				// Check inputs
+				$fields = trim($_REQUEST['fields']);
+				if (trim($_REQUEST['name']) == '') {
+					$_REQUEST['stage'] = 1;
+					doCreateComposite($lang['strtypeneedsname']);
+					return;
+				}
+				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields < 1)  {
+					$_REQUEST['stage'] = 1;
+					doCreateComposite($lang['strtypeneedscols']);
+					return;
+				}
+
+				$types = &$data->getTypes(true, false, true);
+	
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtypes'], $lang['strcreatecomptype']), 'create_type');
+				$misc->printMsg($msg);
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+				// Output table header
+				echo "<table>\n";
+				echo "\t<tr><th colspan=\"2\" class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
+				echo"<th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+				
+				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
+					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
+					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
+					if (!isset($_REQUEST['colcomment'][$i])) $_REQUEST['colcomment'][$i] = '';
+
+					echo "\t<tr>\n\t\t<td>", $i + 1, ".&nbsp;</td>\n";
+					echo "\t\t<td><input name=\"field[{$i}]\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+						htmlspecialchars($_REQUEST['field'][$i]), "\" /></td>\n";
+					echo "\t\t<td>\n\t\t\t<select name=\"type[{$i}]\">\n";
+					$types->moveFirst();
+					while (!$types->EOF) {
+						$typname = $types->f['typname'];
+						echo "\t\t\t\t<option value=\"", htmlspecialchars($typname), "\"",
+						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
+							$misc->printVal($typname), "</option>\n";
+						$types->moveNext();
+					}
+					echo "\t\t\t</select>\n\t\t</td>\n";
+					
+					// Output array type selector
+					echo "\t\t<td>\n\t\t\t<select name=\"array[{$i}]\">\n";
+					echo "\t\t\t\t<option value=\"\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '') ? ' selected="selected"' : '', "></option>\n";
+					echo "\t\t\t\t<option value=\"[]\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+					echo "\t\t\t</select>\n\t\t</td>\n";
+					
+					echo "\t\t<td><input name=\"length[{$i}]\" size=\"10\" value=\"", 
+						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>\n";
+					echo "\t\t<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"", 
+						htmlspecialchars($_REQUEST['colcomment'][$i]), "\" /></td>\n\t</tr>\n";
+				}	
+				echo "</table>\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"create_comp\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
+				echo $misc->form;
+				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"fields\" value=\"", htmlspecialchars($_REQUEST['fields']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"typcomment\" value=\"", htmlspecialchars($_REQUEST['typcomment']), "\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "</form>\n";
+								
+				break;
+			case 3:
+				global $data, $lang;
+
+				// Check inputs
+				$fields = trim($_REQUEST['fields']);
+				if (trim($_REQUEST['name']) == '') {
+					$_REQUEST['stage'] = 1;
+					doCreateComposite($lang['strtypeneedsname']);
+					return;
+				}
+				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields <= 0)  {
+					$_REQUEST['stage'] = 1;
+					doCreateComposite($lang['strtypeneedscols']);	
+					return;
+				}
+				
+				$status = $data->createCompositeType($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
+								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['colcomment'], 
+								$_REQUEST['typcomment']);
+
+				if ($status == 0)
+					doDefault($lang['strtypecreated']);
+				elseif ($status == -1) {
+					$_REQUEST['stage'] = 2;
+					doCreateComposite($lang['strtypeneedsfield']);
+					return;
+				}
+				else {
+					$_REQUEST['stage'] = 2;
+					doCreateComposite($lang['strtypecreatedbad']);
+					return;
+				}
+				break;
+			default:
+				global $lang;
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
+		}
 	}
 	
 	/**
@@ -301,7 +448,10 @@
 		
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
+		if ($data->hasCompositeTypes())
+			echo "\n| <a class=\"navlink\" href=\"$PHP_SELF?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
+		echo "</p>\n";
 
 	}
 
@@ -310,6 +460,10 @@
 	$misc->printNav('schema','types');
 
 	switch ($action) {
+		case 'create_comp':
+			if (isset($_POST['cancel'])) doDefault();
+			else doCreateComposite();
+			break;
 		case 'save_create':
 			if (isset($_POST['cancel'])) doDefault();
 			else doSaveCreate();

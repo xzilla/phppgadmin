@@ -19,6 +19,7 @@ Features
 * New fast navigation bar.  A breadcrumb style navigation bar for fast
   jumping between areas.
 * Much improved grant/revoke feature
+* Allow creating and viewing composite types
 
 Translations
 * Arabic from Zaki

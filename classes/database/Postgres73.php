@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.133 2004/07/22 13:29:19 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.134 2004/08/03 09:20:15 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -894,7 +894,101 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
-	
+
+	/**
+	 * Creates a new composite type in the database
+	 * @param $name The name of the type
+	 * @param $fields The number of fields
+	 * @param $field An array of field names
+	 * @param $type An array of field types
+	 * @param $array An array of '' or '[]' for each type if it's an array or not
+	 * @param $length An array of field lengths
+	 * @param $colcomment An array of comments
+	 * @param $typcomment Type comment
+	 * @return 0 success
+	 * @return -1 no fields supplied
+	 */
+	function createCompositeType($name, $fields, $field, $type, $array, $length, $colcomment, $typcomment) {
+		$this->fieldClean($name);
+		$this->clean($typcomment);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$found = false;
+		$first = true;
+		$comment_sql = ''; // Accumulate comments for the columns
+		$sql = "CREATE TYPE \"{$name}\" AS (";
+		for ($i = 0; $i < $fields; $i++) {
+			$this->fieldClean($field[$i]);
+			$this->clean($type[$i]);
+			$this->clean($length[$i]);
+			$this->clean($colcomment[$i]);
+
+			// Skip blank columns - for user convenience
+			if ($field[$i] == '' || $type[$i] == '') continue;
+			// If not the first column, add a comma
+			if (!$first) $sql .= ", ";
+			else $first = false;
+			
+			switch ($type[$i]) {
+				// Have to account for weird placing of length for with/without
+				// time zone types
+				case 'timestamp with time zone':
+				case 'timestamp without time zone':
+					$qual = substr($type[$i], 9);
+					$sql .= "\"{$field[$i]}\" timestamp";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				case 'time with time zone':
+				case 'time without time zone':
+					$qual = substr($type[$i], 4);
+					$sql .= "\"{$field[$i]}\" time";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+					$sql .= $qual;
+					break;
+				default:
+					$sql .= "\"{$field[$i]}\" {$type[$i]}";
+					if ($length[$i] != '') $sql .= "({$length[$i]})";
+			}
+			// Add array qualifier if necessary
+			if ($array[$i] == '[]') $sql .= '[]';
+
+			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
+
+			$found = true;
+		}
+		
+		if (!$found) return -1;
+		
+		$sql .= ")";
+				
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		if ($typcomment != '') {
+			$status = $this->setComment('TYPE', $name, '', $typcomment, true);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		if ($comment_sql != '') {
+			$status = $this->execute($comment_sql);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+		return $this->endTransaction();
+		
+	}
+		
 	// Rule functions
 	
 	/**
@@ -1693,7 +1787,8 @@ class Postgres73 extends Postgres72 {
 	function hasFullExplain() { return true; }
 	function hasForeignKeysInfo() { return true; }
 	function hasViewColumnRename() { return true; }
-
+	function hasUserAndDbVariables() { return true; }
+	function hasCompositeTypes() { return true; }	
 }
 
 ?>
