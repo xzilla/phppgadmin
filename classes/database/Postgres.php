@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.65 2003/03/25 15:28:23 chriskl Exp $
+ * $Id: Postgres.php,v 1.66 2003/03/26 02:14:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1697,7 +1697,7 @@ class Postgres extends BaseDB {
 		}
 	
 		// Table name
-		$tgdef .= " ON \"{$trigger['tgname']}\" ";
+		$tgdef .= " ON \"{$trigger['relname']}\" ";
 		
 		// Deferrability
 		if ($trigger['tgisconstraint']) {
@@ -1724,14 +1724,20 @@ class Postgres extends BaseDB {
 		$tgdef .= "EXECUTE PROCEDURE \"{$trigger['tgfname']}\"(";
 		
 		// Parameters
-		$params = explode('\\000', $trigger['tgargs']);
-		for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
-			$param = str_replace('\'', '\\\'', $params[$findx]);
-			$tgdef .= $param;
-			if ($findx < ($trigger['tgnargs'] - 1))
-				$tgdef .= ', ';
-		}
-
+		// @@ WHY DOESN'T ALL THIS WORK?
+		// @@ ACTUALLY, pg_unescape_bytea is unnecessary
+		/*
+		if (function_exists('pg_unescape_bytea')) {
+			$params = explode('\000', pg_unescape_bytea($trigger['tgargs']));
+			for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
+				$param = str_replace('\'', '\\\'', $params[$findx]);
+				$tgdef .= $param;
+				if ($findx < ($trigger['tgnargs'] - 1))
+					$tgdef .= ', ';
+			}
+		}		
+		else */ $tgdef .= "args here";
+		
 		// Finish it off
 		$tgdef .= ')';
 

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.31 2003/03/25 15:28:24 chriskl Exp $
+ * $Id: Postgres73.php,v 1.32 2003/03/26 02:14:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -508,10 +508,13 @@ class Postgres73 extends Postgres72 {
 	function &getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT t.tgname, NULL AS tgdef
-			FROM pg_catalog.pg_trigger t
-			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
+			t.tgargs, t.tgnargs, p.proname AS tgfname, c.relname, NULL AS tgdef
+			FROM pg_catalog.pg_trigger t LEFT JOIN pg_catalog.pg_proc p
+			ON t.tgfoid=p.oid, pg_catalog.pg_class c
+			WHERE t.tgrelid=c.oid
+			AND c.relname='{$table}'
+			AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')
 			AND (NOT tgisconstraint OR NOT EXISTS
 			(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
 			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)

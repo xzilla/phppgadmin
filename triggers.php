@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.9 2003/03/25 15:28:22 chriskl Exp $
+	 * $Id: triggers.php,v 1.10 2003/03/26 02:14:03 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,25 +12,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
-
-
-	
-	function getTriggerExecTime($type) {
-	    $execTime = "AFTER";
-		if ($type & TRIGGER_TYPE_BEFORE) $execTime = "BEFORE";
-
-		return $execTime;
-	}
-
-	function getTriggerEvent($type) {
-		if ($type & TRIGGER_TYPE_INSERT) $event = "INSERT";
-		elseif ($type & TRIGGER_TYPE_DELETE) $event = "DELETE";
-
-		if ($type & TRIGGER_TYPE_UPDATE) $event .= (empty($event)) ? "UPDATE" : " OR UPDATE";
-
-		return $event;
-
-	}
 
 	/**
 	 * Show confirmation of drop and perform actual drop
@@ -166,12 +147,15 @@
 			$i = 0;
 
 			while (!$triggers->EOF) {
-				//$execTime = htmlspecialchars( getTriggerExecTime($triggers->f[$data->tgFields['tgtype']]));
-				//$event    = htmlspecialchars( getTriggerEvent($triggers->f[$data->tgFields['tgtype']]));
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
+				// Nasty hack to support pre-7.4 PostgreSQL
+				if ($triggers->f[$data->tgFields['tgdef']] !== null)
+					echo htmlspecialchars($triggers->f[$data->tgFields['tgdef']]);
+				else 
+					echo $localData->getTriggerDef($triggers->f);
+				echo "</td>\n<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", urlencode( $triggers->f[$data->tgFields['tgname']]),
 					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
 
