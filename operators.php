@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.17 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: operators.php,v 1.17.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -156,6 +156,34 @@
 //		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
 	}
 
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data, $PHP_SELF;
+		
+		$operators = &$data->getOperators();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('oprname'),
+				'icon'    => 'operators',
+				'url'     => 'operators.php',
+				'urlvars' => array(
+						'subject' => 'operator',
+						'action'  => 'properties',
+						'operator' => field('oprname'),
+						'operator_oid' => field('oid'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($operators, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['stroperators']);
 	$misc->printBody();
 

@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.24 2004/09/28 13:09:31 jollytoad Exp $
+	 * $Id: triggers.php,v 1.24.4.1 2005/03/01 10:47:04 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -235,7 +235,7 @@
 		
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);

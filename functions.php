@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47 2004/09/18 11:59:40 soranzo Exp $
+	 * $Id: functions.php,v 1.47.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -470,12 +470,6 @@
 		global $data, $conf, $misc, $func;
 		global $PHP_SELF, $lang;
 		
-		function fnPre(&$rowdata) {
-			global $data;
-			$rowdata->f['+proproto'] = $rowdata->f['proname'] . " (" . $rowdata->f['proarguments'] . ")";
-			$rowdata->f['+proreturns'] = ($data->phpBool($rowdata->f['proretset']) ? 'setof ' : '') . $rowdata->f['proresult'];
-		}
-		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','functions');
 		$misc->printMsg($msg);
@@ -485,12 +479,12 @@
 		$columns = array(
 			'function' => array(
 				'title' => $lang['strfunction'],
-				'field' => '+proproto',
+				'field' => 'proproto',
 				'type'  => 'verbatim',
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
-				'field' => '+proreturns',
+				'field' => 'proreturns',
 				'type'  => 'verbatim',
 			),
 			'proglanguage' => array(
@@ -510,31 +504,59 @@
 			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "redirect.php?section=function&action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
 				'url'   => "privileges.php?{$misc->href}&amp;subject=function&amp;",
-				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 		);
 		
-		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions'], 'fnPre');
+		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
 	}
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$funcs = &$data->getFunctions();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('proname'),
+				'icon'    => 'functions',
+				'url'     => 'redirect.php',
+				'urlvars' => array(
+						'subject' => 'function',
+						'action' => 'properties',
+						'function' => field('proproto'),
+						'function_oid' => field('prooid'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($funcs, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
 	
 	$misc->printHeader($lang['strfunctions']);
 	$misc->printBody();

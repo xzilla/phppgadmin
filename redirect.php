@@ -1,7 +1,13 @@
 <?php
+	# TEMP: until all URL's converted 'section' to 'subject'
+	$subject = isset($_REQUEST['subject']) ? $_REQUEST['subject'] : $_REQUEST['section']; 
+	
+	if ($subject == 'root')
+		$_no_db_connection = true;
+	
 	include_once('./libraries/lib.inc.php');
 	
-	$url = parse_url($misc->getLastTabURL($_REQUEST['section']));
+	$url = parse_url($misc->getLastTabURL($subject));
 	
 	$_SERVER['PHP_SELF'] = $url['path'];
 	

@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.6 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.6.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -53,7 +53,28 @@
 		
 		$misc->printTable($opclasses, $columns, $actions, $lang['strnoopclasses']);
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$opclasses = &$data->getOpClasses();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('amname'),
+				'icon'    => 'operators',
+			),
+		);
+		
+		$misc->printTreeXML($opclasses, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['stropclasses']);
 	$misc->printBody();
 

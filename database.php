@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65 2004/11/29 01:48:38 chriskl Exp $
+	 * $Id: database.php,v 1.65.2.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -389,11 +389,13 @@
 
 		if ($data->hasSignals()) {
 			$columns['actions'] = array('title' => $lang['stractions']);
-
+			
+			$href = $misc->getHREF('schema');
+			
 			$actions = array(
 				'cancel' => array(
 					'title' => $lang['strcancel'],
-					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;database=" . urlencode($_REQUEST['database']) . "&amp;",
+					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;{$href}&amp;",
 					'vars'  => array('procpid' => 'procpid')
 				)
 			);
@@ -427,7 +429,7 @@
 				$status = $data->recluster();
 				if ($status == 0) doAdmin('', $lang['strclusteredgood']);
 				else doAdmin('', $lang['strclusteredbad']);
-				break;				
+				break;
 			case 'reindex';
 				$status = $data->reindex('DATABASE', $_REQUEST['database'], isset($_REQUEST['reindex_force']));
 				if ($status == 0) doAdmin('', $lang['strreindexgood']);
@@ -549,6 +551,7 @@
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
@@ -579,8 +582,10 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
+		$server_info = $misc->getServerInfo();
+		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
-		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $_SESSION['webdbUsername'];
+		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $server_info['username'];
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
@@ -592,6 +597,7 @@
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table width=\"100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -673,37 +679,97 @@
 				),
 			);
 			
+			$href = $misc->getHREF('schema');
+			
 			$actions = array(
 				'properties' => array(
 					'title' => $lang['strproperties'],
-					'url'   => "redirect.php?section=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "redirect.php?section=schema&amp;{$href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
-					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?subject=schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "privileges.php?subject=schema&amp;{$href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "{$PHP_SELF}?action=alter_schema&amp;database=".urlencode($_REQUEST['database'])."&amp;",
+					'url'   => "{$PHP_SELF}?action=alter_schema&amp;{$href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
 			
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
-				"&amp;action=create\">{$lang['strcreateschema']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$href}\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";
 		}
+	}
+	
+	function doTree() {
+		global $misc, $data, $lang, $PHP_SELF;
+		
+		$schemas = &$data->getSchemas();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('nspname'),
+				'icon'    => 'folder',
+				'url'     => 'redirect.php',
+				'urlvars' => array(
+						'subject' => 'schema',
+						'schema'  => field('nspname')
+					),
+			),
+			'expand' => array(
+				'url'   => 'database.php',
+				'urlvars' => array(
+						'subject' => 'schema',
+						'action'  => 'subtree',
+						'schema'  => field('nspname')
+					),
+			),
+		);
+		
+		$opts = array(
+			'prexml' =>
+				"<tree text=\"{$lang['strprocesses']}\" action=\"database.php?{$misc->href}&amp;subject=database&amp;action=processes\" target=\"detail\"/>"
+		);
+		
+		$misc->printTreeXML($schemas, $actions, $opts);
+		exit;
+	}
+	
+	function doSubTree() {
+		global $misc, $data, $lang;
+		
+		include_once('classes/ArrayRecordSet.php');
+		$tabs = $misc->getNavTabs('schema');
+		unset($tabs['privileges']);
+		$items =& new ArrayRecordSet($tabs);
+		
+		$actions = array(
+			'item' => array(
+				'text' => field('title'),
+				'icon' => field('icon', 'folder'),
+				'url'  => field('url'),
+				'urlvars' => field('urlvars', array()),
+			),
+			'expand' => array(
+				'url'     => field('url'),
+				'urlvars' => merge(field('urlvars'), array('action' => 'tree')),
+			),
+		);
+		
+		$misc->printTreeXML($items, $actions);
+		exit;
 	}
 	
 	/**
@@ -753,6 +819,9 @@
 			doAlterSchema($lang['strschemaalteredbad']);
 	}
 
+	if ($action == 'tree') doTree();
+	if ($action == 'subtree') doSubTree();
+	
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
 

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.69 2005/01/23 12:42:35 soranzo Exp $
+	 * $Id: tables.php,v 1.69.2.1 2005/03/01 10:47:04 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -603,6 +603,32 @@
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$tables = &$data->getTables();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('relname'),
+				'icon'    => 'tables',
+				'url'     => 'redirect.php',
+				'urlvars' => array(
+						'subject' => 'table',
+						'table'   => field('relname'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($tables, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
 	
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();

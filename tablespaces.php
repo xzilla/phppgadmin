@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.6 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: tablespaces.php,v 1.6.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -35,6 +35,7 @@
 			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->f['spcowner'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
@@ -52,7 +53,6 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
-			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
@@ -98,6 +98,7 @@
 			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['tablespace'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -120,8 +121,10 @@
 		global $data, $misc, $spcname;
 		global $PHP_SELF, $lang;
 		
+		$server_info = $misc->getServerInfo();
+		
 		if (!isset($_POST['formSpcname'])) $_POST['formSpcname'] = '';
-		if (!isset($_POST['formOwner'])) $_POST['formOwner'] = $_SESSION['webdbUsername'];
+		if (!isset($_POST['formOwner'])) $_POST['formOwner'] = $server_info['username'];
 		if (!isset($_POST['formLoc'])) $_POST['formLoc'] = '';
 
 		// Fetch all users
@@ -132,6 +135,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"32\" name=\"formSpcname\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formSpcname']), "\" /></td>\n\t</tr>\n";
@@ -205,27 +209,29 @@
 			)
 		);
 		
+		$href = $misc->getHREF('database');
+		
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;",
+				'url'   => "{$PHP_SELF}?action=edit&amp;{$href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?subject=tablespace&amp;",
+				'url'   => "privileges.php?subject=tablespace&amp;{$href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			)
 		);
 				
 		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatetablespace']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$href}\">{$lang['strcreatetablespace']}</a></p>\n";
 
 	}
 

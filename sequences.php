@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.27 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: sequences.php,v 1.27.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -66,6 +66,31 @@
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
+	}
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$sequences = &$data->getSequences();
+		
+		$actions = array(
+			'item' => array(
+				'text'  => field('seqname'),
+				'icon'  => 'sequences',
+				'url'   => 'sequences.php',
+				'urlvars' => array(
+						'subject' => 'sequence',
+						'action' => 'properties',
+						'sequence' => field('seqname'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($sequences, $actions);
+		exit;
 	}
 	
 	/**
@@ -249,6 +274,8 @@
 		else	
 			doProperties($lang['strsequenceresetbad']);
 	}
+	
+	if ($action == 'tree') doTree();
 	
 	// Print header
 	$misc->printHeader($lang['strsequences']);

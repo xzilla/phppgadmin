@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.10 2004/09/20 14:41:38 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.10.4.1 2005/03/01 10:47:02 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -46,6 +46,27 @@
 		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
 	}
 
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$aggregates = &$data->getAggregates();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('proname'),
+				'icon'    => 'functions',
+			),
+		);
+		
+		$misc->printTreeXML($aggregates, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['straggregates']);
 	$misc->printBody();
 

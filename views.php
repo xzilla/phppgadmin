@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.52 2005/01/23 12:42:35 soranzo Exp $
+	 * $Id: views.php,v 1.52.2.1 2005/03/01 10:47:04 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -578,11 +578,37 @@
 		
 		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
 
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$views = &$data->getViews();
+		
+		$actions = array(
+			'item' => array(
+				'text'  => field('relname'),
+				'icon'  => 'views',
+				'url'   => 'redirect.php',
+				'urlvars' => array(
+						'subject' => 'view',
+						'view'    => field('relname'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($views, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strviews']);
 	$misc->printBody();
 

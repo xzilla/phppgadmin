@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.35 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,8 +27,7 @@
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", 
-				htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -105,6 +104,7 @@
 		
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
@@ -223,17 +223,17 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => 'redirect.php?section=database&amp;',
+				'url'   => "redirect.php?section=database&amp;{$misc->href}&amp;",
 				'vars'  => array('database' => 'datname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('database' => 'datname'),
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?subject=database&amp;",
+				'url'   => "privileges.php?subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('database' => 'datname'),
 			)
 		);
@@ -243,10 +243,48 @@
 		
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatedatabase']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
+	
+	function doTree() {
+		global $misc, $data, $lang;
+		
+		$databases = &$data->getDatabases();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('datname'),
+				'icon'    => 'database',
+				'url'     => 'redirect.php',
+				'urlvars' => array(
+						'subject'  => 'database',
+						'database' => field('datname'),
+					),
+			),
+			'expand' => array(
+				'url'     => 'database.php',
+				'urlvars' => array(
+						'subject'  => 'database',
+						'action'   => 'tree',
+						'database' => field('datname'),
+					),
+			),
+		);
+		
+		$opts = array(
+			'postxml' =>
+				"<tree text=\"{$lang['strusers']}\" action=\"users.php?{$misc->href}\" target=\"detail\"/>".
+				"<tree text=\"{$lang['strgroups']}\" action=\"groups.php?{$misc->href}\" target=\"detail\"/>".
+				"<tree text=\"{$lang['strreports']}\" action=\"reports.php?{$misc->href}\" target=\"detail\"/>"
+		);
+		
+		$misc->printTreeXML($databases, $actions, $opts);
+		exit;
+	}
 
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strdatabases']);
 	$misc->printBody();
 

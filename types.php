@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.25 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: types.php,v 1.25.4.1 2005/03/01 10:47:04 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -457,7 +457,34 @@
 		echo "</p>\n";
 
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$types = &$data->getTypes();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('basename'),
+				'icon'    => 'types',
+				'url'     => 'types.php',
+				'urlvars' => array(
+						'subject' => 'type',
+						'action'  => 'properties',
+						'type'    => field('basename'),
+					),
+			),
+		);
+		
+		$misc->printTreeXML($types, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strtypes']);
 	$misc->printBody();
 

@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: conversions.php,v 1.9.4.1 2005/03/01 10:47:03 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -54,7 +54,28 @@
 		
 		$misc->printTable($conversions, $columns, $actions, $lang['strnoconversions']);
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$conversions = &$data->getconversions();
+		
+		$actions = array(
+			'item' => array(
+				'text'    => field('conname'),
+				'icon'    => 'conversions',
+			),
+		);
+		
+		$misc->printTreeXML($conversions, $actions);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strconversions']);
 	$misc->printBody();
 
