@@ -1,0 +1,26 @@
+<Html>
+ <Head>
+  <Title>
+   explorerMenu example site
+  </Title>
+  
+  <!These just has to be here>
+  <Script src="scripts/main.js"></Script>
+  <Script src="scripts/config.js"></Script>
+  <Script src="scripts/explorerMenu.js"></Script>
+  
+  <!This is where the menu is being defined>
+  <Script src="scripts/menus.js"></Script>
+
+  <Frameset cols=220,* border=2 frameborder=2 bordercolor="#ffffff" sizable=yes>
+   
+   <!This is the frame where the menu resides. top.menu is the menu name consisting of top. and a unique menu name as>
+   <!defined in menu.js>
+   <Frame name='linksFrame' src='javaScript:top.getMenu(top.menu, "top.menu");' scrolling=auto>
+   
+   <!This is where the documents are to be displayed. The name of this frame is 'main'>
+   <Frame name='main' src='main.html' scrolling=auto>
+  
+  </Frameset>
+ </Head>
+</Html>
