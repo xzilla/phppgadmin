@@ -12,97 +12,58 @@ item.
 
 An item is marked with a '-' if it has been completed.
 
-Connections
------------
-
-* -Need to better handle connection errors. (chriskl)
-* -Give users a config option to display the error returned 
-  from the database. (chriskl - not done, security hole?)
-
 Users
 -----
 
-* Basically done
+* 7.3 user variables (eg. ALTER USER SET .. TO ...)
 
 Groups
 ------
 
-* -Group properties / membership
 * Alter group
-* -Allow selecting of members when creating group (chriskl)
 
 Permissions
 -----------
 
-* -Allow granting of perms (chriskl)
-* -Allow granting on functions
 * Allow revoking of perms
-* -Allow display of grants on an object
 * Allow display of grants for a user
 * Allow display of grants for a group
 
 Databases
 ---------
 
-* -Fix create/drop databases (chriskl)
+* Fix failure to drop database even tho seemingly no-one is connected to it
 * Add alter database for 7.3+
-* -Execute arbitrary SQL (chriskl)
-* Dump database
-* -Creating new database should refresh left pane? What about creating schemas
-  and tables - they're in the left pane too? (chriskl)
-* -Show encoding of databases (chriskl)
+* Dump database using pg_dump streaming
 
 Tables
 ------
 
 * Not using proper attFields array for attribute info (i was being lazy)
-* -Browse doesn't implement paging (chriskl)
-* -Browse only shows 30 rows at the moment! (chriskl)
-* -Have a common browse function (chriskl)
-* -Create table (chriskl)
-* -Modify column - default, nullability, etc. (chriskl)
-* -Add column (chriskl)
-* -Add foreign key
-* -Constraints - note massive 7.3 changes here (chriskl)
+* Rename table
+* Change table owner
+* Cluster support
 * Vacuum & analyze (half done)
-* -Dumps as CSV, XML or database specific bulk load format (chriskl)
-* SQL dump doesn't quote properly for some data types
-* Insert and edit row aren't smart - eg. it will quote everything including 
-  'current_timestamp' in a timestamp field.  We need to detect if they're 
-  inserting into a timestamp field with a magic value and then not quote it.
-* -Insert needs the ability to use functions. It should also be able to handle 
-  some keywords (like DEFAULT) though it might be able to use function tech i
-  to accomplish this. (chriskl)
-* Preserve spaces when displaying user data (half done) (chriskl)
 
 Views
 -----
 
-* -Browse on view
+* Display, add, edit and drop rules on views
 
 Functions
 ---------
 
-* -Need to add a drop link to the properties and edit pages.(robert)
-* -Add Postgres 7.3 support(robert)
-* -Add support for immutable+ (7.3) and iscacheable+ (7.2) 
-
-
-Sequences
----------
-
-* -Create Sequences (Shannon Peevey, chriskl)
+* Browse function (set-returning-functions only)
 
 Indexes 
 -------
 
-* -Drop Index (chriskl - bug in message?)
-* -Create index needs more options, eg. hash or btree (felix)
+* Partial indexes
+* Functional indexes
 
 Types
 -----
 
-* Basically implemented.
 * Support new 7.3 anonymous composite types
 
 Operators
@@ -115,19 +76,10 @@ Operator Classes
 
 * Unimplemented
 
-Rules
------
-
-* -Create rule (chriskl)
-* -Alter rule (chriskl)
-* -Have accessible on a per-table basis (chriskl)
-
 Triggers
 --------
 
-* -Create trigger (felix)
-* Alter trigger (7.3+)
-* -Have accessible on a per-table basis (chriskl)
+* Alter trigger (7.3+) (eg. rename trigger)
 
 Aggregates
 ----------
@@ -156,27 +108,13 @@ Casts (7.3)
 
 * Unimplemented
 
-Schemas
--------
-
-* -Create schema, drop schema (chriskl)
-* -Not all operations yet respect schema settings (chriskl)
-* -Schema menu link results in 404 (robert)
-
 Settings
 --------
 
 * Postgres 7.3 returns SHOW ALL as a proper result set - makes it easy to do a phpMyAdmin style 'view settings'.
 
-Translations
-------------
-
-* -There's heaps of hard-coded English strings in the code.  (Due to sheer laziness) (chriskl, rafal)
-
 Miscellaneous
 -------------
-
-* -Add support for RESTRICT/CASCADE in 7.3 (chriskl)
 
 Exotic
 ------
@@ -206,10 +144,4 @@ Principles
 * We primarily support Postgres, and only secondarily support MySQL, etc.
 * Adhere to current coding standards
 * Avoid using global variables if possible
-
-PHP
----
-
-* -Check for magic_quotes - automatically stripslashes (chriskl)
-* -Check for postgres/mysql/oracle/whatever functions compiled in and give good help on how to compile it in (chriskl)
 
