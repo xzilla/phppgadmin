@@ -47,10 +47,10 @@ Tables
 ------
 
 * Not using proper attFields array for attribute info (i was being lazy)
-* Browse doesn't implement paging
-* Browse only shows 30 rows at the moment!
+* -Browse doesn't implement paging (chriskl)
+* -Browse only shows 30 rows at the moment! (chriskl)
 * Have a common browse function for 'select' and 'browse' actions on a table
-* -Create table (chriskl)
+* Create table (chriskl)
 * -Modify column - default, nullability, etc. (chriskl)
 * Constraints - note massive 7.3 changes here
 * Vacuum & analyze
@@ -63,6 +63,7 @@ Tables
 Views
 -----
 
+* Browse on view
 * Basically stable as far as I can see
 
 Functions
@@ -84,7 +85,7 @@ Indicies [ Robert ]
 Types
 -----
 
-* Unimplemented
+* Basically implemented.
 * Support new 7.3 anonymous composite types
 
 Operators
@@ -141,6 +142,7 @@ Schemas
 -------
 
 * Create schema, drop schema
+* No operations yet respect schema settings
 
 Settings
 --------
