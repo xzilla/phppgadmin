@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.6 2003/09/19 01:56:34 chriskl Exp $
+	 * $Id: turkish.php,v 1.7 2003/11/24 01:23:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -161,9 +161,6 @@
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
-	$lang['strschemaanddata'] = 'Þema ve veri';
-	$lang['strschemaonly'] = 'Sadece þema';
-	$lang['strdataonly'] = 'Sadece veri';
 
 	// Users
 	$lang['strtablealtered'] = 'Tablo alter edildi..';
@@ -474,7 +471,6 @@
 	$lang['strnooperator'] = 'Operatör bulunamadý.';
 	$lang['strnooperators'] = 'Operatör bulunamadý.';
 	$lang['strcreateoperator'] = 'Operatör yaratýldý.';
-	$lang['stroperatorname'] = 'Operatör adý';
 	$lang['strleftarg'] = 'Sol Arg Tipi';
 	$lang['strrightarg'] = 'Sað Arg Tipi';
 	$lang['stroperatorneedsname'] = 'Operatöre bir ad vermelisiniz.';
@@ -486,4 +482,49 @@
 	$lang['strtopbar'] = '%s,  %s:%s  üzerinde çalýþýyor -- "%s" kullanýcýsý ile , %s tarihinde giriþ yaptýnýz';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Yardým';
+
+	$lang['strlogindisallowed'] = 'Giriþ izniniz yok';
+	$lang['strobjects'] = 'nesne(ler)';
+	$lang['strclustered'] = 'Clustered?';
+	$lang['strinfo'] = 'Bilgi';
+	$lang['stroids'] = 'OIDler';
+	$lang['stradvanced'] = 'Geliþmiþ';
+	$lang['strnoobjects'] = 'Hiç bir nesne bulunamadý.';
+	$lang['strselectunary'] = 'Unary operatörlerin deðeri olamaz.';
+	$lang['strstructureonly'] = 'Sadece yapý';
+	$lang['strstructureanddata'] = 'Yapý ve veri';
+	$lang['struserneedsname'] = 'Kullanýcýnýza bir ad vermelisiniz.';
+	$lang['strconfcluster'] = '"%s"\'i cluster etmek istediðinize emin misiniz?';
+	$lang['strclusteredgood'] = 'Cluster iþlemi tamamlandý.';
+	$lang['strclusteredbad'] = 'Cluster iþlemi baþarýsýz oldu.';
+	$lang['strcommutator'] = 'Commutator';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Left sort';
+	$lang['strrightsort'] = 'Right sort';
+	$lang['strlessthan'] = 'küçüktür';
+	$lang['strgreaterthan'] = 'büyüktür';
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'Hiç cast bulunamadý.';
+	$lang['strsourcetype'] = 'Kaynak tip';
+	$lang['strtargettype'] = 'Hedef tip';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'In assignment';
+	$lang['strbinarycompat'] = '(Binary uyumlu)';
+	$lang['strconversions'] = 'Dönüþümleri';
+	$lang['strnoconversions'] = 'Hiç dönüþüm bulunamadý.';
+	$lang['strsourceencoding'] = 'Kaynak dil kodlamasý';
+	$lang['strtargetencoding'] = 'Hedef dil kodlamasý';
+	$lang['strlanguages'] = 'Diller';
+	$lang['strnolanguages'] = 'Hiç bir dil bulunamadý.';
+	$lang['strtrusted'] = 'Güvenilir';
+	$lang['strnoinfo'] = 'Hiç bir bilgi yok.';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Parent tablolar';
+	$lang['strchildtables'] = 'Child tablolar';
+	$lang['strdataonly'] = 'Sadece veri';
 ?>
+

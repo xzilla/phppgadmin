@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.6 2003/09/19 01:56:35 chriskl Exp $
+	 * $Id: turkish.php,v 1.7 2003/11/24 01:23:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -161,9 +161,6 @@
 	$lang['straddcolumn'] = 'Yeni kolon ekle';
 	$lang['strcolumnadded'] = 'Kolon eklendi.';
 	$lang['strcolumnaddedbad'] = 'Kolon eklenemedi.';
-	$lang['strschemaanddata'] = '&#350;ema ve veri';
-	$lang['strschemaonly'] = 'Sadece &#351;ema';
-	$lang['strdataonly'] = 'Sadece veri';
 
 	// Users
 	$lang['strtablealtered'] = 'Tablo alter edildi..';
@@ -474,7 +471,6 @@
 	$lang['strnooperator'] = 'Operat&ouml;r bulunamad&#305;.';
 	$lang['strnooperators'] = 'Operat&ouml;r bulunamad&#305;.';
 	$lang['strcreateoperator'] = 'Operat&ouml;r yarat&#305;ld&#305;.';
-	$lang['stroperatorname'] = 'Operat&ouml;r ad&#305;';
 	$lang['strleftarg'] = 'Sol Arg Tipi';
 	$lang['strrightarg'] = 'Sa&#287; Arg Tipi';
 	$lang['stroperatorneedsname'] = 'Operat&ouml;re bir ad vermelisiniz.';
@@ -486,4 +482,49 @@
 	$lang['strtopbar'] = '%s,  %s:%s  &uuml;zerinde &ccedil;al&#305;&#351;&#305;yor -- &quot;%s&quot; kullan&#305;c&#305;s&#305; ile , %s tarihinde giri&#351; yapt&#305;n&#305;z';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Yard&#305;m';
+
+	$lang['strlogindisallowed'] = 'Giri&#351; izniniz yok';
+	$lang['strobjects'] = 'nesne(ler)';
+	$lang['strclustered'] = 'Clustered?';
+	$lang['strinfo'] = 'Bilgi';
+	$lang['stroids'] = 'OIDler';
+	$lang['stradvanced'] = 'Geli&#351;mi&#351;';
+	$lang['strnoobjects'] = 'Hi&ccedil; bir nesne bulunamad&#305;.';
+	$lang['strselectunary'] = 'Unary operat&ouml;rlerin de&#287;eri olamaz.';
+	$lang['strstructureonly'] = 'Sadece yap&#305;';
+	$lang['strstructureanddata'] = 'Yap&#305; ve veri';
+	$lang['struserneedsname'] = 'Kullan&#305;c&#305;n&#305;za bir ad vermelisiniz.';
+	$lang['strconfcluster'] = '&quot;%s&quot;\'i cluster etmek istedi&#287;inize emin misiniz?';
+	$lang['strclusteredgood'] = 'Cluster i&#351;lemi tamamland&#305;.';
+	$lang['strclusteredbad'] = 'Cluster i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strcommutator'] = 'Commutator';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Hashes';
+	$lang['strmerges'] = 'Merges';
+	$lang['strleftsort'] = 'Left sort';
+	$lang['strrightsort'] = 'Right sort';
+	$lang['strlessthan'] = 'k&uuml;&ccedil;&uuml;kt&uuml;r';
+	$lang['strgreaterthan'] = 'b&uuml;y&uuml;kt&uuml;r';
+	$lang['strcasts'] = 'Casts';
+	$lang['strnocasts'] = 'Hi&ccedil; cast bulunamad&#305;.';
+	$lang['strsourcetype'] = 'Kaynak tip';
+	$lang['strtargettype'] = 'Hedef tip';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'In assignment';
+	$lang['strbinarycompat'] = '(Binary uyumlu)';
+	$lang['strconversions'] = 'D&ouml;n&uuml;&#351;&uuml;mleri';
+	$lang['strnoconversions'] = 'Hi&ccedil; d&ouml;n&uuml;&#351;&uuml;m bulunamad&#305;.';
+	$lang['strsourceencoding'] = 'Kaynak dil kodlamas&#305;';
+	$lang['strtargetencoding'] = 'Hedef dil kodlamas&#305;';
+	$lang['strlanguages'] = 'Diller';
+	$lang['strnolanguages'] = 'Hi&ccedil; bir dil bulunamad&#305;.';
+	$lang['strtrusted'] = 'G&uuml;venilir';
+	$lang['strnoinfo'] = 'Hi&ccedil; bir bilgi yok.';
+	$lang['strreferringtables'] = 'Referring tables';
+	$lang['strparenttables'] = 'Parent tablolar';
+	$lang['strchildtables'] = 'Child tablolar';
+	$lang['strdataonly'] = 'Sadece veri';
 ?>
+

@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.5 2003/09/19 01:56:34 chriskl Exp $
+	 * $Id: swedish.php,v 1.6 2003/11/24 01:23:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -27,6 +27,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Logga in';
 	$lang['strloginfailed'] = 'Inloggningen misslyckades';
+	$lang['strlogindisallowed'] = 'Inloggningen ej tillåten';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logga ut';
 	$lang['strowner'] = 'Ägare';
@@ -69,6 +70,7 @@
 	$lang['strcolumns'] = 'Kolumner';
 	$lang['strrows'] = 'Rad(er)';
 	$lang['strrowsaff'] = 'Rad(er) Påverkade.';
+	$lang['strobjects'] = 'Objekt';
 	$lang['strexample'] = 't. ex.';
 	$lang['strback'] = 'Bakåt';
 	$lang['strqueryresults'] = 'Sökresultat';
@@ -87,6 +89,7 @@
 	$lang['strvacuum'] = 'Städa upp';
 	$lang['stranalyze'] = 'Analysera';
 	$lang['strcluster'] = 'Kluster';
+	$lang['strclustered'] = 'Klustrat?';
 	$lang['strreindex'] = 'Återindexera';
 	$lang['strrun'] = 'Kör';
 	$lang['stradd'] = 'Lägg till';
@@ -106,6 +109,9 @@
 	$lang['strcollapse'] = 'Förminska';
 	$lang['strexpand'] = 'Utöka';
 	$lang['strdownload'] = 'Ladda ner';
+	$lang['strinfo'] = 'Info';
+	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Avancerat';
 
 	// Error handling
 	$lang['strnoframes'] = 'Du behöver en webläsare som stöder frames för att använda detta program.';
@@ -117,6 +123,7 @@
 	$lang['strsqlerror'] = 'SQL fel:';
 	$lang['strinvalidparam'] = 'Otillåtna scriptparametrar.';
 	$lang['strnodata'] = 'Hittade inga rader.';
+	$lang['strnoobjects'] = 'Hittade inga objekt.';
 	$lang['strrownotunique'] = 'Ingen unik nyckel för denna rad.';
 
 	// Tables
@@ -154,8 +161,9 @@
 	$lang['strfields'] = 'Fält';
 	$lang['strfieldneedsname'] = 'Du måste namnge fältet';
 	$lang['strcolumndropped'] = 'Kolumn raderad.';
+	$lang['strselectallfields'] = 'Välj alla fält';
 	$lang['strselectneedscol'] = 'Du måste visa minst en kolumn';
-	$lang['strselectallfields'] = 'Välj alla fält';	
+	$lang['strselectunary'] = 'Unära operander kan ej ha värden.';
 	$lang['strcolumnaltered'] = 'Kolumn ändrad.';
 	$lang['straltercolumn'] = 'Ändra kolumn';
 	$lang['strcolumnalteredbad'] = 'Misslyckades att ändra kolumn.';
@@ -164,8 +172,6 @@
 	$lang['straddcolumn'] = 'Lägg till kolumn';
 	$lang['strcolumnadded'] = 'Kolumn inlagd.';
 	$lang['strcolumnaddedbad'] = 'Misslyckades att lägga till kolumne.';
-	$lang['strschemaanddata'] = 'Schema & Data';
-	$lang['strschemaonly'] = 'Endast Schema';
 	$lang['strcascade'] = 'KASKAD';
 	$lang['strdataonly'] = 'Endast Data';
 	$lang['strtablealtered'] = 'Tabell ändrad.';
@@ -182,6 +188,7 @@
 	$lang['struserupdatedbad'] = 'Misslyckades att uppdatera användare.';
 	$lang['strshowallusers'] = 'Visa alla användare';
 	$lang['strcreateuser'] = 'Skapa användare';
+	$lang['struserneedsname'] = 'Du måste namnge användaren.';
 	$lang['strconfdropuser'] = 'Är du säker på att du vill radera användaren "%s"?';
 	$lang['strusercreated'] = 'Användare skapad.';
 	$lang['strusercreatedbad'] = 'Misslyckades att skapa användare.';
@@ -243,6 +250,8 @@
 	$lang['strvacuumbad'] = 'Uppstädning misslyckades.';
 	$lang['stranalyzegood'] = 'Analysen lyckades.';
 	$lang['stranalyzebad'] = 'Analysen misslyckades.';
+	$lang['strstructureonly'] = 'Endast struktur';
+	$lang['strstructureanddata'] = 'Struktur och data';
 
 	// Views
 	$lang['strview'] = 'Vy';
@@ -311,6 +320,9 @@
 	$lang['strindexname'] = 'Indexnamn';
 	$lang['strtablecolumnlist'] = 'Tabellkolumner';
 	$lang['strindexcolumnlist'] = 'Indexkolumner';
+	$lang['strconfcluster'] = 'Är du säker på att du vill klustra "%s"?';
+	$lang['strclusteredgood'] = 'Klustring avslutad.';
+	$lang['strclusteredbad'] = 'Klustring misslyckades.';
 
 	// Rules
 	$lang['strrules'] = 'Regler';
@@ -473,15 +485,50 @@
 	$lang['strnooperator'] = 'Hittade ingen operand.';
 	$lang['strnooperators'] = 'Hittade inga operander.';
 	$lang['strcreateoperator'] = 'Skapa operand';
-	$lang['stroperatorname'] = 'Operandnamn';
 	$lang['strleftarg'] = 'Arg Typ Vänster';
-	$lang['strrightarg'] = 'Arg Type Höger';
+	$lang['strrightarg'] = 'Arg Typ Höger';
+	$lang['strcommutator'] = 'Växlare';
+	$lang['strnegator'] = 'Negerande';
+	$lang['strrestrict'] = 'Spärra';
+	$lang['strjoin'] = 'Slå ihop';
+	$lang['strhashes'] = 'Hashtabeller';
+	$lang['strmerges'] = 'Sammanslagningar';
+	$lang['strleftsort'] = 'Sortera vänster';
+	$lang['strrightsort'] = 'Sortera höger';
+	$lang['strlessthan'] = 'Mindre än';
+	$lang['strgreaterthan'] = 'Större än';
 	$lang['stroperatorneedsname'] = 'Du måste namnge operanden.';
 	$lang['stroperatorcreated'] = 'Operand skapad';
 	$lang['stroperatorcreatedbad'] = 'Misslyckades att skapa operand.';
 	$lang['strconfdropoperator'] = 'Är du säker på att du vill radera operanden "%s"?';
 	$lang['stroperatordropped'] = 'Operand raderad.';
 	$lang['stroperatordroppedbad'] = 'Misslyckades att radera operand.';
+
+	// Casts
+	$lang['strcasts'] = 'Typomvandlingar';
+	$lang['strnocasts'] = 'Hittade inga typomvandlingar.';
+	$lang['strsourcetype'] = 'Källtyp';
+	$lang['strtargettype'] = 'Måltyp';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'Tilldelat i';
+	$lang['strbinarycompat'] = '(Binärt kompatibel)';
+	
+	// Conversions
+	$lang['strconversions'] = 'Omkodningar';
+	$lang['strnoconversions'] = 'Hittade inga omkodningar.';
+	$lang['strsourceencoding'] = 'Källkodning';
+	$lang['strtargetencoding'] = 'Målkodning';
+	
+	// Languages
+	$lang['strlanguages'] = 'Språk';
+	$lang['strnolanguages'] = 'Hittade inga språk.';
+	$lang['strtrusted'] = 'Pålitlig(a)';
+	
+	// Info
+	$lang['strnoinfo'] = 'Ingen information tillgänglig.';
+	$lang['strreferringtables'] = 'Refererande tabeller';
+	$lang['strparenttables'] = 'Ovanstående tabeller';
+	$lang['strchildtables'] = 'Underliggande tabeller';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s Körs på %s:%s -- Du är inloggad som användare "%s", %s';

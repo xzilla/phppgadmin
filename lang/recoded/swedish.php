@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.5 2003/09/19 01:56:35 chriskl Exp $
+	 * $Id: swedish.php,v 1.6 2003/11/24 01:23:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -27,6 +27,7 @@
 	// Basic strings
 	$lang['strlogin'] = 'Logga in';
 	$lang['strloginfailed'] = 'Inloggningen misslyckades';
+	$lang['strlogindisallowed'] = 'Inloggningen ej till&aring;ten';
 	$lang['strserver'] = 'Server';
 	$lang['strlogout'] = 'Logga ut';
 	$lang['strowner'] = '&Auml;gare';
@@ -69,6 +70,7 @@
 	$lang['strcolumns'] = 'Kolumner';
 	$lang['strrows'] = 'Rad(er)';
 	$lang['strrowsaff'] = 'Rad(er) P&aring;verkade.';
+	$lang['strobjects'] = 'Objekt';
 	$lang['strexample'] = 't. ex.';
 	$lang['strback'] = 'Bak&aring;t';
 	$lang['strqueryresults'] = 'S&ouml;kresultat';
@@ -87,6 +89,7 @@
 	$lang['strvacuum'] = 'St&auml;da upp';
 	$lang['stranalyze'] = 'Analysera';
 	$lang['strcluster'] = 'Kluster';
+	$lang['strclustered'] = 'Klustrat?';
 	$lang['strreindex'] = '&Aring;terindexera';
 	$lang['strrun'] = 'K&ouml;r';
 	$lang['stradd'] = 'L&auml;gg till';
@@ -106,6 +109,9 @@
 	$lang['strcollapse'] = 'F&ouml;rminska';
 	$lang['strexpand'] = 'Ut&ouml;ka';
 	$lang['strdownload'] = 'Ladda ner';
+	$lang['strinfo'] = 'Info';
+	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Avancerat';
 
 	// Error handling
 	$lang['strnoframes'] = 'Du beh&ouml;ver en webl&auml;sare som st&ouml;der frames f&ouml;r att anv&auml;nda detta program.';
@@ -117,6 +123,7 @@
 	$lang['strsqlerror'] = 'SQL fel:';
 	$lang['strinvalidparam'] = 'Otill&aring;tna scriptparametrar.';
 	$lang['strnodata'] = 'Hittade inga rader.';
+	$lang['strnoobjects'] = 'Hittade inga objekt.';
 	$lang['strrownotunique'] = 'Ingen unik nyckel f&ouml;r denna rad.';
 
 	// Tables
@@ -154,8 +161,9 @@
 	$lang['strfields'] = 'F&auml;lt';
 	$lang['strfieldneedsname'] = 'Du m&aring;ste namnge f&auml;ltet';
 	$lang['strcolumndropped'] = 'Kolumn raderad.';
+	$lang['strselectallfields'] = 'V&auml;lj alla f&auml;lt';
 	$lang['strselectneedscol'] = 'Du m&aring;ste visa minst en kolumn';
-	$lang['strselectallfields'] = 'V&auml;lj alla f&auml;lt';	
+	$lang['strselectunary'] = 'Un&auml;ra operander kan ej ha v&auml;rden.';
 	$lang['strcolumnaltered'] = 'Kolumn &auml;ndrad.';
 	$lang['straltercolumn'] = '&Auml;ndra kolumn';
 	$lang['strcolumnalteredbad'] = 'Misslyckades att &auml;ndra kolumn.';
@@ -164,8 +172,6 @@
 	$lang['straddcolumn'] = 'L&auml;gg till kolumn';
 	$lang['strcolumnadded'] = 'Kolumn inlagd.';
 	$lang['strcolumnaddedbad'] = 'Misslyckades att l&auml;gga till kolumne.';
-	$lang['strschemaanddata'] = 'Schema &amp; Data';
-	$lang['strschemaonly'] = 'Endast Schema';
 	$lang['strcascade'] = 'KASKAD';
 	$lang['strdataonly'] = 'Endast Data';
 	$lang['strtablealtered'] = 'Tabell &auml;ndrad.';
@@ -182,6 +188,7 @@
 	$lang['struserupdatedbad'] = 'Misslyckades att uppdatera anv&auml;ndare.';
 	$lang['strshowallusers'] = 'Visa alla anv&auml;ndare';
 	$lang['strcreateuser'] = 'Skapa anv&auml;ndare';
+	$lang['struserneedsname'] = 'Du m&aring;ste namnge anv&auml;ndaren.';
 	$lang['strconfdropuser'] = '&Auml;r du s&auml;ker p&aring; att du vill radera anv&auml;ndaren &quot;%s&quot;?';
 	$lang['strusercreated'] = 'Anv&auml;ndare skapad.';
 	$lang['strusercreatedbad'] = 'Misslyckades att skapa anv&auml;ndare.';
@@ -243,6 +250,8 @@
 	$lang['strvacuumbad'] = 'Uppst&auml;dning misslyckades.';
 	$lang['stranalyzegood'] = 'Analysen lyckades.';
 	$lang['stranalyzebad'] = 'Analysen misslyckades.';
+	$lang['strstructureonly'] = 'Endast struktur';
+	$lang['strstructureanddata'] = 'Struktur och data';
 
 	// Views
 	$lang['strview'] = 'Vy';
@@ -311,6 +320,9 @@
 	$lang['strindexname'] = 'Indexnamn';
 	$lang['strtablecolumnlist'] = 'Tabellkolumner';
 	$lang['strindexcolumnlist'] = 'Indexkolumner';
+	$lang['strconfcluster'] = '&Auml;r du s&auml;ker p&aring; att du vill klustra &quot;%s&quot;?';
+	$lang['strclusteredgood'] = 'Klustring avslutad.';
+	$lang['strclusteredbad'] = 'Klustring misslyckades.';
 
 	// Rules
 	$lang['strrules'] = 'Regler';
@@ -473,15 +485,50 @@
 	$lang['strnooperator'] = 'Hittade ingen operand.';
 	$lang['strnooperators'] = 'Hittade inga operander.';
 	$lang['strcreateoperator'] = 'Skapa operand';
-	$lang['stroperatorname'] = 'Operandnamn';
 	$lang['strleftarg'] = 'Arg Typ V&auml;nster';
-	$lang['strrightarg'] = 'Arg Type H&ouml;ger';
+	$lang['strrightarg'] = 'Arg Typ H&ouml;ger';
+	$lang['strcommutator'] = 'V&auml;xlare';
+	$lang['strnegator'] = 'Negerande';
+	$lang['strrestrict'] = 'Sp&auml;rra';
+	$lang['strjoin'] = 'Sl&aring; ihop';
+	$lang['strhashes'] = 'Hashtabeller';
+	$lang['strmerges'] = 'Sammanslagningar';
+	$lang['strleftsort'] = 'Sortera v&auml;nster';
+	$lang['strrightsort'] = 'Sortera h&ouml;ger';
+	$lang['strlessthan'] = 'Mindre &auml;n';
+	$lang['strgreaterthan'] = 'St&ouml;rre &auml;n';
 	$lang['stroperatorneedsname'] = 'Du m&aring;ste namnge operanden.';
 	$lang['stroperatorcreated'] = 'Operand skapad';
 	$lang['stroperatorcreatedbad'] = 'Misslyckades att skapa operand.';
 	$lang['strconfdropoperator'] = '&Auml;r du s&auml;ker p&aring; att du vill radera operanden &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Operand raderad.';
 	$lang['stroperatordroppedbad'] = 'Misslyckades att radera operand.';
+
+	// Casts
+	$lang['strcasts'] = 'Typomvandlingar';
+	$lang['strnocasts'] = 'Hittade inga typomvandlingar.';
+	$lang['strsourcetype'] = 'K&auml;lltyp';
+	$lang['strtargettype'] = 'M&aring;ltyp';
+	$lang['strimplicit'] = 'Implicit';
+	$lang['strinassignment'] = 'Tilldelat i';
+	$lang['strbinarycompat'] = '(Bin&auml;rt kompatibel)';
+	
+	// Conversions
+	$lang['strconversions'] = 'Omkodningar';
+	$lang['strnoconversions'] = 'Hittade inga omkodningar.';
+	$lang['strsourceencoding'] = 'K&auml;llkodning';
+	$lang['strtargetencoding'] = 'M&aring;lkodning';
+	
+	// Languages
+	$lang['strlanguages'] = 'Spr&aring;k';
+	$lang['strnolanguages'] = 'Hittade inga spr&aring;k.';
+	$lang['strtrusted'] = 'P&aring;litlig(a)';
+	
+	// Info
+	$lang['strnoinfo'] = 'Ingen information tillg&auml;nglig.';
+	$lang['strreferringtables'] = 'Refererande tabeller';
+	$lang['strparenttables'] = 'Ovanst&aring;ende tabeller';
+	$lang['strchildtables'] = 'Underliggande tabeller';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s K&ouml;rs p&aring; %s:%s -- Du &auml;r inloggad som anv&auml;ndare &quot;%s&quot;, %s';
