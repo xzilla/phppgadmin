@@ -11,6 +11,12 @@ phpPgAdmin Installation Guide
 
    Then edit config.inc.php and configure phgPgAdmin to your requirements.
 
+3. Set up the reports database.
+
+   If you want to enable reports (which are a useful feature) then go to
+   the 'sql' subdirectory and view the SQL script for your database.  It
+   will contain instructions on how to set up the reports database.
+
 4. Browse to the phpPgAdmin installation using a web browser.  You must
    have cookies enabled for phpPgAdmin to work.
 

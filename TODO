@@ -46,10 +46,10 @@ Databases
 
 * -Fix create/drop databases (chriskl)
 * Add alter database for 7.3+
-* Execute arbitrary SQL (chriskl)
+* -Execute arbitrary SQL (chriskl)
 * Dump database
 * Creating new database should refresh left pane?
-* Show encoding of databases (robert)
+* -Show encoding of databases (chriskl)
 
 Tables
 ------
