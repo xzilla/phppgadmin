@@ -1,7 +1,7 @@
 /**
  * Default style sheet, based of the work of Juri Aksenov
  *
- * $Id: global.css,v 1.10 2003/05/28 03:08:45 chriskl Exp $
+ * $Id: global.css,v 1.11 2003/05/28 06:03:51 chriskl Exp $
  */
 
 /** ELEMENTS */
@@ -215,6 +215,5 @@ a.navlink:active, a.toplink:active
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
-	font-size: 1.2em;
 }
 
