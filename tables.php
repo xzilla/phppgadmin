@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.43 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: tables.php,v 1.44 2004/01/03 10:16:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -176,7 +176,7 @@
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script language=\"JavaScript\">\n";
@@ -240,24 +240,24 @@
 			echo "</form>\n";
 		}
 		else {
-			if (!isset($_GET['show'])) $_GET['show'] = array();
-			if (!isset($_GET['values'])) $_GET['values'] = array();
-			if (!isset($_GET['nulls'])) $_GET['nulls'] = array();
+			if (!isset($_POST['show'])) $_POST['show'] = array();
+			if (!isset($_POST['values'])) $_POST['values'] = array();
+			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
 			// Verify that they haven't supplied a value for unary operators
-			foreach ($_GET['ops'] as $k => $v) {
-				if ($data->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+			foreach ($_POST['ops'] as $k => $v) {
+				if ($data->selectOps[$v] == 'p' && $_POST['values'][$k] != '') {
 					doSelectRows(true, $lang['strselectunary']);
 					return;
 				}
 			}
 			
-			if (sizeof($_GET['show']) == 0)
+			if (sizeof($_POST['show']) == 0)
 				doSelectRows(true, $lang['strselectneedscol']);			
 			else {
 				// Generate query SQL
-				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_GET['show']),
-					$_GET['values'], $_GET['ops']);
+				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
+					$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
@@ -484,7 +484,7 @@
 			else doCreate();
 			break;
 		case 'selectrows':
-			if (!isset($_GET['cancel'])) doSelectRows(false);
+			if (!isset($_POST['cancel'])) doSelectRows(false);
 			else doDefault();
 			break;
 		case 'confselectrows':
