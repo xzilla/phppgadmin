@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.28 2005/03/04 02:27:38 chriskl Exp $
+	 * $Id: sql.php,v 1.29 2005/03/04 08:53:56 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -71,6 +71,9 @@
 		$duration = number_format(($end_time - $start_time) * 1000, 3);
 	}
 	else $duration = null;
+
+	// Reload the browser as we may have made schema changes
+	$_reload_browser = true;
 
 	// $rs will only be an object if there is no error
 	if (is_object($rs)) {

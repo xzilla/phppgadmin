@@ -21,6 +21,7 @@ Bugs
 * Allow Multiline character and character varying editing and inserting
 * Add automatic browser language selection for all languages
 * Fix using schema enabled dump on non-schema enabled backend
+* Reload browser after executing arbitrary SQL
 
 Translations
 * Japanese from Tadashi Jokagi
