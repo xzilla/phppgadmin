@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.12 2003/04/08 12:45:17 chriskl Exp $
+	 * $Id: constraints.php,v 1.13 2003/04/23 06:27:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,6 +26,11 @@
 
 		switch ($stage) {
 			case 2:
+			
+				// Copy the IndexColumnList variable from stage 2
+				if (isset($_REQUEST['IndexColumnList']) && !isset($_REQUEST['SourceColumnList']))
+					$_REQUEST['SourceColumnList'] = serialize($_REQUEST['IndexColumnList']);
+					
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
 					htmlspecialchars($_REQUEST['table']), ": {$lang['straddfk']}</h2>\n";
 				$misc->printMsg($msg);
@@ -56,16 +61,10 @@
 				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
 
 				echo "<table>\n";
-				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
-				echo "<tr>";
-				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
-				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
+				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strfkcolumnlist']}</th></tr>\n";
 				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
-				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
-				echo "<tr>";
-				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"target\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
 				echo "</table>\n";
 
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_foreign_key\">\n";
@@ -73,13 +72,28 @@
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 				echo "<input type=\"hidden\" name=\"name\" value=\"", htmlspecialchars($_REQUEST['name']), "\">\n";
 				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars($_REQUEST['target']), "\">\n";
-				echo "<input type=\"hidden\" name=\"IndexColumnList\" value=\"", htmlspecialchars(serialize($_REQUEST['IndexColumnList'])), "\">\n";
+				echo "<input type=\"hidden\" name=\"SourceColumnList\" value=\"", htmlspecialchars($_REQUEST['SourceColumnList']), "\">\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\">\n";
 				echo "<input type=\"submit\" value=\"{$lang['stradd']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\"></p>\n";
 				echo "</form>\n";
 
 				echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
 					"\">{$lang['strshowallconstraints']}</a></p>\n";
+				break;
+			case 3:
+				// Check that they've given at least one column
+				if (isset($_POST['SourceColumnList'])) $temp = unserialize($_POST['SourceColumnList']);
+				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
+						|| sizeof($_POST['IndexColumnList']) == 0 || !isset($temp) 
+						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
+				else {
+					$status = $localData->addForeignKey($_POST['table'], $_POST['target'], unserialize($_POST['SourceColumnList']), 
+						$_POST['IndexColumnList'], $_POST['name']);
+					if ($status == 0)
+						doDefault($lang['strfkadded']);
+					else
+						addForeignKey(2, $lang['strfkaddedbad']);
+				}
 				break;
 			default:
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strtables']}: ",
@@ -115,7 +129,7 @@
 				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
 				echo "<tr>";
 				echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
-				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strindexcolumnlist']}</th></tr>\n";
+				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strfkcolumnlist']}</th></tr>\n";
 				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
@@ -374,7 +388,8 @@
 		"<script src=\"indexes.js\" type=\"text/javascript\"></script>");
 
 	if ($action == 'add_unique_key' || $action == 'save_add_unique_key'
-			|| $action == 'add_primary_key' || $action == 'save_add_primary_key')
+			|| $action == 'add_primary_key' || $action == 'save_add_primary_key'
+			|| $action == 'add_foreign_key' || $action == 'save_add_foreign_key')
 		echo "<body onload=\"init();\">";
 	else
 		$misc->printBody();

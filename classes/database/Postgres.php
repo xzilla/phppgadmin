@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.77 2003/04/21 06:36:24 chriskl Exp $
+ * $Id: Postgres.php,v 1.78 2003/04/23 06:27:13 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -990,7 +990,7 @@ class Postgres extends BaseDB {
 		$sql = "ALTER TABLE \"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "FOREIGN KEY (\"" . join('","', $sfields) . "\") ";
-		$sql .= "REFERENCES (\"" . join('","', $tfields) . "\") ";
+		$sql .= "REFERENCES \"{$target}\"(\"" . join('","', $tfields) . "\") ";
 
 		return $this->execute($sql);
 	}
