@@ -52,7 +52,7 @@ Tables
 * Not using proper attFields array for attribute info (i was being lazy)
 * -Browse doesn't implement paging (chriskl)
 * -Browse only shows 30 rows at the moment! (chriskl)
-* Have a common browse function for 'select' and 'browse' actions on a table
+* -Have a common browse function (chriskl)
 * -Create table (chriskl)
 * -Modify column - default, nullability, etc. (chriskl)
 * Constraints - note massive 7.3 changes here
@@ -65,8 +65,7 @@ Tables
 Views
 -----
 
-* Browse on view
-* Basically stable as far as I can see
+* -Browse on view
 
 Functions
 ---------
