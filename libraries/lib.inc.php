@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.51 2003/05/23 06:11:07 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.52 2003/06/02 08:40:58 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.0';
+	$appVersion = '3.0-rc-1';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -22,7 +22,7 @@
 		include('conf/config.inc.php');
 	}
 	else {
-		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings";
+		echo "Configuration error: Copy conf/config.inc.php-dist to conf/config.inc.php and edit appropriately.";
 		exit;
 	}
 
