@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.53 2003/12/13 16:15:48 chriskl Exp $
+	 * $Id: Misc.php,v 1.54 2003/12/15 08:10:50 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -295,9 +295,12 @@
 		function printPopUpNav() {
 			global $lang, $data;
 
+			if (isset($_REQUEST['seldatabase'])) $url = '&amp;seldatabase=' . urlencode($_REQUEST['seldatabase']);
+			else $url = '';
+
 			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
-			echo "<td width=\"50%\"><a href=\"sqledit.php?action=sql\">{$lang['strsql']}</a></td>\n";
-			echo "<td width=\"50%\"><a href=\"sqledit.php?action=find\">{$lang['strfind']}</a></td>\n";
+			echo "<td width=\"50%\"><a href=\"sqledit.php?action=sql{$url}\">{$lang['strsql']}</a></td>\n";
+			echo "<td width=\"50%\"><a href=\"sqledit.php?action=find{$url}\">{$lang['strfind']}</a></td>\n";
 			echo "</tr></table>\n";
 		}
 		
