@@ -4,6 +4,9 @@ phpPgAdmin History
 Version 3.6-dev
 ---------------
 
+Features
+* Allow current database to be at the top
+
 Bugs
 * Tree Icons are displayed middle instead of top
 * Ensure login frame is always at top level (Russell Smith)

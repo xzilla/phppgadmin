@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.68 2004/11/10 01:46:35 chriskl Exp $
+ * $Id: Postgres71.php,v 1.69 2005/02/06 00:34:20 mr-russ Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -94,7 +94,12 @@ class Postgres71 extends Postgres {
 			$clause = " AND pu.usename='{$username}'";
 		}
 		else $clause = '';
-		
+
+		if ($currentdatabase != NULL)
+			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		else
+			$orderby = "ORDER BY pdb.datname";
+
 		if (!$conf['show_system'])
 			$where = ' AND NOT pdb.datistemplate';
 		else
@@ -106,7 +111,8 @@ class Postgres71 extends Postgres {
 			WHERE pdb.datdba = pu.usesysid
 			{$where}
 			{$clause}
-			ORDER BY pdb.datname";
+			{$orderby}";
+
 		return $this->selectSet($sql);
 	}
 
