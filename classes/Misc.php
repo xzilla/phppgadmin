@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.6 2005/03/08 09:17:21 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.7 2005/03/08 09:41:23 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -270,7 +270,7 @@
 				
 				if ($server_info['password'] == '' || in_array($username, $bad_usernames)) {
 					unset($_SESSION['webdbLogin'][$_REQUEST['server']]);
-					$msg = $lang['strloginfailed'];
+					$msg = $lang['strlogindisallowed'];
 					include('./login.php');
 					exit;
 				}
@@ -865,7 +865,7 @@
 				
 				echo "</td>";
 			}
-			
+/*
 			echo "<td align=\"right\" width=\"1%\">";
 			
 			echo "<form method=\"get\"><select name=\"language\" onchange=\"this.form.submit()\">\n";
@@ -883,7 +883,9 @@
 			}
 			echo "</form>\n";
 			
-			echo "</td></tr></table></div>\n";
+			echo "</td>";
+*/
+			echo "</tr></table></div>\n";
 		}
 		
 		/**
