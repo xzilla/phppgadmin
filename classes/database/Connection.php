@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.4 2004/06/07 11:38:39 soranzo Exp $
+ * $Id: Connection.php,v 1.5 2004/07/04 15:02:35 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -11,7 +11,10 @@ include_once('./classes/database/ADODB_base.php');
 class Connection {
 
 	var $conn;
-
+	
+	// The backend platform.  Set to UNKNOWN by default.
+	var $platform = 'UNKNOWN';
+	
 	/**
 	 * Creates a new connection.  Will actually make a database connection.
 	 * @param $fetchMode Defaults to associative.  Override for different behaviour
@@ -30,7 +33,8 @@ class Connection {
 	}
 
 	/**
-	 * Gets the name of the correct database driver to use
+	 * Gets the name of the correct database driver to use.  As a side effect,
+	 * sets the platform.
 	 * @param (return-by-ref) $description A description of the database and version
 	 * @return The class name of the driver eg. Postgres73
 	 * @return null if version is < 7.0
@@ -41,6 +45,10 @@ class Connection {
 
 		$sql = "SELECT VERSION() AS version";
 		$field = $adodb->selectField($sql, 'version');
+
+		// Check the platform, if it's mingw, set it
+		if (eregi(' mingw ', $field))
+			$this->platform = 'MINGW';
 
 		$params = explode(' ', $field);
 		if (!isset($params[1])) return -3;

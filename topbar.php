@@ -3,7 +3,7 @@
 	/**
 	 * Top menu for phpPgAdmin
 	 *
-	 * $Id: topbar.php,v 1.23 2004/05/31 09:46:37 soranzo Exp $
+	 * $Id: topbar.php,v 1.24 2004/07/04 15:02:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -39,6 +39,9 @@
 	endif;
 ?>
 			<a class="toplink" href="users.php?action=account" target="detail"><?php echo $lang['straccount'] ?></a> |
+<?php if ($data->hasTablespaces()) : ?>
+			<a class="toplink" href="tablespaces.php" target="detail"><?php echo $lang['strtablespaces'] ?></a> | 
+<?php endif; ?>
 <?php if ($conf['show_reports']) : ?>
 			<a class="toplink" href="reports.php" target="detail"><?php echo $lang['strreports'] ?></a> |
 <?php endif; ?>

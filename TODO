@@ -20,7 +20,6 @@ Users
 Groups
 ------
 
-* -Alter group (chriskl)
 
 Permissions
 -----------
@@ -30,15 +29,14 @@ Permissions
 Databases
 ---------
 
-* -Fix failure to drop database even tho seemingly no-one is connected to it (chriskl, bryan)
 * Add alter database for 7.3+
-* -Dump database using pg_dump streaming (chriskl)
 * Comments on databases
 * -Vacuum & analyze (bryan)
 
 Tables
 ------
 
+* Allow PK and UNIQUE and FKs during create table
 * -Not using proper attFields array for attribute info (i was being lazy) (wontfix)
 * -Rename table
 * -Change table owner
@@ -51,7 +49,6 @@ Tables
 Views
 -----
 
-* Display, add, edit and drop rules on views
 
 Sequences
 ---------
@@ -60,13 +57,11 @@ Sequences
 Functions
 ---------
 
-* Browse function (set-returning-functions only)
 * Syntax highlighting?
 
 Indexes 
 -------
 
-* -Partial indexes (chriskl)
 * Functional indexes
 
 Types
@@ -77,19 +72,16 @@ Types
 Operators
 ---------
 
-* -Properties (chriskl)
-* -Drop (chriskl)
 * Create
 
 Operator Classes
 ----------------
 
-* Unimplemented
+* Create
 
 Triggers
 --------
 
-* -Alter trigger (7.3+) (eg. rename trigger) (chriskl)
 
 Aggregates
 ----------
@@ -101,7 +93,6 @@ Aggregates
 Languages
 ---------
 
-* -Display (chriskl)
 * Drop
 * Create
 
@@ -113,7 +104,6 @@ Domains (7.3)
 Conversions (7.3)
 -----------------
 
-* -Display (chriskl)
 * Properties
 * Drop
 * Create
@@ -121,15 +111,9 @@ Conversions (7.3)
 Casts (7.3)
 -----------
 
-* -Display (chriskl)
 * Properties
 * Drop
 * Create
-
-Settings
---------
-
-* -Postgres 7.3 returns SHOW ALL as a proper result set - makes it easy to do a phpMyAdmin style 'view settings'.
 
 Miscellaneous
 -------------
@@ -141,15 +125,12 @@ Miscellaneous
 * Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
-* -Config option to disallow pgsql and postgres logins
-* Do David Smith's redireect idea to prevent refresh login resending password
 * Translated FAQ
 
 Exotic
 ------
 
 * Support contrib/tsearch2 for easy full text indexes
-* -Search for object feature (chriskl)
 * Pivot reports (ADODB has a feature for this)
 * Parameratised reports (use prepared queries)
 * Full web accessability conformance

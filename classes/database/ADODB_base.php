@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.16 2003/12/17 09:11:32 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.17 2004/07/04 15:02:35 chriskl Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -272,6 +272,15 @@ class ADODB_base {
 	 */
 	function rollbackTransaction() {
 		return !$this->conn->RollbackTrans();
+	}
+
+	/**
+	 * Get the backend platform
+	 * @return The backend platform
+	 */
+	function getPlatform() {
+		//return $this->conn->platform;
+		return "UNKNOWN";
 	}
 
 	// Type conversion routines

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.100 2004/06/07 11:38:39 soranzo Exp $
+	 * $Id: english.php,v 1.101 2004/07/04 15:02:35 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -593,6 +593,21 @@
 	$lang['strcache'] = 'Cache';
 	$lang['strdisk'] = 'Disk';
 	$lang['strrows2'] = 'Rows';
+
+	// Tablespaces
+	$lang['strtablespaces'] = 'Tablespaces';
+	$lang['strnotablespaces'] = 'No tablespaces found.';
+	$lang['strcreatetablespace'] = 'Create tablespace';
+	$lang['strlocation'] = 'Location';
+	$lang['strtablespaceneedsname'] = 'You must give a name for your tablespace.';
+	$lang['strtablespaceneedsloc'] = 'You must give a directory in which to create the tablespace.';
+	$lang['strtablespacecreated'] = 'Tablespace created';
+	$lang['strtablespacecreatedbad'] = 'Tablespace creation failed';
+	$lang['strconfdroptablespace'] = 'Are you sure you want to drop the tablespace &quot;%s&quot;?';
+	$lang['strtablespacedropped'] = 'Tablespace dropped.';
+	$lang['strtablespacedroppedbad'] = 'Tablespace drop failed.';
+	$lang['strtablespacealtered'] = 'Tablespace altered.';
+	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';

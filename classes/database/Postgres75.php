@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.6 2004/06/06 08:50:28 chriskl Exp $
+ * $Id: Postgres75.php,v 1.7 2004/07/04 15:02:35 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -137,7 +137,121 @@ class Postgres75 extends Postgres74 {
 
 		return $this->endTransaction();
 	}
-
-	function hasAlterColumnType() { return true; }
+	
+	// Tablespace functions
+	
+	/**
+	 * Retrieves information for all tablespaces
+	 * @return A recordset
+	 */
+	function getTablespaces() {
+		global $conf;
 		
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
+					FROM pg_catalog.pg_tablespace";
+					
+		if (!$conf['show_system']) {
+			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
+		}
+		
+		$sql .= " ORDER BY spcname";
+					
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Retrieves a tablespace's information
+	 * @return A recordset
+	 */
+	function getTablespace($spcname) {
+		$this->clean($spcname);
+		
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
+					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
+					
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Creates a tablespace
+	 * @param $spcname The name of the tablespace to create
+	 * @param $spcowner The owner of the tablespace. '' for current
+	 * @param $spcloc The directory in which to create the tablespace
+	 * @return 0 success
+	 */
+	function createTablespace($spcname, $spcowner, $spcloc) {
+		$this->fieldClean($spcname);
+		$this->clean($spcloc);
+		
+		$sql = "CREATE TABLESPACE \"{$spcname}\"";
+		
+		if ($spcowner != '') {
+			$this->fieldClean($spcowner);
+			$sql .= " OWNER \"{$spcowner}\"";
+		}
+		
+		$sql .= " LOCATION '{$spcloc}'";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a tablespace
+	 * @param $spcname The name of the domain to drop
+	 * @return 0 success
+	 */
+	function dropTablespace($spcname) {
+		$this->fieldClean($spcname);
+
+		$sql = "DROP TABLESPACE \"{$spcname}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Alters a tablespace
+	 * @param $spcname The name of the tablespace
+	 * @param $name The new name for the tablespace
+	 * @param $owner The new owner for the tablespace
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 owner error
+	 * @return -3 rename error
+	 */
+	function alterTablespace($spcname, $name, $owner) {
+		$this->fieldClean($spcname);
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+
+		// Begin transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		// Owner
+		$sql = "ALTER TABLESPACE \"{$spcname}\" OWNER TO \"{$owner}\"";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		// Rename (only if name has changed)
+		if ($name != $spcname) {
+			$sql = "ALTER TABLESPACE \"{$spcname}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+				
+		return $this->endTransaction();
+	}
+		
+	function hasAlterColumnType() { return true; }
+	function hasTablespaces() { 
+		$platform = $this->getPlatform();
+		return $platform != 'MINGW';
+	}
+	
 }

@@ -34,5 +34,6 @@ NEEDS TESTING
 * Fix SQL window parent update to not update any random window
 * Show owner on privileges screen?
  http://devilock.mine.nu/textarea_tab.html
-
-* DOMAINS NOT SHOWN IN TYPE LISTS!
+* privs on tablespaces
+* creating objects in tablespaces
+* fix test for MINGW backend
