@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.105 2003/09/16 16:57:23 soranzo Exp $
+	 * $Id: english.php,v 1.106 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
 	$lang['strfind'] = 'Find';
 	$lang['stroptions'] = 'Options';
 	$lang['strrefresh'] = 'Refresh';
-	$lang['strtaller'] = 'Taller';
-	$lang['strshorter'] = 'Shorter';
 	$lang['strdownload'] = 'Download';
 
 	// Error handling
@@ -376,6 +374,7 @@
 	$lang['strfunctionname'] = 'Function name';
 	$lang['strreturns'] = 'Returns';
 	$lang['strarguments'] = 'Arguments';
+	$lang['strproglanguage'] = 'Programming language';
 	$lang['strfunctionneedsname'] = 'You must give a name for your function.';
 	$lang['strfunctionneedsdef'] = 'You must give a definition for your function.';
 	$lang['strfunctioncreated'] = 'Function created.';

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.20 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: functions.php,v 1.21 2003/09/17 17:04:11 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -54,7 +54,7 @@
 			echo "<th class=\"data\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
-			echo "<th class=\"data\">{$lang['strlanguage']}</th>\n";
+			echo "<th class=\"data\">{$lang['strproglanguage']}</th>\n";
 			echo "</tr>\n";
 				
 
@@ -130,7 +130,7 @@
 			echo "<tr><th class=\"data\">{$lang['strfunctions']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
-			echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
+			echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
 			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
 			echo "<td class=\"data1\">";
@@ -221,7 +221,7 @@
 		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 		echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 		echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
-		echo "<th class=\"data\">{$lang['strlanguage']}</th></tr>\n";
+		echo "<th class=\"data\">{$lang['strproglanguage']}</th></tr>\n";
 
 		echo "<tr><td class=\"data1\"><input name=\"formFunction\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formFunction']), "\" /></td>\n";

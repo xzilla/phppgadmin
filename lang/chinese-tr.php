@@ -3,7 +3,7 @@
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
 	 *
-	 * $Id: chinese-tr.php,v 1.6 2003/09/05 05:52:44 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.7 2003/09/17 17:04:11 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
 	$lang['strfind'] = '尋找';
 	$lang['stroptions'] = '選項';
 	$lang['strrefresh'] = '重新整理';
-	$lang['strtaller'] = '高於';
-	$lang['strshorter'] = '低於';
 	$lang['strdownload'] = '下載';
 	
 	// Error handling
@@ -374,6 +372,7 @@
 	$lang['strfunctionname'] = '函數名';
 	$lang['strreturns'] = '返回';
 	$lang['strarguments'] = '參數';
+	$lang['strproglanguage'] = '語言';
 	$lang['strfunctionneedsname'] = '您需為您的函數命名。';
 	$lang['strfunctionneedsdef'] = '您必須定義您的函數。';
 	$lang['strfunctioncreated'] = '成功建立新函數。';
@@ -452,7 +451,6 @@
 	$lang['strreportneedsdef'] = '您需給您的報表 SQL。';
 	$lang['strreportcreated'] = '成功儲存報表。';
 	$lang['strreportcreatedbad'] = '無法儲存報表。';
-	$lang['strsaveasreport'] = '儲存為報表';
 	
 	// Domains
 	$lang['strdomain'] = '領域';

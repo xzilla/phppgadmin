@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.15 2003/09/16 16:57:23 soranzo Exp $
+	 * $Id: italian.php,v 1.16 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -104,8 +104,6 @@
 	$lang['strfind'] = 'Trova';
 	$lang['stroptions'] = 'Opzioni';
 	$lang['strrefresh'] = 'Ricarica';
-	$lang['strtaller'] = 'Taller'; // ???
-	$lang['strshorter'] = 'Shorter'; // ???
 	$lang['strdownload'] = 'Scarica';
 
 	// Error handling - Gestione degli errori
@@ -376,6 +374,7 @@
 	$lang['strfunctionname'] = 'Nome della funzione';
 	$lang['strreturns'] = 'Restituisce';
 	$lang['strarguments'] = 'Argomenti';
+	$lang['strproglanguage'] = 'Linguaggio di programmazione';
 	$lang['strfunctionneedsname'] = 'È necessario specificare un nome per la funzione.';
 	$lang['strfunctionneedsdef'] = 'È necessario specificare una definizione per la funzione.';
 	$lang['strfunctioncreated'] = 'Funzione creata.';

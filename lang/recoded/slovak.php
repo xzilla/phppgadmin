@@ -102,8 +102,6 @@
 	$lang['strfind'] = 'N&aacute;js&#357;';
 	$lang['stroptions'] = 'Nastavenia';
 	$lang['strrefresh'] = 'Obnovi&#357;';
-	$lang['strtaller'] = 'Vy&scaron;&scaron;&iacute;';
-	$lang['strshorter'] = 'Krat&scaron;&iacute;';
 	$lang['strdownload'] = 'Download';
 	$lang['strcollapse'] = 'Zmen&scaron;i&#357;';
 	$lang['strnoframes'] = 'Potrebuje&scaron; prehliada&#269; podporuj&uacute;ci \&quot;frame-y\&quot; pre t&uacute;to aplik&aacute;ciu.';
@@ -370,6 +368,7 @@
 	$lang['strfunctionname'] = 'N&aacute;zov funkcie';
 	$lang['strreturns'] = 'Vracia';
 	$lang['strarguments'] = 'Argumenty';
+	$lang['strproglanguage'] = 'Jazyk';
 	$lang['strfunctionneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoju funkciu.';
 	$lang['strfunctionneedsdef'] = 'Mus&iacute;&scaron; zada&#357; defin&iacute;ciu pre tvoju funkciu.';
 	$lang['strfunctioncreated'] = 'Funkcia vytvoren&aacute;.';
@@ -445,7 +444,6 @@
 	$lang['strreportdroppedbad'] = 'Report nebol zmazan&yacute;.';
 	$lang['strconfdropreport'] = 'Naozaj chce&scaron; zmaza&#357; report &quot;%s&quot;?';
 	$lang['strreportneedsname'] = 'Mus&iacute;&scaron; zada&#357; n&aacute;zov pre tvoj report.';
-	$lang['strsaveasreport'] = 'Ulo&#382;i&#357; ako Report';
 	$lang['strreportneedsdef'] = 'Mus&iacute;&scaron; zada&#357; SQL dotaz pre tvoj report.';
 	$lang['strreportcreated'] = 'Report ulo&#382;en&yacute;.';
 	$lang['strreportcreatedbad'] = 'Report nebol ulo&#382;en&yacute;.';

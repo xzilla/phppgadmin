@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer &Acirc;ngelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.3 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: portuguese-br.php,v 1.4 2003/09/17 17:04:13 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -350,6 +350,7 @@ $lang['stralterprivs'] = 'Alterar privil&eacute;gios';
 	$lang['strfunctionname'] = 'Nome da fun&ccedil;&atilde;o';
 	$lang['strreturns'] = 'Retorno';
 	$lang['strarguments'] = 'Argumentos';
+	$lang['strproglanguage'] = 'Linguagem';				
 	$lang['strfunctionneedsname'] = 'Voc&ecirc; deve dar um nome &agrave; sua fun&ccedil;&atilde;o.';
 	$lang['strfunctionneedsdef'] = 'Voc&ecirc; deve dar uma defini&ccedil;&atilde;o &agrave; sua fun&ccedil;&atilde;o.';
 	$lang['strfunctioncreated'] = 'Fun&ccedil;&atilde;o criada.';

@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.4 2003/09/08 02:40:29 chriskl Exp $
+	 * $Id: russian.php,v 1.5 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -103,8 +103,6 @@
 	$lang['strfind'] = 'Найти';
 	$lang['stroptions'] = 'Опции';
 	$lang['strrefresh'] = 'Обновить';
-	$lang['strtaller'] = 'Выше';
-	$lang['strshorter'] = 'Ниже';
 	$lang['strdownload'] = 'Загрузить';
 
 	// Error handling
@@ -372,6 +370,7 @@
 	$lang['strfunctionname'] = 'Имя функции';
 	$lang['strreturns'] = 'Возвращаемое значение';
 	$lang['strarguments'] = 'Аргументы';
+	$lang['strproglanguage'] = 'Язык';
 	$lang['strfunctionneedsname'] = 'Вам необходимо указать имя функции.';
 	$lang['strfunctionneedsdef'] = 'Вам необходимо определить функцию.';
 	$lang['strfunctioncreated'] = 'Функция создана.';
@@ -450,7 +449,6 @@
 	$lang['strreportneedsdef'] = 'Вам необходимо указать SQL-запрос для Вашего отчета.';
 	$lang['strreportcreated'] = 'Отчет сохранен.';
 	$lang['strreportcreatedbad'] = 'Сохранение отчета прервано.';
-	$lang['strsaveasreport'] = 'Сохранить как отчет';
 
 	// Domains
 	$lang['strdomain'] = 'Домен';
@@ -489,4 +487,3 @@
 	$lang['strtimefmt'] = ' j-m-Y  g:i';
 
 ?>
-                                 

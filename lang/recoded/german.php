@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.12 2003/09/13 05:47:55 chriskl Exp $
+    * $Id: german.php,v 1.13 2003/09/17 17:04:12 soranzo Exp $
     */
 
 
@@ -107,8 +107,6 @@
     $lang['strfind'] = 'Suchen';
     $lang['stroptions'] = 'Optionen';
     $lang['strrefresh'] = 'Aktualisieren';
-    $lang['strtaller'] = 'Gr&ouml;&szlig;er';
-    $lang['strshorter'] = 'Kleiner';
     $lang['strdownload'] = 'Download';
     $lang['strnoframes'] = 'F&uuml;r dieses Programm wird ein ein Frame-f&auml;higer Browser ben&ouml;tigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie m&uuml;ssen sie aus der config.inc.php-dist neu erzeugen.';
@@ -378,6 +376,7 @@
     $lang['strfunctionname'] = 'Name der Funktion';
     $lang['strreturns'] = 'Liefert';
     $lang['strarguments'] = 'Argumente';
+    $lang['strproglanguage'] = 'Sprache';
     $lang['strfunctionneedsname'] = 'Sie m&uuml;ssen f&uuml;r die Funktion einen Namen angeben.';
     $lang['strfunctionneedsdef'] = 'Sie m&uuml;ssen f&uuml;r die Funktion eine Definition angeben.';
     $lang['strfunctioncreated'] = 'Funktion erstellt.';

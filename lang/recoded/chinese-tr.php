@@ -3,7 +3,7 @@
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
 	 *
-	 * $Id: chinese-tr.php,v 1.8 2003/09/05 05:52:45 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.9 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
 	$lang['strfind'] = '&#23563;&#25214;';
 	$lang['stroptions'] = '&#36984;&#38917;';
 	$lang['strrefresh'] = '&#37325;&#26032;&#25972;&#29702;';
-	$lang['strtaller'] = '&#39640;&#26044;';
-	$lang['strshorter'] = '&#20302;&#26044;';
 	$lang['strdownload'] = '&#19979;&#36617;';
 	
 	// Error handling
@@ -374,6 +372,7 @@
 	$lang['strfunctionname'] = '&#20989;&#25976;&#21517;';
 	$lang['strreturns'] = '&#36820;&#22238;';
 	$lang['strarguments'] = '&#21443;&#25976;';
+	$lang['strproglanguage'] = '&#35486;&#35328;';
 	$lang['strfunctionneedsname'] = '&#24744;&#38656;&#28858;&#24744;&#30340;&#20989;&#25976;&#21629;&#21517;&#12290;';
 	$lang['strfunctionneedsdef'] = '&#24744;&#24517;&#38920;&#23450;&#32681;&#24744;&#30340;&#20989;&#25976;&#12290;';
 	$lang['strfunctioncreated'] = '&#25104;&#21151;&#24314;&#31435;&#26032;&#20989;&#25976;&#12290;';
@@ -452,7 +451,6 @@
 	$lang['strreportneedsdef'] = '&#24744;&#38656;&#32102;&#24744;&#30340;&#22577;&#34920; SQL&#12290;';
 	$lang['strreportcreated'] = '&#25104;&#21151;&#20786;&#23384;&#22577;&#34920;&#12290;';
 	$lang['strreportcreatedbad'] = '&#28961;&#27861;&#20786;&#23384;&#22577;&#34920;&#12290;';
-	$lang['strsaveasreport'] = '&#20786;&#23384;&#28858;&#22577;&#34920;';
 	
 	// Domains
 	$lang['strdomain'] = '&#38936;&#22495;';

@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.6 2003/08/01 06:34:34 chriskl Exp $
+	 * $Id: french.php,v 1.7 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -309,6 +309,7 @@
 	$lang['strfunctionname'] = 'Nom de la fonction';
 	$lang['strreturns'] = 'Valeur de sortie';
 	$lang['strarguments'] = 'Arguments';
+	$lang['strproglanguage'] = 'Langage';
 	$lang['strfunctionneedsname'] = 'Vous devez indiquer un nom pour votre fonction.';
 	$lang['strfunctionneedsdef'] = 'Vous devez indiquer une d&eacute;finition pour votre fonction.';
 	$lang['strfunctioncreated'] = 'Fonction cr&eacute;&eacute;e.';

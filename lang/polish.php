@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.29 2003/09/16 19:53:28 slubek Exp $
+	 * $Id: polish.php,v 1.30 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
 	$lang['strfind'] = 'Znajd¼';
 	$lang['stroptions'] = 'Opcje';
 	$lang['strrefresh'] = 'Od¶wie¿';
-	$lang['strtaller'] = 'D³u¿ej';
-	$lang['strshorter'] = 'Krócej';
 	$lang['strdownload'] = 'Pobierz';
 
 	// Error handling
@@ -376,6 +374,7 @@
 	$lang['strfunctionname'] = 'Nazwa funkcji';
 	$lang['strreturns'] = 'Zwraca';
 	$lang['strarguments'] = 'Parametry';
+	$lang['strproglanguage'] = 'Jêzyk';
 	$lang['strfunctionneedsname'] = 'Musisz nazwaæ funkcjê.';
 	$lang['strfunctionneedsdef'] = 'Musisz zdefiniowaæ funkcjê.';
 	$lang['strfunctioncreated'] = 'Utworzono funkcjê.';

@@ -326,6 +326,7 @@
 	$lang['strfunctionname'] = 'N&aacute;zev funkce';
 	$lang['strreturns'] = 'Vrac&iacute;';
 	$lang['strarguments'] = 'Argumenty';
+	$lang['strproglanguage'] = 'Jazyk';
 	$lang['strfunctionneedsname'] = 'Mus&iacute;&scaron; zadat n&aacute;zev funkce.';
 	$lang['strfunctionneedsdef'] = 'Mus&iacute;&scaron; zadat definici funkce.';
 	$lang['strfunctioncreated'] = 'Funkce vytvo&#345;ena.';

@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.16 2003/09/11 02:10:32 chriskl Exp $
+	 * $Id: spanish.php,v 1.17 2003/09/17 17:04:13 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
         $lang['strfind'] = 'Buscar';
         $lang['stroptions'] = 'Opciones';
 	$lang['strrefresh'] = 'Refrescar';
-	$lang['strtaller'] = 'Taller';
-	$lang['strshorter'] = 'M&aacute;s bajo';
 	$lang['strdownload'] = 'Bajar';
 
 	// Error handling
@@ -373,6 +371,7 @@
 	$lang['strfunctionname'] = 'Nombre de la funci&oacute;n';
 	$lang['strreturns'] = 'Devuelve';
 	$lang['strarguments'] = 'Argumentos';
+	$lang['strproglanguage'] = 'Idioma';
 	$lang['strfunctionneedsname'] = 'Debe darle un nombre a la funci&oacute;n.';
 	$lang['strfunctionneedsdef'] = 'Debe darle una definici&oacute;n a la funci&oacute;n.';
 	$lang['strfunctioncreated'] = 'Funci&oacute;n creada.';

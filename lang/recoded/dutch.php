@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.6 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: dutch.php,v 1.7 2003/09/17 17:04:12 soranzo Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -65,6 +65,7 @@
 	$lang['strno'] = 'Nee';
 	$lang['stredit'] = 'Edit';
 	$lang['strinvalidparam'] = 'Ongeldige parameters.';
+	$lang['strlanguage'] = 'taal';
 
 	// Error handling
 	$lang['strsqlerror'] = 'SQL fout:';
@@ -130,7 +131,7 @@
 	// Functions
 	$lang['strreturns'] = 'Retourneert';
 	$lang['strarguments'] = 'Argumenten';
-	$lang['strlanguage'] = 'taal';
+	$lang['strproglanguage'] = 'taal';
 	$lang['strfunctionneedsname'] = 'U dient uw functie een naam te geven.';
 	$lang['strfunctionneedsdef'] = 'U dient uw functie te defini&euml;ren.';
 	

@@ -102,8 +102,6 @@
 	$lang['strfind'] = 'Nájsť';
 	$lang['stroptions'] = 'Nastavenia';
 	$lang['strrefresh'] = 'Obnoviť';
-	$lang['strtaller'] = 'Vyšší';
-	$lang['strshorter'] = 'Kratší';
 	$lang['strdownload'] = 'Download';
 	$lang['strcollapse'] = 'Zmenšiť';
 	$lang['strnoframes'] = 'Potrebuješ prehliadač podporujúci \"frame-y\" pre túto aplikáciu.';
@@ -370,6 +368,7 @@
 	$lang['strfunctionname'] = 'Názov funkcie';
 	$lang['strreturns'] = 'Vracia';
 	$lang['strarguments'] = 'Argumenty';
+	$lang['strproglanguage'] = 'Jazyk';
 	$lang['strfunctionneedsname'] = 'Musíš zadať názov pre tvoju funkciu.';
 	$lang['strfunctionneedsdef'] = 'Musíš zadať definíciu pre tvoju funkciu.';
 	$lang['strfunctioncreated'] = 'Funkcia vytvorená.';
@@ -445,7 +444,6 @@
 	$lang['strreportdroppedbad'] = 'Report nebol zmazaný.';
 	$lang['strconfdropreport'] = 'Naozaj chceš zmazať report "%s"?';
 	$lang['strreportneedsname'] = 'Musíš zadať názov pre tvoj report.';
-	$lang['strsaveasreport'] = 'Uložiť ako Report';
 	$lang['strreportneedsdef'] = 'Musíš zadať SQL dotaz pre tvoj report.';
 	$lang['strreportcreated'] = 'Report uložený.';
 	$lang['strreportcreatedbad'] = 'Report nebol uložený.';

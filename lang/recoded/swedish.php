@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.3 2003/09/12 01:57:37 chriskl Exp $
+	 * $Id: swedish.php,v 1.4 2003/09/17 17:04:13 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -103,8 +103,6 @@
 	$lang['strfind'] = 'S&ouml;k';
 	$lang['stroptions'] = 'Alternativ';
 	$lang['strrefresh'] = 'Uppdatera';
-	$lang['strtaller'] = 'L&auml;ngre';
-	$lang['strshorter'] = 'Kortare';
 	$lang['strdownload'] = 'Ladda ner';
 	$lang['strcollapse'] = 'F&ouml;rminska';
 	$lang['strexpand'] = 'Ut&ouml;ka';
@@ -369,6 +367,7 @@
 	$lang['strfunctionname'] = 'Funktionsnamn';
 	$lang['strreturns'] = '&Aring;terger';
 	$lang['strarguments'] = 'Argument';
+	$lang['strproglanguage'] = 'Spr&aring;k';
 	$lang['strfunctionneedsname'] = 'Du m&aring;ste namnge din funktion.';
 	$lang['strfunctionneedsdef'] = 'Du m&aring;ste definiera din funktion.';
 	$lang['strfunctioncreated'] = 'Funktion skapad.';

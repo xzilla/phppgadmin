@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.4 2003/09/14 14:36:54 chriskl Exp $
+	 * $Id: turkish.php,v 1.5 2003/09/17 17:04:13 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -104,8 +104,6 @@
 	$lang['strfind'] = 'Bul';
 	$lang['stroptions'] = 'Se&ccedil;enekler';
 	$lang['strrefresh'] = 'Yenile';
-	$lang['strtaller'] = 'Daha uzun';
-	$lang['strshorter'] = 'Daha k&#305;sa';
 	$lang['strdownload'] = '&#304;ndir';
 	$lang['strcollapse'] = 'Daralt';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
@@ -374,6 +372,7 @@
 	$lang['strfunctionname'] = 'Fonksiyon ad&#305;';
 	$lang['strreturns'] = 'D&ouml;nderilen de&#287;er';
 	$lang['strarguments'] = 'Arg&uuml;manlar';
+	$lang['strproglanguage'] = 'Dil';
 	$lang['strfunctionneedsname'] = 'Fonksiyona bir ad vermelisiniz.';
 	$lang['strfunctionneedsdef'] = 'Fonksiyona bir tan&#305;m vermelisiniz.';
 	$lang['strfunctioncreated'] = 'Fonksiyon yarat&#305;ld&#305;.';

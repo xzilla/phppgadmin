@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.4 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: japanese.php,v 1.5 2003/09/17 17:04:13 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -358,6 +358,7 @@
 	$lang['strfunctionname'] = '&#38306;&#25968;&#21517;';
 	$lang['strreturns'] = '&#36820;&#12426;&#20516;';
 	$lang['strarguments'] = '&#24341;&#25968;';
+	$lang['strproglanguage'] = '&#35328;&#35486;';
 	$lang['strfunctionneedsname'] = '&#38306;&#25968;&#21517;&#12434;&#25351;&#23450;&#12375;&#12394;&#12369;&#12428;&#12400;&#12394;&#12426;&#12414;&#12379;&#12435;&#12290;';
 	$lang['strfunctionneedsdef'] = '&#38306;&#25968;&#12398;&#23450;&#32681;&#12434;&#12375;&#12394;&#12369;&#12428;&#12400;&#12394;&#12426;&#12354;&#12379;&#12435;&#12290;';
 	$lang['strfunctioncreated'] = '&#38306;&#25968;&#12434;&#20316;&#25104;&#12375;&#12414;&#12375;&#12383;&#12290;';

@@ -198,6 +198,7 @@ $lang['strfunction'] = '函数';
 $lang['strfunctions'] = '函数';
 $lang['strreturns'] = 'Returns';
 $lang['strarguments'] = '参数';
+$lang['strproglanguage'] = '语言';
 $lang['strfunctionneedsname'] = '你必须给您的函数命名。';
 $lang['strfunctionneedsdef'] = '你必须定义您的函数。';
 
