@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.74 2003/04/18 08:30:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.75 2003/04/18 08:34:41 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -64,10 +64,10 @@ class Postgres extends BaseDB {
 		'EUC_JP' => 'EUCJP',
 		'EUC_KR' => 'EUCKR',
 		'EUC_TW' => 'EUCTW', 
-		'ISO_8859-5' => 'ISO-8859-5',
-		'ISO_8859-6' => 'ISO-8859-6',
-		'ISO_8859-7' => 'ISO-8859-7',
-		'ISO_8859-8' => 'ISO-8859-8',
+		'ISO_8859_5' => 'ISO-8859-5',
+		'ISO_8859_6' => 'ISO-8859-6',
+		'ISO_8859_7' => 'ISO-8859-7',
+		'ISO_8859_8' => 'ISO-8859-8',
 		'JOHAB' => 'CP1361',
 		'KOI8' => 'KOI8-R',
 		'LATIN1' => 'ISO-8859-1',
