@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.50 2004/07/07 02:59:56 chriskl Exp $
+	 * $Id: database.php,v 1.51 2004/07/08 03:23:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -16,6 +16,19 @@
 	function _highlight($string, $term) {
 		return str_replace($term, "<b>{$term}</b>", $string);
 	}	
+
+	/**
+	 * Sends a signal to a process
+	 */
+	function doSignal() {
+		global $data, $lang;
+
+		$status = $data->sendSignal($_REQUEST['procpid'], $_REQUEST['signal']);
+		if ($status == 0)
+			doProcesses($lang['strsignalsent']);
+		else
+			doProcesses($lang['strsignalsentbad']);
+	}
 
 	/**
 	 * Searches for a named database object
@@ -314,7 +327,7 @@
 	 * Show all current database connections and any queries they
 	 * are running.
 	 */
-	function doProcesses() {
+	function doProcesses($msg = '') {
 		global $PHP_SELF, $data, $misc;
 		global $lang;
 
@@ -322,8 +335,9 @@
 		$processes = &$data->getProcesses($_REQUEST['database']);
 		
 		$misc->printDatabaseNav();
-		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strprocesses']),'processes');
-
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strprocesses']), 'processes');
+		$misc->printMsg($msg);
+		
 		$columns = array(
 			'user' => array(
 				'title' => $lang['strusername'],
@@ -342,8 +356,24 @@
 				'field' => 'query_start',
 			),
 		);
-		
-		$actions = array();
+
+		if ($data->hasSignals()) {
+			$columns['actions'] = array('title' => $lang['stractions']);
+
+			$actions = array(
+				'cancel' => array(
+					'title' => $lang['strcancel'],
+					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;database=" . urlencode($_REQUEST['database']) . "&amp;",
+					'vars'  => array('procpid' => 'procpid')
+				),
+				'kill' => array(
+					'title' => $lang['strkill'],
+					'url'   => "{$PHP_SELF}?action=signal&amp;signal=KILL&amp;database=" . urlencode($_REQUEST['database']) . "&amp;",
+					'vars'  => array('procpid' => 'procpid')
+				)
+			);
+		}
+		else $actions = array();
 		
 		// Remove query start time for <7.4
 		if (!isset($processes->f['query_start'])) unset($columns['start_time']);
@@ -712,6 +742,9 @@
 			break;
 		case 'export':
 			doExport();
+			break;
+		case 'signal':
+			doSignal();
 			break;
 		default:
 			if ($data->hasSchemas())

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.9 2004/07/07 03:00:07 chriskl Exp $
+ * $Id: Postgres75.php,v 1.10 2004/07/08 03:23:02 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -267,11 +267,40 @@ class Postgres75 extends Postgres74 {
 				
 		return $this->endTransaction();
 	}
+	
+	// Backend process signalling functions
+	
+	/**
+	 * Sends a cancel or kill command to a process
+	 * @param $pid The ID of the backend process
+	 * @param $signal 'CANCEL' or 'KILL'
+	 * @return 0 success
+	 * @return -1 invalid signal type
+	 */
+	function sendSignal($pid, $signal) {
+		// Clean
+		$pid = (int)$pid;
 		
+		if ($signal == 'CANCEL')
+			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
+		elseif ($signal == 'KILL')
+			$sql = "SELECT pg_catalog.pg_terminate_backend({$pid}) AS val";
+		else
+			return -1;
+			
+		// Execute the query
+		$val = $this->selectField($sql, 'val');
+		
+		if ($val === -1) return -1;
+		elseif ($val == '1') return 0;
+		else return -1;
+	}
+	
 	function hasAlterColumnType() { return true; }
 	function hasTablespaces() { 
 		$platform = $this->getPlatform();
 		return $platform != 'MINGW';
 	}
+	function hasSignals() { return true; }
 	
 }

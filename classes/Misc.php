@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.67 2004/07/07 03:00:01 chriskl Exp $
+	 * $Id: Misc.php,v 1.68 2004/07/08 03:23:01 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -691,7 +691,7 @@
 		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null) {
 			global $data, $conf, $misc;
 			global $PHP_SELF;
-			
+
 			if ($tabledata->recordCount() > 0) {
 				
 				// Remove the 'comment' column if they have been disabled
