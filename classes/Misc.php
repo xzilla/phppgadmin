@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.17 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: Misc.php,v 1.18 2003/03/23 10:53:45 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -59,7 +59,7 @@
 		 * @param $msg The message to print
 		 */
 		function printMsg($msg) {
-			if ($msg != '') echo "<p class=\"message\">", htmlspecialchars($msg), "</p>\n";
+			if ($msg != '') echo "<p class=\"message\">{$msg}</p>\n";
 		}
 
 		/**
