@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.17 2003/08/12 08:18:53 chriskl Exp $
+	 * $Id: indexes.php,v 1.18 2003/10/03 07:38:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,6 +12,39 @@
 		
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+
+	/**
+	 * Show confirmation of cluster index and perform actual cluster
+	 */
+	function doClusterIndex($confirm) {
+		global $localData, $database, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['index']), ": {$lang['strcluster']}</h2>\n";
+
+			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_index\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
+			echo $misc->form;
+			echo "<p><input type=\"checkbox\" name=\"analyze\" /> {$lang['stranalyze']}</p>\n";
+			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->clusterIndex($_POST['index'], $_POST['table'], isset($_POST['analyze']));
+			if ($status == 0)
+				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
+			else
+				doDefault($lang['strclusteredbad']);
+		}
+
+	}
 
 	/**
 	 * Displays a screen where they can enter a new index
@@ -169,17 +202,35 @@
 		
 		if ($indexes->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-			echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<tr>\n";
+			echo "<th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
+			if ($data->hasCluster()) {
+				echo "<th class=\"data\">{$lang['strclustered']}</th>";
+				echo "<th class=\"data\" colspan=\"2\">{$lang['stractions']}</th>\n";
+			}
+			else {
+				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+			}
+			echo "</tr>\n";
 			$i = 0;
 			
 			while (!$indexes->EOF) {
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 				echo "<tr><td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxname']]), "</td>";
 				echo "<td class=\"data{$id}\">", $misc->printVal( $indexes->f[$data->ixFields['idxdef']]), "</td>";
+				if ($data->hasCluster()) {
+					$indexes->f['indisclustered'] = $data->phpBool($indexes->f['indisclustered']);
+					echo "<td class=\"data{$id}\">", ($indexes->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
+				}
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
-					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td></tr>\n";
+					"&table=", urlencode($_REQUEST['table']), "\">{$lang['strdrop']}</td>";
+				if ($data->hasCluster()) {
+					echo "<td class=\"opbutton{$id}\">";
+					echo "<a href=\"$PHP_SELF?action=confirm_cluster_index&{$misc->href}&index=", urlencode( $indexes->f[$data->ixFields['idxname']]), 
+						"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</td>";
+				}
+				echo "</tr>\n";
 
 				$indexes->movenext();
 				$i++;
@@ -201,6 +252,13 @@
 		$misc->printBody();
 	
 	switch ($action) {
+		case 'cluster_index':
+			if (isset($_POST['cluster'])) doClusterIndex(false);
+			else doDefault();
+			break;
+		case 'confirm_cluster_index':
+			doClusterIndex(true);
+			break;
 		case 'save_create_index':
 			if (isset($_POST['cancel'])) doDefault();
 			else doSaveCreateIndex();

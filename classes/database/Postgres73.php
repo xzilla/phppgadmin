@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.63 2003/09/08 09:26:18 chriskl Exp $
+ * $Id: Postgres73.php,v 1.64 2003/10/03 07:38:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -450,7 +450,8 @@ class Postgres73 extends Postgres72 {
 	function &getIndexes($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid) as pg_get_indexdef
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, i.indisclustered,
+			pg_catalog.pg_get_indexdef(i.indexrelid) as pg_get_indexdef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
@@ -459,6 +460,31 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
+	
+	/**
+	 * Clusters an index
+	 * @param $index The name of the index
+	 * @param $table The table the index is on
+	 * @param $analyze True to run analyze afterward, false otherwise
+	 * @return 0 success
+	 */
+	function clusterIndex($index, $table, $analyze) {
+		$this->fieldClean($index);
+		$this->fieldClean($table);
+
+		// We don't bother with a transaction here, as there's no point rolling
+		// back an expensive cluster if a cheap analyze fails for whatever reason
+		$sql = "CLUSTER \"{$index}\" ON \"{$table}\"";
+		$status = $this->execute($sql);
+		if ($status != 0) return $status;
+		
+		if ($analyze) {
+			$sql = "ANALYZE \"{$table}\"";
+			return $this->execute($sql);
+		}
+		else
+			return $status;
+	}	
 
 	/**
 	 * Grabs a single trigger
@@ -808,11 +834,8 @@ class Postgres73 extends Postgres72 {
 	function &getConstraints($table) {
 		$this->clean($table);
 
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
 		$sql = "
-			SELECT conname, consrc, contype, indkey FROM (
+			SELECT conname, consrc, contype, indkey, indisclustered FROM (
 				SELECT
 					conname,
 					CASE WHEN contype='f' THEN
@@ -822,7 +845,8 @@ class Postgres73 extends Postgres72 {
 					END AS consrc,
 					contype,
 					conrelid AS relid,
-					NULL AS indkey
+					NULL AS indkey,
+					FALSE AS indisclustered
 				FROM
 					pg_catalog.pg_constraint
 				WHERE
@@ -837,7 +861,8 @@ class Postgres73 extends Postgres72 {
 						'u'
 					END,
 					pi.indrelid,
-					indkey
+					indkey,
+					pi.indisclustered
 				FROM
 					pg_catalog.pg_class pc,
 					pg_catalog.pg_index pi
@@ -848,6 +873,8 @@ class Postgres73 extends Postgres72 {
 			WHERE relid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
 					WHERE nspname='{$this->_schema}'))
+			ORDER BY
+				1
 		";
 
 		return $this->selectSet($sql);
@@ -869,6 +896,40 @@ class Postgres73 extends Postgres72 {
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
+	}
+
+	/**
+	 * Finds the foreign keys that refer to the specified table
+	 * @param $table The table to find referrers for
+	 * @return A recordset
+	 */
+	function &getReferrers($table) {
+		$this->clean($table);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$sql = "
+			SELECT
+				pn.nspname,
+				pl.relname,
+				pc.conname,
+				pg_catalog.pg_get_constraintdef(pc.oid) AS consrc
+			FROM
+				pg_catalog.pg_constraint pc,
+				pg_catalog.pg_namespace pn,
+				pg_catalog.pg_class pl
+			WHERE
+				pc.connamespace = pn.oid
+				AND pc.conrelid = pl.oid
+				AND pc.contype = 'f'
+				AND confrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}'))
+			ORDER BY 1,2,3
+		";
+
+		return $this->selectSet($sql);
 	}
 
 	// Privilege functions

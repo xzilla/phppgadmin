@@ -3,7 +3,7 @@
 /**
  * Overrides default ADODB error handler to provide nicer error handling.
  *
- * $Id: errorhandler.inc.php,v 1.12 2003/05/15 13:40:27 chriskl Exp $
+ * $Id: errorhandler.inc.php,v 1.13 2003/10/03 07:38:55 chriskl Exp $
  */
 
 define('ADODB_ERROR_HANDLER','Error_Handler');
@@ -31,7 +31,7 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 		$s = "<p><b>{$lang['strsqlerror']}</b><br />" . $misc->printVal($errmsg) . "</p>
 		      <p><b>{$lang['strinstatement']}</b><br />" . $misc->printVal($sql) . "</p>
 		";
-		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table>\n";
+		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
 
 		break;
 
@@ -43,7 +43,7 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 		break;
 	default:
 		$s = "$dbms error: [$errno: $errmsg] in $fn($p1, $p2)\n";
-		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table>\n";
+		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";
 		break;
 	}
 	/*

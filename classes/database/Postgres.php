@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.147 2003/09/14 10:03:27 chriskl Exp $
+ * $Id: Postgres.php,v 1.148 2003/10/03 07:38:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1674,6 +1674,27 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 	
+	/**
+	 * Drops an operator
+	 * @param $oprname The name of the operator to drop
+	 * @param $lefttype The left type (NULL for none)
+	 * @param $righttype The right type (NULL for none)
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropOperator($oprname, $lefttype, $righttype, $cascade) {
+		$this->fieldClean($oprname);
+
+		$sql = "DROP OPERATOR \"{$oprname}\"(";
+		echo ($lefttype === null) ? 'NONE' : $lefttype;
+		echo ', ';
+		echo ($righttype === null) ? 'NONE' : $righttype;
+		echo ')';		
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}	
+	
 	// User functions
 	
 	/**
@@ -2506,6 +2527,8 @@ class Postgres extends BaseDB {
 				pc.oid=pi.indexrelid
 				AND (pi.indisunique OR pi.indisprimary)
 				AND pi.indrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			ORDER BY
+				1
 		";
 
 		return $this->selectSet($sql);

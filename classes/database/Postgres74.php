@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.14 2003/09/21 02:58:16 chriskl Exp $
+ * $Id: Postgres74.php,v 1.15 2003/10/03 07:38:55 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -123,7 +123,8 @@ class Postgres74 extends Postgres73 {
 	function &getIndexes($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) as pg_get_indexdef
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, i.indisclustered,
+			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) as pg_get_indexdef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
@@ -180,16 +181,35 @@ class Postgres74 extends Postgres73 {
 	function &getConstraints($table) {
 		$this->clean($table);
 
+		// This SQL is greatly complicated by the need to retrieve
+		// index clustering information for primary and unique constraints
 		$sql = "SELECT
-				conname,
-				pg_catalog.pg_get_constraintdef(oid, true) AS consrc,
-				contype
+				pc.conname,
+				pg_catalog.pg_get_constraintdef(pc.oid, true) AS consrc,
+				pc.contype,
+				CASE WHEN pc.contype='u' OR pc.contype='p' THEN (
+					SELECT
+						indisclustered
+					FROM
+						pg_catalog.pg_depend pd,
+						pg_catalog.pg_class pl,
+						pg_index pi
+					WHERE
+						pd.refclassid=pc.tableoid 
+						AND pd.refobjid=pc.oid
+						AND pd.objid=pl.oid
+						AND pl.oid=pi.indexrelid
+				) ELSE
+					NULL
+				END AS indisclustered
 			FROM
-				pg_catalog.pg_constraint
+				pg_catalog.pg_constraint pc
 			WHERE
-				conrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
+				pc.conrelid = (SELECT oid FROM pg_class WHERE relname='{$table}'
 					AND relnamespace = (SELECT oid FROM pg_namespace
 					WHERE nspname='{$this->_schema}'))
+			ORDER BY
+				1
 		";
 
 		return $this->selectSet($sql);

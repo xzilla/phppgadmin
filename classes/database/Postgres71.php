@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.37 2003/08/06 07:04:45 chriskl Exp $
+ * $Id: Postgres71.php,v 1.38 2003/10/03 07:38:55 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -266,6 +266,8 @@ class Postgres71 extends Postgres {
 					AND (pi.indisunique OR pi.indisprimary)
 			) AS sub
 			WHERE relid = (SELECT oid FROM pg_class WHERE relname='{$table}')
+			ORDER BY
+				1
 		";
 
 		return $this->selectSet($sql);

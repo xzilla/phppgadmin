@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.59 2003/09/30 07:43:09 chriskl Exp $
+	 * $Id: english.php,v 1.60 2003/10/03 07:38:55 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -87,6 +87,7 @@
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
 	$lang['strcluster'] = 'Cluster';
+	$lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Run';
 	$lang['stradd'] = 'Add';
@@ -106,6 +107,7 @@
 	$lang['stroptions'] = 'Options';
 	$lang['strrefresh'] = 'Refresh';
 	$lang['strdownload'] = 'Download';
+	$lang['strinfo'] = 'Info';
 
 	// Error handling
 	$lang['strnoframes'] = 'You need a frames-enabled browser to use this application.';
@@ -317,6 +319,9 @@
  	$lang['strindextype'] = 'Type of index';
 	$lang['strtablecolumnlist'] = 'Columns in table';
 	$lang['strindexcolumnlist'] = 'Columns in index';
+	$lang['strconfcluster'] = 'Are you sure you want to cluster &quot;%s&quot;?';
+	$lang['strclusteredgood'] = 'Cluster complete.';
+	$lang['strclusteredbad'] = 'Cluster failed.';
 
 	// Rules
 	$lang['strrules'] = 'Rules';
@@ -486,6 +491,9 @@
 	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Operator dropped.';
 	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
+
+	// Info
+	$lang['strreferringtables'] = 'Referring Tables';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';

@@ -5,13 +5,17 @@ Version 3.2-dev
 ---------------
 
 Features
---------
 * Extra login security to prevent logging into servers as postgres and
   no password - a VERY common newbie error.
+* Cluster indexes and indexed constraints
+* Display clustered status of indexes and indexed constraints
 
 Bugs
-----
 * Added legal DOCTYPE
+* tabloid columns aligned right
+
+Translations
+* Afrikaans from Petri Jooste [rkwjpj@puk.ac.za]
 
 Version 3.1
 -----------

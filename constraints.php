@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.20 2003/09/09 06:23:12 chriskl Exp $
+	 * $Id: constraints.php,v 1.21 2003/10/03 07:38:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,6 +13,37 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
+	/**
+	 * Show confirmation of cluster index and perform actual cluster
+	 */
+	function doClusterIndex($confirm) {
+		global $localData, $database, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: ",
+				$misc->printVal($_REQUEST['table']), ": " , $misc->printVal($_REQUEST['constraint']), ": {$lang['strcluster']}</h2>\n";
+
+			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['constraint'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_constraint\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
+			echo $misc->form;
+			echo "<p><input type=\"checkbox\" name=\"analyze\" /> {$lang['stranalyze']}</p>\n";
+			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $localData->clusterIndex($_POST['constraint'], $_POST['table'], isset($_POST['analyze']));
+			if ($status == 0)
+				doDefault($lang['strclusteredgood'] . ((isset($_POST['analyze']) ? ' ' . $lang['stranalyzegood'] : '')));
+			else
+				doDefault($lang['strclusteredbad']);
+		}
+	}
 
 	/**
 	 * Confirm and then actually add a FOREIGN KEY constraint
@@ -379,7 +410,15 @@
 
 		if ($constraints->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>\n";
+			if ($data->hasCluster()) {
+				echo "<th class=\"data\">{$lang['strclustered']}</th>";
+				echo "<th class=\"data\" colspan=\"2\">{$lang['stractions']}</th>\n";
+			}
+			else {
+				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
+			}
+			echo "</tr>\n";
 			$i = 0;
 			
 			while (!$constraints->EOF) {
@@ -396,9 +435,28 @@
 					echo ")";
 				}
 				echo "</td>";
+				if ($data->hasCluster()) {
+					if ($constraints->f['indisclustered'] !== null) {
+						$constraints->f['indisclustered'] = $data->phpBool($constraints->f['indisclustered']);
+						echo "<td class=\"data{$id}\">", ($constraints->f['indisclustered'] ? $lang['stryes'] : $lang['strno']), "</td>";
+					} else {
+						echo "<td class=\"data{$id}\"></td>";
+					}
+				}
 				echo "<td class=\"opbutton{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]),
-					"&table=", urlencode($_REQUEST['table']), "&type=", urlencode($constraints->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
+					"&table=", urlencode($_REQUEST['table']), "&type=", urlencode($constraints->f['contype']), "\">{$lang['strdrop']}</td>";
+				if ($data->hasCluster()) {
+					echo "<td class=\"opbutton{$id}\">";
+					// You can only cluster primary key and unique constraints!
+					if ($constraints->f['contype'] == 'u' || $constraints->f['contype'] == 'p') {
+						echo "<a href=\"$PHP_SELF?action=confirm_cluster_constraint&{$misc->href}&constraint=", urlencode($constraints->f[$data->cnFields['conname']]), 
+							"&table=", urlencode($_REQUEST['table']), "\">{$lang['strcluster']}</a>";
+					}
+					echo "</td>\n";
+						
+				}
+				echo "</tr>\n";
 
 				$constraints->moveNext();
 				$i++;
@@ -430,6 +488,13 @@
 		$misc->printBody();
 
 	switch ($action) {
+		case 'cluster_constraint':
+			if (isset($_POST['cluster'])) doClusterIndex(false);
+			else doDefault();
+			break;
+		case 'confirm_cluster_constraint':
+			doClusterIndex(true);
+			break;
 		case 'add_foreign_key':
 			addForeignKey(1);
 			break;
