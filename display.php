@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.43 2004/09/02 08:39:17 chriskl Exp $
+	 * $Id: display.php,v 1.44 2004/09/02 09:01:16 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -343,11 +343,8 @@
 					if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) continue;
 					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
 					else {
-						// Trim strings if over length
-						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {
-							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
-						}
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
+						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">",
+							$misc->printVal($v, $finfo->type, array('null' => true, 'clip' => ($_REQUEST['strings']=='collapsed'))), "</td>";
 					}
 				}
 				echo "</tr>\n";
