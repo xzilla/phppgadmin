@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.42 2004/06/04 05:26:35 chriskl Exp $
+	 * $Id: views.php,v 1.42.2.1 2004/06/08 11:48:53 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -173,13 +173,13 @@
 			echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['strcreateviewwiz']}</h2>\n";		
 			$misc->printMsg($msg);
 			
-			$tblCount = sizeof($_POST['formTables']);						
+			$tblCount = sizeof($_POST['formTables']);
 			//unserialize our schema/table information and store in arrSelTables
 			for ($i = 0; $i < $tblCount; $i++) {
 				$arrSelTables[] = unserialize($_POST['formTables'][$i]);
-			}									
+			}
 			
-			$linkCount = $tblCount;						
+			$linkCount = $tblCount;
 			// If we can get foreign key info then get our linking keys
 			if ($data->hasForeignKeysInfo()) {
 				$rsLinkKeys = $data->getLinkingKeys($arrSelTables);
@@ -197,7 +197,7 @@
 				}
 				
 				$attrs = &$data->getTableAttributes($arrSelTables[$i]['tablename']);
-				while (!$attrs->EOF) {						
+				while (!$attrs->EOF) {
 					if ($data->hasSchemas() ) {
 						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
 					}
@@ -208,11 +208,11 @@
 				}
 				
 				//reset back to our original schema in case we switched from it
-				if ($data->hasSchemas() ) {				
+				if ($data->hasSchemas() ) {
 					$data->setSchema($curSchema);
 				}
-			}						
-			asort($arrFields);			
+			}
+			asort($arrFields);
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -223,7 +223,7 @@
 			echo "</td>\n</tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strcomment']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
-			// View comments			
+			// View comments
 			echo "<textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 				htmlspecialchars($_REQUEST['formComment']), "</textarea>\n";
 			echo "</td>\n</tr>\n";
@@ -232,22 +232,22 @@
 			// Output selector for fields to be retrieved from view
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strfields']}</th></tr>";
-			echo "<tr>\n<td class=\"data1\">\n";			
+			echo "<tr>\n<td class=\"data1\">\n";
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);
-			echo "</td>\n</tr>\n</table>\n<br />\n";						
-									
-			// Output the Linking keys combo boxes only if we detect linking keys
+			echo "</td>\n</tr>\n</table>\n<br />\n";
+			
+			// Output the Linking keys combo boxes
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";					
+			echo "<tr><th class=\"data\">{$lang['strviewlink']}</th></tr>";
 			$rowClass = 'data1';
 			for ($i = 0; $i < $linkCount; $i++) {
 				// Initialise variables
 				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
 				echo "<tr>\n<td class=\"$rowClass\">\n";
-							
+				
 				if ($data->hasForeignKeysInfo() && !$rsLinkKeys->EOF) {
 					$curLeftLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['p_schema'], 'tablename' => $rsLinkKeys->f['p_table'], 'fieldname' => $rsLinkKeys->f['p_field']) ) );
-					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['f_schema'], 'tablename' => $rsLinkKeys->f['f_table'], 'fieldname' => $rsLinkKeys->f['f_field']) ) );						
+					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['f_schema'], 'tablename' => $rsLinkKeys->f['f_table'], 'fieldname' => $rsLinkKeys->f['f_field']) ) );
 					$rsLinkKeys->moveNext();
 				}
 				else {
@@ -259,10 +259,10 @@
 				echo GUI::printCombo($data->joinOps, "formLink[$i][operator]", true, $formLink[$i]['operator']);
 				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
 				echo "</td>\n</tr>\n";
-				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';			
+				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
 			}
 			echo "</table>\n<br />\n";
-								
+			
 			// Build list of available operators (infix only)
 			$arrOperators = array();
 			foreach ($data->selectOps as $k => $v) {
@@ -272,28 +272,28 @@
 			// Output additional conditions, note that this portion of the wizard treats the right hand side as literal values 
 			//(not as database objects) so field names will be treated as strings, use the above linking keys section to perform joins
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strviewconditions']}</th></tr>";					
+			echo "<tr><th class=\"data\">{$lang['strviewconditions']}</th></tr>";
 			$rowClass = 'data1';
-			for ($i = 0; $i < $linkCount; $i++) {				
+			for ($i = 0; $i < $linkCount; $i++) {
 				echo "<tr>\n<td class=\"$rowClass\">\n";
 				echo GUI::printCombo($arrFields, "formCondition[$i][field]");
 				echo GUI::printCombo($arrOperators, "formCondition[$i][operator]", false, false);
 				echo "<input type=\"text\" name=\"formCondition[$i][txt]\" />\n";
 				echo "</td>\n</tr>\n";
 				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
-			}			
+			}
 			echo "</table>\n";
-			echo "<p><input type=\"hidden\" name=\"action\" id=\"action\" value=\"save_create_wiz\" />\n";			
-			echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" id=\"action\" value=\"save_create_wiz\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-						
-			foreach ($arrSelTables AS $curTable) {				
+			
+			foreach ($arrSelTables AS $curTable) {
 				echo "<input type=\"hidden\" name=\"formTables[]\" id=\"formTables[]\" value=\"" . htmlspecialchars(serialize($curTable) ) . "\" />\n";
 			}
 			
 			echo $misc->form;
 			echo "</form>\n";
-		}	
+		}
 	}
 	
 	/**
@@ -437,58 +437,58 @@
 							$arrRightLink = unserialize($curLink['rightlink']);
 							
 							$tbl1 = $data->hasSchemas() ? "\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\"" : $arrLeftLink['tablename'];
-							$tbl2 = $data->hasSchemas() ? "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"" : $arrLeftLink['tablename'];												
-													
+							$tbl2 = $data->hasSchemas() ? "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"" : $arrRightLink['tablename'];
+							
 							if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
-															
+								
 								// Make sure for multi-column foreign keys that we use a table alias tables joined to more than once
 								// This can (and should be) more optimized for multi-column foreign keys
 								$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
-																						
-								if ($data->hasSchemas() ) {	
+								
+								if ($data->hasSchemas() ) {
 									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
 								}
 								else {
 									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
-								}								
+								}
 								
 								$arrJoined[] = $curLink;
 								if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
 								if (!in_array($tbl2, $arrUsedTbls) )  $arrUsedTbls[] = $tbl2;
-							}						
+							}
 						}
-						$j++;					
+						$j++;
 					}
-				}				
-			} 			
+				}
+			}
 			
 			//if linkfields has no length then either _POST['formLink'] was not set, or there were no join conditions 
 			//just select from all seleted tables - a cartesian join do a
 			if (!strlen($linkFields) ) {
 				foreach ($_POST['formTables'] AS $curTable) {
 					$arrTmp = unserialize($curTable);
-					if ($data->hasSchemas() ) {					
+					if ($data->hasSchemas() ) {
 						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
 					}
 					else {
 						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['tablename']}\"" : "\"{$arrTmp['tablename']}\"";
-					}				
-				}				
-			}			
+					}
+				}
+			}
 			
 			$addConditions = '';
 			if (is_array($_POST['formCondition']) ) {
 				foreach ($_POST['formCondition'] AS $curCondition) {
-					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {						
+					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
 						$arrTmp = unserialize($curCondition['field']);
 						if ($data->hasSchemas() ) {
 							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
-						}						
+						}
 						else {
 							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
-						}						
-					}	
-				}		
+						}
+					}
+				}
 			}
 			
 			$viewQuery = "SELECT $selFields FROM $linkFields ";
@@ -501,10 +501,10 @@
 				$_reload_browser = true;
 				doDefault($lang['strviewcreated']);
 			}
-			else				
+			else
 				doSetParamsCreate($lang['strviewcreatedbad']);
 		}
-	}	
+	}
 	
 	/**
 	 * Show default list of views in the database
