@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.7 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: french.php,v 1.8 2003/08/01 06:34:34 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -105,10 +105,10 @@
 	$lang['strtableneedscols'] = 'Vous devez indiquer un nombre valide de colonnes.';
 	$lang['strtablecreated'] = 'Table crée.';
 	$lang['strtablecreatedbad'] = 'Echec de la création de table.';
-	$lang['strconfdroptable'] = 'Etes-vous sur de vouloir supprimer la table \"%s\"?';
+	$lang['strconfdroptable'] = 'Etes-vous sur de vouloir supprimer la table "%s"?';
 	$lang['strtabledropped'] = 'Table supprimée.';
 	$lang['strtabledroppedbad'] = 'Echec de la suppresion de table.';
-	$lang['strconfemptytable'] = 'Etes-vous sûr de vouloir vider la table \"%s\"?';
+	$lang['strconfemptytable'] = 'Etes-vous sûr de vouloir vider la table "%s"?';
 	$lang['strtableemptied'] = 'Table vide.';
 	$lang['strtableemptiedbad'] = 'Echec du vidage de la table.';
 	$lang['strinsertrow'] = 'Inserer enregistrement.';
@@ -130,7 +130,7 @@
 	$lang['straltercolumn'] = 'Modifier colonne';
 	$lang['strcolumnaltered'] = 'Colonne modifiée.';
 	$lang['strcolumnalteredbad'] = 'Echec de modification de la colonne.';
-        $lang['strconfdropcolumn'] = 'Etes-vous sûr de vouloir supprimer la colonne \"%s\" de la table \"%s\"?';
+        $lang['strconfdropcolumn'] = 'Etes-vous sûr de vouloir supprimer la colonne "%s" de la table "%s"?';
 	$lang['strcolumndropped'] = 'Colonne supprimée.';
 	$lang['strcolumndroppedbad'] = 'Echec de suppression de la colonne.';
 	$lang['straddcolumn'] = 'Ajouter une colonne';
@@ -141,7 +141,6 @@
 	$lang['strdataonly'] = 'Données seules';
 
 	// Users
-	$lang['struseradmin'] = 'Administration Utilisateurs';
 	$lang['struser'] = 'Utilisateur';
 	$lang['strusers'] = 'Utilisateurs';
 	$lang['strusername'] = 'Utilisateur';
@@ -156,12 +155,11 @@
 	$lang['strcreateuser'] = 'Créer un utilisateur';
 	$lang['strusercreated'] = 'Utilisateur Créé.';
 	$lang['strusercreatedbad'] = 'Echec de création de l\'utilisateur.';
-	$lang['strconfdropuser'] = 'Etes-vous sûr de vouloir supprimer l\'utilisateur \"%s\"?';
+	$lang['strconfdropuser'] = 'Etes-vous sûr de vouloir supprimer l\'utilisateur "%s"?';
 	$lang['struserdropped'] = 'Utilisateur supprimé.';
 	$lang['struserdroppedbad'] = 'Echec de suppression de l\'utilisateur.';
 		
 	// Groups
-	$lang['strgroupadmin'] = 'Administration des Groupes';
 	$lang['strgroup'] = 'Groupe';
 	$lang['strgroups'] = 'Groupes';
 	$lang['strnogroup'] = 'Groupe non trouvé.';
@@ -171,7 +169,7 @@
 	$lang['strgroupneedsname'] = 'Vous devez indiquer un nom pour votre groupe.';
 	$lang['strgroupcreated'] = 'Groupe créé.';
 	$lang['strgroupcreatedbad'] = 'Echec de création du groupe.';	
-	$lang['strconfdropgroup'] = 'Etes vous sûr de vouloir supprimer le groupe \"%s\"?';
+	$lang['strconfdropgroup'] = 'Etes vous sûr de vouloir supprimer le groupe "%s"?';
 	$lang['strgroupdropped'] = 'Groupe supprimé.';
 	$lang['strgroupdroppedbad'] = 'Echec de suppression du groupe.';
 	$lang['strmembers'] = 'Membres';
@@ -184,8 +182,6 @@
 	$lang['strrevoke'] = 'Révoquer';
 	$lang['strgranted'] = 'Privilèges accordés.';
 	$lang['strgrantfailed'] = 'Echec de l\'octroi de privilèges.';
-	$lang['strgrantuser'] = 'Octroyer à l\'utilisateur (Grant user)';
-	$lang['strgrantgroup'] = 'Octroyer au groupe (grant group)';
 
 	// Databases
 	$lang['strdatabase'] = 'Base de Données';
@@ -198,7 +194,7 @@
 	$lang['strdatabaseneedsname'] = 'Vous devez donner un nom pour votre base de données.';
 	$lang['strdatabasecreated'] = 'Base de Données créée.';
 	$lang['strdatabasecreatedbad'] = 'Echec de création de la base de données.';	
-	$lang['strconfdropdatabase'] = 'Etes-vous sûr de vouloir supprimer la base de données \"%s\"?';
+	$lang['strconfdropdatabase'] = 'Etes-vous sûr de vouloir supprimer la base de données "%s"?';
 	$lang['strdatabasedropped'] = 'Base de données supprimée.';
 	$lang['strdatabasedroppedbad'] = 'Echec de suppression de la base de données.';
 	$lang['strentersql'] = 'Veuillez saisir ci-dessous la requête SQL à exécuter :';
@@ -219,7 +215,7 @@
 	$lang['strviewneedsdef'] = 'Vous devez indiquer une définition pour votre vue.';
 	$lang['strviewcreated'] = 'Vue créée.';
 	$lang['strviewcreatedbad'] = 'Echec de création de la vue.';
-	$lang['strconfdropview'] = 'Ete-vous sûr de vouloir supprimer la vue \"%s\"?';
+	$lang['strconfdropview'] = 'Ete-vous sûr de vouloir supprimer la vue "%s"?';
 	$lang['strviewdropped'] = 'Vue supprimée.';
 	$lang['strviewdroppedbad'] = 'Echec de suppression de la vue.';
 	$lang['strviewupdated'] = 'Vue mise à jour.';
@@ -244,7 +240,7 @@
 	$lang['strsequenceneedsname'] = 'Vous devez spécifier un nom pour votre séquence.';
 	$lang['strsequencecreated'] = 'Séquence crée.';
 	$lang['strsequencecreatedbad'] = 'Echec de création de la séquence.'; 
-	$lang['strconfdropsequence'] = 'Etes vous sur de vouloir supprimer la séquence \"%s\"?';
+	$lang['strconfdropsequence'] = 'Etes vous sur de vouloir supprimer la séquence "%s"?';
 	$lang['strsequencedropped'] = 'Séquence supprimée.';
 	$lang['strsequencedroppedbad'] = 'Echec de suppression de la séquence.';
 
@@ -262,7 +258,7 @@
 	$lang['strindexneedscols'] = 'Vous devez indiquer un nombre valide de colonnes.';
 	$lang['strindexcreated'] = 'Index créé';
 	$lang['strindexcreatedbad'] = 'Echec de création de l\'index.';
-	$lang['strconfdropindex'] = 'Etes-vous sûr de vouloir supprimer l\'index \"%s\"?';
+	$lang['strconfdropindex'] = 'Etes-vous sûr de vouloir supprimer l\'index "%s"?';
 	$lang['strindexdropped'] = 'Index supprimé.';
 	$lang['strindexdroppedbad'] = 'Echec de suppression de l\'index.';
 	$lang['strkeyname'] = 'Nom de la clé';
@@ -284,7 +280,7 @@
 	$lang['strruleneedsname'] = 'Vous devez indiquer un nom pour votre règle.';
 	$lang['strrulecreated'] = 'Règle crée.';
 	$lang['strrulecreatedbad'] = 'Echec de création de la règle.';
-	$lang['strconfdroprule'] = 'Etes-vous sûr de vouloir supprimer la règle \"%s\" sur \"%s\"?';
+	$lang['strconfdroprule'] = 'Etes-vous sûr de vouloir supprimer la règle "%s" sur "%s"?';
 	$lang['strruledropped'] = 'Règle supprimée.';
 	$lang['strruledroppedbad'] = 'Echec de suppression de règle.';
 
@@ -295,7 +291,7 @@
 	$lang['strcreateconstraint'] = 'Créer une contrainte';
 	$lang['strconstraintcreated'] = 'Création d\'une contrainte.';
 	$lang['strconstraintcreatedbad'] = 'Echec de création de la contrainte.';
-	$lang['strconfdropconstraint'] = 'Etes vous sûr de vouloir supprimer la contrainte \"%s\" sur \"%s\"?';
+	$lang['strconfdropconstraint'] = 'Etes vous sûr de vouloir supprimer la contrainte "%s" sur "%s"?';
 	$lang['strconstraintdropped'] = 'Contrainte supprimée.';
 	$lang['strconstraintdroppedbad'] = 'Echec de suppression de la contrainte.';
 	$lang['straddcheck'] = 'Ajouter une Contrainte';
@@ -317,7 +313,7 @@
 	$lang['strfunctionneedsdef'] = 'Vous devez indiquer une définition pour votre fonction.';
 	$lang['strfunctioncreated'] = 'Fonction créée.';
 	$lang['strfunctioncreatedbad'] = 'Echec de création de la fonction.';
-	$lang['strconfdropfunction'] = 'Etes-vous sûr de vouloir supprimer la fonction \"%s\"?';
+	$lang['strconfdropfunction'] = 'Etes-vous sûr de vouloir supprimer la fonction "%s"?';
 	$lang['strfunctiondropped'] = 'Fonction supprimée.';
 	$lang['strfunctiondroppedbad'] = 'Echech de suppression de la fonction.';
 	$lang['strfunctionupdated'] = 'Fonction mise à jour.';
@@ -334,7 +330,7 @@
 	$lang['strtriggerneedsfunc'] = 'Vous devez indiquer une fonction pour votre trigger.';
 	$lang['strtriggercreated'] = 'Trigger créé.';
 	$lang['strtriggercreatedbad'] = 'Echec de création du trigger.';
-	$lang['strconfdroptrigger'] = 'Etes-vous sûr de vouloir supprimer le trigger \"%s\" sur \"%s\"?';
+	$lang['strconfdroptrigger'] = 'Etes-vous sûr de vouloir supprimer le trigger "%s" sur "%s"?';
 	$lang['strtriggerdropped'] = 'Trigger supprimé.';
 	$lang['strtriggerdroppedbad'] = 'Echec de suppression du trigger.';
 
@@ -357,7 +353,7 @@
 	$lang['strtypeneedslen'] = 'Vous devez indiquer une longueur pour votre type.';
 	$lang['strtypecreated'] = 'Type créé';
 	$lang['strtypecreatedbad'] = 'Echec de création du type.';
-	$lang['strconfdroptype'] = 'Etes-vous sûr de vouloir supprimé le type \"%s\"?';
+	$lang['strconfdroptype'] = 'Etes-vous sûr de vouloir supprimé le type "%s"?';
 	$lang['strtypedropped'] = 'Type supprimé.';
 	$lang['strtypedroppedbad'] = 'Echec de suppression du type.';
 
@@ -372,7 +368,7 @@
 	$lang['strschemaneedsname'] = 'Vous devez indiquer un nom pour votre schéma.';
 	$lang['strschemacreated'] = 'Schéma créé';
 	$lang['strschemacreatedbad'] = 'Echec de création du schéma.';
-	$lang['strconfdropschema'] = 'Etes-vous sûr de vouloir supprimer le schéma \"%s\"?';
+	$lang['strconfdropschema'] = 'Etes-vous sûr de vouloir supprimer le schéma "%s"?';
 	$lang['strschemadropped'] = 'Schéma supprimé.';
 	$lang['strschemadroppedbad'] = 'Echec de suppression du schéma.';
 
@@ -384,14 +380,14 @@
 	$lang['strcreatereport'] = 'Créer un rapport';
 	$lang['strreportdropped'] = 'Rapport supprimé.';
 	$lang['strreportdroppedbad'] = 'Echec de suppression du rapport.';
-	$lang['strconfdropreport'] = 'Etes-vous sur de vouloir supprimer le rapport \"%s\"?';
+	$lang['strconfdropreport'] = 'Etes-vous sur de vouloir supprimer le rapport "%s"?';
 	$lang['strreportneedsname'] = 'Vous devez indiquer un nom pour votre rapport.';
 	$lang['strreportneedsdef'] = 'Vous devez fournir une requête SQL pour votre rapport.';
 	$lang['strreportcreated'] = 'Rapport sauvegardé.';
 	$lang['strreportcreatedbad'] = 'Echec de sauvegarde du rapport.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s Lancé sur %s:%s -- Vous êtes connecté sous le nom \"%s\", %s';
+	$lang['strtopbar'] = '%s Lancé sur %s:%s -- Vous êtes connecté sous le nom "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>
