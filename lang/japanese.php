@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.1 2003/05/07 01:20:03 chriskl Exp $
+	 * $Id: japanese.php,v 1.2 2003/05/23 05:47:11 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,15 @@
 	$lang['appcharset'] = 'EUC-JP';
 	$lang['applocale'] = 'ja_JP';
   
+	// Welcome  
+	$lang['strintro'] = 'ようこそphpPgAdminへ。';
+	$lang['strppahome'] = 'phpPgAdmin ホームページ';
+	$lang['strpgsqlhome'] = 'PostgreSQL ホームページ';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strreportbug'] = 'バグレポート';
+	$lang['strviewfaq'] = 'FAQを見る';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	
 	// Basic strings
 	$lang['strintro'] = 'ようこそphpPgAdminへ。';
 	$lang['strlogin'] = 'ログイン';
@@ -51,9 +60,12 @@
 	$lang['strreferences'] = '参照';
 	$lang['stryes'] = 'はい';
 	$lang['strno'] = 'いいえ';
+	$lang['strtrue'] = '真(true)';
+	$lang['strfalse'] = '偽(false)';
 	$lang['stredit'] = '編集';
 	$lang['strcolumns'] = 'カラム一覧';
 	$lang['strrows'] = 'レコード';
+	$lang['strrowsaff'] = '影響を受けたレコード';
 	$lang['strexample'] = '例)';
 	$lang['strback'] = '戻る';
 	$lang['strqueryresults'] = 'クエリ結果';
@@ -65,6 +77,7 @@
 	$lang['strunique'] = 'ユニーク';
 	$lang['strprimary'] = 'プライマリ';
 	$lang['strexport'] = 'エクスポート';
+	$lang['strimport'] = 'インポート';
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Go';
 	$lang['stradmin'] = '管理';
@@ -79,6 +92,12 @@
 	$lang['strinstead'] = '代行';
 	$lang['strwhen'] = 'When';
 	$lang['strformat'] = 'フォーマット';
+	$lang['strdata'] = 'データ';
+	$lang['strconfirm'] = '確認';
+	$lang['strexpression'] = '評価式';
+	$lang['strellipsis'] = '...';
+	$lang['strexpand'] = '展開';
+	$lang['strcollapse'] = '閉じる';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
@@ -90,6 +109,7 @@
 	$lang['strinstatement'] = 'In statement:';
 	$lang['strinvalidparam'] = 'スクリプトパラメータが無効です。';
 	$lang['strnodata'] = 'レコードが見つかりません。';
+	$lang['strcascade'] = 'カスケード';
 
 	// Tables
 	$lang['strtable'] = 'テーブル';
@@ -158,6 +178,12 @@
 	$lang['strconfdropuser'] = '本当にユーザー「%s」を破棄しますか?';
 	$lang['struserdropped'] = 'ユーザーを破棄しました。';
 	$lang['struserdroppedbad'] = 'ユーザーの削除に破棄しました';
+	$lang['straccount'] = 'アカウント';
+	$lang['strchangepassword'] = 'パスワード変更';
+	$lang['strpasswordchanged'] = 'パスワードの変更をしました。';
+	$lang['strpasswordchangedbad'] = 'パスワードの変更に失敗しました。';
+	$lang['strpasswordshort'] = 'パスワードが短すぎます。';
+	$lang['strpasswordconfirm'] = 'パスワードの確認が一致しませんでした。';
 		
 	// Groups
 	$lang['strgroupadmin'] = 'グループ管理';
@@ -183,8 +209,8 @@
 	$lang['strrevoke'] = '廃止';
 	$lang['strgranted'] = '特権を与えました。';
 	$lang['strgrantfailed'] = '特権を与える事に失敗しました。';
-	$lang['strgrantuser'] = 'ユーザー権限';
-	$lang['strgrantgroup'] = 'グループ権限';
+	$lang['strgrantbad'] = '少なくとも一人のユーザーかグループに、少なくともひとつの特権を指定しなければなりません。';
+	$lang['stralterprivs'] = '特権の変更';
 
 	// Databases
 	$lang['strdatabase'] = 'データベース';
@@ -201,6 +227,7 @@
 	$lang['strdatabasedropped'] = 'データベースを破棄しました。';
 	$lang['strdatabasedroppedbad'] = 'データベースの破棄に失敗しました。';
 	$lang['strentersql'] = '下に実行するSQLを入力します:';
+	$lang['strsqlexecuted'] = 'SQLを実行しました。';
 	$lang['strvacuumgood'] = 'バキュームを完了しました。';
 	$lang['strvacuumbad'] = 'バキュームに失敗しました。';
 	$lang['stranalyzegood'] = '解析を完了しました。';
@@ -232,7 +259,7 @@
 	$lang['strnosequences'] = 'シーケンスが見つかりません。';
 	$lang['strcreatesequence'] = 'シーケンス作成';
 	$lang['strlastvalue'] = '最終値';
-	$lang['strincrementby'] = 'Increment By';	
+	$lang['strincrementby'] = '増加数';	
 	$lang['strstartvalue'] = '開始値';
 	$lang['strmaxvalue'] = '最大値';
 	$lang['strminvalue'] = '最小値';
@@ -311,9 +338,13 @@
 	$lang['struniqaddedbad'] = 'ユニークキーの追加に失敗しました。';
 	$lang['straddfk'] = '外部キーの追加';
 	$lang['strfkneedscols'] = '外部キーは少なくとも一カラムを必要とします。';
+	$lang['strfkneedstarget'] = '外部キーはターゲットテーブルを必要とします。';
 	$lang['strfkadded'] = '外部キーを追加しました。';
 	$lang['strfkaddedbad'] = '外部キーの追加に失敗しました。';
 	$lang['strfktarget'] = '対象テーブル';
+	$lang['strfkcolumnlist'] = 'Columns in key';
+	$lang['strondelete'] = 'ON DELETE';
+	$lang['stronupdate'] = 'ON UPDATE';	
 
 	// Functions
 	$lang['strfunction'] = '関数';
@@ -403,7 +434,7 @@
 	$lang['strreportcreatedbad'] = 'レポートの保存に失敗しました。';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%sが%s:%s上で起動しています。ユーザー「%s」でホスト「%s」にログインしています。';
+	$lang['strtopbar'] = '%sが%s:%s上で起動しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
 	$lang['strtimefmt'] = 'Y年n月j日 G:i';
 
 ?>
