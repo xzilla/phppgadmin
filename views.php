@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.11 2003/05/06 06:16:31 chriskl Exp $
+	 * $Id: views.php,v 1.12 2003/05/06 07:13:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -124,7 +124,7 @@
 		if ($viewdata->recordCount() > 0) {
 			echo "<form action=\"$PHP_SELF\" method=post>\n";
 			echo "<table width=\"100%\">\n";
-			echo "<tr><th class=\"data>\"{$lang['strname']}</th></tr>\n";
+			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
