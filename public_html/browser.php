@@ -3,7 +3,7 @@
 	/**
 	 * Main object browser
 	 *
-	 * $Id: browser.php,v 1.8 2002/10/02 05:05:20 xzilla Exp $
+	 * $Id: browser.php,v 1.9 2002/10/07 21:59:38 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -76,7 +76,9 @@
 				$tree->add_document($node, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
 			if ($data->hasAggregates())
 				$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
-		}
+			if ($data->hasIndicies())
+				$tree->add_document($node, $strIndicies, 'indicies.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]));
+	}
 		$databases->moveNext();
 	}
 	

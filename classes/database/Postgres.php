@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.16 2002/10/03 03:59:06 xzilla Exp $
+ * $Id: Postgres.php,v 1.17 2002/10/07 21:59:38 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -18,6 +18,7 @@ class Postgres extends BaseDB {
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
 	var $sqFields = array('seqname' => 'relname', 'seqowner' => 'usename', 'lastvalue' => 'last_value', 'incrementby' => 'increment_by', 'maxvalue' => 'max_value', 'minvalue'=> 'min_value', 'cachevalue' => 'cache_value', 'logcount' => 'log_cnt', 'iscycled' => 'is_cycled', 'iscalled' => 'is_called' );
+	var $ixFields = array('idxname' => 'relname');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -369,6 +370,9 @@ class Postgres extends BaseDB {
 		return $this->execute($sql);
 	}
 
+
+
+
 	/**
 	 * Adds a check constraint to a table
 	 * @param $table The table to which to add the check
@@ -650,8 +654,21 @@ class Postgres extends BaseDB {
 		// @@ how?
 		return $this->execute($sql);
 	}
+
+
+	function &getIndicies() {
+		if (!$this->_show_System)
+			$where = "WHERE relname NOT LIKE 'pg_%' AND ";
+		else $where  = '';
+		
+		$sql = "SELECT relname FROM pg_class {$where} relkind ='i' ORDER BY relname";
+
+		return $this->selectSet($sql);
+	}
+
+
+
 /*
-	function &getIndices()
 	function &getIndex()
 	function setIndex()
 	function delIndex()
@@ -881,6 +898,7 @@ class Postgres extends BaseDB {
 	function hasOperators() { return true; }
 	function hasTypes() { return true; }
 	function hasAggregates() { return true; }
+	function hasIndicies() { return true; }
 	function hasRules() { return true; }
 	function hasLanguages() { return true; }
 
