@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.22 2003/12/21 02:03:15 chriskl Exp $
+	 * $Id: indexes.php,v 1.23 2004/05/11 07:12:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -91,12 +91,12 @@
 
 
 		echo "<table>\n";
-		echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strindexname']}</th></tr>";
+		echo "<tr><th class=\"data required\" colspan=\"3\">{$lang['strindexname']}</th></tr>";
 		echo "<tr>";
 		echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"formIndexName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_POST['formIndexName']), "\" /></td></tr>";
 		echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th>";
-		echo "<th class=\"data\">{$lang['strindexcolumnlist']}</th></tr>\n";
+		echo "<th class=\"data required\">{$lang['strindexcolumnlist']}</th></tr>\n";
 		echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
 		echo "<td class=\"data1\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 		echo "<td class=\"data1\">" . $selIndex->fetch() . "</td></tr>\n";
@@ -104,7 +104,7 @@
 
 		echo "<table> \n";
 		echo "<tr>";
-		echo "<th class=\"data\">{$lang['strindextype']}</th>";
+		echo "<th class=\"data required\">{$lang['strindextype']}</th>";
 		echo "<td class=\"data1\"><select name=\"formIndexType\">";
 		foreach ($data->typIndexes as $v) {
 			echo "<option value=\"", htmlspecialchars($v), "\"",
