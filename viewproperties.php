@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.7 2004/07/07 03:00:00 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.8 2004/07/09 18:51:02 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['stredit']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['stredit']));
 		$misc->printMsg($msg);
 		
 		$viewdata = &$data->getView($_REQUEST['view']);
@@ -65,23 +65,28 @@
 
 	/** 
 	 * Allow the dumping of the data "in" a view
+	 * NOTE:: PostgreSQL doesn't currently support dumping the data in a view 
+	 *        so I have disabled the data related parts for now. In the future 
+	 *        we should allow it conditionally if it becomes supported.  This is 
+	 *        a SMOP since it is based on pg_dump version not backend version. 
 	 */
 	function doExport($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
 		$misc->printViewNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['view']), ": {$lang['strexport']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $misc->printVal($_REQUEST['view']), $lang['strexport']));
 		$misc->printMsg($msg);
 
 		echo "<form action=\"dataexport.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
 		// Data only
+		echo "<!--\n";
 		echo "<tr><th class=\"data left\">";
-		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
+		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" />{$lang['strdataonly']}</th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
-		echo "<td><select name=\"d_format\">\n";
+		echo "<td><select name=\"d_format\" >\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "<option value=\"csv\">CSV</option>\n";
@@ -89,11 +94,13 @@
 		echo "<option value=\"html\">XHTML</option>\n";
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
+		echo "-->\n";
 
 		// Structure only
-		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
+		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" checked=\"checked\" />{$lang['strstructureonly']}</th>\n";
 		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
 		// Structure and data
+		echo "<!--\n";
 		echo "<tr><th class=\"data left\" rowspan=\"2\">";
 		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
@@ -102,6 +109,7 @@
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
 		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "-->\n";
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
@@ -110,7 +118,7 @@
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}
@@ -126,7 +134,7 @@
 		$vdata = &$data->getView($_REQUEST['view']);
 
 		$misc->printViewNav();
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strdefinition']}</h2>\n";
+		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $misc->printVal($_REQUEST['view']), $lang['strdefinition']));
 		$misc->printMsg($msg);
 		
 		if ($vdata->recordCount() > 0) {
@@ -158,8 +166,7 @@
 			case 1:
 				global $lang;
 
-				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: {$lang['straltercolumn']}: ",
-					$misc->printVal($_REQUEST['column']), "</h2>\n";
+				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strviews'], $lang['straltercolumn'],	$misc->printVal($_REQUEST['column'])));
 				$misc->printMsg($msg);
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -283,7 +290,7 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['view'])."&amp;",
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);

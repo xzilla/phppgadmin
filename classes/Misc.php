@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.69 2004/07/09 03:23:01 chriskl Exp $
+	 * $Id: Misc.php,v 1.70 2004/07/09 18:51:02 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -384,7 +384,11 @@
 					'title' => $lang['strprivileges'],
 					'url'   => "privileges.php?{$vars}&amp;type=view&amp;object=" . urlencode($_REQUEST['view']),
 				),
-			);
+				'export' => array (
+					'title' => $lang['strexport'],
+					'url'   => "viewproperties.php?action=export&amp;{$vars}",
+				),
+		);
 			
 			$this->printTabs($tabs);
 		}
