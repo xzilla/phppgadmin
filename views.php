@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.15 2003/06/05 20:05:45 xzilla Exp $
+	 * $Id: views.php,v 1.16 2003/08/07 07:25:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -133,18 +133,14 @@
 			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&{$misc->href}&view=", 
-			urlencode($_REQUEST['view']), "\">{$lang['strproperties']}</a></p>\n";
 	}
 	
 	/**
@@ -171,7 +167,7 @@
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&{$misc->href}&view=", 
-			urlencode($_REQUEST['view']), "\">{$lang['stredit']}</a></p>\n";
+			urlencode($_REQUEST['view']), "\">{$lang['stralter']}</a></p>\n";
 	}
 	
 	/**
@@ -193,7 +189,8 @@
 			if ($localData->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
 			}
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\">\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -228,12 +225,11 @@
 		echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 			htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
 		echo $misc->form;
-		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\">\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
 		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallviews']}</a></p>\n";
 	}
 	
 	/**
@@ -312,20 +308,22 @@
 			doSelectRows(true);
 			break;
 		case 'save_create':
-			doSaveCreate();
+			if (isset($_POST['cancel'])) doDefault();
+			else doSaveCreate();
 			break;
 		case 'create':
 			doCreate();
 			break;
 		case 'drop':
-			if (isset($_POST['yes'])) doDrop(false);
+			if (isset($_POST['drop'])) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
 			doDrop(true);
 			break;			
 		case 'save_edit':
-			doSaveEdit();
+			if (isset($_POST['cancel'])) doProperties();
+			else doSaveEdit();
 			break;
 		case 'edit':
 			doEdit();
