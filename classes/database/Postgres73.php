@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.86 2004/01/03 19:15:44 soranzo Exp $
+ * $Id: Postgres73.php,v 1.87 2004/01/14 02:14:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -772,14 +772,22 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Returns a list of all types in the database
 	 * @param $all If true, will find all available functions, if false just those in search path
+	 * @param $tabletypes If true, will include table types, false will not.
 	 * @return A recordet
 	 */
-	function &getTypes($all = false) {
+	function &getTypes($all = false, $tabletypes = false) {
 		if ($all)
 			$where = 'pg_catalog.pg_type_is_visible(t.oid)';
 		else
 			$where = "n.nspname = '{$this->_schema}'";
+		// Never show system table types
+		$where2 = "AND c.relnamespace NOT IN (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname LIKE 'pg\\\\_%')";
 
+		if ($tabletypes)
+			$tqry = "'c', 'r', 'v'";
+		else
+			$tqry = "'c'";
+			
 		$sql = "SELECT
 				t.typname AS basename,
 				pg_catalog.format_type(t.oid, NULL) AS typname,
@@ -787,7 +795,8 @@ class Postgres73 extends Postgres72 {
 			FROM (pg_catalog.pg_type t
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace)
 				LEFT JOIN pg_catalog.pg_user pu ON t.typowner = pu.usesysid
-			WHERE (t.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid)) AND t.typname !~ '^_'
+			WHERE (t.typrelid = 0 OR (SELECT c.relkind IN ({$tqry}) FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid {$where2}))	 
+			AND t.typname !~ '^_'
 			AND {$where}
 			AND t.typtype != 'd'
 			ORDER BY typname

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.26 2003/12/30 03:09:29 chriskl Exp $
+	 * $Id: functions.php,v 1.27 2004/01/14 02:14:28 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -205,12 +205,13 @@
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
 		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
-		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = '';
+		if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = 'sql';
 		if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = '';
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
+		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
 		
-		$types = &$data->getTypes(true);
+		$types = &$data->getTypes(true, true);
 		$langs = &$data->getLanguages(true);
 
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strfunctions']}: {$lang['strcreatefunction']}</h2>\n";
@@ -249,6 +250,12 @@
 			$types->moveNext();
 		}
 		echo "</select>\n";
+		
+		// Output array type selector
+		echo "<select name=\"formArray\">\n";
+		echo "<option value=\"\"", ($_POST['formArray'] == '') ? ' selected="selected"' : '', "></option>\n";
+		echo "<option value=\"[]\"", ($_POST['formArray'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+		echo "</select></td>\n";
 
 		echo "<td class=\"data1\"><select name=\"formLanguage\">\n";
 		while (!$langs->EOF) {
@@ -300,9 +307,10 @@
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
 		elseif ($_POST['formDefinition'] == '') doCreate($lang['strfunctionneedsdef']);
-		else {		 
+		else {
+			// Append array symbol to type if chosen
 			$status = $data->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
-					$_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
+					$_POST['formReturns'] . $_POST['formArray'] , $_POST['formDefinition'] , $_POST['formLanguage'], 
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);

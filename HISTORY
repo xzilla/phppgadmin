@@ -13,6 +13,7 @@ Features
 * Integration with the PostgreSQL statistics collector.  See
   table and index performance and usage information.
 * Display user session defaults for PostgreSQL >= 7.3
+* Create functions returning arrays and table types
 
 Bugs
 * Object browser fixed for databases with no schemas

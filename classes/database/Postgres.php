@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.174 2004/01/07 16:29:40 soranzo Exp $
+ * $Id: Postgres.php,v 1.175 2004/01/14 02:14:28 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2525,14 +2525,22 @@ class Postgres extends BaseDB {
 	 * @param $all If true, will find all available functions, if false just those in search path
 	 * @return A recordet
 	 */
-	function &getTypes($all = false) {
+	function &getTypes($all = false, $tabletypes = false) {
 		global $conf;
 		
-		if ($all || $conf['show_system'])
+		if ($all || $conf['show_system']) {
 			$where = '';
-		else
+		} else {
 			$where = "AND pt.oid > '{$this->_lastSystemOID}'::oid";
-		
+		}
+		// Never show system table types
+		$where2 = "AND c.oid > '{$this->_lastSystemOID}'::oid";
+
+		if ($tabletypes)
+			$tqry = "'c', 'r', 'v'";
+		else
+			$tqry = "'c'";
+
 		$sql = "SELECT
 				pt.typname AS basename,
 				pt.typname,
@@ -2542,8 +2550,8 @@ class Postgres extends BaseDB {
 				pg_user pu
 			WHERE
 				pt.typowner = pu.usesysid
-				AND typrelid = 0
-				AND typname !~ '^_.*'
+				AND (pt.typrelid = 0 OR (SELECT c.relkind IN ({$tqry}) FROM pg_class c WHERE c.oid = pt.typrelid {$where2}))
+				AND typname !~ '^_'
 				{$where}
 			ORDER BY typname
 		";
