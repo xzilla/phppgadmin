@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.13 2003/09/14 10:03:28 chriskl Exp $
+ * $Id: Postgres74.php,v 1.14 2003/09/21 02:58:16 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -49,7 +49,7 @@ class Postgres74 extends Postgres73 {
 		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND 
 			indrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
-			AND indpred IS NULL AND indproc IS NULL ORDER BY indisprimary DESC LIMIT 1";
+			AND indpred IS NULL AND indexprs IS NULL ORDER BY indisprimary DESC LIMIT 1";
 		$rs = $this->selectSet($sql);
 
 		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row

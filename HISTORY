@@ -4,6 +4,11 @@ phpPgAdmin History
 Version 3.1 (19-Sep-2003)
 -------------------------
 
+Bug Fixes:
+* Table browsing for 7.4 fixed
+* Synch script for translators disabled due to bugginess.  If you want
+  to use it, just comment out the warning lines from the script itself.
+
 Translations:
 * Trad. Chinese
 * Dutch
