@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.12 2003/09/19 01:56:34 chriskl Exp $
+	 * $Id: dutch.php,v 1.13 2003/09/19 08:26:54 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -422,5 +422,64 @@ $lang['stralterprivs'] = 'Wijzig privilege';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
+
+// These were missing after using the language conversion tool :(
+
+$lang['strfirst'] = '<< Eerste';
+$lang['strlast'] = 'Laatste >>';
+$lang['strexplain'] = 'Verklaring';
+$lang['strfind'] = 'Zoek';
+$lang['stroptions'] = 'Opties';
+$lang['strrefresh'] = 'Ververs';
+$lang['strdownload'] = 'Download';
+$lang['strrownotunique'] = 'Geen unieke identifier voor deze rij.';
+$lang['strselectallfields'] = 'Selecteer alle velden';
+$lang['strtablealtered'] = 'Tabel gewijzigd.';
+$lang['strtablealteredbad'] = 'Tabel wijzigen mislukt.';
+$lang['strcreateuser'] = 'Cre&euml;er gebruiker';
+$lang['strusercreatedbad'] = 'Gebruiker cre&euml;ren mislukt.';
+$lang['straddmember'] = 'Voeg groepslid toe';
+$lang['strmemberadded'] = 'Groepslid toegevoegd.';
+$lang['strmemberaddedbad'] = 'Toevoegen groepslid mislukt.';
+$lang['strdropmember'] = 'Verwijder groepslid';
+$lang['strconfdropmember'] = 'Weet u zeker dat u "%s" uit groep "%s" wilt verwijderen?';
+$lang['strmemberdropped'] = 'Groepslid verwijderd.';
+$lang['strmemberdroppedbad'] = 'Verwijderen van groepslid mislukt.';
+$lang['strgrantor'] = 'Grantor';
+$lang['strasterisk'] = '*';
+$lang['strsequencereset'] = 'Sequence reset.';
+$lang['strsequenceresetbad'] = 'Sequence reset mislukt.';
+$lang['strproglanguage'] = 'Programmeertaal';
+$lang['strtriggeraltered'] = 'Trigger gewijzigd.';
+$lang['strtriggeralteredbad'] = 'Trigger wijziging mislukt.';
+$lang['strdomain'] = 'Domein';
+$lang['strdomains'] = 'Domeinen';
+$lang['strshowalldomains'] = 'Toon alle domeinen';
+$lang['strnodomains'] = 'Geen domeinen gevonden.';
+$lang['strcreatedomain'] = 'Cre&euml;er domein';
+$lang['strdomaindropped'] = 'Domein verwijderd.';
+$lang['strdomaindroppedbad'] = 'Verwijderen van domein mislukt.';
+$lang['strconfdropdomain'] = 'Weet u zeker dat u het domein "%s" wilt verwijderen?';
+$lang['strdomainneedsname'] = 'U dient een naam op te geven voor uw domein.';
+$lang['strdomaincreated'] = 'Domein gecre&euml;erd.';
+$lang['strdomaincreatedbad'] = 'Domeincreatie mislukt.';
+$lang['strdomainaltered'] = 'Domein gewijzigd.';
+$lang['strdomainalteredbad'] = 'Wijzigen van het domein mislukt.';
+$lang['stroperator'] = 'Operator';
+$lang['strshowalloperators'] = 'Toon alle operators';
+$lang['strnooperator'] = 'Geen operator gevonden.';
+$lang['strnooperators'] = 'Geen operators gevonden.';
+$lang['strcreateoperator'] = 'Cre&eumler operator';
+$lang['stroperatorname'] = 'Naam van de operator';
+$lang['strleftarg'] = 'Linkerargument type';
+$lang['strrightarg'] = 'Rechterargument type';
+$lang['stroperatorneedsname'] = 'U dient een naam op te geven voor uw operator.';
+$lang['stroperatorcreated'] = 'Operator gecre&euml;erd';
+$lang['stroperatorcreatedbad'] = 'Operator creatie mislukt.';
+$lang['strconfdropoperator'] = 'Weet u zeker dat u de operator "%s" wilt verwijderen?';
+$lang['stroperatordropped'] = 'Operator verwijderd.';
+$lang['stroperatordroppedbad'] = 'Verwijderen van de operator mislukt.';
+$lang['strhelp'] = 'Help';
+
 
 ?>
