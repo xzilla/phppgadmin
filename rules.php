@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: rules.php,v 1.4 2003/03/16 10:41:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,78 +13,95 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Displays a screen where they can enter a new rule
+	 * Confirm and then actually create a rule
 	 */
-	/*
-	function doCreate($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition, $strCreateIndex, $strIndexes, $strShowAllIndexes, $strColumns, $strSave, $strReset, $strExample;
+	function createRule($confirm, $msg = '') {
+		global $PHP_SELF, $data, $localData, $misc;
+		global $strCreateRule, $strTables, $strOK, $strCancel;
+		global $strName, $strEvent, $strWhere, $strInstead, $strAction;
+		global $strRuleNeedsName, $strRuleCreated, $strRuleCreatedBad;
 
-		if (!isset($_POST['formIndex'])) $_POST['formIndex'] = '';
-		if (!isset($_POST['formCols'])) $_POST['formCols'] = '';
+		if (!isset($_POST['name'])) $_POST['name'] = '';
+		if (!isset($_POST['event'])) $_POST['event'] = '';
+		if (!isset($_POST['where'])) $_POST['where'] = '';
+		if (!isset($_POST['type'])) $_POST['type'] = 'SOMETHING';
+		if (!isset($_POST['raction'])) $_POST['raction'] = '';
 
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strIndexes} : {$strCreateIndex} </h2>\n";
-		$misc->printMsg($msg);
-		
-		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formIndex size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formIndex']), "\"></td></tr>\n";
-		echo "<tr><th class=data>{$strColumns}</th></tr>\n";
-		echo "<tr><td class=data1><input name=formCols size={$data->_maxNameLen} value=\"",
-			htmlspecialchars($_POST['formCols']), "\"> ({$strExample} col1, col2)</td></tr>\n";
-		echo "</table>\n";
-		echo "<p><input type=hidden name=action value=save_create_index>\n";
-		echo $misc->form;
-		echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-		echo "<input type=submit value=\"{$strSave}\"> <input type=reset value=\"{$strReset}\"></p>\n";
-		echo "</form>\n";
-		
-		echo "<p><a class=navlink href=\"$PHP_SELF?{$misc->href}&table=", urlencode($_REQUEST['table']),
-			"\">{$strShowAllIndexes}</a></p>\n";
-	}
-	*/
-	/**
-	 * Actually creates the new rule in the database
-	 */
-	/*
-	function doSaveCreateIndex() {
-		global $localData;
-		global $strIndexNeedsName, $strIndexNeedsCols, $strIndexCreated, $strIndexCreatedBad;
-		
-		// Check that they've given a name and at least one column
-		if ($_POST['formIndex'] == '') doCreateIndex("{$strIndexNeedsName}");
-		elseif ($_POST['formCols'] == '') doCreate("{$strIndexNeedsCols}");
+		if ($confirm) {
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
+				htmlspecialchars($_REQUEST['table']), ": {$strCreateRule}</h2>\n";
+			$misc->printMsg($msg);
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data\">{$strName}</th>\n";
+			echo "<td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['name']), "\"></td></tr>\n";
+			echo "<tr><th class=\"data\">{$strEvent}</th>\n";
+			echo "<td class=\"data1\"><select name=\"event\">\n";
+			foreach ($data->rule_events as $v) {
+				echo "<option value=\"{$v}\"", ($v == $_POST['event']) ? ' selected' : '',
+				">{$v}</option>\n";
+			}
+			echo "</select></td></tr>\n";
+			echo "<tr><th class=\"data\">{$strWhere}</th>\n";
+			echo "<td class=\"data1\"><input name=\"where\" size=\"32\" value=\"",
+				htmlspecialchars($_POST['where']), "\"></td></tr>\n";
+			echo "<tr><th class=\"data\">{$strInstead}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input type=\"checkbox\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked' : '', ">\n";
+			echo "</td></tr>\n";
+			echo "<tr><th class=\"data\">{$strAction}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input type=\"radio\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked' : '', "> NOTHING<br />\n";
+			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked' : '', ">\n";
+			echo "(<input name=\"raction\" size=\"32\" value=\"",
+				htmlspecialchars($_POST['raction']), "\">)</td></tr>\n";
+			echo "</table>\n";
+
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_rule\">\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo $misc->form;
+			echo "<p><input type=\"submit\" name=\"ok\" value=\"{$strOK}\"> <input type=\"submit\" name=\"cancel\" value=\"{$strCancel}\"></p>\n";
+			echo "</form>\n";
+
+		}
 		else {
-			$status = $localData->createIndex($_POST['formIndex'], $_POST['table'], explode(',', $_POST['formCols']));
-			if ($status == 0)
-				doDefault($strIndexCreated);
-			else
-				doCreateIndex($strIndexCreatedBad);
+			if (trim($_POST['name']) == '')
+				createRule(true, $strRuleNeedsName);
+			else {
+				$status = $localData->createRule($_POST['name'],
+					$_POST['event'], $_POST['table'], $_POST['where'],
+					isset($_POST['instead']), $_POST['type'], $_POST['raction']);
+				if ($status == 0)
+					doDefault($strRuleCreated);
+				else
+					createRule(true, $strRuleCreatedBad);
+			}
 		}
 	}
-	*/
+
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
 		global $localData, $misc;
 		global $PHP_SELF, $strConfDropRule, $strRuleDropped, $strRuleDroppedBad, $strYes, $strNo;
+		global $strTables;
 
 		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Tables: ",
+			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: ",
 				htmlspecialchars($_REQUEST['table']), ": " , htmlspecialchars($_REQUEST['rule']), ": Drop</h2>\n";
 
 			echo "<p>", sprintf($strConfDropRule, htmlspecialchars($_REQUEST['rule']),
 				htmlspecialchars($_REQUEST['table'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=rule value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"rule\" value=\"", htmlspecialchars($_REQUEST['rule']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$strYes}\"> <input type=\"submit\" name=\"choice\" value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
@@ -132,19 +149,21 @@
 			}
 		else
 			echo "<p>{$strNoRules}</p>\n";
-		
-		//echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']), "\">{$strCreateRule}</a></p>\n";
+
+		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", htmlspecialchars($_REQUEST['table']),
+			"\">{$strCreateRule}</a></p>\n";
 	}
 
 	$misc->printHeader($strTables . ' - ' . $_REQUEST['table'] . ' - ' . $strRules);
 	$misc->printBody();
 	
 	switch ($action) {
-		case 'save_create':
-			doSaveCreate();
+		case 'create_rule':
+			createRule(true);
 			break;
-		case 'create':
-			doCreate();
+		case 'save_create_rule':
+			if (isset($_POST['cancel'])) doDefault();
+			else createRule(false);
 			break;
 		case 'drop':
 			if ($_POST['choice'] == $strYes) doDrop(false);
