@@ -3,7 +3,7 @@
 /**
  * Overrides default ADODB error handler to provide nicer error handling.
  *
- * $Id: errorhandler.inc.php,v 1.5 2003/01/04 07:08:03 chriskl Exp $
+ * $Id: errorhandler.inc.php,v 1.6 2003/01/06 08:36:18 chriskl Exp $
  */
 
 define('ADODB_ERROR_HANDLER','Error_Handler');
@@ -21,7 +21,7 @@ define('ADODB_ERROR_HANDLER','Error_Handler');
 function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 {
 	global $strSQLError, $strInStatement, $strLogin, $strLoginFailed;
-	global $misc, $appName;
+	global $misc, $appName, $appBase, $strUsername, $strPassword, $strServer;
 
 	switch($fn) {
 	case 'EXECUTE':
@@ -37,7 +37,6 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 
 	case 'PCONNECT':
 	case 'CONNECT':
-		include('../conf/config.inc.php');
 		$_failed = true;
 		// Theme
 		echo "<style type=\"text/css\">\n<!--\n";
