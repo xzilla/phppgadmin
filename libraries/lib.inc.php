@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.38 2003/04/27 11:00:04 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.39 2003/04/28 12:12:59 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -18,6 +18,7 @@
 
 	// Check to see if the configuration file exists, if not, explain
 	if (file_exists('conf/config.inc.php')) {
+		$conf = array();
 		include('conf/config.inc.php');
 	}
 	else {
@@ -110,6 +111,7 @@
 	}
 
 	// Import language file
+	$lang = array();
 	include("lang/recoded/" . strtolower($_SESSION['webdbLanguage']) . ".php");
 
 	// Create data accessor object, if valid, and if necessary
