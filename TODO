@@ -61,14 +61,14 @@ Functions
 
 * We add a {} around function definitions every time they are saved to the
 database. This doesn't break anything, but is annoying after you done it 5 times
-and have 5 pairs in your function. -> Remove the braces {}
+and have 5 pairs in your function. -> Remove the braces {}  (Robert)
 * Need to add a drop link to the properties and edit pages.
 * Resolve quote escaping issue
 
 Sequences
 ---------
 
-* Unimplemented
+* Unimplemented (Robert)
 
 Types
 -----

@@ -12,10 +12,7 @@ DEVELOPER INFO
  If you're planning to contribute source, please read the following 
  information:
  
- -- Need information here!! --
- 
- IMPORTANT:
-  The following method is preferred for new developers:
+ The following method is preferred for new developers:
   - fetch the current CVS tree over anonymous CVS:
   
     cvs -d:pserver:anonymous@cvs.phppgadmin.sourceforge.net:/cvsroot/phppgadmin login
@@ -52,4 +49,3 @@ DEVELOPER INFO
   contributed something useful to WebDB or phpPgAdmin.  If you're interested in that, 
   please contact us.                                  
                                  
-                                
