@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.43 2005/02/17 22:13:22 slubek Exp $
+	 * $Id: polish.php,v 1.44 2005/04/01 21:02:36 slubek Exp $
 	 */
 
 	// Language and character set
@@ -167,6 +167,7 @@
 	$lang['strinsertrow'] = 'Wstaw wiersz';
 	$lang['strrowinserted'] = 'Wiersz zosta³ wstawiony.';
 	$lang['strrowinsertedbad'] = 'Próba wstawienia wiersza siê nie powiod³a.';
+	$lang['strrowduplicate']  =  'Próba wstawienia zduplikowanego wiersza.';
 	$lang['streditrow'] = 'Edycja wiersza';
 	$lang['strrowupdated'] = 'Wiersz zosta³ zaktualizowany.';
 	$lang['strrowupdatedbad'] = 'Próba aktualizacji wiersza siê nie powiod³a.';
