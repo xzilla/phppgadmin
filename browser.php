@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.31 2003/12/16 00:32:28 soranzo Exp $
+	 * $Id: browser.php,v 1.32 2003/12/16 17:17:43 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -37,9 +37,6 @@
 	 */	
 	function addNodes(&$schemanode, $querystr) {
 		global $data, $misc, $lang, $conf;
-		
-		// Session tracking
-		$querystr .= '&' . SID;
 		
 		// Tables
 		if ($data->hasTables()) {
@@ -188,15 +185,14 @@
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
 			// Very ugly hack to work around the fact that the PEAR HTML_Tree can't have links with embedded
 			// apostrophes create the get string we need to append
-			$jsLink = '?database=' . addslashes(htmlspecialchars(urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID));
-			$jsLink = "javascript:updateLinks(' + \"'{$jsLink}'\" + ')";
+			$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&' . SID;
 			$db_node = &new HTML_TreeNode(array(
 								'text' => addslashes($misc->printVal($databases->f[$data->dbFields['dbname']])), 
-								'link' => $jsLink,
+								'link' => addslashes(htmlspecialchars("database.php?{$querystr}")),
 								'icon' => "../../../images/themes/{$conf['theme']}/database.png", 
 								'expandedIcon' => "../../../images/themes/{$conf['theme']}/database.png",
 								'expanded' => true,
-								'linkTarget' => '_self'));
+								'linkTarget' => 'detail'));
 		
 			// If database supports schemas, add the extra level of hierarchy
 			if ($data->hasSchemas()) {
@@ -205,10 +201,10 @@
 					$data->setSchema($schemas->f[$data->nspFields['nspname']]);
 					// Construct database & schema query string
 					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
-							urlencode($schemas->f[$data->nspFields['nspname']]);
+							urlencode($schemas->f[$data->nspFields['nspname']]) . '&' . SID;
 					$schemanode = &new HTML_TreeNode(array(
 									'text' => addslashes($misc->printVal($schemas->f[$data->nspFields['nspname']])), 
-									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
+									'link' => addslashes(htmlspecialchars("schema.php?{$querystr}")), 
 									'icon' => 'folder.gif', 
 									'expandedIcon' => 'folder-expanded.gif',
 									// Auto-expand your personal schema, if it exists.  Also expand schema if there is
