@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.65 2004/11/29 01:48:38 chriskl Exp $
+	 * $Id: database.php,v 1.64.2.1 2004/11/29 04:52:31 chriskl Exp $
 	 */
 
 	// Include application functions
