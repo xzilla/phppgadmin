@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.12 2003/05/06 07:13:04 chriskl Exp $
+	 * $Id: views.php,v 1.13 2003/05/15 13:32:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -122,18 +122,22 @@
 		$viewdata = &$localData->getView($_REQUEST['view']);
 		
 		if ($viewdata->recordCount() > 0) {
-			echo "<form action=\"$PHP_SELF\" method=post>\n";
+			
+			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $viewdata->f[$data->vwFields['vwdef']];
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
-				htmlspecialchars($viewdata->f[$data->vwFields['vwdef']]), "</textarea></td></tr>\n";
+				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\">\n";
-			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
+			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" value=\"{$lang['strsave']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
+			echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"reset\" value=\"{$lang['strreset']}\" />\n";
 			echo "</form>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -160,7 +164,7 @@
 			echo "<tr><th class=\"data\">{$lang['strname']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", nl2br(htmlspecialchars($viewdata->f[$data->vwFields['vwdef']])), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -265,7 +269,7 @@
 		if ($views->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strview']}</th><th class=\"data\">{$lang['strowner']}</th>";
-			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th>\n";
+			echo "<th colspan=\"5\" class=\"data\">{$lang['stractions']}</th></tr>\n";
 			$i = 0;
 			while (!$views->EOF) {
 				// @@@@@@@@@ FIX THIS!!!!!
