@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.48 2003/11/15 10:08:14 chriskl Exp $
+	 * $Id: Misc.php,v 1.49 2003/12/10 14:23:39 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -238,9 +238,7 @@
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
 				
 				// Theme
-				echo "<style type=\"text/css\">\n<!--\n";
-				include("themes/{$conf['theme']}/global.css");
-				echo "\n-->\n</style>\n";
+				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
 				if ($script) echo "\n {$script} \n";
 				echo "</head>\n";
 			}
