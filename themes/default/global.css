@@ -1,40 +1,56 @@
 /**
  * Default style sheet, based of the work of Juri Aksenov
  *
- * $Id: global.css,v 1.7 2003/01/02 02:22:04 chriskl Exp $
+ * $Id: global.css,v 1.8 2003/05/26 11:33:22 chriskl Exp $
  */
 
 /** ELEMENTS */
 
 body, td
 {
-	background-color: #ffffff;
-	margin: 4px 4px;
-	font-family: arial;
+	background-color: #FFFFFF;
+	margin:	4px;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	padding: 0px;
-	font-size: 10pt;
-	text-align: left;
+	font-size: 0.8em;
+	text-align:	left;
+}
+
+.foo {
+	font-size: 1em;
 }
 
 body.topbar
 {
-	background-color: #ffffff;
-	margin: 0px 0px;
-	font-family: arial;
+	background-color: #CECF9C;
+	margin:	0px;
 	padding: 0px;
-	font-size: 10pt;
-	text-align: left;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	text-align:	left;
+	border-bottom: 2px solid #000000;
 }
 
 body.browser
 {
-	background-color: #ffffff;
-	/*background-color: #efefef;*/
-	margin: 0px 0px;
-	font-family: arial;
+	height:	100%;
+	background-color: #efefef;
+	margin:	0px;
 	padding: 0px;
-	font-size: 10pt;
-	text-align: left;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	text-align:	left;
+	border-right: 1px dashed #c0c0c0;
+}
+
+body.bottombar {
+	background-color: #CECF9C;
+	margin:	0px;
+	padding: 0px;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	text-align:	left;
+	border-top:	1px solid #000000;
 }
 
 p.message {
@@ -44,8 +60,8 @@ p.message {
 h2
 {
 	color: #666633;
-	font-size: 16;
-	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 1.3em;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 }
 
@@ -65,12 +81,12 @@ table.navbar
 
 table.navbar td
 {
-	height: 25;
+	height:	25;
 	color: #000000;
 	background-color: #F3F3E9;
-	text-align: center;
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-size: 14;
+	text-align:	center;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.9em;
 	font-weight: bold;
 }
 
@@ -79,54 +95,129 @@ th.data
 {
 	color: #000000;
 	background-color: #E6E6CC;
-	text-align: center;
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-size: 14;
+	text-align:	center;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.9em;
+}
+
+td.topbar
+{
+	background-color: #CECF9C;
+	margin:	0px	0px;
+	padding: 0px;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.8em;
+	text-align:	left;
 }
 
 td.data1
 {
 	color: #000000;
 	background-color: #F3F3E9;
-	text-align: left;
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-size: 9pt;
+	text-align:	left;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.8em;
 }
 
 td.data2
 {
 	color: #000000;
 	background-color: #E6E6CC;
-	text-align: left;
-	font-family: verdana, arial, helvetica, sans-serif;
-	font-size: 9pt;
+	text-align:	left;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.8em;
 }
 
-td.opbutton1 {
+td.opbutton1 
+{
 	color: #000000;
 	background-color: #F3F3E9;
-	border-top: 1px solid #FFFFFF;
-	border-right: 1px solid #706D41;
+	border-top:	1px solid #FFFFFF;
+	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
-	cursor: hand;
-	font-family: Helvetica,Arial,Verdana;
-	font-size: 9pt;
+	cursor:	hand;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.8em;
 }
 
-td.opbutton2 {
+td.opbutton2 
+{
 	color: #000000;
 	background-color: #E6E6CC;
-	border-top: 1px solid #FFFFFF;
-	border-right: 1px solid #706D41;
+	border-top:	1px solid #FFFFFF;
+	border-right: 1px solid	#706D41;
 	border-bottom: 1px solid #706D41;
 	border-left: 1px solid #FFFFFF;
-	cursor: hand;
-	font-family: Helvetica,Arial,Verdana;
-	font-size: 9pt;
+	cursor:	pointer;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 0.8em;
 }
 
-a.toplink, a.navlink {
+a,a:active 
+{
+	color: #989973;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a:link
+{
+	color: #336699;
+	font-family: arial;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+a:visited
+{
+	color: #336699;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #cc0000;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	text-decoration: none;
+}
+
+a.navlink:link, a.toplink:link
+{
+	color: #336699;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
 	font-weight: bold;
+	text-decoration: none;
 }
 
+a.navlink:visited, a.toplink:visited
+{
+	color: #336699;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.navlink:hover, a.toplink:hover
+{
+	color: #cc0000;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.navlink:active, a.toplink:active
+{
+	color: #cc0000;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: 1em;
+	font-weight: bold;
+	text-decoration: none;
+}

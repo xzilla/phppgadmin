@@ -3,7 +3,7 @@
 	/**
 	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.6 2003/04/23 06:34:30 chriskl Exp $
+	 * $Id: index.php,v 1.7 2003/05/26 11:33:22 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -11,12 +11,13 @@
 	
 	$misc->printHeader();
 ?>
-<frameset rows="50, *">
-	<frame src="topbar.php" name="topbar" scrolling="no" noresize="noresize" />
+<frameset rows="52,*,12">
+	<frame src="topbar.php" name="topbar" scrolling="no" noresize="noresize" frameborder="0" />
 	<frameset cols="<?php echo $conf['left_width'] ?>,*">
-	  <frame src="browser.php" name="browser" />
-	  <frame src="intro.php" name="detail" />
+	  <frame src="browser.php" name="browser" frameborder="0" />
+	  <frame src="intro.php" name="detail" frameborder="0" />
 	</frameset>
+	<frame src="bottombar.php" name="bottombar" scrolling="no" noresize="noresize" frameborder="0" />
 	<noframes>
 	<body>
 		<?php echo $lang['strnoframes'] ?>
