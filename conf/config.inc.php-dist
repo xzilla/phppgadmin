@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.1 2002/05/15 09:57:55 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.2 2002/09/14 11:21:31 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -52,7 +52,7 @@
 	 *****************************************/
 
 	// Language
-	include_once('../lang/template.php');
+	include_once('../lang/english.php');
 	
 	// Main library
 	include_once('../libraries/lib.inc.php');

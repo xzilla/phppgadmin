@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.5 2002/09/09 10:16:31 chriskl Exp $
+	 * $Id: tables.php,v 1.6 2002/09/14 11:21:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -156,13 +156,14 @@
 		}
 		else echo "<p>No data.</p>\n";
 	}
-
+	
 	/**
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData;
 		global $PHP_SELF, $strTable, $strOwner, $strActions, $strNoTables;
+		global $strBrowse, $strProperties;
 		
 		echo "<h2>", htmlspecialchars($_GET['database']), "</h2>\n";
 			
@@ -177,10 +178,11 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($tables->f[$data->tbFields['tbowner']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"{$PHP_SELF}?action=browse&offset=0&limit=30&database=", 
-					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">Browse</a></td>\n";
+					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strBrowse}</a></td>\n";
 				echo "<td class=opbutton{$id}>Select</td>\n";
 				echo "<td class=opbutton{$id}>Insert</td>\n";
-				echo "<td class=opbutton{$id}>Properties</td>\n";
+				echo "<td class=opbutton{$id}><a href=\"tblproperties.php?database=", 
+					htmlspecialchars($_GET['database']), "&table=", htmlspecialchars($tables->f[$data->tbFields['tbname']]), "\">{$strProperties}</a></td>\n";
 				echo "<td class=opbutton{$id}>Empty</td>\n";
 				echo "<td class=opbutton{$id}>Drop</td>\n";
 				echo "</tr>\n";

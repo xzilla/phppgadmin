@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.3 2002/09/09 05:08:55 chriskl Exp $
+ * $Id: Postgres73.php,v 1.4 2002/09/14 11:21:31 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -203,6 +203,30 @@ class Postgres73 extends Postgres71 {
 		$sql = "SELECT * FROM pg_class WHERE relname='{$table}'";
 		return $this->selectRow($sql);
 	}
+	
+	/**
+	 * Retrieve the attribute definition of a table
+	 * @param $table The name of the table
+	 * @return All attributes in order
+	 */
+	function &getTableAttributes($table) {
+		$this->clean($table);
+		
+		$sql = "
+			SELECT
+				a.attname,
+				pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
+				a.attnotnull, a.atthasdef, adef.adsrc
+			FROM 
+				pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef	
+				ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+			WHERE 
+				a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
+				AND a.attnum > 0 AND NOT a.attisdropped
+			ORDER BY a.attnum";
+			
+		return $this->selectSet($sql);
+	}	
 
 	/**
 	 * Sets whether or not a column can contain NULLs
