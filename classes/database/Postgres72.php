@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.57 2004/02/02 12:15:58 chriskl Exp $
+ * $Id: Postgres72.php,v 1.58 2004/03/06 11:30:00 chriskl Exp $
  */
 
 
@@ -313,10 +313,86 @@ class Postgres72 extends Postgres71 {
 		return $this->execute($sql);
 	}
 
+	// Statistics collector functions
+
+	/**
+	 * Fetches statistics for a database
+	 * @param $database The database to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsDatabase($database) {
+		$this->clean($database);
+
+		$sql = "SELECT * FROM pg_stat_database WHERE datname='{$database}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches tuple statistics for a table
+	 * @param $table The table to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsTableTuples($table) {
+		$this->clean($table);
+
+		$sql = 'SELECT * FROM pg_stat_all_tables WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches I/0 statistics for a table
+	 * @param $table The table to fetch stats for
+	 * @return A recordset
+	 */
+	function &getStatsTableIO($table) {
+		$this->clean($table);
+
+		$sql = 'SELECT * FROM pg_statio_all_tables WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches tuple statistics for all indexes on a table
+	 * @param $table The table to fetch index stats for
+	 * @return A recordset
+	 */
+	function &getStatsIndexTuples($table) {
+		$this->clean($table);
+
+		$sql = 'SELECT * FROM pg_stat_all_indexes WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}' ORDER BY indexrelname";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Fetches I/0 statistics for all indexes on a table
+	 * @param $table The table to fetch index stats for
+	 * @return A recordset
+	 */
+	function &getStatsIndexIO($table) {
+		$this->clean($table);
+
+		$sql = 'SELECT * FROM pg_statio_all_indexes WHERE';
+		if ($this->hasSchemas()) $sql .= " schemaname='{$this->_schema}' AND";
+		$sql .= " relname='{$table}' ORDER BY indexrelname";
+
+		return $this->selectSet($sql);
+	}
+
 	// Capabilities
 	function hasWithoutOIDs() { return true; }
 	function hasPartialIndexes() { return true; }
 	function hasProcesses() { return true; }
+	function hasStatsCollector() { return true; }
 
 }
 

@@ -4,6 +4,8 @@ phpPgAdmin History
 Version 3.4-dev
 -----------
 
+Bugs
+* Fix table stats for <= 7.2
 
 Version 3.3
 -----------
