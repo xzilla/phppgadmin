@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.68 2004/07/08 03:23:01 chriskl Exp $
+	 * $Id: Misc.php,v 1.69 2004/07/09 03:23:01 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -728,7 +728,7 @@
 				}
 				echo "</tr>\n";
 				
-				ob_start();
+				if (function_exists('ob_start')) ob_start();
 				
 				$i = 0;
 				while (!$tabledata->EOF) {
@@ -780,12 +780,12 @@
 					}
 					echo "</tr>\n";
 					
-					ob_flush();
+					if (function_exists('ob_flush')) ob_flush();
 					$tabledata->moveNext();
 					$i++;
 				}
 				
-				ob_end_flush();
+				if (function_exists('ob_end_flush')) ob_end_flush();
 				
 				echo "</table>\n";
 			
