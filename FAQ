@@ -107,6 +107,15 @@ A: You need to configure phpPgAdmin (in the config.inc.php file) to point
    to the location of the pg_dump and pg_dumpall utilities on your server.
    Once you have done that, the database export feature will appear.
 
+Q: I would like to use the pg_dump integration for database and table
+dumps on Windows.  How do I get pg_dump.exe on Windows?
+
+A: To get pg_dump.exe on Windows, you need to install the Cygwin
+version of PostgreSQL.  Go to http://www.cygwin.com/ and download and
+run the setup.exe.  During setup of Cygwin, choose database/PostgreSQL
+as an extra package. Once installation is complete, you will have
+pg_dump.exe installed.
+
 Q: Why can't I reload the SQL script I dumped in the SQL window?
 
 A: The following limitations currently exist in SQL script execution:
