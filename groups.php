@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.5 2003/03/17 05:20:30 chriskl Exp $
+	 * $Id: groups.php,v 1.6 2003/03/19 03:29:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -13,64 +13,14 @@
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	/** 
-	 * Function to save after editing a user
-	 */
-	function doSaveEdit() {
-		global $data;
-		
-		$status = $data->setUser($_POST['username'], '', isset($_POST['formCreateDB']), isset($_POST['formSuper']), $_POST['formExpires']);
-		if ($status == 0)
-			doProperties('User updated.');
-		else
-			doEdit('User update failed.');
-	}
-	
 	/**
-	 * Function to allow editing of a user
-	 */
-	function doEdit($msg = '') {
-		global $data, $misc;
-		global $PHP_SELF, $lang;
-	
-		echo "<h2>Users: ", htmlspecialchars($_REQUEST['groname']), ": $lang['stredit']</h2>\n";
-		$misc->printMsg($msg);
-		
-		$userdata = &$data->getUser($_REQUEST['groname']);
-		
-		if ($userdata->recordCount() > 0) {
-			$userdata->f[$data->uFields['ucreatedb']] = $data->phpBool($userdata->f[$data->uFields['ucreatedb']]);
-			$userdata->f[$data->uFields['usuper']] = $data->phpBool($userdata->f[$data->uFields['usuper']]);
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", htmlspecialchars($userdata->f[$data->uFields['uname']]), "</td>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
-				($userdata->f[$data->uFields['usuper']]) ? ' checked="checked"' : '', " /></td>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
-				($userdata->f[$data->uFields['ucreatedb']]) ? ' checked="checked"' : '', " /></td>\n";
-			echo "<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($userdata->f[$data->uFields['uexpires']]), "\" /></td></tr>\n";
-			echo "</table>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
-			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
-			echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" />\n";
-			echo "</form>\n";
-		}
-		else echo "<p>No data.</p>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=properties&amp;groname=", 
-			urlencode($_REQUEST['groname']), "\">{$lang['strproperties']}</a></p>\n";
-	}
-	
-	/**
-	 * Show read only properties for a user
+	 * Show read only properties for a group
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
-		echo "<h2>Group: ", htmlspecialchars($_REQUEST['groname']), ": Properties</h2>\n";
+		echo "<h2>{$lang['strgroup']}: ", htmlspecialchars($_REQUEST['groname']), ": {$lang['strproperties']}</h2>\n";
 		$misc->printMsg($msg);
 		
 		$groupdata = &$data->getGroup($_REQUEST['groname']);
@@ -85,11 +35,9 @@
 			echo "</table>\n";
 
 		}
-		else echo "<p>No data.</p>\n";
+		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;groname=", 
-			urlencode($_REQUEST['groname']), "\">{$lang['stredit']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**
@@ -107,7 +55,7 @@
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"groname\" value=\"", htmlspecialchars($_REQUEST['groname']), "\" />\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"Yes\" /> <input type=\"submit\" name=\"choice\" value=\"No\" />\n";
+			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
@@ -152,7 +100,7 @@
 		}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
-		echo "<input type=\"submit\" value=\"Save\" /> <input type=\"reset\" /></p>\n";
+		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" /> <input type=\"reset\" /></p>\n";
 		echo "</form>\n";
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
@@ -227,7 +175,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_REQUEST['choice'] == 'Yes') doDrop(false);
+			if ($_REQUEST['choice'] == $lang['stryes']) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
