@@ -3,11 +3,11 @@
 	/**
 	 * Top menu for WebDB
 	 *
-	 * $Id: topbar.php,v 1.2 2003/01/18 09:07:50 chriskl Exp $
+	 * $Id: topbar.php,v 1.3 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 	
 	$misc->printHeader();
 ?>

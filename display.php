@@ -9,11 +9,11 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.3 2003/01/27 15:18:03 chriskl Exp $
+	 * $Id: display.php,v 1.4 2003/02/07 17:34:34 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 
 	global $strQueryResults, $guiMaxRows, $strRows;
 

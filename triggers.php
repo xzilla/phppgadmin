@@ -3,11 +3,11 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.1 2003/01/19 02:47:25 chriskl Exp $
+	 * $Id: triggers.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];

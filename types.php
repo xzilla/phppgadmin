@@ -3,11 +3,11 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: types.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';

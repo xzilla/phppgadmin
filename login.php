@@ -3,11 +3,11 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.2 2003/01/18 09:07:50 chriskl Exp $
+	 * $Id: login.php,v 1.3 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include('conf/config.inc.php');
+	include('libraries/lib.inc.php');
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;

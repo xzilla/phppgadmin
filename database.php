@@ -3,11 +3,11 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.2 2003/01/27 14:09:51 chriskl Exp $
+	 * $Id: database.php,v 1.3 2003/02/07 17:34:34 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';

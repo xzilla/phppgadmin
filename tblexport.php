@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: tblexport.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	$extensions = array(
@@ -30,7 +30,7 @@
 
 	// Include application functions
 	$_no_output = true;
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 
 	// Return all rows in the table
 	// @@ Note: This should really use a cursor

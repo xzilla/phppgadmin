@@ -4,7 +4,7 @@
 	 * Central WebDB configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.9 2003/01/18 09:07:51 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.10 2003/02/07 17:34:36 xzilla Exp $
 	 */
 
 	// Set error reporting level
@@ -46,9 +46,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$appConfVersion = 2;
+	$appConfVersion = 3;
 
-	// Main library
-	include_once('libraries/lib.inc.php');
-	
 ?>

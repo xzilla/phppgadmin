@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.14 2003/01/18 09:07:51 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.15 2003/02/07 17:34:37 xzilla Exp $
 	 */
 
 	// Application name 
@@ -12,10 +12,22 @@
 	// Application version
 	$appVersion = '3.0-dev';
 
+
+	// Check to see if the configuration file exists, if not, explain
+	if (file_exists('conf/config.inc.php')) { 
+		include('conf/config.inc.php');
+	}
+	else 
+	{
+		echo "Configuration Error: You must rename/copy config.inc.php-dist to config.inc.php and set your appropriate settings"; 
+		exit;
+	}
+
+
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 2;
+	$appBaseConfVersion = 3;
 
 	// List of available language files
 	$appLangFiles = array(

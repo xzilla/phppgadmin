@@ -3,11 +3,11 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.4 2003/01/27 15:18:03 chriskl Exp $
+	 * $Id: tables.php,v 1.5 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];

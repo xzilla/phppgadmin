@@ -3,11 +3,11 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: privileges.php,v 1.2 2003/01/26 00:00:27 slubek Exp $
+	 * $Id: privileges.php,v 1.3 2003/02/07 17:34:35 xzilla Exp $
 	 */
 
 	// Include application functions
-	include_once('conf/config.inc.php');
+	include_once('libraries/lib.inc.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
