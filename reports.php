@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.16 2003/12/17 09:11:32 chriskl Exp $
+	 * $Id: reports.php,v 1.17 2004/01/04 08:13:00 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -35,11 +35,11 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo "<table>\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+		echo "<table width=\"100%\">\n";
+		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
 			$dbname = $databases->f[$data->dbFields['dbname']];
@@ -49,10 +49,10 @@
 			$databases->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['descr']), "</textarea></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strsql']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
@@ -101,20 +101,20 @@
 
 		if ($report->recordCount() == 1) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($report->f['report_name']), "</td></tr>\n";
-			echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
+			echo "<tr><th class=\"data left\">{$lang['strdatabase']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($report->f['db_name']), "</td></tr>\n";
-			echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($report->f['descr']), "</td></tr>\n";
-			echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strsql']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"2\">", $misc->printVal($report->f['report_sql']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->f['descr']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\">{$lang['strsql']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->f['report_sql']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -136,10 +136,10 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_REQUEST['report_name']), "\" /></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strdatabase']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
 			$dbname = $databases->f[$data->dbFields['dbname']];
@@ -149,10 +149,10 @@
 			$databases->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strcomment']}</th>\n";
+		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
 			htmlspecialchars($_REQUEST['descr']), "</textarea></td></tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strsql']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_REQUEST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
@@ -245,12 +245,12 @@
 				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['db_name']), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($reports->f['date_created']), "</td>\n";
 				echo "<td class=\"opbutton{$id}\"><a href=\"display.php?database=", urlencode($reports->f['db_name']),
-					"&query={$query}&return_url={$return_url}&return_desc={$return_desc}\">{$lang['strrun']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&report_id=",
+					"&amp;query={$query}&amp;return_url={$return_url}&amp;return_desc={$return_desc}\">{$lang['strrun']}</a></td>\n";
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=properties&amp;report_id=",
 					$reports->f['report_id'], "\">{$lang['strproperties']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&report_id=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=edit&amp;report_id=",
 					$reports->f['report_id'], "\">{$lang['stredit']}</a></td>\n";
-				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&report_id=",
+				echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;report_id=",
 					$reports->f['report_id'], "\">{$lang['strdrop']}</a></td>\n";
 				echo "</tr>\n";
 				$reports->moveNext();
