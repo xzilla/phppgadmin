@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.8 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.9 2003/01/06 05:11:48 chriskl Exp $
 	 */
 
 	// Application name 
@@ -19,6 +19,8 @@
 
 	// Language settings.  Always include english.php, since it's the master
 	// language file, and then overwrite it with the user-specified language.
+	// Default language to English if it's not set.
+	if (!isset($appLanguage)) $appLanguage = 'english';
 	$appLanguage = strtolower($appLanguage);
 	include_once('../lang/english.php');
 	include_once("../lang/{$appLanguage}.php");
