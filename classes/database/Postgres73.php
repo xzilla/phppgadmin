@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.136 2004/09/07 14:04:20 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.137 2004/09/10 13:21:39 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -102,7 +102,7 @@ class Postgres73 extends Postgres72 {
 	 * @return Array of schema names
 	 */
 	function getSearchPath() {
-		$sql = 'SELECT current_schemas(true) AS search_path';
+		$sql = 'SELECT current_schemas(false) AS search_path';
 		return $this->phpArray($this->selectField($sql, 'search_path'));
 	}
 
