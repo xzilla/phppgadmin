@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.3 2002/09/16 10:12:01 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.4 2002/10/25 21:23:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -78,6 +78,77 @@
 				$i++;
 			}
 			echo "</table>\n";
+			echo "<br />\n";
+
+			echo <<<EOF
+		<table border=0>
+		<tr>
+		<th>Keyname</th>
+		<th>Unique</th>
+
+		<th>Primary</th>
+		<th>Field</th>
+				<th>Action</th>
+				</tr>
+		<tr>			<td>med_practice_pkey</td>
+			<td>Yes</td>
+
+			<td>Yes</td>
+			<td>med_practice_id</td>
+						<td><a href="sql.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php&sql_query=DROP+INDEX+%22med_practice_pkey%22&zero_rows=">Drop</a></td>
+			</tr></table>
+<div align="left">
+<ul>
+<li><a href="tbl_properties.php?printview=1&server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Print</a>
+
+<li><a href="sql.php?sql_query=SELECT+%2A+FROM+%22med_practice%22&server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Browse</a>
+<li><a href="tbl_select.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Select</a>
+<li><a href="tbl_change.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert</a>
+<li><a href="sql.php?sql_query=DROP+TABLE+%22med_practice%22&server=2&db=mojo5&goto=db_details.php&reload=true">Drop</a>
+<li><a href="tbl_privilege.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Privileges</a>
+<li>
+	<form method="post" action="tbl_addfield.php">
+		Add new field: 
+		<select name="num_fields">
+		<option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>		</select>
+
+		<input type="submit" value="Go">
+		<input type="hidden" name="table" value="med_practice">
+		<input type="hidden" name="db" value="mojo5">
+		<input type="hidden" name="server" value="2">
+	</form>
+<!--li><a href="ldi_table.php?server=2&db=mojo5&table=med_practice&goto=tbl_properties.php">Insert textfiles into table</a-->
+<li><form method="post" action="tbl_dump.php">View dump (schema) of table<br>
+<table>
+    <tr>
+        <td>
+
+            <input type="radio" name="what" value="structure" checked>Structure only        </td>
+        <td>
+            <input type="checkbox" name="drop" value="1">Add 'drop table'        </td>
+        <td colspan="3">
+            <input type="submit" value="Go">
+        </td>
+    </tr>
+    <tr>
+
+        <td>
+            <input type="radio" name="what" value="data">Structure and data        </td>
+        <td>
+            <input type="checkbox" name="asfile" value="sendit">send        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="radio" name="what" value="csv">CSV data        </td>
+
+        <td>
+            terminated by <input type="text" name="separator" size=1 value=";">
+        </td>
+    </tr>
+</table>
+EOF;
+
+
 		}
 		else {
 			echo "<p>{$strNoTable}</p>\n";
