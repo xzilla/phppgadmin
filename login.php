@@ -3,11 +3,12 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.3 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: login.php,v 1.4 2003/02/08 15:25:58 xzilla Exp $
 	 */
 
 	// Include application functions
-	include('libraries/lib.inc.php');
+	// This needs to be an include once to prevent lib.inc.php infifite recursive includes
+	include_once('libraries/lib.inc.php');
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 	if (!isset($_POST['formLanguage'])) $_POST['formLanguage'] = $appDefaultLanguage;
