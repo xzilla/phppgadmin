@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.121 2003/06/02 01:34:15 chriskl Exp $
+ * $Id: Postgres.php,v 1.122 2003/06/16 05:38:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1796,11 +1796,11 @@ class Postgres extends BaseDB {
 	function &getTriggerDef($trigger) {
 		// Constants to figure out tgtype
 
-		if (!defined('TRIGGER_TYPE_ROW')) define ('TRIGGER_TYPE_ROW', (1 << 0) );
-		if (!defined('TRIGGER_TYPE_BEFORE')) define ('TRIGGER_TYPE_BEFORE', (1 << 1) );
-		if (!defined('TRIGGER_TYPE_INSERT')) define ('TRIGGER_TYPE_INSERT', (1 << 2) );
-		if (!defined('TRIGGER_TYPE_DELETE')) define ('TRIGGER_TYPE_DELETE', (1 << 3) );
-		if (!defined('TRIGGER_TYPE_UPDATE')) define ('TRIGGER_TYPE_UPDATE', (1 << 4) );
+		if (!defined('TRIGGER_TYPE_ROW')) define ('TRIGGER_TYPE_ROW', (1 << 0));
+		if (!defined('TRIGGER_TYPE_BEFORE')) define ('TRIGGER_TYPE_BEFORE', (1 << 1));
+		if (!defined('TRIGGER_TYPE_INSERT')) define ('TRIGGER_TYPE_INSERT', (1 << 2));
+		if (!defined('TRIGGER_TYPE_DELETE')) define ('TRIGGER_TYPE_DELETE', (1 << 3));
+		if (!defined('TRIGGER_TYPE_UPDATE')) define ('TRIGGER_TYPE_UPDATE', (1 << 4));
 
 		$trigger['tgisconstraint'] = $this->phpBool($trigger['tgisconstraint']);
 		$trigger['tgdeferrable'] = $this->phpBool($trigger['tgdeferrable']);
@@ -1816,23 +1816,24 @@ class Postgres extends BaseDB {
 
 		// Trigger type
 		$findx = 0;
-		if ($trigger['tgtype'] & TRIGGER_TYPE_BEFORE == TRIGGER_TYPE_BEFORE)
+		if (($trigger['tgtype'] & TRIGGER_TYPE_BEFORE) == TRIGGER_TYPE_BEFORE)
 			$tgdef .= 'BEFORE';
 		else
 			$tgdef .= 'AFTER';
 
-		if ($trigger['tgtype'] & TRIGGER_TYPE_INSERT == TRIGGER_TYPE_INSERT) {
+		if (($trigger['tgtype'] & TRIGGER_TYPE_INSERT) == TRIGGER_TYPE_INSERT) {
 			$tgdef .= ' INSERT';
 			$findx++;
 		}
-		if ($trigger['tgtype'] & TRIGGER_TYPE_DELETE == TRIGGER_TYPE_DELETE) {
+		if (($trigger['tgtype'] & TRIGGER_TYPE_DELETE) == TRIGGER_TYPE_DELETE) {
 			if ($findx > 0)
 				$tgdef .= ' OR DELETE';
-			else
+			else {
 				$tgdef .= ' DELETE';
-			$findx++;
+				$findx++;
+			}
 		}
-		if ($trigger['tgtype'] & TRIGGER_TYPE_UPDATE == TRIGGER_TYPE_UPDATE) {
+		if (($trigger['tgtype'] & TRIGGER_TYPE_UPDATE) == TRIGGER_TYPE_UPDATE) {
 			if ($findx > 0)
 				$tgdef .= ' OR UPDATE';
 			else
