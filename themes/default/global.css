@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.22 2004/07/14 10:01:33 jollytoad Exp $
+ * $Id: global.css,v 1.23 2004/07/15 15:45:48 jollytoad Exp $
  */
 
 /** ELEMENTS */
@@ -183,6 +183,34 @@ td.opbutton2
 	text-align: center;
 }
 
+.trail, .tab
+{
+	border: 2px solid #E6E6CC;
+	background-color: #F3F3E9;
+	padding: 2px 1em;
+}
+
+.trail, .tabs
+{
+	margin-bottom: 2px;
+}
+
+.tabs
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.tab
+{
+	text-align: center;
+}
+
+.tabs .active
+{
+	background-color: #E6E6CC;
+}
+
 a,a:active 
 {
 	color: #989973;
@@ -246,7 +274,7 @@ a.navlink:active, a.toplink:active
 	text-decoration: none;
 }
 
-.navbar .active a
+.active a
 {
 	font-weight: bold;
 }

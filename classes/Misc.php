@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.76 2004/07/15 09:55:00 jollytoad Exp $
+	 * $Id: Misc.php,v 1.77 2004/07/15 15:45:48 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -371,18 +371,18 @@
 		 * @param $activetab The name of the tab to be highlighted.
 		 */
 		function printTabs($tabs, $activetab) {
-			global $misc;
+			global $misc, $conf;
 			
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			echo "<table class=\"tabs\"><tr>\n";
 			
 			# FIXME: don't count hiden tags
 			$width = round(100 / count($tabs)).'%';
 			
 			foreach ($tabs as $tab_id => $tab) {
-				$class = ($tab_id == $activetab) ? ' class="active"' : '';
+				$active = ($tab_id == $activetab) ? ' active' : '';
 				
 				if (!isset($tab['hide']) || $tab['hide'] !== true)
-					echo "<td width=\"{$width}\"{$class}><a href=\"" . htmlspecialchars($tab['url']) . "\">{$tab['title']}</a></td>\n";
+					echo "<td width=\"{$width}\" class=\"tab{$active}\"><a href=\"" . $this->printVal($tab['url'], 'nbsp') . "\">{$tab['title']}</a></td>\n";
 			}
 			
 			echo "</tr></table>\n";
@@ -606,14 +606,24 @@
 					return array();
 			}
 		}
-		
+
 		/**
 		 * Display a navigation tab bar.
 		 * @param $section The name of the tab bar.
 		 * @param $activetab The tab to highlight and set as default for the bar.
+		 * @param $trail A bread crumb trail, or true for default trail, false for no trail.
 		 */
-		function printNav($section, $activetab) {
+		function printNav($section, $activetab, $trail = true) {
 			global $data;
+			
+			echo "<div class=\"nav\">\n";
+			
+			if ($trail === true) {
+				$this->printTrail($this->getTrail($section));
+			}
+			elseif (is_array($trail)) {
+				$this->printTrail($trail);
+			}
 			
 			switch ($section) {
 				case 'database':
@@ -631,8 +641,10 @@
 						$_SESSION['webdbLastTab'][$section] = $activetab;
 					}
 			}
+			
+			echo "</div>\n";
 		}
-		
+
 		/**
 		 * Get the URL for the last active tab of a particular tab bar.
 		 */
@@ -658,7 +670,98 @@
 			
 			return isset($tab['url']) ? $tab['url'] : null;
 		}
-		
+
+		/**
+		 * Display a bread crumb trail.
+		 */
+		function printTrail($trail = array()) {
+			global $lang;
+			
+			echo "<div class=\"trail\">";
+			
+			foreach ($trail as $crumb) {
+				echo "<span class=\"crumb\"><a";
+				
+				if (isset($crumb['url']))
+					echo ' href="' . $this->printVal($crumb['url'], 'nbsp') . '"';
+				
+				if (isset($crumb['title']))
+					echo " title=\"{$crumb['title']}\"";
+				
+				echo ">" . htmlspecialchars($crumb['text']) . "</a></span>{$lang['strseparator']}";
+			}
+			
+			echo "</div>\n";
+		}
+
+		/**
+		 * Create a bread crumb trail of the object hierarchy.
+		 * @param $object The type of object at the end of the trail.
+		 */
+		function getTrail($object = null) {
+			global $lang, $conf;
+			
+			$trail = array();
+			$vars = '';
+			$done = false;
+			
+			$trail['server'] = array(
+				'title' => $lang['strserver'],
+				'text'  => $conf['servers'][$_SESSION['webdbServerID']]['desc'],
+				'url'   => 'redirect.php?section=server',
+			);
+			if ($object == 'server') $done = true;
+			
+			if (isset($_REQUEST['database']) && !$done) {
+				$vars = 'database='.urlencode($_REQUEST['database']).'&';
+				$trail['database'] = array(
+					'title' => $lang['strdatabase'],
+					'text'  => $_REQUEST['database'],
+					'url'   => "redirect.php?section=database&{$vars}",
+				);
+			}
+			if ($object == 'database') $done = true;
+			
+			if (isset($_REQUEST['schema']) && !$done) {
+				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';
+				$trail['schema'] = array(
+					'title' => $lang['strschema'],
+					'text'  => $_REQUEST['schema'],
+					'url'   => "redirect.php?section=schema&{$vars}",
+				);
+			}
+			if ($object == 'schema') $done = true;
+			
+			if (!$done) {
+				switch ($object) {
+					case 'table':
+						$vars .= 'table='.urlencode($_REQUEST['table']);
+						$trail['table'] = array(
+							'title' => $lang['strtable'],
+							'text'  => $_REQUEST['table'],
+							'url'   => "redirect.php?section=table&{$vars}",
+						);
+						break;
+					case 'view':
+						$vars .= 'view='.urlencode($_REQUEST['view']);
+						$trail['view'] = array(
+							'title' => $lang['strview'],
+							'text'  => $_REQUEST['view'],
+							'url'   => "redirect.php?section=view&{$vars}",
+						);
+						break;
+					default:
+						if (isset($_REQUEST[$object])) {
+							$trail['table'] = array(
+								'text'  => $_REQUEST[$object],
+							);
+						}
+				}
+			}
+			
+			return $trail;
+		}
+
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.
 		 * @param $page the page currently viewed
