@@ -3,14 +3,14 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.35 2003/04/18 08:43:40 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.36 2003/04/20 10:30:58 chriskl Exp $
 	 */
 
 	// Application name 
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.0.0-dev-3';
+	$appVersion = '3.0.0-dev-4';
 
 
 	// Check to see if the configuration file exists, if not, explain
@@ -25,7 +25,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $appConfVersion should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$appBaseConfVersion = 5;
+	$appBaseConfVersion = 6;
 
 	// List of available language files
 	$appLangFiles = array(

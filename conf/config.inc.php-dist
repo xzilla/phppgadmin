@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.14 2003/03/27 13:47:16 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.15 2003/04/20 10:30:58 chriskl Exp $
 	 */
 
 	// Set error reporting level
@@ -42,10 +42,15 @@
 	$confServers[0]['host'] = 'localhost';  // Hostname or IP address for server
 	$confServers[0]['port'] = 5432;         // Database port on server
 
+	// Miscellaneous config options
+	
+	// Send XHTML headers?  Unless debugging, it's best to leave this off
+	$conf['use_xml'] = false;
+
 	/*****************************************
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$appConfVersion = 5;
+	$appConfVersion = 6;
 
 ?>

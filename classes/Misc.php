@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.23 2003/04/19 09:28:39 chriskl Exp $
+	 * $Id: Misc.php,v 1.24 2003/04/20 10:30:58 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -33,9 +33,9 @@
 		function setForm() {
 			$this->form = '';
 			if (isset($_REQUEST['database'])) {
-				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\">\n";
+				$this->form .= "<input type=\"hidden\" name=\"database\" value=\"" . htmlspecialchars($_REQUEST['database']) . "\" />\n";
 				if (isset($_REQUEST['schema']))
-					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\">\n";
+					$this->form .= "<input type=\"hidden\" name=\"schema\" value=\"" . htmlspecialchars($_REQUEST['schema']) . "\" />\n";
 			}
 		}
 
@@ -139,14 +139,17 @@
 		 * @param $script script tag
 		 */
 		function printHeader($title = '', $script = null) {
-			global $appName, $lang, $_no_output, $guiTheme;
+			global $appName, $lang, $_no_output, $guiTheme, $conf;
 
 			if (!isset($_no_output)) {
-				// Commented out, as we're not XHTML compliant yet!
-				//header('Content-Type: text/xml');
-				//echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
-				//echo "<xml>\n";
-				echo "<html>\n";
+				// Send XHTML headers, or regular HTML headers
+				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
+					header('Content-Type: text/xml');
+					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
+					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+				} else {
+					echo "<html>\n";
+				}
 				echo "<head>\n";
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo " - {$title}";
@@ -210,15 +213,15 @@
 
 			$vars = $this->href . '&table=' . urlencode($_REQUEST['table']);
 
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}\">{$lang['strcolumns']}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"indexes.php?{$vars}\">{$lang['strindexes']}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"constraints.php?{$vars}\">{$lang['strconstraints']}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"triggers.php?{$vars}\">{$lang['strtriggers']}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"rules.php?{$vars}\">{$lang['strrules']}</a></td>\n";
 			echo "<td width=\"14%\"><a href=\"privileges.php?{$vars}&type=table&object=", urlencode($_REQUEST['table']), "\">{$lang['strprivileges']}</a></td>\n";
-			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
-			echo "</table>\n";
+			echo "<td width=\"14%\"><a href=\"tblproperties.php?{$vars}&action=export\">{$lang['strexport']}</a></td>\n";
+			echo "</tr></table>\n";
 		}
 
 		/**
@@ -229,13 +232,13 @@
 
 			$vars = 'database=' . urlencode($_REQUEST['database']);
 
-			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\">\n";
-			echo "<tr><td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
+			echo "<table class=\"navbar\" border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"3\"><tr>\n";
+			echo "<td width=\"20%\"><a href=\"database.php?{$vars}\">{$lang['strschemas']}</a></td>\n";
 			echo "<td width=\"20%\"><a href=\"privileges.php?{$vars}&type=database&object=", urlencode($_REQUEST['database']), "\">{$lang['strprivileges']}</a></td>\n";
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=sql\">{$lang['strsql']}</a></td>\n";
 			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=admin\">{$lang['stradmin']}</a></td>\n";
-			echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
-			echo "</table>\n";
+			//echo "<td width=\"20%\"><a href=\"database.php?{$vars}&action=export\">{$lang['strexport']}</a></td></tr>\n";
+			echo "</tr></table>\n";
 		}
 
 		/**
