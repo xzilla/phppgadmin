@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.89 2004/09/01 16:35:57 jollytoad Exp $
+	 * $Id: Misc.php,v 1.90 2004/09/02 14:03:06 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -890,7 +890,7 @@
 			if (!is_null($help) && isset($data->help_page[$help])) {
 				echo "<a class=\"help\" href=\"";
 				echo htmlspecialchars($data->help_base . $data->help_page[$help]);
-				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">?</a>";
+				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">{$lang['strhelpicon']}</a>";
 			}
 		}
 	
