@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.10 2003/05/15 08:59:47 chriskl Exp $
+	 * $Id: privileges.php,v 1.11 2003/05/21 07:02:12 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -38,7 +38,7 @@
 			// Get users from the database
 			$users = &$localData->getUsers();
 
-			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
+			echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -47,11 +47,11 @@
 			echo "<td class=\"data1\"><select name=\"username\">\n";
 			// Automatically prepend PUBLIC to the list of users
 			echo "<option value=\"PUBLIC\"",
-				('PUBLIC' == $_REQUEST['username']) ? ' selected' : '', ">PUBLIC</option>\n";
+				('PUBLIC' == $_REQUEST['username']) ? ' selected="selected"' : '', ">PUBLIC</option>\n";
 			while (!$users->EOF) {
 				$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
 				echo "<option value=\"{$uname}\"",
-					($uname == $_REQUEST['username']) ? ' selected' : '', ">{$uname}</option>\n";
+					($uname == $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";
@@ -60,25 +60,26 @@
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
 				echo "<option value=\"{$v}\"",
-					($v == $_REQUEST['privilege']) ? ' selected' : '', ">{$v}</option>\n";
+					($v == $_REQUEST['privilege']) ? ' selected="selected"' : '', ">{$v}</option>\n";
 			}
 			echo "</select></td></tr>\n";
 			echo "</table>\n";
 
-			echo "<input type=\"hidden\" name=\"action\" value=\"savegrantuser\">\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']),"\">\n";
-			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']),"\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"savegrantuser\" />\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
 			switch ($_REQUEST['type']) {
 				case 'table':
-					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']),"\">\n";
+					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 					break;
 				case 'function':
-					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']),"\">\n";
+					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
 					break;
 				default:
 			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -117,7 +118,7 @@
 			// Get groups from the database
 			$groups = &$localData->getGroups();
 
-			echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), ": {$lang['strgrant']}</h2>\n";
+			echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), ": {$lang['strgrant']}</h2>\n";
 			$misc->printMsg($msg);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -126,11 +127,11 @@
 			echo "<td class=\"data1\"><select name=\"groupname\">\n";
 			// Automatically prepend PUBLIC to the list of groups
 			echo "<option value=\"PUBLIC\"",
-				('PUBLIC' == $_REQUEST['groupname']) ? ' selected' : '', ">PUBLIC</option>\n";
+				('PUBLIC' == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">PUBLIC</option>\n";
 			while (!$groups->EOF) {
 				$gname = htmlspecialchars($groups->f[$data->grpFields['groname']]);
 				echo "<option value=\"{$gname}\"",
-					($gname == $_REQUEST['groupname']) ? ' selected' : '', ">{$gname}</option>\n";
+					($gname == $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
 				$groups->moveNext();
 			}
 			echo "</select></td></tr>\n";
@@ -139,25 +140,26 @@
 			foreach ($data->privlist[$_REQUEST['type']] as $v) {
 				$v = htmlspecialchars($v);
 				echo "<option value=\"{$v}\"",
-					($v == $_REQUEST['privilege']) ? ' selected' : '', ">{$v}</option>\n";
+					($v == $_REQUEST['privilege']) ? ' selected="selected"' : '', ">{$v}</option>\n";
 			}
 			echo "</select></td></tr>\n";
 			echo "</table>\n";
 
-			echo "<input type=\"hidden\" name=\"action\" value=\"savegrantgroup\">\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']),"\">\n";
-			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']),"\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"savegrantgroup\" />\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"object\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
 			switch ($_REQUEST['type']) {
 				case 'table':
-					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']),"\">\n";
+					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 					break;
 				case 'function':
-					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']),"\">\n";
+					echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
 					break;
 				default:
 			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\"> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\"></p>\n";
+			echo "<p><input type=\"submit\" name=\"confirm\" value=\"{$lang['strgrant']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -193,7 +195,7 @@
 			default:
 				$name = $_REQUEST['object'];
 		}
-		echo "<h2>{$lang['strprivileges']}: ", htmlspecialchars($name), "</h2>\n";
+		echo "<h2>{$lang['strprivileges']}: ", $misc->printVal($name), "</h2>\n";
 		$misc->printMsg($msg);
 
 		// Get the privileges on the object, given its type
@@ -217,8 +219,8 @@
 			foreach ($privileges as $v) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($v[0]), "</td>\n";
-				echo "<td class=\"data{$id}\">", htmlspecialchars($v[1]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($v[0]), "</td>\n";
+				echo "<td class=\"data{$id}\">", $misc->printVal($v[1]), "</td>\n";
 				foreach ($data->privlist[$_REQUEST['type']] as $v2) {
 					// Skip over ALL PRIVILEGES
 					if ($v2 == 'ALL PRIVILEGES') continue;
@@ -229,7 +231,7 @@
 				}
 				if ($data->hasGrantOption()) {
 					echo "<td class=\"data{$id}\">", ($v[3]) ? $lang['stryes'] : $lang['strno'], "</td>\n";
-					echo "<td class=\"data{$id}\">", htmlspecialchars($v[4]), "</td>\n";
+					echo "<td class=\"data{$id}\">", $misc->printVal($v[4]), "</td>\n";
 				}
 				echo "</tr>\n";
 				$i++;
