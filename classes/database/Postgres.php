@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.188 2004/03/31 07:31:24 chriskl Exp $
+ * $Id: Postgres.php,v 1.189 2004/04/01 01:13:22 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1108,6 +1108,13 @@ class Postgres extends BaseDB {
 			}
 		}
 
+		// Update the comment on the column
+		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		if ($status != 0) {
+		  $this->rollbackTransaction();
+		  return -4;
+		}
+
 		// Rename the column, if it has been changed
 		if ($column != $name) {
 			$status = $this->renameColumn($table, $column, $name);
@@ -1115,12 +1122,6 @@ class Postgres extends BaseDB {
 				$this->rollbackTransaction();
 				return -3;
 			}
-		}
-
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
-		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -4;
 		}
 
 		return $this->endTransaction();
