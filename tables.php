@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.63 2004/08/30 11:50:31 soranzo Exp $
+	 * $Id: tables.php,v 1.64 2004/08/31 08:49:38 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -29,8 +29,8 @@
 			case 1:
 				// Fetch all tablespaces from the database
 				if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
-		
-				$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $lang['strcreatetable']), 'create_table');
+				
+				$misc->printTitleNav('schema', $lang['strcreatetable'], 'create_table');
 				$misc->printMsg($msg);
 				
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -215,7 +215,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strselect']), 'select');
+			$misc->printTitleNav('table', $lang['strselect'], 'select');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -322,7 +322,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strinsertrow']), 'insert');
+			$misc->printTitleNav('table', $lang['strinsertrow'], 'insert');
 			$misc->printMsg($msg);
 
 			$attrs = &$data->getTableAttributes($_REQUEST['table']);
@@ -414,7 +414,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strempty']));
+			$misc->printTitleNav('table', $lang['strempty']);
 
 			echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -444,7 +444,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strdrop']), 'drop_table');
+			$misc->printTitleNav('table', $lang['strdrop'], 'drop_table');
 
 			echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -482,7 +482,7 @@
 		global $PHP_SELF;
 
 		if ($confirm) {
-			$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables'], $misc->printVal($_REQUEST['table']), $lang['strvacuum']), '');
+			$misc->printTitleNav('table', $lang['strvacuum'], 'vacuum');
 
 			echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
@@ -518,6 +518,7 @@
 		global $data, $conf, $misc, $data;
 		global $PHP_SELF, $lang;
 		
+		$misc->printNav('schema','tables');
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['strtables']), 'tables');
 		$misc->printMsg($msg);
 		
@@ -592,7 +593,6 @@
 	
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();
-	$misc->printNav('schema','tables');
 
 	switch ($action) {
 		case 'create':
