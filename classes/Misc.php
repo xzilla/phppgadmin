@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.47 2003/11/09 08:29:33 chriskl Exp $
+	 * $Id: Misc.php,v 1.48 2003/11/15 10:08:14 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -188,9 +188,11 @@
 					$version = $params[1]; // eg. 7.3.2
 					$description = "PostgreSQL {$params[1]}";
 
-					if (strpos($version, '7.5') === 0)
-						return 'Postgres75';
-					elseif (strpos($version, '7.4') === 0)
+					// Detect version and choose appropriate database driver
+					// If unknown version, then default to latest driver
+					// All 6.x versions default to oldest driver, even though
+					// it won't work with those versions.
+					if (strpos($version, '7.4') === 0)
 						return 'Postgres74';
 					elseif (strpos($version, '7.3') === 0)
 						return 'Postgres73';
@@ -198,8 +200,11 @@
 						return 'Postgres72';
 					elseif (strpos($version, '7.1') === 0)
 						return 'Postgres71';
-					else
+					elseif (strpos($version, '7.0') === 0
+							|| strpos($version, '6.') === 0)
 						return 'Postgres';
+					else
+						return 'Postgres75';
 
 					break;
 				default:
