@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.13 2004/10/06 08:39:49 jollytoad Exp $
+	 * $Id: dbexport.php,v 1.14 2004/11/04 02:56:51 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,10 +19,18 @@
 				header('Content-Type: text/plain');
 				break;
 			case 'download':
-				header('Content-Type: application/download');
-				header('Content-Disposition: attachment; filename=dump.sql');
+				// Set headers.  MSIE is totally broken for SSL downloading, so
+				// we need to have it download in-place as plain text
+				if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS'])) {
+					header('Content-Type: text/plain');
+				}
+				else {
+					header('Content-Type: application/download');
+					header('Content-Disposition: attachment; filename=dump.sql');
+				}
 				break;
 			case 'gzipped':
+				// MSIE in SSL mode cannot do this - it should never get to this point
 				header('Content-Type: application/download');
 				header('Content-Disposition: attachment; filename=dump.sql.gz');
 				break;

@@ -40,6 +40,7 @@ Translations
 Bugs
 * Fix that non-Auto mode import didn't work (Adrian Nida)
 * Fix inability to drop constraints when using a non-english translation
+* Work around MSIE's failure to handle downloads in SSL mode
 
 Version 3.4.1
 -------------

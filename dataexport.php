@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.16 2004/08/04 07:44:03 chriskl Exp $
+	 * $Id: dataexport.php,v 1.17 2004/11/04 02:56:51 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -93,14 +93,21 @@
 
 		// Make it do a download, if necessary
 		if ($_REQUEST['output'] == 'download') {
-			header('Content-Type: application/download');
-	
-			if (isset($extensions[$format]))
-				$ext = $extensions[$format];
-			else
-				$ext = 'txt';
-	
-			header('Content-Disposition: attachment; filename=dump.' . $ext);
+			// Set headers.  MSIE is totally broken for SSL downloading, so
+			// we need to have it download in-place as plain text
+			if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS'])) {
+				header('Content-Type: text/plain');
+			}
+			else {
+				header('Content-Type: application/download');
+		
+				if (isset($extensions[$format]))
+					$ext = $extensions[$format];
+				else
+					$ext = 'txt';
+		
+				header('Content-Disposition: attachment; filename=dump.' . $ext);
+			}
 		}
 		else {
 			header('Content-Type: text/plain');

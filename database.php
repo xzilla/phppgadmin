@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.63 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: database.php,v 1.64 2004/11/04 02:56:50 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -312,8 +312,11 @@
 		echo "<h3>{$lang['stroptions']}</h3>\n";
 		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
 		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}\n";
-		echo "<br /><input type=\"radio\" name=\"output\" value=\"gzipped\" />{$lang['strdownloadgzipped']}</p>\n";
-
+		// MSIE cannot download gzip in SSL mode - it's just broken
+		if (!(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS']))) {
+			echo "<br /><input type=\"radio\" name=\"output\" value=\"gzipped\" />{$lang['strdownloadgzipped']}\n";
+		}
+		echo "</p>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo "<p><input type=\"hidden\" name=\"mode\" value=\"database\" />\n";		
 		echo $misc->form;
