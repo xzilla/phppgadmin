@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.48 2004/05/31 13:25:49 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.48.2.1 2004/06/28 02:36:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -207,7 +207,7 @@
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 
 				// Fetch all available types
-				$types = &$data->getTypes(true);
+				$types = &$data->getTypes(true, false, true);
 
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": ",
 					$misc->printVal($_REQUEST['table']), ": {$lang['straddcolumn']}</h2>\n";
@@ -361,7 +361,7 @@
 				// Column type.  On 7.5+ this can be altered
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
-					$types = &$data->getTypes(true);
+					$types = &$data->getTypes(true, false, true);
 					
 					echo "<td><select name=\"type\">\n";				
 					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.53 2004/06/03 06:42:20 chriskl Exp $
+	 * $Id: tables.php,v 1.53.2.1 2004/06/28 02:36:13 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -71,7 +71,7 @@
 					return;
 				}
 
-				$types = &$data->getTypes(true);
+				$types = &$data->getTypes(true, false, true);
 	
 				echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strtables']}: {$lang['strcreatetable']}</h2>\n";
 				$misc->printMsg($msg);
