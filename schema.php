@@ -1,9 +1,9 @@
 <?php
 
 	/**
-	 * Manage schemas within a database
+	 * Display properties of a schema
 	 *
-	 * $Id: schema.php,v 1.3 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: schema.php,v 1.4 2003/03/25 06:50:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,187 +14,26 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Allow execution of arbitrary SQL statements on a database
-	 */
-	function doSQL() {
-		global $PHP_SELF, $localData, $misc;
-		global $lang;
-
-		if (!isset($_POST['query'])) $_POST['query'] = '';
-
-		$misc->printDatabaseNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strsql']}</h2>\n";
-
-		echo "<p>{$lang['strentersql']}</p>\n";
-		echo "<form action=\"display.php\" method=post>\n";
-		echo "<p>{$lang['strsql']}<br>\n";
-		echo "<textarea style=\"width:100%;\" rows=20 cols=50 name=\"query\">",
-			htmlspecialchars($_POST['query']), "</textarea></p>\n";
-
-		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"return_url\" value=\"database.php?database=", 
-			urlencode($_REQUEST['database']), "&action=sql\">\n";
-		echo "<input type=\"hidden\" name=\"return_desc\" value=\"Back\">\n";
-		echo "<input type=submit value=\"{$lang['strgo']}\"> <input type=reset value=\"{$lang['strreset']}\">\n";
-		echo "</form>\n";
-
-	}
-
-	/**
-	 * Show confirmation of drop and perform actual drop
-	 */
-	function doDrop($confirm) {
-		global $PHP_SELF, $data, $localData;
-		global $lang;
-
-		if ($confirm) {
-			echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ",
-				htmlspecialchars($_REQUEST['schema']), ": {$lang['strdrop']}</h2>\n";
-
-			echo "<p>", sprintf($lang['strconfdropschema'], htmlspecialchars($_REQUEST['schema'])), "</p>\n";
-
-			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\">\n";
-			echo "<input type=\"submit\" name=\"choice\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"choice\" value=\"{$lang['strno']}\">\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $localData->dropSchema($_POST['schema']);
-			if ($status == 0)
-				doDefault($lang['strschemadropped']);
-			else
-				doDefault($lang['strschemadroppedbad']);
-		}
-		
-	}
-	
-	/**
-	 * Displays a screen where they can enter a new schema
-	 */
-	function doCreate($msg = '') {
-		global $data, $misc;
-		global $PHP_SELF, $lang;
-
-		if (!isset($_POST['formName'])) $_POST['formName'] = '';
-		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $_SESSION['webdbUsername'];
-
-		// Fetch all users from the database
-		$users = &$data->getUsers();
-
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strcreateschema']}</h2>\n";
-		$misc->printMsg($msg);
-		
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo "<table width=\"100%\">\n";
-		echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th></tr>\n";
-		echo "<tr><td class=\"data1\"><input name=\"formName\" size=\"{$data->_maxNameLen}\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formName']), "\"></td>\n";
-		echo "<td class=\"data1\"><select name=\"formAuth\">";
-		while (!$users->EOF) {
-			$uname = htmlspecialchars($users->f[$data->uFields['uname']]);
-			echo "<option value=\"{$uname}\"",
-				($uname == $_POST['formAuth']) ? ' selected' : '', ">{$uname}</option>\n";
-			$users->moveNext();
-		}
-		echo "</select></td></tr>\n";
-		echo "</table>\n";
-		echo "<p>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\">\n";
-		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-		echo "<input type=\"submit\" value=\"{$lang['strsave']}\"> <input type=\"reset\" value=\"{$lang['strreset']}\">\n";
-		echo "</p>\n";
-		echo "</form>\n";
-		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?database=", 
-			urlencode($_REQUEST['database']), "\">{$lang['strshowallschemas']}</a></p>\n";
-	}
-	
-	/**
-	 * Actually creates the new schema in the database
-	 */
-	function doSaveCreate() {
-		global $localData, $lang;
-
-		// Check that they've given a name
-		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
-		else {
-			$status = $localData->createSchema($_POST['formName'], $_POST['formAuth']);
-			if ($status == 0)
-				doDefault($lang['strschemacreated']);
-			else
-				doCreate($lang['strschemacreatedbad']);
-		}
-	}	
-
-	/**
-	 * Show default list of schemas in the server
+	 * Show schema properties
 	 */
 	function doDefault($msg = '') {
-		global $data, $localData, $misc;
-		global $PHP_SELF, $lang;
+		global $misc, $lang;
 		
-		$misc->printDatabaseNav();
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strschemas']}</h2>\n";
-		$misc->printMsg($msg);
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$lang['strschemas']}: ", htmlspecialchars($_REQUEST['schema']), "</h2>\n";
 		
-		// Check that the DB actually supports schemas
-		if ($data->hasSchemas()) {
-			$schemas = &$localData->getSchemas();
-
-			if ($schemas->recordCount() > 0) {
-				echo "<table>\n";
-				echo "<tr><th class=data>{$lang['strname']}</th><th class=data>{$lang['strowner']}</th><th colspan=\"2\" class=data>{$lang['stractions']}</th>\n";
-				$i = 0;
-				while (!$schemas->EOF) {
-					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr><td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspname']]), "</td>\n";
-					echo "<td class=data{$id}>", htmlspecialchars($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
-					echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=",
-						urlencode($_REQUEST['database']), "&schema=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";
-					echo "<td class=opbutton{$id}><a href=\"privileges.php?database=",
-						urlencode($_REQUEST['database']), "&object=",
-						urlencode($schemas->f[$data->nspFields['nspname']]), "&type=schema\">{$lang['strprivileges']}</a></td>\n";
-					echo "</tr>\n";
-					$schemas->moveNext();
-					$i++;
-				}
-				echo "</table>\n";
-			}
-			else {
-				echo "<p>{$lang['strnoschemas']}</p>\n";
-			}
-
-			echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']),
-				"&action=create\">{$lang['strcreateschema']}</a></p>\n";
-		} else {
-			// If the database does not support schemas...
-			echo "<p>{$lang['strnoschemas']}</p>\n";
-		}
+		echo "<ul>\n";
+		echo "<li><a href=\"tables.php?{$misc->href}\">{$lang['strtables']}</a></li>\n";
+		echo "<li><a href=\"views.php?{$misc->href}\">{$lang['strviews']}</a></li>\n";
+		echo "<li><a href=\"sequences.php?{$misc->href}\">{$lang['strsequences']}</a></li>\n";
+		echo "<li><a href=\"functions.php?{$misc->href}\">{$lang['strfunctions']}</a></li>\n";
+		echo "<li><a href=\"types.php?{$misc->href}\">{$lang['strtypes']}</a></li>\n";
+		echo "</ul>\n";
 	}
 
-	$misc->printHeader($lang['strschemas']);
+	$misc->printHeader($lang['strschema'] . ' - ' . $_REQUEST['schema']);
 	$misc->printBody();
 
 	switch ($action) {
-		case 'sql':
-			doSQL();
-			break;
-		case 'save_create':
-			doSaveCreate();
-			break;
-		case 'create':
-			doCreate();
-			break;
-		case 'drop':
-			if ($_POST['choice'] == "{$lang['stryes']}") doDrop(false);
-			else doDefault();
-			break;
-		case 'confirm_drop':
-			doDrop(true);
-			break;
 		default:
 			doDefault();
 			break;
