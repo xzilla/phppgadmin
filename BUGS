@@ -1,2 +1,5 @@
 * Duplicate field names not displayed in select results
-* No create or replace view...
+	- Fixed in sql.php, nowhere else
+
+* Lots more printVal()ing needs to be done.  Whenever displaying user data, 
+  it should use $misc->printVal($var) instead of htmlspecialchars($var).
