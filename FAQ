@@ -28,15 +28,6 @@ A: PostgreSQL, by default, runs in trust mode.  That means that it doesn't
    to enter a password to start PostgreSQL.  Get around this by using a
    .pgpass file - explained in the PostgreSQL documentation.
 
-Q: I'm running phpPgAdmin on Win32 and I always get the message that the
-   "config.inc.php is not found".  I have copied the config.inc.php-dist file
-   and yet the error still occurs.
-
-A: On the Win32 version of PHP, there is a bug in the file_exists() function
-   that means it always returns false, even when the file actually exists.  
-   Disable (comment out) the file_exists() check in libraries/lib.inc.php to
-   prevent the error.
-
 Q: When I drop and re-create a table with the same name, it fails.
 
 A: You need to drop the sequence attached to the SERIAL column of the table
@@ -51,3 +42,23 @@ A: Choosing 'Expression' means that you can use functions, operators, other
    values yourself.  'Value' on the other hand, means that no matter what you
    enter as the value, it will be inserted as-is into the database.
 
+Q: When browsing a table, the 'edit' and 'delete' links do not appear.
+
+A: In order to be able to edit or delete a row, you must have a UNIQUE or
+   PRIMARY KEY constraint on your table.  Furthermore, if you have a UNIQUE
+   index, then the value in the index field cannot be NULL.
+
+Q: What happened to the database dump feature?
+
+A: It is very difficult keeping up with all the changes to PostgreSQL's pg_dump
+   utility.  As a result, phpPgAdmin's database dumps were often incorrect and
+   failed to restore properly, if at all.  Hence, we have removed this feature
+   in phpPgAdmin 3.0.  We STRONGLY recommend using PostgreSQL's pg_dump utility
+   to dump your data.
+
+Q: I would like to help out with the development of phpPgAdmin. How should I
+   proceed?
+   
+A: Read the DEVELOPERS and TRANSLATORS files.
+
+   
