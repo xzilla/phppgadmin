@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.16 2003/04/21 06:36:23 chriskl Exp $
+	 * $Id: tables.php,v 1.17 2003/04/23 08:18:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -184,7 +184,7 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					echo "<td class=data{$id} nowrap>";
-					echo "<input type=checkbox name=\"show[{$attrs->f['attname']}]\"",
+					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked' : '', "></td>";
 					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['attname']), "</td>";
 					echo "<td class=data{$id} nowrap>", htmlspecialchars($attrs->f['type']), "</td>";
