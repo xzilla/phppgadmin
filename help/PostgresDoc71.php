@@ -3,7 +3,7 @@
 /**
  * Help links for PostgreSQL 7.1 documentation
  *
- * $Id: PostgresDoc71.php,v 1.2 2004/11/07 12:27:14 soranzo Exp $
+ * $Id: PostgresDoc71.php,v 1.3 2004/11/15 17:25:03 soranzo Exp $
  */
 
 include('./help/PostgresDoc70.php');
@@ -11,6 +11,13 @@ include('./help/PostgresDoc70.php');
 # TODO: Check and fix links for 7.1
 
 $this->help_base = 'http://www.postgresql.org/docs/7.1/interactive/';
+
+$this->help_page['pg.admin.analyze'] = 'sql-vacuum.html';
+$this->help_page['pg.admin.vacuum'] = 'sql-vacuum.html';
+
+$this->help_page['pg.aggregate'] = array('xaggr.html', 'query-agg.html', 'functions-aggregate.html', 'sql-expressions.html#SYNTAX-AGGREGATES');
+$this->help_page['pg.aggregate.create'] = 'sql-createaggregate.html';
+$this->help_page['pg.aggregate.drop'] = 'sql-dropaggregate.html';
 
 $this->help_page['pg.database'] = 'managing-databases.html';
 $this->help_page['pg.database.create'] = array('sql-createdatabase.html', 'managing-databases.html#MANAGE-AG-CREATEDB');

@@ -3,7 +3,7 @@
 /**
  * Help links for PostgreSQL 7.0 documentation
  *
- * $Id: PostgresDoc70.php,v 1.2 2004/11/07 12:27:14 soranzo Exp $
+ * $Id: PostgresDoc70.php,v 1.3 2004/11/15 17:25:03 soranzo Exp $
  */
 
 $this->help_base = 'http://www.postgresql.org/docs/7/interactive/';
@@ -11,14 +11,6 @@ $this->help_base = 'http://www.postgresql.org/docs/7/interactive/';
 # TODO: Check and fix links for >= 7.0 and <= 7.3 (those in the following array)
 
 $this->help_page = array(
-	'pg.admin.analyze'		=> 'sql-analyze.html',
-	'pg.admin.vacuum'		=> 'sql-vacuum.html',
-
-	'pg.aggregate'			=> array('xaggr.html','tutorial-agg.html','functions-aggregate.html','sql-expressions.html#SYNTAX-AGGREGATES'),
-	'pg.aggregate.alter'		=> 'sql-alteraggregate.html',
-	'pg.aggregate.create'		=> 'sql-createaggregate.html',
-	'pg.aggregate.drop'		=> 'sql-dropaggregate.html',
-
 	'pg.cast'			=> array('sql-expressions.html#SQL-SYNTAX-TYPE-CASTS','sql-createcast.html'),
 	'pg.cast.create'		=> 'sql-createcast.html',
 	'pg.cast.drop'			=> 'sql-dropcast.html',
@@ -145,6 +137,13 @@ $this->help_page = array(
 );
 
 # correct links follow:
+
+$this->help_page['pg.admin.analyze'] = 'sql-vacuum.htm';
+$this->help_page['pg.admin.vacuum'] = 'sql-vacuum.htm';
+
+$this->help_page['pg.aggregate'] = array('xaggr.htm', 'query27856.htm', 'syntax658.htm');
+$this->help_page['pg.aggregate.create'] = 'sql-createaggregate.htm';
+$this->help_page['pg.aggregate.drop'] = 'sql-dropaggregate.htm';
 
 $this->help_page['pg.database'] = 'manage-ag.htm';
 $this->help_page['pg.database.create'] = array('sql-createdatabase.htm', 'manage-ag.htm#AEN17907');
