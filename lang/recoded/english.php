@@ -4,7 +4,7 @@
 	 * Language template file for WebDB. Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.15 2003/03/18 07:35:11 chriskl Exp $
+	 * $Id: english.php,v 1.16 2003/03/18 08:11:27 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -227,7 +227,7 @@
 	$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = 'Is Cycled?';
 	$lang['striscalled'] = 'Is Called?';
-	$lang['strsequenceneedsname'] = 'You must specify a name for you sequence.';
+	$lang['strsequenceneedsname'] = 'You must specify a name for your sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
 	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 
 	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence &quot;%s&quot;?';
@@ -317,7 +317,7 @@
 	$lang['strnotriggers'] = 'No triggers found.';
 	$lang['strcreatetrigger'] = 'Create Trigger';
 	$lang['strtriggername'] = 'Trigger name';
-	$lang['strtriggerneedsname'] = 'You must specify a name of trigger.';
+	$lang['strtriggerneedsname'] = 'You must specify a name for your trigger.';
 	$lang['strtriggercreated'] = 'Trigger created.';
 	$lang['strtriggercreatedbad'] = 'Trigger creation failed.';
 	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger &quot;%s&quot; on &quot;%s&quot;?';
