@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.52 2003/02/10 14:48:54 chriskl Exp $
+ * $Id: Postgres.php,v 1.53 2003/02/23 11:37:09 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -36,6 +36,8 @@ class Postgres extends BaseDB {
 	var $typStorages = array('plain', 'external', 'extended', 'main');
 	// The default type storage
 	var $typStorageDef = 'plain';
+	// Extra "magic" types
+	var $extraTypes = array('SERIAL');
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
@@ -203,13 +205,12 @@ class Postgres extends BaseDB {
 	function getAttributeNames($table, $atts) {
 		$this->clean($table);
 		$this->arrayClean($atts);
-		
+
 		if (!is_array($atts)) return -1;
 
 		if (sizeof($atts) == 0) return array();
 
-		// @@@ THERE IS A SCHEMA SUPPORT ERROR HERE!!!
-		$sql = "SELECT attnum, attname FROM pg_attribute WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='{$table}') AND attnum IN ('" .  
+		$sql = "SELECT attnum, attname FROM pg_attribute WHERE attrelid=(SELECT oid FROM pg_class WHERE relname='{$table}') AND attnum IN ('" .
 			join("','", $atts) . "')";
 
 		$rs = $this->selectSet($sql);
@@ -223,9 +224,9 @@ class Postgres extends BaseDB {
 				$rs->moveNext();
 			}
 			return $temp;
-		}			
+		}
 	}
-	
+
 	/**
 	 * Get the fields for uniquely identifying a row in a table
 	 * @param $table The table for which to retrieve the identifier
@@ -241,7 +242,7 @@ class Postgres extends BaseDB {
 		
 		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')";
 		$rs = $this->selectSet($sql);
-		
+
 		// If none, return an empty array.  We can't search for an OID column
 		// as there's no guarantee that it will be unique.
 		if ($rs->recordCount() == 0) {
@@ -249,7 +250,7 @@ class Postgres extends BaseDB {
 			return array();
 		}
 		// Otherwise find the names of the keys
-		else {		
+		else {
 			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
 			if (!is_array($attnames)) {
 				$this->rollbackTransaction();
@@ -261,7 +262,7 @@ class Postgres extends BaseDB {
 			}
 		}			
 	}
-	
+
 	/**
 	 * Outputs the HTML code for a particular field
 	 * @param $name The name to give the field
@@ -1660,7 +1661,9 @@ class Postgres extends BaseDB {
 		
 		return $this->execute($sql);
 	}
-
+	
+	// Reports functions
+	
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.5 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: tables.php,v 1.6 2003/02/23 11:37:09 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
-		
+
 		switch ($_REQUEST['stage']) {
 			case 1:
 				echo "<h2>", htmlspecialchars($_REQUEST['database']), ": {$strTables}: {$strCreateTable}</h2>\n";
@@ -69,16 +69,22 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th colspan=2 class=data>{$strField}</th><th class=data>{$strType}</th><th class=data>{$strLength}</th><th class=data>{$strNotNull}</th><th class=data>{$strDefault}</th></tr>";
+				echo "<tr><th colspan=\"2\" class=\"data\">{$strField}</th><th class=\"data\">{$strType}</th><th class=\"data\">{$strLength}</th><th class=\"data\">{$strNotNull}</th><th class=\"data\">{$strDefault}</th></tr>";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
 					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
 					if (!isset($_REQUEST['default'][$i])) $_REQUEST['default'][$i] = '';
 					echo "<tr><td>", $i + 1, ".&nbsp;</td>";
-					echo "<td><input name=\"field[{$i}]\" size=\"32\" maxlength={$data->_maxNameLen} value=\"", 
+					echo "<td><input name=\"field[{$i}]\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 						htmlspecialchars($_REQUEST['field'][$i]), "\"></td>";
 					echo "<td><select name=\"type[{$i}]\">\n";
+					// Output any "magic" types
+					foreach ($localData->extraTypes as $v) {
+						echo "<option value=\"", htmlspecialchars($v), "\"",
+						(isset($_REQUEST['type'][$i]) && $v == $_REQUEST['type'][$i]) ? ' selected' : '', ">",
+							htmlspecialchars($v), "</option>\n";
+					}
 					$types->moveFirst();
 					while (!$types->EOF) {
 						$typname = $types->f[$data->typFields['typname']];
