@@ -4,20 +4,20 @@
 	 * German Language file for WebDB.
 	 * @maintainer Albin Blaschka [blaschka@unix.sbg.ac.at]
 	 *
-	 * $Id: german.php,v 1.6 2003/04/13 08:24:24 jmpoure Exp $
+	 * $Id: german.php,v 1.7 2003/04/13 10:41:09 jmpoure Exp $
 	 */
 
 	$lang['applang'] = 'Deutsch';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'de_DE';
   
-	$lang['strnoframes'] = 'F&uuml;r dieses Programm wird ein ein Frame-fähiger Browser ben&ouml;tigt';
+	$lang['strnoframes'] = 'Für dieses Programm wird ein ein Frame-fähiger Browser benötigt';
   $lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Keine Tabellen vorhanden';
 	$lang['strnotable'] = 'Keine Tabelle vorhanden';
 	$lang['strnoviews'] = 'Keine Views vorhanden';
 	$lang['strnofunctions'] = 'Keine Funktionen vorhanden';
-	$lang['strowner'] = 'Eigent&uuml;mer';
+	$lang['strowner'] = 'Eigentümer';
 	$lang['straction'] = 'Action';	
 	$lang['stractions'] = 'Actions';	
 	$lang['strname'] = 'Name';
@@ -37,13 +37,13 @@
 	$lang['straggregates'] = 'Aggregate';
 	$lang['strproperties'] = 'Eigenschaften';
 	$lang['strbrowse'] = 'Suchen';
-	$lang['strdrop'] = 'L&ouml;schen';
-	$lang['strdropped'] = 'Gel&ouml;scht';
+	$lang['strdrop'] = 'Löschen';
+	$lang['strdropped'] = 'Gelöscht';
 	$lang['strnull'] = 'Null';
 	$lang['strprev'] = 'Vorhergehende';
 	$lang['strnext'] = 'Nächste';
 	$lang['strfailed'] = 'Fehler';
-	$lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine Datenbank-Unterst&uuml;tzung';
+	$lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine Datenbank-Unterstützung';
 	$lang['strcreate'] = 'Erzeugen';
 	$lang['strcomment'] = 'Kommentar';
 	
@@ -52,22 +52,22 @@
 	$lang['strpassword'] = 'Passwort';
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Erzeuge DB?';
-	$lang['strexpires'] = 'L&auml;ft ab';
+	$lang['strexpires'] = 'Läft ab';
 	$lang['strnousers'] = 'Keine Benutzer vorhanden';
 	
 	// Databases
 	$lang['strdatabase'] = 'Datenbank';
 	$lang['strdatabases'] = 'Datenbanken';
 	$lang['strnodatabases'] = 'Keine Datenbanken vorhanden';
-	$lang['strdatabaseneedsname'] = 'Sie m&uuml;ssen der Datenbank einen Namen geben';
+	$lang['strdatabaseneedsname'] = 'Sie müssen der Datenbank einen Namen geben';
 	
 	// Views
-	$lang['strviewneedsname'] = 'Sie m&uuml;ssen der View einen Namen geben';
-	$lang['strviewneedsdef'] = 'Sie m&uuml;ssen die View definieren';
+	$lang['strviewneedsname'] = 'Sie müssen der View einen Namen geben';
+	$lang['strviewneedsdef'] = 'Sie müssen die View definieren';
 
 	// Sequences
 	$lang['strnosequences'] = 'Keine Sequenzen gefunden';
-	$lang['strsequencename'] = 'sequence_name';
+	//$lang['strsequencename'] = 'sequence_name';
 	$lang['strlastvalue'] = 'last_value';
 	$lang['strincrementby'] = 'increment_by';	
 	$lang['strmaxvalue'] = 'max_value';
@@ -76,14 +76,14 @@
 	$lang['strlogcount'] = 'log_cnt';
 	$lang['striscycled'] = 'is_cycled';
 	$lang['striscalled'] = 'is_called';
-	$lang['strreset'] =	'Zur&uuml;cksetzen';
+	$lang['strreset'] =	'Zurücksetzen';
 
 	// Indicies
 	$lang['strindexname'] = 'Index Name';
 	$lang['strtabname'] = 'Tab Name';
 	$lang['strcolumnname'] = 'Spaltenname';
 	$lang['struniquekey'] = 'Unique Key';
-	$lang['strprimarykey'] = 'Prim&auml;rschl&uuml;ssel';
+	$lang['strprimarykey'] = 'Primärschlüssel';
 	
 	// Tables
 	$lang['strfield'] = 'Feld';
@@ -98,6 +98,6 @@
 	$lang['strreturns'] = 'Liefert';
 	$lang['strarguments'] = 'Argumente';
 	$lang['strlanguage'] = 'Sprache';
-	$lang['strfunctionneedsname'] = 'Sie m&uuml;ssen der Funktion einen Namen geben';
-	$lang['strfunctionneedsdef'] = 'Sie m&uuml;ssen die Funktion definieren';
+	$lang['strfunctionneedsname'] = 'Sie müssen der Funktion einen Namen geben';
+	$lang['strfunctionneedsdef'] = 'Sie müssen die Funktion definieren';
 ?>
