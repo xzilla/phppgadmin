@@ -13,5 +13,6 @@ BEGIN	{ while (index($0,"&lt;?php")==0) { getline; continue }
 	{ 
 	  # Convert CRLF -> LF (== "remove CR" ) ;-)
 	  gsub("&#13;","");
+	  gsub("&apos;","'");
 	  print $0
 	}

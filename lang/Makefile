@@ -20,7 +20,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.41 2005/02/18 11:39:47 chriskl Exp $
+# $Id: Makefile,v 1.41.2.1 2005/03/09 10:10:20 jollytoad Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -61,145 +61,145 @@ clean:
 
 polish:	polish.php
 	@echo "Recoding polish..."
-	@cat polish.php | recode latin2..html | ./convert.awk \
+	@cat polish.php | recode latin2..xml | ./convert.awk \
 		> ${DESTDIR}/polish.php
 	@chmod 644 polish.php ${DESTDIR}/polish.php
 
 english:	english.php
 	@echo "Recoding english..."
-	@cat english.php | recode latin1..html | ./convert.awk \
+	@cat english.php | recode latin1..xml | ./convert.awk \
 		> ${DESTDIR}/english.php
 	@chmod 644 english.php ${DESTDIR}/english.php
 
 dutch:	dutch.php
 	@echo "Recoding dutch..."
-	@cat dutch.php | recode latin1..html | ./convert.awk \
+	@cat dutch.php | recode latin1..xml | ./convert.awk \
 		> ${DESTDIR}/dutch.php
 	@chmod 644 dutch.php ${DESTDIR}/dutch.php
 
 danish:	danish.php
 	@echo "Recoding danish..."
-	@cat danish.php | recode latin1..html | ./convert.awk \
+	@cat danish.php | recode latin1..xml | ./convert.awk \
 		> ${DESTDIR}/danish.php
 	@chmod 644 danish.php ${DESTDIR}/danish.php
 
 german:	german.php
 	@echo "Recoding german..."
-	@cat german.php | recode utf-8..html | ./convert.awk \
+	@cat german.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/german.php
 	@chmod 644 german.php ${DESTDIR}/german.php
 
 spanish:	spanish.php
 	@echo "Recoding spanish..."
-	@cat spanish.php | recode iso-8859-1..html | ./convert.awk \
+	@cat spanish.php | recode iso-8859-1..xml | ./convert.awk \
 		> ${DESTDIR}/spanish.php
 	@chmod 644 spanish.php ${DESTDIR}/spanish.php
 
 italian:	italian.php
 	@echo "Recoding italian..."
-	@cat italian.php | recode iso-8859-1..html | ./convert.awk \
+	@cat italian.php | recode iso-8859-1..xml | ./convert.awk \
 		> ${DESTDIR}/italian.php
 	@chmod 644 italian.php ${DESTDIR}/italian.php
 
 chinese-tr:	chinese-tr.php
 	@echo "Recoding chinese-tr..."
-	@cat chinese-tr.php | recode big5..html | ./convert.awk \
+	@cat chinese-tr.php | recode big5..xml | ./convert.awk \
 		> ${DESTDIR}/chinese-tr.php
 	@chmod 644 chinese-tr.php ${DESTDIR}/chinese-tr.php
 
 chinese-sim:	chinese-sim.php
 	@echo "Recoding chinese-sim..."
-	@cat chinese-sim.php | recode gb2312..html | ./convert.awk \
+	@cat chinese-sim.php | recode gb2312..xml | ./convert.awk \
 		> ${DESTDIR}/chinese-sim.php
 	@chmod 644 chinese-sim.php ${DESTDIR}/chinese-sim.php
 
 french:	french.php
 	@echo "Recoding french..."
-	@cat french.php | recode latin1..html | ./convert.awk \
+	@cat french.php | recode latin1..xml | ./convert.awk \
 		> ${DESTDIR}/french.php
 	@chmod 644 french.php ${DESTDIR}/french.php
 
 japanese:	japanese.php
 	@echo "Recoding japanese..."
-	@cat japanese.php | recode euc-jp..html | ./convert.awk \
+	@cat japanese.php | recode euc-jp..xml | ./convert.awk \
 		> ${DESTDIR}/japanese.php
 	@chmod 644 japanese.php ${DESTDIR}/japanese.php
 
 russian:	russian.php
 	@echo "Recoding russian..."
-	@cat russian.php | recode koi8..html | ./convert.awk \
+	@cat russian.php | recode koi8..xml | ./convert.awk \
 		> ${DESTDIR}/russian.php
 	@chmod 644 russian.php ${DESTDIR}/russian.php
 
 slovak:	slovak.php
 	@echo "Recoding slovak..."
-	@cat slovak.php | recode utf-8..html | ./convert.awk \
+	@cat slovak.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/slovak.php
 	@chmod 644 slovak.php ${DESTDIR}/slovak.php
 
 czech:	czech.php
 	@echo "Recoding czech..."
-	@cat czech.php | recode utf-8..html | ./convert.awk \
+	@cat czech.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/czech.php
 	@chmod 644 czech.php ${DESTDIR}/czech.php
 
 turkish:	turkish.php
 	@echo "Recoding turkish..."
-	@cat turkish.php | recode iso-8859-9..html | ./convert.awk \
+	@cat turkish.php | recode iso-8859-9..xml | ./convert.awk \
 		> ${DESTDIR}/turkish.php
 	@chmod 644 turkish.php ${DESTDIR}/turkish.php
 
 portuguese-br:	portuguese-br.php
 	@echo "Recoding portuguese-br..."
-	@cat portuguese-br.php | recode iso-8859-1..html | ./convert.awk \
+	@cat portuguese-br.php | recode iso-8859-1..xml | ./convert.awk \
 		> ${DESTDIR}/portuguese-br.php
 	@chmod 644 portuguese-br.php ${DESTDIR}/portuguese-br.php
 
 swedish:	swedish.php
 	@echo "Recoding swedish..."
-	@cat swedish.php | recode iso-8859-1..html | ./convert.awk \
+	@cat swedish.php | recode iso-8859-1..xml | ./convert.awk \
 		> ${DESTDIR}/swedish.php
 	@chmod 644 swedish.php ${DESTDIR}/swedish.php
 
 afrikaans:	afrikaans.php
 	@echo "Recoding afrikaans..."
-	@cat afrikaans.php | recode iso-8859-1..html | ./convert.awk \
+	@cat afrikaans.php | recode iso-8859-1..xml | ./convert.awk \
 		> ${DESTDIR}/afrikaans.php
 	@chmod 644 afrikaans.php ${DESTDIR}/afrikaans.php
 
 hungarian:	hungarian.php
 	@echo "Recoding hungarian..."
-	@cat hungarian.php | recode utf-8..html | ./convert.awk \
+	@cat hungarian.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/hungarian.php
 	@chmod 644 hungarian.php ${DESTDIR}/hungarian.php
 
 arabic:		arabic.php
 	@echo "Recoding arabic..."
-	@cat arabic.php | recode utf-8..html | ./convert.awk \
+	@cat arabic.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/arabic.php
 	@chmod 644 arabic.php ${DESTDIR}/arabic.php
 
 mongol:		mongol.php
 	@echo "Recoding mongol..."
-	@cat mongol.php | recode iso-8859-5..html | ./convert.awk \
+	@cat mongol.php | recode iso-8859-5..xml | ./convert.awk \
 		> ${DESTDIR}/mongol.php
 	@chmod 644 mongol.php ${DESTDIR}/mongol.php
 
 ukrainian:	ukrainian.php
 	@echo "Recoding ukrainian..."
-	@cat ukrainian.php | recode koi8-r..html | ./convert.awk \
+	@cat ukrainian.php | recode koi8-r..xml | ./convert.awk \
 		> ${DESTDIR}/ukrainian.php
 	@chmod 644 ukrainian.php ${DESTDIR}/ukrainian.php
 
 hebrew:	hebrew.php
 	@echo "Recoding hebrew..."
-	@cat hebrew.php | recode utf-8..html | ./convert.awk \
+	@cat hebrew.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/hebrew.php
 	@chmod 644 hebrew.php ${DESTDIR}/hebrew.php
 
 romanian:		romanian.php
 	@echo "Recoding romanian..."
-	@cat romanian.php | recode utf-8..html | ./convert.awk \
+	@cat romanian.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/romanian.php
 	@chmod 644 romanian.php ${DESTDIR}/romanian.php
 
