@@ -44,7 +44,7 @@ Permissions
 Databases
 ---------
 
-* -Fix create/drop databases (chriskl)
+* Fix create/drop databases (chriskl) (no longer working in cvs)
 * Add alter database for 7.3+
 * -Execute arbitrary SQL (chriskl)
 * Dump database
@@ -61,12 +61,16 @@ Tables
 * -Have a common browse function (chriskl)
 * -Create table (chriskl)
 * -Modify column - default, nullability, etc. (chriskl)
+* Add column, set foreign key.
 * -Constraints - note massive 7.3 changes here (chriskl)
 * Vacuum & analyze
 * -Dumps as CSV, XML or database specific bulk load format (chriskl)
+* SQL dump doesn't quote properly for some data types
 * Insert and edit row aren't smart - eg. it will quote everything including 'current_timestamp'
   in a timestamp field.  We need to detect if they're inserting into a timestamp field with a magic
   value and then not quote it.
+* Insert needs the ability to use functions. It should also be able to handle some keywords (like DEFAULT) though it might be able to use function tech to accomplish this.
+
 
 Views
 -----
