@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.35.4.1 2005/03/01 10:47:03 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35.4.2 2005/03/08 09:56:37 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -24,16 +24,17 @@
 			$misc->printTrail('database');
 			$misc->printTitle($lang['strdrop'], 'pg.database.drop');
 			
-			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['database'])), "</p>\n";	
+			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"server\" value=\"", htmlspecialchars($_REQUEST['server']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropDatabase($_POST['database']);
+			$status = $data->dropDatabase($_POST['dropdatabase']);
 			if ($status == 0) {
 				$_reload_drop_database = true;
 				doDefault($lang['strdatabasedropped']);
@@ -229,7 +230,7 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
-				'vars'  => array('database' => 'datname'),
+				'vars'  => array('dropdatabase' => 'datname'),
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
