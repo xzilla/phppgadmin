@@ -4,13 +4,14 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese-euc.php,v 1.2 2003/04/11 04:47:52 chriskl Exp $
+	 * $Id: japanese.php,v 1.1 2003/05/07 01:20:04 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = '&#26085;&#26412;&#35486;(EUC-JP)';
 	$lang['appcharset'] = 'EUC-JP';
-
+	$lang['applocale'] = 'ja_JP';
+  
 	// Basic strings
 	$lang['strintro'] = '&#12424;&#12358;&#12371;&#12381;phpPgAdmin&#12408;&#12290;';
 	$lang['strlogin'] = '&#12525;&#12464;&#12452;&#12531;';

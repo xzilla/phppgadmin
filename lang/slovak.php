@@ -4,7 +4,7 @@
 	 * Slovenska lokalizacia phpPgAdmin-u.
 	 *                                      ado(at)nirvanaclub.sk
 	 *
-	 * $Id: slovak-1250.php,v 1.1 2003/04/17 06:11:42 chriskl Exp $
+	 * $Id: slovak.php,v 1.1 2003/05/07 01:20:03 chriskl Exp $
 	 */
 
 	// Language and character set
