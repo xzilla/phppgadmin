@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.23 2003/04/19 11:57:33 chriskl Exp $
+	 * $Id: english.php,v 1.24 2003/04/23 07:01:20 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -179,7 +179,7 @@
 	// Privilges
 	$lang['strprivilege'] = 'Privilege';
 	$lang['strprivileges'] = 'Privileges';
-	$lang['strnoprivileges'] = 'This object has no privileges.';
+	$lang['strnoprivileges'] = 'This object has default owner privileges.';
 	$lang['strgrant'] = 'Grant';
 	$lang['strrevoke'] = 'Revoke';
 	$lang['strgranted'] = 'Privileges granted.';
