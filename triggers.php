@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.4 2003/03/12 02:29:47 chriskl Exp $
+	 * $Id: triggers.php,v 1.5 2003/03/16 11:01:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -147,8 +147,8 @@
 		global $data, $localData, $misc, $database;
 		global $PHP_SELF;
 		global $strTriggers, $strName, $strActions, $strNoTriggers, $strCreateTrigger, $strDrop;
-		global $strTriggerWhen, $strTriggerEvent,$strFunction;
-		
+		global $strDefinition;
+
 		$misc->printTableNav();
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": ", htmlspecialchars($_REQUEST['table']), ": {$strTriggers}</h2>\n";
 		$misc->printMsg($msg);
@@ -157,24 +157,15 @@
 
 		if ($triggers->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr>";
-			echo "<th class=\"data\">{$strName}</th>";
-			echo "<th class=\"data\">{$strTriggerWhen}</th>";
-			echo "<th class=\"data\">{$strTriggerEvent}</th>\n";
-			echo "<th class=\"data\">{$strFunction}</th>\n";
-			echo "</tr>";
+			echo "<tr><th class=\"data\">{$strName}</th><th class=\"data\">{$strDefinition}</th><th class=\"data\">{$strActions}</th>\n";
 			$i = 0;
 
 			while (!$triggers->EOF) {
-				$execTime = htmlspecialchars( getTriggerExecTime($triggers->f[$data->tgFields['tgtype']]));	
-				$event    = htmlspecialchars( getTriggerEvent($triggers->f[$data->tgFields['tgtype']]));
+				//$execTime = htmlspecialchars( getTriggerExecTime($triggers->f[$data->tgFields['tgtype']]));
+				//$event    = htmlspecialchars( getTriggerEvent($triggers->f[$data->tgFields['tgtype']]));
 				$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-
-			    echo "<tr>";
-				echo "<td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
-				echo "<td class=\"data{$id}\">{$execTime}</td>";
-				echo "<td class=\"data{$id}\">{$event}</td>";
-				echo "<td class=\"data{$id}\">",htmlspecialchars( $triggers->f[$data->tgFields['proname']]),"</td>";
+				echo "<tr><td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]), "</td>";
+				echo "<td class=\"data{$id}\">", htmlspecialchars( $triggers->f[$data->tgFields['tgdef']]), "</td>";
 				echo "<td class=\"data{$id}\">";
 				echo "<a href=\"$PHP_SELF?action=confirm_drop&{$misc->href}&trigger=", htmlspecialchars( $triggers->f[$data->tgFields['tgname']]),
 					"&table=", htmlspecialchars($_REQUEST['table']), "\">{$strDrop}</td></tr>\n";
