@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.9 2003/04/18 11:08:27 chriskl Exp $
+	 * $Id: sequences.php,v 1.10 2003/04/30 07:31:15 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -107,11 +107,15 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
 			echo $misc->form;
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" /> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropSequence($_POST['sequence']);
+			$status = $localData->dropSequence($_POST['sequence'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strsequencedropped']);
 			else
