@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.9 2003/08/07 05:38:33 chriskl Exp $
+ * $Id: Postgres74.php,v 1.10 2003/08/11 05:48:04 chriskl Exp $
  */
 
 include_once('classes/database/Postgres73.php');
@@ -32,6 +32,23 @@ class Postgres74 extends Postgres73 {
 	function Postgres74($host, $port, $database, $user, $password) {
 		$this->Postgres73($host, $port, $database, $user, $password);
 	}
+	
+	// Group functions
+	
+	/**
+	 * Return users in a specific group
+	 * @param $groname The name of the group
+	 * @return All users in the group
+	 */
+	function &getGroup($groname) {
+		$this->clean($groname);
+
+		$sql = "SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g 
+					WHERE g.groname='{$groname}' AND s.usesysid = ANY (g.grolist)
+					ORDER BY s.usename";
+
+		return $this->selectSet($sql);
+	}		
 
 	// View functions
 	

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.135 2003/08/06 07:04:45 chriskl Exp $
+ * $Id: Postgres.php,v 1.136 2003/08/11 05:48:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1712,9 +1712,9 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Return information about a specific group
+	 * Return users in a specific group
 	 * @param $groname The name of the group
-	 * @return All groups
+	 * @return All users in the group
 	 */
 	function &getGroup($groname) {
 		$this->clean($groname);
@@ -1734,7 +1734,6 @@ class Postgres extends BaseDB {
 		return $this->selectSet($sql);
 	}
 
-	
 	/**
 	 * Creates a new group
 	 * @param $groname The name of the group
@@ -2058,17 +2057,42 @@ class Postgres extends BaseDB {
 		// Take off the first and last characters (the braces)
 		$acl = substr($acl, 1, strlen($acl) - 2);
 
-		// Pick out individual ACE's by exploding on the comma
-		$aces = explode(',', $acl);
+		// Pick out individual ACE's by carefully parsing.  This is necessary in order
+		// to cope with usernames and stuff that contain commas
+		$aces = array();
+		$i = $j = 0;		
+		$in_quotes = false;
+		while ($i < strlen($acl)) {
+			// If current char is a double quote and it's not escaped, then
+			// enter quoted bit
+			$char = substr($acl, $i, 1);
+			if ($char == '"' && ($i == 0 || substr($acl, $i - 1, 1) != '\\')) 
+				$in_quotes = !$in_quotes;
+			elseif ($char == ',' && !$in_quotes) {
+				// Add text so far to the array
+				$aces[] = substr($acl, $j, $i - $j);
+				$j = $i + 1;
+			}
+			$i++;
+		}
+		// Add final text to the array
+		$aces[] = substr($acl, $j);
 
 		// Create the array to be returned
 		$temp = array();
 
 		// For each ACE, generate an entry in $temp
 		foreach ($aces as $v) {
+			
 			// If the ACE begins with a double quote, strip them off both ends
-			if (strpos($v, '"') === 0) $v = substr($v, 1, strlen($v) - 2);
-
+			// and unescape backslashes and double quotes
+			$unquote = false;
+			if (strpos($v, '"') === 0) {
+				$v = substr($v, 1, strlen($v) - 2);
+				$v = str_replace('\\"', '"', $v);
+				$v = str_replace('\\\\', '\\', $v);
+			}
+			
 			// Figure out type of ACE (public, user or group)
 			if (strpos($v, '=') === 0)
 				$atype = 'public';
@@ -2080,8 +2104,37 @@ class Postgres extends BaseDB {
 			else
 				$atype = 'user';
 
-			// Separate entity from character list
-			list ($entity, $chars) = explode('=', $v);
+			// Break on unquoted equals sign...
+			$i = 0;		
+			$in_quotes = false;
+			$entity = null;
+			$chars = null;	
+			while ($i < strlen($v)) {
+				// If current char is a double quote and it's not escaped, then
+				// enter quoted bit
+				$char = substr($v, $i, 1);
+				$next_char = substr($v, $i + 1, 1);
+				if ($char == '"' && ($i == 0 || $next_char != '"')) {
+					$in_quotes = !$in_quotes;
+				}
+				// Skip over escaped double quotes
+				elseif ($char == '"' && $next_char == '"') {
+					$i++;
+				}
+				elseif ($char == '=' && !$in_quotes) {
+					// Split on current equals sign					
+					$entity = substr($v, 0, $i);
+					$chars = substr($v, $i + 1);
+					break;
+				}
+				$i++;
+			}
+			
+			// Check for quoting on entity name, and unescape if necessary
+			if (strpos($entity, '"') === 0) {
+				$entity = substr($entity, 1, strlen($entity) - 2);
+				$entity = str_replace('""', '"', $entity);
+			}
 			
 			// New row to be added to $temp
 			// (type, grantee, privileges, grantor, grant option?
@@ -2095,7 +2148,13 @@ class Postgres extends BaseDB {
 				if ($char == '*')
 					$row[4][] = $this->privmap[substr($chars, $i - 1, 1)];
 				elseif ($char == '/') {
-					$row[3] = substr($chars, $i + 1);
+					$grantor = substr($chars, $i + 1);
+					// Check for quoting
+					if (strpos($grantor, '"') === 0) {
+						$grantor = substr($grantor, 1, strlen($grantor) - 2);
+						$grantor = str_replace('""', '"', $grantor);
+					}
+					$row[3] = $grantor;
 					break;
 				}
 				else {
