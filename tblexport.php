@@ -3,11 +3,12 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.2 2003/02/07 17:34:35 xzilla Exp $
+	 * $Id: tblexport.php,v 1.3 2003/03/23 00:58:45 xzilla Exp $
 	 */
 
 	$extensions = array(
 		'sql' => 'sql',
+		'copy' => 'copy',
 		'csv' => 'csv',
 		'tab' => 'txt',
 		'xml' => 'xml'
@@ -36,7 +37,7 @@
 	// @@ Note: This should really use a cursor
 	$rs = &$localData->dumpRelation($_REQUEST['table'], isset($_REQUEST['oids']));
 
-	if ($_REQUEST['format'] == 'sql') {
+	if ($_REQUEST['format'] == 'copy') {
 		$data->fieldClean($_REQUEST['table']);
 		echo "COPY \"{$_REQUEST['table']}\" FROM stdin";
 		if (isset($_REQUEST['oids'])) echo " WITH OIDS";
@@ -74,6 +75,41 @@
 		}
 		echo "</xml>\n";
 	}
+
+        elseif ($_REQUEST['format'] == 'sql') {
+
+                $escapeme = array('varchar','char','text');
+
+                while (!$rs->EOF) {
+
+                echo "INSERT INTO \"{$_REQUEST['table']}\" ";
+
+                        $first = true;
+                        $fields = "(";
+                        $values = "VALUES (";
+                        while(list($k, $v) = each($rs->f)) {
+                                if ($first) {
+                                        $fields .= "\"$k\"";
+                                        $values .= "\"$v\"";
+                                        $first = false;
+                                }
+                                else {
+                                        $fields .= ",\"$k\"";
+                                        //if ( in_array(pg_fieldtype($k),$escapeme) ){
+                                                $values .= ",\"$v\"";
+                                        //}
+                                        //else {
+                                        //      $values .= ",$v";
+                                        //}
+                                }
+                        }
+
+                        echo $fields .") ". $values .")";
+                        echo ";\n";
+
+                        $rs->moveNext();
+                }
+        }
 	else {
 		while (!$rs->EOF) {
 			$first = true;
