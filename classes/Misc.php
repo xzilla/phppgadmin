@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.80 2004/07/21 08:26:43 jollytoad Exp $
+	 * $Id: Misc.php,v 1.81 2004/07/22 04:19:43 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -528,7 +528,7 @@
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
-							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['schema']),
+							'url'   => "privileges.php?{$vars}&type=schema&object=" . urlencode($_REQUEST['object']),
 							'hide'  => (!$data->hasSchemas()),
 						),
 					);

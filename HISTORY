@@ -14,6 +14,10 @@ Features
 * Allow filtering find results by object type
 * Show function arguments in find results
 * Support 7.5's named function arguments
+* "Sticky" navigation.  phpPgAdmin will now remember while tab you are
+  looking at (eg. 'Indexes') when you change which table you are viewing.
+* New fast navigation bar.  A breadcrumb style navigation bar for fast
+  jumping between areas.
 
 Translations
 * Arabic from Zaki
