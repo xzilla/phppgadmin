@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.4 2003/02/03 00:27:57 slubek Exp $
+	 * $Id: polish.php,v 1.5 2003/02/16 22:03:43 slubek Exp $
 	 */
 
 	// Language and character set
@@ -139,10 +139,16 @@
 	$strMembers = 'Cz&#322;onkowie';
 
 	// Privileges
+	$strPrivilege = 'Uprawnienie';
 	$strPrivileges = 'Uprawnienia';
+	$strNoPrivileges = 'Ten obiekt nie ma uprawnie&#324;.';
 	$strGrant = 'Nadaj';
 	$strRevoke = 'Zabierz';
-
+        $strGranted = 'Uprawnienia nadane.';
+	$strGrantFailed = 'Pr&oacute;ba nadania uprawnie&#324; si&#281; nie powiod&#322;a.';
+	$strGrantUser = 'Nadaj u&#380;ytkownikowi';
+	$strGrantGroup = 'Nadaj grupie';
+				
 	// Databases
 	$strDatabase = 'Baza danych';
 	$strDatabases = 'Bazy danych';
@@ -315,6 +321,15 @@
 	$strConfDropSchema = 'Czy na pewno chcesz usun&#261;&#263; schemat &quot;%s&quot;?';
 	$strSchemaDropped = 'Schemat usuni&#281;ty.';
 	$strSchemaDroppedBad = 'Pr&oacute;ba usuni&#281;cia schematu si&#281; nie powiod&#322;a.';
+
+	// Reports
+	$strReport = 'Raport';
+	$strReports = 'Raporty';
+	$strNoReports = 'Nie znaleziono raport&oacute;w.';
+	$strCreateReport = 'Utw&oacute;rz raport';
+	$strReportDropped = 'Raport usuni&#281;ty.';
+	$strReportDroppedBad = 'Pr&oacute;ba usuni&#281;cia raportu si&#281; nie powiod&#322;a.';
+	$strConfDropReport = 'Czy na pewno chcesz usun&#261;&#263; raport &quot;%s&quot;?';
 
 	// Miscellaneous
 	$strTopBar = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';

@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.10 2003/02/03 00:27:57 slubek Exp $
+	 * $Id: polish.php,v 1.11 2003/02/16 22:03:43 slubek Exp $
 	 */
 
 	// Language and character set
@@ -139,10 +139,16 @@
 	$strMembers = 'Cz³onkowie';
 
 	// Privileges
+	$strPrivilege = 'Uprawnienie';
 	$strPrivileges = 'Uprawnienia';
+	$strNoPrivileges = 'Ten obiekt nie ma uprawnieñ.';
 	$strGrant = 'Nadaj';
 	$strRevoke = 'Zabierz';
-
+        $strGranted = 'Uprawnienia nadane.';
+	$strGrantFailed = 'Próba nadania uprawnieñ siê nie powiod³a.';
+	$strGrantUser = 'Nadaj u¿ytkownikowi';
+	$strGrantGroup = 'Nadaj grupie';
+				
 	// Databases
 	$strDatabase = 'Baza danych';
 	$strDatabases = 'Bazy danych';
@@ -315,6 +321,15 @@
 	$strConfDropSchema = 'Czy na pewno chcesz usun±æ schemat "%s"?';
 	$strSchemaDropped = 'Schemat usuniêty.';
 	$strSchemaDroppedBad = 'Próba usuniêcia schematu siê nie powiod³a.';
+
+	// Reports
+	$strReport = 'Raport';
+	$strReports = 'Raporty';
+	$strNoReports = 'Nie znaleziono raportów.';
+	$strCreateReport = 'Utwórz raport';
+	$strReportDropped = 'Raport usuniêty.';
+	$strReportDroppedBad = 'Próba usuniêcia raportu siê nie powiod³a.';
+	$strConfDropReport = 'Czy na pewno chcesz usun±æ raport "%s"?';
 
 	// Miscellaneous
 	$strTopBar = '%s uruchomiony na %s:%s -- Jeste¶ zalogowany jako "%s", %s';
