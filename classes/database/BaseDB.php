@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.29 2003/10/06 15:26:23 chriskl Exp $
+ * $Id: BaseDB.php,v 1.30 2003/10/10 09:29:49 chriskl Exp $
  */
 
 include_once('classes/database/ADODB_base.php');
@@ -149,11 +149,11 @@ class BaseDB extends ADODB_base {
 	 * @param $table The table from which to select
 	 * @param $show An array of columns to show
 	 * @param $values An array mapping columns to values
-	 * @param $nulls An array of columns that are null
+	 * @param $ops An array of the operators to use
 	 * @param $orderby (optional) An array of columns to order by
 	 * @return The SQL query
 	 */
-	function getSelectSQL($table, $show, $values, $nulls, $orderby = array()) {
+	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
 		$this->fieldClean($table);
 
 		$sql = "SELECT \"" . join('","', $show) . "\" FROM ";
@@ -167,28 +167,29 @@ class BaseDB extends ADODB_base {
 		$first = true;
 		if (is_array($values) && sizeof($values) > 0) {
 			foreach ($values as $k => $v) {
-				if ($v != '' && !in_array($k, $nulls)) {
+				if ($v != '' || $this->selectOps[$ops[$k]] == 'p') {
+					$this->fieldClean($k);
+					$this->clean($v);
 					if ($first) {
-						$this->fieldClean($k);
-						$this->clean($v);
-						$sql .= " WHERE \"{$k}\"='{$v}'";
+						$sql .= " WHERE ";
 						$first = false;
 					} else {
-						$sql .= " AND \"{$k}\"='{$v}'";
+						$sql .= " AND ";
 					}
-				}
-			}
-		}
-
-		// If we have NULL values specified, add them to the WHERE clause
-		if (is_array($nulls) && sizeof($nulls) > 0) {
-			foreach ($nulls as $v) {
-				if ($first) {
-					$this->fieldClean($v);
-					$sql .= " WHERE \"{$v}\" IS NULL";
-					$first = false;
-				} else {
-					$sql .= " AND \"{$v}\" IS NULL";
+					// Different query format depending on operator type
+					switch ($this->selectOps[$ops[$k]]) {
+						case 'i':
+							$sql .= "\"{$k}\" {$ops[$k]} '{$v}'";
+							break;
+						case 'p':
+							$sql .= "\"{$k}\" {$ops[$k]}";
+							break;
+						case 'x':
+							$sql .= "\"{$k}\" {$ops[$k]} ({$v})";
+							break;
+						default:
+							// Shouldn't happen
+					}
 				}
 			}
 		}

@@ -11,6 +11,7 @@ Features
 * Display clustered status of indexes and indexed constraints
 * Table info - shows table that reference the table, parent tables,
   and child tables.
+* Choice of operator when performing a Select
 
 Bugs
 * Added legal DOCTYPE

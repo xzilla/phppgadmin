@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.36 2003/09/08 09:26:17 chriskl Exp $
+	 * $Id: tables.php,v 1.37 2003/10/10 09:29:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -194,7 +194,7 @@
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strfield']}</th>";
-				echo "<th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strnull']}</th>";
+				echo "<th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['stroperator']}</th>";
 				echo "<th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
@@ -203,6 +203,8 @@
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
 						$_REQUEST['values'][$attrs->f['attname']] = null;
+					if (!isset($_REQUEST['ops'][$attrs->f['attname']]))
+						$_REQUEST['ops'][$attrs->f['attname']] = null;
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
@@ -212,12 +214,12 @@
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['type']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull'])
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					else
-						echo "&nbsp;</td>";
+					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
+					foreach (array_keys($localData->selectOps) as $v) {
+						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
+						">", htmlspecialchars($v), "</option>\n";
+					}
+					echo "</select>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $localData->printField("values[{$attrs->f['attname']}]",
 						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
 					echo "</tr>\n";
@@ -242,12 +244,20 @@
 			if (!isset($_GET['values'])) $_GET['values'] = array();
 			if (!isset($_GET['nulls'])) $_GET['nulls'] = array();
 			
+			// Verify that they haven't supplied a value for unary operators
+			foreach ($_GET['ops'] as $k => $v) {
+				if ($localData->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+					doSelectRows(true, $lang['strselectunary']);
+					return;
+				}
+			}
+			
 			if (sizeof($_GET['show']) == 0)
-				doSelectRows(true, $lang['strselectneedscol']);
+				doSelectRows(true, $lang['strselectneedscol']);			
 			else {
 				// Generate query SQL
 				$query = $localData->getSelectSQL($_REQUEST['table'], array_keys($_GET['show']),
-					$_GET['values'], array_keys($_GET['nulls']));
+					$_GET['values'], $_GET['ops']);
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];

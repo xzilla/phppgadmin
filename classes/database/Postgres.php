@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.152 2003/10/09 06:39:10 chriskl Exp $
+ * $Id: Postgres.php,v 1.153 2003/10/10 09:29:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -116,6 +116,13 @@ class Postgres extends BaseDB {
 	
 	// Rule action types
 	var $rule_events = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
+
+	// Select operators
+	// Operators of type 'i' are 'infix', eg. a = '1'.  Type 'p' means postfix unary, eg. a IS TRUE.
+	// 'x' is a bracketed subquery form.  eg. IN (1,2,3)
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 'LIKE' => 'i', 'NOT LIKE' => 'i', 
+									'~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 'IS NULL' => 'p', 'IS NOT NULL' => 'p', 
+									'IN' => 'x', 'NOT IN' => 'x');
 
 	/**
 	 * Constructor

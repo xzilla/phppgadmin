@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.63 2003/10/09 06:39:10 chriskl Exp $
+	 * $Id: english.php,v 1.64 2003/10/10 09:29:50 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -157,6 +157,7 @@
 	$lang['strfieldneedsname'] = 'You must name your field';
 	$lang['strselectallfields'] = 'Select all fields';
 	$lang['strselectneedscol'] = 'You must show at least one column';
+	$lang['strselectunary'] = 'Unary operators cannot have values';
 	$lang['straltercolumn'] = 'Alter Column';
 	$lang['strcolumnaltered'] = 'Column altered.';
 	$lang['strcolumnalteredbad'] = 'Column altering failed.';

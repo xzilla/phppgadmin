@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.40 2003/10/09 06:39:10 chriskl Exp $
+ * $Id: Postgres71.php,v 1.41 2003/10/10 09:29:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -43,6 +43,11 @@ class Postgres71 extends Postgres {
 	// Function properties
 	var $funcprops = array(array('', 'ISSTRICT'), array('', 'ISCACHABLE'));
 	var $defaultprops = array('', '');
+
+	// Select operators
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 'LIKE' => 'i', 'NOT LIKE' => 'i', 
+									'ILIKE' => 'i', 'NOT ILIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 
+									'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
 
 	/**
 	 * Constructor
