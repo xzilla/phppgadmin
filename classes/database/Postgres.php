@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.199 2004/05/09 06:56:48 chriskl Exp $
+ * $Id: Postgres.php,v 1.200 2004/05/09 09:10:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1951,29 +1951,36 @@ class Postgres extends BaseDB {
 
 	/**
 	 * Sets the comment for an object in the database
-	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE'
+	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION'
 	 * @param $obj_name The name of the object for which to attach a comment
 	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
 	 * @param $comment The comment to add
 	 * @return 0 success
 	 */
-
 	function setComment($obj_type, $obj_name, $table, $comment) {
-		// Make sure we have a valid type
-		$types = array('TABLE','COLUMN','VIEW','SCHEMA','SEQUENCE','TYPE');
-		if (! in_array($obj_type,$types)) return -1;
-
+		$this->clean($comment);
+		
 		$sql = "COMMENT ON {$obj_type} " ;
 
 		switch ($obj_type) {
-		case 'TABLE':
-			$sql .= "\"{$table}\" IS ";
-			break;
-		case 'COLUMN':
-			$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
-			break;
-		default:
-			$sql .= "\"{$obj_name}\" IS ";
+			case 'TABLE':
+				$sql .= "\"{$table}\" IS ";
+				break;
+			case 'COLUMN':
+				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
+				break;
+			case 'VIEW':
+			case 'SCHEMA':
+			case 'SEQUENCE':
+			case 'TYPE':
+				$sql .= "\"{$obj_name}\" IS ";
+				break;
+			case 'FUNCTION':				
+				$sql .= "{$obj_name} IS ";
+				break;
+			default:
+				// Unknown object type
+				return -1;
 		}
 
 		if ($comment != '')
@@ -3402,7 +3409,8 @@ class Postgres extends BaseDB {
 					probin as binary,
 					proretset,
 					proiscachable,
-					oidvectortypes(pc.proargtypes) AS arguments
+					oidvectortypes(pc.proargtypes) AS arguments,
+					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
 				FROM
 					pg_proc pc, pg_language pl, pg_type pt
 				WHERE 
@@ -3437,31 +3445,44 @@ class Postgres extends BaseDB {
 	 * so we do it with a drop and a recreate.
 	 * @param $function_oid The OID of the function
 	 * @param $funcname The name of the function to create
+	 * @param $newname The new name for the function
 	 * @param $args The array of argument types
 	 * @param $returns The return type
 	 * @param $definition The definition for the new function
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
 	 * @param $setof True if returns a set, false otherwise
+	 * @param $comment The comment on the function
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 drop function error
 	 * @return -3 create function error
+	 * @return -4 comment error
 	 */
-	function setFunction($function_oid, $funcname, $args, $returns, $definition, $language, $flags, $setof) {
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-
+		
+		// Drop existing function
 		$status = $this->dropFunction($function_oid, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
 		
-		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, false);
+		// Create function with new name
+		$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;
+		}
+		
+		// Comment on the function
+		$this->fieldClean($newname);
+		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
+		if ($status != 0) {
+		  $this->rollbackTransaction();
+		  return -4;
 		}
 
 		$status = $this->endTransaction();
@@ -3722,6 +3743,7 @@ class Postgres extends BaseDB {
 	function hasOpClasses() { return true; }
 	function hasUserSessionDefaults() { return false; }
 	function hasUserRename() { return false; }
+	function hasFunctionRename() { return true; }
 
 }
 

@@ -27,6 +27,7 @@ Features
 * Automatically uncheck the NULL checkbox when data is typed in the value
   field while editing data.
 * Show query runtime when executing arbitrary SQL
+* Allow renaming functions when backend supports it
 
 Bugs
 * Fix pg_dump output for PostgreSQL 7.0.x and 7.1.x

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.29 2004/05/08 14:45:09 chriskl Exp $
+	 * $Id: functions.php,v 1.30 2004/05/09 09:10:04 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -18,10 +18,15 @@
 	 */
 	function doSaveEdit() {
 		global $data, $lang;
+		
+		// If the backend does not support renaming functions...
+		if (!$data->hasFunctionRename()) $_POST['formFunction'] = $_POST['original_function'];
 
-		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['original_arguments'], 
-														$_POST['original_returns'], $_POST['formDefinition'], 
-														$_POST['original_lang'], $_POST['formProperties'], isset($_POST['original_setof']), true);
+		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['formFunction'], 
+										$_POST['original_arguments'], 
+										$_POST['original_returns'], $_POST['formDefinition'], 
+										$_POST['original_lang'], $_POST['formProperties'], 
+										isset($_POST['original_setof']), $_POST['formComment']);
 		if ($status == 0)
 			doProperties($lang['strfunctionupdated']);
 		else
@@ -46,6 +51,8 @@
 			// Initialise variables
 			if (!isset($_POST['formDefinition'])) $_POST['formDefinition'] = $fndata->f[$data->fnFields['fndef']];
 			if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->getFunctionProperties($fndata->f);
+			if (!isset($_POST['formFunction'])) $_POST['formFunction'] = $fndata->f[$data->fnFields['fnname']];
+			if (!isset($_POST['formComment'])) $_POST['formComment'] = $fndata->f['funccomment'];
 
 			$func_full = $fndata->f[$data->fnFields['fnname']] . "(". $fndata->f[$data->fnFields['fnarguments']] .")";
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -59,8 +66,14 @@
 				
 
 			echo "<tr>\n";
-			echo "<td class=\"data1\">", $misc->printVal($fndata->f[$data->fnFields['fnname']]), "\n";
+			echo "<td class=\"data1\">";
 			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\" />\n"; 
+			// If we're 7.4 or above, we can rename functions
+			if ($data->hasFunctionRename()) {
+				echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
+			}
+			else
+				echo $misc->printVal($fndata->f[$data->fnFields['fnname']]);
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">", $misc->printVal($fndata->f[$data->fnFields['fnarguments']]), "\n";
@@ -82,6 +95,10 @@
 			echo "<tr><th class=\"data required\" colspan=\"8\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"8\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
+			// Display function comment
+			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\"><input name=\"formComment\" style=\"width: 100%\" value=\"", 
+					htmlspecialchars($_POST['formComment']), "\" /></td></tr>\n";
 			// Display function properies
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
@@ -99,6 +116,7 @@
 				}
 				echo "</td></tr>\n";
 			}		
+			echo "</td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -139,6 +157,10 @@
 			echo "<td class=\"data1\">", $misc->printVal($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f[$data->fnFields['fndef']]), "</td></tr>\n";
+			// Show comment
+			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['funccomment']), "</td></tr>\n";
+			// Show flags
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				// Fetch an array of the function properties
 				$funcprops = $data->getFunctionProperties($funcdata->f);

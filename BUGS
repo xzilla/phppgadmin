@@ -29,3 +29,4 @@ NEEDS TESTING
 * Import
 * Script execution
 * Create view wizard looks buggy
+* alter function on < 7.2 needs testing

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.54 2004/05/08 11:34:14 chriskl Exp $
+ * $Id: Postgres71.php,v 1.55 2004/05/09 09:10:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -225,7 +225,8 @@ class Postgres71 extends Postgres {
 					proretset,
 					proisstrict,
 					proiscachable,
-					oidvectortypes(pc.proargtypes) AS arguments
+					oidvectortypes(pc.proargtypes) AS arguments,
+					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS funccomment
 				FROM
 					pg_proc pc, pg_language pl
 				WHERE 

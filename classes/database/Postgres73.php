@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.100 2004/05/09 04:31:42 chriskl Exp $
+ * $Id: Postgres73.php,v 1.101 2004/05/09 09:10:04 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -743,7 +743,8 @@ class Postgres73 extends Postgres72 {
 					proisstrict,
 					provolatile,
 					prosecdef,
-					oidvectortypes(pc.proargtypes) AS arguments
+					oidvectortypes(pc.proargtypes) AS arguments,
+					pg_catalog.obj_description(pc.oid, 'pg_proc') AS funccomment
 				FROM
 					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
 				WHERE 
@@ -1641,6 +1642,7 @@ class Postgres73 extends Postgres72 {
 	function hasUserSessionDefaults() { return true; }
 	function hasVariables() { return true; }
 	function hasFullExplain() { return true; }
+	function hasFunctionRename() { return false; }
 
 }
 
