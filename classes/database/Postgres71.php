@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.8 2002/05/01 09:37:30 chriskl Exp $
+ * $Id: Postgres71.php,v 1.9 2002/07/11 06:02:57 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -656,6 +656,7 @@ class Postgres71 extends BaseDB {
 	function hasTypes() { return true; }
 	function hasAggregates() { return true; }
 	function hasRules() { return true; }
+	function hasSchemas() { return false; }
 
 }
 
