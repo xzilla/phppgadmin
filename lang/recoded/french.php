@@ -1,10 +1,10 @@
-&lt;?php
+<?php
 
 	/**
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.2 2003/04/08 13:27:42 jmpoure Exp $
+	 * $Id: french.php,v 1.3 2003/04/09 07:53:10 jmpoure Exp $
 	 */
 
 	// Language and character set
@@ -392,4 +392,4 @@
 	$lang['strtopbar'] = '%s Lanc&eacute; sur %s:%s -- Vous &ecirc;tes connect&eacute; sous le nom &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 
-?&gt;
+?>
