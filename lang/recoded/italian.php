@@ -1,15 +1,15 @@
 <?php
 	/**
 	 * Italian language template, based on the english language template file for WebDB.
-	 * @maintainer Calogero &quot;Kalef&quot; Cal&amp;igrave; [<kalef@libero.it>]
+	 * @maintainer Calogero &quot;Kalef&quot; Cal&igrave; [<kalef@libero.it>]
          *
-	 * $Id: italian.php,v 1.5 2003/08/01 06:24:16 chriskl Exp $
+	 * $Id: italian.php,v 1.6 2003/08/07 01:16:31 chriskl Exp $
 	 */
 
 	$lang['applang'] = 'Italiano';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'it_IT';
-  	$lang['appdbencoding'] = 'LATIN1';
+	$lang['appdbencoding'] = 'LATIN1';
 
 	$lang['strnoframes'] = 'Devi abilitare il browser all\'uso dei frame per usare questa applicazione.';
 	$lang['strlogin'] = 'Login';
@@ -34,7 +34,7 @@
 	$lang['stroperators'] = 'Operatori';
 	$lang['strtypes'] = 'Tipi';
 	$lang['straggregates'] = 'Aggregazioni';
-	$lang['strproperties'] = 'Propriet&amp;agrave;';
+	$lang['strproperties'] = 'Propriet&agrave;';
 	$lang['strbrowse'] = 'Visualizza';
 	$lang['strdrop'] = 'Elimina';
 	$lang['strdropped'] = 'Eliminato';
@@ -42,7 +42,7 @@
 	$lang['strprev'] = 'Precedente';
 	$lang['strnext'] = 'Successivo';
 	$lang['strfailed'] = 'Fallito';
-	$lang['strnotloaded'] = 'Non &amp;egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
+	$lang['strnotloaded'] = 'Non &egrave; stato compilato un adeguato supporto ai database nell\'installazione di PHP';
 
 	// Users - Utenti
 	$lang['strusername'] = 'Username';
@@ -53,20 +53,19 @@
 	$lang['strnousers'] = 'Nessun utente trovato';
 
 	// Views - Viste
-	$lang['strviewneedsname'] = '&amp;Egrave; necessario un nome per la Vista.';
-	$lang['strviewneedsdef'] = '&amp;Egrave; necessaria una definizione della Vista.';
+	$lang['strviewneedsname'] = 'E\' necessario un nome per la Vista.';
+	$lang['strviewneedsdef'] = 'E\' necessaria una definizione della Vista.';
 
 	// Sequences - Sequenze
 	$lang['strnosequences'] = 'Nessuna sequenza trovata.';
-	$lang['strsequencename'] = 'nome sequenza';
 	$lang['strlastvalue'] = 'valore precedente';
 	$lang['strincrementby'] = 'incrementa di';
 	$lang['strmaxvalue'] = 'valore max';
 	$lang['strminvalue'] = 'valore min';
 	$lang['strcachevalue'] = 'valore cache';
 	$lang['strlogcount'] = 'conta log';
-	$lang['striscycled'] = '&amp;egrave; iterata';
-	$lang['striscalled'] = '&amp;egrave; chiamata';
+	$lang['striscycled'] = '&egrave; iterata';
+	$lang['striscalled'] = '&egrave; chiamata';
 
 
 	$lang['strreset'] = 'Reset';
@@ -142,7 +141,7 @@
 	$lang['strinstead'] = 'Invece fai';
 	$lang['strwhen'] = 'quando';
 	$lang['strformat'] = 'Formato'; // ***********
-	$lang['strbadconfig'] = 'Il file config.inc.php &amp;egrave; obsoleto. Devi rigenerarlo utilizzando il nuovo file config.inc.php-dist.';
+	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. Devi rigenerarlo utilizzando il nuovo file config.inc.php-dist.';
 	$lang['strbadschema'] = 'Schema specificato non valido.';
 	$lang['strbadencoding'] = 'Settaggio codifica del client nel database fallito.';
 	$lang['strsqlerror'] = 'Errore SQL:';
@@ -200,7 +199,6 @@
 	$lang['strdataonly'] = 'Solamente dati';
 
         // Users - Utenti
-        $lang['struseradmin'] = 'Amministrazione utenti';
 	$lang['struser'] = 'Utente';
 	$lang['strusers'] = 'Utenti';
 	$lang['struserupdated'] = 'Utente aggiornato.';
@@ -214,7 +212,6 @@
 	$lang['struserdroppedbad'] = 'Eliminazione utente fallita.';
 
         // Groups - Gruppi
-        $lang['strgroupadmin'] = 'Amministrazione gruppi';
 	$lang['strgroup'] = 'Gruppo';
 	$lang['strgroups'] = 'Gruppi';
 	$lang['strnogroup'] = 'Gruppo non torvato.';
@@ -237,8 +234,6 @@
 	$lang['strrevoke'] = 'Revoca';
 	$lang['strgranted'] = 'Privilegi concessi.';
 	$lang['strgrantfailed'] = 'Concessione priviegi fallita.';
-	$lang['strgrantuser'] = 'Concedi ad utente';
-	$lang['strgrantgroup'] = 'Concedi a gruppo';
 
         // Databases
 	$lang['strdatabase'] = 'Database';
@@ -439,3 +434,4 @@
         $lang['strtimefmt'] = 'j M Y - g:iA';
 
 ?>
+
