@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.202 2004/05/14 01:16:14 soranzo Exp $
+ * $Id: Postgres.php,v 1.203 2004/05/14 07:56:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1025,7 +1025,8 @@ class Postgres extends BaseDB {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
+					a.attname, t.typname as type, t.typename as base_type, 
+					a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
 					a.attstorage AS typstorage, 
                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
@@ -1098,6 +1099,10 @@ class Postgres extends BaseDB {
 	 * @param $oldnotnull (boolean) True if column is already not null, false otherwise
 	 * @param $default The new default for the column
 	 * @param $olddefault The old default for the column
+	 * @param $type The new type for the column
+	 * @param $array True if array type, false otherwise
+	 * @param $length The optional size of the column (ie. 30 for varchar(30))
+	 * @param $oldtype The old type for the column
 	 * @param $comment Comment for the column
 	 * @return 0 success
 	 * @return -1 set not null error
@@ -1105,7 +1110,8 @@ class Postgres extends BaseDB {
 	 * @return -3 rename column error
 	 * @return -4 comment error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, $comment) {
+	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, 
+									$type, $length, $array, $oldtype, $comment) {
 	  	$this->clean($comment);
 		$this->beginTransaction();
 

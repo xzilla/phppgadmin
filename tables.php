@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.50 2004/05/08 14:45:10 chriskl Exp $
+	 * $Id: tables.php,v 1.51 2004/05/14 07:56:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -80,7 +80,8 @@
 
 				// Output table header
 				echo "<table>\n";
-				echo "\t<tr><th colspan=\"2\" class=\"data\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
+				echo "\t<tr><th colspan=\"2\" class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
+				echo"<th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 				
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';

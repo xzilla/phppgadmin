@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.2 2004/05/12 15:30:00 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.3 2004/05/14 07:56:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -49,7 +49,7 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcomment']}</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input style=\"width: 100%;\" name=\"formComment\" value='", 
 				htmlspecialchars($_POST['formComment']), "' /></td>\n\t</tr>\n";
 			echo "</table>\n";
@@ -122,16 +122,21 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 	
+		// Get view
+		$vdata = &$data->getView($_REQUEST['view']);
+
 		$misc->printViewNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), ": {$lang['strdefinition']}</h2>\n";
-		$misc->printMsg($msg);
+		$misc->printMsg($msg);		
 		
-		$viewdata = &$data->getView($_REQUEST['view']);
-		
-		if ($viewdata->recordCount() > 0) {
+		if ($vdata->recordCount() > 0) {
+			// Show comment if any
+			if ($vdata->f[$data->vwFields['vwcomment']] != null)
+				echo "<p class=\"comment\">", htmlspecialchars($vdata->f[$data->vwFields['vwcomment']]), "</p>\n";
+
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($viewdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->f[$data->vwFields['vwdef']]), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -227,8 +232,8 @@
 		$misc->printViewNav();
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strviews']}: ", $misc->printVal($_REQUEST['view']), "</h2>\n";
 
-		// Get view (using same method for getting a table)
-		$vdata = &$data->getTable($_REQUEST['view']);
+		// Get view
+		$vdata = &$data->getView($_REQUEST['view']);
 		// Get columns (using same method for getting a view)
 		$attrs = &$data->getTableAttributes($_REQUEST['view']);		
 		$misc->printMsg($msg);

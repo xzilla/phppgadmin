@@ -33,6 +33,7 @@ Databases
 * -Fix failure to drop database even tho seemingly no-one is connected to it (chriskl, bryan)
 * Add alter database for 7.3+
 * -Dump database using pg_dump streaming (chriskl)
+* Comments on databases
 
 Tables
 ------

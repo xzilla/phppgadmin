@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.44 2004/05/12 15:30:00 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.45 2004/05/14 07:56:37 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -203,6 +203,7 @@
 				if (!isset($_POST['type'])) $_POST['type'] = '';
 				if (!isset($_POST['array'])) $_POST['array'] = '';
 				if (!isset($_POST['length'])) $_POST['length'] = '';
+				if (!isset($_POST['default'])) $_POST['default'] = '';
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 
 				// Fetch all available types
@@ -216,11 +217,22 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th><th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
+				echo "<tr><th class=\"data required\">{$lang['strfield']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strlength']}</th>";
+				if ($data->hasAlterColumnType()) echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
+				echo "<th class=\"data\">{$lang['strcomment']}</th></tr>";
 
-				echo "<tr><td><input name=\"field\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				echo "<tr><td><input name=\"field\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>";
-				echo "<td><select name=\"type\">\n";
+				echo "<td><select name=\"type\">\n";				
+				// Output any "magic" types.  This came in with the alter column type so we'll check that
+				if ($data->hasAlterColumnType()) {
+					foreach ($data->extraTypes as $v) {
+						echo "<option value=\"", htmlspecialchars($v), "\"",
+						($v == $_POST['type']) ? ' selected="selected"' : '', ">",
+							$misc->printVal($v), "</option>\n";
+					}
+				}
 				while (!$types->EOF) {
 					$typname = $types->f[$data->typFields['typname']];
 					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected="selected"' : '', ">",
@@ -237,7 +249,14 @@
 
 				echo "<td><input name=\"length\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>";
-				echo "<td><input name=\"comment\" size=\"60\" value=\"",
+				// Support for adding column with not null and default (7.5+ only)
+				if ($data->hasAlterColumnType()) {					
+					echo "<td><input type=\"checkbox\" name=\"notnull\"", 
+						(isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
+					echo "<td><input name=\"default\" size=\"20\" value=\"",
+						htmlspecialchars($_POST['default']), "\" /></td>";
+				}
+				echo "<td><input name=\"comment\" size=\"40\" value=\"",
 					htmlspecialchars($_POST['comment']), "\" /></td></tr>";
 				echo "</table>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"add_column\" />\n";
@@ -295,26 +314,89 @@
 
 				// Output table header
 				echo "<table>\n<tr>";
-				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th>";
+				if ($data->hasAlterColumnType()) {
+					echo "<th class=\"data required\" colspan=\"2\">{$lang['strtype']}</th>";
+					echo "<th class=\"data\">{$lang['strlength']}</th>";
+				}
+				else {
+					echo "<th class=\"data required\">{$lang['strtype']}</th>";					
+				}
 				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
 
+				// Upon first drawing the screen, load the existing column information
+				// from the database.
 				if (!isset($_REQUEST['default'])) {
 					$_REQUEST['field'] = $column->f['attname'];
+					$_REQUEST['type'] = $column->f['base_type'];
+					// Check to see if its' an array type...
+					// XXX: HACKY
+					if (substr($column->f['base_type'], strlen($column->f['base_type']) - 2) == '[]') {
+						$_REQUEST['type'] = substr($column->f['base_type'], 0, strlen($column->f['base_type']) - 2);
+						$_REQUEST['array'] = '[]';
+					}
+					else {
+						$_REQUEST['type'] = $column->f['base_type'];
+						$_REQUEST['array'] = '';
+					}
+					// To figure out the length, look in the brackets :(
+					// XXX: HACKY
+					if ($column->f['type'] != $column->f['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->f['type'], $bits)) {
+						$_REQUEST['length'] = $bits[1];
+					}
+					else
+						$_REQUEST['length'] = '';
 					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
 					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
 					$_REQUEST['comment'] = $column->f['comment'];
 				}				
 
+				// Column name
 				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
-				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+					
+				// Column type.  On 7.5+ this can be altered
+				if ($data->hasAlterColumnType()) {
+					// Fetch all available types
+					$types = &$data->getTypes(true);
+					
+					echo "<td><select name=\"type\">\n";				
+					// Output any "magic" types.  This came in with the alter column type so we'll check that
+					if ($data->hasAlterColumnType()) {
+						foreach ($data->extraTypes as $v) {
+							echo "<option value=\"", htmlspecialchars($v), "\"",
+							($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
+								$misc->printVal($v), "</option>\n";
+						}
+					}
+					while (!$types->EOF) {
+						$typname = $types->f[$data->typFields['typname']];
+						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
+							$misc->printVal($typname), "</option>\n";
+						$types->moveNext();
+					}
+					echo "</select></td>";
+					
+					// Output array type selector
+					echo "<td><select name=\"array\">\n";
+					echo "<option value=\"\"", ($_REQUEST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
+					echo "<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+					echo "</select></td>\n";
+	
+					echo "<td><input name=\"length\" size=\"8\" value=\"",
+						htmlspecialchars($_REQUEST['length']), "\" /></td>";
+				} else {
+					// Otherwise draw the read-only type name
+					echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+				}
+				
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
-				echo "<td><input name=\"comment\" size=\"60\" value=\"", 
+				echo "<td><input name=\"comment\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
 				
 				echo "</table>\n";
@@ -325,6 +407,13 @@
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
 				if ($column->f['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
+				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->f['type'], $column->f['atttypmod'])), "\" />\n";
+				// Add hidden variables to suppress error notices if we don't support altering column type
+				if (!$data->hasAlterColumnType()) {
+					echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";				
+					echo "<input type=\"hidden\" name=\"length\" value=\"", htmlspecialchars($_REQUEST['length']), "\" />\n";				
+					echo "<input type=\"hidden\" name=\"array\" value=\"", htmlspecialchars($_REQUEST['array']), "\" />\n";				
+				}
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
@@ -339,10 +428,12 @@
 					doProperties($lang['strfieldneedsname']);
 					return;
 				}
-				
+
 				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
-							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']), $_REQUEST['default'], 
-							     $_REQUEST['olddefault'],$_REQUEST['comment']);
+							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']), 
+							     $_REQUEST['default'], $_REQUEST['olddefault'],
+							     $_REQUEST['type'], $_REQUEST['length'], $_REQUEST['array'], $_REQUEST['oldtype'],
+							     $_REQUEST['comment']);
 				if ($status == 0)
 					doDefault($lang['strcolumnaltered']);
 				else {

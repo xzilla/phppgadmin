@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.103 2004/05/14 01:16:14 soranzo Exp $
+ * $Id: Postgres73.php,v 1.104 2004/05/14 07:56:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -380,7 +380,8 @@ class Postgres73 extends Postgres72 {
 			$sql = "
 				SELECT
 					a.attname,
-					pg_catalog.format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as type, 
+					a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
 					a.attstattarget, a.attstorage, t.typstorage,
 					(
@@ -411,7 +412,9 @@ class Postgres73 extends Postgres72 {
 			$sql = "
 				SELECT
 					a.attname,
-					pg_catalog.format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
+					pg_catalog.format_type(a.atttypid, a.atttypmod) as type, 
+					pg_catalog.format_type(a.atttypid, NULL) as base_type,
+					a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
 					a.attstattarget, a.attstorage, t.typstorage,
 					pg_catalog.col_description(a.attrelid, a.attnum) AS comment
