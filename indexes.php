@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.11 2003/04/23 08:58:27 chriskl Exp $
+	 * $Id: indexes.php,v 1.12 2003/04/30 06:56:31 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -119,15 +119,19 @@
 			echo "<p>", sprintf($lang['strconfdropindex'], htmlspecialchars($_REQUEST['index'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=hidden name=action value=drop_index>\n";
-			echo "<input type=hidden name=table value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-			echo "<input type=hidden name=index value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_index\">\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\">\n";
 			echo $misc->form;
-			echo "<input type=submit name=yes value=\"{$lang['stryes']}\"> <input type=submit name=no value=\"{$lang['strno']}\">\n";
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropIndex($_POST['index'], 'RESTRICT');
+			$status = $localData->dropIndex($_POST['index'], isset($_POST['cascade']));
 			if ($status == 0)
 				doDefault($lang['strindexdropped']);
 			else
