@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.23 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: sql.php,v 1.24 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -87,7 +87,7 @@
 				echo "<tr>\n";
 				foreach ($rs->f as $k => $v) {
 					$finfo = $rs->fetchField($k);
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true, $finfo->type), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 				}							
 				echo "</tr>\n";
 				$rs->moveNext();

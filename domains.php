@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.15 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: domains.php,v 1.16 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -382,8 +382,7 @@
 				'title' => $lang['strnotnull'],
 				'field' => 'domnotnull',
 				'type'  => 'bool',
-				'true'  => 'NOT NULL',
-				'false' => '',
+				'params'=> array('true' => 'NOT NULL', 'false' => ''),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],

@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.7 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: conversions.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -41,9 +41,7 @@
 			'default' => array(
 				'title' => $lang['strdefault'],
 				'field' => 'condefault',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],

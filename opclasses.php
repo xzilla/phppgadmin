@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.4 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.5 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -40,9 +40,7 @@
 			'default' => array(
 				'title' => $lang['strdefault'],
 				'field' => 'opcdefault',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],

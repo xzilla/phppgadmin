@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.33 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: constraints.php,v 1.34 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -496,9 +496,7 @@
 			'clustered' => array(
 				'title' => $lang['strclustered'],
 				'field' => '+clustered',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

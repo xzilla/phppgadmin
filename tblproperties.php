@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.55 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: tblproperties.php,v 1.56 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -546,8 +546,7 @@
 				'title' => $lang['strnotnull'],
 				'field' => 'attnotnull',
 				'type'  => 'bool',
-				'true'  => 'NOT NULL',
-				'false' => '',
+				'params'=> array('true' => 'NOT NULL', 'false' => ''),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],

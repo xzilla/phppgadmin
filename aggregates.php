@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.6 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.7 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -19,11 +19,6 @@
 		global $data, $conf, $misc;
 		global $lang;
 
-		function aggPre(&$rowdata) {
-			global $data, $lang;
-			$rowdata->f['+argtypes'] = is_null($rowdata->f['proargtypes']) ? $lang['stralltypes'] : $rowdata->f['proargtypes'];
-		}
-		
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']), $lang['straggregates']), 'aggregates');
 		$misc->printMsg($msg);
 		
@@ -36,7 +31,8 @@
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => '+argtypes',
+				'field' => 'proargtypes',
+				'params'=> array('null' => $lang['stralltypes']),
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
@@ -46,7 +42,7 @@
 		
 		$actions = array();
 		
-		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates'], 'aggPre');
+		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
 	}
 
 	$misc->printHeader($lang['straggregates']);

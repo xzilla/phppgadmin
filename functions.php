@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.36 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: functions.php,v 1.37 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -219,7 +219,7 @@
 				echo "<td class=\"data1\" colspan=\"2\">", $misc->printVal($funcdata->f['prosrc']), "</td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printCell($funcdata->f['prosrc'], 'pre'), "</td></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->f['prosrc'], 'pre'), "</td></tr>\n";
 			}
 			
 			// Show flags
@@ -445,10 +445,12 @@
 			'function' => array(
 				'title' => $lang['strfunction'],
 				'field' => '+proproto',
+				'type'  => 'verbatim',
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
 				'field' => '+proreturns',
+				'type'  => 'verbatim',
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

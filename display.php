@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.40 2004/07/07 02:59:57 chriskl Exp $
+	 * $Id: display.php,v 1.41 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -347,7 +347,7 @@
 						if ($_REQUEST['strings'] == 'collapsed' && strlen($v) > $conf['max_chars']) {
 							$v = substr($v, 0, $conf['max_chars'] - 1) . $lang['strellipsis'];
 						}
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, true, $finfo->type), "</td>";
+						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 					}
 				}
 				echo "</tr>\n";

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.72 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: Misc.php,v 1.73 2004/07/13 16:13:14 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -75,57 +75,130 @@
 		}
 
 		/**
-		 * Replace all spaces with &nbsp; in a string
+		 * Render a value into HTML using formatting rules specified
+		 * by a type name and parameters.
+		 *
 		 * @param $str The string to change
-		 * @param $shownull True to show NULLs, false otherwise
-		 * @param $type Field type if available, other NULL
-		 * @return The string with replacements
+		 *
+		 * @param $type Field type (optional), this may be an internal PostgreSQL type, or:
+		 *			yesno    - same as bool, but renders as 'Yes' or 'No'.
+		 *			pre      - render in a <pre> block.
+		 *			nbsp     - replace all spaces with &nbsp;'s
+		 *			verbatim - render exactly as supplied, no escaping what-so-ever.
+		 *			callback - render using a callback function supplied in the 'function' param.
+		 *
+		 * @param $params Type parameters (optional), known parameters:
+		 *			null     - string to display if $str is null, or set to TRUE to use a default 'NULL' string,
+		 *			           otherwise nothing is rendered.
+		 *			clip     - if true, clip the value to a fixed length, and append an ellipsis...
+		 *			cliplen  - the maximum length when clip is enabled (defaults to $conf['max_chars'])
+		 *			ellipsis - the string to append to a clipped value (defaults to $lang['strellipsis'])
+		 *			tag      - an HTML element name to surround the value.
+		 *			class    - a class attribute to apply to any surrounding HTML element.
+		 *			align    - an align attribute ('left','right','center' etc.)
+		 *			true     - (type='bool') the representation of true.
+		 *			false    - (type='bool') the representation of false.
+		 *			function - (type='callback') a function name, accepts args ($str, $params) and returns a rendering.
+		 *
+		 * @return The HTML rendered value
 		 */
-		function printVal($str, $shownull = false, $type = null) {
-			global $lang;
-
-			// If the string contains at least one instance of >1 space in a row, a tab character, a
-			// space at the start of a line, or a space at the start of the whole string then
-			// substitute all spaces for &nbsp;s
-			if ($str === null && $shownull) return '<i>NULL</i>';
-			elseif ($str) {
-				switch ($type) {
-					case 'int2':
-					case 'int4':
-					case 'int8':
-					case 'float4':
-					case 'float8':
-					case 'money':
-					case 'numeric':
-					case 'oid':
-					case 'xid':
-					case 'cid':
-					case 'tid':
-						return "<div align=\"right\">" . nl2br(htmlspecialchars($str)) . "</div>";
-						break;
-					case 'bool':
-					case 'boolean':
-						if ($str == 't') return $lang['strtrue'];
-						elseif ($str == 'f') return $lang['strfalse'];
-						else return nl2br(htmlspecialchars($str));
-						break;
-					case 'bytea':
-						// addCSlashes converts all weird ASCII characters to octal representation,
-						// EXCEPT the 'special' ones like \r \n \t, etc.
-						return htmlspecialchars(addCSlashes($str, "\0..\37\177..\377"));
-						break;
-					default:
-						if (strstr($str, '  ') || strstr($str, "\t") || strstr($str, "\n ") || $str{0} == ' ') {
-							$str = str_replace(' ', '&nbsp;', htmlspecialchars($str));
-							// Replace tabs with 8 spaces
-							$str = str_replace("\t", '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', $str);
-							return nl2br($str);
-						}
-						else
-							return nl2br(htmlspecialchars($str));					
-					}						
-			} else
-				return '';
+		function printVal($str, $type = null, $params = array()) {
+			global $lang, $conf;
+			
+			// Shortcircuit for a NULL value
+			if (is_null($str))
+				return isset($params['null'])
+						? ($params['null'] === true ? '<i>NULL</i>' : $params['null'])
+						: '';
+			
+			// Clip the value if the 'clip' parameter is true.
+			if (isset($params['clip']) && $params['clip'] === true) {
+				$maxlen = isset($params['cliplen']) && is_integer($params['cliplen']) ? $params['cliplen'] : $conf['max_chars'];
+				$ellipsis = isset($params['ellipsis']) ? $params['ellipsis'] : $lang['strellipsis'];
+				if (strlen($str) > $maxlen) {
+					$str = substr($str, 0, $maxlen-1) . $ellipsis;
+				}
+			}
+			
+			$out = '';
+			
+			switch ($type) {
+				case 'int2':
+				case 'int4':
+				case 'int8':
+				case 'float4':
+				case 'float8':
+				case 'money':
+				case 'numeric':
+				case 'oid':
+				case 'xid':
+				case 'cid':
+				case 'tid':
+					$align = 'right';
+					$out = nl2br(htmlspecialchars($str));
+					break;
+				case 'yesno':
+					if (!isset($params['true'])) $params['true'] = $lang['stryes'];
+					if (!isset($params['false'])) $params['false'] = $lang['strno'];
+					// No break - fall through to boolean case.
+				case 'bool':
+				case 'boolean':
+					if (is_bool($str)) $str = $str ? 't' : 'f';
+					switch ($str) {
+						case 't':
+							$out = (isset($params['true']) ? $params['true'] : $lang['strtrue']);
+							$align = 'center';
+							break;
+						case 'f':
+							$out = (isset($params['false']) ? $params['false'] : $lang['strfalse']);
+							$align = 'center';
+							break;
+						default:
+							$out = htmlspecialchars($str);
+					}
+					break;
+				case 'bytea':
+					// addCSlashes converts all weird ASCII characters to octal representation,
+					// EXCEPT the 'special' ones like \r \n \t, etc.
+					$out = htmlspecialchars(addCSlashes($str, "\0..\37\177..\377"));
+					break;
+				case 'pre':
+					$tag = 'pre';
+					$out = htmlspecialchars($str);
+					break;
+				case 'nbsp':
+					$out = nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($str)));
+					break;
+				case 'verbatim':
+					$out = $str;
+					break;
+				case 'callback':
+					$out = $params['function']($str, $params);
+					break;
+				default:
+					// If the string contains at least one instance of >1 space in a row, a tab
+					// character, a space at the start of a line, or a space at the start of
+					// the whole string then render within a pre-formatted element (<pre>).
+					if (preg_match('/(^ |  |\t|\n )/m', $str)) {
+						$tag = 'pre';
+						$out = htmlspecialchars($str);
+					} else {
+						$out = nl2br(htmlspecialchars($str));
+					}
+			}
+			
+			if (isset($params['class'])) $class = $params['class'];
+			if (isset($params['align'])) $align = $params['align'];
+			
+			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
+			
+			if (isset($tag)) {
+				$alignattr = isset($align) ? " align=\"{$align}\"" : '';
+				$classattr = isset($class) ? " class=\"{$class}\"" : '';
+				return "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
+			}
+			
+			return $out;
 		}
 
 		/**
@@ -689,88 +762,12 @@
 			}
         	}		 
 
-		/**
-		 * Clip a string down to a specified length, and append an ellipsis.
-		 * @param $str      The string to be clipped.
-		 * @param $maxlen   (optional) Maximum length of string (defaults to the configuration value 'max_chars'.
-		 * @param $ellipsis (optional) The string to append if clipping was performed.
-		 */
-		function clipString($str, $maxlen = null, $ellipsis = null) {
-			global $lang, $conf;
-			if (is_null($maxlen)) $maxlen = $conf['max_chars'];
-			if (is_null($ellipsis)) $ellipsis = $lang['strellipsis'];
-			if (strlen($str) > $maxlen) {
-				return substr($str, 0, $maxlen-1) . $ellipsis;
-			} else {
-				return $str;
-			}
-		}
-		
-		function printUrlVars($vars, $fields) {
+		function printUrlVars(&$vars, &$fields) {
 			foreach ($vars as $var => $varfield) {
 				echo "{$var}=", urlencode($fields[$varfield]), "&amp;";
 			}
 		}
 		
-		/**
-		 * Format a table cell according to a set of parameters.
-		 * @param $value The value to display
-		 * @param $params Associative array of type parameters, or just a type name.
-		 * @return The HTML formatted string
-		 */
-		function printCell($value, $params) {
-			global $lang, $data;
-
-			if (is_string($params)) {
-				$type = $params;
-				$params = array();
-			} else {
-				$type = isset($params['type']) ? $params['type'] : 'str';
-			}
-			$out = '';
-			
-			switch ($type) {
-				case 'bool':
-				case 'boolean':
-					$out = $data->phpBool($value)
-							? (isset($params['true']) ? $params['true'] : $lang['strtrue'])
-							: (isset($params['false']) ? $params['false'] : $lang['strfalse']);
-					break;
-				case 'num':
-				case 'numeric':
-					$align = 'right';
-					$out = nl2br(htmlspecialchars($value));
-					break;
-				case 'pre':
-					$tag = 'pre';
-					$out = htmlspecialchars($value);
-					break;
-				case 'nbsp':
-					$out = nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($value)));
-					break;
-				case 'verbatim':
-					$out = $value;
-					break;
-				case 'str':
-				case 'string':
-				default:
-					$out = nl2br(htmlspecialchars($value));
-					break;
-			}
-			
-			if (isset($params['class'])) $class = $params['class'];
-			
-			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
-			
-			if (isset($tag)) {
-				$alignattr = isset($align) ? " align=\"{$align}\"" : '';
-				$classattr = isset($class) ? " class=\"{$class}\"" : '';
-				return "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
-			}
-			
-			return $out;
-		}
-
 		/**
 		 * Display a table of data.
 		 * @param $tabledata A set of data to be formatted, as returned by $data->getDatabases() etc.
@@ -819,9 +816,11 @@
 					unset($actions['properties']);
 				}
 				
-				// TEMP: Display field keys
-				//echo "<p>", join(', ', array_keys($tabledata->f)), "</p>";
-				// END OF TEMP
+				if (isset($columns['comment'])) {
+					// Uncomment this for clipped comments.
+					// TODO: This should be a user option.
+					//$columns['comment']['params']['clip'] = true;
+				}
 				
 				echo "<table>\n";
 				echo "<tr>\n";
@@ -837,14 +836,12 @@
 				}
 				echo "</tr>\n";
 				
-				if (function_exists('ob_start')) ob_start();
-				
 				$i = 0;
 				while (!$tabledata->EOF) {
 					$id = ($i % 2) + 1;
 					
 					unset($alt_actions);
-					if (!is_null($pre_fn)) $alt_actions = $pre_fn(&$tabledata, $actions);
+					if (!is_null($pre_fn)) $alt_actions = $pre_fn($tabledata, $actions);
 					if (!isset($alt_actions)) $alt_actions =& $actions;
 					
 					echo "<tr>\n";
@@ -862,24 +859,22 @@
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
-										$misc->printUrlVars($action['vars'], &$tabledata->f);
+										$misc->printUrlVars($action['vars'], $tabledata->f);
 										echo "\">{$action['title']}</a></td>";
 									}
 								}
 								break;
-							case 'comment':
-								// Uncomment this for clipped comments.
-								//$tabledata->f[$column['field']] = $misc->clipString($tabledata->f[$column['field']]);
 							default;
 								echo "<td class=\"data{$id}\">";
 								if (isset($column['url'])) {
 									echo "<a href=\"{$column['url']}";
-									$misc->printUrlVars($column['vars'], &$tabledata->f);
+									$misc->printUrlVars($column['vars'], $tabledata->f);
 									echo "\">";
 								}
 								
-								$cell = $misc->printCell($tabledata->f[$column['field']], &$column);
-								echo $cell;
+								$type = isset($column['type']) ? $column['type'] : null;
+								$params = isset($column['params']) ? $column['params'] : array();
+								echo $misc->printVal($tabledata->f[$column['field']], $type, $params);
 								
 								if (isset($column['url'])) echo "</a>";
 
@@ -889,15 +884,12 @@
 					}
 					echo "</tr>\n";
 					
-					if (function_exists('ob_flush')) ob_flush();
 					$tabledata->moveNext();
 					$i++;
 				}
 				
-				if (function_exists('ob_end_flush')) ob_end_flush();
-				
 				echo "</table>\n";
-			
+				
 				return true;
 			} else {
 				if (!is_null($nodata)) {
@@ -906,6 +898,5 @@
 				return false;
 			}
 		}
-	
 	}
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.29 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: indexes.php,v 1.30 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -254,9 +254,7 @@
 			'clustered' => array(
 				'title' => $lang['strclustered'],
 				'field' => 'indisclustered',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.7 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: info.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -22,6 +22,9 @@
 		$misc->printNav('table','info');
 		echo "<h2>", $misc->printVal($_REQUEST['database']), ": ", $misc->printVal($_REQUEST['table']), ": {$lang['strinfo']}</h2>\n";
 		$misc->printMsg($msg);
+
+		// common params for printVal
+		$shownull = array('null' => true);
 
 		// Fetch info
 		$referrers = &$data->getReferrers($_REQUEST['table']);
@@ -164,13 +167,13 @@
     				while (!$tablestatstups->EOF) {
     					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
     					echo "\t<tr>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['seq_scan'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['seq_tup_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['idx_scan'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['idx_tup_fetch'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_ins'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_upd'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_del'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['seq_scan'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['seq_tup_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['idx_scan'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_ins'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_upd'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->f['n_tup_del'], 'int4', $shownull), "</td>\n";
     					echo "\t</tr>\n";
     					$tablestatstups->movenext();
     					$i++;
@@ -213,29 +216,29 @@
     					$total = $tablestatsio->f['heap_blks_hit'] + $tablestatsio->f['heap_blks_read'];
     					if ($total > 0)	$percentage = round(($tablestatsio->f['heap_blks_hit'] / $total) * 100);
     					else $percentage = 0;
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['heap_blks_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['heap_blks_hit'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['heap_blks_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['heap_blks_hit'], 'int4', $shownull), "</td>\n";
     					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
     
     					$total = $tablestatsio->f['idx_blks_hit'] + $tablestatsio->f['idx_blks_read'];
     					if ($total > 0)	$percentage = round(($tablestatsio->f['idx_blks_hit'] / $total) * 100);
     					else $percentage = 0;
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['idx_blks_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['idx_blks_hit'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['idx_blks_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['idx_blks_hit'], 'int4', $shownull), "</td>\n";
     					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
     
     					$total = $tablestatsio->f['toast_blks_hit'] + $tablestatsio->f['toast_blks_read'];
     					if ($total > 0)	$percentage = round(($tablestatsio->f['toast_blks_hit'] / $total) * 100);
     					else $percentage = 0;
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['toast_blks_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['toast_blks_hit'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['toast_blks_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['toast_blks_hit'], 'int4', $shownull), "</td>\n";
     					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
     
     					$total = $tablestatsio->f['tidx_blks_hit'] + $tablestatsio->f['tidx_blks_read'];
     					if ($total > 0)	$percentage = round(($tablestatsio->f['tidx_blks_hit'] / $total) * 100);
     					else $percentage = 0;
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['tidx_blks_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['tidx_blks_hit'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['tidx_blks_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->f['tidx_blks_hit'], 'int4', $shownull), "</td>\n";
     					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
     					echo "\t</tr>\n";
     					$tablestatsio->movenext();
@@ -262,9 +265,9 @@
     					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
     					echo "\t<tr>\n";
     					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['indexrelname']), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_scan'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_tup_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_tup_fetch'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_scan'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_tup_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->f['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
     					echo "\t</tr>\n";
     					$indexstatstups->movenext();
     					$i++;
@@ -293,8 +296,8 @@
     					if ($total > 0)	$percentage = round(($indexstatsio->f['idx_blks_hit'] / $total) * 100);
     					else $percentage = 0;
     					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->f['indexrelname']), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->f['idx_blks_read'], true, 'int4'), "</td>\n";
-    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->f['idx_blks_hit'], true, 'int4'), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->f['idx_blks_read'], 'int4', $shownull), "</td>\n";
+    					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->f['idx_blks_hit'], 'int4', $shownull), "</td>\n";
     					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
     					echo "\t</tr>\n";
     					$indexstatsio->movenext();

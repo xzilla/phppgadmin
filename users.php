@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.25 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: users.php,v 1.26 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -260,10 +260,9 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		function uPre(&$rowdata) {
-			global $data, $lang;
-			$rowdata->f['+useexpires'] = $rowdata->f['useexpires'] == 'infinity' ? '' : $rowdata->f['useexpires'];
-		}
+		function renderUseExpires($val) {
+			return $val == 'infinity' ? '' : htmlspecialchars($val);
+ 		}
 		
 		$misc->printTitle(array($lang['strusers']), 'users');
 		$misc->printMsg($msg);
@@ -278,20 +277,18 @@
 			'superuser' => array(
 				'title' => $lang['strsuper'],
 				'field' => 'usesuper',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'createdb' => array(
 				'title' => $lang['strcreatedb'],
 				'field' => 'usecreatedb',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'expires' => array(
 				'title' => $lang['strexpires'],
-				'field' => '+useexpires',
+				'field' => 'useexpires',
+				'type'  => 'callback',
+				'params'=> array('function' => 'renderUseExpires'),
 			),
 			'defaults' => array(
 				'title' => $lang['strsessiondefaults'],
@@ -317,7 +314,7 @@
 		
 		if (!$data->hasUserSessionDefaults()) unset($columns['defaults']);
 		
-		$misc->printTable($users, $columns, $actions, $lang['strnousers'], 'uPre');
+		$misc->printTable($users, $columns, $actions, $lang['strnousers']);
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreateuser']}</a></p>\n";
 

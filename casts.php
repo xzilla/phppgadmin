@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.7 2004/07/13 15:24:40 jollytoad Exp $
+	 * $Id: casts.php,v 1.8 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -20,18 +20,12 @@
 		global $data, $misc, $database;
 		global $PHP_SELF, $lang;
 
-		function castPre(&$rowdata) {
-			global $data, $lang;
-			$rowdata->f['+castfunc'] = is_null($rowdata->f['castfunc']) ? $lang['strbinarycompat'] : $rowdata->f['castfunc'];
-			switch ($rowdata->f['castcontext']) {
-				case 'e':
-					$rowdata->f['+castcontext'] = $lang['strno'];
-					break;
-				case 'a':
-					$rowdata->f['+castcontext'] = $lang['strinassignment'];
-					break;
-				default:
-					$rowdata->f['+castcontext'] = $lang['stryes'];
+		function renderCastContext($val) {
+			global $lang;
+			switch ($val) {
+				case 'e': return $lang['strno'];
+				case 'a': return $lang['strinassignment'];
+				default: return $lang['stryes'];
 			}
 		}
 		
@@ -51,18 +45,20 @@
 			),
 			'function' => array(
 				'title' => $lang['strfunction'],
-				'field' => '+castfunc',
+				'field' => 'castfunc',
+				'params'=> array('null' => $lang['strbinarycompat']),
 			),
 			'implicit' => array(
 				'title' => $lang['strimplicit'],
-				'field' => '+castcontext',
-				'type'  => 'verbatim',
+				'field' => 'castcontext',
+				'type'  => 'callback',
+				'params'=> array('function' => 'renderCastContext', 'align' => 'center'),
 			),
 		);
 
 		$actions = array();
 		
-		$misc->printTable($casts, $columns, $actions, $lang['strnocasts'], 'castPre');
+		$misc->printTable($casts, $columns, $actions, $lang['strnocasts']);
 	}
 
 	$misc->printHeader($lang['strcasts']);

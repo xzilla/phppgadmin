@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.5 2004/07/13 15:24:41 jollytoad Exp $
+	 * $Id: languages.php,v 1.6 2004/07/13 16:13:15 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -33,9 +33,7 @@
 			'trusted' => array(
 				'title' => $lang['strtrusted'],
 				'field' => 'lanpltrusted',
-				'type'  => 'bool',
-				'true'  => $lang['stryes'],
-				'false' => $lang['strno'],
+				'type'  => 'yesno',
 			),
 			'function' => array(
 				'title' => $lang['strfunction'],
