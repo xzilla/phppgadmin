@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.10 2003/03/25 00:26:27 chriskl Exp $
+	 * $Id: constraints.php,v 1.11 2003/03/26 01:24:17 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -235,11 +235,11 @@
 		else
 			echo "<p>{$lang['strnoconstraints']}</p>\n";
 		
-		echo "<p><a href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a> |\n";
-		echo "<a href=\"{$PHP_SELF}?action=add_unique_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_unique_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['stradduniq']}</a> |\n";
-		echo "<a href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddpk']}</a></p>\n";
 	}
 

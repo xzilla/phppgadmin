@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table
 	 *
-	 * $Id: rules.php,v 1.7 2003/03/23 03:13:57 chriskl Exp $
+	 * $Id: rules.php,v 1.8 2003/03/26 01:23:55 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -147,7 +147,7 @@
 		else
 			echo "<p>{$lang['strnorules']}</p>\n";
 
-		echo "<p><a href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&{$misc->href}&table=", urlencode($_REQUEST['table']),
 			"\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
