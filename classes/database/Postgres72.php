@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.3 2002/09/09 21:16:40 xzilla Exp $
+ * $Id: Postgres72.php,v 1.4 2002/09/10 18:46:25 xzilla Exp $
  */
 
 
@@ -12,7 +12,7 @@ require_once('../classes/database/Postgres71.php');
 
 class Postgres72 extends Postgres71 {
 
-	var $fnFields = array('fnname' => 'proname', 'fnresult' => 'result', 'fnarguments' => 'arguments','fnoid' => 'oid');
+	var $fnFields = array('fnname' => 'proname', 'fnreturns' => 'return_type', 'fnarguments' => 'arguments','fnoid' => 'oid', 'fndef' => 'source', 'fnlang' => 'language' );
 	
 	// @@ Set the maximum built-in ID. Should we bother querying for this?
 	var $_lastSystemOID = 16554;
@@ -33,7 +33,7 @@ class Postgres72 extends Postgres71 {
 		$sql = 	"SELECT 
 				pc.oid,
 				proname, 
-				pt.typname AS result, 
+				pt.typname AS return_type, 
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM 
 				pg_proc pc, pg_user pu, pg_type pt
@@ -54,7 +54,7 @@ class Postgres72 extends Postgres71 {
 				AND pc.prorettype = 0
 				AND pc.oid > '$this->_lastSystemOID'::oid
 			ORDER BY
-				proname, result
+				proname, return_type
 			";
 
 		return $this->selectSet($sql);
@@ -65,11 +65,24 @@ class Postgres72 extends Postgres71 {
 	 * @param $func The name of the function to retrieve
 	 * @return Function info
 	 */
-	function getFunc($func) {
-		$this->clean($func);
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
 		
-		$sql = "SELECT viewname, viewowner, definition FROM pg_views WHERE viewname='$view'";
-
+		$sql = "SELECT 
+					pc.oid,
+					proname, 
+					lanname as language,
+					format_type(prorettype, NULL) as return_type,
+					prosrc as source,
+					probin as binary,
+					oidvectortypes(pc.proargtypes) AS arguments
+				FROM 
+					pg_proc pc, pg_language pl
+				WHERE 
+					pc.oid = '$function_oid'::oid
+				AND pc.prolang = pl.oid
+				";
+	
 		return $this->selectSet($sql);
 	}	
 

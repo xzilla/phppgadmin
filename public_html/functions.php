@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.2 2002/09/09 21:16:40 xzilla Exp $
+	 * $Id: functions.php,v 1.3 2002/09/10 18:46:25 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -61,30 +61,46 @@
 	}
 	
 	/**
-	 * Show read only properties for a view
+	 * Show read only properties for a function
+			pc.oid,
+					proname, 
+					lanname as language,
+					format_type(prorettype, NULL) as return_type,
+					prosrc as source,
+					probin as binary,
+					oidvectortypes(pc.proargtypes) AS arguments
+
+
+
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
-		global $PHP_SELF, $strName, $strDefinition;
+		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions, $strDefinition, $strLanguage;
 	
-		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Views: ", htmlspecialchars($_REQUEST['view']), ": Properties</h2>\n";
+		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions: ", htmlspecialchars($_REQUEST['function']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
-		$viewdata = &$localData->getView($_REQUEST['view']);
+		$funcdata = &$localData->getFunction($_REQUEST['function_oid']);
 		
-		if ($viewdata->recordCount() > 0) {
-			echo "<table width=100%>\n";
-			echo "<tr><th class=data>{$strName}</th></tr>\n";
-			echo "<tr><td class=data1>", htmlspecialchars($viewdata->f[$data->vwFields['vwname']]), "</td></tr>\n";
-			echo "<tr><th class=data>{$strDefinition}</th></tr>\n";
-			echo "<tr><td class=data1>", nl2br(htmlspecialchars($viewdata->f[$data->vwFields['vwdef']])), "</td></tr>\n";
+		if ($funcdata->recordCount() > 0) {
+			echo "<table width=90%>\n";
+			echo "<tr><th class=data>{$strFunctions}</th>\n";
+			echo "<th class=data>{$strArguments}</th>\n";
+			echo "<th class=data>{$strReturns}</th>\n";
+			echo "<th class=data>{$strLanguage}</th></tr>\n";
+			echo "<tr><td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnname']]), "</td>\n";
+			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnarguments']]), "</td>\n";
+			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnreturns']]), "</td>\n";
+			echo "<td class=data1>", htmlspecialchars($funcdata->f[$data->fnFields['fnlang']]), "</td></tr>\n";
+			echo "<tr><th class=data colspan=4>{$strDefinition}</th></tr>\n";
+			echo "<tr><td class=data1 colspan=4>", nl2br(htmlspecialchars($funcdata->f[$data->fnFields['fndef']])), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>No data.</p>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Views</a> |\n";
-		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($_REQUEST['database']), "&view=", 
-			urlencode($_REQUEST['view']), "\">Edit</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
+		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($_REQUEST['database']), "&function=", 
+			urlencode($_REQUEST['function']), "\">Edit</a></p>\n";
 	}
 	
 	/**
@@ -169,7 +185,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $localData, $misc, $database, $func;
-		global $PHP_SELF, $strFunctions, $strParams, $strReturns, $strActions, $strNoFunctions;
+		global $PHP_SELF, $strFunctions, $strArguments, $strReturns, $strActions, $strNoFunctions;
 		
 		echo "<h2>", htmlspecialchars($_REQUEST['database']), ": Functions</h2>\n";
 		$misc->printMsg($msg);
@@ -178,7 +194,7 @@
 		
 		if ($funcs->recordCount() > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strParams}</th><th colspan=3 class=data>{$strActions}</th>\n";
+			echo "<tr><th class=data>{$strFunctions}</th><th class=data>{$strReturns}</th><th class=data>{$strArguments}</th><th colspan=3 class=data>{$strActions}</th>\n";
 			$i = 0;
 			while (!$funcs->EOF) {
 
@@ -186,10 +202,10 @@
 
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr><td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnname']]), "</td>\n";
-				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnresult']]), "</td>\n";
+				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnreturns']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($funcs->f[$data->fnFields['fnarguments']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=properties&database=", 
-					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($funcs->f[$data->fnFields['fnname']]), "\">Properties</a></td>\n";
+					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Properties</a></td>\n";
 				echo "<td class=opbutton{$id}>Edit</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
 					htmlspecialchars($_REQUEST['database']), "&function=", urlencode($func_full), "&function_oid=", $funcs->f[$data->fnFields['fnoid']], "\">Drop</a></td>\n";
