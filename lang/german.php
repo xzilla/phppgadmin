@@ -4,7 +4,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.9 2003/06/23 06:08:51 chriskl Exp $
+    * $Id: german.php,v 1.10 2003/07/28 01:36:00 chriskl Exp $
     */
 
     // Language and character set
@@ -42,6 +42,8 @@
     $lang['strnext'] = 'weiter';
     $lang['strfailed'] = 'fehlgeschlagen';
     $lang['strcreate'] = 'Erstellen';
+    $lang['strfirst'] = '<< Anfang';
+    $lang['strlast'] = 'Ende >>';
     $lang['strcreated'] = 'Erstellt';
     $lang['strcomment'] = 'Kommentar';
     $lang['strlength'] = 'Länge';
@@ -98,6 +100,7 @@
     $lang['strellipsis'] = '...';
     $lang['strexpand'] = 'Aufklappen';
     $lang['strcollapse'] = 'Zuklappen';
+    $lang['strexplain'] = 'Explain';
     $lang['strnoframes'] = 'Für dieses Programm wird ein ein Frame-fähiger Browser benötigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie müssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterstützung.';
@@ -183,9 +186,11 @@
     $lang['strpasswordchanged'] = 'Passwort geändert.';
     $lang['strpasswordchangedbad'] = 'Ändern des Passwortes fehlgeschlagen.';
     $lang['strpasswordshort'] = 'Das Passwort ist zu kurz.';
+    $lang['strpasswordconfirm'] = 'Die beiden Passwörter stimmen nicht überein.';
     $lang['strgroupadmin'] = 'Gruppen-Administration';
     $lang['strgroups'] = 'Gruppen';
     $lang['strnogroup'] = 'Gruppe nicht gefunden.';
+    $lang['strgroup'] = 'Gruppe';
     $lang['strnogroups'] = 'Keine Gruppen gefunden.';
     $lang['strcreategroup'] = 'Gruppe erzeugen';
     $lang['strshowallgroups'] = 'Alle Gruppen anzeigen';
@@ -200,13 +205,9 @@
     // Privilges
     $lang['strprivilege'] = 'Privileg';
     $lang['strprivileges'] = 'Privilegien';
-    $lang['strnoprivileges'] = 'Dieses Objekt hat keine Privilegien.';
     $lang['strgrant'] = 'Privilegien vergeben';
-    $lang['strrevoke'] = 'Privilegien entziehen';
     $lang['strgranted'] = 'Privilegien vergeben.';
     $lang['strgrantfailed'] = 'Vergeben von Privilegien fehlgeschlagen.';
-    $lang['strgrantuser'] = 'Privilegien Benutzer geben';
-    $lang['strgrantgroup'] = 'Privilegien Gruppe geben';
     $lang['strgrantbad'] = 'Sie müssen wenigstens einen Benutzer oder eine Gruppe und wenigstens ein Privileg.';
     $lang['stralterprivs'] = 'Privilegien ändern';
 
@@ -434,5 +435,7 @@
     $lang['strtopbar'] = '%s läuft auf host:%s port:%s -- Sie sind angemeldet als Benutzer "%s", %s';
     $lang['strtimefmt'] = 'j. M Y H:i:s';
 
+    // SQL Editor
+    $lang['strsqleditor'] = 'SQL Editor';
 
-    ?>
+?>
