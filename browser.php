@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.3 2003/03/01 00:53:51 slubek Exp $
+	 * $Id: browser.php,v 1.4 2003/03/16 10:34:46 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 	while (!$databases->EOF) {
 		// If database is selected, show folder, otherwise show document
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
-			$node = $tree->add_folder($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
+			$node = $tree->add_folder($root, addslashes($databases->f[$data->dbFields['dbname']]),
 				'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 
 			if ($data->hasSchemas()) {
@@ -37,7 +37,7 @@
 					// Construct database & schema query string
 					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
 							urlencode($schemas->f[$data->nspFields['nspname']]);
-					$schemanode = $tree->add_folder($node, htmlspecialchars($schemas->f[$data->nspFields['nspname']]),
+					$schemanode = $tree->add_folder($node, addslashes($schemas->f[$data->nspFields['nspname']]),
 						"schema.php?{$querystr}", 'detail');
 					if ($data->hasTables()) {
 						$tables = &$localData->getTables();
@@ -45,7 +45,7 @@
 							'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' .
 							urlencode($schemas->f[$data->nspFields['nspname']]), 'detail');
 						while (!$tables->EOF) {
-							$tree->add_document($table_node, htmlspecialchars($tables->f[$data->tbFields['tbname']]), 
+							$tree->add_document($table_node, addslashes($tables->f[$data->tbFields['tbname']]),
 								'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' .
 								urlencode($schemas->f[$data->nspFields['nspname']]) . '&table=' .
 								urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$guiTheme}/tables.gif");
@@ -71,10 +71,10 @@
 			else {
 				if ($data->hasTables()) {
 					$tables = &$localData->getTables();
-					$table_node = $tree->add_folder($node, $strTables, 
+					$table_node = $tree->add_folder($node, $strTables,
 						'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 					while (!$tables->EOF) {
-						$tree->add_document($table_node, htmlspecialchars($tables->f[$data->tbFields['tbname']]), 
+						$tree->add_document($table_node, addslashes($tables->f[$data->tbFields['tbname']]), 
 							'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&table=' .
 							urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../../images/themes/{$guiTheme}/tables.gif");
 						$tables->moveNext();
@@ -94,7 +94,7 @@
 //					$tree->add_document($node, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
 			}
 		} else {
-			$node = $tree->add_document($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
+			$node = $tree->add_document($root, addslashes($databases->f[$data->dbFields['dbname']]),
 				"{$_SERVER['PHP_SELF']}?database=" . urlencode($databases->f[$data->dbFields['dbname']]), '_self', "../../images/themes/{$guiTheme}/database.gif");
 		}		
 
