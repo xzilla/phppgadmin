@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.20 2003/10/14 17:55:17 soranzo Exp $
+	 * $Id: italian.php,v 1.21 2003/11/26 20:39:13 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -110,6 +110,7 @@
 	$lang['strdownload'] = 'Scarica';
 	$lang['strinfo'] = 'Informazioni';
 	$lang['stroids'] = 'OIDs';
+	$lang['stradvanced'] = 'Avanzato';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Devi usare un browser che supporti i frame per usare questa applicazione.';
@@ -480,22 +481,51 @@
 	$lang['strdomainaltered'] = 'Dominio modificato.';
 	$lang['strdomainalteredbad'] = 'Modifica del dominio fallita.';	
 
-	// Operators
+	// Operators - Operatori
 	$lang['stroperator'] = 'Operatore';
 	$lang['stroperators'] = 'Operatori';
 	$lang['strshowalloperators'] = 'Mostra tutti gli operatori';
 	$lang['strnooperator'] = 'Operatore non trovato.';
 	$lang['strnooperators'] = 'Nessun operatore trovato.';
 	$lang['strcreateoperator'] = 'Crea operatore';
-	$lang['stroperatorname'] = 'Nome dell\'operatore';
 	$lang['strleftarg'] = 'Tipo dell\'argomento di sinistra';
 	$lang['strrightarg'] = 'Tipo dell\'argomento di destra';
+	$lang['strcommutator'] = 'Commutatore';
+	$lang['strnegator'] = 'Negator';
+	$lang['strrestrict'] = 'Restrict';
+	$lang['strjoin'] = 'Join';
+	$lang['strhashes'] = 'Supporta hash join';
+	$lang['strmerges'] = 'Supporta merge join';
+	$lang['strleftsort'] = 'Ordinamento sinistro';
+	$lang['strrightsort'] = 'Ordinamento destro';
+	$lang['strlessthan'] = 'Minore';
+	$lang['strgreaterthan'] = 'Maggiore';
 	$lang['stroperatorneedsname'] = 'È necessario specificare un nome per l\'operatore.';
 	$lang['stroperatorcreated'] = 'Operatore creato';
 	$lang['stroperatorcreatedbad'] = 'Creazione dell\'operatore fallita.';
 	$lang['strconfdropoperator'] = 'Sei sicuro di voler eliminare l\'operatore "%s"?';
 	$lang['stroperatordropped'] = 'Operatore eliminato.';
 	$lang['stroperatordroppedbad'] = 'Eliminazione dell\'operatore fallita.';
+
+	// Casts - Cast
+	$lang['strcasts'] = 'Cast';
+	$lang['strnocasts'] = 'Nessun cast trovato.';
+	$lang['strsourcetype'] = 'Tipo sorgente';
+	$lang['strtargettype'] = 'Tipo destinazione';
+	$lang['strimplicit'] = 'Implicito';
+	$lang['strinassignment'] = 'Negli assegnamenti';
+	$lang['strbinarycompat'] = '(Compatibile in binario)';
+	
+	// Conversions - Conversioni
+	$lang['strconversions'] = 'Conversioni';
+	$lang['strnoconversions'] = 'Nessuna conversione trovata.';
+	$lang['strsourceencoding'] = 'Codifica sorgente';
+	$lang['strtargetencoding'] = 'Codifica destinazione';
+	
+	// Languages - Linguaggi
+	$lang['strlanguages'] = 'Linguaggi';
+	$lang['strnolanguages'] = 'Nessun linguaggio trovato.';
+	$lang['strtrusted'] = 'Trusted';
 
 	// Info
 	$lang['strnoinfo'] = 'Nessuna informazione disponibile.';
