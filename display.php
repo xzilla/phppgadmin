@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.14 2003/05/05 14:26:15 chriskl Exp $
+	 * $Id: display.php,v 1.15 2003/05/05 14:46:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -43,16 +43,10 @@
 	$rs = &$localData->browseSQL($sub, $_REQUEST['count'], $_REQUEST['page'], $conf['max_rows'], $max_pages);
 
 	if (is_object($rs) && $rs->recordCount() > 0) {
-		// If action is set, then pass it along
-		global $action;
-		if (isset($action)) $action_str = 'action=' . urlencode($action);
-		else $action_str = '';
-
 		// Show page navigation
-		$misc->printPages($_REQUEST['page'], $max_pages, "{$PHP_SELF}?page=%s&{$misc->href}&query=" .
+		$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&{$misc->href}&query=" .
 			urlencode($_REQUEST['query']) . '&count=' . urlencode($_REQUEST['count']) . '&return_url=' .
-			urlencode($_REQUEST['return_url']) . '&return_desc=' . urlencode($_REQUEST['return_desc']) .
-			$action_str);
+			urlencode($_REQUEST['return_url']) . '&return_desc=' . urlencode($_REQUEST['return_desc']));
 		echo "<table>\n<tr>";
 		reset($rs->f);
 		while(list($k, ) = each($rs->f)) {
