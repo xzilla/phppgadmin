@@ -2,19 +2,27 @@
 
 	/**
 	 * Spanish language file for phpPgAdmin.
-	 * @maintainer Martin Marques (martin@bugs.unl.edu.ar)
+	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.11 2003/05/18 10:06:53 chriskl Exp $
+	 * $Id: spanish.php,v 1.12 2003/05/21 03:33:29 chriskl Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Spanish';
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'es_ES';
-  
-	// Basic strings
+
+        // Bienvenido
 	$lang['strintro'] = 'Bienvenido a phpPgAdmin.';
-	$lang['strlogin'] = 'Autenticación';
+	$lang['strppahome'] = 'Página web de phpPgAdmin';
+	$lang['strpgsqlhome'] = 'Página web de PostgreSQL';
+	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
+	$lang['strreportbug'] = 'Reportar problemas';
+	$lang['strviewfaq'] = 'Ver Preguntas Frecuentes';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+
+	// Basic strings
+	$lang['strlogin'] = 'Autenticar';
 	$lang['strloginfailed'] = 'Falló la autenticación';
 	$lang['strserver'] = 'Servidor';
 	$lang['strlogout'] = 'Salir';
@@ -70,7 +78,7 @@
 	$lang['strsql'] = 'SQL';
 	$lang['strgo'] = 'Ir';
 	$lang['stradmin'] = 'Admin';
-	$lang['strvacuum'] = 'Vacuum';
+	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
 	$lang['strcluster'] = 'Cluster';
 	$lang['strreindex'] = 'Reindexar';
