@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.7 2003/12/31 09:54:21 chriskl Exp $
+	 * $Id: japanese.php,v 1.8 2004/02/19 13:29:56 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -108,6 +108,7 @@
 	$lang['stroptions'] = 'オプション';
 	$lang['strrefresh'] = '再表示';
 	$lang['strdownload'] = 'ダウンロード';
+	$lang['strdownloadgzipped'] = 'Download compressed with gzip';
 	$lang['strinfo'] = '情報';
 	$lang['stroids'] = 'OID一覧';
 	$lang['stradvanced'] = '高度な一覧';
@@ -115,8 +116,6 @@
 	$lang['strprocess'] = 'プロセス';
 	$lang['strprocesses'] = 'プロセス一覧';
 	$lang['strsetting'] = '設定';
-	$lang['strparameters'] = 'パラメーター一覧';
-	$lang['strgzip'] = 'GZIP 圧縮';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
@@ -172,7 +171,7 @@
 	$lang['straltercolumn'] = 'カラムの変更';
 	$lang['strcolumnaltered'] = 'カラムを変更しました。';
 	$lang['strcolumnalteredbad'] = 'カラムの変更に失敗しました。';
-        $lang['strconfdropcolumn'] = '本当にカラム「%s」をテーブル「%s」から破棄していいですか?';
+	$lang['strconfdropcolumn'] = '本当にカラム「%s」をテーブル「%s」から破棄していいですか?';
 	$lang['strcolumndropped'] = 'カラムを破棄しました。';
 	$lang['strcolumndroppedbad'] = 'カラムの破棄に失敗しました。';
 	$lang['straddcolumn'] = 'カラム追加';
@@ -194,8 +193,9 @@
 	$lang['strsuper'] = 'スーパーユーザー?';
 	$lang['strcreatedb'] = 'データベースを作成しますか?';
 	$lang['strexpires'] = '有効期限';
+	$lang['strsessiondefaults'] = 'Session Defaults';
 	$lang['strnousers'] = 'ユーザーが見つかりません。';
-        $lang['struserupdated'] = 'ユーザーを更新しました。';
+	$lang['struserupdated'] = 'ユーザーを更新しました。';
 	$lang['struserupdatedbad'] = 'ユーザーの更新に失敗しました。';
 	$lang['strshowallusers'] = '全てのユーザーを見る。';
 	$lang['strcreateuser'] = 'ユーザー作成';
@@ -314,6 +314,7 @@
 	$lang['strsequenceresetbad'] = 'シーケンスのリセットに失敗しました。'; 
 
 	// Indexes
+	$lang['strindex'] = 'インデックス';
 	$lang['strindexes'] = 'インデックス一覧';
 	$lang['strindexname'] = 'インデックス名';
 	$lang['strshowallindexes'] = '全インデックスの表示';
@@ -552,6 +553,23 @@
 	$lang['stropclasses'] = '演算子クラス一覧';
 	$lang['strnoopclasses'] = '演算子クラスが見つかりません。';
 	$lang['straccessmethod'] = 'アクセス方法';
+
+	// Stats & Performance
+	$lang['strrowperf'] = 'Row Performance';
+	$lang['strioperf'] = 'I/O Performance';
+	$lang['stridxrowperf'] = 'Index Row Performance';
+	$lang['stridxioperf'] = 'Index I/O Performance';
+	$lang['strpercent'] = '%';
+	$lang['strsequential'] = 'Sequential';
+	$lang['strscan'] = 'Scan';
+	$lang['strread'] = 'Read';
+	$lang['strfetch'] = 'Fetch';
+	$lang['strheap'] = 'Heap';
+	$lang['strtoast'] = 'TOAST';
+	$lang['strtoastindex'] = 'TOAST Index';
+	$lang['strcache'] = 'Cache';
+	$lang['strdisk'] = 'Disk';
+	$lang['strrows2'] = 'Rows';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%sに%sポート番号%sで接続しています。<br />ユーザー「%s」でホスト「%s」にログインしています。';
