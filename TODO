@@ -75,8 +75,8 @@ Types
 Operators
 ---------
 
-* Properties
-* Drop
+* -Properties (chriskl)
+* -Drop (chriskl)
 * Create
 
 Operator Classes
@@ -107,13 +107,18 @@ Domains (7.3)
 Conversions (7.3)
 -----------------
 
-* Some functions implemented in 73
-* No interface done
+* -Display (chriskl)
+* Properties
+* Drop
+* Create
 
 Casts (7.3)
 -----------
 
-* Unimplemented
+* -Display (chriskl)
+* Properties
+* Drop
+* Create
 
 Settings
 --------

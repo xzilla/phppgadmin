@@ -6,15 +6,17 @@ Version 3.2-dev
 
 Features
 * Option to dump table structure, data or structure and data
+* Set datestyle and extra_float_digits when dumping data
 * Extra login security to prevent logging into servers as postgres and
   no password - a VERY common newbie error.
 * Cluster indexes and indexed constraints (with analyze)
 * Display clustered status of indexes and indexed constraints
-* Set datestyle and extra_float_digits when dumping data
 * Table info - shows table that reference the table, parent tables,
   and child tables.
 * Choice of operator when performing a Select
 * Removed any trace of MySQL support
+* Show casts
+* Show conversions
 
 Bugs
 * Added legal DOCTYPE

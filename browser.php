@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.20 2003/10/26 12:12:28 chriskl Exp $
+	 * $Id: browser.php,v 1.21 2003/10/27 03:49:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -124,7 +124,7 @@
 			$schemanode->addItem($dom_node);
 		}
 		// Advanced
-		if ($data->hasTypes() || $data->hasOperators()) {
+		if ($data->hasTypes() || $data->hasOperators() || $data->hasConversions()) {
 			$adv_node = &new HTML_TreeNode(array(
 							'text' => $lang['stradvanced'], 
 							'link' => addslashes(htmlspecialchars("schema.php?{$querystr}&" . SID)), 
@@ -160,6 +160,19 @@
 
 			// Add folder to schema
 			$adv_node->addItem($opr_node);
+		}
+		// Conversions
+		if ($data->hasConversions()) {
+			$con_node = &new HTML_TreeNode(array(
+							'text' => addslashes($lang['strconversions']), 
+							'link' => addslashes(htmlspecialchars("conversions.php?{$querystr}")), 
+								'icon' => "../../../images/themes/{$conf['theme']}/types.png", 
+								'expandedIcon' => "../../../images/themes/{$conf['theme']}/types.png",
+							'expanded' => false,
+							'linkTarget' => 'detail'));
+
+			// Add folder to schema
+			$adv_node->addItem($con_node);
 		}
 	}	
 

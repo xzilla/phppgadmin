@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.73 2003/10/26 12:12:28 chriskl Exp $
+ * $Id: Postgres73.php,v 1.74 2003/10/27 03:49:19 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -150,29 +150,6 @@ class Postgres73 extends Postgres72 {
 		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);
-	}
-	
-	// Conversions functions
-	
-	/**
-	 * Return all conversions in the current database
-	 * @return All conversions, sorted alphabetically
-	 */
-	function &getConversions() {
-		$sql = "SELECT conname, conowner FROM pg_catalog.pg_conversion ORDER BY conname";
-				  
-		return $this->selectSet($sql);
-	}
-	
-	/**
-	 * Return all information relating to a conversion
-	 * @param $conversion The name of the conversion
-	 * @return Conversion information
-	 */
-	function &getConversionByName($conversion) {
-		$this->clean($conversion);
-		$sql = "SELECT * FROM pg_catalog.pg_conversion WHERE conname='{$conversion}'";
-		return $this->selectRow($sql);
 	}
 
 	// Table functions
@@ -1272,6 +1249,7 @@ class Postgres73 extends Postgres72 {
 	 */	 
 	function &getCasts() {
 	
+		// @@ TRANSLATION PROBLEM HERE
 		$sql = "
 			SELECT
 				castsource::pg_catalog.regtype AS castsource,
@@ -1286,6 +1264,28 @@ class Postgres73 extends Postgres72 {
 			FROM pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p
 				ON c.castfunc = p.oid
 			ORDER BY 1, 2
+		";
+
+		return $this->selectSet($sql);
+	}	
+
+	// Conversion functions
+	
+	/**
+	 * Returns a list of all conversions in the database
+	 * @return All conversions
+	 */	 
+	function &getConversions() {
+		$sql = "
+			SELECT
+			       c.conname,
+			       pg_catalog.pg_encoding_to_char(c.conforencoding) AS conforencoding,
+			       pg_catalog.pg_encoding_to_char(c.contoencoding) AS contoencoding,
+			       c.condefault
+			FROM pg_catalog.pg_conversion c, pg_catalog.pg_namespace n
+			WHERE n.oid = c.connamespace
+			      AND n.nspname='{$this->_schema}'
+			ORDER BY 1;
 		";
 
 		return $this->selectSet($sql);
