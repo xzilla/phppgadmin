@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.59 2004/03/12 08:56:54 chriskl Exp $
+ * $Id: Postgres72.php,v 1.60 2004/05/08 11:34:14 chriskl Exp $
  */
 
 
@@ -83,6 +83,41 @@ class Postgres72 extends Postgres71 {
 			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
 			return $rs->f['relhasoids'];
 		}
+	}
+
+	/**
+	 * Returns table information
+	 * @param $table The name of the table
+	 * @return A recordset
+	 */
+	function &getTable($table) {
+		$this->clean($table);
+				
+		$sql = "SELECT pc.relname AS tablename, 
+			pg_get_userbyid(pc.relowner) AS tableowner, 
+			(SELECT description FROM pg_description pd 
+                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS tablecomment 
+			FROM pg_class pc
+			WHERE pc.relname='{$table}'";
+							
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Return all tables in current database
+	 * @param $all True to fetch all tables, false for just in current schema
+	 * @return All tables, sorted alphabetically 
+	 */
+	function &getTables($all = false) {
+		global $conf;
+		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
+		else $where = '';
+		
+		$sql = "SELECT NULL AS schemaname, c.relname AS tablename, 
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS tableowner, 
+					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS tablecomment
+			 FROM pg_class c WHERE c.relkind='r' {$where}ORDER BY relname";
+		return $this->selectSet($sql);
 	}
 
 	/**

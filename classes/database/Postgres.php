@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.192 2004/04/17 12:59:04 chriskl Exp $
+ * $Id: Postgres.php,v 1.193 2004/05/08 11:34:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -13,7 +13,7 @@ include_once('./classes/database/BaseDB.php');
 
 class Postgres extends BaseDB {
 
-	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description', 'encoding' => 'encoding', 'owner' => 'owner');
+	var $dbFields = array('dbname' => 'datname', 'encoding' => 'encoding', 'owner' => 'owner', 'dbcomment' => 'description');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner', 'tbcomment' => 'tablecomment');
 	var $vwFields = array('vwname' => 'viewname', 'vwowner' => 'viewowner', 'vwdef' => 'definition', 'vwcomment' => 'comment');
 	var $uFields = array('uname' => 'usename', 'usuper' => 'usesuper', 'ucreatedb' => 'usecreatedb', 'uexpires' => 'valuntil');
@@ -962,7 +962,7 @@ class Postgres extends BaseDB {
 		$sql = "SELECT pc.relname AS tablename, 
 			pg_get_userbyid(pc.relowner) AS tableowner, 
 			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS tablecomment 
+                        WHERE pc.oid=pd.objoid) AS tablecomment 
 			FROM pg_class pc
 			WHERE pc.relname='{$table}'";
 							
@@ -1000,7 +1000,8 @@ class Postgres extends BaseDB {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage, false AS attisserial
+					a.attstorage AS typstorage, false AS attisserial, 
+                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
 				FROM
 					pg_attribute a,
 					pg_class c,
@@ -1013,7 +1014,8 @@ class Postgres extends BaseDB {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage
+					a.attstorage AS typstorage, 
+                                       (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
 				FROM
 					pg_attribute a ,
 					pg_class c,
@@ -1090,6 +1092,7 @@ class Postgres extends BaseDB {
 	 * @return -4 comment error
 	 */
 	function alterColumn($table, $column, $name, $notnull, $default, $olddefault, $comment) {
+	  	$this->clean($comment);
 		$this->beginTransaction();
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
@@ -1112,8 +1115,7 @@ class Postgres extends BaseDB {
 			}
 		}
 
-		// Update the comment on the column
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		$status = $this->setComment('COLUMN', ($column != $name) ? $name: $column, $table, $comment);
 		if ($status != 0) {
 		  $this->rollbackTransaction();
 		  return -4;
@@ -1935,11 +1937,6 @@ class Postgres extends BaseDB {
 	 */
 
 	function setComment($obj_type, $obj_name, $table, $comment) {
-		$this->clean($obj_type);
-		$this->fieldClean($obj_name);
-		$this->fieldClean($table);
-		$this->clean($comment);
-		
 		// Make sure we have a valid type
 		$types = array('TABLE','COLUMN','VIEW','SCHEMA','SEQUENCE','TYPE');
 		if (! in_array($obj_type,$types)) return -1;
@@ -2124,18 +2121,11 @@ class Postgres extends BaseDB {
 			$where = '';
 
 		$sql = "SELECT viewname, viewowner, definition,
-						(SELECT description FROM pg_description pd, pg_class pc 
-						WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
-					FROM pg_views v
-					{$where}
-					ORDER BY viewname";
-
-		
-		$sql = "SELECT c.relname AS viewname, pg_get_userbyid(c.relowner) AS viewowner, 
-					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS comment
-                FROM pg_class c 
-			WHERE c.relkind = 'v' {$where} 
-			ORDER BY c.relname";
+			      (SELECT description FROM pg_description pd, pg_class pc 
+			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+			FROM pg_views v
+			{$where}
+			ORDER BY viewname";
 
 		return $this->selectSet($sql);
 	}
@@ -2149,10 +2139,10 @@ class Postgres extends BaseDB {
 		$this->clean($view);
 		
 		$sql = "SELECT viewname, viewowner, definition,
-						(SELECT description FROM pg_description pd, pg_class pc 
-						WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
-					FROM pg_views v
-					WHERE viewname='{$view}'";
+			  (SELECT description FROM pg_description pd, pg_class pc 
+			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS comment
+			FROM pg_views v
+			WHERE viewname='{$view}'";
 			
 		return $this->selectSet($sql);
 	}	

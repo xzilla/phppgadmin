@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.53 2004/04/17 12:59:04 chriskl Exp $
+ * $Id: Postgres71.php,v 1.54 2004/05/08 11:34:14 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -87,18 +87,17 @@ class Postgres71 extends Postgres {
 		else $clause = '';
 		
 		if (!$conf['show_system'])
-			$where = 'AND NOT pdb.datistemplate';
+			$where = ' AND NOT pdb.datistemplate';
 		else
-			$where = 'AND pdb.datallowconn';
+			$where = ' AND pdb.datallowconn';
 
-		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding, pde.description FROM
-					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid,
-					pg_user pu
-					WHERE pdb.datdba = pu.usesysid
-					{$where}
-					{$clause}
-					ORDER BY pdb.datname";
-
+		$sql = "SELECT pdb.datname, pu.usename AS owner, pg_encoding_to_char(encoding) AS encoding,
+                               (SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS description
+                        FROM pg_database pdb, pg_user pu
+			WHERE pdb.datdba = pu.usesysid
+			{$where}
+			{$clause}
+			ORDER BY pdb.datname";
 		return $this->selectSet($sql);
 	}
 
@@ -130,7 +129,8 @@ class Postgres71 extends Postgres {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, 
 					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage,
-					false AS attisserial
+					false AS attisserial, 
+                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,
@@ -143,7 +143,8 @@ class Postgres71 extends Postgres {
 		else {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, 
-					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage
+					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage, 
+                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum,

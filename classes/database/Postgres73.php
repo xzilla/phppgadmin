@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.94 2004/04/27 06:01:33 chriskl Exp $
+ * $Id: Postgres73.php,v 1.95 2004/05/08 11:34:14 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -346,7 +346,8 @@ class Postgres73 extends Postgres72 {
 	function &getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname, tablename, tableowner,  FROM pg_catalog.pg_tables 
+			$sql = "SELECT schemaname, tablename, tableowner,pg_catalog.obj_description(c.oid, 'pg_class') AS tablecomment  
+                                FROM pg_catalog.pg_tables 
 				WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 				ORDER BY schemaname, tablename";
 		} else {
