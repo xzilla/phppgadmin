@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.5 2002/09/17 21:38:51 xzilla Exp $
+	 * $Id: functions.php,v 1.6 2002/09/18 19:01:47 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,7 @@
 	function doSaveEdit() {
 		global $localData;
 		
-		$status = $localData->setFunction($_POST['view'], $_POST['formDefinition']);
+		$status = $localData->setFunction($_POST['original_function'], $_POST['original_arguments'] , $_POST['original_returns'] , $_POST['formDefinition'] , $_POST['original_lang'],0,true);
 		if ($status == 0)
 			doProperties('Function updated.');
 		else
@@ -50,24 +50,21 @@
 				
 
 			echo "<tr>\n";
-			echo "<td class=data1><input type=text name=function value=", 
-					htmlspecialchars($fndata->f[$data->fnFields['fnname']]), 
-					">\n";
-			echo "<input type=hidden name=original_function value=", 
-					htmlspecialchars($fndata->f[$data->fnFields['fnname']]), 
-					"></td>\n";
+			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnname']]),"\n";
+			echo "<input type=hidden name=original_function value=",htmlspecialchars($fndata->f[$data->fnFields['fnname']]),">"; 
+			echo "</td>\n";
 
-			echo "<td class=data1><input type=text name=arguments value=", 
-					htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),
-					">\n";
-			echo "<input type=hidden name=original_arguments value=", 
-					htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]), 
-					"></td>\n";
+			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),"\n";
+			echo "<input type=hidden name=original_arguments value=",htmlspecialchars($fndata->f[$data->fnFields['fnarguments']]),">"; 
+			echo "</td>\n";
 
+			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]),"\n";
+			echo "<input type=hidden name=original_returns value=",htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]),">"; 
+			echo "</td>\n";
 
-			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnreturns']]), "</td>\n";
-			echo "<td class=data1>", htmlspecialchars($fndata->f[$data->fnFields['fnlang']]), "</td>\n";
-			echo "</tr>\n";
+			echo "<td class=data1>",htmlspecialchars($fndata->f[$data->fnFields['fnlang']]),"\n";
+			echo "<input type=hidden name=original_lang value=",htmlspecialchars($fndata->f[$data->fnFields['fnlang']]),">"; 
+			echo "</td>\n";
 
 			echo "<tr><th class=data colspan=8>{$strDefinition}</th></tr>\n";
 			echo "<tr><td class=data1 colspan=8><textarea style=\"width:100%;\" rows=20 cols=50 name=formDefinition wrap=virtual>", 
@@ -75,6 +72,7 @@
 			echo "</table>\n";
 			echo "<input type=hidden name=action value=save_edit>\n";
 			echo "<input type=hidden name=function value=\"", htmlspecialchars($_REQUEST['function']), "\">\n";
+			echo "<input type=hidden name=function_oid value=\"", htmlspecialchars($_REQUEST['function_oid']), "\">\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=submit value=Save> <input type=reset>\n";
 			echo "</form>\n";
@@ -83,21 +81,11 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=properties&database=", urlencode($_REQUEST['database']), "&function=", 
-			urlencode($_REQUEST['function']), "\">Properties</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Properties</a></p>\n";
 	}
-	
+
 	/**
-	 * Show read only properties for a function
-			pc.oid,
-					proname, 
-					lanname as language,
-					format_type(prorettype, NULL) as return_type,
-					prosrc as source,
-					probin as binary,
-					oidvectortypes(pc.proargtypes) AS arguments
-
-
-
+	 * Show read only properties of a function
 	 */
 	function doProperties($msg = '') {
 		global $data, $localData, $misc;
@@ -126,7 +114,7 @@
 		
 		echo "<p><a class=navlink href=\"$PHP_SELF?database=", urlencode($_REQUEST['database']), "\">Show All Functions</a> |\n";
 		echo "<a class=navlink href=\"$PHP_SELF?action=edit&database=", urlencode($_REQUEST['database']), "&function=", 
-			urlencode($_REQUEST['function']), "\">Edit</a></p>\n";
+			urlencode($_REQUEST['function']), "&function_oid=", urlencode($_REQUEST['function_oid']), "\">Edit</a></p>\n";
 	}
 	
 	/**
@@ -227,7 +215,7 @@
 		if ($_POST['formFunction'] == '') doCreate($strFunctionNeedsName);
 		elseif ($_POST['formDefinition'] == '') doCreate($strFunctionNeedsDef);
 		else {		 
-			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , $_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'],0,"true");
+			$status = $localData->createFunction($_POST['formFunction'], $_POST['formArguments'] , $_POST['formReturns'] , $_POST['formDefinition'] , $_POST['formLanguage'],0);
 			if ($status == 0)
 				doDefault('Function created.');
 			else
