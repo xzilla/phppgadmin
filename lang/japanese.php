@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.9 2004/02/23 04:42:46 chriskl Exp $
+	 * $Id: japanese.php,v 1.10 2004/06/23 05:21:44 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -101,6 +101,7 @@
 	$lang['strconfirm'] = '確認';
 	$lang['strexpression'] = '評価式';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '閉じる';
 	$lang['strexplain'] = '実行時間';
@@ -118,13 +119,19 @@
 	$lang['strprocesses'] = 'プロセス一覧';
 	$lang['strsetting'] = '設定';
 	$lang['streditsql'] = 'SQL編集';
+	$lang['strruntime'] = '総実行時間: %s ms';
 	$lang['strpaginate'] = 'Paginate results';
+	$lang['struploadscript'] = 'or upload an SQL script:';
 	$lang['strstarttime'] = '開始時間';
+	$lang['strfile'] = 'ファイル';
+	$lang['strfileimported'] = 'ファイルをインポートしました。';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
 	$lang['strbadconfig'] = 'config.inc.phpが旧式です。新しいconfig.inc.php-distから再作成する必要があります。';
 	$lang['strnotloaded'] = 'データベースをサポートするようにPHPのコンパイル・インストールがされていません。(システムによってはphpパッケージの他にphp-pgsqlパッケージのインストール・設定などが必要です)';
+	$lang['strphpversionnotsupported'] = 'このPHPのバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
+	$lang['strpostgresqlversionnotsupported'] = 'このPostgreSQLのバージョンはサポートしていません。バージョン %s 以上にアップグレードしてください。';
 	$lang['strbadschema'] = '無効のスキーマが指定されました。';
 	$lang['strbadencoding'] = 'データベースの中でクライアントエンコードを指定しませんでした。';
 	$lang['strsqlerror'] = 'SQLエラー:';
@@ -134,6 +141,9 @@
 	$lang['strnoobjects'] = 'オブジェクトが見つかりません。';
 	$lang['strrownotunique'] = 'このレコードには一意識別子がありません。';
 	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにあるINSTALLファイルを読んでください。';
+	$lang['strnouploads'] = 'ファイルアップロードが無効です。';
+	$lang['strimporterror'] = 'インポートエラー';
+	$lang['strimporterrorline'] = '%s 行目がインポートエラーです。';
 
 	// Tables
 	$lang['strtable'] = 'テーブル';
@@ -164,7 +174,7 @@
 	$lang['strconfdeleterow'] = '本当にこのレコードを削除しますか?';
 	$lang['strrowdeleted'] = 'レコードを削除しました。';
 	$lang['strrowdeletedbad'] = 'レコードの削除に失敗しました。';
-	$lang['strsaveandrepeat'] = '保存と繰り返し';
+	$lang['strinsertandrepeat'] = '挿入と繰り返し';
 	$lang['strfield'] = 'フィールド';
 	$lang['strfields'] = 'フィールド一覧';
 	$lang['strnumfields'] = 'フィールド数';
@@ -188,6 +198,8 @@
 	$lang['strdataonly'] = 'データのみ';
 	$lang['strstructureonly'] = '構造のみ';
 	$lang['strstructureanddata'] = '構造とデータ';
+	$lang['strtabbed'] = 'Tabbed';
+	$lang['strauto'] = '自動';
 
 	// Users
 	$lang['struser'] = 'ユーザー';
@@ -248,7 +260,7 @@
 	$lang['strgrantfailed'] = '特権を与える事に失敗しました。';
 	$lang['strgrantbad'] = '少なくとも一人のユーザーかグループに、少なくともひとつの特権を指定しなければなりません。';
 	$lang['stralterprivs'] = '特権の変更';
-	$lang['strgrantor'] = 'Grantor';
+	$lang['strgrantor'] = '譲与';
 	$lang['strasterisk'] = '*';
 
 	// Databases
@@ -271,6 +283,11 @@
 	$lang['strvacuumbad'] = 'バキュームに失敗しました。';
 	$lang['stranalyzegood'] = '解析を完了しました。';
 	$lang['stranalyzebad'] = '解析に失敗しました。';
+	$lang['strreindexgood'] = '再インデックスを完了しました。';
+	$lang['strreindexbad'] = '再インデックスに失敗しました。';
+	$lang['strfull'] = 'すべて';
+	$lang['strfreeze'] = 'フリーズ';
+	$lang['strforce'] = '強制';
 
 	// Views
 	$lang['strview'] = 'ビュー';
@@ -282,6 +299,7 @@
 	$lang['strviewname'] = 'ビュー名';
 	$lang['strviewneedsname'] = 'ビュー名を指定しなければなりません。';
 	$lang['strviewneedsdef'] = '定義名を指定しなければなりません。';
+	$lang['strviewneedsfields'] = 'You must give the columns you want selected in your view.';
 	$lang['strviewcreated'] = 'ビューを作成しました。';
 	$lang['strviewcreatedbad'] = 'ビューの作成に失敗しました。';
 	$lang['strconfdropview'] = '本当にビュー「%s」を破棄しますか?';
@@ -291,6 +309,7 @@
 	$lang['strviewupdatedbad'] = 'ビューの更新に失敗しました。';
 	$lang['strviewlink'] = 'Linking Keys';
 	$lang['strviewconditions'] = '追加条件';
+	$lang['strcreateviewwiz'] = 'ウィザードでビューを作成する';
 
 	// Sequences
 	$lang['strsequence'] = 'シーケンス';
@@ -466,6 +485,8 @@
 	$lang['strconfdropschema'] = '本当にスキーマ「%s」を破棄しますか?';
 	$lang['strschemadropped'] = 'スキーマを破棄しました。';
 	$lang['strschemadroppedbad'] = 'スキーマの破棄に失敗しました。';
+	$lang['strschemaaltered'] = 'スキーマを変更しました。';
+	$lang['strschemaalteredbad'] = 'スキーマの変更に失敗しました。';
 
 	// Reports
 	$lang['strreport'] = 'レポート';
@@ -508,13 +529,13 @@
 	$lang['strcommutator'] = 'Commutator';
 	$lang['strnegator'] = 'Negator';
 	$lang['strrestrict'] = 'Restrict';
-	$lang['strjoin'] = 'Join';
-	$lang['strhashes'] = 'Hashes';
-	$lang['strmerges'] = 'Merges';
-	$lang['strleftsort'] = 'Left sort';
-	$lang['strrightsort'] = 'Right sort';
-	$lang['strlessthan'] = 'Less than';
-	$lang['strgreaterthan'] = 'Greater than';
+	$lang['strjoin'] = '結合';
+	$lang['strhashes'] = 'ハッシュ';
+	$lang['strmerges'] = '併合';
+	$lang['strleftsort'] = '左ソート';
+	$lang['strrightsort'] = '右ソート';
+	$lang['strlessthan'] = '未満';
+	$lang['strgreaterthan'] = '以上';
 	$lang['stroperatorneedsname'] = '演算子名を指定する必要があります。';
 	$lang['stroperatorcreated'] = '演算子を作成しました。';
 	$lang['stroperatorcreatedbad'] = '演算子の作成に失敗しました。';
@@ -527,9 +548,9 @@
 	$lang['strnocasts'] = 'キャストが見つかりません。';
 	$lang['strsourcetype'] = 'ソースタイプ';
 	$lang['strtargettype'] = 'ターゲットタイプ';
-	$lang['strimplicit'] = 'Implicit';
+	$lang['strimplicit'] = '暗黙';
 	$lang['strinassignment'] = 'In assignment';
-	$lang['strbinarycompat'] = '(Binary compatible)';
+	$lang['strbinarycompat'] = '(バイナリ互換)';
 	
 	// Conversions
 	$lang['strconversions'] = '変換一覧';
@@ -544,9 +565,9 @@
 	
 	// Info
 	$lang['strnoinfo'] = '有効な情報がありません。';
-	$lang['strreferringtables'] = 'Referring tables';
-	$lang['strparenttables'] = 'Parent tables';
-	$lang['strchildtables'] = 'Child tables';
+	$lang['strreferringtables'] = '参照テーブル一覧';
+	$lang['strparenttables'] = '親テーブル一覧';
+	$lang['strchildtables'] = '子テーブル一覧';
 
 	// Aggregates
 	$lang['straggregates'] = '集計一覧';
