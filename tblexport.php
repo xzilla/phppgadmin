@@ -3,7 +3,7 @@
 	/**
 	 * Does an export to the screen or as a download
 	 *
-	 * $Id: tblexport.php,v 1.9 2003/08/18 07:21:45 chriskl Exp $
+	 * $Id: tblexport.php,v 1.10 2003/08/18 07:28:15 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -36,7 +36,8 @@
 	// Return all rows in the table
 	// @@ Note: This should really use a cursor
 	$rs = &$localData->dumpRelation($_REQUEST['table'], isset($_REQUEST['oids']));
-
+	$dbEncoding = $localData->getDatabaseEncoding();
+	
 	if ($_REQUEST['format'] == 'copy') {
 		$data->fieldClean($_REQUEST['table']);
 		echo "COPY \"{$_REQUEST['table']}\"";
@@ -64,7 +65,10 @@
 		echo "\\.\n";
 	}
 	elseif ($_REQUEST['format'] == 'xml') {
-		echo "<?xml version=\"1.0\" ?>\n";
+		echo "<?xml version=\"1.0\"";
+		if (isset($localData->codemap[$dbEncoding]))
+			echo " encoding=\"{$localData->codemap[$dbEncoding]}\"";
+		echo " ?>\n";
 		echo "<records>\n";
 		if (!$rs->EOF) {
 			// Output header row
