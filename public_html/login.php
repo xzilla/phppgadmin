@@ -3,11 +3,11 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.10 2003/01/04 07:08:03 chriskl Exp $
+	 * $Id: login.php,v 1.11 2003/01/08 05:48:28 chriskl Exp $
 	 */
 
 	// Include application functions
-	include_once('../conf/config.inc.php');
+	include('../conf/config.inc.php');
 	// Prepare form variables
 	if (!isset($_POST['formServer'])) $_POST['formServer'] = '';
 	// Output header
