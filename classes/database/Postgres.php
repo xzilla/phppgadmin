@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.257 2005/03/18 19:51:57 xzilla Exp $
+ * $Id: Postgres.php,v 1.258 2005/03/26 10:47:03 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -4152,9 +4152,11 @@ class Postgres extends ADODB_base {
 	 * the PostgreSQL source code.
 	 * XXX: It does not handle multibyte languages properly.
 	 * @param $name Entry in $_FILES to use
-	 * @return Result of final query, false on any failure.
+	 * @param $callback (optional) Callback function to call with each query,
+	                               its result and line number.
+	 * @return True for general success, false on any failure.
 	 */
-	function executeScript($name) {
+	function executeScript($name, $callback = null) {
 		global $data;
 
 		// This whole function isn't very encapsulated, but hey...
@@ -4176,10 +4178,12 @@ class Postgres extends ADODB_base {
 		$i = 0;
 		$prevlen = 0;
 		$thislen = 0;
+		$lineno = 0;
 		
 		// Loop over each line in the file
 		while (!feof($fd)) {
 			$line = fgets($fd, 32768);
+			$lineno++;
 			
 			// Nothing left on line? Then ignore...
 			if (trim($line) == '') continue;
@@ -4301,13 +4305,16 @@ class Postgres extends ADODB_base {
             			// Execute the query (supporting 4.1.x PHP...). PHP cannot execute
             			// empty queries, unlike libpq
             			if (function_exists('pg_query'))
-            				$res = pg_query($conn, $query_buf);
+            				$res = @pg_query($conn, $query_buf);
             			else
-            				$res = pg_exec($conn, $query_buf);      
+            				$res = @pg_exec($conn, $query_buf);      
+						// Call the callback function for display
+						if ($callback !== null) $callback($query_buf, $res, $lineno);
             			// Check for COPY request
             			if (pg_result_status($res) == 4) { // 4 == PGSQL_COPY_FROM
             				while (!feof($fd)) {
             					$copy = fgets($fd, 32768);
+            					$lineno++;
             					pg_put_line($conn, $copy);
             					if ($copy == "\\.\n" || $copy == "\\.\r\n") {
             						pg_end_copy($conn);
@@ -4330,11 +4337,14 @@ class Postgres extends ADODB_base {
 				// XXX: multibyte here
 				else if (ereg('^[_[:alpha:]]$', substr($line, $i, 1))) {
 					$sub = substr($line, $i, $thislen);
-					while (ereg('^[\$_[:alnum:]]$', $sub)) {
+					while (ereg('^[\$_A-Za-z0-9]$', $sub)) {
 						/* keep going while we still have identifier chars */
 						$this->advance_1($i, $prevlen, $thislen);
 						$sub = substr($line, $i, $thislen);
 					}
+					// Since we're now over the next character to be examined, it is necessary
+					// to move back one space.
+					$i-=$prevlen;
 				}
     	    } // end for
 
@@ -4359,13 +4369,16 @@ class Postgres extends ADODB_base {
     	{
 			// Execute the query (supporting 4.1.x PHP...)
 			if (function_exists('pg_query'))
-				$res = pg_query($conn, $query_buf);
+				$res = @pg_query($conn, $query_buf);
 			else
-				$res = pg_exec($conn, $query_buf);
+				$res = @pg_exec($conn, $query_buf);
+			// Call the callback function for display
+			if ($callback !== null) $callback($query_buf, $res, $lineno);
 			// Check for COPY request
 			if (pg_result_status($res) == 4) { // 4 == PGSQL_COPY_FROM
 				while (!feof($fd)) {
 					$copy = fgets($fd, 32768);
+					$lineno++;
 					pg_put_line($conn, $copy);
 					if ($copy == "\\.\n" || $copy == "\\.\r\n") {
 						pg_end_copy($conn);
@@ -4377,7 +4390,7 @@ class Postgres extends ADODB_base {
 		
 		fclose($fd);
 		
-		return new ADORecordSet_empty();
+		return true;
 	}
 
 	// Capabilities
