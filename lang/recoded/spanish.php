@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.11 2003/05/21 03:33:29 chriskl Exp $
+	 * $Id: spanish.php,v 1.12 2003/05/28 01:32:03 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -59,6 +59,8 @@
 	$lang['strreferences'] = 'Referencia';
 	$lang['stryes'] = 'Si';
 	$lang['strno'] = 'No';
+	$lang['strtrue'] = 'Verdadero';
+	$lang['strfalse'] = 'Falso';
 	$lang['stredit'] = 'Editar';
 	$lang['strcolumns'] = 'Columnas';
 	$lang['strrows'] = 'fila(s)';
@@ -206,8 +208,8 @@
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Privilegios otorgados.';
 	$lang['strgrantfailed'] = 'Fall&oacute; al intendar otorgar privilegios.';
-	$lang['strgrantuser'] = 'Otorgar al Usuario';
-	$lang['strgrantgroup'] = 'Otorgar al Grupo';
+	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
+	$lang['stralterprivs'] = 'Cambiar Privilegios';
 
 	// Databases
 	$lang['strdatabase'] = 'Base de Datos';
