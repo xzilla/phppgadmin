@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.48 2004/06/11 05:08:19 xzilla Exp $
+	 * $Id: database.php,v 1.49 2004/07/06 09:05:41 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -524,10 +524,13 @@
 
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $_SESSION['webdbUsername'];
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all users from the database
 		$users = &$data->getUsers();
+		// Fetch all tablespaces from the database
+		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
 
 		$misc->printTitle(array($misc->printVal($_REQUEST['database']),$lang['strcreateschema']),'create_schema');
 		$misc->printMsg($msg);
@@ -537,6 +540,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
+		// Owner
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
@@ -546,6 +550,23 @@
 			$users->moveNext();
 		}
 		echo "\t\t\t</select>\n\t\t</td>\n\t\n";
+		
+		// Tablespace (if there are any)
+		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formSpc\">\n";
+			// Always offer the default (empty) option
+			echo "\t\t\t\t<option value=\"\"",
+				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
+			// Display all other tablespaces
+			while (!$tablespaces->EOF) {
+				$spcname = htmlspecialchars($tablespaces->f['spcname']);
+				echo "\t\t\t\t<option value=\"{$spcname}\"",
+					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+				$tablespaces->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t\n";
+		}
 		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
@@ -568,10 +589,13 @@
 	function doSaveCreate() {
 		global $data, $lang, $_reload_browser;
 
+		// Default tablespace to null if it isn't set
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
+
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
 		else {
-			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'],$_POST['formComment']);
+			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'], $_POST['formSpc'], $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemacreated']);
@@ -599,6 +623,9 @@
 			if ($schemas->recordCount() > 0) {
 				echo "<table>\n";
 				echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strowner']}</th>";
+				if ($data->hasTablespaces()) {
+					echo "<th class=\"data\">{$lang['strtablespace']}</th>";
+				}
 				echo "<th colspan=\"3\" class=\"data\">{$lang['stractions']}</th>";
 				if ($conf['show_comments']) echo "<th class=\"data\">{$lang['strcomment']}</th>\n";
 				echo "</tr>\n";
@@ -607,6 +634,9 @@
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr><td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspname']]), "</td>\n";
 					echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f[$data->nspFields['nspowner']]), "</td>\n";
+					if ($data->hasTablespaces()) {
+						echo "<td class=\"data{$id}\">", $misc->printVal($schemas->f['tablespace']), "</td>\n";
+					}
 					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop&amp;database=",
 						urlencode($_REQUEST['database']), "&amp;schema=",
 						urlencode($schemas->f[$data->nspFields['nspname']]), "\">{$lang['strdrop']}</a></td>\n";

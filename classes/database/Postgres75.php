@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 7.5 support
  *
- * $Id: Postgres75.php,v 1.7 2004/07/04 15:02:35 chriskl Exp $
+ * $Id: Postgres75.php,v 1.8 2004/07/06 09:05:42 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -22,6 +22,26 @@ class Postgres75 extends Postgres74 {
 	 */
 	function Postgres75($conn) {
 		$this->Postgres74($conn);
+	}
+
+	// Schema functions
+
+	/**
+	 * Return all schemas in the current database
+	 * @return All schemas, sorted alphabetically
+	 */
+	function &getSchemas() {
+		global $conf;
+
+		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%'";
+		else $and = '';
+		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS comment,
+								(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pn.nsptablespace) AS tablespace
+                        FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
+			WHERE pn.nspowner = pu.usesysid
+			{$and} ORDER BY nspname";
+
+		return $this->selectSet($sql);
 	}
 	
 	/**

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.122 2004/06/28 02:26:57 chriskl Exp $
+ * $Id: Postgres73.php,v 1.123 2004/07/06 09:05:42 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -128,17 +128,19 @@ class Postgres73 extends Postgres72 {
 	 * Creates a new schema.
 	 * @param $schemaname The name of the schema to create
 	 * @param $authorization (optional) The username to create the schema for.
-	 * @param $authorization (optional) If omitted, defaults to current user.
+	 * @param $tablespace (optional) The tablespace for the schema, '' indicates default.
+	 * @param $comment (optional) If omitted, defaults to nothing
 	 * @return 0 success
 	 */
-	function createSchema($schemaname, $authorization = '', $comment = '') {
+	function createSchema($schemaname, $authorization = '', $tablespace = '', $comment = '') {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($authorization);
+		$this->fieldClean($tablespace);
 		$this->clean($comment);
 
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
-		
+		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
 		
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
@@ -827,6 +829,7 @@ class Postgres73 extends Postgres72 {
 		$sql .= "{$returns} AS '\n";
 		$sql .= $definition;
 		$sql .= "\n'";
+		
 		$sql .= " LANGUAGE \"{$language}\"";
 		
 		// Add flags
