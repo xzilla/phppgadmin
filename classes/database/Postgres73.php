@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.37 2003/04/30 07:02:22 chriskl Exp $
+ * $Id: Postgres73.php,v 1.38 2003/04/30 07:28:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -137,12 +137,14 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Drops a schema.
 	 * @param $schemaname The name of the schema to drop
+	 * @param $cascade True to cascade drop, false to restrict
 	 * @return 0 success
 	 */
-	function dropSchema($schemaname) {
+	function dropSchema($schemaname, $cascade) {
 		$this->fieldClean($schemaname);
 		
 		$sql = "DROP SCHEMA \"{$schemaname}\"";
+		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);
 	}
@@ -170,38 +172,6 @@ class Postgres73 extends Postgres72 {
 		return $this->selectRow($sql);
 	}
 
-	/**
-	 * Creates a new conversion.
-	 * @param $schemaname The name of the schema to create
-	 * @param $authorization (optional) The username to create the schema for.
-	 * @param $authorization (optional) If omitted, defaults to current user.
-	 * @return 0 success
-	 */
-	 /*
-	function createSchema($schemaname, $authorization = '') {
-		$this->clean($schemaname);
-		$this->clean($authorization);
-		
-		$sql = "CREATE SCHEMA \"{$schemaname}\"";
-		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
-		
-		return $this->execute($sql);
-	}
-	*/
-	/**
-	 * Drops a schema.
-	 * @param $schemaname The name of the schema to drop
-	 * @return 0 success
-	 */
-	 /*
-	function dropSchema($schemaname) {
-		$this->clean($schemaname);
-		
-		$sql = "DROP SCHEMA \"{$schemaname}\"";
-		
-		return $this->execute($sql);
-	}	
-*/
 	// Table functions
 
 	/**

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.13 2003/04/19 11:59:09 chriskl Exp $
+	 * $Id: database.php,v 1.14 2003/04/30 07:28:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -87,11 +87,15 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\">\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\">\n";
+			// Show cascade drop option if supportd
+			if ($localData->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\"> {$lang['strcascade']}</p>\n";
+			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\"> <input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\">\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $localData->dropSchema($_POST['schema']);
+			$status = $localData->dropSchema($_POST['schema'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemadropped']);
