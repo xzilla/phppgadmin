@@ -52,7 +52,10 @@ Once you have Recode installed, these are the steps to creating a new translatio
 
 
 Appendix A: Ways to Get Recode
+------------------------------
 
-* Bsd : ftp.gnu.org/gnu/recode/
+* FreeBSD: cd /usr/ports/converters/recode; make install clean
+* BSD: ftp.gnu.org/gnu/recode/
 * Red Hat: rpm -Uvh recode-3.6-6.i386.rpm
-* Debian: available via apt-get
+* Debian: Available via apt-get
+
