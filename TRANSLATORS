@@ -1,0 +1,54 @@
+Translator Info
+---------------
+
+If you like phpPgAdmin, then why not translate it into your native language?
+
+Translation is slightly complicated in phpPgAdmin compared to other PHP software,
+since we support viewing database encodings that are different to your language
+encoding.
+
+To translate messages, you will need to install GNU Record on your computer.
+
+GNU Recode: http://www.gnu.org/software/recode/recode.html
+
+Your favourite OS should have a GNU Recode package available.
+
+Once you have Recode installed, these are the steps to creating a new translation:
+
+1. Go to the lang/ subdirectory
+
+2. Copy english.php to yourlanguage.php
+
+3. Update the comment at the top of the file.  Put yourself as the language maintainer.
+   Edit the $appLang variable and put your language's name in it, in your language.
+   Edit the $appCharSet variable and put in the name of the encoding for your language.
+
+4. Go through as much of the rest of the file as you wish, replacing the English strings
+   with strings in your language.
+
+5. Edit the Makefile in the lang/ directory and add an entry for your new language.  Note
+   that the parameter for Recode is "yourcharset..HTML".
+
+6. Run the Makefile by typing 'make yourlanguage'.  A recoded language file will appear
+   in the lang/recoded/ directory.  If the recoding fails, then fix the error in your
+   language file and try again.
+
+7. The HTML encoded language file is what phpPgAdmin actually uses to display
+   localised strings.  Have a look at the recoded file to see how the HTML encoding
+   works.  By encoding your language like this, we can display your language's
+   characters as well as the characters of the language in your database.
+
+8. To add your language to phpPgAdmin's login screen, edit libraries/lib.inc.php and add
+   your language to the $appLangFiles array.  You must include the HTML encoding version
+   of your language's name.  You can get this from the recoded version of your translated
+   strings file.
+
+9. Send your contribution to us.  We need the lib.inc.php entry as well as the
+   yourlanguage.php file in lang/.  We don't need the recoded file as we can recode it
+   ourselves before committing it.
+
+10. Thank you for your contribution!  You have just made phpPgAdmin accessible to
+   thousands more users!
+
+
+
