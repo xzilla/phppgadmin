@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.18 2004/07/12 01:49:15 chriskl Exp $
+	 * $Id: login.php,v 1.18.2.1 2005/02/18 11:54:16 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -41,26 +41,30 @@
 			// See http://www.w3.org/WAI/ER/IG/ert/iso639.htm for language codes
 			$availableLanguages = array(
 				'af' => 'afrikaans',
+				'ar' => 'arabic',
 				'zh' => 'chinese-tr',
 				'zh-cn' => 'chinese-sim',
 				'cs' => 'czech',
+				'da' => 'danish',
 				'nl' => 'dutch',
 				'en' => 'english',
 				'fr' => 'french',
 				'de' => 'german',
-				'hu' => 'hungarian',
+				'he' => 'hebrew',
 				'it' => 'italian',
 				'ja' => 'japanese',
+				'hu' => 'hungarian',
 				'mn' => 'mongol',
 				'pl' => 'polish',
 				'pt' => 'portuguese-br',
 				'pt-br' => 'portuguese-br',
+				'ro' => 'romanian',
 				'ru' => 'russian',
 				'sk' => 'slovak',
 				'sv' => 'swedish',
 				'es' => 'spanish',
-				'sv' => 'swedish',
-				'tr' => 'turkish'
+				'tr' => 'turkish',
+				'uk' => 'ukrainian'
 			);
 
 			reset($userLanguages);
