@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.95 2003/05/07 06:29:54 chriskl Exp $
+ * $Id: Postgres.php,v 1.96 2003/05/07 15:00:56 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -265,16 +265,8 @@ class Postgres extends BaseDB {
 	 * @return -99 error
 	 */
 	function hasObjectID($table) {
-		$this->clean($table);
-
-		$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}'";
-
-		$rs = $this->selectSet($sql);
-		if ($rs->recordCount() != 1) return -99;
-		else {
-			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
-			return $rs->f['relhasoids'];
-		}
+		// 7.0 and 7.1 always had an oid column
+		return true;
 	}
 
 	/**
@@ -491,7 +483,7 @@ class Postgres extends BaseDB {
 					pg_class c,
 					pg_type t
 				WHERE
-					c.relname = '{$table}' AND a.attname='{$column}' AND a.attrelid = c.oid AND a.atttypid = t.oid
+					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid
 				ORDER BY a.attnum";
 		}
 		
@@ -1203,25 +1195,16 @@ class Postgres extends BaseDB {
 	}
 
 	/**
-	 * Grabs a list of indicies in the database or table
-	 * @param $table (optional) The name of a table to get the indicies for
+	 * Grabs a list of indexes for a table
+	 * @param $table The name of a table whose indexes to retrieve
+	 * @return A recordset
 	 */
-	function &getIndicies($table = '') {
+	function &getIndexes($table = '') {
 		$this->clean($table);
-
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_catalog.pg_get_indexdef(i.indexrelid)
-			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
-			WHERE c.oid = '16977' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY i.indisprimary DESC, i.indisunique DESC, c2.relname";
-
-
-		if ($table != '')
-			$where = "WHERE relname='{$table}' AND ";
-		elseif (!$this->_showSystem)
-			$where = "WHERE relname NOT LIKE 'pg_%' AND ";
-		else $where  = '';
-		
-		$sql = "SELECT relname FROM pg_class {$where} relkind ='i' ORDER BY relname";
+		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid)
+			FROM pg_class c, pg_class c2, pg_index i
+			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
+			ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.40 2003/05/07 06:41:47 chriskl Exp $
+ * $Id: Postgres72.php,v 1.41 2003/05/07 15:00:56 chriskl Exp $
  */
 
 
@@ -44,6 +44,25 @@ class Postgres72 extends Postgres71 {
 	}
 
 	// Table functions
+
+	/**
+	 * Checks to see whether or not a table has a unique id column
+	 * @param $table The table name
+	 * @return True if it has a unique id, false otherwise
+	 * @return -99 error
+	 */
+	function hasObjectID($table) {
+		$this->clean($table);
+
+		$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}'";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != 1) return -99;
+		else {
+			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
+			return $rs->f['relhasoids'];
+		}
+	}
 
 	/**
 	 * Retrieve the attribute definition of a table
@@ -262,21 +281,6 @@ class Postgres72 extends Postgres71 {
 	 */
 	function setFunction($funcname, $args, $returns, $definition, $language, $flags) {
 		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, true);
-	}
-
-	/**
-	 * Grabs a list of indexes for a table
-	 * @param $table The name of a table whose indexes to retrieve
-	 * @return A recordset
-	 */
-	function &getIndexes($table = '') {
-		$this->clean($table);
-		$sql = "SELECT c2.relname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid)
-			FROM pg_class c, pg_class c2, pg_index i
-			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
-
-		return $this->selectSet($sql);
 	}
 
 	// Type functions
