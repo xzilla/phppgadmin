@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.10 2003/04/18 11:08:26 chriskl Exp $
+	 * $Id: indexes.php,v 1.11 2003/04/23 08:58:27 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -173,7 +173,10 @@
 
 	$misc->printHeader($lang['strindexes'], "<script src=\"indexes.js\" type=\"text/javascript\"></script>");
 
-	echo "<body onload=\"init();\">";
+	if ($action == 'create_index' || $action == 'save_create_index')
+		echo "<body onload=\"init();\">";
+	else
+		$misc->printBody();
 	
 	switch ($action) {
 		case 'save_create_index':
