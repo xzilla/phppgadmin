@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.144 2003/09/05 04:58:14 chriskl Exp $
+ * $Id: Postgres.php,v 1.145 2003/09/08 04:35:17 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -498,9 +498,13 @@ class Postgres extends BaseDB {
 	 */
 	function &getTable($table) {
 		$this->clean($table);
-		
-		// @@ Need to add proper comments here
-		$sql = "SELECT tablename, tableowner, NULL AS tablecomment FROM pg_tables WHERE tablename='{$table}'";
+				
+		$sql = "SELECT pc.relname AS tablename, 
+							pg_get_userbyid(pc.relowner) AS tableowner, 
+							(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS tablecomment 
+							FROM pg_class pc
+							WHERE pc.relname='{$table}'";
+							
 		return $this->selectSet($sql);
 	}
 
@@ -1598,8 +1602,8 @@ class Postgres extends BaseDB {
 
 		// Build SQL, excluding system relations as necessary
 		$sql = "
-			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END AS type, 
-				pc.oid, NULL AS schemaname, NULL AS relname, pc.relname AS name FROM pg_class pc
+			SELECT CASE WHEN relkind='r' THEN 'TABLE'::VARCHAR WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END AS type, 
+				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg_%'";				
 
