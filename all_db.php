@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.3 2003/01/21 23:09:53 slubek Exp $
+	 * $Id: all_db.php,v 1.4 2003/01/23 00:44:34 slubek Exp $
 	 */
 
 	// Include application functions
@@ -18,26 +18,24 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $localData, $database;
-		global $PHP_SELF;
+		global $PHP_SELF, $strDatabases, $strConfDropDatabase, $strDrop, $strYes, $strNo, $strDatabaseDropped, $strDatabaseDroppedBad;
 
 		if ($confirm) { 
-			echo "<h2>Databases: ", htmlspecialchars($_REQUEST['database']), ": Drop</h2>\n";
-			
-			echo "<p>Are you sure you want to drop the database \"", htmlspecialchars($_REQUEST['database']), "\"?</p>\n";
-			
+			echo "<h2>{$strDatabases}: ", htmlspecialchars($_REQUEST['database']), ": {$strDrop}</h2>\n";
+			echo "<p>", sprintf($strConfDropDatabase, htmlspecialchars($_REQUEST['database'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=hidden name=action value=drop>\n";
 			echo "<input type=hidden name=database value=\"", htmlspecialchars($_REQUEST['database']), "\">\n";
-			echo "<input type=submit name=choice value=\"Yes\"> <input type=submit name=choice value=\"No\">\n";
+			echo "<input type=submit name=choice value=\"{$strYes}\"> <input type=submit name=choice value=\"{$strNo}\">\n";
 			echo "</form>\n";
 		}
 		else {
 			$localData->close();
 			$status = $data->dropDatabase($_POST['database']);
 			if ($status == 0)
-				doDefault('Database dropped.');
+				doDefault($strDatabaseDropped);
 			else
-				doDefault('Database drop failed.');
+				doDefault($strDatabaseDroppedBad);
 		}
 		
 	}
@@ -47,25 +45,25 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strName;
+		global $PHP_SELF, $strName, $strDatabases, $strCreateDatabase, $strShowAllDatabases, $strEncoding, $strSave, $strReset;
 		
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		
-		echo "<h2>Databases: Create Database</h2>\n";
+		echo "<h2>{$strDatabases}: {$strCreateDatabase}</h2>\n";
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th><th class=data>Encoding</th></tr>\n";
+		echo "<tr><th class=data>{$strName}</th><th class=data>{$strEncoding}</th></tr>\n";
 		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
 			htmlspecialchars($_POST['formName']), "\"></td>";
 		echo "<td class=data1><input name=formEncoding></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
-		echo "<input type=submit value=Save> <input type=reset>\n";
+		echo "<input type=submit value={$strSave}> <input type=reset value={$strReset}>\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF\">Show All Databases</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF\">{$strShowAllDatabases}</a></p>\n";
 	}
 	
 	/**
@@ -90,7 +88,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $strDatabase, $strDatabases, $strComment, $strActions, $strNoDatabases, $strCreate;
+		global $PHP_SELF, $strDatabase, $strDatabases, $strComment, $strActions, $strNoDatabases, $strCreateDatabase, $strDrop;
 		
 		echo "<h2>{$strDatabases}</h2>\n";
 		$misc->printMsg($msg);
@@ -106,7 +104,7 @@
 				echo "<tr><td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbname']]), "</td>\n";
 				echo "<td class=data{$id}>", htmlspecialchars($databases->f[$data->dbFields['dbcomment']]), "</td>\n";
 				echo "<td class=opbutton{$id}><a href=\"$PHP_SELF?action=confirm_drop&database=", 
-					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">Drop</a></td>\n";
+					htmlspecialchars($databases->f[$data->dbFields['dbname']]), "\">{$strDrop}</a></td>\n";
 				echo "</tr>\n";
 				$databases->moveNext();
 				$i++;
@@ -117,7 +115,7 @@
 			echo "<p>{$strNoDatabases}</p>\n";
 		}
 		
-		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">{$strCreate} {$strDatabase}</a></p>\n";
+		echo "<p><a class=navlink href=\"$PHP_SELF?action=create\">{$strCreateDatabase}</a></p>\n";
 
 	}
 
@@ -131,7 +129,7 @@
 			doCreate();
 			break;
 		case 'drop':
-			if ($_POST['choice'] == 'Yes') doDrop(false);
+			if ($_POST['choice'] == $strYes) doDrop(false);
 			else doDefault();
 			break;
 		case 'confirm_drop':
