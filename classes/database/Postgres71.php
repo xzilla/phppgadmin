@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.14 2002/09/16 15:09:54 chriskl Exp $
+ * $Id: Postgres71.php,v 1.15 2002/09/17 12:40:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -85,7 +85,7 @@ class Postgres71 extends Postgres {
 				oidvectortypes(pc.proargtypes) AS arguments
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt
-			WHERE	
+			WHERE
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = pt.oid
 				AND pc.oid > '$this->_lastSystemOID'::oid
@@ -106,6 +106,36 @@ class Postgres71 extends Postgres {
 			";
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
+	 * so we do it with a drop and a recreate.
+	 * @param $funcname The name of the function to update
+	 * @param $definition The new definition for the function
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 drop function error
+	 * @return -3 create function error
+	 */
+	function setFunction($funcname, $definition) {
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		$status = $this->dropFunction($funcname);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		
+		$status = $this->createFunction($funcname, $definition);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+		
+		$status = $this->endTransaction();
+		return ($status == 0) ? 0 : -1;
 	}
 
 	/**

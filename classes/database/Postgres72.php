@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.7 2002/09/16 15:09:54 chriskl Exp $
+ * $Id: Postgres72.php,v 1.8 2002/09/17 12:40:01 chriskl Exp $
  */
 
 
@@ -102,15 +102,32 @@ class Postgres72 extends Postgres71 {
 	/**
 	 * Creates a new function.
 	 * @param $funcname The name of the function to create
+	 * @param $args The array of argument types
+	 * @param $returns The return type
 	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
-	function createFunction($funcname, $definition) {
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $replace = false) {
 		$this->clean($funcname);
-		// Note: $definition not cleaned
-		
-		$sql = "CREATE VIEW \"{$viewname}\" AS {$definition}";
-		
+		$this->arrayClean($args);
+		$this->clean($returns);
+		$this->clean($definition);
+		$this->clean($language);
+		$this->arrayClean($flags);
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " FUNCTION \"{$funcname}\" (";
+		if (sizeof($args) > 0)
+			$sql .= '"' . join('", "', $args) . '"';
+		$sql .= ") RETURNS \"{$returns}\" AS '\n{$definition}\n'";
+		$sql .= " LANGUAGE \"{$language}\"";
+		if (sizeof($flags) > 0)
+			$sql .= ' WITH ("' . join('", "', $flags) . '")';
+
 		return $this->execute($sql);
 	}
 	
@@ -128,33 +145,18 @@ class Postgres72 extends Postgres71 {
 	}
 	
 	/**
-	 * Updates a function.  Postgres doesn't have CREATE OR REPLACE function,
-	 * so we do it with a drop and a recreate.
-	 * @param $funcname The name of the function to update
-	 * @param $definition The new definition for the function
+	 * Updates (replaces) a function.
+	 * @param $funcname The name of the function to create
+	 * @param $args The array of argument types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 drop function error
-	 * @return -3 create function error
 	 */
-	function setFunction($funcname, $definition) {
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-		
-		$status = $this->dropFunction($funcname);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-		
-		$status = $this->createFunction($funcname, $definition);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
-		
-		$status = $this->endTransaction();
-		return ($status == 0) ? 0 : -1;
+	function setFunction($funcname, $args, $returns, $definition, $language, $flags) {
+		return $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, true);
 	}
 
 	// Type functions
@@ -168,8 +170,16 @@ class Postgres72 extends Postgres71 {
 				format_type(t.oid, NULL) AS typname
 			FROM
 				pg_type t
-			WHERE 
-				t.typrelid = 0 AND t.typname !~ '^_.*'
+			WHERE
+				typrelid = 0
+			UNION
+			SELECT
+				typname
+			FROM
+				pg_type
+			WHERE
+				typrelid = 0
+				AND typname !~ '^_.*'
 			ORDER BY typname
 		";
 
