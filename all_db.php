@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: all_db.php,v 1.2 2003/01/21 20:40:22 slubek Exp $
 	 */
 
 	// Include application functions
@@ -56,9 +56,10 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=post>\n";
 		echo "<table width=100%>\n";
-		echo "<tr><th class=data>{$strName}</th></tr>\n";
+		echo "<tr><th class=data>{$strName}</th><th class=data>Encoding</th></tr>\n";
 		echo "<tr><td class=data1><input name=formName size={$data->_maxNameLen} maxlength={$data->_maxNameLen} value=\"", 
-			htmlspecialchars($_POST['formName']), "\"></td></tr>\n";
+			htmlspecialchars($_POST['formName']), "\"></td>";
+		echo "<td class=data1><input name=formEncoding></td></tr>\n";
 		echo "</table>\n";
 		echo "<input type=hidden name=action value=save_create>\n";
 		echo "<input type=submit value=Save> <input type=reset>\n";
@@ -75,10 +76,10 @@
 		
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($strDatabaseNeedsName);
-		else {		 
-			$status = $data->createDatabase($_POST['formName']);
+		else {
+			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding']);
 			if ($status == 0)
-				doDefault('Database created.');
+				doDefault('Database created.']);
 			else
 				doCreate('Database creation failed.');
 		}
