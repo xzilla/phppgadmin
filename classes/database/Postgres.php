@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.8 2002/09/16 10:12:01 chriskl Exp $
+ * $Id: Postgres.php,v 1.9 2002/09/23 06:11:38 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -32,6 +32,15 @@ class Postgres extends BaseDB {
 		//$this->Port = $port;
 
 		$this->conn->connect($host, $user, $password, $database);
+	}
+	
+	/**
+	 * A function to check that the database functions are installed
+	 * and running.
+	 * @return True on success, false otherwise
+	 */
+	function isLoaded() {
+		return function_exists('pg_connect');
 	}
 	
 	// Table functions
@@ -251,6 +260,8 @@ class Postgres extends BaseDB {
 	 * @return A recordset
 	 */
 	function &getTableRows($table) {
+		$this->fieldClean($table);		
+
 		return $this->selectTable("SELECT COUNT(*) FROM \"{$table}\"", $offset, $limit);
 	}	
 	
@@ -262,6 +273,8 @@ class Postgres extends BaseDB {
 	 * @return A recordset
 	 */
 	function &browseTable($table, $offset, $limit) {
+		$this->fieldClean($table);		
+		
 		return $this->selectTable("SELECT oid, * FROM \"{$table}\"", $offset, $limit);
 	}
 

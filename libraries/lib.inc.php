@@ -3,9 +3,25 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.1 2002/05/15 09:57:55 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.2 2002/09/23 06:11:39 chriskl Exp $
 	 */
 
+	// Create Misc class references
+	include_once('../classes/Misc.php');
+	$misc = new Misc();
+
+	// Do basic PHP configuration checks
+	if (ini_get('magic_quotes_gpc')) {
+		$misc->stripVar($_GET);
+		$misc->stripVar($_POST);
+		$misc->stripVar($_COOKIE);
+		$misc->stripVar($_REQUEST);
+	}
+
+	ini_set('magic_quotes_gpc', 0);
+	ini_set('magic_quotes_runtime', 0);
+	ini_set('magic_quotes_sybase', 0);
+	
 	// If login action is set, then set login variables
 	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && isset($_POST['formPassword'])) {
 		$webdbServerID = $_POST['formServer'];
@@ -38,6 +54,12 @@
 									$_COOKIE['webdbUsername'],
 									$_COOKIE['webdbPassword']);
 	}
+	
+	// Check that the database functions are loaded
+	if (!$data->isLoaded()) {
+		echo $strNotLoaded;
+		exit;
+	}	
 
 	// Create local (database-specific) data accessor object, if valid
 	if (isset($_COOKIE['webdbServerID']) && isset($confServers[$_COOKIE['webdbServerID']]) && isset($_REQUEST['database'])) {
@@ -49,10 +71,6 @@
 											$_COOKIE['webdbUsername'],
 											$_COOKIE['webdbPassword']);
 	}
-
-	// Create Misc class references
-	include_once('../classes/Misc.php');
-	$misc = new Misc();
 
 	// Theme
 	echo "<style type=\"text/css\">\n<!--\n";

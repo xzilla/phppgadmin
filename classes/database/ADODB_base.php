@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.4 2002/09/16 15:09:54 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.5 2002/09/23 06:11:38 chriskl Exp $
  */
 
 include_once('../libraries/adodb/adodb-errorhandler.inc.php');
@@ -30,6 +30,16 @@ class ADODB_base {
 	 */
 	function clean(&$str) {
 		$str = addslashes($str);
+		return $str;
+	}
+	
+	/**
+	 * Cleans (escapes) an object name (eg. table, field)
+	 * @param $str The string to clean, by reference
+	 * @return The cleaned string
+	 */
+	function fieldClean(&$str) {
+		$str = str_replace('"', '""', $str);
 		return $str;
 	}
 
@@ -102,7 +112,7 @@ class ADODB_base {
 	 * @return -2 on no rows deleted
 	 */
 	function delete($table, $conditions) {
-		$this->clean($table);
+		$this->fieldClean($table);
 
 		reset($conditions);
 
@@ -137,7 +147,7 @@ class ADODB_base {
 	 * @return -2 if a referential constraint is violated
 	 */
 	function insert($table, $vars) {
-		$this->clean($table);
+		$this->fieldClean($table);
 
 		reset($vars);
 
@@ -180,7 +190,7 @@ class ADODB_base {
 	 * @return -3 on no rows deleted
 	 */
 	function update($table, $vars, $where, $nulls = array()) {
-		$this->clean($table);
+		$this->fieldClean($table);
 
 		$setClause = '';
 		$whereClause = '';

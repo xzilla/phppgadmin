@@ -4,7 +4,7 @@
 	 * Language template file for WebDB.  Use this to base language
 	 * files.
 	 *
-	 * $Id: english.php,v 1.5 2002/09/17 21:38:51 xzilla Exp $
+	 * $Id: english.php,v 1.6 2002/09/23 06:11:39 chriskl Exp $
 	 */
 
 	$appLang = 'english';
@@ -35,6 +35,9 @@
 	$strBrowse = 'Browse';
 	$strDrop = 'Drop';
 	$strNull = 'Null';
+	$strPrev = 'Prev';
+	$strNext = 'Next';
+	$strNotLoaded = 'You have not compiled proper database support into your PHP installation.';
 	
 	// Users
 	$strUsername = 'Username';
