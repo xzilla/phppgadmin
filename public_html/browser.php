@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.17 2002/12/23 10:38:53 jmpoure Exp $
+	 * $Id: browser.php,v 1.18 2002/12/27 16:29:54 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,9 +14,9 @@
 	// Include tree classes
 	include_once('class.tree/class.tree.php');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $appCharset ?>" />
 <title><?php echo $appName ?></title>
 </head>
 <body class="browser">
@@ -33,36 +33,41 @@
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f[$data->dbFields['dbname']]) {
 			$node = $tree->add_folder($root, htmlspecialchars($databases->f[$data->dbFields['dbname']]), 
 				'database.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
-				
+
 			if ($data->hasSchemas()) {
-				$schemas = &$data->getSchemas();
+				$schemas = &$localData->getSchemas();
 				while (!$schemas->EOF) {
-					$schemanode = $tree->add_folder($node, htmlspecialchars($schemas->f[$data->nspFields['nspname']]), 
-						'schema.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' . 
-						urlencode($schemas->f[$data->nspFields['nspname']]), 'detail');			
+					$localData->setSchema($schemas->f[$data->nspFields['nspname']]);
+					// Construct database & schema query string
+					$querystr = 'database=' . urlencode($databases->f[$data->dbFields['dbname']]). '&schema=' .
+							urlencode($schemas->f[$data->nspFields['nspname']]);
+					$schemanode = $tree->add_folder($node, htmlspecialchars($schemas->f[$data->nspFields['nspname']]),
+						"schema.php?{$querystr}", 'detail');
 					if ($data->hasTables()) {
 						$tables = &$localData->getTables();
-						$table_node = $tree->add_folder($schemanode, $strTables, 
-							'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+						$table_node = $tree->add_folder($schemanode, $strTables,
+							'tables.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' .
+							urlencode($schemas->f[$data->nspFields['nspname']]), 'detail');
 						while (!$tables->EOF) {
 							$tree->add_document($table_node, htmlspecialchars($tables->f[$data->tbFields['tbname']]), 
-								'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&table=' .
+								'tblproperties.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]) . '&schema=' .
+								urlencode($schemas->f[$data->nspFields['nspname']]) . '&table=' .
 								urlencode($tables->f[$data->tbFields['tbname']]), 'detail', "../images/themes/{$guiTheme}/tables.gif");
 							$tables->moveNext();
 						}
 					}
 					if ($data->hasViews())
-						$tree->add_document($schemanode, $strViews, 'views.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/views.gif");
+						$tree->add_document($schemanode, $strViews, "views.php?{$querystr}", 'detail', "../images/themes/{$guiTheme}/views.gif");
 					if ($data->hasSequences())
-						$tree->add_document($schemanode, $strSequences, 'sequences.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/sequences.gif");
+						$tree->add_document($schemanode, $strSequences, "sequences.php?{$querystr}", 'detail', "../images/themes/{$guiTheme}/sequences.gif");
 					if ($data->hasFunctions())
-						$tree->add_document($schemanode, $strFunctions, 'functions.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/functions.gif");
-					if ($data->hasOperators())
-						$tree->add_document($schemanode, $strOperators, 'operators.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail', "../images/themes/{$guiTheme}/operators.gif");
+						$tree->add_document($schemanode, $strFunctions, "functions.php?{$querystr}", 'detail', "../images/themes/{$guiTheme}/functions.gif");
+//					if ($data->hasOperators())
+//						$tree->add_document($schemanode, $strOperators, "operators.php?{$querystr}", 'detail', "../images/themes/{$guiTheme}/operators.gif");
 					if ($data->hasTypes())
-						$tree->add_document($schemanode, $strTypes, 'types.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
-					if ($data->hasAggregates())
-						$tree->add_document($schemanode, $strAggregates, 'aggregates.php?database=' . urlencode($databases->f[$data->dbFields['dbname']]), 'detail');
+						$tree->add_document($schemanode, $strTypes, "types.php?{$querystr}", 'detail');
+//					if ($data->hasAggregates())
+//						$tree->add_document($schemanode, $strAggregates, 'aggregates.php{$querystr}", 'detail');
 					$schemas->moveNext();
 				}
 			}
