@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.25.4.2 2005/03/14 09:58:01 jollytoad Exp $
+	 * $Id: types.php,v 1.25.4.3 2005/03/14 11:03:14 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -27,14 +27,14 @@
 		$misc->printTitle($lang['strproperties'], 'pg.type');
 		$misc->printMsg($msg);
 		
+		function attPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+		}
+		
 		if ($typedata->recordCount() > 0) {
 			switch ($typedata->f['typtype']) {
 			case 'c':
-				function attPre(&$rowdata) {
-					global $data;
-					$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
-				}
-				
 				$attrs = &$data->getTableAttributes($_REQUEST['type']);
 				
 				$columns = array(
@@ -76,8 +76,8 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
-		else
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+		} else
 			doDefault($lang['strinvalidparam']);
 	}
 	
