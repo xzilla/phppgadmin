@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.98.2.1 2005/03/01 10:34:12 jollytoad Exp $
+	 * $Id: Misc.php,v 1.98.2.2 2005/03/02 09:19:34 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -31,12 +31,12 @@
 		 */
 		function checkExtraSecurity() {
 			global $conf;
-
-			// Disallowed logins if extra_login_security is enabled.  These must be lowercase.
-			$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
 			
 			// If extra security is off, return true
 			if (!$conf['extra_login_security']) return true;
+			
+			// Disallowed logins if extra_login_security is enabled.  These must be lowercase.
+			$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
 			
 			$server_info = $this->getServerInfo();
 			
