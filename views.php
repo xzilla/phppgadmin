@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.38 2004/05/30 04:22:51 chriskl Exp $
+	 * $Id: views.php,v 1.39 2004/05/30 10:31:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -375,7 +375,7 @@
 	 * Actually creates the new wizard view in the database
 	 */
 	function doSaveCreateWiz() {
-		global $data, $lang;
+		global $data, $lang, $_reload_browser;
 		
 		// Check that they've given a name and fields they want to select		
 	
