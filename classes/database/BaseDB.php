@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: BaseDB.php,v 1.2 2002/02/18 13:06:13 chriskl Exp $
+ * $Id: BaseDB.php,v 1.3 2002/07/26 09:03:06 chriskl Exp $
  */
 
 include_once('../classes/database/ADODB_base.php');
@@ -12,21 +12,12 @@ include_once('../classes/database/ADODB_base.php');
 class BaseDB extends ADODB_base {
 
 	// Filter objects for user?
-//	var $_filterTables = true;
 	var $_showSystem = false;
 	
 	function BaseDB($type) {
 		$this->ADODB_base($type);
 	}
 
-	/**
-	 * Set object filtering for user
-	 * @param $state (boolean)
-	 */
-//	function setFilterTables($state) {
-//		$this->_filterTables = $state;
-//	}
-	
 	/**
 	 * Turn off or on the showing of 'system' object
 	 * @param True to turn system objects on, false to turn them off
@@ -35,47 +26,33 @@ class BaseDB extends ADODB_base {
 		$this->_showSystem = $state;
 	}
 	
-	 
-
-/*
-	// Feature functions
-
-	// Is "ALTER TABLE" with add column supported? 
-	function supportsAlterTableWithAddColumn() {}
+	// Table functions
 	
-	// Is "ALTER TABLE" with drop column supported? 
-	function supportsAlterTableWithDropColumn() 
-
-	// Are both data definition and data manipulation statements within a transaction supported? 
-	function supportsDataDefinitionAndDataManipulationTransactions() 
-
-	// Are only data manipulation statements within a transaction supported? 
-	function supportsDataManipulationTransactionsOnly() 
-
-	// Does the database treat mixed case unquoted SQL identifiers as case sensitive and as a result store them in mixed case? A JDBC CompliantTM driver will always return false. 
-	function supportsMixedCaseIdentifiers() 
-
-	// Does the database treat mixed case quoted SQL identifiers as case sensitive and as a result store them in mixed case? A JDBC CompliantTM driver will always return true. 
-	function supportsMixedCaseQuotedIdentifiers() 
-
-	// Can columns be defined as non-nullable? A JDBC CompliantTM driver always returns true. 
-	function supportsNonNullableColumns() 
-
-	// Are stored procedure calls using the stored procedure escape syntax supported? 
-	function supportsStoredProcedures() 
+	/**
+	 * Delete a row from a table
+	 * @param $table The table from which to delete
+	 * @param $key An array mapping column => value to delete
+	 * @return 0 success
+	 */
+	function deleteRow($table, $key) {
+		if (!is_array($key)) return -1;
+		else return $this->delete($table, $key);
+	}	
 	
-	// Are transactions supported? If not, invoking the method commit is a noop and the isolation level is TRANSACTION_NONE. 
-	function supportsTransactions() 
+	// Capabilities
+	function hasTables() { return false; }
+	function hasViews() { return false; }
+	function hasSequences() { return false; }
+	function hasFunctions() { return false; }
+	function hasTriggers() { return false; }
+	function hasOperators() { return false; }
+	function hasTypes() { return false; }
+	function hasAggregates() { return false; }
+	function hasRules() { return false; }
+	function hasLanguages() { return false; }
+	function hasSchemas() { return false; }
+	function hasConversions() { return false; }
 
-	// Can you define your own aggregates?
-	function supportsAggregates()
-
-	// Can you define your own operators?
-	function supportsOperators()
-
-	// Database manipulation
-
-*/
 }
 
 ?>

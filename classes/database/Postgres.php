@@ -4,14 +4,14 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.11 2002/07/26 09:03:06 chriskl Exp $
+ * $Id: Postgres.php,v 1.3 2002/07/26 09:04:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
 
-include_once('../classes/database/Postgres.php');
+include_once('../classes/database/BaseDB.php');
 
-class Postgres71 extends Postgres {
+class Postgres extends BaseDB {
 
 	var $dbFields = array('dbname' => 'datname', 'dbcomment' => 'description');
 	var $tbFields = array('tbname' => 'tablename', 'tbowner' => 'tableowner');
@@ -22,19 +22,76 @@ class Postgres71 extends Postgres {
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
 
-	function Postgres71($host, $port, $database, $user, $password) {
-		$this->Postgres($host, $port, $database, $user, $password);
+	function Postgres($host, $port, $database, $user, $password) {
+		$this->BaseDB('postgres7');
+
+//		$this->conn->host = $host;
+		//$this->Port = $port;
+
+		$this->conn->connect($host, $user, $password, $database);
+	}
+	
+	// Table functions
+	
+	/**
+	 * Get the fields for uniquely identifying a row in a table
+	 * @param $table The table for which to retrieve the identifier
+	 * @return An array mapping attribute number to attribute name, empty for no identifiers
+	 * @return -1 error
+	 */
+	function getRowIdentifier($table) {
+		$this->clean($table);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+		
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisprimary AND indrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')";
+		$rs = $this->selectSet($sql);
+		
+		// If none, search for OID column
+		if ($rs->recordCount() == 0) {
+			$sql = "SELECT relhasoids FROM pg_class WHERE relname='{$table}'";
+			$rs2 = $this->selectSet($sql);
+			if ($rs2->recordCount() == 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			elseif ($rs2->f['relhasoids'] == 'f') {
+				$this->endTransaction();
+				return array();
+			}
+			else {
+				$this->endTransaction();
+				return array(-2 => 'oid');
+			}
+		}
+		// Otherwise select to find the names of the keys
+		else {		
+			$in = str_replace(' ', ',', $rs->f['indkey']);
+			$sql = "SELECT attnum, attname FROM pg_attribute WHERE attrelid='{$rs->f['indrelid']}' AND attnum IN ({$in})";
+			$rs2 = $this->selectSet($sql);
+			if ($rs2->recordCount() == 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+			else {
+				$temp = array();
+				while (!$rs2->EOF) {
+					$temp[$rs2->f['attnum']] = $rs2->f['attname'];
+					$rs2->moveNext();
+				}
+				$this->endTransaction();
+				return $temp;
+			}			
+		}			
 	}
 
 	/**
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases() {
-		$sql = "SELECT pdb.datname, pde.description FROM 
-					pg_database pdb LEFT JOIN pg_description pde ON pdb.oid=pde.objoid
-					WHERE NOT pdb.datistemplate
-					ORDER BY pdb.datname";
+	function &getLanguages() {
+		$sql = "";
 		return $this->selectSet($sql);
 	}
 
@@ -43,7 +100,7 @@ class Postgres71 extends Postgres {
 	 * @param $database The name of the database to retrieve
 	 * @return The database info
 	 */
-	function &getDatabase($database) {
+	function &getLanguage($database) {
 		$this->clean($database);
 		$sql = "SELECT * FROM pg_database WHERE datname='{$database}'";
 		return $this->selectRow($sql);
@@ -115,7 +172,22 @@ class Postgres71 extends Postgres {
 	}
 	
 	/**
-	 *
+	 * Returns a recordset of all columns in a table
+	 * @param $table The name of a table
+	 * @param $offset The offset into the table
+	 * @param $limit The maximum number of records to return at once
+	 * @return A recordset
+	 */
+	function &getTableRows($table) {
+		return $this->selectTable("SELECT COUNT(*) FROM \"{$table}\"", $offset, $limit);
+	}	
+	
+	/**
+	 * Returns a recordset of all columns in a table
+	 * @param $table The name of a table
+	 * @param $offset The offset into the table
+	 * @param $limit The maximum number of records to return at once
+	 * @return A recordset
 	 */
 	function &browseTable($table, $offset, $limit) {
 		return $this->selectTable("SELECT * FROM \"{$table}\"", $offset, $limit);
@@ -126,6 +198,19 @@ class Postgres71 extends Postgres {
 	 */
 	function &selectTable($sql, $offset, $limit) {
 		return $this->selectSet($sql, $offset, $limit);
+	}
+	
+	// Sequence functions
+	
+	/**
+	 * Returns all sequences in the current database
+	 * @return A recordset
+	 */
+	function &getSequences() {
+		if (!$this->_showSystem) $where = " AND relname NOT LIKE 'pg_%'";
+		else $where = '';
+		$sql = "SELECT relname FROM pg_class WHERE relkind = 'S'{$where} ORDER BY relname";
+		return $this->selectSet( $sql );
 	}
 
 	/**
@@ -431,8 +516,8 @@ class Postgres71 extends Postgres {
 	function doSelect()
 	function doDelete()
 	function doUpdate()
-*/  
-    
+*/
+
 	// View functions
 	
 	/**
@@ -640,8 +725,7 @@ class Postgres71 extends Postgres {
 		
 		return $this->execute($sql);
 	}
-
-    
+	 
 	// Capabilities
 	function hasTables() { return true; }
 	function hasViews() { return true; }
@@ -652,11 +736,8 @@ class Postgres71 extends Postgres {
 	function hasTypes() { return true; }
 	function hasAggregates() { return true; }
 	function hasRules() { return true; }
-	function hasSchemas() { return false; }
+	function hasLanguages() { return true; }
 
 }
-
-
-
 
 ?>

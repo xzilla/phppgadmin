@@ -3,7 +3,7 @@
  *  FILENAME:   sequence.php
  *  AUTHOR:     Ray Hunter <rhunter@venticon.com>
  *
- *  $Id: sequences.php,v 1.1 2002/07/25 13:22:51 shunter10 Exp $
+ *  $Id: sequences.php,v 1.2 2002/07/26 09:03:06 chriskl Exp $
  */
 
 include_once( '../conf/config.inc.php' );
@@ -40,6 +40,7 @@ function doDefault()
             //echo "<tr><td class=\"data{$id}", htmlspecialchars( $sequences->f[$data->seqFields['seqname']]), "</td>\n"; 
         }
         */
+        echo "</table>\n";
     }
     else
     {

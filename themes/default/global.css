@@ -51,7 +51,6 @@ th.data
 	background-color: #E6E6CC;
 	text-align: center;
 	font-family: verdana, arial, helvetica, sans-serif;
-	font-weight: bold;
 	font-size: 14;
 }
 
@@ -61,8 +60,7 @@ td.data1
 	background-color: #F3F3E9;
 	text-align: left;
 	font-family: verdana, arial, helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 13;
+	font-size: 9pt;
 }
 
 td.data2
@@ -71,8 +69,7 @@ td.data2
 	background-color: #E6E6CC;
 	text-align: left;
 	font-family: verdana, arial, helvetica, sans-serif;
-	font-weight: bold;
-	font-size: 13;
+	font-size: 9pt;
 }
 
 td.opbutton1 {

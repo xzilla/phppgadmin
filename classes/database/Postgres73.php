@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.1 2002/07/11 06:02:57 chriskl Exp $
+ * $Id: Postgres73.php,v 1.2 2002/07/26 09:03:06 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -14,9 +14,10 @@ include_once('../classes/database/Postgres71.php');
 class Postgres73 extends Postgres71 {
 
 	var $nspFields = array('nspname' => 'nspname', 'nspowner' => 'nspowner');
+	var $conFields = array('conname' => 'conname', 'conowner' => 'conownder');
 
 	// Store the current schema
-	var $_schema = 'public';
+	var $_schema;
 
 	// @@ Should we bother querying for this?
 	var $_lastSystemOID = 16568;
@@ -26,6 +27,32 @@ class Postgres73 extends Postgres71 {
 	}
 
 	// Schema functions
+	
+	/**
+	 * Sets the current working schema
+	 * @param $schema The the name of the schema to work in
+	 * @return 0 success
+	 * @return -3 setting search path failed
+	 */
+	function setSchema($schema) {
+		$this->clean($schema);
+		
+		$sql = "SELECT nspname FROM pg_namespace WHERE nspname='{$schema}'";
+		
+		$rs = $this->selectRow($sql);
+		
+		// If the schema is found...
+		if ($rs->recordCount() == 1) {
+			$status = $this->setSearchPath(array($rs->f['nspname']));
+			if ($status == 0) {
+				$this->_schema = $rs->f['nspname'];
+				return 0;
+			}
+			else return $status;
+		}
+		else
+			return -3;
+	}	
 	
 	/**
 	 * Sets the current schema search path
@@ -98,7 +125,62 @@ class Postgres73 extends Postgres71 {
 		
 		return $this->execute($sql);
 	}
+	
+	// Conversions functions
+	
+	/**
+	 * Return all conversions in the current database
+	 * @return All conversions, sorted alphabetically
+	 */
+	function &getConversions() {
+		$sql = "SELECT conname, conowner FROM pg_conversion ORDER BY conname";
+				  
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Return all information relating to a conversion
+	 * @param $conversion The name of the conversion
+	 * @return Conversion information
+	 */
+	function &getConversionByName($conversion) {
+		$this->clean($conversion);
+		$sql = "SELECT * FROM pg_conversion WHERE conname='{$conversion}'";
+		return $this->selectRow($sql);
+	}
 
+	/**
+	 * Creates a new conversion.
+	 * @param $schemaname The name of the schema to create
+	 * @param $authorization (optional) The username to create the schema for.
+	 * @param $authorization (optional) If omitted, defaults to current user.
+	 * @return 0 success
+	 */
+	 /*
+	function createSchema($schemaname, $authorization = '') {
+		$this->clean($schemaname);
+		$this->clean($authorization);
+		
+		$sql = "CREATE SCHEMA \"{$schemaname}\"";
+		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
+		
+		return $this->execute($sql);
+	}
+	*/
+	/**
+	 * Drops a schema.
+	 * @param $schemaname The name of the schema to drop
+	 * @return 0 success
+	 */
+	 /*
+	function dropSchema($schemaname) {
+		$this->clean($schemaname);
+		
+		$sql = "DROP SCHEMA \"{$schemaname}\"";
+		
+		return $this->execute($sql);
+	}	
+*/
 	// Table functions
 
 	/**
@@ -187,6 +269,7 @@ class Postgres73 extends Postgres71 {
 	 
 	// Capabilities
 	function hasSchemas() { return true; }
+	function hasConversions() { return true; }
 
 }
 

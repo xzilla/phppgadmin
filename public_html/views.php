@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.4 2002/07/11 06:01:14 chriskl Exp $
+	 * $Id: views.php,v 1.5 2002/07/26 09:03:06 chriskl Exp $
 	 */
 
 	// Include application functions
