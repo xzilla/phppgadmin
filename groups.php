@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.1 2003/01/18 06:38:36 chriskl Exp $
+	 * $Id: groups.php,v 1.2 2003/02/01 14:11:53 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -74,7 +74,7 @@
 		echo "<h2>Group: ", htmlspecialchars($_REQUEST['groname']), ": Properties</h2>\n";
 		$misc->printMsg($msg);
 		
-		$groupdata = &$data->getUser($_REQUEST['groname']);
+		$groupdata = &$data->getGroup($_REQUEST['groname']);
 		
 		if ($groupdata->recordCount() > 0) {
 			echo "<table>\n";
