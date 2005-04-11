@@ -31,6 +31,7 @@ Bugs
 * Stop duplicate insert on re-POST of data
 * Correct last internal oid value for PostgreSQL 8.0
 * Fix bug with exporting schema for servers < 7.3
+* Fix dumping on v8 for windows, exclude dumping some objects.
 
 Translations
 * Japanese from Tadashi Jokagi
