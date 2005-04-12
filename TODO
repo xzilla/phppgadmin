@@ -105,6 +105,7 @@ Casts (7.3)
 Miscellaneous
 -------------
 
+* Show NOTICES on queries in SQL window/file
 * Add sslmode to connection variables
 * Printable view of things
 * Allow simultaneous logins to different clusters (Mark Gibson)
