@@ -24,7 +24,7 @@ phpPgAdmin Installation Guide
    and the safe_mode_exec_dir to include /usr/bin (or wherever the pg_dump
    binaries are found).
    
-   	eg. safe_mode_allowed_env_vars = PHP_,PGPASSWORD,PGUSER
+   	eg. safe_mode_allowed_env_vars = PHP_,PG
    	    safe_mode_exec_dir = /usr/bin
    
    Given that you usually don't want to allow everything in /usr/bin to
