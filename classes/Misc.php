@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.95.2.1 2004/12/06 03:07:17 chriskl Exp $
+	 * $Id: Misc.php,v 1.95.2.2 2005/04/13 08:33:01 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -1117,11 +1117,18 @@
 		 * @return The escaped string
 		 */
 		function escapeShellArg($str) {
-			global $data;
+			global $data, $lang;
 			
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-				$data->fieldClean($str);
-				return '"' . $str . '"';
+				// Due to annoying PHP bugs, shell arguments cannot be escaped
+				// (command simply fails), so we cannot allow complex objects
+				// to be dumped.
+				if (ereg('^[_.[:alnum:]]+$', $str))
+					return $str;
+				else {
+					echo $lang['strcannotdumponwindows'];
+					exit;
+				}				
 			}
 			else	
 				return escapeshellarg($str);

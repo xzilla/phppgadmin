@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.120 2004/11/02 11:39:52 soranzo Exp $
+	 * $Id: english.php,v 1.120.2.1 2005/04/13 08:33:02 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -145,6 +145,7 @@
 	$lang['strnouploads'] = 'File uploads are disabled.';
 	$lang['strimporterror'] = 'Import error.';
 	$lang['strimporterrorline'] = 'Import error on line %s.';
+	$lang['strcannotdumponwindows'] = 'Dumping of complex table and schema names on Windows is not supported.  Please see the FAQ.';
 
 	// Tables
 	$lang['strtable'] = 'Table';

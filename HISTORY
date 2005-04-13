@@ -10,6 +10,8 @@ Bugs
 * Reload browser after executing arbitrary SQL
 * Fix browser in RTL languages
 * Fix inability to drop database using the drop link
+* Fix last internal oid for PostgreSQL 8.0
+* Fix (again) dumping on v8 for windows, exclude dumping some objects.
 
 Version 3.5.2
 -------------

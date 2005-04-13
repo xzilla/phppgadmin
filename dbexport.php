@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.14.2.5 2005/03/04 02:32:44 chriskl Exp $
+	 * $Id: dbexport.php,v 1.14.2.6 2005/04/13 08:33:01 chriskl Exp $
 	 */
 
 	// Prevent timeouts
@@ -39,14 +39,21 @@
 				break;
 		}
 
-		// Set environmental variable for user and password that pg_dump uses
+		// Set environmental variables that pg_dump uses
 		putenv('PGPASSWORD=' . $_SESSION['webdbPassword']);
 		putenv('PGUSER=' . $_SESSION['webdbUsername']);
-
-		// Prepare command line arguments
 		$hostname = $conf['servers'][$_SESSION['webdbServerID']]['host'];
+		if ($hostname !== null && $hostname != '') {
+			putenv('PGHOST=' . $hostname);
+		}
 		$port = $conf['servers'][$_SESSION['webdbServerID']]['port'];
-		
+		if ($port !== null && $port != '') {
+			putenv('PGPORT=' . $port);
+		}
+		if ($_REQUEST['mode'] == 'database') {
+			putenv('PGDATABASE=' . $_REQUEST['database']);
+		}
+
 		// Check if we're doing a cluster-wide dump or just a per-database dump
 		if ($_REQUEST['mode'] == 'database') {
 			// Get path of the pg_dump executable.
@@ -59,13 +66,6 @@
 		
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
-		
-		if ($hostname !== null && $hostname != '') {
-			$cmd .= " -h " . $misc->escapeShellArg($hostname);
-		}
-		if ($port !== null && $port != '') {
-			$cmd .= " -p " . $misc->escapeShellArg($port);
-		}
 		
 		// Check for a table specified
 		if (isset($_REQUEST['table']) && $_REQUEST['mode'] == 'database') {
@@ -114,10 +114,6 @@
 				break;
 		}
 		
-		if ($_REQUEST['mode'] == 'database') {
-			$cmd .= " " . $misc->escapeShellArg($_REQUEST['database']);
-		}
-
 		// Execute command and return the output to the screen
 		passthru($cmd);
 	}
