@@ -63,7 +63,8 @@ find the rest of these steps too difficult.
 
 9. Send your contribution to us.  We need the lib.inc.php entry as well as the
    yourlanguage.php file in lang/.  We don't need the recoded file as we can
-   recode it ourselves before committing it.
+   recode it ourselves before committing it.  Email to the developers list:
+   phppgadmin-cvs@lists.sourceforge.net
 
 10. Thank you for your contribution!  You have just made phpPgAdmin accessible
     to thousands more users!
