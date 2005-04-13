@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.69.2.3 2005/03/22 09:29:44 jollytoad Exp $
+	 * $Id: tables.php,v 1.69.2.4 2005/04/13 11:30:56 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -212,7 +212,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $data, $misc;
+		global $data, $misc, $_no_output;
 		global $lang;
 		global $PHP_SELF;
 
@@ -301,7 +301,7 @@
 			}
 			
 			if (sizeof($_POST['show']) == 0)
-				doSelectRows(true, $lang['strselectneedscol']);			
+				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
 				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
@@ -310,6 +310,7 @@
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
 
+				$_no_output = true;
 				include('./display.php');
 				exit;
 			}
