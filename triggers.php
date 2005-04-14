@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.24 2004/09/28 13:09:31 jollytoad Exp $
+	 * $Id: triggers.php,v 1.25 2005/04/14 18:20:10 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -131,20 +131,30 @@
 		$sel2 = new XHTML_Select('formEvent');
 		$sel2->set_data($data->triggerEvents);
 		
+		/* Populate occurences */
+		$sel3 = new XHTML_Select('formFrequency');
+		$sel3->set_data($data->triggerFrequency);
+		
 		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
 		echo "<table>\n";
-		echo "<tr><th colspan=\"2\" class=\"data\">{$lang['strname']}</th></tr>\n";
-		echo "<tr><td colspan=\"2\" class=\"data1\"><input type=\"text\" name=\"formTriggerName\" size=\"32\" /></td></tr>\n";
 		echo "<tr>\n";
-		echo "    <th class=\"data\">{$lang['strwhen']}</th>\n";
+		echo "		<th class=\"data\">{$lang['strname']}</th>\n";
+		echo "		<th class=\"data\">{$lang['strwhen']}</th>\n";
+		echo "</tr>\n";
+		echo "<tr>\n";
+		echo "		<td class=\"data1\"> <input type=\"text\" name=\"formTriggerName\" size=\"32\" /></td>\n";
+		echo "		<td class=\"data1\"> ", $sel1->fetch(), "</td>\n";
+		echo "</tr>\n";
+		echo "<tr>\n";
 		echo "    <th class=\"data\">{$lang['strevent']}</th>\n";
+		echo "    <th class=\"data\">{$lang['strfrequency']}</th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
-		echo "     <td class=\"data1\">", $sel1->fetch(), "</td>\n";
-		echo "     <td class=\"data1\">", $sel2->fetch(), "</td>\n";
+		echo "     <td class=\"data1\"> ", $sel2->fetch(), "</td>\n";
+		echo "     <td class=\"data1\"> ", $sel3->fetch(), "</td>\n";
 		echo "</tr>\n";
-		echo "<tr><th class=\"data\">{$lang['strfunction']}</th>\n";
-		echo "<th class=\"data\">{$lang['strarguments']}</th></tr>\n";
+		echo "<tr><th class=\"data\"> {$lang['strfunction']}</th>\n";
+		echo "<th class=\"data\"> {$lang['strarguments']}</th></tr>\n";
 		echo "<tr><td class=\"data1\">", $sel0->fetch(), "</td>\n";
 		echo "<td class=\"data1\">(<input type=\"text\" name=\"formTriggerArgs\" size=\"32\" />)</td>\n";
 		echo "</tr></table>\n";
@@ -174,7 +184,7 @@
 		else {		 
 			$status = &$data->createTrigger($_POST['formTriggerName'], $_POST['table'],
 					$_POST['formFunction'], $_POST['formExecTime'], $_POST['formEvent'],
-					$_POST['formTriggerArgs']);
+					$_POST['formFrequency'], $_POST['formTriggerArgs']);
 			if ($status == 0)
 				doDefault($lang['strtriggercreated']);
 			else

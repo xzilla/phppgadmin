@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.258 2005/03/26 10:47:03 chriskl Exp $
+ * $Id: Postgres.php,v 1.259 2005/04/14 18:20:12 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -32,6 +32,8 @@ class Postgres extends ADODB_base {
 		'DELETE OR UPDATE', 'INSERT OR DELETE OR UPDATE');
 	// When to execute the trigger	
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
+	// How often to execute the trigger	
+	var $triggerFrequency = array('ROW');
 	// Foreign key stuff.  First element MUST be the default.
 	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
 	var $fkmatches = array('MATCH SIMPLE', 'MATCH FULL');
@@ -2962,7 +2964,7 @@ class Postgres extends ADODB_base {
 	 * @param $tgargs The function arguments
 	 * @return 0 success
 	 */
-	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent, $tgargs) {
+	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent, $tgfrequency, $tgargs) {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 		$this->fieldClean($tgproc);
@@ -2970,7 +2972,7 @@ class Postgres extends ADODB_base {
 		/* No Statement Level Triggers in PostgreSQL (by now) */
 		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime} 
 				{$tgevent} ON \"{$table}\"
-				FOR EACH ROW EXECUTE PROCEDURE \"{$tgproc}\"({$tgargs})";
+				FOR EACH {$tgfrequency} EXECUTE PROCEDURE \"{$tgproc}\"({$tgargs})";
 				
 		return $this->execute($sql);
 	}

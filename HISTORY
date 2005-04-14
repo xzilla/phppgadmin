@@ -13,6 +13,7 @@ Features
   and SELECT results.
 * Add support for PostgreSQL 8.1devel
 * primary key and unique key at table creation (Andreas Huber)
+* Add row|statement level options to create trigger for >= 7.4 (Robert Treat)
   
 Bugs
 * Tree Icons are displayed middle instead of top
