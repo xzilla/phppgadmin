@@ -10,7 +10,7 @@
 $lang['applang'] = 'Português-Português';
 $lang['appcharset'] = 'ISO-8859-15';
 $lang['applocale'] = 'pt_PT';
-$lang['appdbencoding'] = 'LATIN9';
+$lang['appdbencoding'] = 'LATIN1';
 $lang['applangdir'] = 'ltr';
   
 // Basic strings
