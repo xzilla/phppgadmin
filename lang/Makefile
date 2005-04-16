@@ -20,7 +20,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.40.2.1 2005/02/18 11:54:16 chriskl Exp $
+# $Id: Makefile,v 1.40.2.2 2005/04/16 05:11:04 chriskl Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -39,6 +39,7 @@ TARGETS=polish \
 	turkish \
 	czech \
 	portuguese-br \
+	portuguese-pt \
 	swedish \
 	afrikaans \
 	arabic \
@@ -154,6 +155,12 @@ portuguese-br:	portuguese-br.php
 	@cat portuguese-br.php | recode iso-8859-1..html | ./convert.awk \
 		> ${DESTDIR}/portuguese-br.php
 	@chmod 644 portuguese-br.php ${DESTDIR}/portuguese-br.php
+
+portuguese-pt:	portuguese-pt.php
+	@echo "Recoding portuguese-pt..."
+	@cat portuguese-pt.php | recode iso-8859-15..html | ./convert.awk \
+		> ${DESTDIR}/portuguese-pt.php
+	@chmod 644 portuguese-pt.php ${DESTDIR}/portuguese-pt.php
 
 swedish:	swedish.php
 	@echo "Recoding swedish..."

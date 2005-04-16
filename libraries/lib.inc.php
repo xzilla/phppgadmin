@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.88.2.3 2005/02/24 09:57:44 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.88.2.4 2005/04/16 05:11:05 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.5.3-dev';
+	$appVersion = '3.5.3';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
@@ -52,6 +52,7 @@
 		'mongol' => 'Mongolian',
 		'polish' => 'Polski',
 		'portuguese-br' => 'Portugu&ecirc;s-Brasileiro',
+		'portuguese-pt' => 'Portugu&ecirc;s-Portugu&ecirc;s',
 		'romanian' => 'Rom&acirc;n&#259;',
 		'russian' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
 		'slovak' => 'Slovensky',
