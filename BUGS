@@ -18,6 +18,8 @@ Need to fix:
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu
 * add different null formats to import and export
+* make browser language detection only happen when language is set
+  to 'auto'.  make that the default.
 
 NEEDS TESTING
 -------------
