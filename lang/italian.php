@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.40 2005/01/04 23:49:20 soranzo Exp $
+	 * $Id: italian.php,v 1.41 2005/04/30 18:02:02 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -289,6 +289,8 @@
 	$lang['strsignalsent'] = 'Segnale inviato.';
 	$lang['strsignalsentbad'] = 'Invio del segnale fallito.';
 	$lang['strallobjects'] = 'Tutti gli oggetti';
+	$lang['strdatabasealtered'] = 'Database modificato.';
+	$lang['strdatabasealteredbad'] = 'Modifica del database fallita.';
 
 	// Views - Viste
 	$lang['strview'] = 'Vista';

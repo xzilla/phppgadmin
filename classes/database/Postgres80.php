@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.11 2005/03/15 02:55:45 chriskl Exp $
+ * $Id: Postgres80.php,v 1.12 2005/04/30 18:02:01 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -79,6 +79,58 @@ class Postgres80 extends Postgres74 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Alters a database
+	 * the multiple return vals are for postgres 8+ which support more functionality in alter database
+	 * @param $dbName The name of the database
+	 * @param $newName new name for the database
+	 * @param $newOwner The new owner for the database
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 owner error
+	 * @return -3 rename error
+	 */
+	function alterDatabase($dbName, $newName, $newOwner = '')
+	{
+		$this->clean($dbName);
+		$this->clean($newName);
+		$this->clean($newOwner);
+		
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		if ($dbName != $newName) {
+			$status = $this->alterDatabaseRename($dbName, $newName);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+		
+		$status = $this->alterDatabaseOwner($newName, $newOwner);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+		return $this->endTransaction();
+	}
+	/**
+	 * Changes ownership of a database
+	 * This can only be done by a superuser or the owner of the database
+	 * @param string $dbName database to change ownership of
+	 * @param string $newOwner user that will own the database
+	 * @return int 0 on success
+	 */
+	function alterDatabaseOwner($dbName, $newOwner) {
+		$this->clean($dbName);
+		$this->clean($newOwner);
+		
+		$sql = "ALTER DATABASE \"{$dbName}\" OWNER TO \"{$newOwner}\"";
+		return $this->execute($sql);
+	}
 	// Schema functions
 
 	/**
@@ -449,6 +501,8 @@ class Postgres80 extends Postgres74 {
 		return $this->selectSet($sql);
 	}
 		
+	// Capabilities
+	function hasAlterDatabaseOwner() { return true; }
 	function hasAlterColumnType() { return true; }
 	function hasTablespaces() { return true; }
 	function hasSignals() { return true; }

@@ -14,6 +14,7 @@ Features
 * Add support for PostgreSQL 8.1devel
 * primary key and unique key at table creation (Andreas Huber)
 * Add row|statement level options to create trigger for >= 7.4 (Robert Treat)
+* Allow altering name (for >= 7.4) and owner (for >= 8.0) of a database (Bryan Encina)
   
 Bugs
 * Tree Icons are displayed middle instead of top
@@ -26,18 +27,27 @@ Bugs
 * Fix timeouts on long running operations (Adrian Nida)
 * Allow Multiline character and character varying editing and inserting
 * Add automatic browser language selection for all languages
-* Fix using schema enabled dump on non-schema enabled backend
-* Reload browser after executing arbitrary SQL
-* Fix inability to drop database using the drop link
 * Stop duplicate insert on re-POST of data
-* Correct last internal oid value for PostgreSQL 8.0
 * Fix bug with exporting schema for servers < 7.3
-* Fix dumping on v8 for windows, exclude dumping some objects.
 
 Translations
 * Japanese from Tadashi Jokagi
 * Danish from Arne Eckmann
 * Arabic from Zaki
+
+Version 3.5.3
+-------------
+
+Bugs
+* Fix using schema enabled dump on non-schema enabled backend
+* Don't try setting no timeout when in safe mode
+* Reload browser after executing arbitrary SQL
+* Fix browser in RTL languages
+* Fix inability to drop database using the drop link
+* Fix last internal oid value for PostgreSQL 8.0
+* Fix (again) dumping on v8 for windows, exclude dumping some objects.
+
+Translations
 * Portuguese from Francisco
 
 Version 3.5.2

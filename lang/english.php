@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.173 2005/04/14 18:20:15 xzilla Exp $
+	 * $Id: english.php,v 1.174 2005/04/30 18:02:02 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -291,6 +291,8 @@
 	$lang['strsignalsent'] = 'Signal sent.';
 	$lang['strsignalsentbad'] = 'Sending signal failed.';
 	$lang['strallobjects'] = 'All objects';
+	$lang['strdatabasealtered'] = 'Database altered.';
+	$lang['strdatabasealteredbad'] = 'Database alter failed.';
 
 	// Views
 	$lang['strview'] = 'View';

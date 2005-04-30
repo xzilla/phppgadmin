@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.36 2005/03/05 06:53:49 mr-russ Exp $
+	 * $Id: all_db.php,v 1.37 2005/04/30 18:01:58 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -13,6 +13,61 @@
 	if (!isset($msg)) $msg = '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
+	/**
+	 * Display a form for alter and perform actual alter
+	 */
+	function doAlter($confirm) {
+		global $data, $misc, $_reload_browser;
+		global $PHP_SELF, $lang;
+	
+		if ($confirm) {
+			$misc->printTrail('database');
+			$misc->printTitle($lang['stralter'], 'pg.database.alter');
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input name=\"newname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				htmlspecialchars($_REQUEST['alterdatabase']), "\" /></td></tr>\n";
+			
+			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser($_SESSION['webdbUsername'])) {
+				// Fetch all users
+				
+				$rs = $data->getDatabaseOwner($_REQUEST['alterdatabase']);
+				$owner = isset($rs->fields['usename']) ? $rs->fields['usename'] : '';
+				$users = &$data->getUsers();
+				
+				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
+				echo "<td class=\"data1\"><select name=\"owner\">";
+				while (!$users->EOF) {
+					$uname = $users->f['usename'];
+					echo "<option value=\"", htmlspecialchars($uname), "\"",
+						($uname == $owner) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+					$users->moveNext();
+				}
+				echo "</select></td></tr>\n";
+			}
+			echo "</table>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
+			echo "<input type=\"hidden\" name=\"oldname\" value=\"", 
+				htmlspecialchars($_REQUEST['alterdatabase']), "\" />\n";
+			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			//all versions that support the alter database functionality (starting 7.4) support renaming a db
+			$newOwner = isset($_POST['owner']) ? $_POST['owner'] : '';
+			if ($data->AlterDatabase($_POST['oldname'], $_POST['newname'], $newOwner) == 0) {
+				$_reload_browser = true;
+				doDefault($lang['strdatabasealtered']);
+			}
+			else
+				doDefault($lang['strdatabasealteredbad']);
+		}
+	}
+	
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -42,7 +97,6 @@
 			else
 				doDefault($lang['strdatabasedroppedbad']);
 		}
-		
 	}
 	
 	/**
@@ -237,6 +291,13 @@
 				'vars'  => array('database' => 'datname'),
 			)
 		);
+		if ($data->hasAlterDatabase() ) {
+			$actions['alter'] = array(
+				'title' => $lang['stralter'],
+				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;subject=database&amp;",
+				'vars'  => array('alterdatabase' => 'datname')
+			);
+		}
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
@@ -267,7 +328,14 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
+			break;
+		case 'alter':
+			if (isset($_POST['oldname']) && isset($_POST['newname']) && !isset($_POST['cancel']) ) doAlter(false);
+			else doDefault();
 			break;			
+		case 'confirm_alter':
+			doAlter(true);
+			break;
 		default:
 			doDefault();
 			break;

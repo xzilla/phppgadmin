@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.259 2005/04/14 18:20:12 xzilla Exp $
+ * $Id: Postgres.php,v 1.260 2005/04/30 18:01:59 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -434,6 +434,17 @@ class Postgres extends ADODB_base {
 					{$clause}
 					{$orderby}";
 
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Return the database owner of a db
+	 * @param string $database the name of the database to get the owner for
+	 * @return recordset of the db owner info
+	 */
+	function &getDatabaseOwner($database) {
+		$this->clean($database);
+		$sql = "SELECT usename FROM pg_user, pg_database WHERE pg_user.usesysid = pg_database.datdba AND pg_database.datname = '{$database}' ";
 		return $this->selectSet($sql);
 	}
 
@@ -4396,6 +4407,9 @@ class Postgres extends ADODB_base {
 	}
 
 	// Capabilities
+	function hasAlterDatabaseOwner() { return false; }
+	function hasAlterDatabaseRename() { return false; }
+	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasSchemas() { return false; }
 	function hasConversions() { return false; }	
 	function hasGrantOption() { return false; }

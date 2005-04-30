@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.43 2005/04/15 03:56:48 xzilla Exp $
+ * $Id: Postgres74.php,v 1.44 2005/04/30 18:02:01 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -35,6 +35,49 @@ class Postgres74 extends Postgres73 {
 		return $this->help_page;
 	}
 
+	// Database functions
+	
+	/**
+	 * Alters a database
+	 * the multiple return vals are for postgres 8+ which support more functionality in alter database
+	 * @param $dbName The name of the database
+	 * @param $newName new name for the database
+	 * @param $newOwner The new owner for the database
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 owner error
+	 * @return -3 rename error
+	 */
+	function alterDatabase($dbName, $newName, $newOwner = '')
+	{
+		//ignore $newowner, not supported pre 8.0
+		$this->clean($dbName);
+		$this->clean($newName);
+		
+		$status = $this->alterDatabaseRename($dbName, $newName);
+		if ($status != 0) return -3;
+		else return 0;
+	}
+	
+	/**
+	 * Renames a database, note that this operation cannot be 
+	 * performed on a database that is currently being connected to
+	 * @param string $oldName name of database to rename
+	 * @param string $newName new name of database
+	 * @return int 0 on success
+	 */
+	function alterDatabaseRename($oldName, $newName) {
+		$this->clean($oldName);
+		$this->clean($newName);
+		
+		if ($oldName != $newName) {
+			$sql = "ALTER DATABASE \"{$oldName}\" RENAME TO \"{$newName}\"";
+			return $this->execute($sql);
+		}
+		else //just return success, we're not going to do anything
+			return 0;
+	}
+	
 	// Table functions
 	
 	/**
@@ -491,6 +534,7 @@ class Postgres74 extends Postgres73 {
 	}
 	
 	// Capabilities
+	function hasAlterDatabaseRename() { return true; }
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }
 	function hasUserRename() { return true; }
