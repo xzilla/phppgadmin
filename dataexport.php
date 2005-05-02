@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.19 2005/03/04 02:27:29 chriskl Exp $
+	 * $Id: dataexport.php,v 1.20 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -23,28 +23,19 @@
 	// What must we do in this case? Maybe redirect to the homepage?
 
 	// If format is set, then perform the export
-	if (isset($_REQUEST['what'])) {		 
-
+	if (isset($_REQUEST['what'])) {
+		
 		// Include application functions
 		$_no_output = true;
 		include_once('./libraries/lib.inc.php');
-
+		
 		switch ($_REQUEST['what']) {
 			case 'dataonly':
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()
 						&& ($_REQUEST['d_format'] == 'copy' || $_REQUEST['d_format'] == 'sql')) {
-					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
-					$url .= '&what=' . urlencode($_REQUEST['what']);
-					$url .= '&table=' . urlencode($_REQUEST['table']);
-					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);
-					$url .= '&d_format=' . urlencode($_REQUEST['d_format']);
-					$url .= '&output=' . urlencode($_REQUEST['output']);
-					if (isset($_REQUEST['d_oids'])) $url .= '&d_oids=' . urlencode($_REQUEST['d_oids']);
-					$url .= "&" . SID;
-					
-					header("Location: {$url}");
+					include('./dbexport.php');
 					exit;
 				}
 				else {
@@ -56,15 +47,7 @@
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()) {
-					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
-					$url .= '&what=' . urlencode($_REQUEST['what']);
-					$url .= '&table=' . urlencode($_REQUEST['table']);
-					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);
-					$url .= '&output=' . urlencode($_REQUEST['output']);
-					if (isset($_REQUEST['s_clean'])) $url .= '&s_clean=' . urlencode($_REQUEST['s_clean']);
-					$url .= "&" . SID;
-					
-					header("Location: {$url}");
+					include('./dbexport.php');
 					exit;
 				}
 				else $clean = isset($_REQUEST['s_clean']);
@@ -73,17 +56,7 @@
 				// Check to see if they have pg_dump set up and if they do, use that
 				// instead of custom dump code
 				if ($misc->isDumpEnabled()) {
-					$url = 'dbexport.php?mode=database&database=' . urlencode($_REQUEST['database']);
-					$url .= '&what=' . urlencode($_REQUEST['what']);
-					$url .= '&table=' . urlencode($_REQUEST['table']);
-					if ($data->hasSchemas()) $url .= '&schema=' . urlencode($_REQUEST['schema']);
-					$url .= '&sd_format=' . urlencode($_REQUEST['sd_format']);
-					$url .= '&output=' . urlencode($_REQUEST['output']);
-					if (isset($_REQUEST['sd_clean'])) $url .= '&sd_clean=' . urlencode($_REQUEST['sd_clean']);
-					if (isset($_REQUEST['sd_oids'])) $url .= '&sd_oids=' . urlencode($_REQUEST['sd_oids']);
-					$url .= "&" . SID;
-
-					header("Location: {$url}");
+					include('./dbexport.php');
 					exit;
 				}
 				else {
@@ -118,6 +91,11 @@
 	
 		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
 
+		// Set the schema search path
+		if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
+			$data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path'])));
+		}
+		
 		// Set up the dump transaction
 		$status = $data->beginDump();
 
@@ -321,14 +299,14 @@
 		$status = $data->endDump();
 	}
 	else {
-		if (!isset($msg)) $msg = null;
-		
 		// Include application functions
 		include_once('./libraries/lib.inc.php');
 
-		$misc->printHeader($lang['strexport']);		
-		echo "<h2>", $misc->printVal($_REQUEST['database']), ": {$lang['strexport']}</h2>\n";
-		$misc->printMsg($msg);
+		$misc->printHeader($lang['strexport']);
+		$misc->printBody();
+		$misc->printTrail(isset($_REQUEST['subject']) ? $_REQUEST['subject'] : 'database');
+		$misc->printTitle($lang['strexport']);
+		if (isset($msg)) $misc->printMsg($msg);
 
 		echo "<form action=\"{$_SERVER['PHP_SELF']}\" method=\"post\">\n";
 		echo "<table>\n";
@@ -355,6 +333,9 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		}
 		echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars(serialize($_REQUEST['query'])), "\" />\n";
+		if (isset($_REQUEST['search_path'])) {
+			echo "<input type=\"hidden\" name=\"search_path\" value=\"", htmlspecialchars($_REQUEST['search_path']), "\" />\n";
+		}
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

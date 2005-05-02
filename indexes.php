@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.34 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: indexes.php,v 1.35 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -308,7 +308,7 @@
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&{$misc->href}&table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
 
 	$misc->printHeader($lang['strindexes'], "<script src=\"indexes.js\" type=\"text/javascript\"></script>");

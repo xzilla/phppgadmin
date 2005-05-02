@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.19 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: domains.php,v 1.20 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -424,6 +424,35 @@
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
 	}
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data, $PHP_SELF;
+		
+		$domains = &$data->getDomains();
+		
+		$reqvars = $misc->getRequestVars('domain');
+		
+		$attrs = array(
+			'text'   => field('domname'),
+			'icon'   => 'domains',
+			'toolTip'=> field('domcomment'),
+			'action' => url('domains.php',
+							$reqvars,
+							array(
+								'action' => 'properties',
+								'domain' => field('domname')
+							)
+						)
+		);
+		
+		$misc->printTreeXML($domains, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
 
 	$misc->printHeader($lang['strdomains']);
 	$misc->printBody();

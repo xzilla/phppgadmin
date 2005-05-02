@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.62 2004/11/02 03:33:35 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.63 2005/05/02 15:47:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -70,7 +70,9 @@
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
-			if ($data->hasAlterTableOwner() && $data->isSuperUser($_SESSION['webdbUsername'])) {
+			
+			$server_info = $misc->getServerInfo();
+			if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
@@ -166,6 +168,7 @@
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
+		echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
@@ -585,14 +588,14 @@
 
 		echo "<ul>\n";
 		$return_url = urlencode("tblproperties.php?{$misc->href}&table={$_REQUEST['table']}");
-		echo "\t<li><a href=\"display.php?{$misc->href}&table=", urlencode($_REQUEST['table']), "&subject=table&return_url={$return_url}&return_desc=",
+		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&subject=table&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confselectrows&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confinsertrow&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confirm_empty&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confirm_drop&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
-		echo "\t<li><a href=\"{$PHP_SELF}?action=add_column&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-		echo "\t<li><a href=\"{$PHP_SELF}?action=confirm_alter&{$misc->href}&table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confirm_empty&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";
+		echo "\t<li><a href=\"tables.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
+		echo "\t<li><a href=\"{$PHP_SELF}?action=add_column&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
+		echo "\t<li><a href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
 		echo "</ul>\n";
 	}
 

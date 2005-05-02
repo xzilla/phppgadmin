@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.48 2005/03/04 02:27:38 chriskl Exp $
+	 * $Id: display.php,v 1.49 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -398,8 +398,10 @@
 			// Report views don't set a schema, so we need to disable create view in that case
 			if (isset($_REQUEST['schema'])) echo " | <a class=\"navlink\" href=\"views.php?action=create&amp;formDefinition=",
 				urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a>\n";
-			echo " | <a class=\"navlink\" href=\"dataexport.php?query=",
-					urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strdownload']}</a>\n";	
+			echo " | <a class=\"navlink\" href=\"dataexport.php?query=", urlencode($_REQUEST['query']);
+			if (isset($_REQUEST['search_path']))
+				echo "&amp;search_path=", urlencode($_REQUEST['search_path']);
+			echo "&amp;{$misc->href}\">{$lang['strdownload']}</a>\n";
 		}
 
 		// Insert

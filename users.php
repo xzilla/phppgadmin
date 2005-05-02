@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.29 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: users.php,v 1.30 2005/05/02 15:47:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,11 +23,13 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$userdata = &$data->getUser($_SESSION['webdbUsername']);
-		$_REQUEST['user'] = $_SESSION['webdbUsername'];
+		$server_info = $misc->getServerInfo();
+		
+		$userdata = &$data->getUser($server_info['username']);
+		$_REQUEST['user'] = $server_info['username'];
 		
 		$misc->printTrail('user');
-		$misc->printTitle($lang['straccount'],'pg.user');
+		$misc->printTabs('server','account');
 		$misc->printMsg($msg);
 
 		if ($userdata->recordCount() > 0) {
@@ -46,7 +48,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=confchangepassword\">{$lang['strchangepassword']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
 	}
 	
 	/**
@@ -55,9 +57,11 @@
 	function doChangePassword($confirm, $msg = '') {
 		global $data, $misc;
 		global $PHP_SELF, $lang, $conf;
-
+		
+		$server_info = $misc->getServerInfo();
+		
 		if ($confirm) {
-			$_REQUEST['user'] = $_SESSION['webdbUsername'];
+			$_REQUEST['user'] = $server_info['username'];
 			$misc->printTrail('user');
 			$misc->printTitle($lang['strchangepassword'],'pg.user.alter');
 			$misc->printMsg($msg);
@@ -66,6 +70,7 @@
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
@@ -86,7 +91,7 @@
 			elseif ($_POST['password'] != $_POST['confirm'])
 				doChangePassword(true, $lang['strpasswordconfirm']);
 			else {
-				$status = $data->changePassword($_SESSION['webdbUsername'], 
+				$status = $data->changePassword($server_info['username'], 
 					$_POST['password']);
 				if ($status == 0)
 					doAccount($lang['strpasswordchanged']);
@@ -110,7 +115,8 @@
 		$userdata = &$data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
-			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $_SESSION['webdbUsername']);
+			$server_info = $misc->getServerInfo();
+			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $server_info['username']);
 			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
 			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
 
@@ -123,6 +129,7 @@
 			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f['usename'])), "</td>\n\t</tr>\n";
@@ -183,6 +190,7 @@
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -215,6 +223,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strusername']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n\t</tr>\n";
@@ -323,7 +332,7 @@
 		
 		$misc->printTable($users, $columns, $actions, $lang['strnousers']);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreateuser']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreateuser']}</a></p>\n";
 
 	}
 

@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.40 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: constraints.php,v 1.41 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -478,13 +478,13 @@
 		
 		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_unique_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['stradduniq']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_primary_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_primary_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddpk']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_foreign_key&{$misc->href}&table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddfk']}</a></p>\n";
 	}
 

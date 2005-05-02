@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.25 2004/09/30 16:32:05 jollytoad Exp $
+	 * $Id: sqledit.php,v 1.26 2005/05/02 15:47:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -14,29 +14,51 @@
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
-	 * Private function to display list of databases
+	 * Private function to display server and list of databases
 	 */
-	function _printDatabases() {
+	function _printConnection() {
 		global $data, $lang, $conf, $action, $misc;
-
+		
+		// The javascript action on the select box reloads the
+		// popup whenever the server or database is changed.
+		// This ensures that the correct page encoding is used.
+		$onchange = "onchange=\"location.href='sqledit.php?action=" . 
+				urlencode($action) . "&server=' + encodeURI(server.options[server.selectedIndex].value) + '&database=' + encodeURI(database.options[database.selectedIndex].value) + ";
+		
+		// The exact URL to reload to is different between SQL and Find mode, however.
+		if ($action == 'find') {
+			$onchange .= "'&term=' + encodeURI(term.value) + '&filter=' + encodeURI(filter.value) + '&" . SID . "'\">\n";
+		} else {
+			$onchange .= "'&query=' + encodeURI(query.value) ";
+			if ($data->hasSchemas()) $onchange .= "+ '&search_path=' + encodeURI(search_path.value) ";
+			$onchange .= "+ (paginate.checked ? '&paginate=on' : '')  + '&" . SID . "'\"";
+		}
+		
+		echo "<table width=\"100%\"><tr><td>\n";
+		echo "<label>";
+		$misc->printHelp($lang['strserver'], 'pg.server');
+		echo ": <select name=\"server\" {$onchange}>\n";
+		
+		$servers = $misc->getServers();
+		foreach($servers as $info) {
+			if (empty($info['username'])) continue;
+			echo "<option value=\"", htmlspecialchars($info['id']), "\"",
+				((isset($_REQUEST['server']) && $info['id'] == $_REQUEST['server'])) ? ' selected="selected"' : '', ">",
+				htmlspecialchars("{$info['desc']} ({$info['id']})"), "</option>\n";
+		}
+		echo "</select>\n</td><td align=\"right\">\n";
+		
 		// Get the list of all databases
 		$databases = &$data->getDatabases();
 
-		if ($databases->recordCount() > 0) {			
-			// The javascript action on the select box reloads the popup whenever the database is changed.
-			// This ensures that the correct page encoding is used.  The exact URL to reload to is different
-			// between SQL and Find mode, however.
-			if ($action == 'sql') {
-				echo "<p>";
-				$misc->printHelp($lang['strdatabase'], 'pg.database');
-				echo ": <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&query=' + encodeURI(query.value) ";
-				if ($data->hasSchemas()) echo "+ '&search_path=' + encodeURI(search_path.value) ";
-				echo "+ (paginate.checked ? '&paginate=on' : '')  + '&" . SID . "'\">\n";
-			}
-			else
-				echo "<p>{$lang['strdatabase']}: <select name=\"database\" onChange=\"location.href='sqledit.php?action=" . 
-						urlencode($action) . "&database=' + encodeURI(options[selectedIndex].value) + '&term=' + encodeURI(term.value) + '&filter=' + encodeURI(filter.value) + '&" . SID . "'\">\n";
+		if ($databases->recordCount() > 0) {
+			// The javascript action on the select box reloads
+			// the popup whenever the database is changed.
+			// This ensures that the correct page encoding is used.
+
+			echo "<label>";
+			$misc->printHelp($lang['strdatabase'], 'pg.database');
+			echo ": <select name=\"database\" {$onchange}>\n";
 			
 			while (!$databases->EOF) {
 				$dbname = $databases->f['datname'];
@@ -48,10 +70,13 @@
 			echo "</select></label>\n";
 		}
 		else {
+			$server_info = $misc->getServerInfo();
 			echo "<input type=\"hidden\" name=\"database\" value=\"", 
-				htmlspecialchars($conf['servers'][$_SESSION['webdbServerID']]['defaultdb']), "\" />\n";
-		}		
-	}	
+				htmlspecialchars($server_info['defaultdb']), "\" />\n";
+		}
+		
+		echo "</td></tr></table>\n";
+	}
 	
 	/**
 	 * Searches for a named database object
@@ -59,14 +84,19 @@
 	function doFind() {
 		global $PHP_SELF, $data, $misc;
 		global $lang, $conf;
-
+		
 		if (!isset($_GET['term'])) $_GET['term'] = '';
 		if (!isset($_GET['filter'])) $_GET['filter'] = '';
-
+		
+		$misc->printHeader($lang['strfind']);
+		
+		// Bring to the front always
+		echo "<body onload=\"window.focus();\">\n";
+		
 		$misc->printTabs($misc->getNavTabs('popup'), 'find');
 		
 		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n<p>";
-		_printDatabases();
+		_printConnection();
 		echo "</p><p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
 			
@@ -98,7 +128,6 @@
 		echo "</select>\n";
 					
 		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
-		echo $misc->form;
 		echo "<input type=\"hidden\" name=\"action\" value=\"find\" /></p>\n";
 		echo "</form>\n";
 
@@ -112,49 +141,45 @@
 	function doDefault() {
 		global $PHP_SELF, $data, $misc;
 		global $lang, $conf;
-
+		
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
-
+		
+		$misc->printHeader($lang['strsql']);
+		
+		// Bring to the front always
+		echo "<body onload=\"window.focus();\">\n";
+		
 		$misc->printTabs($misc->getNavTabs('popup'), 'sql');
-
+		
 		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n<p>";
-
-		_printDatabases();
-
+		_printConnection();
+		echo "</p>\n";
 		if ($data->hasSchemas()) {
 			if (!isset($_REQUEST['search_path']))
 				$_REQUEST['search_path'] = implode(',',$data->getSearchPath());
 		
-			echo "\n<label>";
+			echo "<p><label>";
 			$misc->printHelp($lang['strsearchpath'], 'pg.schema.search_path');
-			echo ": <input type=\"text\" name=\"search_path\" size=\"30\" value=\"",
-				htmlspecialchars($_REQUEST['search_path']), "\" /></label>";
+			echo ": <input type=\"text\" name=\"search_path\" size=\"50\" value=\"",
+				htmlspecialchars($_REQUEST['search_path']), "\" /></label></p>\n";
 		}
 		
-		echo "</p>\n<textarea style=\"width: 100%;\" rows=\"10\" cols=\"50\" name=\"query\">",
+		echo "<textarea style=\"width: 100%;\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
 		echo "<label><input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
-
+		
 		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
 		if ($data->hasFullExplain()) {
 			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
 			echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
 		}
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
-
-		echo $misc->form;
-
 		echo "</form>\n";
 		
 		// Default focus
 		$misc->setFocus('forms[0].query');
 	}
 
-	$misc->printHeader($lang['strsql']);
-
-	// Bring to the front always
-	echo "<body onLoad=\"window.focus();\">\n";
-	
 	switch ($action) {
 		case 'find':
 			doFind();
@@ -164,6 +189,9 @@
 			doDefault();
 			break;
 	}
+	
+	// Set the name of the window
+	$misc->setWindowName('sqledit');
 	
 	$misc->printFooter();
 	

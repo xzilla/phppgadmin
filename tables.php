@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.71 2005/03/18 19:51:56 xzilla Exp $
+	 * $Id: tables.php,v 1.72 2005/05/02 15:47:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -222,7 +222,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $data, $misc;
+		global $data, $misc, $_no_output;
 		global $lang;
 		global $PHP_SELF;
 
@@ -311,7 +311,7 @@
 			}
 			
 			if (sizeof($_POST['show']) == 0)
-				doSelectRows(true, $lang['strselectneedscol']);			
+				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
 				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
@@ -320,6 +320,7 @@
 				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
 
+				$_no_output = true;
 				include('./display.php');
 				exit;
 			}
@@ -578,7 +579,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?section=table&amp;{$misc->href}&amp;",
+				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'browse' => array(
@@ -619,6 +620,32 @@
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$tables = &$data->getTables();
+		
+		$reqvars = $misc->getRequestVars('table');
+		
+		$attrs = array(
+			'text'   => field('relname'),
+			'icon'   => 'tables',
+			'toolTip'=> field('relcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array('table' => field('relname'))
+						)
+		);
+		
+		$misc->printTreeXML($tables, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
 	
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();

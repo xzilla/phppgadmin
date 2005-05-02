@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.19 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: groups.php,v 1.20 2005/05/02 15:47:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -41,6 +41,7 @@
 			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_member\" />\n";
 			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"user\" value=\"", htmlspecialchars($_REQUEST['user']), "\" />\n";
@@ -105,7 +106,7 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallgroups']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**
@@ -122,6 +123,7 @@
 			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -155,6 +157,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data\"><input size=\"32\" maxlength=\"{$data->_maxNameLen}\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), "\" /></td>\n\t</tr>\n";
@@ -162,7 +165,7 @@
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strmembers']}</th>\n";
 
 			echo "\t\t<td class=\"data\">\n";
-			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
+			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(40, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
 				$username = $users->f['usename'];
 				echo "\t\t\t\t<option value=\"{$username}\"",
@@ -238,7 +241,7 @@
 		
 		$misc->printTable($groups, $columns, $actions, $lang['strnogroups']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreategroup']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreategroup']}</a></p>\n";
 
 	}
 

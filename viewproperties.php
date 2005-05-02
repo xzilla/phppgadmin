@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.13 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.14 2005/05/02 15:47:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -119,7 +119,8 @@
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+		echo "<input type=\"hidden\" name=\"subject\" value=\"view\" />\n";
+		echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}
@@ -302,11 +303,11 @@
 		echo "<br />\n";
 
 		echo "<ul>\n";
-		$return_url = urlencode("viewproperties.php?{$misc->href}&view=" . urlencode($_REQUEST['view']));
-		echo "\t<li><a href=\"display.php?{$misc->href}&view=", urlencode($_REQUEST['view']), "&subject=view&return_url={$return_url}&return_desc=",
+		$return_url = urlencode("viewproperties.php?{$misc->href}&amp;view=" . urlencode($_REQUEST['view']));
+		echo "\t<li><a href=\"display.php?{$misc->href}&amp;view=", urlencode($_REQUEST['view']), "&amp;subject=view&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
-		echo "\t<li><a href=\"views.php?action=confselectrows&{$misc->href}&view=", urlencode($_REQUEST['view']),"\">{$lang['strselect']}</a></li>\n";
-		echo "\t<li><a href=\"views.php?action=confirm_drop&{$misc->href}&view=", urlencode($_REQUEST['view']),"\">{$lang['strdrop']}</a></li>\n";
+		echo "\t<li><a href=\"views.php?action=confselectrows&amp;{$misc->href}&amp;view=", urlencode($_REQUEST['view']),"\">{$lang['strselect']}</a></li>\n";
+		echo "\t<li><a href=\"views.php?action=confirm_drop&amp;{$misc->href}&amp;view=", urlencode($_REQUEST['view']),"\">{$lang['strdrop']}</a></li>\n";
 		echo "</ul>\n";
 	}
 

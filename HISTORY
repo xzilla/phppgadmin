@@ -15,6 +15,11 @@ Features
 * primary key and unique key at table creation (Andreas Huber)
 * Add row|statement level options to create trigger for >= 7.4 (Robert Treat)
 * Allow altering name (for >= 7.4) and owner (for >= 8.0) of a database (Bryan Encina)
+* Allow login to several servers simultaneously
+* Rearrange frame layout to suit multi-server support
+* New browser tree with dynamically loading branches
+  (Using XLoadTree from http://webfx.eae.net/)
+* Allow language change on the fly
   
 Bugs
 * Tree Icons are displayed middle instead of top

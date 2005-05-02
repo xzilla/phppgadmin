@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.25 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: types.php,v 1.26 2005/05/02 15:47:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,14 +27,14 @@
 		$misc->printTitle($lang['strproperties'], 'pg.type');
 		$misc->printMsg($msg);
 		
+		function attPre(&$rowdata) {
+			global $data;
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+		}
+		
 		if ($typedata->recordCount() > 0) {
 			switch ($typedata->f['typtype']) {
 			case 'c':
-				function attPre(&$rowdata) {
-					global $data;
-					$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
-				}
-				
 				$attrs = &$data->getTableAttributes($_REQUEST['type']);
 				
 				$columns = array(
@@ -76,8 +76,8 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";		}
-		else
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+		} else
 			doDefault($lang['strinvalidparam']);
 	}
 	
@@ -457,7 +457,36 @@
 		echo "</p>\n";
 
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$types = &$data->getTypes();
+		
+		$reqvars = $misc->getRequestVars('type');
+		
+		$attrs = array(
+			'text'   => field('basename'),
+			'icon'   => 'types',
+			'toolTip'=> field('typcomment'),
+			'action' => url('types.php',
+							$reqvars,
+							array(
+								'action' => 'properties',
+								'type'   => field('basename')
+							)
+						)
+		);
+		
+		$misc->printTreeXML($types, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strtypes']);
 	$misc->printBody();
 

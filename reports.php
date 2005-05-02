@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.19 2004/09/02 13:53:56 jollytoad Exp $
+	 * $Id: reports.php,v 1.20 2005/05/02 15:47:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -37,6 +37,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -117,8 +118,8 @@
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -140,6 +141,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
 		echo "<table width=\"100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -210,6 +212,7 @@
 			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->f['report_name'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -234,7 +237,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTrail('server');
-		$misc->printTitle($lang['strreports']);
+		$misc->printTabs('server','reports');
 		$misc->printMsg($msg);
 		
 		$reports = &$reportsdb->getReports();
@@ -261,32 +264,34 @@
 			),
 		);
 		
+		$return_url = urlencode("{$PHP_SELF}?{$misc->href}");
+		
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;",
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'run' => array(
 				'title' => $lang['strrun'],
-				'url'   => "display.php?subject=report&amp;return_url={$PHP_SELF}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'url'   => "display.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
 				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'query' => 'report_sql'),
 			),
 			'edit' => array(
 				'title' => $lang['stredit'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;",
+				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 		);
 		
 		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create\">{$lang['strcreatereport']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strreports']);
@@ -296,7 +301,9 @@
 	include_once('./classes/Reports.php');
 	$reportsdb = new Reports($status);
 	if ($status != 0) {
-		echo "<p>{$lang['strnoreportsdb']}</p>\n";
+		$misc->printTrail('server');
+		$misc->printTabs('server','reports');
+		$misc->printMsg($lang['strnoreportsdb']);
 	}
 	else {
 		switch ($action) {

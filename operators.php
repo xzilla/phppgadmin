@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.17 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: operators.php,v 1.18 2005/05/02 15:47:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -156,6 +156,42 @@
 //		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
 	}
 
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data, $PHP_SELF;
+		
+		$operators = &$data->getOperators();
+		
+		// Operator prototype: "type operator type"
+		$proto = concat(field('oprleftname'), ' ', field('oprname'), ' ', field('oprrightname'));
+		
+		// Alternative prototype: "operator (type,type)"
+		#$proto = concat(field('oprname'), ' (', field('oprleftname','NONE'), ',', field('oprrightname','NONE'), ')');
+		
+		$reqvars = $misc->getRequestVars('operator');
+		
+		$attrs = array(
+			'text'   => $proto,
+			'icon'   => 'operators',
+			'toolTip'=> field('oprcomment'),
+			'action' => url('operators.php',
+							$reqvars,
+							array(
+								'action'  => 'properties',
+								'operator' => $proto,
+								'operator_oid' => field('oid')
+							)
+						)
+		);
+		
+		$misc->printTreeXML($operators, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['stroperators']);
 	$misc->printBody();
 

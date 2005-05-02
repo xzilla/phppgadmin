@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.52 2005/01/23 12:42:35 soranzo Exp $
+	 * $Id: views.php,v 1.53 2005/05/02 15:47:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -548,7 +548,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'	=> "redirect.php?section=view&amp;{$misc->href}&amp;",
+				'url'	=> "redirect.php?subject=view&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 			'browse' => array(
@@ -578,11 +578,37 @@
 		
 		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&{$misc->href}\">{$lang['strcreateview']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
 
 	}
-
+	
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$views = &$data->getViews();
+		
+		$reqvars = $misc->getRequestVars('view');
+		
+		$attrs = array(
+			'text'   => field('relname'),
+			'icon'   => 'views',
+			'toolTip'=> field('relcomment'),
+			'action' => url('redirect.php',
+							$reqvars,
+							array('view' => field('relname'))
+						)
+		);
+		
+		$misc->printTreeXML($views, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strviews']);
 	$misc->printBody();
 
