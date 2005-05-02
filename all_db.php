@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.38 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: all_db.php,v 1.39 2005/05/02 22:05:34 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -50,6 +50,7 @@
 			}
 			echo "</table>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"oldname\" value=\"", 
 				htmlspecialchars($_REQUEST['alterdatabase']), "\" />\n";
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
@@ -82,7 +83,7 @@
 			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"server\" value=\"", htmlspecialchars($_REQUEST['server']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -295,7 +296,7 @@
 		if ($data->hasAlterDatabase() ) {
 			$actions['alter'] = array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;subject=database&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('alterdatabase' => 'datname')
 			);
 		}
