@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.26 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: triggers.php,v 1.27 2005/05/03 02:34:29 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -147,7 +147,7 @@
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "    <th class=\"data\">{$lang['strevent']}</th>\n";
-		echo "    <th class=\"data\">{$lang['strfrequency']}</th>\n";
+		echo "    <th class=\"data\">{$lang['strforeach']}</th>\n";
 		echo "</tr>\n";
 		echo "<tr>\n";
 		echo "     <td class=\"data1\"> ", $sel2->fetch(), "</td>\n";
