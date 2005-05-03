@@ -4,7 +4,7 @@
 	 * Mongolian  language file for phpPgAdmin. 
 	 * @maintainer Erdenemandal Bat-Erdene [endeeuk@yahoo.com]
 	 *
-	 * $Id: mongol.php,v 1.2 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: mongol.php,v 1.3 2005/05/03 01:50:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -113,7 +113,6 @@
 	$lang['stradvanced'] = 'Нэмэлт';
 
 	// Error handling
-	$lang['strnoframes'] = 'Энэ программыг ашиглахын тулд frames-enabled browser хэрэгтэй.';
 	$lang['strbadconfig'] = 'Таны config.inc.php хуучирсан байна. config.inc.php-dist ?аас дахин ??сгэ.';
 	$lang['strnotloaded'] = 'Таны PHP суулгалт нь PostgreSQL ?г?гдлийн сантай хамтран ажмллах боложг?й байна. Та  PHP ?гаа дахин --with-pgsql тохиргоотой суулга.';
 	$lang['strbadschema'] = 'Тохиргоо буруу';

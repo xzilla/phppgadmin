@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.5 2004/11/09 01:57:49 chriskl Exp $
+	 * $Id: afrikaans.php,v 1.6 2005/05/03 01:50:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -125,7 +125,6 @@
 	$lang['strfileimported'] = 'Lêer is ingetrek.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Hierdie toepassing maak gebruik van HTML-rame. U het \'n blaaier nodig wat rame ondersteun om hierdie toepassing te kan gebruik. ';
 	$lang['strbadconfig'] = 'Die lêer config.inc.php is verouderd. Jy kan  verbeterde weergawe aflei van die lêer config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Hierdie PHP-installasie is sonder ondersteuning van hierdie tipe database nie gekompileerd.';
 	$lang['strbadschema'] = 'Ongeldige skema gespesifiseer.';

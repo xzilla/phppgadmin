@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.11 2004/11/09 01:57:50 chriskl Exp $
+	 * $Id: turkish.php,v 1.12 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -128,7 +128,6 @@
 	$lang['strfileimported']  =  'Dosya import edildi.';
 
 	// Error handling
-	$lang['strnoframes']  =  'Bu uygulamay&#305; kullanabilmek icin frame destekleyen bir g&ouml;zat&#305;c&#305;ya gereksinmeniz bulunmaktad&#305;r.';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL deste&#287;i bulunamam&#305;&#351;t&#305;r.';
 	$lang['strphpversionnotsupported'] = 'Bu PHP s&uuml;r&uuml;m&uuml; desteklenmemektedir. L&uuml;tfen %s ya da &uuml;st&uuml; bir s&uuml;r&uuml;me g&uuml;ncelleyiniz.';

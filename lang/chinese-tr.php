@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.12 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.13 2005/05/03 01:50:07 soranzo Exp $
 	 *
 	 *
 	 */
@@ -126,7 +126,6 @@
 	$lang['strfileimported'] = '檔案已匯入。';
 
 	// Error handling
-	$lang['strnoframes'] = '您需用支援框架的瀏覽器瀏覽本程式。';
 	$lang['strbadconfig'] = '您的 config.inc.php 無效。請利用 config.inc.php-dist 建立您的 config.inc.php 檔。';
 	$lang['strnotloaded'] = '您的 PHP 環境未安裝必需的資料庫支援。';
 	$lang['strbadschema'] = '指定了無效的模式 (schema)。';

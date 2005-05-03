@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&iacute;n Marqu&eacute;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.27 2004/11/10 01:37:44 chriskl Exp $
+	 * $Id: spanish.php,v 1.28 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -128,7 +128,6 @@
 	$lang['strfileimported'] = 'Archivo importado.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Necesit&aacute;s un navegador con soporte de marcos para usar esta aplicaci&oacute;n.';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php est&aacute; desactualizado. Deber&aacute; regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versi&oacute;n de PHP no tiene el soporte correcto de bases de datos.';
         $lang['strphpversionnotsupported']  =  'Su versi&oacute;n de PHP no est&aacute; soportada. Por favor actualice a la versi&oacute;n %s o m&aacute;s reciente.';

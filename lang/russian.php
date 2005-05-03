@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.9 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: russian.php,v 1.10 2005/05/03 01:50:08 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -126,7 +126,6 @@
 	$lang['strfileimported'] = 'Файл импортирован.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Для использования данного приложения Вам необходимо иметь браузер, поддерживающий фреймы.';
 	$lang['strbadconfig'] = 'Ваш config.inc.php является устаревшим. Вам необходимо обновить его из config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Ваша инсталяция PHP не поддерживает PostgreSQL. Вам необходимо пересобрать PHP, используя параметр --with-pgsql для configure.';
 	$lang['strbadschema'] = 'Обнаружена неверная схема.';

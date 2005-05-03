@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist &lt;samoola@slak.nu&gt;
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.8 2004/07/12 04:18:44 chriskl Exp $
+	 * $Id: swedish.php,v 1.9 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -120,7 +120,6 @@
 	$lang['strparameters'] = 'Parametrar';
 
 	// Error handling
-	$lang['strnoframes'] = 'Du beh&ouml;ver en webl&auml;sare som st&ouml;der frames f&ouml;r att anv&auml;nda detta program.';
 	$lang['strnotloaded'] = 'Du har inte kompilerat in korrekt databasst&ouml;d i din PHP-installation.';
 	$lang['strbadconfig'] = 'Din config.inc.php &auml;r ej uppdaterad. Du m&aring;ste &aring;terskapa den fr&aring;n den nya config.inc.php-dist.';
 	$lang['strbadencoding'] = 'Misslyckades att s&auml;tta klientkodning i databasen.';

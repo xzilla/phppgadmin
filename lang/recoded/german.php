@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau &lt;twanger@bluetwanger.de&gt;
     *
-    * $Id: german.php,v 1.19 2004/12/20 13:11:50 soranzo Exp $
+    * $Id: german.php,v 1.20 2005/05/03 01:50:10 soranzo Exp $
     */
 
 
@@ -132,7 +132,6 @@
     $lang['strfileimported']  =  'Datei importiert.';
 
 	// Error handling
-    $lang['strnoframes'] = 'F&uuml;r dieses Programm wird ein ein Frame-f&auml;higer Browser ben&ouml;tigt.';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie m&uuml;ssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterst&uuml;tzung.';
     $lang['strphpversionnotsupported']  =  'PHP-Version wird nicht unterst&uuml;tzt. Bitte erneuert sie PHP auf die Version %s oder eine neuere Version.';

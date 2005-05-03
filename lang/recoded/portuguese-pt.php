@@ -96,7 +96,6 @@ $lang['strexpression'] = 'Express&atilde;o';
         $lang['strellipsis'] = '...';
 $lang['strexpand'] = 'Expandir';
 $lang['strcollapse'] = 'Diminuir';
-$lang['strnoframes'] = 'Voc&ecirc; necessita de um navegador com suporte de frames para utilizar esta aplica&ccedil;&atilde;o.';
 $lang['strbadconfig'] = 'O config.inc.php est&aacute; desatualizado. Voc&ecirc; deve cri&aacute;-lo novamente a partir do novo config.inc.php-dist.';
 $lang['strnotloaded'] = 'A sua instala&ccedil;&atilde;o do PHP n&atilde;o suporta chamadas a este tipo de base de dados.';
 $lang['strbadschema'] = 'Esquema inv&aacute;lido.';

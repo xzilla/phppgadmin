@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Ângelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.5 2004/07/12 04:18:41 chriskl Exp $
+	 * $Id: portuguese-br.php,v 1.6 2005/05/03 01:50:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -97,7 +97,6 @@ $lang['strexpression'] = 'Expressão';
 $lang['strellipsis'] = '...';
 $lang['strexpand'] = 'Expandir';
 $lang['strcollapse'] = 'Diminuir';
-	$lang['strnoframes'] = 'Você necessita um navegador com suporte a frames para utilizar esta aplicação.';
 	$lang['strbadconfig'] = 'Seu config.inc.php está desatualizado. Você deve gerá-lo novamente a partir do novo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Você não compilou suporte à banco de dados apropriado em sua instalação do PHP.';
 	$lang['strbadschema'] = 'Esquema inválido especificado.';

@@ -4,7 +4,7 @@
 	 * Hebrew language file for phpPgAdmin.
 	 * Jonatan Perry <Jonatan44@hotpop.com>
 	 *
-	 * $Id: hebrew.php,v 1.1 2004/09/16 03:16:40 chriskl Exp $
+	 * $Id: hebrew.php,v 1.2 2005/05/03 01:50:07 soranzo Exp $
 	 */
 	 
 	// Language and character set
@@ -127,7 +127,6 @@
 	$lang['strfileimported'] = 'קובץ יובא';
 
 	// Error handling
-	$lang['strnoframes'] = 'אתה צריך דפדפן תומך מסגרות כדאי להשתמש בישום זה';
 	$lang['strbadconfig'] = 'קובץ ה config.inc.php שלך אינו מעודכן. אתה תיצטרך ליצור אחד חדש יותר מהקובץ config.inc.php-dist החדש';
 	$lang['strnotloaded'] = 'התקנת ה PHP שלך אינה תומכת ב PostgreSQL. אתה תיצטרך להדר אותה מחדש אם הפקודה --with-pqlsql בזמן ההגדרה';
 	$lang['strphpversionnotsupported'] = 'גירסת ה PHP שלך אינה ניתמכת. אנא עדכן אותה לגירסה %s או חדשה יותר.';

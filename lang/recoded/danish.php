@@ -128,7 +128,6 @@
 	$lang['strparameters'] = 'Parametrer';
 
 	// Error handling
-	$lang['strnoframes'] = 'Dette program kr&aelig;ver en webbrowser, som underst&oslash;tter frames.';
 	$lang['strnotloaded'] = 'Du har ikke ikke indlagt korrekt databaseunderst&oslash;ttelse i din PHP-installation.';
 	$lang['strbadconfig'] = 'Din config.inc.php er ikke opdateret. Du er n&oslash;dt til at genetablere den fra den nye config.inc.php-dist.';
 	$lang['strbadencoding'] = 'Det lykkedes ikke at s&aelig;tte klientkodning i databasen.';

@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.12 2004/11/09 01:57:50 chriskl Exp $
+	 * $Id: french.php,v 1.13 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -128,7 +128,6 @@
         $lang['strfileimported']  =  'Fichier import&eacute;.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Vous avez besoin d\'activer les frames de votre navigateur pour utiliser cette application.';
 	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsol&egrave;te. Vous avez besoin de le reg&eacute;nerer &agrave; partir de config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Vous n\'avez pas compil&eacute; correctement le support de la base de donn&eacute;es dans votre installation de PHP.';
         $lang['strphpversionnotsupported']  =  'Cette version de PHP n\'est pas support&eacute;e. Merci de mettre &agrave; jour PHP &agrave; la  version  %s ou ult&eacute;rieure.';

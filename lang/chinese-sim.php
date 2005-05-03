@@ -61,7 +61,6 @@ $lang['strempty'] = '空';
 $lang['strlanguage'] = '语言';
 
 // Error handling
-$lang['strnoframes'] = '您必使用支持框架的浏览器浏览本程序。';
 $lang['strbadconfig'] = '您的 config.inc.php 已失效。您需要自行通过 config.inc.php-ist 修改。';
 $lang['strnotloaded'] = '您的 PHP 中没有完整的数据库支持。';
 $lang['strsqlerror'] = 'SQL:错误';

@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.2 2004/11/16 01:25:43 chriskl Exp $
+	* $Id: romanian.php,v 1.3 2005/05/03 01:50:08 soranzo Exp $
 	*/
 
 	// Language and character set
@@ -127,7 +127,6 @@
 	$lang['strfileimported'] = 'Fişier importat';
 
 	// Error handling
-	$lang['strnoframes'] = 'Aveţi nevoie de un browser capabil să afişeze frame-uri pentru a utiliza această aplicaţie.';
 	$lang['strbadconfig'] = 'Fişierul config.inc.php este învechit. Trebuie să-l re-generaţi folosind fişierul config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Instalarea de PHP nu suportă PostgreSQL. Trebuie să re-compilaţi PHP folosind opţiunea --with-pgsql la configurare.';
 	$lang['strphpversionnotsupported'] = 'Versiune de PHP ne-suportată. Actualizaţi la versiunea %s sau ulterioară.';

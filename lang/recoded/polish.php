@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.38 2005/04/01 21:02:40 slubek Exp $
+	 * $Id: polish.php,v 1.39 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -128,7 +128,6 @@
 	$lang['strfileimported']  = 'Plik zosta&#322; zaimportowany.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Aby u&#380;ywa&#263; tej aplikacji potrzebujesz przegl&#261;darki obs&#322;uguj&#261;cej ramki.';
 	$lang['strbadconfig'] = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowa&#322;e&#347; do PHP obs&#322;ugi tej bazy danych.';
 	$lang['strpostgresqlversionnotsupported']  =  'Nieobs&#322;ugiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';

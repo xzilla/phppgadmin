@@ -126,7 +126,6 @@
 	$lang['strfileimported']  =  'S&uacute;bor importovan&yacute;.';
 
 	// Error handling
-	$lang['strnoframes']  =  'K spr&aacute;vnemu behu aplik&aacute;cie potrebuje&scaron; prehliada&#269; podporuj&uacute;ci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaral&yacute;. Mus&iacute;&scaron; vygenerova&#357; nov&yacute; zo s&uacute;boru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilovan&eacute; s potrebnou podporou datab&aacute;z.';
 	$lang['strphpversionnotsupported']  =  'Tvoja verzia PHP nie je podporovan&aacute;.  Pros&iacute;m aktualizuj ho na verziu %s alebo vy&scaron;&scaron;iu.';

@@ -128,7 +128,6 @@
 	$lang['strfileimported'] = 'Fájl behozva.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Ezen alkalmazás használatához kereteket támogató böngésző szükséges.';
 	$lang['strbadconfig'] = 'A config.inc.php elavult. Újra kell teremteni az új config.inc.php-dist fájlból.';
 	$lang['strnotloaded'] = 'Az ön PHP rendszere nem támogatja a PostgreSQL-t.';
 	$lang['strphpversionnotsupported']  =  'A PHP e változata nem megfelelő. Kérem telepítse a %s változatot, vagy újabbat!';

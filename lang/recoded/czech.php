@@ -122,7 +122,6 @@
 	$lang['streditsql'] = 'Uprav SQL';
 	$lang['strpaginate'] = 'Str&aacute;nkov&aacute;n&iacute; v&yacute;sledk&#367;';
 	$lang['strstarttime'] = 'Po&#269;&aacute;te&#269;n&iacute; &#269;as';
-	$lang['strnoframes'] = 'Tato aplikace vy&#382;aduje prohl&iacute;&#382;ec s podporou fram&#367;.';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
 	$lang['strnotloaded'] = 'PHP nen&iacute; zakompilov&aacute;no s podporou PostgreSQL';
 	$lang['strbadschema'] = 'Nastaveno &scaron;patn&eacute; sch&eacute;ma.';

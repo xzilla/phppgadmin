@@ -122,7 +122,6 @@
 	$lang['streditsql'] = 'Uprav SQL';
 	$lang['strpaginate'] = 'Stránkování výsledků';
 	$lang['strstarttime'] = 'Počáteční čas';
-	$lang['strnoframes'] = 'Tato aplikace vyžaduje prohlížec s podporou framů.';
 	$lang['strbadconfig'] = 'Your config.inc.php is out of date. You will need to regenerate it from the new config.inc.php-dist.';
 	$lang['strnotloaded'] = 'PHP není zakompilováno s podporou PostgreSQL';
 	$lang['strbadschema'] = 'Nastaveno špatné schéma.';

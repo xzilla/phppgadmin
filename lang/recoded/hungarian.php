@@ -128,7 +128,6 @@
 	$lang['strfileimported'] = 'F&aacute;jl behozva.';
 
 	// Error handling
-	$lang['strnoframes'] = 'Ezen alkalmaz&aacute;s haszn&aacute;lat&aacute;hoz kereteket t&aacute;mogat&oacute; b&ouml;ng&eacute;sz&#337; sz&uuml;ks&eacute;ges.';
 	$lang['strbadconfig'] = 'A config.inc.php elavult. &Uacute;jra kell teremteni az &uacute;j config.inc.php-dist f&aacute;jlb&oacute;l.';
 	$lang['strnotloaded'] = 'Az &ouml;n PHP rendszere nem t&aacute;mogatja a PostgreSQL-t.';
 	$lang['strphpversionnotsupported']  =  'A PHP e v&aacute;ltozata nem megfelel&#337;. K&eacute;rem telep&iacute;tse a %s v&aacute;ltozatot, vagy &uacute;jabbat!';

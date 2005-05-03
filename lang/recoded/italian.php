@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.36 2005/04/30 18:02:03 soranzo Exp $
+	 * $Id: italian.php,v 1.37 2005/05/03 01:50:10 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Login fallito';
 	$lang['strlogindisallowed'] = 'Login disabilitato per ragioni di sicurezza';
 	$lang['strserver'] = 'Server';
+	$lang['strservers'] = 'Server';
+	$lang['strintroduction'] = 'Introduzione';
+	$lang['strhost'] = 'Host';
+	$lang['strport'] = 'Porta';
 	$lang['strlogout'] = 'Logout';
 	$lang['strowner'] = 'Proprietario';
 	$lang['straction'] = 'Azione';
@@ -96,7 +100,7 @@
 	$lang['strevent'] = 'Evento';
 	$lang['strwhere'] = 'Condizione';
 	$lang['strinstead'] = 'Invece fai';
-	$lang['strwhen'] = 'quando';
+	$lang['strwhen'] = 'Quando';
 	$lang['strformat'] = 'Formato';
 	$lang['strdata'] = 'Dati';
 	$lang['strconfirm'] = 'Conferma';
@@ -128,7 +132,8 @@
 	$lang['strfileimported'] = 'File importato.';
 
 	// Error handling - Gestione degli errori
-	$lang['strnoframes'] = 'Per usare questa applicazione &egrave; necessario usare un browser che supporti i frame.';
+	$lang['strnoframes'] = 'Questa applicazione funziona al meglio utilizzando un browser che supporti i frame, ma pu&ograve; essere usata senza frame seguendo il link sottostante.';
+	$lang['strnoframeslink'] = 'Usa senza frame';
 	$lang['strbadconfig'] = 'Il file config.inc.php &egrave; obsoleto. &Egrave; necessario rigenerarlo utilizzando il nuovo file config.inc.php-dist .';
 	$lang['strnotloaded'] = 'La tua installazione di PHP non supporta PostgreSQL. &Egrave; necessario ricompilare PHP usando l\'opzione di configurazione --with-pgsql .';
 	$lang['strpostgresqlversionnotsupported'] = 'Versione di PostgreSQL non supportata. &Egrave; necessario aggiornarlo alla versione %s o successiva.';
@@ -144,6 +149,7 @@
 	$lang['strnouploads'] = 'L\'upload dei file &egrave; disabilitato.';
 	$lang['strimporterror'] = 'Errore durante l\'import.';
 	$lang['strimporterrorline'] = 'Errore durante l\'import alla linea %s.';
+	$lang['strcannotdumponwindows'] = 'Il dump di nomi complessi di tabelle o schemi sotto Windows non &egrave; supportato.';
 
         // Tables - Tabelle
 	$lang['strtable'] = 'Tabella';
@@ -167,6 +173,7 @@
         $lang['strinsertrow'] = 'Inserisci riga';
 	$lang['strrowinserted'] = 'Riga inserita.';
 	$lang['strrowinsertedbad'] = 'Inserimento della riga fallito.';
+	$lang['strrowduplicate'] = 'Inserimento della riga fallito, tentativo di eseguire un inserimento duplicato.';
 	$lang['streditrow'] = 'Modifica riga';
 	$lang['strrowupdated'] = 'Riga aggiornata.';
 	$lang['strrowupdatedbad'] = 'Aggiornamento della riga fallito.';
@@ -455,6 +462,7 @@
         $lang['strtriggerdroppedbad'] = 'Eliminazione del trigger fallita.';
 	$lang['strtriggeraltered'] = 'Trigger modificato.';
 	$lang['strtriggeralteredbad'] = 'Modifica del trigger fallita.';
+	$lang['strforeach'] = 'Per ogni';
 
         // Types - Tipi
 	$lang['strtype'] = 'Tipo';
@@ -636,5 +644,10 @@
         $lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
 	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle'] = 'Login su %s';
+	$lang['strlogoutmsg'] = 'Logout da %s effettuato';
+	$lang['strloading'] = 'Caricamento...';
+	$lang['strerrorloading'] = 'Errore nel caricamento di';
+	$lang['strclicktoreload'] = 'Clicca per ricaricare';
 
 ?>

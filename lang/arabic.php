@@ -4,7 +4,7 @@
   * English language file for phpPgAdmin.  Use this as a basis
   * for new translations.
   *
-  * $Id: arabic.php,v 1.3 2005/03/11 03:15:04 chriskl Exp $
+  * $Id: arabic.php,v 1.4 2005/05/03 01:50:07 soranzo Exp $
   */
 
  // Language and character set
@@ -127,7 +127,6 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strfileimported'] = 'تم استيراد الملف.';
 
  // Error handling
- $lang['strnoframes'] = 'لإستخدام هذا البرنامج تحتاج الى متصفح وب يدعم خاصية الإطارات frames. You need a frames-enabled browser to use this application.';
  $lang['strbadconfig'] = 'إن الملف config.inc.php الذي لديك اصبح قديما. ستحتاج الى إعادة توليده من الملف الجديد config.inc.php-dist.';
  $lang['strnotloaded'] = 'إن اعداد  PHP الموجود على هذا الخادم لاتدعم PostgreSQL. تحتاج الى اعادة تثبيت PHP بإستخدام الخيار  --with-pgsql configure option.';
  $lang['strpostgresqlversionnotsupported'] = 'هذا الاصدار من PostgreSQL غير مدعوم. الرجاء الترقية الى الإصدار %s او أعلى.';

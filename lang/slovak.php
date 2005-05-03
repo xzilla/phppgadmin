@@ -126,7 +126,6 @@
 	$lang['strfileimported']  =  'Súbor importovaný.';
 
 	// Error handling
-	$lang['strnoframes']  =  'K správnemu behu aplikácie potrebuješ prehliadač podporujúci frame-y.';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaralý. Musíš vygenerovať nový zo súboru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilované s potrebnou podporou databáz.';
 	$lang['strphpversionnotsupported']  =  'Tvoja verzia PHP nie je podporovaná.  Prosím aktualizuj ho na verziu %s alebo vyššiu.';

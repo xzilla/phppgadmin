@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.11 2004/07/12 04:18:42 chriskl Exp $
+	 * $Id: dutch.php,v 1.12 2005/05/03 01:50:09 soranzo Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -13,7 +13,6 @@
 	$lang['appdbencoding'] = 'LATIN1';
 	$lang['applangdir'] = 'ltr';
   
-	$lang['strnoframes'] = 'Deze applicatie maakt gebruik van frames. U heeft een browser nodig, die frames ondersteund, om deze applicatie te gebruiken. ';
 	$lang['strlogin'] = 'Login';
 	$lang['strnotables'] = 'Geen tabellen gevonden.';
 	$lang['strppahome'] = 'phpPgAdmin Homepage';

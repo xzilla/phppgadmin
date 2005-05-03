@@ -125,7 +125,6 @@
         $lang['strfileimported'] = 'Файл ╕мпортовано.';
 
         // Error handling
-        $lang['strnoframes'] = 'Для виконання дано╖ програми Вам необх╕дно мати браузер, що п╕дтриму╓ фрейми.';
         $lang['strbadconfig'] = 'Ваш config.inc.php застар╕в. Вам необх╕дно оновити його ╕з config.inc.php-dist.';
         $lang['strnotloaded'] = 'Ваша ╕нсталяц╕я PHP не п╕дтриму╓ PostgreSQL. Вам необх╕дно перекомп╕лювати PHP, використавши параметр --with-pgsql для configure.';
         $lang['strbadschema'] = 'Виявлено неправильну схему.';
