@@ -1,11 +1,18 @@
 <?php
-// $Id: decorator.inc.php,v 1.2 2005/05/02 15:47:28 chriskl Exp $
+// $Id: decorator.inc.php,v 1.3 2005/05/04 10:07:21 jollytoad Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
 // using the Decorator pattern.
 
 ###TODO: Better documentation!!!
+
+// Compatibility functions:
+if (!function_exists('is_a')) {
+	function is_a($object, $class) {
+		return is_object($object) && get_class($object) == strtolower($class) || is_subclass_of($object, $class);
+	}
+}
 
 // Construction functions:
 
