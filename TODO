@@ -43,13 +43,20 @@ Tables
 Views
 -----
 
+* Allow INSERT and import on views with the appropriate rules.
+
 Sequences
 ---------
+
+* Alter sequence
+* setval & nextval
 
 Functions
 ---------
 
 * Support 8.1 IN, OUT and INOUT parameters.
+* Display owner
+* Alter owner
 
 Indexes 
 -------
@@ -71,6 +78,8 @@ Operator Classes
 
 Triggers
 --------
+
+* Allow functions from other schemas.
 
 Aggregates
 ----------
@@ -114,13 +123,14 @@ Miscellaneous
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * Translated FAQ
+* Icons for all objects, for use in navigation widgets
 
 Exotic
 ------
 
 * Support contrib/tsearch2 for easy full text indexes
 * Pivot reports (ADODB has a feature for this)
-* Parameratised reports (use prepared queries)
+* Parameterized reports (use prepared queries)
 * Full web accessability conformance
 
 Principles
