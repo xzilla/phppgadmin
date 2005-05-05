@@ -18,8 +18,8 @@ Features
 * Allow login to several servers simultaneously
 * Rearrange frame layout to suit multi-server support
 * New browser tree with dynamically loading branches
-  (Using XLoadTree from http://webfx.eae.net/)
-* Allow language change on the fly
+  (Using XLoadTree2 from http://webfx.eae.net/)
+* Allow language change from the intro page at any time
   
 Bugs
 * Tree Icons are displayed middle instead of top
