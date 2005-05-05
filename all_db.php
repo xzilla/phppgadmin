@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.39 2005/05/02 22:05:34 soranzo Exp $
+	 * $Id: all_db.php,v 1.40 2005/05/05 08:59:52 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,9 @@
 			echo "<input name=\"newname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 				htmlspecialchars($_REQUEST['alterdatabase']), "\" /></td></tr>\n";
 			
-			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser($_SESSION['webdbUsername'])) {
+			$server_info = $misc->getServerInfo();
+				
+			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser($server_info['username'])) {
 				// Fetch all users
 				
 				$rs = $data->getDatabaseOwner($_REQUEST['alterdatabase']);
