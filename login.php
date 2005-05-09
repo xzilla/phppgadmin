@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.25 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: login.php,v 1.26 2005/05/09 10:49:05 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -47,6 +47,18 @@
  </table>
  <p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>
+
+<script type="text/javascript">
+<!--
+	var uname = document.login_form.loginUsername;
+	var pword = document.login_form.loginPassword;
+	if (uname.value == "") {
+		uname.focus();
+	} else {
+		pword.focus();
+	}
+//-->
+</script>
 
 <?php
 	// Output footer
