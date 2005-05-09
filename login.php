@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.26 2005/05/09 10:49:05 chriskl Exp $
+	 * $Id: login.php,v 1.27 2005/05/09 11:23:55 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -18,9 +18,6 @@
 	
 	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
 	
-	$loginServer = htmlspecialchars($_REQUEST['server']);
-	$loginUsername = '';
-	
 	if (isset($msg)) $misc->printMsg($msg);
 ?>
 
@@ -34,11 +31,11 @@
 		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
 	}
 ?>
- <input type="hidden" name="loginServer" value="<?php echo $loginServer; ?>" />
+ <input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($_REQUEST['server']); ?>" />
  <table class="navbar" border="0" cellpadding="5" cellspacing="3">
   <tr>
    <td><?php echo $lang['strusername']; ?></td>
-   <td><input type="text" name="loginUsername" value="<?php echo $loginUsername; ?>" size="24" /></td>
+   <td><input type="text" name="loginUsername" value="<?php if (isset($_POST['loginUsername'])) echo htmlspecialchars($_POST['loginUsername']); ?>" size="24" /></td>
   </tr>
   <tr>
    <td><?php echo $lang['strpassword']; ?></td>
