@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.100 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.100.2.1 2005/05/11 15:48:03 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -515,7 +515,7 @@
 
 				case 'database':
 #					$vars = $servervar . $databasevar . '&subject=database';
-					return array (
+					$tabs = array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
 							'url'   => 'database.php',
@@ -581,7 +581,16 @@
 							'hide'  => (!$this->isDumpEnabled()),
 						),
 					);
-
+					// Add plugin tabs
+					global $plugins;
+					foreach ($plugins as $v) {
+						$tab = $v->getDatabaseTab();
+						if ($tab !== null) {
+							$tabs[$tab['id']] = $tab;
+						}	
+					}
+					
+					return $tabs;
 				case 'schema':
 #					$vars = $servervar . $databasevar . $schemavar . '&subject=schema';
 					return array (

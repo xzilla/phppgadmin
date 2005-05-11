@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.94 2005/05/02 15:47:28 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.94.2.1 2005/05/11 15:48:03 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -195,5 +195,10 @@
 				$lang['appcharset'] = $dbEncoding;
 		}
 	}
+
+	// XXX: THIS IS A TEMPORARY HACK TO GET SLONY OBJECT LOADED
+	include('./classes/plugins/Slony.php');
+	$slony = new Slony();
+	$plugins = array(&$slony);
 
 ?>
