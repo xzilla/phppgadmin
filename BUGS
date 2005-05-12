@@ -7,7 +7,6 @@ fix getIndexes() and getConstraints() for < 7.3 to know about index type
   (eg. constraints can only be btree indexes)
 all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
 need icons and Find for Casts and Conversions, Languages, Aggs and OpClasses
-submit changes to HTML_TreeMenu maintainer
 dump sequences when dumping tables
 fix dumping clustering info
 
