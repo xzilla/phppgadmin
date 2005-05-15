@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: database.php,v 1.66.2.1 2005/05/15 14:27:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -745,7 +745,7 @@
 	}
 	
 	function doSubTree() {
-		global $misc, $data, $lang;
+		global $misc, $data, $lang, $slony;
 		
 		include_once('classes/ArrayRecordSet.php');
 		$tabs = $misc->getNavTabs('schema');
@@ -758,6 +758,16 @@
 			if (isset($tab['hide']) && $tab['hide'] === true)
 				unset($tabs[$i]);
 		}
+
+		$tabs['slony'] = array (
+								'title' => 'Slony',
+								'url'   => 'plugin_slony.php',
+								'urlvars' => array('subject' => 'slony'),
+								'hide'  => (!$slony->isEnabled()),
+								'help'  => ''
+							);
+
+
 		$items =& new ArrayRecordSet($tabs);
 		
 		$reqvars = $misc->getRequestVars('schema');
