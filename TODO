@@ -29,9 +29,8 @@ Permissions
 Databases
 ---------
 
-* Add alter database for 7.3+
-* Comments on databases
-* Alter owner
+* Add alter database variables for 7.3+
+* Comments on Create and Alter database
 
 Tables
 ------
