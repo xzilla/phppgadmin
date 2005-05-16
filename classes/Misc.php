@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.100 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.101 2005/05/16 14:30:14 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1376,15 +1376,20 @@
 		 *        'branch' - URL for child nodes (tree XML)
 		 *        'expand' - the action to return XML for the subtree
 		 *        'nodata' - message to display when node has no children
+		 *        'nohead' - suppress headers and opening <tree> tag
+		 *        'nofoot' - suppress closing </tree> tag
 		 */
 		function printTreeXML(&$treedata, &$attrs) {
 			global $conf, $lang;
-			header("Content-Type: text/xml");
-			header("Cache-Control: no-cache");
 			
-			echo "<?xml version=\"1.0\"?>\n";
-			
-			echo "<tree>\n";
+			if (!isset($attrs['nohead']) || $attrs['nohead'] === false) {
+				header("Content-Type: text/xml");
+				header("Cache-Control: no-cache");
+				
+				echo "<?xml version=\"1.0\"?>\n";
+				
+				echo "<tree>\n";
+			}
 			
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
@@ -1414,7 +1419,9 @@
 				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('error'), "\"/>\n";
 			}
 			
-			echo "</tree>\n";
+			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
+				echo "</tree>\n";
+			}
 		}
 		
 		function icon($icon) {
