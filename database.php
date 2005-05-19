@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66.2.1 2005/05/15 14:27:16 chriskl Exp $
+	 * $Id: database.php,v 1.66.2.2 2005/05/19 15:35:49 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -737,10 +737,40 @@
 								'action'  => 'subtree',
 								'schema'  => field('nspname')
 							)
-						)
+						),
+			'nofoot' => true
+		);
+
+		$misc->printTreeXML($schemas, $attrs);
+		
+		$tabs = array();
+		$tabs['slony'] = array (
+								'title' => 'Slony',
+								'url'   => 'plugin_slony.php',
+								'urlvars' => array('subject' => 'slony'),
+								'hide'  => (!$slony->isEnabled()),
+								'help'  => ''
+							);
+
+		$items =& new ArrayRecordSet($tabs);
+
+		$attrs = array(
+			'text'   => noEscape(field('title')),
+			'icon'   => field('icon', 'folder'),
+			'action' => url(field('url'),
+							$reqvars,
+							field('urlvars', array())
+						),
+			'branch' => url(field('url'),
+							$reqvars,
+							field('urlvars'),
+							array('action' => 'tree')
+						),
+			'nohead' => true
 		);
 		
-		$misc->printTreeXML($schemas, $attrs);
+		$misc->printTreeXML($items, $attrs);
+		
 		exit;
 	}
 	
