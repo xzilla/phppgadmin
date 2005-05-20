@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.100.2.1 2005/05/11 15:48:03 chriskl Exp $
+	 * $Id: Misc.php,v 1.100.2.2 2005/05/20 10:14:12 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -522,17 +522,20 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
+							'tree'  => false,
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'sql'),
 							'help'  => 'pg.sql',
+							'tree'  => false,
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'find'),
+							'tree'  => false,
 						),
 						'variables' => array (
 							'title' => $lang['strvariables'],
@@ -540,6 +543,7 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'variables'),
 							'hide'  => (!$data->hasVariables()),
 							'help'  => 'pg.variable',
+							'tree'  => false,
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
@@ -547,11 +551,13 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'processes'),
 							'hide'  => (!$data->hasProcesses()),
 							'help'  => 'pg.process',
+							'tree'  => false,
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'admin'),
+							'tree'  => false,
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -559,6 +565,7 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!isset($data->privlist['database'])),
 							'help'  => 'pg.privilege',
+							'tree'  => false,
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
@@ -579,6 +586,7 @@
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
+							'tree'  => false,
 						),
 					);
 					// Add plugin tabs
@@ -676,6 +684,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
+							'tree'  => false,
 						),
 					);
 
@@ -1385,15 +1394,20 @@
 		 *        'branch' - URL for child nodes (tree XML)
 		 *        'expand' - the action to return XML for the subtree
 		 *        'nodata' - message to display when node has no children
+		 *        'nohead' - suppress headers and opening <tree> tag
+		 *        'nofoot' - suppress closing </tree> tag
 		 */
 		function printTreeXML(&$treedata, &$attrs) {
 			global $conf, $lang;
-			header("Content-Type: text/xml");
-			header("Cache-Control: no-cache");
 			
-			echo "<?xml version=\"1.0\"?>\n";
-			
-			echo "<tree>\n";
+			if (!isset($attrs['nohead']) || $attrs['nohead'] === false) {
+				header("Content-Type: text/xml");
+				header("Cache-Control: no-cache");
+				
+				echo "<?xml version=\"1.0\"?>\n";
+				
+				echo "<tree>\n";
+			}
 			
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
@@ -1423,7 +1437,20 @@
 				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('error'), "\"/>\n";
 			}
 			
-			echo "</tree>\n";
+			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
+				echo "</tree>\n";
+			}
+		}
+		
+		function &adjustTabsForTree(&$tabs) {
+			include_once('classes/ArrayRecordSet.php');
+			
+			foreach ($tabs as $i => $tab) {
+				if ((isset($tab['hide']) && $tab['hide'] === true) || (isset($tab['tree']) && $tab['tree'] === false)) {
+					unset($tabs[$i]);
+				}
+			}
+			return new ArrayRecordSet($tabs);
 		}
 		
 		function icon($icon) {

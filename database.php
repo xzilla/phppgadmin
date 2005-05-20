@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66.2.2 2005/05/19 15:35:49 chriskl Exp $
+	 * $Id: database.php,v 1.66.2.3 2005/05/20 10:14:12 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -714,7 +714,7 @@
 	}
 	
 	function doTree() {
-		global $misc, $data, $lang, $PHP_SELF;
+		global $misc, $data, $lang, $PHP_SELF, $slony;
 		
 		$schemas = &$data->getSchemas();
 		
@@ -740,10 +740,10 @@
 						),
 			'nofoot' => true
 		);
-
+		
 		$misc->printTreeXML($schemas, $attrs);
 		
-		$tabs = array();
+		$tabs = $misc->getNavTabs('database');
 		$tabs['slony'] = array (
 								'title' => 'Slony',
 								'url'   => 'plugin_slony.php',
@@ -751,9 +751,9 @@
 								'hide'  => (!$slony->isEnabled()),
 								'help'  => ''
 							);
-
-		$items =& new ArrayRecordSet($tabs);
-
+		
+		$items =& $misc->adjustTabsForTree($tabs);
+		
 		$attrs = array(
 			'text'   => noEscape(field('title')),
 			'icon'   => field('icon', 'folder'),
@@ -777,18 +777,8 @@
 	function doSubTree() {
 		global $misc, $data, $lang, $slony;
 		
-		include_once('classes/ArrayRecordSet.php');
 		$tabs = $misc->getNavTabs('schema');
 		
-		// Remove Privileges link
-		unset($tabs['privileges']);
-		
-		// Remove hidden links
-		foreach ($tabs as $i => $tab) {
-			if (isset($tab['hide']) && $tab['hide'] === true)
-				unset($tabs[$i]);
-		}
-
 		$tabs['slony'] = array (
 								'title' => 'Slony',
 								'url'   => 'plugin_slony.php',
@@ -796,9 +786,8 @@
 								'hide'  => (!$slony->isEnabled()),
 								'help'  => ''
 							);
-
-
-		$items =& new ArrayRecordSet($tabs);
+		
+		$items =& $misc->adjustTabsForTree($tabs);
 		
 		$reqvars = $misc->getRequestVars('schema');
 		
