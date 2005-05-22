@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.1 2005/05/11 15:48:03 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.2 2005/05/22 14:29:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -64,6 +64,217 @@
 		$misc->printTable($clients, $columns, $actions, 'No nodes found.');
 	}
 
+	function doTree($subject) {
+		global $misc, $data, $lang, $PHP_SELF, $slony;
+
+		$reqvars = $misc->getRequestVars('database');
+
+		// Determine what actual tree we are building
+		switch ($subject) {			
+			case 'top':
+				// Top level Nodes and Replication Sets folders
+				$tabs = array('nodes' => array (
+										'title' => 'Nodes',
+										'url'   => 'plugin_slony.php',
+										'urlvars' => array('subject' => 'nodes')
+									));
+				
+				$items =& $misc->adjustTabsForTree($tabs);
+				
+				$attrs = array(
+					'text'   => noEscape(field('title')),
+					'icon'   => field('icon', 'folder'),
+					'action' => url(field('url'),
+									$reqvars,
+									field('urlvars', array())
+								),
+					'branch' => url(field('url'),
+									$reqvars,
+									field('urlvars'),
+									array('action' => 'nodes')
+								),
+					'nofoot' => true
+				);
+				
+				$misc->printTreeXML($items, $attrs);
+
+				$tabs = array('sets' => array (
+										'title' => 'Replication Sets',
+										'url'   => 'plugin_slony.php',
+										'urlvars' => array('subject' => 'sets')
+									));
+				
+				$items =& $misc->adjustTabsForTree($tabs);
+				
+				$attrs = array(
+					'text'   => noEscape(field('title')),
+					'icon'   => field('icon', 'folder'),
+					'action' => url(field('url'),
+									$reqvars,
+									field('urlvars', array())
+								),
+					'branch' => url(field('url'),
+									$reqvars,
+									field('urlvars'),
+									array('action' => 'sets')
+								),
+					'nohead' => true
+				);
+				
+				$misc->printTreeXML($items, $attrs);
+				
+				break;
+			case 'nodes':			
+				$nodes = &$slony->getNodes();
+				
+				$attrs = array(
+					'text'   => field('no_name'),
+					'icon'   => 'folder',
+					'toolTip'=> field('no_comment'),
+					'action' => url('redirect.php',
+									$reqvars,
+									array(
+										'subject' => 'slony_node'
+									)
+								),
+								/*
+					'branch' => url('plugin_slony.php',
+									$reqvars,
+									array(
+										'action'  => 'subtree',
+										'schema'  => field('nspname')
+									)
+								)*/
+				);
+
+				$misc->printTreeXML($nodes, $attrs);
+				
+				break;
+			case 'sets':
+				$sets = &$slony->getReplicationSets();
+			
+				$attrs = array(
+					'text'   => field('set_name'),
+					'icon'   => 'folder',
+					'toolTip'=> field('set_comment'),
+					'action' => url('redirect.php',
+									$reqvars,
+									array(
+										'subject' => 'slony_node'
+									)
+								),
+					'branch' => url('plugin_slony.php',
+									$reqvars,
+									array(
+										'action'  => 'sets_top'
+									)
+								)
+				);
+				
+				$misc->printTreeXML($sets, $attrs);
+				break;
+			case 'sets_top':
+				// Top level Nodes and Replication Sets folders
+				$tabs = array('subscriptions' => array (
+										'title' => 'Subscriptions',
+										'url'   => 'plugin_slony.php',
+										'urlvars' => array('subject' => 'subscriptions')
+									));
+				
+				$items =& $misc->adjustTabsForTree($tabs);
+				
+				$attrs = array(
+					'text'   => noEscape(field('title')),
+					'icon'   => field('icon', 'folder'),
+					'action' => url(field('url'),
+									$reqvars,
+									field('urlvars', array())
+								),
+					'branch' => url(field('url'),
+									$reqvars,
+									field('urlvars'),
+									array('action' => 'subscriptions')
+								),
+					'nofoot' => true
+				);
+				
+				$misc->printTreeXML($items, $attrs);
+
+				$tabs = array('tables' => array (
+										'title' => $lang['strtables'],
+										'url'   => 'plugin_slony.php',
+										'urlvars' => array('subject' => 'tables')
+									));
+				
+				$items =& $misc->adjustTabsForTree($tabs);
+				
+				$attrs = array(
+					'text'   => noEscape(field('title')),
+					'icon'   => field('icon', 'folder'),
+					'action' => url(field('url'),
+									$reqvars,
+									field('urlvars', array())
+								),
+					'branch' => url(field('url'),
+									$reqvars,
+									field('urlvars'),
+									array('action' => 'tables', 'set_id' => XXXXXXXXXHERE)
+								),
+					'nohead' => true,
+					'nofoot' => true
+				);
+				
+				$misc->printTreeXML($items, $attrs);
+
+				$tabs = array('sequencess' => array (
+										'title' => $lang['strsequences'],
+										'url'   => 'plugin_slony.php',
+										'urlvars' => array('subject' => 'sequences')
+									));
+				
+				$items =& $misc->adjustTabsForTree($tabs);
+				
+				$attrs = array(
+					'text'   => noEscape(field('title')),
+					'icon'   => field('icon', 'folder'),
+					'action' => url(field('url'),
+									$reqvars,
+									field('urlvars', array())
+								),
+					'branch' => url(field('url'),
+									$reqvars,
+									field('urlvars'),
+									array('action' => 'sequences')
+								),
+					'nohead' => true
+				);
+				
+				$misc->printTreeXML($items, $attrs);
+				
+				break;
+			case 'tables':
+				$tables = &$slony->getTables($_REQUEST['set_id']);
+				
+				$reqvars = $misc->getRequestVars('table');
+				
+				$attrs = array(
+					'text'   => field('relname'),
+					'icon'   => 'tables',
+					'toolTip'=> field('relcomment'),
+					'action' => url('redirect.php',
+									$reqvars,
+									array('table' => field('relname'))
+								)
+				);
+				
+				$misc->printTreeXML($tables, $attrs);
+			
+				break;
+		}
+			
+		exit;
+	}
+
 	/**
 	 * List all the information on the table
 	 */
@@ -111,6 +322,14 @@
 		
 		$misc->printTable($nodes, $columns, $actions, 'No nodes found.');
 	}
+
+	if ($action == 'tree') doTree('top');
+	elseif ($action == 'nodes') doTree('nodes');
+	elseif ($action == 'sets') doTree('sets');
+	elseif ($action == 'sets_top') doTree('sets_top');
+	elseif ($action == 'subscriptions') doTree('subscriptions');
+	elseif ($action == 'sequences') doTree('sequences');
+	elseif ($action == 'tables') doTree('tables');
 
 	$misc->printHeader('Slony');
 	$misc->printBody();

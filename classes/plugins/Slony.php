@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.2 2005/05/15 14:27:16 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.3 2005/05/22 14:29:08 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -73,6 +73,8 @@ class Slony extends Plugin {
 		);				
 	}
 
+	// NODES
+
 	/**
 	 * Gets the nodes in this database
 	 */
@@ -82,7 +84,7 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT * FROM \"{$schema}\".sl_node ORDER BY no_id";
+		$sql = "SELECT *, 'Node ' || no_id AS no_name FROM \"{$schema}\".sl_node ORDER BY no_id";
 		
 		return $data->selectSet($sql);
 	}
@@ -97,7 +99,7 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT * FROM \"{$schema}\".sl_node WHERE no_id='{$no_id}'";
+		$sql = "SELECT *, 'Node ' || no_id AS no_name FROM \"{$schema}\".sl_node WHERE no_id='{$no_id}'";
 		
 		return $data->selectSet($sql);
 	}
@@ -119,6 +121,44 @@ class Slony extends Plugin {
 		
 		return $data->selectSet($sql);
 	}
+
+	// REPLICATION SETS
+	
+	/**
+	 * Gets the replication sets in this database
+	 */
+	function getReplicationSets() {
+		global $data;
+		
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		
+		$sql = "SELECT *, 'Set ' || set_id AS set_name  FROM \"{$schema}\".sl_set ORDER BY set_id";
+		
+		return $data->selectSet($sql);
+	}
+
+	/**
+	 * Return all tables in a replication set
+	 * @param $set_id The ID of the replication set
+	 * @return Tables in the replication set, sorted alphabetically 
+	 */
+	function &getTables($set_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);		
+
+		$sql = "SELECT c.relname
+					FROM pg_catalog.pg_class c, \"{$schema}\".sl_table st
+					WHERE c.oid=st.tab_reloid
+					AND st.tab_set='{$set_id}'
+					ORDER BY c.relname";
+
+		return $data->selectSet($sql);
+	}
+
 }
 
 ?>
