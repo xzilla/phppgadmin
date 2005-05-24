@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.2 2005/05/22 14:29:08 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.3 2005/05/24 13:02:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -160,13 +160,14 @@
 					'action' => url('redirect.php',
 									$reqvars,
 									array(
-										'subject' => 'slony_node'
+										'set_id' => field('set_id')
 									)
 								),
 					'branch' => url('plugin_slony.php',
 									$reqvars,
 									array(
-										'action'  => 'sets_top'
+										'action'  => 'sets_top',
+										'set_id' => field('set_id')
 									)
 								)
 				);
@@ -193,7 +194,7 @@
 					'branch' => url(field('url'),
 									$reqvars,
 									field('urlvars'),
-									array('action' => 'subscriptions')
+									array('action' => 'subscriptions', 'set_id' => $_REQUEST['set_id'])
 								),
 					'nofoot' => true
 				);
@@ -218,7 +219,7 @@
 					'branch' => url(field('url'),
 									$reqvars,
 									field('urlvars'),
-									array('action' => 'tables', 'set_id' => XXXXXXXXXHERE)
+									array('action' => 'tables', 'set_id' => $_REQUEST['set_id'])
 								),
 					'nohead' => true,
 					'nofoot' => true
@@ -244,7 +245,7 @@
 					'branch' => url(field('url'),
 									$reqvars,
 									field('urlvars'),
-									array('action' => 'sequences')
+									array('action' => 'sequences', 'set_id' => $_REQUEST['set_id'])
 								),
 					'nohead' => true
 				);
@@ -263,7 +264,29 @@
 					'toolTip'=> field('relcomment'),
 					'action' => url('redirect.php',
 									$reqvars,
-									array('table' => field('relname'))
+									array('table' => field('relname'), 'schema' => field('nspname'))
+								)
+				);
+				
+				$misc->printTreeXML($tables, $attrs);
+			
+				break;
+			case 'sequences':
+				$tables = &$slony->getSequences($_REQUEST['set_id']);
+				
+				$reqvars = $misc->getRequestVars('sequence');
+
+				$attrs = array(
+					'text'   => field('seqname'),
+					'icon'   => 'sequences',
+					'toolTip'=> field('seqcomment'),
+					'action' => url('sequences.php',
+									$reqvars,
+									array (
+										'action' => 'properties',
+										'sequence' => field('seqname'),
+										'schema' => field('nspname')
+									)
 								)
 				);
 				

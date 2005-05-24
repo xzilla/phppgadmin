@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.3 2005/05/22 14:29:08 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.4 2005/05/24 13:02:02 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -150,10 +150,33 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);		
 
-		$sql = "SELECT c.relname
-					FROM pg_catalog.pg_class c, \"{$schema}\".sl_table st
+		$sql = "SELECT c.relname, n.nspname
+					FROM pg_catalog.pg_class c, \"{$schema}\".sl_table st, pg_catalog.pg_namespace n
 					WHERE c.oid=st.tab_reloid
+					AND c.relnamespace=n.oid
 					AND st.tab_set='{$set_id}'
+					ORDER BY c.relname";
+
+		return $data->selectSet($sql);
+	}
+
+	/**
+	 * Return all sequences in a replication set
+	 * @param $set_id The ID of the replication set
+	 * @return Sequences in the replication set, sorted alphabetically 
+	 */
+	function &getSequences($set_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);		
+
+		$sql = "SELECT c.relname AS seqname, n.nspname
+					FROM pg_catalog.pg_class c, \"{$schema}\".sl_sequence ss, pg_catalog.pg_namespace n
+					WHERE c.oid=ss.seq_reloid
+					AND c.relnamespace=n.oid
+					AND ss.seq_set='{$set_id}'
 					ORDER BY c.relname";
 
 		return $data->selectSet($sql);
