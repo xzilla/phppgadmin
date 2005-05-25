@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.20 2004/12/06 02:48:34 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.21 2005/05/25 04:33:23 chriskl Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -309,22 +309,44 @@ class ADODB_base {
 	 * @param $arr String representing the DB array
 	 * @return A PHP array
 	 */
-	function phpArray($arr) {
-		if ($arr == '{}') return array();
-		
-		$temp = explode(',', substr($arr, 1, strlen($arr) - 2));
-		// Remove any quoting
-		for ($i = 0; $i < sizeof($temp); $i++) {
-			if (substr($temp[$i], 0, 1) == '"' && substr($temp[$i], strlen($temp[$i]) - 1, 1) == '"') {
-				// Strip double quotes
-				$temp[$i] = substr($temp[$i], 1, strlen($temp[$i]) - 2);	
-				// Unescape backslashes
-				$temp[$i] = str_replace('\\\\', '\\', $temp[$i]);
-				// Unescape double quotes
-				$temp[$i] = str_replace('\\"', '"', $temp[$i]);
+	function phpArray($dbarr) {
+		// Take off the first and last characters (the braces)
+		$arr = substr($dbarr, 1, strlen($dbarr) - 2);
+
+		// Pick out array entries by carefully parsing.  This is necessary in order
+		// to cope with double quotes and commas, etc.
+		$elements = array();
+		$i = $j = 0;		
+		$in_quotes = false;
+		while ($i < strlen($arr)) {
+			// If current char is a double quote and it's not escaped, then
+			// enter quoted bit
+			$char = substr($arr, $i, 1);
+			if ($char == '"' && ($i == 0 || substr($arr, $i - 1, 1) != '\\')) 
+				$in_quotes = !$in_quotes;
+			elseif ($char == ',' && !$in_quotes) {
+				// Add text so far to the array
+				$elements[] = substr($arr, $j, $i - $j);
+				$j = $i + 1;
+			}
+			$i++;
+		}
+		// Add final text to the array
+		$elements[] = substr($arr, $j);
+
+		// Do one further loop over the elements array to remote double quoting
+		// and escaping of double quotes and backslashes
+		for ($i = 0; $i < sizeof($elements); $i++) {
+			$v = $elements[$i];
+			if (strpos($v, '"') === 0) {
+				$v = substr($v, 1, strlen($v) - 2);
+				$v = str_replace('\\"', '"', $v);
+				$v = str_replace('\\\\', '\\', $v);
+				$elements[$i] = $v;
 			}
 		}
-		return $temp;
+
+		return $elements;
 	}
 }
 
