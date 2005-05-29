@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.28 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: sequences.php,v 1.28.2.1 2005/05/29 10:06:51 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -145,7 +145,7 @@
 			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strreset']}</a> |\n";
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
-		else echo "<p>{$lang['strnodata']}.</p>\n";
+		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
 
 	/**
