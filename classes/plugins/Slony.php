@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.5 2005/05/28 13:16:31 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.6 2005/05/29 10:06:00 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -87,7 +87,7 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT *, 'Node ' || no_id AS no_name FROM \"{$schema}\".sl_node ORDER BY no_comment";
+		$sql = "SELECT * FROM \"{$schema}\".sl_node ORDER BY no_comment";
 		
 		return $data->selectSet($sql);
 	}
@@ -97,12 +97,12 @@ class Slony extends Plugin {
 	 */
 	function getNode($no_id) {
 		global $data;
-		$data->clean($no_id);
 
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
+		$data->clean($no_id);
 		
-		$sql = "SELECT *, 'Node ' || no_id AS no_name FROM \"{$schema}\".sl_node WHERE no_id='{$no_id}'";
+		$sql = "SELECT * FROM \"{$schema}\".sl_node WHERE no_id='{$no_id}'";
 		
 		return $data->selectSet($sql);
 	}
@@ -136,7 +136,22 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT *, 'Set ' || set_id AS set_name  FROM \"{$schema}\".sl_set ORDER BY set_id";
+		$sql = "SELECT * FROM \"{$schema}\".sl_set ORDER BY set_id";
+		
+		return $data->selectSet($sql);
+	}
+
+	/**
+	 * Gets a particular replication set
+	 */
+	function getReplicationSet($set_id) {
+		global $data;
+		
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		
+		$sql = "SELECT * FROM \"{$schema}\".sl_set WHERE set_id='{$set_id}'";
 		
 		return $data->selectSet($sql);
 	}
@@ -158,7 +173,7 @@ class Slony extends Plugin {
 					WHERE c.oid=st.tab_reloid
 					AND c.relnamespace=n.oid
 					AND st.tab_set='{$set_id}'
-					ORDER BY c.relname";
+					ORDER BY n.nspname, c.relname";
 
 		return $data->selectSet($sql);
 	}
@@ -180,7 +195,7 @@ class Slony extends Plugin {
 					WHERE c.oid=ss.seq_reloid
 					AND c.relnamespace=n.oid
 					AND ss.seq_set='{$set_id}'
-					ORDER BY c.relname";
+					ORDER BY n.nspname, c.relname";
 
 		return $data->selectSet($sql);
 	}

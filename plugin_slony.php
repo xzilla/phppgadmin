@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.4 2005/05/28 13:16:31 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.5 2005/05/29 10:05:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -12,58 +12,10 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
 
-	function doProperties() {
-		global $slony, $misc;
-		global $lang;
-
-		$misc->printTrail('database');
-		$misc->printTabs('database','slony');
-
-		$clients = $slony->getNodeClients($_REQUEST['no_id']);
-
-		echo "<h3>Clients</h3>\n";
-		
-		$columns = array(
-			'no_id' => array(
-				'title' => 'Node ID',
-				'field' => 'no_id'
-			),
-			'no_active' => array(
-				'title' => 'Active',
-				'field' => 'no_active'
-			),
-			'no_spool' => array(
-				'title' => 'Spool',
-				'field' => 'no_spool'
-			),
-			'pa_conninfo' => array(
-				'title' => 'Connection',
-				'field' => 'pa_conninfo'
-			),
-			'pa_connretry' => array(
-				'title' => 'Retry',
-				'field' => 'pa_connretry'
-			),
-			'actions' => array(
-				'title' => $lang['stractions'],
-			),
-			'no_comment' => array(
-				'title' => $lang['strcomment'],
-				'field' => 'no_comment'
-			)
-		);
-		
-		$actions = array (
-			'detail' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=properties&amp;",
-				'vars'  => array('no_id' => 'no_id')
-			)
-		);
-		
-		$misc->printTable($clients, $columns, $actions, 'No nodes found.');
-	}
-
+	/**
+	 * Generate the somewhat complex Slony tree
+	 * @param string $subject The tree node to return
+	 */
 	function doTree($subject) {
 		global $misc, $data, $lang, $PHP_SELF, $slony;
 
@@ -114,7 +66,8 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'nodes_properties')
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -139,7 +92,8 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'sets_properties')
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -158,9 +112,10 @@
 				$attrs = array(
 					'text'   => field('no_comment'),
 					'icon'   => 'folder',
-					'action' => url('redirect.php',
+					'action' => url('plugin_slony.php',
 									$reqvars,
 									array(
+										'action'  => 'node_properties',
 										'no_id' => field('no_id')
 									)
 								),
@@ -269,6 +224,7 @@
 					'action' => url('redirect.php',
 									$reqvars,
 									array(
+										'action'  => 'set_properties',
 										'set_id' => field('set_id')
 									)
 								),
@@ -424,32 +380,21 @@
 	}
 
 	/**
-	 * List all the information on the table
+	 * List all the nodes
 	 */
-	function doDefault($msg = '') {
+	function doNodes($msg = '') {
 		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
-		$misc->printTabs('database','slony');
 		$misc->printMsg($msg);
 
 		$nodes = $slony->getNodes();
 
-		echo "<h3>Nodes</h3>\n";
-		
 		$columns = array(
-			'no_id' => array(
-				'title' => 'Node ID',
-				'field' => 'no_id'
-			),
-			'no_active' => array(
-				'title' => 'Active',
-				'field' => 'no_active'
-			),
-			'no_spool' => array(
-				'title' => 'Spool',
-				'field' => 'no_spool'
+			'no_name' => array(
+				'title' => $lang['strname'],
+				'field' => 'no_comment'
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -463,14 +408,120 @@
 		$actions = array (
 			'detail' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=properties&amp;",
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;",
 				'vars'  => array('no_id' => 'no_id')
 			)
 		);
 		
 		$misc->printTable($nodes, $columns, $actions, 'No nodes found.');
 	}
+	
+	/**
+	 * Display the properties of a node
+	 */	 
+	function doNode($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_node');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the node information
+		$node = &$slony->getNode($_REQUEST['no_id']);		
+		
+		if (is_object($node) && $node->recordCount() > 0) {			
+			// Show comment if any
+			if ($node->f['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($node->f['no_comment']), "</p>\n";
 
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->f['no_id']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Active</th>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($node->f['no_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+
+	/**
+	 * List all the replication sets
+	 */
+	function doReplicationSets($msg = '') {
+		global $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$sets = $slony->getReplicationSets();
+
+		$columns = array(
+			'set_name' => array(
+				'title' => $lang['strname'],
+				'field' => 'set_comment'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'set_comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'set_comment'
+			)
+		);
+		
+		$actions = array (
+			'detail' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
+				'vars'  => array('set_id' => 'set_id')
+			)
+		);
+		
+		$misc->printTable($sets, $columns, $actions, 'No sets found.');
+	}	
+
+	/**
+	 * Display the properties of a replication set
+	 */	 
+	function doReplicationSet($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_set');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the set information
+		$set = &$slony->getReplicationSet($_REQUEST['set_id']);		
+		
+		if (is_object($set) && $set->recordCount() > 0) {			
+			// Show comment if any
+			if ($set->f['set_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($set->f['set_comment']), "</p>\n";
+
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['set_id']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Locked</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['set_locked']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+
+	// Tree actions
 	if ($action == 'tree') doTree('clusters');
 	elseif ($action == 'clusters_top') doTree('clusters_top');
 	elseif ($action == 'nodes') doTree('nodes');
@@ -487,12 +538,20 @@
 	$misc->printBody();
 	
 	switch ($action) {
-		case 'properties':
-			doProperties();
+		case 'nodes_properties':
+			doNodes();
+			break;
+		case 'node_properties':
+			doNode();
+			break;
+		case 'sets_properties':
+			doReplicationSets();
+			break;
+		case 'set_properties':
+			doReplicationSet();
 			break;
 		default:
-			doDefault();
-			break;
+			// Shouldn't happen
 	}
 	
 	$misc->printFooter();
