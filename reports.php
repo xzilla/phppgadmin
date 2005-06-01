@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.20 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: reports.php,v 1.21 2005/06/01 10:38:14 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -130,7 +130,7 @@
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['report_name'])) $_REQUEST['report_name'] = '';
-		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = '';
+		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = (isset($_REQUEST['database']) ? $_REQUEST['database'] : '');
 		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
 		if (!isset($_REQUEST['report_sql'])) $_REQUEST['report_sql'] = '';
 

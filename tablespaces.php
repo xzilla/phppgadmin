@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.7 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: tablespaces.php,v 1.8 2005/06/01 10:38:14 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -209,29 +209,27 @@
 			)
 		);
 		
-		$href = $misc->getHREF('database');
-		
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;{$href}&amp;",
+				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$href}&amp;",
+				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?subject=tablespace&amp;{$href}&amp;",
+				'url'   => "privileges.php?subject=tablespace&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			)
 		);
 				
 		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$href}\">{$lang['strcreatetablespace']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatetablespace']}</a></p>\n";
 
 	}
 

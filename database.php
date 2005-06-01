@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: database.php,v 1.67 2005/06/01 10:38:14 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -390,12 +390,10 @@
 		if ($data->hasSignals()) {
 			$columns['actions'] = array('title' => $lang['stractions']);
 			
-			$href = $misc->getHREF('schema');
-			
 			$actions = array(
 				'cancel' => array(
 					'title' => $lang['strcancel'],
-					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;{$href}&amp;",
+					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
 					'vars'  => array('procpid' => 'procpid')
 				)
 			);
@@ -679,34 +677,32 @@
 				),
 			);
 			
-			$href = $misc->getHREF('schema');
-			
 			$actions = array(
 				'properties' => array(
 					'title' => $lang['strproperties'],
-					'url'   => "redirect.php?subject=schema&amp;{$href}&amp;",
+					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
-					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$href}&amp;",
+					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?subject=schema&amp;{$href}&amp;",
+					'url'   => "privileges.php?subject=schema&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "{$PHP_SELF}?action=alter_schema&amp;{$href}&amp;",
+					'url'   => "{$PHP_SELF}?action=alter_schema&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
 			
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$href}\">{$lang['strcreateschema']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";

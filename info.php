@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: info.php,v 1.10 2005/06/01 10:38:14 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -69,7 +69,7 @@
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->f['relname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->f['conname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->f['consrc']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"constraints.php?database=", urlencode($_REQUEST['database']), 
+					echo "<td class=\"opbutton{$id}\"><a href=\"constraints.php?{$misc->href}", 
 						"&amp;schema=", urlencode($referrers->f['nspname']),
 						"&amp;table=", urlencode($referrers->f['relname']), "\">{$lang['strproperties']}</a></td>\n";
 					echo "\t</tr>\n";
@@ -100,7 +100,7 @@
 						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->f['schemaname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($parents->f['relname']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?database=", urlencode($_REQUEST['database']), 
+					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($parents->f['schemaname']),
 						"&amp;table=", urlencode($parents->f['relname']), "\">{$lang['strproperties']}</a></td>\n";
 					echo "\t</tr>\n";
@@ -131,7 +131,7 @@
 						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($children->f['schemaname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($children->f['relname']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?database=", urlencode($_REQUEST['database']), 
+					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($children->f['schemaname']),
 						"&amp;table=", urlencode($children->f['relname']), "\">{$lang['strproperties']}</a></td>\n";
 					echo "\t</tr>\n";

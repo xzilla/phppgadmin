@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.49 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: display.php,v 1.50 2005/06/01 10:38:14 soranzo Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -390,7 +390,7 @@
 				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a>\n";
 		// Create report
 		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-			echo " | <a class=\"navlink\" href=\"reports.php?action=create&amp;db_name=", urlencode($_REQUEST['database']), "&amp;report_sql=",
+			echo " | <a class=\"navlink\" href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
 				urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a>\n";
 		}
 		// Create view and download
