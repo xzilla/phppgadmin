@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.5 2005/05/29 10:05:59 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.6 2005/06/01 14:57:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -147,7 +147,8 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'paths_properties', 'no_id' => $_REQUEST['no_id'])
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -193,7 +194,7 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url('plugin_slony.php',
 									$reqvars,
-									array('no_id' => field('no_id'))
+									array('no_id' => field('pa_server'), 'path_id' => field('no_id'), 'action' => 'path_properties')
 								)
 				);
 				
@@ -451,6 +452,77 @@
 	}
 
 	/**
+	 * List all the paths
+	 */
+	function doPaths($msg = '') {
+		global $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$paths = $slony->getPaths($_REQUEST['no_id']);
+
+		$columns = array(
+			'no_name' => array(
+				'title' => $lang['strname'],
+				'field' => 'no_comment'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'no_comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'no_comment'
+			)
+		);
+		
+		$actions = array (
+			'detail' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
+				'vars'  => array('no_id' => 'pa_server', 'path_id' => 'no_id')
+			)
+		);
+		
+		$misc->printTable($paths, $columns, $actions, 'No paths found.');
+	}
+	
+	/**
+	 * Display the properties of a path
+	 */	 
+	function doPath($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_path');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the path information
+		$path = &$slony->getPath($_REQUEST['no_id'], $_REQUEST['path_id']);		
+		
+		if (is_object($path) && $path->recordCount() > 0) {			
+			// Show comment if any
+			if ($path->f['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($path->f['no_comment']), "</p>\n";
+
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Server name</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->f['no_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Server ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->f['no_id']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Connect Info</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_conninfo']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Retry</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_connretry']), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+	
+	/**
 	 * List all the replication sets
 	 */
 	function doReplicationSets($msg = '') {
@@ -543,6 +615,12 @@
 			break;
 		case 'node_properties':
 			doNode();
+			break;
+		case 'paths_properties':
+			doPaths();
+			break;
+		case 'path_properties':
+			doPath();
 			break;
 		case 'sets_properties':
 			doReplicationSets();

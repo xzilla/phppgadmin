@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.6 2005/05/29 10:06:00 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.7 2005/06/01 14:57:26 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -237,6 +237,25 @@ class Slony extends Plugin {
 					WHERE sp.pa_client=sn.no_id 
 					AND sp.pa_server='{$no_id}'
 					ORDER BY sn.no_comment";
+		
+		return $data->selectSet($sql);
+	}
+
+	/**
+	 * Gets node path details
+	 */
+	function getPath($no_id, $path_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($path_id);
+		
+		$sql = "SELECT * FROM \"{$schema}\".sl_path sp, \"{$schema}\".sl_node sn
+					WHERE sp.pa_client=sn.no_id 
+					AND sp.pa_server='{$no_id}'
+					AND sn.no_id='{$path_id}'";
 		
 		return $data->selectSet($sql);
 	}
