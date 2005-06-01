@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.7 2005/06/01 14:57:26 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.8 2005/06/01 15:11:44 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -274,6 +274,26 @@ class Slony extends Plugin {
 					WHERE sl.li_provider=sn.no_id 
 					AND sl.li_receiver='{$no_id}'
 					ORDER BY sn.no_comment";
+		
+		return $data->selectSet($sql);
+	}
+
+	/**
+	 * Gets node listen details
+	 */
+	function getListen($no_id, $listen_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($listen_id);
+		
+		$sql = "SELECT sl.*, sn.*, sn2.no_comment AS origin FROM \"{$schema}\".sl_listen sl, \"{$schema}\".sl_node sn, \"{$schema}\".sl_node sn2
+					WHERE sl.li_provider=sn.no_id 
+					AND sl.li_receiver='{$no_id}'
+					AND sn.no_id='{$listen_id}'
+					AND sn2.no_id=sl.li_origin";
 		
 		return $data->selectSet($sql);
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.6 2005/06/01 14:57:25 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.7 2005/06/01 15:11:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -173,7 +173,8 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'listens_properties', 'no_id' => $_REQUEST['no_id'])
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -209,7 +210,7 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url('plugin_slony.php',
 									$reqvars,
-									array('no_id' => field('no_id'))
+									array('no_id' => field('li_receiver'), 'listen_id' => field('no_id'), 'action' => 'listen_properties')
 								)
 				);
 				
@@ -521,7 +522,78 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
-	
+
+	/**
+	 * List all the listens
+	 */
+	function doListens($msg = '') {
+		global $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$listens = $slony->getListens($_REQUEST['no_id']);
+
+		$columns = array(
+			'no_name' => array(
+				'title' => $lang['strname'],
+				'field' => 'no_comment'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'no_comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'no_comment'
+			)
+		);
+		
+		$actions = array (
+			'detail' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id')
+			)
+		);
+		
+		$misc->printTable($listens, $columns, $actions, 'No listens found.');
+	}
+
+	/**
+	 * Display the properties of a listen
+	 */	 
+	function doListen($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_path');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the listen information
+		$listen = &$slony->getListen($_REQUEST['no_id'], $_REQUEST['listen_id']);		
+		
+		if (is_object($listen) && $listen->recordCount() > 0) {			
+			// Show comment if any
+			if ($listen->f['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($listen->f['no_comment']), "</p>\n";
+
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Provider</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->f['no_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->f['li_provider']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Origin</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->f['origin']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->f['li_origin']), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+		
 	/**
 	 * List all the replication sets
 	 */
@@ -621,6 +693,12 @@
 			break;
 		case 'path_properties':
 			doPath();
+			break;
+		case 'listens_properties':
+			doListens();
+			break;
+		case 'listen_properties':
+			doListen();
 			break;
 		case 'sets_properties':
 			doReplicationSets();
