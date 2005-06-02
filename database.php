@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66.2.3 2005/05/20 10:14:12 jollytoad Exp $
+	 * $Id: database.php,v 1.66.2.4 2005/06/02 15:21:39 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -747,7 +747,7 @@
 		$tabs['slony'] = array (
 								'title' => 'Slony',
 								'url'   => 'plugin_slony.php',
-								'urlvars' => array('subject' => 'slony'),
+								'urlvars' => array('action' => 'clusters_properties'),
 								'hide'  => (!$slony->isEnabled()),
 								'help'  => ''
 							);

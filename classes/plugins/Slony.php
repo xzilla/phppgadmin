@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.9 2005/06/02 14:51:46 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.10 2005/06/02 15:21:48 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -66,21 +66,18 @@ class Slony extends Plugin {
 		else return false;
 	}	
 
-	/**
-	 * Gets the database tab details
-	 * @return array The array of tab details, null for none
-	 */
-	function getDatabaseTab() {
-		return array(
-			'id' => 'slony',
-			'title' => 'Slony',
-			'url'   => 'plugin_slony.php',
-			'urlvars' => array('subject' => 'database', 'action' => 'slony'),
-			'hide'  => false
-		);				
-	}
-
 	// CLUSTER
+
+	/**
+	 * Gets the clusters in this database
+	 */
+	function getClusters() {
+		include_once('classes/ArrayRecordSet.php');
+
+		$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => ''));
+
+		return new ArrayRecordSet($clusters);
+	}
 	
 	/**
 	 * Gets a single cluster

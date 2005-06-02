@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.100.2.2 2005/05/20 10:14:12 jollytoad Exp $
+	 * $Id: Misc.php,v 1.100.2.3 2005/06/02 15:21:47 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -589,15 +589,7 @@
 							'tree'  => false,
 						),
 					);
-					// Add plugin tabs
-					global $plugins;
-					foreach ($plugins as $v) {
-						$tab = $v->getDatabaseTab();
-						if ($tab !== null) {
-							$tabs[$tab['id']] = $tab;
-						}	
-					}
-					
+
 					return $tabs;
 				case 'schema':
 #					$vars = $servervar . $databasevar . $schemavar . '&subject=schema';

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.8 2005/06/02 14:51:45 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.9 2005/06/02 15:21:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -382,6 +382,43 @@
 		}
 			
 		exit;
+	}
+
+	/**
+	 * Display the slony clusters (we only support one)
+	 */	 
+	function doClusters($msg = '') {
+		global $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$clusters = $slony->getClusters();
+
+		$columns = array(
+			'no_name' => array(
+				'title' => $lang['strcluster'],
+				'field' => 'cluster'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'no_comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'comment'
+			)
+		);
+		
+		$actions = array (
+			'detail' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
+				'vars'  => array()
+			)
+		);
+		
+		$misc->printTable($clusters, $columns, $actions, 'No clusters found.');
 	}
 
 	/**
@@ -827,6 +864,9 @@
 			break;
 		case 'subscription_properties':
 			doSubscription();
+			break;
+		case 'clusters_properties':
+			doClusters();
 			break;
 		case 'cluster_properties':
 			doCluster();
