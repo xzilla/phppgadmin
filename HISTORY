@@ -19,6 +19,7 @@ Features
 * Rearrange frame layout to suit multi-server support
 * New browser tree with dynamically loading branches
   (Using XLoadTree2 from http://webfx.eae.net/)
+* Avoid getting and setting encoding queries if possible
 * Allow language change from the intro page at any time
   
 Bugs

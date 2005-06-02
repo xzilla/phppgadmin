@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.261 2005/05/02 15:47:26 chriskl Exp $
+ * $Id: Postgres.php,v 1.262 2005/06/02 11:31:02 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -466,6 +466,12 @@ class Postgres extends ADODB_base {
 	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
 	 */
 	function getDatabaseEncoding() {
+		// Try to avoid a query if at all possible (5)
+		if (function_exists('pg_parameter_status')) {
+			$encoding = pg_parameter_status($this->conn->_connectionID, 'server_encoding');
+			if ($encoding !== false) return $encoding;
+		}
+		
 		$sql = "SELECT getdatabaseencoding() AS encoding";
 		
 		return $this->selectField($sql, 'encoding');
