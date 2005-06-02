@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.8 2005/06/01 15:11:44 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.9 2005/06/02 14:51:46 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -15,6 +15,7 @@ class Slony extends Plugin {
 	var $slony_version;
 	var $slony_schema;
 	var $slony_cluster;
+	var $slony_owner;
 	
 	/**
 	 * Constructor
@@ -39,8 +40,10 @@ class Slony extends Plugin {
 		// it's in.  We put an order by and limit 1 in here to guarantee
 		// only finding the first one, even if there are somehow two
 		// Slony schemas.
-		$sql = "SELECT pn.nspname AS schema, SUBSTRING(pn.nspname FROM 2) AS cluster FROM pg_proc pp, pg_namespace pn
+		$sql = "SELECT pn.nspname AS schema, pu.usename AS owner, SUBSTRING(pn.nspname FROM 2) AS cluster 
+					FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
 					WHERE pp.pronamespace=pn.oid
+					AND pn.nspowner = pu.usesysid
 					AND pp.proname='slonyversion'
 					AND pn.nspname LIKE '\\\\_%' 
 					ORDER BY pn.nspname LIMIT 1";
@@ -48,6 +51,7 @@ class Slony extends Plugin {
 		if ($rs->recordCount() == 1) {
 			$schema = $rs->f['schema'];
 			$this->slony_schema = $schema;
+			$this->slony_owner = $rs->f['owner'];
 			// Cluster name is schema minus "_" prefix.
 			$this->slony_cluster = $rs->f['cluster'];
 			$data->fieldClean($schema);
@@ -74,6 +78,26 @@ class Slony extends Plugin {
 			'urlvars' => array('subject' => 'database', 'action' => 'slony'),
 			'hide'  => false
 		);				
+	}
+
+	// CLUSTER
+	
+	/**
+	 * Gets a single cluster
+	 */
+	function getCluster() {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		
+		$sql = "SELECT no_id, no_comment, \"{$schema}\".slonyversion() AS version
+					FROM \"{$schema}\".sl_local_node_id, \"{$schema}\".sl_node
+					WHERE no_id=last_value";
+		
+		
+		return $data->selectSet($sql);
 	}
 
 	// NODES
@@ -151,7 +175,10 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);
 		
-		$sql = "SELECT * FROM \"{$schema}\".sl_set WHERE set_id='{$set_id}'";
+		$sql = "SELECT *, (SELECT COUNT(*) FROM \"{$schema}\".sl_subscribe ssub WHERE ssub.sub_set=ss.set_id) AS subscriptions
+					FROM \"{$schema}\".sl_set ss, \"{$schema}\".sl_node sn
+					WHERE ss.set_origin=sn.no_id
+					AND set_id='{$set_id}'";
 		
 		return $data->selectSet($sql);
 	}
@@ -212,7 +239,7 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);		
 		
-		$sql = "SELECT sn.*
+		$sql = "SELECT sn.*, ss.sub_set
 					FROM \"{$schema}\".sl_subscribe ss, \"{$schema}\".sl_node sn
 					WHERE ss.sub_set='{$set_id}'
 					AND ss.sub_receiver = sn.no_id
@@ -221,6 +248,29 @@ class Slony extends Plugin {
 		return $data->selectSet($sql);
 	}
 
+	/**
+	 * Gets all nodes subscribing to a set
+	 * @param $set_id The ID of the replication set
+	 * @return Nodes subscribing to this set
+	 */
+	function getSubscription($set_id, $no_id) {
+		global $data;
+		
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($no_id);
+		
+		$sql = "SELECT ss.*, sn.no_comment AS receiver, sn2.no_comment AS provider
+					FROM \"{$schema}\".sl_subscribe ss, \"{$schema}\".sl_node sn, \"{$schema}\".sl_node sn2
+					WHERE ss.sub_set='{$set_id}'
+					AND ss.sub_receiver = sn.no_id
+					AND ss.sub_provider = sn2.no_id
+					AND sn.no_id='{$no_id}'";
+		
+		return $data->selectSet($sql);
+	}
+	
 	// NODES
 	
 	/**

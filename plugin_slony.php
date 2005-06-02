@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.7 2005/06/01 15:11:44 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.8 2005/06/02 14:51:45 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -39,7 +39,9 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									array(
+										'action'  => 'cluster_properties'
+									)
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -223,7 +225,7 @@
 				$attrs = array(
 					'text'   => field('set_comment'),
 					'icon'   => 'folder',
-					'action' => url('redirect.php',
+					'action' => url('plugin_slony.php',
 									$reqvars,
 									array(
 										'action'  => 'set_properties',
@@ -308,7 +310,8 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'subscriptions_properties', 'set_id' => $_REQUEST['set_id'])
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -369,7 +372,7 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url('plugin_slony.php',
 									$reqvars,
-									array('no_id' => field('no_id'))
+									array('set_id' => field('sub_set'), 'no_id' => field('no_id'), 'action' => 'subscription_properties')
 								)
 				);
 				
@@ -379,6 +382,40 @@
 		}
 			
 		exit;
+	}
+
+	/**
+	 * Display the properties of a slony cluster
+	 */	 
+	function doCluster($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_cluster');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the cluster information
+		$cluster = &$slony->getCluster();
+		
+		if (is_object($cluster) && $cluster->recordCount() > 0) {			
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($slony->slony_cluster), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Local Node ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->f['no_id']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Local Node</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->f['no_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Version</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->f['version']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strowner']}</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($slony->slony_owner), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\"></td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
 
 	/**
@@ -656,10 +693,89 @@
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Locked</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['set_locked']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['set_origin']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Origin Node</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['no_comment']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Subscriptions</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->f['subscriptions']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
+			echo "</table>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+
+	/**
+	 * List all the subscriptions
+	 */
+	function doSubscriptions($msg = '') {
+		global $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$subscriptions = $slony->getSubscribedNodes($_REQUEST['set_id']);
+
+		$columns = array(
+			'no_name' => array(
+				'title' => $lang['strname'],
+				'field' => 'no_comment'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'no_comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'no_comment'
+			)
+		);
+		
+		$actions = array (
+			'detail' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
+				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id')
+			)
+		);
+		
+		$misc->printTable($subscriptions, $columns, $actions, 'No subscriptions found.');
+	}
+	
+	/**
+	 * Display the properties of a subscription
+	 */	 
+	function doSubscription($msg = '') {
+		global $data, $slony, $misc, $PHP_SELF;
+		global $lang;
+		
+		$misc->printTrail('slony_subscription');
+		$misc->printTitle($lang['strproperties']);
+		$misc->printMsg($msg);
+		
+		// Fetch the subscription information
+		$subscription = &$slony->getSubscription($_REQUEST['set_id'], $_REQUEST['no_id']);		
+		
+		if (is_object($subscription) && $subscription->recordCount() > 0) {			
+			// Show comment if any
+			if ($subscription->f['receiver'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($subscription->f['receiver']), "</p>\n";
+
+			// Display domain info
+			echo "<table>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_provider']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Provider Name</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->f['provider']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Receiver ID</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_receiver']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Receiver Name</th>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->f['receiver']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">Active</th>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">May Forward</th>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_forward'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -705,6 +821,15 @@
 			break;
 		case 'set_properties':
 			doReplicationSet();
+			break;
+		case 'subscriptions_properties':
+			doSubscriptions();
+			break;
+		case 'subscription_properties':
+			doSubscription();
+			break;
+		case 'cluster_properties':
+			doCluster();
 			break;
 		default:
 			// Shouldn't happen
