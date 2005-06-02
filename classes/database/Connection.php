@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.9 2005/03/15 02:44:10 chriskl Exp $
+ * $Id: Connection.php,v 1.9.2.1 2005/06/02 11:33:48 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -44,20 +44,32 @@ class Connection {
 	 * @return -3 Database-specific failure
 	 */
 	function getDriver(&$description) {
-		$adodb = new ADODB_base($this->conn);
-
-		$sql = "SELECT VERSION() AS version";
-		$field = $adodb->selectField($sql, 'version');
-
-		// Check the platform, if it's mingw, set it
-		if (eregi(' mingw ', $field))
-			$this->platform = 'MINGW';
-
-		$params = explode(' ', $field);
-		if (!isset($params[1])) return -3;
-
-		$version = $params[1]; // eg. 7.3.2
-		$description = "PostgreSQL {$params[1]}";
+		// If we're on a recent enough PHP 5, and against PostgreSQL 7.4 or
+		// higher, we don't need to query for the version.  This gives a great
+		// speed up.				
+		if (function_exists('pg_version')) {
+			$v = pg_version($this->conn->_connectionID);
+			if (isset($v['server'])) $version = $v['server'];			
+		}
+		
+		// If we didn't manage to get the version without a query, query...
+		if (!isset($version)) {
+			$adodb = new ADODB_base($this->conn);
+	
+			$sql = "SELECT VERSION() AS version";
+			$field = $adodb->selectField($sql, 'version');
+	
+			// Check the platform, if it's mingw, set it
+			if (eregi(' mingw ', $field))
+				$this->platform = 'MINGW';
+	
+			$params = explode(' ', $field);
+			if (!isset($params[1])) return -3;
+	
+			$version = $params[1]; // eg. 7.3.2
+		}
+		
+		$description = "PostgreSQL {$version}";
 
 		// Detect version and choose appropriate database driver
 		// If unknown version, then default to latest driver
