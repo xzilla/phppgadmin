@@ -20,6 +20,7 @@ Features
 * New browser tree with dynamically loading branches
   (Using XLoadTree2 from http://webfx.eae.net/)
 * Allow language change from the intro page at any time
+* Avoid version query in PHP 5 / PostgreSQL 7.4+
   
 Bugs
 * Tree Icons are displayed middle instead of top
