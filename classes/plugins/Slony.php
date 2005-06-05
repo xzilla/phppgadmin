@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.10 2005/06/02 15:21:48 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.11 2005/06/05 14:13:20 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -16,6 +16,7 @@ class Slony extends Plugin {
 	var $slony_schema;
 	var $slony_cluster;
 	var $slony_owner;
+	var $slony_comment;
 	
 	/**
 	 * Constructor
@@ -40,7 +41,8 @@ class Slony extends Plugin {
 		// it's in.  We put an order by and limit 1 in here to guarantee
 		// only finding the first one, even if there are somehow two
 		// Slony schemas.
-		$sql = "SELECT pn.nspname AS schema, pu.usename AS owner, SUBSTRING(pn.nspname FROM 2) AS cluster 
+		$sql = "SELECT pn.nspname AS schema, pu.usename AS owner, SUBSTRING(pn.nspname FROM 2) AS cluster,
+					pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
 					FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
 					WHERE pp.pronamespace=pn.oid
 					AND pn.nspowner = pu.usesysid
@@ -52,6 +54,7 @@ class Slony extends Plugin {
 			$schema = $rs->f['schema'];
 			$this->slony_schema = $schema;
 			$this->slony_owner = $rs->f['owner'];
+			$this->slony_comment = $rs->f['nspcomment'];
 			// Cluster name is schema minus "_" prefix.
 			$this->slony_cluster = $rs->f['cluster'];
 			$data->fieldClean($schema);
@@ -66,7 +69,7 @@ class Slony extends Plugin {
 		else return false;
 	}	
 
-	// CLUSTER
+	// CLUSTERS
 
 	/**
 	 * Gets the clusters in this database
@@ -74,7 +77,7 @@ class Slony extends Plugin {
 	function getClusters() {
 		include_once('classes/ArrayRecordSet.php');
 
-		$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => ''));
+		$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => $this->slony_comment));
 
 		return new ArrayRecordSet($clusters);
 	}
@@ -97,6 +100,18 @@ class Slony extends Plugin {
 		return $data->selectSet($sql);
 	}
 
+	/**
+	 * Drops an entire cluster.
+	 */
+	function dropCluster() {
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+
+		$sql = "SELECT \"{$schema}\".uninstallnode(); DROP SCHEMA \"{$schema}\" CASCADE";
+		
+		return $this->execute($sql);
+	}
+	
 	// NODES
 
 	/**
@@ -127,6 +142,42 @@ class Slony extends Plugin {
 		
 		return $data->selectSet($sql);
 	}
+	
+	/**
+	 * Creates a node
+	 */
+	function createNode($no_id, $no_comment) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_comment);
+		$data->clean($no_id);
+		
+		if ($no_id != '')
+			$sql = "SELECT \"{$schema}\".storenode('{$no_id}', '{$no_comment}')";
+		else
+			$sql = "SELECT \"{$schema}\".storenode((SELECT COALESCE(MAX(no_id), 0) + 1 FROM \"{$schema}\".sl_node), '{$no_comment}')";
+
+		return $data->execute($sql);
+	}
+
+	/**
+	 * Drops a node
+	 */
+	function dropNode($no_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+
+		$sql = "SELECT \"{$schema}\".dropnode('{$no_id}')";
+
+		return $data->execute($sql);
+	}	
+	
+	// LISTENS
 	
 	/**
 	 * Gets node listens
@@ -344,6 +395,10 @@ class Slony extends Plugin {
 		
 		return $data->selectSet($sql);
 	}
+
+	// ACTIONS
+	
+	
 
 }
 

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.9 2005/06/02 15:21:47 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.10 2005/06/05 14:13:20 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -415,11 +415,18 @@
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
 				'vars'  => array()
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_cluster&amp;",
+				'vars'  => array()
 			)
 		);
 		
 		$misc->printTable($clusters, $columns, $actions, 'No clusters found.');
 	}
+
+	// CLUSTERS
 
 	/**
 	 * Display the properties of a slony cluster
@@ -456,13 +463,45 @@
 	}
 
 	/**
+	 * Show confirmation of drop and perform actual drop of a cluster
+	 */
+	function doDropCluster($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strdrop']);
+
+			// XXX: N
+			echo "<p>", sprintf('Are you sure you want to drop Slony cluster "%s"?', $misc->printVal($slony->clony_cluster)), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->dropCluster();
+			if ($status == 0)
+				doDefault('Cluster dropped.');
+			else
+				doDefault('Failed dropping cluster.');
+		}
+	}
+
+	// NODES
+	
+	/**
 	 * List all the nodes
 	 */
 	function doNodes($msg = '') {
-		global $slony, $misc;
+		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
-		$misc->printTrail('database');
+		$misc->printTrail('slony_nodes');
 		$misc->printMsg($msg);
 
 		$nodes = $slony->getNodes();
@@ -486,10 +525,17 @@
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;",
 				'vars'  => array('no_id' => 'no_id')
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;",
+				'vars'  => array('no_id' => 'no_id')
 			)
 		);
 		
 		$misc->printTable($nodes, $columns, $actions, 'No nodes found.');
+		
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_node&amp;{$misc->href}\">Create Node</a></p>\n";
 	}
 	
 	/**
@@ -524,7 +570,85 @@
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
+
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Drop</a></p>\n";
 	}
+
+	/**
+	 * Displays a screen where they can enter a new node
+	 */
+	function doCreateNode($confirm, $msg = '') {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['nodeid'])) $_POST['nodeid'] = '';
+			if (!isset($_POST['nodecomment'])) $_POST['nodecomment'] = '';
+	
+			$misc->printTrail('slony_nodes');
+			$misc->printTitle('Create Node');
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"nodeid\" size=\"5\" value=\"",
+				htmlspecialchars($_POST['nodeid']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea name=\"nodecomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['nodecomment']), "</textarea></td>\n\t</tr>\n";
+				
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_node\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->createNode($_POST['nodeid'], $_POST['nodecomment']);
+			if ($status == 0)
+				doNodes('Node created.');
+			else
+				doCreateNode(true, 'Failed creating node.');
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a node
+	 */
+	function doDropNode($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strdrop']);
+
+			echo "<p>", sprintf('Are you sure you want to drop node "%s"?', $misc->printVal($_REQUEST['no_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_node\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->dropNode($_REQUEST['no_id']);
+			if ($status == 0)
+				doNodes('Node dropped.');
+			else
+				doNodes('Failed dropping node.');
+		}
+	}
+		
+	// PATHS
 
 	/**
 	 * List all the paths
@@ -840,6 +964,20 @@
 			break;
 		case 'node_properties':
 			doNode();
+			break;
+		case 'save_create_node':
+			if (isset($_POST['cancel'])) doNodes();
+			else doCreateNode(false);
+			break;
+		case 'create_node':
+			doCreateNode(true);
+			break;
+		case 'drop_node':
+			if (isset($_POST['cancel'])) doNodes();
+			else doDropNode(false);
+			break;
+		case 'confirm_drop_node':
+			doDropNode(true);
 			break;
 		case 'paths_properties':
 			doPaths();
