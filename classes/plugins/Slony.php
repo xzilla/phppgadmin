@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.11 2005/06/05 14:13:20 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.12 2005/06/05 16:07:24 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -177,26 +177,6 @@ class Slony extends Plugin {
 		return $data->execute($sql);
 	}	
 	
-	// LISTENS
-	
-	/**
-	 * Gets node listens
-	 */
-	function getNodeClients($no_id) {
-		global $data;
-		$data->clean($no_id);
-
-		$schema = $this->slony_schema;
-		$data->fieldClean($schema);
-		
-		$sql = "SELECT * FROM \"{$schema}\".sl_path sp, \"{$schema}\".sl_node sn
-					WHERE sp.pa_client=sn.no_id 
-					AND pa_server='{$no_id}'
-					ORDER BY sn.no_comment";
-		
-		return $data->selectSet($sql);
-	}
-
 	// REPLICATION SETS
 	
 	/**
@@ -332,8 +312,8 @@ class Slony extends Plugin {
 		$data->clean($no_id);
 		
 		$sql = "SELECT * FROM \"{$schema}\".sl_path sp, \"{$schema}\".sl_node sn
-					WHERE sp.pa_client=sn.no_id 
-					AND sp.pa_server='{$no_id}'
+					WHERE sp.pa_server=sn.no_id 
+					AND sp.pa_client='{$no_id}'
 					ORDER BY sn.no_comment";
 		
 		return $data->selectSet($sql);
@@ -351,12 +331,46 @@ class Slony extends Plugin {
 		$data->clean($path_id);
 		
 		$sql = "SELECT * FROM \"{$schema}\".sl_path sp, \"{$schema}\".sl_node sn
-					WHERE sp.pa_client=sn.no_id 
-					AND sp.pa_server='{$no_id}'
+					WHERE sp.pa_server=sn.no_id 
+					AND sp.pa_client='{$no_id}'
 					AND sn.no_id='{$path_id}'";
 		
 		return $data->selectSet($sql);
 	}
+
+	/**
+	 * Creates a path
+	 */
+	function createPath($no_id, $server, $conn, $retry) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($server);
+		$data->clean($conn);
+		$data->clean($retry);
+
+		$sql = "SELECT \"{$schema}\".storepath('{$server}', '{$no_id}', '{$conn}', '{$retry}')";
+
+		return $data->execute($sql);
+	}
+
+	/**
+	 * Drops a path
+	 */
+	function dropPath($no_id, $path_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($path_id);
+
+		$sql = "SELECT \"{$schema}\".droppath('{$path_id}', '{$no_id}')";
+
+		return $data->execute($sql);
+	}	
 	
 	/**
 	 * Gets node listens

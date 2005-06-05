@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.10 2005/06/05 14:13:20 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.11 2005/06/05 16:07:24 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -197,7 +197,7 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url('plugin_slony.php',
 									$reqvars,
-									array('no_id' => field('pa_server'), 'path_id' => field('no_id'), 'action' => 'path_properties')
+									array('no_id' => field('pa_client'), 'path_id' => field('no_id'), 'action' => 'path_properties')
 								)
 				);
 				
@@ -571,7 +571,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Drop</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -603,7 +603,6 @@
 			echo "</table>\n";
 			echo "<p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_node\" />\n";
-			echo $misc->form;
 			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</p>\n";
@@ -654,7 +653,7 @@
 	 * List all the paths
 	 */
 	function doPaths($msg = '') {
-		global $slony, $misc;
+		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -680,11 +679,18 @@
 			'detail' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
-				'vars'  => array('no_id' => 'pa_server', 'path_id' => 'no_id')
+				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_path&amp;",
+				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
 			)
 		);
 		
 		$misc->printTable($paths, $columns, $actions, 'No paths found.');
+	
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Create Path</a></p>\n";
 	}
 	
 	/**
@@ -719,8 +725,106 @@
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
+
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;path_id={$_REQUEST['path_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
+	/**
+	 * Displays a screen where they can enter a new path
+	 */
+	function doCreatePath($confirm, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['pathserver'])) $_POST['pathserver'] = '';
+			if (!isset($_POST['pathconn'])) $_POST['pathconn'] = '';
+			if (!isset($_POST['pathretry'])) $_POST['pathretry'] = '10';
+	
+			// Fetch all servers
+			$nodes = &$slony->getNodes();
+
+			$misc->printTrail('slony_paths');
+			$misc->printTitle('Create Path');
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">Server</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
+			while (!$nodes->EOF) {
+				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
+					($nodes->f['no_id'] == $_POST['pathserver']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				$nodes->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
+			echo "\t<tr>\n\t\t<th class=\"data left required\">Connect Info</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"pathconn\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['pathconn']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">Conn Retry</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"pathretry\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['pathretry']), "\" /></td>\n\t</tr>\n";
+				
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_path\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			if (trim($_POST['pathconn']) == '') {
+				doCreatePath(true, 'Connect info is required.');
+				return;
+			}
+			elseif (trim($_POST['pathretry']) == '') {
+				doCreatePath(true, 'Connect retry is required.');
+				return;
+			}
+				
+			$status = $slony->createPath($_POST['no_id'], $_POST['pathserver'], $_POST['pathconn'], $_POST['pathretry']);
+			if ($status == 0)
+				doPaths('Path created.');
+			else
+				doCreatePath(true, 'Failed creating path.');
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a path
+	 */
+	function doDropPath($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strdrop']);
+
+			echo "<p>", sprintf('Are you sure you want to drop path "%s"?', $misc->printVal($_REQUEST['path_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_path\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"path_id\" value=\"", htmlspecialchars($_REQUEST['path_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->dropPath($_REQUEST['no_id'], $_REQUEST['path_id']);
+			if ($status == 0)
+				doPaths('Path dropped.');
+			else
+				doPaths('Failed dropping path.');
+		}
+	}
+	
 	/**
 	 * List all the listens
 	 */
@@ -984,6 +1088,20 @@
 			break;
 		case 'path_properties':
 			doPath();
+			break;
+		case 'save_create_path':
+			if (isset($_POST['cancel'])) doPaths();
+			else doCreatePath(false);
+			break;
+		case 'create_path':
+			doCreatePath(true);
+			break;
+		case 'drop_path':
+			if (isset($_POST['cancel'])) doPaths();
+			else doDropPath(false);
+			break;
+		case 'confirm_drop_path':
+			doDropPath(true);
 			break;
 		case 'listens_properties':
 			doListens();
