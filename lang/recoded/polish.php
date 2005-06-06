@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.39 2005/05/03 01:50:10 soranzo Exp $
+	 * $Id: polish.php,v 1.40 2005/06/06 23:59:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Pr&oacute;ba zalogowania nie powiod&#322;a si&#281;';
 	$lang['strlogindisallowed'] = 'Logowanie niedozwolone';
 	$lang['strserver'] = 'Serwer';
+	$lang['strservers']  =  'Serwery';
+	$lang['strintroduction']  =  'Wprowadzenie';
+	$lang['strhost']  =  'Host';
+	$lang['strport']  =  'Port';
 	$lang['strlogout'] = 'Wyloguj si&#281;';
 	$lang['strowner'] = 'W&#322;a&#347;ciciel';
 	$lang['straction'] = 'Akcja';	
@@ -71,7 +75,6 @@
 	$lang['strrows'] = 'wiersz(y)';
 	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
 	$lang['strobjects'] = 'obiekty';
-	$lang['strexample'] = 'np.';
 	$lang['strback'] = 'Wstecz';
 	$lang['strqueryresults'] = 'Wyniki zapytania';
 	$lang['strshow'] = 'Poka&#380;';
@@ -84,7 +87,6 @@
 	$lang['strexport'] = 'Eksport';
 	$lang['strimport'] = 'Import';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Wykonaj';
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczy&#347;&#263;';
 	$lang['stranalyze'] = 'Analizuj';
@@ -128,6 +130,8 @@
 	$lang['strfileimported']  = 'Plik zosta&#322; zaimportowany.';
 
 	// Error handling
+	$lang['strnoframes']  =  'Ta aplikacja najlepiej dzia&#322;a w przegl&#261;darce obs&#322;uguj&#261;cej ramki, ale mo&#380;esz jej u&#380;y&#263; r&oacute;wnie&#380; bez ramek, klikaj&#261;c poni&#380;szy link.';
+	$lang['strnoframeslink']  =  'Otw&oacute;rz bez ramek';
 	$lang['strbadconfig'] = 'Tw&oacute;j plik config.inc.php jest przestarza&#322;y. Musisz go utworzy&#263; ponownie wykorzystuj&#261;c nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowa&#322;e&#347; do PHP obs&#322;ugi tej bazy danych.';
 	$lang['strpostgresqlversionnotsupported']  =  'Nieobs&#322;ugiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
@@ -143,6 +147,7 @@
 	$lang['strnouploads']  =  '&#321;adowanie plik&oacute;w wy&#322;&#261;czone.';
 	$lang['strimporterror']  =  'B&#322;&#261;d importu.';
 	$lang['strimporterrorline']  =  'B&#322;&#261;d importu w linii %s.';
+$lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names on Windows is not supported.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
@@ -289,6 +294,8 @@
 	$lang['strsignalsent']  =  'Sygna&#322; zosta&#322; wys&#322;any.';
 	$lang['strsignalsentbad']  =  'Pr&oacute;ba wys&#322;ania sygna&#322;u si&#281; nie powiod&#322;a.';
 	$lang['strallobjects']  =  'Wszystkie obiekty';
+	$lang['strdatabasealtered']  =  'Baza danych zosta&#322;a zmieniona.';
+	$lang['strdatabasealteredbad']  =  'Pr&oacute;ba modyfikacji bazy danych si&#281; nie powiod&#322;a.';
 
 	// Views
 	$lang['strview'] = 'Widok';
@@ -453,6 +460,7 @@
 	$lang['strtriggerdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia procedury wyzwalanej si&#281; nie powiod&#322;a.';
 	$lang['strtriggeraltered'] = 'Procedura wyzwalana zosta&#322;a zmieniona.';
 	$lang['strtriggeralteredbad'] = 'Pr&oacute;ba modyfikacji procedury wyzwalanej si&#281; nie powiod&#322;a.';
+	$lang['strforeach']  =  'Dla wszystkich';
 		
 	// Types
 	$lang['strtype'] = 'Typ';
@@ -634,5 +642,10 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Pomoc';
 	$lang['strhelpicon']  =  '?';
+	$lang['strlogintitle']  =  'Zaloguj do %s';
+	$lang['strlogoutmsg']  =  'Wylogowano z %s';
+	$lang['strloading']  =  '&#321;aduj&#281;...';
+	$lang['strerrorloading']  =  'B&#322;&#261;d &#322;adowania';
+	$lang['strclicktoreload']  =  'Kliknij aby od&#347;wie&#380;y&#263;';
 
 ?>
