@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.12 2005/06/05 16:07:24 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.13 2005/06/06 14:50:06 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -372,6 +372,8 @@ class Slony extends Plugin {
 		return $data->execute($sql);
 	}	
 	
+	// LISTENS
+	
 	/**
 	 * Gets node listens
 	 */
@@ -410,6 +412,40 @@ class Slony extends Plugin {
 		return $data->selectSet($sql);
 	}
 
+	/**
+	 * Creates a listen
+	 */
+	function createListen($no_id, $origin, $provider) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($origin);
+		$data->clean($provider);
+
+		$sql = "SELECT \"{$schema}\".storelisten('{$origin}', '{$provider}', '{$no_id}')";
+
+		return $data->execute($sql);
+	}
+
+	/**
+	 * Drops a listen
+	 */
+	function dropListen($no_id, $origin, $provider) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($origin);
+		$data->clean($provider);
+
+		$sql = "SELECT \"{$schema}\".droplisten('{$origin}', '{$provider}', '{$no_id}')";
+
+		return $data->execute($sql);
+	}	
+	
 	// ACTIONS
 	
 	

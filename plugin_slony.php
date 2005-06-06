@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.11 2005/06/05 16:07:24 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.12 2005/06/06 14:50:05 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -825,11 +825,13 @@
 		}
 	}
 	
+	// LISTENS
+	
 	/**
 	 * List all the listens
 	 */
 	function doListens($msg = '') {
-		global $slony, $misc;
+		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -855,11 +857,19 @@
 			'detail' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
-				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id')
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_listen&amp;",
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
 			)
+
 		);
 		
 		$misc->printTable($listens, $columns, $actions, 'No listens found.');
+
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Create Listen</a></p>\n";
 	}
 
 	/**
@@ -894,7 +904,100 @@
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
+
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->f['li_origin']}\">{$lang['strdrop']}</a></p>\n";
 	}
+
+	/**
+	 * Displays a screen where they can enter a new listen
+	 */
+	function doCreateListen($confirm, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['listenorigin'])) $_POST['listenorigin'] = '';
+			if (!isset($_POST['listenprovider'])) $_POST['listenprovider'] = '';
+	
+			// Fetch all servers
+			$nodes = &$slony->getNodes();
+
+			$misc->printTrail('slony_listens');
+			$misc->printTitle('Create Listen');
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">Origin</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"listenorigin\">\n";
+			while (!$nodes->EOF) {
+				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
+					($nodes->f['no_id'] == $_POST['listenorigin']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				$nodes->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">Provider</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"listenprovider\">\n";
+			$nodes->moveFirst();
+			while (!$nodes->EOF) {
+				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
+					($nodes->f['no_id'] == $_POST['listenprovider']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				$nodes->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_listen\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->createListen($_POST['no_id'], $_POST['listenorigin'], $_POST['listenprovider']);
+			if ($status == 0)
+				doListens('Listen created.');
+			else
+				doCreateListen(true, 'Failed creating listen.');
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a listen
+	 */
+	function doDropListen($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strdrop']);
+
+			echo "<p>", sprintf('Are you sure you want to drop listen "%s"?', $misc->printVal($_REQUEST['listen_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_listen\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"listen_id\" value=\"", htmlspecialchars($_REQUEST['listen_id']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"origin_id\" value=\"", htmlspecialchars($_REQUEST['origin_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->dropListen($_REQUEST['no_id'], $_REQUEST['origin_id'], $_REQUEST['listen_id']);
+			if ($status == 0)
+				doListens('Listen dropped.');
+			else
+				doListens('Failed dropping listen.');
+		}
+	}
+	
+	// REPLICATION SETS
 		
 	/**
 	 * List all the replication sets
@@ -1108,6 +1211,20 @@
 			break;
 		case 'listen_properties':
 			doListen();
+			break;
+		case 'save_create_listen':
+			if (isset($_POST['cancel'])) doListens();
+			else doCreateListen(false);
+			break;
+		case 'create_listen':
+			doCreateListen(true);
+			break;
+		case 'drop_listen':
+			if (isset($_POST['cancel'])) doListens();
+			else doDropListen(false);
+			break;
+		case 'confirm_drop_listen':
+			doDropListen(true);
 			break;
 		case 'sets_properties':
 			doReplicationSets();
