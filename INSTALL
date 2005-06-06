@@ -3,7 +3,19 @@ phpPgAdmin Installation Guide
 
 1. Unpack your download
 
-   tar -xvzf phpPgAdmin-*.tar.gz
+   If you've downloaded a tar.gz package, execute from a terminal:
+
+   gunzip phpPgAdmin-*.tar.gz
+   tar -xvf phpPgAdmin-*.tar
+
+   Else, if you've downloaded a tar.bz2 package, execute from a terminal: 
+
+   bunzip2 phpPgAdmin-*.tar.bz2
+   tar -xvf phpPgAdmin-*.tar
+
+   Else, if you've downloaded a zip package, execute from a terminal:
+
+   unzip phpPgAdmin-*.zip
 
 2. Configure phpPgAdmin
 
@@ -66,4 +78,3 @@ phpPgAdmin Installation Guide
    Once you are certain you have properly secured your database server, you
    can then disable 'extra_login_security' so that you can log in as your
    database administrator using the administrator password.
-
