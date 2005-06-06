@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.42 2005/05/03 01:50:07 soranzo Exp $
+	 * $Id: italian.php,v 1.43 2005/06/06 15:13:12 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -75,7 +75,6 @@
 	$lang['strrows'] = 'riga(ghe)';
 	$lang['strrowsaff'] = 'riga(ghe) interessata(e).';
 	$lang['strobjects'] = 'oggetto(i)';
-	$lang['strexample'] = 'es.';
 	$lang['strback'] = 'Indietro';
 	$lang['strqueryresults'] = 'Risultato Query';
 	$lang['strshow'] = 'Mostra';
@@ -88,7 +87,6 @@
 	$lang['strexport'] = 'Esporta';
 	$lang['strimport'] = 'Importa';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Esegui';
 	$lang['stradmin'] = 'Amministratore';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analizza';

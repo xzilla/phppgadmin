@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.26 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: sqledit.php,v 1.27 2005/06/06 15:13:11 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -168,7 +168,7 @@
 			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
 		echo "<label><input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
 		
-		echo "<p><input type=\"submit\" value=\"{$lang['strgo']}\" />\n";
+		echo "<p><input type=\"submit\" value=\"{$lang['strrun']}\" />\n";
 		if ($data->hasFullExplain()) {
 			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
 			echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
