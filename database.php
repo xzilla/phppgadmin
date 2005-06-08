@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.66.2.4 2005/06/02 15:21:39 chriskl Exp $
+	 * $Id: database.php,v 1.66.2.5 2005/06/08 13:25:42 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -778,14 +778,6 @@
 		global $misc, $data, $lang, $slony;
 		
 		$tabs = $misc->getNavTabs('schema');
-		
-		$tabs['slony'] = array (
-								'title' => 'Slony',
-								'url'   => 'plugin_slony.php',
-								'urlvars' => array('subject' => 'slony'),
-								'hide'  => (!$slony->isEnabled()),
-								'help'  => ''
-							);
 		
 		$items =& $misc->adjustTabsForTree($tabs);
 		
