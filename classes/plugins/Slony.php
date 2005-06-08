@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.13 2005/06/06 14:50:06 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.14 2005/06/08 13:26:08 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -212,6 +212,42 @@ class Slony extends Plugin {
 	}
 
 	/**
+	 * Creates a set
+	 */
+	function createReplicationSet($set_id, $set_comment) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_comment);
+		$data->clean($set_id);
+
+		if ($set_id != '')
+			$sql = "SELECT \"{$schema}\".storeset('{$set_id}', '{$set_comment}')";
+		else
+			$sql = "SELECT \"{$schema}\".storeset((SELECT COALESCE(MAX(set_id), 0) + 1 FROM \"{$schema}\".sl_set), '{$set_comment}')";
+
+		return $data->execute($sql);
+	}
+
+	/**
+	 * Drops a set
+	 */
+	function dropReplicationSet($set_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+
+		$sql = "SELECT \"{$schema}\".dropset('{$set_id}')";
+
+		return $data->execute($sql);
+	}	
+	
+	// TABLES
+	
+	/**
 	 * Return all tables in a replication set
 	 * @param $set_id The ID of the replication set
 	 * @return Tables in the replication set, sorted alphabetically 
@@ -233,6 +269,8 @@ class Slony extends Plugin {
 		return $data->selectSet($sql);
 	}
 
+	// SEQUENCES
+	
 	/**
 	 * Return all sequences in a replication set
 	 * @param $set_id The ID of the replication set

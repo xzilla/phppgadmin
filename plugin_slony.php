@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.12 2005/06/06 14:50:05 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.13 2005/06/08 13:26:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1003,7 +1003,7 @@
 	 * List all the replication sets
 	 */
 	function doReplicationSets($msg = '') {
-		global $slony, $misc;
+		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -1030,10 +1030,17 @@
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
 				'vars'  => array('set_id' => 'set_id')
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
 			)
 		);
 		
-		$misc->printTable($sets, $columns, $actions, 'No sets found.');
+		$misc->printTable($sets, $columns, $actions, 'No replication sets found.');
+		
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_set&amp;{$misc->href}\">Create Replication Set</a></p>\n";
 	}	
 
 	/**
@@ -1072,8 +1079,85 @@
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
+
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
+	/**
+	 * Displays a screen where they can enter a new set
+	 */
+	function doCreateReplicationSet($confirm, $msg = '') {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['setid'])) $_POST['setid'] = '';
+			if (!isset($_POST['setcomment'])) $_POST['setcomment'] = '';
+	
+			$misc->printTrail('slony_sets');
+			$misc->printTitle('Create ReplicationSet');
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"setid\" size=\"5\" value=\"",
+				htmlspecialchars($_POST['setid']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea name=\"setcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['setcomment']), "</textarea></td>\n\t</tr>\n";
+				
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_set\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->createReplicationSet($_POST['setid'], $_POST['setcomment']);
+			if ($status == 0)
+				doReplicationSets('Replication set created.');
+			else
+				doCreateReplicationSet(true, 'Failed creating set.');
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a set
+	 */
+	function doDropReplicationSet($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strdrop']);
+
+			echo "<p>", sprintf('Are you sure you want to drop replication set "%s"?', $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->dropReplicationSet($_REQUEST['set_id']);
+			if ($status == 0)
+				doReplicationSets('Replication set dropped.');
+			else
+				doReplicationSets('Failed dropping set.');
+		}
+	}
+	
+	// SUBSCRIPTIONS
+	
 	/**
 	 * List all the subscriptions
 	 */
@@ -1231,6 +1315,20 @@
 			break;
 		case 'set_properties':
 			doReplicationSet();
+			break;
+		case 'save_create_set':
+			if (isset($_POST['cancel'])) doReplicationSets();
+			else doCreateReplicationSet(false);
+			break;
+		case 'create_set':
+			doCreateReplicationSet(true);
+			break;
+		case 'drop_set':
+			if (isset($_POST['cancel'])) doReplicationSets();
+			else doDropReplicationSet(false);
+			break;
+		case 'confirm_drop_set':
+			doDropReplicationSet(true);
 			break;
 		case 'subscriptions_properties':
 			doSubscriptions();
