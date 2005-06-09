@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.13 2005/06/08 13:26:08 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.14 2005/06/09 01:24:11 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -54,9 +54,9 @@
 				
 				break;			
 			case 'clusters_top':
-				// Top level Nodes and Replication Sets folders
+				// Top level Nodes and Replication sets folders
 				$tabs = array('nodes' => array (
-										'title' => 'Nodes',
+										'title' => $lang['strnodes'],
 										'url'   => 'plugin_slony.php',
 										'urlvars' => array('subject' => 'nodes')
 									));
@@ -82,7 +82,7 @@
 				$misc->printTreeXML($items, $attrs);
 
 				$tabs = array('sets' => array (
-										'title' => 'Replication Sets',
+										'title' => 	$lang['strrepsets'],
 										'url'   => 'plugin_slony.php',
 										'urlvars' => array('subject' => 'sets')
 									));
@@ -137,7 +137,7 @@
 				// Nodes paths and listens entries
 				
 				$tabs = array('paths' => array (
-										'title' => 'Paths',
+										'title' => $lang['strpaths'],
 										'url'   => 'plugin_slony.php',
 										'urlvars' => array('subject' => 'paths')
 									));
@@ -163,7 +163,7 @@
 				$misc->printTreeXML($items, $attrs);
 
 				$tabs = array('listens' => array (
-										'title' => 'Listens',
+										'title' => $lang['strlistens'],
 										'url'   => 'plugin_slony.php',
 										'urlvars' => array('subject' => 'listens')
 									));
@@ -244,7 +244,7 @@
 				$misc->printTreeXML($sets, $attrs);
 				break;
 			case 'sets_top':
-				// Top level Nodes and Replication Sets folders
+				// Top level Nodes and Replication sets folders
 				
 				$tabs = array('sequences' => array (
 										'title' => $lang['strsequences'],
@@ -298,7 +298,7 @@
 				$misc->printTreeXML($items, $attrs);
 
 				$tabs = array('subscriptions' => array (
-										'title' => 'Subscriptions',
+										'title' => $lang['strsubscriptions'],
 										'url'   => 'plugin_slony.php',
 										'urlvars' => array('subject' => 'subscriptions')
 									));
@@ -411,7 +411,7 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
 				'vars'  => array()
@@ -423,7 +423,7 @@
 			)
 		);
 		
-		$misc->printTable($clusters, $columns, $actions, 'No clusters found.');
+		$misc->printTable($clusters, $columns, $actions, $lang['strnoclusters']);
 	}
 
 	// CLUSTERS
@@ -443,7 +443,6 @@
 		$cluster = &$slony->getCluster();
 		
 		if (is_object($cluster) && $cluster->recordCount() > 0) {			
-			// Display domain info
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($slony->slony_cluster), "</td></tr>\n";
@@ -474,7 +473,7 @@
 			$misc->printTitle($lang['strdrop']);
 
 			// XXX: N
-			echo "<p>", sprintf('Are you sure you want to drop Slony cluster "%s"?', $misc->printVal($slony->clony_cluster)), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropcluster'], $misc->printVal($slony->clony_cluster)), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
@@ -486,9 +485,9 @@
 		else {
 			$status = $slony->dropCluster();
 			if ($status == 0)
-				doDefault('Cluster dropped.');
+				doDefault($lang['strclusterdropped']);
 			else
-				doDefault('Failed dropping cluster.');
+				doDefault($lang['strclusterdroppedbad']);
 		}
 	}
 
@@ -521,7 +520,7 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;",
 				'vars'  => array('no_id' => 'no_id')
@@ -533,9 +532,9 @@
 			)
 		);
 		
-		$misc->printTable($nodes, $columns, $actions, 'No nodes found.');
+		$misc->printTable($nodes, $columns, $actions, $lang['strnonodes']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_node&amp;{$misc->href}\">Create Node</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_node&amp;{$misc->href}\">{$lang['strcreatenode']}</a></p>\n";
 	}
 	
 	/**
@@ -557,13 +556,12 @@
 			if ($node->f['no_comment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($node->f['no_comment']), "</p>\n";
 
-			// Display domain info
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">ID</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->f['no_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Active</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($node->f['no_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
@@ -586,13 +584,13 @@
 			if (!isset($_POST['nodecomment'])) $_POST['nodecomment'] = '';
 	
 			$misc->printTrail('slony_nodes');
-			$misc->printTitle('Create Node');
+			$misc->printTitle($lang['strcreatenode']);
 			$misc->printMsg($msg);
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"nodeid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['nodeid']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -611,9 +609,9 @@
 		else {
 			$status = $slony->createNode($_POST['nodeid'], $_POST['nodecomment']);
 			if ($status == 0)
-				doNodes('Node created.');
+				doNodes($lang['strnodecreated']);
 			else
-				doCreateNode(true, 'Failed creating node.');
+				doCreateNode(true, $lang['strnodecreatedbad']);
 		}
 	}
 
@@ -628,7 +626,7 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle($lang['strdrop']);
 
-			echo "<p>", sprintf('Are you sure you want to drop node "%s"?', $misc->printVal($_REQUEST['no_id'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropnode'], $misc->printVal($_REQUEST['no_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_node\" />\n";
@@ -641,9 +639,9 @@
 		else {
 			$status = $slony->dropNode($_REQUEST['no_id']);
 			if ($status == 0)
-				doNodes('Node dropped.');
+				doNodes($lang['strnodedropped']);
 			else
-				doNodes('Failed dropping node.');
+				doNodes($lang['strnodedroppedbad']);
 		}
 	}
 		
@@ -676,7 +674,7 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
 				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
@@ -688,9 +686,9 @@
 			)
 		);
 		
-		$misc->printTable($paths, $columns, $actions, 'No paths found.');
+		$misc->printTable($paths, $columns, $actions, $lang['strnopaths']);
 	
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Create Path</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatepath']}</a></p>\n";
 	}
 	
 	/**
@@ -712,15 +710,14 @@
 			if ($path->f['no_comment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($path->f['no_comment']), "</p>\n";
 
-			// Display domain info
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Server name</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodename']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->f['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Server ID</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodeid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->f['no_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Connect Info</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconninfo']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_conninfo']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Retry</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconnretry']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_connretry']), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -745,13 +742,13 @@
 			$nodes = &$slony->getNodes();
 
 			$misc->printTrail('slony_paths');
-			$misc->printTitle('Create Path');
+			$misc->printTitle($lang['strcreatepath']);
 			$misc->printMsg($msg);
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
-			echo "\t<tr>\n\t\t<th class=\"data left required\">Server</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnodename']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
 			while (!$nodes->EOF) {
 				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
@@ -759,10 +756,10 @@
 				$nodes->moveNext();
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
-			echo "\t<tr>\n\t\t<th class=\"data left required\">Connect Info</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconninfo']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"pathconn\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['pathconn']), "\" /></td>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left required\">Conn Retry</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconnretry']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"pathretry\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['pathretry']), "\" /></td>\n\t</tr>\n";
 				
@@ -778,19 +775,19 @@
 		}
 		else {
 			if (trim($_POST['pathconn']) == '') {
-				doCreatePath(true, 'Connect info is required.');
+				doCreatePath(true, $lang['strpathneedsconninfo']);
 				return;
 			}
 			elseif (trim($_POST['pathretry']) == '') {
-				doCreatePath(true, 'Connect retry is required.');
+				doCreatePath(true, $lang['strpathneedsconnretry']);
 				return;
 			}
 				
 			$status = $slony->createPath($_POST['no_id'], $_POST['pathserver'], $_POST['pathconn'], $_POST['pathretry']);
 			if ($status == 0)
-				doPaths('Path created.');
+				doPaths($lang['strpathcreated']);
 			else
-				doCreatePath(true, 'Failed creating path.');
+				doCreatePath(true, $lang['strpathcreatedbad']);
 		}
 	}
 
@@ -805,7 +802,7 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle($lang['strdrop']);
 
-			echo "<p>", sprintf('Are you sure you want to drop path "%s"?', $misc->printVal($_REQUEST['path_id'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroppath'], $misc->printVal($_REQUEST['path_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_path\" />\n";
@@ -819,9 +816,9 @@
 		else {
 			$status = $slony->dropPath($_REQUEST['no_id'], $_REQUEST['path_id']);
 			if ($status == 0)
-				doPaths('Path dropped.');
+				doPaths($lang['strpathdropped']);
 			else
-				doPaths('Failed dropping path.');
+				doPaths($lang['strpathdroppedbad']);
 		}
 	}
 	
@@ -854,7 +851,7 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
 				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
@@ -867,9 +864,9 @@
 
 		);
 		
-		$misc->printTable($listens, $columns, $actions, 'No listens found.');
+		$misc->printTable($listens, $columns, $actions, $lang['strnolistens']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">Create Listen</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatelisten']}</a></p>\n";
 	}
 
 	/**
@@ -891,7 +888,6 @@
 			if ($listen->f['no_comment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($listen->f['no_comment']), "</p>\n";
 
-			// Display domain info
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($listen->f['no_comment']), "</td></tr>\n";
@@ -923,7 +919,7 @@
 			$nodes = &$slony->getNodes();
 
 			$misc->printTrail('slony_listens');
-			$misc->printTitle('Create Listen');
+			$misc->printTitle($lang['strcreatelisten']);
 			$misc->printMsg($msg);
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -959,9 +955,9 @@
 		else {
 			$status = $slony->createListen($_POST['no_id'], $_POST['listenorigin'], $_POST['listenprovider']);
 			if ($status == 0)
-				doListens('Listen created.');
+				doListens($lang['strlistencreated']);
 			else
-				doCreateListen(true, 'Failed creating listen.');
+				doCreateListen(true, $lang['strlistencreatedbad']);
 		}
 	}
 
@@ -976,7 +972,7 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle($lang['strdrop']);
 
-			echo "<p>", sprintf('Are you sure you want to drop listen "%s"?', $misc->printVal($_REQUEST['listen_id'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroplisten'], $misc->printVal($_REQUEST['listen_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_listen\" />\n";
@@ -991,9 +987,9 @@
 		else {
 			$status = $slony->dropListen($_REQUEST['no_id'], $_REQUEST['origin_id'], $_REQUEST['listen_id']);
 			if ($status == 0)
-				doListens('Listen dropped.');
+				doListens($lang['strlistendropped']);
 			else
-				doListens('Failed dropping listen.');
+				doListens($lang['strlistendroppedbad']);
 		}
 	}
 	
@@ -1026,7 +1022,7 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
 				'vars'  => array('set_id' => 'set_id')
@@ -1038,9 +1034,9 @@
 			)
 		);
 		
-		$misc->printTable($sets, $columns, $actions, 'No replication sets found.');
+		$misc->printTable($sets, $columns, $actions, $lang['strnorepsets']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_set&amp;{$misc->href}\">Create Replication Set</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_set&amp;{$misc->href}\">{$lang['strcreaterepset']}</a></p>\n";
 	}	
 
 	/**
@@ -1062,11 +1058,10 @@
 			if ($set->f['set_comment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($set->f['set_comment']), "</p>\n";
 
-			// Display domain info
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">ID</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_id']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_origin']), "</td></tr>\n";
@@ -1095,13 +1090,13 @@
 			if (!isset($_POST['setcomment'])) $_POST['setcomment'] = '';
 	
 			$misc->printTrail('slony_sets');
-			$misc->printTitle('Create ReplicationSet');
+			$misc->printTitle($lang['strcreaterepset']);
 			$misc->printMsg($msg);
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"setid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['setid']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -1120,9 +1115,9 @@
 		else {
 			$status = $slony->createReplicationSet($_POST['setid'], $_POST['setcomment']);
 			if ($status == 0)
-				doReplicationSets('Replication set created.');
+				doReplicationSets($lang['strrepsetcreated']);
 			else
-				doCreateReplicationSet(true, 'Failed creating set.');
+				doCreateReplicationSet(true, $lang['strrepsetcreatedbad']);
 		}
 	}
 
@@ -1137,7 +1132,7 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle($lang['strdrop']);
 
-			echo "<p>", sprintf('Are you sure you want to drop replication set "%s"?', $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdroprepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_set\" />\n";
@@ -1150,9 +1145,9 @@
 		else {
 			$status = $slony->dropReplicationSet($_REQUEST['set_id']);
 			if ($status == 0)
-				doReplicationSets('Replication set dropped.');
+				doReplicationSets($lang['strrepsetdropped']);
 			else
-				doReplicationSets('Failed dropping set.');
+				doReplicationSets($lang['strrepsetdroppedbad']);
 		}
 	}
 	
@@ -1175,9 +1170,9 @@
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
 			),
-			'actions' => array(
+/*			'actions' => array(
 				'title' => $lang['stractions'],
-			),
+			),*/
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
 				'field' => 'no_comment'
@@ -1185,14 +1180,14 @@
 		);
 		
 		$actions = array (
-			'detail' => array(
+			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
 				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id')
 			)
 		);
 		
-		$misc->printTable($subscriptions, $columns, $actions, 'No subscriptions found.');
+		$misc->printTable($subscriptions, $columns, $actions, $lang['strnosubscriptions']);
 	}
 	
 	/**
@@ -1214,7 +1209,6 @@
 			if ($subscription->f['receiver'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($subscription->f['receiver']), "</p>\n";
 
-			// Display domain info
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_provider']), "</td></tr>\n";

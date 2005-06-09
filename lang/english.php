@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.176 2005/05/03 01:50:07 soranzo Exp $
+	 * $Id: english.php,v 1.176.2.1 2005/06/09 01:24:11 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -638,6 +638,64 @@
 	$lang['strtablespacedroppedbad'] = 'Tablespace drop failed.';
 	$lang['strtablespacealtered'] = 'Tablespace altered.';
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
+
+	// Slony clusters
+	$lang['strnoclusters'] = 'No clusters found.';
+	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster "%s"?';
+	$lang['strclusterdropped'] = 'Cluster dropped.';
+	$lang['strclusterdroppedbad'] = 'Cluster drop failed.';
+
+	// Slony nodes
+	$lang['strnodes'] = 'Nodes';
+	$lang['strnonodes'] = 'No nodes found.';
+	$lang['strcreatenode'] = 'Create node';
+	$lang['strid'] = 'ID';
+	$lang['stractive'] = 'Active';
+	$lang['strnodecreated'] = 'Node created.';
+	$lang['strnodecreatedbad'] = 'Node creation failed.';
+	$lang['strconfdropnode'] = 'Are you sure you want to drop node "%s"?';
+	$lang['strnodedropped'] = 'Node dropped.';
+	$lang['strnodedroppedbad'] = 'Node drop failed';
+
+	// Slony paths	
+	$lang['strpaths'] = 'Paths';
+	$lang['strnopaths'] = 'No paths found.';
+	$lang['strcreatepath'] = 'Create path';
+	$lang['strnodename'] = 'Node name';
+	$lang['strnodeid'] = 'Node ID';
+	$lang['strconninfo'] = 'Connection string';
+	$lang['strconnretry'] = 'Seconds before retry to connect';
+	$lang['strpathneedsconninfo'] = 'You must give a connection string for the path.';
+	$lang['strpathneedsconnretry'] = 'You must give the number of seconds to wait before retry to connect.';
+	$lang['strpathcreated'] = 'Path created.';
+	$lang['strpathcreatedbad'] = 'Path creation failed.';
+	$lang['strconfdroppath'] = 'Are you sure you want to drop path "%s"?';
+	$lang['strpathdropped'] = 'Path dropped.';
+	$lang['strpathdroppedbad'] = 'Path drop failed.';
+
+	// Slony listens
+	$lang['strlistens'] = 'Listens';
+	$lang['strnolistens'] = 'No listens found.';
+	$lang['strcreatelisten'] = 'Create listen';
+	$lang['strlistencreated'] = 'Listen created.';
+	$lang['strlistencreated'] = 'Listen creation failed.';
+	$lang['strconfdroplisten'] = 'Are you sure you want to drop listen "%s"?';
+	$lang['strlistendropped'] = 'Listen dropped.';
+	$lang['strlistendroppedbad'] = 'Listen drop failed.';
+
+	// Slony replication sets
+	$lang['strrepsets'] = 'Replication sets';
+	$lang['strnorepsets'] = 'No replication sets found.';
+	$lang['strcreaterepset'] = 'Create replication set';
+	$lang['strrepsetcreated'] = 'Replication set created.';
+	$lang['strrepsetcreatedbad'] = 'Replication set creation failed.';
+	$lang['strconfdroprepset'] = 'Are you sure you want to drop replication set "%s"?';
+	$lang['strrepsetdropped'] = 'Replication set dropped.';
+	$lang['strrepsetdroppedbad'] = 'Replication set drop failed.';
+
+	// Slony subscriptions
+	$lang['strsubscriptions'] = 'Subscriptions';
+	$lang['strnosubscriptions'] = 'No subscriptions found.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
