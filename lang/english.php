@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.176.2.1 2005/06/09 01:24:11 soranzo Exp $
+	 * $Id: english.php,v 1.176.2.2 2005/06/09 21:50:48 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -678,7 +678,7 @@
 	$lang['strnolistens'] = 'No listens found.';
 	$lang['strcreatelisten'] = 'Create listen';
 	$lang['strlistencreated'] = 'Listen created.';
-	$lang['strlistencreated'] = 'Listen creation failed.';
+	$lang['strlistencreatedbad'] = 'Listen creation failed.';
 	$lang['strconfdroplisten'] = 'Are you sure you want to drop listen "%s"?';
 	$lang['strlistendropped'] = 'Listen dropped.';
 	$lang['strlistendroppedbad'] = 'Listen drop failed.';
