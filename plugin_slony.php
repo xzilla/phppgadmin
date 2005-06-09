@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.14 2005/06/09 01:24:11 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.15 2005/06/09 13:59:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -256,7 +256,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon', 'sequences'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array())
@@ -281,10 +281,11 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon', 'tables'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'tables_properties', 'set_id' => $_REQUEST['set_id'])
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -1151,6 +1152,206 @@
 		}
 	}
 	
+	// TABLES
+	
+	/**
+	 * List all the tables in a replication set
+	 */
+	function doTables($msg = '') {
+		global $PHP_SELF, $data, $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$tables = $slony->getTables($_REQUEST['set_id']);
+
+		$columns = array(
+			'table' => array(
+				'title' => $lang['strtable'],
+				'field' => 'relname',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'relowner',
+			),
+			'tablespace' => array(
+				'title' => $lang['strtablespace'],
+				'field' => 'tablespace'
+			),
+			'tuples' => array(
+				'title' => $lang['strestimatedrowcount'],
+				'field' => 'reltuples',
+				'type'  => 'numeric'
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'relcomment',
+			),
+		);
+		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
+			'remove' => array(
+				'title' => 'Remove',
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_table&amp;set_id={$_REQUEST['set_id']}&amp;",
+				'vars'  => array('tab_id' => 'tab_id', 'qualname' => 'qualname'),
+			)
+		);
+		
+		if (!$data->hasTablespaces()) unset($columns['tablespace']);
+
+		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
+		
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">Add Table</a></p>\n";
+	}
+
+	/**
+	 * Displays a screen where they can add a table to a 
+	 * replication set.
+	 */
+	function doAddTable($stage, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		switch ($stage) {
+			case 1:
+				if (!isset($_POST['tab_id'])) $_POST['tab_id'] = '';
+				if (!isset($_POST['comment'])) $_POST['comment'] = '';
+				
+				$tables = &$data->getTables(true);
+		
+				$misc->printTrail('slony_sets');
+				$misc->printTitle('Add Table');
+				$misc->printMsg($msg);
+		
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo $misc->form;
+				echo "<table width=\"100%\">\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtable']}</th>\n";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
+				while (!$tables->EOF) {
+					$key = array('schemaname' => $tables->f['nspname'], 'tablename' => $tables->f['relname']);
+					$key = serialize($key);
+					echo "<option value=\"", htmlspecialchars($key), "\">";
+					if ($data->hasSchemas()) {
+							echo htmlspecialchars($tables->f['nspname']), '.';
+					}
+					echo htmlspecialchars($tables->f['relname']), "</option>\n";
+					$tables->moveNext();	
+				}
+				echo "</select></td></tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+				echo "\t\t<td class=\"data1\"><input name=\"tab_id\" size=\"5\" value=\"",
+					htmlspecialchars($_POST['tab_id']), "\" /></td>\n\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
+					
+				echo "\t</tr>\n";
+				echo "</table>\n";
+				echo "<p>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"add_table\" />\n";
+				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				echo "</p>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				// Unserialize table and fetch. This is a bit messy
+				// because the table could be in another schema.
+				$_REQUEST['target'] = unserialize($_REQUEST['target']);
+				if ($data->hasSchemas())
+					$data->setSchema($_REQUEST['target']['schemaname']);
+				$indexes = &$data->getIndexes($_REQUEST['target']['tablename']);
+				if ($indexes->recordCount() == 0) {
+					doTables('Table to be added requires a primary or unique key.');
+					return;	
+				}
+				
+				$misc->printTrail('slony_sets');
+				$misc->printTitle('Add Table');
+				$misc->printMsg($msg);
+		
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo $misc->form;
+				echo "<table>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strindex']}</th>\n";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"idxname\">";
+				while (!$indexes->EOF) {
+					echo "<option value=\"", htmlspecialchars($indexes->f['indname']), "\">";
+					echo htmlspecialchars($indexes->f['indname']), "</option>\n";
+					$indexes->moveNext();	
+				}
+				echo "</select></td></tr>\n";					
+				echo "\t</tr>\n";
+				echo "</table>\n";
+				echo "<p>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"add_table\" />\n";
+				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"comment\" value=\"", htmlspecialchars($_REQUEST['comment']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"fqname\" value=\"", htmlspecialchars($_REQUEST['target']['schemaname']),
+					'.', htmlspecialchars($_REQUEST['target']['tablename']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				echo "</p>\n";
+				echo "</form>\n";
+				break;
+			case 3:
+				$status = $slony->addTable($_REQUEST['set_id'], $_REQUEST['tab_id'], $_REQUEST['fqname'], 
+														$_REQUEST['idxname'], $_REQUEST['comment']);
+				if ($status == 0)
+					doTables('Table added to replication set.');
+				else
+					doAddTable(1, 'Failed adding table to replication set.');
+				break;
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a table from a
+	 * replication set.
+	 */
+	function doRemoveTable($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle('Remove');
+
+			echo "<p>", sprintf('Are you sure you want to remove the table "%s" from replication set "%s"?', 
+				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_table\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"Remove\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->removeTable($_REQUEST['tab_id']);
+			if ($status == 0)
+				doTables('Table removed from replication set.');
+			else
+				doTables('Failed to remove table from replication set.');
+		}
+	}
+		
 	// SUBSCRIPTIONS
 	
 	/**
@@ -1323,6 +1524,20 @@
 			break;
 		case 'confirm_drop_set':
 			doDropReplicationSet(true);
+			break;
+		case 'tables_properties':
+			doTables();
+			break;
+		case 'add_table':
+			if (isset($_REQUEST['cancel'])) doTables();
+			else doAddTable($_REQUEST['stage']);
+			break;
+		case 'drop_table':
+			if (isset($_POST['cancel'])) doTables();
+			else doRemoveTable(false);
+			break;
+		case 'confirm_drop_table':
+			doRemoveTable(true);
 			break;
 		case 'subscriptions_properties':
 			doSubscriptions();

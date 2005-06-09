@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.14 2005/06/08 13:26:08 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.15 2005/06/09 13:59:47 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -259,8 +259,14 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);		
 
-		$sql = "SELECT c.relname, n.nspname, n.nspname||'.'||c.relname AS qualname
-					FROM pg_catalog.pg_class c, \"{$schema}\".sl_table st, pg_catalog.pg_namespace n
+		$sql = "SELECT st.tab_id, c.relname, n.nspname, n.nspname||'.'||c.relname AS qualname,
+					pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
+					reltuples::integer";
+		// Tablespace
+		if ($data->hasTablespaces()) {
+			$sql .= ", (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace";
+		}
+		$sql .= " FROM pg_catalog.pg_class c, \"{$schema}\".sl_table st, pg_catalog.pg_namespace n
 					WHERE c.oid=st.tab_reloid
 					AND c.relnamespace=n.oid
 					AND st.tab_set='{$set_id}'
@@ -268,6 +274,42 @@ class Slony extends Plugin {
 
 		return $data->selectSet($sql);
 	}
+
+	/**
+	 * Adds a table to a replication set
+	 */
+	function addTable($set_id, $tab_id, $fqname, $idxname, $comment) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($tab_id);
+		$data->clean($fqname);
+		$data->clean($idxname);
+		$data->clean($comment);
+
+		if ($tab_id != '')
+			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', '{$tab_id}', '{$fqname}', '{$idxname}', '{$comment}')";
+		else
+			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', (SELECT COALESCE(MAX(tab_id), 0) + 1 FROM \"{$schema}\".sl_table), '{$fqname}', '{$idxname}', '{$comment}')";
+
+		return $data->execute($sql);	}		
+		
+	/**
+	 * Removes a table from a replication set
+	 */
+	function removeTable($tab_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($tab_id);
+
+		$sql = "SELECT \"{$schema}\".setdroptable('{$tab_id}')";
+
+		return $data->execute($sql);
+	}		
 
 	// SEQUENCES
 	
