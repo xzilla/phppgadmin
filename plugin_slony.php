@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.15 2005/06/09 13:59:47 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.16 2005/06/09 15:01:01 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -259,7 +259,8 @@
 					'icon'   => field('icon', 'sequences'),
 					'action' => url(field('url'),
 									$reqvars,
-									field('urlvars', array())
+									field('urlvars', array()),
+									array('action' => 'sequences_properties', 'set_id' => $_REQUEST['set_id'])
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -1166,10 +1167,11 @@
 
 		$tables = $slony->getTables($_REQUEST['set_id']);
 
+		// XXX: SCHEMA LINKS HERE
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
-				'field' => 'relname',
+				'field' => 'qualname',
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -1351,7 +1353,159 @@
 				doTables('Failed to remove table from replication set.');
 		}
 	}
+
+	// SEQUENCES
+	
+	/**
+	 * List all the sequences in a replication set
+	 */
+	function doSequences($msg = '') {
+		global $PHP_SELF, $data, $slony, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printMsg($msg);
+
+		$sequences = $slony->getSequences($_REQUEST['set_id']);
+
+		// XXX: SCHEMA LINKS HERE
+		$columns = array(
+			'sequence' => array(
+				'title' => $lang['strsequence'],
+				'field' => 'qualname',
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => 'seqowner',
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => 'seqcomment',
+			),
+		);
 		
+		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname'),
+			),
+			'remove' => array(
+				'title' => 'Remove',
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_sequence&amp;set_id={$_REQUEST['set_id']}&amp;",
+				'vars'  => array('seq_id' => 'seq_id', 'qualname' => 'qualname'),
+			)
+		);
+		
+		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
+		
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">Add Sequence</a></p>\n";
+	}
+
+	/**
+	 * Displays a screen where they can add a sequence to a 
+	 * replication set.
+	 */
+	function doAddSequence($stage, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		switch ($stage) {
+			case 1:
+				if (!isset($_POST['seq_id'])) $_POST['seq_id'] = '';
+				if (!isset($_POST['comment'])) $_POST['comment'] = '';
+				
+				$sequences = &$data->getSequences(true);
+		
+				$misc->printTrail('slony_sets');
+				$misc->printTitle('Add Sequence');
+				$misc->printMsg($msg);
+		
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo $misc->form;
+				echo "<table width=\"100%\">\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strsequence']}</th>\n";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
+				while (!$sequences->EOF) {
+					$key = array('schemaname' => $sequences->f['nspname'], 'sequencename' => $sequences->f['seqname']);
+					$key = serialize($key);
+					echo "<option value=\"", htmlspecialchars($key), "\">";
+					if ($data->hasSchemas()) {
+							echo htmlspecialchars($sequences->f['nspname']), '.';
+					}
+					echo htmlspecialchars($sequences->f['seqname']), "</option>\n";
+					$sequences->moveNext();	
+				}
+				echo "</select></td></tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+				echo "\t\t<td class=\"data1\"><input name=\"seq_id\" size=\"5\" value=\"",
+					htmlspecialchars($_POST['seq_id']), "\" /></td>\n\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
+					
+				echo "\t</tr>\n";
+				echo "</table>\n";
+				echo "<p>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"add_sequence\" />\n";
+				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				echo "</p>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				// Unserialize sequence.
+				$_REQUEST['target'] = unserialize($_REQUEST['target']);
+
+				$status = $slony->addSequence($_REQUEST['set_id'], $_REQUEST['seq_id'], 
+															$_REQUEST['target']['schemaname'] . '.' . $_REQUEST['target']['sequencename'],
+															$_REQUEST['comment']);
+				if ($status == 0)
+					doSequences('Sequence added to replication set.');
+				else
+					doAddSequence(1, 'Failed adding sequence to replication set.');
+				break;
+		}
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop of a sequence from a
+	 * replication set.
+	 */
+	function doRemoveSequence($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle('Remove');
+
+			echo "<p>", sprintf('Are you sure you want to remove the sequence "%s" from replication set "%s"?', 
+				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_sequence\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"seq_id\" value=\"", htmlspecialchars($_REQUEST['seq_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"drop\" value=\"Remove\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->removeSequence($_REQUEST['seq_id']);
+			if ($status == 0)
+				doSequences('Sequence removed from replication set.');
+			else
+				doSequences('Failed to remove sequence from replication set.');
+		}
+	}
+			
 	// SUBSCRIPTIONS
 	
 	/**
@@ -1538,6 +1692,20 @@
 			break;
 		case 'confirm_drop_table':
 			doRemoveTable(true);
+			break;
+		case 'sequences_properties':
+			doSequences();
+			break;
+		case 'add_sequence':
+			if (isset($_REQUEST['cancel'])) doSequences();
+			else doAddSequence($_REQUEST['stage']);
+			break;
+		case 'drop_sequence':
+			if (isset($_POST['cancel'])) doSequences();
+			else doRemoveSequence(false);
+			break;
+		case 'confirm_drop_sequence':
+			doRemoveSequence(true);
 			break;
 		case 'subscriptions_properties':
 			doSubscriptions();

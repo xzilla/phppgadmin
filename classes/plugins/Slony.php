@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.15 2005/06/09 13:59:47 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.16 2005/06/09 15:01:05 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -325,7 +325,9 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);		
 
-		$sql = "SELECT c.relname AS seqname, n.nspname, n.nspname||'.'||c.relname AS qualname
+		$sql = "SELECT ss.seq_id, c.relname AS seqname, n.nspname, n.nspname||'.'||c.relname AS qualname,
+						pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
+						pg_catalog.pg_get_userbyid(c.relowner) AS seqowner 
 					FROM pg_catalog.pg_class c, \"{$schema}\".sl_sequence ss, pg_catalog.pg_namespace n
 					WHERE c.oid=ss.seq_reloid
 					AND c.relnamespace=n.oid
@@ -335,6 +337,43 @@ class Slony extends Plugin {
 		return $data->selectSet($sql);
 	}
 
+	/**
+	 * Adds a sequence to a replication set
+	 */
+	function addSequence($set_id, $seq_id, $fqname, $comment) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($seq_id);
+		$data->clean($fqname);
+		$data->clean($comment);
+
+		if ($seq_id != '')
+			$sql = "SELECT \"{$schema}\".setaddsequence('{$set_id}', '{$seq_id}', '{$fqname}', '{$comment}')";
+		else
+			$sql = "SELECT \"{$schema}\".setaddsequence('{$set_id}', (SELECT COALESCE(MAX(seq_id), 0) + 1 FROM \"{$schema}\".sl_sequence), '{$fqname}', '{$comment}')";
+
+		return $data->execute($sql);	}		
+		
+	/**
+	 * Removes a sequence from a replication set
+	 */
+	function removeSequence($seq_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($seq_id);
+
+		$sql = "SELECT \"{$schema}\".setdropsequence('{$seq_id}')";
+
+		return $data->execute($sql);
+	}		
+
+	// SUBSCRIPTIONS
+	
 	/**
 	 * Gets all nodes subscribing to a set
 	 * @param $set_id The ID of the replication set
