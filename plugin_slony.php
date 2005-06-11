@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.19 2005/06/11 09:38:14 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.20 2005/06/11 11:03:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1369,6 +1369,9 @@
 					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
 					
 				echo "\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stradduniq']}</th>\n";
+				echo "\t\t<td class=\"data\"><input type=\"checkbox\" name=\"addtablekey\"", 
+					(isset($_REQUEST['addtablekey']) ? ' checked="checked"' : ''), " /></td>\n\t</tr>\n";
 				echo "</table>\n";
 				echo "<p>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"add_table\" />\n";
@@ -1413,6 +1416,9 @@
 				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"comment\" value=\"", htmlspecialchars($_REQUEST['comment']), "\" />\n";
+				if (isset($_REQUEST['addtablekey'])) {
+					echo "<input type=\"hidden\" name=\"addtablekey\" value=\"on\" />\n";
+				}
 				echo "<input type=\"hidden\" name=\"fqname\" value=\"", htmlspecialchars($_REQUEST['target']['schemaname']),
 					'.', htmlspecialchars($_REQUEST['target']['tablename']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
@@ -1423,7 +1429,7 @@
 				break;
 			case 3:
 				$status = $slony->addTable($_REQUEST['set_id'], $_REQUEST['tab_id'], $_REQUEST['fqname'], 
-														$_REQUEST['idxname'], $_REQUEST['comment']);
+														$_REQUEST['idxname'], $_REQUEST['comment'], isset($_REQUEST['addtablekey']));
 				if ($status == 0)
 					doTables('Table added to replication set.');
 				else

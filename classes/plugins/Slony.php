@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.19 2005/06/11 09:38:15 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.20 2005/06/11 11:03:59 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -310,7 +310,7 @@ class Slony extends Plugin {
 	/**
 	 * Adds a table to a replication set
 	 */
-	function addTable($set_id, $tab_id, $fqname, $idxname, $comment) {
+	function addTable($set_id, $tab_id, $fqname, $idxname, $comment, $addtablekey) {
 		global $data;
 
 		$schema = $this->slony_schema;
@@ -321,12 +321,34 @@ class Slony extends Plugin {
 		$data->clean($idxname);
 		$data->clean($comment);
 
+		if ($addtablekey) {
+			// Begin a transaction
+			$status = $data->beginTransaction();
+			if ($status != 0) return -1;
+
+			// Add the table key
+			$sql = "SELECT \"{$schema}\".tableaddkey('{$fqname}')";
+			$status = $data->execute($sql);
+			if ($status != 0) {
+				$data->rollbackTransaction();
+				return -2;
+			}
+		}
+
 		if ($tab_id != '')
 			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', '{$tab_id}', '{$fqname}', '{$idxname}', '{$comment}')";
 		else
 			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', (SELECT COALESCE(MAX(tab_id), 0) + 1 FROM \"{$schema}\".sl_table), '{$fqname}', '{$idxname}', '{$comment}')";
 
-		return $data->execute($sql);	}		
+		$status = $data->execute($sql);	
+		
+		if ($status != 0 && $addtablekey) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+		
+		return $status;
+	}
 		
 	/**
 	 * Removes a table from a replication set
