@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.18 2005/06/11 08:20:08 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.19 2005/06/11 09:38:15 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -420,6 +420,22 @@ class Slony extends Plugin {
 		return $data->execute($sql);
 	}		
 
+	/**
+	 * Moves a sequence to another replication set
+	 */
+	function moveSequence($seq_id, $new_set_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($seq_id);
+		$data->clean($new_set_id);
+
+		$sql = "SELECT \"{$schema}\".setmovesequence('{$seq_id}', '{$new_set_id}')";
+
+		return $data->execute($sql);
+	}		
+	
 	// SUBSCRIPTIONS
 	
 	/**

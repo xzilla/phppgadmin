@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.18 2005/06/11 08:20:08 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.19 2005/06/11 09:38:14 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1559,6 +1559,11 @@
 				'title' => 'Remove',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_sequence&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('seq_id' => 'seq_id', 'qualname' => 'qualname'),
+			),
+			'move' => array(
+				'title' => $lang['strmove'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=move_sequence&amp;set_id={$_REQUEST['set_id']}&amp;stage=1&amp;",
+				'vars'  => array('seq_id' => 'seq_id'),
 			)
 		);
 		
@@ -1667,7 +1672,59 @@
 				doSequences('Failed to remove sequence from replication set.');
 		}
 	}
-			
+
+	/**
+	 * Displays a screen where they can move a sequence to a 
+	 * replication set.
+	 */
+	function doMoveSequence($stage, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		switch ($stage) {
+			case 1:
+				if (!isset($_POST['new_set_id'])) $_POST['new_set_id'] = '';
+				
+				$sets = &$slony->getReplicationSets();
+		
+				$misc->printTrail('slony_sets');
+				$misc->printTitle($lang['strmove']);
+				$misc->printMsg($msg);
+		
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo $misc->form;
+				echo "<sequence>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_set_id\">";
+				while (!$sets->EOF) {
+					if ($sets->f['set_id'] != $_REQUEST['set_id']) {
+						echo "<option value=\"{$sets->f['set_id']}\">";
+						echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+					}
+					$sets->moveNext();	
+				}
+				echo "</select></td></tr>\n";
+				echo "</sequence>\n";
+				echo "<p>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"move_sequence\" />\n";
+				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"seq_id\" value=\"", htmlspecialchars($_REQUEST['seq_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strmove']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				echo "</p>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				$status = $slony->moveSequence($_REQUEST['seq_id'], $_REQUEST['new_set_id']);
+				if ($status == 0)
+					doSequences('Sequence moved to replication set.');
+				else
+					doMoveSequence(1, 'Failed moving sequence to replication set.');
+				break;
+		}
+	}
+				
 	// SUBSCRIPTIONS
 	
 	/**
@@ -1886,6 +1943,10 @@
 			break;
 		case 'confirm_drop_sequence':
 			doRemoveSequence(true);
+			break;
+		case 'move_sequence':
+			if (isset($_REQUEST['cancel'])) doSequences();
+			else doMoveSequence($_REQUEST['stage']);
 			break;
 		case 'subscriptions_properties':
 			doSubscriptions();
