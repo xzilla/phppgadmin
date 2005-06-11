@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.176.2.3 2005/06/11 06:37:02 chriskl Exp $
+	 * $Id: english.php,v 1.176.2.4 2005/06/11 08:20:08 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -693,13 +693,14 @@
 	$lang['strrepsetdropped'] = 'Replication set dropped.';
 	$lang['strrepsetdroppedbad'] = 'Replication set drop failed.';
 	$lang['strmerge'] = 'Merge';
-	$lang['strmergeinto'] = 'Merge Into';
+	$lang['strmergeinto'] = 'Merge into';
 	$lang['strrepsetmerged'] = 'Replication sets merged.';
 	$lang['strrepsetmergedbad'] = 'Replication sets merge failed.';
 	$lang['strmove'] = 'Move';
-	$lang['strneworigin'] = 'New Origin';
+	$lang['strneworigin'] = 'New origin';
 	$lang['strrepsetmoved'] = 'Replication set moved.';
 	$lang['strrepsetmovedbad'] = 'Replication set move failed.';
+	$lang['strnewrepset'] = 'New replication set';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = 'Subscriptions';

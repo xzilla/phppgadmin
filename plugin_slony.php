@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.17 2005/06/11 06:37:02 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.18 2005/06/11 08:20:08 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1220,9 +1220,10 @@
 		global $PHP_SELF, $lang;
 		
 		if ($confirm) {
-			if (!isset($_POST['target'])) $_POST['target'] = '';
+			if (!isset($_POST['new_origin'])) $_POST['new_origin'] = '';
 	
-			$sets = $slony->getReplicationSets();
+			$nodes = $slony->getNodes();
+			$set = $slony->getReplicationSet($_REQUEST['set_id']);
 	
 			$misc->printTrail('slony_sets');
 			$misc->printTitle($lang['strmove']);
@@ -1232,13 +1233,13 @@
 			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strneworigin']}</th>\n";
-			echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
-			while (!$sets->EOF) {
-				if ($sets->f['set_id'] != $_REQUEST['set_id']) {
-					echo "<option value=\"{$sets->f['set_id']}\">";
-					echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+			echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_origin\">";
+			while (!$nodes->EOF) {
+				if ($nodes->f['no_id'] != $set->f['set_origin']) {
+					echo "<option value=\"{$nodes->f['no_id']}\">";
+					echo htmlspecialchars($nodes->f['no_comment']), "</option>\n";
 				}
-				$sets->moveNext();	
+				$nodes->moveNext();	
 			}
 			echo "</select></td></tr>\n";
 			echo "</table>\n";
@@ -1251,7 +1252,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $slony->moveReplicationSet($_POST['set_id'], $_POST['target']);
+			$status = $slony->moveReplicationSet($_POST['set_id'], $_POST['new_origin']);
 			if ($status == 0)
 				doReplicationSet($lang['strrepsetmoved']);
 			else
@@ -1273,7 +1274,6 @@
 
 		$tables = $slony->getTables($_REQUEST['set_id']);
 
-		// XXX: SCHEMA LINKS HERE
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
@@ -1305,12 +1305,17 @@
 			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
+				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 			),
 			'remove' => array(
 				'title' => 'Remove',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_table&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('tab_id' => 'tab_id', 'qualname' => 'qualname'),
+			),
+			'move' => array(
+				'title' => $lang['strmove'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=move_table&amp;set_id={$_REQUEST['set_id']}&amp;stage=1&amp;",
+				'vars'  => array('tab_id' => 'tab_id'),
 			)
 		);
 		
@@ -1428,6 +1433,58 @@
 	}
 
 	/**
+	 * Displays a screen where they can move a table to a 
+	 * replication set.
+	 */
+	function doMoveTable($stage, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		switch ($stage) {
+			case 1:
+				if (!isset($_POST['new_set_id'])) $_POST['new_set_id'] = '';
+				
+				$sets = &$slony->getReplicationSets();
+		
+				$misc->printTrail('slony_sets');
+				$misc->printTitle($lang['strmove']);
+				$misc->printMsg($msg);
+		
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo $misc->form;
+				echo "<table>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
+				echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_set_id\">";
+				while (!$sets->EOF) {
+					if ($sets->f['set_id'] != $_REQUEST['set_id']) {
+						echo "<option value=\"{$sets->f['set_id']}\">";
+						echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+					}
+					$sets->moveNext();	
+				}
+				echo "</select></td></tr>\n";
+				echo "</table>\n";
+				echo "<p>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"move_table\" />\n";
+				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
+				echo "<input type=\"submit\" value=\"{$lang['strmove']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				echo "</p>\n";
+				echo "</form>\n";
+				break;
+			case 2:
+				$status = $slony->moveTable($_REQUEST['tab_id'], $_REQUEST['new_set_id']);
+				if ($status == 0)
+					doTables('Table moved to replication set.');
+				else
+					doMoveTable(1, 'Failed moving table to replication set.');
+				break;
+		}
+	}
+
+	/**
 	 * Show confirmation of drop and perform actual drop of a table from a
 	 * replication set.
 	 */
@@ -1474,7 +1531,6 @@
 
 		$sequences = $slony->getSequences($_REQUEST['set_id']);
 
-		// XXX: SCHEMA LINKS HERE
 		$columns = array(
 			'sequence' => array(
 				'title' => $lang['strsequence'],
@@ -1496,8 +1552,8 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('sequence' => 'seqname'),
+				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
 			),
 			'remove' => array(
 				'title' => 'Remove',
@@ -1812,6 +1868,10 @@
 			break;
 		case 'confirm_drop_table':
 			doRemoveTable(true);
+			break;
+		case 'move_table':
+			if (isset($_REQUEST['cancel'])) doTables();
+			else doMoveTable($_REQUEST['stage']);
 			break;
 		case 'sequences_properties':
 			doSequences();

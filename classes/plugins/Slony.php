@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.17 2005/06/11 06:37:02 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.18 2005/06/11 08:20:08 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -339,6 +339,22 @@ class Slony extends Plugin {
 		$data->clean($tab_id);
 
 		$sql = "SELECT \"{$schema}\".setdroptable('{$tab_id}')";
+
+		return $data->execute($sql);
+	}		
+
+	/**
+	 * Moves a table to another replication set
+	 */
+	function moveTable($tab_id, $new_set_id) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($tab_id);
+		$data->clean($new_set_id);
+
+		$sql = "SELECT \"{$schema}\".setmovetable('{$tab_id}', '{$new_set_id}')";
 
 		return $data->execute($sql);
 	}		

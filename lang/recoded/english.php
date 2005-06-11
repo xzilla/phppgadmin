@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.128.2.2 2005/06/11 06:37:03 chriskl Exp $
+	 * $Id: english.php,v 1.128.2.3 2005/06/11 08:20:08 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -700,6 +700,7 @@
 	$lang['strneworigin'] = 'New Origin';
 	$lang['strrepsetmoved'] = 'Replication set moved.';
 	$lang['strrepsetmovedbad'] = 'Replication set move failed.';
+	$lang['strnewrepset'] = 'New replication set';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = 'Subscriptions';
