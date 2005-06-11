@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.16 2005/06/09 15:01:01 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.17 2005/06/11 06:37:02 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1033,6 +1033,16 @@
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_set&amp;",
 				'vars'  => array('set_id' => 'set_id')
+			),
+			'merge' => array(
+				'title' => $lang['strmerge'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=merge_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
+			),
+			'move' => array(
+				'title' => $lang['strmove'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=move_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
 			)
 		);
 		
@@ -1077,7 +1087,9 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a></p>\n";
 	}
 
 	/**
@@ -1152,7 +1164,101 @@
 				doReplicationSets($lang['strrepsetdroppedbad']);
 		}
 	}
+
+	/**
+	 * Displays a screen where they can merge one set into another
+	 */
+	function doMergeReplicationSet($confirm, $msg = '') {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['target'])) $_POST['target'] = '';
 	
+			$sets = $slony->getReplicationSets();
+	
+			$misc->printTrail('slony_sets');
+			$misc->printTitle($lang['strmerge']);
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strmergeinto']}</th>\n";
+			echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
+			while (!$sets->EOF) {
+				if ($sets->f['set_id'] != $_REQUEST['set_id']) {
+					echo "<option value=\"{$sets->f['set_id']}\">";
+					echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+				}
+				$sets->moveNext();	
+			}
+			echo "</select></td></tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_merge_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strmerge']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->mergeReplicationSet($_POST['set_id'], $_POST['target']);
+			if ($status == 0)
+				doReplicationSet($lang['strrepsetmerged']);
+			else
+				doMergeReplicationSet(true, $lang['strrepsetmergedbad']);
+		}
+	}
+
+	/**
+	 * Displays a screen where they can move one set into another
+	 */
+	function doMoveReplicationSet($confirm, $msg = '') {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['target'])) $_POST['target'] = '';
+	
+			$sets = $slony->getReplicationSets();
+	
+			$misc->printTrail('slony_sets');
+			$misc->printTitle($lang['strmove']);
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strneworigin']}</th>\n";
+			echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
+			while (!$sets->EOF) {
+				if ($sets->f['set_id'] != $_REQUEST['set_id']) {
+					echo "<option value=\"{$sets->f['set_id']}\">";
+					echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+				}
+				$sets->moveNext();	
+			}
+			echo "</select></td></tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_move_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strmove']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->moveReplicationSet($_POST['set_id'], $_POST['target']);
+			if ($status == 0)
+				doReplicationSet($lang['strrepsetmoved']);
+			else
+				doMoveReplicationSet(true, $lang['strrepsetmovedbad']);
+		}
+	}
+		
 	// TABLES
 	
 	/**
@@ -1678,6 +1784,20 @@
 			break;
 		case 'confirm_drop_set':
 			doDropReplicationSet(true);
+			break;
+		case 'save_merge_set':
+			if (isset($_POST['cancel'])) doReplicationSet();
+			else doMergeReplicationSet(false);
+			break;
+		case 'merge_set':
+			doMergeReplicationSet(true);
+			break;
+		case 'save_move_set':
+			if (isset($_POST['cancel'])) doReplicationSet();
+			else doMoveReplicationSet(false);
+			break;
+		case 'move_set':
+			doMoveReplicationSet(true);
 			break;
 		case 'tables_properties':
 			doTables();

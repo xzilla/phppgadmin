@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.16 2005/06/09 15:01:05 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.17 2005/06/11 06:37:02 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -245,6 +245,38 @@ class Slony extends Plugin {
 		return $data->execute($sql);
 	}	
 	
+	/**
+	 * Merges two sets
+	 */
+	function mergeReplicationSet($set_id, $target) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($target);
+
+		$sql = "SELECT \"{$schema}\".mergeset('{$target}', '{$set_id}')";
+
+		return $data->execute($sql);
+	}
+
+	/**
+	 * Moves a set to a new origin
+	 */
+	function moveReplicationSet($set_id, $new_origin) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($new_origin);
+
+		$sql = "SELECT \"{$schema}\".moveset('{$set_id}', '{$new_origin}')";
+
+		return $data->execute($sql);
+	}
+
 	// TABLES
 	
 	/**
