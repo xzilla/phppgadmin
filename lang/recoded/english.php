@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.128.2.3 2005/06/11 08:20:08 chriskl Exp $
+	 * $Id: english.php,v 1.128.2.4 2005/06/12 11:18:39 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -656,7 +656,10 @@
 	$lang['strconfdropnode'] = 'Are you sure you want to drop node &quot;%s&quot;?';
 	$lang['strnodedropped'] = 'Node dropped.';
 	$lang['strnodedroppedbad'] = 'Node drop failed';
-
+	$lang['strfailover'] = 'Failover';
+	$lang['strnodefailedover'] = 'Node failed over.';
+	$lang['strnodefailedoverbad'] = 'Node fail over fail.';
+	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';
 	$lang['strnopaths'] = 'No paths found.';
@@ -701,6 +704,15 @@
 	$lang['strrepsetmoved'] = 'Replication set moved.';
 	$lang['strrepsetmovedbad'] = 'Replication set move failed.';
 	$lang['strnewrepset'] = 'New replication set';
+	$lang['strlock'] = 'Lock';
+	$lang['strlocked'] = 'Locked';
+	$lang['strunlock'] = 'Unlock';
+	$lang['strconflockrepset'] = 'Are you sure you want to lock replication set &quot;%s&quot;?';
+	$lang['strrepsetlocked'] = 'Replication set locked.';
+	$lang['strrepsetlockedbad'] = 'Replication set lock failed.';
+	$lang['strconfunlockrepset'] = 'Are you sure you want to unlock replication set &quot;%s&quot;?';
+	$lang['strrepsetunlocked'] = 'Replication set unlocked.';
+	$lang['strrepsetunlockedbad'] = 'Replication set unlock failed.';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = 'Subscriptions';

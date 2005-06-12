@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.20 2005/06/11 11:03:59 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.21 2005/06/12 11:18:39 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -188,7 +188,7 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT * FROM \"{$schema}\".sl_set ORDER BY set_id";
+		$sql = "SELECT *, set_locked IS NOT NULL AS is_locked FROM \"{$schema}\".sl_set ORDER BY set_id";
 		
 		return $data->selectSet($sql);
 	}
@@ -203,7 +203,8 @@ class Slony extends Plugin {
 		$data->fieldClean($schema);
 		$data->clean($set_id);
 		
-		$sql = "SELECT *, (SELECT COUNT(*) FROM \"{$schema}\".sl_subscribe ssub WHERE ssub.sub_set=ss.set_id) AS subscriptions
+		$sql = "SELECT *, (SELECT COUNT(*) FROM \"{$schema}\".sl_subscribe ssub WHERE ssub.sub_set=ss.set_id) AS subscriptions,
+					set_locked IS NOT NULL AS is_locked
 					FROM \"{$schema}\".sl_set ss, \"{$schema}\".sl_node sn
 					WHERE ss.set_origin=sn.no_id
 					AND set_id='{$set_id}'";
@@ -244,7 +245,26 @@ class Slony extends Plugin {
 
 		return $data->execute($sql);
 	}	
-	
+
+	/**
+	 * Locks or unlocks a set
+	 * @param boolean $lock True to lock, false to unlock
+	 */
+	function lockReplicationSet($set_id, $lock) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+
+		if ($lock)
+			$sql = "SELECT \"{$schema}\".lockset('{$set_id}')";
+		else
+			$sql = "SELECT \"{$schema}\".unlockset('{$set_id}')";		
+
+		return $data->execute($sql);
+	}	
+		
 	/**
 	 * Merges two sets
 	 */

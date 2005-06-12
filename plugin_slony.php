@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.20 2005/06/11 11:03:59 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.21 2005/06/12 11:18:38 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -531,6 +531,11 @@
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;",
 				'vars'  => array('no_id' => 'no_id')
+			),
+			'failover' => array(
+				'title' => $lang['strfailover'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_failover_node&amp;",
+				'vars'  => array('no_id' => 'no_id')
 			)
 		);
 		
@@ -571,7 +576,8 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_failover_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strfailover']}</a></p>\n";
 	}
 
 	/**
@@ -646,7 +652,59 @@
 				doNodes($lang['strnodedroppedbad']);
 		}
 	}
-		
+
+	/**
+	 * Show confirmation of failover and perform actual failover of a node
+	 */
+	function doFailoverNode($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			// Fetch all nodes
+			$nodes = &$slony->getNodes();
+
+			$misc->printTrail('slony_paths');
+			$misc->printTitle($lang['strfailover']);
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strfailoverto']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
+			while (!$nodes->EOF) {
+				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
+					($nodes->f['no_id'] == $_POST['pathserver']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				$nodes->moveNext();
+			}
+			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconninfo']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"pathconn\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['pathconn']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconnretry']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"pathretry\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['pathretry']), "\" /></td>\n\t</tr>\n";
+				
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_path\" />\n";
+			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->failoverNode($_REQUEST['no_id']);
+			if ($status == 0)
+				doNodes($lang['strnodefailoverped']);
+			else
+				doNodes($lang['strnodefailoverpedbad']);
+		}
+	}
+			
 	// PATHS
 
 	/**
@@ -1034,6 +1092,16 @@
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_set&amp;",
 				'vars'  => array('set_id' => 'set_id')
 			),
+			'lock' => array(
+				'title' => $lang['strlock'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_lock_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
+			),
+			'unlock' => array(
+				'title' => $lang['strunlock'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_unlock_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
+			),
 			'merge' => array(
 				'title' => $lang['strmerge'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=merge_set&amp;",
@@ -1075,6 +1143,8 @@
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_id']), "</td></tr>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strlocked']}</th>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($set->f['is_locked'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->f['set_origin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin Node</th>\n";
@@ -1088,6 +1158,8 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a></p>\n";
 	}
@@ -1159,12 +1231,72 @@
 		else {
 			$status = $slony->dropReplicationSet($_REQUEST['set_id']);
 			if ($status == 0)
-				doReplicationSets($lang['strrepsetdropped']);
+				doReplicationSet($lang['strrepsetdropped']);
 			else
-				doReplicationSets($lang['strrepsetdroppedbad']);
+				doReplicationSet($lang['strrepsetdroppedbad']);
 		}
 	}
 
+	/**
+	 * Show confirmation of lock and perform actual lock of a set
+	 */
+	function doLockReplicationSet($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strlock']);
+
+			echo "<p>", sprintf($lang['strconflockrepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"lock_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"lock\" value=\"{$lang['strlock']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->lockReplicationSet($_REQUEST['set_id'], true);
+			if ($status == 0)
+				doReplicationSet($lang['strrepsetlocked']);
+			else
+				doReplicationSet($lang['strrepsetlockedbad']);
+		}
+	}
+
+	/**
+	 * Show confirmation of unlock and perform actual unlock of a set
+	 */
+	function doUnlockReplicationSet($confirm) {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('slony_cluster');
+			$misc->printTitle($lang['strunlock']);
+
+			echo "<p>", sprintf($lang['strconfunlockrepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"unlock_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"unlock\" value=\"{$lang['strunlock']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $slony->lockReplicationSet($_REQUEST['set_id'], false);
+			if ($status == 0)
+				doReplicationSets($lang['strrepsetunlocked']);
+			else
+				doReplicationSets($lang['strrepsetunlockedbad']);
+		}
+	}
+	
 	/**
 	 * Displays a screen where they can merge one set into another
 	 */
@@ -1844,6 +1976,13 @@
 		case 'confirm_drop_node':
 			doDropNode(true);
 			break;
+		case 'failover_node':
+			if (isset($_POST['cancel'])) doNodes();
+			else doFailoverNode(false);
+			break;
+		case 'confirm_failover_node':
+			doFailoverNode(true);
+			break;
 		case 'paths_properties':
 			doPaths();
 			break;
@@ -1903,6 +2042,20 @@
 			break;
 		case 'confirm_drop_set':
 			doDropReplicationSet(true);
+			break;
+		case 'lock_set':
+			if (isset($_POST['cancel'])) doReplicationSets();
+			else doLockReplicationSet(false);
+			break;
+		case 'confirm_lock_set':
+			doLockReplicationSet(true);
+			break;
+		case 'unlock_set':
+			if (isset($_POST['cancel'])) doReplicationSets();
+			else doUnlockReplicationSet(false);
+			break;
+		case 'confirm_unlock_set':
+			doUnlockReplicationSet(true);
 			break;
 		case 'save_merge_set':
 			if (isset($_POST['cancel'])) doReplicationSet();
