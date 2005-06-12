@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.21 2005/06/12 11:18:38 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.22 2005/06/12 14:36:25 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,14 +24,18 @@
 		// Determine what actual tree we are building
 		switch ($subject) {			
 			case 'clusters':
-				// Nodes paths and listens entries
+				// Clusters
 				
-				$tabs = array('cluster' => array (
-										'title' => $slony->slony_cluster,
-										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'clusters_top')
-									));
-				
+				// Enabled check here is just a hack.
+				if ($slony->isEnabled()) {
+						$tabs = array('cluster' => array (
+											'title' => $slony->slony_cluster,
+											'url'   => 'plugin_slony.php',
+											'urlvars' => array('subject' => 'clusters_top')
+										));
+				}
+				else $tabs = array();
+					
 				$items =& $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
@@ -51,7 +55,7 @@
 				);
 				
 				$misc->printTreeXML($items, $attrs);
-				
+
 				break;			
 			case 'clusters_top':
 				// Top level Nodes and Replication sets folders
@@ -390,7 +394,7 @@
 	 * Display the slony clusters (we only support one)
 	 */	 
 	function doClusters($msg = '') {
-		global $slony, $misc;
+		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -426,6 +430,11 @@
 		);
 		
 		$misc->printTable($clusters, $columns, $actions, $lang['strnoclusters']);
+
+		// XXX: FIX THIS ONCE WE SUPPORT MULTIPLE CLUSTERS
+		if ($clusters->recordCount() == 0) {		
+			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
+		}
 	}
 
 	// CLUSTERS
@@ -464,6 +473,62 @@
 	}
 
 	/**
+	 * Displays a screen where they can enter a new cluster
+	 */
+	function doCreateCluster($confirm, $msg = '') {
+		global $data, $slony, $misc;
+		global $PHP_SELF, $lang;
+		
+		if ($confirm) {
+			if (!isset($_POST['cluster'])) $_POST['cluster'] = '';
+			if (!isset($_POST['no_id'])) $_POST['no_id'] = '1';
+			if (!isset($_POST['no_comment'])) $_POST['no_comment'] = '';
+	
+			$misc->printTrail('slony_clusters');
+			$misc->printTitle($lang['strinitcluster']);
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table width=\"100%\">\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcluster']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"cluster\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['cluster']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strid']}</th>\n";
+			echo "\t\t<td class=\"data1\"><input name=\"no_id\" size=\"5\" value=\"",
+				htmlspecialchars($_POST['no_id']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea name=\"no_comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['no_comment']), "</textarea></td>\n\t</tr>\n";
+				
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_cluster\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strinitcluster']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			if (trim($_POST['cluster']) == '') {
+				doCreateCluster(true, $lang['strclusterneedsname']);
+				return;
+			}
+			elseif (trim($_POST['no_id']) == '') {
+				doCreateCluster(true, $lang['strclusterneedsnodeid']);
+				return;
+			}
+			
+			$status = $slony->initCluster($_POST['cluster'], $_POST['no_id'], $_POST['no_comment']);
+			if ($status == 0)
+				doClusters($lang['strclustercreated']);
+			else
+				doCreateCluster(true, $lang['strclustercreatedbad'] . ':' . $status);
+		}
+	}
+
+	/**
 	 * Show confirmation of drop and perform actual drop of a cluster
 	 */
 	function doDropCluster($confirm) {
@@ -474,11 +539,10 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle($lang['strdrop']);
 
-			// XXX: N
-			echo "<p>", sprintf($lang['strconfdropcluster'], $misc->printVal($slony->clony_cluster)), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropcluster'], $misc->printVal($slony->slony_cluster)), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop_cluster\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -487,9 +551,9 @@
 		else {
 			$status = $slony->dropCluster();
 			if ($status == 0)
-				doDefault($lang['strclusterdropped']);
+				doClusters($lang['strclusterdropped']);
 			else
-				doDefault($lang['strclusterdroppedbad']);
+				doClusters($lang['strclusterdroppedbad']);
 		}
 	}
 
@@ -531,11 +595,6 @@
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;",
 				'vars'  => array('no_id' => 'no_id')
-			),
-			'failover' => array(
-				'title' => $lang['strfailover'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_failover_node&amp;",
-				'vars'  => array('no_id' => 'no_id')
 			)
 		);
 		
@@ -576,8 +635,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_failover_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strfailover']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -650,58 +708,6 @@
 				doNodes($lang['strnodedropped']);
 			else
 				doNodes($lang['strnodedroppedbad']);
-		}
-	}
-
-	/**
-	 * Show confirmation of failover and perform actual failover of a node
-	 */
-	function doFailoverNode($confirm) {
-		global $slony, $misc;
-		global $PHP_SELF, $lang;
-
-		if ($confirm) {
-			// Fetch all nodes
-			$nodes = &$slony->getNodes();
-
-			$misc->printTrail('slony_paths');
-			$misc->printTitle($lang['strfailover']);
-			$misc->printMsg($msg);
-	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
-			echo "<table width=\"100%\">\n";
-			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strfailoverto']}</th>\n";
-			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
-			while (!$nodes->EOF) {
-				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
-					($nodes->f['no_id'] == $_POST['pathserver']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
-				$nodes->moveNext();
-			}
-			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
-			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconninfo']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input name=\"pathconn\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['pathconn']), "\" /></td>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconnretry']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input name=\"pathretry\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['pathretry']), "\" /></td>\n\t</tr>\n";
-				
-			echo "\t</tr>\n";
-			echo "</table>\n";
-			echo "<p>\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_path\" />\n";
-			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
-			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</p>\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $slony->failoverNode($_REQUEST['no_id']);
-			if ($status == 0)
-				doNodes($lang['strnodefailoverped']);
-			else
-				doNodes($lang['strnodefailoverpedbad']);
 		}
 	}
 			
@@ -1954,8 +1960,22 @@
 
 	$misc->printHeader('Slony');
 	$misc->printBody();
-	
+
 	switch ($action) {
+		case 'save_create_cluster':
+			if (isset($_POST['cancel'])) doClusters();
+			else doCreateCluster(false);
+			break;
+		case 'create_cluster':
+			doCreateCluster(true);
+			break;
+		case 'drop_cluster':
+			if (isset($_POST['cancel'])) doClusters();
+			else doDropCluster(false);
+			break;
+		case 'confirm_drop_cluster':
+			doDropCluster(true);
+			break;
 		case 'nodes_properties':
 			doNodes();
 			break;

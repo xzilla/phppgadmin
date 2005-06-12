@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.128.2.4 2005/06/12 11:18:39 chriskl Exp $
+	 * $Id: english.php,v 1.128.2.5 2005/06/12 14:36:26 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -644,7 +644,12 @@
 	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster &quot;%s&quot;?';
 	$lang['strclusterdropped'] = 'Cluster dropped.';
 	$lang['strclusterdroppedbad'] = 'Cluster drop failed.';
-
+	$lang['strinitcluster'] = 'Initialize Cluster';
+	$lang['strclustercreated'] = 'Cluster initialized.';
+	$lang['strclustercreatedbad'] = 'Cluster initialization failed.';
+	$lang['strclusterneedsname'] = 'You must give a name for the cluster.';
+	$lang['strclusterneedsnodeid'] = 'You must give an ID for the local node.';
+	
 	// Slony nodes
 	$lang['strnodes'] = 'Nodes';
 	$lang['strnonodes'] = 'No nodes found.';

@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.21 2005/06/12 11:18:39 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.22 2005/06/12 14:36:25 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -77,7 +77,11 @@ class Slony extends Plugin {
 	function getClusters() {
 		include_once('classes/ArrayRecordSet.php');
 
-		$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => $this->slony_comment));
+		if ($this->isEnabled()) {
+			$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => $this->slony_comment));
+		}
+		else
+			$clusters = array();
 
 		return new ArrayRecordSet($clusters);
 	}
@@ -104,12 +108,119 @@ class Slony extends Plugin {
 	 * Drops an entire cluster.
 	 */
 	function dropCluster() {
+		global $data;
+		
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 
 		$sql = "SELECT \"{$schema}\".uninstallnode(); DROP SCHEMA \"{$schema}\" CASCADE";
 		
-		return $this->execute($sql);
+		return $data->execute($sql);
+	}
+	
+	/**
+	 * Helper function to get a file into a string and replace
+	 * variables.
+	 */
+	function _getFile($file, $cluster) {
+		global $data;
+		$schema = '_' . $cluster;
+		$data->fieldClean($cluster);
+		
+		$buffer = null;
+		$handle = fopen("./sql/plugins/{$file}", "r");
+		while (!feof($handle)) {
+		   $temp = fgets($handle, 4096);
+		   $temp = str_replace('@CLUSTERNAME@', $cluster, $temp);
+		   
+		   $temp = str_replace('@NAMESPACE@', $schema, $temp);
+		   $buffer .= $temp;
+		}
+		fclose($handle);
+		
+		return $buffer;
+	}
+	
+	/**
+	 * Initializes a new cluster
+	 */
+	function initCluster($name, $no_id, $no_comment) {
+		global $data, $misc;
+		
+		// Prevent timeouts since cluster initialization can be slow
+		if (!ini_get('safe_mode')) set_time_limit(0);
+
+		$server_info = $misc->getServerInfo();
+		
+		if (!$data->isSuperUser($server_info['username'])) {
+			return -10;
+		}
+				
+		$status = $data->beginTransaction();
+		if ($status != 0) return -1;
+		
+		// Create the schema
+		$status = $data->createSchema('_' . $name);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -2;
+		}
+
+		// XXX: Support only Postgresql 7.4+ at the moment		
+		$sql = $this->_getFile('xxid.v74.sql', $name);
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+		
+		$sql = $this->_getFile('slony1_base.sql', $name);
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+/* THIS FILE IS EMPTY AND JUST CAUSES ERRORS
+		$sql = $this->_getFile('slony1_base.v74.sql', $name);
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+*/
+		$sql = $this->_getFile('slony1_funcs.sql', $name);
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+
+		$sql = $this->_getFile('slony1_funcs.v74.sql', $name);
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -3;
+		}
+		
+		$enabled = $this->isEnabled();
+		if (!$enabled) {
+			$data->rollbackTransaction();
+			return -4;
+		}
+		
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($no_id);
+		$data->clean($no_comment);
+
+		$sql = "SELECT \"{$schema}\".initializelocalnode('{$no_id}', '{$no_comment}'); SELECT \"{$schema}\".enablenode('{$no_id}')";
+		$status = $data->execute($sql);
+		if ($status != 0) {
+			$data->rollbackTransaction();
+			return -5;
+		}
+		
+		return $data->endTransaction();
 	}
 	
 	// NODES
