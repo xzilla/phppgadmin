@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.23 2005/06/15 14:32:58 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.24 2005/06/15 19:05:09 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -1507,7 +1507,7 @@
 				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 			),
 			'remove' => array(
-				'title' => 'Remove',
+				'title' => $lang['strremove'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_table&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('tab_id' => 'tab_id', 'qualname' => 'qualname'),
 			),
@@ -1522,7 +1522,7 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">Add Table</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddtable']}</a></p>\n";
 	}
 
 	/**
@@ -1541,7 +1541,7 @@
 				$tables = &$data->getTables(true);
 		
 				$misc->printTrail('slony_sets');
-				$misc->printTitle('Add Table');
+				$misc->printTitle($lang['straddtable']);
 				$misc->printMsg($msg);
 		
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -1560,7 +1560,7 @@
 					$tables->moveNext();	
 				}
 				echo "</select></td></tr>\n";
-				echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 				echo "\t\t<td class=\"data1\"><input name=\"tab_id\" size=\"5\" value=\"",
 					htmlspecialchars($_POST['tab_id']), "\" /></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -1589,12 +1589,12 @@
 					$data->setSchema($_REQUEST['target']['schemaname']);
 				$indexes = &$data->getIndexes($_REQUEST['target']['tablename']);
 				if ($indexes->recordCount() == 0) {
-					doTables('Table to be added requires a primary or unique key.');
+					doTables($lang['strtableneedsuniquekey']);
 					return;	
 				}
 				
 				$misc->printTrail('slony_sets');
-				$misc->printTitle('Add Table');
+				$misc->printTitle($lang['straddtable']);
 				$misc->printMsg($msg);
 		
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -1630,9 +1630,9 @@
 				$status = $slony->addTable($_REQUEST['set_id'], $_REQUEST['tab_id'], $_REQUEST['fqname'], 
 														$_REQUEST['idxname'], $_REQUEST['comment'], isset($_REQUEST['addtablekey']));
 				if ($status == 0)
-					doTables('Table added to replication set.');
+					doTables($lang['strtableaddedtorepset']);
 				else
-					doAddTable(1, 'Failed adding table to replication set.');
+					doAddTable(1, $lang['strtableaddedtorepsetbad']);
 				break;
 		}
 	}
@@ -1701,7 +1701,7 @@
 			$misc->printTrail('slony_cluster');
 			$misc->printTitle('Remove');
 
-			echo "<p>", sprintf('Are you sure you want to remove the table "%s" from replication set "%s"?', 
+			echo "<p>", sprintf($lang['strconfremovetablefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -1709,16 +1709,16 @@
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"drop\" value=\"Remove\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strremove']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $slony->removeTable($_REQUEST['tab_id']);
 			if ($status == 0)
-				doTables('Table removed from replication set.');
+				doTables($lang['strtableremovedfromrepset']);
 			else
-				doTables('Failed to remove table from replication set.');
+				doTables($lang['strtableremovedfromrepsetbad']);
 		}
 	}
 
@@ -1761,7 +1761,7 @@
 				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
 			),
 			'remove' => array(
-				'title' => 'Remove',
+				'title' => $lang['strremove'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_sequence&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('seq_id' => 'seq_id', 'qualname' => 'qualname'),
 			),
@@ -1774,7 +1774,7 @@
 		
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">Add Sequence</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddsequence']}</a></p>\n";
 	}
 
 	/**
@@ -1793,7 +1793,7 @@
 				$sequences = &$data->getSequences(true);
 		
 				$misc->printTrail('slony_sets');
-				$misc->printTitle('Add Sequence');
+				$misc->printTitle($lang['straddsequence']);
 				$misc->printMsg($msg);
 		
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -1812,7 +1812,7 @@
 					$sequences->moveNext();	
 				}
 				echo "</select></td></tr>\n";
-				echo "\t<tr>\n\t\t<th class=\"data left\">ID</th>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 				echo "\t\t<td class=\"data1\"><input name=\"seq_id\" size=\"5\" value=\"",
 					htmlspecialchars($_POST['seq_id']), "\" /></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -1838,9 +1838,9 @@
 															$_REQUEST['target']['schemaname'] . '.' . $_REQUEST['target']['sequencename'],
 															$_REQUEST['comment']);
 				if ($status == 0)
-					doSequences('Sequence added to replication set.');
+					doSequences($lang['strsequenceaddedtorepset']);
 				else
-					doAddSequence(1, 'Failed adding sequence to replication set.');
+					doAddSequence(1, $lang['strsequenceaddedtorepsetbad']);
 				break;
 		}
 	}
@@ -1855,9 +1855,9 @@
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
-			$misc->printTitle('Remove');
+			$misc->printTitle($lang['strremove']);
 
-			echo "<p>", sprintf('Are you sure you want to remove the sequence "%s" from replication set "%s"?', 
+			echo "<p>", sprintf($lang['strconfremovesequencefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -1865,16 +1865,16 @@
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"seq_id\" value=\"", htmlspecialchars($_REQUEST['seq_id']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"drop\" value=\"Remove\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strremove']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
 			$status = $slony->removeSequence($_REQUEST['seq_id']);
 			if ($status == 0)
-				doSequences('Sequence removed from replication set.');
+				doSequences($lang['strsequenceremovedfromrepset']);
 			else
-				doSequences('Failed to remove sequence from replication set.');
+				doSequences($lang['strsequenceremovedfromrepsetbad']);
 		}
 	}
 
@@ -1997,7 +1997,7 @@
 			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_receiver']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Receiver Name</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->f['receiver']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Active</th>\n";
+			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">May Forward</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_forward'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
