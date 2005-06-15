@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.22 2005/06/12 14:36:25 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.23 2005/06/15 14:32:58 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -500,8 +500,6 @@
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea name=\"no_comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['no_comment']), "</textarea></td>\n\t</tr>\n";
-				
-			echo "\t</tr>\n";
 			echo "</table>\n";
 			echo "<p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_cluster\" />\n";
@@ -1117,6 +1115,11 @@
 				'title' => $lang['strmove'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=move_set&amp;",
 				'vars'  => array('set_id' => 'set_id')
+			),
+			'execute' => array(
+				'title' => $lang['strexecute'],
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=execute_set&amp;",
+				'vars'  => array('set_id' => 'set_id')
 			)
 		);
 		
@@ -1167,7 +1170,8 @@
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a></p>\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
 	}
 
 	/**
@@ -1397,7 +1401,64 @@
 				doMoveReplicationSet(true, $lang['strrepsetmovedbad']);
 		}
 	}
+
+	/**
+	 * Displays a screen where they can enter a DDL script to
+	 * be executed on all or a particular node, for this set.
+	 */
+	function doExecuteReplicationSet($confirm, $msg = '') {
+		global $slony, $misc;
+		global $PHP_SELF, $lang;
 		
+		if ($confirm) {
+			if (!isset($_POST['script'])) $_POST['script'] = '';
+	
+			$nodes = $slony->getNodes();
+	
+			$misc->printTrail('slony_sets');
+			$misc->printTitle($lang['strexecute']);
+			$misc->printMsg($msg);
+	
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<table>\n";
+			/* Slony 1.1 only
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stronlyonnode']}</th>\n";
+			echo "<td class=\"data1\" colspan=\"3\"><select name=\"only_on_node\">";
+			echo "<option value=\"0\"></option>\n";
+			while (!$nodes->EOF) {
+				echo "<option value=\"{$nodes->f['no_id']}\"", ($_POST['only_on_node'] == $nodes->f['no_id'] ? ' selected="selected"' : ''), ">";
+				echo htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				$nodes->moveNext();	
+			}
+			echo "</select></td></tr>\n";
+			*/
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strddlscript']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea name=\"script\" rows=\"20\" cols=\"40\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['script']), "</textarea></td>\n\t</tr>\n";
+			echo "</table>\n";
+			echo "<p>\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"save_execute_set\" />\n";
+			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			if (trim($_POST['script']) == '') {
+				doExecuteReplicationSet(true, $lang['strscriptneedsbody']);
+				return;
+			}
+			
+			$status = $slony->executeReplicationSet($_POST['set_id'], $_POST['script']);
+			if ($status == 0)
+				doReplicationSet($lang['strscriptexecuted']);
+			else
+				doExecuteReplicationSet(true, $lang['strscriptexecutedbad']);
+		}
+	}
+			
 	// TABLES
 	
 	/**
@@ -2090,6 +2151,13 @@
 			break;
 		case 'move_set':
 			doMoveReplicationSet(true);
+			break;
+		case 'save_execute_set':
+			if (isset($_POST['cancel'])) doReplicationSet();
+			else doExecuteReplicationSet(false);
+			break;
+		case 'execute_set':
+			doExecuteReplicationSet(true);
 			break;
 		case 'tables_properties':
 			doTables();

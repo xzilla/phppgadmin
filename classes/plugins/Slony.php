@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.22 2005/06/12 14:36:25 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.23 2005/06/15 14:32:58 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -408,6 +408,22 @@ class Slony extends Plugin {
 		return $data->execute($sql);
 	}
 
+	/**
+	 * Executes schema changing DDL set on nodes
+	 */
+	function executeReplicationSet($set_id, $script) {
+		global $data;
+
+		$schema = $this->slony_schema;
+		$data->fieldClean($schema);
+		$data->clean($set_id);
+		$data->clean($script);
+
+		$sql = "SELECT \"{$schema}\".ddlscript('{$set_id}', '{$script}')";
+
+		return $data->execute($sql);
+	}	
+	
 	// TABLES
 	
 	/**

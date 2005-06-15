@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.176.2.4 2005/06/11 08:20:08 chriskl Exp $
+	 * $Id: english.php,v 1.176.2.5 2005/06/15 14:32:58 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -639,12 +639,17 @@
 	$lang['strtablespacealtered'] = 'Tablespace altered.';
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
 
-	// Slony clusters
+		// Slony clusters
 	$lang['strnoclusters'] = 'No clusters found.';
-	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster "%s"?';
+	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster &quot;%s&quot;?';
 	$lang['strclusterdropped'] = 'Cluster dropped.';
 	$lang['strclusterdroppedbad'] = 'Cluster drop failed.';
-
+	$lang['strinitcluster'] = 'Initialize Cluster';
+	$lang['strclustercreated'] = 'Cluster initialized.';
+	$lang['strclustercreatedbad'] = 'Cluster initialization failed.';
+	$lang['strclusterneedsname'] = 'You must give a name for the cluster.';
+	$lang['strclusterneedsnodeid'] = 'You must give an ID for the local node.';
+	
 	// Slony nodes
 	$lang['strnodes'] = 'Nodes';
 	$lang['strnonodes'] = 'No nodes found.';
@@ -653,10 +658,13 @@
 	$lang['stractive'] = 'Active';
 	$lang['strnodecreated'] = 'Node created.';
 	$lang['strnodecreatedbad'] = 'Node creation failed.';
-	$lang['strconfdropnode'] = 'Are you sure you want to drop node "%s"?';
+	$lang['strconfdropnode'] = 'Are you sure you want to drop node &quot;%s&quot;?';
 	$lang['strnodedropped'] = 'Node dropped.';
 	$lang['strnodedroppedbad'] = 'Node drop failed';
-
+	$lang['strfailover'] = 'Failover';
+	$lang['strnodefailedover'] = 'Node failed over.';
+	$lang['strnodefailedoverbad'] = 'Node fail over fail.';
+	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';
 	$lang['strnopaths'] = 'No paths found.';
@@ -669,7 +677,7 @@
 	$lang['strpathneedsconnretry'] = 'You must give the number of seconds to wait before retry to connect.';
 	$lang['strpathcreated'] = 'Path created.';
 	$lang['strpathcreatedbad'] = 'Path creation failed.';
-	$lang['strconfdroppath'] = 'Are you sure you want to drop path "%s"?';
+	$lang['strconfdroppath'] = 'Are you sure you want to drop path &quot;%s&quot;?';
 	$lang['strpathdropped'] = 'Path dropped.';
 	$lang['strpathdroppedbad'] = 'Path drop failed.';
 
@@ -678,8 +686,8 @@
 	$lang['strnolistens'] = 'No listens found.';
 	$lang['strcreatelisten'] = 'Create listen';
 	$lang['strlistencreated'] = 'Listen created.';
-	$lang['strlistencreatedbad'] = 'Listen creation failed.';
-	$lang['strconfdroplisten'] = 'Are you sure you want to drop listen "%s"?';
+	$lang['strlistencreated'] = 'Listen creation failed.';
+	$lang['strconfdroplisten'] = 'Are you sure you want to drop listen &quot;%s&quot;?';
 	$lang['strlistendropped'] = 'Listen dropped.';
 	$lang['strlistendroppedbad'] = 'Listen drop failed.';
 
@@ -693,21 +701,36 @@
 	$lang['strrepsetdropped'] = 'Replication set dropped.';
 	$lang['strrepsetdroppedbad'] = 'Replication set drop failed.';
 	$lang['strmerge'] = 'Merge';
-	$lang['strmergeinto'] = 'Merge into';
+	$lang['strmergeinto'] = 'Merge Into';
 	$lang['strrepsetmerged'] = 'Replication sets merged.';
 	$lang['strrepsetmergedbad'] = 'Replication sets merge failed.';
 	$lang['strmove'] = 'Move';
-	$lang['strneworigin'] = 'New origin';
+	$lang['strneworigin'] = 'New Origin';
 	$lang['strrepsetmoved'] = 'Replication set moved.';
 	$lang['strrepsetmovedbad'] = 'Replication set move failed.';
 	$lang['strnewrepset'] = 'New replication set';
+	$lang['strlock'] = 'Lock';
+	$lang['strlocked'] = 'Locked';
+	$lang['strunlock'] = 'Unlock';
+	$lang['strconflockrepset'] = 'Are you sure you want to lock replication set &quot;%s&quot;?';
+	$lang['strrepsetlocked'] = 'Replication set locked.';
+	$lang['strrepsetlockedbad'] = 'Replication set lock failed.';
+	$lang['strconfunlockrepset'] = 'Are you sure you want to unlock replication set &quot;%s&quot;?';
+	$lang['strrepsetunlocked'] = 'Replication set unlocked.';
+	$lang['strrepsetunlockedbad'] = 'Replication set unlock failed.';
+	$lang['strexecute'] = 'Execute';
+	$lang['stronlyonnode'] = 'Only on node';
+	$lang['strddlscript'] = 'DDL Script';
+	$lang['strscriptneedsbody'] = 'You must supply a script to be executed on all nodes.';
+	$lang['strscriptexecuted'] = 'Replication set DDL script executed.';
+	$lang['strscriptexecutedbad'] = 'Failed executing replication set DDL script.';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = 'Subscriptions';
 	$lang['strnosubscriptions'] = 'No subscriptions found.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
+	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
 	$lang['strhelpicon'] = '?';
