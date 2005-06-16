@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.101 2005/05/16 14:30:14 jollytoad Exp $
+	 * $Id: Misc.php,v 1.102 2005/06/16 14:40:11 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -515,24 +515,27 @@
 
 				case 'database':
 #					$vars = $servervar . $databasevar . '&subject=database';
-					return array (
+					$tabs = array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
+							'tree'  => false,
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'sql'),
 							'help'  => 'pg.sql',
+							'tree'  => false,
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'find'),
+							'tree'  => false,
 						),
 						'variables' => array (
 							'title' => $lang['strvariables'],
@@ -540,6 +543,7 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'variables'),
 							'hide'  => (!$data->hasVariables()),
 							'help'  => 'pg.variable',
+							'tree'  => false,
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
@@ -547,11 +551,13 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'processes'),
 							'hide'  => (!$data->hasProcesses()),
 							'help'  => 'pg.process',
+							'tree'  => false,
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'admin'),
+							'tree'  => false,
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -559,6 +565,7 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!isset($data->privlist['database'])),
 							'help'  => 'pg.privilege',
+							'tree'  => false,
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
@@ -579,9 +586,11 @@
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
+							'tree'  => false,
 						),
 					);
 
+					return $tabs;
 				case 'schema':
 #					$vars = $servervar . $databasevar . $schemavar . '&subject=schema';
 					return array (
@@ -667,6 +676,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
+							'tree'  => false,
 						),
 					);
 
@@ -1422,6 +1432,17 @@
 			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
 				echo "</tree>\n";
 			}
+		}
+		
+		function &adjustTabsForTree(&$tabs) {
+			include_once('classes/ArrayRecordSet.php');
+			
+			foreach ($tabs as $i => $tab) {
+				if ((isset($tab['hide']) && $tab['hide'] === true) || (isset($tab['tree']) && $tab['tree'] === false)) {
+					unset($tabs[$i]);
+				}
+			}
+			return new ArrayRecordSet($tabs);
 		}
 		
 		function icon($icon) {

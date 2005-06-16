@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.10 2005/06/02 01:35:51 chriskl Exp $
+ * $Id: Connection.php,v 1.11 2005/06/16 14:40:11 chriskl Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');

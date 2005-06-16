@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.68 2005/06/06 15:13:11 soranzo Exp $
+	 * $Id: database.php,v 1.69 2005/06/16 14:40:10 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -710,7 +710,7 @@
 	}
 	
 	function doTree() {
-		global $misc, $data, $lang, $PHP_SELF;
+		global $misc, $data, $lang, $PHP_SELF, $slony;
 		
 		$schemas = &$data->getSchemas();
 		
@@ -733,28 +733,49 @@
 								'action'  => 'subtree',
 								'schema'  => field('nspname')
 							)
-						)
+						),
+			'nofoot' => true
 		);
 		
 		$misc->printTreeXML($schemas, $attrs);
+		
+		$tabs = $misc->getNavTabs('database');
+		$tabs['slony'] = array (
+								'title' => 'Slony',
+								'url'   => 'plugin_slony.php',
+								'urlvars' => array('action' => 'clusters_properties'),
+								'hide'  => false,
+								'help'  => ''
+							);
+		
+		$items =& $misc->adjustTabsForTree($tabs);
+		
+		$attrs = array(
+			'text'   => noEscape(field('title')),
+			'icon'   => field('icon', 'folder'),
+			'action' => url(field('url'),
+							$reqvars,
+							field('urlvars', array())
+						),
+			'branch' => url(field('url'),
+							$reqvars,
+							field('urlvars'),
+							array('action' => 'tree')
+						),
+			'nohead' => true
+		);
+		
+		$misc->printTreeXML($items, $attrs);
+		
 		exit;
 	}
 	
 	function doSubTree() {
-		global $misc, $data, $lang;
+		global $misc, $data, $lang, $slony;
 		
-		include_once('classes/ArrayRecordSet.php');
 		$tabs = $misc->getNavTabs('schema');
 		
-		// Remove Privileges link
-		unset($tabs['privileges']);
-		
-		// Remove hidden links
-		foreach ($tabs as $i => $tab) {
-			if (isset($tab['hide']) && $tab['hide'] === true)
-				unset($tabs[$i]);
-		}
-		$items =& new ArrayRecordSet($tabs);
+		$items =& $misc->adjustTabsForTree($tabs);
 		
 		$reqvars = $misc->getRequestVars('schema');
 		

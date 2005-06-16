@@ -1,10 +1,11 @@
 phpPgAdmin History
 ------------------
 
-Version 3.6-dev
+Version 4.0-dev
 ---------------
 
 Features
+* Slony replication support (Thanks to sponsorship from SpikeSource)
 * Allow current database to be at the top
 * Allow base URL of PostgreSQL documentation to be configured
 * Allow variable size textarea when editing values (Juergen Weigert)
@@ -21,6 +22,7 @@ Features
   (Using XLoadTree2 from http://webfx.eae.net/)
 * Avoid getting and setting encoding queries if possible
 * Allow language change from the intro page at any time
+* Avoid version query in PHP 5 / PostgreSQL 7.4+
   
 Bugs
 * Tree Icons are displayed middle instead of top

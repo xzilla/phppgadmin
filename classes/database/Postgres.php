@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.262 2005/06/02 11:31:02 chriskl Exp $
+ * $Id: Postgres.php,v 1.263 2005/06/16 14:40:11 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1801,14 +1801,15 @@ class Postgres extends ADODB_base {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences() {
+	function &getSequences($all = false) {
+		// $all argument is ignored as it makes no difference
 		$sql = "SELECT
 					c.relname AS seqname,
 					u.usename AS seqowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS seqcomment
 				FROM 
 					pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY seqname";
-		
+					
 		return $this->selectSet( $sql );
 	}
 
@@ -2135,14 +2136,17 @@ class Postgres extends ADODB_base {
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
+	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function &getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid) AS inddef
 			FROM pg_class c, pg_class c2, pg_index i
 			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
+		";
+		if ($unique) $sql .= " AND i.indisunique ";
+		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}

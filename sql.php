@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.31 2005/06/01 10:38:14 soranzo Exp $
+	 * $Id: sql.php,v 1.32 2005/06/16 14:40:11 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -169,9 +169,9 @@
 	}
 	
 	echo "<p>{$lang['strsqlexecuted']}</p>\n";
-	
-	echo "<p><a class=\"navlink\" href=\"database.php?{$misc->href}",
-		"&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['streditsql']}</a>";
+
+	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
+		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['streditsql']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
 			urlencode($_POST['query']), "\">{$lang['strcreatereport']}</a>";

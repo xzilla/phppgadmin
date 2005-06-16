@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.95 2005/06/02 11:31:03 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.96 2005/06/16 14:40:14 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -15,7 +15,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.6-dev';
+	$appVersion = '4.0-dev';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
@@ -197,6 +197,15 @@
 			else
 				$lang['appcharset'] = $dbEncoding;
 		}
+		
+		// XXX: THIS IS A TEMPORARY HACK TO GET SLONY OBJECT LOADED
+		include('./classes/plugins/Slony.php');
+		$slony = new Slony();
+		if ($slony->isEnabled()) {
+			$plugins = array(&$slony);
+		}
+		else $plugins = array();
+		
 	}
 
 ?>

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.44 2005/04/30 18:02:01 soranzo Exp $
+ * $Id: Postgres74.php,v 1.45 2005/06/16 14:40:12 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -186,9 +186,10 @@ class Postgres74 extends Postgres73 {
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
+	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function &getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
@@ -196,7 +197,9 @@ class Postgres74 extends Postgres73 {
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
+		";
+		if ($unique) $sql .= " AND i.indisunique ";
+		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}

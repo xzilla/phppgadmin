@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.143 2005/05/02 15:47:26 chriskl Exp $
+ * $Id: Postgres73.php,v 1.144 2005/06/16 14:40:12 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -587,11 +587,21 @@ class Postgres73 extends Postgres72 {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences() {
-		$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment
-			FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-			WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-			AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
+	function &getSequences($all = false) {
+		if ($all) {
+			// Exclude pg_catalog and information_schema tables
+			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
+				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
+				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
+				AND c.relkind = 'S' 
+				AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast') 
+				ORDER BY nspname, seqname";
+		} else {
+			$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment
+				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
+				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
+				AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
+		}
 			
 		return $this->selectSet( $sql );
 	}
@@ -612,9 +622,10 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
+	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function &getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 		
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
@@ -622,7 +633,9 @@ class Postgres73 extends Postgres72 {
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
+		";
+		if ($unique) $sql .= " AND i.indisunique ";
+		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}
