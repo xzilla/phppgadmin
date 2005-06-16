@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.261.2.2 2005/06/09 15:01:02 chriskl Exp $
+ * $Id: Postgres.php,v 1.261.2.3 2005/06/16 14:12:48 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2136,14 +2136,17 @@ class Postgres extends ADODB_base {
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
+	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function &getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid) AS inddef
 			FROM pg_class c, pg_class c2, pg_index i
 			WHERE c.relname = '{$table}' AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
+		";
+		if ($unique) $sql .= " AND i.indisunique ";
+		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}

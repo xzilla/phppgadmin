@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.1.2.24 2005/06/15 19:05:09 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.1.2.25 2005/06/16 14:12:47 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -1553,9 +1553,7 @@
 					$key = array('schemaname' => $tables->f['nspname'], 'tablename' => $tables->f['relname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($data->hasSchemas()) {
-							echo htmlspecialchars($tables->f['nspname']), '.';
-					}
+					echo htmlspecialchars($tables->f['nspname']), '.';
 					echo htmlspecialchars($tables->f['relname']), "</option>\n";
 					$tables->moveNext();	
 				}
@@ -1568,9 +1566,6 @@
 					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
 					
 				echo "\t</tr>\n";
-				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stradduniq']}</th>\n";
-				echo "\t\t<td class=\"data\"><input type=\"checkbox\" name=\"addtablekey\"", 
-					(isset($_REQUEST['addtablekey']) ? ' checked="checked"' : ''), " /></td>\n\t</tr>\n";
 				echo "</table>\n";
 				echo "<p>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"add_table\" />\n";
@@ -1585,12 +1580,25 @@
 				// Unserialize table and fetch. This is a bit messy
 				// because the table could be in another schema.
 				$_REQUEST['target'] = unserialize($_REQUEST['target']);
-				if ($data->hasSchemas())
-					$data->setSchema($_REQUEST['target']['schemaname']);
-				$indexes = &$data->getIndexes($_REQUEST['target']['tablename']);
+				$data->setSchema($_REQUEST['target']['schemaname']);
+				// Get indexes
+				$indexes = &$data->getIndexes($_REQUEST['target']['tablename'], true);
 				if ($indexes->recordCount() == 0) {
-					doTables($lang['strtableneedsuniquekey']);
-					return;	
+					doAddTable(1, $lang['strtableneedsuniquekey']);
+					return;
+				}
+				
+				// Get triggers
+				$triggers = &$data->getTriggers($_REQUEST['target']['tablename']);				
+
+				// If only one index and no triggers then jump to next step
+				if ($indexes->recordCount() == 1 && $triggers->recordCount() == 0) {
+					$_REQUEST['idxname'] = $indexes->f['indname'];
+					$_REQUEST['nspname'] = $_REQUEST['target']['schemaname'];
+					$_REQUEST['relname'] = $_REQUEST['target']['tablename'];
+					$_REQUEST['target'] = serialize($_REQUEST['target']);
+					doAddTable(3);
+					return;
 				}
 				
 				$misc->printTrail('slony_sets');
@@ -1600,26 +1608,38 @@
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<table>\n";
-				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strindex']}</th>\n";
-				echo "<td class=\"data1\" colspan=\"3\"><select name=\"idxname\">";
-				while (!$indexes->EOF) {
-					echo "<option value=\"", htmlspecialchars($indexes->f['indname']), "\">";
-					echo htmlspecialchars($indexes->f['indname']), "</option>\n";
-					$indexes->moveNext();	
+				if ($indexes->recordCount() > 1) {
+					echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strindex']}</th>\n";
+					echo "<td class=\"data1\" colspan=\"3\"><select name=\"idxname\">";
+					while (!$indexes->EOF) {
+						echo "<option value=\"", htmlspecialchars($indexes->f['indname']), "\">";
+						echo htmlspecialchars($indexes->f['indname']), "</option>\n";
+						$indexes->moveNext();	
+					}
+					echo "</select></td></tr>\n";
 				}
-				echo "</select></td></tr>\n";					
-				echo "\t</tr>\n";
+				else {
+					echo "<input type=\"hidden\" name=\"idxname\" value=\"", htmlspecialchars($indexes->f['indname']), "\" />\n";
+				}
+				if ($triggers->recordCount() > 0) {
+					echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtriggers']}</th>\n";
+					echo "<td class=\"data1\" colspan=\"3\"><p>{$lang['strtabletriggerstoretain']}</p>\n";
+					while (!$triggers->EOF) {
+						echo "<input type=\"checkbox\" name=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">";
+						echo htmlspecialchars($triggers->f['tgname']), "<br/>\n";
+						$triggers->moveNext();	
+					}
+					echo "</select></td></tr>\n";					
+				}
 				echo "</table>\n";
 				echo "<p>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"add_table\" />\n";
 				echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"comment\" value=\"", htmlspecialchars($_REQUEST['comment']), "\" />\n";
-				if (isset($_REQUEST['addtablekey'])) {
-					echo "<input type=\"hidden\" name=\"addtablekey\" value=\"on\" />\n";
-				}
-				echo "<input type=\"hidden\" name=\"fqname\" value=\"", htmlspecialchars($_REQUEST['target']['schemaname']),
-					'.', htmlspecialchars($_REQUEST['target']['tablename']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"nspname\" value=\"", htmlspecialchars($_REQUEST['target']['schemaname']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"relname\" value=\"", htmlspecialchars($_REQUEST['target']['tablename']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"target\" value=\"", htmlspecialchars(serialize($_REQUEST['target'])), "\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
 				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -1627,12 +1647,13 @@
 				echo "</form>\n";
 				break;
 			case 3:
-				$status = $slony->addTable($_REQUEST['set_id'], $_REQUEST['tab_id'], $_REQUEST['fqname'], 
-														$_REQUEST['idxname'], $_REQUEST['comment'], isset($_REQUEST['addtablekey']));
+				if (!isset($_REQUEST['storedtriggers'])) $_REQUEST['storedtriggers'] = array();
+				$status = $slony->addTable($_REQUEST['set_id'], $_REQUEST['tab_id'], $_REQUEST['nspname'], $_REQUEST['relname'], 
+														$_REQUEST['idxname'], $_REQUEST['comment'], array_keys($_REQUEST['storedtriggers']));
 				if ($status == 0)
 					doTables($lang['strtableaddedtorepset']);
 				else
-					doAddTable(1, $lang['strtableaddedtorepsetbad']);
+					doAddTable(2, $lang['strtableaddedtorepsetbad']);
 				break;
 		}
 	}
@@ -1805,9 +1826,7 @@
 					$key = array('schemaname' => $sequences->f['nspname'], 'sequencename' => $sequences->f['seqname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($data->hasSchemas()) {
-							echo htmlspecialchars($sequences->f['nspname']), '.';
-					}
+					echo htmlspecialchars($sequences->f['nspname']), '.';
 					echo htmlspecialchars($sequences->f['seqname']), "</option>\n";
 					$sequences->moveNext();	
 				}

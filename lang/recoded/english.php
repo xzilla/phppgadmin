@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.128.2.7 2005/06/15 19:05:11 soranzo Exp $
+	 * $Id: english.php,v 1.128.2.8 2005/06/16 14:12:49 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -725,6 +725,7 @@
 	$lang['strscriptneedsbody'] = 'You must supply a script to be executed on all nodes.';
 	$lang['strscriptexecuted'] = 'Replication set DDL script executed.';
 	$lang['strscriptexecutedbad'] = 'Failed executing replication set DDL script.';
+	$lang['strtabletriggerstoretain'] = 'The following triggers will NOT be disabled by Slony:';
 
 	// Slony tables in replication sets
 	$lang['straddtable'] = 'Add table';

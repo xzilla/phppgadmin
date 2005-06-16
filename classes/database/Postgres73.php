@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.143.2.1 2005/06/09 15:01:05 chriskl Exp $
+ * $Id: Postgres73.php,v 1.143.2.2 2005/06/16 14:12:49 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -622,9 +622,10 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
+	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function &getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 		
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
@@ -632,7 +633,9 @@ class Postgres73 extends Postgres72 {
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
-			ORDER BY c2.relname";
+		";
+		if ($unique) $sql .= " AND i.indisunique ";
+		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
 	}

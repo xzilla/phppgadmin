@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.1.2.23 2005/06/15 14:32:58 chriskl Exp $
+ * $Id: Slony.php,v 1.1.2.24 2005/06/16 14:12:49 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -457,44 +457,71 @@ class Slony extends Plugin {
 	/**
 	 * Adds a table to a replication set
 	 */
-	function addTable($set_id, $tab_id, $fqname, $idxname, $comment, $addtablekey) {
+	function addTable($set_id, $tab_id, $nspname, $relname, $idxname, $comment, $storedtriggers) {
 		global $data;
 
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		$data->clean($set_id);
 		$data->clean($tab_id);
+		$fqname = $nspname . '.' . $relname;
 		$data->clean($fqname);
+		$data->clean($nspname);
+		$data->clean($relname);
 		$data->clean($idxname);
 		$data->clean($comment);
 
-		if ($addtablekey) {
+		$hastriggers = (sizeof($storedtriggers) > 0);
+		if ($hastriggers) {
 			// Begin a transaction
 			$status = $data->beginTransaction();
 			if ($status != 0) return -1;
-
-			// Add the table key
-			$sql = "SELECT \"{$schema}\".tableaddkey('{$fqname}')";
-			$status = $data->execute($sql);
-			if ($status != 0) {
-				$data->rollbackTransaction();
-				return -2;
-			}
 		}
 
 		if ($tab_id != '')
 			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', '{$tab_id}', '{$fqname}', '{$idxname}', '{$comment}')";
-		else
-			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', (SELECT COALESCE(MAX(tab_id), 0) + 1 FROM \"{$schema}\".sl_table), '{$fqname}', '{$idxname}', '{$comment}')";
+		else {
+			$sql = "SELECT \"{$schema}\".setaddtable('{$set_id}', (SELECT COALESCE(MAX(tab_id), 0) + 1 FROM \"{$schema}\".sl_table), '{$fqname}', '{$idxname}', '{$comment}')";			
+		}
 
 		$status = $data->execute($sql);	
-		
-		if ($status != 0 && $addtablekey) {
-			$data->rollbackTransaction();
+		if ($status != 0) {
+			if ($hastriggers) $data->rollbackTransaction();
 			return -3;
+		}		
+
+		// If we are storing triggers, we need to know the tab_id that was assigned to the table
+		if ($tab_id == '' && $hastriggers) {
+			$sql = "SELECT tab_id
+						FROM \"{$schema}\".sl_table
+						WHERE tab_set='{$set_id}'
+						AND tab_reloid=(SELECT pc.oid FROM pg_catalog.pg_class pc, pg_namespace pn 
+												WHERE pc.relnamespace=pn.oid AND pc.relname='{$relname}'
+												AND pn.nspname='{$nspname}')";
+			$tab_id = $data->selectField($sql, 'tab_id');
+			if ($tab_id === -1) {
+				$data->rollbackTransaction();
+				return -4;
+			}
 		}
 		
-		return $status;
+		// Store requested triggers
+		if ($hastriggers) {
+			foreach ($storedtriggers as $tgname) {
+				$data->clean($tgname);
+				$sql = "SELECT \"{$schema}\".storetrigger('{$tab_id}', '{$tgname}')";
+				$status = $data->execute($sql);	
+				if ($status != 0) {
+					$data->rollbackTransaction();
+					return -5;
+				}		
+			}				
+		}
+
+		if ($hastriggers)
+			return $data->endTransaction();
+		else
+			return $status;
 	}
 		
 	/**
