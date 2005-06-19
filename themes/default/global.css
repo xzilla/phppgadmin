@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.32 2005/05/02 15:47:28 chriskl Exp $
+ * $Id: global.css,v 1.33 2005/06/19 19:04:33 slubek Exp $
  */
 
 /** ELEMENTS */
@@ -196,6 +196,7 @@ td.opbutton2
 	border: 2px solid #E6E6CC;
 	background-color: #F3F3E9;
 	padding: 2px 1em;
+	vertical-align: bottom;
 }
 
 .trail, .topbar
@@ -206,6 +207,7 @@ td.opbutton2
 .trail td
 {
 	background-color: #F3F3E9;
+	vertical-align: bottom;
 }
 
 .tabs
@@ -213,16 +215,19 @@ td.opbutton2
 	width: 100%;
 	border-collapse: collapse;
 	margin: 0 0 1ex 0;
+	vertical-align: bottom;
 }
 
 .tab
 {
 	text-align: center;
+	vertical-align: bottom;
 }
 
 .tabs .active
 {
 	background-color: #E6E6CC;
+	vertical-align: bottom;
 }
 
 .topbar {
