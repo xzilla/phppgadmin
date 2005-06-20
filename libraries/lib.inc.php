@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.96 2005/06/16 14:40:14 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.97 2005/06/20 16:16:42 jollytoad Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -134,6 +134,12 @@
 		$_SESSION['webdbLanguage'] = $_language;
 	}
 
+	// Check for config file version mismatch
+	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
+		echo $lang['strbadconfig'];
+		exit;
+	}
+	
 	// Check database support is properly compiled in
 	if (!function_exists('pg_connect')) {
 		echo $lang['strnotloaded'];
