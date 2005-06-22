@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.97 2005/06/20 16:16:42 jollytoad Exp $
+	 * $Id: lib.inc.php,v 1.98 2005/06/22 14:21:09 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -38,7 +38,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$conf['base_version'] = 14;
+	$conf['base_version'] = 15;
 
 	// Always include english.php, since it's the master language file
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
@@ -204,14 +204,11 @@
 				$lang['appcharset'] = $dbEncoding;
 		}
 		
-		// XXX: THIS IS A TEMPORARY HACK TO GET SLONY OBJECT LOADED
-		include('./classes/plugins/Slony.php');
-		$slony = new Slony();
-		if ($slony->isEnabled()) {
-			$plugins = array(&$slony);
+		// Load Slony if required		
+		if ($_server_info['slony_support']) {
+			include('./classes/plugins/Slony.php');
+			$slony = new Slony();
 		}
-		else $plugins = array();
-		
 	}
 
 ?>

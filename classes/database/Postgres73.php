@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.144 2005/06/16 14:40:12 chriskl Exp $
+ * $Id: Postgres73.php,v 1.145 2005/06/22 14:21:08 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -116,9 +116,16 @@ class Postgres73 extends Postgres72 {
 	 * @return All schemas, sorted alphabetically - but with PUBLIC first (if it exists)
 	 */
 	function &getSchemas() {
-		global $conf;
+		global $conf, $slony;
 
-		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%'";
+		if (!$conf['show_system']) {
+			$and = "AND nspname NOT LIKE 'pg\\\\_%'";
+			if (isset($slony)) {
+				$temp = $slony->slony_schema;
+				$this->clean($temp);
+				$and .= " AND npsname != '{$temp}'";
+			}
+		}
 		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
                         FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu

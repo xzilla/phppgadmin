@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.69 2005/06/16 14:40:10 chriskl Exp $
+	 * $Id: database.php,v 1.70 2005/06/22 14:21:07 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -740,13 +740,16 @@
 		$misc->printTreeXML($schemas, $attrs);
 		
 		$tabs = $misc->getNavTabs('database');
-		$tabs['slony'] = array (
-								'title' => 'Slony',
-								'url'   => 'plugin_slony.php',
-								'urlvars' => array('action' => 'clusters_properties'),
-								'hide'  => false,
-								'help'  => ''
-							);
+		// Show slony node if enabled on this database
+		if (isset($slony)) {
+			$tabs['slony'] = array (
+									'title' => 'Slony',
+									'url'   => 'plugin_slony.php',
+									'urlvars' => array('action' => 'clusters_properties'),
+									'hide'  => false,
+									'help'  => ''
+								);
+		}
 		
 		$items =& $misc->adjustTabsForTree($tabs);
 		
@@ -771,7 +774,7 @@
 	}
 	
 	function doSubTree() {
-		global $misc, $data, $lang, $slony;
+		global $misc, $data, $lang;
 		
 		$tabs = $misc->getNavTabs('schema');
 		

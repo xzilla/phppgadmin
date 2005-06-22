@@ -3,20 +3,19 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.2 2005/06/16 14:40:12 chriskl Exp $
+ * $Id: Slony.php,v 1.3 2005/06/22 14:21:08 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
 
 class Slony extends Plugin {
 
-	var $config = 'slony.inc.php';
-	var $category = 'Replication';
 	var $slony_version;
 	var $slony_schema;
 	var $slony_cluster;
 	var $slony_owner;
 	var $slony_comment;
+	var $enabled = null;
 	
 	/**
 	 * Constructor
@@ -32,6 +31,10 @@ class Slony extends Plugin {
 	 * @return True if Slony is installed, false otherwise.
 	 */
 	function isEnabled() {
+		// Access cache
+		if ($this->enabled !== null) return $enabled;
+		else $this->enabled = false;
+		
 		global $data;
 		
 		// Slony needs schemas
@@ -63,6 +66,7 @@ class Slony extends Plugin {
 			if ($version === -1) return false;
 			else {
 				$this->slony_version = $version;
+				$this->enabled = true;
 				return true;
 			}
 		}
