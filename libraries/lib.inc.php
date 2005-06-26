@@ -3,13 +3,16 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.98 2005/06/22 14:21:09 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.99 2005/06/26 07:10:42 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
 	
-	// Set error reporting level to max
-	error_reporting(E_ALL);
+	// Set error reporting level to max, no strict
+	if (defined('E_STRICT'))
+		error_reporting(E_ALL & !E_STRICT);
+	else
+		error_reporting(E_ALL);
 
 	// Application name 
 	$appName = 'phpPgAdmin';
