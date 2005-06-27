@@ -39,6 +39,10 @@ Tables
 * Allow PK and UNIQUE and FKs during create table
 * Vacuum & analyze individual tables
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
+* When browsing a table, clicking on a FK value should jump to the
+  PK row.
+* When editing a table, turn FK columsn into drop-downs based on estimated
+  rows in the foreign table?
 
 Views
 -----
