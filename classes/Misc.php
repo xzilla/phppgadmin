@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.100.2.3 2005/06/02 15:21:47 chriskl Exp $
+	 * $Id: Misc.php,v 1.100.2.4 2005/06/28 19:33:47 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -868,10 +868,12 @@
 				$window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
 				
 				echo "<td align=\"right\">";
-				
+
 				echo "<a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a> | ";
 				
-				echo "<a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a>";
+				echo "<a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a> | ";
+				
+				echo "<a class=\"toplink\" href=\"servers.php?action=logout&logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port'])."\">{$lang['strlogout']}</a>";
 				
 				echo "</td>";
 			}
