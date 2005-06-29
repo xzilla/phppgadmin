@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.102 2005/06/16 14:40:11 chriskl Exp $
+	 * $Id: Misc.php,v 1.103 2005/06/29 04:16:54 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -510,6 +510,7 @@
 							'title' => $lang['strreports'],
 							'url'   => 'reports.php',
 							'urlvars' => array('subject' => 'server'),
+							'hide' => !$conf['show_reports']
 						),
 					);
 
