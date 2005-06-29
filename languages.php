@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.7 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: languages.php,v 1.8 2005/06/29 05:11:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTabs('database','languages');
 		$misc->printMsg($msg);
 		
-		$languages = &$data->getlanguages();
+		$languages = &$data->getLanguages();
 
 		$columns = array(
 			'language' => array(
@@ -47,6 +47,25 @@
 		$misc->printTable($languages, $columns, $actions, $lang['strnolanguages']);
 	}
 
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$languages = &$data->getLanguages();
+		
+		$attrs = array(
+			'text'   => field('lanname'),
+			'icon'   => 'languages'
+		);
+		
+		$misc->printTreeXML($languages, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strlanguages']);
 	$misc->printBody();
 

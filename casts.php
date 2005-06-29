@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.9 2004/09/01 16:35:57 jollytoad Exp $
+	 * $Id: casts.php,v 1.10 2005/06/29 05:11:44 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -62,10 +62,34 @@
 		$misc->printTable($casts, $columns, $actions, $lang['strnocasts']);
 	}
 
+	/**
+	 * Generate XML for the browser tree.
+	 */
+	function doTree() {
+		global $misc, $data;
+		
+		$casts = &$data->getCasts();
+		
+		$proto = concat(field('castsource'), ' AS ', field('casttarget'));
+		
+		$attrs = array(
+			'text'   => $proto,
+			'icon'   => 'casts'
+		);
+		
+		$misc->printTreeXML($casts, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') doTree();
+	
 	$misc->printHeader($lang['strcasts']);
 	$misc->printBody();
 
 	switch ($action) {
+		case 'tree':
+			doTree();
+			break;
 		default:
 			doDefault();
 			break;
