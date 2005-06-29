@@ -32,6 +32,11 @@ Databases
 * Add alter database variables for 7.3+
 * Comments on Create and Alter database
 
+Large Objects
+-------------
+
+* Add support for large objects
+
 Tables
 ------
 
