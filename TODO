@@ -20,6 +20,10 @@ Users
 Groups
 ------
 
+Roles
+-----
+
+* Support for 8.1 roles (removing users and groups)
 
 Permissions
 -----------

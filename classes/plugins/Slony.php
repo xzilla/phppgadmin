@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.4 2005/06/22 15:03:59 chriskl Exp $
+ * $Id: Slony.php,v 1.5 2005/07/06 14:46:24 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -22,6 +22,7 @@ class Slony extends Plugin {
 	 */
 	function Slony() {
 		$this->Plugin('slony');
+		$this->isEnabled();
 	}
 
 	/**

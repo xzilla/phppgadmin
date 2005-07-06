@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.70 2005/06/22 14:21:07 chriskl Exp $
+	 * $Id: database.php,v 1.71 2005/07/06 14:46:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -711,35 +711,11 @@
 	
 	function doTree() {
 		global $misc, $data, $lang, $PHP_SELF, $slony;
-		
-		$schemas = &$data->getSchemas();
-		
-		$reqvars = $misc->getRequestVars('schema');
-		
-		$attrs = array(
-			'text'   => field('nspname'),
-			'icon'   => 'folder',
-			'toolTip'=> field('nspcomment'),
-			'action' => url('redirect.php',
-							$reqvars,
-							array(
-								'subject' => 'schema',
-								'schema'  => field('nspname')
-							)
-						),
-			'branch' => url('database.php',
-							$reqvars,
-							array(
-								'action'  => 'subtree',
-								'schema'  => field('nspname')
-							)
-						),
-			'nofoot' => true
-		);
-		
-		$misc->printTreeXML($schemas, $attrs);
-		
+
+		$reqvars = $misc->getRequestVars('database');
+
 		$tabs = $misc->getNavTabs('database');
+		
 		// Show slony node if enabled on this database
 		if (isset($slony)) {
 			$tabs['slony'] = array (
@@ -750,7 +726,7 @@
 									'help'  => ''
 								);
 		}
-		
+
 		$items =& $misc->adjustTabsForTree($tabs);
 		
 		$attrs = array(
@@ -765,11 +741,10 @@
 							field('urlvars'),
 							array('action' => 'tree')
 						),
-			'nohead' => true
 		);
 		
 		$misc->printTreeXML($items, $attrs);
-		
+
 		exit;
 	}
 	

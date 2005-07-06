@@ -3,8 +3,18 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.2 2005/06/16 14:40:10 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.3 2005/07/06 14:46:23 chriskl Exp $
 	 */
+
+	// Avoid database connections whenever possible
+	switch ($_REQUEST['action']) {
+		case 'clusters_top':
+		case 'nodes_top':
+		case 'sets_top':
+				$_no_db_connection = true;
+				break;
+		default:
+	}
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
@@ -431,7 +441,6 @@
 		
 		$misc->printTable($clusters, $columns, $actions, $lang['strnoclusters']);
 
-		// XXX: FIX THIS ONCE WE SUPPORT MULTIPLE CLUSTERS
 		if ($clusters->recordCount() == 0) {		
 			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
 		}

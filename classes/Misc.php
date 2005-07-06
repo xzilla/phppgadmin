@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.104 2005/06/29 05:15:06 chriskl Exp $
+	 * $Id: Misc.php,v 1.105 2005/07/06 14:46:24 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -441,10 +441,7 @@
 		 */
 		function getNavTabs($section) {
 			global $data, $lang, $conf;
-			
-#			$servervar = isset($_REQUEST['server']) ? 'server=' . urlencode($_REQUEST['server']) : '';
-#			$databasevar = isset($_REQUEST['database']) ? '&database=' . urlencode($_REQUEST['database']) : '';
-#			$schemavar = isset($_REQUEST['schema']) ? '&schema=' . urlencode($_REQUEST['schema']) : '';
+
 			$hide_advanced = ($conf['show_advanced'] === false);
 			
 			switch ($section) {
@@ -461,10 +458,8 @@
 					);
 
 				case 'server':
-#					$vars = $servervar . $databasevar . '&subject=server';
 					$server_info = $this->getServerInfo();
 					$hide_users = !$data->isSuperUser($server_info['username']);
-					#$hide_users = false;
 					return array (
 						'databases' => array (
 							'title' => $lang['strdatabases'],
@@ -514,16 +509,14 @@
 						),
 					);
 
-				case 'database':
-#					$vars = $servervar . $databasevar . '&subject=database';
+				case 'database':				
 					$tabs = array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
-							'url'   => 'database.php',
+							'url'   => 'schemas.php',
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
-							'tree'  => false,
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
@@ -590,10 +583,8 @@
 							'tree'  => false,
 						),
 					);
-
 					return $tabs;
 				case 'schema':
-#					$vars = $servervar . $databasevar . $schemavar . '&subject=schema';
 					return array (
 						'tables' => array (
 							'title' => $lang['strtables'],
@@ -682,8 +673,6 @@
 					);
 
 				case 'table':
-#					$table = urlencode($_REQUEST['table']);
-#					$vars = $servervar . $databasevar . $schemavar . "&table={$table}&subject=table";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
@@ -738,8 +727,6 @@
 					);
 				
 				case 'view':
-#					$view = urlencode($_REQUEST['view']);
-#					$vars = $servervar . $databasevar . $schemavar . "&view={$view}&subject=view";
 					return array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
@@ -771,9 +758,6 @@
 					);
 				
 				case 'function':
-#					$funcnam = urlencode($_REQUEST['function']);
-#					$funcoid = urlencode($_REQUEST['function_oid']);
-#					$vars = $servervar . $databasevar . $schemavar . "&function={$funcnam}&function_oid={$funcoid}&subject=function";
 					return array (
 						'definition' => array (
 							'title' => $lang['strdefinition'],
@@ -797,7 +781,6 @@
 					);
 				
 				case 'popup':
-#					$vars = $servervar . $databasevar;
 					return array (
 						'sql' => array (
 							'title' => $lang['strsql'],
