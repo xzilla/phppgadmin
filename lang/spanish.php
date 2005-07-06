@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.28 2005/05/03 01:50:08 soranzo Exp $
+	 * $Id: spanish.php,v 1.29 2005/07/06 01:18:15 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Falló la autenticación';
 	$lang['strlogindisallowed'] = 'Ingreso no autorizado';
 	$lang['strserver'] = 'Servidor';
+        $lang['strservers']  =  'Servidores';
+        $lang['strintroduction']  =  'Introducción';
+$lang['strhost']  =  'Host';
+        $lang['strport']  =  'Puerto';
 	$lang['strlogout'] = 'Salir';
 	$lang['strowner'] = 'Propietario';
 	$lang['straction'] = 'Acción';
@@ -71,7 +75,6 @@
 	$lang['strrows'] = 'fila(s)';
 	$lang['strrowsaff'] = 'fila(s) afectadas.';
 	$lang['strobjects'] = 'objeto(s)';
-	$lang['strexample'] = 'ej.';
 	$lang['strback'] = 'Atrás';
 	$lang['strqueryresults'] = 'Resultado de la consulta';
 	$lang['strshow'] = 'Mostrar';
@@ -84,7 +87,6 @@
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Ejecutar';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
@@ -93,6 +95,7 @@
 	$lang['strreindex'] = 'Reindexar';
 	$lang['strrun'] = 'Ejecutar';
 	$lang['stradd'] = 'Agregar';
+        $lang['strremove']  =  'Remover';
 	$lang['strevent'] = 'Evento';
 	$lang['strwhere'] = 'Dónde';
 	$lang['strinstead'] = 'Hacer en su lugar';
@@ -128,9 +131,10 @@
 	$lang['strfileimported'] = 'Archivo importado.';
 
 	// Error handling
+        $lang['strnoframes']  =  'Esta aplicación funciona mejor con un navegador con soporte para marcos, pero puede usarse sin marcos siguiendo el link de abajo.';
+        $lang['strnoframeslink']  =  'Usar sin marcos';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php está desactualizado. Deberá regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versión de PHP no tiene el soporte correcto de bases de datos.';
-        $lang['strphpversionnotsupported']  =  'Su versión de PHP no está soportada. Por favor actualice a la versión %s o más reciente.';
         $lang['strpostgresqlversionnotsupported']  =  'Su versión de PostgreSQL no está soportado. Por favor actualice a la versión %s o más reciente.';
 	$lang['strbadschema'] = 'El esquema especificado no es válido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificación del cliente en la base de datos.';
@@ -144,6 +148,7 @@
 	$lang['strnouploads'] = 'Está deshabilitada la subida de archivos.';
 	$lang['strimporterror'] = 'Error de importación.';
 	$lang['strimporterrorline'] = 'Error de importación en la línea %s.';
+        $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -167,6 +172,7 @@
 	$lang['strinsertrow'] = 'Insertar Fila';
 	$lang['strrowinserted'] = 'Fila insertada.';
 	$lang['strrowinsertedbad'] = 'Falló la inserción de fila.';
+        $lang['strrowduplicate']  =  'Inserción de fila falló, intentado hacer una duplicación de inserción.';
 	$lang['streditrow'] = 'Editar fila';
 	$lang['strrowupdated'] = 'Fila actualizada.';
 	$lang['strrowupdatedbad'] = 'Falló al intentar actualizar la fila.';
@@ -289,6 +295,8 @@
         $lang['strsignalsent']  =  'Señal enviada.';
         $lang['strsignalsentbad']  =  'Falló el envío de la señal.';
         $lang['strallobjects']  =  'Todos los objetos';
+        $lang['strdatabasealtered']  =  'Base de Datos alterada.';
+        $lang['strdatabasealteredbad']  =  'Falló al intentar alterar la Base de Datos.';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -380,7 +388,8 @@
 	$lang['strruledroppedbad'] = 'Falló al eliminar la regla.';
 
 	// Constraints
-	$lang['strconstraints'] = 'Restricción';
+        $lang['strconstraint']  =  'Restricción';
+	$lang['strconstraints'] = 'Restricciones';
 	$lang['strshowallconstraints'] = 'Mostrar todas las restricciones';
 	$lang['strnoconstraints'] = 'No se encontraron restricciones.';
 	$lang['strcreateconstraint'] = 'Crear Restricción';
@@ -452,6 +461,7 @@
 	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
         $lang['strtriggeraltered'] = 'Disparador modificado.';
         $lang['strtriggeralteredbad'] = 'Falló la modificación del disparador.';
+        $lang['strforeach']  =  'Para cada uno';
 
 	// Types
 	$lang['strtype'] = 'Tipo';
@@ -460,9 +470,9 @@
 	$lang['strnotype'] = 'No se encontró el tipo.';
 	$lang['strnotypes'] = 'No se encontraron tipos.';
 	$lang['strcreatetype'] = 'Crear Tipo';
-$lang['strcreatecomptype']  =  'Create composite type';
+        $lang['strcreatecomptype']  =  'Crear tipo compuesto';
         $lang['strtypeneedsfield']  =  'Debe especificar al menos un campo.';
-$lang['strtypeneedscols']  =  'Composite types require a valid number of columns.';	
+        $lang['strtypeneedscols']  =  'Tipos compuestos requieren de un número valido de columnas.';	
 	$lang['strtypename'] = 'Nombre del tipo';
 	$lang['strinputfn'] = 'Función de entrada';
 	$lang['stroutputfn'] = 'Función de salida';
@@ -626,10 +636,123 @@ $lang['strflavor']  =  'Flavor';
         $lang['strtablespacealtered']  =  'Tablespace modificado.';
         $lang['strtablespacealteredbad']  =  'Falló la modificación del Tablespace.';
 
+	// Slony clusters
+$lang['strnoclusters']  =  'No clusters found.';
+$lang['strconfdropcluster']  =  'Are you sure you want to drop cluster "%s"?';
+$lang['strclusterdropped']  =  'Cluster dropped.';
+$lang['strclusterdroppedbad']  =  'Cluster drop failed.';
+$lang['strinitcluster']  =  'Initialize Cluster';
+$lang['strclustercreated']  =  'Cluster initialized.';
+$lang['strclustercreatedbad']  =  'Cluster initialization failed.';
+$lang['strclusterneedsname']  =  'You must give a name for the cluster.';
+$lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
+	
+	// Slony nodes
+$lang['strnodes']  =  'Nodes';
+$lang['strnonodes']  =  'No nodes found.';
+$lang['strcreatenode']  =  'Create node';
+$lang['strid']  =  'ID';
+$lang['stractive']  =  'Active';
+$lang['strnodecreated']  =  'Node created.';
+$lang['strnodecreatedbad']  =  'Node creation failed.';
+$lang['strconfdropnode']  =  'Are you sure you want to drop node "%s"?';
+$lang['strnodedropped']  =  'Node dropped.';
+$lang['strnodedroppedbad']  =  'Node drop failed';
+$lang['strfailover']  =  'Failover';
+$lang['strnodefailedover']  =  'Node failed over.';
+$lang['strnodefailedoverbad']  =  'Node fail over fail.';
+	
+	// Slony paths	
+$lang['strpaths']  =  'Paths';
+$lang['strnopaths']  =  'No paths found.';
+$lang['strcreatepath']  =  'Create path';
+$lang['strnodename']  =  'Node name';
+$lang['strnodeid']  =  'Node ID';
+$lang['strconninfo']  =  'Connection string';
+$lang['strconnretry']  =  'Seconds before retry to connect';
+$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
+$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
+$lang['strpathcreated']  =  'Path created.';
+$lang['strpathcreatedbad']  =  'Path creation failed.';
+$lang['strconfdroppath']  =  'Are you sure you want to drop path "%s"?';
+$lang['strpathdropped']  =  'Path dropped.';
+$lang['strpathdroppedbad']  =  'Path drop failed.';
+
+	// Slony listens
+$lang['strlistens']  =  'Listens';
+$lang['strnolistens']  =  'No listens found.';
+$lang['strcreatelisten']  =  'Create listen';
+$lang['strlistencreated']  =  'Listen created.';
+$lang['strlistencreatedbad']  =  'Listen creation failed.';
+$lang['strconfdroplisten']  =  'Are you sure you want to drop listen "%s"?';
+$lang['strlistendropped']  =  'Listen dropped.';
+$lang['strlistendroppedbad']  =  'Listen drop failed.';
+
+	// Slony replication sets
+$lang['strrepsets']  =  'Replication sets';
+$lang['strnorepsets']  =  'No replication sets found.';
+$lang['strcreaterepset']  =  'Create replication set';
+$lang['strrepsetcreated']  =  'Replication set created.';
+$lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
+$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set "%s"?';
+$lang['strrepsetdropped']  =  'Replication set dropped.';
+$lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
+$lang['strmerge']  =  'Merge';
+$lang['strmergeinto']  =  'Merge Into';
+$lang['strrepsetmerged']  =  'Replication sets merged.';
+$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
+$lang['strmove']  =  'Move';
+$lang['strneworigin']  =  'New Origin';
+$lang['strrepsetmoved']  =  'Replication set moved.';
+$lang['strrepsetmovedbad']  =  'Replication set move failed.';
+$lang['strnewrepset']  =  'New replication set';
+$lang['strlock']  =  'Lock';
+$lang['strlocked']  =  'Locked';
+$lang['strunlock']  =  'Unlock';
+$lang['strconflockrepset']  =  'Are you sure you want to lock replication set "%s"?';
+$lang['strrepsetlocked']  =  'Replication set locked.';
+$lang['strrepsetlockedbad']  =  'Replication set lock failed.';
+$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set "%s"?';
+$lang['strrepsetunlocked']  =  'Replication set unlocked.';
+$lang['strrepsetunlockedbad']  =  'Replication set unlock failed.';
+$lang['strexecute']  =  'Execute';
+$lang['stronlyonnode']  =  'Only on node';
+$lang['strddlscript']  =  'DDL Script';
+$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
+$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
+$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
+$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
+
+	// Slony tables in replication sets
+$lang['straddtable']  =  'Add table';
+$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
+$lang['strtableaddedtorepset']  =  'Table added to replication set.';
+$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
+$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table "%s" from replication set "%s"?';
+$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
+$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
+
+	// Slony sequences in replication sets
+$lang['straddsequence']  =  'Add sequence';
+$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
+$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
+$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence "%s" from replication set "%s"?';
+$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
+$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
+
+	// Slony subscriptions
+$lang['strsubscriptions']  =  'Subscriptions';
+$lang['strnosubscriptions']  =  'No subscriptions found.';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted está logueado con usuario "%s", %s';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
 	$lang['strhelp'] = 'Ayuda';
         $lang['strhelpicon']  =  '?';
+        $lang['strlogintitle']  =  'Logguearse a %s';
+        $lang['strlogoutmsg']  =  'Saliendo de %s';
+        $lang['strloading']  =  'Cargando...';
+        $lang['strerrorloading']  =  'Error Cargando';
+        $lang['strclicktoreload']  =  'Click para recargar';
 
 ?>
