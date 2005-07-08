@@ -36,6 +36,12 @@ Databases
 * Add alter database variables for 7.3+
 * Comments on Create and Alter database
 
+Schemas (7.3)
+-------------
+
+* Rename
+* Alter owner
+
 Large Objects
 -------------
 
@@ -49,8 +55,9 @@ Tables
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
 * When browsing a table, clicking on a FK value should jump to the
   PK row.
-* When editing a table, turn FK columsn into drop-downs based on estimated
+* When editing a table, turn FK columns into drop-downs based on estimated
   rows in the foreign table?
+* Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false
 
 Views
 -----
