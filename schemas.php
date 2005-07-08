@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.1 2005/07/06 14:46:24 chriskl Exp $
+	 * $Id: schemas.php,v 1.2 2005/07/08 08:30:31 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -54,7 +54,7 @@
 				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
-					'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+					'url'   => "{$PHP_SELF}?action=drop&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'privileges' => array(
@@ -64,7 +64,7 @@
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "{$PHP_SELF}?action=alter_schema&amp;{$misc->href}&amp;",
+					'url'   => "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
@@ -76,6 +76,162 @@
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";
 		}
+	}
+
+	/**
+	 * Displays a screen where they can enter a new schema
+	 */
+	function doCreate($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		$server_info = $misc->getServerInfo();
+		
+		if (!isset($_POST['formName'])) $_POST['formName'] = '';
+		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $server_info['username'];
+		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
+
+		// Fetch all users from the database
+		$users = &$data->getUsers();
+
+		$misc->printTrail('database');
+		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
+		$misc->printMsg($msg);
+		
+		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo $misc->form;
+		echo "<table width=\"100%\">\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
+		// Owner
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
+		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
+		while (!$users->EOF) {
+			$uname = htmlspecialchars($users->f['usename']);
+			echo "\t\t\t\t<option value=\"{$uname}\"",
+				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
+			$users->moveNext();
+		}
+		echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
+			
+		echo "\t</tr>\n";
+		echo "</table>\n";
+		echo "<p>\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"create\" />\n";
+		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+		echo "</p>\n";
+		echo "</form>\n";
+	}
+
+	/**
+	 * Actually creates the new schema in the database
+	 */
+	function doSaveCreate() {
+		global $data, $lang, $_reload_browser;
+
+		// Check that they've given a name
+		if ($_POST['formName'] == '') doCreate($lang['strschemaneedsname']);
+		else {
+			$status = $data->createSchema($_POST['formName'], $_POST['formAuth'], $_POST['formComment']);
+			if ($status == 0) {
+				$_reload_browser = true;
+				doDefault($lang['strschemacreated']);
+			}
+			else
+				doCreate($lang['strschemacreatedbad']);
+		}
+	}	
+	
+	/**
+	 * Display a form to permit editing schema properies.
+	 * TODO: permit changing name, owner
+	 */
+	function doAlter($msg = '') {
+		global $data, $misc,$PHP_SELF, $lang;
+		
+		$misc->printTrail('schema');
+		$misc->printTitle($lang['stralter'],'pg.schema.alter');
+		$misc->printMsg($msg);
+
+		$schema = &$data->getSchemaByName($_REQUEST['schema']);
+		if ($schema->recordCount() > 0) {
+			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
+			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			echo "\t<tr>\n";
+			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
+			echo "\t</tr>\n";
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
+			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_POST['schema']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		} else {
+			echo "<p>{$lang['strnodata']}</p>\n";
+		}
+	}
+
+	/**
+	 * Save the form submission containing changes to a schema
+	 */
+	function doSaveAlter($msg = '') {
+		global $data, $misc,$PHP_SELF, $lang;
+		
+		$status = $data->updateSchema($_POST['schema'], $_POST['comment']);
+		if ($status == 0)
+			doDefault($lang['strschemaaltered']);
+		else
+			doAlter($lang['strschemaalteredbad']);
+	}
+
+	/**
+	 * Show confirmation of drop and perform actual drop
+	 */
+	function doDrop($confirm) {
+		global $PHP_SELF, $data, $data, $misc;
+		global $lang, $_reload_browser;
+
+		if ($confirm) {
+			$misc->printTrail('schema');
+			$misc->printTitle($lang['strdrop'],'pg.schema.drop');
+
+			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
+
+			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
+			// Show cascade drop option if supportd
+			if ($data->hasDropBehavior()) {
+				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+			}
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $data->dropSchema($_POST['schema'], isset($_POST['cascade']));
+			if ($status == 0) {
+				$_reload_browser = true;
+				doDefault($lang['strschemadropped']);
+			}
+			else
+				doDefault($lang['strschemadroppedbad']);
+		}
+		
 	}
 
 	/**
@@ -99,7 +255,7 @@
 								'schema'  => field('nspname')
 							)
 						),
-			'branch' => url('database.php',
+			'branch' => url('schemas.php',
 							$reqvars,
 							array(
 								'action'  => 'subtree',
@@ -146,14 +302,25 @@
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
 
+	if (isset($_POST['cancel'])) $action = '';
+	
 	switch ($action) {
-		case 'tree':
-			doTree();
+		case 'create':
+			if (isset($_POST['create'])) doSaveCreate();
+			else doCreate();
+			break;
+		case 'alter':
+			if (isset($_POST['alter'])) doSaveAlter();
+			else doAlter();
+			break;
+		case 'drop':
+			if (isset($_POST['drop'])) doDrop(false);
+			else doDrop(true);
 			break;
 		default:
 			doDefault();
 			break;
-	}	
+	}
 
 	$misc->printFooter();
 
