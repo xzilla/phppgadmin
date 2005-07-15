@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.20 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: dataexport.php,v 1.21 2005/07/15 08:03:12 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -89,7 +89,7 @@
 			header('Content-Type: text/plain');
 		}
 	
-		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
+		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(urldecode($_REQUEST['query']));
 
 		// Set the schema search path
 		if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
@@ -126,9 +126,8 @@
 					$first = true;
 					while(list($k, $v) = each($rs->f)) {
 						// Escape value
-						// addCSlashes converts all weird ASCII characters to octal representation,
-						// EXCEPT the 'special' ones like \r \n \t, etc.
-						$v = addCSlashes($v, "\0..\37\177..\377");
+						$v = $data->escapeBytea($v);
+						
 						// We add an extra escaping slash onto octal encoded characters
 						$v = ereg_replace('\\\\([0-7]{3})', '\\\\\1', $v);
 						if ($first) {
@@ -332,7 +331,7 @@
 		if (isset($_REQUEST['table'])) {
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		}
-		echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars(serialize($_REQUEST['query'])), "\" />\n";
+		echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars(urlencode($_REQUEST['query'])), "\" />\n";
 		if (isset($_REQUEST['search_path'])) {
 			echo "<input type=\"hidden\" name=\"search_path\" value=\"", htmlspecialchars($_REQUEST['search_path']), "\" />\n";
 		}

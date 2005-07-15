@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.105 2005/07/06 14:46:24 chriskl Exp $
+	 * $Id: Misc.php,v 1.106 2005/07/15 08:03:12 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -96,7 +96,7 @@
 		 * @return The HTML rendered value
 		 */
 		function printVal($str, $type = null, $params = array()) {
-			global $lang, $conf;
+			global $lang, $conf, $data;
 			
 			// Shortcircuit for a NULL value
 			if (is_null($str))
@@ -153,9 +153,7 @@
 					}
 					break;
 				case 'bytea':
-					// addCSlashes converts all weird ASCII characters to octal representation,
-					// EXCEPT the 'special' ones like \r \n \t, etc.
-					$out = htmlspecialchars(addCSlashes($str, "\0..\37\177..\377"));
+					$out = $data->escapeBytea($str);
 					break;
 				case 'pre':
 					$tag = 'pre';
