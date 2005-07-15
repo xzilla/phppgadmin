@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.17.2.2 2005/03/04 02:32:44 chriskl Exp $
+	 * $Id: dataexport.php,v 1.17.2.3 2005/07/15 08:09:20 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -116,7 +116,7 @@
 			header('Content-Type: text/plain');
 		}
 	
-		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(unserialize($_REQUEST['query']));
+		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(urldecode($_REQUEST['query']));
 
 		// Set up the dump transaction
 		$status = $data->beginDump();
@@ -354,7 +354,7 @@
 		if (isset($_REQUEST['table'])) {
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 		}
-		echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars(serialize($_REQUEST['query'])), "\" />\n";
+		echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars(urlencode($_REQUEST['query'])), "\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";

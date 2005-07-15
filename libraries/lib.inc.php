@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.88.2.4 2005/04/16 05:11:05 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.88.2.5 2005/07/15 08:09:20 chriskl Exp $
 	 */
 	
 	// Set error reporting level to max
@@ -13,7 +13,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '3.5.3';
+	$appVersion = '3.5.4';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
@@ -97,7 +97,8 @@
 	
 	// If login action is set, then set session variables
 	if (isset($_POST['formServer']) && isset($_POST['formUsername']) && 
-		isset($_POST['formPassword']) && isset($_POST['formLanguage'])) {
+		isset($_POST['formPassword']) && isset($_POST['formLanguage'])
+			&& in_array($_POST['formLanguage'], array_keys($appLangFiles))) {
 		$_SESSION['webdbServerID'] = $_POST['formServer'];
 		$_SESSION['webdbUsername'] = $_POST['formUsername'];
 		$_SESSION['webdbPassword'] = $_POST['formPassword'];
