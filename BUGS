@@ -20,6 +20,11 @@ Need to fix:
 * make browser language detection only happen when language is set
   to 'auto'.  make that the default.
 * float and decimal types aren't listed.
+* Click 'Run' on this report doesn't work (only column 2 is displayed):
+
+	SELECT
+	1,
+	2;
 
 NEEDS TESTING
 -------------
