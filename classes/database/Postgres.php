@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.264 2005/07/15 08:03:13 chriskl Exp $
+ * $Id: Postgres.php,v 1.265 2005/07/15 08:09:39 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -249,7 +249,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		if (false && function_exists('pg_escape_bytea'))
+		if (function_exists('pg_escape_bytea'))
 			return stripslashes(pg_escape_bytea($data));
 		else {
 		 		$translations = array('\\a' => '\\007', '\\b' => '\\010', '\\t' => '\\011', '\\n' => '\\012', '\\v' => '\\013', '\\f' => '\\014', '\\r' => '\\015');
