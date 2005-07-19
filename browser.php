@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.46 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: browser.php,v 1.47 2005/07/19 11:17:28 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -13,18 +13,20 @@
 	include_once('./libraries/lib.inc.php');
 	
 	// Output header
-	$misc->printHeader('', "<script src=\"xloadtree/xmlextras.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xtree2.js\" type=\"text/javascript\"></script>\n<script src=\"xloadtree/xloadtree2.js\" type=\"text/javascript\"></script>");
+	$misc->printHeader('', '
+		<script src="xloadtree/xmlextras.js" type="text/javascript"></script>
+		<script src="xloadtree/xtree2.js" type="text/javascript"></script>
+		<script src="xloadtree/xloadtree2.js" type="text/javascript"></script>
+		<style type="text/css">
+			.webfx-tree-children { background-image: url("' . $misc->icon('I')  .'"); }
+		</style>');
+	
 	$misc->printBody('browser');
 	echo "<div dir=\"ltr\">\n";
 ?>
 
 	<div class="logo"><a href="intro.php" target="detail"><img src="<?php echo $misc->icon('title') ?>" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
 
-<style type="text/css">
-.webfx-tree-children {
-	background-image:	url("<?php echo $misc->icon('I') ?>");
-}
-</style>
 <script type="text/javascript">
 
 webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('root') ?>";
