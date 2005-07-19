@@ -12,7 +12,7 @@
 |-----------------------------------------------------------------------------|
 | A tree menu system for IE 5.5+, Mozilla 1.4+, Opera 7, KHTML                |
 |-----------------------------------------------------------------------------|
-|         Copyright (c) 1999 - 2004 Erik Arvidsson & Emil A Eklund            |
+|         Copyright (c) 1999 - 2005 Erik Arvidsson & Emil A Eklund            |
 |-----------------------------------------------------------------------------|
 | This software is provided "as is", without warranty of any kind, express or |
 | implied, including  but not limited  to the warranties of  merchantability, |
@@ -42,29 +42,31 @@
 | this, is also licensed under the GPL license.                               |
 |-----------------------------------------------------------------------------|
 | 2004-02-21 | Pre release distributed to a few selected tester               |
+| 2005-06-06 | Added single tab index to improve keyboard navigation          |
 |-----------------------------------------------------------------------------|
 | Dependencies: xtree2.css Used to define the look and feel                   |
 |-----------------------------------------------------------------------------|
-| Created 2003-??-?? | All changes are in the log above. | Updated 2004-02-21 |
+| Created 2003-??-?? | All changes are in the log above. | Updated 2004-06-06 |
 \----------------------------------------------------------------------------*/
 
 
 //
 // WebFXTreePersisitance
 function WebFXTreePersistence() {}
-WebFXTreePersistence.prototype.getExpanded = function (oNode) { return false; };
-WebFXTreePersistence.prototype.setExpanded = function (oNode, bOpen) {};
+var _p = WebFXTreePersistence.prototype;
+_p.getExpanded = function (oNode) { return false; };
+_p.setExpanded = function (oNode, bOpen) {};
 
 
 
 // Cookie handling
 function WebFXCookie() {}
 
-WebFXCookie.prototype.setCookie = function (sName, sValue, nDays)
-{
+_p = WebFXCookie.prototype;
+
+_p.setCookie = function (sName, sValue, nDays) {
 	var expires = "";
-	if (typeof nDays == "number")
-	{
+	if (typeof nDays == "number") {
 		var d = new Date();
 		d.setTime(d.getTime() + nDays * 24 * 60 * 60 * 1000);
 		expires = "; expires=" + d.toGMTString();
@@ -73,15 +75,13 @@ WebFXCookie.prototype.setCookie = function (sName, sValue, nDays)
 	document.cookie = sName + "=" + escape(sValue) + expires + "; path=/";
 };
 
-WebFXCookie.prototype.getCookie = function (sName)
-{
+_p.getCookie = function (sName) {
 	var re = new RegExp("(\;|^)[^;]*(" + sName + ")\=([^;]*)(;|$)");
 	var res = re.exec(document.cookie);
 	return res != null ? unescape(res[3]) : null;
 };
 
-WebFXCookie.prototype.removeCookie = function (name)
-{
+_p.removeCookie = function (name) {
 	this.setCookie(name, "", -1);
 };
 
@@ -91,37 +91,33 @@ WebFXCookie.prototype.removeCookie = function (name)
 //
 // This is uses one cookie with the ids of the expanded nodes separated using '+'
 //
-function WebFXTreeCookiePersistence()
-{
+function WebFXTreeCookiePersistence() {
 	this._openedMap = {};
 	this._cookies = new WebFXCookie;
 	var s = this._cookies.getCookie(this.cookieName);
-	if (s)
-	{
+	if (s) {
 		var a = s.split("+");
 		for (var i = a.length - 1; i >= 0; i--)
 			this._openedMap[a[i]] = true;
 	}
 }
 
-WebFXTreeCookiePersistence.prototype = new WebFXTreePersistence;
+_p = WebFXTreeCookiePersistence.prototype = new WebFXTreePersistence;
 
-WebFXTreeCookiePersistence.prototype.cookieName = "webfx-tree-cookie-persistence"
+_p.cookieName = "webfx-tree-cookie-persistence"
 
-WebFXTreeCookiePersistence.prototype.getExpanded = function (oNode)
-{
+_p.getExpanded = function (oNode) {
 	return oNode.id in this._openedMap;
 };
 
-WebFXTreeCookiePersistence.prototype.setExpanded = function (oNode, bOpen)
-{
+_p.setExpanded = function (oNode, bOpen) {
 	var old = this.getExpanded(oNode);
-	if (old != bOpen)
-	{
-		if (bOpen)
+	if (old != bOpen) {
+		if (bOpen) {
 			this._openedMap[oNode.id] = true;
-		else
+		} else {
 			delete this._openedMap[oNode.id];
+		}
 
 		var res = [];
 		var i = 0;
@@ -134,32 +130,30 @@ WebFXTreeCookiePersistence.prototype.setExpanded = function (oNode, bOpen)
 
 
 // this object provides a few useful methods when working with arrays
-var arrayHelper =
-{
-	indexOf:		function (a, o)
-	{
-		for (var i = 0; i < a.length; i++)
-		{
-			if (a[i] == o)
+var arrayHelper = {
+	indexOf: function (a, o) {
+		for (var i = 0; i < a.length; i++) {
+			if (a[i] == o) {
 				return i;
+			}
 		}
 		return -1;
 	},
 
-	insertBefore:	function (a, o, o2)
-	{
+	insertBefore: function (a, o, o2) {
 		var i = this.indexOf(a, o2);
-		if (i == -1)
+		if (i == -1) {
 			a.push(o);
-		else
+		} else {
 			a.splice(i, 0, o);
+		}
 	},
 
-	remove:			function (a, o)
-	{
+	remove: function (a, o) {
 		var i = this.indexOf(a, o);
-		if (i != -1)
+		if (i != -1) {
 			a.splice(i, 1);
+		}
 	}
 };
 
@@ -167,24 +161,24 @@ var arrayHelper =
 // WebFX Tree Config object                                                  //
 ///////////////////////////////////////////////////////////////////////////////
 var webFXTreeConfig = {
-	rootIcon        : 'images/folder.png',
-	openRootIcon    : 'images/openfolder.png',
-	folderIcon      : 'images/folder.png',
-	openFolderIcon  : 'images/openfolder.png',
-	fileIcon        : 'images/file.png',
-	iIcon           : 'images/I.png',
-	lIcon           : 'images/L.png',
-	lMinusIcon      : 'images/Lminus.png',
-	lPlusIcon       : 'images/Lplus.png',
-	tIcon           : 'images/T.png',
-	tMinusIcon      : 'images/Tminus.png',
-	tPlusIcon       : 'images/Tplus.png',
-	plusIcon        : 'images/plus.png',
-	minusIcon       : 'images/minus.png',
-	blankIcon       : 'images/blank.png',
-	defaultText     : 'Tree Item',
+	rootIcon        : "images/folder.png",
+	openRootIcon    : "images/openfolder.png",
+	folderIcon      : "images/folder.png",
+	openFolderIcon  : "images/openfolder.png",
+	fileIcon        : "images/file.png",
+	iIcon           : "images/I.png",
+	lIcon           : "images/L.png",
+	lMinusIcon      : "images/Lminus.png",
+	lPlusIcon       : "images/Lplus.png",
+	tIcon           : "images/T.png",
+	tMinusIcon      : "images/Tminus.png",
+	tPlusIcon       : "images/Tplus.png",
+	plusIcon        : "images/plus.png",
+	minusIcon       : "images/minus.png",
+	blankIcon       : "images/blank.png",
+	defaultText     : "Tree Item",
 	defaultAction   : null,
-	defaultBehavior : 'classic',
+	defaultBehavior : "classic",
 	usePersistence	: true
 };
 
@@ -193,75 +187,54 @@ var webFXTreeConfig = {
 ///////////////////////////////////////////////////////////////////////////////
 
 var webFXTreeHandler = {
-	ie:		/msie/i.test(navigator.userAgent),
-	idCounter : 0,
-	idPrefix  : "wfxt-",
-	getUniqueId:	function ()
-	{
+	ie: /msie/i.test(navigator.userAgent),
+	opera: /opera/i.test(navigator.userAgent),
+	idCounter: 0,
+	idPrefix: "wfxt-",
+	getUniqueId: function () {
 		return this.idPrefix + this.idCounter++;
 	},
-	all       : {},
-	getNodeById:	function (sId)
-	{
+	all: {},
+	getNodeById: function (sId) {
 		return all[sId];
 	},
-	addNode:	function (oNode)
-	{
+	addNode: function (oNode) {
 		this.all[oNode.id] = oNode;
 	},
-	removeNode:	function (oNode)
-	{
+	removeNode:	function (oNode) {
 		delete this.all[oNode.id];
 	},
 
-	handleEvent:	function (e)
-	{
+	handleEvent: function (e) {
 		var el = e.target || e.srcElement;
-		while (el != null && !this.all[el.id])
+		while (el != null && !this.all[el.id]) {
 			el = el.parentNode;
+		}
 
-		if (el == null)
+		if (el == null) {
 			return false;
+		}
 		var node = this.all[el.id];
-		switch (e.type)
-		{
-			case "mousedown":
-				return node._onMouseDown(e);
-			case "click":
-				return node._onClick(e);
-			case "dblclick":
-				return node._onDblClick(e);
-			case "focus":
-				return node._onFocus(e);
-			case "blur":
-				return node._onBlur(e);
-			case "keydown":
-				return node._onKeyDown(e);
-			case "keypress":
-				return node._onKeyPress(e);
+		if (typeof node["_on" + e.type] == "function") {
+			return node["_on" + e.type](e);
 		}
 		return false;
 	},
 
-	dispose:	function ()
-	{
+	dispose: function () {
 		if (this.disposed) return;
-		for (var id in this.all)
+		for (var id in this.all) {
 			this.all[id].dispose();
+		}
 		this.disposed = true;
 	},
 
-	opera:		/opera/i.test(navigator.userAgent),
-
-	htmlToText:		function (s)
-	{
+	htmlToText: function (s) {
 		return String(s).replace(/\s+|<([^>])+>|&amp;|&lt;|&gt;|&quot;|&nbsp;/gi, this._htmlToText);
 	},
 
-	_htmlToText:	function (s)
-	{
-		switch (s)
-		{
+	_htmlToText: function (s) {
+		switch (s) {
 			case "&amp;":
 				return "&";
 			case "&lt;":
@@ -273,23 +246,22 @@ var webFXTreeHandler = {
 			case "&nbsp;":
 				return String.fromCharCode(160);
 			default:
-				if (/\s+/.test(s))
+				if (/\s+/.test(s)) {
 					return " ";
-				if (/^<BR/gi.test(s))
+				}
+				if (/^<BR/gi.test(s)) {
 					return "\n";
+				}
 				return "";
 		}
 	},
 
-	textToHtml:		function (s)
-	{
+	textToHtml: function (s) {
 		return String(s).replace(/&|<|>|\n|\"\u00A0/g, this._textToHtml);
 	},
 
-	_textToHtml:	function (s)
-	{
-		switch (s)
-		{
+	_textToHtml: function (s) {
+		switch (s) {
 			case "&":
 				return "&amp;";
 			case "<":
@@ -305,7 +277,7 @@ var webFXTreeHandler = {
 		}
 	},
 
-	persistenceManager:	new WebFXTreeCookiePersistence()
+	persistenceManager: new WebFXTreeCookiePersistence()
 };
 
 
@@ -313,19 +285,19 @@ var webFXTreeHandler = {
 // WebFXTreeAbstractNode
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTreeAbstractNode(sText, oAction)
-{
+function WebFXTreeAbstractNode(sText, oAction) {
 	this.childNodes = [];
 	if (sText) this.text = sText;
 	if (oAction) this.action = oAction;
 	this.id = webFXTreeHandler.getUniqueId();
-	if (webFXTreeConfig.usePersistence)
+	if (webFXTreeConfig.usePersistence) {
 		this.open = webFXTreeHandler.persistenceManager.getExpanded(this);
+	}
 	webFXTreeHandler.addNode(this);
 }
 
 
-var _p = WebFXTreeAbstractNode.prototype;
+_p = WebFXTreeAbstractNode.prototype;
 _p._selected = false;
 _p.indentWidth = 19;
 _p.open = false;
@@ -337,50 +309,65 @@ _p._focused = false;
 
 /* begin tree model */
 
-_p.add = function (oChild, oBefore)
-{
+_p.add = function (oChild, oBefore) {
 	var oldLast;
 	var emptyBefore = this.childNodes.length == 0;
 	var p = oChild.parentNode;
 
-	if (oBefore == null)
-	{ // append
+	if (oBefore == null) { // append
 		if (p != null)
 			p.remove(oChild);
 		oldLast = this.getLastChild();
 		this.childNodes.push(oChild);
-	}
-	else
-	{ // insertBefore
-		if (oBefore.parentNode != this)
+	} else { // insertBefore
+		if (oBefore.parentNode != this) {
 			throw new Error("Can only add nodes before siblings");
-		if (p != null)
+		}
+		if (p != null) {
 			p.remove(oChild);
+		}
 
 		arrayHelper.insertBefore(this.childNodes, oChild, oBefore);
 	}
 
+	if (oBefore) {
+		if (oBefore == this.firstChild) {
+			this.firstChild = oChild;
+		}
+		oChild.previousSibling = oBefore.previousSibling;
+		oBefore.previousSibling = oChild;
+		oChild.nextSibling = oBefore;
+	} else {
+		if (!this.firstChild) {
+			this.firstChild = oChild;
+		}
+		if (this.lastChild) {
+			this.lastChild.nextSibling = oChild;
+		}
+		oChild.previousSibling = this.lastChild;
+		this.lastChild = oChild;
+	}
+
 	oChild.parentNode = this;
 	var t = this.getTree();
-	if (t)
+	if (t) {
 		oChild.tree = t;
+	}
 	var d = this.getDepth();
-	if (d != null)
+	if (d != null) {
 		oChild.depth = d + 1;
+	}
 
-	if (this.getCreated() && !t.getSuspendRedraw())
-	{
+	if (this.getCreated() && !t.getSuspendRedraw()) {
 		var el = this.getChildrenElement();
 		var newEl = oChild.create();
 		var refEl = oBefore ? oBefore.getElement() : null;
 		el.insertBefore(newEl, refEl);
 
-		if (oldLast)
-		{
+		if (oldLast) {
 			oldLast.updateExpandIcon();
 		}
-		if (emptyBefore)
-		{
+		if (emptyBefore) {
 			this.setExpanded(this.getExpanded());
 			// if we are using classic expand will not update icon
 			if (t && t.getBehavior() != "classic")
@@ -393,54 +380,62 @@ _p.add = function (oChild, oBefore)
 
 
 
-_p.remove = function (oChild)
-{
+_p.remove = function (oChild) {
 	// backwards compatible. If no argument remove the node
-	if (arguments.length == 0)
-	{
-		if (this.parentNode)
+	if (arguments.length == 0) {
+		if (this.parentNode) {
 			return this.parentNode.remove(this);
+		}
 		return null;
 	}
 
 	// if we remove selected or tree with the selected we should select this
 	var t = this.getTree();
 	var si = t ? t.getSelected() : null;
-	if (si == oChild || oChild.contains(si))
-	{
-		if (si.getFocused())
-		{
+	if (si == oChild || oChild.contains(si)) {
+		if (si.getFocused()) {
 			this.select();
 			window.setTimeout("WebFXTreeAbstractNode._onTimeoutFocus(\"" + this.id + "\")", 10);
-		}
-		else
+		} else {
 			this.select();
+		}
+	}
+
+	if (oChild.parentNode != this) {
+		throw new Error("Can only remove children");
+	}
+	arrayHelper.remove(this.childNodes, oChild);
+
+	if (this.lastChild == oChild) {
+		this.lastChild = oChild.previousSibling;
+	}
+	if (this.firstChild == oChild) {
+		this.firstChild = oChild.nextSibling;
+	}
+	if (oChild.previousSibling) {
+		oChild.previousSibling.nextSibling = oChild.nextSibling;
+	}
+	if (oChild.nextSibling) {
+		oChild.nextSibling.previousSibling = oChild.previousSibling;
 	}
 
 	var wasLast = oChild.isLastSibling();
-
-	if (oChild.parentNode != this)
-		throw new Error("Can only remove children");
-	arrayHelper.remove(this.childNodes, oChild);
 
 	oChild.parentNode = null;
 	oChild.tree = null;
 	oChild.depth = null;
 
-	if (t && this.getCreated() && !t.getSuspendRedraw())
-	{
+	if (t && this.getCreated() && !t.getSuspendRedraw()) {
 		var el = this.getChildrenElement();
 		var childEl = oChild.getElement();
 		el.removeChild(childEl);
-		if (wasLast)
-		{
+		if (wasLast) {
 			var newLast = this.getLastChild();
-			if (newLast)
+			if (newLast) {
 				newLast.updateExpandIcon();
+			}
 		}
-		if (!this.hasChildren())
-		{
-			//this.setExpanded(this.getExpanded());
+		if (!this.hasChildren()) {
 			el.style.display = "none";
 			this.updateExpandIcon();
 			this.updateIcon();
@@ -450,160 +445,148 @@ _p.remove = function (oChild)
 	return oChild;
 };
 
-WebFXTreeAbstractNode._onTimeoutFocus = function (sId)
-{
+WebFXTreeAbstractNode._onTimeoutFocus = function (sId) {
 	var jsNode = webFXTreeHandler.all[sId];
 	jsNode.focus();
 };
 
-_p.getId = function ()
-{
+_p.getId = function () {
 	return this.id;
 };
 
-_p.getTree = function ()
-{
+_p.getTree = function () {
 	throw new Error("getTree called on Abstract Node");
 };
 
-_p.getDepth = function ()
-{
+_p.getDepth = function () {
 	throw new Error("getDepth called on Abstract Node");
 };
 
-_p.getCreated = function ()
-{
+_p.getCreated = function () {
 	var t = this.getTree();
 	return t && t.rendered;
 };
 
-_p.getParent = function ()
-{
+_p.getParent = function () {
 	return this.parentNode;
 };
 
-_p.contains = function (oDescendant)
-{
+_p.contains = function (oDescendant) {
 	if (oDescendant == null) return false;
 	if (oDescendant == this) return true;
 	var p = oDescendant.parentNode;
 	return this.contains(p);
 };
 
-_p.getChildren = _p.getChildNodes = function ()
-{
+_p.getChildren = _p.getChildNodes = function () {
 	return this.childNodes;
 };
 
-_p.getFirstChild = function ()
-{
+_p.getFirstChild = function () {
 	return this.childNodes[0];
 };
 
-_p.getLastChild = function ()
-{
+_p.getLastChild = function () {
 	return this.childNodes[this.childNodes.length - 1];
 };
 
-_p.getPreviousSibling = function ()
-{
-	var p = this.parentNode;
-	if (p == null) return null;
-	var cs = p.childNodes;
-	return cs[arrayHelper.indexOf(cs, this) - 1]
+_p.getPreviousSibling = function () {
+	return this.previousSibling;
+	//var p = this.parentNode;
+	//if (p == null) return null;
+	//var cs = p.childNodes;
+	//return cs[arrayHelper.indexOf(cs, this) - 1]
 };
 
-_p.getNextSibling = function ()
-{
-	var p = this.parentNode;
-	if (p == null) return null;
-	var cs = p.childNodes;
-	return cs[arrayHelper.indexOf(cs, this) + 1]
+_p.getNextSibling = function () {
+	return this.nextSibling;
+	//var p = this.parentNode;
+	//if (p == null) return null;
+	//var cs = p.childNodes;
+	//return cs[arrayHelper.indexOf(cs, this) + 1]
 };
 
-_p.hasChildren = function ()
-{
+_p.hasChildren = function () {
 	return this.childNodes.length > 0;
 };
 
-
-_p.isLastSibling = function ()
-{
-	return this.parentNode && this == this.parentNode.getLastChild();
+_p.isLastSibling = function () {
+	return this.nextSibling == null;
+	//return this.parentNode && this == this.parentNode.getLastChild();
 };
 
-_p.findChildByText = function (s, n)
-{
-	if (!n)
+_p.findChildByText = function (s, n) {
+	if (!n) {
 		n = 0;
+	}
 	var isRe = s instanceof RegExp;
-	for (var i = 0; i < this.childNodes.length; i++)
-	{
-		if (isRe && s.test(this.childNodes[i].getText()) || this.childNodes[i].getText() == s)
-		{
-			if (n == 0)
+	for (var i = 0; i < this.childNodes.length; i++) {
+		if (isRe && s.test(this.childNodes[i].getText()) ||
+			this.childNodes[i].getText() == s) {
+			if (n == 0) {
 				return this.childNodes[i];
+			}
 			n--;
 		}
 	}
 	return null;
 };
 
-_p.findNodeByText = function (s, n)
-{
-	if (!n)
+_p.findNodeByText = function (s, n) {
+	if (!n) {
 		n = 0;
+	}
 	var isRe = s instanceof RegExp;
-
-	if (isRe && s.test(this.getText()) || this.getText() == s)
-	{
-		if (n == 0)
+	if (isRe && s.test(this.getText()) || this.getText() == s) {
+		if (n == 0) {
 			return this.childNodes[i];
+		}
 		n--;
 	}
 
 	var res;
-	for (var i = 0; i < this.childNodes.length; i++)
-	{
+	for (var i = 0; i < this.childNodes.length; i++) {
 		res = this.childNodes[i].findNodeByText(s, n);
-		if (res)
+		if (res) {
 			return res;
+		}
 	}
 	return null;
 };
 
 /* end tree model */
 
-_p.setId = function (sId)
-{
+_p.setId = function (sId) {
 	var el = this.getElement();
 	webFXTreeHandler.removeNode(this);
 	this.id = sId;
-	if (el)
+	if (el) {
 		el.id = sId;
+	}
 	webFXTreeHandler.addNode(this);
 };
 
-_p.isSelected = function ()
-{
+_p.isSelected = function () {
 	return this._selected;
 };
 
-_p.select = function () { this._setSelected(true); };
-_p.deselect = function () { this._setSelected(false); };
+_p.select = function () {
+	this._setSelected(true);
+};
 
-_p._setSelected = function (b)
-{
+_p.deselect = function () {
+	this._setSelected(false);
+};
+
+_p._setSelected = function (b) {
 	var t = this.getTree();
 	if (!t) return;
-	if (this._selected != b)
-	{
+	if (this._selected != b) {
 		this._selected = b;
 
 		var wasFocused = false;	// used to keep focus state
 		var si = t.getSelected();
-		if (b && si != null && si != this)
-		{
+		if (b && si != null && si != this) {
 			var oldFireChange = t._fireChange;
 			wasFocused = si._focused;
 			t._fireChange = false;
@@ -612,170 +595,171 @@ _p._setSelected = function (b)
 		}
 
 		var el = this.getRowElement();
-		if (el)
-		{
+		if (el) {
 			el.className = this.getRowClassName();
 		}
-		if (b)
-		{
+		if (b) {
+			this._setTabIndex(t.tabIndex);
 			t._selectedItem = this;
 			t._fireOnChange();
 			t.setSelected(this);
-			if (wasFocused)
+			if (wasFocused) {
 				this.focus();
+			}
+		} else {
+			this._setTabIndex(-1);
 		}
 
-		if (t.getBehavior() != "classic")
+		if (t.getBehavior() != "classic") {
 			this.updateIcon();
+		}
 	}
 };
 
 
-_p.getExpanded = function ()
-{
+_p.getExpanded = function () {
 	return this.open;
 };
 
-_p.setExpanded = function (b)
-{
+_p.setExpanded = function (b) {
 	var ce;
 	this.open = b;
 	var t = this.getTree();
-	if (this.hasChildren())
-	{
+	if (this.hasChildren()) {
 		var si = t ? t.getSelected() : null;
-		if (!b && this.contains(si))
+		if (!b && this.contains(si)) {
 			this.select();
-
-		var el = this.getElement();
-		if (el)
-		{
-			ce = this.getChildrenElement();
-			if (ce)
-				ce.style.display = b ? "block" : "none";
-			var eie = this.getExpandIconElement();
-			if (eie)
-				eie.src = this.getExpandIconSrc();
 		}
 
-		if (webFXTreeConfig.usePersistence)
+		var el = this.getElement();
+		if (el) {
+			ce = this.getChildrenElement();
+			if (ce) {
+				ce.style.display = b ? "block" : "none";
+			}
+			var eie = this.getExpandIconElement();
+			if (eie) {
+				eie.src = this.getExpandIconSrc();
+			}
+		}
+
+		if (webFXTreeConfig.usePersistence) {
 			webFXTreeHandler.persistenceManager.setExpanded(this, b);
-	}
-	else
-	{
+		}
+	} else {
 		ce = this.getChildrenElement();
 		if (ce)
 			ce.style.display = "none";
 	}
-	if (t && t.getBehavior() == "classic")
+	if (t && t.getBehavior() == "classic") {
 		this.updateIcon();
+	}
 };
 
-_p.toggle = function ()
-{
+_p.toggle = function () {
 	this.setExpanded(!this.getExpanded());
 };
 
-_p.expand = function ()
-{
+_p.expand = function () {
 	this.setExpanded(true);
 };
 
-_p.collapse = function ()
-{
+_p.collapse = function () {
 	this.setExpanded(false);
 };
 
-_p.collapseChildren = function()
-{
+_p.collapseChildren = function () {
 	var cs = this.childNodes;
-	for (var i = 0; i < cs.length; i++)
+	for (var i = 0; i < cs.length; i++) {
 		cs[i].collapseAll();
+	}
 };
 
-_p.collapseAll = function()
-{
+_p.collapseAll = function () {
 	this.collapseChildren();
 	this.collapse();
 };
 
-_p.expandChildren = function()
-{
+_p.expandChildren = function () {
 	var cs = this.childNodes;
-	for (var i = 0; i < cs.length; i++)
+	for (var i = 0; i < cs.length; i++) {
 		cs[i].expandAll();
+	}
 };
 
-_p.expandAll = function ()
-{
+_p.expandAll = function () {
 	this.expandChildren();
 	this.expand();
 };
 
-_p.reveal = function ()
-{
+_p.reveal = function () {
 	var p = this.getParent();
-	if (p)
-	{
+	if (p) {
 		p.setExpanded(true);
 		p.reveal();
 	}
 };
 
-_p.openPath = function (sPath, bSelect, bFocus)
-{
-	if (sPath == "")
-	{
-		if (bSelect)
+_p.openPath = function (sPath, bSelect, bFocus) {
+	if (sPath == "") {
+		if (bSelect) {
 			this.select();
-		if (bFocus)
+		}
+		if (bFocus) {
 			window.setTimeout("WebFXTreeAbstractNode._onTimeoutFocus(\"" + this.id + "\")", 10);
+		}
 		return;
 	}
 
 	var parts = sPath.split("/");
 	var remainingPath = parts.slice(1).join("/");
 	var t = this.getTree();
-	if (sPath.charAt(0) == "/")
-	{
-		if (t)
+	if (sPath.charAt(0) == "/") {
+		if (t) {
 			t.openPath(remainingPath, bSelect, bFocus);
-		else
+		} else {
 			throw "Invalid path";
-	}
-	else
-	{
+		}
+	} else {
 		// open
 		this.setExpanded(true);
 		parts = sPath.split("/");
 		var ti = this.findChildByText(parts[0]);
-		if (!ti)
+		if (!ti) {
 			throw "Could not find child node with text \"" + parts[0] + "\"";
+		}
 		ti.openPath(remainingPath, bSelect, bFocus);
 	}
 };
 
-_p.focus = function ()
-{
+_p.focus = function () {
 	var el = this.getLabelElement();
-	if (el)
+	if (el) {
 		el.focus();
+	}
 };
 
-_p.getFocused = function ()
-{
+_p.getFocused = function () {
 	return this._focused;
 };
 
+_p._setTabIndex = function (i) {
+	var a = this.getLabelElement();
+	if (a) {
+		a.setAttribute("tabindex", i);
+	}
+};
+
+
 // HTML generation
 
-_p.toHtml = function ()
-{
-	var childrenSb = [];
+_p.toHtml = function () {
+	var sb = [];
 	var cs = this.childNodes;
 	var l = cs.length;
-	for (var y = 0; y < l; y++)
-		childrenSb[y] = cs[y].toHtml();
+	for (var y = 0; y < l; y++) {
+		sb[y] = cs[y].toHtml();
+	}
 
 	var t = this.getTree();
 	var hideLines = !t.getShowLines() || t == this.parentNode && !t.getShowRootLines();
@@ -785,7 +769,7 @@ _p.toHtml = function ()
 		this.getLineStyle() +
 		(this.getExpanded() && this.hasChildren() ? "" : "display:none;") +
 		"\">" +
-		childrenSb.join("") +
+		sb.join("") +
 		"</div>";
 
 	return "<div class=\"webfx-tree-item\" id=\"" +
@@ -795,11 +779,10 @@ _p.toHtml = function ()
 		"</div>";
 };
 
-_p.getRowHtml = function ()
-{
+_p.getRowHtml = function () {
 	var t = this.getTree();
 	return "<div class=\"" + this.getRowClassName() + "\" style=\"padding-left:" +
-		(this.getDepth() - 1) * this.indentWidth + "px\">" +
+		Math.max(0, (this.getDepth() - 1) * this.indentWidth) + "px\">" +
 		this.getExpandIconHtml() +
 		//"<span class=\"webfx-tree-icon-and-label\">" +
 		this.getIconHtml() +
@@ -808,18 +791,16 @@ _p.getRowHtml = function ()
 		"</div>";
 };
 
-_p.getRowClassName = function ()
-{
+_p.getRowClassName = function () {
 	return "webfx-tree-row" + (this.isSelected() ? " selected" : "") +
 		(this.action ? "" : " no-action");
 };
 
-_p.getLabelHtml = function ()
-{
+_p.getLabelHtml = function () {
 	var toolTip = this.getToolTip();
 	var target = this.getTarget();
 	return "<a href=\"" + webFXTreeHandler.textToHtml(this._getHref()) +
-		"\" class=\"webfx-tree-item-label\"" +
+		"\" class=\"webfx-tree-item-label\" tabindex=\"-1\"" +
 		(toolTip ? " title=\"" + webFXTreeHandler.textToHtml(toolTip) + "\"" : "") +
 		(target ? " target=\"" + target + "\"" : "") +
 		" onfocus=\"webFXTreeHandler.handleEvent(event)\"" +
@@ -827,33 +808,28 @@ _p.getLabelHtml = function ()
 		this.getHtml() + "</a>";
 };
 
-_p._getHref = function ()
-{
+_p._getHref = function () {
 	if (typeof this.action == "string")
 		return this.action;
 	else
 		return "#";
 };
 
-_p.getEventHandlersHtml = function ()
-{
+_p.getEventHandlersHtml = function () {
 	return "";
 };
 
-_p.getIconHtml = function ()
-{
+_p.getIconHtml = function () {
 	// here we are not using textToHtml since the file names rarerly contains
 	// HTML...
 	return "<img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\">";
 };
 
-_p.getIconSrc = function ()
-{
+_p.getIconSrc = function () {
 	throw new Error("getIconSrc called on Abstract Node");
 };
 
-_p.getExpandIconHtml = function ()
-{
+_p.getExpandIconHtml = function () {
 	// here we are not using textToHtml since the file names rarerly contains
 	// HTML...
 	return "<img class=\"webfx-tree-expand-icon\" src=\"" +
@@ -861,14 +837,12 @@ _p.getExpandIconHtml = function ()
 };
 
 
-_p.getExpandIconSrc = function ()
-{
+_p.getExpandIconSrc = function () {
 	var src;
 	var t = this.getTree();
 	var hideLines = !t.getShowLines() || t == this.parentNode && !t.getShowRootLines();
 
-	if (this.hasChildren())
-	{
+	if (this.hasChildren()) {
 		var bits = 0;
 		/*
 			Bitmap used to determine which icon to use
@@ -878,24 +852,23 @@ _p.getExpandIconSrc = function ()
 			8  L Line
 		*/
 
-		if (t && t.getShowExpandIcons())
-		{
-			if (this.getExpanded())
+		if (t && t.getShowExpandIcons()) {
+			if (this.getExpanded()) {
 				bits = 2;
-			else
+			} else {
 				bits = 1;
+			}
 		}
 
-		if (t && !hideLines)
-		{
-			if (this.isLastSibling())
+		if (t && !hideLines) {
+			if (this.isLastSibling()) {
 				bits += 4;
-			else
+			} else {
 				bits += 8;
+			}
 		}
 
-		switch (bits)
-		{
+		switch (bits) {
 			case 1:
 				return webFXTreeConfig.plusIcon;
 			case 2:
@@ -915,25 +888,22 @@ _p.getExpandIconSrc = function ()
 			default:	// 0
 				return webFXTreeConfig.blankIcon;
 		}
-	}
-	else
-	{
-		if (t && hideLines)
+	} else {
+		if (t && hideLines) {
 			return webFXTreeConfig.blankIcon;
-		else if (this.isLastSibling())
+		} else if (this.isLastSibling()) {
 			return webFXTreeConfig.lIcon;
-		else
+		} else {
 			return webFXTreeConfig.tIcon;
+		}
 	}
 };
 
-_p.getLineStyle = function ()
-{
+_p.getLineStyle = function () {
 	return "background-position:" + this.getLineStyle2() + ";";
 };
 
-_p.getLineStyle2 = function ()
-{
+_p.getLineStyle2 = function () {
 	return (this.isLastSibling() ? "-100" : (this.getDepth() - 1) * this.indentWidth) + "px 0";
 };
 
@@ -941,45 +911,39 @@ _p.getLineStyle2 = function ()
 
 // DOM
 // this returns the div for the tree node
-_p.getElement = function ()
-{
+_p.getElement = function () {
 	return document.getElementById(this.id);
 };
 
 // the row is the div that is used to draw the node without the children
-_p.getRowElement = function ()
-{
+_p.getRowElement = function () {
 	var el = this.getElement();
 	if (!el) return null;
 	return el.firstChild;
 };
 
 // plus/minus image
-_p.getExpandIconElement = function ()
-{
+_p.getExpandIconElement = function () {
 	var el = this.getRowElement();
 	if (!el) return null;
 	return el.firstChild;
 };
 
-_p.getIconElement = function ()
-{
+_p.getIconElement = function () {
 	var el = this.getRowElement();
 	if (!el) return null;
 	return el.childNodes[1];
 };
 
 // anchor element
-_p.getLabelElement = function ()
-{
+_p.getLabelElement = function () {
 	var el = this.getRowElement();
 	if (!el) return null;
 	return el.lastChild;
 };
 
 // the div containing the children
-_p.getChildrenElement = function ()
-{
+_p.getChildrenElement = function () {
 	var el = this.getElement();
 	if (!el) return null;
 	return el.lastChild;
@@ -988,10 +952,8 @@ _p.getChildrenElement = function ()
 
 // IE uses about:blank if not attached to document and this can cause Win2k3
 // to fail
-if (webFXTreeHandler.ie)
-{
-	_p.create = function ()
-	{
+if (webFXTreeHandler.ie) {
+	_p.create = function () {
 		var dummy = document.createElement("div");
 		dummy.style.display = "none";
 		document.body.appendChild(dummy);
@@ -1000,124 +962,111 @@ if (webFXTreeHandler.ie)
 		document.body.removeChild(dummy);
 		return res;
 	};
-}
-else
-{
-	_p.create = function ()
-	{
+} else {
+	_p.create = function () {
 		var dummy = document.createElement("div");
 		dummy.innerHTML = this.toHtml();
 		return dummy.removeChild(dummy.firstChild);
 	};
-
 }
 
 // Getters and setters for some common fields
 
-_p.setIcon = function (s)
-{
+_p.setIcon = function (s) {
 	this.icon = s;
-	if (this.getCreated())
+	if (this.getCreated()) {
 		this.updateIcon();
+	}
 };
 
-_p.getIcon = function ()
-{
+_p.getIcon = function () {
 	return this.icon;
 };
 
-_p.setOpenIcon = function (s)
-{
+_p.setOpenIcon = function (s) {
 	this.openIcon = s;
-	if (this.getCreated())
+	if (this.getCreated()) {
 		this.updateIcon();
+	}
 };
 
-_p.getOpenIcon = function ()
-{
+_p.getOpenIcon = function () {
 	return this.openIcon;
 };
 
-_p.setText = function (s)
-{
+_p.setText = function (s) {
 	this.setHtml(webFXTreeHandler.textToHtml(s));
 };
 
-_p.getText = function ()
-{
+_p.getText = function () {
 	return webFXTreeHandler.htmlToText(this.getHtml());
 };
 
-_p.setHtml = function (s)
-{
+_p.setHtml = function (s) {
 	this.text = s;
 	var el = this.getLabelElement();
-	if (el)
+	if (el) {
 		el.innerHTML = s;
+	}
 };
 
-_p.getHtml = function ()
-{
+_p.getHtml = function () {
 	return this.text;
 };
 
-_p.setTarget = function (s)
-{
+_p.setTarget = function (s) {
 	this.target = s;
 };
 
-_p.getTarget = function ()
-{
+_p.getTarget = function () {
 	return this.target;
 };
 
-_p.setToolTip = function (s)
-{
+_p.setToolTip = function (s) {
 	this.toolTip = s;
 	var el = this.getLabelElement();
-	if (el)
+	if (el) {
 		el.title = s;
+	}
 };
 
-_p.getToolTip = function ()
-{
+_p.getToolTip = function () {
 	return this.toolTip;
 };
 
-_p.setAction = function (oAction)
-{
+_p.setAction = function (oAction) {
 	this.action = oAction;
 	var el = this.getLabelElement();
-	if (el)
+	if (el) {
 		el.href = this._getHref();
+	}
 	el = this.getRowElement();
-	if (el)
+	if (el) {
 		el.className = this.getRowClassName();
+	}
 };
 
-_p.getAction = function ()
-{
+_p.getAction = function () {
 	return this.action;
 };
 
 // update methods
 
-_p.update = function ()
-{
+_p.update = function () {
 	var t = this.getTree();
 	if (t.suspendRedraw) return;
 	var el = this.getElement();
 	if (!el || !el.parentNode) return;
 	var newEl = this.create();
 	el.parentNode.replaceChild(newEl, el);
-
+	this.setTabIndex(this.tabIndex); // in case root had the tab index
 	var si = t.getSelected();
-	if (si && si.getFocused())
+	if (si && si.getFocused()) {
 		si.focus();
+	}
 };
 
-_p.updateExpandIcon = function ()
-{
+_p.updateExpandIcon = function () {
 	var t = this.getTree();
 	if (t.suspendRedraw) return;
 	var img = this.getExpandIconElement();
@@ -1126,8 +1075,7 @@ _p.updateExpandIcon = function ()
 	cel.style.backgroundPosition = this.getLineStyle2();
 };
 
-_p.updateIcon = function ()
-{
+_p.updateIcon = function () {
 	var t = this.getTree();
 	if (t.suspendRedraw) return;
 	var img = this.getIconElement();
@@ -1136,9 +1084,7 @@ _p.updateIcon = function ()
 
 // End DOM
 
-
-_p._callSuspended = function (f)
-{
+_p._callSuspended = function (f) {
 	var t = this.getTree();
 	var sr = t.getSuspendRedraw();
 	t.setSuspendRedraw(true);
@@ -1148,108 +1094,100 @@ _p._callSuspended = function (f)
 
 // Event handlers
 
-_p._onMouseDown = function (e)
-{
+_p._onmousedown = function (e) {
 	var el = e.target || e.srcElement;
 	// expand icon
-	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren())
-	{
+	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren()) {
 		this.toggle();
-		if ( webFXTreeHandler.ie )
+		if (webFXTreeHandler.ie) {
 			window.setTimeout("WebFXTreeAbstractNode._onTimeoutFocus(\"" + this.id + "\")", 10);
+		}
 		return false;
 	}
 
 	this.select();
-	if (!/webfx-tree-item-label/.test(el.className) && !webFXTreeHandler.opera)	// opera cancels the click if focus is called
-	{
+	if (/*!/webfx-tree-item-label/.test(el.className) && */!webFXTreeHandler.opera)	{ // opera cancels the click if focus is called
+		
 		// in case we are not clicking on the label
-		if (webFXTreeHandler.ie)
+		if (webFXTreeHandler.ie) {
 			window.setTimeout("WebFXTreeAbstractNode._onTimeoutFocus(\"" + this.id + "\")", 10);
-		else
+		} else {
 			this.focus();
+		}
 	}
 	var rowEl = this.getRowElement();
-	if (rowEl)
+	if (rowEl) {
 		rowEl.className = this.getRowClassName();
+	}
 
 	return false;
 };
 
-_p._onClick = function (e)
-{
+_p._onclick = function (e) {
 	var el = e.target || e.srcElement;
 	// expand icon
-	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren())
+	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren()) {
 		return false;
+	}
 
-	if (typeof this.action == "function")
+	if (typeof this.action == "function") {
 		this.action();
-	else if (this.action != null)
+	} else if (this.action != null) {
 		window.open(this.action, this.target || "_self");
+	}
 	return false;
 };
 
 
-_p._onDblClick = function (e)
-{
+_p._ondblclick = function (e) {
 	var el = e.target || e.srcElement;
 	// expand icon
-	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren())
+	if (/webfx-tree-expand-icon/.test(el.className) && this.hasChildren()) {
 		return;
+	}
 
 	this.toggle();
 };
 
-_p._onFocus = function (e)
-{
+_p._onfocus = function (e) {
 	this.select();
 	this._focused = true;
 };
 
-_p._onBlur = function (e)
-{
+_p._onblur = function (e) {
 	this._focused = false;
 };
 
-_p._onKeyDown = function (e)
-{
+_p._onkeydown = function (e) {
 	var n;
 	var rv = true;
-	switch (e.keyCode)
-	{
+	switch (e.keyCode) {
 		case 39:	// RIGHT
-			if (e.altKey)
-			{
+			if (e.altKey) {
 				rv = true;
 				break;
 			}
-			if (this.hasChildren())
-			{
-				if (!this.getExpanded())
+			if (this.hasChildren()) {
+				if (!this.getExpanded()) {
 					this.setExpanded(true);
-				else
-				{
+				} else {
 					this.getFirstChild().focus();
 				}
 			}
 			rv = false;
 			break;
 		case 37:	// LEFT
-			if (e.altKey)
-			{
+			if (e.altKey) {
 				rv = true;
 				break;
 			}
-			if (this.hasChildren() && this.getExpanded())
+			if (this.hasChildren() && this.getExpanded()) {
 				this.setExpanded(false);
-			else
-			{
+			} else {
 				var p = this.getParent();
 				var t = this.getTree();
 				// don't go to root if hidden
-				if (p && (t.showRootNode || p != t))
-				{
+				if (p && (t.showRootNode || p != t)) {
 					p.focus();
 				}
 			}
@@ -1258,34 +1196,32 @@ _p._onKeyDown = function (e)
 
 		case 40:	// DOWN
 			n = this.getNextShownNode();
-			if (n)
-			{
+			if (n) {
 				n.focus();
 			}
 			rv = false;
 			break;
 		case 38:	// UP
 			n = this.getPreviousShownNode()
-			if (n)
-			{
+			if (n) {
 				n.focus();
 			}
 			rv = false;
 			break;
 	}
 
-	if (!rv && e.preventDefault)
+	if (!rv && e.preventDefault) {
 		e.preventDefault();
+	}
 	e.returnValue = rv;
 	return rv;
 };
 
-_p._onKeyPress = function (e)
-{
-	if (!e.altKey && e.keyCode >= 37 && e.keyCode <= 40)
-	{
-		if (e.preventDefault)
+_p._onkeypress = function (e) {
+	if (!e.altKey && e.keyCode >= 37 && e.keyCode <= 40) {
+		if (e.preventDefault) {
 			e.preventDefault();
+		}
 		e.returnValue = false;
 		return false;
 	}
@@ -1293,11 +1229,11 @@ _p._onKeyPress = function (e)
 
 // End event handlers
 
-_p.dispose = function ()
-{
+_p.dispose = function () {
 	if (this.disposed) return;
-	for (var i = this.childNodes.length - 1; i >= 0; i--)
+	for (var i = this.childNodes.length - 1; i >= 0; i--) {
 		this.childNodes[i].dispose();
+	}
 	this.tree = null;
 	this.parentNode = null;
 	this.childNodes = null;
@@ -1305,44 +1241,41 @@ _p.dispose = function ()
 };
 
 // Some methods that are usable when navigating the tree using the arrows
-_p.getLastShownDescendant = function ()
-{
-	if (!this.getExpanded() || !this.hasChildren())
+_p.getLastShownDescendant = function () {
+	if (!this.getExpanded() || !this.hasChildren()) {
 		return this;
+	}
 	// we know there is at least 1 child
 	return this.getLastChild().getLastShownDescendant();
 };
 
-_p.getNextShownNode = function ()
-{
-	if (this.hasChildren() && this.getExpanded())
+_p.getNextShownNode = function () {
+	if (this.hasChildren() && this.getExpanded()) {
 		return this.getFirstChild();
-	else
-	{
+	} else {
 		var p = this;
 		var next;
-		while (p != null)
-		{
+		while (p != null) {
 			next = p.getNextSibling();
-			if (next != null)
+			if (next != null) {
 				return next;
+			}
 			p = p.getParent();
 		}
 		return null;
 	}
 };
 
-_p.getPreviousShownNode = function ()
-{
+_p.getPreviousShownNode = function () {
 	var ps = this.getPreviousSibling();
-	if (ps != null)
-	{
+	if (ps != null) {
 		return ps.getLastShownDescendant();
 	}
 	var p = this.getParent();
 	var t = this.getTree();
-	if (!t.showRootNode && p == t)
+	if (!t.showRootNode && p == t) {
 		return null;
+	}
 	return p;
 };
 
@@ -1356,16 +1289,11 @@ _p.getPreviousShownNode = function ()
 // WebFXTree
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTree(sText, oAction, sBehavior, sIcon, sOpenIcon)
-{
+function WebFXTree(sText, oAction, sBehavior, sIcon, sOpenIcon) {
 	WebFXTreeAbstractNode.call(this, sText, oAction);
-
-	if (sIcon)
-		this.icon = sIcon;
-	if (sOpenIcon)
-		this.openIcon = sOpenIcon;
-	if (sBehavior)
-		this.behavior = sBehavior;
+	if (sIcon) this.icon = sIcon;
+	if (sOpenIcon) this.openIcon = sOpenIcon;
+	if (sBehavior) this.behavior = sBehavior;
 }
 
 _p = WebFXTree.prototype = new WebFXTreeAbstractNode;
@@ -1380,63 +1308,54 @@ _p.showExpandIcons = true;
 _p.showRootNode = true;
 _p.showRootLines = true;
 
-_p.getTree = function ()
-{
+_p.getTree = function () {
 	return this;
 };
 
-_p.getDepth = function ()
-{
+_p.getDepth = function () {
 	return 0;
 };
 
-_p.getCreated = function ()
-{
+_p.getCreated = function () {
 	return this.rendered;
 };
 
 
 /* end tree model */
 
-_p.getExpanded = function ()
-{
+_p.getExpanded = function () {
 	return !this.showRootNode || WebFXTreeAbstractNode.prototype.getExpanded.call(this);
 };
 
-_p.setExpanded = function (b)
-{
-	if (!this.showRootNode)
+_p.setExpanded = function (b) {
+	if (!this.showRootNode) {
 		this.open = b;
-	else
+	} else {
 		WebFXTreeAbstractNode.prototype.setExpanded.call(this, b);
+	}
 };
 
-_p.getExpandIconHtml = function ()
-{
+_p.getExpandIconHtml = function () {
 	return "";
 };
 
 // we don't have an expand icon here
-_p.getIconElement = function ()
-{
+_p.getIconElement = function () {
 	var el = this.getRowElement();
 	if (!el) return null;
 	return el.firstChild;
 };
 
 // no expand icon for root element
-_p.getExpandIconElement = function (oDoc)
-{
+_p.getExpandIconElement = function (oDoc) {
 	return null;
 };
 
-_p.updateExpandIcon = function ()
-{
+_p.updateExpandIcon = function () {
 	// no expand icon
 };
 
-_p.getRowClassName = function ()
-{
+_p.getRowClassName = function () {
 	return WebFXTreeAbstractNode.prototype.getRowClassName.call(this) +
 		(this.showRootNode ? "" : " webfx-tree-hide-root");
 };
@@ -1445,21 +1364,21 @@ _p.getRowClassName = function ()
 // if classic then the openIcon is used for expanded, otherwise openIcon is used
 // for selected
 
-_p.getIconSrc = function ()
-{
+_p.getIconSrc = function () {
 	var behavior = this.getTree() ? this.getTree().getBehavior() : webFXTreeConfig.defaultBehavior;
 	var open = behavior == "classic" && this.getExpanded() ||
 			   behavior != "classic" && this.isSelected();
-	if (open && this.openIcon)
+	if (open && this.openIcon) {
 		return this.openIcon;
-	if (!open && this.icon)
+	}
+	if (!open && this.icon) {
 		return this.icon;
+	}
 	// fall back on default icons
 	return open ? webFXTreeConfig.openRootIcon : webFXTreeConfig.rootIcon;
 };
 
-_p.getEventHandlersHtml = function ()
-{
+_p.getEventHandlersHtml = function () {
 	return " onclick=\"return webFXTreeHandler.handleEvent(event)\" " +
 		"onmousedown=\"return webFXTreeHandler.handleEvent(event)\" " +
 		"ondblclick=\"return webFXTreeHandler.handleEvent(event)\" " +
@@ -1467,118 +1386,116 @@ _p.getEventHandlersHtml = function ()
 		"onkeypress=\"return webFXTreeHandler.handleEvent(event)\"";
 };
 
-_p.setSelected = function (o)
-{
-	if (this._selectedItem != o)
-	{
-		if (o)
-			o._setSelected(true);
+_p.setSelected = function (o) {
+	if (this._selectedItem != o && o) {
+		o._setSelected(true);
 	}
 };
 
-_p._fireOnChange = function ()
-{
-	if (this._fireChange && typeof this.onchange == "function")
+_p._fireOnChange = function () {
+	if (this._fireChange && typeof this.onchange == "function") {
 		this.onchange();
+	}
 };
 
-_p.getSelected = function ()
-{
+_p.getSelected = function () {
 	return this._selectedItem;
 };
 
-_p.setBehavior = function (s)
-{
+_p.tabIndex = "";
+
+_p.setTabIndex = function (i) {
+	var n = this._selectedItem || (this.showRootNode ? this : this.firstChild);
+	this.tabIndex = i;
+	if (n) {
+		n._setTabIndex(i);
+	}	
+};
+
+_p.getTabIndex = function () {
+	return this.tabIndex;
+};
+
+_p.setBehavior = function (s) {
 	this.behavior = s;
 };
 
-_p.getBehavior = function ()
-{
+_p.getBehavior = function () {
 	return this.behavior || webFXTreeConfig.defaultBehavior;
 };
 
-_p.setShowLines = function (b)
-{
-	if (this.showLines != b)
-	{
+_p.setShowLines = function (b) {
+	if (this.showLines != b) {
 		this.showLines = b;
-		if (this.rendered)
+		if (this.rendered) {
 			this.update();
+		}
 	}
 };
 
-_p.getShowLines = function ()
-{
+_p.getShowLines = function () {
 	return this.showLines;
 };
 
-_p.setShowRootLines = function (b)
-{
-	if (this.showRootLines != b)
-	{
+_p.setShowRootLines = function (b) {
+	if (this.showRootLines != b) {
 		this.showRootLines = b;
-		if (this.rendered)
+		if (this.rendered) {
 			this.update();
+		}
 	}
 };
 
-_p.getShowRootLines = function ()
-{
+_p.getShowRootLines = function () {
 	return this.showRootLines;
 };
 
-_p.setShowExpandIcons = function (b)
-{
-	if (this.showExpandIcons != b)
-	{
+_p.setShowExpandIcons = function (b) {
+	if (this.showExpandIcons != b) {
 		this.showExpandIcons = b;
-		if (this.rendered)
+		if (this.rendered) {
 			this.getTree().update();
+		}
 	}
 };
 
-_p.getShowExpandIcons = function ()
-{
+_p.getShowExpandIcons = function () {
 	return this.showExpandIcons;
 };
 
-_p.setShowRootNode = function (b)
-{
-	if (this.showRootNode != b)
-	{
+_p.setShowRootNode = function (b) {
+	if (this.showRootNode != b) {
 		this.showRootNode = b;
-		if (this.rendered)
+		if (this.rendered) {
 			this.getTree().update();
+		}
 	}
 };
 
-_p.getShowRoootNode = function ()
-{
+_p.getShowRoootNode = function () {
 	return this.showRootNode;
 };
 
 _p.onchange = function () {};
 
-_p.create = function ()
-{
+_p.create = function () {
 	var el = WebFXTreeAbstractNode.prototype.create.call(this);
+	this.setTabIndex(this.tabIndex);
 	this.rendered = true;
 	return el;
 };
 
-_p.write = function ()
-{
+_p.write = function () {
 	document.write(this.toHtml());
+	this.setTabIndex(this.tabIndex);
 	this.rendered = true;
 };
 
-_p.setSuspendRedraw = function (b)
-{
+_p.setSuspendRedraw = function (b) {
 	this.suspendRedraw = b;
 };
 
-_p.getSuspendRedraw = function ()
-{
+_p.getSuspendRedraw = function () {
 	return this.suspendRedraw;
 };
 
@@ -1588,15 +1505,11 @@ _p.getSuspendRedraw = function ()
 // WebFXTreeItem
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTreeItem(sText, oAction, eParent, sIcon, sOpenIcon)
-{
+function WebFXTreeItem(sText, oAction, eParent, sIcon, sOpenIcon) {
 	WebFXTreeAbstractNode.call(this, sText, oAction);
-	if (sIcon)
-		this.icon = sIcon;
-	if (sOpenIcon)
-		this.openIcon = sOpenIcon;
-	if (eParent)
-		eParent.add(this);
+	if (sIcon) this.icon = sIcon;
+	if (sOpenIcon) this.openIcon = sOpenIcon;
+	if (eParent) eParent.add(this);
 }
 
 _p = WebFXTreeItem.prototype = new WebFXTreeAbstractNode;
@@ -1604,48 +1517,49 @@ _p.tree = null;
 
 /* tree model */
 
-_p.getDepth = function ()
-{
-	if (this.depth != null)
+_p.getDepth = function () {
+	if (this.depth != null) {
 		return this.depth;
-	if (this.parentNode)
-	{
+	}
+	if (this.parentNode) {
 		var pd = this.parentNode.getDepth();
 		return this.depth = (pd != null ? pd + 1 : null);
 	}
 	return null;
 };
 
-_p.getTree = function ()
-{
-	if (this.tree)
+_p.getTree = function () {
+	if (this.tree) {
 		return this.tree;
-	if (this.parentNode)
+	}
+	if (this.parentNode) {
 		return this.tree = this.parentNode.getTree();
+	}
 	return null;
 };
 
-_p.getCreated = function ()
-{
+_p.getCreated = function () {
 	var t = this.getTree();
 	return t && t.getCreated();
 };
 
 // if classic then the openIcon is used for expanded, otherwise openIcon is used
 // for selected
-_p.getIconSrc = function ()
-{
+_p.getIconSrc = function () {
 	var behavior = this.getTree() ? this.getTree().getBehavior() : webFXTreeConfig.defaultBehavior;
 	var open = behavior == "classic" && this.getExpanded() ||
 	           behavior != "classic" && this.isSelected();
-	if (open && this.openIcon)
+	if (open && this.openIcon) {
 		return this.openIcon;
-	if (!open && this.icon)
+	}
+	if (!open && this.icon) {
 		return this.icon;
+	}
 
 	// fall back on default icons
-	if (this.hasChildren())
+	if (this.hasChildren()) {
 		return open ? webFXTreeConfig.openFolderIcon : webFXTreeConfig.folderIcon;
+	}
 	return webFXTreeConfig.fileIcon;
 };
 
@@ -1654,10 +1568,8 @@ _p.getIconSrc = function ()
 
 
 
-if (window.attachEvent)
-{
-	window.attachEvent("onunload", function ()
-	{
+if (window.attachEvent) {
+	window.attachEvent("onunload", function () {
 		for (var id in webFXTreeHandler.all)
 			webFXTreeHandler.all[id].dispose();
 	});

@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.47 2005/07/19 11:17:28 jollytoad Exp $
+	 * $Id: browser.php,v 1.48 2005/07/19 15:28:24 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -14,11 +14,10 @@
 	
 	// Output header
 	$misc->printHeader('', '
-		<script src="xloadtree/xmlextras.js" type="text/javascript"></script>
 		<script src="xloadtree/xtree2.js" type="text/javascript"></script>
 		<script src="xloadtree/xloadtree2.js" type="text/javascript"></script>
 		<style type="text/css">
-			.webfx-tree-children { background-image: url("' . $misc->icon('I')  .'"); }
+			.webfx-tree-children { background-image: url("' . $misc->icon('I') . '"); }
 		</style>');
 	
 	$misc->printBody('browser');
