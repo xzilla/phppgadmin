@@ -26,6 +26,9 @@ Need to fix:
 	1,
 	2;
 
+* redirect.php doesn't work for database's after certain tabs have been
+  selected, eg. 'Variables', 'Processes'.
+
 NEEDS TESTING
 -------------
 
