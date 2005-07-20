@@ -52,7 +52,7 @@
 
 webFXTreeConfig.loadingText = "Loading...";
 webFXTreeConfig.loadingIcon = "images/loading.gif";
-webFXTreeConfig.errorLoadingText = "Error Loading ";
+webFXTreeConfig.errorLoadingText = "Error Loading";
 webFXTreeConfig.errorIcon = "images/exclamation.16.png";
 webFXTreeConfig.reloadText = "Click to reload";
 
@@ -391,9 +391,9 @@ WebFXLoadTree.documentLoaded = function (jsNode) {
 	// check that the load of the xml file went well
 	if(!doc || doc.parserError && doc.parseError.errorCode != 0 || !doc.documentElement) {
 		if (!doc || doc.parseError.errorCode == 0) {
-			jsNode.errorText = webFXTreeConfig.errorLoadingText + jsNode.src + " (" + jsNode._xmlHttp.status + ": " + jsNode._xmlHttp.statusText + ")";
+			jsNode.errorText = webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (" + jsNode._xmlHttp.status + ": " + jsNode._xmlHttp.statusText + ")";
 		} else {
-			jsNode.errorText = webFXTreeConfig.errorLoadingText + jsNode.src + " (" + doc.parseError.reason + ")";
+			jsNode.errorText = webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (" + doc.parseError.reason + ")";
 		}
 	} else {
 		// there is one extra level of tree elements
@@ -412,7 +412,7 @@ WebFXLoadTree.documentLoaded = function (jsNode) {
 
 		// if no children we got an error
 		if (count == 0) {
-			jsNode.errorText = webFXTreeConfig.errorLoadingText + jsNode.src + " (???)";
+			jsNode.errorText = webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (???)";
 		}
 	}
 
