@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.73 2005/07/25 18:54:16 soranzo Exp $
+	 * $Id: database.php,v 1.74 2005/07/25 20:59:59 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -540,7 +540,10 @@
 
 		$reqvars = $misc->getRequestVars('database');
 
-		$tabs = $misc->getNavTabs('database');
+		if ($data->hasSchemas())
+			$tabs = $misc->getNavTabs('database');
+		else
+			$tabs = array_merge($misc->getNavTabs('schema'), $misc->getNavTabs('database'));
 		
 		// Show slony node if enabled on this database
 		if (isset($slony)) {
