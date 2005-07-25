@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.48 2005/07/19 15:28:24 jollytoad Exp $
+	 * $Id: browser.php,v 1.49 2005/07/25 08:13:02 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -51,11 +51,11 @@ webFXTreeConfig.reloadText		= "<?php echo $lang['strclicktoreload'] ?>";
 WebFXTreeAbstractNode.prototype.target = 'detail';
 
 // Disable double click:
-WebFXTreeAbstractNode.prototype._onDblClick = function(){}
+WebFXTreeAbstractNode.prototype._ondblclick = function(){}
 
 // Show tree XML on double click - for debugging purposes only
 // TODO: REMOVE THIS BEFORE RELEASE
-WebFXTreeAbstractNode.prototype._onDblClick = function(e){
+WebFXTreeAbstractNode.prototype._ondblclick = function(e){
 	var el = e.target || e.srcElement;
 
 	if (this.src != null)
