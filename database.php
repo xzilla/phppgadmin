@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.72 2005/07/08 08:30:30 jollytoad Exp $
+	 * $Id: database.php,v 1.73 2005/07/25 18:54:16 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -609,10 +609,7 @@
 			doSignal();
 			break;
 		default:
-			if ($data->hasSchemas())
-				doDefault();
-			else
-				doSQL();
+			doSQL();
 			break;
 	}
 
