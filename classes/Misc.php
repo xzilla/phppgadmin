@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.106 2005/07/15 08:03:12 chriskl Exp $
+	 * $Id: Misc.php,v 1.107 2005/07/25 21:01:59 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -397,8 +397,8 @@
 					case 'database':
 					case 'schema':
 						if ($data->hasSchemas() === false) {
-							$this->printTabs($this->getNavTabs('database'),$activetab);
-							$this->printTabs($this->getNavTabs('schema'),$activetab);
+							$this->printTabs($this->getNavTabs('database'), $activetab);
+							$this->printTabs($this->getNavTabs('schema'), $activetab);
 							$_SESSION['webdbLastTab']['database'] = $activetab;
 							return;
 						}
@@ -410,7 +410,7 @@
 			
 			echo "<table class=\"tabs\"><tr>\n";
 			
-			# FIXME: don't count hiden tags
+			# FIXME: don't count hidden tags
 			$width = round(100 / count($tabs)).'%';
 			
 			foreach ($tabs as $tab_id => $tab) {
