@@ -38,6 +38,7 @@ Bugs
 * Add automatic browser language selection for all languages
 * Stop duplicate insert on re-POST of data
 * Fix bug with exporting schema for servers < 7.3
+* Fix opclasses on 7.2 and below
 
 Translations
 * Japanese from Tadashi Jokagi
