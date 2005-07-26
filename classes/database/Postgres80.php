@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.15 2005/06/22 14:21:08 chriskl Exp $
+ * $Id: Postgres80.php,v 1.16 2005/07/26 18:49:19 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -133,33 +133,7 @@ class Postgres80 extends Postgres74 {
 		$sql = "ALTER DATABASE \"{$dbName}\" OWNER TO \"{$newOwner}\"";
 		return $this->execute($sql);
 	}
-	// Schema functions
 
-	/**
-	 * Return all schemas in the current database
-	 * @return All schemas, sorted alphabetically
-	 */
-	function &getSchemas() {
-		global $conf, $slony;
-
-		if (!$conf['show_system']) {
-			$and = "AND nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
-			if (isset($slony) && $slony->isEnabled()) {
-				$temp = $slony->slony_schema;
-				$this->clean($temp);
-				$and .= " AND nspname != '{$temp}'";
-			}			
-			
-		}
-		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
-		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
-                        FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
-			WHERE pn.nspowner = pu.usesysid
-			{$and} ORDER BY nspname";
-
-		return $this->selectSet($sql);
-	}
-	
 	// Table functions
 	
 	/**

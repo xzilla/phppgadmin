@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.147 2005/07/25 21:41:46 xzilla Exp $
+ * $Id: Postgres73.php,v 1.148 2005/07/26 18:49:19 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -120,7 +120,7 @@ class Postgres73 extends Postgres72 {
 
 		if (!$conf['show_system']) {
 			$and = "AND nspname NOT LIKE 'pg\\\\_%'";
-			if (isset($slony)) {
+			if (isset($slony) && $slony->isEnabled()) {
 				$temp = $slony->slony_schema;
 				$this->clean($temp);
 				$and .= " AND nspname != '{$temp}'";
@@ -134,7 +134,6 @@ class Postgres73 extends Postgres72 {
 
 		return $this->selectSet($sql);
 	}
-
 
 	/**
 	 * Return all information relating to a schema
