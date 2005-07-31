@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.95.2.2 2005/04/13 08:33:01 chriskl Exp $
+	 * $Id: Misc.php,v 1.95.2.3 2005/07/31 09:18:39 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -264,7 +264,7 @@
 		/**
 		 * Creates a database accessor
 		 */
-		function &getDatabaseAccessor($database) {
+		function getDatabaseAccessor($database) {
 			global $conf;
 
 			// Create the connection object and make the connection

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.250.2.2 2005/02/10 21:18:43 mr-russ Exp $
+ * $Id: Postgres.php,v 1.250.2.3 2005/07/31 09:18:39 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -179,7 +179,7 @@ class Postgres extends ADODB_base {
 	/**
 	 * Initialize help pages and return the full list
 	 */
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc70.php');
 		return $this->help_page;
 	}
@@ -398,7 +398,7 @@ class Postgres extends ADODB_base {
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases() {
+	function getDatabases() {
 		global $conf;
 
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
@@ -429,7 +429,7 @@ class Postgres extends ADODB_base {
 	 * @param $database The name of the database to retrieve
 	 * @return The database info
 	 */
-	function &getDatabase($database) {
+	function getDatabase($database) {
 		$this->clean($database);
 		$sql = "SELECT * FROM pg_database WHERE datname='{$database}'";
 		return $this->selectSet($sql);
@@ -507,7 +507,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The table to find the parents for
 	 * @return A recordset
 	 */
-	function &getTableParents($table) {
+	function getTableParents($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -531,7 +531,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The table to find the children for
 	 * @return A recordset
 	 */
-	function &getTableChildren($table) {
+	function getTableChildren($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -554,7 +554,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The name of the table
 	 * @return A recordset
 	 */
-	function &getTable($table) {
+	function getTable($table) {
 		$this->clean($table);
 				
 		$sql = "SELECT pc.relname, 
@@ -572,7 +572,7 @@ class Postgres extends ADODB_base {
 	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables($all = false) {
+	function getTables($all = false) {
 		global $conf;
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
@@ -595,7 +595,7 @@ class Postgres extends ADODB_base {
 	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table, $field = '') {
+	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
 		
@@ -898,7 +898,7 @@ class Postgres extends ADODB_base {
 	 * @return A string containing the formatted SQL code
 	 * @return null On error
 	 */
-	function &getTableDefPrefix($table, $clean = false) {
+	function getTableDefPrefix($table, $clean = false) {
 		// Fetch table
 		$t = &$this->getTable($table);
 		if (!is_object($t) || $t->recordCount() != 1) {
@@ -1206,7 +1206,7 @@ class Postgres extends ADODB_base {
 	 * @return A string containing the formatted SQL code
 	 * @return null On error
 	 */
-	function &getTableDefSuffix($table) {
+	function getTableDefSuffix($table) {
 		$sql = '';
 
 		// Indexes
@@ -1686,7 +1686,7 @@ class Postgres extends ADODB_base {
 	 * @param $key The associative array holding the key to retrieve
 	 * @return A recordset
 	 */
-	function &browseRow($table, $key) {
+	function browseRow($table, $key) {
 		$this->fieldClean($table);
 
 		$sql = "SELECT * FROM \"{$table}\"";
@@ -1752,7 +1752,7 @@ class Postgres extends ADODB_base {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences() {
+	function getSequences() {
 		$sql = "SELECT
 					c.relname AS seqname,
 					u.usename AS seqowner,
@@ -1768,7 +1768,7 @@ class Postgres extends ADODB_base {
 	 * @param $sequence Sequence name
 	 * @return A recordset
 	 */
-	function &getSequence($sequence) {
+	function getSequence($sequence) {
 		$temp = $sequence;
 		// Need both field cleaned and literal cleaned versions
 		$this->fieldClean($sequence);
@@ -1802,7 +1802,7 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 * @return -1 sequence not found
 	 */
-	function &resetSequence($sequence) {
+	function resetSequence($sequence) {
 		// Get the minimum value of the sequence
 		$seq = &$this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
@@ -1855,7 +1855,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getConstraints($table) {
+	function getConstraints($table) {
 		$this->clean($table);
 
 		$status = $this->beginTransaction();
@@ -2076,7 +2076,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The table to find referrers for
 	 * @return A recordset
 	 */
-	function &getReferrers($table) {
+	function getReferrers($table) {
 		// In PostgreSQL < 7.3, there is no way to discover foreign keys
 		return -99;
 	}
@@ -2088,7 +2088,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The name of a table whose indexes to retrieve
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function getIndexes($table = '') {
 		$this->clean($table);
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, pg_get_indexdef(i.indexrelid) AS inddef
 			FROM pg_class c, pg_class c2, pg_index i
@@ -2172,7 +2172,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getRules($table) {
+	function getRules($table) {
 		$this->clean($table);
 
 		$sql = "SELECT
@@ -2277,7 +2277,7 @@ class Postgres extends ADODB_base {
 	 * Returns a list of all views in the database
 	 * @return All views
 	 */
-	function &getViews() {
+	function getViews() {
 		global $conf;
 
 		if (!$conf['show_system'])
@@ -2300,7 +2300,7 @@ class Postgres extends ADODB_base {
 	 * @param $view The name of the view to retrieve
 	 * @return View info
 	 */
-	function &getView($view) {
+	function getView($view) {
 		$this->clean($view);
 		
 		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
@@ -2401,7 +2401,7 @@ class Postgres extends ADODB_base {
 	 * Returns a list of all operators in the database
 	 * @return All operators
 	 */
-	function &getOperators() {
+	function getOperators() {
 		global $conf;
 		if (!$conf['show_system'])
 			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
@@ -2503,7 +2503,7 @@ class Postgres extends ADODB_base {
 	 * Returns all users in the database cluster
 	 * @return All users
 	 */
-	function &getUsers() {
+	function getUsers() {
 		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
 		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
 		$sql .= " FROM pg_user ORDER BY usename";
@@ -2516,7 +2516,7 @@ class Postgres extends ADODB_base {
 	 * @param $username The username of the user to retrieve
 	 * @return The user's data
 	 */
-	function &getUser($username) {
+	function getUser($username) {
 		$this->clean($username);
 		
 		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
@@ -2611,7 +2611,7 @@ class Postgres extends ADODB_base {
 	 * Returns all groups in the database cluser
 	 * @return All groups
 	 */
-	function &getGroups() {
+	function getGroups() {
 		$sql = "SELECT groname FROM pg_group ORDER BY groname";
 		
 		return $this->selectSet($sql);
@@ -2622,7 +2622,7 @@ class Postgres extends ADODB_base {
 	 * @param $groname The name of the group
 	 * @return All users in the group
 	 */
-	function &getGroup($groname) {
+	function getGroup($groname) {
 		$this->clean($groname);
 
 		$sql = "SELECT grolist FROM pg_group WHERE groname = '{$groname}'";
@@ -2711,7 +2711,7 @@ class Postgres extends ADODB_base {
 	 * @param $domains Ignored
 	 * @return A recordet
 	 */
-	function &getTypes($all = false, $tabletypes = false, $domains = false) {
+	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		global $conf;
 		
 		if ($all || $conf['show_system']) {
@@ -2751,7 +2751,7 @@ class Postgres extends ADODB_base {
 	 * @param $typname The name of the view to retrieve
 	 * @return Type info
 	 */
-	function &getType($typname) {
+	function getType($typname) {
 		$this->clean($typname);
 		
 		$sql = "SELECT *, typinput AS typin, typoutput AS typout 
@@ -2811,7 +2811,7 @@ class Postgres extends ADODB_base {
 	 * @param $trigger An array containing fields from the trigger table
 	 * @return The trigger definition string
 	 */
-	function &getTriggerDef($trigger) {
+	function getTriggerDef($trigger) {
 		// Constants to figure out tgtype
 
 		if (!defined('TRIGGER_TYPE_ROW')) define ('TRIGGER_TYPE_ROW', (1 << 0));
@@ -2908,7 +2908,7 @@ class Postgres extends ADODB_base {
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
 	 */
-	function &getTriggers($table = '') {
+	function getTriggers($table = '') {
 		$this->clean($table);
 
 		// We include constraint triggers
@@ -3297,7 +3297,7 @@ class Postgres extends ADODB_base {
  	 * @param $all If true, will find all available functions, if false just userland ones
 	 * @return All functions
 	 */
-	function &getFunctions($all = false) {
+	function getFunctions($all = false) {
 		global $conf;
 		
 		if ($all || $conf['show_system'])
@@ -3344,7 +3344,7 @@ class Postgres extends ADODB_base {
 	/**
 	 * Returns a list of all functions that can be used in triggers
 	 */
-	function &getTriggerFunctions() {
+	function getTriggerFunctions() {
 		return $this->getFunctions(true);
 	}
 
@@ -3532,7 +3532,7 @@ class Postgres extends ADODB_base {
 	 * @param $all True to get all languages, regardless of show_system
 	 * @return A recordset
 	 */
-	function &getLanguages($all = false) {
+	function getLanguages($all = false) {
 		global $conf;
 		
 		if ($conf['show_system'] || $all)
@@ -3561,7 +3561,7 @@ class Postgres extends ADODB_base {
 	 * Gets all aggregates
 	 * @return A recordset
 	 */
-	function &getAggregates() {
+	function getAggregates() {
 		global $conf;
 		
 		if ($conf['show_system'])
@@ -3593,7 +3593,7 @@ class Postgres extends ADODB_base {
 	 * Gets all opclasses
 	 * @return A recordset
 	 */
-	function &getOpClasses() {
+	function getOpClasses() {
 		global $conf;
 		
 		if ($conf['show_system'])
@@ -3846,7 +3846,7 @@ class Postgres extends ADODB_base {
 	 * @return -3 page or page_size invalid
 	 * @return -4 unknown type
 	 */
-	function &browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
+	function browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
 		// Check that we're not going to divide by zero
 		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
 
@@ -3930,7 +3930,7 @@ class Postgres extends ADODB_base {
 	 * @return A recordset on success
 	 * @return -1 Failed to set datestyle
 	 */
-	function &dumpRelation($relation, $oids) {
+	function dumpRelation($relation, $oids) {
 		$this->fieldClean($relation);
 		
 		// Actually retrieve the rows

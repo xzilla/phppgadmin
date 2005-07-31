@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.7.2.3 2005/03/15 02:59:12 chriskl Exp $
+ * $Id: Postgres80.php,v 1.7.2.4 2005/07/31 09:18:40 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -36,7 +36,7 @@ class Postgres80 extends Postgres74 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc80.php');
 		return $this->help_page;
 	}
@@ -47,7 +47,7 @@ class Postgres80 extends Postgres74 {
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases() {
+	function getDatabases() {
 		global $conf;
 
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
@@ -80,7 +80,7 @@ class Postgres80 extends Postgres74 {
 	 * Return all schemas in the current database
 	 * @return All schemas, sorted alphabetically
 	 */
-	function &getSchemas() {
+	function getSchemas() {
 		global $conf;
 
 		if (!$conf['show_system']) $and = "AND nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
@@ -100,7 +100,7 @@ class Postgres80 extends Postgres74 {
 	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables($all = false) {
+	function getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
@@ -127,7 +127,7 @@ class Postgres80 extends Postgres74 {
 	 * @param $table The name of the table
 	 * @return A recordset
 	 */
-	function &getTable($table) {
+	function getTable($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -265,7 +265,7 @@ class Postgres80 extends Postgres74 {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences() {
+	function getSequences() {
 		$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
 			(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
 			FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n

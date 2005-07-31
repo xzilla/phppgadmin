@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.68 2004/11/10 01:46:35 chriskl Exp $
+ * $Id: Postgres71.php,v 1.68.2.1 2005/07/31 09:18:39 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -61,7 +61,7 @@ class Postgres71 extends Postgres {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc71.php');
 		return $this->help_page;
 	}
@@ -85,7 +85,7 @@ class Postgres71 extends Postgres {
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases() {
+	function getDatabases() {
 		global $conf;
 
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($_SESSION['webdbUsername'])) {
@@ -130,7 +130,7 @@ class Postgres71 extends Postgres {
 	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table, $field = '') {
+	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
 		
@@ -184,7 +184,7 @@ class Postgres71 extends Postgres {
 	 * @return 0 success
 	 * @return -1 sequence not found
 	 */
-	function &resetSequence($sequence) {
+	function resetSequence($sequence) {
 		// Get the minimum value of the sequence
 		$seq = &$this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
@@ -263,7 +263,7 @@ class Postgres71 extends Postgres {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getConstraints($table) {
+	function getConstraints($table) {
 		$this->clean($table);
 
 		$status = $this->beginTransaction();
@@ -312,7 +312,7 @@ class Postgres71 extends Postgres {
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
 	 */
-	function &getTriggers($table = '') {
+	function getTriggers($table = '') {
 		$this->clean($table);
 
 		// We include constraint triggers
@@ -334,7 +334,7 @@ class Postgres71 extends Postgres {
 	 * Gets all aggregates
 	 * @return A recordset
 	 */
-	function &getAggregates() {
+	function getAggregates() {
 		global $conf;
 		
 		if ($conf['show_system'])

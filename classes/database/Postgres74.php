@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.41 2004/10/06 08:43:33 jollytoad Exp $
+ * $Id: Postgres74.php,v 1.41.2.1 2005/07/31 09:18:40 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -27,7 +27,7 @@ class Postgres74 extends Postgres73 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc74.php');
 		return $this->help_page;
 	}
@@ -105,7 +105,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $groname The name of the group
 	 * @return All users in the group
 	 */
-	function &getGroup($groname) {
+	function getGroup($groname) {
 		$this->clean($groname);
 
 		$sql = "SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g 
@@ -122,7 +122,7 @@ class Postgres74 extends Postgres73 {
 	 * in 7.3 only in that it considers the information_schema to be a system schema.
 	 * @return All schemas, sorted alphabetically
 	 */
-	function &getSchemas() {
+	function getSchemas() {
 		global $conf;
 		
 		if (!$conf['show_system']) $and = "WHERE nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
@@ -142,7 +142,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $table The name of a table whose indexes to retrieve
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '') {
+	function getIndexes($table = '') {
 		$this->clean($table);
 
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
@@ -162,7 +162,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $view The name of the view to retrieve
 	 * @return View info
 	 */
-	function &getView($view) {
+	function getView($view) {
 		$this->clean($view);
 		
 		$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
@@ -181,7 +181,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
 	 */
-	function &getTriggers($table = '') {
+	function getTriggers($table = '') {
 		$this->clean($table);
 
 		$sql = "SELECT t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef
@@ -203,7 +203,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getConstraints($table) {
+	function getConstraints($table) {
 		$this->clean($table);
 
 		// This SQL is greatly complicated by the need to retrieve
@@ -264,7 +264,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $domain The name of the domain whose constraints to fetch
 	 * @return A recordset
 	 */
-	function &getDomainConstraints($domain) {
+	function getDomainConstraints($domain) {
 		$this->clean($domain);
 		
 		$sql = "

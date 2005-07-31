@@ -1,6 +1,12 @@
 phpPgAdmin History
 ------------------
 
+Version 3.5.5
+-------------
+
+Bugs
+* Fix for PHP 4.4.0's new strict references
+
 Version 3.5.4
 -------------
 
