@@ -24,6 +24,8 @@ Features
 * Avoid getting and setting encoding queries if possible
 * Avoid version query in PHP 5 / PostgreSQL 7.4+
 * Avoid query for superuser status in PHP 5 / PostgreSQL 7.4+
+* Allow re-using username and password for all servers - saves re-entering
+  username and password for every server in a pool.
   
 Bugs
 * Tree Icons are displayed middle instead of top

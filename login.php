@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.27 2005/05/09 11:23:55 soranzo Exp $
+	 * $Id: login.php,v 1.28 2005/07/31 08:40:26 chriskl Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -23,6 +23,8 @@
 
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 <?php
+	// Set sharePassword by default
+	if (!isset($_POST['loginUsername'])) $_POST['sharePassword'] = 'on';
 	if (!empty($_POST)) $vars =& $_POST;
 	else $vars =& $_GET;
 	// Pass request vars through form (is this a security risk???)
@@ -42,6 +44,7 @@
    <td><input type="password" name="loginPassword" size="24" /></td>
   </tr>
  </table>
+ <p><input type="checkbox" name="sharePassword" <?= isset($_POST['sharePassword']) ? 'checked="checked"' : '' ?> /><?= $lang['strtrycred'] ?></p>
  <p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>
 

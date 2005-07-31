@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.99 2005/06/26 07:10:42 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.100 2005/07/31 08:40:26 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -86,6 +86,12 @@
 		$_server_info['password'] = $_POST['loginPassword'];
 		
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
+
+		// Check for shared credentials
+		if (isset($_POST['sharePassword'])) {
+			$_SESSION['sharedUsername'] = $_POST['loginUsername'];
+			$_SESSION['sharedPassword'] = $_POST['loginPassword'];
+		}
 		
 		$_reload_browser = true;
 	}
@@ -155,15 +161,14 @@
 			die('No server supplied!');
 			# TODO: nice error
 		}
-		
 		$_server_info = $misc->getServerInfo();
-		
+
 		// Redirect to the login form if not logged in
 		if (!isset($_server_info['username'])) {
 			include('./login.php');
 			exit;
 		}
-		
+
 		// Connect to the current database, or if one is not specified
 		// then connect to the default database.
 		if (isset($_REQUEST['database']))

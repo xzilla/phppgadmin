@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.107 2005/07/25 21:01:59 soranzo Exp $
+	 * $Id: Misc.php,v 1.108 2005/07/31 08:40:26 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -1488,7 +1488,7 @@
 			global $conf;
 			
 			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
-			
+
 			foreach($conf['servers'] as $idx => $info) {
 				$server_id = $info['host'].':'.$info['port'];
 				
@@ -1518,8 +1518,8 @@
 		 * @return An associative array of server properties
 		 */
 		function getServerInfo($server_id = null) {
-			global $conf;
-			
+			global $conf, $_reload_browser;
+
 			if ($server_id === null && isset($_REQUEST['server']))
 				$server_id = $_REQUEST['server'];
 			
@@ -1529,8 +1529,17 @@
 			
 			// Otherwise, look for it in the conf file
 			foreach($conf['servers'] as $idx => $info) {
-				if ($server_id == $info['host'].':'.$info['port'])
+				if ($server_id == $info['host'].':'.$info['port']) {
+					// Automatically use shared credentials if available
+					if (!isset($info['username']) && isset($_SESSION['sharedUsername'])) {
+						$info['username'] = 	$_SESSION['sharedUsername'];
+						$info['password'] = 	$_SESSION['sharedPassword'];
+						$_reload_browser = true;
+						$this->setServerInfo(null, $info, $server_id);
+					}
+					
 					return $info;
+				}
 			}
 			
 			return null;
