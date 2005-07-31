@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.148 2005/07/26 18:49:19 xzilla Exp $
+ * $Id: Postgres73.php,v 1.149 2005/07/31 09:15:07 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -54,7 +54,7 @@ class Postgres73 extends Postgres72 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc73.php');
 		return $this->help_page;
 	}
@@ -115,7 +115,7 @@ class Postgres73 extends Postgres72 {
 	 * Return all schemas in the current database
 	 * @return All schemas, sorted alphabetically - but with PUBLIC first (if it exists)
 	 */
-	function &getSchemas() {
+	function getSchemas() {
 		global $conf, $slony;
 
 		if (!$conf['show_system']) {
@@ -140,7 +140,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $schema The name of the schema
 	 * @return Schema information
 	 */
-	function &getSchemaByName($schema) {
+	function getSchemaByName($schema) {
 		$this->clean($schema);
 		$sql = "SELECT nspname, nspowner, nspacl, pg_catalog.obj_description(pn.oid, 'pg_namespace') as nspcomment
                         FROM pg_catalog.pg_namespace pn
@@ -215,7 +215,7 @@ class Postgres73 extends Postgres72 {
 	 * Returns all available variable information.
 	 * @return A recordset
 	 */
-	function &getVariables() {
+	function getVariables() {
 		$sql = "SHOW ALL";
 		
 		return $this->selectSet($sql);
@@ -226,7 +226,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $database (optional) Find only connections to specified database
 	 * @return A recordset
 	 */
-	function &getProcesses($database = null) {
+	function getProcesses($database = null) {
 		if ($database === null)
 			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
 		else {
@@ -346,7 +346,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The name of the table
 	 * @return A recordset
 	 */
-	function &getTable($table) {
+	function getTable($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -368,7 +368,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables($all = false) {
+	function getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
@@ -395,7 +395,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table, $field = '') {
+	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
 
@@ -499,7 +499,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The table to find the parents for
 	 * @return A recordset
 	 */
-	function &getTableParents($table) {
+	function getTableParents($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -525,7 +525,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The table to find the children for
 	 * @return A recordset
 	 */
-	function &getTableChildren($table) {
+	function getTableChildren($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -563,7 +563,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $view The name of the view to retrieve
 	 * @return View info
 	 */
-	function &getView($view) {
+	function getView($view) {
 		$this->clean($view);
 
 		$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
@@ -594,7 +594,7 @@ class Postgres73 extends Postgres72 {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences($all = false) {
+	function getSequences($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
@@ -618,7 +618,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $sequence Sequence name
 	 * @return A recordset
 	 */
-	function &getSequence($sequence) {
+	function getSequence($sequence) {
 		$this->fieldClean($sequence);
 	
 		$sql = "SELECT sequence_name AS seqname, *, pg_catalog.obj_description(s.tableoid, 'pg_class') AS seqcomment FROM \"{$sequence}\" AS s"; 
@@ -632,7 +632,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $unique Only get unique/pk indexes
 	 * @return A recordset
 	 */
-	function &getIndexes($table = '', $unique = false) {
+	function getIndexes($table = '', $unique = false) {
 		$this->clean($table);
 		
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
@@ -653,7 +653,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $trigger The name of the trigger to retrieve
 	 * @return A recordset
 	 */
-	function &getTrigger($table, $trigger) {
+	function getTrigger($table, $trigger) {
 		$this->clean($table);
 		$this->clean($trigger);
 
@@ -671,7 +671,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
 	 */
-	function &getTriggers($table = '') {
+	function getTriggers($table = '') {
 		$this->clean($table);
 
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
@@ -717,7 +717,7 @@ class Postgres73 extends Postgres72 {
 	 *
   	 * @return All functions
 	 */
-	function &getFunctions($all = false, $type = null) {
+	function getFunctions($all = false, $type = null) {
 		if ($all) {
 			$where = 'pg_catalog.pg_function_is_visible(p.oid)';
 			$distinct = 'DISTINCT ON (p.proname)';
@@ -823,7 +823,7 @@ class Postgres73 extends Postgres72 {
 	/**
 	 * Returns a list of all functions that can be used in triggers
 	 */
-	function &getTriggerFunctions() {
+	function getTriggerFunctions() {
 		return $this->getFunctions(true, 'trigger');
 	}
 
@@ -889,7 +889,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $domains If true, will include domains
 	 * @return A recordet
 	 */
-	function &getTypes($all = false, $tabletypes = false, $domains = false) {
+	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		if ($all)
 			$where = 'pg_catalog.pg_type_is_visible(t.oid)';
 		else
@@ -1042,7 +1042,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getRules($table) {
+	function getRules($table) {
 		$this->clean($table);
 
 		$sql = "SELECT 
@@ -1083,7 +1083,7 @@ class Postgres73 extends Postgres72 {
 	 * @return An array of linked tables and columns
 	 * @return -1 $tables isn't an array
 	 */
-	 function &getLinkingKeys($tables) {
+	 function getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
 
 		
@@ -1162,7 +1162,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The table to find rules for
 	 * @return A recordset
 	 */
-	function &getConstraints($table) {
+	function getConstraints($table) {
 		$this->clean($table);
 
 		/* This query finds all foreign key and check constraints in the pg_constraint
@@ -1241,7 +1241,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $table The table to find referrers for
 	 * @return A recordset
 	 */
-	function &getReferrers($table) {
+	function getReferrers($table) {
 		$this->clean($table);
 
 		$status = $this->beginTransaction();
@@ -1327,7 +1327,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $domain The name of the domain to fetch
 	 * @return A recordset
 	 */
-	function &getDomain($domain) {
+	function getDomain($domain) {
 		$this->clean($domain);
 		
 		$sql = "
@@ -1353,7 +1353,7 @@ class Postgres73 extends Postgres72 {
 	 * Return all domains in current schema.  Excludes domain constraints.
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getDomains() {
+	function getDomains() {
 		$sql = "		
 			SELECT
 				t.typname AS domname, 
@@ -1583,7 +1583,7 @@ class Postgres73 extends Postgres72 {
 	 * Returns a list of all operators in the database
 	 * @return All operators
 	 */	 
-	function &getOperators() {
+	function getOperators() {
 		// We stick with the subselects here, as you cannot ORDER BY a regtype
 		$sql = "
 			SELECT
@@ -1644,7 +1644,7 @@ class Postgres73 extends Postgres72 {
 	 * Returns a list of all casts in the database
 	 * @return All casts
 	 */	 
-	function &getCasts() {
+	function getCasts() {
 		global $conf;
 				
 		if ($conf['show_system'])
@@ -1687,7 +1687,7 @@ class Postgres73 extends Postgres72 {
 	 * Returns a list of all conversions in the database
 	 * @return All conversions
 	 */	 
-	function &getConversions() {
+	function getConversions() {
 		$sql = "
 			SELECT
 			       c.conname,
@@ -1711,7 +1711,7 @@ class Postgres73 extends Postgres72 {
 	 * @param $all True to get all languages, regardless of show_system
 	 * @return A recordset
 	 */
-	function &getLanguages($all = false) {
+	function getLanguages($all = false) {
 		global $conf;
 		
 		if ($conf['show_system'] || $all)
@@ -1740,7 +1740,7 @@ class Postgres73 extends Postgres72 {
 	 * Gets all aggregates
 	 * @return A recordset
 	 */
-	function &getAggregates() {
+	function getAggregates() {
 		$sql = "
 			SELECT
 				p.proname,
@@ -1767,7 +1767,7 @@ class Postgres73 extends Postgres72 {
 	 * Gets all opclasses
 	 * @return A recordset
 	 */
-	function &getOpClasses() {
+	function getOpClasses() {
 		$sql = "
 			SELECT
 				pa.amname,

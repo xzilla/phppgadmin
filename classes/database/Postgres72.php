@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.79 2005/05/02 15:47:26 chriskl Exp $
+ * $Id: Postgres72.php,v 1.80 2005/07/31 09:15:06 chriskl Exp $
  */
 
 
@@ -40,7 +40,7 @@ class Postgres72 extends Postgres71 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc72.php');
 		return $this->help_page;
 	}
@@ -50,7 +50,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $database (optional) Find only connections to specified database
 	 * @return A recordset
 	 */
-	function &getProcesses($database = null) {
+	function getProcesses($database = null) {
 		if ($database === null)
 			$sql = "SELECT * FROM pg_stat_activity ORDER BY datname, usename, procpid";
 		else {
@@ -97,7 +97,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The name of the table
 	 * @return A recordset
 	 */
-	function &getTable($table) {
+	function getTable($table) {
 		$this->clean($table);
 				
 		$sql = "SELECT pc.relname, 
@@ -115,7 +115,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables($all = false) {
+	function getTables($all = false) {
 		global $conf;
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
@@ -134,7 +134,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $field (optional) The name of a field to return
 	 * @return All attributes in order
 	 */
-	function &getTableAttributes($table, $field = '') {
+	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
 
@@ -185,7 +185,7 @@ class Postgres72 extends Postgres71 {
 	 * Returns a list of all views in the database
 	 * @return All views
 	 */
-	function &getViews() {
+	function getViews() {
 		global $conf;
 
 		if (!$conf['show_system'])
@@ -208,7 +208,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $view The name of the view to retrieve
 	 * @return View info
 	 */
-	function &getView($view) {
+	function getView($view) {
 		$this->clean($view);
 		
 		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
@@ -312,7 +312,7 @@ class Postgres72 extends Postgres71 {
  	 * @param $all If true, will find all available functions, if false just userland ones
 	 * @return All functions
 	 */
-	function &getFunctions($all = false) {
+	function getFunctions($all = false) {
 		if ($all)
 			$where = '';
 		else
@@ -408,7 +408,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $domains Ignored
 	 * @return A recordet
 	 */
-	function &getTypes($all = false, $tabletypes = false, $domains = false) {
+	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		global $conf;
 		
 		if ($all || $conf['show_system']) {
@@ -488,7 +488,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $database The database to fetch stats for
 	 * @return A recordset
 	 */
-	function &getStatsDatabase($database) {
+	function getStatsDatabase($database) {
 		$this->clean($database);
 
 		$sql = "SELECT * FROM pg_stat_database WHERE datname='{$database}'";
@@ -501,7 +501,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to fetch stats for
 	 * @return A recordset
 	 */
-	function &getStatsTableTuples($table) {
+	function getStatsTableTuples($table) {
 		$this->clean($table);
 
 		$sql = 'SELECT * FROM pg_stat_all_tables WHERE';
@@ -516,7 +516,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to fetch stats for
 	 * @return A recordset
 	 */
-	function &getStatsTableIO($table) {
+	function getStatsTableIO($table) {
 		$this->clean($table);
 
 		$sql = 'SELECT * FROM pg_statio_all_tables WHERE';
@@ -531,7 +531,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to fetch index stats for
 	 * @return A recordset
 	 */
-	function &getStatsIndexTuples($table) {
+	function getStatsIndexTuples($table) {
 		$this->clean($table);
 
 		$sql = 'SELECT * FROM pg_stat_all_indexes WHERE';
@@ -546,7 +546,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $table The table to fetch index stats for
 	 * @return A recordset
 	 */
-	function &getStatsIndexIO($table) {
+	function getStatsIndexIO($table) {
 		$this->clean($table);
 
 		$sql = 'SELECT * FROM pg_statio_all_indexes WHERE';

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.1 2005/03/15 02:44:10 chriskl Exp $
+ * $Id: Postgres81.php,v 1.2 2005/07/31 09:15:07 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -63,7 +63,7 @@ class Postgres81 extends Postgres80 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc81.php');
 		return $this->help_page;
 	}

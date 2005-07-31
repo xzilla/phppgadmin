@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.16 2005/07/26 18:49:19 xzilla Exp $
+ * $Id: Postgres80.php,v 1.17 2005/07/31 09:15:07 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -36,7 +36,7 @@ class Postgres80 extends Postgres74 {
 
 	// Help functions
 	
-	function &getHelpPages() {
+	function getHelpPages() {
 		include_once('./help/PostgresDoc80.php');
 		return $this->help_page;
 	}
@@ -47,7 +47,7 @@ class Postgres80 extends Postgres74 {
 	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
-	function &getDatabases($currentdatabase = NULL) {
+	function getDatabases($currentdatabase = NULL) {
 		global $conf, $misc;
 		
 		$server_info = $misc->getServerInfo();
@@ -141,7 +141,7 @@ class Postgres80 extends Postgres74 {
 	 * @param $all True to fetch all tables, false for just in current schema
 	 * @return All tables, sorted alphabetically 
 	 */
-	function &getTables($all = false) {
+	function getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
@@ -168,7 +168,7 @@ class Postgres80 extends Postgres74 {
 	 * @param $table The name of the table
 	 * @return A recordset
 	 */
-	function &getTable($table) {
+	function getTable($table) {
 		$this->clean($table);
 		
 		$sql = "
@@ -306,7 +306,7 @@ class Postgres80 extends Postgres74 {
 	 * Returns all sequences in the current database
 	 * @return A recordset
 	 */
-	function &getSequences($all = false) {
+	function getSequences($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner

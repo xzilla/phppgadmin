@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.12 2005/05/02 15:47:26 chriskl Exp $
+	 * $Id: Reports.php,v 1.13 2005/07/31 09:15:06 chriskl Exp $
 	 */
 
 	class Reports {
@@ -33,7 +33,7 @@
 		 * Finds all reports
 		 * @return A recordset
 		 */
-		function &getReports() {
+		function getReports() {
 			global $conf, $misc;
 			// Filter for owned reports if necessary
 			if ($conf['owned_reports_only']) {
@@ -55,7 +55,7 @@
 		 * @param $report_id The ID of the report to find
 		 * @return A recordset
 		 */
-		function &getReport($report_id) {			
+		function getReport($report_id) {			
 			$sql = $this->driver->getSelectSQL('ppa_reports',
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
 				array('report_id' => $report_id), array('report_id' => '='), array());

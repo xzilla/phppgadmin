@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.108 2005/07/31 08:40:26 chriskl Exp $
+	 * $Id: Misc.php,v 1.109 2005/07/31 09:15:06 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -253,7 +253,7 @@
 		/**
 		 * Creates a database accessor
 		 */
-		function &getDatabaseAccessor($database, $server_id = null) {
+		function getDatabaseAccessor($database, $server_id = null) {
 			global $lang, $conf, $misc;
 			
 			$server_info = $this->getServerInfo($server_id);
@@ -1418,7 +1418,7 @@
 			}
 		}
 		
-		function &adjustTabsForTree(&$tabs) {
+		function adjustTabsForTree(&$tabs) {
 			include_once('classes/ArrayRecordSet.php');
 			
 			foreach ($tabs as $i => $tab) {
@@ -1484,7 +1484,7 @@
 		 * @param $recordset return as RecordSet suitable for printTable if true,
 		 *                   otherwise just return an array.
 		 */
-		function &getServers($recordset = false) {
+		function getServers($recordset = false) {
 			global $conf;
 			
 			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
