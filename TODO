@@ -41,6 +41,7 @@ Schemas (7.3)
 
 * Rename
 * Alter owner
+* Alter ... SET SCHEMA support
 
 Large Objects
 -------------
