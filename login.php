@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.28 2005/07/31 08:40:26 chriskl Exp $
+	 * $Id: login.php,v 1.29 2005/08/01 15:40:15 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -44,7 +44,7 @@
    <td><input type="password" name="loginPassword" size="24" /></td>
   </tr>
  </table>
- <p><input type="checkbox" name="sharePassword" <?= isset($_POST['sharePassword']) ? 'checked="checked"' : '' ?> /><?= $lang['strtrycred'] ?></p>
+ <p><input type="checkbox" name="sharePassword" <?php echo isset($_POST['sharePassword']) ? 'checked="checked"' : '' ?> /><?php echo $lang['strtrycred'] ?></p>
  <p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>
 
