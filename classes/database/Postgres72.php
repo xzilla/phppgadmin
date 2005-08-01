@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.80 2005/07/31 09:15:06 chriskl Exp $
+ * $Id: Postgres72.php,v 1.81 2005/08/01 05:31:32 chriskl Exp $
  */
 
 
@@ -330,8 +330,7 @@ class Postgres72 extends Postgres71 {
 			FROM
 				pg_proc p
 			WHERE
-				p.prorettype <> 0
-				AND (pronargs = 0 OR oidvectortypes(p.proargtypes) <> '')
+				(pronargs = 0 OR oidvectortypes(p.proargtypes) <> '')
 				{$where}
 			ORDER BY
 				p.proname, proresult
