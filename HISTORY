@@ -28,6 +28,9 @@ Features
   to avoid executing selects that have write side effects.
 * Allow re-using username and password for all servers - saves re-entering
   username and password for every server in a pool.
+* Make default language 'auto' indicating auto detect.  If a language is
+  deliberately specifed, then that will always be used and no detection will
+  occur.
   
 Bugs
 * Tree Icons are displayed middle instead of top

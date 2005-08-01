@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.101 2005/07/31 09:15:07 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.102 2005/08/01 05:54:31 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -94,7 +94,6 @@
 	}
 
 	// Determine language file to import:
-	
 	// 1. Check for the language from a request var
 	if (isset($_REQUEST['language'])) {
 		$_language = strtolower($_REQUEST['language']);
@@ -108,7 +107,7 @@
 	}
 	
 	// 3. Check for acceptable languages in HTTP_ACCEPT_LANGUAGE var
-	if (!isset($_language) && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+	if (!isset($_language) && $conf['default_lang'] == 'auto' && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 		// extract acceptable language tags
 		// (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
 		preg_match_all('/\s*([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;q=([01](?:.[0-9]{0,3})?))?\s*(?:,|$)/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']), $_m, PREG_SET_ORDER);
@@ -128,12 +127,12 @@
 			unset($_acceptLang);
 		}
 	}
-	
+
 	// 4. Otherwise resort to the default set in the config file
-	if (!isset($_language) && isset($appLangFiles[$conf['default_lang']])) {
+	if (!isset($_language) && $conf['default_lang'] != 'auto' && isset($appLangFiles[$conf['default_lang']])) {
 		$_language = $conf['default_lang'];
 	}
-	
+
 	// Import the language file
 	if (isset($_language)) {
 		include("./lang/recoded/{$_language}.php");

@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.42 2005/06/22 14:21:09 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.43 2005/08/01 05:54:22 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -40,9 +40,10 @@
 	//$conf['servers'][1]['pg_dumpall_path'] = 'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dumpall.exe';
 	//$conf['servers'][1]['slony_support'] = false;
 
-	// Default language for the login screen if there's no translation
-	// matching user's browser request. Eg: 'english', 'polish', etc.
-	$conf['default_lang'] = 'english';
+	// Default language. Eg: 'english', 'polish', etc.  See lang/ directory
+	// for all possibilities. If you specify 'auto' (the default) it will use 
+	// your browser preference.
+	$conf['default_lang'] = 'auto';
 	
 	// If extra login security is true, then logins via phpPgAdmin with no
 	// password or certain usernames (pgsql, postgres, root, administrator)
