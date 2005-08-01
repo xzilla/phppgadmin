@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.109 2005/07/31 09:15:06 chriskl Exp $
+	 * $Id: Misc.php,v 1.110 2005/08/01 22:16:15 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -1532,10 +1532,9 @@
 				if ($server_id == $info['host'].':'.$info['port']) {
 					// Automatically use shared credentials if available
 					if (!isset($info['username']) && isset($_SESSION['sharedUsername'])) {
-						$info['username'] = 	$_SESSION['sharedUsername'];
-						$info['password'] = 	$_SESSION['sharedPassword'];
+						$info['username'] = $_SESSION['sharedUsername'];
+						$info['password'] = $_SESSION['sharedPassword'];
 						$_reload_browser = true;
-						$this->setServerInfo(null, $info, $server_id);
 					}
 					
 					return $info;

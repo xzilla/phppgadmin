@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.2 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: servers.php,v 1.3 2005/08/01 22:16:15 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 		global $misc, $lang, $_reload_browser;
 		
 		$server_info = $misc->getServerInfo($_REQUEST['logoutServer']);
-		$misc->setServerInfo(null,null,$_REQUEST['logoutServer']);
+		$misc->setServerInfo(null, null, $_REQUEST['logoutServer']);
 		doDefault(sprintf($lang['strlogoutmsg'], $server_info['desc']));
 		
 		$_reload_browser = true;
