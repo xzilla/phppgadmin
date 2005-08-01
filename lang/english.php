@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.179 2005/07/31 08:40:26 chriskl Exp $
+	 * $Id: english.php,v 1.180 2005/08/01 22:19:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -644,7 +644,7 @@
 	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster "%s"?';
 	$lang['strclusterdropped'] = 'Cluster dropped.';
 	$lang['strclusterdroppedbad'] = 'Cluster drop failed.';
-	$lang['strinitcluster'] = 'Initialize Cluster';
+	$lang['strinitcluster'] = 'Initialize cluster';
 	$lang['strclustercreated'] = 'Cluster initialized.';
 	$lang['strclustercreatedbad'] = 'Cluster initialization failed.';
 	$lang['strclusterneedsname'] = 'You must give a name for the cluster.';
@@ -701,11 +701,11 @@
 	$lang['strrepsetdropped'] = 'Replication set dropped.';
 	$lang['strrepsetdroppedbad'] = 'Replication set drop failed.';
 	$lang['strmerge'] = 'Merge';
-	$lang['strmergeinto'] = 'Merge Into';
+	$lang['strmergeinto'] = 'Merge into';
 	$lang['strrepsetmerged'] = 'Replication sets merged.';
 	$lang['strrepsetmergedbad'] = 'Replication sets merge failed.';
 	$lang['strmove'] = 'Move';
-	$lang['strneworigin'] = 'New Origin';
+	$lang['strneworigin'] = 'New origin';
 	$lang['strrepsetmoved'] = 'Replication set moved.';
 	$lang['strrepsetmovedbad'] = 'Replication set move failed.';
 	$lang['strnewrepset'] = 'New replication set';
@@ -720,7 +720,7 @@
 	$lang['strrepsetunlockedbad'] = 'Replication set unlock failed.';
 	$lang['strexecute'] = 'Execute';
 	$lang['stronlyonnode'] = 'Only on node';
-	$lang['strddlscript'] = 'DDL Script';
+	$lang['strddlscript'] = 'DDL script';
 	$lang['strscriptneedsbody'] = 'You must supply a script to be executed on all nodes.';
 	$lang['strscriptexecuted'] = 'Replication set DDL script executed.';
 	$lang['strscriptexecutedbad'] = 'Failed executing replication set DDL script.';
