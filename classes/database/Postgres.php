@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.267 2005/07/31 09:15:06 chriskl Exp $
+ * $Id: Postgres.php,v 1.268 2005/08/01 03:47:46 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3919,6 +3919,7 @@ class Postgres extends ADODB_base {
 	 * @return -2 counting error
 	 * @return -3 page or page_size invalid
 	 * @return -4 unknown type
+	 * @return -5 failed setting transaction read only
 	 */
 	function browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
 		// Check that we're not going to divide by zero
@@ -3949,6 +3950,17 @@ class Postgres extends ADODB_base {
 		// Open a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
+		
+		// If backend supports read only queries, then specify read only mode
+		// to avoid side effects from repeating queries that do writes.
+		if ($this->hasReadOnlyQueries()) {
+			$status = $this->execute("SET TRANSACTION READ ONLY");
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+		}
+
 		
 		// Count the number of rows
 		$total = $this->browseQueryCount($query, $count);
@@ -4474,6 +4486,7 @@ class Postgres extends ADODB_base {
 	function hasNamedParams() { return false; }
 	function hasUserAndDbVariables() { return false; }
 	function hasCompositeTypes() { return false; }
+	function hasReadOnlyQueries() { return false; }
 
 }
 
