@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.29 2005/08/01 15:40:15 soranzo Exp $
+	 * $Id: login.php,v 1.30 2005/08/02 15:56:30 soranzo Exp $
 	 */
 
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
@@ -23,8 +23,6 @@
 
 <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" name="login_form">
 <?php
-	// Set sharePassword by default
-	if (!isset($_POST['loginUsername'])) $_POST['sharePassword'] = 'on';
 	if (!empty($_POST)) $vars =& $_POST;
 	else $vars =& $_GET;
 	// Pass request vars through form (is this a security risk???)
@@ -33,19 +31,19 @@
 		echo "<input type=\"hidden\" name=\"", htmlspecialchars($key), "\" value=\"", htmlspecialchars($val), "\" />\n";
 	}
 ?>
- <input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($_REQUEST['server']); ?>" />
- <table class="navbar" border="0" cellpadding="5" cellspacing="3">
-  <tr>
-   <td><?php echo $lang['strusername']; ?></td>
-   <td><input type="text" name="loginUsername" value="<?php if (isset($_POST['loginUsername'])) echo htmlspecialchars($_POST['loginUsername']); ?>" size="24" /></td>
-  </tr>
-  <tr>
-   <td><?php echo $lang['strpassword']; ?></td>
-   <td><input type="password" name="loginPassword" size="24" /></td>
-  </tr>
- </table>
- <p><input type="checkbox" name="sharePassword" <?php echo isset($_POST['sharePassword']) ? 'checked="checked"' : '' ?> /><?php echo $lang['strtrycred'] ?></p>
- <p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
+	<input type="hidden" name="loginServer" value="<?php echo htmlspecialchars($_REQUEST['server']); ?>" />
+	<table class="navbar" border="0" cellpadding="5" cellspacing="3">
+		<tr>
+			<td><?php echo $lang['strusername']; ?></td>
+			<td><input type="text" name="loginUsername" value="<?php if (isset($_POST['loginUsername'])) echo htmlspecialchars($_POST['loginUsername']); ?>" size="24" /></td>
+		</tr>
+		<tr>
+			<td><?php echo $lang['strpassword']; ?></td>
+			<td><input type="password" name="loginPassword" size="24" /></td>
+		</tr>
+	</table>
+	<p><input type="checkbox" name="loginShared" <?php echo isset($_POST['loginShared']) ? 'checked="checked"' : '' ?> /><?php echo $lang['strtrycred'] ?></p>
+	<p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>
 
 <script type="text/javascript">

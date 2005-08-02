@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.102 2005/08/01 05:54:31 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.103 2005/08/02 15:56:30 soranzo Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -85,7 +85,7 @@
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 
 		// Check for shared credentials
-		if (isset($_POST['sharePassword'])) {
+		if (isset($_POST['loginShared'])) {
 			$_SESSION['sharedUsername'] = $_POST['loginUsername'];
 			$_SESSION['sharedPassword'] = $_POST['loginPassword'];
 		}
@@ -95,11 +95,8 @@
 
 	// Determine language file to import:
 	// 1. Check for the language from a request var
-	if (isset($_REQUEST['language'])) {
-		$_language = strtolower($_REQUEST['language']);
-		if (!isset($appLangFiles[$_language]))
-			unset($_language);
-	}
+	if (isset($_REQUEST['language']) && isset($appLangFiles[$_REQUEST['language']]))
+		$_language = $_REQUEST['language'];
 	
 	// 2. Check for language session var
 	if (!isset($_language) && isset($_SESSION['webdbLanguage']) && isset($appLangFiles[$_SESSION['webdbLanguage']])) {
