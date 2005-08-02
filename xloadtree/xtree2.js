@@ -1059,7 +1059,7 @@ _p.update = function () {
 	if (!el || !el.parentNode) return;
 	var newEl = this.create();
 	el.parentNode.replaceChild(newEl, el);
-	this.setTabIndex(this.tabIndex); // in case root had the tab index
+	this._setTabIndex(this.tabIndex); // in case root had the tab index
 	var si = t.getSelected();
 	if (si && si.getFocused()) {
 		si.focus();
