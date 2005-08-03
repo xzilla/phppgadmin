@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.268 2005/08/01 03:47:46 chriskl Exp $
+ * $Id: Postgres.php,v 1.269 2005/08/03 06:34:01 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3383,7 +3383,7 @@ class Postgres extends ADODB_base {
 				pl.lanname AS prolanguage,
 				oidvectortypes(pc.proargtypes) AS proarguments,
 				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
-				proname || ' (' || proarguments || ')' AS proproto,
+				proname || ' (' || oidvectortypes(pc.proargtypes) || ')' AS proproto,
 				CASE WHEN proretset THEN 'setof ' ELSE '' END || pt.typname AS proreturns
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
@@ -3397,16 +3397,18 @@ class Postgres extends ADODB_base {
 				pc.oid AS prooid,
 				proname,
 				proretset,
-				'OPAQUE' AS proresult,
+				'opaque' AS proresult,
+				pl.lanname AS prolanguage,
 				oidvectortypes(pc.proargtypes) AS proarguments,
 				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
-				proname || ' (' || proarguments || ')' AS proproto,
+				proname || ' (' || oidvectortypes(pc.proargtypes) || ')' AS proproto,
 				CASE WHEN proretset THEN 'setof ' ELSE '' END || 'OPAQUE' AS proreturns
 			FROM
-				pg_proc pc, pg_user pu, pg_type pt
+				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
 			WHERE	
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = 0
+				AND pc.prolang = pl.oid
 				{$where}
 			ORDER BY
 				proname, proresult
