@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.78.2.2 2005/08/01 05:32:51 chriskl Exp $
+ * $Id: Postgres72.php,v 1.78.2.3 2005/08/10 05:54:35 chriskl Exp $
  */
 
 
@@ -440,6 +440,38 @@ class Postgres72 extends Postgres71 {
 		return $this->selectSet($sql);
 	}
 
+	// Opclass functions
+
+	/**
+	 * Gets all opclasses
+	 * @return A recordset
+	 */
+	function getOpClasses() {
+		global $conf;
+		
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "AND po.oid > '{$this->_lastSystemOID}'::oid";
+
+		$sql = "
+			SELECT DISTINCT
+				pa.amname, 
+				po.opcname,
+				format_type(po.opcintype, NULL) AS opcintype,
+				TRUE AS opcdefault,
+				NULL::text AS opccomment
+			FROM
+				pg_opclass po, pg_am pa
+			WHERE
+				po.opcamid=pa.oid
+				{$where}
+			ORDER BY 1,2
+		";
+
+		return $this->selectSet($sql);
+	}
+	
 	// Administration functions
 
 	/**

@@ -8,6 +8,7 @@ Bugs
 * Fix for PHP 4.4.0's new strict references
 * Small improvement to Opera browser detection in the tree
 * Fix listing of opaque functions in 7.2
+* Fix listing of opclasses and functions pre 7.3
 
 Version 3.5.4
 -------------
