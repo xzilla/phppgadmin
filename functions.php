@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47 2004/09/18 11:59:40 soranzo Exp $
+	 * $Id: functions.php,v 1.47.2.1 2005/08/10 19:38:35 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -522,12 +522,16 @@
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
-			'privileges' => array(
-				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?{$misc->href}&amp;subject=function&amp;",
-				'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
+		   	'privileges' => array(
+		   	    'title' => $lang['strprivileges'],
+		   	    'url'   => "privileges.php?{$misc->href}&amp;subject=function&amp;",
+		   	    'vars'  => array('function' => '+proproto', 'function_oid' => 'prooid'),
 			),
 		);
+
+        if (!$data->hasFuncPrivs()) { 
+			array_pop($actions); 
+        }
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions'], 'fnPre');
 
