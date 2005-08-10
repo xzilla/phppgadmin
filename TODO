@@ -12,6 +12,11 @@ item.
 
 An item is marked with a '-' if it has been completed.
 
+Misc
+----
+
+* Support 8.1 standard compliant strings (E'')
+
 Users
 -----
 
