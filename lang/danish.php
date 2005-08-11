@@ -87,7 +87,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Ryd op';
 	$lang['stranalyze'] = 'Analysere';
-	$lang['strcluster'] = 'Klynge';
+	$lang['strclusterindex'] = 'Klynge';
 	$lang['strclustered'] = 'Klynget?';
 	$lang['strreindex'] = 'Genindekser';
 	$lang['strrun'] = 'Udfør';

@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.10 2005/05/03 01:50:08 soranzo Exp $
+	 * $Id: russian.php,v 1.11 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = 'Управление';
 	$lang['strvacuum'] = 'Перестроить';
 	$lang['stranalyze'] = 'Анализировать';
-	$lang['strcluster'] = 'Кластеризовать';
+	$lang['strclusterindex'] = 'Кластеризовать';
 	$lang['strclustered'] = 'Кластеризован?';
 	$lang['strreindex'] = 'Перестроить индекс';
 	$lang['strrun'] = 'Выполнить';

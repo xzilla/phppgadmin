@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.40 2005/06/06 23:59:17 slubek Exp $
+	 * $Id: polish.php,v 1.41 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -90,7 +90,7 @@
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczy&#347;&#263;';
 	$lang['stranalyze'] = 'Analizuj';
-	$lang['strcluster'] = 'Klastruj';
+	$lang['strclusterindex'] = 'Klastruj';
 	$lang['strclustered'] = 'Klastrowany?';
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';

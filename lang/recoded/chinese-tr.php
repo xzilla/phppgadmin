@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.15 2005/05/03 01:50:09 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.16 2005/08/11 23:01:45 soranzo Exp $
 	 *
 	 *
 	 */
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = '&#31649;&#29702;';
 	$lang['strvacuum'] = '&#28165;&#31354;';
 	$lang['stranalyze'] = '&#20998;&#26512;';
-	$lang['strcluster'] = '&#21474;&#38598;';
+	$lang['strclusterindex'] = '&#21474;&#38598;';
 	$lang['strclustered'] = '&#21474;&#38598;?';
 	$lang['strreindex'] = '&#37325;&#24314;&#32034;&#24341;';
 	$lang['strrun'] = '&#22519;&#34892;';

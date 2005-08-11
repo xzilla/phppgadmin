@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Gazda';
 	$lang['strvacuum'] = 'Takarítás';
 	$lang['stranalyze'] = 'Elemzés';
-	$lang['strcluster'] = 'Fürtözés';
+	$lang['strclusterindex'] = 'Fürtözés';
 	$lang['strclustered'] = 'Fürtözve?';
 	$lang['strreindex'] = 'Újraindexelés';
 	$lang['strrun'] = 'Futtatás';

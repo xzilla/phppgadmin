@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.15 2005/05/03 01:50:07 soranzo Exp $
+	 * $Id: french.php,v 1.16 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strclusterindex'] = 'Cluster';
         $lang['strclustered']  =  'En Cluster ?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Lancer';

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.74 2005/07/25 20:59:59 soranzo Exp $
+	 * $Id: database.php,v 1.75 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -467,9 +467,9 @@
 				if ($data->hasRecluster()){
 					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 					echo "<h3>";
-					$misc->printHelp($lang['strcluster'],'pg.index.cluster');
+					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
 					echo "</h3>\n";
-					echo "<input type=\"submit\" value=\"{$lang['strcluster']}\" />\n";
+					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 					echo $misc->form;
 					echo "</form>\n";

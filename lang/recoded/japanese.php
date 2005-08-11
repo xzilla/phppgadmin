@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.14 2005/05/03 01:50:10 soranzo Exp $
+	 * $Id: japanese.php,v 1.15 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -89,7 +89,7 @@
 	$lang['stradmin'] = '&#31649;&#29702;';
 	$lang['strvacuum'] = '&#12496;&#12461;&#12517;&#12540;&#12512;';
 	$lang['stranalyze'] = '&#35299;&#26512;';
-	$lang['strcluster'] = '&#12463;&#12521;&#12473;&#12479;&#12540;';
+	$lang['strclusterindex'] = '&#12463;&#12521;&#12473;&#12479;&#12540;';
 	$lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = '&#20877;&#12452;&#12531;&#12487;&#12483;&#12463;&#12473;';
 	$lang['strrun'] = '&#23455;&#12459;&#12521;&#12512;';

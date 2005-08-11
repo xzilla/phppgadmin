@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.12 2005/05/03 01:50:09 soranzo Exp $
+	 * $Id: dutch.php,v 1.13 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -204,7 +204,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyzeer';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strclusterindex'] = 'Cluster';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Run';
 	$lang['stradd'] = 'Voeg toe';

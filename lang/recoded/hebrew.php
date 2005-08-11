@@ -4,7 +4,7 @@
 	 * Hebrew language file for phpPgAdmin.
 	 * Jonatan Perry &lt;Jonatan44@hotpop.com&gt;
 	 *
-	 * $Id: hebrew.php,v 1.2 2005/05/03 01:50:10 soranzo Exp $
+	 * $Id: hebrew.php,v 1.3 2005/08/11 23:01:45 soranzo Exp $
 	 */
 	 
 	// Language and character set
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = '&#1502;&#1504;&#1492;&#1500;';
 	$lang['strvacuum'] = '&#1512;&#1497;&#1511;';
 	$lang['stranalyze'] = '&#1504;&#1514;&#1495;';
-	$lang['strcluster'] = '&#1488;&#1513;&#1499;&#1493;&#1500;';
+	$lang['strclusterindex'] = '&#1488;&#1513;&#1499;&#1493;&#1500;';
 	$lang['strclustered'] = '&#1502;&#1488;&#1493;&#1513;&#1499;&#1500;?';
 	$lang['strreindex'] = '&#1488;&#1504;&#1491;&#1511;&#1505; &#1502;&#1495;&#1491;&#1513;';
 	$lang['strrun'] = '&#1492;&#1512;&#1509;';

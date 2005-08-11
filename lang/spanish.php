@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.29 2005/07/06 01:18:15 chriskl Exp $
+	 * $Id: spanish.php,v 1.30 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -90,7 +90,7 @@ $lang['strhost']  =  'Host';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
-	$lang['strcluster'] = 'Ordenar tabla';
+	$lang['strclusterindex'] = 'Ordenar tabla';
 	$lang['strclustered'] = '¿Tabla Ordenada?';
 	$lang['strreindex'] = 'Reindexar';
 	$lang['strrun'] = 'Ejecutar';

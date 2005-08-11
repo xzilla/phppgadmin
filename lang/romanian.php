@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.3 2005/05/03 01:50:08 soranzo Exp $
+	* $Id: romanian.php,v 1.4 2005/08/11 23:01:44 soranzo Exp $
 	*/
 
 	// Language and character set
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = 'Administrare';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analiză';
-	$lang['strcluster'] = 'Grupare';
+	$lang['strclusterindex'] = 'Grupare';
 	$lang['strclustered'] = 'Grupat?';
 	$lang['strreindex'] = 'Re-indexare';
 	$lang['strrun'] = 'Executare';

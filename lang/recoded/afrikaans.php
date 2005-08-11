@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.6 2005/05/03 01:50:09 soranzo Exp $
+	 * $Id: afrikaans.php,v 1.7 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -86,7 +86,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Stofsuig';
 	$lang['stranalyze'] = 'Analiseer';
-	$lang['strcluster'] = 'Kluster';
+	$lang['strclusterindex'] = 'Kluster';
 	$lang['strclustered'] = 'In klusters?';
 	$lang['strreindex'] = 'Herindekseer';
 	$lang['strrun'] = 'Loop';

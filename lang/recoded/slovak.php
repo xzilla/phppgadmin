@@ -86,7 +86,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vy&#269;isti&#357;';
 	$lang['stranalyze'] = 'Analyzova&#357;';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strclusterindex'] = 'Cluster';
 	$lang['strclustered']  =  'Clustered?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spusti&#357;';

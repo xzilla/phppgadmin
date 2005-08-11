@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer &Acirc;ngelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.6 2005/05/03 01:50:10 soranzo Exp $
+	 * $Id: portuguese-br.php,v 1.7 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -80,7 +80,7 @@ $lang['strimport'] = 'Importar';
 	$lang['stradmin'] = 'Administrador';					
 	$lang['strvacuum'] = 'V&aacute;cuo';					
 	$lang['stranalyze'] = 'Analiza';				
-	$lang['strcluster'] = 'Cluster';				
+	$lang['strclusterindex'] = 'Cluster';				
 	$lang['strreindex'] = 'Reordenar';				
 	$lang['strrun'] = 'Rodar';						
 	$lang['stradd'] = 'Adicionar';						

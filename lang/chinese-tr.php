@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.13 2005/05/03 01:50:07 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.14 2005/08/11 23:01:44 soranzo Exp $
 	 *
 	 *
 	 */
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = '管理';
 	$lang['strvacuum'] = '清空';
 	$lang['stranalyze'] = '分析';
-	$lang['strcluster'] = '叢集';
+	$lang['strclusterindex'] = '叢集';
 	$lang['strclustered'] = '叢集?';
 	$lang['strreindex'] = '重建索引';
 	$lang['strrun'] = '執行';

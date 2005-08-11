@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
          *
-	 * $Id: italian.php,v 1.38 2005/06/06 15:13:13 soranzo Exp $
+	 * $Id: italian.php,v 1.39 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -90,7 +90,7 @@
 	$lang['stradmin'] = 'Amministratore';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analizza';
-	$lang['strcluster'] = 'Clusterizza';
+	$lang['strclusterindex'] = 'Clusterizza';
 	$lang['strclustered'] = 'Clusterizzato?';
 	$lang['strreindex'] = 'Reindicizza';
 	$lang['strrun'] = 'Esegui';
@@ -128,6 +128,7 @@
 	$lang['strstarttime'] = 'Inizio';
 	$lang['strfile'] = 'File';
 	$lang['strfileimported'] = 'File importato.';
+	$lang['strtrycred'] = 'Usa queste credenziali per tutti i server';
 
 	// Error handling - Gestione degli errori
 	$lang['strnoframes'] = 'Questa applicazione funziona al meglio utilizzando un browser che supporti i frame, ma pu&ograve; essere usata senza frame seguendo il link sottostante.';

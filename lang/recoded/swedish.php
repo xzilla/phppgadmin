@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist &lt;samoola@slak.nu&gt;
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.9 2005/05/03 01:50:10 soranzo Exp $
+	 * $Id: swedish.php,v 1.10 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'St&auml;da upp';
 	$lang['stranalyze'] = 'Analysera';
-	$lang['strcluster'] = 'Kluster';
+	$lang['strclusterindex'] = 'Kluster';
 	$lang['strclustered'] = 'Klustrat?';
 	$lang['strreindex'] = '&Aring;terindexera';
 	$lang['strrun'] = 'K&ouml;r';

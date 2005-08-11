@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.12 2005/05/03 01:50:08 soranzo Exp $
+	 * $Id: turkish.php,v 1.13 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Yönetici';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strclusterindex'] = 'Cluster';
 	$lang['strclustered']  =  'Cluster edildi mi?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Çalýþtýr';

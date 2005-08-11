@@ -88,7 +88,7 @@
 	$lang['stradmin'] = 'Gazda';
 	$lang['strvacuum'] = 'Takar&iacute;t&aacute;s';
 	$lang['stranalyze'] = 'Elemz&eacute;s';
-	$lang['strcluster'] = 'F&uuml;rt&ouml;z&eacute;s';
+	$lang['strclusterindex'] = 'F&uuml;rt&ouml;z&eacute;s';
 	$lang['strclustered'] = 'F&uuml;rt&ouml;zve?';
 	$lang['strreindex'] = '&Uacute;jraindexel&eacute;s';
 	$lang['strrun'] = 'Futtat&aacute;s';

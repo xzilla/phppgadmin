@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.35 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: indexes.php,v 1.36 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 			$_REQUEST['analyze'] = true;
 			
 			$misc->printTrail('index');
-			$misc->printTitle($lang['strcluster'],'pg.index.cluster');
+			$misc->printTitle($lang['strclusterindex'],'pg.index.cluster');
 
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
@@ -35,7 +35,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n";
+			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strclusterindex']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
@@ -288,7 +288,7 @@
 		
 		$actions = array(
 			'cluster' => array(
-				'title' => $lang['strcluster'],
+				'title' => $lang['strclusterindex'],
 				'url'   => "{$PHP_SELF}?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),

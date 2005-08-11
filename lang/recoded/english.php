@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.132 2005/08/01 22:19:46 soranzo Exp $
+	 * $Id: english.php,v 1.133 2005/08/11 23:01:45 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -90,7 +90,7 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strclusterindex'] = 'Cluster';
 	$lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Run';
@@ -640,6 +640,7 @@
 	$lang['strtablespacealteredbad'] = 'Tablespace alteration failed.';
 
 	// Slony clusters
+	$lang['strcluster'] = 'Cluster';
 	$lang['strnoclusters'] = 'No clusters found.';
 	$lang['strconfdropcluster'] = 'Are you sure you want to drop cluster &quot;%s&quot;?';
 	$lang['strclusterdropped'] = 'Cluster dropped.';
@@ -663,7 +664,7 @@
 	$lang['strnodedroppedbad'] = 'Node drop failed';
 	$lang['strfailover'] = 'Failover';
 	$lang['strnodefailedover'] = 'Node failed over.';
-	$lang['strnodefailedoverbad'] = 'Node fail over fail.';
+	$lang['strnodefailedoverbad'] = 'Node failover failed.';
 	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';

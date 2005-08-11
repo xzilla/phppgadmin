@@ -4,7 +4,7 @@
 	 * Mongolian  language file for phpPgAdmin. 
 	 * @maintainer Erdenemandal Bat-Erdene [endeeuk@yahoo.com]
 	 *
-	 * $Id: mongol.php,v 1.3 2005/05/03 01:50:07 soranzo Exp $
+	 * $Id: mongol.php,v 1.4 2005/08/11 23:01:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -87,7 +87,7 @@
 	$lang['stradmin'] = 'Зохион байгуулах';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Д?н шинжилгээ';
-	$lang['strcluster'] = 'Кластер';
+	$lang['strclusterindex'] = 'Кластер';
 	$lang['strclustered'] = 'Кластер';
 	$lang['strreindex'] = 'Дахин индекслэх';
 	$lang['strrun'] = 'Ажиллуулах';

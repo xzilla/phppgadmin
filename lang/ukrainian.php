@@ -86,7 +86,7 @@
         $lang['stradmin'] = 'Управл╕ння';
         $lang['strvacuum'] = 'Перебудувати';
         $lang['stranalyze'] = 'Анал╕зувати';
-        $lang['strcluster'] = 'Кластеризувати';
+        $lang['strclusterindex'] = 'Кластеризувати';
         $lang['strclustered'] = 'Кластеризовано?';
         $lang['strreindex'] = 'Перебудувати ╕ндекс';
         $lang['strrun'] = 'Виконати';

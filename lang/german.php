@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau <twanger@bluetwanger.de>
     *
-    * $Id: german.php,v 1.23 2005/05/03 01:50:07 soranzo Exp $
+    * $Id: german.php,v 1.24 2005/08/11 23:01:44 soranzo Exp $
     */
 
 
@@ -90,7 +90,7 @@
     $lang['stradmin'] = 'Admin';
     $lang['strvacuum'] = 'Vacuum';
     $lang['stranalyze'] = 'Analysieren';
-    $lang['strcluster'] = 'Cluster';
+    $lang['strclusterindex'] = 'Cluster';
     $lang['strclustered']  =  'Geclustert?';
     $lang['strreindex'] = 'Reindizierung';
     $lang['strrun'] = 'Los';

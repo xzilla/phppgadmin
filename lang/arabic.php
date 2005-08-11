@@ -4,7 +4,7 @@
   * English language file for phpPgAdmin.  Use this as a basis
   * for new translations.
   *
-  * $Id: arabic.php,v 1.4 2005/05/03 01:50:07 soranzo Exp $
+  * $Id: arabic.php,v 1.5 2005/08/11 23:01:44 soranzo Exp $
   */
 
  // Language and character set
@@ -87,7 +87,7 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['stradmin'] = 'إدارة Admin';
  $lang['strvacuum'] = 'Vacuum';
  $lang['stranalyze'] = 'Analyze';
- $lang['strcluster'] = 'Cluster';
+ $lang['strclusterindex'] = 'Cluster';
  $lang['strclustered'] = 'Clustered?';
  $lang['strreindex'] = 'Reindex';
  $lang['strrun'] = 'Run';
