@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47.2.1 2005/08/10 19:38:35 xzilla Exp $
+	 * $Id: functions.php,v 1.47.2.2 2005/08/11 12:20:38 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -530,7 +530,7 @@
 		);
 
         if (!$data->hasFuncPrivs()) { 
-			array_pop($actions); 
+            unset($actions['privileges']);
         }
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions'], 'fnPre');
