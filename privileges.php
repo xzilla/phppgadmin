@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.34.2.2 2005/08/10 18:34:06 xzilla Exp $
+	 * $Id: privileges.php,v 1.34.2.3 2005/08/11 12:43:06 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -168,7 +168,8 @@
 		
 		// Get the privileges on the object, given its type
 		$privileges = $data->getPrivileges($object, $_REQUEST['subject']);
-		if ($privileges > 0) {
+
+		if (sizeof($privileges) > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['struser']}/{$lang['strgroup']}</th>";
 			foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
