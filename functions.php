@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.48 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: functions.php,v 1.49 2005/08/15 17:15:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -522,6 +522,10 @@
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 		);
+
+		if ( !$data->hasFuncPrivs() ) {
+			unset($actions['privileges']);
+		}
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
