@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.150 2005/08/15 17:15:36 xzilla Exp $
+ * $Id: Postgres73.php,v 1.151 2005/08/31 20:49:10 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -119,18 +119,17 @@ class Postgres73 extends Postgres72 {
 		global $conf, $slony;
 
 		if (!$conf['show_system']) {
-			$and = "AND nspname NOT LIKE 'pg\\\\_%'";
+			$where = "WHERE nspname NOT LIKE 'pg\\\\_%'";
 			if (isset($slony) && $slony->isEnabled()) {
 				$temp = $slony->slony_schema;
 				$this->clean($temp);
-				$and .= " AND nspname != '{$temp}'";
+				$where .= " AND nspname != '{$temp}'";
 			}
 		}
-		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
-                        FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
-			WHERE pn.nspowner = pu.usesysid
-			{$and} ORDER BY nspname";
+                  FROM pg_catalog.pg_namespace pn LEFT JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
+				  {$where} ORDER BY nspname";
 
 		return $this->selectSet($sql);
 	}

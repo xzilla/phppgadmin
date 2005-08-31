@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.48 2005/08/01 03:47:46 chriskl Exp $
+ * $Id: Postgres74.php,v 1.49 2005/08/31 20:49:10 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -172,19 +172,18 @@ class Postgres74 extends Postgres73 {
 		global $conf, $slony;
 
 		if (!$conf['show_system']) {
-			$and = "AND nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
+			$where = "WHERE nspname NOT LIKE 'pg\\\\_%' AND nspname != 'information_schema'";
 			if (isset($slony) && $slony->isEnabled()) {
 				$temp = $slony->slony_schema;
 				$this->clean($temp);
-				$and .= " AND nspname != '{$temp}'";
+				$where .= " AND nspname != '{$temp}'";
 			}			
 			
 		}
-		else $and = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
-                        FROM pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
-			WHERE pn.nspowner = pu.usesysid
-			{$and} ORDER BY nspname";
+                   FROM pg_catalog.pg_namespace pn LEFT JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
+			       {$where} ORDER BY nspname";
 
 		return $this->selectSet($sql);
 	}
