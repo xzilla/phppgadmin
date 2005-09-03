@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.151 2005/08/31 20:49:10 xzilla Exp $
+ * $Id: Postgres73.php,v 1.152 2005/09/03 05:01:37 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -94,9 +94,15 @@ class Postgres73 extends Postgres72 {
 			// Need to handle empty paths in some cases
 			$paths[0] = 'pg_catalog';
 		}
-		$this->fieldArrayClean($paths);
+		
+		// Loop over all the paths to check that none are empty
+		$temp = array();
+		foreach ($paths as $schema) {
+			if ($schema != '') $temp[] = $schema;
+		}
+		$this->fieldArrayClean($temp);
 
-		$sql = 'SET SEARCH_PATH TO "' . implode('","', $paths) . '"';
+		$sql = 'SET SEARCH_PATH TO "' . implode('","', $temp) . '"';
 		
 		return $this->execute($sql);
 	}
