@@ -46,12 +46,35 @@ Bugs
 * Stop duplicate insert on re-POST of data
 * Fix bug with exporting schema for servers < 7.3
 * Fix opclasses on 7.2 and below
+* Fix for PHP 4.4.0's new strict references
 * Fix listing of opaque functions in 7.2
 
 Translations
 * Japanese from Tadashi Jokagi
 * Danish from Arne Eckmann
 * Arabic from Zaki
+
+Version 3.5.5
+-------------
+
+Bugs
+* Fix for PHP 4.4.0's new strict references
+* Small improvement to Opera browser detection in the tree
+* Fix listing of opaque functions in 7.2
+* Fix listing of opclasses and functions pre 7.3
+
+Version 3.5.4
+-------------
+
+Bugs
+* Fix security hole in include() of language file:
+   http://secunia.com/advisories/15941/
+  Check now requires that the language filename be in the list
+  of known allowed filenames.
+* Fix that functions returning cstring were not being listed
+* Make parsing of PostgreSQL 1-dimensional arrays correct.  Makes
+  named function parameter use more reliable.
+* Fix downloading of the results of multiline queries.
 
 Version 3.5.3
 -------------
