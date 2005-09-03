@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.26 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: types.php,v 1.27 2005/09/03 05:04:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -469,7 +469,7 @@
 		$reqvars = $misc->getRequestVars('type');
 		
 		$attrs = array(
-			'text'   => field('basename'),
+			'text'   => field('typname'),
 			'icon'   => 'types',
 			'toolTip'=> field('typcomment'),
 			'action' => url('types.php',
