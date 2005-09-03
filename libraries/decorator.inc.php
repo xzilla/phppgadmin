@@ -1,5 +1,5 @@
 <?php
-// $Id: decorator.inc.php,v 1.3 2005/05/04 10:07:21 jollytoad Exp $
+// $Id: decorator.inc.php,v 1.4 2005/09/03 04:59:59 chriskl Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
@@ -152,7 +152,7 @@ class ConcatDecorator extends Decorator
 		foreach($this->c as $var) {
 			$accum .= value($var, $fields);
 		}
-		return $accum;
+		return trim($accum);
 	}
 }
 

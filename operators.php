@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.18 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: operators.php,v 1.19 2005/09/03 04:59:59 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -166,9 +166,6 @@
 		
 		// Operator prototype: "type operator type"
 		$proto = concat(field('oprleftname'), ' ', field('oprname'), ' ', field('oprrightname'));
-		
-		// Alternative prototype: "operator (type,type)"
-		#$proto = concat(field('oprname'), ' (', field('oprleftname','NONE'), ',', field('oprrightname','NONE'), ')');
 		
 		$reqvars = $misc->getRequestVars('operator');
 		
