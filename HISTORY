@@ -31,6 +31,7 @@ Features
 * Make default language 'auto' indicating auto detect.  If a language is
   deliberately specifed, then that will always be used and no detection will
   occur.
+* ADOdb library updated to version 4.65
   
 Bugs
 * Tree Icons are displayed middle instead of top
@@ -46,7 +47,6 @@ Bugs
 * Stop duplicate insert on re-POST of data
 * Fix bug with exporting schema for servers < 7.3
 * Fix opclasses on 7.2 and below
-* Fix for PHP 4.4.0's new strict references
 * Fix listing of opaque functions in 7.2
 
 Translations
