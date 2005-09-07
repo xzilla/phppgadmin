@@ -3,12 +3,14 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.17 2005/07/31 09:15:07 chriskl Exp $
+ * $Id: Postgres80.php,v 1.18 2005/09/07 08:09:21 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
 
 class Postgres80 extends Postgres74 {
+
+	var $major_version = 8.0;
 
 	// List of all legal privileges that can be applied to different types
 	// of objects.

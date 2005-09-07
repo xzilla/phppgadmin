@@ -3,12 +3,14 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.2 2005/07/31 09:15:07 chriskl Exp $
+ * $Id: Postgres81.php,v 1.3 2005/09/07 08:09:21 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
 
 class Postgres81 extends Postgres80 {
+
+	var $major_version = 8.1;
 
 	// Map of database encoding names to HTTP encoding names.  If a
 	// database encoding does not appear in this list, then its HTTP

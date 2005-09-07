@@ -4,12 +4,14 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.49 2005/08/31 20:49:10 xzilla Exp $
+ * $Id: Postgres74.php,v 1.50 2005/09/07 08:09:21 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
 
 class Postgres74 extends Postgres73 {
+
+	var $major_version = 7.4;
 
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17137;

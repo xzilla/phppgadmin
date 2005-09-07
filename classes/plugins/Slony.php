@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.5 2005/07/06 14:46:24 chriskl Exp $
+ * $Id: Slony.php,v 1.6 2005/09/07 08:09:21 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -126,14 +126,22 @@ class Slony extends Plugin {
 	/**
 	 * Helper function to get a file into a string and replace
 	 * variables.
+	 * @return The file contents, or FALSE on error.
 	 */
 	function _getFile($file, $cluster) {
-		global $data;
+		global $data,$misc;
 		$schema = '_' . $cluster;
 		$data->fieldClean($cluster);
 		
+		$server_info = $misc->getServerInfo();
+		$path = $server_info['slony_sql'] . '/' . $file;
+		
+		// Check that we can access the file
+		if (!file_exists($path) || !is_readable($path)) return false;
+
 		$buffer = null;
-		$handle = fopen("./sql/plugins/{$file}", "r");
+		$handle = fopen($path, 'r');
+		if ($handle === false) return false;
 		while (!feof($handle)) {
 		   $temp = fgets($handle, 4096);
 		   $temp = str_replace('@CLUSTERNAME@', $cluster, $temp);
@@ -160,10 +168,19 @@ class Slony extends Plugin {
 		if (!$data->isSuperUser($server_info['username'])) {
 			return -10;
 		}
-				
+
+		// Determine Slony compatibility version.
+		if ($data->major_version == 7.3)
+			$ver = '73';
+		elseif ($data->major_version >= 7.4)
+			$ver = '74';
+		else {
+			return -11;
+		}
+		
 		$status = $data->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Create the schema
 		$status = $data->createSchema('_' . $name);
 		if ($status != 0) {
@@ -171,8 +188,11 @@ class Slony extends Plugin {
 			return -2;
 		}
 
-		// XXX: Support only Postgresql 7.4+ at the moment		
-		$sql = $this->_getFile('xxid.v74.sql', $name);
+		$sql = $this->_getFile("xxid.v{$ver}.sql", $name);
+		if ($sql === false) {
+			$data->rollbackTransaction();
+			return -6;
+		}			
 		$status = $data->execute($sql);
 		if ($status != 0) {
 			$data->rollbackTransaction();
@@ -180,6 +200,10 @@ class Slony extends Plugin {
 		}
 		
 		$sql = $this->_getFile('slony1_base.sql', $name);
+		if ($sql === false) {
+			$data->rollbackTransaction();
+			return -6;
+		}			
 		$status = $data->execute($sql);
 		if ($status != 0) {
 			$data->rollbackTransaction();
@@ -194,13 +218,21 @@ class Slony extends Plugin {
 		}
 */
 		$sql = $this->_getFile('slony1_funcs.sql', $name);
+		if ($sql === false) {
+			$data->rollbackTransaction();
+			return -6;
+		}			
 		$status = $data->execute($sql);
 		if ($status != 0) {
 			$data->rollbackTransaction();
 			return -3;
 		}
 
-		$sql = $this->_getFile('slony1_funcs.v74.sql', $name);
+		$sql = $this->_getFile("slony1_funcs.v{$ver}.sql", $name);
+		if ($sql === false) {
+			$data->rollbackTransaction();
+			return -6;
+		}			
 		$status = $data->execute($sql);
 		if ($status != 0) {
 			$data->rollbackTransaction();

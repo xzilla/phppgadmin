@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.273 2005/08/15 17:15:36 xzilla Exp $
+ * $Id: Postgres.php,v 1.274 2005/09/07 08:09:21 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -13,6 +13,8 @@ include_once('./classes/database/ADODB_base.php');
 
 class Postgres extends ADODB_base {
 
+	// Major version. MUST be numerically comparable to other versions.
+	var $major_version = 7.0;
 	// Array of allowed type alignments
 	var $typAligns = array('char', 'int2', 'int4', 'double');
 	// The default type alignment

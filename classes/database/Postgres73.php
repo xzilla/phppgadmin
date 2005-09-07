@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.152 2005/09/03 05:01:37 chriskl Exp $
+ * $Id: Postgres73.php,v 1.153 2005/09/07 08:09:21 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -12,6 +12,8 @@
 include_once('./classes/database/Postgres72.php');
 
 class Postgres73 extends Postgres72 {
+
+	var $major_version = 7.3;
 
 	// Store the current schema
 	var $_schema;
@@ -168,9 +170,11 @@ class Postgres73 extends Postgres72 {
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
 		
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
+		if ($comment != '') {
+			$status = $this->beginTransaction();
+			if ($status != 0) return -1;
+		}
+		
 		// Create the new schema
 		$status =  $this->execute($sql);
 		if ($status != 0) {
@@ -185,8 +189,11 @@ class Postgres73 extends Postgres72 {
 				$this->rollbackTransaction();
 				return -1;
 			}
+			
+			return $this->endTransaction();
 		}
-		return $this->endTransaction();
+		
+		return 0;
 	}
 	
 	/**
