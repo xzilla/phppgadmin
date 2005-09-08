@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.6 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Slony.php,v 1.7 2005/09/08 04:58:35 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -239,6 +239,7 @@ class Slony extends Plugin {
 			return -3;
 		}
 		
+		$this->enabled = null;
 		$enabled = $this->isEnabled();
 		if (!$enabled) {
 			$data->rollbackTransaction();
