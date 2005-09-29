@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.42.2.1 2005/03/11 04:41:05 chriskl Exp $
+	 * $Id: browser.php,v 1.42.2.2 2005/09/29 13:09:35 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -207,7 +207,7 @@
 		}
 	}	
 
-	$databases = &$data->getDatabases();
+	$databases = $data->getDatabases();
 	while (!$databases->EOF) {
 		// If database is selected, show folder, otherwise show document
 		if (isset($_REQUEST['database']) && $_REQUEST['database'] == $databases->f['datname']) {
