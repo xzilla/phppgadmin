@@ -11,6 +11,7 @@ dump sequences when dumping tables
 fix dumping clustering info
 
 Need to fix:
+* After changing password need to update data structures to avoid logouts
 * The getType function needs to be ported to 7.2 and 7.3 classes to add
   pretty type name and schema support
 * Report login errors

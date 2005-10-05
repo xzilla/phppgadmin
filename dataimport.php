@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.8 2005/03/04 02:27:38 chriskl Exp $
+	 * $Id: dataimport.php,v 1.9 2005/10/05 13:05:32 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -151,6 +151,37 @@
 		} 
 	}
 
+	function LoadNULLArray(&$Array) {
+		$Success = true;
+		$AllowedNulls = $_POST['AllowedNulls'];
+		if (!is_null($AllowedNulls)) {
+			$Array = array();
+			foreach($AllowedNulls as $NullChar) {
+				if ($NullChar == 'Default') {
+					$Array[2] = "\\N";
+				} else if ($NullChar == 'NULL') {
+					$Array[0] = "NULL";
+				} else if ($NullChar == 'EmptyString') {
+					$Array[1] = null;
+				} else {
+					$misc->printMsg(sprintf($lang['strimporter-badnull'], $NullChar));
+					exit;
+				}
+			}
+		}
+	}
+
+	function DetermineNull($field, $NullArray) {
+		$FoundANull = false;
+		while((list($Ignored, $Nulls) = each($NullArray)) && ($FoundANull == false)) {
+			if ($Nulls == $field) {
+				$FoundANull = true;
+			}
+		}
+		reset($NullArray);
+		return $FoundANull;
+	}
+
 
 	$misc->printHeader($lang['strimport']);
 	$misc->printTrail('table');
@@ -162,9 +193,11 @@
 		$fd = fopen($_FILES['source']['tmp_name'], 'r');
 		// Check that file was opened successfully
 		if ($fd !== false) {		
+			$NullArray = null;
+			LoadNULLArray($NullArray);
 			$status = $data->beginTransaction();
 			if ($status != 0) {
-				$misc->printMsg($lang['strimporterror']);
+				$misc->printMsg($lang['strimporterror-badtransaction']);
 				exit;
 			}
 
@@ -183,7 +216,7 @@
 						break;
 					default:
 						$data->rollbackTransaction();
-						$misc->printMsg($lang['strimporterror']);
+						$misc->printMsg($lang['strimporterror-fileformat']);
 						exit;			
 				}
 			}
@@ -199,7 +232,7 @@
 					else $csv_delimiter = "\t";
 					// Get first line of field names
 					$fields = fgetcsv($fd, $csv_max_line, $csv_delimiter);
-					$row = 1;
+					$row = 2; //We start on the line AFTER the field names
 					while ($line = fgetcsv($fd, $csv_max_line, $csv_delimiter)) {
 						// Build value map
 						$vars = array();
@@ -210,11 +243,13 @@
 						foreach ($fields as $f) {
 							// Check that there is a column
 							if (!isset($line[$i])) {
-								$misc->printMsg(sprintf($lang['strimporterrorline'], $row));
+								$misc->printMsg(sprintf($lang['strimporterrorline-badcolumnnum'], $row));
 								exit;
 							}
 							// Check for nulls
-							if ($line[$i] == '\\N') $nulls[$f] = 'on';
+							if (DetermineNull($line[$i], $NullArray)) {
+								$nulls[$f] = 'on';
+							}
 							// Add to value array
 							$vars[$f] = $line[$i];
 							// Format is always VALUE
@@ -226,7 +261,7 @@
 						$status = $data->insertRow($_REQUEST['table'], $vars, $nulls, $format, $types);
 						if ($status != 0) {
 							$data->rollbackTransaction();
-							$misc->printMsg(sprintf($lang['strimporterrorline'], $row));
+							$misc->printMsg(sprintf($lang['strimporterrorline-dberror'], $row));
 							exit;
 						}
 						$row++;
@@ -253,7 +288,7 @@
 	
 			$status = $data->endTransaction();
 			if ($status != 0) {
-				$misc->printMsg($lang['strimporterror']);
+				$misc->printMsg($lang['strimporterror-badtransaction']);
 				exit;
 			}
 			fclose($fd);
@@ -262,12 +297,12 @@
 		}
 		else {
 			// File could not be opened
-			$misc->printMsg($lang['strimporterror']);
+			$misc->printMsg($lang['strimporterror-unopenedfile']);
 		}
 	}
 	else {
 		// Upload went wrong
-		$misc->printMsg($lang['strimporterror']);
+		$misc->printMsg($lang['strimporterror-uploadedfile']);
 	}
 	
 	$misc->printFooter();

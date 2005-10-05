@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.63 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.64 2005/10/05 13:05:32 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -197,6 +197,12 @@
 				if (function_exists('xml_parser_create')) {
 					echo "<option value=\"xml\">XML</option>\n";
 				}
+				echo "</select>\n</td>\n</tr>\n";
+				echo "<tr><th class=\"data left required\">{$lang['strAllowedNulls']}</th>";
+				echo "<td><select multiple size=\"3\" name=\"AllowedNulls[]\">\n";
+				echo "<option value=\"Default\">{$lang['strBackslashN']}</option>\n";
+				echo "<option value=\"NULL\">{$lang['strNULL']}</option>\n";
+				echo "<option value=\"EmptyString\">{$lang['strEmptyString'] }</option>\n";
 				echo "</select>\n</td>\n</tr>\n";
 				echo "<tr><th class=\"data left required\">{$lang['strfile']}</th>";
 				echo "<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
