@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.9 2005/10/05 13:05:32 chriskl Exp $
+	 * $Id: dataimport.php,v 1.10 2005/10/09 09:05:16 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -151,37 +151,29 @@
 		} 
 	}
 
-	function LoadNULLArray(&$Array) {
-		$Success = true;
-		$AllowedNulls = $_POST['AllowedNulls'];
-		if (!is_null($AllowedNulls)) {
-			$Array = array();
-			foreach($AllowedNulls as $NullChar) {
-				if ($NullChar == 'Default') {
-					$Array[2] = "\\N";
-				} else if ($NullChar == 'NULL') {
-					$Array[0] = "NULL";
-				} else if ($NullChar == 'EmptyString') {
-					$Array[1] = null;
-				} else {
-					$misc->printMsg(sprintf($lang['strimporter-badnull'], $NullChar));
-					exit;
+	function loadNULLArray() {
+		$array = array();
+		if (isset($_POST['allowednulls'])) {
+			foreach($_POST['allowednulls'] as $null_char) {
+				switch ($null_char) {
+					case 'default':
+						$array[] = "\\N";
+						break;
+					case 'null':
+						$array[] = "NULL";
+						break;
+					case 'emptystring':
+						$array[] = null;
+						break;
 				}
 			}
 		}
+		return $array;
 	}
 
-	function DetermineNull($field, $NullArray) {
-		$FoundANull = false;
-		while((list($Ignored, $Nulls) = each($NullArray)) && ($FoundANull == false)) {
-			if ($Nulls == $field) {
-				$FoundANull = true;
-			}
-		}
-		reset($NullArray);
-		return $FoundANull;
+	function determineNull($field, $null_array) {
+		return in_array($field, $null_array);
 	}
-
 
 	$misc->printHeader($lang['strimport']);
 	$misc->printTrail('table');
@@ -193,11 +185,10 @@
 		$fd = fopen($_FILES['source']['tmp_name'], 'r');
 		// Check that file was opened successfully
 		if ($fd !== false) {		
-			$NullArray = null;
-			LoadNULLArray($NullArray);
+			$null_array = loadNULLArray();
 			$status = $data->beginTransaction();
 			if ($status != 0) {
-				$misc->printMsg($lang['strimporterror-badtransaction']);
+				$misc->printMsg($lang['strimporterror']);
 				exit;
 			}
 
@@ -247,7 +238,7 @@
 								exit;
 							}
 							// Check for nulls
-							if (DetermineNull($line[$i], $NullArray)) {
+							if (determineNull($line[$i], $null_array)) {
 								$nulls[$f] = 'on';
 							}
 							// Add to value array
@@ -258,10 +249,11 @@
 							$types[$f] = 'text';
 							$i++;
 						}
+
 						$status = $data->insertRow($_REQUEST['table'], $vars, $nulls, $format, $types);
 						if ($status != 0) {
 							$data->rollbackTransaction();
-							$misc->printMsg(sprintf($lang['strimporterrorline-dberror'], $row));
+							$misc->printMsg(sprintf($lang['strimporterrorline'], $row));
 							exit;
 						}
 						$row++;
@@ -288,7 +280,7 @@
 	
 			$status = $data->endTransaction();
 			if ($status != 0) {
-				$misc->printMsg($lang['strimporterror-badtransaction']);
+				$misc->printMsg($lang['strimporterror']);
 				exit;
 			}
 			fclose($fd);
@@ -297,7 +289,7 @@
 		}
 		else {
 			// File could not be opened
-			$misc->printMsg($lang['strimporterror-unopenedfile']);
+			$misc->printMsg($lang['strimporterror']);
 		}
 	}
 	else {

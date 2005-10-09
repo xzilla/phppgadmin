@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.64 2005/10/05 13:05:32 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.65 2005/10/09 09:05:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -198,11 +198,11 @@
 					echo "<option value=\"xml\">XML</option>\n";
 				}
 				echo "</select>\n</td>\n</tr>\n";
-				echo "<tr><th class=\"data left required\">{$lang['strAllowedNulls']}</th>";
-				echo "<td><select multiple size=\"3\" name=\"AllowedNulls[]\">\n";
-				echo "<option value=\"Default\">{$lang['strBackslashN']}</option>\n";
-				echo "<option value=\"NULL\">{$lang['strNULL']}</option>\n";
-				echo "<option value=\"EmptyString\">{$lang['strEmptyString'] }</option>\n";
+				echo "<tr><th class=\"data left required\">{$lang['strallowednulls']}</th>";
+				echo "<td><select multiple size=\"3\" name=\"allowednulls[]\">\n";
+				echo "<option value=\"default\" selected=\"selected\">{$lang['strbackslashn']}</option>\n";
+				echo "<option value=\"null\">{$lang['strnull']}</option>\n";
+				echo "<option value=\"emptystring\">{$lang['stremptystring'] }</option>\n";
 				echo "</select>\n</td>\n</tr>\n";
 				echo "<tr><th class=\"data left required\">{$lang['strfile']}</th>";
 				echo "<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";

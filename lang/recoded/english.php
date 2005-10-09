@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.134 2005/10/05 13:05:32 chriskl Exp $
+	 * $Id: english.php,v 1.135 2005/10/09 09:05:16 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -86,10 +86,10 @@
 	$lang['strprimary'] = 'Primary';
 	$lang['strexport'] = 'Export';
 	$lang['strimport'] = 'Import';
-	$lang['strAllowedNulls'] = 'Allowed Null Characters';
-	$lang['strNULL'] = 'NULL (The word)';
-	$lang['strEmptyString'] = 'Empty String/Field';
-	$lang['strBackslashN'] = '\N (Export Default)';
+	$lang['strallowednulls'] = 'Allowed NULL Characters';
+	$lang['strbackslashn'] = '\N';
+	$lang['strnull'] = 'NULL (The word)';
+	$lang['stremptystring'] = 'Empty string/field';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
@@ -152,14 +152,10 @@
 	$lang['strnoreportsdb'] = 'You have not created the reports database. Read the INSTALL file for directions.';
 	$lang['strnouploads'] = 'File uploads are disabled.';
 	$lang['strimporterror'] = 'Import error.';
-	$lang['strimporter-badnull'] = 'The NULL character you have supplied [%s], has not been configured for use yet.';
-	$lang['strimporterror-badtransaction'] = 'Import error (There was a problem starting/ending the transaction).';
-	$lang['strimporterror-fileformat'] = 'Import error (Failed to determine which file format was given).';
+	$lang['strimporterror-fileformat'] = 'Import error: Failed to automatically determine the file format.';
 	$lang['strimporterrorline'] = 'Import error on line %s.';
-	$lang['strimporterrorline-badcolumnnum'] = 'Import error on line %s.  (This line does not possess the correct number of columns)';
-	$lang['strimporterrorline-dberror'] = 'Import error on line %s.  (This line could not be inserted into the database)';
-	$lang['strimporterror-unopenedfile'] = 'Import error (Uploaded file could not be opened by the import engine)';
-	$lang['strimporterror-uploadedfile'] = 'Import error:  (File could not be uploaded to the server)';
+	$lang['strimporterrorline-badcolumnnum'] = 'Import error on line %s:  Line does not possess the correct number of columns.';
+	$lang['strimporterror-uploadedfile'] = 'Import error: File could not be uploaded to the server';
 	$lang['strcannotdumponwindows'] = 'Dumping of complex table and schema names on Windows is not supported.';
 
 	// Tables
