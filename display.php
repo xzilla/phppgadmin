@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.50 2005/06/01 10:38:14 soranzo Exp $
+	 * $Id: display.php,v 1.51 2005/10/10 21:33:18 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -413,7 +413,7 @@
 		// Refresh
 		echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
 			"&amp;page=" . urlencode($_REQUEST['page']),
-			"\">{$lang['strrefresh']}</a></p>\n";
+			"\">{$lang['strrefresh']}</a>\n";
 		echo "</p>\n";
 	}
 	

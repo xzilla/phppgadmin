@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.72 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: tables.php,v 1.73 2005/10/10 21:33:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -317,7 +317,7 @@
 				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
 					$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
-				$_REQUEST['return_url'] = "tables.php?action=confselectrows&{$misc->href}&table={$_REQUEST['table']}";
+				$_REQUEST['return_url'] = "tables.php?action=confselectrows&amp;{$misc->href}&amp;table={$_REQUEST['table']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
 
 				$_no_output = true;

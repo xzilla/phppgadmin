@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.65 2005/10/09 09:05:16 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.66 2005/10/10 21:33:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -143,7 +143,7 @@
 		echo "<option value=\"xml\">XML</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
 		if ($hasID) {
-			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
+			echo "<tr><td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
 		}
 		// Structure only
 		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
@@ -156,9 +156,9 @@
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<tr><td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
 		if ($hasID) {
-			echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
+			echo "<tr><td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
 		}
 		echo "</table>\n";
 		
@@ -594,7 +594,7 @@
 
 		echo "<ul>\n";
 		$return_url = urlencode("tblproperties.php?{$misc->href}&table={$_REQUEST['table']}");
-		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&subject=table&amp;return_url={$return_url}&amp;return_desc=",
+		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";

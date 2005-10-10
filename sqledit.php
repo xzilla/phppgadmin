@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.27 2005/06/06 15:13:11 soranzo Exp $
+	 * $Id: sqledit.php,v 1.28 2005/10/10 21:33:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -23,20 +23,21 @@
 		// popup whenever the server or database is changed.
 		// This ensures that the correct page encoding is used.
 		$onchange = "onchange=\"location.href='sqledit.php?action=" . 
-				urlencode($action) . "&server=' + encodeURI(server.options[server.selectedIndex].value) + '&database=' + encodeURI(database.options[database.selectedIndex].value) + ";
+				urlencode($action) . "&amp;server=' + encodeURI(server.options[server.selectedIndex].value) + '&amp;database=' + encodeURI(database.options[database.selectedIndex].value) + ";
 		
 		// The exact URL to reload to is different between SQL and Find mode, however.
 		if ($action == 'find') {
-			$onchange .= "'&term=' + encodeURI(term.value) + '&filter=' + encodeURI(filter.value) + '&" . SID . "'\">\n";
+			$onchange .= "'&amp;term=' + encodeURI(term.value) + '&amp;filter=' + encodeURI(filter.value) + '&amp;" . SID . "'\">\n";
 		} else {
-			$onchange .= "'&query=' + encodeURI(query.value) ";
-			if ($data->hasSchemas()) $onchange .= "+ '&search_path=' + encodeURI(search_path.value) ";
-			$onchange .= "+ (paginate.checked ? '&paginate=on' : '')  + '&" . SID . "'\"";
+			$onchange .= "'&amp;query=' + encodeURI(query.value) ";
+			if ($data->hasSchemas()) $onchange .= "+ '&amp;search_path=' + encodeURI(search_path.value) ";
+			$onchange .= "+ (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;" . SID . "'\"";
 		}
 		
 		echo "<table width=\"100%\"><tr><td>\n";
 		echo "<label>";
 		$misc->printHelp($lang['strserver'], 'pg.server');
+		echo "</label>";
 		echo ": <select name=\"server\" {$onchange}>\n";
 		
 		$servers = $misc->getServers();
