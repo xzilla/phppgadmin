@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.14 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.15 2005/10/11 18:38:56 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -151,7 +151,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=edit&{$misc->href}&view=", 
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;view=", 
 			urlencode($_REQUEST['view']), "\">{$lang['stralter']}</a></p>\n";
 	}
 

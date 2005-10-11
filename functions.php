@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.49 2005/08/15 17:15:36 xzilla Exp $
+	 * $Id: functions.php,v 1.50 2005/10/11 18:38:56 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -155,7 +155,6 @@
 				}
 				echo "</td></tr>\n";
 			}		
-			echo "</td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -262,7 +261,7 @@
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;function=", 
 			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;function=",
-			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></td>\n";
+			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a>\n";
 	}
 	
 	/**
@@ -503,7 +502,7 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=function&action=properties&amp;{$misc->href}&amp;",
+				'url'   => "redirect.php?subject=function&amp;action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'alter' => array(

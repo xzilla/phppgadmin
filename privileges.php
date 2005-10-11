@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.36 2005/10/10 21:33:18 xzilla Exp $
+	 * $Id: privileges.php,v 1.37 2005/10/11 18:38:56 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -247,7 +247,7 @@
 		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a>\n";
 		if (isset($allurl))
-			echo "<a class=\"navlink\" href=\"{$allurl}?{$misc->href}\">{$alltxt}</a>\n";
+			echo "| <a class=\"navlink\" href=\"{$allurl}?{$misc->href}\">{$alltxt}</a>\n";
 		
 		echo "</p>\n";
 	}
