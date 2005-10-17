@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.275 2005/10/17 08:32:42 jollytoad Exp $
+ * $Id: Postgres.php,v 1.276 2005/10/17 08:45:49 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3392,7 +3392,8 @@ class Postgres extends ADODB_base {
 				oidvectortypes(pc.proargtypes) AS proarguments,
 				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
 				proname || ' (' || oidvectortypes(pc.proargtypes) || ')' AS proproto,
-				CASE WHEN proretset THEN 'setof '::text ELSE '' END || pt.typname AS proreturns
+				CASE WHEN proretset THEN 'setof '::text ELSE '' END || pt.typname AS proreturns,
+				usename as proowner
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
 			WHERE
@@ -3410,7 +3411,8 @@ class Postgres extends ADODB_base {
 				oidvectortypes(pc.proargtypes) AS proarguments,
 				(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment,
 				proname || ' (' || oidvectortypes(pc.proargtypes) || ')' AS proproto,
-				CASE WHEN proretset THEN 'setof '::text ELSE '' END || 'opaque' AS proreturns
+				CASE WHEN proretset THEN 'setof '::text ELSE '' END || 'opaque' AS proreturns,
+				usename as proowner
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
 			WHERE	
