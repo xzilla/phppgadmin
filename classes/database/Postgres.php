@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.274 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres.php,v 1.275 2005/10/17 08:32:42 jollytoad Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2170,6 +2170,7 @@ class Postgres extends ADODB_base {
 	 * @param $name The index name
 	 * @param $table The table on which to add the index
 	 * @param $columns An array of columns that form the index
+	 *                 or a string expression for a functional index
 	 * @param $type The index type
 	 * @param $unique True if unique, false otherwise
 	 * @param $where Index predicate ('' for none)
@@ -2179,12 +2180,17 @@ class Postgres extends ADODB_base {
 	function createIndex($name, $table, $columns, $type, $unique, $where, $tablespace) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
-		$this->arrayClean($columns);
 
 		$sql = "CREATE";
 		if ($unique) $sql .= " UNIQUE";
 		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
-		$sql .= "(\"" . implode('","', $columns) . "\")";
+		
+		if (is_array($columns)) {
+			$this->arrayClean($columns);
+			$sql .= "(\"" . implode('","', $columns) . "\")";
+		} else {
+			$sql .= "(" . $columns .")";
+		}
 
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
