@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.3 2005/08/01 22:16:15 soranzo Exp $
+	 * $Id: servers.php,v 1.4 2005/10/18 04:00:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
 		$misc->printTabs('root','servers');
 		$misc->printMsg($msg);
 		
-		$servers =& $misc->getServers(true);
+		$servers = $misc->getServers(true);
 		
 		function svPre(&$rowdata, $actions) {
 			$actions['logout']['disable'] = empty($rowdata->f['username']);
@@ -79,7 +79,7 @@
 	function doTree() {
 		global $misc;
 		
-		$servers =& $misc->getServers(true);
+		$servers = $misc->getServers(true);
 		
 		$reqvars = $misc->getRequestVars('server');
 		

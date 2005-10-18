@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.76 2005/10/18 03:45:15 chriskl Exp $
+	 * $Id: database.php,v 1.77 2005/10/18 04:00:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -556,7 +556,7 @@
 								);
 		}
 
-		$items =& $misc->adjustTabsForTree($tabs);
+		$items = $misc->adjustTabsForTree($tabs);
 		
 		$attrs = array(
 			'text'   => noEscape(field('title')),

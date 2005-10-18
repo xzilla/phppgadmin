@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.3 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: schemas.php,v 1.4 2005/10/18 04:00:19 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -274,7 +274,7 @@
 		
 		$tabs = $misc->getNavTabs('schema');
 		
-		$items =& $misc->adjustTabsForTree($tabs);
+		$items = $misc->adjustTabsForTree($tabs);
 		
 		$reqvars = $misc->getRequestVars('schema');
 		

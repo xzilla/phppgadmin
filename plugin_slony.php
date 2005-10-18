@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.4 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.5 2005/10/18 04:00:19 chriskl Exp $
 	 */
 
 	// Avoid database connections whenever possible
@@ -46,7 +46,7 @@
 				}
 				else $tabs = array();
 					
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -75,7 +75,7 @@
 										'urlvars' => array('subject' => 'nodes')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -101,7 +101,7 @@
 										'urlvars' => array('subject' => 'sets')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -156,7 +156,7 @@
 										'urlvars' => array('subject' => 'paths')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -182,7 +182,7 @@
 										'urlvars' => array('subject' => 'listens')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -266,7 +266,7 @@
 										'urlvars' => array('subject' => 'sequences')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -292,7 +292,7 @@
 										'urlvars' => array('subject' => 'tables')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
@@ -319,7 +319,7 @@
 										'urlvars' => array('subject' => 'subscriptions')
 									));
 				
-				$items =& $misc->adjustTabsForTree($tabs);
+				$items = $misc->adjustTabsForTree($tabs);
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
