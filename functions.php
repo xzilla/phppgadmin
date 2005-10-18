@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.47.2.2 2005/08/11 12:20:38 xzilla Exp $
+	 * $Id: functions.php,v 1.47.2.3 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,7 +51,7 @@
 		$misc->printTitle($lang['stralter'],'pg.function.alter');
 		$misc->printMsg($msg);
 
-		$fndata = &$data->getFunction($_REQUEST['function_oid']);
+		$fndata = $data->getFunction($_REQUEST['function_oid']);
 
 		if ($fndata->recordCount() > 0) {
 			$fndata->f['proretset'] = $data->phpBool($fndata->f['proretset']);
@@ -179,7 +179,7 @@
 		$misc->printTitle($lang['strproperties'],'pg.function');
 		$misc->printMsg($msg);
 		
-		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
+		$funcdata = $data->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
@@ -321,8 +321,8 @@
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
 
-		$types = &$data->getTypes(true, true, true);
-		$langs = &$data->getLanguages(true);
+		$types = $data->getTypes(true, true, true);
+		$langs = $data->getLanguages(true);
 		$fnlang = strtolower($_POST['formLanguage']);
 
 		switch ($fnlang) {
@@ -480,7 +480,7 @@
 		$misc->printTabs('schema','functions');
 		$misc->printMsg($msg);
 		
-		$funcs = &$data->getFunctions();
+		$funcs = $data->getFunctions();
 		
 		$columns = array(
 			'function' => array(

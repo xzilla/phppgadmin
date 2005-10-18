@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.24 2004/09/28 13:08:39 jollytoad Exp $
+	 * $Id: rules.php,v 1.24.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -133,7 +133,7 @@
 		$misc->printTabs($_REQUEST['subject'], 'rules');
 		$misc->printMsg($msg);
 
-		$rules = &$data->getRules($_REQUEST[$_REQUEST['subject']]);
+		$rules = $data->getRules($_REQUEST[$_REQUEST['subject']]);
 
 		$columns = array(
 			'rule' => array(

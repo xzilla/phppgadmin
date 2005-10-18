@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.35 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: all_db.php,v 1.35.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -67,7 +67,7 @@
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
@@ -192,7 +192,7 @@
 		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
 		
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		$columns = array(
 			'database' => array(

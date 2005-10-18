@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.6 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.6.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		$misc->printTabs('schema','opclasses');
 		$misc->printMsg($msg);
 		
-		$opclasses = &$data->getOpClasses();
+		$opclasses = $data->getOpClasses();
 		
 		$columns = array(
 			'accessmethod' => array(

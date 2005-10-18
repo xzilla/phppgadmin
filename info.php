@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: info.php,v 1.9.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,14 +27,14 @@
 		$shownull = array('null' => true);
 
 		// Fetch info
-		$referrers = &$data->getReferrers($_REQUEST['table']);
-		$parents = &$data->getTableParents($_REQUEST['table']);
-		$children = &$data->getTableChildren($_REQUEST['table']);
+		$referrers = $data->getReferrers($_REQUEST['table']);
+		$parents = $data->getTableParents($_REQUEST['table']);
+		$children = $data->getTableChildren($_REQUEST['table']);
 		if ($data->hasStatsCollector()) {
-    		$tablestatstups = &$data->getStatsTableTuples($_REQUEST['table']);
-    		$tablestatsio = &$data->getStatsTableIO($_REQUEST['table']);
-    		$indexstatstups = &$data->getStatsIndexTuples($_REQUEST['table']);
-    		$indexstatsio = &$data->getStatsIndexIO($_REQUEST['table']);
+    		$tablestatstups = $data->getStatsTableTuples($_REQUEST['table']);
+    		$tablestatsio = $data->getStatsTableIO($_REQUEST['table']);
+    		$indexstatstups = $data->getStatsIndexTuples($_REQUEST['table']);
+    		$indexstatsio = $data->getStatsIndexIO($_REQUEST['table']);
         }
         
 		// Check that there is some info

@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.11.2.1 2005/07/31 09:18:39 chriskl Exp $
+	 * $Id: Reports.php,v 1.11.2.2 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	class Reports {
@@ -22,7 +22,7 @@
 			if ($rs->recordCount() != 1) $status = -1;
 			else {
 				// Create a new database access object.
-				$this->driver = &$misc->getDatabaseAccessor($this->reports_db);
+				$this->driver = $misc->getDatabaseAccessor($this->reports_db);
 				// Reports database should have been created in public schema
 				if ($this->driver->hasSchemas()) $this->driver->setSchema('public');
 				$status = 0;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.29 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: users.php,v 1.29.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$userdata = &$data->getUser($_SESSION['webdbUsername']);
+		$userdata = $data->getUser($_SESSION['webdbUsername']);
 		$_REQUEST['user'] = $_SESSION['webdbUsername'];
 		
 		$misc->printTrail('user');
@@ -107,7 +107,7 @@
 		$misc->printTitle($lang['stralter'],'pg.user.alter');
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($_REQUEST['username']);
+		$userdata = $data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
 			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $_SESSION['webdbUsername']);
@@ -274,7 +274,7 @@
 		$misc->printTabs('server','users');
 		$misc->printMsg($msg);
 		
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		$columns = array(
 			'user' => array(

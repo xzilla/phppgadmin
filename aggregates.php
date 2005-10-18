@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.10 2004/09/20 14:41:38 jollytoad Exp $
+	 * $Id: aggregates.php,v 1.10.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		$misc->printTabs('schema', 'aggregates');
 		$misc->printMsg($msg);
 		
-		$aggregates = &$data->getAggregates();
+		$aggregates = $data->getAggregates();
 
 		$columns = array(
 			'aggregate' => array(

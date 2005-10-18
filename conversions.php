@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.9 2004/09/01 16:35:58 jollytoad Exp $
+	 * $Id: conversions.php,v 1.9.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTabs('schema', 'conversions');
 		$misc->printMsg($msg);
 		
-		$conversions = &$data->getconversions();
+		$conversions = $data->getconversions();
 		
 		$columns = array(
 			'conversion' => array(

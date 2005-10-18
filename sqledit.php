@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.25 2004/09/30 16:32:05 jollytoad Exp $
+	 * $Id: sqledit.php,v 1.25.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $data, $lang, $conf, $action, $misc;
 
 		// Get the list of all databases
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		if ($databases->recordCount() > 0) {			
 			// The javascript action on the select box reloads the popup whenever the database is changed.

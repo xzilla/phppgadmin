@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.9 2004/09/01 16:35:57 jollytoad Exp $
+	 * $Id: casts.php,v 1.9.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,7 @@
 		$misc->printTabs('database','casts');
 		$misc->printMsg($msg);
 		
-		$casts = &$data->getcasts();
+		$casts = $data->getcasts();
 
 		$columns = array(
 			'source_type' => array(

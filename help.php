@@ -3,7 +3,7 @@
 	/**
 	 * Help page redirection/browsing.
 	 *
-	 * $Id: help.php,v 1.1 2004/09/07 13:57:26 jollytoad Exp $
+	 * $Id: help.php,v 1.1.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	# TODO: Localize messages, improve (or remove) help browser
@@ -46,7 +46,7 @@
 		
 		echo "<dl>\n";
 		
-		$pages =& $data->getHelpPages();
+		$pages = $data->getHelpPages();
 		foreach ($pages as $page => $dummy) {
 			echo "<dt>{$page}</dt>\n";
 			

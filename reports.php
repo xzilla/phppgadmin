@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.19 2004/09/02 13:53:56 jollytoad Exp $
+	 * $Id: reports.php,v 1.19.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 		global $PHP_SELF, $lang;
 
 		// If it's a first, load then get the data from the database
-		$report = &$reportsdb->getReport($_REQUEST['report_id']);
+		$report = $reportsdb->getReport($_REQUEST['report_id']);
 		if ($_REQUEST['action'] == 'edit') {			
 			$_POST['report_name'] = $report->f['report_name'];
 			$_POST['db_name'] = $report->f['db_name'];
@@ -29,7 +29,7 @@
 		}
 
 		// Get a list of available databases
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		$_REQUEST['report'] = $report->f['report_name'];
 		$misc->printTrail('report');
@@ -133,7 +133,7 @@
 		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
 		if (!isset($_REQUEST['report_sql'])) $_REQUEST['report_sql'] = '';
 
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		$misc->printTrail('server');
 		$misc->printTitle($lang['strcreatereport']);
@@ -201,7 +201,7 @@
 
 		if ($confirm) {
 			// Fetch report from the database
-			$report = &$reportsdb->getReport($_REQUEST['report_id']);
+			$report = $reportsdb->getReport($_REQUEST['report_id']);
 
 			$_REQUEST['report'] = $report->f['report_name'];
 			$misc->printTrail('report');
@@ -237,7 +237,7 @@
 		$misc->printTitle($lang['strreports']);
 		$misc->printMsg($msg);
 		
-		$reports = &$reportsdb->getReports();
+		$reports = $reportsdb->getReports();
 		
 		$columns = array(
 			'report' => array(

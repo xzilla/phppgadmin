@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.6 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: tablespaces.php,v 1.6.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -25,9 +25,9 @@
 		$misc->printMsg($msg);
 
 		// Fetch tablespace info		
-		$tablespace = &$data->getTablespace($_REQUEST['tablespace']);
+		$tablespace = $data->getTablespace($_REQUEST['tablespace']);
 		// Fetch all users		
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		if ($tablespace->recordCount() > 0) {
 			
@@ -125,7 +125,7 @@
 		if (!isset($_POST['formLoc'])) $_POST['formLoc'] = '';
 
 		// Fetch all users
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		$misc->printTrail('server');
 		$misc->printTitle($lang['strcreatetablespace'],'pg.tablespace.create');
@@ -185,7 +185,7 @@
 		$misc->printTabs('server','tablespaces');
 		$misc->printMsg($msg);
 		
-		$tablespaces = &$data->getTablespaces();
+		$tablespaces = $data->getTablespaces();
 
 		$columns = array(
 			'database' => array(

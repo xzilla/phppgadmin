@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.13 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: viewproperties.php,v 1.13.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -36,7 +36,7 @@
 		$misc->printTitle($lang['stredit'],'pg.view.alter');
 		$misc->printMsg($msg);
 		
-		$viewdata = &$data->getView($_REQUEST['view']);
+		$viewdata = $data->getView($_REQUEST['view']);
 		
 		if ($viewdata->recordCount() > 0) {
 			
@@ -132,7 +132,7 @@
 		global $PHP_SELF, $lang;
 	
 		// Get view
-		$vdata = &$data->getView($_REQUEST['view']);
+		$vdata = $data->getView($_REQUEST['view']);
 
 		$misc->printTrail('view');
 		$misc->printTabs('view','definition');
@@ -178,7 +178,7 @@
 				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
-				$column = &$data->getTableAttributes($_REQUEST['view'], $_REQUEST['column']);
+				$column = $data->getTableAttributes($_REQUEST['view'], $_REQUEST['column']);
 
 				if (!isset($_REQUEST['default'])) {
 					$_REQUEST['field'] = $column->f['attname'];
@@ -259,9 +259,9 @@
 		$misc->printMsg($msg);
 
 		// Get view
-		$vdata = &$data->getView($_REQUEST['view']);
+		$vdata = $data->getView($_REQUEST['view']);
 		// Get columns (using same method for getting a view)
-		$attrs = &$data->getTableAttributes($_REQUEST['view']);		
+		$attrs = $data->getTableAttributes($_REQUEST['view']);		
 
 		// Show comment if any
 		if ($vdata->f['relcomment'] !== null)

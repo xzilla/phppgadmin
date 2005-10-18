@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.250.2.6 2005/08/12 01:39:57 chriskl Exp $
+ * $Id: Postgres.php,v 1.250.2.7 2005/10/18 03:15:58 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -792,7 +792,7 @@ class Postgres extends ADODB_base {
 		// Owner
 		if ($this->hasAlterTableOwner() && $owner != '') {
 			// Fetch existing owner
-			$data = &$this->getTable($table);
+			$data = $this->getTable($table);
 			if ($data->recordCount() != 1) {
 				$this->rollbackTransaction();
 				return -5;
@@ -815,7 +815,7 @@ class Postgres extends ADODB_base {
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
 			// Fetch existing tablespace
-			$data = &$this->getTable($table);
+			$data = $this->getTable($table);
 			if ($data->recordCount() != 1) {
 				$this->rollbackTransaction();
 				return -5;
@@ -900,7 +900,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getTableDefPrefix($table, $clean = false) {
 		// Fetch table
-		$t = &$this->getTable($table);
+		$t = $this->getTable($table);
 		if (!is_object($t) || $t->recordCount() != 1) {
 			$this->rollbackTransaction();
 			return null;
@@ -908,14 +908,14 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($t->f['relname']);
 
 		// Fetch attributes
-		$atts = &$this->getTableAttributes($table);
+		$atts = $this->getTableAttributes($table);
 		if (!is_object($atts)) {
 			$this->rollbackTransaction();
 			return null;
 		}
 
 		// Fetch constraints
-		$cons = &$this->getConstraints($table);
+		$cons = $this->getConstraints($table);
 		if (!is_object($cons)) {
 			$this->rollbackTransaction();
 			return null;
@@ -990,11 +990,11 @@ class Postgres extends ADODB_base {
 			else {
 				switch ($cons->f['contype']) {
 					case 'p':
-						$keys = &$this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
+						$keys = $this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
 						$sql .= "PRIMARY KEY (" . join(',', $keys) . ")";
 						break;
 					case 'u':
-						$keys = &$this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
+						$keys = $this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
 						$sql .= "UNIQUE (" . join(',', $keys) . ")";
 						break;
 					default:
@@ -1022,7 +1022,7 @@ class Postgres extends ADODB_base {
 		 * You also need to make sure you don't dump inherited columns and defaults, as well
 		 * as inherited NOT NULL and CHECK constraints.  So for the time being, we just do
 		 * not claim to support inheritance.
-		$parents = &$this->getTableParents($table);
+		$parents = $this->getTableParents($table);
 		if ($parents->recordCount() > 0) {
 			$sql .= " INHERITS (";
 			while (!$parents->EOF) {
@@ -1101,7 +1101,7 @@ class Postgres extends ADODB_base {
 		if ($col_comments_sql != '') $sql .= $col_comments_sql;
 
 		// Privileges
-		$privs = &$this->getPrivileges($table, 'table');
+		$privs = $this->getPrivileges($table, 'table');
 		if (!is_array($privs)) {
 			$this->rollbackTransaction();
 			return null;
@@ -1210,7 +1210,7 @@ class Postgres extends ADODB_base {
 		$sql = '';
 
 		// Indexes
-		$indexes = &$this->getIndexes($table);
+		$indexes = $this->getIndexes($table);
 		if (!is_object($indexes)) {
 			$this->rollbackTransaction();
 			return null;
@@ -1226,7 +1226,7 @@ class Postgres extends ADODB_base {
 		}
 
 		// Triggers
-		$triggers = &$this->getTriggers($table);
+		$triggers = $this->getTriggers($table);
 		if (!is_object($triggers)) {
 			$this->rollbackTransaction();
 			return null;
@@ -1248,7 +1248,7 @@ class Postgres extends ADODB_base {
 		}
 
 		// Rules
-		$rules = &$this->getRules($table);
+		$rules = $this->getRules($table);
 		if (!is_object($rules)) {
 			$this->rollbackTransaction();
 			return null;
@@ -1804,7 +1804,7 @@ class Postgres extends ADODB_base {
 	 */
 	function resetSequence($sequence) {
 		// Get the minimum value of the sequence
-		$seq = &$this->getSequence($sequence);
+		$seq = $this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
 		$minvalue = $seq->f[$this->sqFields['minvalue']];
 
@@ -2467,7 +2467,7 @@ class Postgres extends ADODB_base {
 	 */
 	function dropOperator($operator_oid, $cascade) {
 		// Function comes in with $object as operator OID
-		$opr = &$this->getOperator($operator_oid);
+		$opr = $this->getOperator($operator_oid);
 		$this->fieldClean($opr->f['oprname']);
 
 		$sql = "DROP OPERATOR {$opr->f['oprname']} (";
@@ -3172,7 +3172,7 @@ class Postgres extends ADODB_base {
 				break;
 			case 'function':
 				// Function comes in with $object as function OID
-				$fn = &$this->getFunction($object);
+				$fn = $this->getFunction($object);
 				$this->fieldClean($fn->f['proname']);
 				$sql .= " FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";
 				break;
@@ -3520,7 +3520,7 @@ class Postgres extends ADODB_base {
 	 */
 	function dropFunction($function_oid, $cascade) {
 		// Function comes in with $object as function OID
-		$fn = &$this->getFunction($function_oid);
+		$fn = $this->getFunction($function_oid);
 		$this->fieldClean($fn->f['proname']);
 		
 		$sql = "DROP FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";

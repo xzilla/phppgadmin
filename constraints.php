@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.40 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: constraints.php,v 1.40.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -49,7 +49,7 @@
 					// because the table could be in another schema.
 					if ($data->hasSchemas())
 						$data->setSchema($_REQUEST['target']['schemaname']);
-					$attrs = &$data->getTableAttributes($_REQUEST['target']['tablename']);
+					$attrs = $data->getTableAttributes($_REQUEST['target']['tablename']);
 					if ($data->hasSchemas())
 						$data->setSchema($_REQUEST['schema']);
 
@@ -153,8 +153,8 @@
 				$misc->printTitle($lang['straddfk'],'pg.constraint.foreign_key');
 				$misc->printMsg($msg);
 
-				$attrs = &$data->getTableAttributes($_REQUEST['table']);
-				$tables = &$data->getTables(true);
+				$attrs = $data->getTableAttributes($_REQUEST['table']);
+				$tables = $data->getTables(true);
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
 				$selColumns->set_style('width: 10em;');
@@ -244,9 +244,9 @@
 			
 			$misc->printMsg($msg);
 			
-			$attrs = &$data->getTableAttributes($_REQUEST['table']);
+			$attrs = $data->getTableAttributes($_REQUEST['table']);
 			// Fetch all tablespaces from the database
-			if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+			if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
 			
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
@@ -438,7 +438,7 @@
 		function cnPre(&$rowdata) {
 			global $data, $lang;
 			if (is_null($rowdata->f['consrc'])) {
-				$atts = &$data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->f['indkey']));
+				$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->f['indkey']));
 				$rowdata->f['+definition'] = ($rowdata->f['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
 			} else {
 				$rowdata->f['+definition'] = $rowdata->f['consrc'];
@@ -449,7 +449,7 @@
 		$misc->printTabs('table','constraints');
 		$misc->printMsg($msg);
 
-		$constraints = &$data->getConstraints($_REQUEST['table']);
+		$constraints = $data->getConstraints($_REQUEST['table']);
 
 		$columns = array(
 			'constraint' => array(

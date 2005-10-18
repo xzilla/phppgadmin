@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.19 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: groups.php,v 1.19.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -70,8 +70,8 @@
 		$misc->printTitle($lang['strproperties'],'pg.group');
 		$misc->printMsg($msg);
 		
-		$groupdata = &$data->getGroup($_REQUEST['group']);
-		$users = &$data->getUsers();
+		$groupdata = $data->getGroup($_REQUEST['group']);
+		$users = $data->getUsers();
 		
 		if ($groupdata->recordCount() > 0) {
 			echo "<table>\n";
@@ -148,7 +148,7 @@
 		if (!isset($_POST['members'])) $_POST['members'] = array();
 
 		// Fetch a list of all users in the cluster
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		$misc->printTrail('server');
 		$misc->printTitle($lang['strcreategroup'],'pg.group.create');
@@ -211,7 +211,7 @@
 		$misc->printTabs('server','groups');
 		$misc->printMsg($msg);
 		
-		$groups = &$data->getGroups();
+		$groups = $data->getGroups();
 		
 		$columns = array(
 			'group' => array(

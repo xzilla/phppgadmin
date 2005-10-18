@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.7 2004/09/01 16:35:59 jollytoad Exp $
+	 * $Id: languages.php,v 1.7.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTabs('database','languages');
 		$misc->printMsg($msg);
 		
-		$languages = &$data->getlanguages();
+		$languages = $data->getlanguages();
 
 		$columns = array(
 			'language' => array(

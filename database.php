@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.64.2.1 2004/11/29 04:52:31 chriskl Exp $
+	 * $Id: database.php,v 1.64.2.2 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -84,7 +84,7 @@
 		// If a search term has been specified, then perform the search
 		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
-			$rs = &$data->findObject($_GET['term'], $_GET['filter']);
+			$rs = $data->findObject($_GET['term'], $_GET['filter']);
 			if ($rs->recordCount() > 0) {
 				$curr = '';
 				while (!$rs->EOF) {
@@ -332,7 +332,7 @@
 		global $lang;
 
 		// Fetch the variables from the database
-		$variables = &$data->getVariables();
+		$variables = $data->getVariables();
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','variables');
@@ -362,7 +362,7 @@
 		global $lang;
 
 		// Fetch the processes from the database
-		$processes = &$data->getProcesses($_REQUEST['database']);
+		$processes = $data->getProcesses($_REQUEST['database']);
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','processes');
@@ -585,7 +585,7 @@
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all users from the database
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 
 		$misc->printTrail('database');
 		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
@@ -653,7 +653,7 @@
 		
 		// Check that the DB actually supports schemas
 		if ($data->hasSchemas()) {
-			$schemas = &$data->getSchemas();
+			$schemas = $data->getSchemas();
 
 			$columns = array(
 				'schema' => array(
@@ -717,7 +717,7 @@
 		$misc->printTitle($lang['stralter'],'pg.schema.alter');
 		$misc->printMsg($msg);
 
-		$schema = &$data->getSchemaByName($_REQUEST['schema']);
+		$schema = $data->getSchemaByName($_REQUEST['schema']);
 		if ($schema->recordCount() > 0) {
 			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];

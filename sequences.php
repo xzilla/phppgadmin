@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.27 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: sequences.php,v 1.27.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -25,7 +25,7 @@
 		$misc->printMsg($msg);
 		
 		// Get all sequences
-		$sequences = &$data->getSequences();
+		$sequences = $data->getSequences();
 		
 		$columns = array(
 			'sequence' => array(
@@ -80,7 +80,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the sequence information
-		$sequence = &$data->getSequence($_REQUEST['sequence']);		
+		$sequence = $data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
 			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);

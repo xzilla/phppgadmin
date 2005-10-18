@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.17 2004/09/07 13:58:21 jollytoad Exp $
+	 * $Id: operators.php,v 1.17.2.1 2005/10/18 03:15:57 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTitle($lang['strproperties'],'pg.operator');
 		$misc->printMsg($msg);
 		
-		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
+		$oprdata = $data->getOperator($_REQUEST['operator_oid']);
 		$oprdata->f['oprcanhash'] = $data->phpBool($oprdata->f['oprcanhash']);
 
 		if ($oprdata->recordCount() > 0) {
@@ -110,7 +110,7 @@
 		$misc->printTabs('schema','operators');
 		$misc->printMsg($msg);
 		
-		$operators = &$data->getOperators();
+		$operators = $data->getOperators();
 
 		$columns = array(
 			'operator' => array(
