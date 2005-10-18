@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.10 2005/06/29 05:11:44 chriskl Exp $
+	 * $Id: casts.php,v 1.11 2005/10/18 03:45:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,7 @@
 		$misc->printTabs('database','casts');
 		$misc->printMsg($msg);
 		
-		$casts = &$data->getcasts();
+		$casts = $data->getCasts();
 
 		$columns = array(
 			'source_type' => array(
@@ -68,7 +68,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$casts = &$data->getCasts();
+		$casts = $data->getCasts();
 		
 		$proto = concat(field('castsource'), ' AS ', field('casttarget'));
 		

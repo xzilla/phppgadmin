@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.53 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: views.php,v 1.54 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -27,7 +27,7 @@
 			$misc->printTitle($lang['strselect'], 'pg.sql.select');
 			$misc->printMsg($msg);
 
-			$attrs = &$data->getTableAttributes($_REQUEST['view']);
+			$attrs = $data->getTableAttributes($_REQUEST['view']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -201,7 +201,7 @@
 					$data->setSchema($arrSelTables[$i]['schemaname']);
 				}
 				
-				$attrs = &$data->getTableAttributes($arrSelTables[$i]['tablename']);
+				$attrs = $data->getTableAttributes($arrSelTables[$i]['tablename']);
 				while (!$attrs->EOF) {
 					if ($data->hasSchemas() ) {
 						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
@@ -308,7 +308,7 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
-		$tables = &$data->getTables(true);
+		$tables = $data->getTables(true);
 		
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
@@ -525,7 +525,7 @@
 		$misc->printTabs('schema','views');
 		$misc->printMsg($msg);
 		
-		$views = &$data->getViews();
+		$views = $data->getViews();
 		
 		$columns = array(
 			'view' => array(
@@ -589,7 +589,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$views = &$data->getViews();
+		$views = $data->getViews();
 		
 		$reqvars = $misc->getRequestVars('view');
 		

@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.10 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: conversions.php,v 1.11 2005/10/18 03:45:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTabs('schema', 'conversions');
 		$misc->printMsg($msg);
 		
-		$conversions = &$data->getconversions();
+		$conversions = $data->getconversions();
 		
 		$columns = array(
 			'conversion' => array(
@@ -61,7 +61,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$conversions = &$data->getconversions();
+		$conversions = $data->getconversions();
 		
 		$attrs = array(
 			'text'   => field('conname'),

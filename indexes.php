@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.36 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: indexes.php,v 1.37 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -79,9 +79,9 @@
 		if (!isset($_POST['formWhere'])) $_POST['formWhere'] = '';
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 
-		$attrs = &$data->getTableAttributes($_REQUEST['table']);
+		$attrs = $data->getTableAttributes($_REQUEST['table']);
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 		
 		$misc->printTrail('table');
 		$misc->printTitle($lang['strcreateindex'],'pg.index.create');
@@ -259,7 +259,7 @@
 		$misc->printTabs('table','indexes');
 		$misc->printMsg($msg);
 
-		$indexes = &$data->getIndexes($_REQUEST['table']);
+		$indexes = $data->getIndexes($_REQUEST['table']);
 		
 		$columns = array(
 			'index' => array(

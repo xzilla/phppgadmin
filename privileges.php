@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.37 2005/10/11 18:38:56 xzilla Exp $
+	 * $Id: privileges.php,v 1.38 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -29,9 +29,9 @@
 	
 		if ($confirm) {
 			// Get users from the database
-			$users = &$data->getUsers();
+			$users = $data->getUsers();
 			// Get groups from the database
-			$groups = &$data->getGroups();
+			$groups = $data->getGroups();
 		
 			$misc->printTrail($_REQUEST['subject']);
 			

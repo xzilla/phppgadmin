@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.51 2005/10/10 21:33:18 xzilla Exp $
+	 * $Id: display.php,v 1.52 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -38,8 +38,8 @@
 			$misc->printTitle($lang['streditrow']);
 			$misc->printMsg($msg);
 
-			$attrs = &$data->getTableAttributes($_REQUEST['table']);
-			$rs = &$data->browseRow($_REQUEST['table'], $key);
+			$attrs = $data->getTableAttributes($_REQUEST['table']);
+			$rs = $data->browseRow($_REQUEST['table'], $key);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			$elements = 0;
@@ -256,7 +256,7 @@
 		}
 
 		// Retrieve page from query.  $max_pages is returned by reference.
-		$rs = &$data->browseQuery($type, 
+		$rs = $data->browseQuery($type, 
 			isset($object) ? $object : null, 
 			isset($_REQUEST['query']) ? $_REQUEST['query'] : null, 
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],

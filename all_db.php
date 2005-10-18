@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.40 2005/05/05 08:59:52 jollytoad Exp $
+	 * $Id: all_db.php,v 1.41 2005/10/18 03:45:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -38,7 +38,7 @@
 				
 				$rs = $data->getDatabaseOwner($_REQUEST['alterdatabase']);
 				$owner = isset($rs->fields['usename']) ? $rs->fields['usename'] : '';
-				$users = &$data->getUsers();
+				$users = $data->getUsers();
 				
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
@@ -124,7 +124,7 @@
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
@@ -250,7 +250,7 @@
 		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
 		
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		$columns = array(
 			'database' => array(
@@ -315,7 +315,7 @@
 	function doTree() {
 		global $misc, $data, $lang;
 		
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 		
 		$reqvars = $misc->getRequestVars('database');
 		

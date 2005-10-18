@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.73 2005/10/10 21:33:18 xzilla Exp $
+	 * $Id: tables.php,v 1.74 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -28,7 +28,7 @@
 		switch ($_REQUEST['stage']) {
 			case 1:
 				// Fetch all tablespaces from the database
-				if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces();
+				if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 				
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
@@ -93,7 +93,7 @@
 					return;
 				}
 
-				$types = &$data->getTypes(true, false, true);
+				$types = $data->getTypes(true, false, true);
 	
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
@@ -231,7 +231,7 @@
 			$misc->printTitle($lang['strselect'], 'pg.sql.select');
 			$misc->printMsg($msg);
 
-			$attrs = &$data->getTableAttributes($_REQUEST['table']);
+			$attrs = $data->getTableAttributes($_REQUEST['table']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -341,7 +341,7 @@
 			$misc->printTitle($lang['strinsertrow'], 'pg.sql.insert');
 			$misc->printMsg($msg);
 
-			$attrs = &$data->getTableAttributes($_REQUEST['table']);
+			$attrs = $data->getTableAttributes($_REQUEST['table']);
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -547,7 +547,7 @@
 		$misc->printTabs('schema','tables');
 		$misc->printMsg($msg);
 		
-		$tables = &$data->getTables();
+		$tables = $data->getTables();
 		
 		$columns = array(
 			'table' => array(
@@ -627,7 +627,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$tables = &$data->getTables();
+		$tables = $data->getTables();
 		
 		$reqvars = $misc->getRequestVars('table');
 		

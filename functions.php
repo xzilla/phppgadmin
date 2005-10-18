@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.51 2005/10/17 08:26:38 jollytoad Exp $
+	 * $Id: functions.php,v 1.52 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,7 +51,7 @@
 		$misc->printTitle($lang['stralter'],'pg.function.alter');
 		$misc->printMsg($msg);
 
-		$fndata = &$data->getFunction($_REQUEST['function_oid']);
+		$fndata = $data->getFunction($_REQUEST['function_oid']);
 
 		if ($fndata->recordCount() > 0) {
 			$fndata->f['proretset'] = $data->phpBool($fndata->f['proretset']);
@@ -178,7 +178,7 @@
 		$misc->printTitle($lang['strproperties'],'pg.function');
 		$misc->printMsg($msg);
 		
-		$funcdata = &$data->getFunction($_REQUEST['function_oid']);
+		$funcdata = $data->getFunction($_REQUEST['function_oid']);
 		
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
@@ -236,7 +236,7 @@
 					$tag = 'prenoescape';
 				}
 				else {
-					$temp = &$funcdata->f['prosrc'];
+					$temp = $funcdata->f['prosrc'];
 					$tag = 'pre';
 				}
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($temp, $tag, array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
@@ -320,8 +320,8 @@
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
 
-		$types = &$data->getTypes(true, true, true);
-		$langs = &$data->getLanguages(true);
+		$types = $data->getTypes(true, true, true);
+		$langs = $data->getLanguages(true);
 		$fnlang = strtolower($_POST['formLanguage']);
 
 		switch ($fnlang) {
@@ -473,7 +473,7 @@
 		$misc->printTabs('schema','functions');
 		$misc->printMsg($msg);
 		
-		$funcs = &$data->getFunctions();
+		$funcs = $data->getFunctions();
 		
 		$columns = array(
 			'function' => array(
@@ -543,7 +543,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$funcs = &$data->getFunctions();
+		$funcs = $data->getFunctions();
 		
 		$proto = concat(field('proname'),' (',field('proarguments'),')');
 		

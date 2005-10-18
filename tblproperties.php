@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.66 2005/10/10 21:33:18 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.67 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -51,11 +51,11 @@
 		$misc->printMsg($msg);
 
 		// Fetch table info		
-		$table = &$data->getTable($_REQUEST['table']);
+		$table = $data->getTable($_REQUEST['table']);
 		// Fetch all users
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		// Fetch all tablespaces from the database
-		if ($data->hasTablespaces()) $tablespaces = &$data->getTablespaces(true);
+		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces(true);
 		
 		if ($table->recordCount() > 0) {
 			
@@ -240,7 +240,7 @@
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 
 				// Fetch all available types
-				$types = &$data->getTypes(true, false, true);
+				$types = $data->getTypes(true, false, true);
 
 				$misc->printTrail('table');
 				$misc->printTitle($lang['straddcolumn'], 'pg.column.add');
@@ -361,7 +361,7 @@
 				}
 				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
-				$column = &$data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
+				$column = $data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
 
 				// Upon first drawing the screen, load the existing column information
@@ -398,7 +398,7 @@
 				// Column type
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
-					$types = &$data->getTypes(true, false, true);
+					$types = $data->getTypes(true, false, true);
 					
 					echo "<td><select name=\"type\">\n";				
 					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that
@@ -537,9 +537,9 @@
 		$misc->printMsg($msg);
 
 		// Get table
-		$tdata = &$data->getTable($_REQUEST['table']);
+		$tdata = $data->getTable($_REQUEST['table']);
 		// Get columns
-		$attrs = &$data->getTableAttributes($_REQUEST['table']);		
+		$attrs = $data->getTableAttributes($_REQUEST['table']);		
 
 		// Show comment if any
 		if ($tdata->f['relcomment'] !== null)

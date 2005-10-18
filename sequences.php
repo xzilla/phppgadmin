@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.29 2005/06/16 14:40:11 chriskl Exp $
+	 * $Id: sequences.php,v 1.30 2005/10/18 03:45:16 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -25,7 +25,7 @@
 		$misc->printMsg($msg);
 		
 		// Get all sequences
-		$sequences = &$data->getSequences();
+		$sequences = $data->getSequences();
 		
 		$columns = array(
 			'sequence' => array(
@@ -74,7 +74,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$sequences = &$data->getSequences();
+		$sequences = $data->getSequences();
 		
 		$reqvars = $misc->getRequestVars('sequence');
 		
@@ -107,7 +107,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the sequence information
-		$sequence = &$data->getSequence($_REQUEST['sequence']);		
+		$sequence = $data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
 			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);

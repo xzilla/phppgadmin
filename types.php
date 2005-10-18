@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.27 2005/09/03 05:04:59 chriskl Exp $
+	 * $Id: types.php,v 1.28 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -21,7 +21,7 @@
 		global $PHP_SELF, $lang;
 
 		// Get type (using base name)
-		$typedata = &$data->getType($_REQUEST['type']);
+		$typedata = $data->getType($_REQUEST['type']);
 
 		$misc->printTrail('type');
 		$misc->printTitle($lang['strproperties'], 'pg.type');
@@ -35,7 +35,7 @@
 		if ($typedata->recordCount() > 0) {
 			switch ($typedata->f['typtype']) {
 			case 'c':
-				$attrs = &$data->getTableAttributes($_REQUEST['type']);
+				$attrs = $data->getTableAttributes($_REQUEST['type']);
 				
 				$columns = array(
 					'field' => array(
@@ -171,7 +171,7 @@
 					return;
 				}
 
-				$types = &$data->getTypes(true, false, true);
+				$types = $data->getTypes(true, false, true);
 
 				$misc->printTrail('type');
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
@@ -282,8 +282,8 @@
 		if (!isset($_POST['typstorage'])) $_POST['typstorage'] = $data->typStorageDef;
 
 		// Retrieve all functions and types in the database
-		$funcs = &$data->getFunctions(true);
-		$types = &$data->getTypes(true);
+		$funcs = $data->getFunctions(true);
+		$types = $data->getTypes(true);
 
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strcreatetype'], 'pg.type.create');
@@ -400,7 +400,7 @@
 		$misc->printTabs('schema','types');
 		$misc->printMsg($msg);
 		
-		$types = &$data->getTypes();
+		$types = $data->getTypes();
 
 		$columns = array(
 			'type' => array(
@@ -464,7 +464,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$types = &$data->getTypes();
+		$types = $data->getTypes();
 		
 		$reqvars = $misc->getRequestVars('type');
 		

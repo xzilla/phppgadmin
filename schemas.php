@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.2 2005/07/08 08:30:31 jollytoad Exp $
+	 * $Id: schemas.php,v 1.3 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -26,7 +26,7 @@
 		
 		// Check that the DB actually supports schemas
 		if ($data->hasSchemas()) {
-			$schemas = &$data->getSchemas();
+			$schemas = $data->getSchemas();
 
 			$columns = array(
 				'schema' => array(
@@ -93,7 +93,7 @@
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all users from the database
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 
 		$misc->printTrail('database');
 		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
@@ -160,7 +160,7 @@
 		$misc->printTitle($lang['stralter'],'pg.schema.alter');
 		$misc->printMsg($msg);
 
-		$schema = &$data->getSchemaByName($_REQUEST['schema']);
+		$schema = $data->getSchemaByName($_REQUEST['schema']);
 		if ($schema->recordCount() > 0) {
 			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
@@ -240,7 +240,7 @@
 	function doTree() {
 		global $misc, $data, $lang, $PHP_SELF, $slony;
 		
-		$schemas = &$data->getSchemas();
+		$schemas = $data->getSchemas();
 		
 		$reqvars = $misc->getRequestVars('schema');
 		

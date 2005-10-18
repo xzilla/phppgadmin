@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.20 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: domains.php,v 1.21 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -39,9 +39,9 @@
 		$misc->printMsg($msg);
 		
 		// Fetch domain info
-		$domaindata = &$data->getDomain($_REQUEST['domain']);
+		$domaindata = $data->getDomain($_REQUEST['domain']);
 		// Fetch all users
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		if ($domaindata->recordCount() > 0) {
 			if (!isset($_POST['domname'])) {				
@@ -181,7 +181,7 @@
 		$misc->printTitle($lang['strproperties'],'pg.domain');
 		$misc->printMsg($msg);
 		
-		$domaindata = &$data->getDomain($_REQUEST['domain']);
+		$domaindata = $data->getDomain($_REQUEST['domain']);
 		
 		if ($domaindata->recordCount() > 0) {
 			// Show comment if any
@@ -205,7 +205,7 @@
 			
 			// Display domain constraints
 			if ($data->hasDomainConstraints()) {
-				$domaincons = &$data->getDomainConstraints($_REQUEST['domain']);
+				$domaincons = $data->getDomainConstraints($_REQUEST['domain']);
 				if ($domaincons->recordCount() > 0) {
 					echo "<h3>{$lang['strconstraints']}</h3>\n";
 					echo "<table>\n";
@@ -290,7 +290,7 @@
 		if (!isset($_POST['domdefault'])) $_POST['domdefault'] = '';
 		if (!isset($_POST['domcheck'])) $_POST['domcheck'] = '';
 
-		$types = &$data->getTypes(true);
+		$types = $data->getTypes(true);
 		
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strcreatedomain'],'pg.domain.create');
@@ -372,7 +372,7 @@
 		$misc->printTabs('schema','domains');
 		$misc->printMsg($msg);
 		
-		$domains = &$data->getDomains();
+		$domains = $data->getDomains();
 		
 		$columns = array(
 			'domain' => array(
@@ -431,7 +431,7 @@
 	function doTree() {
 		global $misc, $data, $PHP_SELF;
 		
-		$domains = &$data->getDomains();
+		$domains = $data->getDomains();
 		
 		$reqvars = $misc->getRequestVars('domain');
 		

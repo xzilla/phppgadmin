@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.103 2005/08/02 15:56:30 soranzo Exp $
+	 * $Id: lib.inc.php,v 1.104 2005/10/18 03:45:16 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -172,7 +172,7 @@
 		include_once('./classes/database/Connection.php');
 		
 		// Connect to database and set the global $data variable
-		$data =& $misc->getDatabaseAccessor($_curr_db);
+		$data = $misc->getDatabaseAccessor($_curr_db);
 
 		// If schema is defined and database supports schemas, then set the 
 		// schema explicitly.

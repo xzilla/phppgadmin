@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.27 2005/05/03 02:34:29 soranzo Exp $
+	 * $Id: triggers.php,v 1.28 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -37,7 +37,7 @@
 		$misc->printTitle($lang['stralter'],'pg.trigger.alter');
 		$misc->printMsg($msg);
 		
-		$triggerdata = &$data->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
+		$triggerdata = $data->getTrigger($_REQUEST['table'], $_REQUEST['trigger']);
 		
 		if ($triggerdata->recordCount() > 0) {
 			
@@ -110,7 +110,7 @@
 		$misc->printMsg($msg);
 		
 		// Get all the functions that can be used in triggers
-		$funcs = &$data->getTriggerFunctions();
+		$funcs = $data->getTriggerFunctions();
 		if ($funcs->recordCount() == 0) {
 			doDefault($lang['strnofunctions']);
 			return;
@@ -182,7 +182,7 @@
 		elseif ($_POST['formEvent'] == '') 
 			doCreate();
 		else {		 
-			$status = &$data->createTrigger($_POST['formTriggerName'], $_POST['table'],
+			$status = $data->createTrigger($_POST['formTriggerName'], $_POST['table'],
 					$_POST['formFunction'], $_POST['formExecTime'], $_POST['formEvent'],
 					$_POST['formFrequency'], $_POST['formTriggerArgs']);
 			if ($status == 0)
@@ -212,7 +212,7 @@
 		$misc->printTabs('table','triggers');
 		$misc->printMsg($msg);
 
-		$triggers = &$data->getTriggers($_REQUEST['table']);
+		$triggers = $data->getTriggers($_REQUEST['table']);
 
 		$columns = array(
 			'trigger' => array(

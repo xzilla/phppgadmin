@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.30 2005/05/02 15:47:25 chriskl Exp $
+	 * $Id: users.php,v 1.31 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 		
 		$server_info = $misc->getServerInfo();
 		
-		$userdata = &$data->getUser($server_info['username']);
+		$userdata = $data->getUser($server_info['username']);
 		$_REQUEST['user'] = $server_info['username'];
 		
 		$misc->printTrail('user');
@@ -112,7 +112,7 @@
 		$misc->printTitle($lang['stralter'],'pg.user.alter');
 		$misc->printMsg($msg);
 		
-		$userdata = &$data->getUser($_REQUEST['username']);
+		$userdata = $data->getUser($_REQUEST['username']);
 		
 		if ($userdata->recordCount() > 0) {
 			$server_info = $misc->getServerInfo();
@@ -283,7 +283,7 @@
 		$misc->printTabs('server','users');
 		$misc->printMsg($msg);
 		
-		$users = &$data->getUsers();
+		$users = $data->getUsers();
 		
 		$columns = array(
 			'user' => array(

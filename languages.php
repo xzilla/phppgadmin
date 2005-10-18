@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.8 2005/06/29 05:11:44 chriskl Exp $
+	 * $Id: languages.php,v 1.9 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTabs('database','languages');
 		$misc->printMsg($msg);
 		
-		$languages = &$data->getLanguages();
+		$languages = $data->getLanguages();
 
 		$columns = array(
 			'language' => array(
@@ -53,7 +53,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$languages = &$data->getLanguages();
+		$languages = $data->getLanguages();
 		
 		$attrs = array(
 			'text'   => field('lanname'),

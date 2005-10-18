@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.73 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres71.php,v 1.74 2005/10/18 03:45:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -195,7 +195,7 @@ class Postgres71 extends Postgres {
 	 */
 	function resetSequence($sequence) {
 		// Get the minimum value of the sequence
-		$seq = &$this->getSequence($sequence);
+		$seq = $this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
 		$minvalue = $seq->f['min_value'];
 

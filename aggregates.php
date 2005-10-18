@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.11 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: aggregates.php,v 1.12 2005/10/18 03:45:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		$misc->printTabs('schema', 'aggregates');
 		$misc->printMsg($msg);
 		
-		$aggregates = &$data->getAggregates();
+		$aggregates = $data->getAggregates();
 
 		$columns = array(
 			'aggregate' => array(
@@ -52,7 +52,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$aggregates = &$data->getAggregates();
+		$aggregates = $data->getAggregates();
 		
 		$proto = concat(field('proname'), ' (', field('proargtypes'), ')');
 		

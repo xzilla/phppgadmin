@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.28 2005/10/10 21:33:18 xzilla Exp $
+	 * $Id: sqledit.php,v 1.29 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,7 +50,7 @@
 		echo "</select>\n</td><td align=\"right\">\n";
 		
 		// Get the list of all databases
-		$databases = &$data->getDatabases();
+		$databases = $data->getDatabases();
 
 		if ($databases->recordCount() > 0) {
 			// The javascript action on the select box reloads

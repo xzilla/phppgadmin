@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.19 2005/09/03 04:59:59 chriskl Exp $
+	 * $Id: operators.php,v 1.20 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -24,7 +24,7 @@
 		$misc->printTitle($lang['strproperties'],'pg.operator');
 		$misc->printMsg($msg);
 		
-		$oprdata = &$data->getOperator($_REQUEST['operator_oid']);
+		$oprdata = $data->getOperator($_REQUEST['operator_oid']);
 		$oprdata->f['oprcanhash'] = $data->phpBool($oprdata->f['oprcanhash']);
 
 		if ($oprdata->recordCount() > 0) {
@@ -110,7 +110,7 @@
 		$misc->printTabs('schema','operators');
 		$misc->printMsg($msg);
 		
-		$operators = &$data->getOperators();
+		$operators = $data->getOperators();
 
 		$columns = array(
 			'operator' => array(
@@ -162,7 +162,7 @@
 	function doTree() {
 		global $misc, $data, $PHP_SELF;
 		
-		$operators = &$data->getOperators();
+		$operators = $data->getOperators();
 		
 		// Operator prototype: "type operator type"
 		$proto = concat(field('oprleftname'), ' ', field('oprname'), ' ', field('oprrightname'));

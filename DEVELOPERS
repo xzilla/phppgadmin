@@ -87,7 +87,7 @@ oriented (ADODB_base.pclass).
 
 This is the general form for looping over a recordset:
 
-$rs = &$class->getResults();
+$rs = $class->getResults();
 if (is_object($rs) && $rs->recordCount() > 0) {
 	while (!$rs->EOF) {
 		echo $rs->f['field'];

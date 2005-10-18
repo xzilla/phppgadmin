@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.21 2005/07/15 08:03:12 chriskl Exp $
+	 * $Id: dataexport.php,v 1.22 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	$extensions = array(
@@ -113,7 +113,7 @@
 
 			// Execute the query, if set, otherwise grab all rows from the table
 			if (isset($_REQUEST['table']))
-				$rs = &$data->dumpRelation($_REQUEST['table'], $oids);
+				$rs = $data->dumpRelation($_REQUEST['table'], $oids);
 			else
 				$rs = $data->conn->Execute($_REQUEST['query']);
 

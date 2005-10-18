@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.3 2005/07/06 14:46:23 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.4 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Avoid database connections whenever possible
@@ -123,7 +123,7 @@
 				
 				break;
 			case 'nodes':			
-				$nodes = &$slony->getNodes();
+				$nodes = $slony->getNodes();
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
@@ -204,7 +204,7 @@
 				
 				break;			
 			case 'paths':
-				$tables = &$slony->getPaths($_REQUEST['no_id']);
+				$tables = $slony->getPaths($_REQUEST['no_id']);
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
@@ -219,7 +219,7 @@
 			
 				break;
 			case 'listens':
-				$tables = &$slony->getListens($_REQUEST['no_id']);
+				$tables = $slony->getListens($_REQUEST['no_id']);
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
@@ -234,7 +234,7 @@
 			
 				break;
 			case 'sets':
-				$sets = &$slony->getReplicationSets();
+				$sets = $slony->getReplicationSets();
 			
 				$attrs = array(
 					'text'   => field('set_comment'),
@@ -341,7 +341,7 @@
 				
 				break;
 			case 'sequences':
-				$tables = &$slony->getSequences($_REQUEST['set_id']);
+				$tables = $slony->getSequences($_REQUEST['set_id']);
 				
 				$reqvars = $misc->getRequestVars('sequence');
 
@@ -363,7 +363,7 @@
 			
 				break;
 			case 'tables':
-				$tables = &$slony->getTables($_REQUEST['set_id']);
+				$tables = $slony->getTables($_REQUEST['set_id']);
 				
 				$reqvars = $misc->getRequestVars('table');
 				
@@ -381,7 +381,7 @@
 			
 				break;
 			case 'subscriptions':
-				$tables = &$slony->getSubscribedNodes($_REQUEST['set_id']);
+				$tables = $slony->getSubscribedNodes($_REQUEST['set_id']);
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
@@ -460,7 +460,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the cluster information
-		$cluster = &$slony->getCluster();
+		$cluster = $slony->getCluster();
 		
 		if (is_object($cluster) && $cluster->recordCount() > 0) {			
 			echo "<table>\n";
@@ -622,7 +622,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the node information
-		$node = &$slony->getNode($_REQUEST['no_id']);		
+		$node = $slony->getNode($_REQUEST['no_id']);		
 		
 		if (is_object($node) && $node->recordCount() > 0) {			
 			// Show comment if any
@@ -776,7 +776,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the path information
-		$path = &$slony->getPath($_REQUEST['no_id'], $_REQUEST['path_id']);		
+		$path = $slony->getPath($_REQUEST['no_id'], $_REQUEST['path_id']);		
 		
 		if (is_object($path) && $path->recordCount() > 0) {			
 			// Show comment if any
@@ -812,7 +812,7 @@
 			if (!isset($_POST['pathretry'])) $_POST['pathretry'] = '10';
 	
 			// Fetch all servers
-			$nodes = &$slony->getNodes();
+			$nodes = $slony->getNodes();
 
 			$misc->printTrail('slony_paths');
 			$misc->printTitle($lang['strcreatepath']);
@@ -954,7 +954,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the listen information
-		$listen = &$slony->getListen($_REQUEST['no_id'], $_REQUEST['listen_id']);		
+		$listen = $slony->getListen($_REQUEST['no_id'], $_REQUEST['listen_id']);		
 		
 		if (is_object($listen) && $listen->recordCount() > 0) {			
 			// Show comment if any
@@ -989,7 +989,7 @@
 			if (!isset($_POST['listenprovider'])) $_POST['listenprovider'] = '';
 	
 			// Fetch all servers
-			$nodes = &$slony->getNodes();
+			$nodes = $slony->getNodes();
 
 			$misc->printTrail('slony_listens');
 			$misc->printTitle($lang['strcreatelisten']);
@@ -1149,7 +1149,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the set information
-		$set = &$slony->getReplicationSet($_REQUEST['set_id']);		
+		$set = $slony->getReplicationSet($_REQUEST['set_id']);		
 		
 		if (is_object($set) && $set->recordCount() > 0) {			
 			// Show comment if any
@@ -1547,7 +1547,7 @@
 				if (!isset($_POST['tab_id'])) $_POST['tab_id'] = '';
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 				
-				$tables = &$data->getTables(true);
+				$tables = $data->getTables(true);
 		
 				$misc->printTrail('slony_sets');
 				$misc->printTitle($lang['straddtable']);
@@ -1591,14 +1591,14 @@
 				$_REQUEST['target'] = unserialize($_REQUEST['target']);
 				$data->setSchema($_REQUEST['target']['schemaname']);
 				// Get indexes
-				$indexes = &$data->getIndexes($_REQUEST['target']['tablename'], true);
+				$indexes = $data->getIndexes($_REQUEST['target']['tablename'], true);
 				if ($indexes->recordCount() == 0) {
 					doAddTable(1, $lang['strtableneedsuniquekey']);
 					return;
 				}
 				
 				// Get triggers
-				$triggers = &$data->getTriggers($_REQUEST['target']['tablename']);				
+				$triggers = $data->getTriggers($_REQUEST['target']['tablename']);				
 
 				// If only one index and no triggers then jump to next step
 				if ($indexes->recordCount() == 1 && $triggers->recordCount() == 0) {
@@ -1679,7 +1679,7 @@
 			case 1:
 				if (!isset($_POST['new_set_id'])) $_POST['new_set_id'] = '';
 				
-				$sets = &$slony->getReplicationSets();
+				$sets = $slony->getReplicationSets();
 		
 				$misc->printTrail('slony_sets');
 				$misc->printTitle($lang['strmove']);
@@ -1820,7 +1820,7 @@
 				if (!isset($_POST['seq_id'])) $_POST['seq_id'] = '';
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 				
-				$sequences = &$data->getSequences(true);
+				$sequences = $data->getSequences(true);
 		
 				$misc->printTrail('slony_sets');
 				$misc->printTitle($lang['straddsequence']);
@@ -1918,7 +1918,7 @@
 			case 1:
 				if (!isset($_POST['new_set_id'])) $_POST['new_set_id'] = '';
 				
-				$sets = &$slony->getReplicationSets();
+				$sets = $slony->getReplicationSets();
 		
 				$misc->printTrail('slony_sets');
 				$misc->printTitle($lang['strmove']);
@@ -2009,7 +2009,7 @@
 		$misc->printMsg($msg);
 		
 		// Fetch the subscription information
-		$subscription = &$slony->getSubscription($_REQUEST['set_id'], $_REQUEST['no_id']);		
+		$subscription = $slony->getSubscription($_REQUEST['set_id'], $_REQUEST['no_id']);		
 		
 		if (is_object($subscription) && $subscription->recordCount() > 0) {			
 			// Show comment if any

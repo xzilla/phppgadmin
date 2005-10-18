@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.75 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: database.php,v 1.76 2005/10/18 03:45:15 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -84,7 +84,7 @@
 		// If a search term has been specified, then perform the search
 		// and display the results, grouped by object type
 		if ($_GET['term'] != '') {
-			$rs = &$data->findObject($_GET['term'], $_GET['filter']);
+			$rs = $data->findObject($_GET['term'], $_GET['filter']);
 			if ($rs->recordCount() > 0) {
 				$curr = '';
 				while (!$rs->EOF) {
@@ -332,7 +332,7 @@
 		global $lang;
 
 		// Fetch the variables from the database
-		$variables = &$data->getVariables();
+		$variables = $data->getVariables();
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','variables');
@@ -362,7 +362,7 @@
 		global $lang;
 
 		// Fetch the processes from the database
-		$processes = &$data->getProcesses($_REQUEST['database']);
+		$processes = $data->getProcesses($_REQUEST['database']);
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','processes');

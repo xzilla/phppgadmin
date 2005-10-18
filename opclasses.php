@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.7 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: opclasses.php,v 1.8 2005/10/18 03:45:16 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 		$misc->printTabs('schema','opclasses');
 		$misc->printMsg($msg);
 		
-		$opclasses = &$data->getOpClasses();
+		$opclasses = $data->getOpClasses();
 		
 		$columns = array(
 			'accessmethod' => array(
@@ -60,7 +60,7 @@
 	function doTree() {
 		global $misc, $data;
 		
-		$opclasses = &$data->getOpClasses();
+		$opclasses = $data->getOpClasses();
 		
 		// OpClass prototype: "op_class/access_method"
 		$proto = concat(field('opcname'),'/',field('amname'));
