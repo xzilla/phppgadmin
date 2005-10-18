@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.42.2.2 2005/09/29 13:09:35 chriskl Exp $
+	 * $Id: browser.php,v 1.42.2.3 2005/10/18 03:05:23 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -50,7 +50,7 @@
 		// Add table folder to schema
 		$schemanode->addItem($table_node);
 
-		$tables = &$data->getTables();
+		$tables = $data->getTables();
 		while (!$tables->EOF) {
 			$return_url = urlencode("tblproperties.php?table=" . urlencode($tables->f['relname']) . "&{$querystr}");
 			$item_node = &new HTML_TreeNode(array(
@@ -79,7 +79,7 @@
 		// Add view folder to schema
 		$schemanode->addItem($view_node);
 
-		$views = &$data->getViews();
+		$views = $data->getViews();
 		while (!$views->EOF) {
 			$return_url = urlencode("viewproperties.php?view=" . urlencode($views->f['relname']) . "&{$querystr}");
 			$item_node = &new HTML_TreeNode(array(
@@ -224,7 +224,7 @@
 		
 			// If database supports schemas, add the extra level of hierarchy
 			if ($data->hasSchemas()) {
-				$schemas = &$data->getSchemas();
+				$schemas = $data->getSchemas();
 				while (!$schemas->EOF) {
 					$data->setSchema($schemas->f['nspname']);
 					// Construct database & schema query string
