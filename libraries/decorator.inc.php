@@ -1,5 +1,5 @@
 <?php
-// $Id: decorator.inc.php,v 1.4 2005/09/03 04:59:59 chriskl Exp $
+// $Id: decorator.inc.php,v 1.5 2005/10/18 04:11:58 mr-russ Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
@@ -60,7 +60,7 @@ function noEscape($value) {
 
 function value(&$var, &$fields, $esc = null) {
 	if (is_a($var, 'Decorator')) {
-		$val =& $var->value($fields);
+		$val = $var->value($fields);
 		if (!$var->esc) $esc = null;
 	} else {
 		$val =& $var;
