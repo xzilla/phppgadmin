@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.4 2005/08/11 23:01:45 soranzo Exp $
+	* $Id: romanian.php,v 1.5 2005/10/20 02:35:05 chriskl Exp $
 	*/
 
 	// Language and character set
@@ -28,6 +28,10 @@
 	$lang['strloginfailed'] = 'Autentificare e&#351;uat&#259;';
 	$lang['strlogindisallowed'] = 'Autentificare nepermis&#259; din motive de securitate.';
 	$lang['strserver'] = 'Server';
+	$lang['strservers'] = 'Servere';
+	$lang['strintroduction'] = 'Introducere';
+	$lang['strhost'] = 'Gazd&#259;';
+	$lang['strport'] = 'Port';
 	$lang['strlogout'] = 'Ie&#351;ire';
 	$lang['strowner'] = 'Proprietar';
 	$lang['straction'] = 'Ac&#355;iune';
@@ -70,7 +74,6 @@
 	$lang['strrows'] = 'r&acirc;nd(uri)';
 	$lang['strrowsaff'] = 'r&acirc;nd(uri) afectate.';
 	$lang['strobjects'] = 'obiect(e)';
-	$lang['strexample'] = 'ex.';
 	$lang['strback'] = '&Icirc;napoi';
 	$lang['strqueryresults'] = 'Rezultatele interog&#259;rii';
 	$lang['strshow'] = 'Afi&#351;are';
@@ -82,8 +85,10 @@
 	$lang['strprimary'] = 'Primar';
 	$lang['strexport'] = 'Export';
 	$lang['strimport'] = 'Import';
+	$lang['strallowednulls'] = 'Caractere NULL permise';
+	$lang['strbackslashn'] = '\N';
+	$lang['stremptystring'] = '&#350;ir/c&acirc;mp gol';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Executare';
 	$lang['stradmin'] = 'Administrare';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analiz&#259;';
@@ -92,9 +97,10 @@
 	$lang['strreindex'] = 'Re-indexare';
 	$lang['strrun'] = 'Executare';
 	$lang['stradd'] = 'Ad&#259;ugare';
+	$lang['strremove'] = 'Eliminare';
 	$lang['strevent'] = 'Eveniment';
-	$lang['strwhere'] = 'Condi&#355;ie';
 	$lang['strwhere'] = '&Icirc;n schimb';
+	$lang['strinstead'] = 'Execut&#259; &icirc;n schimb';
 	$lang['strwhen'] = 'C&acirc;nd';
 	$lang['strformat'] = 'Format';
 	$lang['strdata'] = 'Dat&#259;';
@@ -125,11 +131,13 @@
 	$lang['strstarttime'] = 'Timp start';
 	$lang['strfile'] = 'Fi&#351;ier';
 	$lang['strfileimported'] = 'Fi&#351;ier importat';
+	$lang['strtrycred'] = 'Folosi&#355;i aceste acredit&#259;ri pentru toate serverele';
 
 	// Error handling
+	$lang['strnoframes'] = 'Aceast&#259; aplica&#355;ie func&#355;ioneaz&#259; cel mai bine &icirc;ntr-un browser ce suport&#259; frame-uri , dar poate fi folosit&#259; &#351;i f&#259;r&#259; frame-uri, urm&acirc;nd leg&#259;tura de mai jos.';
+	$lang['strnoframeslink'] = 'F&#259;r&#259; frame-uri';
 	$lang['strbadconfig'] = 'Fi&#351;ierul config.inc.php este &icirc;nvechit. Trebuie s&#259;-l re-genera&#355;i folosind fi&#351;ierul config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Instalarea de PHP nu suport&#259; PostgreSQL. Trebuie s&#259; re-compila&#355;i PHP folosind op&#355;iunea --with-pgsql la configurare.';
-	$lang['strphpversionnotsupported'] = 'Versiune de PHP ne-suportat&#259;. Actualiza&#355;i la versiunea %s sau ulterioar&#259;.';
 	$lang['strpostgresqlversionnotsupported'] = 'Versiune de PostgreSQL ne-suportat&#259;. Actualiza&#355;i la versiunea %s sau ulterioar&#259;.';
 	$lang['strbadschema'] = 'Schem&#259; specificat&#259; incorect&#259;.';
 	$lang['strbadencoding'] = 'Imposibil de setat codificarea client &icirc;n baza de date.';
@@ -142,7 +150,11 @@
 	$lang['strnoreportsdb'] = 'Nu a&#355;i creat baza de date pentru rapoarte. Citi&#355;i fi&#351;ierul INSTALL pentru instruc&#355;iuni.';
 	$lang['strnouploads'] = '&Icirc;nc&#259;rcarea de fi&#351;iere este dezactivat&#259;.';
 	$lang['strimporterror'] = 'Eroare la importare.';
+	$lang['strimporterror-fileformat'] = 'Eroare la importare: Imposibil de determinat &icirc;n mod automat formatul fi&#351;ierului.';
 	$lang['strimporterrorline'] = 'Eroare la importare pe linia %s.';
+	$lang['strimporterrorline-badcolumnnum'] = 'Eroare la importare pe linia %s:  Linia nu are num&#259;rul corect de coloane.';
+	$lang['strimporterror-uploadedfile'] = 'Eroare la importare: Fi&#351;ierul nu a putut fi &icirc;nc&#259;rcat pe server';
+	$lang['strcannotdumponwindows'] = 'Desc&#259;rcarea de tabele complexe &#351;i nume de scheme &icirc;n Windows nu este suportat&#259;.';
 
 	// Tables
 	$lang['strtable'] = 'Tabel&#259;';
@@ -166,6 +178,7 @@
 	$lang['strinsertrow'] = 'Inserare r&acirc;nd';
 	$lang['strrowinserted'] = 'R&acirc;nd inserat';
 	$lang['strrowinsertedbad'] = 'Inserare r&acirc;nd e&#351;uat&#259;.';
+	$lang['strrowduplicate'] = 'Inserare de r&acirc;nd e&#351;uat&#259;, s-a &icirc;ncercat inserarea unui duplicat.';
 	$lang['streditrow'] = 'Editare r&acirc;nd';
 	$lang['strrowupdated'] = 'R&acirc;nd actualizat.';
 	$lang['strrowupdatedbad'] = 'Actualizare r&acirc;nd e&#351;uat&#259;.';
@@ -288,6 +301,8 @@
 	$lang['strsignalsent'] = 'Semnal trimis.';
 	$lang['strsignalsentbad'] = 'Trimitere semnal e&#351;uat&#259;.';
 	$lang['strallobjects'] = 'Toate obiectele';
+	$lang['strdatabasealtered'] = 'Baz&#259; de date modificat&#259;.';
+	$lang['strdatabasealteredbad'] = 'Modificarea bazei de date a e&#351;uat.';
 
 	// Views
 	$lang['strview'] = 'Vizualizare';
@@ -379,6 +394,7 @@
 	$lang['strruledroppedbad'] = '&#350;tergere regul&#259; e&#351;uat&#259;.';
 
 	// Constraints
+	$lang['strconstraint'] = 'Restric&#355;ie';
 	$lang['strconstraints'] = 'Restric&#355;ii';
 	$lang['strshowallconstraints'] = 'Afi&#351;are toate restric&#355;iile';
 	$lang['strnoconstraints'] = 'Nici o restric&#355;ie g&#259;sit&#259;.';
@@ -451,6 +467,7 @@
 	$lang['strtriggerdroppedbad'] = '&#350;tergere declan&#351;ator e&#351;uat&#259;.';
 	$lang['strtriggeraltered'] = 'Declan&#351;ator modificat.';
 	$lang['strtriggeralteredbad'] = 'Modificare declan&#351;ator e&#351;uat&#259;.';
+	$lang['strforeach'] = 'Pentru fiecare';
 
 	// Types
 	$lang['strtype'] = 'Tip';
@@ -627,11 +644,125 @@
 	$lang['strtablespacealtered'] = 'Spa&#355;iu de tabele modificat.';
 	$lang['strtablespacealteredbad'] = 'Modificare &#351;pa&#355;iu de tabele e&#351;uat&#259;.';
 
+	// Slony clusters
+	$lang['strcluster'] = 'Grupare';
+	$lang['strnoclusters'] = 'Nici o grupare g&#259;sit&#259;.';
+	$lang['strconfdropcluster'] = 'Sigur &#351;terge&#355;i gruparea &quot;%s&quot;?';
+	$lang['strclusterdropped'] = 'Grupare &#351;tears&#259;.';
+	$lang['strclusterdroppedbad'] = '&#350;tergere grupare e&#351;uat&#259;.';
+	$lang['strinitcluster'] = 'Ini&#355;ializare grupare';
+	$lang['strclustercreated'] = 'Grupare ini&#355;ializat&#259;.';
+	$lang['strclustercreatedbad'] = 'Ini&#355;ializare grupare e&#351;uat&#259;.';
+	$lang['strclusterneedsname'] = 'Trebuie s&#259; da&#355;i un nume grup&#259;rii.';
+	$lang['strclusterneedsnodeid'] = 'Trebuie s&#259; da&#355;i un identificator nodului local.';
+
+	// Slony nodes
+	$lang['strnodes'] = 'Noduri';
+	$lang['strnonodes'] = 'Nici un nod g&#259;sit.';
+	$lang['strcreatenode'] = 'Creare nod';
+	$lang['strid'] = 'ID';
+	$lang['stractive'] = 'Activ(&#259;)';
+	$lang['strnodecreated'] = 'Nod creat.';
+	$lang['strnodecreatedbad'] = 'Creare nod e&#351;uat&#259;.';
+	$lang['strconfdropnode'] = 'Sigur &#351;terge&#355;i nodul &quot;%s&quot;?';
+	$lang['strnodedropped'] = 'Nod &#351;ters.';
+	$lang['strnodedroppedbad'] = '&#350;tergere nod e&#351;uat&#259;';
+	$lang['strfailover'] = 'Failover';
+	$lang['strnodefailedover'] = 'Node failed over.';
+	$lang['strnodefailedoverbad'] = 'Node failover failed.';
+
+	// Slony paths
+	$lang['strpaths'] = 'C&#259;i';
+	$lang['strnopaths'] = 'Nici o cale g&#259;sit&#259;.';
+	$lang['strcreatepath'] = 'Creare cale';
+	$lang['strnodename'] = 'Nume nod';
+	$lang['strnodeid'] = 'ID nod';
+	$lang['strconninfo'] = '&#350;ir pentru conectare';
+	$lang['strconnretry'] = 'Secunde p&acirc;n&#259; la o nou&#259; &icirc;ncercare de conectare';
+	$lang['strpathneedsconninfo'] = 'Trebuie s&#259; da&#355;i un &#351;ir de conectare pentru cale.';
+	$lang['strpathneedsconnretry'] = 'Trebuie s&#259; da&#355;i num&#259;rul de secunde p&acirc;n&#259; la o nou&#259; &icirc;ncercare de conectare.';
+	$lang['strpathcreated'] = 'Cale creat&#259;.';
+	$lang['strpathcreatedbad'] = 'Creare cale e&#351;uat&#259;.';
+	$lang['strconfdroppath'] = 'Sigur &#351;terge&#355;i calea &quot;%s&quot;?';
+	$lang['strpathdropped'] = 'Cale &#351;tears&#259;.';
+	$lang['strpathdroppedbad'] = '&#350;tergere cale e&#351;uat&#259;.';
+
+	// Slony listens
+	$lang['strlistens'] = 'Ascult&#259;ri';
+	$lang['strnolistens'] = 'Nici o ascultare g&#259;sit&#259;.';
+	$lang['strcreatelisten'] = 'Creare ascultare';
+	$lang['strlistencreated'] = 'Ascultare creat&#259;.';
+	$lang['strlistencreatedbad'] = 'Creare ascultare e&#351;uat&#259;.';
+	$lang['strconfdroplisten'] = 'Sigur &#351;terge&#355;i ascultarea &quot;%s&quot;?';
+	$lang['strlistendropped'] = 'Ascultare &#351;tears&#259;.';
+	$lang['strlistendroppedbad'] = '&#350;tergere ascultare e&#351;uat&#259;.';
+
+	// Slony replication sets
+	$lang['strrepsets'] = 'Seturi de replicare';
+	$lang['strnorepsets'] = 'Nici un set de replicare g&#259;sit.';
+	$lang['strcreaterepset'] = 'Creare set de replicare';
+	$lang['strrepsetcreated'] = 'Set de replicare creat';
+	$lang['strrepsetcreatedbad'] = 'Creare set de replicare e&#351;uat&#259;';
+	$lang['strconfdroprepset'] = 'Sigur &#351;terge&#355;i setul de replicare &quot;%s&quot;?';
+	$lang['strrepsetdropped'] = 'Set de replicare &#351;ters';
+	$lang['strrepsetdroppedbad'] = '&#350;tergere set de replicare e&#351;uat&#259;.';
+	$lang['strmerge'] = 'Contopire';
+	$lang['strmergeinto'] = 'Contopire &icirc;n';
+	$lang['strrepsetmerged'] = 'Seturi de replicare contopite';
+	$lang['strrepsetmergedbad'] = 'Contopire seturi de replicare e&#351;uat&#259;.';
+	$lang['strmove'] = 'Mutare';
+	$lang['strneworigin'] = 'Origine nou&#259;';
+	$lang['strrepsetmoved'] = 'Set de replicare mutat';
+	$lang['strrepsetmovedbad'] = 'Mutare set de replicare e&#351;uat&#259;.';
+	$lang['strnewrepset'] = 'Set de replicare nou';
+	$lang['strlock'] = 'Blocare';
+	$lang['strlocked'] = 'Blocat';
+	$lang['strunlock'] = 'Deblocare';
+	$lang['strconflockrepset'] = 'Siguri bloca&#355;i setul de replicare &quot;%s&quot;?';
+	$lang['strrepsetlocked'] = 'Set de replicare blocat';
+	$lang['strrepsetlockedbad'] = 'Blocare set de replicare e&#351;uat&#259;.';
+	$lang['strconfunlockrepset'] = 'Sigur debloca&#355;i setul de replicare &quot;%s&quot;?';
+	$lang['strrepsetunlocked'] = 'Set de replicare deblocat';
+	$lang['strrepsetunlockedbad'] = 'Deblocare set de replicare e&#351;uat&#259;.';
+	$lang['strexecute'] = 'Executare';
+	$lang['stronlyonnode'] = 'Numai pentru nodul';
+	$lang['strddlscript'] = 'Script DDL';
+	$lang['strscriptneedsbody'] = 'Trebuie s&#259; furniza&#355;i un script care s&#259; fie executat pentru toate nodurile.';
+	$lang['strscriptexecuted'] = 'Scriptul DDL pentru setul de replicare a fost executat.';
+	$lang['strscriptexecutedbad'] = 'Executare script DDL pentru setul de replicare e&#351;uat&#259;.';
+	$lang['strtabletriggerstoretain'] = 'Urm&#259;toarele declan&#351;atoare NU vor fi dezactivate de Slony:';
+
+	// Slony tables in replication sets
+	$lang['straddtable'] = 'Ad&#259;ugare tabel&#259;';
+	$lang['strtableneedsuniquekey'] = 'Tabela ad&#259;ugat&#259; necesit&#259; o cheie primar&#259; sau unic&#259;.';
+	$lang['strtableaddedtorepset'] = 'Tabel&#259; ad&#259;ugat&#259; setului de replicare.';
+	$lang['strtableaddedtorepsetbad'] = 'Ad&#259;ugare tabel&#259; la setul de replicare e&#351;uat&#259;.';
+	$lang['strconfremovetablefromrepset'] = 'Sigur elimina&#355;i tabela &quot;%s&quot; din setul de replicare &quot;%s&quot;?';
+	$lang['strtableremovedfromrepset'] = 'Tabel&#259; eliminat&#259; din setul de replicare.';
+	$lang['strtableremovedfromrepsetbad'] = 'Eliminare tabel&#259; din setul de replicare e&#351;uat&#259;.';
+
+	// Slony sequences in replication sets
+	$lang['straddsequence'] = 'Ad&#259;ugare secven&#355;&#259;';
+	$lang['strsequenceaddedtorepset'] = 'Secven&#355;&#259; ad&#259;ugat&#259; setului de replicare.';
+	$lang['strsequenceaddedtorepsetbad'] = 'Ad&#259;ugare secven&#355;&#259; la setul de replicare e&#351;uat&#259;.';
+	$lang['strconfremovesequencefromrepset'] = 'Sigur elimina&#355;i secven&#355;a &quot;%s&quot; din setul de replicare &quot;%s&quot;?';
+	$lang['strsequenceremovedfromrepset'] = 'Secven&#355;&#259; eliminat&#259; din setul de replicare.';
+	$lang['strsequenceremovedfromrepsetbad'] = 'Eliminare secven&#355;&#259; din setul de replicare e&#351;uat&#259;.';
+
+	// Slony subscriptions
+	$lang['strsubscriptions'] = 'Subscriere';
+	$lang['strnosubscriptions'] = 'Nici o subscriere g&#259;sit&#259;.';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s rul&acirc;nd pe %s:%s -- Sunte&#355;i autentificat ca utilizator &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle'] = 'Autentificare la %s';
+	$lang['strlogoutmsg'] = 'Ie&#351;ire din %s';
+	$lang['strloading'] = '&Icirc;nc&#259;rcare...';
+	$lang['strerrorloading'] = 'Eroare la &icirc;nc&#259;rcare';
+	$lang['strclicktoreload'] = 'Face&#355;i clic pentru re&icirc;nc&#259;rcare';
 
 
 
