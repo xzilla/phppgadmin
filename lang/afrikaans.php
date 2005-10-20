@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.7 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: afrikaans.php,v 1.8 2005/10/20 07:34:55 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -12,6 +12,7 @@
 	$lang['appcharset'] = 'ISO-8859-1';
 	$lang['applocale'] = 'af_ZA';
 	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
 	$lang['strintro'] = 'Welkom by phpPgAdmin.';
@@ -65,11 +66,11 @@
 	$lang['strtrue'] = 'WAAR';
 	$lang['strfalse'] = 'VALS';
 	$lang['stredit'] = 'Redigeer';
+	$lang['strcolumn'] = 'Kolom';
 	$lang['strcolumns'] = 'Kolomme';
 	$lang['strrows'] = 'ry(e)';
 	$lang['strrowsaff'] = 'ry(e) het verander.';
 	$lang['strobjects'] = 'objek(te)';
-	$lang['strexample'] = 'bv.';
 	$lang['strback'] = 'Terug';
 	$lang['strqueryresults'] = 'Navraagresultate';
 	$lang['strshow'] = 'Wys';
@@ -82,11 +83,10 @@
 	$lang['strexport'] = 'Eksporteer';
 	$lang['strimport'] = 'Importeer';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Gaan';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Stofsuig';
 	$lang['stranalyze'] = 'Analiseer';
-	$lang['strclusterindex'] = 'Kluster';
+	$lang['strcluster'] = 'Kluster';
 	$lang['strclustered'] = 'In klusters?';
 	$lang['strreindex'] = 'Herindekseer';
 	$lang['strrun'] = 'Loop';
@@ -100,6 +100,7 @@
 	$lang['strconfirm'] = 'Bevestig';
 	$lang['strexpression'] = 'Uitdrukking';
 	$lang['strellipsis'] = '...';
+	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Vou oop';
 	$lang['strcollapse'] = 'Vou toe';
 	$lang['strexplain'] = 'Verduidelik';
@@ -125,8 +126,10 @@
 	$lang['strfileimported'] = 'Lêer is ingetrek.';
 
 	// Error handling
+	$lang['strnoframes'] = 'Hierdie toepassing maak gebruik van HTML-rame. U het \'n blaaier nodig wat rame ondersteun om hierdie toepassing te kan gebruik. ';
 	$lang['strbadconfig'] = 'Die lêer config.inc.php is verouderd. Jy kan  verbeterde weergawe aflei van die lêer config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Hierdie PHP-installasie is sonder ondersteuning van hierdie tipe database nie gekompileerd.';
+	$lang['strpostgresqlversionnotsupported'] = 'Weergawe van  PostgreSQL word nie ondersteun nie. Probeer asb. weergawe %s of later.';
 	$lang['strbadschema'] = 'Ongeldige skema gespesifiseer.';
 	$lang['strbadencoding'] = 'Die kliëntenkodering kon nie in die databasis geplaas word nie.';
 	$lang['strsqlerror'] = 'SQL-fout:';
@@ -139,6 +142,7 @@
 	$lang['strnouploads'] = 'Oplaaiing van lêers is afgeskakel.';
 	$lang['strimporterror'] = 'Inleesfout.';
 	$lang['strimporterrorline'] = 'Inleesfout op reël %s.';
+	$lang['strcannotdumponwindows'] = 'Weergee van komplekse tabel- en skemaname word nie op Windows ondersteun nie.  Kyk asb. in die FAQ.';
 
 	// Tables
 	$lang['strtable'] = 'Tabel';
@@ -169,11 +173,9 @@
 	$lang['strconfdeleterow'] = 'Is jy seker dat jy hierdie ry wil verwyder?';
 	$lang['strrowdeleted'] = 'Ry is verwyder.';
 	$lang['strrowdeletedbad'] = 'Die ry kon nie verwyder word nie.';
-	$lang['strsaveandrepeat'] = 'Voeg in & Herhaal';
-	$lang['strfield'] = 'Veld';
-	$lang['strfields'] = 'Velde';
-	$lang['strnumfields'] = 'Aantal velde';
-	$lang['strfieldneedsname'] = 'Jy moet die veld \'n naam gee';
+	$lang['strinsertandrepeat'] = 'Voeg in & Herhaal';
+	$lang['strnumcols'] = 'Aantal kolomme';
+	$lang['strcolneedsname'] = 'Jy moet die kolom \'n naam gee';
 	$lang['strselectallfields'] = 'Selekteer alle velde';
 	$lang['strselectneedscol'] = 'Jy moet ten minste één kolom as uitvoer hê';
 	$lang['strselectunary'] = 'Unêre operatore kan nie waardes kry nie.';
@@ -194,6 +196,8 @@
 	$lang['strstructureanddata'] = 'Struktuur en data';
 	$lang['strtabbed'] = 'Tabbed';
 	$lang['strauto'] = 'Auto';
+	$lang['strconfvacuumtable'] = 'Is jy seker jy wil VACUUM "%s"?';
+	$lang['strestimatedrowcount'] = 'Geskatte aantal rye';
 
 	// Users
 	$lang['struser'] = 'Gebruiker';
@@ -221,7 +225,7 @@
 	$lang['strpasswordchangedbad'] = 'Wagwoordverandering het misluk.';
 	$lang['strpasswordshort'] = 'Wagwoord is te kort.';
 	$lang['strpasswordconfirm'] = 'Wagwoord verskil van bevestigings-wagwoord.';
-	
+
 	// Groups
 	$lang['strgroup'] = 'Groep';
 	$lang['strgroups'] = 'Groepe';
@@ -253,7 +257,6 @@
 	$lang['strgranted'] =  'Voorregte is bygevoeg.';
 	$lang['strgrantfailed'] =  'Voorregte kon nie bygevoeg word nie.';
 	$lang['strgrantbad'] =  'Jy moet minstens een gebruiker of groep en minstens een voorreg aandui.';
-	$lang['stralterprivs'] =  'Verander voorreg';
 	$lang['strgrantor'] =  'Grantor';
 	$lang['strasterisk'] =  '*';
 
@@ -282,6 +285,9 @@
 	$lang['strfull'] = 'Volledig';
 	$lang['strfreeze'] = 'Vries';
 	$lang['strforce'] = 'Forseer';
+	$lang['strsignalsent'] = 'Sein gestuur.';
+	$lang['strsignalsentbad'] = 'Stuur van sein het misluk.';
+	$lang['strallobjects'] = 'Alle objekte';
 
 	// Views
 	$lang['strview'] = 'Aansig';
@@ -403,14 +409,16 @@
 	$lang['strfkcolumnlist'] = 'Kolomme in sleutel';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
-
+	
 	// Functions
 	$lang['strfunction'] =  'Funksie';
 	$lang['strfunctions'] =  'Funksies';
 	$lang['strshowallfunctions'] =  'Wys alle funksies';
 	$lang['strnofunction'] =  'Geen funksies gevind.';
 	$lang['strnofunctions'] =  'Geen funksies gevind.';
-	$lang['strcreatefunction'] =  'Skep funksie';
+	$lang['strcreateplfunction'] = 'Skep SQL/PL funksie';
+	$lang['strcreateinternalfunction'] = 'Skep interne funksie';
+	$lang['strcreatecfunction'] =  'Skep C funksie';
 	$lang['strfunctionname'] =  'Funksienaam';
 	$lang['strreturns'] =  'Gee terug';
 	$lang['strarguments'] =  'Argumente';
@@ -424,6 +432,8 @@
 	$lang['strfunctiondroppedbad'] =  'Verwydering van die funksie het misluk.';
 	$lang['strfunctionupdated'] =  'Funksie is opgedateer.';
 	$lang['strfunctionupdatedbad'] =  'Opdatering van die funksie het misluk.';
+	$lang['strobjectfile'] = 'Objeklêer';
+	$lang['strlinksymbol'] = 'Skakelsimbool';
 
 	// Triggers
 	$lang['strtrigger'] =  'Snellers';
@@ -449,6 +459,9 @@
 	$lang['strnotype'] =  'Geen tipe gevind.';
 	$lang['strnotypes'] =  'Geen tipes gevind.';
 	$lang['strcreatetype'] =  'skep tipe';
+	$lang['strcreatecomptype'] = 'Skep saamgestelde tipe';
+	$lang['strtypeneedsfield'] = 'Jy moet ten minste een veld spesifiseer.';
+	$lang['strtypeneedscols'] = 'Jy \'n geldige aantal velde spesifiseer.';	
 	$lang['strtypename'] =  'Tipenaam';
 	$lang['strinputfn'] =  'Toevoerfunksie';
 	$lang['stroutputfn'] =  'Afvoerfunksie';
@@ -457,6 +470,8 @@
 	$lang['strelement'] = 'Element';
 	$lang['strdelimiter'] =  'Skeidingsteken';
 	$lang['strstorage'] =  'Berging';
+	$lang['strfield'] = 'Veld';
+	$lang['strnumfields'] = 'Aantal velde';
 	$lang['strtypeneedsname'] =  'Jy moet die tipe \'n naam gee.';
 	$lang['strtypeneedslen'] =  'Jy moet die tipe \'n lengte gee.';
 	$lang['strtypecreated'] =  'Tipe geskep';
@@ -464,6 +479,10 @@
 	$lang['strconfdroptype'] =  'Is jy seker dat jy die tipe \"%s\" wil verwyder?';
 	$lang['strtypedropped'] =  'Tipe is verwyder.';
 	$lang['strtypedroppedbad'] =  'Verwydering van die tipe het misluk.';
+	$lang['strflavor'] = 'Geur';
+	$lang['strbasetype'] = 'Basis';
+	$lang['strcompositetype'] = 'Saamgestel';
+	$lang['strpseudotype'] = 'Pseudo';
 
 	// Schemas
 	$lang['strschema'] =  'Skema';
@@ -481,6 +500,7 @@
 	$lang['strschemadroppedbad'] =  'Verwydering van die skema het misluk.';
 	$lang['strschemaaltered'] = 'Skema is gewysig.';
 	$lang['strschemaalteredbad'] = 'Skemawysiging het misluk.';
+	$lang['strsearchpath'] = 'Skema-soekpad';
 
 	// Reports
 	$lang['strreport'] =  'Verslag';
@@ -545,24 +565,24 @@
 	$lang['strimplicit'] = 'Implisiet';
 	$lang['strinassignment'] = 'Tydens toekenning';
 	$lang['strbinarycompat'] = '(Binêr-versoenbaar)';
-	
+
 	// Conversions
 	$lang['strconversions'] = 'Omskakelings';
 	$lang['strnoconversions'] = 'Geen omskakelings gevind.';
 	$lang['strsourceencoding'] = 'Bron-enkodering';
 	$lang['strtargetencoding'] = 'Doel-enkodering';
-	
+
 	// Languages
 	$lang['strlanguages'] = 'Tale';
 	$lang['strnolanguages'] = 'Geen tale gevind.';
 	$lang['strtrusted'] = 'Betroubaar';
-	
+
 	// Info
 	$lang['strnoinfo'] = 'Geen inligting beskikbaar.';
 	$lang['strreferringtables'] = 'Verwysende tabelle';
 	$lang['strparenttables'] = 'Parent-tabelle';
 	$lang['strchildtables'] = 'Child-tabelle';
-	
+
 	// Aggregates
 	$lang['straggregates'] = 'Opsommers';
 	$lang['strnoaggregates'] = 'Geen opsommers gevind.';
@@ -590,10 +610,28 @@
 	$lang['strdisk'] = 'Skyf';
 	$lang['strrows2'] = 'Rye';
 
+	// Tablespaces
+	$lang['strtablespace'] = 'Tabelruimte';
+	$lang['strtablespaces'] = 'Tabelruimtes';
+	$lang['strshowalltablespaces'] = 'Wys alle tabelruimtes';
+	$lang['strnotablespaces'] = 'Geen tabelruimtes gevind.';
+	$lang['strcreatetablespace'] = 'Skep tabelruimte';
+	$lang['strlocation'] = 'Plek';
+	$lang['strtablespaceneedsname'] = 'Jy moet \'n naam gee vir jou tabelruimte.';
+	$lang['strtablespaceneedsloc'] = 'Jy moet \'n gids gee om jou tabelruimte in te skep.';
+	$lang['strtablespacecreated'] = 'Tabelruimte geskep.';
+	$lang['strtablespacecreatedbad'] = 'Skep van tabelruimte het misluk.';
+	$lang['strconfdroptablespace'] = 'Is jy seker jy wil die tabelruimte "%s" uitvee?';
+	$lang['strtablespacedropped'] = 'Tabelruimte is uitgevee.';
+	$lang['strtablespacedroppedbad'] = 'Uitvee van tabelruimte het misluk.';
+	$lang['strtablespacealtered'] = 'Tabelruimte gewysig.';
+	$lang['strtablespacealteredbad'] = 'Wysiging van tabelruimte het misluk.';
+
 	// Miscellaneous
 	$lang['strtopbar'] = '%s loop op %s:%s -- Jy is aangeteken as gebruiker "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Hulp';
+	$lang['strhelpicon'] = '?';
 
 ?>
 
