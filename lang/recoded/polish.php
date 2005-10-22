@@ -4,14 +4,14 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.41 2005/08/11 23:01:45 soranzo Exp $
+	 * $Id: polish.php,v 1.42 2005/10/22 18:29:51 slubek Exp $
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Polski';
-	$lang['appcharset'] = 'ISO-8859-2';
+	$lang['appcharset'] = 'utf-8';
 	$lang['applocale'] = 'pl_PL';
-	$lang['appdbencoding'] = 'LATIN2';
+	$lang['appdbencoding'] = 'UNICODE';
 	$lang['applangdir'] = 'ltr';
  
 	// Welcome
@@ -26,7 +26,7 @@
 
 	// Basic strings
 	$lang['strlogin'] = 'Zaloguj';
-	$lang['strloginfailed'] = 'Pr&oacute;ba zalogowania nie powiod&#322;a si&#281;';
+	$lang['strloginfailed'] = 'Pr&oacute;ba zalogowania nie powiod&#322;a si&#281;.';
 	$lang['strlogindisallowed'] = 'Logowanie niedozwolone';
 	$lang['strserver'] = 'Serwer';
 	$lang['strservers']  =  'Serwery';
@@ -86,6 +86,11 @@
 	$lang['strprimary'] = 'G&#322;&oacute;wny';
 	$lang['strexport'] = 'Eksport';
 	$lang['strimport'] = 'Import';
+	$lang['strallowednulls']  =  'Dozwolone znaki NULL';
+	$lang['strbackslashn']  =  '\N';
+	$lang['strnull']  =  'Null';
+	$lang['strnull']  =  'NULL (S&#322;owo)';
+	$lang['stremptystring']  =  'Pusty ci&#261;g znak&oacute;w/pole';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczy&#347;&#263;';
@@ -95,6 +100,7 @@
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
+	$lang['strremove']  =  'Usu&#324;';
 	$lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
@@ -128,6 +134,7 @@
 	$lang['strstarttime'] = 'Czas pocz&#261;tku';
 	$lang['strfile'] = 'Plik';
 	$lang['strfileimported']  = 'Plik zosta&#322; zaimportowany.';
+	$lang['strtrycred']  =  'U&#380;yj tych parametr&oacute;w dla wszystkich serwer&oacute;w';
 
 	// Error handling
 	$lang['strnoframes']  =  'Ta aplikacja najlepiej dzia&#322;a w przegl&#261;darce obs&#322;uguj&#261;cej ramki, ale mo&#380;esz jej u&#380;y&#263; r&oacute;wnie&#380; bez ramek, klikaj&#261;c poni&#380;szy link.';
@@ -146,8 +153,11 @@
 	$lang['strnoreportsdb'] = 'Nie utworzy&#322;e&#347; bazy raport&oacute;w. Instrukcj&#281; znajdziesz w pliku INSTALL.';
 	$lang['strnouploads']  =  '&#321;adowanie plik&oacute;w wy&#322;&#261;czone.';
 	$lang['strimporterror']  =  'B&#322;&#261;d importu.';
+	$lang['strimporterror-fileformat']  =  'B&#322;&#261;d importu: Nie mo&#380;na automatycznie okre&#347;li&#263; formatu pliku.';
 	$lang['strimporterrorline']  =  'B&#322;&#261;d importu w linii %s.';
-$lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names on Windows is not supported.';
+	$lang['strimporterrorline-badcolumnnum']  =  'B&#322;&#261;d importu w linii %s:  Linia nie ma w&#322;a&#347;ciwej liczby kolumn.';
+	$lang['strimporterror-uploadedfile']  =  'B&#322;&#261;d importu: plik nie mo&#380;e by&#263; za&#322;adowany na serwer.';
+	$lang['strcannotdumponwindows']  =  'Zrzucanie z&#322;o&#380;onych nazw tabel i schemat&oacute;w pod Windows jest nie wspierane.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
@@ -181,10 +191,10 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strrowdeletedbad'] = 'Pr&oacute;ba usuni&#281;cia wiersza si&#281; nie powiod&#322;a.';
 	$lang['strinsertandrepeat']  =  'Wstaw i powt&oacute;rz';
 	$lang['strnumcols']  =  'Ilo&#347;&#263; kolumn';
-	$lang['strcolneedsname']  =  'Musisz poda&#263; nazw&#281; kolumny';
+	$lang['strcolneedsname']  =  'Musisz poda&#263; nazw&#281; kolumny.';
 	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
-	$lang['strselectneedscol'] = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;';
-	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mog&#261; mie&#263; podanej warto&#347;ci';
+	$lang['strselectneedscol'] = 'Musisz wybra&#263; przynajmniej jedn&#261; kolumn&#281;.';
+	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mog&#261; mie&#263; podanej warto&#347;ci.';
 	$lang['straltercolumn'] = 'Zmie&#324; kolumn&#281;';
 	$lang['strcolumnaltered'] = 'Kolumna zosta&#322;a zmodyfikowana.';
 	$lang['strcolumnalteredbad'] = 'Pr&oacute;ba modyfikacji kolumny si&#281; nie powiod&#322;a.';
@@ -331,11 +341,11 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strstartvalue'] = 'Warto&#347;&#263; pocz&#261;tkowa';
 	$lang['strmaxvalue'] = 'Warto&#347;&#263; maks.';
 	$lang['strminvalue'] = 'Warto&#347;&#263; min.';
-	$lang['strcachevalue'] = 'cache_value';
+	$lang['strcachevalue'] = 'Warto&#347;&#263; keszowana';
 	$lang['strlogcount'] = 'log_cnt';
-	$lang['striscycled'] = 'is_cycled';
+	$lang['striscycled'] = 'czy cykliczna';
 	$lang['striscalled'] = 'is_called';
-	$lang['strsequenceneedsname'] = 'Musisz nazwa&#263; sekwencj&#281;';
+	$lang['strsequenceneedsname'] = 'Musisz nazwa&#263; sekwencj&#281;.';
 	$lang['strsequencecreated'] = 'Sekwencja zosta&#322;a utworzona.';
 	$lang['strsequencecreatedbad'] = 'Pr&oacute;ba utworzenia sekwencji si&#281; nie powiod&#322;a.';
 	$lang['strconfdropsequence'] = 'Czy na pewno chcesz usun&#261;&#263; sekwencj&#281; &quot;%s&quot;?';
@@ -356,7 +366,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strcolumnname'] = 'Nazwa kolumny';
 	$lang['strindexneedsname'] = 'Musisz nazwa&#263; indeks.';
 	$lang['strindexneedscols'] = 'W sk&#322;ad indeksu musi wchodzi&#263; przynajmniej jedna kolumna.';
-	$lang['strindexcreated'] = 'Indeks zosta&#322; utworzony';
+	$lang['strindexcreated'] = 'Indeks zosta&#322; utworzony.';
 	$lang['strindexcreatedbad'] = 'Pr&oacute;ba utworzenia indeksu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropindex'] = 'Czy na pewno chcesz usun&#261;&#263; indeks &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Indeks zosta&#322; usuni&#281;ty.';
@@ -400,7 +410,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['straddcheck'] = 'Dodaj warunek';
 	$lang['strcheckneedsdefinition'] = 'Musisz zdefiniowa&#263; warunek.';
 	$lang['strcheckadded'] = 'Warunek zosta&#322; dodany.';
-	$lang['strcheckaddedbad'] = 'Operacja dodania warunku si&#281; nie powiod&#322;a.';
+	$lang['strcheckaddedbad'] = 'Pr&oacute;ba dodania warunku si&#281; nie powiod&#322;a.';
 	$lang['straddpk'] = 'Dodaj klucz g&#322;&oacute;wny';
 	$lang['strpkneedscols'] = 'Klucz g&#322;&oacute;wny musi zawiera&#263; przynajmniej jedn&#261; kolumn&#281;.';
 	$lang['strpkadded'] = 'Klucz g&#322;&oacute;wny zosta&#322; dodany.';
@@ -435,7 +445,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strfunctionneedsname'] = 'Musisz nazwa&#263; funkcj&#281;.';
 	$lang['strfunctionneedsdef'] = 'Musisz zdefiniowa&#263; funkcj&#281;.';
 	$lang['strfunctioncreated'] = 'Funkcja zosta&#322;a utworzona.';
-	$lang['strfunctioncreatedbad'] = 'Pr&oacute;ba utworzenia funkcji si&#281; nie powiod&#322;a';
+	$lang['strfunctioncreatedbad'] = 'Pr&oacute;ba utworzenia funkcji si&#281; nie powiod&#322;a.';
 	$lang['strconfdropfunction'] = 'Czy na pewno chcesz usun&#261;&#263; funkcj&#281; &quot;%s&quot;?';
 	$lang['strfunctiondropped'] = 'Funkcja zosta&#322;a usuni&#281;ta.';
 	$lang['strfunctiondroppedbad'] = 'Pr&oacute;ba usuni&#281;cia funkcji si&#281; nie powiod&#322;a.';
@@ -451,10 +461,10 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strnotrigger'] = 'Nie znaleziono procedury wyzwalanej.';
 	$lang['strnotriggers'] = 'Nie znaleziono procedur wyzwalanych.';
 	$lang['strcreatetrigger'] = 'Utw&oacute;rz procedur&#281; wyzwalan&#261;';
-	$lang['strtriggerneedsname'] = 'Musisz nazwa&#263; procedur&#281; wyzwalan&#261;';
+	$lang['strtriggerneedsname'] = 'Musisz nazwa&#263; procedur&#281; wyzwalan&#261;.';
 	$lang['strtriggerneedsfunc'] = 'Musisz poda&#263; funkcj&#281; procedury wyzwalanej.';
 	$lang['strtriggercreated'] = 'Procedura wyzwalana zosta&#322;a utworzona.';
-	$lang['strtriggercreatedbad'] = 'Pr&oacute;ba utworzenia procedury wyzwalanej si&#281; nie powiod&#322;a';
+	$lang['strtriggercreatedbad'] = 'Pr&oacute;ba utworzenia procedury wyzwalanej si&#281; nie powiod&#322;a.';
 	$lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun&#261;&#263; procedur&#281; &quot;%s&quot; wyzwalan&#261; przez &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Procedura wyzwalana zosta&#322;a usuni&#281;ta.';
 	$lang['strtriggerdroppedbad'] = 'Pr&oacute;ba usuni&#281;cia procedury wyzwalanej si&#281; nie powiod&#322;a.';
@@ -484,7 +494,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strnumfields']  =  'Ilo&#347;&#263; p&oacute;l';
 	$lang['strtypeneedsname'] = 'Musisz nazwa&#263; typ.';
 	$lang['strtypeneedslen'] = 'Musisz poda&#263; d&#322;ugo&#347;&#263; typu.';
-	$lang['strtypecreated'] = 'Typ zosta&#322; utworzony';
+	$lang['strtypecreated'] = 'Typ zosta&#322; utworzony.';
 	$lang['strtypecreatedbad'] = 'Pr&oacute;ba utworzenia typu si&#281; nie powiod&#322;a.';
 	$lang['strconfdroptype'] = 'Czy na pewno chcesz usun&#261;&#263; typ &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Typ zosta&#322; usuni&#281;ty.';
@@ -503,13 +513,13 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strcreateschema'] = 'Utw&oacute;rz schemat';
 	$lang['strschemaname'] = 'Nazwa schematu';
 	$lang['strschemaneedsname'] = 'Musisz nada&#263; schematowi nazw&#281;.';
-	$lang['strschemacreated'] = 'Schemat zosta&#322; utworzony';
+	$lang['strschemacreated'] = 'Schemat zosta&#322; utworzony.';
 	$lang['strschemacreatedbad'] = 'Pr&oacute;ba utworzenia schematu si&#281; nie powiod&#322;a.';
 	$lang['strconfdropschema'] = 'Czy na pewno chcesz usun&#261;&#263; schemat &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Schemat zosta&#322; usuni&#281;ty.';
 	$lang['strschemadroppedbad'] = 'Pr&oacute;ba usuni&#281;cia schematu si&#281; nie powiod&#322;a.';
 	$lang['strschemaaltered']  =  'Schemat zosta&#322; zmieniony.';
-	$lang['strschemaalteredbad']  =  'Pr&oacute;ba zmiany schematu si&#281; nie powiod&#322;a';
+	$lang['strschemaalteredbad']  =  'Pr&oacute;ba zmiany schematu si&#281; nie powiod&#322;a.';
 	$lang['strsearchpath']  =  '&#346;cie&#380;ka wyszukiwania schematu';
 
 	// Reports
@@ -572,7 +582,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strnocasts'] = 'Nie znaleziono rzutowa&#324;.';
 	$lang['strsourcetype'] = 'Typ &#378;r&oacute;d&#322;owy';
 	$lang['strtargettype'] = 'Typ docelowy';
-	$lang['strimplicit'] = 'Niezaprzeczalny';
+	$lang['strimplicit'] = 'Domniemany';
 	$lang['strinassignment'] = 'W przydziale';
 	$lang['strbinarycompat'] = '(Kompatybilny binarnie)';
 
@@ -636,6 +646,115 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strtablespacedroppedbad']  =  'Pr&oacute;ba usuni&#281;cia przestrzeni tabel si&#281; nie powiod&#322;a.';
 	$lang['strtablespacealtered']  =  'Przestrze&#324; tabel zosta&#322;a zmieniona.';
 	$lang['strtablespacealteredbad']  =  'Pr&oacute;ba modyfikacji przestrzeni tabel si&#281; nie powiod&#322;a.';
+
+	// Slony clusters
+	$lang['strcluster']  =  'Klaster';
+	$lang['strnoclusters']  =  'Nie znaleziono klastr&oacute;w.';
+	$lang['strconfdropcluster']  =  'Czy na pewno chcesz usun&#261;&#263; klaster &quot;%s&quot;?';
+	$lang['strclusterdropped']  =  'Klaster zosta&#322; usuni&#281;ty.';
+	$lang['strclusterdroppedbad']  =  'Pr&oacute;ba usuni&#281;cia klastra si&#281; nie powiod&#322;a.';
+	$lang['strinitcluster']  =  'Utw&oacute;rz klaster';	
+	$lang['strclustercreated']  =  'Klaster zosta&#322; utworzony.';
+	$lang['strclustercreatedbad']  =  'Pr&oacute;ba utworzenia klastra si&#281; nie powiod&#322;a.';
+	$lang['strclusterneedsname']  =  'Musisz poda&#263; nazw&#281; klastra.';
+	$lang['strclusterneedsnodeid']  =  'Musisz poda&#263; identyfikator lokalnego w&#281;z&#322;a.';
+	
+	// Slony nodes
+	$lang['strnodes']  =  'W&#281;z&#322;y';
+	$lang['strnonodes']  =  'Nie znaleziono w&#281;z&#322;&oacute;w.';
+	$lang['strcreatenode']  =  'Utw&oacute;rz w&#281;ze&#322;';
+	$lang['strid']  =  'ID';
+	$lang['stractive']  =  'Aktywny';
+	$lang['strnodecreated']  =  'W&#281;ze&#322; zosta&#322; utworzony.';
+	$lang['strnodecreatedbad']  =  'Pr&oacute;ba utworzenia w&#281;z&#322;a si&#281; nie powiod&#322;a.';
+	$lang['strconfdropnode']  =  'Czy na pewno chcesz usun&#261;&#263; w&#281;ze&#322; &quot;%s&quot;?';
+	$lang['strnodedropped']  =  'W&#281;ze&#322; zosta&#322; usuni&#281;ty.';
+	$lang['strnodedroppedbad']  =  'Pr&oacute;ba usuni&#281;cia w&#281;z&#322;a si&#281; nie powiod&#322;a.';
+	$lang['strfailover']  =  'Prze&#322;&#261;czenie awaryjne';
+	$lang['strnodefailedover']  =  'W&#281;ze&#322; zosta&#322; prze&#322;&#261;czony awaryjnie.';
+	$lang['strnodefailedoverbad']  =  'Pr&oacute;ba awaryjnego prze&#322;&#261;czenia w&#281;z&#322;a si&#281; nie powiod&#322;a.';
+		
+	// Slony paths	
+	$lang['strpaths']  =  '&#346;cie&#380;ki';
+	$lang['strnopaths']  =  'Nie znaleziono &#347;cie&#380;ek.';
+	$lang['strcreatepath']  =  'Utw&oacute;rz &#347;cie&#380;k&#281;';
+	$lang['strnodename']  =  'Nazwa w&#281;z&#322;a';
+	$lang['strnodeid']  =  'Identyfikator w&#281;z&#322;a';
+	$lang['strconninfo']  =  'Parametry po&#322;&#261;czenia';
+	$lang['strconnretry']  =  'Czas przed pr&oacute;b&#261; ponownego po&#322;&#261;czenia';
+	$lang['strpathneedsconninfo']  =  'Musisz poda&#263; parametry po&#322;&#261;czenia.';
+	$lang['strpathneedsconnretry']  =  'Musisz okre&#347;li&#263; ilo&#347;&#263; sekund, kt&oacute;r&#261; nale&#380;y odczeka&#263; przed ponowieniem po&#322;&#261;czenia.';
+	$lang['strpathcreated']  =  '&#346;cie&#380;ka zosta&#322;a utworzona.';
+	$lang['strpathcreatedbad']  =  'Pr&oacute;ba utworzenia &#347;cie&#380;ki si&#281; nie powiod&#322;a.';
+	$lang['strconfdroppath']  =  'Czy na pewno chcesz usun&#261;&#263; &#347;cie&#380;k&#281; &quot;%s&quot;?';
+	$lang['strpathdropped']  =  '&#346;cie&#380;ka zosta&#322;a usuni&#281;ta.';
+	$lang['strpathdroppedbad']  =  'Pr&oacute;ba usuni&#281;cia &#347;cie&#380;ki si&#281; nie powiod&#322;a.';
+
+	// Slony listens
+	$lang['strlistens']  =  'Nas&#322;uchy';
+	$lang['strnolistens']  =  'Nie znaleziono nas&#322;uch&oacute;w.';
+	$lang['strcreatelisten']  =  'Utw&oacute;rz nas&#322;uch';
+	$lang['strlistencreated']  =  'Nas&#322;uch zosta&#322; utworzony.';
+	$lang['strlistencreatedbad']  =  'Pr&oacute;ba usuni&#281;cia nas&#322;uchu si&#281; nie powiod&#322;a.';
+	$lang['strconfdroplisten']  =  'Czy na pewno chcesz usun&#261;&#263; nas&#322;uch &quot;%s&quot;?';
+	$lang['strlistendropped']  =  'Nas&#322;uch zosta&#322; usuni&#281;ty.';
+	$lang['strlistendroppedbad']  =  'Pr&oacute;ba usuni&#281;cia nas&#322;uchu si&#281; nie powiod&#322;a.';
+
+	// Slony replication sets
+	$lang['strrepsets']  =  'Zbiory replikacji';
+	$lang['strnorepsets']  =  'Nie znaleziono zbior&oacute;w replikacji.';
+	$lang['strcreaterepset']  =  'Utw&oacute;rz zbi&oacute;r replikacji';
+	$lang['strrepsetcreated']  =  'Zbi&oacute;r replikacji zosta&#322; utworzony.';
+	$lang['strrepsetcreatedbad']  =  'Pr&oacute;ba utworzenia zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strconfdroprepset']  =  'Czy na pewno chcesz usun&#261;&#263; zbi&oacute;r replikacji &quot;%s&quot;?';
+	$lang['strrepsetdropped']  =  'Zbi&oacute;r replikacji zosta&#322; usuni&#281;ty.';
+	$lang['strrepsetdroppedbad']  =  'Pr&oacute;ba usuni&#281;cia zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strmerge']  =  'Po&#322;&#261;cz';
+	$lang['strmergeinto']  =  'Po&#322;&#261;cz w';
+	$lang['strrepsetmerged']  =  'Zbiory replikacji zosta&#322;y po&#322;&#261;czone.';
+	$lang['strrepsetmergedbad']  =  'Pr&oacute;ba po&#322;&#261;czenia zbior&oacute;w replikacji si&#281; nie powiod&#322;a.';
+	$lang['strmove']  =  'Przenie&#347;';
+	$lang['strneworigin']  =  'Nowe po&#322;o&#380;enie';
+	$lang['strrepsetmoved']  =  'Zbi&oacute;r replikacji zosta&#322; przeniesiony.';
+	$lang['strrepsetmovedbad']  =  'Pr&oacute;ba przeniesienia zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strnewrepset']  =  'Nowy zbi&oacute;r replikacji';
+	$lang['strlock']  =  'Zablokuj';
+	$lang['strlocked']  =  'Zablokowany';
+	$lang['strunlock']  =  'Odblokuj';
+	$lang['strconflockrepset']  =  'Czy na pewno chcesz zablokowa&#263; zbi&oacute;r replikacji &quot;%s&quot;?';
+	$lang['strrepsetlocked']  =  'Zbi&oacute;r replikacji zosta&#322; zablokowany.';
+	$lang['strrepsetlockedbad']  =  'Pr&oacute;ba zablokowania zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strconfunlockrepset']  =  'Czy na pewno chcesz odblokowa&#263; zbi&oacute;r replikacji &quot;%s&quot;?';
+	$lang['strrepsetunlocked']  =  'Zbi&oacute;r replikacji zosta&#322; odblokowany.';
+	$lang['strrepsetunlockedbad']  =  'Pr&oacute;ba odblokowania zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strexecute']  =  'Wykonaj';
+	$lang['stronlyonnode']  =  'Tylko w w&#281;&#378;le';
+	$lang['strddlscript']  =  'Skrypt DDL';
+	$lang['strscriptneedsbody']  =  'Musisz poda&#263; skrypt, kt&oacute;ry nale&#380;y wykona&#263; na wszystkich w&#281;z&#322;ach.';
+	$lang['strscriptexecuted']  =  'Skrypt DDL zosta&#322; wykonany w zbiorze replikacji.';
+	$lang['strscriptexecutedbad']  =  'Pr&oacute;ba wykonania skryptu DDL w zbiorze replikacji si&#281; nie powiod&#322;a.';
+	$lang['strtabletriggerstoretain']  =  'Nast&#281;puj&#261;ce wyzwalacze NIE zostan&#261; wy&#322;&#261;czone przez Slony:';
+
+	// Slony tables in replication sets
+	$lang['straddtable']  =  'Dodaj tabel&#281;';
+	$lang['strtableneedsuniquekey']  =  'Dodawana tabela musi mie&#263; klucz g&#322;&oacute;wny lub unikatowy.';
+	$lang['strtableaddedtorepset']  =  'Tabela zosta&#322;a dodana do zbioru replikacji.';
+	$lang['strtableaddedtorepsetbad']  =  'Pr&oacute;ba dodania tabeli do zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strconfremovetablefromrepset']  =  'Czy na pewno chcesz usun&#261;&#263; tabel&#281; &quot;%s&quot; ze zbioru replikacji &quot;%s&quot;?';
+	$lang['strtableremovedfromrepset']  =  'Tabela zosta&#322;a usuni&#281;ta ze zbioru replikacji.';
+	$lang['strtableremovedfromrepsetbad']  =  'Pr&oacute;ba usuni&#281;cia tabeli ze zbioru replikacji si&#281; nie powiod&#322;a.';
+
+	// Slony sequences in replication sets
+	$lang['straddsequence']  =  'Dodaj sekwencj&#281;';
+	$lang['strsequenceaddedtorepset']  =  'Sekwencja zosta&#322;a dodana do zbioru replikacji.';
+	$lang['strsequenceaddedtorepsetbad']  =  'Pr&oacute;ba dodania sekwencji do zbioru replikacji si&#281; nie powiod&#322;a.';
+	$lang['strconfremovesequencefromrepset']  =  'Czy na pewno chcesz usun&#261;&#263; sekwencj&#281; &quot;%s&quot; ze zbioru replikacji &quot;%s&quot;?';
+	$lang['strsequenceremovedfromrepset']  =  'Sekwencja zosta&#322;a usuni&#281;ta ze zbioru replikacji.';
+	$lang['strsequenceremovedfromrepsetbad']  =  'Pr&oacute;ba usuni&#281;cia sekwencji ze zbioru replikacji si&#281; nie powiod&#322;a.';
+
+	// Slony subscriptions
+	$lang['strsubscriptions']  =  'Subskrypcje';
+	$lang['strnosubscriptions']  =  'Nie znaleziono subskrypcji.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
