@@ -20,7 +20,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.42 2005/03/16 01:49:00 chriskl Exp $
+# $Id: Makefile,v 1.43 2005/10/22 18:30:47 slubek Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -62,7 +62,7 @@ clean:
 
 polish:	polish.php
 	@echo "Recoding polish..."
-	@cat polish.php | recode latin2..html | ./convert.awk \
+	@cat polish.php | recode utf-8..html | ./convert.awk \
 		> ${DESTDIR}/polish.php
 	@chmod 644 polish.php ${DESTDIR}/polish.php
 
