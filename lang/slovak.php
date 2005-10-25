@@ -1,9 +1,9 @@
 <?php
 
-	/**
-	  * Slovenska lokalizacia phpPgAdmin-u.
-	  *                             ado(at)nirvanaclub.sk
-	  */
+	/*
+	 *		Slovenska lokalizacia phpPgAdmin-u.
+	 *                             ado (at) imladris.sk
+	 */
 
 	// Language and character set
 	$lang['applang'] = 'Slovensky';
@@ -27,6 +27,10 @@
 	$lang['strloginfailed'] = 'Prihlásenie zlyhalo';
 	$lang['strlogindisallowed']  =  'Prihlásenie je vypnuté kôli bezpečnosti';
 	$lang['strserver'] = 'Server';
+	$lang['strservers']  =  'Servery';
+	$lang['strintroduction']  =  'Úvod';
+	$lang['strhost']  =  'Hostiteľ';
+	$lang['strport']  =  'Port';
 	$lang['strlogout'] = 'Odhlásiť';
 	$lang['strowner'] = 'Vlastník';
 	$lang['straction'] = 'Akcia';
@@ -69,7 +73,6 @@
 	$lang['strrows'] = 'riadky';
 	$lang['strrowsaff']  =  'riadkov ovplyvnených.';
 	$lang['strobjects']  =  'objekt(y)';
-	$lang['strexample'] = 'napr.';
 	$lang['strback'] = 'Späť';
 	$lang['strqueryresults'] = 'Výsledky Dotazu';
 	$lang['strshow'] = 'Ukázať';
@@ -80,9 +83,13 @@
 	$lang['strunique'] = 'Unikátny';
 	$lang['strprimary'] = 'Primárny';
 	$lang['strexport'] = 'Exportovať';
-	$lang['strimport']  =  'Import';
+	$lang['strimport']  =  'Import'; 
+	$lang['strallowednulls']  =  'Povolený NULL znak';
+	$lang['strbackslashn']  =  '\N';
+	$lang['strnull']  =  'Null';
+	$lang['strnull']  =  'NULL (slovo)';
+	$lang['stremptystring']  =  'Prázdny reťazec/pole';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Vykonaj';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vyčistiť';
 	$lang['stranalyze'] = 'Analyzovať';
@@ -91,6 +98,7 @@
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spustiť';
 	$lang['stradd'] = 'Pridať';
+	$lang['strremove']  =  'Zmazať';
 	$lang['strevent'] = 'Prípadne';
 	$lang['strwhere'] = 'Kde';
 	$lang['strinstead'] = 'Urobiť Namiesto';
@@ -124,11 +132,13 @@
 	$lang['strstarttime'] = 'Čas štartu';
 	$lang['strfile']  =  'Súbor';
 	$lang['strfileimported']  =  'Súbor importovaný.';
+	$lang['strtrycred']  =  'Použiť tieto hodnoty pre všetky hodnoty';
 
 	// Error handling
+	$lang['strnoframes']  =  'Táto aplikácia funguje najlapšie s prehliadačom, ktorý podporuje technológiu frame-ov, no môže byť použitý aj takým, ktorý to nepodporuje nasledovaním tohto odkazu:';
+	$lang['strnoframeslink']  =  'Nepoužívať frame-y';
 	$lang['strbadconfig'] = 'Tvoj config.inc.php je zastaralý. Musíš vygenerovať nový zo súboru config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Tvoje PHP nie je skompilované s potrebnou podporou databáz.';
-	$lang['strphpversionnotsupported']  =  'Tvoja verzia PHP nie je podporovaná.  Prosím aktualizuj ho na verziu %s alebo vyššiu.';
 	$lang['strpostgresqlversionnotsupported']  =  'Tvoja verzia PostgreSQL nie je podporovaná. Prosím aktualizuj ju na verziu %s alebo vyššiu.';
 	$lang['strbadschema'] = 'Špecifikovaná chybná schéma.';
 	$lang['strbadencoding'] = 'Nastavenie kódovania v databáze zlyhalo.';
@@ -141,7 +151,11 @@
 	$lang['strnoreportsdb'] = 'Nebola vytvorené report databáza. Prečítaj si INSTALL súbor s pokynmi.';
 	$lang['strnouploads']  =  'Upload súborov je vypnutý.';
 	$lang['strimporterror']  =  'Chyba Import-u.';
+	$lang['strimporterror-fileformat']  =  'Chyba importu: Automatické určenie formátu súboru zlyhalo.';
 	$lang['strimporterrorline']  =  'Chyba Import-u na riadku %s.';
+	$lang['strimporterrorline-badcolumnnum']  =  'Chyba importu na riadku %s: Riadok nemá správny počet stĺpcov.';
+	$lang['strimporterror-uploadedfile']  =  'Chyba importu: Súbor nemôže byť upload-nutý k serveru';
+	$lang['strcannotdumponwindows']  =  'Dump komplexných tabuliek a schém nie je na platforme Windows podporovaný.';
 
 	// Tables
 	$lang['strtable']  =  'Tabuľka';
@@ -165,6 +179,7 @@
 	$lang['strinsertrow'] = 'Vložiť Riadok';
 	$lang['strrowinserted'] = 'Riadok vložený.';
 	$lang['strrowinsertedbad'] = 'Riadok nebol vložený.';
+	$lang['strrowduplicate']  =  'Vloženie riadku zlyhalo, pokus o duplikátny insert.';
 	$lang['streditrow'] = 'Upraviť Riadok';
 	$lang['strrowupdated'] = 'Riadok upravený.';
 	$lang['strrowupdatedbad'] = 'Riadok nebol upravený.';
@@ -199,25 +214,25 @@
 	$lang['strestimatedrowcount']  =  'Odhadovaný počet riadkov';
 
 	// Users
-	$lang['struser'] = 'Užívateľ';
-	$lang['strusers'] = 'Užívatelia';
-	$lang['strusername'] = 'Meno užívateľa';
+	$lang['struser'] = 'Používateľ';
+	$lang['strusers'] = 'Používatelia';
+	$lang['strusername'] = 'Meno používateľa';
 	$lang['strpassword'] = 'Heslo';
 	$lang['strsuper'] = 'Superuser?';
 	$lang['strcreatedb'] = 'Vytváranie DB?';
 	$lang['strexpires'] = 'Expiruje';
 	$lang['strsessiondefaults']  =  'Sessions defaults'; //s cim to tak suvis??:)
-	$lang['strnousers'] = 'Nenájdený žiadny užívatelia.';
-	$lang['struserupdated'] = 'Užívatelia zmenený.';
-	$lang['struserupdatedbad'] = 'Uživatelia neboli zmenený.';
-	$lang['strshowallusers'] = 'Zobraziť Všetkých Užívateľov';
-	$lang['strcreateuser'] = 'Vytvoriť Užívateľa';
-	$lang['struserneedsname'] = 'Musíš zadať meno pre svojho užívateľa.';
-	$lang['strusercreated'] = 'Užívateľ vytvorený.';
-	$lang['strusercreatedbad']  =  'Užívateľ nebol vztvorený.';
-	$lang['strconfdropuser']  =  'Naozaj chceš zmazať užívateľa "%s"?';
-	$lang['struserdropped'] = 'Užívateľ zmazaný.';
-	$lang['struserdroppedbad'] = 'Užívateľ nebol zmazaný.';
+	$lang['strnousers'] = 'Nenájdení žiadni používatelia.';
+	$lang['struserupdated'] = 'Požívatelia zmenení.';
+	$lang['struserupdatedbad'] = 'Použivatelia neboli zmenení.';
+	$lang['strshowallusers'] = 'Zobraziť Všetkých Používateľov';
+	$lang['strcreateuser'] = 'Vytvoriť používateľa';
+	$lang['struserneedsname'] = 'Musíš zadať meno pre svojho používateľa.';
+	$lang['strusercreated'] = 'Používateľ vytvorený.';
+	$lang['strusercreatedbad']  =  'Používateľ nebol vytvorený.';
+	$lang['strconfdropuser']  =  'Naozaj chceš zmazať používateľa "%s"?';
+	$lang['struserdropped'] = 'Používateľ zmazaný.';
+	$lang['struserdroppedbad'] = 'Používateľ nebol zmazaný.';
 
 	// Groups
 	$lang['straccount'] = 'Konto';
@@ -289,6 +304,8 @@
 	$lang['strsignalsent']  =  'Signál odoslaný.';
 	$lang['strsignalsentbad']  =  'Odoslanie signálu zlyhalo.';
 	$lang['strallobjects']  =  'Všetky objekty';
+	$lang['strdatabasealtered']  =  'Databáza zmenená.';
+	$lang['strdatabasealteredbad']  =  'Databáza nebola zmenená.';
 
 	// Views
 	$lang['strview'] = 'Náhľad';
@@ -380,6 +397,7 @@
 	$lang['strruledroppedbad'] = 'Pravidlo nebolo zmazané.';
 
 	// Constraints
+	$lang['strconstraint']  =  'Obmedzenie';
 	$lang['strconstraints'] = 'Obmedzenia';
 	$lang['strshowallconstraints'] = 'Zobraziť Všetky Obmedzenia';
 	$lang['strnoconstraints'] = 'Nenájdené žiadne obmedzenie.';
@@ -452,6 +470,7 @@
 	$lang['strtriggerdroppedbad'] = 'Trigger nebol zmazaný.';
 	$lang['strtriggeraltered']  =  'Trigger zmenený.';
 	$lang['strtriggeralteredbad']  =  'Trigger nebol zmenený.';
+	$lang['strforeach']  =  'Pre každých';
 
 	// Types
 	$lang['strtype'] = 'Typ';
@@ -559,8 +578,8 @@
 	$lang['stroperatordroppedbad'] = 'Operátor nebol zmazaný.';
 
 	//Casts
-	$lang['strcasts'] = 'Casty';
-	$lang['strnocasts'] = 'Nenájdené žiadne Casty.';
+	$lang['strcasts'] = 'Cast-y';
+	$lang['strnocasts'] = 'Nenájdené žiadne Cast-y.';
 	$lang['strsourcetype'] = 'Zdrojový typ';
 	$lang['strtargettype'] = 'Cieľový typ';
 	$lang['strimplicit'] = 'Implicitný';
@@ -628,10 +647,124 @@
 	$lang['strtablespacealtered']  =  'Priestor tabuľky zmenený.';
 	$lang['strtablespacealteredbad']  =  'Zmenenie priestoru tabuľky zlyhalo.';
 
+	// Slony clusters
+$lang['strcluster']  =  'Cluster';
+$lang['strnoclusters']  =  'No clusters found.';
+$lang['strconfdropcluster']  =  'Are you sure you want to drop cluster "%s"?';
+$lang['strclusterdropped']  =  'Cluster dropped.';
+$lang['strclusterdroppedbad']  =  'Cluster drop failed.';
+$lang['strinitcluster']  =  'Initialize cluster';
+$lang['strclustercreated']  =  'Cluster initialized.';
+$lang['strclustercreatedbad']  =  'Cluster initialization failed.';
+$lang['strclusterneedsname']  =  'You must give a name for the cluster.';
+$lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
+	
+	// Slony nodes
+$lang['strnodes']  =  'Nodes';
+$lang['strnonodes']  =  'No nodes found.';
+$lang['strcreatenode']  =  'Create node';
+$lang['strid']  =  'ID';
+$lang['stractive']  =  'Active';
+$lang['strnodecreated']  =  'Node created.';
+$lang['strnodecreatedbad']  =  'Node creation failed.';
+$lang['strconfdropnode']  =  'Are you sure you want to drop node "%s"?';
+$lang['strnodedropped']  =  'Node dropped.';
+$lang['strnodedroppedbad']  =  'Node drop failed';
+$lang['strfailover']  =  'Failover';
+$lang['strnodefailedover']  =  'Node failed over.';
+$lang['strnodefailedoverbad']  =  'Node failover failed.';
+	
+	// Slony paths	
+$lang['strpaths']  =  'Paths';
+$lang['strnopaths']  =  'No paths found.';
+$lang['strcreatepath']  =  'Create path';
+$lang['strnodename']  =  'Node name';
+$lang['strnodeid']  =  'Node ID';
+$lang['strconninfo']  =  'Connection string';
+$lang['strconnretry']  =  'Seconds before retry to connect';
+$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
+$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
+$lang['strpathcreated']  =  'Path created.';
+$lang['strpathcreatedbad']  =  'Path creation failed.';
+$lang['strconfdroppath']  =  'Are you sure you want to drop path "%s"?';
+$lang['strpathdropped']  =  'Path dropped.';
+$lang['strpathdroppedbad']  =  'Path drop failed.';
+
+	// Slony listens
+$lang['strlistens']  =  'Listens';
+$lang['strnolistens']  =  'No listens found.';
+$lang['strcreatelisten']  =  'Create listen';
+$lang['strlistencreated']  =  'Listen created.';
+$lang['strlistencreatedbad']  =  'Listen creation failed.';
+$lang['strconfdroplisten']  =  'Are you sure you want to drop listen "%s"?';
+$lang['strlistendropped']  =  'Listen dropped.';
+$lang['strlistendroppedbad']  =  'Listen drop failed.';
+
+	// Slony replication sets
+$lang['strrepsets']  =  'Replication sets';
+$lang['strnorepsets']  =  'No replication sets found.';
+$lang['strcreaterepset']  =  'Create replication set';
+$lang['strrepsetcreated']  =  'Replication set created.';
+$lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
+$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set "%s"?';
+$lang['strrepsetdropped']  =  'Replication set dropped.';
+$lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
+$lang['strmerge']  =  'Merge';
+$lang['strmergeinto']  =  'Merge into';
+$lang['strrepsetmerged']  =  'Replication sets merged.';
+$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
+$lang['strmove']  =  'Move';
+$lang['strneworigin']  =  'New origin';
+$lang['strrepsetmoved']  =  'Replication set moved.';
+$lang['strrepsetmovedbad']  =  'Replication set move failed.';
+$lang['strnewrepset']  =  'New replication set';
+$lang['strlock']  =  'Lock';
+$lang['strlocked']  =  'Locked';
+$lang['strunlock']  =  'Unlock';
+$lang['strconflockrepset']  =  'Are you sure you want to lock replication set "%s"?';
+$lang['strrepsetlocked']  =  'Replication set locked.';
+$lang['strrepsetlockedbad']  =  'Replication set lock failed.';
+$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set "%s"?';
+$lang['strrepsetunlocked']  =  'Replication set unlocked.';
+$lang['strrepsetunlockedbad']  =  'Replication set unlock failed.';
+$lang['strexecute']  =  'Execute';
+$lang['stronlyonnode']  =  'Only on node';
+$lang['strddlscript']  =  'DDL script';
+$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
+$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
+$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
+$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
+
+	// Slony tables in replication sets
+$lang['straddtable']  =  'Add table';
+$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
+$lang['strtableaddedtorepset']  =  'Table added to replication set.';
+$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
+$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table "%s" from replication set "%s"?';
+$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
+$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
+
+	// Slony sequences in replication sets
+$lang['straddsequence']  =  'Add sequence';
+$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
+$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
+$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence "%s" from replication set "%s"?';
+$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
+$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
+
+	// Slony subscriptions
+$lang['strsubscriptions']  =  'Subscriptions';
+$lang['strnosubscriptions']  =  'No subscriptions found.';
+
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s beží na %s:%s -- Si prihlásený ako "%s", %s';
+	$lang['strtopbar']  =  '%s beží na %s:%s -- si prihlásený ako "%s", %s';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Pomoc';
 	$lang['strhelpicon']  =  '?';
+	$lang['strlogintitle']  =  'Prihlasujem do %s';
+	$lang['strlogoutmsg']  =  'Odhlásený z %s';
+	$lang['strloading']  =  'Spracuvávam...';
+	$lang['strerrorloading']  =  'Chyba spracovania';
+	$lang['strclicktoreload']  =  'Klikni pre obnovenie';
 
 ?>
