@@ -18,6 +18,8 @@ Export
 * Switch to SPARQL format:
   http://www.w3.org/TR/2005/WD-rdf-sparql-XMLres-20050801/
 
+  Actually...SQL/XML is maybe better.
+
 Misc
 ----
 
@@ -146,6 +148,9 @@ Casts (7.3)
 Miscellaneous
 -------------
 
+* Allow management of built-in autovacuum in 8.1
+* Put a 'What's blocking this query' on Processes view
+* Show locks on database view
 * Show NOTICES on queries in SQL window/file
 * Add sslmode to connection variables
 * Printable view of things
