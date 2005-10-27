@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau &lt;twanger@bluetwanger.de&gt;
     *
-    * $Id: german.php,v 1.21 2005/08/11 23:01:45 soranzo Exp $
+    * $Id: german.php,v 1.22 2005/10/27 01:21:04 chriskl Exp $
     */
 
 
@@ -31,6 +31,10 @@
     $lang['strloginfailed'] = 'Anmelden fehlgeschlagen';
     $lang['strlogindisallowed'] = 'Anmelden nicht erlaubt';
     $lang['strserver'] = 'Server';
+    $lang['strservers']  =  'Server';
+    $lang['strintroduction']  =  'Einf&uuml;hrung';
+    $lang['strhost']  =  'Host';
+    $lang['strport']  =  'Port';
     $lang['strlogout'] = 'Abmelden';
     $lang['strowner'] = 'Besitzer';
     $lang['straction'] = 'Aktion';
@@ -73,7 +77,6 @@
     $lang['strrows'] = 'Datens&auml;tze';
     $lang['strrowsaff']  =  'Datens&auml;tze betroffen.';
     $lang['strobjects'] = 'Objekt(e)';
-    $lang['strexample'] = 'z.B.';
     $lang['strback'] = 'Zur&uuml;ck';
     $lang['strqueryresults'] = 'Abfrageergebnis';
     $lang['strshow'] = 'Anzeigen';
@@ -85,8 +88,12 @@
     $lang['strprimary'] = 'Prim&auml;r';
     $lang['strexport'] = 'Exportieren';
     $lang['strimport']  =  'Importieren';
+    $lang['strallowednulls']  =  'Erlaubte NULL-Zeichen';
+    $lang['strbackslashn']  =  '\N';
+    $lang['strnull']  =  'Null';
+    $lang['strnull']  =  'NULL (Das Wort)';
+    $lang['stremptystring']  =  'Leere Zeichenkette / Leeres Feld';
     $lang['strsql'] = 'SQL';
-    $lang['strgo'] = 'Los';
     $lang['stradmin'] = 'Admin';
     $lang['strvacuum'] = 'Vacuum';
     $lang['stranalyze'] = 'Analysieren';
@@ -95,9 +102,10 @@
     $lang['strreindex'] = 'Reindizierung';
     $lang['strrun'] = 'Los';
     $lang['stradd'] = 'Hinzuf&uuml;gen';
+    $lang['strremove']  =  'Entfernen';
     $lang['strevent'] = 'Ereignis';
     $lang['strwhere'] = 'wo';
-    $lang['strinstead'] = 'DO INSTEAD';
+$lang['strinstead'] = 'DO INSTEAD';
     $lang['strwhen'] = 'Wann';
     $lang['strformat'] = 'Format';
 
@@ -130,12 +138,14 @@
     $lang['strstarttime'] = 'Startzeitpunkt';
     $lang['strfile']  =  'Datei';
     $lang['strfileimported']  =  'Datei importiert.';
+    $lang['strtrycred']  =  'Diese Anmeldedaten f&uuml;r alle Server benutzen';
 
 	// Error handling
+    $lang['strnoframes']  =  'Diese Anwendung funktioniert am besten mit einem Browser, der Frames beherrscht, kann aber auch ohne Frames benutzt werden, indem dem untenstehenden Verweis gefolgt wird.';
+    $lang['strnoframeslink']  =  'Ohne Frames benutzen';
     $lang['strbadconfig'] = 'Ihre config.inc.php ist nicht aktuell. Sie m&uuml;ssen sie aus der config.inc.php-dist neu erzeugen.';
     $lang['strnotloaded'] = 'Ihre PHP-Installation besitzt keine passende Datenbankunterst&uuml;tzung.';
-    $lang['strphpversionnotsupported']  =  'PHP-Version wird nicht unterst&uuml;tzt. Bitte erneuert sie PHP auf die Version %s oder eine neuere Version.';
-    $lang['strpostgresqlversionnotsupported']  =  'PostgreSQL-Version wird nicht unterst&uuml;tzt. Bitte erneuert sie PostgreSQL auf Version %s oder eine neuere Version.';
+    $lang['strpostgresqlversionnotsupported']  =  'Ihre PostgreSQL-Version wird nicht unterst&uuml;tzt. Bitte erneuert sie PostgreSQL auf Version %s oder eine neuere Version.';
     $lang['strbadschema'] = 'Unzul&auml;ssiges Schema angegeben.';
     $lang['strbadencoding'] = 'Abbruch beim Setzen der Clientcodierung in der Datenbank.';
     $lang['strsqlerror'] = 'SQL Fehler:';
@@ -147,7 +157,11 @@
     $lang['strnoreportsdb']  =  'Sie haben die Berichtsdatenbank nicht angelegt. In der Datei INSTALL befinden sich Anweisungen dazu.';
     $lang['strnouploads']  =  'Das Hochladen von Dateien ist ausgeschaltet.';
     $lang['strimporterror']  =  'Importfehler.';
+    $lang['strimporterror-fileformat']  =  'Importfehler: Konnte Dateiformat nicht bestimmen.';
     $lang['strimporterrorline']  =  'Importfehler auf Zeile %s.';
+    $lang['strimporterrorline-badcolumnnum']  =  'Importfehler auf Zeile %s: Zeile hat nicht die richtige Anzahl an Spalten.';
+    $lang['strimporterror-uploadedfile']  =  'Importfehler: Die Datei konnte nicht auf den Server geladen werden';
+    $lang['strcannotdumponwindows']  =  'Das Dumpen von komplexen Tabellen- und Schemanamen unter Windows wird nicht unterst&uuml;tzt.';
 
     // Tables
     $lang['strtable'] = 'Tabelle';
@@ -171,6 +185,7 @@
     $lang['strinsertrow'] = 'Datensatz einf&uuml;gen';
     $lang['strrowinserted'] = 'Datensatz eingef&uuml;gt.';
     $lang['strrowinsertedbad'] = 'Einf&uuml;gen des Datensatzes fehlgeschlagen.';
+    $lang['strrowduplicate']  =  'Einf&uuml;gen des Datensatzes fehlgeschlagen, es wurde versucht, ein Duplikat einzuf&uuml;gen.';
     $lang['streditrow'] = 'Datensatz bearbeiten';
     $lang['strrowupdated'] = 'Datensatz ge&auml;ndert.';
     $lang['strrowupdatedbad'] = '&Auml;ndern des Datensatzes fehlgeschlagen.';
@@ -295,6 +310,8 @@
     $lang['strsignalsent']  =  'Signal gesendet.';
     $lang['strsignalsentbad']  =  'Senden des Signales fehlgeschlagen.';
     $lang['strallobjects']  =  'Alle Objekte';
+    $lang['strdatabasealtered']  =  'Datenbank ge&auml;ndert.';
+    $lang['strdatabasealteredbad']  =  '&Auml;ndern der Datenbank fehlgeschlagen.';
 
     // Views
     $lang['strview'] = 'Sicht';
@@ -459,6 +476,7 @@
     $lang['strtriggerdroppedbad'] = 'L&ouml;schen des Triggers fehlgeschlagen.';
     $lang['strtriggeraltered'] = 'Trigger ge&auml;ndert.';
     $lang['strtriggeralteredbad'] = '&Auml;ndern des Triggers fehlgeschlagen.';
+    $lang['strforeach']  =  'F&uuml;r alle';
 
     // Types
     $lang['strtype'] = 'Datentyp';
@@ -488,7 +506,7 @@
     $lang['strtypedropped'] = 'Datentyp gel&ouml;scht.';
     $lang['strtypedroppedbad'] = 'L&ouml;schen des Datentyps fehlgeschlagen.';
     $lang['strflavor']  =  'Art';
-$lang['strbasetype']  =  'Base';
+    $lang['strbasetype']  =  'Basis';
     $lang['strcompositetype']  =  'Zusammengesetzt';
     $lang['strpseudotype']  =  'Pseudo';
 
@@ -635,10 +653,124 @@ $lang['strbasetype']  =  'Base';
     $lang['strtablespacealtered']  =  'Tablespace ge&auml;ndert.';
     $lang['strtablespacealteredbad']  =  '&Auml;ndern des Tablespace fehlgeschlagen.';
 
+	// Slony clusters
+$lang['strcluster']  =  'Cluster';
+$lang['strnoclusters']  =  'No clusters found.';
+$lang['strconfdropcluster']  =  'Are you sure you want to drop cluster &quot;%s&quot;?';
+$lang['strclusterdropped']  =  'Cluster dropped.';
+$lang['strclusterdroppedbad']  =  'Cluster drop failed.';
+$lang['strinitcluster']  =  'Initialize cluster';
+$lang['strclustercreated']  =  'Cluster initialized.';
+$lang['strclustercreatedbad']  =  'Cluster initialization failed.';
+$lang['strclusterneedsname']  =  'You must give a name for the cluster.';
+$lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
+	
+	// Slony nodes
+$lang['strnodes']  =  'Nodes';
+$lang['strnonodes']  =  'No nodes found.';
+$lang['strcreatenode']  =  'Create node';
+$lang['strid']  =  'ID';
+$lang['stractive']  =  'Active';
+$lang['strnodecreated']  =  'Node created.';
+$lang['strnodecreatedbad']  =  'Node creation failed.';
+$lang['strconfdropnode']  =  'Are you sure you want to drop node &quot;%s&quot;?';
+$lang['strnodedropped']  =  'Node dropped.';
+$lang['strnodedroppedbad']  =  'Node drop failed';
+$lang['strfailover']  =  'Failover';
+$lang['strnodefailedover']  =  'Node failed over.';
+$lang['strnodefailedoverbad']  =  'Node failover failed.';
+	
+	// Slony paths	
+$lang['strpaths']  =  'Paths';
+$lang['strnopaths']  =  'No paths found.';
+$lang['strcreatepath']  =  'Create path';
+$lang['strnodename']  =  'Node name';
+$lang['strnodeid']  =  'Node ID';
+$lang['strconninfo']  =  'Connection string';
+$lang['strconnretry']  =  'Seconds before retry to connect';
+$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
+$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
+$lang['strpathcreated']  =  'Path created.';
+$lang['strpathcreatedbad']  =  'Path creation failed.';
+$lang['strconfdroppath']  =  'Are you sure you want to drop path &quot;%s&quot;?';
+$lang['strpathdropped']  =  'Path dropped.';
+$lang['strpathdroppedbad']  =  'Path drop failed.';
+
+	// Slony listens
+$lang['strlistens']  =  'Listens';
+$lang['strnolistens']  =  'No listens found.';
+$lang['strcreatelisten']  =  'Create listen';
+$lang['strlistencreated']  =  'Listen created.';
+$lang['strlistencreatedbad']  =  'Listen creation failed.';
+$lang['strconfdroplisten']  =  'Are you sure you want to drop listen &quot;%s&quot;?';
+$lang['strlistendropped']  =  'Listen dropped.';
+$lang['strlistendroppedbad']  =  'Listen drop failed.';
+
+	// Slony replication sets
+$lang['strrepsets']  =  'Replication sets';
+$lang['strnorepsets']  =  'No replication sets found.';
+$lang['strcreaterepset']  =  'Create replication set';
+$lang['strrepsetcreated']  =  'Replication set created.';
+$lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
+$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set &quot;%s&quot;?';
+$lang['strrepsetdropped']  =  'Replication set dropped.';
+$lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
+$lang['strmerge']  =  'Merge';
+$lang['strmergeinto']  =  'Merge into';
+$lang['strrepsetmerged']  =  'Replication sets merged.';
+$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
+$lang['strmove']  =  'Move';
+$lang['strneworigin']  =  'New origin';
+$lang['strrepsetmoved']  =  'Replication set moved.';
+$lang['strrepsetmovedbad']  =  'Replication set move failed.';
+$lang['strnewrepset']  =  'New replication set';
+$lang['strlock']  =  'Lock';
+$lang['strlocked']  =  'Locked';
+$lang['strunlock']  =  'Unlock';
+$lang['strconflockrepset']  =  'Are you sure you want to lock replication set &quot;%s&quot;?';
+$lang['strrepsetlocked']  =  'Replication set locked.';
+$lang['strrepsetlockedbad']  =  'Replication set lock failed.';
+$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set &quot;%s&quot;?';
+$lang['strrepsetunlocked']  =  'Replication set unlocked.';
+$lang['strrepsetunlockedbad']  =  'Replication set unlock failed.';
+$lang['strexecute']  =  'Execute';
+$lang['stronlyonnode']  =  'Only on node';
+$lang['strddlscript']  =  'DDL script';
+$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
+$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
+$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
+$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
+
+	// Slony tables in replication sets
+$lang['straddtable']  =  'Add table';
+$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
+$lang['strtableaddedtorepset']  =  'Table added to replication set.';
+$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
+$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
+$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
+
+	// Slony sequences in replication sets
+$lang['straddsequence']  =  'Add sequence';
+$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
+$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
+$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
+$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
+
+	// Slony subscriptions
+$lang['strsubscriptions']  =  'Subscriptions';
+$lang['strnosubscriptions']  =  'No subscriptions found.';
+
 	// Miscellaneous
     $lang['strtopbar'] = '%s l&auml;uft auf %s:%s -- Sie sind als &quot;%s&quot; angemeldet, %s';
     $lang['strtimefmt'] = 'D, j. n. Y, G:i';
     $lang['strhelp'] = 'Hilfe';
     $lang['strhelpicon']  =  '?';
+    $lang['strlogintitle']  =  'Auf %s anmelden';
+    $lang['strlogoutmsg']  =  'Von %s abgemeldet';
+    $lang['strloading']  =  'Lade...';
+    $lang['strerrorloading']  =  'Fehler beim Laden';
+    $lang['strclicktoreload']  =  'Klicken Sie zum neu laden';
 
 ?>
