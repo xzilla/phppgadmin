@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.30 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: spanish.php,v 1.31 2005/10/28 01:57:53 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -31,10 +31,10 @@
 	$lang['strserver'] = 'Servidor';
         $lang['strservers']  =  'Servidores';
         $lang['strintroduction']  =  'Introducción';
-$lang['strhost']  =  'Host';
+        $lang['strhost']  =  'Host';
         $lang['strport']  =  'Puerto';
 	$lang['strlogout'] = 'Salir';
-	$lang['strowner'] = 'Propietario';
+	$lang['strowner'] = 'Dueño';
 	$lang['straction'] = 'Acción';
 	$lang['stractions'] = 'Acciones';
 	$lang['strname'] = 'Nombre';
@@ -86,6 +86,11 @@ $lang['strhost']  =  'Host';
 	$lang['strprimary'] = 'Primaria';
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
+        $lang['strallowednulls']  =  'Valores Nulos (NULL) Permitidos';
+$lang['strbackslashn']  =  '\N';
+$lang['strnull']  =  'Null';
+$lang['strnull']  =  'NULL (The word)';
+        $lang['stremptystring']  =  'Cadena o campo vacio';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
@@ -129,6 +134,7 @@ $lang['strhost']  =  'Host';
 	$lang['strstarttime'] = 'Hora de comienzo';
 	$lang['strfile'] = 'Archivo';
 	$lang['strfileimported'] = 'Archivo importado.';
+        $lang['strtrycred']  =  'Usar el mismo par usuario/contraseña para todos los servidores';
 
 	// Error handling
         $lang['strnoframes']  =  'Esta aplicación funciona mejor con un navegador con soporte para marcos, pero puede usarse sin marcos siguiendo el link de abajo.';
@@ -147,7 +153,10 @@ $lang['strhost']  =  'Host';
 	$lang['strnoreportsdb'] = 'No ha creado aún la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
 	$lang['strnouploads'] = 'Está deshabilitada la subida de archivos.';
 	$lang['strimporterror'] = 'Error de importación.';
+        $lang['strimporterror-fileformat']  =  'Error de importacion de datos: Falló al intentar determinar el formato del archivo.';
 	$lang['strimporterrorline'] = 'Error de importación en la línea %s.';
+        $lang['strimporterrorline-badcolumnnum']  =  'Error de importación en la línea %s:  La línea no posee la cantidad de columnas correctas.';
+        $lang['strimporterror-uploadedfile']  =  'Error de importación: No se ha podido subir el archivo al servidor';
         $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
 
 	// Tables
@@ -204,7 +213,7 @@ $lang['strhost']  =  'Host';
 	$lang['strtabbed'] = 'Tabulado';
 	$lang['strauto'] = 'Automático';
         $lang['strconfvacuumtable']  =  'Esta seguro que quiere limpiar "%s"?';
-        $lang['strestimatedrowcount']  =  'Cantidad de filas estimadas';
+        $lang['strestimatedrowcount']  =  'Estimación de filas';
 
         // Users
 	$lang['struser'] = 'Usuario';
@@ -464,8 +473,8 @@ $lang['strhost']  =  'Host';
         $lang['strforeach']  =  'Para cada uno';
 
 	// Types
-	$lang['strtype'] = 'Tipo';
-	$lang['strtypes'] = 'Tipos';
+	$lang['strtype'] = 'Tipo de dato';
+	$lang['strtypes'] = 'Tipos de datos';
 	$lang['strshowalltypes'] = 'Mostrar todos los tipos';
 	$lang['strnotype'] = 'No se encontró el tipo.';
 	$lang['strnotypes'] = 'No se encontraron tipos.';
@@ -490,7 +499,7 @@ $lang['strhost']  =  'Host';
 	$lang['strconfdroptype'] = '¿Está seguro que quiere eliminar el tipo "%s"?';
 	$lang['strtypedropped'] = 'Tipo eliminado.';
 	$lang['strtypedroppedbad'] = 'Falló al eliminar el tipo.';
-$lang['strflavor']  =  'Flavor';
+        $lang['strflavor']  =  'Tipo';
         $lang['strbasetype']  =  'Base';
         $lang['strcompositetype']  =  'Compuesto';
         $lang['strpseudotype']  =  'Pseudo';
@@ -637,6 +646,7 @@ $lang['strflavor']  =  'Flavor';
         $lang['strtablespacealteredbad']  =  'Falló la modificación del Tablespace.';
 
 	// Slony clusters
+$lang['strcluster']  =  'Cluster';
 $lang['strnoclusters']  =  'No clusters found.';
 $lang['strconfdropcluster']  =  'Are you sure you want to drop cluster "%s"?';
 $lang['strclusterdropped']  =  'Cluster dropped.';
@@ -741,15 +751,15 @@ $lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set
 $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
 
 	// Slony subscriptions
-$lang['strsubscriptions']  =  'Subscriptions';
-$lang['strnosubscriptions']  =  'No subscriptions found.';
+        $lang['strsubscriptions']  =  'Subscripciones';
+        $lang['strnosubscriptions']  =  'No se encontraron subscripciones.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted está logueado con usuario "%s", %s';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
 	$lang['strhelp'] = 'Ayuda';
         $lang['strhelpicon']  =  '?';
-        $lang['strlogintitle']  =  'Logguearse a %s';
+        $lang['strlogintitle']  =  'Loguearse a %s';
         $lang['strlogoutmsg']  =  'Saliendo de %s';
         $lang['strloading']  =  'Cargando...';
         $lang['strerrorloading']  =  'Error Cargando';
