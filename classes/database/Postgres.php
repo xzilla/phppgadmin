@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.277 2005/10/18 03:45:16 chriskl Exp $
+ * $Id: Postgres.php,v 1.278 2005/11/04 04:19:41 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3823,7 +3823,7 @@ class Postgres extends ADODB_base {
 	 * @param $show An array of columns to show.  Empty array means all columns.
 	 * @param $values An array mapping columns to values
 	 * @param $ops An array of the operators to use
-	 * @param $orderby (optional) An array of column numbers (one based) 
+	 * @param $orderby (optional) An array of column numbers or names (one based) 
 	 *        mapped to sort direction (asc or desc or '' or null) to order by
 	 * @return The SQL query
 	 */
@@ -3888,7 +3888,10 @@ class Postgres extends ADODB_base {
 		// ORDER BY
 		if (is_array($orderby) && sizeof($orderby) > 0) {
 			$sql .= " ORDER BY ";
+			$first = true;
 			foreach ($orderby as $k => $v) {
+				if ($first) $first = false;
+				else $sql .= ', ';
 				$sql .= $k;
 				if (strtoupper($v) == 'DESC') $sql .= " DESC";
 			}
