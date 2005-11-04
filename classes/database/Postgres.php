@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.278 2005/11/04 04:19:41 chriskl Exp $
+ * $Id: Postgres.php,v 1.279 2005/11/04 04:23:16 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3892,7 +3892,13 @@ class Postgres extends ADODB_base {
 			foreach ($orderby as $k => $v) {
 				if ($first) $first = false;
 				else $sql .= ', ';
-				$sql .= $k;
+				if (ereg('^[0-9]+$', $k)) {
+					$sql .= $k;
+				}
+				else {
+					$this->fieldClean($k);
+					$sql .= '"' . $k . '"';
+				}
 				if (strtoupper($v) == 'DESC') $sql .= " DESC";
 			}
 		}
