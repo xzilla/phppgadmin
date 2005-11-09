@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.111 2005/10/10 21:33:19 xzilla Exp $
+	 * $Id: Misc.php,v 1.112 2005/11/09 09:05:58 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -438,7 +438,7 @@
 		 * @param $section The name of the tab bar.
 		 */
 		function getNavTabs($section) {
-			global $data, $lang, $conf;
+			global $data, $lang, $conf, $slony;
 
 			$hide_advanced = ($conf['show_advanced'] === false);
 			
@@ -572,6 +572,13 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => ($hide_advanced || !$data->hasCasts()),
 							'help'  => 'pg.cast',
+						),
+						'slony' => array (
+							'title' => 'Slony',
+							'url'   => 'plugin_slony.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'clusters_properties'),
+							'hide'  => !isset($slony),
+							'help'  => '',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -793,6 +800,40 @@
 						),
 					);
 				
+				case 'slony_cluster':
+					return array (
+						'properties' => array (
+							'title' => $lang['strproperties'],
+							'url'   => 'plugin_slony.php',
+							'urlvars' => array(
+									'subject' => 'slony_cluster',
+									'action' => 'cluster_properties',
+									'slony_cluster' => field('slony_cluster')
+								),
+							'help'  => '',
+						),
+						'nodes' => array (
+							'title' => $lang['strnodes'],
+							'url'   => 'plugin_slony.php',
+							'urlvars' => array(
+									'subject' => 'slony_cluster',
+									'action' => 'nodes_properties',
+									'slony_cluster' => field('slony_cluster')
+								),
+							'help'  => '',
+						),
+						'sets' => array (
+							'title' => $lang['strrepsets'],
+							'url'   => 'plugin_slony.php',
+							'urlvars' => array(
+									'subject' => 'slony_cluster',
+									'action' => 'sets_properties',
+									'slony_cluster' => field('slony_cluster')
+								),
+							'help'  => '',
+						),
+					);
+					
 				default:
 					return array();
 			}
@@ -972,6 +1013,17 @@
 			}
 			if ($subject == 'schema') $done = true;
 			
+			if (isset($_REQUEST['slony_cluster']) && !$done) {
+				$vars .= 'slony_cluster='.urlencode($_REQUEST['slony_cluster']).'&';
+				$trail['slony_cluster'] = array(
+					'title' => 'Slony Cluster',
+					'text'  => $_REQUEST['slony_cluster'],
+					'url'   => "redirect.php?subject=slony_cluster&{$vars}",
+					'help'  => 'sl.cluster'
+				);
+			}
+			if ($subject == 'slony_cluster') $done = true;
+			
 			if (isset($_REQUEST['table']) && !$done) {
 				$vars .= "subject=table&table=".urlencode($_REQUEST['table']);
 				$trail['table'] = array(
@@ -1001,6 +1053,25 @@
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
 							'help'  => 'pg.function'
+						);
+						break;
+					case 'slony_node':
+						$vars .= 'no_id='.urlencode($_REQUEST['no_id']).'&no_name='.urlencode($_REQUEST['no_name']);
+						$trail[$subject] = array(
+							'title' => 'Slony Node',
+							'text'  => $_REQUEST['no_name'],
+							'url'   => "redirect.php?{$vars}",
+							'help'  => 'sl.'.$subject
+						);
+						break;
+					case 'slony_set':
+						$vars .= "{$subject}_id=".urlencode($_REQUEST[$subject]).'&';
+						$vars .= "subject={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
+						$trail[$subject] = array(
+							'title' => $lang['str'.$subject],
+							'text'  => $_REQUEST[$subject],
+							'url'   => "redirect.php?{$vars}",
+							'help'  => 'sl.'.$subject
 						);
 						break;
 					default:
@@ -1535,6 +1606,7 @@
 						$info['username'] = $_SESSION['sharedUsername'];
 						$info['password'] = $_SESSION['sharedPassword'];
 						$_reload_browser = true;
+						$this->setServerInfo(null, $info, $server_id);
 					}
 					
 					return $info;

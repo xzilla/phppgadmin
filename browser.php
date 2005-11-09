@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.50 2005/09/07 08:11:15 chriskl Exp $
+	 * $Id: browser.php,v 1.51 2005/11/09 09:05:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -54,7 +54,7 @@ WebFXTreeAbstractNode.prototype.target = 'detail';
 WebFXTreeAbstractNode.prototype._ondblclick = function(){}
 
 // Show tree XML on double click - for debugging purposes only
-/*
+
 // UNCOMMENT THIS FOR DEBUGGING (SHOWS THE SOURCE XML)
 WebFXTreeAbstractNode.prototype._ondblclick = function(e){
 	var el = e.target || e.srcElement;
@@ -63,7 +63,7 @@ WebFXTreeAbstractNode.prototype._ondblclick = function(e){
 		window.open(this.src, this.target || "_self");
 	return false;
 };
-*/
+
 var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
 
 tree.write();

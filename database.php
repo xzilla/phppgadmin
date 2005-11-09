@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.77 2005/10/18 04:00:19 chriskl Exp $
+	 * $Id: database.php,v 1.78 2005/11/09 09:05:58 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -540,21 +540,7 @@
 
 		$reqvars = $misc->getRequestVars('database');
 
-		if ($data->hasSchemas())
-			$tabs = $misc->getNavTabs('database');
-		else
-			$tabs = array_merge($misc->getNavTabs('schema'), $misc->getNavTabs('database'));
-		
-		// Show slony node if enabled on this database
-		if (isset($slony)) {
-			$tabs['slony'] = array (
-									'title' => 'Slony',
-									'url'   => 'plugin_slony.php',
-									'urlvars' => array('action' => 'clusters_properties'),
-									'hide'  => false,
-									'help'  => ''
-								);
-		}
+		$tabs = $misc->getNavTabs('database');
 
 		$items = $misc->adjustTabsForTree($tabs);
 		

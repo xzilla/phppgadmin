@@ -3,11 +3,11 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.5 2005/10/18 04:00:19 chriskl Exp $
+	 * $Id: plugin_slony.php,v 1.6 2005/11/09 09:05:58 jollytoad Exp $
 	 */
 
 	// Avoid database connections whenever possible
-	switch ($_REQUEST['action']) {
+	switch (isset($_REQUEST['action']) ? $_REQUEST['action'] : '') {
 		case 'clusters_top':
 		case 'nodes_top':
 		case 'sets_top':
@@ -21,6 +21,11 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	$PHP_SELF = $_SERVER['PHP_SELF'];
+	
+	// Include 'slony_cluster' in $misc->href if present
+	if (isset($_REQUEST['slony_cluster'])) {
+		$misc->href .= '&amp;slony_cluster=' . urlencode($_REQUEST['slony_cluster']);
+	}
 
 	/**
 	 * Generate the somewhat complex Slony tree
@@ -30,9 +35,11 @@
 		global $misc, $data, $lang, $PHP_SELF, $slony;
 
 		$reqvars = $misc->getRequestVars('database');
+		if (isset($slony))
+			$reqvars['slony_cluster'] = $slony->slony_cluster;
 
 		// Determine what actual tree we are building
-		switch ($subject) {			
+		switch ($subject) {
 			case 'clusters':
 				// Clusters
 				
@@ -53,9 +60,7 @@
 					'icon'   => field('icon', 'folder'),
 					'action' => url(field('url'),
 									$reqvars,
-									array(
-										'action'  => 'cluster_properties'
-									)
+									array('action'  => 'cluster_properties')
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -83,7 +88,9 @@
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
-									array('action' => 'nodes_properties')
+									array(
+										'action' => 'nodes_properties'
+									)
 								),
 					'branch' => url(field('url'),
 									$reqvars,
@@ -131,8 +138,11 @@
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array(
+										'subject' => 'slony_node',
 										'action'  => 'node_properties',
-										'no_id' => field('no_id')
+										'no_id' => field('no_id'),
+										'no_name' => field('no_comment'),
+										'slony_cluster' => $slony->slony_cluster
 									)
 								),
 					'branch' => url('plugin_slony.php',
@@ -408,6 +418,7 @@
 		global $lang;
 
 		$misc->printTrail('database');
+		$misc->printTabs('database','slony');
 		$misc->printMsg($msg);
 
 		$clusters = $slony->getClusters();
@@ -430,12 +441,12 @@
 			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
-				'vars'  => array()
+				'vars'  => array('slony_cluster' => 'cluster')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_cluster&amp;",
-				'vars'  => array()
+				'vars'  => array('slony_cluster' => 'cluster')
 			)
 		);
 		
@@ -456,7 +467,7 @@
 		global $lang;
 		
 		$misc->printTrail('slony_cluster');
-		$misc->printTitle($lang['strproperties']);
+		$misc->printTabs('slony_cluster', 'properties');
 		$misc->printMsg($msg);
 		
 		// Fetch the cluster information
@@ -573,7 +584,8 @@
 		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
-		$misc->printTrail('slony_nodes');
+		$misc->printTrail('slony_cluster');
+		$misc->printTabs('slony_cluster', 'nodes');
 		$misc->printMsg($msg);
 
 		$nodes = $slony->getNodes();
@@ -595,13 +607,13 @@
 		$actions = array (
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;",
-				'vars'  => array('no_id' => 'no_id')
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;subject=slony_node&amp;",
+				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;",
-				'vars'  => array('no_id' => 'no_id')
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;subject=slony_node&amp;",
+				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
 			)
 		);
 		
@@ -1075,7 +1087,8 @@
 		global $PHP_SELF, $slony, $misc;
 		global $lang;
 
-		$misc->printTrail('database');
+		$misc->printTrail('slony_cluster');
+		$misc->printTabs('slony_cluster', 'sets');
 		$misc->printMsg($msg);
 
 		$sets = $slony->getReplicationSets();
@@ -2229,14 +2242,13 @@
 		case 'subscription_properties':
 			doSubscription();
 			break;
-		case 'clusters_properties':
-			doClusters();
-			break;
 		case 'cluster_properties':
 			doCluster();
 			break;
+		case 'clusters_properties':
 		default:
-			// Shouldn't happen
+			doClusters();
+			break;
 	}
 	
 	$misc->printFooter();
