@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.112 2005/11/09 09:05:58 jollytoad Exp $
+	 * $Id: Misc.php,v 1.113 2005/11/13 08:38:43 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -482,7 +482,7 @@
 						'account' => array (
 							'title' => $lang['straccount'],
 							'url'   => 'users.php',
-							'urlvars' => array('subject' => 'server', 'action' => 'action'),
+							'urlvars' => array('subject' => 'server', 'action' => 'account'),
 							'hide'  => !$hide_users,
 							'help'  => 'pg.user',
 						),
