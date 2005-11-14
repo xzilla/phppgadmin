@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.13 2005/08/11 23:01:45 soranzo Exp $
+	 * $Id: turkish.php,v 1.14 2005/11/14 04:54:26 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -29,6 +29,10 @@
 	$lang['strloginfailed'] = 'Giri&#351; Ba&#351;ar&#305;s&#305;z';
 	$lang['strlogindisallowed']  =  'G&uuml;venlik nedeniyle giri&#351;e izin verilmedi.';
 	$lang['strserver'] = 'Sunucu';
+	$lang['strservers']  =  'Sunucular';
+	$lang['strintroduction']  =  'Giri&#351;';
+	$lang['strhost']  =  'Sunucu';
+	$lang['strport']  =  'Port';
 	$lang['strlogout'] = '&Ccedil;&#305;k&#305;&#351;';
 	$lang['strowner'] = 'Sahibi';
 	$lang['straction'] = 'Eylem';
@@ -71,7 +75,6 @@
 	$lang['strrows'] = 'sat&#305;r';
 	$lang['strrowsaff']  =  'sat&#305;r i&#351;lendi.';
 	$lang['strobjects']  =  'nesne(ler)';
-	$lang['strexample'] = '&Ouml;rnek:';
 	$lang['strback'] = 'Geri';
 	$lang['strqueryresults'] = 'Sorgu sonu&ccedil;lar&#305;';
 	$lang['strshow'] = 'G&ouml;ster';
@@ -83,8 +86,12 @@
 	$lang['strprimary'] = 'Birincil';
 	$lang['strexport'] = 'Export';
 	$lang['strimport']  =  'Import';
+	$lang['strallowednulls']  =  '&#304;zin verilen NULL karakterler';
+	$lang['strbackslashn']  =  '\N';
+	$lang['strnull']  =  'Null';
+	$lang['strnull']  =  'NULL (s&ouml;zc&uuml;k)';
+	$lang['stremptystring']  =  'Bo&#351; metin/alan';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Devam Et';
 	$lang['stradmin'] = 'Y&ouml;netici';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
@@ -93,6 +100,7 @@
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = '&Ccedil;al&#305;&#351;t&#305;r';
 	$lang['stradd'] = 'Ekle';
+	$lang['strremove']  =  'Kald&#305;r';
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
 	$lang['strinstead'] = 'Do Instead';
@@ -126,11 +134,13 @@
 	$lang['strstarttime']  =  'Ba&#351;lang&#305;&ccedil; zaman&#305;';
 	$lang['strfile']  =  'Dosya';
 	$lang['strfileimported']  =  'Dosya import edildi.';
+	$lang['strtrycred']  =  'Giri&#351; bilgilerini t&uuml;m sunucular i&ccedil;in kullan';
 
 	// Error handling
+	$lang['strnoframes']  =  'Bu uygulama en iyi olarak frame destekli bir taray&#305;c&#305; ile kullan&#305;labilir; ancak frameler ile kullanmak istemiyorsan&#305;z a&#351;a&#287;&#305;daki linke t&#305;klayabilirsiniz.';
+	$lang['strnoframeslink']  =  'Frame olmadan kullan';
 	$lang['strbadconfig'] = 'config.inc.php dosyaniz g&uuml;ncel de&#287;il. Bu dosyay&#305; yeni config.inc.php-dist dosyas&#305;ndan yaratman&#305;z gerekmektedir.';
 	$lang['strnotloaded'] = 'PHP kurulumunuzda PostgreSQL deste&#287;i bulunamam&#305;&#351;t&#305;r.';
-	$lang['strphpversionnotsupported'] = 'Bu PHP s&uuml;r&uuml;m&uuml; desteklenmemektedir. L&uuml;tfen %s ya da &uuml;st&uuml; bir s&uuml;r&uuml;me g&uuml;ncelleyiniz.';
         $lang['strpostgresqlversionnotsupported'] = 'Bu PostgreSQL s&uuml;r&uuml;m&uuml; desteklenmemektedir. L&uuml;tfen %s ya da &uuml;st&uuml; bir s&uuml;r&uuml;me g&uuml;ncelleyiniz.';
 	$lang['strbadschema'] = 'Ge&ccedil;ersiz &#351;ema.';
 	$lang['strbadencoding'] = '&#304;stemci dil kodlamas&#305;n&#305; ayarlamaya &ccedil;al&#305;&#351;&#305;rken bir hata olu&#351;tu.';
@@ -143,7 +153,11 @@
 	$lang['strnoreportsdb']  =  'reports veritaban&#305; yarat&#305;&#351;mam&#305;&#351;. Y&ouml;nergeler i&ccedil;in l&uuml;tfen INSTALL dosyas&#305;n&#305; okuyunuz.';
 	$lang['strnouploads']  =  'Dosya y&uuml;kleme &ouml;zelli&#287;i etkin de&#287;il.';
 	$lang['strimporterror']  =  'Import hatas&#305;.';
+	$lang['strimporterror-fileformat']  =  'Import hatas&#305;: Dosya tipi otomatik olarak belirlenemedi.';
 	$lang['strimporterrorline']  =  '%s numaral&#305; sat&#305;rda import hatas&#305;.';
+$lang['strimporterrorline-badcolumnnum']  =  'Import error on line %s:  Line does not possess the correct number of columns.';
+$lang['strimporterror-uploadedfile']  =  'Import error: File could not be uploaded to the server';
+$lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names on Windows is not supported.';
 
 	// Tables
 	$lang['strtable'] = 'Tablo';
@@ -167,6 +181,7 @@
 	$lang['strinsertrow'] = 'Yeni kay&#305;t gir';
 	$lang['strrowinserted'] = 'Yeni kay&#305;t girildi.';
 	$lang['strrowinsertedbad'] = 'Yeni kay&#305;t girme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strrowduplicate']  =  'Sat&#305;r ekleme ba&#351;ar&#305;s&#305;z oldu, birbirinin ayn&#305; iki kay&#305;t girilmek istendi.';
 	$lang['streditrow'] = 'Kay&#305;d&#305;n i&ccedil;eri&#287;ini de&#287;i&#351;tir.';
 	$lang['strrowupdated'] = 'Kay&#305;t g&uuml;ncellendi.';
 	$lang['strrowupdatedbad'] = 'Kay&#305;t g&uuml;ncelleme i&#351;leme ba&#351;ar&#305;s&#305;z oldu.';
@@ -290,6 +305,8 @@
 	$lang['strsignalsent'] = 'Sinyal g&ouml;nderildi.';
         $lang['strsignalsentbad'] = 'Sinyal g&ouml;nderme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu';
         $lang['strallobjects'] = 'T&uuml;m nesneler';
+	$lang['strdatabasealtered']  =  'Veritaban&#305; de&#287;i&#351;tirildi.';
+	$lang['strdatabasealteredbad']  =  'Veritaban&#305; de&#287;i&#351;tirme ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -381,6 +398,7 @@
 	$lang['strruledroppedbad'] = 'Rule silinme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 
 	// Constraints
+	$lang['strconstraint']  =  'K&#305;s&#305;tlama';
 	$lang['strconstraints'] = 'K&#305;s&#305;tlamalar';
 	$lang['strshowallconstraints'] = 'T&uuml;m k&#305;s&#305;tlamalar&#305; (constraint) g&ouml;ster.';
 	$lang['strnoconstraints'] = 'Hi&ccedil;bir k&#305;s&#305;tlama (constraint) bulunamad&#305;.';
@@ -453,6 +471,7 @@
 	$lang['strtriggerdroppedbad'] = 'Trigger silinme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
 	$lang['strtriggeraltered']  =  'Trigger de&#287;i&#351;tirildi.';
 	$lang['strtriggeralteredbad']  =  'Trigger de&#287;i&#351;tirilme i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strforeach']  =  'Her bir';
 
 	// Types
 	$lang['strtype'] = 'Veri tipi';
@@ -584,8 +603,8 @@
 	$lang['strchildtables'] = 'Child tablolar';
 	
 	// Aggregates
-	$lang['straggregates']  =  'Aggregates';
-	$lang['strnoaggregates'] = 'Hi&ccedil; aggregates bulunamad&#305;.';
+	$lang['straggregates']  =  'Aggregate';
+	$lang['strnoaggregates'] = 'Hi&ccedil; aggregate bulunamad&#305;.';
 	$lang['stralltypes'] = '(T&uuml;m veri tipleri)';
 	$lang['stropclasses'] = 'Op s&#305;n&#305;flar&#305;';
 	$lang['strnoopclasses'] = 'Hi&ccedil; operat&ouml;r s&#305;n&#305;f&#305; bulunamad&#305;.';
@@ -623,10 +642,124 @@
 	$lang['strtablespacealtered'] = 'Tablespace de&#287;i&#351;tirildi.';
 	$lang['strtablespacealteredbad'] = 'Tablespace de&#287;i&#351;tirilemedi.';
 
+	// Slony clusters
+	$lang['strcluster']  =  'K&uuml;me';
+	$lang['strnoclusters']  =  'Hi&ccedil; k&uuml;me bulunamad&#305;.';
+	$lang['strconfdropcluster']  =  '&quot;%s&quot; k&uuml;mesini kald&#305;rmak istedi&#287;inize emin misiniz?';
+	$lang['strclusterdropped']  =  'K&uuml;me kald&#305;r&#305;ld&#305;.';
+	$lang['strclusterdroppedbad']  =  'K&uuml;me kald&#305;rma i&#351;lemi ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strinitcluster']  =  'K&uuml;meyi ilklendir';
+	$lang['strclustercreated']  =  'K&uuml;me ilklendirildi.';
+	$lang['strclustercreatedbad']  =  'K&uuml;me ilklendirme ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strclusterneedsname']  =  'K&uuml;me i&ccedil;in bir ad vermelisiniz.';
+	$lang['strclusterneedsnodeid']  =  'Yerel u&ccedil; i&ccedil;in bir ID vermelisiniz.';
+	
+	// Slony nodes
+	$lang['strnodes']  =  'U&ccedil;lar';
+	$lang['strnonodes']  =  'Hi&ccedil; u&ccedil; bulunamad&#305;.';
+	$lang['strcreatenode']  =  'U&ccedil; yarat';
+	$lang['strid']  =  'ID';
+	$lang['stractive']  =  'Etkin';
+	$lang['strnodecreated']  =  'U&ccedil; yarat&#305;ld&#305;.';
+	$lang['strnodecreatedbad']  =  'U&ccedil; yaratma ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strconfdropnode']  =  '&quot;%s&quot; adl&#305; ucu kald&#305;rmak istedi&#287;inize emin misiniz?';
+	$lang['strnodedropped']  =  'U&ccedil; kald&#305;r&#305;ld&#305;.';
+	$lang['strnodedroppedbad']  =  'U&ccedil; kald&#305;rma ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strfailover']  =  'Failover';
+$lang['strnodefailedover']  =  'Node failed over.';
+$lang['strnodefailedoverbad']  =  'Node failover failed.';
+	
+	// Slony paths	
+$lang['strpaths']  =  'Paths';
+$lang['strnopaths']  =  'No paths found.';
+$lang['strcreatepath']  =  'Create path';
+	$lang['strnodename']  =  'U&ccedil; ad&#305;';
+$lang['strnodeid']  =  'Node ID';
+$lang['strconninfo']  =  'Connection string';
+	$lang['strconnretry']  =  'yeniden ba&#287;lanmadan &ouml;nce ka&ccedil; saniye gerekecek';
+$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
+$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
+$lang['strpathcreated']  =  'Path created.';
+$lang['strpathcreatedbad']  =  'Path creation failed.';
+$lang['strconfdroppath']  =  'Are you sure you want to drop path &quot;%s&quot;?';
+$lang['strpathdropped']  =  'Path dropped.';
+$lang['strpathdroppedbad']  =  'Path drop failed.';
+
+	// Slony listens
+$lang['strlistens']  =  'Listens';
+$lang['strnolistens']  =  'No listens found.';
+$lang['strcreatelisten']  =  'Create listen';
+$lang['strlistencreated']  =  'Listen created.';
+$lang['strlistencreatedbad']  =  'Listen creation failed.';
+$lang['strconfdroplisten']  =  'Are you sure you want to drop listen &quot;%s&quot;?';
+$lang['strlistendropped']  =  'Listen dropped.';
+$lang['strlistendroppedbad']  =  'Listen drop failed.';
+
+	// Slony replication sets
+	$lang['strrepsets']  =  'Replikasyon k&uuml;mesi';
+	$lang['strnorepsets']  =  'Hi&ccedil; replikasyon k&uuml;mesi bulunamad&#305;.';
+	$lang['strcreaterepset']  =  'Replikasyon k&uuml;mesi yarat';
+	$lang['strrepsetcreated']  =  'Replikasyon k&uuml;mesi yarat&#305;ld&#305;.';
+	$lang['strrepsetcreatedbad']  =  'Replikasyon k&uuml;mesi yaratma ba&#351;ar&#305;s&#305;z oldu.';
+$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set &quot;%s&quot;?';
+	$lang['strrepsetdropped']  =  'Replikasyon k&uuml;mesi kald&#305;r&#305;ld&#305;.';
+	$lang['strrepsetdroppedbad']  =  'Replikasyon k&uuml;mesi kald&#305;rma ba&#351;ar&#305;s&#305;z oldu.';
+$lang['strmerge']  =  'Merge';
+$lang['strmergeinto']  =  'Merge into';
+$lang['strrepsetmerged']  =  'Replication sets merged.';
+$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
+	$lang['strmove']  =  'Ta&#351;&#305;';
+$lang['strneworigin']  =  'New origin';
+	$lang['strrepsetmoved']  =  'Replikasyon k&uuml;mesi ta&#351;&#305;nd&#305;.';
+	$lang['strrepsetmovedbad']  =  'Replikasyon k&uuml;mesi ta&#351;&#305;ma ba&#351;ar&#305;s&#305;z oldu.';
+	$lang['strnewrepset']  =  'Yeni replikasyon k&uuml;mesi';
+	$lang['strlock']  =  'Kilitle';
+	$lang['strlocked']  =  'Kilitlendi';
+	$lang['strunlock']  =  'Kilidi a&ccedil;';
+	$lang['strconflockrepset']  =  '&quot;%s&quot; replikasyon k&uuml;mesini kilitlemek istedi&#287;inize emin misiniz?';
+	$lang['strrepsetlocked']  =  'Replikasyon k&uuml;mesi kilitlendi.';
+	$lang['strrepsetlockedbad']  =  'Replikasyon k&uuml;mesi kilitleme ba&#351;ar&#305;s&#305;z oldu.';
+$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set &quot;%s&quot;?';
+	$lang['strrepsetunlocked']  =  'Replikasyon k&uuml;mesinin kilidi a&ccedil;&#305;ld&#305;.';
+$lang['strrepsetunlockedbad']  =  'Replikasyon k&uuml;mesi kilit a&ccedil;ma ba&#351;ar&#305;s&#305;z oldu.';
+$lang['strexecute']  =  'Execute';
+$lang['stronlyonnode']  =  'Only on node';
+	$lang['strddlscript']  =  'DDL beti&#287;i';
+$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
+$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
+$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
+$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
+
+	// Slony tables in replication sets
+	$lang['straddtable']  =  'Tablo ekle';
+$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
+$lang['strtableaddedtorepset']  =  'Table added to replication set.';
+$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
+$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
+$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
+
+	// Slony sequences in replication sets
+$lang['straddsequence']  =  'Add sequence';
+$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
+$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
+$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
+$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
+
+	// Slony subscriptions
+	$lang['strsubscriptions']  =  '&Uuml;yelikler';
+	$lang['strnosubscriptions']  =  '&Uuml;yelik bulunamad&#305;.';
+
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s, %s:%s &uuml;zerinde &ccedil;al&#305;&#351;&#305;yor-- &quot;%s&quot;, %s kullan&#305;c&#305;s&#305; ile sisteme giri&#351; yapt&#305;n&#305;z.';
         $lang['strtimefmt']  =  'jS M, Y g:iA';
         $lang['strhelp']  =  'Yard&#305;m';
 	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle']  =  '%s\'e giri&#351; yap';
+	$lang['strlogoutmsg']  =  '%s\'den &ccedil;&#305;k&#305;ld&#305;.';
+	$lang['strloading']  =  'Y&uuml;kleniyor...';
+	$lang['strerrorloading']  =  'Y&uuml;kleme hatas&#305;';
+	$lang['strclicktoreload']  =  'Yeniden y&uuml;klemek i&ccedil;in t&#305;klay&#305;n.';
 
 ?>

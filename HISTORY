@@ -1,8 +1,8 @@
 phpPgAdmin History
 ------------------
 
-Version 4.0-dev
----------------
+Version 4.0
+-----------
 
 Features
 * Slony replication support (Thanks to sponsorship from SpikeSource)
@@ -12,7 +12,7 @@ Features
 * Allow SQL script upload to parse arbitrary SQL, including multiline
   SQL statements.  Improve output to show every command as its executed
   and SELECT results.
-* Add rudimentary support for PostgreSQL 8.1
+* Add rudimentary support for PostgreSQL 8.1 and 8.2
 * primary key and unique key at table creation (Andreas Huber)
 * Add row|statement level options to create trigger for >= 7.4 (Robert Treat)
 * Allow altering name (for >= 7.4) and owner (for >= 8.0) of a database (Bryan Encina)
@@ -61,6 +61,7 @@ Translations
 * German from Markus
 * Spanish From Martin
 * Hungarian from Sulyok
+* Turkish from Devrim
 
 Version 3.5.6
 -------------
