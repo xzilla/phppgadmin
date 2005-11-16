@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.113 2005/11/13 08:38:43 chriskl Exp $
+	 * $Id: Misc.php,v 1.114 2005/11/16 07:57:34 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -1575,7 +1575,7 @@
 			uasort($srvs, '_cmp_desc');
 			
 			if ($recordset) {
-				include_once('classes/ArrayRecordSet.php');
+				include_once('./classes/ArrayRecordSet.php');
 				return new ArrayRecordSet($srvs);
 			}
 			return $srvs;
