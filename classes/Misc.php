@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.114 2005/11/16 07:57:34 chriskl Exp $
+	 * $Id: Misc.php,v 1.113.2.1 2005/11/16 07:58:26 chriskl Exp $
 	 */
 	 
 	class Misc {
