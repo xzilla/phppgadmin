@@ -1,8 +1,10 @@
 phpPgAdmin History
 ------------------
 
-Version 4.1
------------
+Version 4.0.1
+-------------
+
+* Fix issue with includes where '.' is not in the include_path
 
 Version 4.0
 -----------

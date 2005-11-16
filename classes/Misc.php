@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.113.2.1 2005/11/16 07:58:26 chriskl Exp $
+	 * $Id: Misc.php,v 1.113.2.2 2005/11/16 08:02:28 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -1490,7 +1490,7 @@
 		}
 		
 		function adjustTabsForTree(&$tabs) {
-			include_once('classes/ArrayRecordSet.php');
+			include_once('./classes/ArrayRecordSet.php');
 			
 			foreach ($tabs as $i => $tab) {
 				if ((isset($tab['hide']) && $tab['hide'] === true) || (isset($tab['tree']) && $tab['tree'] === false)) {
