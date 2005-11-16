@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.8 2005/09/08 05:03:37 chriskl Exp $
+ * $Id: Slony.php,v 1.9 2005/11/16 08:01:18 chriskl Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -80,7 +80,7 @@ class Slony extends Plugin {
 	 * Gets the clusters in this database
 	 */
 	function getClusters() {
-		include_once('classes/ArrayRecordSet.php');
+		include_once('./classes/ArrayRecordSet.php');
 
 		if ($this->isEnabled()) {
 			$clusters = array(array('cluster' => $this->slony_cluster, 'comment' => $this->slony_comment));
