@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.44 2005/09/07 08:09:21 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.44.2.1 2005/11/18 01:47:16 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -20,7 +20,8 @@
 	// Database port on server (5432 is the PostgreSQL default)
 	$conf['servers'][0]['port'] = 5432;
 
-	// Change the default database only if you cannot connect to template1
+	// Change the default database only if you cannot connect to template1.
+	// For a PostgreSQL 8.1 server, you need to set this to 'postgres'.
 	$conf['servers'][0]['defaultdb'] = 'template1';
 
 	// Specify the path to the database dump utilities for this server.
