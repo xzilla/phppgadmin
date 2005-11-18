@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.46 2005/11/18 01:46:37 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.47 2005/11/18 04:45:52 chriskl Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -88,7 +88,7 @@
 	$conf['min_password_length'] = 1;
 
 	// Width of the left frame in pixels (object browser)
-	$conf['left_width'] = 300;
+	$conf['left_width'] = 200;
 	
 	// Which look & feel theme to use
 	$conf['theme'] = 'default';
