@@ -5,6 +5,9 @@ Version 4.0.1
 -------------
 
 Bugs
+* Fix major bug in non-english translations where HTML unicode entities
+  caused failure in the object browser tree.  Fixed by instead encoding
+  all entities as numeric (&#343;) instead of named (&eacute;).
 * Fix issue with includes where '.' is not in the include_path
 * Don't prompt to share credentials when only one server is present
 * Fix logout link

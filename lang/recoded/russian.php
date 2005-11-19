@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.11 2005/08/11 23:01:45 soranzo Exp $
+	 * $Id: russian.php,v 1.11.2.1 2005/11/19 09:51:27 chriskl Exp $
 	 */
 
 	// Language and character set
