@@ -3,9 +3,10 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.30 2005/08/02 15:56:30 soranzo Exp $
+	 * $Id: login.php,v 1.30.2.1 2005/11/19 09:14:34 chriskl Exp $
 	 */
-
+	global $conf;
+	
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
 	require_once('./libraries/lib.inc.php');
@@ -42,7 +43,9 @@
 			<td><input type="password" name="loginPassword" size="24" /></td>
 		</tr>
 	</table>
+<?php if (sizeof($conf['servers']) > 1) : ?>
 	<p><input type="checkbox" name="loginShared" <?php echo isset($_POST['loginShared']) ? 'checked="checked"' : '' ?> /><?php echo $lang['strtrycred'] ?></p>
+<?php endif; ?>
 	<p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>
 

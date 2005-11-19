@@ -5,6 +5,7 @@ Version 4.0.1
 -------------
 
 * Fix issue with includes where '.' is not in the include_path
+* Don't prompt to share credentials when only one server is present
 
 Version 4.0
 -----------
