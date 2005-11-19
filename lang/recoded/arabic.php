@@ -4,7 +4,7 @@
   * English language file for phpPgAdmin.  Use this as a basis
   * for new translations.
   *
-  * $Id: arabic.php,v 1.5 2005/08/11 23:01:45 soranzo Exp $
+  * $Id: arabic.php,v 1.6 2005/11/19 09:40:25 chriskl Exp $
   */
 
  // Language and character set

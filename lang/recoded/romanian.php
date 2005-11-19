@@ -3,24 +3,24 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.5 2005/10/20 02:35:05 chriskl Exp $
+	* $Id: romanian.php,v 1.6 2005/11/19 09:40:25 chriskl Exp $
 	*/
 
 	// Language and character set
-	$lang['applang'] = 'Rom&acirc;n&#259;';
+	$lang['applang'] = 'Rom&#226;n&#259;';
 	$lang['appcharset'] = 'UTF-8';
 	$lang['applocale'] = 'ro_RO';
 	$lang['appdbencoding'] = 'LATIN2';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome
-	$lang['strintro'] = 'Bun venit &icirc;n phpPgAdmin.';
+	$lang['strintro'] = 'Bun venit &#238;n phpPgAdmin.';
 	$lang['strppahome'] = 'Pagina phpPgAdmin';
 	$lang['strpgsqlhome'] = 'Pagina PostgreSQL';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'Documenta&#355;ie local&#259; PostgreSQL';
 	$lang['strreportbug'] = 'Raporta&#355;i o eroare';
-	$lang['strviewfaq'] = '&Icirc;ntreb&#259;ri frecvente online';
+	$lang['strviewfaq'] = '&#206;ntreb&#259;ri frecvente online';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 
 	// Basic strings
@@ -44,10 +44,10 @@
 	$lang['strdropped'] = '&#350;ters';
 	$lang['strnull'] = 'Nul';
 	$lang['strnotnull'] = 'Ne-nul';
-	$lang['strprev'] = '&lt; &Icirc;napoi';
-	$lang['strnext'] = '&Icirc;nainte &gt;';
-	$lang['strfirst'] = '&lt;&lt; &Icirc;nceput';
-	$lang['strlast'] = 'Sf&acirc;r&#351;it &gt;&gt;';
+	$lang['strprev'] = '&lt; &#206;napoi';
+	$lang['strnext'] = '&#206;nainte &gt;';
+	$lang['strfirst'] = '&lt;&lt; &#206;nceput';
+	$lang['strlast'] = 'Sf&#226;r&#351;it &gt;&gt;';
 	$lang['strfailed'] = 'E&#351;uat';
 	$lang['strcreate'] = 'Creare';
 	$lang['strcreated'] = 'Creat';
@@ -71,10 +71,10 @@
 	$lang['stredit'] = 'Editare';
 	$lang['strcolumn'] = 'Coloan&#259;';
 	$lang['strcolumns'] = 'Coloane';
-	$lang['strrows'] = 'r&acirc;nd(uri)';
-	$lang['strrowsaff'] = 'r&acirc;nd(uri) afectate.';
+	$lang['strrows'] = 'r&#226;nd(uri)';
+	$lang['strrowsaff'] = 'r&#226;nd(uri) afectate.';
 	$lang['strobjects'] = 'obiect(e)';
-	$lang['strback'] = '&Icirc;napoi';
+	$lang['strback'] = '&#206;napoi';
 	$lang['strqueryresults'] = 'Rezultatele interog&#259;rii';
 	$lang['strshow'] = 'Afi&#351;are';
 	$lang['strempty'] = 'Golire';
@@ -87,7 +87,7 @@
 	$lang['strimport'] = 'Import';
 	$lang['strallowednulls'] = 'Caractere NULL permise';
 	$lang['strbackslashn'] = '\N';
-	$lang['stremptystring'] = '&#350;ir/c&acirc;mp gol';
+	$lang['stremptystring'] = '&#350;ir/c&#226;mp gol';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Administrare';
 	$lang['strvacuum'] = 'Vacuum';
@@ -99,9 +99,9 @@
 	$lang['stradd'] = 'Ad&#259;ugare';
 	$lang['strremove'] = 'Eliminare';
 	$lang['strevent'] = 'Eveniment';
-	$lang['strwhere'] = '&Icirc;n schimb';
-	$lang['strinstead'] = 'Execut&#259; &icirc;n schimb';
-	$lang['strwhen'] = 'C&acirc;nd';
+	$lang['strwhere'] = '&#206;n schimb';
+	$lang['strinstead'] = 'Execut&#259; &#238;n schimb';
+	$lang['strwhen'] = 'C&#226;nd';
 	$lang['strformat'] = 'Format';
 	$lang['strdata'] = 'Dat&#259;';
 	$lang['strconfirm'] = 'Confirmare';
@@ -109,12 +109,12 @@
 	$lang['strellipsis'] = '...';
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Expandare';
-	$lang['strcollapse'] = 'Restr&acirc;ngere';
+	$lang['strcollapse'] = 'Restr&#226;ngere';
 	$lang['strexplain'] = 'Explicare';
 	$lang['strexplainanalyze'] = 'Explicare &amp; Analiz&#259;';
 	$lang['strfind'] = 'C&#259;utare';
 	$lang['stroptions'] = 'Op&#355;iuni';
-	$lang['strrefresh'] = 'Re&icirc;mprosp&#259;tare';
+	$lang['strrefresh'] = 'Re&#238;mprosp&#259;tare';
 	$lang['strdownload'] = 'Transfer';
 	$lang['strdownloadgzipped'] = 'Transfer comprimat cu gzip';
 	$lang['strinfo'] = 'Info';
@@ -127,34 +127,34 @@
 	$lang['streditsql'] = 'Editare SQL';
 	$lang['strruntime'] = 'Timp total de rulare:%s ms';
 	$lang['strpaginate'] = 'Paginare rezultate';
-	$lang['struploadscript'] = 'sau &icirc;nc&#259;rcare script SQL:';
+	$lang['struploadscript'] = 'sau &#238;nc&#259;rcare script SQL:';
 	$lang['strstarttime'] = 'Timp start';
 	$lang['strfile'] = 'Fi&#351;ier';
 	$lang['strfileimported'] = 'Fi&#351;ier importat';
 	$lang['strtrycred'] = 'Folosi&#355;i aceste acredit&#259;ri pentru toate serverele';
 
 	// Error handling
-	$lang['strnoframes'] = 'Aceast&#259; aplica&#355;ie func&#355;ioneaz&#259; cel mai bine &icirc;ntr-un browser ce suport&#259; frame-uri , dar poate fi folosit&#259; &#351;i f&#259;r&#259; frame-uri, urm&acirc;nd leg&#259;tura de mai jos.';
+	$lang['strnoframes'] = 'Aceast&#259; aplica&#355;ie func&#355;ioneaz&#259; cel mai bine &#238;ntr-un browser ce suport&#259; frame-uri , dar poate fi folosit&#259; &#351;i f&#259;r&#259; frame-uri, urm&#226;nd leg&#259;tura de mai jos.';
 	$lang['strnoframeslink'] = 'F&#259;r&#259; frame-uri';
-	$lang['strbadconfig'] = 'Fi&#351;ierul config.inc.php este &icirc;nvechit. Trebuie s&#259;-l re-genera&#355;i folosind fi&#351;ierul config.inc.php-dist.';
+	$lang['strbadconfig'] = 'Fi&#351;ierul config.inc.php este &#238;nvechit. Trebuie s&#259;-l re-genera&#355;i folosind fi&#351;ierul config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Instalarea de PHP nu suport&#259; PostgreSQL. Trebuie s&#259; re-compila&#355;i PHP folosind op&#355;iunea --with-pgsql la configurare.';
 	$lang['strpostgresqlversionnotsupported'] = 'Versiune de PostgreSQL ne-suportat&#259;. Actualiza&#355;i la versiunea %s sau ulterioar&#259;.';
 	$lang['strbadschema'] = 'Schem&#259; specificat&#259; incorect&#259;.';
-	$lang['strbadencoding'] = 'Imposibil de setat codificarea client &icirc;n baza de date.';
+	$lang['strbadencoding'] = 'Imposibil de setat codificarea client &#238;n baza de date.';
 	$lang['strsqlerror'] = 'Eroare SQL:';
-	$lang['strinstatement'] = '&Icirc;n instruc&#355;iunea:';
+	$lang['strinstatement'] = '&#206;n instruc&#355;iunea:';
 	$lang['strinvalidparam'] = 'Parametrii scriptului sunt incorec&#355;i.';
-	$lang['strnodata'] = 'Nici un r&acirc;nd g&#259;sit.';
+	$lang['strnodata'] = 'Nici un r&#226;nd g&#259;sit.';
 	$lang['strnoobjects'] = 'Nici un obiect g&#259;sit.';
-	$lang['strrownotunique'] = 'Nici un identificator unic pentru acest r&acirc;nd.';
+	$lang['strrownotunique'] = 'Nici un identificator unic pentru acest r&#226;nd.';
 	$lang['strnoreportsdb'] = 'Nu a&#355;i creat baza de date pentru rapoarte. Citi&#355;i fi&#351;ierul INSTALL pentru instruc&#355;iuni.';
-	$lang['strnouploads'] = '&Icirc;nc&#259;rcarea de fi&#351;iere este dezactivat&#259;.';
+	$lang['strnouploads'] = '&#206;nc&#259;rcarea de fi&#351;iere este dezactivat&#259;.';
 	$lang['strimporterror'] = 'Eroare la importare.';
-	$lang['strimporterror-fileformat'] = 'Eroare la importare: Imposibil de determinat &icirc;n mod automat formatul fi&#351;ierului.';
+	$lang['strimporterror-fileformat'] = 'Eroare la importare: Imposibil de determinat &#238;n mod automat formatul fi&#351;ierului.';
 	$lang['strimporterrorline'] = 'Eroare la importare pe linia %s.';
 	$lang['strimporterrorline-badcolumnnum'] = 'Eroare la importare pe linia %s:  Linia nu are num&#259;rul corect de coloane.';
-	$lang['strimporterror-uploadedfile'] = 'Eroare la importare: Fi&#351;ierul nu a putut fi &icirc;nc&#259;rcat pe server';
-	$lang['strcannotdumponwindows'] = 'Desc&#259;rcarea de tabele complexe &#351;i nume de scheme &icirc;n Windows nu este suportat&#259;.';
+	$lang['strimporterror-uploadedfile'] = 'Eroare la importare: Fi&#351;ierul nu a putut fi &#238;nc&#259;rcat pe server';
+	$lang['strcannotdumponwindows'] = 'Desc&#259;rcarea de tabele complexe &#351;i nume de scheme &#238;n Windows nu este suportat&#259;.';
 
 	// Tables
 	$lang['strtable'] = 'Tabel&#259;';
@@ -165,7 +165,7 @@
 	$lang['strcreatetable'] = 'Creare tabel&#259;.';
 	$lang['strtablename'] = 'Nume tabel&#259;';
 	$lang['strtableneedsname'] = 'Specifica&#355;i un nume pentru tabel&#259;.';
-	$lang['strtableneedsfield'] = 'Specifica&#355;i cel pu&#355;in un c&acirc;mp.';
+	$lang['strtableneedsfield'] = 'Specifica&#355;i cel pu&#355;in un c&#226;mp.';
 	$lang['strtableneedscols'] = 'Specifica&#355;i un num&#259;r corect de coloane.';
 	$lang['strtablecreated'] = 'Tabel&#259; creat&#259;.';
 	$lang['strtablecreatedbad'] = 'Creare tabel&#259; e&#351;uat&#259;.';
@@ -175,21 +175,21 @@
 	$lang['strconfemptytable'] = 'Sigur goli&#355;i tabela &quot;%s&quot;?';
 	$lang['strtableemptied'] = 'Tabel&#259; golit&#259;.';
 	$lang['strtableemptiedbad'] = 'Golire tabel&#259; e&#351;uat&#259;.';
-	$lang['strinsertrow'] = 'Inserare r&acirc;nd';
-	$lang['strrowinserted'] = 'R&acirc;nd inserat';
-	$lang['strrowinsertedbad'] = 'Inserare r&acirc;nd e&#351;uat&#259;.';
-	$lang['strrowduplicate'] = 'Inserare de r&acirc;nd e&#351;uat&#259;, s-a &icirc;ncercat inserarea unui duplicat.';
-	$lang['streditrow'] = 'Editare r&acirc;nd';
-	$lang['strrowupdated'] = 'R&acirc;nd actualizat.';
-	$lang['strrowupdatedbad'] = 'Actualizare r&acirc;nd e&#351;uat&#259;.';
-	$lang['strdeleterow'] = '&#350;tergere r&acirc;nd.';
-	$lang['strconfdeleterow'] = 'Sigur &#351;terge&#355;i acest r&acirc;nd?';
-	$lang['strrowdeleted'] = 'R&acirc;nd &#351;ters.';
-	$lang['strrowdeletedbad'] = '&#350;tergere r&acirc;nd e&#351;uat&#259;.';
+	$lang['strinsertrow'] = 'Inserare r&#226;nd';
+	$lang['strrowinserted'] = 'R&#226;nd inserat';
+	$lang['strrowinsertedbad'] = 'Inserare r&#226;nd e&#351;uat&#259;.';
+	$lang['strrowduplicate'] = 'Inserare de r&#226;nd e&#351;uat&#259;, s-a &#238;ncercat inserarea unui duplicat.';
+	$lang['streditrow'] = 'Editare r&#226;nd';
+	$lang['strrowupdated'] = 'R&#226;nd actualizat.';
+	$lang['strrowupdatedbad'] = 'Actualizare r&#226;nd e&#351;uat&#259;.';
+	$lang['strdeleterow'] = '&#350;tergere r&#226;nd.';
+	$lang['strconfdeleterow'] = 'Sigur &#351;terge&#355;i acest r&#226;nd?';
+	$lang['strrowdeleted'] = 'R&#226;nd &#351;ters.';
+	$lang['strrowdeletedbad'] = '&#350;tergere r&#226;nd e&#351;uat&#259;.';
 	$lang['strinsertandrepeat'] = 'Inserare &amp; Repetare';
 	$lang['strnumcols'] = 'Num&#259;r de coloane';
 	$lang['strcolneedsname'] = 'Specifica&#355;i un nume pentru coloan&#259;';
-	$lang['strselectallfields'] = 'Selectare toate c&acirc;mpurile';
+	$lang['strselectallfields'] = 'Selectare toate c&#226;mpurile';
 	$lang['strselectneedscol'] = 'Afi&#351;a&#355;i cel pu&#355;in o coloan&#259;.';
 	$lang['strselectunary'] = 'Operatorii unari nu pot avea valori.';
 	$lang['straltercolumn'] = 'Modificare coloan&#259;';
@@ -210,7 +210,7 @@
 	$lang['strtabbed'] = 'Cu tab-uri';
 	$lang['strauto'] = 'Automat';
 	$lang['strconfvacuumtable'] = 'Sigur executa&#355;i &quot;vacuum&quot; pe &quot;%s&quot;?';
-	$lang['strestimatedrowcount'] = 'Num&#259;r estimat de r&acirc;nduri';
+	$lang['strestimatedrowcount'] = 'Num&#259;r estimat de r&#226;nduri';
 
 	// Users
 	$lang['struser'] = 'Utilizator';
@@ -296,7 +296,7 @@
 	$lang['strreindexgood'] = 'Re-indexare terminat&#259;.';
 	$lang['strreindexbad'] = 'Re-indexare e&#351;uat&#259;.';
 	$lang['strfull'] = 'Complet';
-	$lang['strfreeze'] = '&Icirc;nghe&#355;are';
+	$lang['strfreeze'] = '&#206;nghe&#355;are';
 	$lang['strforce'] = 'For&#355;are';
 	$lang['strsignalsent'] = 'Semnal trimis.';
 	$lang['strsignalsentbad'] = 'Trimitere semnal e&#351;uat&#259;.';
@@ -314,7 +314,7 @@
 	$lang['strviewname'] = 'Nume vizualizare';
 	$lang['strviewneedsname'] = 'Specifica&#355;i un nume pentru vizualizare.';
 	$lang['strviewneedsdef'] = 'Specifica&#355;i o defini&#355;ie pentru vizualizare.';
-	$lang['strviewneedsfields'] = 'Specifica&#355;i coloanele pe care le dori&#355;i selectate &icirc;n vizualizare.';
+	$lang['strviewneedsfields'] = 'Specifica&#355;i coloanele pe care le dori&#355;i selectate &#238;n vizualizare.';
 	$lang['strviewcreated'] = 'Vizualizare creat&#259;.';
 	$lang['strviewcreatedbad'] = 'Creare vizualizare e&#351;uat&#259;.';
 	$lang['strconfdropview'] = 'Sigur &#351;terge&#355;i vizualizarea &quot;%s&quot;?';
@@ -372,8 +372,8 @@
 	$lang['struniquekey'] = 'Cheie unic&#259;';
 	$lang['strprimarykey'] = 'Cheie primar&#259;';
 	$lang['strindextype'] = 'Tip de index';
-	$lang['strtablecolumnlist'] = 'Coloane &icirc;n tabel&#259;';
-	$lang['strindexcolumnlist'] = 'Coloane &icirc;n index';
+	$lang['strtablecolumnlist'] = 'Coloane &#238;n tabel&#259;';
+	$lang['strindexcolumnlist'] = 'Coloane &#238;n index';
 	$lang['strconfcluster'] = 'Sigur grupa&#355;i &quot;%s&quot;?';
 	$lang['strclusteredgood'] = 'Grupare complet&#259;.';
 	$lang['strclusteredbad'] = 'Grupare e&#351;uat&#259;.';
@@ -422,7 +422,7 @@
 	$lang['strfkadded'] = 'Cheie str&#259;in&#259; ad&#259;ugat&#259;.';
 	$lang['strfkaddedbad'] = 'Ad&#259;ugare cheie str&#259;in&#259; e&#351;uat&#259;.';
 	$lang['strfktarget'] = 'Tabel&#259; de destina&#355;ie';
-	$lang['strfkcolumnlist'] = 'Coloane &icirc;n cheie';
+	$lang['strfkcolumnlist'] = 'Coloane &#238;n cheie';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
 
@@ -436,7 +436,7 @@
 	$lang['strcreateinternalfunction'] = 'Creare func&#355;ie intern&#259;';
 	$lang['strcreatecfunction'] = 'Creare func&#355;ie C';
 	$lang['strfunctionname'] = 'Nume func&#355;ie';
-	$lang['strreturns'] = '&Icirc;ntoarce';
+	$lang['strreturns'] = '&#206;ntoarce';
 	$lang['strarguments'] = 'Argumente';
 	$lang['strproglanguage'] = 'Limbaj de programare';
 	$lang['strfunctionneedsname'] = 'Specifica&#355;i un nume pentru func&#355;ie.';
@@ -477,7 +477,7 @@
 	$lang['strnotypes'] = 'Nici un tip g&#259;sit.';
 	$lang['strcreatetype'] = 'Creare tip';
 	$lang['strcreatecomptype'] = 'Creare tip compus';
-	$lang['strtypeneedsfield'] = 'Specifica&#355;i cel pu&#355;in un c&acirc;mp.';
+	$lang['strtypeneedsfield'] = 'Specifica&#355;i cel pu&#355;in un c&#226;mp.';
 	$lang['strtypeneedscols'] = 'Specifica&#355;i un num&#259;r corect de c&#259;mpuri.';
 	$lang['strtypename'] = 'Nume tip';
 	$lang['strinputfn'] = 'Func&#355;ie de intrare';
@@ -487,8 +487,8 @@
 	$lang['strelement'] = 'Element';
 	$lang['strdelimiter'] = 'Delimitator';
 	$lang['strstorage'] = 'Stocare';
-	$lang['strfield'] = 'C&acirc;mp';
-	$lang['strnumfields'] = 'Num&#259;r de c&acirc;mpuri';
+	$lang['strfield'] = 'C&#226;mp';
+	$lang['strnumfields'] = 'Num&#259;r de c&#226;mpuri';
 	$lang['strtypeneedsname'] = 'Specifica&#355;i un nume pentru tip.';
 	$lang['strtypeneedslen'] = 'Specifica&#355;i o lungime pentru tip.';
 	$lang['strtypecreated'] = 'Tip creat.';
@@ -555,15 +555,15 @@
 	$lang['strnooperator'] = 'Nici un operator g&#259;sit.';
 	$lang['strnooperators'] = 'Nici un operator g&#259;sit.';
 	$lang['strcreateoperator'] = 'Creare operator';
-	$lang['strleftarg'] = 'Tipul argumentului st&acirc;ng';
+	$lang['strleftarg'] = 'Tipul argumentului st&#226;ng';
 	$lang['strrightarg'] = 'Tipul argumentului drept';
 	$lang['strcommutator'] = 'Comutator';
 	$lang['strnegator'] = 'Negator';
 	$lang['strrestrict'] = 'Restrict';
 	$lang['strjoin'] = 'Rela&#355;ionare';
 	$lang['strhashes'] = 'Hashes';
-	$lang['strmerges'] = '&Icirc;mbin&#259;';
-	$lang['strleftsort'] = 'Sortare st&acirc;nga';
+	$lang['strmerges'] = '&#206;mbin&#259;';
+	$lang['strleftsort'] = 'Sortare st&#226;nga';
 	$lang['strrightsort'] = 'Sortare dreapta';
 	$lang['strlessthan'] = 'Mai mic dec&#259;t';
 	$lang['strgreaterthan'] = 'Mai mare dec&#259;t';
@@ -580,7 +580,7 @@
 	$lang['strsourcetype'] = 'Tip surs&#259;';
 	$lang['strtargettype'] = 'Tip destina&#355;ie';
 	$lang['strimplicit'] = 'Implicit';
-	$lang['strinassignment'] = '&Icirc;n alocare';
+	$lang['strinassignment'] = '&#206;n alocare';
 	$lang['strbinarycompat'] = '(Compatibil binar)';
 
 	// Conversions
@@ -611,9 +611,9 @@
 	$lang['straccessmethod'] = 'Metod&#259; de acces';
 
 	// Stats and performance
-	$lang['strrowperf'] = 'Performan&#355;&#259; r&acirc;nd';
+	$lang['strrowperf'] = 'Performan&#355;&#259; r&#226;nd';
 	$lang['strioperf'] = 'Performan&#355;&#259; I/O';
-	$lang['stridxrowperf'] = 'Performan&#355;&#259; index/r&acirc;nd';
+	$lang['stridxrowperf'] = 'Performan&#355;&#259; index/r&#226;nd';
 	$lang['stridxioperf'] = 'Performan&#355;&#259; index I/O';
 	$lang['strpercent'] = '%';
 	$lang['strsequential'] = 'Secven&#355;ial';
@@ -625,7 +625,7 @@
 	$lang['strtoastindex'] = 'Index TOAST';
 	$lang['strcache'] = 'Cache';
 	$lang['strdisk'] = 'Disc';
-	$lang['strrows2'] = 'R&acirc;nduri';
+	$lang['strrows2'] = 'R&#226;nduri';
 
 	// Tablespaces
 	$lang['strtablespace'] = 'Spa&#355;iu de tabele';
@@ -635,7 +635,7 @@
 	$lang['strcreatetablespace'] = 'Creare spa&#355;iu de tabele';
 	$lang['strlocation'] = 'Loca&#355;ie';
 	$lang['strtablespaceneedsname'] = 'Specifica&#355;i un nume pentru spa&#355;iul de tabele.';
-	$lang['strtablespaceneedsloc'] = 'Specifica&#355;i directorul &icirc;n care va fi creat spa&#355;iul de tabele.';
+	$lang['strtablespaceneedsloc'] = 'Specifica&#355;i directorul &#238;n care va fi creat spa&#355;iul de tabele.';
 	$lang['strtablespacecreated'] = 'Spa&#355;iu de tabele creat.';
 	$lang['strtablespacecreatedbad'] = 'Creare spa&#355;iu de tabele e&#351;uat&#259;.';
 	$lang['strconfdroptablespace'] = 'Sigur &#351;terge&#355;i spa&#355;iul de tabele &quot;%s&quot;?';
@@ -678,9 +678,9 @@
 	$lang['strnodename'] = 'Nume nod';
 	$lang['strnodeid'] = 'ID nod';
 	$lang['strconninfo'] = '&#350;ir pentru conectare';
-	$lang['strconnretry'] = 'Secunde p&acirc;n&#259; la o nou&#259; &icirc;ncercare de conectare';
+	$lang['strconnretry'] = 'Secunde p&#226;n&#259; la o nou&#259; &#238;ncercare de conectare';
 	$lang['strpathneedsconninfo'] = 'Trebuie s&#259; da&#355;i un &#351;ir de conectare pentru cale.';
-	$lang['strpathneedsconnretry'] = 'Trebuie s&#259; da&#355;i num&#259;rul de secunde p&acirc;n&#259; la o nou&#259; &icirc;ncercare de conectare.';
+	$lang['strpathneedsconnretry'] = 'Trebuie s&#259; da&#355;i num&#259;rul de secunde p&#226;n&#259; la o nou&#259; &#238;ncercare de conectare.';
 	$lang['strpathcreated'] = 'Cale creat&#259;.';
 	$lang['strpathcreatedbad'] = 'Creare cale e&#351;uat&#259;.';
 	$lang['strconfdroppath'] = 'Sigur &#351;terge&#355;i calea &quot;%s&quot;?';
@@ -707,7 +707,7 @@
 	$lang['strrepsetdropped'] = 'Set de replicare &#351;ters';
 	$lang['strrepsetdroppedbad'] = '&#350;tergere set de replicare e&#351;uat&#259;.';
 	$lang['strmerge'] = 'Contopire';
-	$lang['strmergeinto'] = 'Contopire &icirc;n';
+	$lang['strmergeinto'] = 'Contopire &#238;n';
 	$lang['strrepsetmerged'] = 'Seturi de replicare contopite';
 	$lang['strrepsetmergedbad'] = 'Contopire seturi de replicare e&#351;uat&#259;.';
 	$lang['strmove'] = 'Mutare';
@@ -754,15 +754,15 @@
 	$lang['strnosubscriptions'] = 'Nici o subscriere g&#259;sit&#259;.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s rul&acirc;nd pe %s:%s -- Sunte&#355;i autentificat ca utilizator &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s rul&#226;nd pe %s:%s -- Sunte&#355;i autentificat ca utilizator &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';
 	$lang['strlogintitle'] = 'Autentificare la %s';
 	$lang['strlogoutmsg'] = 'Ie&#351;ire din %s';
-	$lang['strloading'] = '&Icirc;nc&#259;rcare...';
-	$lang['strerrorloading'] = 'Eroare la &icirc;nc&#259;rcare';
-	$lang['strclicktoreload'] = 'Face&#355;i clic pentru re&icirc;nc&#259;rcare';
+	$lang['strloading'] = '&#206;nc&#259;rcare...';
+	$lang['strerrorloading'] = 'Eroare la &#238;nc&#259;rcare';
+	$lang['strclicktoreload'] = 'Face&#355;i clic pentru re&#238;nc&#259;rcare';
 
 
 

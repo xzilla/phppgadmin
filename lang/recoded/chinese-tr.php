@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.16 2005/08/11 23:01:45 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.17 2005/11/19 09:40:25 chriskl Exp $
 	 *
 	 *
 	 */

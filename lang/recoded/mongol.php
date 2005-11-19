@@ -4,7 +4,7 @@
 	 * Mongolian  language file for phpPgAdmin. 
 	 * @maintainer Erdenemandal Bat-Erdene [endeeuk@yahoo.com]
 	 *
-	 * $Id: mongol.php,v 1.4 2005/08/11 23:01:45 soranzo Exp $
+	 * $Id: mongol.php,v 1.5 2005/11/19 09:40:25 chriskl Exp $
 	 */
 
 	// Language and character set
