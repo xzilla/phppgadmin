@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.52 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: display.php,v 1.52.2.1 2005/11/20 03:07:26 chriskl Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -278,7 +278,7 @@
 			
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}");
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;strings=" . urlencode($_REQUEST['strings']));
 			echo "<table>\n<tr>";
 	
 			// Check that the key is actually in the result set.  This can occur for select
@@ -366,7 +366,7 @@
 			echo "</table>\n";			
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}");
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;strings=" . urlencode($_REQUEST['strings']));
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 

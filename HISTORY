@@ -11,6 +11,7 @@ Bugs
 * Fix issue with includes where '.' is not in the include_path
 * Don't prompt to share credentials when only one server is present
 * Fix logout link
+* Preserve expanded/collapsed across result pages
 
 Version 4.0
 -----------
