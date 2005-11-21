@@ -1,4 +1,4 @@
-# This Makefile recodes source lang files into HTML Unicode.
+# This Makefile recodes source lang files into XML Unicode.
 # You should add your encodings to this file.  You need to have GNU Recode
 # installed.
 # 
@@ -21,7 +21,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.45 2005/11/21 23:11:57 slubek Exp $
+# $Id: Makefile,v 1.46 2005/11/21 23:16:10 slubek Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
