@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.105.2.1 2005/11/19 09:51:27 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.105.2.2 2005/11/22 01:34:13 chriskl Exp $
 	 */
 	include_once('decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -190,7 +190,12 @@
 		// Set client encoding to database encoding
 		if ($dbEncoding != '') {
 			// Explicitly change client encoding if it's different to server encoding.
-			if (pg_client_encoding($data->conn->_connectionID) != $dbEncoding) {
+			if (function_exists('pg_client_encoding'))
+				$currEncoding = pg_client_encoding($data->conn->_connectionID);
+			else
+				$currEncoding = pg_clientencoding($data->conn->_connectionID);
+				
+			if ($currEncoding != $dbEncoding) {
 				$status = $data->setClientEncoding($dbEncoding);
 				if ($status != 0 && $status != -99) {
 					echo $lang['strbadencoding'];
