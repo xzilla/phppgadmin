@@ -12,7 +12,8 @@ Bugs
 * Don't prompt to share credentials when only one server is present
 * Fix logout link
 * Preserve expanded/collapsed across result pages
-* Use pg_clientencoding() if pg_client_encoding() does not exist
+* Use pg_clientencoding() if pg_client_encoding() does not exist.  If
+  pg_clientencoding() itself doesn't exist, then force setting the encoding
 
 Version 4.0
 -----------
