@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.7 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: plugin_slony.php,v 1.8 2005/11/25 08:59:35 jollytoad Exp $
 	 */
 
 	// Avoid database connections whenever possible
@@ -58,7 +58,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									array('action'  => 'cluster_properties')
@@ -86,7 +86,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -115,7 +115,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -174,7 +174,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -201,7 +201,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -286,7 +286,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'sequences'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -313,7 +313,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'tables'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),
@@ -341,7 +341,7 @@
 				
 				$attrs = array(
 					'text'   => noEscape(field('title')),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => field('icon'),
 					'action' => url(field('url'),
 									$reqvars,
 									field('urlvars', array()),

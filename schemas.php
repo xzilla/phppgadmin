@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.5 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: schemas.php,v 1.6 2005/11/25 08:59:35 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -280,7 +280,7 @@
 		
 		$attrs = array(
 			'text'   => noEscape(field('title')),
-			'icon'   => field('icon', 'folder'),
+			'icon'   => field('icon'),
 			'action' => url(field('url'),
 							$reqvars,
 							field('urlvars', array())
