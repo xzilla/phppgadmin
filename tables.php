@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.74 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: tables.php,v 1.75 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -633,7 +633,7 @@
 		
 		$attrs = array(
 			'text'   => field('relname'),
-			'icon'   => 'tables',
+			'icon'   => 'Table',
 			'toolTip'=> field('relcomment'),
 			'action' => url('redirect.php',
 							$reqvars,

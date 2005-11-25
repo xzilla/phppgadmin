@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.28 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: types.php,v 1.29 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -470,7 +470,7 @@
 		
 		$attrs = array(
 			'text'   => field('typname'),
-			'icon'   => 'types',
+			'icon'   => 'Type',
 			'toolTip'=> field('typcomment'),
 			'action' => url('types.php',
 							$reqvars,

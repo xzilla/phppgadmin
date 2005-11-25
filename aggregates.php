@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.12 2005/10/18 03:45:15 chriskl Exp $
+	 * $Id: aggregates.php,v 1.13 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -58,7 +58,7 @@
 		
 		$attrs = array(
 			'text'   => $proto,
-			'icon'   => 'functions',
+			'icon'   => 'Aggregate',
 			'toolTip'=> field('aggcomment'),
 		);
 		

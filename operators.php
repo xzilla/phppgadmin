@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.20 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: operators.php,v 1.21 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -171,7 +171,7 @@
 		
 		$attrs = array(
 			'text'   => $proto,
-			'icon'   => 'operators',
+			'icon'   => 'Operator',
 			'toolTip'=> field('oprcomment'),
 			'action' => url('operators.php',
 							$reqvars,

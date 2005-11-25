@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.30 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: sequences.php,v 1.31 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 	
 	// Include application functions
@@ -80,7 +80,7 @@
 		
 		$attrs = array(
 			'text'   => field('seqname'),
-			'icon'   => 'sequences',
+			'icon'   => 'Sequence',
 			'toolTip'=> field('seqcomment'),
 			'action' => url('sequences.php',
 							$reqvars,

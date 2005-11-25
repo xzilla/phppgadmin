@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.8 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: opclasses.php,v 1.9 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -67,7 +67,7 @@
 		
 		$attrs = array(
 			'text'   => $proto,
-			'icon'   => 'operators',
+			'icon'   => 'OperatorClass',
 			'toolTip'=> field('opccomment'),
 		);
 		

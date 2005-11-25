@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.41 2005/10/18 03:45:15 chriskl Exp $
+	 * $Id: all_db.php,v 1.42 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -321,7 +321,7 @@
 		
 		$attrs = array(
 			'text'   => field('datname'),
-			'icon'   => 'database',
+			'icon'   => 'Database',
 			'toolTip'=> field('datcomment'),
 			'action' => url('redirect.php',
 							$reqvars,

@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.4 2005/10/18 04:00:19 chriskl Exp $
+	 * $Id: servers.php,v 1.5 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -87,7 +87,7 @@
 			'text'   => field('desc'),
 			
 			// Show different icons for logged in/out
-			'icon'   => ifempty(field('username'), 'serverOut', 'server'),
+			'icon'   => ifempty(field('username'), 'DisconnectedServer', 'Server'),
 			
 			'toolTip'=> field('id'),
 			

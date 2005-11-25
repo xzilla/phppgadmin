@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.52 2005/11/09 09:08:37 jollytoad Exp $
+	 * $Id: browser.php,v 1.53 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -28,8 +28,8 @@
 
 <script type="text/javascript">
 
-webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('root') ?>";
-webFXTreeConfig.openRootIcon	= "<?php echo $misc->icon('root') ?>";
+webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('Servers') ?>";
+webFXTreeConfig.openRootIcon	= "<?php echo $misc->icon('Servers') ?>";
 webFXTreeConfig.folderIcon		= "<?php echo $misc->icon('folder') ?>";
 webFXTreeConfig.openFolderIcon	= "<?php echo $misc->icon('folderOpen') ?>";
 webFXTreeConfig.fileIcon		= "<?php echo $misc->icon('file') ?>";

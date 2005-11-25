@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.9 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: languages.php,v 1.10 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -57,7 +57,7 @@
 		
 		$attrs = array(
 			'text'   => field('lanname'),
-			'icon'   => 'languages'
+			'icon'   => 'Language'
 		);
 		
 		$misc->printTreeXML($languages, $attrs);

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.6 2005/11/09 09:05:58 jollytoad Exp $
+	 * $Id: plugin_slony.php,v 1.7 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Avoid database connections whenever possible
@@ -48,7 +48,8 @@
 						$tabs = array('cluster' => array (
 											'title' => $slony->slony_cluster,
 											'url'   => 'plugin_slony.php',
-											'urlvars' => array('subject' => 'clusters_top')
+											'urlvars' => array('subject' => 'clusters_top'),
+											'icon'  => 'Cluster',
 										));
 				}
 				else $tabs = array();
@@ -77,7 +78,8 @@
 				$tabs = array('nodes' => array (
 										'title' => $lang['strnodes'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'nodes')
+										'urlvars' => array('subject' => 'nodes'),
+										'icon'  => 'Nodes',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -105,7 +107,8 @@
 				$tabs = array('sets' => array (
 										'title' => 	$lang['strrepsets'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'sets')
+										'urlvars' => array('subject' => 'sets'),
+										'icon'  => 'ReplicationSets',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -134,7 +137,7 @@
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
-					'icon'   => 'folder',
+					'icon'   => 'Node',
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array(
@@ -163,7 +166,8 @@
 				$tabs = array('paths' => array (
 										'title' => $lang['strpaths'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'paths')
+										'urlvars' => array('subject' => 'paths'),
+										'icon'  => 'Paths',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -189,7 +193,8 @@
 				$tabs = array('listens' => array (
 										'title' => $lang['strlistens'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'listens')
+										'urlvars' => array('subject' => 'listens'),
+										'icon'  => 'Listens',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -218,7 +223,7 @@
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => 'Path',
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array('no_id' => field('pa_client'), 'path_id' => field('no_id'), 'action' => 'path_properties')
@@ -233,7 +238,7 @@
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => 'Listen',
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array('no_id' => field('li_receiver'), 'listen_id' => field('no_id'), 'action' => 'listen_properties')
@@ -248,7 +253,7 @@
 			
 				$attrs = array(
 					'text'   => field('set_comment'),
-					'icon'   => 'folder',
+					'icon'   => 'AvailableReplicationSet',
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array(
@@ -273,7 +278,8 @@
 				$tabs = array('sequences' => array (
 										'title' => $lang['strsequences'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'sequences')
+										'urlvars' => array('subject' => 'sequences'),
+										'icon'  => 'Sequences'
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -299,7 +305,8 @@
 				$tabs = array('tables' => array (
 										'title' => $lang['strtables'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'tables')
+										'urlvars' => array('subject' => 'tables'),
+										'icon'  => 'Tables',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -326,7 +333,8 @@
 				$tabs = array('subscriptions' => array (
 										'title' => $lang['strsubscriptions'],
 										'url'   => 'plugin_slony.php',
-										'urlvars' => array('subject' => 'subscriptions')
+										'urlvars' => array('subject' => 'subscriptions'),
+										'icon'  => 'Subscriptions',
 									));
 				
 				$items = $misc->adjustTabsForTree($tabs);
@@ -357,7 +365,7 @@
 
 				$attrs = array(
 					'text'   => field('qualname'),
-					'icon'   => 'sequences',
+					'icon'   => 'Sequence',
 					'toolTip'=> field('seqcomment'),
 					'action' => url('sequences.php',
 									$reqvars,
@@ -379,7 +387,7 @@
 				
 				$attrs = array(
 					'text'   => field('qualname'),
-					'icon'   => 'tables',
+					'icon'   => 'Table',
 					'toolTip'=> field('relcomment'),
 					'action' => url('redirect.php',
 									$reqvars,
@@ -395,7 +403,7 @@
 				
 				$attrs = array(
 					'text'   => field('no_comment'),
-					'icon'   => field('icon', 'folder'),
+					'icon'   => 'AvailableSubscription',
 					'action' => url('plugin_slony.php',
 									$reqvars,
 									array('set_id' => field('sub_set'), 'no_id' => field('no_id'), 'action' => 'subscription_properties')

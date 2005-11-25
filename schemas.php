@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.4 2005/10/18 04:00:19 chriskl Exp $
+	 * $Id: schemas.php,v 1.5 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -246,7 +246,7 @@
 		
 		$attrs = array(
 			'text'   => field('nspname'),
-			'icon'   => 'folder',
+			'icon'   => 'Schema',
 			'toolTip'=> field('nspcomment'),
 			'action' => url('redirect.php',
 							$reqvars,

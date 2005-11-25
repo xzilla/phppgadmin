@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.52 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: functions.php,v 1.53 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -551,7 +551,7 @@
 		
 		$attrs = array(
 			'text'    => $proto,
-			'icon'    => 'functions',
+			'icon'    => 'Function',
 			'toolTip' => field('procomment'),
 			'action'  => url('redirect.php',
 							$reqvars,

@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.11 2005/10/18 03:45:15 chriskl Exp $
+	 * $Id: conversions.php,v 1.12 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -65,7 +65,7 @@
 		
 		$attrs = array(
 			'text'   => field('conname'),
-			'icon'   => 'conversions',
+			'icon'   => 'Conversion',
 			'toolTip'=> field('concomment')
 		);
 		

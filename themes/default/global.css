@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.33 2005/06/19 19:04:33 slubek Exp $
+ * $Id: global.css,v 1.34 2005/11/25 08:49:08 jollytoad Exp $
  */
 
 /** ELEMENTS */
@@ -195,7 +195,7 @@ td.opbutton2
 {
 	border: 2px solid #E6E6CC;
 	background-color: #F3F3E9;
-	padding: 2px 1em;
+	padding: 2px 1ex;
 	vertical-align: bottom;
 }
 
@@ -351,17 +351,16 @@ pre.data
 
 .webfx-tree-row img {
 	vertical-align: middle;
-	height: 20px;
+}
+
+.webfx-tree-item-label {
+	margin-left: 0.5ex;
 }
 
 .webfx-tree-icon {
-	width: 20px;
+	margin-left: 1px;
 	cursor: hand;
 	cursor: pointer;
-}
-
-.webfx-tree-expand-icon {
-	width: 20px;
 }
 
 .webfx-tree-hide-root {

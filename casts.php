@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.11 2005/10/18 03:45:15 chriskl Exp $
+	 * $Id: casts.php,v 1.12 2005/11/25 08:49:08 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -74,7 +74,7 @@
 		
 		$attrs = array(
 			'text'   => $proto,
-			'icon'   => 'casts'
+			'icon'   => 'Cast'
 		);
 		
 		$misc->printTreeXML($casts, $attrs);
