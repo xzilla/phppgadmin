@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.116 2005/11/16 13:35:45 jollytoad Exp $
+	 * $Id: Misc.php,v 1.117 2005/11/25 08:42:31 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -409,6 +409,7 @@
 			}
 			
 			echo "<table class=\"tabs\"><tr>\n";
+			#echo "<div class=\"tabs\">\n";
 			
 			# FIXME: don't count hidden tags
 			$width = round(100 / count($tabs)).'%';
@@ -417,9 +418,16 @@
 				$active = ($tab_id == $activetab) ? ' active' : '';
 				
 				if (!isset($tab['hide']) || $tab['hide'] !== true) {
-					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">{$tab['title']}</a>";
+					
+					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">";
+					
+					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
+						$tablink .= "<img src=\"{$icon}\" /><br />";
+					
+					$tablink .= "{$tab['title']}</a>";
 					
 					echo "<td width=\"{$width}\" class=\"tab{$active}\">";
+					#echo "<span class=\"tab{$active}\" style=\"white-space:nowrap;\">";
 					
 					if (isset($tab['help']))
 						$this->printHelp($tablink, $tab['help']);
@@ -427,10 +435,12 @@
 						echo $tablink;
 					
 					echo "</td>\n";
+					#echo "</span>\n";
 				}
 			}
 			
 			echo "</tr></table>\n";
+			#echo "</div>\n";
 		}
 
 		/**
@@ -452,6 +462,7 @@
 						'servers' => array (
 							'title' => $lang['strservers'],
 							'url'   => "servers.php",
+							'icon'  => 'Servers',
 						),
 					);
 
@@ -464,6 +475,7 @@
 							'url'   => 'all_db.php',
 							'urlvars' => array('subject' => 'server'),
 							'help'  => 'pg.database',
+							'icon'  => 'Databases',
 						),
 						'users' => array (
 							'title' => $lang['strusers'],
@@ -471,6 +483,7 @@
 							'urlvars' => array('subject' => 'server'),
 							'hide'  => $hide_users,
 							'help'  => 'pg.user',
+							'icon'  => 'Users',
 						),
 						'groups' => array (
 							'title' => $lang['strgroups'],
@@ -478,6 +491,7 @@
 							'urlvars' => array('subject' => 'server'),
 							'hide'  => $hide_users,
 							'help'  => 'pg.group',
+							'icon'  => 'UserGroups',
 						),
 						'account' => array (
 							'title' => $lang['straccount'],
@@ -485,6 +499,7 @@
 							'urlvars' => array('subject' => 'server', 'action' => 'account'),
 							'hide'  => !$hide_users,
 							'help'  => 'pg.user',
+							'icon'  => 'User',
 						),
 						'tablespaces' => array (
 							'title' => $lang['strtablespaces'],
@@ -492,22 +507,25 @@
 							'urlvars' => array('subject' => 'server'),
 							'hide'  => (!$data->hasTablespaces()),
 							'help'  => 'pg.tablespace',
+							'icon'  => 'Tablespaces',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'all_db.php',
 							'urlvars' => array('subject' => 'server', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
+							'icon'  => 'Save',
 						),
 						'reports' => array (
 							'title' => $lang['strreports'],
 							'url'   => 'reports.php',
 							'urlvars' => array('subject' => 'server'),
-							'hide' => !$conf['show_reports']
+							'hide' => !$conf['show_reports'],
+							'icon' => 'Statistics',
 						),
 					);
 
-				case 'database':				
+				case 'database':
 					$tabs = array (
 						'schemas' => array (
 							'title' => $lang['strschemas'],
@@ -515,6 +533,7 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
+							'icon'  => 'Schemas',
 						),
 						'sql' => array (
 							'title' => $lang['strsql'],
@@ -522,12 +541,14 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'sql'),
 							'help'  => 'pg.sql',
 							'tree'  => false,
+							'icon'  => 'SqlEditor'
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'find'),
 							'tree'  => false,
+							'icon'  => 'Search'
 						),
 						'variables' => array (
 							'title' => $lang['strvariables'],
@@ -536,6 +557,7 @@
 							'hide'  => (!$data->hasVariables()),
 							'help'  => 'pg.variable',
 							'tree'  => false,
+							'icon'  => 'Property',
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
@@ -544,6 +566,7 @@
 							'hide'  => (!$data->hasProcesses()),
 							'help'  => 'pg.process',
 							'tree'  => false,
+							'icon'  => 'Statistics',
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
@@ -558,6 +581,7 @@
 							'hide'  => (!isset($data->privlist['database'])),
 							'help'  => 'pg.privilege',
 							'tree'  => false,
+							'icon'  => 'Key',
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
@@ -565,6 +589,7 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.language',
+							'icon'  => 'Languages',
 						),
 						'casts' => array (
 							'title' => $lang['strcasts'],
@@ -572,6 +597,7 @@
 							'urlvars' => array('subject' => 'database'),
 							'hide'  => ($hide_advanced || !$data->hasCasts()),
 							'help'  => 'pg.cast',
+							'icon'  => 'Casts',
 						),
 						'slony' => array (
 							'title' => 'Slony',
@@ -579,6 +605,7 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'clusters_properties'),
 							'hide'  => !isset($slony),
 							'help'  => '',
+							'icon'  => 'Replication',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -586,6 +613,7 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
 							'tree'  => false,
+							'icon'  => 'Save',
 						),
 					);
 					return $tabs;
@@ -596,28 +624,28 @@
 							'url'   => 'tables.php',
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.table',
-							'icon'  => 'tables',
+							'icon'  => 'Tables',
 						),
 						'views' => array (
 							'title' => $lang['strviews'],
 							'url'   => 'views.php',
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.view',
-							'icon'  => 'views',
+							'icon'  => 'Views',
 						),
 						'sequences' => array (
 							'title' => $lang['strsequences'],
 							'url'   => 'sequences.php',
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.sequence',
-							'icon'  => 'sequences',
+							'icon'  => 'Sequences',
 						),
 						'functions' => array (
 							'title' => $lang['strfunctions'],
 							'url'   => 'functions.php',
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.function',
-							'icon'  => 'functions',
+							'icon'  => 'Functions',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
@@ -625,7 +653,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => (!$data->hasDomains()),
 							'help'  => 'pg.domain',
-							'icon'  => 'domains',
+							'icon'  => 'Domains',
 						),
 						'aggregates' => array (
 							'title' => $lang['straggregates'],
@@ -633,7 +661,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.aggregate',
-							'icon'  => 'functions',
+							'icon'  => 'Aggregates',
 						),
 						'types' => array (
 							'title' => $lang['strtypes'],
@@ -641,7 +669,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.type',
-							'icon'  => 'types',
+							'icon'  => 'Types',
 						),
 						'operators' => array (
 							'title' => $lang['stroperators'],
@@ -649,7 +677,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.operator',
-							'icon'  => 'operators',
+							'icon'  => 'Operators',
 						),
 						'opclasses' => array (
 							'title' => $lang['stropclasses'],
@@ -657,7 +685,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => $hide_advanced,
 							'help'  => 'pg.opclass',
-							'icon'  => 'operators',
+							'icon'  => 'OperatorClasses',
 						),
 						'conversions' => array (
 							'title' => $lang['strconversions'],
@@ -665,7 +693,7 @@
 							'urlvars' => array('subject' => 'schema'),
 							'hide'  => ($hide_advanced || !$data->hasConversions()),
 							'help'  => 'pg.conversion',
-							'icon'  => 'types',
+							'icon'  => 'Conversions',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -674,6 +702,7 @@
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
 							'tree'  => false,
+							'icon'  => 'Key',
 						),
 					);
 
@@ -683,51 +712,60 @@
 							'title' => $lang['strcolumns'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
+							'icon'  => 'Columns',
 						),
 						'indexes' => array (
 							'title' => $lang['strindexes'],
 							'url'   => 'indexes.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.index',
+							'icon'  => 'Indexes',
 						),
 						'constraints' => array (
 							'title' => $lang['strconstraints'],
 							'url'   => 'constraints.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.constraint',
+							'icon'  => 'Constraints',
 						),
 						'triggers' => array (
 							'title' => $lang['strtriggers'],
 							'url'   => 'triggers.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.trigger',
+							'icon'  => 'Triggers',
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
 							'url'   => 'rules.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.rule',
+							'icon'  => 'Rules',
 						),
 						'info' => array (
 							'title' => $lang['strinfo'],
 							'url'   => 'info.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
+							'icon'  => 'Statistics',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
 							'url'   => 'privileges.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.privilege',
+							'icon'  => 'Key',
 						),
 						'import' => array (
 							'title' => $lang['strimport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'import'),
+							'icon'  => 'Open',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'export'),
+							'icon'  => 'Save',
 						),
 					);
 				
@@ -737,28 +775,33 @@
 							'title' => $lang['strcolumns'],
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
+							'icon'  => 'Columns',
 						),
 						'definition' => array (
 							'title' => $lang['strdefinition'],
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'definition'),
+							'icon'  => 'Editor'
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
 							'url'   => 'rules.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.rule',
+							'icon'  => 'Rules',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
 							'url'   => 'privileges.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.privilege',
+							'icon'  => 'Key',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'export'),
+							'icon'  => 'Save',
 						),
 					);
 				
@@ -773,6 +816,7 @@
 									'function_oid' => field('function_oid'),
 									'action' => 'properties',
 								),
+							'icon'  => 'Property',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -782,6 +826,7 @@
 									'function' => field('function'),
 									'function_oid' => field('function_oid'),
 								),
+							'icon'  => 'Key',
 						),
 					);
 				
@@ -792,11 +837,13 @@
 							'url'   => 'sqledit.php',
 							'urlvars' => array('subject' => 'schema', 'action' => 'sql'),
 							'help'  => 'pg.sql',
+							'icon'  => 'SqlEditor',
 						),
 						'find' => array (
 							'title' => $lang['strfind'],
 							'url'   => 'sqledit.php',
 							'urlvars' => array('subject' => 'schema', 'action' => 'find'),
+							'icon'  => 'Search',
 						),
 					);
 				
@@ -811,6 +858,7 @@
 									'slony_cluster' => field('slony_cluster')
 								),
 							'help'  => '',
+							'icon'  => 'Cluster',
 						),
 						'nodes' => array (
 							'title' => $lang['strnodes'],
@@ -821,6 +869,7 @@
 									'slony_cluster' => field('slony_cluster')
 								),
 							'help'  => '',
+							'icon'  => 'Nodes',
 						),
 						'sets' => array (
 							'title' => $lang['strrepsets'],
@@ -831,6 +880,7 @@
 									'slony_cluster' => field('slony_cluster')
 								),
 							'help'  => '',
+							'icon'  => 'ReplicationSets',
 						),
 					);
 					
@@ -947,7 +997,12 @@
 				if (isset($crumb['title']))
 					$crumblink .= " title=\"{$crumb['title']}\"";
 				
-				$crumblink .= ">" . htmlspecialchars($crumb['text']) . "</a>";
+				$crumblink .= ">";
+				
+				if (isset($crumb['icon']) && $icon = $this->icon($crumb['icon']))
+					$crumblink .= "<img src=\"{$icon}\" />";
+				 
+				$crumblink .= htmlspecialchars($crumb['text']) . "</a>";
 				
 				if (isset($crumb['help']))
 					$this->printHelp($crumblink, $crumb['help']);
@@ -986,7 +1041,8 @@
 					'title' => $lang['strserver'],
 					'text'  => $server_info['desc'],
 					'url'   => "redirect.php?subject=server&{$vars}",
-					'help'  => 'pg.server'
+					'help'  => 'pg.server',
+					'icon'  => 'Server'
 				);
 			}
 			if ($subject == 'server') $done = true;
@@ -997,7 +1053,8 @@
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
 					'url'   => "redirect.php?subject=database&{$vars}",
-					'help'  => 'pg.database'
+					'help'  => 'pg.database',
+					'icon'  => 'Database'
 				);
 			}
 			if ($subject == 'database') $done = true;
@@ -1008,7 +1065,8 @@
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
 					'url'   => "redirect.php?subject=schema&{$vars}",
-					'help'  => 'pg.schema'
+					'help'  => 'pg.schema',
+					'icon'  => 'Schema'
 				);
 			}
 			if ($subject == 'schema') $done = true;
@@ -1019,7 +1077,8 @@
 					'title' => 'Slony Cluster',
 					'text'  => $_REQUEST['slony_cluster'],
 					'url'   => "redirect.php?subject=slony_cluster&{$vars}",
-					'help'  => 'sl.cluster'
+					'help'  => 'sl.cluster',
+					'icon'  => 'Cluster'
 				);
 			}
 			if ($subject == 'slony_cluster') $done = true;
@@ -1030,7 +1089,8 @@
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'pg.table'
+					'help'  => 'pg.table',
+					'icon'  => 'Table'
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
 				$vars .= "subject=view&view=".urlencode($_REQUEST['view']);
@@ -1038,7 +1098,8 @@
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
 					'url'   => "redirect.php?{$vars}",
-					'help'  => 'pg.view'
+					'help'  => 'pg.view',
+					'icon'  => 'View'
 				);
 			}
 			if ($subject == 'table' || $subject == 'view') $done = true;
@@ -1052,7 +1113,8 @@
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
-							'help'  => 'pg.function'
+							'help'  => 'pg.function',
+							'icon'  => 'Function'
 						);
 						break;
 					case 'slony_node':
@@ -1061,7 +1123,8 @@
 							'title' => 'Slony Node',
 							'text'  => $_REQUEST['no_name'],
 							'url'   => "redirect.php?{$vars}",
-							'help'  => 'sl.'.$subject
+							'help'  => 'sl.'.$subject,
+							'icon'  => 'Node'
 						);
 						break;
 					case 'slony_set':
@@ -1071,7 +1134,8 @@
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
 							'url'   => "redirect.php?{$vars}",
-							'help'  => 'sl.'.$subject
+							'help'  => 'sl.'.$subject,
+							'icon'  => 'AvailableReplicationSet'
 						);
 						break;
 					default:
@@ -1079,7 +1143,7 @@
 							$trail[$_REQUEST[$subject]] = array(
 								'title' => $lang['str'.$subject],
 								'text'  => $_REQUEST[$subject],
-								'help'  => 'pg.'.$subject	
+								'help'  => 'pg.'.$subject
 							);
 						}
 				}
