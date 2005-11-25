@@ -159,7 +159,11 @@ Miscellaneous
 * Show owner for all objects
 * Allow changing owner for objects that have this feature (7.4+ generally)
 * Translated FAQ
-* Icons for all objects, for use in navigation widgets
+- Icons for all objects, for use in navigation widgets
+  Most objects are now covered thanks to those provided by Niko,
+  but we still need icons for:
+    Introduction, Variables, Admin, Privileges, Reports
+  
 
 Exotic
 ------
