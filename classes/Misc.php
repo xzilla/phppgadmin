@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.118 2005/11/28 16:37:40 jollytoad Exp $
+	 * $Id: Misc.php,v 1.119 2005/11/28 17:03:07 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -422,9 +422,9 @@
 					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">";
 					
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
-						$tablink .= "<img src=\"{$icon}\" /><br />";
+						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" /></span>";
 					
-					$tablink .= "{$tab['title']}</a>";
+					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 					
 					echo "<td width=\"{$width}\" class=\"tab{$active}\">";
 					#echo "<span class=\"tab{$active}\" style=\"white-space:nowrap;\">";
@@ -859,6 +859,7 @@
 									'slony_cluster' => field('slony_cluster')
 								),
 							'help'  => '',
+							'tree'  => false,
 							'icon'  => 'Cluster',
 						),
 						'nodes' => array (
@@ -869,6 +870,7 @@
 									'action' => 'nodes_properties',
 									'slony_cluster' => field('slony_cluster')
 								),
+							'branch' => 'nodes',
 							'help'  => '',
 							'icon'  => 'Nodes',
 						),
@@ -880,6 +882,7 @@
 									'action' => 'sets_properties',
 									'slony_cluster' => field('slony_cluster')
 								),
+							'branch' => 'sets',
 							'help'  => '',
 							'icon'  => 'ReplicationSets',
 						),
@@ -989,7 +992,7 @@
 			echo "<div class=\"trail\"><table><tr>";
 			
 			foreach ($trail as $crumb) {
-				echo "<td>";
+				echo "<td class=\"crumb\">";
 				$crumblink = "<a";
 				
 				if (isset($crumb['url']))
@@ -1001,9 +1004,9 @@
 				$crumblink .= ">";
 				
 				if (isset($crumb['icon']) && $icon = $this->icon($crumb['icon']))
-					$crumblink .= "<img src=\"{$icon}\" />";
+					$crumblink .= "<span class=\"icon\"><img src=\"{$icon}\" /></span>";
 				 
-				$crumblink .= htmlspecialchars($crumb['text']) . "</a>";
+				$crumblink .= "<span class=\"label\">" . htmlspecialchars($crumb['text']) . "</span></a>";
 				
 				if (isset($crumb['help']))
 					$this->printHelp($crumblink, $crumb['help']);
