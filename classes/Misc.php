@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.117 2005/11/25 08:42:31 jollytoad Exp $
+	 * $Id: Misc.php,v 1.118 2005/11/28 16:37:40 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -573,6 +573,7 @@
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'admin'),
 							'tree'  => false,
+							'icon'  => 'Maintenance',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
