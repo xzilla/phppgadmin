@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.119 2005/11/28 17:03:07 jollytoad Exp $
+	 * $Id: Misc.php,v 1.120 2005/11/29 15:13:50 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1144,10 +1144,18 @@
 						break;
 					default:
 						if (isset($_REQUEST[$subject])) {
-							$trail[$_REQUEST[$subject]] = array(
+							switch ($subject) {
+								case 'domain': $icon = 'Domain'; break;
+								case 'sequence': $icon = 'Sequence'; break;
+								case 'type': $icon = 'Type'; break;
+								case 'operator': $icon = 'Operator'; break;
+								default: $icon = null; break;
+							}
+							$trail[$subject] = array(
 								'title' => $lang['str'.$subject],
 								'text'  => $_REQUEST[$subject],
-								'help'  => 'pg.'.$subject
+								'help'  => 'pg.'.$subject,
+								'icon'  => $icon,
 							);
 						}
 				}
