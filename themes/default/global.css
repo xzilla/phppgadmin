@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.35 2005/11/28 17:03:08 jollytoad Exp $
+ * $Id: global.css,v 1.36 2005/11/30 21:25:33 slubek Exp $
  */
 
 /** ELEMENTS */
@@ -221,7 +221,7 @@ td.opbutton2
 }
 
 .crumb, .tab {
-	vertical-align: bottom;
+	vertical-align: top;
 }
 
 .crumb .icon {
