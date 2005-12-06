@@ -1,6 +1,12 @@
 phpPgAdmin History
 ------------------
 
+Version 4.0.2
+-------------
+
+Bugs
+* Fix error reporting during SQL script execution
+
 Version 4.0.1
 -------------
 
