@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.121 2005/12/06 08:41:26 chriskl Exp $
+	 * $Id: Misc.php,v 1.122 2005/12/06 14:28:51 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -458,6 +458,7 @@
 						'intro' => array (
 							'title' => $lang['strintroduction'],
 							'url'   => "intro.php",
+							'icon'  => 'Introduction',
 						),
 						'servers' => array (
 							'title' => $lang['strservers'],
@@ -514,14 +515,14 @@
 							'url'   => 'all_db.php',
 							'urlvars' => array('subject' => 'server', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
-							'icon'  => 'Save',
+							'icon'  => 'Export',
 						),
 						'reports' => array (
 							'title' => $lang['strreports'],
 							'url'   => 'reports.php',
 							'urlvars' => array('subject' => 'server'),
 							'hide' => !$conf['show_reports'],
-							'icon' => 'Statistics',
+							'icon' => 'Reports',
 						),
 					);
 
@@ -557,7 +558,7 @@
 							'hide'  => (!$data->hasVariables()),
 							'help'  => 'pg.variable',
 							'tree'  => false,
-							'icon'  => 'Property',
+							'icon'  => 'Variables',
 						),
 						'processes' => array (
 							'title' => $lang['strprocesses'],
@@ -566,14 +567,14 @@
 							'hide'  => (!$data->hasProcesses()),
 							'help'  => 'pg.process',
 							'tree'  => false,
-							'icon'  => 'Statistics',
+							'icon'  => 'Processes',
 						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
 							'url'   => 'database.php',
 							'urlvars' => array('subject' => 'database', 'action' => 'admin'),
 							'tree'  => false,
-							'icon'  => 'Maintenance',
+							'icon'  => 'Admin',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -582,7 +583,7 @@
 							'hide'  => (!isset($data->privlist['database'])),
 							'help'  => 'pg.privilege',
 							'tree'  => false,
-							'icon'  => 'Key',
+							'icon'  => 'Privileges',
 						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
@@ -614,7 +615,7 @@
 							'urlvars' => array('subject' => 'database', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
 							'tree'  => false,
-							'icon'  => 'Save',
+							'icon'  => 'Export',
 						),
 					);
 					return $tabs;
@@ -703,7 +704,7 @@
 							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
 							'tree'  => false,
-							'icon'  => 'Key',
+							'icon'  => 'Privileges',
 						),
 					);
 
@@ -754,19 +755,19 @@
 							'url'   => 'privileges.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.privilege',
-							'icon'  => 'Key',
+							'icon'  => 'Privileges',
 						),
 						'import' => array (
 							'title' => $lang['strimport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'import'),
-							'icon'  => 'Open',
+							'icon'  => 'Import',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'export'),
-							'icon'  => 'Save',
+							'icon'  => 'Export',
 						),
 					);
 				
@@ -782,7 +783,7 @@
 							'title' => $lang['strdefinition'],
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'definition'),
-							'icon'  => 'Editor'
+							'icon'  => 'Definition'
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
@@ -796,13 +797,13 @@
 							'url'   => 'privileges.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.privilege',
-							'icon'  => 'Key',
+							'icon'  => 'Privileges',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'export'),
-							'icon'  => 'Save',
+							'icon'  => 'Export',
 						),
 					);
 				
@@ -817,7 +818,7 @@
 									'function_oid' => field('function_oid'),
 									'action' => 'properties',
 								),
-							'icon'  => 'Property',
+							'icon'  => 'Definition',
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -827,7 +828,7 @@
 									'function' => field('function'),
 									'function_oid' => field('function_oid'),
 								),
-							'icon'  => 'Key',
+							'icon'  => 'Privileges',
 						),
 					);
 				
@@ -1034,6 +1035,7 @@
 			$trail['root'] = array(
 				'text'  => $appName,
 				'url'   => 'redirect.php?subject=root',
+				'icon'  => 'Introduction'
 			);
 			
 			if ($subject == 'root') $done = true;

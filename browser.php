@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.54 2005/11/25 08:59:35 jollytoad Exp $
+	 * $Id: browser.php,v 1.55 2005/12/06 14:29:31 jollytoad Exp $
 	 */
 
 	// Include application functions
@@ -41,9 +41,9 @@ webFXTreeConfig.tIcon			= "<?php echo $misc->icon('T') ?>";
 webFXTreeConfig.tMinusIcon		= "<?php echo $misc->icon('Tminus') ?>";
 webFXTreeConfig.tPlusIcon		= "<?php echo $misc->icon('Tplus') ?>";
 webFXTreeConfig.blankIcon		= "<?php echo $misc->icon('blank') ?>";
-webFXTreeConfig.loadingIcon		= "<?php echo $misc->icon('loading') ?>";
+webFXTreeConfig.loadingIcon		= "<?php echo $misc->icon('Loading') ?>";
 webFXTreeConfig.loadingText		= "<?php echo $lang['strloading'] ?>";
-webFXTreeConfig.errorIcon		= "<?php echo $misc->icon('error') ?>";
+webFXTreeConfig.errorIcon		= "<?php echo $misc->icon('ObjectNotFound') ?>";
 webFXTreeConfig.errorLoadingText = "<?php echo $lang['strerrorloading'] ?>";
 webFXTreeConfig.reloadText		= "<?php echo $lang['strclicktoreload'] ?>";
 
