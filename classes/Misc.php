@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.122 2005/12/06 14:28:51 jollytoad Exp $
+	 * $Id: Misc.php,v 1.123 2005/12/07 08:55:36 jollytoad Exp $
 	 */
 	 
 	class Misc {
@@ -1559,7 +1559,7 @@
 				}
 			} else {
 				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
-				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('error'), "\"/>\n";
+				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('ObjectNotFound'), "\"/>\n";
 			}
 			
 			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
