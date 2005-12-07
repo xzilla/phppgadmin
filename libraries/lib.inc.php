@@ -3,9 +3,9 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.105.2.3 2005/11/23 04:31:10 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.105.2.4 2005/12/07 01:32:47 chriskl Exp $
 	 */
-	include_once('decorator.inc.php');
+	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
 	
 	// Set error reporting level to max
