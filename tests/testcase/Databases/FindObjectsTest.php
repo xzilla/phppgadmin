@@ -1,0 +1,199 @@
+<?php
+/**
+ * Function area     : Database.
+ * Sub Function area : FindObjects.
+ * 
+ * @author     Augmentum SpikeSource Team
+ * @copyright  Copyright (c) 2005 by Augmentum, Inc.
+ */
+
+// Import the precondition class.
+if (is_dir('../Public'))
+{
+    require_once('../Public/SetPrecondition.php');
+}
+
+/**
+ * This class is to test the FindObjects implementation.
+ */
+class FindObjectsTest extends PreconditionSet
+{
+    /**
+     * Set up the preconditon.
+     */
+    function setUp()
+    {
+        global $webUrl;
+        global $SUPER_USER_NAME;
+        global $SUPER_USER_PASSWORD;
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
+                     $webUrl . '/index.php');
+
+        return TRUE;
+    }
+
+
+    /**
+     * Release the relational resource.
+     */
+    function tearDown()
+    {
+        // Logout this system.
+        $this->logout();
+        return TRUE;
+    }
+
+
+    /**
+     * TestCaseId: DFO001
+     * This test is used to find objects in the search component.
+     */
+    function testSimpleFindObject()
+    {
+        global $webUrl;
+        global $lang;
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                      '?database=test&subject=database' .
+                                      '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'All objects'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+        return true;
+    }
+
+
+    /**
+     * TestCaseId: DFO002
+     * This test is used to find objects in the search component.
+     */
+    function testFindObjsInSchemas()
+    {
+        global $webUrl;
+        global $lang;
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Schemas'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Tables'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Views'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Sequences'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Columns'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Rules'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Indexes'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Triggers'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Constraints'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Functions'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/database.php' .
+                                     '?database=test&subject=database' .
+                                     '&action=find'));
+
+        $this->assertTrue($this->setField('term', 'student'));
+        $this->assertTrue($this->setField('filter', 'Domains'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+
+        return true;
+    }
+
+
+    /**
+     * TestCaseId: DFO003
+     * This test is used to find objects in the search component in top bar.
+     */
+    function testFindTopObjects()
+    {
+        global $webUrl;
+        global $lang;
+
+        // Locate the list page of databases.
+        $this->assertTrue($this->get($webUrl . '/sqledit.php?action=find&'));
+
+        $this->assertTrue($this->setField('database', 'test'));
+        $this->assertTrue($this->setField('term', 'All objects'));
+        $this->assertTrue($this->clickSubmit ($lang['strfind']));
+        return true;
+    }
+}
+
+?>
