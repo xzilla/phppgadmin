@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.84 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres72.php,v 1.85 2005/12/20 01:33:15 chriskl Exp $
  */
 
 
@@ -46,6 +46,83 @@ class Postgres72 extends Postgres71 {
 		include_once('./help/PostgresDoc72.php');
 		return $this->help_page;
 	}
+
+	// User functions
+
+	/**
+	 * Helper function that computes encypted PostgreSQL passwords
+	 * @param $username The username
+	 * @param $password The password
+	 */
+	function _encryptPassword($username, $password) {
+		return 'md5' . md5($password . $username);
+	}
+	
+	/**
+	 * Changes a user's password
+	 * @param $username The username
+	 * @param $password The new password
+	 * @return 0 success
+	 */
+	function changePassword($username, $password) {
+		$this->fieldClean($username);
+		$this->clean($password);
+		
+		$sql = "ALTER USER \"{$username}\" WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Creates a new user
+	 * @param $username The username of the user to create
+	 * @param $password A password for the user
+	 * @param $createdb boolean Whether or not the user can create databases
+	 * @param $createuser boolean Whether or not the user can create other users
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
+	 * @param $group (array) The groups to create the user in
+	 * @return 0 success
+	 */
+	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
+		$this->fieldClean($username);
+		$this->clean($password);
+		$this->clean($expiry);
+		$this->fieldArrayClean($groups);		
+
+		$sql = "CREATE USER \"{$username}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
+		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		else $sql .= " VALID UNTIL 'infinity'";
+		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Adjusts a user's info
+	 * @param $username The username of the user to modify
+	 * @param $password A new password for the user
+	 * @param $createdb boolean Whether or not the user can create databases
+	 * @param $createuser boolean Whether or not the user can create other users
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire.
+	 * @return 0 success
+	 */
+	function setUser($username, $password, $createdb, $createuser, $expiry) {
+		$this->fieldClean($username);
+		$this->clean($password);
+		$this->clean($expiry);
+		
+		$sql = "ALTER USER \"{$username}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		else $sql .= " VALID UNTIL 'infinity'";
+		
+		return $this->execute($sql);
+	}	
 
 	/**
 	 * Returns all available process information.
