@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.279 2005/11/04 04:23:16 chriskl Exp $
+ * $Id: Postgres.php,v 1.280 2006/01/04 02:45:50 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -295,8 +295,10 @@ class Postgres extends ADODB_base {
 				}				
 				break;
 			case 'bytea':
+			case 'bytea[]':
 				$value = $this->escapeBytea($value);
 			case 'text':
+			case 'text[]':
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
@@ -305,6 +307,7 @@ class Postgres extends ADODB_base {
 				echo "</textarea>\n";
 				break;
 			case 'character':
+			case 'character[]':
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
