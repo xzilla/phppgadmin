@@ -7,6 +7,7 @@ Version 4.0.2
 Bugs
 * Fix error reporting during SQL script execution
 * Fix decorator.inc.php include for open_basedir restricted PHP
+* Display text[], byte[] and character[] types as textareas
 
 Version 4.0.1
 -------------
