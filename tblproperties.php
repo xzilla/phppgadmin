@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.67 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: tblproperties.php,v 1.68 2006/01/05 21:33:10 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -249,7 +249,7 @@
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 				echo "<tr><th class=\"data required\">{$lang['strcolumn']}</th><th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strlength']}</th>";
 				if ($data->hasAlterColumnType()) echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th>";
@@ -593,7 +593,7 @@
 		echo "<br />\n";
 
 		echo "<ul>\n";
-		$return_url = urlencode("tblproperties.php?{$misc->href}&table={$_REQUEST['table']}");
+		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");
 		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
