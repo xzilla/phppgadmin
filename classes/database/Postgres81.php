@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.3 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres81.php,v 1.4 2006/01/06 21:06:57 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -69,6 +69,50 @@ class Postgres81 extends Postgres80 {
 		include_once('./help/PostgresDoc81.php');
 		return $this->help_page;
 	}
+
+	// Database Functions
+	/**
+	 * Return all database available on the server
+	 * @return A list of databases, sorted alphabetically
+	 */
+	function getDatabases($currentdatabase = NULL) {
+		global $conf, $misc;
+		
+		$server_info = $misc->getServerInfo();
+		
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
+			$username = $server_info['username'];
+			$this->clean($username);
+			$clause = " AND pu.usename='{$username}'";
+		}
+		else $clause = '';
+
+		if ($currentdatabase != NULL)
+			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		else
+			$orderby = "ORDER BY pdb.datname";
+
+		if (!$conf['show_system'])
+			$where = ' AND NOT pdb.datistemplate';
+		else
+			$where = ' AND pdb.datallowconn';
+
+		$sql = "SELECT pdb.datname AS datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+                               (SELECT description FROM pg_catalog.pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment,
+                               (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
+							   pg_catalog.pg_database_size(oid) as dbsize 
+                        FROM pg_catalog.pg_database pdb, pg_catalog.pg_user pu
+			WHERE pdb.datdba = pu.usesysid
+			{$where}
+			{$clause}
+			{$orderby}";
+
+		return $this->selectSet($sql);
+	}
+
+
+	// Capabilities
+	function hasServerAdminFuncs() { return true; }
 
 }
 

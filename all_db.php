@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.42 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: all_db.php,v 1.43 2006/01/06 21:06:57 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -269,6 +269,11 @@
 				'title' => $lang['strtablespace'],
 				'field' => 'tablespace',
 			),
+			'dbsize' => array(
+				'title' => $lang['strsize'],
+				'field' => 'dbsize',
+				'type' => 'prettysize',
+			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -304,6 +309,7 @@
 		}
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
+		if (!$data->hasServerAdminFuncs()) unset($columns['dbsize']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 		
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.123 2005/12/07 08:55:36 jollytoad Exp $
+	 * $Id: Misc.php,v 1.124 2006/01/06 21:06:57 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -172,6 +172,37 @@
 				case 'callback':
 					$out = $params['function']($str, $params);
 					break;
+				case 'prettysize':
+					$mult = 1;
+					$limit = 10 * 1024;
+
+					if ($str < $limit * $mult)
+						$out = $str.' '.$lang['strbytes'];
+					else
+					{
+						$mult *= 1024;
+						if ($str < $limit * $mult)
+							$out = floor(($str + $mult / 2) / $mult).' '.$lang['strkb'];
+						else
+						{ 							
+							$mult *= 1024;
+							if ($str < $limit * $mult)
+								$out = floor(($str + $mult / 2) / $mult).' '.$lang['strmb'];
+							else
+							{ 							
+								$mult *= 1024;
+								if ($str < $limit * $mult)
+									$out = floor(($str + $mult / 2) / $mult).' '.$lang['strgb'];
+								else
+								{ 							
+									$mult *= 1024;
+									if ($str < $limit * $mult)
+										$out = floor(($str + $mult / 2) / $mult).' '.$lang['strtb'];
+								}
+							}
+						}
+					}
+					break;	
 				default:
 					// If the string contains at least one instance of >1 space in a row, a tab
 					// character, a space at the start of a line, or a space at the start of
