@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.113.2.4 2005/12/06 08:43:17 chriskl Exp $
+	 * $Id: Misc.php,v 1.113.2.5 2006/01/09 05:45:02 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -393,19 +393,8 @@
 			global $misc, $conf, $data, $lang;
 			
 			if (is_string($tabs)) {
-				switch ($tabs) {
-					case 'database':
-					case 'schema':
-						if ($data->hasSchemas() === false) {
-							$this->printTabs($this->getNavTabs('database'), $activetab);
-							$this->printTabs($this->getNavTabs('schema'), $activetab);
-							$_SESSION['webdbLastTab']['database'] = $activetab;
-							return;
-						}
-					default:
-						$_SESSION['webdbLastTab'][$tabs] = $activetab;
-						$tabs = $this->getNavTabs($tabs);
-				}
+				$_SESSION['webdbLastTab'][$tabs] = $activetab;
+				$tabs = $this->getNavTabs($tabs);
 			}
 			
 			echo "<table class=\"tabs\"><tr>\n";
