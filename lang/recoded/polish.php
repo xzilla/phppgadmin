@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.43 2005/11/19 09:40:25 chriskl Exp $
+	 * $Id: polish.php,v 1.44 2006/01/09 23:16:39 slubek Exp $
 	 */
 
 	// Language and character set
@@ -89,7 +89,6 @@
 	$lang['strallowednulls']  =  'Dozwolone znaki NULL';
 	$lang['strbackslashn']  =  '\N';
 	$lang['strnull']  =  'Null';
-	$lang['strnull']  =  'NULL (S&#322;owo)';
 	$lang['stremptystring']  =  'Pusty ci&#261;g znak&#243;w/pole';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Administruj';
@@ -135,6 +134,14 @@
 	$lang['strfile'] = 'Plik';
 	$lang['strfileimported']  = 'Plik zosta&#322; zaimportowany.';
 	$lang['strtrycred']  =  'U&#380;yj tych parametr&#243;w dla wszystkich serwer&#243;w';
+
+	// Database Sizes
+	$lang['strsize']  =  'Rozmiar';
+	$lang['strbytes']  =  'bajt&#243;w';
+	$lang['strkb']  =  'kB';
+	$lang['strmb']  =  'MB';
+	$lang['strgb']  =  'GB';
+	$lang['strtb']  =  'TB';
 
 	// Error handling
 	$lang['strnoframes']  =  'Ta aplikacja najlepiej dzia&#322;a w przegl&#261;darce obs&#322;uguj&#261;cej ramki, ale mo&#380;esz jej u&#380;y&#263; r&#243;wnie&#380; bez ramek, klikaj&#261;c poni&#380;szy link.';
