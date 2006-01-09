@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.79 2005/11/25 08:59:35 jollytoad Exp $
+	 * $Id: database.php,v 1.80 2006/01/09 05:43:48 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -541,6 +541,9 @@
 		$reqvars = $misc->getRequestVars('database');
 
 		$tabs = $misc->getNavTabs('database');
+		if (!$data->hasSchemas()) {
+			$tabs = array_merge($misc->getNavTabs('schema'), $tabs);
+		}
 
 		$items = $misc->adjustTabsForTree($tabs);
 		
