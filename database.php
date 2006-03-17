@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.80 2006/01/09 05:43:48 chriskl Exp $
+	 * $Id: database.php,v 1.81 2006/03/17 21:14:30 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -438,11 +438,28 @@
 				$misc->printTabs('database','admin');
 				$misc->printMsg($msg);
 				
+				echo "<table width=\"60%\">\n";
+				echo "<tr>\n";
+				echo "<th class=\"data\">";
+				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
+				echo "</th>";
+				echo "<th class=\"data\">";
+				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
+				echo "</th>";
+				if ($data->hasRecluster()){
+					echo "<th class=\"data\">";
+					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
+					echo "</th>";
+				}
+				echo "<th class=\"data\">";
+				$misc->printHelp($lang['strreindex'],'pg.index.reindex');
+				echo "</th>";
+				echo "</tr>";	
+
 				// Vacuum
+				echo "<tr>\n";
+				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>";
-				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum');
-				echo "</h3>\n";
 				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" />{$lang['stranalyze']}<br />\n";
 				if ($data->hasFullVacuum()) {
 					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
@@ -452,42 +469,122 @@
 				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
 				echo $misc->form;
 				echo "</form>\n";								
+				echo "</td>\n";
 
 				// Analyze
+				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>";
-				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
-				echo "</h3>\n";
 				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
 				echo $misc->form;
 				echo "</form>\n";
+				echo "</td>\n";
 				
 				// Recluster
 				if ($data->hasRecluster()){
+					echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-					echo "<h3>";
-					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
-					echo "</h3>\n";
 					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 					echo $misc->form;
 					echo "</form>\n";
+					echo "</td>\n";
 				}
 				
 				// Reindex
+				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<h3>";
-				$misc->printHelp($lang['strreindex'],'pg.index.reindex');
-				echo "</h3>\n";
 				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" />{$lang['strforce']}<br />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
 				echo $misc->form;
 				echo "</form>\n";
+				echo "</td>\n";
+				echo "</tr>\n";
+				echo "</table>\n";
+
+				echo "<br />";
+				echo "<br />";
+				echo "<h3>{$lang['strautovacuum']}</h3>";
+				// Autovacuum
+				// Fetch the processes from the database
+				$autovac = $data->getAutovacuum();
+		
+				$columns = array(
+					'namespace' => array(
+						'title' => $lang['strschema'],
+						'field' => 'nspname',
+					),
+					'relname' => array(
+						'title' => $lang['strtable'],
+						'field' => 'relname',
+					),
+					'enabled' => array(
+						'title' => $lang['strenabled'],
+						'field' => 'enabled',
+					),
+					'vac_base_thresh' => array(
+						'title' => $lang['strvacuumbasethreshold'],
+						'field' => 'vac_base_thresh',
+					),
+					'vac_scale_factor' => array(
+						'title' => $lang['strvacuumscalefactor'],
+						'field' => 'vac_scale_factor',
+					),
+					'anl_base_thresh' => array(
+						'title' => $lang['stranalybasethreshold'],
+						'field' => 'anl_base_thresh',
+					),
+					'anl_scale_factor' => array(
+						'title' => $lang['stranalyzescalefactor'],
+						'field' => 'anl_scale_factor',
+					),
+					'vac_cost_delay' => array(
+						'title' => $lang['strvacuumcostdelay'],
+						'field' => 'vac_cost_delay',
+					),
+					'vac_cost_limit' => array(
+						'title' => $lang['strvacuumcostlimit'],
+						'field' => 'vac_cost_limit',
+					),
+				);
+
+
+				// Maybe we need to check permissions here?
+				$columns['actions'] = array('title' => $lang['stractions']);
+			
+				$actions = array(
+					'edit' => array(
+					'title' => $lang['stredit'],
+					'url'   => "{$PHP_SELF}?action=autovacuum&amp;{$misc->href}&amp;",
+					'vars'  => array('vacrelid' => 'vacrelid')
+					)
+				);
+		
+				$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
+					
 				break;
 		}
 	}
+
+
+	/**
+	 * Modify specific entries in the autovacuum table
+     */
+	function doAutovacuum() {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
+
+
+		echo " editing a specific autovacuum row goes here "; 
+
+		$misc->printTrail('database');
+		$misc->printTabs('database','admin');
+
+	}
+
 
 	/**
 	 * Allow execution of arbitrary SQL statements on a database
@@ -599,6 +696,9 @@
 			break;
 		case 'signal':
 			doSignal();
+			break;
+		case 'autovacuum':
+			doAutovacuum();
 			break;
 		default:
 			doSQL();

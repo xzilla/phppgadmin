@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.4 2006/01/06 21:06:57 xzilla Exp $
+ * $Id: Postgres81.php,v 1.5 2006/03/17 21:14:30 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -110,10 +110,21 @@ class Postgres81 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function getAutovacuum() {
+		$sql = "SELECT vacrelid, nspname, relname, enabled, vac_base_thresh, vac_scale_factor, anl_base_thresh, anl_scale_factor, vac_cost_delay, vac_cost_limit 
+					FROM pg_autovacuum join pg_class on (oid=vacrelid) join pg_namespace on (oid=relnamespace) ORDER BY nspname, relname";
+		
+		return $this->selectSet($sql);
+	}
 
 	// Capabilities
 	function hasServerAdminFuncs() { return true; }
-
+	function hasAutovacuum() { return true; }
 }
 
 ?>
