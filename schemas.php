@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.6 2005/11/25 08:59:35 jollytoad Exp $
+	 * $Id: schemas.php,v 1.7 2006/04/10 21:25:06 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -164,9 +164,18 @@
 		if ($schema->recordCount() > 0) {
 			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
+			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['schema'];
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
+		
+			echo "\t<tr>\n";
+			echo "\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+			echo "\t\t<td class=\"data1\">";
+			echo "\t\t\t<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				htmlspecialchars($_POST['name']), "\" />\n";
+			echo "\t\t</td>\n";
+			echo "\t</tr>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
@@ -189,7 +198,7 @@
 	function doSaveAlter($msg = '') {
 		global $data, $misc,$PHP_SELF, $lang;
 		
-		$status = $data->updateSchema($_POST['schema'], $_POST['comment']);
+		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name']);
 		if ($status == 0)
 			doDefault($lang['strschemaaltered']);
 		else

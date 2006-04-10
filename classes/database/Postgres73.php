@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.154 2005/10/17 08:28:23 jollytoad Exp $
+ * $Id: Postgres73.php,v 1.155 2006/04/10 21:25:06 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -217,10 +217,35 @@ class Postgres73 extends Postgres72 {
 	 * @param $comment The new comment for this schema
 	 * @return 0 success
 	 */
-	function updateSchema($schemaname, $comment) {
+
+	function updateSchema($schemaname, $comment, $name) {
 		$this->fieldClean($schemaname);
+		$this->fieldClean($name);
 		$this->clean($comment);
-		return $this->setComment('SCHEMA', $schemaname, '', $comment);
+	
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		$status = $this->setComment('SCHEMA', $schemaname, '', $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Only if the name has changed
+		if ($name != $schemaname) {
+			$sql = "ALTER SCHEMA \"{$schemaname}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		return $this->endTransaction();
 	}
 
 	/**
