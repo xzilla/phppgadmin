@@ -59,7 +59,7 @@ Databases
 Schemas (7.3)
 -------------
 
-* Rename
+- Rename
 * Alter owner
 * Alter ... SET SCHEMA support per 8.1
 
@@ -85,6 +85,7 @@ Views
 
 * Support temporary views per 8.1?
 * Allow INSERT and import on views with the appropriate rules.
+* Allow altering of comments
 
 Sequences
 ---------
