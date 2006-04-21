@@ -42,7 +42,8 @@ Groups
 Roles
 -----
 
-* Support for 8.1 roles (removing users and groups)
+* -Support for 8.1 roles (removing users and groups) (chriskl)
+* Support for ALTER ROLE
 
 Permissions
 -----------
@@ -156,7 +157,7 @@ Casts (7.3)
 Miscellaneous
 -------------
 
-* Allow management of built-in autovacuum in 8.1
+* -Allow management of built-in autovacuum in 8.1 (xzilla)
 * Support per-user and per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
 * Show locks on database view
