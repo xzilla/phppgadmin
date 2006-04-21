@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.185 2006/03/17 21:14:31 xzilla Exp $
+	 * $Id: english.php,v 1.186 2006/04/21 03:31:26 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -271,6 +271,18 @@
 	$lang['strmemberdropped'] = 'Member dropped.';
 	$lang['strmemberdroppedbad'] = 'Member drop failed.';
 
+	// Roles
+	$lang['strrole'] = 'Role';
+	$lang['strroles'] = 'Roles';
+	$lang['strinheritsprivs'] = 'Inherits Privileges?';
+	$lang['strcreaterole'] = 'Create Role';
+	$lang['strcatupdate'] = 'Modify Catalogs?';
+	$lang['strcanlogin'] = 'Can Login?';
+	$lang['strmaxconnections'] = 'Max Connections';
+	$lang['strconfdroprole'] = 'Are you sure you want to drop the role "%s"?';
+	$lang['strroledropped'] = 'User dropped.';
+	$lang['strroledroppedbad'] = 'Failed to drop role.';
+	
 	// Privileges
 	$lang['strprivilege'] = 'Privilege';
 	$lang['strprivileges'] = 'Privileges';

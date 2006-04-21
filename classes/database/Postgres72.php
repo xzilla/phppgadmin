@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.85 2005/12/20 01:33:15 chriskl Exp $
+ * $Id: Postgres72.php,v 1.86 2006/04/21 03:31:26 chriskl Exp $
  */
 
 
@@ -65,10 +65,11 @@ class Postgres72 extends Postgres71 {
 	 * @return 0 success
 	 */
 	function changePassword($username, $password) {
+		$enc = $this->_encryptPassword($username, $password);
 		$this->fieldClean($username);
-		$this->clean($password);
+		$this->clean($enc);
 		
-		$sql = "ALTER USER \"{$username}\" WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		$sql = "ALTER USER \"{$username}\" WITH ENCRYPTED PASSWORD '{$enc}'";
 		
 		return $this->execute($sql);
 	}
@@ -84,13 +85,14 @@ class Postgres72 extends Postgres71 {
 	 * @return 0 success
 	 */
 	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
+		$enc = $this->_encryptPassword($username, $password);
 		$this->fieldClean($username);
-		$this->clean($password);
+		$this->clean($end);
 		$this->clean($expiry);
 		$this->fieldArrayClean($groups);		
 
 		$sql = "CREATE USER \"{$username}\"";
-		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
@@ -110,12 +112,13 @@ class Postgres72 extends Postgres71 {
 	 * @return 0 success
 	 */
 	function setUser($username, $password, $createdb, $createuser, $expiry) {
+		$enc = $this->_encryptPassword($username, $password);
 		$this->fieldClean($username);
-		$this->clean($password);
+		$this->clean($enc);
 		$this->clean($expiry);
 		
 		$sql = "ALTER USER \"{$username}\"";
-		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '" . $this->_encryptPassword($username, $password) . "'";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";

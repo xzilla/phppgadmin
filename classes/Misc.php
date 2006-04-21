@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.125 2006/01/09 05:43:49 chriskl Exp $
+	 * $Id: Misc.php,v 1.126 2006/04/21 03:31:25 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -490,36 +490,55 @@
 				case 'server':
 					$server_info = $this->getServerInfo();
 					$hide_users = !$data->isSuperUser($server_info['username']);
-					return array (
+					$tmp = array (
 						'databases' => array (
 							'title' => $lang['strdatabases'],
 							'url'   => 'all_db.php',
 							'urlvars' => array('subject' => 'server'),
 							'help'  => 'pg.database',
 							'icon'  => 'Databases',
-						),
-						'users' => array (
-							'title' => $lang['strusers'],
-							'url'   => 'users.php',
-							'urlvars' => array('subject' => 'server'),
-							'hide'  => $hide_users,
-							'help'  => 'pg.user',
-							'icon'  => 'Users',
-						),
-						'groups' => array (
-							'title' => $lang['strgroups'],
-							'url'   => 'groups.php',
-							'urlvars' => array('subject' => 'server'),
-							'hide'  => $hide_users,
-							'help'  => 'pg.group',
-							'icon'  => 'UserGroups',
-						),
+						)
+					);
+					if ($data->hasRoles()) {
+						$tmp = array_merge($tmp, array(
+							'roles' => array (
+								'title' => $lang['strroles'],
+								'url'   => 'roles.php',
+								'urlvars' => array('subject' => 'server'),
+								'hide'  => $hide_users,
+								'help'  => 'pg.role',
+								'icon'  => 'Roles',
+							)
+						));
+					}
+					else {
+						$tmp = array_merge($tmp, array(
+							'users' => array (
+								'title' => $lang['strusers'],
+								'url'   => 'users.php',
+								'urlvars' => array('subject' => 'server'),
+								'hide'  => $hide_users,
+								'help'  => 'pg.user',
+								'icon'  => 'Users',
+							),
+							'groups' => array (
+								'title' => $lang['strgroups'],
+								'url'   => 'groups.php',
+								'urlvars' => array('subject' => 'server'),
+								'hide'  => $hide_users,
+								'help'  => 'pg.group',
+								'icon'  => 'UserGroups',
+							)
+						));
+					}
+					
+					$tmp = array_merge($tmp, array(							
 						'account' => array (
 							'title' => $lang['straccount'],
-							'url'   => 'users.php',
+							'url'   => $data->hasRoles() ? 'roles.php' : 'users.php',
 							'urlvars' => array('subject' => 'server', 'action' => 'account'),
 							'hide'  => !$hide_users,
-							'help'  => 'pg.user',
+							'help'  => 'pg.role',
 							'icon'  => 'User',
 						),
 						'tablespaces' => array (
@@ -543,9 +562,10 @@
 							'urlvars' => array('subject' => 'server'),
 							'hide' => !$conf['show_reports'],
 							'icon' => 'Reports',
-						),
-					);
-
+						)
+					));
+					return $tmp;
+					break;
 				case 'database':
 					$tabs = array (
 						'schemas' => array (
@@ -1448,7 +1468,7 @@
 				foreach ($columns as $column_id => $column) {
 					switch ($column_id) {
 						case 'actions':
-							echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
+							if (sizeof($actions) > 0) echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
 							break;
 						default:
 							echo "<th class=\"data\">";

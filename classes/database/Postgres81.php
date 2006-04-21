@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.5 2006/03/17 21:14:30 xzilla Exp $
+ * $Id: Postgres81.php,v 1.6 2006/04/21 03:31:26 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -110,6 +110,134 @@ class Postgres81 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 
+	// Roles
+	
+	/**
+	 * Changes a role's password
+	 * @param $rolename The rolename
+	 * @param $password The new password
+	 * @return 0 success
+	 */
+	function changePassword($rolename, $password) {
+		$enc = $this->_encryptPassword($rolename, $password);
+		$this->fieldClean($rolename);
+		$this->clean($enc);
+		
+		$sql = "ALTER ROLE \"{$rolename}\" WITH ENCRYPTED PASSWORD '{$enc}'";
+		
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Returns all roles in the database cluster
+	 * @return All roles
+	 */
+	function getRoles() {
+		$sql = "SELECT * FROM pg_catalog.pg_roles ORDER BY rolname";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Returns information about a single role
+	 * @param $rolename The username of the role to retrieve
+	 * @return The role's data
+	 */
+	function getRole($rolename) {
+		$this->clean($rolename);
+		
+		$sql = "SELECT * FROM pg_catalog.pg_roles WHERE rolname='{$rolename}'";
+		
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Creates a new role
+	 * @param $rolename The rolename of the role to create
+	 * @param $password A password for the role
+	 * @param $createdb boolean Whether or not the role can create databases
+	 * @param $createrole boolean Whether or not the role can create other roles
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
+	 * @param $group (array) The groups to create the role in
+	 * @return 0 success
+	 */
+	function createRole($rolename, $password, $createdb, $super, $createrole, $inherits, $login, $expiry, $conn, $roles) {
+		$enc = $this->_encryptPassword($rolename, $password);
+		$this->fieldClean($rolename);
+		$this->clean($expiry);
+		$this->clean($conn);
+		$this->fieldArrayClean($roles);
+
+		$sql = "CREATE ROLE \"{$rolename}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
+		$sql .= ($super) ? ' SUPERUSER' : ' NOSUPERUSER';
+		$sql .= ($inherits) ? ' INHERIT' : ' NOINHERIT';
+		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
+		if ($conn != '') $sql .= " CONNECTION LIMIT {$conn}";
+		if (is_array($roles) && sizeof($roles) > 0) $sql .= " IN ROLE \"" . join('", "', $roles) . "\"";
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		
+		return $this->execute($sql);
+	}	
+	
+	/**
+	 * Adjusts a role's info
+	 * @param $rolename The rolename of the role to modify
+	 * @param $password A new password for the role
+	 * @param $createdb boolean Whether or not the role can create databases
+	 * @param $createrole boolean Whether or not the role can create other roles
+	 * @param $inherit Inherits privs from parent role or not.
+	 * @param $login Can login or not
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire.
+	 * @return 0 success
+	 */
+	function setRole($rolename, $password, $createdb, $createrole, $inherit, $login, $expiry) {
+		$enc = $this->_encryptPassword($rolename, $password);
+		$this->fieldClean($rolename);
+		$this->clean($expiry);
+		
+		$sql = "ALTER ROLE \"{$rolename}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
+		$sql .= ($inherit) ? ' INHERIT' : ' NOINHERIT';
+		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
+		else $sql .= " VALID UNTIL 'infinity'";
+		
+		return $this->execute($sql);
+	}	
+
+	/**
+	 * Removes a role
+	 * @param $rolename The rolename of the role to drop
+	 * @return 0 success
+	 */
+	function dropRole($rolename) {
+		$this->fieldClean($rolename);
+
+		$sql = "DROP ROLE \"{$rolename}\"";
+		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Renames a user
+	 * @param $username The username of the user to rename
+	 * @param $newname The new name of the user
+	 * @return 0 success
+	 */
+	function renameUser($username, $newname){
+		$this->fieldClean($username);
+		$this->fieldClean($newname);
+
+		$sql = "ALTER USER \"{$username}\" RENAME TO \"{$newname}\"";
+
+		return $this->execute($sql);
+	}
+
 	/**
 	 * Returns all available process information.
 	 * @param $database (optional) Find only connections to specified database
@@ -121,9 +249,10 @@ class Postgres81 extends Postgres80 {
 		
 		return $this->selectSet($sql);
 	}
-
+	
 	// Capabilities
 	function hasServerAdminFuncs() { return true; }
+	function hasRoles() { return true; }
 	function hasAutovacuum() { return true; }
 }
 
