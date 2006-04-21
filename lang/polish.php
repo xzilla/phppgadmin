@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.49 2006/01/09 23:16:39 slubek Exp $
+	 * $Id: polish.php,v 1.50 2006/04/21 21:26:59 slubek Exp $
 	 */
 
 	// Language and character set
@@ -13,7 +13,7 @@
 	$lang['applocale'] = 'pl_PL';
 	$lang['appdbencoding'] = 'UNICODE';
 	$lang['applangdir'] = 'ltr';
- 
+
 	// Welcome
 	$lang['strintro'] = 'Witaj w phpPgAdmin.';
 	$lang['strppahome'] = 'Strona domowa phpPgAdmin';
@@ -29,10 +29,10 @@
 	$lang['strloginfailed'] = 'Próba zalogowania nie powiodła się.';
 	$lang['strlogindisallowed'] = 'Logowanie niedozwolone';
 	$lang['strserver'] = 'Serwer';
-	$lang['strservers']  =  'Serwery';
-	$lang['strintroduction']  =  'Wprowadzenie';
-	$lang['strhost']  =  'Host';
-	$lang['strport']  =  'Port';
+	$lang['strservers'] = 'Serwery';
+	$lang['strintroduction'] = 'Wprowadzenie';
+	$lang['strhost'] = 'Host';
+	$lang['strport'] = 'Port';
 	$lang['strlogout'] = 'Wyloguj się';
 	$lang['strowner'] = 'Właściciel';
 	$lang['straction'] = 'Akcja';	
@@ -70,7 +70,7 @@
 	$lang['strtrue'] = 'Prawda';
 	$lang['strfalse'] = 'Fałsz';
 	$lang['stredit'] = 'Edycja';
-	$lang['strcolumn']  =  'Kolumna';
+	$lang['strcolumn'] = 'Kolumna';
 	$lang['strcolumns'] = 'Kolumny';
 	$lang['strrows'] = 'wiersz(y)';
 	$lang['strrowsaff'] = 'wiersz(y) dotyczy.';
@@ -78,7 +78,7 @@
 	$lang['strback'] = 'Wstecz';
 	$lang['strqueryresults'] = 'Wyniki zapytania';
 	$lang['strshow'] = 'Pokaż';
- 	$lang['strempty'] = 'Wyczyść';
+	$lang['strempty'] = 'Wyczyść';
 	$lang['strlanguage'] = 'Język';
 	$lang['strencoding'] = 'Kodowanie';
 	$lang['strvalue'] = 'Wartość';
@@ -86,10 +86,10 @@
 	$lang['strprimary'] = 'Główny';
 	$lang['strexport'] = 'Eksport';
 	$lang['strimport'] = 'Import';
-	$lang['strallowednulls']  =  'Dozwolone znaki NULL';
-	$lang['strbackslashn']  =  '\N';
-	$lang['strnull']  =  'Null';
-	$lang['stremptystring']  =  'Pusty ciąg znaków/pole';
+	$lang['strallowednulls'] = 'Dozwolone znaki NULL';
+	$lang['strbackslashn'] = '\N';
+	$lang['strnull'] = 'Null';
+	$lang['stremptystring'] = 'Pusty ciąg znaków/pole';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Administruj';
 	$lang['strvacuum'] = 'Przeczyść';
@@ -99,7 +99,7 @@
 	$lang['strreindex'] = 'Przeindeksuj';
 	$lang['strrun'] = 'Uruchom';
 	$lang['stradd'] = 'Dodaj';
-	$lang['strremove']  =  'Usuń';
+	$lang['strremove'] = 'Usuń';
 	$lang['strevent'] = 'Zdarzenie';
 	$lang['strwhere'] = 'Gdzie';
 	$lang['strinstead'] = 'Wykonaj zamiast';
@@ -109,7 +109,7 @@
 	$lang['strconfirm'] = 'Potwierdź';
 	$lang['strexpression'] = 'Wyrażenie';
 	$lang['strellipsis'] = '...';
-	$lang['strseparator']  =  ': ';
+	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Rozwiń';
 	$lang['strcollapse'] = 'Zwiń';
 	$lang['strexplain'] = 'Explain';
@@ -127,28 +127,28 @@
 	$lang['strprocesses'] = 'Procesy';
 	$lang['strsetting'] = 'Ustawienie';
 	$lang['streditsql'] = 'Edycja zapytania SQL';
-	$lang['strruntime']  =  'Całkowity czas pracy: %s ms.';
+	$lang['strruntime'] = 'Całkowity czas pracy: %s ms.';
 	$lang['strpaginate'] = 'Wyświetl wyniki stronami';
 	$lang['struploadscript'] = 'lub załaduj skrypt SQL:';
 	$lang['strstarttime'] = 'Czas początku';
 	$lang['strfile'] = 'Plik';
-	$lang['strfileimported']  = 'Plik został zaimportowany.';
-	$lang['strtrycred']  =  'Użyj tych parametrów dla wszystkich serwerów';
+	$lang['strfileimported'] = 'Plik został zaimportowany.';
+	$lang['strtrycred'] = 'Użyj tych parametrów dla wszystkich serwerów';
 
 	// Database Sizes
-	$lang['strsize']  =  'Rozmiar';
-	$lang['strbytes']  =  'bajtów';
-	$lang['strkb']  =  'kB';
-	$lang['strmb']  =  'MB';
-	$lang['strgb']  =  'GB';
-	$lang['strtb']  =  'TB';
+	$lang['strsize'] = 'Rozmiar';
+	$lang['strbytes'] = 'bajtów';
+	$lang['strkb'] = 'kB';
+	$lang['strmb'] = 'MB';
+	$lang['strgb'] = 'GB';
+	$lang['strtb'] = 'TB';
 
 	// Error handling
-	$lang['strnoframes']  =  'Ta aplikacja najlepiej działa w przeglądarce obsługującej ramki, ale możesz jej użyć również bez ramek, klikając poniższy link.';
-	$lang['strnoframeslink']  =  'Otwórz bez ramek';
+	$lang['strnoframes'] = 'Ta aplikacja najlepiej działa w przeglądarce obsługującej ramki, ale możesz jej użyć również bez ramek, klikając poniższy link.';
+	$lang['strnoframeslink'] = 'Otwórz bez ramek';
 	$lang['strbadconfig'] = 'Twój plik config.inc.php jest przestarzały. Musisz go utworzyć ponownie wykorzystując nowy config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Nie wkompilowałeś do PHP obsługi tej bazy danych.';
-	$lang['strpostgresqlversionnotsupported']  =  'Nieobsługiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
+	$lang['strpostgresqlversionnotsupported'] = 'Nieobsługiwana wersja PostgreSQL. Uaktualnij do wersji %s lub nowszej.';
 	$lang['strbadschema'] = 'Podano błędny schemat.';
 	$lang['strbadencoding'] = 'Błędne kodowanie bazy.';
 	$lang['strsqlerror'] = 'Błąd SQL:';
@@ -158,20 +158,20 @@
 	$lang['strnoobjects'] = 'Nie znaleziono obiektów.';
 	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
 	$lang['strnoreportsdb'] = 'Nie utworzyłeś bazy raportów. Instrukcję znajdziesz w pliku INSTALL.';
-	$lang['strnouploads']  =  'Ładowanie plików wyłączone.';
-	$lang['strimporterror']  =  'Błąd importu.';
-	$lang['strimporterror-fileformat']  =  'Błąd importu: Nie można automatycznie określić formatu pliku.';
-	$lang['strimporterrorline']  =  'Błąd importu w linii %s.';
-	$lang['strimporterrorline-badcolumnnum']  =  'Błąd importu w linii %s:  Linia nie ma właściwej liczby kolumn.';
-	$lang['strimporterror-uploadedfile']  =  'Błąd importu: plik nie może być załadowany na serwer.';
-	$lang['strcannotdumponwindows']  =  'Zrzucanie złożonych nazw tabel i schematów pod Windows jest nie wspierane.';
+	$lang['strnouploads'] = 'Ładowanie plików wyłączone.';
+	$lang['strimporterror'] = 'Błąd importu.';
+	$lang['strimporterror-fileformat'] = 'Błąd importu: Nie można automatycznie określić formatu pliku.';
+	$lang['strimporterrorline'] = 'Błąd importu w linii %s.';
+	$lang['strimporterrorline-badcolumnnum'] = 'Błąd importu w linii %s: Linia nie ma właściwej liczby kolumn.';
+	$lang['strimporterror-uploadedfile'] = 'Błąd importu: plik nie może być załadowany na serwer.';
+	$lang['strcannotdumponwindows'] = 'Zrzucanie złożonych nazw tabel i schematów pod Windows jest nie wspierane.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';
 	$lang['strtables'] = 'Tabele';
 	$lang['strshowalltables'] = 'Pokaż wszystkie tabele';
 	$lang['strnotables'] = 'Nie znaleziono tabel.';
-	$lang['strnotable']  =  'Nie znaleziono tabeli.';
+	$lang['strnotable'] = 'Nie znaleziono tabeli.';
 	$lang['strcreatetable'] = 'Utwórz tabelę';
 	$lang['strtablename'] = 'Nazwa tabeli';
 	$lang['strtableneedsname'] = 'Musisz nazwać tabelę.';
@@ -188,7 +188,7 @@
 	$lang['strinsertrow'] = 'Wstaw wiersz';
 	$lang['strrowinserted'] = 'Wiersz został wstawiony.';
 	$lang['strrowinsertedbad'] = 'Próba wstawienia wiersza się nie powiodła.';
-	$lang['strrowduplicate']  =  'Próba wstawienia zduplikowanego wiersza.';
+	$lang['strrowduplicate'] = 'Próba wstawienia zduplikowanego wiersza.';
 	$lang['streditrow'] = 'Edycja wiersza';
 	$lang['strrowupdated'] = 'Wiersz został zaktualizowany.';
 	$lang['strrowupdatedbad'] = 'Próba aktualizacji wiersza się nie powiodła.';
@@ -196,9 +196,9 @@
 	$lang['strconfdeleterow'] = 'Czy na pewno chcesz usunąć ten wiersz?';
 	$lang['strrowdeleted'] = 'Wiersz został usunięty.';
 	$lang['strrowdeletedbad'] = 'Próba usunięcia wiersza się nie powiodła.';
-	$lang['strinsertandrepeat']  =  'Wstaw i powtórz';
-	$lang['strnumcols']  =  'Ilość kolumn';
-	$lang['strcolneedsname']  =  'Musisz podać nazwę kolumny.';
+	$lang['strinsertandrepeat'] = 'Wstaw i powtórz';
+	$lang['strnumcols'] = 'Ilość kolumn';
+	$lang['strcolneedsname'] = 'Musisz podać nazwę kolumny.';
 	$lang['strselectallfields'] = 'Wybierz wszystkie pola';
 	$lang['strselectneedscol'] = 'Musisz wybrać przynajmniej jedną kolumnę.';
 	$lang['strselectunary'] = 'Operatory bezargumentowe (IS NULL/IS NOT NULL) nie mogą mieć podanej wartości.';
@@ -217,11 +217,11 @@
 	$lang['strdataonly'] = 'Tylko dane';
 	$lang['strstructureonly'] = 'Tylko struktura';
 	$lang['strstructureanddata'] = 'Struktura i dane';
-	$lang['strtabbed']  =  'Z tabulacjami';
-	$lang['strauto']  =  'Automatyczny';
-	$lang['strconfvacuumtable']  =  'Czy na pewno chcesz wykonać vacuum "%s"?';
-	$lang['strestimatedrowcount']  =  'Przybliżona ilość wierszy';
-			
+	$lang['strtabbed'] = 'Z tabulacjami';
+	$lang['strauto'] = 'Automatyczny';
+	$lang['strconfvacuumtable'] = 'Czy na pewno chcesz wykonać vacuum "%s"?';
+	$lang['strestimatedrowcount'] = 'Przybliżona ilość wierszy';
+
 	// Users
 	$lang['struser'] = 'Użytkownik';
 	$lang['strusers'] = 'Użytkownicy';
@@ -248,7 +248,7 @@
 	$lang['strpasswordchangedbad'] = 'Próba zmiany hasła się nie powiodła.';
 	$lang['strpasswordshort'] = 'Hasło jest za krótkie.';
 	$lang['strpasswordconfirm'] = 'Hasło i potwierdzenie muszą być takie same.';
-							
+	
 	// Groups
 	$lang['strgroup'] = 'Grupa';
 	$lang['strgroups'] = 'Grupy';
@@ -269,8 +269,20 @@
 	$lang['strdropmember'] = 'Usuń członka grupy';
 	$lang['strconfdropmember'] = 'Czy na pewno chcesz usunąć "%s" z grupy "%s"?';
 	$lang['strmemberdropped'] = 'Członek grupy został usunięty.';
-	$lang['strmemberdroppedbad']  =  'Próba usunięcia członka grupy się nie powiodła.';
+	$lang['strmemberdroppedbad'] = 'Próba usunięcia członka grupy się nie powiodła.';
 
+	// Roles
+	$lang['strrole'] = 'Rola';
+	$lang['strroles'] = 'Role';
+	$lang['strinheritsprivs'] = 'Dziedziczyć uprawnienia?';
+	$lang['strcreaterole'] = 'Utwórz rolę';
+	$lang['strcatupdate'] = 'Modyfikacja katalogów?';
+	$lang['strcanlogin'] = 'Może się logować?';
+	$lang['strmaxconnections'] = 'Maks. ilość połączeń';
+	$lang['strconfdroprole'] = 'Czy na pewno chcesz usunąć rolę "%s"?';
+	$lang['strroledropped'] = 'Rola została usunięta.';
+	$lang['strroledroppedbad'] = 'Próba usunięcia roli się nie powiodła.';
+	
 	// Privileges
 	$lang['strprivilege'] = 'Uprawnienie';
 	$lang['strprivileges'] = 'Uprawnienia';
@@ -282,7 +294,7 @@
 	$lang['strgrantbad'] = 'Musisz podać użytkownika lub grupę, a także uprawnienia, jakie chcesz nadać.';
 	$lang['strgrantor'] = 'Kto nadał';
 	$lang['strasterisk'] = '*';
-				
+
 	// Databases
 	$lang['strdatabase'] = 'Baza danych';
 	$lang['strdatabases'] = 'Bazy danych';
@@ -303,16 +315,16 @@
 	$lang['strvacuumbad'] = 'Próba czyszczenia bazy się nie powiodła.';
 	$lang['stranalyzegood'] = 'Analiza bazy została zakończona.';
 	$lang['stranalyzebad'] = 'Próba analizy się nie powiodła.';
-	$lang['strreindexgood']  =  'Reindeksacja została zakończona.';
-	$lang['strreindexbad']  =  'Próba reindeksacji się nie powiodła.';
-	$lang['strfull']  =  'Pełne';
-	$lang['strfreeze']  =  'Zamrożenie';
-	$lang['strforce']  =  'Wymuszenie';
-	$lang['strsignalsent']  =  'Sygnał został wysłany.';
-	$lang['strsignalsentbad']  =  'Próba wysłania sygnału się nie powiodła.';
-	$lang['strallobjects']  =  'Wszystkie obiekty';
-	$lang['strdatabasealtered']  =  'Baza danych została zmieniona.';
-	$lang['strdatabasealteredbad']  =  'Próba modyfikacji bazy danych się nie powiodła.';
+	$lang['strreindexgood'] = 'Reindeksacja została zakończona.';
+	$lang['strreindexbad'] = 'Próba reindeksacji się nie powiodła.';
+	$lang['strfull'] = 'Pełne';
+	$lang['strfreeze'] = 'Zamrożenie';
+	$lang['strforce'] = 'Wymuszenie';
+	$lang['strsignalsent'] = 'Sygnał został wysłany.';
+	$lang['strsignalsentbad'] = 'Próba wysłania sygnału się nie powiodła.';
+	$lang['strallobjects'] = 'Wszystkie obiekty';
+	$lang['strdatabasealtered'] = 'Baza danych została zmieniona.';
+	$lang['strdatabasealteredbad'] = 'Próba modyfikacji bazy danych się nie powiodła.';
 
 	// Views
 	$lang['strview'] = 'Widok';
@@ -324,7 +336,7 @@
 	$lang['strviewname'] = 'Nazwa widoku';
 	$lang['strviewneedsname'] = 'Musisz nazwać widok.';
 	$lang['strviewneedsdef'] = 'Musisz zdefiniować widok.';
-	$lang['strviewneedsfields']  =  'Musisz podać kolumny, które mają być widoczne w widoku.';
+	$lang['strviewneedsfields'] = 'Musisz podać kolumny, które mają być widoczne w widoku.';
 	$lang['strviewcreated'] = 'Widok został utworzony.';
 	$lang['strviewcreatedbad'] = 'Próba utworzenia widoku się nie powiodła.';
 	$lang['strconfdropview'] = 'Czy na pewno chcesz usunąć widok "%s"?';
@@ -334,7 +346,7 @@
 	$lang['strviewupdatedbad'] = 'Próba aktualizacji widoku się nie powiodła.';
 	$lang['strviewlink'] = 'Klucze łączące';
 	$lang['strviewconditions'] = 'Dodatkowe warunki';
-	$lang['strcreateviewwiz']  =  'Utwórz widok przy użyciu kreatora widoków';
+	$lang['strcreateviewwiz'] = 'Utwórz widok przy użyciu kreatora widoków';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekwencja';
@@ -360,7 +372,7 @@
 	$lang['strsequencedroppedbad'] = 'Próba usunięcia sekwencji się nie powiodła.';
 	$lang['strsequencereset'] = 'Sekwencja została wyzerowana.';
 	$lang['strsequenceresetbad'] = 'Próba zerowania sekwencji się nie powiodła.';
-						
+
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
 	$lang['strindexes'] = 'Indeksy';
@@ -387,10 +399,10 @@
 	$lang['strconfcluster'] = 'Czy na pewno chcesz zklastrować "%s"?';
 	$lang['strclusteredgood'] = 'Klastrowanie zostało zakończone.';
 	$lang['strclusteredbad'] = 'Próba klastrowania się nie powiodła.';
-	
+
 	// Rules
 	$lang['strrules'] = 'Reguły';
-	$lang['strrule']  =  'Reguła';
+	$lang['strrule'] = 'Reguła';
 	$lang['strshowallrules'] = 'Pokaż wszystkie reguły';
 	$lang['strnorule'] = 'Nie znaleziono reguły.';
 	$lang['strnorules'] = 'Nie znaleziono reguł.';
@@ -402,9 +414,9 @@
 	$lang['strconfdroprule'] = 'Czy na pewno chcesz usunąć regułę "%s" na "%s"?';
 	$lang['strruledropped'] = 'Reguła została usunięta.';
 	$lang['strruledroppedbad'] = 'Próba usunięcia reguły się nie powiodła.';
-	
+
 	// Constraints
-	$lang['strconstraint']  =  'Więz integralności';
+	$lang['strconstraint'] = 'Więz integralności';
 	$lang['strconstraints'] = 'Więzy integralności';
 	$lang['strshowallconstraints'] = 'Pokaż wszystkie więzy integralności';
 	$lang['strnoconstraints'] = 'Nie znaleziono więzów integralności.';
@@ -435,16 +447,16 @@
 	$lang['strfkcolumnlist'] = 'Kolumna w kluczu';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
-					
+
 	// Functions
 	$lang['strfunction'] = 'Funkcja';
 	$lang['strfunctions'] = 'Funkcje';
 	$lang['strshowallfunctions'] = 'Pokaż wszystkie funkcje';
 	$lang['strnofunction'] = 'Nie znaleziono funkcji.';
 	$lang['strnofunctions'] = 'Nie znaleziono funkcji.';
-	$lang['strcreateplfunction']  =  'Utwórz funkcję SQL/PL';
-	$lang['strcreateinternalfunction']  =  'Utwórz funkcję wewnętrzną';
-	$lang['strcreatecfunction']  =  'Utwórz funkcję C';
+	$lang['strcreateplfunction'] = 'Utwórz funkcję SQL/PL';
+	$lang['strcreateinternalfunction'] = 'Utwórz funkcję wewnętrzną';
+	$lang['strcreatecfunction'] = 'Utwórz funkcję C';
 	$lang['strfunctionname'] = 'Nazwa funkcji';
 	$lang['strreturns'] = 'Zwraca';
 	$lang['strarguments'] = 'Parametry';
@@ -458,8 +470,8 @@
 	$lang['strfunctiondroppedbad'] = 'Próba usunięcia funkcji się nie powiodła.';
 	$lang['strfunctionupdated'] = 'Funkcja została zaktualizowana.';
 	$lang['strfunctionupdatedbad'] = 'Próba aktualizacji funkcji się nie powiodła.';
-    $lang['strobjectfile']  =  'Plik objektów';
-    $lang['strlinksymbol']  =  'Łącz symbol';
+  $lang['strobjectfile'] = 'Plik objektów';
+  $lang['strlinksymbol'] = 'Łącz symbol';
 
 	// Triggers
 	$lang['strtrigger'] = 'Procedura wyzwalana';
@@ -477,8 +489,8 @@
 	$lang['strtriggerdroppedbad'] = 'Próba usunięcia procedury wyzwalanej się nie powiodła.';
 	$lang['strtriggeraltered'] = 'Procedura wyzwalana została zmieniona.';
 	$lang['strtriggeralteredbad'] = 'Próba modyfikacji procedury wyzwalanej się nie powiodła.';
-	$lang['strforeach']  =  'Dla wszystkich';
-		
+	$lang['strforeach'] = 'Dla wszystkich';
+
 	// Types
 	$lang['strtype'] = 'Typ';
 	$lang['strtypes'] = 'Typy';
@@ -486,9 +498,9 @@
 	$lang['strnotype'] = 'Nie znaleziono typu.';
 	$lang['strnotypes'] = 'Nie znaleziono typów.';
 	$lang['strcreatetype'] = 'Utwórz typ';
-	$lang['strcreatecomptype']  =  'Utwórz typ złożony';
-	$lang['strtypeneedsfield']  =  'Musisz podać przynajmniej jedno pole.';
-	$lang['strtypeneedscols']  =  'Musisz podać poprawną ilość pól.';	
+	$lang['strcreatecomptype'] = 'Utwórz typ złożony';
+	$lang['strtypeneedsfield'] = 'Musisz podać przynajmniej jedno pole.';
+	$lang['strtypeneedscols'] = 'Musisz podać poprawną ilość pól.';	
 	$lang['strtypename'] = 'Nazwa typu';
 	$lang['strinputfn'] = 'Funkcja wejściowa';
 	$lang['stroutputfn'] = 'Funkcja wyjściowa';
@@ -497,8 +509,8 @@
 	$lang['strelement'] = 'Typ elementów';
 	$lang['strdelimiter'] = 'Znak oddzielający elementy tabeli';
 	$lang['strstorage'] = 'Technika przechowywania';
-	$lang['strfield']  =  'Pole';
-	$lang['strnumfields']  =  'Ilość pól';
+	$lang['strfield'] = 'Pole';
+	$lang['strnumfields'] = 'Ilość pól';
 	$lang['strtypeneedsname'] = 'Musisz nazwać typ.';
 	$lang['strtypeneedslen'] = 'Musisz podać długość typu.';
 	$lang['strtypecreated'] = 'Typ został utworzony.';
@@ -506,10 +518,10 @@
 	$lang['strconfdroptype'] = 'Czy na pewno chcesz usunąć typ "%s"?';
 	$lang['strtypedropped'] = 'Typ został usunięty.';
 	$lang['strtypedroppedbad'] = 'Próba usunięcia typu się nie powiodła.';
-    $lang['strflavor']  =  'Flavor';
-	$lang['strbasetype']  =  'podstawowy';
-	$lang['strcompositetype']  =  'złożony';
-	$lang['strpseudotype']  =  'pseudo';
+  $lang['strflavor'] = 'Flavor';
+	$lang['strbasetype'] = 'podstawowy';
+	$lang['strcompositetype'] = 'złożony';
+	$lang['strpseudotype'] = 'pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Schemat';
@@ -525,9 +537,9 @@
 	$lang['strconfdropschema'] = 'Czy na pewno chcesz usunąć schemat "%s"?';
 	$lang['strschemadropped'] = 'Schemat został usunięty.';
 	$lang['strschemadroppedbad'] = 'Próba usunięcia schematu się nie powiodła.';
-	$lang['strschemaaltered']  =  'Schemat został zmieniony.';
-	$lang['strschemaalteredbad']  =  'Próba zmiany schematu się nie powiodła.';
-	$lang['strsearchpath']  =  'Ścieżka wyszukiwania schematu';
+	$lang['strschemaaltered'] = 'Schemat został zmieniony.';
+	$lang['strschemaalteredbad'] = 'Próba zmiany schematu się nie powiodła.';
+	$lang['strsearchpath'] = 'Ścieżka wyszukiwania schematu';
 
 	// Reports
 	$lang['strreport'] = 'Raport';
@@ -567,12 +579,12 @@
 	$lang['strcreateoperator'] = 'Utwórz operator';
 	$lang['strleftarg'] = 'Typ lewego argumentu';
 	$lang['strrightarg'] = 'Typ prawego argumentu';
-    $lang['strcommutator'] = 'Commutator';
+	$lang['strcommutator'] = 'Komutator';
 	$lang['strnegator'] = 'Negacja';
 	$lang['strrestrict'] = 'Zastrzeżenie';
 	$lang['strjoin'] = 'Połączenie';
-    $lang['strhashes'] = 'Hashes';
-    $lang['strmerges'] = 'Merges';
+  $lang['strhashes'] = 'Hashes';
+  $lang['strmerges'] = 'Merges';
 	$lang['strleftsort'] = 'Lewe sortowanie';
 	$lang['strrightsort'] = 'Prawe sortowanie';
 	$lang['strlessthan'] = 'Mniej niż';
@@ -592,24 +604,24 @@
 	$lang['strimplicit'] = 'Domniemany';
 	$lang['strinassignment'] = 'W przydziale';
 	$lang['strbinarycompat'] = '(Kompatybilny binarnie)';
-
+	
 	// Conversions
 	$lang['strconversions'] = 'Konwersje';
 	$lang['strnoconversions'] = 'Nie znaleziono konwersji.';
 	$lang['strsourceencoding'] = 'Kodowanie źródłowe';
 	$lang['strtargetencoding'] = 'Kodowanie docelowe';
-
+	
 	// Languages
 	$lang['strlanguages'] = 'Języki';
 	$lang['strnolanguages'] = 'Nie znaleziono języków.';
 	$lang['strtrusted'] = 'Zaufany';
-
+	
 	// Info
 	$lang['strnoinfo'] = 'Brak informacji na ten temat';
 	$lang['strreferringtables'] = 'Tabele zależne';
 	$lang['strparenttables'] = 'Tabela nadrzędne';
 	$lang['strchildtables'] = 'Tabela podrzędna';
-
+	
 	// Aggregates
 	$lang['straggregates'] = 'Funkcje agregujące';
 	$lang['strnoaggregates'] = 'Nie znaleziono funkcji agregujących.';
@@ -638,140 +650,150 @@
 	$lang['strrows2'] = 'Wiersze';
 
 	// Tablespaces
-	$lang['strtablespace']  =  'Przestrzeń tabel';
-	$lang['strtablespaces']  =  'Przestrzenie tabel';
-	$lang['strshowalltablespaces']  =  'Pokaż wszystkie przestrzenie tabel';
-	$lang['strnotablespaces']  =  'Nie znaleziono przestrzeni tabel.';
-	$lang['strcreatetablespace']  =  'Utwórz przestrzeń tabel';
-	$lang['strlocation']  =  'Położenie';
-	$lang['strtablespaceneedsname']  =  'Musisz podać nazwę przestrzeni tabel.';
-	$lang['strtablespaceneedsloc']  =  'Musisz podać nazwę katalogu, w którym chcesz utworzyć przestrzeń tabel.';
-	$lang['strtablespacecreated']  =  'Przestrzeń tabel została utworzona.';
-	$lang['strtablespacecreatedbad']  =  'Próba utworzenia przestrzeni tabel się nie powiodła.';
-	$lang['strconfdroptablespace']  =  'Czy na pewno chcesz usunąć przestrzeń tabel "%s"?';
-	$lang['strtablespacedropped']  =  'Przestrzeń tabel została usunięta.';
-	$lang['strtablespacedroppedbad']  =  'Próba usunięcia przestrzeni tabel się nie powiodła.';
-	$lang['strtablespacealtered']  =  'Przestrzeń tabel została zmieniona.';
-	$lang['strtablespacealteredbad']  =  'Próba modyfikacji przestrzeni tabel się nie powiodła.';
+	$lang['strtablespace'] = 'Przestrzeń tabel';
+	$lang['strtablespaces'] = 'Przestrzenie tabel';
+	$lang['strshowalltablespaces'] = 'Pokaż wszystkie przestrzenie tabel';
+	$lang['strnotablespaces'] = 'Nie znaleziono przestrzeni tabel.';
+	$lang['strcreatetablespace'] = 'Utwórz przestrzeń tabel';
+	$lang['strlocation'] = 'Położenie';
+	$lang['strtablespaceneedsname'] = 'Musisz podać nazwę przestrzeni tabel.';
+	$lang['strtablespaceneedsloc'] = 'Musisz podać nazwę katalogu, w którym chcesz utworzyć przestrzeń tabel.';
+	$lang['strtablespacecreated'] = 'Przestrzeń tabel została utworzona.';
+	$lang['strtablespacecreatedbad'] = 'Próba utworzenia przestrzeni tabel się nie powiodła.';
+	$lang['strconfdroptablespace'] = 'Czy na pewno chcesz usunąć przestrzeń tabel "%s"?';
+	$lang['strtablespacedropped'] = 'Przestrzeń tabel została usunięta.';
+	$lang['strtablespacedroppedbad'] = 'Próba usunięcia przestrzeni tabel się nie powiodła.';
+	$lang['strtablespacealtered'] = 'Przestrzeń tabel została zmieniona.';
+	$lang['strtablespacealteredbad'] = 'Próba modyfikacji przestrzeni tabel się nie powiodła.';
 
 	// Slony clusters
-	$lang['strcluster']  =  'Klaster';
-	$lang['strnoclusters']  =  'Nie znaleziono klastrów.';
-	$lang['strconfdropcluster']  =  'Czy na pewno chcesz usunąć klaster "%s"?';
-	$lang['strclusterdropped']  =  'Klaster został usunięty.';
-	$lang['strclusterdroppedbad']  =  'Próba usunięcia klastra się nie powiodła.';
-	$lang['strinitcluster']  =  'Utwórz klaster';	
-	$lang['strclustercreated']  =  'Klaster został utworzony.';
-	$lang['strclustercreatedbad']  =  'Próba utworzenia klastra się nie powiodła.';
-	$lang['strclusterneedsname']  =  'Musisz podać nazwę klastra.';
-	$lang['strclusterneedsnodeid']  =  'Musisz podać identyfikator lokalnego węzła.';
+	$lang['strcluster'] = 'Klaster';
+	$lang['strnoclusters'] = 'Nie znaleziono klastrów.';
+	$lang['strconfdropcluster'] = 'Czy na pewno chcesz usunąć klaster "%s"?';
+	$lang['strclusterdropped'] = 'Klaster został usunięty.';
+	$lang['strclusterdroppedbad'] = 'Próba usunięcia klastra się nie powiodła.';
+	$lang['strinitcluster'] = 'Utwórz klaster';	
+	$lang['strclustercreated'] = 'Klaster został utworzony.';
+	$lang['strclustercreatedbad'] = 'Próba utworzenia klastra się nie powiodła.';
+	$lang['strclusterneedsname'] = 'Musisz podać nazwę klastra.';
+	$lang['strclusterneedsnodeid'] = 'Musisz podać identyfikator lokalnego węzła.';
 	
 	// Slony nodes
-	$lang['strnodes']  =  'Węzły';
-	$lang['strnonodes']  =  'Nie znaleziono węzłów.';
-	$lang['strcreatenode']  =  'Utwórz węzeł';
-	$lang['strid']  =  'ID';
-	$lang['stractive']  =  'Aktywny';
-	$lang['strnodecreated']  =  'Węzeł został utworzony.';
-	$lang['strnodecreatedbad']  =  'Próba utworzenia węzła się nie powiodła.';
-	$lang['strconfdropnode']  =  'Czy na pewno chcesz usunąć węzeł "%s"?';
-	$lang['strnodedropped']  =  'Węzeł został usunięty.';
-	$lang['strnodedroppedbad']  =  'Próba usunięcia węzła się nie powiodła.';
-	$lang['strfailover']  =  'Przełączenie awaryjne';
-	$lang['strnodefailedover']  =  'Węzeł został przełączony awaryjnie.';
-	$lang['strnodefailedoverbad']  =  'Próba awaryjnego przełączenia węzła się nie powiodła.';
-		
+	$lang['strnodes'] = 'Węzły';
+	$lang['strnonodes'] = 'Nie znaleziono węzłów.';
+	$lang['strcreatenode'] = 'Utwórz węzeł';
+	$lang['strid'] = 'ID';
+	$lang['stractive'] = 'Aktywny';
+	$lang['strnodecreated'] = 'Węzeł został utworzony.';
+	$lang['strnodecreatedbad'] = 'Próba utworzenia węzła się nie powiodła.';
+	$lang['strconfdropnode'] = 'Czy na pewno chcesz usunąć węzeł "%s"?';
+	$lang['strnodedropped'] = 'Węzeł został usunięty.';
+	$lang['strnodedroppedbad'] = 'Próba usunięcia węzła się nie powiodła.';
+	$lang['strfailover'] = 'Przełączenie awaryjne';
+	$lang['strnodefailedover'] = 'Węzeł został przełączony awaryjnie.';
+	$lang['strnodefailedoverbad'] = 'Próba awaryjnego przełączenia węzła się nie powiodła.';
+	
 	// Slony paths	
-	$lang['strpaths']  =  'Ścieżki';
-	$lang['strnopaths']  =  'Nie znaleziono ścieżek.';
-	$lang['strcreatepath']  =  'Utwórz ścieżkę';
-	$lang['strnodename']  =  'Nazwa węzła';
-	$lang['strnodeid']  =  'Identyfikator węzła';
-	$lang['strconninfo']  =  'Parametry połączenia';
-	$lang['strconnretry']  =  'Czas przed próbą ponownego połączenia';
-	$lang['strpathneedsconninfo']  =  'Musisz podać parametry połączenia.';
-	$lang['strpathneedsconnretry']  =  'Musisz określić ilość sekund, którą należy odczekać przed ponowieniem połączenia.';
-	$lang['strpathcreated']  =  'Ścieżka została utworzona.';
-	$lang['strpathcreatedbad']  =  'Próba utworzenia ścieżki się nie powiodła.';
-	$lang['strconfdroppath']  =  'Czy na pewno chcesz usunąć ścieżkę "%s"?';
-	$lang['strpathdropped']  =  'Ścieżka została usunięta.';
-	$lang['strpathdroppedbad']  =  'Próba usunięcia ścieżki się nie powiodła.';
+	$lang['strpaths'] = 'Ścieżki';
+	$lang['strnopaths'] = 'Nie znaleziono ścieżek.';
+	$lang['strcreatepath'] = 'Utwórz ścieżkę';
+	$lang['strnodename'] = 'Nazwa węzła';
+	$lang['strnodeid'] = 'Identyfikator węzła';
+	$lang['strconninfo'] = 'Parametry połączenia';
+	$lang['strconnretry'] = 'Czas przed próbą ponownego połączenia';
+	$lang['strpathneedsconninfo'] = 'Musisz podać parametry połączenia.';
+	$lang['strpathneedsconnretry'] = 'Musisz określić ilość sekund, którą należy odczekać przed ponowieniem połączenia.';
+	$lang['strpathcreated'] = 'Ścieżka została utworzona.';
+	$lang['strpathcreatedbad'] = 'Próba utworzenia ścieżki się nie powiodła.';
+	$lang['strconfdroppath'] = 'Czy na pewno chcesz usunąć ścieżkę "%s"?';
+	$lang['strpathdropped'] = 'Ścieżka została usunięta.';
+	$lang['strpathdroppedbad'] = 'Próba usunięcia ścieżki się nie powiodła.';
 
 	// Slony listens
-	$lang['strlistens']  =  'Nasłuchy';
-	$lang['strnolistens']  =  'Nie znaleziono nasłuchów.';
-	$lang['strcreatelisten']  =  'Utwórz nasłuch';
-	$lang['strlistencreated']  =  'Nasłuch został utworzony.';
-	$lang['strlistencreatedbad']  =  'Próba usunięcia nasłuchu się nie powiodła.';
-	$lang['strconfdroplisten']  =  'Czy na pewno chcesz usunąć nasłuch "%s"?';
-	$lang['strlistendropped']  =  'Nasłuch został usunięty.';
-	$lang['strlistendroppedbad']  =  'Próba usunięcia nasłuchu się nie powiodła.';
+	$lang['strlistens'] = 'Nasłuchy';
+	$lang['strnolistens'] = 'Nie znaleziono nasłuchów.';
+	$lang['strcreatelisten'] = 'Utwórz nasłuch';
+	$lang['strlistencreated'] = 'Nasłuch został utworzony.';
+	$lang['strlistencreatedbad'] = 'Próba usunięcia nasłuchu się nie powiodła.';
+	$lang['strconfdroplisten'] = 'Czy na pewno chcesz usunąć nasłuch "%s"?';
+	$lang['strlistendropped'] = 'Nasłuch został usunięty.';
+	$lang['strlistendroppedbad'] = 'Próba usunięcia nasłuchu się nie powiodła.';
 
 	// Slony replication sets
-	$lang['strrepsets']  =  'Zbiory replikacji';
-	$lang['strnorepsets']  =  'Nie znaleziono zbiorów replikacji.';
-	$lang['strcreaterepset']  =  'Utwórz zbiór replikacji';
-	$lang['strrepsetcreated']  =  'Zbiór replikacji został utworzony.';
-	$lang['strrepsetcreatedbad']  =  'Próba utworzenia zbioru replikacji się nie powiodła.';
-	$lang['strconfdroprepset']  =  'Czy na pewno chcesz usunąć zbiór replikacji "%s"?';
-	$lang['strrepsetdropped']  =  'Zbiór replikacji został usunięty.';
-	$lang['strrepsetdroppedbad']  =  'Próba usunięcia zbioru replikacji się nie powiodła.';
-	$lang['strmerge']  =  'Połącz';
-	$lang['strmergeinto']  =  'Połącz w';
-	$lang['strrepsetmerged']  =  'Zbiory replikacji zostały połączone.';
-	$lang['strrepsetmergedbad']  =  'Próba połączenia zbiorów replikacji się nie powiodła.';
-	$lang['strmove']  =  'Przenieś';
-	$lang['strneworigin']  =  'Nowe położenie';
-	$lang['strrepsetmoved']  =  'Zbiór replikacji został przeniesiony.';
-	$lang['strrepsetmovedbad']  =  'Próba przeniesienia zbioru replikacji się nie powiodła.';
-	$lang['strnewrepset']  =  'Nowy zbiór replikacji';
-	$lang['strlock']  =  'Zablokuj';
-	$lang['strlocked']  =  'Zablokowany';
-	$lang['strunlock']  =  'Odblokuj';
-	$lang['strconflockrepset']  =  'Czy na pewno chcesz zablokować zbiór replikacji "%s"?';
-	$lang['strrepsetlocked']  =  'Zbiór replikacji został zablokowany.';
-	$lang['strrepsetlockedbad']  =  'Próba zablokowania zbioru replikacji się nie powiodła.';
-	$lang['strconfunlockrepset']  =  'Czy na pewno chcesz odblokować zbiór replikacji "%s"?';
-	$lang['strrepsetunlocked']  =  'Zbiór replikacji został odblokowany.';
-	$lang['strrepsetunlockedbad']  =  'Próba odblokowania zbioru replikacji się nie powiodła.';
-	$lang['strexecute']  =  'Wykonaj';
-	$lang['stronlyonnode']  =  'Tylko w węźle';
-	$lang['strddlscript']  =  'Skrypt DDL';
-	$lang['strscriptneedsbody']  =  'Musisz podać skrypt, który należy wykonać na wszystkich węzłach.';
-	$lang['strscriptexecuted']  =  'Skrypt DDL został wykonany w zbiorze replikacji.';
-	$lang['strscriptexecutedbad']  =  'Próba wykonania skryptu DDL w zbiorze replikacji się nie powiodła.';
-	$lang['strtabletriggerstoretain']  =  'Następujące wyzwalacze NIE zostaną wyłączone przez Slony:';
+	$lang['strrepsets'] = 'Zbiory replikacji';
+	$lang['strnorepsets'] = 'Nie znaleziono zbiorów replikacji.';
+	$lang['strcreaterepset'] = 'Utwórz zbiór replikacji';
+	$lang['strrepsetcreated'] = 'Zbiór replikacji został utworzony.';
+	$lang['strrepsetcreatedbad'] = 'Próba utworzenia zbioru replikacji się nie powiodła.';
+	$lang['strconfdroprepset'] = 'Czy na pewno chcesz usunąć zbiór replikacji "%s"?';
+	$lang['strrepsetdropped'] = 'Zbiór replikacji został usunięty.';
+	$lang['strrepsetdroppedbad'] = 'Próba usunięcia zbioru replikacji się nie powiodła.';
+	$lang['strmerge'] = 'Połącz';
+	$lang['strmergeinto'] = 'Połącz w';
+	$lang['strrepsetmerged'] = 'Zbiory replikacji zostały połączone.';
+	$lang['strrepsetmergedbad'] = 'Próba połączenia zbiorów replikacji się nie powiodła.';
+	$lang['strmove'] = 'Przenieś';
+	$lang['strneworigin'] = 'Nowe położenie';
+	$lang['strrepsetmoved'] = 'Zbiór replikacji został przeniesiony.';
+	$lang['strrepsetmovedbad'] = 'Próba przeniesienia zbioru replikacji się nie powiodła.';
+	$lang['strnewrepset'] = 'Nowy zbiór replikacji';
+	$lang['strlock'] = 'Zablokuj';
+	$lang['strlocked'] = 'Zablokowany';
+	$lang['strunlock'] = 'Odblokuj';
+	$lang['strconflockrepset'] = 'Czy na pewno chcesz zablokować zbiór replikacji "%s"?';
+	$lang['strrepsetlocked'] = 'Zbiór replikacji został zablokowany.';
+	$lang['strrepsetlockedbad'] = 'Próba zablokowania zbioru replikacji się nie powiodła.';
+	$lang['strconfunlockrepset'] = 'Czy na pewno chcesz odblokować zbiór replikacji "%s"?';
+	$lang['strrepsetunlocked'] = 'Zbiór replikacji został odblokowany.';
+	$lang['strrepsetunlockedbad'] = 'Próba odblokowania zbioru replikacji się nie powiodła.';
+	$lang['strexecute'] = 'Wykonaj';
+	$lang['stronlyonnode'] = 'Tylko w węźle';
+	$lang['strddlscript'] = 'Skrypt DDL';
+	$lang['strscriptneedsbody'] = 'Musisz podać skrypt, który należy wykonać na wszystkich węzłach.';
+	$lang['strscriptexecuted'] = 'Skrypt DDL został wykonany w zbiorze replikacji.';
+	$lang['strscriptexecutedbad'] = 'Próba wykonania skryptu DDL w zbiorze replikacji się nie powiodła.';
+	$lang['strtabletriggerstoretain'] = 'Następujące wyzwalacze NIE zostaną wyłączone przez Slony:';
 
 	// Slony tables in replication sets
-	$lang['straddtable']  =  'Dodaj tabelę';
-	$lang['strtableneedsuniquekey']  =  'Dodawana tabela musi mieć klucz główny lub unikatowy.';
-	$lang['strtableaddedtorepset']  =  'Tabela została dodana do zbioru replikacji.';
-	$lang['strtableaddedtorepsetbad']  =  'Próba dodania tabeli do zbioru replikacji się nie powiodła.';
-	$lang['strconfremovetablefromrepset']  =  'Czy na pewno chcesz usunąć tabelę "%s" ze zbioru replikacji "%s"?';
-	$lang['strtableremovedfromrepset']  =  'Tabela została usunięta ze zbioru replikacji.';
-	$lang['strtableremovedfromrepsetbad']  =  'Próba usunięcia tabeli ze zbioru replikacji się nie powiodła.';
+	$lang['straddtable'] = 'Dodaj tabelę';
+	$lang['strtableneedsuniquekey'] = 'Dodawana tabela musi mieć klucz główny lub unikatowy.';
+	$lang['strtableaddedtorepset'] = 'Tabela została dodana do zbioru replikacji.';
+	$lang['strtableaddedtorepsetbad'] = 'Próba dodania tabeli do zbioru replikacji się nie powiodła.';
+	$lang['strconfremovetablefromrepset'] = 'Czy na pewno chcesz usunąć tabelę "%s" ze zbioru replikacji "%s"?';
+	$lang['strtableremovedfromrepset'] = 'Tabela została usunięta ze zbioru replikacji.';
+	$lang['strtableremovedfromrepsetbad'] = 'Próba usunięcia tabeli ze zbioru replikacji się nie powiodła.';
 
 	// Slony sequences in replication sets
-	$lang['straddsequence']  =  'Dodaj sekwencję';
-	$lang['strsequenceaddedtorepset']  =  'Sekwencja została dodana do zbioru replikacji.';
-	$lang['strsequenceaddedtorepsetbad']  =  'Próba dodania sekwencji do zbioru replikacji się nie powiodła.';
-	$lang['strconfremovesequencefromrepset']  =  'Czy na pewno chcesz usunąć sekwencję "%s" ze zbioru replikacji "%s"?';
-	$lang['strsequenceremovedfromrepset']  =  'Sekwencja została usunięta ze zbioru replikacji.';
-	$lang['strsequenceremovedfromrepsetbad']  =  'Próba usunięcia sekwencji ze zbioru replikacji się nie powiodła.';
+	$lang['straddsequence'] = 'Dodaj sekwencję';
+	$lang['strsequenceaddedtorepset'] = 'Sekwencja została dodana do zbioru replikacji.';
+	$lang['strsequenceaddedtorepsetbad'] = 'Próba dodania sekwencji do zbioru replikacji się nie powiodła.';
+	$lang['strconfremovesequencefromrepset'] = 'Czy na pewno chcesz usunąć sekwencję "%s" ze zbioru replikacji "%s"?';
+	$lang['strsequenceremovedfromrepset'] = 'Sekwencja została usunięta ze zbioru replikacji.';
+	$lang['strsequenceremovedfromrepsetbad'] = 'Próba usunięcia sekwencji ze zbioru replikacji się nie powiodła.';
 
 	// Slony subscriptions
-	$lang['strsubscriptions']  =  'Subskrypcje';
-	$lang['strnosubscriptions']  =  'Nie znaleziono subskrypcji.';
+	$lang['strsubscriptions'] = 'Subskrypcje';
+	$lang['strnosubscriptions'] = 'Nie znaleziono subskrypcji.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jesteś zalogowany jako "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Pomoc';
-	$lang['strhelpicon']  =  '?';
-	$lang['strlogintitle']  =  'Zaloguj do %s';
-	$lang['strlogoutmsg']  =  'Wylogowano z %s';
-	$lang['strloading']  =  'Ładuję...';
-	$lang['strerrorloading']  =  'Błąd ładowania';
-	$lang['strclicktoreload']  =  'Kliknij aby odświeżyć';
+	$lang['strhelpicon'] = '?';
+	$lang['strlogintitle'] = 'Zaloguj do %s';
+	$lang['strlogoutmsg'] = 'Wylogowano z %s';
+	$lang['strloading'] = 'Ładuję...';
+	$lang['strerrorloading'] = 'Błąd ładowania';
+	$lang['strclicktoreload'] = 'Kliknij aby odświeżyć';
+
+	//Autovacuum
+	$lang['strautovacuum'] = 'Czyszczenie automatyczne'; 
+	$lang['strenabled'] = 'Aktywne'; 
+	$lang['strvacuumbasethreshold'] = 'Podstawowy próg czyszczenia'; 
+	$lang['strvacuumscalefactor'] = 'Współczynnik czyszczenia'; 
+	$lang['stranalybasethreshold'] = 'Podstawowy próg analizy'; 
+	$lang['stranalyzescalefactor'] = 'Współczynnik analizy'; 
+	$lang['strvacuumcostdelay'] = 'Opóźnienie po przekroczeniu kosztu czyszczenia'; 
+	$lang['strvacuumcostlimit'] = 'Limit kosztu czyszczenia'; 
 
 ?>
