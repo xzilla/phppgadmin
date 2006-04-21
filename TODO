@@ -12,6 +12,12 @@ item.
 
 An item is marked with a '-' if it has been completed.
 
+Cluster
+-------
+* Allow reading of postgresql.conf and pg_hba.conf per pg_read_file() in 8.1
+* Support pg_reload_conf(), pg_rotate_logfile() 8.1 commands
+
+
 Export
 ------
 
@@ -54,7 +60,7 @@ Schemas (7.3)
 
 * Rename
 * Alter owner
-* Alter ... SET SCHEMA support
+* Alter ... SET SCHEMA support per 8.1
 
 Large Objects
 -------------
@@ -76,6 +82,7 @@ Tables
 Views
 -----
 
+* Support temporary views per 8.1?
 * Allow INSERT and import on views with the appropriate rules.
 
 Sequences
@@ -94,6 +101,7 @@ Functions
 Indexes 
 -------
 
+* Support 8.1 Reindex [Database|System] commands
 * Expressional indexes
 
 Types
@@ -149,6 +157,7 @@ Miscellaneous
 -------------
 
 * Allow management of built-in autovacuum in 8.1
+* Support per-user and per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
 * Show locks on database view
 * Show NOTICES on queries in SQL window/file
