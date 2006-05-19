@@ -59,7 +59,7 @@ Databases
 Schemas (7.3)
 -------------
 
-- Rename
+* -Rename (xzilla)
 * Alter owner
 * Alter ... SET SCHEMA support per 8.1
 
