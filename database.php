@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.81 2006/03/17 21:14:30 xzilla Exp $
+	 * $Id: database.php,v 1.82 2006/05/19 07:17:29 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -505,63 +505,65 @@
 
 				echo "<br />";
 				echo "<br />";
-				echo "<h3>{$lang['strautovacuum']}</h3>";
-				// Autovacuum
-				// Fetch the processes from the database
-				$autovac = $data->getAutovacuum();
+
+				if($data->hasAutovacuum()) {
+					echo "<h3>{$lang['strautovacuum']}</h3>";
+					// Autovacuum
+					// Fetch the processes from the database
+					$autovac = $data->getAutovacuum();
 		
-				$columns = array(
-					'namespace' => array(
-						'title' => $lang['strschema'],
-						'field' => 'nspname',
-					),
-					'relname' => array(
-						'title' => $lang['strtable'],
-						'field' => 'relname',
-					),
-					'enabled' => array(
-						'title' => $lang['strenabled'],
-						'field' => 'enabled',
-					),
-					'vac_base_thresh' => array(
-						'title' => $lang['strvacuumbasethreshold'],
-						'field' => 'vac_base_thresh',
-					),
-					'vac_scale_factor' => array(
-						'title' => $lang['strvacuumscalefactor'],
-						'field' => 'vac_scale_factor',
-					),
-					'anl_base_thresh' => array(
-						'title' => $lang['stranalybasethreshold'],
-						'field' => 'anl_base_thresh',
-					),
-					'anl_scale_factor' => array(
-						'title' => $lang['stranalyzescalefactor'],
-						'field' => 'anl_scale_factor',
-					),
-					'vac_cost_delay' => array(
-						'title' => $lang['strvacuumcostdelay'],
-						'field' => 'vac_cost_delay',
-					),
-					'vac_cost_limit' => array(
-						'title' => $lang['strvacuumcostlimit'],
-						'field' => 'vac_cost_limit',
-					),
-				);
+					$columns = array(
+						'namespace' => array(
+							'title' => $lang['strschema'],
+							'field' => 'nspname',
+						),	
+						'relname' => array(
+							'title' => $lang['strtable'],
+							'field' => 'relname',
+						),
+						'enabled' => array(
+							'title' => $lang['strenabled'],
+							'field' => 'enabled',
+						),
+						'vac_base_thresh' => array(
+							'title' => $lang['strvacuumbasethreshold'],
+							'field' => 'vac_base_thresh',
+						),
+						'vac_scale_factor' => array(
+							'title' => $lang['strvacuumscalefactor'],
+							'field' => 'vac_scale_factor',
+						),
+						'anl_base_thresh' => array(
+							'title' => $lang['stranalybasethreshold'],
+							'field' => 'anl_base_thresh',
+						),
+						'anl_scale_factor' => array(
+							'title' => $lang['stranalyzescalefactor'],
+							'field' => 'anl_scale_factor',
+						),
+						'vac_cost_delay' => array(
+							'title' => $lang['strvacuumcostdelay'],
+							'field' => 'vac_cost_delay',
+						),
+						'vac_cost_limit' => array(
+							'title' => $lang['strvacuumcostlimit'],
+							'field' => 'vac_cost_limit',
+						),
+					);
 
-
-				// Maybe we need to check permissions here?
-				$columns['actions'] = array('title' => $lang['stractions']);
+					// Maybe we need to check permissions here?
+					$columns['actions'] = array('title' => $lang['stractions']);
 			
-				$actions = array(
-					'edit' => array(
-					'title' => $lang['stredit'],
-					'url'   => "{$PHP_SELF}?action=autovacuum&amp;{$misc->href}&amp;",
-					'vars'  => array('vacrelid' => 'vacrelid')
-					)
-				);
-		
-				$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
+					$actions = array(
+						'edit' => array(
+						'title' => $lang['stredit'],
+						'url'   => "{$PHP_SELF}?action=autovacuum&amp;{$misc->href}&amp;",
+						'vars'  => array('vacrelid' => 'vacrelid')
+						)
+					);
+
+					$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
+				}
 					
 				break;
 		}

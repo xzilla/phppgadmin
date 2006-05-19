@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.31 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: sequences.php,v 1.32 2006/05/19 07:17:29 chriskl Exp $
 	 */
 	
 	// Include application functions
@@ -142,7 +142,12 @@
 			echo "</tr>";
 			echo "</table>";
 			
-			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strreset']}</a> |\n";
+			if ($data->hasAlterSequence()) {
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['straltersequence']}</a> |\n";
+			}
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strsetval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strnextval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strreset']}</a> |\n";
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -277,6 +282,132 @@
 			doProperties($lang['strsequenceresetbad']);
 	}
 	
+	/**
+	 * Set Nextval of a sequence
+	 */
+	function doNextval() {
+		global $data;
+		global $PHP_SELF, $lang;
+		
+		$status = $data->nextvalSequence($_REQUEST['sequence']);
+		if ($status == 0)
+			doProperties($lang['strsequencenextval']);
+		else	
+			doProperties($lang['strsequencenextvalbad']);
+	}
+	
+	/** 
+	 * Function to save after 'setval'ing a sequence
+	 */
+	function doSaveSetval() {
+		global $data, $lang, $_reload_browser;
+
+		$status = $data->setvalSequence($_POST['sequence'], $_POST['nextvalue']);
+		if ($status == 0)
+			doProperties($lang['strsequencesetval']);
+		else	
+			doProperties($lang['strsequencesetvalbad']);
+	}
+
+	/**
+	 * Function to allow 'setval'ing of a sequence
+	 */
+	function doSetval($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+		
+		$misc->printTrail('sequence');
+		$misc->printTitle($lang['strsetval'], 'pg.sequence');
+		$misc->printMsg($msg);
+
+		// Fetch the sequence information
+		$sequence = $data->getSequence($_REQUEST['sequence']);		
+		
+		if (is_object($sequence) && $sequence->recordCount() > 0) {
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table border=\"0\">";
+			echo "<tr><th class=\"data left required\">{$lang['strlastvalue']}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input name=\"nextvalue\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				$misc->printVal($sequence->f['last_value']), "\" /></td></tr>\n";
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"setval\" />\n";
+			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"setval\" value=\"{$lang['strsetval']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+	
+	/** 
+	 * Function to save after altering a sequence
+	 */
+	function doSaveAlter() {
+		global $data, $lang, $_reload_browser;
+
+		$status = $data->alterSequence($_POST['sequence'], $_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'], $_POST['formCacheValue'], $_POST['formCycledValue']);
+		if ($status == 0) {
+			doProperties($lang['strsequencealtered']);
+		}
+		else
+			doProperties($lang['strsequencealteredbad']);
+	}
+
+	/**
+	 * Function to allow altering of a sequence
+	 */
+	function doAlter($msg = '') {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+		
+		$misc->printTrail('sequence');
+		$misc->printTitle($lang['stralter'], 'pg.sequence.alter');
+		$misc->printMsg($msg);
+		
+		// Fetch the sequence information
+		$sequence = $data->getSequence($_REQUEST['sequence']);
+		
+		if (is_object($sequence) && $sequence->recordCount() > 0) {
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<table>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['increment_by']), "\" /> </td></tr>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['min_value']), "\" /></td></tr>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['max_value']), "\" /></td></tr>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['last_value']), "\" /></td></tr>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['cache_value']), "\" /></td></tr>\n";
+			
+			echo "<tr><th class=\"data left\">{$lang['striscycled']}</th>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCycledValue\" value=\"",
+				($sequence->f['is_cycled'] ? ' checked="checked"' : ''), "\" /></td></tr>\n";
+	
+			echo "</table>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
+			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
+			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		}
+		else echo "<p>{$lang['strnodata']}</p>\n";
+	}
+
 	if ($action == 'tree') doTree();
 	
 	// Print header
@@ -303,6 +434,23 @@
 			break;			
 		case 'reset':
 			doReset();
+			break;
+		case 'nextval':
+			doNextval();
+			break;
+		case 'setval':
+			if (isset($_POST['setval'])) doSaveSetval();
+			else doDefault();
+			break;
+		case 'confirm_setval':
+			doSetval();
+			break;
+		case 'alter':
+			if (isset($_POST['alter'])) doSaveAlter();
+			else doDefault();
+			break;
+		case 'confirm_alter':
+			doAlter();
 			break;
 		default:
 			doDefault();

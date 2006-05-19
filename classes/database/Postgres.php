@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.283 2006/04/21 03:31:25 chriskl Exp $
+ * $Id: Postgres.php,v 1.284 2006/05/19 07:17:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -691,6 +691,16 @@ class Postgres extends ADODB_base {
 		return true;
 	}
 
+	/**
+	 * Returns the current default_with_oids setting
+	 * @return default_with_oids setting
+	 */
+	function getDefaultWithOid() {
+		// 8.0 is the first release to have this setting
+		// Prior releases don't have this setting... oids always activated
+		return 'on';
+	}
+	
 	/**
 	 * Creates a new table in the database
 	 * @param $name The name of the table
@@ -1880,6 +1890,40 @@ class Postgres extends ADODB_base {
 		$this->clean($sequence);
 		
 		$sql = "SELECT SETVAL('\"{$sequence}\"', {$minvalue})";
+		
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Execute nextval on a given sequence
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function nextvalSequence($sequence) {
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+
+		$sql = "SELECT NEXTVAL('\"{$sequence}\"')";
+		
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Execute setval on a given sequence
+	 * @param $sequence Sequence name
+	 * @param $nextvalue The next value
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function setvalSequence($sequence, $nextvalue) {
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+		$this->clean($nextvalue);
+
+		$sql = "SELECT SETVAL('\"{$sequence}\"', '{$nextvalue}')";
 		
 		return $this->execute($sql);
 	}
@@ -4515,6 +4559,7 @@ class Postgres extends ADODB_base {
 	function hasServerAdminFuncs() { return false; }
 	function hasRoles() { return false; }
 	function hasAutovacuum() { return false; }
+	function hasAlterSequence() { return false; }
 
 }
 

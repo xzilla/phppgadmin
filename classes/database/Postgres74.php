@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.50 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres74.php,v 1.51 2006/05/19 07:17:30 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -544,6 +544,46 @@ class Postgres74 extends Postgres73 {
 		
 		return $this->endTransaction();
 	}
+
+	// Sequences
+	
+	/**
+	 * Alters a sequence
+	 * @param $sequence Sequence name
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -1 get sequence error
+	 */
+	function alterSequence($sequence, $increment, $minvalue, $maxvalue,
+				$startvalue, $cachevalue, $cycledvalue) {
+		$data = $this->getSequence($sequence);
+		if ($data->recordCount() != 1) {
+			return -1;
+		}
+
+		$this->fieldClean($sequence);
+		$this->clean($increment);
+		$this->clean($minvalue);
+		$this->clean($maxvalue);
+		$this->clean($startvalue);
+		$this->clean($cachevalue);
+		$this->clean($cycledvalue);
+
+		$sql = "ALTER SEQUENCE \"{$sequence}\"";
+		if ($increment != '' && $increment != $data->f['increment_by']) $sql .= " INCREMENT {$increment}";
+		if ($minvalue != '' && $minvalue != $data->f['min_value']) $sql .= " MINVALUE {$minvalue}";
+		if ($maxvalue != '' && $maxvalue != $data->f['max_value']) $sql .= " MAXVALUE {$maxvalue}";
+		if ($startvalue != '' && $startvalue != $data->f['last_value']) $sql .= " START {$startvalue}";
+		if ($cachevalue != '' && $cachevalue != $data->f['cache_value']) $sql .= " CACHE {$cachevalue}";
+		if ($cycledvalue && $cycledvalue != $data->f['is_cycled']) $sql .= " CYCLE";
+		
+		return $this->execute($sql);
+	}	
 	
 	// Capabilities
 	function hasAlterDatabaseRename() { return true; }
@@ -552,6 +592,7 @@ class Postgres74 extends Postgres73 {
 	function hasUserRename() { return true; }
 	function hasRecluster() { return true; }
 	function hasReadOnlyQueries() { return true; }	
+	function hasAlterSequence() { return true; }
 }
 
 ?>

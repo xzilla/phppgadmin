@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.139 2006/04/21 03:31:26 chriskl Exp $
+	 * $Id: english.php,v 1.140 2006/05/19 07:17:30 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -372,6 +372,15 @@
 	$lang['strsequencedroppedbad'] = 'Sequence drop failed.';
 	$lang['strsequencereset'] = 'Sequence reset.';
 	$lang['strsequenceresetbad'] = 'Sequence reset failed.'; 
+ 	$lang['straltersequence'] = 'Alter sequence';
+ 	$lang['strsequencealtered'] = 'Sequence altered.';
+ 	$lang['strsequencealteredbad'] = 'Sequence alteration failed.';
+ 	$lang['strsetval'] = 'Set Value';
+ 	$lang['strsequencesetval'] = 'Sequence value set.';
+ 	$lang['strsequencesetvalbad'] = 'Sequence value set failed.';
+ 	$lang['strnextval'] = 'Increment Value';
+ 	$lang['strsequencenextval'] = 'Sequence incremented.';
+ 	$lang['strsequencenextvalbad'] = 'Sequence increment failed.';
 
 	// Indexes
 	$lang['strindex'] = 'Index';

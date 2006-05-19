@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.75 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: tables.php,v 1.76 2006/05/19 07:17:30 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,12 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 
-		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
+		if (!isset($_REQUEST['stage'])) {
+			$_REQUEST['stage'] = 1;
+			$default_with_oids = $data->getDefaultWithOid();
+			if ($default_with_oids == 'off') $_REQUEST['withoutoids'] = 'on';
+		}
+			
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
 		if (!isset($_REQUEST['tblcomment'])) $_REQUEST['tblcomment'] = '';
@@ -44,8 +49,7 @@
 					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
 				if ($data->hasWithoutOIDs()) {
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n";
-					echo "\t\t<td class=\"data\"><input type=\"checkbox\" name=\"withoutoids\"", 
-						(isset($_REQUEST['withoutoids']) ? ' checked="checked"' : ''), " />WITHOUT OIDS</td>\n\t</tr>\n";
+					echo "\t\t<td class=\"data\"><label><input type=\"checkbox\" name=\"withoutoids\"", isset($_REQUEST['withoutoids']) ? ' checked="checked"' : '', " />WITHOUT OIDS</label></td>\n\t</tr>\n";
 				}
 				
 				// Tablespace (if there are any)

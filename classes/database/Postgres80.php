@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.18 2005/09/07 08:09:21 chriskl Exp $
+ * $Id: Postgres80.php,v 1.19 2006/05/19 07:17:30 chriskl Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -136,6 +136,22 @@ class Postgres80 extends Postgres74 {
 		return $this->execute($sql);
 	}
 
+	/**
+	 * Returns the current default_with_oids setting
+	 * @return default_with_oids setting
+	 */
+	function getDefaultWithOid() {
+		// Try to avoid a query if at all possible (5)
+		if (function_exists('pg_parameter_status')) {
+			$default = pg_parameter_status($this->conn->_connectionID, 'default_with_oids');
+			if ($default !== false) return $default;
+		}
+		
+		$sql = "SHOW default_with_oids";
+		
+		return $this->selectField($sql, 'default_with_oids');
+	}
+	
 	// Table functions
 	
 	/**

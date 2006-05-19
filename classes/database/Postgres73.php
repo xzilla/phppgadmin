@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.155 2006/04/10 21:25:06 xzilla Exp $
+ * $Id: Postgres73.php,v 1.156 2006/05/19 07:17:30 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -626,6 +626,61 @@ class Postgres73 extends Postgres72 {
 	}
 
 	// Sequence functions
+
+	/** 
+	 * Resets a given sequence to min value of sequence
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function resetSequence($sequence) {
+		// Get the minimum value of the sequence
+		$seq = $this->getSequence($sequence);
+		if ($seq->recordCount() != 1) return -1;
+		$minvalue = $seq->f['min_value'];
+
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+		
+		$sql = "SELECT pg_catalog.SETVAL('\"{$sequence}\"', {$minvalue})";
+		
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Execute nextval on a given sequence
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function nextvalSequence($sequence) {
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+
+		$sql = "SELECT pg_catalog.NEXTVAL('\"{$sequence}\"')";
+		
+		return $this->execute($sql);
+	}
+
+	/** 
+	 * Execute setval on a given sequence
+	 * @param $sequence Sequence name
+	 * @param $nextvalue The next value
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function setvalSequence($sequence, $nextvalue) {
+		/* This double-cleaning is deliberate */
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+		$this->clean($nextvalue);
+
+		$sql = "SELECT pg_catalog.SETVAL('\"{$sequence}\"', '{$nextvalue}')";
+		
+		return $this->execute($sql);
+	}
 
 	/**
 	 * Returns all sequences in the current database

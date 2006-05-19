@@ -8,6 +8,10 @@ Features
 * New icons by Niko <ennixo@free.fr>, from the graphics repository on pgFoundry.
 * Added icons to bread crumb trail and tabs.
 * Send encrypted passwords over the wire wherever possible.
+* Alter sequence, nextval and setval (Guillaume)
+* Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume)
+* Autovacuum configuration support (Robert Treat)
+* Basic ROLE support (Chris Kings-Lynne)
 
 Version 4.0
 -----------
