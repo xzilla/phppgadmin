@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.47 2005/11/18 04:45:52 chriskl Exp $
+	 * $Id: config.inc.php-dist,v 1.48 2006/05/22 17:31:23 xzilla Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -19,6 +19,10 @@
 
 	// Database port on server (5432 is the PostgreSQL default)
 	$conf['servers'][0]['port'] = 5432;
+
+	// Database SSL mode
+	// Possible options: disable, allow, prefer, require
+	$conf['servers'][0]['sslmode'] = 'allow';
 
 	// Change the default database only if you cannot connect to template1.
 	// For a PostgreSQL 8.1 server, you need to set this to 'postgres'.
@@ -39,6 +43,7 @@
 	//$conf['servers'][1]['desc'] = 'Test Server';
 	//$conf['servers'][1]['host'] = '127.0.0.1';
 	//$conf['servers'][1]['port'] = 5432;
+	//$conf['servers'][1]['sslmode'] = 'allow';
 	//$conf['servers'][1]['defaultdb'] = 'template1';
 	//$conf['servers'][1]['pg_dump_path'] = 'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dump.exe';
 	//$conf['servers'][1]['pg_dumpall_path'] = 'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dumpall.exe';
@@ -114,6 +119,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 15;
+	$conf['version'] = 16;
 
 ?>

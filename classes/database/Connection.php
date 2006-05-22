@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.12 2005/11/08 02:24:31 chriskl Exp $
+ * $Id: Connection.php,v 1.13 2006/05/22 17:31:23 xzilla Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -19,7 +19,7 @@ class Connection {
 	 * Creates a new connection.  Will actually make a database connection.
 	 * @param $fetchMode Defaults to associative.  Override for different behaviour
 	 */
-	function Connection($host, $port, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
+	function Connection($host, $port, $sslmode, $user, $password, $database, $fetchMode = ADODB_FETCH_ASSOC) {
 		$this->conn = &ADONewConnection('postgres7');
 		$this->conn->setFetchMode($fetchMode);
 
@@ -31,6 +31,10 @@ class Connection {
 				$pghost = '';
 		else
 			$pghost = "{$host}:{$port}";
+
+		// Add sslmode to $pghost if set
+		if ($sslmode !== null && $sslmode != '')
+			$pghost .= ':'.$sslmode;
 
 		$this->conn->connect($pghost, $user, $password, $database);
 	}

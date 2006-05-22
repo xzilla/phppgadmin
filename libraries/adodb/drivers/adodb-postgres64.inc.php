@@ -631,6 +631,8 @@ WHERE c2.relname=\'%s\' or c2.relname=lower(\'%s\')';
 				else $str = '';
 				if (isset($host[1])) $str .= " port=$host[1]";
 				else if (!empty($this->port)) $str .= " port=".$this->port;
+				if (isset($host[2])) $str .= " sslmode=".adodb_addslashes($host[2]);
+				else if (!empty($this->sslmode)) $str .= " sslmode=".$this->sslmode;
 			}
 		   		if ($user) $str .= " user=".$user;
 		   		if ($pwd)  $str .= " password=".$pwd;

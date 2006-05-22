@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.126 2006/04/21 03:31:25 chriskl Exp $
+	 * $Id: Misc.php,v 1.127 2006/05/22 17:31:22 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -309,6 +309,7 @@
 			$_connection = new Connection(
 				$server_info['host'],
 				$server_info['port'],
+				$server_info['sslmode'],
 				$server_info['username'],
 				$server_info['password'],
 				$database
@@ -1679,7 +1680,7 @@
 			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
 
 			foreach($conf['servers'] as $idx => $info) {
-				$server_id = $info['host'].':'.$info['port'];
+				$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
 				
 				if (!isset($srvs[$server_id])) {
 					$srvs[$server_id] = $info;
@@ -1718,7 +1719,7 @@
 			
 			// Otherwise, look for it in the conf file
 			foreach($conf['servers'] as $idx => $info) {
-				if ($server_id == $info['host'].':'.$info['port']) {
+				if ($server_id == $info['host'].':'.$info['port'].':'.$info['sslmode']) {
 					// Automatically use shared credentials if available
 					if (!isset($info['username']) && isset($_SESSION['sharedUsername'])) {
 						$info['username'] = $_SESSION['sharedUsername'];

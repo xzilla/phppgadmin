@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.109 2005/12/07 01:31:28 chriskl Exp $
+	 * $Id: lib.inc.php,v 1.110 2006/05/22 17:31:23 xzilla Exp $
 	 */
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -38,7 +38,7 @@
 	// Configuration file version.  If this is greater than that in config.inc.php, then
 	// the app will refuse to run.  This and $conf['version'] should be incremented whenever
 	// backwards incompatible changes are made to config.inc.php-dist.
-	$conf['base_version'] = 15;
+	$conf['base_version'] = 16;
 
 	// Always include english.php, since it's the master language file
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
