@@ -12,6 +12,7 @@ Features
 * Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume)
 * Autovacuum configuration support (Robert Treat)
 * Basic ROLE support (Chris Kings-Lynne)
+* Add support for SSL connections (Eric Kinolik)
 
 Version 4.0
 -----------
