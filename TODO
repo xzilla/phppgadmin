@@ -71,14 +71,14 @@ Large Objects
 Tables
 ------
 
-* Allow PK and UNIQUE and FKs during create table
+* Allow PK and UNIQUE and FKs during create table (Jawed)
 * Vacuum & analyze individual tables
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
 * When browsing a table, clicking on a FK value should jump to the
   PK row.
 * When editing a table, turn FK columns into drop-downs based on estimated
-  rows in the foreign table?
-* Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false
+  rows in the foreign table? (Jawed)
+- Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume LELARGE)
 
 Views
 -----
@@ -90,13 +90,15 @@ Views
 Sequences
 ---------
 
-* Alter sequence
-* setval & nextval
+* Alter sequence (Guillaume LELARGE)
+* setval & nextval (Guillaume LELARGE)
+* change schema
+* rename (done using alter table)
 
 Functions
 ---------
 
-* Support 8.1 IN, OUT and INOUT parameters.
+* Support 8.1 IN, OUT and INOUT parameters.(Jawed)
 * Display owner
 * Alter owner
 
@@ -163,7 +165,7 @@ Miscellaneous
 * Put a 'What's blocking this query' on Processes view
 * Show locks on database view
 * Show NOTICES on queries in SQL window/file
-* Add sslmode to connection variables
+- Add sslmode to connection variables (Eric Kinolik)
 * Printable view of things
 * Show comments for all objects (Dan Boren)
 * Allow setting/dropping comments for all objects (Dan Boren)
