@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.82 2006/05/19 07:17:29 chriskl Exp $
+	 * $Id: database.php,v 1.83 2006/05/24 04:53:40 chriskl Exp $
 	 */
 
 	// Include application functions
@@ -407,6 +407,52 @@
 	}
 
 	/**
+	 * Show the existing table locks in the current database
+	*/
+	function doLocks() {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		// Get the info from the pg_locks view
+		$variables = $data->getLocks();
+
+		$misc->printTrail('database');
+		$misc->printTabs('database','locks');
+
+		$columns = array(
+			'namespace' => array(
+				'title' => $lang['strschema'],
+				'field' => 'nspname',
+			),
+			'tablename' => array(
+				'title' => $lang['strtablename'],
+				'field' => 'tablename',
+			),
+			'transactionid' => array(
+				'title' => $lang['strtransaction'],
+				'field' => 'transaction',
+			),
+			'processid' => array(
+				'title' => $lang['strprocessid'],
+				'field' => 'pid',
+			),
+			'mode' => array(
+				'title' => $lang['strmode'],
+				'field' => 'mode',
+			),
+			'granted' => array(
+				'title' => $lang['strislockheld'],
+				'field' => 'granted',
+				'type'  => 'yesno',
+			),
+		);
+
+		$actions = array();
+
+		$misc->printTable($variables, $columns, $actions, $lang['strnodata']);
+	}
+
+	/**
 	 * Allow database administration and tuning tasks
 	 */
 	function doAdmin($action = '', $msg = '') {
@@ -692,6 +738,9 @@
 			break;
 		case 'processes':
 			doProcesses();
+			break;
+		case 'locks':
+			doLocks();
 			break;
 		case 'export':
 			doExport();

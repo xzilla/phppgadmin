@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.156 2006/05/19 07:17:30 chriskl Exp $
+ * $Id: Postgres73.php,v 1.157 2006/05/24 04:53:40 chriskl Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -273,7 +273,27 @@ class Postgres73 extends Postgres72 {
 		
 		return $this->selectSet($sql);
 	}
-	
+
+	/**
+	 * Returns table locks information in the current database
+	 * @return A recordset
+	 */
+	function getLocks() {
+		global $conf;
+		
+		if (!$conf['show_system'])
+			$where = "AND pn.nspname NOT LIKE 'pg\\\\_%'";
+		else 
+			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+
+		$sql = "SELECT pn.nspname, pc.relname AS tablename, pl.transaction, pl.pid, pl.mode, pl.granted
+		FROM pg_catalog.pg_locks pl, pg_catalog.pg_class pc, pg_catalog.pg_namespace pn
+		WHERE pl.relation = pc.oid AND pc.relnamespace=pn.oid {$where}
+		ORDER BY nspname,tablename";
+
+		return $this->selectSet($sql);
+	}
+
 	// Table functions
 
 	/**
@@ -1913,7 +1933,8 @@ class Postgres73 extends Postgres72 {
 	function hasUserAndDbVariables() { return true; }
 	function hasCompositeTypes() { return true; }	
 	function hasFuncPrivs() { return true; }
-
+	function hasLocksView() { return true; }
+	
 }
 
 ?>

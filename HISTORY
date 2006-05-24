@@ -13,6 +13,7 @@ Features
 * Autovacuum configuration support (Robert Treat)
 * Basic ROLE support (Chris Kings-Lynne)
 * Add support for SSL connections (Eric Kinolik)
+* Display content of pg_locks view (Javier Carlos)
 
 Version 4.0
 -----------

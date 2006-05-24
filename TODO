@@ -163,7 +163,7 @@ Miscellaneous
 * -Allow management of built-in autovacuum in 8.1 (xzilla)
 * Support per-user and per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
-* Show locks on database view
+* -Show locks on database view (Javier)
 * Show NOTICES on queries in SQL window/file
 - Add sslmode to connection variables (Eric Kinolik)
 * Printable view of things
@@ -176,7 +176,6 @@ Miscellaneous
   Most objects are now covered thanks to those provided by Niko,
   but we still need icons for:
     Introduction, Variables, Admin, Privileges, Reports
-  
 
 Exotic
 ------

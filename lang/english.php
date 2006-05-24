@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.187 2006/05/19 07:17:30 chriskl Exp $
+	 * $Id: english.php,v 1.188 2006/05/24 04:53:40 chriskl Exp $
 	 */
 
 	// Language and character set
@@ -804,5 +804,12 @@
 	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor'; 
 	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay'; 
 	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';  
+
+        //Table-level Locks
+	$lang['strlocks'] = 'Locks';
+	$lang['strtransaction'] = 'Transaction ID';
+	$lang['strprocessid'] = 'Process ID';
+	$lang['strmode'] = 'Lock mode';
+	$lang['strislockheld'] = 'Is lock held?';
 
 ?>

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.127 2006/05/22 17:31:22 xzilla Exp $
+	 * $Id: Misc.php,v 1.128 2006/05/24 04:53:40 chriskl Exp $
 	 */
 	 
 	class Misc {
@@ -610,6 +610,15 @@
 							'tree'  => false,
 							'icon'  => 'Processes',
 						),
+						'locks' => array (
+							'title' => $lang['strlocks'],
+							'url'   => 'database.php',
+							'urlvars' => array('subject' => 'database', 'action' => 'locks'),
+							'hide'  => (!$data->hasLocksView()),
+							'help'  => 'pg.locks',
+							'tree'  => false,
+							'icon'  => 'Key',
+                  ),
 						'admin' => array (
 							'title' => $lang['stradmin'],
 							'url'   => 'database.php',
