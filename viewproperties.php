@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.17 2006/06/17 12:57:37 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.18 2006/06/17 23:47:39 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -175,7 +175,7 @@
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output view header
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 				echo "<tr><th class=\"data required\">{$lang['strname']}</th><th class=\"data required\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
