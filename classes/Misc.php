@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.129 2006/06/17 20:35:27 xzilla Exp $
+	 * $Id: Misc.php,v 1.130 2006/06/17 21:50:06 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -980,7 +980,7 @@
 			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {
 				echo sprintf($lang['strtopbar'],
 					'<span class="platform">'.htmlspecialchars($server_info['platform']).'</span>',
-					'<span class="host">'.htmlspecialchars($server_info['host']).'</span>',
+					'<span class="host">'.htmlspecialchars((empty($server_info['host'])) ? 'localhost':$server_info['host']).'</span>',
 					'<span class="port">'.htmlspecialchars($server_info['port']).'</span>',
 					'<span class="username">'.htmlspecialchars($server_info['username']).'</span>',
 					'<span class="date">'.date($lang['strtimefmt']).'</span>');
