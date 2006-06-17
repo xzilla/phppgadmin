@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.31 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: users.php,v 1.32 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -133,11 +133,11 @@
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f['usename'])), "</td>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+			echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formSuper\">{$lang['strsuper']}</label></th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formSuper\" name=\"formSuper\"", 
 				(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcreatedb']}</th>\n";
-			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+			echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formCreateDB\">{$lang['strcreatedb']}</label></th>\n";
+			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCreateDB\" name=\"formCreateDB\"", 
 				(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input size=\"16\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
@@ -231,11 +231,11 @@
 		echo "\t\t<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconfirm']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" type=\"password\" name=\"formConfirm\" value=\"", htmlspecialchars($_POST['formConfirm']), "\" /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strsuper']}</th>\n";
-		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formSuper\"", 
+		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formSuper\">{$lang['strsuper']}</label></th>\n";
+		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formSuper\" name=\"formSuper\"", 
 			(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcreatedb']}</th>\n";
-		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" name=\"formCreateDB\"", 
+		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formCreateDB\">{$lang['strcreatedb']}</label></th>\n";
+		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCreateDB\" name=\"formCreateDB\"", 
 			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strexpires']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";

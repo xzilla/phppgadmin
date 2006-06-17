@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.83 2006/05/24 04:53:40 chriskl Exp $
+	 * $Id: database.php,v 1.84 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -287,34 +287,34 @@
 		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
 		// Data only
 		echo "<tr><th class=\"data left\" rowspan=\"2\">";
-		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" checked=\"checked\" />{$lang['strdataonly']}</th>\n";
+		echo "<input type=\"radio\" id=\"what\" name=\"what1\" value=\"dataonly\" checked=\"checked\" /><label=\"what1\">{$lang['strdataonly']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"d_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"d_oids\" /></td>\n</tr>\n";
+		echo "<td><label for=\"d_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"d_oids\" name=\"d_oids\" /></td>\n</tr>\n";
 		// Structure only
-		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" />{$lang['strstructureonly']}</th>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
+		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" /><label for=\"what2\">{$lang['strstructureonly']}</label></th>\n";
+		echo "<td><label for=\"s_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"s_clean\" name=\"s_clean\" /></td>\n</tr>\n";
 		// Structure and data
 		echo "<tr><th class=\"data left\" rowspan=\"3\">";
-		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
+		echo "<input type=\"radio\" id=\"what3\" name=\"what\" value=\"structureanddata\" /><label for=\"what3\">{$lang['strstructureanddata']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"sd_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
-		echo "<td>{$lang['stroids']}</td><td><input type=\"checkbox\" name=\"sd_oids\" /></td>\n</tr>\n";
+		echo "<td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
-		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
-		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}\n";
+		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
+		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label>\n";
 		// MSIE cannot download gzip in SSL mode - it's just broken
 		if (!(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS']))) {
-			echo "<br /><input type=\"radio\" name=\"output\" value=\"gzipped\" />{$lang['strdownloadgzipped']}\n";
+			echo "<br /><input type=\"radio\" id=\"output3\" name=\"output\" value=\"gzipped\" /><label for=\"output3\">{$lang['strdownloadgzipped']}</label>\n";
 		}
 		echo "</p>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
@@ -506,10 +506,10 @@
 				echo "<tr>\n";
 				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" />{$lang['stranalyze']}<br />\n";
+				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label><br />\n";
 				if ($data->hasFullVacuum()) {
-					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" />{$lang['strfull']}<br />\n";				
-					echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" />{$lang['strfreeze']}<br />\n";
+					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label><br />\n";				
+					echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label><br />\n";
 				}
 				echo "<input type=\"submit\" value=\"{$lang['strvacuum']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
@@ -540,7 +540,7 @@
 				// Reindex
 				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" />{$lang['strforce']}<br />\n";
+				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
 				echo $misc->form;
@@ -663,7 +663,7 @@
 		}
 		else echo "</p>\n";
 
-		echo "<input type=\"checkbox\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /> {$lang['strpaginate']}\n";
+		echo "<input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /><label for=\"paginate\">{$lang['strpaginate']}</label>\n";
 		echo "<br />\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strrun']}\" />\n";
 		if ($data->hasFullExplain()) {

@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.22 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: dataexport.php,v 1.23 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	$extensions = array(
@@ -323,8 +323,8 @@
 		echo "</table>\n";
 
 		echo "<h3>{$lang['stroptions']}</h3>\n";
-		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
-		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
+		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
+		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label></p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo "<input type=\"hidden\" name=\"what\" value=\"dataonly\" />\n";

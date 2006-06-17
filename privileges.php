@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.38 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: privileges.php,v 1.39 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -58,7 +58,7 @@
 			echo "</select></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strgroups']}</th>\n";
 			echo "<td class=\"data1\">\n";
-			echo "<input type=\"checkbox\" name=\"public\"", (isset($_REQUEST['public']) ? ' checked="checked"' : ''), " />PUBLIC\n";
+			echo "<input type=\"checkbox\" id=\"public\" name=\"public\"", (isset($_REQUEST['public']) ? ' checked="checked"' : ''), " /><label for=\"public\">PUBLIC</label>\n";
 			// Only show groups if there are groups!
 			if ($groups->recordCount() > 0) {
 				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"", min(6, $groups->recordCount()), "\">\n";
@@ -75,8 +75,8 @@
 			echo "<td class=\"data1\">\n";
 			foreach ($data->privlist[$_REQUEST['subject']] as $v) {
 				$v = htmlspecialchars($v);
-				echo "<input type=\"checkbox\" name=\"privilege[$v]\"", 
-							isset($_REQUEST['privilege'][$v]) ? ' checked="checked"' : '', " />{$v}<br />\n";
+				echo "<input type=\"checkbox\" id=\"privilege[$v]\" name=\"privilege[$v]\"", 
+							isset($_REQUEST['privilege'][$v]) ? ' checked="checked"' : '', " /><label for=\"privilege[$v]\">{$v}</label><br />\n";
 			}
 			echo "</td></tr>\n";
 			// Grant option
@@ -84,14 +84,14 @@
 				echo "<tr><th class=\"data left\">{$lang['stroptions']}</th>\n";
 				echo "<td class=\"data1\">\n";
 				if ($mode == 'grant') {
-					echo "<input type=\"checkbox\" name=\"grantoption\"", 
-								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " />GRANT OPTION\n";
+					echo "<input type=\"checkbox\" id=\"grantoption\" name=\"grantoption\"", 
+								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " /><label for=\"grantoption\">GRANT OPTION</label>\n";
 				}
 				elseif ($mode == 'revoke') {
-					echo "<input type=\"checkbox\" name=\"grantoption\"", 
-								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " />GRANT OPTION FOR<br />\n";
-					echo "<input type=\"checkbox\" name=\"cascade\"", 
-								isset($_REQUEST['cascade']) ? ' checked="checked"' : '', " />CASCADE<br />\n";
+					echo "<input type=\"checkbox\" id=\"grantoption\" name=\"grantoption\"", 
+								isset($_REQUEST['grantoption']) ? ' checked="checked"' : '', " /><label for=\"grantoption\">GRANT OPTION FOR</label><br />\n";
+					echo "<input type=\"checkbox\" id=\"cascade\" name=\"cascade\"", 
+								isset($_REQUEST['cascade']) ? ' checked="checked"' : '', " /><label for=\"cascade\">CASCADE</label><br />\n";
 				}
 				echo "</td></tr>\n";
 			}

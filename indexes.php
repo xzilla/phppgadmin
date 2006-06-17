@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.37 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: indexes.php,v 1.38 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -30,7 +30,7 @@
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<p><input type=\"checkbox\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /> {$lang['stranalyze']}</p>\n";
+			echo "<p><input type=\"checkbox\" id=\"analyze\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /><label for=\"analyze\">{$lang['stranalyze']}</label></p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_index\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
@@ -134,8 +134,8 @@
 		echo "</select></td></tr>\n";				
 		echo "</tr>";
 		echo "<tr>";
-		echo "<th class=\"data left\" scope=\"row\">{$lang['strunique']}</th>";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
+		echo "<th class=\"data left\" scope=\"row\"><label for=\"formUnique\">{$lang['strunique']}</label></th>";
+		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formUnique\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
 		echo "</tr>";
 		if ($data->hasPartialIndexes()) {
 			echo "<tr>";
@@ -218,7 +218,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";

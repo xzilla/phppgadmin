@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.22 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: domains.php,v 1.23 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -59,8 +59,8 @@
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
+			echo "<tr><th class=\"data left\"><label for=\"domnotnull\">{$lang['strnotnull']}</label></th>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"domnotnull\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" value=\"", 
 				htmlspecialchars($_POST['domdefault']), "\" /></td></tr>\n";
@@ -154,7 +154,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -260,7 +260,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /><label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -322,8 +322,8 @@
 		echo "<option value=\"[]\"", ($_POST['domarray'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 		echo "</select></td></tr>\n";
 
-		echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"domnotnull\"", 
+		echo "<tr><th class=\"data left\"><label for=\"domnotnull\">{$lang['strnotnull']}</label></th>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"domnotnull\" name=\"domnotnull\"", 
 			(isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"domdefault\" size=\"32\" value=\"", 

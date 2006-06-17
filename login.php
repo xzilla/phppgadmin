@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.31 2005/11/19 09:13:05 chriskl Exp $
+	 * $Id: login.php,v 1.32 2006/06/17 12:57:36 xzilla Exp $
 	 */
 	global $conf;
 	
@@ -44,7 +44,7 @@
 		</tr>
 	</table>
 <?php if (sizeof($conf['servers']) > 1) : ?>
-	<p><input type="checkbox" name="loginShared" <?php echo isset($_POST['loginShared']) ? 'checked="checked"' : '' ?> /><?php echo $lang['strtrycred'] ?></p>
+	<p><input type="checkbox" id="loginShared" name="loginShared" <?php echo isset($_POST['loginShared']) ? 'checked="checked"' : '' ?> /><label for="loginShared"><?php echo $lang['strtrycred'] ?></label></p>
 <?php endif; ?>
 	<p><input type="submit" name="loginSubmit" value="<?php echo $lang['strlogin']; ?>" /></p>
 </form>

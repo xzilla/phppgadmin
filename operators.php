@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.21 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: operators.php,v 1.22 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -83,7 +83,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";

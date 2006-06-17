@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.76 2006/05/19 07:17:30 chriskl Exp $
+	 * $Id: tables.php,v 1.77 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -49,7 +49,7 @@
 					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
 				if ($data->hasWithoutOIDs()) {
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n";
-					echo "\t\t<td class=\"data\"><label><input type=\"checkbox\" name=\"withoutoids\"", isset($_REQUEST['withoutoids']) ? ' checked="checked"' : '', " />WITHOUT OIDS</label></td>\n\t</tr>\n";
+					echo "\t\t<td class=\"data\"><label for=\"withoutoids\"><input type=\"checkbox\" id=\"withoutoids\" name=\"withoutoids\"", isset($_REQUEST['withoutoids']) ? ' checked="checked"' : '', " />WITHOUT OIDS</label></td>\n\t</tr>\n";
 				}
 				
 				// Tablespace (if there are any)
@@ -288,7 +288,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" name=\"selectall\" onClick=\"javascript:selectAll()\" />{$lang['strselectallfields']}</td>";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onClick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
 				echo "</table></p>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -482,7 +482,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -521,8 +521,8 @@
 			echo $misc->form;
 			// Show vacuum full option if supportd
 			if ($data->hasFullVacuum()) {
-				echo "<p><input type=\"checkbox\" name=\"vacuum_full\" /> {$lang['strfull']}</p>\n";
-				echo "<p><input type=\"checkbox\" name=\"vacuum_analyze\" /> {$lang['stranalyze']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /> <label for=\"vacuum_full\">{$lang['strfull']}</label></p>\n";
+				echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /> <label for=\"vacuum_analyze\">{$lang['stranalyze']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"vacuum\" value=\"{$lang['strvacuum']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";

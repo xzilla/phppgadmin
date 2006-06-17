@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.28 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: triggers.php,v 1.29 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -82,7 +82,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";

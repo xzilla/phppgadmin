@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.8 2005/11/25 08:59:35 jollytoad Exp $
+	 * $Id: plugin_slony.php,v 1.9 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Avoid database connections whenever possible
@@ -1655,8 +1655,8 @@
 					echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtriggers']}</th>\n";
 					echo "<td class=\"data1\" colspan=\"3\"><p>{$lang['strtabletriggerstoretain']}</p>\n";
 					while (!$triggers->EOF) {
-						echo "<input type=\"checkbox\" name=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">";
-						echo htmlspecialchars($triggers->f['tgname']), "<br/>\n";
+						echo "<input type=\"checkbox\" id=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\" name=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">";
+						echo "<label for=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">", htmlspecialchars($triggers->f['tgname']), "</label><br/>\n";
 						$triggers->moveNext();	
 					}
 					echo "</select></td></tr>\n";					

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.7 2006/04/10 21:25:06 xzilla Exp $
+	 * $Id: schemas.php,v 1.8 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -225,7 +225,7 @@
 			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";

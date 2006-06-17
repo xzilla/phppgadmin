@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.29 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: types.php,v 1.30 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -100,7 +100,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -332,8 +332,8 @@
 		echo "<tr><th class=\"data left\">{$lang['strdelimiter']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"typdelim\" size=\"1\" maxlength=\"1\" value=\"",
 			htmlspecialchars($_POST['typdelim']), "\" /></td></tr>";
-		echo "<tr><th class=\"data left\">{$lang['strpassbyval']}</th>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"typbyval\"", 
+		echo "<tr><th class=\"data left\"><label for=\"typbyval\">{$lang['strpassbyval']}</label></th>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"typbyval\" name=\"typbyval\"", 
 			isset($_POST['typbyval']) ? ' checked="checked"' : '', " /></td></tr>";
 		echo "<tr><th class=\"data left\">{$lang['stralignment']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"typalign\">";

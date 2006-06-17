@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.16 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: viewproperties.php,v 1.17 2006/06/17 12:57:37 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -85,7 +85,7 @@
 		// Data only
 		echo "<!--\n";
 		echo "<tr><th class=\"data left\">";
-		echo "<input type=\"radio\" name=\"what\" value=\"dataonly\" />{$lang['strdataonly']}</th>\n";
+		echo "<input type=\"radio\" id=\"what1\" name=\"what\" value=\"dataonly\" /><label for=\"what1\">{$lang['strdataonly']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"d_format\" >\n";
 		echo "<option value=\"copy\">COPY</option>\n";
@@ -98,24 +98,24 @@
 		echo "-->\n";
 
 		// Structure only
-		echo "<tr><th class=\"data left\"><input type=\"radio\" name=\"what\" value=\"structureonly\" checked=\"checked\" />{$lang['strstructureonly']}</th>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"s_clean\" /></td>\n</tr>\n";
+		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" checked=\"checked\" /><label for=\"id=\"what2\" \">{$lang['strstructureonly']}</label></th>\n";
+		echo "<td><label for=\"s_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"s_clean\" name=\"s_clean\" /></td>\n</tr>\n";
 		// Structure and data
 		echo "<!--\n";
 		echo "<tr><th class=\"data left\" rowspan=\"2\">";
-		echo "<input type=\"radio\" name=\"what\" value=\"structureanddata\" />{$lang['strstructureanddata']}</th>\n";
+		echo "<input type=\"radio\" id=\"what3\" name=\"what\" value=\"structureanddata\" /><label for=\"what3\">{$lang['strstructureanddata']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"sd_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td>{$lang['strdrop']}</td><td><input type=\"checkbox\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
 		echo "-->\n";
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
-		echo "<p><input type=\"radio\" name=\"output\" value=\"show\" checked=\"checked\" />{$lang['strshow']}\n";
-		echo "<br/><input type=\"radio\" name=\"output\" value=\"download\" />{$lang['strdownload']}</p>\n";
+		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
+		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label></p>\n";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
 		echo $misc->form;

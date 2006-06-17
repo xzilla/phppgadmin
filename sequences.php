@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.32 2006/05/19 07:17:29 chriskl Exp $
+	 * $Id: sequences.php,v 1.33 2006/06/17 12:57:36 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -173,7 +173,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -233,8 +233,8 @@
 		echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formCacheValue']), "\" /></td></tr>\n";
 		
-		echo "<tr><th class=\"data left\">{$lang['striscycled']}</th>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCycledValue\" value=\"",
+		echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" value=\"",
 			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), "\" /></td></tr>\n";
 
 		echo "</table>\n";
@@ -393,8 +393,8 @@
 			echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
 				htmlspecialchars($sequence->f['cache_value']), "\" /></td></tr>\n";
 			
-			echo "<tr><th class=\"data left\">{$lang['striscycled']}</th>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" name=\"formCycledValue\" value=\"",
+			echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" value=\"",
 				($sequence->f['is_cycled'] ? ' checked="checked"' : ''), "\" /></td></tr>\n";
 	
 			echo "</table>\n";

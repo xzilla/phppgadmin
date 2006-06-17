@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.25 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: rules.php,v 1.26 2006/06/17 12:57:36 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -45,13 +45,13 @@
 			echo "<tr><th class=\"data left\">{$lang['strwhere']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"where\" size=\"32\" value=\"",
 				htmlspecialchars($_POST['where']), "\" /></td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strinstead']}</th>\n";
+			echo "<tr><th class=\"data left\"><label for=\"instead\">{$lang['strinstead']}</label></th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"checkbox\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked="checked"' : '', " />\n";
+			echo "<input type=\"checkbox\" id=\"instead\" name=\"instead\" ", (isset($_POST['instead'])) ? ' checked="checked"' : '', " />\n";
 			echo "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['straction']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"radio\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked="checked"' : '', " /> NOTHING<br />\n";
+			echo "<input type=\"radio\" id=\"type1\" name=\"type\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked="checked"' : '', " /> <label for=\"type1\">NOTHING</label><br />\n";
 			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked="checked"' : '', " />\n";
 			echo "(<input name=\"raction\" size=\"32\" value=\"",
 				htmlspecialchars($_POST['raction']), "\" />)</td></tr>\n";
@@ -105,7 +105,7 @@
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" name=\"cascade\" /> {$lang['strcascade']}</p>\n";
+				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
