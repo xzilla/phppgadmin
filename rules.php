@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.26 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: rules.php,v 1.27 2006/06/17 23:50:19 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -51,7 +51,7 @@
 			echo "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['straction']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"radio\" id=\"type1\" name=\"type\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked="checked"' : '', " /> <label for=\"type1\">NOTHING</label><br />\n";
+			echo "<input type=\"radio\" id=\"type1\" name=\"type\" value=\"NOTHING\"", ($_POST['type'] == 'NOTHING') ? ' checked="checked"' : '', " /> <label for=\"type1\">NOTHING</label><br />\n";
 			echo "<input type=\"radio\" name=\"type\" value=\"SOMETHING\"", ($_POST['type'] == 'SOMETHING') ? ' checked="checked"' : '', " />\n";
 			echo "(<input name=\"raction\" size=\"32\" value=\"",
 				htmlspecialchars($_POST['raction']), "\" />)</td></tr>\n";
