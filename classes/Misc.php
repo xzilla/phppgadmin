@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.128 2006/05/24 04:53:40 chriskl Exp $
+	 * $Id: Misc.php,v 1.129 2006/06/17 20:35:27 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -443,7 +443,7 @@
 					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">";
 					
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
-						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" /></span>";
+						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$tab['title']}\" /></span>";
 					
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 					
@@ -1054,8 +1054,13 @@
 				
 				$crumblink .= ">";
 				
+				if (isset($crumb['title']))
+					$iconalt = $crumb['title'];
+				else
+					$iconalt = 'Database Root';
+
 				if (isset($crumb['icon']) && $icon = $this->icon($crumb['icon']))
-					$crumblink .= "<span class=\"icon\"><img src=\"{$icon}\" /></span>";
+					$crumblink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$iconalt}\" /></span>";
 				 
 				$crumblink .= "<span class=\"label\">" . htmlspecialchars($crumb['text']) . "</span></a>";
 				
