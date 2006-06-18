@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.23 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: domains.php,v 1.24 2006/06/18 00:02:48 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -220,7 +220,7 @@
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
 						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f['conname']),
-							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</td></tr>\n";
+							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
 		
 						$domaincons->moveNext();
 						$i++;
