@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.84 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: database.php,v 1.85 2006/06/18 00:11:37 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -287,13 +287,13 @@
 		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
 		// Data only
 		echo "<tr><th class=\"data left\" rowspan=\"2\">";
-		echo "<input type=\"radio\" id=\"what\" name=\"what1\" value=\"dataonly\" checked=\"checked\" /><label=\"what1\">{$lang['strdataonly']}</label></th>\n";
+		echo "<input type=\"radio\" id=\"what\" name=\"what1\" value=\"dataonly\" checked=\"checked\" /><label for=\"what1\">{$lang['strdataonly']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"d_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td><label for=\"d_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"d_oids\" name=\"d_oids\" /></td>\n</tr>\n";
+		echo "<tr><td><label for=\"d_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"d_oids\" name=\"d_oids\" /></td>\n</tr>\n";
 		// Structure only
 		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" /><label for=\"what2\">{$lang['strstructureonly']}</label></th>\n";
 		echo "<td><label for=\"s_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"s_clean\" name=\"s_clean\" /></td>\n</tr>\n";
@@ -305,8 +305,8 @@
 		echo "<option value=\"copy\">COPY</option>\n";
 		echo "<option value=\"sql\">SQL</option>\n";
 		echo "</select>\n</td>\n</tr>\n";
-		echo "<td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
-		echo "<td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
+		echo "<tr><td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<tr><td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
 		echo "</table>\n";
 		
 		echo "<h3>{$lang['stroptions']}</h3>\n";
