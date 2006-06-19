@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.50 2006/04/21 21:26:59 slubek Exp $
+	 * $Id: polish.php,v 1.51 2006/06/19 20:11:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -372,6 +372,15 @@
 	$lang['strsequencedroppedbad'] = 'Próba usunięcia sekwencji się nie powiodła.';
 	$lang['strsequencereset'] = 'Sekwencja została wyzerowana.';
 	$lang['strsequenceresetbad'] = 'Próba zerowania sekwencji się nie powiodła.';
+ 	$lang['straltersequence']  =  'Alter sequence';
+ 	$lang['strsequencealtered']  =  'Sequence altered.';
+ 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
+ 	$lang['strsetval']  =  'Set Value';
+ 	$lang['strsequencesetval']  =  'Sequence value set.';
+ 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
+ 	$lang['strnextval']  =  'Increment Value';
+ 	$lang['strsequencenextval']  =  'Sequence incremented.';
+ 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
 
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
@@ -470,7 +479,7 @@
 	$lang['strfunctiondroppedbad'] = 'Próba usunięcia funkcji się nie powiodła.';
 	$lang['strfunctionupdated'] = 'Funkcja została zaktualizowana.';
 	$lang['strfunctionupdatedbad'] = 'Próba aktualizacji funkcji się nie powiodła.';
-  $lang['strobjectfile'] = 'Plik objektów';
+  $lang['strobjectfile'] = 'Plik obiektów';
   $lang['strlinksymbol'] = 'Łącz symbol';
 
 	// Triggers
@@ -795,5 +804,12 @@
 	$lang['stranalyzescalefactor'] = 'Współczynnik analizy'; 
 	$lang['strvacuumcostdelay'] = 'Opóźnienie po przekroczeniu kosztu czyszczenia'; 
 	$lang['strvacuumcostlimit'] = 'Limit kosztu czyszczenia'; 
+
+        //Table-level Locks
+	$lang['strlocks']  =  'Blokady';
+	$lang['strtransaction']  =  'ID transakcji';
+	$lang['strprocessid']  =  'ID procesu';
+	$lang['strmode']  =  'Tryb blokowania';
+	$lang['strislockheld']  =  'Czy blokada obowiązuje?';
 
 ?>

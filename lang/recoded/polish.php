@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.45 2006/04/21 21:26:59 slubek Exp $
+	 * $Id: polish.php,v 1.46 2006/06/19 20:11:17 slubek Exp $
 	 */
 
 	// Language and character set
@@ -372,6 +372,15 @@
 	$lang['strsequencedroppedbad'] = 'Pr&#243;ba usuni&#281;cia sekwencji si&#281; nie powiod&#322;a.';
 	$lang['strsequencereset'] = 'Sekwencja zosta&#322;a wyzerowana.';
 	$lang['strsequenceresetbad'] = 'Pr&#243;ba zerowania sekwencji si&#281; nie powiod&#322;a.';
+ 	$lang['straltersequence']  =  'Alter sequence';
+ 	$lang['strsequencealtered']  =  'Sequence altered.';
+ 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
+ 	$lang['strsetval']  =  'Set Value';
+ 	$lang['strsequencesetval']  =  'Sequence value set.';
+ 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
+ 	$lang['strnextval']  =  'Increment Value';
+ 	$lang['strsequencenextval']  =  'Sequence incremented.';
+ 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
 
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
@@ -470,7 +479,7 @@
 	$lang['strfunctiondroppedbad'] = 'Pr&#243;ba usuni&#281;cia funkcji si&#281; nie powiod&#322;a.';
 	$lang['strfunctionupdated'] = 'Funkcja zosta&#322;a zaktualizowana.';
 	$lang['strfunctionupdatedbad'] = 'Pr&#243;ba aktualizacji funkcji si&#281; nie powiod&#322;a.';
-  $lang['strobjectfile'] = 'Plik objekt&#243;w';
+  $lang['strobjectfile'] = 'Plik obiekt&#243;w';
   $lang['strlinksymbol'] = '&#321;&#261;cz symbol';
 
 	// Triggers
@@ -795,5 +804,12 @@
 	$lang['stranalyzescalefactor'] = 'Wsp&#243;&#322;czynnik analizy'; 
 	$lang['strvacuumcostdelay'] = 'Op&#243;&#378;nienie po przekroczeniu kosztu czyszczenia'; 
 	$lang['strvacuumcostlimit'] = 'Limit kosztu czyszczenia'; 
+
+        //Table-level Locks
+	$lang['strlocks']  =  'Blokady';
+	$lang['strtransaction']  =  'ID transakcji';
+	$lang['strprocessid']  =  'ID procesu';
+	$lang['strmode']  =  'Tryb blokowania';
+	$lang['strislockheld']  =  'Czy blokada obowi&#261;zuje?';
 
 ?>
