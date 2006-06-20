@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.85 2006/06/18 00:11:37 xzilla Exp $
+	 * $Id: database.php,v 1.86 2006/06/20 14:06:08 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -361,13 +361,43 @@
 		global $PHP_SELF, $data, $misc;
 		global $lang;
 
-		// Fetch the processes from the database
-		$processes = $data->getProcesses($_REQUEST['database']);
-		
 		$misc->printTrail('database');
 		$misc->printTabs('database','processes');
 		$misc->printMsg($msg);
+
+		// Display prepared transactions
+		if($data->hasPreparedXacts()) {
+			echo "<h3>{$lang['strpreparedxacts']}</h3>\n";
+			$prep_xacts = $data->getPreparedXacts($_REQUEST['database']);
 		
+			$columns = array(
+				'transaction' => array(
+					'title' => $lang['strxactid'],
+					'field' => 'transaction',
+				),
+				'gid' => array(
+					'title' => $lang['strgid'],
+					'field' => 'gid',
+				),
+				'prepared' => array(
+					'title' => $lang['strstarttime'],
+					'field' => 'prepared',
+				),
+				'owner' => array(
+					'title' => $lang['strowner'],
+					'field' => 'owner',
+				),
+			);
+
+			$actions = array();
+
+			$misc->printTable($prep_xacts, $columns, $actions, $lang['strnodata']);
+		}
+
+		// Fetch the processes from the database
+		echo "<br /><h3>{$lang['strprocesses']}</h3>\n";
+		$processes = $data->getProcesses($_REQUEST['database']);
+				
 		$columns = array(
 			'user' => array(
 				'title' => $lang['strusername'],
@@ -402,7 +432,7 @@
 		
 		// Remove query start time for <7.4
 		if (!isset($processes->f['query_start'])) unset($columns['start_time']);
-		
+
 		$misc->printTable($processes, $columns, $actions, $lang['strnodata']);
 	}
 

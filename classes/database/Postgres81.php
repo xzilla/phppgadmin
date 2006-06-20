@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.6 2006/04/21 03:31:26 chriskl Exp $
+ * $Id: Postgres81.php,v 1.7 2006/06/20 14:06:09 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -107,6 +107,23 @@ class Postgres81 extends Postgres80 {
 			{$clause}
 			{$orderby}";
 
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Returns prepared transactions information
+	 * @param $database (optional) Find only prepared trasactions executed in a specific database
+	 * @return A recordset
+	 */
+	function getPreparedXacts($database = null) {
+		if ($database === null)
+			$sql = "SELECT * FROM pg_prepared_xacts";
+		else {
+			$this->clean($database);
+			$sql = "SELECT transaction, gid, prepared, owner FROM pg_prepared_xacts WHERE database='{$database}' 
+				   ORDER BY owner";
+		}
+		
 		return $this->selectSet($sql);
 	}
 
@@ -254,6 +271,7 @@ class Postgres81 extends Postgres80 {
 	function hasServerAdminFuncs() { return true; }
 	function hasRoles() { return true; }
 	function hasAutovacuum() { return true; }
+	function hasPreparedXacts() { return true; }
 }
 
 ?>
