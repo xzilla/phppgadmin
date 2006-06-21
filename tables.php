@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.77 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: tables.php,v 1.78 2006/06/21 18:02:51 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -392,7 +392,7 @@
 					$i++;
 					$attrs->moveNext();
 				}
-				echo "</table></p>\n";
+				echo "</table>\n";
 			}
 			else echo "<p>{$lang['strnodata']}</p>\n";
 			

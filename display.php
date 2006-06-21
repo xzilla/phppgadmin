@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.53 2005/11/20 03:06:14 chriskl Exp $
+	 * $Id: display.php,v 1.54 2006/06/21 18:02:52 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -45,7 +45,7 @@
 			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strcolumn']}</th><th class=\"data\">{$lang['strtype']}</th>";
@@ -104,7 +104,7 @@
 					$i++;
 					$attrs->moveNext();
 				}
-				echo "</table></p>\n";
+				echo "</table>\n";
 				$error = false;
 			}
 			elseif ($rs->recordCount() != 1) {
