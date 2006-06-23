@@ -285,10 +285,11 @@ var webFXTreeHandler = {
 // WebFXTreeAbstractNode
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTreeAbstractNode(sText, oAction) {
+function WebFXTreeAbstractNode(sText, oAction, oIconAction) {
 	this.childNodes = [];
 	if (sText) this.text = sText;
 	if (oAction) this.action = oAction;
+	if (oIconAction) this.iconAction = oIconAction;
 	this.id = webFXTreeHandler.getUniqueId();
 	if (webFXTreeConfig.usePersistence) {
 		this.open = webFXTreeHandler.persistenceManager.getExpanded(this);
@@ -303,6 +304,7 @@ _p.indentWidth = 19;
 _p.open = false;
 _p.text = webFXTreeConfig.defaultText;
 _p.action = null;
+_p.iconAcion = null;
 _p.target = null;
 _p.toolTip = null;
 _p._focused = false;
@@ -815,6 +817,13 @@ _p._getHref = function () {
 		return "#";
 };
 
+_p._getIconHref = function () {
+	if (typeof this.iconAction == "string")
+		return this.iconAction;
+	else
+		return this._getHref();
+}
+
 _p.getEventHandlersHtml = function () {
 	return "";
 };
@@ -822,7 +831,8 @@ _p.getEventHandlersHtml = function () {
 _p.getIconHtml = function () {
 	// here we are not using textToHtml since the file names rarerly contains
 	// HTML...
-	return "<img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\">";
+	return "<a href=\"" + webFXTreeHandler.textToHtml(this._getIconHref()) +
+		"\"><img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\"></a>";
 };
 
 _p.getIconSrc = function () {
@@ -1050,6 +1060,20 @@ _p.getAction = function () {
 	return this.action;
 };
 
+_p.setIconAction = function (oAction) {
+	this.iconAction = oAction;
+	var el = this.getIconElement();
+	if (el) {
+		el.href = this._getIconHref();
+	}   
+}   
+
+_p.getIconAction = function () {
+	if (this.iconAction)
+		return this.iconAction;
+	return _p.getAction();
+};
+
 // update methods
 
 _p.update = function () {
@@ -1130,10 +1154,17 @@ _p._onclick = function (e) {
 		return false;
 	}
 
-	if (typeof this.action == "function") {
-		this.action();
-	} else if (this.action != null) {
-		window.open(this.action, this.target || "_self");
+	var doAction = null;
+	if (/webfx-tree-icon/.test(el.className) && this.iconAction) {
+		doAction = this.iconAction; 
+	} else {
+		doAction = this.action;
+	}
+
+	if (typeof doAction == "function") {
+		doAction();
+	} else if (doAction != null) {
+		window.open(doAction, this.target || "_self");
 	}
 	return false;
 };
@@ -1289,8 +1320,8 @@ _p.getPreviousShownNode = function () {
 // WebFXTree
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTree(sText, oAction, sBehavior, sIcon, sOpenIcon) {
-	WebFXTreeAbstractNode.call(this, sText, oAction);
+function WebFXTree(sText, oAction, sBehavior, sIcon, oIconAction, sOpenIcon) {
+	WebFXTreeAbstractNode.call(this, sText, oAction, oIconAction);
 	if (sIcon) this.icon = sIcon;
 	if (sOpenIcon) this.openIcon = sOpenIcon;
 	if (sBehavior) this.behavior = sBehavior;
@@ -1505,8 +1536,8 @@ _p.getSuspendRedraw = function () {
 // WebFXTreeItem
 ///////////////////////////////////////////////////////////////////////////////
 
-function WebFXTreeItem(sText, oAction, eParent, sIcon, sOpenIcon) {
-	WebFXTreeAbstractNode.call(this, sText, oAction);
+function WebFXTreeItem(sText, oAction, eParent, sIcon, oIconAction, sOpenIcon) {
+	WebFXTreeAbstractNode.call(this, sText, oAction, oIconAction);
 	if (sIcon) this.icon = sIcon;
 	if (sOpenIcon) this.openIcon = sOpenIcon;
 	if (eParent) eParent.add(this);

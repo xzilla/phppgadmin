@@ -48,7 +48,9 @@
 |-----------------------------------------------------------------------------|
 | Created 2003-??-?? | All changes are in the log above. | Updated 2004-06-06 |
 \----------------------------------------------------------------------------*/
-
+| Note local changes have been made to allow Icons to have different links    |
+|  than thier text label counterparts. Thanks to JGuillaume de Rorthais       |
+|-----------------------------------------------------------------------------|
 
 webFXTreeConfig.loadingText = "Loading...";
 webFXTreeConfig.loadingIcon = "images/loading.gif";
@@ -57,8 +59,8 @@ webFXTreeConfig.errorIcon = "images/exclamation.16.png";
 webFXTreeConfig.reloadText = "Click to reload";
 
 
-function WebFXLoadTree(sText, sXmlSrc, oAction, sBehavior, sIcon, sOpenIcon) {
-	WebFXTree.call(this, sText, oAction, sBehavior, sIcon, sOpenIcon);
+function WebFXLoadTree(sText, sXmlSrc, oAction, sBehavior, sIcon, oIconAction, sOpenIcon) {
+	WebFXTree.call(this, sText, oAction, sBehavior, sIcon, oIconAction, sOpenIcon);
 
 	// setup default property values
 	this.src = sXmlSrc;
@@ -95,8 +97,8 @@ _p.setExpanded = function (b) {
 	}
 };
 
-function WebFXLoadTreeItem(sText, sXmlSrc, oAction, eParent, sIcon, sOpenIcon) {
-	WebFXTreeItem.call(this, sText, oAction, eParent, sIcon, sOpenIcon);
+function WebFXLoadTreeItem(sText, sXmlSrc, oAction, eParent, sIcon, oIconAction, sOpenIcon) {
+	WebFXTreeItem.call(this, sText, oAction, eParent, sIcon, oIconAction, sOpenIcon);
 
 // setup default property values
 	this.src = sXmlSrc;
@@ -302,7 +304,7 @@ WebFXLoadTree.createItemFromElement = function (oNode) {
 		action = jsAttrs.action;
 	}
 	var jsNode = new WebFXLoadTreeItem(jsAttrs.html || "", jsAttrs.src, action,
-									   null, jsAttrs.icon, jsAttrs.openIcon);
+										null, jsAttrs.icon, jsAttrs.iconAction, jsAttrs.openIcon);
 	if (jsAttrs.text) {
 		jsNode.setText(jsAttrs.text);
 	}

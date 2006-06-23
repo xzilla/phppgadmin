@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.130 2006/06/17 21:50:06 xzilla Exp $
+	 * $Id: Misc.php,v 1.131 2006/06/23 00:57:37 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1571,6 +1571,7 @@
 		 *        'openIcon' - an alternative icon when the node is expanded
 		 *        'toolTip' - tool tip text for the node
 		 *        'action' - URL to visit when single clicking the node
+		 *        'iconAction' - URL to visit when single clicking the icon node
 		 *        'branch' - URL for child nodes (tree XML)
 		 *        'expand' - the action to return XML for the subtree
 		 *        'nodata' - message to display when node has no children
@@ -1600,6 +1601,7 @@
 					
 					$icon = $this->icon(value($attrs['icon'], $rec));
 					echo value_xml_attr('icon', $icon, $rec);
+					echo value_xml_attr('iconAction', $attrs['iconAction'], $rec);
 					
 					if (!empty($attrs['openIcon'])) {
 						$icon = $this->icon(value($attrs['openIcon'], $rec));

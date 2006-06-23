@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.56 2006/06/17 12:57:37 xzilla Exp $
+	 * $Id: views.php,v 1.57 2006/06/23 00:57:37 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -596,6 +596,10 @@
 		$attrs = array(
 			'text'   => field('relname'),
 			'icon'   => 'View',
+			'iconAction' => url('display.php',
+							$reqvars,
+							array('view' => field('relname'))
+						),
 			'toolTip'=> field('relcomment'),
 			'action' => url('redirect.php',
 							$reqvars,
