@@ -90,8 +90,8 @@ Views
 Sequences
 ---------
 
-* Alter sequence (Guillaume LELARGE)
-* setval & nextval (Guillaume LELARGE)
+* -Alter sequence (Guillaume LELARGE)
+* -setval & nextval (Guillaume LELARGE)
 * change schema
 * rename (done using alter table)
 
