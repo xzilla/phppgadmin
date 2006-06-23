@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.18 2006/06/17 23:47:39 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.19 2006/06/23 00:31:44 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -98,7 +98,7 @@
 		echo "-->\n";
 
 		// Structure only
-		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" checked=\"checked\" /><label for=\"id=\"what2\" \">{$lang['strstructureonly']}</label></th>\n";
+		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" checked=\"checked\" /><label for=\"what2\">{$lang['strstructureonly']}</label></th>\n";
 		echo "<td><label for=\"s_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"s_clean\" name=\"s_clean\" /></td>\n</tr>\n";
 		// Structure and data
 		echo "<!--\n";
