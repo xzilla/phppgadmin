@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.51 2006/06/19 20:11:17 slubek Exp $
+	 * $Id: polish.php,v 1.52 2006/06/24 23:28:33 slubek Exp $
 	 */
 
 	// Language and character set
@@ -372,15 +372,15 @@
 	$lang['strsequencedroppedbad'] = 'Próba usunięcia sekwencji się nie powiodła.';
 	$lang['strsequencereset'] = 'Sekwencja została wyzerowana.';
 	$lang['strsequenceresetbad'] = 'Próba zerowania sekwencji się nie powiodła.';
- 	$lang['straltersequence']  =  'Alter sequence';
- 	$lang['strsequencealtered']  =  'Sequence altered.';
- 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
- 	$lang['strsetval']  =  'Set Value';
- 	$lang['strsequencesetval']  =  'Sequence value set.';
- 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
- 	$lang['strnextval']  =  'Increment Value';
- 	$lang['strsequencenextval']  =  'Sequence incremented.';
- 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
+ 	$lang['straltersequence']  =  'Zmień sekwencję';
+ 	$lang['strsequencealtered']  =  'Sekwencja została zmieniona.';
+ 	$lang['strsequencealteredbad']  =  'Próba modyfikacji sekwencji się nie powiodła.';
+ 	$lang['strsetval']  =  'Ustaw wartość';
+ 	$lang['strsequencesetval']  =  'Wartość sekwencji została ustawiona.';
+ 	$lang['strsequencesetvalbad']  =  'Próba ustawienia wartości sekwencji się nie powiodła.';
+ 	$lang['strnextval']  =  'Zwiększ wartość sekwencję';
+ 	$lang['strsequencenextval']  =  'Wartość sekwencji została zwiększona.';
+ 	$lang['strsequencenextvalbad']  =  'Próba zwiększenia wartości sekwencji się nie powiodła.';
 
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
@@ -812,4 +812,8 @@
 	$lang['strmode']  =  'Tryb blokowania';
 	$lang['strislockheld']  =  'Czy blokada obowiązuje?';
 
+	// Prepared transactions
+	$lang['strpreparedxacts']  =  'Przygotowane transakcje';
+	$lang['strxactid']  =  'ID transakcji';
+	$lang['strgid']  =  'Globalny ID';
 ?>

@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.46 2006/06/19 20:11:17 slubek Exp $
+	 * $Id: polish.php,v 1.47 2006/06/24 23:28:33 slubek Exp $
 	 */
 
 	// Language and character set
@@ -372,15 +372,15 @@
 	$lang['strsequencedroppedbad'] = 'Pr&#243;ba usuni&#281;cia sekwencji si&#281; nie powiod&#322;a.';
 	$lang['strsequencereset'] = 'Sekwencja zosta&#322;a wyzerowana.';
 	$lang['strsequenceresetbad'] = 'Pr&#243;ba zerowania sekwencji si&#281; nie powiod&#322;a.';
- 	$lang['straltersequence']  =  'Alter sequence';
- 	$lang['strsequencealtered']  =  'Sequence altered.';
- 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
- 	$lang['strsetval']  =  'Set Value';
- 	$lang['strsequencesetval']  =  'Sequence value set.';
- 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
- 	$lang['strnextval']  =  'Increment Value';
- 	$lang['strsequencenextval']  =  'Sequence incremented.';
- 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
+ 	$lang['straltersequence']  =  'Zmie&#324; sekwencj&#281;';
+ 	$lang['strsequencealtered']  =  'Sekwencja zosta&#322;a zmieniona.';
+ 	$lang['strsequencealteredbad']  =  'Pr&#243;ba modyfikacji sekwencji si&#281; nie powiod&#322;a.';
+ 	$lang['strsetval']  =  'Ustaw warto&#347;&#263;';
+ 	$lang['strsequencesetval']  =  'Warto&#347;&#263; sekwencji zosta&#322;a ustawiona.';
+ 	$lang['strsequencesetvalbad']  =  'Pr&#243;ba ustawienia warto&#347;ci sekwencji si&#281; nie powiod&#322;a.';
+ 	$lang['strnextval']  =  'Zwi&#281;ksz warto&#347;&#263; sekwencj&#281;';
+ 	$lang['strsequencenextval']  =  'Warto&#347;&#263; sekwencji zosta&#322;a zwi&#281;kszona.';
+ 	$lang['strsequencenextvalbad']  =  'Pr&#243;ba zwi&#281;kszenia warto&#347;ci sekwencji si&#281; nie powiod&#322;a.';
 
 	// Indeksy
 	$lang['strindex'] = 'Indeks';
@@ -812,4 +812,8 @@
 	$lang['strmode']  =  'Tryb blokowania';
 	$lang['strislockheld']  =  'Czy blokada obowi&#261;zuje?';
 
+	// Prepared transactions
+	$lang['strpreparedxacts']  =  'Przygotowane transakcje';
+	$lang['strxactid']  =  'ID transakcji';
+	$lang['strgid']  =  'Globalny ID';
 ?>
