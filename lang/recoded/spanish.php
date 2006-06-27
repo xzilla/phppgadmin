@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&#237;n Marqu&#233;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.33 2006/01/06 21:06:58 xzilla Exp $
+	 * $Id: spanish.php,v 1.34 2006/06/27 20:13:21 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -14,7 +14,7 @@
   	$lang['appdbencoding'] = 'LATIN1';
 	$lang['applangdir'] = 'ltr';
 
-        // Bienvenido
+    // Bienvenido
 	$lang['strintro'] = 'Bienvenido a phpPgAdmin.';
 	$lang['strppahome'] = 'P&#225;gina web de phpPgAdmin';
 	$lang['strpgsqlhome'] = 'P&#225;gina web de PostgreSQL';
@@ -29,10 +29,10 @@
 	$lang['strloginfailed'] = 'Fall&#243; la autenticaci&#243;n';
 	$lang['strlogindisallowed'] = 'Ingreso no autorizado';
 	$lang['strserver'] = 'Servidor';
-        $lang['strservers']  =  'Servidores';
-        $lang['strintroduction']  =  'Introducci&#243;n';
-        $lang['strhost']  =  'Host';
-        $lang['strport']  =  'Puerto';
+    $lang['strservers']  =  'Servidores';
+    $lang['strintroduction']  =  'Introducci&#243;n';
+    $lang['strhost']  =  'Host';
+    $lang['strport']  =  'Puerto';
 	$lang['strlogout'] = 'Salir';
 	$lang['strowner'] = 'Due&#241;o';
 	$lang['straction'] = 'Acci&#243;n';
@@ -47,8 +47,8 @@
 	$lang['strnotnull'] = 'No Nulo';
 	$lang['strprev'] = 'Previo';
 	$lang['strnext'] = 'Pr&#243;ximo';
-        $lang['strfirst'] = '&lt;&lt; Principio';
-        $lang['strlast'] = 'Final &gt;&gt;';
+    $lang['strfirst'] = '&lt;&lt; Principio';
+    $lang['strlast'] = 'Final &gt;&gt;';
 	$lang['strfailed'] = 'Fall&#243;';
 	$lang['strcreate'] = 'Crear';
 	$lang['strcreated'] = 'Creado';
@@ -70,7 +70,7 @@
 	$lang['strtrue'] = 'Verdadero';
 	$lang['strfalse'] = 'Falso';
 	$lang['stredit'] = 'Editar';
-        $lang['strcolumn']  =  'Columna';
+    $lang['strcolumn']  =  'Columna';
 	$lang['strcolumns'] = 'Columnas';
 	$lang['strrows'] = 'fila(s)';
 	$lang['strrowsaff'] = 'fila(s) afectadas.';
@@ -86,11 +86,10 @@
 	$lang['strprimary'] = 'Primaria';
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
-        $lang['strallowednulls']  =  'Valores Nulos (NULL) Permitidos';
+    $lang['strallowednulls']  =  'Valores Nulos (NULL) Permitidos';
 $lang['strbackslashn']  =  '\N';
-$lang['strnull']  =  'Null';
-$lang['strnull']  =  'NULL (The word)';
-        $lang['stremptystring']  =  'Cadena o campo vacio';
+    $lang['strnull']  =  'Nulo';
+    $lang['stremptystring']  =  'Cadena o campo vacio';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
@@ -100,7 +99,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strreindex'] = 'Reindexar';
 	$lang['strrun'] = 'Ejecutar';
 	$lang['stradd'] = 'Agregar';
-        $lang['strremove']  =  'Remover';
+    $lang['strremove']  =  'Remover';
 	$lang['strevent'] = 'Evento';
 	$lang['strwhere'] = 'D&#243;nde';
 	$lang['strinstead'] = 'Hacer en su lugar';
@@ -113,10 +112,10 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strseparator']  =  ': ';
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Colapsar';
-        $lang['strexplain'] = 'Explicar';
+    $lang['strexplain'] = 'Explicar';
 	$lang['strexplainanalyze'] = 'Explicar analizando';
-        $lang['strfind'] = 'Buscar';
-        $lang['stroptions'] = 'Opciones';
+    $lang['strfind'] = 'Buscar';
+    $lang['stroptions'] = 'Opciones';
 	$lang['strrefresh'] = 'Refrescar';
 	$lang['strdownload'] = 'Bajar';
 	$lang['strdownloadgzipped'] = 'Bajar comprimido con gzip';
@@ -134,16 +133,22 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strstarttime'] = 'Hora de comienzo';
 	$lang['strfile'] = 'Archivo';
 	$lang['strfileimported'] = 'Archivo importado.';
-        $lang['strtrycred']  =  'Usar el mismo par usuario/contrase&#241;a para todos los servidores';
-	$lang['strsize'] = 'Tama&#241;o';
+    $lang['strtrycred']  =  'Usar el mismo par usuario/contrase&#241;a para todos los servidores';
 
+	// Database Sizes
+	$lang['strsize'] = 'Tama&#241;o';
+	$lang['strbytes'] = 'bytes';
+	$lang['strkb'] = 'kB';
+	$lang['strmb'] = 'MB';
+	$lang['strgb'] = 'GB';
+	$lang['strtb'] = 'TB';
 
 	// Error handling
-        $lang['strnoframes']  =  'Esta aplicaci&#243;n funciona mejor con un navegador con soporte para marcos, pero puede usarse sin marcos siguiendo el link de abajo.';
-        $lang['strnoframeslink']  =  'Usar sin marcos';
+    $lang['strnoframes']  =  'Esta aplicaci&#243;n funciona mejor con un navegador con soporte para marcos, pero puede usarse sin marcos siguiendo el link de abajo.';
+    $lang['strnoframeslink']  =  'Usar sin marcos';
 	$lang['strbadconfig'] = 'Su archivo config.inc.php est&#225; desactualizado. Deber&#225; regenerarlo a partir del archivo nuevo config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Su versi&#243;n de PHP no tiene el soporte correcto de bases de datos.';
-        $lang['strpostgresqlversionnotsupported']  =  'Su versi&#243;n de PostgreSQL no est&#225; soportado. Por favor actualice a la versi&#243;n %s o m&#225;s reciente.';
+    $lang['strpostgresqlversionnotsupported']  =  'Su versi&#243;n de PostgreSQL no est&#225; soportado. Por favor actualice a la versi&#243;n %s o m&#225;s reciente.';
 	$lang['strbadschema'] = 'El esquema especificado no es v&#225;lido.';
 	$lang['strbadencoding'] = 'No se pudo setear la codificaci&#243;n del cliente en la base de datos.';
 	$lang['strsqlerror'] = 'Error de SQL:';
@@ -155,11 +160,11 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strnoreportsdb'] = 'No ha creado a&#250;n la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
 	$lang['strnouploads'] = 'Est&#225; deshabilitada la subida de archivos.';
 	$lang['strimporterror'] = 'Error de importaci&#243;n.';
-        $lang['strimporterror-fileformat']  =  'Error de importacion de datos: Fall&#243; al intentar determinar el formato del archivo.';
+    $lang['strimporterror-fileformat']  =  'Error de importacion de datos: Fall&#243; al intentar determinar el formato del archivo.';
 	$lang['strimporterrorline'] = 'Error de importaci&#243;n en la l&#237;nea %s.';
-        $lang['strimporterrorline-badcolumnnum']  =  'Error de importaci&#243;n en la l&#237;nea %s:  La l&#237;nea no posee la cantidad de columnas correctas.';
-        $lang['strimporterror-uploadedfile']  =  'Error de importaci&#243;n: No se ha podido subir el archivo al servidor';
-        $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
+    $lang['strimporterrorline-badcolumnnum']  =  'Error de importaci&#243;n en la l&#237;nea %s:  La l&#237;nea no posee la cantidad de columnas correctas.';
+    $lang['strimporterror-uploadedfile']  =  'Error de importaci&#243;n: No se ha podido subir el archivo al servidor';
+    $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -183,7 +188,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strinsertrow'] = 'Insertar Fila';
 	$lang['strrowinserted'] = 'Fila insertada.';
 	$lang['strrowinsertedbad'] = 'Fall&#243; la inserci&#243;n de fila.';
-        $lang['strrowduplicate']  =  'Inserci&#243;n de fila fall&#243;, intentado hacer una duplicaci&#243;n de inserci&#243;n.';
+    $lang['strrowduplicate']  =  'Inserci&#243;n de fila fall&#243;, intentado hacer una duplicaci&#243;n de inserci&#243;n.';
 	$lang['streditrow'] = 'Editar fila';
 	$lang['strrowupdated'] = 'Fila actualizada.';
 	$lang['strrowupdatedbad'] = 'Fall&#243; al intentar actualizar la fila.';
@@ -191,10 +196,10 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strconfdeleterow'] = '&#191;Est&#225; seguro que quiere eliminar esta fila?';
 	$lang['strrowdeleted'] = 'Fila eliminada.';
 	$lang['strrowdeletedbad'] = 'Fall&#243; la eliminaci&#243;n de fila.';
-        $lang['strinsertandrepeat']  =  'Insertar y Repite';
-        $lang['strnumcols']  =  'Cantidad de columnas';
-        $lang['strcolneedsname']  =  'Debe especificar un nombre para la columna';
-        $lang['strselectallfields'] = 'Seleccionar todos los campos.';
+    $lang['strinsertandrepeat']  =  'Insertar y Repite';
+    $lang['strnumcols']  =  'Cantidad de columnas';
+    $lang['strcolneedsname']  =  'Debe especificar un nombre para la columna';
+    $lang['strselectallfields'] = 'Seleccionar todos los campos.';
 	$lang['strselectneedscol'] = 'Debe elegir al menos una columna';
 	$lang['strselectunary'] = 'Operaciones unitarias no pueden tener valores.';
 	$lang['straltercolumn'] = 'Modificar Columna';
@@ -203,21 +208,21 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strconfdropcolumn'] = '&#191;Est&#225; seguro que quiere eliminar la columna &quot;%s&quot; de la tabla &quot;%s&quot;?';
 	$lang['strcolumndropped'] = 'Columna eliminada.';
 	$lang['strcolumndroppedbad'] = 'Fall&#243; la eliminaci&#243;n de columna.';
-        $lang['straddcolumn'] = 'Agregar Columna';
+    $lang['straddcolumn'] = 'Agregar Columna';
 	$lang['strcolumnadded'] = 'Columna agregada.';
 	$lang['strcolumnaddedbad'] = 'Fall&#243; el agregado de columna.';
 	$lang['strcascade'] = 'EN CASCADA';
 	$lang['strtablealtered'] = 'Tabla modificada.';
 	$lang['strtablealteredbad'] = 'Fall&#243; la modificaci&#243;n  de la Tabla.';
-        $lang['strdataonly'] = 'Datos solamente';
+    $lang['strdataonly'] = 'Datos solamente';
 	$lang['strstructureonly'] = 'Solo la estructura';
 	$lang['strstructureanddata'] = 'Estructura y datos';
 	$lang['strtabbed'] = 'Tabulado';
 	$lang['strauto'] = 'Autom&#225;tico';
-        $lang['strconfvacuumtable']  =  'Esta seguro que quiere limpiar &quot;%s&quot;?';
-        $lang['strestimatedrowcount']  =  'Estimaci&#243;n de filas';
+    $lang['strconfvacuumtable']  =  'Esta seguro que quiere limpiar &quot;%s&quot;?';
+    $lang['strestimatedrowcount']  =  'Estimaci&#243;n de filas';
 
-        // Users
+    // Users
 	$lang['struser'] = 'Usuario';
 	$lang['strusers'] = 'Usuarios';
 	$lang['strusername'] = 'Nombre de usuario';
@@ -227,7 +232,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strexpires'] = 'Expira';
 	$lang['strsessiondefaults'] = 'Valores predeterminados de la sesi&#243;n.';
 	$lang['strnousers'] = 'No se encontraron usuarios.';
-        $lang['struserupdated'] = 'Usuario actualizado.';
+    $lang['struserupdated'] = 'Usuario actualizado.';
 	$lang['struserupdatedbad'] = 'Fall&#243; la actualizaci&#243;n del usuario.';
 	$lang['strshowallusers'] = 'Mostrar Todos los Usuarios';
 	$lang['strcreateuser'] = 'Crear Usuario';
@@ -235,7 +240,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strusercreated'] = 'Usuario creado.';
 	$lang['strusercreatedbad'] = 'Fall&#243; al crear usuario.';
 	$lang['strconfdropuser'] = '&#191;Est&#225; seguro que quiere eliminar el usuario &quot;%s&quot;?';
-        $lang['struserdropped'] = 'Usuario eliminado.';
+    $lang['struserdropped'] = 'Usuario eliminado.';
 	$lang['struserdroppedbad'] = 'Fall&#243; al eliminar el usuario.';
 	$lang['straccount'] = 'Cuenta';
 	$lang['strchangepassword'] = 'Cambiar Contrase&#241;a';
@@ -244,8 +249,8 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strpasswordshort'] = 'La contrase&#241;a es muy corta.';
 	$lang['strpasswordconfirm'] = 'Las contrase&#241;as no coinciden.';
 
-        // Groups
-        $lang['strgroup'] = 'Grupo';
+    // Groups
+    $lang['strgroup'] = 'Grupo';
 	$lang['strgroups']  =  'Grupos';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
 	$lang['strnogroups'] = 'No se encontraron grupos.';
@@ -256,8 +261,8 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strgroupcreatedbad'] = 'Fall&#243; la creaci&#243;n del grupo.';
 	$lang['strconfdropgroup'] = '&#191;Est&#225; seguro que quiere eliminar el grupo &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
-        $lang['strgroupdroppedbad'] = 'Fall&#243; la eliminaci&#243;n del grupo.';
-        $lang['strmembers'] = 'Miembros';
+    $lang['strgroupdroppedbad'] = 'Fall&#243; la eliminaci&#243;n del grupo.';
+    $lang['strmembers'] = 'Miembros';
 	$lang['straddmember'] = 'Agregar un miembro';
 	$lang['strmemberadded'] = 'Miembro agregado.';
 	$lang['strmemberaddedbad'] = 'Fall&#243; al intentar agregar nuevo miembro.';
@@ -266,7 +271,19 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strmemberdropped'] = 'Miembro eliminado.';
 	$lang['strmemberdroppedbad'] = 'Fall&#243; al intentar sacar un miembro.';
 
-	// Privilges
+	// Roles
+$lang['strrole']  =  'Role';
+$lang['strroles']  =  'Roles';
+    $lang['strinheritsprivs']  =  'Hereda Privilegios?';
+$lang['strcreaterole']  =  'Create Role';
+$lang['strcatupdate']  =  'Modify Catalogs?';
+    $lang['strcanlogin']  =  'Puede loggearse?';
+    $lang['strmaxconnections']  =  'M&#225;ximo de conexiones';
+$lang['strconfdroprole']  =  'Are you sure you want to drop the role &quot;%s&quot;?';
+    $lang['strroledropped']  =  'Usuario eliminado.';
+$lang['strroledroppedbad']  =  'Failed to drop role.';
+	
+	// Privileges
 	$lang['strprivilege'] = 'Privilegio';
 	$lang['strprivileges'] = 'Privilegios';
 	$lang['strnoprivileges'] = 'Este objeto tiene privilegios de usuario por defecto.';
@@ -303,11 +320,11 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strfull'] = 'Full';
 	$lang['strfreeze'] = 'Freeze';
 	$lang['strforce'] = 'Force';
-        $lang['strsignalsent']  =  'Se&#241;al enviada.';
-        $lang['strsignalsentbad']  =  'Fall&#243; el env&#237;o de la se&#241;al.';
-        $lang['strallobjects']  =  'Todos los objetos';
-        $lang['strdatabasealtered']  =  'Base de Datos alterada.';
-        $lang['strdatabasealteredbad']  =  'Fall&#243; al intentar alterar la Base de Datos.';
+    $lang['strsignalsent']  =  'Se&#241;al enviada.';
+    $lang['strsignalsentbad']  =  'Fall&#243; el env&#237;o de la se&#241;al.';
+    $lang['strallobjects']  =  'Todos los objetos';
+    $lang['strdatabasealtered']  =  'Base de Datos alterada.';
+    $lang['strdatabasealteredbad']  =  'Fall&#243; al intentar alterar la Base de Datos.';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -319,7 +336,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strviewname'] = 'Nombre de Vista';
 	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
 	$lang['strviewneedsdef'] = 'Debe darle una definici&#243;n a su vista.';
-        $lang['strviewneedsfields'] = 'Seleccione por favor los campos que desea en su vista.';
+    $lang['strviewneedsfields'] = 'Seleccione por favor los campos que desea en su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Fall&#243; al crear la vista.';
 	$lang['strconfdropview'] = '&#191;Est&#225; seguro que quiere eliminar la vista &quot;%s&quot;?';
@@ -355,6 +372,15 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strsequencedroppedbad'] = 'Fall&#243; la eliminaci&#243;n de la secuencia.';
 	$lang['strsequencereset'] = 'Secuencia reiniciada.';
 	$lang['strsequenceresetbad'] = 'Fall&#243; al intentar reiniciar la secuencia.'; 
+ 	$lang['straltersequence']  =  'Alter sequence';
+ 	$lang['strsequencealtered']  =  'Sequence altered.';
+ 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
+ 	$lang['strsetval']  =  'Set Value';
+ 	$lang['strsequencesetval']  =  'Sequence value set.';
+ 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
+ 	$lang['strnextval']  =  'Increment Value';
+ 	$lang['strsequencenextval']  =  'Sequence incremented.';
+ 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
 
 	// Indexes
 	$lang['strindex'] = '&#205;ndice';
@@ -399,7 +425,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strruledroppedbad'] = 'Fall&#243; al eliminar la regla.';
 
 	// Constraints
-        $lang['strconstraint']  =  'Restricci&#243;n';
+    $lang['strconstraint']  =  'Restricci&#243;n';
 	$lang['strconstraints'] = 'Restricciones';
 	$lang['strshowallconstraints'] = 'Mostrar todas las restricciones';
 	$lang['strnoconstraints'] = 'No se encontraron restricciones.';
@@ -437,13 +463,12 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strshowallfunctions'] = 'Mostrar todas las funciones';
 	$lang['strnofunction'] = 'No se encontr&#243; la funci&#243;n.';
 	$lang['strnofunctions'] = 'No se encontraron funciones.';
-        $lang['strcreateplfunction']  =  'Crear funci&#243;n SQL/PL';
-        $lang['strcreateinternalfunction']  =  'Crear funci&#243;n interna';
-        $lang['strcreatecfunction']  =  'Crear funci&#243;n en C';
+    $lang['strcreateplfunction']  =  'Crear funci&#243;n SQL/PL';
+    $lang['strcreateinternalfunction']  =  'Crear funci&#243;n interna';
+    $lang['strcreatecfunction']  =  'Crear funci&#243;n en C';
 	$lang['strfunctionname'] = 'Nombre de la funci&#243;n';
 	$lang['strreturns'] = 'Devuelve';
-	$lang['strarguments'] = 'Argumentos';
-        $lang['strproglanguage'] = 'Lenguaje de programaci&#243;n';
+    $lang['strproglanguage'] = 'Lenguaje de programaci&#243;n';
 	$lang['strfunctionneedsname'] = 'Debe darle un nombre a la funci&#243;n.';
 	$lang['strfunctionneedsdef'] = 'Debe darle una definici&#243;n a la funci&#243;n.';
 	$lang['strfunctioncreated'] = 'Funci&#243;n creada.';
@@ -453,8 +478,22 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strfunctiondroppedbad'] = 'Fall&#243; al eliminar la funci&#243;n.';
 	$lang['strfunctionupdated'] = 'Funci&#243;n actualizada.';
 	$lang['strfunctionupdatedbad'] = 'Fall&#243; al actualizar la funci&#243;n.';
-        $lang['strobjectfile']  =  'Archivo de objeto';
-        $lang['strlinksymbol']  =  'Vinculo simb&#243;lico';
+    $lang['strobjectfile']  =  'Archivo de objeto';
+    $lang['strlinksymbol']  =  'Vinculo simb&#243;lico';
+    $lang['strarguments']  =  'Argumentos';
+    $lang['strargname']  =  'Nombre';
+    $lang['strargmode']  =  'Modo';
+    $lang['strargtype']  =  'Tipo';
+    $lang['strargadd']  =  'Agregar otro argumento';
+    $lang['strargremove']  =  'Eliminar este argumento';
+    $lang['strargnoargs']  =  'Esta funci&#243;n no tendr&#225; argumentos.';
+    $lang['strargenableargs']  =  'Habilitar argumentos pasados a esta funci&#243;n.';
+$lang['strargnorowabove']  =  'There needs to be a row above this row.';
+$lang['strargnorowbelow']  =  'There needs to be a row below this row.';
+    $lang['strargraise']  =  'Mover arriba.';
+    $lang['strarglower']  =  'Mover abajo.';
+    $lang['strargremoveconfirm']  =  'Esta seguro que quiere eliminar este argumento? Esto NO se puede deshacer.';
+
 
 	// Triggers
 	$lang['strtrigger'] = 'Disparador';
@@ -470,9 +509,9 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strconfdroptrigger'] = '&#191;Est&#225; seguro que quiere eliminar el disparador &quot;%s&quot; en &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Disparador eliminado.';
 	$lang['strtriggerdroppedbad'] = 'Fall&#243; al eliminar el disparador.';
-        $lang['strtriggeraltered'] = 'Disparador modificado.';
-        $lang['strtriggeralteredbad'] = 'Fall&#243; la modificaci&#243;n del disparador.';
-        $lang['strforeach']  =  'Para cada uno';
+    $lang['strtriggeraltered'] = 'Disparador modificado.';
+    $lang['strtriggeralteredbad'] = 'Fall&#243; la modificaci&#243;n del disparador.';
+    $lang['strforeach']  =  'Para cada uno';
 
 	// Types
 	$lang['strtype'] = 'Tipo de dato';
@@ -481,9 +520,9 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strnotype'] = 'No se encontr&#243; el tipo.';
 	$lang['strnotypes'] = 'No se encontraron tipos.';
 	$lang['strcreatetype'] = 'Crear Tipo';
-        $lang['strcreatecomptype']  =  'Crear tipo compuesto';
-        $lang['strtypeneedsfield']  =  'Debe especificar al menos un campo.';
-        $lang['strtypeneedscols']  =  'Tipos compuestos requieren de un n&#250;mero valido de columnas.';	
+    $lang['strcreatecomptype']  =  'Crear tipo compuesto';
+    $lang['strtypeneedsfield']  =  'Debe especificar al menos un campo.';
+    $lang['strtypeneedscols']  =  'Tipos compuestos requieren de un n&#250;mero valido de columnas.';	
 	$lang['strtypename'] = 'Nombre del tipo';
 	$lang['strinputfn'] = 'Funci&#243;n de entrada';
 	$lang['stroutputfn'] = 'Funci&#243;n de salida';
@@ -492,8 +531,8 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strelement'] = 'Elemento';
 	$lang['strdelimiter'] = 'Delimitador';
 	$lang['strstorage'] = 'Almacenamiento';
-        $lang['strfield']  =  'Campo';
-        $lang['strnumfields']  =  'Cantidad de campos';
+    $lang['strfield']  =  'Campo';
+    $lang['strnumfields']  =  'Cantidad de campos';
 	$lang['strtypeneedsname'] = 'Debe especificar un nombre para el tipo.';
 	$lang['strtypeneedslen'] = 'Debe especificar una longitud para el tipo.';
 	$lang['strtypecreated'] = 'Tipo creado';
@@ -501,10 +540,10 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strconfdroptype'] = '&#191;Est&#225; seguro que quiere eliminar el tipo &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Tipo eliminado.';
 	$lang['strtypedroppedbad'] = 'Fall&#243; al eliminar el tipo.';
-        $lang['strflavor']  =  'Tipo';
-        $lang['strbasetype']  =  'Base';
-        $lang['strcompositetype']  =  'Compuesto';
-        $lang['strpseudotype']  =  'Pseudo';
+    $lang['strflavor']  =  'Tipo';
+    $lang['strbasetype']  =  'Base';
+    $lang['strcompositetype']  =  'Compuesto';
+    $lang['strpseudotype']  =  'Pseudo';
 
 	// Schemas
 	$lang['strschema'] = 'Esquema';
@@ -522,7 +561,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strschemadroppedbad'] = 'Fall&#243; al eliminar el esquema.';
 	$lang['strschemaaltered'] = 'Esquema modificado.';
 	$lang['strschemaalteredbad'] = 'Modificaci&#243;n del esquema fall&#243;.';
-        $lang['strsearchpath']  =  'Orden de busqueda en esquemas';
+    $lang['strsearchpath']  =  'Orden de busqueda en esquemas';
 
 	// Reports
 	$lang['strreport'] = 'Reporte';
@@ -552,7 +591,7 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strdomainalteredbad'] = 'Fall&#243; al intentar modificar el dominio.';
 
 	// Operators
-        $lang['stroperator'] = 'Operador';
+    $lang['stroperator'] = 'Operador';
 	$lang['stroperators'] = 'Operadores';
 	$lang['strshowalloperators'] = 'Mostrar todos los operadores';
 	$lang['strnooperator'] = 'No se encontr&#243; el operador.';
@@ -631,21 +670,21 @@ $lang['strnull']  =  'NULL (The word)';
 	$lang['strrows2'] = 'Rows';
 
 	// Tablespaces
-        $lang['strtablespace']  =  'Tablespace';
-        $lang['strtablespaces']  =  'Tablespaces';
-        $lang['strshowalltablespaces']  =  'Mostrar todos los tablespaces';
-        $lang['strnotablespaces']  =  'No se encontraron tablespaces.';
-        $lang['strcreatetablespace']  =  'Crear tablespace';
-        $lang['strlocation']  =  'Ubicaci&#243;n';
-        $lang['strtablespaceneedsname']  =  'Debe darle un nombre al tablespace.';
-        $lang['strtablespaceneedsloc']  =  'Debe dar un directorio en donde crear el tablespace.';
-        $lang['strtablespacecreated']  =  'Tablespace creado.';
-        $lang['strtablespacecreatedbad']  =  'Fall&#243; la creaci&#243;n del tablespace.';
-        $lang['strconfdroptablespace']  =  'Esta seguro que quiere eliminar el tablespace &quot;%s&quot;?';
-        $lang['strtablespacedropped']  =  'Tablespace eliminado.';
-        $lang['strtablespacedroppedbad']  =  'Fall&#243; al intenta eliminar el tablespace.';
-        $lang['strtablespacealtered']  =  'Tablespace modificado.';
-        $lang['strtablespacealteredbad']  =  'Fall&#243; la modificaci&#243;n del Tablespace.';
+    $lang['strtablespace']  =  'Tablespace';
+    $lang['strtablespaces']  =  'Tablespaces';
+    $lang['strshowalltablespaces']  =  'Mostrar todos los tablespaces';
+    $lang['strnotablespaces']  =  'No se encontraron tablespaces.';
+    $lang['strcreatetablespace']  =  'Crear tablespace';
+    $lang['strlocation']  =  'Ubicaci&#243;n';
+    $lang['strtablespaceneedsname']  =  'Debe darle un nombre al tablespace.';
+    $lang['strtablespaceneedsloc']  =  'Debe dar un directorio en donde crear el tablespace.';
+    $lang['strtablespacecreated']  =  'Tablespace creado.';
+    $lang['strtablespacecreatedbad']  =  'Fall&#243; la creaci&#243;n del tablespace.';
+    $lang['strconfdroptablespace']  =  'Esta seguro que quiere eliminar el tablespace &quot;%s&quot;?';
+    $lang['strtablespacedropped']  =  'Tablespace eliminado.';
+    $lang['strtablespacedroppedbad']  =  'Fall&#243; al intenta eliminar el tablespace.';
+    $lang['strtablespacealtered']  =  'Tablespace modificado.';
+    $lang['strtablespacealteredbad']  =  'Fall&#243; la modificaci&#243;n del Tablespace.';
 
 	// Slony clusters
 $lang['strcluster']  =  'Cluster';
@@ -753,18 +792,39 @@ $lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set
 $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
 
 	// Slony subscriptions
-        $lang['strsubscriptions']  =  'Subscripciones';
-        $lang['strnosubscriptions']  =  'No se encontraron subscripciones.';
+    $lang['strsubscriptions']  =  'Subscripciones';
+    $lang['strnosubscriptions']  =  'No se encontraron subscripciones.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted est&#225; logueado con usuario &quot;%s&quot;, %s';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
 	$lang['strhelp'] = 'Ayuda';
-        $lang['strhelpicon']  =  '?';
-        $lang['strlogintitle']  =  'Loguearse a %s';
-        $lang['strlogoutmsg']  =  'Saliendo de %s';
-        $lang['strloading']  =  'Cargando...';
-        $lang['strerrorloading']  =  'Error Cargando';
-        $lang['strclicktoreload']  =  'Click para recargar';
+    $lang['strhelpicon']  =  '?';
+    $lang['strlogintitle']  =  'Loguearse a %s';
+    $lang['strlogoutmsg']  =  'Saliendo de %s';
+    $lang['strloading']  =  'Cargando...';
+    $lang['strerrorloading']  =  'Error Cargando';
+    $lang['strclicktoreload']  =  'Click para recargar';
 
+	//Autovacuum
+$lang['strautovacuum']  =  'Autovacuum'; 
+    $lang['strenabled']  =  'Habilitado'; 
+    $lang['strvacuumbasethreshold']  =  'Umbral de Vacuum'; 
+$lang['strvacuumscalefactor']  =  'Vacuum Scale Factor';  
+$lang['stranalybasethreshold']  =  'Analyze Base Threshold';  
+$lang['stranalyzescalefactor']  =  'Analyze Scale Factor'; 
+$lang['strvacuumcostdelay']  =  'Vacuum Cost Delay'; 
+$lang['strvacuumcostlimit']  =  'Vacuum Cost Limit';  
+
+    //Table-level Locks
+    $lang['strlocks']  =  'Bloqueos';
+    $lang['strtransaction']  =  'ID de transacci&#243;n';
+    $lang['strprocessid']  =  'ID de proceso';
+    $lang['strmode']  =  'Modo de bloqueo';
+    $lang['strislockheld'] = 'Se mantiene el bloqueo?';
+
+	// Prepared transactions
+    $lang['strpreparedxacts']  =  'Transacciones preparadas';
+    $lang['strxactid']  =  'ID de Transacci&#243;n';
+    $lang['strgid']  =  'ID Global';
 ?>
