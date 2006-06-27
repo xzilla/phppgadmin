@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.54 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: functions.php,v 1.55 2006/06/27 02:41:38 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -303,7 +303,7 @@
 	/**
 	 * Displays a screen where they can enter a new function
 	 */
-	function doCreate($msg = '') {
+	function doCreate($msg = '',$szJS="") {
 		global $data, $misc;
 		global $PHP_SELF, $lang;
 		
@@ -336,59 +336,132 @@
 				break;
 		}
 		$misc->printMsg($msg);
-
-		echo "<form action=\"$PHP_SELF\" method=post>\n";
-		echo "<table>\n";
-		echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
-		echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
-		echo "<th class=\"data required\">{$lang['strreturns']}</th>\n";
-		echo "<th class=\"data required\">{$lang['strproglanguage']}</th></tr>\n";
-
-		echo "<tr><td class=\"data1\"><input name=\"formFunction\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formFunction']), "\" /></td>\n";
-
-		echo "<td class=\"data1\"><input name=\"formArguments\" style=\"width:100%;\" size=\"16\" value=\"",
-			htmlspecialchars($_POST['formArguments']), "\" /></td>\n";
-
-		echo "<td class=\"data1\">\n";
-		// Output setof option
-		echo "<select name=\"formSetOf\">\n";
-		echo '<option value=""', ($_POST['formSetOf'] == '') ? ' selected="selected"' : '', "></option>\n";
-		echo '<option value="SETOF"', ($_POST['formSetOf'] == 'SETOF') ? ' selected="selected"' : '', ">SETOF</option>\n";
-		echo "</select>\n";
-
-		// Output return type list		
-		echo "<select name=\"formReturns\">\n";
+		
+		// Create string for return type list		
+		$szTypes = "";
 		while (!$types->EOF) {
-			echo "<option value=\"", htmlspecialchars($types->f['typname']), "\"", 
-				($types->f['typname'] == $_POST['formReturns']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($types->f['typname']), "</option>\n";
+			$szSelected = "";
+			if($types->f['typname'] == $_POST['formReturns']) {
+				$szSelected = " selected=\"selected\"";
+			}
+			$szTypes .= "<option value=\"". htmlspecialchars($types->f['typname']) ."\"{$szSelected}>";
+			$szTypes .= $misc->printVal($types->f['typname']) ."</option>";
 			$types->moveNext();
 		}
-		echo "</select>\n";
-		
-		// Output array type selector
-		echo "<select name=\"formArray\">\n";
-		echo "<option value=\"\"", ($_POST['formArray'] == '') ? ' selected="selected"' : '', "></option>\n";
-		echo "<option value=\"[]\"", ($_POST['formArray'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
-		echo "</select></td>\n";
 
-		// Output language
-		echo "<td class=\"data1\">";
+		$szFunctionName = "<td class=\"data1\"><input name=\"formFunction\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"".
+			htmlspecialchars($_POST['formFunction']) ."\" /></td>";
+
+		$szArguments = "<td class=\"data1\"><input name=\"formArguments\" style=\"width:100%;\" size=\"16\" value=\"".
+			htmlspecialchars($_POST['formArguments']) ."\" /></td>";
+		
+		$szSetOfSelected = "";
+		$szNotSetOfSelected = "";
+		if($_POST['formSetOf'] == '') {
+			$szNotSetOfSelected = " selected=\"selected\"";
+		} else if($_POST['formSetOf'] == 'SETOF') {
+			$szSetOfSelected = " selected=\"selected\"";
+		}
+		$szReturns = "<td class=\"data1\" colspan=\"2\">";
+		$szReturns .= "<select name=\"formSetOf\">";
+		$szReturns .= "<option value=\"\"{$szNotSetOfSelected}></option>";
+		$szReturns .= "<option value=\"SETOF\"{$szSetOfSelected}>SETOF</option>";
+		$szReturns .= "</select>";
+
+		$szReturns .= "<select name=\"formReturns\">".$szTypes."</select>";
+
+		// Create string array type selector
+
+		$szArraySelected = "";
+		$szNotArraySelected = "";
+		if($_POST['formArray'] == '') {
+			$szNotArraySelected = " selected=\"selected\"";
+		} else if($_POST['formArray'] == '[]') {
+			$szArraySelected = " selected=\"selected\"";
+		}
+
+		$szReturns .= "<select name=\"formArray\">";
+		$szReturns .= "<option value=\"\"{$szNotArraySelected}></option>";
+		$szReturns .= "<option value=\"[]\"{$szArraySelected}>[ ]</option>";
+		$szReturns .= "</select>\n</td>";
+
+		// Create string for language
+		$szLanguage = "<td class=\"data1\">";
 		if ($fnlang == 'c' || $fnlang == 'internal') echo $_POST['formLanguage'], "<input type=\"hidden\" name=\"formLanguage\" value=\"{$_POST['formLanguage']}\" />";
 		else {
-			echo "<select name=\"formLanguage\">\n";
+			$szLanguage .= "<select name=\"formLanguage\">";
 			while (!$langs->EOF) {
+				$szSelected = "";
+				if($langs->f['lanname'] == $_POST['formLanguage']) {
+					$szSelected = " selected=\"selected\"";
+				}
 				if (strtolower($langs->f['lanname']) != 'c' && strtolower($langs->f['lanname']) != 'internal')
-					echo "<option value=\"", htmlspecialchars($langs->f['lanname']), "\"",
-						($langs->f['lanname'] == $_POST['formLanguage']) ? ' selected="selected"' : '', ">",
-						$misc->printVal($langs->f['lanname']), "</option>\n";
+					$szLanguage .= "<option value=\"". htmlspecialchars($langs->f['lanname']). "\"{$szSelected}>".
+						$misc->printVal($langs->f['lanname']) ."</option>";
 				$langs->moveNext();
 			}
-			echo "</select>\n";
+			$szLanguage .= "</select>\n";
 		}
-		echo "</td></tr>\n";
-		
+		$szLanguage .= "</td>";
+
+		$szJSArguments = "<tr><th class=\"data\" colspan=\"7\">{$lang['strarguments']}</th></tr>";
+		$arrayModes = array("IN","OUT","INOUT");
+		$szModes = "<select name=\"formArgModes[]\" style=\"width:100%;\">";
+		foreach($arrayModes as $pV) {
+			$szModes .= "<option value=\"{$pV}\">{$pV}</option>";
+		}
+		$szModes .= "</select>";
+		$szArgReturns = "<select name=\"formArgArray[]\">";
+		$szArgReturns .= "<option value=\"\"></option>";
+		$szArgReturns .= "<option value=\"[]\">[]</option>";
+		$szArgReturns .= "</select>";
+		if(!empty($conf['theme'])) {
+			$szImgPath = "images/themes/{$conf['theme']}";
+		} else {
+			$szImgPath = "images/themes/default";
+		}
+		if(empty($msg)) {
+			$szJSTRArg = "<script type=\"text/javascript\" >addArg();</script>\n";
+		} else {
+			$szJSTRArg = "";
+		}
+		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\"><td align=\"right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size:8pt\">{$lang['strargadd']}</span></td></tr></table></td></tr>";
+
+
+		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>
+		<script type=\"text/javascript\">
+			var g_types_select = '<select name=\"formArgType[]\">{$szTypes}</select>{$szArgReturns}';
+			var g_modes_select = '{$szModes}';
+			var g_name = '';
+			var g_lang_strargremove = \"". addslashes($lang["strargremove"]) ."\";
+			var g_lang_strargnoargs = \"". addslashes($lang["strargnoargs"]) ."\";
+			var g_lang_strargenableargs = \"". addslashes($lang["strargenableargs"]) ."\";
+			var g_lang_strargnorowabove = \"". addslashes($lang["strargnorowabove"]) ."\";
+			var g_lang_strargnorowbelow = \"". addslashes($lang["strargnorowbelow"]) ."\";
+			var g_lang_strargremoveconfirm = \"". addslashes($lang["strargremoveconfirm"]) ."\";
+			var g_lang_strargraise = \"". addslashes($lang["strargraise"]) ."\";
+			var g_lang_strarglower = \"". addslashes($lang["strarglower"]) ."\";
+		</script>
+		";
+		echo "<form action=\"$PHP_SELF\" method=post><input type=\"hidden\" name=\"formEmptyArgs\" id=\"formEmptyArgs\" value=\"1\" />\n";
+		echo "<table><tbody id=\"args_table\">\n";
+		echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
+		echo "<th class=\"data required\" colspan=\"2\">{$lang['strreturns']}</th>\n";
+		echo "<th class=\"data required\">{$lang['strproglanguage']}</th></tr>\n";
+		echo "<tr>\n";
+		echo "{$szFunctionName}\n";
+		echo "{$szReturns}\n";
+		echo "{$szLanguage}\n";
+		echo "</tr>\n";
+		echo "{$szJSArguments}\n";
+		echo "<tr>\n";
+		echo "<th class=\"data required\">{$lang['strargmode']}</th>\n";
+		echo "<th class=\"data required\">{$lang['strargname']}</th>\n";
+		echo "<th class=\"data required\" colspan=\"2\">{$lang['strargtype']}</th>\n";
+		echo "</tr>\n";
+		echo "{$szJSAddTR}\n";
+		echo $szJSTRArg;
+
 		if ($fnlang == 'c') {
 			echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
 			echo "<th class=\"data\" colspan=\"2\">{$lang['strlinksymbol']}</th></tr>\n";
@@ -423,12 +496,13 @@
 			}
 			echo "</td></tr>\n";
 		}		
-		echo "</table>\n";
+		echo "</tbody></table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
+		echo $szJS;
 	}
 	
 	/**
@@ -436,7 +510,7 @@
 	 */
 	function doSaveCreate() {
 		global $data, $lang;
-		
+
 		$fnlang = strtolower($_POST['formLanguage']);
 		
 		if ($fnlang == 'c') {
@@ -447,20 +521,91 @@
 			$def = $_POST['formDefinition'];
 		}
 
+		$szJS = "";
+
+		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>";
+		echo "<script type=\"text/javascript\">".buildJSData()."</script>";
+		if(!empty($_POST["formArgName"])) {
+			$szJS = buildJSRows(buildFunctionArguments($_POST));
+		} else {
+			$szJS = "<script type=\"text/javascript\" src=\"functions.js\">noArgsRebuild(addArg());</script>";
+		}
+
 		// Check that they've given a name and a definition
-		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname']);
-		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef']);
+		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname'],$szJS);
+		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef'],$szJS);
 		else {
 			// Append array symbol to type if chosen
-			$status = $data->createFunction($_POST['formFunction'], $_POST['formArguments'] , 
-					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'], 
+			$status = $data->createFunction($_POST['formFunction'], empty($_POST["nojs"]) ? buildFunctionArguments($_POST) : $_POST["formArguments"], 
+					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'],
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
-			else
-				doCreate($lang['strfunctioncreatedbad']);
+			else {
+				doCreate($lang['strfunctioncreatedbad'],$szJS);
+			}
 		}
 	}	
+
+	/**
+	 * Build out the function arguments string
+	 */
+	function buildFunctionArguments($arrayVars) {
+		$arrayArgs = array();
+		foreach($arrayVars["formArgName"] as $pK => $pV) {
+			$arrayArgs[] = $arrayVars["formArgModes"][$pK]." ". trim($pV) ." ". trim($arrayVars["formArgType"][$pK]) . $arrayVars["formArgArray"][$pK];
+		}
+		return implode(",",$arrayArgs);
+	}
+	
+	/**
+	 * Build out JS to re-create table rows for arguments
+	 */
+	function buildJSRows($szArgs) {
+		$arrayModes = array("IN","OUT","INOUT");
+		$arrayArgs = explode(",",$szArgs);
+		$arrayProperArgs = array();
+		$nC = 0;
+		$szReturn = "";
+		foreach($arrayArgs as $pV) {
+			$arrayWords = explode(" ",$pV);
+			if(in_array($arrayWords[0],$arrayModes)===true) {
+				$szMode = $arrayWords[0];
+				array_shift($arrayWords);
+			}
+			$szArgName = array_shift($arrayWords);
+			if(strpos($arrayWords[count($arrayWords)-1],"[]")===false) {
+				$szArgType = implode(" ",$arrayWords);
+				$bArgIsArray = "false";
+			} else {
+				$szArgType = str_replace("[]","",implode(" ",$arrayWords));
+				$bArgIsArray = "true";
+			}
+			$arrayProperArgs[] = array($szMode,$szArgName,$szArgType,$bArgIsArray);
+			$szReturn .= "<script type=\"text/javascript\">RebuildArgTR('{$szMode}','{$szArgName}','{$szArgType}',new Boolean({$bArgIsArray}));</script>";
+			$nC++;
+		}
+		return $szReturn;
+	}
+
+
+	function buildJSData() {
+		global $data;
+		$arrayModes = array("IN","OUT","INOUT");
+		$arrayTypes = $data->getTypes(true, true, true);
+		$arrayPTypes = array();
+		$arrayPModes = array();
+		$szTypes = "";
+		foreach($arrayTypes as $pK => $pV) {
+			$arrayPTypes[] = "'{$pV['typname']}'";
+		}
+		foreach($arrayModes as $pV) {
+			$arrayPModes[] = "'{$pV}'";
+		}
+		$szTypes = "g_main_types = new Array(".implode(",",$arrayPTypes).");";
+		$szModes = "g_main_modes = new Array(".implode(",",$arrayPModes).");";
+		return $szTypes.$szModes;
+	}
 
 	/**
 	 * Show default list of functions in the database

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.189 2006/06/20 14:06:09 xzilla Exp $
+	 * $Id: english.php,v 1.190 2006/06/27 02:41:38 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -468,7 +468,6 @@
 	$lang['strcreatecfunction'] = 'Create C function';
 	$lang['strfunctionname'] = 'Function name';
 	$lang['strreturns'] = 'Returns';
-	$lang['strarguments'] = 'Arguments';
 	$lang['strproglanguage'] = 'Programming language';
 	$lang['strfunctionneedsname'] = 'You must give a name for your function.';
 	$lang['strfunctionneedsdef'] = 'You must give a definition for your function.';
@@ -481,6 +480,20 @@
 	$lang['strfunctionupdatedbad'] = 'Function update failed.';
 	$lang['strobjectfile'] = 'Object File';
 	$lang['strlinksymbol'] = 'Link Symbol';
+	$lang['strarguments'] = 'Arguments';
+	$lang['strargname'] = 'Name';
+	$lang['strargmode'] = 'Mode';
+	$lang['strargtype'] = 'Type';
+	$lang['strargadd'] = 'Add Another Argument';
+	$lang['strargremove'] = 'Remove this argument';
+	$lang['strargnoargs'] = 'This function will not take any arguments.';
+	$lang['strargenableargs'] = 'Enable arguments being passed to this function.';
+	$lang['strargnorowabove'] = 'There needs to be a row above this row.';
+	$lang['strargnorowbelow'] = 'There needs to be a row below this row.';
+	$lang['strargraise'] = 'Move up.';
+	$lang['strarglower'] = 'Move down.';
+	$lang['strargremoveconfirm'] = 'Are you sure you want to remove this argument? This CANNOT be undone.';
+
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';

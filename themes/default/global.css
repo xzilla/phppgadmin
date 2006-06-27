@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.36 2005/11/30 21:25:33 slubek Exp $
+ * $Id: global.css,v 1.37 2006/06/27 02:41:39 xzilla Exp $
  */
 
 /** ELEMENTS */
@@ -155,6 +155,14 @@ td.data2
 	color: #000000;
 	background-color: #E6E6CC;
 	text-align: left;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: smaller; /*0.8em;*/
+}
+
+td.data3
+{
+	color: #000000;
+	background-color: #F3F3E9;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /*0.8em;*/
 }
@@ -369,4 +377,13 @@ pre.data
 
 .webfx-tree-hide-root {
 	display: none;
+}
+
+.arg_icon {
+	padding-right:5pt;
+	padding-left:5pt;
+}
+
+.arg_tr_pc {
+
 }
