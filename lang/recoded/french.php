@@ -4,7 +4,7 @@
 	 * French Language file for phpPgAdmin. 
 	 * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
 	 *
-	 * $Id: french.php,v 1.15 2005/11/19 09:40:25 chriskl Exp $
+	 * $Id: french.php,v 1.16 2006/06/27 21:40:05 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -16,19 +16,23 @@
 
 	// Basic strings
 	$lang['strintro'] = 'Bienvenue sur phpPgAdmin.';
-	$lang['strppahome'] = 'Page d\'accueil phpPgAdmin';
-	$lang['strpgsqlhome'] = 'Page d\'accueil PostgreSQL';
+	$lang['strppahome'] = 'Page d\'accueil de phpPgAdmin';
+	$lang['strpgsqlhome'] = 'Page d\'accueil de PostgreSQL';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
-	$lang['strlocaldocs'] = 'PostgreSQL Documentation (local)';
-	$lang['strreportbug'] = 'Rapporter un Bug';
-	$lang['strviewfaq'] = 'Voir la FAQ';
+	$lang['strlocaldocs'] = 'Documentation PostgreSQL (local)';
+	$lang['strreportbug'] = 'Rapporter un bug';
+	$lang['strviewfaq'] = 'Lire la FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
-	$lang['strlogin'] = 'Login';
-	$lang['strloginfailed'] = 'Echec de la connexion';
-        $lang['strlogindisallowed']  =  'Login d&#233;sactiv&#233; pour s&#233;curit&#233;';
+	$lang['strlogin'] = 'Connexion';
+	$lang['strloginfailed'] = '&#201;chec de la connexion';
+    $lang['strlogindisallowed']  =  'Connexion d&#233;sactiv&#233;e pour raison de s&#233;curit&#233;';
 	$lang['strserver'] = 'Serveur';
+	$lang['strservers']  =  'Serveurs';
+	$lang['strintroduction']  =  'Introduction';
+	$lang['strhost']  =  'H&#244;te';
+	$lang['strport']  =  'Port';
 	$lang['strlogout'] = 'D&#233;connexion';
 	$lang['strowner'] = 'Propri&#233;taire';
 	$lang['straction'] = 'Action';
@@ -39,25 +43,25 @@
 	$lang['strbrowse'] = 'Parcourir';
 	$lang['strdrop'] = 'Supprimer';
 	$lang['strdropped'] = 'Supprim&#233;';
-	$lang['strnull'] = 'Null';
-	$lang['strnotnull'] = 'Not Null';
+	$lang['strnull'] = 'NULL';
+	$lang['strnotnull'] = 'NOT NULL';
 	$lang['strprev'] = 'Pr&#233;c&#233;dent';
 	$lang['strnext'] = 'Suivant';
-        $lang['strfirst'] = '&lt;&lt; D&#233;but';
+    $lang['strfirst'] = '&lt;&lt; D&#233;but';
 	$lang['strlast'] = 'Fin &gt;&gt;';
-        $lang['strfailed']  =  'Echec';
+    $lang['strfailed']  =  '&#201;chec';
 	$lang['strcreate'] = 'Cr&#233;er';
 	$lang['strcreated'] = 'Cr&#233;&#233;';
 	$lang['strcomment'] = 'Commentaire';
 	$lang['strlength'] = 'Longueur';
-	$lang['strdefault'] = 'Defaut';
+	$lang['strdefault'] = 'D&#233;faut';
 	$lang['stralter'] = 'Modifier';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Annuler';
 	$lang['strsave'] = 'Sauvegarder';
 	$lang['strreset'] = 'R&#233;initialiser';
 	$lang['strinsert'] = 'Ins&#233;rer';
-	$lang['strselect'] = 'Selectionner';
+	$lang['strselect'] = 'S&#233;lectionner';
 	$lang['strdelete'] = 'Effacer';
 	$lang['strupdate'] = 'Modifier';
 	$lang['strreferences'] = 'R&#233;f&#233;rences';
@@ -65,13 +69,12 @@
 	$lang['strno'] = 'Non';
 	$lang['strtrue'] = 'TRUE';
 	$lang['strfalse'] = 'FALSE';
-        $lang['stredit']  =  'Editer';
-        $lang['strcolumn']  =  'Colonne';
+    $lang['stredit']  =  '&#201;diter';
+    $lang['strcolumn']  =  'Colonne';
 	$lang['strcolumns'] = 'Colonnes';
 	$lang['strrows'] = 'ligne(s)';
 	$lang['strrowsaff'] = 'ligne(s) affect&#233;e(s).';
-        $lang['strobjects']  =  'objet(s)';
-        $lang['strexample']  =  'exple.';
+    $lang['strobjects']  =  'objet(s)';
 	$lang['strback'] = 'Retour';
 	$lang['strqueryresults'] = 'R&#233;sultats de la requ&#234;te';
 	$lang['strshow'] = 'Voir';
@@ -82,68 +85,86 @@
 	$lang['strunique'] = 'Unique';
 	$lang['strprimary'] = 'Primaire';
 	$lang['strexport'] = 'Exporter';
-	$lang['strimport'] = 'Import';
-        $lang['strsql']  =  'SQL';
-	$lang['strgo'] = 'Go';
+	$lang['strimport'] = 'Importer';
+	$lang['strallowednulls']  =  'Autoriser les caract&#232;res NULL';
+	$lang['strbackslashn']  =  '\N';
+	$lang['strnull']  =  'NULL (le mot)';
+	$lang['stremptystring']  =  'Cha&#238;ne/champ vide';
+    $lang['strsql']  =  'SQL';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
 	$lang['stranalyze'] = 'Analyze';
 	$lang['strclusterindex'] = 'Cluster';
-        $lang['strclustered']  =  'En Cluster ?';
+    $lang['strclustered']  =  'En Cluster ?';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Lancer';
 	$lang['stradd'] = 'Ajouter';
-	$lang['strevent'] = 'Ev&#232;nement';
-	$lang['strwhere'] = 'Where';
-	$lang['strinstead'] = 'Do Instead';
-	$lang['strwhen'] = 'When';
+	$lang['strremove']  =  'Supprimer';
+	$lang['strevent'] = '&#201;v&#233;nement';
+	$lang['strwhere'] = 'O&#249;';
+	$lang['strinstead'] = 'Faire &#224; la place';
+	$lang['strwhen'] = 'Quand';
 	$lang['strformat'] = 'Format';
 	$lang['strdata'] = 'Donn&#233;e';
 	$lang['strconfirm'] = 'Confirmer';
 	$lang['strexpression'] = 'Expression';
 	$lang['strellipsis'] = '...';
-        $lang['strseparator']  =  ': ';
-	$lang['strexpand'] = 'Etendre';
+    $lang['strseparator']  =  ' :';
+	$lang['strexpand'] = '&#201;tendre';
 	$lang['strcollapse'] = 'R&#233;duire';
 	$lang['strexplain'] = 'Explain';
-        $lang['strexplainanalyze']  =  'Explain Analyze';
+    $lang['strexplainanalyze']  =  'Explain Analyze';
 	$lang['strfind'] = 'Rechercher';
 	$lang['stroptions'] = 'Options';
-	$lang['strrefresh'] = 'Raffraichir';
+	$lang['strrefresh'] = 'Rafraichir';
 	$lang['strdownload'] = 'T&#233;l&#233;charger';
-        $lang['strdownloadgzipped']  =  'T&#233;l&#233;charger avec compression gzip';
-        $lang['strinfo']  =  'Info';
-        $lang['stroids']  =  'OIDs';
-        $lang['stradvanced']  =  'Avanc&#233;';
-        $lang['strvariables']  =  'Variables';
-        $lang['strprocess']  =  'Processus';
-        $lang['strprocesses']  =  'Processus';
-        $lang['strsetting']  =  'Param&#233;trage';
-        $lang['streditsql']  =  'Editer SQL';
-        $lang['strruntime']  =  'Temps d\'execution Total: %s ms';
-        $lang['strpaginate']  =  'Paginer les r&#233;sultats';
-        $lang['struploadscript']  =  'ou importer un script SQL :';
-        $lang['strstarttime']  =  'Heure de D&#233;part';
-        $lang['strfile']  =  'Fichier';
-        $lang['strfileimported']  =  'Fichier import&#233;.';
+    $lang['strdownloadgzipped']  =  'T&#233;l&#233;charger avec compression gzip';
+    $lang['strinfo']  =  'Info';
+    $lang['stroids']  =  'OID';
+    $lang['stradvanced']  =  'Avanc&#233;';
+    $lang['strvariables']  =  'Variables';
+    $lang['strprocess']  =  'Processus';
+    $lang['strprocesses']  =  'Processus';
+    $lang['strsetting']  =  'Param&#233;trage';
+    $lang['streditsql']  =  '&#201;diter SQL';
+    $lang['strruntime']  =  'Temps d\'ex&#233;cution total : %s ms';
+    $lang['strpaginate']  =  'Paginer les r&#233;sultats';
+    $lang['struploadscript']  =  'ou importer un script SQL :';
+    $lang['strstarttime']  =  'Heure de d&#233;but';
+    $lang['strfile']  =  'Fichier';
+    $lang['strfileimported']  =  'Fichier import&#233;.';
+	$lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
+
+	// Database Sizes
+	$lang['strsize']  =  'Taille';
+	$lang['strbytes']  =  'octets';
+	$lang['strkb']  =  ' Ko';
+	$lang['strmb']  =  ' Mo';
+	$lang['strgb']  =  ' Go';
+	$lang['strtb']  =  ' To';
 
 	// Error handling
-	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsol&#232;te. Vous avez besoin de le reg&#233;nerer &#224; partir de config.inc.php-dist.';
+	$lang['strnoframes']  =  'Cette application fonctionne mieux avec un navigateur pouvant afficher des frames mais peut &#234;tre utilis&#233;e sans frames en suivant les liens ci-dessous.';
+	$lang['strnoframeslink']  =  'Utiliser sans frames';
+	$lang['strbadconfig'] = 'Le fichier de configuration config.inc.php est obsol&#232;te. Vous avez besoin de le reg&#233;n&#233;rer &#224; partir de config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Vous n\'avez pas compil&#233; correctement le support de la base de donn&#233;es dans votre installation de PHP.';
-        $lang['strphpversionnotsupported']  =  'Cette version de PHP n\'est pas support&#233;e. Merci de mettre &#224; jour PHP &#224; la  version  %s ou ult&#233;rieure.';
-        $lang['strpostgresqlversionnotsupported']  =  'Cette Version de PostgreSQL n\'est pas support&#233;e. Merci de mettre &#224; jour PHP &#224; la version %s ou ult&#233;rieure.';
+    $lang['strpostgresqlversionnotsupported']  =  'Cette version de PostgreSQL n\'est pas support&#233;e. Merci de mettre &#224; jour PHP &#224; la version %s ou ult&#233;rieure.';
 	$lang['strbadschema'] = 'Sch&#233;ma sp&#233;cifi&#233; invalide.';
 	$lang['strbadencoding'] = 'Impossible de sp&#233;cifier l\'encodage de la base de donn&#233;es.';
 	$lang['strsqlerror'] = 'Erreur SQL :';
-	$lang['strinstatement'] = 'In statement:';
+	$lang['strinstatement'] = 'Dans l\'instruction :';
 	$lang['strinvalidparam'] = 'Param&#232;tres de script invalides.';
-	$lang['strnodata'] = 'Pas de R&#233;sultats.';
-        $lang['strnoobjects']  =  'Aucun objet trouv&#233;.';
-	$lang['strrownotunique'] = 'Pas d\identifiant unique pour cette ligne.';
-        $lang['strnoreportsdb']  =  'Vous n\'avez pas cr&#233;er des rapports de la base de Donn&#233;es. Lisez le fichier INSTALL pour voir les directives.';
-        $lang['strnouploads']  =  'Importation de fichiers d&#233;sactiv&#233;.';
-        $lang['strimporterror']  =  'Erreur d\'importation.';
-        $lang['strimporterrorline']  =  'Erreur d\'importation &#224; la ligne %s.';
+	$lang['strnodata'] = 'Pas de r&#233;sultats.';
+    $lang['strnoobjects']  =  'Aucun objet trouv&#233;.';
+	$lang['strrownotunique'] = 'Pas d\'identifiant unique pour cette ligne.';
+    $lang['strnoreportsdb']  =  'Vous n\'avez pas cr&#233;&#233; la base de donn&#233;es reports. Lisez le fichier INSTALL pour en savoir plus.';
+    $lang['strnouploads']  =  'Importation de fichiers d&#233;sactiv&#233;e.';
+    $lang['strimporterror']  =  'Erreur d\'importation.';
+	$lang['strimporterror-fileformat']  =  'Erreur d\'importation : &#233;chec lors de la d&#233;termination automatique du format de fichier.';
+    $lang['strimporterrorline']  =  'Erreur d\'importation &#224; la ligne %s.';
+	$lang['strimporterrorline-badcolumnnum']  =  'Erreur d\'importation sur la ligne %s : la ligne ne poss&#232;de pas le bon nombre de colonnes.';
+	$lang['strimporterror-uploadedfile']  =  'Erreur d\'importation : le fichier n\'a pas p&#251; &#234;tre r&#233;cup&#233;r&#233; sur le serveur.';
+	$lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de sch&#233;mas n\'est pas support&#233; sur Windows.';
 
 	// Tables
 	$lang['strtable'] = 'Table';
@@ -156,138 +177,154 @@
 	$lang['strtableneedsname'] = 'Vous devez donner un nom pour votre table.';
 	$lang['strtableneedsfield'] = 'Vous devez sp&#233;cifier au moins un champ.';
 	$lang['strtableneedscols'] = 'Vous devez indiquer un nombre valide de colonnes.';
-	$lang['strtablecreated'] = 'Table cr&#233;e.';
-	$lang['strtablecreatedbad'] = 'Echec de la cr&#233;ation de table.';
-	$lang['strconfdroptable'] = 'Etes-vous sur de vouloir supprimer la table &quot;%s&quot;?';
+	$lang['strtablecreated'] = 'Table cr&#233;&#233;e.';
+	$lang['strtablecreatedbad'] = '&#201;chec de la cr&#233;ation de table.';
+	$lang['strconfdroptable'] = '&#202;tes-vous sur de vouloir supprimer la table &#171; %s &#187; ?';
 	$lang['strtabledropped'] = 'Table supprim&#233;e.';
-	$lang['strtabledroppedbad'] = 'Echec de la suppresion de table.';
-	$lang['strconfemptytable'] = 'Etes-vous s&#251;r de vouloir vider la table &quot;%s&quot;?';
+	$lang['strtabledroppedbad'] = '&#201;chec lors de la suppression de table.';
+	$lang['strconfemptytable'] = '&#202;tes-vous s&#251;r de vouloir vider la table &#171; %s &#187; ?';
 	$lang['strtableemptied'] = 'Table vide.';
-	$lang['strtableemptiedbad'] = 'Echec du vidage de la table.';
-	$lang['strinsertrow'] = 'Inserer enregistrement.';
+	$lang['strtableemptiedbad'] = '&#201;chec du vidage de la table.';
+	$lang['strinsertrow'] = 'Ins&#233;rer un enregistrement.';
 	$lang['strrowinserted'] = 'Enregistrement ins&#233;r&#233;.';
-	$lang['strrowinsertedbad'] = 'Echec d\'insertion d\'un enregistrement.';
-	$lang['streditrow'] = 'Editer enregistrement.';
+	$lang['strrowinsertedbad'] = '&#201;chec lors de l\'insertion d\'un enregistrement.';
+	$lang['strrowduplicate']  =  '&#201;chec lors de l\'insertion d\'un enregistrement, a tent&#233; de faire une insertion dupliqu&#233;e.';
+	$lang['streditrow'] = '&#201;diter l\'enregistrement.';
 	$lang['strrowupdated'] = 'Enregistrement mis &#224; jour.';
-	$lang['strrowupdatedbad'] = 'Echec de mise &#224; jour de l\'enregistrement.';
-	$lang['strdeleterow'] = 'Effacer enregistrement';
-	$lang['strconfdeleterow'] = 'Etes-vous s&#251;r de vouloir supprimer cet enregistrement ?';
-	$lang['strrowdeleted'] = 'Enregistrement Supprim&#233;.';
-	$lang['strrowdeletedbad'] = 'Echec de suppression de l\'enregistrement.';
-        $lang['strinsertandrepeat']  =  'Inserer &amp; Repeter';
-        $lang['strnumcols']  =  'Nombre de colonnes';
-        $lang['strcolneedsname']  =  'Vous devez sp&#233;cifier un nom pour la colonne';
+	$lang['strrowupdatedbad'] = '&#201;chec de mise &#224; jour de l\'enregistrement.';
+	$lang['strdeleterow'] = 'Effacer l\'enregistrement';
+	$lang['strconfdeleterow'] = '&#202;tes-vous s&#251;r de vouloir supprimer cet enregistrement ?';
+	$lang['strrowdeleted'] = 'Enregistrement supprim&#233;.';
+	$lang['strrowdeletedbad'] = '&#201;chec lors de la suppression de l\'enregistrement.';
+    $lang['strinsertandrepeat']  =  'Ins&#233;rer et r&#233;p&#233;ter';
+    $lang['strnumcols']  =  'Nombre de colonnes';
+    $lang['strcolneedsname']  =  'Vous devez sp&#233;cifier un nom pour la colonne';
 	$lang['strselectallfields'] = 'S&#233;lectionner tous les champs';
-        $lang['strselectneedscol']  =  'Vous devez s&#233;lectionner au moins une colonne.';
-        $lang['strselectunary']  =  'Op&#233;rateurs unaires ne peuvent avoir de valeurs.';
-	$lang['straltercolumn'] = 'Modifier colonne';
+    $lang['strselectneedscol']  =  'Vous devez s&#233;lectionner au moins une colonne.';
+    $lang['strselectunary']  =  'Les op&#233;rateurs unaires ne peuvent avoir de valeurs.';
+	$lang['straltercolumn'] = 'Modifier la colonne';
 	$lang['strcolumnaltered'] = 'Colonne modifi&#233;e.';
-	$lang['strcolumnalteredbad'] = 'Echec de modification de la colonne.';
-        $lang['strconfdropcolumn'] = 'Etes-vous s&#251;r de vouloir supprimer la colonne &quot;%s&quot; de la table &quot;%s&quot;?';
+	$lang['strcolumnalteredbad'] = '&#201;chec lors de la modification de la colonne.';
+    $lang['strconfdropcolumn'] = '&#202;tes-vous s&#251;r de vouloir supprimer la colonne &#171; %s &#187; de la table &#171; %s &#187; ?';
 	$lang['strcolumndropped'] = 'Colonne supprim&#233;e.';
-	$lang['strcolumndroppedbad'] = 'Echec de suppression de la colonne.';
+	$lang['strcolumndroppedbad'] = '&#201;chec lors de la suppression de la colonne.';
 	$lang['straddcolumn'] = 'Ajouter une colonne';
 	$lang['strcolumnadded'] = 'Colonne ajout&#233;e.';
-	$lang['strcolumnaddedbad'] = 'Echec d\'ajout de colonne.';
+	$lang['strcolumnaddedbad'] = '&#201;chec lors de l\'ajout de la colonne.';
 	$lang['strcascade'] = 'CASCADE';
 	$lang['strtablealtered'] = 'Table modifi&#233;e.';
-	$lang['strtablealteredbad'] = 'Echec &#224; la modification de la table.';
-        $lang['strdataonly']  =  'Donn&#233;es seulement';
-        $lang['strstructureonly']  =  'Structure seulement';
-        $lang['strstructureanddata']  =  'Structure et donn&#233;es';
-        $lang['strtabbed']  =  'Tabul&#233;';
-        $lang['strauto']  =  'Auto';
-        $lang['strconfvacuumtable']  =  'Etes-vous sur de vouloir faire un  vacuum &quot;%s&quot;?';
-        $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&#233;s';
+	$lang['strtablealteredbad'] = '&#201;chec lors de la modification de la table.';
+    $lang['strdataonly']  =  'Donn&#233;es seulement';
+    $lang['strstructureonly']  =  'Structure seulement';
+    $lang['strstructureanddata']  =  'Structure et donn&#233;es';
+    $lang['strtabbed']  =  'Tabul&#233;';
+    $lang['strauto']  =  'Auto';
+    $lang['strconfvacuumtable']  =  '&#202;tes-vous sur de vouloir faire un vacuum de &#171; %s &#187; ?';
+    $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&#233;s';
 
 	// Users
 	$lang['struser'] = 'Utilisateur';
 	$lang['strusers'] = 'Utilisateurs';
 	$lang['strusername'] = 'Utilisateur';
 	$lang['strpassword'] = 'Mot de passe';
-	$lang['strsuper'] = 'Super Utilisateur ?';
-	$lang['strcreatedb'] = 'Cr&#233;er base de donn&#233;es?';
+	$lang['strsuper'] = 'Super utilisateur ?';
+	$lang['strcreatedb'] = 'Cr&#233;er base de donn&#233;es ?';
 	$lang['strexpires'] = 'Expiration';
-        $lang['strsessiondefaults']  =  'Session par d&#233;faut';
+    $lang['strsessiondefaults']  =  'Session par d&#233;faut';
 	$lang['strnousers'] = 'Aucun utilisateur trouv&#233;.';
 	$lang['struserupdated'] = 'Utilisateur mis &#224; jour.';
-	$lang['struserupdatedbad'] = 'Echec de mise &#224; jour de l\'utilisateur.';
+	$lang['struserupdatedbad'] = '&#201;chec lors de la mise &#224; jour de l\'utilisateur.';
 	$lang['strshowallusers'] = 'Voir tous les utilisateurs';
 	$lang['strcreateuser'] = 'Cr&#233;er un utilisateur';
-        $lang['struserneedsname']  =  'Vous devez donner un nom pour votre utilisateur.';
-	$lang['strusercreated'] = 'Utilisateur Cr&#233;&#233;.';
-	$lang['strusercreatedbad'] = 'Echec de cr&#233;ation de l\'utilisateur.';
-	$lang['strconfdropuser'] = 'Etes-vous s&#251;r de vouloir supprimer l\'utilisateur &quot;%s&quot;?';
+    $lang['struserneedsname']  =  'Vous devez donner un nom pour votre utilisateur.';
+	$lang['strusercreated'] = 'Utilisateur cr&#233;&#233;.';
+	$lang['strusercreatedbad'] = '&#201;chec lors de la cr&#233;ation de l\'utilisateur.';
+	$lang['strconfdropuser'] = '&#202;tes-vous s&#251;r de vouloir supprimer l\'utilisateur &#171; %s &#187; ?';
 	$lang['struserdropped'] = 'Utilisateur supprim&#233;.';
-	$lang['struserdroppedbad'] = 'Echec de suppression de l\'utilisateur.';
+	$lang['struserdroppedbad'] = '&#201;chec lors de la suppression de l\'utilisateur.';
 	$lang['straccount'] = 'Comptes';
-        $lang['strchangepassword'] = 'Modifier le mot de passe';
+    $lang['strchangepassword'] = 'Modifier le mot de passe';
 	$lang['strpasswordchanged'] = 'Mot de passe modifi&#233;.';
-	$lang['strpasswordchangedbad'] = 'Echec &#224; la modification du mot de passe.';
+	$lang['strpasswordchangedbad'] = '&#201;chec lors de la modification du mot de passe.';
 	$lang['strpasswordshort'] = 'Le mot de passe est trop court.';
 	$lang['strpasswordconfirm'] = 'Le mot de passe de confirmation est diff&#233;rent.';
 	
 	// Groups
 	$lang['strgroup'] = 'Groupe';
 	$lang['strgroups'] = 'Groupes';
-	$lang['strnogroup'] = 'Groupe non trouv&#233;.';
+	$lang['strnogroup'] = 'Groupe introuvable.';
 	$lang['strnogroups'] = 'Aucun groupe trouv&#233;.';
 	$lang['strcreategroup'] = 'Cr&#233;er un groupe';
 	$lang['strshowallgroups'] = 'Voir tous les groupes';
 	$lang['strgroupneedsname'] = 'Vous devez indiquer un nom pour votre groupe.';
 	$lang['strgroupcreated'] = 'Groupe cr&#233;&#233;.';
-	$lang['strgroupcreatedbad'] = 'Echec de cr&#233;ation du groupe.';	
-	$lang['strconfdropgroup'] = 'Etes vous s&#251;r de vouloir supprimer le groupe &quot;%s&quot;?';
+	$lang['strgroupcreatedbad'] = '&#201;chec lors de la cr&#233;ation du groupe.';
+	$lang['strconfdropgroup'] = '&#202;tes-vous s&#251;r de vouloir supprimer le groupe &#171; %s &#187; ?';
 	$lang['strgroupdropped'] = 'Groupe supprim&#233;.';
-	$lang['strgroupdroppedbad'] = 'Echec de suppression du groupe.';
+	$lang['strgroupdroppedbad'] = '&#201;chec lors de la suppression du groupe.';
 	$lang['strmembers'] = 'Membres';
 	$lang['straddmember'] = 'Ajouter un membre';
 	$lang['strmemberadded'] = 'Membre ajout&#233;.';
-	$lang['strmemberaddedbad'] = 'Echec pendant l\'ajout de membre.';
+	$lang['strmemberaddedbad'] = '&#201;chec lors de l\'ajout du membre.';
 	$lang['strdropmember'] = 'Supprimer un membre';
-	$lang['strconfdropmember'] = 'Etes-vous sur de vouloir supprimer le membre &quot;%s&quot; pour le groupe &quot;%s&quot;?';
+	$lang['strconfdropmember'] = '&#202;tes-vous s&#251;r de vouloir supprimer le membre &#171; %s &#187; du groupe &#171; %s &#187; ?';
 	$lang['strmemberdropped'] = 'Membre supprim&#233;.';
-	$lang['strmemberdroppedbad'] = 'Echec &#224; la suppression de membre.';
-	// Privilges
-	$lang['strprivilege'] = 'Privil&#232;ge';
-	$lang['strprivileges'] = 'Privil&#232;ges';
-	$lang['strnoprivileges'] = 'Cet objet n\'a pas de privil&#232;ges.';
-	$lang['strgrant'] = 'Accorder(Grant)';
-	$lang['strrevoke'] = 'R&#233;voquer';
-	$lang['strgranted'] = 'Privil&#232;ges accord&#233;s.';
-	$lang['strgrantfailed'] = 'Echec de l\'octroi de privil&#232;ges.';
+	$lang['strmemberdroppedbad'] = '&#201;chec lors de la suppression du membre.';
 
-	$lang['strgrantbad'] = 'Vous devez sp&#233;cifier au moins un utilisateur ou groupe et au moins un privil&#232;ge.';
+	// Roles
+	$lang['strrole']  =  'R&#244;le';
+	$lang['strroles']  =  'R&#244;les';
+	$lang['strinheritsprivs']  =  'H&#233;rite des droits ?';
+	$lang['strcreaterole']  =  'Cr&#233;er un r&#244;le';
+	$lang['strcatupdate']  =  'Modifier les catalogues ?';
+	$lang['strcanlogin']  =  'Peut se connecter ?';
+	$lang['strmaxconnections']  =  'Nombre de connexions max';
+	$lang['strconfdroprole']  =  '&#202;tes-vous s&#251;r de vouloir supprimer le r&#244;le &#171; %s &#187; ?';
+	$lang['strroledropped']  =  'R&#244;le supprim&#233;.';
+	$lang['strroledroppedbad']  =  '&#201;chec lors de la suppression du r&#244;le.';
+	
+	// Privileges
+	$lang['strprivilege'] = 'Droit';
+	$lang['strprivileges'] = 'Droits';
+	$lang['strnoprivileges'] = 'Cet objet n\'a pas de droits.';
+	$lang['strgrant'] = 'Accorder (GRANT)';
+	$lang['strrevoke'] = 'R&#233;voquer (REVOKE)';
+	$lang['strgranted'] = 'Droits accord&#233;s.';
+	$lang['strgrantfailed'] = '&#201;chec lors de l\'octroi des droits.';
+
+	$lang['strgrantbad'] = 'Vous devez sp&#233;cifier au moins un utilisateur ou groupe et au moins un droit.';
 	$lang['strgrantor'] = 'Grantor';
 	$lang['strasterisk'] = '*';
 	// Databases
-	$lang['strdatabase'] = 'Base de Donn&#233;es';
-	$lang['strdatabases'] = 'Bases de Donn&#233;es';
+	$lang['strdatabase'] = 'Base de donn&#233;es';
+	$lang['strdatabases'] = 'Bases de donn&#233;es';
 	$lang['strshowalldatabases'] = 'Voir toutes les bases de donn&#233;es';
 	$lang['strnodatabase'] = 'Aucune base de donn&#233;es trouv&#233;e.';
 	$lang['strnodatabases'] = 'Aucune base de donn&#233;es trouv&#233;e.';
 	$lang['strcreatedatabase'] = 'Cr&#233;er une base de donn&#233;es';
 	$lang['strdatabasename'] = 'Nom de la base de donn&#233;es';
 	$lang['strdatabaseneedsname'] = 'Vous devez donner un nom pour votre base de donn&#233;es.';
-	$lang['strdatabasecreated'] = 'Base de Donn&#233;es cr&#233;&#233;e.';
-	$lang['strdatabasecreatedbad'] = 'Echec de cr&#233;ation de la base de donn&#233;es.';	
-	$lang['strconfdropdatabase'] = 'Etes-vous s&#251;r de vouloir supprimer la base de donn&#233;es &quot;%s&quot;?';
+	$lang['strdatabasecreated'] = 'Base de donn&#233;es cr&#233;&#233;e.';
+	$lang['strdatabasecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la base de donn&#233;es.';
+	$lang['strconfdropdatabase'] = '&#202;tes-vous s&#251;r de vouloir supprimer la base de donn&#233;es &#171; %s &#187; ?';
 	$lang['strdatabasedropped'] = 'Base de donn&#233;es supprim&#233;e.';
-	$lang['strdatabasedroppedbad'] = 'Echec de suppression de la base de donn&#233;es.';
+	$lang['strdatabasedroppedbad'] = '&#201;chec lors de la suppression de la base de donn&#233;es.';
 	$lang['strentersql'] = 'Veuillez saisir ci-dessous la requ&#234;te SQL &#224; ex&#233;cuter :';
-	$lang['strsqlexecuted'] = 'Reguete SQL ex&#233;cut&#233;e.';
-        $lang['strvacuumgood']  =  'Vacuum ex&#233;cut&#233;.';
-	$lang['strvacuumbad'] = 'Echec du Vacuum.';
+	$lang['strsqlexecuted'] = 'Requ&#234;te SQL ex&#233;cut&#233;e.';
+    $lang['strvacuumgood']  =  'Vacuum ex&#233;cut&#233;.';
+	$lang['strvacuumbad'] = '&#201;chec du Vacuum.';
 	$lang['stranalyzegood'] = 'Analyse effectu&#233;e.';
-	$lang['stranalyzebad'] = 'Echec de l\'analyse.';
-        $lang['strreindexgood']  =  'R&#233;indexation ex&#233;cut&#233;e.';
-        $lang['strreindexbad']  =  'Echec de la R&#233;indexation.';
-        $lang['strfull']  =  'Int&#233;gral(Full)';
-        $lang['strfreeze']  =  'Freeze';
-        $lang['strforce']  =  'Forcer';
-        $lang['strsignalsent']  =  'Signal envoy&#233;.';
-        $lang['strsignalsentbad']  =  'Echec &#224; l\'Envoi du signal.';
-        $lang['strallobjects']  =  'Tous les objets';
+	$lang['stranalyzebad'] = '&#201;chec de l\'analyse.';
+    $lang['strreindexgood']  =  'R&#233;indexation ex&#233;cut&#233;e.';
+    $lang['strreindexbad']  =  '&#201;chec de la r&#233;indexation.';
+    $lang['strfull']  =  'Int&#233;gral (FULL)';
+    $lang['strfreeze']  =  'Freeze';
+    $lang['strforce']  =  'Forcer';
+    $lang['strsignalsent']  =  'Signal envoy&#233;.';
+    $lang['strsignalsentbad']  =  '&#201;chec lors de l\'envoi du signal.';
+    $lang['strallobjects']  =  'Tous les objets';
+	$lang['strdatabasealtered']  =  'Base de donn&#233;es modifi&#233;e.';
+	$lang['strdatabasealteredbad']  =  '&#201;chec lors de la modification de la base de donn&#233;es.';
 
 	// Views
 	$lang['strview'] = 'Vue';
@@ -299,17 +336,17 @@
 	$lang['strviewname'] = 'Nom de la vue';
 	$lang['strviewneedsname'] = 'Vous devez indiquer un nom pour votre vue.';
 	$lang['strviewneedsdef'] = 'Vous devez indiquer une d&#233;finition pour votre vue.';
-        $lang['strviewneedsfields']  =  'Vous devez pr&#233;ciser les colonnes que vous voulez s&#233;lectionner dans votre vue.';
+    $lang['strviewneedsfields']  =  'Vous devez pr&#233;ciser les colonnes que vous voulez s&#233;lectionner dans votre vue.';
 	$lang['strviewcreated'] = 'Vue cr&#233;&#233;e.';
-	$lang['strviewcreatedbad'] = 'Echec de cr&#233;ation de la vue.';
-	$lang['strconfdropview'] = 'Ete-vous s&#251;r de vouloir supprimer la vue &quot;%s&quot;?';
+	$lang['strviewcreatedbad'] = '&#201;chec lors de la cr&#233;ation de la vue.';
+	$lang['strconfdropview'] = '&#202;tes-vous s&#251;r de vouloir supprimer la vue &#171; %s &#187; ?';
 	$lang['strviewdropped'] = 'Vue supprim&#233;e.';
-	$lang['strviewdroppedbad'] = 'Echec de suppression de la vue.';
+	$lang['strviewdroppedbad'] = '&#201;chec lors de la suppression de la vue.';
 	$lang['strviewupdated'] = 'Vue mise &#224; jour.';
-	$lang['strviewupdatedbad'] = 'Echec de mise &#224; jour de la vue.';
-        $lang['strviewlink']  =  'Cl&#233;s Li&#233;es';
-        $lang['strviewconditions']  =  'Conditions Additionnelles';
-        $lang['strcreateviewwiz']  =  'Cr&#233;er une vue avec l\'assistant';
+	$lang['strviewupdatedbad'] = '&#201;chec lors de la mise &#224; jour de la vue.';
+    $lang['strviewlink']  =  'Cl&#233;s li&#233;es';
+    $lang['strviewconditions']  =  'Conditions suppl&#233;mentaires';
+    $lang['strcreateviewwiz']  =  'Cr&#233;er une vue avec l\'assistant';
 
 	// Sequences
 	$lang['strsequence'] = 'S&#233;quence';
@@ -319,23 +356,33 @@
 	$lang['strnosequences'] = 'Aucune s&#233;quence trouv&#233;e.';
 	$lang['strcreatesequence'] = 'Cr&#233;er une s&#233;quence';
 	$lang['strlastvalue'] = 'Derni&#232;re valeur';
-	$lang['strincrementby'] = 'Incr&#233;menter par ';	
+	$lang['strincrementby'] = 'Incr&#233;menter par ';
 	$lang['strstartvalue'] = 'Valeur de d&#233;part';
-	$lang['strmaxvalue'] = 'Valeur maxilale';
+	$lang['strmaxvalue'] = 'Valeur maximale';
 	$lang['strminvalue'] = 'Valeur minimale';
 	$lang['strcachevalue'] = 'Valeur de cache';
-	$lang['strlogcount'] = 'Log Count';
-	$lang['striscycled'] = 'Est Cycl&#233;e?';
-	$lang['striscalled'] = 'Est Appel&#233;e?';
+	$lang['strlogcount'] = 'Comptage';
+	$lang['striscycled'] = 'Cycle ?';
+	$lang['striscalled'] = 'Appel&#233;e ?';
 	$lang['strsequenceneedsname'] = 'Vous devez sp&#233;cifier un nom pour votre s&#233;quence.';
-	$lang['strsequencecreated'] = 'S&#233;quence cr&#233;e.';
-	$lang['strsequencecreatedbad'] = 'Echec de cr&#233;ation de la s&#233;quence.'; 
-	$lang['strconfdropsequence'] = 'Etes vous sur de vouloir supprimer la s&#233;quence &quot;%s&quot;?';
+	$lang['strsequencecreated'] = 'S&#233;quence cr&#233;&#233;e.';
+	$lang['strsequencecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la s&#233;quence.'; 
+	$lang['strconfdropsequence'] = '&#202;tes-vous s&#251;r de vouloir supprimer la s&#233;quence &#171; %s &#187; ?';
 	$lang['strsequencedropped'] = 'S&#233;quence supprim&#233;e.';
-	$lang['strsequencedroppedbad'] = 'Echec de suppression de la s&#233;quence.';
+	$lang['strsequencedroppedbad'] = '&#201;chec lors de la suppression de la s&#233;quence.';
 
-	$lang['strsequencereset'] = 'Sequence initialis&#233;e.';
-	$lang['strsequenceresetbad'] = 'Echec de l\'initialisation de la s&#233;quence.';
+	$lang['strsequencereset'] = 'S&#233;quence initialis&#233;e.';
+	$lang['strsequenceresetbad'] = '&#201;chec lors de l\'initialisation de la s&#233;quence.';
+ 	$lang['straltersequence']  =  'Modifier la s&#233;quence';
+ 	$lang['strsequencealtered']  =  'S&#233;quence modifi&#233;e.';
+ 	$lang['strsequencealteredbad']  =  '&#201;chec lors de la modification de la s&#233;quence.';
+ 	$lang['strsetval']  =  'Initialiser &#224; une valeur';
+ 	$lang['strsequencesetval']  =  'S&#233;quence initialis&#233;e.';
+ 	$lang['strsequencesetvalbad']  =  '&#201;chec lors de l\'initialisation de la s&#233;quence.';
+ 	$lang['strnextval']  =  'Incr&#233;menter la valeur';
+ 	$lang['strsequencenextval']  =  'S&#233;quence incr&#233;ment&#233;e.';
+ 	$lang['strsequencenextvalbad']  =  '&#201;chec lors de l\'incr&#233;mentation de la valeur.';
+
 	// Indexes
 	$lang['strindex']  =  'Index';
 	$lang['strindexes'] = 'Index';
@@ -349,19 +396,19 @@
 	$lang['strindexneedsname'] = 'Vous devez indiquer un nom pour votre index';
 	$lang['strindexneedscols'] = 'Vous devez indiquer un nombre valide de colonnes.';
 	$lang['strindexcreated'] = 'Index cr&#233;&#233;';
-	$lang['strindexcreatedbad'] = 'Echec de cr&#233;ation de l\'index.';
-	$lang['strconfdropindex'] = 'Etes-vous s&#251;r de vouloir supprimer l\'index &quot;%s&quot;?';
+	$lang['strindexcreatedbad'] = '&#201;chec lors de la cr&#233;ation de l\'index.';
+	$lang['strconfdropindex'] = '&#202;tes-vous s&#251;r de vouloir supprimer l\'index &#171; %s &#187; ?';
 	$lang['strindexdropped'] = 'Index supprim&#233;.';
-	$lang['strindexdroppedbad'] = 'Echec de suppression de l\'index.';
+	$lang['strindexdroppedbad'] = '&#201;chec lors de la suppression de l\'index.';
 	$lang['strkeyname'] = 'Nom de la cl&#233;';
 	$lang['struniquekey'] = 'Cl&#233; unique';
 	$lang['strprimarykey'] = 'Cl&#233; primaire';
  	$lang['strindextype'] = 'Type d\'index';
 	$lang['strtablecolumnlist'] = 'Liste des colonnes';
 	$lang['strindexcolumnlist'] = 'Liste des colonnes dans l\'index';
-        $lang['strconfcluster']  =  'Etes vous sur de vouloir mettre en cluster &quot;%s&quot;?';
-        $lang['strclusteredgood']  =  'Cluster effectu&#233;.';
-        $lang['strclusteredbad']  =  'Echec du Cluster.';
+    $lang['strconfcluster']  =  '&#202;tes-vous sur de vouloir mettre en cluster &#171; %s &#187; ?';
+    $lang['strclusteredgood']  =  'Cluster effectu&#233;.';
+    $lang['strclusteredbad']  =  '&#201;chec du cluster.';
 
 	// Rules
 	$lang['strrules'] = 'R&#232;gles';
@@ -372,41 +419,42 @@
 	$lang['strcreaterule'] = 'Cr&#233;er une r&#232;gle';
 	$lang['strrulename'] = 'Nom de la r&#232;gle';
 	$lang['strruleneedsname'] = 'Vous devez indiquer un nom pour votre r&#232;gle.';
-	$lang['strrulecreated'] = 'R&#232;gle cr&#233;e.';
-	$lang['strrulecreatedbad'] = 'Echec de cr&#233;ation de la r&#232;gle.';
-	$lang['strconfdroprule'] = 'Etes-vous s&#251;r de vouloir supprimer la r&#232;gle &quot;%s&quot; sur &quot;%s&quot;?';
+	$lang['strrulecreated'] = 'R&#232;gle cr&#233;&#233;e.';
+	$lang['strrulecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la r&#232;gle.';
+	$lang['strconfdroprule'] = '&#202;tes-vous s&#251;r de vouloir supprimer la r&#232;gle &#171; %s &#187; sur &#171; %s &#187; ?';
 	$lang['strruledropped'] = 'R&#232;gle supprim&#233;e.';
-	$lang['strruledroppedbad'] = 'Echec de suppression de r&#232;gle.';
+	$lang['strruledroppedbad'] = '&#201;chec lors de la suppression de la r&#232;gle.';
 
 	// Constraints
+	$lang['strconstraint']  =  'Contrainte';
 	$lang['strconstraints'] = 'Contraintes';
 	$lang['strshowallconstraints'] = 'Voir toutes les contraintes';
 	$lang['strnoconstraints'] = 'Aucune contrainte trouv&#233;e.';
 	$lang['strcreateconstraint'] = 'Cr&#233;er une contrainte';
 	$lang['strconstraintcreated'] = 'Cr&#233;ation d\'une contrainte.';
-	$lang['strconstraintcreatedbad'] = 'Echec de cr&#233;ation de la contrainte.';
-	$lang['strconfdropconstraint'] = 'Etes vous s&#251;r de vouloir supprimer la contrainte &quot;%s&quot; sur &quot;%s&quot;?';
+	$lang['strconstraintcreatedbad'] = '&#201;chec lors de la cr&#233;ation de la contrainte.';
+	$lang['strconfdropconstraint'] = '&#202;tes-vous s&#251;r de vouloir supprimer la contrainte &#171; %s &#187; sur &#171; %s &#187; ?';
 	$lang['strconstraintdropped'] = 'Contrainte supprim&#233;e.';
-	$lang['strconstraintdroppedbad'] = 'Echec de suppression de la contrainte.';
-	$lang['straddcheck'] = 'Ajouter une Contrainte';
-	$lang['strcheckneedsdefinition'] = 'La Contrainte a besoin d\'une d&#233;finition.';
+	$lang['strconstraintdroppedbad'] = '&#201;chec lors de la suppression de la contrainte.';
+	$lang['straddcheck'] = 'Ajouter une contrainte';
+	$lang['strcheckneedsdefinition'] = 'La contrainte a besoin d\'une d&#233;finition.';
 	$lang['strcheckadded'] = 'Contrainte ajout&#233;e.';
-        $lang['strcheckaddedbad']  =  'Echec pour l\'ajout d\une contrainte check.';
+    $lang['strcheckaddedbad']  =  '&#201;chec lors de l\'ajout d\'une contrainte de v&#233;rification (CHECK).';
 	$lang['straddpk'] = 'Ajouter une cl&#233; primaire';
 	$lang['strpkneedscols'] = 'La cl&#233; primaire n&#233;cessite au moins une colonne.';
-	$lang['strpkadded'] = 'Primary key added.';
-	$lang['strpkaddedbad'] = 'Echec lors de l\'ajout de la cl&#233; primaire.';
-	$lang['stradduniq'] = 'Ajouter une cl&#233; Unique';
-	$lang['struniqneedscols'] = 'Une Cl&#233; Unique n&#233;cessite au moins une colonne.';
-	$lang['struniqadded'] = 'La Cl&#233; unique a &#233;t&#233; rajout&#233;e.';
-	$lang['struniqaddedbad'] = 'Echec lors de la cr&#233;ation de la cl&#233; Unique.';
-	$lang['straddfk'] = 'Ajouter une cl&#233; Etrang&#232;re';
-	$lang['strfkneedscols'] = 'Une Cl&#233; Etrang&#232;re n&#233;cessite au moins une colonne.';
-	$lang['strfkneedstarget'] = 'Une cl&#233; Etrang&#232;re n&#233;cessite une table Cible.';
-	$lang['strfkadded'] = 'La Cl&#233; Etrang&#232;re a &#233;t&#233; rajout&#233;e.';
-	$lang['strfkaddedbad'] = 'Echec lors de la cr&#233;ation de la cl&#233; Etrang&#232;re.';
-	$lang['strfktarget'] = 'Table Cible';
-	$lang['strfkcolumnlist'] = 'Liste des Colonnes de la cl&#233;';
+	$lang['strpkadded'] = 'Cl&#233; primaire ajout&#233;e.';
+	$lang['strpkaddedbad'] = '&#201;chec lors de l\'ajout de la cl&#233; primaire.';
+	$lang['stradduniq'] = 'Ajouter une cl&#233; unique';
+	$lang['struniqneedscols'] = 'Une cl&#233; unique n&#233;cessite au moins une colonne.';
+	$lang['struniqadded'] = 'La cl&#233; unique a &#233;t&#233; ajout&#233;e.';
+	$lang['struniqaddedbad'] = '&#201;chec lors de la cr&#233;ation de la cl&#233; unique.';
+	$lang['straddfk'] = 'Ajouter une cl&#233; &#233;trang&#232;re';
+	$lang['strfkneedscols'] = 'Une cl&#233; &#233;trang&#232;re n&#233;cessite au moins une colonne.';
+	$lang['strfkneedstarget'] = 'Une cl&#233; &#233;trang&#232;re n&#233;cessite une table cible.';
+	$lang['strfkadded'] = 'La cl&#233; &#233;trang&#232;re a &#233;t&#233; ajout&#233;e.';
+	$lang['strfkaddedbad'] = '&#201;chec lors de la cr&#233;ation de la cl&#233; &#233;trang&#232;re.';
+	$lang['strfktarget'] = 'Table cible';
+	$lang['strfkcolumnlist'] = 'Liste des colonnes de la cl&#233;';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';
 
@@ -415,25 +463,38 @@
 	$lang['strfunctions'] = 'Fonctions';
 	$lang['strshowallfunctions'] = 'Voir toutes les fonctions';
 	$lang['strnofunction'] = 'Aucune fonction trouv&#233;e.';
-	$lang['strnofunctions'] = 'Aucune Fonction trouv&#233;e.';
+	$lang['strnofunctions'] = 'Aucune fonction trouv&#233;e.';
 	$lang['strcreateplfunction']  =  'Cr&#233;er une fonction PL/SQL';
-        $lang['strcreateinternalfunction']  =  'Cr&#233;er une fonction interne';
-        $lang['strcreatecfunction']  =  'Cr&#233;er une fonction C';
+    $lang['strcreateinternalfunction']  =  'Cr&#233;er une fonction interne';
+    $lang['strcreatecfunction']  =  'Cr&#233;er une fonction C';
 	$lang['strfunctionname'] = 'Nom de la fonction';
 	$lang['strreturns'] = 'Valeur de sortie';
-	$lang['strarguments'] = 'Arguments';
 	$lang['strproglanguage'] = 'Langage';
 	$lang['strfunctionneedsname'] = 'Vous devez indiquer un nom pour votre fonction.';
 	$lang['strfunctionneedsdef'] = 'Vous devez indiquer une d&#233;finition pour votre fonction.';
 	$lang['strfunctioncreated'] = 'Fonction cr&#233;&#233;e.';
-	$lang['strfunctioncreatedbad'] = 'Echec de cr&#233;ation de la fonction.';
-	$lang['strconfdropfunction'] = 'Etes-vous s&#251;r de vouloir supprimer la fonction &quot;%s&quot;?';
+	$lang['strfunctioncreatedbad'] = '&#201;chec lors de la cr&#233;ation de la fonction.';
+	$lang['strconfdropfunction'] = '&#202;tes-vous s&#251;r de vouloir supprimer la fonction &#171; %s &#187; ?';
 	$lang['strfunctiondropped'] = 'Fonction supprim&#233;e.';
-	$lang['strfunctiondroppedbad'] = 'Echech de suppression de la fonction.';
+	$lang['strfunctiondroppedbad'] = '&#201;chec lors de la suppression de la fonction.';
 	$lang['strfunctionupdated'] = 'Fonction mise &#224; jour.';
-	$lang['strfunctionupdatedbad'] = 'Echec de mise &#224; jour de la fonction.';
-        $lang['strobjectfile']  =  'Fichier Objet';
-        $lang['strlinksymbol']  =  'Symbole Lien';
+	$lang['strfunctionupdatedbad'] = '&#201;chec lors de la mise &#224; jour de la fonction.';
+    $lang['strobjectfile']  =  'Fichier objet';
+    $lang['strlinksymbol']  =  'Symbole lien';
+	$lang['strarguments']  =  'Arguments';
+	$lang['strargname']  =  'Nom';
+	$lang['strargmode']  =  'Mode';
+	$lang['strargtype']  =  'Type';
+	$lang['strargadd']  =  'Ajouter un autre argument';
+	$lang['strargremove']  =  'Supprimer cet argument';
+	$lang['strargnoargs']  =  'Cet fonction ne prend pas d\'arguments.';
+	$lang['strargenableargs']  =  'Active les arguments pass&#233;s &#224; cette fonction.';
+	$lang['strargnorowabove']  =  'Il doit y avoir une ligne au-dessus de cette ligne.';
+	$lang['strargnorowbelow']  =  'Il doit y avoir une ligne en-dessous de cette ligne.';
+	$lang['strargraise']  =  'Monter.';
+	$lang['strarglower']  =  'Descendre.';
+	$lang['strargremoveconfirm']  =  '&#202;tes-vous s&#251;r de vouloir supprimer cet argument ? cette op&#233;ration ne peut pas &#234;tre annul&#233;e.';
+
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -445,12 +506,13 @@
 	$lang['strtriggerneedsname'] = 'Vous devez indiquer un nom pour votre trigger.';
 	$lang['strtriggerneedsfunc'] = 'Vous devez indiquer une fonction pour votre trigger.';
 	$lang['strtriggercreated'] = 'Trigger cr&#233;&#233;.';
-	$lang['strtriggercreatedbad'] = 'Echec de cr&#233;ation du trigger.';
-	$lang['strconfdroptrigger'] = 'Etes-vous s&#251;r de vouloir supprimer le trigger &quot;%s&quot; sur &quot;%s&quot;?';
+	$lang['strtriggercreatedbad'] = '&#201;chec lors de la cr&#233;ation du trigger.';
+	$lang['strconfdroptrigger'] = '&#202;tes-vous s&#251;r de vouloir supprimer le trigger &#171; %s &#187; sur &#171; %s &#187; ?';
 	$lang['strtriggerdropped'] = 'Trigger supprim&#233;.';
-        $lang['strtriggerdroppedbad']  =  'Echec lors de la suppression du trigger.';
+    $lang['strtriggerdroppedbad']  =  '&#201;chec lors de la suppression du trigger.';
 	$lang['strtriggeraltered'] = 'Trigger modifi&#233;.';
-	$lang['strtriggeralteredbad'] = 'Echec lors de la modification du Trigger.';
+	$lang['strtriggeralteredbad'] = '&#201;chec lors de la modification du trigger.';
+	$lang['strforeach']  =  'Pour chaque';
 
 	// Types
 	$lang['strtype'] = 'Type';
@@ -459,27 +521,27 @@
 	$lang['strnotype'] = 'Aucun type trouv&#233;.';
 	$lang['strnotypes'] = 'Aucun type trouv&#233;.';
 	$lang['strcreatetype'] = 'Cr&#233;er un type';
-        $lang['strcreatecomptype']  =  'Cr&#233;er un type compos&#233;';
-        $lang['strtypeneedsfield']  =  'Vous devez sp&#233;cifier au moins un champ.';
-        $lang['strtypeneedscols']  =  'Vous devez sp&#233;cifier un nombre valide de champs.';	
+    $lang['strcreatecomptype']  =  'Cr&#233;er un type compos&#233;';
+    $lang['strtypeneedsfield']  =  'Vous devez sp&#233;cifier au moins un champ.';
+    $lang['strtypeneedscols']  =  'Vous devez sp&#233;cifier un nombre valide de champs.';
 	$lang['strtypename'] = 'Nom du type';
 	$lang['strinputfn'] = 'Fonction d\'entr&#233;e';
 	$lang['stroutputfn'] = 'Fonction de sortie';
-	$lang['strpassbyval'] = 'Pass&#233;e par valeur?';
+	$lang['strpassbyval'] = 'Pass&#233;e par valeur ?';
 	$lang['stralignment'] = 'Alignement';
-	$lang['strelement'] = 'El&#233;ment';
+	$lang['strelement'] = '&#201;l&#233;ment';
 	$lang['strdelimiter'] = 'D&#233;limiteur';
 	$lang['strstorage'] = 'Stockage';
-        $lang['strfield']  =  'Champ';
-        $lang['strnumfields']  =  'Nbre. de Champs';
+    $lang['strfield']  =  'Champ';
+    $lang['strnumfields']  =  'Nombre de champs';
 	$lang['strtypeneedsname'] = 'Vous devez indiquer un nom pour votre type.';
 	$lang['strtypeneedslen'] = 'Vous devez indiquer une longueur pour votre type.';
 	$lang['strtypecreated'] = 'Type cr&#233;&#233;';
-	$lang['strtypecreatedbad'] = 'Echec de cr&#233;ation du type.';
-	$lang['strconfdroptype'] = 'Etes-vous s&#251;r de vouloir supprim&#233; le type &quot;%s&quot;?';
+	$lang['strtypecreatedbad'] = '&#201;chec lors de la cr&#233;ation du type.';
+	$lang['strconfdroptype'] = '&#202;tes-vous s&#251;r de vouloir supprimer le type &#171; %s &#187; ?';
 	$lang['strtypedropped'] = 'Type supprim&#233;.';
-	$lang['strtypedroppedbad'] = 'Echec de suppression du type.';
-        $lang['strflavor']  =  'Flavor';
+	$lang['strtypedroppedbad'] = '&#201;chec lors de la suppression du type.';
+$lang['strflavor']  =  'Flavor';
 	$lang['strbasetype']  =  'Base';
 	$lang['strcompositetype']  =  'Composite';
 	$lang['strpseudotype']  =  'Pseudo';
@@ -487,20 +549,20 @@
 	// Schemas
 	$lang['strschema'] = 'Sch&#233;ma';
 	$lang['strschemas'] = 'Sch&#233;mas';
-	$lang['strshowallschemas'] = 'Voir Tous les sch&#233;mas';
+	$lang['strshowallschemas'] = 'Voir tous les sch&#233;mas';
 	$lang['strnoschema'] = 'Aucun sch&#233;ma trouv&#233;.';
 	$lang['strnoschemas'] = 'Aucun sch&#233;ma trouv&#233;.';
 	$lang['strcreateschema'] = 'Cr&#233;er un sch&#233;ma';
 	$lang['strschemaname'] = 'Nom du sch&#233;ma';
 	$lang['strschemaneedsname'] = 'Vous devez indiquer un nom pour votre sch&#233;ma.';
 	$lang['strschemacreated'] = 'Sch&#233;ma cr&#233;&#233;';
-	$lang['strschemacreatedbad'] = 'Echec de cr&#233;ation du sch&#233;ma.';
-	$lang['strconfdropschema'] = 'Etes-vous s&#251;r de vouloir supprimer le sch&#233;ma &quot;%s&quot;?';
+	$lang['strschemacreatedbad'] = '&#201;chec lors de la cr&#233;ation du sch&#233;ma.';
+	$lang['strconfdropschema'] = '&#202;tes-vous s&#251;r de vouloir supprimer le sch&#233;ma &#171; %s &#187; ?';
 	$lang['strschemadropped'] = 'Sch&#233;ma supprim&#233;.';
-	$lang['strschemadroppedbad'] = 'Echec de suppression du sch&#233;ma.';
-        $lang['strschemaaltered']  =  'Schema altered.';
-        $lang['strschemaalteredbad']  =  'Schema alter failed.';
-        $lang['strsearchpath']  =  'Chemin de Recherche du Schema';
+	$lang['strschemadroppedbad'] = '&#201;chec lors de la suppression du sch&#233;ma.';
+    $lang['strschemaaltered']  =  'Schema modifi&#233;.';
+    $lang['strschemaalteredbad']  =  '&#201;chec lors de la modification du sch&#233;ma.';
+    $lang['strsearchpath']  =  'Chemin de recherche du sch&#233;ma';
 
 	// Reports
 	$lang['strreport'] = 'Rapport';
@@ -509,31 +571,31 @@
 	$lang['strnoreports'] = 'Aucun rapport trouv&#233;.';
 	$lang['strcreatereport'] = 'Cr&#233;er un rapport';
 	$lang['strreportdropped'] = 'Rapport supprim&#233;.';
-	$lang['strreportdroppedbad'] = 'Echec de suppression du rapport.';
-	$lang['strconfdropreport'] = 'Etes-vous sur de vouloir supprimer le rapport &quot;%s&quot;?';
+	$lang['strreportdroppedbad'] = '&#201;chec lors de la suppression du rapport.';
+	$lang['strconfdropreport'] = '&#202;tes-vous s&#251;r de vouloir supprimer le rapport &#171; %s &#187; ?';
 	$lang['strreportneedsname'] = 'Vous devez indiquer un nom pour votre rapport.';
 	$lang['strreportneedsdef'] = 'Vous devez fournir une requ&#234;te SQL pour votre rapport.';
 	$lang['strreportcreated'] = 'Rapport sauvegard&#233;.';
-	$lang['strreportcreatedbad'] = 'Echec de sauvegarde du rapport.';
+	$lang['strreportcreatedbad'] = '&#201;chec lors de la sauvegarde du rapport.';
 
-        // Domains
+    // Domains
 	$lang['strdomain'] = 'Domaine';
 	$lang['strdomains'] = 'Domaines';
 	$lang['strshowalldomains'] = 'Voir tous les domaines';
 	$lang['strnodomains'] = 'Pas de domaine trouv&#233;.';
 	$lang['strcreatedomain'] = 'Cr&#233;er un domaine';
 	$lang['strdomaindropped'] = 'Domaine supprim&#233;.';
-	$lang['strdomaindroppedbad'] = 'Echec de la suppression.';
-	$lang['strconfdropdomain'] = 'Etes vous sur de vouloir supprimer le domaine &quot;%s&quot;?';
+	$lang['strdomaindroppedbad'] = '&#201;chec lors de la suppression.';
+	$lang['strconfdropdomain'] = '&#202;tes-vous sur de vouloir supprimer le domaine &#171; %s &#187; ?';
 	$lang['strdomainneedsname'] = 'Vous devez donner un nom pour votre domaine.';
 	$lang['strdomaincreated'] = 'Domaine cr&#233;&#233;.';
-	$lang['strdomaincreatedbad'] = 'Echec &#224; la cr&#233;ation du domaine.';	
+	$lang['strdomaincreatedbad'] = '&#201;chec lors de la cr&#233;ation du domaine.';
 	$lang['strdomainaltered'] = 'Domaine modifi&#233;.';
-	$lang['strdomainalteredbad'] = 'Echec &#224; la modification du domaine.';	
+	$lang['strdomainalteredbad'] = '&#201;chec lors de la modification du domaine.';
 
 	// Operators
-	$lang['stroperator'] = 'Operateur';
-	$lang['stroperators'] = 'Operateurs';
+	$lang['stroperator'] = 'Op&#233;rateur';
+	$lang['stroperators'] = 'Op&#233;rateurs';
 	$lang['strshowalloperators'] = 'Voir tous les op&#233;rateurs';
 	$lang['strnooperator'] = 'Pas d\'op&#233;rateur trouv&#233;.';
 	$lang['strnooperators'] = 'Pas d\'op&#233;rateur trouv&#233;.';
@@ -541,71 +603,71 @@
 	$lang['strleftarg'] = 'Type de l\'argument de gauche';
 	$lang['strrightarg'] = 'Type de l\'argument de droite';
 	$lang['strcommutator'] = 'Commutateur';
-	$lang['strnegator'] = 'Negator';
-	$lang['strrestrict'] = 'Restrict';
-	$lang['strjoin'] = 'Join';
-	$lang['strhashes'] = 'Hashes';
-	$lang['strmerges'] = 'Merges';
-	$lang['strleftsort'] = 'Left sort';
-	$lang['strrightsort'] = 'Right sort';
+$lang['strnegator'] = 'Negator';
+$lang['strrestrict'] = 'Restrict';
+$lang['strjoin'] = 'Join';
+$lang['strhashes'] = 'Hashes';
+$lang['strmerges'] = 'Merges';
+$lang['strleftsort'] = 'Left sort';
+$lang['strrightsort'] = 'Right sort';
 	$lang['strlessthan'] = 'Plus petit que';
 	$lang['strgreaterthan'] = 'Plus grand que';
-        $lang['stroperatorneedsname']  =  'Vous devez donner un nom pour votre op&#233;rateur.';
-        $lang['stroperatorcreated']  =  'Operateur cr&#233;&#233;';
-        $lang['stroperatorcreatedbad']  =  'Echec lors de la cr&#233;ation de l\'op&#233;rateur.';
-        $lang['strconfdropoperator']  =  'Etes vous sur de vouloir supprimer l\'op&#233;rateur &quot;%s&quot;?';
-        $lang['stroperatordropped']  =  'Op&#233;rateur supprim&#233;.';
-        $lang['stroperatordroppedbad']  =  'Echec lors de la suppression de l\'op&#233;rateur.';
+    $lang['stroperatorneedsname']  =  'Vous devez donner un nom pour votre op&#233;rateur.';
+    $lang['stroperatorcreated']  =  'Op&#233;rateur cr&#233;&#233;';
+    $lang['stroperatorcreatedbad']  =  '&#201;chec lors de la cr&#233;ation de l\'op&#233;rateur.';
+    $lang['strconfdropoperator']  =  '&#202;tes-vous sur de vouloir supprimer l\'op&#233;rateur &#171; %s &#187; ?';
+    $lang['stroperatordropped']  =  'Op&#233;rateur supprim&#233;.';
+    $lang['stroperatordroppedbad']  =  '&#201;chec lors de la suppression de l\'op&#233;rateur.';
 
 	// Casts
-	$lang['strcasts'] = 'Casts';
-	$lang['strnocasts'] = 'No casts found.';
-	$lang['strsourcetype'] = 'Source type';
-	$lang['strtargettype'] = 'Target type';
-	$lang['strimplicit'] = 'Implicit';
-	$lang['strinassignment'] = 'In assignment';
-	$lang['strbinarycompat'] = '(Binary compatible)';
+	$lang['strcasts'] = 'Conversions';
+	$lang['strnocasts'] = 'Aucune conversion trouv&#233;e.';
+	$lang['strsourcetype'] = 'Type source';
+	$lang['strtargettype'] = 'Type cible';
+	$lang['strimplicit'] = 'Implicite';
+$lang['strinassignment'] = 'In assignment';
+	$lang['strbinarycompat'] = '(binaire compatible)';
 	
 	// Conversions
 	$lang['strconversions'] = 'Conversions';
-	$lang['strnoconversions'] = 'Pas de Conversion trouv&#233;.';
-	$lang['strsourceencoding'] = 'Source encoding';
-	$lang['strtargetencoding'] = 'Target encoding';
+	$lang['strnoconversions'] = 'Aucune conversion trouv&#233;e.';
+	$lang['strsourceencoding'] = 'Codage source';
+	$lang['strtargetencoding'] = 'Codage cible';
 	
 	// Languages
 	$lang['strlanguages'] = 'Langages';
 	$lang['strnolanguages'] = 'Pas de langage trouv&#233;.';
-	$lang['strtrusted'] = 'Trusted';
+	$lang['strtrusted'] = 'De confiance';
 	
 	// Info
 	$lang['strnoinfo'] = 'Pas d\'information disponible.';
-	$lang['strreferringtables'] = 'Referring tables';
-	$lang['strparenttables'] = 'Tables Parents';
-	$lang['strchildtables'] = 'Tables Enfants';
+	$lang['strreferringtables'] = 'Tables r&#233;f&#233;rentes';
+	$lang['strparenttables'] = 'Tables parents';
+	$lang['strchildtables'] = 'Tables enfants';
 	
 	// Aggregates
-	$lang['straggregates']  =  'Aggregats';
-	$lang['strnoaggregates']  =  'Pas d\'aggregat trouv&#233;.';
-        $lang['stralltypes']  =  '(Tous les types)';
+	$lang['straggregates']  =  'Agr&#233;gats';
+	$lang['strnoaggregates']  =  'Aucun agr&#233;gat trouv&#233;.';
+    $lang['stralltypes']  =  '(tous les types)';
 
 	// Operator Classes
-        $lang['stropclasses']  =  'Classes d\'op&#233;rateur';
+    $lang['stropclasses']  =  'Classes d\'op&#233;rateur';
      	$lang['strnoopclasses']  =  'Aucune classe d\'op&#233;rateur trouv&#233;e.';
 	$lang['straccessmethod']  =  'M&#233;thode d\'acc&#232;s';
 
 	// Stats and performance
-	$lang['strrowperf']  =  'Performance de l\'Enregistrement';
-	$lang['strioperf']  =  'Performance Entr&#233;e/Sortie';
-	$lang['stridxrowperf']  =  'Performance Index';
-	$lang['stridxioperf']  =  'Performance Index Entr&#233;es/Sortie';
+	$lang['strrowperf']  =  'Performance des enregistrements';
+	$lang['strioperf']  =  'Performance en entr&#233;e/sortie';
+	$lang['stridxrowperf']  =  'Performance des index';
+	$lang['stridxioperf']  =  'Performance des index en entr&#233;es/sortie';
 	$lang['strpercent']  =  '%';
-	$lang['strsequential']  =  'Sequentiel';
-	$lang['strscan']  =  'Scan';
-	$lang['strread']  =  'Lire';
-	$lang['strfetch']  =  'Fetch';
-	$lang['strheap']  =  'Heap';
-        $lang['strtoast']  =  'TOAST';
-	$lang['strtoastindex']  =  'TOAST Index';
+	$lang['strsequential']  =  'S&#233;quentiel';
+	$lang['strscan']  =  'Parcours';
+	$lang['strread']  =  'Lecture';
+	$lang['strfetch']  =  'R&#233;cup&#233;ration';
+	$lang['strheap']  =  'En-t&#234;te';
+    $lang['strtoast']  =  'TOAST';
+	$lang['strtoastindex']  =  'Index TOAST';
 	$lang['strcache']  =  'Cache';
 	$lang['strdisk']  =  'Disque';
 	$lang['strrows2']  =  'Enregistrements';
@@ -614,23 +676,158 @@
 	$lang['strtablespace']  =  'Tablespace';
 	$lang['strtablespaces']  =  'Tablespaces';
 	$lang['strshowalltablespaces']  =  'Voir tous les tablespaces';
-	$lang['strnotablespaces']  =  'Pas de tablespaces trouv&#233;.';
+	$lang['strnotablespaces']  =  'Aucun tablespace trouv&#233;.';
 	$lang['strcreatetablespace']  =  'Cr&#233;er un tablespace';
-	$lang['strlocation']  =  'Location';
+	$lang['strlocation']  =  'Emplacement';
 	$lang['strtablespaceneedsname']  =  'Vous devez donner un nom &#224; votre tablespace.';
 	$lang['strtablespaceneedsloc']  =  'Vous devez pr&#233;ciser un r&#233;pertoire dans lequel sera cr&#233;&#233; le tablespace.';
 	$lang['strtablespacecreated']  =  'Tablespace cr&#233;&#233;.';
-	$lang['strtablespacecreatedbad']  =  'Echec &#224; la cr&#233;ation du Tablespace.';
-	$lang['strconfdroptablespace']  =  'Etes vous sur de vouloir supprimer le tablespace &quot;%s&quot;?';
+	$lang['strtablespacecreatedbad']  =  '&#201;chec lors de la cr&#233;ation du tablespace.';
+	$lang['strconfdroptablespace']  =  '&#202;tes-vous s&#251;r de vouloir supprimer le tablespace &#171; %s &#187; ?';
 	$lang['strtablespacedropped']  =  'Tablespace supprim&#233;.';
-	$lang['strtablespacedroppedbad']  =  'Echec &#224; la suppression du tablespace.';
+	$lang['strtablespacedroppedbad']  =  '&#201;chec lors de la suppression du tablespace.';
 	$lang['strtablespacealtered']  =  'Tablespace modifi&#233;.';
-	$lang['strtablespacealteredbad']  =  'Echec &#224; la modification du Tablespace.';
+	$lang['strtablespacealteredbad']  =  '&#201;chec lors de la modification du tablespace.';
+
+	// Slony clusters
+$lang['strcluster']  =  'Cluster';
+$lang['strnoclusters']  =  'No clusters found.';
+$lang['strconfdropcluster']  =  'Are you sure you want to drop cluster &quot;%s&quot;?';
+$lang['strclusterdropped']  =  'Cluster dropped.';
+$lang['strclusterdroppedbad']  =  'Cluster drop failed.';
+$lang['strinitcluster']  =  'Initialize cluster';
+$lang['strclustercreated']  =  'Cluster initialized.';
+$lang['strclustercreatedbad']  =  'Cluster initialization failed.';
+$lang['strclusterneedsname']  =  'You must give a name for the cluster.';
+$lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
+	
+	// Slony nodes
+$lang['strnodes']  =  'Nodes';
+$lang['strnonodes']  =  'No nodes found.';
+$lang['strcreatenode']  =  'Create node';
+$lang['strid']  =  'ID';
+$lang['stractive']  =  'Active';
+$lang['strnodecreated']  =  'Node created.';
+$lang['strnodecreatedbad']  =  'Node creation failed.';
+$lang['strconfdropnode']  =  'Are you sure you want to drop node &quot;%s&quot;?';
+$lang['strnodedropped']  =  'Node dropped.';
+$lang['strnodedroppedbad']  =  'Node drop failed';
+$lang['strfailover']  =  'Failover';
+$lang['strnodefailedover']  =  'Node failed over.';
+$lang['strnodefailedoverbad']  =  'Node failover failed.';
+	
+	// Slony paths	
+$lang['strpaths']  =  'Paths';
+$lang['strnopaths']  =  'No paths found.';
+$lang['strcreatepath']  =  'Create path';
+$lang['strnodename']  =  'Node name';
+$lang['strnodeid']  =  'Node ID';
+$lang['strconninfo']  =  'Connection string';
+$lang['strconnretry']  =  'Seconds before retry to connect';
+$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
+$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
+$lang['strpathcreated']  =  'Path created.';
+$lang['strpathcreatedbad']  =  'Path creation failed.';
+$lang['strconfdroppath']  =  'Are you sure you want to drop path &quot;%s&quot;?';
+$lang['strpathdropped']  =  'Path dropped.';
+$lang['strpathdroppedbad']  =  'Path drop failed.';
+
+	// Slony listens
+$lang['strlistens']  =  'Listens';
+$lang['strnolistens']  =  'No listens found.';
+$lang['strcreatelisten']  =  'Create listen';
+$lang['strlistencreated']  =  'Listen created.';
+$lang['strlistencreatedbad']  =  'Listen creation failed.';
+$lang['strconfdroplisten']  =  'Are you sure you want to drop listen &quot;%s&quot;?';
+$lang['strlistendropped']  =  'Listen dropped.';
+$lang['strlistendroppedbad']  =  'Listen drop failed.';
+
+	// Slony replication sets
+$lang['strrepsets']  =  'Replication sets';
+$lang['strnorepsets']  =  'No replication sets found.';
+$lang['strcreaterepset']  =  'Create replication set';
+$lang['strrepsetcreated']  =  'Replication set created.';
+$lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
+$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set &quot;%s&quot;?';
+$lang['strrepsetdropped']  =  'Replication set dropped.';
+$lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
+$lang['strmerge']  =  'Merge';
+$lang['strmergeinto']  =  'Merge into';
+$lang['strrepsetmerged']  =  'Replication sets merged.';
+$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
+$lang['strmove']  =  'Move';
+$lang['strneworigin']  =  'New origin';
+$lang['strrepsetmoved']  =  'Replication set moved.';
+$lang['strrepsetmovedbad']  =  'Replication set move failed.';
+$lang['strnewrepset']  =  'New replication set';
+$lang['strlock']  =  'Lock';
+$lang['strlocked']  =  'Locked';
+$lang['strunlock']  =  'Unlock';
+$lang['strconflockrepset']  =  'Are you sure you want to lock replication set &quot;%s&quot;?';
+$lang['strrepsetlocked']  =  'Replication set locked.';
+$lang['strrepsetlockedbad']  =  'Replication set lock failed.';
+$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set &quot;%s&quot;?';
+$lang['strrepsetunlocked']  =  'Replication set unlocked.';
+$lang['strrepsetunlockedbad']  =  'Replication set unlock failed.';
+$lang['strexecute']  =  'Execute';
+$lang['stronlyonnode']  =  'Only on node';
+$lang['strddlscript']  =  'DDL script';
+$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
+$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
+$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
+$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
+
+	// Slony tables in replication sets
+$lang['straddtable']  =  'Add table';
+$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
+$lang['strtableaddedtorepset']  =  'Table added to replication set.';
+$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
+$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
+$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
+
+	// Slony sequences in replication sets
+$lang['straddsequence']  =  'Add sequence';
+$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
+$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
+$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence &quot;%s&quot; from replication set &quot;%s&quot;?';
+$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
+$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
+
+	// Slony subscriptions
+$lang['strsubscriptions']  =  'Subscriptions';
+$lang['strnosubscriptions']  =  'No subscriptions found.';
 
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s lanc&#233; sur %s:%s -- Vous &#234;tes connect&#233; avec le profil  &quot;%s&quot;, %s';
+	$lang['strtopbar']  =  '%s lanc&#233; sur %s:%s -- Vous &#234;tes connect&#233; avec le profil &#171; %s &#187;, %s';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Aide';
-$lang['strhelpicon']  =  '?';
+	$lang['strhelpicon']  =  '?';
+	$lang['strlogintitle']  =  'Se connecter &#224; %s';
+	$lang['strlogoutmsg']  =  'D&#233;connect&#233; de %s';
+	$lang['strloading']  =  'Chargement...';
+	$lang['strerrorloading']  =  'Erreur lors du chargement';
+	$lang['strclicktoreload']  =  'Cliquer pour recharger';
 
+	//Autovacuum
+	$lang['strautovacuum']  =  'Autovacuum';
+	$lang['strenabled']  =  'activ&#233;';
+	$lang['strvacuumbasethreshold']  =  'Limite de base pour le Vacuum';
+	$lang['strvacuumscalefactor']  =  'Facteur d\'&#233;chelle pour le Vacuum';
+	$lang['stranalybasethreshold']  =  'Limite de base pour le Analyze';
+	$lang['stranalyzescalefactor']  =  'Facteur d\'&#233;chelle pour le Analyze';
+	$lang['strvacuumcostdelay']  =  'D&#233;lai du co&#251;t du Vacuum';
+	$lang['strvacuumcostlimit']  =  'Limite du co&#251;t du Vacuum';
+
+    //Table-level Locks
+	$lang['strlocks']  =  'Verrous';
+	$lang['strtransaction']  =  'ID de transaction';
+	$lang['strprocessid']  =  'ID du processus';
+	$lang['strmode']  =  'Mode du verrou';
+	$lang['strislockheld']  =  'Verrou d&#233;tenu ?';
+
+	// Prepared transactions
+	$lang['strpreparedxacts']  =  'Transactions pr&#233;par&#233;es';
+	$lang['strxactid']  =  'ID de transaction';
+	$lang['strgid']  =  'ID global';
 ?>
