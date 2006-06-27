@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.47 2006/06/24 23:28:33 slubek Exp $
+	 * $Id: polish.php,v 1.48 2006/06/27 20:29:22 slubek Exp $
 	 */
 
 	// Language and character set
@@ -468,7 +468,6 @@
 	$lang['strcreatecfunction'] = 'Utw&#243;rz funkcj&#281; C';
 	$lang['strfunctionname'] = 'Nazwa funkcji';
 	$lang['strreturns'] = 'Zwraca';
-	$lang['strarguments'] = 'Parametry';
 	$lang['strproglanguage'] = 'J&#281;zyk';
 	$lang['strfunctionneedsname'] = 'Musisz nazwa&#263; funkcj&#281;.';
 	$lang['strfunctionneedsdef'] = 'Musisz zdefiniowa&#263; funkcj&#281;.';
@@ -481,6 +480,20 @@
 	$lang['strfunctionupdatedbad'] = 'Pr&#243;ba aktualizacji funkcji si&#281; nie powiod&#322;a.';
   $lang['strobjectfile'] = 'Plik obiekt&#243;w';
   $lang['strlinksymbol'] = '&#321;&#261;cz symbol';
+	$lang['strarguments']  =  'Argumenty';
+	$lang['strargname']  =  'Nazwa';
+	$lang['strargmode']  =  'Tryb';
+	$lang['strargtype']  =  'Typ';
+	$lang['strargadd']  =  'Dodaj nowy argument';
+	$lang['strargremove']  =  'Usu&#324; ten argument';
+	$lang['strargnoargs']  =  'Ta funkcja nie b&#281;dzie wymaga&#322;a &#380;adnych argument&#243;w.';
+	$lang['strargenableargs']  =  'W&#322;&#261;cz podawanie argument&#243;w tej funkcji.';
+	$lang['strargnorowabove']  =  'Nad tym wierszem musi by&#263; wiersz.';
+	$lang['strargnorowbelow']  =  'Pod tym wierszem musi by&#263; inny wiersz.';
+	$lang['strargraise']  =  'Przesu&#324; w g&#243;r&#281;.';
+	$lang['strarglower']  =  'Przesu&#324; w d&#243;&#322;.';
+	$lang['strargremoveconfirm']  =  'Czy na pewno chcesz usun&#261;&#263; ten argument? Tej operacji nie b&#281;dzie mo&#380;na cofn&#261;&#263;.';
+
 
 	// Triggers
 	$lang['strtrigger'] = 'Procedura wyzwalana';
