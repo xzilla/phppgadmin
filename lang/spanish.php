@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.33 2006/06/27 20:13:20 xzilla Exp $
+	 * $Id: spanish.php,v 1.34 2006/06/27 21:34:22 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -272,16 +272,16 @@ $lang['strbackslashn']  =  '\N';
 	$lang['strmemberdroppedbad'] = 'Falló al intentar sacar un miembro.';
 
 	// Roles
-$lang['strrole']  =  'Role';
-$lang['strroles']  =  'Roles';
+	$lang['strrole']  =  'Rol';
+	$lang['strroles']  =  'Roles';
     $lang['strinheritsprivs']  =  'Hereda Privilegios?';
-$lang['strcreaterole']  =  'Create Role';
+	$lang['strcreaterole']  =  'Crear Rol';
 $lang['strcatupdate']  =  'Modify Catalogs?';
     $lang['strcanlogin']  =  'Puede loggearse?';
     $lang['strmaxconnections']  =  'Máximo de conexiones';
-$lang['strconfdroprole']  =  'Are you sure you want to drop the role "%s"?';
+	$lang['strconfdroprole']  =  '¿Está seguro de que desea eliminar el rol "%s"?';
     $lang['strroledropped']  =  'Usuario eliminado.';
-$lang['strroledroppedbad']  =  'Failed to drop role.';
+	$lang['strroledroppedbad']  =  'No puedo eliminar rol.';
 	
 	// Privileges
 	$lang['strprivilege'] = 'Privilegio';
@@ -699,9 +699,9 @@ $lang['strclusterneedsname']  =  'You must give a name for the cluster.';
 $lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
 	
 	// Slony nodes
-$lang['strnodes']  =  'Nodes';
+	$lang['strnodes']  =  'Nodos';
 $lang['strnonodes']  =  'No nodes found.';
-$lang['strcreatenode']  =  'Create node';
+    $lang['strcreatenode']  =  'Crear nodo';
 $lang['strid']  =  'ID';
 $lang['stractive']  =  'Active';
 $lang['strnodecreated']  =  'Node created.';
@@ -709,14 +709,14 @@ $lang['strnodecreatedbad']  =  'Node creation failed.';
 $lang['strconfdropnode']  =  'Are you sure you want to drop node "%s"?';
 $lang['strnodedropped']  =  'Node dropped.';
 $lang['strnodedroppedbad']  =  'Node drop failed';
-$lang['strfailover']  =  'Failover';
+$lang['strfailover']  =  'Filtro';
 $lang['strnodefailedover']  =  'Node failed over.';
 $lang['strnodefailedoverbad']  =  'Node fail over fail.';
 	
 	// Slony paths	
-$lang['strpaths']  =  'Paths';
+    $lang['strpaths']  =  'Rutas';
 $lang['strnopaths']  =  'No paths found.';
-$lang['strcreatepath']  =  'Create path';
+    $lang['strcreatepath']  =  'Crear ruta';
 $lang['strnodename']  =  'Node name';
 $lang['strnodeid']  =  'Node ID';
 $lang['strconninfo']  =  'Connection string';
@@ -740,23 +740,23 @@ $lang['strlistendropped']  =  'Listen dropped.';
 $lang['strlistendroppedbad']  =  'Listen drop failed.';
 
 	// Slony replication sets
-$lang['strrepsets']  =  'Replication sets';
+	$lang['strrepsets']  =  'Conjuntos de Replicación';
 $lang['strnorepsets']  =  'No replication sets found.';
-$lang['strcreaterepset']  =  'Create replication set';
+	$lang['strcreaterepset']  =  'Crear un Conjunto de Replicación';
 $lang['strrepsetcreated']  =  'Replication set created.';
 $lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
 $lang['strconfdroprepset']  =  'Are you sure you want to drop replication set "%s"?';
 $lang['strrepsetdropped']  =  'Replication set dropped.';
 $lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
-$lang['strmerge']  =  'Merge';
+	$lang['strmerge']  =  'Unir';
 $lang['strmergeinto']  =  'Merge Into';
 $lang['strrepsetmerged']  =  'Replication sets merged.';
 $lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
-$lang['strmove']  =  'Move';
-$lang['strneworigin']  =  'New Origin';
+	$lang['strmove']  =  'Mover';
+	$lang['strneworigin']  =  'Origen Nuevo';
 $lang['strrepsetmoved']  =  'Replication set moved.';
 $lang['strrepsetmovedbad']  =  'Replication set move failed.';
-$lang['strnewrepset']  =  'New replication set';
+	$lang['strnewrepset']  =  'Nuevo Conjunto de Replicación';
 $lang['strlock']  =  'Lock';
 $lang['strlocked']  =  'Locked';
 $lang['strunlock']  =  'Unlock';
