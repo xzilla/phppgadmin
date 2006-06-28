@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.143 2006/06/27 02:41:39 xzilla Exp $
+	 * $Id: english.php,v 1.144 2006/06/28 00:56:11 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -86,7 +86,7 @@
 	$lang['strprimary'] = 'Primary';
 	$lang['strexport'] = 'Export';
 	$lang['strimport'] = 'Import';
-	$lang['strallowednulls'] = 'Allowed NULL Characters';
+	$lang['strallowednulls'] = 'Allowed NULL characters';
 	$lang['strbackslashn'] = '\N';
 	$lang['strnull'] = 'NULL (The word)';
 	$lang['stremptystring'] = 'Empty string/field';
@@ -274,13 +274,13 @@
 	// Roles
 	$lang['strrole'] = 'Role';
 	$lang['strroles'] = 'Roles';
-	$lang['strinheritsprivs'] = 'Inherits Privileges?';
-	$lang['strcreaterole'] = 'Create Role';
-	$lang['strcatupdate'] = 'Modify Catalogs?';
-	$lang['strcanlogin'] = 'Can Login?';
-	$lang['strmaxconnections'] = 'Max Connections';
+	$lang['strinheritsprivs'] = 'Inherits privileges?';
+	$lang['strcreaterole'] = 'Create role';
+	$lang['strcatupdate'] = 'Modify catalogs?';
+	$lang['strcanlogin'] = 'Can login?';
+	$lang['strmaxconnections'] = 'Max connections';
 	$lang['strconfdroprole'] = 'Are you sure you want to drop the role &quot;%s&quot;?';
-	$lang['strroledropped'] = 'User dropped.';
+	$lang['strroledropped'] = 'Role dropped.';
 	$lang['strroledroppedbad'] = 'Failed to drop role.';
 	
 	// Privileges
@@ -375,17 +375,17 @@
  	$lang['straltersequence'] = 'Alter sequence';
  	$lang['strsequencealtered'] = 'Sequence altered.';
  	$lang['strsequencealteredbad'] = 'Sequence alteration failed.';
- 	$lang['strsetval'] = 'Set Value';
+ 	$lang['strsetval'] = 'Set value';
  	$lang['strsequencesetval'] = 'Sequence value set.';
  	$lang['strsequencesetvalbad'] = 'Sequence value set failed.';
- 	$lang['strnextval'] = 'Increment Value';
+ 	$lang['strnextval'] = 'Increment value';
  	$lang['strsequencenextval'] = 'Sequence incremented.';
  	$lang['strsequencenextvalbad'] = 'Sequence increment failed.';
 
 	// Indexes
 	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Indexes';
-	$lang['strindexname'] = 'Index Name';
+	$lang['strindexname'] = 'Index name';
 	$lang['strshowallindexes'] = 'Show all indexes';
 	$lang['strnoindex'] = 'No index found.';
 	$lang['strnoindexes'] = 'No indexes found.';
@@ -484,7 +484,7 @@
 	$lang['strargname'] = 'Name';
 	$lang['strargmode'] = 'Mode';
 	$lang['strargtype'] = 'Type';
-	$lang['strargadd'] = 'Add Another Argument';
+	$lang['strargadd'] = 'Add another argument';
 	$lang['strargremove'] = 'Remove this argument';
 	$lang['strargnoargs'] = 'This function will not take any arguments.';
 	$lang['strargenableargs'] = 'Enable arguments being passed to this function.';
