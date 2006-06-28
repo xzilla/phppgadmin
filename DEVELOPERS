@@ -1,49 +1,53 @@
 DEVELOPER INFO
 --------------
 
- phpPgAdmin is Open Source, so you're invited to contribute to it.
- Many great features have been written by other people and you too
- can help to make phpPgAdmin a useful tool.
+phpPgAdmin is Free/Open Source software, so you're invited to contribute to it.
+Many great features have been written by other people and you too can help to 
+make phpPgAdmin a better tool.
+
+If you're planning to contribute source code, please read the following 
+information:
  
- phpPgAdmin 3 has its roots in the phpPgAdmin 2.4 software.  A complete 
- rewrite was necessary to support PostgreSQL 7.3 and to address problems
- in the phpPgAdmin 2.4 codebase.
- 
- If you're planning to contribute source code, please read the following 
- information:
- 
- The following method is preferred for new developers:
-  - fetch the current CVS tree over anonymous CVS:
-  
-    cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin login
-    [Password: ]  simply press the Enter key!
-    
-    cvs -z3 -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
-    [This will create a new sub-directory named phpPgAdmin] 
-    
-  - Add your stuff
-  - Send us the file(s) you've modified or send us a patch (preferred).  To generate a patch, do this
-    in your 'phpPgAdmin' directory:
+The following method is preferred for new developers:
+ - fetch the current CVS tree over anonymous CVS:
 
-    	cvs diff -c > file.txt
+     cvs -d :pserver:anonymous@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin login
+     [Password: ]  simply press the Enter key!
 
-    Then, just send us the file.txt
+     cvs -z3 -d :pserver:anonymous@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
+     [This will create a new sub-directory named phpPgAdmin] 
 
-	Please note submitting code is considered a transfer of copyright to the phpPgAdmin project.
+ - Add your stuff
+ - Send us the file(s) you've modified or send us a patch (preferred). To 
+   generate a patch, in your 'phpPgAdmin' directory do:
 
-  Only project developers can access the CVS tree via ssh and SSH1 must 
-  be installed on your client machine. 
-  
-  	export CVS_RSH=ssh
+     cvs diff -c > file.txt
+
+   Then, just send us 'file.txt' .
+
+Please note that submitting code is considered a transfer of copyright to the 
+phpPgAdmin project.
+
+Write access to the CVS tree is granted only to developers who have already
+contributed something useful to phpPgAdmin.  If you're interested in that, 
+please contact us.
+These project developers can access the CVS tree via SSH:
+
+  export CVS_RSH=ssh
   	
-  	login once with ssh to developername@cvs.phppgadmin.sourceforge.net to create required
-  	user directories on the server.
+Login once with
+
+  ssh developername@phppgadmin.cvs.sourceforge.net
+
+to create required user directories on the server. Then fetch the current CVS 
+tree:
   	
-  	cvs -z3 -d developername@cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
-  	
-  Write access to the CVS tree is granted only to developers who have already
-  contributed something useful to phpPgAdmin.  If you're interested in that, 
-  please contact us.                                  
+  cvs -z3 -d developername@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
+
+For further information, refer to:
+
+  http://sourceforge.net/projects/phppgadmin
+
                                  
 TIPS FOR DEVELOPERS
 -------------------
