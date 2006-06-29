@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.79 2006/06/23 00:57:37 xzilla Exp $
+	 * $Id: tables.php,v 1.80 2006/06/29 18:22:33 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -646,7 +646,14 @@
 			'action' => url('redirect.php',
 							$reqvars,
 							array('table' => field('relname'))
-						)
+						),
+			'branch' => url('tblproperties.php',
+							$reqvars,
+							array (
+								'action' => 'tree',
+								'table' => field('relname')
+							)
+						)	
 		);
 		
 		$misc->printTreeXML($tables, $attrs);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.57 2006/06/23 00:57:37 xzilla Exp $
+	 * $Id: views.php,v 1.58 2006/06/29 18:22:34 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -604,6 +604,13 @@
 			'action' => url('redirect.php',
 							$reqvars,
 							array('view' => field('relname'))
+						),
+			'branch' => url('viewproperties.php',
+							$reqvars,
+							array (
+								'action' => 'tree',
+								'view' => field('relname')
+							)
 						)
 		);
 		

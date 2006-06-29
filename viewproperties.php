@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.19 2006/06/23 00:31:44 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.20 2006/06/29 18:22:34 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -242,7 +242,26 @@
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
 		}
 	}
-	
+
+	function doTree () {
+		global $misc, $data;
+
+		$columns = $data->getTableAttributes($_REQUEST['view']);
+		$reqvars = $misc->getRequestVars('view');
+
+		$attrs = array (
+			'text'   => field('attname'),
+			'icon'   => 'Column',
+			'toolTip'=> field('comment')
+		);
+
+		$misc->printTreeXML($columns, $attrs);
+
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
+
 	/**
 	 * Show view definition and virtual columns
 	 */

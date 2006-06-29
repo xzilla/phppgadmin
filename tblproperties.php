@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.69 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.70 2006/06/29 18:22:34 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -519,6 +519,25 @@
 		}
 		
 	}
+
+	function doTree() {
+		global $misc, $data;
+
+		$columns = $data->getTableAttributes($_REQUEST['table']);
+		$reqvars = $misc->getRequestVars('table');
+
+		$attrs = array (
+			'text'   => field('attname'),
+			'icon'   => 'Column',
+			'toolTip'=> field('comment')
+		);
+
+		$misc->printTreeXML($columns, $attrs);
+
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
 
 	/**
 	 * Show default list of columns in the table
