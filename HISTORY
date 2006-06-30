@@ -16,6 +16,9 @@ Features
 * Display content of pg_locks view (Javier Carlos)
 * Add labels for checkboxes/radio buttons for improved usability (Guillaume)
 * Display Prepared Transactions (Javier Carlos)
+* Re-enable table browsing from tree icons (ioguix) 
+* Add Support For IN/OUT Parameters (John Jawed)
+* Add column level information into the tree browser (ioguix) 
 
 Version 4.0
 -----------

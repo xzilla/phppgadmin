@@ -98,7 +98,9 @@ Sequences
 Functions
 ---------
 
-* Support 8.1 IN, OUT and INOUT parameters.(Jawed)
+* -Support 8.1 IN, OUT and INOUT parameters.(Jawed)
+* Remove options for OUT/INOUT params in older servers
+* Clean up javascript html spec warnings
 * Display owner
 * Alter owner
 
