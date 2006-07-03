@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.33 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: sequences.php,v 1.34 2006/07/03 01:20:28 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -234,8 +234,8 @@
 			htmlspecialchars($_POST['formCacheValue']), "\" /></td></tr>\n";
 		
 		echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
-		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" value=\"",
-			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), "\" /></td></tr>\n";
+		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
+			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
@@ -347,7 +347,7 @@
 	function doSaveAlter() {
 		global $data, $lang, $_reload_browser;
 
-		$status = $data->alterSequence($_POST['sequence'], $_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'], $_POST['formCacheValue'], $_POST['formCycledValue']);
+		$status = $data->alterSequence($_POST['sequence'], $_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'], $_POST['formCacheValue'], isset($_POST['formCycledValue']));
 		if ($status == 0) {
 			doProperties($lang['strsequencealtered']);
 		}
@@ -370,6 +370,10 @@
 		$sequence = $data->getSequence($_REQUEST['sequence']);
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
+			// Handle Checkbox Value
+			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);
+			if ($sequence->f['is_cycled']) $_POST['formCycledValue'] = 'on';
+
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			
@@ -394,8 +398,8 @@
 				htmlspecialchars($sequence->f['cache_value']), "\" /></td></tr>\n";
 			
 			echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" value=\"",
-				($sequence->f['is_cycled'] ? ' checked="checked"' : ''), "\" /></td></tr>\n";
+			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
+				( isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 	
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

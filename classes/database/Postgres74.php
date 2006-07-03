@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.51 2006/05/19 07:17:30 chriskl Exp $
+ * $Id: Postgres74.php,v 1.52 2006/07/03 01:20:28 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -580,7 +580,8 @@ class Postgres74 extends Postgres73 {
 		if ($maxvalue != '' && $maxvalue != $data->f['max_value']) $sql .= " MAXVALUE {$maxvalue}";
 		if ($startvalue != '' && $startvalue != $data->f['last_value']) $sql .= " START {$startvalue}";
 		if ($cachevalue != '' && $cachevalue != $data->f['cache_value']) $sql .= " CACHE {$cachevalue}";
-		if ($cycledvalue && $cycledvalue != $data->f['is_cycled']) $sql .= " CYCLE";
+		// toggle cycle yes/no
+		$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";	
 		
 		return $this->execute($sql);
 	}	
