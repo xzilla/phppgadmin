@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.7 2006/06/20 14:06:09 xzilla Exp $
+ * $Id: Postgres81.php,v 1.8 2006/07/18 18:58:47 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -97,15 +97,17 @@ class Postgres81 extends Postgres80 {
 		else
 			$where = ' AND pdb.datallowconn';
 
-		$sql = "SELECT pdb.datname AS datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+		$sql = "SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
                                (SELECT description FROM pg_catalog.pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment,
                                (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
-							   pg_catalog.pg_database_size(oid) as dbsize 
-                        FROM pg_catalog.pg_database pdb, pg_catalog.pg_user pu
-			WHERE pdb.datdba = pu.usesysid
+							   pg_catalog.pg_database_size(pdb.oid) as dbsize 
+                        FROM pg_catalog.pg_database pdb LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)  
+						WHERE true 
 			{$where}
 			{$clause}
 			{$orderby}";
+
+		echo $sql ; 
 
 		return $this->selectSet($sql);
 	}
