@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.8 2006/07/18 18:58:47 xzilla Exp $
+ * $Id: Postgres81.php,v 1.9 2006/07/18 19:01:46 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -106,8 +106,6 @@ class Postgres81 extends Postgres80 {
 			{$where}
 			{$clause}
 			{$orderby}";
-
-		echo $sql ; 
 
 		return $this->selectSet($sql);
 	}
