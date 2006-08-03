@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.17 2006/06/29 15:43:04 xzilla Exp $
+     * $Id: french.php,v 1.18 2006/08/03 19:03:33 xzilla Exp $
      */
 
     // Language and character set
@@ -222,6 +222,9 @@
     $lang['strconfvacuumtable']  =  '&#202;tes-vous sur de vouloir faire un vacuum de &#171; %s &#187; ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&#233;s';
 
+	// Columns
+	$lang['strcolprop']  =  'Propri&#233;t&#233;s de la Colonne';
+		
     // Users
     $lang['struser'] = 'Utilisateur';
     $lang['strusers'] = 'Utilisateurs';

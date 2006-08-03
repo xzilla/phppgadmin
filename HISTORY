@@ -19,6 +19,7 @@ Features
 * Re-enable table browsing from tree icons (ioguix) 
 * Add Support For IN/OUT Parameters (John Jawed)
 * Add column level information into the tree browser (ioguix) 
+* Promote column level interaction into its own page (ioguix) 
 
 Version 4.0
 -----------

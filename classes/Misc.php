@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.131 2006/06/23 00:57:37 xzilla Exp $
+	 * $Id: Misc.php,v 1.132 2006/08/03 19:03:33 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -938,6 +938,16 @@
 							'icon'  => 'ReplicationSets',
 						),
 					);
+
+				case 'column':
+					return array(
+						'properties' => array (
+							'title'		=> $lang['strcolprop'],
+							'url'		=> 'colproperties.php',
+							'urlvars'	=> array('subject' => 'column', 'table' => field('table'), 'column' => field('column')),
+							'icon'		=> 'Column'
+						)
+					);
 					
 				default:
 					return array();
@@ -1197,6 +1207,15 @@
 							'url'   => "redirect.php?{$vars}",
 							'help'  => 'sl.'.$subject,
 							'icon'  => 'AvailableReplicationSet'
+						);
+						break;
+					case 'column':
+						$vars .= "&column={$_REQUEST['column']}&subject=column";
+						$trail['column'] = array (
+							'title' => $lang['strcolumn'],
+							'text'  => $_REQUEST['column'],
+							'icon'	=> 'Column',
+							'url'   => "redirect.php?{$vars}"
 						);
 						break;
 					default:

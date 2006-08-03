@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.20 2006/06/29 18:22:34 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.21 2006/08/03 19:03:32 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -246,12 +246,33 @@
 	function doTree () {
 		global $misc, $data;
 
+		$reqvars = $misc->getRequestVars('column');
 		$columns = $data->getTableAttributes($_REQUEST['view']);
-		$reqvars = $misc->getRequestVars('view');
-
+		
 		$attrs = array (
 			'text'   => field('attname'),
+			'action' => url('colproperties.php',
+							$reqvars,
+							array(
+								'view'     => $_REQUEST['view'],
+								'column'    => field('attname')
+							)
+						),
 			'icon'   => 'Column',
+			'iconAction' => url('display.php',
+							$reqvars,
+							array(
+								'view'     => $_REQUEST['view'],
+								'column'    => field('attname'),
+								'query'     => prepareSQL(
+									"SELECT %column%, count(*) AS \"count\" FROM %view% GROUP BY %column% ORDER BY %column%",
+									array (
+										'%column%' => field('attname'),
+										'%view%' => $_REQUEST['view']
+									)
+								)
+							)
+			),
 			'toolTip'=> field('comment')
 		);
 

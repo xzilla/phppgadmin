@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.34 2006/06/27 21:34:22 xzilla Exp $
+	 * $Id: spanish.php,v 1.35 2006/08/03 19:03:33 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -221,6 +221,9 @@ $lang['strbackslashn']  =  '\N';
 	$lang['strauto'] = 'Automático';
     $lang['strconfvacuumtable']  =  'Esta seguro que quiere limpiar "%s"?';
     $lang['strestimatedrowcount']  =  'Estimación de filas';
+
+	// Columns
+	$lang['strcolprop'] = 'Propiedades de Columna';
 
     // Users
 	$lang['struser'] = 'Usuario';

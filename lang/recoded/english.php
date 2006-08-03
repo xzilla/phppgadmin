@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.144 2006/06/28 00:56:11 soranzo Exp $
+	 * $Id: english.php,v 1.145 2006/08/03 19:03:33 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -222,6 +222,9 @@
 	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'Estimated row count';
 
+	// Columns
+	$lang['strcolprop'] = 'Column Properties';
+		
 	// Users
 	$lang['struser'] = 'User';
 	$lang['strusers'] = 'Users';

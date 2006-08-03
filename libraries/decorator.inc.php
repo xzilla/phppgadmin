@@ -1,5 +1,5 @@
 <?php
-// $Id: decorator.inc.php,v 1.5 2005/10/18 04:11:58 mr-russ Exp $
+// $Id: decorator.inc.php,v 1.6 2006/08/03 19:03:33 xzilla Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
@@ -54,6 +54,10 @@ function noEscape($value) {
 		return $value;
 	}
 	return new Decorator($value, false);
+}
+
+function prepareSQL($sql, $params) {
+	return new PrepareSQL($sql, $params);
 }
 
 // Resolving functions:
@@ -208,6 +212,22 @@ class UrlDecorator extends Decorator
 			}
 		}
 		return $url;
+	}
+}
+
+class PrepareSQL extends Decorator
+{
+	function PrepareSQL($sql, $params) {
+		$this->q = $sql;
+		$this->p = $params;
+	}
+
+	function value($fields) {
+		$req = $this->q;
+		foreach ($this->p as $k => $v) {
+			$req = str_replace($k, value($v, $fields), $req);
+		}
+		return $req;
 	}
 }
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.70 2006/06/29 18:22:34 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.71 2006/08/03 19:03:32 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -222,7 +222,7 @@
 	 * Displays a screen where they can add a column
 	 */
 	function doAddColumn($msg = '') {
-		global $data, $misc;
+		global $data, $misc, $_reload_browser;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -317,8 +317,10 @@
 				$status = $data->addColumn($_POST['table'], $_POST['field'],
 							   $_POST['type'], $_POST['array'] != '', $_POST['length'], isset($_POST['notnull']),
 							   $_POST['default'], $_POST['comment']);
-				if ($status == 0)
+				if ($status == 0) {
+					$_reload_browser = true;
 					doDefault($lang['strcolumnadded']);
+				}
 				else {
 					$_REQUEST['stage'] = 1;
 					doAddColumn($lang['strcolumnaddedbad']);
@@ -334,7 +336,7 @@
 	 * Displays a screen where they can alter a column
 	 */
 	function doProperties($msg = '') {
-		global $data, $misc;
+		global $data, $misc, $_reload_browser;
 		global $PHP_SELF, $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
@@ -469,8 +471,13 @@
 							     $_REQUEST['default'], $_REQUEST['olddefault'],
 							     $_REQUEST['type'], $_REQUEST['length'], $_REQUEST['array'], $_REQUEST['oldtype'],
 							     $_REQUEST['comment']);
-				if ($status == 0)
+				if ($status == 0) {
+					if ($_REQUEST['column'] != $_REQUEST['field']) {
+						$_reload_browser = true;
+						$_REQUEST['column'] = $_REQUEST['field'];
+					}
 					doDefault($lang['strcolumnaltered']);
+				}
 				else {
 					$_REQUEST['stage'] = 1;
 					doProperties($lang['strcolumnalteredbad']);
@@ -486,7 +493,7 @@
 	 * Show confirmation of drop column and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $data, $database, $misc;
+		global $data, $database, $misc, $_reload_browser;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
@@ -512,8 +519,10 @@
 		}
 		else {
 			$status = $data->dropColumn($_POST['table'], $_POST['column'], isset($_POST['cascade']));
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strcolumndropped']);
+			}
 			else
 				doDefault($lang['strcolumndroppedbad']);
 		}
@@ -524,11 +533,32 @@
 		global $misc, $data;
 
 		$columns = $data->getTableAttributes($_REQUEST['table']);
-		$reqvars = $misc->getRequestVars('table');
+		$reqvars = $misc->getRequestVars('column');
 
 		$attrs = array (
 			'text'   => field('attname'),
+			'action' => url('colproperties.php',
+							$reqvars,
+							array(
+								'table'		=> $_REQUEST['table'],
+								'column'	=> field('attname')
+							)
+						),
 			'icon'   => 'Column',
+			'iconAction' => url('display.php',
+								$reqvars,
+								array(
+									'table'		=> $_REQUEST['table'],
+									'column'	=> field('attname'),
+									'query'		=> prepareSQL(
+														"SELECT %column%, count(*) AS \"count\" FROM %table% GROUP BY %column% ORDER BY %column%", 
+														array (
+															'%column%' => field('attname'),
+															'%table%' => $_REQUEST['table']
+														)
+													)
+								)
+							),
 			'toolTip'=> field('comment')
 		);
 
@@ -558,7 +588,7 @@
 		// Get table
 		$tdata = $data->getTable($_REQUEST['table']);
 		// Get columns
-		$attrs = $data->getTableAttributes($_REQUEST['table']);		
+		$attrs = $data->getTableAttributes($_REQUEST['table']);
 
 		// Show comment if any
 		if ($tdata->f['relcomment'] !== null)
@@ -593,6 +623,11 @@
 		);
 		
 		$actions = array(
+			'properties' => array(
+				'title' => $lang['strproperties'],
+				'url'   => "colproperties.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
