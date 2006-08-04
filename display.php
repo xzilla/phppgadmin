@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.54 2006/06/21 18:02:52 xzilla Exp $
+	 * $Id: display.php,v 1.55 2006/08/04 20:42:24 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -27,7 +27,7 @@
 	 * Show confirmation of edit and perform actual update
 	 */
 	function doEditRow($confirm, $msg = '') {
-		global $data, $misc;
+		global $data, $misc, $conf;
 		global $lang;
 		global $PHP_SELF;
 
@@ -38,10 +38,28 @@
 			$misc->printTitle($lang['streditrow']);
 			$misc->printMsg($msg);
 
+			$bAllowAC = ($conf["autocomplete"]!='disable') ? TRUE : FALSE ;
+			if($bAllowAC) {
+				$constraints = $data->getConstraints($_REQUEST['table']);
+				$arrayLocals = array();
+				$arrayRefs = array();
+				$nC = 0;
+				// A word of caution, the following does not support multicolumn FK's at the moment
+				while(!$constraints->EOF) {
+					preg_match('/foreign key \((\w+)\) references ([\w]+)\((\w+)\)/i',$constraints->fields["consrc"],$matches);
+					if(!empty($matches)) {
+						$arrayLocals[$nC] = $matches[1];
+						$arrayRefs[$nC] = array($matches[2],$matches[3]);
+						$nC++;
+					}
+					$constraints->moveNext();
+				}
+			}
+
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 			$rs = $data->browseRow($_REQUEST['table'], $key);
-
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
 			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
@@ -53,7 +71,18 @@
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
+				$nCC = 0;
 				while (!$attrs->EOF) {
+					$szValueName = "values[{$attrs->f['attname']}]";
+					$szEvents = "";
+					$szDivPH = "";
+					if($bAllowAC) {
+						if(($idxFound = array_search($attrs->f['attname'],$arrayLocals))!==false) {
+							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST["server"]}','{$_REQUEST["database"]}');";
+							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
+							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
+						}
+					}
 					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
 					
@@ -88,16 +117,18 @@
 					else
 						echo "&nbsp;</td>";
 
-					echo "<td class=\"data{$id}\" nowrap>";
+					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">";
 					// If the column allows nulls, then we put a JavaScript action on the data field to unset the
 					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to 
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
 					// as it contains '[' and ']' characters.
-					if (!$attrs->f['attnotnull'])
-						echo $data->printField("values[{$attrs->f['attname']}]", $rs->f[$attrs->f['attname']], $attrs->f['type'], 
-													array('onChange' => 'elements[' . ($elements - 1) . '].checked = false;'));
-					else
-						echo $data->printField("values[{$attrs->f['attname']}]", $rs->f[$attrs->f['attname']], $attrs->f['type']);
+					if (!$attrs->f['attnotnull']) {
+						echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'], 
+													array('onChange' => 'elements[' . ($elements - 1) . '].checked = false;'),$szEvents) . $szDivPH;
+					}
+					else {
+						echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'],array(),$szEvents) . $szDivPH;
+					}
 					echo "</td>";
 					$elements++;
 					echo "</tr>\n";
@@ -105,6 +136,10 @@
 					$attrs->moveNext();
 				}
 				echo "</table>\n";
+				if($bAllowAC) {
+					echo '<script src="aciur.js" type="text/javascript"></script>';
+					echo "<div id=\"ac\"></div>";
+				}
 				$error = false;
 			}
 			elseif ($rs->recordCount() != 1) {
@@ -135,8 +170,14 @@
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
 			echo "<p>";
 			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			if($bAllowAC) {
+				$szChecked = $conf["autocomplete"]!='default off' ? "checked=\"checked\"" : "";
+				echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
+			}
+			echo "</p>\n";
 			echo "</form>\n";
+			echo "<script>rEB(document.getElementById('no_ac').checked);</script>";
 		}
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();

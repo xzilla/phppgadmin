@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.286 2006/06/20 14:06:09 xzilla Exp $
+ * $Id: Postgres.php,v 1.287 2006/08/04 20:42:24 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -266,7 +266,7 @@ class Postgres extends ADODB_base {
 	 * @param $type The database type of the field
 	 * @param $actions An array of javascript action name to the code to execute on that action
 	 */
-	function printField($name, $value, $type, $actions = array()) {
+	function printField($name, $value, $type, $actions = array(),$szExtra="") {
 		global $lang;
 		
 		// Determine actions string
@@ -291,7 +291,7 @@ class Postgres extends ADODB_base {
 					echo "</select>\n";
 				}
 				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
 				}				
 				break;
 			case 'bytea':
@@ -316,7 +316,7 @@ class Postgres extends ADODB_base {
 				echo "</textarea>\n";
 				break;
 			default:
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} />\n";
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
 				break;
 		}		
 	}

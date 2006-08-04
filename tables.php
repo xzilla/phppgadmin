@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.80 2006/06/29 18:22:33 xzilla Exp $
+	 * $Id: tables.php,v 1.81 2006/08/04 20:42:24 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -336,9 +336,11 @@
 	 * Ask for insert parameters and then actually insert row
 	 */
 	function doInsertRow($confirm, $msg = '') {
-		global $data, $misc;
+		global $data, $misc, $conf;
 		global $lang;
 		global $PHP_SELF;
+
+		$bAllowAC = ($conf["autocomplete"]!='disable') ? TRUE : FALSE ;
 
 		if ($confirm) {
 			$misc->printTrail('table');
@@ -346,8 +348,24 @@
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
+			if($bAllowAC) {
+				$constraints = $data->getConstraints($_REQUEST['table']);
+				$arrayLocals = array();
+				$arrayRefs = array();
+				$nC = 0;
+				// A word of caution, the following does not support multicolumn FK's at the moment
+				while(!$constraints->EOF) {
+					preg_match('/foreign key \((\w+)\) references ([\w]+)\((\w+)\)/i',$constraints->fields["consrc"],$matches);
+					if(!empty($matches)) {
+						$arrayLocals[$nC] = $matches[1];
+						$arrayRefs[$nC] = array($matches[2],$matches[3]);
+						$nC++;
+					}
+					$constraints->moveNext();
+				}
+			}
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
 			if ($attrs->recordCount() > 0) {
 				echo "<table>\n";
 
@@ -358,6 +376,16 @@
 				
 				$i = 0;
 				while (!$attrs->EOF) {
+					$szValueName = "values[{$attrs->f['attname']}]";
+					$szEvents = "";
+					$szDivPH = "";
+					if($bAllowAC) {
+						if(($idxFound = array_search($attrs->f['attname'],$arrayLocals))!==false) {
+							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST["server"]}','{$_REQUEST["database"]}');";
+							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
+							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
+						}
+					}
 					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
@@ -381,18 +409,24 @@
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull'])
+					if (!$attrs->f['attnotnull']) {
 						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->f['attname']), "]\"",
 							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					else
+					}
+					else {
 						echo "&nbsp;</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
-						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
+					}
+					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">", $data->printField($szValueName,
+					$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type'],array(),$szEvents),$szDivPH ,"</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
 				}
 				echo "</table>\n";
+				if($bAllowAC) {
+					echo '<script src="aciur.js" type="text/javascript"></script>';
+					echo "<div id=\"ac\"></div>";
+				}
 			}
 			else echo "<p>{$lang['strnodata']}</p>\n";
 			
@@ -404,8 +438,14 @@
 			echo $misc->form;
 			echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
 			echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			if($bAllowAC) {
+				$szChecked = $conf["autocomplete"]!='default off' ? "checked=\"checked\"" : "";
+				echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
+			}
+			echo "</p>\n";
 			echo "</form>\n";
+			echo "<script>rEB(document.getElementById('no_ac').checked);</script>";
 		}
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
