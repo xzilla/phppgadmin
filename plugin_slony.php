@@ -3,11 +3,17 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.9 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: plugin_slony.php,v 1.10 2006/08/07 18:11:15 xzilla Exp $
 	 */
 
+	// Include application functions
+	include_once('./libraries/lib.inc.php');
+
+	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
+	$PHP_SELF = $_SERVER['PHP_SELF'];
+
 	// Avoid database connections whenever possible
-	switch (isset($_REQUEST['action']) ? $_REQUEST['action'] : '') {
+	switch ($action) {
 		case 'clusters_top':
 		case 'nodes_top':
 		case 'sets_top':
@@ -16,12 +22,6 @@
 		default:
 	}
 
-	// Include application functions
-	include_once('./libraries/lib.inc.php');
-
-	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
-	
 	// Include 'slony_cluster' in $misc->href if present
 	if (isset($_REQUEST['slony_cluster'])) {
 		$misc->href .= '&amp;slony_cluster=' . urlencode($_REQUEST['slony_cluster']);
