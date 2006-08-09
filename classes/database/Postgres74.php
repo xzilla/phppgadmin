@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.52 2006/07/03 01:20:28 xzilla Exp $
+ * $Id: Postgres74.php,v 1.53 2006/08/09 21:19:44 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -585,7 +585,115 @@ class Postgres74 extends Postgres73 {
 		
 		return $this->execute($sql);
 	}	
-	
+
+	// Aggregates
+
+	/**
+	 * Alters an aggregate
+	 * @param $aggrname The actual name of the aggregate
+	 * @param $aggrtype The actual input data type of the aggregate
+	 * @param $aggrowner The actual owner of the aggregate
+	 * @param $aggrschema The actual schema the aggregate belongs to
+	 * @param $aggrcomment The actual comment for the aggregate
+	 * @param $newaggrname The new name of the aggregate
+	 * @param $newaggrowner The new owner of the aggregate
+	 * @param $newaggrschema The new schema where the aggregate will belong to
+	 * @param $newaggrcomment The new comment for the aggregate
+	 * @return 0 success
+	 * @return -1 change owner error
+	 * @return -2 change comment error
+	 * @return -3 change schema error
+	 * @return -4 change name error
+	 */
+	function alterAggregate($aggrname, $aggrtype, $aggrowner, $aggrschema, $aggrcomment, $newaggrname, $newaggrowner, $newaggrschema, $newaggrcomment) {
+		// Clean fields
+		$this->fieldClean($aggrname);
+		$this->fieldClean($aggrtype);
+		$this->fieldClean($aggrowner);
+		$this->fieldClean($aggrschema);
+		$this->clean($aggrcomment);
+		$this->fieldClean($newaggrname);
+		$this->fieldClean($newaggrowner);
+		$this->fieldClean($newaggrschema);
+		$this->clean($newaggrcomment);
+		
+		$this->beginTransaction();
+
+		// Change the owner, if it has changed
+		if($aggrowner != $newaggrowner) {
+			$status = $this->changeAggregateOwner($aggrname, $aggrtype, $newaggrowner);
+			if($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		// Set the comment, if it has changed
+		if($aggrcomment != $newaggrcomment) {
+			$status = $this->setComment('AGGREGATE', $aggrname, '', $newaggrcomment, $aggrtype);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+		}
+
+		// Change the schema, if it has changed
+		if($aggrschema != $newaggrschema) {
+			$status = $this->changeAggregateSchema($aggrname, $aggrtype, $newaggrschema);
+			if($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		// Rename the aggregate, if it has changed
+		if($aggrname != $newaggrname) {
+			$status = $this->renameAggregate($newaggrschema, $aggrname, $aggrtype, $newaggrname);
+			if($status != 0) {
+				$this->rollbackTransaction();
+				return -4;
+			}
+		}
+
+		return $this->endTransaction();
+	}	
+
+	/**
+	 * Changes the owner of an aggregate function
+	 * @param $aggrname The name of the aggregate
+	 * @param $aggrtype The input data type of the aggregate
+	 * @param $newaggrowner The new owner of the aggregate
+	 * @return 0 success
+	 */
+	function changeAggregateOwner($aggrname, $aggrtype, $newaggrowner) {
+		$sql = "ALTER AGGREGATE \"{$aggrname}\" (\"{$aggrtype}\") OWNER TO \"{$newaggrowner}\"";
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Changes the schema of an aggregate function
+	 * @param $aggrname The name of the aggregate
+	 * @param $aggrtype The input data type of the aggregate
+	 * @param $newaggrschema The new schema for the aggregate
+	 * @return 0 success
+	 */
+	function changeAggregateSchema($aggrname, $aggrtype, $newaggrschema) {
+		$sql = "ALTER AGGREGATE \"{$aggrname}\" (\"{$aggrtype}\") SET SCHEMA  \"{$newaggrschema}\"";
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Renames an aggregate function
+	 * @param $aggrname The actual name of the aggregate
+	 * @param $aggrtype The actual input data type of the aggregate
+	 * @param $newaggrname The new name of the aggregate
+	 * @return 0 success
+	 */
+	function renameAggregate($aggrschema, $aggrname, $aggrtype, $newaggrname) {
+		$sql = "ALTER AGGREGATE \"{$aggrschema}\"" . '.' . "\"{$aggrname}\" (\"{$aggrtype}\") RENAME TO \"{$newaggrname}\"";
+		return $this->execute($sql);
+	}
+
 	// Capabilities
 	function hasAlterDatabaseRename() { return true; }
 	function hasGrantOption() { return true; }
@@ -594,6 +702,7 @@ class Postgres74 extends Postgres73 {
 	function hasRecluster() { return true; }
 	function hasReadOnlyQueries() { return true; }	
 	function hasAlterSequence() { return true; }
+	function hasAlterAggregate() { return true; }
 }
 
 ?>

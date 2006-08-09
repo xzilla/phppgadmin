@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.193 2006/08/04 20:42:24 xzilla Exp $
+	 * $Id: english.php,v 1.194 2006/08/09 21:19:44 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -647,11 +647,33 @@
 	$lang['strreferringtables'] = 'Referring tables';
 	$lang['strparenttables'] = 'Parent tables';
 	$lang['strchildtables'] = 'Child tables';
-	
+
 	// Aggregates
+	$lang['straggregate'] = 'Aggregate';
 	$lang['straggregates'] = 'Aggregates';
 	$lang['strnoaggregates'] = 'No aggregates found.';
 	$lang['stralltypes'] = '(All types)';
+	$lang['straggrtransfn'] = 'Transition function';
+	$lang['strcreateaggregate'] = 'Create aggregate';
+	$lang['straggrbasetype'] = 'Input data type';
+	$lang['straggrsfunc'] = 'State transition function';
+	$lang['straggrstype'] = 'State data type';
+	$lang['straggrffunc'] = 'Final function';
+	$lang['straggrinitcond'] = 'Initial condition';
+	$lang['straggrsortop'] = 'Sort operator';
+	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate "%s"?';
+	$lang['straggregatedropped'] = 'Aggregate dropped.';
+	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
+	$lang['stralteraggregate'] = 'Alter aggregate';
+	$lang['straggraltered'] = 'Aggregate altered.';
+	$lang['straggralteredbad'] = 'Aggregate alteration failed.';
+	$lang['straggrneedsname'] = 'You must specify a name for the aggregate';
+	$lang['straggrneedsbasetype'] = 'You must specify the input data type for the aggregate';
+	$lang['straggrneedssfunc'] = 'You must specify the name of the state transition function for the aggregate';
+	$lang['straggrneedsstype'] = 'You must specify the data type for the aggregate\'s state value';
+	$lang['straggrcreated'] = 'Aggregate created.';
+	$lang['straggrcreatedbad'] = 'Aggregate creation failed.';
+	$lang['straggrshowall'] = 'Show all aggregates';
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Op Classes';

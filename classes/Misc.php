@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.132 2006/08/03 19:03:33 xzilla Exp $
+	 * $Id: Misc.php,v 1.133 2006/08/09 21:19:44 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -618,7 +618,7 @@
 							'help'  => 'pg.locks',
 							'tree'  => false,
 							'icon'  => 'Key',
-                  ),
+						),
 						'admin' => array (
 							'title' => $lang['stradmin'],
 							'url'   => 'database.php',
@@ -669,6 +669,7 @@
 						),
 					);
 					return $tabs;
+
 				case 'schema':
 					return array (
 						'tables' => array (
@@ -881,7 +882,22 @@
 							'icon'  => 'Privileges',
 						),
 					);
-				
+					
+				case 'aggregate':
+					return array (
+						'definition' => array (
+							'title' => $lang['strdefinition'],
+							'url'   => 'aggregates.php',
+							'urlvars' => array(
+									'subject' => 'aggregate',
+									'aggrname' => field('aggrname'),
+									'aggrtype' => field('aggrtype'),
+									'action' => 'properties',
+								),
+							'icon'  => 'Definition',
+						),
+					);
+			
 				case 'popup':
 					return array (
 						'sql' => array (
@@ -1092,7 +1108,7 @@
 		 */
 		function getTrail($subject = null) {
 			global $lang, $conf, $data, $appName;
-			
+
 			$trail = array();
 			$vars = '';
 			$done = false;
@@ -1186,6 +1202,17 @@
 							'url'   => "redirect.php?{$vars}",
 							'help'  => 'pg.function',
 							'icon'  => 'Function'
+						);
+						break;
+					case 'aggregate':
+						$vars .= "subject=aggregate&action=properties&aggrname=".urlencode($_REQUEST['aggrname']);
+						$vars .= "&aggrtype=".urlencode($_REQUEST['aggrtype']);	
+						$trail[$subject] = array(
+							'title' => $lang['straggregate'],
+							'text'  => $_REQUEST['aggrname'],
+							'url'   => "redirect.php?{$vars}",
+							'help'  => 'pg.aggregate',
+							'icon'  => 'Aggregate'
 						);
 						break;
 					case 'slony_node':

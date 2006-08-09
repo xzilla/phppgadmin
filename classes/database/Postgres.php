@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.287 2006/08/04 20:42:24 xzilla Exp $
+ * $Id: Postgres.php,v 1.288 2006/08/09 21:19:44 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3720,6 +3720,74 @@ class Postgres extends ADODB_base {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Creates a new aggregate in the database
+	 * @param $name The name of the aggregate
+	 * @param $basetype The input data type of the aggregate
+	 * @param $sfunc The name of the state transition function for the aggregate
+	 * @param $stype The data type for the aggregate's state value
+	 * @param $ffunc The name of the final function for the aggregate
+	 * @param $initcond The initial setting for the state value
+	 * @param $sortop The sort operator for the aggregate
+	 * @param $comment Aggregate comment
+	 * @return 0 success
+	 * @return -1 error
+	 */
+	function createAggregate($name, $basetype, $sfunc, $stype, $ffunc, $initcond, $sortop, $comment) {
+		$this->fieldClean($name);
+		$this->fieldClean($basetype);
+		$this->fieldClean($sfunc);
+		$this->fieldClean($stype);
+		$this->fieldClean($ffunc);
+		$this->fieldClean($initcond);
+		$this->fieldClean($sortop);
+		$this->clean($comment);
+
+		$this->beginTransaction();
+		
+		$sql = "CREATE AGGREGATE \"{$name}\" (BASETYPE = \"{$basetype}\", SFUNC = \"{$sfunc}\", STYPE = \"{$stype}\"";
+		if(trim($ffunc) != '') $sql .= ", FINALFUNC = \"{$ffunc}\"";
+		if(trim($initcond) != '') $sql .= ", INITCOND = \"{$initcond}\"";
+		if(trim($sortop) != '') $sql .= ", SORTOP = \"{$sortop}\"";
+		$sql .= ")";
+
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		if (trim($comment) != '') {
+			$status = $this->setComment('AGGREGATE', $name, '', $comment, $basetype);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		return $this->endTransaction();
+	}	
+
+	/**
+	 * Removes an aggregate function from the database
+	 * @param $aggrname The name of the aggregate
+	 * @param $aggrtype The input data type of the aggregate
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropAggregate($aggrname, $aggrtype, $cascade) {
+		$this->fieldClean($aggrname);
+		$this->fieldClean($aggrtype);
+
+		$sql = "DROP AGGREGATE \"{$aggrname}\" (\"{$aggrtype}\")";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+
+
+
 	// Operator Class functions
 	
 	/**
@@ -3780,13 +3848,13 @@ class Postgres extends ADODB_base {
 	/**
 	 * Sets the comment for an object in the database
 	 * @pre All parameters must already be cleaned
-	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION'
+	 * @param $obj_type One of 'TABLE' | 'COLUMN' | 'VIEW' | 'SCHEMA' | 'SEQUENCE' | 'TYPE' | 'FUNCTION' | 'AGGREGATE'
 	 * @param $obj_name The name of the object for which to attach a comment.
 	 * @param $table Name of table that $obj_name belongs to.  Ignored unless $obj_type is 'TABLE' or 'COLUMN'.
 	 * @param $comment The comment to add.
 	 * @return 0 success
 	 */
-	function setComment($obj_type, $obj_name, $table, $comment) {
+	function setComment($obj_type, $obj_name, $table, $comment, $basetype = NULL) {
 		$sql = "COMMENT ON {$obj_type} " ;
 
 		switch ($obj_type) {
@@ -3804,6 +3872,9 @@ class Postgres extends ADODB_base {
 				break;
 			case 'FUNCTION':				
 				$sql .= "{$obj_name} IS ";
+				break;
+			case 'AGGREGATE':
+				$sql .= "\"{$obj_name}\" (\"{$basetype}\") IS ";
 				break;
 			default:
 				// Unknown object type
@@ -4562,6 +4633,7 @@ class Postgres extends ADODB_base {
 	function hasAlterSequence() { return false; }
 	function hasLocksView() { return false; }
 	function hasPreparedXacts() { return false; }
+	function hasAlterAggregate() { return false; }
 
 }
 
