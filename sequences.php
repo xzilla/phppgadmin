@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.35 2006/08/09 19:09:13 xzilla Exp $
+	 * $Id: sequences.php,v 1.36 2006/08/09 19:12:07 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -53,7 +53,7 @@
 			),
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "sequences.php?action=confirm_alter&{$misc->href}&amp;subject=sequence&amp;",
+				'url'   => "sequences.php?action=confirm_alter&amp;{$misc->href}&amp;subject=sequence&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
 			'drop' => array(
