@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.34 2006/07/03 01:20:28 xzilla Exp $
+	 * $Id: sequences.php,v 1.35 2006/08/09 19:09:13 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -51,6 +51,11 @@
 				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "sequences.php?action=confirm_alter&{$misc->href}&amp;subject=sequence&amp;",
+				'vars'  => array('sequence' => 'seqname'),
+			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
@@ -63,6 +68,7 @@
 			),
 		);
 		
+		if (!$data->hasAlterSequence()) unset($actions['alter']);
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
