@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.29 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: triggers.php,v 1.30 2006/08/13 15:31:13 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -94,6 +94,72 @@
 				doDefault($lang['strtriggerdropped']);
 			else
 				doDefault($lang['strtriggerdroppedbad']);
+		}
+
+	}
+
+	/**
+	 * Show confirmation of enable trigger and perform enabling the trigger
+	 */
+	function doEnable($confirm) {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('trigger');
+			$misc->printTitle($lang['strenable'],'pg.table.alter');
+
+			echo "<p>", sprintf($lang['strconfenabletrigger'], $misc->printVal($_REQUEST['trigger']),
+				$misc->printVal($_REQUEST['table'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"enable\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $data->enableTrigger($_POST['trigger'], $_POST['table']);
+			if ($status == 0)
+				doDefault($lang['strtriggerenabled']);
+			else
+				doDefault($lang['strtriggerenabledbad']);
+		}
+
+	}
+
+	/**
+	 * Show confirmation of disable trigger and perform disabling the trigger
+	 */
+	function doDisable($confirm) {
+		global $data, $misc;
+		global $PHP_SELF, $lang;
+
+		if ($confirm) {
+			$misc->printTrail('trigger');
+			$misc->printTitle($lang['strdisable'],'pg.table.alter');
+
+			echo "<p>", sprintf($lang['strconfdisabletrigger'], $misc->printVal($_REQUEST['trigger']),
+				$misc->printVal($_REQUEST['table'])), "</p>\n";
+
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"disable\" />\n";
+			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
+			echo $misc->form;
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $data->disableTrigger($_POST['trigger'], $_POST['table']);
+			if ($status == 0)
+				doDefault($lang['strtriggerdisabled']);
+			else
+				doDefault($lang['strtriggerdisabledbad']);
 		}
 
 	}
@@ -240,6 +306,21 @@
 				'vars'  => array('trigger' => 'tgname'),
 			),
 		);
+		if($data->hasDisableTriggers()) {
+			if(!$data->phpBool($triggers->fields["tgenabled"])) {
+				$actions['enable'] = array(
+					'title' => $lang['strenable'],
+					'url'   => "{$PHP_SELF}?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'vars'  => array('trigger' => 'tgname'),
+				);
+			} else {
+				$actions['disable'] = array(
+					'title' => $lang['strdisable'],
+					'url'   => "{$PHP_SELF}?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'vars'  => array('trigger' => 'tgname'),
+				);
+			}
+		}
 
 		if (!$data->hasAlterTrigger()) unset($actions['alter']);
 		
@@ -259,6 +340,12 @@
 		case 'confirm_alter':
 			doAlter();
 			break;
+		case 'confirm_enable':
+			doEnable(true);
+			break;
+		case 'confirm_disable':
+			doDisable(true);
+			break;
 		case 'save_create':
 			if (isset($_POST['cancel'])) doDefault();
 			else doSaveCreate();
@@ -272,6 +359,14 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
+			break;
+		case 'enable':
+			if (isset($_POST['yes'])) doEnable(false);
+			else doDefault();
+			break;
+		case 'disable':
+			if (isset($_POST['yes'])) doDisable(false);
+			else doDefault();
 			break;
 		default:
 			doDefault();

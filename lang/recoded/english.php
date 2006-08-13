@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.147 2006/08/09 21:19:44 xzilla Exp $
+	 * $Id: english.php,v 1.148 2006/08/13 15:31:13 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -41,6 +41,8 @@
 	$lang['strdefinition'] = 'Definition';
 	$lang['strproperties'] = 'Properties';
 	$lang['strbrowse'] = 'Browse';
+	$lang['strenable'] = 'Enable';
+	$lang['strdisable'] = 'Disable';
 	$lang['strdrop'] = 'Drop';
 	$lang['strdropped'] = 'Dropped';
 	$lang['strnull'] = 'Null';
@@ -511,8 +513,14 @@
 	$lang['strtriggercreated'] = 'Trigger created.';
 	$lang['strtriggercreatedbad'] = 'Trigger creation failed.';
 	$lang['strconfdroptrigger'] = 'Are you sure you want to drop the trigger &quot;%s&quot; on &quot;%s&quot;?';
+	$lang['strconfenabletrigger'] = 'Are you sure you want to enable the trigger &quot;%s&quot; on &quot;%s&quot;?';
+	$lang['strconfdisabletrigger'] = 'Are you sure you want to disable the trigger &quot;%s&quot; on &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Trigger dropped.';
 	$lang['strtriggerdroppedbad'] = 'Trigger drop failed.';
+	$lang['strtriggerenabled'] = 'Trigger enabled.';
+	$lang['strtriggerenabledbad'] = 'Trigger enable failed.';
+	$lang['strtriggerdisabled'] = 'Trigger disabled.';
+	$lang['strtriggerdisabledbad'] = 'Trigger disable failed.';
 	$lang['strtriggeraltered'] = 'Trigger altered.';
 	$lang['strtriggeralteredbad'] = 'Trigger alteration failed.';
 	$lang['strforeach'] = 'For each';

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.288 2006/08/09 21:19:44 xzilla Exp $
+ * $Id: Postgres.php,v 1.289 2006/08/13 15:31:13 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3038,7 +3038,7 @@ class Postgres extends ADODB_base {
 
 		// We include constraint triggers
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, t.tgconstrrelid,
+			t.tgargs, t.tgnargs, t.tgconstrrelid, 
 			(SELECT relname FROM pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
 			(SELECT proname FROM pg_proc p WHERE t.tgfoid=p.oid) AS tgfname, 
 			c.relname, NULL AS tgdef
@@ -4633,8 +4633,8 @@ class Postgres extends ADODB_base {
 	function hasAlterSequence() { return false; }
 	function hasLocksView() { return false; }
 	function hasPreparedXacts() { return false; }
+	function hasDisableTriggers() { return false; }
 	function hasAlterAggregate() { return false; }
-
 }
 
 ?>

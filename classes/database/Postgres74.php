@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.53 2006/08/09 21:19:44 xzilla Exp $
+ * $Id: Postgres74.php,v 1.54 2006/08/13 15:31:13 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -242,7 +242,7 @@ class Postgres74 extends Postgres73 {
 	function getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef
+		$sql = "SELECT t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, t.tgenabled
 			FROM pg_catalog.pg_trigger t
 			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))

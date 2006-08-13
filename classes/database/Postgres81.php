@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.9 2006/07/18 19:01:46 xzilla Exp $
+ * $Id: Postgres81.php,v 1.10 2006/08/13 15:31:13 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -266,12 +266,44 @@ class Postgres81 extends Postgres80 {
 		
 		return $this->selectSet($sql);
 	}
+
+	/**
+	 * Enables a trigger
+	 * @param $tgname The name of the trigger to enable
+	 * @param $table The table in which to enable the trigger
+	 * @return 0 success
+	 */
+	function enableTrigger($tgname, $table) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+
+		$sql = "ALTER TABLE \"{$table}\" ENABLE TRIGGER \"{$tgname}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Disables a trigger
+	 * @param $tgname The name of the trigger to disable
+	 * @param $table The table in which to disable the trigger
+	 * @return 0 success
+	 */
+	function disableTrigger($tgname, $table) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+
+		$sql = "ALTER TABLE \"{$table}\" DISABLE TRIGGER \"{$tgname}\"";
+
+		return $this->execute($sql);
+	}
+
 	
 	// Capabilities
 	function hasServerAdminFuncs() { return true; }
 	function hasRoles() { return true; }
 	function hasAutovacuum() { return true; }
 	function hasPreparedXacts() { return true; }
+	function hasDisableTriggers() { return true; }
 }
 
 ?>

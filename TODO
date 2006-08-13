@@ -127,7 +127,7 @@ Triggers
 --------
 
 * Allow functions from other schemas.
-* Support ENABLE/DISABLE trigger in 8.1
+* -Support ENABLE/DISABLE trigger in 8.1 (Jawed)
 
 Aggregates
 ----------
