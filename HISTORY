@@ -21,7 +21,8 @@ Features
 * Add column level information into the tree browser (ioguix) 
 * Promote column level interaction into its own page (ioguix) 
 * Add automatic lookup of foreign key values in insert/update fields (John Jawed)
-* Add enable/disable trigger (John Jay)
+* Add ability to create/drop/alter custom aggregates (Javier Carlos)
+* Add enable/disable trigger (John Jawed)
 
 Version 4.0
 -----------
