@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.71 2006/08/03 19:03:32 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.72 2006/08/18 21:02:41 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -241,11 +241,12 @@
 
 				// Fetch all available types
 				$types = $data->getTypes(true, false, true);
+				$types_for_js = array();
 
 				$misc->printTrail('table');
 				$misc->printTitle($lang['straddcolumn'], 'pg.column.add');
 				$misc->printMsg($msg);
-
+				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
@@ -257,10 +258,11 @@
 
 				echo "<tr><td><input name=\"field\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>";
-				echo "<td><select name=\"type\">\n";				
+				echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";				
 				// Output any "magic" types.  This came in with the alter column type so we'll check that
 				if ($data->hasAlterColumnType()) {
 					foreach ($data->extraTypes as $v) {
+						$types_for_js[strtolower($v)] = 1;
 						echo "<option value=\"", htmlspecialchars($v), "\"",
 						($v == $_POST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
@@ -268,6 +270,7 @@
 				}
 				while (!$types->EOF) {
 					$typname = $types->f['typname'];
+					$types_for_js[$typname] = 1;
 					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected="selected"' : '', ">",
 						$misc->printVal($typname), "</option>\n";
 					$types->moveNext();
@@ -278,9 +281,15 @@
 				echo "<td><select name=\"array\">\n";
 				echo "<option value=\"\"", ($_POST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
 				echo "<option value=\"[]\"", ($_POST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
-				echo "</select></td>\n";
+				echo "</select>";
+				$predefined_size_types = array_intersect($data->predefined_size_types,array_keys($types_for_js));
+				$escaped_predef_types = array(); // the JS escaped array elements
+				foreach($predefined_size_types as $value) {
+					$escaped_predef_types[] = "'{$value}'";
+				}
+				echo "\t</td>\n";
 
-				echo "<td><input name=\"length\" size=\"8\" value=\"",
+				echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>";
 				// Support for adding column with not null and default
 				if ($data->hasAlterColumnType()) {					
@@ -302,7 +311,7 @@
 				echo "<p><input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-
+				echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");checkLengths(document.getElementById('type').value,'');</script>\n";
 				break;
 			case 2:
 				global $data, $lang;
@@ -348,11 +357,12 @@
 				$misc->printTrail('column');
 				$misc->printTitle($lang['straltercolumn'], 'pg.column.alter'); 
 				$misc->printMsg($msg);
+				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
 
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 				echo "<tr><th class=\"data required\">{$lang['strname']}</th>";
 				if ($data->hasAlterColumnType()) {
 					echo "<th class=\"data required\" colspan=\"2\">{$lang['strtype']}</th>";
@@ -401,16 +411,19 @@
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = $data->getTypes(true, false, true);
+					$types_for_js = array();
 					
-					echo "<td><select name=\"type\">\n";				
+					echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";
 					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that
 					foreach ($data->extraTypes as $v) {
+						$types_for_js[strtolower($v)] = 1;
 						echo "<option value=\"", htmlspecialchars($v), "\"",
 						($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
 						$typname = $types->f['typname'];
+						$types_for_js[$typname] = 1;
 						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
@@ -421,9 +434,15 @@
 					echo "<td><select name=\"array\">\n";
 					echo "<option value=\"\"", ($_REQUEST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
 					echo "<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
-					echo "</select></td>\n";
-	
-					echo "<td><input name=\"length\" size=\"8\" value=\"",
+					echo "</select>";
+					$predefined_size_types = array_intersect($data->predefined_size_types,array_keys($types_for_js));
+					$escaped_predef_types = array(); // the JS escaped array elements
+					foreach($predefined_size_types as $value) {
+						$escaped_predef_types[] = "'{$value}'";
+					}
+					echo "\t</td>\n";
+
+					echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",	
 						htmlspecialchars($_REQUEST['length']), "\" /></td>";
 				} else {
 					// Otherwise draw the read-only type name
@@ -454,6 +473,7 @@
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
+				echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");checkLengths(document.getElementById('type').value,'');</script>\n";
 								
 				break;
 			case 2:

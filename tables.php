@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.81 2006/08/04 20:42:24 xzilla Exp $
+	 * $Id: tables.php,v 1.82 2006/08/18 21:02:41 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -98,11 +98,13 @@
 				}
 
 				$types = $data->getTypes(true, false, true);
-	
+				$types_for_js = array();
+
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 
+				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
@@ -121,9 +123,10 @@
 					echo "\t<tr>\n\t\t<td>", $i + 1, ".&nbsp;</td>\n";
 					echo "\t\t<td><input name=\"field[{$i}]\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 						htmlspecialchars($_REQUEST['field'][$i]), "\" /></td>\n";
-					echo "\t\t<td>\n\t\t\t<select name=\"type[{$i}]\">\n";
+					echo "\t\t<td>\n\t\t\t<select name=\"type[{$i}]\" id=\"types{$i}\" onchange=\"checkLengths(this.options[this.selectedIndex].value,{$i});\">\n";
 					// Output any "magic" types
 					foreach ($data->extraTypes as $v) {
+						$types_for_js[strtolower($v)] = 1;
 						echo "\t\t\t\t<option value=\"", htmlspecialchars($v), "\"",
 						(isset($_REQUEST['type'][$i]) && $v == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
@@ -131,12 +134,21 @@
 					$types->moveFirst();
 					while (!$types->EOF) {
 						$typname = $types->f['typname'];
+						$types_for_js[$typname] = 1;
 						echo "\t\t\t\t<option value=\"", htmlspecialchars($typname), "\"",
 						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
-					echo "\t\t\t</select>\n\t\t</td>\n";
+					echo "\t\t\t</select>\n\t\t\n";
+					if($i==0) { // only define js types array once
+						$predefined_size_types = array_intersect($data->predefined_size_types,array_keys($types_for_js));
+						$escaped_predef_types = array(); // the JS escaped array elements
+						foreach($predefined_size_types as $value) {
+							$escaped_predef_types[] = "'{$value}'";
+						}
+						echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");</script>\n\t</td>";
+					}
 					
 					// Output array type selector
 					echo "\t\t<td>\n\t\t\t<select name=\"array[{$i}]\">\n";
@@ -144,7 +156,7 @@
 					echo "\t\t\t\t<option value=\"[]\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "\t\t\t</select>\n\t\t</td>\n";
 					
-					echo "\t\t<td><input name=\"length[{$i}]\" size=\"10\" value=\"", 
+					echo "\t\t<td><input name=\"length[{$i}]\" id=\"lengths{$i}\" size=\"10\" value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>\n";
 					echo "\t\t<td align=\"center\"><input type=\"checkbox\" name=\"uniquekey[{$i}]\""
@@ -155,7 +167,9 @@
 					echo "\t\t<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
 						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"", 
-						htmlspecialchars($_REQUEST['colcomment'][$i]), "\" /></td>\n\t</tr>\n";
+						htmlspecialchars($_REQUEST['colcomment'][$i]), "\" />
+						<script type=\"text/javascript\">checkLengths(document.getElementById('types{$i}').value,{$i});</script>
+						</td>\n\t</tr>\n";
 				}	
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
@@ -445,7 +459,7 @@
 			}
 			echo "</p>\n";
 			echo "</form>\n";
-			echo "<script>rEB(document.getElementById('no_ac').checked);</script>";
+			echo "<script type=\"text/javascript\">rEB(document.getElementById('no_ac').checked);</script>";
 		}
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();

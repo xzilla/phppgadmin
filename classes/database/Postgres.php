@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.289 2006/08/13 15:31:13 xzilla Exp $
+ * $Id: Postgres.php,v 1.290 2006/08/18 21:02:41 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -150,6 +150,9 @@ class Postgres extends ADODB_base {
 
 	// Help sub pages
 	var $help_page;
+
+	// Predefined size types
+	var $predefined_size_types = array('abstime','aclitem','bigserial','boolean','bytea','cid','cidr','circle','date','float4','float8','gtsvector','inet','int2','int4','int8','macaddr','money','oid','path','polygon','refcursor','regclass','regoper','regoperator','regproc','regprocedure','regtype','reltime','serial','smgr','text','tid','tinterval','tsquery','tsvector','varbit','void','xid');
 	
 	/**
 	 * Constructor
