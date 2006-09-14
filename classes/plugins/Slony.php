@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.9 2005/11/16 08:01:18 chriskl Exp $
+ * $Id: Slony.php,v 1.10 2006/09/14 20:54:27 xzilla Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -277,8 +277,15 @@ class Slony extends Plugin {
 		$schema = $this->slony_schema;
 		$data->fieldClean($schema);
 		
-		$sql = "SELECT * FROM \"{$schema}\".sl_node ORDER BY no_comment";
-		
+		// We use 10 seconds as the default check time since that is the
+		// the default in Slony, and it gives no mechanism to look it up
+		$sql = "SELECT no_id, no_active, no_comment, no_spool, ".
+				"CASE WHEN st_lag_time > '10 seconds'::interval ". 
+				"THEN 'outofsync' ELSE 'insync' END AS no_status ".
+				"FROM \"{$schema}\".sl_node ".
+				"LEFT JOIN \"{$schema}\".sl_status ON (no_id =st_received) ".
+				"ORDER BY no_comment";
+
 		return $data->selectSet($sql);
 	}
 

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.133 2006/08/09 21:19:44 xzilla Exp $
+	 * $Id: Misc.php,v 1.134 2006/09/14 20:54:27 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -202,7 +202,19 @@
 							}
 						}
 					}
-					break;	
+					break;
+				case 'slonystatus':
+					switch ($str) {
+					case 'insync':
+						$out = $lang['strhealthy'];
+						break;
+					case 'outofsync':
+						$out = $lang['stroutofsync'];
+						break;
+					default:
+						$out = $lang['strunknown'];
+					}
+					break;
 				default:
 					// If the string contains at least one instance of >1 space in a row, a tab
 					// character, a space at the start of a line, or a space at the start of

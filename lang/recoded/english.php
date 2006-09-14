@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.148 2006/08/13 15:31:13 xzilla Exp $
+	 * $Id: english.php,v 1.149 2006/09/14 20:54:27 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -748,6 +748,11 @@
 	$lang['strfailover'] = 'Failover';
 	$lang['strnodefailedover'] = 'Node failed over.';
 	$lang['strnodefailedoverbad'] = 'Node failover failed.';
+	$lang['strstatus'] = 'Status';	
+	$lang['strhealthy'] = 'Healthy';
+	$lang['stroutofsync'] = 'Out of Sync';
+	$lang['strunknown'] = 'Unknown';	
+
 	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.10 2006/08/07 18:11:15 xzilla Exp $
+	 * $Id: plugin_slony.php,v 1.11 2006/09/14 20:54:27 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -602,6 +602,11 @@
 			'no_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
+			),
+			'no_status' => array(
+				'title' => $lang['strstatus'],
+				'field' => 'no_status',
+				'type' => 'slonystatus',
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
