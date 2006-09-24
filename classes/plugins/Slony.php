@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.10 2006/09/14 20:54:27 xzilla Exp $
+ * $Id: Slony.php,v 1.11 2006/09/24 23:42:41 xzilla Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -51,7 +51,7 @@ class Slony extends Plugin {
 					WHERE pp.pronamespace=pn.oid
 					AND pn.nspowner = pu.usesysid
 					AND pp.proname='slonyversion'
-					AND pn.nspname LIKE '\\\\_%' 
+					AND pn.nspname LIKE '@_%' ESCAPE '@'  
 					ORDER BY pn.nspname LIMIT 1";
 		$rs = $data->selectSet($sql);
 		if ($rs->recordCount() == 1) {
