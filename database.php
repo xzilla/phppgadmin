@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.86 2006/06/20 14:06:08 xzilla Exp $
+	 * $Id: database.php,v 1.87 2006/09/28 13:04:00 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -629,12 +629,17 @@
 
 					// Maybe we need to check permissions here?
 					$columns['actions'] = array('title' => $lang['stractions']);
-			
+
 					$actions = array(
 						'edit' => array(
 						'title' => $lang['stredit'],
 						'url'   => "{$PHP_SELF}?action=autovacuum&amp;{$misc->href}&amp;",
-						'vars'  => array('vacrelid' => 'vacrelid')
+						'vars'  => array('key' => 'vacrelid')
+						),
+						'delete' => array(
+						'title' => $lang['strdelete'],
+						'url'   => "{$PHP_SELF}?action=delautovac&amp;{$misc->href}&amp;",
+						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						)
 					);
 
@@ -663,6 +668,39 @@
 
 	}
 
+	/**
+	 * Delete rows from the autovacuum table
+     */
+	function doDelAutovacuum($confirm) {
+		global $PHP_SELF, $data, $misc;
+		global $lang;
+
+		if ($confirm) {
+			$misc->printTrail('database');
+			$misc->printTabs('database','admin');
+			$misc->printTitle($lang['strdeleterow']);
+
+			echo "<p>{$lang['strconfdeleterow']}</p>\n";
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<input type=\"hidden\" name=\"action\" value=\"confdelautovac\" />\n";
+			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"table\" value=\"pg_autovacuum\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
+			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			echo "</form>\n";
+		}
+		else {
+			$status = $data->deleteRow($_POST['table'], unserialize($_POST['key']));
+			if ($status == 0)
+				doAdmin('',$lang['strrowdeleted']);
+			elseif ($status == -2)
+				doAdmin('',$lang['strrownotunique']);
+			else			
+				doAdmin('',$lang['strrowdeletedbad']);
+		}
+	}
 
 	/**
 	 * Allow execution of arbitrary SQL statements on a database
@@ -777,6 +815,13 @@
 			break;
 		case 'signal':
 			doSignal();
+			break;
+		case 'delautovac':
+			doDelAutovacuum(true);
+			break;
+		case 'confdelautovac':
+			if (isset($_POST['yes'])) doDelAutovacuum(false);
+			else doAdmin();
 			break;
 		case 'autovacuum':
 			doAutovacuum();

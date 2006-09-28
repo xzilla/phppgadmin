@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.10 2006/08/13 15:31:13 xzilla Exp $
+ * $Id: Postgres81.php,v 1.11 2006/09/28 13:04:00 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -257,7 +257,6 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Returns all available process information.
-	 * @param $database (optional) Find only connections to specified database
 	 * @return A recordset
 	 */
 	function getAutovacuum() {
@@ -266,6 +265,7 @@ class Postgres81 extends Postgres80 {
 		
 		return $this->selectSet($sql);
 	}
+	
 
 	/**
 	 * Enables a trigger
