@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.159 2006/09/24 23:42:41 xzilla Exp $
+ * $Id: Postgres73.php,v 1.160 2006/09/30 17:30:56 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -249,6 +249,16 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Returns the specified variable information.
+	 * @return the field 
+	 */
+	function getVariable($setting) {
+		$sql = "SHOW $setting";
+		
+		return $this->selectSet($sql);
+	}
+	
+	/**
 	 * Returns all available variable information.
 	 * @return A recordset
 	 */
@@ -257,7 +267,7 @@ class Postgres73 extends Postgres72 {
 		
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Returns all available process information.
 	 * @param $database (optional) Find only connections to specified database

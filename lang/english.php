@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.196 2006/09/14 20:54:27 xzilla Exp $
+	 * $Id: english.php,v 1.197 2006/09/30 17:30:56 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -849,6 +849,8 @@
 
 	//Autovacuum
 	$lang['strautovacuum'] = 'Autovacuum'; 
+	$lang['strturnedon'] = 'Turned On'; 
+	$lang['strturnedoff'] = 'Turned Off'; 
 	$lang['strenabled'] = 'Enabled'; 
 	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold'; 
 	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';  

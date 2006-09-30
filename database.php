@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.87 2006/09/28 13:04:00 xzilla Exp $
+	 * $Id: database.php,v 1.88 2006/09/30 17:30:56 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -332,8 +332,7 @@
 		global $lang;
 
 		// Fetch the variables from the database
-		$variables = $data->getVariables();
-		
+		$variables = $data->getVariables();	
 		$misc->printTrail('database');
 		$misc->printTabs('database','variables');
 
@@ -583,7 +582,8 @@
 				echo "<br />";
 
 				if($data->hasAutovacuum()) {
-					echo "<h3>{$lang['strautovacuum']}</h3>";
+					$enabled = $data->getVariable('autovacuum');
+					echo "<h3>{$lang['strautovacuum']} ". (($enabled->f['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) ."</h3>";
 					// Autovacuum
 					// Fetch the processes from the database
 					$autovac = $data->getAutovacuum();
@@ -633,8 +633,8 @@
 					$actions = array(
 						'edit' => array(
 						'title' => $lang['stredit'],
-						'url'   => "{$PHP_SELF}?action=autovacuum&amp;{$misc->href}&amp;",
-						'vars'  => array('key' => 'vacrelid')
+						'url'   => "{$PHP_SELF}?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
+						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						),
 						'delete' => array(
 						'title' => $lang['strdelete'],
@@ -650,23 +650,107 @@
 		}
 	}
 
-
 	/**
-	 * Modify specific entries in the autovacuum table
-     */
-	function doAutovacuum() {
-		global $PHP_SELF, $data, $misc;
+	 * Show confirmation of edit and perform actual update of autovacuum entry
+	 */
+	function doEditAutovacuum($confirm, $msg = '') {
+		global $data, $misc, $conf;
 		global $lang;
+		global $PHP_SELF;
 
-		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
+		$key = $_REQUEST['key'];
 
+		if ($confirm) {
+			$misc->printTrail('database');
+			$misc->printTabs('database','admin');
+			$misc->printMsg($msg);
 
-		echo " editing a specific autovacuum row goes here "; 
+			$attrs = $data->getTableAttributes('pg_autovacuum');
+			$rs = $data->browseRow('pg_autovacuum', $key);
+			
+			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
+			$elements = 0;
+			$error = true;			
+			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
+				echo "<table>\n";
 
-		$misc->printTrail('database');
-		$misc->printTabs('database','admin');
+				// Output table header
+				echo "<tr><th class=\"data\">{$lang['strcolumn']}</th><th class=\"data\">{$lang['strtype']}</th>";
+				echo "<th class=\"data\">{$lang['strformat']}</th>\n";
+				echo "<th class=\"data\">{$lang['strvalue']}</th></tr>";
 
-	}
+				$i = 0;
+				$nCC = 0;
+				while (!$attrs->EOF) {
+					$szValueName = "values[{$attrs->f['attname']}]";
+					$szEvents = "";
+					$szDivPH = "";
+					
+					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$id = (($i % 2) == 0 ? '1' : '2');
+					
+					// Initialise variables
+					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
+						$_REQUEST['format'][$attrs->f['attname']] = 'VALUE';
+					
+					echo "<tr>\n";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					$elements++;
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "</select>\n</td>\n";
+					$elements++;
+
+					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">";
+					echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'],array(),$szEvents) . $szDivPH;
+					echo "</td>";
+					$elements++;
+					echo "</tr>\n";
+					$i++;
+					$attrs->moveNext();
+				}
+				echo "</table>\n";
+				$error = false;
+			}
+			elseif ($rs->recordCount() != 1) {
+				echo "<p>{$lang['strrownotunique']}</p>\n";				
+			}
+			else {
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
+			}
+
+			echo "<input type=\"hidden\" name=\"action\" value=\"confeditautovac\" />\n";
+			echo $misc->form;
+			echo "<input type=\"hidden\" name=\"table\" value=\"pg_autovacuum\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
+			echo "<p>";
+			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</p>\n";
+			echo "</form>\n";
+		}
+		else {
+			if (!isset($_POST['values'])) $_POST['values'] = array();
+			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			
+			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
+												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
+			if ($status == 0)
+				doAdmin($lang['strrowupdated']);
+			elseif ($status == -2)
+				doEditAutovacuum(true, $lang['strrownotunique']);
+			else
+				doEditAutovacuum(true, $lang['strrowupdatedbad']);
+		}
+
+	}	
+
 
 	/**
 	 * Delete rows from the autovacuum table
@@ -816,15 +900,19 @@
 		case 'signal':
 			doSignal();
 			break;
+		case 'editautovac':
+			doEditAutovacuum(true);
+			break;
+		case 'confeditautovac':
+			if (isset($_POST['save'])) doEditAutovacuum(false);
+			else doAdmin();
+			break;
 		case 'delautovac':
 			doDelAutovacuum(true);
 			break;
 		case 'confdelautovac':
 			if (isset($_POST['yes'])) doDelAutovacuum(false);
 			else doAdmin();
-			break;
-		case 'autovacuum':
-			doAutovacuum();
 			break;
 		default:
 			doSQL();
