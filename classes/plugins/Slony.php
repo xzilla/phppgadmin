@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.11 2006/09/24 23:42:41 xzilla Exp $
+ * $Id: Slony.php,v 1.12 2006/10/01 23:42:18 xzilla Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -45,9 +45,12 @@ class Slony extends Plugin {
 		// it's in.  We put an order by and limit 1 in here to guarantee
 		// only finding the first one, even if there are somehow two
 		// Slony schemas.
-		$sql = "SELECT pn.nspname AS schema, pu.usename AS owner, SUBSTRING(pn.nspname FROM 2) AS cluster,
-					pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
-					FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn, pg_catalog.pg_user pu
+		$sql = "SELECT pn.nspname AS schema, pu.usename AS owner, 
+                    SUBSTRING(pn.nspname FROM 2) AS cluster,
+                    pg_catalog.obj_description(pn.oid, 'pg_namespace') AS 
+                    nspcomment
+                    FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn, 
+                    pg_catalog.pg_user pu 
 					WHERE pp.pronamespace=pn.oid
 					AND pn.nspowner = pu.usesysid
 					AND pp.proname='slonyversion'
@@ -604,6 +607,32 @@ class Slony extends Plugin {
 
 		return $data->execute($sql);
 	}		
+
+    /**
+     * Return all tables we are not current in a replication set
+     */
+    function getNonRepTables()
+    {
+		global $data;
+        /*
+         * we cannot just query pg_tables as we want the OID of the table 
+         * for the subquery against the slony table. We could match on
+         * on schema name and table name, but the slony info isn't updated
+         * if the user renames a table which is in a replication set
+         */
+        $sql = "SELECT c.relname, n.nspname, n.nspname||'.'||c.relname AS qualname, 
+                    pg_get_userbyid(c.relowner) AS relowner
+                    FROM pg_class c
+                    LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+                    WHERE c.relkind = 'r' AND n.nspname NOT IN ('pg_catalog', 
+                    'information_schema', 'pg_toast') AND
+                    NOT(n.nspname = '_{$this->slony_cluster}' AND
+                    relname LIKE 'sl_%') AND 
+                    NOT EXISTS(SELECT 1 FROM _{$this->slony_cluster}.sl_table s
+                    WHERE s.tab_reloid = c.oid)
+                    ORDER BY n.nspname, c.relname";
+        return $data->selectSet($sql);
+    }
 
 	// SEQUENCES
 	

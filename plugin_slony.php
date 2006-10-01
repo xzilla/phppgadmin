@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.11 2006/09/14 20:54:27 xzilla Exp $
+	 * $Id: plugin_slony.php,v 1.12 2006/10/01 23:42:18 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -1573,8 +1573,8 @@
 				if (!isset($_POST['tab_id'])) $_POST['tab_id'] = '';
 				if (!isset($_POST['comment'])) $_POST['comment'] = '';
 				
-				$tables = $data->getTables(true);
-		
+				$tables = $slony->getNonRepTables();
+	
 				$misc->printTrail('slony_sets');
 				$misc->printTitle($lang['straddtable']);
 				$misc->printMsg($msg);
