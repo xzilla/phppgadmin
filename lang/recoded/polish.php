@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.48 2006/06/27 20:29:22 slubek Exp $
+	 * $Id: polish.php,v 1.49 2006/10/09 22:31:13 slubek Exp $
 	 */
 
 	// Language and character set
@@ -41,6 +41,8 @@
 	$lang['strdefinition'] = 'Definicja';
 	$lang['strproperties'] = 'W&#322;a&#347;ciwo&#347;ci';
 	$lang['strbrowse'] = 'Przegl&#261;daj';
+	$lang['strenable']  =  'Aktywuj';
+	$lang['strdisable']  =  'Deaktywuj';
 	$lang['strdrop'] = 'Usu&#324;';
 	$lang['strdropped'] = 'Usuni&#281;ty';
 	$lang['strnull'] = 'Null';
@@ -58,6 +60,7 @@
 	$lang['stralter'] = 'Zmie&#324;';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Anuluj';
+	$lang['strac']  =  'W&#322;&#261;cz autouzupe&#322;nianie';
 	$lang['strsave'] = 'Zapisz';
 	$lang['strreset'] = 'Wyczy&#347;&#263;';
 	$lang['strinsert'] = 'Wstaw';
@@ -222,6 +225,9 @@
 	$lang['strconfvacuumtable'] = 'Czy na pewno chcesz wykona&#263; vacuum &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'Przybli&#380;ona ilo&#347;&#263; wierszy';
 
+	// Columns
+	$lang['strcolprop']  =  'W&#322;a&#347;ciwo&#347;ci kolumny';
+		
 	// Users
 	$lang['struser'] = 'U&#380;ytkownik';
 	$lang['strusers'] = 'U&#380;ytkownicy';
@@ -507,8 +513,14 @@
 	$lang['strtriggercreated'] = 'Procedura wyzwalana zosta&#322;a utworzona.';
 	$lang['strtriggercreatedbad'] = 'Pr&#243;ba utworzenia procedury wyzwalanej si&#281; nie powiod&#322;a.';
 	$lang['strconfdroptrigger'] = 'Czy na pewno chcesz usun&#261;&#263; procedur&#281; &quot;%s&quot; wyzwalan&#261; przez &quot;%s&quot;?';
+	$lang['strconfenabletrigger']  =  'Czy na pewno chcesz w&#322;&#261;czy&#263; procedur&#281; wyzwalan&#261; &quot;%s&quot; on &quot;%s&quot;?';
+	$lang['strconfdisabletrigger']  =  'Czy na pewno chcesz wy&#322;&#261;czy&#263; procedur&#281; wyzwalan&#261; &quot;%s&quot; on &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Procedura wyzwalana zosta&#322;a usuni&#281;ta.';
 	$lang['strtriggerdroppedbad'] = 'Pr&#243;ba usuni&#281;cia procedury wyzwalanej si&#281; nie powiod&#322;a.';
+	$lang['strtriggerenabled']  =  'Procedura wyzwalana zosta&#322;a w&#322;&#261;czona.';
+	$lang['strtriggerenabledbad']  =  'Pr&#243;ba w&#322;&#261;czenia procedury wyzwalanej si&#281; nie powiod&#322;a.';
+	$lang['strtriggerdisabled']  =  'Procedura wyzwalana zosta&#322;a wy&#322;&#261;czona.';
+	$lang['strtriggerdisabledbad']  =  'Pr&#243;ba wy&#322;&#261;czenia procedury wyzwalanej si&#281; nie powiod&#322;a.';
 	$lang['strtriggeraltered'] = 'Procedura wyzwalana zosta&#322;a zmieniona.';
 	$lang['strtriggeralteredbad'] = 'Pr&#243;ba modyfikacji procedury wyzwalanej si&#281; nie powiod&#322;a.';
 	$lang['strforeach'] = 'Dla wszystkich';
@@ -645,9 +657,31 @@
 	$lang['strchildtables'] = 'Tabela podrz&#281;dna';
 	
 	// Aggregates
+	$lang['straggregate']  = 'Funkcja agreguj&#261;ca';
 	$lang['straggregates'] = 'Funkcje agreguj&#261;ce';
 	$lang['strnoaggregates'] = 'Nie znaleziono funkcji agreguj&#261;cych.';
 	$lang['stralltypes'] = '(Wszystkie typy)';
+$lang['straggrtransfn']  =  'Transition function';
+	$lang['strcreateaggregate']  =  'Utw&#243;rz funkcj&#281; agreguj&#261;c&#261;';
+	$lang['straggrbasetype']  =  'Typ danych wej&#347;ciowych';
+$lang['straggrsfunc']  =  'State transition function';
+$lang['straggrstype']  =  'State data type';
+$lang['straggrffunc']  =  'Final function';
+	$lang['straggrinitcond']  =  'Warunek pocz&#261;tkowy';
+	$lang['straggrsortop']  =  'Operator sortowania';
+	$lang['strconfdropaggregate']  =  'Czy na pewno chcesz usun&#261;&#263; funkcj&#281; agreguj&#261;c&#261; &quot;%s&quot;?';
+	$lang['straggregatedropped']  =  'Funkcja agreguj&#261;ca zosta&#322;a usuni&#281;ta.';
+	$lang['straggregatedroppedbad']  =  'Pr&#243;ba usuni&#281;cia funkcji agreguj&#261;cej si&#281; nie powiod&#322;a.';
+	$lang['stralteraggregate']  =  'Zmie&#324; funkcj&#281; agreguj&#261;c&#261;';
+	$lang['straggraltered']  =  'Funkcja agreguj&#261;ca zosta&#322;a zmieniona.';
+	$lang['straggralteredbad']  =  'Pr&#243;ba zmiany funkcji agreguj&#261;cej si&#281; nie powiod&#322;a.';
+	$lang['straggrneedsname']  =  'Musisz poda&#263; nazw&#281; funkcji agreguj&#261;cej';
+	$lang['straggrneedsbasetype']  =  'Musisz poda&#263; typ danych wej&#347;ciowych funkcji agreguj&#261;cej';
+$lang['straggrneedssfunc']  =  'You must specify the name of the state transition function for the aggregate';
+$lang['straggrneedsstype']  =  'You must specify the data type for the aggregate\'s state value';
+	$lang['straggrcreated']  =  'Funkcja agreguj&#261;ca zosta&#322;a utworzona.';
+	$lang['straggrcreatedbad']  =  'Pr&#243;ba utworzenia funkcji agreguj&#261;cej si&#281; nie powiod&#322;a.';
+	$lang['straggrshowall']  =  'Poka&#380; wszystkie funkcje agreguj&#261;ce';
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Klasy operator&#243;w';
@@ -714,6 +748,11 @@
 	$lang['strfailover'] = 'Prze&#322;&#261;czenie awaryjne';
 	$lang['strnodefailedover'] = 'W&#281;ze&#322; zosta&#322; prze&#322;&#261;czony awaryjnie.';
 	$lang['strnodefailedoverbad'] = 'Pr&#243;ba awaryjnego prze&#322;&#261;czenia w&#281;z&#322;a si&#281; nie powiod&#322;a.';
+	$lang['strstatus']  =  'Stan';	
+	$lang['strhealthy']  =  'Poprawny';
+	$lang['stroutofsync']  =  'Niezsynchronizowany';
+	$lang['strunknown']  =  'Nieznany';	
+
 	
 	// Slony paths	
 	$lang['strpaths'] = '&#346;cie&#380;ki';
@@ -810,6 +849,8 @@
 
 	//Autovacuum
 	$lang['strautovacuum'] = 'Czyszczenie automatyczne'; 
+	$lang['strturnedon']  =  'W&#322;&#261;czone'; 
+	$lang['strturnedoff']  =  'Wy&#322;&#261;czone'; 
 	$lang['strenabled'] = 'Aktywne'; 
 	$lang['strvacuumbasethreshold'] = 'Podstawowy pr&#243;g czyszczenia'; 
 	$lang['strvacuumscalefactor'] = 'Wsp&#243;&#322;czynnik czyszczenia'; 
