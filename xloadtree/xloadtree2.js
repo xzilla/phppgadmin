@@ -277,15 +277,15 @@ WebFXLoadTree._attrs = ["text", "src", "action", "id", "target"];
 
 WebFXLoadTree.createItemFromElement = function (oNode) {
 	var jsAttrs = {};
-	var domAttrs = oNode.attributes;
 	var i, l;
 
-	l = domAttrs.length;
+ 	l = oNode.attributes.length;
 	for (i = 0; i < l; i++) {
-		if (domAttrs[i] == null) {
+ 		oNode.attributes[i].nodeValue = String(oNode.attributes[i].nodeValue).replace(/&#38;/g, "&"); // replace for Safari fix for DOM Bug
+ 		if (oNode.attributes[i] == null) {
 			continue;
 		}
-		jsAttrs[domAttrs[i].nodeName] = domAttrs[i].nodeValue;
+ 		jsAttrs[oNode.attributes[i].nodeName] = oNode.attributes[i].nodeValue;
 	}
 
 	var name, val;
