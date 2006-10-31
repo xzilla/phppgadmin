@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.134 2006/09/14 20:54:27 xzilla Exp $
+	 * $Id: Misc.php,v 1.135 2006/10/31 16:04:12 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1659,14 +1659,14 @@
 					
 					$icon = $this->icon(value($attrs['icon'], $rec));
 					echo value_xml_attr('icon', $icon, $rec);
-					echo value_xml_attr('iconAction', $attrs['iconAction'], $rec);
+					echo value_xml_attr('iconaction', $attrs['iconAction'], $rec);
 					
-					if (!empty($attrs['openIcon'])) {
+					if (!empty($attrs['openicon'])) {
 						$icon = $this->icon(value($attrs['openIcon'], $rec));
 					}
-					echo value_xml_attr('openIcon', $icon, $rec);
+					echo value_xml_attr('openicon', $icon, $rec);
 					
-					echo value_xml_attr('toolTip', $attrs['toolTip'], $rec);
+					echo value_xml_attr('tooltip', $attrs['toolTip'], $rec);
 					
 					echo "/>\n";
 					

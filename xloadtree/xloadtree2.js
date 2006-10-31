@@ -304,7 +304,7 @@ WebFXLoadTree.createItemFromElement = function (oNode) {
 		action = jsAttrs.action;
 	}
 	var jsNode = new WebFXLoadTreeItem(jsAttrs.html || "", jsAttrs.src, action,
-										null, jsAttrs.icon, jsAttrs.iconAction, jsAttrs.openIcon);
+										null, jsAttrs.icon, jsAttrs.iconaction, jsAttrs.openicon);
 	if (jsAttrs.text) {
 		jsNode.setText(jsAttrs.text);
 	}
@@ -315,8 +315,8 @@ WebFXLoadTree.createItemFromElement = function (oNode) {
 	if (jsAttrs.id) {
 		jsNode.setId(jsAttrs.id);
 	}
-	if (jsAttrs.toolTip) {
-		jsNode.toolTip = jsAttrs.toolTip;
+	if (jsAttrs.tooltip) {
+		jsNode.toolTip = jsAttrs.tooltip;
 	}
 	if (jsAttrs.expanded) {
 		jsNode.setExpanded(jsAttrs.expanded != "false");
