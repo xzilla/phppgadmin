@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.290 2006/08/18 21:02:41 xzilla Exp $
+ * $Id: Postgres.php,v 1.291 2006/11/01 00:51:19 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2882,7 +2882,7 @@ class Postgres extends ADODB_base {
 	function getType($typname) {
 		$this->clean($typname);
 		
-		$sql = "SELECT *, typinput AS typin, typoutput AS typout 
+		$sql = "SELECT typtype, typbyval, typname, typinput AS typin, typoutput AS typout, typlen, typalign 
 			FROM pg_type WHERE typname='{$typname}'";
 
 		return $this->selectSet($sql);
