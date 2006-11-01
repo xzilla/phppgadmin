@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.58 2006/06/29 18:22:34 xzilla Exp $
+	 * $Id: views.php,v 1.59 2006/11/01 00:07:54 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $data, $misc;
+		global $data, $misc; 
 		global $lang;
 		global $PHP_SELF;
 
@@ -29,7 +29,7 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"get\" name=\"selectform\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script type=\"text/javascript\">\n";
@@ -94,28 +94,28 @@
 			echo "</form>\n";
 		}
 		else {
-			if (!isset($_GET['show'])) $_GET['show'] = array();
-			if (!isset($_GET['values'])) $_GET['values'] = array();
-			if (!isset($_GET['nulls'])) $_GET['nulls'] = array();
+			if (!isset($_POST['show'])) $_POST['show'] = array();
+			if (!isset($_POST['values'])) $_POST['values'] = array();
+			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
 			// Verify that they haven't supplied a value for unary operators
-			foreach ($_GET['ops'] as $k => $v) {
-				if ($data->selectOps[$v] == 'p' && $_GET['values'][$k] != '') {
+			foreach ($_POST['ops'] as $k => $v) {
+				if ($data->selectOps[$v] == 'p' && $_POST['values'][$k] != '') {
 					doSelectRows(true, $lang['strselectunary']);
 					return;
 				}
 			}
-						
-			if (sizeof($_GET['show']) == 0)
-				doSelectRows(true, $lang['strselectneedscol']);			
+	
+			if (sizeof($_POST['show']) == 0)
+				doSelectRows(true, $lang['strselectneedscol']);
 			else {
 				// Generate query SQL
-				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_GET['show']),
-					$_GET['values'], $_GET['ops']);
+				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']),
+					$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
-				$_REQUEST['return_url'] = "views.php?action=confselectrows&{$misc->href}&view={$_REQUEST['view']}";
+				$_REQUEST['return_url'] = "views.php?action=confselectrows&amp;{$misc->href}&amp;view={$_REQUEST['view']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
-
+				
 				include('./display.php');
 				exit;
 			}
