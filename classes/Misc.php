@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.135 2006/10/31 16:04:12 xzilla Exp $
+	 * $Id: Misc.php,v 1.136 2006/11/01 00:49:31 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1039,7 +1039,7 @@
 				
 				echo "<a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a> | ";
 				
-				echo "<a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port'])."\">{$lang['strlogout']}</a>";
+ 				echo "<a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\">{$lang['strlogout']}</a>";
 				
 				echo "</td>";
 			}
