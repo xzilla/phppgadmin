@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.55 2006/06/27 02:41:38 xzilla Exp $
+	 * $Id: functions.php,v 1.56 2006/11/01 00:02:20 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -308,7 +308,6 @@
 		global $PHP_SELF, $lang;
 		
 		$misc->printTrail('schema');
-		
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
 		if (!isset($_POST['formReturns'])) $_POST['formReturns'] = '';
@@ -387,7 +386,10 @@
 
 		// Create string for language
 		$szLanguage = "<td class=\"data1\">";
-		if ($fnlang == 'c' || $fnlang == 'internal') echo $_POST['formLanguage'], "<input type=\"hidden\" name=\"formLanguage\" value=\"{$_POST['formLanguage']}\" />";
+		if ($fnlang == 'c' || $fnlang == 'internal') {
+			$szLanguage .=  $_POST['formLanguage'] . "\n";
+			$szLanguage .= "<input type=\"hidden\" name=\"formLanguage\" value=\"{$_POST['formLanguage']}\" />\n";
+		}
 		else {
 			$szLanguage .= "<select name=\"formLanguage\">";
 			while (!$langs->EOF) {
@@ -402,8 +404,8 @@
 			}
 			$szLanguage .= "</select>\n";
 		}
+		
 		$szLanguage .= "</td>";
-
 		$szJSArguments = "<tr><th class=\"data\" colspan=\"7\">{$lang['strarguments']}</th></tr>";
 		$arrayModes = array("IN","OUT","INOUT");
 		$szModes = "<select name=\"formArgModes[]\" style=\"width:100%;\">";
