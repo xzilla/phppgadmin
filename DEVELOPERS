@@ -73,6 +73,10 @@ things to yours to get yours right.
 When writing data to the display, you should always urlencode() variables in
 HREFs and htmlspecialchars() variables in forms.
 
+When working with CVS, always make sure to do a 'cvs update' both before you 
+start; so you have the latest code to work with; and also again before you 
+create your patch; to minimize the chance of having conflicts. 
+
 COMMON VARIABLES
 ----------------
 
