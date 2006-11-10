@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.59 2006/11/01 00:07:54 xzilla Exp $
+	 * $Id: views.php,v 1.60 2006/11/10 00:23:28 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -18,7 +18,7 @@
 	 * Ask for select parameters and perform select
 	 */
 	function doSelectRows($confirm, $msg = '') {
-		global $data, $misc; 
+		global $data, $misc, $_no_output;  
 		global $lang;
 		global $PHP_SELF;
 
@@ -115,7 +115,8 @@
 				$_REQUEST['query'] = $query;
 				$_REQUEST['return_url'] = "views.php?action=confselectrows&amp;{$misc->href}&amp;view={$_REQUEST['view']}";
 				$_REQUEST['return_desc'] = $lang['strback'];
-				
+			
+                                $_no_output = true;	
 				include('./display.php');
 				exit;
 			}
