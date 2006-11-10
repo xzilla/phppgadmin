@@ -113,6 +113,8 @@ Indexes
 Types
 -----
 
+* Suppres psuedo-type options in type list for creating composite types. 
+
 Operators
 ---------
 

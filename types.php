@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.30 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: types.php,v 1.31 2006/11/10 00:14:29 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -173,7 +173,7 @@
 
 				$types = $data->getTypes(true, false, true);
 
-				$misc->printTrail('type');
+				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
