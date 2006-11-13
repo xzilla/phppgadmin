@@ -49,12 +49,13 @@ Permissions
 -----------
 
 * Grant ... on all tables, views, ... to user, group, public
+* Grant connect on database [8.2]
 
 Databases
 ---------
 
 * Add alter database variables for 7.3+
-* Comments on Create and Alter database
+* Comments on Create and Alter database [8.2]
 
 Schemas (7.3)
 -------------
@@ -79,6 +80,8 @@ Tables
 * When editing a table, turn FK columns into drop-downs based on estimated
   rows in the foreign table? (Jawed)
 * -Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume LELARGE)
+* Add WITH storage_parameter option to create table [8.2]
+* Add last vacuum and analyze information from statistics tables [8.2]
 
 Views
 -----
@@ -109,6 +112,7 @@ Indexes
 
 * Support 8.1 Reindex [Database|System] commands
 * Expressional indexes
+* Allow indexes to be built concurrently [8.2]
 
 Types
 -----
@@ -134,9 +138,10 @@ Triggers
 Aggregates
 ----------
 
-* Properties
-* Drop
-* Create
+* -Properties (Javier)
+* -Drop (Javier)
+* -Create (Javier)
+* Allow for multi-column aggregates [8.2]
 
 Languages
 ---------
@@ -168,18 +173,21 @@ Miscellaneous
 * Support per-user and per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
 * -Show locks on database view (Javier)
+* Show prepared statements on database view [8.2]
+* Show cursors on database view [8.2]
 * Show NOTICES on queries in SQL window/file
 * -Add sslmode to connection variables (Eric Kinolik)
 * Printable view of things
 * Show comments for all objects (Dan Boren)
 * Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
-* Allow changing owner for objects that have this feature (7.4+ generally)
+* Allow changing owner for objects that have this feature [7.4+ generally]
 * Translated FAQ
 * -Icons for all objects, for use in navigation widgets
   Most objects are now covered thanks to those provided by Niko,
   but we still need icons for:
     Introduction, Variables, Admin, Privileges, Reports
+* Add CASCADE option to Truncate [8.2]
 
 Exotic
 ------
