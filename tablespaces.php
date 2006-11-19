@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.9 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: tablespaces.php,v 1.10 2006/11/19 21:33:13 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -33,6 +33,9 @@
 			
 			if (!isset($_POST['name'])) $_POST['name'] = $tablespace->f['spcname'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->f['spcowner'];
+			if (!isset($_POST['comment'])) {
+				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->f['spccomment'] : '';
+			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
@@ -49,7 +52,13 @@
 					($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
 			}
-			echo "</select></td></tr>\n";				
+			echo "</select></td></tr>\n"; 
+			if ($data->hasSharedComments()){
+				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "<td class=\"data1\">";
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
+					htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
+			}
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
@@ -70,7 +79,7 @@
 		if (trim($_POST['name']) == '')
 			doAlter($lang['strtablespaceneedsname']);
 		else {
-			$status = $data->alterTablespace($_POST['tablespace'], $_POST['name'], $_POST['owner']);
+			$status = $data->alterTablespace($_POST['tablespace'], $_POST['name'], $_POST['owner'], $_POST['comment']);
 			if ($status == 0) {
 				// If tablespace has been renamed, need to change to the new name
 				if ($_POST['tablespace'] != $_POST['name']) {
@@ -126,6 +135,7 @@
 		if (!isset($_POST['formSpcname'])) $_POST['formSpcname'] = '';
 		if (!isset($_POST['formOwner'])) $_POST['formOwner'] = $server_info['username'];
 		if (!isset($_POST['formLoc'])) $_POST['formLoc'] = '';
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all users
 		$users = $data->getUsers();
@@ -150,6 +160,12 @@
 		echo "\t\t</select></td>\n\t</tr>\n";				
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strlocation']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"32\" name=\"formLoc\" value=\"", htmlspecialchars($_POST['formLoc']), "\" /></td>\n\t</tr>\n";
+		// Comments (if available)
+		if ($data->hasSharedComments()) {
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
+		}
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
@@ -169,8 +185,11 @@
 			doCreate($lang['strtablespaceneedsname']);
 		elseif (trim($_POST['formLoc']) == '')
 			doCreate($lang['strtablespaceneedsloc']);
-		else {		
-			$status = $data->createTablespace($_POST['formSpcname'], $_POST['formOwner'], $_POST['formLoc']);
+		else {
+			// Default comment to blank if it isn't set
+			if (!isset($_POST['formComment'])) $_POST['formComment'] = null;
+		
+			$status = $data->createTablespace($_POST['formSpcname'], $_POST['formOwner'], $_POST['formLoc'], $_POST['formComment']);
 			if ($status == 0)
 				doDefault($lang['strtablespacecreated']);
 			else
@@ -208,6 +227,15 @@
 				'title' => $lang['stractions']
 			)
 		);
+
+		if ($data->hasSharedComments()) {
+			$columns['comment'] = array(
+				'title' => $lang['strcomment'],
+				'field' => 'spccomment',
+			);
+		}
+
+
 		
 		$actions = array(
 			'alter' => array(

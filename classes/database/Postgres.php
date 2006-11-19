@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.291 2006/11/01 00:51:19 xzilla Exp $
+ * $Id: Postgres.php,v 1.292 2006/11/19 21:33:13 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -512,11 +512,14 @@ class Postgres extends ADODB_base {
 	 * @param $encoding Encoding of the database
 	 * @param $tablespace (optional) The tablespace name
 	 * @return 0 success
+	 * @return -1 tablespace error
+	 * @return -2 comment error
 	 */
-	function createDatabase($database, $encoding, $tablespace = '') {
+	function createDatabase($database, $encoding, $tablespace = '', $comment = '') {
 		$this->fieldClean($database);
 		$this->clean($encoding);
 		$this->fieldClean($tablespace);
+		$this->fieldClean($comment);
 
 		if ($encoding == '') {
 			$sql = "CREATE DATABASE \"{$database}\"";
@@ -525,8 +528,17 @@ class Postgres extends ADODB_base {
 		}
 		
 		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
-		
-		return $this->execute($sql);
+			
+		$status = $this->execute($sql);
+		if ($status != 0) return -1;
+	
+		if ($comment != '' && $this->hasSharedComments()) { 
+			$status = $this->setComment('DATABASE',$database,'',$comment);
+			if ($status != 0) return -2;
+		}
+
+		return 0;
+
 	}
 
 	/**
@@ -3867,10 +3879,13 @@ class Postgres extends ADODB_base {
 			case 'COLUMN':
 				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
 				break;
-			case 'VIEW':
+			case 'DATABASE';
+			case 'ROLE';
 			case 'SCHEMA':
 			case 'SEQUENCE':
+			case 'TABLESPACE';
 			case 'TYPE':
+			case 'VIEW':
 				$sql .= "\"{$obj_name}\" IS ";
 				break;
 			case 'FUNCTION':				
@@ -4638,6 +4653,7 @@ class Postgres extends ADODB_base {
 	function hasPreparedXacts() { return false; }
 	function hasDisableTriggers() { return false; }
 	function hasAlterAggregate() { return false; }
+	function hasSharedComments() {return false;}
 }
 
 ?>

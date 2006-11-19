@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.19 2006/05/19 07:17:30 chriskl Exp $
+ * $Id: Postgres80.php,v 1.20 2006/11/19 21:33:13 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -386,9 +386,10 @@ class Postgres80 extends Postgres74 {
 	 * @param $spcloc The directory in which to create the tablespace
 	 * @return 0 success
 	 */
-	function createTablespace($spcname, $spcowner, $spcloc) {
+	function createTablespace($spcname, $spcowner, $spcloc, $comment='') {
 		$this->fieldClean($spcname);
 		$this->clean($spcloc);
+		$this->clean($comment);
 		
 		$sql = "CREATE TABLESPACE \"{$spcname}\"";
 		
@@ -399,7 +400,16 @@ class Postgres80 extends Postgres74 {
 		
 		$sql .= " LOCATION '{$spcloc}'";
 
-		return $this->execute($sql);
+		$status = $this->execute($sql);
+		if ($status != 0) return -1;
+
+		if ($comment != '' && $this->hasSharedComments()) { 
+			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
+			if ($status != 0) return -2;
+		}
+
+		return 0;
+	
 	}
 
 	/**
@@ -424,8 +434,9 @@ class Postgres80 extends Postgres74 {
 	 * @return -1 transaction error
 	 * @return -2 owner error
 	 * @return -3 rename error
+	 * @return -4 comment error
 	 */
-	function alterTablespace($spcname, $name, $owner) {
+	function alterTablespace($spcname, $name, $owner, $comment='') {
 		$this->fieldClean($spcname);
 		$this->fieldClean($name);
 		$this->fieldClean($owner);
@@ -450,6 +461,12 @@ class Postgres80 extends Postgres74 {
 				$this->rollbackTransaction();
 				return -3;
 			}
+		}
+
+		// Set comment if it has changed
+		if (trim($comment) != '' && $this->hasSharedComments()) { 
+			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
+			if ($status != 0) return -4;
 		}
 				
 		return $this->endTransaction();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.44 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: all_db.php,v 1.45 2006/11/19 21:33:13 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -50,6 +50,14 @@
 				}
 				echo "</select></td></tr>\n";
 			}
+			if ($data->hasSharedComments()){
+				$rs = $data->getDatabaseComment($_REQUEST['alterdatabase']);
+				$comment = isset($rs->fields['description']) ? $rs->fields['description'] : '';
+				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "<td class=\"data1\">";
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"dbcomment\" wrap=\"virtual\">",
+					htmlspecialchars($comment), "</textarea></td></tr>\n";
+			}
 			echo "</table>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
 			echo $misc->form;
@@ -60,9 +68,8 @@
 			echo "</form>\n";
 		}
 		else {
-			//all versions that support the alter database functionality (starting 7.4) support renaming a db
 			$newOwner = isset($_POST['owner']) ? $_POST['owner'] : '';
-			if ($data->AlterDatabase($_POST['oldname'], $_POST['newname'], $newOwner) == 0) {
+			if ($data->AlterDatabase($_POST['oldname'], $_POST['newname'], $newOwner, $_POST['dbcomment']) == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasealtered']);
 			}
@@ -122,6 +129,7 @@
 				$_POST['formEncoding'] = '';
 		}
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 		
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
@@ -159,7 +167,14 @@
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		}
-		
+
+		// Comments (if available)
+		if ($data->hasSharedComments()) {
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
+		}
+
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
@@ -177,10 +192,13 @@
 		// Default tablespace to null if it isn't set
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
 
+		// Default comment to blank if it isn't set
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = null;
+
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
-			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc']);
+			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc'], $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);
