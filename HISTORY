@@ -23,6 +23,7 @@ Features
 * Add automatic lookup of foreign key values in insert/update fields (John Jawed)
 * Add ability to create/drop/alter custom aggregates (Javier Carlos)
 * Add enable/disable trigger (John Jawed)
+* Add global comments for databases and tablespaces  
 
 Version 4.0
 -----------
