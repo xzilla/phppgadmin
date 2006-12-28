@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.11 2006/09/28 13:04:00 xzilla Exp $
+ * $Id: Postgres81.php,v 1.12 2006/12/28 04:26:55 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -128,7 +128,286 @@ class Postgres81 extends Postgres80 {
 	}
 
 	// Roles
+		
+	/**
+	 * Returns all roles in the database cluster
+	 * @param $rolename (optional) The roleme to exclude from the select
+	 * @return All roles
+	 */
+	function getRoles($rolename = '') {
+		$sql = 'SELECT rolname, rolsuper, rolcreatedb, rolcreaterole, rolinherit, rolcanlogin, rolconnlimit, rolvaliduntil, 
+			rolconfig FROM pg_catalog.pg_roles';
+		if($rolename) $sql .= " WHERE rolname!='{$rolename}'";
+		$sql .= ' ORDER BY rolname';
+
+		return $this->selectSet($sql);
+	}
 	
+	/**
+	 * Returns information about a single role
+	 * @param $rolename The rolename of the role to retrieve
+	 * @return The role's data
+	 */
+	function getRole($rolename) {
+		$this->clean($rolename);
+		
+		$sql = "SELECT rolname, rolsuper, rolcreatedb, rolcreaterole, rolinherit, rolcanlogin, rolconnlimit, rolvaliduntil, 
+			rolconfig FROM pg_catalog.pg_roles WHERE rolname='{$rolename}'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Creates a new role
+	 * @param $rolename The rolename of the role to create
+	 * @param $password A password for the role
+	 * @param $superuser Boolean whether or not the role is a superuser
+	 * @param $createdb Boolean whether or not the role can create databases
+	 * @param $createrole Boolean whether or not the role can create other roles
+	 * @param $inherits Boolean whether or not the role inherits the privileges from parent roles
+	 * @param $login Boolean whether or not the role will be allowed to login
+	 * @param $connlimit Number of concurrent connections the role can make
+	 * @param $expiry String Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
+	 * @param $memberof (array) Roles to which the new role will be immediately added as a new member
+	 * @param $members (array) Roles which are automatically added as members of the new role
+	 * @param $adminmembers (array) Roles which are automatically added as admin members of the new role
+	 * @return 0 success
+	 */
+	function createRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers) {
+		$enc = $this->_encryptPassword($rolename, $password);
+		$this->fieldClean($rolename);
+		$this->clean($enc);
+		$this->clean($connlimit);
+		$this->clean($expiry);
+		$this->fieldArrayClean($memberof);
+		$this->fieldArrayClean($members);
+		$this->fieldArrayClean($adminmembers);
+
+		$sql = "CREATE ROLE \"{$rolename}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
+		$sql .= ($superuser) ? ' SUPERUSER' : ' NOSUPERUSER';
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
+		$sql .= ($inherits) ? ' INHERIT' : ' NOINHERIT';
+		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
+		if ($connlimit != '') $sql .= " CONNECTION LIMIT {$connlimit}"; else  $sql .= ' CONNECTION LIMIT -1';
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'"; else $sql .= " VALID UNTIL 'infinity'";
+		if (is_array($memberof) && sizeof($memberof) > 0) $sql .= ' IN ROLE "' . join('", "', $memberof) . '"';
+		if (is_array($members) && sizeof($members) > 0) $sql .= ' ROLE "' . join('", "', $members) . '"';
+		if (is_array($adminmembers) && sizeof($adminmembers) > 0) $sql .= ' ADMIN "' . join('", "', $adminmembers) . '"';
+
+		return $this->execute($sql);
+	}	
+	
+	/**
+	 * Removes a role
+	 * @param $rolename The rolename of the role to drop
+	 * @return 0 success
+	 */
+	function dropRole($rolename) {
+		$this->fieldClean($rolename);
+
+		$sql = "DROP ROLE \"{$rolename}\"";
+		
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Adjusts a role's info and renames it
+	 * @param $rolename The rolename of the role to create
+	 * @param $password A password for the role
+	 * @param $superuser Boolean whether or not the role is a superuser
+	 * @param $createdb Boolean whether or not the role can create databases
+	 * @param $createrole Boolean whether or not the role can create other roles
+	 * @param $inherits Boolean whether or not the role inherits the privileges from parent roles
+	 * @param $login Boolean whether or not the role will be allowed to login
+	 * @param $connlimit Number of concurrent connections the role can make
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
+	 * @param $memberof (array) Roles to which the role will be immediately added as a new member
+	 * @param $members (array) Roles which are automatically added as members of the role
+	 * @param $adminmembers (array) Roles which are automatically added as admin members of the role
+	 * @param $memberofold (array) Original roles whose the role belongs to
+	 * @param $membersold (array) Original roles that are members of the role
+	 * @param $adminmembersold (array) Original roles that are admin members of the role
+	 * @param $newrolename The new name of the role
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 set role attributes error
+	 * @return -3 rename error
+	 */
+	function setRenameRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers, $memberofold, $membersold, $adminmembersold, $newrolename) {
+			
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$status = $this->setRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers, $memberofold, $membersold, $adminmembersold);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
+
+		if ($rolename != $newrolename){
+			$status = $this->renameRole($rolename, $newrolename);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		return $this->endTransaction();
+	}
+
+	/**
+	 * Adjusts a role's info
+	 * @param $rolename The rolename of the role to create
+	 * @param $password A password for the role
+	 * @param $superuser Boolean whether or not the role is a superuser
+	 * @param $createdb Boolean whether or not the role can create databases
+	 * @param $createrole Boolean whether or not the role can create other roles
+	 * @param $inherits Boolean whether or not the role inherits the privileges from parent roles
+	 * @param $login Boolean whether or not the role will be allowed to login
+	 * @param $connlimit Number of concurrent connections the role can make
+	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
+	 * @param $memberof (array) Roles to which the role will be immediately added as a new member
+	 * @param $members (array) Roles which are automatically added as members of the role
+	 * @param $adminmembers (array) Roles which are automatically added as admin members of the role
+	 * @param $memberofold (array) Original roles whose the role belongs to
+	 * @param $membersold (array) Original roles that are members of the role
+	 * @param $adminmembersold (array) Original roles that are admin members of the role
+	 * @return 0 success
+	 */
+	function setRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers, $memberofold, $membersold, $adminmembersold) {
+		$enc = $this->_encryptPassword($rolename, $password);
+		$this->fieldClean($rolename);
+		$this->clean($enc);
+		$this->clean($connlimit);
+		$this->clean($expiry);
+		$this->fieldArrayClean($memberof);
+		$this->fieldArrayClean($members);
+		$this->fieldArrayClean($adminmembers);
+
+		$sql = "ALTER ROLE \"{$rolename}\"";
+		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
+		$sql .= ($superuser) ? ' SUPERUSER' : ' NOSUPERUSER';
+		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
+		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
+		$sql .= ($inherits) ? ' INHERIT' : ' NOINHERIT';
+		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
+		if ($connlimit != '') $sql .= " CONNECTION LIMIT {$connlimit}"; else $sql .= ' CONNECTION LIMIT -1';
+		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'"; else $sql .= " VALID UNTIL 'infinity'";
+		
+		$status = $this->execute($sql);
+		
+		if ($status != 0) return -1;
+
+		//memberof
+		$old = explode(',', $memberofold);
+		foreach ($memberof as $m) {
+			if (!in_array($m, $old)) {
+				$status = $this->grantRole($m, $rolename);
+				if ($status != 0) return -1;
+			}	
+		}
+		if($memberofold)
+		{
+			foreach ($old as $o) {
+				if (!in_array($o, $memberof)) {
+					$status = $this->revokeRole($o, $rolename, 0, 'CASCADE');
+					if ($status != 0) return -1;
+				}
+			}
+		}
+
+		//members
+		$old = explode(',', $membersold);
+		foreach ($members as $m) {
+			if (!in_array($m, $old)) {
+				$status = $this->grantRole($rolename, $m);
+				if ($status != 0) return -1;
+			}	
+		}
+		if($membersold)
+		{
+			foreach ($old as $o) {
+				if (!in_array($o, $members)) {
+					$status = $this->revokeRole($rolename, $o, 0, 'CASCADE');
+					if ($status != 0) return -1;
+				}
+			}
+		}
+
+		//adminmembers
+		$old = explode(',', $adminmembersold);
+		foreach ($adminmembers as $m) {
+			if (!in_array($m, $old)) {
+				$status = $this->grantRole($rolename, $m, 1);
+				if ($status != 0) return -1;
+			}	
+		}
+		if($adminmembersold)
+		{
+			foreach ($old as $o) {
+				if (!in_array($o, $adminmembers)) {
+					$status = $this->revokeRole($rolename, $o, 1, 'CASCADE');
+					if ($status != 0) return -1;
+				}
+			}
+		}
+
+		return $status;
+	}	
+
+	/**
+	 * Renames a role
+	 * @param $rolename The rolename of the role to rename
+	 * @param $newrolename The new name of the role
+	 * @return 0 success
+	 */
+	function renameRole($rolename, $newrolename){
+		$this->fieldClean($rolename);
+		$this->fieldClean($newrolename);
+
+		$sql = "ALTER ROLE \"{$rolename}\" RENAME TO \"{$newrolename}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Grants membership in a role
+	 * @param $role The name of the target role
+	 * @param $rolename The name of the role that will belong to the target role
+	 * @param $admin (optional) Flag to grant the admin option
+	 * @return 0 success
+	 */
+	function grantRole($role, $rolename, $admin=0) {
+		$this->fieldClean($role);
+		$this->fieldClean($rolename);
+
+		$sql = "GRANT \"{$role}\" TO \"{$rolename}\"";
+		if($admin == 1) $sql .= ' WITH ADMIN OPTION';
+	
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Revokes membership in a role
+	 * @param $role The name of the target role
+	 * @param $rolename The name of the role that will not belong to the target role
+	 * @param $admin (optional) Flag to revoke only the admin option
+	 * @param $type (optional) Type of revoke: RESTRICT | CASCADE
+	 * @return 0 success
+	 */
+	function revokeRole($role, $rolename, $admin = 0, $type = 'RESTRICT') {
+		$this->fieldClean($role);
+		$this->fieldClean($rolename);
+
+		$sql = "REVOKE ";
+		if($admin == 1) $sql .= 'ADMIN OPTION FOR ';
+		$sql .= "\"{$role}\" FROM \"{$rolename}\" {$type}";
+
+		return $this->execute($sql);
+	}
+
 	/**
 	 * Changes a role's password
 	 * @param $rolename The rolename
@@ -144,115 +423,34 @@ class Postgres81 extends Postgres80 {
 		
 		return $this->execute($sql);
 	}
-	
+
 	/**
-	 * Returns all roles in the database cluster
-	 * @return All roles
-	 */
-	function getRoles() {
-		$sql = "SELECT * FROM pg_catalog.pg_roles ORDER BY rolname";
-		
-		return $this->selectSet($sql);
-	}
-	
-	/**
-	 * Returns information about a single role
-	 * @param $rolename The username of the role to retrieve
-	 * @return The role's data
-	 */
-	function getRole($rolename) {
-		$this->clean($rolename);
-		
-		$sql = "SELECT * FROM pg_catalog.pg_roles WHERE rolname='{$rolename}'";
-		
+	* Returns all rolenames which the role belongs to
+	* @param $rolename The rolename
+	* @return All rolenames
+	*/
+	function getMemberOf($rolename) {
+		$this->clean($rolname);
+
+		$sql = "SELECT rolname FROM pg_catalog.pg_roles R, pg_auth_members M WHERE R.oid=M.roleid 
+			AND member IN (SELECT oid FROM pg_catalog.pg_roles WHERE rolname='{$rolename}') ORDER BY rolname";
+
 		return $this->selectSet($sql);
 	}
 
 	/**
-	 * Creates a new role
-	 * @param $rolename The rolename of the role to create
-	 * @param $password A password for the role
-	 * @param $createdb boolean Whether or not the role can create databases
-	 * @param $createrole boolean Whether or not the role can create other roles
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire
-	 * @param $group (array) The groups to create the role in
-	 * @return 0 success
-	 */
-	function createRole($rolename, $password, $createdb, $super, $createrole, $inherits, $login, $expiry, $conn, $roles) {
-		$enc = $this->_encryptPassword($rolename, $password);
-		$this->fieldClean($rolename);
-		$this->clean($expiry);
-		$this->clean($conn);
-		$this->fieldArrayClean($roles);
+	* Returns all rolenames that are members of a role
+	* @param $rolename The rolename
+	* @param $admin (optional) Find only admin members
+	* @return All rolenames
+	*/
+	function getMembers($rolename, $admin = 'f') {
+		$this->clean($rolname);
 
-		$sql = "CREATE ROLE \"{$rolename}\"";
-		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
-		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
-		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
-		$sql .= ($super) ? ' SUPERUSER' : ' NOSUPERUSER';
-		$sql .= ($inherits) ? ' INHERIT' : ' NOINHERIT';
-		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
-		if ($conn != '') $sql .= " CONNECTION LIMIT {$conn}";
-		if (is_array($roles) && sizeof($roles) > 0) $sql .= " IN ROLE \"" . join('", "', $roles) . "\"";
-		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
-		
-		return $this->execute($sql);
-	}	
-	
-	/**
-	 * Adjusts a role's info
-	 * @param $rolename The rolename of the role to modify
-	 * @param $password A new password for the role
-	 * @param $createdb boolean Whether or not the role can create databases
-	 * @param $createrole boolean Whether or not the role can create other roles
-	 * @param $inherit Inherits privs from parent role or not.
-	 * @param $login Can login or not
-	 * @param $expiry string Format 'YYYY-MM-DD HH:MM:SS'.  '' means never expire.
-	 * @return 0 success
-	 */
-	function setRole($rolename, $password, $createdb, $createrole, $inherit, $login, $expiry) {
-		$enc = $this->_encryptPassword($rolename, $password);
-		$this->fieldClean($rolename);
-		$this->clean($expiry);
-		
-		$sql = "ALTER ROLE \"{$rolename}\"";
-		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
-		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
-		$sql .= ($createrole) ? ' CREATEROLE' : ' NOCREATEROLE';
-		$sql .= ($inherit) ? ' INHERIT' : ' NOINHERIT';
-		$sql .= ($login) ? ' LOGIN' : ' NOLOGIN';
-		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
-		else $sql .= " VALID UNTIL 'infinity'";
-		
-		return $this->execute($sql);
-	}	
+		$sql = "SELECT rolname FROM pg_catalog.pg_roles R, pg_auth_members M WHERE R.oid=M.member AND admin_option='{$admin}' 
+			AND roleid IN (SELECT oid FROM pg_catalog.pg_roles WHERE rolname='{$rolename}') ORDER BY rolname";
 
-	/**
-	 * Removes a role
-	 * @param $rolename The rolename of the role to drop
-	 * @return 0 success
-	 */
-	function dropRole($rolename) {
-		$this->fieldClean($rolename);
-
-		$sql = "DROP ROLE \"{$rolename}\"";
-		
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Renames a user
-	 * @param $username The username of the user to rename
-	 * @param $newname The new name of the user
-	 * @return 0 success
-	 */
-	function renameUser($username, $newname){
-		$this->fieldClean($username);
-		$this->fieldClean($newname);
-
-		$sql = "ALTER USER \"{$username}\" RENAME TO \"{$newname}\"";
-
-		return $this->execute($sql);
+		return $this->selectSet($sql);
 	}
 
 	/**
@@ -266,7 +464,6 @@ class Postgres81 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 	
-
 	/**
 	 * Enables a trigger
 	 * @param $tgname The name of the trigger to enable

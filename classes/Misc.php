@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.136 2006/11/01 00:49:31 xzilla Exp $
+	 * $Id: Misc.php,v 1.137 2006/12/28 04:26:55 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -909,6 +909,20 @@
 							'icon'  => 'Definition',
 						),
 					);
+
+				case 'role':
+					return array (
+						'definition' => array (
+							'title' => $lang['strdefinition'],
+							'url'   => 'roles.php',
+							'urlvars' => array(
+									'subject' => 'role',
+									'rolename' => field('rolename'),
+									'action' => 'properties',
+								),
+							'icon'  => 'Definition',
+						),
+					);
 			
 				case 'popup':
 					return array (
@@ -987,9 +1001,10 @@
 		 */
 		function getLastTabURL($section) {
 			global $data;
-			
+
 			switch ($section) {
 				case 'database':
+				case 'role':
 				case 'schema':
 					if ($data->hasSchemas() === false) {
 						$section = 'database';
@@ -999,7 +1014,7 @@
 				default:
 					$tabs = $this->getNavTabs($section);
 			}
-			
+		
 			if (isset($_SESSION['webdbLastTab'][$section]) && isset($tabs[$_SESSION['webdbLastTab'][$section]]))
 				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];
 			else
@@ -1155,8 +1170,17 @@
 					'help'  => 'pg.database',
 					'icon'  => 'Database'
 				);
+			} elseif (isset($_REQUEST['rolename']) && !$done) {
+				$vars .= "subject=role&action=properties&rolename=".urlencode($_REQUEST['rolename']);
+				$trail['role'] = array(
+					'title' => $lang['strrole'],
+					'text'  => $_REQUEST['rolename'],
+					'url'   => "redirect.php?{$vars}",
+					'help'  => 'pg.role',
+					'icon'  => 'Roles'
+				);
 			}
-			if ($subject == 'database') $done = true;
+			if ($subject == 'database' || $subject == 'role') $done = true;
 			
 			if (isset($_REQUEST['schema']) && !$done) {
 				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';

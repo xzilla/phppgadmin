@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.150 2006/09/30 17:30:56 xzilla Exp $
+	 * $Id: english.php,v 1.151 2006/12/28 04:26:55 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -269,6 +269,8 @@
 	$lang['strgroupdropped'] = 'Group dropped.';
 	$lang['strgroupdroppedbad'] = 'Group drop failed.';
 	$lang['strmembers'] = 'Members';
+	$lang['strmemberof'] = 'Member of';
+	$lang['stradminmembers'] = 'Admin members';
 	$lang['straddmember'] = 'Add member';
 	$lang['strmemberadded'] = 'Member added.';
 	$lang['strmemberaddedbad'] = 'Member add failed.';
@@ -280,14 +282,28 @@
 	// Roles
 	$lang['strrole'] = 'Role';
 	$lang['strroles'] = 'Roles';
+	$lang['strrolename'] = 'Rolename';
+	$lang['strshowallroles'] = 'Show all roles';
 	$lang['strinheritsprivs'] = 'Inherits privileges?';
 	$lang['strcreaterole'] = 'Create role';
+	$lang['strcancreaterole'] = 'Create role?';
+	$lang['strrolecreated'] = 'Role created.';
+	$lang['strrolecreatedbad'] = 'Create role failed.';
+	$lang['stralterrole'] = 'Alter role';
+	$lang['strroleupdated'] = 'Role updated.';
+	$lang['strroleupdatedbad'] = 'Role update failed.';
 	$lang['strcatupdate'] = 'Modify catalogs?';
 	$lang['strcanlogin'] = 'Can login?';
+	$lang['strconnlimit'] = 'Connection limit';
+	$lang['strdroprole'] = 'Drop role';
 	$lang['strmaxconnections'] = 'Max connections';
 	$lang['strconfdroprole'] = 'Are you sure you want to drop the role &quot;%s&quot;?';
 	$lang['strroledropped'] = 'Role dropped.';
-	$lang['strroledroppedbad'] = 'Failed to drop role.';
+	$lang['strroledroppedbad'] = 'Role drop failed.';
+	$lang['strnoroles'] = 'No roles found.';
+	$lang['strnolimit'] = 'No limit';
+	$lang['strnever'] = 'Never';
+	$lang['strroleneedsname'] = 'You must give a name for the role.';
 	
 	// Privileges
 	$lang['strprivilege'] = 'Privilege';
@@ -669,6 +685,7 @@
 	$lang['straggrffunc'] = 'Final function';
 	$lang['straggrinitcond'] = 'Initial condition';
 	$lang['straggrsortop'] = 'Sort operator';
+	$lang['strdropaggregate'] = 'Drop aggregate';
 	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &quot;%s&quot;?';
 	$lang['straggregatedropped'] = 'Aggregate dropped.';
 	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
