@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.86 2006/04/21 03:31:26 chriskl Exp $
+ * $Id: Postgres72.php,v 1.87 2006/12/28 05:03:41 xzilla Exp $
  */
 
 
@@ -87,7 +87,7 @@ class Postgres72 extends Postgres71 {
 	function createUser($username, $password, $createdb, $createuser, $expiry, $groups) {
 		$enc = $this->_encryptPassword($username, $password);
 		$this->fieldClean($username);
-		$this->clean($end);
+		$this->clean($enc);
 		$this->clean($expiry);
 		$this->fieldArrayClean($groups);		
 
