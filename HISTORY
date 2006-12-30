@@ -11,7 +11,7 @@ Features
 * Alter sequence, nextval and setval (Guillaume)
 * Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume)
 * Autovacuum configuration support (Robert Treat)
-* Basic ROLE support (Chris Kings-Lynne)
+* Basic ROLE support (Chris Kings-Lynne, Javier Carlos)
 * Add support for SSL connections (Eric Kinolik)
 * Display content of pg_locks view (Javier Carlos)
 * Add labels for checkboxes/radio buttons for improved usability (Guillaume)
@@ -24,6 +24,9 @@ Features
 * Add ability to create/drop/alter custom aggregates (Javier Carlos)
 * Add enable/disable trigger (John Jawed)
 * Add global comments for databases and tablespaces  
+
+Translations
+* Catalan translation from Bernat 
 
 Version 4.0
 -----------
