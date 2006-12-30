@@ -2,7 +2,7 @@
 	/**
 	 * Supported Translations for phpPgAdmin
 	 *
-	 * $Id: translations.php,v 1.2 2005/05/02 15:47:27 chriskl Exp $
+	 * $Id: translations.php,v 1.3 2006/12/30 02:29:50 xzilla Exp $
 	 */
 	
 	
@@ -11,6 +11,7 @@
 	$appLangFiles = array(
 		'afrikaans' => 'Afrikaans',
 		'arabic' => '&#1593;&#1585;&#1576;&#1610;',
+		'catalan' => 'Catal&#224;',
 		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;',
 		'chinese-sim' => '&#31616;&#20307;&#20013;&#25991;',
 		'czech' => '&#268;esky',
@@ -46,6 +47,7 @@
 	$availableLanguages = array(
 		'af' => 'afrikaans',
 		'ar' => 'arabic',
+		'ca' => 'catalan',
 		'zh' => 'chinese-tr',
 		'zh-cn' => 'chinese-sim',
 		'cs' => 'czech',

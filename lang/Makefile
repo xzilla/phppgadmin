@@ -21,7 +21,7 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.46 2005/11/21 23:16:10 slubek Exp $
+# $Id: Makefile,v 1.47 2006/12/30 02:29:50 xzilla Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
@@ -48,6 +48,7 @@ TARGETS=polish \
 	ukrainian \
 	hungarian \
 	hebrew \
+	catalan \
 	romanian
 
 all:	prepare ${TARGETS}
@@ -64,6 +65,12 @@ prepare:
 clean:
 	@echo "Nuking recoded lang files..."
 	@for p in ${TARGETS} ; do rm -fv ${DESTDIR}/$$p.php ; done
+
+catalan:	catalan.php
+	@echo "Recoding catalan..."
+	@cat catalan.php | recode utf-8..xml | ./convert.awk \
+		> ${DESTDIR}/catalan.php
+	@chmod 644 catalan.php ${DESTDIR}/catalan.php
 
 polish:	polish.php
 	@echo "Recoding polish..."
