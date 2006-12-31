@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.15 2005/05/02 15:47:24 chriskl Exp $
+	 * $Id: intro.php,v 1.16 2006/12/31 16:58:59 soranzo Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -20,7 +20,6 @@
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
 <form method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
- <label>
   <select name="language" onchange="this.form.submit()">
 <?php
 	$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
@@ -32,7 +31,6 @@
 ?>
   </select>
   <noscript><input type="submit" value="<?php echo $lang['stralter'] ?>" /></noscript>
- </label>
 </form>
 
 <p><?php echo $lang['strintro'] ?></p>
