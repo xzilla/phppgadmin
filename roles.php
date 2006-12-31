@@ -36,7 +36,7 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left required\" width=\"130\">{$lang['strrolename']}</th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\" width=\"130\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"15\" name=\"formRolename\" value=\"", htmlspecialchars($_POST['formRolename']), "\" /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"32\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
@@ -174,7 +174,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\" width=\"130\">{$lang['strrolename']}</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\" width=\"130\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->f['rolname'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" maxlength=\"32\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
@@ -316,9 +316,9 @@
 			if (isset($_POST['formNewRoleName'])) $status = $data->setRenameRole($_POST['rolename'], $_POST['formPassword'], isset($_POST['formSuper']), isset($_POST['formCreateDB']), isset($_POST['formCreateRole']), isset($_POST['formInherits']), isset($_POST['formCanLogin']), $_POST['formConnLimit'], $_POST['formExpires'], $_POST['memberof'], $_POST['members'], $_POST['adminmembers'], $_POST['memberofold'], $_POST['membersold'], $_POST['adminmembersold'], $_POST['formNewRoleName']);
 			else $status = $data->setRole($_POST['rolename'], $_POST['formPassword'], isset($_POST['formSuper']), isset($_POST['formCreateDB']), isset($_POST['formCreateRole']), isset($_POST['formInherits']), isset($_POST['formCanLogin']), $_POST['formConnLimit'], $_POST['formExpires'], $_POST['memberof'], $_POST['members'], $_POST['adminmembers'], $_POST['memberofold'], $_POST['membersold'], $_POST['adminmembersold']);
 			if ($status == 0)
-				doDefault($lang['strroleupdated']);
+				doDefault($lang['strrolealtered']);
 			else
-				doAlter($lang['strroleupdatedbad']);
+				doAlter($lang['strrolealteredbad']);
 		}
 	}
 
@@ -374,7 +374,7 @@
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data\" width=\"130\">Description</th>\n";
 			echo "\t\t<th class=\"data\" width=\"120\">Value</th>\n\t</tr>\n";
-			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strrolename']}</td>\n";
+			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strname']}</td>\n";
 			echo "\t\t<td class=\"data1\">", htmlspecialchars($_REQUEST['rolename']), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strsuper']}</td>\n";
 			echo "\t\t<td class=\"data2\">", (($roledata->f['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n\t</tr>\n";
@@ -389,7 +389,7 @@
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strconnlimit']}</td>\n";
 			echo "\t\t<td class=\"data1\">", ($roledata->f['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->f['rolconnlimit'])), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strexpires']}</td>\n";
-			echo "\t\t<td class=\"data2\">", ($roledata->f['rolvaliduntil'] == 'infinity' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
+			echo "\t\t<td class=\"data2\">", ($roledata->f['rolvaliduntil'] == 'infinity' || $roledata->f['rolvaliduntil'] == '' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strsessiondefaults']}</td>\n";
 			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->f['rolconfig']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strmemberof']}</td>\n";
@@ -458,7 +458,7 @@
 			$roledata->f['rolcreaterole'] = $data->phpBool($roledata->f['rolcreaterole']);
 			$roledata->f['rolinherit'] = $data->phpBool($roledata->f['rolinherit']);
 			echo "<table>\n";
-			echo "\t<tr>\n\t\t<th class=\"data\">{$lang['strrolename']}</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data\">{$lang['strname']}</th>\n";
 			echo "\t\t<th class=\"data\">{$lang['strsuper']}</th>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcreatedb']}</th>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcancreaterole']}</th>\n";
@@ -473,7 +473,7 @@
 			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t\t<td class=\"data1\" id=\"center\">", ($roledata->f['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->f['rolconnlimit'])), "</td>\n";
-			echo "\t\t<td class=\"data1\">", ($roledata->f['rolvaliduntil'] == 'infinity' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
+			echo "\t\t<td class=\"data1\">", ($roledata->f['rolvaliduntil'] == 'infinity' || $roledata->f['rolvaliduntil'] == '' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
 			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->f['rolconfig']), "</td>\n";
 			echo "\t</tr>\n</table>\n";
 		}
@@ -554,8 +554,8 @@
 		$roles = $data->getRoles();
 		
 		$columns = array(
-			'rolename' => array(
-				'title' => $lang['strrolename'],
+			'role' => array(
+				'title' => $lang['strrole'],
 				'field' => 'rolname',
 			),
 			'superuser' => array(

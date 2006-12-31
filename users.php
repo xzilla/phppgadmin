@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.32 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: users.php,v 1.33 2006/12/31 16:21:26 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -276,7 +276,7 @@
 		global $PHP_SELF, $lang;
 		
 		function renderUseExpires($val) {
-			return $val == 'infinity' ? '' : htmlspecialchars($val);
+			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
  		}
 		
 		$misc->printTrail('server');

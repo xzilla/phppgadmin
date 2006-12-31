@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.12 2006/10/01 23:42:18 xzilla Exp $
+ * $Id: Slony.php,v 1.13 2006/12/31 16:21:26 soranzo Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -578,9 +578,9 @@ class Slony extends Plugin {
 	}
 		
 	/**
-	 * Removes a table from a replication set
+	 * Drops a table from a replication set
 	 */
-	function removeTable($tab_id) {
+	function dropTable($tab_id) {
 		global $data;
 
 		$schema = $this->slony_schema;
@@ -681,9 +681,9 @@ class Slony extends Plugin {
 		return $data->execute($sql);	}		
 		
 	/**
-	 * Removes a sequence from a replication set
+	 * Drops a sequence from a replication set
 	 */
-	function removeSequence($seq_id) {
+	function dropSequence($seq_id) {
 		global $data;
 
 		$schema = $this->slony_schema;

@@ -3,11 +3,9 @@
 	/**
 	 * Help page redirection/browsing.
 	 *
-	 * $Id: help.php,v 1.2 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: help.php,v 1.3 2006/12/31 16:21:26 soranzo Exp $
 	 */
 
-	# TODO: Localize messages, improve (or remove) help browser
-	 
 	 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
@@ -15,7 +13,7 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 
 	function doDefault() {
-		global $data;
+		global $data, $lang;
 		
 		if (isset($_REQUEST['help'])) {
 			$url = $data->getHelp($_REQUEST['help']);
@@ -31,18 +29,18 @@
 			}
 		}
 		
-		doBrowse('Invalid help page');
+		doBrowse($lang['strinvalidhelppage']);
 	}
 	
 	function doBrowse($msg = '') {
-		global $misc, $data;
+		global $misc, $data, $lang;
 		
-		$misc->printHeader('Help page browser');
+		$misc->printHeader($lang['strhelppagebrowser']);
 		$misc->printBody();
 		
-		$misc->printTitle('PostgreSQL and phpPgAdmin Help');
+		$misc->printTitle($lang['strselecthelppage']);
 		
-		echo $misc->printVal($msg);
+		echo $misc->printMsg($msg);
 		
 		echo "<dl>\n";
 		
@@ -63,12 +61,12 @@
 	}
 	
 	function doChoosePage($urls) {
-		global $misc;
+		global $misc, $lang;
 		
-		$misc->printHeader('Help page browser');
+		$misc->printHeader($lang['strhelppagebrowser']);
 		$misc->printBody();
 		
-		$misc->printTitle('Please select a help page');
+		$misc->printTitle($lang['strselecthelppage']);
 		
 		echo "<ul>\n";
 		foreach($urls as $url) {

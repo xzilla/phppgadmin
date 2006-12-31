@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.12 2006/10/01 23:42:18 xzilla Exp $
+	 * $Id: plugin_slony.php,v 1.13 2006/12/31 16:21:26 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -17,8 +17,8 @@
 		case 'clusters_top':
 		case 'nodes_top':
 		case 'sets_top':
-				$_no_db_connection = true;
-				break;
+			$_no_db_connection = true;
+			break;
 		default:
 	}
 
@@ -1541,8 +1541,8 @@
 				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 			),
-			'remove' => array(
-				'title' => $lang['strremove'],
+			'drop' => array(
+				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_table&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('tab_id' => 'tab_id', 'qualname' => 'qualname'),
 			),
@@ -1749,13 +1749,13 @@
 	 * Show confirmation of drop and perform actual drop of a table from a
 	 * replication set.
 	 */
-	function doRemoveTable($confirm) {
+	function doDropTable($confirm) {
 		global $slony, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
-			$misc->printTitle('Remove');
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfremovetablefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
@@ -1765,12 +1765,12 @@
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strremove']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $slony->removeTable($_REQUEST['tab_id']);
+			$status = $slony->dropTable($_REQUEST['tab_id']);
 			if ($status == 0)
 				doTables($lang['strtableremovedfromrepset']);
 			else
@@ -1816,8 +1816,8 @@
 				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
 			),
-			'remove' => array(
-				'title' => $lang['strremove'],
+			'drop' => array(
+				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_sequence&amp;set_id={$_REQUEST['set_id']}&amp;",
 				'vars'  => array('seq_id' => 'seq_id', 'qualname' => 'qualname'),
 			),
@@ -1903,13 +1903,13 @@
 	 * Show confirmation of drop and perform actual drop of a sequence from a
 	 * replication set.
 	 */
-	function doRemoveSequence($confirm) {
+	function doDropSequence($confirm) {
 		global $slony, $misc;
 		global $PHP_SELF, $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
-			$misc->printTitle($lang['strremove']);
+			$misc->printTitle($lang['strdrop']);
 
 			echo "<p>", sprintf($lang['strconfremovesequencefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
@@ -1919,12 +1919,12 @@
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"seq_id\" value=\"", htmlspecialchars($_REQUEST['seq_id']), "\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strremove']}\" />\n";
+			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $slony->removeSequence($_REQUEST['seq_id']);
+			$status = $slony->dropSequence($_REQUEST['seq_id']);
 			if ($status == 0)
 				doSequences($lang['strsequenceremovedfromrepset']);
 			else
@@ -2222,10 +2222,10 @@
 			break;
 		case 'drop_table':
 			if (isset($_POST['cancel'])) doTables();
-			else doRemoveTable(false);
+			else doDropTable(false);
 			break;
 		case 'confirm_drop_table':
-			doRemoveTable(true);
+			doDropTable(true);
 			break;
 		case 'move_table':
 			if (isset($_REQUEST['cancel'])) doTables();
@@ -2240,10 +2240,10 @@
 			break;
 		case 'drop_sequence':
 			if (isset($_POST['cancel'])) doSequences();
-			else doRemoveSequence(false);
+			else doDropSequence(false);
 			break;
 		case 'confirm_drop_sequence':
-			doRemoveSequence(true);
+			doDropSequence(true);
 			break;
 		case 'move_sequence':
 			if (isset($_REQUEST['cancel'])) doSequences();

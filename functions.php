@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.56 2006/11/01 00:02:20 xzilla Exp $
+	 * $Id: functions.php,v 1.57 2006/12/31 16:21:26 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -458,7 +458,7 @@
 		echo "{$szJSArguments}\n";
 		echo "<tr>\n";
 		echo "<th class=\"data required\">{$lang['strargmode']}</th>\n";
-		echo "<th class=\"data required\">{$lang['strargname']}</th>\n";
+		echo "<th class=\"data required\">{$lang['strname']}</th>\n";
 		echo "<th class=\"data required\" colspan=\"2\">{$lang['strargtype']}</th>\n";
 		echo "</tr>\n";
 		echo "{$szJSAddTR}\n";
