@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.40 2006/12/28 04:26:55 xzilla Exp $
+ * $Id: global.css,v 1.41 2006/12/31 15:01:24 soranzo Exp $
  */
 
 /** ELEMENTS */
@@ -133,7 +133,7 @@ th.data a:active, th.data a:link, th.data a:visited, th.data a:hover
 
 td.dat
 {
-	color: "ff0";
+	color: #ff0;
 	text-align: center;
 }
 
@@ -382,7 +382,6 @@ pre.data
 
 .webfx-tree-icon {
 	margin-left: 1px;
-	cursor: hand;
 	cursor: pointer;
 }
 
