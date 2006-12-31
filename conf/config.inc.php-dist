@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.49 2006/08/04 20:42:24 xzilla Exp $
+	 * $Id: config.inc.php-dist,v 1.50 2006/12/31 16:10:21 soranzo Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -55,9 +55,9 @@
 	// your browser preference.
 	$conf['default_lang'] = 'auto';
 
-	// AutoComplete uses ajaxy interaction to list FK options on insert fields
-    // It currently only works on single column foreign keys. You can control
-	// it's behavior with the following settings.  
+	// AutoComplete uses AJAX interaction to list foreign key values 
+	// on insert fields. It currently only works on single column 
+	// foreign keys. You can choose one of the following values:
 	// 'default on' enables AutoComplete and turns it on by default.
 	// 'default off' enables AutoComplete but turns it off by default.
 	// 'disable' disables AutoComplete.
