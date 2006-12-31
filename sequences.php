@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.36 2006/08/09 19:12:07 xzilla Exp $
+	 * $Id: sequences.php,v 1.37 2006/12/31 15:22:59 soranzo Exp $
 	 */
 	
 	// Include application functions
@@ -383,21 +383,21 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			
+			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['last_value']), "\" /></td></tr>\n";
+
 			echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
 				htmlspecialchars($sequence->f['increment_by']), "\" /> </td></tr>\n";
-			
-			echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['min_value']), "\" /></td></tr>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
 				htmlspecialchars($sequence->f['max_value']), "\" /></td></tr>\n";
 			
-			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['last_value']), "\" /></td></tr>\n";
+			echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
+			echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
+				htmlspecialchars($sequence->f['min_value']), "\" /></td></tr>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
