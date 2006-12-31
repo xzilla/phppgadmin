@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.2 support
  *
- * $Id: Postgres82.php,v 1.3 2006/11/19 21:33:13 xzilla Exp $
+ * $Id: Postgres82.php,v 1.4 2006/12/31 19:06:16 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres81.php');
@@ -73,7 +73,7 @@ class Postgres82 extends Postgres81 {
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
 			$username = $server_info['username'];
 			$this->clean($username);
-			$clause = " AND pu.usename='{$username}'";
+			$clause = " AND pr.rolname='{$username}'";
 		}
 		else $clause = '';
 
