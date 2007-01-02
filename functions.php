@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.57 2006/12/31 16:21:26 soranzo Exp $
+	 * $Id: functions.php,v 1.58 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -130,13 +130,13 @@
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 					htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			}
 			
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\" wrap=\"virtual\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 			// Display function properies
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
@@ -477,7 +477,7 @@
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
 		

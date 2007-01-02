@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.31 2006/11/10 00:14:29 xzilla Exp $
+	 * $Id: types.php,v 1.32 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -144,7 +144,7 @@
 					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
 
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td><textarea name=\"typcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				echo "\t\t<td><textarea name=\"typcomment\" rows=\"3\" cols=\"32\">", 
 					htmlspecialchars($_REQUEST['typcomment']), "</textarea></td>\n\t</tr>\n";
 
 				echo "</table>\n";

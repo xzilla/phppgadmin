@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.8 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: schemas.php,v 1.9 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -116,7 +116,7 @@
 		}
 		echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 			
 		echo "\t</tr>\n";
@@ -178,7 +178,7 @@
 			echo "\t</tr>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
 			echo "\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

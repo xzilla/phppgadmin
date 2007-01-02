@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.72 2006/08/18 21:02:41 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.73 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -103,7 +103,7 @@
 			
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
+			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
 				htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

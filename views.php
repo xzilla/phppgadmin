@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.60 2006/11/10 00:23:28 xzilla Exp $
+	 * $Id: views.php,v 1.61 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -230,7 +230,7 @@
 			echo "<tr><th class=\"data\">{$lang['strcomment']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			// View comments
-			echo "<textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "<textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($_REQUEST['formComment']), "</textarea>\n";
 			echo "</td>\n</tr>\n";
 			echo "</table>\n";
@@ -365,10 +365,10 @@
 		echo "\t<td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_REQUEST['formView']), "\" /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
-		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
+		echo "\t<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"10\" cols=\"50\" name=\"formDefinition\">", 
 			htmlspecialchars($_REQUEST['formDefinition']), "</textarea></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
 			htmlspecialchars($_REQUEST['formComment']), "</textarea></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";

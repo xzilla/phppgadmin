@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.292 2006/11/19 21:33:13 xzilla Exp $
+ * $Id: Postgres.php,v 1.293 2007/01/02 17:24:44 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -305,7 +305,7 @@ class Postgres extends ADODB_base {
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"75\" wrap=\"virtual\"{$action_str}>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"75\"{$action_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
@@ -314,7 +314,7 @@ class Postgres extends ADODB_base {
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"35\" wrap=\"virtual\"{$action_str}>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"35\"{$action_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;

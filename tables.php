@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.82 2006/08/18 21:02:41 xzilla Exp $
+	 * $Id: tables.php,v 1.83 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -70,7 +70,7 @@
 				}
 
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td><textarea name=\"tblcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				echo "\t\t<td><textarea name=\"tblcomment\" rows=\"3\" cols=\"32\">", 
 					htmlspecialchars($_REQUEST['tblcomment']), "</textarea></td>\n\t</tr>\n";
 
 				echo "</table>\n";

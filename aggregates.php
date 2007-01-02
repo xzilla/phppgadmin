@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.15 2006/11/10 01:15:04 xzilla Exp $
+	 * $Id: aggregates.php,v 1.16 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -93,7 +93,7 @@
 		echo "\t\t<td class=\"data\"><input name=\"sortop\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_REQUEST['sortop']), "\" /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td><textarea name=\"aggrcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+		echo "\t\t<td><textarea name=\"aggrcomment\" rows=\"3\" cols=\"32\">", 
 			htmlspecialchars($_REQUEST['aggrcomment']), "</textarea></td>\n\t</tr>\n";
 
 		echo "</table>\n";
@@ -153,7 +153,7 @@
 			echo "<td><input name=\"newaggrowner\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($aggrdata->f['usename']), "\" /></td>";
 			echo "<td><input name=\"newaggrschema\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td><textarea name=\"newaggrcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "\t\t<td><textarea name=\"newaggrcomment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($aggrdata->f['aggrcomment']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_alter\" />\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.13 2006/12/31 16:21:26 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.14 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -526,7 +526,7 @@
 			echo "\t\t<td class=\"data1\"><input name=\"no_id\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['no_id']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea name=\"no_comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "\t\t<td class=\"data1\"><textarea name=\"no_comment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($_POST['no_comment']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p>\n";
@@ -692,7 +692,7 @@
 			echo "\t\t<td class=\"data1\"><input name=\"nodeid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['nodeid']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea name=\"nodecomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "\t\t<td class=\"data1\"><textarea name=\"nodecomment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($_POST['nodecomment']), "</textarea></td>\n\t</tr>\n";
 				
 			echo "\t</tr>\n";
@@ -1231,7 +1231,7 @@
 			echo "\t\t<td class=\"data1\"><input name=\"setid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['setid']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea name=\"setcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "\t\t<td class=\"data1\"><textarea name=\"setcomment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($_POST['setcomment']), "</textarea></td>\n\t</tr>\n";
 				
 			echo "\t</tr>\n";
@@ -1469,7 +1469,7 @@
 			echo "</select></td></tr>\n";
 			*/
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strddlscript']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea name=\"script\" rows=\"20\" cols=\"40\" wrap=\"virtual\">", 
+			echo "\t\t<td class=\"data1\"><textarea name=\"script\" rows=\"20\" cols=\"40\">", 
 				htmlspecialchars($_POST['script']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p>\n";
@@ -1597,7 +1597,7 @@
 				echo "\t\t<td class=\"data1\"><input name=\"tab_id\" size=\"5\" value=\"",
 					htmlspecialchars($_POST['tab_id']), "\" /></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\">", 
 					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
 					
 				echo "\t</tr>\n";
@@ -1870,7 +1870,7 @@
 				echo "\t\t<td class=\"data1\"><input name=\"seq_id\" size=\"5\" value=\"",
 					htmlspecialchars($_POST['seq_id']), "\" /></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+				echo "\t\t<td class=\"data1\"><textarea name=\"comment\" rows=\"3\" cols=\"32\">", 
 					htmlspecialchars($_POST['comment']), "</textarea></td>\n\t</tr>\n";
 					
 				echo "\t</tr>\n";

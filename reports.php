@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.22 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: reports.php,v 1.23 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -53,10 +53,10 @@
 		}
 		echo "</select></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\">",
 			htmlspecialchars($_POST['descr']), "</textarea></td></tr>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
@@ -157,10 +157,10 @@
 		}
 		echo "</select></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\">",
 			htmlspecialchars($_REQUEST['descr']), "</textarea></td></tr>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
 			htmlspecialchars($_REQUEST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";

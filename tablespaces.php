@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.10 2006/11/19 21:33:13 xzilla Exp $
+	 * $Id: tablespaces.php,v 1.11 2007/01/02 17:24:44 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -56,7 +56,7 @@
 			if ($data->hasSharedComments()){
 				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 				echo "<td class=\"data1\">";
-				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
 					htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
 			}
 			echo "</table>\n";
@@ -163,7 +163,7 @@
 		// Comments (if available)
 		if ($data->hasSharedComments()) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
 				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 		}
 		echo "</table>\n";
