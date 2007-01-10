@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.14 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.15 2007/01/10 02:34:54 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -426,7 +426,7 @@
 		global $lang;
 
 		$misc->printTrail('database');
-		$misc->printTabs('database','slony');
+		$misc->printTabs('database', 'slony');
 		$misc->printMsg($msg);
 
 		$clusters = $slony->getClusters();
@@ -486,11 +486,11 @@
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($slony->slony_cluster), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Local Node ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($cluster->f['no_id']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['no_id']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Local Node</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($cluster->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['no_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Version</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($cluster->f['version']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['version']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($slony->slony_owner), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
@@ -651,18 +651,18 @@
 		
 		if (is_object($node) && $node->recordCount() > 0) {			
 			// Show comment if any
-			if ($node->f['no_comment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($node->f['no_comment']), "</p>\n";
+			if ($node->fields['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($node->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($node->f['no_id']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_id']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
-			echo "<td class=\"data1\">", ($data->phpBool($node->f['no_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($node->fields['no_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($node->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_comment']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -805,18 +805,18 @@
 		
 		if (is_object($path) && $path->recordCount() > 0) {			
 			// Show comment if any
-			if ($path->f['no_comment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($path->f['no_comment']), "</p>\n";
+			if ($path->fields['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($path->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodename']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($path->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->fields['no_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodeid']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($path->f['no_id']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->fields['no_id']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconninfo']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_conninfo']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->fields['pa_conninfo']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconnretry']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($path->f['pa_connretry']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($path->fields['pa_connretry']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -849,8 +849,8 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnodename']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
 			while (!$nodes->EOF) {
-				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
-					($nodes->f['no_id'] == $_POST['pathserver']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				echo "\t\t\t\t<option value=\"{$nodes->fields['no_id']}\"",
+					($nodes->fields['no_id'] == $_POST['pathserver']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->fields['no_comment']), "</option>\n";
 				$nodes->moveNext();
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
@@ -983,23 +983,23 @@
 		
 		if (is_object($listen) && $listen->recordCount() > 0) {			
 			// Show comment if any
-			if ($listen->f['no_comment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($listen->f['no_comment']), "</p>\n";
+			if ($listen->fields['no_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($listen->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($listen->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->fields['no_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($listen->f['li_provider']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->fields['li_provider']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($listen->f['origin']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->fields['origin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($listen->f['li_origin']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($listen->fields['li_origin']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->f['li_origin']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->fields['li_origin']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -1026,8 +1026,8 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">Origin</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"listenorigin\">\n";
 			while (!$nodes->EOF) {
-				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
-					($nodes->f['no_id'] == $_POST['listenorigin']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				echo "\t\t\t\t<option value=\"{$nodes->fields['no_id']}\"",
+					($nodes->fields['no_id'] == $_POST['listenorigin']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->fields['no_comment']), "</option>\n";
 				$nodes->moveNext();
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t\n";
@@ -1035,8 +1035,8 @@
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"listenprovider\">\n";
 			$nodes->moveFirst();
 			while (!$nodes->EOF) {
-				echo "\t\t\t\t<option value=\"{$nodes->f['no_id']}\"",
-					($nodes->f['no_id'] == $_POST['listenprovider']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				echo "\t\t\t\t<option value=\"{$nodes->fields['no_id']}\"",
+					($nodes->fields['no_id'] == $_POST['listenprovider']) ? ' selected="selected"' : '', ">", htmlspecialchars($nodes->fields['no_comment']), "</option>\n";
 				$nodes->moveNext();
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
@@ -1179,24 +1179,24 @@
 		
 		if (is_object($set) && $set->recordCount() > 0) {			
 			// Show comment if any
-			if ($set->f['set_comment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($set->f['set_comment']), "</p>\n";
+			if ($set->fields['set_comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($set->fields['set_comment']), "</p>\n";
 
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['set_id']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_id']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strlocked']}</th>\n";
-			echo "<td class=\"data1\">", ($data->phpBool($set->f['is_locked'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($set->fields['is_locked'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['set_origin']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_origin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Origin Node</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['no_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['no_comment']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Subscriptions</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['subscriptions']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['subscriptions']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($set->f['set_comment']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_comment']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -1364,9 +1364,9 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strmergeinto']}</th>\n";
 			echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 			while (!$sets->EOF) {
-				if ($sets->f['set_id'] != $_REQUEST['set_id']) {
-					echo "<option value=\"{$sets->f['set_id']}\">";
-					echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+				if ($sets->fields['set_id'] != $_REQUEST['set_id']) {
+					echo "<option value=\"{$sets->fields['set_id']}\">";
+					echo htmlspecialchars($sets->fields['set_comment']), "</option>\n";
 				}
 				$sets->moveNext();	
 			}
@@ -1412,9 +1412,9 @@
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strneworigin']}</th>\n";
 			echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_origin\">";
 			while (!$nodes->EOF) {
-				if ($nodes->f['no_id'] != $set->f['set_origin']) {
-					echo "<option value=\"{$nodes->f['no_id']}\">";
-					echo htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				if ($nodes->fields['no_id'] != $set->fields['set_origin']) {
+					echo "<option value=\"{$nodes->fields['no_id']}\">";
+					echo htmlspecialchars($nodes->fields['no_comment']), "</option>\n";
 				}
 				$nodes->moveNext();	
 			}
@@ -1462,8 +1462,8 @@
 			echo "<td class=\"data1\" colspan=\"3\"><select name=\"only_on_node\">";
 			echo "<option value=\"0\"></option>\n";
 			while (!$nodes->EOF) {
-				echo "<option value=\"{$nodes->f['no_id']}\"", ($_POST['only_on_node'] == $nodes->f['no_id'] ? ' selected="selected"' : ''), ">";
-				echo htmlspecialchars($nodes->f['no_comment']), "</option>\n";
+				echo "<option value=\"{$nodes->fields['no_id']}\"", ($_POST['only_on_node'] == $nodes->fields['no_id'] ? ' selected="selected"' : ''), ">";
+				echo htmlspecialchars($nodes->fields['no_comment']), "</option>\n";
 				$nodes->moveNext();	
 			}
 			echo "</select></td></tr>\n";
@@ -1585,11 +1585,11 @@
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtable']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$tables->EOF) {
-					$key = array('schemaname' => $tables->f['nspname'], 'tablename' => $tables->f['relname']);
+					$key = array('schemaname' => $tables->fields['nspname'], 'tablename' => $tables->fields['relname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					echo htmlspecialchars($tables->f['nspname']), '.';
-					echo htmlspecialchars($tables->f['relname']), "</option>\n";
+					echo htmlspecialchars($tables->fields['nspname']), '.';
+					echo htmlspecialchars($tables->fields['relname']), "</option>\n";
 					$tables->moveNext();	
 				}
 				echo "</select></td></tr>\n";
@@ -1628,7 +1628,7 @@
 
 				// If only one index and no triggers then jump to next step
 				if ($indexes->recordCount() == 1 && $triggers->recordCount() == 0) {
-					$_REQUEST['idxname'] = $indexes->f['indname'];
+					$_REQUEST['idxname'] = $indexes->fields['indname'];
 					$_REQUEST['nspname'] = $_REQUEST['target']['schemaname'];
 					$_REQUEST['relname'] = $_REQUEST['target']['tablename'];
 					$_REQUEST['target'] = serialize($_REQUEST['target']);
@@ -1647,21 +1647,21 @@
 					echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strindex']}</th>\n";
 					echo "<td class=\"data1\" colspan=\"3\"><select name=\"idxname\">";
 					while (!$indexes->EOF) {
-						echo "<option value=\"", htmlspecialchars($indexes->f['indname']), "\">";
-						echo htmlspecialchars($indexes->f['indname']), "</option>\n";
+						echo "<option value=\"", htmlspecialchars($indexes->fields['indname']), "\">";
+						echo htmlspecialchars($indexes->fields['indname']), "</option>\n";
 						$indexes->moveNext();	
 					}
 					echo "</select></td></tr>\n";
 				}
 				else {
-					echo "<input type=\"hidden\" name=\"idxname\" value=\"", htmlspecialchars($indexes->f['indname']), "\" />\n";
+					echo "<input type=\"hidden\" name=\"idxname\" value=\"", htmlspecialchars($indexes->fields['indname']), "\" />\n";
 				}
 				if ($triggers->recordCount() > 0) {
 					echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtriggers']}</th>\n";
 					echo "<td class=\"data1\" colspan=\"3\"><p>{$lang['strtabletriggerstoretain']}</p>\n";
 					while (!$triggers->EOF) {
-						echo "<input type=\"checkbox\" id=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\" name=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">";
-						echo "<label for=\"storedtriggers[", htmlspecialchars($triggers->f['tgname']), "]\">", htmlspecialchars($triggers->f['tgname']), "</label><br/>\n";
+						echo "<input type=\"checkbox\" id=\"storedtriggers[", htmlspecialchars($triggers->fields['tgname']), "]\" name=\"storedtriggers[", htmlspecialchars($triggers->fields['tgname']), "]\">";
+						echo "<label for=\"storedtriggers[", htmlspecialchars($triggers->fields['tgname']), "]\">", htmlspecialchars($triggers->fields['tgname']), "</label><br/>\n";
 						$triggers->moveNext();	
 					}
 					echo "</select></td></tr>\n";					
@@ -1717,9 +1717,9 @@
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_set_id\">";
 				while (!$sets->EOF) {
-					if ($sets->f['set_id'] != $_REQUEST['set_id']) {
-						echo "<option value=\"{$sets->f['set_id']}\">";
-						echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+					if ($sets->fields['set_id'] != $_REQUEST['set_id']) {
+						echo "<option value=\"{$sets->fields['set_id']}\">";
+						echo htmlspecialchars($sets->fields['set_comment']), "</option>\n";
 					}
 					$sets->moveNext();	
 				}
@@ -1858,11 +1858,11 @@
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strsequence']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$sequences->EOF) {
-					$key = array('schemaname' => $sequences->f['nspname'], 'sequencename' => $sequences->f['seqname']);
+					$key = array('schemaname' => $sequences->fields['nspname'], 'sequencename' => $sequences->fields['seqname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					echo htmlspecialchars($sequences->f['nspname']), '.';
-					echo htmlspecialchars($sequences->f['seqname']), "</option>\n";
+					echo htmlspecialchars($sequences->fields['nspname']), '.';
+					echo htmlspecialchars($sequences->fields['seqname']), "</option>\n";
 					$sequences->moveNext();	
 				}
 				echo "</select></td></tr>\n";
@@ -1956,9 +1956,9 @@
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"new_set_id\">";
 				while (!$sets->EOF) {
-					if ($sets->f['set_id'] != $_REQUEST['set_id']) {
-						echo "<option value=\"{$sets->f['set_id']}\">";
-						echo htmlspecialchars($sets->f['set_comment']), "</option>\n";
+					if ($sets->fields['set_id'] != $_REQUEST['set_id']) {
+						echo "<option value=\"{$sets->fields['set_id']}\">";
+						echo htmlspecialchars($sets->fields['set_comment']), "</option>\n";
 					}
 					$sets->moveNext();	
 				}
@@ -2039,22 +2039,22 @@
 		
 		if (is_object($subscription) && $subscription->recordCount() > 0) {			
 			// Show comment if any
-			if ($subscription->f['receiver'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($subscription->f['receiver']), "</p>\n";
+			if ($subscription->fields['receiver'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($subscription->fields['receiver']), "</p>\n";
 
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_provider']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['sub_provider']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Provider Name</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($subscription->f['provider']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['provider']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Receiver ID</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($subscription->f['sub_receiver']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['sub_receiver']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">Receiver Name</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($subscription->f['receiver']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['receiver']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
-			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($subscription->fields['sub_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">May Forward</th>\n";
-			echo "<td class=\"data1\">", ($data->phpBool($subscription->f['sub_forward'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($data->phpBool($subscription->fields['sub_forward'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
