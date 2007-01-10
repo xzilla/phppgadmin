@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.46 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: all_db.php,v 1.47 2007/01/10 00:38:48 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -43,7 +43,7 @@
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
-					$uname = $users->f['usename'];
+					$uname = $users->fields['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
 						($uname == $owner) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 					$users->moveNext();
@@ -160,7 +160,7 @@
 				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
 			// Display all other tablespaces
 			while (!$tablespaces->EOF) {
-				$spcname = htmlspecialchars($tablespaces->f['spcname']);
+				$spcname = htmlspecialchars($tablespaces->fields['spcname']);
 				echo "\t\t\t\t<option value=\"{$spcname}\"",
 					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 				$tablespaces->moveNext();
