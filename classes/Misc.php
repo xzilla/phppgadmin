@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.137 2006/12/28 04:26:55 xzilla Exp $
+	 * $Id: Misc.php,v 1.138 2007/01/10 01:56:06 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -1511,7 +1511,7 @@
 		 *			$columns = array(
 		 *				column_id => array(
 		 *					'title' => Column heading,
-		 *					'field' => Field name for $tabledata->f[...],
+		 *					'field' => Field name for $tabledata->fields[...],
 		 *					'help'  => Help page for this column,
 		 *				), ...
 		 *			);
@@ -1603,23 +1603,23 @@
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
-										$misc->printUrlVars($action['vars'], $tabledata->f);
+										$misc->printUrlVars($action['vars'], $tabledata->fields);
 										echo "\">{$action['title']}</a></td>";
 									}
 								}
 								break;
 							default;
 								echo "<td class=\"data{$id}\">";
-								if (isset($tabledata->f[$column['field']])) {
+								if (array_key_exists($column['field'], $tabledata->fields)) {
 									if (isset($column['url'])) {
 										echo "<a href=\"{$column['url']}";
-										$misc->printUrlVars($column['vars'], $tabledata->f);
+										$misc->printUrlVars($column['vars'], $tabledata->fields);
 										echo "\">";
 									}
 								
 									$type = isset($column['type']) ? $column['type'] : null;
 									$params = isset($column['params']) ? $column['params'] : array();
-									echo $misc->printVal($tabledata->f[$column['field']], $type, $params);
+									echo $misc->printVal($tabledata->fields[$column['field']], $type, $params);
 								}
 								
 								if (isset($column['url'])) echo "</a>";
@@ -1674,7 +1674,7 @@
 			
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
-					$rec =& $treedata->f;
+					$rec =& $treedata->fields;
 					
 					echo "<tree";
 					echo value_xml_attr('text', $attrs['text'], $rec);
