@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.5 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: servers.php,v 1.6 2007/01/10 01:25:12 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -34,7 +34,7 @@
 		$servers = $misc->getServers(true);
 		
 		function svPre(&$rowdata, $actions) {
-			$actions['logout']['disable'] = empty($rowdata->f['username']);
+			$actions['logout']['disable'] = empty($rowdata->fields['username']);
 			return $actions;
 		}
 		
