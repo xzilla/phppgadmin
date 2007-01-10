@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.13 2006/12/31 16:21:26 soranzo Exp $
+ * $Id: Slony.php,v 1.14 2007/01/10 02:26:25 soranzo Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -58,12 +58,12 @@ class Slony extends Plugin {
 					ORDER BY pn.nspname LIMIT 1";
 		$rs = $data->selectSet($sql);
 		if ($rs->recordCount() == 1) {
-			$schema = $rs->f['schema'];
+			$schema = $rs->fields['schema'];
 			$this->slony_schema = $schema;
-			$this->slony_owner = $rs->f['owner'];
-			$this->slony_comment = $rs->f['nspcomment'];
+			$this->slony_owner = $rs->fields['owner'];
+			$this->slony_comment = $rs->fields['nspcomment'];
 			// Cluster name is schema minus "_" prefix.
-			$this->slony_cluster = $rs->f['cluster'];
+			$this->slony_cluster = $rs->fields['cluster'];
 			$data->fieldClean($schema);
 			$sql = "SELECT \"{$schema}\".slonyversion() AS version";
 			$version = $data->selectField($sql, 'version');
