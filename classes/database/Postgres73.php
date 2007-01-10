@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.160 2006/09/30 17:30:56 xzilla Exp $
+ * $Id: Postgres73.php,v 1.161 2007/01/10 02:01:17 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -321,8 +321,8 @@ class Postgres73 extends Postgres72 {
 		$rs = $this->selectSet($sql);
 		if ($rs->recordCount() != 1) return -99;
 		else {
-			$rs->f['relhasoids'] = $this->phpBool($rs->f['relhasoids']);
-			return $rs->f['relhasoids'];
+			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
+			return $rs->fields['relhasoids'];
 		}
 	}
 
@@ -355,7 +355,7 @@ class Postgres73 extends Postgres72 {
 		else {
 			$temp = array();
 			while (!$rs->EOF) {
-				$temp[$rs->f['attnum']] = $rs->f['attname'];
+				$temp[$rs->fields['attnum']] = $rs->fields['attname'];
 				$rs->moveNext();
 			}
 			return $temp;
@@ -396,7 +396,7 @@ class Postgres73 extends Postgres72 {
 		}
 		// Otherwise find the names of the keys
 		else {
-			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->fields['indkey']));
 			if (!is_array($attnames)) {
 				$this->rollbackTransaction();
 				return -1;
@@ -667,7 +667,7 @@ class Postgres73 extends Postgres72 {
 		// Get the minimum value of the sequence
 		$seq = $this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
-		$minvalue = $seq->f['min_value'];
+		$minvalue = $seq->fields['min_value'];
 
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);

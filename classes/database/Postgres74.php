@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.55 2006/09/24 23:42:41 xzilla Exp $
+ * $Id: Postgres74.php,v 1.56 2007/01/10 02:01:17 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -116,7 +116,7 @@ class Postgres74 extends Postgres73 {
 		}
 		// Otherwise find the names of the keys
 		else {
-			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->fields['indkey']));
 			if (!is_array($attnames)) {
 				$this->rollbackTransaction();
 				return -1;
@@ -575,11 +575,11 @@ class Postgres74 extends Postgres73 {
 		$this->clean($cycledvalue);
 
 		$sql = "ALTER SEQUENCE \"{$sequence}\"";
-		if ($increment != '' && $increment != $data->f['increment_by']) $sql .= " INCREMENT {$increment}";
-		if ($minvalue != '' && $minvalue != $data->f['min_value']) $sql .= " MINVALUE {$minvalue}";
-		if ($maxvalue != '' && $maxvalue != $data->f['max_value']) $sql .= " MAXVALUE {$maxvalue}";
-		if ($startvalue != '' && $startvalue != $data->f['last_value']) $sql .= " START {$startvalue}";
-		if ($cachevalue != '' && $cachevalue != $data->f['cache_value']) $sql .= " CACHE {$cachevalue}";
+		if ($increment != '' && $increment != $data->fields['increment_by']) $sql .= " INCREMENT {$increment}";
+		if ($minvalue != '' && $minvalue != $data->fields['min_value']) $sql .= " MINVALUE {$minvalue}";
+		if ($maxvalue != '' && $maxvalue != $data->fields['max_value']) $sql .= " MAXVALUE {$maxvalue}";
+		if ($startvalue != '' && $startvalue != $data->fields['last_value']) $sql .= " START {$startvalue}";
+		if ($cachevalue != '' && $cachevalue != $data->fields['cache_value']) $sql .= " CACHE {$cachevalue}";
 		// toggle cycle yes/no
 		$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";	
 		

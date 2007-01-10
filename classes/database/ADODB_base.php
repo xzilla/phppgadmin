@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.21 2005/05/25 04:33:23 chriskl Exp $
+ * $Id: ADODB_base.php,v 1.22 2007/01/10 02:01:17 soranzo Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -117,7 +117,7 @@ class ADODB_base {
 		if (!$rs) return $this->conn->ErrorNo();
 		elseif ($rs->RecordCount() == 0) return -1;
 
-		return $rs->f[$field];
+		return $rs->fields[$field];
 	}
 
 	/**
