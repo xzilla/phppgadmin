@@ -3,20 +3,20 @@
 /**
  * Really simple RecordSet to allow printTable of arrays.
  *
- * $Id: ArrayRecordSet.php,v 1.2 2005/05/02 15:47:25 chriskl Exp $
+ * $Id: ArrayRecordSet.php,v 1.3 2007/01/10 01:46:28 soranzo Exp $
  */
 class ArrayRecordSet {
 
 	var $_array;
 	var $_count;
 	var $EOF = false;
-	var $f;
+	var $fields;
 	
 	function ArrayRecordSet($data) {
 		$this->_array = $data;
 		$this->_count = count($this->_array);
-		$this->f = reset($this->_array);
-		if ($this->f === false) $this->EOF = true;
+		$this->fields = reset($this->_array);
+		if ($this->fields === false) $this->EOF = true;
 	}
 	
 	function recordCount() {
@@ -24,8 +24,8 @@ class ArrayRecordSet {
 	}
 	
 	function moveNext() {
-		$this->f = next($this->_array);
-		if ($this->f === false) $this->EOF = true;
+		$this->fields = next($this->_array);
+		if ($this->fields === false) $this->EOF = true;
 	}
 }
 
