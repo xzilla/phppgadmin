@@ -68,7 +68,7 @@
 			echo "\t\t<td class=\"data\">\n";
 			echo "\t\t\t<select name=\"memberof[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 			while (!$roles->EOF) {
-				$rolename = $roles->f['rolname'];
+				$rolename = $roles->fields['rolname'];
 				echo "\t\t\t\t<option value=\"{$rolename}\"",
 				(in_array($rolename, $_POST['memberof']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 				$roles->moveNext();
@@ -81,7 +81,7 @@
 			echo "\t\t<td class=\"data\">\n";
 			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 			while (!$roles->EOF) {
-				$rolename = $roles->f['rolname'];
+				$rolename = $roles->fields['rolname'];
 				echo "\t\t\t\t<option value=\"{$rolename}\"",
 				(in_array($rolename, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 				$roles->moveNext();
@@ -94,7 +94,7 @@
 			echo "\t\t<td class=\"data\">\n";
 			echo "\t\t\t<select name=\"adminmembers[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 			while (!$roles->EOF) {
-				$rolename = $roles->f['rolname'];
+				$rolename = $roles->fields['rolname'];
 				echo "\t\t\t\t<option value=\"{$rolename}\"",
 				(in_array($rolename, $_POST['adminmembers']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 				$roles->moveNext();
@@ -153,21 +153,21 @@
 		if ($roledata->recordCount() > 0) {
 			$server_info = $misc->getServerInfo();
 			$canRename = $data->hasUserRename() && ($_REQUEST['rolename'] != $server_info['username']);
-			$roledata->f['rolsuper'] = $data->phpBool($roledata->f['rolsuper']);
-			$roledata->f['rolcreatedb'] = $data->phpBool($roledata->f['rolcreatedb']);
-			$roledata->f['rolcreaterole'] = $data->phpBool($roledata->f['rolcreaterole']);
-			$roledata->f['rolinherit'] = $data->phpBool($roledata->f['rolinherit']);
-			$roledata->f['rolcanlogin'] = $data->phpBool($roledata->f['rolcanlogin']);
+			$roledata->fields['rolsuper'] = $data->phpBool($roledata->fields['rolsuper']);
+			$roledata->fields['rolcreatedb'] = $data->phpBool($roledata->fields['rolcreatedb']);
+			$roledata->fields['rolcreaterole'] = $data->phpBool($roledata->fields['rolcreaterole']);
+			$roledata->fields['rolinherit'] = $data->phpBool($roledata->fields['rolinherit']);
+			$roledata->fields['rolcanlogin'] = $data->phpBool($roledata->fields['rolcanlogin']);
 
 			if (!isset($_POST['formExpires'])){
-				if ($canRename) $_POST['formNewRoleName'] = $roledata->f['rolname'];
-				if ($roledata->f['rolsuper']) $_POST['formSuper'] = '';
-				if ($roledata->f['rolcreatedb']) $_POST['formCreateDB'] = '';
-				if ($roledata->f['rolcreaterole']) $_POST['formCreateRole'] = '';
-				if ($roledata->f['rolinherit']) $_POST['formInherits'] = '';
-				if ($roledata->f['rolcanlogin']) $_POST['formCanLogin'] = '';
-				$_POST['formConnLimit'] = $roledata->f['rolconnlimit'] == '-1' ? '' : $roledata->f['rolconnlimit'];
-				$_POST['formExpires'] = $roledata->f['rolvaliduntil'] == 'infinity' ? '' : $roledata->f['rolvaliduntil'];
+				if ($canRename) $_POST['formNewRoleName'] = $roledata->fields['rolname'];
+				if ($roledata->fields['rolsuper']) $_POST['formSuper'] = '';
+				if ($roledata->fields['rolcreatedb']) $_POST['formCreateDB'] = '';
+				if ($roledata->fields['rolcreaterole']) $_POST['formCreateRole'] = '';
+				if ($roledata->fields['rolinherit']) $_POST['formInherits'] = '';
+				if ($roledata->fields['rolcanlogin']) $_POST['formCanLogin'] = '';
+				$_POST['formConnLimit'] = $roledata->fields['rolconnlimit'] == '-1' ? '' : $roledata->fields['rolconnlimit'];
+				$_POST['formExpires'] = $roledata->fields['rolvaliduntil'] == 'infinity' ? '' : $roledata->fields['rolvaliduntil'];
 				$_POST['formPassword'] = '';
 			}
 		
@@ -175,7 +175,7 @@
 			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\" width=\"130\">{$lang['strname']}</th>\n";
-			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->f['rolname'])), "</td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->fields['rolname'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" maxlength=\"32\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strconfirm']}</th>\n";
@@ -206,7 +206,7 @@
 				if ($memberof->recordCount() > 0) {
 					$i = 0;
 					while (!$memberof->EOF) {
-						$_POST['memberof'][$i++] = $memberof->f['rolname'];
+						$_POST['memberof'][$i++] = $memberof->fields['rolname'];
 						$memberof->moveNext();
 					}
 				}
@@ -220,7 +220,7 @@
 				if ($members->recordCount() > 0) {
 					$i = 0;
 					while (!$members->EOF) {
-						$_POST['members'][$i++] = $members->f['rolname'];
+						$_POST['members'][$i++] = $members->fields['rolname'];
 						$members->moveNext();
 					}
 				}
@@ -234,7 +234,7 @@
 				if ($adminmembers->recordCount() > 0) {
 					$i = 0;
 					while (!$adminmembers->EOF) {
-						$_POST['adminmembers'][$i++] = $adminmembers->f['rolname'];
+						$_POST['adminmembers'][$i++] = $adminmembers->fields['rolname'];
 						$adminmembers->moveNext();
 					}
 				}
@@ -249,7 +249,7 @@
 				echo "\t\t<td class=\"data\">\n";
 				echo "\t\t\t<select name=\"memberof[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 				while (!$roles->EOF) {
-					$rolename = $roles->f['rolname'];
+					$rolename = $roles->fields['rolname'];
 					echo "\t\t\t\t<option value=\"{$rolename}\"",
 					(in_array($rolename, $_POST['memberof']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 					$roles->moveNext();
@@ -262,7 +262,7 @@
 				echo "\t\t<td class=\"data\">\n";
 				echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 				while (!$roles->EOF) {
-					$rolename = $roles->f['rolname'];
+					$rolename = $roles->fields['rolname'];
 					echo "\t\t\t\t<option value=\"{$rolename}\"",
 					(in_array($rolename, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 					$roles->moveNext();
@@ -275,7 +275,7 @@
 				echo "\t\t<td class=\"data\">\n";
 				echo "\t\t\t<select name=\"adminmembers[]\" multiple=\"multiple\" size=\"", min(20, $roles->recordCount()), "\">\n";
 				while (!$roles->EOF) {
-					$rolename = $roles->f['rolname'];
+					$rolename = $roles->fields['rolname'];
 					echo "\t\t\t\t<option value=\"{$rolename}\"",
 					(in_array($rolename, $_POST['adminmembers']) ? ' selected="selected"' : ''), ">", $misc->printVal($rolename), "</option>\n";
 					$roles->moveNext();
@@ -365,11 +365,11 @@
 			
 		$roledata = $data->getRole($_REQUEST['rolename']);
 		if($roledata->recordCount() > 0 ) {
-			$roledata->f['rolsuper'] = $data->phpBool($roledata->f['rolsuper']);
-			$roledata->f['rolcreatedb'] = $data->phpBool($roledata->f['rolcreatedb']);
-			$roledata->f['rolcreaterole'] = $data->phpBool($roledata->f['rolcreaterole']);
-			$roledata->f['rolinherit'] = $data->phpBool($roledata->f['rolinherit']);
-			$roledata->f['rolcanlogin'] = $data->phpBool($roledata->f['rolcanlogin']);
+			$roledata->fields['rolsuper'] = $data->phpBool($roledata->fields['rolsuper']);
+			$roledata->fields['rolcreatedb'] = $data->phpBool($roledata->fields['rolcreatedb']);
+			$roledata->fields['rolcreaterole'] = $data->phpBool($roledata->fields['rolcreaterole']);
+			$roledata->fields['rolinherit'] = $data->phpBool($roledata->fields['rolinherit']);
+			$roledata->fields['rolcanlogin'] = $data->phpBool($roledata->fields['rolcanlogin']);
 
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data\" width=\"130\">Description</th>\n";
@@ -377,27 +377,27 @@
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strname']}</td>\n";
 			echo "\t\t<td class=\"data1\">", htmlspecialchars($_REQUEST['rolename']), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strsuper']}</td>\n";
-			echo "\t\t<td class=\"data2\">", (($roledata->f['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data2\">", (($roledata->fields['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strcreatedb']}</td>\n";
-			echo "\t\t<td class=\"data1\">", (($roledata->f['rolcreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\">", (($roledata->fields['rolcreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strcancreaterole']}</td>\n";
-			echo "\t\t<td class=\"data2\">", (($roledata->f['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data2\">", (($roledata->fields['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strinheritsprivs']}</td>\n";
-			echo "\t\t<td class=\"data1\">", (($roledata->f['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\">", (($roledata->fields['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strcanlogin']}</td>\n";
-			echo "\t\t<td class=\"data2\">", (($roledata->f['rolcanlogin']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data2\">", (($roledata->fields['rolcanlogin']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strconnlimit']}</td>\n";
-			echo "\t\t<td class=\"data1\">", ($roledata->f['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->f['rolconnlimit'])), "</td>\n";
+			echo "\t\t<td class=\"data1\">", ($roledata->fields['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->fields['rolconnlimit'])), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strexpires']}</td>\n";
-			echo "\t\t<td class=\"data2\">", ($roledata->f['rolvaliduntil'] == 'infinity' || $roledata->f['rolvaliduntil'] == '' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
+			echo "\t\t<td class=\"data2\">", ($roledata->fields['rolvaliduntil'] == 'infinity' || is_null($roledata->fields['rolvaliduntil']) ? $lang['strnever'] : $misc->printVal($roledata->fields['rolvaliduntil'])), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strsessiondefaults']}</td>\n";
-			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->f['rolconfig']), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolconfig']), "</td>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strmemberof']}</td>\n";
 			echo "\t\t<td class=\"data2\">";
 			$memberof = $data->getMemberOf($_REQUEST['rolename']);
 			if ($memberof->recordCount() > 0) {	
 				while (!$memberof->EOF) {
-					echo $misc->printVal($memberof->f['rolname']), "<br />\n";
+					echo $misc->printVal($memberof->fields['rolname']), "<br />\n";
 					$memberof->moveNext();
 				}
 			}
@@ -407,7 +407,7 @@
 			$members = $data->getMembers($_REQUEST['rolename']);
 			if ($members->recordCount() > 0) {
 				while (!$members->EOF) {
-					echo $misc->printVal($members->f['rolname']), "<br />\n";
+					echo $misc->printVal($members->fields['rolname']), "<br />\n";
 					$members->moveNext();
 				}
 			}
@@ -417,7 +417,7 @@
 			$adminmembers = $data->getMembers($_REQUEST['rolename'], 't');
 			if ($adminmembers->recordCount() > 0) {
 				while (!$adminmembers->EOF) {
-					echo $misc->printVal($adminmembers->f['rolname']), "<br />\n";
+					echo $misc->printVal($adminmembers->fields['rolname']), "<br />\n";
 					$adminmembers->moveNext();
 				}
 			}
@@ -453,10 +453,10 @@
 		$misc->printMsg($msg);
 
 		if ($roledata->recordCount() > 0) {
-			$roledata->f['rolsuper'] = $data->phpBool($roledata->f['rolsuper']);
-			$roledata->f['rolcreatedb'] = $data->phpBool($roledata->f['rolcreatedb']);
-			$roledata->f['rolcreaterole'] = $data->phpBool($roledata->f['rolcreaterole']);
-			$roledata->f['rolinherit'] = $data->phpBool($roledata->f['rolinherit']);
+			$roledata->fields['rolsuper'] = $data->phpBool($roledata->fields['rolsuper']);
+			$roledata->fields['rolcreatedb'] = $data->phpBool($roledata->fields['rolcreatedb']);
+			$roledata->fields['rolcreaterole'] = $data->phpBool($roledata->fields['rolcreaterole']);
+			$roledata->fields['rolinherit'] = $data->phpBool($roledata->fields['rolinherit']);
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data\">{$lang['strname']}</th>\n";
 			echo "\t\t<th class=\"data\">{$lang['strsuper']}</th>\n";
@@ -467,14 +467,14 @@
 			echo "\t\t<th class=\"data\">{$lang['strexpires']}</th>\n";
 			echo "\t\t<th class=\"data\">{$lang['strsessiondefaults']}</th>\n";
 			echo "\t</tr>\n";
-			echo "\t<tr>\n\t\t<td class=\"data1\">", $misc->printVal($roledata->f['rolname']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolcreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->f['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", ($roledata->f['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->f['rolconnlimit'])), "</td>\n";
-			echo "\t\t<td class=\"data1\">", ($roledata->f['rolvaliduntil'] == 'infinity' || $roledata->f['rolvaliduntil'] == '' ? $lang['strnever'] : $misc->printVal($roledata->f['rolvaliduntil'])), "</td>\n";
-			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->f['rolconfig']), "</td>\n";
+			echo "\t<tr>\n\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolname']), "</td>\n";
+			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolcreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t\t<td class=\"data1\" id=\"center\">", ($roledata->fields['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->fields['rolconnlimit'])), "</td>\n";
+			echo "\t\t<td class=\"data1\">", ($roledata->fields['rolvaliduntil'] == 'infinity' || is_null($roledata->fields['rolvaliduntil']) ? $lang['strnever'] : $misc->printVal($roledata->fields['rolvaliduntil'])), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolconfig']), "</td>\n";
 			echo "\t</tr>\n</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -540,11 +540,13 @@
 		global $PHP_SELF, $lang;
 		
 		function renderRoleConnLimit($val) {
-			return $val == '-1' ? 'No limit' : htmlspecialchars($val);
+			global $lang;
+			return $val == '-1' ? $lang['strnolimit'] : htmlspecialchars($val);
  		}
 		
 		function renderRoleExpires($val) {
-			return $val == 'infinity' ? 'Never' : htmlspecialchars($val);
+			global $lang;
+			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
  		}
 		
 		$misc->printTrail('server');
@@ -583,11 +585,17 @@
 				'field' => 'rolcanlogin',
 				'type'  => 'yesno',
 			),
+			'connlimit' => array(
+				'title'	=> $lang['strconnlimit'],
+				'field'	=> 'rolconnlimit',
+				'type'	=> 'callback',
+				'params'=> array('function' => 'renderRoleConnLimit')
+			),
 			'expires' => array(
 				'title' => $lang['strexpires'],
 				'field' => 'rolvaliduntil',
 				'type'  => 'callback',
-				'params'=> array('function' => 'renderRoleExpires'),
+				'params'=> array('function' => 'renderRoleExpires', 'null' => $lang['strnever']),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
