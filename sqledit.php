@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.30 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: sqledit.php,v 1.31 2007/01/10 01:31:18 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -62,7 +62,7 @@
 			echo ": <select name=\"database\" {$onchange}>\n";
 			
 			while (!$databases->EOF) {
-				$dbname = $databases->f['datname'];
+				$dbname = $databases->fields['datname'];
 				echo "<option value=\"", htmlspecialchars($dbname), "\"",
 				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
 					htmlspecialchars($dbname), "</option>\n";

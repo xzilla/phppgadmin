@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.32 2005/06/16 14:40:11 chriskl Exp $
+	 * $Id: sql.php,v 1.33 2007/01/10 01:31:18 soranzo Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -123,7 +123,7 @@
 			// First, if rows returned, then display the results
 			if ($rs->recordCount() > 0) {
 				echo "<table>\n<tr>";
-				foreach ($rs->f as $k => $v) {
+				foreach ($rs->fields as $k => $v) {
 					$finfo = $rs->fetchField($k);
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 				}
@@ -132,7 +132,7 @@
 				while (!$rs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					foreach ($rs->f as $k => $v) {
+					foreach ($rs->fields as $k => $v) {
 						$finfo = $rs->fetchField($k);
 						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 					}							
