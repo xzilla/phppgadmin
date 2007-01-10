@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.33 2006/12/31 16:21:26 soranzo Exp $
+	 * $Id: users.php,v 1.34 2007/01/10 01:38:48 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -33,17 +33,17 @@
 		$misc->printMsg($msg);
 
 		if ($userdata->recordCount() > 0) {
-			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
-			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
+			$userdata->fields['usesuper'] = $data->phpBool($userdata->fields['usesuper']);
+			$userdata->fields['usecreatedb'] = $data->phpBool($userdata->fields['usecreatedb']);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
 			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
 			echo "</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->f['usename']), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->f['usesuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->f['usecreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", ($userdata->f['useexpires'] == 'infinity' ? '' : $misc->printVal($userdata->f['useexpires'])), "</td>\n";
-			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->f['useconfig']), "</td>\n";
+			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->fields['usename']), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->fields['usesuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", (($userdata->fields['usecreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", ($userdata->fields['useexpires'] == 'infinity' || is_null($userdata->fields['useexpires']) ? $lang['strnever'] : $misc->printVal($userdata->fields['useexpires'])), "</td>\n";
+			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['useconfig']), "</td>\n";
 			echo "</tr>\n</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -117,14 +117,14 @@
 		if ($userdata->recordCount() > 0) {
 			$server_info = $misc->getServerInfo();
 			$canRename = $data->hasUserRename() && ($_REQUEST['username'] != $server_info['username']);
-			$userdata->f['usesuper'] = $data->phpBool($userdata->f['usesuper']);
-			$userdata->f['usecreatedb'] = $data->phpBool($userdata->f['usecreatedb']);
+			$userdata->fields['usesuper'] = $data->phpBool($userdata->fields['usesuper']);
+			$userdata->fields['usecreatedb'] = $data->phpBool($userdata->fields['usecreatedb']);
 
 			if (!isset($_POST['formExpires'])){
-				if ($canRename) $_POST['newname'] = $userdata->f['usename'];
-				if ($userdata->f['usesuper']) $_POST['formSuper'] = '';
-				if ($userdata->f['usecreatedb']) $_POST['formCreateDB'] = '';
-				$_POST['formExpires'] = $userdata->f['useexpires'] == 'infinity' ? '' : $userdata->f['useexpires'];
+				if ($canRename) $_POST['newname'] = $userdata->fields['usename'];
+				if ($userdata->fields['usesuper']) $_POST['formSuper'] = '';
+				if ($userdata->fields['usecreatedb']) $_POST['formCreateDB'] = '';
+				$_POST['formExpires'] = $userdata->fields['useexpires'] == 'infinity' ? '' : $userdata->fields['useexpires'];
 				$_POST['formPassword'] = '';
 			}
 		
@@ -132,7 +132,7 @@
 			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
-			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->f['usename'])), "</td>\n\t</tr>\n";
+			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->fields['usename'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formSuper\">{$lang['strsuper']}</label></th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formSuper\" name=\"formSuper\"", 
 				(isset($_POST['formSuper'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
@@ -276,6 +276,7 @@
 		global $PHP_SELF, $lang;
 		
 		function renderUseExpires($val) {
+			global $lang;
 			return $val == 'infinity' ? $lang['strnever'] : htmlspecialchars($val);
  		}
 		
@@ -304,7 +305,7 @@
 				'title' => $lang['strexpires'],
 				'field' => 'useexpires',
 				'type'  => 'callback',
-				'params'=> array('function' => 'renderUseExpires'),
+				'params'=> array('function' => 'renderUseExpires', 'null' => $lang['strnever']),
 			),
 			'defaults' => array(
 				'title' => $lang['strsessiondefaults'],
