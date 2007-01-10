@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.9 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: schemas.php,v 1.10 2007/01/10 01:15:27 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -109,7 +109,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
-			$uname = htmlspecialchars($users->f['usename']);
+			$uname = htmlspecialchars($users->fields['usename']);
 			echo "\t\t\t\t<option value=\"{$uname}\"",
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
@@ -162,7 +162,7 @@
 
 		$schema = $data->getSchemaByName($_REQUEST['schema']);
 		if ($schema->recordCount() > 0) {
-			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->fields['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['schema'];
 
