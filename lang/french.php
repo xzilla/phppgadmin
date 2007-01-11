@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.19 2006/08/03 19:03:33 xzilla Exp $
+     * $Id: french.php,v 1.20 2007/01/11 20:55:13 xzilla Exp $
      */
 
     // Language and character set
@@ -41,6 +41,8 @@
     $lang['strdefinition'] = 'Définition';
     $lang['strproperties'] = 'Propriétés';
     $lang['strbrowse'] = 'Parcourir';
+    $lang['strenable']  =  'Activer';
+    $lang['strdisable']  =  'Désactiver';
     $lang['strdrop'] = 'Supprimer';
     $lang['strdropped'] = 'Supprimé';
     $lang['strnull'] = 'NULL';
@@ -58,6 +60,7 @@
     $lang['stralter'] = 'Modifier';
     $lang['strok'] = 'OK';
     $lang['strcancel'] = 'Annuler';
+    $lang['strac']  =  'Activer la complétion automatique';
     $lang['strsave'] = 'Sauvegarder';
     $lang['strreset'] = 'Réinitialiser';
     $lang['strinsert'] = 'Insérer';
@@ -99,7 +102,6 @@
     $lang['strreindex'] = 'Reindex';
     $lang['strrun'] = 'Lancer';
     $lang['stradd'] = 'Ajouter';
-    $lang['strremove']  =  'Supprimer';
     $lang['strevent'] = 'Événement';
     $lang['strwhere'] = 'Où';
     $lang['strinstead'] = 'Faire à la place';
@@ -255,10 +257,10 @@
     // Groups
     $lang['strgroup'] = 'Groupe';
     $lang['strgroups'] = 'Groupes';
+    $lang['strshowallgroups']  =  'Afficher tous les groupes';
     $lang['strnogroup'] = 'Groupe introuvable.';
     $lang['strnogroups'] = 'Aucun groupe trouvé.';
     $lang['strcreategroup'] = 'Créer un groupe';
-    $lang['strshowallgroups'] = 'Voir tous les groupes';
     $lang['strgroupneedsname'] = 'Vous devez indiquer un nom pour votre groupe.';
     $lang['strgroupcreated'] = 'Groupe créé.';
     $lang['strgroupcreatedbad'] = 'Échec lors de la création du groupe.';
@@ -266,6 +268,8 @@
     $lang['strgroupdropped'] = 'Groupe supprimé.';
     $lang['strgroupdroppedbad'] = 'Échec lors de la suppression du groupe.';
     $lang['strmembers'] = 'Membres';
+    $lang['strmemberof']  =  'Membre de';
+    $lang['stradminmembers']  =  'Membres admin';
     $lang['straddmember'] = 'Ajouter un membre';
     $lang['strmemberadded'] = 'Membre ajouté.';
     $lang['strmemberaddedbad'] = 'Échec lors de l\'ajout du membre.';
@@ -277,14 +281,25 @@
     // Roles
     $lang['strrole']  =  'Rôle';
     $lang['strroles']  =  'Rôles';
+    $lang['strshowallroles']  =  'Afficher tous les rôles';
+    $lang['strnoroles']  =  'Aucun rôle trouvé.';
     $lang['strinheritsprivs']  =  'Hérite des droits ?';
     $lang['strcreaterole']  =  'Créer un rôle';
-    $lang['strcatupdate']  =  'Modifier les catalogues ?';
+    $lang['strcancreaterole']  =  'Peut créer un rôle ?';
+    $lang['strrolecreated']  =  'Rôle créé.';
+    $lang['strrolecreatedbad']  =  'Échec lors de la création du rôle.';
+    $lang['stralterrole']  =  'Modifier le rôle';
+    $lang['strrolealtered']  =  'Rôle modifié.';
+    $lang['strrolealteredbad']  =  'Échec lors de la modification du rôle.';
     $lang['strcanlogin']  =  'Peut se connecter ?';
-    $lang['strmaxconnections']  =  'Nombre de connexions max';
+    $lang['strconnlimit']  =  'Limite de connexion';
+    $lang['strdroprole']  =  'Supprimer un rôle';
     $lang['strconfdroprole']  =  'Êtes-vous sûr de vouloir supprimer le rôle « %s » ?';
     $lang['strroledropped']  =  'Rôle supprimé.';
     $lang['strroledroppedbad']  =  'Échec lors de la suppression du rôle.';
+    $lang['strnolimit']  =  'Aucune limite';
+    $lang['strnever']  =  'Jamais';
+    $lang['strroleneedsname']  =  'Vous devez donner un nom à ce rôle.';
     
     // Privileges
     $lang['strprivilege'] = 'Droit';
@@ -302,7 +317,6 @@
     $lang['strdatabase'] = 'Base de données';
     $lang['strdatabases'] = 'Bases de données';
     $lang['strshowalldatabases'] = 'Voir toutes les bases de données';
-    $lang['strnodatabase'] = 'Aucune base de données trouvée.';
     $lang['strnodatabases'] = 'Aucune base de données trouvée.';
     $lang['strcreatedatabase'] = 'Créer une base de données';
     $lang['strdatabasename'] = 'Nom de la base de données';
@@ -485,7 +499,6 @@
     $lang['strobjectfile']  =  'Fichier objet';
     $lang['strlinksymbol']  =  'Symbole lien';
     $lang['strarguments']  =  'Arguments';
-    $lang['strargname']  =  'Nom';
     $lang['strargmode']  =  'Mode';
     $lang['strargtype']  =  'Type';
     $lang['strargadd']  =  'Ajouter un autre argument';
@@ -511,8 +524,14 @@
     $lang['strtriggercreated'] = 'Trigger créé.';
     $lang['strtriggercreatedbad'] = 'Échec lors de la création du trigger.';
     $lang['strconfdroptrigger'] = 'Êtes-vous sûr de vouloir supprimer le trigger « %s » sur « %s » ?';
+    $lang['strconfenabletrigger']  =  'Êtes-vous sûr de vouloir activer le trigger « %s » sur « %s» ?';
+    $lang['strconfdisabletrigger']  =  'Êtes-vous sûr de vouloir désactiver le trigger « %s » sur « %s» ?';
     $lang['strtriggerdropped'] = 'Trigger supprimé.';
     $lang['strtriggerdroppedbad']  =  'Échec lors de la suppression du trigger.';
+    $lang['strtriggerenabled']  =  'Trigger activé.';
+    $lang['strtriggerenabledbad']  =  'Échec lors de l\'activation du trigger.';
+    $lang['strtriggerdisabled']  =  'Trigger désactivé.';
+    $lang['strtriggerdisabledbad']  =  'Échec lors de la désactivation du trigger.';
     $lang['strtriggeraltered'] = 'Trigger modifié.';
     $lang['strtriggeralteredbad'] = 'Échec lors de la modification du trigger.';
     $lang['strforeach']  =  'Pour chaque';
@@ -606,13 +625,13 @@ $lang['strflavor']  =  'Flavor';
     $lang['strleftarg'] = 'Type de l\'argument de gauche';
     $lang['strrightarg'] = 'Type de l\'argument de droite';
     $lang['strcommutator'] = 'Commutateur';
-$lang['strnegator'] = 'Negator';
-$lang['strrestrict'] = 'Restrict';
-$lang['strjoin'] = 'Join';
-$lang['strhashes'] = 'Hashes';
-$lang['strmerges'] = 'Merges';
-$lang['strleftsort'] = 'Left sort';
-$lang['strrightsort'] = 'Right sort';
+    $lang['strnegator'] = 'Négation';
+    $lang['strrestrict'] = 'Restriction';
+    $lang['strjoin'] = 'Jointure';
+    $lang['strhashes'] = 'Hachages';
+    $lang['strmerges'] = 'Assemblages';
+    $lang['strleftsort'] = 'Tri gauche';
+    $lang['strrightsort'] = 'Tri droite';
     $lang['strlessthan'] = 'Plus petit que';
     $lang['strgreaterthan'] = 'Plus grand que';
     $lang['stroperatorneedsname']  =  'Vous devez donner un nom pour votre opérateur.';
@@ -628,7 +647,7 @@ $lang['strrightsort'] = 'Right sort';
     $lang['strsourcetype'] = 'Type source';
     $lang['strtargettype'] = 'Type cible';
     $lang['strimplicit'] = 'Implicite';
-$lang['strinassignment'] = 'In assignment';
+    $lang['strinassignment'] = 'En affectation';
     $lang['strbinarycompat'] = '(binaire compatible)';
     
     // Conversions
@@ -649,9 +668,32 @@ $lang['strinassignment'] = 'In assignment';
     $lang['strchildtables'] = 'Tables enfants';
     
     // Aggregates
+    $lang['straggregate']  =  'Agrégat';
     $lang['straggregates']  =  'Agrégats';
     $lang['strnoaggregates']  =  'Aucun agrégat trouvé.';
     $lang['stralltypes']  =  '(tous les types)';
+    $lang['straggrtransfn']  =  'Fonction de transition';
+    $lang['strcreateaggregate']  =  'Créer un agrégat';
+    $lang['straggrbasetype']  =  'Type de données en entrée';
+    $lang['straggrsfunc']  =  'Fonction de transition de l\'état';
+    $lang['straggrstype']  =  'Type de données de l\'état';
+    $lang['straggrffunc']  =  'Fonction finale';
+    $lang['straggrinitcond']  =  'Condition initiale';
+    $lang['straggrsortop']  =  'Opérateur de tri';
+    $lang['strdropaggregate']  =  'Supprimer l\'agrégat';
+    $lang['strconfdropaggregate']  =  'Êtes-vous sûr de vouloir supprimer l\'agrégat « %s »?';
+    $lang['straggregatedropped']  =  'Agrégat supprimé.';
+    $lang['straggregatedroppedbad']  =  'Échec lors de la suppression de l\'agrégat.';
+    $lang['stralteraggregate']  =  'Modifier l\'agrégat';
+    $lang['straggraltered']  =  'Agrégat modifié.';
+    $lang['straggralteredbad']  =  'Échec lors de la modification de l\'agrégat.';
+    $lang['straggrneedsname']  =  'Vous devez indiquer un nom pour l\'agrégat';
+    $lang['straggrneedsbasetype']  =  'Vous devez indiquer le type de données en entrée pour l\'agrégat';
+    $lang['straggrneedssfunc']  =  'Vous devez indiquer le nom de la fonction de transition de l\'agrégat';
+    $lang['straggrneedsstype']  =  'Vous devez indiquer le type de donnée pour la valeur d\'état pour l\'agrégat';
+    $lang['straggrcreated']  =  'Agrégat créé.';
+    $lang['straggrcreatedbad']  =  'Échec lors de la création de l\'agrégat.';
+    $lang['straggrshowall']  =  'Afficher tous les agrégats';
 
     // Operator Classes
     $lang['stropclasses']  =  'Classes d\'opérateur';
@@ -718,6 +760,11 @@ $lang['strinassignment'] = 'In assignment';
     $lang['strfailover']  =  'Basculer (failover)';
     $lang['strnodefailedover']  =  'Node basculé.';
     $lang['strnodefailedoverbad']  =  'Échec lors du basculement du noeud.';
+    $lang['strstatus']  =  'Statut';	
+    $lang['strhealthy']  =  'État';
+    $lang['stroutofsync']  =  'Hors synchro';
+    $lang['strunknown']  =  'Inconnu';
+
     
     // Slony paths    
     $lang['strpaths']  =  'Chemins';
@@ -806,6 +853,9 @@ $lang['strinassignment'] = 'In assignment';
     $lang['strtimefmt']  =  'j M Y, H:i';
     $lang['strhelp']  =  'Aide';
     $lang['strhelpicon']  =  '?';
+    $lang['strhelppagebrowser']  =  'Navigateur pour l\'aide';
+    $lang['strselecthelppage']  =  'Sélectionner une page d\'aide';
+    $lang['strinvalidhelppage']  =  'Page d\'aide invalide.';
     $lang['strlogintitle']  =  'Se connecter à %s';
     $lang['strlogoutmsg']  =  'Déconnecté de %s';
     $lang['strloading']  =  'Chargement...';
@@ -814,6 +864,8 @@ $lang['strinassignment'] = 'In assignment';
 
     //Autovacuum
     $lang['strautovacuum']  =  'Autovacuum';
+    $lang['strturnedon']  =  'Activé'; 
+    $lang['strturnedoff']  =  'Désactivé'; 
     $lang['strenabled']  =  'activé';
     $lang['strvacuumbasethreshold']  =  'Limite de base pour le Vacuum';
     $lang['strvacuumscalefactor']  =  'Facteur d\'échelle pour le Vacuum';
