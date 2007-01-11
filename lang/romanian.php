@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.5 2005/10/20 02:35:05 chriskl Exp $
+	* $Id: romanian.php,v 1.6 2007/01/11 01:29:46 soranzo Exp $
 	*/
 
 	// Language and character set
@@ -40,6 +40,8 @@
 	$lang['strdefinition'] = 'Definiţie';
 	$lang['strproperties'] = 'Proprietăţi';
 	$lang['strbrowse'] = 'Vizualizare';
+	$lang['strenable'] = 'Activare';
+	$lang['strdisable'] = 'Dezactivare';
 	$lang['strdrop'] = 'Ştergere';
 	$lang['strdropped'] = 'Şters';
 	$lang['strnull'] = 'Nul';
@@ -57,6 +59,7 @@
 	$lang['stralter'] = 'Modificare';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Anulare';
+	$lang['strac'] = 'Activare Auto-completare';
 	$lang['strsave'] = 'Salvare';
 	$lang['strreset'] = 'Reiniţializare';
 	$lang['strinsert'] = 'Inserare';
@@ -97,7 +100,6 @@
 	$lang['strreindex'] = 'Re-indexare';
 	$lang['strrun'] = 'Executare';
 	$lang['stradd'] = 'Adăugare';
-	$lang['strremove'] = 'Eliminare';
 	$lang['strevent'] = 'Eveniment';
 	$lang['strwhere'] = 'În schimb';
 	$lang['strinstead'] = 'Execută în schimb';
@@ -133,10 +135,18 @@
 	$lang['strfileimported'] = 'Fişier importat';
 	$lang['strtrycred'] = 'Folosiţi aceste acreditări pentru toate serverele';
 
+	// Database sizes
+	$lang['strsize'] = 'Dimensiune';
+	$lang['strbytes'] = 'octeţi';
+	$lang['strkb'] = 'kB';
+	$lang['strmb'] = 'MB';
+	$lang['strgb'] = 'GB';
+	$lang['strtb'] = 'TB';
+
 	// Error handling
 	$lang['strnoframes'] = 'Această aplicaţie funcţionează cel mai bine într-un browser ce suportă frame-uri , dar poate fi folosită şi fără frame-uri, urmând legătura de mai jos.';
 	$lang['strnoframeslink'] = 'Fără frame-uri';
-	$lang['strbadconfig'] = 'Fişierul config.inc.php este învechit. Trebuie să-l re-generaţi folosind fişierul config.inc.php-dist.';
+	$lang['strbadconfig'] = 'Fişierul config.inc.php este învechit. Trebuie să-l re-generaţi folosind noul fişier config.inc.php-dist.';
 	$lang['strnotloaded'] = 'Instalarea de PHP nu suportă PostgreSQL. Trebuie să re-compilaţi PHP folosind opţiunea --with-pgsql la configurare.';
 	$lang['strpostgresqlversionnotsupported'] = 'Versiune de PostgreSQL ne-suportată. Actualizaţi la versiunea %s sau ulterioară.';
 	$lang['strbadschema'] = 'Schemă specificată incorectă.';
@@ -212,6 +222,9 @@
 	$lang['strconfvacuumtable'] = 'Sigur executaţi "vacuum" pe "%s"?';
 	$lang['strestimatedrowcount'] = 'Număr estimat de rânduri';
 
+	// Columns
+	$lang['strcolprop'] = 'Proprietăţi coloană';
+
 	// Users
 	$lang['struser'] = 'Utilizator';
 	$lang['strusers'] = 'Utilizatori';
@@ -242,10 +255,10 @@
 	// Groups
 	$lang['strgroup'] = 'Grup';
 	$lang['strgroups'] = 'Grupuri';
+	$lang['strshowallgroups'] = 'Afişare toate grupurile';
 	$lang['strnogroup'] = 'Grup negăsit.';
 	$lang['strnogroups'] = 'Nici un grup găsit.';
 	$lang['strcreategroup'] = 'Creare grup';
-	$lang['strshowallgroups'] = 'Afişare toate grupurile';
 	$lang['strgroupneedsname'] = 'Specificaţi un nume pentru grup.';
 	$lang['strgroupcreated'] = 'Grup creat.';
 	$lang['strgroupcreatedbad'] = 'Creare grup eşuată.';
@@ -253,6 +266,8 @@
 	$lang['strgroupdropped'] = 'Grup şters.';
 	$lang['strgroupdroppedbad'] = 'Ştergere grup eşuată.';
 	$lang['strmembers'] = 'Membri';
+	$lang['strmemberof'] = 'Membru al';
+	$lang['stradminmembers'] = 'Membri administratori';
 	$lang['straddmember'] = 'Adăugare membru';
 	$lang['strmemberadded'] = 'Membru adăugat.';
 	$lang['strmemberaddedbad'] = 'Adăugare membru eşuată.';
@@ -260,6 +275,29 @@
 	$lang['strconfdropmember'] = 'Sigur ştergeţi membrul "%s" din grupul "%s"?';
 	$lang['strmemberdropped'] = 'Membru şters.';
 	$lang['strmemberdroppedbad'] = 'Ştergere membru eşuată.';
+
+	// Roles
+	$lang['strrole'] = 'Rol';
+	$lang['strroles'] = 'Roluri';
+	$lang['strshowallroles'] = 'Afişare toate rolurile';
+	$lang['strnoroles'] = 'Nici un rol găsit';
+	$lang['strinheritsprivs'] = 'Moştenire privilegii?';
+	$lang['strcreaterole'] = 'Creare rol';
+	$lang['strcancreaterole'] = 'Creare rol posibilă?';
+	$lang['strrolecreated'] = 'Rol creat';
+	$lang['strrolecreatedbad'] = 'Creare rol eşuată';
+	$lang['stralterrole'] = 'Modificare rol';
+	$lang['strrolealtered'] = 'Rol modificat';
+	$lang['strrolealteredbad'] = 'Modificare rol eşuată';
+	$lang['strcanlogin'] = 'Autentificare posibilă?';
+	$lang['strconnlimit'] = 'Limită conectare';
+	$lang['strdroprole'] = 'Ştergere rol';
+	$lang['strconfdroprole'] = 'Sigur ştergeţi rolul "%s"?';
+	$lang['strroledropped'] = 'Rol şters';
+	$lang['strroledroppedbad'] = 'Ştergere rol eşuată';
+	$lang['strnolimit'] = 'Fără limită';
+	$lang['strnever'] = 'Niciodată';
+	$lang['strroleneedsname'] = 'Specificaţi un nume pentru rol';
 
 	// Privileges
 	$lang['strprivilege'] = 'Privilegiu';
@@ -277,7 +315,6 @@
 	$lang['strdatabase'] = 'Bază de date';
 	$lang['strdatabases'] = 'Baze de date';
 	$lang['strshowalldatabases'] = 'Afişare toate bazele de date';
-	$lang['strnodatabase'] = 'Nici o bază de date găsită.';
 	$lang['strnodatabases'] = 'Nici o bază de date găsită.';
 	$lang['strcreatedatabase'] = 'Creare bază de date';
 	$lang['strdatabasename'] = 'Nume bază de date';
@@ -350,6 +387,15 @@
 	$lang['strsequencedroppedbad'] = 'Ştergere secvenţă eşuată.';
 	$lang['strsequencereset'] = 'Reiniţializare secvenţă.';
 	$lang['strsequenceresetbad'] = 'Reiniţializare secvenţă eşuată.';
+	$lang['straltersequence'] = 'Modificare secvenţă';
+	$lang['strsequencealtered'] = 'Secvenţă modificată';
+	$lang['strsequencealteredbad'] = 'Modificare secvenţă eşuată';
+	$lang['strsetval'] = 'Setare valoare';
+	$lang['strsequencesetval'] = 'Valoare secvenţă setată';
+	$lang['strsequencesetvalbad'] = 'Setare valoare secvenţă eşuată';
+	$lang['strnextval'] = 'Valoare increment';
+	$lang['strsequencenextval'] = 'Secvenţă incrementată';
+	$lang['strsequencenextvalbad'] = 'Incremetare secvenţă eşuată';
 
 	// Indexes
 	$lang['strindex'] = 'Index';
@@ -437,7 +483,6 @@
 	$lang['strcreatecfunction'] = 'Creare funcţie C';
 	$lang['strfunctionname'] = 'Nume funcţie';
 	$lang['strreturns'] = 'Întoarce';
-	$lang['strarguments'] = 'Argumente';
 	$lang['strproglanguage'] = 'Limbaj de programare';
 	$lang['strfunctionneedsname'] = 'Specificaţi un nume pentru funcţie.';
 	$lang['strfunctionneedsdef'] = 'Specificaţi o definiţie pentru functie.';
@@ -450,6 +495,18 @@
 	$lang['strfunctionupdatedbad'] = 'Actualizare funcţie eşuată.';
 	$lang['strobjectfile'] = 'Fişier obiect';
 	$lang['strlinksymbol'] = 'Simbol de legătură';
+	$lang['strarguments'] = 'Argumente';
+	$lang['strargmode'] = 'Mod';
+	$lang['strargtype'] = 'Tip';
+	$lang['strargadd'] = 'Adăugare alt argument';
+	$lang['strargremove'] = 'Eliminare argument';
+	$lang['strargnoargs'] = 'Această funcţie nu acceptă nici un argument';
+	$lang['strargenableargs'] = 'Activare argumente pasate acestei funcţii';
+	$lang['strargnorowabove'] = 'Trebuie să existe un rând deasupra acestui rând';
+	$lang['strargnorowbelow'] = 'Trebuie să existe un rând dedesubtul acestui rând';
+	$lang['strargraise'] = 'Mutare în sus';
+	$lang['strarglower'] = 'Mutare în jos';
+	$lang['strargremoveconfirm'] = 'Sigur eliminaţi acest argument? Această acţiune NU poate fi revocată.';
 
 	// Triggers
 	$lang['strtrigger'] = 'Declanşator';
@@ -463,8 +520,14 @@
 	$lang['strtriggercreated'] = 'Declanşator creat.';
 	$lang['strtriggercreatedbad'] = 'Creare declanşator eşuată.';
 	$lang['strconfdroptrigger'] = 'Sigur ştergeţi declanşatorul "%s" de pe "%s"?';
+	$lang['strconfenabletrigger'] = 'Sigur activaţi declanşatorul "%s" pentru "%s"?';
+	$lang['strconfdisabletrigger'] = 'Sigur dezactivaţi declanşatorul "%s" pentru "%s"?';
 	$lang['strtriggerdropped'] = 'Declanşator şters.';
 	$lang['strtriggerdroppedbad'] = 'Ştergere declanşator eşuată.';
+	$lang['strtriggerenabled'] = 'Declanşator activat';
+	$lang['strtriggerenabledbad'] = 'Activare declanşator eşuată';
+	$lang['strtriggerdisabled'] = 'Declanşator dezactivat';
+	$lang['strtriggerdisabledbad'] = 'Dezactivare declanşator eşuată';
 	$lang['strtriggeraltered'] = 'Declanşator modificat.';
 	$lang['strtriggeralteredbad'] = 'Modificare declanşator eşuată.';
 	$lang['strforeach'] = 'Pentru fiecare';
@@ -601,9 +664,32 @@
 	$lang['strchildtables'] = 'Tabele copii';
 
 	// Aggregates
+	$lang['straggregate'] = 'Agregare';
 	$lang['straggregates'] = 'Agregări';
 	$lang['strnoaggregates'] = 'Nici o agregare găsită.';
 	$lang['stralltypes'] = '(Toate tipurile)';
+	$lang['straggrtransfn'] = 'Funcţie de tranziţie';
+	$lang['strcreateaggregate'] = 'Creare agregare';
+	$lang['straggrbasetype'] = 'Tip dată de intrare';
+	$lang['straggrsfunc'] = 'Funcţie tranziţie de stare';
+	$lang['straggrstype'] = 'Tip dată de stare';
+	$lang['straggrffunc'] = 'Funcţie finală';
+	$lang['straggrinitcond'] = 'Condiţie iniţială';
+	$lang['straggrsortop'] = 'Operator sortare';
+	$lang['strdropaggregate'] = 'Ştergere agregare';
+	$lang['strconfdropaggregate'] = 'Sigur ştergeţi agregarea "%s"?';
+	$lang['straggregatedropped'] = 'Agregare ştearsă.';
+	$lang['straggregatedroppedbad'] = 'Ştergere agregare eşuată.';
+	$lang['stralteraggregate'] = 'Modificare agregare';
+	$lang['straggraltered'] = 'Agregare modificată.';
+	$lang['straggralteredbad'] = 'Modificare agregare eşuată.';
+	$lang['straggrneedsname'] = 'Specificaţi un nume pentru agregare';
+	$lang['straggrneedsbasetype'] = 'Specificaţi tipul de dată de intrare pentru agregare';
+	$lang['straggrneedssfunc'] = 'Specificaţi numele funcţiei tranziţiei de stare pentru agregare';
+	$lang['straggrneedsstype'] = 'Specificaţi tipul datei pentru valoarea stării agregării';
+	$lang['straggrcreated'] = 'Agregare creată.';
+	$lang['straggrcreatedbad'] = 'Creare agregare eşuată.';
+	$lang['straggrshowall'] = 'Afişare toate agregările';
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Clase de operatori';
@@ -670,6 +756,10 @@
 	$lang['strfailover'] = 'Failover';
 	$lang['strnodefailedover'] = 'Node failed over.';
 	$lang['strnodefailedoverbad'] = 'Node failover failed.';
+	$lang['strstatus'] = 'Stare';
+	$lang['strhealthy'] = 'Intact';
+	$lang['stroutofsync'] = 'Desincronizat';
+	$lang['strunknown'] = 'Necunoscut';
 
 	// Slony paths
 	$lang['strpaths'] = 'Căi';
@@ -758,11 +848,38 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';
+	$lang['strhelppagebrowser'] = 'Pagini de ajutor';
+	$lang['strselecthelppage'] = 'Selectaţi o pagină de ajutor';
+	$lang['strinvalidhelppage'] = 'Pagină de ajutor incorectă.';
 	$lang['strlogintitle'] = 'Autentificare la %s';
 	$lang['strlogoutmsg'] = 'Ieşire din %s';
 	$lang['strloading'] = 'Încărcare...';
 	$lang['strerrorloading'] = 'Eroare la încărcare';
 	$lang['strclicktoreload'] = 'Faceţi clic pentru reîncărcare';
+
+	// Autovacuum
+	$lang['strautovacuum'] = 'Autovacuum';
+	$lang['strturnedon'] = 'Pornit';
+	$lang['strturnedoff'] = 'Oprit';
+	$lang['strenabled'] = 'Activat';
+	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold';
+	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';
+	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';
+	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor';
+	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay';
+	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';
+
+	// Table-level Locks
+	$lang['strlocks'] = 'Blocări';
+	$lang['strtransaction'] = 'ID tranzacţie';
+	$lang['strprocessid'] = 'ID proces';
+	$lang['strmode'] = 'Mod blocare';
+	$lang['strislockheld'] = 'Blocaj reţinut?';
+
+	// Prepared transactions
+	$lang['strpreparedxacts'] = 'Tranzacţii preparate';
+	$lang['strxactid'] = 'ID tranzacţie';
+	$lang['strgid'] = 'ID global';
 
 
 
