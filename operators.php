@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.22 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: operators.php,v 1.23 2007/01/15 15:48:17 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -25,36 +25,36 @@
 		$misc->printMsg($msg);
 		
 		$oprdata = $data->getOperator($_REQUEST['operator_oid']);
-		$oprdata->f['oprcanhash'] = $data->phpBool($oprdata->f['oprcanhash']);
+		$oprdata->fields['oprcanhash'] = $data->phpBool($oprdata->fields['oprcanhash']);
 
 		if ($oprdata->recordCount() > 0) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprname']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strleftarg']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprleftname']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprleftname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strrightarg']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprrightname']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrightname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strcommutator']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprcom']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprcom']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strnegator']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprnegate']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprnegate']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strjoin']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprjoin']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprjoin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strhashes']}</th>\n";
-			echo "<td class=\"data1\">", ($oprdata->f['oprcanhash']) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($oprdata->fields['oprcanhash']) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strmerges']}</th>\n";
-			echo "<td class=\"data1\">", ($oprdata->f['oprlsortop'] !== '0' && $oprdata->f['oprrsortop'] !== '0') ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			echo "<td class=\"data1\">", ($oprdata->fields['oprlsortop'] !== '0' && $oprdata->fields['oprrsortop'] !== '0') ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strrestrict']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprrest']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrest']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strleftsort']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprlsortop']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprlsortop']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strrightsort']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprrsortop']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrsortop']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strlessthan']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprltcmpop']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprltcmpop']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strgreaterthan']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprgtcmpop']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprgtcmpop']), "</td></tr>\n";
 			echo "</table>\n";
 
 			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";

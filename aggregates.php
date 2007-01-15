@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.16 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: aggregates.php,v 1.17 2007/01/15 15:48:17 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -150,19 +150,19 @@
 
 			// Display aggregate's name, owner and schema
 			echo "\t<tr>\n\t\t<td><input name=\"newaggrname\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($_REQUEST['aggrname']), "\" /></td>";
-			echo "<td><input name=\"newaggrowner\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($aggrdata->f['usename']), "\" /></td>";
+			echo "<td><input name=\"newaggrowner\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($aggrdata->fields['usename']), "\" /></td>";
 			echo "<td><input name=\"newaggrschema\" size=\"32\" maxlength=\"32\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td><textarea name=\"newaggrcomment\" rows=\"3\" cols=\"32\">", 
-				htmlspecialchars($aggrdata->f['aggrcomment']), "</textarea></td>\n\t</tr>\n";
+				htmlspecialchars($aggrdata->fields['aggrcomment']), "</textarea></td>\n\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_alter\" />\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"aggrname\" value=\"", htmlspecialchars($_REQUEST['aggrname']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"aggrtype\" value=\"", htmlspecialchars($_REQUEST['aggrtype']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"aggrowner\" value=\"", htmlspecialchars($aggrdata->f['usename']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"aggrowner\" value=\"", htmlspecialchars($aggrdata->fields['usename']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"aggrschema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"aggrcomment\" value=\"", htmlspecialchars($aggrdata->f['aggrcomment']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"aggrcomment\" value=\"", htmlspecialchars($aggrdata->fields['aggrcomment']), "\" />\n";
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		} else {
@@ -232,19 +232,19 @@
 			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrbasetype']}</td>\n";
 			echo "\t<td class=\"data2\">", htmlspecialchars($_REQUEST['aggrtype']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrsfunc']}</td>\n";
-			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->f['aggtransfn']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggtransfn']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrstype']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->f['aggstype']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['aggstype']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrffunc']}</td>\n";
-			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->f['aggfinalfn']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggfinalfn']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrinitcond']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->f['agginitval']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['agginitval']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrsortop']}</td>\n";
-			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->f['aggsortop']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggsortop']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data2\">{$lang['strowner']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->f['usename']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['usename']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">{$lang['strcomment']}</td>\n";
-			echo "\t<td class=\"data1\">", $misc->printVal($aggrdata->f['aggrcomment']), "</td>\n</tr>\n";
+			echo "\t<td class=\"data1\">", $misc->printVal($aggrdata->fields['aggrcomment']), "</td>\n</tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.11 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: tablespaces.php,v 1.12 2007/01/15 15:48:17 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -31,10 +31,10 @@
 		
 		if ($tablespace->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $tablespace->f['spcname'];
-			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->f['spcowner'];
+			if (!isset($_POST['name'])) $_POST['name'] = $tablespace->fields['spcname'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->fields['spcowner'];
 			if (!isset($_POST['comment'])) {
-				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->f['spccomment'] : '';
+				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->fields['spccomment'] : '';
 			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -47,7 +47,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"owner\">";
 			while (!$users->EOF) {
-				$uname = $users->f['usename'];
+				$uname = $users->fields['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
 					($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
@@ -152,7 +152,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\"><select name=\"formOwner\">\n";
 		while (!$users->EOF) {
-			$uname = $users->f['usename'];
+			$uname = $users->fields['usename'];
 			echo "\t\t\t<option value=\"", htmlspecialchars($uname), "\"",
 				($uname == $_POST['formOwner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 			$users->moveNext();

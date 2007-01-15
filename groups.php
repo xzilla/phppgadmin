@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.21 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: groups.php,v 1.22 2007/01/15 15:48:17 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -80,9 +80,9 @@
            	$i = 0;
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-            	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->f['usename']), "</td>\n";
+            	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->fields['usename']), "</td>\n";
 					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop_member&{$misc->href}&group=",
-						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->f['usename']), "\">{$lang['strdrop']}</a></td>\n";
+						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->fields['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";
             	$groupdata->moveNext();
            	}
@@ -94,7 +94,7 @@
 		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<select name=\"user\">";
 		while (!$users->EOF) {
-			$uname = $misc->printVal($users->f['usename']);
+			$uname = $misc->printVal($users->fields['usename']);
 			echo "<option value=\"{$uname}\"",
 				($uname == $_POST['user']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
@@ -167,7 +167,7 @@
 			echo "\t\t<td class=\"data\">\n";
 			echo "\t\t\t<select name=\"members[]\" multiple=\"multiple\" size=\"", min(40, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$username = $users->f['usename'];
+				$username = $users->fields['usename'];
 				echo "\t\t\t\t<option value=\"{$username}\"",
 						(in_array($username, $_POST['members']) ? ' selected="selected"' : ''), ">", $misc->printVal($username), "</option>\n";
 				$users->moveNext();
