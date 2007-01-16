@@ -1,7 +1,7 @@
 <?php
 
 /**
-  V4.65 22 July 2005  (c) 2000-2005 John Lim (jlim@natsoft.com.my). All rights reserved.
+  V4.93 10 Oct 2006  (c) 2000-2006 John Lim (jlim#natsoft.com.my). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence.
@@ -61,6 +61,7 @@ function Lens_ParseArgs($args,$endstmtchar=',',$tokenchars='_.-')
 	$tokens[$stmtno] = array();
 	$max = strlen($args);
 	$quoted = false;
+	$tokarr = array();
 	
 	while ($pos < $max) {
 		$ch = substr($args,$pos,1);
@@ -737,9 +738,14 @@ class ADODB_DataDict {
 			$holdflds = array();
 			foreach($flds as $k=>$v) {
 				if ( isset($cols[$k]) && is_object($cols[$k]) ) {
+					// If already not allowing nulls, then don't change
+					$obj = $cols[$k];
+					if (isset($obj->not_null) && $obj->not_null)
+						$v = str_replace('NOT NULL','',$v);
+
 					$c = $cols[$k];
 					$ml = $c->max_length;
-					$mt = &$this->MetaType($c->type,$ml);
+					$mt = $this->MetaType($c->type,$ml);
 					if ($ml == -1) $ml = '';
 					if ($mt == 'X') $ml = $v['SIZE'];
 					if (($mt != $v['TYPE']) ||  $ml != $v['SIZE']) {
