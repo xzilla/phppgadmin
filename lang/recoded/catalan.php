@@ -4,7 +4,7 @@
 	 * Catalan language file for phpPgAdmin.
 	 * mantainer: Bernat Pegueroles &lt;bpf@pegueroles.com&gt;
 	 *
-	 * $Id: catalan.php,v 1.1 2006/12/30 02:29:50 xzilla Exp $
+	 * $Id: catalan.php,v 1.2 2007/01/19 03:44:02 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -41,6 +41,8 @@
 	$lang['strdefinition'] = 'Definici&#243;';
 	$lang['strproperties'] = 'Propietats';
 	$lang['strbrowse'] = 'Navegar';
+	$lang['strenable'] = 'Habilitar';
+	$lang['strdisable'] = 'Inhabilitar';
 	$lang['strdrop'] = 'Eliminar';
 	$lang['strdropped'] = 'Eliminat';
 	$lang['strnull'] = 'Nul';
@@ -58,6 +60,7 @@
 	$lang['stralter'] = 'Modificar';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancel&#183;lar';
+	$lang['strac'] = 'Habilitar AutoCompletat';
 	$lang['strsave'] = 'Salvar';
 	$lang['strreset'] = 'Restablir';
 	$lang['strinsert'] = 'Insertar';
@@ -135,6 +138,14 @@
 	$lang['strfileimported'] = 'Fitxer importat.';
 	$lang['strtrycred'] = 'Usa aquestes credencials a tots els servidors';
 
+	// Database Sizes
+	$lang['strsize'] = 'Tamany';
+	$lang['strbytes'] = 'bytes';
+	$lang['strkb'] = 'kB';
+	$lang['strmb'] = 'MB';
+	$lang['strgb'] = 'GB';
+	$lang['strtb'] = 'TB';
+
 	// Error handling
 	$lang['strnoframes'] = 'Aquesta aplicaci&#243; treballa millor en un navegador amb suport per frames, per&#242; es pot usar sense seguint el link de sota.';
 	$lang['strnoframeslink'] = 'Usar sense frames';
@@ -171,7 +182,7 @@
 	$lang['strtableneedscols'] = 'Has d\'especificar un n&#250;mero v&#224;lid de columnes.';
 	$lang['strtablecreated'] = 'Taula creada.';
 	$lang['strtablecreatedbad'] = 'Crear taula ha fallat.';
-	$lang['strconfdroptable'] = 'Est&#224; segur de voler elimnar la taula &quot;%s&quot;?';
+	$lang['strconfdroptable'] = 'Est&#224; segur de voler eliminar la taula &quot;%s&quot;?';
 	$lang['strtabledropped'] = 'Taula eliminada.';
 	$lang['strtabledroppedbad'] = 'Eliminar taula ha fallat.';
 	$lang['strconfemptytable'] = 'Est&#224; segur que vol buidar la taula &quot;%s&quot;?';
@@ -214,6 +225,9 @@
 	$lang['strconfvacuumtable'] = 'Est&#224;s segur de voler un vacuum &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'N&#250;mero estimat de files';
 
+	// Columns
+	$lang['strcolprop'] = 'Propietats de la Columna';
+		
 	// Users
 	$lang['struser'] = 'Usuari';
 	$lang['strusers'] = 'Usuaris';
@@ -255,6 +269,8 @@
 	$lang['strgroupdropped'] = 'Grup eliminat.';
 	$lang['strgroupdroppedbad'] = 'Eliminar grup ha fallat.';
 	$lang['strmembers'] = 'Membres';
+	$lang['strmemberof'] = 'Membre de';
+	$lang['stradminmembers'] = 'Membres administradors';
 	$lang['straddmember'] = 'Afegeix un membre';
 	$lang['strmemberadded'] = 'Membre afegit.';
 	$lang['strmemberaddedbad'] = 'Afegir membre ha fallat.';
@@ -262,6 +278,32 @@
 	$lang['strconfdropmember'] = 'Est&#224;s segur de voler eliminar el membre &quot;%s&quot; del grup &quot;%s&quot;?';
 	$lang['strmemberdropped'] = 'Membre eliminat.';
 	$lang['strmemberdroppedbad'] = 'Eliminar membre ha fallat.';
+	
+	// Roles
+	$lang['strrole'] = 'Rol';
+	$lang['strroles'] = 'Rols';
+	$lang['strrolename'] = 'Nom del rol';
+	$lang['strshowallroles'] = 'Mostra tots els rols';
+	$lang['strinheritsprivs'] = 'Hereda privilegis?';
+	$lang['strcreaterole'] = 'Crear rol';
+	$lang['strcancreaterole'] = 'Crear rol?';
+	$lang['strrolecreated'] = 'Rol creat.';
+	$lang['strrolecreatedbad'] = 'Crear rol ha fallat.';
+	$lang['stralterrole'] = 'Modificar rol';
+	$lang['strroleupdated'] = 'Rol actualitzat.';
+	$lang['strroleupdatedbad'] = 'Actualitzar rol ha fallat.';
+	$lang['strcatupdate'] = 'Modificar catal&#224;gs?';
+	$lang['strcanlogin'] = 'Pot entrar?';
+	$lang['strconnlimit'] = 'L&#237;mit de la connexi&#243;';
+	$lang['strdroprole'] = 'Eliminar rol';
+	$lang['strmaxconnections'] = 'M&#224;ximes connexions';
+	$lang['strconfdroprole'] = 'Est&#224; segur de voler eliminar el rol \'%s\'?';
+	$lang['strroledropped'] = 'Rol eliminat.';
+	$lang['strroledroppedbad'] = 'Eliminar rol ha fallat.';
+	$lang['strnoroles'] = 'No s\'han trobat rols.';
+	$lang['strnolimit'] = 'Sense l&#237;mit';
+	$lang['strnever'] = 'Mai';
+	$lang['strroleneedsname'] = 'Has de donar un nom al rol.';
 
 	// Privileges
 	$lang['strprivilege'] = 'Privilegi';
@@ -352,6 +394,15 @@
 	$lang['strsequencedroppedbad'] = 'Eliminar seq&#252;&#232;ncia ha fallat.';
 	$lang['strsequencereset'] = 'Seq&#252;&#232;ncia reiniciada.';
 	$lang['strsequenceresetbad'] = 'Reiniciar seq&#252;&#232;ncia ha fallat.'; 
+ 	$lang['straltersequence'] = 'Modificar seq&#252;&#232;ncia';
+ 	$lang['strsequencealtered'] = 'Seq&#252;&#232;ncia modificada.';
+ 	$lang['strsequencealteredbad'] = 'Modificar seq&#252;&#232;ncia ha fallat.';
+ 	$lang['strsetval'] = 'Fixar valor';
+ 	$lang['strsequencesetval'] = 'Valor de la seq&#252;&#232;ncia fixat.';
+ 	$lang['strsequencesetvalbad'] = 'Fixar el valor de la seq&#252;encia ha fallat.';
+ 	$lang['strnextval'] = 'Valor incremental';
+ 	$lang['strsequencenextval'] = 'Seq&#252;&#232;ncia incrementada.';
+ 	$lang['strsequencenextvalbad'] = 'Incrementar la seq&#252;&#232;ncia ha fallat.';
 
 	// Indexes
 	$lang['strindex'] = '&#205;ndex';
@@ -439,7 +490,6 @@
 	$lang['strcreatecfunction'] = 'Crear funci&#243; C';
 	$lang['strfunctionname'] = 'Nom de la funci&#243;';
 	$lang['strreturns'] = 'Retorna';
-	$lang['strarguments'] = 'Arguments';
 	$lang['strproglanguage'] = 'Llenguatge de programaci&#243;';
 	$lang['strfunctionneedsname'] = 'Has de donar un nom a la funci&#243;.';
 	$lang['strfunctionneedsdef'] = 'Has de donar una definici&#243; a la funci&#243;.';
@@ -452,6 +502,19 @@
 	$lang['strfunctionupdatedbad'] = 'Actualitzar funci&#243; ha fallat.';
 	$lang['strobjectfile'] = 'Fitxer de l\'objecte';
 	$lang['strlinksymbol'] = 'Enlla&#231; simb&#242;lic';
+	$lang['strarguments'] = 'Arguments';
+	$lang['strargname'] = 'Nom';
+	$lang['strargmode'] = 'Mode';
+	$lang['strargtype'] = 'Tipus';
+	$lang['strargadd'] = 'Afegeix un altre argument';
+	$lang['strargremove'] = 'Elimina aquest argument';
+	$lang['strargnoargs'] = 'Aquesta funci&#243; no requereix arguments.';
+	$lang['strargenableargs'] = 'Habilita els arguments passats a aquesta funci&#243;.';
+	$lang['strargnorowabove'] = 'Necessita ser una fila sobre aquesta fila.';
+	$lang['strargnorowbelow'] = 'Necessita ser una fila sota aquesta fila.';
+	$lang['strargraise'] = 'Pujar.';
+	$lang['strarglower'] = 'Baixar.';
+	$lang['strargremoveconfirm'] = 'Est&#224; segur de voler eliminar aquest argument? Aix&#242; NO es pot desfer.';
 
 	// Triggers
 	$lang['strtrigger'] = 'Disparador';
@@ -465,8 +528,14 @@
 	$lang['strtriggercreated'] = 'Disparador creat.';
 	$lang['strtriggercreatedbad'] = 'Crear disparador ha fallat.';
 	$lang['strconfdroptrigger'] = 'Est&#224;s segur de voler eliminar el disparador &quot;%s&quot; de &quot;%s&quot;?';
+	$lang['strconfenabletrigger'] = 'Est&#224; segur de voler habilitar el disparador &quot;%s&quot; a &quot;%s&quot;?';
+	$lang['strconfdisabletrigger'] = 'Est&#224; segur de voler inhabilitar el disparador &quot;%s&quot; a &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Disparador eliminat.';
 	$lang['strtriggerdroppedbad'] = 'Eliminar disparador ha fallat.';
+	$lang['strtriggerenabled'] = 'Disparador habilitat.';
+	$lang['strtriggerenabledbad'] = 'Habilitar disparador ha fallat.';
+	$lang['strtriggerdisabled'] = 'Disparador inhabilitat.';
+	$lang['strtriggerdisabledbad'] = 'Inhabilitar disparador ha fallat.';
 	$lang['strtriggeraltered'] = 'Disparador modificat.';
 	$lang['strtriggeralteredbad'] = 'Modificar disparador ha fallat.';
 	$lang['strforeach'] = 'Per cada';
@@ -563,7 +632,7 @@
 	$lang['strnegator'] = 'Negaci&#243;';
 	$lang['strrestrict'] = 'Restringir';
 	$lang['strjoin'] = 'Uni&#243;';
-	$lang['strhashes'] = 'Hashes';
+	$lang['strhashes'] = 'Hash';
 	$lang['strmerges'] = 'Fussina';
 	$lang['strleftsort'] = 'Sort esquerre';
 	$lang['strrightsort'] = 'Sort dret';
@@ -603,9 +672,32 @@
 	$lang['strchildtables'] = 'Taules fill';
 	
 	// Aggregates
+	$lang['straggregate'] = 'Agregat';
 	$lang['straggregates'] = 'Agregats';
 	$lang['strnoaggregates'] = 'No s\'han trobat agregats';
 	$lang['stralltypes'] = '(Tots els tipus)';
+	$lang['straggrtransfn'] = 'Funci&#243; de la transici&#243;';
+	$lang['strcreateaggregate'] = 'Crear agregat';
+	$lang['straggrbasetype'] = 'Tipus de dades d\'entrada';
+	$lang['straggrsfunc'] = 'Funci&#243; de la transici&#243; de l\'estat';
+	$lang['straggrstype'] = 'Tipus de dades de l\'estat';
+	$lang['straggrffunc'] = 'Funci&#243; final';
+	$lang['straggrinitcond'] = 'Condici&#243; inicial';
+	$lang['straggrsortop'] = 'Operador ordre';
+	$lang['strdropaggregate'] = 'Eliminar agregat';
+	$lang['strconfdropaggregate'] = 'Est&#224; segur de voler elimnar l\'agregat \'%s\'?';
+	$lang['straggregatedropped'] = 'Agregat eliminat.';
+	$lang['straggregatedroppedbad'] = 'Eliminar agregat ha fallat.';
+	$lang['stralteraggregate'] = 'Modificar agregat';
+	$lang['straggraltered'] = 'Agregat modificat.';
+	$lang['straggralteredbad'] = 'Modificat agregat ha fallat.';
+	$lang['straggrneedsname'] = 'Has d\'especificar un nom per l\'agregat';
+	$lang['straggrneedsbasetype'] = 'Has d\'especificar el tipus de dades d\'entrada per l\'agregat';
+	$lang['straggrneedssfunc'] = 'Has d\'especificar el nom de la funci&#243; de transici&#243; de l\'estat per l\'agregat';
+	$lang['straggrneedsstype'] = 'Has d\'especificar el tipus de dades pel valor de l\'estat de l\'agregat';
+	$lang['straggrcreated'] = 'Agregat creat.';
+	$lang['straggrcreatedbad'] = 'Crear agregat ha fallat.';
+	$lang['straggrshowall'] = 'Mostrar tots els agregats';
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Classes d\'operadors';
@@ -672,6 +764,10 @@
 	$lang['strfailover'] = 'Failover';
 	$lang['strnodefailedover'] = 'Node failed over.';
 	$lang['strnodefailedoverbad'] = 'Node failover failed.';
+	$lang['strstatus'] = 'Status';	
+	$lang['strhealthy'] = 'Healthy';
+	$lang['stroutofsync'] = 'Out of Sync';
+	$lang['strunknown'] = 'Unknown';	
 	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';
@@ -766,4 +862,27 @@
 	$lang['strerrorloading'] = 'Error Carregant';
 	$lang['strclicktoreload'] = 'Clicar per recarregar';
 
+	//Autovacuum
+	$lang['strautovacuum'] = 'Autovacuum'; 
+	$lang['strturnedon'] = 'Turned On'; 
+	$lang['strturnedoff'] = 'Turned Off'; 
+	$lang['strenabled'] = 'Enabled'; 
+	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold'; 
+	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';  
+	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';  
+	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor'; 
+	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay'; 
+	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';  
+
+        //Table-level Locks
+	$lang['strlocks'] = 'Locks';
+	$lang['strtransaction'] = 'Transaction ID';
+	$lang['strprocessid'] = 'Process ID';
+	$lang['strmode'] = 'Lock mode';
+	$lang['strislockheld'] = 'Is lock held?';
+
+	// Prepared transactions
+	$lang['strpreparedxacts'] = 'Prepared transactions';
+	$lang['strxactid'] = 'Transaction ID';
+	$lang['strgid'] = 'Global ID';
 ?>
