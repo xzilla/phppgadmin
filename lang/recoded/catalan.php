@@ -4,7 +4,7 @@
 	 * Catalan language file for phpPgAdmin.
 	 * mantainer: Bernat Pegueroles &lt;bpf@pegueroles.com&gt;
 	 *
-	 * $Id: catalan.php,v 1.2 2007/01/19 03:44:02 xzilla Exp $
+	 * $Id: catalan.php,v 1.1.2.1 2007/01/19 03:44:29 xzilla Exp $
 	 */
 
 	// Language and character set
