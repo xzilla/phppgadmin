@@ -188,6 +188,7 @@ Miscellaneous
   but we still need icons for:
     Introduction, Variables, Admin, Privileges, Reports
 * Add CASCADE option to Truncate [8.2]
+* Add information about synch tool to TRANSLATORS
 
 Exotic
 ------
