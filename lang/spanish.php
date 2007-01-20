@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.35 2006/08/03 19:03:33 xzilla Exp $
+	 * $Id: spanish.php,v 1.36 2007/01/20 18:10:49 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -41,6 +41,8 @@
 	$lang['strdefinition'] = 'Definición';
 	$lang['strproperties'] = 'Propiedades';
 	$lang['strbrowse'] = 'Examinar';
+	$lang['strenable']  =  'Activar';
+	$lang['strdisable']  =  'Desactivar';
 	$lang['strdrop'] = 'Eliminar';
 	$lang['strdropped'] = 'Eliminado';
 	$lang['strnull'] = 'Nulo';
@@ -58,6 +60,7 @@
 	$lang['stralter'] = 'Modificar';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancelar';
+$lang['strac']  =  'Enable AutoComplete';
 	$lang['strsave'] = 'Guardar';
 	$lang['strreset'] = 'Reestablecer';
 	$lang['strinsert'] = 'Insertar';
@@ -87,7 +90,7 @@
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
     $lang['strallowednulls']  =  'Valores Nulos (NULL) Permitidos';
-$lang['strbackslashn']  =  '\N';
+	$lang['strbackslashn']  =  '\N';
     $lang['strnull']  =  'Nulo';
     $lang['stremptystring']  =  'Cadena o campo vacio';
 	$lang['strsql'] = 'SQL';
@@ -266,6 +269,8 @@ $lang['strbackslashn']  =  '\N';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
     $lang['strgroupdroppedbad'] = 'Falló la eliminación del grupo.';
     $lang['strmembers'] = 'Miembros';
+	$lang['strmemberof']  =  'Miembro de';
+	$lang['stradminmembers']  =  'Miembros Admin ';
 	$lang['straddmember'] = 'Agregar un miembro';
 	$lang['strmemberadded'] = 'Miembro agregado.';
 	$lang['strmemberaddedbad'] = 'Falló al intentar agregar nuevo miembro.';
@@ -277,14 +282,28 @@ $lang['strbackslashn']  =  '\N';
 	// Roles
 	$lang['strrole']  =  'Rol';
 	$lang['strroles']  =  'Roles';
+	$lang['strrolename']  =  'Nombre del Rol';
+	$lang['strshowallroles'] = 'Mostrar todas los rols';
     $lang['strinheritsprivs']  =  'Hereda Privilegios?';
 	$lang['strcreaterole']  =  'Crear Rol';
+	$lang['strcancreaterole']  =  'Puede crear rols?';
+	$lang['strrolecreated']  =  'Rol creado.';
+	$lang['strrolecreatedbad']  =  'Falló al crear rol.';
+	$lang['stralterrole']  =  'Alterar role';
+$lang['strroleupdated']  =  'Role updated.';
+$lang['strroleupdatedbad']  =  'Role update failed.';
 $lang['strcatupdate']  =  'Modify Catalogs?';
     $lang['strcanlogin']  =  'Puede loggearse?';
+$lang['strconnlimit']  =  'Connection limit';
+$lang['strdroprole']  =  'Drop role';
     $lang['strmaxconnections']  =  'Máximo de conexiones';
 	$lang['strconfdroprole']  =  '¿Está seguro de que desea eliminar el rol "%s"?';
     $lang['strroledropped']  =  'Usuario eliminado.';
 	$lang['strroledroppedbad']  =  'No puedo eliminar rol.';
+	$lang['strnoroles']  =  'No se encontraron los rols.';
+	$lang['strnolimit']  =  'Sin límite';
+	$lang['strnever']  =  'Nunca';
+$lang['strroleneedsname']  =  'You must give a name for the role.';
 	
 	// Privileges
 	$lang['strprivilege'] = 'Privilegio';
@@ -364,7 +383,7 @@ $lang['strcatupdate']  =  'Modify Catalogs?';
 	$lang['strmaxvalue'] = 'Valor Máximo';
 	$lang['strminvalue'] = 'Valor Mínimo';
 	$lang['strcachevalue'] = 'Valor de Cache';
-	$lang['strlogcount'] = 'Log Count';
+$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = '¿Rotar?';
 	$lang['striscalled'] = '¿Nombre?';
 	$lang['strsequenceneedsname'] = 'Debe darle un nombre a la secuencia.';
@@ -375,15 +394,15 @@ $lang['strcatupdate']  =  'Modify Catalogs?';
 	$lang['strsequencedroppedbad'] = 'Falló la eliminación de la secuencia.';
 	$lang['strsequencereset'] = 'Secuencia reiniciada.';
 	$lang['strsequenceresetbad'] = 'Falló al intentar reiniciar la secuencia.'; 
- 	$lang['straltersequence']  =  'Alter sequence';
- 	$lang['strsequencealtered']  =  'Sequence altered.';
- 	$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
- 	$lang['strsetval']  =  'Set Value';
- 	$lang['strsequencesetval']  =  'Sequence value set.';
- 	$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
- 	$lang['strnextval']  =  'Increment Value';
- 	$lang['strsequencenextval']  =  'Sequence incremented.';
- 	$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
+$lang['straltersequence']  =  'Alter sequence';
+$lang['strsequencealtered']  =  'Sequence altered.';
+$lang['strsequencealteredbad']  =  'Sequence alteration failed.';
+	$lang['strsetval']  =  'Fijar el valor';
+$lang['strsequencesetval']  =  'Sequence value set.';
+$lang['strsequencesetvalbad']  =  'Sequence value set failed.';
+$lang['strnextval']  =  'Increment Value';
+$lang['strsequencenextval']  =  'Sequence incremented.';
+$lang['strsequencenextvalbad']  =  'Sequence increment failed.';
 
 	// Indexes
 	$lang['strindex'] = 'Índice';
@@ -510,8 +529,14 @@ $lang['strargnorowbelow']  =  'There needs to be a row below this row.';
 	$lang['strtriggercreated'] = 'Disparador creado.';
 	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
 	$lang['strconfdroptrigger'] = '¿Está seguro que quiere eliminar el disparador "%s" en "%s"?';
+$lang['strconfenabletrigger']  =  'Are you sure you want to enable the trigger "%s" on "%s"?';
+$lang['strconfdisabletrigger']  =  'Are you sure you want to disable the trigger "%s" on "%s"?';
 	$lang['strtriggerdropped'] = 'Disparador eliminado.';
 	$lang['strtriggerdroppedbad'] = 'Falló al eliminar el disparador.';
+$lang['strtriggerenabled']  =  'Trigger enabled.';
+$lang['strtriggerenabledbad']  =  'Trigger enable failed.';
+$lang['strtriggerdisabled']  =  'Trigger disabled.';
+$lang['strtriggerdisabledbad']  =  'Trigger disable failed.';
     $lang['strtriggeraltered'] = 'Disparador modificado.';
     $lang['strtriggeralteredbad'] = 'Falló la modificación del disparador.';
     $lang['strforeach']  =  'Para cada uno';
@@ -646,9 +671,32 @@ $lang['strargnorowbelow']  =  'There needs to be a row below this row.';
 	$lang['strchildtables'] = 'Child tables';
 
 	// Aggregates
+$lang['straggregate']  =  'Aggregate';
 	$lang['straggregates'] = 'Agregadas';
 	$lang['strnoaggregates'] = 'No se encontraron agregadas.';
 	$lang['stralltypes'] = '(Todos los tipos)';
+$lang['straggrtransfn']  =  'Transition function';
+	$lang['strcreateaggregate']  =  'Crear aggregada';
+$lang['straggrbasetype']  =  'Input data type';
+$lang['straggrsfunc']  =  'State transition function';
+$lang['straggrstype']  =  'State data type';
+$lang['straggrffunc']  =  'Final function';
+$lang['straggrinitcond']  =  'Initial condition';
+$lang['straggrsortop']  =  'Sort operator';
+	$lang['strdropaggregate']  =  'Eliminar aggregada';
+$lang['strconfdropaggregate']  =  'Are you sure you want to drop the aggregate &quot;%s&quot;?';
+$lang['straggregatedropped']  =  'Aggregate dropped.';
+$lang['straggregatedroppedbad']  =  'Aggregate drop failed.';
+$lang['stralteraggregate']  =  'Alter aggregate';
+$lang['straggraltered']  =  'Aggregate altered.';
+$lang['straggralteredbad']  =  'Aggregate alteration failed.';
+$lang['straggrneedsname']  =  'You must specify a name for the aggregate';
+$lang['straggrneedsbasetype']  =  'You must specify the input data type for the aggregate';
+$lang['straggrneedssfunc']  =  'You must specify the name of the state transition function for the aggregate';
+$lang['straggrneedsstype']  =  'You must specify the data type for the aggregate\'s state value';
+$lang['straggrcreated']  =  'Aggregate created.';
+$lang['straggrcreatedbad']  =  'Aggregate creation failed.';
+	$lang['straggrshowall']  =  'Mostrar todas las aggregadas';
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Clases de operadores';
@@ -703,7 +751,7 @@ $lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
 	
 	// Slony nodes
 	$lang['strnodes']  =  'Nodos';
-$lang['strnonodes']  =  'No nodes found.';
+	$lang['strnonodes'] = 'No se encontraron los nodos.';
     $lang['strcreatenode']  =  'Crear nodo';
 $lang['strid']  =  'ID';
 $lang['stractive']  =  'Active';
@@ -715,10 +763,15 @@ $lang['strnodedroppedbad']  =  'Node drop failed';
 $lang['strfailover']  =  'Filtro';
 $lang['strnodefailedover']  =  'Node failed over.';
 $lang['strnodefailedoverbad']  =  'Node fail over fail.';
+$lang['strstatus']  =  'Status';	
+$lang['strhealthy']  =  'Healthy';
+$lang['stroutofsync']  =  'Out of Sync';
+$lang['strunknown']  =  'Unknown';	
+
 	
 	// Slony paths	
     $lang['strpaths']  =  'Rutas';
-$lang['strnopaths']  =  'No paths found.';
+	$lang['strnopaths'] = 'No se encontraron rutas.';
     $lang['strcreatepath']  =  'Crear ruta';
 $lang['strnodename']  =  'Node name';
 $lang['strnodeid']  =  'Node ID';
@@ -744,7 +797,7 @@ $lang['strlistendroppedbad']  =  'Listen drop failed.';
 
 	// Slony replication sets
 	$lang['strrepsets']  =  'Conjuntos de Replicación';
-$lang['strnorepsets']  =  'No replication sets found.';
+	$lang['strnorepsets'] = 'No se encontraron conjuntos de Replicación.';
 	$lang['strcreaterepset']  =  'Crear un Conjunto de Replicación';
 $lang['strrepsetcreated']  =  'Replication set created.';
 $lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
@@ -809,17 +862,19 @@ $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from rep
     $lang['strerrorloading']  =  'Error Cargando';
     $lang['strclicktoreload']  =  'Click para recargar';
 
-	//Autovacuum
-$lang['strautovacuum']  =  'Autovacuum'; 
+	// Autovacuum
+	$lang['strautovacuum']  =  'Autovacuum'; 
+$lang['strturnedon']  =  'Turned On'; 
+$lang['strturnedoff']  =  'Turned Off'; 
     $lang['strenabled']  =  'Habilitado'; 
     $lang['strvacuumbasethreshold']  =  'Umbral de Vacuum'; 
 $lang['strvacuumscalefactor']  =  'Vacuum Scale Factor';  
 $lang['stranalybasethreshold']  =  'Analyze Base Threshold';  
 $lang['stranalyzescalefactor']  =  'Analyze Scale Factor'; 
-$lang['strvacuumcostdelay']  =  'Vacuum Cost Delay'; 
+	$lang['strvacuumcostdelay']  =  'Tiempo de descanso de vacuum'; 
 $lang['strvacuumcostlimit']  =  'Vacuum Cost Limit';  
 
-    //Table-level Locks
+    // Table-level Locks
     $lang['strlocks']  =  'Bloqueos';
     $lang['strtransaction']  =  'ID de transacción';
     $lang['strprocessid']  =  'ID de proceso';
