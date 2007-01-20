@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.199 2006/12/31 16:21:26 soranzo Exp $
+	 * $Id: english.php,v 1.198.2.1 2007/01/20 18:06:06 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -102,6 +102,7 @@
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Run';
 	$lang['stradd'] = 'Add';
+	$lang['strremove'] = 'Remove';
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
 	$lang['strinstead'] = 'Do Instead';
@@ -137,7 +138,7 @@
 	$lang['strfileimported'] = 'File imported.';
 	$lang['strtrycred'] = 'Use these credentials for all servers';
 
-	// Database sizes
+	// Database Sizes
 	$lang['strsize'] = 'Size';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';
@@ -164,7 +165,7 @@
 	$lang['strimporterror'] = 'Import error.';
 	$lang['strimporterror-fileformat'] = 'Import error: Failed to automatically determine the file format.';
 	$lang['strimporterrorline'] = 'Import error on line %s.';
-	$lang['strimporterrorline-badcolumnnum'] = 'Import error on line %s: Line does not possess the correct number of columns.';
+	$lang['strimporterrorline-badcolumnnum'] = 'Import error on line %s:  Line does not possess the correct number of columns.';
 	$lang['strimporterror-uploadedfile'] = 'Import error: File could not be uploaded to the server';
 	$lang['strcannotdumponwindows'] = 'Dumping of complex table and schema names on Windows is not supported.';
 
@@ -225,7 +226,7 @@
 	$lang['strestimatedrowcount'] = 'Estimated row count';
 
 	// Columns
-	$lang['strcolprop'] = 'Column properties';
+	$lang['strcolprop'] = 'Column Properties';
 		
 	// Users
 	$lang['struser'] = 'User';
@@ -257,10 +258,10 @@
 	// Groups
 	$lang['strgroup'] = 'Group';
 	$lang['strgroups'] = 'Groups';
-	$lang['strshowallgroups'] = 'Show all groups';
 	$lang['strnogroup'] = 'Group not found.';
 	$lang['strnogroups'] = 'No groups found.';
 	$lang['strcreategroup'] = 'Create group';
+	$lang['strshowallgroups'] = 'Show all groups';
 	$lang['strgroupneedsname'] = 'You must give a name for your group.';
 	$lang['strgroupcreated'] = 'Group created.';
 	$lang['strgroupcreatedbad'] = 'Group creation failed.';	
@@ -277,26 +278,29 @@
 	$lang['strconfdropmember'] = 'Are you sure you want to drop the member "%s" from the group "%s"?';
 	$lang['strmemberdropped'] = 'Member dropped.';
 	$lang['strmemberdroppedbad'] = 'Member drop failed.';
-
+	
 	// Roles
 	$lang['strrole'] = 'Role';
 	$lang['strroles'] = 'Roles';
+	$lang['strrolename'] = 'Rolename';
 	$lang['strshowallroles'] = 'Show all roles';
-	$lang['strnoroles'] = 'No roles found.';
 	$lang['strinheritsprivs'] = 'Inherits privileges?';
 	$lang['strcreaterole'] = 'Create role';
-	$lang['strcancreaterole'] = 'Can create role?';
+	$lang['strcancreaterole'] = 'Create role?';
 	$lang['strrolecreated'] = 'Role created.';
 	$lang['strrolecreatedbad'] = 'Create role failed.';
 	$lang['stralterrole'] = 'Alter role';
-	$lang['strrolealtered'] = 'Role altered.';
-	$lang['strrolealteredbad'] = 'Role alter failed.';
+	$lang['strroleupdated'] = 'Role updated.';
+	$lang['strroleupdatedbad'] = 'Role update failed.';
+	$lang['strcatupdate'] = 'Modify catalogs?';
 	$lang['strcanlogin'] = 'Can login?';
 	$lang['strconnlimit'] = 'Connection limit';
 	$lang['strdroprole'] = 'Drop role';
-	$lang['strconfdroprole'] = 'Are you sure you want to drop the role "%s"?';
+	$lang['strmaxconnections'] = 'Max connections';
+	$lang['strconfdroprole'] = 'Are you sure you want to drop the role &quot;%s&quot;?';
 	$lang['strroledropped'] = 'Role dropped.';
 	$lang['strroledroppedbad'] = 'Role drop failed.';
+	$lang['strnoroles'] = 'No roles found.';
 	$lang['strnolimit'] = 'No limit';
 	$lang['strnever'] = 'Never';
 	$lang['strroleneedsname'] = 'You must give a name for the role.';
@@ -317,6 +321,7 @@
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabases'] = 'Databases';
 	$lang['strshowalldatabases'] = 'Show all databases';
+	$lang['strnodatabase'] = 'No database found.';
 	$lang['strnodatabases'] = 'No databases found.';
 	$lang['strcreatedatabase'] = 'Create database';
 	$lang['strdatabasename'] = 'Database name';
@@ -498,6 +503,7 @@
 	$lang['strobjectfile'] = 'Object File';
 	$lang['strlinksymbol'] = 'Link Symbol';
 	$lang['strarguments'] = 'Arguments';
+	$lang['strargname'] = 'Name';
 	$lang['strargmode'] = 'Mode';
 	$lang['strargtype'] = 'Type';
 	$lang['strargadd'] = 'Add another argument';
@@ -509,6 +515,7 @@
 	$lang['strargraise'] = 'Move up.';
 	$lang['strarglower'] = 'Move down.';
 	$lang['strargremoveconfirm'] = 'Are you sure you want to remove this argument? This CANNOT be undone.';
+
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -679,7 +686,7 @@
 	$lang['straggrinitcond'] = 'Initial condition';
 	$lang['straggrsortop'] = 'Sort operator';
 	$lang['strdropaggregate'] = 'Drop aggregate';
-	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate "%s"?';
+	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &quot;%s&quot;?';
 	$lang['straggregatedropped'] = 'Aggregate dropped.';
 	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
 	$lang['stralteraggregate'] = 'Alter aggregate';
@@ -830,17 +837,17 @@
 	$lang['strtableneedsuniquekey'] = 'Table to be added requires a primary or unique key.';
 	$lang['strtableaddedtorepset'] = 'Table added to replication set.';
 	$lang['strtableaddedtorepsetbad'] = 'Failed adding table to replication set.';
-	$lang['strconfremovetablefromrepset'] = 'Are you sure you want to drop the table "%s" from replication set "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Table dropped from replication set.';
-	$lang['strtableremovedfromrepsetbad'] = 'Failed to drop table from replication set.';
+	$lang['strconfremovetablefromrepset'] = 'Are you sure you want to remove the table "%s" from replication set "%s"?';
+	$lang['strtableremovedfromrepset'] = 'Table removed from replication set.';
+	$lang['strtableremovedfromrepsetbad'] = 'Failed to remove table from replication set.';
 
 	// Slony sequences in replication sets
 	$lang['straddsequence'] = 'Add sequence';
 	$lang['strsequenceaddedtorepset'] = 'Sequence added to replication set.';
 	$lang['strsequenceaddedtorepsetbad'] = 'Failed adding sequence to replication set.';
-	$lang['strconfremovesequencefromrepset'] = 'Are you sure you want to drop the sequence "%s" from replication set "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Sequence dropped from replication set.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Failed to drop sequence from replication set.';
+	$lang['strconfremovesequencefromrepset'] = 'Are you sure you want to remove the sequence "%s" from replication set "%s"?';
+	$lang['strsequenceremovedfromrepset'] = 'Sequence removed from replication set.';
+	$lang['strsequenceremovedfromrepsetbad'] = 'Failed to remove sequence from replication set.';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = 'Subscriptions';
@@ -851,9 +858,6 @@
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
 	$lang['strhelpicon'] = '?';
-	$lang['strhelppagebrowser'] = 'Help page browser';
-	$lang['strselecthelppage'] = 'Select a help page';
-	$lang['strinvalidhelppage'] = 'Invalid help page.';
 	$lang['strlogintitle'] = 'Login to %s';
 	$lang['strlogoutmsg'] = 'Logged out of %s';
 	$lang['strloading'] = 'Loading...';
@@ -872,7 +876,7 @@
 	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay'; 
 	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';  
 
-        // Table-level Locks
+    // Table-level Locks
 	$lang['strlocks'] = 'Locks';
 	$lang['strtransaction'] = 'Transaction ID';
 	$lang['strprocessid'] = 'Process ID';
