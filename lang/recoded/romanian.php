@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.7 2007/01/11 01:29:46 soranzo Exp $
+	* $Id: romanian.php,v 1.6.2.1 2007/01/20 18:31:24 xzilla Exp $
 	*/
 
 	// Language and character set
@@ -100,6 +100,7 @@
 	$lang['strreindex'] = 'Re-indexare';
 	$lang['strrun'] = 'Executare';
 	$lang['stradd'] = 'Ad&#259;ugare';
+    $lang['strremove'] = 'Eliminare';
 	$lang['strevent'] = 'Eveniment';
 	$lang['strwhere'] = '&#206;n schimb';
 	$lang['strinstead'] = 'Execut&#259; &#238;n schimb';
@@ -259,6 +260,7 @@
 	$lang['strnogroup'] = 'Grup neg&#259;sit.';
 	$lang['strnogroups'] = 'Nici un grup g&#259;sit.';
 	$lang['strcreategroup'] = 'Creare grup';
+	$lang['strshowallgroups'] = 'Afi&#351;are toate grupurile';
 	$lang['strgroupneedsname'] = 'Specifica&#355;i un nume pentru grup.';
 	$lang['strgroupcreated'] = 'Grup creat.';
 	$lang['strgroupcreatedbad'] = 'Creare grup e&#351;uat&#259;.';
@@ -316,6 +318,7 @@
 	$lang['strdatabases'] = 'Baze de date';
 	$lang['strshowalldatabases'] = 'Afi&#351;are toate bazele de date';
 	$lang['strnodatabases'] = 'Nici o baz&#259; de date g&#259;sit&#259;.';
+	$lang['strnodatabase'] = 'Nici o baz&#259; de date g&#259;sit&#259;.';
 	$lang['strcreatedatabase'] = 'Creare baz&#259; de date';
 	$lang['strdatabasename'] = 'Nume baz&#259; de date';
 	$lang['strdatabaseneedsname'] = 'Specifica&#355;i un nume pentru baza de date.';
@@ -483,6 +486,7 @@
 	$lang['strcreatecfunction'] = 'Creare func&#355;ie C';
 	$lang['strfunctionname'] = 'Nume func&#355;ie';
 	$lang['strreturns'] = '&#206;ntoarce';
+    $lang['strarguments'] = 'Argumente';
 	$lang['strproglanguage'] = 'Limbaj de programare';
 	$lang['strfunctionneedsname'] = 'Specifica&#355;i un nume pentru func&#355;ie.';
 	$lang['strfunctionneedsdef'] = 'Specifica&#355;i o defini&#355;ie pentru functie.';
