@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.20 2007/01/11 20:55:13 xzilla Exp $
+     * $Id: french.php,v 1.19.2.1 2007/01/20 18:35:43 xzilla Exp $
      */
 
     // Language and character set
@@ -102,6 +102,7 @@
     $lang['strreindex'] = 'Reindex';
     $lang['strrun'] = 'Lancer';
     $lang['stradd'] = 'Ajouter';
+    $lang['strremove']  =  'Supprimer';
     $lang['strevent'] = 'Événement';
     $lang['strwhere'] = 'Où';
     $lang['strinstead'] = 'Faire à la place';
@@ -261,6 +262,7 @@
     $lang['strnogroup'] = 'Groupe introuvable.';
     $lang['strnogroups'] = 'Aucun groupe trouvé.';
     $lang['strcreategroup'] = 'Créer un groupe';
+    $lang['strshowallgroups'] = 'Voir tous les groupes';
     $lang['strgroupneedsname'] = 'Vous devez indiquer un nom pour votre groupe.';
     $lang['strgroupcreated'] = 'Groupe créé.';
     $lang['strgroupcreatedbad'] = 'Échec lors de la création du groupe.';
@@ -318,6 +320,7 @@
     $lang['strdatabases'] = 'Bases de données';
     $lang['strshowalldatabases'] = 'Voir toutes les bases de données';
     $lang['strnodatabases'] = 'Aucune base de données trouvée.';
+    $lang['strnodatabase'] = 'Aucune base de données trouvée.';
     $lang['strcreatedatabase'] = 'Créer une base de données';
     $lang['strdatabasename'] = 'Nom de la base de données';
     $lang['strdatabaseneedsname'] = 'Vous devez donner un nom pour votre base de données.';
@@ -499,6 +502,7 @@
     $lang['strobjectfile']  =  'Fichier objet';
     $lang['strlinksymbol']  =  'Symbole lien';
     $lang['strarguments']  =  'Arguments';
+    $lang['strargname']  =  'Nom';
     $lang['strargmode']  =  'Mode';
     $lang['strargtype']  =  'Type';
     $lang['strargadd']  =  'Ajouter un autre argument';

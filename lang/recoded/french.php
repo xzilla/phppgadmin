@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.19 2007/01/11 20:55:13 xzilla Exp $
+     * $Id: french.php,v 1.18.2.1 2007/01/20 18:35:43 xzilla Exp $
      */
 
     // Language and character set
@@ -102,6 +102,7 @@
     $lang['strreindex'] = 'Reindex';
     $lang['strrun'] = 'Lancer';
     $lang['stradd'] = 'Ajouter';
+    $lang['strremove']  =  'Supprimer';
     $lang['strevent'] = '&#201;v&#233;nement';
     $lang['strwhere'] = 'O&#249;';
     $lang['strinstead'] = 'Faire &#224; la place';
@@ -261,6 +262,7 @@
     $lang['strnogroup'] = 'Groupe introuvable.';
     $lang['strnogroups'] = 'Aucun groupe trouv&#233;.';
     $lang['strcreategroup'] = 'Cr&#233;er un groupe';
+    $lang['strshowallgroups'] = 'Voir tous les groupes';
     $lang['strgroupneedsname'] = 'Vous devez indiquer un nom pour votre groupe.';
     $lang['strgroupcreated'] = 'Groupe cr&#233;&#233;.';
     $lang['strgroupcreatedbad'] = '&#201;chec lors de la cr&#233;ation du groupe.';
@@ -318,6 +320,7 @@
     $lang['strdatabases'] = 'Bases de donn&#233;es';
     $lang['strshowalldatabases'] = 'Voir toutes les bases de donn&#233;es';
     $lang['strnodatabases'] = 'Aucune base de donn&#233;es trouv&#233;e.';
+    $lang['strnodatabase'] = 'Aucune base de donn&#233;es trouv&#233;e.';
     $lang['strcreatedatabase'] = 'Cr&#233;er une base de donn&#233;es';
     $lang['strdatabasename'] = 'Nom de la base de donn&#233;es';
     $lang['strdatabaseneedsname'] = 'Vous devez donner un nom pour votre base de donn&#233;es.';
@@ -499,6 +502,7 @@
     $lang['strobjectfile']  =  'Fichier objet';
     $lang['strlinksymbol']  =  'Symbole lien';
     $lang['strarguments']  =  'Arguments';
+    $lang['strargname']  =  'Nom';
     $lang['strargmode']  =  'Mode';
     $lang['strargtype']  =  'Type';
     $lang['strargadd']  =  'Ajouter un autre argument';
