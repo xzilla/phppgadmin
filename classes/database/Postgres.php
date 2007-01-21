@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.293 2007/01/02 17:24:44 soranzo Exp $
+ * $Id: Postgres.php,v 1.294 2007/01/21 22:59:25 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -638,7 +638,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getTables($all = false) {
 		global $conf;
-		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
+		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg@_%' ESCAPE '@' ";
 		else $where = '';
 		
 		$sql = "SELECT NULL AS nspname, c.relname, 
@@ -2416,7 +2416,7 @@ class Postgres extends ADODB_base {
 		global $conf;
 
 		if (!$conf['show_system'])
-			$where = " WHERE viewname NOT LIKE 'pg\\\\_%'";
+			$where = " WHERE viewname NOT LIKE 'pg@_%' ESCAPE '@' ";
 		else
 			$where = '';
 
@@ -4207,7 +4207,7 @@ class Postgres extends ADODB_base {
 			SELECT {$case_clause} AS type, 
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";			
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";			
 		if ($filter == 'TABLE' || $filter == 'VIEW' || $filter == 'SEQUENCE') $sql .= " AND {$case_clause} = '{$filter}'";
 		elseif ($filter != '') $sql .= " AND FALSE";
 
@@ -4218,7 +4218,7 @@ class Postgres extends ADODB_base {
 				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
 				pg_attribute pa WHERE pc.oid=pa.attrelid 
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'COLUMNTABLE' || $filter != 'COLUMNVIEW') $sql .= " AND FALSE";
 
 		// Functions
@@ -4236,7 +4236,7 @@ class Postgres extends ADODB_base {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'INDEX') $sql .= " AND FALSE";
 
 		// Check Constraints
@@ -4245,7 +4245,7 @@ class Postgres extends ADODB_base {
 			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
 				pg_relcheck pr WHERE pc.oid=pr.rcrelid
 				AND pr.rcname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
 		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
 		
 		// Unique and Primary Key Constraints
@@ -4255,7 +4255,7 @@ class Postgres extends ADODB_base {
 				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg\\\\_%'";	
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg@_%' ESCAPE '@'";	
 		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";			
 
 		// Triggers
@@ -4264,7 +4264,7 @@ class Postgres extends ADODB_base {
 			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
 				pg_trigger pt WHERE pc.oid=pt.tgrelid
 				AND pt.tgname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
 		if ($filter != '' && $filter != 'TRIGGER') $sql .= " AND FALSE";
 
 		// Table Rules
@@ -4274,7 +4274,7 @@ class Postgres extends ADODB_base {
 				FROM pg_rewrite r, pg_class c
 				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
 		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// View Rules
@@ -4284,7 +4284,7 @@ class Postgres extends ADODB_base {
 				FROM pg_rewrite r, pg_class c
 				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg\\\\_%'";				
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
 		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// Advanced Objects
