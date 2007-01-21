@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.151.2.1 2007/01/20 18:06:06 xzilla Exp $
+	 * $Id: english.php,v 1.151.2.2 2007/01/21 21:25:24 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -297,7 +297,7 @@
 	$lang['strconnlimit'] = 'Connection limit';
 	$lang['strdroprole'] = 'Drop role';
 	$lang['strmaxconnections'] = 'Max connections';
-	$lang['strconfdroprole'] = 'Are you sure you want to drop the role &amp;quot;%s&amp;quot;?';
+	$lang['strconfdroprole'] = 'Are you sure you want to drop the role &quot;%s&quot;?';
 	$lang['strroledropped'] = 'Role dropped.';
 	$lang['strroledroppedbad'] = 'Role drop failed.';
 	$lang['strnoroles'] = 'No roles found.';
@@ -686,7 +686,7 @@
 	$lang['straggrinitcond'] = 'Initial condition';
 	$lang['straggrsortop'] = 'Sort operator';
 	$lang['strdropaggregate'] = 'Drop aggregate';
-	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &amp;quot;%s&amp;quot;?';
+	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &quot;%s&quot;?';
 	$lang['straggregatedropped'] = 'Aggregate dropped.';
 	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
 	$lang['stralteraggregate'] = 'Alter aggregate';

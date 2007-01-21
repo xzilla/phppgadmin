@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.35.2.1 2007/01/20 18:06:42 xzilla Exp $
+	 * $Id: spanish.php,v 1.35.2.2 2007/01/21 21:25:24 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -684,7 +684,7 @@ $lang['straggrffunc']  =  'Final function';
 $lang['straggrinitcond']  =  'Initial condition';
 $lang['straggrsortop']  =  'Sort operator';
 	$lang['strdropaggregate']  =  'Eliminar aggregada';
-$lang['strconfdropaggregate']  =  'Are you sure you want to drop the aggregate &quot;%s&quot;?';
+$lang['strconfdropaggregate']  =  'Are you sure you want to drop the aggregate "%s"?';
 $lang['straggregatedropped']  =  'Aggregate dropped.';
 $lang['straggregatedroppedbad']  =  'Aggregate drop failed.';
 $lang['stralteraggregate']  =  'Alter aggregate';
