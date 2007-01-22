@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.73 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.74 2007/01/22 16:33:01 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -59,10 +59,10 @@
 		
 		if ($table->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $table->f['relname'];
-			if (!isset($_POST['owner'])) $_POST['owner'] = $table->f['relowner'];
-			if (!isset($_POST['comment'])) $_POST['comment'] = $table->f['relcomment'];
-			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->f['tablespace'];
+			if (!isset($_POST['name'])) $_POST['name'] = $table->fields['relname'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $table->fields['relowner'];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $table->fields['relcomment'];
+			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->fields['tablespace'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -76,7 +76,7 @@
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
-					$uname = $users->f['usename'];
+					$uname = $users->fields['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
 						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 					$users->moveNext();
@@ -93,7 +93,7 @@
 					($_POST['tablespace'] == '') ? ' selected="selected"' : '', "></option>\n";
 				// Display all other tablespaces
 				while (!$tablespaces->EOF) {
-					$spcname = htmlspecialchars($tablespaces->f['spcname']);
+					$spcname = htmlspecialchars($tablespaces->fields['spcname']);
 					echo "\t\t\t\t<option value=\"{$spcname}\"",
 						($spcname == $_POST['tablespace']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 					$tablespaces->moveNext();
@@ -189,24 +189,22 @@
 			if (is_double($max_size) && $max_size > 0) {
 				echo "<form action=\"dataimport.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
 				echo "<table>\n";
-				echo "<tr><th class=\"data left required\">{$lang['strformat']}</th>";
-				echo "<td><select name=\"format\">\n";
-				echo "<option value=\"auto\">{$lang['strauto']}</option>\n";
-				echo "<option value=\"csv\">CSV</option>\n";
-				echo "<option value=\"tab\">{$lang['strtabbed']}</option>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strformat']}</th>\n";
+				echo "\t\t<td><select name=\"format\">\n";
+				echo "\t\t\t<option value=\"auto\">{$lang['strauto']}</option>\n";
+				echo "\t\t\t<option value=\"csv\">CSV</option>\n";
+				echo "\t\t\t<option value=\"tab\">{$lang['strtabbed']}</option>\n";
 				if (function_exists('xml_parser_create')) {
-					echo "<option value=\"xml\">XML</option>\n";
+					echo "\t\t\t<option value=\"xml\">XML</option>\n";
 				}
-				echo "</select>\n</td>\n</tr>\n";
-				echo "<tr><th class=\"data left required\">{$lang['strallowednulls']}</th>";
-				echo "<td><select multiple size=\"3\" name=\"allowednulls[]\">\n";
-				echo "<option value=\"default\" selected=\"selected\">{$lang['strbackslashn']}</option>\n";
-				echo "<option value=\"null\">{$lang['strnull']}</option>\n";
-				echo "<option value=\"emptystring\">{$lang['stremptystring'] }</option>\n";
-				echo "</select>\n</td>\n</tr>\n";
-				echo "<tr><th class=\"data left required\">{$lang['strfile']}</th>";
-				echo "<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
-				echo "<input type=\"file\" name=\"source\" />\n";
+				echo "\t\t</select></td>\n\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strallowednulls']}</th>\n";
+				echo "\t\t<td><label><input type=\"checkbox\" name=\"allowednulls[0]\" value=\"\\N\" checked=\"checked\" />{$lang['strbackslashn']}</label><br />\n";
+				echo "\t\t<label><input type=\"checkbox\" name=\"allowednulls[1]\" value=\"NULL\" />{$lang['strnull']}</label><br />\n";
+				echo "\t\t<label><input type=\"checkbox\" name=\"allowednulls[2]\" value=\"\" />{$lang['stremptystring'] }</label></td>\n\t</tr>\n";
+				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strfile']}</th>\n";
+				echo "\t\t<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />";
+				echo "<input type=\"file\" name=\"source\" /></td>\n\t</tr>\n";
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"import\" />\n";
 				echo $misc->form;
@@ -269,7 +267,7 @@
 					}
 				}
 				while (!$types->EOF) {
-					$typname = $types->f['typname'];
+					$typname = $types->fields['typname'];
 					$types_for_js[$typname] = 1;
 					echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_POST['type']) ? ' selected="selected"' : '', ">",
 						$misc->printVal($typname), "</option>\n";
@@ -374,33 +372,33 @@
 				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				$column = $data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
-				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
+				$column->fields['attnotnull'] = $data->phpBool($column->fields['attnotnull']);
 
 				// Upon first drawing the screen, load the existing column information
 				// from the database.
 				if (!isset($_REQUEST['default'])) {
-					$_REQUEST['field'] = $column->f['attname'];
-					$_REQUEST['type'] = $column->f['base_type'];
+					$_REQUEST['field'] = $column->fields['attname'];
+					$_REQUEST['type'] = $column->fields['base_type'];
 					// Check to see if its' an array type...
 					// XXX: HACKY
-					if (substr($column->f['base_type'], strlen($column->f['base_type']) - 2) == '[]') {
-						$_REQUEST['type'] = substr($column->f['base_type'], 0, strlen($column->f['base_type']) - 2);
+					if (substr($column->fields['base_type'], strlen($column->fields['base_type']) - 2) == '[]') {
+						$_REQUEST['type'] = substr($column->fields['base_type'], 0, strlen($column->fields['base_type']) - 2);
 						$_REQUEST['array'] = '[]';
 					}
 					else {
-						$_REQUEST['type'] = $column->f['base_type'];
+						$_REQUEST['type'] = $column->fields['base_type'];
 						$_REQUEST['array'] = '';
 					}
 					// To figure out the length, look in the brackets :(
 					// XXX: HACKY
-					if ($column->f['type'] != $column->f['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->f['type'], $bits)) {
+					if ($column->fields['type'] != $column->fields['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->fields['type'], $bits)) {
 						$_REQUEST['length'] = $bits[1];
 					}
 					else
 						$_REQUEST['length'] = '';
-					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
-					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
-					$_REQUEST['comment'] = $column->f['comment'];
+					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->fields['adsrc'];
+					if ($column->fields['attnotnull']) $_REQUEST['notnull'] = 'YES';
+					$_REQUEST['comment'] = $column->fields['comment'];
 				}				
 
 				// Column name
@@ -422,7 +420,7 @@
 							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
-						$typname = $types->f['typname'];
+						$typname = $types->fields['typname'];
 						$types_for_js[$typname] = 1;
 						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
@@ -446,7 +444,7 @@
 						htmlspecialchars($_REQUEST['length']), "\" /></td>";
 				} else {
 					// Otherwise draw the read-only type name
-					echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+					echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
 				}
 				
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
@@ -462,8 +460,8 @@
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
-				if ($column->f['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
-				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->f['type'], $column->f['atttypmod'])), "\" />\n";
+				if ($column->fields['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
+				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "\" />\n";
 				// Add hidden variables to suppress error notices if we don't support altering column type
 				if (!$data->hasAlterColumnType()) {
 					echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";				
@@ -598,7 +596,7 @@
 
 		function attPre(&$rowdata) {
 			global $data;
-			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
 		}
 		
 		$misc->printTrail('table');
@@ -611,8 +609,8 @@
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
 
 		// Show comment if any
-		if ($tdata->f['relcomment'] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($tdata->f['relcomment']), "</p>\n";
+		if ($tdata->fields['relcomment'] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($tdata->fields['relcomment']), "</p>\n";
 
 		$columns = array(
 			'column' => array(

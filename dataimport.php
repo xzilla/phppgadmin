@@ -3,7 +3,7 @@
 	/**
 	 * Does an import to a particular table from a text file
 	 *
-	 * $Id: dataimport.php,v 1.10 2005/10/09 09:05:16 chriskl Exp $
+	 * $Id: dataimport.php,v 1.11 2007/01/22 16:33:01 soranzo Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -154,19 +154,8 @@
 	function loadNULLArray() {
 		$array = array();
 		if (isset($_POST['allowednulls'])) {
-			foreach($_POST['allowednulls'] as $null_char) {
-				switch ($null_char) {
-					case 'default':
-						$array[] = "\\N";
-						break;
-					case 'null':
-						$array[] = "NULL";
-						break;
-					case 'emptystring':
-						$array[] = null;
-						break;
-				}
-			}
+			foreach ($_POST['allowednulls'] as $null_char)
+				$array[] = $null_char;
 		}
 		return $array;
 	}
