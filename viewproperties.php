@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.22 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: viewproperties.php,v 1.23 2007/01/23 14:12:29 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -41,8 +41,8 @@
 		if ($viewdata->recordCount() > 0) {
 			
 			if (!isset($_POST['formDefinition'])) {
-				$_POST['formDefinition'] = $viewdata->f['vwdefinition'];
-				$_POST['formComment'] = $viewdata->f['relcomment'];
+				$_POST['formDefinition'] = $viewdata->fields['vwdefinition'];
+				$_POST['formComment'] = $viewdata->fields['relcomment'];
 			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -141,12 +141,12 @@
 		
 		if ($vdata->recordCount() > 0) {
 			// Show comment if any
-			if ($vdata->f['relcomment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($vdata->f['relcomment']), "</p>\n";
+			if ($vdata->fields['relcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($vdata->fields['relcomment']), "</p>\n";
 
 			echo "<table width=\"100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->f['vwdefinition']), "</td></tr>\n";
+			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->fields['vwdefinition']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -182,9 +182,9 @@
 				$column = $data->getTableAttributes($_REQUEST['view'], $_REQUEST['column']);
 
 				if (!isset($_REQUEST['default'])) {
-					$_REQUEST['field'] = $column->f['attname'];
-					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
-					$_REQUEST['comment'] = $column->f['comment'];
+					$_REQUEST['field'] = $column->fields['attname'];
+					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->fields['adsrc'];
+					$_REQUEST['comment'] = $column->fields['comment'];
 				}
 
 				// If name of view column is editable, make it a field
@@ -193,9 +193,9 @@
 						htmlspecialchars($_REQUEST['field']), "\" /></td>";
 				}
 				else {
-					echo "<tr><td>", htmlspecialchars($column->f['attname']), "</td>";					
+					echo "<tr><td>", htmlspecialchars($column->fields['attname']), "</td>";					
 				}
-				echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
+				echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
 				echo "<td><input name=\"comment\" size=\"32\" value=\"", 
@@ -292,7 +292,7 @@
 		
 		function attPre(&$rowdata) {
 			global $data;
-			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
 		}
 		
 		$misc->printTrail('view');
@@ -305,8 +305,8 @@
 		$attrs = $data->getTableAttributes($_REQUEST['view']);		
 
 		// Show comment if any
-		if ($vdata->f['relcomment'] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($vdata->f['relcomment']), "</p>\n";
+		if ($vdata->fields['relcomment'] !== null)
+			echo "<p class=\"comment\">", $misc->printVal($vdata->fields['relcomment']), "</p>\n";
 
 		$columns = array(
 			'column' => array(

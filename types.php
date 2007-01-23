@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.32 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: types.php,v 1.33 2007/01/23 14:12:29 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -29,11 +29,11 @@
 		
 		function attPre(&$rowdata) {
 			global $data;
-			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
+			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
 		}
 		
 		if ($typedata->recordCount() > 0) {
-			switch ($typedata->f['typtype']) {
+			switch ($typedata->fields['typtype']) {
 			case 'c':
 				$attrs = $data->getTableAttributes($_REQUEST['type']);
 				
@@ -59,20 +59,20 @@
 				break;
 
 			default:
-				$byval = $data->phpBool($typedata->f['typbyval']);
+				$byval = $data->phpBool($typedata->fields['typbyval']);
 				echo "<table>\n";
 				echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
-				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typname']), "</td></tr>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->fields['typname']), "</td></tr>\n";
 				echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
-				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typin']), "</td></tr>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->fields['typin']), "</td></tr>\n";
 				echo "<tr><th class=\"data left\">{$lang['stroutputfn']}</th>\n";
-				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typout']), "</td></tr>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->fields['typout']), "</td></tr>\n";
 				echo "<tr><th class=\"data left\">{$lang['strlength']}</th>\n";
-				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typlen']), "</td></tr>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->fields['typlen']), "</td></tr>\n";
 				echo "<tr><th class=\"data left\">{$lang['strpassbyval']}</th>\n";
 				echo "<td class=\"data1\">", ($byval) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 				echo "<tr><th class=\"data left\">{$lang['stralignment']}</th>\n";
-				echo "<td class=\"data1\">", $misc->printVal($typedata->f['typalign']), "</td></tr>\n";
+				echo "<td class=\"data1\">", $misc->printVal($typedata->fields['typalign']), "</td></tr>\n";
 				echo "</table>\n";
 			}
 
@@ -195,7 +195,7 @@
 					echo "\t\t<td>\n\t\t\t<select name=\"type[{$i}]\">\n";
 					$types->moveFirst();
 					while (!$types->EOF) {
-						$typname = $types->f['typname'];
+						$typname = $types->fields['typname'];
 						echo "\t\t\t\t<option value=\"", htmlspecialchars($typname), "\"",
 						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
@@ -297,7 +297,7 @@
 		echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"typin\">";
 		while (!$funcs->EOF) {
-			$proname = htmlspecialchars($funcs->f['proname']);
+			$proname = htmlspecialchars($funcs->fields['proname']);
 			echo "<option value=\"{$proname}\"",
 				($proname == $_POST['typin']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
@@ -307,7 +307,7 @@
 		echo "<td class=\"data1\"><select name=\"typout\">";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
-			$proname = htmlspecialchars($funcs->f['proname']);
+			$proname = htmlspecialchars($funcs->fields['proname']);
 			echo "<option value=\"{$proname}\"",
 				($proname == $_POST['typout']) ? ' selected="selected"' : '', ">{$proname}</option>\n";
 			$funcs->moveNext();
@@ -323,7 +323,7 @@
 		echo "<td class=\"data1\"><select name=\"typelem\">";
 		echo "<option value=\"\"></option>\n";
 		while (!$types->EOF) {
-			$currname = htmlspecialchars($types->f['typname']);
+			$currname = htmlspecialchars($types->fields['typname']);
 			echo "<option value=\"{$currname}\"",
 				($currname == $_POST['typelem']) ? ' selected="selected"' : '', ">{$currname}</option>\n";
 			$types->moveNext();
@@ -434,7 +434,7 @@
 			),
 		);
 		
-		if (!isset($types->f['typtype'])) unset($columns['flavour']);
+		if (!isset($types->fields['typtype'])) unset($columns['flavour']);
 
 		$actions = array(
 			'properties' => array(
