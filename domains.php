@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.24 2006/06/18 00:02:48 xzilla Exp $
+	 * $Id: domains.php,v 1.25 2007/01/26 17:55:42 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -45,20 +45,20 @@
 		
 		if ($domaindata->recordCount() > 0) {
 			if (!isset($_POST['domname'])) {				
-				$_POST['domtype'] = $domaindata->f['domtype'];
-				$_POST['domdefault'] = $domaindata->f['domdef'];
-				$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
-				if ($domaindata->f['domnotnull']) $_POST['domnotnull'] = 'on';
-				$_POST['domowner'] = $domaindata->f['domowner'];
+				$_POST['domtype'] = $domaindata->fields['domtype'];
+				$_POST['domdefault'] = $domaindata->fields['domdef'];
+				$domaindata->fields['domnotnull'] = $data->phpBool($domaindata->fields['domnotnull']);
+				if ($domaindata->fields['domnotnull']) $_POST['domnotnull'] = 'on';
+				$_POST['domowner'] = $domaindata->fields['domowner'];
 			}
 			
 			// Display domain info
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domtype']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\"><label for=\"domnotnull\">{$lang['strnotnull']}</label></th>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"domnotnull\" name=\"domnotnull\"", (isset($_POST['domnotnull']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
@@ -67,7 +67,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"domowner\">";
 			while (!$users->EOF) {
-				$uname = $users->f['usename'];
+				$uname = $users->fields['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
 					($uname == $_POST['domowner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
@@ -185,22 +185,22 @@
 		
 		if ($domaindata->recordCount() > 0) {
 			// Show comment if any
-			if ($domaindata->f['domcomment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($domaindata->f['domcomment']), "</p>\n";
+			if ($domaindata->fields['domcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($domaindata->fields['domcomment']), "</p>\n";
 
 			// Display domain info
-			$domaindata->f['domnotnull'] = $data->phpBool($domaindata->f['domnotnull']);
+			$domaindata->fields['domnotnull'] = $data->phpBool($domaindata->fields['domnotnull']);
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strtype']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domtype']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domtype']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strnotnull']}</th>\n";
-			echo "<td class=\"data1\">", ($domaindata->f['domnotnull'] ? 'NOT NULL' : ''), "</td></tr>\n";
+			echo "<td class=\"data1\">", ($domaindata->fields['domnotnull'] ? 'NOT NULL' : ''), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domdef']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domdef']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strowner']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domowner']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domowner']), "</td></tr>\n";
 			echo "</table>\n";
 			
 			// Display domain constraints
@@ -214,13 +214,13 @@
 					
 					while (!$domaincons->EOF) {
 						$id = (($i % 2 ) == 0 ? '1' : '2');
-						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->f['conname']), "</td>";
+						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->fields['conname']), "</td>";
 						echo "<td class=\"data{$id}\">";
-						echo $misc->printVal($domaincons->f['consrc']);
+						echo $misc->printVal($domaincons->fields['consrc']);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f['conname']),
-							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
+						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->fields['conname']),
+							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->fields['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
 		
 						$domaincons->moveNext();
 						$i++;
@@ -306,9 +306,9 @@
 		// Output return type list		
 		echo "<select name=\"domtype\">\n";
 		while (!$types->EOF) {
-			echo "<option value=\"", htmlspecialchars($types->f['typname']), "\"", 
-				($types->f['typname'] == $_POST['domtype']) ? ' selected="selected"' : '', ">",
-				$misc->printVal($types->f['typname']), "</option>\n";
+			echo "<option value=\"", htmlspecialchars($types->fields['typname']), "\"", 
+				($types->fields['typname'] == $_POST['domtype']) ? ' selected="selected"' : '', ">",
+				$misc->printVal($types->fields['typname']), "</option>\n";
 			$types->moveNext();
 		}
 		echo "</select>\n";

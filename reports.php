@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.23 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: reports.php,v 1.24 2007/01/26 17:55:42 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -22,16 +22,16 @@
 		// If it's a first, load then get the data from the database
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
 		if ($_REQUEST['action'] == 'edit') {			
-			$_POST['report_name'] = $report->f['report_name'];
-			$_POST['db_name'] = $report->f['db_name'];
-			$_POST['descr'] = $report->f['descr'];
-			$_POST['report_sql'] = $report->f['report_sql'];
+			$_POST['report_name'] = $report->fields['report_name'];
+			$_POST['db_name'] = $report->fields['db_name'];
+			$_POST['descr'] = $report->fields['descr'];
+			$_POST['report_sql'] = $report->fields['report_sql'];
 		}
 
 		// Get a list of available databases
 		$databases = $data->getDatabases();
 
-		$_REQUEST['report'] = $report->f['report_name'];
+		$_REQUEST['report'] = $report->fields['report_name'];
 		$misc->printTrail('report');
 		$misc->printTitle($lang['stredit']);
 		$misc->printMsg($msg);
@@ -45,7 +45,7 @@
 		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
-			$dbname = $databases->f['datname'];
+			$dbname = $databases->fields['datname'];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
 			($dbname == $_POST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
@@ -62,7 +62,7 @@
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->f['report_id']}\" />\n";
+		echo "<input type=\"hidden\" name=\"report_id\" value=\"{$report->fields['report_id']}\" />\n";
 		echo "</form>\n";
 	}
 
@@ -99,7 +99,7 @@
 
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
 
-		$_REQUEST['report'] = $report->f['report_name'];
+		$_REQUEST['report'] = $report->fields['report_name'];
 		$misc->printTrail('report');
 		$misc->printTitle($lang['strproperties']);
 		$misc->printMsg($msg);
@@ -107,19 +107,19 @@
 		if ($report->recordCount() == 1) {
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strname']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($report->f['report_name']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->fields['report_name']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strdatabase']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($report->f['db_name']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->fields['db_name']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($report->f['descr']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->fields['descr']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strsql']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($report->f['report_sql']), "</td></tr>\n";
+			echo "<td class=\"data1\">", $misc->printVal($report->fields['report_sql']), "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;report_id={$report->f['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -149,7 +149,7 @@
 		echo "<tr><th class=\"data left required\">{$lang['strdatabase']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"db_name\">\n";
 		while (!$databases->EOF) {
-			$dbname = $databases->f['datname'];
+			$dbname = $databases->fields['datname'];
 			echo "<option value=\"", htmlspecialchars($dbname), "\"",
 			($dbname == $_REQUEST['db_name']) ? ' selected="selected"' : '', ">",
 				htmlspecialchars($dbname), "</option>\n";
@@ -205,11 +205,11 @@
 			// Fetch report from the database
 			$report = $reportsdb->getReport($_REQUEST['report_id']);
 
-			$_REQUEST['report'] = $report->f['report_name'];
+			$_REQUEST['report'] = $report->fields['report_name'];
 			$misc->printTrail('report');
 			$misc->printTitle($lang['strdrop']);
 
-			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->f['report_name'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->fields['report_name'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
