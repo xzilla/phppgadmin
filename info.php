@@ -3,7 +3,7 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.11 2005/10/18 03:45:16 chriskl Exp $
+	 * $Id: info.php,v 1.11.4.1 2007/01/27 01:46:25 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -97,11 +97,11 @@
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n";
 					if ($data->hasSchemas()) {
-						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->f['schemaname']), "</td>";
+						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->f['nspname']), "</td>";
 					}
 					echo "<td class=\"data{$id}\">", $misc->printVal($parents->f['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
-						"&amp;schema=", urlencode($parents->f['schemaname']),
+						"&amp;schema=", urlencode($parents->f['nspname']),
 						"&amp;table=", urlencode($parents->f['relname']), "\">{$lang['strproperties']}</a></td>\n";
 					echo "\t</tr>\n";
 					$parents->movenext();
