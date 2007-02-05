@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.85 2007/01/03 15:35:42 soranzo Exp $
+	 * $Id: tables.php,v 1.86 2007/02/05 19:48:06 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -195,6 +195,7 @@
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
 				if (!isset($_REQUEST['uniquekey'])) $_REQUEST['uniquekey'] = array();
 				if (!isset($_REQUEST['primarykey'])) $_REQUEST['primarykey'] = array();
+				if (!isset($_REQUEST['length'])) $_REQUEST['length'] = array();
 				// Default tablespace to null if it isn't set
 				if (!isset($_REQUEST['spcname'])) $_REQUEST['spcname'] = null;
 
