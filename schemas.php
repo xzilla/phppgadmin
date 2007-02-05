@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.10 2007/01/10 01:15:27 soranzo Exp $
+	 * $Id: schemas.php,v 1.11 2007/02/05 18:39:52 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -151,7 +151,7 @@
 	
 	/**
 	 * Display a form to permit editing schema properies.
-	 * TODO: permit changing name, owner
+	 * TODO: permit changing owner
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc,$PHP_SELF, $lang;
