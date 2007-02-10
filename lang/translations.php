@@ -2,7 +2,7 @@
 	/**
 	 * Supported Translations for phpPgAdmin
 	 *
-	 * $Id: translations.php,v 1.3 2006/12/30 02:29:50 xzilla Exp $
+	 * $Id: translations.php,v 1.4 2007/02/10 03:48:34 xzilla Exp $
 	 */
 	
 	
@@ -14,6 +14,8 @@
 		'catalan' => 'Catal&#224;',
 		'chinese-tr' => '&#32321;&#39636;&#20013;&#25991;',
 		'chinese-sim' => '&#31616;&#20307;&#20013;&#25991;',
+		'chinese-utf8-zh_TW' => '&#27491;&#39636;&#20013;&#25991;&#65288;UTF-8&#65289;', 
+		'chinese-utf8-zh_CN' => '&#31616;&#20307;&#20013;&#25991;&#65288;UTF-8&#65289;', 
 		'czech' => '&#268;esky',
 		'danish' => 'Danish',
 		'dutch' => 'Nederlands',
@@ -50,6 +52,8 @@
 		'ca' => 'catalan',
 		'zh' => 'chinese-tr',
 		'zh-cn' => 'chinese-sim',
+		'utf8-zh-cn' => 'chinese-utf8-cn',
+		'utf8-zh-tw' => 'chinese-utf8-tw',
 		'cs' => 'czech',
 		'da' => 'danish',
 		'nl' => 'dutch',

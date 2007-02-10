@@ -21,13 +21,15 @@
 # Modifications by Rafal Slubowski, 2003-12-12:
 #       All conversions of recoded text moved to convert.awk script
 # 
-# $Id: Makefile,v 1.47 2006/12/30 02:29:50 xzilla Exp $
+# $Id: Makefile,v 1.48 2007/02/10 03:48:35 xzilla Exp $
 
 DESTDIR=./recoded
 TARGETS=polish \
 	english \
-	chinese-tr \
 	chinese-sim \
+	chinese-tr \
+	chinese-utf8-zh_TW \
+	chinese-utf8-zh_CN \
 	danish \
 	dutch \
 	german \
@@ -114,17 +116,29 @@ italian:	italian.php
 		> ${DESTDIR}/italian.php
 	@chmod 644 italian.php ${DESTDIR}/italian.php
 
+chinese-sim:	chinese-sim.php
+	@echo "Recoding chinese-sim..."
+	@cat chinese-sim.php | recode gb2312..xml | ./convert.awk \
+		> ${DESTDIR}/chinese-sim.php
+	@chmod 644 chinese-sim.php ${DESTDIR}/chinese-sim.php
+
 chinese-tr:	chinese-tr.php
 	@echo "Recoding chinese-tr..."
 	@cat chinese-tr.php | recode big5..xml | ./convert.awk \
 		> ${DESTDIR}/chinese-tr.php
 	@chmod 644 chinese-tr.php ${DESTDIR}/chinese-tr.php
 
-chinese-sim:	chinese-sim.php
-	@echo "Recoding chinese-sim..."
-	@cat chinese-sim.php | recode gb2312..xml | ./convert.awk \
-		> ${DESTDIR}/chinese-sim.php
-	@chmod 644 chinese-sim.php ${DESTDIR}/chinese-sim.php
+chinese-utf8-zh_CN:	chinese-utf8-zh_CN.php
+	@echo "Recoding chinese-utf8-zh_CN..."
+	@cat chinese-utf8-zh_CN.php | recode utf-8..xml | ./convert.awk \
+		> ${DESTDIR}/chinese-utf8-zh_CN.php
+	@chmod 644 chinese-utf8-zh_CN.php ${DESTDIR}/chinese-utf8-zh_CN.php
+
+chinese-utf8-zh_TW:	chinese-utf8-zh_TW.php
+	@echo "Recoding chinese-utf8-zh_TW..."
+	@cat chinese-utf8-zh_TW.php | recode utf-8..xml | ./convert.awk \
+		> ${DESTDIR}/chinese-utf8-zh_TW.php
+	@chmod 644 chinese-utf8-zh_TW.php ${DESTDIR}/chinese-utf8-zh_TW.php
 
 french:	french.php
 	@echo "Recoding french..."
