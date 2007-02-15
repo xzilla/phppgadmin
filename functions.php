@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.58 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: functions.php,v 1.59 2007/02/15 18:30:23 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -269,7 +269,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $PHP_SELF, $lang, $_reload_browser;
 
 		if ($confirm) {
 			$misc->printTrail('schema');
@@ -292,10 +292,13 @@
 		}
 		else {
 			$status = $data->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
-			if ($status == 0)
+			if ($status == 0) {
+				$_reload_browser = true;
 				doDefault($lang['strfunctiondropped']);
-			else
+                        }
+			else {
 				doDefault($lang['strfunctiondroppedbad']);
+                        }
 		}
 		
 	}
