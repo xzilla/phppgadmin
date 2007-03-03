@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.200 2007/02/10 03:48:34 xzilla Exp $
+	 * $Id: english.php,v 1.201 2007/03/03 20:00:48 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -136,6 +136,9 @@
 	$lang['strfile'] = 'File';
 	$lang['strfileimported'] = 'File imported.';
 	$lang['strtrycred'] = 'Use these credentials for all servers';
+	$lang['stractionsonmultiplelines'] = 'Actions on multiple lines';
+	$lang['strcheckall'] = 'Check All';
+	$lang['struncheckall'] = 'Uncheck All';
 
 	// Database sizes
 	$lang['strsize'] = 'Size';

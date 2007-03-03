@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.138 2007/01/10 01:56:06 soranzo Exp $
+	 * $Id: Misc.php,v 1.139 2007/03/03 20:00:48 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1523,6 +1523,24 @@
 		 *					'vars'  => Associative array of (URL variable => field name),
 		 *				), ...
 		 *			);
+		 * @param $multiactions  Actions to be provided to a series of items defined by checkboxes
+		 *			$multiactions = array(
+		 *			'keycols' => array('table' => 'relname'),
+		 *   			'url' => "{$PHP_SELF}",
+		 *   			'actions' => array(
+		 *   				'empty' => array(
+		 *   				'action' => 'confirm_empty',
+		 *   				'title' => $lang['strempty'],
+		 *   			),
+		 *   			'drop' => array(
+		 *   				'action' => 'confirm_drop',
+		 *   				'title' => $lang['strdrop'],
+		 *   			),
+		 *   			'vacuum' => array(
+		 *   				'action' => 'confirm_vacuum',
+		 *					'title' => $lang['strvacuum'],
+		 *				)
+		 *			)
 		 * @param $nodata    (optional) Message to display if data set is empty.
 		 * @param $pre_fn    (optional) Name of a function to call for each row,
 		 *					 it will be passed two params: $rowdata and $actions,
@@ -1531,8 +1549,8 @@
 		 *					 or if nothing is returned then the standard actions are used.
 		 *					 (see functions.php and constraints.php for examples)
 		 */
-		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null) {
-			global $data, $conf, $misc;
+		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, &$multiactions = null) {
+			global $data, $conf, $misc, $lang;
 			global $PHP_SELF;
 
 			if ($tabledata->recordCount() > 0) {
@@ -1547,7 +1565,7 @@
 				// (Remove this section to keep the 'Properties' button instead of links)
 				if (isset($actions['properties'])) {
 					reset($columns);
-					$first_column = key($columns);
+					list($first_column) = each($columns);
 					$columns[$first_column]['url'] = $actions['properties']['url'];
 					$columns[$first_column]['vars'] = $actions['properties']['vars'];
 					unset($actions['properties']);
@@ -1558,10 +1576,18 @@
 					// TODO: This should be a user option.
 					//$columns['comment']['params']['clip'] = true;
 				}
-				
+
+				if (isset($multiactions)) {
+					echo "<form id=\"multi_form\" action=\"{$multiactions['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
+					if (isset($multiactions['vars']))
+						foreach ($multiactions['vars'] as $k => $v)
+							echo "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
+				}
+
 				echo "<table>\n";
 				echo "<tr>\n";
 				// Display column headings
+				if (isset($multiactions)) echo "<th></th>";
 				foreach ($columns as $column_id => $column) {
 					switch ($column_id) {
 						case 'actions':
@@ -1587,14 +1613,21 @@
 					unset($alt_actions);
 					if (!is_null($pre_fn)) $alt_actions = $pre_fn($tabledata, $actions);
 					if (!isset($alt_actions)) $alt_actions =& $actions;
-					
+
 					echo "<tr>\n";
-					
+					if (isset($multiactions)) {
+						foreach ($multiactions['keycols'] as $k => $v)
+							$a[$k] = $tabledata->fields[$v];
+						echo "<td class=\"data{$id}\">";
+						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a)) ."\" />";
+						echo "</td>\n";
+					}
+						
 					foreach ($columns as $column_id => $column) {
-					
+
 						// Apply default values for missing parameters
 						if (isset($column['url']) && !isset($column['vars'])) $column['vars'] = array();
-						
+
 						switch ($column_id) {
 							case 'actions':
 								foreach ($alt_actions as $action) {
@@ -1633,8 +1666,31 @@
 					$tabledata->moveNext();
 					$i++;
 				}
-				
 				echo "</table>\n";
+
+				// Multi action table footer w/ options & [un]check'em all
+				if (isset($multiactions)) {
+					echo "<table>\n";
+					echo "<tr>\n";
+					echo "<th class=\"data\" align=\"left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
+					echo "</tr>\n"; 
+					echo "<tr>\n";
+					echo "<td class=\"data1\">";
+					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strcheckall']}</a> / ";
+					echo "<a href=\"#\" onclick=\"javascript:checkAll(false);\">{$lang['struncheckall']}</a></td>\n";
+					echo "<td class=\"data1\">&nbsp;--->&nbsp;</td>\n";
+					echo "<td class=\"data1\">\n";
+					echo "\t<select name=\"action\">\n";
+						foreach($multiactions['actions'] as $o)
+							echo "\t\t<option value=\"{$o['action']}\">{$o['title']}</option>\n";
+					echo "\t</select>\n";
+					echo "<input type=\"submit\" value=\"submit\" />\n";
+					echo $misc->form;
+					echo "</td>\n";
+					echo "</tr>\n";
+					echo "</table>\n";
+					echo '</form>';
+				}; 
 				
 				return true;
 			} else {

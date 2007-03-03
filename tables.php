@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.86 2007/02/05 19:48:06 xzilla Exp $
+	 * $Id: tables.php,v 1.87 2007/03/03 20:00:48 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -497,27 +497,60 @@
 		global $lang;
 		global $PHP_SELF;
 
+		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
+			doDefault('No table(s) given to empty...'); //TODO i18n
+			exit();
+		}
+		
 		if ($confirm) {
-			$misc->printTrail('table');
-			$misc->printTitle($lang['strempty'],'pg.table.empty');
+			if (isset($_REQUEST['ma'])) {
+				$misc->printTrail('schema');
+				$misc->printTitle($lang['strempty'],'pg.table.empty');
 
-			echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				foreach ($_REQUEST['ma'] as $v) {
+					$a = unserialize(html_entity_decode($v));
+					echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($a['table'])), "</p>\n";
+					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
+				}
+			} // END mutli empty
+			else { 
+				$misc->printTrail('table');
+				$misc->printTitle($lang['strempty'],'pg.table.empty');
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			} // END not mutli empty
+
 			echo "<input type=\"hidden\" name=\"action\" value=\"empty\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"empty\" value=\"{$lang['strempty']}\" /> <input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		}
-		else {
-			$status = $data->emptyTable($_POST['table']);
-			if ($status == 0)
-				doDefault($lang['strtableemptied']);
-			else
-				doDefault($lang['strtableemptiedbad']);
-		}
-		
+		} // END if confirm
+		else { // Do Empty
+			if (is_array($_REQUEST['table'])) {
+				$msg='';
+				foreach($_REQUEST['table'] as $t) {
+					$status = $data->emptyTable($t);
+					if ($status == 0)
+						$msg.= sprintf('%s: %s<br />', $t, $lang['strtableemptied']);
+					else {
+						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strtableemptiedbad']));
+						return;
+					}
+				}
+				doDefault($msg);
+			} // END mutli empty
+			else { 
+				$status = $data->emptyTable($_POST['table']);
+				if ($status == 0)
+					doDefault($lang['strtableemptied']);
+				else
+					doDefault($lang['strtableemptiedbad']);
+			} // END not mutli empty
+		} // END do Empty
 	}
 
 	/**
@@ -527,36 +560,73 @@
 		global $data, $misc;
 		global $lang, $_reload_browser;
 		global $PHP_SELF;
-
+		
+		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
+			doDefault('No table(s) given to drop...'); // TODO i18n
+			exit();
+		}
+		
 		if ($confirm) {
-			$misc->printTrail('table');
-			$misc->printTitle($lang['strdrop'], 'pg.table.drop');
+			//If multi drop
+			if (isset($_REQUEST['ma'])) {
 
-			echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+				$misc->printTrail('schema');
+				$misc->printTitle($lang['strdrop'], 'pg.table.drop');
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(html_entity_decode($v));
+					echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($a['table'])), "</p>\n";
+					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
+				}
+			} else {
+
+				$misc->printTrail('table');
+				$misc->printTitle($lang['strdrop'], 'pg.table.drop');
+
+				echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			}// END if multi drop
+
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			} 
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		}
+		} // END confirm
 		else {
-			$status = $data->dropTable($_POST['table'], isset($_POST['cascade']));
-			if ($status == 0) {
+			//If multi drop
+			if (is_array($_REQUEST['table'])) {
+				$msg='';
+				foreach($_REQUEST['table'] as $t) {
+					$status = $data->dropTable($t, isset($_POST['cascade']));
+					if ($status == 0)
+						$msg.= sprintf('%s: %s<br />', $t, $lang['strtabledropped']);
+					else {
+						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strtabledroppedbad']));
+						return;
+					}
+				}
+				// Everything went fine, back to the Default page....
 				$_reload_browser = true;
-				doDefault($lang['strtabledropped']);
+				doDefault($msg);
+			} else {
+				$status = $data->dropTable($_POST['table'], isset($_POST['cascade']));
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strtabledropped']);
+				}
+				else
+					doDefault($lang['strtabledroppedbad']);
 			}
-			else
-				doDefault($lang['strtabledroppedbad']);
-		}
-		
-	}
+		} // END DROP
+	}// END Function
 
 
 	/**
@@ -567,15 +637,32 @@
 		global $lang, $_reload_browser;
 		global $PHP_SELF;
 
+		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
+			doDefault('No table(s) given to vacuum...'); //TODO i18n
+			exit();
+		}
 		if ($confirm) {
-			$misc->printTrail('table');
-			$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
+			if (isset($_REQUEST['ma'])) {
+				$misc->printTrail('schema');
+				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
-			echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(html_entity_decode($v));
+					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($a['table'])), "</p>\n";
+					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
+				}
+			} // END if multi vacuum
+			else {
+				$misc->printTrail('table');
+				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			}
 			echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			// Show vacuum full option if supportd
 			if ($data->hasFullVacuum()) {
@@ -585,17 +672,34 @@
 			echo "<input type=\"submit\" name=\"vacuum\" value=\"{$lang['strvacuum']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		}
+		} // END single vacuum
 		else {
-			$status = $data->vacuumDB($_POST['table'], isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
-			if ($status == 0) {
-				$_reload_browser = true;
-				doDefault($lang['strvacuumgood']);
+			//If multi drop
+			if (is_array($_REQUEST['table'])) {
+				$msg='';
+				foreach($_REQUEST['table'] as $t) {
+					$status = $data->vacuumDB($t, isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
+					if ($status == 0)
+						$msg.= sprintf('%s: %s<br />', $t, $lang['strvacuumgood']);
+					else {
+						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strvacuumbad']));
+						return;
+					}
+				}
+				 // Everything went fine, back to the Default page....
+				 $_reload_browser = true;
+				 doDefault($msg);
 			}
-			else
-				doDefault($lang['strvacuumbad']);
+			else {
+				$status = $data->vacuumDB($_POST['table'], isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strvacuumgood']);
+				}
+				else
+					doDefault($lang['strvacuumbad']);
+			}
 		}
-		
 	}
 
 	/**
@@ -608,9 +712,30 @@
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','tables');
 		$misc->printMsg($msg);
-		
+	
+		echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>";
+
 		$tables = $data->getTables();
 		
+		$multiactions = array(
+			'keycols' => array('table' => 'relname'),
+			'url' => "{$PHP_SELF}",
+			'actions' => array(
+				'empty' => array(
+					'action' => 'confirm_empty',
+					'title' => $lang['strempty'],
+				),
+				'drop' => array(
+					'action' => 'confirm_drop',
+					'title' => $lang['strdrop'],
+				),
+				'vacuum' => array(
+					'action' => 'confirm_vacuum',
+					'title' => $lang['strvacuum'],
+				)
+			)
+		);
+			
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
@@ -678,7 +803,7 @@
 		
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
-		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
+		$misc->printTable($tables, $columns, $actions, $lang['strnotables'], null, $multiactions);
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
