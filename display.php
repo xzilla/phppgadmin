@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.57 2007/01/03 15:35:42 soranzo Exp $
+	 * $Id: display.php,v 1.55.2.1 2007/03/03 14:29:53 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -31,26 +31,28 @@
 		global $lang;
 		global $PHP_SELF;
 
-		$key = $_REQUEST['key'];
+		if (is_array($_REQUEST['key']))
+           $key = $_REQUEST['key'];
+       	else
+           $key = unserialize($_REQUEST['key']);
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['streditrow']);
 			$misc->printMsg($msg);
 
-			$bAllowAC = ($conf['autocomplete'] != 'disable') ? TRUE : FALSE;
+			$bAllowAC = ($conf["autocomplete"]!='disable') ? TRUE : FALSE ;
 			if($bAllowAC) {
 				$constraints = $data->getConstraints($_REQUEST['table']);
 				$arrayLocals = array();
 				$arrayRefs = array();
 				$nC = 0;
+				// A word of caution, the following does not support multicolumn FK's at the moment
 				while(!$constraints->EOF) {
-					// The following RE will match a FK constrain with a single (quoted or not) referencing column. At the moment we don't support multicolumn FKs
-					preg_match('/^FOREIGN KEY \(("[^"]*"|[^\s",]*)\) REFERENCES (.*)\((.*)\)/i', $constraints->fields['consrc'], $matches);
+					preg_match('/foreign key \((\w+)\) references ([\w]+)\((\w+)\)/i',$constraints->fields["consrc"],$matches);
 					if(!empty($matches)) {
-						// Strip possible quotes and save
-						$arrayLocals[$nC] = preg_replace('/"(.*)"/', '$1', $matches[1]);
-						$arrayRefs[$nC] = array(preg_replace('/"(.*)"/', '$1', $matches[2]), preg_replace('/"(.*)"/', '$1', $matches[3]));
+						$arrayLocals[$nC] = $matches[1];
+						$arrayRefs[$nC] = array($matches[2],$matches[3]);
 						$nC++;
 					}
 					$constraints->moveNext();
@@ -72,15 +74,14 @@
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
+				$nCC = 0;
 				while (!$attrs->EOF) {
 					$szValueName = "values[{$attrs->f['attname']}]";
-					$szEvents = '';
-					$szDivPH = '';
+					$szEvents = "";
+					$szDivPH = "";
 					if($bAllowAC) {
-						$idxFound = array_search($attrs->f['attname'], $arrayLocals);
-						// In PHP < 4.2.0 array_search returns NULL on failure
-						if ($idxFound !== NULL && $idxFound !== FALSE) {
-							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
+						if(($idxFound = array_search($attrs->f['attname'],$arrayLocals))!==false) {
+							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST["server"]}','{$_REQUEST["database"]}');";
 							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
 						}
@@ -174,7 +175,7 @@
 			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			if($bAllowAC) {
-				$szChecked = $conf['autocomplete'] != 'default off' ? 'checked="checked"' : '';
+				$szChecked = $conf["autocomplete"]!='default off' ? "checked=\"checked\"" : "";
 				echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
 			}
 			echo "</p>\n";
