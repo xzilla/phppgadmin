@@ -1,6 +1,16 @@
 phpPgAdmin History
 ------------------
 
+Version 4.1.1
+-------------
+
+Bugs
+* Fix error when using $conf[owned_only] on 8.1 & 8.2 
+* Fix error displaying schema names for parents of inherited tables
+* Clean up non-standard escape warnings for PostgreSQL 8.2
+* Fix improper text quoting for droping roles and aggregates
+
+
 Version 4.1
 -----------
 
@@ -26,8 +36,7 @@ Features
 * Add global comments for databases and tablespaces  
 
 Translations
-* Catalan from Bernat 
-* Romanian from Alin Vaida
+* Catalan translation from Bernat 
 
 Version 4.0
 -----------

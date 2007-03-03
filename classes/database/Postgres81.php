@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.14 2006/12/31 19:04:05 xzilla Exp $
+ * $Id: Postgres81.php,v 1.12.2.1 2007/03/03 14:02:38 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -72,7 +72,7 @@ class Postgres81 extends Postgres80 {
 
 	// Database Functions
 	/**
-	 * Returns all databases available on the server
+	 * Return all database available on the server
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function getDatabases($currentdatabase = NULL) {
@@ -112,7 +112,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Returns prepared transactions information
-	 * @param $database (optional) Find only prepared transactions executed in a specific database
+	 * @param $database (optional) Find only prepared trasactions executed in a specific database
 	 * @return A recordset
 	 */
 	function getPreparedXacts($database = null) {
@@ -131,7 +131,7 @@ class Postgres81 extends Postgres80 {
 		
 	/**
 	 * Returns all roles in the database cluster
-	 * @param $rolename (optional) The role name to exclude from the select
+	 * @param $rolename (optional) The roleme to exclude from the select
 	 * @return All roles
 	 */
 	function getRoles($rolename = '') {
@@ -145,7 +145,7 @@ class Postgres81 extends Postgres80 {
 	
 	/**
 	 * Returns information about a single role
-	 * @param $rolename The name of the role to retrieve
+	 * @param $rolename The rolename of the role to retrieve
 	 * @return The role's data
 	 */
 	function getRole($rolename) {
@@ -159,7 +159,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Creates a new role
-	 * @param $rolename The name of the role to create
+	 * @param $rolename The rolename of the role to create
 	 * @param $password A password for the role
 	 * @param $superuser Boolean whether or not the role is a superuser
 	 * @param $createdb Boolean whether or not the role can create databases
@@ -201,7 +201,7 @@ class Postgres81 extends Postgres80 {
 	
 	/**
 	 * Removes a role
-	 * @param $rolename The name of the role to drop
+	 * @param $rolename The rolename of the role to drop
 	 * @return 0 success
 	 */
 	function dropRole($rolename) {
@@ -214,7 +214,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Adjusts a role's info and renames it
-	 * @param $rolename The name of the role to adjust
+	 * @param $rolename The rolename of the role to create
 	 * @param $password A password for the role
 	 * @param $superuser Boolean whether or not the role is a superuser
 	 * @param $createdb Boolean whether or not the role can create databases
@@ -259,7 +259,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Adjusts a role's info
-	 * @param $rolename The name of the role to adjust
+	 * @param $rolename The rolename of the role to create
 	 * @param $password A password for the role
 	 * @param $superuser Boolean whether or not the role is a superuser
 	 * @param $createdb Boolean whether or not the role can create databases
@@ -359,7 +359,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Renames a role
-	 * @param $rolename The name of the role to rename
+	 * @param $rolename The rolename of the role to rename
 	 * @param $newrolename The new name of the role
 	 * @return 0 success
 	 */
@@ -410,7 +410,7 @@ class Postgres81 extends Postgres80 {
 
 	/**
 	 * Changes a role's password
-	 * @param $rolename The role name
+	 * @param $rolename The rolename
 	 * @param $password The new password
 	 * @return 0 success
 	 */
@@ -425,12 +425,12 @@ class Postgres81 extends Postgres80 {
 	}
 
 	/**
-	* Returns all role names which the role belongs to
-	* @param $rolename The role name
-	* @return All role names
+	* Returns all rolenames which the role belongs to
+	* @param $rolename The rolename
+	* @return All rolenames
 	*/
 	function getMemberOf($rolename) {
-		$this->clean($rolename);
+		$this->clean($rolname);
 
 		$sql = "SELECT rolname FROM pg_catalog.pg_roles R, pg_auth_members M WHERE R.oid=M.roleid 
 			AND member IN (SELECT oid FROM pg_catalog.pg_roles WHERE rolname='{$rolename}') ORDER BY rolname";
@@ -439,13 +439,13 @@ class Postgres81 extends Postgres80 {
 	}
 
 	/**
-	* Returns all role names that are members of a role
-	* @param $rolename The role name
+	* Returns all rolenames that are members of a role
+	* @param $rolename The rolename
 	* @param $admin (optional) Find only admin members
-	* @return All role names
+	* @return All rolenames
 	*/
 	function getMembers($rolename, $admin = 'f') {
-		$this->clean($rolename);
+		$this->clean($rolname);
 
 		$sql = "SELECT rolname FROM pg_catalog.pg_roles R, pg_auth_members M WHERE R.oid=M.member AND admin_option='{$admin}' 
 			AND roleid IN (SELECT oid FROM pg_catalog.pg_roles WHERE rolname='{$rolename}') ORDER BY rolname";

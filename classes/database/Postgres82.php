@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.2 support
  *
- * $Id: Postgres82.php,v 1.4 2006/12/31 19:06:16 xzilla Exp $
+ * $Id: Postgres82.php,v 1.3.2.1 2007/03/03 14:02:38 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres81.php');
