@@ -5,6 +5,7 @@ Version 4.1.1
 -------------
 
 Bugs
+* Fix problem where failed update would report as duplicate update error and fail to return edit screen
 * Fix error when using $conf[owned_only] on 8.1 & 8.2 
 * Fix error displaying schema names for parents of inherited tables
 * Clean up non-standard escape warnings for PostgreSQL 8.2
