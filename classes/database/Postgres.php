@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.294 2007/01/21 22:59:25 xzilla Exp $
+ * $Id: Postgres.php,v 1.295 2007/03/03 14:25:14 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1722,7 +1722,10 @@ class Postgres extends ADODB_base {
 			}
 
 			$status = $this->execute($sql);
-			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
+			if ($status != 0) { // update failed
+				$this->rollbackTransaction();
+				return -1;
+			} elseif ($this->conn->Affected_Rows() != 1) { // more than one row could be updated
 				$this->rollbackTransaction();
 				return -2;
 			}

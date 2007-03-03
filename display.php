@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.57 2007/01/03 15:35:42 soranzo Exp $
+	 * $Id: display.php,v 1.58 2007/03/03 14:25:14 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -31,7 +31,10 @@
 		global $lang;
 		global $PHP_SELF;
 
-		$key = $_REQUEST['key'];
+		if (is_array($_REQUEST['key']))
+           $key = $_REQUEST['key'];
+        else
+           $key = unserialize($_REQUEST['key']);
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
