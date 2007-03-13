@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.19 2007/01/11 20:55:13 xzilla Exp $
+     * $Id: french.php,v 1.20 2007/03/13 02:39:22 xzilla Exp $
      */
 
     // Language and character set
@@ -136,6 +136,9 @@
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier import&#233;.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
+	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
+	$lang['strcheckall']  =  'S&#233;lectionner tout';
+	$lang['struncheckall']  =  'Des&#233;lectionner tout';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
