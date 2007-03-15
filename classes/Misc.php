@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.139 2007/03/03 20:00:48 xzilla Exp $
+	 * $Id: Misc.php,v 1.140 2007/03/15 16:14:10 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1549,7 +1549,7 @@
 		 *					 or if nothing is returned then the standard actions are used.
 		 *					 (see functions.php and constraints.php for examples)
 		 */
-		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, &$multiactions = null) {
+		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, $multiactions = null) {
 			global $data, $conf, $misc, $lang;
 			global $PHP_SELF;
 
