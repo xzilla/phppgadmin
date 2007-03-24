@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.74 2007/01/22 16:33:01 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.75 2007/03/24 02:33:59 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -568,7 +568,7 @@
 								array(
 									'table'		=> $_REQUEST['table'],
 									'column'	=> field('attname'),
-									'query'		=> prepareSQL(
+									'query'		=> replace(
 														"SELECT %column%, count(*) AS \"count\" FROM %table% GROUP BY %column% ORDER BY %column%", 
 														array (
 															'%column%' => field('attname'),
