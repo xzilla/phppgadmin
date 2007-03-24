@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.58 2007/03/03 14:25:14 xzilla Exp $
+	 * $Id: display.php,v 1.59 2007/03/24 02:15:54 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -253,7 +253,7 @@
 	/** 
 	 * Displays requested data
 	 */
-	function doBrowse() {
+	function doBrowse($msg = '') {
 		global $data, $conf, $misc, $lang;
 		
 		// If current page is not set, default to first page
@@ -278,6 +278,8 @@
 			$misc->printTitle($lang['strqueryresults']);
 			$type = 'QUERY';
 		}
+
+		$misc->printMsg($msg);
 
 		// If 'sortkey' is not set, default to ''
 		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
