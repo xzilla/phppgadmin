@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.111 2006/12/30 02:48:31 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.111.2.1 2007/03/24 21:24:54 xzilla Exp $
 	 */
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -15,7 +15,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '4.1';
+	$appVersion = '4.1.1';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';

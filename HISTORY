@@ -10,7 +10,7 @@ Bugs
 * Fix error displaying schema names for parents of inherited tables
 * Clean up non-standard escape warnings for PostgreSQL 8.2
 * Fix improper text quoting for droping roles and aggregates
-
+* Fix bug when dumping mixed case table names in PostgreSQL 8.2
 
 Version 4.1
 -----------
