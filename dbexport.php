@@ -3,7 +3,7 @@
 	 * Does an export of a database or a table (via pg_dump)
 	 * to the screen or as a download.
 	 *
-	 * $Id: dbexport.php,v 1.21 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: dbexport.php,v 1.21.6.1 2007/03/24 19:19:16 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -69,11 +69,16 @@
 			// Obtain the pg_dump version number
 			$version = array();
 			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec($exe . " --version"), $version);
-			
+
+			// Starting in 8.2, -n and -t are orthagonal, so we now schema qualify
+            // the table name in the -t argument and quote both identifiers
+			if ( ((float) $version[1]) >= 8.2 ) {
+				$cmd .= " -t " . $misc->escapeShellArg('"'. $_REQUEST['schema'] . '"') . "." . $misc->escapeShellArg('"' .$_REQUEST[$_REQUEST['subject']] .'"');
+            }
+			elseif (((float) $version[1]) >= 7.4) {
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
-			if (((float) $version[1]) >= 7.4) {
 				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST[$_REQUEST['subject']]);
 				// Even though they're using a schema-enabled pg_dump, the backend database
 				// may not support schemas.
