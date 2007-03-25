@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.88 2006/09/30 17:30:56 xzilla Exp $
+	 * $Id: database.php,v 1.89 2007/03/25 16:16:21 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -287,7 +287,7 @@
 		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
 		// Data only
 		echo "<tr><th class=\"data left\" rowspan=\"2\">";
-		echo "<input type=\"radio\" id=\"what\" name=\"what1\" value=\"dataonly\" checked=\"checked\" /><label for=\"what1\">{$lang['strdataonly']}</label></th>\n";
+		echo "<input type=\"radio\" id=\"what1\" name=\"what\" value=\"dataonly\" checked=\"checked\" /><label for=\"what1\">{$lang['strdataonly']}</label></th>\n";
 		echo "<td>{$lang['strformat']}</td>\n";
 		echo "<td><select name=\"d_format\">\n";
 		echo "<option value=\"copy\">COPY</option>\n";
