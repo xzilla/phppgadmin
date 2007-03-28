@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.56 2007/01/10 02:01:17 soranzo Exp $
+ * $Id: Postgres74.php,v 1.57 2007/03/28 18:52:34 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -50,9 +50,10 @@ class Postgres74 extends Postgres73 {
 	 * @return -2 owner error
 	 * @return -3 rename error
 	 */
-	function alterDatabase($dbName, $newName, $newOwner = '')
+	function alterDatabase($dbName, $newName, $newOwner = '', $comment = '')
 	{
 		//ignore $newowner, not supported pre 8.0
+		//ignore $comment, not supported pre 8.2
 		$this->clean($dbName);
 		$this->clean($newName);
 		

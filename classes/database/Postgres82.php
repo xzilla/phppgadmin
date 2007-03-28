@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.2 support
  *
- * $Id: Postgres82.php,v 1.4 2006/12/31 19:06:16 xzilla Exp $
+ * $Id: Postgres82.php,v 1.5 2007/03/28 18:52:34 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres81.php');
@@ -112,21 +112,41 @@ class Postgres82 extends Postgres81 {
 	 * @return -3 rename error
 	 * @return -4 comment error
 	 */
-	function alterDatabase($dbName, $newName, $newOwner = '',$comment = '')
+	function alterDatabase($dbName, $newName, $newOwner = '', $comment = '')
 	{
-		//ignore $newowner, not supported pre 8.0
-		//ignore $comment, not supported pre 8.2
 		$this->clean($dbName);
 		$this->clean($newName);
+		$this->clean($newOwner);
+		$this->clean($comment);
 		
-		$status = $this->alterDatabaseRename($dbName, $newName);
-		if ($status != 0) return -3;
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
+		if ($dbName != $newName) {
+			$status = $this->alterDatabaseRename($dbName, $newName);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		$status = $this->alterDatabaseOwner($newName, $newOwner);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
+		}
 
 		if (trim($comment) != '' ) {	
-			$status = $this->setComment('DATABASE',$dbName,'', $comment);
-			if ($status != 0) return -4;
+			$status = $this->setComment('DATABASE', $dbName, '', $comment);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -4;
+			}
 		}
-		else return 0;
+		return $this->endTransaction();
 	}
 
 	/**

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.21 2006/12/31 15:35:49 xzilla Exp $
+ * $Id: Postgres80.php,v 1.22 2007/03/28 18:52:34 soranzo Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -94,11 +94,12 @@ class Postgres80 extends Postgres74 {
 	 * @return -2 owner error
 	 * @return -3 rename error
 	 */
-	function alterDatabase($dbName, $newName, $newOwner = '')
+	function alterDatabase($dbName, $newName, $newOwner = '', $comment = '')
 	{
 		$this->clean($dbName);
 		$this->clean($newName);
 		$this->clean($newOwner);
+		//ignore $comment, not supported pre 8.2
 		
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -121,6 +122,7 @@ class Postgres80 extends Postgres74 {
 		}
 		return $this->endTransaction();
 	}
+
 	/**
 	 * Changes ownership of a database
 	 * This can only be done by a superuser or the owner of the database
