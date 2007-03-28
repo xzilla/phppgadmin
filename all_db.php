@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.47 2007/01/10 00:38:48 soranzo Exp $
+	 * $Id: all_db.php,v 1.48 2007/03/28 18:15:49 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -68,8 +68,9 @@
 			echo "</form>\n";
 		}
 		else {
-			$newOwner = isset($_POST['owner']) ? $_POST['owner'] : '';
-			if ($data->AlterDatabase($_POST['oldname'], $_POST['newname'], $newOwner, $_POST['dbcomment']) == 0) {
+			if (!isset($_POST['owner'])) $_POST['owner'] = '';
+			if (!isset($_POST['dbcomment'])) $_POST['dbcomment'] = '';
+			if ($data->alterDatabase($_POST['oldname'], $_POST['newname'], $_POST['owner'], $_POST['dbcomment']) == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasealtered']);
 			}
