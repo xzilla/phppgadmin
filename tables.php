@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.87 2007/03/03 20:00:48 xzilla Exp $
+	 * $Id: tables.php,v 1.88 2007/04/01 16:02:07 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -703,6 +703,75 @@
 	}
 
 	/**
+	 * Show confirmation of analyze and perform analyze
+	 */
+	function doAnalyze($confirm) {
+		global $data, $misc;
+		global $lang, $_reload_browser;
+		global $PHP_SELF;
+
+		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
+			doDefault('No table(s) given to analyze...'); //TODO i18n
+			exit();
+		}
+		if ($confirm) {
+			if (isset($_REQUEST['ma'])) {
+				$misc->printTrail('schema');
+				$misc->printTitle($lang['stranalyze'], 'pg.analyze'); //TODO
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(html_entity_decode($v));
+					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
+					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
+				}
+			} // END if multi analyze
+			else {
+				$misc->printTrail('table');
+				$misc->printTitle($lang['stranalyze'], 'pg.analyze'); //TODO
+
+				echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
+
+				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			}
+			echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
+			echo $misc->form;
+
+			echo "<input type=\"submit\" name=\"analyze\" value=\"{$lang['stranalyze']}\" />\n"; //TODO
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		} // END single analyze
+		else {
+			//If multi drop
+			if (is_array($_REQUEST['table'])) {
+				$msg='';
+				foreach($_REQUEST['table'] as $t) {
+					$status = $data->analyzeDB($t);
+					if ($status == 0)
+						$msg.= sprintf('%s: %s<br />', $t, $lang['stranalyzegood']);
+					else {
+						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['stranalyzebad']));
+						return;
+					}
+				}
+				 // Everything went fine, back to the Default page....
+				 $_reload_browser = true;
+				 doDefault($msg);
+			}
+			else {
+				$status = $data->analyzeDB($_POST['table']);
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['stranalyzegood']);
+				}
+				else
+					doDefault($lang['stranalyzebad']);
+			}
+		}
+	}
+
+	/**
 	 * Show default list of tables in the database
 	 */
 	function doDefault($msg = '') {
@@ -732,6 +801,10 @@
 				'vacuum' => array(
 					'action' => 'confirm_vacuum',
 					'title' => $lang['strvacuum'],
+				),
+				'analyze' => array(
+					'action' => 'confirm_analyze',
+					'title' => $lang['stranalyze'],
 				)
 			)
 		);
@@ -799,8 +872,14 @@
 				'url'   => "{$PHP_SELF}?action=confirm_vacuum&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
+			'analyze' => array(
+				'title' => $lang['stranalyze'],
+				'url'   => "{$PHP_SELF}?action=confirm_analyze&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+			),
 		);
 		
+		if (!$data->hasAnalyze()) unset($actions['analyze'], $multiactions['actions']['analyze']);
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables'], null, $multiactions);
@@ -887,6 +966,13 @@
 			break;
 		case 'confirm_vacuum':
 			doVacuum(true);
+			break;
+		case 'analyze':
+			if (isset($_POST['analyze'])) doAnalyze(false);
+			else doDefault();
+			break;
+		case 'confirm_analyze':
+			doAnalyze(true);
 			break;
 		default:
 			doDefault();

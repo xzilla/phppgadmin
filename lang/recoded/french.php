@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.20 2007/03/13 02:39:22 xzilla Exp $
+     * $Id: french.php,v 1.21 2007/04/01 16:02:06 xzilla Exp $
      */
 
     // Language and character set
@@ -136,9 +136,9 @@
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier import&#233;.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
-	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-	$lang['strcheckall']  =  'S&#233;lectionner tout';
-	$lang['struncheckall']  =  'Des&#233;lectionner tout';
+		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
+		$lang['strcheckall']  =  'S&#233;lectionner tout';
+		$lang['struncheckall']  =  'Des&#233;lectionner tout';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -224,7 +224,8 @@
     $lang['strstructureanddata']  =  'Structure et donn&#233;es';
     $lang['strtabbed']  =  'Tabul&#233;';
     $lang['strauto']  =  'Auto';
-    $lang['strconfvacuumtable']  =  '&#202;tes-vous sur de vouloir faire un vacuum de &#171; %s &#187; ?';
+    $lang['strconfvacuumtable']  =  '&#202;tes-vous s&#251;r de vouloir faire un vacuum de &#171; %s &#187; ?';
+		$lang['strconfanalyzetable']  =  '&#202;tes-vous s&#251;r de vouloir &#233;ffectuer un ANALYZE sur &#171; %s &#187; ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&#233;s';
 
 	// Columns

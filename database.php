@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.89 2007/03/25 16:16:21 xzilla Exp $
+	 * $Id: database.php,v 1.90 2007/04/01 16:02:07 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -518,9 +518,11 @@
 				echo "<th class=\"data\">";
 				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
 				echo "</th>";
-				echo "<th class=\"data\">";
-				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
-				echo "</th>";
+				if ($data->hasAnalyze()){
+					echo "<th class=\"data\">";
+					$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
+					echo "</th>";
+				}
 				if ($data->hasRecluster()){
 					echo "<th class=\"data\">";
 					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
@@ -547,13 +549,15 @@
 				echo "</td>\n";
 
 				// Analyze
-				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
-				echo $misc->form;
-				echo "</form>\n";
-				echo "</td>\n";
+				if ($data->hasAnalyze()) {
+					echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
+					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+					echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
+					echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
+					echo $misc->form;
+					echo "</form>\n";
+					echo "</td>\n";
+				}
 				
 				// Recluster
 				if ($data->hasRecluster()){

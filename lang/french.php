@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.21 2007/03/13 02:39:22 xzilla Exp $
+     * $Id: french.php,v 1.22 2007/04/01 16:02:07 xzilla Exp $
      */
 
     // Language and character set
@@ -136,9 +136,9 @@
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier importé.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
-	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-	$lang['strcheckall']  =  'Sélectionner tout';
-	$lang['struncheckall']  =  'Desélectionner tout';
+		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
+		$lang['strcheckall']  =  'Sélectionner tout';
+		$lang['struncheckall']  =  'Desélectionner tout';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -224,7 +224,8 @@
     $lang['strstructureanddata']  =  'Structure et données';
     $lang['strtabbed']  =  'Tabulé';
     $lang['strauto']  =  'Auto';
-    $lang['strconfvacuumtable']  =  'Êtes-vous sur de vouloir faire un vacuum de « %s » ?';
+    $lang['strconfvacuumtable']  =  'Êtes-vous sûr de vouloir faire un vacuum de « %s » ?';
+		$lang['strconfanalyzetable']  =  'Êtes-vous sûr de vouloir éffectuer un ANALYZE sur « %s » ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estimés';
 
 	// Columns
