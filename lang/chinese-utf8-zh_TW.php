@@ -5,7 +5,7 @@
 	 * for new translations.
 	 *
 	 *Translated by 郭朝益 ChaoYi, Kuo [kuo.chaoyi@gmail.com]
-	 * $Id: chinese-utf8-zh_TW.php,v 1.2 2007/02/21 04:35:01 xzilla Exp $
+	 * $Id: chinese-utf8-zh_TW.php,v 1.3 2007/04/01 15:45:03 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -36,7 +36,7 @@
 	$lang['strhost'] = '主機';
 	$lang['strport'] = '埠號';
 	$lang['strlogout'] = '登出';
-	$lang['strowner'] = '擁有者';
+	$lang['strowner'] = '擁有人';
 	$lang['straction'] = '動作';
 	$lang['stractions'] = '動作';
 	$lang['strname'] = '名稱';
@@ -69,7 +69,7 @@
 	$lang['strselect'] = '選取';
 	$lang['strdelete'] = '刪除';
 	$lang['strupdate'] = '更新';
-	$lang['strreferences'] = '參考';
+	$lang['strreferences'] = '參照';
 	$lang['stryes'] = '是';
 	$lang['strno'] = '否';
 	$lang['strtrue'] = '真(TRUE)';
@@ -91,7 +91,7 @@
 	$lang['strprimary'] = '主鍵(pkey)';
 	$lang['strexport'] = '匯出';
 	$lang['strimport'] = '匯入';
-	$lang['strallowednulls'] = '已允許空字元';
+	$lang['strallowednulls'] = '已允許空字串';
 	$lang['strbackslashn'] = '\N';
 	$lang['strnull'] = 'NULL (字)';
 	$lang['stremptystring'] = '空 字串/欄位';
@@ -105,9 +105,9 @@
 	$lang['strrun'] = '執行';
 	$lang['stradd'] = '新增';
 	$lang['strevent'] = '事件';
-	$lang['strwhere'] = '在那裡';
-	$lang['strinstead'] = '這樣反而';
-	$lang['strwhen'] = '然後';
+	$lang['strwhere'] = 'Where';
+	$lang['strinstead'] = '已被取代';
+	$lang['strwhen'] = 'When';
 	$lang['strformat'] = '格式';
 	$lang['strdata'] = '資料';
 	$lang['strconfirm'] = '確認';
@@ -116,8 +116,8 @@
 	$lang['strseparator'] = '：';
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '摺疊';
-	$lang['strexplain'] = '闡明';
-	$lang['strexplainanalyze'] = '闡明分析';
+	$lang['strexplain'] = '解釋';
+	$lang['strexplainanalyze'] = '解釋分析';
 	$lang['strfind'] = '尋找';
 	$lang['stroptions'] = '選項';
 	$lang['strrefresh'] = '重新整理';
@@ -131,13 +131,16 @@
 	$lang['strprocesses'] = '進程';
 	$lang['strsetting'] = '設定';
 	$lang['streditsql'] = '編輯 SQL';
-	$lang['strruntime'] = '總共執行時間：%s ms';
+	$lang['strruntime'] = '總共運行時間：%s ms';
 	$lang['strpaginate'] = '分頁顯示結果';
 	$lang['struploadscript'] = '或是上傳一個 SQL 稿本檔：';
-	$lang['strstarttime'] = '開始時間';
+	$lang['strstarttime'] = '啟動時間';
 	$lang['strfile'] = '檔案';
 	$lang['strfileimported'] = '檔案已匯入。';
-	$lang['strtrycred'] = '為全部伺服器使用這些證件';
+	$lang['strtrycred'] = '使用這些憑證給全部伺服器';
+	$lang['stractionsonmultiplelines'] = '作用在多重的行列上';
+	$lang['strcheckall'] = '檢查全部';
+	$lang['struncheckall'] = '不檢查全部';
 
 	// Database sizes
 	$lang['strsize'] = '容量';
@@ -151,25 +154,25 @@
 	
 	$lang['strnoframes'] = '這個應用最好以一個能啟用頁框的瀏覽器運作, 但也能夠被使用在沒有頁框下接繼運作。';
 	$lang['strnoframeslink'] = '使用不包括框架';
-	$lang['strbadconfig'] = '您的 config.inc.php 是過時的。您將需要從新的 config.inc.php-dist 再生它 。';
+	$lang['strbadconfig'] = '您的 config.inc.php 是過時的。您將需要從新的 config.inc.php-dist 重建它 。';
 	$lang['strnotloaded'] = '您的 PHP 環境未安裝 PostgreSQL 必要的支持。您必需重新編譯 PHP 使用 --with-pgsql configure 選項。';
 	$lang['strpostgresqlversionnotsupported'] = 'PostgreSQL 版本未被支持。請升級版本到 %s 或是更高者。';
-	$lang['strbadschema'] = '指定了無效的綱要模式。';
-	$lang['strbadencoding'] = '資料庫無法設定使用者端的編碼方式。';
+	$lang['strbadschema'] = '無效的架構模式被指定。';
+	$lang['strbadencoding'] = '在資料庫中設定客戶端字元編碼失敗。';
 	$lang['strsqlerror'] = 'SQL 錯誤：';
-	$lang['strinstatement'] = '在表達方式內：';
+	$lang['strinstatement'] = '在聲明內：';
 	$lang['strinvalidparam'] = '無效的稿本變數。';
 	$lang['strnodata'] = '找不到資料列。';
 	$lang['strnoobjects'] = '找不到物件。';
-	$lang['strrownotunique'] = '這資料列無唯一值識別項。';
+	$lang['strrownotunique'] = '這資料列無唯一值識別號。';
 	$lang['strnoreportsdb'] = '您尚未建立報表資料庫。請參閱指導 INSTALL 檔說明。';
-	$lang['strnouploads'] = '上傳檔案功能已停用。';
+	$lang['strnouploads'] = '上傳檔案功能是已停用。';
 	$lang['strimporterror'] = '匯入錯誤。';
 	$lang['strimporterror-fileformat'] = '匯入錯誤：自動地確定檔案格式已失敗。';
 	$lang['strimporterrorline'] = '匯入錯誤發生在第 %s 行。';
-	$lang['strimporterrorline-badcolumnnum'] = '匯入錯誤發生在第 %s 行： 行不具備正確的欄位數量。';
+	$lang['strimporterrorline-badcolumnnum'] = '匯入錯誤發生在第 %s 行： 行不具備正確的欄位編號。';
 	$lang['strimporterror-uploadedfile'] = '匯入錯誤：檔案無法被上傳到這伺服器';
-	$lang['strcannotdumponwindows'] = '傾覆複雜資料表與網要模式名稱在 Windows 是未被支持的。';
+	$lang['strcannotdumponwindows'] = '傾覆複雜的資料表與架構模式名稱在 Windows 是未被支持的。';
 
 	// Tables
 	$lang['strtable'] = '資料表';
@@ -183,24 +186,24 @@
 	$lang['strtableneedsfield'] = '您至少應指定一個欄位。';
 	$lang['strtableneedscols'] = '您必需指定一個合法的欄位數量。';
 	$lang['strtablecreated'] = '資料表已建立。';
-	$lang['strtablecreatedbad'] = '建立資料表作業失敗。';
+	$lang['strtablecreatedbad'] = '建立資料表作業已失敗。';
 	$lang['strconfdroptable'] = '您確定要移除資料表 "%s"?';
 	$lang['strtabledropped'] = '資料表已移除。';
-	$lang['strtabledroppedbad'] = '資料表移除失敗。';
+	$lang['strtabledroppedbad'] = '資料表移除已失敗。';
 	$lang['strconfemptytable'] = '您確定要清空資料表 "%s"?';
 	$lang['strtableemptied'] = '資料表已清空。';
-	$lang['strtableemptiedbad'] = '資料表清空失敗。';
+	$lang['strtableemptiedbad'] = '資料表清空已失敗。';
 	$lang['strinsertrow'] = '插入資料列';
 	$lang['strrowinserted'] = '資料列已插入。';
-	$lang['strrowinsertedbad'] = '資料列插入失敗。';
+	$lang['strrowinsertedbad'] = '資料列插入已失敗。';
 	$lang['strrowduplicate'] = '資料列插入失敗, 試圖做複製品插入。';
 	$lang['streditrow'] = '編輯資料列';
 	$lang['strrowupdated'] = '資料列已更新。';
-	$lang['strrowupdatedbad'] = '資料列更新失敗。';
+	$lang['strrowupdatedbad'] = '資料列更新已失敗。';
 	$lang['strdeleterow'] = '刪除資料列';
 	$lang['strconfdeleterow'] = '您確定要刪除這些資料列??';
 	$lang['strrowdeleted'] = '資料列已刪除。';
-	$lang['strrowdeletedbad'] = '資料列刪除失敗。';
+	$lang['strrowdeletedbad'] = '資料列刪除已失敗。';
 	$lang['strinsertandrepeat'] = '插入與重作';
 	$lang['strnumcols'] = '欄位數量';
 	$lang['strcolneedsname'] = '您必需為這個欄位特定一個名稱';
@@ -209,23 +212,23 @@
 	$lang['strselectunary'] = '一元運算子不能有值。';
 	$lang['straltercolumn'] = '修改資料列';
 	$lang['strcolumnaltered'] = '資料列已修改。';
-	$lang['strcolumnalteredbad'] = '資料列修改失敗。';
+	$lang['strcolumnalteredbad'] = '資料列修改已失敗。';
 	$lang['strconfdropcolumn'] = '您確定要移除欄位 "%s" 從資料表 "%s"?';
 	$lang['strcolumndropped'] = '欄位已移除。';
-	$lang['strcolumndroppedbad'] = '欄位移除失敗。';
+	$lang['strcolumndroppedbad'] = '欄位移除已失敗。';
 	$lang['straddcolumn'] = '新增欄位';
 	$lang['strcolumnadded'] = '欄位已新增。';
-	$lang['strcolumnaddedbad'] = '欄位新增失敗。';
+	$lang['strcolumnaddedbad'] = '欄位新增已失敗。';
 	$lang['strcascade'] = '附屬串聯';
 	$lang['strtablealtered'] = '資料表已修改。';
-	$lang['strtablealteredbad'] = '資料表修改失敗。';
+	$lang['strtablealteredbad'] = '資料表修改已失敗。';
 	$lang['strdataonly'] = '只有資料';
 	$lang['strstructureonly'] = '只有結構';
 	$lang['strstructureanddata'] = '結構和資料';
 	$lang['strtabbed'] = 'Tabbed';
 	$lang['strauto'] = '自動';
 	$lang['strconfvacuumtable'] = '您確定將要 vacuum "%s"?';
-	$lang['strestimatedrowcount'] = '估計資料列數量';
+	$lang['strestimatedrowcount'] = '已估算的資料列計數';
 
 	// Columns
 	$lang['strcolprop'] = '欄位屬性';
@@ -238,22 +241,22 @@
 	$lang['strsuper'] = '超級使用者?';
 	$lang['strcreatedb'] = '能建立資料庫?';
 	$lang['strexpires'] = '失效到期';
-	$lang['strsessiondefaults'] = '會議預設';
+	$lang['strsessiondefaults'] = '會議交談預設';
 	$lang['strnousers'] = '找不到此使用者。';
 	$lang['struserupdated'] = '使用者已更新。';
-	$lang['struserupdatedbad'] = '使用者更新失敗。';
+	$lang['struserupdatedbad'] = '使用者更新已失敗。';
 	$lang['strshowallusers'] = '顯示所有使用者';
 	$lang['strcreateuser'] = '建立新使用者';
 	$lang['struserneedsname'] = '您必需為您的使用者命名。';
 	$lang['strusercreated'] = '使用者已建立。';
-	$lang['strusercreatedbad'] = '使用者建立失敗。';
+	$lang['strusercreatedbad'] = '使用者建立已失敗。';
 	$lang['strconfdropuser'] = '您確定您要移除這個使用者 "%s"?';
 	$lang['struserdropped'] = '使用者已移除。';
-	$lang['struserdroppedbad'] = '使用者移除失敗。';
+	$lang['struserdroppedbad'] = '使用者移除已失敗。';
 	$lang['straccount'] = '帳戶';
 	$lang['strchangepassword'] = '變更密碼';
 	$lang['strpasswordchanged'] = '密碼已變更。';
-	$lang['strpasswordchangedbad'] = '密碼變更失敗。';
+	$lang['strpasswordchangedbad'] = '密碼變更已失敗。';
 	$lang['strpasswordshort'] = '密碼太簡短。';
 	$lang['strpasswordconfirm'] = '所輸入的確認密碼不符。';
 	
@@ -266,20 +269,20 @@
 	$lang['strcreategroup'] = '建立群組';
 	$lang['strgroupneedsname'] = '您必需為您的群組命名。';
 	$lang['strgroupcreated'] = '群組已建立。';
-	$lang['strgroupcreatedbad'] = '群組建立失敗。';
+	$lang['strgroupcreatedbad'] = '群組建立已失敗。';
 	$lang['strconfdropgroup'] = '您確定您要移除這個群組 "%s"?';
 	$lang['strgroupdropped'] = '群組已移除。';
-	$lang['strgroupdroppedbad'] = '群組移除失敗。';
+	$lang['strgroupdroppedbad'] = '群組移除已失敗。';
 	$lang['strmembers'] = '成員';
 	$lang['strmemberof'] = '成員屬於';
 	$lang['stradminmembers'] = '管理員成員';
 	$lang['straddmember'] = '增加成員';
 	$lang['strmemberadded'] = '成員已加入。';
-	$lang['strmemberaddedbad'] = '成員加入失敗。';
+	$lang['strmemberaddedbad'] = '成員加入已失敗。';
 	$lang['strdropmember'] = '移除成員';
 	$lang['strconfdropmember'] = '您確定您要移除這個成員 "%s" 從這個群組 "%s"?';
 	$lang['strmemberdropped'] = '成員已移除。';
-	$lang['strmemberdroppedbad'] = '成員移除失敗。';
+	$lang['strmemberdroppedbad'] = '成員移除已失敗。';
 
 	// Roles
 	$lang['strrole'] = '角色';
@@ -290,16 +293,16 @@
 	$lang['strcreaterole'] = '建立角色';
 	$lang['strcancreaterole'] = '能建立角色?';
 	$lang['strrolecreated'] = '角色已建立。';
-	$lang['strrolecreatedbad'] = '角色建立失敗。';
+	$lang['strrolecreatedbad'] = '角色建立已失敗。';
 	$lang['stralterrole'] = '修改角色';
 	$lang['strrolealtered'] = '角色被修改。';
-	$lang['strrolealteredbad'] = '角色修改失敗。';
+	$lang['strrolealteredbad'] = '角色修改已失敗。';
 	$lang['strcanlogin'] = '能登入?';
 	$lang['strconnlimit'] = '連線限制';
 	$lang['strdroprole'] = '移除角色';
 	$lang['strconfdroprole'] = '您確定您要移除這個角色 "%s"?';
 	$lang['strroledropped'] = '角色已移除。';
-	$lang['strroledroppedbad'] = '角色移除失敗。';
+	$lang['strroledroppedbad'] = '角色移除已失敗。';
 	$lang['strnolimit'] = '不限制';
 	$lang['strnever'] = '從末';
 	$lang['strroleneedsname'] = '您必需為這個角色命名。';
@@ -307,12 +310,12 @@
 	// Privileges
 	$lang['strprivilege'] = '特權';
 	$lang['strprivileges'] = '特權';
-	$lang['strnoprivileges'] = '這個物件有預設的擁有者特權。';
+	$lang['strnoprivileges'] = '這個物件有預設的擁有人特權。';
 	$lang['strgrant'] = '賦予';
 	$lang['strrevoke'] = '撤回';
 	$lang['strgranted'] = '特權已變更。';
 	$lang['strgrantfailed'] = '特權變更失敗。';
-	$lang['strgrantbad'] = '您應為一名使用者或群組指定至少一項特權。';
+	$lang['strgrantbad'] = '您必需至少在一名使用者或群組中指定至少一項特權。';
 	$lang['strgrantor'] = '授權者';
 	$lang['strasterisk'] = '*';
 
@@ -337,36 +340,36 @@
 	$lang['stranalyzebad'] = 'Analyze 失敗。';
 	$lang['strreindexgood'] = '重建索引完成。';
 	$lang['strreindexbad'] = '重建索引失敗。';
-	$lang['strfull'] = '完整';
-	$lang['strfreeze'] = '凍結(Freeze)';
+	$lang['strfull'] = '全部性';
+	$lang['strfreeze'] = '凍結';
 	$lang['strforce'] = '強制';
 	$lang['strsignalsent'] = '訊號傳遞。';
 	$lang['strsignalsentbad'] = '傳遞訊號失敗。';
 	$lang['strallobjects'] = '全部物件';
 	$lang['strdatabasealtered'] = '資料庫已修改。';
-	$lang['strdatabasealteredbad'] = '資料庫修改失敗。';
+	$lang['strdatabasealteredbad'] = '資料庫修改已失敗。';
 
 	// Views
-	$lang['strview'] = '視圖';
-	$lang['strviews'] = '視圖';
-	$lang['strshowallviews'] = '顯示全部視圖';
-	$lang['strnoview'] = '找不到視圖。';
-	$lang['strnoviews'] = '找不到任何視圖。';
-	$lang['strcreateview'] = '建立視圖';
-	$lang['strviewname'] = '視圖名稱';
-	$lang['strviewneedsname'] = '您必需為您的視圖給一個名稱。';
-	$lang['strviewneedsdef'] = '您必需為你的視圖給一個定義。';
-	$lang['strviewneedsfields'] = '您必需在您的視圖中選擇給這個欄位。';
-	$lang['strviewcreated'] = '視圖已建立。';
-	$lang['strviewcreatedbad'] = '視圖建立失敗。';
-	$lang['strconfdropview'] = '您確定您要移除這個視圖 "%s"?';
-	$lang['strviewdropped'] = '視圖已移除。';
-	$lang['strviewdroppedbad'] = '視圖移除失敗。';
-	$lang['strviewupdated'] = '視圖已更新。';
-	$lang['strviewupdatedbad'] = '視圖更新失敗。';
+	$lang['strview'] = '視觀表';
+	$lang['strviews'] = '視觀表';
+	$lang['strshowallviews'] = '顯示全部視觀表';
+	$lang['strnoview'] = '找不到視觀表。';
+	$lang['strnoviews'] = '找不到任何視觀表。';
+	$lang['strcreateview'] = '建立視觀表';
+	$lang['strviewname'] = '視觀表名稱';
+	$lang['strviewneedsname'] = '您必需為您的視觀表給一個名稱。';
+	$lang['strviewneedsdef'] = '您必需為你的視觀表給一個定義。';
+	$lang['strviewneedsfields'] = '您必需在您的視觀表中選擇給這個欄位。';
+	$lang['strviewcreated'] = '視觀表已建立。';
+	$lang['strviewcreatedbad'] = '視觀表建立已失敗。';
+	$lang['strconfdropview'] = '您確定您要移除這個視觀表 "%s"?';
+	$lang['strviewdropped'] = '視觀表已移除。';
+	$lang['strviewdroppedbad'] = '視觀表移除已失敗。';
+	$lang['strviewupdated'] = '視觀表已更新。';
+	$lang['strviewupdatedbad'] = '視觀表更新已失敗。';
 	$lang['strviewlink'] = '連結鍵';
 	$lang['strviewconditions'] = '附加的條件限制';
-	$lang['strcreateviewwiz'] = '建立視圖精靈';
+	$lang['strcreateviewwiz'] = '建立視觀表精靈';
 
 	// Sequences
 	$lang['strsequence'] = '序列數';
@@ -389,15 +392,15 @@
 	$lang['strsequencecreatedbad'] = '序列數建立失敗。'; 
 	$lang['strconfdropsequence'] = '您確定您要移除這個序列數 "%s"?';
 	$lang['strsequencedropped'] = '序列數已移除。';
-	$lang['strsequencedroppedbad'] = '序列數移除失敗。';
+	$lang['strsequencedroppedbad'] = '序列數移除已失敗。';
 	$lang['strsequencereset'] = '序列數重置。';
-	$lang['strsequenceresetbad'] = '序列數重置失敗。'; 
+	$lang['strsequenceresetbad'] = '序列數重置已失敗。'; 
  	$lang['straltersequence'] = '修改序列數';
  	$lang['strsequencealtered'] = '序列數已修改。';
- 	$lang['strsequencealteredbad'] = '序列數修改失敗。';
+ 	$lang['strsequencealteredbad'] = '序列數修改已失敗。';
  	$lang['strsetval'] = '設定值';
- 	$lang['strsequencesetval'] = '序列數值設定。';
- 	$lang['strsequencesetvalbad'] = '序列數值設定失敗。';
+ 	$lang['strsequencesetval'] = '序列數值已設定。';
+ 	$lang['strsequencesetvalbad'] = '序列數值設定已失敗。';
  	$lang['strnextval'] = '遞增量';
  	$lang['strsequencenextval'] = '序列數已遞增。';
  	$lang['strsequencenextvalbad'] = '序列數已遞增失敗。';
@@ -427,7 +430,7 @@
 	$lang['strindexcolumnlist'] = '索引欄位';
 	$lang['strconfcluster'] = '您確定您要到叢集 "%s"?';
 	$lang['strclusteredgood'] = '叢集完成。';
-	$lang['strclusteredbad'] = '叢集失敗。';
+	$lang['strclusteredbad'] = '叢集已失敗。';
 
 	// Rules
 	$lang['strrules'] = '規則';
@@ -439,39 +442,39 @@
 	$lang['strrulename'] = '規則名稱';
 	$lang['strruleneedsname'] = '您必需為您的規則給一個名稱。';
 	$lang['strrulecreated'] = '規則已建立。';
-	$lang['strrulecreatedbad'] = '規則建立失敗。';
+	$lang['strrulecreatedbad'] = '規則建立已失敗。';
 	$lang['strconfdroprule'] = '您確定您要移除這個規則 "%s" 在 "%s"上?';
 	$lang['strruledropped'] = '規則規則已移除。';
-	$lang['strruledroppedbad'] = '規則移除失敗。';
+	$lang['strruledroppedbad'] = '規則移除已失敗。';
 
 	// Constraints
-	$lang['strconstraint'] = '限制約束';
-	$lang['strconstraints'] = '限制約束';
-	$lang['strshowallconstraints'] = '顯示全部限制約束';
-	$lang['strnoconstraints'] = '找不到任何限制約束。';
-	$lang['strcreateconstraint'] = '建立限制約束';
-	$lang['strconstraintcreated'] = '限制約束已建立。';
-	$lang['strconstraintcreatedbad'] = '限制約束建立失敗。';
-	$lang['strconfdropconstraint'] = '您確定您要移除這限制約束 "%s" 在 "%s" 上?';
-	$lang['strconstraintdropped'] = '限制約束已移除。';
-	$lang['strconstraintdroppedbad'] = '限制約束移除失敗。';
+	$lang['strconstraint'] = '約束限制';
+	$lang['strconstraints'] = '約束限制';
+	$lang['strshowallconstraints'] = '顯示全部約束限制';
+	$lang['strnoconstraints'] = '找不到任何約束限制。';
+	$lang['strcreateconstraint'] = '建立約束限制';
+	$lang['strconstraintcreated'] = '約束限制已建立。';
+	$lang['strconstraintcreatedbad'] = '約束限制建立已失敗。';
+	$lang['strconfdropconstraint'] = '您確定您要移除這約束限制 "%s" 在 "%s" 上?';
+	$lang['strconstraintdropped'] = '約束限制已移除。';
+	$lang['strconstraintdroppedbad'] = '約束限制移除已失敗。';
 	$lang['straddcheck'] = '增加檢查(Check)';
 	$lang['strcheckneedsdefinition'] = '檢查(Check)限制需要定義。';
 	$lang['strcheckadded'] = '檢查限制已增加。';
-	$lang['strcheckaddedbad'] = '增加檢查限制失敗。';
+	$lang['strcheckaddedbad'] = '增加檢查限制已失敗。';
 	$lang['straddpk'] = '增加主鍵(pkey)';
 	$lang['strpkneedscols'] = '主鍵(pkey)要求最少一個欄位。';
 	$lang['strpkadded'] = '主鍵(pkey)已增加。';
-	$lang['strpkaddedbad'] = '增加主鍵(pkey)失敗。';
-	$lang['stradduniq'] = '增加唯一鍵';
-	$lang['struniqneedscols'] = '唯一鍵要求最少一個欄位。';
-	$lang['struniqadded'] = '唯一鍵已增加。';
-	$lang['struniqaddedbad'] = '增加唯一鍵失敗。';
+	$lang['strpkaddedbad'] = '增加主鍵(pkey)已失敗。';
+	$lang['stradduniq'] = '增加唯一約束限制';
+	$lang['struniqneedscols'] = '唯一約束限制要求最少一個欄位。';
+	$lang['struniqadded'] = '唯一約束限制已增加。';
+	$lang['struniqaddedbad'] = '增加唯一約束限制已失敗。';
 	$lang['straddfk'] = '增加外部鍵(fkey)';
 	$lang['strfkneedscols'] = '外部鍵(fkey)要求最少一個欄位。';
 	$lang['strfkneedstarget'] = '外部鍵(fkey)要求一個資料表。';
 	$lang['strfkadded'] = '外部鍵(fkey)已增加。';
-	$lang['strfkaddedbad'] = '增加外部鍵(fkey)失敗。';
+	$lang['strfkaddedbad'] = '增加外部鍵(fkey)已失敗。';
 	$lang['strfktarget'] = '目標資料表';
 	$lang['strfkcolumnlist'] = '鍵欄位';
 	$lang['strondelete'] = 'ON DELETE';
@@ -492,12 +495,12 @@
 	$lang['strfunctionneedsname'] = '您必需為您的函數給一個名稱。';
 	$lang['strfunctionneedsdef'] = '您必需為您的函數給一個定義。';
 	$lang['strfunctioncreated'] = '函數已建立。';
-	$lang['strfunctioncreatedbad'] = '函數建立失敗。';
+	$lang['strfunctioncreatedbad'] = '函數建立已失敗。';
 	$lang['strconfdropfunction'] = '您確定您要移除這個函數 "%s"?';
 	$lang['strfunctiondropped'] = '函數已移除。';
-	$lang['strfunctiondroppedbad'] = '函數移除失敗。';
+	$lang['strfunctiondroppedbad'] = '函數移除已失敗。';
 	$lang['strfunctionupdated'] = '函數已更新。';
-	$lang['strfunctionupdatedbad'] = '函數更新失敗。';
+	$lang['strfunctionupdatedbad'] = '函數更新已失敗。';
 	$lang['strobjectfile'] = '物件檔案';
 	$lang['strlinksymbol'] = '連結符號';
 	$lang['strarguments'] = '引數';
@@ -523,19 +526,19 @@
 	$lang['strtriggerneedsname'] = '您必需為您的觸發器明確指定一個名稱。';
 	$lang['strtriggerneedsfunc'] = '您必需為您的觸發器明確指定一個函數。';
 	$lang['strtriggercreated'] = '觸發器已建立。';
-	$lang['strtriggercreatedbad'] = '觸發器建立失敗。';
+	$lang['strtriggercreatedbad'] = '觸發器建立已失敗。';
 	$lang['strconfdroptrigger'] = '您確定您要移除這個觸發器 "%s" on "%s"?';
 	$lang['strconfenabletrigger'] = '您確定您要啟用這個觸發器觸發器 "%s" 在 "%s" 上?';
 	$lang['strconfdisabletrigger'] = '您確定您要停用這個觸發器觸發器 "%s" on "%s" 上?';
 	$lang['strtriggerdropped'] = '觸發器已移除。';
-	$lang['strtriggerdroppedbad'] = '觸發器移除失敗。';
+	$lang['strtriggerdroppedbad'] = '觸發器移除已失敗。';
 	$lang['strtriggerenabled'] = '觸發器啟用。';
-	$lang['strtriggerenabledbad'] = '觸發器啟用失敗。';
+	$lang['strtriggerenabledbad'] = '觸發器啟用已失敗。';
 	$lang['strtriggerdisabled'] = '觸發器停用。';
-	$lang['strtriggerdisabledbad'] = '觸發器停用失敗。';
+	$lang['strtriggerdisabledbad'] = '觸發器停用已失敗。';
 	$lang['strtriggeraltered'] = '觸發器已修改。';
-	$lang['strtriggeralteredbad'] = '觸發器修改失敗。';
-	$lang['strforeach'] = '在每個';
+	$lang['strtriggeralteredbad'] = '觸發器修改已失敗。';
+	$lang['strforeach'] = '給每個';
 
 	// Types
 	$lang['strtype'] = '類型';
@@ -560,32 +563,32 @@
 	$lang['strtypeneedsname'] = '您必需為您的類型給一個名稱。';
 	$lang['strtypeneedslen'] = '您必需為您的類型給一個長度。';
 	$lang['strtypecreated'] = '類型已建立';
-	$lang['strtypecreatedbad'] = '類型建立失敗。';
+	$lang['strtypecreatedbad'] = '類型建立已失敗。';
 	$lang['strconfdroptype'] = '您確定您要移除這個類型 "%s"?';
 	$lang['strtypedropped'] = '類型已移除。';
-	$lang['strtypedroppedbad'] = '類型移除失敗。';
+	$lang['strtypedroppedbad'] = '類型移除已失敗。';
 	$lang['strflavor'] = '特色';
 	$lang['strbasetype'] = '基礎';
 	$lang['strcompositetype'] = '合成';
 	$lang['strpseudotype'] = '假冒';
 
 	// Schemas
-	$lang['strschema'] = '網要模式';
-	$lang['strschemas'] = '網要模式';
-	$lang['strshowallschemas'] = '顯示全部網要模式';
-	$lang['strnoschema'] = '找不到網要模式。';
-	$lang['strnoschemas'] = '找不到任何網要模式。';
-	$lang['strcreateschema'] = '建立網要模式';
-	$lang['strschemaname'] = '網要模式名稱';
-	$lang['strschemaneedsname'] = '您必需為您的網要模式給一個名稱。';
-	$lang['strschemacreated'] = '網要模式已建立';
-	$lang['strschemacreatedbad'] = '網要模式建立失敗。';
-	$lang['strconfdropschema'] = '您確定您要移除這個網要模式 "%s"?';
-	$lang['strschemadropped'] = '網要模式已移除。';
-	$lang['strschemadroppedbad'] = '網要模式移除失敗。';
-	$lang['strschemaaltered'] = '網要模式已修改。';
-	$lang['strschemaalteredbad'] = '網要模式修改失敗。';
-	$lang['strsearchpath'] = '網要模式搜尋路徑';
+	$lang['strschema'] = '架構模式';
+	$lang['strschemas'] = '架構模式';
+	$lang['strshowallschemas'] = '顯示全部架構模式';
+	$lang['strnoschema'] = '找不到架構模式。';
+	$lang['strnoschemas'] = '找不到任何架構模式。';
+	$lang['strcreateschema'] = '建立架構模式';
+	$lang['strschemaname'] = '架構模式名稱';
+	$lang['strschemaneedsname'] = '您必需為您的架構模式給一個名稱。';
+	$lang['strschemacreated'] = '架構模式已建立';
+	$lang['strschemacreatedbad'] = '架構模式建立已失敗。';
+	$lang['strconfdropschema'] = '您確定您要移除這個架構模式 "%s"?';
+	$lang['strschemadropped'] = '架構模式已移除。';
+	$lang['strschemadroppedbad'] = '架構模式移除失敗。';
+	$lang['strschemaaltered'] = '架構模式已修改。';
+	$lang['strschemaalteredbad'] = '架構模式修改已失敗。';
+	$lang['strsearchpath'] = '架構模式搜尋路徑';
 
 	// Reports
 	$lang['strreport'] = '報表';
@@ -594,27 +597,27 @@
 	$lang['strnoreports'] = '找不到任何報表。';
 	$lang['strcreatereport'] = '建立報表';
 	$lang['strreportdropped'] = '報表已移除。';
-	$lang['strreportdroppedbad'] = '報表移除失敗。';
+	$lang['strreportdroppedbad'] = '報表移除已失敗。';
 	$lang['strconfdropreport'] = '您確定您要移除這個報表 "%s"?';
 	$lang['strreportneedsname'] = '您必需為您的報表給一個名稱。';
 	$lang['strreportneedsdef'] = '您必需為您的報表給 SQL。';
 	$lang['strreportcreated'] = '報表已儲存。';
-	$lang['strreportcreatedbad'] = '報表儲存失敗。';
+	$lang['strreportcreatedbad'] = '報表儲存已失敗。';
 
 	// Domains
-	$lang['strdomain'] = '領域';
-	$lang['strdomains'] = '領域';
-	$lang['strshowalldomains'] = '顯示全部領域';
-	$lang['strnodomains'] = '找不到任何領域。';
-	$lang['strcreatedomain'] = '建立領域';
-	$lang['strdomaindropped'] = '領域已移除。';
-	$lang['strdomaindroppedbad'] = '領域移除失敗。';
-	$lang['strconfdropdomain'] = '您確定您要移除這個領域 "%s"?';
-	$lang['strdomainneedsname'] = '您必需為您的領域給一個名稱。。';
-	$lang['strdomaincreated'] = '領域已建立。';
-	$lang['strdomaincreatedbad'] = '領域建立失敗。';	
-	$lang['strdomainaltered'] = '領域已修改。';
-	$lang['strdomainalteredbad'] = '領域修改失敗。';	
+	$lang['strdomain'] = '共同值域';
+	$lang['strdomains'] = '共同值域';
+	$lang['strshowalldomains'] = '顯示全部共同值域';
+	$lang['strnodomains'] = '找不到任何共同值域。';
+	$lang['strcreatedomain'] = '建立共同值域';
+	$lang['strdomaindropped'] = '共同值域已移除。';
+	$lang['strdomaindroppedbad'] = '共同值域移除已失敗。';
+	$lang['strconfdropdomain'] = '您確定您要移除這個共同值域 "%s"?';
+	$lang['strdomainneedsname'] = '您必需為您的共同值域給一個名稱。。';
+	$lang['strdomaincreated'] = '共同值域已建立。';
+	$lang['strdomaincreatedbad'] = '共同值域建立已失敗。';	
+	$lang['strdomainaltered'] = '共同值域已修改。';
+	$lang['strdomainalteredbad'] = '共同值域修改已失敗。';	
 
 	// Operators
 	$lang['stroperator'] = '運算子';
@@ -623,13 +626,13 @@
 	$lang['strnooperator'] = '找不到運算子。';
 	$lang['strnooperators'] = '找不到任何運算子。';
 	$lang['strcreateoperator'] = '建立運算子';
-	$lang['strleftarg'] = '左引數(Arg)類型';
-	$lang['strrightarg'] = '右引數(Arg)類型';
+	$lang['strleftarg'] = '左引數類型';
+	$lang['strrightarg'] = '右引數類型';
 	$lang['strcommutator'] = '轉換器';
 	$lang['strnegator'] = '否定器';
 	$lang['strrestrict'] = '限制';
 	$lang['strjoin'] = '結合';
-	$lang['strhashes'] = 'Hashes';
+	$lang['strhashes'] = '雜湊(Hashes)';
 	$lang['strmerges'] = '合併';
 	$lang['strleftsort'] = '左排序';
 	$lang['strrightsort'] = '右排序';
@@ -637,10 +640,10 @@
 	$lang['strgreaterthan'] = '大於';
 	$lang['stroperatorneedsname'] = '您必需為您的運算子給一個名稱。';
 	$lang['stroperatorcreated'] = '運算子已建立';
-	$lang['stroperatorcreatedbad'] = '運算子建立失敗。';
+	$lang['stroperatorcreatedbad'] = '運算子建立已失敗。';
 	$lang['strconfdropoperator'] = '您確定您要移除這個運算子 "%s"?';
 	$lang['stroperatordropped'] = '運算子已移除。';
-	$lang['stroperatordroppedbad'] = '運算子移除失敗。';
+	$lang['stroperatordroppedbad'] = '運算子移除已失敗。';
 
 	// Casts
 	$lang['strcasts'] = '類型轉換';
@@ -648,7 +651,7 @@
 	$lang['strsourcetype'] = '來源類型';
 	$lang['strtargettype'] = '目標類型';
 	$lang['strimplicit'] = '隱含';
-	$lang['strinassignment'] = '指派中';
+	$lang['strinassignment'] = '在指派中';
 	$lang['strbinarycompat'] = '(二進制碼相容)';
 	
 	// Conversions
@@ -660,7 +663,7 @@
 	// Languages
 	$lang['strlanguages'] = '程序語言';
 	$lang['strnolanguages'] = '找不到任何程序語言。';
-	$lang['strtrusted'] = '已信任';
+	$lang['strtrusted'] = '被信任的';
 	
 	// Info
 	$lang['strnoinfo'] = '無資訊可用。';
@@ -684,16 +687,16 @@
 	$lang['strdropaggregate'] = '移除聚集函數';
 	$lang['strconfdropaggregate'] = '您確定您要移除這個聚集函數 "%s"?';
 	$lang['straggregatedropped'] = '聚集函數已移除。';
-	$lang['straggregatedroppedbad'] = '聚集函數移除失敗。';
+	$lang['straggregatedroppedbad'] = '聚集函數移除已失敗。';
 	$lang['stralteraggregate'] = '修改聚集函數';
 	$lang['straggraltered'] = '聚集函數已修改。';
-	$lang['straggralteredbad'] = '聚集函數修改失敗。';
+	$lang['straggralteredbad'] = '聚集函數修改已失敗。';
 	$lang['straggrneedsname'] = '您必需具體指定一個名稱給這個聚集函數。';
 	$lang['straggrneedsbasetype'] = '您必需具體指定這聚集函數的進入資料類型。';
 	$lang['straggrneedssfunc'] = '您必需具體指定這這聚集函數的狀態過渡函數名稱。';
 	$lang['straggrneedsstype'] = '您必需具體指定這聚集函數群狀態值的資料類型';
 	$lang['straggrcreated'] = '聚集函數已建立。';
-	$lang['straggrcreatedbad'] = '聚集函數建立失敗。';
+	$lang['straggrcreatedbad'] = '聚集函數建立已失敗。';
 	$lang['straggrshowall'] = '顯示全部聚集函數';
 
 	// Operator Classes
@@ -728,12 +731,12 @@
 	$lang['strtablespaceneedsname'] = '您必需為您的表空間給一個名稱。';
 	$lang['strtablespaceneedsloc'] = '您必需給一個目錄夾來建立表空間。';
 	$lang['strtablespacecreated'] = '表空間已建立。';
-	$lang['strtablespacecreatedbad'] = '表空間建立失敗。';
+	$lang['strtablespacecreatedbad'] = '表空間建立已失敗。';
 	$lang['strconfdroptablespace'] = '您確定您要移除這個表空間 "%s"?';
 	$lang['strtablespacedropped'] = '表空間已移除。';
-	$lang['strtablespacedroppedbad'] = '表空間移除失敗。';
+	$lang['strtablespacedroppedbad'] = '表空間移除已失敗。';
 	$lang['strtablespacealtered'] = '表空間已修改。';
-	$lang['strtablespacealteredbad'] = '表空間修改失敗。';
+	$lang['strtablespacealteredbad'] = '表空間修改已失敗。';
 
 	// Slony clusters
 	$lang['strcluster'] = '叢集';
@@ -764,7 +767,7 @@
 	$lang['strstatus'] = '狀態';	
 	$lang['strhealthy'] = '健全';
 	$lang['stroutofsync'] = '非同步(Out of Sync)';
-	$lang['strunknown'] = '未知';	
+	$lang['strunknown'] = '未知的';	
 
 	
 	// Slony paths	
@@ -778,48 +781,48 @@
 	$lang['strpathneedsconninfo'] = '您必需給這個路徑一個連線字串。';
 	$lang['strpathneedsconnretry'] = '您必需在連線之前給一個等待重試的秒數字。';
 	$lang['strpathcreated'] = '路徑已建立。';
-	$lang['strpathcreatedbad'] = '路徑建立失敗。';
+	$lang['strpathcreatedbad'] = '路徑建立已失敗。';
 	$lang['strconfdroppath'] = '您確定您要移除路徑 "%s"?';
 	$lang['strpathdropped'] = '路徑已移除。';
-	$lang['strpathdroppedbad'] = '路徑移除失敗。';
+	$lang['strpathdroppedbad'] = '路徑移除已失敗。';
 
 	// Slony listens
 	$lang['strlistens'] = '監聽';
 	$lang['strnolistens'] = '找不到任何監聽。';
 	$lang['strcreatelisten'] = '建立監聽';
 	$lang['strlistencreated'] = '監聽已建立。';
-	$lang['strlistencreatedbad'] = '監聽建立失敗。';
+	$lang['strlistencreatedbad'] = '監聽建立已失敗。';
 	$lang['strconfdroplisten'] = '您確定你要移除監聽 "%s"?';
 	$lang['strlistendropped'] = '監聽已移除。';
-	$lang['strlistendroppedbad'] = '監聽移除失敗。';
+	$lang['strlistendroppedbad'] = '監聽移除已失敗。';
 
 	// Slony replication sets
 	$lang['strrepsets'] = '複寫叢集設定';
 	$lang['strnorepsets'] = '找不到任何複寫叢集設定。';
 	$lang['strcreaterepset'] = '建立複寫叢集設定';
 	$lang['strrepsetcreated'] = '複寫叢集設定已建立。';
-	$lang['strrepsetcreatedbad'] = '複寫叢集設定建立失敗。';
+	$lang['strrepsetcreatedbad'] = '複寫叢集設定建立已失敗。';
 	$lang['strconfdroprepset'] = '您確定您要移除複寫叢集設定 "%s"?';
 	$lang['strrepsetdropped'] = '複寫叢集設定已移除。';
-	$lang['strrepsetdroppedbad'] = '複寫叢集設定移除失敗。';
+	$lang['strrepsetdroppedbad'] = '複寫叢集設定移除已失敗。';
 	$lang['strmerge'] = '合併';
 	$lang['strmergeinto'] = '合併成為';
 	$lang['strrepsetmerged'] = '複寫叢集設定已合併。';
-	$lang['strrepsetmergedbad'] = '複寫叢集設定合併失敗。';
+	$lang['strrepsetmergedbad'] = '複寫叢集設定合併已失敗。';
 	$lang['strmove'] = '遷移';
 	$lang['strneworigin'] = '新起點';
 	$lang['strrepsetmoved'] = '複寫叢集設定已遷移。';
-	$lang['strrepsetmovedbad'] = '複寫叢集設定遷移失敗。';
+	$lang['strrepsetmovedbad'] = '複寫叢集設定遷移已失敗。';
 	$lang['strnewrepset'] = '新複寫叢集設定';
 	$lang['strlock'] = '鎖定';
 	$lang['strlocked'] = '已鎖定';
 	$lang['strunlock'] = '未鎖定';
 	$lang['strconflockrepset'] = '您確定您要鎖定複寫叢集設定 "%s"?';
 	$lang['strrepsetlocked'] = '複寫叢集設定已鎖定。';
-	$lang['strrepsetlockedbad'] = '複寫叢集設定鎖定失敗。';
+	$lang['strrepsetlockedbad'] = '複寫叢集設定鎖定已失敗。';
 	$lang['strconfunlockrepset'] = '您確定您要解鎖複寫叢集設定 "%s"?';
 	$lang['strrepsetunlocked'] = '複寫叢集設定未鎖定。';
-	$lang['strrepsetunlockedbad'] = '複寫叢集設定解鎖失敗。';
+	$lang['strrepsetunlockedbad'] = '複寫叢集設定解鎖已失敗。';
 	$lang['strexecute'] = '執行';
 	$lang['stronlyonnode'] = '僅在節點上';
 	$lang['strddlscript'] = '資料定義語言(DDL)稿本';
@@ -840,10 +843,10 @@
 	// Slony sequences in replication sets
 	$lang['straddsequence'] = '增加序列號';
 	$lang['strsequenceaddedtorepset'] = '序列號增加到複寫叢集設定。';
-	$lang['strsequenceaddedtorepsetbad'] = '增加序列號到複寫叢集設定失敗。';
+	$lang['strsequenceaddedtorepsetbad'] = '增加序列號到複寫叢集設定已失敗。';
 	$lang['strconfremovesequencefromrepset'] = '您確定您要從複寫叢集設定 "%s" 移除序列號 "%s" ?';
 	$lang['strsequenceremovedfromrepset'] = '序列號已從複寫叢集設定移除。';
-	$lang['strsequenceremovedfromrepsetbad'] = '序列號從複寫叢集設定移除失敗。';
+	$lang['strsequenceremovedfromrepsetbad'] = '序列號從複寫叢集設定移除已失敗。';
 
 	// Slony subscriptions
 	$lang['strsubscriptions'] = '訂閱';
@@ -861,12 +864,12 @@
 	$lang['strlogoutmsg'] = '登出 %s';
 	$lang['strloading'] = '載入中...';
 	$lang['strerrorloading'] = '載入中錯誤';
-	$lang['strclicktoreload'] = '點擊重新載入';
+	$lang['strclicktoreload'] = '點擊到重新載入';
 
 	// Autovacuum
 	$lang['strautovacuum'] = 'Autovacuum'; 
-	$lang['strturnedon'] = '轉動 - 開啟'; 
-	$lang['strturnedoff'] = '轉動 - 關閉'; 
+	$lang['strturnedon'] = '已轉動 - 開啟'; 
+	$lang['strturnedoff'] = '已轉動 - 關閉'; 
 	$lang['strenabled'] = '啟用'; 
 	$lang['strvacuumbasethreshold'] = 'Vacuum 基本門檻'; 
 	$lang['strvacuumscalefactor'] = 'Vacuum 換算係數';  
@@ -879,7 +882,7 @@
 	$lang['strlocks'] = '鎖定';
 	$lang['strtransaction'] = '事務交易 ID';
 	$lang['strprocessid'] = '進程 ID';
-	$lang['strmode'] = '鎖定方式';
+	$lang['strmode'] = '鎖定模式';
 	$lang['strislockheld'] = '是鎖定執(held)?';
 
 	// Prepared transactions
