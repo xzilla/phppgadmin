@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.15 2005/11/04 04:19:41 chriskl Exp $
+	 * $Id: Reports.php,v 1.15.4.1 2007/04/02 10:30:39 mr-russ Exp $
 	 */
 
 	class Reports {
@@ -101,9 +101,9 @@
 				'report_name' => $report_name,
 				'db_name' => $db_name,
 				'created_by' => $server_info['username'],
-				'report_sql' => $report_sql
+				'report_sql' => $report_sql,
+				'descr' => $descr
 			);
-			if ($descr != '') $temp['descr'] = $descr;
 
 			return $this->driver->update('ppa_reports', $temp,
 							array('report_id' => $report_id));
