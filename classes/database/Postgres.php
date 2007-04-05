@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.292.2.2 2007/03/03 14:29:53 xzilla Exp $
+ * $Id: Postgres.php,v 1.292.2.3 2007/04/05 11:32:16 mr-russ Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3999,7 +3999,6 @@ class Postgres extends ADODB_base {
 			foreach ($values as $k => $v) {
 				if ($v != '' || $this->selectOps[$ops[$k]] == 'p') {
 					$this->fieldClean($k);
-					$this->clean($v);
 					if ($first) {
 						$sql .= " WHERE ";
 						$first = false;
@@ -4009,6 +4008,10 @@ class Postgres extends ADODB_base {
 					// Different query format depending on operator type
 					switch ($this->selectOps[$ops[$k]]) {
 						case 'i':
+							// Only clean the field for the inline case
+							// this is because (x), subqueries need to
+							// to allow 'a','b' as input.
+							$this->clean($v);
 							$sql .= "\"{$k}\" {$ops[$k]} '{$v}'";
 							break;
 						case 'p':

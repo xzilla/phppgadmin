@@ -6,6 +6,7 @@ Version 4.1.2
 
 Bugs
 * Fix PHP5 Strict mode complaints 
+* Fix IN/NOT IN to accept text input lists 'a','b'.
 
 Version 4.1.1
 -------------
