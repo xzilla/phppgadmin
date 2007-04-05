@@ -1,5 +1,5 @@
 <?php
-// $Id: decorator.inc.php,v 1.7 2007/03/24 02:33:59 xzilla Exp $
+// $Id: decorator.inc.php,v 1.8 2007/04/05 11:09:38 mr-russ Exp $
 
 // This group of functions and classes provides support for
 // resolving values in a lazy manner (ie, as and when required)
@@ -113,7 +113,7 @@ class Decorator
 		$this->esc = $esc;
 	}
 	
-	function value() {
+	function value($fields) {
 		return $this->v;
 	}
 }
