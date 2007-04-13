@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.140 2007/03/15 16:14:10 xzilla Exp $
+	 * $Id: Misc.php,v 1.141 2007/04/13 11:18:11 mr-russ Exp $
 	 */
 	 
 	class Misc {
@@ -359,25 +359,27 @@
 				header("Content-Type: text/html; charset=" . $lang['appcharset']);
 				// Send XHTML headers, or regular HTML headers
 				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
+					$closeTag = "/";
 					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Transitional.dtd\">\n";
 					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"{$lang['applocale']}\" lang=\"{$lang['applocale']}\"";
 					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
 					echo ">\n";
 				} else {
+					$closeTag = "";
 					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 					echo "<html lang=\"{$lang['applocale']}\"";
 					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
 					echo ">\n";
 				}
 				echo "<head>\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" {$closeTag}>\n";
+				// Theme
+				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" {$closeTag}>\n";
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo " - {$title}";
 				echo "</title>\n";
-				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
-				
-				// Theme
-				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
+
 				if ($script) echo "{$script}\n";
 				echo "</head>\n";
 			}
