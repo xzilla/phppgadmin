@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.51 2006/12/31 16:48:46 soranzo Exp $
+	 * $Id: config.inc.php-dist,v 1.52 2007/04/14 08:00:03 mr-russ Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -93,6 +93,11 @@
 	// install the reports database as explained in the INSTALL file.
 	$conf['show_reports'] = true;
 
+	// Database and table for reports
+	$conf['reports_db'] = 'phppgadmin';
+	$conf['reports_schema'] = 'public';
+	$conf['reports_table'] = 'ppa_reports';
+
 	// Only show owned reports?
 	// Note: This does not prevent people from accessing other reports by
 	// other means.
@@ -128,6 +133,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 17;
+	$conf['version'] = 18;
 
 ?>

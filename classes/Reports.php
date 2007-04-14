@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.16 2007/04/02 10:29:42 mr-russ Exp $
+	 * $Id: Reports.php,v 1.17 2007/04/14 08:00:03 mr-russ Exp $
 	 */
 
 	class Reports {
@@ -12,11 +12,24 @@
 		// A database driver
 		var $driver;
 		var $reports_db = 'phppgadmin';
+		var $reports_schema = 'public';
+		var $reports_table = 'ppa_reports';
 
 		/* Constructor */
 		function Reports(&$status) {
-			global $misc, $data;
+			global $conf, $misc, $data;
 			
+			// Get data from config if it's been defined
+			if (isset($conf['reports_db'])) {
+				$this->reports_db = $conf['reports_db'];
+			}
+			if (isset($conf['reports_schema'])) {
+				$this->reports_schema = $conf['reports_schema'];
+			}
+			if (isset($conf['reports_table'])) {
+				$this->reports_table = $conf['reports_table'];
+			}
+
 			// Check to see if the reports database exists
 			$rs = $data->getDatabase($this->reports_db);
 			if ($rs->recordCount() != 1) $status = -1;
@@ -24,7 +37,7 @@
 				// Create a new database access object.
 				$this->driver = $misc->getDatabaseAccessor($this->reports_db);
 				// Reports database should have been created in public schema
-				if ($this->driver->hasSchemas()) $this->driver->setSchema('public');
+				if ($this->driver->hasSchemas()) $this->driver->setSchema($this->reports_schema);
 				$status = 0;
 			}
 		}
@@ -43,7 +56,7 @@
 			}
 			else $filter = $ops = array();
 
-			$sql = $this->driver->getSelectSQL('ppa_reports',
+			$sql = $this->driver->getSelectSQL($this->reports_table,
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
 				$filter, $ops, array('db_name' => 'asc', 'report_name' => 'asc'));
 
@@ -56,7 +69,7 @@
 		 * @return A recordset
 		 */
 		function getReport($report_id) {			
-			$sql = $this->driver->getSelectSQL('ppa_reports',
+			$sql = $this->driver->getSelectSQL($this->reports_table,
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
 				array('report_id' => $report_id), array('report_id' => '='), array());
 
@@ -82,7 +95,7 @@
 			);
 			if ($descr != '') $temp['descr'] = $descr;
 
-			return $this->driver->insert('ppa_reports', $temp);
+			return $this->driver->insert($this->reports_table, $temp);
 		}
 
 		/**
@@ -105,7 +118,7 @@
 				'descr' => $descr
 			);
 
-			return $this->driver->update('ppa_reports', $temp,
+			return $this->driver->update($this->reports_table, $temp,
 							array('report_id' => $report_id));
 		}
 
@@ -115,7 +128,7 @@
 		 * @return 0 success
 		 */
 		function dropReport($report_id) {
-			return $this->driver->delete('ppa_reports', array('report_id' => $report_id));
+			return $this->driver->delete($this->reports_table, array('report_id' => $report_id));
 		}
 
 	}

@@ -4,6 +4,9 @@ phpPgAdmin History
 Version 4.2
 -----------
 
+Features
+* You can configure reports db, schema and table names
+
 Bugs
 * Can't edit a report and set its comment to empty
 * Fix PHP5 Strict mode complaints 
