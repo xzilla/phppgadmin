@@ -73,10 +73,10 @@ Tables
 ------
 
 * Allow PK and UNIQUE and FKs during create table (Jawed)
-* Vacuum & analyze individual tables
+* -Vacuum & analyze individual tables (analyze by ioguix, vacuum already done)
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
 * When browsing a table, clicking on a FK value should jump to the
-  PK row.
+  PK row. (ioguix)
 * When editing a table, turn FK columns into drop-downs based on estimated
   rows in the foreign table? (Jawed)
 * -Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume LELARGE)
