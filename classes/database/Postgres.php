@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.297 2007/04/05 11:30:03 mr-russ Exp $
+ * $Id: Postgres.php,v 1.298 2007/04/16 17:12:23 soranzo Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -892,7 +892,7 @@ class Postgres extends ADODB_base {
 			// If owner has been changed, then do the alteration.  We are
 			// careful to avoid this generally as changing owner is a
 			// superuser only function.
-			if ($data->f['relowner'] != $owner) {
+			if ($data->fields['relowner'] != $owner) {
 				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
 		
 				$status = $this->execute($sql);
@@ -914,7 +914,7 @@ class Postgres extends ADODB_base {
 				
 			// If tablespace has been changed, then do the alteration.  We
 			// don't want to do this unnecessarily.
-			if ($data->f['tablespace'] != $tablespace) {
+			if ($data->fields['tablespace'] != $tablespace) {
 				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
 		
 				$status = $this->execute($sql);
@@ -996,7 +996,7 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return null;
 		}
-		$this->fieldClean($t->f['relname']);
+		$this->fieldClean($t->fields['relname']);
 
 		// Fetch attributes
 		$atts = $this->getTableAttributes($table);
@@ -1013,7 +1013,7 @@ class Postgres extends ADODB_base {
 		}
 
 		// Output a reconnect command to create the table as the correct user
-		$sql = $this->getChangeUserSQL($t->f['relowner']) . "\n\n";
+		$sql = $this->getChangeUserSQL($t->fields['relowner']) . "\n\n";
 
 		// Set schema search path if we support schemas
 		if ($this->hasSchemas()) {
@@ -1029,33 +1029,33 @@ class Postgres extends ADODB_base {
 		if ($this->hasSchemas()) {
 			$sql .= "\"{$this->_schema}\".";
 		}
-		$sql .= "\"{$t->f['relname']}\";\n";
-		$sql .= "CREATE TABLE \"{$t->f['relname']}\" (\n";
+		$sql .= "\"{$t->fields['relname']}\";\n";
+		$sql .= "CREATE TABLE \"{$t->fields['relname']}\" (\n";
 
 		// Output all table columns
 		$col_comments_sql = '';   // Accumulate comments on columns
 		$num = $atts->recordCount() + $cons->recordCount();
 		$i = 1;
 		while (!$atts->EOF) {
-			$this->fieldClean($atts->f['attname']);
-			$sql .= "    \"{$atts->f['attname']}\"";
+			$this->fieldClean($atts->fields['attname']);
+			$sql .= "    \"{$atts->fields['attname']}\"";
 			// Dump SERIAL and BIGSERIAL columns correctly
-			if ($this->phpBool($atts->f['attisserial']) && 
-					($atts->f['type'] == 'integer' || $atts->f['type'] == 'bigint')) {
-				if ($atts->f['type'] == 'integer')
+			if ($this->phpBool($atts->fields['attisserial']) && 
+					($atts->fields['type'] == 'integer' || $atts->fields['type'] == 'bigint')) {
+				if ($atts->fields['type'] == 'integer')
 					$sql .= " SERIAL";
 				else
 					$sql .= " BIGSERIAL";
 			}
 			else {
-				$sql .= " " . $this->formatType($atts->f['type'], $atts->f['atttypmod']);
+				$sql .= " " . $this->formatType($atts->fields['type'], $atts->fields['atttypmod']);
 
 				// Add NOT NULL if necessary
-				if ($this->phpBool($atts->f['attnotnull']))
+				if ($this->phpBool($atts->fields['attnotnull']))
 					$sql .= " NOT NULL";
 				// Add default if necessary
-				if ($atts->f['adsrc'] !== null) 
-					$sql .= " DEFAULT {$atts->f['adsrc']}";
+				if ($atts->fields['adsrc'] !== null) 
+					$sql .= " DEFAULT {$atts->fields['adsrc']}";
 			}
 
 			// Output comma or not
@@ -1063,9 +1063,9 @@ class Postgres extends ADODB_base {
 			else $sql .= "\n";
 
 			// Does this column have a comment?  
-			if ($atts->f['comment'] !== null) {
-				$this->clean($atts->f['comment']);
-				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->f['relname']}\".\"{$atts->f['attname']}\"  IS '{$atts->f['comment']}';\n";
+			if ($atts->fields['comment'] !== null) {
+				$this->clean($atts->fields['comment']);
+				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->fields['relname']}\".\"{$atts->fields['attname']}\"  IS '{$atts->fields['comment']}';\n";
 			}
 			
 			$atts->moveNext();
@@ -1073,19 +1073,19 @@ class Postgres extends ADODB_base {
 		}
 		// Output all table constraints
 		while (!$cons->EOF) {
-			$this->fieldClean($cons->f['conname']);
-			$sql .= "    CONSTRAINT \"{$cons->f['conname']}\" ";
+			$this->fieldClean($cons->fields['conname']);
+			$sql .= "    CONSTRAINT \"{$cons->fields['conname']}\" ";
 			// Nasty hack to support pre-7.4 PostgreSQL
-			if ($cons->f['consrc'] !== null)
-				$sql .= $cons->f['consrc'];
+			if ($cons->fields['consrc'] !== null)
+				$sql .= $cons->fields['consrc'];
 			else {
-				switch ($cons->f['contype']) {
+				switch ($cons->fields['contype']) {
 					case 'p':
-						$keys = $this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
+						$keys = $this->getAttributeNames($table, explode(' ', $cons->fields['indkey']));
 						$sql .= "PRIMARY KEY (" . join(',', $keys) . ")";
 						break;
 					case 'u':
-						$keys = $this->getAttributeNames($table, explode(' ', $cons->f['indkey']));
+						$keys = $this->getAttributeNames($table, explode(' ', $cons->fields['indkey']));
 						$sql .= "UNIQUE (" . join(',', $keys) . ")";
 						break;
 					default:
@@ -1117,13 +1117,13 @@ class Postgres extends ADODB_base {
 		if ($parents->recordCount() > 0) {
 			$sql .= " INHERITS (";
 			while (!$parents->EOF) {
-				$this->fieldClean($parents->f['relname']);
+				$this->fieldClean($parents->fields['relname']);
 				// Qualify the parent table if it's in another schema
-				if ($this->hasSchemas() && $parents->f['schemaname'] != $this->_schema) {
-					$this->fieldClean($parents->f['schemaname']);
-					$sql .= "\"{$parents->f['schemaname']}\".";
+				if ($this->hasSchemas() && $parents->fields['schemaname'] != $this->_schema) {
+					$this->fieldClean($parents->fields['schemaname']);
+					$sql .= "\"{$parents->fields['schemaname']}\".";
 				}
-				$sql .= "\"{$parents->f['relname']}\"";
+				$sql .= "\"{$parents->fields['relname']}\"";
 				
 				$parents->moveNext();
 				if (!$parents->EOF) $sql .= ', ';
@@ -1146,18 +1146,18 @@ class Postgres extends ADODB_base {
 		$atts->moveFirst();
 		$first = true;
 		while (!$atts->EOF) {
-			$this->fieldClean($atts->f['attname']);
+			$this->fieldClean($atts->fields['attname']);
 			// Statistics first
-			if ($atts->f['attstattarget'] >= 0) {
+			if ($atts->fields['attstattarget'] >= 0) {
 				if ($first) {
 					$sql .= "\n";
 					$first = false;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->f['relname']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STATISTICS {$atts->f['attstattarget']};\n";
+				$sql .= "ALTER TABLE ONLY \"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STATISTICS {$atts->fields['attstattarget']};\n";
 			}
 			// Then storage
-			if ($atts->f['attstorage'] != $atts->f['typstorage']) {
-				switch ($atts->f['attstorage']) {
+			if ($atts->fields['attstorage'] != $atts->fields['typstorage']) {
+				switch ($atts->fields['attstorage']) {
 					case 'p':
 						$storage = 'PLAIN';
 						break;
@@ -1175,17 +1175,17 @@ class Postgres extends ADODB_base {
 						$this->rollbackTransaction();
 						return null;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->f['relname']}\" ALTER COLUMN \"{$atts->f['attname']}\" SET STORAGE {$storage};\n";
+				$sql .= "ALTER TABLE ONLY \"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STORAGE {$storage};\n";
 			}
 
 			$atts->moveNext();
 		}
 
 		// Comment
-		if ($t->f['relcomment'] !== null) {
-			$this->clean($t->f['relcomment']);
+		if ($t->fields['relcomment'] !== null) {
+			$this->clean($t->fields['relcomment']);
 			$sql .= "\n-- Comment\n\n";
-			$sql .= "COMMENT ON TABLE \"{$t->f['relname']}\" IS '{$t->f['relcomment']}';\n";
+			$sql .= "COMMENT ON TABLE \"{$t->fields['relname']}\" IS '{$t->fields['relcomment']}';\n";
 		}
 
 		// Add comments on columns, if any
@@ -1205,23 +1205,23 @@ class Postgres extends ADODB_base {
 			 * wire-in knowledge about the default public privileges for different
 			 * kinds of objects.
 			 */
-			$sql .= "REVOKE ALL ON TABLE \"{$t->f['relname']}\" FROM PUBLIC;\n";
+			$sql .= "REVOKE ALL ON TABLE \"{$t->fields['relname']}\" FROM PUBLIC;\n";
 			foreach ($privs as $v) {
 				// Get non-GRANT OPTION privs
 				$nongrant = array_diff($v[2], $v[4]);
 				
 				// Skip empty or owner ACEs
-				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->f['relowner'])) continue;
+				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->fields['relowner'])) continue;
 				
 				// Change user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
 				}				
 				
 				// Output privileges with no GRANT OPTION
-				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->f['relname']}\" TO ";
+				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->fields['relname']}\" TO ";
 				switch ($v[0]) {
 					case 'public':
 						$sql .= "PUBLIC;\n";
@@ -1241,7 +1241,7 @@ class Postgres extends ADODB_base {
 				}
 
 				// Reset user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
 				}				
 				
@@ -1251,13 +1251,13 @@ class Postgres extends ADODB_base {
 				if (!$this->hasGrantOption() || sizeof($v[4]) == 0) continue;
 
 				// Change user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
 				}				
 				
-				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->f['relname']}\" TO ";
+				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->fields['relname']}\" TO ";
 				switch ($v[0]) {
 					case 'public':
 						$sql .= "PUBLIC";
@@ -1277,7 +1277,7 @@ class Postgres extends ADODB_base {
 				$sql .= " WITH GRANT OPTION;\n";
 				
 				// Reset user if necessary
-				if ($this->hasGrantOption() && $v[3] != $t->f['relowner']) {
+				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
 				}				
 
@@ -1310,7 +1310,7 @@ class Postgres extends ADODB_base {
 		if ($indexes->recordCount() > 0) {
 			$sql .= "\n-- Indexes\n\n";
 			while (!$indexes->EOF) {
-				$sql .= $indexes->f['inddef'] . ";\n";
+				$sql .= $indexes->fields['inddef'] . ";\n";
 
 				$indexes->moveNext();
 			}
@@ -1327,10 +1327,10 @@ class Postgres extends ADODB_base {
 			$sql .= "\n-- Triggers\n\n";
 			while (!$triggers->EOF) {
 				// Nasty hack to support pre-7.4 PostgreSQL
-				if ($triggers->f['tgdef'] !== null)
-					$sql .= $triggers->f['tgdef'];
+				if ($triggers->fields['tgdef'] !== null)
+					$sql .= $triggers->fields['tgdef'];
 				else 
-					$sql .= $this->getTriggerDef($triggers->f);	
+					$sql .= $this->getTriggerDef($triggers->fields);	
 
 				$sql .= ";\n";
 
@@ -1348,7 +1348,7 @@ class Postgres extends ADODB_base {
 		if ($rules->recordCount() > 0) {
 			$sql .= "\n-- Rules\n\n";
 			while (!$rules->EOF) {
-				$sql .= $rules->f['definition'] . "\n";
+				$sql .= $rules->fields['definition'] . "\n";
 
 				$rules->moveNext();
 			}
@@ -1385,7 +1385,7 @@ class Postgres extends ADODB_base {
 		else {
 			$temp = array();
 			while (!$rs->EOF) {
-				$temp[$rs->f['attnum']] = $rs->f['attname'];
+				$temp[$rs->fields['attnum']] = $rs->fields['attname'];
 				$rs->moveNext();
 			}
 			return $temp;
@@ -1828,7 +1828,7 @@ class Postgres extends ADODB_base {
 		}
 		// Otherwise find the names of the keys
 		else {
-			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->f['indkey']));
+			$attnames = $this->getAttributeNames($oldtable, explode(' ', $rs->fields['indkey']));
 			if (!is_array($attnames)) {
 				$this->rollbackTransaction();
 				return -1;
@@ -1901,7 +1901,7 @@ class Postgres extends ADODB_base {
 		// Get the minimum value of the sequence
 		$seq = $this->getSequence($sequence);
 		if ($seq->recordCount() != 1) return -1;
-		$minvalue = $seq->f[$this->sqFields['minvalue']];
+		$minvalue = $seq->fields[$this->sqFields['minvalue']];
 
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
@@ -2606,13 +2606,13 @@ class Postgres extends ADODB_base {
 	function dropOperator($operator_oid, $cascade) {
 		// Function comes in with $object as operator OID
 		$opr = $this->getOperator($operator_oid);
-		$this->fieldClean($opr->f['oprname']);
+		$this->fieldClean($opr->fields['oprname']);
 
-		$sql = "DROP OPERATOR {$opr->f['oprname']} (";
+		$sql = "DROP OPERATOR {$opr->fields['oprname']} (";
 		// Quoting or formatting here???
-		if ($opr->f['oprleftname'] !== null) $sql .= $opr->f['oprleftname'] . ', ';
+		if ($opr->fields['oprleftname'] !== null) $sql .= $opr->fields['oprleftname'] . ', ';
 		else $sql .= "NONE, ";
-		if ($opr->f['oprrightname'] !== null) $sql .= $opr->f['oprrightname'] . ')';
+		if ($opr->fields['oprrightname'] !== null) $sql .= $opr->fields['oprrightname'] . ')';
 		else $sql .= "NONE)";
 		
 		if ($cascade) $sql .= " CASCADE";
@@ -2771,8 +2771,8 @@ class Postgres extends ADODB_base {
 		$sql = "SELECT grolist FROM pg_group WHERE groname = '{$groname}'";
       
 		$grodata = $this->selectSet($sql);
-		if ($grodata->f['grolist'] !== null && $grodata->f['grolist'] != '{}') {
-			$members = $grodata->f['grolist'];
+		if ($grodata->fields['grolist'] !== null && $grodata->fields['grolist'] != '{}') {
+			$members = $grodata->fields['grolist'];
 			$members = ereg_replace("\{|\}","",$members);
 			$this->clean($members);
 
@@ -3316,8 +3316,8 @@ class Postgres extends ADODB_base {
 			case 'function':
 				// Function comes in with $object as function OID
 				$fn = $this->getFunction($object);
-				$this->fieldClean($fn->f['proname']);
-				$sql .= " FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";
+				$this->fieldClean($fn->fields['proname']);
+				$sql .= " FUNCTION \"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
 				break;
 			case 'language':
 				$this->fieldClean($object);
@@ -3668,9 +3668,9 @@ class Postgres extends ADODB_base {
 	function dropFunction($function_oid, $cascade) {
 		// Function comes in with $object as function OID
 		$fn = $this->getFunction($function_oid);
-		$this->fieldClean($fn->f['proname']);
+		$this->fieldClean($fn->fields['proname']);
 		
-		$sql = "DROP FUNCTION \"{$fn->f['proname']}\"({$fn->f['proarguments']})";
+		$sql = "DROP FUNCTION \"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
 		if ($cascade) $sql .= " CASCADE";
 		
 		return $this->execute($sql);
@@ -3882,11 +3882,11 @@ class Postgres extends ADODB_base {
 			case 'COLUMN':
 				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
 				break;
-			case 'DATABASE';
-			case 'ROLE';
+			case 'DATABASE':
+			case 'ROLE':
 			case 'SCHEMA':
 			case 'SEQUENCE':
-			case 'TABLESPACE';
+			case 'TABLESPACE':
 			case 'TYPE':
 			case 'VIEW':
 				$sql .= "\"{$obj_name}\" IS ";
