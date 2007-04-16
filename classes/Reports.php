@@ -4,7 +4,7 @@
 	 * the functions provided by the database driver exclusively, and hence
 	 * will work with any database without modification.
 	 *
-	 * $Id: Reports.php,v 1.17 2007/04/14 08:00:03 mr-russ Exp $
+	 * $Id: Reports.php,v 1.18 2007/04/16 11:02:35 mr-russ Exp $
 	 */
 
 	class Reports {
@@ -57,7 +57,7 @@
 			else $filter = $ops = array();
 
 			$sql = $this->driver->getSelectSQL($this->reports_table,
-				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
+				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql', 'paginate'),
 				$filter, $ops, array('db_name' => 'asc', 'report_name' => 'asc'));
 
 			return $this->driver->selectSet($sql);
@@ -70,7 +70,7 @@
 		 */
 		function getReport($report_id) {			
 			$sql = $this->driver->getSelectSQL($this->reports_table,
-				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql'),
+				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql', 'paginate'),
 				array('report_id' => $report_id), array('report_id' => '='), array());
 
 			return $this->driver->selectSet($sql);
@@ -82,16 +82,18 @@
 		 * @param $db_name The name of the database
 		 * @param $descr The comment on the report
 		 * @param $report_sql The SQL for the report
+		 * @param $paginate The report should be paginated
 		 * @return 0 success
 		 */
-		function createReport($report_name, $db_name, $descr, $report_sql) {
+		function createReport($report_name, $db_name, $descr, $report_sql, $paginate) {
 			global $misc;
 			$server_info = $misc->getServerInfo();
 			$temp = array(
 				'report_name' => $report_name,
 				'db_name' => $db_name,
 				'created_by' => $server_info['username'],
-				'report_sql' => $report_sql
+				'report_sql' => $report_sql,
+				'paginate' => $paginate ? 'true' : 'false',
 			);
 			if ($descr != '') $temp['descr'] = $descr;
 
@@ -105,9 +107,10 @@
 		 * @param $db_name The name of the database
 		 * @param $descr The comment on the report
 		 * @param $report_sql The SQL for the report
+		 * @param $paginate The report should be paginated
 		 * @return 0 success
 		 */
-		function alterReport($report_id, $report_name, $db_name, $descr, $report_sql) {
+		function alterReport($report_id, $report_name, $db_name, $descr, $report_sql, $paginate) {
 			global $misc;
 			$server_info = $misc->getServerInfo();
 			$temp = array(
@@ -115,6 +118,7 @@
 				'db_name' => $db_name,
 				'created_by' => $server_info['username'],
 				'report_sql' => $report_sql,
+				'paginate' => $paginate ? 'true' : 'false',
 				'descr' => $descr
 			);
 

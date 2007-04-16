@@ -5,6 +5,7 @@ Version 4.2
 -----------
 
 Features
+* Pagination selection available fore reports
 * You can configure reports db, schema and table names
 
 Bugs

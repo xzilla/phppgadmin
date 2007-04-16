@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.33 2007/01/10 01:31:18 soranzo Exp $
+	 * $Id: sql.php,v 1.34 2007/04/16 11:02:36 mr-russ Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -80,9 +80,17 @@
 		$_REQUEST['query'] = $_POST['query'];
 	}
 	
+	// Pagination maybe set by a get link that has it as FALSE,
+	// if that's the case, unset the variable.
+
+	if (isset($_REQUEST['paginate']) && $_REQUEST['paginate'] == 'f') {
+		unset($_REQUEST['paginate']);
+		unset($_POST['paginate']);
+		unset($_GET['paginate']);
+	}
 	// Check to see if pagination has been specified. In that case, send to display
 	// script for pagination
-	if (isset($_POST['paginate']) && !isset($_POST['explain']) && !isset($_POST['explain_analyze'])) {
+	if (isset($_REQUEST['paginate']) && !isset($_REQUEST['explain']) && !isset($_REQUEST['explain_analyze'])) {
 		include('./display.php');
 		exit;
 	}
@@ -114,7 +122,7 @@
 	else {
 		// Set fetch mode to NUM so that duplicate field names are properly returned
 		$data->conn->setFetchMode(ADODB_FETCH_NUM);
-		$rs = $data->conn->Execute($_POST['query']);
+		$rs = $data->conn->Execute($_REQUEST['query']);
 
 		// $rs will only be an object if there is no error
 		if (is_object($rs)) {
@@ -171,10 +179,10 @@
 	echo "<p>{$lang['strsqlexecuted']}</p>\n";
 
 	echo "<p><a class=\"navlink\" href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql&amp;query=", urlencode($_POST['query']), "\">{$lang['streditsql']}</a>";
+		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql&amp;query=", urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a>";
 	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		echo " | <a class=\"navlink\" href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
-			urlencode($_POST['query']), "\">{$lang['strcreatereport']}</a>";
+			urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a>";
 	}
 	echo "</p>\n";
 	

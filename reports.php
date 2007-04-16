@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.24 2007/01/26 17:55:42 soranzo Exp $
+	 * $Id: reports.php,v 1.25 2007/04/16 11:02:36 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -26,6 +26,9 @@
 			$_POST['db_name'] = $report->fields['db_name'];
 			$_POST['descr'] = $report->fields['descr'];
 			$_POST['report_sql'] = $report->fields['report_sql'];
+			if ($report->fields['paginate'] == 't') {
+				$_POST['paginate'] = TRUE;
+			}
 		}
 
 		// Get a list of available databases
@@ -59,6 +62,7 @@
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
+		echo "<label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_POST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -82,7 +86,7 @@
 		elseif ($_POST['report_sql'] == '') doEdit($lang['strreportneedsdef']);
 		else {
 			$status = $reportsdb->alterReport($_POST['report_id'], $_POST['report_name'], $_POST['db_name'],
-								$_POST['descr'], $_POST['report_sql']);
+								$_POST['descr'], $_POST['report_sql'], isset($_POST['paginate']));
 			if ($status == 0)
 				doDefault($lang['strreportcreated']);
 			else
@@ -163,6 +167,7 @@
 		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
 			htmlspecialchars($_REQUEST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
+		echo "<label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo "<input type=\"submit\" value=\"{$lang['strsave']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -185,7 +190,7 @@
 		elseif ($_POST['report_sql'] == '') doCreate($lang['strreportneedsdef']);
 		else {
 			$status = $reportsdb->createReport($_POST['report_name'], $_POST['db_name'],
-								$_POST['descr'], $_POST['report_sql']);
+								$_POST['descr'], $_POST['report_sql'], isset($_POST['paginate']));
 			if ($status == 0)
 				doDefault($lang['strreportcreated']);
 			else
@@ -241,7 +246,7 @@
 		$misc->printMsg($msg);
 		
 		$reports = $reportsdb->getReports();
-		
+
 		$columns = array(
 			'report' => array(
 				'title' => $lang['strreport'],
@@ -274,8 +279,8 @@
 			),
 			'run' => array(
 				'title' => $lang['strrun'],
-				'url'   => "display.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
-				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'query' => 'report_sql'),
+				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'query' => 'report_sql', 'paginate' => 'paginate'),
 			),
 			'edit' => array(
 				'title' => $lang['stredit'],
