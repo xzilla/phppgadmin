@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.62 2007/04/16 16:59:46 soranzo Exp $
+	 * $Id: views.php,v 1.63 2007/04/16 21:41:14 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -240,7 +240,10 @@
 			echo "<tr><th class=\"data\">{$lang['strcolumns']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
 			echo GUI::printCombo($arrFields, 'formFields[]', false, '', true);
-			echo "</td>\n</tr>\n</table>\n<br />\n";
+			echo "</td>\n</tr>";
+			echo "<tr><td><input type=\"radio\" name=\"dblFldMeth\" id=\"dblFldMeth1\" value=\"rename\" /><label for=\"dblFldMeth1\">{$lang['strrenamedupfields']}</label>";
+			echo "<br /><input type=\"radio\" name=\"dblFldMeth\" id=\"dblFldMeth2\" value=\"drop\" /><label for=\"dblFldMeth2\">{$lang['strdropdupfields']}</label>";
+			echo "<br /><input type=\"radio\" name=\"dblFldMeth\" id=\"dblFldMeth3\" value=\"\" /><label for=\"dblFldMeth3\">{$lang['strerrordupfields']}</label></td></tr></table><br />";
 			
 			// Output the Linking keys combo boxes
 			echo "<table>\n";
@@ -266,7 +269,7 @@
 				echo GUI::printCombo($arrFields, "formLink[$i][rightlink]", true, $curRightLink, false );
 				echo "</td>\n</tr>\n";
 				$rowClass = $rowClass == 'data1' ? 'data2' : 'data1';
-			}
+			}			
 			echo "</table>\n<br />\n";
 			
 			// Build list of available operators (infix only)
@@ -409,17 +412,32 @@
 		if (!strlen($_POST['formView']) ) doSetParamsCreate($lang['strviewneedsname']);
 		else if (!isset($_POST['formFields']) || !count($_POST['formFields']) ) doSetParamsCreate($lang['strviewneedsfields']);
 		else {						
-			$selFields = '';						
+			$selFields = '';
+
+			if (! empty ($_POST['dblFldMeth']) )
+				$tmpHsh = array ();
+
 			foreach ($_POST['formFields'] AS $curField) {
 				$arrTmp = unserialize($curField);
-				if ($data->hasSchemas() ) {					
-					$selFields .= strlen($selFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"";
+				if ( ! empty ($_POST['dblFldMeth'] ) ) { // doublon control
+					if (empty ($tmpHsh[$arrTmp['fieldname']])) { // field does not exist
+						$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\".":"";
+						$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
+						$tmpHsh[$arrTmp['fieldname']]=1;
+					} else if ($_POST['dblFldMeth']=="rename") { // field exist and must be renamed
+						$tmpHsh[$arrTmp['fieldname']]++;
+						$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\".":"";
+						$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" AS \"{$arrTmp['schemaname']}_{$arrTmp['tablename']}_{$arrTmp['fieldname']}{$tmpHsh[$arrTmp['fieldname']]}\", ";
+					}
+					/* field already exist, just ignore this one */
+				} else { // no doublon control
+					$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\".":"";
+					$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
 				}
-				else {
-					$selFields .= strlen($selFields) ? ", \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"" : "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\"";
-				}				
-			}			
-			
+			}
+
+			$selFields = substr ($selFields, 0, -2);
+			unset ($arrTmp,$tmpHsh);
 			$linkFields = '';
 
 			// If we have links, out put the JOIN ... ON statements
