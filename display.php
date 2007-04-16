@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.59 2007/03/24 02:15:54 xzilla Exp $
+	 * $Id: display.php,v 1.60 2007/04/16 16:59:46 soranzo Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -76,11 +76,11 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$szValueName = "values[{$attrs->f['attname']}]";
+					$szValueName = "values[{$attrs->fields['attname']}]";
 					$szEvents = '';
 					$szDivPH = '';
 					if($bAllowAC) {
-						$idxFound = array_search($attrs->f['attname'], $arrayLocals);
+						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
 						// In PHP < 4.2.0 array_search returns NULL on failure
 						if ($idxFound !== NULL && $idxFound !== FALSE) {
 							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
@@ -88,35 +88,35 @@
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
 						}
 					}
-					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
 					
 					// Initialise variables
-					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
-						$_REQUEST['format'][$attrs->f['attname']] = 'VALUE';
+					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
+						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
 					
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
-						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					$elements++;
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					$elements++;
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull']) {
+					if (!$attrs->fields['attnotnull']) {
 						// Set initial null values
-						if ($_REQUEST['action'] == 'confeditrow' && $rs->f[$attrs->f['attname']] === null) {
-							$_REQUEST['nulls'][$attrs->f['attname']] = 'on';
+						if ($_REQUEST['action'] == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
+							$_REQUEST['nulls'][$attrs->fields['attname']] = 'on';
 						}
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->f['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>\n";
+						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>\n";
 						$elements++;
 					}
 					else
@@ -127,12 +127,12 @@
 					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to 
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
 					// as it contains '[' and ']' characters.
-					if (!$attrs->f['attnotnull']) {
-						echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'], 
+					if (!$attrs->fields['attnotnull']) {
+						echo $data->printField($szValueName, $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], 
 													array('onChange' => 'elements[' . ($elements - 1) . '].checked = false;'),$szEvents) . $szDivPH;
 					}
 					else {
-						echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'],array(),$szEvents) . $szDivPH;
+						echo $data->printField($szValueName, $rs->fields[$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents) . $szDivPH;
 					}
 					echo "</td>";
 					$elements++;
@@ -335,7 +335,7 @@
 			foreach ($key as $v) {
 				// If a key column is not found in the record set, then we
 				// can't use the key.
-				if (!in_array($v, array_keys($rs->f))) {
+				if (!in_array($v, array_keys($rs->fields))) {
 					$key = array();
 					break;
 				}
@@ -345,7 +345,7 @@
 				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			$j = 0;		
-			foreach ($rs->f as $k => $v) {
+			foreach ($rs->fields as $k => $v) {
 				if (isset($object) && $k == $data->id && !$conf['show_oids']) {
 					$j++;
 					continue;
@@ -370,7 +370,7 @@
 			echo "</tr>\n";
 	
 			$i = 0;		
-			reset($rs->f);
+			reset($rs->fields);
 			while (!$rs->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
@@ -379,12 +379,12 @@
 					$key_str = '';
 					$has_nulls = false;
 					foreach ($key as $v) {
-						if ($rs->f[$v] === null) {
+						if ($rs->fields[$v] === null) {
 							$has_nulls = true;
 							break;
 						}
 						if ($key_str != '') $key_str .= '&amp;';
-						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->f[$v]);
+						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->fields[$v]);
 					}
 					if ($has_nulls) {
 						echo "<td class=\"data{$id}\" colspan=\"2\">&nbsp;</td>\n";
@@ -398,7 +398,7 @@
 					}
 				}
 				$j = 0;
-				foreach ($rs->f as $k => $v) {
+				foreach ($rs->fields as $k => $v) {
 					$finfo = $rs->fetchField($j++);
 					if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) continue;
 					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";

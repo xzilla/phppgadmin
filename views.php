@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.61 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: views.php,v 1.62 2007/04/16 16:59:46 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -52,29 +52,29 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
-					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
-						$_REQUEST['values'][$attrs->f['attname']] = null;
-					if (!isset($_REQUEST['ops'][$attrs->f['attname']]))
-						$_REQUEST['ops'][$attrs->f['attname']] = null;
+					if (!isset($_REQUEST['values'][$attrs->fields['attname']]))
+						$_REQUEST['values'][$attrs->fields['attname']] = null;
+					if (!isset($_REQUEST['ops'][$attrs->fields['attname']]))
+						$_REQUEST['ops'][$attrs->fields['attname']] = null;
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
+					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
+						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
+					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
-						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
+						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
-						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->fields['attname']}]",
+						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
@@ -205,10 +205,10 @@
 				$attrs = $data->getTableAttributes($arrSelTables[$i]['tablename']);
 				while (!$attrs->EOF) {
 					if ($data->hasSchemas() ) {
-						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
+						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->fields['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->fields['attname']) );
 					}
 					else {
-						$arrFields["{$arrSelTables[$i]['tablename']}.{$attrs->f['attname']}"] = serialize(array('schemaname' => NULL, 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->f['attname']) );
+						$arrFields["{$arrSelTables[$i]['tablename']}.{$attrs->fields['attname']}"] = serialize(array('schemaname' => NULL, 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->fields['attname']) );
 					}
 					$attrs->moveNext();
 				}
@@ -252,8 +252,8 @@
 				echo "<tr>\n<td class=\"$rowClass\">\n";
 				
 				if ($data->hasForeignKeysInfo() && !$rsLinkKeys->EOF) {
-					$curLeftLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['p_schema'], 'tablename' => $rsLinkKeys->f['p_table'], 'fieldname' => $rsLinkKeys->f['p_field']) ) );
-					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->f['f_schema'], 'tablename' => $rsLinkKeys->f['f_table'], 'fieldname' => $rsLinkKeys->f['f_field']) ) );
+					$curLeftLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->fields['p_schema'], 'tablename' => $rsLinkKeys->fields['p_table'], 'fieldname' => $rsLinkKeys->fields['p_field']) ) );
+					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->fields['f_schema'], 'tablename' => $rsLinkKeys->fields['f_table'], 'fieldname' => $rsLinkKeys->fields['f_field']) ) );
 					$rsLinkKeys->moveNext();
 				}
 				else {
@@ -323,13 +323,13 @@
 		$arrTables = array();
 		while (!$tables->EOF) {						
 			$arrTmp = array();
-			$arrTmp['schemaname'] = $tables->f['nspname'];
-			$arrTmp['tablename'] = $tables->f['relname'];
+			$arrTmp['schemaname'] = $tables->fields['nspname'];
+			$arrTmp['tablename'] = $tables->fields['relname'];
 			if ($data->hasSchemas() ) { //if schemas aren't available don't show them in the interface
-				$arrTables[$tables->f['nspname'] . '.' . $tables->f['relname']] = serialize($arrTmp);
+				$arrTables[$tables->fields['nspname'] . '.' . $tables->fields['relname']] = serialize($arrTmp);
 			}
 			else {
-				$arrTables[$tables->f['relname']] = serialize($arrTmp);
+				$arrTables[$tables->fields['relname']] = serialize($arrTmp);
 			}
 			$tables->moveNext();
 		}		

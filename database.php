@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.90 2007/04/01 16:02:07 xzilla Exp $
+	 * $Id: database.php,v 1.91 2007/04/16 16:59:46 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -89,21 +89,21 @@
 				$curr = '';
 				while (!$rs->EOF) {
 					// Output a new header if the current type has changed, but not if it's just changed the rule type
-					if ($rs->f['type'] != $curr) {
+					if ($rs->fields['type'] != $curr) {
 						// Short-circuit in the case of changing from table rules to view rules; table cols to view cols;
 						// table constraints to domain constraints
-						if ($rs->f['type'] == 'RULEVIEW' && $curr == 'RULETABLE') {
-							$curr = $rs->f['type'];
+						if ($rs->fields['type'] == 'RULEVIEW' && $curr == 'RULETABLE') {
+							$curr = $rs->fields['type'];
 						}
-						elseif ($rs->f['type'] == 'COLUMNVIEW' && $curr == 'COLUMNTABLE') {
-							$curr = $rs->f['type'];
+						elseif ($rs->fields['type'] == 'COLUMNVIEW' && $curr == 'COLUMNTABLE') {
+							$curr = $rs->fields['type'];
 						}
-						elseif ($rs->f['type'] == 'CONSTRAINTTABLE' && $curr == 'CONSTRAINTDOMAIN') {
-							$curr = $rs->f['type'];
+						elseif ($rs->fields['type'] == 'CONSTRAINTTABLE' && $curr == 'CONSTRAINTDOMAIN') {
+							$curr = $rs->fields['type'];
 						}
 						else {
 							if ($curr != '') echo "</ul>\n";
-							$curr = $rs->f['type'];
+							$curr = $rs->fields['type'];
 							echo "<h3>";
 							switch ($curr) {
 								case 'SCHEMA':
@@ -168,97 +168,97 @@
 					
 					// Generate schema prefix
 					if ($data->hasSchemas())
-						$prefix = $rs->f['schemaname'] . '.';
+						$prefix = $rs->fields['schemaname'] . '.';
 					else
 						$prefix = '';
 						
 					switch ($curr) {
 						case 'SCHEMA':						
-							echo "<li><a href=\"database.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"database.php?{$misc->href}\">", _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TABLE':
-							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
-								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;table=", 
+								urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'VIEW':
-							echo "<li><a href=\"views.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;view=", 
-								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"views.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;view=", 
+								urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'SEQUENCE':
-							echo "<li><a href=\"sequences.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), 
-								"&amp;sequence=", urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"sequences.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), 
+								"&amp;sequence=", urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'COLUMNTABLE':
-							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
-								urlencode($rs->f['relname']), "&amp;column=", urlencode($rs->f['name']), "&amp;action=properties\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"tblproperties.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;table=", 
+								urlencode($rs->fields['relname']), "&amp;column=", urlencode($rs->fields['name']), "&amp;action=properties\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'COLUMNVIEW':
-							echo "<li><a href=\"viewproperties.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;view=", 
-								urlencode($rs->f['relname']), "&amp;column=", urlencode($rs->f['name']), "&amp;action=properties\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"viewproperties.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;view=", 
+								urlencode($rs->fields['relname']), "&amp;column=", urlencode($rs->fields['name']), "&amp;action=properties\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'INDEX':
-							echo "<li><a href=\"indexes.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"indexes.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;table=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'CONSTRAINTTABLE':
-							echo "<li><a href=\"constraints.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"constraints.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;table=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'CONSTRAINTDOMAIN':
-							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;domain=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;domain=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TRIGGER':
-							echo "<li><a href=\"triggers.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;table=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"triggers.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;table=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'RULETABLE':
-							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=table&amp;relation=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;reltype=table&amp;relation=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'RULEVIEW':
-							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;reltype=view&amp;relation=", 
-								urlencode($rs->f['relname']), "\">", 
-								$misc->printVal($prefix), $misc->printVal($rs->f['relname']), '.', _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"rules.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;reltype=view&amp;relation=", 
+								urlencode($rs->fields['relname']), "\">", 
+								$misc->printVal($prefix), $misc->printVal($rs->fields['relname']), '.', _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'FUNCTION':
-							echo "<li><a href=\"functions.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;function=", 
-								urlencode($rs->f['name']), "&amp;function_oid=", urlencode($rs->f['oid']), "\">", 
-								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"functions.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;function=", 
+								urlencode($rs->fields['name']), "&amp;function_oid=", urlencode($rs->fields['oid']), "\">", 
+								$misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'TYPE':
-							echo "<li><a href=\"types.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;type=", 
-								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"types.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;type=", 
+								urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'DOMAIN':
-							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;domain=", 
-								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"domains.php?action=properties&amp;{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;domain=", 
+								urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'OPERATOR':
-							echo "<li><a href=\"operators.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "&amp;operator=", 
-								urlencode($rs->f['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"operators.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "&amp;operator=", 
+								urlencode($rs->fields['name']), "\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'CONVERSION':
-							echo "<li><a href=\"conversions.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), 
-								"\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"conversions.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), 
+								"\">", $misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'LANGUAGE':
-							echo "<li><a href=\"languages.php?{$misc->href}\">", _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"languages.php?{$misc->href}\">", _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'AGGREGATE':
-							echo "<li><a href=\"aggregates.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "\">",
-								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"aggregates.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "\">",
+								$misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 						case 'OPCLASS':
-							echo "<li><a href=\"opclasses.php?{$misc->href}&amp;schema=", urlencode($rs->f['schemaname']), "\">",
-								$misc->printVal($prefix), _highlight($misc->printVal($rs->f['name']), $_GET['term']), "</a></li>\n";
+							echo "<li><a href=\"opclasses.php?{$misc->href}&amp;schema=", urlencode($rs->fields['schemaname']), "\">",
+								$misc->printVal($prefix), _highlight($misc->printVal($rs->fields['name']), $_GET['term']), "</a></li>\n";
 							break;
 					}
 					$rs->moveNext();	
@@ -430,7 +430,7 @@
 		else $actions = array();
 		
 		// Remove query start time for <7.4
-		if (!isset($processes->f['query_start'])) unset($columns['start_time']);
+		if (!isset($processes->fields['query_start'])) unset($columns['start_time']);
 
 		$misc->printTable($processes, $columns, $actions, $lang['strnodata']);
 	}
@@ -587,7 +587,7 @@
 
 				if($data->hasAutovacuum()) {
 					$enabled = $data->getVariable('autovacuum');
-					echo "<h3>{$lang['strautovacuum']} ". (($enabled->f['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) ."</h3>";
+					echo "<h3>{$lang['strautovacuum']} ". (($enabled->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) ."</h3>";
 					// Autovacuum
 					// Fetch the processes from the database
 					$autovac = $data->getAutovacuum();
@@ -686,33 +686,33 @@
 				$i = 0;
 				$nCC = 0;
 				while (!$attrs->EOF) {
-					$szValueName = "values[{$attrs->f['attname']}]";
+					$szValueName = "values[{$attrs->fields['attname']}]";
 					$szEvents = "";
 					$szDivPH = "";
 					
-					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					$id = (($i % 2) == 0 ? '1' : '2');
 					
 					// Initialise variables
-					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
-						$_REQUEST['format'][$attrs->f['attname']] = 'VALUE';
+					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
+						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
 					
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
-						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					$elements++;
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					$elements++;
 
 					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">";
-					echo $data->printField($szValueName, $rs->f[$attrs->f['attname']], $attrs->f['type'],array(),$szEvents) . $szDivPH;
+					echo $data->printField($szValueName, $rs->fields[$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents) . $szDivPH;
 					echo "</td>";
 					$elements++;
 					echo "</tr>\n";

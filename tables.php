@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.88 2007/04/01 16:02:07 xzilla Exp $
+	 * $Id: tables.php,v 1.89 2007/04/16 16:59:46 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -61,7 +61,7 @@
 						($_REQUEST['spcname'] == '') ? ' selected="selected"' : '', "></option>\n";
 					// Display all other tablespaces
 					while (!$tablespaces->EOF) {
-						$spcname = htmlspecialchars($tablespaces->f['spcname']);
+						$spcname = htmlspecialchars($tablespaces->fields['spcname']);
 						echo "\t\t\t\t<option value=\"{$spcname}\"",
 							($spcname == $_REQUEST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 						$tablespaces->moveNext();
@@ -133,7 +133,7 @@
 					}
 					$types->moveFirst();
 					while (!$types->EOF) {
-						$typname = $types->f['typname'];
+						$typname = $types->fields['typname'];
 						$types_for_js[$typname] = 1;
 						echo "\t\t\t\t<option value=\"", htmlspecialchars($typname), "\"",
 						(isset($_REQUEST['type'][$i]) && $typname == $_REQUEST['type'][$i]) ? ' selected="selected"' : '', ">",
@@ -275,29 +275,29 @@
 
 				$i = 0;
 				while (!$attrs->EOF) {
-					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
-					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
-						$_REQUEST['values'][$attrs->f['attname']] = null;
-					if (!isset($_REQUEST['ops'][$attrs->f['attname']]))
-						$_REQUEST['ops'][$attrs->f['attname']] = null;
+					if (!isset($_REQUEST['values'][$attrs->fields['attname']]))
+						$_REQUEST['values'][$attrs->fields['attname']] = null;
+					if (!isset($_REQUEST['ops'][$attrs->fields['attname']]))
+						$_REQUEST['ops'][$attrs->fields['attname']] = null;
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->f['attname']), "]\"",
-						isset($_REQUEST['show'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod'])), "</td>";
+					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
+						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
-					echo "<select name=\"ops[{$attrs->f['attname']}]\">\n";
+					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
-						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->f['attname']]) ? ' selected="selected"' : '', 
+						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->f['attname']}]",
-						$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->fields['attname']}]",
+						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
@@ -392,11 +392,11 @@
 				
 				$i = 0;
 				while (!$attrs->EOF) {
-					$szValueName = "values[{$attrs->f['attname']}]";
+					$szValueName = "values[{$attrs->fields['attname']}]";
 					$szEvents = '';
 					$szDivPH = '';
 					if($bAllowAC) {
-						$idxFound = array_search($attrs->f['attname'], $arrayLocals);
+						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
 						// In PHP < 4.2.0 array_search returns NULL on failure
 						if ($idxFound !== NULL && $idxFound !== FALSE) { 
 							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
@@ -404,38 +404,38 @@
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
 						}
 					}
-					$attrs->f['attnotnull'] = $data->phpBool($attrs->f['attnotnull']);
+					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
-					if (!isset($_REQUEST['values'][$attrs->f['attname']]))
-						$_REQUEST['values'][$attrs->f['attname']] = $attrs->f['adsrc'];
+					if (!isset($_REQUEST['values'][$attrs->fields['attname']]))
+						$_REQUEST['values'][$attrs->fields['attname']] = $attrs->fields['adsrc'];
 					// Default format to 'VALUE' if there is no default,
 					// otherwise default to 'EXPRESSION'
-					if (!isset($_REQUEST['format'][$attrs->f['attname']]))
-						$_REQUEST['format'][$attrs->f['attname']] = ($attrs->f['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
+					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
+						$_REQUEST['format'][$attrs->fields['attname']] = ($attrs->fields['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->f['attname']), "</td>";
+					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo $misc->printVal($data->formatType($attrs->f['type'], $attrs->f['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->f['attname']), "]\" value=\"", 
-						htmlspecialchars($attrs->f['type']), "\" /></td>";
+					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
+						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->f['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->f['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->f['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
-					if (!$attrs->f['attnotnull']) {
-						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->f['attname']), "]\"",
-							isset($_REQUEST['nulls'][$attrs->f['attname']]) ? ' checked="checked"' : '', " /></td>";
+					if (!$attrs->fields['attnotnull']) {
+						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->fields['attname']), "]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
 					}
 					else {
 						echo "&nbsp;</td>";
 					}
 					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">", $data->printField($szValueName,
-					$_REQUEST['values'][$attrs->f['attname']], $attrs->f['type'],array(),$szEvents),$szDivPH ,"</td>";
+					$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents),$szDivPH ,"</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
