@@ -81,9 +81,10 @@ COMMON VARIABLES
 ----------------
 
 $data - A data connection to the current or default database.
-$misc - Contains miscellaneous functions.  eg. printing headers and footers, etc.
-$lang - Global array containing translated strings.  The strings in this array have already
-        been converted to HTML, so you should not htmlspecialchars() them.
+$misc - Contains miscellaneous functions.  eg. printing headers & footers, etc.
+$lang - Global array containing translated strings.  The strings in this array 
+        have already been converted to HTML, so you should not 
+        htmlspecialchars() them.
 $conf - Global array of configuration options.
 
 WORKING WITH RECORDSETS
@@ -104,3 +105,18 @@ if (is_object($rs) && $rs->recordCount() > 0) {
 }
 else echo "No results.";
 
+UPDATING LANGUAGE FILES FOR THE MONO-LINGUAL
+--------------------------------------------
+
+If you need to add or modify language strings for a new feature, the preferred
+method is:
+
+* cd into lang/ subdirectory
+* modify english.php file only! 
+* run "make english" (this will recode the english.php file, and place an 
+    updated copy in lang/recode/)
+
+If you've done it correctly, when you create your patch, it should only have 
+diffs of lang/english.php and lang/recode/english.php files. For more 
+information on how the language system works, please see the TRANSLATORS file.
+ 
