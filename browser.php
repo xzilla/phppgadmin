@@ -5,7 +5,7 @@
 	 * if you click on a database it shows a list of database objects in that
 	 * database.
 	 *
-	 * $Id: browser.php,v 1.56 2007/04/16 19:24:27 ioguix Exp $
+	 * $Id: browser.php,v 1.57 2007/04/17 08:55:12 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 ?>
 
 	<div class="logo"><a href="intro.php" target="detail"><img src="<?php echo $misc->icon('title') ?>" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
-	<div class="refreshTree"><a href="browser.php" target="browser" ><img src="<?= $misc->icon('Refresh')?>" alt="<?=$lang['strrefresh']?>" title="<?=$lang['strrefresh']?>" /></a></div>
+	<div class="refreshTree"><a href="browser.php" target="browser" ><img src="<?php echo $misc->icon('Refresh'); ?>" alt="<?php echo $lang['strrefresh']; ?>" title="<?php echo $lang['strrefresh']; ?>" /></a></div>
 <script type="text/javascript">
 
 webFXTreeConfig.rootIcon		= "<?php echo $misc->icon('Servers') ?>";
