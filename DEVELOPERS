@@ -55,9 +55,13 @@ TIPS FOR DEVELOPERS
 When you submit code to phpPgAdmin, we do expect it to adhere to the existing
 coding standards in the source.  So, instead of using your personal favourite
 code layout style, please format it to look like surrounding code.
+In general, we want the code to be portable, standard compliant (e.g. to W3C 
+(X)HTML and CSS) and independent of specific configurations of PHP, the web 
+server, PostgreSQL or the user browser. We also try to support as many versions
+as possible of these applications.
 
-Test your code properly!  Say you are developing a feature to create domains.
-Try naming your domain all of the following:
+Test your code properly! For example, if you are developing a feature to create
+domains, try naming your domain all of the following:
 
 	* "
 	* '
