@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.52 2007/04/14 08:00:03 mr-russ Exp $
+	 * $Id: config.inc.php-dist,v 1.53 2007/04/18 14:08:48 mr-russ Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -121,8 +121,8 @@
 	// Max chars of each field to display by default in browse mode
 	$conf['max_chars'] = 50;
 
-	// Send XHTML headers?
-	$conf['use_xhtml'] = false;
+	// Send XHTML strict headers?
+	$conf['use_xhtml_strict'] = false;
 
 	// Base URL for PostgreSQL documentation.
 	// '%s', if present, will be replaced with the PostgreSQL version
@@ -133,6 +133,6 @@
 	 * Don't modify anything below this line *
 	 *****************************************/
 
-	$conf['version'] = 18;
+	$conf['version'] = 19;
 
 ?>

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.141 2007/04/13 11:18:11 mr-russ Exp $
+	 * $Id: Misc.php,v 1.142 2007/04/18 14:08:48 mr-russ Exp $
 	 */
 	 
 	class Misc {
@@ -352,30 +352,28 @@
 		 * @param $title The title of the page
 		 * @param $script script tag
 		 */
-		function printHeader($title = '', $script = null) {
+		function printHeader($title = '', $script = null, $frameset = false) {
 			global $appName, $lang, $_no_output, $conf;
 
 			if (!isset($_no_output)) {
 				header("Content-Type: text/html; charset=" . $lang['appcharset']);
-				// Send XHTML headers, or regular HTML headers
-				if (isset($conf['use_xhtml']) && $conf['use_xhtml']) {
-					$closeTag = "/";
-					echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
+				// Send XHTML headers, or regular XHTML strict headers
+				echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
+				if ($frameset !== null) {
+					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
+				} else if (isset($conf['use_xhtml_strict']) && $conf['use_xhtml_strict']) {
+					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Strict.dtd\">\n";
+				} else {						
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Transitional.dtd\">\n";
-					echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"{$lang['applocale']}\" lang=\"{$lang['applocale']}\"";
-					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
-					echo ">\n";
-				} else {
-					$closeTag = "";
-					echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
-					echo "<html lang=\"{$lang['applocale']}\"";
-					if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
-					echo ">\n";
 				}
+				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"{$lang['applocale']}\" lang=\"{$lang['applocale']}\"";
+				if (strcasecmp($lang['applangdir'], 'ltr') != 0) echo " dir=\"", htmlspecialchars($lang['applangdir']), "\"";
+				echo ">\n";
+
 				echo "<head>\n";
-				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" {$closeTag}>\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
 				// Theme
-				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" {$closeTag}>\n";
+				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo " - {$title}";
 				echo "</title>\n";

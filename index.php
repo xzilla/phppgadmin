@@ -3,13 +3,13 @@
 	/**
 	 * Main access point to the app.
 	 *
-	 * $Id: index.php,v 1.12 2005/05/02 15:47:23 chriskl Exp $
+	 * $Id: index.php,v 1.13 2007/04/18 14:08:48 mr-russ Exp $
 	 */
 
 	// Include application functions
 	$_no_db_connection = true;
 	include_once('./libraries/lib.inc.php');
-	$misc->printHeader();
+	$misc->printHeader('', null, true);
 	
 	$rtl = (strcasecmp($lang['applangdir'], 'rtl') == 0);
 	
