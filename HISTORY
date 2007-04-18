@@ -11,6 +11,7 @@ Features
 * You can configure reports db, schema and table names
 
 Bugs
+* Fix inability to assign a field type/domain of a different schema
 * Can't edit a report and set its comment to empty
 * Fix PHP5 Strict mode complaints 
 * Fix IN/NOT IN to accept text input lists 'a','b'

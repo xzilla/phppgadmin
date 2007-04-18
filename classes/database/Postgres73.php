@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.161 2007/01/10 02:01:17 soranzo Exp $
+ * $Id: Postgres73.php,v 1.162 2007/04/18 15:47:51 mr-russ Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1015,7 +1015,7 @@ class Postgres73 extends Postgres72 {
 	 */
 	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		if ($all)
-			$where = 'pg_catalog.pg_type_is_visible(t.oid)';
+			$where = '1 = 1';
 		else
 			$where = "n.nspname = '{$this->_schema}'";
 		// Never show system table types
