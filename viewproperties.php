@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.24 2007/03/24 02:33:59 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.25 2007/04/18 13:30:58 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -265,7 +265,7 @@
 								'view'     => $_REQUEST['view'],
 								'column'    => field('attname'),
 								'query'     => replace(
-									"SELECT %column%, count(*) AS \"count\" FROM %view% GROUP BY %column% ORDER BY %column%",
+									'SELECT "%column%", count(*) AS "count" FROM %view% GROUP BY "%column%" ORDER BY "%column%"',
 									array (
 										'%column%' => field('attname'),
 										'%view%' => $_REQUEST['view']

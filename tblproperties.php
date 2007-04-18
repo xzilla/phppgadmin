@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.75 2007/03/24 02:33:59 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.76 2007/04/18 13:30:58 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -569,7 +569,7 @@
 									'table'		=> $_REQUEST['table'],
 									'column'	=> field('attname'),
 									'query'		=> replace(
-														"SELECT %column%, count(*) AS \"count\" FROM %table% GROUP BY %column% ORDER BY %column%", 
+														'SELECT "%column%", count(*) AS "count" FROM %table% GROUP BY "%column%" ORDER BY "%column%"', 
 														array (
 															'%column%' => field('attname'),
 															'%table%' => $_REQUEST['table']
