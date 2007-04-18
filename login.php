@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.32 2006/06/17 12:57:36 xzilla Exp $
+	 * $Id: login.php,v 1.33 2007/04/18 14:06:14 mr-russ Exp $
 	 */
 	global $conf;
 	
@@ -40,7 +40,7 @@
 		</tr>
 		<tr>
 			<td><?php echo $lang['strpassword']; ?></td>
-			<td><input type="password" name="loginPassword" size="24" /></td>
+			<td><input type="password" name="loginPassword_<?php echo md5($_REQUEST['server']); ?>" size="24" /></td>
 		</tr>
 	</table>
 <?php if (sizeof($conf['servers']) > 1) : ?>

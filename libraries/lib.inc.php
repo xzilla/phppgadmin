@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.112 2007/01/22 14:19:18 soranzo Exp $
+	 * $Id: lib.inc.php,v 1.113 2007/04/18 14:06:14 mr-russ Exp $
 	 */
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -72,22 +72,22 @@
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
-	
+
 	// If login action is set, then set session variables
 	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) && 
-		isset($_POST['loginPassword'])) {
+		isset($_POST['loginPassword_'.md5($_POST['loginServer'])])) {
 		
 		$_server_info = $misc->getServerInfo($_POST['loginServer']);
 		
 		$_server_info['username'] = $_POST['loginUsername'];
-		$_server_info['password'] = $_POST['loginPassword'];
+		$_server_info['password'] = $_POST['loginPassword_'.md5($_POST['loginServer'])];
 		
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 
 		// Check for shared credentials
 		if (isset($_POST['loginShared'])) {
 			$_SESSION['sharedUsername'] = $_POST['loginUsername'];
-			$_SESSION['sharedPassword'] = $_POST['loginPassword'];
+			$_SESSION['sharedPassword'] = $_POST['loginPassword_'.md5($_POST['loginServer'])];
 		}
 		
 		$_reload_browser = true;

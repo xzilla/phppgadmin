@@ -5,6 +5,7 @@ Version 4.2
 -----------
 
 Features
+* Login will allow browsers to save different usernames and passwords for different servers.
 * Pagination selection available fore reports
 * You can configure reports db, schema and table names
 
