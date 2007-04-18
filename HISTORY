@@ -5,6 +5,7 @@ Version 4.1.2
 -------------
 
 Bugs
+* Fix inability to assign a field type/domain of a different schema
 * Fix PHP5 Strict mode complaints 
 * Fix IN/NOT IN to accept text input lists 'a','b'.
 * Fix bytea doesn't display as NULL when NULL
