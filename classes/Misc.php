@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.143 2007/04/18 15:01:15 mr-russ Exp $
+	 * $Id: Misc.php,v 1.144 2007/04/18 16:33:59 mr-russ Exp $
 	 */
 	 
 	class Misc {
@@ -359,7 +359,7 @@
 				header("Content-Type: text/html; charset=" . $lang['appcharset']);
 				// Send XHTML headers, or regular XHTML strict headers
 				echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
-				if ($frameset !== null) {
+				if ($frameset == true) {
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
 				} else if (isset($conf['use_xhtml_strict']) && $conf['use_xhtml_strict']) {
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Strict.dtd\">\n";
