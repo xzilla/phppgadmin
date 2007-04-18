@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.142 2007/04/18 14:08:48 mr-russ Exp $
+	 * $Id: Misc.php,v 1.143 2007/04/18 15:01:15 mr-russ Exp $
 	 */
 	 
 	class Misc {
@@ -374,6 +374,8 @@
 				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
 				// Theme
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
+				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
+				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo " - {$title}";
 				echo "</title>\n";
