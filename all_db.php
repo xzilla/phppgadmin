@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.48 2007/03/28 18:15:49 soranzo Exp $
+	 * $Id: all_db.php,v 1.49 2007/04/21 04:13:26 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -86,30 +86,66 @@
 		global $data, $misc;
 		global $PHP_SELF, $lang, $_reload_drop_database;
 
+		if (empty($_REQUEST['dropdatabase']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifydatabasetodrop']); 
+			exit();
+		}
+
 		if ($confirm) {
-			$misc->printTrail('database');
-			$misc->printTitle($lang['strdrop'], 'pg.database.drop');
-			
-			echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+
+            $misc->printTrail('database');
+            $misc->printTitle($lang['strdrop'], 'pg.database.drop');
+
+	        echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+            //If multi drop
+            if (isset($_REQUEST['ma'])) {
+
+			    foreach($_REQUEST['ma'] as $v) {
+			        $a = unserialize(html_entity_decode($v));
+				    echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($a['database'])), "</p>\n";
+				    printf('<input type="hidden" name="dropdatabase[]" value="%s" />', htmlspecialchars($a['database']));
+			    }
+
+			} else {
+
+		            echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
+			        echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
+                }// END if multi drop
+
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
+        	echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		}
+		} // END confirm 
 		else {
-			$status = $data->dropDatabase($_POST['dropdatabase']);
-			if ($status == 0) {
-				$_reload_drop_database = true;
-				doDefault($lang['strdatabasedropped']);
-			}
-			else
-				doDefault($lang['strdatabasedroppedbad']);
-		}
-	}
-	
+            //If multi drop
+            if (is_array($_REQUEST['dropdatabase'])) {
+                $msg = '';
+                foreach($_REQUEST['dropdatabase'] as $d) {
+					$status = $data->dropDatabase($d);
+					if ($status == 0)
+						$msg.= sprintf('%s: %s<br />', $d, $lang['strdatabasedropped']);
+					else {
+						doDefault(sprintf('%s%s: %s<br />', $msg, $d, $lang['strdatabasedroppedbad']));
+						return;
+					}
+				}// Everything went fine, back to Default page...
+                $_reload_drop_database = true;
+                doDefault($msg);
+            } else {
+			    $status = $data->dropDatabase($_POST['dropdatabase']);
+			    if ($status == 0) {
+				    $_reload_drop_database = true;
+				    doDefault($lang['strdatabasedropped']);
+			    }
+			    else
+				    doDefault($lang['strdatabasedroppedbad']);
+            }
+		}//END DROP
+    }// END FUNCTION
+
+            
 	/**
 	 * Displays a screen where they can enter a new database
 	 */
@@ -269,7 +305,20 @@
 		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
 		
+		echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>";
+
 		$databases = $data->getDatabases();
+
+                $multiactions = array(
+                    'keycols' => array('database' => 'datname'),
+                    'url' => "{$PHP_SELF}",
+                    'actions' => array(
+                        'drop' => array(
+                            'action' => 'confirm_drop',
+                            'title' => $lang['strdrop'],
+                        )
+                    )
+                );
 
 		$columns = array(
 			'database' => array(
@@ -331,7 +380,7 @@
 		if (!$data->hasServerAdminFuncs()) unset($columns['dbsize']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 		
-		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
+		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases'], null, $multiactions);
 
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 

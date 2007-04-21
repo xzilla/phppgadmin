@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.203 2007/04/16 21:41:14 ioguix Exp $
+	 * $Id: english.php,v 1.204 2007/04/21 04:13:26 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -346,6 +346,7 @@
 	$lang['strallobjects'] = 'All objects';
 	$lang['strdatabasealtered'] = 'Database altered.';
 	$lang['strdatabasealteredbad'] = 'Database alter failed.';
+        $lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop';
 
 	// Views
 	$lang['strview'] = 'View';
