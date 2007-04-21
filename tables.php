@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.89 2007/04/16 16:59:46 soranzo Exp $
+	 * $Id: tables.php,v 1.90 2007/04/21 15:40:08 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -498,7 +498,7 @@
 		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault('No table(s) given to empty...'); //TODO i18n
+			doDefault($lang['strspecifytabletoempty']); 
 			exit();
 		}
 		
@@ -562,7 +562,7 @@
 		global $PHP_SELF;
 		
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault('No table(s) given to drop...'); // TODO i18n
+			doDefault($lang['strspecifytabletodrop']); 
 			exit();
 		}
 		
@@ -638,7 +638,7 @@
 		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault('No table(s) given to vacuum...'); //TODO i18n
+			doDefault($lang['strspecifytabletovacuum']); 
 			exit();
 		}
 		if ($confirm) {
@@ -711,7 +711,7 @@
 		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault('No table(s) given to analyze...'); //TODO i18n
+			doDefault($lang['strspecifytabletoanalyze']); 
 			exit();
 		}
 		if ($confirm) {
