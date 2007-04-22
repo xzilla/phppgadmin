@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.34 2007/04/16 11:02:36 mr-russ Exp $
+	 * $Id: sql.php,v 1.35 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -42,7 +42,7 @@
 						$id = (($i % 2) == 0 ? '1' : '2');
 						echo "<tr>\n";
 						foreach ($row as $k => $v) {
-							echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, pg_fieldtype($rs, $k), array('null' => true)), "</td>";
+							echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($v, pg_fieldtype($rs, $k), array('null' => true)), "</td>";
 						}							
 						echo "</tr>\n";
 						$row = pg_fetch_row($rs);
@@ -142,7 +142,7 @@
 					echo "<tr>\n";
 					foreach ($rs->fields as $k => $v) {
 						$finfo = $rs->fetchField($k);
-						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
+						echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 					}							
 					echo "</tr>\n";
 					$rs->moveNext();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.60 2007/04/16 16:59:46 soranzo Exp $
+	 * $Id: functions.php,v 1.61 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -85,7 +85,7 @@
 
 			$func_full = $fndata->fields['proname'] . "(". $fndata->fields['proarguments'] .")";
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table width=\"90%\">\n";
+			echo "<table style=\"width: 90%\">\n";
 			echo "<tr>\n";
 			echo "<th class=\"data required\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
@@ -206,7 +206,7 @@
 
 			$funcdata->fields['proretset'] = $data->phpBool($funcdata->fields['proretset']);
 			$func_full = $funcdata->fields['proname'] . "(". $funcdata->fields['proarguments'] .")";
-			echo "<table width=\"90%\">\n";
+			echo "<table style=\"width: 90%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data\">{$lang['strreturns']}</th>\n";
@@ -430,7 +430,7 @@
 		} else {
 			$szJSTRArg = "";
 		}
-		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\"><td align=\"right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size:8pt\">{$lang['strargadd']}</span></td></tr></table></td></tr>";
+		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\"><td style=\"text-align: right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size:8pt\">{$lang['strargadd']}</span></td></tr></table></td></tr>";
 
 
 		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>

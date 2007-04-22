@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.44 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: constraints.php,v 1.45 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -80,7 +80,7 @@
 					echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
 					echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=data>{$lang['strfkcolumnlist']}</th></tr>\n";
 					echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
-					echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
+					echo "<td class=\"data1\" style=\"text-align: center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 					echo "<td class=\"data1\">" . $selIndex->fetch() . "</td></tr>\n";
 					echo "<tr><th class=\"data\" colspan=\"3\">{$lang['stractions']}</th></tr>";
 					echo "<tr>";
@@ -184,7 +184,7 @@
 				echo "<tr><td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>\n";
 				echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=\"data required\">{$lang['strfkcolumnlist']}</th></tr>\n";
 				echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
-				echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>\n";
+				echo "<td class=\"data1\" style=\"text-align: center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>\n";
 				echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
 				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
 				echo "<tr>";
@@ -279,7 +279,7 @@
 				"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
 			echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=\"data required\">{$lang['strindexcolumnlist']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
-			echo "<td class=\"data1\" align=\"center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
+			echo "<td class=\"data1\" style=\"text-align: center\">" . $buttonRemove->fetch() . $buttonAdd->fetch() . "</td>";
 			echo "<td class=data1>" . $selIndex->fetch() . "</td></tr>\n";
 
 			// Tablespace (if there are any)

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.93 2007/04/20 15:56:39 ioguix Exp $
+	 * $Id: database.php,v 1.94 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -567,7 +567,7 @@
 				$misc->printTabs('database','admin');
 				$misc->printMsg($msg);
 				
-				echo "<table width=\"60%\">\n";
+				echo "<table style=\"width: 60%\">\n";
 				echo "<tr>\n";
 				echo "<th class=\"data\">";
 				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
@@ -589,7 +589,7 @@
 
 				// Vacuum
 				echo "<tr>\n";
-				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
+				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label><br />\n";
 				if ($data->hasFullVacuum()) {
@@ -604,7 +604,7 @@
 
 				// Analyze
 				if ($data->hasAnalyze()) {
-					echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
+					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 					echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
@@ -615,7 +615,7 @@
 				
 				// Recluster
 				if ($data->hasRecluster()){
-					echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
+					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
@@ -625,7 +625,7 @@
 				}
 				
 				// Reindex
-				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
+				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
 				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
@@ -752,20 +752,20 @@
 						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
 					
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					$elements++;
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					$elements++;
 
-					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">";
 					echo $data->printField($szValueName, $rs->fields[$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents) . $szDivPH;
 					echo "</td>";
 					$elements++;

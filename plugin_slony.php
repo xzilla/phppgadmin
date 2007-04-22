@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.15 2007/01/10 02:34:54 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.16 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -483,17 +483,17 @@
 		
 		if (is_object($cluster) && $cluster->recordCount() > 0) {			
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($slony->slony_cluster), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Local Node ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Local Node ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['no_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Local Node</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Local Node</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Version</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Version</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($cluster->fields['version']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strowner']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($slony->slony_owner), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\"></td></tr>\n";
 			echo "</table>\n";
 		}
@@ -518,7 +518,7 @@
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcluster']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"cluster\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['cluster']), "\" /></td>\n\t</tr>\n";
@@ -655,13 +655,13 @@
 				echo "<p class=\"comment\">", $misc->printVal($node->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['stractive']}</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($node->fields['no_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($node->fields['no_comment']), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -687,7 +687,7 @@
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"nodeid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['nodeid']), "\" /></td>\n\t</tr>\n";
@@ -809,13 +809,13 @@
 				echo "<p class=\"comment\">", $misc->printVal($path->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodename']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strnodename']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->fields['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strnodeid']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strnodeid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->fields['no_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconninfo']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strconninfo']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->fields['pa_conninfo']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strconnretry']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strconnretry']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($path->fields['pa_connretry']), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -845,7 +845,7 @@
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnodename']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"pathserver\">\n";
 			while (!$nodes->EOF) {
@@ -987,13 +987,13 @@
 				echo "<p class=\"comment\">", $misc->printVal($listen->fields['no_comment']), "</p>\n";
 
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Provider</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Provider</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($listen->fields['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Provider ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($listen->fields['li_provider']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Origin</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Origin</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($listen->fields['origin']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Origin ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($listen->fields['li_origin']), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -1022,7 +1022,7 @@
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">Origin</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"listenorigin\">\n";
 			while (!$nodes->EOF) {
@@ -1183,19 +1183,19 @@
 				echo "<p class=\"comment\">", $misc->printVal($set->fields['set_comment']), "</p>\n";
 
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strid']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strid']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_id']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strlocked']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strlocked']}</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($set->fields['is_locked'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Origin ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Origin ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_origin']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Origin Node</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Origin Node</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['no_comment']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Subscriptions</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Subscriptions</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['subscriptions']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strcomment']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($set->fields['set_comment']), "</td></tr>\n";
 			echo "</table>\n";
 		}
@@ -1226,7 +1226,7 @@
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"setid\" size=\"5\" value=\"",
 				htmlspecialchars($_POST['setid']), "\" /></td>\n\t</tr>\n";
@@ -1581,7 +1581,7 @@
 		
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 				echo $misc->form;
-				echo "<table width=\"100%\">\n";
+				echo "<table style=\"width: 100%\">\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtable']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$tables->EOF) {
@@ -1854,7 +1854,7 @@
 		
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 				echo $misc->form;
-				echo "<table width=\"100%\">\n";
+				echo "<table style=\"width: 100%\">\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strsequence']}</th>\n";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$sequences->EOF) {
@@ -2043,17 +2043,17 @@
 				echo "<p class=\"comment\">", $misc->printVal($subscription->fields['receiver']), "</p>\n";
 
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Provider ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Provider ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['sub_provider']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Provider Name</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Provider Name</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['provider']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Receiver ID</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Receiver ID</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['sub_receiver']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">Receiver Name</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">Receiver Name</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($subscription->fields['receiver']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['stractive']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['stractive']}</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($subscription->fields['sub_active'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">May Forward</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">May Forward</th>\n";
 			echo "<td class=\"data1\">", ($data->phpBool($subscription->fields['sub_forward'])) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
 			echo "</table>\n";
 		}

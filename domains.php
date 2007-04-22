@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.25 2007/01/26 17:55:42 soranzo Exp $
+	 * $Id: domains.php,v 1.26 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -55,7 +55,7 @@
 			// Display domain info
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
-			echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left required\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domtype']), "</td></tr>\n";
@@ -191,7 +191,7 @@
 			// Display domain info
 			$domaindata->fields['domnotnull'] = $data->phpBool($domaindata->fields['domnotnull']);
 			echo "<table>\n";
-			echo "<tr><th class=\"data left\" width=\"70\">{$lang['strname']}</th>\n";
+			echo "<tr><th class=\"data left\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domname']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strtype']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->fields['domtype']), "</td></tr>\n";
@@ -298,7 +298,7 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table>\n";
-		echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
+		echo "<tr><th class=\"data left required\" style=\"width: 70px\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"domname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_POST['domname']), "\" /></td></tr>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strtype']}</th>\n";

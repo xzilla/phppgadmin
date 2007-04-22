@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.25 2007/04/16 11:02:36 mr-russ Exp $
+	 * $Id: reports.php,v 1.26 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -41,7 +41,7 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo $misc->form;
-		echo "<table width=\"100%\">\n";
+		echo "<table style=\"width: 100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['report_name']), "\" /></td></tr>\n";
@@ -146,7 +146,7 @@
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo $misc->form;
-		echo "<table width=\"100%\">\n";
+		echo "<table style=\"width: 100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"report_name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_REQUEST['report_name']), "\" /></td></tr>\n";

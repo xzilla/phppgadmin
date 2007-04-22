@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.31 2007/01/10 01:31:18 soranzo Exp $
+	 * $Id: sqledit.php,v 1.32 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -34,7 +34,7 @@
 			$onchange .= "+ (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;" . SID . "'\"";
 		}
 		
-		echo "<table width=\"100%\"><tr><td>\n";
+		echo "<table style=\"width: 100%\"><tr><td>\n";
 		echo "<label>";
 		$misc->printHelp($lang['strserver'], 'pg.server');
 		echo "</label>";
@@ -47,7 +47,7 @@
 				((isset($_REQUEST['server']) && $info['id'] == $_REQUEST['server'])) ? ' selected="selected"' : '', ">",
 				htmlspecialchars("{$info['desc']} ({$info['id']})"), "</option>\n";
 		}
-		echo "</select>\n</td><td align=\"right\">\n";
+		echo "</select>\n</td><td style=\"text-align: right\">\n";
 		
 		// Get the list of all databases
 		$databases = $data->getDatabases();

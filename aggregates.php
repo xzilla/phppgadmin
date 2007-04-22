@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.17 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: aggregates.php,v 1.18 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -227,8 +227,8 @@
 			// Display aggregate's info
 			echo "<table>\n";
 			echo "<tr>\n\t<th class=\"data\">Description</th>\n\t<th class=\"data\">Value</th>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\" width=\"160\">{$lang['strname']}</td>\n";
-			echo "\t<td class=\"data1\" width=\"120\">", htmlspecialchars($_REQUEST['aggrname']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<td class=\"data1\" style=\"width: 160px\">{$lang['strname']}</td>\n";
+			echo "\t<td class=\"data1\" style=\"width: 120px\">", htmlspecialchars($_REQUEST['aggrname']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrbasetype']}</td>\n";
 			echo "\t<td class=\"data2\">", htmlspecialchars($_REQUEST['aggrtype']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrsfunc']}</td>\n";

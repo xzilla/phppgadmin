@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.64 2007/04/17 10:01:12 soranzo Exp $
+	 * $Id: views.php,v 1.65 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -61,19 +61,19 @@
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->fields['attname']}]",
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
 						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -363,7 +363,7 @@
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo "<table width=\"100%\">\n";
+		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t<td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
 			htmlspecialchars($_REQUEST['formView']), "\" /></td>\n\t</tr>\n";

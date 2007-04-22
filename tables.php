@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.90 2007/04/21 15:40:08 xzilla Exp $
+	 * $Id: tables.php,v 1.91 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -159,9 +159,9 @@
 					echo "\t\t<td><input name=\"length[{$i}]\" id=\"lengths{$i}\" size=\"10\" value=\"", 
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>\n";
-					echo "\t\t<td align=\"center\"><input type=\"checkbox\" name=\"uniquekey[{$i}]\""
+					echo "\t\t<td style=\"text-align: center\"><input type=\"checkbox\" name=\"uniquekey[{$i}]\""
 						.(isset($_REQUEST['uniquekey'][$i]) ? ' checked="checked"' :'')." /></td>\n";
-					echo "\t\t<td align=\"center\"><input type=\"checkbox\" name=\"primarykey[{$i}]\" "
+					echo "\t\t<td style=\"text-align: center\"><input type=\"checkbox\" name=\"primarykey[{$i}]\" "
 						.(isset($_REQUEST['primarykey'][$i]) ? ' checked="checked"' : '')
 						." /></td>\n";
 					echo "\t\t<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
@@ -266,7 +266,7 @@
 				echo "//-->\n";
 				echo "</script>\n";
 	
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strcolumn']}</th>";
@@ -284,27 +284,27 @@
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
-					echo "</select>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $data->printField("values[{$attrs->fields['attname']}]",
+					echo "</select>\n</td>\n";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
 						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onClick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
-				echo "</table></p>\n";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
+				echo "</tr></table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
@@ -415,17 +415,17 @@
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">\n";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
-					echo "<td class=\"data{$id}\" nowrap=\"nowrap\">";
+					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
 						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->fields['attname']), "]\"",
@@ -434,7 +434,7 @@
 					else {
 						echo "&nbsp;</td>";
 					}
-					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" nowrap=\"nowrap\">", $data->printField($szValueName,
+					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">", $data->printField($szValueName,
 					$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents),$szDivPH ,"</td>";
 					echo "</tr>\n";
 					$i++;

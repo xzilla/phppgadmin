@@ -36,7 +36,7 @@
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left required\" width=\"130\">{$lang['strname']}</th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left required\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"15\" name=\"formRolename\" value=\"", htmlspecialchars($_POST['formRolename']), "\" /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"32\" type=\"password\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
@@ -174,7 +174,7 @@
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
-			echo "\t<tr>\n\t\t<th class=\"data left\" width=\"130\">{$lang['strname']}</th>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->fields['rolname'])), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input type=\"password\" size=\"15\" maxlength=\"32\" name=\"formPassword\" value=\"", htmlspecialchars($_POST['formPassword']), "\" /></td>\n\t</tr>\n";
@@ -372,8 +372,8 @@
 			$roledata->fields['rolcanlogin'] = $data->phpBool($roledata->fields['rolcanlogin']);
 
 			echo "<table>\n";
-			echo "\t<tr>\n\t\t<th class=\"data\" width=\"130\">Description</th>\n";
-			echo "\t\t<th class=\"data\" width=\"120\">Value</th>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data\" style=\"width: 130px\">Description</th>\n";
+			echo "\t\t<th class=\"data\" style=\"width: 120\">Value</th>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">{$lang['strname']}</td>\n";
 			echo "\t\t<td class=\"data1\">", htmlspecialchars($_REQUEST['rolename']), "</td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data2\">{$lang['strsuper']}</td>\n";

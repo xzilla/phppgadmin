@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.11 2007/02/05 18:39:52 xzilla Exp $
+	 * $Id: schemas.php,v 1.12 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -101,7 +101,7 @@
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo $misc->form;
-		echo "<table width=\"100%\">\n";
+		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";

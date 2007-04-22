@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.25 2007/04/18 13:30:58 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.26 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 
 	// Include application functions
@@ -46,7 +46,7 @@
 			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td>\n\t</tr>\n";
@@ -144,7 +144,7 @@
 			if ($vdata->fields['relcomment'] !== null)
 				echo "<p class=\"comment\">", $misc->printVal($vdata->fields['relcomment']), "</p>\n";
 
-			echo "<table width=\"100%\">\n";
+			echo "<table style=\"width: 100%\">\n";
 			echo "<tr><th class=\"data\">{$lang['strdefinition']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">", $misc->printVal($vdata->fields['vwdefinition']), "</td></tr>\n";
 			echo "</table>\n";

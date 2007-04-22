@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.144 2007/04/18 16:33:59 mr-russ Exp $
+	 * $Id: Misc.php,v 1.145 2007/04/22 00:41:58 mr-russ Exp $
 	 */
 	 
 	class Misc {
@@ -234,7 +234,7 @@
 			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
 			
 			if (isset($tag)) {
-				$alignattr = isset($align) ? " align=\"{$align}\"" : '';
+				$alignattr = isset($align) ? " style=\"text-align: {$align};\"" : '';
 				$classattr = isset($class) ? " class=\"{$class}\"" : '';				
 				$out = "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
 			}
@@ -461,7 +461,7 @@
 					
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
 					
-					echo "<td width=\"{$width}\" class=\"tab{$active}\">";
+					echo "<td style=\"width: {$width}\" class=\"tab{$active}\">";
 					#echo "<span class=\"tab{$active}\" style=\"white-space:nowrap;\">";
 					
 					if (isset($tab['help']))
@@ -1030,7 +1030,7 @@
 			
 			$server_info = $this->getServerInfo();
 			
-			echo "<div class=\"topbar\"><table width=\"100%\"><tr><td>";
+			echo "<div class=\"topbar\"><table style=\"width: 100%\"><tr><td>";
 			
 			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {
 				echo sprintf($lang['strtopbar'],
@@ -1050,7 +1050,7 @@
 				
 				$window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
 				
-				echo "<td align=\"right\">";
+				echo "<td style=\"text-align: right\">";
 
 				echo "<a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a> | ";
 				
@@ -1061,7 +1061,7 @@
 				echo "</td>";
 			}
 /*
-			echo "<td align=\"right\" width=\"1%\">";
+			echo "<td style=\"text-align: right; width: 1%\">";
 			
 			echo "<form method=\"get\"><select name=\"language\" onchange=\"this.form.submit()\">\n";
 			$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
@@ -1674,7 +1674,7 @@
 				if (isset($multiactions)) {
 					echo "<table>\n";
 					echo "<tr>\n";
-					echo "<th class=\"data\" align=\"left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
+					echo "<th class=\"data\" style=\"text-align: left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
 					echo "</tr>\n"; 
 					echo "<tr>\n";
 					echo "<td class=\"data1\">";
