@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php
+	 * $Id: roles.php,v 1.5 2007/04/23 15:10:30 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -34,7 +34,6 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"15\" name=\"formRolename\" value=\"", htmlspecialchars($_POST['formRolename']), "\" /></td>\n\t</tr>\n";
@@ -49,9 +48,9 @@
 		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCreateDB\" name=\"formCreateDB\"", 
 			(isset($_POST['formCreateDB'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formCreateRole\">{$lang['strcancreaterole']}</label></th>\n";
-		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCreateDB\" name=\"formCreateRole\"", 
+		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formCreateRole\" name=\"formCreateRole\"", 
 			(isset($_POST['formCreateRole'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
-		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formCreateDB\">{$lang['strinheritsprivs']}</label></th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formInherits\">{$lang['strinheritsprivs']}</label></th>\n";
 		echo "\t\t<td class=\"data1\"><input type=\"checkbox\" id=\"formInherits\" name=\"formInherits\"", 
 			(isset($_POST['formInherits'])) ? ' checked="checked"' : '', " /></td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\"><label for=\"formCanLogin\">{$lang['strcanlogin']}</label></th>\n";
@@ -105,6 +104,7 @@
 		
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo $misc->form;
 		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
@@ -145,7 +145,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTrail('role');
-		$misc->printTitle($lang['stralterrole'],'pg.role.alter');
+		$misc->printTitle($lang['stralter'],'pg.role.alter');
 		$misc->printMsg($msg);
 				
 		$roledata = $data->getRole($_REQUEST['rolename']);
@@ -172,7 +172,6 @@
 			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->fields['rolname'])), "</td>\n\t</tr>\n";
@@ -290,6 +289,7 @@
 			echo "<input type=\"hidden\" name=\"memberofold\" value=\"", isset($_POST['memberofold']) ? $_POST['memberofold'] : htmlspecialchars($memberofold), "\" />\n";
 			echo "<input type=\"hidden\" name=\"membersold\" value=\"", isset($_POST['membersold']) ? $_POST['membersold'] : htmlspecialchars($membersold), "\" />\n";
 			echo "<input type=\"hidden\" name=\"adminmembersold\" value=\"", isset($_POST['adminmembersold']) ? $_POST['adminmembersold'] : htmlspecialchars($adminmembersold), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
@@ -336,11 +336,11 @@
 			echo "<p>", sprintf($lang['strconfdroprole'], $misc->printVal($_REQUEST['rolename'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"rolename\" value=\"", htmlspecialchars($_REQUEST['rolename']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -468,11 +468,11 @@
 			echo "\t\t<th class=\"data\">{$lang['strsessiondefaults']}</th>\n";
 			echo "\t</tr>\n";
 			echo "\t<tr>\n\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolname']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolsuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolcreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolcreaterole']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", (($roledata->fields['rolinherit']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t\t<td class=\"data1\" id=\"center\">", ($roledata->fields['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->fields['rolconnlimit'])), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolsuper'], 'yesno'), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolcreatedb'], 'yesno'), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolcreaterole'], 'yesno'), "</td>\n";
+			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolinherit'], 'yesno'), "</td>\n";
+			echo "\t\t<td class=\"data1\">", ($roledata->fields['rolconnlimit'] == '-1' ? $lang['strnolimit'] : $misc->printVal($roledata->fields['rolconnlimit'])), "</td>\n";
 			echo "\t\t<td class=\"data1\">", ($roledata->fields['rolvaliduntil'] == 'infinity' || is_null($roledata->fields['rolvaliduntil']) ? $lang['strnever'] : $misc->printVal($roledata->fields['rolvaliduntil'])), "</td>\n";
 			echo "\t\t<td class=\"data1\">", $misc->printVal($roledata->fields['rolconfig']), "</td>\n";
 			echo "\t</tr>\n</table>\n";
@@ -501,15 +501,15 @@
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
 				htmlspecialchars($_POST['password']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconfirm']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"confirm\" size=\"32\" value=\"\" /></td>\n\t</tr>\n";
-			echo "<table>\n";
+			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</p></form>\n";
