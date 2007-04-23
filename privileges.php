@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.40 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: privileges.php,v 1.41 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -97,22 +97,20 @@
 			}
 			echo "</table>\n";
 
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save\" />\n";
+			echo "<input type=\"hidden\" name=\"mode\" value=\"", htmlspecialchars($mode), "\" />\n";
+			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
 			if (isset($_REQUEST[$_REQUEST['subject'].'_oid']))
 				echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject'].'_oid'),
 					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject'].'_oid']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"save\" />\n";
-			echo "<input type=\"hidden\" name=\"mode\" value=\"", htmlspecialchars($mode), "\" />\n";
-			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['subject']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject']),
 					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
 			echo $misc->form;
-			echo "<p>";
 			if ($mode == 'grant')
 				echo "<input type=\"submit\" name=\"grant\" value=\"{$lang['strgrant']}\" />\n";
 			elseif ($mode == 'revoke')
 				echo "<input type=\"submit\" name=\"revoke\" value=\"{$lang['strrevoke']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />";
-			echo "</p>\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>";
 			echo "</form>\n";
 		}
 		else {

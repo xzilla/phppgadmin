@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.61 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: functions.php,v 1.62 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -430,11 +430,12 @@
 		} else {
 			$szJSTRArg = "";
 		}
-		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\"><td style=\"text-align: right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size:8pt\">{$lang['strargadd']}</span></td></tr></table></td></tr>";
+		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\">\n<td style=\"text-align: right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size: 8pt\">{$lang['strargadd']}</span></td></tr></table></td>\n</tr>\n";
 
 
 		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>
 		<script type=\"text/javascript\">
+			//<![CDATA[
 			var g_types_select = '<select name=\"formArgType[]\">{$szTypes}</select>{$szArgReturns}';
 			var g_modes_select = '{$szModes}';
 			var g_name = '';
@@ -446,9 +447,10 @@
 			var g_lang_strargremoveconfirm = \"". addslashes($lang["strargremoveconfirm"]) ."\";
 			var g_lang_strargraise = \"". addslashes($lang["strargraise"]) ."\";
 			var g_lang_strarglower = \"". addslashes($lang["strarglower"]) ."\";
+			//]]>
 		</script>
 		";
-		echo "<form action=\"$PHP_SELF\" method=post><input type=\"hidden\" name=\"formEmptyArgs\" id=\"formEmptyArgs\" value=\"1\" />\n";
+		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 		echo "<table><tbody id=\"args_table\">\n";
 		echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
 		echo "<th class=\"data required\" colspan=\"2\">{$lang['strreturns']}</th>\n";
@@ -465,7 +467,6 @@
 		echo "<th class=\"data required\" colspan=\"2\">{$lang['strargtype']}</th>\n";
 		echo "</tr>\n";
 		echo "{$szJSAddTR}\n";
-		echo $szJSTRArg;
 
 		if ($fnlang == 'c') {
 			echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
@@ -476,7 +477,7 @@
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else if ($fnlang == 'internal') {
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
-			echo "<td class=\"data1\" colspan=\"4\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+			echo "<tr><td class=\"data1\" colspan=\"4\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
@@ -502,6 +503,7 @@
 			echo "</td></tr>\n";
 		}		
 		echo "</tbody></table>\n";
+		echo $szJSTRArg;
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";

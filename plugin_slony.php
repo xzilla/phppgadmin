@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.16 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: plugin_slony.php,v 1.17 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -517,7 +517,6 @@
 			$misc->printMsg($msg);
 	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
 			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcluster']}</th>\n";
 			echo "\t\t<td class=\"data1\"><input name=\"cluster\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -531,6 +530,7 @@
 			echo "</table>\n";
 			echo "<p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"save_create_cluster\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" value=\"{$lang['strinitcluster']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</p>\n";

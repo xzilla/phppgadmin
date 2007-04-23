@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.12 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: schemas.php,v 1.13 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -100,7 +100,6 @@
 		$misc->printMsg($msg);
 		
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo $misc->form;
 		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -114,16 +113,16 @@
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
-		echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
+		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 			
-		echo "\t</tr>\n";
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"create\" />\n";
 		echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+		echo $misc->form;
 		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 		echo "</p>\n";
@@ -219,16 +218,16 @@
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
 			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {

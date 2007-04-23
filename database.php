@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.94 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: database.php,v 1.95 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -75,7 +75,7 @@
 		echo "</select>\n";
 		echo "<input type=\"submit\" value=\"{$lang['strfind']}\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"action\" value=\"find\" />\n";
+		echo "<input type=\"hidden\" name=\"action\" value=\"find\" /></p>\n";
 		echo "</form>\n";
 		
 		// Default focus
@@ -448,7 +448,7 @@
 		}
 
 		// Fetch the processes from the database
-		echo "<br /><h3>{$lang['strprocesses']}</h3>\n";
+		echo "<h3>{$lang['strprocesses']}</h3>\n";
 		$processes = $data->getProcesses($_REQUEST['database']);
 				
 		$columns = array(
@@ -567,7 +567,7 @@
 				$misc->printTabs('database','admin');
 				$misc->printMsg($msg);
 				
-				echo "<table style=\"width: 60%\">\n";
+				echo "<table style=\"width: 50%\">\n";
 				echo "<tr>\n";
 				echo "<th class=\"data\">";
 				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
@@ -590,25 +590,25 @@
 				// Vacuum
 				echo "<tr>\n";
 				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label><br />\n";
+				echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label>\n";
 				if ($data->hasFullVacuum()) {
-					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label><br />\n";				
-					echo "<input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label><br />\n";
+					echo "<br /><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label>\n";				
+					echo "<br /><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label>\n";
 				}
-				echo "<input type=\"submit\" value=\"{$lang['strvacuum']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
 				echo $misc->form;
+				echo "<br /><input type=\"submit\" value=\"{$lang['strvacuum']}\" /></p>\n";
 				echo "</form>\n";								
 				echo "</td>\n";
 
 				// Analyze
 				if ($data->hasAnalyze()) {
 					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-					echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
-					echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
+					echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+					echo "<p><input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
 					echo $misc->form;
+					echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" /></p>\n";
 					echo "</form>\n";
 					echo "</td>\n";
 				}
@@ -616,33 +616,31 @@
 				// Recluster
 				if ($data->hasRecluster()){
 					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" />\n";
-					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
+					echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+					echo "<p><input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 					echo $misc->form;
+					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" /></p>\n";
 					echo "</form>\n";
 					echo "</td>\n";
 				}
 				
 				// Reindex
 				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
-				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
-				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
+				echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<p><input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
 				echo $misc->form;
+				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" /></p>\n";
 				echo "</form>\n";
 				echo "</td>\n";
 				echo "</tr>\n";
 				echo "</table>\n";
 
-				echo "<br />";
-				echo "<br />";
-
+				// Autovacuum
 				if($data->hasAutovacuum()) {
 					$enabled = $data->getVariable('autovacuum');
-					echo "<h3>{$lang['strautovacuum']} ". (($enabled->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) ."</h3>";
-					// Autovacuum
+					echo "<h3>{$lang['strautovacuum']}</h3>";
+					echo '<p>' . (($enabled->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
 					// Fetch the processes from the database
 					$autovac = $data->getAutovacuum();
 		
@@ -860,30 +858,26 @@
 		echo "<form action=\"sql.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
 		echo "<p>{$lang['strsql']}<br />\n";
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
-			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
+			htmlspecialchars($_REQUEST['query']), "</textarea></p>\n";
 		
 		// Check that file uploads are enabled
 		if (ini_get('file_uploads')) {
 			// Don't show upload option if max size of uploads is zero
 			$max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
 			if (is_double($max_size) && $max_size > 0) {
-				echo "<br /><br /><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
-				echo " {$lang['struploadscript']} <input name=\"script\" type=\"file\" /></p>\n";
+				echo "<p><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
+				echo "<label for=\"script\">{$lang['struploadscript']}</label> <input id=\"script\" name=\"script\" type=\"file\" /></p>\n";
 			}
 		}
-		else echo "</p>\n";
 
-		echo "<input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /><label for=\"paginate\">{$lang['strpaginate']}</label>\n";
-		echo "<br />\n";
+		echo "<p><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /><label for=\"paginate\">{$lang['strpaginate']}</label></p>\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strrun']}\" />\n";
 		if ($data->hasFullExplain()) {
 			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
 			echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
 		}
-		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
-
 		echo $misc->form;
-
+		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 
 		// Default focus

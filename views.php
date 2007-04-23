@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.65 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: views.php,v 1.66 2007/04/23 18:48:06 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -293,14 +293,14 @@
 			}
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_wiz\" />\n";
-			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			
 			foreach ($arrSelTables AS $curTable) {
 				echo "<input type=\"hidden\" name=\"formTables[]\" value=\"" . htmlspecialchars(serialize($curTable) ) . "\" />\n";
 			}
 			
 			echo $misc->form;
+			echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 	}
@@ -340,10 +340,10 @@
 		
 		echo "</td>\n</tr>\n";		
 		echo "</table>\n";		
-		echo "<p><input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
-		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"set_params_create\" />\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"set_params_create\" />\n";
 		echo $misc->form;
+		echo "<input type=\"submit\" value=\"{$lang['strnext']}\" />\n";
+		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
 	}
 	

@@ -57,7 +57,6 @@ function buildArgImages(orig_td) {
 			this.childNodes[0].title=g_lang_strargremove;
 			g_args++;
 			g_no_args = false;
-			document.getElementById("formEmptyArgs").value="0";
 		}
 	}
 	}
