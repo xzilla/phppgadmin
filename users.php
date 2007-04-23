@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.34 2007/01/10 01:38:48 soranzo Exp $
+	 * $Id: users.php,v 1.35 2007/04/23 15:22:29 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -40,8 +40,8 @@
 			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
 			echo "</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->fields['usename']), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->fields['usesuper']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
-			echo "\t<td class=\"data1\">", (($userdata->fields['usecreatedb']) ? $lang['stryes'] : $lang['strno']), "</td>\n";
+			echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['usesuper'], 'yesno'), "</td>\n";
+			echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['usecreatedb'], 'yesno'), "</td>\n";
 			echo "\t<td class=\"data1\">", ($userdata->fields['useexpires'] == 'infinity' || is_null($userdata->fields['useexpires']) ? $lang['strnever'] : $misc->printVal($userdata->fields['useexpires'])), "</td>\n";
 			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['useconfig']), "</td>\n";
 			echo "</tr>\n</table>\n";
@@ -70,15 +70,15 @@
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
 				htmlspecialchars($_POST['password']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strconfirm']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"confirm\" size=\"32\" value=\"\" /></td>\n\t</tr>\n";
-			echo "<table>\n";
+			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"changepassword\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"ok\" value=\"{$lang['strok']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</p></form>\n";
@@ -129,7 +129,6 @@
 			}
 		
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->fields['usename'])), "</td>\n\t</tr>\n";
@@ -148,6 +147,7 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
@@ -190,11 +190,11 @@
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -223,7 +223,6 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strusername']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n\t</tr>\n";
@@ -241,6 +240,7 @@
 		echo "\t\t<td class=\"data1\"><input size=\"30\" name=\"formExpires\" value=\"", htmlspecialchars($_POST['formExpires']), "\" /></td>\n\t</tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo $misc->form;
 		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
