@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.26 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: domains.php,v 1.27 2007/04/23 14:23:24 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -111,10 +111,10 @@
 				htmlspecialchars($_POST['definition']), "\" />)</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_check\" />\n";
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"add\" value=\"{$lang['stradd']}\" />\n";
+			echo "<input type=\"submit\" name=\"add\" value=\"{$lang['stradd']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 
@@ -255,15 +255,15 @@
 			
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";	
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
-			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /><label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -334,9 +334,9 @@
 				htmlspecialchars($_POST['domcheck']), "\" />)</td></tr>\n";
 		}
 		echo "</table>\n";
-		echo "<input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
 		echo $misc->form;
-		echo "<p><input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+		echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
 	}
@@ -410,6 +410,11 @@
 			'properties' => array(
 				'title' => $lang['strproperties'],
 				'url'	=> "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'	=> array('domain' => 'domname'),
+			),
+			'alter' => array(
+				'title'	=> $lang['stralter'],
+				'url'	=> "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",
 				'vars'	=> array('domain' => 'domname'),
 			),
 			'drop' => array(
