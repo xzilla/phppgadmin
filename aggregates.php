@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.18 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: aggregates.php,v 1.19 2007/04/23 13:44:04 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -136,7 +136,7 @@
 		global $PHP_SELF, $lang;
 
 		$misc->printTrail('aggregate');
-		$misc->printTitle($lang['stralteraggregate'], 'pg.aggregate.alter');
+		$misc->printTitle($lang['stralter'], 'pg.aggregate.alter');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -187,16 +187,16 @@
 			echo "<p>", sprintf($lang['strconfdropaggregate'], htmlspecialchars($_REQUEST['aggrname'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"aggrname\" value=\"", htmlspecialchars($_REQUEST['aggrname']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"aggrtype\" value=\"", htmlspecialchars($_REQUEST['aggrtype']), "\" />\n";
-			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"aggrname\" value=\"", htmlspecialchars($_REQUEST['aggrname']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"aggrtype\" value=\"", htmlspecialchars($_REQUEST['aggrtype']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -226,24 +226,23 @@
 		if($aggrdata->recordCount() > 0 ) {
 			// Display aggregate's info
 			echo "<table>\n";
-			echo "<tr>\n\t<th class=\"data\">Description</th>\n\t<th class=\"data\">Value</th>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\" style=\"width: 160px\">{$lang['strname']}</td>\n";
-			echo "\t<td class=\"data1\" style=\"width: 120px\">", htmlspecialchars($_REQUEST['aggrname']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrbasetype']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($_REQUEST['aggrtype']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrsfunc']}</td>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['strname']}</th>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($_REQUEST['aggrname']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrbasetype']}</th>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($_REQUEST['aggrtype']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrsfunc']}</th>\n";
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggtransfn']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrstype']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['aggstype']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrffunc']}</td>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrstype']}</th>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggstype']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrffunc']}</th>\n";
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggfinalfn']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data2\">{$lang['straggrinitcond']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['agginitval']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">{$lang['straggrsortop']}</td>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrinitcond']}</th>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['agginitval']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrsortop']}</th>\n";
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggsortop']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data2\">{$lang['strowner']}</td>\n";
-			echo "\t<td class=\"data2\">", htmlspecialchars($aggrdata->fields['usename']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<td class=\"data1\">{$lang['strcomment']}</td>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['strowner']}</th>\n";
+			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['usename']), "</td>\n</tr>\n";
+			echo "<tr>\n\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "\t<td class=\"data1\">", $misc->printVal($aggrdata->fields['aggrcomment']), "</td>\n</tr>\n";
 			echo "</table>\n";
 		}
@@ -255,7 +254,7 @@
 			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a> |\n";
 		}
 		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
-			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a>\n";
+			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a></p>\n";
 	}
 
 
@@ -282,7 +281,7 @@
 				'field' => 'proargtypes',
 			),
 			'aggrtransfn' => array(
-				'title' => $lang['straggrtransfn'],
+				'title' => $lang['straggrsfunc'],
 				'field' => 'aggtransfn',
 			),			
 			'owner' => array(
