@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.33 2007/01/23 14:12:29 soranzo Exp $
+	 * $Id: types.php,v 1.34 2007/04/23 15:28:42 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -95,15 +95,15 @@
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
-			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
