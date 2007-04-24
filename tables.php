@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.91 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: tables.php,v 1.92 2007/04/24 13:48:19 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -790,21 +790,21 @@
 			'keycols' => array('table' => 'relname'),
 			'url' => "{$PHP_SELF}",
 			'actions' => array(
-				'empty' => array(
-					'action' => 'confirm_empty',
-					'title' => $lang['strempty'],
+                                'analyze' => array(
+					'action' => 'confirm_analyze',
+					'title' => $lang['stranalyze'],
 				),
 				'drop' => array(
 					'action' => 'confirm_drop',
 					'title' => $lang['strdrop'],
 				),
+				'empty' => array(
+					'action' => 'confirm_empty',
+					'title' => $lang['strempty'],
+				),
 				'vacuum' => array(
 					'action' => 'confirm_vacuum',
 					'title' => $lang['strvacuum'],
-				),
-				'analyze' => array(
-					'action' => 'confirm_analyze',
-					'title' => $lang['stranalyze'],
 				)
 			)
 		);
