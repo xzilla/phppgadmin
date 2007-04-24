@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.37 2006/12/31 15:22:59 soranzo Exp $
+	 * $Id: sequences.php,v 1.38 2007/04/24 10:31:52 soranzo Exp $
 	 */
 	
 	// Include application functions
@@ -116,44 +116,44 @@
 		$sequence = $data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
-			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);
-			$sequence->f['is_called'] = $data->phpBool($sequence->f['is_called']);
+			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
+			$sequence->fields['is_called'] = $data->phpBool($sequence->fields['is_called']);
 
 			// Show comment if any
-			if ($sequence->f['seqcomment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($sequence->f['seqcomment']), "</p>\n";
+			if ($sequence->fields['seqcomment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($sequence->fields['seqcomment']), "</p>\n";
 
 			echo "<table border=\"0\">";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strlastvalue']}</th>";
 			echo "<th class=\"data\">{$lang['strincrementby']}</th><th class=\"data\">{$lang['strmaxvalue']}</th>";
 			echo "<th class=\"data\">{$lang['strminvalue']}</th><th class=\"data\">{$lang['strcachevalue']}</th>";
 			// PostgreSQL 7.0 and below don't have logcount
-			if (isset($sequence->f['log_cnt'])) {
+			if (isset($sequence->fields['log_cnt'])) {
 				echo "<th class=\"data\">{$lang['strlogcount']}</th>";
 			}
-			echo "<th class=\"data\">{$lang['striscycled']}</th><th class=\"data\">{$lang['striscalled']}</th></tr>";
+			echo "<th class=\"data\">{$lang['strcancycle']}</th><th class=\"data\">{$lang['striscalled']}</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['seqname']), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['last_value']), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['increment_by']), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['max_value']), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['min_value']), "</td>";
-			echo "<td class=\"data1\">", $misc->printVal($sequence->f['cache_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['seqname']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['last_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['increment_by']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['max_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['min_value']), "</td>";
+			echo "<td class=\"data1\">", $misc->printVal($sequence->fields['cache_value']), "</td>";
 			// PostgreSQL 7.0 and below don't have logcount
-			if (isset($sequence->f['log_cnt'])) {
-				echo "<td class=\"data1\">", $misc->printVal($sequence->f['log_cnt']), "</td>";
+			if (isset($sequence->fields['log_cnt'])) {
+				echo "<td class=\"data1\">", $misc->printVal($sequence->fields['log_cnt']), "</td>";
 			}
-			echo "<td class=\"data1\">", ($sequence->f['is_cycled'] ? $lang['stryes'] : $lang['strno']), "</td>";
-			echo "<td class=\"data1\">", ($sequence->f['is_called'] ? $lang['stryes'] : $lang['strno']), "</td>";
+			echo "<td class=\"data1\">", ($sequence->fields['is_cycled'] ? $lang['stryes'] : $lang['strno']), "</td>";
+			echo "<td class=\"data1\">", ($sequence->fields['is_called'] ? $lang['stryes'] : $lang['strno']), "</td>";
 			echo "</tr>";
 			echo "</table>";
 			
 			if ($data->hasAlterSequence()) {
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['straltersequence']}</a> |\n";
+				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
 			}
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strsetval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strnextval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->f['seqname']), "\">{$lang['strreset']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
 			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -174,15 +174,15 @@
 			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
-			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
+			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
+			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
@@ -239,14 +239,13 @@
 		echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formCacheValue']), "\" /></td></tr>\n";
 		
-		echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
+		echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['strcancycle']}</label></th>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
 			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_sequence\" />\n";
 		echo $misc->form;
-		echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
 		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
@@ -335,7 +334,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strlastvalue']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"nextvalue\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				$misc->printVal($sequence->f['last_value']), "\" /></td></tr>\n";
+				$misc->printVal($sequence->fields['last_value']), "\" /></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"setval\" />\n";
 			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
@@ -377,33 +376,33 @@
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
 			// Handle Checkbox Value
-			$sequence->f['is_cycled'] = $data->phpBool($sequence->f['is_cycled']);
-			if ($sequence->f['is_cycled']) $_POST['formCycledValue'] = 'on';
+			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
+			if ($sequence->fields['is_cycled']) $_POST['formCycledValue'] = 'on';
 
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['last_value']), "\" /></td></tr>\n";
+				htmlspecialchars($sequence->fields['last_value']), "\" /></td></tr>\n";
 
 			echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['increment_by']), "\" /> </td></tr>\n";
+				htmlspecialchars($sequence->fields['increment_by']), "\" /> </td></tr>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['max_value']), "\" /></td></tr>\n";
+				htmlspecialchars($sequence->fields['max_value']), "\" /></td></tr>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['min_value']), "\" /></td></tr>\n";
+				htmlspecialchars($sequence->fields['min_value']), "\" /></td></tr>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->f['cache_value']), "\" /></td></tr>\n";
+				htmlspecialchars($sequence->fields['cache_value']), "\" /></td></tr>\n";
 			
-			echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['striscycled']}</label></th>\n";
+			echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['strcancycle']}</label></th>\n";
 			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
 				( isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
 	
