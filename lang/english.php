@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.206 2007/04/24 11:13:01 soranzo Exp $
+	 * $Id: english.php,v 1.207 2007/04/24 15:00:03 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -137,8 +137,8 @@
 	$lang['strfileimported'] = 'File imported.';
 	$lang['strtrycred'] = 'Use these credentials for all servers';
 	$lang['stractionsonmultiplelines'] = 'Actions on multiple lines';
-	$lang['strcheckall'] = 'Check All';
-	$lang['struncheckall'] = 'Uncheck All';
+	$lang['strselectall'] = 'Select all';
+	$lang['strunselectall'] = 'Unselect all';
 
 	// Database sizes
 	$lang['strsize'] = 'Size';
@@ -349,7 +349,7 @@
 	$lang['strallobjects'] = 'All objects';
 	$lang['strdatabasealtered'] = 'Database altered.';
 	$lang['strdatabasealteredbad'] = 'Database alter failed.';
-        $lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop';
+	$lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop';
 
 	// Views
 	$lang['strview'] = 'View';

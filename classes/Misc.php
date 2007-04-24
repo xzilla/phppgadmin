@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.145 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: Misc.php,v 1.146 2007/04/24 15:00:02 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -234,7 +234,7 @@
 			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
 			
 			if (isset($tag)) {
-				$alignattr = isset($align) ? " style=\"text-align: {$align};\"" : '';
+				$alignattr = isset($align) ? " style=\"text-align: {$align}\"" : '';
 				$classattr = isset($class) ? " class=\"{$class}\"" : '';				
 				$out = "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
 			}
@@ -1322,7 +1322,7 @@
 			if ($max_width <= 0) return;
 
 			if ($pages > 1) {
-				echo "<center><p>\n";
+				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
 					$temp = str_replace('%s', 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strfirst']}</a>\n";
@@ -1359,7 +1359,7 @@
 					$temp = str_replace('%s', $pages, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strlast']}</a>\n";
 				}
-				echo "</p></center>\n";
+				echo "</p>\n";
 			}
 		}		
 
@@ -1385,9 +1385,7 @@
 		 */
 		function setFocus($object) {
 			echo "<script type=\"text/javascript\">\n";
-			echo "<!--\n";
 			echo "   document.{$object}.focus();\n";
-			echo "-->\n";
 			echo "</script>\n";
 		}
 		
@@ -1398,9 +1396,11 @@
 		 *        attached to the name.
 		 */
 		function setWindowName($name, $addServer = true) {
-			echo "<script type=\"text/javascript\">\n<!--\n";
+			echo "<script type=\"text/javascript\">\n";
+			echo "//<![CDATA[\n";
 			echo "   window.name = '{$name}", ($addServer ? ':'.htmlspecialchars($_REQUEST['server']) : ''), "';\n";
-			echo "-->\n</script>\n";
+			echo "//]]>\n";
+			echo "</script>\n";
 		}
 
 		/**
@@ -1643,7 +1643,7 @@
 									}
 								}
 								break;
-							default;
+							default:
 								echo "<td class=\"data{$id}\">";
 								if (array_key_exists($column['field'], $tabledata->fields)) {
 									if (isset($column['url'])) {
@@ -1678,8 +1678,8 @@
 					echo "</tr>\n"; 
 					echo "<tr>\n";
 					echo "<td class=\"data1\">";
-					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strcheckall']}</a> / ";
-					echo "<a href=\"#\" onclick=\"javascript:checkAll(false);\">{$lang['struncheckall']}</a></td>\n";
+					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strselectall']}</a> / ";
+					echo "<a href=\"#\" onclick=\"javascript:checkAll(false);\">{$lang['strunselectall']}</a></td>\n";
 					echo "<td class=\"data1\">&nbsp;--->&nbsp;</td>\n";
 					echo "<td class=\"data1\">\n";
 					echo "\t<select name=\"action\">\n";
