@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.9 2005/11/19 09:40:25 chriskl Exp $
+	 * $Id: afrikaans.php,v 1.10 2007/04/24 11:43:16 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -326,7 +326,6 @@
 	$lang['strcachevalue'] = 'Kasgeheue-waarde';
 	$lang['strlogcount'] = 'Boekstaaftelling';
 	$lang['striscycled'] = 'is_siklies ?';
-	$lang['striscalled'] = 'is_geroep ?';
 	$lang['strsequenceneedsname'] = 'Jy moet \'n naam gee vir die reeks.';
 	$lang['strsequencecreated'] = 'Reeks is geskep.';
 	$lang['strsequencecreatedbad'] = 'Die reeks kon nie geskep word nie.';

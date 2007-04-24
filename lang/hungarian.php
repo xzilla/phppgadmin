@@ -344,7 +344,6 @@
 	$lang['strcachevalue'] = 'Gyorstár értéke';
 	$lang['strlogcount'] = 'Számláló';
 	$lang['striscycled'] = 'Ciklikus?';
-	$lang['striscalled'] = 'Hivatkozott?';
 	$lang['strsequenceneedsname'] = 'Meg kell adni a sorozatnevet.';
 	$lang['strsequencecreated'] = 'A sorozat megteremtve.';
 	$lang['strsequencecreatedbad'] = 'Nem sikerült megteremteni a sorozatot.'; 

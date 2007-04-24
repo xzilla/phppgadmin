@@ -4,7 +4,7 @@
 	 * Mongolian  language file for phpPgAdmin. 
 	 * @maintainer Erdenemandal Bat-Erdene [endeeuk@yahoo.com]
 	 *
-	 * $Id: mongol.php,v 1.4 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: mongol.php,v 1.5 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -292,7 +292,6 @@
 	$lang['strcachevalue'] = 'Размер кэша';
 	$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = 'Зациклить?';
-	$lang['striscalled'] = 'Уже вызывалась?';
 	$lang['strsequenceneedsname'] = 'Вам необходимо указать имя последовательности.';
 	$lang['strsequencecreated'] = 'Последовательность создана.';
 	$lang['strsequencecreatedbad'] = 'Создание последовательности прервано.';

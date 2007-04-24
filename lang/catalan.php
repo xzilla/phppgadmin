@@ -4,7 +4,7 @@
 	 * Catalan language file for phpPgAdmin.
 	 * mantainer: Bernat Pegueroles <bpf@pegueroles.com>
 	 *
-	 * $Id: catalan.php,v 1.2 2007/01/19 03:44:01 xzilla Exp $
+	 * $Id: catalan.php,v 1.3 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -385,7 +385,6 @@
 	$lang['strcachevalue'] = 'Valor de cache';
 	$lang['strlogcount'] = 'Compte del registre';
 	$lang['striscycled'] = 'Cíclic?';
-	$lang['striscalled'] = 'Nom?';
 	$lang['strsequenceneedsname'] = 'Has de donar un nom a la seqüència.';
 	$lang['strsequencecreated'] = 'Seqüència creada.';
 	$lang['strsequencecreatedbad'] = 'Crear seqüència ha fallat.'; 
@@ -680,7 +679,6 @@
 	$lang['strcreateaggregate'] = 'Crear agregat';
 	$lang['straggrbasetype'] = 'Tipus de dades d\'entrada';
 	$lang['straggrsfunc'] = 'Funció de la transició de l\'estat';
-	$lang['straggrstype'] = 'Tipus de dades de l\'estat';
 	$lang['straggrffunc'] = 'Funció final';
 	$lang['straggrinitcond'] = 'Condició inicial';
 	$lang['straggrsortop'] = 'Operador ordre';

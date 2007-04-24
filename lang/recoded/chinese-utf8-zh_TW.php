@@ -5,7 +5,7 @@
 	 * for new translations.
 	 *
 	 *Translated by &#37101;&#26397;&#30410; ChaoYi, Kuo [kuo.chaoyi@gmail.com]
-	 * $Id: chinese-utf8-zh_TW.php,v 1.3 2007/04/01 15:45:03 xzilla Exp $
+	 * $Id: chinese-utf8-zh_TW.php,v 1.4 2007/04/24 11:43:16 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -386,7 +386,6 @@
 	$lang['strcachevalue'] = '&#24555;&#21462;&#20540;';
 	$lang['strlogcount'] = '&#26085;&#35468;&#35336;&#25976;';
 	$lang['striscycled'] = '&#24490;&#29872;?';
-	$lang['striscalled'] = '&#24050;&#21628;&#21483;?';
 	$lang['strsequenceneedsname'] = '&#24744;&#24517;&#38656;&#28858;&#24744;&#30340;&#24207;&#21015;&#25976;&#32102;&#19968;&#20491;&#21517;&#31281;&#12290;';
 	$lang['strsequencecreated'] = '&#24207;&#21015;&#25976;&#24050;&#24314;&#31435;&#12290;';
 	$lang['strsequencecreatedbad'] = '&#24207;&#21015;&#25976;&#24314;&#31435;&#22833;&#25943;&#12290;'; 
@@ -680,7 +679,6 @@
 	$lang['strcreateaggregate'] = '&#24314;&#31435;&#32858;&#38598;&#20989;&#25976;';
 	$lang['straggrbasetype'] = '&#36664;&#20837;&#36039;&#26009;&#39006;&#22411;';
 	$lang['straggrsfunc'] = '&#29376;&#24907;&#36942;&#28193;&#20989;&#25976;';
-	$lang['straggrstype'] = '&#29376;&#24907;&#36039;&#26009;&#39006;&#22411;';
 	$lang['straggrffunc'] = '&#26368;&#32066;&#20989;&#25976;';
 	$lang['straggrinitcond'] = '&#26368;&#21021;&#36523;&#20221;';
 	$lang['straggrsortop'] = '&#25490;&#24207;&#36939;&#31639;&#23376;';

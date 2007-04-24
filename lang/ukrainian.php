@@ -321,7 +321,6 @@
         $lang['strcachevalue'] = 'Розм╕р кеша';
         $lang['strlogcount'] = 'Log Count';
         $lang['striscycled'] = 'Зациклити?';
-        $lang['striscalled'] = 'Вже викликали?';
         $lang['strsequenceneedsname'] = 'Вам необх╕дно вказати ╕м"я посл╕довност╕.';
         $lang['strsequencecreated'] = 'Посл╕довн╕сть створено.';
         $lang['strsequencecreatedbad'] = 'Створення посл╕довност╕ перервано.';

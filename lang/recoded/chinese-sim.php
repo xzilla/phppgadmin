@@ -149,7 +149,6 @@ $lang['strminvalue'] = '&#26368;&#23567;&#20540;';
 $lang['strcachevalue'] = 'cache_value';
 $lang['strlogcount'] = 'log_cnt';
 $lang['striscycled'] = 'is_cycled';
-$lang['striscalled'] = 'is_called';
 $lang['strreset'] = '&#37325;&#32622;';
 
 // Indexes

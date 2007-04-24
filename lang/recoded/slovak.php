@@ -344,7 +344,6 @@
 	$lang['strcachevalue'] = 'Cache Hodnota';
 	$lang['strlogcount'] = 'Log S&#250;&#269;et';
 	$lang['striscycled'] = 'Je Cycled?';
-	$lang['striscalled'] = 'Je Called?';
 	$lang['strsequenceneedsname'] = 'Mus&#237;&#353; zada&#357; n&#225;zov pre tvoju sekvenciu.';
 	$lang['strsequencecreated'] = 'Sekvencia vytvoren&#225;.';
 	$lang['strsequencecreatedbad'] = 'Sekvencia nebola vytvoren&#225;.';

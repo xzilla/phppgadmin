@@ -302,7 +302,6 @@
 	$lang['strcachevalue'] = 'Cache hodnota';
 	$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = 'Je cyklick&#225;?';
-	$lang['striscalled'] = 'Je called?';
 	$lang['strsequenceneedsname'] = 'Mus&#237;&#353; zadat n&#225;zev sekvence.';
 	$lang['strsequencereset'] = 'Reset sekvence.';
 	$lang['strsequenceresetbad'] = 'Reset sekvence se nepovedl.';

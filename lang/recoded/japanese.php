@@ -4,7 +4,7 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.18 2007/01/19 04:01:19 xzilla Exp $
+	 * $Id: japanese.php,v 1.19 2007/04/24 11:43:16 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -349,7 +349,6 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strcachevalue'] = '&#12461;&#12515;&#12483;&#12471;&#12517;&#20516;';
 	$lang['strlogcount'] = '&#12525;&#12464;&#12459;&#12454;&#12531;&#12488;';
 	$lang['striscycled'] = 'Cycle &#12375;&#12414;&#12377;&#12363;?';
-$lang['striscalled'] = 'Is Called?';
 	$lang['strsequenceneedsname'] = '&#12471;&#12540;&#12465;&#12531;&#12473;&#21517;&#12434;&#25351;&#23450;&#12375;&#12394;&#12369;&#12428;&#12400;&#12394;&#12426;&#12414;&#12379;&#12435;&#12290;';
 	$lang['strsequencecreated'] = '&#12471;&#12540;&#12465;&#12531;&#12473;&#12434;&#20316;&#25104;&#12375;&#12414;&#12375;&#12383;&#12290;';
 	$lang['strsequencecreatedbad'] = '&#12471;&#12540;&#12465;&#12531;&#12473;&#12398;&#20316;&#25104;&#12395;&#22833;&#25943;&#12375;&#12414;&#12375;&#12383;&#12290;'; 

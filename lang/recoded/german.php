@@ -5,7 +5,7 @@
     * German Language file for phpPgAdmin.
     * @maintainer M. Bertheau &lt;twanger@bluetwanger.de&gt;
     *
-    * $Id: german.php,v 1.23 2005/11/19 09:40:25 chriskl Exp $
+    * $Id: german.php,v 1.24 2007/04/24 11:43:16 soranzo Exp $
     */
 
 
@@ -350,7 +350,6 @@ $lang['strinstead'] = 'DO INSTEAD';
     $lang['strcachevalue'] = 'Cachewert';
     $lang['strlogcount'] = 'Log Anzahl';
     $lang['striscycled'] = 'Zyklisch?';
-    $lang['striscalled'] = 'Aufgerufen?';
     $lang['strsequenceneedsname'] = 'Sie m&#252;ssen f&#252;r die Sequenz einen Namen angeben.';
     $lang['strsequencecreated'] = 'Sequenz erstellt.';
     $lang['strsequencecreatedbad'] = 'Erstellen der Sequenz fehlgeschlagen.';

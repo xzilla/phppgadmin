@@ -5,7 +5,7 @@
 	 * for new translations.
 	 *
 	 *Translated by 郭朝益 ChaoYi, Kuo [kuo.chaoyi@gmail.com]
-	 * $Id: chinese-utf8-zh_TW.php,v 1.3 2007/04/01 15:45:03 xzilla Exp $
+	 * $Id: chinese-utf8-zh_TW.php,v 1.4 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -386,7 +386,6 @@
 	$lang['strcachevalue'] = '快取值';
 	$lang['strlogcount'] = '日誌計數';
 	$lang['striscycled'] = '循環?';
-	$lang['striscalled'] = '已呼叫?';
 	$lang['strsequenceneedsname'] = '您必需為您的序列數給一個名稱。';
 	$lang['strsequencecreated'] = '序列數已建立。';
 	$lang['strsequencecreatedbad'] = '序列數建立失敗。'; 
@@ -680,7 +679,6 @@
 	$lang['strcreateaggregate'] = '建立聚集函數';
 	$lang['straggrbasetype'] = '輸入資料類型';
 	$lang['straggrsfunc'] = '狀態過渡函數';
-	$lang['straggrstype'] = '狀態資料類型';
 	$lang['straggrffunc'] = '最終函數';
 	$lang['straggrinitcond'] = '最初身份';
 	$lang['straggrsortop'] = '排序運算子';

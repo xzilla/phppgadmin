@@ -4,7 +4,7 @@
 	 * Russian KOI8 language file for phpPgAdmin. 
 	 * @maintainer Alexander Khodorivsky [askh@ukr.net]
 	 *
-	 * $Id: russian.php,v 1.11 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: russian.php,v 1.12 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -322,7 +322,6 @@
 	$lang['strcachevalue'] = 'Размер кэша';
 	$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = 'Зациклить?';
-	$lang['striscalled'] = 'Уже вызывалась?';
 	$lang['strsequenceneedsname'] = 'Вам необходимо указать имя последовательности.';
 	$lang['strsequencecreated'] = 'Последовательность создана.';
 	$lang['strsequencecreatedbad'] = 'Создание последовательности прервано.';

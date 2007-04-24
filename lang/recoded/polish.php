@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.49 2006/10/09 22:31:13 slubek Exp $
+	 * $Id: polish.php,v 1.50 2007/04/24 11:43:16 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -369,7 +369,6 @@
 	$lang['strcachevalue'] = 'Warto&#347;&#263; keszowana';
 	$lang['strlogcount'] = 'log_cnt';
 	$lang['striscycled'] = 'czy cykliczna';
-	$lang['striscalled'] = 'is_called';
 	$lang['strsequenceneedsname'] = 'Musisz nazwa&#263; sekwencj&#281;.';
 	$lang['strsequencecreated'] = 'Sekwencja zosta&#322;a utworzona.';
 	$lang['strsequencecreatedbad'] = 'Pr&#243;ba utworzenia sekwencji si&#281; nie powiod&#322;a.';
@@ -665,7 +664,6 @@ $lang['straggrtransfn']  =  'Transition function';
 	$lang['strcreateaggregate']  =  'Utw&#243;rz funkcj&#281; agreguj&#261;c&#261;';
 	$lang['straggrbasetype']  =  'Typ danych wej&#347;ciowych';
 $lang['straggrsfunc']  =  'State transition function';
-$lang['straggrstype']  =  'State data type';
 $lang['straggrffunc']  =  'Final function';
 	$lang['straggrinitcond']  =  'Warunek pocz&#261;tkowy';
 	$lang['straggrsortop']  =  'Operator sortowania';

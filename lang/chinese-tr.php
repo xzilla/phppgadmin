@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.14 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.15 2007/04/24 11:42:07 soranzo Exp $
 	 *
 	 *
 	 */
@@ -321,7 +321,6 @@
 	$lang['strcachevalue'] = '快取值';
 	$lang['strlogcount'] = '登錄數量';
 	$lang['striscycled'] = '循環?';
-	$lang['striscalled'] = '被呼叫?';
 	$lang['strsequenceneedsname'] = '您需為您的序列命名。';
 	$lang['strsequencecreated'] = '成功建立新序列。';
 	$lang['strsequencecreatedbad'] = '建立新序列作業失敗。'; 

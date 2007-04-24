@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.22 2007/04/16 21:41:14 ioguix Exp $
+     * $Id: french.php,v 1.23 2007/04/24 11:43:16 soranzo Exp $
      */
 
     // Language and character set
@@ -387,7 +387,6 @@
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
     $lang['striscycled'] = 'Cycle ?';
-    $lang['striscalled'] = 'Appel&#233;e ?';
     $lang['strsequenceneedsname'] = 'Vous devez sp&#233;cifier un nom pour votre s&#233;quence.';
     $lang['strsequencecreated'] = 'S&#233;quence cr&#233;&#233;e.';
     $lang['strsequencecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la s&#233;quence.'; 
@@ -683,7 +682,6 @@ $lang['strflavor']  =  'Flavor';
     $lang['strcreateaggregate']  =  'Cr&#233;er un agr&#233;gat';
     $lang['straggrbasetype']  =  'Type de donn&#233;es en entr&#233;e';
     $lang['straggrsfunc']  =  'Fonction de transition de l\'&#233;tat';
-    $lang['straggrstype']  =  'Type de donn&#233;es de l\'&#233;tat';
     $lang['straggrffunc']  =  'Fonction finale';
     $lang['straggrinitcond']  =  'Condition initiale';
     $lang['straggrsortop']  =  'Op&#233;rateur de tri';

@@ -4,7 +4,7 @@
 	 * Hebrew language file for phpPgAdmin.
 	 * Jonatan Perry &lt;Jonatan44@hotpop.com&gt;
 	 *
-	 * $Id: hebrew.php,v 1.4 2005/11/19 09:40:25 chriskl Exp $
+	 * $Id: hebrew.php,v 1.5 2007/04/24 11:43:16 soranzo Exp $
 	 */
 	 
 	// Language and character set
@@ -324,7 +324,6 @@
 	$lang['strcachevalue'] = '&#1506;&#1512;&#1498; &#1502;&#1496;&#1502;&#1493;&#1503;';
 	$lang['strlogcount'] = '&#1505;&#1508;&#1497;&#1512;&#1514; &#1497;&#1493;&#1502;&#1503;';
 	$lang['striscycled'] = 'Is cycled?';
-	$lang['striscalled'] = 'Is called?';
 	$lang['strsequenceneedsname'] = '&#1488;&#1514;&#1492; &#1495;&#1497;&#1497;&#1489; &#1500;&#1510;&#1497;&#1497;&#1503; &#1513;&#1501; &#1500;&#1504;&#1493;&#1505;&#1495;&#1492; &#1513;&#1500;&#1498;.';
 	$lang['strsequencecreated'] = '&#1504;&#1493;&#1505;&#1495;&#1492; &#1504;&#1493;&#1510;&#1512;&#1492;.';
 	$lang['strsequencecreatedbad'] = '&#1497;&#1510;&#1497;&#1512;&#1514; &#1504;&#1493;&#1505;&#1495;&#1492; &#1504;&#1499;&#1513;&#1500;&#1492;.'; 

@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.17 2005/11/19 09:40:25 chriskl Exp $
+	 * $Id: chinese-tr.php,v 1.18 2007/04/24 11:43:16 soranzo Exp $
 	 *
 	 *
 	 */
@@ -321,7 +321,6 @@
 	$lang['strcachevalue'] = '&#24555;&#21462;&#20540;';
 	$lang['strlogcount'] = '&#30331;&#37636;&#25976;&#37327;';
 	$lang['striscycled'] = '&#24490;&#29872;?';
-	$lang['striscalled'] = '&#34987;&#21628;&#21483;?';
 	$lang['strsequenceneedsname'] = '&#24744;&#38656;&#28858;&#24744;&#30340;&#24207;&#21015;&#21629;&#21517;&#12290;';
 	$lang['strsequencecreated'] = '&#25104;&#21151;&#24314;&#31435;&#26032;&#24207;&#21015;&#12290;';
 	$lang['strsequencecreatedbad'] = '&#24314;&#31435;&#26032;&#24207;&#21015;&#20316;&#26989;&#22833;&#25943;&#12290;'; 

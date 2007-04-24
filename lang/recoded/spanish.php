@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&#237;n Marqu&#233;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.37 2007/01/20 18:10:49 xzilla Exp $
+	 * $Id: spanish.php,v 1.38 2007/04/24 11:43:16 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -385,7 +385,6 @@ $lang['strroleneedsname']  =  'You must give a name for the role.';
 	$lang['strcachevalue'] = 'Valor de Cache';
 $lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = '&#191;Rotar?';
-	$lang['striscalled'] = '&#191;Nombre?';
 	$lang['strsequenceneedsname'] = 'Debe darle un nombre a la secuencia.';
 	$lang['strsequencecreated'] = 'Secuencia creada.';
 	$lang['strsequencecreatedbad'] = 'Fall&#243; la creaci&#243;n de la secuencia.'; 
@@ -679,7 +678,6 @@ $lang['straggrtransfn']  =  'Transition function';
 	$lang['strcreateaggregate']  =  'Crear aggregada';
 $lang['straggrbasetype']  =  'Input data type';
 $lang['straggrsfunc']  =  'State transition function';
-$lang['straggrstype']  =  'State data type';
 $lang['straggrffunc']  =  'Final function';
 $lang['straggrinitcond']  =  'Initial condition';
 $lang['straggrsortop']  =  'Sort operator';

@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.7 2007/01/11 01:29:46 soranzo Exp $
+	* $Id: romanian.php,v 1.8 2007/04/24 11:43:16 soranzo Exp $
 	*/
 
 	// Language and character set
@@ -378,7 +378,6 @@
 	$lang['strcachevalue'] = 'Valoare cache';
 	$lang['strlogcount'] = 'Log count';
 	$lang['striscycled'] = 'Ciclic&#259;?';
-	$lang['striscalled'] = 'Apelat&#259;?';
 	$lang['strsequenceneedsname'] = 'Specifica&#355;i un nume pentru secven&#355;&#259;.';
 	$lang['strsequencecreated'] = 'Secven&#355;&#259; creat&#259;.';
 	$lang['strsequencecreatedbad'] = 'Creare secven&#355;&#259; e&#351;uat&#259;.';
@@ -672,7 +671,6 @@
 	$lang['strcreateaggregate'] = 'Creare agregare';
 	$lang['straggrbasetype'] = 'Tip dat&#259; de intrare';
 	$lang['straggrsfunc'] = 'Func&#355;ie tranzi&#355;ie de stare';
-	$lang['straggrstype'] = 'Tip dat&#259; de stare';
 	$lang['straggrffunc'] = 'Func&#355;ie final&#259;';
 	$lang['straggrinitcond'] = 'Condi&#355;ie ini&#355;ial&#259;';
 	$lang['straggrsortop'] = 'Operator sortare';

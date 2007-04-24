@@ -328,7 +328,6 @@
 	$lang['strcachevalue'] = 'Cachens v&#230;rdi';
 	$lang['strlogcount'] = 'Log count';
 	$lang['striscycled'] = 'Is cycled?';
-	$lang['striscalled'] = 'Is called?';
 	$lang['strsequenceneedsname'] = 'Sekvens skal have et navn.';
 	$lang['strsequencecreated'] = 'Sekvens oprettet.';
 	$lang['strsequencecreatedbad'] = 'Oprettelse af sekvens mislykkedes.'; 

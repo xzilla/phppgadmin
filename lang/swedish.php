@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist <samoola@slak.nu>
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.10 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: swedish.php,v 1.11 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -301,7 +301,6 @@
 	$lang['strcachevalue'] = 'Värde på cache';
 	$lang['strlogcount'] = 'Räkna log';
 	$lang['striscycled'] = 'Är upprepad?';
-	$lang['striscalled'] = 'Är kallad?';
 	$lang['strsequenceneedsname'] = 'Du måste ge ett namn till din följd.';
 	$lang['strsequencecreated'] = 'Följd skapad.';
 	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa följd.'; 

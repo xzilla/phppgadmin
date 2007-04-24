@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.14 2005/11/14 04:54:26 chriskl Exp $
+	 * $Id: turkish.php,v 1.15 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -345,7 +345,6 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strcachevalue'] = 'Cache Deðeri';
 	$lang['strlogcount'] = 'Log Count';
 	$lang['striscycled'] = 'Is Cycled?';
-	$lang['striscalled'] = 'Is Called?';
 	$lang['strsequenceneedsname'] = 'Sequence için bir ad belirtmelisiniz.';
 	$lang['strsequencecreated'] = 'Sequence yaratýldý.';
 	$lang['strsequencecreatedbad'] = 'Sequence yaratma iþlemi baþarýsýz oldu.'; 

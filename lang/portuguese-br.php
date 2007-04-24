@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Ângelo Marcos Rigo (angelo_rigo@yahoo.com.br)
 	 *
-	 * $Id: portuguese-br.php,v 1.7 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: portuguese-br.php,v 1.8 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -260,7 +260,6 @@ $lang['stralterprivs'] = 'Alterar privilégios';
 	$lang['strcachevalue'] = 'Valor de cache';
 	$lang['strlogcount'] = 'Contador do log';
 	$lang['striscycled'] = 'Foi dado um ciclo ?';
-	$lang['striscalled'] = 'Foi chamado ?';
 	$lang['strsequenceneedsname'] = 'Você deve dar um nome a sua sequência.';
 	$lang['strsequencecreated'] = 'Sequência criada.';
 	$lang['strsequencecreatedbad'] = 'Falha na criação de sequência.'; 

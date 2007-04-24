@@ -4,7 +4,7 @@
 	 * Hebrew language file for phpPgAdmin.
 	 * Jonatan Perry <Jonatan44@hotpop.com>
 	 *
-	 * $Id: hebrew.php,v 1.3 2005/08/11 23:01:44 soranzo Exp $
+	 * $Id: hebrew.php,v 1.4 2007/04/24 11:42:07 soranzo Exp $
 	 */
 	 
 	// Language and character set
@@ -324,7 +324,6 @@
 	$lang['strcachevalue'] = 'ערך מטמון';
 	$lang['strlogcount'] = 'ספירת יומן';
 	$lang['striscycled'] = 'Is cycled?';
-	$lang['striscalled'] = 'Is called?';
 	$lang['strsequenceneedsname'] = 'אתה חייב לציין שם לנוסחה שלך.';
 	$lang['strsequencecreated'] = 'נוסחה נוצרה.';
 	$lang['strsequencecreatedbad'] = 'יצירת נוסחה נכשלה.'; 

@@ -251,7 +251,6 @@ $lang['strminvalue'] = 'Valor m&#237;nimo';
 $lang['strcachevalue'] = 'Valor de cache';
 $lang['strlogcount'] = 'Contador do log';
 	$lang['striscycled'] = 'Foi dado um ciclo ?';
-	$lang['striscalled'] = 'Foi chamado ?';
 $lang['strsequenceneedsname'] = 'D&#234; um nome a sua sequ&#234;ncia.';
 $lang['strsequencecreated'] = 'Sequ&#234;ncia criada.';
 $lang['strsequencecreatedbad'] = 'Falha na cria&#231;&#227;o da sequ&#234;ncia.'; 

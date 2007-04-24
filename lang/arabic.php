@@ -4,7 +4,7 @@
   * English language file for phpPgAdmin.  Use this as a basis
   * for new translations.
   *
-  * $Id: arabic.php,v 1.5 2005/08/11 23:01:44 soranzo Exp $
+  * $Id: arabic.php,v 1.6 2007/04/24 11:42:07 soranzo Exp $
   */
 
  // Language and character set
@@ -320,7 +320,6 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strcachevalue'] = 'Cache value';
  $lang['strlogcount'] = 'Log count';
  $lang['striscycled'] = 'Is cycled?';
- $lang['striscalled'] = 'Is called?';
  $lang['strsequenceneedsname'] = 'يجب إعطاء إسم للتسلسل sequence.';
  $lang['strsequencecreated'] = 'تم إنشاء التسلسل بنجاح.';
  $lang['strsequencecreatedbad'] = 'لقد فشل إنشاء التسلسل.'; 

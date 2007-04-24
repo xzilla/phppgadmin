@@ -149,7 +149,6 @@ $lang['strminvalue'] = '最小值';
 $lang['strcachevalue'] = 'cache_value';
 $lang['strlogcount'] = 'log_cnt';
 $lang['striscycled'] = 'is_cycled';
-$lang['striscalled'] = 'is_called';
 $lang['strreset'] = '重置';
 
 // Indexes
