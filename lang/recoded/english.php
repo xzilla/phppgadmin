@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.160 2007/04/24 15:31:29 soranzo Exp $
+	 * $Id: english.php,v 1.161 2007/04/24 17:42:39 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -825,7 +825,6 @@
 	$lang['strconfunlockrepset'] = 'Are you sure you want to unlock replication set &quot;%s&quot;?';
 	$lang['strrepsetunlocked'] = 'Replication set unlocked.';
 	$lang['strrepsetunlockedbad'] = 'Replication set unlock failed.';
-	$lang['strexecute'] = 'Execute';
 	$lang['stronlyonnode'] = 'Only on node';
 	$lang['strddlscript'] = 'DDL script';
 	$lang['strscriptneedsbody'] = 'You must supply a script to be executed on all nodes.';
