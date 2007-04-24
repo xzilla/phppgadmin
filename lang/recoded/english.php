@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.157 2007/04/21 15:39:54 xzilla Exp $
+	 * $Id: english.php,v 1.158 2007/04/24 11:13:02 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -14,7 +14,7 @@
 	$lang['appdbencoding'] = 'LATIN1';
 	$lang['applangdir'] = 'ltr';
 
-	// Welcome  
+	// Welcome
 	$lang['strintro'] = 'Welcome to phpPgAdmin.';
 	$lang['strppahome'] = 'phpPgAdmin Homepage';
 	$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
@@ -296,7 +296,6 @@
 	$lang['strcancreaterole'] = 'Can create role?';
 	$lang['strrolecreated'] = 'Role created.';
 	$lang['strrolecreatedbad'] = 'Create role failed.';
-	$lang['stralterrole'] = 'Alter role';
 	$lang['strrolealtered'] = 'Role altered.';
 	$lang['strrolealteredbad'] = 'Role alter failed.';
 	$lang['strcanlogin'] = 'Can login?';
@@ -391,8 +390,8 @@
 	$lang['strminvalue'] = 'Min value';
 	$lang['strcachevalue'] = 'Cache value';
 	$lang['strlogcount'] = 'Log count';
-	$lang['striscycled'] = 'Is cycled?';
-	$lang['striscalled'] = 'Is called?';
+	$lang['strcancycle'] = 'Can cycle?';
+	$lang['striscalled'] = 'Will increment last value before returning next value (is_called)?';
 	$lang['strsequenceneedsname'] = 'You must specify a name for your sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
 	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 
@@ -401,7 +400,6 @@
 	$lang['strsequencedroppedbad'] = 'Sequence drop failed.';
 	$lang['strsequencereset'] = 'Sequence reset.';
 	$lang['strsequenceresetbad'] = 'Sequence reset failed.'; 
- 	$lang['straltersequence'] = 'Alter sequence';
  	$lang['strsequencealtered'] = 'Sequence altered.';
  	$lang['strsequencealteredbad'] = 'Sequence alteration failed.';
  	$lang['strsetval'] = 'Set value';
@@ -682,11 +680,10 @@
 	$lang['straggregates'] = 'Aggregates';
 	$lang['strnoaggregates'] = 'No aggregates found.';
 	$lang['stralltypes'] = '(All types)';
-	$lang['straggrtransfn'] = 'Transition function';
 	$lang['strcreateaggregate'] = 'Create aggregate';
 	$lang['straggrbasetype'] = 'Input data type';
 	$lang['straggrsfunc'] = 'State transition function';
-	$lang['straggrstype'] = 'State data type';
+	$lang['straggrstype'] = 'Data type for state value';
 	$lang['straggrffunc'] = 'Final function';
 	$lang['straggrinitcond'] = 'Initial condition';
 	$lang['straggrsortop'] = 'Sort operator';
@@ -694,13 +691,12 @@
 	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &quot;%s&quot;?';
 	$lang['straggregatedropped'] = 'Aggregate dropped.';
 	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
-	$lang['stralteraggregate'] = 'Alter aggregate';
 	$lang['straggraltered'] = 'Aggregate altered.';
 	$lang['straggralteredbad'] = 'Aggregate alteration failed.';
-	$lang['straggrneedsname'] = 'You must specify a name for the aggregate';
-	$lang['straggrneedsbasetype'] = 'You must specify the input data type for the aggregate';
-	$lang['straggrneedssfunc'] = 'You must specify the name of the state transition function for the aggregate';
-	$lang['straggrneedsstype'] = 'You must specify the data type for the aggregate\'s state value';
+	$lang['straggrneedsname'] = 'You must specify a name for the aggregate.';
+	$lang['straggrneedsbasetype'] = 'You must specify the input data type for the aggregate.';
+	$lang['straggrneedssfunc'] = 'You must specify the name of the state transition function for the aggregate.';
+	$lang['straggrneedsstype'] = 'You must specify the data type for the aggregate\'s state value.';
 	$lang['straggrcreated'] = 'Aggregate created.';
 	$lang['straggrcreatedbad'] = 'Aggregate creation failed.';
 	$lang['straggrshowall'] = 'Show all aggregates';
@@ -878,13 +874,13 @@
 	$lang['strturnedoff'] = 'Turned Off'; 
 	$lang['strenabled'] = 'Enabled'; 
 	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold'; 
-	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';  
-	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';  
+	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';
+	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';
 	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor'; 
 	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay'; 
-	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';  
+	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';
 
-    // Table-level Locks
+	// Table-level Locks
 	$lang['strlocks'] = 'Locks';
 	$lang['strtransaction'] = 'Transaction ID';
 	$lang['strprocessid'] = 'Process ID';
