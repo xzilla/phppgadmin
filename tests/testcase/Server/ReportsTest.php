@@ -81,7 +81,7 @@ class ReportsTest extends PreconditionSet
 
         // Run the existing report and verify it.
         $this->assertTrue($this->get($webUrl . '/reports.php'));
-        $this->assertTrue($this->clickLink($lang['strrun']));
+        $this->assertTrue($this->clickLink($lang['strexecute']));
         $this->assertWantedText($lang['strnodata']);
         
         $this->assertTrue($this->clickLink($lang['strrefresh']));

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.146 2007/04/24 15:00:02 soranzo Exp $
+	 * $Id: Misc.php,v 1.147 2007/04/24 15:31:29 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -1686,7 +1686,7 @@
 						foreach($multiactions['actions'] as $o)
 							echo "\t\t<option value=\"{$o['action']}\">{$o['title']}</option>\n";
 					echo "\t</select>\n";
-					echo "<input type=\"submit\" value=\"submit\" />\n";
+					echo "<input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
 					echo $misc->form;
 					echo "</td>\n";
 					echo "</tr>\n";

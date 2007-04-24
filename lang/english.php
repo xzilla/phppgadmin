@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.207 2007/04/24 15:00:03 soranzo Exp $
+	 * $Id: english.php,v 1.208 2007/04/24 15:31:29 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -100,7 +100,7 @@
 	$lang['strclusterindex'] = 'Cluster';
 	$lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = 'Reindex';
-	$lang['strrun'] = 'Run';
+	$lang['strexecute'] = 'Execute';
 	$lang['stradd'] = 'Add';
 	$lang['strevent'] = 'Event';
 	$lang['strwhere'] = 'Where';
