@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.76 2007/04/18 13:30:58 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.77 2007/04/24 14:49:00 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -662,8 +662,6 @@
 		
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 		
-		echo "<br />\n";
-
 		echo "<ul>\n";
 		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");
 		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",

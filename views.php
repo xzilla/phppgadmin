@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.66 2007/04/23 18:48:06 soranzo Exp $
+	 * $Id: views.php,v 1.67 2007/04/24 14:49:00 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -29,21 +29,21 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script type=\"text/javascript\">\n";
-				echo "<!--\n";
+				echo "//<![CDATA[\n";
 				echo "	function selectAll() {\n";
-				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";
-				echo "			var e = document.selectform.elements[i];\n";
-				echo "			if (e.name.indexOf('show') == 0) e.checked = document.selectform.selectall.checked;\n";
+				echo "		for (var i=0; i<document.getElementById('selectform').elements.length; i++) {\n";
+				echo "			var e = document.getElementById('selectform').elements[i];\n";
+				echo "			if (e.name.indexOf('show') == 0) e.checked = document.getElementById('selectform').selectall.checked;\n";
 				echo "		}\n";
 				echo "	}\n";
-				echo "//-->\n";
+				echo "//]]>\n";
 				echo "</script>\n";
 	
-				echo "<table>\n<tr>";
+				echo "<table>\n";
 
 				// Output table header
 				echo "<tr><th class=\"data\">{$lang['strshow']}</th><th class=\"data\">{$lang['strcolumn']}</th>";
@@ -61,27 +61,27 @@
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<td class=\"data{$id}\" style=\"white-space: nowrap;\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<td class=\"data{$id}\" style=\"white-space: nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space: nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
+					echo "<td class=\"data{$id}\" style=\"white-space: nowrap;\">";
 					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
 						">", htmlspecialchars($v), "</option>\n";
 					}
-					echo "</select>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
+					echo "</select></td>\n";
+					echo "<td class=\"data{$id}\" style=\"white-space: nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
 						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onClick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
-				echo "</table></p>\n";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td></tr>";
+				echo "</table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
 

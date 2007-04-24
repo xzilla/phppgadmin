@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.92 2007/04/24 13:48:19 xzilla Exp $
+	 * $Id: tables.php,v 1.93 2007/04/24 14:49:00 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -252,18 +252,18 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
+			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script type=\"text/javascript\">\n";
-				echo "<!--\n";
+				echo "//<![CDATA[\n";
 				echo "	function selectAll() {\n";
-				echo "		for (var i=0; i<document.selectform.elements.length; i++) {\n";
-				echo "			var e = document.selectform.elements[i];\n";
-				echo "			if (e.name.indexOf('show') == 0) e.checked = document.selectform.selectall.checked;\n";
+				echo "		for (var i=0; i<document.getElementById('selectform').elements.length; i++) {\n";
+				echo "			var e = document.getElementById('selectform').elements[i];\n";
+				echo "			if (e.name.indexOf('show') == 0) e.checked = document.getElementById('selectform').selectall.checked;\n";
 				echo "		}\n";
 				echo "	}\n";
-				echo "//-->\n";
+				echo "//]]>\n";
 				echo "</script>\n";
 	
 				echo "<table>\n";

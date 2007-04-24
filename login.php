@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.33 2007/04/18 14:06:14 mr-russ Exp $
+	 * $Id: login.php,v 1.34 2007/04/24 14:49:00 soranzo Exp $
 	 */
 	global $conf;
 	
@@ -50,7 +50,6 @@
 </form>
 
 <script type="text/javascript">
-<!--
 	var uname = document.login_form.loginUsername;
 	var pword = document.login_form.loginPassword;
 	if (uname.value == "") {
@@ -58,7 +57,6 @@
 	} else {
 		pword.focus();
 	}
-//-->
 </script>
 
 <?php
