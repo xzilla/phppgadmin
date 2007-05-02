@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.45 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: constraints.php,v 1.46 2007/05/02 16:12:06 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -487,6 +487,38 @@
 		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddfk']}</a></p>\n";
 	}
+
+	function doTree() {
+		global $misc, $data;
+
+		$constraints = $data->getConstraints($_REQUEST['table']);
+		
+		$reqvars = $misc->getRequestVars('schema');
+
+		function getIcon($f) {
+			switch($f['contype']) {
+				case 'u':
+					return 'UniqueConstraint';
+				case 'c':
+					return 'CheckConstraint';
+				case 'f':
+					return 'ForeignKey';
+				case 'p':
+					return 'PrimaryKey';
+				
+			}
+		}
+	
+		$attrs = array(
+			'text'   => field('conname'),
+			'icon'   => callback('getIcon'),
+		);
+
+		$misc->printTreeXML($constraints, $attrs);
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strconstraints'],
 		"<script src=\"indexes.js\" type=\"text/javascript\"></script>");

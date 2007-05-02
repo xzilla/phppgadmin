@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.147 2007/04/24 15:31:29 soranzo Exp $
+	 * $Id: Misc.php,v 1.148 2007/05/02 16:12:07 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -780,6 +780,7 @@
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'icon'  => 'Columns',
+							'branch'=> true,
 						),
 						'indexes' => array (
 							'title' => $lang['strindexes'],
@@ -787,6 +788,7 @@
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.index',
 							'icon'  => 'Indexes',
+							'branch'=> true,
 						),
 						'constraints' => array (
 							'title' => $lang['strconstraints'],
@@ -794,6 +796,7 @@
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.constraint',
 							'icon'  => 'Constraints',
+							'branch'=> true,
 						),
 						'triggers' => array (
 							'title' => $lang['strtriggers'],
@@ -801,6 +804,7 @@
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.trigger',
 							'icon'  => 'Triggers',
+							'branch'=> true,
 						),
 						'rules' => array (
 							'title' => $lang['strrules'],
@@ -808,6 +812,7 @@
 							'urlvars' => array('subject' => 'table', 'table' => field('table')),
 							'help'  => 'pg.rule',
 							'icon'  => 'Rules',
+							'branch'=> true,
 						),
 						'info' => array (
 							'title' => $lang['strinfo'],
@@ -827,12 +832,14 @@
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'import'),
 							'icon'  => 'Import',
+							'hide'	=> true,
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'export'),
 							'icon'  => 'Export',
+							'hide'	=> true,
 						),
 					);
 				
@@ -843,6 +850,7 @@
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'icon'  => 'Columns',
+							'branch'=> true,
 						),
 						'definition' => array (
 							'title' => $lang['strdefinition'],
@@ -856,6 +864,7 @@
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'help'  => 'pg.rule',
 							'icon'  => 'Rules',
+							'branch'=> true,
 						),
 						'privileges' => array (
 							'title' => $lang['strprivileges'],
@@ -869,6 +878,7 @@
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'export'),
 							'icon'  => 'Export',
+							'hide'	=> true,
 						),
 					);
 				

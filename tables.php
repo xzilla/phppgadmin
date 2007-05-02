@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.93 2007/04/24 14:49:00 soranzo Exp $
+	 * $Id: tables.php,v 1.94 2007/05/02 16:12:07 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -909,10 +909,10 @@
 							$reqvars,
 							array('table' => field('relname'))
 						),
-			'branch' => url('tblproperties.php',
+			'branch' => url('tables.php',
 							$reqvars,
 							array (
-								'action' => 'tree',
+								'action' => 'subtree',
 								'table' => field('relname')
 							)
 						)	
@@ -922,7 +922,39 @@
 		exit;
 	}
 	
+	function doSubTree() {
+		global $misc, $data;
+
+		$tabs = $misc->getNavTabs('table');
+		$items = $misc->adjustTabsForTree($tabs);
+		$reqvars = $misc->getRequestVars('table');
+
+		$attrs = array(
+			'text'   => noEscape(field('title')),
+			'icon'   => field('icon'),
+			'action' => url(
+				field('url'),
+				$reqvars,
+				array('table' => $_REQUEST['table'])
+			),
+			'branch' => ifempty(
+				field('branch'), '', url(
+					field('url'),
+					$reqvars,
+					array(
+						'action' => 'tree',
+						'table' => $_REQUEST['table']
+					)
+				)
+			),
+		);
+
+		$misc->printTreeXML($items, $attrs);
+		exit;
+	}
+	
 	if ($action == 'tree') doTree();
+	if ($action == 'subtree') dosubTree();
 	
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();

@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.67 2007/04/24 14:49:00 soranzo Exp $
+	 * $Id: views.php,v 1.68 2007/05/02 16:12:07 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -545,7 +545,7 @@
 		$misc->printMsg($msg);
 		
 		$views = $data->getViews();
-		
+	
 		$columns = array(
 			'view' => array(
 				'title'	=> $lang['strview'],
@@ -615,29 +615,48 @@
 		$attrs = array(
 			'text'   => field('relname'),
 			'icon'   => 'View',
-			'iconAction' => url('display.php',
-							$reqvars,
-							array('view' => field('relname'))
-						),
+			'iconAction' => url('display.php', $reqvars, array('view' => field('relname'))),
 			'toolTip'=> field('relcomment'),
-			'action' => url('redirect.php',
-							$reqvars,
-							array('view' => field('relname'))
-						),
-			'branch' => url('viewproperties.php',
-							$reqvars,
-							array (
-								'action' => 'tree',
-								'view' => field('relname')
-							)
-						)
+			'action' => url('redirect.php',	$reqvars, array('view' => field('relname'))),
+			'branch' => url('views.php', $reqvars,
+				array (
+					'action' => 'subtree',
+					'view' => field('relname')
+				)
+			)
 		);
 		
 		$misc->printTreeXML($views, $attrs);
 		exit;
 	}
 	
+	function doSubTree() {
+		global $misc, $data;
+
+		$tabs = $misc->getNavTabs('view');
+		$items = $misc->adjustTabsForTree($tabs);
+		$reqvars = $misc->getRequestVars('view');
+
+		$attrs = array(
+			'text'   => noEscape(field('title')),
+			'icon'   => field('icon'),
+			'action' => url(field('url'),	$reqvars, field('urlvars'),	array('view' => $_REQUEST['view'])),
+			'branch' => ifempty( 
+				field('branch'), '', url(field('url'), field('urlvars'), $reqvars,
+					array(
+						'action' => 'tree',
+						'view' => $_REQUEST['view']
+					)
+				)
+			),
+		);
+
+		$misc->printTreeXML($items, $attrs);
+		exit;
+	}
+	
 	if ($action == 'tree') doTree();
+	if ($action == 'subtree') dosubTree();
 	
 	$misc->printHeader($lang['strviews']);
 	$misc->printBody();

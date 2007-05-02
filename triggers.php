@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.31 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: triggers.php,v 1.32 2007/05/02 16:12:07 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -328,6 +328,25 @@
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
+
+	function doTree() {
+
+		global $misc, $data;
+
+		$triggers = $data->getTriggers($_REQUEST['table']);
+
+		$reqvars = $misc->getRequestVars('table');
+		
+		$attrs = array(
+			'text'   => field('tgname'),
+			'icon'   => 'Trigger',
+		);
+
+		$misc->printTreeXML($triggers, $attrs);
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);
 	$misc->printBody();

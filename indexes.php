@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.39 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: indexes.php,v 1.40 2007/05/02 16:12:07 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -310,6 +310,32 @@
 		
 		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
+
+	function doTree() {
+		global $misc, $data;
+
+		$indexes = $data->getIndexes($_REQUEST['table']);
+
+		$reqvars = $misc->getRequestVars('table');
+
+		function getIcon($f) {
+			if ($f['indisprimary'] == 't')
+				return 'PrimaryKey';
+			if ($f['indisunique'] == 't')
+				return 'UniqueConstraint';
+			return 'Index';
+		}
+
+		$attrs = array(
+			'text'   => field('indname'),
+			'icon'   => callback('getIcon'),
+		);
+
+		$misc->printTreeXML($indexes, $attrs);
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
 
 	$misc->printHeader($lang['strindexes'], "<script src=\"indexes.js\" type=\"text/javascript\"></script>");
 

@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.27 2006/06/17 23:50:19 xzilla Exp $
+	 * $Id: rules.php,v 1.28 2007/05/02 16:12:07 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -165,6 +165,24 @@
 		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
+	function doTree() {
+		global $misc, $data;
+
+		$rules = $data->getRules($_REQUEST[$_REQUEST['subject']]);
+
+		$reqvars = $misc->getRequestVars($_REQUEST['subject']);
+
+		$attrs = array(
+			'text'   => field('rulename'),
+			'icon'   => 'Rule',
+		);
+
+		$misc->printTreeXML($rules, $attrs);
+		exit;
+	}
+
+	if ($action == 'tree') doTree();
+	
 	// Different header if we're view rules or table rules
 	$misc->printHeader($_REQUEST[$_REQUEST['subject']] . ' - ' . $lang['strrules']);
 	$misc->printBody();
