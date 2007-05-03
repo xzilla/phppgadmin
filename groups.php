@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.22 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: groups.php,v 1.23 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -220,6 +220,8 @@
 			'group' => array(
 				'title' => $lang['strgroup'],
 				'field' => 'groname',
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('group' => 'groname'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -227,11 +229,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('group' => 'groname'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",

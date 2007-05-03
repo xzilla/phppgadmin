@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.27 2007/04/23 14:23:24 soranzo Exp $
+	 * $Id: domains.php,v 1.28 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -378,6 +378,8 @@
 			'domain' => array(
 				'title' => $lang['strdomain'],
 				'field' => 'domname',
+				'url' => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('domain' => 'domname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
@@ -407,11 +409,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'	=> "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'	=> array('domain' => 'domname'),
-			),
 			'alter' => array(
 				'title'	=> $lang['stralter'],
 				'url'	=> "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",

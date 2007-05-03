@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.17 2007/04/23 18:48:06 soranzo Exp $
+	 * $Id: plugin_slony.php,v 1.18 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -435,6 +435,8 @@
 			'no_name' => array(
 				'title' => $lang['strcluster'],
 				'field' => 'cluster'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
+				'vars'  => array('slony_cluster' => 'cluster')
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -446,11 +448,6 @@
 		);
 		
 		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
-				'vars'  => array('slony_cluster' => 'cluster')
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_cluster&amp;",
@@ -602,6 +599,8 @@
 			'no_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;subject=slony_node&amp;",
+				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
 			),
 			'no_status' => array(
 				'title' => $lang['strstatus'],
@@ -618,11 +617,6 @@
 		);
 		
 		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;subject=slony_node&amp;",
-				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;subject=slony_node&amp;",
@@ -761,6 +755,8 @@
 			'no_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
+				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -772,11 +768,6 @@
 		);
 		
 		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
-				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_path&amp;",
@@ -938,6 +929,8 @@
 			'no_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -949,11 +942,6 @@
 		);
 		
 		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
-				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_listen&amp;",
@@ -1110,6 +1098,8 @@
 			'set_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'set_comment'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
+				'vars'  => array('set_id' => 'set_id')
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -1121,11 +1111,6 @@
 		);
 		
 		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
-				'vars'  => array('set_id' => 'set_id')
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_set&amp;",
@@ -1512,6 +1497,8 @@
 			'table' => array(
 				'title' => $lang['strtable'],
 				'field' => 'qualname',
+				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -1536,11 +1523,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_table&amp;set_id={$_REQUEST['set_id']}&amp;",
@@ -1796,6 +1778,8 @@
 			'sequence' => array(
 				'title' => $lang['strsequence'],
 				'field' => 'qualname',
+				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -1811,11 +1795,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_sequence&amp;set_id={$_REQUEST['set_id']}&amp;",
@@ -2002,23 +1981,16 @@
 			'no_name' => array(
 				'title' => $lang['strname'],
 				'field' => 'no_comment'
+				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
+				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id')
 			),
-/*			'actions' => array(
-				'title' => $lang['stractions'],
-			),*/
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
 				'field' => 'no_comment'
 			)
 		);
 		
-		$actions = array (
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
-				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id')
-			)
-		);
+		$actions = array ();
 		
 		$misc->printTable($subscriptions, $columns, $actions, $lang['strnosubscriptions']);
 	}

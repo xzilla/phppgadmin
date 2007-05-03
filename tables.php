@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.94 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: tables.php,v 1.95 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -813,6 +813,8 @@
 			'table' => array(
 				'title' => $lang['strtable'],
 				'field' => 'relname',
+				'url'		=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -837,11 +839,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
-			),
 			'browse' => array(
 				'title' => $lang['strbrowse'],
 				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.50 2007/04/23 13:53:39 soranzo Exp $
+	 * $Id: all_db.php,v 1.51 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -324,6 +324,8 @@
 			'database' => array(
 				'title' => $lang['strdatabase'],
 				'field' => 'datname',
+				'url'   => "redirect.php?subject=database&amp;{$misc->href}&amp;",
+				'vars'  => array('database' => 'datname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -352,11 +354,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=database&amp;{$misc->href}&amp;",
-				'vars'  => array('database' => 'datname'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",

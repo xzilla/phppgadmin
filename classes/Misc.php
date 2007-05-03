@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.148 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: Misc.php,v 1.149 2007/05/03 17:01:04 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -514,7 +514,7 @@
 							'icon'  => 'Databases',
 						)
 					);
-					if ($data->hasRoles()) {
+					/*if ($data->hasRoles()) {
 						$tmp = array_merge($tmp, array(
 							'roles' => array (
 								'title' => $lang['strroles'],
@@ -526,7 +526,7 @@
 							)
 						));
 					}
-					else {
+					else {*/
 						$tmp = array_merge($tmp, array(
 							'users' => array (
 								'title' => $lang['strusers'],
@@ -545,7 +545,7 @@
 								'icon'  => 'UserGroups',
 							)
 						));
-					}
+					//}
 					
 					$tmp = array_merge($tmp, array(							
 						'account' => array (
@@ -1572,17 +1572,6 @@
 					unset($columns['comment']);
 				}
 
-				// Apply the 'properties' action to the first column
-				// and remove it from the action list.
-				// (Remove this section to keep the 'Properties' button instead of links)
-				if (isset($actions['properties'])) {
-					reset($columns);
-					list($first_column) = each($columns);
-					$columns[$first_column]['url'] = $actions['properties']['url'];
-					$columns[$first_column]['vars'] = $actions['properties']['vars'];
-					unset($actions['properties']);
-				}
-				
 				if (isset($columns['comment'])) {
 					// Uncomment this for clipped comments.
 					// TODO: This should be a user option.

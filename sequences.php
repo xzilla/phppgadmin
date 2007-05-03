@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.38 2007/04/24 10:31:52 soranzo Exp $
+	 * $Id: sequences.php,v 1.39 2007/05/03 17:01:03 ioguix Exp $
 	 */
 	
 	// Include application functions
@@ -31,6 +31,8 @@
 			'sequence' => array(
 				'title' => $lang['strsequence'],
 				'field' => 'seqname',
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('sequence' => 'seqname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -46,11 +48,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('sequence' => 'seqname'),
-			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "sequences.php?action=confirm_alter&amp;{$misc->href}&amp;subject=sequence&amp;",

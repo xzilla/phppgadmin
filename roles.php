@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php,v 1.5 2007/04/23 15:10:30 soranzo Exp $
+	 * $Id: roles.php,v 1.6 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -559,6 +559,8 @@
 			'role' => array(
 				'title' => $lang['strrole'],
 				'field' => 'rolname',
+				'url'   => "redirect.php?subject=role&amp;action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('rolename' => 'rolname'),
 			),
 			'superuser' => array(
 				'title' => $lang['strsuper'],
@@ -603,11 +605,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=role&amp;action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('rolename' => 'rolname'),
-			),		
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",

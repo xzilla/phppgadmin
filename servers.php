@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.6 2007/01/10 01:25:12 soranzo Exp $
+	 * $Id: servers.php,v 1.7 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -42,6 +42,8 @@
 			'server' => array(
 				'title' => $lang['strserver'],
 				'field' => 'desc',
+				'url'   => "redirect.php?subject=server&amp;",
+				'vars'  => array('server' => 'id'),
 			),
 			'host' => array(
 				'title' => $lang['strhost'],
@@ -61,11 +63,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=server&amp;",
-				'vars'  => array('server' => 'id'),
-			),
 			'logout' => array(
 				'title' => $lang['strlogout'],
 				'url'   => "{$PHP_SELF}?action=logout&amp;",

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.62 2007/04/23 18:48:06 soranzo Exp $
+	 * $Id: functions.php,v 1.63 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -632,6 +632,8 @@
 				'title' => $lang['strfunction'],
 				'field' => 'proproto',
 				'type'  => 'verbatim',
+				'url'   => "redirect.php?subject=function&amp;action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
@@ -656,11 +658,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "redirect.php?subject=function&amp;action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
-			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",

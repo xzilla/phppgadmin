@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.24 2007/04/23 18:48:06 soranzo Exp $
+	 * $Id: operators.php,v 1.25 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -116,6 +116,8 @@
 			'operator' => array(
 				'title' => $lang['stroperator'],
 				'field' => 'oprname',
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 			'leftarg' => array(
 				'title' => $lang['strleftarg'],
@@ -139,11 +141,6 @@
 		);
 
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",

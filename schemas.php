@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.13 2007/04/23 18:48:06 soranzo Exp $
+	 * $Id: schemas.php,v 1.14 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -32,6 +32,8 @@
 				'schema' => array(
 					'title' => $lang['strschema'],
 					'field' => 'nspname',
+					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
+					'vars'  => array('schema' => 'nspname'),
 				),
 				'owner' => array(
 					'title' => $lang['strowner'],
@@ -47,11 +49,6 @@
 			);
 			
 			$actions = array(
-				'properties' => array(
-					'title' => $lang['strproperties'],
-					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
-				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
 					'url'   => "{$PHP_SELF}?action=drop&amp;{$misc->href}&amp;",

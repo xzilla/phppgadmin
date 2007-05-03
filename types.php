@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.34 2007/04/23 15:28:42 soranzo Exp $
+	 * $Id: types.php,v 1.35 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -406,6 +406,8 @@
 			'type' => array(
 				'title' => $lang['strtype'],
 				'field' => 'typname',
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('type' => 'basename'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
@@ -437,11 +439,6 @@
 		if (!isset($types->fields['typtype'])) unset($columns['flavour']);
 
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('type' => 'basename'),
-			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",

@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.77 2007/04/24 14:49:00 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.78 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -616,6 +616,8 @@
 			'column' => array(
 				'title' => $lang['strcolumn'],
 				'field' => 'attname',
+				'url'   => "colproperties.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
@@ -641,11 +643,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "colproperties.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('column' => 'attname'),
-			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",

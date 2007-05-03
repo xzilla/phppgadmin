@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.68 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: views.php,v 1.69 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -550,6 +550,8 @@
 			'view' => array(
 				'title'	=> $lang['strview'],
 				'field'	=> 'relname',
+				'url' => "redirect.php?subject=view&amp;{$misc->href}&amp;",
+				'vars'  => array('view' => 'relname'),
 			),
 			'owner' => array(
 				'title'	=> $lang['strowner'],
@@ -565,11 +567,6 @@
 		);
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'	=> "redirect.php?subject=view&amp;{$misc->href}&amp;",
-				'vars'	=> array('view' => 'relname'),
-			),
 			'browse' => array(
 				'title'	=> $lang['strbrowse'],
 				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",

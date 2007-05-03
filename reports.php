@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.27 2007/04/24 15:31:29 soranzo Exp $
+	 * $Id: reports.php,v 1.28 2007/05/03 17:01:03 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -251,6 +251,8 @@
 			'report' => array(
 				'title' => $lang['strreport'],
 				'field' => 'report_name',
+				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'vars'  => array('report_id' => 'report_id'),
 			),
 			'database' => array(
 				'title' => $lang['strdatabase'],
@@ -272,11 +274,6 @@
 		$return_url = urlencode("{$PHP_SELF}?{$misc->href}");
 		
 		$actions = array(
-			'properties' => array(
-				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
-				'vars'  => array('report_id' => 'report_id'),
-			),
 			'run' => array(
 				'title' => $lang['strexecute'],
 				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
