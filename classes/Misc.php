@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.149 2007/05/03 17:01:04 ioguix Exp $
+	 * $Id: Misc.php,v 1.150 2007/05/03 17:10:00 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -514,7 +514,7 @@
 							'icon'  => 'Databases',
 						)
 					);
-					/*if ($data->hasRoles()) {
+					if ($data->hasRoles()) {
 						$tmp = array_merge($tmp, array(
 							'roles' => array (
 								'title' => $lang['strroles'],
@@ -526,7 +526,7 @@
 							)
 						));
 					}
-					else {*/
+					else {
 						$tmp = array_merge($tmp, array(
 							'users' => array (
 								'title' => $lang['strusers'],
@@ -545,7 +545,7 @@
 								'icon'  => 'UserGroups',
 							)
 						));
-					//}
+					}
 					
 					$tmp = array_merge($tmp, array(							
 						'account' => array (
