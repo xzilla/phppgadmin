@@ -29,25 +29,24 @@
 
 		switch ($_REQUEST['stage']) {
 			case 1:
-				global $lang;
-
 				$misc->printTrail('column');
-				$misc->printTitle($lang['straltercolumn'], 'pg.column.alter'); 
+				$misc->printTitle($lang['stralter'], 'pg.column.alter'); 
 				$misc->printMsg($msg);
 
+				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
 				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n";
-				echo "<tr><th class=\"data required\">{$lang['strname']}</th>";
+				echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
 				if ($data->hasAlterColumnType()) {
-					echo "<th class=\"data required\" colspan=\"2\">{$lang['strtype']}</th>";
-					echo "<th class=\"data\">{$lang['strlength']}</th>";
+					echo "<th class=\"data required\" colspan=\"2\">{$lang['strtype']}</th>\n";
+					echo "<th class=\"data\">{$lang['strlength']}</th>\n";
 				}
 				else {
-					echo "<th class=\"data required\">{$lang['strtype']}</th>";					
+					echo "<th class=\"data required\">{$lang['strtype']}</th>\n";
 				}
-				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
+				echo "<th class=\"data\">{$lang['strnotnull']}</th>\n<th class=\"data\">{$lang['strdefault']}</th>\n<th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 
 				$column = $data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
 				$column->fields['attnotnull'] = $data->phpBool($column->fields['attnotnull']);
@@ -80,48 +79,55 @@
 				}				
 
 				// Column name
-				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
-					htmlspecialchars($_REQUEST['field']), "\" /></td>";
+				echo "<tr><td><input name=\"field\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+					htmlspecialchars($_REQUEST['field']), "\" /></td>\n";
 					
 				// Column type
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = $data->getTypes(true, false, true);
+					$types_for_js = array();
 					
-					echo "<td><select name=\"type\">\n";				
+					echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";				
 					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that
 					foreach ($data->extraTypes as $v) {
-						echo "<option value=\"", htmlspecialchars($v), "\"",
+						$types_for_js[] = strtolower($v);
+						echo "\t<option value=\"", htmlspecialchars($v), "\"",
 						($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
 						$typname = $types->fields['typname'];
-						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
+						$types_for_js[] = $typname;
+						echo "\t<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
 					}
-					echo "</select></td>";
+					echo "</select></td>\n";
 					
 					// Output array type selector
 					echo "<td><select name=\"array\">\n";
-					echo "<option value=\"\"", ($_REQUEST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
-					echo "<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
+					echo "\t<option value=\"\"", ($_REQUEST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
+					echo "\t<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "</select></td>\n";
+					$predefined_size_types = array_intersect($data->predefined_size_types, $types_for_js);
+					$escaped_predef_types = array(); // the JS escaped array elements
+					foreach($predefined_size_types as $value) {
+						$escaped_predef_types[] = "'{$value}'";
+					}
 	
-					echo "<td><input name=\"length\" size=\"8\" value=\"",
-						htmlspecialchars($_REQUEST['length']), "\" /></td>";
+					echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",
+						htmlspecialchars($_REQUEST['length']), "\" /></td>\n";
 				} else {
 					// Otherwise draw the read-only type name
-					echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
+					echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>\n";
 				}
 				
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
-					htmlspecialchars($_REQUEST['default']), "\" /></td>";
-				echo "<td><input name=\"comment\" size=\"20\" value=\"", 
-					htmlspecialchars($_REQUEST['comment']), "\" /></td>";
-				
+					htmlspecialchars($_REQUEST['default']), "\" /></td>\n";
+				echo "<td><input name=\"comment\" size=\"40\" value=\"", 
+					htmlspecialchars($_REQUEST['comment']), "\" /></td></tr>\n";
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"properties\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
@@ -140,11 +146,9 @@
 				echo "<input type=\"submit\" value=\"{$lang['stralter']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-								
+				echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");checkLengths(document.getElementById('type').value,'');</script>\n";		
 				break;
 			case 2:
-				global $data, $lang;
-
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
@@ -159,7 +163,7 @@
 							     $_REQUEST['comment']);
 				if ($status == 0) {
 					if ($_REQUEST['column'] != $_REQUEST['field']) {
-						$_REQUEST['column']=$_REQUEST['field'];
+						$_REQUEST['column'] = $_REQUEST['field'];
 						$_reload_browser = true;
 					}
 					doDefault($lang['strcolumnaltered']);
@@ -239,9 +243,9 @@
 				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=$tableName&amp;column={$_REQUEST['column']}");
 
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($tableName), "&amp;subject=column&amp;column=",
+				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;column=",
 					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=", 
-					urlencode("SELECT {$_REQUEST['column']}, count(*) AS \"count\" FROM $tableName GROUP BY {$_REQUEST['column']} ORDER BY {$_REQUEST['column']}") , "\">{$lang['strbrowse']}</a></li>\n";
+					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
 				echo "\t<li><a href=\"{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
@@ -254,9 +258,9 @@
 			} else {
 				$return_url = urlencode("colproperties.php?{$misc->href}&amp;view=$tableName&amp;column={$_REQUEST['column']}");
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;view=", urlencode($tableName), "&amp;subject=column&amp;column=",
+				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;column=",
 					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=",
-					urlencode("SELECT {$_REQUEST['column']}, count(*) AS \"count\" FROM $tableName GROUP BY {$_REQUEST['column']} ORDER BY {$_REQUEST['column']}") , "\">{$lang['strbrowse']}</a></li>\n";
+					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 			}
 
 			echo "</ul>\n";
