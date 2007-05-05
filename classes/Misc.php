@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.150 2007/05/03 17:10:00 ioguix Exp $
+	 * $Id: Misc.php,v 1.151 2007/05/05 02:21:06 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -1559,7 +1559,7 @@
 		 *					 it may be used to derive new fields or modify actions.
 		 *					 It can return an array of actions specific to the row,
 		 *					 or if nothing is returned then the standard actions are used.
-		 *					 (see functions.php and constraints.php for examples)
+		 *					 (see tblproperties.php and constraints.php for examples)
 		 */
 		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, $multiactions = null) {
 			global $data, $conf, $misc, $lang;
@@ -1633,12 +1633,12 @@
 							case 'actions':
 								foreach ($alt_actions as $action) {
 									if (isset($action['disable']) && $action['disable'] === true) {
-										echo "<td class=\"data{$id}\"></td>";
+										echo "<td class=\"data{$id}\"></td>\n";
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
 										$misc->printUrlVars($action['vars'], $tabledata->fields);
-										echo "\">{$action['title']}</a></td>";
+										echo "\">{$action['title']}</a></td>\n";
 									}
 								}
 								break;
