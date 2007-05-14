@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.161 2007/04/24 17:42:39 xzilla Exp $
+	 * $Id: english.php,v 1.162 2007/05/14 17:59:32 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -91,7 +91,6 @@
 	$lang['strimport'] = 'Import';
 	$lang['strallowednulls'] = 'Allowed NULL characters';
 	$lang['strbackslashn'] = '\N';
-	$lang['strnull'] = 'NULL (The word)';
 	$lang['stremptystring'] = 'Empty string/field';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Admin';
@@ -207,7 +206,6 @@
 	$lang['strselectallfields'] = 'Select all fields';
 	$lang['strselectneedscol'] = 'You must show at least one column.';
 	$lang['strselectunary'] = 'Unary operators cannot have values.';
-	$lang['straltercolumn'] = 'Alter column';
 	$lang['strcolumnaltered'] = 'Column altered.';
 	$lang['strcolumnalteredbad'] = 'Column alteration failed.';
 	$lang['strconfdropcolumn'] = 'Are you sure you want to drop column &quot;%s&quot; from table &quot;%s&quot;?';
@@ -394,12 +392,12 @@
 	$lang['striscalled'] = 'Will increment last value before returning next value (is_called)?';
 	$lang['strsequenceneedsname'] = 'You must specify a name for your sequence.';
 	$lang['strsequencecreated'] = 'Sequence created.';
-	$lang['strsequencecreatedbad'] = 'Sequence creation failed.'; 
+	$lang['strsequencecreatedbad'] = 'Sequence creation failed.';
 	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Sequence dropped.';
 	$lang['strsequencedroppedbad'] = 'Sequence drop failed.';
 	$lang['strsequencereset'] = 'Sequence reset.';
-	$lang['strsequenceresetbad'] = 'Sequence reset failed.'; 
+	$lang['strsequenceresetbad'] = 'Sequence reset failed.';
  	$lang['strsequencealtered'] = 'Sequence altered.';
  	$lang['strsequencealteredbad'] = 'Sequence alteration failed.';
  	$lang['strsetval'] = 'Set value';
@@ -687,7 +685,6 @@
 	$lang['straggrffunc'] = 'Final function';
 	$lang['straggrinitcond'] = 'Initial condition';
 	$lang['straggrsortop'] = 'Sort operator';
-	$lang['strdropaggregate'] = 'Drop aggregate';
 	$lang['strconfdropaggregate'] = 'Are you sure you want to drop the aggregate &quot;%s&quot;?';
 	$lang['straggregatedropped'] = 'Aggregate dropped.';
 	$lang['straggregatedroppedbad'] = 'Aggregate drop failed.';
@@ -751,7 +748,7 @@
 	$lang['strclustercreatedbad'] = 'Cluster initialization failed.';
 	$lang['strclusterneedsname'] = 'You must give a name for the cluster.';
 	$lang['strclusterneedsnodeid'] = 'You must give an ID for the local node.';
-	
+
 	// Slony nodes
 	$lang['strnodes'] = 'Nodes';
 	$lang['strnonodes'] = 'No nodes found.';
@@ -771,7 +768,6 @@
 	$lang['stroutofsync'] = 'Out of Sync';
 	$lang['strunknown'] = 'Unknown';	
 
-	
 	// Slony paths	
 	$lang['strpaths'] = 'Paths';
 	$lang['strnopaths'] = 'No paths found.';
@@ -868,15 +864,15 @@
 	$lang['strclicktoreload'] = 'Click to reload';
 
 	// Autovacuum
-	$lang['strautovacuum'] = 'Autovacuum'; 
-	$lang['strturnedon'] = 'Turned On'; 
-	$lang['strturnedoff'] = 'Turned Off'; 
-	$lang['strenabled'] = 'Enabled'; 
-	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold'; 
+	$lang['strautovacuum'] = 'Autovacuum';
+	$lang['strturnedon'] = 'Turned On';
+	$lang['strturnedoff'] = 'Turned Off';
+	$lang['strenabled'] = 'Enabled';
+	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold';
 	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';
 	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';
-	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor'; 
-	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay'; 
+	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor';
+	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay';
 	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';
 
 	// Table-level Locks

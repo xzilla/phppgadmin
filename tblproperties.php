@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.79 2007/05/05 02:20:24 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.80 2007/05/14 17:59:32 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -200,7 +200,7 @@
 				echo "\t\t</select></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strallowednulls']}</th>\n";
 				echo "\t\t<td><label><input type=\"checkbox\" name=\"allowednulls[0]\" value=\"\\N\" checked=\"checked\" />{$lang['strbackslashn']}</label><br />\n";
-				echo "\t\t<label><input type=\"checkbox\" name=\"allowednulls[1]\" value=\"NULL\" />{$lang['strnull']}</label><br />\n";
+				echo "\t\t<label><input type=\"checkbox\" name=\"allowednulls[1]\" value=\"NULL\" />NULL</label><br />\n";
 				echo "\t\t<label><input type=\"checkbox\" name=\"allowednulls[2]\" value=\"\" />{$lang['stremptystring'] }</label></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strfile']}</th>\n";
 				echo "\t\t<td><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />";
