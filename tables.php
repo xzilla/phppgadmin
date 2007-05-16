@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.95 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: tables.php,v 1.96 2007/05/16 17:03:51 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -782,8 +782,6 @@
 		$misc->printTabs('schema','tables');
 		$misc->printMsg($msg);
 	
-		echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>";
-
 		$tables = $data->getTables();
 		
 		$multiactions = array(

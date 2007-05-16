@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.151 2007/05/05 02:21:06 soranzo Exp $
+	 * $Id: Misc.php,v 1.152 2007/05/16 17:03:51 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -1579,6 +1579,7 @@
 				}
 
 				if (isset($multiactions)) {
+					echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>\n";
 					echo "<form id=\"multi_form\" action=\"{$multiactions['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
 					if (isset($multiactions['vars']))
 						foreach ($multiactions['vars'] as $k => $v)

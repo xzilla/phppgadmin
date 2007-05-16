@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.51 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: all_db.php,v 1.52 2007/05/16 17:03:51 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -305,8 +305,6 @@
 		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
 		
-		echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>";
-
 		$databases = $data->getDatabases();
 
                 $multiactions = array(
