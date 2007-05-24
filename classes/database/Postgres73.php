@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.162 2007/04/18 15:47:51 mr-russ Exp $
+ * $Id: Postgres73.php,v 1.163 2007/05/24 13:16:27 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1211,8 +1211,8 @@ class Postgres73 extends Postgres72 {
 		if (!is_array($tables)) return -1;
 
 		
-		$tables_list = "'{$tables[0]['schemaname']}'";
-		$schema_list = "'{$tables[0]['tablename']}'";
+		$tables_list = "'{$tables[0]['tablename']}'";
+		$schema_list = "'{$tables[0]['schemaname']}'";
 		$schema_tables_list = "'{$tables[0]['schemaname']}.{$tables[0]['tablename']}'";
 		for ($i = 1; $i < sizeof($tables); $i++) {
 			$tables_list .= ", '{$tables[$i]['tablename']}'";
