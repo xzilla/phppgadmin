@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.163 2007/05/24 13:16:27 ioguix Exp $
+ * $Id: Postgres73.php,v 1.164 2007/05/25 15:04:31 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1202,12 +1202,70 @@ class Postgres73 extends Postgres72 {
 	// Constraint functions
 
 	/**
+	 * A function for getting all columns linked by foreign keys in a table
+	 * @param $table the table where we are looking for fk
+	 * @param $schema the table's schema
+	 * @return a recordset of fk(s) infos
+	 * return null if table hasn't fk
+	 */
+	function getForeignKeys($table, $schema) {
+		global $data;
+
+		$data->clean($table);
+		$data->clean($schema);
+	
+		// get the max number of col in a fk
+		$sql = "SELECT DISTINCT
+				max(SUBSTRING(array_dims(c.conkey) FROM  '^\\\[.*:(.*)\\\]$')) as nb
+			FROM
+				pg_catalog.pg_constraint AS c,
+				pg_catalog.pg_class AS r,
+				pg_catalog.pg_namespace AS ns
+			WHERE
+				c.contype = 'f' AND c.conrelid = r.oid
+				AND r.relname = '$table' AND r.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='$schema')";
+
+		$rs = $this->selectSet($sql);
+		//if we got the max number of col, this table have fks...
+		if (!$rs->EOF) {
+			$sql = "SELECT
+				c.conname, ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema, r2.relname as f_table, pf.attname as p_field, ff.attname AS f_field
+			FROM
+				pg_catalog.pg_constraint AS c,
+				pg_catalog.pg_class AS r1,
+			  pg_catalog.pg_class AS r2,
+				pg_catalog.pg_namespace AS ns1,
+			  pg_catalog.pg_namespace AS ns2,
+				pg_catalog.pg_attribute AS pf,
+			  pg_catalog.pg_attribute AS ff
+			WHERE
+				c.contype='f'
+				AND c.conrelid=r1.oid
+				AND c.confrelid=r2.oid
+				AND r1.relnamespace=ns1.oid
+				AND r2.relnamespace=ns2.oid
+				AND pf.attrelid=r1.oid
+				AND ff.attrelid=r2.oid
+				AND r1.relname = '$table' AND r1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='$schema')
+				AND ((pf.attnum=conkey[1] AND ff.attnum=confkey[1])";
+
+				for ($i = 2; $i <= $rs->fields['nb']; $i++) {
+					$sql.= " OR (pf.attnum=conkey[$i] AND ff.attnum=confkey[$i])";
+				}
+				$sql.= ")";
+
+				return $this->selectSet($sql);
+		}
+		return null;
+	}
+
+	/**
 	 * A function for getting all columns linked by foreign keys given a group of tables
 	 * @param $tables multi dimensional assoc array that holds schema and table name
-	 * @return An array of linked tables and columns
+	 * @return A recordset of linked tables and columns
 	 * @return -1 $tables isn't an array
 	 */
-	 function getLinkingKeys($tables) {
+	function getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
 
 		
