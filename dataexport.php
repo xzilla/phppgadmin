@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.24 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: dataexport.php,v 1.25 2007/05/28 19:21:29 soranzo Exp $
 	 */
 
 	$extensions = array(
@@ -307,7 +307,7 @@
 		$misc->printTitle($lang['strexport']);
 		if (isset($msg)) $misc->printMsg($msg);
 
-		echo "<form action=\"{$_SERVER['PHP_SELF']}\" method=\"post\">\n";
+		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strformat']}:</th><td><select name=\"d_format\">\n";
 		// COPY and SQL require a table

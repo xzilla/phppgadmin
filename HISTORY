@@ -22,6 +22,14 @@ Translations
 * utf simplified chinese (Kuo Chaoyi)
 * Italian (Nicola Soranzo)
 
+Version 4.1.2
+-------------
+
+Bugs
+* Fix XSS vulnerability:
+   http://www.securityfocus.com/bid/24115/
+  Escape HTML special characters before using $_SERVER['PHP_SELF']
+
 Version 4.1.1
 -------------
 
