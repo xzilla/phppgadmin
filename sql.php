@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.33 2007/01/10 01:31:18 soranzo Exp $
+	 * $Id: sql.php,v 1.32.4.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -87,8 +87,6 @@
 		exit;
 	}
 	
-	$PHP_SELF = $_SERVER['PHP_SELF'];
-
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 	$misc->printTrail('database');
@@ -123,7 +121,7 @@
 			// First, if rows returned, then display the results
 			if ($rs->recordCount() > 0) {
 				echo "<table>\n<tr>";
-				foreach ($rs->fields as $k => $v) {
+				foreach ($rs->f as $k => $v) {
 					$finfo = $rs->fetchField($k);
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 				}
@@ -132,7 +130,7 @@
 				while (!$rs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($k);
 						echo "<td class=\"data{$id}\" nowrap=\"nowrap\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 					}							

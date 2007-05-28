@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.32 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: types.php,v 1.31.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show read only properties for a type
@@ -144,7 +143,7 @@
 					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
 
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td><textarea name=\"typcomment\" rows=\"3\" cols=\"32\">", 
+				echo "\t\t<td><textarea name=\"typcomment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 					htmlspecialchars($_REQUEST['typcomment']), "</textarea></td>\n\t</tr>\n";
 
 				echo "</table>\n";

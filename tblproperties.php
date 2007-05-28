@@ -3,14 +3,13 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.73 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.72.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/** 
 	 * Function to save after altering a table
@@ -103,7 +102,7 @@
 			
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
+			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
 				htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

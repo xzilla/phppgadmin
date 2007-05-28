@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.44 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: constraints.php,v 1.43.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Confirm and then actually add a FOREIGN KEY constraint
@@ -58,7 +57,7 @@
 
 					if ($attrs->recordCount() > 0) {
 						while (!$attrs->EOF) {
-							$selColumns->add(new XHTML_Option($attrs->fields['attname']));
+							$selColumns->add(new XHTML_Option($attrs->f['attname']));
 							$attrs->moveNext();
 						}
 					}
@@ -161,7 +160,7 @@
 
 				if ($attrs->recordCount() > 0) {
 					while (!$attrs->EOF) {
-						$selColumns->add(new XHTML_Option($attrs->fields['attname']));
+						$selColumns->add(new XHTML_Option($attrs->f['attname']));
 						$attrs->moveNext();
 					}
 				}
@@ -190,13 +189,13 @@
 				echo "<tr>";
 				echo "<td class=\"data1\" colspan=\"3\"><select name=\"target\">";
 				while (!$tables->EOF) {
-					$key = array('schemaname' => $tables->fields['nspname'], 'tablename' => $tables->fields['relname']);
+					$key = array('schemaname' => $tables->f['nspname'], 'tablename' => $tables->f['relname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($data->hasSchemas() && $tables->fields['nspname'] != $_REQUEST['schema']) {
-							echo htmlspecialchars($tables->fields['nspname']), '.';
+					if ($data->hasSchemas() && $tables->f['nspname'] != $_REQUEST['schema']) {
+							echo htmlspecialchars($tables->f['nspname']), '.';
 					}
-					echo htmlspecialchars($tables->fields['relname']), "</option>\n";
+					echo htmlspecialchars($tables->f['relname']), "</option>\n";
 					$tables->moveNext();	
 				}
 				echo "</select>\n";
@@ -254,7 +253,7 @@
 	
 			if ($attrs->recordCount() > 0) {
 				while (!$attrs->EOF) {
-					$selColumns->add(new XHTML_Option($attrs->fields['attname']));
+					$selColumns->add(new XHTML_Option($attrs->f['attname']));
 					$attrs->moveNext();
 				} 
 			}
@@ -291,7 +290,7 @@
 					($_POST['tablespace'] == '') ? ' selected="selected"' : '', "></option>\n";
 				// Display all other tablespaces
 				while (!$tablespaces->EOF) {
-					$spcname = htmlspecialchars($tablespaces->fields['spcname']);
+					$spcname = htmlspecialchars($tablespaces->f['spcname']);
 					echo "\t\t\t\t<option value=\"{$spcname}\"",
 						($spcname == $_POST['tablespace']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 					$tablespaces->moveNext();
@@ -437,11 +436,11 @@
 
 		function cnPre(&$rowdata) {
 			global $data, $lang;
-			if (is_null($rowdata->fields['consrc'])) {
-				$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->fields['indkey']));
-				$rowdata->fields['+definition'] = ($rowdata->fields['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
+			if (is_null($rowdata->f['consrc'])) {
+				$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->f['indkey']));
+				$rowdata->f['+definition'] = ($rowdata->f['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
 			} else {
-				$rowdata->fields['+definition'] = $rowdata->fields['consrc'];
+				$rowdata->f['+definition'] = $rowdata->f['consrc'];
 			}
 		}
 		

@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.10 2007/01/10 01:15:27 soranzo Exp $
+	 * $Id: schemas.php,v 1.8.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show default list of schemas in the database
@@ -109,14 +108,14 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formAuth\">\n";
 		while (!$users->EOF) {
-			$uname = htmlspecialchars($users->fields['usename']);
+			$uname = htmlspecialchars($users->f['usename']);
 			echo "\t\t\t\t<option value=\"{$uname}\"",
 				($uname == $_POST['formAuth']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 			$users->moveNext();
 		}
 		echo "\t\t\t</select>\n\t\t</td>\n\t\n";		
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 			
 		echo "\t</tr>\n";
@@ -162,7 +161,7 @@
 
 		$schema = $data->getSchemaByName($_REQUEST['schema']);
 		if ($schema->recordCount() > 0) {
-			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->fields['nspcomment'];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->f['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['schema'];
 
@@ -178,7 +177,7 @@
 			echo "\t</tr>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\" wrap=\"virtual\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
 			echo "\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";

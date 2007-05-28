@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.31 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: triggers.php,v 1.30.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/** 
 	 * Function to save after altering a trigger
@@ -41,7 +40,7 @@
 		
 		if ($triggerdata->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->fields['tgname'];
+			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->f['tgname'];
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
 			echo "<table>\n";
@@ -185,7 +184,7 @@
 		/* Populate functions */
 		$sel0 = new XHTML_Select('formFunction');
 		while (!$funcs->EOF) {
-			$sel0->add(new XHTML_Option($funcs->fields['proname']));
+			$sel0->add(new XHTML_Option($funcs->f['proname']));
 			$funcs->moveNext();
 		}
 
@@ -269,9 +268,9 @@
 		function tgPre(&$rowdata) {
 			global $data, $lang;
 			// Nasty hack to support pre-7.4 PostgreSQL
-			$rowdata->fields['+tgdef'] = $rowdata->fields['tgdef'] !== null
-									? $rowdata->fields['tgdef']
-									: $data->getTriggerDef($rowdata->fields);
+			$rowdata->f['+tgdef'] = $rowdata->f['tgdef'] !== null
+									? $rowdata->f['tgdef']
+									: $data->getTriggerDef($rowdata->f);
 		}
 		
 		$misc->printTrail('table');

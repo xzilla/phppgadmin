@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.39 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: indexes.php,v 1.38.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 		
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show confirmation of cluster index and perform actual cluster
@@ -92,7 +91,7 @@
 
 		if ($attrs->recordCount() > 0) {
 			while (!$attrs->EOF) {
-				$selColumns->add(new XHTML_Option($attrs->fields['attname']));
+				$selColumns->add(new XHTML_Option($attrs->f['attname']));
 				$attrs->moveNext();
 			}
 		}
@@ -154,7 +153,7 @@
 				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
 			// Display all other tablespaces
 			while (!$tablespaces->EOF) {
-				$spcname = htmlspecialchars($tablespaces->fields['spcname']);
+				$spcname = htmlspecialchars($tablespaces->f['spcname']);
 				echo "\t\t\t\t<option value=\"{$spcname}\"",
 					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 				$tablespaces->moveNext();
@@ -241,16 +240,16 @@
 		function indPre(&$rowdata, $actions) {
 			global $data, $lang;
 			
-			if ($data->phpBool($rowdata->fields['indisprimary'])) {
-				$rowdata->fields['+constraints'] = $lang['strprimarykey'];
+			if ($data->phpBool($rowdata->f['indisprimary'])) {
+				$rowdata->f['+constraints'] = $lang['strprimarykey'];
 				$actions['drop']['disable'] = true;
 			}
-			elseif ($data->phpBool($rowdata->fields['indisunique'])) {
-				$rowdata->fields['+constraints'] = $lang['struniquekey'];
+			elseif ($data->phpBool($rowdata->f['indisunique'])) {
+				$rowdata->f['+constraints'] = $lang['struniquekey'];
 				$actions['drop']['disable'] = true;
 			}
 			else
-				$rowdata->fields['+constraints'] = '';
+				$rowdata->f['+constraints'] = '';
 			
 			return $actions;
 		}

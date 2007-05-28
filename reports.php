@@ -3,14 +3,13 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.23 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: reports.php,v 1.22.4.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Displays a screen where they can edit a report
@@ -53,10 +52,10 @@
 		}
 		echo "</select></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['descr']), "</textarea></td></tr>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_POST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
@@ -157,10 +156,10 @@
 		}
 		echo "</select></td></tr>\n";
 		echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"5\" cols=\"50\" name=\"descr\" wrap=\"virtual\">",
 			htmlspecialchars($_REQUEST['descr']), "</textarea></td></tr>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strsql']}</th>\n";
-		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\">",
+		echo "<td class=\"data1\"><textarea style=\"width:100%;\" rows=\"15\" cols=\"50\" name=\"report_sql\" wrap=\"virtual\">",
 			htmlspecialchars($_REQUEST['report_sql']), "</textarea></td></tr>\n";
 		echo "</table>\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";

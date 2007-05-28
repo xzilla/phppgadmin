@@ -16,7 +16,6 @@
 		$tableName =& $_REQUEST['view'];
 	else 
 		die("No table provided!");
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Displays a screen where they can alter a column
@@ -50,33 +49,33 @@
 				echo "<th class=\"data\">{$lang['strnotnull']}</th><th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>";
 
 				$column = $data->getTableAttributes($_REQUEST['table'], $_REQUEST['column']);
-				$column->fields['attnotnull'] = $data->phpBool($column->fields['attnotnull']);
+				$column->f['attnotnull'] = $data->phpBool($column->f['attnotnull']);
 
 				// Upon first drawing the screen, load the existing column information
 				// from the database.
 				if (!isset($_REQUEST['default'])) {
-					$_REQUEST['field'] = $column->fields['attname'];
-					$_REQUEST['type'] = $column->fields['base_type'];
+					$_REQUEST['field'] = $column->f['attname'];
+					$_REQUEST['type'] = $column->f['base_type'];
 					// Check to see if its' an array type...
 					// XXX: HACKY
-					if (substr($column->fields['base_type'], strlen($column->fields['base_type']) - 2) == '[]') {
-						$_REQUEST['type'] = substr($column->fields['base_type'], 0, strlen($column->fields['base_type']) - 2);
+					if (substr($column->f['base_type'], strlen($column->f['base_type']) - 2) == '[]') {
+						$_REQUEST['type'] = substr($column->f['base_type'], 0, strlen($column->f['base_type']) - 2);
 						$_REQUEST['array'] = '[]';
 					}
 					else {
-						$_REQUEST['type'] = $column->fields['base_type'];
+						$_REQUEST['type'] = $column->f['base_type'];
 						$_REQUEST['array'] = '';
 					}
 					// To figure out the length, look in the brackets :(
 					// XXX: HACKY
-					if ($column->fields['type'] != $column->fields['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->fields['type'], $bits)) {
+					if ($column->f['type'] != $column->f['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->f['type'], $bits)) {
 						$_REQUEST['length'] = $bits[1];
 					}
 					else
 						$_REQUEST['length'] = '';
-					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->fields['adsrc'];
-					if ($column->fields['attnotnull']) $_REQUEST['notnull'] = 'YES';
-					$_REQUEST['comment'] = $column->fields['comment'];
+					$_REQUEST['default'] = $_REQUEST['olddefault'] = $column->f['adsrc'];
+					if ($column->f['attnotnull']) $_REQUEST['notnull'] = 'YES';
+					$_REQUEST['comment'] = $column->f['comment'];
 				}				
 
 				// Column name
@@ -96,7 +95,7 @@
 							$misc->printVal($v), "</option>\n";
 					}
 					while (!$types->EOF) {
-						$typname = $types->fields['typname'];
+						$typname = $types->f['typname'];
 						echo "<option value=\"", htmlspecialchars($typname), "\"", ($typname == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
 							$misc->printVal($typname), "</option>\n";
 						$types->moveNext();
@@ -113,7 +112,7 @@
 						htmlspecialchars($_REQUEST['length']), "\" /></td>";
 				} else {
 					// Otherwise draw the read-only type name
-					echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
+					echo "<td>", $misc->printVal($data->formatType($column->f['type'], $column->f['atttypmod'])), "</td>";
 				}
 				
 				echo "<td><input type=\"checkbox\" name=\"notnull\"", (isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
@@ -129,8 +128,8 @@
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"olddefault\" value=\"", htmlspecialchars($_REQUEST['olddefault']), "\" />\n";
-				if ($column->fields['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
-				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "\" />\n";
+				if ($column->f['attnotnull']) echo "<input type=\"hidden\" name=\"oldnotnull\" value=\"on\" />\n";
+				echo "<input type=\"hidden\" name=\"oldtype\" value=\"", htmlspecialchars($data->formatType($column->f['type'], $column->f['atttypmod'])), "\" />\n";
 				// Add hidden variables to suppress error notices if we don't support altering column type
 				if (!$data->hasAlterColumnType()) {
 					echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";				
@@ -184,7 +183,7 @@
 
 		function attPre(&$rowdata) {
 			global $data;
-			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
+			$rowdata->f['+type'] = $data->formatType($rowdata->f['type'], $rowdata->f['atttypmod']);
 		}
 		
 		if (empty($_REQUEST['column']))
@@ -202,8 +201,8 @@
 			$attrs = $data->getTableAttributes($tableName, $_REQUEST['column']);
 
 			// Show comment if any
-			if ($attrs->fields['comment'] !== null)
-				echo "<p class=\"comment\">", $misc->printVal($attrs->fields['comment']), "</p>\n";
+			if ($attrs->f['comment'] !== null)
+				echo "<p class=\"comment\">", $misc->printVal($attrs->f['comment']), "</p>\n";
 
 			$column = array(
 				'column' => array(

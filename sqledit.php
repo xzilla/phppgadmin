@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.31 2007/01/10 01:31:18 soranzo Exp $
+	 * $Id: sqledit.php,v 1.30.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Private function to display server and list of databases
@@ -62,7 +61,7 @@
 			echo ": <select name=\"database\" {$onchange}>\n";
 			
 			while (!$databases->EOF) {
-				$dbname = $databases->fields['datname'];
+				$dbname = $databases->f['datname'];
 				echo "<option value=\"", htmlspecialchars($dbname), "\"",
 				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
 					htmlspecialchars($dbname), "</option>\n";

@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.58 2007/01/02 17:24:44 soranzo Exp $
+	 * $Id: functions.php,v 1.56.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 	/** 
 	 * Function to save after editing a function
@@ -130,13 +129,13 @@
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
+				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 					htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			}
 			
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\" wrap=\"virtual\">", 
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 			// Display function properies
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
@@ -458,7 +457,7 @@
 		echo "{$szJSArguments}\n";
 		echo "<tr>\n";
 		echo "<th class=\"data required\">{$lang['strargmode']}</th>\n";
-		echo "<th class=\"data required\">{$lang['strname']}</th>\n";
+		echo "<th class=\"data required\">{$lang['strargname']}</th>\n";
 		echo "<th class=\"data required\" colspan=\"2\">{$lang['strargtype']}</th>\n";
 		echo "</tr>\n";
 		echo "{$szJSAddTR}\n";
@@ -477,7 +476,7 @@
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
 		

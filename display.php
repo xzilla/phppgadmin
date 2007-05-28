@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.55.2.1 2007/03/03 14:29:53 xzilla Exp $
+	 * $Id: display.php,v 1.55.2.2 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -21,7 +21,6 @@
 	global $conf, $lang;
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show confirmation of edit and perform actual update

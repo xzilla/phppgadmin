@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.40 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: privileges.php,v 1.39.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Grant permissions on an object to a user
@@ -50,9 +49,9 @@
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
 			while (!$users->EOF) {
-				$uname = htmlspecialchars($users->fields['usename']);
+				$uname = htmlspecialchars($users->f['usename']);
 				echo "<option value=\"{$uname}\"",
-					in_array($users->fields['usename'], $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
+					in_array($users->f['usename'], $_REQUEST['username']) ? ' selected="selected"' : '', ">{$uname}</option>\n";
 				$users->moveNext();
 			}
 			echo "</select></td></tr>\n";
@@ -63,9 +62,9 @@
 			if ($groups->recordCount() > 0) {
 				echo "<br /><select name=\"groupname[]\" multiple=\"multiple\" size=\"", min(6, $groups->recordCount()), "\">\n";
 				while (!$groups->EOF) {
-					$gname = htmlspecialchars($groups->fields['groname']);
+					$gname = htmlspecialchars($groups->f['groname']);
 					echo "<option value=\"{$gname}\"",
-						in_array($groups->fields['groname'], $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
+						in_array($groups->f['groname'], $_REQUEST['groupname']) ? ' selected="selected"' : '', ">{$gname}</option>\n";
 					$groups->moveNext();
 				}
 				echo "</select>\n";

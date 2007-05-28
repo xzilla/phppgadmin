@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.47 2007/01/10 00:38:48 soranzo Exp $
+	 * $Id: all_db.php,v 1.45.2.1 2007/05/28 17:21:55 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Display a form for alter and perform actual alter
@@ -43,7 +42,7 @@
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
-					$uname = $users->fields['usename'];
+					$uname = $users->f['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
 						($uname == $owner) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 					$users->moveNext();
@@ -55,7 +54,7 @@
 				$comment = isset($rs->fields['description']) ? $rs->fields['description'] : '';
 				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 				echo "<td class=\"data1\">";
-				echo "<textarea rows=\"3\" cols=\"32\" name=\"dbcomment\">",
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"dbcomment\" wrap=\"virtual\">",
 					htmlspecialchars($comment), "</textarea></td></tr>\n";
 			}
 			echo "</table>\n";
@@ -160,7 +159,7 @@
 				($_POST['formSpc'] == '') ? ' selected="selected"' : '', "></option>\n";
 			// Display all other tablespaces
 			while (!$tablespaces->EOF) {
-				$spcname = htmlspecialchars($tablespaces->fields['spcname']);
+				$spcname = htmlspecialchars($tablespaces->f['spcname']);
 				echo "\t\t\t\t<option value=\"{$spcname}\"",
 					($spcname == $_POST['formSpc']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 				$tablespaces->moveNext();
@@ -171,7 +170,7 @@
 		// Comments (if available)
 		if ($data->hasSharedComments()) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 		}
 

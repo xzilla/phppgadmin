@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.6 2007/01/10 01:25:12 soranzo Exp $
+	 * $Id: servers.php,v 1.5.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -12,7 +12,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 	
 	function doLogout() {
 		global $misc, $lang, $_reload_browser;
@@ -34,7 +33,7 @@
 		$servers = $misc->getServers(true);
 		
 		function svPre(&$rowdata, $actions) {
-			$actions['logout']['disable'] = empty($rowdata->fields['username']);
+			$actions['logout']['disable'] = empty($rowdata->f['username']);
 			return $actions;
 		}
 		

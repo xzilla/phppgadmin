@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.12 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: tablespaces.php,v 1.10.2.1 2007/05/28 17:21:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Function to allow altering of a tablespace
@@ -31,10 +30,10 @@
 		
 		if ($tablespace->recordCount() > 0) {
 			
-			if (!isset($_POST['name'])) $_POST['name'] = $tablespace->fields['spcname'];
-			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->fields['spcowner'];
+			if (!isset($_POST['name'])) $_POST['name'] = $tablespace->f['spcname'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $tablespace->f['spcowner'];
 			if (!isset($_POST['comment'])) {
-				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->fields['spccomment'] : '';
+				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->f['spccomment'] : '';
 			}
 			
 			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
@@ -47,7 +46,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"owner\">";
 			while (!$users->EOF) {
-				$uname = $users->fields['usename'];
+				$uname = $users->f['usename'];
 				echo "<option value=\"", htmlspecialchars($uname), "\"",
 					($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 				$users->moveNext();
@@ -56,7 +55,7 @@
 			if ($data->hasSharedComments()){
 				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 				echo "<td class=\"data1\">";
-				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\" wrap=\"virtual\">",
 					htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
 			}
 			echo "</table>\n";
@@ -152,7 +151,7 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strowner']}</th>\n";
 		echo "\t\t<td class=\"data1\"><select name=\"formOwner\">\n";
 		while (!$users->EOF) {
-			$uname = $users->fields['usename'];
+			$uname = $users->f['usename'];
 			echo "\t\t\t<option value=\"", htmlspecialchars($uname), "\"",
 				($uname == $_POST['formOwner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 			$users->moveNext();
@@ -163,7 +162,7 @@
 		// Comments (if available)
 		if ($data->hasSharedComments()) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\" wrap=\"virtual\">", 
 				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 		}
 		echo "</table>\n";
