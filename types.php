@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.35 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: types.php,v 1.36 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show read only properties for a type

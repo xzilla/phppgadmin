@@ -3,14 +3,13 @@
 	/**
 	 * List extra information on a table
 	 *
-	 * $Id: info.php,v 1.13 2007/01/26 17:55:42 soranzo Exp $
+	 * $Id: info.php,v 1.14 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * List all the information on the table

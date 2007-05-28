@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.12 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: tablespaces.php,v 1.13 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Function to allow altering of a tablespace

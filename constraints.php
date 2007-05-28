@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.46 2007/05/02 16:12:06 ioguix Exp $
+	 * $Id: constraints.php,v 1.47 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Confirm and then actually add a FOREIGN KEY constraint

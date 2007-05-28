@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.23 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: groups.php,v 1.24 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Add user to a group

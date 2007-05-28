@@ -3,14 +3,13 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.80 2007/05/14 17:59:32 soranzo Exp $
+	 * $Id: tblproperties.php,v 1.81 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/** 
 	 * Function to save after altering a table

@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.32 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: triggers.php,v 1.33 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/** 
 	 * Function to save after altering a trigger

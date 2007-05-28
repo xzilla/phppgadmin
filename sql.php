@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.35 2007/04/22 00:41:58 mr-russ Exp $
+	 * $Id: sql.php,v 1.36 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -95,8 +95,6 @@
 		exit;
 	}
 	
-	$PHP_SELF = $_SERVER['PHP_SELF'];
-
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 	$misc->printTrail('database');

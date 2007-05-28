@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.96 2007/04/24 15:31:29 soranzo Exp $
+	 * $Id: database.php,v 1.97 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	function _highlight($string, $term) {
 		return str_replace($term, "<b>{$term}</b>", $string);

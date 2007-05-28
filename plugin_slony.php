@@ -3,14 +3,13 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.18 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: plugin_slony.php,v 1.19 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	// Avoid database connections whenever possible
 	switch ($action) {

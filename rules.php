@@ -3,14 +3,13 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.28 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: rules.php,v 1.29 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Confirm and then actually create a rule

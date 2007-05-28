@@ -16,7 +16,6 @@
 		$tableName =& $_REQUEST['view'];
 	else 
 		die("No table provided!");
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Displays a screen where they can alter a column

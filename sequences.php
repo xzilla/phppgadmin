@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.39 2007/05/03 17:01:03 ioguix Exp $
+	 * $Id: sequences.php,v 1.40 2007/05/28 17:30:32 ioguix Exp $
 	 */
 	
 	// Include application functions
@@ -11,7 +11,6 @@
 	
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Display list of all sequences in the database/schema

@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.40 2007/05/02 16:12:07 ioguix Exp $
+	 * $Id: indexes.php,v 1.41 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,6 @@
 	include_once('./classes/class.select.php');
 		
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Show confirmation of cluster index and perform actual cluster

@@ -3,14 +3,13 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.96 2007/05/16 17:03:51 ioguix Exp $
+	 * $Id: tables.php,v 1.97 2007/05/28 17:30:32 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
-	$PHP_SELF = $_SERVER['PHP_SELF'];
 
 	/**
 	 * Displays a screen where they can enter a new table
