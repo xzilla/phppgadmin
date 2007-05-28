@@ -3,10 +3,11 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.111.2.2 2007/05/28 17:21:57 ioguix Exp $
+	 * $Id: lib.inc.php,v 1.111.2.3 2007/05/28 19:30:17 soranzo Exp $
 	 */
 
-	$PHP_SELF = htmlentities($_SERVER['PHP_SELF']);
+	// Prevent XSS attacks
+	$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF']);
 
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');

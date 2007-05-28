@@ -4,7 +4,7 @@
 	 * Does an export to the screen or as a download.  This checks to
 	 * see if they have pg_dump set up, and will use it if possible.
 	 *
-	 * $Id: dataexport.php,v 1.24 2007/01/15 15:48:17 soranzo Exp $
+	 * $Id: dataexport.php,v 1.23.2.1 2007/05/28 19:30:17 soranzo Exp $
 	 */
 
 	$extensions = array(
@@ -124,7 +124,7 @@
 				echo " FROM stdin;\n";
 				while (!$rs->EOF) {
 					$first = true;
-					while(list($k, $v) = each($rs->fields)) {
+					while(list($k, $v) = each($rs->f)) {
 						// Escape value
 						$v = $data->escapeBytea($v);
 						
@@ -154,7 +154,7 @@
 				if (!$rs->EOF) {
 					// Output header row
 					$j = 0;
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						if ($finfo->name == $data->id && !$oids) continue;
 						echo "\t\t<th>", $misc->printVal($finfo->name, true), "</th>\r\n";
@@ -164,7 +164,7 @@
 				while (!$rs->EOF) {
 					echo "\t<tr>\r\n";
 					$j = 0;
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						if ($finfo->name == $data->id && !$oids) continue;
 						echo "\t\t<td>", $misc->printVal($v, true, $finfo->type), "</td>\r\n";
@@ -186,7 +186,7 @@
 					// Output header row
 					$j = 0;
 					echo "\t<header>\n";
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						$name = htmlspecialchars($finfo->name);
 						$type = htmlspecialchars($finfo->type);
@@ -198,7 +198,7 @@
 				while (!$rs->EOF) {
 					$j = 0;
 					echo "\t\t<row>\n";
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						$name = htmlspecialchars($finfo->name);
 						if ($v != null) $v = htmlspecialchars($v);
@@ -216,7 +216,7 @@
 					echo "INSERT INTO \"{$_REQUEST['table']}\" (";
 					$first = true;
 					$j = 0;
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						$k = $finfo->name;
 						// SQL (INSERT) format cannot handle oids
@@ -259,7 +259,7 @@
 				if (!$rs->EOF) {
 					// Output header row
 					$first = true;
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						$finfo = $rs->fetchField($k);
 						$v = $finfo->name;
 						if ($v != null) $v = str_replace('"', '""', $v);
@@ -273,7 +273,7 @@
 				}
 				while (!$rs->EOF) {
 					$first = true;
-					foreach ($rs->fields as $k => $v) {
+					foreach ($rs->f as $k => $v) {
 						if ($v != null) $v = str_replace('"', '""', $v);
 						if ($first) {
 							echo ($v == null) ? "\"\\N\"" : "\"{$v}\"";
@@ -307,7 +307,7 @@
 		$misc->printTitle($lang['strexport']);
 		if (isset($msg)) $misc->printMsg($msg);
 
-		echo "<form action=\"{$_SERVER['PHP_SELF']}\" method=\"post\">\n";
+		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strformat']}:</th><td><select name=\"d_format\">\n";
 		// COPY and SQL require a table
