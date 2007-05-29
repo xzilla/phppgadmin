@@ -9,9 +9,10 @@ Bugs
 * Fix PHP5 Strict mode complaints 
 * Fix IN/NOT IN to accept text input lists 'a','b'.
 * Fix bytea doesn't display as NULL when NULL
+* Fix bug in view creation wizard
 * Fix XSS vulnerability:
    http://www.securityfocus.com/bid/24115/
-  Escape HTML special characters before using $_SERVER['PHP_SELF']
+   Escape HTML special characters before using $_SERVER['PHP_SELF']
 
 Version 4.1.1
 -------------
