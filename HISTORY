@@ -5,8 +5,10 @@ Version 4.2
 -----------
 
 Features
+* Add Analyze to Table Level Actions (ioguix)
+* Add support for multiple actions on main pages (ioguix, Robert Treat)
 * Added favicon for Mozilla and a backwards compatible version for IE.
-* Login will allow browsers to save different usernames and passwords for different servers.
+* Allow browsers to save different usernames and passwords for different servers.
 * Pagination selection available fore reports
 * You can configure reports db, schema and table names
 
