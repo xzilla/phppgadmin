@@ -3,11 +3,8 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.115 2007/05/28 19:21:29 soranzo Exp $
+	 * $Id: lib.inc.php,v 1.116 2007/05/31 15:54:18 xzilla Exp $
 	 */
-
-	// Prevent XSS attacks
-	$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF']);
 
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
@@ -139,6 +136,9 @@
 		include("./lang/recoded/{$_language}.php");
 		$_SESSION['webdbLanguage'] = $_language;
 	}
+
+	// Prevent XSS attacks
+	$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
 
 	// Check for config file version mismatch
 	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
