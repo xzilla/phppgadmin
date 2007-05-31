@@ -8,7 +8,7 @@
 	
 	$url = parse_url($misc->getLastTabURL($subject));
 	
-	$_SERVER['PHP_SELF'] = $url['path'];
+	$PHP_SELF = $url['path'];
 	
 	// Load query vars into superglobal arrays
 	if (isset($url['query'])) {
