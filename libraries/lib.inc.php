@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.116 2007/05/31 15:54:18 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.117 2007/05/31 21:13:24 xzilla Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
@@ -137,9 +137,6 @@
 		$_SESSION['webdbLanguage'] = $_language;
 	}
 
-	// Prevent XSS attacks
-	$PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
-
 	// Check for config file version mismatch
 	if (!isset($conf['version']) || $conf['base_version'] > $conf['version']) {
 		echo $lang['strbadconfig'];
@@ -215,6 +212,7 @@
 			else
 				$lang['appcharset'] = $dbEncoding;
 		}
+	
 		
 		// Load Slony if required		
 		if ($_server_info['slony_support']) {
@@ -222,5 +220,8 @@
 			$slony = new Slony();
 		}
 	}
+
+    // Prevent XSS attacks
+    $PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
 
 ?>
