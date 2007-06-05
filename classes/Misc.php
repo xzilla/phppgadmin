@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.152 2007/05/16 17:03:51 ioguix Exp $
+	 * $Id: Misc.php,v 1.153 2007/06/05 15:50:04 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1563,7 +1563,6 @@
 		 */
 		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, $multiactions = null) {
 			global $data, $conf, $misc, $lang;
-			global $PHP_SELF;
 
 			if ($tabledata->recordCount() > 0) {
 				
