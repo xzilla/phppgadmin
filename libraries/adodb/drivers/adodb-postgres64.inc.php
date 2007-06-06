@@ -686,7 +686,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 				
 				$str .= str_repeat(' ',$ncnt);
 			}
-			$this->_connectionID = pg_connect($str);
+			$this->_connectionID = @pg_connect($str);
 		}
 		if ($this->_connectionID === false) return false;
 		$this->Execute("set datestyle='ISO'");

@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.35 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: login.php,v 1.36 2007/06/06 08:53:47 ioguix Exp $
 	 */
 	global $conf;
 	
@@ -22,6 +22,8 @@
 	$misc->printTitle(sprintf($lang['strlogintitle'], $server_info['desc']));
 	
 	if (isset($msg)) $misc->printMsg($msg);
+
+	$md5_server = md5($_REQUEST['server']);
 ?>
 
 <form action="<?php echo $PHP_SELF ?>" method="post" name="login_form">
@@ -42,7 +44,7 @@
 		</tr>
 		<tr>
 			<td><?php echo $lang['strpassword']; ?></td>
-			<td><input type="password" name="loginPassword_<?php echo md5($_REQUEST['server']); ?>" size="24" /></td>
+			<td><input type="password" name="loginPassword_<?php echo $md5_server; ?>" size="24" /></td>
 		</tr>
 	</table>
 <?php if (sizeof($conf['servers']) > 1) : ?>
@@ -53,7 +55,7 @@
 
 <script type="text/javascript">
 	var uname = document.login_form.loginUsername;
-	var pword = document.login_form.loginPassword;
+	var pword = document.login_form.loginPassword_<?php echo $md5_server; ?>;
 	if (uname.value == "") {
 		uname.focus();
 	} else {
