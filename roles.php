@@ -425,7 +425,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"roles.php?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"roles.php?action=alter&amp;{$misc->href}&amp;rolename=", 
 			urlencode($_REQUEST['rolename']), "\">{$lang['stralter']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"roles.php?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
