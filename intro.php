@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.15.6.1 2007/05/28 19:30:17 soranzo Exp $
+	 * $Id: intro.php,v 1.15.6.1.2.1 2007/06/16 15:28:42 xzilla Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -19,7 +19,7 @@
 
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
-<form method="get" action="<?php echo $PHP_SELF; ?>">
+<form method="get" action="intro.php">
  <label>
   <select name="language" onchange="this.form.submit()">
 <?php

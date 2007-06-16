@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.111.2.5 2007/06/01 12:34:16 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.111.2.5.2.1 2007/06/16 15:28:44 xzilla Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
@@ -11,6 +11,7 @@
 	
 	// Set error reporting level to max
 	error_reporting(E_ALL);
+        ini_set('display_errors',true);
 
 	// Application name 
 	$appName = 'phpPgAdmin';
@@ -219,8 +220,5 @@
 			$slony = new Slony();
 		}
 	}
-
-	// Prevent XSS attacks
-    $PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
 
 ?>

@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.22.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: operators.php,v 1.22.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('operator');
 		$misc->printTitle($lang['strproperties'],'pg.operator');
@@ -56,7 +56,7 @@
 			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprgtcmpop']), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
 		}
 		else
 			doDefault($lang['strinvalidparam']);
@@ -67,7 +67,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('operator');
@@ -75,7 +75,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropoperator'], $misc->printVal($_REQUEST['operator'])), "</p>\n";	
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"operators.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"operator\" value=\"", htmlspecialchars($_REQUEST['operator']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"operator_oid\" value=\"", htmlspecialchars($_REQUEST['operator_oid']), "\" />\n";
@@ -103,7 +103,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','operators');
@@ -140,26 +140,26 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "operators.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "operators.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 		);
 		
 		$misc->printTable($operators, $columns, $actions, $lang['strnooperators']);
 		
-//		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
+//		echo "<p><a class=\"navlink\" href=\"operators.php?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
 	}
 
 	/**
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
-		global $misc, $data, $PHP_SELF;
+		global $misc, $data;
 		
 		$operators = $data->getOperators();
 		

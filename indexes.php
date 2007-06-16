@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.38.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: indexes.php,v 1.38.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doClusterIndex($confirm) {
 		global $data, $misc, $action;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			// Default analyze to on
@@ -28,7 +28,7 @@
 
 			echo "<p>", sprintf($lang['strconfcluster'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"indexes.php\" method=\"post\">\n";
 			echo "<p><input type=\"checkbox\" id=\"analyze\" name=\"analyze\"", (isset($_REQUEST['analyze']) ? ' checked="checked"' : ''), " /><label for=\"analyze\">{$lang['stranalyze']}</label></p>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"cluster_index\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -70,7 +70,7 @@
 	 */
 	function doCreateIndex($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_POST['formIndexName'])) $_POST['formIndexName'] = '';
 		if (!isset($_POST['formIndexType'])) $_POST['formIndexType'] = null;
@@ -107,7 +107,7 @@
 		$buttonRemove->set_attribute("onclick", "buttonPressed(this);");		
 		$buttonRemove->set_attribute("type", "button");
 
-		echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"indexes.php\" method=\"post\">\n";
 
 
 		echo "<table>\n";
@@ -202,7 +202,7 @@
 	 */
 	function doDropIndex($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('index');
@@ -210,7 +210,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropindex'], $misc->printVal($_REQUEST['index'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"indexes.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_index\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
@@ -235,7 +235,7 @@
 
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		function indPre(&$rowdata, $actions) {
 			global $data, $lang;
@@ -288,17 +288,17 @@
 		$actions = array(
 			'cluster' => array(
 				'title' => $lang['strclusterindex'],
-				'url'   => "{$PHP_SELF}?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 			'reindex' => array(
 				'title' => $lang['strreindex'],
-				'url'   => "{$PHP_SELF}?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 		);
@@ -307,7 +307,7 @@
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create_index&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"indexes.php?action=create_index&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
 
 	$misc->printHeader($lang['strindexes'], "<script src=\"indexes.js\" type=\"text/javascript\"></script>");

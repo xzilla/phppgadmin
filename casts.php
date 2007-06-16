@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.12.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: casts.php,v 1.12.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $database;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		function renderCastContext($val) {
 			global $lang;
