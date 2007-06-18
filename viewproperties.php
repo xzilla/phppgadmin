@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.21.2.1.2.1 2007/06/16 15:28:43 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.21.2.1.2.2 2007/06/18 15:13:20 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -332,7 +332,7 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "viewprooperties.php?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
+				'url'   => "viewproperties.php?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);
