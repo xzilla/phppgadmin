@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.56.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
+	 * $Id: functions.php,v 1.56.2.1.2.2 2007/06/19 20:23:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -256,7 +256,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=", 
 			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
 		echo "<a class=\"navlink\" href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",

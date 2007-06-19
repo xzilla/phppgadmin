@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.31.2.1.2.1 2007/06/16 15:28:43 xzilla Exp $
+	 * $Id: types.php,v 1.31.2.1.2.2 2007/06/19 20:23:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -75,7 +75,7 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"types.php?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
 		} else
 			doDefault($lang['strinvalidparam']);
 	}

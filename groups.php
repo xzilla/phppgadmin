@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.21.4.1.2.1 2007/06/16 15:28:42 xzilla Exp $
+	 * $Id: groups.php,v 1.21.4.1.2.2 2007/06/19 20:23:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -105,7 +105,7 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"groups.php?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**

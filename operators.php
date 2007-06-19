@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.22.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
+	 * $Id: operators.php,v 1.22.2.1.2.2 2007/06/19 20:23:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -56,7 +56,7 @@
 			echo "<td class=\"data1\">", $misc->printVal($oprdata->f['oprgtcmpop']), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"operators.php?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
 		}
 		else
 			doDefault($lang['strinvalidparam']);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.24.2.1.2.1 2007/06/16 15:28:42 xzilla Exp $
+	 * $Id: domains.php,v 1.24.2.1.2.2 2007/06/19 20:23:17 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -231,7 +231,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
+		echo "<p><a class=\"navlink\" href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
 		if ($data->hasDomainConstraints()) {
 			echo "| <a class=\"navlink\" href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
 				"\">{$lang['straddcheck']}</a>\n";
