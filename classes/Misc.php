@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.137.4.1 2007/06/16 15:28:43 xzilla Exp $
+	 * $Id: Misc.php,v 1.137.4.2 2007/06/20 17:05:23 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1798,14 +1798,14 @@
 		}
 		
 		/**
-		 * Get information on a server.
+		 * Validate and retreive information on a server
 		 * If the parameter isn't supplied then the currently
 		 * connected server is returned.
 		 * @param $server_id A server identifier (host:port)
 		 * @return An associative array of server properties
 		 */
 		function getServerInfo($server_id = null) {
-			global $conf, $_reload_browser;
+			global $conf, $_reload_browser, $lang;
 
 			if ($server_id === null && isset($_REQUEST['server']))
 				$server_id = $_REQUEST['server'];
@@ -1828,8 +1828,14 @@
 					return $info;
 				}
 			}
-			
-			return null;
+		        
+                        if ($server_id === null){
+                            return null;
+                        } else {
+                            // Unable to find a matching server, are we being hacked?
+			    echo $lang['strinvalidserverparam'];
+                            exit;
+                        }; 
 		}
 		
 		/**
