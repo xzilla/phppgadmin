@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.22.4.1.2.1 2007/06/16 15:28:43 xzilla Exp $
+	 * $Id: reports.php,v 1.22.4.1.2.2 2007/06/20 14:29:49 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -262,7 +262,7 @@
 			),
 		);
 		
-		$return_url = urlencode("?{$misc->href}");
+		$return_url = urlencode("reports.php?{$misc->href}");
 		
 		$actions = array(
 			'properties' => array(
