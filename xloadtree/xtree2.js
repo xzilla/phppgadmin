@@ -801,7 +801,12 @@ _p.getRowClassName = function () {
 _p.getLabelHtml = function () {
 	var toolTip = this.getToolTip();
 	var target = this.getTarget();
-	return "<a href=\"" + webFXTreeHandler.textToHtml(this._getHref()) +
+	var link = this._getHref();
+
+	if (link == '#')
+		return this.getHtml();
+
+	return "<a href=\"" + webFXTreeHandler.textToHtml(link) +
 		"\" class=\"webfx-tree-item-label\" tabindex=\"-1\"" +
 		(toolTip ? " title=\"" + webFXTreeHandler.textToHtml(toolTip) + "\"" : "") +
 		(target ? " target=\"" + target + "\"" : "") +
@@ -831,7 +836,11 @@ _p.getEventHandlersHtml = function () {
 _p.getIconHtml = function () {
 	// here we are not using textToHtml since the file names rarerly contains
 	// HTML...
-	return "<a href=\"" + webFXTreeHandler.textToHtml(this._getIconHref()) +
+	var link = this._getIconHref();
+	if (link == '#')
+		return "<img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\">&nbsp;";
+
+	return "<a href=\"" + webFXTreeHandler.textToHtml(link) +
 		"\"><img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\"></a>";
 };
 
