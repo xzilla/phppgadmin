@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.72.2.1.2.1 2007/06/16 15:28:43 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.72.2.1.2.2 2007/07/02 10:23:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -407,6 +407,7 @@
 					htmlspecialchars($_REQUEST['field']), "\" /></td>";
 					
 				// Column type
+				$escaped_predef_types = array(); // the JS escaped array elements
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = $data->getTypes(true, false, true);
@@ -435,7 +436,6 @@
 					echo "<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "</select>";
 					$predefined_size_types = array_intersect($data->predefined_size_types,array_keys($types_for_js));
-					$escaped_predef_types = array(); // the JS escaped array elements
 					foreach($predefined_size_types as $value) {
 						$escaped_predef_types[] = "'{$value}'";
 					}
