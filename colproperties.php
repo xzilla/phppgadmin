@@ -82,6 +82,7 @@
 					htmlspecialchars($_REQUEST['field']), "\" /></td>\n";
 					
 				// Column type
+				$escaped_predef_types = array(); // the JS escaped array elements
 				if ($data->hasAlterColumnType()) {
 					// Fetch all available types
 					$types = $data->getTypes(true, false, true);
@@ -110,7 +111,6 @@
 					echo "\t<option value=\"[]\"", ($_REQUEST['array'] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "</select></td>\n";
 					$predefined_size_types = array_intersect($data->predefined_size_types, $types_for_js);
-					$escaped_predef_types = array(); // the JS escaped array elements
 					foreach($predefined_size_types as $value) {
 						$escaped_predef_types[] = "'{$value}'";
 					}
