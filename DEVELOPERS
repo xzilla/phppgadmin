@@ -123,4 +123,28 @@ method is:
 If you've done it correctly, when you create your patch, it should only have 
 diffs of lang/english.php and lang/recode/english.php files. For more 
 information on how the language system works, please see the TRANSLATORS file.
- 
+
+
+UNDERSTANDING THE WORK/BRANCH/TAG/RELEASE PROCESS
+------------------------------------------------- 
+
+All new work for phpPgAdmin is done against the CVS HEAD branch. When we feel
+we are ready to do a new release, we create a branch (ex. REL_4-1).  This 
+becomes the stable branch for all future 4.1.x releases, and any bugfixes needed
+for 4.1 would go in that branch. 
+
+When we release a new revision, we tag that at release time (REL_4-1-1), so a 
+checkout of any tag should give you the same files that downloading the release
+would have given you. As a general rule, we do not introduce new features into 
+existing stable branches, only bugfixes and language updates. This means if you 
+want to work on new features, you should be working against CVS HEAD. 
+Eventually we will call for another release, and that will be branched (REL_4-2)
+and the cycle will start over. 
+
+On occasion we have created out-of-band branches, typically labeled as DEV_foo.
+These were used for temporary, concurrent development of large features, and 
+should not be used by other developers. When development of those features is 
+completed, the branches get merged in as appropriate, so no further development 
+should occur on those branches. 
+
+
