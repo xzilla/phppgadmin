@@ -8,6 +8,7 @@ Bugs
 * Eliminate use of $_SERVER['PHP_SELF']. This fixes a regression in 4.1.2 for 
   non-mainstream locales (including SQL_ASCII)
 * Validate client supplied server against entries in config.inc.php 
+* Fix undefined variable when altering a field in a table on PostgreSQL < 8.0
 
 Version 4.1.2
 -------------
