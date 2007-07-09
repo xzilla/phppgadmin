@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.137.2.1 2007/07/09 14:55:23 xzilla Exp $
+	 * $Id: Misc.php,v 1.137.2.2 2007/07/09 15:23:56 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -477,7 +477,7 @@
 		}
 
 		/**
-		 * Retreive the tab info for a specific tab bar.
+		 * Retrieve the tab info for a specific tab bar.
 		 * @param $section The name of the tab bar.
 		 */
 		function getNavTabs($section) {
@@ -1798,7 +1798,7 @@
 		}
 		
 		/**
-		 * Validate and retreive information on a server
+		 * Validate and retrieve information on a server
 		 * If the parameter isn't supplied then the currently
 		 * connected server is returned.
 		 * @param $server_id A server identifier (host:port)
