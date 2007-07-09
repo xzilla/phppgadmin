@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.30.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: triggers.php,v 1.30.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -30,7 +30,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('trigger');
 		$misc->printTitle($lang['stralter'],'pg.trigger.alter');
@@ -42,7 +42,7 @@
 			
 			if (!isset($_POST['name'])) $_POST['name'] = $triggerdata->f['tgname'];
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"triggers.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
@@ -65,7 +65,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('trigger');
@@ -74,7 +74,7 @@
 			echo "<p>", sprintf($lang['strconfdroptrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"triggers.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
@@ -102,7 +102,7 @@
 	 */
 	function doEnable($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('trigger');
@@ -111,7 +111,7 @@
 			echo "<p>", sprintf($lang['strconfenabletrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"triggers.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"enable\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
@@ -135,7 +135,7 @@
 	 */
 	function doDisable($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('trigger');
@@ -144,7 +144,7 @@
 			echo "<p>", sprintf($lang['strconfdisabletrigger'], $misc->printVal($_REQUEST['trigger']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"triggers.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"disable\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
@@ -168,7 +168,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('table');
 		$misc->printTitle($lang['strcreatetrigger'],'pg.trigger.create');
@@ -200,7 +200,7 @@
 		$sel3 = new XHTML_Select('formFrequency');
 		$sel3->set_data($data->triggerFrequency);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"POST\">\n";
+		echo "<form action=\"triggers.php\" method=\"POST\">\n";
 		echo "<table>\n";
 		echo "<tr>\n";
 		echo "		<th class=\"data\">{$lang['strname']}</th>\n";
@@ -236,7 +236,7 @@
 	 */
 	function doSaveCreate() {
 		global $data;
-		global $PHP_SELF, $lang;		
+		global $lang;		
 	
 		// Check that they've given a name and a definition
 
@@ -262,7 +262,6 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $database;
-		global $PHP_SELF;
 		global $lang;
 
 		function tgPre(&$rowdata) {
@@ -296,12 +295,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "triggers.php?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('trigger' => 'tgname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "triggers.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('trigger' => 'tgname'),
 			),
 		);
@@ -309,13 +308,13 @@
 			if(!$data->phpBool($triggers->fields["tgenabled"])) {
 				$actions['enable'] = array(
 					'title' => $lang['strenable'],
-					'url'   => "{$PHP_SELF}?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'url'   => "triggers.php?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
 			} else {
 				$actions['disable'] = array(
 					'title' => $lang['strdisable'],
-					'url'   => "{$PHP_SELF}?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'url'   => "triggers.php?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
 			}
@@ -325,7 +324,7 @@
 		
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"triggers.php?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table'] . ' - ' . $lang['strtriggers']);

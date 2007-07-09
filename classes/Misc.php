@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.138 2007/01/10 01:56:06 soranzo Exp $
+	 * $Id: Misc.php,v 1.137.2.1 2007/07/09 14:55:23 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1511,7 +1511,7 @@
 		 *			$columns = array(
 		 *				column_id => array(
 		 *					'title' => Column heading,
-		 *					'field' => Field name for $tabledata->fields[...],
+		 *					'field' => Field name for $tabledata->f[...],
 		 *					'help'  => Help page for this column,
 		 *				), ...
 		 *			);
@@ -1533,7 +1533,6 @@
 		 */
 		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null) {
 			global $data, $conf, $misc;
-			global $PHP_SELF;
 
 			if ($tabledata->recordCount() > 0) {
 				
@@ -1603,23 +1602,23 @@
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
-										$misc->printUrlVars($action['vars'], $tabledata->fields);
+										$misc->printUrlVars($action['vars'], $tabledata->f);
 										echo "\">{$action['title']}</a></td>";
 									}
 								}
 								break;
 							default;
 								echo "<td class=\"data{$id}\">";
-								if (array_key_exists($column['field'], $tabledata->fields)) {
+								if (isset($tabledata->f[$column['field']])) {
 									if (isset($column['url'])) {
 										echo "<a href=\"{$column['url']}";
-										$misc->printUrlVars($column['vars'], $tabledata->fields);
+										$misc->printUrlVars($column['vars'], $tabledata->f);
 										echo "\">";
 									}
 								
 									$type = isset($column['type']) ? $column['type'] : null;
 									$params = isset($column['params']) ? $column['params'] : array();
-									echo $misc->printVal($tabledata->fields[$column['field']], $type, $params);
+									echo $misc->printVal($tabledata->f[$column['field']], $type, $params);
 								}
 								
 								if (isset($column['url'])) echo "</a>";
@@ -1674,7 +1673,7 @@
 			
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
-					$rec =& $treedata->fields;
+					$rec =& $treedata->f;
 					
 					echo "<tree";
 					echo value_xml_attr('text', $attrs['text'], $rec);
@@ -1799,14 +1798,14 @@
 		}
 		
 		/**
-		 * Get information on a server.
+		 * Validate and retreive information on a server
 		 * If the parameter isn't supplied then the currently
 		 * connected server is returned.
 		 * @param $server_id A server identifier (host:port)
 		 * @return An associative array of server properties
 		 */
 		function getServerInfo($server_id = null) {
-			global $conf, $_reload_browser;
+			global $conf, $_reload_browser, $lang;
 
 			if ($server_id === null && isset($_REQUEST['server']))
 				$server_id = $_REQUEST['server'];
@@ -1829,8 +1828,14 @@
 					return $info;
 				}
 			}
-			
-			return null;
+		        
+                        if ($server_id === null){
+                            return null;
+                        } else {
+                            // Unable to find a matching server, are we being hacked?
+			    echo $lang['strinvalidserverparam'];
+                            exit;
+                        }; 
 		}
 		
 		/**

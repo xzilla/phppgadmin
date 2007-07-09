@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.60.2.1 2007/05/28 17:21:57 ioguix Exp $
+	 * $Id: views.php,v 1.60.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -19,7 +19,6 @@
 	function doSelectRows($confirm, $msg = '') {
 		global $data, $misc, $_no_output;  
 		global $lang;
-		global $PHP_SELF;
 
 		if ($confirm) {
 			$misc->printTrail('view');
@@ -28,7 +27,7 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" name=\"selectform\">\n";
+			echo "<form action=\"views.php\" method=\"post\" name=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script type=\"text/javascript\">\n";
@@ -128,7 +127,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang, $_reload_browser;
+		global $lang, $_reload_browser;
 
 		if ($confirm) { 
 			$misc->printTrail('view');
@@ -136,7 +135,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"views.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
 			echo $misc->form;
@@ -165,7 +164,7 @@
 	 */
 	function doSetParamsCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		// Check that they've chosen tables for the view definition
 		if (!isset($_POST['formTables']) ) doWizardCreate($lang['strviewneedsdef']);
@@ -219,7 +218,7 @@
 			}
 			asort($arrFields);
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"views.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strviewname']}</th></tr>";
 			echo "<tr>\n<td class=\"data1\">\n";
@@ -306,7 +305,7 @@
 	 */
 	function doWizardCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$tables = $data->getTables(true);
 		
@@ -314,7 +313,7 @@
 		$misc->printTitle($lang['strcreateviewwiz'], 'pg.view.create');
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"views.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data\">{$lang['strtables']}</th></tr>";		
 		echo "<tr>\n<td class=\"data1\">\n";		
@@ -348,7 +347,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc, $conf;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
 		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
@@ -358,7 +357,7 @@
 		$misc->printTitle($lang['strcreateview'], 'pg.view.create');
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"views.php\" method=\"post\">\n";
 		echo "<table width=\"100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t<td class=\"data1\"><input name=\"formView\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
@@ -519,7 +518,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $conf;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','views');
@@ -558,28 +557,28 @@
 			),
 			'select' => array(
 				'title'	=> $lang['strselect'],
-				'url'	=> "{$PHP_SELF}?action=confselectrows&amp;{$misc->href}&amp;",
+				'url'	=> "views.php?action=confselectrows&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 			
 // Insert is possible if the relevant rule for the view has been created.
 //			'insert' => array(
 //				'title'	=> $lang['strinsert'],
-//				'url'	=> "{$PHP_SELF}?action=confinsertrow&amp;{$misc->href}&amp;",
+//				'url'	=> "views.php?action=confinsertrow&amp;{$misc->href}&amp;",
 //				'vars'	=> array('view' => 'relname'),
 //			),
 
 			'drop' => array(
 				'title'	=> $lang['strdrop'],
-				'url'	=> "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'	=> "views.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 		);
 		
 		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"views.php?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"views.php?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
 
 	}
 	

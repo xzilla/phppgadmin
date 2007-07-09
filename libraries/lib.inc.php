@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.111.2.5 2007/06/01 12:34:16 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.111.2.6 2007/07/09 14:55:23 xzilla Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
@@ -16,7 +16,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '4.1.2';
+	$appVersion = '4.1.3-rc-1';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
@@ -219,8 +219,5 @@
 			$slony = new Slony();
 		}
 	}
-
-	// Prevent XSS attacks
-    $PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
 
 ?>

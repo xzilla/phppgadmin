@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.88.2.2 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: database.php,v 1.88.2.3 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,7 @@
 	 * Searches for a named database object
 	 */
 	function doFind($confirm = true, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang, $conf;
 
 		if (!isset($_GET['term'])) $_GET['term'] = '';
@@ -43,7 +43,7 @@
 		$misc->printTabs('database','find');
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"get\">\n";
+		echo "<form action=\"database.php\" method=\"get\">\n";
 		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
 		// Output list of filters.  This is complex due to all the 'has' and 'conf' feature possibilities
@@ -275,7 +275,7 @@
 	 */
 	function doExport($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('database');
 		$misc->printTabs('database','export');
@@ -327,7 +327,7 @@
 	 * Show the current status of all database variables
 	 */
 	function doVariables() {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;
 
 		// Fetch the variables from the database
@@ -356,7 +356,7 @@
 	 * are running.
 	 */
 	function doProcesses($msg = '') {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -421,7 +421,7 @@
 			$actions = array(
 				'cancel' => array(
 					'title' => $lang['strcancel'],
-					'url'   => "{$PHP_SELF}?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
+					'url'   => "database.php?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
 					'vars'  => array('procpid' => 'procpid')
 				)
 			);
@@ -438,7 +438,7 @@
 	 * Show the existing table locks in the current database
 	*/
 	function doLocks() {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;
 
 		// Get the info from the pg_locks view
@@ -484,7 +484,7 @@
 	 * Allow database administration and tuning tasks
 	 */
 	function doAdmin($action = '', $msg = '') {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;		
 		switch ($action) {
 			case 'vacuum':				
@@ -533,7 +533,7 @@
 				// Vacuum
 				echo "<tr>\n";
 				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"database.php\" method=\"post\">\n";
 				echo "<input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label><br />\n";
 				if ($data->hasFullVacuum()) {
 					echo "<input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label><br />\n";				
@@ -547,7 +547,7 @@
 
 				// Analyze
 				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"database.php\" method=\"post\">\n";
 				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
 				echo $misc->form;
@@ -557,7 +557,7 @@
 				// Recluster
 				if ($data->hasRecluster()){
 					echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
-					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+					echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"database.php\" method=\"post\">\n";
 					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" />\n";
 					echo "<input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 					echo $misc->form;
@@ -567,7 +567,7 @@
 				
 				// Reindex
 				echo "<td class=\"data1\" align=\"center\" valign=\"bottom\">\n";
-				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"{$PHP_SELF}\" method=\"post\">\n";
+				echo "<form name=\"adminfrm\" id=\"adminfrm\" action=\"database.php\" method=\"post\">\n";
 				echo "<input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
 				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" />\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
@@ -632,12 +632,12 @@
 					$actions = array(
 						'edit' => array(
 						'title' => $lang['stredit'],
-						'url'   => "{$PHP_SELF}?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
+						'url'   => "database.php?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
 						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						),
 						'delete' => array(
 						'title' => $lang['strdelete'],
-						'url'   => "{$PHP_SELF}?action=delautovac&amp;{$misc->href}&amp;",
+						'url'   => "database.php?action=delautovac&amp;{$misc->href}&amp;",
 						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						)
 					);
@@ -655,7 +655,6 @@
 	function doEditAutovacuum($confirm, $msg = '') {
 		global $data, $misc, $conf;
 		global $lang;
-		global $PHP_SELF;
 
 		$key = $_REQUEST['key'];
 
@@ -667,7 +666,7 @@
 			$attrs = $data->getTableAttributes('pg_autovacuum');
 			$rs = $data->browseRow('pg_autovacuum', $key);
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
+			echo "<form action=\"database.php\" method=\"post\" id=\"ac_form\">\n";
 			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
@@ -755,7 +754,7 @@
 	 * Delete rows from the autovacuum table
      */
 	function doDelAutovacuum($confirm) {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;
 
 		if ($confirm) {
@@ -765,7 +764,7 @@
 
 			echo "<p>{$lang['strconfdeleterow']}</p>\n";
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"database.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"confdelautovac\" />\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"table\" value=\"pg_autovacuum\" />\n";
@@ -789,7 +788,7 @@
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doSQL() {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang;
 
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
@@ -832,7 +831,7 @@
 	}
 
 	function doTree() {
-		global $misc, $data, $lang, $PHP_SELF, $slony;
+		global $misc, $data, $lang, $slony;
 
 		$reqvars = $misc->getRequestVars('database');
 

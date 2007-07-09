@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.27.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: rules.php,v 1.27.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -15,7 +15,7 @@
 	 * Confirm and then actually create a rule
 	 */
 	function createRule($confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -29,7 +29,7 @@
 			$misc->printTitle($lang['strcreaterule'],'pg.rule.create');
 			$misc->printMsg($msg);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"rules.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\"><input name=\"name\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -86,7 +86,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
@@ -95,7 +95,7 @@
 			echo "<p>", sprintf($lang['strconfdroprule'], $misc->printVal($_REQUEST['rule']),
 				$misc->printVal($_REQUEST[$_REQUEST['reltype']])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"rules.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"subject\" value=\"", htmlspecialchars($_REQUEST['reltype']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['reltype']),
@@ -125,7 +125,6 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF;
 		global $lang;
 
 		$misc->printTrail($_REQUEST['subject']);
@@ -154,14 +153,14 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
+				'url'   => "rules.php?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
 				'vars'  => array('rule' => 'rulename'),
 			),
 		);
 
 		$misc->printTable($rules, $columns, $actions, $lang['strnorules']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"rules.php?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
 	// Different header if we're view rules or table rules

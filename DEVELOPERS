@@ -71,7 +71,10 @@ odd characters in user input.  Examine existing functions that do similar
 things to yours to get yours right.
 
 When writing data to the display, you should always urlencode() variables in
-HREFs and htmlspecialchars() variables in forms.
+HREFs and htmlspecialchars() variables in forms.  Rather than use action=""
+attributes in HTML form elements use action="thisformname.php".  This
+ensures that browsers remove query strings when expanding the given
+relative URL into a full URL.
 
 When working with CVS, always make sure to do a 'cvs update' both before you 
 start; so you have the latest code to work with; and also again before you 
@@ -98,7 +101,7 @@ This is the general form for looping over a recordset:
 $rs = $class->getResults();
 if (is_object($rs) && $rs->recordCount() > 0) {
 	while (!$rs->EOF) {
-		echo $rs->fields['field'];
+		echo $rs->f['field'];
 		$rs->moveNext();
 	}
 }

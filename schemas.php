@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.8.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: schemas.php,v 1.8.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $conf;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','schemas');
@@ -53,7 +53,7 @@
 				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
-					'url'   => "{$PHP_SELF}?action=drop&amp;{$misc->href}&amp;",
+					'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'privileges' => array(
@@ -63,14 +63,14 @@
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",
+					'url'   => "schemas.php?action=alter&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
 			
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";
@@ -82,7 +82,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$server_info = $misc->getServerInfo();
 		
@@ -98,7 +98,7 @@
 		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"schemas.php\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table width=\"100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -153,7 +153,7 @@
 	 * TODO: permit changing name, owner
 	 */
 	function doAlter($msg = '') {
-		global $data, $misc,$PHP_SELF, $lang;
+		global $data, $misc, $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['stralter'],'pg.schema.alter');
@@ -165,7 +165,7 @@
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['schema'];
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"schemas.php\" method=\"post\">\n";
 			echo "<table>\n";
 		
 			echo "\t<tr>\n";
@@ -195,7 +195,7 @@
 	 * Save the form submission containing changes to a schema
 	 */
 	function doSaveAlter($msg = '') {
-		global $data, $misc,$PHP_SELF, $lang;
+		global $data, $misc, $lang;
 		
 		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name']);
 		if ($status == 0)
@@ -208,7 +208,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang, $_reload_browser;
 
 		if ($confirm) {
@@ -217,7 +217,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
 
-			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo "<form action=\"schemas.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
@@ -246,7 +246,7 @@
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
-		global $misc, $data, $lang, $PHP_SELF, $slony;
+		global $misc, $data, $lang, $slony;
 		
 		$schemas = $data->getSchemas();
 		

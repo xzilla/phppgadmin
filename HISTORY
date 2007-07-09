@@ -1,6 +1,14 @@
 phpPgAdmin History
 ------------------
 
+Version 4.1.3-rc-1
+-------------
+
+Bugs
+* Eliminate use of $_SERVER['PHP_SELF']. This fixes a regression in 4.1.2 for 
+  non-mainstream locales (including SQL_ASCII)
+* Validate client supplied server against entries in config.inc.php 
+
 Version 4.1.2
 -------------
 
@@ -18,7 +26,8 @@ Version 4.1.1
 -------------
 
 Bugs
-* Fix problem where failed update would report as duplicate update error and fail to return edit screen
+* Fix problem where failed update would report as duplicate update error and 
+  fail to return edit screen
 * Fix error when using $conf[owned_only] on 8.1 & 8.2 
 * Fix error displaying schema names for parents of inherited tables
 * Clean up non-standard escape warnings for PostgreSQL 8.2

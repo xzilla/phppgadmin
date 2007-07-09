@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.30.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: sqledit.php,v 1.30.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -82,7 +82,7 @@
 	 * Searches for a named database object
 	 */
 	function doFind() {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang, $conf;
 		
 		if (!isset($_GET['term'])) $_GET['term'] = '';
@@ -139,7 +139,7 @@
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doDefault() {
-		global $PHP_SELF, $data, $misc;
+		global $data, $misc;
 		global $lang, $conf;
 		
 		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';

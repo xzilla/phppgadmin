@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.39.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: privileges.php,v 1.39.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 	 */
 	function doAlter($confirm, $mode, $msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['username'])) $_REQUEST['username'] = array();
 		if (!isset($_REQUEST['groupname'])) $_REQUEST['groupname'] = array();
@@ -44,7 +44,7 @@
 			}
 			$misc->printMsg($msg);
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"privileges.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left\">{$lang['strusers']}</th>\n";
 			echo "<td class=\"data1\"><select name=\"username[]\" multiple=\"multiple\" size=\"", min(6, $users->recordCount()), "\">\n";
@@ -139,7 +139,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $database;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail($_REQUEST['subject']);
 		
@@ -238,9 +238,9 @@
 		
 		if ($_REQUEST['subject'] == 'function') {
 			$objectoid = $_REQUEST[$_REQUEST['subject'].'_oid'];
-			$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
 		} else {
-			$alterurl = "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		}
 	
 		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";

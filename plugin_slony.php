@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.12.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: plugin_slony.php,v 1.12.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
 	 * @param string $subject The tree node to return
 	 */
 	function doTree($subject) {
-		global $misc, $data, $lang, $PHP_SELF, $slony;
+		global $misc, $data, $lang, $slony;
 
 		$reqvars = $misc->getRequestVars('database');
 		if (isset($slony))
@@ -421,7 +421,7 @@
 	 * Display the slony clusters (we only support one)
 	 */	 
 	function doClusters($msg = '') {
-		global $PHP_SELF, $slony, $misc;
+		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -460,7 +460,7 @@
 		$misc->printTable($clusters, $columns, $actions, $lang['strnoclusters']);
 
 		if ($clusters->recordCount() == 0) {		
-			echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
 		}
 	}
 
@@ -470,7 +470,7 @@
 	 * Display the properties of a slony cluster
 	 */	 
 	function doCluster($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_cluster');
@@ -504,7 +504,7 @@
 	 */
 	function doCreateCluster($confirm, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['cluster'])) $_POST['cluster'] = '';
@@ -515,7 +515,7 @@
 			$misc->printTitle($lang['strinitcluster']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcluster']}</th>\n";
@@ -558,7 +558,7 @@
 	 */
 	function doDropCluster($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -566,7 +566,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropcluster'], $misc->printVal($slony->slony_cluster)), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_cluster\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -588,7 +588,7 @@
 	 * List all the nodes
 	 */
 	function doNodes($msg = '') {
-		global $PHP_SELF, $slony, $misc;
+		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('slony_cluster');
@@ -631,14 +631,14 @@
 		
 		$misc->printTable($nodes, $columns, $actions, $lang['strnonodes']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_node&amp;{$misc->href}\">{$lang['strcreatenode']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_node&amp;{$misc->href}\">{$lang['strcreatenode']}</a></p>\n";
 	}
 	
 	/**
 	 * Display the properties of a node
 	 */	 
 	function doNode($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_node');
@@ -666,7 +666,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -674,7 +674,7 @@
 	 */
 	function doCreateNode($confirm, $msg = '') {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['nodeid'])) $_POST['nodeid'] = '';
@@ -684,7 +684,7 @@
 			$misc->printTitle($lang['strcreatenode']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
@@ -717,7 +717,7 @@
 	 */
 	function doDropNode($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -725,7 +725,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropnode'], $misc->printVal($_REQUEST['no_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_node\" />\n";
 			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
 			echo $misc->form;
@@ -748,7 +748,7 @@
 	 * List all the paths
 	 */
 	function doPaths($msg = '') {
-		global $PHP_SELF, $slony, $misc;
+		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -785,14 +785,14 @@
 		
 		$misc->printTable($paths, $columns, $actions, $lang['strnopaths']);
 	
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatepath']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatepath']}</a></p>\n";
 	}
 	
 	/**
 	 * Display the properties of a path
 	 */	 
 	function doPath($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_path');
@@ -820,7 +820,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;path_id={$_REQUEST['path_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;path_id={$_REQUEST['path_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -828,7 +828,7 @@
 	 */
 	function doCreatePath($confirm, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['pathserver'])) $_POST['pathserver'] = '';
@@ -842,7 +842,7 @@
 			$misc->printTitle($lang['strcreatepath']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnodename']}</th>\n";
@@ -893,7 +893,7 @@
 	 */
 	function doDropPath($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -901,7 +901,7 @@
 
 			echo "<p>", sprintf($lang['strconfdroppath'], $misc->printVal($_REQUEST['path_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_path\" />\n";
 			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"path_id\" value=\"", htmlspecialchars($_REQUEST['path_id']), "\" />\n";
@@ -925,7 +925,7 @@
 	 * List all the listens
 	 */
 	function doListens($msg = '') {
-		global $PHP_SELF, $slony, $misc;
+		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -963,14 +963,14 @@
 		
 		$misc->printTable($listens, $columns, $actions, $lang['strnolistens']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatelisten']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatelisten']}</a></p>\n";
 	}
 
 	/**
 	 * Display the properties of a listen
 	 */	 
 	function doListen($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_path');
@@ -998,7 +998,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->f['li_origin']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->f['li_origin']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -1006,7 +1006,7 @@
 	 */
 	function doCreateListen($confirm, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['listenorigin'])) $_POST['listenorigin'] = '';
@@ -1019,7 +1019,7 @@
 			$misc->printTitle($lang['strcreatelisten']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">Origin</th>\n";
@@ -1063,7 +1063,7 @@
 	 */
 	function doDropListen($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1071,7 +1071,7 @@
 
 			echo "<p>", sprintf($lang['strconfdroplisten'], $misc->printVal($_REQUEST['listen_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_listen\" />\n";
 			echo "<input type=\"hidden\" name=\"no_id\" value=\"", htmlspecialchars($_REQUEST['no_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"listen_id\" value=\"", htmlspecialchars($_REQUEST['listen_id']), "\" />\n";
@@ -1096,7 +1096,7 @@
 	 * List all the replication sets
 	 */
 	function doReplicationSets($msg = '') {
-		global $PHP_SELF, $slony, $misc;
+		global $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('slony_cluster');
@@ -1159,14 +1159,14 @@
 		
 		$misc->printTable($sets, $columns, $actions, $lang['strnorepsets']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create_set&amp;{$misc->href}\">{$lang['strcreaterepset']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_set&amp;{$misc->href}\">{$lang['strcreaterepset']}</a></p>\n";
 	}	
 
 	/**
 	 * Display the properties of a replication set
 	 */	 
 	function doReplicationSet($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_set');
@@ -1200,12 +1200,12 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
 	}
 
 	/**
@@ -1213,7 +1213,7 @@
 	 */
 	function doCreateReplicationSet($confirm, $msg = '') {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['setid'])) $_POST['setid'] = '';
@@ -1223,7 +1223,7 @@
 			$misc->printTitle($lang['strcreaterepset']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table width=\"100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strid']}</th>\n";
@@ -1256,7 +1256,7 @@
 	 */
 	function doDropReplicationSet($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1264,7 +1264,7 @@
 
 			echo "<p>", sprintf($lang['strconfdroprepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_set\" />\n";
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo $misc->form;
@@ -1286,7 +1286,7 @@
 	 */
 	function doLockReplicationSet($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1294,7 +1294,7 @@
 
 			echo "<p>", sprintf($lang['strconflockrepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"lock_set\" />\n";
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo $misc->form;
@@ -1316,7 +1316,7 @@
 	 */
 	function doUnlockReplicationSet($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1324,7 +1324,7 @@
 
 			echo "<p>", sprintf($lang['strconfunlockrepset'], $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"unlock_set\" />\n";
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo $misc->form;
@@ -1346,7 +1346,7 @@
 	 */
 	function doMergeReplicationSet($confirm, $msg = '') {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['target'])) $_POST['target'] = '';
@@ -1357,7 +1357,7 @@
 			$misc->printTitle($lang['strmerge']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strmergeinto']}</th>\n";
@@ -1393,7 +1393,7 @@
 	 */
 	function doMoveReplicationSet($confirm, $msg = '') {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['new_origin'])) $_POST['new_origin'] = '';
@@ -1405,7 +1405,7 @@
 			$misc->printTitle($lang['strmove']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strneworigin']}</th>\n";
@@ -1442,7 +1442,7 @@
 	 */
 	function doExecuteReplicationSet($confirm, $msg = '') {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			if (!isset($_POST['script'])) $_POST['script'] = '';
@@ -1453,7 +1453,7 @@
 			$misc->printTitle($lang['strexecute']);
 			$misc->printMsg($msg);
 	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
 			/* Slony 1.1 only
@@ -1499,7 +1499,7 @@
 	 * List all the tables in a replication set
 	 */
 	function doTables($msg = '') {
-		global $PHP_SELF, $data, $slony, $misc;
+		global $data, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -1556,7 +1556,7 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddtable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddtable']}</a></p>\n";
 	}
 
 	/**
@@ -1565,7 +1565,7 @@
 	 */
 	function doAddTable($stage, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		switch ($stage) {
 			case 1:
@@ -1578,7 +1578,7 @@
 				$misc->printTitle($lang['straddtable']);
 				$misc->printMsg($msg);
 		
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<table width=\"100%\">\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtable']}</th>\n";
@@ -1639,7 +1639,7 @@
 				$misc->printTitle($lang['straddtable']);
 				$misc->printMsg($msg);
 		
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<table>\n";
 				if ($indexes->recordCount() > 1) {
@@ -1698,7 +1698,7 @@
 	 */
 	function doMoveTable($stage, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		switch ($stage) {
 			case 1:
@@ -1710,7 +1710,7 @@
 				$misc->printTitle($lang['strmove']);
 				$misc->printMsg($msg);
 		
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
@@ -1750,7 +1750,7 @@
 	 */
 	function doRemoveTable($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1759,7 +1759,7 @@
 			echo "<p>", sprintf($lang['strconfremovetablefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_table\" />\n";
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"tab_id\" value=\"", htmlspecialchars($_REQUEST['tab_id']), "\" />\n";
@@ -1783,7 +1783,7 @@
 	 * List all the sequences in a replication set
 	 */
 	function doSequences($msg = '') {
-		global $PHP_SELF, $data, $slony, $misc;
+		global $data, $slony, $misc;
 		global $lang;
 
 		$misc->printTrail('database');
@@ -1829,7 +1829,7 @@
 		
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddsequence']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddsequence']}</a></p>\n";
 	}
 
 	/**
@@ -1838,7 +1838,7 @@
 	 */
 	function doAddSequence($stage, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		switch ($stage) {
 			case 1:
@@ -1851,7 +1851,7 @@
 				$misc->printTitle($lang['straddsequence']);
 				$misc->printMsg($msg);
 		
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<table width=\"100%\">\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strsequence']}</th>\n";
@@ -1904,7 +1904,7 @@
 	 */
 	function doRemoveSequence($confirm) {
 		global $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('slony_cluster');
@@ -1913,7 +1913,7 @@
 			echo "<p>", sprintf($lang['strconfremovesequencefromrepset'], 
 				$misc->printVal($_REQUEST['qualname']), $misc->printVal($_REQUEST['set_id'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_sequence\" />\n";
 			echo "<input type=\"hidden\" name=\"set_id\" value=\"", htmlspecialchars($_REQUEST['set_id']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"seq_id\" value=\"", htmlspecialchars($_REQUEST['seq_id']), "\" />\n";
@@ -1937,7 +1937,7 @@
 	 */
 	function doMoveSequence($stage, $msg = '') {
 		global $data, $slony, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		switch ($stage) {
 			case 1:
@@ -1949,7 +1949,7 @@
 				$misc->printTitle($lang['strmove']);
 				$misc->printMsg($msg);
 		
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"plugin_slony.php\" method=\"post\">\n";
 				echo $misc->form;
 				echo "<sequence>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnewrepset']}</th>\n";
@@ -2026,7 +2026,7 @@
 	 * Display the properties of a subscription
 	 */	 
 	function doSubscription($msg = '') {
-		global $data, $slony, $misc, $PHP_SELF;
+		global $data, $slony, $misc;
 		global $lang;
 		
 		$misc->printTrail('slony_subscription');

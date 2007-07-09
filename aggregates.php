@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.15.2.1 2007/05/28 17:21:55 ioguix Exp $
+	 * $Id: aggregates.php,v 1.15.2.2 2007/07/09 14:55:21 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -53,7 +53,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['basetype'])) $_REQUEST['basetype'] = '';
@@ -68,7 +68,7 @@
 		$misc->printTitle($lang['strcreateaggregate'], 'pg.aggregate.create');
 		$misc->printMsg($msg);
 				
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"aggregates.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
@@ -132,13 +132,13 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('aggregate');
 		$misc->printTitle($lang['stralteraggregate'], 'pg.aggregate.alter');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"aggregates.php\" method=\"post\">\n";
 		$aggrdata = $data->getAggregate($_REQUEST['aggrname'], $_REQUEST['aggrtype']);
 		if($aggrdata->recordCount() > 0 ) {
 			// Output table header
@@ -177,7 +177,6 @@
 	function doDrop($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		global $PHP_SELF;
 
 		if ($confirm) {
 			$misc->printTrail('aggregate');
@@ -185,7 +184,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropaggregate'], htmlspecialchars($_REQUEST['aggrname'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"aggregates.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"aggrname\" value=\"", htmlspecialchars($_REQUEST['aggrname']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"aggrtype\" value=\"", htmlspecialchars($_REQUEST['aggrtype']), "\" />\n";
@@ -214,7 +213,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('aggregate');
 		$misc->printTitle($lang['strproperties'],'pg.aggregate');
@@ -248,12 +247,12 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['straggrshowall']}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"aggregates.php?{$misc->href}\">{$lang['straggrshowall']}</a> |\n";
 		if ($data->hasAlterAggregate()) {
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=alter&amp;{$misc->href}&amp;aggrname=", 
+		echo "<a class=\"navlink\" href=\"aggregates.php?action=alter&amp;{$misc->href}&amp;aggrname=", 
 			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a> |\n";
 		}
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
+		echo "<a class=\"navlink\" href=\"aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
 			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a>\n";
 	}
 
@@ -263,7 +262,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;	
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('schema');
 		$misc->printTabs('schema', 'aggregates');
@@ -305,12 +304,12 @@
 			),		
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",
+				'url'   => "aggregates.php?action=alter&amp;{$misc->href}&amp;",
 				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
 			)
 		);
@@ -318,7 +317,7 @@
 		if (!$data->hasAlterAggregate()) unset($actions['alter']);
 		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreateaggregate']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"aggregates.php?action=create&amp;{$misc->href}\">{$lang['strcreateaggregate']}</a></p>\n";
 	}
 
 	/**

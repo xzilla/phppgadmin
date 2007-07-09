@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.43.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: constraints.php,v 1.43.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Confirm and then actually add a FOREIGN KEY constraint
 	 */
 	function addForeignKey($stage, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -73,7 +73,7 @@
 					$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 					$buttonRemove->set_attribute('type', 'button');
 
-					echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+					echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
 
 					echo "<table>\n";
 					echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
@@ -176,7 +176,7 @@
 				$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 				$buttonRemove->set_attribute('type', 'button');
 
-				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
 
 				echo "<table>\n";
 				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>\n";
@@ -218,7 +218,7 @@
 	 * Confirm and then actually add a PRIMARY KEY or UNIQUE constraint
 	 */
 	function addPrimaryOrUniqueKey($type, $confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -269,7 +269,7 @@
 			$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 			$buttonRemove->set_attribute('type', 'button');
 	
-			echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"$PHP_SELF\" method=\"post\">\n";	
+			echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
 	
 			echo "<table>\n";
 			echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
@@ -344,7 +344,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -355,7 +355,7 @@
 			$misc->printTitle($lang['straddcheck'],'pg.constraint.check');
 			$misc->printMsg($msg);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"constraints.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<th class=\"data required\">{$lang['strdefinition']}</th></tr>\n";
@@ -394,7 +394,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('constraint');
@@ -403,7 +403,7 @@
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']),
 				$misc->printVal($_REQUEST['table'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"constraints.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
@@ -431,7 +431,6 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF;
 		global $lang;
 
 		function cnPre(&$rowdata) {
@@ -468,7 +467,7 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "constraints.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
 			),
 		);
@@ -477,13 +476,13 @@
 		
 		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+		echo "<p><a class=\"navlink\" href=\"constraints.php?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"constraints.php?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['stradduniq']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_primary_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"constraints.php?action=add_primary_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddpk']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+		echo "<a class=\"navlink\" href=\"constraints.php?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddfk']}</a></p>\n";
 	}
 

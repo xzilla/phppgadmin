@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.24.2.1 2007/05/28 17:21:56 ioguix Exp $
+	 * $Id: domains.php,v 1.24.2.2 2007/07/09 14:55:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		$misc->printTrail('domain');
 		$misc->printTitle($lang['stralter'],'pg.domain.alter');
@@ -52,7 +52,7 @@
 			}
 			
 			// Display domain info
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"domains.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">", $misc->printVal($domaindata->f['domname']), "</td></tr>\n";
@@ -87,7 +87,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $data, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -98,7 +98,7 @@
 			$misc->printTitle($lang['straddcheck'],'pg.constraint.check');
 			$misc->printMsg($msg);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"domains.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strname']}</th>\n";
 			echo "<th class=\"data required\">{$lang['strdefinition']}</th></tr>\n";
@@ -137,7 +137,7 @@
 	 */
 	function doDropConstraint($confirm, $msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('domain');
@@ -146,7 +146,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropconstraint'], $misc->printVal($_REQUEST['constraint']), 
 				$misc->printVal($_REQUEST['domain'])), "</p>\n";	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"domains.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_con\" />\n";
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
@@ -174,7 +174,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		$misc->printTrail('domain');
 		$misc->printTitle($lang['strproperties'],'pg.domain');
@@ -218,7 +218,7 @@
 						echo $misc->printVal($domaincons->f['consrc']);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"$PHP_SELF?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f['conname']),
+						echo "<a href=\"domains.php?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->f['conname']),
 							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->f['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
 		
 						$domaincons->moveNext();
@@ -231,11 +231,11 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
+		echo "<p><a class=\"navlink\" href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "| <a class=\"navlink\" href=\"{$PHP_SELF}?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
+			echo "| <a class=\"navlink\" href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
 				"\">{$lang['straddcheck']}</a>\n";
-			echo "| <a class=\"navlink\" href=\"$PHP_SELF?action=alter&amp;{$misc->href}&amp;domain=", 
+			echo "| <a class=\"navlink\" href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
 				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a>\n";
 		}
 		echo "</p>\n";
@@ -246,14 +246,14 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('domain');
 			$misc->printTitle($lang['strdrop'],'pg.domain.drop');
 			
 			echo "<p>", sprintf($lang['strconfdropdomain'], $misc->printVal($_REQUEST['domain'])), "</p>\n";	
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"domains.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"domain\" value=\"", htmlspecialchars($_REQUEST['domain']), "\" />\n";
 			echo $misc->form;
@@ -280,7 +280,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_POST['domname'])) $_POST['domname'] = '';
 		if (!isset($_POST['domtype'])) $_POST['domtype'] = '';
@@ -295,7 +295,7 @@
 		$misc->printTitle($lang['strcreatedomain'],'pg.domain.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"domains.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data left required\" width=\"70\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"domname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
@@ -365,7 +365,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','domains');
@@ -408,19 +408,19 @@
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
-				'url'	=> "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'	=> "domains.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'	=> array('domain' => 'domname'),
 			),
 			'drop' => array(
 				'title'	=> $lang['strdrop'],
-				'url'	=> "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'	=> "domains.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'	=> array('domain' => 'domname'),
 			),
 		);
 		
 		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"domains.php?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
 	}
 	
@@ -428,7 +428,7 @@
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
-		global $misc, $data, $PHP_SELF;
+		global $misc, $data;
 		
 		$domains = $data->getDomains();
 		
