@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.47 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: constraints.php,v 1.48 2007/07/10 09:04:20 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Confirm and then actually add a FOREIGN KEY constraint
 	 */
 	function addForeignKey($stage, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -218,7 +218,7 @@
 	 * Confirm and then actually add a PRIMARY KEY or UNIQUE constraint
 	 */
 	function addPrimaryOrUniqueKey($type, $confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';
@@ -344,7 +344,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';

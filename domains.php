@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.29 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: domains.php,v 1.30 2007/07/10 09:04:21 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -87,7 +87,7 @@
 	 * Confirm and then actually add a CHECK constraint
 	 */
 	function addCheck($confirm, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang;
 
 		if (!isset($_POST['name'])) $_POST['name'] = '';

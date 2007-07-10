@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.15 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: schemas.php,v 1.16 2007/07/10 09:04:21 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -204,7 +204,7 @@
 	 * Show confirmation of drop and perform actual drop
 	 */
 	function doDrop($confirm) {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang, $_reload_browser;
 
 		if ($confirm) {

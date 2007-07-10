@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.97 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: database.php,v 1.98 2007/07/10 09:04:21 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -33,7 +33,7 @@
 	 * Searches for a named database object
 	 */
 	function doFind($confirm = true, $msg = '') {
-		global $PHP_SELF, $data, $data, $misc;
+		global $PHP_SELF, $data, $misc;
 		global $lang, $conf;
 
 		if (!isset($_GET['term'])) $_GET['term'] = '';
