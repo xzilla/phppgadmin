@@ -82,6 +82,7 @@ Tables
 * -Auto-select 'WITHOUT OIDS' if 'default_with_oids' setting is false (Guillaume LELARGE)
 * Add WITH storage_parameter option to create table [8.2]
 * Add last vacuum and analyze information from statistics tables [8.2]
+* Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
 
 Views
 -----
@@ -106,6 +107,7 @@ Functions
 * Clean up javascript html spec warnings
 * Display owner
 * Alter owner
+* Alter schema 
 
 Indexes 
 -------
