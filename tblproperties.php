@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.72.2.2 2007/07/09 14:55:22 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.72.2.3 2007/07/11 07:59:27 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -640,7 +640,7 @@
 				'field' => 'comment',
 			),
 		);
-		
+
 		$actions = array(
 			'properties' => array(
 				'title' => $lang['strproperties'],
@@ -649,7 +649,7 @@
 			),
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "tableproperties.php?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "tblproperties.php?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 			'drop' => array(
@@ -658,11 +658,11 @@
 				'vars'  => array('column' => 'attname'),
 			),
 		);
-		
+
 		if (!$data->hasDropColumn()) unset($actions['drop']);
-		
+
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
-		
+
 		echo "<br />\n";
 
 		echo "<ul>\n";
