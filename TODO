@@ -8,7 +8,7 @@ our project page here:
 	http://sourceforge.net/projects/phppgadmin/
 
 An item is marked 'claimed' when a username in brackets is put after the TODO
-item.
+item. If you want to work a claimed item, please contact the developers list.
 
 An item is marked with a '-' if it has been completed.
 
@@ -182,13 +182,14 @@ Miscellaneous
 * Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
 * Allow changing owner for objects that have this feature [7.4+ generally]
-* Translated FAQ
 * -Icons for all objects, for use in navigation widgets
   Most objects are now covered thanks to those provided by Niko,
   but we still need icons for:
     Introduction, Variables, Admin, Privileges, Reports
 * Add CASCADE option to Truncate [8.2]
 * Add information about synch tool to TRANSLATORS
+* Translated FAQ
+* Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
 
 Exotic
 ------
