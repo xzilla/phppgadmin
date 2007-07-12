@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.11 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: languages.php,v 1.12 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $database;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('database');
 		$misc->printTabs('database','languages');

@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.36 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: users.php,v 1.37 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -20,7 +20,7 @@
 	 */
 	function doAccount($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$server_info = $misc->getServerInfo();
 		
@@ -47,7 +47,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
 	}
 	
 	/**
@@ -55,7 +55,7 @@
 	 */
 	function doChangePassword($confirm, $msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang, $conf;
+		global $lang, $conf;
 		
 		$server_info = $misc->getServerInfo();
 		
@@ -68,7 +68,7 @@
 			if (!isset($_POST['password'])) $_POST['password'] = '';
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"users.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
@@ -105,7 +105,7 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		$misc->printTrail('user');
 		$misc->printTitle($lang['stralter'],'pg.user.alter');
@@ -127,7 +127,7 @@
 				$_POST['formPassword'] = '';
 			}
 		
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"users.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strusername']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"newname\" size=\"15\" value=\"" . htmlspecialchars($_POST['newname']) . "\" />" : $misc->printVal($userdata->fields['usename'])), "</td>\n\t</tr>\n";
@@ -180,7 +180,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('user');
@@ -188,7 +188,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropuser'], $misc->printVal($_REQUEST['username'])), "</p>\n";	
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"users.php\" method=\"post\">\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"username\" value=\"", htmlspecialchars($_REQUEST['username']), "\" />\n";
 			echo $misc->form;
@@ -210,7 +210,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc, $username;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_POST['formUsername'])) $_POST['formUsername'] = '';
 		if (!isset($_POST['formPassword'])) $_POST['formPassword'] = '';
@@ -221,7 +221,7 @@
 		$misc->printTitle($lang['strcreateuser'],'pg.user.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"users.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strusername']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" name=\"formUsername\" value=\"", htmlspecialchars($_POST['formUsername']), "\" /></td>\n\t</tr>\n";
@@ -272,7 +272,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		function renderUseExpires($val) {
 			global $lang;
@@ -318,12 +318,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('username' => 'usename'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('username' => 'usename'),
 			),
 		);
@@ -332,7 +332,7 @@
 		
 		$misc->printTable($users, $columns, $actions, $lang['strnousers']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreateuser']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateuser']}</a></p>\n";
 
 	}
 

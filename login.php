@@ -3,15 +3,13 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.36 2007/06/06 08:53:47 ioguix Exp $
+	 * $Id: login.php,v 1.37 2007/07/12 19:26:22 xzilla Exp $
 	 */
 	global $conf;
 	
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
 	require_once('./libraries/lib.inc.php');
-
-	global $PHP_SELF;
 
 	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
@@ -26,7 +24,7 @@
 	$md5_server = md5($_REQUEST['server']);
 ?>
 
-<form action="<?php echo $PHP_SELF ?>" method="post" name="login_form">
+<form action="redirect.php" method="post" name="login_form">
 <?php
 	if (!empty($_POST)) $vars =& $_POST;
 	else $vars =& $_GET;

@@ -22,7 +22,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc, $_reload_browser;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 
@@ -33,7 +33,7 @@
 				$misc->printMsg($msg);
 
 				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"colproperties.php\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n";
@@ -183,7 +183,7 @@
 	 */
 	function doDefault($msg = '', $isTable = true) {
 		global $data, $conf, $misc, $tableName;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		function attPre(&$rowdata) {
 			global $data;
@@ -247,7 +247,7 @@
 					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
-				echo "\t<li><a href=\"{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+				echo "\t<li><a href=\"?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
 				
 				/* Delete link */

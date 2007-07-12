@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.28 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.29 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -29,7 +29,7 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('view');
 		$misc->printTitle($lang['stredit'],'pg.view.alter');
@@ -44,7 +44,7 @@
 				$_POST['formComment'] = $viewdata->fields['relcomment'];
 			}
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"viewproperties.php\" method=\"post\">\n";
 			echo "<table style=\"width: 100%\">\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strdefinition']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea style=\"width: 100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
@@ -72,7 +72,7 @@
 	 */
 	function doExport($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('view');
 		$misc->printTabs('view','export');
@@ -129,7 +129,7 @@
 	 */
 	function doDefinition($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		// Get view
 		$vdata = $data->getView($_REQUEST['view']);
@@ -150,7 +150,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;view=", 
+		echo "<p><a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;view=", 
 			urlencode($_REQUEST['view']), "\">{$lang['stralter']}</a></p>\n";
 	}
 
@@ -159,7 +159,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 
@@ -171,7 +171,7 @@
 				$misc->printTitle($lang['stralter'],'pg.column.alter'); 
 				$misc->printMsg($msg);
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"viewproperties.php\" method=\"post\">\n";
 
 				// Output view header
 				echo "<table>\n";
@@ -287,7 +287,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		function attPre(&$rowdata) {
 			global $data;
@@ -332,7 +332,7 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
+				'url'   => "?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);

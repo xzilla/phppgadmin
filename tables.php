@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.97 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: tables.php,v 1.98 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['stage'])) {
 			$_REQUEST['stage'] = 1;
@@ -38,7 +38,7 @@
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
 				
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
@@ -104,7 +104,7 @@
 				$misc->printMsg($msg);
 
 				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n";
@@ -242,7 +242,6 @@
 	function doSelectRows($confirm, $msg = '') {
 		global $data, $misc, $_no_output;
 		global $lang;
-		global $PHP_SELF;
 
 		if ($confirm) {
 			$misc->printTrail('table');
@@ -251,7 +250,7 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"selectform\">\n";
+			echo "<form action=\"tables.php\" method=\"post\" id=\"selectform\">\n";
 			if ($attrs->recordCount() > 0) {
 				// JavaScript for select all feature
 				echo "<script type=\"text/javascript\">\n";
@@ -352,7 +351,6 @@
 	function doInsertRow($confirm, $msg = '') {
 		global $data, $misc, $conf;
 		global $lang;
-		global $PHP_SELF;
 
 		$bAllowAC = ($conf['autocomplete'] != 'disable') ? TRUE : FALSE;
 
@@ -380,7 +378,7 @@
 				}
 			}
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
+			echo "<form action=\"tables.php\" method=\"post\" id=\"ac_form\">\n";
 			if ($attrs->recordCount() > 0) {
 				echo "<table>\n";
 
@@ -494,7 +492,6 @@
 	function doEmpty($confirm) {
 		global $data, $misc;
 		global $lang;
-		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifytabletoempty']); 
@@ -506,7 +503,7 @@
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strempty'],'pg.table.empty');
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach ($_REQUEST['ma'] as $v) {
 					$a = unserialize(html_entity_decode($v));
 					echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($a['table'])), "</p>\n";
@@ -519,7 +516,7 @@
 
 				echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			} // END not mutli empty
 
@@ -558,7 +555,6 @@
 	function doDrop($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		global $PHP_SELF;
 		
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifytabletodrop']); 
@@ -572,7 +568,7 @@
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strdrop'], 'pg.table.drop');
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
 					$a = unserialize(html_entity_decode($v));
 					echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($a['table'])), "</p>\n";
@@ -585,7 +581,7 @@
 
 				echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			}// END if multi drop
 
@@ -634,7 +630,6 @@
 	function doVacuum($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifytabletovacuum']); 
@@ -645,7 +640,7 @@
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
 					$a = unserialize(html_entity_decode($v));
 					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($a['table'])), "</p>\n";
@@ -658,7 +653,7 @@
 
 				echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			}
 			echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
@@ -707,7 +702,6 @@
 	function doAnalyze($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		global $PHP_SELF;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifytabletoanalyze']); 
@@ -718,7 +712,7 @@
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['stranalyze'], 'pg.analyze'); //TODO
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
 					$a = unserialize(html_entity_decode($v));
 					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
@@ -731,7 +725,7 @@
 
 				echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			}
 			echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
@@ -775,7 +769,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc, $data;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','tables');
@@ -785,7 +779,7 @@
 		
 		$multiactions = array(
 			'keycols' => array('table' => 'relname'),
-			'url' => "{$PHP_SELF}",
+			'url' => 'tables.php',
 			'actions' => array(
                                 'analyze' => array(
 					'action' => 'confirm_analyze',
@@ -843,32 +837,32 @@
 			),
 			'select' => array(
 				'title' => $lang['strselect'],
-				'url'   => "{$PHP_SELF}?action=confselectrows&amp;{$misc->href}&amp;",
+				'url'   => "?action=confselectrows&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'insert' => array(
 				'title' => $lang['strinsert'],
-				'url'   => "{$PHP_SELF}?action=confinsertrow&amp;{$misc->href}&amp;",
+				'url'   => "?action=confinsertrow&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'empty' => array(
 				'title' => $lang['strempty'],
-				'url'   => "{$PHP_SELF}?action=confirm_empty&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_empty&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'vacuum' => array(
 				'title' => $lang['strvacuum'],
-				'url'   => "{$PHP_SELF}?action=confirm_vacuum&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_vacuum&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'analyze' => array(
 				'title' => $lang['stranalyze'],
-				'url'   => "{$PHP_SELF}?action=confirm_analyze&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_analyze&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 		);
@@ -878,7 +872,7 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables'], null, $multiactions);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
 	
 	/**

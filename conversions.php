@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.13 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: conversions.php,v 1.14 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc, $database;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('schema');
 		$misc->printTabs('schema', 'conversions');

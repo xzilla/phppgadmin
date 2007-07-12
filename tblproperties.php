@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.81 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.82 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -43,7 +43,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('table');
 		$misc->printTitle($lang['stralter'], 'pg.table.alter');
@@ -63,7 +63,7 @@
 			if (!isset($_POST['comment'])) $_POST['comment'] = $table->fields['relcomment'];
 			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->fields['tablespace'];
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"tblproperties.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
@@ -117,7 +117,7 @@
 	
 	function doExport($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		// Determine whether or not the table has an object ID
 		$hasID = $data->hasObjectID($_REQUEST['table']);
@@ -175,7 +175,7 @@
 	
 	function doImport($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('table');
 		$misc->printTabs('table','import');
@@ -220,7 +220,7 @@
 	 */
 	function doAddColumn($msg = '') {
 		global $data, $misc, $_reload_browser;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 
@@ -243,7 +243,7 @@
 				$misc->printMsg($msg);
 
 				echo "<script src=\"tables.js\" type=\"text/javascript\"></script>";
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"tblproperties.php\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n";
@@ -340,7 +340,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $database, $misc, $_reload_browser;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('column');
@@ -350,7 +350,7 @@
                     $misc->printVal($_REQUEST['table'])), "</p>\n";
 								
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"tblproperties.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
@@ -420,7 +420,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		function attPre(&$rowdata, $actions) {
 			global $data;
@@ -487,7 +487,7 @@
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);
@@ -495,7 +495,7 @@
 		if (!$data->hasDropColumn()) unset($actions['drop']);
 		
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
-		
+
 		echo "<ul>\n";
 		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
@@ -503,8 +503,8 @@
 		echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confirm_empty&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
-		echo "\t<li><a href=\"{$PHP_SELF}?action=add_column&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-		echo "\t<li><a href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
+		echo "\t<li><a href=\"tblproperties.php?action=add_column&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
+		echo "\t<li><a href=\"tblproperties.php?action=confirm_alter&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
 		echo "</ul>\n";
 	}
 

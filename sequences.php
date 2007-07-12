@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.40 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: sequences.php,v 1.41 2007/07/12 19:26:22 xzilla Exp $
 	 */
 	
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */	
 	function doDefault($msg = '')	{
 		global $data, $conf, $misc; 
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema', 'sequences');
@@ -30,7 +30,7 @@
 			'sequence' => array(
 				'title' => $lang['strsequence'],
 				'field' => 'seqname',
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
 			'owner' => array(
@@ -54,7 +54,7 @@
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
 			'privileges' => array(
@@ -67,7 +67,7 @@
 		if (!$data->hasAlterSequence()) unset($actions['alter']);
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
 	}
 	
 	/**
@@ -101,7 +101,7 @@
 	 * Display the properties of a sequence
 	 */	 
 	function doProperties($msg = '') {
-		global $data, $misc, $PHP_SELF;
+		global $data, $misc;
 		global $lang;
 		
 		$misc->printTrail('sequence');
@@ -145,12 +145,12 @@
 			echo "</table>";
 			
 			if ($data->hasAlterSequence()) {
-				echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
+				echo "<p><a class=\"navlink\" href=\"?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
 			}
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
+			echo "<a class=\"navlink\" href=\"?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
@@ -160,7 +160,7 @@
 	 */	 	
 	function doDrop($confirm, $msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if ($confirm) {
 			$misc->printTrail('sequence');
@@ -169,7 +169,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
@@ -195,7 +195,7 @@
 	 */
 	function doCreateSequence($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_POST['formSequenceName'])) $_POST['formSequenceName'] = '';
 		if (!isset($_POST['formIncrement'])) $_POST['formIncrement'] = '';
@@ -208,7 +208,7 @@
 		$misc->printTitle($lang['strcreatesequence'],'pg.sequence.create');
 		$misc->printMsg($msg);
 		
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"sequences.php\" method=\"post\">\n";
 		echo "<table>\n";
 		
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -274,7 +274,7 @@
 	 */
 	function doReset() {
 		global $data;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$status = $data->resetSequence($_REQUEST['sequence']);
 		if ($status == 0)
@@ -288,7 +288,7 @@
 	 */
 	function doNextval() {
 		global $data;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$status = $data->nextvalSequence($_REQUEST['sequence']);
 		if ($status == 0)
@@ -315,7 +315,7 @@
 	 */
 	function doSetval($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('sequence');
 		$misc->printTitle($lang['strsetval'], 'pg.sequence');
@@ -325,7 +325,7 @@
 		$sequence = $data->getSequence($_REQUEST['sequence']);		
 		
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			echo "<table border=\"0\">";
 			echo "<tr><th class=\"data left required\">{$lang['strlastvalue']}</th>\n";
 			echo "<td class=\"data1\">";
@@ -361,7 +361,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('sequence');
 		$misc->printTitle($lang['stralter'], 'pg.sequence.alter');
@@ -375,7 +375,7 @@
 			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
 			if ($sequence->fields['is_cycled']) $_POST['formCycledValue'] = 'on';
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			echo "<table>\n";
 			
 			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";

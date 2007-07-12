@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.24 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: groups.php,v 1.25 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doAddMember() {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$status = $data->addGroupMember($_REQUEST['group'], $_REQUEST['user']);
 		if ($status == 0)
@@ -31,7 +31,7 @@
 	 */
 	function doDropMember($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) { 
 			$misc->printTrail('group');
@@ -39,7 +39,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropmember'], $misc->printVal($_REQUEST['user']), $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
-			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo "<form action=\"groups.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop_member\" />\n";
 			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
@@ -62,7 +62,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		if (!isset($_POST['user'])) $_POST['user'] = '';
 	
@@ -80,7 +80,7 @@
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
             	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->fields['usename']), "</td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"$PHP_SELF?action=confirm_drop_member&{$misc->href}&group=",
+					echo "<td class=\"opbutton{$id}\"><a href=\"?action=confirm_drop_member&{$misc->href}&group=",
 						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->fields['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";
             	$groupdata->moveNext();
@@ -90,7 +90,7 @@
 		else echo "<p>{$lang['strnousers']}</p>\n";
 
 		// Display form for adding a user to the group			
-		echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+		echo "<form action=\"groups.php\" method=\"post\">\n";
 		echo "<select name=\"user\">";
 		while (!$users->EOF) {
 			$uname = $misc->printVal($users->fields['usename']);
@@ -105,7 +105,7 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**
@@ -113,7 +113,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('group');
@@ -121,7 +121,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropgroup'], $misc->printVal($_REQUEST['group'])), "</p>\n";
 			
-			echo "<form action=\"{$PHP_SELF}\" method=\"post\">\n";
+			echo "<form action=\"groups.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"group\" value=\"", htmlspecialchars($_REQUEST['group']), "\" />\n";
@@ -143,7 +143,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_POST['name'])) $_POST['name'] = '';
 		if (!isset($_POST['members'])) $_POST['members'] = array();
@@ -155,7 +155,7 @@
 		$misc->printTitle($lang['strcreategroup'],'pg.group.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -207,7 +207,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('server');
 		$misc->printTabs('server','groups');
@@ -219,7 +219,7 @@
 			'group' => array(
 				'title' => $lang['strgroup'],
 				'field' => 'groname',
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('group' => 'groname'),
 			),
 			'actions' => array(
@@ -230,14 +230,14 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('group' => 'groname'),
 			),
 		);
 		
 		$misc->printTable($groups, $columns, $actions, $lang['strnogroups']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreategroup']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreategroup']}</a></p>\n";
 
 	}
 

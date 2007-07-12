@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.64 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: functions.php,v 1.65 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -44,7 +44,7 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('function');
 		$misc->printTitle($lang['stralter'],'pg.function.alter');
@@ -83,7 +83,7 @@
 			}
 
 			$func_full = $fndata->fields['proname'] . "(". $fndata->fields['proarguments'] .")";
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"functions.php\" method=\"post\">\n";
 			echo "<table style=\"width: 90%\">\n";
 			echo "<tr>\n";
 			echo "<th class=\"data required\">{$lang['strfunction']}</th>\n";
@@ -171,7 +171,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('function');
 		$misc->printTitle($lang['strproperties'],'pg.function');
@@ -256,10 +256,10 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;function=", 
+		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;function=", 
 			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;function=",
+		echo "<a class=\"navlink\" href=\"?action=confirm_drop&amp;{$misc->href}&amp;function=",
 			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a>\n";
 	}
 	
@@ -268,7 +268,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang, $_reload_browser;
+		global $lang, $_reload_browser;
 
 		if ($confirm) {
 			$misc->printTrail('schema');
@@ -276,7 +276,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"functions.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
@@ -307,7 +307,7 @@
 	 */
 	function doCreate($msg = '',$szJS="") {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
@@ -449,7 +449,7 @@
 			//]]>
 		</script>
 		";
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"functions.php\" method=\"post\">\n";
 		echo "<table><tbody id=\"args_table\">\n";
 		echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n";
 		echo "<th class=\"data required\" colspan=\"2\">{$lang['strreturns']}</th>\n";
@@ -618,7 +618,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc, $func;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','functions');
@@ -659,12 +659,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'privileges' => array(
@@ -680,9 +680,9 @@
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
 	}
 	
 	/**

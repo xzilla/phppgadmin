@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.8 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: servers.php,v 1.9 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -25,7 +25,7 @@
 
 	function doDefault($msg = '') {
 		global $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTabs('root','servers');
 		$misc->printMsg($msg);
@@ -64,7 +64,7 @@
 		$actions = array(
 			'logout' => array(
 				'title' => $lang['strlogout'],
-				'url'   => "{$PHP_SELF}?action=logout&amp;",
+				'url'   => "?action=logout&amp;",
 				'vars'  => array('logoutServer' => 'id'),
 			),
 		);

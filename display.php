@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.62 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: display.php,v 1.63 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -28,7 +28,6 @@
 	function doEditRow($confirm, $msg = '') {
 		global $data, $misc, $conf;
 		global $lang;
-		global $PHP_SELF;
 
 		if (is_array($_REQUEST['key']))
            $key = $_REQUEST['key'];
@@ -62,7 +61,7 @@
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 			$rs = $data->browseRow($_REQUEST['table'], $key);
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\" id=\"ac_form\">\n";
+			echo "<form action=\"display.php\" method=\"post\" id=\"ac_form\">\n";
 			$elements = 0;
 			$error = true;			
 			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
@@ -205,7 +204,6 @@
 	function doDelRow($confirm) {
 		global $data, $misc;
 		global $lang;
-		global $PHP_SELF;
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
@@ -213,7 +211,7 @@
 
 			echo "<p>{$lang['strconfdeleterow']}</p>\n";
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"display.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"delrow\" />\n";
 			echo $misc->form;
 			if (isset($_REQUEST['table']))

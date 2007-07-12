@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.53 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: all_db.php,v 1.54 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,13 +17,13 @@
 	 */
 	function doAlter($confirm) {
 		global $data, $misc, $_reload_browser;
-		global $PHP_SELF, $lang;
+		global $lang;
 	
 		if ($confirm) {
 			$misc->printTrail('database');
 			$misc->printTitle($lang['stralter'], 'pg.database.alter');
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"all_db.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
@@ -83,7 +83,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang, $_reload_drop_database;
+		global $lang, $_reload_drop_database;
 
 		if (empty($_REQUEST['dropdatabase']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifydatabasetodrop']); 
@@ -95,7 +95,7 @@
             $misc->printTrail('database');
             $misc->printTitle($lang['strdrop'], 'pg.database.drop');
 
-	        echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+	        echo "<form action=\"all_db.php\" method=\"post\">\n";
             //If multi drop
             if (isset($_REQUEST['ma'])) {
 
@@ -150,7 +150,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('server');
 		$misc->printTitle($lang['strcreatedatabase'], 'pg.database.create');
@@ -170,7 +170,7 @@
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"all_db.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -249,7 +249,7 @@
 	 */
 	function doExport($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('server');
 		$misc->printTabs('server','export');
@@ -298,7 +298,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('server');
 		$misc->printTabs('server','databases');
@@ -308,7 +308,7 @@
 
                 $multiactions = array(
                     'keycols' => array('database' => 'datname'),
-                    'url' => "{$PHP_SELF}",
+                    'url' => "",
                     'actions' => array(
                         'drop' => array(
                             'action' => 'confirm_drop',
@@ -353,7 +353,7 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('dropdatabase' => 'datname'),
 			),
 			'privileges' => array(
@@ -365,7 +365,7 @@
 		if ($data->hasAlterDatabase() ) {
 			$actions['alter'] = array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('alterdatabase' => 'datname')
 			);
 		}
@@ -376,7 +376,7 @@
 		
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases'], null, $multiactions);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
 	

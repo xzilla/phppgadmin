@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.13 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: tablespaces.php,v 1.14 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('tablespace');
 		$misc->printTitle($lang['stralter'],'pg.tablespace.alter');
@@ -36,7 +36,7 @@
 				$_POST['comment'] = ($data->hasSharedComments()) ? $tablespace->fields['spccomment'] : '';
 			}
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"tablespaces.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -97,7 +97,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('tablespace');
@@ -105,7 +105,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdroptablespace'], $misc->printVal($_REQUEST['tablespace'])), "</p>\n";	
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"tablespaces.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"tablespace\" value=\"", htmlspecialchars($_REQUEST['tablespace']), "\" />\n";
@@ -127,7 +127,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc, $spcname;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$server_info = $misc->getServerInfo();
 		
@@ -143,7 +143,7 @@
 		$misc->printTitle($lang['strcreatetablespace'],'pg.tablespace.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"tablespaces.php\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -201,7 +201,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$misc->printTrail('server');
 		$misc->printTabs('server','tablespaces');
@@ -239,12 +239,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'privileges' => array(
@@ -256,7 +256,7 @@
 				
 		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatetablespace']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetablespace']}</a></p>\n";
 
 	}
 

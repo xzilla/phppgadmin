@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php,v 1.7 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: roles.php,v 1.8 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc, $username;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		if (!isset($_POST['formRolename'])) $_POST['formRolename'] = '';
 		if (!isset($_POST['formPassword'])) $_POST['formPassword'] = '';
@@ -32,7 +32,7 @@
 		$misc->printTitle($lang['strcreaterole'],'pg.role.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"roles.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input size=\"15\" maxlength=\"15\" name=\"formRolename\" value=\"", htmlspecialchars($_POST['formRolename']), "\" /></td>\n\t</tr>\n";
@@ -141,7 +141,7 @@
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('role');
 		$misc->printTitle($lang['stralter'],'pg.role.alter');
@@ -170,7 +170,7 @@
 				$_POST['formPassword'] = '';
 			}
 		
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"roles.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left\" style=\"width: 130px\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">", ($canRename ? "<input name=\"formNewRoleName\" size=\"15\" maxlength=\"15\" value=\"" . htmlspecialchars($_POST['formNewRoleName']) . "\" />" : $misc->printVal($roledata->fields['rolname'])), "</td>\n\t</tr>\n";
@@ -326,7 +326,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('role');
@@ -334,7 +334,7 @@
 			
 			echo "<p>", sprintf($lang['strconfdroprole'], $misc->printVal($_REQUEST['rolename'])), "</p>\n";	
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"roles.php\" method=\"post\">\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"rolename\" value=\"", htmlspecialchars($_REQUEST['rolename']), "\" />\n";
 			echo $misc->form;
@@ -356,7 +356,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('role');
 		$misc->printTitle($lang['strproperties'],'pg.role');
@@ -425,10 +425,10 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=alter&amp;{$misc->href}&amp;rolename=", 
+		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"?action=alter&amp;{$misc->href}&amp;rolename=", 
 			urlencode($_REQUEST['rolename']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
+		echo "<a class=\"navlink\" href=\"?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
 			urlencode($_REQUEST['rolename']), "\">{$lang['strdrop']}</a>\n";
 	}
 
@@ -440,7 +440,7 @@
 	 */
 	function doAccount($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		$server_info = $misc->getServerInfo();
 		
@@ -478,7 +478,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
 	}
 	
 	/**
@@ -486,7 +486,7 @@
 	 */
 	function doChangePassword($confirm, $msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang, $conf;
+		global $lang, $conf;
 		
 		$server_info = $misc->getServerInfo();
 		
@@ -499,7 +499,7 @@
 			if (!isset($_POST['password'])) $_POST['password'] = '';
 			if (!isset($_POST['confirm'])) $_POST['confirm'] = '';
 			
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"roles.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strpassword']}</th>\n";
 			echo "\t\t<td><input type=\"password\" name=\"password\" size=\"32\" value=\"", 
@@ -536,7 +536,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 		
 		function renderRoleConnLimit($val) {
 			global $lang;
@@ -606,19 +606,19 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "{$PHP_SELF}?action=alter&amp;{$misc->href}&amp;",
+				'url'   => "?action=alter&amp;{$misc->href}&amp;",
 				'vars'  => array('rolename' => 'rolname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('rolename' => 'rolname'),
 			),
 		);
 		
 		$misc->printTable($roles, $columns, $actions, $lang['strnoroles']);
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreaterole']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreaterole']}</a></p>\n";
 
 	}
 

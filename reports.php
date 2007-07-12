@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.29 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: reports.php,v 1.30 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 */
 	function doEdit($msg = '') {
 		global $data, $reportsdb, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		// If it's a first, load then get the data from the database
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
@@ -38,7 +38,7 @@
 		$misc->printTitle($lang['stredit']);
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"reports.php\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table style=\"width: 100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -98,7 +98,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $reportsdb, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$report = $reportsdb->getReport($_REQUEST['report_id']);
 
@@ -121,8 +121,8 @@
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"$PHP_SELF?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -130,7 +130,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $reportsdb, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['report_name'])) $_REQUEST['report_name'] = '';
 		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = (isset($_REQUEST['database']) ? $_REQUEST['database'] : '');
@@ -143,7 +143,7 @@
 		$misc->printTitle($lang['strcreatereport']);
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"reports.php\" method=\"post\">\n";
 		echo $misc->form;
 		echo "<table style=\"width: 100%\">\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -203,7 +203,6 @@
 	function doDrop($confirm) {
 		global $reportsdb, $misc;
 		global $lang;
-		global $PHP_SELF;
 
 		if ($confirm) {
 			// Fetch report from the database
@@ -215,7 +214,7 @@
 
 			echo "<p>", sprintf($lang['strconfdropreport'], $misc->printVal($report->fields['report_name'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"reports.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"report_id\" value=\"", htmlspecialchars($_REQUEST['report_id']), "\" />\n";
@@ -238,7 +237,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $misc, $reportsdb;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('server');
 		$misc->printTabs('server','reports');
@@ -250,7 +249,7 @@
 			'report' => array(
 				'title' => $lang['strreport'],
 				'field' => 'report_name',
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'database' => array(
@@ -270,7 +269,7 @@
 			),
 		);
 		
-		$return_url = urlencode("{$PHP_SELF}?{$misc->href}");
+		$return_url = urlencode("?{$misc->href}");
 		
 		$actions = array(
 			'run' => array(
@@ -280,19 +279,19 @@
 			),
 			'edit' => array(
 				'title' => $lang['stredit'],
-				'url'   => "{$PHP_SELF}?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 		);
 		
 		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
 		
-		echo "<p><a class=\"navlink\" href=\"{$PHP_SELF}?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strreports']);

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.153 2007/06/05 15:50:04 xzilla Exp $
+	 * $Id: Misc.php,v 1.154 2007/07/12 19:26:22 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -1531,14 +1531,15 @@
 		 *			$actions = array(
 		 *				action_id => array(
 		 *					'title' => Action heading,
-		 *					'url'   => Static part of URL,
+		 *					'url'   => Static part of URL.  Often we rely
+		 *							   relative urls, usually '', or just a query string,
 		 *					'vars'  => Associative array of (URL variable => field name),
 		 *				), ...
 		 *			);
 		 * @param $multiactions  Actions to be provided to a series of items defined by checkboxes
 		 *			$multiactions = array(
 		 *			'keycols' => array('table' => 'relname'),
-		 *   			'url' => "{$PHP_SELF}",
+		 *   			'url' => "", (See $actions['url'])
 		 *   			'actions' => array(
 		 *   				'empty' => array(
 		 *   				'action' => 'confirm_empty',
@@ -1560,6 +1561,9 @@
 		 *					 It can return an array of actions specific to the row,
 		 *					 or if nothing is returned then the standard actions are used.
 		 *					 (see tblproperties.php and constraints.php for examples)
+		 *					 The function must not must not store urls because
+		 *					 they are relative and won't work out of context.
+
 		 */
 		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, $multiactions = null) {
 			global $data, $conf, $misc, $lang;
@@ -1637,6 +1641,7 @@
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
+										if ($action['url'] === '') echo '?';
 										$misc->printUrlVars($action['vars'], $tabledata->fields);
 										echo "\">{$action['title']}</a></td>\n";
 									}
@@ -1647,6 +1652,7 @@
 								if (array_key_exists($column['field'], $tabledata->fields)) {
 									if (isset($column['url'])) {
 										echo "<a href=\"{$column['url']}";
+										if ($column['url'] === '') echo '?';
 										$misc->printUrlVars($column['vars'], $tabledata->fields);
 										echo "\">";
 									}

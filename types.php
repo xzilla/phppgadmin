@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.36 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: types.php,v 1.37 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -17,7 +17,7 @@
 	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		// Get type (using base name)
 		$typedata = $data->getType($_REQUEST['type']);
@@ -75,7 +75,7 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"$PHP_SELF?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
 		} else
 			doDefault($lang['strinvalidparam']);
 	}
@@ -85,7 +85,7 @@
 	 */
 	function doDrop($confirm) {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if ($confirm) {
 			$misc->printTrail('type');
@@ -93,7 +93,7 @@
 
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
-			echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+			echo "<form action=\"types.php\" method=\"post\">\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
@@ -120,7 +120,7 @@
 	 */
 	function doCreateComposite($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_REQUEST['stage'])) $_REQUEST['stage'] = 1;
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
@@ -133,7 +133,7 @@
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 				
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"types.php\" method=\"post\">\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
@@ -176,7 +176,7 @@
 				$misc->printTitle($lang['strcreatecomptype'], 'pg.type.create');
 				$misc->printMsg($msg);
 
-				echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+				echo "<form action=\"types.php\" method=\"post\">\n";
 
 				// Output table header
 				echo "<table>\n";
@@ -268,7 +268,7 @@
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		if (!isset($_POST['typname'])) $_POST['typname'] = '';
 		if (!isset($_POST['typin'])) $_POST['typin'] = '';
@@ -288,7 +288,7 @@
 		$misc->printTitle($lang['strcreatetype'], 'pg.type.create');
 		$misc->printMsg($msg);
 
-		echo "<form action=\"$PHP_SELF\" method=\"post\">\n";
+		echo "<form action=\"types.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"typname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -393,7 +393,7 @@
 	 */
 	function doDefault($msg = '') {
 		global $data, $conf, $misc;
-		global $PHP_SELF, $lang;
+		global $lang;
 
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','types');
@@ -405,7 +405,7 @@
 			'type' => array(
 				'title' => $lang['strtype'],
 				'field' => 'typname',
-				'url'   => "{$PHP_SELF}?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('type' => 'basename'),
 			),
 			'owner' => array(
@@ -440,16 +440,16 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "{$PHP_SELF}?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('type' => 'basename'),
 			),
 		);
 		
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
-		echo "<p><a class=\"navlink\" href=\"$PHP_SELF?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
+		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
 		if ($data->hasCompositeTypes())
-			echo "\n| <a class=\"navlink\" href=\"$PHP_SELF?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
+			echo "\n| <a class=\"navlink\" href=\"?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
 		echo "</p>\n";
 
 	}

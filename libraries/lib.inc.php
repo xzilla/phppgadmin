@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.117 2007/05/31 21:13:24 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.118 2007/07/12 19:26:23 xzilla Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
@@ -220,8 +220,5 @@
 			$slony = new Slony();
 		}
 	}
-
-    // Prevent XSS attacks
-    $PHP_SELF = htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, $lang['appcharset']);
 
 ?>

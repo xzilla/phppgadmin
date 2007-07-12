@@ -3,7 +3,7 @@
 	/**
 	 * Intro screen
 	 *
-	 * $Id: intro.php,v 1.18 2007/05/28 19:21:29 soranzo Exp $
+	 * $Id: intro.php,v 1.19 2007/07/12 19:26:22 xzilla Exp $
 	 */
 
 	// Include application functions (no db conn)
@@ -19,7 +19,7 @@
 
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
-<form method="get" action="<?php echo $PHP_SELF; ?>">
+<form method="get" action="intro.php">
 	<p><select name="language" onchange="this.form.submit()">
 <?php
 	$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
