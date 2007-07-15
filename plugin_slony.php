@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.20 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: plugin_slony.php,v 1.21 2007/07/15 09:37:34 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -433,16 +433,16 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strcluster'],
-				'field' => 'cluster'
+				'field' => 'cluster',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
-				'vars'  => array('slony_cluster' => 'cluster')
+				'vars'  => array('slony_cluster' => 'cluster'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'comment'
+				'field' => 'comment',
 			)
 		);
 		
@@ -450,7 +450,7 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_cluster&amp;",
-				'vars'  => array('slony_cluster' => 'cluster')
+				'vars'  => array('slony_cluster' => 'cluster'),
 			)
 		);
 		
@@ -597,9 +597,9 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;subject=slony_node&amp;",
-				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
+				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment'),
 			),
 			'no_status' => array(
 				'title' => $lang['strstatus'],
@@ -611,7 +611,7 @@
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 			)
 		);
 		
@@ -619,7 +619,7 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_node&amp;subject=slony_node&amp;",
-				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment')
+				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment'),
 			)
 		);
 		
@@ -753,16 +753,16 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
-				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
+				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 			)
 		);
 		
@@ -770,7 +770,7 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_path&amp;",
-				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id')
+				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id'),
 			)
 		);
 		
@@ -927,16 +927,16 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
-				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 			)
 		);
 		
@@ -944,7 +944,7 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_listen&amp;",
-				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin')
+				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin'),
 			)
 
 		);
@@ -1096,16 +1096,16 @@
 		$columns = array(
 			'set_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'set_comment'
+				'field' => 'set_comment',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'set_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'set_comment'
+				'field' => 'set_comment',
 			)
 		);
 		
@@ -1113,32 +1113,32 @@
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_drop_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'lock' => array(
 				'title' => $lang['strlock'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_lock_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'unlock' => array(
 				'title' => $lang['strunlock'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=confirm_unlock_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'merge' => array(
 				'title' => $lang['strmerge'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=merge_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'move' => array(
 				'title' => $lang['strmove'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=move_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			),
 			'execute' => array(
 				'title' => $lang['strexecute'],
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=execute_set&amp;",
-				'vars'  => array('set_id' => 'set_id')
+				'vars'  => array('set_id' => 'set_id'),
 			)
 		);
 		
@@ -1505,12 +1505,12 @@
 			),
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
-				'field' => 'tablespace'
+				'field' => 'tablespace',
 			),
 			'tuples' => array(
 				'title' => $lang['strestimatedrowcount'],
 				'field' => 'reltuples',
-				'type'  => 'numeric'
+				'type'  => 'numeric',
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
@@ -1979,13 +1979,13 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
-				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id')
+				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id'),
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment'
+				'field' => 'no_comment',
 			)
 		);
 		
