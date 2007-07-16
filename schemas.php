@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.17 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: schemas.php,v 1.18 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -50,7 +50,7 @@
 			$actions = array(
 				'drop' => array(
 					'title' => $lang['strdrop'],
-					'url'   => "?action=drop&amp;{$misc->href}&amp;",
+					'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 				'privileges' => array(
@@ -60,14 +60,14 @@
 				),
 				'alter' => array(
 					'title' => $lang['stralter'],
-					'url'   => "?action=alter&amp;{$misc->href}&amp;",
+					'url'   => "schemas.php?action=alter&amp;{$misc->href}&amp;",
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
 			
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
-			echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
 		} else {
 			// If the database does not support schemas...
 			echo "<p>{$lang['strnoschemas']}</p>\n";

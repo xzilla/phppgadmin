@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.98 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: tables.php,v 1.99 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -837,32 +837,32 @@
 			),
 			'select' => array(
 				'title' => $lang['strselect'],
-				'url'   => "?action=confselectrows&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confselectrows&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'insert' => array(
 				'title' => $lang['strinsert'],
-				'url'   => "?action=confinsertrow&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confinsertrow&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'empty' => array(
 				'title' => $lang['strempty'],
-				'url'   => "?action=confirm_empty&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confirm_empty&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'vacuum' => array(
 				'title' => $lang['strvacuum'],
-				'url'   => "?action=confirm_vacuum&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confirm_vacuum&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'analyze' => array(
 				'title' => $lang['stranalyze'],
-				'url'   => "?action=confirm_analyze&amp;{$misc->href}&amp;",
+				'url'   => "tables.php?action=confirm_analyze&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 		);
@@ -872,7 +872,7 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables'], null, $multiactions);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}
 	
 	/**

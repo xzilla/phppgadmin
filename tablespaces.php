@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.14 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: tablespaces.php,v 1.15 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -239,12 +239,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "tablespaces.php?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "tablespaces.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('tablespace' => 'spcname')
 			),
 			'privileges' => array(
@@ -256,7 +256,7 @@
 				
 		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetablespace']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"tablespaces.php?action=create&amp;{$misc->href}\">{$lang['strcreatetablespace']}</a></p>\n";
 
 	}
 

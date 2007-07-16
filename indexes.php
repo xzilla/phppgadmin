@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.42 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: indexes.php,v 1.43 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -288,17 +288,17 @@
 		$actions = array(
 			'cluster' => array(
 				'title' => $lang['strclusterindex'],
-				'url'   => "?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=confirm_cluster_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 			'reindex' => array(
 				'title' => $lang['strreindex'],
-				'url'   => "?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=reindex&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "indexes.php?action=confirm_drop_index&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('index' => 'indname'),
 			),
 		);
@@ -307,7 +307,8 @@
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create_index&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
+		echo "<p><a class=\"navlink\" href=\"indexes.php?action=create_index&amp;{$misc->href}&amp;table=", 
+			urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
 	}
 
 	function doTree() {

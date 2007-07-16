@@ -247,7 +247,7 @@
 					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
-				echo "\t<li><a href=\"?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
 				
 				/* Delete link */

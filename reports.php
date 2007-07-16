@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.30 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: reports.php,v 1.31 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -121,8 +121,8 @@
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"reports.php?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"reports.php?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
 	}
 
 	/**
@@ -249,7 +249,7 @@
 			'report' => array(
 				'title' => $lang['strreport'],
 				'field' => 'report_name',
-				'url'   => "?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "reports.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'database' => array(
@@ -269,7 +269,7 @@
 			),
 		);
 		
-		$return_url = urlencode("?{$misc->href}");
+		$return_url = urlencode("reports.php?{$misc->href}");
 		
 		$actions = array(
 			'run' => array(
@@ -279,19 +279,19 @@
 			),
 			'edit' => array(
 				'title' => $lang['stredit'],
-				'url'   => "?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "reports.php?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "reports.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 		);
 		
 		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"reports.php?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
 	}
 	
 	$misc->printHeader($lang['strreports']);

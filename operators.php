@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.27 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: operators.php,v 1.28 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -56,7 +56,7 @@
 			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprgtcmpop']), "</td></tr>\n";
 			echo "</table>\n";
 
-			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"operators.php?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
 		}
 		else
 			doDefault($lang['strinvalidparam']);
@@ -115,7 +115,7 @@
 			'operator' => array(
 				'title' => $lang['stroperator'],
 				'field' => 'oprname',
-				'url'   => "?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "operators.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 			'leftarg' => array(
@@ -142,14 +142,14 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "operators.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 		);
 		
 		$misc->printTable($operators, $columns, $actions, $lang['strnooperators']);
 		
-//		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
+//		echo "<p><a class=\"navlink\" href=\"operators.php?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
 	}
 
 	/**

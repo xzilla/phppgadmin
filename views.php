@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.71 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: views.php,v 1.72 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -572,28 +572,28 @@
 			),
 			'select' => array(
 				'title'	=> $lang['strselect'],
-				'url'	=> "?action=confselectrows&amp;{$misc->href}&amp;",
+				'url'	=> "views.php?action=confselectrows&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 			
 // Insert is possible if the relevant rule for the view has been created.
 //			'insert' => array(
 //				'title'	=> $lang['strinsert'],
-//				'url'	=> "?action=confinsertrow&amp;{$misc->href}&amp;",
+//				'url'	=> "views.php?action=confinsertrow&amp;{$misc->href}&amp;",
 //				'vars'	=> array('view' => 'relname'),
 //			),
 
 			'drop' => array(
 				'title'	=> $lang['strdrop'],
-				'url'	=> "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'	=> "views.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 		);
 		
 		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"views.php?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"views.php?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
 
 	}
 	

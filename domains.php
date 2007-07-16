@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.31 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: domains.php,v 1.32 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -218,7 +218,7 @@
 						echo $misc->printVal($domaincons->fields['consrc']);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->fields['conname']),
+						echo "<a href=\"domains.php?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->fields['conname']),
 							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->fields['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
 		
 						$domaincons->moveNext();
@@ -231,11 +231,11 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
+		echo "<p><a class=\"navlink\" href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "| <a class=\"navlink\" href=\"?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
+			echo "| <a class=\"navlink\" href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
 				"\">{$lang['straddcheck']}</a>\n";
-			echo "| <a class=\"navlink\" href=\"?action=alter&amp;{$misc->href}&amp;domain=", 
+			echo "| <a class=\"navlink\" href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
 				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a>\n";
 		}
 		echo "</p>\n";
@@ -377,7 +377,7 @@
 			'domain' => array(
 				'title' => $lang['strdomain'],
 				'field' => 'domname',
-				'url' => "?action=properties&amp;{$misc->href}&amp;",
+				'url' => "domains.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('domain' => 'domname'),
 			),
 			'type' => array(
@@ -410,19 +410,19 @@
 		$actions = array(
 			'alter' => array(
 				'title'	=> $lang['stralter'],
-				'url'	=> "?action=alter&amp;{$misc->href}&amp;",
+				'url'	=> "domains.php?action=alter&amp;{$misc->href}&amp;",
 				'vars'	=> array('domain' => 'domname'),
 			),
 			'drop' => array(
 				'title'	=> $lang['strdrop'],
-				'url'	=> "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'	=> "domains.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'	=> array('domain' => 'domname'),
 			),
 		);
 		
 		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"domains.php?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
 	}
 	

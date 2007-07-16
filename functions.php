@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.65 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: functions.php,v 1.66 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -256,10 +256,10 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;function=", 
+		echo "<p><a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=", 
 			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=confirm_drop&amp;{$misc->href}&amp;function=",
+		echo "<a class=\"navlink\" href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",
 			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a>\n";
 	}
 	
@@ -659,12 +659,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=edit&amp;{$misc->href}&amp;",
+				'url'   => "functions.php?action=edit&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "functions.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'privileges' => array(
@@ -680,9 +680,9 @@
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"functions.php?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
+		echo "<a class=\"navlink\" href=\"functions.php?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
 	}
 	
 	/**

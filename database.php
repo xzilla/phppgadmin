@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.99 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: database.php,v 1.100 2007/07/16 21:27:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -475,7 +475,7 @@
 			$actions = array(
 				'cancel' => array(
 					'title' => $lang['strcancel'],
-					'url'   => "?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
+					'url'   => "database.php?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
 					'vars'  => array('procpid' => 'procpid')
 				)
 			);
@@ -688,12 +688,12 @@
 					$actions = array(
 						'edit' => array(
 						'title' => $lang['stredit'],
-						'url'   => "?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
+						'url'   => "database.php?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
 						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						),
 						'delete' => array(
 						'title' => $lang['strdelete'],
-						'url'   => "?action=delautovac&amp;{$misc->href}&amp;",
+						'url'   => "database.php?action=delautovac&amp;{$misc->href}&amp;",
 						'vars'  => array('key[vacrelid]' => 'vacrelid')
 						)
 					);

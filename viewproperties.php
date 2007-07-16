@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.29 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: viewproperties.php,v 1.30 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -150,7 +150,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?action=edit&amp;{$misc->href}&amp;view=", 
+		echo "<p><a class=\"navlink\" href=\"viewproperties.php?action=edit&amp;{$misc->href}&amp;view=", 
 			urlencode($_REQUEST['view']), "\">{$lang['stralter']}</a></p>\n";
 	}
 
@@ -332,7 +332,7 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
+				'url'   => "viewproperties.php?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.54 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: all_db.php,v 1.55 2007/07/16 21:27:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -353,7 +353,7 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
+				'url'   => "all_db.php?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('dropdatabase' => 'datname'),
 			),
 			'privileges' => array(
@@ -365,7 +365,7 @@
 		if ($data->hasAlterDatabase() ) {
 			$actions['alter'] = array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
+				'url'   => "all_db.php?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('alterdatabase' => 'datname')
 			);
 		}
@@ -376,7 +376,7 @@
 		
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases'], null, $multiactions);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"all_db.php?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
 	

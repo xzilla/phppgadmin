@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.43 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: privileges.php,v 1.44 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -236,9 +236,9 @@
 		
 		if ($_REQUEST['subject'] == 'function') {
 			$objectoid = $_REQUEST[$_REQUEST['subject'].'_oid'];
-			$alterurl = "?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
 		} else {
-			$alterurl = "?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		}
 	
 		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";

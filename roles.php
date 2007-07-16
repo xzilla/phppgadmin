@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php,v 1.8 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: roles.php,v 1.9 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -425,10 +425,10 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=alter&amp;{$misc->href}&amp;rolename=", 
+		echo "<p><a class=\"navlink\" href=\"roles.php?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"roles.php?action=alter&amp;{$misc->href}&amp;rolename=", 
 			urlencode($_REQUEST['rolename']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
+		echo "<a class=\"navlink\" href=\"roles.php?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
 			urlencode($_REQUEST['rolename']), "\">{$lang['strdrop']}</a>\n";
 	}
 
@@ -478,7 +478,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"roles.php?action=confchangepassword&amp;{$misc->href}\">{$lang['strchangepassword']}</a></p>\n";
 	}
 	
 	/**
@@ -606,19 +606,19 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=alter&amp;{$misc->href}&amp;",
+				'url'   => "roles.php?action=alter&amp;{$misc->href}&amp;",
 				'vars'  => array('rolename' => 'rolname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "roles.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('rolename' => 'rolname'),
 			),
 		);
 		
 		$misc->printTable($roles, $columns, $actions, $lang['strnoroles']);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreaterole']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"roles.php?action=create&amp;{$misc->href}\">{$lang['strcreaterole']}</a></p>\n";
 
 	}
 

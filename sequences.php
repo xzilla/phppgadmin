@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.41 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: sequences.php,v 1.42 2007/07/16 21:27:29 ioguix Exp $
 	 */
 	
 	// Include application functions
@@ -30,7 +30,7 @@
 			'sequence' => array(
 				'title' => $lang['strsequence'],
 				'field' => 'seqname',
-				'url'   => "?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
 			'owner' => array(
@@ -54,7 +54,7 @@
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "sequences.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
 			),
 			'privileges' => array(
@@ -67,7 +67,7 @@
 		if (!$data->hasAlterSequence()) unset($actions['alter']);
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"sequences.php?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
 	}
 	
 	/**
@@ -145,12 +145,12 @@
 			echo "</table>";
 			
 			if ($data->hasAlterSequence()) {
-				echo "<p><a class=\"navlink\" href=\"?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
+				echo "<p><a class=\"navlink\" href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
 			}
-			echo "<a class=\"navlink\" href=\"?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
+			echo "<a class=\"navlink\" href=\"sequences.php?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"sequences.php?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"sequences.php?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
+			echo "<a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}

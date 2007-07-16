@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.37 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: types.php,v 1.38 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -75,7 +75,7 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"types.php?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
 		} else
 			doDefault($lang['strinvalidparam']);
 	}
@@ -405,7 +405,7 @@
 			'type' => array(
 				'title' => $lang['strtype'],
 				'field' => 'typname',
-				'url'   => "?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "types.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('type' => 'basename'),
 			),
 			'owner' => array(
@@ -440,16 +440,16 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "types.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('type' => 'basename'),
 			),
 		);
 		
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
+		echo "<p><a class=\"navlink\" href=\"types.php?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
 		if ($data->hasCompositeTypes())
-			echo "\n| <a class=\"navlink\" href=\"?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
+			echo "\n| <a class=\"navlink\" href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
 		echo "</p>\n";
 
 	}

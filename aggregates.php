@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.22 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: aggregates.php,v 1.23 2007/07/16 21:27:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -246,12 +246,12 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['straggrshowall']}</a> |\n";
+		echo "<p><a class=\"navlink\" href=\"aggregates.php?{$misc->href}\">{$lang['straggrshowall']}</a> |\n";
 		if ($data->hasAlterAggregate()) {
-		echo "<a class=\"navlink\" href=\"?action=alter&amp;{$misc->href}&amp;aggrname=", 
+		echo "<a class=\"navlink\" href=\"aggregates.php?action=alter&amp;{$misc->href}&amp;aggrname=", 
 			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a> |\n";
 		}
-		echo "<a class=\"navlink\" href=\"?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
+		echo "<a class=\"navlink\" href=\"aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
 			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a></p>\n";
 	}
 
@@ -300,12 +300,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=alter&amp;{$misc->href}&amp;",
+				'url'   => "aggregates.php?action=alter&amp;{$misc->href}&amp;",
 				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
 			)
 		);
@@ -313,7 +313,7 @@
 		if (!$data->hasAlterAggregate()) unset($actions['alter']);
 		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreateaggregate']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"aggregates.php?action=create&amp;{$misc->href}\">{$lang['strcreateaggregate']}</a></p>\n";
 	}
 
 	/**

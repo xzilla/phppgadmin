@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.34 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: triggers.php,v 1.35 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -295,12 +295,12 @@
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
-				'url'   => "?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "triggers.php?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('trigger' => 'tgname'),
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "triggers.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('trigger' => 'tgname'),
 			),
 		);
@@ -308,13 +308,13 @@
 			if(!$data->phpBool($triggers->fields["tgenabled"])) {
 				$actions['enable'] = array(
 					'title' => $lang['strenable'],
-					'url'   => "?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'url'   => "triggers.php?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
 			} else {
 				$actions['disable'] = array(
 					'title' => $lang['strdisable'],
-					'url'   => "?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+					'url'   => "triggers.php?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
 			}
@@ -324,7 +324,7 @@
 		
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"triggers.php?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
 	}
 
 	function doTree() {

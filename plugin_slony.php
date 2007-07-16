@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.21 2007/07/15 09:37:34 ioguix Exp $
+	 * $Id: plugin_slony.php,v 1.22 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -457,7 +457,7 @@
 		$misc->printTable($clusters, $columns, $actions, $lang['strnoclusters']);
 
 		if ($clusters->recordCount() == 0) {		
-			echo "<p><a class=\"navlink\" href=\"?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
+			echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_cluster&amp;{$misc->href}\">{$lang['strinitcluster']}</a></p>\n";
 		}
 	}
 
@@ -625,7 +625,7 @@
 		
 		$misc->printTable($nodes, $columns, $actions, $lang['strnonodes']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create_node&amp;{$misc->href}\">{$lang['strcreatenode']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_node&amp;{$misc->href}\">{$lang['strcreatenode']}</a></p>\n";
 	}
 	
 	/**
@@ -660,7 +660,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_node&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -776,7 +776,7 @@
 		
 		$misc->printTable($paths, $columns, $actions, $lang['strnopaths']);
 	
-		echo "<p><a class=\"navlink\" href=\"?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatepath']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatepath']}</a></p>\n";
 	}
 	
 	/**
@@ -811,7 +811,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?action=confirm_drop_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;path_id={$_REQUEST['path_id']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_path&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;path_id={$_REQUEST['path_id']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -951,7 +951,7 @@
 		
 		$misc->printTable($listens, $columns, $actions, $lang['strnolistens']);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatelisten']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}\">{$lang['strcreatelisten']}</a></p>\n";
 	}
 
 	/**
@@ -986,7 +986,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->fields['li_origin']}\">{$lang['strdrop']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_listen&amp;{$misc->href}&amp;no_id={$_REQUEST['no_id']}&amp;listen_id={$_REQUEST['listen_id']}&amp;origin_id={$listen->fields['li_origin']}\">{$lang['strdrop']}</a></p>\n";
 	}
 
 	/**
@@ -1144,7 +1144,7 @@
 		
 		$misc->printTable($sets, $columns, $actions, $lang['strnorepsets']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create_set&amp;{$misc->href}\">{$lang['strcreaterepset']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=create_set&amp;{$misc->href}\">{$lang['strcreaterepset']}</a></p>\n";
 	}	
 
 	/**
@@ -1185,12 +1185,12 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
+		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
 	}
 
 	/**
@@ -1538,7 +1538,7 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddtable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=add_table&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddtable']}</a></p>\n";
 	}
 
 	/**
@@ -1808,7 +1808,7 @@
 		
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddsequence']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=add_sequence&amp;stage=1&amp;set_id={$_REQUEST['set_id']}&amp;{$misc->href}\">{$lang['straddsequence']}</a></p>\n";
 	}
 
 	/**

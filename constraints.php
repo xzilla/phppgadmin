@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.50 2007/07/16 08:45:00 ioguix Exp $
+	 * $Id: constraints.php,v 1.51 2007/07/16 21:27:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -467,7 +467,7 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "constraints.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
 			),
 		);

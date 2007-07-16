@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.31 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: rules.php,v 1.32 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -153,14 +153,14 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
+				'url'   => "rules.php?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
 				'vars'  => array('rule' => 'rulename'),
 			),
 		);
 
 		$misc->printTable($rules, $columns, $actions, $lang['strnorules']);
 
-		echo "<p><a class=\"navlink\" href=\"?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"rules.php?action=create_rule&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}\">{$lang['strcreaterule']}</a></p>\n";
 	}
 
 	function doTree() {

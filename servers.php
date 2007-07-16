@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.9 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: servers.php,v 1.10 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -64,7 +64,7 @@
 		$actions = array(
 			'logout' => array(
 				'title' => $lang['strlogout'],
-				'url'   => "?action=logout&amp;",
+				'url'   => "servers.php?action=logout&amp;",
 				'vars'  => array('logoutServer' => 'id'),
 			),
 		);

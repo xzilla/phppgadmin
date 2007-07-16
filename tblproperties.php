@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.82 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: tblproperties.php,v 1.83 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -487,7 +487,7 @@
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'url'   => "tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 		);

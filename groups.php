@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.25 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: groups.php,v 1.26 2007/07/16 21:27:29 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -80,7 +80,7 @@
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
             	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->fields['usename']), "</td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"?action=confirm_drop_member&{$misc->href}&group=",
+					echo "<td class=\"opbutton{$id}\"><a href=\"groups.php?action=confirm_drop_member&{$misc->href}&group=",
 						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->fields['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";
             	$groupdata->moveNext();
@@ -105,7 +105,7 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"groups.php?{$misc->href}\">{$lang['strshowallgroups']}</a></p>\n";
 	}
 	
 	/**
@@ -219,7 +219,7 @@
 			'group' => array(
 				'title' => $lang['strgroup'],
 				'field' => 'groname',
-				'url'   => "?action=properties&amp;{$misc->href}&amp;",
+				'url'   => "groups.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('group' => 'groname'),
 			),
 			'actions' => array(
@@ -230,14 +230,14 @@
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
-				'url'   => "?action=confirm_drop&amp;{$misc->href}&amp;",
+				'url'   => "groups.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('group' => 'groname'),
 			),
 		);
 		
 		$misc->printTable($groups, $columns, $actions, $lang['strnogroups']);
 		
-		echo "<p><a class=\"navlink\" href=\"?action=create&amp;{$misc->href}\">{$lang['strcreategroup']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"groups.php?action=create&amp;{$misc->href}\">{$lang['strcreategroup']}</a></p>\n";
 
 	}
 
