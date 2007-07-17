@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.99 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: tables.php,v 1.100 2007/07/17 14:59:52 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -777,29 +777,6 @@
 	
 		$tables = $data->getTables();
 		
-		$multiactions = array(
-			'keycols' => array('table' => 'relname'),
-			'url' => 'tables.php',
-			'actions' => array(
-                                'analyze' => array(
-					'action' => 'confirm_analyze',
-					'title' => $lang['stranalyze'],
-				),
-				'drop' => array(
-					'action' => 'confirm_drop',
-					'title' => $lang['strdrop'],
-				),
-				'empty' => array(
-					'action' => 'confirm_empty',
-					'title' => $lang['strempty'],
-				),
-				'vacuum' => array(
-					'action' => 'confirm_vacuum',
-					'title' => $lang['strvacuum'],
-				)
-			)
-		);
-			
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
@@ -830,6 +807,11 @@
 		);
 		
 		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('table' => 'relname'),
+				'url' => 'tables.php',
+				'default' => 'analyze',
+			),
 			'browse' => array(
 				'title' => $lang['strbrowse'],
 				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
@@ -849,28 +831,32 @@
 				'title' => $lang['strempty'],
 				'url'   => "tables.php?action=confirm_empty&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
+				'multiaction' => 'confirm_empty',
 			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "tables.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
+				'multiaction' => 'confirm_drop',
 			),
 			'vacuum' => array(
 				'title' => $lang['strvacuum'],
 				'url'   => "tables.php?action=confirm_vacuum&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
+				'multiaction' => 'confirm_vacuum',
 			),
 			'analyze' => array(
 				'title' => $lang['stranalyze'],
 				'url'   => "tables.php?action=confirm_analyze&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
+				'multiaction' => 'confirm_analyze',
 			),
 		);
 		
 		if (!$data->hasAnalyze()) unset($actions['analyze'], $multiactions['actions']['analyze']);
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
-		$misc->printTable($tables, $columns, $actions, $lang['strnotables'], null, $multiactions);
+		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
 		echo "<p><a class=\"navlink\" href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
 	}

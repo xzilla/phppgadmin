@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.55 2007/07/16 21:27:28 ioguix Exp $
+	 * $Id: all_db.php,v 1.56 2007/07/17 14:59:52 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -106,10 +106,9 @@
 			    }
 
 			} else {
-
 		            echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
 			        echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
-                }// END if multi drop
+            }// END if multi drop
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
         	echo $misc->form;
@@ -306,17 +305,6 @@
 		
 		$databases = $data->getDatabases();
 
-                $multiactions = array(
-                    'keycols' => array('database' => 'datname'),
-                    'url' => "",
-                    'actions' => array(
-                        'drop' => array(
-                            'action' => 'confirm_drop',
-                            'title' => $lang['strdrop'],
-                        )
-                    )
-                );
-
 		$columns = array(
 			'database' => array(
 				'title' => $lang['strdatabase'],
@@ -351,10 +339,16 @@
 		);
 		
 		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('database' => 'datname'),
+				'url' => 'all_db.php',
+				'default' => null,
+			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "all_db.php?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('dropdatabase' => 'datname'),
+				'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
@@ -374,7 +368,7 @@
 		if (!$data->hasServerAdminFuncs()) unset($columns['dbsize']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 		
-		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases'], null, $multiactions);
+		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
 
 		echo "<p><a class=\"navlink\" href=\"all_db.php?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 

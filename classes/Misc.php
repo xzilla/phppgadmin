@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.154 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: Misc.php,v 1.155 2007/07/17 14:59:52 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -1528,32 +1528,25 @@
 		 *				), ...
 		 *			);
 		 * @param $actions   Actions that can be performed on each object:
-		 *			$actions = array(
+		 *			$actions = array( 
+		 *				* multi action support 
+		 *				* parameters are serialized for each entries and given in $_REQUEST['ma']
+		 *				'multiactions' => array(
+		 *					'keycols' => Associative array of (URL variable => field name), // fields included in the form
+		 *					'url' => URL submission,
+		 *					'default' => Default selected action in the form.
+		 *									if null, an empty action is added & selected
+		 *				),
+		 *				* actions *
 		 *				action_id => array(
 		 *					'title' => Action heading,
 		 *					'url'   => Static part of URL.  Often we rely
-		 *							   relative urls, usually '', or just a query string,
+		 *							   relative urls, usually the page itself (not '' !), or just a query string,
 		 *					'vars'  => Associative array of (URL variable => field name),
+		 *					'multiaction' => Name of the action to execute.
+		 *										Add this action to the multi action form
 		 *				), ...
 		 *			);
-		 * @param $multiactions  Actions to be provided to a series of items defined by checkboxes
-		 *			$multiactions = array(
-		 *			'keycols' => array('table' => 'relname'),
-		 *   			'url' => "", (See $actions['url'])
-		 *   			'actions' => array(
-		 *   				'empty' => array(
-		 *   				'action' => 'confirm_empty',
-		 *   				'title' => $lang['strempty'],
-		 *   			),
-		 *   			'drop' => array(
-		 *   				'action' => 'confirm_drop',
-		 *   				'title' => $lang['strdrop'],
-		 *   			),
-		 *   			'vacuum' => array(
-		 *   				'action' => 'confirm_vacuum',
-		 *					'title' => $lang['strvacuum'],
-		 *				)
-		 *			)
 		 * @param $nodata    (optional) Message to display if data set is empty.
 		 * @param $pre_fn    (optional) Name of a function to call for each row,
 		 *					 it will be passed two params: $rowdata and $actions,
@@ -1563,10 +1556,13 @@
 		 *					 (see tblproperties.php and constraints.php for examples)
 		 *					 The function must not must not store urls because
 		 *					 they are relative and won't work out of context.
-
 		 */
-		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null, $multiactions = null) {
+		function printTable(&$tabledata, &$columns, &$actions, $nodata = null, $pre_fn = null) {
 			global $data, $conf, $misc, $lang;
+
+			if ($has_ma = isset($actions['multiactions']))
+				$ma = $actions['multiactions'];
+			unset($actions['multiactions']);
 
 			if ($tabledata->recordCount() > 0) {
 				
@@ -1581,18 +1577,18 @@
 					//$columns['comment']['params']['clip'] = true;
 				}
 
-				if (isset($multiactions)) {
+				if ($has_ma) {
 					echo "<script src=\"multiactionform.js\" type=\"text/javascript\"></script>\n";
-					echo "<form id=\"multi_form\" action=\"{$multiactions['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
-					if (isset($multiactions['vars']))
-						foreach ($multiactions['vars'] as $k => $v)
+					echo "<form id=\"multi_form\" action=\"{$ma['url']}\" method=\"post\" enctype=\"multipart/form-data\">\n";
+					if (isset($ma['vars']))
+						foreach ($ma['vars'] as $k => $v)
 							echo "<input type=\"hidden\" name=\"$k\" value=\"$v\" />";
 				}
 
 				echo "<table>\n";
 				echo "<tr>\n";
 				// Display column headings
-				if (isset($multiactions)) echo "<th></th>";
+				if ($has_ma) echo "<th></th>";
 				foreach ($columns as $column_id => $column) {
 					switch ($column_id) {
 						case 'actions':
@@ -1620,8 +1616,8 @@
 					if (!isset($alt_actions)) $alt_actions =& $actions;
 
 					echo "<tr>\n";
-					if (isset($multiactions)) {
-						foreach ($multiactions['keycols'] as $k => $v)
+					if ($has_ma) {
+						foreach ($ma['keycols'] as $k => $v)
 							$a[$k] = $tabledata->fields[$v];
 						echo "<td class=\"data{$id}\">";
 						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a)) ."\" />";
@@ -1676,7 +1672,10 @@
 				echo "</table>\n";
 
 				// Multi action table footer w/ options & [un]check'em all
-				if (isset($multiactions)) {
+				if ($has_ma) {
+					// if default is not set or doesn't exist, set it to null
+					if (!isset($ma['default']) || !isset($actions[$ma['default']]))
+						$ma['default'] = null;
 					echo "<table>\n";
 					echo "<tr>\n";
 					echo "<th class=\"data\" style=\"text-align: left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
@@ -1688,8 +1687,11 @@
 					echo "<td class=\"data1\">&nbsp;--->&nbsp;</td>\n";
 					echo "<td class=\"data1\">\n";
 					echo "\t<select name=\"action\">\n";
-						foreach($multiactions['actions'] as $o)
-							echo "\t\t<option value=\"{$o['action']}\">{$o['title']}</option>\n";
+					if ($ma['default'] == null)
+						echo "\t\t<option value=\"\">--</option>\n";
+					foreach($actions as $k => $a)
+						if (isset($a['multiaction']))
+							echo "\t\t<option value=\"{$a['multiaction']}\"", ($ma['default']  == $k? ' selected="selected"': ''), ">{$a['title']}</option>\n";
 					echo "\t</select>\n";
 					echo "<input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
 					echo $misc->form;
