@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.155 2007/07/17 14:59:52 ioguix Exp $
+	 * $Id: Misc.php,v 1.156 2007/07/17 17:09:29 soranzo Exp $
 	 */
 	 
 	class Misc {
@@ -479,7 +479,7 @@
 		}
 
 		/**
-		 * Retreive the tab info for a specific tab bar.
+		 * Retrieve the tab info for a specific tab bar.
 		 * @param $section The name of the tab bar.
 		 */
 		function getNavTabs($section) {
