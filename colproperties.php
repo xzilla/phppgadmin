@@ -15,7 +15,7 @@
 	elseif (isset($_REQUEST['view']))
 		$tableName =& $_REQUEST['view'];
 	else 
-		die("No table provided!");
+		die($lang['strnotableprovided']);
 
 	/**
 	 * Displays a screen where they can alter a column

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.163 2007/07/18 20:54:34 xzilla Exp $
+	 * $Id: english.php,v 1.164 2007/07/18 21:19:09 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -233,6 +233,7 @@
 
 	// Columns
 	$lang['strcolprop'] = 'Column properties';
+        $lang['strnotableprovided'] = 'No table provided!';
 		
 	// Users
 	$lang['struser'] = 'User';
