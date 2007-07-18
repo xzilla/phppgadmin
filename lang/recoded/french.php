@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.24 2007/07/18 22:14:15 ioguix Exp $
+     * $Id: french.php,v 1.25 2007/07/18 22:33:19 ioguix Exp $
      */
 
     // Language and character set
@@ -45,7 +45,7 @@
     $lang['strdisable']  =  'D&#233;sactiver';
     $lang['strdrop'] = 'Supprimer';
     $lang['strdropped'] = 'Supprim&#233;';
-    $lang['strnull'] = 'NULL';
+    $lang['strnull'] = 'NULL (le mot)';
     $lang['strnotnull'] = 'NOT NULL';
     $lang['strprev'] = 'Pr&#233;c&#233;dent';
     $lang['strnext'] = 'Suivant';
@@ -99,7 +99,7 @@
     $lang['strclusterindex'] = 'Cluster';
     $lang['strclustered']  =  'En Cluster ?';
     $lang['strreindex'] = 'Reindex';
-$lang['strexecute']  =  'Execute';
+	$lang['strexecute']  =  'Lancer';
     $lang['stradd'] = 'Ajouter';
     $lang['strevent'] = '&#201;v&#233;nement';
     $lang['strwhere'] = 'O&#249;';
@@ -135,9 +135,9 @@ $lang['strexecute']  =  'Execute';
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier import&#233;.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
-		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-$lang['strselectall']  =  'Select all';
-$lang['strunselectall']  =  'Unselect all';
+	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
+	$lang['strselectall']  =  'S&#233;lectionner tout';
+	$lang['strunselectall']  =  'Des&#233;lectionner tout';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -390,7 +390,7 @@ $lang['strunselectall']  =  'Unselect all';
     $lang['strminvalue'] = 'Valeur minimale';
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
-$lang['strcancycle']  =  'Can cycle?';
+	$lang['strcancycle']  =  'Peut boucler?';
 $lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
     $lang['strsequenceneedsname'] = 'Vous devez sp&#233;cifier un nom pour votre s&#233;quence.';
     $lang['strsequencecreated'] = 'S&#233;quence cr&#233;&#233;e.';

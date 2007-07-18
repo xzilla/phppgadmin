@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.25 2007/07/18 22:14:15 ioguix Exp $
+     * $Id: french.php,v 1.26 2007/07/18 22:33:19 ioguix Exp $
      */
 
     // Language and character set
@@ -45,7 +45,7 @@
     $lang['strdisable']  =  'Désactiver';
     $lang['strdrop'] = 'Supprimer';
     $lang['strdropped'] = 'Supprimé';
-    $lang['strnull'] = 'NULL';
+    $lang['strnull'] = 'NULL (le mot)';
     $lang['strnotnull'] = 'NOT NULL';
     $lang['strprev'] = 'Précédent';
     $lang['strnext'] = 'Suivant';
@@ -99,7 +99,7 @@
     $lang['strclusterindex'] = 'Cluster';
     $lang['strclustered']  =  'En Cluster ?';
     $lang['strreindex'] = 'Reindex';
-$lang['strexecute']  =  'Execute';
+	$lang['strexecute']  =  'Lancer';
     $lang['stradd'] = 'Ajouter';
     $lang['strevent'] = 'Événement';
     $lang['strwhere'] = 'Où';
@@ -135,9 +135,9 @@ $lang['strexecute']  =  'Execute';
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier importé.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
-		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-$lang['strselectall']  =  'Select all';
-$lang['strunselectall']  =  'Unselect all';
+	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
+	$lang['strselectall']  =  'Sélectionner tout';
+	$lang['strunselectall']  =  'Desélectionner tout';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -390,7 +390,7 @@ $lang['strunselectall']  =  'Unselect all';
     $lang['strminvalue'] = 'Valeur minimale';
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
-$lang['strcancycle']  =  'Can cycle?';
+	$lang['strcancycle']  =  'Peut boucler?';
 $lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
     $lang['strsequenceneedsname'] = 'Vous devez spécifier un nom pour votre séquence.';
     $lang['strsequencecreated'] = 'Séquence créée.';
