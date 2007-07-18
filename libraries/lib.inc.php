@@ -3,7 +3,7 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.118 2007/07/12 19:26:23 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.119 2007/07/18 20:54:34 xzilla Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
@@ -152,9 +152,9 @@
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
 		if (!isset($_REQUEST['server'])) {
-			die('No server supplied!');
-			# TODO: nice error
-		}
+                        echo $lang['strnoserversupplied'];
+                        exit;
+	        }
 		$_server_info = $misc->getServerInfo();
 
 		// Redirect to the login form if not logged in
