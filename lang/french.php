@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.24 2007/04/24 11:42:07 soranzo Exp $
+     * $Id: french.php,v 1.25 2007/07/18 22:14:15 ioguix Exp $
      */
 
     // Language and character set
@@ -91,7 +91,6 @@
     $lang['strimport'] = 'Importer';
     $lang['strallowednulls']  =  'Autoriser les caractères NULL';
     $lang['strbackslashn']  =  '\N';
-    $lang['strnull']  =  'NULL (le mot)';
     $lang['stremptystring']  =  'Chaîne/champ vide';
     $lang['strsql']  =  'SQL';
     $lang['stradmin'] = 'Admin';
@@ -100,7 +99,7 @@
     $lang['strclusterindex'] = 'Cluster';
     $lang['strclustered']  =  'En Cluster ?';
     $lang['strreindex'] = 'Reindex';
-    $lang['strrun'] = 'Lancer';
+$lang['strexecute']  =  'Execute';
     $lang['stradd'] = 'Ajouter';
     $lang['strevent'] = 'Événement';
     $lang['strwhere'] = 'Où';
@@ -137,8 +136,8 @@
     $lang['strfileimported']  =  'Fichier importé.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
 		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-		$lang['strcheckall']  =  'Sélectionner tout';
-		$lang['struncheckall']  =  'Desélectionner tout';
+$lang['strselectall']  =  'Select all';
+$lang['strunselectall']  =  'Unselect all';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -170,6 +169,7 @@
     $lang['strimporterrorline-badcolumnnum']  =  'Erreur d\'importation sur la ligne %s : la ligne ne possède pas le bon nombre de colonnes.';
     $lang['strimporterror-uploadedfile']  =  'Erreur d\'importation : le fichier n\'a pas pû être récupéré sur le serveur.';
     $lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de schémas n\'est pas supporté sur Windows.';
+	$lang['strnoserversupplied']  =  'Aucun serveur fournis !';
 
     // Tables
     $lang['strtable'] = 'Table';
@@ -207,7 +207,6 @@
     $lang['strselectallfields'] = 'Sélectionner tous les champs';
     $lang['strselectneedscol']  =  'Vous devez sélectionner au moins une colonne.';
     $lang['strselectunary']  =  'Les opérateurs unaires ne peuvent avoir de valeurs.';
-    $lang['straltercolumn'] = 'Modifier la colonne';
     $lang['strcolumnaltered'] = 'Colonne modifiée.';
     $lang['strcolumnalteredbad'] = 'Échec lors de la modification de la colonne.';
     $lang['strconfdropcolumn'] = 'Êtes-vous sûr de vouloir supprimer la colonne « %s » de la table « %s » ?';
@@ -227,9 +226,14 @@
     $lang['strconfvacuumtable']  =  'Êtes-vous sûr de vouloir faire un vacuum de « %s » ?';
 		$lang['strconfanalyzetable']  =  'Êtes-vous sûr de vouloir éffectuer un ANALYZE sur « %s » ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estimés';
+	$lang['strspecifytabletoanalyze']  =  'Vous devez spécifier au moins une table à analyzer';
+	$lang['strspecifytabletoempty']  =  'Vous devez spécifier au moins une table à vider';
+	$lang['strspecifytabletodrop']  =  'Vous devez spécifier au moins une table à supprimer';
+	$lang['strspecifytabletovacuum']  =  'Vous devez spécifier au moins une table sur laquelle effectuer le vacuum';
 
 	// Columns
 	$lang['strcolprop']  =  'Propriétés de la Colonne';
+        $lang['strnotableprovided']  =  'No table provided!';
 		
     // Users
     $lang['struser'] = 'Utilisateur';
@@ -292,7 +296,6 @@
     $lang['strcancreaterole']  =  'Peut créer un rôle ?';
     $lang['strrolecreated']  =  'Rôle créé.';
     $lang['strrolecreatedbad']  =  'Échec lors de la création du rôle.';
-    $lang['stralterrole']  =  'Modifier le rôle';
     $lang['strrolealtered']  =  'Rôle modifié.';
     $lang['strrolealteredbad']  =  'Échec lors de la modification du rôle.';
     $lang['strcanlogin']  =  'Peut se connecter ?';
@@ -346,6 +349,7 @@
     $lang['strallobjects']  =  'Tous les objets';
     $lang['strdatabasealtered']  =  'Base de données modifiée.';
     $lang['strdatabasealteredbad']  =  'Échec lors de la modification de la base de données.';
+	$lang['strspecifydatabasetodrop']  =  'Vous devez spécifier au moins une base de données à supprimer';
 
     // Views
     $lang['strview'] = 'Vue';
@@ -386,7 +390,8 @@
     $lang['strminvalue'] = 'Valeur minimale';
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
-    $lang['striscycled'] = 'Cycle ?';
+$lang['strcancycle']  =  'Can cycle?';
+$lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
     $lang['strsequenceneedsname'] = 'Vous devez spécifier un nom pour votre séquence.';
     $lang['strsequencecreated'] = 'Séquence créée.';
     $lang['strsequencecreatedbad'] = 'Échec lors de la création de la séquence.'; 
@@ -396,7 +401,6 @@
 
     $lang['strsequencereset'] = 'Séquence initialisée.';
     $lang['strsequenceresetbad'] = 'Échec lors de l\'initialisation de la séquence.';
-     $lang['straltersequence']  =  'Modifier la séquence';
      $lang['strsequencealtered']  =  'Séquence modifiée.';
      $lang['strsequencealteredbad']  =  'Échec lors de la modification de la séquence.';
      $lang['strsetval']  =  'Initialiser à une valeur';
@@ -678,18 +682,16 @@ $lang['strflavor']  =  'Flavor';
     $lang['straggregates']  =  'Agrégats';
     $lang['strnoaggregates']  =  'Aucun agrégat trouvé.';
     $lang['stralltypes']  =  '(tous les types)';
-    $lang['straggrtransfn']  =  'Fonction de transition';
     $lang['strcreateaggregate']  =  'Créer un agrégat';
     $lang['straggrbasetype']  =  'Type de données en entrée';
     $lang['straggrsfunc']  =  'Fonction de transition de l\'état';
+$lang['straggrstype']  =  'Data type for state value';
     $lang['straggrffunc']  =  'Fonction finale';
     $lang['straggrinitcond']  =  'Condition initiale';
     $lang['straggrsortop']  =  'Opérateur de tri';
-    $lang['strdropaggregate']  =  'Supprimer l\'agrégat';
     $lang['strconfdropaggregate']  =  'Êtes-vous sûr de vouloir supprimer l\'agrégat « %s »?';
     $lang['straggregatedropped']  =  'Agrégat supprimé.';
     $lang['straggregatedroppedbad']  =  'Échec lors de la suppression de l\'agrégat.';
-    $lang['stralteraggregate']  =  'Modifier l\'agrégat';
     $lang['straggraltered']  =  'Agrégat modifié.';
     $lang['straggralteredbad']  =  'Échec lors de la modification de l\'agrégat.';
     $lang['straggrneedsname']  =  'Vous devez indiquer un nom pour l\'agrégat';
@@ -770,7 +772,6 @@ $lang['strflavor']  =  'Flavor';
     $lang['stroutofsync']  =  'Hors synchro';
     $lang['strunknown']  =  'Inconnu';
 
-    
     // Slony paths    
     $lang['strpaths']  =  'Chemins';
     $lang['strnopaths']  =  'Aucun chemin trouvé.';
@@ -824,7 +825,6 @@ $lang['strflavor']  =  'Flavor';
     $lang['strconfunlockrepset']  =  'Êtes-vous sûr de vouloir déverrouiller l\'ensemble de réplication « %s » ?';
     $lang['strrepsetunlocked']  =  'Ensemble de réplication déverrouillé.';
     $lang['strrepsetunlockedbad']  =  'Échec lors du déverrouillage de l\'ensemble de réplication.';
-    $lang['strexecute']  =  'Exécuter';
     $lang['stronlyonnode']  =  'Seulement sur le noeud';
     $lang['strddlscript']  =  'Script DDL';
     $lang['strscriptneedsbody']  =  'Vous devez fournir un script à exécuter sur tous les noeuds.';

@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.23 2007/04/24 11:43:16 soranzo Exp $
+     * $Id: french.php,v 1.24 2007/07/18 22:14:15 ioguix Exp $
      */
 
     // Language and character set
@@ -91,7 +91,6 @@
     $lang['strimport'] = 'Importer';
     $lang['strallowednulls']  =  'Autoriser les caract&#232;res NULL';
     $lang['strbackslashn']  =  '\N';
-    $lang['strnull']  =  'NULL (le mot)';
     $lang['stremptystring']  =  'Cha&#238;ne/champ vide';
     $lang['strsql']  =  'SQL';
     $lang['stradmin'] = 'Admin';
@@ -100,7 +99,7 @@
     $lang['strclusterindex'] = 'Cluster';
     $lang['strclustered']  =  'En Cluster ?';
     $lang['strreindex'] = 'Reindex';
-    $lang['strrun'] = 'Lancer';
+$lang['strexecute']  =  'Execute';
     $lang['stradd'] = 'Ajouter';
     $lang['strevent'] = '&#201;v&#233;nement';
     $lang['strwhere'] = 'O&#249;';
@@ -137,8 +136,8 @@
     $lang['strfileimported']  =  'Fichier import&#233;.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
 		$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
-		$lang['strcheckall']  =  'S&#233;lectionner tout';
-		$lang['struncheckall']  =  'Des&#233;lectionner tout';
+$lang['strselectall']  =  'Select all';
+$lang['strunselectall']  =  'Unselect all';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -170,6 +169,7 @@
     $lang['strimporterrorline-badcolumnnum']  =  'Erreur d\'importation sur la ligne %s : la ligne ne poss&#232;de pas le bon nombre de colonnes.';
     $lang['strimporterror-uploadedfile']  =  'Erreur d\'importation : le fichier n\'a pas p&#251; &#234;tre r&#233;cup&#233;r&#233; sur le serveur.';
     $lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de sch&#233;mas n\'est pas support&#233; sur Windows.';
+	$lang['strnoserversupplied']  =  'Aucun serveur fournis !';
 
     // Tables
     $lang['strtable'] = 'Table';
@@ -207,7 +207,6 @@
     $lang['strselectallfields'] = 'S&#233;lectionner tous les champs';
     $lang['strselectneedscol']  =  'Vous devez s&#233;lectionner au moins une colonne.';
     $lang['strselectunary']  =  'Les op&#233;rateurs unaires ne peuvent avoir de valeurs.';
-    $lang['straltercolumn'] = 'Modifier la colonne';
     $lang['strcolumnaltered'] = 'Colonne modifi&#233;e.';
     $lang['strcolumnalteredbad'] = '&#201;chec lors de la modification de la colonne.';
     $lang['strconfdropcolumn'] = '&#202;tes-vous s&#251;r de vouloir supprimer la colonne &#171; %s &#187; de la table &#171; %s &#187; ?';
@@ -227,9 +226,14 @@
     $lang['strconfvacuumtable']  =  '&#202;tes-vous s&#251;r de vouloir faire un vacuum de &#171; %s &#187; ?';
 		$lang['strconfanalyzetable']  =  '&#202;tes-vous s&#251;r de vouloir &#233;ffectuer un ANALYZE sur &#171; %s &#187; ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estim&#233;s';
+	$lang['strspecifytabletoanalyze']  =  'Vous devez sp&#233;cifier au moins une table &#224; analyzer';
+	$lang['strspecifytabletoempty']  =  'Vous devez sp&#233;cifier au moins une table &#224; vider';
+	$lang['strspecifytabletodrop']  =  'Vous devez sp&#233;cifier au moins une table &#224; supprimer';
+	$lang['strspecifytabletovacuum']  =  'Vous devez sp&#233;cifier au moins une table sur laquelle effectuer le vacuum';
 
 	// Columns
 	$lang['strcolprop']  =  'Propri&#233;t&#233;s de la Colonne';
+        $lang['strnotableprovided']  =  'No table provided!';
 		
     // Users
     $lang['struser'] = 'Utilisateur';
@@ -292,7 +296,6 @@
     $lang['strcancreaterole']  =  'Peut cr&#233;er un r&#244;le ?';
     $lang['strrolecreated']  =  'R&#244;le cr&#233;&#233;.';
     $lang['strrolecreatedbad']  =  '&#201;chec lors de la cr&#233;ation du r&#244;le.';
-    $lang['stralterrole']  =  'Modifier le r&#244;le';
     $lang['strrolealtered']  =  'R&#244;le modifi&#233;.';
     $lang['strrolealteredbad']  =  '&#201;chec lors de la modification du r&#244;le.';
     $lang['strcanlogin']  =  'Peut se connecter ?';
@@ -346,6 +349,7 @@
     $lang['strallobjects']  =  'Tous les objets';
     $lang['strdatabasealtered']  =  'Base de donn&#233;es modifi&#233;e.';
     $lang['strdatabasealteredbad']  =  '&#201;chec lors de la modification de la base de donn&#233;es.';
+	$lang['strspecifydatabasetodrop']  =  'Vous devez sp&#233;cifier au moins une base de donn&#233;es &#224; supprimer';
 
     // Views
     $lang['strview'] = 'Vue';
@@ -386,7 +390,8 @@
     $lang['strminvalue'] = 'Valeur minimale';
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
-    $lang['striscycled'] = 'Cycle ?';
+$lang['strcancycle']  =  'Can cycle?';
+$lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
     $lang['strsequenceneedsname'] = 'Vous devez sp&#233;cifier un nom pour votre s&#233;quence.';
     $lang['strsequencecreated'] = 'S&#233;quence cr&#233;&#233;e.';
     $lang['strsequencecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la s&#233;quence.'; 
@@ -396,7 +401,6 @@
 
     $lang['strsequencereset'] = 'S&#233;quence initialis&#233;e.';
     $lang['strsequenceresetbad'] = '&#201;chec lors de l\'initialisation de la s&#233;quence.';
-     $lang['straltersequence']  =  'Modifier la s&#233;quence';
      $lang['strsequencealtered']  =  'S&#233;quence modifi&#233;e.';
      $lang['strsequencealteredbad']  =  '&#201;chec lors de la modification de la s&#233;quence.';
      $lang['strsetval']  =  'Initialiser &#224; une valeur';
@@ -678,18 +682,16 @@ $lang['strflavor']  =  'Flavor';
     $lang['straggregates']  =  'Agr&#233;gats';
     $lang['strnoaggregates']  =  'Aucun agr&#233;gat trouv&#233;.';
     $lang['stralltypes']  =  '(tous les types)';
-    $lang['straggrtransfn']  =  'Fonction de transition';
     $lang['strcreateaggregate']  =  'Cr&#233;er un agr&#233;gat';
     $lang['straggrbasetype']  =  'Type de donn&#233;es en entr&#233;e';
     $lang['straggrsfunc']  =  'Fonction de transition de l\'&#233;tat';
+$lang['straggrstype']  =  'Data type for state value';
     $lang['straggrffunc']  =  'Fonction finale';
     $lang['straggrinitcond']  =  'Condition initiale';
     $lang['straggrsortop']  =  'Op&#233;rateur de tri';
-    $lang['strdropaggregate']  =  'Supprimer l\'agr&#233;gat';
     $lang['strconfdropaggregate']  =  '&#202;tes-vous s&#251;r de vouloir supprimer l\'agr&#233;gat &#171; %s &#187;?';
     $lang['straggregatedropped']  =  'Agr&#233;gat supprim&#233;.';
     $lang['straggregatedroppedbad']  =  '&#201;chec lors de la suppression de l\'agr&#233;gat.';
-    $lang['stralteraggregate']  =  'Modifier l\'agr&#233;gat';
     $lang['straggraltered']  =  'Agr&#233;gat modifi&#233;.';
     $lang['straggralteredbad']  =  '&#201;chec lors de la modification de l\'agr&#233;gat.';
     $lang['straggrneedsname']  =  'Vous devez indiquer un nom pour l\'agr&#233;gat';
@@ -770,7 +772,6 @@ $lang['strflavor']  =  'Flavor';
     $lang['stroutofsync']  =  'Hors synchro';
     $lang['strunknown']  =  'Inconnu';
 
-    
     // Slony paths    
     $lang['strpaths']  =  'Chemins';
     $lang['strnopaths']  =  'Aucun chemin trouv&#233;.';
@@ -824,7 +825,6 @@ $lang['strflavor']  =  'Flavor';
     $lang['strconfunlockrepset']  =  '&#202;tes-vous s&#251;r de vouloir d&#233;verrouiller l\'ensemble de r&#233;plication &#171; %s &#187; ?';
     $lang['strrepsetunlocked']  =  'Ensemble de r&#233;plication d&#233;verrouill&#233;.';
     $lang['strrepsetunlockedbad']  =  '&#201;chec lors du d&#233;verrouillage de l\'ensemble de r&#233;plication.';
-    $lang['strexecute']  =  'Ex&#233;cuter';
     $lang['stronlyonnode']  =  'Seulement sur le noeud';
     $lang['strddlscript']  =  'Script DDL';
     $lang['strscriptneedsbody']  =  'Vous devez fournir un script &#224; ex&#233;cuter sur tous les noeuds.';
