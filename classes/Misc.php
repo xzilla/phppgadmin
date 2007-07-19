@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.157 2007/07/19 03:11:52 xzilla Exp $
+	 * $Id: Misc.php,v 1.158 2007/07/19 19:51:17 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -832,14 +832,14 @@
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'import'),
 							'icon'  => 'Import',
-							'hide'	=> true,
+							'hide'	=> false,
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
 							'url'   => 'tblproperties.php',
 							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'export'),
 							'icon'  => 'Export',
-							'hide'	=> true,
+							'hide'	=> false,
 						),
 					);
 				
@@ -878,7 +878,7 @@
 							'url'   => 'viewproperties.php',
 							'urlvars' => array('subject' => 'view', 'view' => field('view'), 'action' => 'export'),
 							'icon'  => 'Export',
-							'hide'	=> true,
+							'hide'	=> false,
 						),
 					);
 				
