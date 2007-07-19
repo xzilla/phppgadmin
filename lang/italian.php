@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
 	 *
-	 * $Id: italian.php,v 1.45 2007/05/14 16:09:52 soranzo Exp $
+	 * $Id: italian.php,v 1.46 2007/07/19 03:11:52 xzilla Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -169,6 +169,7 @@
 	$lang['strimporterrorline-badcolumnnum'] = 'Errore durante l\'import alla linea %s: la linea non possiede il numero corretto di colonne.';
 	$lang['strimporterror-uploadedfile'] = 'Errore durante l\'import: non è stato possibile caricare il file sul server';
 	$lang['strcannotdumponwindows'] = 'Il dump di nomi complessi di tabelle o schemi sotto Windows non è supportato.';
+	$lang['strinvalidserverparam'] = 'Tentativo di connessione al server con parametri non validi, è possibile che qualcuno stia cercando di forzare il sistema.';
 
 	// Tables - Tabelle
 	$lang['strtable'] = 'Tabella';

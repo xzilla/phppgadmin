@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Mart&#237;n Marqu&#233;s (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.38 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: spanish.php,v 1.39 2007/07/19 03:11:52 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -168,6 +168,7 @@ $lang['strac']  =  'Enable AutoComplete';
     $lang['strimporterrorline-badcolumnnum']  =  'Error de importaci&#243;n en la l&#237;nea %s:  La l&#237;nea no posee la cantidad de columnas correctas.';
     $lang['strimporterror-uploadedfile']  =  'Error de importaci&#243;n: No se ha podido subir el archivo al servidor';
     $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
+	$lang['strinvalidserverparam'] = 'Tentativa de conectar con par&#225;metro inv&#225;lido del servidor. &#191;Alguien est&#225; intentando posiblemente cortar tu sistema?'; 
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
@@ -267,8 +268,8 @@ $lang['strac']  =  'Enable AutoComplete';
 	$lang['strgroupcreatedbad'] = 'Fall&#243; la creaci&#243;n del grupo.';
 	$lang['strconfdropgroup'] = '&#191;Est&#225; seguro que quiere eliminar el grupo &quot;%s&quot;?';
 	$lang['strgroupdropped'] = 'Grupo eliminado.';
-    $lang['strgroupdroppedbad'] = 'Fall&#243; la eliminaci&#243;n del grupo.';
-    $lang['strmembers'] = 'Miembros';
+        $lang['strgroupdroppedbad'] = 'Fall&#243; la eliminaci&#243;n del grupo.';
+        $lang['strmembers'] = 'Miembros';
 	$lang['strmemberof']  =  'Miembro de';
 	$lang['stradminmembers']  =  'Miembros Admin ';
 	$lang['straddmember'] = 'Agregar un miembro';
@@ -279,31 +280,35 @@ $lang['strac']  =  'Enable AutoComplete';
 	$lang['strmemberdropped'] = 'Miembro eliminado.';
 	$lang['strmemberdroppedbad'] = 'Fall&#243; al intentar sacar un miembro.';
 
-	// Roles
-	$lang['strrole']  =  'Rol';
-	$lang['strroles']  =  'Roles';
-	$lang['strrolename']  =  'Nombre del Rol';
-	$lang['strshowallroles'] = 'Mostrar todas los rols';
+    // Roles
+    $lang['strrole']  =  'Rol';
+    $lang['strroles']  =  'Roles';
+    $lang['strrolename']  =  'Nombre del Rol';
+    $lang['strshowallroles'] = 'Mostrar todas los rols';
     $lang['strinheritsprivs']  =  'Hereda Privilegios?';
-	$lang['strcreaterole']  =  'Crear Rol';
-	$lang['strcancreaterole']  =  'Puede crear rols?';
-	$lang['strrolecreated']  =  'Rol creado.';
-	$lang['strrolecreatedbad']  =  'Fall&#243; al crear rol.';
-	$lang['stralterrole']  =  'Alterar role';
-$lang['strroleupdated']  =  'Role updated.';
-$lang['strroleupdatedbad']  =  'Role update failed.';
-$lang['strcatupdate']  =  'Modify Catalogs?';
+    $lang['strcreaterole']  =  'Crear Rol';
+    $lang['strcancreaterole']  =  'Puede crear rols?';
+    $lang['strrolecreated']  =  'Rol creado.';
+    $lang['strrolecreatedbad']  =  'Fall&#243; al crear rol.';
+    $lang['stralterrole']  =  'Alterar role';
+    $lang['strroleupdated']  =  'Rol actualizado.';
+    $lang['strroleupdatedbad']  = 'Fall&#243; la actualizaci&#243;n del rol.';
+    $lang['struserupdatedbad'] = 
+    $lang['strcatupdate']  =  '&#191;modificar los cat&#225;logos del sistema?';
     $lang['strcanlogin']  =  'Puede loggearse?';
-$lang['strconnlimit']  =  'Connection limit';
-$lang['strdroprole']  =  'Drop role';
-    $lang['strmaxconnections']  =  'M&#225;ximo de conexiones';
+    $lang['strconnlimit']  =  'L&#237;mite de conexi&#243;n';
+    $lang['strdroprole']  =  'Eliminar rol';
+    $lang['strmaxconnections']  =  'M&#225;ximo de conexi&#243;nes';
 	$lang['strconfdroprole']  =  '&#191;Est&#225; seguro de que desea eliminar el rol &quot;%s&quot;?';
     $lang['strroledropped']  =  'Usuario eliminado.';
 	$lang['strroledroppedbad']  =  'No puedo eliminar rol.';
 	$lang['strnoroles']  =  'No se encontraron los rols.';
 	$lang['strnolimit']  =  'Sin l&#237;mite';
 	$lang['strnever']  =  'Nunca';
-$lang['strroleneedsname']  =  'You must give a name for the role.';
+    $lang['strroleneedsname']  =  'Debe darlo un nombre al rol.';
+    $lang['strrolealtered'] = 'Rol alterada.';
+    $lang['strrolealteredbad'] = 'Fall&#243; al intentar alterar rol.';
+
 	
 	// Privileges
 	$lang['strprivilege'] = 'Privilegio';
@@ -342,11 +347,11 @@ $lang['strroleneedsname']  =  'You must give a name for the role.';
 	$lang['strfull'] = 'Full';
 	$lang['strfreeze'] = 'Freeze';
 	$lang['strforce'] = 'Force';
-    $lang['strsignalsent']  =  'Se&#241;al enviada.';
-    $lang['strsignalsentbad']  =  'Fall&#243; el env&#237;o de la se&#241;al.';
-    $lang['strallobjects']  =  'Todos los objetos';
-    $lang['strdatabasealtered']  =  'Base de Datos alterada.';
-    $lang['strdatabasealteredbad']  =  'Fall&#243; al intentar alterar la Base de Datos.';
+        $lang['strsignalsent']  =  'Se&#241;al enviada.';
+        $lang['strsignalsentbad']  =  'Fall&#243; el env&#237;o de la se&#241;al.';
+        $lang['strallobjects']  =  'Todos los objetos';
+        $lang['strdatabasealtered']  =  'Base de Datos alterada.';
+        $lang['strdatabasealteredbad']  =  'Fall&#243; al intentar alterar la Base de Datos.';
 
 	// Views
 	$lang['strview'] = 'Vista';

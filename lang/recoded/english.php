@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.164 2007/07/18 21:19:09 xzilla Exp $
+	 * $Id: english.php,v 1.165 2007/07/19 03:11:52 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -169,6 +169,7 @@
 	$lang['strimporterrorline-badcolumnnum'] = 'Import error on line %s: Line does not possess the correct number of columns.';
 	$lang['strimporterror-uploadedfile'] = 'Import error: File could not be uploaded to the server';
 	$lang['strcannotdumponwindows'] = 'Dumping of complex table and schema names on Windows is not supported.';
+	$lang['strinvalidserverparam'] = 'Attempt to connect with invalid server parameter, possibly someone is trying to hack your system.'; 
 	$lang['strnoserversupplied'] = 'No server supplied!';
 
 	// Tables

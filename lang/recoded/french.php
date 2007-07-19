@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.25 2007/07/18 22:33:19 ioguix Exp $
+     * $Id: french.php,v 1.26 2007/07/19 03:11:52 xzilla Exp $
      */
 
     // Language and character set
@@ -169,6 +169,7 @@
     $lang['strimporterrorline-badcolumnnum']  =  'Erreur d\'importation sur la ligne %s : la ligne ne poss&#232;de pas le bon nombre de colonnes.';
     $lang['strimporterror-uploadedfile']  =  'Erreur d\'importation : le fichier n\'a pas p&#251; &#234;tre r&#233;cup&#233;r&#233; sur le serveur.';
     $lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de sch&#233;mas n\'est pas support&#233; sur Windows.';
+	$lang['strinvalidserverparam'] = 'Tentative de connexion avec un serveur invalide, il est possible que quelqu\'un essai de pirater votre syst&#232;me.'; 
 	$lang['strnoserversupplied']  =  'Aucun serveur fournis !';
 
     // Tables

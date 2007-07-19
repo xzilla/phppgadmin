@@ -4,7 +4,7 @@
 	 * Spanish language file for phpPgAdmin.
 	 * @maintainer Martín Marqués (martin@bugs.unl.edu.ar)
 	 *
-	 * $Id: spanish.php,v 1.38 2007/04/24 11:42:07 soranzo Exp $
+	 * $Id: spanish.php,v 1.39 2007/07/19 03:11:52 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -168,6 +168,7 @@ $lang['strac']  =  'Enable AutoComplete';
     $lang['strimporterrorline-badcolumnnum']  =  'Error de importación en la línea %s:  La línea no posee la cantidad de columnas correctas.';
     $lang['strimporterror-uploadedfile']  =  'Error de importación: No se ha podido subir el archivo al servidor';
     $lang['strcannotdumponwindows']  =  'Vuelco de datos con nombres complejos de tablas y esquemas no esta soportado en Windows.';
+	$lang['strinvalidserverparam'] = 'Tentativa de conectar con parámetro inválido del servidor. ¿Alguien está intentando posiblemente cortar tu sistema?'; 
 
 	// Tables
 	$lang['strtable'] = 'Tabla';
