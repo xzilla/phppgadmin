@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.298 2007/04/16 17:12:23 soranzo Exp $
+ * $Id: Postgres.php,v 1.299 2007/07/20 04:38:34 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -138,9 +138,9 @@ class Postgres extends ADODB_base {
 	// Select operators
 	// Operators of type 'i' are 'infix', eg. a = '1'.  Type 'p' means postfix unary, eg. a IS TRUE.
 	// 'x' is a bracketed subquery form.  eg. IN (1,2,3)
-	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 'LIKE' => 'i', 'NOT LIKE' => 'i', 
-									'~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 'IS NULL' => 'p', 'IS NOT NULL' => 'p', 
-									'IN' => 'x', 'NOT IN' => 'x');
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i', 
+									'LIKE' => 'i', 'NOT LIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 
+									'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
 
 	// Supported join operations for use with view wizard
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN');
