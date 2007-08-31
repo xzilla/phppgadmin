@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.26 2007/07/19 03:11:52 xzilla Exp $
+     * $Id: french.php,v 1.27 2007/08/31 19:46:24 ioguix Exp $
      */
 
     // Language and character set
@@ -179,8 +179,13 @@
     $lang['strnotables'] = 'Aucune table trouv&#233;e.';
     $lang['strnotable'] = 'Aucune table trouv&#233;e.';
     $lang['strcreatetable'] = 'Cr&#233;er une table';
+	$lang['strcreatetablelike']  =  'Cr&#233;er une table d\'apr&#232;s une table existante';
+	$lang['strcreatetablelikeparent']  =  'Table mod&#232;le';
+	$lang['strcreatelikewithdefaults']  =  'INCLUDE DEFAULTS';
+	$lang['strcreatelikewithconstraints']  =  'INCLUDE CONSTRAINTS';
     $lang['strtablename'] = 'Nom de la table';
     $lang['strtableneedsname'] = 'Vous devez donner un nom pour votre table.';
+	$lang['strtablelikeneedslike']  =  'Vous devez pr&#233;ciser une table mod&#232;le.';
     $lang['strtableneedsfield'] = 'Vous devez sp&#233;cifier au moins un champ.';
     $lang['strtableneedscols'] = 'Vous devez indiquer un nombre valide de colonnes.';
     $lang['strtablecreated'] = 'Table cr&#233;&#233;e.';

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.58 2007/08/31 18:30:11 ioguix Exp $
+ * $Id: Postgres74.php,v 1.59 2007/08/31 19:46:24 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -145,6 +145,42 @@ class Postgres74 extends Postgres73 {
 			$this->rollbackTransaction();
 			return -1;
 		}
+	}
+
+	/**
+	 * Creates a new table in the database copying attribs and other properties from another table
+	 * @param $name The name of the table
+	 * @param $like The name of the table from which attribs are copying from
+	 * @param $defaults if true, copy the defaults values as well
+	 * @param $constraints if true, copy the constraints as well (CHECK on table & attr)
+	 * @param $tablespace The tablespace name ('' means none/default)
+	 */
+	function createTableLike($name, $like, $defaults = false, $constraints = false, $tablespace = '') {
+		$this->fieldClean($name);
+		$this->fieldClean($like);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$sql = "CREATE TABLE \"{$name}\" (LIKE {$like}";
+
+		if ($defaults) $sql .= " INCLUDING DEFAULTS";
+		if ($this->hasCreateTableLikeWithConstraints() && $constraints) $sql .= " INCLUDING CONSTRAINTS";
+
+		$sql .= ")";
+
+		if ($this->hasTablespaces() && $tablespace != '') {
+			$this->fieldClean($tablespace);
+			$sql .= " TABLESPACE \"{$tablespace}\"";
+		}
+
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		return $this->endTransaction();
 	}
 
 	// Group functions
@@ -660,6 +696,7 @@ class Postgres74 extends Postgres73 {
 	function hasReadOnlyQueries() { return true; }	
 	function hasAlterSequence() { return true; }
 	function hasAlterAggregate() { return true; }
+	function hasCreateTableLike() { return true; }
 }
 
 ?>

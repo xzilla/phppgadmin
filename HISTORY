@@ -11,6 +11,7 @@ Features
 * Allow browsers to save different usernames and passwords for different servers.
 * Pagination selection available for reports
 * You can configure reports db, schema and table names
+* Add support for creating a table using an exsting one (ioguix)
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.2 support
  *
- * $Id: Postgres82.php,v 1.5 2007/03/28 18:52:34 soranzo Exp $
+ * $Id: Postgres82.php,v 1.6 2007/08/31 19:46:24 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres81.php');
@@ -199,6 +199,7 @@ class Postgres82 extends Postgres81 {
 	
 	// Capabilities
 	function hasSharedComments() {return true;}
+	function hasCreateTableLikeWithConstraints() {return true;}
 }
 
 ?>

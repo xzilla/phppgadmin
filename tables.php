@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.101 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: tables.php,v 1.102 2007/08/31 19:46:23 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -233,6 +233,97 @@
 				break;
 			default:
 				echo "<p>{$lang['strinvalidparam']}</p>\n";
+		}
+	}
+
+	/**
+	 * Dsiplay a screen where user can create a table from an existing one.
+	 */
+	function doCreateLike($confirm, $msg = '') {
+		global $data, $misc, $lang;
+
+		if (!$confirm) {
+			
+			include_once('./classes/Gui.php');
+
+			if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
+			if (!isset($_REQUEST['like'])) $_REQUEST['like'] = '';
+			if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = '';
+
+			$misc->printTrail('schema');
+		    $misc->printTitle($lang['strcreatetable'], 'pg.table.create');
+			$misc->printMsg($msg);
+
+			$tbltmp = $data->getTables(true);
+			$tbltmp = $tbltmp->getArray();
+			
+			$tables = array();
+			if ( $data->hasSchemas() )
+				foreach ($tbltmp as $a) $tables["{$a['nspname']}.{$a['relname']}"] = "{$a['nspname']}.{$a['relname']}";
+			else
+				foreach ($tbltmp as $a) $tables[$a['relname']] = $a['relname'];
+				
+			unset($tbltmp);
+
+			echo "<form action=\"tables.php\" method=\"post\">\n";
+			echo "<table>\n\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
+			echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_REQUEST['name']), "\" /></td>\n\t</tr>\n";
+			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcreatetablelikeparent']}</th>\n";
+			echo "\t\t<td class=\"data\">";
+			echo GUI::printCombo($tables, 'like', true, $_REQUEST['like'], false);
+			echo "</td>\n\t</tr>\n";
+			if ($data->hasTablespaces()) {
+				$tblsp_ = $data->getTablespaces();
+				if ($tblsp_->recordCount() > 0) {
+					$tblsp_ = $tblsp_->getArray();
+					$tblsp = array();
+					foreach($tblsp_ as $a) $tblsp[$a['spcname']] = $a['spcname'];
+
+					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
+					echo "\t\t<td class=\"data\">";
+					echo GUI::printCombo($tblsp, 'tablespace', true, $_REQUEST['tablespace'], false);
+					echo "</td>\n\t</tr>\n";
+				}
+			}
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n\t\t<td class=\"data\">";
+			echo "<label for=\"withdefaults\"><input type=\"checkbox\" id=\"withdefaults\" name=\"withdefaults\"", 
+				isset($_REQUEST['withdefaults']) ? ' checked="checked"' : '', 
+				"/>{$lang['strcreatelikewithdefaults']}</label>";
+			if ($data->hasCreateTableLikeWithConstraints()) {
+				echo "<label for=\"withconstraints\"><input type=\"checkbox\" id=\"withconstraints\" name=\"withconstraints\"",
+					isset($_REQUEST['withconstraints']) ? ' checked="checked"' : '',
+					"/>{$lang['strcreatelikewithconstraints']}</label>";
+			}
+			echo "</td>\n\t</tr>\n";
+			echo "</table>";
+
+			echo "<input type=\"hidden\" name=\"action\" value=\"confcreatelike\" />\n";
+			echo $misc->form;
+			echo "<p><input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+			echo "</form>\n";
+		}
+		else {
+			global $_reload_browser;
+
+			if (trim($_REQUEST['name']) == '') {
+				doCreateLike(false, $lang['strtableneedsname']);
+				return;
+			}
+			if (trim($_REQUEST['like']) == '') {
+				doCreateLike(false, $lang['strtablelikeneedslike']);
+				return;
+			}
+
+			$status = $data->createTableLike($_REQUEST['name'], $_REQUEST['like'], isset($_REQUEST['withdefaults']), isset($_REQUEST['withconstraints']), $_REQUEST['tablespace']);
+			if ($status == 0) {
+				$_reload_browser = true;
+				doDefault($lang['strtablecreated']);
+			}
+			else {
+				doCreateLike(false, $lang['strtablecreatedbad']);
+				return;
+			}
 		}
 	}
 
@@ -858,7 +949,10 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
-		echo "<p><a class=\"navlink\" href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></p>\n";
+		echo "<p><a class=\"navlink\" href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a> |\n";
+		if ($data->hasCreateTableLike())
+			echo "<a class=\"navlink\" href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a>\n";
+		echo "</p>\n";
 	}
 	
 	/**
@@ -937,6 +1031,13 @@
 		case 'create':
 			if (isset($_POST['cancel'])) doDefault();
 			else doCreate();
+			break;
+		case 'createlike':
+			doCreateLike(false);
+			break;
+		case 'confcreatelike':
+			if (isset($_POST['cancel'])) doDefault();
+			else doCreateLike(true);
 			break;
 		case 'selectrows':
 			if (!isset($_POST['cancel'])) doSelectRows(false);
