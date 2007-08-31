@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.10 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: servers.php,v 1.11 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -40,21 +40,21 @@
 		$columns = array(
 			'server' => array(
 				'title' => $lang['strserver'],
-				'field' => 'desc',
+				'field' => field('desc'),
 				'url'   => "redirect.php?subject=server&amp;",
 				'vars'  => array('server' => 'id'),
 			),
 			'host' => array(
 				'title' => $lang['strhost'],
-				'field' => 'host',
+				'field' => field('host'),
 			),
 			'port' => array(
 				'title' => $lang['strport'],
-				'field' => 'port',
+				'field' => field('port'),
 			),
 			'username' => array(
 				'title' => $lang['strusername'],
-				'field' => 'username',
+				'field' => field('username'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.32 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: domains.php,v 1.33 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -376,34 +376,34 @@
 		$columns = array(
 			'domain' => array(
 				'title' => $lang['strdomain'],
-				'field' => 'domname',
+				'field' => field('domname'),
 				'url' => "domains.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('domain' => 'domname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => 'domtype',
+				'field' => field('domtype'),
 			),
 			'notnull' => array(
 				'title' => $lang['strnotnull'],
-				'field' => 'domnotnull',
+				'field' => field('domnotnull'),
 				'type'  => 'bool',
 				'params'=> array('true' => 'NOT NULL', 'false' => ''),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],
-				'field' => 'domdef',
+				'field' => field('domdef'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'domowner',
+				'field' => field('domowner'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'domcomment',
+				'field' => field('domcomment'),
 			),
 		);
 		

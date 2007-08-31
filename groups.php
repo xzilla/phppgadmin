@@ -3,7 +3,7 @@
 	/**
 	 * Manage groups in a database cluster
 	 *
-	 * $Id: groups.php,v 1.26 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: groups.php,v 1.27 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -218,7 +218,7 @@
 		$columns = array(
 			'group' => array(
 				'title' => $lang['strgroup'],
-				'field' => 'groname',
+				'field' => field('groname'),
 				'url'   => "groups.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('group' => 'groname'),
 			),

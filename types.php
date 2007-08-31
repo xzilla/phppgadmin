@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.38 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: types.php,v 1.39 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -39,15 +39,15 @@
 				$columns = array(
 					'field' => array(
 						'title' => $lang['strfield'],
-						'field' => 'attname',
+						'field' => field('attname'),
 					),
 					'type' => array(
 						'title' => $lang['strtype'],
-						'field' => '+type',
+						'field' => field('+type'),
 					),
 					'comment' => array(
 						'title' => $lang['strcomment'],
-						'field' => 'comment',
+						'field' => field('comment'),
 					)
 				);
 				
@@ -404,17 +404,17 @@
 		$columns = array(
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => 'typname',
+				'field' => field('typname'),
 				'url'   => "types.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('type' => 'basename'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'typowner',
+				'field' => field('typowner'),
 			),
 			'flavour' => array(
 				'title' => $lang['strflavor'],
-				'field' => 'typtype',
+				'field' => field('typtype'),
 				'type'  => 'verbatim',
 				'params'=> array(
 					'map' => array(
@@ -431,7 +431,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'typcomment',
+				'field' => field('typcomment'),
 			),
 		);
 		

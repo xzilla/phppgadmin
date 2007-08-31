@@ -3,7 +3,7 @@
 	/**
 	 * Manage conversions in a database
 	 *
-	 * $Id: conversions.php,v 1.14 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: conversions.php,v 1.15 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -28,24 +28,24 @@
 		$columns = array(
 			'conversion' => array(
 				'title' => $lang['strname'],
-				'field' => 'conname',
+				'field' => field('conname'),
 			),
 			'source_encoding' => array(
 				'title' => $lang['strsourceencoding'],
-				'field' => 'conforencoding',
+				'field' => field('conforencoding'),
 			),
 			'target_encoding' => array(
 				'title' => $lang['strtargetencoding'],
-				'field' => 'contoencoding',
+				'field' => field('contoencoding'),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],
-				'field' => 'condefault',
+				'field' => field('condefault'),
 				'type'  => 'yesno',
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'concomment',
+				'field' => field('concomment'),
 			),
 		);
 		

@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.56 2007/07/17 14:59:52 ioguix Exp $
+	 * $Id: all_db.php,v 1.57 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -308,25 +308,25 @@
 		$columns = array(
 			'database' => array(
 				'title' => $lang['strdatabase'],
-				'field' => 'datname',
+				'field' => field('datname'),
 				'url'   => "redirect.php?subject=database&amp;{$misc->href}&amp;",
 				'vars'  => array('database' => 'datname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'datowner',
+				'field' => field('datowner'),
 			),
 			'encoding' => array(
 				'title' => $lang['strencoding'],
-				'field' => 'datencoding',
+				'field' => field('datencoding'),
 			),
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
-				'field' => 'tablespace',
+				'field' => field('tablespace'),
 			),
 			'dbsize' => array(
 				'title' => $lang['strsize'],
-				'field' => 'dbsize',
+				'field' => field('dbsize'),
 				'type' => 'prettysize',
 			),
 			'actions' => array(
@@ -334,7 +334,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'datcomment',
+				'field' => field('datcomment'),
 			),
 		);
 		

@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.22 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: plugin_slony.php,v 1.23 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -433,7 +433,7 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strcluster'],
-				'field' => 'cluster',
+				'field' => field('cluster'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=cluster_properties&amp;",
 				'vars'  => array('slony_cluster' => 'cluster'),
 			),
@@ -442,7 +442,7 @@
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'comment',
+				'field' => field('comment'),
 			)
 		);
 		
@@ -597,13 +597,13 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=node_properties&amp;subject=slony_node&amp;",
 				'vars'  => array('no_id' => 'no_id', 'no_name' => 'no_comment'),
 			),
 			'no_status' => array(
 				'title' => $lang['strstatus'],
-				'field' => 'no_status',
+				'field' => field('no_status'),
 				'type' => 'slonystatus',
 			),
 			'actions' => array(
@@ -611,7 +611,7 @@
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 			)
 		);
 		
@@ -753,7 +753,7 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=path_properties&amp;",
 				'vars'  => array('no_id' => 'pa_client', 'path_id' => 'no_id'),
 			),
@@ -762,7 +762,7 @@
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 			)
 		);
 		
@@ -927,7 +927,7 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=listen_properties&amp;",
 				'vars'  => array('no_id' => 'li_receiver', 'listen_id' => 'no_id', 'origin_id' => 'li_origin'),
 			),
@@ -936,7 +936,7 @@
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 			)
 		);
 		
@@ -1096,7 +1096,7 @@
 		$columns = array(
 			'set_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'set_comment',
+				'field' => field('set_comment'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=set_properties&amp;",
 				'vars'  => array('set_id' => 'set_id'),
 			),
@@ -1105,7 +1105,7 @@
 			),
 			'set_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'set_comment',
+				'field' => field('set_comment'),
 			)
 		);
 		
@@ -1495,21 +1495,21 @@
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
-				'field' => 'qualname',
+				'field' => field('qualname'),
 				'url'   => "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'relowner',
+				'field' => field('relowner'),
 			),
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
-				'field' => 'tablespace',
+				'field' => field('tablespace'),
 			),
 			'tuples' => array(
 				'title' => $lang['strestimatedrowcount'],
-				'field' => 'reltuples',
+				'field' => field('reltuples'),
 				'type'  => 'numeric',
 			),
 			'actions' => array(
@@ -1517,7 +1517,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'relcomment',
+				'field' => field('relcomment'),
 			),
 		);
 		
@@ -1776,20 +1776,20 @@
 		$columns = array(
 			'sequence' => array(
 				'title' => $lang['strsequence'],
-				'field' => 'qualname',
+				'field' => field('qualname'),
 				'url'   => "sequences.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname', 'schema' => 'nspname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'seqowner',
+				'field' => field('seqowner'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'seqcomment',
+				'field' => field('seqcomment'),
 			),
 		);
 		
@@ -1979,13 +1979,13 @@
 		$columns = array(
 			'no_name' => array(
 				'title' => $lang['strname'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 				'url'   => "plugin_slony.php?{$misc->href}&amp;action=subscription_properties&amp;",
 				'vars'  => array('set_id' => 'sub_set', 'no_id' => 'no_id'),
 			),
 			'no_comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'no_comment',
+				'field' => field('no_comment'),
 			)
 		);
 		

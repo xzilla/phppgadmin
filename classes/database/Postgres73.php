@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.165 2007/07/20 04:38:34 xzilla Exp $
+ * $Id: Postgres73.php,v 1.166 2007/08/31 18:30:11 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1203,61 +1203,60 @@ class Postgres73 extends Postgres72 {
 	// Constraint functions
 
 	/**
-	 * A function for getting all columns linked by foreign keys in a table
+	 * Returns a list of all constraints on a table,
+	 * including constraint name, definition, related col and referenced namespace,
+	 * table and col if needed
 	 * @param $table the table where we are looking for fk
-	 * @param $schema the table's schema
-	 * @return a recordset of fk(s) infos
-	 * return null if table hasn't fk
+	 * @return a recordset
 	 */
-	function getForeignKeys($table, $schema) {
+	function getConstraints($table) {
 		global $data;
 
 		$data->clean($table);
-		$data->clean($schema);
 	
-		// get the max number of col in a fk
-		$sql = "SELECT DISTINCT
-				max(SUBSTRING(array_dims(c.conkey) FROM  '^\\\[.*:(.*)\\\]$')) as nb
-			FROM
-				pg_catalog.pg_constraint AS c,
-				pg_catalog.pg_class AS r,
-				pg_catalog.pg_namespace AS ns
-			WHERE
-				c.contype = 'f' AND c.conrelid = r.oid
-				AND r.relname = '$table' AND r.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='$schema')";
+		// get the max number of col used in a constraint for the table
+    	$sql = "SELECT DISTINCT
+	      max(SUBSTRING(array_dims(c.conkey) FROM  '^\\\[.*:(.*)\\\]$')) as nb
+    	FROM
+	      pg_catalog.pg_constraint AS c
+    	  JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
+	      JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
+    	WHERE
+      		r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
 
 		$rs = $this->selectSet($sql);
-		//if we got the max number of col, this table have fks...
-		if (!$rs->EOF) {
-			$sql = "SELECT
-				c.conname, ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema, r2.relname as f_table, pf.attname as p_field, ff.attname AS f_field
+
+	    if ($rs->EOF) $max_col = 0;
+		else $max_col = $rs->fields['nb'];
+
+    	$sql = '
+			SELECT
+				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc, 
+				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
+				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field
 			FROM
-				pg_catalog.pg_constraint AS c,
-				pg_catalog.pg_class AS r1,
-			  pg_catalog.pg_class AS r2,
-				pg_catalog.pg_namespace AS ns1,
-			  pg_catalog.pg_namespace AS ns2,
-				pg_catalog.pg_attribute AS pf,
-			  pg_catalog.pg_attribute AS ff
-			WHERE
-				c.contype='f'
-				AND c.conrelid=r1.oid
-				AND c.confrelid=r2.oid
-				AND r1.relnamespace=ns1.oid
-				AND r2.relnamespace=ns2.oid
-				AND pf.attrelid=r1.oid
-				AND ff.attrelid=r2.oid
-				AND r1.relname = '$table' AND r1.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='$schema')
-				AND ((pf.attnum=conkey[1] AND ff.attnum=confkey[1])";
-
-				for ($i = 2; $i <= $rs->fields['nb']; $i++) {
-					$sql.= " OR (pf.attnum=conkey[$i] AND ff.attnum=confkey[$i])";
-				}
-				$sql.= ")";
-
-				return $this->selectSet($sql);
+				pg_catalog.pg_constraint AS c
+				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
+				JOIN pg_catalog.pg_attribute AS f1 ON (f1.attrelid=r1.oid AND (f1.attnum=c.conkey[1]';
+		for ($i = 2; $i <= $rs->fields['nb']; $i++) {
+			$sql.= " OR f1.attnum=c.conkey[$i]";
 		}
-		return null;
+		$sql.= '))
+				JOIN pg_catalog.pg_namespace AS ns1 ON r1.relnamespace=ns1.oid
+				LEFT JOIN (
+					pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
+				) ON (c.confrelid=r2.oid)
+				LEFT JOIN pg_catalog.pg_attribute AS f2 ON 
+					(f2.attrelid=r2.oid AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)';
+		for ($i = 2; $i <= $rs->fields['nb']; $i++)
+			$sql.= "OR (c.confkey[$i]=f2.attnum AND c.conkey[$i]=f1.attnum)";
+
+		$sql .= sprintf("))
+			WHERE 
+				r1.relname = '%s' AND ns1.nspname='%s'
+			ORDER BY 1", $table, $this->_schema);
+
+		return $this->selectSet($sql);
 	}
 
 	/**
@@ -1339,67 +1338,6 @@ class Postgres73 extends Postgres72 {
 		";		
 		return $this->selectSet($sql);
 	 }
-
-	/**
-	 * Returns a list of all constraints on a table
-	 * @param $table The table to find rules for
-	 * @return A recordset
-	 */
-	function getConstraints($table) {
-		$this->clean($table);
-
-		/* This query finds all foreign key and check constraints in the pg_constraint
-		 * table, and unions that with all indexes that are the basis for unique or
-		 * primary key constraints. */
-		$sql = "
-			SELECT conname, consrc, contype, indkey, indisclustered FROM (
-				SELECT
-					conname,
-					CASE WHEN contype='f' THEN
-						pg_catalog.pg_get_constraintdef(oid)
-					ELSE
-						'CHECK (' || consrc || ')'
-					END AS consrc,
-					contype,
-					conrelid AS relid,
-					NULL AS indkey,
-					FALSE AS indisclustered
-				FROM
-					pg_catalog.pg_constraint
-				WHERE
-					contype IN ('f', 'c')
-				UNION ALL
-				SELECT
-					pc.relname,
-					NULL,
-					CASE WHEN indisprimary THEN
-						'p'
-					ELSE
-						'u'
-					END,
-					pi.indrelid,
-					indkey,
-					pi.indisclustered
-				FROM
-					pg_catalog.pg_class pc,
-					pg_catalog.pg_index pi
-				WHERE
-					pc.oid=pi.indexrelid
-					AND EXISTS (
-						SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
-						ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-						WHERE d.classid = pc.tableoid AND d.objid = pc.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
-				)
-			) AS sub
-			WHERE relid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}'))
-			ORDER BY
-				1
-		";
-
-		return $this->selectSet($sql);
-	}
 
 	/**
 	 * Removes a constraint from a relation

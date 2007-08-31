@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.30 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.31 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -310,22 +310,22 @@
 		$columns = array(
 			'column' => array(
 				'title' => $lang['strcolumn'],
-				'field' => 'attname',
+				'field' => field('attname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => '+type',
+				'field' => field('+type'),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],
-				'field' => 'adsrc',
+				'field' => field('adsrc'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'comment',
+				'field' => field('comment'),
 			),
 		);
 		

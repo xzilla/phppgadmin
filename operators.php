@@ -3,7 +3,7 @@
 	/**
 	 * Manage operators in a database
 	 *
-	 * $Id: operators.php,v 1.28 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: operators.php,v 1.29 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -114,28 +114,28 @@
 		$columns = array(
 			'operator' => array(
 				'title' => $lang['stroperator'],
-				'field' => 'oprname',
+				'field' => field('oprname'),
 				'url'   => "operators.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
 			),
 			'leftarg' => array(
 				'title' => $lang['strleftarg'],
-				'field' => 'oprleftname',
+				'field' => field('oprleftname'),
 			),
 			'rightarg' => array(
 				'title' => $lang['strrightarg'],
-				'field' => 'oprrightname',
+				'field' => field('oprrightname'),
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
-				'field' => 'resultname',
+				'field' => field('resultname'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'oprcomment',
+				'field' => field('oprcomment'),
 			),
 		);
 

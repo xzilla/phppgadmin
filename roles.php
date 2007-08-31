@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php,v 1.9 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: roles.php,v 1.10 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -557,44 +557,44 @@
 		$columns = array(
 			'role' => array(
 				'title' => $lang['strrole'],
-				'field' => 'rolname',
+				'field' => field('rolname'),
 				'url'   => "redirect.php?subject=role&amp;action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('rolename' => 'rolname'),
 			),
 			'superuser' => array(
 				'title' => $lang['strsuper'],
-				'field' => 'rolsuper',
+				'field' => field('rolsuper'),
 				'type'  => 'yesno',
 			),
 			'createdb' => array(
 				'title' => $lang['strcreatedb'],
-				'field' => 'rolcreatedb',
+				'field' => field('rolcreatedb'),
 				'type'  => 'yesno',
 			),
 			'createrole' => array(
 				'title' => $lang['strcancreaterole'],
-				'field' => 'rolcreaterole',
+				'field' => field('rolcreaterole'),
 				'type'  => 'yesno',
 			),
 			'inherits' => array(
 				'title' => $lang['strinheritsprivs'],
-				'field' => 'rolinherit',
+				'field' => field('rolinherit'),
 				'type'  => 'yesno',
 			),
 			'canloging' => array(
 				'title' => $lang['strcanlogin'],
-				'field' => 'rolcanlogin',
+				'field' => field('rolcanlogin'),
 				'type'  => 'yesno',
 			),
 			'connlimit' => array(
 				'title'	=> $lang['strconnlimit'],
-				'field'	=> 'rolconnlimit',
+				'field'	=> field('rolconnlimit'),
 				'type'	=> 'callback',
 				'params'=> array('function' => 'renderRoleConnLimit')
 			),
 			'expires' => array(
 				'title' => $lang['strexpires'],
-				'field' => 'rolvaliduntil',
+				'field' => field('rolvaliduntil'),
 				'type'  => 'callback',
 				'params'=> array('function' => 'renderRoleExpires', 'null' => $lang['strnever']),
 			),

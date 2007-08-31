@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.31 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: reports.php,v 1.32 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -248,24 +248,24 @@
 		$columns = array(
 			'report' => array(
 				'title' => $lang['strreport'],
-				'field' => 'report_name',
+				'field' => field('report_name'),
 				'url'   => "reports.php?action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('report_id' => 'report_id'),
 			),
 			'database' => array(
 				'title' => $lang['strdatabase'],
-				'field' => 'db_name',
+				'field' => field('db_name'),
 			),
 			'created' => array(
 				'title' => $lang['strcreated'],
-				'field' => 'date_created',
+				'field' => field('date_created'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'descr',
+				'field' => field('descr'),
 			),
 		);
 		

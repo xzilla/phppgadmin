@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.72 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: views.php,v 1.73 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -547,20 +547,20 @@
 		$columns = array(
 			'view' => array(
 				'title'	=> $lang['strview'],
-				'field'	=> 'relname',
+				'field'	=> field('relname'),
 				'url' => "redirect.php?subject=view&amp;{$misc->href}&amp;",
 				'vars'  => array('view' => 'relname'),
 			),
 			'owner' => array(
 				'title'	=> $lang['strowner'],
-				'field'	=> 'relowner',
+				'field'	=> field('relowner'),
 			),
 			'actions' => array(
 				'title'	=> $lang['stractions'],
 			),
 			'comment' => array(
 				'title'	=> $lang['strcomment'],
-				'field'	=> 'relcomment',
+				'field'	=> field('relcomment'),
 			),
 		);
 		

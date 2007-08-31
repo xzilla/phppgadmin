@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.57 2007/03/28 18:52:34 soranzo Exp $
+ * $Id: Postgres74.php,v 1.58 2007/08/31 18:30:11 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -251,50 +251,6 @@ class Postgres74 extends Postgres73 {
 			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
 			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
 			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
-
-		return $this->selectSet($sql);
-	}
-
-	// Constraint functions
-
-	/**
-	 * Returns a list of all constraints on a table
-	 * @param $table The table to find rules for
-	 * @return A recordset
-	 */
-	function getConstraints($table) {
-		$this->clean($table);
-
-		// This SQL is greatly complicated by the need to retrieve
-		// index clustering information for primary and unique constraints
-		$sql = "SELECT
-				pc.conname,
-				pg_catalog.pg_get_constraintdef(pc.oid, true) AS consrc,
-				pc.contype,
-				CASE WHEN pc.contype='u' OR pc.contype='p' THEN (
-					SELECT
-						indisclustered
-					FROM
-						pg_catalog.pg_depend pd,
-						pg_catalog.pg_class pl,
-						pg_catalog.pg_index pi
-					WHERE
-						pd.refclassid=pc.tableoid 
-						AND pd.refobjid=pc.oid
-						AND pd.objid=pl.oid
-						AND pl.oid=pi.indexrelid
-				) ELSE
-					NULL
-				END AS indisclustered
-			FROM
-				pg_catalog.pg_constraint pc
-			WHERE
-				pc.conrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}'))
-			ORDER BY
-				1
-		";
 
 		return $this->selectSet($sql);
 	}

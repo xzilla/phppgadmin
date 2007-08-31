@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.23 2007/07/16 21:27:28 ioguix Exp $
+	 * $Id: aggregates.php,v 1.24 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -272,28 +272,28 @@
 		$columns = array(
 			'aggrname' => array(
 				'title' => $lang['strname'],
-				'field' => 'proname',
+				'field' => field('proname'),
 				'url'   => "redirect.php?subject=aggregate&amp;action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
 			),
 			'aggrtype' => array(
 				'title' => $lang['strtype'],
-				'field' => 'proargtypes',
+				'field' => field('proargtypes'),
 			),
 			'aggrtransfn' => array(
 				'title' => $lang['straggrsfunc'],
-				'field' => 'aggtransfn',
+				'field' => field('aggtransfn'),
 			),			
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'usename',
+				'field' => field('usename'),
 			),			
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),			
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'aggrcomment',
+				'field' => field('aggrcomment'),
 			),
 		);
 		

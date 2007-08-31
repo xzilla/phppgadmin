@@ -3,7 +3,7 @@
 	/**
 	 * Manage tablespaces in a database cluster
 	 *
-	 * $Id: tablespaces.php,v 1.15 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: tablespaces.php,v 1.16 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -212,15 +212,15 @@
 		$columns = array(
 			'database' => array(
 				'title' => $lang['strname'],
-				'field' => 'spcname'
+				'field' => field('spcname')
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'spcowner'
+				'field' => field('spcowner')
 			),
 			'location' => array(
 				'title' => $lang['strlocation'],
-				'field' => 'spclocation'
+				'field' => field('spclocation')
 			),
 			'actions' => array(
 				'title' => $lang['stractions']
@@ -230,7 +230,7 @@
 		if ($data->hasSharedComments()) {
 			$columns['comment'] = array(
 				'title' => $lang['strcomment'],
-				'field' => 'spccomment',
+				'field' => field('spccomment'),
 			);
 		}
 

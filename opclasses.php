@@ -3,7 +3,7 @@
 	/**
 	 * Manage opclasss in a database
 	 *
-	 * $Id: opclasses.php,v 1.9 2005/11/25 08:49:08 jollytoad Exp $
+	 * $Id: opclasses.php,v 1.10 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -28,24 +28,24 @@
 		$columns = array(
 			'accessmethod' => array(
 				'title' => $lang['straccessmethod'],
-				'field' => 'amname',
+				'field' => field('amname'),
 			),
 			'opclass' => array(
 				'title' => $lang['strname'],
-				'field' => 'opcname',
+				'field' => field('opcname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => 'opcintype',
+				'field' => field('opcintype'),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],
-				'field' => 'opcdefault',
+				'field' => field('opcdefault'),
 				'type'  => 'yesno',
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'opccomment',
+				'field' => field('opccomment'),
 			),
 		);
 		

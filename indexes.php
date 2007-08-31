@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.43 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: indexes.php,v 1.44 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -263,21 +263,21 @@
 		$columns = array(
 			'index' => array(
 				'title' => $lang['strname'],
-				'field' => 'indname',
+				'field' => field('indname'),
 			),
 			'definition' => array(
 				'title' => $lang['strdefinition'],
-				'field' => 'inddef',
+				'field' => field('inddef'),
 			),
 			'constraints' => array(
 				'title' => $lang['strconstraints'],
-				'field' => '+constraints',
+				'field' => field('+constraints'),
 				'type'  => 'verbatim',
 				'params'=> array('align' => 'center'),
 			),
 			'clustered' => array(
 				'title' => $lang['strclustered'],
-				'field' => 'indisclustered',
+				'field' => field('indisclustered'),
 				'type'  => 'yesno',
 			),
 			'actions' => array(

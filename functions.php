@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.66 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: functions.php,v 1.67 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -629,30 +629,30 @@
 		$columns = array(
 			'function' => array(
 				'title' => $lang['strfunction'],
-				'field' => 'proproto',
+				'field' => field('proproto'),
 				'type'  => 'verbatim',
 				'url'   => "redirect.php?subject=function&amp;action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
-				'field' => 'proreturns',
+				'field' => field('proreturns'),
 				'type'  => 'verbatim',
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'proowner',
+				'field' => field('proowner'),
 			),
 			'proglanguage' => array(
 				'title' => $lang['strproglanguage'],
-				'field' => 'prolanguage',
+				'field' => field('prolanguage'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'procomment',
+				'field' => field('procomment'),
 			),
 		);
 		

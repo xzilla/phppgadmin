@@ -3,7 +3,7 @@
 	/**
 	 * Manage users in a database cluster
 	 *
-	 * $Id: users.php,v 1.38 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: users.php,v 1.39 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -288,27 +288,27 @@
 		$columns = array(
 			'user' => array(
 				'title' => $lang['strusername'],
-				'field' => 'usename',
+				'field' => field('usename'),
 			),
 			'superuser' => array(
 				'title' => $lang['strsuper'],
-				'field' => 'usesuper',
+				'field' => field('usesuper'),
 				'type'  => 'yesno',
 			),
 			'createdb' => array(
 				'title' => $lang['strcreatedb'],
-				'field' => 'usecreatedb',
+				'field' => field('usecreatedb'),
 				'type'  => 'yesno',
 			),
 			'expires' => array(
 				'title' => $lang['strexpires'],
-				'field' => 'useexpires',
+				'field' => field('useexpires'),
 				'type'  => 'callback',
 				'params'=> array('function' => 'renderUseExpires', 'null' => $lang['strnever']),
 			),
 			'defaults' => array(
 				'title' => $lang['strsessiondefaults'],
-				'field' => 'useconfig',
+				'field' => field('useconfig'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

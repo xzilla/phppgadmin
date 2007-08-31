@@ -211,24 +211,24 @@
 			$column = array(
 				'column' => array(
 					'title' => $lang['strcolumn'],
-					'field' => 'attname',
+					'field' => field('attname'),
 				),
 				'type' => array(
 					'title' => $lang['strtype'],
-					'field' => '+type',
+					'field' => field('+type'),
 				)
 			);
 		
 			if ($isTable) {
 				$column['notnull'] = array(
 					'title' => $lang['strnotnull'],
-					'field' => 'attnotnull',
+					'field' => field('attnotnull'),
 					'type'  => 'bool',
 					'params'=> array('true' => 'NOT NULL', 'false' => '')
 				);
 				$column['default'] = array(
 					'title' => $lang['strdefault'],
-					'field' => 'adsrc'
+					'field' => field('adsrc'),
 				);
 			}
 

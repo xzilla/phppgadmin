@@ -3,7 +3,7 @@
 	/**
 	 * Manage languages in a database
 	 *
-	 * $Id: languages.php,v 1.12 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: languages.php,v 1.13 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -28,16 +28,16 @@
 		$columns = array(
 			'language' => array(
 				'title' => $lang['strname'],
-				'field' => 'lanname',
+				'field' => field('lanname'),
 			),
 			'trusted' => array(
 				'title' => $lang['strtrusted'],
-				'field' => 'lanpltrusted',
+				'field' => field('lanpltrusted'),
 				'type'  => 'yesno',
 			),
 			'function' => array(
 				'title' => $lang['strfunction'],
-				'field' => 'lanplcallf',
+				'field' => field('lanplcallf'),
 			),
 		);
 

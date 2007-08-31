@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.14 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: casts.php,v 1.15 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -37,20 +37,20 @@
 		$columns = array(
 			'source_type' => array(
 				'title' => $lang['strsourcetype'],
-				'field' => 'castsource',
+				'field' => field('castsource'),
 			),
 			'target_type' => array(
 				'title' => $lang['strtargettype'],
-				'field' => 'casttarget',
+				'field' => field('casttarget'),
 			),
 			'function' => array(
 				'title' => $lang['strfunction'],
-				'field' => 'castfunc',
+				'field' => field('castfunc'),
 				'params'=> array('null' => $lang['strbinarycompat']),
 			),
 			'implicit' => array(
 				'title' => $lang['strimplicit'],
-				'field' => 'castcontext',
+				'field' => field('castcontext'),
 				'type'  => 'callback',
 				'params'=> array('function' => 'renderCastContext', 'align' => 'center'),
 			),

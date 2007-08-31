@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.100 2007/07/17 14:59:52 ioguix Exp $
+	 * $Id: tables.php,v 1.101 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -780,21 +780,21 @@
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
-				'field' => 'relname',
+				'field' => field('relname'),
 				'url'		=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
-				'field' => 'relowner',
+				'field' => field('relowner'),
 			),
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
-				'field' => 'tablespace'
+				'field' => field('tablespace')
 			),
 			'tuples' => array(
 				'title' => $lang['strestimatedrowcount'],
-				'field' => 'reltuples',
+				'field' => field('reltuples'),
 				'type'  => 'numeric'
 			),
 			'actions' => array(
@@ -802,7 +802,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'relcomment',
+				'field' => field('relcomment'),
 			),
 		);
 		

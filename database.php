@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.100 2007/07/16 21:27:28 ioguix Exp $
+	 * $Id: database.php,v 1.101 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -392,11 +392,11 @@
 		$columns = array(
 			'variable' => array(
 				'title' => $lang['strname'],
-				'field' => 'name',
+				'field' => field('name'),
 			),
 			'value' => array(
 				'title' => $lang['strsetting'],
-				'field' => 'setting',
+				'field' => field('setting'),
 			),
 		);
 		
@@ -425,19 +425,19 @@
 			$columns = array(
 				'transaction' => array(
 					'title' => $lang['strxactid'],
-					'field' => 'transaction',
+					'field' => field('transaction'),
 				),
 				'gid' => array(
 					'title' => $lang['strgid'],
-					'field' => 'gid',
+					'field' => field('gid'),
 				),
 				'prepared' => array(
 					'title' => $lang['strstarttime'],
-					'field' => 'prepared',
+					'field' => field('prepared'),
 				),
 				'owner' => array(
 					'title' => $lang['strowner'],
-					'field' => 'owner',
+					'field' => field('owner'),
 				),
 			);
 
@@ -453,19 +453,19 @@
 		$columns = array(
 			'user' => array(
 				'title' => $lang['strusername'],
-				'field' => 'usename',
+				'field' => field('usename'),
 			),
 			'process' => array(
 				'title' => $lang['strprocess'],
-				'field' => 'procpid',
+				'field' => field('procpid'),
 			),
 			'query' => array(
 				'title' => $lang['strsql'],
-				'field' => 'current_query',
+				'field' => field('current_query'),
 			),
 			'start_time' => array(
 				'title' => $lang['strstarttime'],
-				'field' => 'query_start',
+				'field' => field('query_start'),
 			),
 		);
 
@@ -504,27 +504,27 @@
 		$columns = array(
 			'namespace' => array(
 				'title' => $lang['strschema'],
-				'field' => 'nspname',
+				'field' => field('nspname'),
 			),
 			'tablename' => array(
 				'title' => $lang['strtablename'],
-				'field' => 'tablename',
+				'field' => field('tablename'),
 			),
 			'transactionid' => array(
 				'title' => $lang['strtransaction'],
-				'field' => 'transaction',
+				'field' => field('transaction'),
 			),
 			'processid' => array(
 				'title' => $lang['strprocessid'],
-				'field' => 'pid',
+				'field' => field('pid'),
 			),
 			'mode' => array(
 				'title' => $lang['strmode'],
-				'field' => 'mode',
+				'field' => field('mode'),
 			),
 			'granted' => array(
 				'title' => $lang['strislockheld'],
-				'field' => 'granted',
+				'field' => field('granted'),
 				'type'  => 'yesno',
 			),
 		);
@@ -646,39 +646,39 @@
 					$columns = array(
 						'namespace' => array(
 							'title' => $lang['strschema'],
-							'field' => 'nspname',
+							'field' => field('nspname'),
 						),	
 						'relname' => array(
 							'title' => $lang['strtable'],
-							'field' => 'relname',
+							'field' => field('relname'),
 						),
 						'enabled' => array(
 							'title' => $lang['strenabled'],
-							'field' => 'enabled',
+							'field' => field('enabled'),
 						),
 						'vac_base_thresh' => array(
 							'title' => $lang['strvacuumbasethreshold'],
-							'field' => 'vac_base_thresh',
+							'field' => field('vac_base_thresh'),
 						),
 						'vac_scale_factor' => array(
 							'title' => $lang['strvacuumscalefactor'],
-							'field' => 'vac_scale_factor',
+							'field' => field('vac_scale_factor'),
 						),
 						'anl_base_thresh' => array(
 							'title' => $lang['stranalybasethreshold'],
-							'field' => 'anl_base_thresh',
+							'field' => field('anl_base_thresh'),
 						),
 						'anl_scale_factor' => array(
 							'title' => $lang['stranalyzescalefactor'],
-							'field' => 'anl_scale_factor',
+							'field' => field('anl_scale_factor'),
 						),
 						'vac_cost_delay' => array(
 							'title' => $lang['strvacuumcostdelay'],
-							'field' => 'vac_cost_delay',
+							'field' => field('vac_cost_delay'),
 						),
 						'vac_cost_limit' => array(
 							'title' => $lang['strvacuumcostlimit'],
-							'field' => 'vac_cost_limit',
+							'field' => field('vac_cost_limit'),
 						),
 					);
 

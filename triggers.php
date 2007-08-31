@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.35 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: triggers.php,v 1.36 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -281,11 +281,11 @@
 		$columns = array(
 			'trigger' => array(
 				'title' => $lang['strname'],
-				'field' => 'tgname',
+				'field' => field('tgname'),
 			),
 			'definition' => array(
 				'title' => $lang['strdefinition'],
-				'field' => '+tgdef',
+				'field' => field('+tgdef'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

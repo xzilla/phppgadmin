@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.158 2007/07/19 19:51:17 xzilla Exp $
+	 * $Id: Misc.php,v 1.159 2007/08/31 18:30:11 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -1645,20 +1645,18 @@
 								break;
 							default:
 								echo "<td class=\"data{$id}\">";
-								if (array_key_exists($column['field'], $tabledata->fields)) {
+								$val = value($column['field'], $tabledata->fields);
+								if (!is_null($val)) {
 									if (isset($column['url'])) {
 										echo "<a href=\"{$column['url']}";
-										if ($column['url'] === '') echo '?';
 										$misc->printUrlVars($column['vars'], $tabledata->fields);
 										echo "\">";
 									}
-								
 									$type = isset($column['type']) ? $column['type'] : null;
 									$params = isset($column['params']) ? $column['params'] : array();
-									echo $misc->printVal($tabledata->fields[$column['field']], $type, $params);
+									echo $misc->printVal($val, $type, $params);
+									if (isset($column['url'])) echo "</a>";
 								}
-								
-								if (isset($column['url'])) echo "</a>";
 
 								echo "</td>\n";
 								break;

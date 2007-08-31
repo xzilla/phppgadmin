@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.83 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.84 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -425,10 +425,10 @@
 		function attPre(&$rowdata, $actions) {
 			global $data;
 			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
-			$actions['browse']['url'] .= "query=" . urlencode("SELECT \"{$rowdata->fields['attname']}\", count(*) AS \"count\" FROM \"{$_REQUEST['table']}\" GROUP BY \"{$rowdata->fields['attname']}\" ORDER BY \"{$rowdata->fields['attname']}\"") . '&amp;';
+			$actions['browse']['url'] .= 'query=' . urlencode("SELECT \"{$rowdata->fields['attname']}\", count(*) AS \"count\" FROM \"{$_REQUEST['table']}\" GROUP BY \"{$rowdata->fields['attname']}\" ORDER BY \"{$rowdata->fields['attname']}\"") . '&amp;';
 			return $actions;
 		}
-		
+
 		$misc->printTrail('table');
 		$misc->printTabs('table','columns');
 		$misc->printMsg($msg);
@@ -437,40 +437,82 @@
 		$tdata = $data->getTable($_REQUEST['table']);
 		// Get columns
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
+		// Get Pk & Constraints
+		$ck = $data->getConstraints($_REQUEST['table']);
 
 		// Show comment if any
 		if ($tdata->fields['relcomment'] !== null)
-			echo "<p class=\"comment\">", $misc->printVal($tdata->fields['relcomment']), "</p>\n";
+			echo '<p class="comment">', $misc->printVal($tdata->fields['relcomment']), "</p>\n";
 
 		$columns = array(
 			'column' => array(
 				'title' => $lang['strcolumn'],
-				'field' => 'attname',
+				'field' => field('attname'),
 				'url'   => "colproperties.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 			'type' => array(
 				'title' => $lang['strtype'],
-				'field' => '+type',
+				'field' => field('+type'),
 			),
 			'notnull' => array(
 				'title' => $lang['strnotnull'],
-				'field' => 'attnotnull',
+				'field' => field('attnotnull'),
 				'type'  => 'bool',
 				'params'=> array('true' => 'NOT NULL', 'false' => ''),
 			),
 			'default' => array(
 				'title' => $lang['strdefault'],
-				'field' => 'adsrc',
+				'field' => field('adsrc'),
+			),
+			'keyprop' => array(
+				'title' => $lang['strconstraints'],
+				'field' => field('attname'),
+				'type'  => 'callback',
+				'params'=> array(
+					'function' => 'cstrRender',
+					'keys' => $ck->getArray()
+				),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => 'comment',
+				'field' => field('comment'),
 			),
 		);
+		if (!$data->hasForeignKeysInfo()) {
+			unset($columns['keyprop']);
+		}
+		else {
+			function cstrRender($s, $p) {
+				global $misc;
+
+				$str ='';
+				foreach ($p['keys'] as $c)
+					if ($c['p_field'] == $s)
+						switch ($c['contype']) {
+							case 'p':
+							    $str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+									$misc->icon('PrimaryKey') .'" alt="[pk]" title="'. htmlentities($c['consrc']) .'" /></a>';
+							break;
+							case 'f':
+								$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table={$c['f_table']}&amp;schema={$c['f_schema']}\"><img src=\"".
+									$misc->icon('ForeignKey') .'" alt="[fk]" title="'. htmlentities($c['consrc']) .'" /></a>';
+							break;
+							case 'u':
+								$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+									$misc->icon('UniqueConstraint') .'" alt="[uniq]" title="'. htmlentities($c['consrc']) .'" /></a>';
+							break;
+							case 'c':
+								$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+									$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc']) .'" /></a>';
+						}
+
+				return $str;
+			}
+		}
 		
 		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");
 

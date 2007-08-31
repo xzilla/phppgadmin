@@ -3,7 +3,7 @@
 	/**
 	 * List rules on a table OR view
 	 *
-	 * $Id: rules.php,v 1.32 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: rules.php,v 1.33 2007/08/31 18:30:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -136,11 +136,11 @@
 		$columns = array(
 			'rule' => array(
 				'title' => $lang['strname'],
-				'field' => 'rulename',
+				'field' => field('rulename'),
 			),
 			'definition' => array(
 				'title' => $lang['strdefinition'],
-				'field' => 'definition',
+				'field' => field('definition'),
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],

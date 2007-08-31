@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.51 2007/07/16 21:27:28 ioguix Exp $
+	 * $Id: constraints.php,v 1.52 2007/08/31 18:30:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -452,11 +452,11 @@
 		$columns = array(
 			'constraint' => array(
 				'title' => $lang['strname'],
-				'field' => 'conname',
+				'field' => field('conname'),
 			),
 			'definition' => array(
 				'title' => $lang['strdefinition'],
-				'field' => '+definition',
+				'field' => field('+definition'),
 				'type'  => 'pre',
 			),
 			'actions' => array(
