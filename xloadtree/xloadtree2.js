@@ -405,13 +405,19 @@ WebFXLoadTree.documentLoaded = function (jsNode) {
 		var count = 0;
 		var cs = root.childNodes;
 		var l = cs.length;
+		var newNode;
 		for (var i = 0; i < l; i++) {
 			if (cs[i].tagName == "tree") {
-				jsNode.add(WebFXLoadTree.createItemFromElement(cs[i]));
+				newNode=WebFXLoadTree.createItemFromElement(cs[i]);
+				jsNode.add(newNode);
 				count++;
 			}
 		}
 
+		if (count == 1 && newNode.childNodes.length) {
+			var parent=jsNode.parentNode;
+			newNode.setExpanded(true);
+		}
 		// if no children we got an error
 		if (count == 0) {
 			jsNode.errorText = webFXTreeConfig.errorLoadingText + " " + jsNode.src + " (???)";

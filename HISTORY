@@ -12,6 +12,7 @@ Features
 * Pagination selection available for reports
 * You can configure reports db, schema and table names
 * Add support for creating a table using an exsting one (ioguix)
+* Auto-expand a node in the tree browser if there are no other nodes (Tomasz Pala)
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema
