@@ -28,7 +28,7 @@ class TableTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
         
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php"); 
         
         return TRUE;
     }
@@ -53,11 +53,15 @@ class TableTest extends PreconditionSet
     function testCreateTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the create table page to create a table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=create&' .
-                                     'database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'create',
+			'database' => $DATABASE,
+			'schema' => 'public'))
+		);
         
         // Enter the table name and field number.
         $this->assertTrue($this->setField('name', 'newtable'));        
@@ -86,7 +90,7 @@ class TableTest extends PreconditionSet
         $this->assertTrue($this->assertWantedText($lang['strtablecreated']));
         
         // Drop the table which is created in the testcase.
-        $this->dropTable('test', 'newtable', 'public');
+        $this->dropTable($DATABASE, 'newtable', 'public');
         
         return TRUE;   
     }
@@ -99,11 +103,15 @@ class TableTest extends PreconditionSet
     function testCreateTableWithBadFieldNumber()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the create table page to create a table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=create&' .
-                                     'database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'create',
+			'database' => $DATABASE,
+			'schema' => 'public'))
+		);
         
         // Enter no name.
         //$this->assertTrue($this->clickSubmit($lang['strnext']));
@@ -143,11 +151,15 @@ class TableTest extends PreconditionSet
     function testCreateTableWithBadFieldData()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the create table page to create a table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=create&' .
-                                     'database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'create',
+			'database' => $DATABASE,
+			'schema' => 'public'))
+		);
         
         // Enter the table name and field number.        
         $this->assertTrue($this->setField('name', 'badfield'));        
@@ -188,14 +200,19 @@ class TableTest extends PreconditionSet
     function testInsertOneRow()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER,$DATABASE;
           
         // Create a table.     
-        $this->createTable('test', 'public', 'viewtest', '3');
+        $this->createTable($DATABASE, 'public', 'viewtest', '3');
           
         // Turn to the "Insert row" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confinsertrow&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'confinsertrow',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'viewtest'))
+		);
           
         // Set the value of the fields.               
         $this->assertTrue($this->setField('values[field0]', 'row1column1'));
@@ -218,11 +235,16 @@ class TableTest extends PreconditionSet
     function testInsertTwoRows()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Insert row" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confinsertrow&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confinsertrow',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
           
         // Set the value of the fields.        
         $this->assertTrue($this->setField('values[field0]', 'row2column1'));
@@ -257,12 +279,17 @@ class TableTest extends PreconditionSet
     function testInsertWithBadData()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Insert row" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confinsertrow&' .
-                                     'database=test&schema=public&table=viewtest&'));
-          
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confinsertrow',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
+
         // Set the value of the fields.
         $this->assertTrue($this->setField('format[field0]', 'Expression'));
         $this->assertTrue($this->setField('format[field1]', 'Expression'));
@@ -283,22 +310,28 @@ class TableTest extends PreconditionSet
 
     /**
      * TestCaseID: HER01
-     * Edit a row.
+	 * Edit a row.
+	 * XXX Fail cause we have no index on viewtest, created by $this->createable
+	 * see Public/SetPrecondition.php
      */
     function testEditRow()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Tables" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?database=test&schema=public&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
         // Select the table "viewtest".
-        $this->assertTrue($this->clickLink('viewtest'));
+		$this->assertTrue($this->clickLink('viewtest'));
         // Browse the table.
-        $this->assertTrue($this->clickLink($lang['strbrowse']));
+		$this->assertTrue($this->clickLink($lang['strbrowse']));
         // Select a row.
-        $this->assertTrue($this->clickLink($lang['stredit']));
-                  
+		$this->assertTrue($this->clickLink($lang['stredit']));
+
         // Edit the row.
         $this->assertTrue($this->setField('values[field0]', 'updatecolumn0'));
         $this->assertTrue($this->setField('values[field1]', 'updatecolumn1'));
@@ -308,22 +341,27 @@ class TableTest extends PreconditionSet
         $this->assertTrue($this->clickSubmit($lang['strsave']));
         // Verify whether the edit is done successfully.
         $this->assertTrue($this->assertWantedText('updatecolumn0'));
-        
+
         return TRUE;
     } 
     
     
     /**
      * TestCaseID: HDR01
-     * Delete a row.
+	 * Delete a row.
+	 * XXX Fail, see comment on testEditRow
      */
     function testDeleteRow()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Tables" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?database=test&schema=public&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
         // Select the table "viewtest".
         $this->assertTrue($this->clickLink('viewtest'));
         // Browse the table.
@@ -345,13 +383,18 @@ class TableTest extends PreconditionSet
     function testBrowseTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Browse table" interface.
-        $this->assertTrue($this->get($webUrl . '/display.php?database=test&' .
-                                     'schema=public&subject=table&return_url=tables.php%3Fdatab' .
-                                     'ase%3Dtest%26amp%3Bschema%3Dpublic&return_desc=Back&table=' .
-                                     'viewtest&'));
+		$this->assertTrue($this->get("$webUrl/display.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'table',
+						'return_url' => 'tables.php%3Fdatabase%3Dtest%26amp%3Bschema%3Dpublic',
+						'return_desc' => 'Back',
+						'table' => 'viewtest'))
+					);
                                      
         // Verify whether the rows are displayed.         
         $this->assertTrue($this->assertWantedText($lang['strrows'])); 
@@ -375,11 +418,15 @@ class TableTest extends PreconditionSet
     function testSelectAll()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "tables" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?database=test' .
-                                     '&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
         $this->assertTrue($this->clickLink('viewtest'));
         
         // Select all the rows.
@@ -396,7 +443,6 @@ class TableTest extends PreconditionSet
         return TRUE;
     }
     
-    
     /**
      * TestCaseID: HST02
      * Select rows according to the query conditions.
@@ -404,11 +450,17 @@ class TableTest extends PreconditionSet
     function testSelectByConditions()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "tables" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confselectrows&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confselectrows',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
+
         // Display all columns.
         $this->assertTrue($this->setField('show[field0]', TRUE));
         $this->assertTrue($this->setField('show[field1]', TRUE));
@@ -425,7 +477,6 @@ class TableTest extends PreconditionSet
         return TRUE;
     } 
      
-     
     /**
      * TestCaseID: HST03
      * Select data from an existing table with no row display.
@@ -433,11 +484,16 @@ class TableTest extends PreconditionSet
     function testSelectTableNoRowDisplay()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "tables" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confselectrows&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confselectrows',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
 
         // Enter the query conditions.
         $this->assertTrue($this->setField('values[field0]', 'row2column1'));
@@ -460,11 +516,16 @@ class TableTest extends PreconditionSet
     function testVacuumUnchecked()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Vacuum" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_vacuum&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_vacuum',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
                 
         // Click the "Vacuum" button.        
         $this->assertTrue($this->clickSubmit($lang['strvacuum'])); 
@@ -482,11 +543,16 @@ class TableTest extends PreconditionSet
     function testVacuumChecked()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Vacuum" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_vacuum&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_vacuum',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
         
         // Make sure the check box "Full" and "Analyze" are checked     
         $this->assertTrue($this->setField('vacuum_full', TRUE));
@@ -508,15 +574,24 @@ class TableTest extends PreconditionSet
     function testEmptyTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "tables" page.
-        $this->assertTrue($this->get($webUrl . '/tables.php?database=test&' .
-                                     'schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
                 
         // Empty a table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_empty&' .
-                                     'database=test&schema=public&table=viewtest&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_empty',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
         // Click the "Empty" button to clean the content of the table.
         $this->assertTrue($this->clickSubmit($lang['strempty']));
         
@@ -534,14 +609,23 @@ class TableTest extends PreconditionSet
     function testAlterTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Drop the table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?database=test' .
-                                     '&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
         // Select the table.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?action=confirm_alter&' .
-                                     'database=test&schema=public&table=viewtest'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_alter',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'viewtest'))
+					);
                 
         $this->assertTrue($this->setField('name', 'testview'));
         $this->assertTrue($this->setField('owner', 'tester'));
@@ -561,11 +645,17 @@ class TableTest extends PreconditionSet
     function testDropTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Drop the table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_drop&' .
-                                     'database=test&schema=public&table=testview&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'testview'))
+		);
+
         $this->assertTrue($this->setField('cascade', TRUE));        
         // Click the "Drop" button to drop the table.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));

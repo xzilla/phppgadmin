@@ -29,20 +29,20 @@ class ColumnTest extends PreconditionSet{
         global $POWER_USER_PASSWORD;
         
         $this->login($POWER_USER_NAME, $POWER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
-        
+                     "$webUrl/login.php"); 
+
         return TRUE;
     }
-    
+
     /**
      * Clean up all the result. 
      */ 
     function tearDown(){
         $this->logout(); 
-        
+
         return TRUE;
     }    
-    
+
     /**
      * TestCaseID: TNC01
      * Add a column to the table
@@ -50,11 +50,16 @@ class ColumnTest extends PreconditionSet{
     function testAddColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=add_column&database=test&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php",
+			array('action' => 'add_column',
+				'database' => $DATABASE,
+				'schema' => 'public',
+				'table' => 'student',
+				'server' => $SERVER))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -75,23 +80,27 @@ class ColumnTest extends PreconditionSet{
     function testAddColumnWithExistingName()
     {
         global $webUrl;
-        global $lang;
-        
+        global $lang, $SERVER, $DATABASE;
+
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=add_column&database=test&schema=public&table=student'));
-        
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'add_column',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
+
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
         $this->assertTrue($this->setField('type', 'integer'));                
         $this->assertTrue($this->clickSubmit($lang['stradd']));
-        
+
         // Make sure the operation failed
         $this->assertTrue($this->assertWantedText($lang['strcolumnaddedbad']));
-        
+
         return TRUE;               
-    }
-    
+    }    
     
     /**
      * TestCaseID: TNC03
@@ -100,11 +109,16 @@ class ColumnTest extends PreconditionSet{
     function testCancelAddColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=add_column&database=test&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'add_column',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -122,12 +136,17 @@ class ColumnTest extends PreconditionSet{
     function testAlterColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=properties&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'properties',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -149,12 +168,17 @@ class ColumnTest extends PreconditionSet{
     function testNegativeLengthColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=properties&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'properties',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -176,12 +200,17 @@ class ColumnTest extends PreconditionSet{
     function testCancelAlterColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=properties&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'properties',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -200,12 +229,17 @@ class ColumnTest extends PreconditionSet{
     function testCancelDropColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Drop the column
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $DATABASE, 
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strcancel']));
         
         return TRUE; 
@@ -219,12 +253,17 @@ class ColumnTest extends PreconditionSet{
     function testDropColumn()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Drop the column
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         // Verify if the column is dropped correctly.
         $this->assertTrue($this->assertWantedText($lang['strcolumndropped']));
@@ -240,13 +279,18 @@ class ColumnTest extends PreconditionSet{
     function testDropColumnWithCascade()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         global $POWER_USER_NAME;
         global $POWER_USER_PASSWORD;        
         
         // Go to the Columns page
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?&' .
-                                     'action=add_column&database=test&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'action' => 'add_column',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         
         // Set properties for the new column    
         $this->assertTrue($this->setField('field', 'sid'));        
@@ -258,13 +302,17 @@ class ColumnTest extends PreconditionSet{
         
         $this->logout();        
         $this->login($POWER_USER_NAME, $POWER_USER_PASSWORD, 
-                     $webUrl . '/index.php');        
-        
+                     "$webUrl/login.php");        
         
         // Drop the column with CASCADE checked
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&column=sid'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php" , array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'column' => 'sid'))
+		);
         $this->assertTrue($this->setField('cascade', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         // Verify if the column is dropped correctly.
@@ -273,7 +321,4 @@ class ColumnTest extends PreconditionSet{
         return TRUE;  
     }                       
 }
-        
-    
-    
-
+?>

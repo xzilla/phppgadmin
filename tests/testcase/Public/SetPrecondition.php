@@ -34,15 +34,14 @@ class PreconditionSet extends WebTestCase
      */
     function login($userName, $password, $loginPageUrl)
     {
-    	global $lang;
-    	
-        $this->get($loginPageUrl);
-        $this->setField('formUsername', $userName);
-        $this->setField('formPassword', $password);
-        $this->setField('formLanguage', $lang['applang']);
-        $this->clickSubmit('Login');
-        
-        return TRUE;
+    	global $lang, $SERVER;
+
+		$this->setCookie("PHPCOVERAGE_HOME", $PHP_SIMPLETEST_HOME);
+		$this->get($loginPageUrl, array('server' => $SERVER));
+		$this->setField('loginUsername', $userName);
+		$this->setFieldById('loginPassword', $password);
+		$this->submitFormByid('login_form');
+		return TRUE;
     }
      
      
@@ -57,13 +56,13 @@ class PreconditionSet extends WebTestCase
     function createDatabase($databaseName, $enCoding) 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
 		
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-		             $webUrl . '/index.php');
-        $this->get($webUrl . '/all_db.php');	
+		             "$webUrl/login.php");
+        $this->get("$webUrl/all_db.php", array('server' => $SERVER));	
         $this->clickLink('Create database');
          
         $this->setField('formName', $databaseName);
@@ -87,17 +86,22 @@ class PreconditionSet extends WebTestCase
     function dropDatabase($databaseName)
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
 		
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
         
-        $this->get($webUrl . '/all_db.php');  
-        $this->get($webUrl . '/all_db.php?action=confirm_drop' .
-        	       '&subject=database&database=' . $databaseName);
-        $this->clickSubmit($lang['strdrop']);	
+        $this->get("$webUrl/all_db.php", array('server' => $SERVER));
+		$this->get("$webUrl/all_db.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'subject' => 'database',
+			'database' => $databaseName,
+			'dropdatabase' => $databaseName)
+		);
+		$this->clickSubmit($lang['strdrop']);
         
         return TRUE;		
     }
@@ -119,26 +123,30 @@ class PreconditionSet extends WebTestCase
     function createTable($databaseName, $schema, $tableName, $fieldNumber)
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
 		
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
 		
-        $this->get($webUrl . '/tables.php?action=create&database=' .
-               $databaseName . '&schema=' .$schema);
+		$this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'create',
+			'database' => $databaseName,
+			'schema' => $schema)
+		);
 
-        $this->setField('name', $tableName);		
+        $this->setField('name', $tableName);
         $this->setField('fields', $fieldNumber);
         $this->assertTrue($this->setField('spcname', 'pg_default'));
         $this->setField('tblcomment', 'Create auto!');
-                            
-        // Clicks the button "next >" for inputing the detail information.                  
+
+        // Clicks the button "next >" for inputing the detail information. 
         //$this->assertTrue($this->ClickSubmit($lang['strnext']));
         // If we do not hardcoded it here, it will cause fail. Encoding issue.
-        $this->assertTrue($this->ClickSubmit('Next >'));
-        
+		$this->assertTrue($this->ClickSubmit('Next >'));
+
         for($ii = 0 ; $ii < $fieldNumber; $ii++) 
         {
             $field = 'field[' . $ii .']';
@@ -155,7 +163,7 @@ class PreconditionSet extends WebTestCase
         // Click the button "Create" for creating the
         // table use the specify conditions.
         $this->clickSubmit($lang['strcreate']); 
-        
+
         return TRUE;
     }
     
@@ -173,18 +181,22 @@ class PreconditionSet extends WebTestCase
     {
         // Import the global variable.
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
 		
         // Login and trun to the page which list all the 
         // table in the database.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
 		
-        $this->get($webUrl . '/tables.php?action=confirm_drop&database=' . 
-                   $databaseName . '&schema=' . $schema . '&table=' . 
-                   $tableName . '&'); 
+		$this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $databaseName,
+			'schema' => $schema,
+			'table'	=> $tableName )
+		); 
 		           
         // Click the button "Drop" for dropping the table from the database.           
         $this->clickSubmit($lang['strdrop']);  
@@ -200,7 +212,7 @@ class PreconditionSet extends WebTestCase
     {
         global $webUrl;
         global $lang;
-        $this->get($webUrl . '/index.php');
+        $this->get("$webUrl/index.php");
         
         // Select the frame and logout.
         $this->setFrameFocus('topbar');

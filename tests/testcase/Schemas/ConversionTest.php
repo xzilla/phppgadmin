@@ -29,12 +29,11 @@ class ConversionTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
-        
+                     "$webUrl/login.php"); 
+
         return TRUE;           
     }
-    
-    
+
     /**
      * Clean up all the result. 
      */
@@ -46,7 +45,6 @@ class ConversionTest extends PreconditionSet
         return TRUE;
     }
     
-    
     /**
      * TestCaseID: HBC01
      * Browse the conversions.
@@ -54,19 +52,23 @@ class ConversionTest extends PreconditionSet
     function testBrowseConversion()
     {
         global $webUrl;
-        global $lang;
-        
+        global $lang, $SERVER;
+
         // Turn to schema "pg_catalog" page.
-        $this->assertTrue($this->get($webUrl . '/redirect.php?section=schema' .
-                                     '&database=template1&schema=pg_catalog&'));
+		$this->assertTrue($this->get("$webUrl/redirect.php", array(
+			            'server' => $SERVER,
+						'section' => 'schema',
+						'database' => 'template1',
+						'schema' => 'pg_catalog'))
+					);
         // Click the "Conversions" hyper link.
-        $this->assertTrue($this->clickLink($lang['strconversions']));  
-        
+        $this->assertTrue($this->clickLink($lang['strconversions']));
+
         // Verify whether the conversions are displayed.
         // Normally, there should be conversions in this schema, but if there is no,
         // this assert will fail. Need to assert the normal case.
         $this->assertTrue($this->assertWantedText($lang['strsourceencoding']));
-        
+
         return TRUE;
     } 
 }    

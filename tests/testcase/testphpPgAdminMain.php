@@ -8,15 +8,10 @@
 
 // Import necessary library files to setup the testcase.
 // And for web testcase, the library web_tester.php shoule be included.
-require_once 'simpletest.inc.php';
-require_once 'simpletest/web_tester.php';
-require_once 'simpletest/reporter.php';
-require_once 'simpletest/reporter/DetailedHtmlReporter.php';
 
-// Import the language file for phpPgAdmi to avoid hard code.
-require_once('lang/recoded/english.php');
+require_once("$PHP_SIMPLETEST_HOME/web_tester.php");
+require_once("$PHP_SIMPLETEST_HOME/reporter.php");
 
-require_once('Public/common.php'); 
 require_once('Public/SetPrecondition.php');  
 
 require_once('Server/ServerGroupTest.php');
@@ -33,16 +28,18 @@ class phpPgAdminGroupTest extends GroupTest
 {
     function phpPgAdminGroupTest() 
     {
-        $this->GroupTest('phpPgAdmin automation test.');
+		$this->GroupTest('phpPgAdmin automation test.');
         $this->addTestClass(new ServerGroupTest());
         $this->addTestClass(new DatabaseGroupTest());
         $this->addTestClass(new SchemasGroupTest());
         $this->addTestClass(new TableGroupTest());
-        $this->addTestClass(new CommonGroupTest());
+		$this->addTestClass(new CommonGroupTest());
+
     }
 }
 
 $phpPgAdminTest = &new phpPgAdminGroupTest();
-$phpPgAdminTest->run(new DetailedHtmlReporter());
+
+$phpPgAdminTest->run(new HtmlReporter());
 
 ?>

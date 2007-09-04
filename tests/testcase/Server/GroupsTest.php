@@ -28,20 +28,18 @@ class GroupsTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
         
-        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, $webUrl . '/index.php');
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, "$webUrl/login.php");
         
         return TRUE;
     }
-    
-    
+
     function tearDown()
     {
         $this->logout();
-        
+
         return TRUE;
     }
-   
-   
+
     /*
      * TestCaseID: SCG01
      * Test to create group. 
@@ -51,16 +49,16 @@ class GroupsTest extends PreconditionSet
         global $webUrl;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
-        global $lang;
-        
+        global $lang, $SERVER;
+
         // Turn to create group page.
-        $this->assertTrue($this->get($webUrl . '/groups.php'));
+		$this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
         $this->assertTrue($this->clickLink($lang['strcreategroup']));
-       
+
         // Enter the information for creating group.
         $this->assertTrue($this->setField('name', $this->_groupName));
         $this->assertTrue($this->setField('members[]', array($POWER_USER_NAME, $NORMAL_USER_NAME)));
-       
+
         // Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['strcreate']));
         $this->assertWantedText($lang['strgroupcreated']);
@@ -68,8 +66,8 @@ class GroupsTest extends PreconditionSet
 
         return TRUE;
     }
-    
-    
+
+
     /*
      * TestCaseID: SAG01
      * Test to add users to the gruop.
@@ -80,12 +78,15 @@ class GroupsTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the gruop's properties page.
-        $this->assertTrue($this->get($webUrl . '/groups.php'));
-        $this->assertTrue($this->get($webUrl . '/groups.php?action=properties' . 
-                                     '&group=' . $this->_groupName));
+        $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/groups.php",
+			array('action' => 'properties',
+				'group' => $this->_groupName,
+				'server' => $SERVER))
+		);
        
         // Select user and add it to the group.
         $this->assertTrue($this->setField('user', $SUPER_USER_NAME));
@@ -112,12 +113,15 @@ class GroupsTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the gruop properties page.
-        $this->assertTrue($this->get($webUrl . '/groups.php'));
-        $this->assertTrue($this->get($webUrl . '/groups.php?action=properties' . 
-                          '&group=' . $this->_groupName));
+        $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/groups.php",
+			array('action' => 'properties',
+				'group' => $this->_groupName,
+				'server' => $SERVER))
+		);
        
         // Drop users from the group and verify it.
         $this->assertTrue($this->clickLink($lang['strdrop']));
@@ -135,12 +139,15 @@ class GroupsTest extends PreconditionSet
     function testDrop() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the drop group page..
-        $this->assertTrue($this->get($webUrl . '/groups.php'));
-        $this->assertTrue($this->get($webUrl . '/groups.php?action=confirm_drop' . 
-                                     '&&group=' . $this->_groupName));
+        $this->assertTrue($this->get("$webUrl/groups.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/groups.php",
+			array('server' => $SERVER,
+				'action' => 'confirm_drop',
+			   	'group' => $this->_groupName))
+		);
        
         // Confirm to drop the group and verify it.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));

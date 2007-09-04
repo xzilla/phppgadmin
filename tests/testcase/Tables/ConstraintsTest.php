@@ -29,7 +29,7 @@ class ConstraintsTest extends PreconditionSet{
         global $SUPER_USER_PASSWORD;
         
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php"); 
         
         return TRUE;
     }
@@ -49,11 +49,16 @@ class ConstraintsTest extends PreconditionSet{
      */
     function testAddCheck(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the constraints page
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=add_check&database=test&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER,
+			'action' => 'add_check',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         
         // Set properties for the new constraint    
         $this->assertTrue($this->setField('name', 'id_check'));
@@ -75,11 +80,17 @@ class ConstraintsTest extends PreconditionSet{
     function testDropCheckKey()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&constraint=id_check&type=c'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_drop',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'constraint' => 'id_check',
+			'type' => 'c'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         // Verify if the constraint is dropped correctly.
         $this->assertTrue($this->assertWantedText($lang['strconstraintdropped']));
@@ -94,12 +105,16 @@ class ConstraintsTest extends PreconditionSet{
      */
     function testAddUniqueKey(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the constraints page
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=add_unique_key&database=test&' .
-                                     'schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER,
+			'action' => 'add_unique_key',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         
         // Set properties for the new constraint    
         $this->assertTrue($this->setField('name', 'unique_name'));
@@ -122,11 +137,14 @@ class ConstraintsTest extends PreconditionSet{
     function testDropUniqueKey()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&constraint=unique_name'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER, 'action' => 'confirm_drop',
+			'database' => $DATABASE, 'schema' => 'public',
+			'table' => 'student', 'constraint' => 'unique_name'))
+		);
+
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         // Verify if the constraint is dropped correctly.
         $this->assertTrue($this->assertWantedText($lang['strconstraintdropped']));
@@ -141,12 +159,14 @@ class ConstraintsTest extends PreconditionSet{
      */
     function testAddPrimaryKey(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the constraints page
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=add_primary_key&database=test&schema=public&' .
-                                     'table=college_student'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER, 'action' => 'add_primary_key',
+			'database' => $DATABASE, 'schema' => 'public',
+			'table' => 'college_student'))
+		);
         
         // Set properties for the new constraint    
         $this->assertTrue($this->setField('name', 'primary_id'));
@@ -170,12 +190,14 @@ class ConstraintsTest extends PreconditionSet{
     function testDropPrimaryKey()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Remove the primary key
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=college_student&constraint=primary_id&type=p'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER, 'action' => 'confirm_drop', 'database' => $DATABASE,
+			'schema' => 'public', 'table' => 'college_student', 'constraint' => 'primary_id',
+			'type' => 'p'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertTrue($this->assertWantedText($lang['strconstraintdropped']));
         
@@ -189,12 +211,13 @@ class ConstraintsTest extends PreconditionSet{
      */
     function testAddForeignKey(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the constraints page
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=add_foreign_key&database=test&' .
-                                     'schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER, 'action' => 'add_foreign_key', 'database' => $DATABASE,
+			'schema' => 'public', 'table' => 'student'))
+		);
         
         // Set properties for the new constraint    
         $this->assertTrue($this->setField('name', 'foreign_id'));
@@ -225,15 +248,18 @@ class ConstraintsTest extends PreconditionSet{
     function testDropForeignKey()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Remove the foreign key
-        $this->assertTrue($this->get($webUrl . '/constraints.php?' .
-                                     'action=confirm_drop&database=test&schema=public&' .
-                                     'table=student&constraint=foreign_id&type=f'));
+		$this->assertTrue($this->get("$webUrl/constraints.php", array(
+			'server' => $SERVER, 'action' => 'confirm_drop', 'database' => $DATABASE,
+			'schema' => 'public', 'table' => 'student', 'constraint' => 'foreign_id',
+			'type' => 'f'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertTrue($this->assertWantedText($lang['strconstraintdropped']));
         
         return TRUE; 
     }
 }
+?>

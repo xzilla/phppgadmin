@@ -28,7 +28,7 @@ class ProcessesTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-            $webUrl . '/index.php');
+            "$webUrl/login.php");
 
         return TRUE;
     }
@@ -55,11 +55,14 @@ class ProcessesTest extends PreconditionSet
     function testProcesses()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=processes'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'subject' => 'database',
+					   'action' => 'processes'))
+				   );
 
         $this->assertWantedText($lang['strnodata']);
 

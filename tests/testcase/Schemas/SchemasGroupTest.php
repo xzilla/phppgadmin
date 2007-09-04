@@ -29,24 +29,15 @@ class SchemasGroupTest extends GroupTest
     	$this->GroupTest('Schema management group test.');
 
         $this->addTestClass(new TableTest());
-        
-        $this->addTestClass(new ViewTest()); 
-        
+        $this->addTestClass(new ViewTest());
         $this->addTestClass(new SequenceTest());
-
-        $this->addTestClass(new FunctionTest()); 
-        
+        $this->addTestClass(new FunctionTest());
         $this->addTestClass(new TypeTest());
-        
         $this->addTestClass(new DomainTest());
-
         $this->addTestClass(new AggregateTest());
-        
         $this->addTestClass(new OperatorTest());
-        
         $this->addTestClass(new OpClassTest());
-        
-        $this->addTestClass(new ConversionTest());  
+		$this->addTestClass(new ConversionTest());
     }
 }
 ?>

@@ -30,7 +30,7 @@ class SchemaBasicTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-            $webUrl . '/index.php');
+            "$webUrl/login.php");
 
         return TRUE;
     }
@@ -54,16 +54,22 @@ class SchemaBasicTest extends PreconditionSet
      */
     function testCreateBasSchema()
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $SUPER_USER_NAME;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database'));
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&action=create'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database'))
+					);
+		$this->assertTrue($this->get("$webUrl/schemas.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'action' => 'create'))
+					);
 
         $this->assertTrue($this->setField('formName', 'testSchemaName'));
-        $this->assertTrue($this->setField('formAuth', 'super'));
+        $this->assertTrue($this->setField('formAuth', $SUPER_USER_NAME));
         $this->assertTrue($this->setField('formComment',
                                           'Comment of test schema.'));
 
@@ -82,17 +88,29 @@ class SchemaBasicTest extends PreconditionSet
     function testAlterBasSchema()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database'));
-        $this->assertTrue($this->get($webUrl . '/redirect.php?section=database' .
-                                     '&database=test&'));
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database'));
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?action=alter_schema' .
-                                     '&database=test&schema=testSchemaName&'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database'))
+		);
+		$this->assertTrue($this->get("$webUrl/redirect.php", array(
+			            'server' => $SERVER,
+						'section' => 'database',
+						'database' => $DATABASE))
+		);
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database'))
+		);
+		$this->assertTrue($this->get("$webUrl/schemas.php", array(
+			            'server' => $SERVER,
+						'action' => 'alter',
+						'database' => $DATABASE,
+						'schema' => 'testSchemaName'))
+		);
 
         $this->assertTrue($this->setField('comment',
                                           'The comment has been changed.'));
@@ -111,15 +129,24 @@ class SchemaBasicTest extends PreconditionSet
     function testDropBasSchema()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database'));
-        $this->assertTrue($this->get($webUrl . '/redirect.php' .
-                                     '?section=database&database=test&'));
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?action=confirm_drop&database=test' .
-                                     '&schema=testSchemaName&'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database'))
+		);
+		$this->assertTrue($this->get("$webUrl/redirect.php", array(
+			            'server' => $SERVER,
+						'section' => 'database',
+						'database' => $DATABASE))
+		);
+		$this->assertTrue($this->get("$webUrl/schemas.php", array(
+			            'server' => $SERVER,
+						'action' => 'drop',
+						'database' => $DATABASE,
+						'schema' => 'testSchemaName'))
+		);
 
         $this->assertTrue($this->setField('cascade', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strdrop']));

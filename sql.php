@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.36 2007/05/28 17:30:32 ioguix Exp $
+	 * $Id: sql.php,v 1.37 2007/09/04 19:39:48 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -153,7 +153,8 @@
 			elseif ($data->conn->Affected_Rows() > 0) {
 				echo "<p>", $data->conn->Affected_Rows(), " {$lang['strrowsaff']}</p>\n";
 			}
-			// Otherwise output nothing...
+			// Otherwise nodata to print
+			else echo '<p>', $lang['strnodata'], "</p>\n";
 		}
 	}
 

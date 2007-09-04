@@ -30,7 +30,7 @@ class OpClassTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php');  
+                     "$webUrl/login.php");  
         
         return TRUE;          
     }
@@ -55,11 +55,15 @@ class OpClassTest extends PreconditionSet
     function testBrowseOpClass()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to schema "pg_catalog" page.
-        $this->assertTrue($this->get($webUrl . '/opclasses.php?database=' .
-                                     'test&schema=pg_catalog&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/opclasses.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'pg_catalog',
+						'subject' => 'schema'))
+					);
         
         // Verify whether all the op classes are displayed.
         $this->assertTrue($this->assertWantedText($lang['straccessmethod']));

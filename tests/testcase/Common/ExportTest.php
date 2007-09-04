@@ -19,16 +19,13 @@ if(is_dir('../Public'))
  */
 class ExportTest extends PreconditionSet 
 {
-    // Declare the member variable for database name.
-    private $_databaseName = 'test';
-    
     function setUp()
     {
         global $webUrl;
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
         
-        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, $webUrl . '/index.php');
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, "$webUrl/login.php");
         
         return TRUE;
     }
@@ -48,11 +45,13 @@ class ExportTest extends PreconditionSet
      */
     function testServerDataCopyShow() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/all_db.php?action=export'));
+		$this->assertTrue($this->get("$webUrl/all_db.php", array(
+			'action' => 'export',
+			'server' => $SERVER))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'dataonly'));
@@ -61,7 +60,7 @@ class ExportTest extends PreconditionSet
        
         //Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['strexport']));
-        $this->assertWantedText('connect ' . $this->_databaseName);
+        $this->assertWantedText("connect $DATABASE");
         
         return TRUE;
     }
@@ -73,11 +72,13 @@ class ExportTest extends PreconditionSet
      */
     function testServerStructureSQLDownload() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/all_db.php?action=export'));
+		$this->assertTrue($this->get("$webUrl/all_db.php", array(
+			'action' => 'export',
+			'server' => $SERVER))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'structureonly'));
@@ -86,7 +87,7 @@ class ExportTest extends PreconditionSet
        
         //Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['strexport']));
-        $this->assertWantedText('connect ' . $this->_databaseName);
+        $this->assertWantedText("connect $DATABASE");
         
         return TRUE;
     }
@@ -97,12 +98,15 @@ class ExportTest extends PreconditionSet
      */
     function testDatabaseDataSQLShow() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=' . 
-                          $this->_databaseName . '&subject=database&action=export'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'export'))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'dataonly'));
@@ -123,12 +127,15 @@ class ExportTest extends PreconditionSet
      */
     function testDatabaseStructureCOPYDownload() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=' . $this->_databaseName . 
-                                     '&subject=database&action=export'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'export'))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'structureonly'));
@@ -151,12 +158,15 @@ class ExportTest extends PreconditionSet
      */
     function testTableDataShow() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the "Insert row" interface.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confinsertrow' .
-                                     '&database=test&schema=public&table=student&'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'action' => 'confinsertrow',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
           
         // Set the value of the fields.		
         $this->assertTrue($this->setField('values[name]', 'testname'));
@@ -169,8 +179,14 @@ class ExportTest extends PreconditionSet
         $this->assertTrue($this->assertWantedText($lang['strrowinserted']));
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?database=' . $this->_databaseName . 
-                                     '&schema=public&table=student&subject=table&action=export'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'subject' => 'table',
+			'action' => 'export'))
+		);
         // Enter information for export the data.
         $this->assertTrue($this->setField('what', 'dataonly'));
         $this->assertTrue($this->setField('d_format', 'XML'));
@@ -182,8 +198,14 @@ class ExportTest extends PreconditionSet
         
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?database=' . $this->_databaseName . 
-                                     '&schema=public&table=student&subject=table&action=export'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'subject' => 'table',
+			'action' => 'export'))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'dataonly'));
@@ -195,8 +217,13 @@ class ExportTest extends PreconditionSet
         $this->assertWantedPattern('/testname/');
         
         // Empty the data in the table.
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_empty' . 
-                                     '&database=test&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
+			'action' => 'confirm_empty',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         $this->assertTrue($this->clickSubmit($lang['strempty']));
 
         return TRUE;
@@ -209,12 +236,17 @@ class ExportTest extends PreconditionSet
      */
     function testTableStructureDataSQLDownload() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?database=' . $this->_databaseName .
-                                     '&schema=public&table=student&subject=table&action=export'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student',
+			'subject' => 'table',
+			'action' => 'export'))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('what', 'structureanddata'));
@@ -234,12 +266,16 @@ class ExportTest extends PreconditionSet
      */
     function testViewStructureShow() 
     {
-        global $webUrl;
-        global $lang;
+        global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get($webUrl . '/viewproperties.php?database=' . $this->_databaseName . 
-                                     '&schema=pg_catalog&view=pg_user&subject=view&action=export'));
+        $this->assertTrue($this->get("$webUrl/viewproperties.php", array(
+			'database' => $DATABASE,
+			'schema' => 'pg_catalog',
+			'view' => 'pg_user',
+			'subject' => 'view',
+			'action' => 'export'))
+		);
        
         // Enter information for exporting the data.
         $this->assertTrue($this->setField('s_clean', TRUE));

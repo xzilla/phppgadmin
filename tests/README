@@ -1,8 +1,43 @@
+Howto configure/run:
+	- download the latest simpletest code and untargz it where you want (http://prdownloads.sourceforge.net/simpletest/simpletest_1.0.1beta2.tar.gz)
+	- tests are connecting to the server given in conf['servers'][0] values from your config.inc.php
+	- cd to your ppa tests directory
+	- edit config.tests.php
+	- edit data/config.sql according to your config.tests.php
+	- install test database & users :
+		psql [...your options...]  -f data/ppatests_install.sql
+	- point your browser to http://your_server/path_to_ppa/tests/tests.php
+
+Howto clean:
+	- remove test database & users :
+		psql [...your options...] -f data/ppatests_install.sql
 
 
-README
+General comments/tips for dev:
+	- using the web_tester, to click on a link with img + text, you have to $this->clickLink("[alt_txt] txt") where [alt_txt] is the alt text of the img tag.
+	  see http://sourceforge.net/mailarchive/message.php?msg_id=41ACA535.1080406%40lastcraft.com
+
+Comments about tests:
+	Server tests :
+		TableSpacesTest.php :
+		- data/TableSpace must be empty and owned by your PgSQL admin user	
+		ReportsTest.php:
+		- see comments in testrun()
+	Database tests:
+		DatabaseTest.php:
+		- cannot delete datbases. Error : "can't delete opened database"
+		HelpTest.php:
+		- last assert fail because of the pg version in the link
+	Schemas tests:
+		TableTest.php:
+		- cannot edit & delete rows on viewtest because this table hasn't indexes.
+		display.php gives edit/delete links in tables have some "key".
+		viewtest is created by method createTable in Public/SetPrecondition.php
 
 
+
+
+OLD README PART
 
 
 Document History

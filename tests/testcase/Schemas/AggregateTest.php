@@ -29,12 +29,11 @@ class AggregateTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
-        
-        return TRUE;           
-    }
-    
-    
+                     "$webUrl/login.php"); 
+
+        return TRUE;
+    }    
+
     /**
      * Clean up all the result. 
      */
@@ -45,8 +44,7 @@ class AggregateTest extends PreconditionSet
         
         return TRUE;
     }
-    
-    
+
     /**
      * TestCaseID: HCA01
      * Creates a new aggregate.
@@ -54,11 +52,15 @@ class AggregateTest extends PreconditionSet
     function testCreateAggregate()
     {
         global $webUrl;
-        global $lang;
-        
+        global $lang, $SERVER, $DATABASE;
+
         // Turn to "sql" page.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'sql'))
+					);
         // Enter the definition of the new aggregate.
         $this->assertTrue($this->setField('query', 'CREATE AGGREGATE ' .
                                           'complex_sum(sfunc1 = box_intersect, basetype = box,' .
@@ -80,17 +82,20 @@ class AggregateTest extends PreconditionSet
     function testBrowseAggregates()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Aggregates" page.
-        $this->assertTrue($this->get($webUrl . '/aggregates.php?database=' .
-                                     'test&schema=public&subject=schema'));
-                
+		$this->assertTrue($this->get("$webUrl/aggregates.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema')
+					));
+
         // Verify whether the aggregates is displayed correctly.
         $this->assertTrue($this->assertWantedText('complex_sum'));       
-    }
-    
-    
+    }    
+
     /**
      * TestCaseID: HDA01
      * Drop a aggregate. 
@@ -98,15 +103,19 @@ class AggregateTest extends PreconditionSet
     function testDropAggregate()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "sql" page.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
-        
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'sql'))
+					);
+
         $this->assertTrue($this->setField('query', 'DROP AGGREGATE' .
                                           ' complex_sum(box);'));  
-        
+
         // Click the button "Go" to drop the aggregate.
         $this->assertTrue($this->clickSubmit($lang['strgo']));
         // Verify whether the aggregates is dropped correctly.
@@ -115,6 +124,4 @@ class AggregateTest extends PreconditionSet
         return TRUE;
     } 
 }
-
-
 ?>

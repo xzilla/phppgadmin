@@ -28,7 +28,7 @@ class DatabaseTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
         
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
                      
         return TRUE;                     
     } 
@@ -58,13 +58,16 @@ class DatabaseTest extends PreconditionSet
     function testCreateLATIN1DBInSPT()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/all_db.php'));
+        $this->assertTrue($this->get("$webUrl/all_db.php"));
 
         // Click the hyperlink of "Create Database".
-        $this->assertTrue($this->get($webUrl . '/all_db.php?action=create'));
+		$this->assertTrue($this->get("$webUrl/all_db.php", array(
+			            'server' => $SERVER,
+						'action' => 'create'))
+					);
 
         // Fill the form about creating database.
         $this->assertTrue($this->setfield('formName', 'spikesource1'));
@@ -81,7 +84,8 @@ class DatabaseTest extends PreconditionSet
         $this->assertWantedText($lang['strdatabasecreated']);
 
         // Release the resource. 
-        // In fact, this line doesnot work because of phpPgAdmin's bug.
+		// XXX In fact, this line doesnot work because of phpPgAdmin's bug.
+		// "cannot delete opened database"
         $this->dropDatabase('spikesource1');
 
         return TRUE;
@@ -100,19 +104,22 @@ class DatabaseTest extends PreconditionSet
     function testCreateUNICODEDBInTester()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Sleep for a while to wait for the template1 to be available
         sleep(20);
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/all_db.php'));
+        $this->assertTrue($this->get("$webUrl/all_db.php"));
 
         // Click the hyperlink of "Create Database".
-        $this->assertTrue($this->get($webUrl . '/all_db.php?action=create'));
+		$this->assertTrue($this->get("$webUrl/all_db.php", array(
+			            'server' => $SERVER,
+						'action' => 'create'))
+					);
 
         // Fill the form about creating database.
         $this->assertTrue($this->setfield('formName', 'spikesource2'));
-        $this->assertTrue($this->setfield('formEncoding', 'UNICODE'));
+        $this->assertTrue($this->setfield('formEncoding', 'UTF8'));
         $this->assertTrue($this->setfield('formSpc', 'pg_default'));
         
         // Click the submit button.
@@ -125,7 +132,8 @@ class DatabaseTest extends PreconditionSet
         $this->assertWantedText($lang['strdatabasecreated']);
 
         // Release the resource.
-        // In fact, this line doesnot work because of phpPgAdmin's bug.
+		// XXX In fact, this line doesnot work because of phpPgAdmin's bug (?)
+		// "cannot delete opened database"
         $this->dropDatabase('spikesource2');
 
         return TRUE;
@@ -142,12 +150,16 @@ class DatabaseTest extends PreconditionSet
     function testDropDatabase()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
         // Click the hyperlink of "Create Database".
-        $this->assertTrue($this->get($webUrl . '/all_db.php' .
-                                     '?action=confirm_drop' .
-                                     '&subject=database&database=test&'));
+		$this->assertTrue($this->get("$webUrl/all_db.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_drop',
+						'subject' => 'database',
+						'database' => $DATABASE,
+						'dropdatabase' => $DATABASE ))
+					);
 
         // Click the submit button "Drop" next page.
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
@@ -156,7 +168,7 @@ class DatabaseTest extends PreconditionSet
         // There is an issue about PostgreSQL.  So let me difine the displayed text.
         $this->assertWantedText($lang['strdatabasedropped']);
 
-        // Release the resource.  The lines below failed in deed.
+        // XXX Release the resource.  The lines below failed in deed. (can't delete opened db)
         $this->dropDatabase('SpikeSource1');
         $this->dropDatabase('SpikeSource2');
 
@@ -165,4 +177,3 @@ class DatabaseTest extends PreconditionSet
 }
 
 ?>
-

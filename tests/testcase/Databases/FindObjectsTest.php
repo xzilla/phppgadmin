@@ -27,7 +27,7 @@ class FindObjectsTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
 
         return TRUE;
     }
@@ -51,12 +51,15 @@ class FindObjectsTest extends PreconditionSet
     function testSimpleFindObject()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                      '?database=test&subject=database' .
-                                      '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'find'))
+		);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'All objects'));
@@ -72,102 +75,135 @@ class FindObjectsTest extends PreconditionSet
     function testFindObjsInSchemas()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+            'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'find'))
+		);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Schemas'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Tables'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Views'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'subject' => 'database',
+					   'action' => 'find'))
+				   );
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Sequences'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Columns'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Rules'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'subject' => 'database',
+					   'action' => 'find'))
+				   );
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Indexes'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'subject' => 'database',
+					   'action' => 'find'))
+				   );
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Triggers'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Constraints'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Functions'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database' .
-                                     '&action=find'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'find'))
+					);
 
         $this->assertTrue($this->setField('term', 'student'));
         $this->assertTrue($this->setField('filter', 'Domains'));
@@ -184,12 +220,15 @@ class FindObjectsTest extends PreconditionSet
     function testFindTopObjects()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
         // Locate the list page of databases.
-        $this->assertTrue($this->get($webUrl . '/sqledit.php?action=find&'));
+		$this->assertTrue($this->get("$webUrl/sqledit.php", array(
+			'server' => $SERVER,
+			'action' => 'find'))
+		);
 
-        $this->assertTrue($this->setField('database', 'test'));
+        $this->assertTrue($this->setField('database', $DATABASE));
         $this->assertTrue($this->setField('term', 'All objects'));
         $this->assertTrue($this->clickSubmit ($lang['strfind']));
         return true;

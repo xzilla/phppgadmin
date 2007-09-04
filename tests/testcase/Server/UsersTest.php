@@ -8,10 +8,7 @@
  */
 
 // Import the precondition class.
-if(is_dir('../Public')) 
-{
-    require_once('../Public/SetPrecondition.php');
-}
+require_once('Public/SetPrecondition.php');
 
 /**
  * This class is to test the user management.
@@ -22,27 +19,23 @@ class UsersTest extends PreconditionSet
     // Declare the user names which are created, altered and dropped in the class.
     private $_superUserName = "superuser";
     private $_powerUserName = "poweruser";
-    
+
     function setUp()
     {
-        global $webUrl;
-        global $SUPER_USER_NAME;
-        global $SUPER_USER_PASSWORD;
-        
-        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, $webUrl . '/index.php');
-        
+        global $webUrl, $SUPER_USER_NAME, $SUPER_USER_PASSWORD, $SERVER;
+
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, "$webUrl/login.php");
+ 
         return TRUE;
     }
-    
-    
+
     function tearDown()
     {
         $this->logout();
         
         return TRUE;
     }
-   
-   
+
     /*
      * TestCaseID: SCU01
      * Test to create super user.
@@ -50,12 +43,13 @@ class UsersTest extends PreconditionSet
     function testCreateSuper() 
     {
         global $webUrl;
-        global $lang;
-        
+        global $lang, $SERVER;
+
         // Turn to the "Create user" page.
-        $this->assertTrue($this->get($webUrl . '/users.php'));
-        $this->assertTrue($this->clickLink($lang['strcreateuser']));
-       
+		$this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
+
+		$this->assertTrue($this->clickLink($lang['strcreateuser']));
+
         // Enter information for creating a user.
         $this->assertTrue($this->setField('formUsername', $this->_superUserName));
         $this->assertTrue($this->setField('formPassword', '123456'));
@@ -77,22 +71,22 @@ class UsersTest extends PreconditionSet
     function testCreatePower() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the "Create user" page.
-        $this->assertTrue($this->get($webUrl . '/users.php'));
+        $this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
         $this->assertTrue($this->clickLink($lang['strcreateuser']));
-       
+
         // Enter information for creating a user.
         $this->assertTrue($this->setField('formUsername', $this->_powerUserName));
         $this->assertTrue($this->setField('formPassword', '123456'));
         $this->assertTrue($this->setField('formConfirm', '123456'));
         $this->assertTrue($this->setField('formCreateDB', TRUE));
-       
+
         //Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['strcreate']));
         $this->assertWantedText($this->_powerUserName);
-        
+
         return TRUE;
     }
     
@@ -106,10 +100,10 @@ class UsersTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $POWER_USER_NAME;
         global $NORMAL_USER_NAME;
-        global $lang;
+        global $lang, $SERVER;
         
         // Get the users list page and verify it.
-        $this->assertTrue($this->get($webUrl . '/users.php'));
+        $this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
         $this->assertWantedText($SUPER_USER_NAME);
         $this->assertWantedText($POWER_USER_NAME);
         $this->assertWantedText($NORMAL_USER_NAME);
@@ -125,28 +119,30 @@ class UsersTest extends PreconditionSet
     function testAlter() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the "alter user" page.
-        $this->assertTrue($this->get($webUrl . '/users.php'));
-        $this->assertTrue($this->get($webUrl . '/users.php?action=edit' . 
-                          '&&username=' . $this->_superUserName));
-       
+        $this->assertTrue($this->get("$webUrl/users.php"));
+		$this->assertTrue($this->get("$webUrl/users.php", array(
+					'action' => 'edit',
+					'username' => $this->_superUserName,
+					'server' => $SERVER))
+		);
+
         // Enter the information for altering the user's properties.
         $this->assertTrue($this->setField('newname', $this->_superUserName));
         $this->assertTrue($this->setField('formPassword', '56789'));
         $this->assertTrue($this->setField('formConfirm', '56789'));
         $this->assertTrue($this->setField('formSuper', TRUE));
         $this->assertTrue($this->setField('formCreateDB', FALSE));
-       
+
         // Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['stralter']));
         $this->assertWantedText($this->_superUserName);
-        
+
         return TRUE;
-    }
-    
-    
+    }    
+
     /*
      * TestCaseID: SDU01
      * Test to drop existing user.
@@ -154,20 +150,23 @@ class UsersTest extends PreconditionSet
     function testDrop() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the drop user page..
-        $this->assertTrue($this->get($webUrl . '/users.php'));
-        $this->assertTrue($this->get($webUrl . '/users.php?action=confirm_drop' . 
-                          '&&username=' . $this->_superUserName));
-       
+        $this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/users.php", array(
+				'action' => 'confirm_drop',
+				'username' => $this->_superUserName,
+				'server' => $SERVER))
+		);
+
         // Confirm to drop the user and verify it.        
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertNoUnWantedText($this->_superUserName);
-        
+
         return TRUE;
     }
-    
+
     /*
      * TestCaseID: SDU02
      * Test to drop existing user when the user is login.
@@ -175,34 +174,37 @@ class UsersTest extends PreconditionSet
     function testDropLogin() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER;
 
         // Create a new browser to login the power user which we want to drop.
         $newBrowser = $this->createBrowser();
-        $newBrowser->get($webUrl . '/index.php');
-        $this->assertTrue($newBrowser->setField('formUsername', $this->_powerUserName));
-        $this->assertTrue($newBrowser->setField('formPassword', '123456'));
+		$newBrowser->get("$webUrl/login.php", array('server' => $SERVER));
+        $this->assertTrue($newBrowser->setField('loginUsername', $this->_powerUserName));
+        $this->assertTrue($newBrowser->setFieldById('loginPassword', '123456'));
         $this->assertTrue($newBrowser->clickSubmit('Login'));
-        $this->assertTrue($newBrowser->get($webUrl . '/all_db.php'));
-        
+        $this->assertTrue($newBrowser->get("$webUrl/all_db.php", array('server' => $SERVER)));
+
         // Turn to the old browser which we login with super user at very beginning.
-        $this->assertTrue($this->get($webUrl . '/users.php'));
-        $this->assertTrue($this->get($webUrl . '/users.php?action=confirm_drop' . 
-                          '&&username=' . $this->_powerUserName));
-       
+        $this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/users.php", array('action' => 'confirm_drop',
+				'username' => $this->_powerUserName,
+				'server' => $SERVER))
+		);
+
         // Confirm to drop the user and verify it.      
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertNoUnWantedText($this->_powerUserName);
 
         // Go back to the power user browser and try to create the database. 
         // It will log out and $lang['strloginfailed'] will be displayed in the page.
-        $this->setBrowser($newBrowser);
+		$this->setBrowser($newBrowser);
+
         $this->assertTrue($this->clickLink($lang['strcreatedatabase']));
         $this->assertWantedText($lang['strloginfailed']);
         
         return TRUE;
     }
-    
+
     /*
      * TestCaseID: SDU03
      * Test to drop the user self.
@@ -211,18 +213,21 @@ class UsersTest extends PreconditionSet
     {
         global $webUrl;
         global $SUPER_USER_NAME;
-        global $lang;
+        global $lang, $SERVER;
         
         // Turn to the drop user page..
-        $this->assertTrue($this->get($webUrl . '/users.php'));
-        $this->assertTrue($this->get($webUrl . '/users.php?action=confirm_drop' . 
-                          '&&username=' . $SUPER_USER_NAME));
-       
+        $this->assertTrue($this->get("$webUrl/users.php", array('server' => $SERVER)));
+		$this->assertTrue($this->get("$webUrl/users.php", array(
+				'action' => 'confirm_drop',
+				'username' => $SUPER_USER_NAME,
+				'server' => $SERVER	))
+		);
+
         // Confirm to drop the user and verify it.        
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         $this->assertWantedText($SUPER_USER_NAME);
         $this->assertWantedText($lang['struserdroppedbad']);
-        
+
         return TRUE;
     }
 }

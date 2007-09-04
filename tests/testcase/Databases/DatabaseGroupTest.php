@@ -41,7 +41,7 @@
         $this->addTestClass(new ProcessesTest());
         $this->addTestClass(new LanguageTest());
         $this->addTestClass(new CastsTest());
-        $this->addTestClass(new HelpTest());
+		$this->addTestClass(new HelpTest());
     }
  }
 

@@ -30,7 +30,7 @@ class SequenceTest extends PreconditionSet
     
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php"); 
         
         return TRUE;          
     }
@@ -55,11 +55,15 @@ class SequenceTest extends PreconditionSet
     function testCreateSequence()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Create sequence" page.
-        $this->assertTrue($this->get($webUrl . '/sequences.php?action=create&' .
-                                     'database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/sequences.php", array(
+			            'server' => $SERVER,
+						'action' => 'create',
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
                 
         // Enter the detail information of a sequence.
         $this->assertTrue($this->setField('formSequenceName', 'createsequence'));    
@@ -87,11 +91,15 @@ class SequenceTest extends PreconditionSet
     function testResetSequence()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the sequence-display page.
-        $this->assertTrue($this->get($webUrl . '/sequences.php?database=test&' .
-                                     'schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/sequences.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
         // Browse the specified sequence.
         $this->assertTrue($this->clickLink('createsequence')); 
         // Reset the sequence.
@@ -113,14 +121,19 @@ class SequenceTest extends PreconditionSet
     function testDropSequence()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/sequences.php?action=confirm_drop&' .
-                                     'database=test&schema=public&sequence=createsequence&'));
+		$this->assertTrue($this->get("$webUrl/sequences.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_drop',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'sequence' => 'createsequence'))
+					);
 
         $this->assertTrue($this->setField('cascade', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
-        
+
         // Verify if the sequence dropped successful.
         $this->assertTrue($this->assertWantedText($lang['strsequencedropped']));
         

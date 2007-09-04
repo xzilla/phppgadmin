@@ -31,7 +31,7 @@ class ImportTest extends PreconditionSet
         global $SUPER_USER_NAME;
         global $SUPER_USER_PASSWORD;
         
-        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, $webUrl . '/index.php');
+        $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, "$webUrl/login.php");
         
         return TRUE;
     }
@@ -56,14 +56,19 @@ class ImportTest extends PreconditionSet
     function testXMLData() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         $this->_dataFilePath = getcwd() . '/../data/';
         
         // Turn to the import data page.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?database=test' . 
-                                     '&schema=public&table=' . $this->_tableName . 
-                                     '&subject=table&action=import'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => $this->_tableName,
+			'subject' => 'table',
+			'action' => 'import'))
+		);
        
         // Enter information for importing the data.
         $this->assertTrue($this->setField('format', 'XML'));
@@ -86,13 +91,18 @@ class ImportTest extends PreconditionSet
     function testIncorectTxtData() 
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         $this->_dataFilePath = getcwd() . '/../data/';
         // Turn to the import data page.
-        $this->assertTrue($this->get($webUrl . '/tblproperties.php?database=test' . 
-                                     '&schema=public&table=' . $this->_tableName . 
-                                     '&subject=table&action=import'));
+		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => $this->_tableName,
+						'subject' => 'table',
+						'action' => 'import'))
+					);
        
         // Enter information for importing the data.
         $this->assertTrue($this->setField('format', $lang['strauto']));
@@ -112,10 +122,15 @@ class ImportTest extends PreconditionSet
     function emptyTable()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/tables.php?action=confirm_empty' . 
-                                     '&database=test&schema=public&table=' . $this->_tableName));
+		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_empty',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => $this->_tableName))
+					);
         $this->assertTrue($this->clickSubmit($lang['strempty']));
     	
         return TRUE;

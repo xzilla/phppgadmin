@@ -28,7 +28,7 @@ class VariablesTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-            $webUrl . '/index.php');
+            "$webUrl/login.php");
             
         return TRUE;
     } 
@@ -53,10 +53,14 @@ class VariablesTest extends PreconditionSet
     function testVariablesList()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=variables'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'variables'))
+					);
         
         $this->assertWantedText($lang['strname']);
         $this->assertWantedText($lang['strsetting']);

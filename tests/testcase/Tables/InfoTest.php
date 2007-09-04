@@ -29,7 +29,7 @@ class InfoTest extends PreconditionSet{
         global $POWER_USER_PASSWORD;
         
         $this->login($POWER_USER_NAME, $POWER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php");
         
         return TRUE;
     }
@@ -50,11 +50,16 @@ class InfoTest extends PreconditionSet{
     function testListParentTableInfo()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Rules page
-        $this->assertTrue($this->get($webUrl . '/info.php?&' .
-                                     'database=test&schema=public&table=student&subject=table'));
+		$this->assertTrue($this->get("$webUrl/info.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'subject' => 'table'))
+					);
         
         return TRUE;            
     }
@@ -67,11 +72,16 @@ class InfoTest extends PreconditionSet{
     function testListChildrenTableInfo()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Rules page
-        $this->assertTrue($this->get($webUrl . '/info.php?&database=test&' .
-                                     'schema=public&table=college_student&subject=table')); 
+		$this->assertTrue($this->get("$webUrl/info.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'college_student',
+						'subject' => 'table'))
+					); 
         
         return TRUE;          
     }
@@ -84,17 +94,20 @@ class InfoTest extends PreconditionSet{
     function testListForeignTableInfo()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Rules page
-        $this->assertTrue($this->get($webUrl . '/info.php?&' .
-                                     'database=test&schema=public&' .
-                                     'table=department&subject=table'));
+		$this->assertTrue($this->get("$webUrl/info.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'department',
+						'subject' => 'table'))
+					);
         
-        return TRUE;           
-    }    
-    
-    
+        return TRUE;
+    }
+
     /**
      * TestCaseID: TSP01
      * Show the properties of the foreign key constraint
@@ -102,12 +115,16 @@ class InfoTest extends PreconditionSet{
     function testShowForeignKeyProperties()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Rules page
-        $this->assertTrue($this->get($webUrl . '/info.php?&' .
-                                     'database=test&schema=public&' .
-                                     'table=department&subject=table'));
+		$this->assertTrue($this->get("$webUrl/info.php?", array(
+            'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'department',
+			'subject' => 'table'))
+		);
              
         $this->assertTrue($this->clickLink($lang['strproperties']));
         $this->assertWantedText('FOREIGN KEY (dep_id) REFERENCES department(id) ' . 
@@ -116,7 +133,4 @@ class InfoTest extends PreconditionSet{
         return TRUE;         
     }    
 }
-        
-    
-    
-
+?>

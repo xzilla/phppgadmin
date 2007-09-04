@@ -27,7 +27,7 @@ class SqlTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-            $webUrl . '/index.php');
+            "$webUrl/login.php");
 
         return TRUE;
     }
@@ -53,13 +53,17 @@ class SqlTest extends PreconditionSet
     function testSimpleSelectSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", 
+			array('database' => $DATABASE,
+				'subject' => 'database',
+				'action' => 'sql',
+				'server' => $SERVER))
+		);
         $this->assertTrue($this->setFieldById(0, "select id from student;"));
         
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
@@ -73,13 +77,17 @@ class SqlTest extends PreconditionSet
     function testSimpleDeleteSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
         $this->assertTrue($this->setField('query', 'delete from "student";'));
         
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
@@ -92,16 +100,20 @@ class SqlTest extends PreconditionSet
     function testSimpleInsertSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
         $this->assertTrue($this->setField('query',
                                           "insert into studen t values " .
                                           "(nextval('public.student_id_seq'::text)" .
                                           ", 'test2', now(), 'test2 is a student.');"));
         
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return true;
     }
@@ -115,15 +127,19 @@ class SqlTest extends PreconditionSet
     function testSimpleUpdateSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'database' => $DATABASE,
+			'server' => $SERVER,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
         $this->assertTrue($this->setField('query',
                                           'update public."student" ' .
                                           'set "birthday" = now();'));
         
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         return TRUE;
     }
@@ -137,10 +153,14 @@ class SqlTest extends PreconditionSet
     function testExplain()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
 
         $this->assertTrue($this->setField('query',
                                           'select "id" from "student";'));
@@ -165,10 +185,14 @@ class SqlTest extends PreconditionSet
     function testExplainAnalyze()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'database' => $DATABASE,
+			'server' => $SERVER,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
         $this->assertTrue($this->setField('query',
                                           'select "id" from "student";'));
 
@@ -176,11 +200,9 @@ class SqlTest extends PreconditionSet
 
         $this->assertTrue($this->clickSubmit($lang['strexplainanalyze']));
 
-
         // Here $lang['strsqlexecuted'] is not fit for this situation. Because the "%s"
         // make the assertion failed.
         $this->assertWantedText('Total runtime');
-
 
         return TRUE;
     }
@@ -198,19 +220,22 @@ class SqlTest extends PreconditionSet
     {
 
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl . '/database.php?' . 
-                                     'database=test&subject=database' .
-                                     '&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database',
+			'action' => 'sql'))
+		);
 
         $webServerUrl = getcwd();
-        $sqlScriptUrl = $webServerUrl . "/../data/select.sql";
+        $sqlScriptUrl = getcwd() . "/data/select.sql";
 
         $this->assertTrue ($this->setField('script', $sqlScriptUrl));
 
-        // This should be failed.  Because the SimpleText doesn't support
-        // upload yet.
+		$this->assertTrue($this->clickSubmit($lang['strexecute']));
+
         $this->assertWantedText($lang['strsqlexecuted']);
 
         return TRUE;
@@ -225,14 +250,14 @@ class SqlTest extends PreconditionSet
     function testSelectTopSQL()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->get($webUrl . '/sqledit.php?action=sql&');
+        $this->get("$webUrl/sqledit.php", array('action' => 'sql', 'server' => $SERVER));
 
-        $this->assertTrue($this->setField('database', 'test'));
+        $this->assertTrue($this->setField('database', $DATABASE));
         $this->assertTrue($this->setField('query', 'select * from student;'));
 
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         $this->assertWantedText($lang['strsqlexecuted']);
 
@@ -248,14 +273,14 @@ class SqlTest extends PreconditionSet
     function testResultFromSelectTopSQL()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->get($webUrl . '/sqledit.php?action=sql&');
+        $this->get("$webUrl/sqledit.php", array('action' => 'sql', 'server' => $SERVER));
 
-        $this->assertTrue($this->setField('database', 'test'));
+        $this->assertTrue($this->setField('database', $DATABASE));
         $this->assertTrue($this->setField('query', 'select * from student;'));
         $this->assertTrue($this->setField('paginate', TRUE));
-        $this->assertTrue($this->clickSubmit($lang['strgo']));
+        $this->assertTrue($this->clickSubmit($lang['strexecute']));
 
         $this->assertTrue($this->clickLink($lang['strexpand']));
         $this->assertWantedText($lang['strnodata']);
@@ -277,14 +302,17 @@ class SqlTest extends PreconditionSet
     function testReportByTopSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl .
-                                     '/reports.php?action=create&db_name=test' .
-                                     '&report_sql=select+id+from+student%3B'));
+		$this->assertTrue($this->get("$webUrl/reports.php", array(
+			'action' => 'create',
+			'server' => $SERVER,
+			'db_name' => $DATABASE,
+			'report_sql' => 'select id from student;')
+		));
 
-        $this->assertTrue($this->setField('report_name', 'test'));
-        $this->assertTrue($this->setField('descr', 'test'));
+        $this->assertTrue($this->setField('report_name', 'ppasimpletestreport'));
+        $this->assertTrue($this->setField('descr', 'ppasimpletest tests'));
 
         $this->assertTrue($this->clickSubmit($lang['strsave']));
 
@@ -300,11 +328,13 @@ class SqlTest extends PreconditionSet
     function testDownloadTopSql()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
-        $this->assertTrue($this->get($webUrl .
-                                     '/dataexport.php?query=select+id+from+student%3B' .
-                                     '&database=test'));
+		$this->assertTrue($this->get("$webUrl/dataexport.php", array(
+			'server' => $SERVER,
+			'query' => 'select+id+from+student%3B',
+			'database' => $DATABASE))
+		);
 
         $this->assertTrue($this->setField('d_format', 'XML'));
         $this->assertTrue($this->setField('output', 'show'));

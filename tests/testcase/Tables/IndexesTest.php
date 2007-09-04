@@ -29,7 +29,7 @@ class IndexesTest extends PreconditionSet{
         global $SUPER_USER_NAME;
         
         $this->login($SUPER_USER_NAME, $SUPER_USER_NAME, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php");
         
         return TRUE;
     }
@@ -49,12 +49,16 @@ class IndexesTest extends PreconditionSet{
      */
     function testCreateIndex(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Indexes page
-        $this->assertTrue($this->get($webUrl . '/indexes.php?&' .
-                                     'action=create_index&database=test&' .
-                                     'schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			'server' => $SERVER,
+			'action' => 'create_index',
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'table' => 'student'))
+		);
         
         // Set properties for the new index    
         $this->assertTrue($this->setField('formIndexName', 'stu_name_idx'));
@@ -79,12 +83,16 @@ class IndexesTest extends PreconditionSet{
      */
     function testCancelCreateIndex(){
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Indexes page
-        $this->assertTrue($this->get($webUrl . '/indexes.php?&' .
-                                     'action=create_index&database=test' .
-                                     '&schema=public&table=student'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'create_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student'))
+					);
         
         // Set properties for the new index    
         $this->assertTrue($this->setField('formIndexName', 'stu_name_idx'));
@@ -106,12 +114,17 @@ class IndexesTest extends PreconditionSet{
     function testReindex()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Indexes page
-        $this->assertTrue($this->get($webUrl . '/indexes.php?action=reindex&' .
-                                     'database=test&schema=public&table=student&' .
-                                     'index=stu_name_idx'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'reindex',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'index' => 'stu_name_idx'))
+					);
         
         // Verify if the index is reindexed correctly.
         $this->assertTrue($this->assertWantedText($lang['strreindexgood']));
@@ -127,11 +140,16 @@ class IndexesTest extends PreconditionSet{
     function testClusterPrimaryKeyWithAnalyze()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/indexes.php?' .
-                                     'action=confirm_cluster_index&database=test&schema=public&' .
-                                     'table=student&index=student_pkey'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_cluster_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'index' => 'student_pkey'))
+					);
         $this->assertTrue($this->setField('analyze', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strcluster'])); 
         // Verify if the key is clustered correctly. 
@@ -149,11 +167,16 @@ class IndexesTest extends PreconditionSet{
     function testClusterPrimaryKeyWithoutAnalyze()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/indexes.php?' .
-                                     'action=confirm_cluster_index&database=test&schema=public&' .
-                                     'table=student&index=student_pkey'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_cluster_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'index' => 'student_pkey'))
+					);
         $this->assertTrue($this->setField('analyze', FALSE));
         $this->assertTrue($this->clickSubmit($lang['strcluster']));
         // Verify if the key is clustered correctly.
@@ -170,19 +193,22 @@ class IndexesTest extends PreconditionSet{
     function testCancelCluster()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/indexes.php?' .
-                                     'action=confirm_cluster_index&database=test&schema=public&' .
-                                     'table=student&constraint=student_pkey'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_cluster_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'constraint' => 'student_pkey'))
+					);
         $this->assertTrue($this->setField('analyze', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strcancel']));
         
         return TRUE; 
     }
-    
-    
-    
+
     /**
      * TestCaseID: TDI02
      * Cancel dropping an index in a table
@@ -190,18 +216,22 @@ class IndexesTest extends PreconditionSet{
     function testCancelDropIndex()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/indexes.php?' .
-                                     'action=confirm_drop_index&database=test&schema=public&' .
-                                     'table=student&index=stu_name_idx'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_drop_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'index' => 'stu_name_idx'))
+					);
         $this->assertField($this->setField('cascade', FALSE));
         $this->assertTrue($this->clickSubmit($lang['strcancel']));
         
         return TRUE; 
     }
-    
-    
+
     /**
      * TestCaseID: TDI01
      * Test dropping an index in a table
@@ -209,11 +239,16 @@ class IndexesTest extends PreconditionSet{
     function testDropIndex()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
-        $this->assertTrue($this->get($webUrl . '/indexes.php?' .
-                                     'action=confirm_drop_index&database=test&schema=public&' .
-                                     'table=student&index=stu_name_idx'));
+		$this->assertTrue($this->get("$webUrl/indexes.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_drop_index',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'table' => 'student',
+						'index' => 'stu_name_idx'))
+					);
         $this->assertField($this->setField('cascade', TRUE));
         $this->assertTrue($this->clickSubmit($lang['strdrop']));
         // Verify if the index is dropped correctly.

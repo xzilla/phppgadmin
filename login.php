@@ -3,7 +3,7 @@
 	/**
 	 * Login screen
 	 *
-	 * $Id: login.php,v 1.37 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: login.php,v 1.38 2007/09/04 19:39:48 ioguix Exp $
 	 */
 	global $conf;
 	
@@ -24,7 +24,7 @@
 	$md5_server = md5($_REQUEST['server']);
 ?>
 
-<form action="redirect.php" method="post" name="login_form">
+<form id="login_form" action="redirect.php" method="post" name="login_form">
 <?php
 	if (!empty($_POST)) $vars =& $_POST;
 	else $vars =& $_GET;
@@ -42,7 +42,7 @@
 		</tr>
 		<tr>
 			<td><?php echo $lang['strpassword']; ?></td>
-			<td><input type="password" name="loginPassword_<?php echo $md5_server; ?>" size="24" /></td>
+			<td><input id="loginPassword" type="password" name="loginPassword_<?php echo $md5_server; ?>" size="24" /></td>
 		</tr>
 	</table>
 <?php if (sizeof($conf['servers']) > 1) : ?>

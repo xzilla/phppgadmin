@@ -29,7 +29,7 @@ class HelpTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-            $webUrl . '/index.php');
+            "$webUrl/login.php");
 
         return TRUE;
     }
@@ -57,16 +57,19 @@ class HelpTest extends PreconditionSet
     function testHelpWithInnerSchema()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
 
         // Locate the list page of database.
-        $this->assertTrue($this->get($webUrl . '/database.php' .
-                                     '?database=test&subject=database'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'subject' => 'database'))
+				   );
 
         // Click the link about help.
-        $this->assertTrue($this->get($webUrl . '/help.php'));
-        $this->assertTrue($this->get($webUrl . '/help.php?help=pg.schema'));
-        $this->assertTrue($this->get($webUrl . '/help.php?help=pg.column.add'));
+        $this->assertTrue($this->get("$webUrl/help.php"));
+        $this->assertTrue($this->get("$webUrl/help.php?help=pg.schema"));
+        $this->assertTrue($this->get("$webUrl/help.php?help=pg.column.add"));
 
         // Comment this for avoiding error by Xdebug.
         // Becase we cannot assert something about the content of the page via
@@ -83,14 +86,19 @@ class HelpTest extends PreconditionSet
      */
     function testHelpWithInrClk()
     {
-        global $webUrl;
+        global $webUrl, $SERVER, $DATABASE;
 
         // Locate the list page of language.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database'));
-        $this->assertTrue($this->get($webUrl . '/help.php'));        
-        
-        $this->assertTrue($this->clickLink('http://www.postgresql.org/docs/8.0/' .
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'subject' => 'database'))
+		);
+
+        $this->assertTrue($this->get("$webUrl/help.php", array('server' => $SERVER)));        
+
+		// XXX fail because of the version number in the URL
+		$this->assertTrue($this->clickLink(/*'http://www.postgresql.org/docs/8.0/' .*/
                                            'interactive/sql-expressions.html' .
                                            '#SQL-SYNTAX-TYPE-CASTS'));
 

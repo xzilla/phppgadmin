@@ -29,7 +29,7 @@ class LanguageTest extends PreconditionSet
         global $SUPER_USER_PASSWORD;
 
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD,
-                     $webUrl . '/index.php');
+                     "$webUrl/login.php");
 
         return TRUE;
     }
@@ -53,10 +53,14 @@ class LanguageTest extends PreconditionSet
      */
     function testLanguage()
     {
-        global $webUrl;
+		global $webUrl, $SERVER, $DATABASE;
+
         // Locate the list page of language.
-        $this->assertTrue($this->get($webUrl . '/languages.php' .
-                                     '?database=test&subject=database'));
+		$this->assertTrue($this->get("$webUrl/languages.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database'))
+					);
 
         $this->assertWantedPattern('/sql/');
 

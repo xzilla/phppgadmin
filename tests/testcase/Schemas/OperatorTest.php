@@ -29,8 +29,8 @@ class OperatorTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
-        
+                     "$webUrl/login.php"); 
+
         return TRUE;           
     }
     
@@ -54,11 +54,15 @@ class OperatorTest extends PreconditionSet
     function testCreateOperator()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "sql" page.
-        $this->assertTrue($this->get($webUrl . '/database.php?database=test' .
-                                     '&subject=database&action=sql'));
+		$this->assertTrue($this->get("$webUrl/database.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'subject' => 'database',
+						'action' => 'sql'))
+					);
         // Enter the definition of the new operator.
         $this->assertTrue($this->setField('query', 'CREATE OPERATOR === (' .
                                           'LEFTARG = box, RIGHTARG = box, PROCEDURE = box_above, ' .
@@ -81,11 +85,15 @@ class OperatorTest extends PreconditionSet
     function testShowProperty()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Operators" page.
-        $this->assertTrue($this->get($webUrl . '/operators.php?' .
-                                     'database=test&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/operators.php", array(
+		               'server' => $SERVER,
+					   'database' => $DATABASE,
+					   'schema' => 'public',
+					   'subject' => 'schema'))
+				   );
         // Show the properties of the operator "===".
         $this->assertTrue($this->clickLink('==='));
         // Check the properties.
@@ -102,11 +110,15 @@ class OperatorTest extends PreconditionSet
     function testDropOperator()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Operators" page.
-        $this->assertTrue($this->get($webUrl . '/operators.php?' .
-                                     'database=test&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/operators.php", array(
+		               'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
                 
         // Drop the first operator.        
         $this->assertTrue($this->clickLink($lang['strdrop']));

@@ -29,7 +29,7 @@ class TypeTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
+                     "$webUrl/login.php"); 
         
         return TRUE;           
     }
@@ -54,11 +54,15 @@ class TypeTest extends PreconditionSet
     function testCreateType()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Types" page.
-        $this->assertTrue($this->get($webUrl . '/types.php?database=test&' .
-                                     'schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/types.php", array(
+			'server' => $SERVER,
+			'database' => $DATABASE,
+			'schema' => 'public',
+			'subject' => 'schema'))
+		);
         $this->assertTrue($this->clickLink($lang['strcreatetype']));
         
         // Enter the definition of the type.
@@ -81,11 +85,15 @@ class TypeTest extends PreconditionSet
     function testCreateCompositeType()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Types" page.
-        $this->assertTrue($this->get($webUrl . '/types.php?database=test&' .
-                                     'schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/types.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
         $this->assertTrue($this->clickLink($lang['strcreatecomptype']));
 
         // Create without composite type name.
@@ -135,11 +143,15 @@ class TypeTest extends PreconditionSet
     function testShowProperty()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to "Types" page.
-        $this->assertTrue($this->get($webUrl . '/types.php?database=test&' .
-                                     'schema=pg_catalog&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/types.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'pg_catalog',
+						'subject' => 'schema'))
+					);
                 
         // Show the properties of general type.
         $this->assertTrue($this->clickLink('integer'));
@@ -148,8 +160,12 @@ class TypeTest extends PreconditionSet
         
         
         // Turn to "Types" page.
-        $this->assertTrue($this->get($webUrl . '/types.php?database=test&' .
-                                     'schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/types.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
                 
         // Show the properties of a composite type "compositetype".
         $this->assertTrue($this->clickLink('compositetype'));
@@ -167,11 +183,16 @@ class TypeTest extends PreconditionSet
     function testDropType()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to type-dropped confirm page.
-        $this->assertTrue($this->get($webUrl . '/types.php?action=confirm_drop&' .
-                                     'database=test&schema=public&type=compositetype&'));
+		$this->assertTrue($this->get("$webUrl/types.php", array(
+			            'server' => $SERVER,
+						'action' => 'confirm_drop',
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'type' => 'compositetype'))
+					);
                 
         $this->assertTrue($this->setField('cascade', TRUE));        
                 

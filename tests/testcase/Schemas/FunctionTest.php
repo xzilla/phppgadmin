@@ -29,8 +29,8 @@ class FunctionTest extends PreconditionSet
         
         // Login the system.
         $this->login($SUPER_USER_NAME, $SUPER_USER_PASSWORD, 
-                     $webUrl . '/index.php'); 
-        
+                     "$webUrl/login.php"); 
+
         return TRUE;
     }
     
@@ -54,11 +54,15 @@ class FunctionTest extends PreconditionSet
     function testCreatSqlFunction()
     {
         global $webUrl;
-        global $lang;
-        
+        global $lang, $DATABASE, $SERVER;
+
         // Turn to the "Create SQL/PL function" page.
-        $this->assertTrue($this->get($webUrl . '/functions.php?action=create&' .
-                                     'database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/functions.php", array(
+			            'server' => $SERVER,
+						'action' => 'create',
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
           
         // Enter the detail information of a SQL/PL function.
         $this->assertTrue($this->setField('formFunction', 'sqlplfunction')); 
@@ -81,7 +85,6 @@ class FunctionTest extends PreconditionSet
         return TRUE;          
     } 
     
-    
     /**
      * TestCaseID: HCF02
      * Create a internal function.
@@ -89,11 +92,16 @@ class FunctionTest extends PreconditionSet
     function testCreateInternalFunction()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the "Create internal function" page.
-        $this->assertTrue($this->get($webUrl . '/functions.php?action=create&' .
-                                     'language=internal&database=test&schema=public'));
+		$this->assertTrue($this->get("$webUrl/functions.php", array(
+			            'server' => $SERVER,
+						'action' => 'create',
+						'language' => 'internal',
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
                 
         // Enter the detail information of a SQL/PL function.
         $this->assertTrue($this->setField('formFunction', 'internalfunction'));    
@@ -114,8 +122,7 @@ class FunctionTest extends PreconditionSet
 
         return TRUE;   
     }
-    
-    
+
     /**
      * TestCaseID: HCF03
      * Create a C function. 
@@ -123,10 +130,13 @@ class FunctionTest extends PreconditionSet
     function testCreateCFunction()
     {
         global $webUrl;
-        global $lang;
-        
-        $this->assertTrue($this->get($webUrl . '/functions.php?database=test' .
-                                     '&schema=public&'));
+        global $lang, $SERVER, $DATABASE;
+
+		$this->assertTrue($this->get("$webUrl/functions.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public'))
+					);
         // Turn to the C-function create page.
         $this->assertTrue($this->clickLink($lang['strcreatecfunction']));  
         
@@ -157,11 +167,15 @@ class FunctionTest extends PreconditionSet
     function testAlterFunction()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the function-display page.
-        $this->assertTrue($this->get($webUrl . '/functions.php?database=test' .
-                                     '&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/functions.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
         
         // Alter the definiton of "cfunction".        
         $this->assertTrue($this->clickLink('cfunction (text)'));
@@ -188,11 +202,15 @@ class FunctionTest extends PreconditionSet
     function testDropFunction()
     {
         global $webUrl;
-        global $lang;
+        global $lang, $SERVER, $DATABASE;
         
         // Turn to the function-display page.
-        $this->assertTrue($this->get($webUrl . '/functions.php?database=test' .
-                                     '&schema=public&subject=schema'));
+		$this->assertTrue($this->get("$webUrl/functions.php", array(
+			            'server' => $SERVER,
+						'database' => $DATABASE,
+						'schema' => 'public',
+						'subject' => 'schema'))
+					);
        
         // Drop the fucntion "sqlplfunction". 
         $this->assertTrue($this->clickLink('sqlplfunction (double precision[], double precision)'));        
