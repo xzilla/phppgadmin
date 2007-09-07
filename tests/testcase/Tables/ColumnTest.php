@@ -50,7 +50,7 @@ class ColumnTest extends PreconditionSet{
     function testAddColumn()
     {
         global $webUrl;
-        global $lang, $SERVER;
+        global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
 		$this->assertTrue($this->get("$webUrl/tblproperties.php",
@@ -67,7 +67,7 @@ class ColumnTest extends PreconditionSet{
         $this->assertTrue($this->clickSubmit($lang['stradd']));
         
         // Verify if the column is created correctly.
-        $this->assertTrue($this->assertWantedText($lang['strcolumnadded'])); 
+		$this->assertTrue($this->assertWantedText($lang['strcolumnadded'])); 
         
         return TRUE;             
     }
@@ -139,7 +139,7 @@ class ColumnTest extends PreconditionSet{
         global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+		$this->assertTrue($this->get("$webUrl/colproperties.php", array(
 			'server' => $SERVER,
 			'action' => 'properties',
 			'database' => $DATABASE,
@@ -171,7 +171,7 @@ class ColumnTest extends PreconditionSet{
         global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+		$this->assertTrue($this->get("$webUrl/colproperties.php", array(
 			'server' => $SERVER,
 			'action' => 'properties',
 			'database' => $DATABASE,
@@ -203,7 +203,7 @@ class ColumnTest extends PreconditionSet{
         global $lang, $SERVER, $DATABASE;
         
         // Go to the Columns page
-		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
+		$this->assertTrue($this->get("$webUrl/colproperties.php", array(
 			'server' => $SERVER,
 			'action' => 'properties',
 			'database' => $DATABASE,

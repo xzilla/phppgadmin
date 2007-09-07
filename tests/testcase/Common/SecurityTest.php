@@ -50,8 +50,7 @@ class SecurityTest extends PreconditionSet
         
         // Verify the error messages.
         $this->assertWantedText($lang['strlogindisallowed']);
-        $this->assertWantedText($lang['strviewfaq']);
-
+		$this->assertWantedText($lang['strviewfaq']);
         // Login with special user name "postgres".
         $this->login($NORMAL_USER_NAME, '', "$webUrl/login.php");
         

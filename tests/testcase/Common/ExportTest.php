@@ -162,19 +162,20 @@ class ExportTest extends PreconditionSet
         
         // Turn to the "Insert row" interface.
 		$this->assertTrue($this->get("$webUrl/tables.php", array(
+			'server' => $SERVER,
 			'action' => 'confinsertrow',
 			'database' => $DATABASE,
 			'schema' => 'public',
 			'table' => 'student'))
 		);
-          
         // Set the value of the fields.		
         $this->assertTrue($this->setField('values[name]', 'testname'));
         $this->assertTrue($this->setField('values[birthday]', '2005-05-31'));
         $this->assertTrue($this->setField('values[resume]', 'test resume'));
                 
         // Click the "Insert" button insert a row.
-        $this->assertTrue($this->clickSubmit($lang['strinsert']));
+		$this->assertTrue($this->clickSubmit($lang['strinsert']));
+
         // Verify if the row insert successful.
         $this->assertTrue($this->assertWantedText($lang['strrowinserted']));
         
@@ -269,7 +270,8 @@ class ExportTest extends PreconditionSet
         global $webUrl, $lang, $SERVER, $DATABASE;
         
         // Turn to the export data page.
-        $this->assertTrue($this->get("$webUrl/viewproperties.php", array(
+		$this->assertTrue($this->get("$webUrl/viewproperties.php", array(
+			'server' => $SERVER,
 			'database' => $DATABASE,
 			'schema' => 'pg_catalog',
 			'view' => 'pg_user',

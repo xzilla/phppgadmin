@@ -29,10 +29,10 @@ class phpPgAdminGroupTest extends GroupTest
     function phpPgAdminGroupTest() 
     {
 		$this->GroupTest('phpPgAdmin automation test.');
-        $this->addTestClass(new ServerGroupTest());
-        $this->addTestClass(new DatabaseGroupTest());
-        $this->addTestClass(new SchemasGroupTest());
-        $this->addTestClass(new TableGroupTest());
+		$this->addTestClass(new ServerGroupTest());
+		$this->addTestClass(new DatabaseGroupTest());
+		$this->addTestClass(new SchemasGroupTest());
+		$this->addTestClass(new TableGroupTest());
 		$this->addTestClass(new CommonGroupTest());
 
     }

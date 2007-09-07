@@ -58,7 +58,7 @@ class ImportTest extends PreconditionSet
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
         
-        $this->_dataFilePath = getcwd() . '/../data/';
+        $this->_dataFilePath = getcwd() . '/./data/';
         
         // Turn to the import data page.
 		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
@@ -69,7 +69,7 @@ class ImportTest extends PreconditionSet
 			'subject' => 'table',
 			'action' => 'import'))
 		);
-       
+
         // Enter information for importing the data.
         $this->assertTrue($this->setField('format', 'XML'));
         $this->assertTrue($this->setField('source', $this->_dataFilePath . $this->_tableName . '.xml'));
@@ -93,7 +93,7 @@ class ImportTest extends PreconditionSet
         global $webUrl;
         global $lang, $SERVER, $DATABASE;
         
-        $this->_dataFilePath = getcwd() . '/../data/';
+        $this->_dataFilePath = getcwd() . '/./data/';
         // Turn to the import data page.
 		$this->assertTrue($this->get("$webUrl/tblproperties.php", array(
 			            'server' => $SERVER,
@@ -111,7 +111,7 @@ class ImportTest extends PreconditionSet
         // Then submit and verify it.
         $this->assertTrue($this->clickSubmit($lang['strimport']));
         // This assert will failed because SimpleTest1.0 doesn't support upload file.
-        $this->assertWantedText(sprintf($lang['strimporterrorline'], 1));
+        $this->assertWantedText(sprintf($lang['strimporterrorline'], 2));
         
         return TRUE;
     }
