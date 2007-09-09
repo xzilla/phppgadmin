@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.59 2007/08/31 19:46:24 ioguix Exp $
+ * $Id: Postgres74.php,v 1.60 2007/09/09 20:20:31 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -155,7 +155,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $constraints if true, copy the constraints as well (CHECK on table & attr)
 	 * @param $tablespace The tablespace name ('' means none/default)
 	 */
-	function createTableLike($name, $like, $defaults = false, $constraints = false, $tablespace = '') {
+	function createTableLike($name, $like, $defaults = false, $constraints = false, $idx = false, $tablespace = '') {
 		$this->fieldClean($name);
 		$this->fieldClean($like);
 
@@ -166,6 +166,7 @@ class Postgres74 extends Postgres73 {
 
 		if ($defaults) $sql .= " INCLUDING DEFAULTS";
 		if ($this->hasCreateTableLikeWithConstraints() && $constraints) $sql .= " INCLUDING CONSTRAINTS";
+		if ($this->hasCreateTableLikeWithIndexes() && $idx) $sql .= " INCLUDING INDEXES";
 
 		$sql .= ")";
 

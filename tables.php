@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.102 2007/08/31 19:46:23 ioguix Exp $
+	 * $Id: tables.php,v 1.103 2007/09/09 20:20:31 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -294,6 +294,11 @@
 					isset($_REQUEST['withconstraints']) ? ' checked="checked"' : '',
 					"/>{$lang['strcreatelikewithconstraints']}</label>";
 			}
+			if ($data->hasCreateTableLikeWithIndexes()) {
+				echo "<label for=\"withindexes\"><input type=\"checkbox\" id=\"withindexes\" name=\"withindexes\"",
+					isset($_REQUEST['withindexes']) ? ' checked="checked"' : '',
+					"/>{$lang['strcreatelikewithindexes']}</label>";
+			}
 			echo "</td>\n\t</tr>\n";
 			echo "</table>";
 
@@ -315,7 +320,8 @@
 				return;
 			}
 
-			$status = $data->createTableLike($_REQUEST['name'], $_REQUEST['like'], isset($_REQUEST['withdefaults']), isset($_REQUEST['withconstraints']), $_REQUEST['tablespace']);
+			$status = $data->createTableLike($_REQUEST['name'], $_REQUEST['like'], isset($_REQUEST['withdefaults']),
+			   	isset($_REQUEST['withconstraints']), isset($_REQUEST['withindexes']), $_REQUEST['tablespace']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strtablecreated']);

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.1 2007/06/07 02:20:20 xzilla Exp $
+ * $Id: Postgres83.php,v 1.2 2007/09/09 20:20:31 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -30,4 +30,6 @@ class Postgres83 extends Postgres82 {
 		return $this->help_page;
 	}
 
+	function hasCreateTableLikeWithIndexes() {return true;}
+}
 ?>
