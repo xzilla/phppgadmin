@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.28 2007/08/31 19:46:24 ioguix Exp $
+     * $Id: french.php,v 1.29 2007/09/10 10:47:58 ioguix Exp $
      */
 
     // Language and character set
@@ -181,8 +181,9 @@
     $lang['strcreatetable'] = 'Créer une table';
 	$lang['strcreatetablelike']  =  'Créer une table d\'après une table existante';
 	$lang['strcreatetablelikeparent']  =  'Table modèle';
-	$lang['strcreatelikewithdefaults']  =  'INCLUDE DEFAULTS';
-	$lang['strcreatelikewithconstraints']  =  'INCLUDE CONSTRAINTS';
+	$lang['strcreatelikewithdefaults']  =  'inclure les valeurs par défaut.';
+	$lang['strcreatelikewithconstraints']  =  'inclure les contraintes.';
+	$lang['strcreatelikewithindexes']  =  'inclure les indexes.';
     $lang['strtablename'] = 'Nom de la table';
     $lang['strtableneedsname'] = 'Vous devez donner un nom pour votre table.';
 	$lang['strtablelikeneedslike']  =  'Vous devez préciser une table modèle.';
@@ -397,7 +398,7 @@
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
 	$lang['strcancycle']  =  'Peut boucler?';
-$lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
+	$lang['striscalled']  =  'Incrémentera la dernière valeur avant de retourner la prochaine valeur (is_called) ?';
     $lang['strsequenceneedsname'] = 'Vous devez spécifier un nom pour votre séquence.';
     $lang['strsequencecreated'] = 'Séquence créée.';
     $lang['strsequencecreatedbad'] = 'Échec lors de la création de la séquence.'; 

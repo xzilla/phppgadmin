@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.27 2007/08/31 19:46:24 ioguix Exp $
+     * $Id: french.php,v 1.28 2007/09/10 10:47:58 ioguix Exp $
      */
 
     // Language and character set
@@ -181,8 +181,9 @@
     $lang['strcreatetable'] = 'Cr&#233;er une table';
 	$lang['strcreatetablelike']  =  'Cr&#233;er une table d\'apr&#232;s une table existante';
 	$lang['strcreatetablelikeparent']  =  'Table mod&#232;le';
-	$lang['strcreatelikewithdefaults']  =  'INCLUDE DEFAULTS';
-	$lang['strcreatelikewithconstraints']  =  'INCLUDE CONSTRAINTS';
+	$lang['strcreatelikewithdefaults']  =  'inclure les valeurs par d&#233;faut.';
+	$lang['strcreatelikewithconstraints']  =  'inclure les contraintes.';
+	$lang['strcreatelikewithindexes']  =  'inclure les indexes.';
     $lang['strtablename'] = 'Nom de la table';
     $lang['strtableneedsname'] = 'Vous devez donner un nom pour votre table.';
 	$lang['strtablelikeneedslike']  =  'Vous devez pr&#233;ciser une table mod&#232;le.';
@@ -397,7 +398,7 @@
     $lang['strcachevalue'] = 'Valeur de cache';
     $lang['strlogcount'] = 'Comptage';
 	$lang['strcancycle']  =  'Peut boucler?';
-$lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
+	$lang['striscalled']  =  'Incr&#233;mentera la derni&#232;re valeur avant de retourner la prochaine valeur (is_called) ?';
     $lang['strsequenceneedsname'] = 'Vous devez sp&#233;cifier un nom pour votre s&#233;quence.';
     $lang['strsequencecreated'] = 'S&#233;quence cr&#233;&#233;e.';
     $lang['strsequencecreatedbad'] = '&#201;chec lors de la cr&#233;ation de la s&#233;quence.'; 
