@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.166 2007/08/31 19:46:24 ioguix Exp $
+	 * $Id: english.php,v 1.167 2007/09/10 10:49:24 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -183,6 +183,7 @@
 	$lang['strcreatetablelikeparent'] = 'Source table';
 	$lang['strcreatelikewithdefaults'] = 'INCLUDE DEFAULTS';
 	$lang['strcreatelikewithconstraints'] = 'INCLUDE CONSTRAINTS';
+	$lang['strcreatelikewithindexes'] = 'INCLUDE INDEXES';
 	$lang['strtablename'] = 'Table name';
 	$lang['strtableneedsname'] = 'You must give a name for your table.';
 	$lang['strtablelikeneedslike'] = 'You must give a table to copy properties from.';
