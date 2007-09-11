@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.13 2006/05/22 17:31:23 xzilla Exp $
+ * $Id: Connection.php,v 1.14 2007/09/11 11:39:58 xzilla Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -81,6 +81,8 @@ class Connection {
 		// it won't work with those versions.
 		if ((int)substr($version, 0, 1) < 7)
 			return null;
+		elseif (strpos($version, '8.2') === 0)
+			return 'Postgres82';
 		elseif (strpos($version, '8.1') === 0)
 			return 'Postgres81';
 		elseif (strpos($version, '8.0') === 0 || strpos($version, '7.5') === 0)
@@ -96,7 +98,7 @@ class Connection {
 		elseif (strpos($version, '7.0') === 0)
 			return 'Postgres';
 		else
-			return 'Postgres82';
+			return 'Postgres83';
 	}
 
 	/** 
