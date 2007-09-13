@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.63 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: display.php,v 1.64 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -416,50 +416,51 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		// Navigation links	
-		echo "<p>";
+		echo "<ul class=\"navlink\">\n";
 		// Return
-		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc'])) {
-			echo "<a class=\"navlink\" href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a> |\n";
-		}
+		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
+			echo "\t<li><a href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></li>\n";
+
 		// Edit SQL link
-		if (isset($_REQUEST['query'])) {
-			echo "<a class=\"navlink\" href=\"database.php?{$misc->href}&amp;action=sql&amp;paginate=on&amp;query=" . urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a> |\n";
-		}
-		
+		if (isset($_REQUEST['query']))
+			echo "\t<li><a href=\"database.php?{$misc->href}&amp;action=sql&amp;paginate=on&amp;query=",
+				urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a></li>\n";
+
 		// Expand/Collapse
 		if ($_REQUEST['strings'] == 'expanded')
-			echo "<a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
-				urlencode($_REQUEST['page']), "\">{$lang['strcollapse']}</a>\n";
+			echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
+				urlencode($_REQUEST['page']), "\">{$lang['strcollapse']}</a></li>\n";
 		else
-			echo "<a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
-				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a>\n";
+			echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
+				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a></li>\n";
+
 		// Create report
-		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-			echo " | <a class=\"navlink\" href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
-				urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a>\n";
-		}
+		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
+			echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
+				urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a></li>\n";
+
 		// Create view and download
 		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 			// Report views don't set a schema, so we need to disable create view in that case
-			if (isset($_REQUEST['schema'])) echo " | <a class=\"navlink\" href=\"views.php?action=create&amp;formDefinition=",
-				urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a>\n";
-			echo " | <a class=\"navlink\" href=\"dataexport.php?query=", urlencode($_REQUEST['query']);
+			if (isset($_REQUEST['schema'])) 
+				echo "\t<li><a href=\"views.php?action=create&amp;formDefinition=",
+					urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
+			echo "\t<li><a href=\"dataexport.php?query=", urlencode($_REQUEST['query']);
 			if (isset($_REQUEST['search_path']))
 				echo "&amp;search_path=", urlencode($_REQUEST['search_path']);
-			echo "&amp;{$misc->href}\">{$lang['strdownload']}</a>\n";
+			echo "&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n";
 		}
 
 		// Insert
-		if (isset($object) && (isset($subject) && $subject == 'table')) {
-			echo " | <a class=\"navlink\" href=\"tables.php?action=confinsertrow&amp;table=",
-				urlencode($object), "&amp;{$misc->href}\">{$lang['strinsert']}</a>\n";
-		}
+		if (isset($object) && (isset($subject) && $subject == 'table'))
+			echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;table=",
+				urlencode($object), "&amp;{$misc->href}\">{$lang['strinsert']}</a></li>\n";
 
 		// Refresh
-		echo "| <a class=\"navlink\" href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
+		echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
 			"&amp;page=" . urlencode($_REQUEST['page']),
-			"\">{$lang['strrefresh']}</a>\n";
-		echo "</p>\n";
+			"\">{$lang['strrefresh']}</a></li>\n";
+		echo "</ul>\n";
 	}
 	
 	// If a table is specified, then set the title differently

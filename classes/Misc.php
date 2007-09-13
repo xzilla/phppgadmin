@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.160 2007/09/13 05:16:41 xzilla Exp $
+	 * $Id: Misc.php,v 1.161 2007/09/13 13:41:01 ioguix Exp $
 	 */
 	 
 	class Misc {
@@ -1071,11 +1071,11 @@
 				
 				echo "<td style=\"text-align: right\">";
 
-				echo "<a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a> | ";
+				echo "<ul class=\"toplink\">\n\t<li><a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a></li>\n";
 				
-				echo "<a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a> | ";
+				echo "\t<li><a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a></li>\n";
 				
- 				echo "<a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\">{$lang['strlogout']}</a>";
+ 				echo "\t<li><a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\">{$lang['strlogout']}</a></li>\n</ul>\n";
 				
 				echo "</td>";
 			}

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.43 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: sequences.php,v 1.44 2007/09/13 13:41:01 ioguix Exp $
 	 */
 	
 	// Include application functions
@@ -144,13 +144,12 @@
 			echo "</tr>";
 			echo "</table>";
 			
-			if ($data->hasAlterSequence()) {
-				echo "<p><a class=\"navlink\" href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a> |\n";
-			}
-			echo "<a class=\"navlink\" href=\"sequences.php?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"sequences.php?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"sequences.php?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a> |\n";
-			echo "<a class=\"navlink\" href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></p>\n";
+			if ($data->hasAlterSequence())
+				echo "<ul class=\"navlink\">\n\t<li><a href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a></li>\n";
+			echo "\t<li><a href=\"sequences.php?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a></li>\n";
+			echo "\t<li><a href=\"sequences.php?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a></li>\n";
+			echo "\t<li><a href=\"sequences.php?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a></li>\n";
+			echo "\t<li><a href=\"sequences.php?{$misc->href}\">{$lang['strshowallsequences']}</a></li>\n</ul>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}

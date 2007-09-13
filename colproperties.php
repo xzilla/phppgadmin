@@ -237,7 +237,7 @@
 
 			echo "<br />\n";
 
-			echo "<ul>\n";
+			echo "<ul class=\"navlink\">\n";
 			if ($isTable) {
 				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=$tableName&amp;column={$_REQUEST['column']}");
 

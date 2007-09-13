@@ -3,7 +3,7 @@
 	/**
 	 * Slony database tab plugin
 	 *
-	 * $Id: plugin_slony.php,v 1.23 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: plugin_slony.php,v 1.24 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -1185,12 +1185,12 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"plugin_slony.php?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"plugin_slony.php?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></p>\n";
+		echo "<ul class=\"navlink\"><li><a href=\"plugin_slony.php?action=confirm_drop_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strdrop']}</a></li>\n";
+		echo "\t<li><a href=\"plugin_slony.php?action=confirm_lock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strlock']}</a></li>\n";
+		echo "\t<li><a href=\"plugin_slony.php?action=confirm_unlock_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strunlock']}</a></li>\n";
+		echo "\t<li><a href=\"plugin_slony.php?action=merge_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmerge']}</a></li>\n";
+		echo "\t<li><a href=\"plugin_slony.php?action=move_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strmove']}</a></li>\n";
+		echo "\t<li><a href=\"plugin_slony.php?action=execute_set&amp;{$misc->href}&amp;set_id={$_REQUEST['set_id']}\">{$lang['strexecute']}</a></li></ul>\n";
 	}
 
 	/**

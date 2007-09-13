@@ -3,7 +3,7 @@
 	/**
 	 * Manage privileges in a database
 	 *
-	 * $Id: privileges.php,v 1.44 2007/07/16 21:27:29 ioguix Exp $
+	 * $Id: privileges.php,v 1.45 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -241,12 +241,12 @@
 			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		}
 	
-		echo "<p><a class=\"navlink\" href=\"{$alterurl}grant\">{$lang['strgrant']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"{$alterurl}grant\">{$lang['strgrant']}</a></li>\n";
+		echo "\t<li><a href=\"{$alterurl}revoke\">{$lang['strrevoke']}</a></li>\n";
 		if (isset($allurl))
-			echo "| <a class=\"navlink\" href=\"{$allurl}?{$misc->href}\">{$alltxt}</a>\n";
+			echo "\t<li><a href=\"{$allurl}?{$misc->href}\">{$alltxt}</a></li>\n";
 		
-		echo "</p>\n";
+		echo "</ul>\n";
 	}
 
 	$misc->printHeader($lang['strprivileges']);

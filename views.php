@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.73 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: views.php,v 1.74 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -592,8 +592,8 @@
 		
 		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
 		
-		echo "<p><a class=\"navlink\" href=\"views.php?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"views.php?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></p>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"views.php?action=create&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
+		echo "\t<li><a href=\"views.php?action=wiz_create&amp;{$misc->href}\">{$lang['strcreateviewwiz']}</a></li>\n</ul>\n";
 
 	}
 	

@@ -3,7 +3,7 @@
 	/**
 	 * Manage roles in a database cluster
 	 *
-	 * $Id: roles.php,v 1.10 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: roles.php,v 1.11 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -425,11 +425,11 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"roles.php?{$misc->href}\">{$lang['strshowallroles']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"roles.php?action=alter&amp;{$misc->href}&amp;rolename=", 
-			urlencode($_REQUEST['rolename']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"roles.php?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
-			urlencode($_REQUEST['rolename']), "\">{$lang['strdrop']}</a>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"roles.php?{$misc->href}\">{$lang['strshowallroles']}</a></li>\n";
+		echo "\t<li><a href=\"roles.php?action=alter&amp;{$misc->href}&amp;rolename=", 
+			urlencode($_REQUEST['rolename']), "\">{$lang['stralter']}</a></li>\n";
+		echo "\t<li><a href=\"roles.php?action=confirm_drop&amp;{$misc->href}&amp;rolename=",
+			urlencode($_REQUEST['rolename']), "\">{$lang['strdrop']}</li>\n</ul>\n";
 	}
 
 	/**

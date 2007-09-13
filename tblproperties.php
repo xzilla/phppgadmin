@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.84 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.85 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -538,7 +538,7 @@
 		
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 
-		echo "<ul>\n";
+		echo "<ul class=\"navlink\">\n";
 		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";

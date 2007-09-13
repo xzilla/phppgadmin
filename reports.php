@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.32 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: reports.php,v 1.33 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -121,8 +121,8 @@
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"reports.php?{$misc->href}\">{$lang['strshowallreports']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"reports.php?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></p>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"reports.php?{$misc->href}\">{$lang['strshowallreports']}</a></li>\n";
+		echo "\t<li><a href=\"reports.php?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></li>\n</ul>\n";
 	}
 
 	/**

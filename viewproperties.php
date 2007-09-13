@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.31 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.32 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -341,7 +341,7 @@
 	
 		echo "<br />\n";
 
-		echo "<ul>\n";
+		echo "<ul class=\"navlink\">\n";
 		$return_url = urlencode("viewproperties.php?{$misc->href}&amp;view=" . urlencode($_REQUEST['view']));
 		echo "\t<li><a href=\"display.php?{$misc->href}&amp;view=", urlencode($_REQUEST['view']), "&amp;subject=view&amp;return_url={$return_url}&amp;return_desc=",
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";

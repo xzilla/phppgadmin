@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.24 2007/08/31 18:30:10 ioguix Exp $
+	 * $Id: aggregates.php,v 1.25 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -246,13 +246,13 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<p><a class=\"navlink\" href=\"aggregates.php?{$misc->href}\">{$lang['straggrshowall']}</a> |\n";
+		echo "<ul class=\"navlink\">\n\t<li><a class=\"navlink\" href=\"aggregates.php?{$misc->href}\">{$lang['straggrshowall']}</a></li>\n";
 		if ($data->hasAlterAggregate()) {
-		echo "<a class=\"navlink\" href=\"aggregates.php?action=alter&amp;{$misc->href}&amp;aggrname=", 
-			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a> |\n";
+		echo "\t<li><a class=\"navlink\" href=\"aggregates.php?action=alter&amp;{$misc->href}&amp;aggrname=", 
+			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a></li>\n";
 		}
-		echo "<a class=\"navlink\" href=\"aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
-			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a></p>\n";
+		echo "\t<li><a class=\"navlink\" href=\"aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
+			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a></li>\n</ul>\n";
 	}
 
 

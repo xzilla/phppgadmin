@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.52 2007/08/31 18:30:10 ioguix Exp $
+	 * $Id: constraints.php,v 1.53 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -476,14 +476,14 @@
 		
 		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
 		
-		echo "<p><a class=\"navlink\" href=\"constraints.php?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
-			"\">{$lang['straddcheck']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"constraints.php?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
-			"\">{$lang['stradduniq']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"constraints.php?action=add_primary_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
-			"\">{$lang['straddpk']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"constraints.php?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
-			"\">{$lang['straddfk']}</a></p>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"constraints.php?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+			"\">{$lang['straddcheck']}</a></li>\n";
+		echo "\t<li><a href=\"constraints.php?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+			"\">{$lang['stradduniq']}</a></li>\n";
+		echo "\t<li><a href=\"constraints.php?action=add_primary_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+			"\">{$lang['straddpk']}</a></li>\n";
+		echo "\t<li><a href=\"constraints.php?action=add_foreign_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+			"\">{$lang['straddfk']}</a></li>\n</ul>\n";
 	}
 
 	function doTree() {

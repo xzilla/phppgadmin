@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.39 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: types.php,v 1.40 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -447,10 +447,10 @@
 		
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
-		echo "<p><a class=\"navlink\" href=\"types.php?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a>";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"types.php?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a></li>\n";
 		if ($data->hasCompositeTypes())
-			echo "\n| <a class=\"navlink\" href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a>";
-		echo "</p>\n";
+			echo "\t<li><a href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a></li>\n";
+		echo "</ul>\n";
 
 	}
 	

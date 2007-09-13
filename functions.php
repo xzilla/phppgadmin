@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.67 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: functions.php,v 1.68 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -256,11 +256,11 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=", 
-			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",
-			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></li>\n";
+		echo "\t<li><a href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=", 
+			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a></li>\n";
+		echo "\t<li><a href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",
+			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></li>\n</ul>";
 	}
 	
 	/**
@@ -680,9 +680,9 @@
 		
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
-		echo "<p><a class=\"navlink\" href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"functions.php?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a> | ";
-		echo "<a class=\"navlink\" href=\"functions.php?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></p>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a></li>\n";
+		echo "\t<li><a href=\"functions.php?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a></li>\n";
+		echo "\t<li><a href=\"functions.php?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></li>\n</ul>\n";
 	}
 	
 	/**

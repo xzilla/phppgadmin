@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.103 2007/09/09 20:20:31 ioguix Exp $
+	 * $Id: tables.php,v 1.104 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -955,10 +955,10 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
-		echo "<p><a class=\"navlink\" href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a> |\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></li>\n";
 		if ($data->hasCreateTableLike())
-			echo "<a class=\"navlink\" href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a>\n";
-		echo "</p>\n";
+			echo "\t<li><a href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a></li>\n";
+		echo "</ul>\n";
 	}
 	
 	/**

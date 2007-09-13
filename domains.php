@@ -3,7 +3,7 @@
 	/**
 	 * Manage domains in a database
 	 *
-	 * $Id: domains.php,v 1.33 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: domains.php,v 1.34 2007/09/13 13:41:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -231,14 +231,14 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<p><a class=\"navlink\" href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a>\n";
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a></li>\n";
 		if ($data->hasDomainConstraints()) {
-			echo "| <a class=\"navlink\" href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
-				"\">{$lang['straddcheck']}</a>\n";
-			echo "| <a class=\"navlink\" href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
-				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a>\n";
+			echo "\t<li><a href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
+				"\">{$lang['straddcheck']}</a></li>\n";
+			echo "\t<li><a href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
+				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a></li>\n";
 		}
-		echo "</p>\n";
+		echo "</ul>\n";
 	}
 	
 	/**
