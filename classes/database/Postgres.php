@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.302 2007/09/13 05:16:41 xzilla Exp $
+ * $Id: Postgres.php,v 1.303 2007/09/13 14:53:41 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2531,7 +2531,74 @@ class Postgres extends ADODB_base {
 		
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
-	}	
+	}
+
+	 /**
+	  * Alters a view
+	  * @param $view The name of the view
+	  * @param $name The new name for the view
+	  * @param $owner The new owner for the view
+	  * @param $comment The comment on the view
+	  * @return 0 success
+	  * @return -1 transaction error
+	  * @return -2 owner error
+	  * @return -3 rename error
+	  * @return -4 comment error
+	  * @return -5 get existing view error
+	  */
+    function alterView($view, $name, $owner, $comment) {
+		$this->fieldClean($view);
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+		$this->clean($comment);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Comment
+		$status = $this->setComment('VIEW', $view, '', $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		// Owner
+		if ($this->hasAlterTableOwner() && $owner != '') {
+			// Fetch existing owner
+			$data = $this->getView($view);
+			if ($data->recordCount() != 1) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($data->fields['relowner'] != $owner) {
+				$sql = "ALTER TABLE \"{$view}\" OWNER TO \"{$owner}\"";
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -2;
+				}
+			}
+		}
+
+		// Rename (only if name has changed)
+		if ($name != $view) {
+			$sql = "ALTER TABLE \"{$view}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;	
+			}			
+		}
+
+		return $this->endTransaction();
+	}
 
 	// Operator functions
 

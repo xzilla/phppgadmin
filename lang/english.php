@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.216 2007/09/13 05:16:42 xzilla Exp $
+	 * $Id: english.php,v 1.217 2007/09/13 14:53:41 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -383,6 +383,8 @@
 	$lang['strrenamedupfields'] = 'Rename duplicate fields';
 	$lang['strdropdupfields'] = 'Drop duplicate fields';
 	$lang['strerrordupfields'] = 'Error on duplicate fields';
+	$lang['strviewaltered'] = 'View altered.';
+	$lang['strviewalteredbad'] = 'View alteration failed.';
 
 	// Sequences
 	$lang['strsequence'] = 'Sequence';

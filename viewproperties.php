@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.32 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.33 2007/09/13 14:53:41 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -242,6 +242,81 @@
 		}
 	}
 
+	function doAlter($confirm = false, $msg = '') {
+		if ($confirm) {
+			global $data, $misc, $lang;
+
+			$misc->printTrail('view');
+			$misc->printTitle($lang['stralter'], 'pg.view.alter');
+			$misc->printMsg($msg);
+
+			// Fetch view info
+			$view = $data->getView($_REQUEST['view']);
+
+			if ($view->recordCount() > 0) {
+				if (!isset($_POST['name'])) $_POST['name'] = $view->fields['relname'];
+	            if (!isset($_POST['owner'])) $_POST['owner'] = $view->fields['relowner'];
+				if (!isset($_POST['comment'])) $_POST['comment'] = $view->fields['relcomment'];
+
+				echo "<form action=\"viewproperties.php\" method=\"post\">\n";
+				echo "<table>\n";
+	            echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
+				echo "<td class=\"data1\">";
+				echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+					htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
+
+				$server_info = $misc->getServerInfo();
+				if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
+
+					// Fetch all users
+					$users = $data->getUsers();
+
+					echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
+					echo "<td class=\"data1\"><select name=\"owner\">";
+					while (!$users->EOF) {
+						$uname = $users->fields['usename'];
+						echo "<option value=\"", htmlspecialchars($uname), "\"",
+						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+						$users->moveNext();
+					}
+					echo "</select></td></tr>\n";
+				}
+
+				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
+				echo "<td class=\"data1\">";
+				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
+	                htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
+				echo "</table>\n";
+				echo "<input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
+				echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+				echo $misc->form;
+				echo "<p><input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
+	            echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
+				echo "</form>\n";
+			}
+			else echo "<p>{$lang['strnodata']}</p>\n";
+		}
+		else{
+			global $data, $lang, $_reload_browser;
+
+			// For databases that don't allow owner change
+	        if (!isset($_POST['owner'])) $_POST['owner'] = '';
+			$status = $data->alterView($_POST['view'], $_POST['name'], $_POST['owner'], $_POST['comment']);
+			if ($status == 0) {
+				// If view has been renamed, need to change to the new name and
+				// reload the browser frame.
+				if ($_POST['view'] != $_POST['name']) {
+					// Jump them to the new view name
+					$_REQUEST['view'] = $_POST['name'];
+	                // Force a browser reload
+					$_reload_browser = true;
+				}
+				doDefault($lang['strviewaltered']);
+			}
+			else doAlter(true, $lang['strviewalteredbad']);
+		}
+	}
+
 	function doTree () {
 		global $misc, $data;
 
@@ -347,6 +422,7 @@
 			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"views.php?action=confselectrows&amp;{$misc->href}&amp;view=", urlencode($_REQUEST['view']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"views.php?action=confirm_drop&amp;{$misc->href}&amp;view=", urlencode($_REQUEST['view']),"\">{$lang['strdrop']}</a></li>\n";
+		echo "\t<li><a href=\"viewproperties.php?action=confirm_alter&amp;{$misc->href}&amp;view=", urlencode($_REQUEST['view']),"\">{$lang['stralter']}</a></li>\n";
 		echo "</ul>\n";
 	}
 
@@ -370,6 +446,13 @@
 		case 'properties':
 			if (isset($_POST['cancel'])) doDefault();
 			else doProperties();
+			break;
+		case 'alter':
+			if (isset($_POST['alter'])) doAlter(false);
+			else doDefault();
+			break;
+		case 'confirm_alter':
+			doAlter(true);
 			break;
 		case 'drop':
 			if (isset($_POST['drop'])) doDrop(false);

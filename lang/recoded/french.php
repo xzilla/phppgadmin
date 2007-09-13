@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.28 2007/09/10 10:47:58 ioguix Exp $
+     * $Id: french.php,v 1.29 2007/09/13 14:53:41 ioguix Exp $
      */
 
     // Language and character set
@@ -382,6 +382,8 @@
 	$lang['strrenamedupfields']  =  'Renommer les champs dupliqu&#233;s';
 	$lang['strdropdupfields']  =  'Ignorer les champs dupliqu&#233;s';
 	$lang['strerrordupfields']  =  'Erreur en cas de champs dupliqu&#233;s';
+	$lang['strviewaltered']  =  'Vue modifi&#233;e.';
+	$lang['strviewalteredbad']  =  '&#201;chec lors de la modification de la vue.';
 
     // Sequences
     $lang['strsequence'] = 'S&#233;quence';
