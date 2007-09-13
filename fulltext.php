@@ -3,7 +3,7 @@
 	/**
 	 * Manage fulltext configurations, dictionaries and mappings
 	 *
-	 * $Id: fulltext.php,v 1.1 2007/09/13 14:13:29 xzilla Exp $
+	 * $Id: fulltext.php,v 1.2 2007/09/13 14:31:41 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -58,10 +58,11 @@
 		$misc->printTable($cfgs, $columns, $actions, $lang['strftsnoconfigs']);
 		
 		
-		echo "<p><a class=\"navlink\" href=\"fulltext.php?action=createconfig&amp;{$misc->href}\">{$lang['strftscreateconfig']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"fulltext.php?action=createdict&amp;{$misc->href}\">{$lang['strftscreatedict']}</a> |\n";
-		echo "<a class=\"navlink\" href=\"fulltext.php?action=createparser&amp;{$misc->href}\">{$lang['strftscreateparser']}</a>\n";
-		echo "</p>\n";
+		echo "<ul class=\"navlink\">\n";
+		echo "\t<li><a href=\"fulltext.php?action=createconfig&amp;{$misc->href}\">{$lang['strftscreateconfig']}</a></li>\n";
+		echo "\t<li><a href=\"fulltext.php?action=createdict&amp;{$misc->href}\">{$lang['strftscreatedict']}</a></li>\n";
+		echo "\t<li><a href=\"fulltext.php?action=createparser&amp;{$misc->href}\">{$lang['strftscreateparser']}</a></li>\n";
+		echo "</ul>\n";
 	}
 	
 	function doDropConfig($confirm) {
@@ -422,11 +423,12 @@
 		);
 		
 		$misc->printTable($map, $columns, $actions, $lang['strftsemptymap']);
-				
-		echo "<p><a class=\"navlink\" href=\"fulltext.php?action=addmapping&amp;{$misc->href}&ftscfg={$ftscfg}\">{$lang['strftsaddmapping']}</a>\n";
-		//echo "<p><a class=\"navlink\" href=\"#\">{$lang['strftscreateconfig']}</a> |\n";
-		//echo "<a class=\"navlink\" href=\"#\">{$lang['strftscreatedict']}</a>\n";
-		echo "</p>\n";
+
+		echo "<ul class=\"navlink\">\n";				
+		echo "\t<li><a href=\"fulltext.php?action=addmapping&amp;{$misc->href}&ftscfg={$ftscfg}\">{$lang['strftsaddmapping']}</a></li>\n";
+		echo "\t<li><a href=\"#\">{$lang['strftscreateconfig']}</a></li>\n";
+		echo "<\t<li>a href=\"#\">{$lang['strftscreatedict']}</a></li>\n";
+		echo "</ul>\n";
 		
 	}
 	
