@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.215 2007/09/09 20:20:31 ioguix Exp $
+	 * $Id: english.php,v 1.216 2007/09/13 05:16:42 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -138,6 +138,7 @@
 	$lang['stractionsonmultiplelines'] = 'Actions on multiple lines';
 	$lang['strselectall'] = 'Select all';
 	$lang['strunselectall'] = 'Unselect all';
+	$lang['strlocale'] = 'Locale';
 
 	// Database sizes
 	$lang['strsize'] = 'Size';
@@ -895,4 +896,57 @@
 	$lang['strpreparedxacts'] = 'Prepared transactions';
 	$lang['strxactid'] = 'Transaction ID';
 	$lang['strgid'] = 'Global ID';
+	
+	// Fulltext search
+	$lang['strfulltext'] = 'Full Text Search';
+	$lang['strftsconfig'] = 'FTS configuration';
+	$lang['strftscreateconfig'] = 'Create FTS configuration';
+	$lang['strftscreatedict'] = 'Create dictionary';
+	$lang['strftscreatedicttemplate'] = 'Create dictionary template';
+	$lang['strftscreateparser'] = 'Create parser';
+	$lang['strftsnoconfigs'] = 'No FTS configuration found.';
+	$lang['strftsconfigdropped'] = 'FTS configuration dropped.';
+	$lang['strftsconfigdroppedbad'] = 'FTS configuration drop failed.';
+	$lang['strconfdropftsconfig'] = 'Are you sure you want to drop the FTS configuration "%s"?';
+	$lang['strconfdropftsdict'] = 'Are you sure you want to drop the FTS dictionary "%s"?';
+	$lang['strconfdropftsmapping'] = 'Are you sure you want to drop mapping "%s" of FTS configuration "%s"?';
+	$lang['strftstemplate'] = 'Template';
+	$lang['strftsparser'] = 'Parser';
+	$lang['strftsconfigneedsname'] = 'You must give a name for your FTS configuration.';
+	$lang['strftsconfigcreated'] = 'FTS configuration created';
+	$lang['strftsconfigcreatedbad'] = 'FTS configuration creation failed.';
+	$lang['strftsmapping'] = 'Mapping';
+	$lang['strftsdicts'] = 'Dictionaries';
+	$lang['strftsdict'] = 'Dictionary';
+	$lang['strftsemptymap'] = 'Empty FTS configuration map.';
+	$lang['strftswithmap'] = 'With map';
+	$lang['strftsmakedefault'] = 'Make default for given locale';
+	$lang['strftsconfigaltered'] = 'FTS configuration altered.';
+	$lang['strftsconfigalteredbad'] = 'FTS configuration alter failed.';
+	$lang['strftsconfigmap'] = 'FTS configuration map';
+	$lang['strftsparsers'] = 'FTS parsers';
+	$lang['strftsnoparsers'] = 'No FTS parsers available.';
+	$lang['strftsnodicts'] = 'No FTS dictionaries available.';
+	$lang['strftsdictcreated'] = 'FTS dictionary created';
+	$lang['strftsdictcreatedbad'] = 'FTS dictionary creation failed.';
+	$lang['strftslexize'] = 'Lexize';
+	$lang['strftsinit'] = 'Init';
+	$lang['strftsoption'] = 'Option';
+	$lang['strftsdictneedsname'] = 'You must give a name for your FTS dictionary.';
+	$lang['strftsdictdropped'] = 'FTS dictionary dropped.';
+	$lang['strftsdictdroppedbad'] = 'FTS dictionary drop failed.';
+	$lang['strftsdictaltered'] = 'FTS dictionary altered.';
+	$lang['strftsdictalteredbad'] = 'FTS dictionary alter failed.';
+	$lang['strftsaddmapping'] = 'Add new mapping';
+	$lang['strftsspecifymappingtodrop'] = 'You must specify at least one mapping to drop';
+	$lang['strftsspecifyconfigtoalter'] = 'You must specify a FTS configuration to alter';
+	$lang['strftsmappingdropped'] = 'FTS mapping dropped.';
+	$lang['strftsmappingdroppedbad'] = 'FTS mapping drop failed.';
+	$lang['strftsnodictionaries'] = 'No dictionaries found.';
+	$lang['strftsmappingaltered'] = 'FTS mapping altered.';
+	$lang['strftsmappingalteredbad'] = 'FTS mapping alter failed.';
+	$lang['strftsmappingadded'] = 'FTS mapping added.';
+	$lang['strftsmappingaddedbad'] = 'FTS mapping add failed.';
+	
+	
 ?>

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.159 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: Misc.php,v 1.160 2007/09/13 05:16:41 xzilla Exp $
 	 */
 	 
 	class Misc {
@@ -649,6 +649,15 @@
 							'tree'  => false,
 							'icon'  => 'Privileges',
 						),
+						'fulltext' => array (
+							'title' => $lang['strfulltext'],
+							'url'   => 'fulltext.php',
+							'urlvars' => array('subject' => 'database'),
+							'hide'  => false,
+							'help'  => 'PUT_DOC_LINK_HERE',
+							'tree'  => true,
+							'icon'  => 'Fts',
+						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
 							'url'   => 'languages.php',
@@ -1236,8 +1245,17 @@
 					'help'  => 'pg.view',
 					'icon'  => 'View'
 				);
-			}
-			if ($subject == 'table' || $subject == 'view') $done = true;
+			} elseif (isset($_REQUEST['ftscfg']) && !$done) {
+				$vars .= "action=viewconfig&ftscfg=".urlencode($_REQUEST['ftscfg']);
+				$trail['ftscfg'] = array(
+					'title' => $lang['strftsconfig'],
+					'text'  => $_REQUEST['ftscfg'],
+					'url'   => "fulltext.php?{$vars}",
+					'help'  => 'PUT_DOC_LINK_HERE',
+					'icon'  => 'Fts'
+				);
+			} 
+			if ($subject == 'table' || $subject == 'view' || $subject == 'ftscfg') $done = true;
 			
 			if (!$done && !is_null($subject)) {
 				switch ($subject) {

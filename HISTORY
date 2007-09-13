@@ -14,6 +14,7 @@ Features
 * Add support for creating a table using an exsting one (ioguix)
 * Auto-expand a node in the tree browser if there are no other nodes (Tomasz Pala)
 * Add column about fields constraints type + links in table properties page (ioguix)
+* Support for built-in Full Text Search (Ivan Zolotukhin)  
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema

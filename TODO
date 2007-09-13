@@ -168,6 +168,15 @@ Casts (7.3)
 * Drop
 * Create
 
+
+Full Text Search (8.3)
+----------------------
+
+* Create/Alter/Drop parser
+* Help Pages
+* Alter Owner
+
+
 Miscellaneous
 -------------
 
