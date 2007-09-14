@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.4 2007/09/13 14:53:41 ioguix Exp $
+ * $Id: Postgres83.php,v 1.5 2007/09/14 21:38:06 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -99,6 +99,35 @@ class Postgres83 extends Postgres82 {
  
  		return $this->endTransaction();
  	}
+
+	// Operator Class functions
+
+	/**
+	 *  Gets all opclasses
+	 *  
+	 *  * @return A recordset
+
+	 */
+
+	function getOpClasses() {
+
+		$sql = "
+			SELECT
+				pa.amname, po.opcname,
+				po.opcintype::pg_catalog.regtype AS opcintype,
+				po.opcdefault,
+				pg_catalog.obj_description(po.oid, 'pg_opclass') AS opccomment
+			FROM
+				pg_catalog.pg_opclass po, pg_catalog.pg_am pa, pg_catalog.pg_namespace pn
+			WHERE
+				po.opcmethod=pa.oid
+				AND po.opcnamespace=pn.oid
+				AND pn.nspname='{$this->_schema}'
+			ORDER BY 1,2
+			";
+
+		return $this->selectSet($sql);
+	}
 
     // FTS functions
  	/**
