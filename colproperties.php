@@ -154,7 +154,7 @@
 					doProperties($lang['strcolneedsname']);
 					return;
 				}
-
+				if (!isset($_REQUEST['length'])) $_REQUEST['length'] = '';
 				$status = $data->alterColumn($_REQUEST['table'], $_REQUEST['column'], $_REQUEST['field'], 
 							     isset($_REQUEST['notnull']), isset($_REQUEST['oldnotnull']), 
 							     $_REQUEST['default'], $_REQUEST['olddefault'],
