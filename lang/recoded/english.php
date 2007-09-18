@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.169 2007/09/13 14:53:41 ioguix Exp $
+	 * $Id: english.php,v 1.170 2007/09/18 05:03:29 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -890,6 +890,7 @@
 	// Table-level Locks
 	$lang['strlocks'] = 'Locks';
 	$lang['strtransaction'] = 'Transaction ID';
+	$lang['strvirtualtransaction'] = 'Virtual Transaction ID';
 	$lang['strprocessid'] = 'Process ID';
 	$lang['strmode'] = 'Lock mode';
 	$lang['strislockheld'] = 'Is lock held?';

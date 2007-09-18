@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.101 2007/08/31 18:30:10 ioguix Exp $
+	 * $Id: database.php,v 1.102 2007/09/18 05:03:29 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -510,6 +510,10 @@
 				'title' => $lang['strtablename'],
 				'field' => field('tablename'),
 			),
+			'vxid' => array(
+				'title' => $lang['strvirtualtransaction'],
+				'field' => field('virtualtransaction'),
+			),
 			'transactionid' => array(
 				'title' => $lang['strtransaction'],
 				'field' => field('transaction'),
@@ -528,6 +532,8 @@
 				'type'  => 'yesno',
 			),
 		);
+
+		if (!$data->hasVirtualTransactionId()) unset($columns['vxid']);
 
 		$actions = array();
 

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.5 2007/09/14 21:38:06 ioguix Exp $
+ * $Id: Postgres83.php,v 1.6 2007/09/18 05:03:29 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -28,6 +28,39 @@ class Postgres83 extends Postgres82 {
 	function getHelpPages() {
 		include_once('./help/PostgresDoc83.php');
 		return $this->help_page;
+	}
+
+	// Schemas functions
+	/**
+	 * Returns table locks information in the current database
+	 * @return A recordset
+	 */
+ 
+	function getLocks() {
+		global $conf;
+
+		if (!$conf['show_system'])
+			$where = "AND pn.nspname NOT LIKE 'pg\\\\_%'";
+		else
+			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+
+		$sql = "SELECT 
+					pn.nspname, pc.relname AS tablename, pl.pid, pl.mode, pl.granted, pl.virtualtransaction, 
+					 (select transactionid from pg_catalog.pg_locks l2 where l2.locktype='transactionid' 
+						and l2.mode='ExclusiveLock' and l2.virtualtransaction=pl.virtualtransaction) as transaction
+				FROM 
+					pg_catalog.pg_locks pl,
+			    	pg_catalog.pg_class pc, 
+					pg_catalog.pg_namespace pn
+				WHERE 
+					pl.relation = pc.oid 
+					AND 
+					pc.relnamespace=pn.oid 
+					{$where}
+				ORDER BY 
+					pid,nspname,tablename";
+
+		return $this->selectSet($sql);
 	}
 
     // Views functions
@@ -129,7 +162,8 @@ class Postgres83 extends Postgres82 {
 		return $this->selectSet($sql);
 	}
 
-    // FTS functions
+	// FTS functions
+
  	/**
  	 * Creates a new FTS configuration.
  	 * @param string $cfgname The name of the FTS configuration to create
@@ -569,5 +603,6 @@ class Postgres83 extends Postgres82 {
 
 	// Capabilities
 	function hasCreateTableLikeWithIndexes() {return true;}
+	function hasVirtualTransactionId() {return true;}
 }
 ?>

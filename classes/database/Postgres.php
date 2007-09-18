@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.303 2007/09/13 14:53:41 ioguix Exp $
+ * $Id: Postgres.php,v 1.304 2007/09/18 05:03:29 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -4735,7 +4735,8 @@ class Postgres extends ADODB_base {
 	function hasCreateTableLike() {return false;}
 	function hasCreateTableLikeWithConstraints() {return false;}
 	function hasCreateTableLikeWithIndexes() {return false;}
- 	function hasFTS() {return false;}
+	function hasFTS() {return false;}
+	function hasVirtualTransactionId() {return false;}
 }
 
 ?>
