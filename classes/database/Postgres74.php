@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.60 2007/09/09 20:20:31 ioguix Exp $
+ * $Id: Postgres74.php,v 1.61 2007/09/19 14:42:12 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -280,14 +280,19 @@ class Postgres74 extends Postgres73 {
 	function getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, t.tgenabled
-			FROM pg_catalog.pg_trigger t
+		$sql = "SELECT 
+				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, t.tgenabled, p.oid AS prooid,
+				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
+				ns.nspname AS pronamespace
+			FROM pg_catalog.pg_trigger t, pg_catalog.pg_proc p, pg_catalog.pg_namespace ns
 			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-			AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
-			AND (NOT tgisconstraint OR NOT EXISTS
-			(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
-			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
+				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+				AND (NOT tgisconstraint OR NOT EXISTS
+						(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+							ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+						WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))
+				AND p.oid=t.tgfoid
+				AND p.pronamespace = ns.oid";
 
 		return $this->selectSet($sql);
 	}

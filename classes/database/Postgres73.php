@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.166 2007/08/31 18:30:11 ioguix Exp $
+ * $Id: Postgres73.php,v 1.167 2007/09/19 14:42:12 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -800,16 +800,20 @@ class Postgres73 extends Postgres72 {
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
 			t.tgargs, t.tgnargs, t.tgconstrrelid, 
 			(SELECT relname FROM pg_catalog.pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
-			p.proname AS tgfname, c.relname, NULL AS tgdef
-			FROM pg_catalog.pg_trigger t LEFT JOIN pg_catalog.pg_proc p
-			ON t.tgfoid=p.oid, pg_catalog.pg_class c
+			p.proname AS tgfname, c.relname, NULL AS tgdef, 
+			p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
+			ns.nspname AS pronamespace
+			FROM pg_catalog.pg_namespace ns,
+				pg_catalog.pg_trigger t LEFT JOIN pg_catalog.pg_proc p
+					ON t.tgfoid=p.oid, pg_catalog.pg_class c
 			WHERE t.tgrelid=c.oid
-			AND c.relname='{$table}'
-			AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')
-			AND (NOT tgisconstraint OR NOT EXISTS
-			(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
-			ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
-			WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))";
+				AND c.relname='{$table}'
+				AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')
+				AND (NOT tgisconstraint OR NOT EXISTS
+					(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+						ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))
+				AND p.pronamespace = ns.oid";
 
 		return $this->selectSet($sql);
 	}

@@ -3,7 +3,7 @@
 	/**
 	 * List triggers on a table
 	 *
-	 * $Id: triggers.php,v 1.36 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: triggers.php,v 1.37 2007/09/19 14:42:12 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -287,6 +287,16 @@
 				'title' => $lang['strdefinition'],
 				'field' => field('+tgdef'),
 			),
+			'function' => array(
+				'title' => $lang['strfunction'],
+				'field' => field('proproto'),
+				'url' => "functions.php?action=properties&amp;server={$_REQUEST['server']}&amp;database={$_REQUEST['database']}&amp;",
+				'vars' => array(
+					'schema' => 'pronamespace',
+					'function' => 'proproto',
+					'function_oid' => 'prooid',
+				),
+			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -304,6 +314,7 @@
 				'vars'  => array('trigger' => 'tgname'),
 			),
 		);
+		if(!$data->hasSchemas()) unset($columns['function']['vars']['schema']);
 		if($data->hasDisableTriggers()) {
 			if(!$data->phpBool($triggers->fields["tgenabled"])) {
 				$actions['enable'] = array(
@@ -321,7 +332,7 @@
 		}
 
 		if (!$data->hasAlterTrigger()) unset($actions['alter']);
-		
+
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		
 		echo "<p><a class=\"navlink\" href=\"triggers.php?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
