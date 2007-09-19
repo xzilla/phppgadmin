@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.44 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: sequences.php,v 1.45 2007/09/19 19:25:34 ioguix Exp $
 	 */
 	
 	// Include application functions
@@ -143,9 +143,10 @@
 			echo "<td class=\"data1\">", ($sequence->fields['is_called'] ? $lang['stryes'] : $lang['strno']), "</td>";
 			echo "</tr>";
 			echo "</table>";
-			
+
+			echo "<ul class=\"navlink\">\n";	
 			if ($data->hasAlterSequence())
-				echo "<ul class=\"navlink\">\n\t<li><a href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a></li>\n";
+				echo "\t<li><a href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a></li>\n";
