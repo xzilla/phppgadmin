@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.168 2007/09/19 15:31:18 xzilla Exp $
+ * $Id: Postgres73.php,v 1.169 2007/09/21 20:00:38 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1220,7 +1220,7 @@ class Postgres73 extends Postgres72 {
 	
 		// get the max number of col used in a constraint for the table
     	$sql = "SELECT DISTINCT
-	      max(SUBSTRING(array_dims(c.conkey) FROM  E'^\\\[.*:(.*)\\\]$')) as nb
+			max(SUBSTRING(array_dims(c.conkey) FROM  '^\\\[.*:(.*)\\\]$')) as nb
     	FROM
 	      pg_catalog.pg_constraint AS c
     	  JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
