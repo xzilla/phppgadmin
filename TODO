@@ -56,6 +56,10 @@ Databases
 
 * Add alter database variables for 7.3+
 * -Comments on Create and Alter database [8.2]
+* Add database stats
+* REASSIGN OWNED & DROP OWNED support for 8.2+ 
+	- http://www.postgresql.org/docs/8.2/interactive/sql-reassign-owned.html
+	- http://www.postgresql.org/docs/8.2/interactive/sql-drop-owned.html
 
 Schemas (7.3)
 -------------
