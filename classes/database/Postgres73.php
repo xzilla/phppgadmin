@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.169 2007/09/21 20:00:38 ioguix Exp $
+ * $Id: Postgres73.php,v 1.170 2007/09/25 16:08:05 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1787,7 +1787,8 @@ class Postgres73 extends Postgres72 {
 				c.casttarget::pg_catalog.regtype AS casttarget,
 				CASE WHEN c.castfunc=0 THEN NULL
 				ELSE c.castfunc::pg_catalog.regprocedure END AS castfunc,
-				c.castcontext
+				c.castcontext,
+				obj_description(c.oid, 'pg_cast') as castcomment
 			FROM
 				(pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p ON c.castfunc=p.oid JOIN pg_catalog.pg_namespace n3 ON p.pronamespace=n3.oid),
 				pg_catalog.pg_type t1,

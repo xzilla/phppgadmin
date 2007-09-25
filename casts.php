@@ -3,7 +3,7 @@
 	/**
 	 * Manage casts in a database
 	 *
-	 * $Id: casts.php,v 1.15 2007/08/31 18:30:10 ioguix Exp $
+	 * $Id: casts.php,v 1.16 2007/09/25 16:08:05 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -53,6 +53,10 @@
 				'field' => field('castcontext'),
 				'type'  => 'callback',
 				'params'=> array('function' => 'renderCastContext', 'align' => 'center'),
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => field('castcomment'),
 			),
 		);
 
