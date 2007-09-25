@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.6 2007/09/18 05:03:29 xzilla Exp $
+ * $Id: Postgres83.php,v 1.7 2007/09/25 09:53:11 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -132,6 +132,26 @@ class Postgres83 extends Postgres82 {
  
  		return $this->endTransaction();
  	}
+
+	// Indexe functions
+
+	/**
+	 * Clusters an index
+	 * @param $index The name of the index
+	 * @param $table The table the index is on
+	 * @return 0 success
+	 */
+	function clusterIndex($index, $table) {
+	
+		$this->fieldClean($index);		
+		$this->fieldClean($table);
+
+		// We don't bother with a transaction here, as there's no point rolling
+		// back an expensive cluster if a cheap analyze fails for whatever reason		
+		$sql = "CLUSTER \"{$table}\" USING \"{$index}\"";
+
+		return $this->execute($sql);	
+	}
 
 	// Operator Class functions
 
