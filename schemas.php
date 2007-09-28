@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.19 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: schemas.php,v 1.20 2007/09/28 11:46:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -191,11 +191,13 @@
 	 * Save the form submission containing changes to a schema
 	 */
 	function doSaveAlter($msg = '') {
-		global $data, $misc, $lang;
+		global $data, $misc, $lang, $_reload_browser;
 		
 		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name']);
-		if ($status == 0)
+		if ($status == 0) {
+			$_reload_browser = true;
 			doDefault($lang['strschemaaltered']);
+		}
 		else
 			doAlter($lang['strschemaalteredbad']);
 	}
