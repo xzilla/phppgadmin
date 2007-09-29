@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.170 2007/09/25 16:08:05 ioguix Exp $
+ * $Id: Postgres73.php,v 1.171 2007/09/29 09:00:33 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1235,7 +1235,7 @@ class Postgres73 extends Postgres72 {
 
     	$sql = '
 			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc, 
+				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid) AS consrc, 
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
 				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field
 			FROM
