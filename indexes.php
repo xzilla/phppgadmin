@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.44 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: indexes.php,v 1.45 2007/09/29 09:09:45 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -282,6 +282,10 @@
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => field('idxcomment'),
 			),
 		);
 		

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.171 2007/09/29 09:00:33 ioguix Exp $
+ * $Id: Postgres73.php,v 1.172 2007/09/29 09:09:45 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -759,7 +759,8 @@ class Postgres73 extends Postgres72 {
 		$this->clean($table);
 		
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
-			pg_catalog.pg_get_indexdef(i.indexrelid) AS inddef
+			pg_catalog.pg_get_indexdef(i.indexrelid) AS inddef,
+			pg_catalog.obj_description(c.oid, 'pg_index') AS idxcomment
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
 			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
@@ -1237,7 +1238,8 @@ class Postgres73 extends Postgres72 {
 			SELECT
 				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid) AS consrc, 
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field
+				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
+				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
 			FROM
 				pg_catalog.pg_constraint AS c
 				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
@@ -1953,7 +1955,8 @@ class Postgres73 extends Postgres72 {
 	function hasUserSessionDefaults() { return true; }
 	function hasVariables() { return true; }
 	function hasFullExplain() { return true; }
-	function hasForeignKeysInfo() { return true; }
+//	function hasForeignKeysInfo() { return true; }
+	function hasConstraintsInfo() { return true; }
 	function hasViewColumnRename() { return true; }
 	function hasUserAndDbVariables() { return true; }
 	function hasCompositeTypes() { return true; }	

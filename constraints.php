@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.53 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: constraints.php,v 1.54 2007/09/29 09:09:45 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -462,7 +462,13 @@
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => field('constcomment'),
+			),
 		);
+
+		if (!$data->hasConstraintsInfo()) unset($columns['comment']);
 		
 		$actions = array(
 			'drop' => array(

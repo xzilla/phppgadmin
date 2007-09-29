@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.86 2007/09/28 12:05:56 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.87 2007/09/29 09:09:45 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -482,7 +482,7 @@
 				'field' => field('comment'),
 			),
 		);
-		if (!$data->hasForeignKeysInfo()) {
+		if (!$data->hasConstraintsInfo()) {
 			unset($columns['keyprop']);
 		}
 		else {

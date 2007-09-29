@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.62 2007/09/29 09:00:33 ioguix Exp $
+ * $Id: Postgres74.php,v 1.63 2007/09/29 09:09:45 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -180,7 +180,8 @@ class Postgres74 extends Postgres73 {
 			SELECT
 				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid,true) AS consrc, 
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field
+				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
+				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
 			FROM
 				pg_catalog.pg_constraint AS c
 				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
