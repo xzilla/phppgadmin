@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.14 2007/01/10 02:26:25 soranzo Exp $
+ * $Id: Slony.php,v 1.15 2007/10/02 21:36:35 ioguix Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -493,7 +493,7 @@ class Slony extends Plugin {
 
 		$sql = "SELECT st.tab_id, c.relname, n.nspname, n.nspname||'.'||c.relname AS qualname,
 					pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
-					reltuples::integer";
+					reltuples::bigint";
 		// Tablespace
 		if ($data->hasTablespaces()) {
 			$sql .= ", (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace";
