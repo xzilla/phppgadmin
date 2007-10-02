@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.23 2007/10/02 21:36:35 ioguix Exp $
+ * $Id: Postgres80.php,v 1.24 2007/10/02 21:44:35 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -171,7 +171,7 @@ class Postgres80 extends Postgres74 {
 		} else {
 			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
 						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
-						reltuples:bigint,
+						reltuples::bigint,
 						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
 					FROM pg_catalog.pg_class c
 					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
