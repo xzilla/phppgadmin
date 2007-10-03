@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.29 2007/09/13 14:53:41 ioguix Exp $
+     * $Id: french.php,v 1.30 2007/10/03 17:32:07 ioguix Exp $
      */
 
     // Language and character set
@@ -138,6 +138,7 @@
 	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
 	$lang['strselectall']  =  'S&#233;lectionner tout';
 	$lang['strunselectall']  =  'Des&#233;lectionner tout';
+$lang['strlocale']  =  'Locale';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -563,8 +564,11 @@
     $lang['strnotypes'] = 'Aucun type trouv&#233;.';
     $lang['strcreatetype'] = 'Cr&#233;er un type';
     $lang['strcreatecomptype']  =  'Cr&#233;er un type compos&#233;';
+	$lang['strcreateenumtype']  =  'Cr&#233;er un type enum';
     $lang['strtypeneedsfield']  =  'Vous devez sp&#233;cifier au moins un champ.';
+	$lang['strtypeneedsvalue']  =  'Vous devez sp&#233;cifier au moins une valeur.';
     $lang['strtypeneedscols']  =  'Vous devez sp&#233;cifier un nombre valide de champs.';
+	$lang['strtypeneedsvals']  =  'Vous devez sp&#233;cifier un nombre valide de valeurs.';
     $lang['strtypename'] = 'Nom du type';
     $lang['strinputfn'] = 'Fonction d\'entr&#233;e';
     $lang['stroutputfn'] = 'Fonction de sortie';
@@ -574,7 +578,9 @@
     $lang['strdelimiter'] = 'D&#233;limiteur';
     $lang['strstorage'] = 'Stockage';
     $lang['strfield']  =  'Champ';
+	$lang['strvalue']  =  'Valeur';
     $lang['strnumfields']  =  'Nombre de champs';
+	$lang['strnumvalues']  =  'Nombre de valeurs';
     $lang['strtypeneedsname'] = 'Vous devez indiquer un nom pour votre type.';
     $lang['strtypeneedslen'] = 'Vous devez indiquer une longueur pour votre type.';
     $lang['strtypecreated'] = 'Type cr&#233;&#233;';
@@ -586,6 +592,8 @@ $lang['strflavor']  =  'Flavor';
     $lang['strbasetype']  =  'Base';
     $lang['strcompositetype']  =  'Composite';
     $lang['strpseudotype']  =  'Pseudo';
+	$lang['strenum']  =  'Enum';
+$lang['strenumvalues']  =  'Enum Values';
 
     // Schemas
     $lang['strschema'] = 'Sch&#233;ma';
@@ -891,6 +899,7 @@ $lang['straggrstype']  =  'Data type for state value';
     //Table-level Locks
     $lang['strlocks']  =  'Verrous';
     $lang['strtransaction']  =  'ID de transaction';
+$lang['strvirtualtransaction']  =  'Virtual Transaction ID';
     $lang['strprocessid']  =  'ID du processus';
     $lang['strmode']  =  'Mode du verrou';
     $lang['strislockheld']  =  'Verrou d&#233;tenu ?';
@@ -899,4 +908,57 @@ $lang['straggrstype']  =  'Data type for state value';
     $lang['strpreparedxacts']  =  'Transactions pr&#233;par&#233;es';
     $lang['strxactid']  =  'ID de transaction';
     $lang['strgid']  =  'ID global';
+	
+	// Fulltext search
+$lang['strfulltext']  =  'Full Text Search';
+$lang['strftsconfig']  =  'FTS configuration';
+$lang['strftscreateconfig']  =  'Create FTS configuration';
+$lang['strftscreatedict']  =  'Create dictionary';
+$lang['strftscreatedicttemplate']  =  'Create dictionary template';
+$lang['strftscreateparser']  =  'Create parser';
+$lang['strftsnoconfigs']  =  'No FTS configuration found.';
+$lang['strftsconfigdropped']  =  'FTS configuration dropped.';
+$lang['strftsconfigdroppedbad']  =  'FTS configuration drop failed.';
+$lang['strconfdropftsconfig']  =  'Are you sure you want to drop the FTS configuration &quot;%s&quot;?';
+$lang['strconfdropftsdict']  =  'Are you sure you want to drop the FTS dictionary &quot;%s&quot;?';
+$lang['strconfdropftsmapping']  =  'Are you sure you want to drop mapping &quot;%s&quot; of FTS configuration &quot;%s&quot;?';
+$lang['strftstemplate']  =  'Template';
+$lang['strftsparser']  =  'Parser';
+$lang['strftsconfigneedsname']  =  'You must give a name for your FTS configuration.';
+$lang['strftsconfigcreated']  =  'FTS configuration created';
+$lang['strftsconfigcreatedbad']  =  'FTS configuration creation failed.';
+$lang['strftsmapping']  =  'Mapping';
+$lang['strftsdicts']  =  'Dictionaries';
+$lang['strftsdict']  =  'Dictionary';
+$lang['strftsemptymap']  =  'Empty FTS configuration map.';
+$lang['strftswithmap']  =  'With map';
+$lang['strftsmakedefault']  =  'Make default for given locale';
+$lang['strftsconfigaltered']  =  'FTS configuration altered.';
+$lang['strftsconfigalteredbad']  =  'FTS configuration alter failed.';
+$lang['strftsconfigmap']  =  'FTS configuration map';
+$lang['strftsparsers']  =  'FTS parsers';
+$lang['strftsnoparsers']  =  'No FTS parsers available.';
+$lang['strftsnodicts']  =  'No FTS dictionaries available.';
+$lang['strftsdictcreated']  =  'FTS dictionary created';
+$lang['strftsdictcreatedbad']  =  'FTS dictionary creation failed.';
+$lang['strftslexize']  =  'Lexize';
+$lang['strftsinit']  =  'Init';
+$lang['strftsoption']  =  'Option';
+$lang['strftsdictneedsname']  =  'You must give a name for your FTS dictionary.';
+$lang['strftsdictdropped']  =  'FTS dictionary dropped.';
+$lang['strftsdictdroppedbad']  =  'FTS dictionary drop failed.';
+$lang['strftsdictaltered']  =  'FTS dictionary altered.';
+$lang['strftsdictalteredbad']  =  'FTS dictionary alter failed.';
+$lang['strftsaddmapping']  =  'Add new mapping';
+$lang['strftsspecifymappingtodrop']  =  'You must specify at least one mapping to drop';
+$lang['strftsspecifyconfigtoalter']  =  'You must specify a FTS configuration to alter';
+$lang['strftsmappingdropped']  =  'FTS mapping dropped.';
+$lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
+$lang['strftsnodictionaries']  =  'No dictionaries found.';
+$lang['strftsmappingaltered']  =  'FTS mapping altered.';
+$lang['strftsmappingalteredbad']  =  'FTS mapping alter failed.';
+$lang['strftsmappingadded']  =  'FTS mapping added.';
+$lang['strftsmappingaddedbad']  =  'FTS mapping add failed.';
+	
+	
 ?>

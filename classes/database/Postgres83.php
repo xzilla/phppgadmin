@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.7 2007/09/25 09:53:11 ioguix Exp $
+ * $Id: Postgres83.php,v 1.8 2007/10/03 17:32:07 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -619,10 +619,70 @@ class Postgres83 extends Postgres82 {
  		$sql = "SELECT alias AS name, description FROM pg_catalog.ts_token_type({$cfg->fields['parser_id']}) ORDER BY name";
  		return $this->selectSet($sql);
  	}
+	
+	// Type functions
+	
+	/**
+	 * Creates a new enum type in the database
+	 * @param $name The name of the type
+	 * @param $values An array of values
+	 * @param $typcomment Type comment
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 no values supplied
+	 */
+	function createEnumType($name, $values, $typcomment) {
+		$this->fieldClean($name);
+		$this->clean($typcomment);
 
+		if (empty($values)) return -2;
+
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
+
+		$values = array_unique($values);
+
+		$nbval = count($values);
+
+		for ($i = 0; $i < $nbval; $i++)
+			$this->clean($values[$i]);
+
+		$sql = "CREATE TYPE \"{$name}\" AS ENUM ('";
+		$sql.= implode("','", $values);
+		$sql .= "')";
+
+		$status = $this->execute($sql);
+		if ($status) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		if ($typcomment != '') {
+			$status = $this->setComment('TYPE', $name, '', $typcomment, true);
+			if ($status) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		return $this->endTransaction();
+		
+	}
+
+	/**
+	 * Get defined values for a given enum
+	 * @return A recordset
+	 */
+	function getEnumValues($name) {
+		$this->fieldClean($name);
+
+		$sql = "SELECT enumlabel AS enumval FROM pg_catalog.pg_type t JOIN pg_catalog.pg_enum e ON (t.oid=e.enumtypid) WHERE t.typname = '{$name}' ORDER BY e.oid";
+		return $this->selectSet($sql);
+	}
 
 	// Capabilities
 	function hasCreateTableLikeWithIndexes() {return true;}
 	function hasVirtualTransactionId() {return true;}
+	function hasEnumTypes() {return true;}
 }
 ?>

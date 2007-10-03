@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.218 2007/09/18 05:03:29 xzilla Exp $
+	 * $Id: english.php,v 1.219 2007/10/03 17:32:07 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -562,8 +562,11 @@
 	$lang['strnotypes'] = 'No types found.';
 	$lang['strcreatetype'] = 'Create type';
 	$lang['strcreatecomptype'] = 'Create composite type';
+	$lang['strcreateenumtype'] = 'Create enum type';
 	$lang['strtypeneedsfield'] = 'You must specify at least one field.';
-	$lang['strtypeneedscols'] = 'You must specify a valid number of fields.';	
+	$lang['strtypeneedsvalue'] = 'You must specify at least one value.';
+	$lang['strtypeneedscols'] = 'You must specify a valid number of fields.';
+	$lang['strtypeneedsvals'] = 'You must specify a valid number of values.';
 	$lang['strtypename'] = 'Type name';
 	$lang['strinputfn'] = 'Input function';
 	$lang['stroutputfn'] = 'Output function';
@@ -573,7 +576,9 @@
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
 	$lang['strfield'] = 'Field';
+	$lang['strvalue'] = 'Value';
 	$lang['strnumfields'] = 'Num. of fields';
+	$lang['strnumvalues'] = 'Num. of values';
 	$lang['strtypeneedsname'] = 'You must give a name for your type.';
 	$lang['strtypeneedslen'] = 'You must give a length for your type.';
 	$lang['strtypecreated'] = 'Type created';
@@ -585,6 +590,8 @@
 	$lang['strbasetype'] = 'Base';
 	$lang['strcompositetype'] = 'Composite';
 	$lang['strpseudotype'] = 'Pseudo';
+	$lang['strenum'] = 'Enum';
+	$lang['strenumvalues'] = 'Enum Values';
 
 	// Schemas
 	$lang['strschema'] = 'Schema';

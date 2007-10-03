@@ -18,6 +18,7 @@ Features
 * Add alter name, owner & comment on views (ioguix)
 * Add column about called procedure + links to their definition in the triggers
   properties page (ioguix)
+* Add Support for Enum type creation (ioguix,xzilla)
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema
