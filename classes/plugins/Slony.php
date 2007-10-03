@@ -3,7 +3,7 @@
 /**
  * A class that implements the Slony 1.0.x support plugin
  *
- * $Id: Slony.php,v 1.14 2007/01/10 02:26:25 soranzo Exp $
+ * $Id: Slony.php,v 1.12.2.1 2007/10/03 01:12:28 xzilla Exp $
  */
 
 include_once('./classes/plugins/Plugin.php');
@@ -58,12 +58,12 @@ class Slony extends Plugin {
 					ORDER BY pn.nspname LIMIT 1";
 		$rs = $data->selectSet($sql);
 		if ($rs->recordCount() == 1) {
-			$schema = $rs->fields['schema'];
+			$schema = $rs->f['schema'];
 			$this->slony_schema = $schema;
-			$this->slony_owner = $rs->fields['owner'];
-			$this->slony_comment = $rs->fields['nspcomment'];
+			$this->slony_owner = $rs->f['owner'];
+			$this->slony_comment = $rs->f['nspcomment'];
 			// Cluster name is schema minus "_" prefix.
-			$this->slony_cluster = $rs->fields['cluster'];
+			$this->slony_cluster = $rs->f['cluster'];
 			$data->fieldClean($schema);
 			$sql = "SELECT \"{$schema}\".slonyversion() AS version";
 			$version = $data->selectField($sql, 'version');
@@ -493,7 +493,7 @@ class Slony extends Plugin {
 
 		$sql = "SELECT st.tab_id, c.relname, n.nspname, n.nspname||'.'||c.relname AS qualname,
 					pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
-					reltuples::integer";
+					reltuples::bigint";
 		// Tablespace
 		if ($data->hasTablespaces()) {
 			$sql .= ", (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace";
@@ -578,9 +578,9 @@ class Slony extends Plugin {
 	}
 		
 	/**
-	 * Drops a table from a replication set
+	 * Removes a table from a replication set
 	 */
-	function dropTable($tab_id) {
+	function removeTable($tab_id) {
 		global $data;
 
 		$schema = $this->slony_schema;
@@ -681,9 +681,9 @@ class Slony extends Plugin {
 		return $data->execute($sql);	}		
 		
 	/**
-	 * Drops a sequence from a replication set
+	 * Removes a sequence from a replication set
 	 */
-	function dropSequence($seq_id) {
+	function removeSequence($seq_id) {
 		global $data;
 
 		$schema = $this->slony_schema;
