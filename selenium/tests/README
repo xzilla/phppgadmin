@@ -1,0 +1,22 @@
+* cd to your ppa directory
+* ppa required conf
+	- in your conf/config.inc.php: $conf['default_lang'] = 'english';
+
+* setting your test environment
+	- set your values in your selenium/tests/config.inc.php
+
+/* deprecated
+ * * setting the database & objects for test
+ *	- edit selenium/tests/data/config.sql according to your config.tests.php
+ *	- install test database & users :
+ *		psql [...your options...]  -f selenium/tests/data/ppatests_install.sql
+ */
+
+* Running tests
+	- point your browser on http://your_server/your_ppa_rep/selenium/TestRunner.html
+	- on the left frame, "test suite" input, replace "../tests/TestSuite.html" with "tests/TestSuite.html", then click on "Go".
+	- on the right frame, just click on "Run all tests" or "Run the selected test"
+
+* cleaning your test database & objects
+	- psql [...your options...] -f selenium/tests/data/ppatests_remove.sql
+enjoy.
