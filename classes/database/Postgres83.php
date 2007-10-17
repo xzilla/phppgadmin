@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.9 2007/10/17 15:55:33 ioguix Exp $
+ * $Id: Postgres83.php,v 1.10 2007/10/17 18:24:32 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -700,5 +700,6 @@ class Postgres83 extends Postgres82 {
 	function hasCreateTableLikeWithIndexes() {return true;}
 	function hasVirtualTransactionId() {return true;}
 	function hasEnumTypes() {return true;}
+	function hasFTS() {return true;}
 }
 ?>

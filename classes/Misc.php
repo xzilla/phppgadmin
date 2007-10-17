@@ -2,20 +2,20 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.161 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: Misc.php,v 1.162 2007/10/17 18:24:32 ioguix Exp $
 	 */
-	 
+
 	class Misc {
-		// Tracking string to include in HREFs 
+		// Tracking string to include in HREFs
 		var $href;
 		// Tracking string to include in forms
 		var $form;
-		
+
 		/* Constructor */
 		function Misc() {
 		}
 
-		/** 
+		/**
 		 * Checks if dumps are properly set up
 		 * @param $all (optional) True to check pg_dumpall, false to just check pg_dump
 		 * @return True, dumps are set up, false otherwise
@@ -31,7 +31,7 @@
 		function setHREF() {
 			$this->href = $this->getHREF();
 		}
-		
+
 		/**
 		 * Get a href query string, excluding objects below the given object type (inclusive)
 		 */
@@ -97,15 +97,15 @@
 		 */
 		function printVal($str, $type = null, $params = array()) {
 			global $lang, $conf, $data;
-			
+
 			// Shortcircuit for a NULL value
 			if (is_null($str))
 				return isset($params['null'])
 						? ($params['null'] === true ? '<i>NULL</i>' : $params['null'])
 						: '';
-			
+
 			if (isset($params['map']) && isset($params['map'][$str])) $str = $params['map'][$str];
-			
+
 			// Clip the value if the 'clip' parameter is true.
 			if (isset($params['clip']) && $params['clip'] === true) {
 				$maxlen = isset($params['cliplen']) && is_integer($params['cliplen']) ? $params['cliplen'] : $conf['max_chars'];
@@ -116,7 +116,7 @@
 			}
 
 			$out = '';
-			
+
 			switch ($type) {
 				case 'int2':
 				case 'int4':
@@ -184,17 +184,17 @@
 						if ($str < $limit * $mult)
 							$out = floor(($str + $mult / 2) / $mult).' '.$lang['strkb'];
 						else
-						{ 							
+						{
 							$mult *= 1024;
 							if ($str < $limit * $mult)
 								$out = floor(($str + $mult / 2) / $mult).' '.$lang['strmb'];
 							else
-							{ 							
+							{
 								$mult *= 1024;
 								if ($str < $limit * $mult)
 									$out = floor(($str + $mult / 2) / $mult).' '.$lang['strgb'];
 								else
-								{ 							
+								{
 									$mult *= 1024;
 									if ($str < $limit * $mult)
 										$out = floor(($str + $mult / 2) / $mult).' '.$lang['strtb'];
@@ -227,15 +227,15 @@
 						$out = nl2br(htmlspecialchars($str));
 					}
 			}
-			
+
 			if (isset($params['class'])) $class = $params['class'];
 			if (isset($params['align'])) $align = $params['align'];
-			
+
 			if (!isset($tag) && (isset($class) || isset($align))) $tag = 'div';
-			
+
 			if (isset($tag)) {
 				$alignattr = isset($align) ? " style=\"text-align: {$align}\"" : '';
-				$classattr = isset($class) ? " class=\"{$class}\"" : '';				
+				$classattr = isset($class) ? " class=\"{$class}\"" : '';
 				$out = "<{$tag}{$alignattr}{$classattr}>{$out}</{$tag}>";
 			}
 
@@ -266,12 +266,12 @@
 			if (is_array($var)) {
 				foreach($var as $k => $v) {
 					$this->stripVar($var[$k]);
-				}		
+				}
 			}
 			else
-				$var = stripslashes($var);	
+				$var = stripslashes($var);
 		}
-		
+
 		/**
 		 * Print out the page heading and help link
 		 * @param $title Title, already escaped
@@ -279,12 +279,12 @@
 		 */
 		function printTitle($title, $help = null) {
 			global $data, $lang;
-			
+
 			echo "<h2>";
 			$this->printHelp($title, $help);
 			echo "</h2>\n";
 		}
-		
+
 		/**
 		 * Print out a message
 		 * @param $msg The message to print
@@ -298,7 +298,7 @@
 		 */
 		function getDatabaseAccessor($database, $server_id = null) {
 			global $lang, $conf, $misc, $_connection;
-			
+
 			$server_info = $this->getServerInfo($server_id);
 
 			// Perform extra security checks if this config option is set
@@ -306,9 +306,9 @@
 				// Disallowed logins if extra_login_security is enabled.
 				// These must be lowercase.
 				$bad_usernames = array('pgsql', 'postgres', 'root', 'administrator');
-				
+
 				$username = strtolower($server_info['username']);
-				
+
 				if ($server_info['password'] == '' || in_array($username, $bad_usernames)) {
 					unset($_SESSION['webdbLogin'][$_REQUEST['server']]);
 					$msg = $lang['strlogindisallowed'];
@@ -316,7 +316,7 @@
 					exit;
 				}
 			}
-			
+
 			// Create the connection object and make the connection
 			$_connection = new Connection(
 				$server_info['host'],
@@ -335,7 +335,7 @@
 				exit;
 			}
 			$this->setServerInfo('platform', $platform, $server_id);
-			
+
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
 			include_once('./classes/database/' . $_type . '.php');
@@ -363,7 +363,7 @@
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
 				} else if (isset($conf['use_xhtml_strict']) && $conf['use_xhtml_strict']) {
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Strict.dtd\">\n";
-				} else {						
+				} else {
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-Transitional.dtd\">\n";
 				}
 				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"{$lang['applocale']}\" lang=\"{$lang['applocale']}\"";
@@ -406,7 +406,7 @@
 		 * @param $bodyClass - name of body class
 		 */
 		function printBody($bodyClass = '', $doBody = true ) {
-			global $_no_output;			
+			global $_no_output;
 
 			if (!isset($_no_output)) {
 				if ($doBody) {
@@ -437,43 +437,43 @@
 		 */
 		function printTabs($tabs, $activetab) {
 			global $misc, $conf, $data, $lang;
-			
+
 			if (is_string($tabs)) {
 				$_SESSION['webdbLastTab'][$tabs] = $activetab;
 				$tabs = $this->getNavTabs($tabs);
 			}
-			
+
 			echo "<table class=\"tabs\"><tr>\n";
 			#echo "<div class=\"tabs\">\n";
-			
+
 			# FIXME: don't count hidden tags
 			$width = round(100 / count($tabs)).'%';
-			
+
 			foreach ($tabs as $tab_id => $tab) {
 				$active = ($tab_id == $activetab) ? ' active' : '';
-				
+
 				if (!isset($tab['hide']) || $tab['hide'] !== true) {
-					
+
 					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">";
-					
+
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
 						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$tab['title']}\" /></span>";
-					
+
 					$tablink .= "<span class=\"label\">{$tab['title']}</span></a>";
-					
+
 					echo "<td style=\"width: {$width}\" class=\"tab{$active}\">";
 					#echo "<span class=\"tab{$active}\" style=\"white-space:nowrap;\">";
-					
+
 					if (isset($tab['help']))
 						$this->printHelp($tablink, $tab['help']);
 					else
 						echo $tablink;
-					
+
 					echo "</td>\n";
 					#echo "</span>\n";
 				}
 			}
-			
+
 			echo "</tr></table>\n";
 			#echo "</div>\n";
 		}
@@ -486,7 +486,7 @@
 			global $data, $lang, $conf, $slony;
 
 			$hide_advanced = ($conf['show_advanced'] === false);
-			
+
 			switch ($section) {
 				case 'root':
 					return array (
@@ -546,8 +546,8 @@
 							)
 						));
 					}
-					
-					$tmp = array_merge($tmp, array(							
+
+					$tmp = array_merge($tmp, array(
 						'account' => array (
 							'title' => $lang['straccount'],
 							'url'   => $data->hasRoles() ? 'roles.php' : 'users.php',
@@ -653,7 +653,7 @@
 							'title' => $lang['strfulltext'],
 							'url'   => 'fulltext.php',
 							'urlvars' => array('subject' => 'database'),
-							'hide'  => false,
+							'hide'  => !$data->hasFTS(),
 							'help'  => 'PUT_DOC_LINK_HERE',
 							'tree'  => true,
 							'icon'  => 'Fts',
@@ -851,7 +851,7 @@
 							'hide'	=> false,
 						),
 					);
-				
+
 				case 'view':
 					return array (
 						'columns' => array (
@@ -890,7 +890,7 @@
 							'hide'	=> false,
 						),
 					);
-				
+
 				case 'function':
 					return array (
 						'definition' => array (
@@ -915,7 +915,7 @@
 							'icon'  => 'Privileges',
 						),
 					);
-					
+
 				case 'aggregate':
 					return array (
 						'definition' => array (
@@ -944,7 +944,7 @@
 							'icon'  => 'Definition',
 						),
 					);
-			
+
 				case 'popup':
 					return array (
 						'sql' => array (
@@ -961,7 +961,7 @@
 							'icon'  => 'Search',
 						),
 					);
-				
+
 				case 'slony_cluster':
 					return array (
 						'properties' => array (
@@ -1011,7 +1011,7 @@
 							'icon'		=> 'Column'
 						)
 					);
-					
+
 				default:
 					return array();
 			}
@@ -1035,22 +1035,22 @@
 				default:
 					$tabs = $this->getNavTabs($section);
 			}
-		
+
 			if (isset($_SESSION['webdbLastTab'][$section]) && isset($tabs[$_SESSION['webdbLastTab'][$section]]))
 				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];
 			else
 				$tab = reset($tabs);
-			
+
 			return isset($tab['url']) ? $tab['url'] : null;
 		}
 
 		function printTopbar() {
 			global $lang, $conf, $appName, $appVersion, $appLangFiles;
-			
+
 			$server_info = $this->getServerInfo();
-			
+
 			echo "<div class=\"topbar\"><table style=\"width: 100%\"><tr><td>";
-			
+
 			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {
 				echo sprintf($lang['strtopbar'],
 					'<span class="platform">'.htmlspecialchars($server_info['platform']).'</span>',
@@ -1061,27 +1061,27 @@
 			} else {
 				echo "<span class=\"appname\">$appName</span> <span class=\"version\">$appVersion</span>";
 			}
-			
+
 			echo "</td>";
 
 			if (isset($_REQUEST['server'])) {
 				$url = "sqledit.php?{$this->href}&amp;action=";
-				
+
 				$window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
-				
+
 				echo "<td style=\"text-align: right\">";
 
 				echo "<ul class=\"toplink\">\n\t<li><a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a></li>\n";
-				
+
 				echo "\t<li><a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a></li>\n";
-				
+
  				echo "\t<li><a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\">{$lang['strlogout']}</a></li>\n</ul>\n";
-				
+
 				echo "</td>";
 			}
 /*
 			echo "<td style=\"text-align: right; width: 1%\">";
-			
+
 			echo "<form method=\"get\"><select name=\"language\" onchange=\"this.form.submit()\">\n";
 			$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
 			foreach ($appLangFiles as $k => $v) {
@@ -1096,38 +1096,38 @@
 				echo "<input type=\"hidden\" name=\"$key\" value=\"", htmlspecialchars($val), "\" />\n";
 			}
 			echo "</form>\n";
-			
+
 			echo "</td>";
 */
 			echo "</tr></table></div>\n";
 		}
-		
+
 		/**
 		 * Display a bread crumb trail.
 		 */
 		function printTrail($trail = array()) {
 			global $lang;
-			
+
 			$this->printTopbar();
-			
+
 			if (is_string($trail)) {
 				$trail = $this->getTrail($trail);
 			}
-			
+
 			echo "<div class=\"trail\"><table><tr>";
-			
+
 			foreach ($trail as $crumb) {
 				echo "<td class=\"crumb\">";
 				$crumblink = "<a";
-				
+
 				if (isset($crumb['url']))
 					$crumblink .= ' href="' . $this->printVal($crumb['url'], 'nbsp') . '"';
-				
+
 				if (isset($crumb['title']))
 					$crumblink .= " title=\"{$crumb['title']}\"";
-				
+
 				$crumblink .= ">";
-				
+
 				if (isset($crumb['title']))
 					$iconalt = $crumb['title'];
 				else
@@ -1135,18 +1135,18 @@
 
 				if (isset($crumb['icon']) && $icon = $this->icon($crumb['icon']))
 					$crumblink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$iconalt}\" /></span>";
-				 
+
 				$crumblink .= "<span class=\"label\">" . htmlspecialchars($crumb['text']) . "</span></a>";
-				
+
 				if (isset($crumb['help']))
 					$this->printHelp($crumblink, $crumb['help']);
 				else
 					echo $crumblink;
-				
+
 				echo "{$lang['strseparator']}";
 				echo "</td>";
 			}
-			
+
 			echo "</tr></table></div>\n";
 		}
 
@@ -1160,15 +1160,15 @@
 			$trail = array();
 			$vars = '';
 			$done = false;
-			
+
 			$trail['root'] = array(
 				'text'  => $appName,
 				'url'   => 'redirect.php?subject=root',
 				'icon'  => 'Introduction'
 			);
-			
+
 			if ($subject == 'root') $done = true;
-			
+
 			if (!$done) {
 				$vars = 'server='.urlencode($_REQUEST['server']).'&';
 				$server_info = $this->getServerInfo();
@@ -1181,7 +1181,7 @@
 				);
 			}
 			if ($subject == 'server') $done = true;
-			
+
 			if (isset($_REQUEST['database']) && !$done) {
 				$vars .= 'database='.urlencode($_REQUEST['database']).'&';
 				$trail['database'] = array(
@@ -1202,7 +1202,7 @@
 				);
 			}
 			if ($subject == 'database' || $subject == 'role') $done = true;
-			
+
 			if (isset($_REQUEST['schema']) && !$done) {
 				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';
 				$trail['schema'] = array(
@@ -1214,7 +1214,7 @@
 				);
 			}
 			if ($subject == 'schema') $done = true;
-			
+
 			if (isset($_REQUEST['slony_cluster']) && !$done) {
 				$vars .= 'slony_cluster='.urlencode($_REQUEST['slony_cluster']).'&';
 				$trail['slony_cluster'] = array(
@@ -1226,7 +1226,7 @@
 				);
 			}
 			if ($subject == 'slony_cluster') $done = true;
-			
+
 			if (isset($_REQUEST['table']) && !$done) {
 				$vars .= "subject=table&table=".urlencode($_REQUEST['table']);
 				$trail['table'] = array(
@@ -1254,9 +1254,9 @@
 					'help'  => 'PUT_DOC_LINK_HERE',
 					'icon'  => 'Fts'
 				);
-			} 
+			}
 			if ($subject == 'table' || $subject == 'view' || $subject == 'ftscfg') $done = true;
-			
+
 			if (!$done && !is_null($subject)) {
 				switch ($subject) {
 					case 'function':
@@ -1272,7 +1272,7 @@
 						break;
 					case 'aggregate':
 						$vars .= "subject=aggregate&action=properties&aggrname=".urlencode($_REQUEST['aggrname']);
-						$vars .= "&aggrtype=".urlencode($_REQUEST['aggrtype']);	
+						$vars .= "&aggrtype=".urlencode($_REQUEST['aggrtype']);
 						$trail[$subject] = array(
 							'title' => $lang['straggregate'],
 							'text'  => $_REQUEST['aggrname'],
@@ -1329,7 +1329,7 @@
 						}
 				}
 			}
-			
+
 			return $trail;
 		}
 
@@ -1357,25 +1357,25 @@
 					$temp = str_replace('%s', $page - 1, $url);
 					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strprev']}</a>\n";
 				}
-				
-				if ($page <= $window) { 
-					$min_page = 1; 
-					$max_page = min(2 * $window, $pages); 
+
+				if ($page <= $window) {
+					$min_page = 1;
+					$max_page = min(2 * $window, $pages);
 				}
-				elseif ($page > $window && $pages >= $page + $window) { 
-					$min_page = ($page - $window) + 1; 
-					$max_page = $page + $window; 
+				elseif ($page > $window && $pages >= $page + $window) {
+					$min_page = ($page - $window) + 1;
+					$max_page = $page + $window;
 				}
-				else { 
-					$min_page = ($page - (2 * $window - ($pages - $page))) + 1; 
-					$max_page = $pages; 
+				else {
+					$min_page = ($page - (2 * $window - ($pages - $page))) + 1;
+					$max_page = $pages;
 				}
-				
+
 				// Make sure min_page is always at least 1
 				// and max_page is never greater than $pages
 				$min_page = max($min_page, 1);
 				$max_page = min($max_page, $pages);
-				
+
 				for ($i = $min_page; $i <= $max_page; $i++) {
 					$temp = str_replace('%s', $i, $url);
 					if ($i != $page) echo "<a class=\"pagenav\" href=\"{$temp}\">$i</a>\n";
@@ -1389,16 +1389,16 @@
 				}
 				echo "</p>\n";
 			}
-		}		
+		}
 
 		/**
 		 * Displays link to the context help.
-		 * @param $str   - the string that the context help is related to (already escaped) 
+		 * @param $str   - the string that the context help is related to (already escaped)
 		 * @param $help  - help section identifier
 		 */
 		function printHelp($str, $help) {
 			global $lang, $data;
-			
+
 			echo $str;
 			if ($help) {
 				echo "<a class=\"help\" href=\"";
@@ -1406,8 +1406,8 @@
 				echo "\" title=\"{$lang['strhelp']}\" target=\"phppgadminhelp\">{$lang['strhelpicon']}</a>";
 			}
 		}
-	
-		/** 
+
+		/**
 		 * Outputs JavaScript to set default focus
 		 * @param $object eg. forms[0].username
 		 */
@@ -1416,7 +1416,7 @@
 			echo "   document.{$object}.focus();\n";
 			echo "</script>\n";
 		}
-		
+
 		/**
 		 * Outputs JavaScript to set the name of the browser window.
 		 * @param $name the window name
@@ -1476,15 +1476,15 @@
 		 */
 		function printActionUrl(&$action, &$fields, $attr = null) {
 			$url = value($action['url'], $fields);
-			
+
 			if ($url === false) return '';
-			
+
 			if (!empty($action['urlvars'])) {
 				$urlvars = value($action['urlvars'], $fields);
 			} else {
 				$urlvars = array();
 			}
-			
+
 			if (isset($urlvars['subject'])) {
 				$subject = value($urlvars['subject'], $fields);
 				if (isset($_REQUEST['server']) && $subject != 'root') {
@@ -1497,15 +1497,15 @@
 					}
 				}
 			}
-			
+
 			$sep = '?';
 			foreach ($urlvars as $var => $varfield) {
 				$url .= $sep . value_url($var, $fields) . '=' . value_url($varfield, $fields);
 				$sep = '&';
 			}
-			
+
 			$url = htmlentities($url);
-			
+
 			if ($attr !== null && $url != '')
 				return ' '.$attr.'="'.$url.'"';
 			else
@@ -1527,13 +1527,13 @@
 			}
 			return $v;
 		}
-		
+
 		function printUrlVars(&$vars, &$fields) {
 			foreach ($vars as $var => $varfield) {
 				echo "{$var}=", urlencode($fields[$varfield]), "&amp;";
 			}
 		}
-		
+
 		/**
 		 * Display a table of data.
 		 * @param $tabledata A set of data to be formatted, as returned by $data->getDatabases() etc.
@@ -1546,8 +1546,8 @@
 		 *				), ...
 		 *			);
 		 * @param $actions   Actions that can be performed on each object:
-		 *			$actions = array( 
-		 *				* multi action support 
+		 *			$actions = array(
+		 *				* multi action support
 		 *				* parameters are serialized for each entries and given in $_REQUEST['ma']
 		 *				'multiactions' => array(
 		 *					'keycols' => Associative array of (URL variable => field name), // fields included in the form
@@ -1583,7 +1583,7 @@
 			unset($actions['multiactions']);
 
 			if ($tabledata->recordCount() > 0) {
-				
+
 				// Remove the 'comment' column if they have been disabled
 				if (!$conf['show_comments']) {
 					unset($columns['comment']);
@@ -1623,12 +1623,12 @@
 					}
 				}
 				echo "</tr>\n";
-				
+
 				// Display table rows
 				$i = 0;
 				while (!$tabledata->EOF) {
 					$id = ($i % 2) + 1;
-					
+
 					unset($alt_actions);
 					if (!is_null($pre_fn)) $alt_actions = $pre_fn($tabledata, $actions);
 					if (!isset($alt_actions)) $alt_actions =& $actions;
@@ -1641,7 +1641,7 @@
 						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a)) ."\" />";
 						echo "</td>\n";
 					}
-						
+
 					foreach ($columns as $column_id => $column) {
 
 						// Apply default values for missing parameters
@@ -1681,7 +1681,7 @@
 						}
 					}
 					echo "</tr>\n";
-					
+
 					$tabledata->moveNext();
 					$i++;
 				}
@@ -1695,7 +1695,7 @@
 					echo "<table>\n";
 					echo "<tr>\n";
 					echo "<th class=\"data\" style=\"text-align: left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
-					echo "</tr>\n"; 
+					echo "</tr>\n";
 					echo "<tr>\n";
 					echo "<td class=\"data1\">";
 					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strselectall']}</a> / ";
@@ -1715,8 +1715,8 @@
 					echo "</tr>\n";
 					echo "</table>\n";
 					echo '</form>';
-				}; 
-				
+				};
+
 				return true;
 			} else {
 				if (!is_null($nodata)) {
@@ -1725,7 +1725,7 @@
 				return false;
 			}
 		}
-		
+
 		/** Produce XML data for the browser tree
 		 * @param $treedata A set of records to populate the tree.
 		 * @param $attrs Attributes for tree items
@@ -1743,53 +1743,53 @@
 		 */
 		function printTreeXML(&$treedata, &$attrs) {
 			global $conf, $lang;
-			
+
 			if (!isset($attrs['nohead']) || $attrs['nohead'] === false) {
 				header("Content-Type: text/xml");
 				header("Cache-Control: no-cache");
-				
+
 				echo "<?xml version=\"1.0\"?>\n";
-				
+
 				echo "<tree>\n";
 			}
-			
+
 			if ($treedata->recordCount() > 0) {
 				while (!$treedata->EOF) {
 					$rec =& $treedata->fields;
-					
+
 					echo "<tree";
 					echo value_xml_attr('text', $attrs['text'], $rec);
 					echo value_xml_attr('action', $attrs['action'], $rec);
 					echo value_xml_attr('src', $attrs['branch'], $rec);
-					
+
 					$icon = $this->icon(value($attrs['icon'], $rec));
 					echo value_xml_attr('icon', $icon, $rec);
 					echo value_xml_attr('iconaction', $attrs['iconAction'], $rec);
-					
+
 					if (!empty($attrs['openicon'])) {
 						$icon = $this->icon(value($attrs['openIcon'], $rec));
 					}
 					echo value_xml_attr('openicon', $icon, $rec);
-					
+
 					echo value_xml_attr('tooltip', $attrs['toolTip'], $rec);
-					
+
 					echo "/>\n";
-					
+
 					$treedata->moveNext();
 				}
 			} else {
 				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
 				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('ObjectNotFound'), "\"/>\n";
 			}
-			
+
 			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
 				echo "</tree>\n";
 			}
 		}
-		
+
 		function adjustTabsForTree(&$tabs) {
 			include_once('./classes/ArrayRecordSet.php');
-			
+
 			foreach ($tabs as $i => $tab) {
 				if ((isset($tab['hide']) && $tab['hide'] === true) || (isset($tab['tree']) && $tab['tree'] === false)) {
 					unset($tabs[$i]);
@@ -1797,7 +1797,7 @@
 			}
 			return new ArrayRecordSet($tabs);
 		}
-		
+
 		function icon($icon) {
 			global $conf;
 			$path = "images/themes/{$conf['theme']}/{$icon}";
@@ -1808,7 +1808,7 @@
 			if (file_exists($path.'.gif')) return $path.'.gif';
 			return '';
 		}
-		
+
 		/**
 		 * Function to escape command line parameters
 		 * @param $str The string to escape
@@ -1816,7 +1816,7 @@
 		 */
 		function escapeShellArg($str) {
 			global $data, $lang;
-			
+
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				// Due to annoying PHP bugs, shell arguments cannot be escaped
 				// (command simply fails), so we cannot allow complex objects
@@ -1826,9 +1826,9 @@
 				else {
 					echo $lang['strcannotdumponwindows'];
 					exit;
-				}				
+				}
 			}
-			else	
+			else
 				return escapeshellarg($str);
 		}
 
@@ -1839,15 +1839,15 @@
 		 */
 		function escapeShellCmd($str) {
 			global $data;
-			
+
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$data->fieldClean($str);
 				return '"' . $str . '"';
 			}
-			else	
+			else
 				return escapeshellcmd($str);
 		}
-		
+
 		/**
 		 * Get list of servers
 		 * @param $recordset return as RecordSet suitable for printTable if true,
@@ -1855,30 +1855,30 @@
 		 */
 		function getServers($recordset = false) {
 			global $conf;
-			
+
 			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
 
 			foreach($conf['servers'] as $idx => $info) {
 				$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
-				
+
 				if (!isset($srvs[$server_id])) {
 					$srvs[$server_id] = $info;
 				}
 				$srvs[$server_id]['id'] = $server_id;
 			}
-			
+
 			function _cmp_desc($a, $b) {
 				return strcmp($a['desc'], $b['desc']);
 			}
 			uasort($srvs, '_cmp_desc');
-			
+
 			if ($recordset) {
 				include_once('./classes/ArrayRecordSet.php');
 				return new ArrayRecordSet($srvs);
 			}
 			return $srvs;
 		}
-		
+
 		/**
 		 * Validate and retrieve information on a server.
 		 * If the parameter isn't supplied then the currently
@@ -1891,11 +1891,11 @@
 
 			if ($server_id === null && isset($_REQUEST['server']))
 				$server_id = $_REQUEST['server'];
-			
+
 			// Check for the server in the logged-in list
 			if (isset($_SESSION['webdbLogin'][$server_id]))
 				return $_SESSION['webdbLogin'][$server_id];
-			
+
 			// Otherwise, look for it in the conf file
 			foreach($conf['servers'] as $idx => $info) {
 				if ($server_id == $info['host'].':'.$info['port'].':'.$info['sslmode']) {
@@ -1906,7 +1906,7 @@
 						$_reload_browser = true;
 						$this->setServerInfo(null, $info, $server_id);
 					}
-					
+
 					return $info;
 				}
 			}
@@ -1914,12 +1914,12 @@
 			if ($server_id === null){
 				return null;
 			} else {
-				// Unable to find a matching server, are we being hacked? 
+				// Unable to find a matching server, are we being hacked?
 				echo $lang['strinvalidserverparam'];
 				exit;
-			}	
+			}
 		}
-		
+
 		/**
 		 * Set server information.
 		 * @param $key parameter name to set, or null to replace all
@@ -1932,7 +1932,7 @@
 		{
 			if ($server_id === null && isset($_REQUEST['server']))
 				$server_id = $_REQUEST['server'];
-			
+
 			if ($key === null) {
 				if ($value === null)
 					unset($_SESSION['webdbLogin'][$server_id]);
