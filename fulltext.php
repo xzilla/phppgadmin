@@ -3,7 +3,7 @@
 	/**
 	 * Manage fulltext configurations, dictionaries and mappings
 	 *
-	 * $Id: fulltext.php,v 1.2 2007/09/13 14:31:41 xzilla Exp $
+	 * $Id: fulltext.php,v 1.3 2007/10/17 20:56:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,17 +11,17 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	
+
 	function doDefault($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('database');
 		$misc->printTabs('database','fulltext');
 		$misc->printMsg($msg);
-		
+
 		$cfgs = $data->getFtsConfigurations();
-		
+
 		$columns = array(
 			'configuration' => array(
 				'title' => $lang['strftsconfig'],
@@ -41,7 +41,7 @@
 				'field' => field('comment'),
 			),
 		);
-		
+
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
@@ -52,19 +52,19 @@
 				'title' => $lang['stralter'],
 				'url'   => "fulltext.php?action=alterconfig&amp;{$misc->href}&amp;",
 				'vars'  => array('ftscfg' => 'name'),
-			),			
+			),
 		);
-		
+
 		$misc->printTable($cfgs, $columns, $actions, $lang['strftsnoconfigs']);
-		
-		
+
+
 		echo "<ul class=\"navlink\">\n";
 		echo "\t<li><a href=\"fulltext.php?action=createconfig&amp;{$misc->href}\">{$lang['strftscreateconfig']}</a></li>\n";
 		echo "\t<li><a href=\"fulltext.php?action=createdict&amp;{$misc->href}\">{$lang['strftscreatedict']}</a></li>\n";
 		echo "\t<li><a href=\"fulltext.php?action=createparser&amp;{$misc->href}\">{$lang['strftscreateparser']}</a></li>\n";
 		echo "</ul>\n";
 	}
-	
+
 	function doDropConfig($confirm) {
 		global $data, $data, $misc;
 		global $lang, $_reload_browser;
@@ -97,7 +97,7 @@
 			else
 				doDefault($lang['strftsconfigdroppedbad']);
 		}
-		
+
 	}
 
 	function doDropDict($confirm) {
@@ -118,8 +118,8 @@
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"dropdict\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"ftsdict\" value=\"", htmlspecialchars($_REQUEST['ftsdict']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";			
-			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";						
+			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -134,9 +134,9 @@
 			else
 				doDefault($lang['strftsdictdroppedbad']);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Displays a screen where one can enter a new FTS configuration
 	 */
@@ -145,7 +145,7 @@
 		global $lang;
 
 		$server_info = $misc->getServerInfo();
-		
+
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formParser'])) $_POST['formParser'] = '';
 		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = '';
@@ -160,13 +160,13 @@
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strftscreateconfig'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
 		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
-								
+
 		// Template
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftstemplate']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\" onchange=\"document.getElementsByName('formWithMap')[0].disabled = !this.value;if(!this.value)document.getElementsByName('formWithMap')[0].checked = false;\">\n";
@@ -178,10 +178,10 @@
 			$ftscfgs->moveNext();
 		}
 		echo "\t\t\t</select>\n";
-		echo "\t\t<input type=\"checkbox\" disabled=\"disabled\" id=\"withmap\" name=\"formWithMap\"", 
-			$_POST['formWithMap'] ? ' checked="checked"' : '', 
+		echo "\t\t<input type=\"checkbox\" disabled=\"disabled\" id=\"withmap\" name=\"formWithMap\"",
+			$_POST['formWithMap'] ? ' checked="checked"' : '',
 			" /> <label for=\"withmap\">{$lang['strftswithmap']}</label></td>\n\t</tr>\n";
-		
+
 		// Parser
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsparser']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formParser\">\n";
@@ -193,12 +193,12 @@
 			$ftsparsers->moveNext();
 		}
 		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
-				
+
 		// Comment
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">",
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
-			
+
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"createconfig\" />\n";
@@ -228,14 +228,14 @@
 			else
 				doCreateConfig($lang['strftsconfigcreatedbad']);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Display a form to permit editing FTS configuration properies.
 	 */
 	function doAlterConfig($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$misc->printTrail('ftscfg');
 		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
@@ -248,19 +248,19 @@
 			if (!isset($_POST['formParser'])) $_POST['formParser'] = '';
 
 			// Fetch all FTS parsers from the database
-			$ftsparsers = $data->getFtsParsers();			
+			$ftsparsers = $data->getFtsParsers();
 
 			echo "<form action=\"fulltext.php\" method=\"post\">\n";
 			echo "<table>\n";
-		
+
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">";
-			echo "\t\t\t<input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "\t\t\t<input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['formName']), "\" />\n";
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
-			
+
 			// Parser
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsparser']}</th>\n";
 			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formParser\">\n";
@@ -271,8 +271,8 @@
 				$ftsparsers->moveNext();
 			}
 			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
-			
-			// Comment			
+
+			// Comment
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"formComment\">", htmlspecialchars($_POST['formComment']), "</textarea></td>\n";
@@ -294,30 +294,30 @@
 	 */
 	function doSaveAlterConfig($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$status = $data->updateFtsConfiguration($_POST['ftscfg'], $_POST['formComment'], $_POST['formName']);
 		if ($status == 0)
 			doDefault($lang['strftsconfigaltered']);
 		else
 			doAlterConfig($lang['strftsconfigalteredbad']);
 	}
-	
-	
+
+
 	/**
 	 * View details of FTS configuration given
 	 */
 	function doViewConfig($ftscfg, $msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('ftscfg');
 		$misc->printTabs('database','fulltext');
 		$misc->printMsg($msg);
-		
+
 		echo "<h3>{$lang['strftsparsers']}</h3>\n";
-		
+
 		$parsers = $data->getFtsParsers();
-		
+
 		$columns = array(
 			'schema' => array(
 				'title' => $lang['strschema'],
@@ -331,17 +331,17 @@
 				'title' => $lang['strcomment'],
 				'field' => field('comment'),
 			),
-			
+
 		);
-		
+
 		$actions = array();
-		
+
 		$misc->printTable($parsers, $columns, $actions, $lang['strftsnoparsers']);
-		
+
 		echo "<h3>{$lang['strftsdicts']}</h3>\n";
-		
+
 		$dicts = $data->getFtsDictionaries();
-		
+
 		$columns = array(
 			'schema' => array(
 				'title' => $lang['strschema'],
@@ -353,14 +353,14 @@
 			),
 			'actions' => array(
 				'title' => $lang['stractions'],
-			),			
+			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
 				'field' => field('comment'),
 			),
-			
+
 		);
-		
+
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
@@ -371,15 +371,15 @@
 				'title' => $lang['stralter'],
 				'url'   => "fulltext.php?action=alterdict&amp;{$misc->href}&amp;ftscfg={$ftscfg}&amp;",
 				'vars'  => array('ftsdict' => 'name'),
-			),			
+			),
 		);
-		
+
 		$misc->printTable($dicts, $columns, $actions, $lang['strftsnodicts']);
-		
+
 		echo "<h3>{$lang['strftsconfigmap']}</h3>\n";
-		
+
 		$map = $data->getFtsConfigurationMap($ftscfg);
-		
+
 		$columns = array(
 			'name' => array(
 				'title' => $lang['strftsmapping'],
@@ -397,9 +397,9 @@
 			'comment' => array(
 				'title' => $lang['strcomment'],
 				'field' => field('description'),
-			),			
+			),
 		);
-		
+
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
@@ -419,19 +419,19 @@
 				'default' => null,
 				'vars'  => array('ftscfg' => $ftscfg),
 			),
-			
+
 		);
-		
+
 		$misc->printTable($map, $columns, $actions, $lang['strftsemptymap']);
 
-		echo "<ul class=\"navlink\">\n";				
+		echo "<ul class=\"navlink\">\n";
 		echo "\t<li><a href=\"fulltext.php?action=addmapping&amp;{$misc->href}&ftscfg={$ftscfg}\">{$lang['strftsaddmapping']}</a></li>\n";
 		echo "\t<li><a href=\"#\">{$lang['strftscreateconfig']}</a></li>\n";
 		echo "<\t<li>a href=\"#\">{$lang['strftscreatedict']}</a></li>\n";
 		echo "</ul>\n";
-		
+
 	}
-	
+
 	/**
 	 * Displays a screen where one can enter a details of a new FTS dictionary
 	 */
@@ -440,7 +440,7 @@
 		global $lang;
 
 		$server_info = $misc->getServerInfo();
-		
+
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = '';
 		if (!isset($_POST['formLexize'])) $_POST['formLexize'] = '';
@@ -454,16 +454,16 @@
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strftscreatedict'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
 		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-			htmlspecialchars($_POST['formName']), "\" />&nbsp;", 
-			"<input type=\"checkbox\" name=\"formIsTemplate\" id=\"formIsTemplate\"", @$_POST['formIsTemplate'] ? ' checked="checked" ' : '', 
+			htmlspecialchars($_POST['formName']), "\" />&nbsp;",
+			"<input type=\"checkbox\" name=\"formIsTemplate\" id=\"formIsTemplate\"", @$_POST['formIsTemplate'] ? ' checked="checked" ' : '',
 			"onchange=\"document.getElementsByName('formTemplate')[0].disabled = this.checked;document.getElementsByName('formLexize')[0].disabled = !this.checked;document.getElementsByName('formInit')[0].disabled = !this.checked;\" />",
 			"<label for=\"formIsTemplate\">{$lang['strftscreatedicttemplate']}</label></td>\n\t</tr>\n";
-								
+
 		// Template
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftstemplate']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\"", @$_POST['formIsTemplate'] ? ' disabled="disabled"' : '', ">\n";
@@ -474,30 +474,30 @@
 				($ftsdict == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$ftsdict}</option>\n";
 			$ftsdicttemplates->moveNext();
 		}
-		
+
 		// TODO: what about maxlengths?
 		// Lexize
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftslexize']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formLexize\" size=\"32\" maxlength=\"1000\" value=\"",
-			htmlspecialchars($_POST['formLexize']), "\" ", @$_POST['formIsTemplate'] ? '' : ' disabled="disabled" ', 
+			htmlspecialchars($_POST['formLexize']), "\" ", @$_POST['formIsTemplate'] ? '' : ' disabled="disabled" ',
 			"/></td>\n\t</tr>\n";
 
 		// Init
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsinit']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formInit\" size=\"32\" maxlength=\"1000\" value=\"",
-			htmlspecialchars($_POST['formInit']), "\"", @$_POST['formIsTemplate'] ? '' : ' disabled="disabled" ', 
+			htmlspecialchars($_POST['formInit']), "\"", @$_POST['formIsTemplate'] ? '' : ' disabled="disabled" ',
 			"/></td>\n\t</tr>\n";
 
 		// Option
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsoption']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formOption\" size=\"32\" maxlength=\"1000\" value=\"",
 			htmlspecialchars($_POST['formOption']), "\" /></td>\n\t</tr>\n";
-		
+
 		// Comment
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">",
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
-			
+
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"createdict\" />\n";
@@ -526,14 +526,14 @@
 			else
 				doCreateDict($lang['strftsdictcreatedbad']);
 		}
-	}	
+	}
 
 	/**
 	 * Display a form to permit editing FTS dictionary properies.
 	 */
 	function doAlterDict($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$misc->printTrail('ftscfg'); // TODO: change to smth related to dictionary
 		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
@@ -546,16 +546,16 @@
 
 			echo "<form action=\"fulltext.php\" method=\"post\">\n";
 			echo "<table>\n";
-		
+
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">";
-			echo "\t\t\t<input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "\t\t\t<input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['formName']), "\" />\n";
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
-						
-			// Comment			
+
+			// Comment
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"formComment\">", htmlspecialchars($_POST['formComment']), "</textarea></td>\n";
@@ -563,8 +563,8 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alterdict\" />\n";
 			echo "<input type=\"hidden\" name=\"ftsdict\" value=\"", htmlspecialchars($_POST['ftsdict']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";			
-			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";			
+			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -579,7 +579,7 @@
 	 */
 	function doSaveAlterDict($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$status = $data->updateFtsDictionary($_POST['ftsdict'], $_POST['formComment'], $_POST['formName']);
 		if ($status == 0)
 			doDefault($lang['strftsdictaltered']);
@@ -595,12 +595,12 @@
 		global $lang, $_reload_drop_database;
 
 		if (empty($_REQUEST['mapping']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strftsspecifymappingtodrop']); 
+			doDefault($lang['strftsspecifymappingtodrop']);
 			exit();
 		}
 
 		if (empty($_REQUEST['ftscfg'])) {
-			doDefault($lang['strftsspecifyconfigtoalter']); 
+			doDefault($lang['strftsspecifyconfigtoalter']);
 			exit();
 		}
 
@@ -614,13 +614,13 @@
             if (isset($_REQUEST['ma'])) {
 
 			    foreach($_REQUEST['ma'] as $v) {
-			        $a = unserialize(html_entity_decode($v));
+			        $a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 				    echo "<p>", sprintf($lang['strconfdropftsmapping'], $misc->printVal($a['mapping']), $misc->printVal($_REQUEST['ftscfg'])), "</p>\n";
 				    printf('<input type="hidden" name="mapping[]" value="%s" />', htmlspecialchars($a['mapping']));
 			    }
 
 			} else {
-		            echo "<p>", sprintf($lang['strconfdropftsmapping'], $misc->printVal($_REQUEST['mapping']), $misc->printVal($_REQUEST['ftscfg'])), "</p>\n";	
+		            echo "<p>", sprintf($lang['strconfdropftsmapping'], $misc->printVal($_REQUEST['mapping']), $misc->printVal($_REQUEST['ftscfg'])), "</p>\n";
 			        echo "<input type=\"hidden\" name=\"mapping\" value=\"", htmlspecialchars($_REQUEST['mapping']), "\" />\n";
             }
 
@@ -652,7 +652,7 @@
 
 	function doAlterMapping($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$misc->printTrail('ftscfg');
 		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
@@ -664,7 +664,7 @@
 			if (!isset($_POST['ftscfg'])) $_POST['ftscfg'] = $_REQUEST['ftscfg'];
 
 			echo "<form action=\"fulltext.php\" method=\"post\">\n";
-			
+
 			echo "<table>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strftsmapping']}</th>\n";
@@ -675,7 +675,7 @@
 			    $ma_mappings = array();
 			    $ma_mappings_names = array();
 			    foreach($_REQUEST['ma'] as $v) {
-			        $a = unserialize(html_entity_decode($v));
+			        $a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 				    printf('<input type="hidden" name="formMapping[]" value="%s" />', htmlspecialchars($a['mapping']));
 				    $ma_mappings[] = $data->getFtsMappingByName($_POST['ftscfg'], $a['mapping']);
 				    $ma_mappings_names[] = $a['mapping'];
@@ -690,8 +690,8 @@
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
 
-            
-            // Dictionary		
+
+            // Dictionary
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strftsdict']}</th>\n";
 			echo "\t\t<td class=\"data1\">";
@@ -705,7 +705,7 @@
 
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
-						
+
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"altermapping\" />\n";
 			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_POST['ftscfg']), "\" />\n";
@@ -723,7 +723,7 @@
 	 */
 	function doSaveAlterMapping($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$mappingArray = (is_array($_POST['formMapping']) ? $_POST['formMapping'] : array($_POST['formMapping']));
 		$status = $data->changeFtsMapping($_POST['ftscfg'], $mappingArray, 'alter', $_POST['formDictionary']);
 		if ($status == 0)
@@ -734,10 +734,10 @@
 
 	/**
 	 * Show the form to enter parameters of a new FTS mapping
-	 */		
+	 */
 	function doAddMapping($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$misc->printTrail('ftscfg');
 		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
 		$misc->printMsg($msg);
@@ -749,7 +749,7 @@
 			if (!isset($_POST['ftscfg'])) $_POST['ftscfg'] = $_REQUEST['ftscfg'];
 			$mappings = $data->getFtsMappings($_POST['ftscfg']);
 
-			echo "<form action=\"fulltext.php\" method=\"post\">\n";			
+			echo "<form action=\"fulltext.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strftsmapping']}</th>\n";
@@ -765,8 +765,8 @@
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
 
-            
-            // Dictionary		
+
+            // Dictionary
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strftsdict']}</th>\n";
 			echo "\t\t<td class=\"data1\">";
@@ -780,14 +780,14 @@
 
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
-						
+
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"addmapping\" />\n";
 			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_POST['ftscfg']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";		
+			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"add\" value=\"{$lang['stradd']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";			
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		} else {
 			echo "<p>{$lang['strftsnodictionaries']}</p>\n";
@@ -799,7 +799,7 @@
 	 */
 	function doSaveAddMapping($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$mappingArray = (is_array($_POST['formMapping']) ? $_POST['formMapping'] : array($_POST['formMapping']));
 		$status = $data->changeFtsMapping($_POST['ftscfg'], $mappingArray, 'add', $_POST['formDictionary']);
 		if ($status == 0)
@@ -815,9 +815,9 @@
 		global $misc, $data, $lang, $slony;
 
 		$ftscfgs = $data->getFtsConfigurations();
-		
+
 		$reqvars = $misc->getRequestVars('ftscfg');
-		
+
 		$attrs = array(
 			'text'   => field('name'),
 			'icon'   => 'Fts',
@@ -838,26 +838,26 @@
 							)
 						)),
 		);
-		
+
 		$misc->printTreeXML($ftscfgs, $attrs);
-		
+
 		exit;
 	}
-	
+
 
 	if ($action == 'tree') doTree();
-	
+
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
-	
+
 	if (isset($_POST['cancel'])) {
 		if (isset($_POST['prev_action'])) {
 			$action = $_POST['prev_action'];
 		} else {
 			$action = '';
-		}		
+		}
 	}
-	
+
 	switch ($action) {
 		case 'createconfig':
 			if (isset($_POST['create'])) doSaveCreateConfig();
@@ -866,7 +866,7 @@
 		case 'alterconfig':
 			if (isset($_POST['alter'])) doSaveAlterConfig();
 			else doAlterConfig();
-			break;		
+			break;
 		case 'dropconfig':
 			if (isset($_POST['drop'])) doDropConfig(false);
 			else doDropConfig(true);
@@ -881,7 +881,7 @@
 		case 'alterdict':
 			if (isset($_POST['alter'])) doSaveAlterDict();
 			else doAlterDict();
-			break;		
+			break;
 		case 'dropdict':
 			if (isset($_POST['drop'])) doDropDict(false);
 			else doDropDict(true);
@@ -898,7 +898,7 @@
 			if (isset($_POST['add'])) doSaveAddMapping();
 			else doAddMapping();
 			break;
-			
+
 		default:
 			doDefault();
 			break;

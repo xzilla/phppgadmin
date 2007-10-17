@@ -3,12 +3,12 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.57 2007/08/31 18:30:10 ioguix Exp $
+	 * $Id: all_db.php,v 1.58 2007/10/17 20:56:28 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
-	
+
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 
@@ -18,27 +18,27 @@
 	function doAlter($confirm) {
 		global $data, $misc, $_reload_browser;
 		global $lang;
-	
+
 		if ($confirm) {
 			$misc->printTrail('database');
 			$misc->printTitle($lang['stralter'], 'pg.database.alter');
-			
+
 			echo "<form action=\"all_db.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input name=\"newname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "<input name=\"newname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_REQUEST['alterdatabase']), "\" /></td></tr>\n";
-			
+
 			$server_info = $misc->getServerInfo();
-				
+
 			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser($server_info['username'])) {
 				// Fetch all users
-				
+
 				$rs = $data->getDatabaseOwner($_REQUEST['alterdatabase']);
 				$owner = isset($rs->fields['usename']) ? $rs->fields['usename'] : '';
 				$users = $data->getUsers();
-				
+
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
@@ -60,7 +60,7 @@
 			echo "</table>\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
 			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"oldname\" value=\"", 
+			echo "<input type=\"hidden\" name=\"oldname\" value=\"",
 				htmlspecialchars($_REQUEST['alterdatabase']), "\" />\n";
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -77,7 +77,7 @@
 				doDefault($lang['strdatabasealteredbad']);
 		}
 	}
-	
+
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -86,7 +86,7 @@
 		global $lang, $_reload_drop_database;
 
 		if (empty($_REQUEST['dropdatabase']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifydatabasetodrop']); 
+			doDefault($lang['strspecifydatabasetodrop']);
 			exit();
 		}
 
@@ -100,13 +100,13 @@
             if (isset($_REQUEST['ma'])) {
 
 			    foreach($_REQUEST['ma'] as $v) {
-			        $a = unserialize(html_entity_decode($v));
+			        $a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 				    echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($a['database'])), "</p>\n";
 				    printf('<input type="hidden" name="dropdatabase[]" value="%s" />', htmlspecialchars($a['database']));
 			    }
 
 			} else {
-		            echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";	
+		            echo "<p>", sprintf($lang['strconfdropdatabase'], $misc->printVal($_REQUEST['dropdatabase'])), "</p>\n";
 			        echo "<input type=\"hidden\" name=\"dropdatabase\" value=\"", htmlspecialchars($_REQUEST['dropdatabase']), "\" />\n";
             }// END if multi drop
 
@@ -115,7 +115,7 @@
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
-		} // END confirm 
+		} // END confirm
 		else {
             //If multi drop
             if (is_array($_REQUEST['dropdatabase'])) {
@@ -143,18 +143,18 @@
 		}//END DROP
     }// END FUNCTION
 
-            
+
 	/**
 	 * Displays a screen where they can enter a new database
 	 */
 	function doCreate($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('server');
 		$misc->printTitle($lang['strcreatedatabase'], 'pg.database.create');
 		$misc->printMsg($msg);
-		
+
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		// Default encoding is that in language file
 		if (!isset($_POST['formEncoding'])) {
@@ -165,7 +165,7 @@
 		}
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
-		
+
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
@@ -179,13 +179,13 @@
 		echo "\t\t\t<select name=\"formEncoding\">\n";
 		echo "\t\t\t\t<option value=\"\"></option>\n";
 		while (list ($key) = each ($data->codemap)) {
-		    echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"", 
+		    echo "\t\t\t\t<option value=\"", htmlspecialchars($key), "\"",
 				($key == $_POST['formEncoding']) ? ' selected="selected"' : '', ">",
 				$misc->printVal($key), "</option>\n";
 		}
 		echo "\t\t\t</select>\n";
 		echo "\t\t</td>\n\t</tr>\n";
-		
+
 		// Tablespace (if there are any)
 		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
@@ -206,7 +206,7 @@
 		// Comments (if available)
 		if ($data->hasSharedComments()) {
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+			echo "\t\t<td><textarea name=\"formComment\" rows=\"3\" cols=\"32\">",
 				htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
 		}
 
@@ -217,13 +217,13 @@
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 		echo "</form>\n";
 	}
-	
+
 	/**
 	 * Actually creates the new view in the database
 	 */
 	function doSaveCreate() {
 		global $data, $lang, $_reload_browser;
-		
+
 		// Default tablespace to null if it isn't set
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = null;
 
@@ -241,7 +241,7 @@
 			else
 				doCreate($lang['strdatabasecreatedbad']);
 		}
-	}	
+	}
 
 	/**
 	 * Displays options for cluster download
@@ -280,7 +280,7 @@
 		echo "<tr><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /><label for=\"sd_clean\">{$lang['strdrop']}</label></td>\n</tr>\n";
 		echo "<tr><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /><label for=\"sd_oids\">{$lang['stroids']}</label></td>\n</tr>\n";
 		echo "</table>\n";
-		
+
 		echo "<h3>{$lang['stroptions']}</h3>\n";
 		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
 		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label></p>\n";
@@ -302,7 +302,7 @@
 		$misc->printTrail('server');
 		$misc->printTabs('server','databases');
 		$misc->printMsg($msg);
-		
+
 		$databases = $data->getDatabases();
 
 		$columns = array(
@@ -337,7 +337,7 @@
 				'field' => field('datcomment'),
 			),
 		);
-		
+
 		$actions = array(
 			'multiactions' => array(
 				'keycols' => array('database' => 'datname'),
@@ -363,24 +363,24 @@
 				'vars'  => array('alterdatabase' => 'datname')
 			);
 		}
-		
+
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 		if (!$data->hasServerAdminFuncs()) unset($columns['dbsize']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
-		
+
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
 
 		echo "<p><a class=\"navlink\" href=\"all_db.php?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
 
 	}
-	
+
 	function doTree() {
 		global $misc, $data, $lang;
-		
+
 		$databases = $data->getDatabases();
-		
+
 		$reqvars = $misc->getRequestVars('database');
-		
+
 		$attrs = array(
 			'text'   => field('datname'),
 			'icon'   => 'Database',
@@ -397,13 +397,13 @@
 							)
 						),
 		);
-		
+
 		$misc->printTreeXML($databases, $attrs);
 		exit;
 	}
 
 	if ($action == 'tree') doTree();
-	
+
 	$misc->printHeader($lang['strdatabases']);
 	$misc->printBody();
 
@@ -428,14 +428,14 @@
 		case 'alter':
 			if (isset($_POST['oldname']) && isset($_POST['newname']) && !isset($_POST['cancel']) ) doAlter(false);
 			else doDefault();
-			break;			
+			break;
 		case 'confirm_alter':
 			doAlter(true);
 			break;
 		default:
 			doDefault();
 			break;
-	}	
+	}
 
 	$misc->printFooter();
 

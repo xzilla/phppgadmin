@@ -3,16 +3,16 @@
 	/**
 	 * Function library read in upon startup
 	 *
-	 * $Id: lib.inc.php,v 1.119 2007/07/18 20:54:34 xzilla Exp $
+	 * $Id: lib.inc.php,v 1.120 2007/10/17 20:56:28 ioguix Exp $
 	 */
 
 	include_once('./libraries/decorator.inc.php');
 	include_once('./lang/translations.php');
-	
+
 	// Set error reporting level to max
 	error_reporting(E_ALL);
 
-	// Application name 
+	// Application name
 	$appName = 'phpPgAdmin';
 
 	// Application version
@@ -52,7 +52,7 @@
 
 	// Start session (if not auto-started)
 	if (!ini_get('session.auto_start')) {
-		session_name('PPA_ID'); 
+		session_name('PPA_ID');
 		session_start();
 	}
 
@@ -75,14 +75,14 @@
 	ini_set('arg_separator.output', '&amp;');
 
 	// If login action is set, then set session variables
-	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) && 
+	if (isset($_POST['loginServer']) && isset($_POST['loginUsername']) &&
 		isset($_POST['loginPassword_'.md5($_POST['loginServer'])])) {
-		
+
 		$_server_info = $misc->getServerInfo($_POST['loginServer']);
-		
+
 		$_server_info['username'] = $_POST['loginUsername'];
 		$_server_info['password'] = $_POST['loginPassword_'.md5($_POST['loginServer'])];
-		
+
 		$misc->setServerInfo(null, $_server_info, $_POST['loginServer']);
 
 		// Check for shared credentials
@@ -90,7 +90,7 @@
 			$_SESSION['sharedUsername'] = $_POST['loginUsername'];
 			$_SESSION['sharedPassword'] = $_POST['loginPassword_'.md5($_POST['loginServer'])];
 		}
-		
+
 		$_reload_browser = true;
 	}
 
@@ -98,12 +98,12 @@
 	// 1. Check for the language from a request var
 	if (isset($_REQUEST['language']) && isset($appLangFiles[$_REQUEST['language']]))
 		$_language = $_REQUEST['language'];
-	
+
 	// 2. Check for language session var
 	if (!isset($_language) && isset($_SESSION['webdbLanguage']) && isset($appLangFiles[$_SESSION['webdbLanguage']])) {
 		$_language = $_SESSION['webdbLanguage'];
 	}
-	
+
 	// 3. Check for acceptable languages in HTTP_ACCEPT_LANGUAGE var
 	if (!isset($_language) && $conf['default_lang'] == 'auto' && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 		// extract acceptable language tags
@@ -142,7 +142,7 @@
 		echo $lang['strbadconfig'];
 		exit;
 	}
-	
+
 	// Check database support is properly compiled in
 	if (!function_exists('pg_connect')) {
 		echo $lang['strnotloaded'];
@@ -171,11 +171,11 @@
 			$_curr_db = $_server_info['defaultdb'];
 
 		include_once('./classes/database/Connection.php');
-		
+
 		// Connect to database and set the global $data variable
 		$data = $misc->getDatabaseAccessor($_curr_db);
 
-		// If schema is defined and database supports schemas, then set the 
+		// If schema is defined and database supports schemas, then set the
 		// schema explicitly.
 		if (isset($_REQUEST['database']) && isset($_REQUEST['schema']) && $data->hasSchemas()) {
 			$status = $data->setSchema($_REQUEST['schema']);
@@ -187,7 +187,7 @@
 
 		// Get database encoding
 		$dbEncoding = $data->getDatabaseEncoding();
-		
+
 		// Set client encoding to database encoding
 		if ($dbEncoding != '') {
 			// Explicitly change client encoding if it's different to server encoding.
@@ -197,7 +197,7 @@
 				$currEncoding = pg_clientencoding($data->conn->_connectionID);
 			else
 				$currEncoding = null;
-				
+
 			if ($currEncoding != $dbEncoding) {
 				$status = $data->setClientEncoding($dbEncoding);
 				if ($status != 0 && $status != -99) {
@@ -205,20 +205,25 @@
 					exit;
 				}
 			}
-					
+
 			// Override $lang['appcharset']
 			if (isset($data->codemap[$dbEncoding]))
 				$lang['appcharset'] = $data->codemap[$dbEncoding];
 			else
 				$lang['appcharset'] = $dbEncoding;
 		}
-	
-		
-		// Load Slony if required		
+
+
+		// Load Slony if required
 		if ($_server_info['slony_support']) {
 			include('./classes/plugins/Slony.php');
 			$slony = new Slony();
 		}
 	}
 
+	if (!function_exists("htmlspecialchars_decode")) {
+		function htmlspecialchars_decode($string, $quote_style = ENT_COMPAT) {
+			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
+		}
+	}
 ?>

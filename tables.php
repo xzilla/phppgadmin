@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.104 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: tables.php,v 1.105 2007/10/17 20:56:28 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -23,7 +23,7 @@
 			$default_with_oids = $data->getDefaultWithOid();
 			if ($default_with_oids == 'off') $_REQUEST['withoutoids'] = 'on';
 		}
-			
+
 		if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
 		if (!isset($_REQUEST['fields'])) $_REQUEST['fields'] = '';
 		if (!isset($_REQUEST['tblcomment'])) $_REQUEST['tblcomment'] = '';
@@ -33,24 +33,24 @@
 			case 1:
 				// Fetch all tablespaces from the database
 				if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
-				
+
 				$misc->printTrail('schema');
 				$misc->printTitle($lang['strcreatetable'], 'pg.table.create');
 				$misc->printMsg($msg);
-				
+
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
-				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_REQUEST['name']), "\" /></td>\n\t</tr>\n";
 				echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strnumcols']}</th>\n";
-				echo "\t\t<td class=\"data\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+				echo "\t\t<td class=\"data\"><input name=\"fields\" size=\"5\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_REQUEST['fields']), "\" /></td>\n\t</tr>\n";
 				if ($data->hasWithoutOIDs()) {
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n";
 					echo "\t\t<td class=\"data\"><label for=\"withoutoids\"><input type=\"checkbox\" id=\"withoutoids\" name=\"withoutoids\"", isset($_REQUEST['withoutoids']) ? ' checked="checked"' : '', " />WITHOUT OIDS</label></td>\n\t</tr>\n";
 				}
-				
+
 				// Tablespace (if there are any)
 				if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
 					echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
@@ -69,7 +69,7 @@
 				}
 
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-				echo "\t\t<td><textarea name=\"tblcomment\" rows=\"3\" cols=\"32\">", 
+				echo "\t\t<td><textarea name=\"tblcomment\" rows=\"3\" cols=\"32\">",
 					htmlspecialchars($_REQUEST['tblcomment']), "</textarea></td>\n\t</tr>\n";
 
 				echo "</table>\n";
@@ -112,7 +112,7 @@
 				echo "<th class=\"data\">{$lang['strlength']}</th><th class=\"data\">{$lang['strnotnull']}</th>";
 				echo "<th class=\"data\">{$lang['struniquekey']}</th><th class=\"data\">{$lang['strprimarykey']}</th>";
 				echo "<th class=\"data\">{$lang['strdefault']}</th><th class=\"data\">{$lang['strcomment']}</th></tr>\n";
-				
+
 				for ($i = 0; $i < $_REQUEST['fields']; $i++) {
 					if (!isset($_REQUEST['field'][$i])) $_REQUEST['field'][$i] = '';
 					if (!isset($_REQUEST['length'][$i])) $_REQUEST['length'][$i] = '';
@@ -148,14 +148,14 @@
 						}
 						echo "<script type=\"text/javascript\">predefined_lengths = new Array(". implode(",",$escaped_predef_types) .");</script>\n\t</td>";
 					}
-					
+
 					// Output array type selector
 					echo "\t\t<td>\n\t\t\t<select name=\"array[{$i}]\">\n";
 					echo "\t\t\t\t<option value=\"\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '') ? ' selected="selected"' : '', "></option>\n";
 					echo "\t\t\t\t<option value=\"[]\"", (isset($_REQUEST['array'][$i]) && $_REQUEST['array'][$i] == '[]') ? ' selected="selected"' : '', ">[ ]</option>\n";
 					echo "\t\t\t</select>\n\t\t</td>\n";
-					
-					echo "\t\t<td><input name=\"length[{$i}]\" id=\"lengths{$i}\" size=\"10\" value=\"", 
+
+					echo "\t\t<td><input name=\"length[{$i}]\" id=\"lengths{$i}\" size=\"10\" value=\"",
 						htmlspecialchars($_REQUEST['length'][$i]), "\" /></td>\n";
 					echo "\t\t<td><input type=\"checkbox\" name=\"notnull[{$i}]\"", (isset($_REQUEST['notnull'][$i])) ? ' checked="checked"' : '', " /></td>\n";
 					echo "\t\t<td style=\"text-align: center\"><input type=\"checkbox\" name=\"uniquekey[{$i}]\""
@@ -163,13 +163,13 @@
 					echo "\t\t<td style=\"text-align: center\"><input type=\"checkbox\" name=\"primarykey[{$i}]\" "
 						.(isset($_REQUEST['primarykey'][$i]) ? ' checked="checked"' : '')
 						." /></td>\n";
-					echo "\t\t<td><input name=\"default[{$i}]\" size=\"20\" value=\"", 
+					echo "\t\t<td><input name=\"default[{$i}]\" size=\"20\" value=\"",
 						htmlspecialchars($_REQUEST['default'][$i]), "\" /></td>\n";
-					echo "\t\t<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"", 
+					echo "\t\t<td><input name=\"colcomment[{$i}]\" size=\"40\" value=\"",
 						htmlspecialchars($_REQUEST['colcomment'][$i]), "\" />
 						<script type=\"text/javascript\">checkLengths(document.getElementById('types{$i}').value,{$i});</script>
 						</td>\n\t</tr>\n";
-				}	
+				}
 				echo "</table>\n";
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"create\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"3\" />\n";
@@ -186,11 +186,11 @@
 				echo "<input type=\"submit\" value=\"{$lang['strcreate']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 				echo "</form>\n";
-								
+
 				break;
 			case 3:
 				global $data, $lang, $_reload_browser;
-				
+
 				if (!isset($_REQUEST['notnull'])) $_REQUEST['notnull'] = array();
 				if (!isset($_REQUEST['uniquekey'])) $_REQUEST['uniquekey'] = array();
 				if (!isset($_REQUEST['primarykey'])) $_REQUEST['primarykey'] = array();
@@ -207,10 +207,10 @@
 				}
 				elseif ($fields == '' || !is_numeric($fields) || $fields != (int)$fields || $fields <= 0)  {
 					$_REQUEST['stage'] = 1;
-					doCreate($lang['strtableneedscols']);	
+					doCreate($lang['strtableneedscols']);
 					return;
 				}
-				
+
 				$status = $data->createTable($_REQUEST['name'], $_REQUEST['fields'], $_REQUEST['field'],
 								$_REQUEST['type'], $_REQUEST['array'], $_REQUEST['length'], $_REQUEST['notnull'], $_REQUEST['default'],
 								isset($_REQUEST['withoutoids']), $_REQUEST['colcomment'], $_REQUEST['tblcomment'], $_REQUEST['spcname'],
@@ -243,7 +243,7 @@
 		global $data, $misc, $lang;
 
 		if (!$confirm) {
-			
+
 			include_once('./classes/Gui.php');
 
 			if (!isset($_REQUEST['name'])) $_REQUEST['name'] = '';
@@ -256,13 +256,13 @@
 
 			$tbltmp = $data->getTables(true);
 			$tbltmp = $tbltmp->getArray();
-			
+
 			$tables = array();
 			if ( $data->hasSchemas() )
 				foreach ($tbltmp as $a) $tables["{$a['nspname']}.{$a['relname']}"] = "{$a['nspname']}.{$a['relname']}";
 			else
 				foreach ($tbltmp as $a) $tables[$a['relname']] = $a['relname'];
-				
+
 			unset($tbltmp);
 
 			echo "<form action=\"tables.php\" method=\"post\">\n";
@@ -286,8 +286,8 @@
 				}
 			}
 			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['stroptions']}</th>\n\t\t<td class=\"data\">";
-			echo "<label for=\"withdefaults\"><input type=\"checkbox\" id=\"withdefaults\" name=\"withdefaults\"", 
-				isset($_REQUEST['withdefaults']) ? ' checked="checked"' : '', 
+			echo "<label for=\"withdefaults\"><input type=\"checkbox\" id=\"withdefaults\" name=\"withdefaults\"",
+				isset($_REQUEST['withdefaults']) ? ' checked="checked"' : '',
 				"/>{$lang['strcreatelikewithdefaults']}</label>";
 			if ($data->hasCreateTableLikeWithConstraints()) {
 				echo "<label for=\"withconstraints\"><input type=\"checkbox\" id=\"withconstraints\" name=\"withconstraints\"",
@@ -360,7 +360,7 @@
 				echo "	}\n";
 				echo "//]]>\n";
 				echo "</script>\n";
-	
+
 				echo "<table>\n";
 
 				// Output table header
@@ -387,7 +387,7 @@
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
-						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '', 
+						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '',
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n</td>\n";
@@ -415,7 +415,7 @@
 			if (!isset($_POST['show'])) $_POST['show'] = array();
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			
+
 			// Verify that they haven't supplied a value for unary operators
 			foreach ($_POST['ops'] as $k => $v) {
 				if ($data->selectOps[$v] == 'p' && $_POST['values'][$k] != '') {
@@ -423,7 +423,7 @@
 					return;
 				}
 			}
-			
+
 			if (sizeof($_POST['show']) == 0)
 				doSelectRows(true, $lang['strselectneedscol']);
 			else {
@@ -483,7 +483,7 @@
 				echo "<tr><th class=\"data\">{$lang['strcolumn']}</th><th class=\"data\">{$lang['strtype']}</th>";
 				echo "<th class=\"data\">{$lang['strformat']}</th>";
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
-				
+
 				$i = 0;
 				while (!$attrs->EOF) {
 					$szValueName = "values[{$attrs->fields['attname']}]";
@@ -492,7 +492,7 @@
 					if($bAllowAC) {
 						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
 						// In PHP < 4.2.0 array_search returns NULL on failure
-						if ($idxFound !== NULL && $idxFound !== FALSE) { 
+						if ($idxFound !== NULL && $idxFound !== FALSE) {
 							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
 							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
@@ -512,7 +512,7 @@
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"",
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
@@ -541,7 +541,7 @@
 				}
 			}
 			else echo "<p>{$lang['strnodata']}</p>\n";
-			
+
 			if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
@@ -564,7 +564,7 @@
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 
 			if ($_SESSION['counter']++ == $_POST['protection_counter']) {
-				$status = $data->insertRow($_POST['table'], $_POST['values'], 
+				$status = $data->insertRow($_POST['table'], $_POST['values'],
 													$_POST['nulls'], $_POST['format'], $_POST['types']);
 				if ($status == 0) {
 					if (isset($_POST['insert']))
@@ -591,10 +591,10 @@
 		global $lang;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletoempty']); 
+			doDefault($lang['strspecifytabletoempty']);
 			exit();
 		}
-		
+
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
 				$misc->printTrail('schema');
@@ -602,12 +602,12 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach ($_REQUEST['ma'] as $v) {
-					$a = unserialize(html_entity_decode($v));
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 					echo "<p>", sprintf($lang['strconfemptytable'], $misc->printVal($a['table'])), "</p>\n";
 					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
 				}
 			} // END mutli empty
-			else { 
+			else {
 				$misc->printTrail('table');
 				$misc->printTitle($lang['strempty'],'pg.table.empty');
 
@@ -636,7 +636,7 @@
 				}
 				doDefault($msg);
 			} // END mutli empty
-			else { 
+			else {
 				$status = $data->emptyTable($_POST['table']);
 				if ($status == 0)
 					doDefault($lang['strtableemptied']);
@@ -652,12 +652,12 @@
 	function doDrop($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		
+
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletodrop']); 
+			doDefault($lang['strspecifytabletodrop']);
 			exit();
 		}
-		
+
 		if ($confirm) {
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
@@ -667,7 +667,7 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(html_entity_decode($v));
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 					echo "<p>", sprintf($lang['strconfdroptable'], $misc->printVal($a['table'])), "</p>\n";
 					printf('<input type="hidden" name="table[]" value="%s" />', htmlspecialchars($a['table']));
 				}
@@ -687,7 +687,7 @@
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			} 
+			}
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -729,7 +729,7 @@
 		global $lang, $_reload_browser;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletovacuum']); 
+			doDefault($lang['strspecifytabletovacuum']);
 			exit();
 		}
 		if ($confirm) {
@@ -739,7 +739,7 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(html_entity_decode($v));
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -801,7 +801,7 @@
 		global $lang, $_reload_browser;
 
 		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletoanalyze']); 
+			doDefault($lang['strspecifytabletoanalyze']);
 			exit();
 		}
 		if ($confirm) {
@@ -811,7 +811,7 @@
 
 				echo "<form action=\"tables.php\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(html_entity_decode($v));
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
 					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
 					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
 				}
@@ -867,13 +867,13 @@
 	function doDefault($msg = '') {
 		global $data, $conf, $misc, $data;
 		global $lang;
-		
+
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','tables');
 		$misc->printMsg($msg);
-	
+
 		$tables = $data->getTables();
-		
+
 		$columns = array(
 			'table' => array(
 				'title' => $lang['strtable'],
@@ -902,7 +902,7 @@
 				'field' => field('relcomment'),
 			),
 		);
-		
+
 		$actions = array(
 			'multiactions' => array(
 				'keycols' => array('table' => 'relname'),
@@ -949,7 +949,7 @@
 				'multiaction' => 'confirm_analyze',
 			),
 		);
-		
+
 		if (!$data->hasAnalyze()) unset($actions['analyze'], $multiactions['actions']['analyze']);
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
@@ -960,17 +960,17 @@
 			echo "\t<li><a href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a></li>\n";
 		echo "</ul>\n";
 	}
-	
+
 	/**
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
 		global $misc, $data;
-		
+
 		$tables = $data->getTables();
-		
+
 		$reqvars = $misc->getRequestVars('table');
-		
+
 		$attrs = array(
 			'text'   => field('relname'),
 			'icon'   => 'Table',
@@ -989,13 +989,13 @@
 								'action' => 'subtree',
 								'table' => field('relname')
 							)
-						)	
+						)
 		);
-		
+
 		$misc->printTreeXML($tables, $attrs);
 		exit;
 	}
-	
+
 	function doSubTree() {
 		global $misc, $data;
 
@@ -1026,10 +1026,10 @@
 		$misc->printTreeXML($items, $attrs);
 		exit;
 	}
-	
+
 	if ($action == 'tree') doTree();
 	if ($action == 'subtree') dosubTree();
-	
+
 	$misc->printHeader($lang['strtables']);
 	$misc->printBody();
 
@@ -1090,7 +1090,7 @@
 		default:
 			doDefault();
 			break;
-	}	
+	}
 
 	$misc->printFooter();
 
