@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.72.2.3 2007/07/11 07:59:27 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.72.2.4 2007/10/17 19:07:22 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -321,7 +321,8 @@
 					doAddColumn($lang['strcolneedsname']);
 					return;
 				}
-
+				
+				if (!isset($_POST['length'])) $_POST['length'] = '';
 				$status = $data->addColumn($_POST['table'], $_POST['field'],
 							   $_POST['type'], $_POST['array'] != '', $_POST['length'], isset($_POST['notnull']),
 							   $_POST['default'], $_POST['comment']);
