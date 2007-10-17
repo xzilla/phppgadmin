@@ -3,7 +3,7 @@
 	/**
 	 * Manage databases within a server
 	 *
-	 * $Id: all_db.php,v 1.58 2007/10/17 20:56:28 ioguix Exp $
+	 * $Id: all_db.php,v 1.59 2007/10/17 21:40:19 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -123,9 +123,9 @@
                 foreach($_REQUEST['dropdatabase'] as $d) {
 					$status = $data->dropDatabase($d);
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', $d, $lang['strdatabasedropped']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($d), $lang['strdatabasedropped']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, $d, $lang['strdatabasedroppedbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($d), $lang['strdatabasedroppedbad']));
 						return;
 					}
 				}// Everything went fine, back to Default page...

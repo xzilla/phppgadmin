@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.105 2007/10/17 20:56:28 ioguix Exp $
+	 * $Id: tables.php,v 1.106 2007/10/17 21:40:19 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -628,9 +628,9 @@
 				foreach($_REQUEST['table'] as $t) {
 					$status = $data->emptyTable($t);
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', $t, $lang['strtableemptied']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strtableemptied']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strtableemptiedbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strtableemptiedbad']));
 						return;
 					}
 				}
@@ -699,9 +699,9 @@
 				foreach($_REQUEST['table'] as $t) {
 					$status = $data->dropTable($t, isset($_POST['cascade']));
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', $t, $lang['strtabledropped']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strtabledropped']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strtabledroppedbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strtabledroppedbad']));
 						return;
 					}
 				}
@@ -771,9 +771,9 @@
 				foreach($_REQUEST['table'] as $t) {
 					$status = $data->vacuumDB($t, isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', $t, $lang['strvacuumgood']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strvacuumgood']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['strvacuumbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strvacuumbad']));
 						return;
 					}
 				}
@@ -839,9 +839,9 @@
 				foreach($_REQUEST['table'] as $t) {
 					$status = $data->analyzeDB($t);
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', $t, $lang['stranalyzegood']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['stranalyzegood']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, $t, $lang['stranalyzebad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['stranalyzebad']));
 						return;
 					}
 				}
