@@ -3,29 +3,29 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.45 2007/09/19 19:25:34 ioguix Exp $
+	 * $Id: sequences.php,v 1.46 2007/10/17 15:55:33 ioguix Exp $
 	 */
-	
+
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
-	
+
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 
 	/**
 	 * Display list of all sequences in the database/schema
-	 */	
+	 */
 	function doDefault($msg = '')	{
-		global $data, $conf, $misc; 
+		global $data, $conf, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('schema');
 		$misc->printTabs('schema', 'sequences');
 		$misc->printMsg($msg);
-		
+
 		// Get all sequences
 		$sequences = $data->getSequences();
-		
+
 		$columns = array(
 			'sequence' => array(
 				'title' => $lang['strsequence'],
@@ -45,7 +45,7 @@
 				'field' => field('seqcomment'),
 			),
 		);
-		
+
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
@@ -63,23 +63,22 @@
 				'vars'  => array('sequence' => 'seqname'),
 			),
 		);
-		
-		if (!$data->hasAlterSequence()) unset($actions['alter']);
+
 		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
-		
+
 		echo "<p><a class=\"navlink\" href=\"sequences.php?action=create&amp;{$misc->href}\">{$lang['strcreatesequence']}</a></p>\n";
 	}
-	
+
 	/**
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
 		global $misc, $data;
-		
+
 		$sequences = $data->getSequences();
-		
+
 		$reqvars = $misc->getRequestVars('sequence');
-		
+
 		$attrs = array(
 			'text'   => field('seqname'),
 			'icon'   => 'Sequence',
@@ -92,25 +91,25 @@
 							)
 						)
 		);
-		
+
 		$misc->printTreeXML($sequences, $attrs);
 		exit;
 	}
-	
+
 	/**
 	 * Display the properties of a sequence
-	 */	 
+	 */
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('sequence');
 		$misc->printTitle($lang['strproperties'],'pg.sequence');
 		$misc->printMsg($msg);
-		
+
 		// Fetch the sequence information
-		$sequence = $data->getSequence($_REQUEST['sequence']);		
-		
+		$sequence = $data->getSequence($_REQUEST['sequence']);
+
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
 			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
 			$sequence->fields['is_called'] = $data->phpBool($sequence->fields['is_called']);
@@ -144,9 +143,8 @@
 			echo "</tr>";
 			echo "</table>";
 
-			echo "<ul class=\"navlink\">\n";	
-			if ($data->hasAlterSequence())
-				echo "\t<li><a href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a></li>\n";
+			echo "<ul class=\"navlink\">\n";
+			echo "\t<li><a href=\"sequences.php?action=confirm_alter&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['stralter']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=confirm_setval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strsetval']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=nextval&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strnextval']}</a></li>\n";
 			echo "\t<li><a href=\"sequences.php?action=reset&amp;{$misc->href}&amp;sequence=", urlencode($sequence->fields['seqname']), "\">{$lang['strreset']}</a></li>\n";
@@ -157,18 +155,18 @@
 
 	/**
 	 * Drop a sequence
-	 */	 	
+	 */
 	function doDrop($confirm, $msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		if ($confirm) {
 			$misc->printTrail('sequence');
 			$misc->printTitle($lang['strdrop'],'pg.sequence.drop');
 			$misc->printMsg($msg);
-			
+
 			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
-			
+
 			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
@@ -187,7 +185,7 @@
 				doDefault($lang['strsequencedropped']);
 			else
 				doDrop(true, $lang['strsequencedroppedbad']);
-		}	
+		}
 	}
 
 	/**
@@ -196,45 +194,45 @@
 	function doCreateSequence($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		if (!isset($_POST['formSequenceName'])) $_POST['formSequenceName'] = '';
 		if (!isset($_POST['formIncrement'])) $_POST['formIncrement'] = '';
 		if (!isset($_POST['formMinValue'])) $_POST['formMinValue'] = '';
 		if (!isset($_POST['formMaxValue'])) $_POST['formMaxValue'] = '';
 		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = '';
 		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = '';
-		
+
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['strcreatesequence'],'pg.sequence.create');
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"sequences.php\" method=\"post\">\n";
 		echo "<table>\n";
-		
+
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formSequenceName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formSequenceName']), "\" /></td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formIncrement']), "\" /> </td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMinValue']), "\" /></td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formMaxValue']), "\" /></td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formStartValue']), "\" /></td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
 			htmlspecialchars($_POST['formCacheValue']), "\" /></td></tr>\n";
-		
+
 		echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['strcancycle']}</label></th>\n";
 		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
 			(isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
@@ -253,7 +251,7 @@
 	function doSaveCreateSequence() {
 		global $data;
 		global $lang;
-		
+
 		// Check that they've given a name and at least one column
 		if ($_POST['formSequenceName'] == '') doCreateSequence($lang['strsequenceneedsname']);
 		else {
@@ -275,29 +273,29 @@
 	function doReset() {
 		global $data;
 		global $lang;
-		
+
 		$status = $data->resetSequence($_REQUEST['sequence']);
 		if ($status == 0)
 			doProperties($lang['strsequencereset']);
-		else	
+		else
 			doProperties($lang['strsequenceresetbad']);
 	}
-	
+
 	/**
 	 * Set Nextval of a sequence
 	 */
 	function doNextval() {
 		global $data;
 		global $lang;
-		
+
 		$status = $data->nextvalSequence($_REQUEST['sequence']);
 		if ($status == 0)
 			doProperties($lang['strsequencenextval']);
-		else	
+		else
 			doProperties($lang['strsequencenextvalbad']);
 	}
-	
-	/** 
+
+	/**
 	 * Function to save after 'setval'ing a sequence
 	 */
 	function doSaveSetval() {
@@ -306,7 +304,7 @@
 		$status = $data->setvalSequence($_POST['sequence'], $_POST['nextvalue']);
 		if ($status == 0)
 			doProperties($lang['strsequencesetval']);
-		else	
+		else
 			doProperties($lang['strsequencesetvalbad']);
 	}
 
@@ -316,20 +314,20 @@
 	function doSetval($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('sequence');
 		$misc->printTitle($lang['strsetval'], 'pg.sequence');
 		$misc->printMsg($msg);
 
 		// Fetch the sequence information
-		$sequence = $data->getSequence($_REQUEST['sequence']);		
-		
+		$sequence = $data->getSequence($_REQUEST['sequence']);
+
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
 			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			echo "<table border=\"0\">";
 			echo "<tr><th class=\"data left required\">{$lang['strlastvalue']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input name=\"nextvalue\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "<input name=\"nextvalue\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				$misc->printVal($sequence->fields['last_value']), "\" /></td></tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"setval\" />\n";
@@ -341,15 +339,33 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
-	
-	/** 
+
+	/**
 	 * Function to save after altering a sequence
 	 */
 	function doSaveAlter() {
 		global $data, $lang, $_reload_browser;
 
-		$status = $data->alterSequence($_POST['sequence'], $_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'], $_POST['formCacheValue'], isset($_POST['formCycledValue']));
+
+		if (!isset($_POST['owner'])) $_POST['owner'] = null;
+		if (!isset($_POST['formIncrement'])) $_POST['formIncrement'] = null;
+		if (!isset($_POST['formMinValue'])) $_POST['formMinValue'] = null;
+		if (!isset($_POST['formMaxValue'])) $_POST['formMaxValue'] = null;
+		if (!isset($_POST['formStartValue'])) $_POST['formStartValue'] = null;
+		if (!isset($_POST['formCacheValue'])) $_POST['formCacheValue'] = null;
+		if (!isset($_POST['formCycledValue'])) $_POST['formCycledValue'] = null;
+
+		$status = $data->alterSequence($_POST['sequence'], $_POST['name'], $_POST['comment'], $_POST['owner'],
+			$_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'],
+			$_POST['formCacheValue'], isset($_POST['formCycledValue']));
+
 		if ($status == 0) {
+			if ($_POST['sequence'] != $_POST['name']) {
+				// Jump them to the new view name
+				$_REQUEST['sequence'] = $_POST['name'];
+				// Force a browser reload
+				$_reload_browser = true;
+			}
 			doProperties($lang['strsequencealtered']);
 		}
 		else
@@ -362,46 +378,78 @@
 	function doAlter($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('sequence');
 		$misc->printTitle($lang['stralter'], 'pg.sequence.alter');
 		$misc->printMsg($msg);
-		
+
 		// Fetch the sequence information
 		$sequence = $data->getSequence($_REQUEST['sequence']);
-		
+
 		if (is_object($sequence) && $sequence->recordCount() > 0) {
+			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['sequence'];
+			if (!isset($_POST['comment'])) $_POST['comment'] = $sequence->fields['seqcomment'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $sequence->fields['seqowner'];
+
 			// Handle Checkbox Value
 			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
 			if ($sequence->fields['is_cycled']) $_POST['formCycledValue'] = 'on';
 
 			echo "<form action=\"sequences.php\" method=\"post\">\n";
 			echo "<table>\n";
-			
-			echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->fields['last_value']), "\" /></td></tr>\n";
 
-			echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->fields['increment_by']), "\" /> </td></tr>\n";
-			
-			echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->fields['max_value']), "\" /></td></tr>\n";
-			
-			echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->fields['min_value']), "\" /></td></tr>\n";
-			
-			echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
-			echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
-				htmlspecialchars($sequence->fields['cache_value']), "\" /></td></tr>\n";
-			
-			echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['strcancycle']}</label></th>\n";
-			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
-				( isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
-	
+			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
+				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
+
+			$server_info = $misc->getServerInfo();
+			if ($data->hasAlterSequenceOwner() && $data->isSuperUser($server_info['username'])) {
+				// Fetch all users
+				$users = $data->getUsers();
+
+				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
+				echo "<td class=\"data1\"><select name=\"owner\">";
+				while (!$users->EOF) {
+					$uname = $users->fields['usename'];
+					echo "<option value=\"", htmlspecialchars($uname), "\"",
+					($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+					$users->moveNext();
+				}
+				echo "</select></td></tr>\n";
+			}
+
+			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
+			echo "<td class=\"data1\">";
+			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
+				htmlspecialchars($_POST['comment']), "</textarea></td></tr>\n";
+
+			if ($data->hasAlterSequenceProps()) {
+				echo "<tr><th class=\"data left\">{$lang['strstartvalue']}</th>\n";
+				echo "<td class=\"data1\"><input name=\"formStartValue\" size=\"5\" value=\"",
+					htmlspecialchars($sequence->fields['last_value']), "\" /></td></tr>\n";
+
+				echo "<tr><th class=\"data left\">{$lang['strincrementby']}</th>\n";
+				echo "<td class=\"data1\"><input name=\"formIncrement\" size=\"5\" value=\"",
+					htmlspecialchars($sequence->fields['increment_by']), "\" /> </td></tr>\n";
+
+				echo "<tr><th class=\"data left\">{$lang['strmaxvalue']}</th>\n";
+				echo "<td class=\"data1\"><input name=\"formMaxValue\" size=\"5\" value=\"",
+					htmlspecialchars($sequence->fields['max_value']), "\" /></td></tr>\n";
+
+				echo "<tr><th class=\"data left\">{$lang['strminvalue']}</th>\n";
+				echo "<td class=\"data1\"><input name=\"formMinValue\" size=\"5\" value=\"",
+					htmlspecialchars($sequence->fields['min_value']), "\" /></td></tr>\n";
+
+				echo "<tr><th class=\"data left\">{$lang['strcachevalue']}</th>\n";
+				echo "<td class=\"data1\"><input name=\"formCacheValue\" size=\"5\" value=\"",
+					htmlspecialchars($sequence->fields['cache_value']), "\" /></td></tr>\n";
+
+				echo "<tr><th class=\"data left\"><label for=\"formCycledValue\">{$lang['strcancycle']}</label></th>\n";
+				echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formCycledValue\" name=\"formCycledValue\" ",
+					( isset($_POST['formCycledValue']) ? ' checked="checked"' : ''), " /></td></tr>\n";
+			}
+
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
 			echo $misc->form;
@@ -414,7 +462,7 @@
 	}
 
 	if ($action == 'tree') doTree();
-	
+
 	// Print header
 	$misc->printHeader($lang['strsequences']);
 	$misc->printBody();
@@ -428,7 +476,7 @@
 			else doDefault();
 			break;
 		case 'properties':
-			doProperties();	
+			doProperties();
 			break;
 		case 'drop':
 			if (isset($_POST['drop'])) doDrop(false);
@@ -436,7 +484,7 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
-			break;			
+			break;
 		case 'reset':
 			doReset();
 			break;
@@ -461,7 +509,7 @@
 			doDefault();
 			break;
 	}
-	
+
 	// Print footer
 	$misc->printFooter();
 

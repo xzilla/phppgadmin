@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.307 2007/10/03 17:32:07 ioguix Exp $
+ * $Id: Postgres.php,v 1.308 2007/10/17 15:55:33 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -27,14 +27,14 @@ class Postgres extends ADODB_base {
 	var $extraTypes = array('SERIAL');
 	// Array of allowed index types
 	var $typIndexes = array('BTREE', 'RTREE', 'GIST', 'HASH');
-	// Default index type 
+	// Default index type
 	var $typIndexDef = 'BTREE';
-	// Array of allowed trigger events	
-	var $triggerEvents= array('INSERT', 'UPDATE', 'DELETE', 'INSERT OR UPDATE', 'INSERT OR DELETE', 
+	// Array of allowed trigger events
+	var $triggerEvents= array('INSERT', 'UPDATE', 'DELETE', 'INSERT OR UPDATE', 'INSERT OR DELETE',
 		'DELETE OR UPDATE', 'INSERT OR DELETE OR UPDATE');
-	// When to execute the trigger	
+	// When to execute the trigger
 	var $triggerExecTimes = array('BEFORE', 'AFTER');
-	// How often to execute the trigger	
+	// How often to execute the trigger
 	var $triggerFrequency = array('ROW');
 	// Foreign key stuff.  First element MUST be the default.
 	var $fkactions = array('NO ACTION', 'RESTRICT', 'CASCADE', 'SET NULL', 'SET DEFAULT');
@@ -44,14 +44,14 @@ class Postgres extends ADODB_base {
 	// Function properties
 	var $funcprops = array(array('', 'ISCACHABLE'));
 	var $defaultprops = array('');
-	
+
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 18539;
 	var $_maxNameLen = 31;
-	
+
 	// Name of id column
 	var $id = 'oid';
-	
+
 	// Map of database encoding names to HTTP encoding names.  If a
 	// database encoding does not appear in this list, then its HTTP
 	// encoding name is the same as its database encoding name.
@@ -60,7 +60,7 @@ class Postgres extends ADODB_base {
 		'EUC_CN' => 'GB2312',
 		'EUC_JP' => 'EUC-JP',
 		'EUC_KR' => 'EUC-KR',
-		'EUC_TW' => 'EUC-TW', 
+		'EUC_TW' => 'EUC-TW',
 		'ISO_8859_5' => 'ISO-8859-5',
 		'ISO_8859_6' => 'ISO-8859-6',
 		'ISO_8859_7' => 'ISO-8859-7',
@@ -86,7 +86,7 @@ class Postgres extends ADODB_base {
 		'WIN874' => 'CP874',
 		'WIN1256' => 'CP1256'
 	);
-	
+
 	// Map of internal language name to syntax highlighting name
 	var $langmap = array(
 		'sql' => 'SQL',
@@ -114,7 +114,7 @@ class Postgres extends ADODB_base {
 		'plruby' => 'Ruby',
 		'plrubyu' => 'Ruby'
 	);
-	
+
 	// List of all legal privileges that can be applied to different types
 	// of objects.
 	var $privlist = array(
@@ -131,20 +131,20 @@ class Postgres extends ADODB_base {
 		'a' => 'INSERT',
 		'R' => 'RULE'
 	);
-	
+
 	// Rule action types
 	var $rule_events = array('SELECT', 'INSERT', 'UPDATE', 'DELETE');
 
 	// Select operators
 	// Operators of type 'i' are 'infix', eg. a = '1'.  Type 'p' means postfix unary, eg. a IS TRUE.
 	// 'x' is a bracketed subquery form.  eg. IN (1,2,3)
-	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i', 
-									'LIKE' => 'i', 'NOT LIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i',
+									'LIKE' => 'i', 'NOT LIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i',
 									'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
 
 	// Supported join operations for use with view wizard
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN');
-	
+
 	// Default help URL
 	var $help_base;
 
@@ -153,7 +153,7 @@ class Postgres extends ADODB_base {
 
 	// Predefined size types
 	var $predefined_size_types = array('abstime','aclitem','bigserial','boolean','bytea','cid','cidr','circle','date','float4','float8','gtsvector','inet','int2','int4','int8','macaddr','money','oid','path','polygon','refcursor','regclass','regoper','regoperator','regproc','regprocedure','regtype','reltime','serial','smgr','text','tid','tinterval','tsquery','tsvector','varbit','void','xid');
-	
+
 	/**
 	 * Constructor
 	 * @param $conn The database connection
@@ -163,13 +163,13 @@ class Postgres extends ADODB_base {
 	}
 
 	// Help functions
-	
+
 	/**
 	 * Fetch a URL (or array of URLs) for a given help page.
 	 */
 	function getHelp($help) {
 		$this->getHelpPages();
-		
+
 		if (isset($this->help_page[$help])) {
 			if (is_array($this->help_page[$help])) {
 				$urls = array();
@@ -190,9 +190,9 @@ class Postgres extends ADODB_base {
 		include_once('./help/PostgresDoc70.php');
 		return $this->help_page;
 	}
-	
+
 	// Formatting functions
-	
+
 	/**
 	 * Cleans (escapes) a string
 	 * @param $str The string to clean, by reference
@@ -207,7 +207,7 @@ class Postgres extends ADODB_base {
 			$str = addslashes($str);
 		return $str;
 	}
-	
+
 	/**
 	 * Cleans (escapes) an object name (eg. table, field)
 	 * @param $str The string to clean, by reference
@@ -247,7 +247,7 @@ class Postgres extends ADODB_base {
 		}
 		return $arr;
 	}
-	
+
 	/**
 	 * Escapes bytea data for display on the screen
 	 * @param $data The bytea data
@@ -261,7 +261,7 @@ class Postgres extends ADODB_base {
  				return strtr(addCSlashes($data, "\0..\37\177..\377"), $translations);
 		}
 	}
-	
+
 	/**
 	 * Outputs the HTML code for a particular field
 	 * @param $name The name to give the field
@@ -271,7 +271,7 @@ class Postgres extends ADODB_base {
 	 */
 	function printField($name, $value, $type, $actions = array(),$szExtra="") {
 		global $lang;
-		
+
 		// Determine actions string
 		$action_str = '';
 		foreach ($actions as $k => $v) {
@@ -284,7 +284,7 @@ class Postgres extends ADODB_base {
 				if ($value !== null && $value == '') $value = null;
 				elseif ($value == 'true') $value = 't';
 				elseif ($value == 'false') $value = 'f';
-				
+
 				// If value is null, 't' or 'f'...
 				if ($value === null || $value == 't' || $value == 'f') {
 					echo "<select name=\"", htmlspecialchars($name), "\"{$action_str}>\n";
@@ -295,7 +295,7 @@ class Postgres extends ADODB_base {
 				}
 				else {
 					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
-				}				
+				}
 				break;
 			case 'bytea':
 			case 'bytea[]':
@@ -321,9 +321,9 @@ class Postgres extends ADODB_base {
 			default:
 				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
 				break;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Formats a value or expression for sql purposes
 	 * @param $type The type of the field
@@ -343,14 +343,14 @@ class Postgres extends ADODB_base {
 					return 'NULL';
 				else
 					return $value;
-				break;		
+				break;
 			default:
 				// Checking variable fields is difficult as there might be a size
-				// attribute...			
+				// attribute...
 				if (strpos($type, 'time') === 0) {
 					// Assume it's one of the time types...
 					if ($value == '') return "''";
-					elseif (strcasecmp($value, 'CURRENT_TIMESTAMP') == 0 
+					elseif (strcasecmp($value, 'CURRENT_TIMESTAMP') == 0
 							|| strcasecmp($value, 'CURRENT_TIME') == 0
 							|| strcasecmp($value, 'CURRENT_DATE') == 0
 							|| strcasecmp($value, 'LOCALTIME') == 0
@@ -367,7 +367,7 @@ class Postgres extends ADODB_base {
 				else {
 					if ($format == 'VALUE') {
 						$this->clean($value);
-						return "'{$value}'";					
+						return "'{$value}'";
 					}
 					return $value;
 				}
@@ -383,14 +383,14 @@ class Postgres extends ADODB_base {
 	function formatType($typname, $typmod) {
 		// This is a specific constant in the 7.0 source
 		$varhdrsz = 4;
-		
+
 		// If the first character is an underscore, it's an array type
-		$is_array = false;		
+		$is_array = false;
 		if (substr($typname, 0, 1) == '_') {
 			$is_array = true;
 			$typname = substr($typname, 1);
-		}	
-		
+		}
+
 		// Show lengths on bpchar and varchar
 		if ($typname == 'bpchar') {
 			$len = $typmod - $varhdrsz;
@@ -401,7 +401,7 @@ class Postgres extends ADODB_base {
 		elseif ($typname == 'varchar') {
 			$temp = 'character varying';
 			if ($typmod != -1)
-				$temp .= "(" . ($typmod - $varhdrsz) . ")";			
+				$temp .= "(" . ($typmod - $varhdrsz) . ")";
 		}
 		elseif ($typname == 'numeric') {
 			$temp = 'numeric';
@@ -410,13 +410,13 @@ class Postgres extends ADODB_base {
 				$precision = ($tmp_typmod >> 16) & 0xffff;
 				$scale = $tmp_typmod & 0xffff;
 				$temp .= "({$precision}, {$scale})";
-			}			
+			}
 		}
 		else $temp = $typname;
-		
+
 		// Add array qualifier if it's an array
 		if ($is_array) $temp .= '[]';
-		
+
 		return $temp;
 	}
 
@@ -430,7 +430,7 @@ class Postgres extends ADODB_base {
 		global $conf, $misc;
 
 		$server_info = $misc->getServerInfo();
-		
+
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
 			$username = $server_info['username'];
 			$this->clean($username);
@@ -448,8 +448,8 @@ class Postgres extends ADODB_base {
 		else
 			$where = '';
 
-		$sql = "SELECT pdb.datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding, 
-					(SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment 
+		$sql = "SELECT pdb.datname, pu.usename AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+					(SELECT description FROM pg_description pd WHERE pdb.oid=pd.objoid) AS datcomment
 					FROM pg_database pdb, pg_user pu
 					WHERE pdb.datdba = pu.usesysid
 					{$where}
@@ -491,12 +491,12 @@ class Postgres extends ADODB_base {
 			$encoding = pg_parameter_status($this->conn->_connectionID, 'server_encoding');
 			if ($encoding !== false) return $encoding;
 		}
-		
+
 		$sql = "SELECT getdatabaseencoding() AS encoding";
-		
+
 		return $this->selectField($sql, 'encoding');
 	}
-	
+
 	/**
 	 * Sets the client encoding
 	 * @param $encoding The encoding to for the client
@@ -526,13 +526,13 @@ class Postgres extends ADODB_base {
 		} else {
 			$sql = "CREATE DATABASE \"{$database}\" WITH ENCODING='{$encoding}'";
 		}
-		
+
 		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
-			
+
 		$status = $this->execute($sql);
 		if ($status != 0) return -1;
-	
-		if ($comment != '' && $this->hasSharedComments()) { 
+
+		if ($comment != '' && $this->hasSharedComments()) {
 			$status = $this->setComment('DATABASE',$database,'',$comment);
 			if ($status != 0) return -2;
 		}
@@ -551,9 +551,9 @@ class Postgres extends ADODB_base {
 		$sql = "DROP DATABASE \"{$database}\"";
 		return $this->execute($sql);
 	}
-	
+
 	// Schema functions
-	
+
 	/**
 	 * Sets the current working schema.  This is a do nothing method for
 	 * < 7.3 and is just here for polymorphism's sake.
@@ -563,9 +563,9 @@ class Postgres extends ADODB_base {
 	function setSchema($schema) {
 		return 0;
 	}
-	
+
 	// Inheritance functions
-	
+
 	/**
 	 * Finds the names and schemas of parent tables (in order)
 	 * @param $table The table to find the parents for
@@ -573,9 +573,9 @@ class Postgres extends ADODB_base {
 	 */
 	function getTableParents($table) {
 		$this->clean($table);
-		
+
 		$sql = "
-			SELECT 
+			SELECT
 				NULL AS nspname, relname
 			FROM
 				pg_class pc, pg_inherits pi
@@ -585,9 +585,9 @@ class Postgres extends ADODB_base {
 			ORDER BY
 				pi.inhseqno
 		";
-		
-		return $this->selectSet($sql);					
-	}	
+
+		return $this->selectSet($sql);
+	}
 
 
 	/**
@@ -597,9 +597,9 @@ class Postgres extends ADODB_base {
 	 */
 	function getTableChildren($table) {
 		$this->clean($table);
-		
+
 		$sql = "
-			SELECT 
+			SELECT
 				NULL AS nspname, relname
 			FROM
 				pg_class pc, pg_inherits pi
@@ -607,10 +607,10 @@ class Postgres extends ADODB_base {
 				pc.oid=pi.inhrelid
 				AND pi.inhparent = (SELECT oid from pg_class WHERE relname='{$table}')
 		";
-		
-		return $this->selectSet($sql);					
-	}	
-	
+
+		return $this->selectSet($sql);
+	}
+
 	// Table functions
 
 	/**
@@ -620,33 +620,33 @@ class Postgres extends ADODB_base {
 	 */
 	function getTable($table) {
 		$this->clean($table);
-				
-		$sql = "SELECT pc.relname, 
-			pg_get_userbyid(pc.relowner) AS relowner, 
-			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid) AS relcomment 
+
+		$sql = "SELECT pc.relname,
+			pg_get_userbyid(pc.relowner) AS relowner,
+			(SELECT description FROM pg_description pd
+                        WHERE pc.oid=pd.objoid) AS relcomment
 			FROM pg_class pc
 			WHERE pc.relname='{$table}'";
-							
+
 		return $this->selectSet($sql);
 	}
 
 	/**
 	 * Return all tables in current database
 	 * @param $all True to fetch all tables, false for just in current schema
-	 * @return All tables, sorted alphabetically 
+	 * @return All tables, sorted alphabetically
 	 */
 	function getTables($all = false) {
 		global $conf;
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg@_%' ESCAPE '@' ";
 		else $where = '';
-		
-		$sql = "SELECT NULL AS nspname, c.relname, 
-					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
+
+		$sql = "SELECT NULL AS nspname, c.relname,
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment,
 					reltuples::bigint AS reltuples
-				FROM pg_class c 
-				WHERE c.relkind='r' 
+				FROM pg_class c
+				WHERE c.relkind='r'
 					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
 					{$where}
 				ORDER BY relname";
@@ -662,13 +662,13 @@ class Postgres extends ADODB_base {
 	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
-		
+
 		if ($field == '') {
 			$sql = "SELECT
 					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage, false AS attisserial, 
-                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
+					a.attstorage AS typstorage, false AS attisserial,
+                                        (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a,
 					pg_class c,
@@ -679,11 +679,11 @@ class Postgres extends ADODB_base {
 		}
 		else {
 			$sql = "SELECT
-					a.attname, t.typname as type, t.typname as base_type, 
+					a.attname, t.typname as type, t.typname as base_type,
 					a.attlen, a.atttypmod, a.attnotnull, a.atthasdef, -1 AS attstattarget, a.attstorage,
 					(SELECT adsrc FROM pg_attrdef adef WHERE a.attrelid=adef.adrelid AND a.attnum=adef.adnum) AS adsrc,
-					a.attstorage AS typstorage, 
-                                       (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment 
+					a.attstorage AS typstorage,
+                                       (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a ,
 					pg_class c,
@@ -691,7 +691,7 @@ class Postgres extends ADODB_base {
 				WHERE
 					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid";
 		}
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -715,7 +715,7 @@ class Postgres extends ADODB_base {
 		// Prior releases don't have this setting... oids always activated
 		return 'on';
 	}
-	
+
 	/**
 	 * Creates a new table in the database
 	 * @param $name The name of the table
@@ -735,7 +735,7 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 * @return -1 no fields supplied
 	 */
-	function createTable($name, $fields, $field, $type, $array, $length, $notnull, 
+	function createTable($name, $fields, $field, $type, $array, $length, $notnull,
 				$default, $withoutoids, $colcomment, $tblcomment, $tablespace,
 				$uniquekey, $primarykey) {
 		$this->fieldClean($name);
@@ -759,7 +759,7 @@ class Postgres extends ADODB_base {
 			// If not the first column, add a comma
 			if (!$first) $sql .= ", ";
 			else $first = false;
-			
+
 			switch ($type[$i]) {
 				// Have to account for weird placing of length for with/without
 				// time zone types
@@ -794,9 +794,9 @@ class Postgres extends ADODB_base {
 
 			$found = true;
 		}
-		
+
 		if (!$found) return -1;
-		
+
 		// PRIMARY KEY
  		$primarykeycolumns = array();
  		for ($i = 0; $i < $fields; $i++) {
@@ -807,19 +807,19 @@ class Postgres extends ADODB_base {
  		if (count($primarykeycolumns) > 0) {
  			$sql .= ", PRIMARY KEY (" . implode(", ", $primarykeycolumns) . ")";
  		}
- 		
+
 		$sql .= ")";
-		
+
 		// WITHOUT OIDS
 		if ($this->hasWithoutOIDs() && $withoutoids)
 			$sql .= ' WITHOUT OIDS';
-			
+
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
 			$this->fieldClean($tablespace);
 			$sql .= " TABLESPACE \"{$tablespace}\"";
 		}
-		
+
 		$status = $this->execute($sql);
 		if ($status) {
 			$this->rollbackTransaction();
@@ -842,14 +842,14 @@ class Postgres extends ADODB_base {
 			}
 		}
 		return $this->endTransaction();
-		
+
 	}
 
 	/**
 	 * Alters a table
 	 * @param $table The name of the table
 	 * @param $name The new name for the table
-	 * @param $owner The new owner for the table	
+	 * @param $owner The new owner for the table
 	 * @param $comment The comment on the table
 	 * @param $tablespace The new tablespace for the table ('' means leave as is)
 	 * @return 0 success
@@ -872,14 +872,14 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		// Comment
 		$status = $this->setComment('TABLE', '', $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
 		}
-		
+
 		// Owner
 		if ($this->hasAlterTableOwner() && $owner != '') {
 			// Fetch existing owner
@@ -888,13 +888,13 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -5;
 			}
-				
+
 			// If owner has been changed, then do the alteration.  We are
 			// careful to avoid this generally as changing owner is a
 			// superuser only function.
 			if ($data->fields['relowner'] != $owner) {
 				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-		
+
 				$status = $this->execute($sql);
 				if ($status != 0) {
 					$this->rollbackTransaction();
@@ -902,7 +902,7 @@ class Postgres extends ADODB_base {
 				}
 			}
 		}
-		
+
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
 			// Fetch existing tablespace
@@ -911,18 +911,18 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -5;
 			}
-				
+
 			// If tablespace has been changed, then do the alteration.  We
 			// don't want to do this unnecessarily.
 			if ($data->fields['tablespace'] != $tablespace) {
 				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
-		
+
 				$status = $this->execute($sql);
 				if ($status != 0) {
 					$this->rollbackTransaction();
 					return -6;
 				}
-			}		
+			}
 		}
 
 		// Rename (only if name has changed)
@@ -934,10 +934,10 @@ class Postgres extends ADODB_base {
 				return -3;
 			}
 		}
-				
+
 		return $this->endTransaction();
 	}
-	
+
 	/**
 	 * Removes a table from the database
 	 * @param $table The table to drop
@@ -975,7 +975,7 @@ class Postgres extends ADODB_base {
 	function renameTable($table, $newName) {
 		$this->fieldClean($table);
 		$this->fieldClean($newName);
-		
+
 		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
 
 		return $this->execute($sql);
@@ -1019,7 +1019,7 @@ class Postgres extends ADODB_base {
 		if ($this->hasSchemas()) {
 			$sql .= "SET search_path = \"{$this->_schema}\", pg_catalog;\n\n";
 		}
-		
+
 		// Begin CREATE TABLE definition
 		$sql .= "-- Definition\n\n";
 		// DROP TABLE must be fully qualified in case a table with the same name exists
@@ -1040,7 +1040,7 @@ class Postgres extends ADODB_base {
 			$this->fieldClean($atts->fields['attname']);
 			$sql .= "    \"{$atts->fields['attname']}\"";
 			// Dump SERIAL and BIGSERIAL columns correctly
-			if ($this->phpBool($atts->fields['attisserial']) && 
+			if ($this->phpBool($atts->fields['attisserial']) &&
 					($atts->fields['type'] == 'integer' || $atts->fields['type'] == 'bigint')) {
 				if ($atts->fields['type'] == 'integer')
 					$sql .= " SERIAL";
@@ -1054,7 +1054,7 @@ class Postgres extends ADODB_base {
 				if ($this->phpBool($atts->fields['attnotnull']))
 					$sql .= " NOT NULL";
 				// Add default if necessary
-				if ($atts->fields['adsrc'] !== null) 
+				if ($atts->fields['adsrc'] !== null)
 					$sql .= " DEFAULT {$atts->fields['adsrc']}";
 			}
 
@@ -1062,12 +1062,12 @@ class Postgres extends ADODB_base {
 			if ($i < $num) $sql .= ",\n";
 			else $sql .= "\n";
 
-			// Does this column have a comment?  
+			// Does this column have a comment?
 			if ($atts->fields['comment'] !== null) {
 				$this->clean($atts->fields['comment']);
 				$col_comments_sql .= "COMMENT ON COLUMN \"{$t->fields['relname']}\".\"{$atts->fields['attname']}\"  IS '{$atts->fields['comment']}';\n";
 			}
-			
+
 			$atts->moveNext();
 			$i++;
 		}
@@ -1124,10 +1124,10 @@ class Postgres extends ADODB_base {
 					$sql .= "\"{$parents->fields['schemaname']}\".";
 				}
 				$sql .= "\"{$parents->fields['relname']}\"";
-				
+
 				$parents->moveNext();
 				if (!$parents->EOF) $sql .= ', ';
-			}			
+			}
 			$sql .= ")";
 		}
 		*/
@@ -1209,17 +1209,17 @@ class Postgres extends ADODB_base {
 			foreach ($privs as $v) {
 				// Get non-GRANT OPTION privs
 				$nongrant = array_diff($v[2], $v[4]);
-				
+
 				// Skip empty or owner ACEs
 				if (sizeof($v[2]) == 0 || ($v[0] == 'user' && $v[1] == $t->fields['relowner'])) continue;
-				
+
 				// Change user if necessary
 				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
-				}				
-				
+				}
+
 				// Output privileges with no GRANT OPTION
 				$sql .= "GRANT " . join(', ', $nongrant) . " ON TABLE \"{$t->fields['relname']}\" TO ";
 				switch ($v[0]) {
@@ -1243,10 +1243,10 @@ class Postgres extends ADODB_base {
 				// Reset user if necessary
 				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
-				}				
-				
+				}
+
 				// Output privileges with GRANT OPTION
-				
+
 				// Skip empty or owner ACEs
 				if (!$this->hasGrantOption() || sizeof($v[4]) == 0) continue;
 
@@ -1255,8 +1255,8 @@ class Postgres extends ADODB_base {
 					$grantor = $v[3];
 					$this->clean($grantor);
 					$sql .= "SET SESSION AUTHORIZATION '{$grantor}';\n";
-				}				
-				
+				}
+
 				$sql .= "GRANT " . join(', ', $v[4]) . " ON \"{$t->fields['relname']}\" TO ";
 				switch ($v[0]) {
 					case 'public':
@@ -1275,11 +1275,11 @@ class Postgres extends ADODB_base {
 						return null;
 				}
 				$sql .= " WITH GRANT OPTION;\n";
-				
+
 				// Reset user if necessary
 				if ($this->hasGrantOption() && $v[3] != $t->fields['relowner']) {
 					$sql .= "RESET SESSION AUTHORIZATION;\n";
-				}				
+				}
 
 			}
 		}
@@ -1329,8 +1329,8 @@ class Postgres extends ADODB_base {
 				// Nasty hack to support pre-7.4 PostgreSQL
 				if ($triggers->fields['tgdef'] !== null)
 					$sql .= $triggers->fields['tgdef'];
-				else 
-					$sql .= $this->getTriggerDef($triggers->fields);	
+				else
+					$sql .= $this->getTriggerDef($triggers->fields);
 
 				$sql .= ";\n";
 
@@ -1430,15 +1430,15 @@ class Postgres extends ADODB_base {
 					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
 			}
 		}
-		
+
 		// Add array qualifier, if requested
 		if ($array) $sql .= '[]';
-		
+
 		// If we have advanced column adding, add the extra qualifiers
 		if ($this->hasAlterColumnType()) {
 			// NOT NULL clause
 			if ($notnull) $sql .= ' NOT NULL';
-			
+
 			// DEFAULT clause
 			if ($default != '') $sql .= ' DEFAULT ' . $default;
 		}
@@ -1471,7 +1471,7 @@ class Postgres extends ADODB_base {
 	function setColumnDefault($table, $column, $default) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-		
+
 		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 
 		return $this->execute($sql);
@@ -1530,8 +1530,8 @@ class Postgres extends ADODB_base {
 		}
 
 		// Otherwise update the table.  Note the reverse-sensed $state variable
-		$sql = "UPDATE pg_attribute SET attnotnull = " . (($state) ? 'false' : 'true') . " 
-					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}') 
+		$sql = "UPDATE pg_attribute SET attnotnull = " . (($state) ? 'false' : 'true') . "
+					WHERE attrelid = (SELECT oid FROM pg_class WHERE relname = '{$table}')
 					AND attname = '{$column}'";
 
 		$status = $this->execute($sql);
@@ -1572,7 +1572,7 @@ class Postgres extends ADODB_base {
 	function dropColumn($table, $column, $cascade) {
 		return -99;
 	}
-	
+
 	/**
 	 * Alters a column in a table OR view
 	 * @param $table The table in which the column resides
@@ -1593,7 +1593,7 @@ class Postgres extends ADODB_base {
 	 * @return -3 rename column error
 	 * @return -4 comment error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, 
+	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
 									$type, $length, $array, $oldtype, $comment) {
 		$this->beginTransaction();
 
@@ -1605,12 +1605,12 @@ class Postgres extends ADODB_base {
 				return -1;
 			}
 		}
-		
+
 		// Set default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '')
 				$status = $this->dropColumnDefault($table, $column);
-			else 
+			else
 				$status = $this->setColumnDefault($table, $column, $default);
 
 			if ($status != 0) {
@@ -1627,12 +1627,12 @@ class Postgres extends ADODB_base {
 				return -3;
 			}
 		}
-		
+
 		// Parameters must be cleaned for the setComment function.  It's ok to do
 		// that here since this is the last time these variables are used.
 		$this->fieldClean($name);
 		$this->fieldClean($table);
-		$this->clean($comment);	
+		$this->clean($comment);
 		$status = $this->setComment('COLUMN', $name, $table, $comment);
 		if ($status != 0) {
 		  $this->rollbackTransaction();
@@ -1640,10 +1640,10 @@ class Postgres extends ADODB_base {
 		}
 
 		return $this->endTransaction();
-	}	
+	}
 
 	// Row functions
-	
+
 	/**
 	 * Delete a row from a table
 	 * @param $table The table from which to delete
@@ -1660,18 +1660,18 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -1;
 			}
-			
+
 			$status = $this->delete($table, $key);
 			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
 				$this->rollbackTransaction();
 				return -2;
 			}
-			
+
 			// End transaction
 			return $this->endTransaction();
 		}
 	}
-	
+
 	/**
 	 * Updates a row in a table
 	 * @param $table The table in which to update
@@ -1693,11 +1693,11 @@ class Postgres extends ADODB_base {
 			if (sizeof($vars) > 0) {
 				foreach($vars as $key => $value) {
 					$this->fieldClean($key);
-	
+
 					// Handle NULL values
 					if (isset($nulls[$key])) $tmp = 'NULL';
 					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
-					
+
 					if (isset($sql)) $sql .= ", \"{$key}\"={$tmp}";
 					else $sql = "UPDATE \"{$table}\" SET \"{$key}\"={$tmp}";
 				}
@@ -1710,7 +1710,7 @@ class Postgres extends ADODB_base {
 						$first = false;
 					}
 					else $sql .= " AND \"{$k}\"='{$v}'";
-				}				
+				}
 			}
 
 			// Begin transaction.  We do this so that we can ensure only one row is
@@ -1729,9 +1729,9 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -2;
 			}
-		
+
 			// End transaction
-			return $this->endTransaction();		
+			return $this->endTransaction();
 		}
 	}
 
@@ -1757,11 +1757,11 @@ class Postgres extends ADODB_base {
 				$values = '';
 				foreach($vars as $key => $value) {
 					$this->fieldClean($key);
-	
+
 					// Handle NULL values
 					if (isset($nulls[$key])) $tmp = 'NULL';
 					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
-					
+
 					if ($fields) $fields .= ", \"{$key}\"";
 					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
 
@@ -1769,11 +1769,11 @@ class Postgres extends ADODB_base {
 					else $values = ") VALUES ({$tmp}";
 				}
 				$sql = $fields . $values . ')';
-			}			
+			}
 			return $this->execute($sql);
 		}
 	}
-	
+
 	/**
 	 * Returns a recordset of all columns in a table
 	 * @param $table The name of a table
@@ -1805,19 +1805,19 @@ class Postgres extends ADODB_base {
 	function getRowIdentifier($table) {
 		$oldtable = $table;
 		$this->clean($table);
-		
+
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Get the first primary or unique index (sorting primary keys first) that
 		// is NOT a partial index.
-		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND indrelid=(SELECT oid FROM pg_class 
+		$sql = "SELECT indrelid, indkey FROM pg_index WHERE indisunique AND indrelid=(SELECT oid FROM pg_class
 					WHERE relname='{$table}') AND indpred='' AND indproc=0 ORDER BY indisprimary DESC LIMIT 1";
 		$rs = $this->selectSet($sql);
 
 		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
 		// functions check that they're only modiying a single row.  Otherwise, return empty array.
-		if ($rs->recordCount() == 0) {			
+		if ($rs->recordCount() == 0) {
 			// Check for OID column
 			$temp = array();
 			if ($this->hasObjectID($table)) {
@@ -1837,11 +1837,11 @@ class Postgres extends ADODB_base {
 				$this->endTransaction();
 				return $attnames;
 			}
-		}			
+		}
 	}
 
 	// Sequence functions
-	
+
 	/**
 	 * Returns all sequences in the current database
 	 * @return A recordset
@@ -1852,9 +1852,10 @@ class Postgres extends ADODB_base {
 					c.relname AS seqname,
 					u.usename AS seqowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS seqcomment
-				FROM 
-					pg_class c, pg_user u WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY seqname";
-					
+				FROM
+					pg_class c, pg_user u
+				WHERE c.relowner=u.usesysid AND c.relkind = 'S' ORDER BY seqname";
+
 		return $this->selectSet( $sql );
 	}
 
@@ -1868,15 +1869,19 @@ class Postgres extends ADODB_base {
 		// Need both field cleaned and literal cleaned versions
 		$this->fieldClean($sequence);
 		$this->clean($temp);
-		
-		$sql = "SELECT sequence_name AS seqname, *, 
-					(SELECT description FROM pg_description pd WHERE pd.objoid=(SELECT oid FROM pg_class WHERE relname='{$temp}')) AS seqcomment
-					FROM \"{$sequence}\" AS s"; 
-		
+
+		$sql = "SELECT '{$sequence}' AS seqname, s.*,
+					(SELECT description FROM pg_description pd WHERE pd.objoid=(SELECT oid FROM pg_class WHERE relname='{$temp}')) AS seqcomment,
+					u.usename AS seqowner
+				FROM \"{$sequence}\" AS s, pg_user u, pg_class c
+				WHERE
+					c.relowner = u.usesysid AND c.relkind = 'S'
+					AND c.relname = '{$sequence}'";
+
 		return $this->selectSet( $sql );
 	}
 
-	/** 
+	/**
 	 * Drops a given sequence
 	 * @param $sequence Sequence name
 	 * @param $cascade True to cascade drop, false to restrict
@@ -1884,14 +1889,14 @@ class Postgres extends ADODB_base {
 	 */
 	function dropSequence($sequence, $cascade) {
 		$this->fieldClean($sequence);
-		
+
 		$sql = "DROP SEQUENCE \"{$sequence}\"";
 		if ($cascade) $sql .= " CASCADE";
-		
+
 		return $this->execute($sql);
 	}
 
-	/** 
+	/**
 	 * Resets a given sequence to min value of sequence
 	 * @param $sequence Sequence name
 	 * @return 0 success
@@ -1906,13 +1911,13 @@ class Postgres extends ADODB_base {
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
-		
+
 		$sql = "SELECT SETVAL('\"{$sequence}\"', {$minvalue})";
-		
+
 		return $this->execute($sql);
 	}
 
-	/** 
+	/**
 	 * Execute nextval on a given sequence
 	 * @param $sequence Sequence name
 	 * @return 0 success
@@ -1924,11 +1929,11 @@ class Postgres extends ADODB_base {
 		$this->clean($sequence);
 
 		$sql = "SELECT NEXTVAL('\"{$sequence}\"')";
-		
+
 		return $this->execute($sql);
 	}
 
-	/** 
+	/**
 	 * Execute setval on a given sequence
 	 * @param $sequence Sequence name
 	 * @param $nextvalue The next value
@@ -1942,7 +1947,7 @@ class Postgres extends ADODB_base {
 		$this->clean($nextvalue);
 
 		$sql = "SELECT SETVAL('\"{$sequence}\"', '{$nextvalue}')";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -1957,7 +1962,7 @@ class Postgres extends ADODB_base {
 	 * @param $cycledvalue True if cycled, false otherwise
 	 * @return 0 success
 	 */
-	function createSequence($sequence, $increment, $minvalue, $maxvalue, 
+	function createSequence($sequence, $increment, $minvalue, $maxvalue,
 								$startvalue, $cachevalue, $cycledvalue) {
 		$this->fieldClean($sequence);
 		$this->clean($increment);
@@ -1965,7 +1970,7 @@ class Postgres extends ADODB_base {
 		$this->clean($maxvalue);
 		$this->clean($startvalue);
 		$this->clean($cachevalue);
-		
+
 		$sql = "CREATE SEQUENCE \"{$sequence}\"";
 		if ($increment != '') $sql .= " INCREMENT {$increment}";
 		if ($minvalue != '') $sql .= " MINVALUE {$minvalue}";
@@ -1973,8 +1978,106 @@ class Postgres extends ADODB_base {
 		if ($startvalue != '') $sql .= " START {$startvalue}";
 		if ($cachevalue != '') $sql .= " CACHE {$cachevalue}";
 		if ($cycledvalue) $sql .= " CYCLE";
-		
+
 		return $this->execute($sql);
+	}
+
+	/**
+	 * Rename a sequence
+	 * @param $sequence The sequence name
+	 * @param $name The new name for the sequence
+	 * @return 0 success
+	 */
+	function renameSequence($sequence, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($sequence);
+
+		$sql = "ALTER TABLE \"{$sequence}\" RENAME TO \"{$name}\"";
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 */
+	/*protected*/
+	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+
+		$sequence = $seqrs->fields['seqname'];
+		$this->fieldClean($name);
+		$this->clean($comment);
+		/* $owner, $increment, $minvalue, $maxvalue,
+		 * $startvalue, $cachevalue, $cycledvalue not supported in pg70 */
+
+		// Comment
+		$status = $this->setComment('SEQUENCE', $sequence, '', $comment);
+		if ($status != 0)
+			return -4;
+
+		// Rename (only if name has changed)
+		if ($name != $sequence) {
+			$status = $this->renameSequence($sequence, $name);
+			if ($status != 0)
+				return -3;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Alters a sequence
+	 * @param $sequence The name of the sequence
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 get existing sequence error
+	 * @return $this->_alterSequence error code
+	 */
+    function alterSequence($sequence, $name, $comment, $owner=null, $increment=null,
+				$minvalue=null, $maxvalue=null, $startvalue=null, $cachevalue=null, $cycledvalue=null) {
+
+		$this->fieldClean($sequence);
+		$data = $this->getSequence($sequence);
+		if ($data->recordCount() != 1)
+			return -2;
+
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		$status = $this->_alterSequence($data, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
+
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return $status;
+		}
+
+		return $this->endTransaction();
 	}
 
 	// Constraint functions
@@ -1998,7 +2101,7 @@ class Postgres extends ADODB_base {
 				NULL::int2vector AS indkey
 			FROM
 				pg_relcheck
-			WHERE 
+			WHERE
 				rcrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
 			UNION ALL
 			SELECT
@@ -2042,7 +2145,7 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Drops a check constraint from a table
 	 * @param $table The table from which to drop the check
@@ -2055,7 +2158,7 @@ class Postgres extends ADODB_base {
 	function dropCheckConstraint($table, $name) {
 		$this->clean($table);
 		$this->clean($name);
-		
+
 		// Begin transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) return -2;
@@ -2075,10 +2178,10 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -4;
 		}
-		
+
 		// Update the pg_class catalog to reflect the new number of checks
-		$sql = "UPDATE pg_class SET relchecks=(SELECT COUNT(*) FROM pg_relcheck WHERE 
-					rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}')) 
+		$sql = "UPDATE pg_class SET relchecks=(SELECT COUNT(*) FROM pg_relcheck WHERE
+					rcrelid=(SELECT oid FROM pg_class WHERE relname='{$table}'))
 					WHERE relname='{$table}'";
 	   	$status = $this->execute($sql);
 		if ($status != 0) {
@@ -2088,7 +2191,7 @@ class Postgres extends ADODB_base {
 
 		// Otherwise, close the transaction
 		return $this->endTransaction();
-	}	
+	}
 
 	// Constraint functions
 
@@ -2107,7 +2210,7 @@ class Postgres extends ADODB_base {
 
 		switch ($type) {
 			case 'c':
-				// CHECK constraint		
+				// CHECK constraint
 				return $this->dropCheckConstraint($relation, $constraint);
 				break;
 			case 'p':
@@ -2118,7 +2221,7 @@ class Postgres extends ADODB_base {
 			case 'f':
 				// FOREIGN KEY constraint
 				return -99;
-		}				
+		}
 	}
 
 	/**
@@ -2134,7 +2237,7 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($table);
 		$this->fieldArrayClean($fields);
 		$this->fieldClean($name);
-		
+
 		if ($name != '')
 			$sql = "CREATE UNIQUE INDEX \"{$name}\" ON \"{$table}\"(\"" . join('","', $fields) . "\")";
 		else return -99; // Not supported
@@ -2158,7 +2261,7 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 * @return -1 no fields given
 	 */
-	function addForeignKey($table, $targschema, $targtable, $sfields, $tfields, $upd_action, $del_action, 
+	function addForeignKey($table, $targschema, $targtable, $sfields, $tfields, $upd_action, $del_action,
 							$match, $deferrable, $initially, $name = '') {
 		if (!is_array($sfields) || sizeof($sfields) == 0 ||
 			!is_array($tfields) || sizeof($tfields) == 0) return -1;
@@ -2176,7 +2279,7 @@ class Postgres extends ADODB_base {
 		// Target table needs to be fully qualified
 		if ($this->hasSchemas()) {
 			$sql .= "\"{$targschema}\".";
-		}		
+		}
 		$sql .= "\"{$targtable}\"(\"" . join('","', $tfields) . "\") ";
 		if ($match != $this->fkmatches[0]) $sql .= " {$match}";
 		if ($upd_action != $this->fkactions[0]) $sql .= " ON UPDATE {$upd_action}";
@@ -2186,7 +2289,7 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
-	 
+
 	/**
 	 * Adds a primary key constraint to a table
 	 * @param $table The table to which to add the primery key
@@ -2250,7 +2353,7 @@ class Postgres extends ADODB_base {
 		$sql = "CREATE";
 		if ($unique) $sql .= " UNIQUE";
 		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
-		
+
 		if (is_array($columns)) {
 			$this->arrayClean($columns);
 			$sql .= "(\"" . implode('","', $columns) . "\")";
@@ -2305,7 +2408,7 @@ class Postgres extends ADODB_base {
 	}
 
 	// Rule functions
-	
+
 	/**
 	 * Returns a list of all rules on a table
 	 * @param $table The table to find rules for
@@ -2368,13 +2471,13 @@ class Postgres extends ADODB_base {
 		if ($where != '') $sql .= " WHERE {$where}";
 		$sql .= " DO";
 		if ($instead) $sql .= " INSTEAD";
-		if ($type == 'NOTHING') 
+		if ($type == 'NOTHING')
 			$sql .= " NOTHING";
 		else $sql .= " ({$action})";
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Edits a rule
 	 * @param $name The name of the new rule
@@ -2405,13 +2508,13 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -4;
 		}
-		
+
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -2;
 	}
 
 	// View functions
-	
+
 	/**
 	 * Returns a list of all views in the database
 	 * @return All views
@@ -2425,7 +2528,7 @@ class Postgres extends ADODB_base {
 			$where = '';
 
 		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
-			      (SELECT description FROM pg_description pd, pg_class pc 
+			      (SELECT description FROM pg_description pd, pg_class pc
 			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS relcomment
 			FROM pg_views v
 			{$where}
@@ -2433,7 +2536,7 @@ class Postgres extends ADODB_base {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Returns all details for a particular view
 	 * @param $view The name of the view to retrieve
@@ -2441,15 +2544,15 @@ class Postgres extends ADODB_base {
 	 */
 	function getView($view) {
 		$this->clean($view);
-		
+
 		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
-			  (SELECT description FROM pg_description pd, pg_class pc 
+			  (SELECT description FROM pg_description pd, pg_class pc
 			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS relcomment
 			FROM pg_views v
 			WHERE viewname='{$view}'";
-			
+
 		return $this->selectSet($sql);
-	}	
+	}
 
 	/**
 	 * Creates a new view.
@@ -2466,11 +2569,11 @@ class Postgres extends ADODB_base {
 		$this->clean($comment);
 
 		// Note: $definition not cleaned
-		
+
 		$sql = "CREATE ";
-		if ($replace) $sql .= "OR REPLACE ";		
+		if ($replace) $sql .= "OR REPLACE ";
 		$sql .= "VIEW \"{$viewname}\" AS {$definition}";
-		
+
 		$status = $this->execute($sql);
 		if ($status) {
 			$this->rollbackTransaction();
@@ -2487,7 +2590,7 @@ class Postgres extends ADODB_base {
 
 		return $this->endTransaction();
 	}
-	
+
 	/**
 	 * Drops a view.
 	 * @param $viewname The name of the view to drop
@@ -2517,19 +2620,19 @@ class Postgres extends ADODB_base {
 	function setView($viewname, $definition, $comment) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		$status = $this->dropView($viewname, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
-		
+
 		$status = $this->createView($viewname, $definition, false, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;
 		}
-		
+
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}
@@ -2594,8 +2697,8 @@ class Postgres extends ADODB_base {
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
-				return -3;	
-			}			
+				return -3;
+			}
 		}
 
 		return $this->endTransaction();
@@ -2612,7 +2715,7 @@ class Postgres extends ADODB_base {
 		if (!$conf['show_system'])
 			$where = "WHERE po.oid > '{$this->_lastSystemOID}'::oid";
 		else $where  = '';
-		
+
 		$sql = "
 			SELECT
             po.oid,
@@ -2623,7 +2726,7 @@ class Postgres extends ADODB_base {
 				(SELECT description FROM pg_description pd WHERE po.oid=pd.objoid) AS oprcomment
 			FROM
 				pg_operator po
-			{$where}				
+			{$where}
 			ORDER BY
 				po.oprname, oprleftname, oprrightname
 		";
@@ -2661,7 +2764,7 @@ class Postgres extends ADODB_base {
 			WHERE
 				po.oid='{$operator_oid}'
 		";
-	
+
 		return $this->selectSet($sql);
 	}
 
@@ -2682,14 +2785,14 @@ class Postgres extends ADODB_base {
 		else $sql .= "NONE, ";
 		if ($opr->fields['oprrightname'] !== null) $sql .= $opr->fields['oprrightname'] . ')';
 		else $sql .= "NONE)";
-		
+
 		if ($cascade) $sql .= " CASCADE";
-		
+
 		return $this->execute($sql);
-	}	
+	}
 
 	// User functions
-	
+
 	/**
 	 * Changes a user's password
 	 * @param $username The username
@@ -2699,12 +2802,12 @@ class Postgres extends ADODB_base {
 	function changePassword($username, $password) {
 		$this->fieldClean($username);
 		$this->clean($password);
-		
+
 		$sql = "ALTER USER \"{$username}\" WITH PASSWORD '{$password}'";
-		
+
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Returns all users in the database cluster
 	 * @return All users
@@ -2713,10 +2816,10 @@ class Postgres extends ADODB_base {
 		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
 		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
 		$sql .= " FROM pg_user ORDER BY usename";
-		
+
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Returns information about a single user
 	 * @param $username The username of the user to retrieve
@@ -2724,11 +2827,11 @@ class Postgres extends ADODB_base {
 	 */
 	function getUser($username) {
 		$this->clean($username);
-		
+
 		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
 		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
 		$sql .= " FROM pg_user WHERE usename='{$username}'";
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -2741,17 +2844,17 @@ class Postgres extends ADODB_base {
 		$this->clean($username);
 
 		if (function_exists('pg_parameter_status')) {
-			$val = pg_parameter_status($this->conn->_connectionID, 'is_superuser');	
+			$val = pg_parameter_status($this->conn->_connectionID, 'is_superuser');
 			if ($val !== false) return $val == 'on';
 		}
-		
+
 		$sql = "SELECT usesuper FROM pg_user WHERE usename='{$username}'";
-		
+
 		$usesuper = $this->selectField($sql, 'usesuper');
 		if ($usesuper == -1) return false;
 		else return $usesuper == 't';
-	}	
-	
+	}
+
 	/**
 	 * Creates a new user
 	 * @param $username The username of the user to create
@@ -2766,7 +2869,7 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($username);
 		$this->clean($password);
 		$this->clean($expiry);
-		$this->fieldArrayClean($groups);		
+		$this->fieldArrayClean($groups);
 
 		$sql = "CREATE USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
@@ -2775,10 +2878,10 @@ class Postgres extends ADODB_base {
 		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
 		else $sql .= " VALID UNTIL 'infinity'";
-		
+
 		return $this->execute($sql);
-	}	
-	
+	}
+
 	/**
 	 * Adjusts a user's info
 	 * @param $username The username of the user to modify
@@ -2792,17 +2895,17 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($username);
 		$this->clean($password);
 		$this->clean($expiry);
-		
+
 		$sql = "ALTER USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH PASSWORD '{$password}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
 		else $sql .= " VALID UNTIL 'infinity'";
-		
+
 		return $this->execute($sql);
-	}	
-	
+	}
+
 	/**
 	 * Removes a user
 	 * @param $username The username of the user to drop
@@ -2810,21 +2913,21 @@ class Postgres extends ADODB_base {
 	 */
 	function dropUser($username) {
 		$this->fieldClean($username);
-		
+
 		$sql = "DROP USER \"{$username}\"";
-		
+
 		return $this->execute($sql);
 	}
-	
+
 	// Group functions
-	
+
 	/**
 	 * Returns all groups in the database cluser
 	 * @return All groups
 	 */
 	function getGroups() {
 		$sql = "SELECT groname FROM pg_group ORDER BY groname";
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -2837,7 +2940,7 @@ class Postgres extends ADODB_base {
 		$this->clean($groname);
 
 		$sql = "SELECT grolist FROM pg_group WHERE groname = '{$groname}'";
-      
+
 		$grodata = $this->selectSet($sql);
 		if ($grodata->fields['grolist'] !== null && $grodata->fields['grolist'] != '{}') {
 			$members = $grodata->fields['grolist'];
@@ -2861,15 +2964,15 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($groname);
 
 		$sql = "CREATE GROUP \"{$groname}\"";
-		
+
 		if (is_array($users) && sizeof($users) > 0) {
 			$this->fieldArrayClean($users);
-			$sql .= ' WITH USER "' . join('", "', $users) . '"';			
-		}		
-		
+			$sql .= ' WITH USER "' . join('", "', $users) . '"';
+		}
+
 		return $this->execute($sql);
-	}	
-	
+	}
+
 	/**
 	 * Removes a group
 	 * @param $groname The name of the group to drop
@@ -2877,9 +2980,9 @@ class Postgres extends ADODB_base {
 	 */
 	function dropGroup($groname) {
 		$this->fieldClean($groname);
-		
+
 		$sql = "DROP GROUP \"{$groname}\"";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -2892,12 +2995,12 @@ class Postgres extends ADODB_base {
 	function addGroupMember($groname, $user) {
 		$this->fieldClean($groname);
 		$this->fieldClean($user);
-		
+
 		$sql = "ALTER GROUP \"{$groname}\" ADD USER \"{$user}\"";
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Removes a group member
 	 * @param $groname The name of the group
@@ -2907,12 +3010,12 @@ class Postgres extends ADODB_base {
 	function dropGroupMember($groname, $user) {
 		$this->fieldClean($groname);
 		$this->fieldClean($user);
-		
+
 		$sql = "ALTER GROUP \"{$groname}\" DROP USER \"{$user}\"";
 
 		return $this->execute($sql);
 	}
-	
+
 	// Type functions
 
 	/**
@@ -2924,7 +3027,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		global $conf;
-		
+
 		if ($all || $conf['show_system']) {
 			$where = '';
 		} else {
@@ -2964,13 +3067,13 @@ class Postgres extends ADODB_base {
 	 */
 	function getType($typname) {
 		$this->clean($typname);
-		
-		$sql = "SELECT typtype, typbyval, typname, typinput AS typin, typoutput AS typout, typlen, typalign 
+
+		$sql = "SELECT typtype, typbyval, typname, typinput AS typin, typoutput AS typout, typlen, typalign
 			FROM pg_type WHERE typname='{$typname}'";
 
 		return $this->selectSet($sql);
-	}	
-	
+	}
+
 	/**
 	 * Creates a new type
 	 * @param ...
@@ -2993,12 +3096,12 @@ class Postgres extends ADODB_base {
 		if ($typbyval) $sql .= ", PASSEDBYVALUE, ";
 		if ($typalign != '') $sql .= ", ALIGNMENT = {$typalign}";
 		if ($typstorage != '') $sql .= ", STORAGE = {$typstorage}";
-		
+
 		$sql .= ")";
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Drops a type.
 	 * @param $typname The name of the type to drop
@@ -3068,10 +3171,10 @@ class Postgres extends ADODB_base {
 			else
 				$tgdef .= ' UPDATE';
 		}
-	
+
 		// Table name
 		$tgdef .= " ON \"{$trigger['relname']}\" ";
-		
+
 		// Deferrability
 		if ($trigger['tgisconstraint']) {
 			if ($trigger['tgconstrrelid'] != 0) {
@@ -3095,19 +3198,19 @@ class Postgres extends ADODB_base {
 
 		// Execute procedure
 		$tgdef .= "EXECUTE PROCEDURE \"{$trigger['tgfname']}\"(";
-		
+
 		// Parameters
 		// Escape null characters
 		$v = addCSlashes($trigger['tgargs'], "\0");
 		// Split on escaped null characters
-		$params = explode('\\000', $v);		
+		$params = explode('\\000', $v);
 		for ($findx = 0; $findx < $trigger['tgnargs']; $findx++) {
 			$param = "'" . str_replace('\'', '\\\'', $params[$findx]) . "'";
 			$tgdef .= $param;
 			if ($findx < ($trigger['tgnargs'] - 1))
 				$tgdef .= ', ';
 		}
-		
+
 		// Finish it off
 		$tgdef .= ')';
 
@@ -3123,10 +3226,10 @@ class Postgres extends ADODB_base {
 		$this->clean($table);
 
 		// We include constraint triggers
-		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, t.tgconstrrelid, 
+		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype,
+			t.tgargs, t.tgnargs, t.tgconstrrelid,
 			(SELECT relname FROM pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
-			(SELECT proname FROM pg_proc p WHERE t.tgfoid=p.oid) AS tgfname, 
+			(SELECT proname FROM pg_proc p WHERE t.tgfoid=p.oid) AS tgfname,
 			c.relname, NULL AS tgdef
 			FROM pg_trigger t, pg_class c
 			WHERE t.tgrelid=c.oid
@@ -3134,7 +3237,7 @@ class Postgres extends ADODB_base {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Creates a trigger
 	 * @param $tgname The name of the trigger to create
@@ -3149,12 +3252,12 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 		$this->fieldClean($tgproc);
-		
+
 		/* No Statement Level Triggers in PostgreSQL (by now) */
-		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime} 
+		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime}
 				{$tgevent} ON \"{$table}\"
 				FOR EACH {$tgfrequency} EXECUTE PROCEDURE \"{$tgproc}\"({$tgargs})";
-				
+
 		return $this->execute($sql);
 	}
 
@@ -3189,13 +3292,13 @@ class Postgres extends ADODB_base {
 		// Pick out individual ACE's by carefully parsing.  This is necessary in order
 		// to cope with usernames and stuff that contain commas
 		$aces = array();
-		$i = $j = 0;		
+		$i = $j = 0;
 		$in_quotes = false;
 		while ($i < strlen($acl)) {
 			// If current char is a double quote and it's not escaped, then
 			// enter quoted bit
 			$char = substr($acl, $i, 1);
-			if ($char == '"' && ($i == 0 || substr($acl, $i - 1, 1) != '\\')) 
+			if ($char == '"' && ($i == 0 || substr($acl, $i - 1, 1) != '\\'))
 				$in_quotes = !$in_quotes;
 			elseif ($char == ',' && !$in_quotes) {
 				// Add text so far to the array
@@ -3212,7 +3315,7 @@ class Postgres extends ADODB_base {
 
 		// For each ACE, generate an entry in $temp
 		foreach ($aces as $v) {
-			
+
 			// If the ACE begins with a double quote, strip them off both ends
 			// and unescape backslashes and double quotes
 			$unquote = false;
@@ -3221,7 +3324,7 @@ class Postgres extends ADODB_base {
 				$v = str_replace('\\"', '"', $v);
 				$v = str_replace('\\\\', '\\', $v);
 			}
-			
+
 			// Figure out type of ACE (public, user or group)
 			if (strpos($v, '=') === 0)
 				$atype = 'public';
@@ -3234,10 +3337,10 @@ class Postgres extends ADODB_base {
 				$atype = 'user';
 
 			// Break on unquoted equals sign...
-			$i = 0;		
+			$i = 0;
 			$in_quotes = false;
 			$entity = null;
-			$chars = null;	
+			$chars = null;
 			while ($i < strlen($v)) {
 				// If current char is a double quote and it's not escaped, then
 				// enter quoted bit
@@ -3251,20 +3354,20 @@ class Postgres extends ADODB_base {
 					$i++;
 				}
 				elseif ($char == '=' && !$in_quotes) {
-					// Split on current equals sign					
+					// Split on current equals sign
 					$entity = substr($v, 0, $i);
 					$chars = substr($v, $i + 1);
 					break;
 				}
 				$i++;
 			}
-			
+
 			// Check for quoting on entity name, and unescape if necessary
 			if (strpos($entity, '"') === 0) {
 				$entity = substr($entity, 1, strlen($entity) - 2);
 				$entity = str_replace('""', '"', $entity);
 			}
-			
+
 			// New row to be added to $temp
 			// (type, grantee, privileges, grantor, grant option?
 			$row = array($atype, $entity, array(), '', array());
@@ -3293,14 +3396,14 @@ class Postgres extends ADODB_base {
 						$row[2][] = $this->privmap[$char];
 				}
 			}
-			
+
 			// Append row to temp
 			$temp[] = $row;
 		}
 
 		return $temp;
 	}
-	
+
 	/**
 	 * Grabs an array of users and their privileges for an object,
 	 * given its type.
@@ -3330,7 +3433,7 @@ class Postgres extends ADODB_base {
 		elseif ($acl == '' || $acl == null) return array();
 		else return $this->_parseACL($acl);
 	}
-	
+
 	/**
 	 * Grants a privilege to a user, group or public
 	 * @param $mode 'GRANT' or 'REVOKE';
@@ -3338,7 +3441,7 @@ class Postgres extends ADODB_base {
 	 * @param $object The name of the object
 	 * @param $public True to grant to public, false otherwise
 	 * @param $usernames The array of usernames to grant privs to.
-	 * @param $groupnames The array of group names to grant privs to.	 
+	 * @param $groupnames The array of group names to grant privs to.
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
 	 * @param $grantoption True if has grant option, false otherwise
 	 * @param $cascade True for cascade revoke, false otherwise
@@ -3355,7 +3458,7 @@ class Postgres extends ADODB_base {
 
 		// Input checking
 		if (!is_array($privileges) || sizeof($privileges) == 0) return -3;
-		if (!is_array($usernames) || !is_array($groupnames) || 
+		if (!is_array($usernames) || !is_array($groupnames) ||
 			(!$public && sizeof($usernames) == 0 && sizeof($groupnames) == 0)) return -4;
 		if ($mode != 'GRANT' && $mode != 'REVOKE') return -5;
 
@@ -3364,7 +3467,7 @@ class Postgres extends ADODB_base {
 		// Grant option
 		if ($this->hasGrantOption() && $mode == 'REVOKE' && $grantoption) {
 			$sql .= ' GRANT OPTION FOR';
-		}		
+		}
 
 		if (in_array('ALL PRIVILEGES', $privileges))
 			$sql .= " ALL PRIVILEGES ON";
@@ -3402,7 +3505,7 @@ class Postgres extends ADODB_base {
 			default:
 				return -1;
 		}
-		
+
 		// Dump PUBLIC
 		$first = true;
 		$sql .= ($mode == 'GRANT') ? ' TO ' : ' FROM ';
@@ -3419,7 +3522,7 @@ class Postgres extends ADODB_base {
 			else {
 				$sql .= ", \"{$v}\"";
 			}
-		}			
+		}
 		// Dump groups
 		foreach ($groupnames as $v) {
 			if ($first) {
@@ -3429,13 +3532,13 @@ class Postgres extends ADODB_base {
 			else {
 				$sql .= ", GROUP \"{$v}\"";
 			}
-		}			
+		}
 
 		// Grant option
 		if ($this->hasGrantOption() && $mode == 'GRANT' && $grantoption) {
 			$sql .= ' WITH GRANT OPTION';
 		}
-		
+
 		// Cascade revoke
 		if ($this->hasGrantOption() && $mode == 'REVOKE' && $cascade) {
 			$sql .= ' CASCADE';
@@ -3443,7 +3546,7 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
- 
+
 	// Administration functions
 
 	/**
@@ -3510,7 +3613,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getFunctions($all = false) {
 		global $conf;
-		
+
 		if ($all || $conf['show_system'])
 			$where = '';
 		else
@@ -3535,7 +3638,7 @@ class Postgres extends ADODB_base {
 				AND pc.prolang = pl.oid
 				{$where}
 			UNION
-			SELECT 
+			SELECT
 				pc.oid AS prooid,
 				proname,
 				proretset,
@@ -3548,7 +3651,7 @@ class Postgres extends ADODB_base {
 				usename as proowner
 			FROM
 				pg_proc pc, pg_user pu, pg_type pt, pg_language pl
-			WHERE	
+			WHERE
 				pc.proowner = pu.usesysid
 				AND pc.prorettype = 0
 				AND pc.prolang = pl.oid
@@ -3559,7 +3662,7 @@ class Postgres extends ADODB_base {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Returns a list of all functions that can be used in triggers
 	 */
@@ -3574,8 +3677,8 @@ class Postgres extends ADODB_base {
 	 */
 	function getFunction($function_oid) {
 		$this->clean($function_oid);
-		
-		$sql = "SELECT 
+
+		$sql = "SELECT
 					pc.oid AS prooid,
 					proname,
 					lanname AS prolanguage,
@@ -3588,16 +3691,16 @@ class Postgres extends ADODB_base {
 					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 				FROM
 					pg_proc pc, pg_language pl, pg_type pt
-				WHERE 
+				WHERE
 					pc.oid = '$function_oid'::oid
 					AND pc.prolang = pl.oid
 					AND pc.prorettype = pt.oid
 				";
-	
+
 		return $this->selectSet($sql);
 	}
 
-	/** 
+	/**
 	 * Returns an array containing a function's properties
 	 * @param $f The array of data for the function
 	 * @return An array containing the properties
@@ -3611,10 +3714,10 @@ class Postgres extends ADODB_base {
 			$temp[] = 'ISCACHABLE';
 		else
 			$temp[] = '';
-					
+
 		return $temp;
 	}
-	
+
 	/**
 	 * Updates a function.  Postgres 7.1 doesn't have CREATE OR REPLACE function,
 	 * so we do it with a drop and a recreate.
@@ -3634,24 +3737,24 @@ class Postgres extends ADODB_base {
 	 * @return -3 create function error
 	 * @return -4 comment error
 	 */
-	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {		
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Drop existing function
 		$status = $this->dropFunction($function_oid, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
-		
+
 		// Create function with new name
 		$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, false);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;
 		}
-		
+
 		// Comment on the function
 		$this->fieldClean($newname);
 		$this->clean($comment);
@@ -3664,7 +3767,7 @@ class Postgres extends ADODB_base {
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}
-	
+
 	/**
 	 * Creates a new function.
 	 * @param $funcname The name of the function to create
@@ -3686,7 +3789,7 @@ class Postgres extends ADODB_base {
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
 		$sql .= " FUNCTION \"{$funcname}\" (";
-		
+
 		if ($args != '')
 			$sql .= $args;
 
@@ -3694,7 +3797,7 @@ class Postgres extends ADODB_base {
 		$sql .= ") RETURNS ";
 		if ($setof) $sql .= "SETOF ";
 		$sql .= "{$returns} AS ";
-		
+
 		if (is_array($definition)) {
 			$this->arrayClean($definition);
 			$sql .= "'" . $definition[0] . "'";
@@ -3705,9 +3808,9 @@ class Postgres extends ADODB_base {
 			$this->clean($definition);
 			$sql .= "'" . $definition . "'";
 		}
-		
+
 		$sql .= " LANGUAGE '{$language}'";
-		
+
 		// Add flags
 		$first = true;
 		foreach ($flags as  $v) {
@@ -3726,7 +3829,7 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
-		
+
 	/**
 	 * Drops a function.
 	 * @param $function_oid The OID of the function to drop
@@ -3737,15 +3840,15 @@ class Postgres extends ADODB_base {
 		// Function comes in with $object as function OID
 		$fn = $this->getFunction($function_oid);
 		$this->fieldClean($fn->fields['proname']);
-		
+
 		$sql = "DROP FUNCTION \"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
 		if ($cascade) $sql .= " CASCADE";
-		
+
 		return $this->execute($sql);
-	}	
+	}
 
 	// Language functions
-	
+
 	/**
 	 * Gets all languages
 	 * @param $all True to get all languages, regardless of show_system
@@ -3753,7 +3856,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getLanguages($all = false) {
 		global $conf;
-		
+
 		if ($conf['show_system'] || $all)
 			$where = '';
 		else
@@ -3770,19 +3873,19 @@ class Postgres extends ADODB_base {
 			ORDER BY
 				lanname
 		";
-		
+
 		return $this->selectSet($sql);
 	}
 
 	// Aggregate functions
-	
+
 	/**
 	 * Gets all aggregates
 	 * @return A recordset
 	 */
 	function getAggregates() {
 		global $conf;
-		
+
 		if ($conf['show_system'])
 			$where = '';
 		else
@@ -3796,7 +3899,7 @@ class Postgres extends ADODB_base {
 					ELSE (SELECT typname FROM pg_type t WHERE t.oid=a.aggbasetype)
 				END AS proargtypes,
 				(SELECT description FROM pg_description pd WHERE a.oid=pd.objoid) AS aggcomment
-			FROM 
+			FROM
 				pg_aggregate a
 			{$where}
 			ORDER BY
@@ -3830,7 +3933,7 @@ class Postgres extends ADODB_base {
 		$this->clean($comment);
 
 		$this->beginTransaction();
-		
+
 		$sql = "CREATE AGGREGATE \"{$name}\" (BASETYPE = \"{$basetype}\", SFUNC = \"{$sfunc}\", STYPE = \"{$stype}\"";
 		if(trim($ffunc) != '') $sql .= ", FINALFUNC = \"{$ffunc}\"";
 		if(trim($initcond) != '') $sql .= ", INITCOND = \"{$initcond}\"";
@@ -3852,7 +3955,7 @@ class Postgres extends ADODB_base {
 		}
 
 		return $this->endTransaction();
-	}	
+	}
 
 	/**
 	 * Removes an aggregate function from the database
@@ -3875,14 +3978,14 @@ class Postgres extends ADODB_base {
 
 
 	// Operator Class functions
-	
+
 	/**
 	 * Gets all opclasses
 	 * @return A recordset
 	 */
 	function getOpClasses() {
 		global $conf;
-		
+
 		if ($conf['show_system'])
 			$where = '';
 		else
@@ -3890,8 +3993,8 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT DISTINCT
-				pa.amname, 
-				po.opcname, 
+				pa.amname,
+				po.opcname,
 				(SELECT typname FROM pg_type t WHERE t.oid=opcdeftype) AS opcintype,
 				TRUE AS opcdefault,
 				NULL::text AS opccomment
@@ -3928,7 +4031,7 @@ class Postgres extends ADODB_base {
 		$parameter = ($parameter == 't');
 		return $parameter;
 	}
-	
+
 	// Misc functions
 
 	/**
@@ -3963,7 +4066,7 @@ class Postgres extends ADODB_base {
 			case 'TEXT SEARCH PARSER':
 				$sql .= "\"{$obj_name}\" IS ";
 				break;
-			case 'FUNCTION':				
+			case 'FUNCTION':
 				$sql .= "{$obj_name} IS ";
 				break;
 			case 'AGGREGATE':
@@ -4002,7 +4105,7 @@ class Postgres extends ADODB_base {
 		// Begin serializable transaction (to dump consistent data)
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Set serializable
 		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
 		$status = $this->execute($sql);
@@ -4034,7 +4137,7 @@ class Postgres extends ADODB_base {
 	 * @param $show An array of columns to show.  Empty array means all columns.
 	 * @param $values An array mapping columns to values
 	 * @param $ops An array of the operators to use
-	 * @param $orderby (optional) An array of column numbers or names (one based) 
+	 * @param $orderby (optional) An array of column numbers or names (one based)
 	 *        mapped to sort direction (asc or desc or '' or null) to order by
 	 * @return The SQL query
 	 */
@@ -4055,10 +4158,10 @@ class Postgres extends ADODB_base {
 				$sql = "SELECT \"{$this->id}\", \"";
 			else
 				$sql = "SELECT \"";
-			
+
 			$sql .= join('","', $show) . "\" FROM ";
 		}
-			
+
 		if ($this->hasSchemas() && isset($_REQUEST['schema'])) {
 			$this->fieldClean($_REQUEST['schema']);
 			$sql .= "\"{$_REQUEST['schema']}\".";
@@ -4116,7 +4219,7 @@ class Postgres extends ADODB_base {
 				if (strtoupper($v) == 'DESC') $sql .= " DESC";
 			}
 		}
-		
+
 		return $sql;
 	}
 
@@ -4134,10 +4237,10 @@ class Postgres extends ADODB_base {
 		if (!is_object($rs)) {
 			return -1;
 		}
-		
-		return $rs->recordCount();	
+
+		return $rs->recordCount();
 	}
-	
+
 	/**
 	 * Returns a recordset of all columns in a query.  Supports paging.
 	 * @param $type Either 'QUERY' if it is an SQL query, or 'TABLE' if it is a table identifier,
@@ -4185,7 +4288,7 @@ class Postgres extends ADODB_base {
 		// Open a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// If backend supports read only queries, then specify read only mode
 		// to avoid side effects from repeating queries that do writes.
 		if ($this->hasReadOnlyQueries()) {
@@ -4196,7 +4299,7 @@ class Postgres extends ADODB_base {
 			}
 		}
 
-		
+
 		// Count the number of rows
 		$total = $this->browseQueryCount($query, $count);
 		if ($total < 0) {
@@ -4206,7 +4309,7 @@ class Postgres extends ADODB_base {
 
 		// Calculate max pages
 		$max_pages = ceil($total / $page_size);
-		
+
 		// Check that page is less than or equal to max pages
 		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
 			$this->rollbackTransaction();
@@ -4227,7 +4330,7 @@ class Postgres extends ADODB_base {
 				$orderby .= ' DESC';
 			else
 				$orderby .= ' ASC';
-		}	
+		}
 		else $orderby = '';
 
 		// Actually retrieve the rows, with offset and limit
@@ -4240,10 +4343,10 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		return $rs;
 	}
-		
+
 	/**
 	 * Returns a recordset of all columns in a relation.  Used for data export.
 	 * @@ Note: Really needs to use a cursor
@@ -4253,7 +4356,7 @@ class Postgres extends ADODB_base {
 	 */
 	function dumpRelation($relation, $oids) {
 		$this->fieldClean($relation);
-		
+
 		// Actually retrieve the rows
 		if ($oids) $oid_str = $this->id . ', ';
 		else $oid_str = '';
@@ -4282,19 +4385,19 @@ class Postgres extends ADODB_base {
 		// Relations
 		$case_clause = "CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'VIEW'::VARCHAR ELSE 'TABLE'::VARCHAR END) WHEN relkind='v' THEN 'VIEW'::VARCHAR WHEN relkind='S' THEN 'SEQUENCE'::VARCHAR END";
 		$sql = "
-			SELECT {$case_clause} AS type, 
+			SELECT {$case_clause} AS type,
 				pc.oid, NULL::VARCHAR AS schemaname, NULL::VARCHAR AS relname, pc.relname AS name FROM pg_class pc
 				WHERE relkind IN ('r', 'v', 'S') AND relname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";			
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter == 'TABLE' || $filter == 'VIEW' || $filter == 'SEQUENCE') $sql .= " AND {$case_clause} = '{$filter}'";
 		elseif ($filter != '') $sql .= " AND FALSE";
 
 		// Columns
-		$sql .= "				
+		$sql .= "
 			UNION ALL
 			SELECT CASE WHEN relkind='r' THEN (CASE WHEN EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = pc.oid AND r.ev_type = '1') THEN 'COLUMNVIEW'::VARCHAR ELSE 'COLUMNTABLE'::VARCHAR END) WHEN relkind='v' THEN 'COLUMNVIEW'::VARCHAR END,
 				NULL, NULL, pc.relname, pa.attname FROM pg_class pc,
-				pg_attribute pa WHERE pc.oid=pa.attrelid 
+				pg_attribute pa WHERE pc.oid=pa.attrelid
 				AND pa.attname ~* '.*{$term}.*' AND pa.attnum > 0 AND pc.relkind IN ('r', 'v')";
 		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'COLUMNTABLE' || $filter != 'COLUMNVIEW') $sql .= " AND FALSE";
@@ -4306,12 +4409,12 @@ class Postgres extends ADODB_base {
 				WHERE proname ~* '.*{$term}.*'";
 		if (!$conf['show_system']) $sql .= " AND pp.oid > '{$this->_lastSystemOID}'::oid";
 		if ($filter != '' && $filter != 'FUNCTION') $sql .= " AND FALSE";
-			
+
 		// Indexes
 		$sql .= "
 			UNION ALL
 			SELECT 'INDEX', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
-				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND NOT pi.indisprimary AND NOT pi.indisunique";
 		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg@_%' ESCAPE '@'";
@@ -4323,18 +4426,18 @@ class Postgres extends ADODB_base {
 			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pr.rcname FROM pg_class pc,
 				pg_relcheck pr WHERE pc.oid=pr.rcrelid
 				AND pr.rcname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
-		
+
 		// Unique and Primary Key Constraints
 		$sql .= "
 			UNION ALL
 			SELECT 'CONSTRAINTTABLE', NULL, NULL, pc.relname, pc2.relname FROM pg_class pc,
-				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid 
+				pg_index pi, pg_class pc2 WHERE pc.oid=pi.indrelid
 				AND pi.indexrelid=pc2.oid
 				AND pc2.relname ~* '.*{$term}.*' AND (pi.indisprimary OR pi.indisunique)";
-		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg@_%' ESCAPE '@'";	
-		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";			
+		if (!$conf['show_system']) $sql .= " AND pc2.relname NOT LIKE 'pg@_%' ESCAPE '@'";
+		if ($filter != '' && $filter != 'CONSTRAINT') $sql .= " AND FALSE";
 
 		// Triggers
 		$sql .= "
@@ -4342,7 +4445,7 @@ class Postgres extends ADODB_base {
 			SELECT 'TRIGGER', NULL, NULL, pc.relname, pt.tgname FROM pg_class pc,
 				pg_trigger pt WHERE pc.oid=pt.tgrelid
 				AND pt.tgname ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
+		if (!$conf['show_system']) $sql .= " AND pc.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'TRIGGER') $sql .= " AND FALSE";
 
 		// Table Rules
@@ -4350,9 +4453,9 @@ class Postgres extends ADODB_base {
 			UNION ALL
 			SELECT 'RULETABLE', NULL, NULL, c.relname AS tablename, r.rulename
 				FROM pg_rewrite r, pg_class c
-				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1') 
+				WHERE c.relkind='r' AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// View Rules
@@ -4362,7 +4465,7 @@ class Postgres extends ADODB_base {
 				FROM pg_rewrite r, pg_class c
 				WHERE c.relkind='r' AND EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
 				AND r.rulename !~ '^_RET' AND c.oid = r.ev_class AND r.rulename ~* '.*{$term}.*'";
-		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";				
+		if (!$conf['show_system']) $sql .= " AND c.relname NOT LIKE 'pg@_%' ESCAPE '@'";
 		if ($filter != '' && $filter != 'RULE') $sql .= " AND FALSE";
 
 		// Advanced Objects
@@ -4376,7 +4479,7 @@ class Postgres extends ADODB_base {
 			if ($filter != '' && $filter != 'TYPE') $sql .= " AND FALSE";
 
 			// Operators
-			$sql .= "				
+			$sql .= "
 				UNION ALL
 				SELECT 'OPERATOR', po.oid, NULL, NULL, po.oprname FROM pg_operator po
 					WHERE oprname ~* '.*{$term}.*'";
@@ -4384,7 +4487,7 @@ class Postgres extends ADODB_base {
 			if ($filter != '' && $filter != 'OPERATOR') $sql .= " AND FALSE";
 
 			// Languages
-			$sql .= "				
+			$sql .= "
 				UNION ALL
 				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_language pl
 					WHERE lanname ~* '.*{$term}.*'";
@@ -4392,37 +4495,37 @@ class Postgres extends ADODB_base {
 			if ($filter != '' && $filter != 'LANGUAGE') $sql .= " AND FALSE";
 
 			// Aggregates
-			$sql .= "				
+			$sql .= "
 				UNION ALL
-				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a 
+				SELECT DISTINCT ON (a.aggname) 'AGGREGATE', a.oid, NULL, NULL, a.aggname FROM pg_aggregate a
 					WHERE aggname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND a.oid > '{$this->_lastSystemOID}'::oid";
 			if ($filter != '' && $filter != 'AGGREGATE') $sql .= " AND FALSE";
 
 			// Op Classes
-			$sql .= "				
+			$sql .= "
 				UNION ALL
 				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, NULL, NULL, po.opcname FROM pg_opclass po
 					WHERE po.opcname ~* '.*{$term}.*'";
 			if (!$conf['show_system']) $sql .= " AND po.oid > '{$this->_lastSystemOID}'::oid";
 			if ($filter != '' && $filter != 'OPCLASS') $sql .= " AND FALSE";
 		}
-				
+
 		$sql .= " ORDER BY type, schemaname, relname, name";
-			
+
 		return $this->selectSet($sql);
 	}
 
-	/**    
+	/**
 	 * Private helper method to detect a valid $foo$ quote delimiter at
 	 * the start of the parameter dquote
 	 * @return True if valid, false otherwise
-	 */    
+	 */
 	function valid_dolquote($dquote) {
 		// XXX: support multibyte
 		return (ereg('^[$][$]', $dquote) || ereg('^[$][_[:alpha:]][_[:alnum:]]*[$]', $dquote));
 	}
-	
+
 	/**
 	 * A private helper method for executeScript that advances the
 	 * character by 1.  In psql this is careful to take into account
@@ -4430,7 +4533,7 @@ class Postgres extends ADODB_base {
 	 * is someone redundant, since it will always advance by 1
 	 * @param &$i The current character position in the line
 	 * @param &$prevlen Length of previous character (ie. 1)
-	 * @param &$thislen Length of current character (ie. 1)     
+	 * @param &$thislen Length of current character (ie. 1)
 	 */
 	function advance_1(&$i, &$prevlen, &$thislen) {
 		$prevlen = $thislen;
@@ -4438,7 +4541,7 @@ class Postgres extends ADODB_base {
 		$thislen = 1;
 	}
 
-	/** 
+	/**
 	 * Executes an SQL script as a series of SQL statements.  Returns
 	 * the result of the final step.  This is a very complicated lexer
 	 * based on the REL7_4_STABLE src/bin/psql/mainloop.c lexer in
@@ -4458,7 +4561,7 @@ class Postgres extends ADODB_base {
 
 		$fd = fopen($_FILES[$name]['tmp_name'], 'r');
 		if (!$fd) return false;
-		
+
 		// Build up each SQL statement, they can be multiline
 		$query_buf = null;
 		$query_start = 0;
@@ -4472,15 +4575,15 @@ class Postgres extends ADODB_base {
 		$prevlen = 0;
 		$thislen = 0;
 		$lineno = 0;
-		
+
 		// Loop over each line in the file
 		while (!feof($fd)) {
 			$line = fgets($fd, 32768);
 			$lineno++;
-			
+
 			// Nothing left on line? Then ignore...
 			if (trim($line) == '') continue;
-		
+
 		    $len = strlen($line);
 		    $query_start = 0;
 
@@ -4492,21 +4595,21 @@ class Postgres extends ADODB_base {
     		 */
     		$prevlen = 0;
     		$thislen = ($len > 0) ? 1 : 0;
-    
+
     		for ($i = 0; $i < $len; $this->advance_1($i, $prevlen, $thislen)) {
-    			
+
     			/* was the previous character a backslash? */
     			if ($i > 0 && substr($line, $i - $prevlen, 1) == '\\')
     				$bslash_count++;
     			else
     				$bslash_count = 0;
-    
+
     			/*
     			 * It is important to place the in_* test routines before the
     			 * in_* detection routines. i.e. we have to test if we are in
     			 * a quote before testing for comments.
     			 */
-    
+
     			/* in quote? */
     			if ($in_quote != 0)
     			{
@@ -4518,8 +4621,8 @@ class Postgres extends ADODB_base {
     					($bslash_count % 2 == 0 || $in_quote == '"'))
     					$in_quote = 0;
     			}
-				
-				/* in or end of $foo$ type quote? */				
+
+				/* in or end of $foo$ type quote? */
 				else if ($dol_quote) {
 					if (strncmp(substr($line, $i), $dol_quote, strlen($dol_quote)) == 0) {
 						$this->advance_1($i, $prevlen, $thislen);
@@ -4528,7 +4631,7 @@ class Postgres extends ADODB_base {
 						$dol_quote = null;
 					}
 				}
-    
+
     			/* start of extended comment? */
     			else if (substr($line, $i, 2) == '/*')
     			{
@@ -4536,21 +4639,21 @@ class Postgres extends ADODB_base {
     				if ($in_xcomment == 1)
     					$this->advance_1($i, $prevlen, $thislen);
     			}
-    
+
     			/* in or end of extended comment? */
     			else if ($in_xcomment)
     			{
     				if (substr($line, $i, 2) == '*/' && !--$in_xcomment)
     					$this->advance_1($i, $prevlen, $thislen);
     			}
-    
+
     			/* start of quote? */
     			else if (substr($line, $i, 1) == '\'' || substr($line, $i, 1) == '"') {
     				$in_quote = substr($line, $i, 1);
     		    }
 
-				/* 
-				 * start of $foo$ type quote? 
+				/*
+				 * start of $foo$ type quote?
 				 */
 				else if (!$dol_quote && $this->valid_dolquote(substr($line, $i))) {
 					$dol_end = strpos(substr($line, $i + 1), '$');
@@ -4559,25 +4662,25 @@ class Postgres extends ADODB_base {
 					while (substr($line, $i, 1) != '$') {
 						$this->advance_1($i, $prevlen, $thislen);
 					}
-					
+
 				}
-    
+
     			/* single-line comment? truncate line */
     			else if (substr($line, $i, 2) == '--')
     			{
     			    $line = substr($line, 0, $i); /* remove comment */
     				break;
-    			}			
-    
+    			}
+
     			/* count nested parentheses */
     			else if (substr($line, $i, 1) == '(') {
     				$paren_level++;
     			}
-    
+
     			else if (substr($line, $i, 1) == ')' && $paren_level > 0) {
     				$paren_level--;
     			}
-    
+
     			/* semicolon? then send query */
     			else if (substr($line, $i, 1) == ';' && !$bslash_count && !$paren_level)
     			{
@@ -4600,7 +4703,7 @@ class Postgres extends ADODB_base {
             			if (function_exists('pg_query'))
             				$res = @pg_query($conn, $query_buf);
             			else
-            				$res = @pg_exec($conn, $query_buf);      
+            				$res = @pg_exec($conn, $query_buf);
 						// Call the callback function for display
 						if ($callback !== null) $callback($query_buf, $res, $lineno);
             			// Check for COPY request
@@ -4614,19 +4717,19 @@ class Postgres extends ADODB_base {
             						break;
             					}
             				}
-            			}    				
+            			}
     				}
-        
+
 					$query_buf = null;
 					$query_start = $i + $thislen;
     			}
-    			
+
     			/*
-				 * keyword or identifier? 
+				 * keyword or identifier?
 				 * We grab the whole string so that we don't
 				 * mistakenly see $foo$ inside an identifier as the start
 				 * of a dollar quote.
-				 */	
+				 */
 				// XXX: multibyte here
 				else if (ereg('^[_[:alpha:]]$', substr($line, $i, 1))) {
 					$sub = substr($line, $i, $thislen);
@@ -4642,16 +4745,16 @@ class Postgres extends ADODB_base {
     	    } // end for
 
     		/* Put the rest of the line in the query buffer. */
-    		$subline = substr($line, $query_start);    		
+    		$subline = substr($line, $query_start);
     		if ($in_quote || $dol_quote || strspn($subline, " \t\n\r") != strlen($subline))
     		{
     			if (strlen($query_buf) > 0)
     			    $query_buf .= "\n";
     			$query_buf .= $subline;
     		}
-    
+
     		$line = null;
-    		
+
     	} // end while
 
     	/*
@@ -4678,11 +4781,11 @@ class Postgres extends ADODB_base {
 						break;
 					}
 				}
-			}    				
+			}
     	}
-		
+
 		fclose($fd);
-		
+
 		return true;
 	}
 
@@ -4691,7 +4794,7 @@ class Postgres extends ADODB_base {
 	function hasAlterDatabaseRename() { return false; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasSchemas() { return false; }
-	function hasConversions() { return false; }	
+	function hasConversions() { return false; }
 	function hasGrantOption() { return false; }
 	function hasIsClustered() { return false; }
 	function hasDropBehavior() { return false; }
@@ -4701,6 +4804,8 @@ class Postgres extends ADODB_base {
 	function hasAlterTrigger() { return false; }
 	function hasWithoutOIDs() { return false; }
 	function hasAlterTableOwner() { return false; }
+	function hasAlterSequenceOwner() { return false; }
+	function hasAlterSequenceProps() { return false; }
 	function hasPartialIndexes() { return false; }
 	function hasCasts() { return false; }
 	function hasFullSubqueries() { return false; }
@@ -4728,7 +4833,6 @@ class Postgres extends ADODB_base {
 	function hasServerAdminFuncs() { return false; }
 	function hasRoles() { return false; }
 	function hasAutovacuum() { return false; }
-	function hasAlterSequence() { return false; }
 	function hasLocksView() { return false; }
 	function hasPreparedXacts() { return false; }
 	function hasDisableTriggers() { return false; }

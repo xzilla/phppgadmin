@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.76 2007/07/20 04:38:34 xzilla Exp $
+ * $Id: Postgres71.php,v 1.77 2007/10/17 15:55:33 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -39,17 +39,17 @@ class Postgres71 extends Postgres {
 		'U' => 'USAGE',
 		'C' => 'CREATE',
 		'T' => 'TEMPORARY'
-	);	
-	
+	);
+
 	// Function properties
 	var $funcprops = array(array('', 'ISSTRICT'), array('', 'ISCACHABLE'));
 	var $defaultprops = array('', '');
 
 	// Select operators
-	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i', 
-									'LIKE' => 'i', 'NOT LIKE' => 'i', 'ILIKE' => 'i', 'NOT ILIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i', 
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i',
+									'LIKE' => 'i', 'NOT LIKE' => 'i', 'ILIKE' => 'i', 'NOT ILIKE' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i',
 									'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
-	// Supported join operations for use with view wizard								
+	// Supported join operations for use with view wizard
 	var $joinOps = array('INNER JOIN' => 'INNER JOIN', 'LEFT JOIN' => 'LEFT JOIN', 'RIGHT JOIN' => 'RIGHT JOIN', 'FULL JOIN' => 'FULL JOIN');
 
 	/**
@@ -61,7 +61,7 @@ class Postgres71 extends Postgres {
 	}
 
 	// Help functions
-	
+
 	function getHelpPages() {
 		include_once('./help/PostgresDoc71.php');
 		return $this->help_page;
@@ -76,7 +76,7 @@ class Postgres71 extends Postgres {
 		$this->clean($encoding);
 
 		$sql = "SET CLIENT_ENCODING TO '{$encoding}'";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -88,9 +88,9 @@ class Postgres71 extends Postgres {
 	 */
 	function getDatabases($currentdatabase = NULL) {
 		global $conf, $misc;
-		
+
 		$server_info = $misc->getServerInfo();
-		
+
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
 			$username = $server_info['username'];
 			$this->clean($username);
@@ -132,7 +132,7 @@ class Postgres71 extends Postgres {
 	function browseQueryCount($query, $count) {
 		return $this->selectField($count, 'total');
 	}
-		
+
 	/**
 	 * Retrieve the attribute definition of a table
 	 * @param $table The name of the table
@@ -142,12 +142,12 @@ class Postgres71 extends Postgres {
 	function getTableAttributes($table, $field = '') {
 		$this->clean($table);
 		$this->clean($field);
-		
+
 		if ($field == '') {
 			$sql = "SELECT
-					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull, 
+					a.attname, t.typname as type, a.attlen, a.atttypmod, a.attnotnull,
 					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage,
-					false AS attisserial, 
+					false AS attisserial,
                                         (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
@@ -161,8 +161,8 @@ class Postgres71 extends Postgres {
 		else {
 			$sql = "SELECT
 					a.attname, t.typname as type, t.typname as base_type,
-					a.attlen, a.atttypmod, a.attnotnull, 
-					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage, 
+					a.attlen, a.atttypmod, a.attnotnull,
+					a.atthasdef, adef.adsrc, -1 AS attstattarget, a.attstorage, t.typstorage,
                                         (SELECT description FROM pg_description d WHERE d.objoid = a.oid) as comment
 				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
@@ -172,7 +172,7 @@ class Postgres71 extends Postgres {
 				WHERE
 					c.relname = '{$table}' AND a.attname='{$field}' AND a.attrelid = c.oid AND a.atttypid = t.oid";
 		}
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -184,10 +184,59 @@ class Postgres71 extends Postgres {
 	function formatType($typname, $typmod) {
 		return $typname;
 	}
-		
+
 	// Sequence functions
-	
-	/** 
+
+	/**
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 */
+	/*protected*/
+	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+
+		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
+		if ($status != 0)
+			return $status;
+
+		/* $increment, $minvalue, $maxvalue, $startvalue, $cachevalue,
+		 * $cycledvalue not supported in pg71 */
+		// if name != seqname, sequence has been renamed in parent
+		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
+		$this->fieldClean($owner);
+
+		// Owner
+		if (!empty($owner)) {
+
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($seqrs->fields['seqowner'] != $owner) {
+				$sql = "ALTER TABLE \"{$sequence}\" OWNER TO \"{$owner}\"";
+				$status = $this->execute($sql);
+				if ($status != 0)
+					return -5;
+			}
+		}
+		return 0;
+	}
+
+	/**
 	 * Resets a given sequence to min value of sequence
 	 * @param $sequence Sequence name
 	 * @return 0 success
@@ -202,14 +251,14 @@ class Postgres71 extends Postgres {
 		/* This double-cleaning is deliberate */
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
-		
+
 		$sql = "SELECT SETVAL('\"{$sequence}\"', {$minvalue}, FALSE)";
-		
+
 		return $this->execute($sql);
 	}
 
 	// Function functions
-	
+
 	/**
 	 * Returns all details for a particular function
 	 * @param $func The name of the function to retrieve
@@ -217,8 +266,8 @@ class Postgres71 extends Postgres {
 	 */
 	function getFunction($function_oid) {
 		$this->clean($function_oid);
-		
-		$sql = "SELECT 
+
+		$sql = "SELECT
 					pc.oid AS prooid,
 					proname,
 					lanname as prolanguage,
@@ -232,15 +281,15 @@ class Postgres71 extends Postgres {
 					(SELECT description FROM pg_description pd WHERE pc.oid=pd.objoid) AS procomment
 				FROM
 					pg_proc pc, pg_language pl
-				WHERE 
+				WHERE
 					pc.oid = '$function_oid'::oid
 				AND pc.prolang = pl.oid
 				";
-	
+
 		return $this->selectSet($sql);
 	}
 
-	/** 
+	/**
 	 * Returns an array containing a function's properties
 	 * @param $f The array of data for the function
 	 * @return An array containing the properties
@@ -254,19 +303,19 @@ class Postgres71 extends Postgres {
 			$temp[] = 'ISSTRICT';
 		else
 			$temp[] = '';
-		
+
 		// Cachable
 		$f['proiscachable'] = $this->phpBool($f['proiscachable']);
 		if ($f['proiscachable'])
 			$temp[] = 'ISCACHABLE';
 		else
 			$temp[] = '';
-					
+
 		return $temp;
 	}
-	
+
 	// Constraint functions
-	
+
 	/**
 	 * Returns a list of all constraints on a table
 	 * @param $table The table to find rules for
@@ -312,10 +361,10 @@ class Postgres71 extends Postgres {
 		";
 
 		return $this->selectSet($sql);
-	}	
-	
+	}
+
 	// Trigger functions
-	
+
 	/**
 	 * Grabs a list of triggers on a table
 	 * @param $table The name of a table whose triggers to retrieve
@@ -325,8 +374,8 @@ class Postgres71 extends Postgres {
 		$this->clean($table);
 
 		// We include constraint triggers
-		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype, 
-			t.tgargs, t.tgnargs, t.tgconstrrelid, 
+		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype,
+			t.tgargs, t.tgnargs, t.tgconstrrelid,
 			(SELECT relname FROM pg_class c2 WHERE c2.oid=t.tgconstrrelid) AS tgconstrrelname,
 			p.proname AS tgfname, c.relname, NULL AS tgdef
 			FROM pg_trigger t LEFT JOIN pg_proc p
@@ -335,17 +384,17 @@ class Postgres71 extends Postgres {
 			AND c.relname='{$table}'";
 
 		return $this->selectSet($sql);
-	}	
+	}
 
 	// Aggregate functions
-	
+
 	/**
 	 * Gets all aggregates
 	 * @return A recordset
 	 */
 	function getAggregates() {
 		global $conf;
-		
+
 		if ($conf['show_system'])
 			$where = '';
 		else
@@ -359,7 +408,7 @@ class Postgres71 extends Postgres {
 					ELSE format_type(a.aggbasetype, NULL)
 				END AS proargtypes,
 				(SELECT description FROM pg_description pd WHERE a.oid=pd.objoid) AS aggcomment
-			FROM 
+			FROM
 				pg_aggregate a
 			{$where}
 			ORDER BY
@@ -368,9 +417,10 @@ class Postgres71 extends Postgres {
 
 		return $this->selectSet($sql);
 	}
-		
+
 	// Capabilities
 	function hasAlterTableOwner() { return true; }
+	function hasAlterSequenceOwner() { return true; }
 	function hasFullSubqueries() { return true; }
 
 }

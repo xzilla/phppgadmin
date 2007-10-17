@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.8 2007/10/03 17:32:07 ioguix Exp $
+ * $Id: Postgres83.php,v 1.9 2007/10/17 15:55:33 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -11,7 +11,7 @@ include_once('./classes/database/Postgres82.php');
 class Postgres83 extends Postgres82 {
 
 	var $major_version = 8.3;
-	
+
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17231; // need to confirm this once we get to beta!!!
 
@@ -24,7 +24,7 @@ class Postgres83 extends Postgres82 {
 	}
 
 	// Help functions
-	
+
 	function getHelpPages() {
 		include_once('./help/PostgresDoc83.php');
 		return $this->help_page;
@@ -35,7 +35,7 @@ class Postgres83 extends Postgres82 {
 	 * Returns table locks information in the current database
 	 * @return A recordset
 	 */
- 
+
 	function getLocks() {
 		global $conf;
 
@@ -44,27 +44,27 @@ class Postgres83 extends Postgres82 {
 		else
 			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 
-		$sql = "SELECT 
-					pn.nspname, pc.relname AS tablename, pl.pid, pl.mode, pl.granted, pl.virtualtransaction, 
-					 (select transactionid from pg_catalog.pg_locks l2 where l2.locktype='transactionid' 
+		$sql = "SELECT
+					pn.nspname, pc.relname AS tablename, pl.pid, pl.mode, pl.granted, pl.virtualtransaction,
+					 (select transactionid from pg_catalog.pg_locks l2 where l2.locktype='transactionid'
 						and l2.mode='ExclusiveLock' and l2.virtualtransaction=pl.virtualtransaction) as transaction
-				FROM 
+				FROM
 					pg_catalog.pg_locks pl,
-			    	pg_catalog.pg_class pc, 
+			    	pg_catalog.pg_class pc,
 					pg_catalog.pg_namespace pn
-				WHERE 
-					pl.relation = pc.oid 
-					AND 
-					pc.relnamespace=pn.oid 
+				WHERE
+					pl.relation = pc.oid
+					AND
+					pc.relnamespace=pn.oid
 					{$where}
-				ORDER BY 
+				ORDER BY
 					pid,nspname,tablename";
 
 		return $this->selectSet($sql);
 	}
 
     // Views functions
-    
+
    	/**
  	 * Alters a view
  	 * @param $view The name of the view
@@ -80,24 +80,24 @@ class Postgres83 extends Postgres82 {
  	 */
  	function alterView($view, $name, $owner, $comment) {
         $this->fieldClean($view);
- 
+
  		$this->fieldClean($name);
  		$this->fieldClean($owner);
  		$this->clean($comment);
- 
+
  		$status = $this->beginTransaction();
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		// Comment
  		$status = $this->setComment('VIEW', $view, '', $comment);
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -4;
  		}
- 
+
  		// Owner
  		if ($owner != '') {
  			// Fetch existing owner
@@ -106,7 +106,7 @@ class Postgres83 extends Postgres82 {
  				$this->rollbackTransaction();
  				return -5;
  			}
- 
+
  			// If owner has been changed, then do the alteration.  We are
  			// careful to avoid this generally as changing owner is a
  			// superuser only function.
@@ -119,17 +119,17 @@ class Postgres83 extends Postgres82 {
  				}
  			}
  		}
- 
+
  		// Rename (only if name has changed)
  		if ($name != $view) {
  			$sql = "ALTER VIEW \"{$view}\" RENAME TO \"{$name}\"";
  			$status = $this->execute($sql);
  			if ($status != 0) {
  				$this->rollbackTransaction();
- 				return -3;      
- 			}                       
+ 				return -3;
+ 			}
  		}
- 
+
  		return $this->endTransaction();
  	}
 
@@ -142,22 +142,38 @@ class Postgres83 extends Postgres82 {
 	 * @return 0 success
 	 */
 	function clusterIndex($index, $table) {
-	
-		$this->fieldClean($index);		
+
+		$this->fieldClean($index);
 		$this->fieldClean($table);
 
 		// We don't bother with a transaction here, as there's no point rolling
-		// back an expensive cluster if a cheap analyze fails for whatever reason		
+		// back an expensive cluster if a cheap analyze fails for whatever reason
 		$sql = "CLUSTER \"{$table}\" USING \"{$index}\"";
 
-		return $this->execute($sql);	
+		return $this->execute($sql);
+	}
+
+	// Sequence functions
+
+	/**
+	 * Rename a sequence
+	 * @param $sequence The sequence name
+	 * @param $name The new name for the sequence
+	 * @return 0 success
+	 */
+	function renameSequence($sequence, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($sequence);
+
+		$sql = "ALTER SEQUENCE \"{$sequence}\" RENAME TO \"{$name}\"";
+		return $this->execute($sql);
 	}
 
 	// Operator Class functions
 
 	/**
 	 *  Gets all opclasses
-	 *  
+	 *
 	 *  * @return A recordset
 
 	 */
@@ -188,10 +204,10 @@ class Postgres83 extends Postgres82 {
  	 * Creates a new FTS configuration.
  	 * @param string $cfgname The name of the FTS configuration to create
  	 * @param string $parser The parser to be used in new FTS configuration
- 	 * @param string $locale Locale of the FTS configuration 
+ 	 * @param string $locale Locale of the FTS configuration
  	 * @param string $template The existing FTS configuration to be used as template for the new one
  	 * @param string $withmap Should we copy whole map of existing FTS configuration to the new one
- 	 * @param string $makeDefault Should this configuration be the default for locale given 
+ 	 * @param string $makeDefault Should this configuration be the default for locale given
  	 * @param string $comment If omitted, defaults to nothing
  	 * @return 0 success
  	 */
@@ -200,26 +216,26 @@ class Postgres83 extends Postgres82 {
  		$this->fieldClean($template);
  		$this->fieldClean($parser);
  		$this->clean($comment);
- 
+
  		$sql = "CREATE TEXT SEARCH CONFIGURATION \"{$cfgname}\"";
  		if ($parser != '') $sql .= " PARSER \"{$parser}\"";
  		if ($template != '') {
  			$sql .= " LIKE \"{$template}\"";
  			if ($withMap != '') $sql .= " WITH MAP";
- 		}		
- 		
+ 		}
+
  		if ($comment != '') {
  			$status = $this->beginTransaction();
  			if ($status != 0) return -1;
  		}
- 
+
  		// Create the FTS configuration
  		$status =  $this->execute($sql);
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		// Set the comment
  		if ($comment != '') {
  			$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
@@ -227,32 +243,32 @@ class Postgres83 extends Postgres82 {
  				$this->rollbackTransaction();
  				return -1;
  			}
- 			
+
  			return $this->endTransaction();
  		}
- 		
+
  		return 0;
  	}
- 	
- 
+
+
  	/**
  	 * Returns all FTS configurations available
  	 */
  	function getFtsConfigurations() {
- 		$sql = "SELECT 
+ 		$sql = "SELECT
             		n.nspname as schema,
             		c.cfgname as name,
             		pg_catalog.obj_description(c.oid, 'pg_ts_config') as comment
-         		FROM 
+         		FROM
 			  		pg_catalog.pg_ts_config c
-              		JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace 
-         		WHERE 
+              		JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace
+         		WHERE
 					pg_catalog.pg_ts_config_is_visible(c.oid)
-         		ORDER BY 
+         		ORDER BY
 					schema, name";
  		return $this->selectSet($sql);
  	}
- 	
+
  	/**
  	 * Return all information related to a FTS configuration
  	 * @param $ftscfg The name of the FTS configuration
@@ -260,33 +276,33 @@ class Postgres83 extends Postgres82 {
  	 */
  	function getFtsConfigurationByName($ftscfg) {
  		$this->clean($ftscfg);
- 		$sql = "SELECT 
+ 		$sql = "SELECT
             n.nspname as schema,
             c.cfgname as name,
             p.prsname as parser,
             c.cfgparser as parser_id,
             pg_catalog.obj_description(c.oid, 'pg_ts_config') as comment
          FROM pg_catalog.pg_ts_config c
-         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace 
+         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace
          LEFT JOIN pg_catalog.pg_ts_parser p ON p.oid = c.cfgparser
          WHERE pg_catalog.pg_ts_config_is_visible(c.oid)
          AND c.cfgname = '{$ftscfg}'";
-         
+
  		return $this->selectSet($sql);
  	}
- 	
- 	
+
+
  	/**
  	 * Returns the map of FTS configuration given (list of mappings (tokens) and their processing dictionaries)
- 	 * 
- 	 * @param string $ftscfg Name of the FTS configuration  
+ 	 *
+ 	 * @param string $ftscfg Name of the FTS configuration
  	 */
  	function getFtsConfigurationMap($ftscfg) {
  		$this->fieldClean($ftscfg);
  		$getOidSql = "SELECT oid FROM pg_catalog.pg_ts_config WHERE cfgname = '{$ftscfg}'";
  		$oidSet = $this->selectSet($getOidSql);
  		$oid = $oidSet->fields['oid'];
- 		
+
  		$sql = " SELECT
            (SELECT t.alias FROM pg_catalog.ts_token_type(c.cfgparser) AS t WHERE t.tokid = m.maptokentype) AS name,
            (SELECT t.description FROM pg_catalog.ts_token_type(c.cfgparser) AS t WHERE t.tokid = m.maptokentype) AS description,
@@ -294,90 +310,90 @@ class Postgres83 extends Postgres82 {
                  ,n.nspname ||'.'|| d.dictname as dictionaries
          FROM pg_catalog.pg_ts_config AS c, pg_catalog.pg_ts_config_map AS m, pg_catalog.pg_ts_dict d, pg_catalog.pg_namespace n
          WHERE c.oid = {$oid} AND m.mapcfg = c.oid and m.mapdict = d.oid and d.dictnamespace = n.oid
-         ORDER BY name 
+         ORDER BY name
          ";
  		return $this->selectSet($sql);
  	}
- 	
+
  	/**
  	 * Returns all FTS parsers available
  	 */
  	function getFtsParsers() {
- 		$sql = "SELECT 
+ 		$sql = "SELECT
            n.nspname as schema,
            p.prsname as name,
            pg_catalog.obj_description(p.oid, 'pg_ts_parser') as comment
-         FROM pg_catalog.pg_ts_parser p 
+         FROM pg_catalog.pg_ts_parser p
          LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.prsnamespace WHERE pg_catalog.pg_ts_parser_is_visible(p.oid)
          ORDER BY schema, name";
  		return $this->selectSet($sql);
  	}
- 	
+
  	/**
  	 * Returns all FTS dictionaries available
  	 */
  	function getFtsDictionaries() {
- 		$sql = "SELECT 
+ 		$sql = "SELECT
            n.nspname as schema,
            d.dictname as name,
            pg_catalog.obj_description(d.oid, 'pg_ts_dict') as comment
          FROM pg_catalog.pg_ts_dict d
-         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace 
+         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
          WHERE pg_catalog.pg_ts_dict_is_visible(d.oid)
          ORDER BY schema, name;";
  		return $this->selectSet($sql);
  	}
- 
+
  	/**
  	 * Returns all FTS dictionary templates available
  	 */
  	function getFtsDictionaryTemplates() {
- 		$sql = "SELECT 
+ 		$sql = "SELECT
            n.nspname as schema,
            t.tmplname as name,
-           ( SELECT COALESCE(np.nspname, '(null)')::pg_catalog.text || '.' || p.proname FROM 
-             pg_catalog.pg_proc p 
-                                  LEFT JOIN pg_catalog.pg_namespace np ON np.oid = p.pronamespace 
-                                  WHERE t.tmplinit = p.oid ) AS  init, 
-           ( SELECT COALESCE(np.nspname, '(null)')::pg_catalog.text || '.' || p.proname FROM 
-             pg_catalog.pg_proc p 
-                                  LEFT JOIN pg_catalog.pg_namespace np ON np.oid = p.pronamespace 
-                                  WHERE t.tmpllexize = p.oid ) AS  lexize, 
+           ( SELECT COALESCE(np.nspname, '(null)')::pg_catalog.text || '.' || p.proname FROM
+             pg_catalog.pg_proc p
+                                  LEFT JOIN pg_catalog.pg_namespace np ON np.oid = p.pronamespace
+                                  WHERE t.tmplinit = p.oid ) AS  init,
+           ( SELECT COALESCE(np.nspname, '(null)')::pg_catalog.text || '.' || p.proname FROM
+             pg_catalog.pg_proc p
+                                  LEFT JOIN pg_catalog.pg_namespace np ON np.oid = p.pronamespace
+                                  WHERE t.tmpllexize = p.oid ) AS  lexize,
            pg_catalog.obj_description(t.oid, 'pg_ts_template') as comment
          FROM pg_catalog.pg_ts_template t
-         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.tmplnamespace 
+         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.tmplnamespace
          WHERE pg_catalog.pg_ts_template_is_visible(t.oid)
          ORDER BY schema, name;";
  		return $this->selectSet($sql);
  	}
- 
+
  	/**
  	 * Drops FTS coniguration
- 	 */	
+ 	 */
  	function dropFtsConfiguration($ftscfg, $cascade) {
  		$this->fieldClean($ftscfg);
- 
+
  		$sql = "DROP TEXT SEARCH CONFIGURATION \"{$ftscfg}\"";
  		if ($cascade) $sql .= " CASCADE";
- 
+
  		return $this->execute($sql);
  	}
- 
+
  	/**
  	 * Drops FTS dictionary
- 	 * 
+ 	 *
  	 * @todo Support of dictionary templates dropping
- 	 */	
+ 	 */
  	function dropFtsDictionary($ftsdict, $cascade = true) {
  		$this->fieldClean($ftsdict);
- 
+
  		$sql = "DROP TEXT SEARCH DICTIONARY";
  		$sql .= " \"{$ftsdict}\"";
  		if ($cascade) $sql .= " CASCADE";
- 
+
  		return $this->execute($sql);
  	}
- 	
+
  	/**
  	 * Alters FTS configuration
  	 */
@@ -385,19 +401,19 @@ class Postgres83 extends Postgres82 {
  		$this->fieldClean($cfgname);
  		$this->fieldClean($name);
  		$this->clean($comment);
- 	
+
  		$status = $this->beginTransaction();
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		// Only if the name has changed
  		if ($name != $cfgname) {
  			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$cfgname}\" RENAME TO \"{$name}\"";
@@ -407,7 +423,7 @@ class Postgres83 extends Postgres82 {
  				return -1;
  			}
  		}
- 		
+
  		// Only if parser is defined
  		if ($prsname) {
  			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$cfgname}\" SET PARSER \"{$prsname}\"";
@@ -417,17 +433,17 @@ class Postgres83 extends Postgres82 {
  				return -1;
  			}
  		}
- 		
+
  		return $this->endTransaction();
  	}
- 	
+
  	/**
- 	 * Creates a new FTS dictionary or FTS dictionary template.	
+ 	 * Creates a new FTS dictionary or FTS dictionary template.
  	 * @param string $dictname The name of the FTS dictionary to create
  	 * @param boolean $isTemplate Flag whether we create usual dictionary or dictionary template
  	 * @param string $template The existing FTS dictionary to be used as template for the new one
  	 * @param string $lexize The name of the function, which does transformation of input word
- 	 * @param string $init The name of the function, which initializes dictionary 
+ 	 * @param string $init The name of the function, which initializes dictionary
  	 * @param string $option Usually, it stores various options required for the dictionary
  	 * @param string $comment If omitted, defaults to nothing
  	 * @return 0 success
@@ -439,7 +455,7 @@ class Postgres83 extends Postgres82 {
  		$this->fieldClean($init);
  		$this->fieldClean($option);
  		$this->clean($comment);
- 
+
  		$sql = "CREATE TEXT SEARCH DICTIONARY";
  		if ($isTemplate) {
  			$sql .= " TEMPLATE \"{$dictname}\"";
@@ -452,19 +468,19 @@ class Postgres83 extends Postgres82 {
  			if ($option != '') $sql .= " OPTION \"{$option}\"";
  			$whatToComment = 'TEXT SEARCH DICTIONARY';
  		}
- 		
+
  		if ($comment != '') {
  			$status = $this->beginTransaction();
  			if ($status != 0) return -1;
  		}
- 		
+
  		// Create the FTS dictionary
  		$status =  $this->execute($sql);
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		// Set the comment
  		if ($comment != '') {
  			$status = $this->setComment($whatToComment, $dictname, '', $comment);
@@ -473,10 +489,10 @@ class Postgres83 extends Postgres82 {
  				return -1;
  			}
  		}
- 		
+
  		return $this->endTransaction();
  	}
- 	
+
  	/**
  	 * Alters FTS dictionary or dictionary template
  	 */
@@ -484,19 +500,19 @@ class Postgres83 extends Postgres82 {
  		$this->fieldClean($dictname);
  		$this->fieldClean($name);
  		$this->clean($comment);
- 	
+
  		$status = $this->beginTransaction();
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		$status = $this->setComment('TEXT SEARCH DICTIONARY', $dictname, '', $comment);
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
- 
+
  		// Only if the name has changed
  		if ($name != $dictname) {
  			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$dictname}\" RENAME TO \"{$name}\"";
@@ -506,10 +522,10 @@ class Postgres83 extends Postgres82 {
  				return -1;
  			}
  		}
- 		
+
  		return $this->endTransaction();
  	}
- 
+
  	/**
  	 * Return all information relating to a FTS dictionary
  	 * @param $ftsdict The name of the FTS dictionary
@@ -517,37 +533,37 @@ class Postgres83 extends Postgres82 {
  	 */
  	function getFtsDictionaryByName($ftsdict) {
  		$this->clean($ftsdict);
- 		$sql = "SELECT 
+ 		$sql = "SELECT
            n.nspname as schema,
            d.dictname as name,
-           ( SELECT COALESCE(nt.nspname, '(null)')::pg_catalog.text || '.' || t.tmplname FROM 
-             pg_catalog.pg_ts_template t 
-                                  LEFT JOIN pg_catalog.pg_namespace nt ON nt.oid = t.tmplnamespace 
-                                  WHERE d.dicttemplate = t.oid ) AS  template, 
-           d.dictinitoption as init, 
+           ( SELECT COALESCE(nt.nspname, '(null)')::pg_catalog.text || '.' || t.tmplname FROM
+             pg_catalog.pg_ts_template t
+                                  LEFT JOIN pg_catalog.pg_namespace nt ON nt.oid = t.tmplnamespace
+                                  WHERE d.dicttemplate = t.oid ) AS  template,
+           d.dictinitoption as init,
            pg_catalog.obj_description(d.oid, 'pg_ts_dict') as comment
          FROM pg_catalog.pg_ts_dict d
-         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace 
+         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
          WHERE d.dictname = '{$ftsdict}'
            AND pg_catalog.pg_ts_dict_is_visible(d.oid)
          ORDER BY schema, name";
-         
+
  		return $this->selectSet($sql);
  	}
- 
+
  	/**
  	 * Creates/updates/deletes FTS mapping.
  	 * @param string $cfgname The name of the FTS configuration to alter
  	 * @param array $mapping Array of tokens' names
  	 * @param string $action What to do with the mapping: add, alter or drop
- 	 * @param string $dictname Dictionary that will process tokens given or null in case of drop action  
+ 	 * @param string $dictname Dictionary that will process tokens given or null in case of drop action
  	 * @return 0 success
  	 */
  	function changeFtsMapping($ftscfg, $mapping, $action, $dictname = null) {
  		$this->fieldClean($ftscfg);
  		$this->fieldClean($dictname);
  		$this->arrayClean($mapping);
- 
+
  		if (count($mapping) > 0) {
  			switch ($action) {
  				case 'alter':
@@ -562,10 +578,10 @@ class Postgres83 extends Postgres82 {
  			}
  			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$ftscfg}\" {$whatToDo} MAPPING FOR ";
  			$sql .= implode(",", $mapping);
- 			if ($action != 'drop' && !empty($dictname)) { 
+ 			if ($action != 'drop' && !empty($dictname)) {
  				$sql .= " WITH {$dictname}";
  			}
- 			
+
  			$status = $this->beginTransaction();
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -576,40 +592,40 @@ class Postgres83 extends Postgres82 {
  				$this->rollbackTransaction();
  				return -1;
  			}
- 			return $this->endTransaction();	
+ 			return $this->endTransaction();
  		} else {
  			return -1;
  		}
  	}
- 
+
  	/**
  	 * Return all information related to a given FTS configuration's mapping
  	 * @param $ftscfg The name of the FTS configuration
- 	 * @param $mapping The name of the mapping 
+ 	 * @param $mapping The name of the mapping
  	 * @return FTS configuration information
  	 */
  	function getFtsMappingByName($ftscfg, $mapping) {
  		$this->fieldClean($ftscfg);
  		$this->fieldClean($mapping);
- 		
+
  		$getOidSql = "SELECT oid, cfgparser FROM pg_catalog.pg_ts_config WHERE cfgname = '{$ftscfg}'";
  		$oidSet = $this->selectSet($getOidSql);
  		$oid = $oidSet->fields['oid'];
  		$cfgparser = $oidSet->fields['cfgparser'];
- 		
+
  		$getTokenIdSql = "SELECT tokid FROM pg_catalog.ts_token_type({$cfgparser}) WHERE alias = '{$mapping}'";
  		$tokenIdSet = $this->selectSet($getTokenIdSql);
  		$tokid = $tokenIdSet->fields['tokid'];
- 		
- 		$sql = "SELECT 
+
+ 		$sql = "SELECT
     (SELECT t.alias FROM pg_catalog.ts_token_type(c.cfgparser) AS t WHERE t.tokid = m.maptokentype) AS name,
                         d.dictname as dictionaries
          FROM pg_catalog.pg_ts_config AS c, pg_catalog.pg_ts_config_map AS m, pg_catalog.pg_ts_dict d
-         WHERE c.oid = {$oid} AND m.mapcfg = c.oid AND m.maptokentype = {$tokid} AND m.mapdict = d.oid  
+         WHERE c.oid = {$oid} AND m.mapcfg = c.oid AND m.maptokentype = {$tokid} AND m.mapdict = d.oid
          LIMIT 1;";
  		return $this->selectSet($sql);
  	}
- 
+
  	/**
  	 * Return list of FTS mappings possible for given parser (specified by given configuration since configuration
  	 * can only have 1 parser)
@@ -619,9 +635,9 @@ class Postgres83 extends Postgres82 {
  		$sql = "SELECT alias AS name, description FROM pg_catalog.ts_token_type({$cfg->fields['parser_id']}) ORDER BY name";
  		return $this->selectSet($sql);
  	}
-	
+
 	// Type functions
-	
+
 	/**
 	 * Creates a new enum type in the database
 	 * @param $name The name of the type
@@ -666,7 +682,7 @@ class Postgres83 extends Postgres82 {
 		}
 
 		return $this->endTransaction();
-		
+
 	}
 
 	/**

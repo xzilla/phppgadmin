@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.173 2007/10/02 21:36:35 ioguix Exp $
+ * $Id: Postgres73.php,v 1.174 2007/10/17 15:55:33 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -743,8 +743,13 @@ class Postgres73 extends Postgres72 {
 	 */
 	function getSequence($sequence) {
 		$this->fieldClean($sequence);
-	
-		$sql = "SELECT sequence_name AS seqname, *, pg_catalog.obj_description(s.tableoid, 'pg_class') AS seqcomment FROM \"{$sequence}\" AS s"; 
+		
+		$sql = "SELECT c.relname AS seqname, s.*,
+					pg_catalog.obj_description(s.tableoid, 'pg_class') AS seqcomment,
+					u.usename AS seqowner
+				FROM \"{$sequence}\" AS s, pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
+				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
+					AND c.relname = '{$sequence}' AND c.relkind = 'S' AND n.nspname='{$this->_schema}'";
 		
 		return $this->selectSet( $sql );
 	}

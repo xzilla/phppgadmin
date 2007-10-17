@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.63 2007/09/29 09:09:45 ioguix Exp $
+ * $Id: Postgres74.php,v 1.64 2007/10/17 15:55:33 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -18,8 +18,8 @@ class Postgres74 extends Postgres73 {
 
 	// Max object name length
 	var $_maxNameLen = 63;
-	
-	// How often to execute the trigger	
+
+	// How often to execute the trigger
 	var $triggerFrequency = array('ROW','STATEMENT');
 
 	/**
@@ -31,14 +31,14 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Help functions
-	
+
 	function getHelpPages() {
 		include_once('./help/PostgresDoc74.php');
 		return $this->help_page;
 	}
 
 	// Database functions
-	
+
 	/**
 	 * Alters a database
 	 * the multiple return vals are for postgres 8+ which support more functionality in alter database
@@ -56,14 +56,14 @@ class Postgres74 extends Postgres73 {
 		//ignore $comment, not supported pre 8.2
 		$this->clean($dbName);
 		$this->clean($newName);
-		
+
 		$status = $this->alterDatabaseRename($dbName, $newName);
 		if ($status != 0) return -3;
 		else return 0;
 	}
-	
+
 	/**
-	 * Renames a database, note that this operation cannot be 
+	 * Renames a database, note that this operation cannot be
 	 * performed on a database that is currently being connected to
 	 * @param string $oldName name of database to rename
 	 * @param string $newName new name of database
@@ -72,7 +72,7 @@ class Postgres74 extends Postgres73 {
 	function alterDatabaseRename($oldName, $newName) {
 		$this->clean($oldName);
 		$this->clean($newName);
-		
+
 		if ($oldName != $newName) {
 			$sql = "ALTER DATABASE \"{$oldName}\" RENAME TO \"{$newName}\"";
 			return $this->execute($sql);
@@ -80,9 +80,9 @@ class Postgres74 extends Postgres73 {
 		else //just return success, we're not going to do anything
 			return 0;
 	}
-	
+
 	// Table functions
-	
+
 	/**
 	 * Get the fields for uniquely identifying a row in a table
 	 * @param $table The table for which to retrieve the identifier
@@ -92,13 +92,13 @@ class Postgres74 extends Postgres73 {
 	function getRowIdentifier($table) {
 		$oldtable = $table;
 		$this->clean($table);
-		
+
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
-		
+
 		// Get the first primary or unique index (sorting primary keys first) that
 		// is NOT a partial index.
-		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND 
+		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND
 			indrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
 			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
 			AND indpred IS NULL AND indexprs IS NULL ORDER BY indisprimary DESC LIMIT 1";
@@ -106,7 +106,7 @@ class Postgres74 extends Postgres73 {
 
 		// If none, check for an OID column.  Even though OIDs can be duplicated, the edit and delete row
 		// functions check that they're only modiying a single row.  Otherwise, return empty array.
-		if ($rs->recordCount() == 0) {			
+		if ($rs->recordCount() == 0) {
 			// Check for OID column
 			$temp = array();
 			if ($this->hasObjectID($table)) {
@@ -126,7 +126,7 @@ class Postgres74 extends Postgres73 {
 				$this->endTransaction();
 				return $attnames;
 			}
-		}			
+		}
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Postgres74 extends Postgres73 {
 	function beginDump() {
 		$status = parent::beginDump();
 		if ($status != 0) return $status;
-		
+
 		// Set extra_float_digits to 2
 		$sql = "SET extra_float_digits TO 2";
 		$status = $this->execute($sql);
@@ -148,7 +148,7 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Constraint functions
-	
+
 	/**
 	 * Returns a list of all constraints on a table,
 	 * including constraint name, definition, related col and referenced namespace,
@@ -160,7 +160,7 @@ class Postgres74 extends Postgres73 {
 		global $data;
 
 		$data->clean($table);
-	
+
 		// get the max number of col used in a constraint for the table
 		$sql = "SELECT DISTINCT
 				max(SUBSTRING(array_dims(c.conkey) FROM  '^\\\[.*:(.*)\\\]$')) as nb
@@ -178,7 +178,7 @@ class Postgres74 extends Postgres73 {
 
 		$sql = '
 			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid,true) AS consrc, 
+				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid,true) AS consrc,
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
 				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
 				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
@@ -194,19 +194,19 @@ class Postgres74 extends Postgres73 {
 				LEFT JOIN (
 					pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
 				) ON (c.confrelid=r2.oid)
-				LEFT JOIN pg_catalog.pg_attribute AS f2 ON 
+				LEFT JOIN pg_catalog.pg_attribute AS f2 ON
 					(f2.attrelid=r2.oid AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)';
 		for ($i = 2; $i <= $rs->fields['nb']; $i++)
 			$sql.= "OR (c.confkey[$i]=f2.attnum AND c.conkey[$i]=f1.attnum)";
 
 		$sql .= sprintf("))
-			WHERE 
+			WHERE
 				r1.relname = '%s' AND ns1.nspname='%s'
 			ORDER BY 1", $table, $this->_schema);
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Creates a new table in the database copying attribs and other properties from another table
 	 * @param $name The name of the table
@@ -245,7 +245,7 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Group functions
-	
+
 	/**
 	 * Return users in a specific group
 	 * @param $groname The name of the group
@@ -254,15 +254,15 @@ class Postgres74 extends Postgres73 {
 	function getGroup($groname) {
 		$this->clean($groname);
 
-		$sql = "SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g 
+		$sql = "SELECT s.usename FROM pg_catalog.pg_user s, pg_catalog.pg_group g
 					WHERE g.groname='{$groname}' AND s.usesysid = ANY (g.grolist)
 					ORDER BY s.usename";
 
 		return $this->selectSet($sql);
 	}
-	
+
 	// Schema functions
-	
+
 	/**
 	 * Return all schemas in the current database.  This differs from the version
 	 * in 7.3 only in that it considers the information_schema to be a system schema.
@@ -277,8 +277,8 @@ class Postgres74 extends Postgres73 {
 				$temp = $slony->slony_schema;
 				$this->clean($temp);
 				$where .= " AND nspname != '{$temp}'";
-			}			
-			
+			}
+
 		}
 		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "SELECT pn.nspname, pu.usename AS nspowner, pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
@@ -289,7 +289,7 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Index functions
-	
+
 	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
@@ -302,7 +302,7 @@ class Postgres74 extends Postgres73 {
 		$sql = "SELECT c2.relname AS indname, i.indisprimary, i.indisunique, i.indisclustered,
 			pg_catalog.pg_get_indexdef(i.indexrelid, 0, true) AS inddef
 			FROM pg_catalog.pg_class c, pg_catalog.pg_class c2, pg_catalog.pg_index i
-			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid) 
+			WHERE c.relname = '{$table}' AND pg_catalog.pg_table_is_visible(c.oid)
 			AND c.oid = i.indrelid AND i.indexrelid = c2.oid
 		";
 		if ($unique) $sql .= " AND i.indisunique ";
@@ -312,7 +312,7 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// View functions
-	
+
 	/**
 	 * Returns all details for a particular view
 	 * @param $view The name of the view to retrieve
@@ -320,18 +320,18 @@ class Postgres74 extends Postgres73 {
 	 */
 	function getView($view) {
 		$this->clean($view);
-		
-		$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
+
+		$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner,
                           pg_catalog.pg_get_viewdef(c.oid, true) AS vwdefinition, pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment
                         FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
                         WHERE (c.relname = '$view')
                         AND n.nspname='{$this->_schema}'";
- 
+
 		return $this->selectSet($sql);
-	}	
+	}
 
 	// Trigger functions
-	
+
 	/**
 	 * Grabs a list of triggers on a table
 	 * @param $table The name of a table whose triggers to retrieve
@@ -340,7 +340,7 @@ class Postgres74 extends Postgres73 {
 	function getTriggers($table = '') {
 		$this->clean($table);
 
-		$sql = "SELECT 
+		$sql = "SELECT
 				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, t.tgenabled, p.oid AS prooid,
 				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
 				ns.nspname AS pronamespace
@@ -375,7 +375,7 @@ class Postgres74 extends Postgres73 {
 	}
 
 	// Domain functions
-	
+
 	/**
 	 * Get domain constraints
 	 * @param $domain The name of the domain whose constraints to fetch
@@ -383,7 +383,7 @@ class Postgres74 extends Postgres73 {
 	 */
 	function getDomainConstraints($domain) {
 		$this->clean($domain);
-		
+
 		$sql = "
 			SELECT
 				conname,
@@ -398,10 +398,10 @@ class Postgres74 extends Postgres73 {
 															WHERE nspname = '{$this->_schema}'))
 			ORDER BY
 				conname";
-				
+
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Drops a domain constraint
 	 * @param $domain The domain from which to remove the constraint
@@ -412,7 +412,7 @@ class Postgres74 extends Postgres73 {
 	function dropDomainConstraint($domain, $constraint, $cascade) {
 		$this->fieldClean($domain);
 		$this->fieldClean($constraint);
-		
+
 		$sql = "ALTER DOMAIN \"{$domain}\" DROP CONSTRAINT \"{$constraint}\"";
 		if ($cascade) $sql .= " CASCADE";
 
@@ -436,7 +436,7 @@ class Postgres74 extends Postgres73 {
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Alters a domain
 	 * @param $domain The domain to alter
@@ -452,25 +452,25 @@ class Postgres74 extends Postgres73 {
 	function alterDomain($domain, $domdefault, $domnotnull, $domowner) {
 		$this->fieldClean($domain);
 		$this->fieldClean($domowner);
-		
+
 		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		// Default
 		if ($domdefault == '')
 			$sql = "ALTER DOMAIN \"{$domain}\" DROP DEFAULT";
 		else
 			$sql = "ALTER DOMAIN \"{$domain}\" SET DEFAULT {$domdefault}";
-		
+
 		$status = $this->execute($sql);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
-		
+
 		// NOT NULL
 		if ($domnotnull)
 			$sql = "ALTER DOMAIN \"{$domain}\" SET NOT NULL";
@@ -482,7 +482,7 @@ class Postgres74 extends Postgres73 {
 			$this->rollbackTransaction();
 			return -3;
 		}
-		
+
 		// Owner
 		$sql = "ALTER DOMAIN \"{$domain}\" OWNER TO \"{$domowner}\"";
 
@@ -491,9 +491,9 @@ class Postgres74 extends Postgres73 {
 			$this->rollbackTransaction();
 			return -4;
 		}
-		
+
 		return $this->endTransaction();
-	}	
+	}
 
 	// User functions
 
@@ -559,7 +559,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
 	 * @param $setof True if returns a set, false otherwise
-	 * @param $comment The comment on the function	 
+	 * @param $comment The comment on the function
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -3 create function error
@@ -600,15 +600,19 @@ class Postgres74 extends Postgres73 {
 				return -5;
 			}
 		}
-		
+
 		return $this->endTransaction();
 	}
 
 	// Sequences
-	
+
 	/**
-	 * Alters a sequence
-	 * @param $sequence Sequence name
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
@@ -616,16 +620,22 @@ class Postgres74 extends Postgres73 {
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
 	 * @return 0 success
-	 * @return -1 get sequence error
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 get sequence error
 	 */
-	function alterSequence($sequence, $increment, $minvalue, $maxvalue,
-				$startvalue, $cachevalue, $cycledvalue) {
-		$data = $this->getSequence($sequence);
-		if ($data->recordCount() != 1) {
-			return -1;
-		}
+	/*protected*/
+	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
 
-		$this->fieldClean($sequence);
+		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
+		if ($status != 0)
+			return $status;
+
+		// if name != seqname, sequence has been renamed in parent
+		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
 		$this->clean($increment);
 		$this->clean($minvalue);
 		$this->clean($maxvalue);
@@ -633,17 +643,25 @@ class Postgres74 extends Postgres73 {
 		$this->clean($cachevalue);
 		$this->clean($cycledvalue);
 
-		$sql = "ALTER SEQUENCE \"{$sequence}\"";
-		if ($increment != '' && $increment != $data->fields['increment_by']) $sql .= " INCREMENT {$increment}";
-		if ($minvalue != '' && $minvalue != $data->fields['min_value']) $sql .= " MINVALUE {$minvalue}";
-		if ($maxvalue != '' && $maxvalue != $data->fields['max_value']) $sql .= " MAXVALUE {$maxvalue}";
-		if ($startvalue != '' && $startvalue != $data->fields['last_value']) $sql .= " START {$startvalue}";
-		if ($cachevalue != '' && $cachevalue != $data->fields['cache_value']) $sql .= " CACHE {$cachevalue}";
+		// Props
+		$sql = '';
+		if (!empty($increment) && ($increment != $seqrs->fields['increment_by'])) $sql .= " INCREMENT {$increment}";
+		if (!empty($minvalue) && ($minvalue != $seqrs->fields['min_value'])) $sql .= " MINVALUE {$minvalue}";
+		if (!empty($maxvalue) && ($maxvalue != $seqrs->fields['max_value'])) $sql .= " MAXVALUE {$maxvalue}";
+		if (!empty($startvalue) && ($startvalue != $seqrs->fields['last_value'])) $sql .= " RESTART {$startvalue}";
+		if (!empty($cachevalue) && ($cachevalue != $seqrs->fields['cache_value'])) $sql .= " CACHE {$cachevalue}";
 		// toggle cycle yes/no
-		$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";	
-		
-		return $this->execute($sql);
-	}	
+		if (!is_null($cycledvalue))
+			$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";
+		if ($sql != '') {
+			$sql = "ALTER SEQUENCE \"{$sequence}\" $sql";
+			$status = $this->execute($sql);
+			if ($status != 0)
+				return -6;
+		}
+
+		return 0;
+	}
 
 	// Aggregates
 
@@ -675,7 +693,7 @@ class Postgres74 extends Postgres73 {
 		$this->fieldClean($newaggrowner);
 		$this->fieldClean($newaggrschema);
 		$this->clean($newaggrcomment);
-		
+
 		$this->beginTransaction();
 
 		// Change the owner, if it has changed
@@ -715,7 +733,7 @@ class Postgres74 extends Postgres73 {
 		}
 
 		return $this->endTransaction();
-	}	
+	}
 
 	/**
 	 * Changes the owner of an aggregate function
@@ -759,8 +777,8 @@ class Postgres74 extends Postgres73 {
 	function hasDomainConstraints() { return true; }
 	function hasUserRename() { return true; }
 	function hasRecluster() { return true; }
-	function hasReadOnlyQueries() { return true; }	
-	function hasAlterSequence() { return true; }
+	function hasReadOnlyQueries() { return true; }
+	function hasAlterSequenceProps() { return true; }
 	function hasAlterAggregate() { return true; }
 	function hasCreateTableLike() { return true; }
 }
