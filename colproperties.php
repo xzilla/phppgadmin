@@ -242,7 +242,7 @@
 				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=$tableName&amp;column={$_REQUEST['column']}");
 
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;column=",
+				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=", urlencode($_REQUEST['table']), "&amp;column=",
 					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=", 
 					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 

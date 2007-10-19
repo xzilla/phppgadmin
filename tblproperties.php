@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.87 2007/09/29 09:09:45 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.88 2007/10/19 08:59:22 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -519,7 +519,7 @@
 		$actions = array(
 			'browse' => array(
 				'title' => $lang['strbrowse'],
-				'url' => "display.php?{$misc->href}&amp;subject=column&amp;return_url={$return_url}&amp;return_desc=" . urlencode($lang['strback']) . '&amp;',
+				'url' => "display.php?{$misc->href}&amp;subject=column&amp;return_url={$return_url}&amp;table=".urlencode($_REQUEST['table'])."&amp;return_desc=" . urlencode($lang['strback']) . '&amp;',
 				'vars' => array('column' => 'attname'),
 			),
 			'alter' => array(
