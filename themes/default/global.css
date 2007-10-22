@@ -1,7 +1,7 @@
 /**
  * Default style sheet
  *
- * $Id: global.css,v 1.44 2007/09/13 13:41:01 ioguix Exp $
+ * $Id: global.css,v 1.45 2007/10/22 15:54:46 ioguix Exp $
  */
 
 /** ELEMENTS */
@@ -397,7 +397,6 @@ pre.data
 
 .webfx-tree-icon {
 	margin-left: 1px;
-	cursor: pointer;
 }
 
 .webfx-tree-hide-root {
@@ -410,7 +409,6 @@ pre.data
 }
 
 .arg_tr_pc {
-
 }
 
 .ac_field {
