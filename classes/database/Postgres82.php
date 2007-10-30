@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.2 support
  *
- * $Id: Postgres82.php,v 1.8 2007/09/29 09:09:45 ioguix Exp $
+ * $Id: Postgres82.php,v 1.9 2007/10/30 19:23:19 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres81.php');
@@ -12,6 +12,9 @@ class Postgres82 extends Postgres81 {
 
 	var $major_version = 8.2;
 	
+	// Array of allowed index types
+	var $typIndexes = array('BTREE', 'RTREE', 'GIST', 'GIN', 'HASH');
+
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17231;
 
