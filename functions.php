@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.68 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: functions.php,v 1.69 2007/10/31 03:40:05 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -484,9 +484,9 @@
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
 		
-		// Display function properies
+		// Display function properties
 		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
-			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
+			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\">\n";
 			$i = 0;
 			foreach ($data->funcprops as $k => $v) {
