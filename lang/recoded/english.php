@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.171 2007/10/03 17:32:07 ioguix Exp $
+	 * $Id: english.php,v 1.172 2007/11/07 10:49:46 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -431,7 +431,7 @@
 	$lang['strcolumnname'] = 'Column name';
 	$lang['strindexneedsname'] = 'You must give a name for your index.';
 	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
-	$lang['strindexcreated'] = 'Index created';
+	$lang['strindexcreated'] = 'Index created.';
 	$lang['strindexcreatedbad'] = 'Index creation failed.';
 	$lang['strconfdropindex'] = 'Are you sure you want to drop the index &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Index dropped.';
@@ -567,7 +567,6 @@
 	$lang['strtypeneedsvalue'] = 'You must specify at least one value.';
 	$lang['strtypeneedscols'] = 'You must specify a valid number of fields.';
 	$lang['strtypeneedsvals'] = 'You must specify a valid number of values.';
-	$lang['strtypename'] = 'Type name';
 	$lang['strinputfn'] = 'Input function';
 	$lang['stroutputfn'] = 'Output function';
 	$lang['strpassbyval'] = 'Passed by val?';
@@ -581,7 +580,7 @@
 	$lang['strnumvalues'] = 'Num. of values';
 	$lang['strtypeneedsname'] = 'You must give a name for your type.';
 	$lang['strtypeneedslen'] = 'You must give a length for your type.';
-	$lang['strtypecreated'] = 'Type created';
+	$lang['strtypecreated'] = 'Type created.';
 	$lang['strtypecreatedbad'] = 'Type creation failed.';
 	$lang['strconfdroptype'] = 'Are you sure you want to drop the type &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Type dropped.';
@@ -602,7 +601,7 @@
 	$lang['strcreateschema'] = 'Create schema';
 	$lang['strschemaname'] = 'Schema name';
 	$lang['strschemaneedsname'] = 'You must give a name for your schema.';
-	$lang['strschemacreated'] = 'Schema created';
+	$lang['strschemacreated'] = 'Schema created.';
 	$lang['strschemacreatedbad'] = 'Schema creation failed.';
 	$lang['strconfdropschema'] = 'Are you sure you want to drop the schema &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Schema dropped.';
@@ -660,7 +659,7 @@
 	$lang['strlessthan'] = 'Less than';
 	$lang['strgreaterthan'] = 'Greater than';
 	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
-	$lang['stroperatorcreated'] = 'Operator created';
+	$lang['stroperatorcreated'] = 'Operator created.';
 	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';
 	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Operator dropped.';
@@ -778,13 +777,13 @@
 	$lang['strnodecreatedbad'] = 'Node creation failed.';
 	$lang['strconfdropnode'] = 'Are you sure you want to drop node &quot;%s&quot;?';
 	$lang['strnodedropped'] = 'Node dropped.';
-	$lang['strnodedroppedbad'] = 'Node drop failed';
+	$lang['strnodedroppedbad'] = 'Node drop failed.';
 	$lang['strfailover'] = 'Failover';
 	$lang['strnodefailedover'] = 'Node failed over.';
 	$lang['strnodefailedoverbad'] = 'Node failover failed.';
 	$lang['strstatus'] = 'Status';	
 	$lang['strhealthy'] = 'Healthy';
-	$lang['stroutofsync'] = 'Out of Sync';
+	$lang['stroutofsync'] = 'Out of sync';
 	$lang['strunknown'] = 'Unknown';	
 
 	// Slony paths	
@@ -923,7 +922,7 @@
 	$lang['strftstemplate'] = 'Template';
 	$lang['strftsparser'] = 'Parser';
 	$lang['strftsconfigneedsname'] = 'You must give a name for your FTS configuration.';
-	$lang['strftsconfigcreated'] = 'FTS configuration created';
+	$lang['strftsconfigcreated'] = 'FTS configuration created.';
 	$lang['strftsconfigcreatedbad'] = 'FTS configuration creation failed.';
 	$lang['strftsmapping'] = 'Mapping';
 	$lang['strftsdicts'] = 'Dictionaries';
@@ -937,7 +936,7 @@
 	$lang['strftsparsers'] = 'FTS parsers';
 	$lang['strftsnoparsers'] = 'No FTS parsers available.';
 	$lang['strftsnodicts'] = 'No FTS dictionaries available.';
-	$lang['strftsdictcreated'] = 'FTS dictionary created';
+	$lang['strftsdictcreated'] = 'FTS dictionary created.';
 	$lang['strftsdictcreatedbad'] = 'FTS dictionary creation failed.';
 	$lang['strftslexize'] = 'Lexize';
 	$lang['strftsinit'] = 'Init';
