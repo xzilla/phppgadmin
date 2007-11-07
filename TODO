@@ -65,7 +65,7 @@ Schemas (7.3)
 -------------
 
 * -Rename (xzilla)
-* Alter owner
+* -Alter owner (ioguix)
 * Alter ... SET SCHEMA support per 8.1
 
 Large Objects
@@ -87,6 +87,7 @@ Tables
 * Add WITH storage_parameter option to create table [8.2]
 * Add last vacuum and analyze information from statistics tables [8.2]
 * Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
+* Where ENUM types are an option, restrict choice to enum values [8.3]
 
 Views
 -----
@@ -119,6 +120,7 @@ Indexes
 * Support 8.1 Reindex [Database|System] commands
 * Expressional indexes
 * Allow indexes to be built concurrently [8.2]
+* Create Index Asc/Desc, Nulls First/Last [8.3]
 
 Types
 -----
@@ -129,6 +131,7 @@ Operators
 ---------
 
 * Create
+* Create/Alter/Drop Operator Family
 
 Operator Classes
 ----------------
@@ -154,6 +157,8 @@ Languages
 
 * Drop
 * Create
+* Alter owner [8.3]
+* Alter name [8.3]
 
 Domains (7.3)
 -------------
@@ -176,9 +181,9 @@ Casts (7.3)
 Full Text Search (8.3)
 ----------------------
 
-* Create/Alter/Drop parser
-* Help Pages
-* Alter Owner
+* Create/Alter/Drop parser 
+* Help Pages 
+* Alter Owner 
 
 
 Miscellaneous
@@ -205,6 +210,7 @@ Miscellaneous
 * Add information about synch tool to TRANSLATORS
 * Translated FAQ
 * Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
+* Add support for csvlogs [8.3]
 
 Exotic
 ------
