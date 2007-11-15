@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.70 2007/11/15 06:06:45 xzilla Exp $
+	 * $Id: functions.php,v 1.71 2007/11/15 17:13:16 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,8 @@
 										$_POST['original_arguments'], 
 										$_POST['original_returns'], $def,
 										$_POST['original_lang'], $_POST['formProperties'], 
-										isset($_POST['original_setof']), $_POST['formCost'], 
+										isset($_POST['original_setof']), 
+                                                                                isset($_POST['formCost']) ? $_POST['formCost'] : null, 
 										isset($_POST['formRows']) ? $_POST['formRows'] : 0, $_POST['formComment']);
 		if ($status == 0)
 			doProperties($lang['strfunctionupdated']);
@@ -258,8 +259,8 @@
 			// Display function cost options
 			if ($data->hasFunctionCosting()) {
 				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strfunctioncosting']}</th></tr>\n";
-				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: {$misc->printVal($funcdata->fields['procost'])} </td>";
-				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: {$misc->printVal($funcdata->fields['prorows'])} </td>";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: ", $misc->printVal($funcdata->fields['procost']), " </td>";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: ", $misc->printVal($funcdata->fields['prorows']), " </td>";
 			}
 
 			// Show flags
