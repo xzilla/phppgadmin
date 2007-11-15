@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.65 2007/11/15 06:06:45 xzilla Exp $
+ * $Id: Postgres74.php,v 1.66 2007/11/15 23:09:21 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -565,8 +565,10 @@ class Postgres74 extends Postgres73 {
 	 * @return -3 create function error
 	 * @return -4 comment error
 	 * @return -5 rename function error
+	 * @return -6 alter owner error
+	 * @return -7 alter schema error
 	 */
-	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment) {
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $funcown, $newown, $funcschema, $newschema, $cost, $rows, $comment) {
 		// Begin a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -599,7 +601,38 @@ class Postgres74 extends Postgres73 {
 				$this->rollbackTransaction();
 				return -5;
 			}
+
+                        $funcname = $newname; 
 		}
+
+                // Alter the owner, if necessary
+                if ($this->hasFunctionAlterOwner()) {
+		$this->fieldClean($newown);
+		    if ($funcown != $newown) {
+			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) OWNER TO \"{$newown}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -6;
+			}
+		    }   
+
+                }
+
+                // Alter the schema, if necessary
+                if ($this->hasFunctionAlterSchema()) {
+		    $this->fieldClean($newschema);
+		    if ($funcschema != $newschema) {
+			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -7;
+			}
+		    }
+
+                }
+
 
 		return $this->endTransaction();
 	}

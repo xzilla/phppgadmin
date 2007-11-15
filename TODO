@@ -113,6 +113,7 @@ Functions
 * Display owner
 * Alter owner
 * Alter schema 
+* GUC settings [8.3]
 
 Indexes 
 -------

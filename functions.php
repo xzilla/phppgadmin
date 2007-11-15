@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.71 2007/11/15 17:13:16 xzilla Exp $
+	 * $Id: functions.php,v 1.72 2007/11/15 23:09:21 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,8 @@
 	 * Function to save after editing a function
 	 */
 	function doSaveEdit() {
-		global $data, $lang;
+		global $data, $lang; 
+                global $misc, $_reload_browser;
 		
 		$fnlang = strtolower($_POST['original_lang']);
 		
@@ -32,13 +33,25 @@
 										$_POST['original_arguments'], 
 										$_POST['original_returns'], $def,
 										$_POST['original_lang'], $_POST['formProperties'], 
-										isset($_POST['original_setof']), 
+										isset($_POST['original_setof']),
+                                                                                $_POST['original_owner'],  $_POST['formFuncOwn'], 
+                                                                                $_POST['original_schema'],  $_POST['formFuncSchema'], 
                                                                                 isset($_POST['formCost']) ? $_POST['formCost'] : null, 
 										isset($_POST['formRows']) ? $_POST['formRows'] : 0, $_POST['formComment']);
-		if ($status == 0)
+		if ($status == 0) {
+	                // If function has had schema altered, need to change to the new schema 
+		        // and reload the browser frame.
+	                if ($_POST['formFuncSchema'] != $_POST['original_schema']) {
+	                    // Jump them to the new function schema 
+	                    $_REQUEST['schema'] = $_POST['formFuncSchema'];
+	                    $misc->href = "server={$_REQUEST['server']}&amp;database={$_REQUEST['database']}&amp;schema={$_REQUEST['schema']}";
+	                    // Force a browser reload
+	                    $_reload_browser = true;
+                        }
 			doProperties($lang['strfunctionupdated']);
-		else
+		} else {
 			doEdit($lang['strfunctionupdatedbad']);
+                }
 	}
 	
 	/**
@@ -63,6 +76,8 @@
 			if (!isset($_POST['formComment'])) $_POST['formComment'] = $fndata->fields['procomment'];
 			if (!isset($_POST['formObjectFile'])) $_POST['formObjectFile'] = $fndata->fields['probin'];
 			if (!isset($_POST['formLinkSymbol'])) $_POST['formLinkSymbol'] = $fndata->fields['prosrc'];
+			if (!isset($_POST['formFuncOwn'])) $_POST['formFuncOwn'] = $fndata->fields['proowner'];
+			if (!isset($_POST['formFuncSchema'])) $_POST['formFuncSchema'] = $fndata->fields['proschema'];
 
 			if ($data->hasFunctionCosting()) {
 				if (!isset($_POST['formCost'])) $_POST['formCost'] = $fndata->fields['procost'];
@@ -92,13 +107,28 @@
 			echo "<form action=\"functions.php\" method=\"post\">\n";
 			echo "<table style=\"width: 90%\">\n";
 			echo "<tr>\n";
+			echo "<th class=\"data required\">{$lang['strschema']}</th>\n";
 			echo "<th class=\"data required\">{$lang['strfunction']}</th>\n";
 			echo "<th class=\"data\">{$lang['strarguments']}</th>\n";
 			echo "<th class=\"data required\">{$lang['strreturns']}</th>\n";
 			echo "<th class=\"data required\">{$lang['strproglanguage']}</th>\n";
 			echo "</tr>\n";
-				
+
 			echo "<tr>\n";
+			echo "<td class=\"data1\">";
+			echo "<input type=\"hidden\" name=\"original_schema\" value=\"", htmlspecialchars($fndata->fields['proschema']),"\" />\n"; 
+                        if ($data->hasFunctionAlterSchema()) {
+                            $schemas = $data->getSchemas();
+                            echo "<select name=\"formFuncSchema\">";
+				while (!$schemas->EOF) {
+					$schema = $schemas->fields['nspname'];
+					echo "<option value=\"", htmlspecialchars($schema), "\"",
+						($schema == $_POST['formFuncSchema']) ? ' selected="selected"' : '', ">", htmlspecialchars($schema), "</option>\n";
+					$schemas->moveNext();
+				}
+			    echo "</select>\n";
+                        }
+			echo "</td>\n";
 			echo "<td class=\"data1\">";
 			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->fields['proname']),"\" />\n"; 
 			echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
@@ -129,23 +159,23 @@
 				echo "<td class=\"data1\" colspan=\"2\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else if ($fnlang == 'internal') {
-				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
+				echo "<tr><th class=\"data\" colspan=\"5\">{$lang['strlinksymbol']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"5\"><input type=\"text\" name=\"formLinkSymbol\" style=\"width:100%\" value=\"",
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else {
-				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
+				echo "<tr><th class=\"data required\" colspan=\"5\">{$lang['strdefinition']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 					htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			}
 			
 			// Display function comment
-			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
+			echo "<tr><th class=\"data\" colspan=\"5\">{$lang['strcomment']}</th></tr>\n";
+			echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 
 			// Display function cost options
 			if ($data->hasFunctionCosting()) {
-				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strfunctioncosting']}</th></tr>\n";
+				echo "<tr><th class=\"data required\" colspan=\"5\">{$lang['strfunctioncosting']}</th></tr>\n";
 				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: <input name=\"formCost\" size=\"16\" value=\"".
 					htmlspecialchars($_POST['formCost']) ."\" /></td>";
 				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: <input name=\"formRows\" size=\"16\" value=\"",
@@ -154,8 +184,8 @@
 
 			// Display function properties
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
-				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
+				echo "<tr><th class=\"data\" colspan=\"5\">{$lang['strproperties']}</th></tr>\n";
+				echo "<tr><td class=\"data1\" colspan=\"5\">\n";
 				$i = 0;
 				foreach ($data->funcprops as $k => $v) {
 					echo "<select name=\"formProperties[{$i}]\">\n";
@@ -169,6 +199,21 @@
 				}
 				echo "</td></tr>\n";
 			}		
+
+                        // function owner
+                        if ($data->hasFunctionAlterOwner()) {
+		            $users = $data->getUsers();
+                            echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
+				while (!$users->EOF) {
+					$uname = $users->fields['usename'];
+					echo "<option value=\"", htmlspecialchars($uname), "\"",
+						($uname == $_POST['formFuncOwn']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+					$users->moveNext();
+				}
+				echo "</select>\n";
+			    echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n"; 
+                            echo "</td></tr>\n";				
+                        }
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -274,6 +319,9 @@
 				}
 				echo "</td></tr>\n";
 			}		
+
+                        echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n"; 
+                        echo "</td></tr>\n";				
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";

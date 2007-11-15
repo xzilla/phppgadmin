@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.14 2006/12/31 19:04:05 xzilla Exp $
+ * $Id: Postgres81.php,v 1.15 2007/11/15 23:09:21 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -501,6 +501,7 @@ class Postgres81 extends Postgres80 {
 	function hasAutovacuum() { return true; }
 	function hasPreparedXacts() { return true; }
 	function hasDisableTriggers() { return true; }
+        function hasFunctionAlterSchema() { return true; }
 }
 
 ?>

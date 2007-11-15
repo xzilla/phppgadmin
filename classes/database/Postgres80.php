@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.24 2007/10/02 21:44:35 ioguix Exp $
+ * $Id: Postgres80.php,v 1.25 2007/11/15 23:09:21 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -511,6 +511,8 @@ class Postgres80 extends Postgres74 {
 		$sql = "SELECT 
 					pc.oid AS prooid,
 					proname,
+		                        pg_catalog.pg_get_userbyid(proowner) AS proowner,
+                                        nspname as proschema, 
 					lanname as prolanguage,
 					pg_catalog.format_type(prorettype, NULL) as proresult,
 					prosrc,
@@ -523,10 +525,13 @@ class Postgres80 extends Postgres74 {
 					proargnames AS proargnames,
 					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
 				FROM
-					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl, pg_catalog.pg_namespace pn
 				WHERE 
 					pc.oid = '{$function_oid}'::oid
-				AND pc.prolang = pl.oid
+				        AND 
+                                        pc.prolang = pl.oid
+                                        AND
+                                        pc.pronamespace = pn.oid 
 				";
 	
 		return $this->selectSet($sql);
@@ -538,6 +543,7 @@ class Postgres80 extends Postgres74 {
 	function hasTablespaces() { return true; }
 	function hasSignals() { return true; }
 	function hasNamedParams() { return true; }
+        function hasFunctionAlterOwner() { return true; }
 	
 }
 
