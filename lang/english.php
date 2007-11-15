@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.220 2007/11/07 10:49:46 soranzo Exp $
+	 * $Id: english.php,v 1.221 2007/11/15 06:06:45 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -529,6 +529,9 @@
 	$lang['strargraise'] = 'Move up.';
 	$lang['strarglower'] = 'Move down.';
 	$lang['strargremoveconfirm'] = 'Are you sure you want to remove this argument? This CANNOT be undone.';
+	$lang['strfunctioncosting'] = 'Function Costing';
+	$lang['strresultrows'] = 'Result Rows';
+	$lang['strexecutioncost'] = 'Execution Cost';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';

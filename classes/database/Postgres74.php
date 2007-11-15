@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.64 2007/10/17 15:55:33 ioguix Exp $
+ * $Id: Postgres74.php,v 1.65 2007/11/15 06:06:45 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -566,7 +566,7 @@ class Postgres74 extends Postgres73 {
 	 * @return -4 comment error
 	 * @return -5 rename function error
 	 */
-	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment) {
 		// Begin a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -575,7 +575,7 @@ class Postgres74 extends Postgres73 {
 		}
 
 		// Replace the existing function
-		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
+		$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, true);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -3;

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.91 2007/10/18 12:29:40 xzilla Exp $
+ * $Id: Postgres72.php,v 1.92 2007/11/15 06:06:45 xzilla Exp $
  */
 
 
@@ -441,7 +441,7 @@ class Postgres72 extends Postgres71 {
 	 * @return -3 create function error
 	 * @return -4 comment error
 	 */
-	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $comment) {
+	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $rows, $cost, $comment) {
 		// Begin a transaction
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -457,13 +457,13 @@ class Postgres72 extends Postgres71 {
 				return -2;
 			}
 
-			$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, false);
+			$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, false);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;
 			}
 		} else {
-			$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, true);
+			$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, true);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;

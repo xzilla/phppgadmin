@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.10 2007/10/17 18:24:32 ioguix Exp $
+ * $Id: Postgres83.php,v 1.11 2007/11/15 06:06:45 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -696,10 +696,113 @@ class Postgres83 extends Postgres82 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Creates a new function.
+	 * @param $funcname The name of the function to create
+	 * @param $args A comma separated string of types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $setof True if it returns a set, false otherwise
+	 * @param $rows number of rows planner should estimate will be returned
+     * @param $cost cost the planner should use in the function execution step 
+	 * @param $replace (optional) True if OR REPLACE, false for normal
+	 * @return 0 success
+	 */
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $replace = false) {
+		$this->fieldClean($funcname);
+		$this->clean($args);
+		$this->clean($language);
+		$this->arrayClean($flags);
+		$this->clean($cost);
+		$this->clean($rows);
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " FUNCTION \"{$funcname}\" (";
+		
+		if ($args != '')
+			$sql .= $args;
+
+		// For some reason, the returns field cannot have quotes...
+		$sql .= ") RETURNS ";
+		if ($setof) $sql .= "SETOF ";
+		$sql .= "{$returns} AS ";
+		
+		if (is_array($definition)) {
+			$this->arrayClean($definition);
+			$sql .= "'" . $definition[0] . "'";
+			if ($definition[1]) {
+				$sql .= ",'" . $definition[1] . "'";
+			}
+		} else {
+			$this->clean($definition);
+			$sql .= "'" . $definition . "'";
+		}
+		
+		$sql .= " LANGUAGE \"{$language}\"";
+
+		// Add costs
+		$sql .= " COST {$cost}";
+
+		if ($rows <> 0 ){
+			$sql .= " ROWS {$rows}";
+		}
+		
+		// Add flags
+		foreach ($flags as  $v) {
+			// Skip default flags
+			if ($v == '') continue;
+			else $sql .= "\n{$v}";
+		}
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+		
+		$sql = "SELECT 
+					pc.oid AS prooid,
+					proname,
+					lanname as prolanguage,
+					procost,
+					prorows,
+					pg_catalog.format_type(prorettype, NULL) as proresult,
+					prosrc,
+					probin,
+					proretset,
+					proisstrict,
+					provolatile,
+					prosecdef,
+					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
+					proargnames AS proargnames,
+					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment,
+					proconfig 
+				FROM
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
+				WHERE 
+					pc.oid = '{$function_oid}'::oid
+				AND pc.prolang = pl.oid
+				";
+	
+		return $this->selectSet($sql);
+	}
+	
+
+
 	// Capabilities
 	function hasCreateTableLikeWithIndexes() {return true;}
 	function hasVirtualTransactionId() {return true;}
 	function hasEnumTypes() {return true;}
 	function hasFTS() {return true;}
+	function hasFunctionCosting() {return true;}
+	function hasFunctionGUC() {return true;}
 }
 ?>

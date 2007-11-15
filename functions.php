@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.69 2007/10/31 03:40:05 xzilla Exp $
+	 * $Id: functions.php,v 1.70 2007/11/15 06:06:45 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -32,7 +32,8 @@
 										$_POST['original_arguments'], 
 										$_POST['original_returns'], $def,
 										$_POST['original_lang'], $_POST['formProperties'], 
-										isset($_POST['original_setof']), $_POST['formComment']);
+										isset($_POST['original_setof']), $_POST['formCost'], 
+										isset($_POST['formRows']) ? $_POST['formRows'] : 0, $_POST['formComment']);
 		if ($status == 0)
 			doProperties($lang['strfunctionupdated']);
 		else
@@ -45,7 +46,6 @@
 	function doEdit($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
 		$misc->printTrail('function');
 		$misc->printTitle($lang['stralter'],'pg.function.alter');
 		$misc->printMsg($msg);
@@ -62,6 +62,11 @@
 			if (!isset($_POST['formComment'])) $_POST['formComment'] = $fndata->fields['procomment'];
 			if (!isset($_POST['formObjectFile'])) $_POST['formObjectFile'] = $fndata->fields['probin'];
 			if (!isset($_POST['formLinkSymbol'])) $_POST['formLinkSymbol'] = $fndata->fields['prosrc'];
+
+			if ($data->hasFunctionCosting()) {
+				if (!isset($_POST['formCost'])) $_POST['formCost'] = $fndata->fields['procost'];
+				if (!isset($_POST['formRows'])) $_POST['formRows'] = $fndata->fields['prorows'];
+			}
 
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
@@ -92,7 +97,6 @@
 			echo "<th class=\"data required\">{$lang['strproglanguage']}</th>\n";
 			echo "</tr>\n";
 				
-
 			echo "<tr>\n";
 			echo "<td class=\"data1\">";
 			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->fields['proname']),"\" />\n"; 
@@ -137,7 +141,17 @@
 			echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
-			// Display function properies
+
+			// Display function cost options
+			if ($data->hasFunctionCosting()) {
+				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strfunctioncosting']}</th></tr>\n";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: <input name=\"formCost\" size=\"16\" value=\"".
+					htmlspecialchars($_POST['formCost']) ."\" /></td>";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: <input name=\"formRows\" size=\"16\" value=\"",
+					htmlspecialchars($_POST['formRows']) ,"\"", (!$fndata->fields['proretset']) ? 'disabled' : '', "/></td>";
+			}
+
+			// Display function properties
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">\n";
@@ -240,7 +254,14 @@
 				}
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($temp, $tag, array('lineno' => true, 'class' => 'data1')), "</td></tr>\n";
 			}
-			
+
+			// Display function cost options
+			if ($data->hasFunctionCosting()) {
+				echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strfunctioncosting']}</th></tr>\n";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: {$misc->printVal($funcdata->fields['procost'])} </td>";
+				echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: {$misc->printVal($funcdata->fields['prorows'])} </td>";
+			}
+
 			// Show flags
 			if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 				// Fetch an array of the function properties
@@ -320,6 +341,8 @@
 		if (!isset($_POST['formProperties'])) $_POST['formProperties'] = $data->defaultprops;
 		if (!isset($_POST['formSetOf'])) $_POST['formSetOf'] = '';
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
+		if (!isset($_POST['formCost'])) $_POST['formCost'] = '';
+		if (!isset($_POST['formRows'])) $_POST['formRows'] = '';
 
 		$types = $data->getTypes(true, true, true);
 		$langs = $data->getLanguages(true);
@@ -483,7 +506,16 @@
 			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
-		
+
+		// Display function cost options
+		if ($data->hasFunctionCosting()) {
+			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strfunctioncosting']}</th></tr>\n";
+			echo "<td class=\"data1\" colspan=\"2\">{$lang['strexecutioncost']}: <input name=\"formCost\" size=\"16\" value=\"".
+				htmlspecialchars($_POST['formCost']) ."\" /></td>";
+			echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: <input name=\"formRows\" size=\"16\" value=\"".
+				htmlspecialchars($_POST['formRows']) ."\" /></td>";
+		}
+	
 		// Display function properties
 		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
@@ -537,6 +569,16 @@
 			$szJS = "<script type=\"text/javascript\" src=\"functions.js\">noArgsRebuild(addArg());</script>";
 		}
 
+		$cost = (isset($_POST['formCost'])) ? $_POST['formCost'] : null; 
+		if ($cost == '' || !is_numeric($cost) || $cost != (int)$cost || $cost < 0)  {
+			$cost = null;
+		}
+
+		$rows = (isset($_POST['formRows'])) ? $_POST['formRows'] : null; 
+		if ($rows == '' || !is_numeric($rows) || $rows != (int)$rows )  {
+			$rows = null;
+		}
+
 		// Check that they've given a name and a definition
 		if ($_POST['formFunction'] == '') doCreate($lang['strfunctionneedsname'],$szJS);
 		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef'],$szJS);
@@ -544,7 +586,8 @@
 			// Append array symbol to type if chosen
 			$status = $data->createFunction($_POST['formFunction'], empty($_POST["nojs"]) ? buildFunctionArguments($_POST) : $_POST["formArguments"], 
 					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'],
-					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', false);
+					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', 
+					$cost, $rows, false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
 			else {
