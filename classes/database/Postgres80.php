@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.25 2007/11/15 23:09:21 xzilla Exp $
+ * $Id: Postgres80.php,v 1.26 2007/11/16 18:34:24 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -37,7 +37,7 @@ class Postgres80 extends Postgres74 {
 	}
 
 	// Help functions
-	
+
 	function getHelpPages() {
 		include_once('./help/PostgresDoc80.php');
 		return $this->help_page;
@@ -51,9 +51,9 @@ class Postgres80 extends Postgres74 {
 	 */
 	function getDatabases($currentdatabase = NULL) {
 		global $conf, $misc;
-		
+
 		$server_info = $misc->getServerInfo();
-		
+
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
 			$username = $server_info['username'];
 			$this->clean($username);
@@ -100,13 +100,13 @@ class Postgres80 extends Postgres74 {
 		$this->clean($newName);
 		$this->clean($newOwner);
 		//ignore $comment, not supported pre 8.2
-		
+
 		$status = $this->beginTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		
+
 		if ($dbName != $newName) {
 			$status = $this->alterDatabaseRename($dbName, $newName);
 			if ($status != 0) {
@@ -114,7 +114,7 @@ class Postgres80 extends Postgres74 {
 				return -3;
 			}
 		}
-		
+
 		$status = $this->alterDatabaseOwner($newName, $newOwner);
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -133,7 +133,7 @@ class Postgres80 extends Postgres74 {
 	function alterDatabaseOwner($dbName, $newOwner) {
 		$this->clean($dbName);
 		$this->clean($newOwner);
-		
+
 		$sql = "ALTER DATABASE \"{$dbName}\" OWNER TO \"{$newOwner}\"";
 		return $this->execute($sql);
 	}
@@ -148,28 +148,28 @@ class Postgres80 extends Postgres74 {
 			$default = pg_parameter_status($this->conn->_connectionID, 'default_with_oids');
 			if ($default !== false) return $default;
 		}
-		
+
 		$sql = "SHOW default_with_oids";
-		
+
 		return $this->selectField($sql, 'default_with_oids');
 	}
-	
+
 	// Table functions
-	
+
 	/**
 	 * Return all tables in current database (and schema)
 	 * @param $all True to fetch all tables, false for just in current schema
-	 * @return All tables, sorted alphabetically 
+	 * @return All tables, sorted alphabetically
 	 */
 	function getTables($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
-					FROM pg_catalog.pg_tables 
+					FROM pg_catalog.pg_tables
 					WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 					ORDER BY schemaname, tablename";
 		} else {
-			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner, 
+			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner,
 						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
 						reltuples::bigint,
 						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
@@ -178,10 +178,10 @@ class Postgres80 extends Postgres74 {
 					WHERE c.relkind = 'r'
 					AND nspname='{$this->_schema}'
 					ORDER BY c.relname";
-		}		
+		}
 
 		return $this->selectSet($sql);
-	}	
+	}
 
 	/**
 	 * Returns table information
@@ -190,7 +190,7 @@ class Postgres80 extends Postgres74 {
 	 */
 	function getTable($table) {
 		$this->clean($table);
-		
+
 		$sql = "
 			SELECT
 			  c.relname, u.usename AS relowner,
@@ -201,11 +201,11 @@ class Postgres80 extends Postgres74 {
 			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 			WHERE c.relkind = 'r'
 			      AND n.nspname = '{$this->_schema}'
-			      AND c.relname = '{$table}'";		
-			
+			      AND c.relname = '{$table}'";
+
 		return $this->selectSet($sql);
 	}
-		
+
 	/**
 	 * Alters a column in a table
 	 * @param $table The table in which the column resides
@@ -226,7 +226,7 @@ class Postgres80 extends Postgres74 {
 	 * @return -4 comment error
 	 * @return -6 transaction error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault, 
+	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
 									$type, $length, $array, $oldtype, $comment) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
@@ -239,7 +239,7 @@ class Postgres80 extends Postgres74 {
 		if ($notnull != $oldnotnull) {
 			$sql .= "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" " . (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
 		}
-		
+
 		// Add default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '') {
@@ -253,7 +253,7 @@ class Postgres80 extends Postgres74 {
 				$sql .= "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 			}
 		}
-		
+
 		// Add type, if it has changed
 		if ($length == '')
 			$ftype = $type;
@@ -275,10 +275,10 @@ class Postgres80 extends Postgres74 {
 					$ftype = "{$type}({$length})";
 			}
 		}
-		
+
 		// Add array qualifier, if requested
 		if ($array) $ftype .= '[]';
-		
+
 		if ($ftype != $oldtype) {
 			if ($sql == '') $sql = "ALTER TABLE \"{$table}\" ";
 			else $sql .= ", ";
@@ -291,7 +291,7 @@ class Postgres80 extends Postgres74 {
 			$this->rollbackTransaction();
 			return -6;
 		}
-		
+
 		// Attempt to process the batch alteration, if anything has been changed
 		if ($sql != '') {
 			$status = $this->execute($sql);
@@ -300,7 +300,7 @@ class Postgres80 extends Postgres74 {
 				return -1;
 			}
 		}
-		
+
 		// Update the comment on the column
 		$status = $this->setComment('COLUMN', $column, $table, $comment);
 		if ($status != 0) {
@@ -332,8 +332,8 @@ class Postgres80 extends Postgres74 {
 			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
 				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
 				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S' 
-				AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast') 
+				AND c.relkind = 'S'
+				AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
 				ORDER BY nspname, seqname";
 		} else {
 			$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
@@ -342,12 +342,12 @@ class Postgres80 extends Postgres74 {
 				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
 				AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
 		}
-					
+
 		return $this->selectSet( $sql );
 	}
-	
+
 	// Tablespace functions
-	
+
 	/**
 	 * Retrieves information for all tablespaces
 	 * @param $all Include all tablespaces (necessary when moving objects back to the default space)
@@ -355,32 +355,32 @@ class Postgres80 extends Postgres74 {
 	 */
 	function getTablespaces($all = false) {
 		global $conf;
-		
+
 		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
 					FROM pg_catalog.pg_tablespace";
-					
+
 		if (!$conf['show_system'] && !$all) {
 			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
 		}
-		
+
 		$sql .= " ORDER BY spcname";
-					
+
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Retrieves a tablespace's information
 	 * @return A recordset
 	 */
 	function getTablespace($spcname) {
 		$this->clean($spcname);
-		
+
 		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
 					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
-					
+
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Creates a tablespace
 	 * @param $spcname The name of the tablespace to create
@@ -392,26 +392,26 @@ class Postgres80 extends Postgres74 {
 		$this->fieldClean($spcname);
 		$this->clean($spcloc);
 		$this->clean($comment);
-		
+
 		$sql = "CREATE TABLESPACE \"{$spcname}\"";
-		
+
 		if ($spcowner != '') {
 			$this->fieldClean($spcowner);
 			$sql .= " OWNER \"{$spcowner}\"";
 		}
-		
+
 		$sql .= " LOCATION '{$spcloc}'";
 
 		$status = $this->execute($sql);
 		if ($status != 0) return -1;
 
-		if ($comment != '' && $this->hasSharedComments()) { 
+		if ($comment != '' && $this->hasSharedComments()) {
 			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
 			if ($status != 0) return -2;
 		}
 
 		return 0;
-	
+
 	}
 
 	/**
@@ -466,16 +466,16 @@ class Postgres80 extends Postgres74 {
 		}
 
 		// Set comment if it has changed
-		if (trim($comment) != '' && $this->hasSharedComments()) { 
+		if (trim($comment) != '' && $this->hasSharedComments()) {
 			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
 			if ($status != 0) return -4;
 		}
-				
+
 		return $this->endTransaction();
 	}
-	
+
 	// Backend process signalling functions
-	
+
 	/**
 	 * Sends a cancel or kill command to a process
 	 * @param $pid The ID of the backend process
@@ -486,15 +486,15 @@ class Postgres80 extends Postgres74 {
 	function sendSignal($pid, $signal) {
 		// Clean
 		$pid = (int)$pid;
-		
+
 		if ($signal == 'CANCEL')
 			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
 		else
 			return -1;
-			
+
 		// Execute the query
 		$val = $this->selectField($sql, 'val');
-		
+
 		if ($val === -1) return -1;
 		elseif ($val == '1') return 0;
 		else return -1;
@@ -507,12 +507,12 @@ class Postgres80 extends Postgres74 {
 	 */
 	function getFunction($function_oid) {
 		$this->clean($function_oid);
-		
-		$sql = "SELECT 
+
+		$sql = "SELECT
 					pc.oid AS prooid,
 					proname,
-		                        pg_catalog.pg_get_userbyid(proowner) AS proowner,
-                                        nspname as proschema, 
+					pg_catalog.pg_get_userbyid(proowner) AS proowner,
+					nspname as proschema,
 					lanname as prolanguage,
 					pg_catalog.format_type(prorettype, NULL) as proresult,
 					prosrc,
@@ -526,17 +526,15 @@ class Postgres80 extends Postgres74 {
 					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
 				FROM
 					pg_catalog.pg_proc pc, pg_catalog.pg_language pl, pg_catalog.pg_namespace pn
-				WHERE 
+				WHERE
 					pc.oid = '{$function_oid}'::oid
-				        AND 
-                                        pc.prolang = pl.oid
-                                        AND
-                                        pc.pronamespace = pn.oid 
+					AND pc.prolang = pl.oid
+					AND pc.pronamespace = pn.oid
 				";
-	
+
 		return $this->selectSet($sql);
 	}
-		
+
 	// Capabilities
 	function hasAlterDatabaseOwner() { return true; }
 	function hasAlterColumnType() { return true; }
@@ -544,7 +542,7 @@ class Postgres80 extends Postgres74 {
 	function hasSignals() { return true; }
 	function hasNamedParams() { return true; }
         function hasFunctionAlterOwner() { return true; }
-	
+
 }
 
 ?>

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.11 2007/11/15 06:06:45 xzilla Exp $
+ * $Id: Postgres83.php,v 1.12 2007/11/16 18:34:24 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -706,7 +706,7 @@ class Postgres83 extends Postgres82 {
 	 * @param $flags An array of optional flags
 	 * @param $setof True if it returns a set, false otherwise
 	 * @param $rows number of rows planner should estimate will be returned
-     * @param $cost cost the planner should use in the function execution step 
+     * @param $cost cost the planner should use in the function execution step
 	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
@@ -721,7 +721,7 @@ class Postgres83 extends Postgres82 {
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
 		$sql .= " FUNCTION \"{$funcname}\" (";
-		
+
 		if ($args != '')
 			$sql .= $args;
 
@@ -729,7 +729,7 @@ class Postgres83 extends Postgres82 {
 		$sql .= ") RETURNS ";
 		if ($setof) $sql .= "SETOF ";
 		$sql .= "{$returns} AS ";
-		
+
 		if (is_array($definition)) {
 			$this->arrayClean($definition);
 			$sql .= "'" . $definition[0] . "'";
@@ -740,7 +740,7 @@ class Postgres83 extends Postgres82 {
 			$this->clean($definition);
 			$sql .= "'" . $definition . "'";
 		}
-		
+
 		$sql .= " LANGUAGE \"{$language}\"";
 
 		// Add costs
@@ -749,7 +749,7 @@ class Postgres83 extends Postgres82 {
 		if ($rows <> 0 ){
 			$sql .= " ROWS {$rows}";
 		}
-		
+
 		// Add flags
 		foreach ($flags as  $v) {
 			// Skip default flags
@@ -767,10 +767,12 @@ class Postgres83 extends Postgres82 {
 	 */
 	function getFunction($function_oid) {
 		$this->clean($function_oid);
-		
-		$sql = "SELECT 
+
+		$sql = "SELECT
 					pc.oid AS prooid,
 					proname,
+					pg_catalog.pg_get_userbyid(proowner) AS proowner,
+					nspname as proschema,
 					lanname as prolanguage,
 					procost,
 					prorows,
@@ -784,17 +786,18 @@ class Postgres83 extends Postgres82 {
 					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
 					proargnames AS proargnames,
 					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment,
-					proconfig 
+					proconfig
 				FROM
-					pg_catalog.pg_proc pc, pg_catalog.pg_language pl
-				WHERE 
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl, pg_catalog.pg_namespace pn
+				WHERE
 					pc.oid = '{$function_oid}'::oid
-				AND pc.prolang = pl.oid
+					AND pc.prolang = pl.oid
+					AND pc.pronamespace = pn.oid
 				";
-	
+
 		return $this->selectSet($sql);
 	}
-	
+
 
 
 	// Capabilities

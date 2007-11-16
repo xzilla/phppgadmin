@@ -3,24 +3,23 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.72 2007/11/15 23:09:21 xzilla Exp $
+	 * $Id: functions.php,v 1.73 2007/11/16 18:34:24 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
-	
+
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
-	
-	/** 
+
+	/**
 	 * Function to save after editing a function
 	 */
 	function doSaveEdit() {
-		global $data, $lang; 
-                global $misc, $_reload_browser;
-		
+		global $data, $lang, $misc, $_reload_browser;
+
 		$fnlang = strtolower($_POST['original_lang']);
-		
+
 		if ($fnlang == 'c') {
 			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
 		} else if ($fnlang == 'internal'){
@@ -28,32 +27,31 @@
 		} else {
 			$def = $_POST['formDefinition'];
 		}
-		
-		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['formFunction'], 
-										$_POST['original_arguments'], 
-										$_POST['original_returns'], $def,
-										$_POST['original_lang'], $_POST['formProperties'], 
-										isset($_POST['original_setof']),
-                                                                                $_POST['original_owner'],  $_POST['formFuncOwn'], 
-                                                                                $_POST['original_schema'],  $_POST['formFuncSchema'], 
-                                                                                isset($_POST['formCost']) ? $_POST['formCost'] : null, 
-										isset($_POST['formRows']) ? $_POST['formRows'] : 0, $_POST['formComment']);
+		if(!$data->hasFunctionAlterSchema()) $_POST['formFuncSchema'] = '';
+
+		$status = $data->setFunction($_POST['function_oid'], $_POST['original_function'], $_POST['formFunction'],
+			$_POST['original_arguments'], $_POST['original_returns'], $def,
+			$_POST['original_lang'], $_POST['formProperties'], isset($_POST['original_setof']),
+			$_POST['original_owner'],  $_POST['formFuncOwn'], $_POST['original_schema'],
+			$_POST['formFuncSchema'], isset($_POST['formCost']) ? $_POST['formCost'] : null,
+			isset($_POST['formRows']) ? $_POST['formRows'] : 0, $_POST['formComment']);
+
 		if ($status == 0) {
-	                // If function has had schema altered, need to change to the new schema 
-		        // and reload the browser frame.
-	                if ($_POST['formFuncSchema'] != $_POST['original_schema']) {
-	                    // Jump them to the new function schema 
-	                    $_REQUEST['schema'] = $_POST['formFuncSchema'];
-	                    $misc->href = "server={$_REQUEST['server']}&amp;database={$_REQUEST['database']}&amp;schema={$_REQUEST['schema']}";
-	                    // Force a browser reload
-	                    $_reload_browser = true;
-                        }
+			// If function has had schema altered, need to change to the new schema
+			// and reload the browser frame.
+			if (!empty($_POST['formFuncSchema']) && ($_POST['formFuncSchema'] != $_POST['original_schema'])) {
+				// Jump them to the new function schema
+				$_REQUEST['schema'] = $_POST['formFuncSchema'];
+				$misc->href = "server={$_REQUEST['server']}&amp;database={$_REQUEST['database']}&amp;schema={$_REQUEST['schema']}";
+				// Force a browser reload
+				$_reload_browser = true;
+			 }
 			doProperties($lang['strfunctionupdated']);
 		} else {
 			doEdit($lang['strfunctionupdatedbad']);
-                }
+		}
 	}
-	
+
 	/**
 	 * Function to allow editing of a Function
 	 */
@@ -93,7 +91,7 @@
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
 					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
-						$data->fieldClean($names_arr[$i]);					
+						$data->fieldClean($names_arr[$i]);
 						$args .= '"' . $names_arr[$i] . '" ';
 					}
 					$args .= $args_arr[$i];
@@ -116,10 +114,10 @@
 
 			echo "<tr>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"hidden\" name=\"original_schema\" value=\"", htmlspecialchars($fndata->fields['proschema']),"\" />\n"; 
-                        if ($data->hasFunctionAlterSchema()) {
-                            $schemas = $data->getSchemas();
-                            echo "<select name=\"formFuncSchema\">";
+			echo "<input type=\"hidden\" name=\"original_schema\" value=\"", htmlspecialchars($fndata->fields['proschema']),"\" />\n";
+			if ($data->hasFunctionAlterSchema()) {
+				$schemas = $data->getSchemas();
+				echo "<select name=\"formFuncSchema\">";
 				while (!$schemas->EOF) {
 					$schema = $schemas->fields['nspname'];
 					echo "<option value=\"", htmlspecialchars($schema), "\"",
@@ -127,29 +125,30 @@
 					$schemas->moveNext();
 				}
 			    echo "</select>\n";
-                        }
+			}
+			else echo $fndata->fields['proschema'];
 			echo "</td>\n";
 			echo "<td class=\"data1\">";
-			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->fields['proname']),"\" />\n"; 
+			echo "<input type=\"hidden\" name=\"original_function\" value=\"", htmlspecialchars($fndata->fields['proname']),"\" />\n";
 			echo "<input name=\"formFunction\" style=\"width: 100%\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_POST['formFunction']), "\" />";
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">", $misc->printVal($args), "\n";
-			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($args),"\" />\n"; 
+			echo "<input type=\"hidden\" name=\"original_arguments\" value=\"",htmlspecialchars($args),"\" />\n";
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">";
 			if ($fndata->fields['proretset']) echo "setof ";
 			echo $misc->printVal($fndata->fields['proresult']), "\n";
-			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->fields['proresult']), "\" />\n"; 
+			echo "<input type=\"hidden\" name=\"original_returns\" value=\"", htmlspecialchars($fndata->fields['proresult']), "\" />\n";
 			if ($fndata->fields['proretset'])
-				echo "<input type=\"hidden\" name=\"original_setof\" value=\"yes\" />\n"; 
+				echo "<input type=\"hidden\" name=\"original_setof\" value=\"yes\" />\n";
 			echo "</td>\n";
 
 			echo "<td class=\"data1\">", $misc->printVal($fndata->fields['prolanguage']), "\n";
-			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->fields['prolanguage']), "\" />\n"; 
+			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->fields['prolanguage']), "\" />\n";
 			echo "</td>\n";
-			
+
 			$fnlang = strtolower($fndata->fields['prolanguage']);
 			if ($fnlang == 'c') {
 				echo "<tr><th class=\"data required\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
@@ -164,13 +163,13 @@
 					htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 			} else {
 				echo "<tr><th class=\"data required\" colspan=\"5\">{$lang['strdefinition']}</th></tr>\n";
-				echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
+				echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">",
 					htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 			}
-			
+
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"5\">{$lang['strcomment']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">", 
+			echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">",
 					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 
 			// Display function cost options
@@ -190,15 +189,15 @@
 				foreach ($data->funcprops as $k => $v) {
 					echo "<select name=\"formProperties[{$i}]\">\n";
 					foreach ($v as $p) {
-						echo "<option value=\"", htmlspecialchars($p), "\"", 
-							($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '', 
+						echo "<option value=\"", htmlspecialchars($p), "\"",
+							($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '',
 							">", $misc->printVal($p), "</option>\n";
 					}
 					echo "</select><br />\n";
 					$i++;
 				}
 				echo "</td></tr>\n";
-			}		
+			}
 
                         // function owner
                         if ($data->hasFunctionAlterOwner()) {
@@ -211,8 +210,8 @@
 					$users->moveNext();
 				}
 				echo "</select>\n";
-			    echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n"; 
-                            echo "</td></tr>\n";				
+			    echo "<input type=\"hidden\" name=\"original_owner\" value=\"", htmlspecialchars($fndata->fields['proowner']),"\" />\n";
+                            echo "</td></tr>\n";
                         }
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_edit\" />\n";
@@ -232,13 +231,13 @@
 	function doProperties($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('function');
 		$misc->printTitle($lang['strproperties'],'pg.function');
 		$misc->printMsg($msg);
-		
+
 		$funcdata = $data->getFunction($_REQUEST['function_oid']);
-		
+
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
@@ -249,7 +248,7 @@
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
 					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
-						$data->fieldClean($names_arr[$i]);					
+						$data->fieldClean($names_arr[$i]);
 						$args .= '"' . $names_arr[$i] . '" ';
 					}
 					$args .= $args_arr[$i];
@@ -273,10 +272,10 @@
 			echo "<tr><td class=\"data1\">", $misc->printVal($funcdata->fields['proname']), "</td>\n";
 			echo "<td class=\"data1\">", $misc->printVal($args), "</td>\n";
 			echo "<td class=\"data1\">";
-			if ($funcdata->fields['proretset']) echo "setof ";			
+			if ($funcdata->fields['proretset']) echo "setof ";
 			echo $misc->printVal($funcdata->fields['proresult']), "</td>\n";
 			echo "<td class=\"data1\">", $misc->printVal($funcdata->fields['prolanguage']), "</td></tr>\n";
-			
+
 			$fnlang = strtolower($funcdata->fields['prolanguage']);
 			if ($fnlang == 'c') {
 				echo "<tr><th class=\"data\" colspan=\"2\">{$lang['strobjectfile']}</th>\n";
@@ -287,7 +286,7 @@
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strlinksymbol']}</th></tr>\n";
 				echo "<tr><td class=\"data1\" colspan=\"4\">", $misc->printVal($funcdata->fields['prosrc']), "</td></tr>\n";
 			} else {
-				include_once('./libraries/highlight.php');		
+				include_once('./libraries/highlight.php');
 				echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
 				// Check to see if we have syntax highlighting for this language
 				if (isset($data->langmap[$funcdata->fields['prolanguage']])) {
@@ -318,21 +317,21 @@
 					echo $misc->printVal($v), "<br />\n";
 				}
 				echo "</td></tr>\n";
-			}		
+			}
 
-                        echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n"; 
-                        echo "</td></tr>\n";				
+                        echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n";
+                        echo "</td></tr>\n";
 			echo "</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
-		
+
 		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></li>\n";
-		echo "\t<li><a href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=", 
+		echo "\t<li><a href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=",
 			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a></li>\n";
 		echo "\t<li><a href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",
 			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></li>\n</ul>";
 	}
-	
+
 	/**
 	 * Show confirmation of drop and perform actual drop
 	 */
@@ -343,9 +342,9 @@
 		if ($confirm) {
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.function.drop');
-			
-			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";	
-			
+
+			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";
+
 			echo "<form action=\"functions.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
@@ -369,16 +368,16 @@
 				doDefault($lang['strfunctiondroppedbad']);
                         }
 		}
-		
+
 	}
-	
+
 	/**
 	 * Displays a screen where they can enter a new function
 	 */
 	function doCreate($msg = '',$szJS="") {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('schema');
 		if (!isset($_POST['formFunction'])) $_POST['formFunction'] = '';
 		if (!isset($_POST['formArguments'])) $_POST['formArguments'] = '';
@@ -409,8 +408,8 @@
 				break;
 		}
 		$misc->printMsg($msg);
-		
-		// Create string for return type list		
+
+		// Create string for return type list
 		$szTypes = "";
 		while (!$types->EOF) {
 			$szSelected = "";
@@ -427,7 +426,7 @@
 
 		$szArguments = "<td class=\"data1\"><input name=\"formArguments\" style=\"width:100%;\" size=\"16\" value=\"".
 			htmlspecialchars($_POST['formArguments']) ."\" /></td>";
-		
+
 		$szSetOfSelected = "";
 		$szNotSetOfSelected = "";
 		if($_POST['formSetOf'] == '') {
@@ -478,7 +477,7 @@
 			}
 			$szLanguage .= "</select>\n";
 		}
-		
+
 		$szLanguage .= "</td>";
 		$szJSArguments = "<tr><th class=\"data\" colspan=\"7\">{$lang['strarguments']}</th></tr>";
 		$arrayModes = array("IN","OUT","INOUT");
@@ -552,7 +551,7 @@
 				htmlspecialchars($_POST['formLinkSymbol']), "\" /></td></tr>\n";
 		} else {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strdefinition']}</th></tr>\n";
-			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">", 
+			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">",
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
 
@@ -564,7 +563,7 @@
 			echo "<td class=\"data1\" colspan=\"2\">{$lang['strresultrows']}: <input name=\"formRows\" size=\"16\" value=\"".
 				htmlspecialchars($_POST['formRows']) ."\" /></td>";
 		}
-	
+
 		// Display function properties
 		if (is_array($data->funcprops) && sizeof($data->funcprops) > 0) {
 			echo "<tr><th class=\"data required\" colspan=\"4\">{$lang['strproperties']}</th></tr>\n";
@@ -573,15 +572,15 @@
 			foreach ($data->funcprops as $k => $v) {
 				echo "<select name=\"formProperties[{$i}]\">\n";
 				foreach ($v as $p) {
-					echo "<option value=\"", htmlspecialchars($p), "\"", 
-						($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '', 
+					echo "<option value=\"", htmlspecialchars($p), "\"",
+						($p == $_POST['formProperties'][$i]) ? ' selected="selected"' : '',
 						">", $misc->printVal($p), "</option>\n";
 				}
 				echo "</select><br />\n";
 				$i++;
 			}
 			echo "</td></tr>\n";
-		}		
+		}
 		echo "</tbody></table>\n";
 		echo $szJSTRArg;
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create\" />\n";
@@ -591,7 +590,7 @@
 		echo "</form>\n";
 		echo $szJS;
 	}
-	
+
 	/**
 	 * Actually creates the new function in the database
 	 */
@@ -599,7 +598,7 @@
 		global $data, $lang;
 
 		$fnlang = strtolower($_POST['formLanguage']);
-		
+
 		if ($fnlang == 'c') {
 			$def = array($_POST['formObjectFile'], $_POST['formLinkSymbol']);
 		} else if ($fnlang == 'internal'){
@@ -618,12 +617,12 @@
 			$szJS = "<script type=\"text/javascript\" src=\"functions.js\">noArgsRebuild(addArg());</script>";
 		}
 
-		$cost = (isset($_POST['formCost'])) ? $_POST['formCost'] : null; 
+		$cost = (isset($_POST['formCost'])) ? $_POST['formCost'] : null;
 		if ($cost == '' || !is_numeric($cost) || $cost != (int)$cost || $cost < 0)  {
 			$cost = null;
 		}
 
-		$rows = (isset($_POST['formRows'])) ? $_POST['formRows'] : null; 
+		$rows = (isset($_POST['formRows'])) ? $_POST['formRows'] : null;
 		if ($rows == '' || !is_numeric($rows) || $rows != (int)$rows )  {
 			$rows = null;
 		}
@@ -633,9 +632,9 @@
 		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef'],$szJS);
 		else {
 			// Append array symbol to type if chosen
-			$status = $data->createFunction($_POST['formFunction'], empty($_POST["nojs"]) ? buildFunctionArguments($_POST) : $_POST["formArguments"], 
+			$status = $data->createFunction($_POST['formFunction'], empty($_POST["nojs"]) ? buildFunctionArguments($_POST) : $_POST["formArguments"],
 					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'],
-					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF', 
+					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF',
 					$cost, $rows, false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
@@ -643,7 +642,7 @@
 				doCreate($lang['strfunctioncreatedbad'],$szJS);
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Build out the function arguments string
@@ -655,7 +654,7 @@
 		}
 		return implode(",",$arrayArgs);
 	}
-	
+
 	/**
 	 * Build out JS to re-create table rows for arguments
 	 */
@@ -711,13 +710,13 @@
 	function doDefault($msg = '') {
 		global $data, $conf, $misc, $func;
 		global $lang;
-		
+
 		$misc->printTrail('schema');
 		$misc->printTabs('schema','functions');
 		$misc->printMsg($msg);
-		
+
 		$funcs = $data->getFunctions();
-		
+
 		$columns = array(
 			'function' => array(
 				'title' => $lang['strfunction'],
@@ -747,7 +746,7 @@
 				'field' => field('procomment'),
 			),
 		);
-		
+
 		$actions = array(
 			'alter' => array(
 				'title' => $lang['stralter'],
@@ -769,26 +768,26 @@
 		if ( !$data->hasFuncPrivs() ) {
 			unset($actions['privileges']);
 		}
-		
+
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
 		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a></li>\n";
 		echo "\t<li><a href=\"functions.php?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a></li>\n";
 		echo "\t<li><a href=\"functions.php?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></li>\n</ul>\n";
 	}
-	
+
 	/**
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
 		global $misc, $data;
-		
+
 		$funcs = $data->getFunctions();
-		
+
 		$proto = concat(field('proname'),' (',field('proarguments'),')');
-		
+
 		$reqvars = $misc->getRequestVars('function');
-		
+
 		$attrs = array(
 			'text'    => $proto,
 			'icon'    => 'Function',
@@ -802,13 +801,13 @@
 							)
 						)
 		);
-		
+
 		$misc->printTreeXML($funcs, $attrs);
 		exit;
 	}
-	
+
 	if ($action == 'tree') doTree();
-	
+
 	$misc->printHeader($lang['strfunctions']);
 	$misc->printBody();
 
@@ -826,7 +825,7 @@
 			break;
 		case 'confirm_drop':
 			doDrop(true);
-			break;			
+			break;
 		case 'save_edit':
 			if (isset($_POST['cancel'])) doDefault();
 			else doSaveEdit();
@@ -840,8 +839,8 @@
 		default:
 			doDefault();
 			break;
-	}	
+	}
 
 	$misc->printFooter();
-	
+
 ?>
