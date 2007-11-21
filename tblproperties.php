@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.88 2007/10/19 08:59:22 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.89 2007/11/21 15:45:31 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -15,14 +15,15 @@
 	 * Function to save after altering a table
 	 */
 	function doSaveAlter() {
-		global $data, $lang, $_reload_browser;
+		global $data, $lang, $_reload_browser, $misc;
 
 		// For databases that don't allow owner change
 		if (!isset($_POST['owner'])) $_POST['owner'] = '';
 		// Default tablespace to null if it isn't set
 		if (!isset($_POST['tablespace'])) $_POST['tablespace'] = null;
+		if (!isset($_POST['newschema'])) $_POST['newschema'] = null;
 		
-		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['comment'], $_POST['tablespace']);
+		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['newschema'], $_POST['comment'], $_POST['tablespace']);
 		if ($status == 0) {
 			// If table has been renamed, need to change to the new name and
 			// reload the browser frame.
@@ -32,6 +33,12 @@
 				// Force a browser reload
 				$_reload_browser = true;
 			}
+			// If schema has changed, need to change to the new schema and reload the browser
+			if (!empty($_POST['newschema']) && ($_POST['newschema'] != $data->_schema)) {
+				// Jump them to the new sequence schema
+				$misc->setCurrentSchema($_POST['newschema']);
+				$_reload_browser = true;
+			 }
 			doDefault($lang['strtablealtered']);
 		}
 		else
@@ -60,6 +67,7 @@
 			
 			if (!isset($_POST['name'])) $_POST['name'] = $table->fields['relname'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $table->fields['relowner'];
+			if (!isset($_POST['newschema'])) $_POST['newschema'] = $table->fields['nspname'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $table->fields['relcomment'];
 			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->fields['tablespace'];
 			
@@ -82,7 +90,20 @@
 				}
 				echo "</select></td></tr>\n";				
 			}
-
+			
+			if ($data->hasAlterTableSchema()) {
+				$schemas = $data->getSchemas();
+				echo "<tr><th class=\"data left required\">{$lang['strschema']}</th>\n";
+				echo "<td class=\"data1\"><select name=\"newschema\">";
+				while (!$schemas->EOF) {
+					$schema = $schemas->fields['nspname'];
+					echo "<option value=\"", htmlspecialchars($schema), "\"",
+						($schema == $_POST['newschema']) ? ' selected="selected"' : '', ">", htmlspecialchars($schema), "</option>\n";
+					$schemas->moveNext();
+				}
+			    echo "</select></td></tr>\n";
+			}
+			
 			// Tablespace (if there are any)
 			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.26 2007/11/16 18:34:24 ioguix Exp $
+ * $Id: Postgres80.php,v 1.27 2007/11/21 15:45:31 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -193,7 +193,7 @@ class Postgres80 extends Postgres74 {
 
 		$sql = "
 			SELECT
-			  c.relname, u.usename AS relowner,
+			  c.relname, n.nspname, u.usename AS relowner,
 			  pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
 			  (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
 			FROM pg_catalog.pg_class c
@@ -201,9 +201,53 @@ class Postgres80 extends Postgres74 {
 			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 			WHERE c.relkind = 'r'
 			      AND n.nspname = '{$this->_schema}'
+			      AND n.oid = c.relnamespace
 			      AND c.relname = '{$table}'";
 
 		return $this->selectSet($sql);
+	}
+	
+	/**
+	 * Protected method which alter a table
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $tblrs The table recordSet returned by getTable()
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 tablespace error
+	 * @return -7 schema error
+	 */
+	/* protected */
+	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
+
+		$status = parent::_alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace);
+		if ($status != 0)
+			return $status;
+		
+		// if name != tablename, table has been renamed in parent
+		$tablename = ($tblrs->fields['relname'] == $name) ? $tblrs->fields['relname'] : $name;
+
+		/* $schema not supported in pg80 */
+		$this->fieldClean($tablespace);
+
+		// Tablespace
+		if (!empty($tablespace) && ($tblrs->fields['tablespace'] != $tablespace)) {
+
+			// If tablespace has been changed, then do the alteration.  We
+			// don't want to do this unnecessarily.
+			$sql = "ALTER TABLE \"{$tablename}\" SET TABLESPACE \"{$tablespace}\"";
+
+			$status = $this->execute($sql);
+			if ($status != 0) return -6;
+		}
+
+		return 0;
 	}
 
 	/**
@@ -541,8 +585,7 @@ class Postgres80 extends Postgres74 {
 	function hasTablespaces() { return true; }
 	function hasSignals() { return true; }
 	function hasNamedParams() { return true; }
-        function hasFunctionAlterOwner() { return true; }
+	function hasFunctionAlterOwner() { return true; }
 
 }
-
 ?>

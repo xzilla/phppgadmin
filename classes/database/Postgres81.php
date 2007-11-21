@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.16 2007/11/21 12:59:42 ioguix Exp $
+ * $Id: Postgres81.php,v 1.17 2007/11/21 15:45:31 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -469,6 +469,48 @@ class Postgres81 extends Postgres80 {
 	// Table methods
 	
 	/**
+	 * Protected method which alter a table
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $tblrs The table recordSet returned by getTable()
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 tablespace error
+	 * @return -7 schema error
+	 */
+	/* protected */
+	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
+
+		$status = parent::_alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace);
+		if ($status != 0)
+			return $status;
+		
+		// if name != tablename, table has been renamed in parent
+		$tablename = ($tblrs->fields['relname'] == $name) ? $tblrs->fields['relname'] : $name;
+
+		$this->fieldClean($schema);
+
+		// Schema
+		if (!empty($schema) && ($tblrs->fields['nspname'] != $schema)) {
+
+			// If tablespace has been changed, then do the alteration.  We
+			// don't want to do this unnecessarily.
+			$sql = "ALTER TABLE \"{$tablename}\" SET SCHEMA \"{$schema}\"";
+
+			$status = $this->execute($sql);
+			if ($status != 0) return -7;
+		}
+
+		return 0;
+	}
+	
+	/**
 	 * Enables a trigger
 	 * @param $tgname The name of the trigger to enable
 	 * @param $table The table in which to enable the trigger
@@ -531,7 +573,7 @@ class Postgres81 extends Postgres80 {
 			return $status;
 		
 		// if name != seqname, sequence has been renamed in parent
-		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
+		$sequence = ($seqrs->fields['seqname'] == $name) ? $seqrs->fields['seqname'] : $name;
 
 		$this->clean($schema);
 		if ($seqrs->fields['nspname'] != $schema) {
@@ -551,6 +593,7 @@ class Postgres81 extends Postgres80 {
 	function hasPreparedXacts() { return true; }
 	function hasDisableTriggers() { return true; }
 	function hasFunctionAlterSchema() { return true; }
+	function hasAlterTableSchema() { return true; }
 	function hasSequenceAlterSchema() { return true; }
 }
 

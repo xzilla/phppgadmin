@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.311 2007/11/21 12:59:42 ioguix Exp $
+ * $Id: Postgres.php,v 1.312 2007/11/21 15:45:31 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -846,83 +846,35 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
-	 * Alters a table
-	 * @param $table The name of the table
+	 * Protected method which alter a table
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $tblrs The table recordSet returned by getTable()
 	 * @param $name The new name for the table
 	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
 	 * @param $comment The comment on the table
 	 * @param $tablespace The new tablespace for the table ('' means leave as is)
 	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
 	 * @return -3 rename error
 	 * @return -4 comment error
-	 * @return -5 get existing table error
+	 * @return -5 owner error
 	 * @return -6 tablespace error
+	 * @return -7 schema error
 	 */
-	function alterTable($table, $name, $owner, $comment, $tablespace) {
-		$this->fieldClean($table);
+	/* protected */
+	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
+
 		$this->fieldClean($name);
-		$this->fieldClean($owner);
 		$this->clean($comment);
-		$this->fieldClean($tablespace);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
+		/* $schema, $owner, $tablespace not supported in pg70 */
+		
+		$table = $tblrs->fields['relname'];
+		
 		// Comment
 		$status = $this->setComment('TABLE', '', $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
-		}
-
-		// Owner
-		if ($this->hasAlterTableOwner() && $owner != '') {
-			// Fetch existing owner
-			$data = $this->getTable($table);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-
-			// If owner has been changed, then do the alteration.  We are
-			// careful to avoid this generally as changing owner is a
-			// superuser only function.
-			if ($data->fields['relowner'] != $owner) {
-				$sql = "ALTER TABLE \"{$table}\" OWNER TO \"{$owner}\"";
-
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -2;
-				}
-			}
-		}
-
-		// Tablespace
-		if ($this->hasTablespaces() && $tablespace != '') {
-			// Fetch existing tablespace
-			$data = $this->getTable($table);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-
-			// If tablespace has been changed, then do the alteration.  We
-			// don't want to do this unnecessarily.
-			if ($data->fields['tablespace'] != $tablespace) {
-				$sql = "ALTER TABLE \"{$table}\" SET TABLESPACE \"{$tablespace}\"";
-
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -6;
-				}
-			}
 		}
 
 		// Rename (only if name has changed)
@@ -935,9 +887,45 @@ class Postgres extends ADODB_base {
 			}
 		}
 
-		return $this->endTransaction();
+		return 0;
 	}
 
+	/**
+	 * Alter table properties
+	 * @param $table The name of the table
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 get existing table error
+	 * @return $this->_alterTable error code
+	 */
+	function alterTable($table, $name, $owner, $schema, $comment, $tablespace) {
+		
+		$this->fieldClean($table);
+		$data = $this->getTable($table);
+		if ($data->recordCount() != 1)
+			return -2;
+
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		$status = $this->_alterTable($data, $name, $owner, $schema, $comment, $tablespace);
+
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return $status;
+		}
+
+		return $this->endTransaction();
+	}
+	
 	/**
 	 * Removes a table from the database
 	 * @param $table The table to drop
@@ -4808,6 +4796,7 @@ class Postgres extends ADODB_base {
 	function hasAlterTrigger() { return false; }
 	function hasWithoutOIDs() { return false; }
 	function hasAlterTableOwner() { return false; }
+	function hasAlterTableSchema() { return false; }
 	function hasAlterSequenceOwner() { return false; }
 	function hasAlterSequenceProps() { return false; }
 	function hasSequenceAlterSchema() { return false; }

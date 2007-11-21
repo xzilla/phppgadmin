@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.67 2007/11/21 12:59:42 ioguix Exp $
+ * $Id: Postgres74.php,v 1.68 2007/11/21 15:45:31 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -669,7 +669,7 @@ class Postgres74 extends Postgres73 {
 		/* $schema not supported in pg74 */
 		
 		// if name != seqname, sequence has been renamed in parent
-		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
+		$sequence = ($seqrs->fields['seqname'] == $name) ? $seqrs->fields['seqname'] : $name;
 		$this->clean($increment);
 		$this->clean($minvalue);
 		$this->clean($maxvalue);

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.78 2007/11/21 12:59:42 ioguix Exp $
+ * $Id: Postgres71.php,v 1.79 2007/11/21 15:45:31 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -122,6 +122,49 @@ class Postgres71 extends Postgres {
 	// Table functions
 
 	/**
+	 * Protected method which alter a table
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $tblrs The table recordSet returned by getTable()
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 tablespace error
+	 * @return -7 schema error
+	 */
+	/* protected */
+	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
+
+		$status = parent::_alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace);
+		if ($status != 0)
+			return $status;
+		
+		// if name != tablename, table has been renamed in parent
+		$tablename = ($tblrs->fields['relname'] == $name) ? $tblrs->fields['relname'] : $name;
+
+		/* $tablespace, schema not supported in pg71 */
+		$this->fieldClean($owner);
+				
+		// Owner
+		if (!empty($owner) && ($tblrs->fields['relowner'] != $owner)) {
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			$sql = "ALTER TABLE \"{$tablename}\" OWNER TO \"{$owner}\"";
+
+			$status = $this->execute($sql);
+			if ($status != 0) return -5;
+		}
+
+		return 0;
+	}
+	
+	/**
 	 * Finds the number of rows that would be returned by a
 	 * query.
 	 * @param $query The SQL query
@@ -218,7 +261,7 @@ class Postgres71 extends Postgres {
 		/* $schema, $increment, $minvalue, $maxvalue, $startvalue, $cachevalue,
 		 * $cycledvalue not supported in pg71 */
 		// if name != seqname, sequence has been renamed in parent
-		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
+		$sequence = ($seqrs->fields['seqname'] == $name) ? $seqrs->fields['seqname'] : $name;
 		$this->fieldClean($owner);
 
 		// Owner
