@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.310 2007/11/15 23:09:21 xzilla Exp $
+ * $Id: Postgres.php,v 1.311 2007/11/21 12:59:42 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2003,6 +2003,7 @@ class Postgres extends ADODB_base {
 	 * @param $name The new name for the sequence
 	 * @param $comment The comment on the sequence
 	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
@@ -2012,15 +2013,17 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 * @return -3 rename error
 	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -7 schema error
 	 */
 	/*protected*/
-	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
 
 		$sequence = $seqrs->fields['seqname'];
 		$this->fieldClean($name);
 		$this->clean($comment);
-		/* $owner, $increment, $minvalue, $maxvalue,
+		/* $owner, $schema, $increment, $minvalue, $maxvalue,
 		 * $startvalue, $cachevalue, $cycledvalue not supported in pg70 */
 
 		// Comment
@@ -2044,6 +2047,7 @@ class Postgres extends ADODB_base {
 	 * @param $name The new name for the sequence
 	 * @param $comment The comment on the sequence
 	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
@@ -2055,7 +2059,7 @@ class Postgres extends ADODB_base {
 	 * @return -2 get existing sequence error
 	 * @return $this->_alterSequence error code
 	 */
-    function alterSequence($sequence, $name, $comment, $owner=null, $increment=null,
+    function alterSequence($sequence, $name, $comment, $owner=null, $schema=null, $increment=null,
 				$minvalue=null, $maxvalue=null, $startvalue=null, $cachevalue=null, $cycledvalue=null) {
 
 		$this->fieldClean($sequence);
@@ -2069,7 +2073,7 @@ class Postgres extends ADODB_base {
 			return -1;
 		}
 
-		$status = $this->_alterSequence($data, $name, $comment, $owner, $increment,
+		$status = $this->_alterSequence($data, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
 
 		if ($status != 0) {
@@ -4806,6 +4810,7 @@ class Postgres extends ADODB_base {
 	function hasAlterTableOwner() { return false; }
 	function hasAlterSequenceOwner() { return false; }
 	function hasAlterSequenceProps() { return false; }
+	function hasSequenceAlterSchema() { return false; }
 	function hasPartialIndexes() { return false; }
 	function hasCasts() { return false; }
 	function hasFullSubqueries() { return false; }
@@ -4846,8 +4851,8 @@ class Postgres extends ADODB_base {
 	function hasVirtualTransactionId() {return false;}
 	function hasFunctionCosting() {return false;}
 	function hasFunctionGUC() {return false;}
-        function hasFunctionAlterSchema() { return false; }
-        function hasFunctionAlterOwner() { return false; }
+	function hasFunctionAlterSchema() { return false; }
+	function hasFunctionAlterOwner() { return false; }
 }
 
 ?>

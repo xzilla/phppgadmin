@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.162 2007/10/17 18:24:32 ioguix Exp $
+	 * $Id: Misc.php,v 1.163 2007/11/21 12:59:42 ioguix Exp $
 	 */
 
 	class Misc {
@@ -1944,6 +1944,24 @@
 				else
 					$_SESSION['webdbLogin'][$server_id][$key] = $value;
 			}
+		}
+		
+		/**
+		 * Set the current schema
+		 * @param $schema The schema name
+		 * @return 0 on success
+		 * @return $data->seSchema() on error
+		 */
+		function setCurrentSchema($schema) {
+			global $data;
+			
+			$status = $data->setSchema($schema);
+			if($status != 0)
+				return $status;
+
+			$_REQUEST['schema'] = $schema;
+			$this->setHREF();
+			return 0;
 		}
 	}
 ?>

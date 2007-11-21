@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.77 2007/10/17 15:55:33 ioguix Exp $
+ * $Id: Postgres71.php,v 1.78 2007/11/21 12:59:42 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -194,6 +194,7 @@ class Postgres71 extends Postgres {
 	 * @param $name The new name for the sequence
 	 * @param $comment The comment on the sequence
 	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
@@ -206,15 +207,15 @@ class Postgres71 extends Postgres {
 	 * @return -5 owner error
 	 */
 	/*protected*/
-	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
 
-		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $increment,
+		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
 		if ($status != 0)
 			return $status;
 
-		/* $increment, $minvalue, $maxvalue, $startvalue, $cachevalue,
+		/* $schema, $increment, $minvalue, $maxvalue, $startvalue, $cachevalue,
 		 * $cycledvalue not supported in pg71 */
 		// if name != seqname, sequence has been renamed in parent
 		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;

@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.46 2007/10/17 15:55:33 ioguix Exp $
+	 * $Id: sequences.php,v 1.47 2007/11/21 12:59:42 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -344,10 +344,11 @@
 	 * Function to save after altering a sequence
 	 */
 	function doSaveAlter() {
-		global $data, $lang, $_reload_browser;
+		global $data, $lang, $_reload_browser, $misc;
 
 
 		if (!isset($_POST['owner'])) $_POST['owner'] = null;
+		if (!isset($_POST['newschema'])) $_POST['newschema'] = null;
 		if (!isset($_POST['formIncrement'])) $_POST['formIncrement'] = null;
 		if (!isset($_POST['formMinValue'])) $_POST['formMinValue'] = null;
 		if (!isset($_POST['formMaxValue'])) $_POST['formMaxValue'] = null;
@@ -356,8 +357,8 @@
 		if (!isset($_POST['formCycledValue'])) $_POST['formCycledValue'] = null;
 
 		$status = $data->alterSequence($_POST['sequence'], $_POST['name'], $_POST['comment'], $_POST['owner'],
-			$_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'], $_POST['formStartValue'],
-			$_POST['formCacheValue'], isset($_POST['formCycledValue']));
+			$_POST['newschema'], $_POST['formIncrement'], $_POST['formMinValue'], $_POST['formMaxValue'],
+			$_POST['formStartValue'], $_POST['formCacheValue'], isset($_POST['formCycledValue']));
 
 		if ($status == 0) {
 			if ($_POST['sequence'] != $_POST['name']) {
@@ -366,6 +367,11 @@
 				// Force a browser reload
 				$_reload_browser = true;
 			}
+			if (!empty($_POST['newschema']) && ($_POST['newschema'] != $data->_schema)) {
+				// Jump them to the new sequence schema
+				$misc->setCurrentSchema($_POST['newschema']);
+				$_reload_browser = true;
+			 }
 			doProperties($lang['strsequencealtered']);
 		}
 		else
@@ -390,6 +396,7 @@
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['sequence'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $sequence->fields['seqcomment'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $sequence->fields['seqowner'];
+			if (!isset($_POST['newschema'])) $_POST['newschema'] = $sequence->fields['nspname'];
 
 			// Handle Checkbox Value
 			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);
@@ -417,6 +424,19 @@
 					$users->moveNext();
 				}
 				echo "</select></td></tr>\n";
+			}
+			
+			if ($data->hasSequenceAlterSchema()) {
+				$schemas = $data->getSchemas();
+				echo "<tr><th class=\"data left required\">{$lang['strschema']}</th>\n";
+				echo "<td class=\"data1\"><select name=\"newschema\">";
+				while (!$schemas->EOF) {
+					$schema = $schemas->fields['nspname'];
+					echo "<option value=\"", htmlspecialchars($schema), "\"",
+						($schema == $_POST['newschema']) ? ' selected="selected"' : '', ">", htmlspecialchars($schema), "</option>\n";
+					$schemas->moveNext();
+				}
+			    echo "</select></td></tr>\n";
 			}
 
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";

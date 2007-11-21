@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.15 2007/11/15 23:09:21 xzilla Exp $
+ * $Id: Postgres81.php,v 1.16 2007/11/21 12:59:42 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -453,6 +453,8 @@ class Postgres81 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 
+	// Database methods
+	
 	/**
 	 * Returns all available process information.
 	 * @return A recordset
@@ -463,6 +465,8 @@ class Postgres81 extends Postgres80 {
 		
 		return $this->selectSet($sql);
 	}
+	
+	// Table methods
 	
 	/**
 	 * Enables a trigger
@@ -494,6 +498,51 @@ class Postgres81 extends Postgres80 {
 		return $this->execute($sql);
 	}
 
+	// Sequence methods
+	
+	/**
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 get sequence error
+	 * @return -7 schema error
+	 */
+	/*protected*/
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+
+		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
+		if ($status != 0)
+			return $status;
+		
+		// if name != seqname, sequence has been renamed in parent
+		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
+
+		$this->clean($schema);
+		if ($seqrs->fields['nspname'] != $schema) {
+			$sql = "ALTER SEQUENCE \"{$sequence}\" SET SCHEMA $schema";
+			$status = $this->execute($sql);
+			if ($status != 0)
+				return -7;
+		}
+
+		return 0;
+	}
 	
 	// Capabilities
 	function hasServerAdminFuncs() { return true; }
@@ -501,7 +550,8 @@ class Postgres81 extends Postgres80 {
 	function hasAutovacuum() { return true; }
 	function hasPreparedXacts() { return true; }
 	function hasDisableTriggers() { return true; }
-        function hasFunctionAlterSchema() { return true; }
+	function hasFunctionAlterSchema() { return true; }
+	function hasSequenceAlterSchema() { return true; }
 }
 
 ?>

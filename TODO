@@ -43,7 +43,7 @@ Roles
 -----
 
 * -Support for 8.1 roles (removing users and groups) (chriskl,javier)
-* Support for ALTER ROLE
+* -Support for ALTER ROLE (done by ?)
 
 Permissions
 -----------
@@ -101,8 +101,8 @@ Sequences
 
 * -Alter sequence (Guillaume LELARGE)
 * -setval & nextval (Guillaume LELARGE)
-* change schema
-* rename (done using alter table)
+* -change schema (ioguix)
+* -rename (done using alter table) (ioguix)
 
 Functions
 ---------
@@ -110,9 +110,9 @@ Functions
 * -Support 8.1 IN, OUT and INOUT parameters.(Jawed)
 * Remove options for OUT/INOUT params in older servers
 * Clean up javascript html spec warnings
-* Display owner
-* Alter owner
-* Alter schema 
+* -Display owner (xzilla)
+* -Alter owner (xzilla)
+* -Alter schema (xzilla)
 * GUC settings [8.3]
 
 Indexes 

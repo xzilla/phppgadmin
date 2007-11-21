@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.66 2007/11/15 23:09:21 xzilla Exp $
+ * $Id: Postgres74.php,v 1.67 2007/11/21 12:59:42 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -605,34 +605,32 @@ class Postgres74 extends Postgres73 {
                         $funcname = $newname; 
 		}
 
-                // Alter the owner, if necessary
-                if ($this->hasFunctionAlterOwner()) {
-		$this->fieldClean($newown);
+		// Alter the owner, if necessary
+		if ($this->hasFunctionAlterOwner()) {
+			$this->fieldClean($newown);
 		    if ($funcown != $newown) {
-			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) OWNER TO \"{$newown}\"";
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -6;
-			}
+				$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) OWNER TO \"{$newown}\"";
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -6;
+				}
 		    }   
 
-                }
+		}
 
-                // Alter the schema, if necessary
-                if ($this->hasFunctionAlterSchema()) {
+		// Alter the schema, if necessary
+		if ($this->hasFunctionAlterSchema()) {
 		    $this->fieldClean($newschema);
 		    if ($funcschema != $newschema) {
-			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -7;
-			}
+				$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -7;
+				}
 		    }
-
-                }
-
+		}
 
 		return $this->endTransaction();
 	}
@@ -646,6 +644,7 @@ class Postgres74 extends Postgres73 {
 	 * @param $name The new name for the sequence
 	 * @param $comment The comment on the sequence
 	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
@@ -659,14 +658,16 @@ class Postgres74 extends Postgres73 {
 	 * @return -6 get sequence error
 	 */
 	/*protected*/
-	function _alterSequence($seqrs, $name, $comment, $owner, $increment,
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
 
-		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $increment,
+		$status = parent::_alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
 		if ($status != 0)
 			return $status;
-
+		
+		/* $schema not supported in pg74 */
+		
 		// if name != seqname, sequence has been renamed in parent
 		$sequence = ($seqrs->fields['seqname'] = $name) ? $seqrs->fields['seqname'] : $name;
 		$this->clean($increment);
