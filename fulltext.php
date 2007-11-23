@@ -3,7 +3,7 @@
 	/**
 	 * Manage fulltext configurations, dictionaries and mappings
 	 *
-	 * $Id: fulltext.php,v 1.3 2007/10/17 20:56:28 ioguix Exp $
+	 * $Id: fulltext.php,v 1.4 2007/11/23 17:58:47 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -18,6 +18,7 @@
 
 		$misc->printTrail('database');
 		$misc->printTabs('database','fulltext');
+		$misc->printTabs('fulltext','ftsconfigs');
 		$misc->printMsg($msg);
 
 		$cfgs = $data->getFtsConfigurations();
@@ -60,8 +61,6 @@
 
 		echo "<ul class=\"navlink\">\n";
 		echo "\t<li><a href=\"fulltext.php?action=createconfig&amp;{$misc->href}\">{$lang['strftscreateconfig']}</a></li>\n";
-		echo "\t<li><a href=\"fulltext.php?action=createdict&amp;{$misc->href}\">{$lang['strftscreatedict']}</a></li>\n";
-		echo "\t<li><a href=\"fulltext.php?action=createparser&amp;{$misc->href}\">{$lang['strftscreateparser']}</a></li>\n";
 		echo "</ul>\n";
 	}
 
@@ -302,6 +301,102 @@
 			doAlterConfig($lang['strftsconfigalteredbad']);
 	}
 
+    /**
+     * View list of FTS parsers
+     */
+    function doViewParsers($msg = '') {
+        global $data, $misc;
+        global $lang;
+
+        $misc->printTrail('database');
+		$misc->printTabs('database','fulltext');
+        $misc->printTabs('fulltext','ftsparsers');
+        $misc->printMsg($msg);
+
+        $parsers = $data->getFtsParsers();
+
+        $columns = array(
+            'schema' => array(
+                'title' => $lang['strschema'],
+                'field' => field('schema'),
+            ),
+            'name' => array(
+                'title' => $lang['strname'],
+                'field' => field('name'),
+            ),
+            'comment' => array(
+                'title' => $lang['strcomment'],
+                'field' => field('comment'),
+            ),
+
+        );
+
+        $actions = array();
+
+        $misc->printTable($parsers, $columns, $actions, $lang['strftsnoparsers']);
+
+        //TODO: create parser
+        //echo "<ul class=\"navlink\">\n";
+        //echo "\t<li><a href=\"#\">{$lang['strftscreateparser']}</a></li>\n";
+        //echo "</ul>\n";
+
+    }
+
+
+    /**
+     * View list of FTS dictionaries
+     */
+    function doViewDicts($msg = '') {
+        global $data, $misc;
+        global $lang;
+
+        $misc->printTrail('database');
+		$misc->printTabs('database','fulltext');
+        $misc->printTabs('fulltext','ftsdicts');
+        $misc->printMsg($msg);
+
+        $dicts = $data->getFtsDictionaries();
+
+        $columns = array(
+            'schema' => array(
+                'title' => $lang['strschema'],
+                'field' => field('schema'),
+            ),
+            'name' => array(
+                'title' => $lang['strname'],
+                'field' => field('name'),
+            ),
+            'actions' => array(
+                'title' => $lang['stractions'],
+            ),
+            'comment' => array(
+                'title' => $lang['strcomment'],
+                'field' => field('comment'),
+            ),
+
+        );
+
+        $actions = array(
+            'drop' => array(
+                'title' => $lang['strdrop'],
+                'url'   => "fulltext.php?action=dropdict&amp;{$misc->href}&amp;",
+                'vars'  => array('ftsdict' => 'name'),
+            ),
+            'alter' => array(
+                'title' => $lang['stralter'],
+                'url'   => "fulltext.php?action=alterdict&amp;{$misc->href}&amp;",
+                'vars'  => array('ftsdict' => 'name'),
+            ),
+        );
+
+        $misc->printTable($dicts, $columns, $actions, $lang['strftsnodicts']);
+
+        echo "<ul class=\"navlink\">\n";
+        echo "\t<li><a href=\"fulltext.php?action=createdict&amp;{$misc->href}&amp;\">{$lang['strftscreatedict']}</a></li>\n";
+        echo "</ul>\n";
+
+    }
+
 
 	/**
 	 * View details of FTS configuration given
@@ -312,69 +407,8 @@
 
 		$misc->printTrail('ftscfg');
 		$misc->printTabs('database','fulltext');
+		$misc->printTabs('fulltext','ftsconfigs');
 		$misc->printMsg($msg);
-
-		echo "<h3>{$lang['strftsparsers']}</h3>\n";
-
-		$parsers = $data->getFtsParsers();
-
-		$columns = array(
-			'schema' => array(
-				'title' => $lang['strschema'],
-				'field' => field('schema'),
-			),
-			'name' => array(
-				'title' => $lang['strname'],
-				'field' => field('name'),
-			),
-			'comment' => array(
-				'title' => $lang['strcomment'],
-				'field' => field('comment'),
-			),
-
-		);
-
-		$actions = array();
-
-		$misc->printTable($parsers, $columns, $actions, $lang['strftsnoparsers']);
-
-		echo "<h3>{$lang['strftsdicts']}</h3>\n";
-
-		$dicts = $data->getFtsDictionaries();
-
-		$columns = array(
-			'schema' => array(
-				'title' => $lang['strschema'],
-				'field' => field('schema'),
-			),
-			'name' => array(
-				'title' => $lang['strname'],
-				'field' => field('name'),
-			),
-			'actions' => array(
-				'title' => $lang['stractions'],
-			),
-			'comment' => array(
-				'title' => $lang['strcomment'],
-				'field' => field('comment'),
-			),
-
-		);
-
-		$actions = array(
-			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "fulltext.php?action=dropdict&amp;{$misc->href}&amp;ftscfg={$ftscfg}&amp;",
-				'vars'  => array('ftsdict' => 'name'),
-			),
-			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "fulltext.php?action=alterdict&amp;{$misc->href}&amp;ftscfg={$ftscfg}&amp;",
-				'vars'  => array('ftsdict' => 'name'),
-			),
-		);
-
-		$misc->printTable($dicts, $columns, $actions, $lang['strftsnodicts']);
 
 		echo "<h3>{$lang['strftsconfigmap']}</h3>\n";
 
@@ -384,8 +418,6 @@
 			'name' => array(
 				'title' => $lang['strftsmapping'],
 				'field' => field('name'),
-				//'url'   => "fulltext.php?action=viewtoken&amp;{$misc->href}&amp;",
-				//'vars'	=> array('ftscfg' => 'name'),
 			),
 			'dictionaries' => array(
 				'title' => $lang['strftsdicts'],
@@ -411,7 +443,6 @@
 				'title' => $lang['stralter'],
 				'url'   => "fulltext.php?action=altermapping&amp;{$misc->href}&amp;",
 				'vars'  => array('mapping' => 'name', 'ftscfg' => 'cfgname'),
-				'multiaction' => 'altermapping',
 			),
 			'multiactions' => array(
 				'keycols' => array('mapping' => 'name'),
@@ -426,8 +457,6 @@
 
 		echo "<ul class=\"navlink\">\n";
 		echo "\t<li><a href=\"fulltext.php?action=addmapping&amp;{$misc->href}&ftscfg={$ftscfg}\">{$lang['strftsaddmapping']}</a></li>\n";
-		echo "\t<li><a href=\"#\">{$lang['strftscreateconfig']}</a></li>\n";
-		echo "<\t<li>a href=\"#\">{$lang['strftscreatedict']}</a></li>\n";
 		echo "</ul>\n";
 
 	}
@@ -461,7 +490,7 @@
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" />&nbsp;",
 			"<input type=\"checkbox\" name=\"formIsTemplate\" id=\"formIsTemplate\"", @$_POST['formIsTemplate'] ? ' checked="checked" ' : '',
-			"onchange=\"document.getElementsByName('formTemplate')[0].disabled = this.checked;document.getElementsByName('formLexize')[0].disabled = !this.checked;document.getElementsByName('formInit')[0].disabled = !this.checked;\" />",
+			"onchange=\"document.getElementsByName('formTemplate')[0].disabled = this.checked;document.getElementsByName('formOption')[0].disabled = this.checked;document.getElementsByName('formLexize')[0].disabled = !this.checked;document.getElementsByName('formInit')[0].disabled = !this.checked;\" />",
 			"<label for=\"formIsTemplate\">{$lang['strftscreatedicttemplate']}</label></td>\n\t</tr>\n";
 
 		// Template
@@ -489,7 +518,7 @@
 			"/></td>\n\t</tr>\n";
 
 		// Option
-		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsoption']}</th>\n";
+		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsoptionsvalues']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formOption\" size=\"32\" maxlength=\"1000\" value=\"",
 			htmlspecialchars($_POST['formOption']), "\" /></td>\n\t</tr>\n";
 
@@ -521,7 +550,7 @@
 			$status = $data->createFtsDictionary($_POST['formName'], @$_POST['formIsTemplate'], @$_POST['formTemplate'], @$_POST['formLexize'], @$_POST['formInit'], @$_POST['formOption'], $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
-				doDefault($lang['strftsdictcreated']);
+				doViewDicts($lang['strftsdictcreated']);
 			}
 			else
 				doCreateDict($lang['strftsdictcreatedbad']);
@@ -563,8 +592,7 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alterdict\" />\n";
 			echo "<input type=\"hidden\" name=\"ftsdict\" value=\"", htmlspecialchars($_POST['ftsdict']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
+			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewdicts\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -582,7 +610,7 @@
 
 		$status = $data->updateFtsDictionary($_POST['ftsdict'], $_POST['formComment'], $_POST['formName']);
 		if ($status == 0)
-			doDefault($lang['strftsdictaltered']);
+			doViewDicts($lang['strftsdictaltered']);
 		else
 			doAlterDict($lang['strftsdictalteredbad']);
 	}
@@ -635,16 +663,16 @@
             if (is_array($_REQUEST['mapping'])) {
                 $status = $data->changeFtsMapping($_REQUEST['ftscfg'], $_REQUEST['mapping'], 'drop');
 				if ($status != 0) {
-					doDefault($lang['strftsmappingdroppedbad']);
+					doViewConfig($_REQUEST['ftscfg'], $lang['strftsmappingdroppedbad']);
 					return;
 				}
-				doDefault($lang['strftsmappingdropped']);
+				doViewConfig($_REQUEST['ftscfg'], $lang['strftsmappingdropped']);
             } else {
 			    $status = $data->changeFtsMapping($_REQUEST['ftscfg'], array($_REQUEST['mapping']), 'drop');
 			    if ($status == 0) {
-				    doDefault($lang['strftsmappingdropped']);
+				    doViewConfig($_REQUEST['ftscfg'], $lang['strftsmappingdropped']);
 			    } else {
-				    doDefault($lang['strftsmappingdroppedbad']);
+				    doViewConfig($_REQUEST['ftscfg'], $lang['strftsmappingdroppedbad']);
 			    }
             }
 		}
@@ -814,38 +842,79 @@
 	function doTree() {
 		global $misc, $data, $lang, $slony;
 
-		$ftscfgs = $data->getFtsConfigurations();
+        $tabs = $misc->getNavTabs('fulltext');        
+        $items = $misc->adjustTabsForTree($tabs);        
 
 		$reqvars = $misc->getRequestVars('ftscfg');
 
 		$attrs = array(
-			'text'   => field('name'),
-			'icon'   => 'Fts',
-			'toolTip'=> field('comment'),
+            'text'   => noEscape(field('title')),
+            'icon'   => field('icon'),
 			'action' => url('fulltext.php',
 							$reqvars,
-							array(
-								'action' => 'viewconfig',
-								'ftscfg'  => field('name')
-							)
+                            field('urlvars')
 						),
-			'branch' => ifempty(
-				field('branch'), '', url('fulltext.php',
-							$reqvars,
-							array(
-								'action'  => 'subtree',
-								'ftscfg'  => field('name')
-							)
-						)),
+            'branch' => url('fulltext.php',
+                            $reqvars,
+                            array(
+                                'action'  => 'subtree',
+                                'what'  => field('icon') // IZ: yeah, it's ugly, but I do not want to change navigation tabs arrays
+                            )
+                        ),
 		);
 
-		$misc->printTreeXML($ftscfgs, $attrs);
+		$misc->printTreeXML($items, $attrs);
 
 		exit;
 	}
 
+    function doSubTree($what) {
+        global $misc, $data, $lang;
+        
+        switch($what) {
+        	case 'FtsCfg':
+                $items = $data->getFtsConfigurations();
+                $urlvars = array('action' => 'viewconfig', 'ftscfg' => field('name'));
+                break;
+            case 'FtsDict':
+                $items = $data->getFtsDictionaries();
+                $urlvars = array('action' => 'viewdicts');
+                break;
+            case 'FtsParser':
+                $items = $data->getFtsParsers();
+                $urlvars = array('action' => 'viewparsers');
+                break;
+            default:
+                exit;
+        }
+
+        $reqvars = $misc->getRequestVars('ftscfg');
+                
+        $attrs = array(
+            'text'   => noEscape(field('name')),
+            'icon'   => $what,
+            'toolTip'=> field('comment'),
+            'action' => url('fulltext.php',
+                            $reqvars,
+                            $urlvars
+                        ),
+            'branch' => ifempty(
+                field('branch'), '', url('fulltext.php',
+                            $reqvars,
+                            array(
+                                'action'  => 'subtree',
+                                'ftscfg'  => field('name')
+                            )
+                        )),
+        );
+        
+        $misc->printTreeXML($items, $attrs);
+        exit;
+    }
+
 
 	if ($action == 'tree') doTree();
+    if ($action == 'subtree') doSubTree($_REQUEST['what']);
 
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
@@ -874,6 +943,12 @@
 		case 'viewconfig':
 			doViewConfig($_REQUEST['ftscfg']);
 			break;
+        case 'viewparsers':
+            doViewParsers();
+            break;
+        case 'viewdicts':
+            doViewDicts();
+            break;
 		case 'createdict':
 			if (isset($_POST['create'])) doSaveCreateDict();
 			else doCreateDict();

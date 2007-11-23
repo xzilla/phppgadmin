@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.173 2007/11/15 06:06:46 xzilla Exp $
+	 * $Id: english.php,v 1.174 2007/11/23 17:58:47 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -912,6 +912,7 @@
 	// Fulltext search
 	$lang['strfulltext'] = 'Full Text Search';
 	$lang['strftsconfig'] = 'FTS configuration';
+    $lang['strftsconfigs'] = 'Configurations';
 	$lang['strftscreateconfig'] = 'Create FTS configuration';
 	$lang['strftscreatedict'] = 'Create dictionary';
 	$lang['strftscreatedicttemplate'] = 'Create dictionary template';
@@ -943,7 +944,7 @@
 	$lang['strftsdictcreatedbad'] = 'FTS dictionary creation failed.';
 	$lang['strftslexize'] = 'Lexize';
 	$lang['strftsinit'] = 'Init';
-	$lang['strftsoption'] = 'Option';
+	$lang['strftsoptionsvalues'] = 'Options and Values';
 	$lang['strftsdictneedsname'] = 'You must give a name for your FTS dictionary.';
 	$lang['strftsdictdropped'] = 'FTS dictionary dropped.';
 	$lang['strftsdictdroppedbad'] = 'FTS dictionary drop failed.';
@@ -959,6 +960,11 @@
 	$lang['strftsmappingalteredbad'] = 'FTS mapping alter failed.';
 	$lang['strftsmappingadded'] = 'FTS mapping added.';
 	$lang['strftsmappingaddedbad'] = 'FTS mapping add failed.';
-	
-	
+    $lang['strftsmappingdropped'] = 'FTS mapping dropped.';
+    $lang['strftsmappingdroppedbad'] = 'FTS mapping drop failed.';
+    $lang['strftstabconfigs'] = 'Configurations';
+	$lang['strftstabdicts'] = 'Dictionaries';
+	$lang['strftstabparsers'] = 'Parsers';
+    
+    
 ?>

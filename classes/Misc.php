@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.163 2007/11/21 12:59:42 ioguix Exp $
+	 * $Id: Misc.php,v 1.164 2007/11/23 17:58:47 xzilla Exp $
 	 */
 
 	class Misc {
@@ -1011,6 +1011,37 @@
 							'icon'		=> 'Column'
 						)
 					);
+
+                case 'fulltext':
+                    return array (
+                        'ftsconfigs' => array (
+                            'title' => $lang['strftstabconfigs'],
+                            'url'   => 'fulltext.php',
+                            'urlvars' => array('subject' => 'database'),
+                            'hide'  => !$data->hasFTS(),
+                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'tree'  => true,
+                            'icon'  => 'FtsCfg',
+                        ),
+                        'ftsdicts' => array (
+                            'title' => $lang['strftstabdicts'],
+                            'url'   => 'fulltext.php',
+                            'urlvars' => array('subject' => 'database', 'action' => 'viewdicts'),
+                            'hide'  => !$data->hasFTS(),
+                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'tree'  => true,
+                            'icon'  => 'FtsDict',
+                        ),
+                        'ftsparsers' => array (
+                            'title' => $lang['strftstabparsers'],
+                            'url'   => 'fulltext.php',
+                            'urlvars' => array('subject' => 'database', 'action' => 'viewparsers'),
+                            'hide'  => !$data->hasFTS(),
+                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'tree'  => true,
+                            'icon'  => 'FtsParser',
+                        ),
+                    );
 
 				default:
 					return array();

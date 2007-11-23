@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.12 2007/11/16 18:34:24 ioguix Exp $
+ * $Id: Postgres83.php,v 1.13 2007/11/23 17:58:47 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -456,16 +456,18 @@ class Postgres83 extends Postgres82 {
  		$this->fieldClean($option);
  		$this->clean($comment);
 
- 		$sql = "CREATE TEXT SEARCH DICTIONARY";
+ 		$sql = "CREATE TEXT SEARCH";
  		if ($isTemplate) {
- 			$sql .= " TEMPLATE \"{$dictname}\"";
- 			if ($lexize != '') $sql .= " LEXIZE \"{$lexize}\"";
- 			if ($init != '') $sql .= " INIT \"{$init}\"";
- 			$whatToComment = 'TEXT SEARCH DICTIONARY TEMPLATE';
+ 			$sql .= " TEMPLATE {$dictname} (";
+ 			if ($lexize != '') $sql .= " LEXIZE = {$lexize}";
+ 			if ($init != '') $sql .= ", INIT = {$init}";
+            $sql .= ")";
+ 			$whatToComment = 'TEXT SEARCH TEMPLATE';
  		} else {
- 			$sql .= " \"{$dictname}\"";
- 			if ($template != '') $sql .= " TEMPLATE \"{$template}\"";
- 			if ($option != '') $sql .= " OPTION \"{$option}\"";
+ 			$sql .= " DICTIONARY {$dictname} (";
+ 			if ($template != '') $sql .= " TEMPLATE = {$template}";
+ 			if ($option != '') $sql .= ", {$option}";
+            $sql .= ")";
  			$whatToComment = 'TEXT SEARCH DICTIONARY';
  		}
 

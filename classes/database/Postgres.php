@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.313 2007/11/21 19:10:40 ioguix Exp $
+ * $Id: Postgres.php,v 1.314 2007/11/23 17:58:47 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -4054,7 +4054,7 @@ class Postgres extends ADODB_base {
 			case 'VIEW':
 			case 'TEXT SEARCH CONFIGURATION':
 			case 'TEXT SEARCH DICTIONARY':
-			case 'TEXT SEARCH DICTIONARY TEMPLATE':
+			case 'TEXT SEARCH TEMPLATE':
 			case 'TEXT SEARCH PARSER':
 				$sql .= "\"{$obj_name}\" IS ";
 				break;
