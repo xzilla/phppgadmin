@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.164 2007/11/23 17:58:47 xzilla Exp $
+	 * $Id: Misc.php,v 1.165 2007/11/29 23:23:56 ioguix Exp $
 	 */
 
 	class Misc {
@@ -1072,7 +1072,7 @@
 			else
 				$tab = reset($tabs);
 
-			return isset($tab['url']) ? $tab['url'] : null;
+			return isset($tab['url']) ? $tab : null;
 		}
 
 		function printTopbar() {
@@ -1096,15 +1096,18 @@
 			echo "</td>";
 
 			if (isset($_REQUEST['server'])) {
-				$url = "sqledit.php?{$this->href}&amp;action=";
-
-				$window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
+				$sql_url = "sqledit.php?{$this->href}&amp;action=";
+				$sql_window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
+				$history_url = "history.php?{$this->href}&amp;action=pophistory";
+				$history_window_id = htmlspecialchars('history:'.$_REQUEST['server']);
 
 				echo "<td style=\"text-align: right\">";
 
-				echo "<ul class=\"toplink\">\n\t<li><a class=\"toplink\" href=\"{$url}sql\" target=\"sqledit\" onclick=\"window.open('{$url}sql','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a></li>\n";
+				echo "<ul class=\"toplink\">\n\t<li><a class=\"toplink\" href=\"{$sql_url}sql\" target=\"sqledit\" onclick=\"window.open('{$sql_url}sql','{$sql_window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strsql']}</a></li>\n";
 
-				echo "\t<li><a class=\"toplink\" href=\"{$url}find\" target=\"sqledit\" onclick=\"window.open('{$url}find','{$window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a></li>\n";
+				echo "\t<li><a class=\"toplink\" href=\"{$history_url}\" onclick=\"window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;\">{$lang['strhistory']}</a></li>\n";
+
+				echo "\t<li><a class=\"toplink\" href=\"{$sql_url}find\" target=\"sqledit\" onclick=\"window.open('{$sql_url}find','{$sql_window_id}','toolbar=no,width=600,height=400,resizable=yes,scrollbars=no').focus(); return false;\">{$lang['strfind']}</a></li>\n";
 
  				echo "\t<li><a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\">{$lang['strlogout']}</a></li>\n</ul>\n";
 
@@ -1688,6 +1691,8 @@
 										echo "<a href=\"{$action['url']}";
 										if ($action['url'] === '') echo '?';
 										$misc->printUrlVars($action['vars'], $tabledata->fields);
+										if (isset($action['target']))
+											echo "\" target=\"{$action['target']}";
 										echo "\">{$action['title']}</a></td>\n";
 									}
 								}
@@ -1994,5 +1999,74 @@
 			$this->setHREF();
 			return 0;
 		}
+
+		/**
+		 * Save the given SQL script in the history 
+		 * of the database and server.
+		 * @param $script the SQL script to save.
+		 */
+		function saveScriptHistory($script) {
+			list($usec, $sec) = explode(' ', microtime());
+			$time = ((float)$usec + (float)$sec);
+			$_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]["$time"] = array(
+				'query' => $script,
+				'paginate' => (!isset($_REQUEST['paginate'])? 'f':'t'),
+				'queryid' => $time,
+			);
+		}
+	
+	/*
+	 * Output dropdown list to select server and 
+	 * databases form the popups windows.
+	 * @param $onchange Javascript action to take when selections change.
+	 */	
+	function printConnection($onchange) {
+		global $data, $lang, $misc;
+
+		echo "<table style=\"width: 100%\"><tr><td>\n";
+		echo "<label>";
+		$misc->printHelp($lang['strserver'], 'pg.server');
+		echo "</label>";
+		echo ": <select name=\"server\" {$onchange}>\n";
+		
+		$servers = $misc->getServers();
+		foreach($servers as $info) {
+			if (empty($info['username'])) continue; // not logged on this server
+			echo "<option value=\"", htmlspecialchars($info['id']), "\"",
+				((isset($_REQUEST['server']) && $info['id'] == $_REQUEST['server'])) ? ' selected="selected"' : '', ">",
+				htmlspecialchars("{$info['desc']} ({$info['id']})"), "</option>\n";
+		}
+		echo "</select>\n</td><td style=\"text-align: right\">\n";
+		
+		// Get the list of all databases
+		$databases = $data->getDatabases();
+
+		if ($databases->recordCount() > 0) {
+
+			echo "<label>";
+			$misc->printHelp($lang['strdatabase'], 'pg.database');
+			echo ": <select name=\"database\" {$onchange}>\n";
+			
+			//if no database was selected, user should select one
+			if (!isset($_REQUEST['database']))
+				echo "<option value=\"\">--</option>\n";
+			
+			while (!$databases->EOF) {
+				$dbname = $databases->fields['datname'];
+				echo "<option value=\"", htmlspecialchars($dbname), "\"",
+					((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
+					htmlspecialchars($dbname), "</option>\n";
+				$databases->moveNext();
+			}
+			echo "</select></label>\n";
+		}
+		else {
+			$server_info = $misc->getServerInfo();
+			echo "<input type=\"hidden\" name=\"database\" value=\"", 
+				htmlspecialchars($server_info['defaultdb']), "\" />\n";
+		}
+		
+		echo "</td></tr></table>\n";
+	}
 	}
 ?>

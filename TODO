@@ -212,6 +212,7 @@ Miscellaneous
 * Translated FAQ
 * Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
 * Add support for csvlogs [8.3]
+* Add exectued file scripts in history 
 
 Exotic
 ------

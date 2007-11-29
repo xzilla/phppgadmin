@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.38 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: sql.php,v 1.39 2007/11/29 23:23:56 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -124,6 +124,10 @@
 
 		// $rs will only be an object if there is no error
 		if (is_object($rs)) {
+			// Request was run, saving it in history
+			if(!isset($_REQUEST['nohistory']))
+				$misc->saveScriptHistory($_REQUEST['query']);
+
 			// Now, depending on what happened do various things
 	
 			// First, if rows returned, then display the results

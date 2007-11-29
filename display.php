@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.64 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: display.php,v 1.65 2007/11/29 23:23:56 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -253,8 +253,12 @@
 	function doBrowse($msg = '') {
 		global $data, $conf, $misc, $lang;
 		
+		$save_history = false;
 		// If current page is not set, default to first page
-		if (!isset($_REQUEST['page'])) $_REQUEST['page'] = 1;
+		if (!isset($_REQUEST['page']))
+			$_REQUEST['page'] = 1;
+		if (!isset($_REQUEST['nohistory']))
+			$save_history = true;
 		
 		if (isset($_REQUEST['subject'])) {
 			$subject = $_REQUEST['subject'];
@@ -321,9 +325,12 @@
 		$str2 = "sortkey=" . urlencode($_REQUEST['sortkey']) . 
 			"&amp;sortdir=" . urlencode($_REQUEST['sortdir']);
 			
+		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
+			$misc->saveScriptHistory($_REQUEST['query']);
+
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;strings=" . urlencode($_REQUEST['strings']));
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;nohistory=t&amp;strings=" . urlencode($_REQUEST['strings']));
 			echo "<table>\n<tr>";
 	
 			// Check that the key is actually in the result set.  This can occur for select

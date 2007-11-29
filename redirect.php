@@ -6,16 +6,17 @@
 	
 	include_once('./libraries/lib.inc.php');
 	
-	$url = parse_url($misc->getLastTabURL($subject));
+	$url = $misc->getLastTabURL($subject);
 	
 	// Load query vars into superglobal arrays
-	if (isset($url['query'])) {
+	if (isset($url['urlvars'])) {
 		$vars = array();
-		parse_str($url['query'], $vars);
-	
+		parse_str(value(url($url['url'], $url['urlvars']), $_REQUEST), $vars);
+		array_shift($vars);
+
 		$_REQUEST = array_merge($_REQUEST, $vars);
 		$_GET = array_merge($_GET, $vars);
 	}
 	
-	require $url['path'];
+	require $url['url'];
 ?>

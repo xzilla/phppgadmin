@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.35 2007/07/12 19:26:22 xzilla Exp $
+	 * $Id: sqledit.php,v 1.36 2007/11/29 23:23:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -26,56 +26,14 @@
 		
 		// The exact URL to reload to is different between SQL and Find mode, however.
 		if ($action == 'find') {
-			$onchange .= "'&amp;term=' + encodeURI(term.value) + '&amp;filter=' + encodeURI(filter.value) + '&amp;" . SID . "'\">\n";
+			$onchange .= "'&amp;term=' + encodeURI(term.value) + '&amp;filter=' + encodeURI(filter.value) + '&amp;'\"";
 		} else {
 			$onchange .= "'&amp;query=' + encodeURI(query.value) ";
 			if ($data->hasSchemas()) $onchange .= "+ '&amp;search_path=' + encodeURI(search_path.value) ";
-			$onchange .= "+ (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;" . SID . "'\"";
+			$onchange .= "+ (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;'\"";
 		}
 		
-		echo "<table style=\"width: 100%\"><tr><td>\n";
-		echo "<label>";
-		$misc->printHelp($lang['strserver'], 'pg.server');
-		echo "</label>";
-		echo ": <select name=\"server\" {$onchange}>\n";
-		
-		$servers = $misc->getServers();
-		foreach($servers as $info) {
-			if (empty($info['username'])) continue;
-			echo "<option value=\"", htmlspecialchars($info['id']), "\"",
-				((isset($_REQUEST['server']) && $info['id'] == $_REQUEST['server'])) ? ' selected="selected"' : '', ">",
-				htmlspecialchars("{$info['desc']} ({$info['id']})"), "</option>\n";
-		}
-		echo "</select>\n</td><td style=\"text-align: right\">\n";
-		
-		// Get the list of all databases
-		$databases = $data->getDatabases();
-
-		if ($databases->recordCount() > 0) {
-			// The javascript action on the select box reloads
-			// the popup whenever the database is changed.
-			// This ensures that the correct page encoding is used.
-
-			echo "<label>";
-			$misc->printHelp($lang['strdatabase'], 'pg.database');
-			echo ": <select name=\"database\" {$onchange}>\n";
-			
-			while (!$databases->EOF) {
-				$dbname = $databases->fields['datname'];
-				echo "<option value=\"", htmlspecialchars($dbname), "\"",
-				((isset($_REQUEST['database']) && $dbname == $_REQUEST['database'])) ? ' selected="selected"' : '', ">",
-					htmlspecialchars($dbname), "</option>\n";
-				$databases->moveNext();
-			}
-			echo "</select></label>\n";
-		}
-		else {
-			$server_info = $misc->getServerInfo();
-			echo "<input type=\"hidden\" name=\"database\" value=\"", 
-				htmlspecialchars($server_info['defaultdb']), "\" />\n";
-		}
-		
-		echo "</td></tr></table>\n";
+		$misc->printConnection($onchange);
 	}
 	
 	/**

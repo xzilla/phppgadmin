@@ -20,7 +20,11 @@ Features
   properties page (ioguix)
 * Add Support for Enum type creation (ioguix,xzilla)
 * Add alter name, owner, comment and properties for sequences (ioguix)
-* Add function costing options
+* Add function costing options (xzilla)
+* Add alter owner & schema on function (xzilla)
+* Add a popup window for the session requests history (karl, ioguix)
+* Add alter table schema (ioguix)
+* Add alter sequence schema (ioguix)
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema

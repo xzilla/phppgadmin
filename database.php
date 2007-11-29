@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.102 2007/09/18 05:03:29 xzilla Exp $
+	 * $Id: database.php,v 1.103 2007/11/29 23:23:56 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -857,7 +857,6 @@
 
 		$misc->printTrail('database');
 		$misc->printTabs('database','sql');
-
 		echo "<p>{$lang['strentersql']}</p>\n";
 		echo "<form action=\"sql.php\" method=\"post\" enctype=\"multipart/form-data\">\n";
 		echo "<p>{$lang['strsql']}<br />\n";
