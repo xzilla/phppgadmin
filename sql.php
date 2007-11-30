@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.39 2007/11/29 23:23:56 ioguix Exp $
+	 * $Id: sql.php,v 1.40 2007/11/30 06:04:43 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -69,16 +69,7 @@
 			}
 		}
 	}
-	
-	// Determine explain version of SQL
-	if ($data->hasFullExplain() && isset($_POST['explain']) && isset($_POST['query'])) {
-		$_POST['query'] = $data->getExplainSQL($_POST['query'], false);
-		$_REQUEST['query'] = $_POST['query'];
-	}
-	elseif ($data->hasFullExplain() && isset($_POST['explain_analyze']) && isset($_POST['query'])) {
-		$_POST['query'] = $data->getExplainSQL($_POST['query'], true);
-		$_REQUEST['query'] = $_POST['query'];
-	}
+
 	
 	// Pagination maybe set by a get link that has it as FALSE,
 	// if that's the case, unset the variable.

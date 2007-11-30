@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas within a database
 	 *
-	 * $Id: database.php,v 1.103 2007/11/29 23:23:56 ioguix Exp $
+	 * $Id: database.php,v 1.104 2007/11/30 06:04:43 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -875,10 +875,6 @@
 
 		echo "<p><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " /><label for=\"paginate\">{$lang['strpaginate']}</label></p>\n";
 		echo "<p><input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
-		if ($data->hasFullExplain()) {
-			echo "<input type=\"submit\" name=\"explain\" value=\"{$lang['strexplain']}\" />\n";
-			echo "<input type=\"submit\" name=\"explain_analyze\" value=\"{$lang['strexplainanalyze']}\" />\n";
-		}
 		echo $misc->form;
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
