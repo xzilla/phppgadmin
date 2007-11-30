@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.53 2007/04/18 14:08:48 mr-russ Exp $
+	 * $Id: config.inc.php-dist,v 1.54 2007/11/30 15:53:50 soranzo Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -50,7 +50,7 @@
 	//$conf['servers'][1]['slony_support'] = false;
 	//$conf['servers'][1]['slony_sql'] = 'C:\\Program Files\\PostgreSQL\\8.0\\share';
 
-	// Default language. Eg: 'english', 'polish', etc.  See lang/ directory
+	// Default language. E.g.: 'english', 'polish', etc.  See lang/ directory
 	// for all possibilities. If you specify 'auto' (the default) it will use 
 	// your browser preference.
 	$conf['default_lang'] = 'auto';
@@ -73,7 +73,7 @@
 	// Only show owned databases?
 	// Note: This will simply hide other databases in the list - this does
 	// not in any way prevent your users from seeing other database by
-	// other means. (eg. Run 'SELECT * FROM pg_database' in the SQL area.)
+	// other means. (e.g. Run 'SELECT * FROM pg_database' in the SQL area.)
 	$conf['owned_only'] = false;
 
 	// Display comments on objects?  Comments are a good way of documenting
@@ -126,7 +126,7 @@
 
 	// Base URL for PostgreSQL documentation.
 	// '%s', if present, will be replaced with the PostgreSQL version
-	// (7, 7.1, 7.2, 7.3, 7.4, or 8.0)
+	// (e.g. 7.3 )
 	$conf['help_base'] = 'http://www.postgresql.org/docs/%s/interactive/';
 	
 	/*****************************************
