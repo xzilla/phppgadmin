@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.13 2007/11/23 17:58:47 xzilla Exp $
+ * $Id: Postgres83.php,v 1.14 2007/11/30 07:56:06 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -796,6 +796,34 @@ class Postgres83 extends Postgres82 {
 					AND pc.prolang = pl.oid
 					AND pc.pronamespace = pn.oid
 				";
+
+		return $this->selectSet($sql);
+	}
+
+	// Trigger functions
+
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
+	 * @return A recordset
+	 */
+	function getTriggers($table = '') {
+		$this->clean($table);
+
+		$sql = "SELECT
+				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, 
+				CASE WHEN t.tgenabled = 'D' THEN FALSE ELSE TRUE END AS tgenabled, p.oid AS prooid,
+				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
+				ns.nspname AS pronamespace
+			FROM pg_catalog.pg_trigger t, pg_catalog.pg_proc p, pg_catalog.pg_namespace ns
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+				AND (NOT tgisconstraint OR NOT EXISTS
+						(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+							ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+						WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))
+				AND p.oid=t.tgfoid
+				AND p.pronamespace = ns.oid";
 
 		return $this->selectSet($sql);
 	}
