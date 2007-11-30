@@ -26,18 +26,16 @@ Export
 
   Actually...SQL/XML is maybe better.
 
-Misc
-----
-
-* Support 8.1 standard compliant strings (E'')
 
 Users
 -----
 
 * 7.3 user variables (eg. ALTER USER SET .. TO ...)
 
+
 Groups
 ------
+
 
 Roles
 -----
@@ -45,11 +43,13 @@ Roles
 * -Support for 8.1 roles (removing users and groups) (chriskl,javier)
 * -Support for ALTER ROLE (done by ?)
 
+
 Permissions
 -----------
 
 * Grant ... on all tables, views, ... to user, group, public
 * Grant connect on database [8.2]
+
 
 Databases
 ---------
@@ -61,6 +61,7 @@ Databases
 	- http://www.postgresql.org/docs/8.2/interactive/sql-reassign-owned.html
 	- http://www.postgresql.org/docs/8.2/interactive/sql-drop-owned.html
 
+
 Schemas (7.3)
 -------------
 
@@ -68,10 +69,12 @@ Schemas (7.3)
 * -Alter owner (ioguix)
 * Alter ... SET SCHEMA support per 8.1
 
+
 Large Objects
 -------------
 
 * Add support for large objects
+
 
 Tables
 ------
@@ -89,12 +92,14 @@ Tables
 * Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
 * Where ENUM types are an option, restrict choice to enum values [8.3]
 
+
 Views
 -----
 
 * Support temporary views per 8.1?
 * Allow INSERT and import on views with the appropriate rules.
 * - Allow altering of comments (ioguix, with rename & owner)
+
 
 Sequences
 ---------
@@ -103,6 +108,7 @@ Sequences
 * -setval & nextval (Guillaume LELARGE)
 * -change schema (ioguix)
 * -rename (done using alter table) (ioguix)
+
 
 Functions
 ---------
@@ -115,6 +121,7 @@ Functions
 * -Alter schema (xzilla)
 * GUC settings [8.3]
 
+
 Indexes 
 -------
 
@@ -123,10 +130,12 @@ Indexes
 * Allow indexes to be built concurrently [8.2]
 * Create Index Asc/Desc, Nulls First/Last [8.3]
 
+
 Types
 -----
 
 * Suppres psuedo-type options in type list for creating composite types. 
+
 
 Operators
 ---------
@@ -134,16 +143,19 @@ Operators
 * Create
 * Create/Alter/Drop Operator Family
 
+
 Operator Classes
 ----------------
 
 * Create
+
 
 Triggers
 --------
 
 * Allow functions from other schemas.
 * -Support ENABLE/DISABLE trigger in 8.1 (Jawed)
+
 
 Aggregates
 ----------
@@ -153,6 +165,7 @@ Aggregates
 * -Create (Javier)
 * Allow for multi-column aggregates [8.2]
 
+
 Languages
 ---------
 
@@ -161,8 +174,10 @@ Languages
 * Alter owner [8.3]
 * Alter name [8.3]
 
+
 Domains (7.3)
 -------------
+
 
 Conversions (7.3)
 -----------------
@@ -170,6 +185,7 @@ Conversions (7.3)
 * Properties
 * Drop
 * Create
+
 
 Casts (7.3)
 -----------
@@ -190,6 +206,7 @@ Full Text Search (8.3)
 Miscellaneous
 -------------
 
+* Support 8.1 standard compliant strings (E'')
 * -Allow management of built-in autovacuum in 8.1 (xzilla)
 * Support per-user and per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
@@ -212,7 +229,8 @@ Miscellaneous
 * Translated FAQ
 * Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
 * Add support for csvlogs [8.3]
-* Add exectued file scripts in history 
+* Add executed file scripts in history 
+
 
 Exotic
 ------
@@ -221,6 +239,7 @@ Exotic
 * Pivot reports (ADODB has a feature for this)
 * Parameterized reports (use prepared queries)
 * Full web accessability conformance
+
 
 Principles
 ----------
