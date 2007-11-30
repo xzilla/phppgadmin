@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.25 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: aggregates.php,v 1.26 2007/11/30 15:17:22 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -324,23 +324,21 @@
 		
 		$aggregates = $data->getAggregates();
 
-                $proto = concat(field('proname'), ' (', field('proargtypes'), ')');
-                $reqvars = $misc->getRequestVars('aggregate');
+		$proto = concat(field('proname'), ' (', field('proargtypes'), ')');
+		$reqvars = $misc->getRequestVars('aggregate');
 		
 		$attrs = array(
 			'text'    => $proto,
 			'icon'    => 'Aggregate',
 			'toolTip' => field('aggcomment'),
-
-                        'action'  => url('redirect.php',
-                                                        $reqvars,
-                                                        array(
-                                                            'action' => 'properties',
-                                                            'aggrname' => field('proname'),
-                                                            'aggrtype' => field('proargtypes')
-                                                            )
-                                        )
-
+			'action'  => url('redirect.php',
+				$reqvars,
+				array(
+					'action' => 'properties',
+					'aggrname' => field('proname'),
+					'aggrtype' => field('proargtypes')
+				)
+			)
 		);
 		
 		$misc->printTreeXML($aggregates, $attrs);
