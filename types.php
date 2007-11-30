@@ -3,7 +3,7 @@
 	/**
 	 * Manage types in a database
 	 *
-	 * $Id: types.php,v 1.41 2007/10/03 17:32:07 ioguix Exp $
+	 * $Id: types.php,v 1.42 2007/11/30 15:25:23 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -423,7 +423,7 @@
 		echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"typname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['typname']), "\" /></td></tr>\n";
-		echo "<tr><th class=\"data left\">{$lang['strinputfn']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['strinputfn']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"typin\">";
 		while (!$funcs->EOF) {
 			$proname = htmlspecialchars($funcs->fields['proname']);
@@ -432,7 +432,7 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=\"data left\">{$lang['stroutputfn']}</th>\n";
+		echo "<tr><th class=\"data left required\">{$lang['stroutputfn']}</th>\n";
 		echo "<td class=\"data1\"><select name=\"typout\">";
 		$funcs->moveFirst();
 		while (!$funcs->EOF) {
@@ -442,7 +442,7 @@
 			$funcs->moveNext();
 		}
 		echo "</select></td></tr>\n";
-		echo "<tr><th class=\"data left required\">{$lang['strlength']}</th>\n";
+		echo "<tr><th class=\"data left" . (version_compare($data->major_version, '7.4', '<') ? ' required' : '') . "\">{$lang['strlength']}</th>\n";
 		echo "<td class=\"data1\"><input name=\"typlen\" size=\"8\" value=\"",
 			htmlspecialchars($_POST['typlen']), "\" /></td></tr>";
 		echo "<tr><th class=\"data left\">{$lang['strdefault']}</th>\n";
