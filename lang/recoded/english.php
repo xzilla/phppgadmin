@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.174 2007/11/23 17:58:47 xzilla Exp $
+	 * $Id: english.php,v 1.175 2007/11/30 01:06:00 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -139,6 +139,15 @@
 	$lang['strselectall'] = 'Select all';
 	$lang['strunselectall'] = 'Unselect all';
 	$lang['strlocale'] = 'Locale';
+
+	// User-supplied SQL history
+	$lang['strhistory'] = 'History';
+	$lang['strnohistory'] = 'No history.';
+	$lang['strclearhistory'] = 'Clear history';
+	$lang['strdelhistory'] = 'Delete from history';
+	$lang['strconfdelhistory'] = 'Really remove this request from history ?';
+	$lang['strconfclearhistory'] = 'Really clear history ?';
+	$lang['strnodatabaseselected'] = 'Please, select a database.';
 
 	// Database sizes
 	$lang['strsize'] = 'Size';
