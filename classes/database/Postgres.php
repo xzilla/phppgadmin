@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.315 2007/11/30 06:04:43 xzilla Exp $
+ * $Id: Postgres.php,v 1.316 2007/12/05 12:05:00 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -302,6 +302,8 @@ class Postgres extends ADODB_base {
 				$value = $this->escapeBytea($value);
 			case 'text':
 			case 'text[]':
+			case 'xml':
+			case 'xml[]':
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
