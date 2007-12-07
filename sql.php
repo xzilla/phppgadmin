@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.40 2007/11/30 06:04:43 xzilla Exp $
+	 * $Id: sql.php,v 1.41 2007/12/07 21:58:40 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -81,7 +81,9 @@
 	}
 	// Check to see if pagination has been specified. In that case, send to display
 	// script for pagination
-	if (isset($_REQUEST['paginate']) && !isset($_REQUEST['explain']) && !isset($_REQUEST['explain_analyze'])) {
+	/* if a file is given or the request is an explain, do not paginate */
+	if (isset($_REQUEST['paginate']) && !(isset($_FILES['script']) && $_FILES['script']['size'] > 0)
+			&& (preg_match('/^\s*explain/i', $_REQUEST['query']) == 0)) {
 		include('./display.php');
 		exit;
 	}
