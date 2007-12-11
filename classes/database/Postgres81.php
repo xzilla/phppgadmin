@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.17 2007/11/21 15:45:31 ioguix Exp $
+ * $Id: Postgres81.php,v 1.18 2007/12/11 14:17:17 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -540,6 +540,46 @@ class Postgres81 extends Postgres80 {
 		return $this->execute($sql);
 	}
 
+	// View functions
+	
+	/**
+	  * Protected method which alter a view
+	  * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	  * @param $vwrs The view recordSet returned by getView()
+	  * @param $name The new name for the view
+	  * @param $owner The new owner for the view
+	  * @param $comment The comment on the view
+	  * @return 0 success
+	  * @return -3 rename error
+	  * @return -4 comment error
+	  * @return -5 owner error
+	  * @return -6 schema error
+	  */
+    function _alterView($vwrs, $name, $owner, $schema, $comment) {
+
+		$status = parent::_alterView($vwrs, $name, $owner, $schema, $comment);
+		if ($status != 0)
+			return $status;
+
+		$this->fieldClean($name);
+		// if name is not empty, view has been renamed in parent
+		$view = (!empty($name)) ? $name : $tblrs->fields['relname'];
+
+		// Schema
+		$this->fieldClean($schema);
+		if (!empty($schema) && ($vwrs->fields['nspname'] != $schema)) {
+
+			// If tablespace has been changed, then do the alteration.  We
+			// don't want to do this unnecessarily.
+			$sql = "ALTER TABLE \"{$view}\" SET SCHEMA \"{$schema}\"";
+
+			$status = $this->execute($sql);
+			if ($status != 0) return -6;
+		}
+
+		return 0;
+	}
+	
 	// Sequence methods
 	
 	/**

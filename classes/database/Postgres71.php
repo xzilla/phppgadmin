@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres71.php,v 1.79 2007/11/21 15:45:31 ioguix Exp $
+ * $Id: Postgres71.php,v 1.80 2007/12/11 14:17:17 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -228,6 +228,45 @@ class Postgres71 extends Postgres {
 		return $typname;
 	}
 
+	// View functions
+	
+	/**
+	  * Protected method which alter a view
+	  * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	  * @param $vwrs The view recordSet returned by getView()
+	  * @param $name The new name for the view
+	  * @param $owner The new owner for the view
+	  * @param $comment The comment on the view
+	  * @return 0 success
+	  * @return -3 rename error
+	  * @return -4 comment error
+	  * @return -5 owner error
+	  * @return -6 schema error
+	  */
+    function _alterView($vwrs, $name, $owner, $schema, $comment) {
+
+		$status = parent::_alterView($vwrs, $name, $owner, $schema, $comment);
+		if ($status != 0)
+			return $status;
+
+		$this->fieldClean($name);
+		// if name is not empty, view has been renamed in parent
+		$view = (!empty($name)) ? $name : $tblrs->fields['relname'];
+
+		$this->fieldClean($owner);
+		// Owner
+		if ((!empty($owner)) && ($vwrs->fields['relowner'] != $owner)) {
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			$sql = "ALTER TABLE \"{$view}\" OWNER TO \"{$owner}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) return -5;
+		}
+
+		return 0;
+	}
+	
 	// Sequence functions
 
 	/**

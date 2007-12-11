@@ -3,7 +3,7 @@
 	/**
 	 * List views in a database
 	 *
-	 * $Id: viewproperties.php,v 1.33 2007/09/13 14:53:41 ioguix Exp $
+	 * $Id: viewproperties.php,v 1.34 2007/12/11 14:17:17 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -256,6 +256,7 @@
 			if ($view->recordCount() > 0) {
 				if (!isset($_POST['name'])) $_POST['name'] = $view->fields['relname'];
 	            if (!isset($_POST['owner'])) $_POST['owner'] = $view->fields['relowner'];
+	            if (!isset($_POST['newschema'])) $_POST['newschema'] = $view->fields['nspname'];
 				if (!isset($_POST['comment'])) $_POST['comment'] = $view->fields['relcomment'];
 
 				echo "<form action=\"viewproperties.php\" method=\"post\">\n";
@@ -282,6 +283,19 @@
 					echo "</select></td></tr>\n";
 				}
 
+				if ($data->hasAlterTableSchema()) {
+					$schemas = $data->getSchemas();
+					echo "<tr><th class=\"data left required\">{$lang['strschema']}</th>\n";
+					echo "<td class=\"data1\"><select name=\"newschema\">";
+					while (!$schemas->EOF) {
+						$schema = $schemas->fields['nspname'];
+						echo "<option value=\"", htmlspecialchars($schema), "\"",
+							($schema == $_POST['newschema']) ? ' selected="selected"' : '', ">", htmlspecialchars($schema), "</option>\n";
+						$schemas->moveNext();
+					}
+					echo "</select></td></tr>\n";
+				}
+				
 				echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 				echo "<td class=\"data1\">";
 				echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
@@ -297,11 +311,13 @@
 			else echo "<p>{$lang['strnodata']}</p>\n";
 		}
 		else{
-			global $data, $lang, $_reload_browser;
+			global $data, $lang, $_reload_browser, $misc;
 
 			// For databases that don't allow owner change
 	        if (!isset($_POST['owner'])) $_POST['owner'] = '';
-			$status = $data->alterView($_POST['view'], $_POST['name'], $_POST['owner'], $_POST['comment']);
+	        if (!isset($_POST['newschema'])) $_POST['newschema'] = null;
+
+			$status = $data->alterView($_POST['view'], $_POST['name'], $_POST['owner'], $_POST['newschema'], $_POST['comment']);
 			if ($status == 0) {
 				// If view has been renamed, need to change to the new name and
 				// reload the browser frame.
@@ -309,6 +325,12 @@
 					// Jump them to the new view name
 					$_REQUEST['view'] = $_POST['name'];
 	                // Force a browser reload
+					$_reload_browser = true;
+				}
+				// If schema has changed, need to change to the new schema and reload the browser
+				if (!empty($_POST['newschema']) && ($_POST['newschema'] != $data->_schema)) {
+					// Jump them to the new sequence schema
+					$misc->setCurrentSchema($_POST['newschema']);
 					$_reload_browser = true;
 				}
 				doDefault($lang['strviewaltered']);

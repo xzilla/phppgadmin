@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.316 2007/12/05 12:05:00 ioguix Exp $
+ * $Id: Postgres.php,v 1.317 2007/12/11 14:17:17 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -646,7 +646,7 @@ class Postgres extends ADODB_base {
 		$sql = "SELECT NULL AS nspname, c.relname,
 					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid) AS relcomment,
-					reltuples::bigint AS reltuples 
+					reltuples::bigint AS reltuples
 				FROM pg_class c
 				WHERE c.relkind='r'
 					AND NOT EXISTS (SELECT 1 FROM pg_rewrite r WHERE r.ev_class = c.oid AND r.ev_type = '1')
@@ -869,9 +869,9 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($name);
 		$this->clean($comment);
 		/* $schema, $owner, $tablespace not supported in pg70 */
-		
+
 		$table = $tblrs->fields['relname'];
-		
+
 		// Comment
 		$status = $this->setComment('TABLE', '', $table, $comment);
 		if ($status != 0) {
@@ -906,7 +906,7 @@ class Postgres extends ADODB_base {
 	 * @return $this->_alterTable error code
 	 */
 	function alterTable($table, $name, $owner, $schema, $comment, $tablespace) {
-		
+
 		$this->fieldClean($table);
 		$data = $this->getTable($table);
 		if ($data->recordCount() != 1)
@@ -927,7 +927,7 @@ class Postgres extends ADODB_base {
 
 		return $this->endTransaction();
 	}
-	
+
 	/**
 	 * Removes a table from the database
 	 * @param $table The table to drop
@@ -2539,7 +2539,7 @@ class Postgres extends ADODB_base {
 	function getView($view) {
 		$this->clean($view);
 
-		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
+		$sql = "SELECT viewname AS relname, NULL AS nspname, viewowner AS relowner, definition AS vwdefinition,
 			  (SELECT description FROM pg_description pd, pg_class pc
 			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname) AS relcomment
 			FROM pg_views v
@@ -2630,25 +2630,73 @@ class Postgres extends ADODB_base {
 		$status = $this->endTransaction();
 		return ($status == 0) ? 0 : -1;
 	}
+	/**
+	 * Rename a view
+	 * @param $view The current view's name
+	 * @param $name The new view's name
+	 * @return -1 Failed
+	 * @return 0 success
+	 */
+	function renameView($view, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($view);
+		$sql = "ALTER TABLE \"{$view}\" RENAME TO \"{$name}\"";
+		if ($this->execute($sql) != 0)
+			return -1;
+		return 0;
+	}
 
 	 /**
-	  * Alters a view
-	  * @param $view The name of the view
+	  * Protected method which alter a view
+	  * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	  * @param $vwrs The view recordSet returned by getView()
 	  * @param $name The new name for the view
 	  * @param $owner The new owner for the view
 	  * @param $comment The comment on the view
 	  * @return 0 success
-	  * @return -1 transaction error
-	  * @return -2 owner error
 	  * @return -3 rename error
 	  * @return -4 comment error
-	  * @return -5 get existing view error
+	  * @return -5 owner error
+	  * @return -6 schema error
 	  */
-    function alterView($view, $name, $owner, $comment) {
-		$this->fieldClean($view);
+    function _alterView($vwrs, $name, $owner, $schema, $comment) {
+
 		$this->fieldClean($name);
-		$this->fieldClean($owner);
 		$this->clean($comment);
+
+		$view = $vwrs->fields['relname'];
+
+		// Comment
+		if ($this->setComment('VIEW', $view, '', $comment) != 0)
+			return -4;
+
+		// Rename (only if name has changed)
+		if ($name != $view) {
+			if ($this->renameView($view, $name) != 0)
+			return -3;
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Alter table properties
+	 * @param $table The name of the view
+	 * @param $name The new name for the view
+	 * @param $owner The new owner for the view
+	 * @param $schema The new schema for the view
+	 * @param $comment The comment on the view
+	 * @return 0 success
+	 * @return -1 transaction error
+	 * @return -2 get existing view error
+	 * @return $this->_alterView error code
+	 */
+	function alterView($view, $name, $owner, $schema, $comment) {
+
+		$this->fieldClean($view);
+		$data = $this->getView($view);
+		if ($data->recordCount() != 1)
+			return -2;
 
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -2656,43 +2704,11 @@ class Postgres extends ADODB_base {
 			return -1;
 		}
 
-		// Comment
-		$status = $this->setComment('VIEW', $view, '', $comment);
+		$status = $this->_alterView($data, $name, $owner, $schema, $comment);
+
 		if ($status != 0) {
 			$this->rollbackTransaction();
-			return -4;
-		}
-
-		// Owner
-		if ($this->hasAlterTableOwner() && $owner != '') {
-			// Fetch existing owner
-			$data = $this->getView($view);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-
-			// If owner has been changed, then do the alteration.  We are
-			// careful to avoid this generally as changing owner is a
-			// superuser only function.
-			if ($data->fields['relowner'] != $owner) {
-				$sql = "ALTER TABLE \"{$view}\" OWNER TO \"{$owner}\"";
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -2;
-				}
-			}
-		}
-
-		// Rename (only if name has changed)
-		if ($name != $view) {
-			$sql = "ALTER TABLE \"{$view}\" RENAME TO \"{$name}\"";
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
+			return $status;
 		}
 
 		return $this->endTransaction();

@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.92 2007/11/15 06:06:45 xzilla Exp $
+ * $Id: Postgres72.php,v 1.93 2007/12/11 14:17:17 ioguix Exp $
  */
 
 
@@ -41,7 +41,7 @@ class Postgres72 extends Postgres71 {
 	}
 
 	// Help functions
-	
+
 	function getHelpPages() {
 		include_once('./help/PostgresDoc72.php');
 		return $this->help_page;
@@ -57,7 +57,7 @@ class Postgres72 extends Postgres71 {
 	function _encryptPassword($username, $password) {
 		return 'md5' . md5($password . $username);
 	}
-	
+
 	/**
 	 * Changes a user's password
 	 * @param $username The username
@@ -68,9 +68,9 @@ class Postgres72 extends Postgres71 {
 		$enc = $this->_encryptPassword($username, $password);
 		$this->fieldClean($username);
 		$this->clean($enc);
-		
+
 		$sql = "ALTER USER \"{$username}\" WITH ENCRYPTED PASSWORD '{$enc}'";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -89,7 +89,7 @@ class Postgres72 extends Postgres71 {
 		$this->fieldClean($username);
 		$this->clean($enc);
 		$this->clean($expiry);
-		$this->fieldArrayClean($groups);		
+		$this->fieldArrayClean($groups);
 
 		$sql = "CREATE USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
@@ -98,7 +98,7 @@ class Postgres72 extends Postgres71 {
 		if (is_array($groups) && sizeof($groups) > 0) $sql .= " IN GROUP \"" . join('", "', $groups) . "\"";
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
 		else $sql .= " VALID UNTIL 'infinity'";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -116,16 +116,16 @@ class Postgres72 extends Postgres71 {
 		$this->fieldClean($username);
 		$this->clean($enc);
 		$this->clean($expiry);
-		
+
 		$sql = "ALTER USER \"{$username}\"";
 		if ($password != '') $sql .= " WITH ENCRYPTED PASSWORD '{$enc}'";
 		$sql .= ($createdb) ? ' CREATEDB' : ' NOCREATEDB';
 		$sql .= ($createuser) ? ' CREATEUSER' : ' NOCREATEUSER';
 		if ($expiry != '') $sql .= " VALID UNTIL '{$expiry}'";
 		else $sql .= " VALID UNTIL 'infinity'";
-		
+
 		return $this->execute($sql);
-	}	
+	}
 
 	/**
 	 * Returns all available process information.
@@ -139,10 +139,10 @@ class Postgres72 extends Postgres71 {
 			$this->clean($database);
 			$sql = "SELECT * FROM pg_stat_activity WHERE datname='{$database}' ORDER BY usename, procpid";
 		}
-		
+
 		return $this->selectSet($sql);
 	}
-	
+
 	// Table functions
 
 	/**
@@ -181,29 +181,29 @@ class Postgres72 extends Postgres71 {
 	 */
 	function getTable($table) {
 		$this->clean($table);
-				
-		$sql = "SELECT pc.relname, 
-			pg_get_userbyid(pc.relowner) AS relowner, 
-			(SELECT description FROM pg_description pd 
-                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS relcomment 
+
+		$sql = "SELECT pc.relname,
+			pg_get_userbyid(pc.relowner) AS relowner,
+			(SELECT description FROM pg_description pd
+                        WHERE pc.oid=pd.objoid AND objsubid = 0) AS relcomment
 			FROM pg_class pc
 			WHERE pc.relname='{$table}'";
-							
+
 		return $this->selectSet($sql);
 	}
 
 	/**
 	 * Return all tables in current database
 	 * @param $all True to fetch all tables, false for just in current schema
-	 * @return All tables, sorted alphabetically 
+	 * @return All tables, sorted alphabetically
 	 */
 	function getTables($all = false) {
 		global $conf;
 		if (!$conf['show_system'] || $all) $where = "AND c.relname NOT LIKE 'pg\\\\_%' ";
 		else $where = '';
-		
-		$sql = "SELECT NULL AS nspname, c.relname, 
-					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner, 
+
+		$sql = "SELECT NULL AS nspname, c.relname,
+					(SELECT usename FROM pg_user u WHERE u.usesysid=c.relowner) AS relowner,
 					(SELECT description FROM pg_description pd WHERE c.oid=pd.objoid AND objsubid = 0) AS relcomment,
 					reltuples::numeric
 			 FROM pg_class c WHERE c.relkind='r' {$where}ORDER BY relname";
@@ -220,21 +220,21 @@ class Postgres72 extends Postgres71 {
 		$this->clean($table);
 		$this->clean($field);
 
-		if ($field == '') {		
+		if ($field == '') {
 			$sql = "
 				SELECT
 					a.attname,
 					format_type(a.atttypid, a.atttypmod) as type, a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
-					-1 AS attstattarget, a.attstorage, t.typstorage, false AS attisserial, 
+					-1 AS attstattarget, a.attstorage, t.typstorage, false AS attisserial,
                                         description as comment
-				FROM 
+				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 					LEFT JOIN pg_type t ON a.atttypid=t.oid
                                         LEFT JOIN pg_description d ON (a.attrelid = d.objoid AND a.attnum = d.objsubid)
-				WHERE 
-					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
+				WHERE
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
 					AND a.attnum > 0
 				ORDER BY a.attnum";
 		}
@@ -242,27 +242,27 @@ class Postgres72 extends Postgres71 {
 			$sql = "
 				SELECT
 					a.attname,
-					format_type(a.atttypid, a.atttypmod) as type, 
-					format_type(a.atttypid, NULL) as base_type, 
+					format_type(a.atttypid, a.atttypmod) as type,
+					format_type(a.atttypid, NULL) as base_type,
 					a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
-					-1 AS attstattarget, a.attstorage, t.typstorage, 
+					-1 AS attstattarget, a.attstorage, t.typstorage,
                                         description as comment
-				FROM 
+				FROM
 					pg_attribute a LEFT JOIN pg_attrdef adef
 					ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 					LEFT JOIN pg_type t ON a.atttypid=t.oid
                                         LEFT JOIN pg_description d ON (a.attrelid = d.objoid AND a.attnum = d.objsubid)
-				WHERE 
-					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}') 
+				WHERE
+					a.attrelid = (SELECT oid FROM pg_class WHERE relname='{$table}')
 					AND a.attname = '{$field}'";
 		}
-					
+
 		return $this->selectSet($sql);
 	}
 
 	// View functions
-	
+
 	/**
 	 * Returns a list of all views in the database
 	 * @return All views
@@ -276,7 +276,7 @@ class Postgres72 extends Postgres71 {
 			$where = '';
 
 		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
-			      (SELECT description FROM pg_description pd, pg_class pc 
+			      (SELECT description FROM pg_description pd, pg_class pc
 			       WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS relcomment
 			FROM pg_views v
 			{$where}
@@ -284,7 +284,7 @@ class Postgres72 extends Postgres71 {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	/**
 	 * Returns all details for a particular view
 	 * @param $view The name of the view to retrieve
@@ -292,16 +292,16 @@ class Postgres72 extends Postgres71 {
 	 */
 	function getView($view) {
 		$this->clean($view);
-		
-		$sql = "SELECT viewname AS relname, viewowner AS relowner, definition AS vwdefinition,
-			  (SELECT description FROM pg_description pd, pg_class pc 
+
+		$sql = "SELECT viewname AS relname, NULL AS nspname, viewowner AS relowner, definition AS vwdefinition,
+			  (SELECT description FROM pg_description pd, pg_class pc
 			    WHERE pc.oid=pd.objoid AND pc.relname=v.viewname AND pd.objsubid = 0) AS relcomment
 			FROM pg_views v
 			WHERE viewname='{$view}'";
-			
+
 		return $this->selectSet($sql);
 	}
-	
+
 	// Constraint functions
 
 	/**
@@ -319,9 +319,9 @@ class Postgres72 extends Postgres71 {
 
 		switch ($type) {
 			case 'c':
-				// CHECK constraint		
+				// CHECK constraint
 				$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\" RESTRICT";
-		
+
 				return $this->execute($sql);
 				break;
 			case 'p':
@@ -332,7 +332,7 @@ class Postgres72 extends Postgres71 {
 			case 'f':
 				// FOREIGN KEY constraint
 				return -99;
-		}				
+		}
 	}
 
 	/**
@@ -383,7 +383,7 @@ class Postgres72 extends Postgres71 {
 
 		if ($tablespace != '' && $this->hasTablespaces())
 			$sql .= " USING INDEX TABLESPACE \"{$tablespace}\"";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -422,7 +422,7 @@ class Postgres72 extends Postgres71 {
 
 		return $this->selectSet($sql);
 	}
-		
+
 	/**
 	 * Updates (replaces) a function.
 	 * @param $function_oid The OID of the function
@@ -434,7 +434,7 @@ class Postgres72 extends Postgres71 {
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
 	 * @param $setof True if returns a set, false otherwise
-	 * @param $comment The comment on the function	 
+	 * @param $comment The comment on the function
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 drop function error
@@ -478,7 +478,7 @@ class Postgres72 extends Postgres71 {
 			$this->rollbackTransaction();
 			return -4;
 		}
-		
+
 		return $this->endTransaction();
 	}
 
@@ -493,7 +493,7 @@ class Postgres72 extends Postgres71 {
 	 */
 	function getTypes($all = false, $tabletypes = false, $domains = false) {
 		global $conf;
-		
+
 		if ($all || $conf['show_system']) {
 			$where = '';
 		} else {
@@ -501,12 +501,12 @@ class Postgres72 extends Postgres71 {
 		}
 		// Never show system table types
 		$where2 = "AND c.oid > '{$this->_lastSystemOID}'::oid";
-		
+
 		// Create type filter
 		$tqry = "'c'";
 		if ($tabletypes)
 			$tqry .= ", 'r', 'v'";
-		
+
 		$sql = "SELECT
 				pt.typname AS basename,
 				format_type(pt.oid, NULL) AS typname,
@@ -534,7 +534,7 @@ class Postgres72 extends Postgres71 {
 	 */
 	function getOpClasses() {
 		global $conf;
-		
+
 		if ($conf['show_system'])
 			$where = '';
 		else
@@ -542,8 +542,8 @@ class Postgres72 extends Postgres71 {
 
 		$sql = "
 			SELECT DISTINCT
-				pa.amname, 
-				po.opcname, 
+				pa.amname,
+				po.opcname,
 				format_type(po.opcintype, NULL) AS opcintype,
 				TRUE AS opcdefault,
 				NULL::text AS opccomment
@@ -557,7 +557,7 @@ class Postgres72 extends Postgres71 {
 
 		return $this->selectSet($sql);
 	}
-	
+
 	// Administration functions
 
 	/**

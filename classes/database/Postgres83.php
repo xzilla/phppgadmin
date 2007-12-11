@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.14 2007/11/30 07:56:06 xzilla Exp $
+ * $Id: Postgres83.php,v 1.15 2007/12/11 14:17:17 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -65,73 +65,21 @@ class Postgres83 extends Postgres82 {
 
     // Views functions
 
-   	/**
- 	 * Alters a view
- 	 * @param $view The name of the view
- 	 * @param $name The new name for the view
- 	 * @param $owner The new owner for the view
- 	 * @param $comment The comment on the view
- 	 * @return 0 success
- 	 * @return -1 transaction error
- 	 * @return -2 owner error
- 	 * @return -3 rename error
- 	 * @return -4 comment error
- 	 * @return -5 get existing view error
- 	 */
- 	function alterView($view, $name, $owner, $comment) {
-        $this->fieldClean($view);
-
- 		$this->fieldClean($name);
- 		$this->fieldClean($owner);
- 		$this->clean($comment);
-
- 		$status = $this->beginTransaction();
- 		if ($status != 0) {
- 			$this->rollbackTransaction();
- 			return -1;
- 		}
-
- 		// Comment
- 		$status = $this->setComment('VIEW', $view, '', $comment);
- 		if ($status != 0) {
- 			$this->rollbackTransaction();
- 			return -4;
- 		}
-
- 		// Owner
- 		if ($owner != '') {
- 			// Fetch existing owner
- 			$data = $this->getView($view);
- 			if ($data->recordCount() != 1) {
- 				$this->rollbackTransaction();
- 				return -5;
- 			}
-
- 			// If owner has been changed, then do the alteration.  We are
- 			// careful to avoid this generally as changing owner is a
- 			// superuser only function.
- 			if ($data->fields['relowner'] != $owner) {
- 				$sql = "ALTER TABLE \"{$view}\" OWNER TO \"{$owner}\"";
- 				$status = $this->execute($sql);
- 				if ($status != 0) {
- 					$this->rollbackTransaction();
- 					return -2;
- 				}
- 			}
- 		}
-
- 		// Rename (only if name has changed)
- 		if ($name != $view) {
- 			$sql = "ALTER VIEW \"{$view}\" RENAME TO \"{$name}\"";
- 			$status = $this->execute($sql);
- 			if ($status != 0) {
- 				$this->rollbackTransaction();
- 				return -3;
- 			}
- 		}
-
- 		return $this->endTransaction();
- 	}
+	/**
+	 * Rename a view
+	 * @param $view The current view's name
+	 * @param $name The new view's name
+	 * @return -1 Failed
+	 * @return 0 success
+	 */
+	function renameView($view, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($view);
+		$sql = "ALTER VIEW \"{$view}\" RENAME TO \"{$name}\"";
+		if ($this->execute($sql) != 0)
+			return -1;
+		return 0;
+	}
 
 	// Indexe functions
 
@@ -811,7 +759,7 @@ class Postgres83 extends Postgres82 {
 		$this->clean($table);
 
 		$sql = "SELECT
-				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, 
+				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef,
 				CASE WHEN t.tgenabled = 'D' THEN FALSE ELSE TRUE END AS tgenabled, p.oid AS prooid,
 				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
 				ns.nspname AS pronamespace
