@@ -23,8 +23,7 @@ Features
 * Add function costing options (xzilla)
 * Add alter owner & schema on function (xzilla)
 * Add a popup window for the session requests history (karl, ioguix)
-* Add alter table schema (ioguix)
-* Add alter sequence schema (ioguix)
+* Add alter table, view, sequence schema (ioguix)
 
 Bugs
 * Fix inability to assign a field type/domain of a different schema
@@ -32,6 +31,8 @@ Bugs
 * Fix PHP5 Strict mode complaints 
 * Fix IN/NOT IN to accept text input lists 'a','b'
 * Fix bytea doesn't display as NULL when NULL
+* Schema qualifing every object to avoid non wanted behaviour about users' rights
+  and schema_path
 
 Translations
 * utf traditional chinese (Kuo Chaoyi)

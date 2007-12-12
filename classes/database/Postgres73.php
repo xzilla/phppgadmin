@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.181 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: Postgres73.php,v 1.182 2007/12/12 10:45:35 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -859,70 +859,47 @@ class Postgres73 extends Postgres72 {
 	}
 
 	 /**
-	  * Alters a view
-	  * @param $view The name of the view
+	  * Protected method which alter a view
+	  * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	  * @param $vwrs The view recordSet returned by getView()
 	  * @param $name The new name for the view
 	  * @param $owner The new owner for the view
 	  * @param $comment The comment on the view
 	  * @return 0 success
-	  * @return -1 transaction error
-	  * @return -2 owner error
 	  * @return -3 rename error
 	  * @return -4 comment error
-	  * @return -5 get existing view error
+	  * @return -5 owner error
+	  * @return -6 schema error
 	  */
-    function alterView($view, $name, $owner, $comment) {
-		$this->fieldClean($view);
-		$this->fieldClean($name);
-		$this->fieldClean($owner);
-		$this->clean($comment);
+	 /*protected*/
+    function _alterView($vwrs, $name, $owner, $schema, $comment) {
 
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
+		$view = $vwrs->fields['relname'];
 
 		// Comment
-		$status = $this->setComment('VIEW', $view, '', $comment);
-		if ($status != 0) {
-			$this->rollbackTransaction();
+		$this->clean($comment);
+		if ($this->setComment('VIEW', $view, '', $comment) != 0)
 			return -4;
-		}
 
 		// Owner
-		if ($this->hasAlterTableOwner() && $owner != '') {
-			// Fetch existing owner
-			$data = $this->getView($view);
-			if ($data->recordCount() != 1) {
-				$this->rollbackTransaction();
-				return -5;
-			}
-
+		$this->fieldClean($owner);
+		if ((!empty($owner)) && ($vwrs->fields['relowner'] != $owner)) {
 			// If owner has been changed, then do the alteration.  We are
 			// careful to avoid this generally as changing owner is a
 			// superuser only function.
-			if ($data->fields['relowner'] != $owner) {
-				$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" OWNER TO \"{$owner}\"";
-				$status = $this->execute($sql);
-				if ($status != 0) {
-					$this->rollbackTransaction();
-					return -2;
-				}
-			}
-		}
-
-		// Rename (only if name has changed)
-		if ($name != $view) {
-			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" RENAME TO \"{$name}\"";
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" OWNER TO \"{$owner}\"";
 			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
+			if ($status != 0) return -5;
+		}
+		
+		// Rename (only if name has changed)
+		$this->fieldClean($name);
+		if ($name != $view) {
+			if ($this->renameView($view, $name) != 0)
 				return -3;
-			}
 		}
 
-		return $this->endTransaction();
+		return 0;
 	}
 
 	/**
@@ -965,8 +942,25 @@ class Postgres73 extends Postgres72 {
 	 * @return -3 create view error
 	 */
 	function setView($viewname, $definition,$comment) {
-                return $this->createView($viewname, $definition, true, $comment);
+		return $this->createView($viewname, $definition, true, $comment);
 	}
+	
+	/**
+	 * Rename a view
+	 * @param $view The current view's name
+	 * @param $name The new view's name
+	 * @return -1 Failed
+	 * @return 0 success
+	 */
+	function renameView($view, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($view);
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" RENAME TO \"{$name}\"";
+		if ($this->execute($sql) != 0)
+			return -1;
+		return 0;
+	}
+
 
 	// Sequence functions
 

@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.19 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: Postgres81.php,v 1.20 2007/12/12 10:45:35 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -555,6 +555,7 @@ class Postgres81 extends Postgres80 {
 	  * @return -5 owner error
 	  * @return -6 schema error
 	  */
+	/*protected*/
     function _alterView($vwrs, $name, $owner, $schema, $comment) {
 
 		$status = parent::_alterView($vwrs, $name, $owner, $schema, $comment);
@@ -571,7 +572,7 @@ class Postgres81 extends Postgres80 {
 
 			// If tablespace has been changed, then do the alteration.  We
 			// don't want to do this unnecessarily.
-			$sql = "ALTER TABLE \"{$view}\" SET SCHEMA \"{$schema}\"";
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" SET SCHEMA \"{$schema}\"";
 
 			$status = $this->execute($sql);
 			if ($status != 0) return -6;
