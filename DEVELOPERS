@@ -150,4 +150,10 @@ should not be used by other developers. When development of those features is
 completed, the branches get merged in as appropriate, so no further development 
 should occur on those branches. 
 
+GETTING HELP
+------------
 
+We prefer most discussion of development to take place on the phpPgAdmin
+mailing list, so that discussions can be archived and be searchable. 
+However, if you are into IRC, a couple of us hang out on #phppgadmin on 
+freenode, and occasionally discuss things there. 
