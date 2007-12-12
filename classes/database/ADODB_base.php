@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.22 2007/01/10 02:01:17 soranzo Exp $
+ * $Id: ADODB_base.php,v 1.23 2007/12/12 04:11:10 xzilla Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -124,14 +124,18 @@ class ADODB_base {
 	 * Delete from the database
 	 * @param $table The name of the table
 	 * @param $conditions (array) A map of field names to conditions
+	 * @param $schema (optional) The table's schema
 	 * @return 0 success
 	 * @return -1 on referential integrity violation
 	 * @return -2 on no rows deleted
 	 */
-	function delete($table, $conditions) {
+	function delete($table, $conditions, $schema = '') {
 		$this->fieldClean($table);
 
 		reset($conditions);
+
+		if (!empty($schema))
+			$schema = "\"{$schema}\".";
 
 		// Build clause
 		$sql = '';
@@ -139,7 +143,7 @@ class ADODB_base {
 			$this->clean($key);
 			$this->clean($value);
 			if ($sql) $sql .= " AND \"{$key}\"='{$value}'";
-			else $sql = "DELETE FROM \"{$table}\" WHERE \"{$key}\"='{$value}'";
+			else $sql = "DELETE FROM {$schema}\"{$table}\" WHERE \"{$key}\"='{$value}'";
 		}
 
 		// Check for failures

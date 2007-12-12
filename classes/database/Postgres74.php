@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.69 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres74.php,v 1.70 2007/12/12 04:11:10 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -222,7 +222,7 @@ class Postgres74 extends Postgres73 {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$sql = "CREATE TABLE \"{$name}\" (LIKE {$like}";
+		$sql = "CREATE TABLE \"{$this->_schema}\".\"{$name}\" (LIKE {$like}";
 
 		if ($defaults) $sql .= " INCLUDING DEFAULTS";
 		if ($this->hasCreateTableLikeWithConstraints() && $constraints) $sql .= " INCLUDING CONSTRAINTS";
@@ -366,7 +366,7 @@ class Postgres74 extends Postgres73 {
 	function recluster($table = '') {
 		if ($table != '') {
 			$this->fieldClean($table);
-			$sql = "CLUSTER \"{$table}\"";
+			$sql = "CLUSTER \"{$this->_schema}\".\"{$table}\"";
 		}
 		else
 			$sql = "CLUSTER";
@@ -413,7 +413,7 @@ class Postgres74 extends Postgres73 {
 		$this->fieldClean($domain);
 		$this->fieldClean($constraint);
 
-		$sql = "ALTER DOMAIN \"{$domain}\" DROP CONSTRAINT \"{$constraint}\"";
+		$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" DROP CONSTRAINT \"{$constraint}\"";
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
@@ -430,7 +430,7 @@ class Postgres74 extends Postgres73 {
 		$this->fieldClean($domain);
 		$this->fieldClean($name);
 
-		$sql = "ALTER DOMAIN \"{$domain}\" ADD ";
+		$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "CHECK ({$definition})";
 
@@ -461,9 +461,9 @@ class Postgres74 extends Postgres73 {
 
 		// Default
 		if ($domdefault == '')
-			$sql = "ALTER DOMAIN \"{$domain}\" DROP DEFAULT";
+			$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" DROP DEFAULT";
 		else
-			$sql = "ALTER DOMAIN \"{$domain}\" SET DEFAULT {$domdefault}";
+			$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" SET DEFAULT {$domdefault}";
 
 		$status = $this->execute($sql);
 		if ($status != 0) {
@@ -473,9 +473,9 @@ class Postgres74 extends Postgres73 {
 
 		// NOT NULL
 		if ($domnotnull)
-			$sql = "ALTER DOMAIN \"{$domain}\" SET NOT NULL";
+			$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" SET NOT NULL";
 		else
-			$sql = "ALTER DOMAIN \"{$domain}\" DROP NOT NULL";
+			$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" DROP NOT NULL";
 
 		$status = $this->execute($sql);
 		if ($status != 0) {
@@ -484,7 +484,7 @@ class Postgres74 extends Postgres73 {
 		}
 
 		// Owner
-		$sql = "ALTER DOMAIN \"{$domain}\" OWNER TO \"{$domowner}\"";
+		$sql = "ALTER DOMAIN \"{$this->_schema}\".\"{$domain}\" OWNER TO \"{$domowner}\"";
 
 		$status = $this->execute($sql);
 		if ($status != 0) {
@@ -595,7 +595,7 @@ class Postgres74 extends Postgres73 {
 		// Rename the function, if necessary
 		$this->fieldClean($newname);
 		if ($funcname != $newname) {
-			$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) RENAME TO \"{$newname}\"";
+			$sql = "ALTER FUNCTION \"{$this->_schema}\".\"{$funcname}\"({$args}) RENAME TO \"{$newname}\"";
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -609,7 +609,7 @@ class Postgres74 extends Postgres73 {
 		if ($this->hasFunctionAlterOwner()) {
 			$this->fieldClean($newown);
 		    if ($funcown != $newown) {
-				$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) OWNER TO \"{$newown}\"";
+				$sql = "ALTER FUNCTION \"{$this->_schema}\".\"{$funcname}\"({$args}) OWNER TO \"{$newown}\"";
 				$status = $this->execute($sql);
 				if ($status != 0) {
 					$this->rollbackTransaction();
@@ -623,7 +623,7 @@ class Postgres74 extends Postgres73 {
 		if ($this->hasFunctionAlterSchema()) {
 		    $this->fieldClean($newschema);
 		    if ($funcschema != $newschema) {
-				$sql = "ALTER FUNCTION \"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
+				$sql = "ALTER FUNCTION \"{$this->_schema}\".\"{$funcname}\"({$args}) SET SCHEMA \"{$newschema}\"";
 				$status = $this->execute($sql);
 				if ($status != 0) {
 					$this->rollbackTransaction();
@@ -688,7 +688,7 @@ class Postgres74 extends Postgres73 {
 		if (!is_null($cycledvalue))
 			$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";
 		if ($sql != '') {
-			$sql = "ALTER SEQUENCE \"{$sequence}\" $sql";
+			$sql = "ALTER SEQUENCE \"{$this->_schema}\".\"{$sequence}\" $sql";
 			$status = $this->execute($sql);
 			if ($status != 0)
 				return -6;
@@ -777,7 +777,7 @@ class Postgres74 extends Postgres73 {
 	 * @return 0 success
 	 */
 	function changeAggregateOwner($aggrname, $aggrtype, $newaggrowner) {
-		$sql = "ALTER AGGREGATE \"{$aggrname}\" (\"{$aggrtype}\") OWNER TO \"{$newaggrowner}\"";
+		$sql = "ALTER AGGREGATE \"{$this->_schema}\".\"{$aggrname}\" (\"{$aggrtype}\") OWNER TO \"{$newaggrowner}\"";
 		return $this->execute($sql);
 	}
 
@@ -789,7 +789,7 @@ class Postgres74 extends Postgres73 {
 	 * @return 0 success
 	 */
 	function changeAggregateSchema($aggrname, $aggrtype, $newaggrschema) {
-		$sql = "ALTER AGGREGATE \"{$aggrname}\" (\"{$aggrtype}\") SET SCHEMA  \"{$newaggrschema}\"";
+		$sql = "ALTER AGGREGATE \"{$this->_schema}\".\"{$aggrname}\" (\"{$aggrtype}\") SET SCHEMA  \"{$newaggrschema}\"";
 		return $this->execute($sql);
 	}
 

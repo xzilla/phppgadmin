@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.18 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres81.php,v 1.19 2007/12/12 04:11:10 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -501,7 +501,7 @@ class Postgres81 extends Postgres80 {
 
 			// If tablespace has been changed, then do the alteration.  We
 			// don't want to do this unnecessarily.
-			$sql = "ALTER TABLE \"{$tablename}\" SET SCHEMA \"{$schema}\"";
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$tablename}\" SET SCHEMA \"{$schema}\"";
 
 			$status = $this->execute($sql);
 			if ($status != 0) return -7;
@@ -520,7 +520,7 @@ class Postgres81 extends Postgres80 {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 
-		$sql = "ALTER TABLE \"{$table}\" ENABLE TRIGGER \"{$tgname}\"";
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ENABLE TRIGGER \"{$tgname}\"";
 
 		return $this->execute($sql);
 	}
@@ -535,7 +535,7 @@ class Postgres81 extends Postgres80 {
 		$this->fieldClean($tgname);
 		$this->fieldClean($table);
 
-		$sql = "ALTER TABLE \"{$table}\" DISABLE TRIGGER \"{$tgname}\"";
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" DISABLE TRIGGER \"{$tgname}\"";
 
 		return $this->execute($sql);
 	}
@@ -617,7 +617,7 @@ class Postgres81 extends Postgres80 {
 
 		$this->clean($schema);
 		if ($seqrs->fields['nspname'] != $schema) {
-			$sql = "ALTER SEQUENCE \"{$sequence}\" SET SCHEMA $schema";
+			$sql = "ALTER SEQUENCE \"{$this->_schema}\".\"{$sequence}\" SET SCHEMA $schema";
 			$status = $this->execute($sql);
 			if ($status != 0)
 				return -7;

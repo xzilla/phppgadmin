@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.0 support
  *
- * $Id: Postgres80.php,v 1.27 2007/11/21 15:45:31 ioguix Exp $
+ * $Id: Postgres80.php,v 1.28 2007/12/12 04:11:10 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres74.php');
@@ -281,18 +281,18 @@ class Postgres80 extends Postgres74 {
 
 		// Create the command for changing nullability
 		if ($notnull != $oldnotnull) {
-			$sql .= "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" " . (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
+			$sql .= "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" " . (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
 		}
 
 		// Add default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '') {
-				if ($sql == '') $sql = "ALTER TABLE \"{$table}\" ";
+				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
 				else $sql .= ", ";
 				$sql .= "ALTER COLUMN \"{$column}\" DROP DEFAULT";
 			}
 			else {
-				if ($sql == '') $sql = "ALTER TABLE \"{$table}\" ";
+				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
 				else $sql .= ", ";
 				$sql .= "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 			}
@@ -324,7 +324,7 @@ class Postgres80 extends Postgres74 {
 		if ($array) $ftype .= '[]';
 
 		if ($ftype != $oldtype) {
-			if ($sql == '') $sql = "ALTER TABLE \"{$table}\" ";
+			if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
 			else $sql .= ", ";
 			$sql .= "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
 		}

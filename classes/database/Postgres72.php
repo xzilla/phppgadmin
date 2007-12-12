@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres72.php,v 1.93 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres72.php,v 1.94 2007/12/12 04:11:10 xzilla Exp $
  */
 
 
@@ -351,7 +351,9 @@ class Postgres72 extends Postgres71 {
 		$this->fieldClean($name);
 		$this->fieldClean($tablespace);
 
-		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		$schema = $this->schema();
+
+		$sql = "ALTER TABLE {$schema}\"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "UNIQUE (\"" . join('","', $fields) . "\")";
 
@@ -377,7 +379,9 @@ class Postgres72 extends Postgres71 {
 		$this->fieldClean($name);
 		$this->fieldClean($tablespace);
 
-		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		$schema = $this->schema();
+
+		$sql = "ALTER TABLE {$schema}\"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "PRIMARY KEY (\"" . join('","', $fields) . "\")";
 

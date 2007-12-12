@@ -239,7 +239,12 @@ Exotic
 * Pivot reports (ADODB has a feature for this)
 * Parameterized reports (use prepared queries)
 * Full web accessability conformance
-
+* reversing the database stack inheritance
+	it would have the following advantages:
+	- less class to load when using the latests pg versions
+	- every newer/up-to-date methods will be in the same class file. Other classes will have specific methods 
+	for their pg versions and older
+	- ... complete me please :)
 
 Principles
 ----------

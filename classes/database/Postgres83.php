@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.15 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres83.php,v 1.16 2007/12/12 04:11:10 xzilla Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -75,13 +75,13 @@ class Postgres83 extends Postgres82 {
 	function renameView($view, $name) {
 		$this->fieldClean($name);
 		$this->fieldClean($view);
-		$sql = "ALTER VIEW \"{$view}\" RENAME TO \"{$name}\"";
+		$sql = "ALTER VIEW \"{$this->_schema}\".\"{$view}\" RENAME TO \"{$name}\"";
 		if ($this->execute($sql) != 0)
 			return -1;
 		return 0;
 	}
 
-	// Indexe functions
+	// Index functions
 
 	/**
 	 * Clusters an index
@@ -96,7 +96,7 @@ class Postgres83 extends Postgres82 {
 
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		$sql = "CLUSTER \"{$table}\" USING \"{$index}\"";
+		$sql = "CLUSTER \"{$this->_schema}\".\"{$table}\" USING \"{$index}\"";
 
 		return $this->execute($sql);
 	}
@@ -113,7 +113,7 @@ class Postgres83 extends Postgres82 {
 		$this->fieldClean($name);
 		$this->fieldClean($sequence);
 
-		$sql = "ALTER SEQUENCE \"{$sequence}\" RENAME TO \"{$name}\"";
+		$sql = "ALTER SEQUENCE \"{$this->_schema}\".\"{$sequence}\" RENAME TO \"{$name}\"";
 		return $this->execute($sql);
 	}
 
@@ -613,7 +613,7 @@ class Postgres83 extends Postgres82 {
 		for ($i = 0; $i < $nbval; $i++)
 			$this->clean($values[$i]);
 
-		$sql = "CREATE TYPE \"{$name}\" AS ENUM ('";
+		$sql = "CREATE TYPE \"{$this->_schema}\".\"{$name}\" AS ENUM ('";
 		$sql.= implode("','", $values);
 		$sql .= "')";
 
@@ -642,7 +642,9 @@ class Postgres83 extends Postgres82 {
 	function getEnumValues($name) {
 		$this->fieldClean($name);
 
-		$sql = "SELECT enumlabel AS enumval FROM pg_catalog.pg_type t JOIN pg_catalog.pg_enum e ON (t.oid=e.enumtypid) WHERE t.typname = '{$name}' ORDER BY e.oid";
+		$sql = "SELECT enumlabel AS enumval
+		FROM pg_catalog.pg_type t JOIN pg_catalog.pg_enum e ON (t.oid=e.enumtypid)
+		WHERE t.typname = '{$name}' ORDER BY e.oid";
 		return $this->selectSet($sql);
 	}
 
@@ -670,7 +672,7 @@ class Postgres83 extends Postgres82 {
 
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
-		$sql .= " FUNCTION \"{$funcname}\" (";
+		$sql .= " FUNCTION \"{$this->_schema}\".\"{$funcname}\" (";
 
 		if ($args != '')
 			$sql .= $args;

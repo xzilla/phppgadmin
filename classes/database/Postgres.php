@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.317 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres.php,v 1.318 2007/12/12 04:11:10 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -422,6 +422,13 @@ class Postgres extends ADODB_base {
 		return $temp;
 	}
 
+	/**
+	 * Returns the current schema to prepend on object names 
+	 */
+	function schema() {
+		return '';
+	}
+
 	// Database functions
 
 	/**
@@ -746,10 +753,12 @@ class Postgres extends ADODB_base {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
+		$schema = $this->schema();
+		
 		$found = false;
 		$first = true;
 		$comment_sql = ''; //Accumulate comments for the columns
-		$sql = "CREATE TABLE \"{$name}\" (";
+		$sql = "CREATE TABLE {$schema}\"{$name}\" (";
 		for ($i = 0; $i < $fields; $i++) {
 			$this->fieldClean($field[$i]);
 			$this->clean($type[$i]);
@@ -874,19 +883,13 @@ class Postgres extends ADODB_base {
 
 		// Comment
 		$status = $this->setComment('TABLE', '', $table, $comment);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -4;
-		}
+		if ($status != 0) return -4;
 
 		// Rename (only if name has changed)
 		if ($name != $table) {
 			$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$name}\"";
 			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
+			if ($status != 0) return -3;
 		}
 
 		return 0;
@@ -962,6 +965,7 @@ class Postgres extends ADODB_base {
 	 * @param $newName The new name for the table
 	 * @return 0 success
 	 */
+	/*XXX FIXME !! NOT USED ANYMORE ??
 	function renameTable($table, $newName) {
 		$this->fieldClean($table);
 		$this->fieldClean($newName);
@@ -969,7 +973,7 @@ class Postgres extends ADODB_base {
 		$sql = "ALTER TABLE \"{$table}\" RENAME TO \"{$newName}\"";
 
 		return $this->execute($sql);
-	}
+	}*/
 
 	/**
 	 * Returns the SQL definition for the table.
@@ -1006,7 +1010,9 @@ class Postgres extends ADODB_base {
 		$sql = $this->getChangeUserSQL($t->fields['relowner']) . "\n\n";
 
 		// Set schema search path if we support schemas
+		$schema = '';
 		if ($this->hasSchemas()) {
+			$schema = "\"{$this->_schema}\".";
 			$sql .= "SET search_path = \"{$this->_schema}\", pg_catalog;\n\n";
 		}
 
@@ -1016,11 +1022,8 @@ class Postgres extends ADODB_base {
 		// in pg_catalog.
 		if (!$clean) $sql .= "-- ";
 		$sql .= "DROP TABLE ";
-		if ($this->hasSchemas()) {
-			$sql .= "\"{$this->_schema}\".";
-		}
-		$sql .= "\"{$t->fields['relname']}\";\n";
-		$sql .= "CREATE TABLE \"{$t->fields['relname']}\" (\n";
+		$sql .= "{$schema}\"{$t->fields['relname']}\";\n";
+		$sql .= "CREATE TABLE {$schema}\"{$t->fields['relname']}\" (\n";
 
 		// Output all table columns
 		$col_comments_sql = '';   // Accumulate comments on columns
@@ -1143,7 +1146,7 @@ class Postgres extends ADODB_base {
 					$sql .= "\n";
 					$first = false;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STATISTICS {$atts->fields['attstattarget']};\n";
+				$sql .= "ALTER TABLE ONLY {$schema}\"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STATISTICS {$atts->fields['attstattarget']};\n";
 			}
 			// Then storage
 			if ($atts->fields['attstorage'] != $atts->fields['typstorage']) {
@@ -1165,7 +1168,7 @@ class Postgres extends ADODB_base {
 						$this->rollbackTransaction();
 						return null;
 				}
-				$sql .= "ALTER TABLE ONLY \"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STORAGE {$storage};\n";
+				$sql .= "ALTER TABLE ONLY {$schema}\"{$t->fields['relname']}\" ALTER COLUMN \"{$atts->fields['attname']}\" SET STORAGE {$storage};\n";
 			}
 
 			$atts->moveNext();
@@ -1175,7 +1178,7 @@ class Postgres extends ADODB_base {
 		if ($t->fields['relcomment'] !== null) {
 			$this->clean($t->fields['relcomment']);
 			$sql .= "\n-- Comment\n\n";
-			$sql .= "COMMENT ON TABLE \"{$t->fields['relname']}\" IS '{$t->fields['relcomment']}';\n";
+			$sql .= "COMMENT ON TABLE {$schema}\"{$t->fields['relname']}\" IS '{$t->fields['relcomment']}';\n";
 		}
 
 		// Add comments on columns, if any
@@ -1195,7 +1198,7 @@ class Postgres extends ADODB_base {
 			 * wire-in knowledge about the default public privileges for different
 			 * kinds of objects.
 			 */
-			$sql .= "REVOKE ALL ON TABLE \"{$t->fields['relname']}\" FROM PUBLIC;\n";
+			$sql .= "REVOKE ALL ON TABLE {$schema}\"{$t->fields['relname']}\" FROM PUBLIC;\n";
 			foreach ($privs as $v) {
 				// Get non-GRANT OPTION privs
 				$nongrant = array_diff($v[2], $v[4]);
@@ -1400,8 +1403,10 @@ class Postgres extends ADODB_base {
 		$this->clean($length);
 		$this->clean($comment);
 
+		$schema = $this->schema();
+
 		if ($length == '')
-			$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}";
+			$sql = "ALTER TABLE {$schema}\"{$table}\" ADD COLUMN \"{$column}\" {$type}";
 		else {
 			switch ($type) {
 				// Have to account for weird placing of length for with/without
@@ -1409,15 +1414,15 @@ class Postgres extends ADODB_base {
 				case 'timestamp with time zone':
 				case 'timestamp without time zone':
 					$qual = substr($type, 9);
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" timestamp({$length}){$qual}";
+					$sql = "ALTER TABLE {$schema}\"{$table}\" ADD COLUMN \"{$column}\" timestamp({$length}){$qual}";
 					break;
 				case 'time with time zone':
 				case 'time without time zone':
 					$qual = substr($type, 4);
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" time({$length}){$qual}";
+					$sql = "ALTER TABLE {$schema}\"{$table}\" ADD COLUMN \"{$column}\" time({$length}){$qual}";
 					break;
 				default:
-					$sql = "ALTER TABLE \"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
+					$sql = "ALTER TABLE {$schema}\"{$table}\" ADD COLUMN \"{$column}\" {$type}({$length})";
 			}
 		}
 
@@ -1651,7 +1656,7 @@ class Postgres extends ADODB_base {
 				return -1;
 			}
 
-			$status = $this->delete($table, $key);
+			$status = $this->delete($table, $key, $this->schema());
 			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
 				$this->rollbackTransaction();
 				return -2;
@@ -1681,6 +1686,8 @@ class Postgres extends ADODB_base {
 
 			// Build clause
 			if (sizeof($vars) > 0) {
+				$schema = $this->schema();
+				
 				foreach($vars as $key => $value) {
 					$this->fieldClean($key);
 
@@ -1689,7 +1696,7 @@ class Postgres extends ADODB_base {
 					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
 
 					if (isset($sql)) $sql .= ", \"{$key}\"={$tmp}";
-					else $sql = "UPDATE \"{$table}\" SET \"{$key}\"={$tmp}";
+					else $sql = "UPDATE {$schema}\"{$table}\" SET \"{$key}\"={$tmp}";
 				}
 				$first = true;
 				foreach ($keyarr as $k => $v) {
@@ -1736,11 +1743,14 @@ class Postgres extends ADODB_base {
 	 * @return -1 invalid parameters
 	 */
 	function insertRow($table, $vars, $nulls, $format, $types) {
+
 		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
 			|| !is_array($types)) return -1;
 		else {
 			$this->fieldClean($table);
 
+			$schema = $this->schema();
+		
 			// Build clause
 			if (sizeof($vars) > 0) {
 				$fields = '';
@@ -1753,7 +1763,7 @@ class Postgres extends ADODB_base {
 					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
 
 					if ($fields) $fields .= ", \"{$key}\"";
-					else $fields = "INSERT INTO \"{$table}\" (\"{$key}\"";
+					else $fields = "INSERT INTO {$schema}\"{$table}\" (\"{$key}\"";
 
 					if ($values) $values .= ", {$tmp}";
 					else $values = ") VALUES ({$tmp}";
@@ -1773,7 +1783,9 @@ class Postgres extends ADODB_base {
 	function browseRow($table, $key) {
 		$this->fieldClean($table);
 
-		$sql = "SELECT * FROM \"{$table}\"";
+		$schema = $this->schema();
+			
+		$sql = "SELECT * FROM {$schema}\"{$table}\"";
 		if (is_array($key) && sizeof($key) > 0) {
 			$sql .= " WHERE true";
 			foreach ($key as $k => $v) {
@@ -1961,7 +1973,9 @@ class Postgres extends ADODB_base {
 		$this->clean($startvalue);
 		$this->clean($cachevalue);
 
-		$sql = "CREATE SEQUENCE \"{$sequence}\"";
+		$schema = $this->schema();
+		
+		$sql = "CREATE SEQUENCE {$schema}\"{$sequence}\"";
 		if ($increment != '') $sql .= " INCREMENT {$increment}";
 		if ($minvalue != '') $sql .= " MINVALUE {$minvalue}";
 		if ($maxvalue != '') $sql .= " MAXVALUE {$maxvalue}";
@@ -2266,7 +2280,9 @@ class Postgres extends ADODB_base {
 		$this->fieldArrayClean($tfields);
 		$this->fieldClean($name);
 
-		$sql = "ALTER TABLE \"{$table}\" ADD ";
+		$schema = $this->schema();
+		
+		$sql = "ALTER TABLE {$schema}\"{$table}\" ADD ";
 		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
 		$sql .= "FOREIGN KEY (\"" . join('","', $sfields) . "\") ";
 		$sql .= "REFERENCES ";
@@ -2344,9 +2360,11 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 
+		$schema = $this->schema();
+
 		$sql = "CREATE";
 		if ($unique) $sql .= " UNIQUE";
-		$sql .= " INDEX \"{$name}\" ON \"{$table}\" USING {$type} ";
+		$sql .= " INDEX \"{$name}\" ON {$schema}\"{$table}\" USING {$type} ";
 
 		if (is_array($columns)) {
 			$this->arrayClean($columns);
@@ -2458,9 +2476,11 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($table);
 		if (!in_array($event, $this->rule_events)) return -1;
 
+		$schema = $this->schema();
+
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
-		$sql .= " RULE \"{$name}\" AS ON {$event} TO \"{$table}\"";
+		$sql .= " RULE \"{$name}\" AS ON {$event} TO {$schema}\"{$table}\"";
 		// Can't escape WHERE clause
 		if ($where != '') $sql .= " WHERE {$where}";
 		$sql .= " DO";
@@ -2566,7 +2586,7 @@ class Postgres extends ADODB_base {
 
 		$sql = "CREATE ";
 		if ($replace) $sql .= "OR REPLACE ";
-		$sql .= "VIEW \"{$viewname}\" AS {$definition}";
+		$sql .= "VIEW ". $this->schema() ."\"{$viewname}\" AS {$definition}";
 
 		$status = $this->execute($sql);
 		if ($status) {
@@ -2594,7 +2614,7 @@ class Postgres extends ADODB_base {
 	function dropView($viewname, $cascade) {
 		$this->fieldClean($viewname);
 
-		$sql = "DROP VIEW \"{$viewname}\"";
+		$sql = "DROP VIEW ". $this->schema() ."\"{$viewname}\"";
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
@@ -2789,7 +2809,9 @@ class Postgres extends ADODB_base {
 		$opr = $this->getOperator($operator_oid);
 		$this->fieldClean($opr->fields['oprname']);
 
-		$sql = "DROP OPERATOR {$opr->fields['oprname']} (";
+		$schema = $this->schema();
+
+		$sql = "DROP OPERATOR {$schema}{$opr->fields['oprname']} (";
 		// Quoting or formatting here???
 		if ($opr->fields['oprleftname'] !== null) $sql .= $opr->fields['oprleftname'] . ', ';
 		else $sql .= "NONE, ";
@@ -3095,8 +3117,10 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($typin);
 		$this->fieldClean($typout);
 
+		$schema = $this->schema();
+
 		$sql = "
-			CREATE TYPE \"{$typname}\" (
+			CREATE TYPE {$schema}\"{$typname}\" (
 				INPUT = \"{$typin}\",
 				OUTPUT = \"{$typout}\",
 				INTERNALLENGTH = {$typlen}";
@@ -3183,7 +3207,10 @@ class Postgres extends ADODB_base {
 		}
 
 		// Table name
-		$tgdef .= " ON \"{$trigger['relname']}\" ";
+		$tgdef .= " ON ";
+		if($this->hasSchemas())
+			$tgdef .= "\"{$this->_schema}\".";
+		$tgdef .= "\"{$trigger['relname']}\" ";
 
 		// Deferrability
 		if ($trigger['tgisconstraint']) {
@@ -3472,6 +3499,7 @@ class Postgres extends ADODB_base {
 			(!$public && sizeof($usernames) == 0 && sizeof($groupnames) == 0)) return -4;
 		if ($mode != 'GRANT' && $mode != 'REVOKE') return -5;
 
+		$schema = $this->schema();
 		$sql = $mode;
 
 		// Grant option
@@ -3488,7 +3516,7 @@ class Postgres extends ADODB_base {
 			case 'view':
 			case 'sequence':
 				$this->fieldClean($object);
-				$sql .= " \"{$object}\"";
+				$sql .= " {$schema}\"{$object}\"";
 				break;
 			case 'database':
 				$this->fieldClean($object);
@@ -3498,7 +3526,7 @@ class Postgres extends ADODB_base {
 				// Function comes in with $object as function OID
 				$fn = $this->getFunction($object);
 				$this->fieldClean($fn->fields['proname']);
-				$sql .= " FUNCTION \"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
+				$sql .= " FUNCTION {$schema}\"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
 				break;
 			case 'language':
 				$this->fieldClean($object);
@@ -3768,6 +3796,7 @@ class Postgres extends ADODB_base {
 		// Comment on the function
 		$this->fieldClean($newname);
 		$this->clean($comment);
+
 		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -3944,7 +3973,8 @@ class Postgres extends ADODB_base {
 
 		$this->beginTransaction();
 
-		$sql = "CREATE AGGREGATE \"{$name}\" (BASETYPE = \"{$basetype}\", SFUNC = \"{$sfunc}\", STYPE = \"{$stype}\"";
+		$schema = $this->schema();
+		$sql = "CREATE AGGREGATE {$schema}\"{$name}\" (BASETYPE = \"{$basetype}\", SFUNC = \"{$sfunc}\", STYPE = \"{$stype}\"";
 		if(trim($ffunc) != '') $sql .= ", FINALFUNC = \"{$ffunc}\"";
 		if(trim($initcond) != '') $sql .= ", INITCOND = \"{$initcond}\"";
 		if(trim($sortop) != '') $sql .= ", SORTOP = \"{$sortop}\"";
@@ -3983,9 +4013,6 @@ class Postgres extends ADODB_base {
 
 		return $this->execute($sql);
 	}
-
-
-
 
 	// Operator Class functions
 
@@ -4056,20 +4083,23 @@ class Postgres extends ADODB_base {
 	function setComment($obj_type, $obj_name, $table, $comment, $basetype = NULL) {
 		$sql = "COMMENT ON {$obj_type} " ;
 
+		$schema = $this->schema();
+
 		switch ($obj_type) {
 			case 'TABLE':
-				$sql .= "\"{$table}\" IS ";
+				$sql .= "{$schema}\"{$table}\" IS ";
 				break;
 			case 'COLUMN':
-				$sql .= "\"{$table}\".\"{$obj_name}\" IS ";
+				$sql .= "{$schema}\"{$table}\".\"{$obj_name}\" IS ";
 				break;
+			case 'SEQUENCE':
+			case 'VIEW':
+			case 'TYPE':
+				$sql .= "{$schema}";
 			case 'DATABASE':
 			case 'ROLE':
 			case 'SCHEMA':
-			case 'SEQUENCE':
 			case 'TABLESPACE':
-			case 'TYPE':
-			case 'VIEW':
 			case 'TEXT SEARCH CONFIGURATION':
 			case 'TEXT SEARCH DICTIONARY':
 			case 'TEXT SEARCH TEMPLATE':
@@ -4077,10 +4107,10 @@ class Postgres extends ADODB_base {
 				$sql .= "\"{$obj_name}\" IS ";
 				break;
 			case 'FUNCTION':
-				$sql .= "{$obj_name} IS ";
+				$sql .= "{$schema}{$obj_name} IS ";
 				break;
 			case 'AGGREGATE':
-				$sql .= "\"{$obj_name}\" (\"{$basetype}\") IS ";
+				$sql .= "{$schema}\"{$obj_name}\" (\"{$basetype}\") IS ";
 				break;
 			default:
 				// Unknown object type

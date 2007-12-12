@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.180 2007/12/11 14:17:17 ioguix Exp $
+ * $Id: Postgres73.php,v 1.181 2007/12/12 04:11:10 xzilla Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -60,6 +60,13 @@ class Postgres73 extends Postgres72 {
 	function getHelpPages() {
 		include_once('./help/PostgresDoc73.php');
 		return $this->help_page;
+	}
+
+	/**
+	 * Returns the current schema to prepend on object names 
+	 */
+	function schema() {
+		return "\"{$this->_schema}\".";
 	}
 
 	// Schema functions
@@ -218,7 +225,6 @@ class Postgres73 extends Postgres72 {
 	 * @param $comment The new comment for this schema
 	 * @return 0 success
 	 */
-
 	function updateSchema($schemaname, $comment, $name) {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($name);
@@ -325,6 +331,74 @@ class Postgres73 extends Postgres72 {
 			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
 			return $rs->fields['relhasoids'];
 		}
+	}
+
+	/**
+	 * Protected method which alter a table
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $tblrs The table recordSet returned by getTable()
+	 * @param $name The new name for the table
+	 * @param $owner The new owner for the table
+	 * @param $schema The new schema for the table
+	 * @param $comment The comment on the table
+	 * @param $tablespace The new tablespace for the table ('' means leave as is)
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 tablespace error
+	 * @return -7 schema error
+	 */
+	/* protected */
+	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
+
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+		$this->clean($comment);
+		/* $schema, $owner, $tablespace not supported in pg70 */
+		
+		$table = $tblrs->fields['relname'];
+		
+		// Comment
+		$status = $this->setComment('TABLE', '', $table, $comment);
+		if ($status != 0) return -4;
+
+		// Rename (only if name has changed)
+		if ($name != $table) {
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0)
+				return -3;
+			$table = $name;
+		}
+				
+		// Owner
+		if (!empty($owner) && ($tblrs->fields['relowner'] != $owner)) {
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" OWNER TO \"{$owner}\"";
+
+			$status = $this->execute($sql);
+			if ($status != 0) return -5;
+		}
+
+		return 0;
+	}
+	
+	/**
+	 * Removes a table from the database
+	 * @param $table The table to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropTable($table, $cascade) {
+		$this->fieldClean($table);
+
+		$sql = "DROP TABLE \"{$this->_schema}\".\"{$table}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
 	}
 
 	/**
@@ -528,6 +602,37 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Sets default value of a column
+	 * @param $table The table from which to drop
+	 * @param $column The column name to set
+	 * @param $default The new default value
+	 * @return 0 success
+	 */
+	function setColumnDefault($table, $column, $default) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops default value of a column
+	 * @param $table The table from which to drop
+	 * @param $column The column name to drop default
+	 * @return 0 success
+	 */
+	function dropColumnDefault($table, $column) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" DROP DEFAULT";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Drops a column from a table
 	 * @param $table The table from which to drop a column
 	 * @param $column The column to be dropped
@@ -537,9 +642,26 @@ class Postgres73 extends Postgres72 {
 	function dropColumn($table, $column, $cascade) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-
-		$sql = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$column}\"";
+		
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" DROP COLUMN \"{$column}\"";
 		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Renames a column in a table
+	 * @param $table The table containing the column to be renamed
+	 * @param $column The column to be renamed
+	 * @param $newName The new name for the column
+	 * @return 0 success
+	 */
+	function renameColumn($table, $column, $newName) {
+		$this->fieldClean($table);
+		$this->fieldClean($column);
+		$this->fieldClean($newName);
+
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" RENAME COLUMN \"{$column}\" TO \"{$newName}\"";
 
 		return $this->execute($sql);
 	}
@@ -555,7 +677,132 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
 
-		$sql = "ALTER TABLE \"{$table}\" ALTER COLUMN \"{$column}\" " . (($state) ? 'DROP' : 'SET') . " NOT NULL";
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" " . (($state) ? 'DROP' : 'SET') . " NOT NULL";
+
+		return $this->execute($sql);
+	}
+
+	// Row functions
+
+	/**
+	 * Empties a table in the database
+	 * @param $table The table to be emptied
+	 * @return 0 success
+	 */
+	function emptyTable($table) {
+		$this->fieldClean($table);
+		
+		$sql = "DELETE FROM \"{$this->_schema}\".\"{$table}\"";
+
+		return $this->execute($sql);
+	}
+	
+	/**
+	 * Adds a check constraint to a table
+	 * @param $table The table to which to add the check
+	 * @param $definition The definition of the check
+	 * @param $name (optional) The name to give the check, otherwise default name is assigned
+	 * @return 0 success
+	 */
+	function addCheckConstraint($table, $definition, $name = '') {
+		$this->fieldClean($table);
+		$this->fieldClean($name);
+		// @@ How the heck do you clean a definition???
+
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ADD ";
+		if ($name != '') $sql .= "CONSTRAINT \"{$name}\" ";
+		$sql .= "CHECK ({$definition})";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a check constraint from a table
+	 * @param $table The table from which to drop the check
+	 * @param $name The name of the check to be dropped
+	 * @return 0 success
+	 * @return -2 transaction error
+	 * @return -3 lock error
+	 * @return -4 check drop error
+	 */
+	function dropCheckConstraint($table, $name) {
+		$this->clean($table);
+		$this->clean($name);
+
+		// Begin transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) return -2;
+
+		// Properly lock the table
+		$sql = "LOCK TABLE \"{$this->_schema}\".\"{$table}\" IN ACCESS EXCLUSIVE MODE";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		// Delete the check constraint
+		$sql = "DELETE FROM pg_relcheck WHERE rcrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = '{$this->_schema}')) AND rcname='{$name}'";
+	   	$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		// Update the pg_class catalog to reflect the new number of checks
+		$sql = "UPDATE pg_class SET relchecks=(SELECT COUNT(*) FROM pg_relcheck WHERE
+					rcrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+						nspname = '{$this->_schema}')))
+					WHERE relname='{$table}'";
+	   	$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		// Otherwise, close the transaction
+		return $this->endTransaction();
+	}
+
+	// Administration functions
+
+	/**
+	 * Vacuums a database
+	 * @param $table The table to vacuum
+ 	 * @param $analyze If true, also does analyze
+	 * @param $full If true, selects "full" vacuum (PostgreSQL >= 7.2)
+	 * @param $freeze If true, selects aggressive "freezing" of tuples (PostgreSQL >= 7.2)
+	 */
+	function vacuumDB($table = '', $analyze = false, $full = false, $freeze = false) {
+
+		$sql = "VACUUM";
+		if ($full) $sql .= " FULL";
+		if ($freeze) $sql .= " FREEZE";
+		if ($analyze) $sql .= " ANALYZE";
+		if ($table != '') {
+			$this->fieldClean($table);
+			$sql .= " \"{$this->_schema}\".\"{$table}\"";
+		}
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Analyze a database
+	 * @note PostgreSQL 7.2 finally had an independent ANALYZE command
+	 * @param $table (optional) The table to analyze
+	 */
+	function analyzeDB($table = '') {
+		if ($table != '') {
+			$this->fieldClean($table);
+
+			$sql = "ANALYZE \"{$this->_schema}\".\"{$table}\"";
+		}
+		else
+			$sql = "ANALYZE";
 
 		return $this->execute($sql);
 	}
@@ -611,7 +858,72 @@ class Postgres73 extends Postgres72 {
 		return $this->selectSet($sql);
 	}
 
-	// View functions
+	 /**
+	  * Alters a view
+	  * @param $view The name of the view
+	  * @param $name The new name for the view
+	  * @param $owner The new owner for the view
+	  * @param $comment The comment on the view
+	  * @return 0 success
+	  * @return -1 transaction error
+	  * @return -2 owner error
+	  * @return -3 rename error
+	  * @return -4 comment error
+	  * @return -5 get existing view error
+	  */
+    function alterView($view, $name, $owner, $comment) {
+		$this->fieldClean($view);
+		$this->fieldClean($name);
+		$this->fieldClean($owner);
+		$this->clean($comment);
+
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Comment
+		$status = $this->setComment('VIEW', $view, '', $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		// Owner
+		if ($this->hasAlterTableOwner() && $owner != '') {
+			// Fetch existing owner
+			$data = $this->getView($view);
+			if ($data->recordCount() != 1) {
+				$this->rollbackTransaction();
+				return -5;
+			}
+
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($data->fields['relowner'] != $owner) {
+				$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" OWNER TO \"{$owner}\"";
+				$status = $this->execute($sql);
+				if ($status != 0) {
+					$this->rollbackTransaction();
+					return -2;
+				}
+			}
+		}
+
+		// Rename (only if name has changed)
+		if ($name != $view) {
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$view}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+		}
+
+		return $this->endTransaction();
+	}
 
 	/**
 	 * Returns a list of all views in the database
@@ -674,7 +986,7 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
 
-		$sql = "SELECT pg_catalog.SETVAL('\"{$sequence}\"', {$minvalue})";
+		$sql = "SELECT pg_catalog.SETVAL('\"{$this->_schema}\".\"{$sequence}\"', {$minvalue})";
 
 		return $this->execute($sql);
 	}
@@ -690,7 +1002,7 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($sequence);
 		$this->clean($sequence);
 
-		$sql = "SELECT pg_catalog.NEXTVAL('\"{$sequence}\"')";
+		$sql = "SELECT pg_catalog.NEXTVAL('\"{$this->_schema}\".\"{$sequence}\"')";
 
 		return $this->execute($sql);
 	}
@@ -708,7 +1020,7 @@ class Postgres73 extends Postgres72 {
 		$this->clean($sequence);
 		$this->clean($nextvalue);
 
-		$sql = "SELECT pg_catalog.SETVAL('\"{$sequence}\"', '{$nextvalue}')";
+		$sql = "SELECT pg_catalog.SETVAL('\"{$this->_schema}\".\"{$sequence}\"', '{$nextvalue}')";
 
 		return $this->execute($sql);
 	}
@@ -756,6 +1068,94 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Rename a sequence
+	 * @param $sequence The sequence name
+	 * @param $name The new name for the sequence
+	 * @return 0 success
+	 */
+	function renameSequence($sequence, $name) {
+		$this->fieldClean($name);
+		$this->fieldClean($sequence);
+
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$sequence}\" RENAME TO \"{$name}\"";
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
+	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -7 schema error
+	 */
+	/*protected*/
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
+				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+
+		$sequence = $seqrs->fields['seqname'];
+		$this->fieldClean($name);
+		$this->clean($comment);
+		$this->fieldClean($owner);
+
+		// Comment
+		$status = $this->setComment('SEQUENCE', $sequence, '', $comment);
+		if ($status != 0)
+			return -4;
+
+		// Rename (only if name has changed)
+		if ($name != $sequence) {
+			$status = $this->renameSequence($sequence, $name);
+			if ($status != 0)
+				return -3;
+			$sequence = $name;
+		}
+
+		// Owner
+		if (!empty($owner)) {
+
+			// If owner has been changed, then do the alteration.  We are
+			// careful to avoid this generally as changing owner is a
+			// superuser only function.
+			if ($seqrs->fields['seqowner'] != $owner) {
+				$sql = "ALTER TABLE \"{$sequence}\" OWNER TO \"{$owner}\"";
+				$status = $this->execute($sql);
+				if ($status != 0)
+					return -5;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Drops a given sequence
+	 * @param $sequence Sequence name
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropSequence($sequence, $cascade) {
+		$this->fieldClean($sequence);
+
+		$sql = "DROP SEQUENCE \"{$this->_schema}\".\"{$sequence}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Grabs a list of indexes for a table
 	 * @param $table The name of a table whose indexes to retrieve
 	 * @param $unique Only get unique/pk indexes
@@ -775,6 +1175,63 @@ class Postgres73 extends Postgres72 {
 		$sql .= " ORDER BY c2.relname";
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Removes an index from the database
+	 * @param $index The index to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropIndex($index, $cascade) {
+		$this->fieldClean($index);
+
+		$sql = "DROP INDEX \"{$this->_schema}\".\"{$index}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Clusters an index
+	 * @param $index The name of the index
+	 * @param $table The table the index is on
+	 * @return 0 success
+	 */
+	function clusterIndex($index, $table) {
+		$this->fieldClean($index);
+		$this->fieldClean($table);
+
+		// We don't bother with a transaction here, as there's no point rolling
+		// back an expensive cluster if a cheap analyze fails for whatever reason
+		$sql = "CLUSTER \"{$index}\" ON \"{$this->_schema}\".\"{$table}\"";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Rebuild indexes
+	 * @param $type 'DATABASE' or 'TABLE' or 'INDEX'
+	 * @param $name The name of the specific database, table, or index to be reindexed
+	 * @param $force If true, recreates indexes forcedly in PostgreSQL 7.0-7.1, forces rebuild of system indexes in 7.2-7.3, ignored in >=7.4
+	 */
+	function reindex($type, $name, $force = false) {
+		$this->fieldClean($name);
+		switch($type) {
+			case 'DATABASE':
+				$sql = "REINDEX {$type} \"{$name}\"";
+				if ($force) $sql .= ' FORCE';
+				break;
+			case 'TABLE':
+			case 'INDEX':
+				$sql = "REINDEX {$type} \"{$this->_schema}\".\"{$name}\"";
+				if ($force) $sql .= ' FORCE';
+				break;
+			default:
+				return -1;
+		}
+
+		return $this->execute($sql);
 	}
 
 	/**
@@ -826,6 +1283,46 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Creates a trigger
+	 * @param $tgname The name of the trigger to create
+	 * @param $table The name of the table
+	 * @param $tgproc The function to execute
+	 * @param $tgtime BEFORE or AFTER
+	 * @param $tgevent Event
+	 * @param $tgargs The function arguments
+	 * @return 0 success
+	 */
+	function createTrigger($tgname, $table, $tgproc, $tgtime, $tgevent, $tgfrequency, $tgargs) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+		$this->fieldClean($tgproc);
+
+		/* No Statement Level Triggers in PostgreSQL (by now) */
+		$sql = "CREATE TRIGGER \"{$tgname}\" {$tgtime}
+				{$tgevent} ON \"{$this->_schema}\".\"{$table}\"
+				FOR EACH {$tgfrequency} EXECUTE PROCEDURE \"{$tgproc}\"({$tgargs})";
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a trigger
+	 * @param $tgname The name of the trigger to drop
+	 * @param $table The table from which to drop the trigger
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropTrigger($tgname, $table, $cascade) {
+		$this->fieldClean($tgname);
+		$this->fieldClean($table);
+
+		$sql = "DROP TRIGGER \"{$tgname}\" ON \"{$this->_schema}\".\"{$table}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Alters a trigger
 	 * @param $table The name of the table containing the trigger
 	 * @param $trigger The name of the trigger to alter
@@ -837,7 +1334,7 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($trigger);
 		$this->fieldClean($name);
 
-		$sql = "ALTER TRIGGER \"{$trigger}\" ON \"{$table}\" RENAME TO \"{$name}\"";
+		$sql = "ALTER TRIGGER \"{$trigger}\" ON \"{$this->_schema}\".\"{$table}\" RENAME TO \"{$name}\"";
 
 		return $this->execute($sql);
 	}
@@ -986,7 +1483,7 @@ class Postgres73 extends Postgres72 {
 
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
-		$sql .= " FUNCTION \"{$funcname}\" (";
+		$sql .= " FUNCTION \"{$this->_schema}\".\"{$funcname}\" (";
 
 		if ($args != '')
 			$sql .= $args;
@@ -1015,6 +1512,23 @@ class Postgres73 extends Postgres72 {
 			if ($v == '') continue;
 			else $sql .= "\n{$v}";
 		}
+
+		return $this->execute($sql);
+	}
+
+	/**
+	 * Drops a function.
+	 * @param $function_oid The OID of the function to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropFunction($function_oid, $cascade) {
+		// Function comes in with $object as function OID
+		$fn = $this->getFunction($function_oid);
+		$this->fieldClean($fn->fields['proname']);
+
+		$sql = "DROP FUNCTION \"{$this->_schema}\".\"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
+		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
 	}
@@ -1064,6 +1578,21 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
+	 * Drops a type.
+	 * @param $typname The name of the type to drop
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropType($typname, $cascade) {
+		$this->fieldClean($typname);
+
+		$sql = "DROP TYPE \"{$this->_schema}\".\"{$typname}\"";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Creates a new composite type in the database
 	 * @param $name The name of the type
 	 * @param $fields The number of fields
@@ -1086,7 +1615,7 @@ class Postgres73 extends Postgres72 {
 		$found = false;
 		$first = true;
 		$comment_sql = ''; // Accumulate comments for the columns
-		$sql = "CREATE TYPE \"{$name}\" AS (";
+		$sql = "CREATE TYPE \"{$this->_schema}\".\"{$name}\" AS (";
 		for ($i = 0; $i < $fields; $i++) {
 			$this->fieldClean($field[$i]);
 			$this->clean($type[$i]);
@@ -1123,7 +1652,7 @@ class Postgres73 extends Postgres72 {
 			// Add array qualifier if necessary
 			if ($array[$i] == '[]') $sql .= '[]';
 
-			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
+			if ($colcomment[$i] != '') $comment_sql .= "COMMENT ON COLUMN \"{$this->_schema}\".\"{$name}\".\"{$field[$i]}\" IS '{$colcomment[$i]}';\n";
 
 			$found = true;
 		}
@@ -1170,7 +1699,7 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($rule);
 		$this->fieldClean($relation);
 
-		$sql = "DROP RULE \"{$rule}\" ON \"{$relation}\"";
+		$sql = "DROP RULE \"{$rule}\" ON \"{$this->_schema}\".\"{$relation}\"";
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
@@ -1366,7 +1895,7 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($constraint);
 		$this->fieldClean($relation);
 
-		$sql = "ALTER TABLE \"{$relation}\" DROP CONSTRAINT \"{$constraint}\"";
+		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$relation}\" DROP CONSTRAINT \"{$constraint}\"";
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
@@ -1523,7 +2052,7 @@ class Postgres73 extends Postgres72 {
 	function createDomain($domain, $type, $length, $array, $notnull, $default, $check) {
 		$this->fieldClean($domain);
 
-		$sql = "CREATE DOMAIN \"{$domain}\" AS ";
+		$sql = "CREATE DOMAIN \"{$this->_schema}\".\"{$domain}\" AS ";
 
 		if ($length == '')
 			$sql .= $type;
@@ -1565,7 +2094,7 @@ class Postgres73 extends Postgres72 {
 	function dropDomain($domain, $cascade) {
 		$this->fieldClean($domain);
 
-		$sql = "DROP DOMAIN \"{$domain}\"";
+		$sql = "DROP DOMAIN \"{$this->_schema}\".\"{$domain}\"";
 		if ($cascade) $sql .= " CASCADE";
 
 		return $this->execute($sql);
@@ -1937,6 +2466,23 @@ class Postgres73 extends Postgres72 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Removes an aggregate function from the database
+	 * @param $aggrname The name of the aggregate
+	 * @param $aggrtype The input data type of the aggregate
+	 * @param $cascade True to cascade drop, false to restrict
+	 * @return 0 success
+	 */
+	function dropAggregate($aggrname, $aggrtype, $cascade) {
+		$this->fieldClean($aggrname);
+		$this->fieldClean($aggrtype);
+
+		$sql = "DROP AGGREGATE \"{$this->_schema}\".\"{$aggrname}\" (\"{$aggrtype}\")";
+		if ($cascade) $sql .= " CASCADE";
+
+		return $this->execute($sql);
+	}
+	
 	// Query functions
 
 	/**

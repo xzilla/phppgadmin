@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.31 2007/11/15 06:06:46 xzilla Exp $
+     * $Id: french.php,v 1.32 2007/12/12 04:11:10 xzilla Exp $
      */
 
     // Language and character set
@@ -139,6 +139,15 @@
 	$lang['strselectall']  =  'S&#233;lectionner tout';
 	$lang['strunselectall']  =  'Des&#233;lectionner tout';
 $lang['strlocale']  =  'Locale';
+
+	// User-supplied SQL history
+$lang['strhistory']  =  'History';
+$lang['strnohistory']  =  'No history.';
+$lang['strclearhistory']  =  'Clear history';
+$lang['strdelhistory']  =  'Delete from history';
+$lang['strconfdelhistory']  =  'Really remove this request from history ?';
+$lang['strconfclearhistory']  =  'Really clear history ?';
+$lang['strnodatabaseselected']  =  'Please, select a database.';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -530,7 +539,9 @@ $lang['strlocale']  =  'Locale';
     $lang['strargraise']  =  'Monter.';
     $lang['strarglower']  =  'Descendre.';
     $lang['strargremoveconfirm']  =  '&#202;tes-vous s&#251;r de vouloir supprimer cet argument ? cette op&#233;ration ne peut pas &#234;tre annul&#233;e.';
-
+$lang['strfunctioncosting']  =  'Function Costing';
+$lang['strresultrows']  =  'Result Rows';
+$lang['strexecutioncost']  =  'Execution Cost';
 
     // Triggers
     $lang['strtrigger'] = 'Trigger';
@@ -569,7 +580,6 @@ $lang['strlocale']  =  'Locale';
 	$lang['strtypeneedsvalue']  =  'Vous devez sp&#233;cifier au moins une valeur.';
     $lang['strtypeneedscols']  =  'Vous devez sp&#233;cifier un nombre valide de champs.';
 	$lang['strtypeneedsvals']  =  'Vous devez sp&#233;cifier un nombre valide de valeurs.';
-    $lang['strtypename'] = 'Nom du type';
     $lang['strinputfn'] = 'Fonction d\'entr&#233;e';
     $lang['stroutputfn'] = 'Fonction de sortie';
     $lang['strpassbyval'] = 'Pass&#233;e par valeur ?';
@@ -912,6 +922,7 @@ $lang['strvirtualtransaction']  =  'Virtual Transaction ID';
 	// Fulltext search
 $lang['strfulltext']  =  'Full Text Search';
 $lang['strftsconfig']  =  'FTS configuration';
+    $lang['strftsconfigs']  =  'Configurations';
 $lang['strftscreateconfig']  =  'Create FTS configuration';
 $lang['strftscreatedict']  =  'Create dictionary';
 $lang['strftscreatedicttemplate']  =  'Create dictionary template';
@@ -943,7 +954,7 @@ $lang['strftsdictcreated']  =  'FTS dictionary created';
 $lang['strftsdictcreatedbad']  =  'FTS dictionary creation failed.';
 $lang['strftslexize']  =  'Lexize';
 $lang['strftsinit']  =  'Init';
-$lang['strftsoption']  =  'Option';
+$lang['strftsoptionsvalues']  =  'Options and Values';
 $lang['strftsdictneedsname']  =  'You must give a name for your FTS dictionary.';
 $lang['strftsdictdropped']  =  'FTS dictionary dropped.';
 $lang['strftsdictdroppedbad']  =  'FTS dictionary drop failed.';
@@ -959,6 +970,11 @@ $lang['strftsmappingaltered']  =  'FTS mapping altered.';
 $lang['strftsmappingalteredbad']  =  'FTS mapping alter failed.';
 $lang['strftsmappingadded']  =  'FTS mapping added.';
 $lang['strftsmappingaddedbad']  =  'FTS mapping add failed.';
+    $lang['strftsmappingdropped']  =  'FTS mapping dropped.';
+    $lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
+    $lang['strftstabconfigs']  =  'Configurations';
+$lang['strftstabdicts']  =  'Dictionaries';
+$lang['strftstabparsers']  =  'Parsers';
 	
 	
 ?>
