@@ -7,7 +7,7 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Admin role try to drop himself, logout, then superuser actually drop him.</td></tr>
+<tr><td rowspan="1" colspan="3">Admin role try to drop himself, logout, then superuser actually drop him & normal user.</td></tr>
 </thead><tbody>
 <?php include('login.php') ?>
 <tr>
@@ -74,6 +74,21 @@
 <tr>
 	<td>clickAndWait</td>
 	<td>//tr/td/a[text()='<?php echo $admin_user ?>']/../../td/a[text()='<?php echo $lang['strdrop'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strroledropped'] ?></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//tr/td/a[text()='<?php echo $user ?>']/../../td/a[text()='<?php echo $lang['strdrop'] ?>']</td>
 	<td></td>
 </tr>
 <tr>

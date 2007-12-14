@@ -145,6 +145,47 @@
 	<td>//div[@class='topbar']/descendant::span[@class='username']</td>
 	<td><?php echo $admin_user ?></td>
 </tr>
+<!-- create user role -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strroles'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcreaterole'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>formRolename</td>
+	<td><?php echo $user ?></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>formPassword</td>
+	<td><?php echo $user_pass ?></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>formConfirm</td>
+	<td><?php echo $user_pass ?></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>formCanLogin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strrolecreated'] ?></td>
+</tr>
 <?php include('logout.php'); ?>
 </tbody></table>
 </body>

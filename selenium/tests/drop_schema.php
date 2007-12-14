@@ -7,7 +7,7 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Drop a schema</td></tr>
+<tr><td rowspan="1" colspan="3">Fail to drop a schema, then actualy drop the test_schema</td></tr>
 </thead><tbody>
 <?php include('login.php') ?>
 <tr>
@@ -19,6 +19,26 @@
 	<td>clickAndWait</td>
 	<td>link=<?php echo $testdb ?></td>
 	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strschemas'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//tr/td/a[text()='public']/../../td/a[text()='<?php echo $lang['strdrop'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strschemadroppedbad'] ?></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
