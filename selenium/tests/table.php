@@ -253,6 +253,192 @@
 	<td>//p[@class='message']</td>
 	<td><?php echo $lang['strtablecreated'] ?></td>
 </tr>
+<!-- Alter a table -->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=test_to_drop</td>
+	<td></td>
+</tr>
+<!-- Alter name-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>test_to_drop_renamed</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>alter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strtablealtered'] ?></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@class='trail']/descendant::a[@title='<?php echo $lang['strtable'] ?>']/span[@class='label']</td>
+	<td>test_to_drop_renamed</td>
+</tr>
+<!--alter comment-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>comment</td>
+	<td>altered comment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>alter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strtablealtered'] ?></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='comment']</td>
+	<td>altered comment</td>
+</tr>
+<!--alter schema-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>newschema</td>
+	<td>label=test_schema</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>alter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strtablealtered'] ?></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@class='trail']/descendant::a[@title='<?php echo $lang['strschema'] ?>']/span[@class='label']</td>
+	<td>test_schema</td>
+</tr>
+<!--alter owner-->
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>owner</td>
+	<td>label=<?php echo $user ?></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>alter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strtablealtered'] ?></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//div[@class='trail']/descendant::a[@title='<?php echo $lang['strschema'] ?>']/span[@class='label' and text()='test_schema']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strtables'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//tr/td[2]/a[text()='test_to_drop_renamed']/../../td[3]</td>
+	<td><?php echo $user ?></td>
+</tr>
+<!--alter back to original: name, comment, schema & owner in the same time-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=test_to_drop_renamed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>owner</td>
+	<td>label=<?php echo $admin_user ?></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name</td>
+	<td>test_to_drop</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>newschema</td>
+	<td>label=public</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>comment</td>
+	<td>original comment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>alter</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strtablealtered'] ?></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='comment']</td>
+	<td>original comment</td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@class='trail']/descendant::a[@title='<?php echo $lang['strtable'] ?>']/span[@class='label']</td>
+	<td>test_to_drop</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//div[@class='trail']/descendant::a[@title='<?php echo $lang['strschema'] ?>']/span[@class='label' and text()='public']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strtables'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//tr/td[2]/a[text()='test_to_drop']/../../td[3]</td>
+	<td><?php echo $admin_user ?></td>
+</tr>
 <!-- drop table like-->
 <tr>
 	<td>clickAndWait</td>

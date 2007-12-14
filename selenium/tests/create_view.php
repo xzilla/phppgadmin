@@ -79,7 +79,7 @@
 	<td>link=student_promo</td>
 	<td></td>
 </tr>
-<!--alter name-->
+<!-- ALTER NAME -->
 <tr>
 	<td>clickAndWait</td>
 	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
