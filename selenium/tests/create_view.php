@@ -7,7 +7,7 @@
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Create/Alter a view</td></tr>
+<tr><td rowspan="1" colspan="3">Create/Alter/Drop a view</td></tr>
 </thead><tbody>
 <?php include('login.php') ?>
 <!-- CREATE -->
@@ -259,7 +259,22 @@
 	<td>//tr/td[1]/a[text()='student_promo']/../../td[2]</td>
 	<td><?php echo $admin_user ?></td>
 </tr>
-
+<!-- drop view -->
+<tr>
+	<td>clickAndWait</td>
+	<td>//tr/td/a[text()='student_promo']/../../td/a[text()='<?php echo $lang['strdrop'] ?>']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//p[@class='message']</td>
+	<td><?php echo $lang['strviewdropped'] ?></td>
+</tr>
 <?php include('logout.php'); ?>
 </tbody></table>
 </body>
