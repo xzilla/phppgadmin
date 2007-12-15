@@ -190,7 +190,7 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>//tr/td[1]/a[text()='student_promo_renamed']/../../td[2]</td>
+	<td>//tr/td[2]/a[text()='student_promo_renamed']/../../td[3]</td>
 	<td><?php echo $user ?></td>
 </tr>
 <!--alter back to original: name, comment, schema & owner in the same time-->
@@ -256,7 +256,7 @@
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>//tr/td[1]/a[text()='student_promo']/../../td[2]</td>
+	<td>//tr/td[2]/a[text()='student_promo']/../../td[3]</td>
 	<td><?php echo $admin_user ?></td>
 </tr>
 <!-- drop view -->
