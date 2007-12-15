@@ -3,7 +3,7 @@
 	/**
 	 * Manage sequences in a database
 	 *
-	 * $Id: sequences.php,v 1.48 2007/11/21 19:10:40 ioguix Exp $
+	 * $Id: sequences.php,v 1.49 2007/12/15 22:21:54 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -47,6 +47,10 @@
 		);
 
 		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('sequence' => 'seqname'),
+				'url' => 'sequences.php',
+			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "sequences.php?action=confirm_alter&amp;{$misc->href}&amp;subject=sequence&amp;",
@@ -56,6 +60,7 @@
 				'title' => $lang['strdrop'],
 				'url'   => "sequences.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('sequence' => 'seqname'),
+				'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],
@@ -160,31 +165,72 @@
 		global $data, $misc;
 		global $lang;
 
+		if (empty($_REQUEST['sequence']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifysequencetodrop']);
+			exit();
+		}
+		
 		if ($confirm) {
 			$misc->printTrail('sequence');
 			$misc->printTitle($lang['strdrop'],'pg.sequence.drop');
 			$misc->printMsg($msg);
-
-			echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
-
+			
 			echo "<form action=\"sequences.php\" method=\"post\">\n";
+			
+			//If multi drop
+			if (isset($_REQUEST['ma'])) {
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($a['sequence'])), "</p>\n";
+					printf('<input type="hidden" name="sequence[]" value="%s" />', htmlspecialchars($a['sequence']));
+				}
+			} else {
+				echo "<p>", sprintf($lang['strconfdropsequence'], $misc->printVal($_REQUEST['sequence'])), "</p>\n";
+				echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
+			}
+
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"sequence\" value=\"", htmlspecialchars($_REQUEST['sequence']), "\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropSequence($_POST['sequence'], isset($_POST['cascade']));
-			if ($status == 0)
-				doDefault($lang['strsequencedropped']);
-			else
-				doDrop(true, $lang['strsequencedroppedbad']);
+			if (is_array($_POST['sequence'])) {
+				$msg='';
+				$status = $data->beginTransaction();
+				if ($status == 0) {
+					foreach($_POST['sequence'] as $s) {
+						$status = $data->dropSequence($s, isset($_POST['cascade']));
+						if ($status == 0)
+							$msg.= sprintf('%s: %s<br />', htmlentities($s), $lang['strsequencedropped']);
+						else {
+							$data->endTransaction();
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s), $lang['strsequencedroppedbad']));
+							return;
+						}
+					}
+				}
+				if($data->endTransaction() == 0) {
+					// Everything went fine, back to the Default page....
+					$_reload_browser = true;
+					doDefault($msg);
+				}
+				else doDefault($lang['strsequencedroppedbad']);
+			}
+			else{
+				$status = $data->dropSequence($_POST['sequence'], isset($_POST['cascade']));
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strsequencedropped']);
+				}
+				else
+					doDrop(true, $lang['strsequencedroppedbad']);
+			}
 		}
 	}
 

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.175 2007/11/30 01:06:00 xzilla Exp $
+	 * $Id: english.php,v 1.176 2007/12/15 22:21:54 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -427,7 +427,8 @@
  	$lang['strnextval'] = 'Increment value';
  	$lang['strsequencenextval'] = 'Sequence incremented.';
  	$lang['strsequencenextvalbad'] = 'Sequence increment failed.';
-
+	$lang['strspecifysequencetodrop'] = 'You must specify at least one sequence to drop';
+	
 	// Indexes
 	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Indexes';
@@ -621,6 +622,7 @@
 	$lang['strschemaaltered'] = 'Schema altered.';
 	$lang['strschemaalteredbad'] = 'Schema alteration failed.';
 	$lang['strsearchpath'] = 'Schema search path';
+	$lang['strspecifyschematodrop'] = 'You must specify at least one schema to drop';
 
 	// Reports
 	$lang['strreport'] = 'Report';
