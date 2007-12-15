@@ -3,12 +3,12 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.20 2007/09/28 11:46:56 ioguix Exp $
+	 * $Id: schemas.php,v 1.21 2007/12/15 21:46:44 ioguix Exp $
 	 */
 
 	// Include application functions
 	include_once('./libraries/lib.inc.php');
-	
+
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
 
@@ -18,11 +18,11 @@
 	function doDefault($msg = '') {
 		global $data, $misc, $conf;
 		global $lang;
-		
+
 		$misc->printTrail('database');
 		$misc->printTabs('database','schemas');
 		$misc->printMsg($msg);
-		
+
 		// Check that the DB actually supports schemas
 		if ($data->hasSchemas()) {
 			$schemas = $data->getSchemas();
@@ -46,12 +46,17 @@
 					'field' => field('nspcomment'),
 				),
 			);
-			
+
 			$actions = array(
+				'multiactions' => array(
+					'keycols' => array('nsp' => 'nspname'),
+					'url' => 'schemas.php',
+				),
 				'drop' => array(
 					'title' => $lang['strdrop'],
 					'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
+					'vars'  => array('nsp' => 'nspname'),
+					'multiaction' => 'drop',
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
@@ -64,7 +69,7 @@
 					'vars'  => array('schema' => 'nspname'),
 				),
 			);
-			
+
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
 			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
@@ -82,7 +87,7 @@
 		global $lang;
 
 		$server_info = $misc->getServerInfo();
-		
+
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		if (!isset($_POST['formAuth'])) $_POST['formAuth'] = $server_info['username'];
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
@@ -94,7 +99,7 @@
 		$misc->printTrail('database');
 		$misc->printTitle($lang['strcreateschema'],'pg.schema.create');
 		$misc->printMsg($msg);
-		
+
 		echo "<form action=\"schemas.php\" method=\"post\">\n";
 		echo "<table style=\"width: 100%\">\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
@@ -111,9 +116,9 @@
 		}
 		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
-		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">", 
+		echo "\t\t<td class=\"data1\"><textarea name=\"formComment\" rows=\"3\" cols=\"32\">",
 			htmlspecialchars($_POST['formComment']), "</textarea></td>\n\t</tr>\n";
-			
+
 		echo "</table>\n";
 		echo "<p>\n";
 		echo "<input type=\"hidden\" name=\"action\" value=\"create\" />\n";
@@ -142,15 +147,15 @@
 			else
 				doCreate($lang['strschemacreatedbad']);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Display a form to permit editing schema properies.
 	 * TODO: permit changing owner
 	 */
 	function doAlter($msg = '') {
 		global $data, $misc, $lang;
-		
+
 		$misc->printTrail('schema');
 		$misc->printTitle($lang['stralter'],'pg.schema.alter');
 		$misc->printMsg($msg);
@@ -163,11 +168,11 @@
 
 			echo "<form action=\"schemas.php\" method=\"post\">\n";
 			echo "<table>\n";
-		
+
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "\t\t<td class=\"data1\">";
-			echo "\t\t\t<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "\t\t\t<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\" />\n";
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
@@ -192,7 +197,7 @@
 	 */
 	function doSaveAlter($msg = '') {
 		global $data, $misc, $lang, $_reload_browser;
-		
+
 		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name']);
 		if ($status == 0) {
 			$_reload_browser = true;
@@ -209,35 +214,73 @@
 		global $data, $misc;
 		global $lang, $_reload_browser;
 
+		if (empty($_REQUEST['schema']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifyschematodrop']);
+			exit();
+		}
+		
 		if ($confirm) {
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.schema.drop');
 
-			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
-
 			echo "<form action=\"schemas.php\" method=\"post\">\n";
+			//If multi drop
+			if (isset($_REQUEST['ma'])) {
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					echo '<p>', sprintf($lang['strconfdropschema'], $misc->printVal($a['nsp'])), "</p>\n";
+					echo '<input type="hidden" name="nsp[]" value="', htmlspecialchars($a['nsp']), "\" />\n";
+				}
+			}
+			else {
+				echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['nsp'])), "</p>\n";
+				echo "<input type=\"hidden\" name=\"nsp\" value=\"", htmlspecialchars($_REQUEST['nsp']), "\" />\n";
+			}
+
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			}
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropSchema($_POST['schema'], isset($_POST['cascade']));
-			if ($status == 0) {
-				$_reload_browser = true;
-				doDefault($lang['strschemadropped']);
+			if (is_array($_POST['nsp'])) {
+				$msg='';
+				$status = $data->beginTransaction();
+				if ($status == 0) {
+					foreach($_POST['nsp'] as $s) {
+						$status = $data->dropSchema($s, isset($_POST['cascade']));
+						if ($status == 0)
+							$msg.= sprintf('%s: %s<br />', htmlentities($s), $lang['strschemadropped']);
+						else {
+							$data->endTransaction();
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s), $lang['strschemadroppedbad']));
+							return;
+						}
+					}
+				}
+				if($data->endTransaction() == 0) {
+					// Everything went fine, back to the Default page....
+					$_reload_browser = true;
+					doDefault($msg);
+				}
+				else doDefault($lang['strschemadroppedbad']);
 			}
-			else
-				doDefault($lang['strschemadroppedbad']);
+			else{
+				$status = $data->dropSchema($_POST['nsp'], isset($_POST['cascade']));
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strschemadropped']);
+				}
+				else
+					doDefault($lang['strschemadroppedbad']);
+			}
 		}
-		
 	}
 
 	/**
@@ -245,11 +288,11 @@
 	 */
 	function doTree() {
 		global $misc, $data, $lang, $slony;
-		
+
 		$schemas = $data->getSchemas();
-		
+
 		$reqvars = $misc->getRequestVars('schema');
-		
+
 		$attrs = array(
 			'text'   => field('nspname'),
 			'icon'   => 'Schema',
@@ -269,21 +312,21 @@
 							)
 						),
 		);
-		
+
 		$misc->printTreeXML($schemas, $attrs);
-		
+
 		exit;
 	}
-	
+
 	function doSubTree() {
 		global $misc, $data, $lang;
-		
+
 		$tabs = $misc->getNavTabs('schema');
-		
+
 		$items = $misc->adjustTabsForTree($tabs);
-		
+
 		$reqvars = $misc->getRequestVars('schema');
-		
+
 		$attrs = array(
 			'text'   => noEscape(field('title')),
 			'icon'   => field('icon'),
@@ -297,19 +340,19 @@
 							array('action' => 'tree')
 						)
 		);
-		
+
 		$misc->printTreeXML($items, $attrs);
 		exit;
 	}
-	
+
 	if ($action == 'tree') doTree();
 	if ($action == 'subtree') doSubTree();
-	
+
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
 
 	if (isset($_POST['cancel'])) $action = '';
-	
+
 	switch ($action) {
 		case 'create':
 			if (isset($_POST['create'])) doSaveCreate();

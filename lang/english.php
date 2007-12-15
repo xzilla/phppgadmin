@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.223 2007/11/29 23:23:56 ioguix Exp $
+	 * $Id: english.php,v 1.224 2007/12/15 21:46:44 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -621,6 +621,7 @@
 	$lang['strschemaaltered'] = 'Schema altered.';
 	$lang['strschemaalteredbad'] = 'Schema alteration failed.';
 	$lang['strsearchpath'] = 'Schema search path';
+	$lang['strspecifyschematodrop'] = 'You must specify at least one schema to drop';
 
 	// Reports
 	$lang['strreport'] = 'Report';
