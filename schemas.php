@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.21 2007/12/15 21:46:44 ioguix Exp $
+	 * $Id: schemas.php,v 1.22 2007/12/15 22:57:43 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -214,7 +214,7 @@
 		global $data, $misc;
 		global $lang, $_reload_browser;
 
-		if (empty($_REQUEST['schema']) && empty($_REQUEST['ma'])) {
+		if (empty($_REQUEST['nsp']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifyschematodrop']);
 			exit();
 		}

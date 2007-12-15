@@ -3,7 +3,7 @@
 	/**
 	 * Manage views in a database
 	 *
-	 * $Id: views.php,v 1.74 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: views.php,v 1.75 2007/12/15 22:57:43 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -129,15 +129,32 @@
 		global $data, $misc;
 		global $lang, $_reload_browser;
 
+		if (empty($_REQUEST['view']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifyviewtodrop']);
+			exit();
+		}
+
 		if ($confirm) { 
 			$misc->printTrail('view');
 			$misc->printTitle($lang['strdrop'],'pg.view.drop');
 			
-			echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";
-			
 			echo "<form action=\"views.php\" method=\"post\">\n";
+			
+			//If multi drop
+			if (isset($_REQUEST['ma'])) {
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($a['view'])), "</p>\n";
+					echo '<input type="hidden" name="view[]" value="', htmlspecialchars($a['view']), "\" />\n";
+				}
+			}
+			else {
+				echo "<p>", sprintf($lang['strconfdropview'], $misc->printVal($_REQUEST['view'])), "</p>\n";
+				echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+			}
+			
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"view\" value=\"", htmlspecialchars($_REQUEST['view']), "\" />\n";
+			
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
@@ -148,13 +165,37 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropView($_POST['view'], isset($_POST['cascade']));
-			if ($status == 0) {
-				$_reload_browser = true;
-				doDefault($lang['strviewdropped']);
+			if (is_array($_POST['view'])) {
+				$msg='';
+				$status = $data->beginTransaction();
+				if ($status == 0) {
+					foreach($_POST['view'] as $s) {
+						$status = $data->dropView($s, isset($_POST['cascade']));
+						if ($status == 0)
+							$msg.= sprintf('%s: %s<br />', htmlentities($s), $lang['strviewdropped']);
+						else {
+							$data->endTransaction();
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s), $lang['strviewdroppedbad']));
+							return;
+						}
+					}
+				}
+				if($data->endTransaction() == 0) {
+					// Everything went fine, back to the Default page....
+					$_reload_browser = true;
+					doDefault($msg);
+				}
+				else doDefault($lang['strviewdroppedbad']);
 			}
-			else
-				doDefault($lang['strviewdroppedbad']);
+			else{
+				$status = $data->dropView($_POST['view'], isset($_POST['cascade']));
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strviewdropped']);
+				}
+				else
+					doDefault($lang['strviewdroppedbad']);
+			}
 		}
 		
 	}
@@ -565,6 +606,10 @@
 		);
 		
 		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('view' => 'relname'),
+				'url' => 'views.php',
+			),
 			'browse' => array(
 				'title'	=> $lang['strbrowse'],
 				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
@@ -587,6 +632,7 @@
 				'title'	=> $lang['strdrop'],
 				'url'	=> "views.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'	=> array('view' => 'relname'),
+				'multiaction' => 'confirm_drop',
 			),
 		);
 		
