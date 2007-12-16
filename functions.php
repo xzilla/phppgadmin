@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.73 2007/11/16 18:34:24 ioguix Exp $
+	 * $Id: functions.php,v 1.74 2007/12/16 01:14:22 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -338,17 +338,35 @@
 	function doDrop($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
+		
+		if (empty($_REQUEST['function']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifyfunctiontodrop']);
+			exit();
+		}
 
 		if ($confirm) {
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.function.drop');
-
-			echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";
-
+			
 			echo "<form action=\"functions.php\" method=\"post\">\n";
+			
+			//If multi drop
+			if (isset($_REQUEST['ma'])) {
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($a['function'])), "</p>\n";
+					echo '<input type="hidden" name="function[]" value="', htmlspecialchars($a['function']), "\" />\n";
+					echo "<input type=\"hidden\" name=\"function_oid[]\" value=\"", htmlspecialchars($a['function_oid']), "\" />\n";
+				}
+			}
+			else {
+				echo "<p>", sprintf($lang['strconfdropfunction'], $misc->printVal($_REQUEST['function'])), "</p>\n";
+				echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
+				echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
+			}
+
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			echo "<input type=\"hidden\" name=\"function\" value=\"", htmlspecialchars($_REQUEST['function']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"function_oid\" value=\"", htmlspecialchars($_REQUEST['function_oid']), "\" />\n";
+			
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
@@ -359,14 +377,38 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
-			if ($status == 0) {
-				$_reload_browser = true;
-				doDefault($lang['strfunctiondropped']);
-                        }
-			else {
-				doDefault($lang['strfunctiondroppedbad']);
-                        }
+			if (is_array($_POST['function_oid'])) {
+				$msg='';
+				$status = $data->beginTransaction();
+				if ($status == 0) {
+					foreach($_POST['function_oid'] as $k => $s) {
+						$status = $data->dropFunction($s, isset($_POST['cascade']));
+						if ($status == 0)
+							$msg.= sprintf('%s: %s<br />', htmlentities($_POST['function'][$k]), $lang['strfunctiondropped']);
+						else {
+							$data->endTransaction();
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($_POST['function'][$k]), $lang['strfunctiondroppedbad']));
+							return;
+						}
+					}
+				}
+				if($data->endTransaction() == 0) {
+					// Everything went fine, back to the Default page....
+					$_reload_browser = true;
+					doDefault($msg);
+				}
+				else doDefault($lang['strfunctiondroppedbad']);
+			}
+			else{
+				$status = $data->dropFunction($_POST['function_oid'], isset($_POST['cascade']));
+				if ($status == 0) {
+					$_reload_browser = true;
+					doDefault($lang['strfunctiondropped']);
+				}
+				else {
+					doDefault($lang['strfunctiondroppedbad']);
+				}
+			}
 		}
 
 	}
@@ -748,6 +790,10 @@
 		);
 
 		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('function' => 'proproto', 'function_oid' => 'prooid'),
+				'url' => 'functions.php',
+			),
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "functions.php?action=edit&amp;{$misc->href}&amp;",
@@ -757,6 +803,7 @@
 				'title' => $lang['strdrop'],
 				'url'   => "functions.php?action=confirm_drop&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
+				'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
 				'title' => $lang['strprivileges'],

@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.177 2007/12/15 22:57:43 ioguix Exp $
+	 * $Id: english.php,v 1.178 2007/12/16 01:14:22 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -543,6 +543,7 @@
 	$lang['strfunctioncosting'] = 'Function Costing';
 	$lang['strresultrows'] = 'Result Rows';
 	$lang['strexecutioncost'] = 'Execution Cost';
+	$lang['strspecifyfunctiontodrop'] = 'You must specify at least one function to drop';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
