@@ -259,6 +259,11 @@
 	<td>link=test_to_drop</td>
 	<td></td>
 </tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcolumns'] ?></td>
+	<td></td>
+</tr>
 <!-- Alter name-->
 <tr>
 	<td>clickAndWait</td>
@@ -288,6 +293,11 @@
 <!--alter comment-->
 <tr>
 	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcolumns'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
 	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
 	<td></td>
 </tr>
@@ -314,6 +324,11 @@
 <!--alter schema-->
 <tr>
 	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcolumns'] ?></td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
 	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
 	<td></td>
 </tr>
@@ -338,6 +353,11 @@
 	<td>test_schema</td>
 </tr>
 <!--alter owner-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcolumns'] ?></td>
+	<td></td>
+</tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>//ul[@class='navlink']/li/a[text()='<?php echo $lang['stralter'] ?>']</td>
@@ -377,6 +397,11 @@
 <tr>
 	<td>clickAndWait</td>
 	<td>link=test_to_drop_renamed</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=<?php echo $lang['strcolumns'] ?></td>
 	<td></td>
 </tr>
 <tr>
