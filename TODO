@@ -120,7 +120,7 @@ Functions
 * -Alter owner (xzilla)
 * -Alter schema (xzilla)
 * GUC settings [8.3]
-
+* Default param values
 
 Indexes 
 -------
