@@ -85,7 +85,7 @@
 	$lang['strimport'] = 'Import';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Vacuum';
-	$lang['stranalyze'] = 'Analyzovt&#357;';
+	$lang['stranalyze'] = 'Analyzovat';
 	$lang['strclusterindex'] = 'Cluster';
 	$lang['strreindex'] = 'Reindex';
 	$lang['strrun'] = 'Spustit';
