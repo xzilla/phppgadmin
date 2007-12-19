@@ -4,14 +4,14 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.32 2007/12/12 04:11:10 xzilla Exp $
+     * $Id: french.php,v 1.33 2007/12/19 11:08:14 ioguix Exp $
      */
 
     // Language and character set
     $lang['applang'] = 'Français';
     $lang['appcharset'] = 'ISO-8859-1';
     $lang['applocale'] = 'fr_FR';
-      $lang['appdbencoding'] = 'LATIN1';
+	$lang['appdbencoding'] = 'LATIN1';
     $lang['applangdir'] = 'ltr';
 
     // Basic strings
@@ -141,13 +141,13 @@
 $lang['strlocale']  =  'Locale';
 
 	// User-supplied SQL history
-$lang['strhistory']  =  'History';
-$lang['strnohistory']  =  'No history.';
-$lang['strclearhistory']  =  'Clear history';
-$lang['strdelhistory']  =  'Delete from history';
-$lang['strconfdelhistory']  =  'Really remove this request from history ?';
-$lang['strconfclearhistory']  =  'Really clear history ?';
-$lang['strnodatabaseselected']  =  'Please, select a database.';
+	$lang['strhistory']  =  'Historique';
+	$lang['strnohistory']  =  'Pas d\'historique.';
+	$lang['strclearhistory']  =  'Éffacer l\'historique';
+	$lang['strdelhistory']  =  'Supprimer de l\'historique';
+	$lang['strconfdelhistory']  =  'Voulez-vous vraiment supprimer cette requête de l\'historique ?';
+	$lang['strconfclearhistory']  =  'Voulez-vous vraiment éffacer l\'historique ?';
+	$lang['strnodatabaseselected']  =  'Veuillez sélectionner une base de données.';
 
     // Database Sizes
     $lang['strsize']  =  'Taille';
@@ -241,7 +241,7 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
     $lang['strtabbed']  =  'Tabulé';
     $lang['strauto']  =  'Auto';
     $lang['strconfvacuumtable']  =  'Êtes-vous sûr de vouloir faire un vacuum de « %s » ?';
-		$lang['strconfanalyzetable']  =  'Êtes-vous sûr de vouloir éffectuer un ANALYZE sur « %s » ?';
+	$lang['strconfanalyzetable']  =  'Êtes-vous sûr de vouloir éffectuer un ANALYZE sur « %s » ?';
     $lang['strestimatedrowcount']  =  'Nombre d\'enregistrements estimés';
 	$lang['strspecifytabletoanalyze']  =  'Vous devez spécifier au moins une table à analyzer';
 	$lang['strspecifytabletoempty']  =  'Vous devez spécifier au moins une table à vider';
@@ -250,7 +250,7 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
 
 	// Columns
 	$lang['strcolprop']  =  'Propriétés de la Colonne';
-        $lang['strnotableprovided']  =  'No table provided!';
+    $lang['strnotableprovided']  =  'Aucune table fournie !';
 		
     // Users
     $lang['struser'] = 'Utilisateur';
@@ -333,10 +333,10 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
     $lang['strrevoke'] = 'Révoquer (REVOKE)';
     $lang['strgranted'] = 'Droits accordés.';
     $lang['strgrantfailed'] = 'Échec lors de l\'octroi des droits.';
-
     $lang['strgrantbad'] = 'Vous devez spécifier au moins un utilisateur ou groupe et au moins un droit.';
     $lang['strgrantor'] = 'Grantor';
     $lang['strasterisk'] = '*';
+
     // Databases
     $lang['strdatabase'] = 'Base de données';
     $lang['strdatabases'] = 'Bases de données';
@@ -420,14 +420,14 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
 
     $lang['strsequencereset'] = 'Séquence initialisée.';
     $lang['strsequenceresetbad'] = 'Échec lors de l\'initialisation de la séquence.';
-     $lang['strsequencealtered']  =  'Séquence modifiée.';
-     $lang['strsequencealteredbad']  =  'Échec lors de la modification de la séquence.';
-     $lang['strsetval']  =  'Initialiser à une valeur';
-     $lang['strsequencesetval']  =  'Séquence initialisée.';
-     $lang['strsequencesetvalbad']  =  'Échec lors de l\'initialisation de la séquence.';
-     $lang['strnextval']  =  'Incrémenter la valeur';
-     $lang['strsequencenextval']  =  'Séquence incrémentée.';
-     $lang['strsequencenextvalbad']  =  'Échec lors de l\'incrémentation de la valeur.';
+    $lang['strsequencealtered']  =  'Séquence modifiée.';
+    $lang['strsequencealteredbad']  =  'Échec lors de la modification de la séquence.';
+    $lang['strsetval']  =  'Initialiser à une valeur';
+    $lang['strsequencesetval']  =  'Séquence initialisée.';
+    $lang['strsequencesetvalbad']  =  'Échec lors de l\'initialisation de la séquence.';
+	$lang['strnextval']  =  'Incrémenter la valeur';
+	$lang['strsequencenextval']  =  'Séquence incrémentée.';
+	$lang['strsequencenextvalbad']  =  'Échec lors de l\'incrémentation de la valeur.';
 
     // Indexes
     $lang['strindex']  =  'Index';
@@ -449,7 +449,7 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
     $lang['strkeyname'] = 'Nom de la clé';
     $lang['struniquekey'] = 'Clé unique';
     $lang['strprimarykey'] = 'Clé primaire';
-     $lang['strindextype'] = 'Type d\'index';
+	$lang['strindextype'] = 'Type d\'index';
     $lang['strtablecolumnlist'] = 'Liste des colonnes';
     $lang['strindexcolumnlist'] = 'Liste des colonnes dans l\'index';
     $lang['strconfcluster']  =  'Êtes-vous sur de vouloir mettre en cluster « %s » ?';
@@ -539,9 +539,9 @@ $lang['strnodatabaseselected']  =  'Please, select a database.';
     $lang['strargraise']  =  'Monter.';
     $lang['strarglower']  =  'Descendre.';
     $lang['strargremoveconfirm']  =  'Êtes-vous sûr de vouloir supprimer cet argument ? cette opération ne peut pas être annulée.';
-$lang['strfunctioncosting']  =  'Function Costing';
-$lang['strresultrows']  =  'Result Rows';
-$lang['strexecutioncost']  =  'Execution Cost';
+	$lang['strfunctioncosting']  =  'Coût de la function';
+	$lang['strresultrows']  =  'Lignes de résultat';
+	$lang['strexecutioncost']  =  'Coût d\'exécution';
 
     // Triggers
     $lang['strtrigger'] = 'Trigger';
@@ -598,12 +598,12 @@ $lang['strexecutioncost']  =  'Execution Cost';
     $lang['strconfdroptype'] = 'Êtes-vous sûr de vouloir supprimer le type « %s » ?';
     $lang['strtypedropped'] = 'Type supprimé.';
     $lang['strtypedroppedbad'] = 'Échec lors de la suppression du type.';
-$lang['strflavor']  =  'Flavor';
+	$lang['strflavor']  =  'Genre';
     $lang['strbasetype']  =  'Base';
     $lang['strcompositetype']  =  'Composite';
     $lang['strpseudotype']  =  'Pseudo';
 	$lang['strenum']  =  'Enum';
-$lang['strenumvalues']  =  'Enum Values';
+	$lang['strenumvalues']  =  'Valeurs de l\'enum';
 
     // Schemas
     $lang['strschema'] = 'Schéma';
@@ -731,7 +731,7 @@ $lang['straggrstype']  =  'Data type for state value';
 
     // Operator Classes
     $lang['stropclasses']  =  'Classes d\'opérateur';
-         $lang['strnoopclasses']  =  'Aucune classe d\'opérateur trouvée.';
+	$lang['strnoopclasses']  =  'Aucune classe d\'opérateur trouvée.';
     $lang['straccessmethod']  =  'Méthode d\'accès';
 
     // Stats and performance
@@ -837,7 +837,7 @@ $lang['straggrstype']  =  'Data type for state value';
     $lang['strmerge']  =  'Assemblage';
     $lang['strmergeinto']  =  'Assembler dans';
     $lang['strrepsetmerged']  =  'Ensembles de réplication assemblés.';
-    $lang['strrepsetmergedbad']  =  'Échec lors de l\'assemble des ensembles de réplication.';
+    $lang['strrepsetmergedbad']  =  'Échec lors de l\'assemblage des ensembles de réplication.';
     $lang['strmove']  =  'Déplacement';
     $lang['strneworigin']  =  'Nouvelle origine';
     $lang['strrepsetmoved']  =  'Ensemble de réplication déplacé.';
@@ -920,61 +920,61 @@ $lang['strvirtualtransaction']  =  'Virtual Transaction ID';
     $lang['strgid']  =  'ID global';
 	
 	// Fulltext search
-$lang['strfulltext']  =  'Full Text Search';
-$lang['strftsconfig']  =  'FTS configuration';
+	$lang['strfulltext']  =  'Recherche textuelle';
+	$lang['strftsconfig']  =  'Configuration FTS';
     $lang['strftsconfigs']  =  'Configurations';
-$lang['strftscreateconfig']  =  'Create FTS configuration';
-$lang['strftscreatedict']  =  'Create dictionary';
-$lang['strftscreatedicttemplate']  =  'Create dictionary template';
-$lang['strftscreateparser']  =  'Create parser';
-$lang['strftsnoconfigs']  =  'No FTS configuration found.';
-$lang['strftsconfigdropped']  =  'FTS configuration dropped.';
-$lang['strftsconfigdroppedbad']  =  'FTS configuration drop failed.';
-$lang['strconfdropftsconfig']  =  'Are you sure you want to drop the FTS configuration "%s"?';
-$lang['strconfdropftsdict']  =  'Are you sure you want to drop the FTS dictionary "%s"?';
-$lang['strconfdropftsmapping']  =  'Are you sure you want to drop mapping "%s" of FTS configuration "%s"?';
-$lang['strftstemplate']  =  'Template';
-$lang['strftsparser']  =  'Parser';
-$lang['strftsconfigneedsname']  =  'You must give a name for your FTS configuration.';
-$lang['strftsconfigcreated']  =  'FTS configuration created';
-$lang['strftsconfigcreatedbad']  =  'FTS configuration creation failed.';
-$lang['strftsmapping']  =  'Mapping';
-$lang['strftsdicts']  =  'Dictionaries';
-$lang['strftsdict']  =  'Dictionary';
-$lang['strftsemptymap']  =  'Empty FTS configuration map.';
+	$lang['strftscreateconfig']  =  'Créer une configuration FTS';
+	$lang['strftscreatedict']  =  'Créer un dictionnaire';
+	$lang['strftscreatedicttemplate']  =  'Créer un modèle de dictionnaire';
+	$lang['strftscreateparser']  =  'Créer un analyseur syntaxique';
+	$lang['strftsnoconfigs']  =  'Aucune configuration FTS trouvée.';
+	$lang['strftsconfigdropped']  =  'Configuration FTS supprimée.';
+	$lang['strftsconfigdroppedbad']  =  'Échec lors de la suppression de la configuration FTS.';
+	$lang['strconfdropftsconfig']  =  'Êtes-vous sûr de vouloir supprimer la configuration FTS « %s » ?';
+	$lang['strconfdropftsdict']  =  'Êtes-vous sûr de vouloir supprimer le dictionnaire FTS « %s » ?';
+	$lang['strconfdropftsmapping']  =  'Êtes-vous sûr de vouloir supprimer le mapping « %s » de la configuration FTS « %s » ?';
+	$lang['strftstemplate']  =  'Modèle';
+	$lang['strftsparser']  =  'Analyseur syntaxique';
+	$lang['strftsconfigneedsname']  =  'Vous devez donner un nom pour votre configuration FTS.';
+	$lang['strftsconfigcreated']  =  'Configuration FTS créée';
+	$lang['strftsconfigcreatedbad']  =  'Échec lors de la création de la configuration FTS.';
+$lang['strftsmapping']  =  'Correspondance';
+	$lang['strftsdicts']  =  'Dictionaires';
+	$lang['strftsdict']  =  'Dictionaire';
+$lang['strftsemptymap']  =  'Configuration FTS vide.';
 $lang['strftswithmap']  =  'With map';
 $lang['strftsmakedefault']  =  'Make default for given locale';
-$lang['strftsconfigaltered']  =  'FTS configuration altered.';
-$lang['strftsconfigalteredbad']  =  'FTS configuration alter failed.';
+	$lang['strftsconfigaltered']  =  'Configuration FTS modifiée.';
+	$lang['strftsconfigalteredbad']  =  'Échec lors de l\'édition de la configuration FTS.';
 $lang['strftsconfigmap']  =  'FTS configuration map';
-$lang['strftsparsers']  =  'FTS parsers';
-$lang['strftsnoparsers']  =  'No FTS parsers available.';
-$lang['strftsnodicts']  =  'No FTS dictionaries available.';
-$lang['strftsdictcreated']  =  'FTS dictionary created';
-$lang['strftsdictcreatedbad']  =  'FTS dictionary creation failed.';
+	$lang['strftsparsers']  =  'Analyseurs syntaxique FTS';
+	$lang['strftsnoparsers']  =  'Aucun analyseur syntaxique FTS disponnible.';
+	$lang['strftsnodicts']  =  'Aucun dictionnaire FTS disponible.';
+	$lang['strftsdictcreated']  =  'Dictionnaire FTS créé';
+	$lang['strftsdictcreatedbad']  =  'Échec lors de la création du dictionnaire FTS.';
 $lang['strftslexize']  =  'Lexize';
 $lang['strftsinit']  =  'Init';
-$lang['strftsoptionsvalues']  =  'Options and Values';
-$lang['strftsdictneedsname']  =  'You must give a name for your FTS dictionary.';
-$lang['strftsdictdropped']  =  'FTS dictionary dropped.';
-$lang['strftsdictdroppedbad']  =  'FTS dictionary drop failed.';
-$lang['strftsdictaltered']  =  'FTS dictionary altered.';
-$lang['strftsdictalteredbad']  =  'FTS dictionary alter failed.';
+	$lang['strftsoptionsvalues']  =  'Options et Valeurs';
+	$lang['strftsdictneedsname']  =  'Vous devez donner un nom pour votre dictionnaire FTS.';
+	$lang['strftsdictdropped']  =  'Dictionnaire FTS supprimé.';
+	$lang['strftsdictdroppedbad']  =  'Échec lors de la suppression du dictionnaire FTS.';
+	$lang['strftsdictaltered']  =  'Dictionnaire FTS modifié.';
+	$lang['strftsdictalteredbad']  =  'Échec lors de l\'édition du dictionnaire FTS.';
 $lang['strftsaddmapping']  =  'Add new mapping';
 $lang['strftsspecifymappingtodrop']  =  'You must specify at least one mapping to drop';
-$lang['strftsspecifyconfigtoalter']  =  'You must specify a FTS configuration to alter';
+	$lang['strftsspecifyconfigtoalter']  =  'Vous devez spécifier une configuration FTS à modifier';
 $lang['strftsmappingdropped']  =  'FTS mapping dropped.';
 $lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
-$lang['strftsnodictionaries']  =  'No dictionaries found.';
+	$lang['strftsnodictionaries']  =  'Aucun dictionnaire trouvé.';
 $lang['strftsmappingaltered']  =  'FTS mapping altered.';
 $lang['strftsmappingalteredbad']  =  'FTS mapping alter failed.';
 $lang['strftsmappingadded']  =  'FTS mapping added.';
 $lang['strftsmappingaddedbad']  =  'FTS mapping add failed.';
-    $lang['strftsmappingdropped']  =  'FTS mapping dropped.';
-    $lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
-    $lang['strftstabconfigs']  =  'Configurations';
-$lang['strftstabdicts']  =  'Dictionaries';
-$lang['strftstabparsers']  =  'Parsers';
+$lang['strftsmappingdropped']  =  'FTS mapping dropped.';
+$lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
+	$lang['strftstabconfigs']  =  'Configurations';
+	$lang['strftstabdicts']  =  'Dictionaires';
+	$lang['strftstabparsers']  =  'Analyseurs syntaxique';
 	
 	
 ?>
