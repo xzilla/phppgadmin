@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.227 2007/12/16 01:14:22 ioguix Exp $
+	 * $Id: english.php,v 1.228 2007/12/19 18:34:44 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -113,8 +113,6 @@
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Expand';
 	$lang['strcollapse'] = 'Collapse';
-	$lang['strexplain'] = 'Explain';
-	$lang['strexplainanalyze'] = 'Explain Analyze';
 	$lang['strfind'] = 'Find';
 	$lang['stroptions'] = 'Options';
 	$lang['strrefresh'] = 'Refresh';
@@ -145,8 +143,8 @@
 	$lang['strnohistory'] = 'No history.';
 	$lang['strclearhistory'] = 'Clear history';
 	$lang['strdelhistory'] = 'Delete from history';
-	$lang['strconfdelhistory'] = 'Really remove this request from history ?';
-	$lang['strconfclearhistory'] = 'Really clear history ?';
+	$lang['strconfdelhistory'] = 'Really remove this request from history?';
+	$lang['strconfclearhistory'] = 'Really clear history?';
 	$lang['strnodatabaseselected'] = 'Please, select a database.';
 
 	// Database sizes
@@ -243,14 +241,14 @@
 	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum "%s"?';
 	$lang['strconfanalyzetable'] = 'Are you sure you want to analyze "%s"?';
 	$lang['strestimatedrowcount'] = 'Estimated row count';
-	$lang['strspecifytabletoanalyze'] = 'You must specify at least one table to analyze';
-	$lang['strspecifytabletoempty'] = 'You must specify at least one table to empty';
-	$lang['strspecifytabletodrop'] = 'You must specify at least one table to drop';
-	$lang['strspecifytabletovacuum'] = 'You must specify at least one table to vacuum';
+	$lang['strspecifytabletoanalyze'] = 'You must specify at least one table to analyze.';
+	$lang['strspecifytabletoempty'] = 'You must specify at least one table to empty.';
+	$lang['strspecifytabletodrop'] = 'You must specify at least one table to drop.';
+	$lang['strspecifytabletovacuum'] = 'You must specify at least one table to vacuum.';
 
 	// Columns
 	$lang['strcolprop'] = 'Column properties';
-        $lang['strnotableprovided'] = 'No table provided!';
+	$lang['strnotableprovided'] = 'No table provided!';
 		
 	// Users
 	$lang['struser'] = 'User';
@@ -366,7 +364,7 @@
 	$lang['strallobjects'] = 'All objects';
 	$lang['strdatabasealtered'] = 'Database altered.';
 	$lang['strdatabasealteredbad'] = 'Database alter failed.';
-	$lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop';
+	$lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop.';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -394,7 +392,7 @@
 	$lang['strerrordupfields'] = 'Error on duplicate fields';
 	$lang['strviewaltered'] = 'View altered.';
 	$lang['strviewalteredbad'] = 'View alteration failed.';
-	$lang['strspecifyviewtodrop'] = 'You must specify at least one view to drop';
+	$lang['strspecifyviewtodrop'] = 'You must specify at least one view to drop.';
 
 	// Sequences
 	$lang['strsequence'] = 'Sequence';
@@ -428,7 +426,7 @@
  	$lang['strnextval'] = 'Increment value';
  	$lang['strsequencenextval'] = 'Sequence incremented.';
  	$lang['strsequencenextvalbad'] = 'Sequence increment failed.';
-	$lang['strspecifysequencetodrop'] = 'You must specify at least one sequence to drop';
+	$lang['strspecifysequencetodrop'] = 'You must specify at least one sequence to drop.';
 	
 	// Indexes
 	$lang['strindex'] = 'Index';
@@ -543,7 +541,7 @@
 	$lang['strfunctioncosting'] = 'Function Costing';
 	$lang['strresultrows'] = 'Result Rows';
 	$lang['strexecutioncost'] = 'Execution Cost';
-	$lang['strspecifyfunctiontodrop'] = 'You must specify at least one function to drop';
+	$lang['strspecifyfunctiontodrop'] = 'You must specify at least one function to drop.';
 
 	// Triggers
 	$lang['strtrigger'] = 'Trigger';
@@ -590,7 +588,6 @@
 	$lang['strdelimiter'] = 'Delimiter';
 	$lang['strstorage'] = 'Storage';
 	$lang['strfield'] = 'Field';
-	$lang['strvalue'] = 'Value';
 	$lang['strnumfields'] = 'Num. of fields';
 	$lang['strnumvalues'] = 'Num. of values';
 	$lang['strtypeneedsname'] = 'You must give a name for your type.';
@@ -605,7 +602,7 @@
 	$lang['strcompositetype'] = 'Composite';
 	$lang['strpseudotype'] = 'Pseudo';
 	$lang['strenum'] = 'Enum';
-	$lang['strenumvalues'] = 'Enum Values';
+	$lang['strenumvalues'] = 'Enum values';
 
 	// Schemas
 	$lang['strschema'] = 'Schema';
@@ -624,7 +621,7 @@
 	$lang['strschemaaltered'] = 'Schema altered.';
 	$lang['strschemaalteredbad'] = 'Schema alteration failed.';
 	$lang['strsearchpath'] = 'Schema search path';
-	$lang['strspecifyschematodrop'] = 'You must specify at least one schema to drop';
+	$lang['strspecifyschematodrop'] = 'You must specify at least one schema to drop.';
 
 	// Reports
 	$lang['strreport'] = 'Report';
@@ -925,7 +922,7 @@
 	// Fulltext search
 	$lang['strfulltext'] = 'Full Text Search';
 	$lang['strftsconfig'] = 'FTS configuration';
-    $lang['strftsconfigs'] = 'Configurations';
+	$lang['strftsconfigs'] = 'Configurations';
 	$lang['strftscreateconfig'] = 'Create FTS configuration';
 	$lang['strftscreatedict'] = 'Create dictionary';
 	$lang['strftscreatedicttemplate'] = 'Create dictionary template';
@@ -957,14 +954,14 @@
 	$lang['strftsdictcreatedbad'] = 'FTS dictionary creation failed.';
 	$lang['strftslexize'] = 'Lexize';
 	$lang['strftsinit'] = 'Init';
-	$lang['strftsoptionsvalues'] = 'Options and Values';
+	$lang['strftsoptionsvalues'] = 'Options and values';
 	$lang['strftsdictneedsname'] = 'You must give a name for your FTS dictionary.';
 	$lang['strftsdictdropped'] = 'FTS dictionary dropped.';
 	$lang['strftsdictdroppedbad'] = 'FTS dictionary drop failed.';
 	$lang['strftsdictaltered'] = 'FTS dictionary altered.';
 	$lang['strftsdictalteredbad'] = 'FTS dictionary alter failed.';
 	$lang['strftsaddmapping'] = 'Add new mapping';
-	$lang['strftsspecifymappingtodrop'] = 'You must specify at least one mapping to drop';
+	$lang['strftsspecifymappingtodrop'] = 'You must specify at least one mapping to drop.';
 	$lang['strftsspecifyconfigtoalter'] = 'You must specify a FTS configuration to alter';
 	$lang['strftsmappingdropped'] = 'FTS mapping dropped.';
 	$lang['strftsmappingdroppedbad'] = 'FTS mapping drop failed.';
@@ -973,11 +970,7 @@
 	$lang['strftsmappingalteredbad'] = 'FTS mapping alter failed.';
 	$lang['strftsmappingadded'] = 'FTS mapping added.';
 	$lang['strftsmappingaddedbad'] = 'FTS mapping add failed.';
-    $lang['strftsmappingdropped'] = 'FTS mapping dropped.';
-    $lang['strftsmappingdroppedbad'] = 'FTS mapping drop failed.';
-    $lang['strftstabconfigs'] = 'Configurations';
+	$lang['strftstabconfigs'] = 'Configurations';
 	$lang['strftstabdicts'] = 'Dictionaries';
 	$lang['strftstabparsers'] = 'Parsers';
-    
-    
 ?>
