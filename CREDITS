@@ -73,4 +73,6 @@ Third Party Libraries
 Corporate Sponsors
 
 - SpikeSource (www.spikesource.com) - Slony support
-- Google Summer of Code (code.google.com/soc/pgsql/about.html) - phpPgAdmin Improvements
+- Google Summer of Code (http://code.google.com/soc/2006/pgsql/appinfo.html?csaid=DB096D908B948D89) - phpPgAdmin Improvements
+- Google Summer of Code (http://code.google.com/soc/2007/postgres/appinfo.html?csaid=E89B3D5E2DC4170A) - Full Text Search in PostgreSQL GUI Tools
+
