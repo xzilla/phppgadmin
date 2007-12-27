@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.107 2007/12/16 01:30:14 ioguix Exp $
+	 * $Id: tables.php,v 1.108 2007/12/27 18:28:36 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -319,6 +319,8 @@
 				doCreateLike(false, $lang['strtablelikeneedslike']);
 				return;
 			}
+
+			if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = '';
 
 			$status = $data->createTableLike($_REQUEST['name'], $_REQUEST['like'], isset($_REQUEST['withdefaults']),
 			   	isset($_REQUEST['withconstraints']), isset($_REQUEST['withindexes']), $_REQUEST['tablespace']);
