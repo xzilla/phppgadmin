@@ -4,7 +4,8 @@
 	 * Japanese language file for phpPgAdmin.
 	 * @maintainer Tadashi Jokagi [elf2000@users.sourceforge.net]
 	 *
-	 * $Id: japanese.php,v 1.18 2007/04/24 11:42:07 soranzo Exp $
+	 * $Id: japanese.php,v 1.19 2007/12/27 04:08:35 xzilla Exp $
+	 * EN-Revision: 1.228
 	 */
 
 	// Language and character set
@@ -21,12 +22,12 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL ドキュメント (ローカル)';
 	$lang['strreportbug'] = 'バグレポート';
-	$lang['strviewfaq'] = 'FAQ を見る';
+	$lang['strviewfaq'] = 'FAQ を表示する';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'ログイン';
-	$lang['strloginfailed'] = 'ログインに失敗';
+	$lang['strloginfailed'] = 'ログインに失敗しました';
 	$lang['strlogindisallowed'] = 'ログインが許可されませんでした。';
 	$lang['strserver'] = 'サーバー';
 	$lang['strservers'] = 'サーバー';
@@ -41,6 +42,8 @@
 	$lang['strdefinition'] = '定義';
 	$lang['strproperties'] = 'プロパティ';
 	$lang['strbrowse'] = '表示';
+	$lang['strenable']  =  '有効';
+	$lang['strdisable']  =  '無効';
 	$lang['strdrop'] = '破棄';
 	$lang['strdropped'] = '破棄しました。';
 	$lang['strnull'] = 'NULL';
@@ -58,6 +61,7 @@
 	$lang['stralter'] = '変更';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = '取り消し';
+	$lang['strac']  =  '自動補完を有効にする';
 	$lang['strsave'] = '保存';
 	$lang['strreset'] = 'リセット';
 	$lang['strinsert'] = '挿入';
@@ -88,7 +92,6 @@
 	$lang['strimport'] = 'インポート';
 	$lang['strallowednulls']  =  'NULL 文字を許可する';
 	$lang['strbackslashn']  =  '\N';
-	$lang['strnull']  =  'Null';
 	$lang['stremptystring']  =  '空の文字列/項目';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = '管理';
@@ -97,7 +100,7 @@
 	$lang['strclusterindex']  =  'クラスター';
 $lang['strclustered'] = 'Clustered?';
 	$lang['strreindex'] = '再インデックス';
-	$lang['strrun'] = '実カラム';
+	$lang['strexecute']  =  '実行する';
 	$lang['stradd'] = '追加';
 	$lang['strevent'] = 'イベント';
 	$lang['strwhere'] = 'Where';
@@ -111,8 +114,6 @@ $lang['strclustered'] = 'Clustered?';
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = '展開';
 	$lang['strcollapse'] = '閉じる';
-	$lang['strexplain'] = '実行時間';
-	$lang['strexplainanalyze'] = '詳細出力解析';
 	$lang['strfind'] = '検索';
 	$lang['stroptions'] = 'オプション';
 	$lang['strrefresh'] = '再表示';
@@ -127,20 +128,33 @@ $lang['strclustered'] = 'Clustered?';
 	$lang['strsetting'] = '設定';
 	$lang['streditsql'] = 'SQL 編集';
 	$lang['strruntime'] = '総実行時間: %s ミリ秒';
-	$lang['strpaginate'] = 'Paginate results';
+	$lang['strpaginate'] = '結果のページ分割処理を行う';
 	$lang['struploadscript'] = 'または SQL スクリプトをアップロード:';
 	$lang['strstarttime'] = '開始時間';
 	$lang['strfile'] = 'ファイル';
 	$lang['strfileimported'] = 'ファイルをインポートしました。';
 	$lang['strtrycred']  =  'すべてのサーバーでこの情報を使う';
+	$lang['stractionsonmultiplelines']  =  '複数行の操作';
+	$lang['strselectall']  =  'すべて選択する';
+	$lang['strunselectall']  =  'すべて選択を解除する';
+	$lang['strlocale']  =  'ロケール';
+
+	// User-supplied SQL history
+	$lang['strhistory']  =  '履歴';
+	$lang['strnohistory']  =  '履歴がありません。';
+	$lang['strclearhistory']  =  '履歴を消去するす';
+	$lang['strdelhistory']  =  '履歴から削除する';
+	$lang['strconfdelhistory']  =  '本当に履歴からこの要求を削除しますか?';
+	$lang['strconfclearhistory']  =  '本当に履歴を消去しますか?';
+	$lang['strnodatabaseselected']  =  'データベースを選択してください。';
 
 	// Database Sizes
-$lang['strsize']  =  'サイズ';
-$lang['strbytes']  =  'バイト';
-$lang['strkb']  =  'kB';
-$lang['strmb']  =  'MB';
-$lang['strgb']  =  'GB';
-$lang['strtb']  =  'TB';
+	$lang['strsize']  =  'サイズ';
+	$lang['strbytes']  =  'バイト';
+	$lang['strkb']  =  'kB';
+	$lang['strmb']  =  'MB';
+	$lang['strgb']  =  'GB';
+	$lang['strtb']  =  'TB';
 
 	// Error handling
 	$lang['strnoframes'] = 'このアプリケーションを使用するためにはフレームが使用可能なブラウザーが必要です。';
@@ -164,16 +178,24 @@ $lang['strtb']  =  'TB';
 	$lang['strimporterrorline-badcolumnnum']  =  '%s 行でインポートエラー:  行は正しい列数を持っていません。';
 	$lang['strimporterror-uploadedfile']  =  'インポートエラー: サーバーにファイルをアップロードすることができないかもしれません。';
 	$lang['strcannotdumponwindows']  =  'Windows 上での複合テーブルとスキーマ名のダンプはサポートしていません。';
+$lang['strinvalidserverparam']  =  'Attempt to connect with invalid server parameter, possibly someone is trying to hack your system.'; 
+	$lang['strnoserversupplied']  =  'サーバーが指定されていません!';
 
 	// Tables
 	$lang['strtable'] = 'テーブル';
 	$lang['strtables'] = 'テーブル';
-	$lang['strshowalltables'] = '全テーブルを見る';
+	$lang['strshowalltables'] = 'すべてのテーブルを表示する';
 	$lang['strnotables'] = 'テーブルが見つかりません。';
 	$lang['strnotable'] = 'テーブルが見つかりません。';
 	$lang['strcreatetable'] = 'テーブルを作成する';
+	$lang['strcreatetablelike']  =  'このテーブルを元に新しいテーブルを作成する';
+	$lang['strcreatetablelikeparent']  =  '元テーブル';
+	$lang['strcreatelikewithdefaults']  =  'DEFAULT を含む';
+	$lang['strcreatelikewithconstraints']  =  'CONSTRAINTS を含む';
+	$lang['strcreatelikewithindexes']  =  'INDEX を含む';
 	$lang['strtablename'] = 'テーブル名';
 	$lang['strtableneedsname'] = 'テーブル名を指定する必要があります。';
+$lang['strtablelikeneedslike']  =  'You must give a table to copy properties from.';
 	$lang['strtableneedsfield'] = '少なくとも一つのフィールドを指定しなければなりません。';
 	$lang['strtableneedscols'] = '有効なカラム数を指定しなければなりません。';
 	$lang['strtablecreated'] = 'テーブルを作成しました。';
@@ -201,7 +223,6 @@ $lang['strtb']  =  'TB';
 	$lang['strselectallfields'] = 'すべてのフィールドを選択する';
 	$lang['strselectneedscol'] = '少なくとも一カラムは必要です。';
 	$lang['strselectunary'] = '単項のオペレーターは値を持つことができません。';
-	$lang['straltercolumn'] = 'カラムの変更';
 	$lang['strcolumnaltered'] = 'カラムを変更しました。';
 	$lang['strcolumnalteredbad'] = 'カラムの変更に失敗しました。';
 	$lang['strconfdropcolumn'] = '本当にカラム「%s」をテーブル「%s」から破棄していいですか?';
@@ -219,8 +240,17 @@ $lang['strtb']  =  'TB';
 	$lang['strtabbed'] = 'タブ区切り';
 	$lang['strauto'] = '自動';
 	$lang['strconfvacuumtable'] = '本当に「%s」をバキュームしますか?';
+	$lang['strconfanalyzetable']  =  '「%s」を本当に分析(ANALYZE)しますか?';
 	$lang['strestimatedrowcount'] = '評価済レコード数';
+	$lang['strspecifytabletoanalyze']  =  'テーブルを解析には少なくとも 1 つ指定しなければなりません';
+	$lang['strspecifytabletoempty']  =  'テーブルを空にするには少なくとも 1 つ指定しなければなりません';
+	$lang['strspecifytabletodrop']  =  'テーブルを破棄するには少なくとも 1 つ指定しなければなりません';
+	$lang['strspecifytabletovacuum']  =  'テーブルをバキュームするには少なくとも 1 つ指定しなければなりません';
 
+	// Columns
+	$lang['strcolprop']  =  'カラムのプロパティ';
+	$lang['strnotableprovided']  =  'テーブルが指定されていません!';
+		
 	// Users
 	$lang['struser'] = 'ユーザー';
 	$lang['strusers'] = 'ユーザー';
@@ -233,7 +263,7 @@ $lang['strtb']  =  'TB';
 	$lang['strnousers'] = 'ユーザーが見つかりません。';
 	$lang['struserupdated'] = 'ユーザーを更新しました。';
 	$lang['struserupdatedbad'] = 'ユーザーの更新に失敗しました。';
-	$lang['strshowallusers'] = '全てのユーザーを見る。';
+	$lang['strshowallusers'] = 'すべてのユーザーを表示する';
 	$lang['strcreateuser'] = 'ユーザーを作成する';
 	$lang['struserneedsname'] = 'ユーザーの名前をが必要です。';
 	$lang['strusercreated'] = 'ユーザーを作成しました。';
@@ -251,10 +281,10 @@ $lang['strtb']  =  'TB';
 	// Groups
 	$lang['strgroup'] = 'グループ';
 	$lang['strgroups'] = 'グループ';
+	$lang['strshowallgroups']  =  'すべてのグループを表示する';
 	$lang['strnogroup'] = 'グループがありません。';
 	$lang['strnogroups'] = 'グループが見つかりません。';
 	$lang['strcreategroup'] = 'グループを作成する';
-	$lang['strshowallgroups'] = '全グループを見る';
 	$lang['strgroupneedsname'] = 'グループ名を指定しなければなりません。';
 	$lang['strgroupcreated'] = 'グループを作成しました。';
 	$lang['strgroupcreatedbad'] = 'グループの作成に失敗しました。';	
@@ -262,6 +292,8 @@ $lang['strtb']  =  'TB';
 	$lang['strgroupdropped'] = 'グループを破棄しました。';
 	$lang['strgroupdroppedbad'] = 'グループの破棄に失敗しました。';
 	$lang['strmembers'] = 'メンバー';
+	$lang['strmemberof']  =  '次のグループのメンバー:';
+	$lang['stradminmembers']  =  '管理メンバー';
 	$lang['straddmember'] = 'メンバーを追加する';
 	$lang['strmemberadded'] = 'メンバーを追加しました。';
 	$lang['strmemberaddedbad'] = 'メンバーの追加に失敗しました。';
@@ -269,6 +301,28 @@ $lang['strtb']  =  'TB';
 	$lang['strconfdropmember'] = '本当にメンバー「%s」をグループ「%s」から破棄しますか?';
 	$lang['strmemberdropped'] = 'メンバーを破棄しました。';
 	$lang['strmemberdroppedbad'] = 'メンバーの破棄に失敗しました。';
+
+	// Roles
+	$lang['strrole']  =  'ロール';
+	$lang['strroles']  =  'ロール';
+	$lang['strshowallroles']  =  'すべてのロールを表示する';
+	$lang['strnoroles']  =  'ロールが見つかりません。';
+	$lang['strinheritsprivs']  =  '特権を引き継ぎますか?';
+	$lang['strcreaterole']  =  'ロールを作成する';
+	$lang['strcancreaterole']  =  'ロールを作成できますか?';
+	$lang['strrolecreated']  =  'ロールを作成しました。';
+	$lang['strrolecreatedbad']  =  'ロールの作成に失敗しました。';
+	$lang['strrolealtered']  =  'ロールを変更しました。';
+	$lang['strrolealteredbad']  =  'ロールの変更に失敗しました。';
+	$lang['strcanlogin']  =  'ログインできますか?';
+	$lang['strconnlimit']  =  '接続制限';
+	$lang['strdroprole']  =  'ロールを破棄する';
+	$lang['strconfdroprole']  =  '本当にロール「%s」を破棄しますか?';
+	$lang['strroledropped']  =  'ロールを破棄しました。';
+	$lang['strroledroppedbad']  =  'ロールの破棄に失敗しました。';
+	$lang['strnolimit']  =  '制限なし';
+	$lang['strnever']  =  'Never';
+	$lang['strroleneedsname']  =  'ロールの名前を指定しなければなりません。';
 
 	// Privileges
 	$lang['strprivilege'] = '特権';
@@ -285,8 +339,8 @@ $lang['strtb']  =  'TB';
 	// Databases
 	$lang['strdatabase'] = 'データベース';
 	$lang['strdatabases'] = 'データベース';
-	$lang['strshowalldatabases'] = '全データベースを見る';
-	$lang['strnodatabases'] = 'データベースが全くありません。';
+	$lang['strshowalldatabases'] = 'すべてのデータベースを表示する';
+	$lang['strnodatabases'] = 'データベースがまったくありません。';
 	$lang['strcreatedatabase'] = 'データベースを作成する';
 	$lang['strdatabasename'] = 'データベース名';
 	$lang['strdatabaseneedsname'] = 'データベース名を指定しなければなりません。';
@@ -311,11 +365,12 @@ $lang['strtb']  =  'TB';
 	$lang['strallobjects'] = 'すべてのオブジェクト';
 	$lang['strdatabasealtered']  =  'データベースを変更しました。';
 	$lang['strdatabasealteredbad']  =  'データベースの変更に失敗しました。';
+	$lang['strspecifydatabasetodrop']  =  'データベースを破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Views
 	$lang['strview'] = 'ビュー';
 	$lang['strviews'] = 'ビュー';
-	$lang['strshowallviews'] = '全ビューを表示する';
+	$lang['strshowallviews'] = 'すべてのビューを表示する';
 	$lang['strnoview'] = 'ビューがありません。';
 	$lang['strnoviews'] = 'ビューが見つかりません。';
 	$lang['strcreateview'] = 'ビューを作成する';
@@ -330,14 +385,20 @@ $lang['strtb']  =  'TB';
 	$lang['strviewdroppedbad'] = 'ビューの破棄に失敗しました。';
 	$lang['strviewupdated'] = 'ビューを更新しました。';
 	$lang['strviewupdatedbad'] = 'ビューの更新に失敗しました。';
-$lang['strviewlink'] = 'Linking Keys';
+	$lang['strviewlink'] = 'リンクしたキー';
 	$lang['strviewconditions'] = '追加条件';
 	$lang['strcreateviewwiz'] = 'ウィザードでビューを作成する';
+	$lang['strrenamedupfields']  =  '重複項目の名前を変更する';
+	$lang['strdropdupfields']  =  '重複項目を破棄する';
+	$lang['strerrordupfields']  =  '重複項目のエラーです';
+	$lang['strviewaltered']  =  'ビューを変更しました。';
+	$lang['strviewalteredbad']  =  'ビューの変更に失敗しました。';
+	$lang['strspecifyviewtodrop']  =  'ビューを破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Sequences
 	$lang['strsequence'] = 'シーケンス';
 	$lang['strsequences'] = 'シーケンス';
-	$lang['strshowallsequences'] = '全シーケンスを見る';
+	$lang['strshowallsequences'] = 'すべてのシーケンスを表示する';
 	$lang['strnosequence'] = 'シーケンスがありません。';
 	$lang['strnosequences'] = 'シーケンスが見つかりません。';
 	$lang['strcreatesequence'] = 'シーケンスを作成する';
@@ -348,7 +409,8 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strminvalue'] = '最小値';
 	$lang['strcachevalue'] = 'キャッシュ値';
 	$lang['strlogcount'] = 'ログカウント';
-	$lang['striscycled'] = 'Cycle しますか?';
+$lang['strcancycle']  =  'Can cycle?';
+$lang['striscalled']  =  'Will increment last value before returning next value (is_called)?';
 	$lang['strsequenceneedsname'] = 'シーケンス名を指定しなければなりません。';
 	$lang['strsequencecreated'] = 'シーケンスを作成しました。';
 	$lang['strsequencecreatedbad'] = 'シーケンスの作成に失敗しました。'; 
@@ -357,12 +419,21 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strsequencedroppedbad'] = 'シーケンスの破棄に失敗しました。';
 	$lang['strsequencereset'] = 'シーケンスリセットを行いました。';
 	$lang['strsequenceresetbad'] = 'シーケンスのリセットに失敗しました。'; 
+	$lang['strsequencealtered']  =  'シーケンスを変更しました。';
+	$lang['strsequencealteredbad']  =  'シーケンスの変更に失敗しました。';
+	$lang['strsetval']  =  '値を設定する';
+	$lang['strsequencesetval']  =  'シーケンス値を設定しました。';
+	$lang['strsequencesetvalbad']  =  'シーケンス値の設定に失敗しました。';
+	$lang['strnextval']  =  '値を増加する';
+	$lang['strsequencenextval']  =  '値を増加しました。';
+	$lang['strsequencenextvalbad']  =  '値の増加に失敗しました。';
+	$lang['strspecifysequencetodrop']  =  'シーケンスを破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Indexes
 	$lang['strindex'] = 'インデックス';
 	$lang['strindexes'] = 'インデックス';
 	$lang['strindexname'] = 'インデックス名';
-	$lang['strshowallindexes'] = '全インデックスを表示する';
+	$lang['strshowallindexes'] = 'すべてのインデックスを表示する';
 	$lang['strnoindex'] = 'インデックスがありません。';
 	$lang['strnoindexes'] = 'インデックスが見つかりません。';
 	$lang['strcreateindex'] = 'インデックスを作成する';
@@ -378,7 +449,7 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strkeyname'] = 'キー名';
 	$lang['struniquekey'] = 'ユニークキー';
 	$lang['strprimarykey'] = 'プライマリキー';
- 	$lang['strindextype'] = 'インデックスタイプ';
+	$lang['strindextype'] = 'インデックスタイプ';
 	$lang['strtablecolumnlist'] = 'テーブル中のカラム';
 	$lang['strindexcolumnlist'] = 'インデックス中のカラム';
 	$lang['strconfcluster'] = '本当に「%s」をクラスターにしますか?';
@@ -388,7 +459,7 @@ $lang['strviewlink'] = 'Linking Keys';
 	// Rules
 	$lang['strrules'] = 'ルール';
 	$lang['strrule'] = 'ルール';
-	$lang['strshowallrules'] = '全ルールを表示する';
+	$lang['strshowallrules'] = 'すべてのルールを表示する';
 	$lang['strnorule'] = 'ルールがありません。';
 	$lang['strnorules'] = 'ルールが見つかりません。';
 	$lang['strcreaterule'] = 'ルールを作成する';
@@ -403,7 +474,7 @@ $lang['strviewlink'] = 'Linking Keys';
 	// Constraints
 	$lang['strconstraint'] = '検査制約';
 	$lang['strconstraints'] = '検査制約';
-	$lang['strshowallconstraints'] = '全検査制約を表示する';
+	$lang['strshowallconstraints'] = 'すべての検査制約を表示する';
 	$lang['strnoconstraints'] = '検査制約がありません。';
 	$lang['strcreateconstraint'] = '検査制約を作成する';
 	$lang['strconstraintcreated'] = '検査制約を作成しました。';
@@ -436,7 +507,7 @@ $lang['strviewlink'] = 'Linking Keys';
 	// Functions
 	$lang['strfunction'] = '関数';
 	$lang['strfunctions'] = '関数';
-	$lang['strshowallfunctions'] = '全関数を表示する';
+	$lang['strshowallfunctions'] = 'すべて関数を表示する';
 	$lang['strnofunction'] = '関数がありません。';
 	$lang['strnofunctions'] = '関数が見つかりません。';
 	$lang['strcreateplfunction'] = 'SQL/PL 関数を作成する';
@@ -444,7 +515,6 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strcreatecfunction'] = 'C 関数を作成する';
 	$lang['strfunctionname'] = '関数名';
 	$lang['strreturns'] = '返り値';
-	$lang['strarguments'] = '引数';
 	$lang['strproglanguage'] = 'プログラミング言語';
 	$lang['strfunctionneedsname'] = '関数名を指定しなければなりません。';
 	$lang['strfunctionneedsdef'] = '関数の定義をしなければなりあせん。';
@@ -457,11 +527,27 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strfunctionupdatedbad'] = '関数の更新に失敗しました。';
 	$lang['strobjectfile'] = 'オブジェクトファイル';
 	$lang['strlinksymbol'] = 'リンクシンボル';
+	$lang['strarguments']  =  '引数';
+	$lang['strargmode']  =  'モード';
+	$lang['strargtype']  =  '種類';
+	$lang['strargadd']  =  '他の引数を追加する';
+	$lang['strargremove']  =  'この引数を削除する';
+	$lang['strargnoargs']  =  'この関数はいくつかの引数を取らなでしょう。';
+$lang['strargenableargs']  =  'Enable arguments being passed to this function.';
+	$lang['strargnorowabove']  =  'この行の上に行が必要です。';
+	$lang['strargnorowbelow']  =  'この行の下に行が必要です。';
+	$lang['strargraise']  =  '上に移動します。';
+	$lang['strarglower']  =  '下に移動します。';
+	$lang['strargremoveconfirm']  =  '本当にこの引数を削除しますか? これは戻すことができませんThis CANNOT be undone。';
+$lang['strfunctioncosting']  =  'Function Costing';
+$lang['strresultrows']  =  'Result Rows';
+$lang['strexecutioncost']  =  'Execution Cost';
+	$lang['strspecifyfunctiontodrop']  =  '関数を破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Triggers
 	$lang['strtrigger'] = 'トリガー';
 	$lang['strtriggers'] = 'トリガー';
-	$lang['strshowalltriggers'] = '全トリガーを表示';
+	$lang['strshowalltriggers'] = 'すべてのトリガーを表示する';
 	$lang['strnotrigger'] = 'トリガーがありません。';
 	$lang['strnotriggers'] = 'トリガーが見つかりません。';
 	$lang['strcreatetrigger'] = 'トリガーを作成する';
@@ -470,8 +556,14 @@ $lang['strviewlink'] = 'Linking Keys';
 	$lang['strtriggercreated'] = 'トリガーを作成しました。';
 	$lang['strtriggercreatedbad'] = 'トリガーの作成に失敗しました。';
 	$lang['strconfdroptrigger'] = '本当にトリガー「%s」をデータベース「%s」から破棄しますか?';
+	$lang['strconfenabletrigger']  =  '本当に「%2$s」のトリガー「%1$s」を有効にしますか?';
+	$lang['strconfdisabletrigger']  =  '本当に「%2$s」のトリガー「%1$s」を無効にしますか?';
 	$lang['strtriggerdropped'] = 'トリガーを破棄しました。';
 	$lang['strtriggerdroppedbad'] = 'トリガーの破棄に失敗しました。';
+	$lang['strtriggerenabled']  =  'トリガーを有効にしました。';
+	$lang['strtriggerenabledbad']  =  'トリガーの有効化に失敗しました。';
+	$lang['strtriggerdisabled']  =  'トリガーを無効にしました。';
+	$lang['strtriggerdisabledbad']  =  'トリガーの無効化に失敗しました。';
 	$lang['strtriggeraltered'] = 'トリガーを変更しました。';
 	$lang['strtriggeralteredbad'] = 'トリガーの変更に失敗しました。';
 $lang['strforeach']  =  'For each';
@@ -479,14 +571,16 @@ $lang['strforeach']  =  'For each';
 	// Types
 	$lang['strtype'] = 'データ型';
 	$lang['strtypes'] = 'データ型';
-	$lang['strshowalltypes'] = '全データ型を表示する';
+	$lang['strshowalltypes'] = 'すべてのデータ型を表示する';
 	$lang['strnotype'] = 'データ型がありません。';
 	$lang['strnotypes'] = 'データ型が見つかりませんでした。';
 	$lang['strcreatetype'] = 'データ型を作成する';
 	$lang['strcreatecomptype'] = '複合型を作成する';
+$lang['strcreateenumtype']  =  'Create enum type';
 	$lang['strtypeneedsfield'] = '少なくとも 1 つのフィールドを指定しなければなりません。';
+	$lang['strtypeneedsvalue']  =  '少なくとも 1 つの値を指定しなければなりません。';
 	$lang['strtypeneedscols'] = '有効なフィールドの数を指定しなければなりません。';
-	$lang['strtypename'] = 'データ型名';
+$lang['strtypeneedsvals']  =  'You must specify a valid number of values.';
 	$lang['strinputfn'] = '入力関数';
 	$lang['stroutputfn'] = '出力関数';
 $lang['strpassbyval'] = 'Passed by val?';
@@ -495,7 +589,10 @@ $lang['strpassbyval'] = 'Passed by val?';
 	$lang['strdelimiter'] = 'デミリタ';
 	$lang['strstorage'] = 'ストレージ';
 	$lang['strfield'] = 'フィールド';
+$lang['strvalue']  =  'Value';
+$lang['strvalue']  =  'Value';
 	$lang['strnumfields'] = 'フィールド数';
+$lang['strnumvalues']  =  'Num. of values';
 	$lang['strtypeneedsname'] = '型名を指定しなければなりません。';
 	$lang['strtypeneedslen'] = 'データ型の長さを指定しなければなりません。';
 	$lang['strtypecreated'] = 'データ型を作成しました。';
@@ -507,11 +604,13 @@ $lang['strpassbyval'] = 'Passed by val?';
 	$lang['strbasetype'] = '基本';
 	$lang['strcompositetype'] = '複合型';
 	$lang['strpseudotype'] = '擬似データ';
+$lang['strenum']  =  'Enum';
+$lang['strenumvalues']  =  'Enum Values';
 
 	// Schemas
 	$lang['strschema'] = 'スキーマ';
 	$lang['strschemas'] = 'スキーマ';
-	$lang['strshowallschemas'] = '全スキーマを表示する';
+	$lang['strshowallschemas'] = 'すべてのスキーマを表示する';
 	$lang['strnoschema'] = 'スキーマがありません。';
 	$lang['strnoschemas'] = 'スキーマが見つかりません。';
 	$lang['strcreateschema'] = 'スキーマを作成する';
@@ -525,11 +624,12 @@ $lang['strpassbyval'] = 'Passed by val?';
 	$lang['strschemaaltered'] = 'スキーマを変更しました。';
 	$lang['strschemaalteredbad'] = 'スキーマの変更に失敗しました。';
 	$lang['strsearchpath'] = 'スキーマ検索パス';
+	$lang['strspecifyschematodrop']  =  'スキーマを破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Reports
 	$lang['strreport'] = 'レポート';
 	$lang['strreports'] = 'レポート';
-	$lang['strshowallreports'] = '全レポートを見る';
+	$lang['strshowallreports'] = 'すべてのレポートを表示する';
 	$lang['strnoreports'] = 'レポートが見つかりません。';
 	$lang['strcreatereport'] = 'レポートを作成する';
 	$lang['strreportdropped'] = 'レポートを破棄しました。';
@@ -543,7 +643,7 @@ $lang['strpassbyval'] = 'Passed by val?';
 	// Domains
 	$lang['strdomain'] = 'ドメイン';
 	$lang['strdomains'] = 'ドメイン';
-	$lang['strshowalldomains'] = '全ドメインを見る';
+	$lang['strshowalldomains'] = 'すべてのドメインを表示する';
 	$lang['strnodomains'] = 'ドメインがありません。';
 	$lang['strcreatedomain'] = 'ドメイン作成';
 	$lang['strdomaindropped'] = 'ドメインを破棄しました。';
@@ -558,7 +658,7 @@ $lang['strpassbyval'] = 'Passed by val?';
 	// Operators
 	$lang['stroperator'] = '演算子';
 	$lang['stroperators'] = '演算子';
-	$lang['strshowalloperators'] = '全演算子を見る';
+	$lang['strshowalloperators'] = 'すべての演算子を表示する';
 	$lang['strnooperator'] = '演算子が見つかりません。';
 	$lang['strnooperators'] = '演算子クラスが見つかりません。';
 	$lang['strcreateoperator'] = '演算子を作成しました。';
@@ -588,7 +688,7 @@ $lang['strpassbyval'] = 'Passed by val?';
 	$lang['strtargettype'] = 'ターゲットタイプ';
 	$lang['strimplicit'] = '暗黙';
 $lang['strinassignment'] = 'In assignment';
-	$lang['strbinarycompat'] = '(バイナリ互換)';
+	$lang['strbinarycompat'] = '(バイナリー互換)';
 	
 	// Conversions
 	$lang['strconversions'] = '変換';
@@ -608,9 +708,29 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strchildtables'] = '子テーブル';
 
 	// Aggregates
+	$lang['straggregate']  =  '集計';
 	$lang['straggregates'] = '集計';
 	$lang['strnoaggregates'] = '集計がありません。';
-	$lang['stralltypes'] = '(全てのタイプ)';
+	$lang['stralltypes'] = '(すべての種類)';
+	$lang['strcreateaggregate']  =  '集計を作成する';
+	$lang['straggrbasetype']  =  '入力データの種類';
+	$lang['straggrsfunc']  =  '状態遷移関数';
+	$lang['straggrstype']  =  '状態データの種類';
+	$lang['straggrffunc']  =  '終了関数';
+	$lang['straggrinitcond']  =  '初期状態';
+	$lang['straggrsortop']  =  'ソート操作';
+	$lang['strconfdropaggregate']  =  '本当に集計「%s」を破棄しますか?';
+	$lang['straggregatedropped']  =  '集計を破棄しました。';
+	$lang['straggregatedroppedbad']  =  '集計の破棄に失敗しました。';
+	$lang['straggraltered']  =  '集計を変更しました。';
+	$lang['straggralteredbad']  =  '集計の変更に失敗しました。';
+	$lang['straggrneedsname']  =  '集計は名前を指定しなければなりません';
+	$lang['straggrneedsbasetype']  =  '集計は入力データの種類を指定しなければなりません';
+	$lang['straggrneedssfunc']  =  '集計は状態遷移関数の名前を指定しなければなりません';
+	$lang['straggrneedsstype']  =  '集計の状態値のデータの種類を指定しなければなりません';
+	$lang['straggrcreated']  =  '集計を作成しました。';
+	$lang['straggrcreatedbad']  =  '集計の作成に失敗しました。';
+	$lang['straggrshowall']  =  'すべての集計を表示する';
 
 	// Operator Classes
 	$lang['stropclasses'] = '演算子クラス';
@@ -637,7 +757,7 @@ $lang['strtrusted'] = 'Trusted';
 	// Tablespaces
 	$lang['strtablespace'] = 'テーブル空間';
 	$lang['strtablespaces']  =  'テーブル空間';
-	$lang['strshowalltablespaces'] = 'すべてのテーブルスペースを表示';
+	$lang['strshowalltablespaces'] = 'すべてのテーブルスペースを表示する';
 	$lang['strnotablespaces'] = 'テーブル空間が見つかりません。';
 	$lang['strcreatetablespace'] = 'テーブル空間を作成する';
 	$lang['strlocation'] = 'ロケーション';
@@ -664,7 +784,7 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strclusterneedsnodeid']  =  'ローカルノードの ID を与える必要があります。';
 	
 	// Slony nodes
-	$lang['strnodes']  =  'Nodes';
+	$lang['strnodes']  =  'ノード';
 	$lang['strnonodes']  =  'ノードが見つかりません。';
 	$lang['strcreatenode']  =  'ノードを作成する';
 	$lang['strid']  =  'ID';
@@ -677,7 +797,11 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strfailover']  =  'フェイルオーバーする';
 	$lang['strnodefailedover']  =  'ノードをフェイルオーバーしました。';
 	$lang['strnodefailedoverbad']  =  'ノードのフェイルオーバーに失敗しました。';
-	
+	$lang['strstatus']  =  '状態';
+$lang['strhealthy']  =  'Healthy';
+$lang['stroutofsync']  =  'Out of Sync';
+	$lang['strunknown']  =  '不明';	
+
 	// Slony paths	
 	$lang['strpaths']  =  'パス';
 	$lang['strnopaths']  =  'パスが見つかりません。';
@@ -731,7 +855,6 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strconfunlockrepset']  =  '本当にレプリケーションセット「%s」のロックを解除しますか?';
 	$lang['strrepsetunlocked']  =  'レプリケーションセットを解除しました。';
 	$lang['strrepsetunlockedbad']  =  'レプリケーションセットの解除に失敗しました。';
-	$lang['strexecute']  =  '実行する';
 	$lang['stronlyonnode']  =  'ノードでのみ';
 	$lang['strddlscript']  =  'DDL スクリプト';
 	$lang['strscriptneedsbody']  =  'すべてのノード上で実行されるスクリプトを提供しなければなりません。';
@@ -765,9 +888,96 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strtimefmt'] = 'Y 年 n 月 j 日 G:i';
 	$lang['strhelp'] = 'ヘルプ';
 	$lang['strhelpicon'] = '?';
+	$lang['strhelppagebrowser']  =  'ヘルプページブラウザー';
+	$lang['strselecthelppage']  =  'ヘルプページを選んでください';
+	$lang['strinvalidhelppage']  =  '無効なヘルプページです。';
 	$lang['strlogintitle'] = '%s にログイン';
 	$lang['strlogoutmsg'] = '%s をログアウトしました。';
 	$lang['strloading'] = '読み込み中...';
 	$lang['strerrorloading'] = '読み込み中のエラーです。';
 	$lang['strclicktoreload'] = 'クリックで再読み込み';
+
+	// Autovacuum
+	$lang['strautovacuum']  =  'オートバキューム'; 
+	$lang['strturnedon']  =  'オンにする'; 
+	$lang['strturnedoff']  =  'オフにする'; 
+$lang['strenabled']  =  'Enabled'; 
+	$lang['strvacuumbasethreshold']  =  '閾値に基づいたバキューム'; 
+$lang['strvacuumscalefactor']  =  'Vacuum Scale Factor';  
+	$lang['stranalybasethreshold']  =  '閾値に基づいた解析';  
+$lang['stranalyzescalefactor']  =  'Analyze Scale Factor'; 
+$lang['strvacuumcostdelay']  =  'Vacuum Cost Delay'; 
+$lang['strvacuumcostlimit']  =  'Vacuum Cost Limit';  
+
+	// Table-level Locks
+	$lang['strlocks']  =  'ロック';
+	$lang['strtransaction']  =  'トランザクション ID';
+	$lang['strvirtualtransaction']  =  '仮想トランザクション ID';
+	$lang['strprocessid']  =  'プロセス ID';
+	$lang['strmode']  =  'ロックモード';
+$lang['strislockheld']  =  'Is lock held?';
+
+	// Prepared transactions
+	$lang['strpreparedxacts']  =  'プリペアを用いたトランザクション';
+	$lang['strxactid']  =  'トランザクション ID';
+	$lang['strgid']  =  '全体 ID';
+	
+	// Fulltext search
+	$lang['strfulltext']  =  '全文テキスト検索';
+	$lang['strftsconfig']  =  'FTS 設定';
+    $lang['strftsconfigs']  =  '設定';
+	$lang['strftscreateconfig']  =  'FTS 設定の作成';
+	$lang['strftscreatedict']  =  '辞書を作成する';
+	$lang['strftscreatedicttemplate']  =  '辞書のテンプレートを作成する';
+	$lang['strftscreateparser']  =  'パーサーを作成する';
+	$lang['strftsnoconfigs']  =  'FTS 設定が見つかりません。';
+	$lang['strftsconfigdropped']  =  'FTS 設定を破棄しました。';
+	$lang['strftsconfigdroppedbad']  =  'FTS 設定の破棄に失敗しました。';
+	$lang['strconfdropftsconfig']  =  '本当に FTS 設定「%s」を破棄しますか?';
+	$lang['strconfdropftsdict']  =  '本当に FTS 辞書「%s」を破棄しますか?';
+	$lang['strconfdropftsmapping']  =  '本当に FTS 設定「%s」のマップ「%s」を破棄しますか?';
+	$lang['strftstemplate']  =  'テンプレート';
+	$lang['strftsparser']  =  'パーサー';
+	$lang['strftsconfigneedsname']  =  'FTS 設定には名前を指定する必要があります。';
+	$lang['strftsconfigcreated']  =  'FTS 設定を作成しました。';
+	$lang['strftsconfigcreatedbad']  =  'FTS 設定の作成に失敗しました。';
+$lang['strftsmapping']  =  'Mapping';
+	$lang['strftsdicts']  =  '辞書';
+	$lang['strftsdict']  =  '辞書';
+	$lang['strftsemptymap']  =  'FTS 設定マップが空です。';
+$lang['strftswithmap']  =  'With map';
+$lang['strftsmakedefault']  =  'Make default for given locale';
+	$lang['strftsconfigaltered']  =  'FTS 設定を変更しました。';
+	$lang['strftsconfigalteredbad']  =  'FTS 設定の変更に失敗しました。';
+	$lang['strftsconfigmap']  =  'FTS 設定マップ';
+	$lang['strftsparsers']  =  'FTS パーサー';
+	$lang['strftsnoparsers']  =  '利用できる FTS パーサーがありません。';
+	$lang['strftsnodicts']  =  '利用できる FTS 辞書がありません。';
+	$lang['strftsdictcreated']  =  'FTS 辞書を作成しました。';
+	$lang['strftsdictcreatedbad']  =  'FTS 辞書の作成に失敗しました';
+$lang['strftslexize']  =  'Lexize';
+$lang['strftsinit']  =  'Init';
+	$lang['strftsoptionsvalues']  =  'オプションと値';
+	$lang['strftsdictneedsname']  =  'FTS 辞書の名前を指定しなければなりません。';
+	$lang['strftsdictdropped']  =  'FTS 辞書を破棄しました。';
+	$lang['strftsdictdroppedbad']  =  'FTS 辞書の破棄に失敗しました。';
+	$lang['strftsdictaltered']  =  'FTS 辞書を変更しました。';
+	$lang['strftsdictalteredbad']  =  'FTS 辞書の変更に失敗しました。';
+	$lang['strftsaddmapping']  =  '新規マップを追加する';
+	$lang['strftsspecifymappingtodrop']  =  'マップを破棄をするには少なくとも 1 つ指定しなければなりません';
+	$lang['strftsspecifyconfigtoalter']  =  'FTS 設定を変更するには指定しなければなりません';
+	$lang['strftsmappingdropped']  =  'FTS マップを破棄しました。';
+	$lang['strftsmappingdroppedbad']  =  'FTS マップの破棄に失敗しました。';
+	$lang['strftsnodictionaries']  =  '辞書が見つかりません。';
+	$lang['strftsmappingaltered']  =  'FTS マップを変更しました。';
+	$lang['strftsmappingalteredbad']  =  'FTS マップの変更に失敗しました。';
+	$lang['strftsmappingadded']  =  'FTS マップを追加しました。';
+	$lang['strftsmappingaddedbad']  =  'FTS マップの追加に失敗しました。';
+	$lang['strftsmappingdropped']  =  'FTS マップを破棄しました。';
+	$lang['strftsmappingdroppedbad']  =  'FTS マップの破棄に失敗しました。';
+	$lang['strftstabconfigs']  =  '設定';
+	$lang['strftstabdicts']  =  '辞書';
+	$lang['strftstabparsers']  =  'パーサー';
+    
+    
 ?>
