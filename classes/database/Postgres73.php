@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.184 2007/12/28 15:39:45 ioguix Exp $
+ * $Id: Postgres73.php,v 1.185 2007/12/28 16:21:25 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1740,13 +1740,74 @@ class Postgres73 extends Postgres72 {
 	// Constraint functions
 
 	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function getConstraints($table) {
+		$this->clean($table);
+
+		/* This query finds all foreign key and check constraints in the pg_constraint
+		 * table, and unions that with all indexes that are the basis for unique or
+		 * primary key constraints. */
+		$sql = "
+			SELECT conname, consrc, contype, indkey, indisclustered FROM (
+				SELECT
+					conname,
+					CASE WHEN contype='f' THEN
+						pg_catalog.pg_get_constraintdef(oid)
+					ELSE
+						'CHECK (' || consrc || ')'
+					END AS consrc,
+					contype,
+					conrelid AS relid,
+					NULL AS indkey,
+					FALSE AS indisclustered
+				FROM
+					pg_catalog.pg_constraint
+				WHERE
+					contype IN ('f', 'c')
+				UNION ALL
+				SELECT
+					pc.relname,
+					NULL,
+					CASE WHEN indisprimary THEN
+						'p'
+					ELSE
+						'u'
+					END,
+					pi.indrelid,
+					indkey,
+					pi.indisclustered
+				FROM
+					pg_catalog.pg_class pc,
+					pg_catalog.pg_index pi
+				WHERE
+					pc.oid=pi.indexrelid
+					AND EXISTS (
+						SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+						ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+						WHERE d.classid = pc.tableoid AND d.objid = pc.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+				)
+			) AS sub
+			WHERE relid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}'))
+			ORDER BY
+				1
+		";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Returns a list of all constraints on a table,
 	 * including constraint name, definition, related col and referenced namespace,
 	 * table and col if needed
 	 * @param $table the table where we are looking for fk
 	 * @return a recordset
 	 */
-	function getConstraints($table) {
+	function getConstraintsWithFields($table) {
 		global $data;
 
 		$data->clean($table);

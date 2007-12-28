@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.90 2007/12/28 15:28:57 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.91 2007/12/28 16:21:25 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -459,7 +459,7 @@
 		// Get columns
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
 		// Get Pk & Constraints
-		$ck = $data->getConstraints($_REQUEST['table']);
+		$ck = $data->getConstraintsWithFields($_REQUEST['table']);
 
 		// Show comment if any
 		if ($tdata->fields['relcomment'] !== null)

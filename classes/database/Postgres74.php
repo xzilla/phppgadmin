@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.70 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: Postgres74.php,v 1.71 2007/12/28 16:21:25 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -150,13 +150,55 @@ class Postgres74 extends Postgres73 {
 	// Constraint functions
 
 	/**
+	 * Returns a list of all constraints on a table
+	 * @param $table The table to find rules for
+	 * @return A recordset
+	 */
+	function getConstraints($table) {
+		$this->clean($table);
+
+		// This SQL is greatly complicated by the need to retrieve
+		// index clustering information for primary and unique constraints
+		$sql = "SELECT
+				pc.conname,
+				pg_catalog.pg_get_constraintdef(pc.oid, true) AS consrc,
+				pc.contype,
+				CASE WHEN pc.contype='u' OR pc.contype='p' THEN (
+					SELECT
+						indisclustered
+					FROM
+						pg_catalog.pg_depend pd,
+						pg_catalog.pg_class pl,
+						pg_catalog.pg_index pi
+					WHERE
+						pd.refclassid=pc.tableoid
+						AND pd.refobjid=pc.oid
+						AND pd.objid=pl.oid
+						AND pl.oid=pi.indexrelid
+				) ELSE
+					NULL
+				END AS indisclustered
+			FROM
+				pg_catalog.pg_constraint pc
+			WHERE
+				pc.conrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$this->_schema}'))
+			ORDER BY
+				1
+		";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Returns a list of all constraints on a table,
 	 * including constraint name, definition, related col and referenced namespace,
 	 * table and col if needed
 	 * @param $table the table where we are looking for fk
 	 * @return a recordset
 	 */
-	function getConstraints($table) {
+	function getConstraintsWithFields($table) {
 		global $data;
 
 		$data->clean($table);
@@ -602,7 +644,7 @@ class Postgres74 extends Postgres73 {
 				return -5;
 			}
 
-                        $funcname = $newname; 
+                        $funcname = $newname;
 		}
 
 		// Alter the owner, if necessary
@@ -615,7 +657,7 @@ class Postgres74 extends Postgres73 {
 					$this->rollbackTransaction();
 					return -6;
 				}
-		    }   
+		    }
 
 		}
 
@@ -665,9 +707,9 @@ class Postgres74 extends Postgres73 {
 				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
 		if ($status != 0)
 			return $status;
-		
+
 		/* $schema not supported in pg74 */
-		
+
 		// if name != seqname, sequence has been renamed in parent
 		$sequence = ($seqrs->fields['seqname'] == $name) ? $seqrs->fields['seqname'] : $name;
 		$this->clean($increment);
