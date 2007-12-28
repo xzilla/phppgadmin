@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.183 2007/12/28 15:28:57 ioguix Exp $
+ * $Id: Postgres73.php,v 1.184 2007/12/28 15:39:45 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1828,7 +1828,6 @@ class Postgres73 extends Postgres72 {
 			NULL as f_field, indkey
 		  FROM
 			pg_catalog.pg_class pc, pg_catalog.pg_index pi
-			-- JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=pi.indrelid) AND (f1.attnum=pi.indkey[0]))
 			JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=pi.indrelid) AND (f1.attnum=pi.indkey[0]";
 			for ($i = 1; $i <= $max_col_ind; $i++) {
 				$sql.= " OR f1.attnum=pi.indkey[$i]";
