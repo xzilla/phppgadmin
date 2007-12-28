@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.74 2007/12/16 01:14:22 ioguix Exp $
+	 * $Id: functions.php,v 1.75 2007/12/28 17:43:25 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -338,7 +338,7 @@
 	function doDrop($confirm) {
 		global $data, $misc;
 		global $lang, $_reload_browser;
-		
+
 		if (empty($_REQUEST['function']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strspecifyfunctiontodrop']);
 			exit();
@@ -347,9 +347,9 @@
 		if ($confirm) {
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.function.drop');
-			
+
 			echo "<form action=\"functions.php\" method=\"post\">\n";
-			
+
 			//If multi drop
 			if (isset($_REQUEST['ma'])) {
 				foreach($_REQUEST['ma'] as $v) {
@@ -366,7 +366,7 @@
 			}
 
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
-			
+
 			echo $misc->form;
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
@@ -674,7 +674,7 @@
 		elseif ($fnlang != 'internal' && !$def) doCreate($lang['strfunctionneedsdef'],$szJS);
 		else {
 			// Append array symbol to type if chosen
-			$status = $data->createFunction($_POST['formFunction'], empty($_POST["nojs"]) ? buildFunctionArguments($_POST) : $_POST["formArguments"],
+			$status = $data->createFunction($_POST['formFunction'], empty($_POST['nojs'])? buildFunctionArguments($_POST) : $_POST['formArguments'],
 					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'],
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF',
 					$cost, $rows, false);
@@ -690,11 +690,14 @@
 	 * Build out the function arguments string
 	 */
 	function buildFunctionArguments($arrayVars) {
-		$arrayArgs = array();
-		foreach($arrayVars["formArgName"] as $pK => $pV) {
-			$arrayArgs[] = $arrayVars["formArgModes"][$pK]." ". trim($pV) ." ". trim($arrayVars["formArgType"][$pK]) . $arrayVars["formArgArray"][$pK];
+		if(isset($_POST['formArgName'])) {
+			$arrayArgs = array();
+			foreach($arrayVars['formArgName'] as $pK => $pV) {
+				$arrayArgs[] = $arrayVars['formArgModes'][$pK].' '. trim($pV) .' '. trim($arrayVars['formArgType'][$pK]) . $arrayVars['formArgArray'][$pK];
+			}
+			return implode(",",$arrayArgs);
 		}
-		return implode(",",$arrayArgs);
+		return '';
 	}
 
 	/**

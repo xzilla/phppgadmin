@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.16 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: Postgres83.php,v 1.17 2007/12/28 17:43:26 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -648,6 +648,8 @@ class Postgres83 extends Postgres82 {
 		return $this->selectSet($sql);
 	}
 
+	// Function methods
+
 	/**
 	 * Creates a new function.
 	 * @param $funcname The name of the function to create
@@ -696,7 +698,8 @@ class Postgres83 extends Postgres82 {
 		$sql .= " LANGUAGE \"{$language}\"";
 
 		// Add costs
-		$sql .= " COST {$cost}";
+		if (!empty($cost))
+			$sql .= " COST {$cost}";
 
 		if ($rows <> 0 ){
 			$sql .= " ROWS {$rows}";
