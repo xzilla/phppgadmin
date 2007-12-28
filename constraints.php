@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.54 2007/09/29 09:09:45 ioguix Exp $
+	 * $Id: constraints.php,v 1.55 2007/12/28 15:28:57 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -31,7 +31,7 @@
  					// Copy the IndexColumnList variable from stage 1
 					if (isset($_REQUEST['IndexColumnList']) && !isset($_REQUEST['SourceColumnList']))
 						$_REQUEST['SourceColumnList'] = serialize($_REQUEST['IndexColumnList']);
-					
+
 					// Initialise variables
 					if (!isset($_POST['upd_action'])) $_POST['upd_action'] = null;
 					if (!isset($_POST['del_action'])) $_POST['del_action'] = null;
@@ -39,7 +39,7 @@
 					if (!isset($_POST['deferrable'])) $_POST['deferrable'] = null;
 					if (!isset($_POST['initially'])) $_POST['initially'] = null;
 					$_REQUEST['target'] = unserialize($_REQUEST['target']);
-					
+
 					$misc->printTrail('table');
 					$misc->printTitle($lang['straddfk'],'pg.constraint.foreign_key');
 					$misc->printMsg($msg);
@@ -73,7 +73,7 @@
 					$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 					$buttonRemove->set_attribute('type', 'button');
 
-					echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
+					echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";
 
 					echo "<table>\n";
 					echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strfktarget']}</th></tr>";
@@ -83,7 +83,7 @@
 					echo "<td class=\"data1\">" . $selIndex->fetch() . "</td></tr>\n";
 					echo "<tr><th class=\"data\" colspan=\"3\">{$lang['stractions']}</th></tr>";
 					echo "<tr>";
-					echo "<td class=\"data1\" colspan=\"3\">\n";				
+					echo "<td class=\"data1\" colspan=\"3\">\n";
 					// ON SELECT actions
 					echo "{$lang['stronupdate']} <select name=\"upd_action\">";
 					foreach ($data->fkactions as $v)
@@ -135,11 +135,11 @@
 				// Check that they've given at least one column
 				if (isset($_POST['SourceColumnList'])) $temp = unserialize($_POST['SourceColumnList']);
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
-						|| sizeof($_POST['IndexColumnList']) == 0 || !isset($temp) 
+						|| sizeof($_POST['IndexColumnList']) == 0 || !isset($temp)
 						|| !is_array($temp) || sizeof($temp) == 0) addForeignKey(2, $lang['strfkneedscols']);
 				else {
-					$status = $data->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'], 
-						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'], 
+					$status = $data->addForeignKey($_POST['table'], $_POST['target']['schemaname'], $_POST['target']['tablename'],
+						unserialize($_POST['SourceColumnList']), $_POST['IndexColumnList'], $_POST['upd_action'], $_POST['del_action'],
 						$_POST['match'], $_POST['deferrable'], $_POST['initially'], $_POST['name']);
 					if ($status == 0)
 						doDefault($lang['strfkadded']);
@@ -176,7 +176,7 @@
 				$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 				$buttonRemove->set_attribute('type', 'button');
 
-				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
+				echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";
 
 				echo "<table>\n";
 				echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>\n";
@@ -196,7 +196,7 @@
 							echo htmlspecialchars($tables->fields['nspname']), '.';
 					}
 					echo htmlspecialchars($tables->fields['relname']), "</option>\n";
-					$tables->moveNext();	
+					$tables->moveNext();
 				}
 				echo "</select>\n";
 				echo "</td></tr>";
@@ -226,9 +226,9 @@
 		if ($confirm) {
 			if (!isset($_POST['name'])) $_POST['name'] = '';
 			if (!isset($_POST['tablespace'])) $_POST['tablespace'] = '';
-			
+
 			$misc->printTrail('table');
-			
+
 			switch ($type) {
 				case 'primary':
 					$misc->printTitle($lang['straddpk'],'pg.constraint.primary_key');
@@ -240,41 +240,41 @@
 					doDefault($lang['strinvalidparam']);
 					return;
 			}
-			
+
 			$misc->printMsg($msg);
-			
+
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 			// Fetch all tablespaces from the database
 			if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
 
-			
+
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
 			$selColumns->set_style('width: 10em;');
-	
+
 			if ($attrs->recordCount() > 0) {
 				while (!$attrs->EOF) {
 					$selColumns->add(new XHTML_Option($attrs->fields['attname']));
 					$attrs->moveNext();
-				} 
+				}
 			}
-	
+
 			$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
 			$selIndex->set_style('width: 10em;');
 			$selIndex->set_attribute('id', 'IndexColumnList');
 			$buttonAdd = new XHTML_Button('add', '>>');
 			$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
 			$buttonAdd->set_attribute('type', 'button');
-	
+
 			$buttonRemove = new XHTML_Button('remove', '<<');
 			$buttonRemove->set_attribute('onclick', 'buttonPressed(this);');
 			$buttonRemove->set_attribute('type', 'button');
-	
-			echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";	
-	
+
+			echo "<form onsubmit=\"doSelectAll();\" name=\"formIndex\" action=\"constraints.php\" method=\"post\">\n";
+
 			echo "<table>\n";
 			echo "<tr><th class=\"data\" colspan=\"3\">{$lang['strname']}</th></tr>";
 			echo "<tr>";
-			echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" value=\"", htmlspecialchars($_POST['name']), 
+			echo "<td class=\"data1\" colspan=\"3\"><input type=\"text\" name=\"name\" value=\"", htmlspecialchars($_POST['name']),
 				"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" /></td></tr>";
 			echo "<tr><th class=\"data\">{$lang['strtablecolumnlist']}</th><th class=\"data\">&nbsp;</th><th class=\"data required\">{$lang['strindexcolumnlist']}</th></tr>\n";
 			echo "<tr><td class=\"data1\">" . $selColumns->fetch() . "</td>\n";
@@ -299,7 +299,7 @@
 			}
 
 			echo "</table>\n";
-	
+
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_add_primary_key\" />\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
@@ -311,7 +311,7 @@
 		else {
 			// Default tablespace to empty if it isn't set
 			if (!isset($_POST['tablespace'])) $_POST['tablespace'] = '';
-		
+
 			if ($_POST['type'] == 'primary') {
 				// Check that they've given at least one column
 				if (!isset($_POST['IndexColumnList']) || !is_array($_POST['IndexColumnList'])
@@ -430,11 +430,10 @@
 	 * List all the constraints on the table
 	 */
 	function doDefault($msg = '') {
-		global $data, $misc;
-		global $lang;
+		global $data, $misc, $lang;
 
 		function cnPre(&$rowdata) {
-			global $data, $lang;
+			global $data;
 			if (is_null($rowdata->fields['consrc'])) {
 				$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $rowdata->fields['indkey']));
 				$rowdata->fields['+definition'] = ($rowdata->fields['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
@@ -442,7 +441,7 @@
 				$rowdata->fields['+definition'] = $rowdata->fields['consrc'];
 			}
 		}
-		
+
 		$misc->printTrail('table');
 		$misc->printTabs('table','constraints');
 		$misc->printMsg($msg);
@@ -469,7 +468,7 @@
 		);
 
 		if (!$data->hasConstraintsInfo()) unset($columns['comment']);
-		
+
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],
@@ -477,11 +476,11 @@
 				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
 			),
 		);
-		
+
 		if (!$data->hasIsClustered()) unset($columns['clustered']);
-		
+
 		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
-		
+
 		echo "<ul class=\"navlink\">\n\t<li><a href=\"constraints.php?action=add_check&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 			"\">{$lang['straddcheck']}</a></li>\n";
 		echo "\t<li><a href=\"constraints.php?action=add_unique_key&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
@@ -496,7 +495,7 @@
 		global $misc, $data;
 
 		$constraints = $data->getConstraints($_REQUEST['table']);
-		
+
 		$reqvars = $misc->getRequestVars('schema');
 
 		function getIcon($f) {
@@ -509,10 +508,10 @@
 					return 'ForeignKey';
 				case 'p':
 					return 'PrimaryKey';
-				
+
 			}
 		}
-	
+
 		$attrs = array(
 			'text'   => field('conname'),
 			'icon'   => callback('getIcon'),
@@ -580,7 +579,7 @@
 			doDefault();
 			break;
 	}
-	
+
 	$misc->printFooter();
 
 ?>

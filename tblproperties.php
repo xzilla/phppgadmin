@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.89 2007/11/21 15:45:31 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.90 2007/12/28 15:28:57 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -11,7 +11,7 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 
-	/** 
+	/**
 	 * Function to save after altering a table
 	 */
 	function doSaveAlter() {
@@ -22,7 +22,7 @@
 		// Default tablespace to null if it isn't set
 		if (!isset($_POST['tablespace'])) $_POST['tablespace'] = null;
 		if (!isset($_POST['newschema'])) $_POST['newschema'] = null;
-		
+
 		$status = $data->alterTable($_POST['table'], $_POST['name'], $_POST['owner'], $_POST['newschema'], $_POST['comment'], $_POST['tablespace']);
 		if ($status == 0) {
 			// If table has been renamed, need to change to the new name and
@@ -51,33 +51,33 @@
 	function doAlter($msg = '') {
 		global $data, $misc;
 		global $lang;
-		
+
 		$misc->printTrail('table');
 		$misc->printTitle($lang['stralter'], 'pg.table.alter');
 		$misc->printMsg($msg);
 
-		// Fetch table info		
+		// Fetch table info
 		$table = $data->getTable($_REQUEST['table']);
 		// Fetch all users
 		$users = $data->getUsers();
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces(true);
-		
+
 		if ($table->recordCount() > 0) {
-			
+
 			if (!isset($_POST['name'])) $_POST['name'] = $table->fields['relname'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $table->fields['relowner'];
 			if (!isset($_POST['newschema'])) $_POST['newschema'] = $table->fields['nspname'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $table->fields['relcomment'];
 			if ($data->hasTablespaces() && !isset($_POST['tablespace'])) $_POST['tablespace'] = $table->fields['tablespace'];
-			
+
 			echo "<form action=\"tblproperties.php\" method=\"post\">\n";
 			echo "<table>\n";
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
-			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
-			
+
 			$server_info = $misc->getServerInfo();
 			if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
@@ -88,9 +88,9 @@
 						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
 					$users->moveNext();
 				}
-				echo "</select></td></tr>\n";				
+				echo "</select></td></tr>\n";
 			}
-			
+
 			if ($data->hasAlterTableSchema()) {
 				$schemas = $data->getSchemas();
 				echo "<tr><th class=\"data left required\">{$lang['strschema']}</th>\n";
@@ -103,7 +103,7 @@
 				}
 			    echo "</select></td></tr>\n";
 			}
-			
+
 			// Tablespace (if there are any)
 			if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
 				echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strtablespace']}</th>\n";
@@ -120,7 +120,7 @@
 				}
 				echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 			}
-			
+
 			echo "<tr><th class=\"data left\">{$lang['strcomment']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<textarea rows=\"3\" cols=\"32\" name=\"comment\">",
@@ -135,14 +135,14 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}
-	
+
 	function doExport($msg = '') {
 		global $data, $misc;
 		global $lang;
 
 		// Determine whether or not the table has an object ID
 		$hasID = $data->hasObjectID($_REQUEST['table']);
-		
+
 		$misc->printTrail('table');
 		$misc->printTabs('table','export');
 		$misc->printMsg($msg);
@@ -181,7 +181,7 @@
 			echo "<tr><td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
 		}
 		echo "</table>\n";
-		
+
 		echo "<h3>{$lang['stroptions']}</h3>\n";
 		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
 		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label></p>\n";
@@ -193,7 +193,7 @@
 		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
 		echo "</form>\n";
 	}
-	
+
 	function doImport($msg = '') {
 		global $data, $misc;
 		global $lang;
@@ -233,8 +233,8 @@
 				echo "</form>\n";
 			}
 		}
-		else echo "<p>{$lang['strnouploads']}</p>\n";		
-	}	
+		else echo "<p>{$lang['strnouploads']}</p>\n";
+	}
 
 	/**
 	 * Displays a screen where they can add a column
@@ -276,7 +276,7 @@
 
 				echo "<tr><td><input name=\"field\" size=\"16\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 					htmlspecialchars($_POST['field']), "\" /></td>\n";
-				echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";				
+				echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";
 				// Output any "magic" types.  This came in with the alter column type so we'll check that
 				if ($data->hasAlterColumnType()) {
 					foreach ($data->extraTypes as $v) {
@@ -294,7 +294,7 @@
 					$types->moveNext();
 				}
 				echo "</select></td>\n";
-				
+
 				// Output array type selector
 				echo "<td><select name=\"array\">\n";
 				echo "\t<option value=\"\"", ($_POST['array'] == '') ? ' selected="selected"' : '', "></option>\n";
@@ -309,8 +309,8 @@
 				echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>\n";
 				// Support for adding column with not null and default
-				if ($data->hasAlterColumnType()) {					
-					echo "<td><input type=\"checkbox\" name=\"notnull\"", 
+				if ($data->hasAlterColumnType()) {
+					echo "<td><input type=\"checkbox\" name=\"notnull\"",
 						(isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 					echo "<td><input name=\"default\" size=\"20\" value=\"",
 						htmlspecialchars($_POST['default']), "\" /></td>\n";
@@ -323,7 +323,7 @@
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
 				if (!$data->hasAlterColumnType()) {
-					echo "<input type=\"hidden\" name=\"default\" value=\"\" />\n";	
+					echo "<input type=\"hidden\" name=\"default\" value=\"\" />\n";
 				}
 				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -369,7 +369,7 @@
 
             echo "<p>", sprintf($lang['strconfdropcolumn'], $misc->printVal($_REQUEST['column']),
                     $misc->printVal($_REQUEST['table'])), "</p>\n";
-								
+
 
 			echo "<form action=\"tblproperties.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
@@ -393,7 +393,7 @@
 			else
 				doDefault($lang['strcolumndroppedbad']);
 		}
-		
+
 	}
 
 	function doTree() {
@@ -418,7 +418,7 @@
 									'table'		=> $_REQUEST['table'],
 									'column'	=> field('attname'),
 									'query'		=> replace(
-														'SELECT "%column%", count(*) AS "count" FROM "%table%" GROUP BY "%column%" ORDER BY "%column%"', 
+														'SELECT "%column%", count(*) AS "count" FROM "%table%" GROUP BY "%column%" ORDER BY "%column%"',
 														array (
 															'%column%' => field('attname'),
 															'%table%' => $_REQUEST['table']
@@ -508,10 +508,16 @@
 		}
 		else {
 			function cstrRender($s, $p) {
-				global $misc;
+				global $misc, $data;
 
 				$str ='';
-				foreach ($p['keys'] as $c)
+				foreach ($p['keys'] as $k => $c) {
+
+					if (is_null($p['keys'][$k]['consrc'])) {
+						$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $p['keys'][$k]['indkey']));
+						$c['consrc'] = ($c['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
+					}
+
 					if ($c['p_field'] == $s)
 						switch ($c['contype']) {
 							case 'p':
@@ -530,11 +536,12 @@
 								$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
 									$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc']) .'" /></a>';
 						}
+				}
 
 				return $str;
 			}
 		}
-		
+
 		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");
 
 		$actions = array(
@@ -554,9 +561,9 @@
 				'vars'  => array('column' => 'attname'),
 			),
 		);
-		
+
 		if (!$data->hasDropColumn()) unset($actions['drop']);
-		
+
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 
 		echo "<ul class=\"navlink\">\n";
@@ -607,7 +614,7 @@
 			doDefault();
 			break;
 	}
-	
+
 	$misc->printFooter();
 
 ?>

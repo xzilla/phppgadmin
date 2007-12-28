@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.182 2007/12/12 10:45:35 ioguix Exp $
+ * $Id: Postgres73.php,v 1.183 2007/12/28 15:28:57 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -63,7 +63,7 @@ class Postgres73 extends Postgres72 {
 	}
 
 	/**
-	 * Returns the current schema to prepend on object names 
+	 * Returns the current schema to prepend on object names
 	 */
 	function schema() {
 		return "\"{$this->_schema}\".";
@@ -356,9 +356,9 @@ class Postgres73 extends Postgres72 {
 		$this->fieldClean($owner);
 		$this->clean($comment);
 		/* $schema, $owner, $tablespace not supported in pg70 */
-		
+
 		$table = $tblrs->fields['relname'];
-		
+
 		// Comment
 		$status = $this->setComment('TABLE', '', $table, $comment);
 		if ($status != 0) return -4;
@@ -371,7 +371,7 @@ class Postgres73 extends Postgres72 {
 				return -3;
 			$table = $name;
 		}
-				
+
 		// Owner
 		if (!empty($owner) && ($tblrs->fields['relowner'] != $owner)) {
 			// If owner has been changed, then do the alteration.  We are
@@ -385,7 +385,7 @@ class Postgres73 extends Postgres72 {
 
 		return 0;
 	}
-	
+
 	/**
 	 * Removes a table from the database
 	 * @param $table The table to drop
@@ -642,7 +642,7 @@ class Postgres73 extends Postgres72 {
 	function dropColumn($table, $column, $cascade) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-		
+
 		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" DROP COLUMN \"{$column}\"";
 		if ($cascade) $sql .= " CASCADE";
 
@@ -691,12 +691,12 @@ class Postgres73 extends Postgres72 {
 	 */
 	function emptyTable($table) {
 		$this->fieldClean($table);
-		
+
 		$sql = "DELETE FROM \"{$this->_schema}\".\"{$table}\"";
 
 		return $this->execute($sql);
 	}
-	
+
 	/**
 	 * Adds a check constraint to a table
 	 * @param $table The table to which to add the check
@@ -891,7 +891,7 @@ class Postgres73 extends Postgres72 {
 			$status = $this->execute($sql);
 			if ($status != 0) return -5;
 		}
-		
+
 		// Rename (only if name has changed)
 		$this->fieldClean($name);
 		if ($name != $view) {
@@ -944,7 +944,7 @@ class Postgres73 extends Postgres72 {
 	function setView($viewname, $definition,$comment) {
 		return $this->createView($viewname, $definition, true, $comment);
 	}
-	
+
 	/**
 	 * Rename a view
 	 * @param $view The current view's name
@@ -1763,36 +1763,92 @@ class Postgres73 extends Postgres72 {
 
 		$rs = $this->selectSet($sql);
 
-	    if ($rs->EOF) $max_col = 0;
-		else $max_col = $rs->fields['nb'];
+	    if ($rs->EOF) $max_col_cstr = 0;
+		else $max_col_cstr = $rs->fields['nb'];
 
-    	$sql = '
-			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid) AS consrc,
-				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
-				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
-			FROM
-				pg_catalog.pg_constraint AS c
-				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
-				JOIN pg_catalog.pg_attribute AS f1 ON (f1.attrelid=r1.oid AND (f1.attnum=c.conkey[1]';
-		for ($i = 2; $i <= $rs->fields['nb']; $i++) {
+		// get the max number of col used in a constraint for the table
+    	$sql = "SELECT i.indkey
+		FROM
+		  pg_catalog.pg_index AS i
+		  JOIN pg_catalog.pg_class AS r ON (i.indrelid = r.oid)
+		  JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
+    	WHERE
+      		r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
+
+		/* parse our output to find the highest dimension of index keys since
+		 * i.indkey is stored in an int2vector */
+		$max_col_ind = 0;
+  		$rs = $this->selectSet($sql);
+  		while (!$rs->EOF) {
+  			$tmp = count(explode(' ', $rs->fields['indkey']));
+  			$max_col_ind = $tmp > $max_col_ind ? $tmp : $max_col_ind;
+  			$rs->MoveNext();
+  		}
+
+		$sql = "
+		SELECT contype, conname, consrc, ns1.nspname as p_schema, sub.relname as p_table,
+		f_schema, f_table, p_field, f_field, indkey
+		FROM (
+		  SELECT
+			contype, conname,
+			CASE WHEN contype='f' THEN
+			  pg_catalog.pg_get_constraintdef(c.oid)
+			ELSE
+			  'CHECK (' || consrc || ')'
+			END AS consrc, r1.relname,
+			f1.attname as p_field, ns2.nspname as f_schema, r2.relname as f_table,
+			conrelid, r1.relnamespace, f2.attname as f_field, NULL AS indkey
+		  FROM
+			pg_catalog.pg_constraint AS c
+			JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
+			JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=c.conrelid) AND (f1.attnum=c.conkey[1]";
+		for ($i = 2; $i <= $max_col_cstr; $i++) {
 			$sql.= " OR f1.attnum=c.conkey[$i]";
 		}
-		$sql.= '))
-				JOIN pg_catalog.pg_namespace AS ns1 ON r1.relnamespace=ns1.oid
-				LEFT JOIN (
-					pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
-				) ON (c.confrelid=r2.oid)
-				LEFT JOIN pg_catalog.pg_attribute AS f2 ON
-					(f2.attrelid=r2.oid AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)';
-		for ($i = 2; $i <= $rs->fields['nb']; $i++)
+		$sql .= "))
+			LEFT JOIN (
+			  pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
+			) ON (c.confrelid=r2.oid)
+			LEFT JOIN pg_catalog.pg_attribute AS f2 ON
+			  ((f2.attrelid=r2.oid) AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)";
+		for ($i = 2; $i <= $max_col_cstr; $i++)
 			$sql.= "OR (c.confkey[$i]=f2.attnum AND c.conkey[$i]=f1.attnum)";
-
-		$sql .= sprintf("))
-			WHERE
-				r1.relname = '%s' AND ns1.nspname='%s'
-			ORDER BY 1", $table, $this->_schema);
+		$sql .= "))
+		  WHERE
+			contype IN ('f', 'c')
+		  UNION ALL
+		  SELECT
+			CASE WHEN indisprimary THEN
+			  'p'
+			ELSE
+			  'u'
+			END as contype,
+			pc.relname as conname, NULL as consrc, r2.relname, f1.attname as p_field,
+			NULL as f_schema, NULL as f_table, indrelid as conrelid, pc.relnamespace,
+			NULL as f_field, indkey
+		  FROM
+			pg_catalog.pg_class pc, pg_catalog.pg_index pi
+			-- JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=pi.indrelid) AND (f1.attnum=pi.indkey[0]))
+			JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=pi.indrelid) AND (f1.attnum=pi.indkey[0]";
+			for ($i = 1; $i <= $max_col_ind; $i++) {
+				$sql.= " OR f1.attnum=pi.indkey[$i]";
+			}
+			$sql .= "))
+			JOIN pg_catalog.pg_class r2 ON (pi.indrelid=r2.oid)
+		  WHERE
+			pc.oid=pi.indexrelid
+			AND EXISTS (
+			  SELECT 1 FROM pg_catalog.pg_depend AS d JOIN pg_catalog.pg_constraint AS c
+				ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+			  WHERE d.classid = pc.tableoid AND d.objid = pc.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+			)
+		) AS sub
+		  JOIN pg_catalog.pg_namespace AS ns1 ON sub.relnamespace=ns1.oid
+		WHERE conrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+		  AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+			WHERE nspname='{$this->_schema}'))
+		ORDER BY 1
+		";
 
 		return $this->selectSet($sql);
 	}
@@ -2476,7 +2532,7 @@ class Postgres73 extends Postgres72 {
 
 		return $this->execute($sql);
 	}
-	
+
 	// Query functions
 
 	/**
