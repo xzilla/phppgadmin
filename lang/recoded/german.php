@@ -2,9 +2,10 @@
 
 	/**
 	 * German language file for phpPgAdmin.  Use this as a basis
+	 *
 	 * @maintainer Laurenz Albe &lt;laurenz.albe@wien.gv.at&gt;
 	 *
-	 * $Id: german.php,v 1.25 2007/12/28 03:57:00 xzilla Exp $
+     * $Id: german.php,v 1.26 2007/12/29 06:55:58 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -626,7 +627,7 @@
 	// Reports
 	$lang['strreport'] = 'Bericht';
 	$lang['strreports'] = 'Berichte';
-	$lang['strshowallreports'] = 'ALle Berichte anzeigen';
+	$lang['strshowallreports'] = 'Alle Berichte anzeigen';
 	$lang['strnoreports'] = 'Keine Berichte gefunden.';
 	$lang['strcreatereport'] = 'Bericht erstellen.';
 	$lang['strreportdropped'] = 'Bericht gel&#246;scht.';
