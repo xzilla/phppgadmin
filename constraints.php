@@ -3,7 +3,7 @@
 	/**
 	 * List constraints on a table
 	 *
-	 * $Id: constraints.php,v 1.55 2007/12/28 15:28:57 ioguix Exp $
+	 * $Id: constraints.php,v 1.56 2007/12/31 16:46:07 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -53,7 +53,7 @@
 						$data->setSchema($_REQUEST['schema']);
 
 					$selColumns = new XHTML_select('TableColumnList', true, 10);
-					$selColumns->set_style('width: 10em;');
+					$selColumns->set_style('width: 15em;');
 
 					if ($attrs->recordCount() > 0) {
 						while (!$attrs->EOF) {
@@ -63,7 +63,7 @@
 					}
 
 					$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
-					$selIndex->set_style('width: 10em;');
+					$selIndex->set_style('width: 15em;');
 					$selIndex->set_attribute('id', 'IndexColumnList');
 					$buttonAdd = new XHTML_Button('add', '>>');
 					$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
@@ -156,7 +156,7 @@
 				$tables = $data->getTables(true);
 
 				$selColumns = new XHTML_select('TableColumnList', true, 10);
-				$selColumns->set_style('width: 10em;');
+				$selColumns->set_style('width: 15em;');
 
 				if ($attrs->recordCount() > 0) {
 					while (!$attrs->EOF) {
@@ -166,7 +166,7 @@
 				}
 
 				$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
-				$selIndex->set_style('width: 10em;');
+				$selIndex->set_style('width: 15em;');
 				$selIndex->set_attribute('id', 'IndexColumnList');
 				$buttonAdd = new XHTML_Button('add', '>>');
 				$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
@@ -249,7 +249,7 @@
 
 
 			$selColumns = new XHTML_select('TableColumnList', true, 10);
-			$selColumns->set_style('width: 10em;');
+			$selColumns->set_style('width: 15em;');
 
 			if ($attrs->recordCount() > 0) {
 				while (!$attrs->EOF) {
@@ -259,7 +259,7 @@
 			}
 
 			$selIndex = new XHTML_select('IndexColumnList[]', true, 10);
-			$selIndex->set_style('width: 10em;');
+			$selIndex->set_style('width: 15em;');
 			$selIndex->set_attribute('id', 'IndexColumnList');
 			$buttonAdd = new XHTML_Button('add', '>>');
 			$buttonAdd->set_attribute('onclick', 'buttonPressed(this);');
