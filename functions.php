@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.75 2007/12/28 17:43:25 ioguix Exp $
+	 * $Id: functions.php,v 1.76 2008/01/02 13:52:18 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -506,14 +506,14 @@
 			$szLanguage .= "<input type=\"hidden\" name=\"formLanguage\" value=\"{$_POST['formLanguage']}\" />\n";
 		}
 		else {
-			$szLanguage .= "<select name=\"formLanguage\">";
+			$szLanguage .= "<select name=\"formLanguage\">\n";
 			while (!$langs->EOF) {
-				$szSelected = "";
+				$szSelected = '';
 				if($langs->fields['lanname'] == $_POST['formLanguage']) {
-					$szSelected = " selected=\"selected\"";
+					$szSelected = ' selected="selected"';
 				}
 				if (strtolower($langs->fields['lanname']) != 'c' && strtolower($langs->fields['lanname']) != 'internal')
-					$szLanguage .= "<option value=\"". htmlspecialchars($langs->fields['lanname']). "\"{$szSelected}>".
+					$szLanguage .= "<option value=\"". htmlspecialchars($langs->fields['lanname']). "\"{$szSelected}>\n".
 						$misc->printVal($langs->fields['lanname']) ."</option>";
 				$langs->moveNext();
 			}
@@ -551,14 +551,14 @@
 			var g_types_select = '<select name=\"formArgType[]\">{$szTypes}</select>{$szArgReturns}';
 			var g_modes_select = '{$szModes}';
 			var g_name = '';
-			var g_lang_strargremove = \"". addslashes($lang["strargremove"]) ."\";
-			var g_lang_strargnoargs = \"". addslashes($lang["strargnoargs"]) ."\";
-			var g_lang_strargenableargs = \"". addslashes($lang["strargenableargs"]) ."\";
-			var g_lang_strargnorowabove = \"". addslashes($lang["strargnorowabove"]) ."\";
-			var g_lang_strargnorowbelow = \"". addslashes($lang["strargnorowbelow"]) ."\";
-			var g_lang_strargremoveconfirm = \"". addslashes($lang["strargremoveconfirm"]) ."\";
-			var g_lang_strargraise = \"". addslashes($lang["strargraise"]) ."\";
-			var g_lang_strarglower = \"". addslashes($lang["strarglower"]) ."\";
+			var g_lang_strargremove = \"", addslashes($lang["strargremove"]) ,"\";
+			var g_lang_strargnoargs = \"", addslashes($lang["strargnoargs"]) ,"\";
+			var g_lang_strargenableargs = \"", addslashes($lang["strargenableargs"]) ,"\";
+			var g_lang_strargnorowabove = \"", addslashes($lang["strargnorowabove"]) ,"\";
+			var g_lang_strargnorowbelow = \"", addslashes($lang["strargnorowbelow"]) ,"\";
+			var g_lang_strargremoveconfirm = \"", addslashes($lang["strargremoveconfirm"]) ,"\";
+			var g_lang_strargraise = \"", addslashes($lang["strargraise"]) ,"\";
+			var g_lang_strarglower = \"", addslashes($lang["strarglower"]) ,"\";
 			//]]>
 		</script>
 		";
@@ -649,11 +649,11 @@
 			$def = $_POST['formDefinition'];
 		}
 
-		$szJS = "";
+		$szJS = '';
 
 		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>";
-		echo "<script type=\"text/javascript\">".buildJSData()."</script>";
-		if(!empty($_POST["formArgName"])) {
+		echo "<script type=\"text/javascript\">". buildJSData() .'</script>';
+		if(!empty($_POST['formArgName'])) {
 			$szJS = buildJSRows(buildFunctionArguments($_POST));
 		} else {
 			$szJS = "<script type=\"text/javascript\" src=\"functions.js\">noArgsRebuild(addArg());</script>";
@@ -693,9 +693,9 @@
 		if(isset($_POST['formArgName'])) {
 			$arrayArgs = array();
 			foreach($arrayVars['formArgName'] as $pK => $pV) {
-				$arrayArgs[] = $arrayVars['formArgModes'][$pK].' '. trim($pV) .' '. trim($arrayVars['formArgType'][$pK]) . $arrayVars['formArgArray'][$pK];
+				$arrayArgs[] = $arrayVars['formArgModes'][$pK] .' '. trim($pV) .' '. trim($arrayVars['formArgType'][$pK]) . $arrayVars['formArgArray'][$pK];
 			}
-			return implode(",",$arrayArgs);
+			return implode(",", $arrayArgs);
 		}
 		return '';
 	}
@@ -704,23 +704,23 @@
 	 * Build out JS to re-create table rows for arguments
 	 */
 	function buildJSRows($szArgs) {
-		$arrayModes = array("IN","OUT","INOUT");
-		$arrayArgs = explode(",",$szArgs);
+		$arrayModes = array('IN','OUT','INOUT');
+		$arrayArgs = explode(',',$szArgs);
 		$arrayProperArgs = array();
 		$nC = 0;
-		$szReturn = "";
+		$szReturn = '';
 		foreach($arrayArgs as $pV) {
-			$arrayWords = explode(" ",$pV);
+			$arrayWords = explode(' ',$pV);
 			if(in_array($arrayWords[0],$arrayModes)===true) {
 				$szMode = $arrayWords[0];
 				array_shift($arrayWords);
 			}
 			$szArgName = array_shift($arrayWords);
-			if(strpos($arrayWords[count($arrayWords)-1],"[]")===false) {
+			if(strpos($arrayWords[count($arrayWords)-1],'[]')===false) {
 				$szArgType = implode(" ",$arrayWords);
 				$bArgIsArray = "false";
 			} else {
-				$szArgType = str_replace("[]","",implode(" ",$arrayWords));
+				$szArgType = str_replace('[]','',implode(' ',$arrayWords));
 				$bArgIsArray = "true";
 			}
 			$arrayProperArgs[] = array($szMode,$szArgName,$szArgType,$bArgIsArray);
@@ -733,20 +733,24 @@
 
 	function buildJSData() {
 		global $data;
-		$arrayModes = array("IN","OUT","INOUT");
+		$arrayModes = array('IN','OUT','INOUT');
 		$arrayTypes = $data->getTypes(true, true, true);
 		$arrayPTypes = array();
 		$arrayPModes = array();
-		$szTypes = "";
-		foreach($arrayTypes as $pK => $pV) {
-			$arrayPTypes[] = "'{$pV['typname']}'";
+		$szTypes = '';
+
+		while (!$arrayTypes->EOF) {
+			$arrayPTypes[] = "'". $arrayTypes->fields['typname'] ."'";
+			$arrayTypes->moveNext();
 		}
+
 		foreach($arrayModes as $pV) {
 			$arrayPModes[] = "'{$pV}'";
 		}
-		$szTypes = "g_main_types = new Array(".implode(",",$arrayPTypes).");";
-		$szModes = "g_main_modes = new Array(".implode(",",$arrayPModes).");";
-		return $szTypes.$szModes;
+
+		$szTypes = 'g_main_types = new Array('. implode(',', $arrayPTypes) .');';
+		$szModes = 'g_main_modes = new Array('. implode(',', $arrayPModes) .');';
+		return $szTypes . $szModes;
 	}
 
 	/**
