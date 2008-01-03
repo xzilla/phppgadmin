@@ -5,7 +5,7 @@
 	* for new translations.
 	* @maintainer 郭朝益  [Kuo.ChaoYi@gmail.com]
 	*
-	* $Id: chinese-utf8-zh_TW.php,v 1.5 2008/01/01 19:12:51 ioguix Exp $
+	* $Id: chinese-utf8-zh_TW.php,v 1.6 2008/01/03 03:11:57 xzilla Exp $
 	* EN-Revision: 1.228
 	*/
 
@@ -576,7 +576,7 @@
 	$lang['strtypeneedsfield'] = '您必須明確指定最少一個欄位。';
 	$lang['strtypeneedsvalue'] = '您必須明確指定最少一個值。';
 	$lang['strtypeneedscols'] = '您必須明確指定有效的欄位數。';
-	$lang['strtypeneedsvals'] = '您必須明確指定一個有效的欄位數。'
+	$lang['strtypeneedsvals'] = '您必須明確指定一個有效的欄位數。';
 	$lang['strinputfn'] = '輸入類型';
 	$lang['stroutputfn'] = '輸出類型';
 	$lang['strpassbyval'] = '以值傳送?';
