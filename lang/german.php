@@ -5,7 +5,7 @@
 	 *
 	 * @maintainer Laurenz Albe <laurenz.albe@wien.gv.at>
 	 *
-     * $Id: german.php,v 1.28 2007/12/29 06:55:58 xzilla Exp $
+     * $Id: german.php,v 1.29 2008/01/05 21:51:18 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -103,7 +103,7 @@
 	$lang['strexecute'] = 'Ausführen';
 	$lang['stradd'] = 'Hinzufügen';
 	$lang['strevent'] = 'Ereignis';
-	$lang['strwhere'] = 'Wo';
+	$lang['strwhere'] = 'Bedingung';
 	$lang['strinstead'] = 'Tu stattdessen';
 	$lang['strwhen'] = 'Wann';
 	$lang['strformat'] = 'Format';
@@ -743,7 +743,7 @@
 	$lang['strpercent'] = '%';
 	$lang['strsequential'] = 'Sequentiell';
 	$lang['strscan'] = 'Durchsuchen';
-	$lang['strread'] = 'Read';
+	$lang['strread'] = 'Lesen';
 	$lang['strfetch'] = 'Holen';
 	$lang['strheap'] = 'Heap';
 	$lang['strtoast'] = 'TOAST';
