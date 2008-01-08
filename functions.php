@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.77 2008/01/08 20:19:31 xzilla Exp $
+	 * $Id: functions.php,v 1.78 2008/01/08 22:50:29 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -148,6 +148,7 @@
 			echo "<td class=\"data1\">", $misc->printVal($fndata->fields['prolanguage']), "\n";
 			echo "<input type=\"hidden\" name=\"original_lang\" value=\"", htmlspecialchars($fndata->fields['prolanguage']), "\" />\n";
 			echo "</td>\n";
+			echo "</tr>\n";
 
 			$fnlang = strtolower($fndata->fields['prolanguage']);
 			if ($fnlang == 'c') {

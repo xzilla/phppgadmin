@@ -3,7 +3,7 @@
 	/**
 	 * List indexes on a table
 	 *
-	 * $Id: indexes.php,v 1.45 2007/09/29 09:09:45 ioguix Exp $
+	 * $Id: indexes.php,v 1.46 2008/01/08 22:50:29 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -131,7 +131,6 @@
 				($v == $_POST['formIndexType']) ? ' selected="selected"' : '', ">", htmlspecialchars($v), "</option>\n";
 		}
 		echo "</select></td></tr>\n";				
-		echo "</tr>";
 		echo "<tr>";
 		echo "<th class=\"data left\" scope=\"row\"><label for=\"formUnique\">{$lang['strunique']}</label></th>";
 		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formUnique\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
