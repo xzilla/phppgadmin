@@ -3,7 +3,7 @@
 	/**
 	 * Manage functions in a database
 	 *
-	 * $Id: functions.php,v 1.76 2008/01/02 13:52:18 ioguix Exp $
+	 * $Id: functions.php,v 1.77 2008/01/08 20:19:31 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -202,7 +202,7 @@
                         // function owner
                         if ($data->hasFunctionAlterOwner()) {
 		            $users = $data->getUsers();
-                            echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
+                            echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: <select name=\"formFuncOwn\">";
 				while (!$users->EOF) {
 					$uname = $users->fields['usename'];
 					echo "<option value=\"", htmlspecialchars($uname), "\"",
@@ -319,7 +319,7 @@
 				echo "</td></tr>\n";
 			}
 
-                        echo "<td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n";
+                        echo "<tr><td class=\"data1\" colspan=\"5\">{$lang['strowner']}: ", htmlspecialchars($funcdata->fields['proowner']),"\n";
                         echo "</td></tr>\n";
 			echo "</table>\n";
 		}
