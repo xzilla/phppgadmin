@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.166 2007/12/11 14:17:17 ioguix Exp $
+	 * $Id: Misc.php,v 1.167 2008/01/09 00:19:10 ioguix Exp $
 	 */
 
 	class Misc {
@@ -503,6 +503,7 @@
 					);
 
 				case 'server':
+				case 'report':
 					$server_info = $this->getServerInfo();
 					$hide_users = !$data->isSuperUser($server_info['username']);
 					$tmp = array (
@@ -577,7 +578,7 @@
 							'urlvars' => array('subject' => 'server'),
 							'hide' => !$conf['show_reports'],
 							'icon' => 'Reports',
-						)
+						),
 					));
 					return $tmp;
 					break;
@@ -1216,6 +1217,16 @@
 			}
 			if ($subject == 'server') $done = true;
 
+			if (isset($_REQUEST['report']) && !$done) {
+				$vars .= 'report='.urlencode($_REQUEST['report']).'&';
+				$trail['report'] = array(
+					'title' => $lang['strreport'],
+					'text'  => $_REQUEST['report'],
+					'url'   => "reports.php?subject=report&{$vars}",
+					'icon'  => 'Report'
+				);
+			}
+
 			if (isset($_REQUEST['database']) && !$done) {
 				$vars .= 'database='.urlencode($_REQUEST['database']).'&';
 				$trail['database'] = array(
@@ -1235,7 +1246,7 @@
 					'icon'  => 'Roles'
 				);
 			}
-			if ($subject == 'database' || $subject == 'role') $done = true;
+			if ($subject == 'database' || $subject == 'role' || $subject == 'report') $done = true;
 
 			if (isset($_REQUEST['schema']) && !$done) {
 				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';

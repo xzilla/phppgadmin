@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.41 2007/12/07 21:58:40 ioguix Exp $
+	 * $Id: sql.php,v 1.42 2008/01/09 00:19:10 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -88,6 +88,7 @@
 		exit;
 	}
 	
+	$subject = isset($_REQUEST['subject'])? $_REQUEST['subject'] : '';
 	$misc->printHeader($lang['strqueryresults']);
 	$misc->printBody();
 	$misc->printTrail('database');
@@ -173,12 +174,34 @@
 	}
 	
 	echo "<p>{$lang['strsqlexecuted']}</p>\n";
+			
+	echo "<ul class=\"navlink\">\n";
+	
+	// Return
+	if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
+		echo "\t<li><a href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></li>\n";
 
-	echo "<ul class=\"navlink\">\n\t<li><a href=\"database.php?database=", urlencode($_REQUEST['database']),
+	// Edit		
+	echo "\t<li><a href=\"database.php?database=", urlencode($_REQUEST['database']),
 		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql&amp;query=", urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a></li>\n";
-	if ($conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
+				
+	// Create report
+	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
 		echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
 			urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a></li>\n";
+	
+	// Create view and download
+	if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
+		// Report views don't set a schema, so we need to disable create view in that case
+		if (isset($_REQUEST['schema'])) 
+			echo "\t<li><a href=\"views.php?action=create&amp;formDefinition=",
+				urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
+		echo "\t<li><a href=\"dataexport.php?query=", urlencode($_REQUEST['query']);
+		if (isset($_REQUEST['search_path']))
+			echo "&amp;search_path=", urlencode($_REQUEST['search_path']);
+		echo "&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n";
+	}
+
 	echo "</ul>\n";
 	
 	$misc->printFooter();

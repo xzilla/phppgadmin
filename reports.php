@@ -3,7 +3,7 @@
 	/**
 	 * List reports in a database
 	 *
-	 * $Id: reports.php,v 1.33 2007/09/13 13:41:01 ioguix Exp $
+	 * $Id: reports.php,v 1.34 2008/01/09 00:19:10 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -133,10 +133,16 @@
 		global $lang;
 
 		if (!isset($_REQUEST['report_name'])) $_REQUEST['report_name'] = '';
-		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = (isset($_REQUEST['database']) ? $_REQUEST['database'] : '');
+		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = '';
 		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
 		if (!isset($_REQUEST['report_sql'])) $_REQUEST['report_sql'] = '';
 
+		if (isset($_REQUEST['database'])) {
+			$_REQUEST['db_name'] = $_REQUEST['database'];
+			unset($_REQUEST['database']);
+			$misc->setForm();
+		}
+		
 		$databases = $data->getDatabases();
 
 		$misc->printTrail('server');

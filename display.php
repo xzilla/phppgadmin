@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.65 2007/11/29 23:23:56 ioguix Exp $
+	 * $Id: display.php,v 1.66 2008/01/09 00:19:10 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -442,7 +442,7 @@
 				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a></li>\n";
 
 		// Create report
-		if (isset($_REQUEST['query']) && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
+		if (isset($_REQUEST['query']) && ($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
 			echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
 				urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a></li>\n";
 
