@@ -20,7 +20,7 @@
 	/**
 	 * Displays a screen where they can alter a column
 	 */
-	function doProperties($msg = '') {
+	function doAlter($msg = '') {
 		global $data, $misc, $_reload_browser;
 		global $lang;
 
@@ -89,13 +89,6 @@
 					$types_for_js = array();
 					
 					echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";				
-					// Output any "magic" types.  This came in with Alter Column Type so we don't need to check that
-					foreach ($data->extraTypes as $v) {
-						$types_for_js[] = strtolower($v);
-						echo "\t<option value=\"", htmlspecialchars($v), "\"",
-						($v == $_REQUEST['type']) ? ' selected="selected"' : '', ">",
-							$misc->printVal($v), "</option>\n";
-					}
 					while (!$types->EOF) {
 						$typname = $types->fields['typname'];
 						$types_for_js[] = $typname;
@@ -151,7 +144,7 @@
 				// Check inputs
 				if (trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
-					doProperties($lang['strcolneedsname']);
+					doAlter($lang['strcolneedsname']);
 					return;
 				}
 				if (!isset($_REQUEST['length'])) $_REQUEST['length'] = '';
@@ -169,7 +162,7 @@
 				}
 				else {
 					$_REQUEST['stage'] = 1;
-					doProperties($lang['strcolumnalteredbad']);
+					doAlter($lang['strcolumnalteredbad']);
 					return;
 				}
 				break;
@@ -277,7 +270,7 @@
 		switch ($action) {
 			case 'properties':
 				if (isset($_POST['cancel'])) doDefault();
-				else doProperties();
+				else doAlter();
 				break;
 			default:
 				doDefault();
