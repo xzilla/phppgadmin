@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.37 2007/11/30 06:04:43 xzilla Exp $
+	 * $Id: sqledit.php,v 1.38 2008/01/10 17:41:34 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -53,9 +53,9 @@
 		
 		$misc->printTabs($misc->getNavTabs('popup'), 'find');
 		
-		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n<p>";
+		echo "<form action=\"database.php\" method=\"get\" target=\"detail\">\n";
 		_printConnection();
-		echo "</p><p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
+		echo "<p><input name=\"term\" value=\"", htmlspecialchars($_GET['term']), 
 			"\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" />\n";
 			
 		// Output list of filters.  This is complex due to all the 'has' and 'conf' feature possibilities
@@ -109,9 +109,9 @@
 		
 		$misc->printTabs($misc->getNavTabs('popup'), 'sql');
 		
-		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n<p>";
+		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
 		_printConnection();
-		echo "</p>\n";
+		echo "\n";
 		if ($data->hasSchemas()) {
 			if (!isset($_REQUEST['search_path']))
 				$_REQUEST['search_path'] = implode(',',$data->getSearchPath());

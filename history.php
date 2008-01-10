@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: history.php,v 1.1 2007/11/29 23:23:56 ioguix Exp $
+	 * $Id: history.php,v 1.2 2008/01/10 17:41:34 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -80,6 +80,9 @@
 
 		if ($confirm) {
 			$misc->printHeader($lang['strhistory']);
+
+        		// Bring to the front always
+	        	echo "<body onload=\"window.focus();\">\n";
 			
 			echo "<h3>{$lang['strdelhistory']}</h3>\n";
 			echo "<p>{$lang['strconfdelhistory']}</p>\n";
@@ -102,6 +105,9 @@
 
 		if ($confirm) {
 			$misc->printHeader($lang['strhistory']);
+
+        		// Bring to the front always
+	        	echo "<body onload=\"window.focus();\">\n";
 
 			echo "<h3>{$lang['strclearhistory']}</h3>\n";
 			echo "<p>{$lang['strconfclearhistory']}</p>\n";
