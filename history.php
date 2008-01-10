@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: history.php,v 1.2 2008/01/10 17:41:34 xzilla Exp $
+	 * $Id: history.php,v 1.3 2008/01/10 19:37:07 xzilla Exp $
 	 */
 
 	// Include application functions
@@ -12,7 +12,7 @@
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 
 	function doDefault() {
-		global $data, $misc, $lang, $conf;
+		global $misc, $lang;
 
 		$onchange = "onchange=\"location.href='history.php?server=' + encodeURI(server.options[server.selectedIndex].value) + '&amp;database=' + encodeURI(database.options[database.selectedIndex].value) + '&amp;'\"";
 
