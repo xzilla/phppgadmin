@@ -90,7 +90,7 @@ Tables
 * Add WITH storage_parameter option to create table [8.2]
 * Add last vacuum and analyze information from statistics tables [8.2]
 * Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
-* Restrict types to appropriate types when altering a column type
+* Alter column should handle types with implicit cast types distinctly from those requiring a USING clause
 * Where ENUM types are an option, restrict choice to enum values [8.3]
 
 
