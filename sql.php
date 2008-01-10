@@ -6,7 +6,7 @@
 	 * how many SQL statements have been strung together with semi-colons
 	 * @param $query The SQL query string to execute
 	 *
-	 * $Id: sql.php,v 1.42 2008/01/09 00:19:10 ioguix Exp $
+	 * $Id: sql.php,v 1.43 2008/01/10 20:19:27 xzilla Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -131,7 +131,7 @@
 					$finfo = $rs->fetchField($k);
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>";
 				}
-	
+                                echo "</tr>\n";	
 				$i = 0;		
 				while (!$rs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
