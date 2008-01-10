@@ -3,7 +3,7 @@
 	/**
 	 * Alternative SQL editing window
 	 *
-	 * $Id: sqledit.php,v 1.38 2008/01/10 17:41:34 xzilla Exp $
+	 * $Id: sqledit.php,v 1.39 2008/01/10 18:38:52 soranzo Exp $
 	 */
 
 	// Include application functions
@@ -16,7 +16,7 @@
 	 * Private function to display server and list of databases
 	 */
 	function _printConnection() {
-		global $data, $lang, $conf, $action, $misc;
+		global $data, $conf, $action, $misc;
 		
 		// The javascript action on the select box reloads the
 		// popup whenever the server or database is changed.
