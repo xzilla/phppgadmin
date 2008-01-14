@@ -1,11 +1,17 @@
 <?php
-	include_once('libraries/lib.inc.php');
-	$szSQL = 'SELECT * FROM ' . $data->clean($_REQUEST['tb']) . ' WHERE ' . $data->clean($_REQUEST['fk']) . " LIKE '" . $data->clean($_REQUEST['v']) . "%' LIMIT 11";
-	$objRes = $data->selectSet($szSQL);
-	$arrayRes = array();
-	while (!$objRes->EOF) {
-		$arrayRes[] = $objRes->fields[$_REQUEST['fk']];
-		$objRes->moveNext();
-	}
-	echo implode('PPA_EOF;|', $arrayRes);
+include_once("libraries/lib.inc.php");
+
+$data->clean($_REQUEST["tb"]);
+$data->clean($_REQUEST["fk"]);
+$data->clean($_REQUEST["v"]);
+
+$szSQL = "select * from ". $_REQUEST["tb"] ." where ". $_REQUEST["fk"] ." LIKE '". $_REQUEST["v"] ."%' ORDER BY ". $_REQUEST["fk"] .' LIMIT 11';
+
+$objRes = $data->selectSet($szSQL);
+$arrayRes = array();
+while(!$objRes->EOF) {
+	$arrayRes[] = $objRes->fields[$_REQUEST["fk"]];
+	$objRes->moveNext();
+}
+echo implode("PPA_EOF;|",$arrayRes);
 ?>
