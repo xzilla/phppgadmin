@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.108 2007/12/27 18:28:36 ioguix Exp $
+	 * $Id: tables.php,v 1.109 2008/01/14 17:55:01 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -451,7 +451,8 @@
 		global $data, $misc, $conf;
 		global $lang;
 
-		$bAllowAC = ($conf['autocomplete'] != 'disable') ? TRUE : FALSE;
+		$bAllowAC = (($conf['autocomplete'] != 'disable') ? TRUE : FALSE)
+			&& $data->hasConstraintsInfo();
 
 		if ($confirm) {
 			$misc->printTrail('table');
@@ -460,17 +461,16 @@
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
 			if($bAllowAC) {
-				$constraints = $data->getConstraints($_REQUEST['table']);
+				$constraints = $data->getConstraintsWithFields($_REQUEST['table']);
+
 				$arrayLocals = array();
 				$arrayRefs = array();
 				$nC = 0;
 				while(!$constraints->EOF) {
-					// The following RE will match a FK constrain with a single (quoted or not) referencing column. At the moment we don't support multicolumn FKs
-					preg_match('/^FOREIGN KEY \(("[^"]*"|[^\s",]*)\) REFERENCES (.*)\((.*)\)/i', $constraints->fields['consrc'], $matches);
-					if(!empty($matches)) {
-						// Strip possible quotes and save
-						$arrayLocals[$nC] = preg_replace('/"(.*)"/', '$1', $matches[1]);
-						$arrayRefs[$nC] = array(preg_replace('/"(.*)"/', '$1', $matches[2]), preg_replace('/"(.*)"/', '$1', $matches[3]));
+					// FIXME: add a better support for FKs on multi columns
+					if ($constraints->fields['contype'] == 'f') {
+						$arrayLocals[$nC] = $constraints->fields['p_field'];
+						$arrayRefs[$nC] = array($constraints->fields['f_table'], $constraints->fields['f_field']);
 						$nC++;
 					}
 					$constraints->moveNext();

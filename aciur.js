@@ -80,10 +80,11 @@ if(!bnsr) {
         oRange.moveStart("character",p_len);
         oRange.moveEnd("character",p_len);
         oRange.select();
-    	} else if (otxb.setSelectionRange) {
+    	} 
+		else if (otxb.setSelectionRange) {
        	 otxb.setSelectionRange(p_len,p_len);
+		}
 	}
-}
     otxb.focus();
 }
 
@@ -97,12 +98,10 @@ function tA(p_suggestion) {
 	}
 }
 
-function findPosX(obj)
-{
+function findPosX(obj) {
 	if(obj) {
 		var curleft = 0;
-		if (obj.offsetParent)
-		{
+		if (obj.offsetParent) {
 			while (obj.offsetParent)
 			{
 				curleft += obj.offsetLeft
@@ -115,18 +114,15 @@ function findPosX(obj)
 	}
 }
 
-function findPosY(obj)
-{
+function findPosY(obj) {
 	if(obj) {
 		var curtop = 0;
 		var n = 0;
 		if (obj.y) {
 			curtop += obj.y;
 		}
-		else if (obj.offsetParent)
-		{
-			while (obj.offsetParent)
-			{
+		else if (obj.offsetParent) {
+			while (obj.offsetParent) {
 				curtop += obj.offsetTop;
 				obj = obj.offsetParent;
 			}
@@ -256,7 +252,8 @@ function makeAC(tx,n,tb,fk,sid,db) {
 		curopt = 0;
 		bnsr = false;
 		otxb.onkeyup = function (oEvent) {
-		if (!oEvent) { oEvent = window.event; } hKU(oEvent); };
+			if (!oEvent) { oEvent = window.event; } hKU(oEvent); 
+		};
 		initac(tb,fk,sid,db,v);
 	} else {
 		otxb.onkeyup = function() {};
@@ -270,6 +267,7 @@ function gfacc(s) {
 function iA(parent, node, referenceNode) {
     parent.insertBefore(node, referenceNode.nextSibling);
 }
+
 var asg = new Array();
 var rasg = new Array();
 var rasgc = new Array();
