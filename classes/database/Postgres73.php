@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres73.php,v 1.185 2007/12/28 16:21:25 ioguix Exp $
+ * $Id: Postgres73.php,v 1.186 2008/01/19 13:46:15 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -2522,15 +2522,21 @@ class Postgres73 extends Postgres72 {
 		$this->fieldclean($name);
 		$this->fieldclean($basetype);
 
-		$sql = "SELECT p.proname, CASE p.proargtypes[0] WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL ELSE
-			   pg_catalog.format_type(p.proargtypes[0], NULL) END AS proargtypes, a.aggtransfn,
-			   format_type(a.aggtranstype, NULL) AS aggstype, a.aggfinalfn, a.agginitval, a.aggsortop, u.usename,
-			   pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
-			   FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
-			   WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
-			   AND p.proisagg AND n.nspname='{$this->_schema}'
-			   AND p.proname='" . $name . "' AND CASE p.proargtypes[0] WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype
-			   THEN NULL ELSE pg_catalog.format_type(p.proargtypes[0], NULL) END ='" . $basetype . "'";
+		$sql = "
+			SELECT p.proname,
+				CASE p.proargtypes[0]
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END AS proargtypes, a.aggtransfn, format_type(a.aggtranstype, NULL) AS aggstype,
+				a.aggfinalfn, a.agginitval, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
+			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
+			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
+				AND p.proisagg AND n.nspname='{$this->_schema}'
+				AND p.proname='" . $name . "'
+				AND CASE p.proargtypes[0] 
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END ='" . $basetype . "'";
 
 		return $this->selectSet($sql);
 	}

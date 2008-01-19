@@ -3,7 +3,7 @@
 	/**
 	 * Manage aggregates in a database
 	 *
-	 * $Id: aggregates.php,v 1.26 2007/11/30 15:17:22 soranzo Exp $
+	 * $Id: aggregates.php,v 1.27 2008/01/19 13:46:15 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -236,8 +236,10 @@
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggfinalfn']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrinitcond']}</th>\n";
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['agginitval']), "</td>\n</tr>\n";
-			echo "<tr>\n\t<th class=\"data left\">{$lang['straggrsortop']}</th>\n";
-			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggsortop']), "</td>\n</tr>\n";
+			if($data->hasAggregateSortOp()) {
+				echo "<tr>\n\t<th class=\"data left\">{$lang['straggrsortop']}</th>\n";
+				echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['aggsortop']), "</td>\n</tr>\n";
+			}
 			echo "<tr>\n\t<th class=\"data left\">{$lang['strowner']}</th>\n";
 			echo "\t<td class=\"data1\">", htmlspecialchars($aggrdata->fields['usename']), "</td>\n</tr>\n";
 			echo "<tr>\n\t<th class=\"data left\">{$lang['strcomment']}</th>\n";

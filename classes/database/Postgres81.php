@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.1 support
  *
- * $Id: Postgres81.php,v 1.20 2007/12/12 10:45:35 ioguix Exp $
+ * $Id: Postgres81.php,v 1.21 2008/01/19 13:46:15 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres80.php');
@@ -627,6 +627,36 @@ class Postgres81 extends Postgres80 {
 		return 0;
 	}
 	
+	// Aggregate functions
+
+	/**
+	 * Gets all information for an aggregate
+	 * @param $name The name of the aggregate
+	 * @param $basetype The input data type of the aggregate
+	 * @return A recordset
+	 */
+	function getAggregate($name, $basetype) {
+		$this->fieldclean($name);
+		$this->fieldclean($basetype);
+
+		$sql = "
+			SELECT p.proname, CASE p.proargtypes[0]
+				WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL
+				ELSE pg_catalog.format_type(p.proargtypes[0], NULL) END AS proargtypes,
+				a.aggtransfn, format_type(a.aggtranstype, NULL) AS aggstype, a.aggfinalfn,
+				a.agginitval, a.aggsortop, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
+			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
+			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
+				AND p.proisagg AND n.nspname='{$this->_schema}'
+				AND p.proname='" . $name . "'
+				AND CASE p.proargtypes[0] 
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END ='" . $basetype . "'";
+
+		return $this->selectSet($sql);
+	}
+
 	// Capabilities
 	function hasServerAdminFuncs() { return true; }
 	function hasRoles() { return true; }
@@ -636,6 +666,7 @@ class Postgres81 extends Postgres80 {
 	function hasFunctionAlterSchema() { return true; }
 	function hasAlterTableSchema() { return true; }
 	function hasSequenceAlterSchema() { return true; }
+	function hasAggregateSortOp() { return true; }
 }
 
 ?>

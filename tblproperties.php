@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tblproperties.php,v 1.91 2007/12/28 16:21:25 ioguix Exp $
+	 * $Id: tblproperties.php,v 1.92 2008/01/19 13:46:15 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -458,8 +458,6 @@
 		$tdata = $data->getTable($_REQUEST['table']);
 		// Get columns
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
-		// Get Pk & Constraints
-		$ck = $data->getConstraintsWithFields($_REQUEST['table']);
 
 		// Show comment if any
 		if ($tdata->fields['relcomment'] !== null)
@@ -486,15 +484,7 @@
 				'title' => $lang['strdefault'],
 				'field' => field('adsrc'),
 			),
-			'keyprop' => array(
-				'title' => $lang['strconstraints'],
-				'field' => field('attname'),
-				'type'  => 'callback',
-				'params'=> array(
-					'function' => 'cstrRender',
-					'keys' => $ck->getArray()
-				),
-			),
+			'keyprop' => 1,
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -503,10 +493,23 @@
 				'field' => field('comment'),
 			),
 		);
+
 		if (!$data->hasConstraintsInfo()) {
 			unset($columns['keyprop']);
 		}
 		else {
+			$ck = $data->getConstraintsWithFields($_REQUEST['table']);
+
+			$columns['keyprop'] = array(
+				'title' => $lang['strconstraints'],
+				'field' => field('attname'),
+				'type'  => 'callback',
+				'params'=> array(
+					'function' => 'cstrRender',
+					'keys' => $ck->getArray()
+      	),
+			);
+
 			function cstrRender($s, $p) {
 				global $misc, $data;
 

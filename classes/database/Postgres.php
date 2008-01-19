@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.318 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: Postgres.php,v 1.319 2008/01/19 13:46:15 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -3949,6 +3949,35 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
+	 * Gets all information for an aggregate
+	 * @param $name The name of the aggregate
+	 * @param $basetype The input data type of the aggregate
+	 * @return A recordset
+	 */
+	function getAggregate($name, $basetype) {
+		$this->fieldclean($name);
+		$this->fieldclean($basetype);
+
+		$sql = "
+			SELECT a.aggname AS proname,
+				CASE a.aggbasetype
+    				WHEN 0 THEN NULL
+    				ELSE format_type(a.aggbasetype, NULL)
+  				END AS proargtypes,
+  				a.aggtransfn, format_type(a.aggtranstype, NULL) AS aggstype, a.aggfinalfn, a.agginitval, u.usename,
+  				obj_description(a.oid, 'pg_aggregate') AS aggrcomment
+			FROM pg_user u, pg_aggregate a
+			WHERE a.aggowner=u.usesysid
+				AND a.aggname='" . $name . "'
+				AND CASE a.aggbasetype
+					WHEN  0 THEN ''
+					ELSE format_type(a.aggbasetype, NULL)
+					END ='" . $basetype . "'";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Creates a new aggregate in the database
 	 * @param $name The name of the aggregate
 	 * @param $basetype The input data type of the aggregate
@@ -4878,6 +4907,7 @@ class Postgres extends ADODB_base {
 	function hasPreparedXacts() { return false; }
 	function hasDisableTriggers() { return false; }
 	function hasAlterAggregate() { return false; }
+	function hasAggregateSortOp() { return false; }
 	function hasSharedComments() {return false;}
 	function hasAnalyze() {return false;}
 	function hasCreateTableLike() {return false;}
