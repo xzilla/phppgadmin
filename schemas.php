@@ -3,7 +3,7 @@
 	/**
 	 * Manage schemas in a database
 	 *
-	 * $Id: schemas.php,v 1.8.2.2 2007/07/09 14:55:22 xzilla Exp $
+	 * $Id: schemas.php,v 1.8.2.3 2008/01/22 22:03:48 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -54,7 +54,7 @@
 				'drop' => array(
 					'title' => $lang['strdrop'],
 					'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
+					'vars'  => array('nsp' => 'nspname'),
 				),
 				'privileges' => array(
 					'title' => $lang['strprivileges'],
@@ -215,13 +215,13 @@
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.schema.drop');
 
-			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['schema'])), "</p>\n";
+			echo "<p>", sprintf($lang['strconfdropschema'], $misc->printVal($_REQUEST['nsp'])), "</p>\n";
 
 			echo "<form action=\"schemas.php\" method=\"post\">\n";
 			echo $misc->form;
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
+			echo "<input type=\"hidden\" name=\"nsp\" value=\"", htmlspecialchars($_REQUEST['nsp']), "\" />\n";
 			// Show cascade drop option if supportd
 			if ($data->hasDropBehavior()) {
 				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
@@ -231,7 +231,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->dropSchema($_POST['schema'], isset($_POST['cascade']));
+			$status = $data->dropSchema($_POST['nsp'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strschemadropped']);
