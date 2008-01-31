@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.167 2008/01/09 00:19:10 ioguix Exp $
+	 * $Id: Misc.php,v 1.168 2008/01/31 22:03:30 ioguix Exp $
 	 */
 
 	class Misc {
@@ -654,7 +654,6 @@
 							'title' => $lang['strfulltext'],
 							'url'   => 'fulltext.php',
 							'urlvars' => array('subject' => 'database'),
-							'hide'  => !$data->hasFTS(),
 							'help'  => 'PUT_DOC_LINK_HERE',
 							'tree'  => true,
 							'icon'  => 'Fts',
@@ -692,6 +691,8 @@
 							'icon'  => 'Export',
 						),
 					);
+					if (!$data->hasFTS()) unset($tabs['fulltext']);
+					if (!$data->hasSchemas()) unset($tabs['schemas']);
 					return $tabs;
 
 				case 'schema':
