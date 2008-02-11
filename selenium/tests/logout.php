@@ -1,5 +1,5 @@
 <tr>
-	<td>clickAndWait<?php echo $plop ?></td>
+	<td>clickAndWait</td>
 	<td>link=<?php echo $lang['strlogout'] ?></td>
 	<td></td>
 </tr>
