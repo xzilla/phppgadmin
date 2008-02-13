@@ -770,27 +770,27 @@ _p.toHtml = function () {
 		(hideLines ? "-nolines" : "") + "\" style=\"" +
 		this.getLineStyle() +
 		(this.getExpanded() && this.hasChildren() ? "" : "display:none;") +
-		"\">" +
+		"\">\n" +
 		sb.join("") +
-		"</div>";
+		"</div>\n";
 
 	return "<div class=\"webfx-tree-item\" id=\"" +
-		this.id + "\"" + this.getEventHandlersHtml() + ">" +
+		this.id + "\"" + this.getEventHandlersHtml() + ">\n" +
 		this.getRowHtml() +
 		childrenHtml +
-		"</div>";
+		"</div>\n";
 };
 
 _p.getRowHtml = function () {
 	var t = this.getTree();
 	return "<div class=\"" + this.getRowClassName() + "\" style=\"padding-left:" +
-		Math.max(0, (this.getDepth() - 1) * this.indentWidth) + "px\">" +
+		Math.max(0, (this.getDepth() - 1) * this.indentWidth) + "px\">\n" +
 		this.getExpandIconHtml() +
 		//"<span class=\"webfx-tree-icon-and-label\">" +
 		this.getIconHtml() +
 		this.getLabelHtml() +
 		//"</span>" +
-		"</div>";
+		"</div>\n";
 };
 
 _p.getRowClassName = function () {
@@ -811,8 +811,8 @@ _p.getLabelHtml = function () {
 		(toolTip ? " title=\"" + webFXTreeHandler.textToHtml(toolTip) + "\"" : "") +
 		(target ? " target=\"" + target + "\"" : "") +
 		" onfocus=\"webFXTreeHandler.handleEvent(event)\"" +
-		" onblur=\"webFXTreeHandler.handleEvent(event)\">" +
-		this.getHtml() + "</a>";
+		" onblur=\"webFXTreeHandler.handleEvent(event)\">\n" +
+		this.getHtml() + "\n</a>\n";
 };
 
 _p._getHref = function () {
@@ -838,10 +838,10 @@ _p.getIconHtml = function () {
 	// HTML...
 	var link = this._getIconHref();
 	if (link == '#')
-		return "<img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\">&nbsp;";
+		return "<img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\">\n&nbsp;";
 
 	return "<a href=\"" + webFXTreeHandler.textToHtml(link) +
-		"\"><img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\"></a>";
+		"\"><img class=\"webfx-tree-icon\" src=\"" + this.getIconSrc() + "\"></a>\n";
 };
 
 _p.getIconSrc = function () {
@@ -852,7 +852,7 @@ _p.getExpandIconHtml = function () {
 	// here we are not using textToHtml since the file names rarerly contains
 	// HTML...
 	return "<img class=\"webfx-tree-expand-icon\" src=\"" +
-		this.getExpandIconSrc() + "\">";
+		this.getExpandIconSrc() + "\">\n";
 };
 
 
