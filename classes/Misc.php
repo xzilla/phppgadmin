@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.168 2008/01/31 22:03:30 ioguix Exp $
+	 * $Id: Misc.php,v 1.169 2008/02/13 23:03:05 ioguix Exp $
 	 */
 
 	class Misc {
@@ -1821,13 +1821,13 @@
 
 					echo value_xml_attr('tooltip', $attrs['toolTip'], $rec);
 
-					echo "/>\n";
+					echo " />\n";
 
 					$treedata->moveNext();
 				}
 			} else {
 				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
-				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('ObjectNotFound'), "\"/>\n";
+				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('ObjectNotFound'), "\" />\n";
 			}
 
 			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
