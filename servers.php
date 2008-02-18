@@ -3,7 +3,7 @@
 	/**
 	 * Manage servers
 	 *
-	 * $Id: servers.php,v 1.11 2007/08/31 18:30:11 ioguix Exp $
+	 * $Id: servers.php,v 1.12 2008/02/18 22:20:26 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -18,6 +18,9 @@
 		
 		$server_info = $misc->getServerInfo($_REQUEST['logoutServer']);
 		$misc->setServerInfo(null, null, $_REQUEST['logoutServer']);
+
+		unset($_SESSION['sharedUsername'], $_SESSION['sharedPassword']);
+
 		doDefault(sprintf($lang['strlogoutmsg'], $server_info['desc']));
 		
 		$_reload_browser = true;

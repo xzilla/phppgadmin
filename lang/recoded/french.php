@@ -4,7 +4,7 @@
      * French Language file for phpPgAdmin. 
      * @maintainer Pascal PEYRE [pascal.peyre@cir.fr]
      *
-     * $Id: french.php,v 1.33 2007/12/19 11:08:14 ioguix Exp $
+     * $Id: french.php,v 1.34 2008/02/18 22:20:26 ioguix Exp $
      */
 
     // Language and character set
@@ -113,8 +113,6 @@
     $lang['strseparator']  =  ' :';
     $lang['strexpand'] = '&#201;tendre';
     $lang['strcollapse'] = 'R&#233;duire';
-    $lang['strexplain'] = 'Explain';
-    $lang['strexplainanalyze']  =  'Explain Analyze';
     $lang['strfind'] = 'Rechercher';
     $lang['stroptions'] = 'Options';
     $lang['strrefresh'] = 'Rafraichir';
@@ -135,6 +133,7 @@
     $lang['strfile']  =  'Fichier';
     $lang['strfileimported']  =  'Fichier import&#233;.';
     $lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
+	$lang['strconfdropcred']  =  'Par mesure de s&#233;curit&#233;, la d&#233;connexion d&#233;truira vos identifiants partag&#233;s pour tous les serveurs. &#202;tes-vous s&#251;r de vouloir vous d&#233;connecter ?';
 	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
 	$lang['strselectall']  =  'S&#233;lectionner tout';
 	$lang['strunselectall']  =  'Des&#233;lectionner tout';
@@ -394,6 +393,7 @@ $lang['strlocale']  =  'Locale';
 	$lang['strerrordupfields']  =  'Erreur en cas de champs dupliqu&#233;s';
 	$lang['strviewaltered']  =  'Vue modifi&#233;e.';
 	$lang['strviewalteredbad']  =  '&#201;chec lors de la modification de la vue.';
+$lang['strspecifyviewtodrop']  =  'You must specify at least one view to drop.';
 
     // Sequences
     $lang['strsequence'] = 'S&#233;quence';
@@ -428,6 +428,7 @@ $lang['strlocale']  =  'Locale';
 	$lang['strnextval']  =  'Incr&#233;menter la valeur';
 	$lang['strsequencenextval']  =  'S&#233;quence incr&#233;ment&#233;e.';
 	$lang['strsequencenextvalbad']  =  '&#201;chec lors de l\'incr&#233;mentation de la valeur.';
+$lang['strspecifysequencetodrop']  =  'You must specify at least one sequence to drop.';
 
     // Indexes
     $lang['strindex']  =  'Index';
@@ -542,6 +543,7 @@ $lang['strlocale']  =  'Locale';
 	$lang['strfunctioncosting']  =  'Co&#251;t de la function';
 	$lang['strresultrows']  =  'Lignes de r&#233;sultat';
 	$lang['strexecutioncost']  =  'Co&#251;t d\'ex&#233;cution';
+$lang['strspecifyfunctiontodrop']  =  'You must specify at least one function to drop.';
 
     // Triggers
     $lang['strtrigger'] = 'Trigger';
@@ -588,7 +590,6 @@ $lang['strlocale']  =  'Locale';
     $lang['strdelimiter'] = 'D&#233;limiteur';
     $lang['strstorage'] = 'Stockage';
     $lang['strfield']  =  'Champ';
-	$lang['strvalue']  =  'Valeur';
     $lang['strnumfields']  =  'Nombre de champs';
 	$lang['strnumvalues']  =  'Nombre de valeurs';
     $lang['strtypeneedsname'] = 'Vous devez indiquer un nom pour votre type.';
@@ -622,6 +623,7 @@ $lang['strlocale']  =  'Locale';
     $lang['strschemaaltered']  =  'Schema modifi&#233;.';
     $lang['strschemaalteredbad']  =  '&#201;chec lors de la modification du sch&#233;ma.';
     $lang['strsearchpath']  =  'Chemin de recherche du sch&#233;ma';
+$lang['strspecifyschematodrop']  =  'You must specify at least one schema to drop.';
 
     // Reports
     $lang['strreport'] = 'Rapport';
@@ -970,11 +972,7 @@ $lang['strftsmappingaltered']  =  'FTS mapping altered.';
 $lang['strftsmappingalteredbad']  =  'FTS mapping alter failed.';
 $lang['strftsmappingadded']  =  'FTS mapping added.';
 $lang['strftsmappingaddedbad']  =  'FTS mapping add failed.';
-$lang['strftsmappingdropped']  =  'FTS mapping dropped.';
-$lang['strftsmappingdroppedbad']  =  'FTS mapping drop failed.';
 	$lang['strftstabconfigs']  =  'Configurations';
 	$lang['strftstabdicts']  =  'Dictionaires';
 	$lang['strftstabparsers']  =  'Analyseurs syntaxique';
-	
-	
 ?>
