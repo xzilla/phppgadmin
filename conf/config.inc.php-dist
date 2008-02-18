@@ -4,7 +4,7 @@
 	 * Central phpPgAdmin configuration.  As a user you may modify the
 	 * settings here for your particular configuration.
 	 *
-	 * $Id: config.inc.php-dist,v 1.54 2007/11/30 15:53:50 soranzo Exp $
+	 * $Id: config.inc.php-dist,v 1.55 2008/02/18 21:10:31 xzilla Exp $
 	 */
 
 	// An example server.  Create as many of these as you wish,
@@ -22,10 +22,12 @@
 
 	// Database SSL mode
 	// Possible options: disable, allow, prefer, require
+	// To require SSL on older servers use option: legacy
+	// To ignore the SSL mode, use option: unspecified
 	$conf['servers'][0]['sslmode'] = 'allow';
 
 	// Change the default database only if you cannot connect to template1.
-	// For a PostgreSQL 8.1 server, you need to set this to 'postgres'.
+	// For a PostgreSQL 8.1+ server, you can set this to 'postgres'.
 	$conf['servers'][0]['defaultdb'] = 'template1';
 
 	// Specify the path to the database dump utilities for this server.
