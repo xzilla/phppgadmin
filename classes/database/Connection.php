@@ -3,7 +3,7 @@
 /**
  * Class to represent a database connection
  *
- * $Id: Connection.php,v 1.14 2007/09/11 11:39:58 xzilla Exp $
+ * $Id: Connection.php,v 1.15 2008/02/18 21:42:47 ioguix Exp $
  */
 
 include_once('./classes/database/ADODB_base.php');
@@ -32,9 +32,12 @@ class Connection {
 		else
 			$pghost = "{$host}:{$port}";
 
-		// Add sslmode to $pghost if set
-		if ($sslmode !== null && $sslmode != '')
-			$pghost .= ':'.$sslmode;
+		// Add sslmode to $pghost as needed
+                if (($sslmode == 'disable') || ($sslmode == 'allow') || ($sslmode == 'prefer') || ($sslmode == 'require')) {
+                        $pghost .= ':'.$sslmode;
+                } elseif ($sslmode == 'legacy') {
+                        $pghost .= ' requiressl=1';
+                }
 
 		$this->conn->connect($pghost, $user, $password, $database);
 	}
