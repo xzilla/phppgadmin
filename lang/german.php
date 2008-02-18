@@ -5,7 +5,7 @@
 	 *
 	 * @maintainer Laurenz Albe <laurenz.albe@wien.gv.at>
 	 *
-     * $Id: german.php,v 1.29 2008/01/05 21:51:18 xzilla Exp $
+     * $Id: german.php,v 1.30 2008/02/18 23:06:51 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -134,6 +134,7 @@
 	$lang['strfile'] = 'Datei';
 	$lang['strfileimported'] = 'Datei importiert.';
 	$lang['strtrycred'] = 'Diese Anmeldedaten für alle Server verwenden';
+	$lang['strconfdropcred']  = 'Aus Sicherheitsgründen werden gemeinsamme Anmeldedaten beim Abmelden gelöscht. Sind Sie sicher, dass sie sich abmelden wollen?';
 	$lang['stractionsonmultiplelines'] = 'Mehrzeilige Aktionen';
 	$lang['strselectall'] = 'Alle auswählen';
 	$lang['strunselectall'] = 'Alle abwählen';
