@@ -236,7 +236,7 @@
 <tr>
 	<td>select</td>
 	<td>like</td>
-	<td>label=public.promo</td>
+	<td>label="public"."promo"</td>
 </tr>
 <tr>
 	<td>click</td>
