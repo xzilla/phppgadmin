@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.109 2008/01/14 17:55:01 ioguix Exp $
+	 * $Id: tables.php,v 1.110 2008/02/20 21:06:18 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -62,7 +62,7 @@
 					while (!$tablespaces->EOF) {
 						$spcname = htmlspecialchars($tablespaces->fields['spcname']);
 						echo "\t\t\t\t<option value=\"{$spcname}\"",
-							($spcname == $_REQUEST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
+							($tablespaces->fields['spcname'] == $_REQUEST['spcname']) ? ' selected="selected"' : '', ">{$spcname}</option>\n";
 						$tablespaces->moveNext();
 					}
 					echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
@@ -238,6 +238,8 @@
 
 	/**
 	 * Dsiplay a screen where user can create a table from an existing one.
+	 * We don't have to check if pg supports schema cause create table like
+	 * is available under pg 7.4+ which has schema.
 	 */
 	function doCreateLike($confirm, $msg = '') {
 		global $data, $misc, $lang;
@@ -258,10 +260,11 @@
 			$tbltmp = $tbltmp->getArray();
 
 			$tables = array();
-			if ( $data->hasSchemas() )
-				foreach ($tbltmp as $a) $tables["{$a['nspname']}.{$a['relname']}"] = "{$a['nspname']}.{$a['relname']}";
-			else
-				foreach ($tbltmp as $a) $tables[$a['relname']] = $a['relname'];
+			foreach ($tbltmp as $a) {
+				$data->fieldClean($a['nspname']);
+				$data->fieldClean($a['relname']);
+				$tables["\"{$a['nspname']}\".\"{$a['relname']}\""] = serialize(array('schema' => $a['nspname'], 'table' => $a['relname']));
+			}
 
 			unset($tbltmp);
 
@@ -290,12 +293,12 @@
 				isset($_REQUEST['withdefaults']) ? ' checked="checked"' : '',
 				"/>{$lang['strcreatelikewithdefaults']}</label>";
 			if ($data->hasCreateTableLikeWithConstraints()) {
-				echo "<label for=\"withconstraints\"><input type=\"checkbox\" id=\"withconstraints\" name=\"withconstraints\"",
+				echo "<br /><label for=\"withconstraints\"><input type=\"checkbox\" id=\"withconstraints\" name=\"withconstraints\"",
 					isset($_REQUEST['withconstraints']) ? ' checked="checked"' : '',
 					"/>{$lang['strcreatelikewithconstraints']}</label>";
 			}
 			if ($data->hasCreateTableLikeWithIndexes()) {
-				echo "<label for=\"withindexes\"><input type=\"checkbox\" id=\"withindexes\" name=\"withindexes\"",
+				echo "<br /><label for=\"withindexes\"><input type=\"checkbox\" id=\"withindexes\" name=\"withindexes\"",
 					isset($_REQUEST['withindexes']) ? ' checked="checked"' : '',
 					"/>{$lang['strcreatelikewithindexes']}</label>";
 			}
@@ -322,8 +325,9 @@
 
 			if (!isset($_REQUEST['tablespace'])) $_REQUEST['tablespace'] = '';
 
-			$status = $data->createTableLike($_REQUEST['name'], $_REQUEST['like'], isset($_REQUEST['withdefaults']),
-			   	isset($_REQUEST['withconstraints']), isset($_REQUEST['withindexes']), $_REQUEST['tablespace']);
+			$status = $data->createTableLike($_REQUEST['name'], unserialize($_REQUEST['like']), isset($_REQUEST['withdefaults']),
+				isset($_REQUEST['withconstraints']), isset($_REQUEST['withindexes']), $_REQUEST['tablespace']);
+				
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strtablecreated']);

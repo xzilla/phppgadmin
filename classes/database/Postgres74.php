@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres74.php,v 1.71 2007/12/28 16:21:25 ioguix Exp $
+ * $Id: Postgres74.php,v 1.72 2008/02/20 21:06:18 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres73.php');
@@ -252,14 +252,21 @@ class Postgres74 extends Postgres73 {
 	/**
 	 * Creates a new table in the database copying attribs and other properties from another table
 	 * @param $name The name of the table
-	 * @param $like The name of the table from which attribs are copying from
+	 * @param $like an array giving the schema ans the name of the table from which attribs are copying from:
+	 *		array(
+	 *			'table' => table name,
+	 *			'schema' => the schema name,
+	 *		)
 	 * @param $defaults if true, copy the defaults values as well
 	 * @param $constraints if true, copy the constraints as well (CHECK on table & attr)
 	 * @param $tablespace The tablespace name ('' means none/default)
 	 */
 	function createTableLike($name, $like, $defaults = false, $constraints = false, $idx = false, $tablespace = '') {
 		$this->fieldClean($name);
-		$this->fieldClean($like);
+
+		$this->fieldClean($like['schema']);
+		$this->fieldClean($like['table']);
+		$like = "\"{$like['schema']}\".\"{$like['table']}\"";
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
