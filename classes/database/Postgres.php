@@ -4,7 +4,7 @@
  * A class that implements the DB interface for Postgres
  * Note: This class uses ADODB and returns RecordSets.
  *
- * $Id: Postgres.php,v 1.319 2008/01/19 13:46:15 ioguix Exp $
+ * $Id: Postgres.php,v 1.320 2008/02/20 20:43:09 ioguix Exp $
  */
 
 // @@@ THOUGHT: What about inherits? ie. use of ONLY???
@@ -1656,7 +1656,7 @@ class Postgres extends ADODB_base {
 				return -1;
 			}
 
-			$status = $this->delete($table, $key, $this->schema());
+			$status = $this->delete($table, $key, $this->_schema);
 			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
 				$this->rollbackTransaction();
 				return -2;

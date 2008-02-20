@@ -3,7 +3,7 @@
 /*
  * Parent class of all ADODB objects.
  *
- * $Id: ADODB_base.php,v 1.23 2007/12/12 04:11:10 xzilla Exp $
+ * $Id: ADODB_base.php,v 1.24 2008/02/20 20:43:10 ioguix Exp $
  */
 
 include_once('./libraries/errorhandler.inc.php');
@@ -134,8 +134,10 @@ class ADODB_base {
 
 		reset($conditions);
 
-		if (!empty($schema))
+		if (!empty($schema)) {
+			$this->fieldClean($schema);
 			$schema = "\"{$schema}\".";
+		}
 
 		// Build clause
 		$sql = '';
