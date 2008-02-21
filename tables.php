@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.110 2008/02/20 21:06:18 ioguix Exp $
+	 * $Id: tables.php,v 1.111 2008/02/21 18:32:11 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -260,10 +260,13 @@
 			$tbltmp = $tbltmp->getArray();
 
 			$tables = array();
+			$tblsel = '';
 			foreach ($tbltmp as $a) {
 				$data->fieldClean($a['nspname']);
 				$data->fieldClean($a['relname']);
 				$tables["\"{$a['nspname']}\".\"{$a['relname']}\""] = serialize(array('schema' => $a['nspname'], 'table' => $a['relname']));
+				if ($_REQUEST['like'] == $tables["\"{$a['nspname']}\".\"{$a['relname']}\""]) 
+					$tblsel = htmlspecialchars($tables["\"{$a['nspname']}\".\"{$a['relname']}\""]);
 			}
 
 			unset($tbltmp);
@@ -273,7 +276,7 @@
 			echo "\t\t<td class=\"data\"><input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", htmlspecialchars($_REQUEST['name']), "\" /></td>\n\t</tr>\n";
 			echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strcreatetablelikeparent']}</th>\n";
 			echo "\t\t<td class=\"data\">";
-			echo GUI::printCombo($tables, 'like', true, $_REQUEST['like'], false);
+			echo GUI::printCombo($tables, 'like', true, $tblsel, false);
 			echo "</td>\n\t</tr>\n";
 			if ($data->hasTablespaces()) {
 				$tblsp_ = $data->getTablespaces();
