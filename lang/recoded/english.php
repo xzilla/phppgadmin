@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.180 2008/02/18 22:20:26 ioguix Exp $
+	 * $Id: english.php,v 1.181 2008/02/21 17:05:54 xzilla Exp $
 	 */
 
 	// Language and character set
@@ -19,7 +19,6 @@
 	$lang['strppahome'] = 'phpPgAdmin Homepage';
 	$lang['strpgsqlhome'] = 'PostgreSQL Homepage';
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
-	$lang['strlocaldocs'] = 'PostgreSQL Documentation (local)';
 	$lang['strreportbug'] = 'Report a Bug';
 	$lang['strviewfaq'] = 'View online FAQ';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
@@ -44,14 +43,12 @@
 	$lang['strenable'] = 'Enable';
 	$lang['strdisable'] = 'Disable';
 	$lang['strdrop'] = 'Drop';
-	$lang['strdropped'] = 'Dropped';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Not Null';
 	$lang['strprev'] = '&lt; Prev';
 	$lang['strnext'] = 'Next &gt;';
 	$lang['strfirst'] = '&lt;&lt; First';
 	$lang['strlast'] = 'Last &gt;&gt;';
-	$lang['strfailed'] = 'Failed';
 	$lang['strcreate'] = 'Create';
 	$lang['strcreated'] = 'Created';
 	$lang['strcomment'] = 'Comment';
@@ -67,7 +64,6 @@
 	$lang['strselect'] = 'Select';
 	$lang['strdelete'] = 'Delete';
 	$lang['strupdate'] = 'Update';
-	$lang['strreferences'] = 'References';
 	$lang['stryes'] = 'Yes';
 	$lang['strno'] = 'No';
 	$lang['strtrue'] = 'TRUE';
@@ -120,7 +116,6 @@
 	$lang['strdownloadgzipped'] = 'Download compressed with gzip';
 	$lang['strinfo'] = 'Info';
 	$lang['stroids'] = 'OIDs';
-	$lang['stradvanced'] = 'Advanced';
 	$lang['strvariables'] = 'Variables';
 	$lang['strprocess'] = 'Process';
 	$lang['strprocesses'] = 'Processes';
@@ -137,7 +132,6 @@
 	$lang['stractionsonmultiplelines'] = 'Actions on multiple lines';
 	$lang['strselectall'] = 'Select all';
 	$lang['strunselectall'] = 'Unselect all';
-	$lang['strlocale'] = 'Locale';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'History';
@@ -342,7 +336,6 @@
 	$lang['strshowalldatabases'] = 'Show all databases';
 	$lang['strnodatabases'] = 'No databases found.';
 	$lang['strcreatedatabase'] = 'Create database';
-	$lang['strdatabasename'] = 'Database name';
 	$lang['strdatabaseneedsname'] = 'You must give a name for your database.';
 	$lang['strdatabasecreated'] = 'Database created.';
 	$lang['strdatabasecreatedbad'] = 'Database creation failed.';
@@ -433,12 +426,10 @@
 	$lang['strindex'] = 'Index';
 	$lang['strindexes'] = 'Indexes';
 	$lang['strindexname'] = 'Index name';
-	$lang['strshowallindexes'] = 'Show all indexes';
 	$lang['strnoindex'] = 'No index found.';
 	$lang['strnoindexes'] = 'No indexes found.';
 	$lang['strcreateindex'] = 'Create index';
 	$lang['strtabname'] = 'Tab name';
-	$lang['strcolumnname'] = 'Column name';
 	$lang['strindexneedsname'] = 'You must give a name for your index.';
 	$lang['strindexneedscols'] = 'Indexes require a valid number of columns.';
 	$lang['strindexcreated'] = 'Index created.';
@@ -446,7 +437,6 @@
 	$lang['strconfdropindex'] = 'Are you sure you want to drop the index &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Index dropped.';
 	$lang['strindexdroppedbad'] = 'Index drop failed.';
-	$lang['strkeyname'] = 'Key name';
 	$lang['struniquekey'] = 'Unique key';
 	$lang['strprimarykey'] = 'Primary key';
  	$lang['strindextype'] = 'Type of index';
@@ -459,11 +449,9 @@
 	// Rules
 	$lang['strrules'] = 'Rules';
 	$lang['strrule'] = 'Rule';
-	$lang['strshowallrules'] = 'Show all rules';
 	$lang['strnorule'] = 'No rule found.';
 	$lang['strnorules'] = 'No rules found.';
 	$lang['strcreaterule'] = 'Create rule';
-	$lang['strrulename'] = 'Rule name';
 	$lang['strruleneedsname'] = 'You must specify a name for your rule.';
 	$lang['strrulecreated'] = 'Rule created.';
 	$lang['strrulecreatedbad'] = 'Rule creation failed.';
@@ -474,10 +462,7 @@
 	// Constraints
 	$lang['strconstraint'] = 'Constraint';
 	$lang['strconstraints'] = 'Constraints';
-	$lang['strshowallconstraints'] = 'Show all constraints';
 	$lang['strnoconstraints'] = 'No constraints found.';
-	$lang['strcreateconstraint'] = 'Create constraint';
-	$lang['strconstraintcreated'] = 'Constraint created.';
 	$lang['strconstraintcreatedbad'] = 'Constraint creation failed.';
 	$lang['strconfdropconstraint'] = 'Are you sure you want to drop the constraint &quot;%s&quot; on &quot;%s&quot;?';
 	$lang['strconstraintdropped'] = 'Constraint dropped.';
@@ -496,7 +481,6 @@
 	$lang['struniqaddedbad'] = 'Failed to add unique key.';
 	$lang['straddfk'] = 'Add foreign key';
 	$lang['strfkneedscols'] = 'Foreign key requires at least one column.';
-	$lang['strfkneedstarget'] = 'Foreign key requires a target table.';
 	$lang['strfkadded'] = 'Foreign key added.';
 	$lang['strfkaddedbad'] = 'Failed to add foreign key.';
 	$lang['strfktarget'] = 'Target table';
@@ -513,7 +497,6 @@
 	$lang['strcreateplfunction'] = 'Create SQL/PL function';
 	$lang['strcreateinternalfunction'] = 'Create internal function';
 	$lang['strcreatecfunction'] = 'Create C function';
-	$lang['strfunctionname'] = 'Function name';
 	$lang['strreturns'] = 'Returns';
 	$lang['strproglanguage'] = 'Programming language';
 	$lang['strfunctionneedsname'] = 'You must give a name for your function.';
@@ -612,7 +595,6 @@
 	$lang['strnoschema'] = 'No schema found.';
 	$lang['strnoschemas'] = 'No schemas found.';
 	$lang['strcreateschema'] = 'Create schema';
-	$lang['strschemaname'] = 'Schema name';
 	$lang['strschemaneedsname'] = 'You must give a name for your schema.';
 	$lang['strschemacreated'] = 'Schema created.';
 	$lang['strschemacreatedbad'] = 'Schema creation failed.';
@@ -672,9 +654,6 @@
 	$lang['strrightsort'] = 'Right sort';
 	$lang['strlessthan'] = 'Less than';
 	$lang['strgreaterthan'] = 'Greater than';
-	$lang['stroperatorneedsname'] = 'You must give a name for your operator.';
-	$lang['stroperatorcreated'] = 'Operator created.';
-	$lang['stroperatorcreatedbad'] = 'Operator creation failed.';
 	$lang['strconfdropoperator'] = 'Are you sure you want to drop the operator &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Operator dropped.';
 	$lang['stroperatordroppedbad'] = 'Operator drop failed.';
@@ -709,7 +688,6 @@
 	$lang['straggregate'] = 'Aggregate';
 	$lang['straggregates'] = 'Aggregates';
 	$lang['strnoaggregates'] = 'No aggregates found.';
-	$lang['stralltypes'] = '(All types)';
 	$lang['strcreateaggregate'] = 'Create aggregate';
 	$lang['straggrbasetype'] = 'Input data type';
 	$lang['straggrsfunc'] = 'State transition function';
@@ -792,8 +770,6 @@
 	$lang['strconfdropnode'] = 'Are you sure you want to drop node &quot;%s&quot;?';
 	$lang['strnodedropped'] = 'Node dropped.';
 	$lang['strnodedroppedbad'] = 'Node drop failed.';
-	$lang['strfailover'] = 'Failover';
-	$lang['strnodefailedover'] = 'Node failed over.';
 	$lang['strnodefailedoverbad'] = 'Node failover failed.';
 	$lang['strstatus'] = 'Status';	
 	$lang['strhealthy'] = 'Healthy';
@@ -923,7 +899,6 @@
 	// Fulltext search
 	$lang['strfulltext'] = 'Full Text Search';
 	$lang['strftsconfig'] = 'FTS configuration';
-	$lang['strftsconfigs'] = 'Configurations';
 	$lang['strftscreateconfig'] = 'Create FTS configuration';
 	$lang['strftscreatedict'] = 'Create dictionary';
 	$lang['strftscreatedicttemplate'] = 'Create dictionary template';
@@ -944,11 +919,9 @@
 	$lang['strftsdict'] = 'Dictionary';
 	$lang['strftsemptymap'] = 'Empty FTS configuration map.';
 	$lang['strftswithmap'] = 'With map';
-	$lang['strftsmakedefault'] = 'Make default for given locale';
 	$lang['strftsconfigaltered'] = 'FTS configuration altered.';
 	$lang['strftsconfigalteredbad'] = 'FTS configuration alter failed.';
 	$lang['strftsconfigmap'] = 'FTS configuration map';
-	$lang['strftsparsers'] = 'FTS parsers';
 	$lang['strftsnoparsers'] = 'No FTS parsers available.';
 	$lang['strftsnodicts'] = 'No FTS dictionaries available.';
 	$lang['strftsdictcreated'] = 'FTS dictionary created.';
