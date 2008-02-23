@@ -4,7 +4,7 @@
 	 * English language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: english.php,v 1.231 2008/02/21 17:15:57 xzilla Exp $
+	 * $Id: english.php,v 1.232 2008/02/23 16:34:33 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -942,8 +942,6 @@
 	$lang['strftsdicts'] = 'Dictionaries';
 	$lang['strftsdict'] = 'Dictionary';
 	$lang['strftsemptymap'] = 'Empty FTS configuration map.';
-	$lang['strftswithmap'] = 'With map';
-	$lang['strftsmakedefault'] = 'Make default for given locale';
 	$lang['strftsconfigaltered'] = 'FTS configuration altered.';
 	$lang['strftsconfigalteredbad'] = 'FTS configuration alter failed.';
 	$lang['strftsconfigmap'] = 'FTS configuration map';
@@ -973,4 +971,5 @@
 	$lang['strftstabconfigs'] = 'Configurations';
 	$lang['strftstabdicts'] = 'Dictionaries';
 	$lang['strftstabparsers'] = 'Parsers';
+	$lang['strftscantparsercopy'] = 'Can\'t specify both parser and template during text search configuration creation.';
 ?>
