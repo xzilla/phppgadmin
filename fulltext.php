@@ -3,7 +3,7 @@
 	/**
 	 * Manage fulltext configurations, dictionaries and mappings
 	 *
-	 * $Id: fulltext.php,v 1.5 2007/11/30 15:17:22 soranzo Exp $
+	 * $Id: fulltext.php,v 1.6 2008/03/17 21:35:48 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -70,7 +70,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('ftscfg');
-			$misc->printTitle($lang['strdrop'],'PUT_DOC_LINK_HERE');
+			$misc->printTitle($lang['strdrop'], 'pg.ftscfg.drop');
 
 			echo "<p>", sprintf($lang['strconfdropftsconfig'], $misc->printVal($_REQUEST['ftscfg'])), "</p>\n";
 
@@ -105,7 +105,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('ftscfg'); // TODO: change to smth related to dictionary
-			$misc->printTitle($lang['strdrop'],'PUT_DOC_LINK_HERE');
+			$misc->printTitle($lang['strdrop'], 'pg.ftsdict.drop');
 
 			echo "<p>", sprintf($lang['strconfdropftsdict'], $misc->printVal($_REQUEST['ftsdict'])), "</p>\n";
 
@@ -118,7 +118,7 @@
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"ftsdict\" value=\"", htmlspecialchars($_REQUEST['ftsdict']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
+			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewdicts\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -143,6 +143,8 @@
 		global $data, $misc;
 		global $lang;
 
+		include_once('./classes/Gui.php');
+
 		$server_info = $misc->getServerInfo();
 
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
@@ -157,7 +159,7 @@
 		$ftsparsers = $data->getFtsParsers();
 
 		$misc->printTrail('schema');
-		$misc->printTitle($lang['strftscreateconfig'],'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['strftscreateconfig'], 'pg.ftscfg.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
@@ -168,7 +170,7 @@
 
 		// Template
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftstemplate']}</th>\n";
-		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\" onchange=\"document.getElementsByName('formWithMap')[0].disabled = !this.value;if(!this.value)document.getElementsByName('formWithMap')[0].checked = false;\">\n";
+		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\">\n";
 		echo "\t\t\t\t<option value=\"\"></option>\n";
 		while (!$ftscfgs->EOF) {
 			$ftscfg = htmlspecialchars($ftscfgs->fields['name']);
@@ -176,22 +178,26 @@
 				($ftscfg == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$ftscfg}</option>\n";
 			$ftscfgs->moveNext();
 		}
-		echo "\t\t\t</select>\n";
-		echo "\t\t<input type=\"checkbox\" disabled=\"disabled\" id=\"withmap\" name=\"formWithMap\"",
-			$_POST['formWithMap'] ? ' checked="checked"' : '',
-			" /> <label for=\"withmap\">{$lang['strftswithmap']}</label></td>\n\t</tr>\n";
+		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 
 		// Parser
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsparser']}</th>\n";
-		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formParser\">\n";
-		echo "\t\t\t\t<option value=\"\"></option>\n";
-		while (!$ftsparsers->EOF) {
-			$ftsparser = htmlspecialchars($ftsparsers->fields['schema'] . "." . $ftsparsers->fields['name']);
-			echo "\t\t\t\t<option value=\"{$ftsparser}\"",
-				($ftsparser == $_POST['formParser']) ? ' selected="selected"' : '', ">{$ftsparser}</option>\n";
-			$ftsparsers->moveNext();
+		echo "\t\t<td class=\"data1\">\n";
+		$ftsparsers_ = array();
+		$ftsparsel = '';
+		if (!$ftsparsers->EOF) {
+			$ftsparsers = $ftsparsers->getArray();
+			foreach ($ftsparsers as $a) {
+				$data->fieldClean($a['schema']);
+				$data->fieldClean($a['name']);
+				$ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""] = serialize(array('schema' => $a['schema'], 'parser' => $a['name']));
+				if ($_POST['formParser'] == $ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""]) {
+					$ftsparsel = htmlspecialchars($ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""]);
+				}
+			}
 		}
-		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+		echo GUI::printCombo($ftsparsers_, 'formParser', true, $ftsparsel, false);
+		echo "\n\t\t</td>\n\t</tr>\n";
 
 		// Comment
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcomment']}</th>\n";
@@ -217,9 +223,11 @@
 
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreateConfig($lang['strftsconfigneedsname']);
+		if (($_POST['formParser'] != '') && ($_POST['formTemplate'] != '')) doCreateConfig($lang['strftscantparsercopy']);
 		else {
-			$heh = "";
-			$status = $data->createFtsConfiguration($_POST['formName'], $_POST['formParser'], $_POST['formTemplate'], $_POST['formWithMap'], $_POST['formComment']);
+			if ($_POST['formParser'] != '') $_POST['formParser'] = unserialize($_POST['formParser']);
+
+			$status = $data->createFtsConfiguration($_POST['formName'], $_POST['formParser'], $_POST['formTemplate'], $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strftsconfigcreated']);
@@ -236,7 +244,7 @@
 		global $data, $misc, $lang;
 
 		$misc->printTrail('ftscfg');
-		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['stralter'], 'pg.ftscfg.alter');
 		$misc->printMsg($msg);
 
 		$ftscfg = $data->getFtsConfigurationByName($_REQUEST['ftscfg']);
@@ -259,17 +267,6 @@
 				htmlspecialchars($_POST['formName']), "\" />\n";
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
-
-			// Parser
-			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsparser']}</th>\n";
-			echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formParser\">\n";
-			while (!$ftsparsers->EOF) {
-				$ftsparser = htmlspecialchars($ftsparsers->fields['schema'] . "." . $ftsparsers->fields['name']);
-				echo "\t\t\t\t<option value=\"{$ftsparser}\"",
-					($ftsparser == $_POST['formParser'] || $ftsparser == $ftscfg->fields['parser']) ? ' selected="selected"' : '', ">{$ftsparser}</option>\n";
-				$ftsparsers->moveNext();
-			}
-			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 
 			// Comment
 			echo "\t<tr>\n";
@@ -478,7 +475,7 @@
 
 		$misc->printTrail('schema');
 		// TODO: create doc links
-		$misc->printTitle($lang['strftscreatedict'], 'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['strftscreatedict'], 'pg.ftsdict.create');
 		$misc->printMsg($msg);
 
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
@@ -561,7 +558,7 @@
 		global $data, $misc, $lang;
 
 		$misc->printTrail('ftscfg'); // TODO: change to smth related to dictionary
-		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['stralter'], 'pg.ftsdict.alter');
 		$misc->printMsg($msg);
 
 		$ftsdict = $data->getFtsDictionaryByName($_REQUEST['ftsdict']);
@@ -631,7 +628,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('ftscfg'); // TODO: proper breadcrumbs
-			$misc->printTitle($lang['strdrop'], 'PUT_DOC_LINK_HERE');
+			$misc->printTitle($lang['strdrop'], 'pg.ftscfg.alter');
 
 			echo "<form action=\"fulltext.php\" method=\"post\">\n";
 
@@ -651,6 +648,7 @@
 
 			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"{$_REQUEST['ftscfg']}\" />\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"dropmapping\" />\n";
+            echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";            
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -679,7 +677,7 @@
 		global $data, $misc, $lang;
 
 		$misc->printTrail('ftscfg');
-		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['stralter'], 'pg.ftscfg.alter');
 		$misc->printMsg($msg);
 
 		$ftsdicts = $data->getFtsDictionaries();
@@ -734,6 +732,8 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"altermapping\" />\n";
 			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_POST['ftscfg']), "\" />\n";
+            echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewconfig\" /></p>\n";
+            
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"alter\" value=\"{$lang['stralter']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
@@ -764,7 +764,7 @@
 		global $data, $misc, $lang;
 
 		$misc->printTrail('ftscfg');
-		$misc->printTitle($lang['stralter'],'PUT_DOC_LINK_HERE');
+		$misc->printTitle($lang['stralter'], 'pg.ftscfg.alter');
 		$misc->printMsg($msg);
 
 		$ftsdicts = $data->getFtsDictionaries();

@@ -2,7 +2,7 @@
 	/**
 	 * Class to hold various commonly used functions
 	 *
-	 * $Id: Misc.php,v 1.170 2008/02/18 22:20:26 ioguix Exp $
+	 * $Id: Misc.php,v 1.171 2008/03/17 21:35:48 ioguix Exp $
 	 */
 
 	class Misc {
@@ -654,7 +654,7 @@
 							'title' => $lang['strfulltext'],
 							'url'   => 'fulltext.php',
 							'urlvars' => array('subject' => 'database'),
-							'help'  => 'PUT_DOC_LINK_HERE',
+							'help'  => 'pg.fts',
 							'tree'  => true,
 							'icon'  => 'Fts',
 						),
@@ -1021,7 +1021,7 @@
                             'url'   => 'fulltext.php',
                             'urlvars' => array('subject' => 'database'),
                             'hide'  => !$data->hasFTS(),
-                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'help'  => 'pg.ftscfg',
                             'tree'  => true,
                             'icon'  => 'FtsCfg',
                         ),
@@ -1030,7 +1030,7 @@
                             'url'   => 'fulltext.php',
                             'urlvars' => array('subject' => 'database', 'action' => 'viewdicts'),
                             'hide'  => !$data->hasFTS(),
-                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'help'  => 'pg.ftsdict',
                             'tree'  => true,
                             'icon'  => 'FtsDict',
                         ),
@@ -1039,7 +1039,7 @@
                             'url'   => 'fulltext.php',
                             'urlvars' => array('subject' => 'database', 'action' => 'viewparsers'),
                             'hide'  => !$data->hasFTS(),
-                            'help'  => 'PUT_DOC_LINK_HERE',
+                            'help'  => 'pg.ftsparser',
                             'tree'  => true,
                             'icon'  => 'FtsParser',
                         ),
@@ -1296,7 +1296,7 @@
 					'title' => $lang['strftsconfig'],
 					'text'  => $_REQUEST['ftscfg'],
 					'url'   => "fulltext.php?{$vars}",
-					'help'  => 'PUT_DOC_LINK_HERE',
+					'help'  => 'pg.ftscfg.example',
 					'icon'  => 'Fts'
 				);
 			}

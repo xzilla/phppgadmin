@@ -3,7 +3,7 @@
 /**
  * PostgreSQL 8.3 support
  *
- * $Id: Postgres83.php,v 1.17 2007/12/28 17:43:26 ioguix Exp $
+ * $Id: Postgres83.php,v 1.18 2008/03/17 21:35:48 ioguix Exp $
  */
 
 include_once('./classes/database/Postgres82.php');
@@ -159,18 +159,21 @@ class Postgres83 extends Postgres82 {
  	 * @param string $comment If omitted, defaults to nothing
  	 * @return 0 success
  	 */
- 	function createFtsConfiguration($cfgname, $parser = '', $template = '', $withMap = '', $comment = '') {
+ 	function createFtsConfiguration($cfgname, $parser = '', $template = '', $comment = '') {
  		$this->fieldClean($cfgname);
- 		$this->fieldClean($template);
- 		$this->fieldClean($parser);
- 		$this->clean($comment);
 
- 		$sql = "CREATE TEXT SEARCH CONFIGURATION \"{$cfgname}\"";
- 		if ($parser != '') $sql .= " PARSER \"{$parser}\"";
+ 		$sql = "CREATE TEXT SEARCH CONFIGURATION \"{$cfgname}\" (";
+ 		if ($parser != '') {
+			$this->fieldClean($parser['schema']);
+			$this->fieldClean($parser['parser']);
+			$parser = "\"{$parser['schema']}\".\"{$parser['parser']}\"";
+			$sql .= " PARSER = {$parser}";
+		}
  		if ($template != '') {
- 			$sql .= " LIKE \"{$template}\"";
- 			if ($withMap != '') $sql .= " WITH MAP";
+			$this->fieldClean($template);
+ 			$sql .= " COPY = \"{$template}\"";
  		}
+		$sql .= ")";
 
  		if ($comment != '') {
  			$status = $this->beginTransaction();
@@ -186,6 +189,7 @@ class Postgres83 extends Postgres82 {
 
  		// Set the comment
  		if ($comment != '') {
+			$this->clean($comment);
  			$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -345,7 +349,7 @@ class Postgres83 extends Postgres82 {
  	/**
  	 * Alters FTS configuration
  	 */
- 	function updateFtsConfiguration($cfgname, $comment, $name, $prsname = null) {
+ 	function updateFtsConfiguration($cfgname, $comment, $name) {
  		$this->fieldClean($cfgname);
  		$this->fieldClean($name);
  		$this->clean($comment);
@@ -365,16 +369,6 @@ class Postgres83 extends Postgres82 {
  		// Only if the name has changed
  		if ($name != $cfgname) {
  			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$cfgname}\" RENAME TO \"{$name}\"";
- 			$status = $this->execute($sql);
- 			if ($status != 0) {
- 				$this->rollbackTransaction();
- 				return -1;
- 			}
- 		}
-
- 		// Only if parser is defined
- 		if ($prsname) {
- 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$cfgname}\" SET PARSER \"{$prsname}\"";
  			$status = $this->execute($sql);
  			if ($status != 0) {
  				$this->rollbackTransaction();
