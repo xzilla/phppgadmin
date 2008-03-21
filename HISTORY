@@ -1,6 +1,28 @@
 phpPgAdmin History
 ------------------
 
+Version 4.2-Beta-2
+-----------
+Bugs
+* Remove shared credentials when logging out of single server, to prevent automatic re-login
+* Improved SSL connection handling, fix problems with connections from older php builds 
+* Bring Full-Text-Search support up to par with 8.3 release, add help links
+* Fix bug with long role name truncation 
+* Fix bug with DELETE FROM when dropping a row (spq)
+* Fix problems when deleteing PUBLIC schema 
+* Fix several bugs in aggregate support
+* Improve autocompletion support
+* Tighten up use of global scope variables
+
+
+Translations
+* Catalan (Bernat Pegueroles)
+* French (ioguix)
+* German (Albe Laurenz, spq)
+* Japanese (Tadashi Jokagi)
+* Hungarian (Sulyok Peti) 
+
+
 Version 4.2-Beta-1
 -----------
 
@@ -33,8 +55,6 @@ Bugs
 * Fix bytea doesn't display as NULL when NULL
 * Schema qualifing every object to avoid non wanted behaviour about users' rights
   and schema_path
-* Remove shared credentials when logging out of single server, to prevent automatic re-login
-* Improved SSL connection handling, fix problems with connections from older php builds 
 
 Translations
 * utf traditional chinese (Kuo Chaoyi)
