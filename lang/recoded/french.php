@@ -4,7 +4,7 @@
 	* French Language file for phpPgAdmin. 
 	* @maintainer Guillaume (ioguix) de Rorthais
 	*
-	* $Id: french.php,v 1.35 2008/02/23 16:34:33 ioguix Exp $
+	* $Id: french.php,v 1.36 2008/03/27 10:46:32 ioguix Exp $
 	*/
 
 	// Language and character set
@@ -326,7 +326,7 @@
 	// Privileges
 	$lang['strprivilege'] = 'Droit';
 	$lang['strprivileges'] = 'Droits';
-	$lang['strnoprivileges'] = 'Cet objet n\'a pas de droits.';
+	$lang['strnoprivileges'] = 'Cet objet poss&#232;de les droits par d&#233;fault.';
 	$lang['strgrant'] = 'Accorder (GRANT)';
 	$lang['strrevoke'] = 'R&#233;voquer (REVOKE)';
 	$lang['strgranted'] = 'Droits accord&#233;s.';
