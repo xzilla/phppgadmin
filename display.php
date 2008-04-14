@@ -9,7 +9,7 @@
 	 * @param $return_desc The return link name
 	 * @param $page The current page
 	 *
-	 * $Id: display.php,v 1.67 2008/02/11 21:28:36 ioguix Exp $
+	 * $Id: display.php,v 1.68 2008/04/14 12:44:27 ioguix Exp $
 	 */
 
 	// Prevent timeouts on large exports (non-safe mode only)
@@ -323,6 +323,7 @@
 		if (isset($_REQUEST['return_url'])) $str .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
 		if (isset($_REQUEST['return_desc'])) $str .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
 		if (isset($_REQUEST['search_path'])) $str .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
+		if (isset($_REQUEST['table'])) $str .= "&amp;table=" . urlencode($_REQUEST['table']);
 		
 		// This string just contains sort info
 		$str2 = "sortkey=" . urlencode($_REQUEST['sortkey']) . 
