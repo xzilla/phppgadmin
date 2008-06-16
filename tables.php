@@ -3,7 +3,7 @@
 	/**
 	 * List tables in a database
 	 *
-	 * $Id: tables.php,v 1.111 2008/02/21 18:32:11 ioguix Exp $
+	 * $Id: tables.php,v 1.111.2.1 2008/06/16 22:47:40 ioguix Exp $
 	 */
 
 	// Include application functions
@@ -1025,6 +1025,7 @@
 			'action' => url(
 				field('url'),
 				$reqvars,
+				field('urlvars'),
 				array('table' => $_REQUEST['table'])
 			),
 			'branch' => ifempty(
