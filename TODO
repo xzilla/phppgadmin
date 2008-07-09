@@ -41,7 +41,6 @@ Roles
 -----
 
 * -Support for 8.1 roles (removing users and groups) (chriskl,javier)
-* -Support for ALTER ROLE (done by ?)
 
 
 Permissions
