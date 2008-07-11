@@ -133,6 +133,7 @@
 	$lang['strfile'] = 'File';
 	$lang['strfileimported'] = 'File imported.';
 	$lang['strtrycred'] = 'Use these credentials for all servers';
+	$lang['strconfdropcred'] = 'For security reason, disconnecting will destroy your shared login information. Are you sure you want to disconnect ?';
 	$lang['stractionsonmultiplelines'] = 'Actions on multiple lines';
 	$lang['strselectall'] = 'Select all';
 	$lang['strunselectall'] = 'Unselect all';
