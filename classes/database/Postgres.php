@@ -4264,6 +4264,9 @@ class Postgres extends ADODB_base {
 						case 'x':
 							$sql .= "\"{$k}\" {$ops[$k]} ({$v})";
 							break;
+						case 't':
+							$sql .= "\"{$k}\" {$ops[$k]}('{$v}')";
+							break;
 						default:
 							// Shouldn't happen
 					}
