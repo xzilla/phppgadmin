@@ -15,6 +15,16 @@ class Postgres83 extends Postgres82 {
 	// Last oid assigned to a system object
 	var $_lastSystemOID = 17231; // need to confirm this once we get to beta!!!
 
+	// Select operators
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', 
+							'<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i',
+							'LIKE' => 'i', 'NOT LIKE' => 'i', 'ILIKE' => 'i', 'NOT ILIKE' => 'i', 'SIMILAR TO' => 'i',
+							'NOT SIMILAR TO' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i',
+							'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x',
+							'@@' => 'i', '@@@' => 'i', '@>' => 'i', '<@' => 'i',
+							'@@ to_tsquery' => 't', '@@@ to_tsquery' => 't', '@> to_tsquery' => 't', '<@ to_tsquery' => 't',
+							'@@ plainto_tsquery' => 't', '@@@ plainto_tsquery' => 't', '@> plainto_tsquery' => 't', '<@ plainto_tsquery' => 't');
+
 	/**
 	 * Constructor
 	 * @param $conn The database connection
