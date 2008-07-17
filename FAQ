@@ -139,7 +139,7 @@ dumps on Windows. How do I get pg_dump.exe on Windows?
 
 A: To get the pg_dump utilities on Windows, you need to install PostgreSQL 8.0
    for Windows. It is available for download at
-   http://www.postgresql.org/ftp/win32/ .
+   http://www.postgresql.org/ftp/binary/. 
    Once you have installed that, set the pg_dump and pg_dumpall locations
    in the config.inc.php file to
    'C:\\Program Files\\PostgreSQL\\8.0\\bin\\pg_dump.exe' and
