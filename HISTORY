@@ -1,6 +1,17 @@
 phpPgAdmin History
 ------------------
 
+Version 4.2.1
+-------------
+
+Bugs
+* Fix table icon/link disapearing when navigating between pages during column browse (ioguix)
+* Fix import/export links from tree menu (Denis Golovtsov, ioguix)
+* Fix missing language string for shared credential logout
+* Add missing text search functions/operators (Loomis K, xzilla)
+* Update FAQ info for postgres win32 releases
+
+
 Version 4.2
 -----------
 
