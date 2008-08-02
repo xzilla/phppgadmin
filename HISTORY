@@ -10,7 +10,7 @@ Bugs
 * Fix missing language string for shared credential logout
 * Add missing text search functions/operators (Loomis K, xzilla)
 * Update FAQ info for postgres win32 releases
-
+* Fix database list error for users without connect privileges on all databases (Thomi Dammann, xzilla)
 
 Version 4.2
 -----------
