@@ -200,7 +200,7 @@
 		$sel3 = new XHTML_Select('formFrequency');
 		$sel3->set_data($data->triggerFrequency);
 		
-		echo "<form action=\"triggers.php\" method=\"POST\">\n";
+		echo "<form action=\"triggers.php\" method=\"post\">\n";
 		echo "<table>\n";
 		echo "<tr>\n";
 		echo "		<th class=\"data\">{$lang['strname']}</th>\n";
