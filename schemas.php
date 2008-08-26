@@ -284,6 +284,63 @@
 	}
 
 	/**
+	 * Displays options for database download
+	 */
+	function doExport($msg = '') {
+		global $data, $misc;
+		global $lang;
+
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','export');
+		$misc->printMsg($msg);
+
+		echo "<form action=\"dbexport.php\" method=\"post\">\n";
+		echo "<table>\n";
+		echo "<tr><th class=\"data\">{$lang['strformat']}</th><th class=\"data\" colspan=\"2\">{$lang['stroptions']}</th></tr>\n";
+		// Data only
+		echo "<tr><th class=\"data left\" rowspan=\"2\">";
+		echo "<input type=\"radio\" id=\"what1\" name=\"what\" value=\"dataonly\" checked=\"checked\" /><label for=\"what1\">{$lang['strdataonly']}</label></th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"d_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<tr><td><label for=\"d_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"d_oids\" name=\"d_oids\" /></td>\n</tr>\n";
+		// Structure only
+		echo "<tr><th class=\"data left\"><input type=\"radio\" id=\"what2\" name=\"what\" value=\"structureonly\" /><label for=\"what2\">{$lang['strstructureonly']}</label></th>\n";
+		echo "<td><label for=\"s_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"s_clean\" name=\"s_clean\" /></td>\n</tr>\n";
+		// Structure and data
+		echo "<tr><th class=\"data left\" rowspan=\"3\">";
+		echo "<input type=\"radio\" id=\"what3\" name=\"what\" value=\"structureanddata\" /><label for=\"what3\">{$lang['strstructureanddata']}</label></th>\n";
+		echo "<td>{$lang['strformat']}</td>\n";
+		echo "<td><select name=\"sd_format\">\n";
+		echo "<option value=\"copy\">COPY</option>\n";
+		echo "<option value=\"sql\">SQL</option>\n";
+		echo "</select>\n</td>\n</tr>\n";
+		echo "<tr><td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
+		echo "<tr><td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
+		echo "</table>\n";
+		
+		echo "<h3>{$lang['stroptions']}</h3>\n";
+		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
+		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label>\n";
+		// MSIE cannot download gzip in SSL mode - it's just broken
+		if (!(strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE') && isset($_SERVER['HTTPS']))) {
+			echo "<br /><input type=\"radio\" id=\"output3\" name=\"output\" value=\"gzipped\" /><label for=\"output3\">{$lang['strdownloadgzipped']}</label>\n";
+		}
+		echo "</p>\n";
+		echo "<p><input type=\"hidden\" name=\"action\" value=\"export\" />\n";
+		echo "<input type=\"hidden\" name=\"subject\" value=\"schema\" />\n";
+        echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
+        echo "<input type=\"hidden\" name=\"schema\" value=\"", htmlspecialchars($_REQUEST['schema']), "\" />\n";
+		echo $misc->form;
+		echo "<input type=\"submit\" value=\"{$lang['strexport']}\" /></p>\n";
+		echo "</form>\n";
+	}
+
+
+
+	/**
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
@@ -365,6 +422,9 @@
 		case 'drop':
 			if (isset($_POST['drop'])) doDrop(false);
 			else doDrop(true);
+			break;
+		case 'export':
+			doExport();
 			break;
 		default:
 			doDefault();

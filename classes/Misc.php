@@ -782,6 +782,14 @@
 							'tree'  => false,
 							'icon'  => 'Privileges',
 						),
+						'export' => array (
+							'title' => $lang['strexport'],
+							'url'   => 'schemas.php',
+							'urlvars' => array('subject' => 'schema', 'action' => 'export'),
+							'hide'  => (!$this->isDumpEnabled()),
+							'tree'  => false,
+							'icon'  => 'Export',
+						),
 					);
 
 				case 'table':

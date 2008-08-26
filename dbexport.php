@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Does an export of a database or a table (via pg_dump)
+	 * Does an export of a database, schema, or table (via pg_dump)
 	 * to the screen or as a download.
 	 *
 	 * $Id: dbexport.php,v 1.22 2007/03/25 03:15:09 xzilla Exp $
@@ -61,9 +61,12 @@
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
 		
-		
 		// Check for a specified table/view
 		switch ($_REQUEST['subject']) {
+		case 'schema':
+			// This currently works for 8.2+ (due to the orthoganl -t -n issue introduced then)
+			$cmd .= " -n " . $misc->escapeShellArg('"'. $_REQUEST['schema'] . '"');
+			break; 
 		case 'table':
 		case 'view':
 			// Obtain the pg_dump version number
@@ -118,7 +121,7 @@
 		if (!$dumpall) {
 			putenv('PGDATABASE=' . $_REQUEST['database']);
 		}
-		
+
 		// Execute command and return the output to the screen
 		passthru($cmd);
 	}
