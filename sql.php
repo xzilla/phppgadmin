@@ -4,7 +4,7 @@
 	 * Process an arbitrary SQL query - tricky!  The main problem is that
 	 * unless we implement a full SQL parser, there's no way of knowing
 	 * how many SQL statements have been strung together with semi-colons
-	 * @param $query The SQL query string to execute
+	 * @param $_SESSION['sqlquery'] The SQL query string to execute
 	 *
 	 * $Id: sql.php,v 1.43 2008/01/10 20:19:27 xzilla Exp $
 	 */
@@ -70,6 +70,22 @@
 		}
 	}
 
+	// We need to store the query in a session for editing purposes
+	// We avoid GPC vars to avoid truncating long queries
+	// If we came from a report, we need to look up the query
+	if (isset($_REQUEST['subject']) && $_REQUEST['subject'] == 'report' ) {
+		global $data, $misc;
+		include_once('./classes/Reports.php');
+		$reportsdb = new Reports($status);
+		$report = $reportsdb->getReport($_REQUEST['reportid']);
+		$_SESSION['sqlquery'] = $report->fields['report_sql'];	
+	} 
+	elseif (isset($_POST['query'])) {
+		// Or maybe we came from an sql form
+		$_SESSION['sqlquery'] = $_POST['query'];
+	} else {
+		echo "could not find the query!!";
+	}
 	
 	// Pagination maybe set by a get link that has it as FALSE,
 	// if that's the case, unset the variable.
@@ -83,7 +99,7 @@
 	// script for pagination
 	/* if a file is given or the request is an explain, do not paginate */
 	if (isset($_REQUEST['paginate']) && !(isset($_FILES['script']) && $_FILES['script']['size'] > 0)
-			&& (preg_match('/^\s*explain/i', $_REQUEST['query']) == 0)) {
+			&& (preg_match('/^\s*explain/i', $_SESSION['sqlquery']) == 0)) {
 		include('./display.php');
 		exit;
 	}
@@ -114,13 +130,13 @@
 	else {
 		// Set fetch mode to NUM so that duplicate field names are properly returned
 		$data->conn->setFetchMode(ADODB_FETCH_NUM);
-		$rs = $data->conn->Execute($_REQUEST['query']);
+		$rs = $data->conn->Execute($_SESSION['sqlquery']);
 
 		// $rs will only be an object if there is no error
 		if (is_object($rs)) {
 			// Request was run, saving it in history
 			if(!isset($_REQUEST['nohistory']))
-				$misc->saveScriptHistory($_REQUEST['query']);
+				$misc->saveScriptHistory($_SESSION['sqlquery']);
 
 			// Now, depending on what happened do various things
 	
@@ -183,20 +199,20 @@
 
 	// Edit		
 	echo "\t<li><a href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql&amp;query=", urlencode($_REQUEST['query']), "\">{$lang['streditsql']}</a></li>\n";
+		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql\">{$lang['streditsql']}</a></li>\n";
 				
 	// Create report
 	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
 		echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
-			urlencode($_REQUEST['query']), "\">{$lang['strcreatereport']}</a></li>\n";
+			urlencode($_SESSION['sqlquery']), "\">{$lang['strcreatereport']}</a></li>\n";
 	
 	// Create view and download
-	if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
+	if (isset($_SESSION['sqlquery']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		// Report views don't set a schema, so we need to disable create view in that case
 		if (isset($_REQUEST['schema'])) 
 			echo "\t<li><a href=\"views.php?action=create&amp;formDefinition=",
-				urlencode($_REQUEST['query']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
-		echo "\t<li><a href=\"dataexport.php?query=", urlencode($_REQUEST['query']);
+				urlencode($_SESSION['sqlquery']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
+		echo "\t<li><a href=\"dataexport.php?query=", urlencode($_SESSION['sqlquery']);
 		if (isset($_REQUEST['search_path']))
 			echo "&amp;search_path=", urlencode($_REQUEST['search_path']);
 		echo "&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n";

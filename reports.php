@@ -281,7 +281,7 @@
 			'run' => array(
 				'title' => $lang['strexecute'],
 				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
-				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'query' => 'report_sql', 'paginate' => 'paginate'),
+				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'reportid' => 'report_id', 'paginate' => 'paginate'),
 			),
 			'edit' => array(
 				'title' => $lang['stredit'],

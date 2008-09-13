@@ -100,7 +100,7 @@
 		global $data, $misc;
 		global $lang; 
 		
-		if (!isset($_REQUEST['query'])) $_REQUEST['query'] = '';
+		if (!isset($_SESSION['sqlquery'])) $_SESSION['sqlquery'] = '';
 		
 		$misc->printHeader($lang['strsql']);
 		
@@ -123,7 +123,7 @@
 		}
 		
 		echo "<textarea style=\"width: 100%;\" rows=\"10\" cols=\"50\" name=\"query\">",
-			htmlspecialchars($_REQUEST['query']), "</textarea>\n";
+			htmlspecialchars($_SESSION['sqlquery']), "</textarea>\n";
 		echo "<label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
 		
 		echo "<p><input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
