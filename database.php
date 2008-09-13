@@ -853,6 +853,8 @@
 		global $data, $misc;
 		global $lang;
 
+		if (!isset($_SESSION['sqlquery'])) $_SESSION['sqlquery'] = '';
+
 		$misc->printTrail('database');
 		$misc->printTabs('database','sql');
 		echo "<p>{$lang['strentersql']}</p>\n";
