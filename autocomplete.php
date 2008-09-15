@@ -3,9 +3,10 @@
 	$data->clean($_REQUEST['tb']);
 	$data->clean($_REQUEST['fk']);
 	$data->clean($_REQUEST['v']);
-	
-	$szSQL = 'SELECT * FROM ' . $_REQUEST['tb'] . ' WHERE ' . $_REQUEST['fk']
-		. "::text LIKE '" . $_REQUEST['v'] . "%' ORDER BY ". $_REQUEST['fk'] ." LIMIT 11";
+
+	// FIXME: At some point this should be schema qualified
+	$szSQL = 'SELECT * FROM "' . $_REQUEST['tb'] . '" WHERE "' . $_REQUEST['fk']
+		. "\"::text LIKE '" . $_REQUEST['v'] . "%' ORDER BY \"". $_REQUEST['fk'] .'" LIMIT 11';
 
 	$objRes = $data->selectSet($szSQL);
 	$arrayRes = array();
