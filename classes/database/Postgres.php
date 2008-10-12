@@ -4324,6 +4324,7 @@ class Postgres extends ADODB_base {
 	 * @param $page The page of the relation to retrieve
 	 * @param $page_size The number of rows per page
 	 * @param &$max_pages (return-by-ref) The max number of pages in the relation
+	 * @param &$nbrows (return-by-ref) The number of row in the relation
 	 * @return A recordset on success
 	 * @return -1 transaction error
 	 * @return -2 counting error
@@ -4331,7 +4332,7 @@ class Postgres extends ADODB_base {
 	 * @return -4 unknown type
 	 * @return -5 failed setting transaction read only
 	 */
-	function browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages) {
+	function browseQuery($type, $table, $query, $sortkey, $sortdir, $page, $page_size, &$max_pages, &$nbrows) {
 		// Check that we're not going to divide by zero
 		if (!is_numeric($page_size) || $page_size != (int)$page_size || $page_size <= 0) return -3;
 
@@ -4373,14 +4374,14 @@ class Postgres extends ADODB_base {
 
 
 		// Count the number of rows
-		$total = $this->browseQueryCount($query, $count);
-		if ($total < 0) {
+		$nbrows = $this->browseQueryCount($query, $count);
+		if ($nbrows < 0) {
 			$this->rollbackTransaction();
 			return -2;
 		}
 
 		// Calculate max pages
-		$max_pages = ceil($total / $page_size);
+		$max_pages = ceil($nbrows / $page_size);
 
 		// Check that page is less than or equal to max pages
 		if (!is_numeric($page) || $page != (int)$page || $page > $max_pages || $page < 1) {
