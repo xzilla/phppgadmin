@@ -3816,10 +3816,12 @@ class Postgres extends ADODB_base {
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
 	 * @param $setof True if it returns a set, false otherwise
+	 * @param $rows number of rows planner should estimate will be returned
+	 * @param $cost cost the planner should use in the function execution step
 	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
 	 */
-	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $replace = false) {
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $replace = false) {
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->clean($language);
