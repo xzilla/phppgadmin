@@ -1,0 +1,34 @@
+<?php
+/* Set this variable to the root URL of the tested PPA */
+$webUrl = 'http://boox/~ioguix/ppa.git/phppgadmin';
+
+/* Associative array with the super user names for each configured server in your conf/config.inc.php :
+* $superuser = array(
+* 	the 'desc' part of the server in your conf/config.inc.php => the super user name,
+* 	...
+* )
+* These profiles are only used to create the admin test role (or user) on each server.
+*/
+$super_user['7.3'] = $super_user['7.4'] = $super_user['8.0'] =
+$super_user['8.1'] = $super_user['8.2'] = $super_user['8.3'] =	'postgres';
+
+/* Associative array with the super user passwords for each configured server in your conf/config.inc.php :
+ * $superpass = array(
+ *	the 'desc' part of the server in your conf/config.inc.php => the super user password,
+ *	...
+ * )
+ */
+$super_pass['7.3'] = $super_pass['7.4'] = $super_pass['8.0'] =
+$super_pass['8.1'] = $super_pass['8.2'] = $super_pass['8.3'] =	'pgpass';
+
+/* name and pass of the admin user to create for tests*/
+$admin_user = 'admin_user';
+$admin_user_pass = 'super';
+
+/* name and pass of the user to create for tests*/
+$user = 'ppa_tests_user';
+$user_pass = 'ppa_tests_user_pass';
+
+/* name of the database to create for tests */
+$testdb = 'ppatests_db';
+?>

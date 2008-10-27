@@ -9,10 +9,10 @@
 	// Include application functions (no db conn)
 	$_no_db_connection = true;
 	include_once('./libraries/lib.inc.php');
-	
+
 	$misc->printHeader();
 	$misc->printBody();
-	
+
 	$misc->printTrail('root');
 	$misc->printTabs('root','intro');
 ?>
@@ -40,6 +40,7 @@
 	<li><a href="<?php echo $lang['strpgsqlhome_url'] ?>"><?php echo $lang['strpgsqlhome'] ?></a></li>
 	<li><a href="http://sourceforge.net/tracker/?group_id=37132&amp;atid=418980"><?php echo $lang['strreportbug'] ?></a></li>
 	<li><a href="<?php echo $lang['strviewfaq_url'] ?>"><?php echo $lang['strviewfaq'] ?></a></li>
+	<li><a target="_top" href="tests/selenium/selenium-lib/core/TestRunner.html?test=..%2F..%2FTestSuite.html&resultsUrl=..%2FpostResults">Selenium tests</a></li>
 </ul>
 
 <?php
