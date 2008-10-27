@@ -10,7 +10,7 @@
 	$test_dir = './tests/selenium/';
 	$test_src_dir = "{$test_dir}/src/";
 	$test_static_dir = "{$test_dir}/static/";
-	$testsuite_file = "{$test_dir}/TestSuite.html";
+	$testsuite_file = "{$test_static_dir}/TestSuite.html";
 
 	if(isset($argv[1]) && ($argv[1] == 'clean')) {
 		echo "Cleaning...";
