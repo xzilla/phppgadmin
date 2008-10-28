@@ -165,6 +165,7 @@
 			if (!isset($_POST['comment'])) $_POST['comment'] = $schema->fields['nspcomment'];
 			if (!isset($_POST['schema'])) $_POST['schema'] = $_REQUEST['schema'];
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['schema'];
+			if (!isset($_POST['owner'])) $_POST['owner'] = $schema->fields['ownername'];
 
 			echo "<form action=\"schemas.php\" method=\"post\">\n";
 			echo "<table>\n";
@@ -176,6 +177,20 @@
 				htmlspecialchars($_POST['name']), "\" />\n";
 			echo "\t\t</td>\n";
 			echo "\t</tr>\n";
+
+			if ($data->hasAlterSchemaOwner()) {
+				$users = $data->getUsers();
+				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
+					echo "<td class=\"data2\"><select name=\"owner\">";
+					while (!$users->EOF) {
+						$uname = $users->fields['usename'];
+						echo "<option value=\"", htmlspecialchars($uname), "\"",
+						($uname == $_POST['owner']) ? ' selected="selected"' : '', ">", htmlspecialchars($uname), "</option>\n";
+						$users->moveNext();
+					}
+					echo "</select></td></tr>\n";
+			}
+
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
 			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
@@ -198,7 +213,7 @@
 	function doSaveAlter($msg = '') {
 		global $data, $misc, $lang, $_reload_browser;
 
-		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name']);
+		$status = $data->updateSchema($_POST['schema'], $_POST['comment'], $_POST['name'], $_POST['owner']);
 		if ($status == 0) {
 			$_reload_browser = true;
 			doDefault($lang['strschemaaltered']);
@@ -218,7 +233,7 @@
 			doDefault($lang['strspecifyschematodrop']);
 			exit();
 		}
-		
+
 		if ($confirm) {
 			$misc->printTrail('schema');
 			$misc->printTitle($lang['strdrop'],'pg.schema.drop');
@@ -320,7 +335,7 @@
 		echo "<tr><td><label for=\"sd_clean\">{$lang['strdrop']}</label></td><td><input type=\"checkbox\" id=\"sd_clean\" name=\"sd_clean\" /></td>\n</tr>\n";
 		echo "<tr><td><label for=\"sd_oids\">{$lang['stroids']}</label></td><td><input type=\"checkbox\" id=\"sd_oids\" name=\"sd_oids\" /></td>\n</tr>\n";
 		echo "</table>\n";
-		
+
 		echo "<h3>{$lang['stroptions']}</h3>\n";
 		echo "<p><input type=\"radio\" id=\"output1\" name=\"output\" value=\"show\" checked=\"checked\" /><label for=\"output1\">{$lang['strshow']}</label>\n";
 		echo "<br/><input type=\"radio\" id=\"output2\" name=\"output\" value=\"download\" /><label for=\"output2\">{$lang['strdownload']}</label>\n";

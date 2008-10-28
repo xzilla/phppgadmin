@@ -334,6 +334,7 @@ class Postgres74 extends Postgres80 {
 
 	function hasAlterColumnType() { return false; }
 	function hasAlterDatabaseOwner() { return false; }
+	function hasAlterSchemaOwner() { return false; }
 	function hasFunctionAlterOwner() { return false; }
 	function hasNamedParams() { return false; }
 	function hasSignals() { return false; }

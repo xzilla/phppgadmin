@@ -101,6 +101,24 @@ class Postgres80 extends Postgres81 {
 		return $this->selectSet($sql);
 	}
 
+	// Schema functions
+
+	/**
+	 * Return all information relating to a schema
+	 * @param $schema The name of the schema
+	 * @return Schema information
+	 */
+	function getSchemaByName($schema) {
+		$this->clean($schema);
+		$sql = "
+			SELECT nspname, nspowner, u.usename AS ownername, nspacl,
+				pg_catalog.obj_description(pn.oid, 'pg_namespace') as nspcomment
+            FROM pg_catalog.pg_namespace pn
+            	LEFT JOIN pg_shadow as u ON pn.nspowner = u.usesysid
+			WHERE nspname='{$schema}'";
+		return $this->selectSet($sql);
+	}
+
 	// Table functions
 
 	/**
@@ -122,7 +140,7 @@ class Postgres80 extends Postgres81 {
 	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
 
 		/* $schema not supported in pg80- */
-		
+
 		// Comment
 		$this->clean($comment);
 		$status = $this->setComment('TABLE', '', $tblrs->fields['relname'], $comment);

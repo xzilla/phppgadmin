@@ -872,7 +872,7 @@ class Postgres extends ADODB_base {
 				LEFT JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
 			{$where}
 			ORDER BY nspname";
-		
+
 		return $this->selectSet($sql);
 	}
 
@@ -884,9 +884,10 @@ class Postgres extends ADODB_base {
 	function getSchemaByName($schema) {
 		$this->clean($schema);
 		$sql = "
-			SELECT nspname, nspowner, nspacl,
+			SELECT nspname, nspowner, r.rolname AS ownername, nspacl,
 				pg_catalog.obj_description(pn.oid, 'pg_namespace') as nspcomment
             FROM pg_catalog.pg_namespace pn
+            	LEFT JOIN pg_authid as r ON pn.nspowner = r.oid
 			WHERE nspname='{$schema}'";
 		return $this->selectSet($sql);
 	}
@@ -982,11 +983,13 @@ class Postgres extends ADODB_base {
 	 * Updates a schema.
 	 * @param $schemaname The name of the schema to drop
 	 * @param $comment The new comment for this schema
+	 * @param $owner The new owner for this schema
 	 * @return 0 success
 	 */
-	function updateSchema($schemaname, $comment, $name) {
+	function updateSchema($schemaname, $comment, $name, $owner) {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($name);
+		$this->fieldClean($owner);
 		$this->clean($comment);
 
 		$status = $this->beginTransaction();
@@ -1004,6 +1007,17 @@ class Postgres extends ADODB_base {
 		// Only if the name has changed
 		if ($name != $schemaname) {
 			$sql = "ALTER SCHEMA \"{$schemaname}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -1;
+			}
+		}
+
+		$schema_rs = $this->getSchemaByName($schemaname);
+		/* Only if the owner change */
+		if ($schema_rs->fields['ownername'] != $owner) {
+			$sql = "ALTER SCHEMA \"{$schemaname}\" OWNER TO \"{$owner}\"";
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -1791,8 +1805,8 @@ class Postgres extends ADODB_base {
 			// superuser only function.
 			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$tblrs->fields['relname']}\" OWNER TO \"{$owner}\"";
 
-		return $this->execute($sql);
-	}
+			return $this->execute($sql);
+		}
 		return 0;
 	}
 
@@ -1971,7 +1985,7 @@ class Postgres extends ADODB_base {
 			$this->fieldClean($table);
 
 		$sql = "DELETE FROM \"{$this->_schema}\".\"{$table}\"";
-		
+
 		return $this->execute($sql);
 	}
 
@@ -2009,7 +2023,7 @@ class Postgres extends ADODB_base {
 		$this->clean($comment);
 
 		$schema = $this->schema();
-			
+
 		if ($length == '')
 			$sql = "ALTER TABLE {$schema}\"{$table}\" ADD COLUMN \"{$column}\" {$type}";
 		else {
@@ -2218,7 +2232,7 @@ class Postgres extends ADODB_base {
 	function setColumnNull($table, $column, $state) {
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-		
+
 		$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" " . (($state) ? 'DROP' : 'SET') . " NOT NULL";
 
 		return $this->execute($sql);
@@ -7384,6 +7398,7 @@ class Postgres extends ADODB_base {
 	function hasAlterColumnType() { return true; }
 	function hasAlterDatabaseOwner() { return true; }
 	function hasAlterDatabaseRename() { return true; }
+	function hasAlterSchemaOwner() { return true; }
 	function hasAlterSequenceOwner() { return true; }
 	function hasAlterSequenceProps() { return true; }
 	function hasAlterTableOwner() { return true; }
