@@ -53,7 +53,10 @@
 		public function logout() {
 			global $lang;
 
-			$this->test('clickAndWait', "link={$lang['strlogout']}");
+			$this->test('clickAndWait', "//div[@class='trail']/descendant::tr/td[1]/a/span[@class='label' and text()='phpPgAdmin']");
+			$this->test('clickAndWait', "link={$lang['strservers']}");
+			$this->test('clickAndWait', "//tr/td/a[text()='{$this->servDesc}']/../../td/a[text()='{$lang['strlogout']}']");
+
 			$this->test('assertText', "//p[@class='message']",
 				sprintf($lang['strlogoutmsg'], $this->servDesc)
 			);
@@ -91,6 +94,15 @@
 		 */
 		public function type($selector, $value) {
 			$this->test('type', $selector, $value);
+		}
+
+		/**
+		 * Add a selenium select test to the file
+		 * @param $selector the selector to select the object to work on (second column)
+		 * @param $value (optional) the expected (or not) value (third column)
+		 */
+		public function select($selector, $value) {
+			$this->test('select', $selector, $value);
 		}
 
 		/**

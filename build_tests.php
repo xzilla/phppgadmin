@@ -77,12 +77,18 @@
 		if (!is_dir("{$test_static_dir}/{$server['desc']}"))
 			mkdir("{$test_static_dir}/{$server['desc']}");
 
+		$fd = opendir($test_src_dir);
+		$files = array();
+		while ($file = readdir($fd))
+			if (($file != '.') && ($file != '..'))
+				$files[] = $file;
+		sort($files);
 		/* include the tests creator scripts here
 		 * in the order you want them executed.
 		 * Each script append itself to the TestSuite.html file.
 		 **/
-		require("{$test_src_dir}/roles.php");
-		require("{$test_src_dir}/cleantests.php");
+		foreach ($files as $testgroupfile)
+			require("{$test_src_dir}/{$testgroupfile}");
 	}
 
 	/* close the TestSuite.html file */
