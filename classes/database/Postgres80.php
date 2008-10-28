@@ -6,34 +6,52 @@
  * $Id: Postgres80.php,v 1.28 2007/12/12 04:11:10 xzilla Exp $
  */
 
-include_once('./classes/database/Postgres74.php');
+include_once('./classes/database/Postgres81.php');
 
-class Postgres80 extends Postgres74 {
+class Postgres80 extends Postgres81 {
 
 	var $major_version = 8.0;
-
-	// List of all legal privileges that can be applied to different types
-	// of objects.
-	var $privlist = array(
-		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
-		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
-		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
-		'database' => array('CREATE', 'TEMPORARY', 'ALL PRIVILEGES'),
-		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
-		'language' => array('USAGE', 'ALL PRIVILEGES'),
-		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES'),
-		'tablespace' => array('CREATE', 'ALL PRIVILEGES')
+	// Map of database encoding names to HTTP encoding names.  If a
+	// database encoding does not appear in this list, then its HTTP
+	// encoding name is the same as its database encoding name.
+	var $codemap = array(
+		'ALT' => 'CP866',
+		'EUC_CN' => 'GB2312',
+		'EUC_JP' => 'EUC-JP',
+		'EUC_KR' => 'EUC-KR',
+		'EUC_TW' => 'EUC-TW',
+		'ISO_8859_5' => 'ISO-8859-5',
+		'ISO_8859_6' => 'ISO-8859-6',
+		'ISO_8859_7' => 'ISO-8859-7',
+		'ISO_8859_8' => 'ISO-8859-8',
+		'JOHAB' => 'CP1361',
+		'KOI8' => 'KOI8-R',
+		'LATIN1' => 'ISO-8859-1',
+		'LATIN2' => 'ISO-8859-2',
+		'LATIN3' => 'ISO-8859-3',
+		'LATIN4' => 'ISO-8859-4',
+		// The following encoding map is a known error in PostgreSQL < 7.2
+		// See the constructor for Postgres72.
+		'LATIN5' => 'ISO-8859-5',
+		'LATIN6' => 'ISO-8859-10',
+		'LATIN7' => 'ISO-8859-13',
+		'LATIN8' => 'ISO-8859-14',
+		'LATIN9' => 'ISO-8859-15',
+		'LATIN10' => 'ISO-8859-16',
+		'SQL_ASCII' => 'US-ASCII',
+		'TCVN' => 'CP1258',
+		'UNICODE' => 'UTF-8',
+		'WIN' => 'CP1251',
+		'WIN874' => 'CP874',
+		'WIN1256' => 'CP1256'
 	);
-
-	// Last oid assigned to a system object
-	var $_lastSystemOID = 17228;
 
 	/**
 	 * Constructor
 	 * @param $conn The database connection
 	 */
 	function Postgres80($conn) {
-		$this->Postgres74($conn);
+		$this->Postgres81($conn);
 	}
 
 	// Help functions
@@ -83,130 +101,8 @@ class Postgres80 extends Postgres74 {
 		return $this->selectSet($sql);
 	}
 
-	/**
-	 * Alters a database
-	 * the multiple return vals are for postgres 8+ which support more functionality in alter database
-	 * @param $dbName The name of the database
-	 * @param $newName new name for the database
-	 * @param $newOwner The new owner for the database
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
-	 * @return -3 rename error
-	 */
-	function alterDatabase($dbName, $newName, $newOwner = '', $comment = '')
-	{
-		$this->clean($dbName);
-		$this->clean($newName);
-		$this->clean($newOwner);
-		//ignore $comment, not supported pre 8.2
-
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
-		if ($dbName != $newName) {
-			$status = $this->alterDatabaseRename($dbName, $newName);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
-		}
-
-		$status = $this->alterDatabaseOwner($newName, $newOwner);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-		return $this->endTransaction();
-	}
-
-	/**
-	 * Changes ownership of a database
-	 * This can only be done by a superuser or the owner of the database
-	 * @param string $dbName database to change ownership of
-	 * @param string $newOwner user that will own the database
-	 * @return int 0 on success
-	 */
-	function alterDatabaseOwner($dbName, $newOwner) {
-		$this->clean($dbName);
-		$this->clean($newOwner);
-
-		$sql = "ALTER DATABASE \"{$dbName}\" OWNER TO \"{$newOwner}\"";
-		return $this->execute($sql);
-	}
-
-	/**
-	 * Returns the current default_with_oids setting
-	 * @return default_with_oids setting
-	 */
-	function getDefaultWithOid() {
-		// Try to avoid a query if at all possible (5)
-		if (function_exists('pg_parameter_status')) {
-			$default = pg_parameter_status($this->conn->_connectionID, 'default_with_oids');
-			if ($default !== false) return $default;
-		}
-
-		$sql = "SHOW default_with_oids";
-
-		return $this->selectField($sql, 'default_with_oids');
-	}
-
 	// Table functions
 
-	/**
-	 * Return all tables in current database (and schema)
-	 * @param $all True to fetch all tables, false for just in current schema
-	 * @return All tables, sorted alphabetically
-	 */
-	function getTables($all = false) {
-		if ($all) {
-			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
-					FROM pg_catalog.pg_tables
-					WHERE schemaname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-					ORDER BY schemaname, tablename";
-		} else {
-			$sql = "SELECT c.relname, pg_catalog.pg_get_userbyid(c.relowner) AS relowner,
-						pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
-						reltuples::bigint,
-						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
-					FROM pg_catalog.pg_class c
-					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-					WHERE c.relkind = 'r'
-					AND nspname='{$this->_schema}'
-					ORDER BY c.relname";
-		}
-
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Returns table information
-	 * @param $table The name of the table
-	 * @return A recordset
-	 */
-	function getTable($table) {
-		$this->clean($table);
-
-		$sql = "
-			SELECT
-			  c.relname, n.nspname, u.usename AS relowner,
-			  pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment,
-			  (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
-			FROM pg_catalog.pg_class c
-			     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
-			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
-			WHERE c.relkind = 'r'
-			      AND n.nspname = '{$this->_schema}'
-			      AND n.oid = c.relnamespace
-			      AND c.relname = '{$table}'";
-
-		return $this->selectSet($sql);
-	}
-	
 	/**
 	 * Protected method which alter a table
 	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
@@ -221,371 +117,194 @@ class Postgres80 extends Postgres74 {
 	 * @return -4 comment error
 	 * @return -5 owner error
 	 * @return -6 tablespace error
-	 * @return -7 schema error
 	 */
-	/* protected */
+	protected
 	function _alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace) {
 
-		$status = parent::_alterTable($tblrs, $name, $owner, $schema, $comment, $tablespace);
-		if ($status != 0)
-			return $status;
+		/* $schema not supported in pg80- */
 		
-		// if name != tablename, table has been renamed in parent
-		$tablename = ($tblrs->fields['relname'] == $name) ? $tblrs->fields['relname'] : $name;
+		// Comment
+		$this->clean($comment);
+		$status = $this->setComment('TABLE', '', $tblrs->fields['relname'], $comment);
+		if ($status != 0) return -4;
 
-		/* $schema not supported in pg80 */
-		$this->fieldClean($tablespace);
+		// Owner
+		$this->fieldClean($owner);
+		$status = $this->alterTableOwner($tblrs, $owner);
+		if ($status != 0) return -5;
 
 		// Tablespace
-		if (!empty($tablespace) && ($tblrs->fields['tablespace'] != $tablespace)) {
-
-			// If tablespace has been changed, then do the alteration.  We
-			// don't want to do this unnecessarily.
-			$sql = "ALTER TABLE \"{$tablename}\" SET TABLESPACE \"{$tablespace}\"";
-
-			$status = $this->execute($sql);
+		$this->fieldClean($tablespace);
+		$status = $this->alterTableTablespace($tblrs, $tablespace);
 			if ($status != 0) return -6;
-		}
+
+		// Rename
+		$this->fieldClean($name);
+		$status = $this->alterTableName($tblrs, $name);
+		if ($status != 0) return -3;
 
 		return 0;
 	}
 
+	// View functions
+
 	/**
-	 * Alters a column in a table
-	 * @param $table The table in which the column resides
-	 * @param $column The column to alter
-	 * @param $name The new name for the column
-	 * @param $notnull (boolean) True if not null, false otherwise
-	 * @param $oldnotnull (boolean) True if column is already not null, false otherwise
-	 * @param $default The new default for the column
-	 * @param $olddefault The old default for the column
-	 * @param $type The new type for the column
-	 * @param $array True if array type, false otherwise
-	 * @param $length The optional size of the column (ie. 30 for varchar(30))
-	 * @param $oldtype The old type for the column
-	 * @param $comment Comment for the column
+	 * Protected method which alter a view
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $vwrs The view recordSet returned by getView()
+	 * @param $name The new name for the view
+	 * @param $owner The new owner for the view
+	 * @param $comment The comment on the view
 	 * @return 0 success
-	 * @return -1 batch alteration failed
-	 * @return -3 rename column error
+	 * @return -3 rename error
 	 * @return -4 comment error
-	 * @return -6 transaction error
+	 * @return -5 owner error
 	 */
-	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
-									$type, $length, $array, $oldtype, $comment) {
-		$this->fieldClean($table);
-		$this->fieldClean($column);
+	protected
+    function _alterView($vwrs, $name, $owner, $schema, $comment) {
+
+    	/* $schema not supported in pg80- */
+    	$this->fieldArrayClean($vwrs->fields);
+
+		// Comment
 		$this->clean($comment);
+		if ($this->setComment('VIEW', $vwrs->fields['relname'], '', $comment) != 0)
+			return -4;
 
-		// Initialise an empty SQL string
-		$sql = '';
+		// Owner
+		$this->fieldClean($owner);
+		$status = $this->alterViewOwner($vwrs, $owner);
+		if ($status != 0) return -5;
 
-		// Create the command for changing nullability
-		if ($notnull != $oldnotnull) {
-			$sql .= "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" " . (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
-		}
+		// Rename
+		$this->fieldClean($name);
+		$status = $this->alterViewName($vwrs, $name);
+		if ($status != 0) return -3;
 
-		// Add default, if it has changed
-		if ($default != $olddefault) {
-			if ($default == '') {
-				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-				else $sql .= ", ";
-				$sql .= "ALTER COLUMN \"{$column}\" DROP DEFAULT";
-			}
-			else {
-				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-				else $sql .= ", ";
-				$sql .= "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
-			}
-		}
-
-		// Add type, if it has changed
-		if ($length == '')
-			$ftype = $type;
-		else {
-			switch ($type) {
-				// Have to account for weird placing of length for with/without
-				// time zone types
-				case 'timestamp with time zone':
-				case 'timestamp without time zone':
-					$qual = substr($type, 9);
-					$ftype = "timestamp({$length}){$qual}";
-					break;
-				case 'time with time zone':
-				case 'time without time zone':
-					$qual = substr($type, 4);
-					$ftype = "time({$length}){$qual}";
-					break;
-				default:
-					$ftype = "{$type}({$length})";
-			}
-		}
-
-		// Add array qualifier, if requested
-		if ($array) $ftype .= '[]';
-
-		if ($ftype != $oldtype) {
-			if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-			else $sql .= ", ";
-			$sql .= "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
-		}
-
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -6;
-		}
-
-		// Attempt to process the batch alteration, if anything has been changed
-		if ($sql != '') {
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -1;
-			}
-		}
-
-		// Update the comment on the column
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
-		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -4;
-		}
-
-		// Rename the column, if it has been changed
-		if ($column != $name) {
-			$status = $this->renameColumn($table, $column, $name);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
-		}
-
-		return $this->endTransaction();
+		return 0;
 	}
 
 	// Sequence functions
 
 	/**
-	 * Returns all sequences in the current database
-	 * @return A recordset
-	 */
-	function getSequences($all = false) {
-		if ($all) {
-			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
-				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S'
-				AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-				ORDER BY nspname, seqname";
-		} else {
-			$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
-				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
-				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
-		}
-
-		return $this->selectSet( $sql );
-	}
-
-	// Tablespace functions
-
-	/**
-	 * Retrieves information for all tablespaces
-	 * @param $all Include all tablespaces (necessary when moving objects back to the default space)
-	 * @return A recordset
-	 */
-	function getTablespaces($all = false) {
-		global $conf;
-
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
-					FROM pg_catalog.pg_tablespace";
-
-		if (!$conf['show_system'] && !$all) {
-			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
-		}
-
-		$sql .= " ORDER BY spcname";
-
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Retrieves a tablespace's information
-	 * @return A recordset
-	 */
-	function getTablespace($spcname) {
-		$this->clean($spcname);
-
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation
-					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
-
-		return $this->selectSet($sql);
-	}
-
-	/**
-	 * Creates a tablespace
-	 * @param $spcname The name of the tablespace to create
-	 * @param $spcowner The owner of the tablespace. '' for current
-	 * @param $spcloc The directory in which to create the tablespace
+	 * Protected method which alter a sequence
+	 * SHOULDN'T BE CALLED OUTSIDE OF A TRANSACTION
+	 * @param $seqrs The sequence recordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @param $comment The comment on the sequence
+	 * @param $owner The new owner for the sequence
+	 * @param $schema The new schema for the sequence
+	 * @param $increment The increment
+	 * @param $minvalue The min value
+	 * @param $maxvalue The max value
+	 * @param $startvalue The starting value
+	 * @param $cachevalue The cache value
+	 * @param $cycledvalue True if cycled, false otherwise
 	 * @return 0 success
+	 * @return -3 rename error
+	 * @return -4 comment error
+	 * @return -5 owner error
+	 * @return -6 get sequence props error
 	 */
-	function createTablespace($spcname, $spcowner, $spcloc, $comment='') {
-		$this->fieldClean($spcname);
-		$this->clean($spcloc);
+	protected
+	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
+	$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+
+		/* $schema not supported in pg80- */
+		$this->fieldArrayClean($seqrs->fields);
+
+		// Comment
 		$this->clean($comment);
+		$status = $this->setComment('SEQUENCE', $seqrs->fields['seqname'], '', $comment);
+		if ($status != 0)
+			return -4;
 
-		$sql = "CREATE TABLESPACE \"{$spcname}\"";
+		// Owner
+		$this->fieldClean($owner);
+		$status = $this->alterSequenceOwner($seqrs, $owner);
+		if ($status != 0)
+			return -5;
 
-		if ($spcowner != '') {
-			$this->fieldClean($spcowner);
-			$sql .= " OWNER \"{$spcowner}\"";
-		}
+		// Props
+		$this->clean($increment);
+		$this->clean($minvalue);
+		$this->clean($maxvalue);
+		$this->clean($startvalue);
+		$this->clean($cachevalue);
+		$this->clean($cycledvalue);
+		$status = $this->alterSequenceProps($seqrs, $increment,	$minvalue,
+			$maxvalue, $startvalue, $cachevalue, $cycledvalue);
+		if ($status != 0)
+			return -6;
 
-		$sql .= " LOCATION '{$spcloc}'";
-
-		$status = $this->execute($sql);
-		if ($status != 0) return -1;
-
-		if ($comment != '' && $this->hasSharedComments()) {
-			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
-			if ($status != 0) return -2;
-		}
+		// Rename
+		$this->fieldClean($name);
+		$status = $this->alterSequenceName($seqrs, $name);
+		if ($status != 0)
+			return -3;
 
 		return 0;
-
 	}
 
+	// Role, User/group functions
+
 	/**
-	 * Drops a tablespace
-	 * @param $spcname The name of the domain to drop
+	 * Changes a user's password
+	 * @param $username The username
+	 * @param $password The new password
 	 * @return 0 success
 	 */
-	function dropTablespace($spcname) {
-		$this->fieldClean($spcname);
+	function changePassword($username, $password) {
+		$enc = $this->_encryptPassword($username, $password);
+		$this->fieldClean($username);
+		$this->clean($enc);
 
-		$sql = "DROP TABLESPACE \"{$spcname}\"";
+		$sql = "ALTER USER \"{$username}\" WITH ENCRYPTED PASSWORD '{$enc}'";
 
 		return $this->execute($sql);
 	}
 
-	/**
-	 * Alters a tablespace
-	 * @param $spcname The name of the tablespace
-	 * @param $name The new name for the tablespace
-	 * @param $owner The new owner for the tablespace
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
-	 * @return -3 rename error
-	 * @return -4 comment error
-	 */
-	function alterTablespace($spcname, $name, $owner, $comment='') {
-		$this->fieldClean($spcname);
-		$this->fieldClean($name);
-		$this->fieldClean($owner);
-
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) return -1;
-
-		// Owner
-		$sql = "ALTER TABLESPACE \"{$spcname}\" OWNER TO \"{$owner}\"";
-		$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
-		// Rename (only if name has changed)
-		if ($name != $spcname) {
-			$sql = "ALTER TABLESPACE \"{$spcname}\" RENAME TO \"{$name}\"";
-			$status = $this->execute($sql);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
-		}
-
-		// Set comment if it has changed
-		if (trim($comment) != '' && $this->hasSharedComments()) {
-			$status = $this->setComment('TABLESPACE',$spcname,'',$comment);
-			if ($status != 0) return -4;
-		}
-
-		return $this->endTransaction();
-	}
-
-	// Backend process signalling functions
+	// Aggregate functions
 
 	/**
-	 * Sends a cancel or kill command to a process
-	 * @param $pid The ID of the backend process
-	 * @param $signal 'CANCEL'
-	 * @return 0 success
-	 * @return -1 invalid signal type
+	 * Gets all information for an aggregate
+	 * @param $name The name of the aggregate
+	 * @param $basetype The input data type of the aggregate
+	 * @return A recordset
 	 */
-	function sendSignal($pid, $signal) {
-		// Clean
-		$pid = (int)$pid;
+	function getAggregate($name, $basetype) {
+		$this->fieldclean($name);
+		$this->fieldclean($basetype);
 
-		if ($signal == 'CANCEL')
-			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
-		else
-			return -1;
-
-		// Execute the query
-		$val = $this->selectField($sql, 'val');
-
-		if ($val === -1) return -1;
-		elseif ($val == '1') return 0;
-		else return -1;
-	}
-
-	/**
-	 * Returns all details for a particular function
-	 * @param $func The name of the function to retrieve
-	 * @return Function info
-	 */
-	function getFunction($function_oid) {
-		$this->clean($function_oid);
-
-		$sql = "SELECT
-					pc.oid AS prooid,
-					proname,
-					pg_catalog.pg_get_userbyid(proowner) AS proowner,
-					nspname as proschema,
-					lanname as prolanguage,
-					pg_catalog.format_type(prorettype, NULL) as proresult,
-					prosrc,
-					probin,
-					proretset,
-					proisstrict,
-					provolatile,
-					prosecdef,
-					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
-					proargnames AS proargnames,
-					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
-				FROM
-					pg_catalog.pg_proc pc, pg_catalog.pg_language pl, pg_catalog.pg_namespace pn
-				WHERE
-					pc.oid = '{$function_oid}'::oid
-					AND pc.prolang = pl.oid
-					AND pc.pronamespace = pn.oid
-				";
+		$sql = "
+			SELECT p.proname,
+				CASE p.proargtypes[0]
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN NULL
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END AS proargtypes, a.aggtransfn, format_type(a.aggtranstype, NULL) AS aggstype,
+				a.aggfinalfn, a.agginitval, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
+			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
+			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
+				AND p.proisagg AND n.nspname='{$this->_schema}'
+				AND p.proname='" . $name . "'
+				AND CASE p.proargtypes[0]
+					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''
+					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
+				END ='" . $basetype . "'";
 
 		return $this->selectSet($sql);
 	}
 
 	// Capabilities
-	function hasAlterDatabaseOwner() { return true; }
-	function hasAlterColumnType() { return true; }
-	function hasTablespaces() { return true; }
-	function hasSignals() { return true; }
-	function hasNamedParams() { return true; }
-	function hasFunctionAlterOwner() { return true; }
 
+	function hasAggregateSortOp() { return false; }
+	function hasAlterTableSchema() { return false; }
+	function hasAutovacuum() { return false; }
+	function hasDisableTriggers() { return false; }
+	function hasFunctionAlterSchema() { return false; }
+	function hasPreparedXacts() { return false; }
+	function hasRoles() { return false; }
+	function hasSequenceAlterSchema() { return false; }
+	function hasServerAdminFuncs() { return false; }
 }
 ?>

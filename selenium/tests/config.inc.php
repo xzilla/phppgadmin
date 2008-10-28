@@ -1,7 +1,7 @@
 <?php
 require('../../lang/recoded/english.php');
 
-$webUrl = 'http://boox/~ioguix/ppa/ppa.test';
+$webUrl = 'http://boox/~ioguix/ppa.git/phppgadmin';
 $serverName = '8.3'; // one of your $conf['servers'][*]['desc'] in conf/config.inc/php
 #deprecated $superuser = 'ppatests_super'; // according to your selenium/tests/data/config.sql
 #deprecated $superpass = 'super'; // according to your selenium/tests/data/config.sql

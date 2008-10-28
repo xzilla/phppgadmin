@@ -79,29 +79,25 @@ class Connection {
 		$description = "PostgreSQL {$version}";
 
 		// Detect version and choose appropriate database driver
-		// If unknown version, then default to latest driver
-		// All 6.x versions default to oldest driver, even though
-		// it won't work with those versions.
-		if ((int)substr($version, 0, 1) < 7)
+		switch (substr($version,0,3)) {
+			case '8.3': return 'Postgres'; break;
+			case '8.2': return 'Postgres82'; break;
+			case '8.1': return 'Postgres81'; break;
+			case '8.0':
+			case '7.5': return 'Postgres80'; break;
+			case '7.4': return 'Postgres74'; break;
+			case '7.3': return 'Postgres73'; break;
+		}
+
+		/* All <7.3 versions are not supported */
+		// if major version is 7 or less and wasn't catch in the
+		// switch/case block, we have an unsupported version.
+		if ((int)substr($version, 0, 1) < 8)
 			return null;
-		elseif (strpos($version, '8.2') === 0)
-			return 'Postgres82';
-		elseif (strpos($version, '8.1') === 0)
-			return 'Postgres81';
-		elseif (strpos($version, '8.0') === 0 || strpos($version, '7.5') === 0)
-			return 'Postgres80';
-		elseif (strpos($version, '7.4') === 0)
-			return 'Postgres74';
-		elseif (strpos($version, '7.3') === 0)
-			return 'Postgres73';
-		elseif (strpos($version, '7.2') === 0)
-			return 'Postgres72';
-		elseif (strpos($version, '7.1') === 0)
-			return 'Postgres71';
-		elseif (strpos($version, '7.0') === 0)
-			return 'Postgres';
-		else
-			return 'Postgres83';
+
+		// If unknown version, then default to latest driver
+		return 'Postgres';
+
 	}
 
 	/** 

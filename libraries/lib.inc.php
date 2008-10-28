@@ -20,7 +20,7 @@
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.0';
-	$phpMinVer = '4.1';
+	$phpMinVer = '5.0';
 
 	// Check the version of PHP
 	if (version_compare(phpversion(), $phpMinVer, '<'))

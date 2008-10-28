@@ -6,54 +6,24 @@
  * $Id: Postgres82.php,v 1.10 2007/12/28 16:21:25 ioguix Exp $
  */
 
-include_once('./classes/database/Postgres81.php');
+include_once('./classes/database/Postgres.php');
 
-class Postgres82 extends Postgres81 {
+class Postgres82 extends Postgres {
 
 	var $major_version = 8.2;
 
-	// Array of allowed index types
-	var $typIndexes = array('BTREE', 'RTREE', 'GIST', 'GIN', 'HASH');
-
-	// Last oid assigned to a system object
-	var $_lastSystemOID = 17231;
-
-  	// List of all legal privileges that can be applied to different types
-  	// of objects.
-  	var $privlist = array(
-  		'table' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
-  		'view' => array('SELECT', 'INSERT', 'UPDATE', 'DELETE', 'RULE', 'REFERENCES', 'TRIGGER', 'ALL PRIVILEGES'),
-  		'sequence' => array('SELECT', 'UPDATE', 'ALL PRIVILEGES'),
-  		'database' => array('CREATE', 'TEMPORARY', 'CONNECT', 'ALL PRIVILEGES'),
-  		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
-  		'language' => array('USAGE', 'ALL PRIVILEGES'),
-  		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES'),
-  		'tablespace' => array('CREATE', 'ALL PRIVILEGES')
-  	);
-
-  	// List of characters in acl lists and the privileges they
-  	// refer to.
-  	var $privmap = array(
-  		'r' => 'SELECT',
-  		'w' => 'UPDATE',
-  		'a' => 'INSERT',
-  		'd' => 'DELETE',
-  		'R' => 'RULE',
-  		'x' => 'REFERENCES',
-  		't' => 'TRIGGER',
-  		'X' => 'EXECUTE',
-  		'U' => 'USAGE',
-  		'C' => 'CREATE',
-  		'T' => 'TEMPORARY',
-  		'c' => 'CONNECT'
-  	);
+	// Select operators
+	var $selectOps = array('=' => 'i', '!=' => 'i', '<' => 'i', '>' => 'i', '<=' => 'i', '>=' => 'i', '<<' => 'i', '>>' => 'i', '<<=' => 'i', '>>=' => 'i',
+		'LIKE' => 'i', 'NOT LIKE' => 'i', 'ILIKE' => 'i', 'NOT ILIKE' => 'i', 'SIMILAR TO' => 'i',
+		'NOT SIMILAR TO' => 'i', '~' => 'i', '!~' => 'i', '~*' => 'i', '!~*' => 'i',
+		'IS NULL' => 'p', 'IS NOT NULL' => 'p', 'IN' => 'x', 'NOT IN' => 'x');
 
 	/**
 	 * Constructor
 	 * @param $conn The database connection
 	 */
 	function Postgres82($conn) {
-		$this->Postgres81($conn);
+		$this->Postgres($conn);
 	}
 
 	// Help functions
@@ -64,205 +34,240 @@ class Postgres82 extends Postgres81 {
 	}
 
 	// Database functions
-	/**
-	 * Return all database available on the server
-	 * @return A list of databases, sorted alphabetically
-	 */
-	function getDatabases($currentdatabase = NULL) {
-		global $conf, $misc;
-
-		$server_info = $misc->getServerInfo();
-
-		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
-			$username = $server_info['username'];
-			$this->clean($username);
-			$clause = " AND pr.rolname='{$username}'";
-		}
-		else $clause = '';
-
-		if ($currentdatabase != NULL)
-			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
-		else
-			$orderby = "ORDER BY pdb.datname";
-
-		if (!$conf['show_system'])
-			$where = ' AND NOT pdb.datistemplate';
-		else
-			$where = ' AND pdb.datallowconn';
-
-		$sql = "SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
-                               (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid) AS datcomment,
-                               (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
-							   pg_catalog.pg_database_size(pdb.oid) as dbsize
-                        FROM pg_catalog.pg_database pdb LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
-						WHERE true
-			{$where}
-			{$clause}
-			{$orderby}";
-
-		return $this->selectSet($sql);
-	}
 
 	/**
-	 * Alters a database
-	 * the multiple return vals are for postgres 8+ which support more functionality in alter database
-	 * @param $dbName The name of the database
-	 * @param $newName new name for the database
-	 * @param $newOwner The new owner for the database
-	 * @return 0 success
-	 * @return -1 transaction error
-	 * @return -2 owner error
-	 * @return -3 rename error
-	 * @return -4 comment error
-	 */
-	function alterDatabase($dbName, $newName, $newOwner = '', $comment = '')
-	{
-		$this->clean($dbName);
-		$this->clean($newName);
-		$this->clean($newOwner);
-		$this->clean($comment);
-
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
-
-		if ($dbName != $newName) {
-			$status = $this->alterDatabaseRename($dbName, $newName);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -3;
-			}
-		}
-
-		$status = $this->alterDatabaseOwner($newName, $newOwner);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
-		if (trim($comment) != '' ) {
-			$status = $this->setComment('DATABASE', $dbName, '', $comment);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -4;
-			}
-		}
-		return $this->endTransaction();
-	}
-
-	/**
-	 * Return the database comment of a db from the shared description table
-	 * @param string $database the name of the database to get the comment for
-	 * @return recordset of the db comment info
-	 */
-	function getDatabaseComment($database) {
-		$this->clean($database);
-		$sql = "SELECT description FROM pg_catalog.pg_database JOIN pg_catalog.pg_shdescription ON (oid=objoid) WHERE pg_database.datname = '{$database}' ";
-		return $this->selectSet($sql);
-	}
-
-	// Tablespace functions
-
-	/**
-	 * Retrieves information for all tablespaces
-	 * @param $all Include all tablespaces (necessary when moving objects back to the default space)
+	 * Returns table locks information in the current database
 	 * @return A recordset
 	 */
-	function getTablespaces($all = false) {
+	function getLocks() {
 		global $conf;
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
-                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
-					FROM pg_catalog.pg_tablespace";
+		if (!$conf['show_system'])
+			$where = "AND pn.nspname NOT LIKE 'pg\\\\_%'";
+		else
+			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 
-		if (!$conf['show_system'] && !$all) {
-			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
-		}
-
-		$sql .= " ORDER BY spcname";
+		$sql = "SELECT pn.nspname, pc.relname AS tablename, pl.transaction, pl.pid, pl.mode, pl.granted
+		FROM pg_catalog.pg_locks pl, pg_catalog.pg_class pc, pg_catalog.pg_namespace pn
+		WHERE pl.relation = pc.oid AND pc.relnamespace=pn.oid {$where}
+		ORDER BY nspname,tablename";
 
 		return $this->selectSet($sql);
 	}
 
+	// Sequence functions
+
 	/**
-	 * Retrieves a tablespace's information
+	 * Rename a sequence
+	 * @param $seqrs The sequence RecordSet returned by getSequence()
+	 * @param $name The new name for the sequence
+	 * @return 0 success
+	 */
+	function alterSequenceName($seqrs, $name) {
+		if (!empty($name) && ($seqrs->fields['seqname'] != $name)) {
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$seqrs->fields['seqname']}\" RENAME TO \"{$name}\"";
+			$status = $this->execute($sql);
+			if ($status == 0)
+				$seqrs->fields['seqname'] = $name;
+			else
+				return $status;
+		}
+		return 0;
+		}
+
+	// View functions
+
+	/**
+	 * Rename a view
+	 * @param $vwrs The view recordSet returned by getView()
+	 * @param $name The new view's name
+	 * @return -1 Failed
+	 * @return 0 success
+	 */
+	function alterViewName($vwrs, $name) {
+		// Rename (only if name has changed)
+		if (!empty($name) && ($name != $vwrs->fields['relname'])) {
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$vwrs->fields['relname']}\" RENAME TO \"{$name}\"";
+			$status =  $this->execute($sql);
+			if ($status == 0)
+				$vwrs->fields['relname'] = $name;
+			else
+				return $status;
+		}
+		return 0;
+	}
+
+	// Trigger functions
+
+	/**
+	 * Grabs a list of triggers on a table
+	 * @param $table The name of a table whose triggers to retrieve
 	 * @return A recordset
 	 */
-	function getTablespace($spcname) {
-		$this->clean($spcname);
+	function getTriggers($table = '') {
+		$this->clean($table);
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
-                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
-					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
+		$sql = "SELECT
+				t.tgname, pg_catalog.pg_get_triggerdef(t.oid) AS tgdef, t.tgenabled, p.oid AS prooid,
+				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
+				ns.nspname AS pronamespace
+			FROM pg_catalog.pg_trigger t, pg_catalog.pg_proc p, pg_catalog.pg_namespace ns
+			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+				AND (NOT tgisconstraint OR NOT EXISTS
+						(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
+							ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+						WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))
+				AND p.oid=t.tgfoid
+				AND p.pronamespace = ns.oid";
+
+		return $this->selectSet($sql);
+		}
+
+	// Function functions
+
+	/**
+	 * Returns all details for a particular function
+	 * @param $func The name of the function to retrieve
+	 * @return Function info
+	 */
+	function getFunction($function_oid) {
+		$this->clean($function_oid);
+
+		$sql = "SELECT
+					pc.oid AS prooid,
+					proname,
+					pg_catalog.pg_get_userbyid(proowner) AS proowner,
+					nspname as proschema,
+					lanname as prolanguage,
+					pg_catalog.format_type(prorettype, NULL) as proresult,
+					prosrc,
+					probin,
+					proretset,
+					proisstrict,
+					provolatile,
+					prosecdef,
+					pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
+					proargnames AS proargnames,
+					pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment
+				FROM
+					pg_catalog.pg_proc pc, pg_catalog.pg_language pl, pg_catalog.pg_namespace pn
+				WHERE
+					pc.oid = '{$function_oid}'::oid
+					AND pc.prolang = pl.oid
+					AND pc.pronamespace = pn.oid
+				";
 
 		return $this->selectSet($sql);
 	}
 
-	// Constraints methods
+	/**
+	 * Creates a new function.
+	 * @param $funcname The name of the function to create
+	 * @param $args A comma separated string of types
+	 * @param $returns The return type
+	 * @param $definition The definition for the new function
+	 * @param $language The language the function is written for
+	 * @param $flags An array of optional flags
+	 * @param $setof True if it returns a set, false otherwise
+	 * @param $replace (optional) True if OR REPLACE, false for normal
+	 * @return 0 success
+	 */
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $replace = false) {
+		$this->fieldClean($funcname);
+		$this->clean($args);
+		$this->clean($language);
+		$this->arrayClean($flags);
+
+		$sql = "CREATE";
+		if ($replace) $sql .= " OR REPLACE";
+		$sql .= " FUNCTION \"{$this->_schema}\".\"{$funcname}\" (";
+
+		if ($args != '')
+			$sql .= $args;
+
+		// For some reason, the returns field cannot have quotes...
+		$sql .= ") RETURNS ";
+		if ($setof) $sql .= "SETOF ";
+		$sql .= "{$returns} AS ";
+
+		if (is_array($definition)) {
+			$this->arrayClean($definition);
+			$sql .= "'" . $definition[0] . "'";
+			if ($definition[1]) {
+				$sql .= ",'" . $definition[1] . "'";
+			}
+		} else {
+			$this->clean($definition);
+			$sql .= "'" . $definition . "'";
+	}
+
+		$sql .= " LANGUAGE \"{$language}\"";
+
+		// Add flags
+		foreach ($flags as  $v) {
+			// Skip default flags
+			if ($v == '') continue;
+			else $sql .= "\n{$v}";
+		}
+
+		return $this->execute($sql);
+	}
+
+	// Index functions
 
 	/**
-	 * Returns a list of all constraints on a table,
-	 * including constraint name, definition, related col and referenced namespace,
-	 * table and col if needed
-	 * @param $table the table where we are looking for fk
-	 * @return a recordset
+	 * Clusters an index
+	 * @param $index The name of the index
+	 * @param $table The table the index is on
+	 * @return 0 success
 	 */
-	function getConstraintsWithFields($table) {
-		global $data;
+	function clusterIndex($index, $table) {
+		$this->fieldClean($index);
+		$this->fieldClean($table);
 
-		$data->clean($table);
+		// We don't bother with a transaction here, as there's no point rolling
+		// back an expensive cluster if a cheap analyze fails for whatever reason
+		$sql = "CLUSTER \"{$index}\" ON \"{$this->_schema}\".\"{$table}\"";
 
-		// get the max number of col used in a constraint for the table
-		$sql = "SELECT DISTINCT
-				max(SUBSTRING(array_dims(c.conkey) FROM  E'^\\\[.*:(.*)\\\]$')) as nb
-		FROM
-		      pg_catalog.pg_constraint AS c
-		  JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
-		      JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
-		WHERE
-			r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
+		return $this->execute($sql);
+	}
 
-		$rs = $this->selectSet($sql);
+	// Operator Class functions
 
-		if ($rs->EOF) $max_col = 0;
-		else $max_col = $rs->fields['nb'];
-
-		$sql = '
+	/**
+	 * Gets all opclasses
+	 * @return A recordset
+	 */
+	function getOpClasses() {
+		$sql = "
 			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc,
-				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
-				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
+				pa.amname,
+				po.opcname,
+				po.opcintype::pg_catalog.regtype AS opcintype,
+				po.opcdefault,
+				pg_catalog.obj_description(po.oid, 'pg_opclass') AS opccomment
 			FROM
-				pg_catalog.pg_constraint AS c
-				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
-				JOIN pg_catalog.pg_attribute AS f1 ON (f1.attrelid=r1.oid AND (f1.attnum=c.conkey[1]';
-		for ($i = 2; $i <= $rs->fields['nb']; $i++) {
-			$sql.= " OR f1.attnum=c.conkey[$i]";
-		}
-		$sql.= '))
-				JOIN pg_catalog.pg_namespace AS ns1 ON r1.relnamespace=ns1.oid
-				LEFT JOIN (
-					pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
-				) ON (c.confrelid=r2.oid)
-				LEFT JOIN pg_catalog.pg_attribute AS f2 ON
-					(f2.attrelid=r2.oid AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)';
-		for ($i = 2; $i <= $rs->fields['nb']; $i++)
-			$sql.= "OR (c.confkey[$i]=f2.attnum AND c.conkey[$i]=f1.attnum)";
-
-		$sql .= sprintf("))
+				pg_catalog.pg_opclass po, pg_catalog.pg_am pa, pg_catalog.pg_namespace pn
 			WHERE
-				r1.relname = '%s' AND ns1.nspname='%s'
-			ORDER BY 1", $table, $this->_schema);
+				po.opcamid=pa.oid
+				AND po.opcnamespace=pn.oid
+				AND pn.nspname='{$this->_schema}'
+			ORDER BY 1,2
+		";
 
 		return $this->selectSet($sql);
 	}
 
 	// Capabilities
-	function hasSharedComments() {return true;}
-	function hasCreateTableLikeWithConstraints() {return true;}
+
+	function hasCreateTableLikeWithIndexes() {return false;}
+	function hasEnumTypes() {return false;}
+	function hasFTS() {return false;}
+	function hasFunctionCosting() {return false;}
+	function hasFunctionGUC() {return false;}
+	function hasVirtualTransactionId() {return false;}
+
 }
 
 ?>
