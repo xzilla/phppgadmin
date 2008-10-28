@@ -1,0 +1,14 @@
+The tests are runned on ALL the configured servers in your ./conf/config.inc.php.
+
+To run the tests follow the following steps :
+1/ Configure your ./conf/config.inc.php with all the servers you want to run the tests on.
+2/ Create & configure your ./tests/config.test.php (See sample one in ./tests/config.inc.php-dist).
+3/ Run the ./build_tests.php script
+	This script build the TestSuite.html file and all the related html tests files in ./tests/selenium/static/.
+	It build one directory for each server configured in your conf/config.inc.php
+	and create the static selenium html test files for each of them.
+4/ open your browser and go to http://$webUrl/
+	Where $webUrl is the value setted in your ./tests/config.inc.php
+5/ click on "Selenium tests" on the PPA intro page & run the tests using the "Selenium TestRunner" buttons in the top-right frame.
+
+Enjoy the tests.
