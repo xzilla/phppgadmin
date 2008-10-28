@@ -1,3 +1,4 @@
+selenium/tests/config.inc.php
 tests/selenium/config.test.php
 tests/selenium/TestSuite.html
 tests/selenium/static
