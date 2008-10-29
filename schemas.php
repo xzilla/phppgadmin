@@ -70,6 +70,8 @@
 				),
 			);
 
+			if (!$data->hasAlterSchema()) unset($actions['alter']);
+
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
 			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
@@ -190,6 +192,8 @@
 					}
 					echo "</select></td></tr>\n";
 			}
+			else 
+				echo "<input name=\"owner\" value=\"{$_POST['owner']}\" type=\"hidden\" />";
 
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";

@@ -1004,9 +1004,10 @@ class Postgres extends ADODB_base {
 			return -1;
 		}
 
-		// Only if the name has changed
-		if ($name != $schemaname) {
-			$sql = "ALTER SCHEMA \"{$schemaname}\" RENAME TO \"{$name}\"";
+		$schema_rs = $this->getSchemaByName($schemaname);
+		/* Only if the owner change */
+		if ($schema_rs->fields['ownername'] != $owner) {
+			$sql = "ALTER SCHEMA \"{$schemaname}\" OWNER TO \"{$owner}\"";
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -1014,10 +1015,9 @@ class Postgres extends ADODB_base {
 			}
 		}
 
-		$schema_rs = $this->getSchemaByName($schemaname);
-		/* Only if the owner change */
-		if ($schema_rs->fields['ownername'] != $owner) {
-			$sql = "ALTER SCHEMA \"{$schemaname}\" OWNER TO \"{$owner}\"";
+		// Only if the name has changed
+		if ($name != $schemaname) {
+			$sql = "ALTER SCHEMA \"{$schemaname}\" RENAME TO \"{$name}\"";
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -7398,6 +7398,7 @@ class Postgres extends ADODB_base {
 	function hasAlterColumnType() { return true; }
 	function hasAlterDatabaseOwner() { return true; }
 	function hasAlterDatabaseRename() { return true; }
+	function hasAlterSchema() { return true; }
 	function hasAlterSchemaOwner() { return true; }
 	function hasAlterSequenceOwner() { return true; }
 	function hasAlterSequenceProps() { return true; }
