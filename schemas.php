@@ -70,6 +70,7 @@
 				),
 			);
 
+			if (!$data->hasAlterSchema()) unset($actions['alter']);
 			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
 			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";

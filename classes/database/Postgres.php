@@ -4867,6 +4867,7 @@ class Postgres extends ADODB_base {
 	function hasAlterDatabaseOwner() { return false; }
 	function hasAlterDatabaseRename() { return false; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
+	function hasAlterSchema() { return false; }
 	function hasSchemas() { return false; }
 	function hasConversions() { return false; }
 	function hasGrantOption() { return false; }

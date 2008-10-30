@@ -856,6 +856,7 @@ class Postgres74 extends Postgres73 {
 
 	// Capabilities
 	function hasAlterDatabaseRename() { return true; }
+	function hasAlterSchema() { return true; }
 	function hasGrantOption() { return true; }
 	function hasDomainConstraints() { return true; }
 	function hasUserRename() { return true; }
