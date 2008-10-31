@@ -231,13 +231,14 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"domains.php?{$misc->href}\">{$lang['strshowalldomains']}</a></li>\n";
-		if ($data->hasDomainConstraints()) {
+		echo "<ul class=\"navlink\">\n\t<li><a href=\"domains.php?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),"\">{$lang['strdrop']}</a></li>\n";
+		if ($data->hasAlterDomains()) {
 			echo "\t<li><a href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
 				"\">{$lang['straddcheck']}</a></li>\n";
 			echo "\t<li><a href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
 				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a></li>\n";
 		}
+		
 		echo "</ul>\n";
 	}
 	
@@ -419,6 +420,9 @@
 				'vars'	=> array('domain' => 'domname'),
 			),
 		);
+
+		if (!$data->hasAlterDomains())
+			unset($actions['alter']);
 		
 		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
 		

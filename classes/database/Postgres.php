@@ -4875,6 +4875,7 @@ class Postgres extends ADODB_base {
 	function hasDropBehavior() { return false; }
 	function hasDropColumn() { return false; }
 	function hasDomains() { return false; }
+	function hasAlterDomains() { return false; }
 	function hasDomainConstraints() { return false; }
 	function hasAlterTrigger() { return false; }
 	function hasWithoutOIDs() { return false; }
