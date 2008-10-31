@@ -532,6 +532,7 @@ class Postgres73 extends Postgres74 {
 	function hasAlterSchema() { return false; }
 	function hasAlterSequenceProps() { return false; }
 	function hasCreateTableLike() {return false;}
+	function hasAlterDomains() { return false; }
 	function hasDomainConstraints() { return false; }
 	function hasGrantOption() { return false; }
 	function hasReadOnlyQueries() { return false; }

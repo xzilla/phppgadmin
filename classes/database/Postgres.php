@@ -7415,6 +7415,7 @@ class Postgres extends ADODB_base {
 	function hasCreateTableLikeWithConstraints() { return true; }
 	function hasCreateTableLikeWithIndexes() { return true; }
 	function hasDisableTriggers() { return true; }
+	function hasAlterDomains() { return true; }
 	function hasDomainConstraints() { return true; }
 	function hasDomains() { return true; }
 	function hasDropBehavior() { return true; }
