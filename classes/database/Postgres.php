@@ -1055,6 +1055,26 @@ class Postgres extends ADODB_base {
 
 	// Table functions
 
+    /**
+	 * Checks to see whether or not a table has a unique id column
+	 * @param $table The table name
+	 * @return True if it has a unique id, false otherwise
+	 * @return -99 error
+	 **/
+	function hasObjectID($table) {
+		$this->clean($table);
+
+		$sql = "SELECT relhasoids FROM pg_catalog.pg_class WHERE relname='{$table}'
+			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != 1) return -99;
+		else {
+			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
+			return $rs->fields['relhasoids'];
+		}
+	}
+
 	/**
 	 * Returns table information
 	 * @param $table The name of the table
@@ -4137,7 +4157,7 @@ class Postgres extends ADODB_base {
 
 	/**
 	 * Returns a list of all types in the database
-	 * @param $all If true, will find all available functions, if false just those in search path
+	 * @param $all If true, will find all available types, if false just those in search path
 	 * @param $tabletypes If true, will include table types
 	 * @param $domains If true, will include domains
 	 * @return A recordet
@@ -7433,7 +7453,6 @@ class Postgres extends ADODB_base {
 	function hasIsClustered() { return true; }
 	function hasLocksView() { return true; }
 	function hasNamedParams() { return true; }
-	function hasObjectID() { return true; }
 	function hasPartialIndexes() { return true; }
 	function hasPrepare() { return true; }
 	function hasPreparedXacts() { return true; }
