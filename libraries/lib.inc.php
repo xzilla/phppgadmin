@@ -152,9 +152,9 @@
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
 		if (!isset($_REQUEST['server'])) {
-                        echo $lang['strnoserversupplied'];
-                        exit;
-	        }
+			echo $lang['strnoserversupplied'];
+			exit;
+	    }
 		$_server_info = $misc->getServerInfo();
 
 		// Redirect to the login form if not logged in
