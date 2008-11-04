@@ -626,8 +626,13 @@
 //				'title'	=> $lang['strinsert'],
 //				'url'	=> "views.php?action=confinsertrow&amp;{$misc->href}&amp;",
 //				'vars'	=> array('view' => 'relname'),
-//			),
+			//			),
 
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "viewproperties.php?action=confirm_alter&amp;{$misc->href}&amp;",
+				'vars'  => array('view' => 'relname'),
+			),
 			'drop' => array(
 				'title'	=> $lang['strdrop'],
 				'url'	=> "views.php?action=confirm_drop&amp;{$misc->href}&amp;",

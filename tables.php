@@ -946,6 +946,11 @@
 				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_empty',
 			),
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'	=> "tblproperties.php?action=confirm_alter&amp;{$misc->href}&amp;",
+				'vars'	=> array('table' => 'relname'),
+			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "tables.php?action=confirm_drop&amp;{$misc->href}&amp;",
