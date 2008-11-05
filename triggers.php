@@ -314,7 +314,6 @@
 				'vars'  => array('trigger' => 'tgname'),
 			),
 		);
-		if(!$data->hasSchemas()) unset($columns['function']['vars']['schema']);
 		if($data->hasDisableTriggers()) {
 			if(!$data->phpBool($triggers->fields["tgenabled"])) {
 				$actions['enable'] = array(

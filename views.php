@@ -235,27 +235,23 @@
 			
 			//if we have schemas we need to specify the correct schema for each table we're retrieiving
 			//with getTableAttributes
-			$curSchema = $data->hasSchemas() ? $data->_schema : NULL;
+			$curSchema = $data->_schema;
 			for ($i = 0; $i < $tblCount; $i++) {
-				if ($data->hasSchemas() && $data->_schema != $arrSelTables[$i]['schemaname']) {
+				if ($data->_schema != $arrSelTables[$i]['schemaname']) {
 					$data->setSchema($arrSelTables[$i]['schemaname']);
 				}
 				
 				$attrs = $data->getTableAttributes($arrSelTables[$i]['tablename']);
 				while (!$attrs->EOF) {
-					if ($data->hasSchemas() ) {
-						$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->fields['attname']}"] = serialize(array('schemaname' => $arrSelTables[$i]['schemaname'], 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->fields['attname']) );
-					}
-					else {
-						$arrFields["{$arrSelTables[$i]['tablename']}.{$attrs->fields['attname']}"] = serialize(array('schemaname' => NULL, 'tablename' => $arrSelTables[$i]['tablename'], 'fieldname' => $attrs->fields['attname']) );
-					}
+					$arrFields["{$arrSelTables[$i]['schemaname']}.{$arrSelTables[$i]['tablename']}.{$attrs->fields['attname']}"] = serialize(array(
+						'schemaname' => $arrSelTables[$i]['schemaname'], 
+						'tablename' => $arrSelTables[$i]['tablename'], 
+						'fieldname' => $attrs->fields['attname']) 
+					);
 					$attrs->moveNext();
 				}
 				
-				//reset back to our original schema in case we switched from it
-				if ($data->hasSchemas() ) {
-					$data->setSchema($curSchema);
-				}
+				$data->setSchema($curSchema);
 			}
 			asort($arrFields);
 			
@@ -367,12 +363,7 @@
 			$arrTmp = array();
 			$arrTmp['schemaname'] = $tables->fields['nspname'];
 			$arrTmp['tablename'] = $tables->fields['relname'];
-			if ($data->hasSchemas() ) { //if schemas aren't available don't show them in the interface
-				$arrTables[$tables->fields['nspname'] . '.' . $tables->fields['relname']] = serialize($arrTmp);
-			}
-			else {
-				$arrTables[$tables->fields['relname']] = serialize($arrTmp);
-			}
+			$arrTables[$tables->fields['nspname'] . '.' . $tables->fields['relname']] = serialize($arrTmp);
 			$tables->moveNext();
 		}		
 		echo GUI::printCombo($arrTables, 'formTables[]', false, '', true);			
@@ -460,18 +451,15 @@
 				$arrTmp = unserialize($curField);
 				if (! empty($_POST['dblFldMeth']) ) { // doublon control
 					if (empty($tmpHsh[$arrTmp['fieldname']])) { // field does not exist
-						$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\"." : '';
-						$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
+						$selFields .= "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
 						$tmpHsh[$arrTmp['fieldname']] = 1;
 					} else if ($_POST['dblFldMeth'] == 'rename') { // field exist and must be renamed
 						$tmpHsh[$arrTmp['fieldname']]++;
-						$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\"." : '';
-						$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" AS \"{$arrTmp['schemaname']}_{$arrTmp['tablename']}_{$arrTmp['fieldname']}{$tmpHsh[$arrTmp['fieldname']]}\", ";
+						$selFields .= "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" AS \"{$arrTmp['schemaname']}_{$arrTmp['tablename']}_{$arrTmp['fieldname']}{$tmpHsh[$arrTmp['fieldname']]}\", ";
 					}
 					/* field already exist, just ignore this one */
 				} else { // no doublon control
-					$selFields .= $data->hasSchemas() ? "\"{$arrTmp['schemaname']}\"." : '';
-					$selFields .= "\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
+					$selFields .= "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
 				}
 			}
 
@@ -502,8 +490,8 @@
 							$arrLeftLink = unserialize($curLink['leftlink']);
 							$arrRightLink = unserialize($curLink['rightlink']);
 							
-							$tbl1 = $data->hasSchemas() ? "\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\"" : $arrLeftLink['tablename'];
-							$tbl2 = $data->hasSchemas() ? "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"" : $arrRightLink['tablename'];
+							$tbl1 = "\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\"";
+							$tbl2 = "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"";
 							
 							if ( (!in_array($curLink, $arrJoined) && in_array($tbl1, $arrUsedTbls)) || !count($arrJoined) ) {
 								
@@ -511,12 +499,8 @@
 								// This can (and should be) more optimized for multi-column foreign keys
 								$adj_tbl2 = in_array($tbl2, $arrUsedTbls) ? "$tbl2 AS alias_ppa_" . mktime() : $tbl2;
 								
-								if ($data->hasSchemas() ) {
-									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
-								}
-								else {
-									$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " : "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
-								}
+								$linkFields .= strlen($linkFields) ? "{$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") " 
+									: "$tbl1 {$curLink['operator']} $adj_tbl2 ON (\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\".\"{$arrLeftLink['fieldname']}\" = \"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\".\"{$arrRightLink['fieldname']}\") ";
 								
 								$arrJoined[] = $curLink;
 								if (!in_array($tbl1, $arrUsedTbls) )  $arrUsedTbls[] = $tbl1;
@@ -533,12 +517,7 @@
 			if (!strlen($linkFields) ) {
 				foreach ($_POST['formTables'] AS $curTable) {
 					$arrTmp = unserialize($curTable);
-					if ($data->hasSchemas() ) {
-						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
-					}
-					else {
-						$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['tablename']}\"" : "\"{$arrTmp['tablename']}\"";
-					}
+					$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
 				}
 			}
 			
@@ -547,12 +526,8 @@
 				foreach ($_POST['formCondition'] AS $curCondition) {
 					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
 						$arrTmp = unserialize($curCondition['field']);
-						if ($data->hasSchemas() ) {
-							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
-						}
-						else {
-							$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['field']} {$curCondition['operator']} '{$curCondition['txt']}' " : " \"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
-						}
+						$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' " 
+							: " \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
 					}
 				}
 			}

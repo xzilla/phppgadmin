@@ -82,12 +82,8 @@
 			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
 			// set dump schema as well.  Also, mixed case dumping has been fixed
 			// then..
-				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST[$_REQUEST['subject']]);
-				// Even though they're using a schema-enabled pg_dump, the backend database
-				// may not support schemas.
-				if ($data->hasSchemas()) {
-					$cmd .= " -n " . $misc->escapeShellArg($_REQUEST['schema']);
-				}
+				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST[$_REQUEST['subject']])
+					. " -n " . $misc->escapeShellArg($_REQUEST['schema']);
 			}
 			else {
 				// This is an annoying hack needed to work around a bug in dumping

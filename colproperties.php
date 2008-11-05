@@ -234,12 +234,10 @@
 			if ($isTable) {
 				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=$tableName&amp;column={$_REQUEST['column']}");
 
-				$schema = $data->schema();
-				
 				/* Browse link */
 				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=", urlencode($_REQUEST['table']), "&amp;column=",
 					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=", 
-					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM {$schema}\"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
+					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"{$data->_schema}\".\"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
 				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),

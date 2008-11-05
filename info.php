@@ -50,9 +50,7 @@
 				echo "<h3>{$lang['strreferringtables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t";
-				if ($data->hasSchemas()) {
-					echo "<th class=\"data\">{$lang['strschema']}</th>";
-				}
+				echo "<th class=\"data\">{$lang['strschema']}</th>";
 				echo "<th class=\"data\">{$lang['strtable']}</th>";
 				echo "<th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
 				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
@@ -62,9 +60,7 @@
 				while (!$referrers->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n\t\t";
-					if ($data->hasSchemas()) {
-						echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['nspname']), "</td>";
-					}
+					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['nspname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['relname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['conname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['consrc']), "</td>";
@@ -84,9 +80,7 @@
 				echo "<h3>{$lang['strparenttables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n\t\t";
-				if ($data->hasSchemas()) {			
-					echo "<th class=\"data\">{$lang['strschema']}</th>";
-				}
+				echo "<th class=\"data\">{$lang['strschema']}</th>";
 				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
 				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
 				echo "\t</tr>\n";
@@ -95,9 +89,7 @@
 				while (!$parents->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n";
-					if ($data->hasSchemas()) {
-						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->fields['nspname']), "</td>";
-					}
+					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->fields['nspname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($parents->fields['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($parents->fields['nspname']),
@@ -115,9 +107,7 @@
 				echo "<h3>{$lang['strchildtables']}</h3>\n";
 				echo "<table>\n";
 				echo "\t<tr>\n";
-				if ($data->hasSchemas()) {			
-					echo "<th class=\"data\">{$lang['strschema']}</th>";
-				}
+				echo "<th class=\"data\">{$lang['strschema']}</th>";
 				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
 				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
 				echo "\t</tr>\n";
@@ -126,9 +116,7 @@
 				while (!$children->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr>\n";
-					if ($data->hasSchemas()) {
-						echo "\t\t<td class=\"data{$id}\">", $misc->printVal($children->fields['schemaname']), "</td>";
-					}
+					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($children->fields['schemaname']), "</td>";
 					echo "<td class=\"data{$id}\">", $misc->printVal($children->fields['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($children->fields['schemaname']),

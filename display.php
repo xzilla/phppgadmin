@@ -301,7 +301,7 @@
 			$key = array();
 		
 		// Set the schema search path
-		if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
+		if (isset($_REQUEST['search_path'])) {
 			if ($data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path']))) != 0) {
 				return;
 			}

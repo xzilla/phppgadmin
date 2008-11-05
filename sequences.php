@@ -442,7 +442,7 @@
 			if (!isset($_POST['name'])) $_POST['name'] = $_REQUEST['sequence'];
 			if (!isset($_POST['comment'])) $_POST['comment'] = $sequence->fields['seqcomment'];
 			if (!isset($_POST['owner'])) $_POST['owner'] = $sequence->fields['seqowner'];
-			if (!isset($_POST['newschema']) && $data->hasSchemas()) $_POST['newschema'] = $sequence->fields['nspname'];
+			if (!isset($_POST['newschema'])) $_POST['newschema'] = $sequence->fields['nspname'];
 
 			// Handle Checkbox Value
 			$sequence->fields['is_cycled'] = $data->phpBool($sequence->fields['is_cycled']);

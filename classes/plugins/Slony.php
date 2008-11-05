@@ -38,9 +38,6 @@ class Slony extends Plugin {
 		
 		global $data;
 		
-		// Slony needs schemas
-		if (!$data->hasSchemas()) return false;
-		
 		// Check for the slonyversion() function and find the schema
 		// it's in.  We put an order by and limit 1 in here to guarantee
 		// only finding the first one, even if there are somehow two

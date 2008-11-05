@@ -37,7 +37,7 @@
 				// Create a new database access object.
 				$this->driver = $misc->getDatabaseAccessor($this->reports_db);
 				// Reports database should have been created in public schema
-				if ($this->driver->hasSchemas()) $this->driver->setSchema($this->reports_schema);
+				$this->driver->setSchema($this->reports_schema);
 				$status = 0;
 			}
 		}

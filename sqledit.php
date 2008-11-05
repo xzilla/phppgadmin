@@ -28,9 +28,7 @@
 		if ($action == 'find') {
 			$onchange .= "'&amp;term=' + encodeURI(term.value) + '&amp;filter=' + encodeURI(filter.value) + '&amp;'\"";
 		} else {
-			$onchange .= "'&amp;query=' + encodeURI(query.value) ";
-			if ($data->hasSchemas()) $onchange .= "+ '&amp;search_path=' + encodeURI(search_path.value) ";
-			$onchange .= "+ (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;'\"";
+			$onchange .= "'&amp;query=' + encodeURI(query.value) + '&amp;search_path=' + encodeURI(search_path.value) + (paginate.checked ? '&amp;paginate=on' : '')  + '&amp;'\"";
 		}
 		
 		$misc->printConnection($onchange);
@@ -61,8 +59,7 @@
 		// Output list of filters.  This is complex due to all the 'has' and 'conf' feature possibilities
 		echo "<select name=\"filter\">\n";
 		echo "\t<option value=\"\"", ($_REQUEST['filter'] == '') ? ' selected="selected"' : '', ">{$lang['strallobjects']}</option>\n";
-		if ($data->hasSchemas())
-			echo "\t<option value=\"SCHEMA\"", ($_REQUEST['filter'] == 'SCHEMA') ? ' selected="selected"' : '', ">{$lang['strschemas']}</option>\n";
+		echo "\t<option value=\"SCHEMA\"", ($_REQUEST['filter'] == 'SCHEMA') ? ' selected="selected"' : '', ">{$lang['strschemas']}</option>\n";
 		echo "\t<option value=\"TABLE\"", ($_REQUEST['filter'] == 'TABLE') ? ' selected="selected"' : '', ">{$lang['strtables']}</option>\n";
 		echo "\t<option value=\"VIEW\"", ($_REQUEST['filter'] == 'VIEW') ? ' selected="selected"' : '', ">{$lang['strviews']}</option>\n";
 		echo "\t<option value=\"SEQUENCE\"", ($_REQUEST['filter'] == 'SEQUENCE') ? ' selected="selected"' : '', ">{$lang['strsequences']}</option>\n";
@@ -112,15 +109,13 @@
 		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
 		_printConnection();
 		echo "\n";
-		if ($data->hasSchemas()) {
-			if (!isset($_REQUEST['search_path']))
-				$_REQUEST['search_path'] = implode(',',$data->getSearchPath());
+		if (!isset($_REQUEST['search_path']))
+			$_REQUEST['search_path'] = implode(',',$data->getSearchPath());
 		
-			echo "<p><label>";
-			$misc->printHelp($lang['strsearchpath'], 'pg.schema.search_path');
-			echo ": <input type=\"text\" name=\"search_path\" size=\"50\" value=\"",
-				htmlspecialchars($_REQUEST['search_path']), "\" /></label></p>\n";
-		}
+		echo "<p><label>";
+		$misc->printHelp($lang['strsearchpath'], 'pg.schema.search_path');
+		echo ": <input type=\"text\" name=\"search_path\" size=\"50\" value=\"",
+			htmlspecialchars($_REQUEST['search_path']), "\" /></label></p>\n";
 		
 		echo "<textarea style=\"width: 100%;\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_SESSION['sqlquery']), "</textarea>\n";

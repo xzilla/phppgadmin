@@ -588,7 +588,6 @@
 							'title' => $lang['strschemas'],
 							'url'   => 'schemas.php',
 							'urlvars' => array('subject' => 'database'),
-							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.schema',
 							'icon'  => 'Schemas',
 						),
@@ -692,7 +691,6 @@
 						),
 					);
 					if (!$data->hasFTS()) unset($tabs['fulltext']);
-					if (!$data->hasSchemas()) unset($tabs['schemas']);
 					return $tabs;
 
 				case 'schema':
@@ -777,7 +775,6 @@
 							'title' => $lang['strprivileges'],
 							'url'   => 'privileges.php',
 							'urlvars' => array('subject' => 'schema'),
-							'hide'  => (!$data->hasSchemas()),
 							'help'  => 'pg.privilege',
 							'tree'  => false,
 							'icon'  => 'Privileges',
@@ -1064,18 +1061,7 @@
 		function getLastTabURL($section) {
 			global $data;
 
-			switch ($section) {
-				case 'database':
-				case 'role':
-				case 'schema':
-					if ($data->hasSchemas() === false) {
-						$section = 'database';
-						$tabs = array_merge($this->getNavTabs('schema'), $this->getNavTabs('database'));
-						break;
-					}
-				default:
-					$tabs = $this->getNavTabs($section);
-			}
+			$tabs = $this->getNavTabs($section);
 
 			if (isset($_SESSION['webdbLastTab'][$section]) && isset($tabs[$_SESSION['webdbLastTab'][$section]]))
 				$tab = $tabs[$_SESSION['webdbLastTab'][$section]];

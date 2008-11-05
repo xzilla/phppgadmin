@@ -24,61 +24,56 @@
 		$misc->printMsg($msg);
 
 		// Check that the DB actually supports schemas
-		if ($data->hasSchemas()) {
-			$schemas = $data->getSchemas();
+		$schemas = $data->getSchemas();
 
-			$columns = array(
-				'schema' => array(
-					'title' => $lang['strschema'],
-					'field' => field('nspname'),
-					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
-				),
-				'owner' => array(
-					'title' => $lang['strowner'],
-					'field' => field('nspowner'),
-				),
-				'actions' => array(
-					'title' => $lang['stractions'],
-				),
-				'comment' => array(
-					'title' => $lang['strcomment'],
-					'field' => field('nspcomment'),
-				),
-			);
+		$columns = array(
+			'schema' => array(
+				'title' => $lang['strschema'],
+				'field' => field('nspname'),
+				'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
+				'vars'  => array('schema' => 'nspname'),
+			),
+			'owner' => array(
+				'title' => $lang['strowner'],
+				'field' => field('nspowner'),
+			),
+			'actions' => array(
+				'title' => $lang['stractions'],
+			),
+			'comment' => array(
+				'title' => $lang['strcomment'],
+				'field' => field('nspcomment'),
+			),
+		);
 
-			$actions = array(
-				'multiactions' => array(
-					'keycols' => array('nsp' => 'nspname'),
-					'url' => 'schemas.php',
-				),
-				'drop' => array(
-					'title' => $lang['strdrop'],
-					'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
-					'vars'  => array('nsp' => 'nspname'),
-					'multiaction' => 'drop',
-				),
-				'privileges' => array(
-					'title' => $lang['strprivileges'],
-					'url'   => "privileges.php?subject=schema&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
-				),
-				'alter' => array(
-					'title' => $lang['stralter'],
-					'url'   => "schemas.php?action=alter&amp;{$misc->href}&amp;",
-					'vars'  => array('schema' => 'nspname'),
-				),
-			);
+		$actions = array(
+			'multiactions' => array(
+				'keycols' => array('nsp' => 'nspname'),
+				'url' => 'schemas.php',
+			),
+			'drop' => array(
+				'title' => $lang['strdrop'],
+				'url'   => "schemas.php?action=drop&amp;{$misc->href}&amp;",
+				'vars'  => array('nsp' => 'nspname'),
+				'multiaction' => 'drop',
+			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?subject=schema&amp;{$misc->href}&amp;",
+				'vars'  => array('schema' => 'nspname'),
+			),
+			'alter' => array(
+				'title' => $lang['stralter'],
+				'url'   => "schemas.php?action=alter&amp;{$misc->href}&amp;",
+				'vars'  => array('schema' => 'nspname'),
+			),
+		);
 
-			if (!$data->hasAlterSchema()) unset($actions['alter']);
+		if (!$data->hasAlterSchema()) unset($actions['alter']);
 
-			$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
+		$misc->printTable($schemas, $columns, $actions, $lang['strnoschemas']);
 
-			echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
-		} else {
-			// If the database does not support schemas...
-			echo "<p>{$lang['strnoschemas']}</p>\n";
-		}
+		echo "<p><a class=\"navlink\" href=\"schemas.php?action=create&amp;{$misc->href}\">{$lang['strcreateschema']}</a></p>\n";
 	}
 
 	/**

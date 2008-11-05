@@ -92,7 +92,7 @@
 		if (isset($_REQUEST['query'])) $_REQUEST['query'] = trim(urldecode($_REQUEST['query']));
 
 		// Set the schema search path
-		if ($data->hasSchemas() && isset($_REQUEST['search_path'])) {
+		if (isset($_REQUEST['search_path'])) {
 			$data->setSearchPath(array_map('trim',explode(',',$_REQUEST['search_path'])));
 		}
 		

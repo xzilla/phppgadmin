@@ -46,11 +46,9 @@
 
 					// Unserialize target and fetch appropriate table. This is a bit messy
 					// because the table could be in another schema.
-					if ($data->hasSchemas())
-						$data->setSchema($_REQUEST['target']['schemaname']);
+					$data->setSchema($_REQUEST['target']['schemaname']);
 					$attrs = $data->getTableAttributes($_REQUEST['target']['tablename']);
-					if ($data->hasSchemas())
-						$data->setSchema($_REQUEST['schema']);
+					$data->setSchema($_REQUEST['schema']);
 
 					$selColumns = new XHTML_select('TableColumnList', true, 10);
 					$selColumns->set_style('width: 15em;');
@@ -192,7 +190,7 @@
 					$key = array('schemaname' => $tables->fields['nspname'], 'tablename' => $tables->fields['relname']);
 					$key = serialize($key);
 					echo "<option value=\"", htmlspecialchars($key), "\">";
-					if ($data->hasSchemas() && $tables->fields['nspname'] != $_REQUEST['schema']) {
+					if ($tables->fields['nspname'] != $_REQUEST['schema']) {
 							echo htmlspecialchars($tables->fields['nspname']), '.';
 					}
 					echo htmlspecialchars($tables->fields['relname']), "</option>\n";

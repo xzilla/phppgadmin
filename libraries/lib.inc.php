@@ -177,7 +177,7 @@
 
 		// If schema is defined and database supports schemas, then set the
 		// schema explicitly.
-		if (isset($_REQUEST['database']) && isset($_REQUEST['schema']) && $data->hasSchemas()) {
+		if (isset($_REQUEST['database']) && isset($_REQUEST['schema'])) {
 			$status = $data->setSchema($_REQUEST['schema']);
 			if ($status != 0) {
 				echo $lang['strbadschema'];
