@@ -10,7 +10,7 @@
 	 * 6/ alter user back to the normal value
 	 * NB: droping role tests are in the cleantests.php tests
 	 */
-	$t = new TestBuilder("{$test_static_dir}/{$server['desc']}/roles.html", $server['desc'],
+	$t = new TestBuilder($server['desc'],
 		'Roles, Users and Groups tests',
 		'Create test admin role, test user role and tests Roles (or user/groups) features.'
 	);
@@ -103,6 +103,8 @@
 		$t->assertText("//p[@class='message']", $lang['struserupdated']);
 
 	$t->logout();
-	$t->writeTests($testsuite_file);
+	
+	$t->writeTests("{$test_static_dir}/{$server['desc']}/roles.html", $testsuite_file);
+
 	unset($t);
 ?>

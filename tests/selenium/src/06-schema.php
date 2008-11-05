@@ -6,7 +6,7 @@
 	 * 2/ alter its name, owner and comment
 	 * NB: droping the schema is in the cleantests.php tests
 	 */
-	$t = new TestBuilder("{$test_static_dir}/{$server['desc']}/schema.html", $server['desc'],
+	$t = new TestBuilder($server['desc'],
 		'Schema tests',
 		'Create and Alter schema.'
 	);
@@ -45,6 +45,6 @@
 	}
 	
 	$t->logout();
-	$t->writeTests($testsuite_file);
+	$t->writeTests("{$test_static_dir}/{$server['desc']}/schema.html", $testsuite_file);
 	unset($t);
 ?>

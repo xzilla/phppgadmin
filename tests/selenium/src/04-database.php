@@ -7,7 +7,7 @@
 	 * 3/ alter its name, owner and comment back to normal
 	 * NB: droping database is in the cleantests.php tests
 	 */
-	$t = new TestBuilder("{$test_static_dir}/{$server['desc']}/database.html", $server['desc'],
+	$t = new TestBuilder($server['desc'],
 		'Database tests',
 		'Create and Alter database.'
 	);
@@ -62,6 +62,6 @@
 	}
 
 	$t->logout();
-	$t->writeTests($testsuite_file);
+	$t->writeTests("{$test_static_dir}/{$server['desc']}/database.html", $testsuite_file);
 	unset($t);
 ?>
