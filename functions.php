@@ -171,7 +171,7 @@
 			// Display function comment
 			echo "<tr><th class=\"data\" colspan=\"5\">{$lang['strcomment']}</th></tr>\n";
 			echo "<tr><td class=\"data1\" colspan=\"5\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">",
-					htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
+				htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 
 			// Display function cost options
 			if ($data->hasFunctionCosting()) {
@@ -434,6 +434,7 @@
 		if (!isset($_POST['formArray'])) $_POST['formArray'] = '';
 		if (!isset($_POST['formCost'])) $_POST['formCost'] = '';
 		if (!isset($_POST['formRows'])) $_POST['formRows'] = '';
+		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		$types = $data->getTypes(true, true, true);
 		$langs = $data->getLanguages(true);
@@ -597,6 +598,11 @@
 			echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"formDefinition\">",
 				htmlspecialchars($_POST['formDefinition']), "</textarea></td></tr>\n";
 		}
+		
+		// Display function comment
+		echo "<tr><th class=\"data\" colspan=\"4\">{$lang['strcomment']}</th></tr>\n";
+		echo "<tr><td class=\"data1\" colspan=\"4\"><textarea style=\"width:100%;\" name=\"formComment\" rows=\"3\" cols=\"50\">",
+			htmlspecialchars($_POST['formComment']), "</textarea></td></tr>\n";
 
 		// Display function cost options
 		if ($data->hasFunctionCosting()) {
@@ -678,7 +684,7 @@
 			$status = $data->createFunction($_POST['formFunction'], empty($_POST['nojs'])? buildFunctionArguments($_POST) : $_POST['formArguments'],
 					$_POST['formReturns'] . $_POST['formArray'] , $def , $_POST['formLanguage'],
 					$_POST['formProperties'], $_POST['formSetOf'] == 'SETOF',
-					$cost, $rows, false);
+					$cost, $rows, $_POST['formComment'], false);
 			if ($status == 0)
 				doDefault($lang['strfunctioncreated']);
 			else {

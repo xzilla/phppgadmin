@@ -274,7 +274,6 @@ class Postgres73 extends Postgres74 {
 	 * @return -1 transaction error
 	 * @return -2 drop function error
 	 * @return -3 create function error
-	 * @return -4 comment error
 	 */
 	function setFunction($function_oid, $funcname, $newname, $args, $returns, $definition, $language, $flags, $setof, $rows, $cost, $comment) {
 		// Begin a transaction
@@ -287,32 +286,32 @@ class Postgres73 extends Postgres74 {
 		// Replace the existing function
 		if ($funcname != $newname) {
 			$status = $this->dropFunction($function_oid, false);
-		if ($status != 0) {
-			$this->rollbackTransaction();
+			if ($status != 0) {
+				$this->rollbackTransaction();
 				return -2;
-		}
+			}
 
-			$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, false);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-				return -3;
-	}
-		} else {
-			$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, true);
+			$status = $this->createFunction($newname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment, false);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;
+			}
+		} else {
+			$status = $this->createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment, true);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
 		}
-	}
 
 		// Comment on the function
-		$this->fieldClean($newname);
+		/*$this->fieldClean($newname);
 		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -4;
-		}
+		}*/
 
 		return $this->endTransaction();
 	}

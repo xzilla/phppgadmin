@@ -170,10 +170,23 @@ class Postgres82 extends Postgres {
 	 * @param $language The language the function is written for
 	 * @param $flags An array of optional flags
 	 * @param $setof True if it returns a set, false otherwise
+	 * @param $rows number of rows planner should estimate will be returned
+     * @param $cost cost the planner should use in the function execution step
+	 * @param $comment The comment on the function
 	 * @param $replace (optional) True if OR REPLACE, false for normal
 	 * @return 0 success
+	 * @return -1 create function failed
+	 * @return -4 set comment failed
 	 */
-	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $replace = false) {
+	function createFunction($funcname, $args, $returns, $definition, $language, $flags, $setof, $cost, $rows, $comment, $replace = false) {
+		
+		// Begin a transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->clean($language);
@@ -211,7 +224,21 @@ class Postgres82 extends Postgres {
 			else $sql .= "\n{$v}";
 		}
 
-		return $this->execute($sql);
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -3;
+		}
+
+		/* set the comment */
+		$this->clean($comment);
+		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
+		}
+
+		return $this->endTransaction();
 	}
 
 	// Index functions
