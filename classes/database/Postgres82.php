@@ -6,9 +6,9 @@
  * $Id: Postgres82.php,v 1.10 2007/12/28 16:21:25 ioguix Exp $
  */
 
-include_once('./classes/database/Postgres.php');
+include_once('./classes/database/Postgres83.php');
 
-class Postgres82 extends Postgres {
+class Postgres82 extends Postgres83 {
 
 	var $major_version = 8.2;
 
