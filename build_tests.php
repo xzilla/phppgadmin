@@ -8,19 +8,21 @@
 	require('./conf/config.inc.php');
 
 	$test_dir = './tests/selenium/';
-	$test_src_dir = "{$test_dir}/src/";
-	$test_static_dir = "{$test_dir}/static/";
-	$testsuite_file = "{$test_static_dir}/TestSuite.html";
+	$test_src_dir = "{$test_dir}src/";
+	$test_static_dir = "{$test_dir}static/";
+	$testsuite_file = "{$test_static_dir}TestSuite.html";
 
 	if(isset($argv[1]) && ($argv[1] == 'clean')) {
 		echo "Cleaning...";
 		/* delete server directories */
 		foreach ($conf['servers'] as $server) {
-			$dir = "{$test_static_dir}/{$server['desc']}";
-			$dh = opendir($dir);
-			while($file = readdir($dh))
-				if (($file != '.') && ($file != '..')) unlink("{$dir}/{$file}");
-			rmdir($dir);
+			$dir = "{$test_static_dir}{$server['desc']}";
+			while(is_dir($dir)) {
+				$dh = opendir($dir);
+				while($file = readdir($dh))
+					if (($file != '.') && ($file != '..')) unlink("{$dir}/{$file}");
+				rmdir($dir);
+			} 
 		}
 		/* delete the TestSuite.html file */
 		@unlink($testsuite_file);
@@ -49,6 +51,10 @@
 
 	/* Loop on the servers given in the conf/config.inc.conf file */
 	foreach ($conf['servers'] as $server) {
+		// Is this server in our list of configured servers?
+		if (!in_array($server['desc'],$test_servers))
+			continue;
+
 		/* connect to the server to get its version
 		 * and test its feature along the tests */
 		$_c = new Connection($server['host'],
@@ -61,7 +67,7 @@
 
 		$_type = $data = null;
 		if (! $_c->conn->isConnected())
-			die ("Connexion to {$server['desc']} failed !\n");
+			die ("Connection to {$server['desc']} failed !\n");
 		else {
 			if (($_type = $_c->getDriver($platform)) === null) {
 				die( printf($lang['strpostgresqlversionnotsupported'], $postgresqlMinVer));
