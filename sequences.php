@@ -457,7 +457,7 @@
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 
 			$server_info = $misc->getServerInfo();
-			if ($data->hasAlterSequenceOwner() && $data->isSuperUser($server_info['username'])) {
+			if ($data->isSuperUser($server_info['username'])) {
 				// Fetch all users
 				$users = $data->getUsers();
 
@@ -472,7 +472,7 @@
 				echo "</select></td></tr>\n";
 			}
 			
-			if ($data->hasSequenceAlterSchema()) {
+			if ($data->hasAlterSequenceSchema()) {
 				$schemas = $data->getSchemas();
 				echo "<tr><th class=\"data left required\">{$lang['strschema']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"newschema\">";

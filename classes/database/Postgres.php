@@ -2693,7 +2693,7 @@ class Postgres extends ADODB_base {
 	 * @param $minvalue The sequence minimum value
 	 * @param $maxvalue The sequence maximum value
 	 * @param $startvalue The sequence current value
-	 * @param $cachevalue Thesequence cache value
+	 * @param $cachevalue The sequence cache value
 	 * @param $cycledvalue Sequence can cycle ?
 	 * @return 0 success
 	 */
@@ -2710,8 +2710,8 @@ class Postgres extends ADODB_base {
 		if (!is_null($cycledvalue))	$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";
 		if ($sql != '') {
 			$sql = "ALTER SEQUENCE \"{$this->_schema}\".\"{$seqrs->fields['seqname']}\" {$sql}";
-		return $this->execute($sql);
-	}
+			return $this->execute($sql);
+		}
 		return 0;
 	}
 
@@ -7386,8 +7386,8 @@ class Postgres extends ADODB_base {
 	function hasAlterDatabaseRename() { return true; }
 	function hasAlterSchema() { return true; }
 	function hasAlterSchemaOwner() { return true; }
-	function hasAlterSequenceOwner() { return true; }
 	function hasAlterSequenceProps() { return true; }
+	function hasAlterSequenceSchema() { return true; }
 	function hasAlterTableOwner() { return true; }
 	function hasAlterTableSchema() { return true; }
 	function hasAlterTrigger() { return true; }
@@ -7426,7 +7426,6 @@ class Postgres extends ADODB_base {
 	function hasReadOnlyQueries() { return true; }
 	function hasRecluster() { return true; }
 	function hasRoles() { return true; }
-	function hasSequenceAlterSchema() { return true; }
 	function hasServerAdminFuncs() { return true; }
 	function hasSharedComments() { return true; }
 	function hasSignals() { return true; }
