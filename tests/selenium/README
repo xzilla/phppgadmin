@@ -1,14 +1,55 @@
-The tests are runned on ALL the configured servers in your ./conf/config.inc.php.
+HowTo run the tests follow these steps :
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To run the tests follow the following steps :
-1/ Configure your ./conf/config.inc.php with all the servers you want to run the tests on.
-2/ Create & configure your ./tests/config.test.php (See sample one in ./tests/config.inc.php-dist).
-3/ Run the ./build_tests.php script
+1/ Create & configure your ./tests/selenium/config.test.php (See sample one in ./tests/selenium/config.inc.php-dist).
+2/ Run the ./build_tests.php script
 	This script build the TestSuite.html file and all the related html tests files in ./tests/selenium/static/.
-	It build one directory for each server configured in your conf/config.inc.php
+	It builds one directory for each server selected to run the tests in your ./tests/selenium/config.inc.php
 	and create the static selenium html test files for each of them.
-4/ open your browser and go to http://$webUrl/
-	Where $webUrl is the value setted in your ./tests/config.inc.php
-5/ click on "Selenium tests" on the PPA intro page & run the tests using the "Selenium TestRunner" buttons in the top-right frame.
+3/ open your browser and go to http://$webUrl/
+	Where $webUrl is the value setted in your ./tests/selenium/config.inc.php
+4/ click on "Selenium tests" on the PPA intro page & run the tests using the "Selenium TestRunner" buttons in the top-right frame.
 
 Enjoy the tests.
+
+HowTo write new test:
+~~~~~~~~~~~~~~~~~~~~~
+The selenium's HTML tests files cannot behave differently in regard to the PG backend where the tests are run on. In order to address
+this issue we are using "test-builder" scripts to create these static HTML files. These scripts are connected to each backends using
+the PPA database classes and allow you to use their methods, and especialy the $data->has*() ones,  throught the $data variable like 
+in any other ppa script.
+
+1/ how build_tests is working and why
+The build_tests.php script is processing the test-builders scripts from ./tests/selenium/src in alphanumeric order. That's why each
+test-builder's name should follow these rules: begin with 2numeric number, then -, then the script name (ex. 01-test1.php or 46-test46.php).
+
+It allows to enforce the order the scripts will be run during the testSuite. This way, column's tests could be run *after* the table's tests
+in the test suite and use the previous created tables.
+
+2/ how test-builder are working
+
+These scripts are included and executed in the build_tests.php in alphanumeric order.
+They should:
+- begin with the declaration of the global values $testsuite_file and $test_static_dir which holds the paths to the TestSuite file
+and the static folder where the HTML tests files are created
+- create a "TestBuilder" intance which gonna helps write HTML tests quickly. 
+	The constructor takes the following arguments:
+	- server's label (from your config.inc.php)
+	- HTML title of the page
+	- Test description (appears on top of the tests table)
+
+	$t = new TestBuilder($server['desc'],
+		'Index tests',
+		'Create/Drop an unique Index'
+	);
+
+- once the TestBuilder instance is created, you can use it to write our tests.
+	In particular, you should use the login($username, $pass) and logout() methods.
+	Each selenium actions are mapped (or should be) as methods. As instance, if you want to use the clickAndWait action, you should call the
+	 clickAndWait($locator) method. For the assertText, assertText($selector, $value), etc...
+
+- finish whith calling the TestBuilder's "writeTests" method which will create the selenium HTML test file in the static dir and append this
+new test file to the testSuite file.
+
+	$t->writeTests("{$test_static_dir}/{$server['desc']}/view.html", $testsuite_file);
+
