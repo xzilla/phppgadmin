@@ -2054,7 +2054,7 @@ class Postgres extends ADODB_base {
 		if ($array) $sql .= '[]';
 
 		// If we have advanced column adding, add the extra qualifiers
-		if ($this->hasAlterColumnType()) {
+		if ($this->hasCreateFieldWithConstraints()) {
 			// NOT NULL clause
 			if ($notnull) $sql .= ' NOT NULL';
 
@@ -2096,35 +2096,30 @@ class Postgres extends ADODB_base {
 	 * @param $comment Comment for the column
 	 * @return 0 success
 	 * @return -1 batch alteration failed
-	 * @return -3 rename column error
-	 * @return -4 comment error
+	 * @return -4 rename column error
+	 * @return -5 comment error
 	 * @return -6 transaction error
 	 */
 	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
-									$type, $length, $array, $oldtype, $comment) {
+		$type, $length, $array, $oldtype, $comment)
+	{
 		$this->fieldClean($table);
 		$this->fieldClean($column);
 		$this->clean($comment);
 
-		// Initialise an empty SQL string
-		$sql = '';
-
+		$toAlter = array();
 		// Create the command for changing nullability
 		if ($notnull != $oldnotnull) {
-			$sql .= "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ALTER COLUMN \"{$column}\" " . (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
-	}
+			$toAlter[] = "ALTER COLUMN \"{$column}\" ". (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
+		}
 
 		// Add default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '') {
-				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-				else $sql .= ", ";
-				$sql .= "ALTER COLUMN \"{$column}\" DROP DEFAULT";
+				$toAlter[] = "ALTER COLUMN \"{$column}\" DROP DEFAULT";
 			}
 			else {
-				if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-				else $sql .= ", ";
-				$sql .= "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
+				$toAlter[] = "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
 			}
 		}
 
@@ -2154,9 +2149,7 @@ class Postgres extends ADODB_base {
 		if ($array) $ftype .= '[]';
 
 		if ($ftype != $oldtype) {
-			if ($sql == '') $sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" ";
-			else $sql .= ", ";
-			$sql .= "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
+			$toAlter[] = "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
 		}
 
 		// Begin transaction
@@ -2167,7 +2160,10 @@ class Postgres extends ADODB_base {
 		}
 
 		// Attempt to process the batch alteration, if anything has been changed
-		if ($sql != '') {
+		if (!empty($toAlter)) {
+			// Initialise an empty SQL string
+			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" "
+				. implode(',', $toAlter);
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -2178,8 +2174,8 @@ class Postgres extends ADODB_base {
 		// Update the comment on the column
 		$status = $this->setComment('COLUMN', $column, $table, $comment);
 		if ($status != 0) {
-		  $this->rollbackTransaction();
-		  return -4;
+			$this->rollbackTransaction();
+			return -5;
 		}
 
 		// Rename the column, if it has been changed
@@ -2187,7 +2183,7 @@ class Postgres extends ADODB_base {
 			$status = $this->renameColumn($table, $column, $name);
 			if ($status != 0) {
 				$this->rollbackTransaction();
-				return -3;
+				return -4;
 			}
 		}
 
@@ -7400,6 +7396,7 @@ class Postgres extends ADODB_base {
 	function hasCreateTableLike() { return true; }
 	function hasCreateTableLikeWithConstraints() { return true; }
 	function hasCreateTableLikeWithIndexes() { return true; }
+	function hasCreateFieldWithConstraints() { return true; }
 	function hasDisableTriggers() { return true; }
 	function hasAlterDomains() { return true; }
 	function hasDomainConstraints() { return true; }
@@ -7440,5 +7437,7 @@ class Postgres extends ADODB_base {
 	function hasWithoutOIDs() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasForeignKeysInfo() { return $this->hasConstraintsInfo(); }
+	function hasMagicTypes() { return true; }
+	
 }
 ?>

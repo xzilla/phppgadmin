@@ -156,44 +156,47 @@ class Postgres74 extends Postgres80 {
 	 * @param $oldtype The old type for the column
 	 * @param $comment Comment for the column
 	 * @return 0 success
-	 * @return -1 set not null error
-	 * @return -2 set default error
-	 * @return -3 rename column error
-	 * @return -4 comment error
+	 * @return -2 set not null error
+	 * @return -3 set default error
+	 * @return -4 rename column error
+	 * @return -5 comment error
+	 * @return -6 transaction error
 	 */
 	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
-									$type, $length, $array, $oldtype, $comment) {
-		$this->beginTransaction();
+	$type, $length, $array, $oldtype, $comment)
+	{
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
 
 		// @@ NEED TO HANDLE "NESTED" TRANSACTION HERE
 		if ($notnull != $oldnotnull) {
 			$status = $this->setColumnNull($table, $column, !$notnull);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -1;
-		}
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -2;
+			}
 		}
 
 		// Set default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '')
 				$status = $this->dropColumnDefault($table, $column);
-		else
+			else
 				$status = $this->setColumnDefault($table, $column, $default);
 
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
 		}
 
 		// Rename the column, if it has been changed
 		if ($column != $name) {
 			$status = $this->renameColumn($table, $column, $name);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -4;
+			}
 		}
 
 		// Parameters must be cleaned for the setComment function.  It's ok to do
@@ -204,7 +207,7 @@ class Postgres74 extends Postgres80 {
 		$status = $this->setComment('COLUMN', $name, $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
-			return -4;
+			return -5;
 		}
 
 		return $this->endTransaction();
@@ -333,11 +336,13 @@ class Postgres74 extends Postgres80 {
 	// Capabilities
 
 	function hasAlterColumnType() { return false; }
+	function hasCreateFieldWithConstraints() { return false; }
 	function hasAlterDatabaseOwner() { return false; }
 	function hasAlterSchemaOwner() { return false; }
 	function hasFunctionAlterOwner() { return false; }
 	function hasNamedParams() { return false; }
 	function hasSignals() { return false; }
 	function hasTablespaces() { return false; }
+	function hasMagicTypes() { return false; }
 }
 ?>

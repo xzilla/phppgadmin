@@ -108,6 +108,15 @@
 		public function select($selector, $value) {
 			$this->test('select', $selector, $value);
 		}
+		
+		/**
+		 * Add a selenium addSelection test to the file
+		 * @param $selector the selector to select the object to work on (second column)
+		 * @param $value (optional) the expected (or not) value (third column)
+		 */
+		public function addSelection($selector, $value) {
+			$this->test('addSelection', $selector, $value);
+		}
 
 		/**
 		 * Add a selenium click test to the file

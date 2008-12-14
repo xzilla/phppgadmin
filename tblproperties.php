@@ -270,7 +270,7 @@
 				echo "<table>\n";
 				echo "<tr><th class=\"data required\">{$lang['strname']}</th>\n<th colspan=\"2\" class=\"data required\">{$lang['strtype']}</th>\n";
 				echo "<th class=\"data\">{$lang['strlength']}</th>\n";
-				if ($data->hasAlterColumnType())
+				if ($data->hasCreateFieldWithConstraints())
 					echo "<th class=\"data\">{$lang['strnotnull']}</th>\n<th class=\"data\">{$lang['strdefault']}</th>\n";
 				echo "<th class=\"data\">{$lang['strcomment']}</th></tr>\n";
 
@@ -278,7 +278,7 @@
 					htmlspecialchars($_POST['field']), "\" /></td>\n";
 				echo "<td><select name=\"type\" id=\"type\" onchange=\"checkLengths(document.getElementById('type').value,'');\">\n";
 				// Output any "magic" types.  This came in with the alter column type so we'll check that
-				if ($data->hasAlterColumnType()) {
+				if ($data->hasMagicTypes()) {
 					foreach ($data->extraTypes as $v) {
 						$types_for_js[] = strtolower($v);
 						echo "\t<option value=\"", htmlspecialchars($v), "\"",
@@ -309,7 +309,7 @@
 				echo "<td><input name=\"length\" id=\"lengths\" size=\"8\" value=\"",
 					htmlspecialchars($_POST['length']), "\" /></td>\n";
 				// Support for adding column with not null and default
-				if ($data->hasAlterColumnType()) {
+				if ($data->hasCreateFieldWithConstraints()) {
 					echo "<td><input type=\"checkbox\" name=\"notnull\"",
 						(isset($_REQUEST['notnull'])) ? ' checked="checked"' : '', " /></td>\n";
 					echo "<td><input name=\"default\" size=\"20\" value=\"",
@@ -322,7 +322,7 @@
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
-				if (!$data->hasAlterColumnType()) {
+				if (!$data->hasCreateFieldWithConstraints()) {
 					echo "<input type=\"hidden\" name=\"default\" value=\"\" />\n";
 				}
 				echo "<input type=\"submit\" value=\"{$lang['stradd']}\" />\n";
