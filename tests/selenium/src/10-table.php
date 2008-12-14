@@ -17,6 +17,7 @@
 	$t->login($admin_user, $admin_user_pass);
 
 /** 1 **/
+	$t->addComment('1. create a table student in public');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
 	$t->clickAndWait("link={$lang['strschemas']}");
@@ -44,6 +45,7 @@
 	$t->assertText("//p[@class='message']", $lang['strtablecreated']);
 
 /** 2 **/
+	$t->addComment('2. create table promo in test_schema');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	$t->clickAndWait("link=test_schema");
@@ -67,6 +69,7 @@
 	$t->assertText("//p[@class='message']", $lang['strtablecreated']);
 
 /** 3 **/
+	$t->addComment('3. create table like student in test_schema');
 	if ($data->hasCreateTableLike()) {
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 		$t->clickAndWait("link={$lang['strschemas']}");
@@ -102,7 +105,9 @@
 	}
 
 /** 4 **/
+	$t->addComment('4. alter each param one by one on test_toalter');
 	/*table name*/
+	$t->addComment('4.1. alter table name');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	$t->clickAndWait("link=test_schema");
@@ -116,6 +121,7 @@
 	$t->assertText("//div[@class='trail']/descendant::a[@title='{$lang['strtable']}']/span[@class='label']", 'test_renamed');
 
 	/*table comment*/
+	$t->addComment('4.2. alter table comment');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	$t->clickAndWait("link=test_schema");
@@ -130,6 +136,7 @@
 	
 	/*table owner*/
 	if ($data->hasAlterTableOwner()) {
+		$t->addComment('4.3. alter table owner');
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 		$t->clickAndWait("link={$lang['strschemas']}");
 		$t->clickAndWait("link=test_schema");
@@ -145,6 +152,7 @@
 	
 	/*alter schema*/
 	if ($data->hasAlterTableSchema()) {
+		$t->addComment('4.4. alter table schema');
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 		$t->clickAndWait("link={$lang['strschemas']}");
 		$t->clickAndWait("link=test_schema");
@@ -157,6 +165,7 @@
 	}
 
 /** 5 **/
+	$t->addComment('5. alter back test_toalter in one step');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	if ($data->hasAlterTableSchema())

@@ -109,6 +109,11 @@ body, html {
     background-image: url("icons/selected.png");
 }
 
+#controlPanel #runRemainTests {
+    width: 32px;
+    background-image: url("icons/remains.png");
+}
+
 .cssPauseTest {
     background-image: url("icons/pause.png");
 }

@@ -45,9 +45,11 @@ and the static folder where the HTML tests files are created
 	);
 
 - once the TestBuilder instance is created, you can use it to write our tests.
-	In particular, you should use the login($username, $pass) and logout() methods.
-	Each selenium actions are mapped (or should be) as methods. As instance, if you want to use the clickAndWait action, you should call the
-	 clickAndWait($locator) method. For the assertText, assertText($selector, $value), etc...
+	- In particular, you should use the login($username, $pass) and logout() methods to create appropriate steps to login/logout to the current
+	server.
+	- Each selenium actions are mapped (or should be) as methods. As instance, if you want to use the clickAndWait action, you should call the
+	clickAndWait($locator) method. For the assertText, assertText($selector, $value), etc...
+	- Use the addComment method to show comments anywhere in the tests page. Usefull to explain whatthe next tests are going to do.
 
 - finish whith calling the TestBuilder's "writeTests" method which will create the selenium HTML test file in the static dir and append this
 new test file to the testSuite file.

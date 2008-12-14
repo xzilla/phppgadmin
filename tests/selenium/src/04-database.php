@@ -15,6 +15,7 @@
 	$t->login($admin_user, $admin_user_pass);
 
 /** 1 **/
+	$t->addComment('1. create test database with altered name and owner');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$lang['strcreatedatabase']}");
 
@@ -32,6 +33,7 @@
 	$t->assertText("//p[@class='message']", $lang['strdatabasecreated']);
 
 /** 2 **/
+	$t->addComment('2. alter DB\'s owner');
 	if ($data->hasAlterDatabaseOwner()) {
 		$t->clickAndWait("link={$lang['strdatabases']}");
 		/* we don't need to check if hasAlterDatabaseRename here because
@@ -44,6 +46,7 @@
 	}
 
 /** 3 **/
+	$t->addComment('3. alter DB\'s name, owner and comment back to normal');
 	if ($data->hasAlterDatabase()) {
 		$t->clickAndWait("link={$lang['strdatabases']}");
 		/* we don't need to check if hasAlterDatabaseRename here because

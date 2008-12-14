@@ -144,6 +144,12 @@ objectExtend(HtmlTestRunner.prototype, {
         this.currentTest.start();
     },
 
+	runRemainTests:function() {
+        this.runAllTests = true;
+        this.metrics.resetMetrics();
+        this.startTest();
+    },
+
     runSingleTest:function() {
         this.runAllTests = false;
         this.metrics.resetMetrics();

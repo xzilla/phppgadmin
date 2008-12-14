@@ -18,6 +18,7 @@
 	);
 
 /** 1 **/
+	$t->addComment('1. login as user and try to drop database -> fail');
 	$t->login($user, $user_pass);
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("//tr/td/a[text()='{$testdb}']/../../td/a[text()='{$lang['strdrop']}']");
@@ -25,6 +26,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strdatabasedroppedbad']);
 
 /** 2 **/
+	$t->addComment('2. logout / login as admin_user and drop user role/user');
 	$t->logout();
 	$t->login($admin_user, $admin_pass);
 	if ($data->hasRoles()) {
@@ -40,6 +42,7 @@
 	}
 
 /** 3 **/
+	$t->addComment('3. try to drop himself -> fail');
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("link={$admin_user}");
@@ -55,6 +58,7 @@
 	}
 
 /** 4 **/
+	$t->addComment('4. drop domain -> fail table promo depend on it');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
 	$t->clickAndWait("link={$lang['strschemas']}");
@@ -65,6 +69,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strdomaindroppedbad']);
 
 /** 5 **/
+	$t->addComment('5. drop domain with cascade, test if promo.year disapeared');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	$t->clickAndWait("link=test_schema");
@@ -81,6 +86,7 @@
 	$t->clickAndWait("link=year");
 
 /** 6 **/
+	$t->addComment('6. drop table student with cascade using the action button');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strserver']}']/span[@class='label' and text()='{$server['desc']}']");
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
@@ -92,6 +98,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strtabledropped']);
 
 /** 7 **/
+	$t->addComment('7. drop table promo using the button from tblproperties');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strserver']}']/span[@class='label' and text()='{$server['desc']}']");
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
@@ -104,6 +111,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strtabledropped']);
 	
 /** 8 **/
+	$t->addComment('8. drop test database');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strserver']}']/span[@class='label' and text()='{$server['desc']}']");
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("//tr/td/a[text()='{$testdb}']/../../td/a[text()='{$lang['strdrop']}']");
@@ -111,6 +119,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strdatabasedropped']);
 
 /** 9 **/
+	$t->addComment('9. logout & login as superuser and drop admin_user');
 	$t->logout();
 	$t->login($super_user[$server['desc']], $super_pass[$server['desc']]);
 

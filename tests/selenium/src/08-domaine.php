@@ -17,6 +17,7 @@
 	$t->login($admin_user, $admin_user_pass);
 
 /** 1 **/
+	$t->addComment('1. create domain');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
 	$t->clickAndWait("link={$lang['strschemas']}");
@@ -56,6 +57,7 @@
 	}
 	
 /** 2 **/
+	$t->addComment('2. add unwanted domain constraint');
 	if ($data->hasDomainConstraints()) {
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 		$t->clickAndWait("link={$lang['strdomains']}");
@@ -69,6 +71,7 @@
 	}
 
 /** 3 **/
+	$t->addComment('3. drop unwanted check constraint on domain');
 	if ($data->hasDomainConstraints()) {
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 		$t->clickAndWait("link={$lang['strdomains']}");
@@ -81,6 +84,7 @@
 	}
 
 /** 4 **/
+	$t->addComment('4. alter domain giving owner to super_user');
 	if ($data->hasAlterDomains()) {
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 		$t->clickAndWait("link={$lang['strdomains']}");
@@ -97,6 +101,7 @@
 	}
 
 /** 5 **/
+	$t->addComment('5. alter back the owner to admin_user');
 	if ($data->hasAlterDomains()) {
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 		$t->clickAndWait("link={$lang['strdomains']}");

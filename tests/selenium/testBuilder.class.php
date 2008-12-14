@@ -62,6 +62,10 @@
 			$this->code .= "<tr>\n<td>$action</td>\n<td>$selector</td>\n<td>$value</td>\n</tr>\n";
 		}
 
+		public function addComment($c) {
+			$this->code .= "<tr>\n<th colspan=\"3\">{$c}</th>\n</tr>\n";
+		}
+
 		/**
 		 * Add steps to login on PPA using the given credentials
 		 * @param $u The username to use
@@ -69,6 +73,7 @@
 		 */
 		public function login($u, $p) {
 			global $webUrl, $data;
+			$this->addComment("Login as {$u}");
 			$this->test('open', "{$webUrl}/login.php?server={$data->conn->host}&subject=server");
 			$this->test('type', "//input[@name='loginUsername']", $u);
 			$this->test('type', "//input[@id='loginPassword']", $p);
@@ -82,6 +87,7 @@
 		public function logout() {
 			global $lang;
 
+			$this->addComment("Logout");
 			$this->test('clickAndWait', "//div[@class='trail']/descendant::tr/td[1]/a/span[@class='label' and text()='phpPgAdmin']");
 			$this->test('clickAndWait', "link={$lang['strservers']}");
 			$this->test('clickAndWait', "//tr/td/a[text()='{$this->servDesc}']/../../td/a[text()='{$lang['strlogout']}']");

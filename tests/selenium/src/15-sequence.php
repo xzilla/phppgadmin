@@ -15,6 +15,7 @@
 	$t->login($admin_user, $admin_user_pass);
 
 /** 1 **/
+	$t->addComment('1. Create a sequence');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
 	$t->clickAndWait("link={$lang['strschemas']}");
@@ -40,6 +41,7 @@
 	$t->assertText("//tr/td[text()='testcase_seq']/../td[8]", $lang['stryes']);
 
 /** 2 **/
+	$t->addComment('2. increment, reset sequence and set value');
 	$t->clickAndWait("link={$lang['strsetval']}");
 	$t->type('nextvalue', '2');
 	$t->clickAndWait('setval');
@@ -53,6 +55,7 @@
 	$t->assertText("//tr/td[text()='testcase_seq']/../td[2]", '1');
 
 /** 3 **/
+	$t->addComment('3. alter sequence');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
 	$t->clickAndWait("link={$lang['strschemas']}");
 	$t->clickAndWait('link=public');
@@ -94,6 +97,7 @@
 	$t->assertText("//tr/td[2]/a[text()='testcase_renamed_seq']/../../td[3]", $user);
 
 /** 4 **/
+	$t->addComment('4. drop sequence');
 	$t->clickAndWait("link={$lang['strsequences']}");
 	$t->clickAndWait("//tr/td/a[text()='testcase_renamed_seq']/../../td/a[text()='{$lang['strdrop']}']");
 	$t->click('cascade');

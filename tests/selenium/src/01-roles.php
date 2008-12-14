@@ -16,9 +16,11 @@
 	);
 
 	/* 1 */
+	$t->addComment('1. login as superuser');
 	$t->login($super_user[$server['desc']], $super_pass[$server['desc']]);
 
 	/* 2 */
+	$t->addComment('2. create admin_user role/user with wrong pass conf -> fail');
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("link={$lang['strcreaterole']}");
@@ -39,6 +41,7 @@
 	$t->assertText("//p[@class='message']", $lang['strpasswordconfirm']);
 
 	/* 3 */
+	$t->addComment('3. create admin_user');
 	$t->type('formPassword', $admin_user_pass);
 	$t->type('formConfirm', $admin_user_pass);
 	$t->clickAndWait('create');
@@ -48,11 +51,13 @@
 		$t->assertText("//p[@class='message']", $lang['strusercreated']);
 
 	/* 4 */
+	$t->addComment('4. logout & login as admin_user');
 	$t->logout();
 	$t->login($admin_user, $admin_user_pass);
 
 
 	/* 5 */
+	$t->addComment('5. create user role/user with altered name, pass and props');
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("link={$lang['strcreaterole']}");
@@ -77,6 +82,7 @@
 		$t->assertText("//p[@class='message']", $lang['strusercreated']);
 
 	/* 6 */
+	$t->addComment('6. alter user back to the normal value');
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("link={$user}toalter");

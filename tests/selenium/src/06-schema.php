@@ -14,6 +14,7 @@
 	$t->login($admin_user, $admin_user_pass);
 
 /** 1 **/
+	$t->addComment('1. create test schema');
 	$t->clickAndWait("link={$lang['strdatabases']}");
 	$t->clickAndWait("link={$testdb}");
 	$t->clickAndWait("link={$lang['strschemas']}");
@@ -33,6 +34,7 @@
 	$t->assertText('//p[@class=\'message\']', $lang['strschemacreated']);
 
 /** 2 **/
+	$t->addComment('2. alter schema\'s name, owner and comment');
 	if ($data->hasAlterSchema()) {
 		$t->clickAndWait("link={$lang['strschemas']}");
 		$t->clickAndWait("//tr/td/a[text()='test_schema_toalter']/../../td/a[text()='{$lang['stralter']}']");
