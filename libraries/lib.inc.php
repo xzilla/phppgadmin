@@ -95,6 +95,8 @@
 	}
 
 	// Determine language file to import:
+	unset($_language);
+
 	// 1. Check for the language from a request var
 	if (isset($_REQUEST['language']) && isset($appLangFiles[$_REQUEST['language']]))
 		$_language = $_REQUEST['language'];
