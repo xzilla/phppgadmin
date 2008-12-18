@@ -1,6 +1,18 @@
 phpPgAdmin History
 ------------------
 
+Version 4.2.2
+-------------
+
+Bugs
+* Fix bug where long SQL queries get truncated
+* Fix createFunction method on PostgreSQL < 7.3
+* Fix bug with alter schema in PostgreSQL < 7.4
+* Remove alter domain for PostgreSQL < 7.4
+* Fix local file inclusion vulnerability:
+   http://www.securityfocus.com/bid/32670/
+   Unset language variable before determine file includes
+
 Version 4.2.1
 -------------
 
