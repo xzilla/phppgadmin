@@ -5840,18 +5840,19 @@ class Postgres extends ADODB_base {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$status = $this->setRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers, $memberofold, $membersold, $adminmembersold);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
 		if ($rolename != $newrolename){
 			$status = $this->renameRole($rolename, $newrolename);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;
 			}
+			$rolename = $newrolename;
+		}
+
+		$status = $this->setRole($rolename, $password, $superuser, $createdb, $createrole, $inherits, $login, $connlimit, $expiry, $memberof, $members, $adminmembers, $memberofold, $membersold, $adminmembersold);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
 		}
 
 		return $this->endTransaction();
@@ -5955,18 +5956,19 @@ class Postgres extends ADODB_base {
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
 
-		$status = $this->setUser($username, $password, $createdb, $createuser, $expiry);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-		}
-
 		if ($username != $newname){
 			$status = $this->renameUser($username, $newname);
 			if ($status != 0) {
 				$this->rollbackTransaction();
 				return -3;
 			}
+			$username = $newname;
+		}
+
+		$status = $this->setUser($username, $password, $createdb, $createuser, $expiry);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -2;
 		}
 
 		return $this->endTransaction();
