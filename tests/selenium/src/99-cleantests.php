@@ -28,7 +28,7 @@
 /** 2 **/
 	$t->addComment('2. logout / login as admin_user and drop user role/user');
 	$t->logout();
-	$t->login($admin_user, $admin_user_pass);
+	$t->login($admin_user, $admin_pass);
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("//tr/td/a[text()='{$user}']/../../td/a[text()='{$lang['strdrop']}']");
