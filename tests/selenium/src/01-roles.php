@@ -57,29 +57,45 @@
 
 
 	/* 5 */
+	$current_user="{$user}toalter";
 	$t->addComment('5. create user role/user with altered name, pass and props');
 	if ($data->hasRoles()) {
 		$t->clickAndWait("link={$lang['strroles']}");
 		$t->clickAndWait("link={$lang['strcreaterole']}");
 		$t->type('formRolename', "{$user}toalter");
-		$t->click('formCanLogin');
-		$t->click('formCreateRole'); // will be revert
-		$t->click('formInherits'); // will be revert
+		$t->check('formCanLogin');
+		$t->check('formCreateRole'); // will be revert
+		$t->check('formInherits'); // will be revert
 	} else {
 		$t->clickAndWait("link={$lang['strusers']}");
 		$t->clickAndWait("link={$lang['strcreateuser']}");
-		if ($data->hasUserRename()) $t->type('formUsername', "{$user}toalter");
-		else $t->type('formUsername', $user);
+		if ($data->hasUserRename())
+			$t->type('formUsername', "{$user}toalter");
+		else {
+			$t->type('formUsername', $user);
+			$current_user=$user;
+		}
 	}
-	$t->click('formSuper'); // will be revert
-	$t->click('formCreateDB'); // will be revert
+	$t->check('formSuper'); // will be revert
+	$t->check('formCreateDB'); // will be revert
 	$t->type('formPassword', "{$user_pass}toalter");
 	$t->type('formConfirm', "{$user_pass}toalter");
 	$t->clickAndWait('create');
-	if ($data->hasRoles())
+	if ($data->hasRoles()) {
 		$t->assertText("//p[@class='message']", $lang['strrolecreated']);
-	else
+		$t->assertText("//tr/td/a[text()='{$user}toalter']", "{$user}toalter");
+		$t->assertText("//tr/td/a[text()='{$user}toalter']/../../td[2]", $lang['stryes']);//super user ?
+		$t->assertText("//tr/td/a[text()='{$user}toalter']/../../td[3]", $lang['stryes']);//create db ?
+		$t->assertText("//tr/td/a[text()='{$user}toalter']/../../td[4]", $lang['stryes']); //create role
+		$t->assertText("//tr/td/a[text()='{$user}toalter']/../../td[5]", $lang['stryes']); //inherit
+		$t->assertText("//tr/td/a[text()='{$user}toalter']/../../td[6]", $lang['stryes']); //can login
+	}
+	else {
 		$t->assertText("//p[@class='message']", $lang['strusercreated']);
+		$t->assertText("//tr/td[text()='{$current_user}']", $current_user);
+		$t->assertText("//tr/td[text()='{$current_user}']/../td[2]", $lang['stryes']);//super user ?
+		$t->assertText("//tr/td[text()='{$current_user}']/../td[3]", $lang['stryes']);//create db ?
+	}
 
 	/* 6 */
 	$t->addComment('6. alter user back to the normal value');
@@ -88,25 +104,37 @@
 		$t->clickAndWait("link={$user}toalter");
 		$t->clickAndWait("link={$lang['stralter']}");
 		$t->type('formNewRoleName', $user);
-		$t->click('formCreateRole'); // revert
-		$t->click('formInherits'); // revert
+		$t->uncheck('formCreateRole'); // revert
+		$t->uncheck('formInherits'); // revert
 	} else {
 		$t->clickAndWait("link={$lang['strusers']}");
 		if ($data->hasUserRename()) {
 			$t->clickAndWait("//tr/td[text()='{$user}toalter']/../td/a[text()='{$lang['stralter']}']");
 			$t->type('newname', $user);
-		} else
+		}
+		else
 			$t->clickAndWait("//tr/td[text()='{$user}']/../td/a[text()='{$lang['stralter']}']");
 	}
-	$t->click('formSuper'); // revert
-	$t->click('formCreateDB'); // revert
+	$t->uncheck('formSuper'); // revert
+	$t->uncheck('formCreateDB'); // revert
 	$t->type('formPassword', $user_pass);
 	$t->type('formConfirm', $user_pass);
 	$t->clickAndWait('alter');
-	if ($data->hasRoles())
+	if ($data->hasRoles()) {
 		$t->assertText("//p[@class='message']", $lang['strrolealtered']);
-	else
+		$t->assertText("//tr/td/a[text()='{$user}']", $user);
+		$t->assertText("//tr/td/a[text()='{$user}']/../../td[2]", $lang['strno']);//super user ?
+		$t->assertText("//tr/td/a[text()='{$user}']/../../td[3]", $lang['strno']);//create db ?
+		$t->assertText("//tr/td/a[text()='{$user}']/../../td[4]", $lang['strno']); //create role
+		$t->assertText("//tr/td/a[text()='{$user}']/../../td[5]", $lang['strno']); //inherit
+		$t->assertText("//tr/td/a[text()='{$user}']/../../td[6]", $lang['stryes']); //can login
+	}
+	else {
 		$t->assertText("//p[@class='message']", $lang['struserupdated']);
+		$t->assertText("//tr/td[text()='{$user}']/../td[2]", $lang['strno']);//super user ?
+		$t->assertText("//tr/td[text()='{$user}']/../td[3]", $lang['strno']);//create db ?
+		$t->assertText("//p[@class='message']", $lang['struserupdated']);
+	}
 
 	$t->logout();
 	
