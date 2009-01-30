@@ -828,7 +828,7 @@
 		global $data, $misc;
 		global $lang;
 
-		if (!isset($_SESSION['sqlquery'])) $_SESSION['sqlquery'] = '';
+		if ((!isset($_SESSION['sqlquery'])) || isset($_REQUEST['new'])) $_SESSION['sqlquery'] = '';
 
 		$misc->printTrail('database');
 		$misc->printTabs('database','sql');

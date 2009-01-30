@@ -252,7 +252,7 @@
 	 */
 	function doBrowse($msg = '') {
 		global $data, $conf, $misc, $lang;
-		
+
 		$save_history = false;
 		// If current page is not set, default to first page
 		if (!isset($_REQUEST['page']))
@@ -267,11 +267,12 @@
 		else {
 			$subject = '';
 		}
-	
+
 		$misc->printTrail(isset($subject) ? $subject : 'database');
 		
 		if (isset($object)) {
 			if (isset($_REQUEST['query'])) {
+				$_SESSION['sqlquery'] = $_REQUEST['query'];
 				$misc->printTitle($lang['strselect']);
 				$type = 'SELECT';
 			} else {
@@ -287,7 +288,7 @@
 
 		// If 'sortkey' is not set, default to ''
 		if (!isset($_REQUEST['sortkey'])) $_REQUEST['sortkey'] = '';
-	
+
 		// If 'sortdir' is not set, default to ''
 		if (!isset($_REQUEST['sortdir'])) $_REQUEST['sortdir'] = '';
 	

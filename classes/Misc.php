@@ -594,7 +594,7 @@
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => 'database.php',
-							'urlvars' => array('subject' => 'database', 'action' => 'sql'),
+							'urlvars' => array('subject' => 'database', 'action' => 'sql', 'new' => 1),
 							'help'  => 'pg.sql',
 							'tree'  => false,
 							'icon'  => 'SqlEditor'
