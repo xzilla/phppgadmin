@@ -649,14 +649,6 @@
 							'tree'  => false,
 							'icon'  => 'Privileges',
 						),
-						'fulltext' => array (
-							'title' => $lang['strfulltext'],
-							'url'   => 'fulltext.php',
-							'urlvars' => array('subject' => 'database'),
-							'help'  => 'pg.fts',
-							'tree'  => true,
-							'icon'  => 'Fts',
-						),
 						'languages' => array (
 							'title' => $lang['strlanguages'],
 							'url'   => 'languages.php',
@@ -690,11 +682,10 @@
 							'icon'  => 'Export',
 						),
 					);
-					if (!$data->hasFTS()) unset($tabs['fulltext']);
 					return $tabs;
 
 				case 'schema':
-					return array (
+					$tabs = array (
 						'tables' => array (
 							'title' => $lang['strtables'],
 							'url'   => 'tables.php',
@@ -722,6 +713,14 @@
 							'urlvars' => array('subject' => 'schema'),
 							'help'  => 'pg.function',
 							'icon'  => 'Functions',
+						),
+						'fulltext' => array (
+							'title' => $lang['strfulltext'],
+							'url'   => 'fulltext.php',
+							'urlvars' => array('subject' => 'schema'),
+							'help'  => 'pg.fts',
+							'tree'  => true,
+							'icon'  => 'Fts',
 						),
 						'domains' => array (
 							'title' => $lang['strdomains'],
@@ -788,6 +787,8 @@
 							'icon'  => 'Export',
 						),
 					);
+					if (!$data->hasFTS()) unset($tabs['fulltext']);
+					return $tabs;
 
 				case 'table':
 					return array (
@@ -1024,7 +1025,7 @@
                         'ftsconfigs' => array (
                             'title' => $lang['strftstabconfigs'],
                             'url'   => 'fulltext.php',
-                            'urlvars' => array('subject' => 'database'),
+                            'urlvars' => array('subject' => 'schema'),
                             'hide'  => !$data->hasFTS(),
                             'help'  => 'pg.ftscfg',
                             'tree'  => true,
@@ -1033,7 +1034,7 @@
                         'ftsdicts' => array (
                             'title' => $lang['strftstabdicts'],
                             'url'   => 'fulltext.php',
-                            'urlvars' => array('subject' => 'database', 'action' => 'viewdicts'),
+                            'urlvars' => array('subject' => 'schema', 'action' => 'viewdicts'),
                             'hide'  => !$data->hasFTS(),
                             'help'  => 'pg.ftsdict',
                             'tree'  => true,
@@ -1042,7 +1043,7 @@
                         'ftsparsers' => array (
                             'title' => $lang['strftstabparsers'],
                             'url'   => 'fulltext.php',
-                            'urlvars' => array('subject' => 'database', 'action' => 'viewparsers'),
+                            'urlvars' => array('subject' => 'schema', 'action' => 'viewparsers'),
                             'hide'  => !$data->hasFTS(),
                             'help'  => 'pg.ftsparser',
                             'tree'  => true,

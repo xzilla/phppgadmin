@@ -4883,12 +4883,13 @@ class Postgres extends ADODB_base {
  	 * @param string $withmap Should we copy whole map of existing FTS configuration to the new one
  	 * @param string $makeDefault Should this configuration be the default for locale given
  	 * @param string $comment If omitted, defaults to nothing
+	 * 
  	 * @return 0 success
  	 */
  	function createFtsConfiguration($cfgname, $parser = '', $template = '', $comment = '') {
  		$this->fieldClean($cfgname);
 
- 		$sql = "CREATE TEXT SEARCH CONFIGURATION \"{$cfgname}\" (";
+ 		$sql = "CREATE TEXT SEARCH CONFIGURATION \"{$this->_schema}\".\"{$cfgname}\" (";
  		if ($parser != '') {
 			$this->fieldClean($parser['schema']);
 			$this->fieldClean($parser['parser']);
@@ -4896,8 +4897,9 @@ class Postgres extends ADODB_base {
 			$sql .= " PARSER = {$parser}";
 		}
  		if ($template != '') {
-			$this->fieldClean($template);
- 			$sql .= " COPY = \"{$template}\"";
+			$this->fieldClean($template['schema']);
+			$this->fieldClean($template['name']);
+ 			$sql .= " COPY = \"{$template['schema']}\".\"{$template['name']}\"";
  		}
 		$sql .= ")";
 
@@ -4929,10 +4931,14 @@ class Postgres extends ADODB_base {
  	}
 
  	/**
- 	 * Returns all FTS configurations available
+ 	 * Returns available FTS configurations
+	 * @param $all if false, returns schema qualified FTS confs
+	 * 
+	 * @return A recordset
  	 */
- 	function getFtsConfigurations() {
- 		$sql = "
+ 	function getFtsConfigurations($all = true) {
+		
+		$sql = "
 			SELECT
 				n.nspname as schema,
 				c.cfgname as name,
@@ -4941,15 +4947,20 @@ class Postgres extends ADODB_base {
 				pg_catalog.pg_ts_config c
 				JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace
 			WHERE
-				pg_catalog.pg_ts_config_is_visible(c.oid)
-			ORDER BY
-				schema, name";
+				pg_catalog.pg_ts_config_is_visible(c.oid)";
+
+		if (!$all)
+			$sql.= " AND  n.nspname='{$this->_schema}'\n";
+		
+		$sql.= "ORDER BY name";
+
  		return $this->selectSet($sql);
  	}
 
  	/**
  	 * Return all information related to a FTS configuration
  	 * @param $ftscfg The name of the FTS configuration
+	 * 
  	 * @return FTS configuration information
  	 */
  	function getFtsConfigurationByName($ftscfg) {
@@ -4965,20 +4976,29 @@ class Postgres extends ADODB_base {
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.cfgnamespace
 				LEFT JOIN pg_catalog.pg_ts_parser p ON p.oid = c.cfgparser
 			WHERE pg_catalog.pg_ts_config_is_visible(c.oid)
-				AND c.cfgname = '{$ftscfg}'";
+				AND c.cfgname = '{$ftscfg}'
+				AND n.nspname='{$this->_schema}'";
 
  		return $this->selectSet($sql);
  	}
 
  	/**
- 	 * Returns the map of FTS configuration given (list of mappings (tokens) and their processing dictionaries)
- 	 *
+ 	 * Returns the map of FTS configuration given
+	 * (list of mappings (tokens) and their processing dictionaries)
  	 * @param string $ftscfg Name of the FTS configuration
+	 * 
+	 * @return RecordSet
  	 */
  	function getFtsConfigurationMap($ftscfg) {
+
  		$this->fieldClean($ftscfg);
- 		$getOidSql = "SELECT oid FROM pg_catalog.pg_ts_config WHERE cfgname = '{$ftscfg}'";
- 		$oidSet = $this->selectSet($getOidSql);
+
+ 		$oidSet = $this->selectSet("SELECT c.oid
+			FROM pg_catalog.pg_ts_config AS c
+				LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.cfgnamespace)
+			WHERE c.cfgname = '{$ftscfg}'
+				AND n.nspname='{$this->_schema}'");
+
  		$oid = $oidSet->fields['oid'];
 
  		$sql = "
@@ -4990,40 +5010,61 @@ class Postgres extends ADODB_base {
 				pg_catalog.pg_ts_config AS c, pg_catalog.pg_ts_config_map AS m, pg_catalog.pg_ts_dict d,
 				pg_catalog.pg_namespace n
 			WHERE
-				c.oid = {$oid} AND m.mapcfg = c.oid and m.mapdict = d.oid and d.dictnamespace = n.oid
+				c.oid = {$oid}
+				AND m.mapcfg = c.oid
+				AND m.mapdict = d.oid
+				AND d.dictnamespace = n.oid
 			ORDER BY name
 			";
  		return $this->selectSet($sql);
  	}
 
  	/**
- 	 * Returns all FTS parsers available
+ 	 * Returns FTS parsers available
+	 * @param $all if false, return only Parsers from the current schema
+	 *
+	 * @return RecordSet
  	 */
- 	function getFtsParsers() {
+ 	function getFtsParsers($all = true) {
+		
  		$sql = "
 			SELECT
 			   n.nspname as schema,
 			   p.prsname as name,
 			   pg_catalog.obj_description(p.oid, 'pg_ts_parser') as comment
 			FROM pg_catalog.pg_ts_parser p
-				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.prsnamespace
-			WHERE pg_catalog.pg_ts_parser_is_visible(p.oid)
-			ORDER BY schema, name";
+				LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = p.prsnamespace)
+			WHERE pg_catalog.pg_ts_parser_is_visible(p.oid)";
+
+		if (!$all)
+			$sql.= " AND n.nspname='{$this->_schema}'\n";
+
+		$sql.= "ORDER BY name";
+
  		return $this->selectSet($sql);
  	}
 
  	/**
- 	 * Returns all FTS dictionaries available
+ 	 * Returns FTS dictionaries available
+	 * @param $all if false, return only Dics from the current schema
+	 *
+	 * @returns RecordSet
  	 */
- 	function getFtsDictionaries() {
+ 	function getFtsDictionaries($all = true) {
+		
  		$sql = "
  			SELECT
 				n.nspname as schema, d.dictname as name,
 				pg_catalog.obj_description(d.oid, 'pg_ts_dict') as comment
 			FROM pg_catalog.pg_ts_dict d
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
-			WHERE pg_catalog.pg_ts_dict_is_visible(d.oid)
-			ORDER BY schema, name;";
+			WHERE pg_catalog.pg_ts_dict_is_visible(d.oid)";
+
+		if (!$all)
+			$sql.= " AND n.nspname='{$this->_schema}'\n";
+
+		$sql.= "ORDER BY name;";
+
  		return $this->selectSet($sql);
  	}
 
@@ -5031,6 +5072,7 @@ class Postgres extends ADODB_base {
  	 * Returns all FTS dictionary templates available
  	 */
  	function getFtsDictionaryTemplates() {
+		
  		$sql = "
  			SELECT
 				n.nspname as schema,
@@ -5047,50 +5089,63 @@ class Postgres extends ADODB_base {
 			FROM pg_catalog.pg_ts_template t
 				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.tmplnamespace
 			WHERE pg_catalog.pg_ts_template_is_visible(t.oid)
-			ORDER BY schema, name;";
+			ORDER BY name;";
+
  		return $this->selectSet($sql);
  	}
 
  	/**
  	 * Drops FTS coniguration
+	 * @param $ftscfg The configuration's name
+	 * @param $cascade Cascade to dependenced objects
+	 *
+	 * @return 0 on success
  	 */
  	function dropFtsConfiguration($ftscfg, $cascade) {
  		$this->fieldClean($ftscfg);
 
- 		$sql = "DROP TEXT SEARCH CONFIGURATION \"{$ftscfg}\"";
- 		if ($cascade) $sql .= " CASCADE";
+ 		$sql = "DROP TEXT SEARCH CONFIGURATION \"{$this->_schema}\".\"{$ftscfg}\"";
+ 		if ($cascade) $sql .=  ' CASCADE';
 
  		return $this->execute($sql);
  	}
 
  	/**
  	 * Drops FTS dictionary
+	 * @param $ftsdict The dico's name
+	 * @param $cascade Cascade to dependenced objects
  	 *
  	 * @todo Support of dictionary templates dropping
+	 * @return 0 on success
  	 */
- 	function dropFtsDictionary($ftsdict, $cascade = true) {
+ 	function dropFtsDictionary($ftsdict, $cascade) {
  		$this->fieldClean($ftsdict);
 
  		$sql = "DROP TEXT SEARCH DICTIONARY";
- 		$sql .= " \"{$ftsdict}\"";
- 		if ($cascade) $sql .= " CASCADE";
+ 		$sql .= " \"{$this->_schema}\".\"{$ftsdict}\"";
+ 		if ($cascade) $sql .= ' CASCADE';
 
  		return $this->execute($sql);
  	}
 
  	/**
  	 * Alters FTS configuration
+	 * @param $cfgname The conf's name
+	 * @param $comment A comment on for the conf
+	 * @param $name The new conf name
+	 *
+	 * @return 0 on success
  	 */
  	function updateFtsConfiguration($cfgname, $comment, $name) {
- 		$this->fieldClean($cfgname);
- 		$this->fieldClean($name);
- 		$this->clean($comment);
 
  		$status = $this->beginTransaction();
  		if ($status != 0) {
  			$this->rollbackTransaction();
  			return -1;
  		}
+
+		$this->fieldClean($cfgname);
+ 		$this->clean($comment);
 
  		$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
  		if ($status != 0) {
@@ -5100,7 +5155,9 @@ class Postgres extends ADODB_base {
 
  		// Only if the name has changed
  		if ($name != $cfgname) {
- 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$cfgname}\" RENAME TO \"{$name}\"";
+			$this->fieldClean($name);
+
+ 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$this->_schema}\".\"{$cfgname}\" RENAME TO \"{$name}\"";
  			$status = $this->execute($sql);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -5120,31 +5177,41 @@ class Postgres extends ADODB_base {
  	 * @param string $init The name of the function, which initializes dictionary
  	 * @param string $option Usually, it stores various options required for the dictionary
  	 * @param string $comment If omitted, defaults to nothing
+	 * 
  	 * @return 0 success
  	 */
- 	function createFtsDictionary($dictname, $isTemplate = false, $template = '', $lexize = '', $init = '', $option = '', $comment = '') {
+ 	function createFtsDictionary($dictname, $isTemplate = false, $template = '', $lexize = '',
+		$init = '', $option = '', $comment = '') {
+			
  		$this->fieldClean($dictname);
  		$this->fieldClean($template);
  		$this->fieldClean($lexize);
  		$this->fieldClean($init);
  		$this->fieldClean($option);
- 		$this->clean($comment);
 
  		$sql = "CREATE TEXT SEARCH";
  		if ($isTemplate) {
- 			$sql .= " TEMPLATE {$dictname} (";
+ 			$sql .= " TEMPLATE \"{$this->_schema}\".\"{$dictname}\" (";
  			if ($lexize != '') $sql .= " LEXIZE = {$lexize}";
  			if ($init != '') $sql .= ", INIT = {$init}";
             $sql .= ")";
  			$whatToComment = 'TEXT SEARCH TEMPLATE';
  		} else {
- 			$sql .= " DICTIONARY {$dictname} (";
- 			if ($template != '') $sql .= " TEMPLATE = {$template}";
+ 			$sql .= " DICTIONARY \"{$this->_schema}\".\"{$dictname}\" (";
+ 			if ($template != '') {		
+				$this->fieldClean($template['schema']);
+				$this->fieldClean($template['name']);
+				$template = "\"{$template['schema']}\".\"{$template['name']}\"";
+			
+				$sql .= " TEMPLATE = {$template}";
+			}
  			if ($option != '') $sql .= ", {$option}";
             $sql .= ")";
  			$whatToComment = 'TEXT SEARCH DICTIONARY';
  		}
 
+		/* if comment, begin a transaction to
+		 * run both commands */
  		if ($comment != '') {
  			$status = $this->beginTransaction();
  			if ($status != 0) return -1;
@@ -5159,6 +5226,8 @@ class Postgres extends ADODB_base {
 
  		// Set the comment
  		if ($comment != '') {
+			$this->clean($comment);
+
  			$status = $this->setComment($whatToComment, $dictname, '', $comment);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -5171,11 +5240,13 @@ class Postgres extends ADODB_base {
 
  	/**
  	 * Alters FTS dictionary or dictionary template
+	 * @param $dictname The dico's name 
+	 * @param $comment The comment
+	 * @param $name The new dico's name
+	 *
+	 * @return 0 on success
  	 */
  	function updateFtsDictionary($dictname, $comment, $name) {
- 		$this->fieldClean($dictname);
- 		$this->fieldClean($name);
- 		$this->clean($comment);
 
  		$status = $this->beginTransaction();
  		if ($status != 0) {
@@ -5183,6 +5254,8 @@ class Postgres extends ADODB_base {
  			return -1;
  		}
 
+ 		$this->clean($comment);
+		$this->fieldClean($dictname);
  		$status = $this->setComment('TEXT SEARCH DICTIONARY', $dictname, '', $comment);
  		if ($status != 0) {
  			$this->rollbackTransaction();
@@ -5191,7 +5264,9 @@ class Postgres extends ADODB_base {
 
  		// Only if the name has changed
  		if ($name != $dictname) {
- 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$dictname}\" RENAME TO \"{$name}\"";
+ 			$this->fieldClean($name);
+
+ 			$sql = "ALTER TEXT SEARCH DICTIONARY \"{$this->_schema}\".\"{$dictname}\" RENAME TO \"{$name}\"";
  			$status = $this->execute($sql);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -5205,24 +5280,28 @@ class Postgres extends ADODB_base {
  	/**
  	 * Return all information relating to a FTS dictionary
  	 * @param $ftsdict The name of the FTS dictionary
- 	 * @return FTS dictionary information
+	 * 
+ 	 * @return RecordSet of FTS dictionary information
  	 */
  	function getFtsDictionaryByName($ftsdict) {
+	
  		$this->clean($ftsdict);
+		
  		$sql = "SELECT
-           n.nspname as schema,
-           d.dictname as name,
-           ( SELECT COALESCE(nt.nspname, '(null)')::pg_catalog.text || '.' || t.tmplname FROM
-             pg_catalog.pg_ts_template t
-                                  LEFT JOIN pg_catalog.pg_namespace nt ON nt.oid = t.tmplnamespace
-                                  WHERE d.dicttemplate = t.oid ) AS  template,
-           d.dictinitoption as init,
-           pg_catalog.obj_description(d.oid, 'pg_ts_dict') as comment
-         FROM pg_catalog.pg_ts_dict d
-         LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
-         WHERE d.dictname = '{$ftsdict}'
-           AND pg_catalog.pg_ts_dict_is_visible(d.oid)
-         ORDER BY schema, name";
+			   n.nspname as schema,
+			   d.dictname as name,
+			   ( SELECT COALESCE(nt.nspname, '(null)')::pg_catalog.text || '.' || t.tmplname FROM
+				 pg_catalog.pg_ts_template t
+									  LEFT JOIN pg_catalog.pg_namespace nt ON nt.oid = t.tmplnamespace
+									  WHERE d.dicttemplate = t.oid ) AS  template,
+			   d.dictinitoption as init,
+			   pg_catalog.obj_description(d.oid, 'pg_ts_dict') as comment
+			FROM pg_catalog.pg_ts_dict d
+				LEFT JOIN pg_catalog.pg_namespace n ON n.oid = d.dictnamespace
+			WHERE d.dictname = '{$ftsdict}'
+			   AND pg_catalog.pg_ts_dict_is_visible(d.oid)
+			   AND n.nspname='{$this->_schema}'
+			ORDER BY name";
 
  		return $this->selectSet($sql);
  	}
@@ -5233,14 +5312,16 @@ class Postgres extends ADODB_base {
  	 * @param array $mapping Array of tokens' names
  	 * @param string $action What to do with the mapping: add, alter or drop
  	 * @param string $dictname Dictionary that will process tokens given or null in case of drop action
+	 * 
  	 * @return 0 success
  	 */
  	function changeFtsMapping($ftscfg, $mapping, $action, $dictname = null) {
- 		$this->fieldClean($ftscfg);
- 		$this->fieldClean($dictname);
- 		$this->arrayClean($mapping);
 
  		if (count($mapping) > 0) {
+			$this->fieldClean($ftscfg);
+			$this->fieldClean($dictname);
+			$this->arrayClean($mapping);
+		
  			switch ($action) {
  				case 'alter':
  					$whatToDo = "ALTER";
@@ -5252,24 +5333,16 @@ class Postgres extends ADODB_base {
  					$whatToDo = "ADD";
  					break;
  			}
- 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$ftscfg}\" {$whatToDo} MAPPING FOR ";
+
+ 			$sql = "ALTER TEXT SEARCH CONFIGURATION \"{$this->_schema}\".\"{$ftscfg}\" {$whatToDo} MAPPING FOR ";
  			$sql .= implode(",", $mapping);
  			if ($action != 'drop' && !empty($dictname)) {
  				$sql .= " WITH {$dictname}";
  			}
 
- 			$status = $this->beginTransaction();
- 			if ($status != 0) {
- 				$this->rollbackTransaction();
- 				return -1;
- 			}
- 			$status =  $this->execute($sql);
- 			if ($status != 0) {
- 				$this->rollbackTransaction();
- 				return -1;
- 			}
- 			return $this->endTransaction();
- 		} else {
+ 			return $this->execute($sql);
+ 		}
+		else {
  			return -1;
  		}
  	}
@@ -5278,37 +5351,53 @@ class Postgres extends ADODB_base {
  	 * Return all information related to a given FTS configuration's mapping
  	 * @param $ftscfg The name of the FTS configuration
  	 * @param $mapping The name of the mapping
+	 * 
  	 * @return FTS configuration information
  	 */
  	function getFtsMappingByName($ftscfg, $mapping) {
  		$this->fieldClean($ftscfg);
  		$this->fieldClean($mapping);
 
- 		$getOidSql = "SELECT oid, cfgparser FROM pg_catalog.pg_ts_config WHERE cfgname = '{$ftscfg}'";
- 		$oidSet = $this->selectSet($getOidSql);
+ 		$oidSet = $this->selectSet("SELECT c.oid, cfgparser
+			FROM pg_catalog.pg_ts_config AS c
+				LEFT JOIN pg_catalog.pg_namespace AS n ON n.oid = c.cfgnamespace
+			WHERE c.cfgname = '{$ftscfg}'
+				AND n.nspname='{$this->_schema}'");
+				
  		$oid = $oidSet->fields['oid'];
  		$cfgparser = $oidSet->fields['cfgparser'];
 
- 		$getTokenIdSql = "SELECT tokid FROM pg_catalog.ts_token_type({$cfgparser}) WHERE alias = '{$mapping}'";
- 		$tokenIdSet = $this->selectSet($getTokenIdSql);
+ 		$tokenIdSet = $this->selectSet("SELECT tokid
+			FROM pg_catalog.ts_token_type({$cfgparser})
+			WHERE alias = '{$mapping}'");
+
  		$tokid = $tokenIdSet->fields['tokid'];
 
  		$sql = "SELECT
-    (SELECT t.alias FROM pg_catalog.ts_token_type(c.cfgparser) AS t WHERE t.tokid = m.maptokentype) AS name,
-                        d.dictname as dictionaries
-         FROM pg_catalog.pg_ts_config AS c, pg_catalog.pg_ts_config_map AS m, pg_catalog.pg_ts_dict d
-         WHERE c.oid = {$oid} AND m.mapcfg = c.oid AND m.maptokentype = {$tokid} AND m.mapdict = d.oid
-         LIMIT 1;";
+			    (SELECT t.alias FROM pg_catalog.ts_token_type(c.cfgparser) AS t WHERE t.tokid = m.maptokentype) AS name,
+    	            d.dictname as dictionaries
+			FROM pg_catalog.pg_ts_config AS c, pg_catalog.pg_ts_config_map AS m, pg_catalog.pg_ts_dict d
+			WHERE c.oid = {$oid} AND m.mapcfg = c.oid AND m.maptokentype = {$tokid} AND m.mapdict = d.oid
+			LIMIT 1;";
+
  		return $this->selectSet($sql);
  	}
 
  	/**
- 	 * Return list of FTS mappings possible for given parser (specified by given configuration since configuration
- 	 * can only have 1 parser)
+ 	 * Return list of FTS mappings possible for given parser
+	 * (specified by given configuration since configuration can only have 1 parser)
+	 * @param $ftscfg The config's name that use the parser
+	 *
+	 * @return 0 on success
  	 */
  	function getFtsMappings($ftscfg) {
+		
  		$cfg = $this->getFtsConfigurationByName($ftscfg);
- 		$sql = "SELECT alias AS name, description FROM pg_catalog.ts_token_type({$cfg->fields['parser_id']}) ORDER BY name";
+		
+ 		$sql = "SELECT alias AS name, description
+			FROM pg_catalog.ts_token_type({$cfg->fields['parser_id']})
+			ORDER BY name";
+
  		return $this->selectSet($sql);
  	}
 
@@ -6736,7 +6825,7 @@ class Postgres extends ADODB_base {
 			case 'TEXT SEARCH DICTIONARY':
 			case 'TEXT SEARCH TEMPLATE':
 			case 'TEXT SEARCH PARSER':
-				$sql .= "\"{$obj_name}\" IS ";
+				$sql .= "\"{$this->_schema}\".\"{$obj_name}\" IS ";
 				break;
 			case 'FUNCTION':
 				$sql .= "\"{$this->_schema}\".{$obj_name} IS ";

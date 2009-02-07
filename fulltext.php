@@ -16,12 +16,12 @@
 		global $data, $misc;
 		global $lang;
 
-		$misc->printTrail('database');
-		$misc->printTabs('database','fulltext');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','fulltext');
 		$misc->printTabs('fulltext','ftsconfigs');
 		$misc->printMsg($msg);
 
-		$cfgs = $data->getFtsConfigurations();
+		$cfgs = $data->getFtsConfigurations(false);
 
 		$columns = array(
 			'configuration' => array(
@@ -117,7 +117,7 @@
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"dropdict\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"ftsdict\" value=\"", htmlspecialchars($_REQUEST['ftsdict']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
+			//echo "<input type=\"hidden\" name=\"ftscfg\" value=\"", htmlspecialchars($_REQUEST['ftscfg']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"prev_action\" value=\"viewdicts\" /></p>\n";
 			echo $misc->form;
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
@@ -128,10 +128,10 @@
 			$status = $data->dropFtsDictionary($_POST['ftsdict'], isset($_POST['cascade']));
 			if ($status == 0) {
 				$_reload_browser = true;
-				doDefault($lang['strftsdictdropped']);
+				doViewDicts($lang['strftsdictdropped']);
 			}
 			else
-				doDefault($lang['strftsdictdroppedbad']);
+				doViewDicts($lang['strftsdictdroppedbad']);
 		}
 
 	}
@@ -164,37 +164,51 @@
 
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
 		echo "<table style=\"width: 100%\">\n";
+		/* conf name */
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
 
 		// Template
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftstemplate']}</th>\n";
-		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\">\n";
-		echo "\t\t\t\t<option value=\"\"></option>\n";
+		echo "\t\t<td class=\"data1\">";
+
+		$tpls = array();
+		$tplsel = '';
 		while (!$ftscfgs->EOF) {
-			$ftscfg = htmlspecialchars($ftscfgs->fields['name']);
-			echo "\t\t\t\t<option value=\"{$ftscfg}\"",
-				($ftscfg == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$ftscfg}</option>\n";
+			$data->fieldClean($ftscfgs->fields['schema']);
+			$data->fieldClean($ftscfgs->fields['name']);
+			$tplname = $ftscfgs->fields['schema'] .'.'. $ftscfgs->fields['name'];
+			$tpls[$tplname] = serialize(array(
+				'name' => $ftscfgs->fields['name'],
+				'schema' => $ftscfgs->fields['schema']
+			));
+			if ($_POST['formTemplate'] == $tpls[$tplname]) {
+				$tplsel = htmlspecialchars($tpls[$tplname]);
+			}
 			$ftscfgs->moveNext();
 		}
-		echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
+		echo GUI::printCombo($tpls, 'formTemplate', true, $tplsel, false);
+		echo "\n\t\t</td>\n\t</tr>\n";
 
 		// Parser
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftsparser']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n";
 		$ftsparsers_ = array();
 		$ftsparsel = '';
-		if (!$ftsparsers->EOF) {
-			$ftsparsers = $ftsparsers->getArray();
-			foreach ($ftsparsers as $a) {
-				$data->fieldClean($a['schema']);
-				$data->fieldClean($a['name']);
-				$ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""] = serialize(array('schema' => $a['schema'], 'parser' => $a['name']));
-				if ($_POST['formParser'] == $ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""]) {
-					$ftsparsel = htmlspecialchars($ftsparsers_["\"{$a['schema']}\".\"{$a['name']}\""]);
-				}
+		while (!$ftsparsers->EOF) {
+			$data->fieldClean($ftsparsers->fields['schema']);
+			$data->fieldClean($ftsparsers->fields['name']);
+			$parsername = $ftsparsers->fields['schema'] .'.'. $ftsparsers->fields['name'];
+			
+			$ftsparsers_[$parsername] = serialize(array(
+				'parser' => $ftsparsers->fields['name'],
+				'schema' => $ftsparsers->fields['schema']
+			));
+			if ($_POST['formParser'] == $ftsparsers_[$parsername]) {
+				$ftsparsel = htmlspecialchars($ftsparsers_[$parsername]);
 			}
+			$ftsparsers->moveNext();
 		}
 		echo GUI::printCombo($ftsparsers_, 'formParser', true, $ftsparsel, false);
 		echo "\n\t\t</td>\n\t</tr>\n";
@@ -225,9 +239,12 @@
 		if ($_POST['formName'] == '') doCreateConfig($lang['strftsconfigneedsname']);
 		if (($_POST['formParser'] != '') && ($_POST['formTemplate'] != '')) doCreateConfig($lang['strftscantparsercopy']);
 		else {
-			if ($_POST['formParser'] != '') $_POST['formParser'] = unserialize($_POST['formParser']);
+			if ($_POST['formParser'] != '') $formParser = unserialize($_POST['formParser']);
+			else $formParser = '';
+			if ($_POST['formTemplate'] != '') $formTemplate = unserialize($_POST['formTemplate']);
+			else $formTemplate = '';
 
-			$status = $data->createFtsConfiguration($_POST['formName'], $_POST['formParser'], $_POST['formTemplate'], $_POST['formComment']);
+			$status = $data->createFtsConfiguration($_POST['formName'], $formParser, $formTemplate, $_POST['formComment']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strftsconfigcreated']);
@@ -288,7 +305,7 @@
 	/**
 	 * Save the form submission containing changes to a FTS configuration
 	 */
-	function doSaveAlterConfig($msg = '') {
+	function doSaveAlterConfig() {
 		global $data, $misc, $lang;
 
 		$status = $data->updateFtsConfiguration($_POST['ftscfg'], $_POST['formComment'], $_POST['formName']);
@@ -305,12 +322,12 @@
 		global $data, $misc;
 		global $lang;
 
-		$misc->printTrail('database');
-		$misc->printTabs('database','fulltext');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','fulltext');
 		$misc->printTabs('fulltext','ftsparsers');
 		$misc->printMsg($msg);
 
-		$parsers = $data->getFtsParsers();
+		$parsers = $data->getFtsParsers(false);
 
 		$columns = array(
 			'schema' => array(
@@ -345,12 +362,12 @@
 		global $data, $misc;
 		global $lang;
 
-		$misc->printTrail('database');
-		$misc->printTabs('database','fulltext');
+		$misc->printTrail('schema');
+		$misc->printTabs('schema','fulltext');
 		$misc->printTabs('fulltext','ftsdicts');
 		$misc->printMsg($msg);
 
-		$dicts = $data->getFtsDictionaries();
+		$dicts = $data->getFtsDictionaries(true);
 
 		$columns = array(
 			'schema' => array(
@@ -399,7 +416,7 @@
 		global $lang;
 
 		$misc->printTrail('ftscfg');
-		$misc->printTabs('database','fulltext');
+		$misc->printTabs('schema','fulltext');
 		$misc->printTabs('fulltext','ftsconfigs');
 		$misc->printMsg($msg);
 
@@ -461,9 +478,12 @@
 		global $data, $misc;
 		global $lang;
 
+		include_once('./classes/Gui.php');
+
 		$server_info = $misc->getServerInfo();
 
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
+		if(!isset($_POST['formIsTemplate'])) $_POST['formIsTemplate'] = false;
 		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = '';
 		if (!isset($_POST['formLexize'])) $_POST['formLexize'] = '';
 		if (!isset($_POST['formInit'])) $_POST['formInit'] = '';
@@ -471,7 +491,7 @@
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
 
 		// Fetch all FTS dictionaries from the database
-		$ftsdicttemplates = $data->getFtsDictionaryTemplates();
+		$ftstpls = $data->getFtsDictionaryTemplates();
 
 		$misc->printTrail('schema');
 		// TODO: create doc links
@@ -483,26 +503,35 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" />&nbsp;",
-			"<input type=\"checkbox\" name=\"formIsTemplate\" id=\"formIsTemplate\"", @$_POST['formIsTemplate'] ? ' checked="checked" ' : '',
-			"onchange=\"document.getElementsByName('formTemplate')[0].disabled = this.checked;document.getElementsByName('formOption')[0].disabled = this.checked;document.getElementsByName('formLexize')[0].disabled = !this.checked;document.getElementsByName('formInit')[0].disabled = !this.checked;\" />",
+			"<input type=\"checkbox\" name=\"formIsTemplate\" id=\"formIsTemplate\"", $_POST['formIsTemplate'] ? ' checked="checked" ' : '', " />\n",
 			"<label for=\"formIsTemplate\">{$lang['strftscreatedicttemplate']}</label></td>\n\t</tr>\n";
 
 		// Template
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftstemplate']}</th>\n";
-		echo "\t\t<td class=\"data1\">\n\t\t\t<select name=\"formTemplate\"", @$_POST['formIsTemplate'] ? ' disabled="disabled"' : '', ">\n";
-		echo "\t\t\t\t<option value=\"\"></option>\n";
-		while (!$ftsdicttemplates->EOF) {
-			$ftsdict = htmlspecialchars($ftsdicttemplates->fields['name']);
-			echo "\t\t\t\t<option value=\"{$ftsdict}\"",
-				($ftsdict == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$ftsdict}</option>\n";
-			$ftsdicttemplates->moveNext();
+		echo "\t\t<td class=\"data1\">";
+		$tpls = array();
+		$tplsel = '';
+		while (!$ftstpls->EOF) {
+			$data->fieldClean($ftstpls->fields['schema']);
+			$data->fieldClean($ftstpls->fields['name']);
+			$tplname = $ftstpls->fields['schema'] .'.'. $ftstpls->fields['name'];
+			$tpls[$tplname] = serialize(array(
+				'name' => $ftstpls->fields['name'],
+				'schema' => $ftstpls->fields['schema']
+			));
+			if ($_POST['formTemplate'] == $tpls[$tplname]) {
+				$tplsel = htmlspecialchars($tpls[$tplname]);
+			}
+			$ftstpls->moveNext();
 		}
+		echo GUI::printCombo($tpls, 'formTemplate', true, $tplsel, false);
+		echo "\n\t\t</td>\n\t</tr>\n";
 
 		// TODO: what about maxlengths?
 		// Lexize
 		echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strftslexize']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formLexize\" size=\"32\" maxlength=\"1000\" value=\"",
-			htmlspecialchars($_POST['formLexize']), "\" ", @$_POST['formIsTemplate'] ? '' : ' disabled="disabled" ',
+			htmlspecialchars($_POST['formLexize']), "\" ", isset($_POST['formIsTemplate']) ? '' : ' disabled="disabled" ',
 			"/></td>\n\t</tr>\n";
 
 		// Init
@@ -529,7 +558,20 @@
 		echo "<input type=\"submit\" name=\"create\" value=\"{$lang['strcreate']}\" />\n";
 		echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 		echo "</p>\n";
-		echo "</form>\n";
+		echo "</form>\n",
+			"<script type=\"text/javascript\">				
+				function templateOpts() {
+					isTpl = document.getElementsByName('formIsTemplate')[0].checked;
+					document.getElementsByName('formTemplate')[0].disabled = isTpl;
+					document.getElementsByName('formOption')[0].disabled = isTpl;
+					document.getElementsByName('formLexize')[0].disabled = !isTpl;
+					document.getElementsByName('formInit')[0].disabled = !isTpl;
+				}
+				
+				document.getElementsByName('formIsTemplate')[0].onchange = templateOpts;
+
+				templateOpts();
+			</script>\n";
 	}
 
 	/**
@@ -541,7 +583,21 @@
 		// Check that they've given a name
 		if ($_POST['formName'] == '') doCreateDict($lang['strftsdictneedsname']);
 		else {
-			$status = $data->createFtsDictionary($_POST['formName'], @$_POST['formIsTemplate'], @$_POST['formTemplate'], @$_POST['formLexize'], @$_POST['formInit'], @$_POST['formOption'], $_POST['formComment']);
+
+			if(!isset($_POST['formIsTemplate'])) $_POST['formIsTemplate'] = false;
+			if(isset($_POST['formTemplate']))
+				$formTemplate = unserialize($_POST['formTemplate']);
+			else
+				$formTemplate = '';
+			if(!isset($_POST['formLexize'])) $_POST['formLexize'] = '';
+			if(!isset($_POST['formInit'])) $_POST['formInit'] = '';
+			if(!isset($_POST['formOption'])) $_POST['formOption'] = '';
+			
+			$status = $data->createFtsDictionary($_POST['formName'], $_POST['formIsTemplate'],
+				$formTemplate, $_POST['formLexize'],
+				$_POST['formInit'], $_POST['formOption'], $_POST['formComment']
+			);
+			
 			if ($status == 0) {
 				$_reload_browser = true;
 				doViewDicts($lang['strftsdictcreated']);
@@ -599,7 +655,7 @@
 	/**
 	 * Save the form submission containing changes to a FTS dictionary
 	 */
-	function doSaveAlterDict($msg = '') {
+	function doSaveAlterDict() {
 		global $data, $misc, $lang;
 
 		$status = $data->updateFtsDictionary($_POST['ftsdict'], $_POST['formComment'], $_POST['formName']);
@@ -746,7 +802,7 @@
 	/**
 	 * Save the form submission containing changes to a FTS mapping
 	 */
-	function doSaveAlterMapping($msg = '') {
+	function doSaveAlterMapping() {
 		global $data, $misc, $lang;
 
 		$mappingArray = (is_array($_POST['formMapping']) ? $_POST['formMapping'] : array($_POST['formMapping']));
@@ -822,7 +878,7 @@
 	/**
 	 * Save the form submission containing parameters of a new FTS mapping
 	 */
-	function doSaveAddMapping($msg = '') {
+	function doSaveAddMapping() {
 		global $data, $misc, $lang;
 
 		$mappingArray = (is_array($_POST['formMapping']) ? $_POST['formMapping'] : array($_POST['formMapping']));
@@ -870,15 +926,15 @@
 
 		switch($what) {
 			case 'FtsCfg':
-				$items = $data->getFtsConfigurations();
+				$items = $data->getFtsConfigurations(false);
 				$urlvars = array('action' => 'viewconfig', 'ftscfg' => field('name'));
 				break;
 			case 'FtsDict':
-				$items = $data->getFtsDictionaries();
+				$items = $data->getFtsDictionaries(true);
 				$urlvars = array('action' => 'viewdicts');
 				break;
 			case 'FtsParser':
-				$items = $data->getFtsParsers();
+				$items = $data->getFtsParsers(false);
 				$urlvars = array('action' => 'viewparsers');
 				break;
 			default:
