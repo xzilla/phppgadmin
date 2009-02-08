@@ -548,25 +548,28 @@
 					echo '<script src="aciur.js" type="text/javascript"></script>';
 					echo "<div id=\"ac\"></div>";
 				}
+
+				if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
+
+				echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
+				echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
+				echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+				if($bAllowAC) {
+					$szChecked = $conf['autocomplete'] != 'default off' ? 'checked="checked"' : '';
+					echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
+				}
+				echo "</p>\n";
+				echo "<script type=\"text/javascript\">rEB(document.getElementById('no_ac').checked);</script>";
 			}
-			else echo "<p>{$lang['strnodata']}</p>\n";
-
-			if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
-
-			echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
-			echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
-			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
+			else { 
+				echo "<p>{$lang['strnofieldsforinsert']}</p>\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			}
 			echo $misc->form;
-			echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
-			echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			if($bAllowAC) {
-				$szChecked = $conf['autocomplete'] != 'default off' ? 'checked="checked"' : '';
-				echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
-			}
-			echo "</p>\n";
 			echo "</form>\n";
-			echo "<script type=\"text/javascript\">rEB(document.getElementById('no_ac').checked);</script>";
 		}
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();

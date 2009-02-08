@@ -246,6 +246,7 @@
 	$lang['strspecifytabletoempty'] = 'You must specify at least one table to empty.';
 	$lang['strspecifytabletodrop'] = 'You must specify at least one table to drop.';
 	$lang['strspecifytabletovacuum'] = 'You must specify at least one table to vacuum.';
+	$lang['strnofieldsforinsert'] = 'You cannot insert a row into a table with no column.';
 
 	// Columns
 	$lang['strcolprop'] = 'Column properties';

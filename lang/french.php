@@ -133,6 +133,7 @@
 	$lang['strfile']  =  'Fichier';
 	$lang['strfileimported']  =  'Fichier importé.';
 	$lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
+$lang['strconfdropcred']  =  'For security reason, disconnecting will destroy your shared login information. Are you sure you want to disconnect ?';
 	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
 	$lang['strselectall']  =  'Sélectionner tout';
 	$lang['strunselectall']  =  'Desélectionner tout';
@@ -245,6 +246,7 @@
 	$lang['strspecifytabletoempty']  =  'Vous devez spécifier au moins une table à vider';
 	$lang['strspecifytabletodrop']  =  'Vous devez spécifier au moins une table à supprimer';
 	$lang['strspecifytabletovacuum']  =  'Vous devez spécifier au moins une table sur laquelle effectuer le vacuum';
+	$lang['strnofieldsforinsert']  =  'Vous ne pouvez insérer de données dans une table sans champs.';
 
 	// Columns
 	$lang['strcolprop']  =  'Propriétés de la Colonne';
