@@ -367,7 +367,7 @@
 		$misc->printTabs('fulltext','ftsdicts');
 		$misc->printMsg($msg);
 
-		$dicts = $data->getFtsDictionaries(true);
+		$dicts = $data->getFtsDictionaries(false);
 
 		$columns = array(
 			'schema' => array(
@@ -930,7 +930,7 @@
 				$urlvars = array('action' => 'viewconfig', 'ftscfg' => field('name'));
 				break;
 			case 'FtsDict':
-				$items = $data->getFtsDictionaries(true);
+				$items = $data->getFtsDictionaries(false);
 				$urlvars = array('action' => 'viewdicts');
 				break;
 			case 'FtsParser':
