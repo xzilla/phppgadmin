@@ -6815,17 +6815,17 @@ class Postgres extends ADODB_base {
 				break;
 			case 'SEQUENCE':
 			case 'VIEW':
+			case 'TEXT SEARCH CONFIGURATION':
+			case 'TEXT SEARCH DICTIONARY':
+			case 'TEXT SEARCH TEMPLATE':
+			case 'TEXT SEARCH PARSER':
 			case 'TYPE':
 				$sql .= "\"{$this->_schema}\".";
 			case 'DATABASE':
 			case 'ROLE':
 			case 'SCHEMA':
 			case 'TABLESPACE':
-			case 'TEXT SEARCH CONFIGURATION':
-			case 'TEXT SEARCH DICTIONARY':
-			case 'TEXT SEARCH TEMPLATE':
-			case 'TEXT SEARCH PARSER':
-				$sql .= "\"{$this->_schema}\".\"{$obj_name}\" IS ";
+				$sql .= "\"{$obj_name}\" IS ";
 				break;
 			case 'FUNCTION':
 				$sql .= "\"{$this->_schema}\".{$obj_name} IS ";
