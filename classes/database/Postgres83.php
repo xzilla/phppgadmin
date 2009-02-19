@@ -26,6 +26,9 @@ class Postgres83 extends Postgres {
 		include_once('./help/PostgresDoc83.php');
 		return $this->help_page;
 	}
+
+	function hasAutovacuumSysTable() { return true; }
+
 }
 
 ?>

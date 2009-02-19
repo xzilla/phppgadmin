@@ -7480,6 +7480,7 @@ class Postgres extends ADODB_base {
 	function hasAlterTrigger() { return true; }
 	function hasAnalyze() { return true; }
 	function hasAutovacuum() { return true; }
+	function hasAutovacuumSysTable() { return false; }
 	function hasCasts() { return true; }
 	function hasCompositeTypes() { return true; }
 	function hasConstraintsInfo() { return true; }
