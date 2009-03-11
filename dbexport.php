@@ -13,8 +13,28 @@
 	$_no_output = true;
 	include_once('./libraries/lib.inc.php');
 
+	// Are we doing a cluster-wide dump or just a per-database dump
+	$dumpall = ($_REQUEST['subject'] == 'server');
+	
 	// Check that database dumps are enabled.
-	if ($misc->isDumpEnabled()) {
+	if ($misc->isDumpEnabled($dumpall)) {
+
+		$server_info = $misc->getServerInfo();
+
+		// Get the path of the pg_dump/pg_dumpall executable
+		$exe = $misc->escapeShellCmd($server_info[$dumpall ? 'pg_dumpall_path' : 'pg_dump_path']);
+
+		// Obtain the pg_dump version number and check if the path is good
+		$version = array();
+		preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec($exe . " --version"), $version);
+
+		if (empty($version)) {
+			if ($dumpall)
+				printf($lang['strbadpgdumpallpath'], $server_info['pg_dumpall_path']);
+			else
+				printf($lang['strbadpgdumppath'], $server_info['pg_dump_path']);
+			exit;
+		}
 
 		// Make it do a download, if necessary
 		switch($_REQUEST['output']){
@@ -40,7 +60,6 @@
 		}
 
 		// Set environmental variables that pg_dump uses
-		$server_info = $misc->getServerInfo();		
 		putenv('PGPASSWORD=' . $server_info['password']);
 		putenv('PGUSER=' . $server_info['username']);
 		$hostname = $server_info['host'];
@@ -52,12 +71,6 @@
 			putenv('PGPORT=' . $port);
 		}
 
-		// Are we doing a cluster-wide dump or just a per-database dump
-		$dumpall = ($_REQUEST['subject'] == 'server');
-		
-		// Get the path og the pg_dump/pg_dumpall executable
-		$exe = $misc->escapeShellCmd($server_info[$dumpall ? 'pg_dumpall_path' : 'pg_dump_path']);
-		
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
 		
@@ -69,10 +82,6 @@
 			break; 
 		case 'table':
 		case 'view':
-			// Obtain the pg_dump version number
-			$version = array();
-			preg_match("/(\d+(?:\.\d+)?)(?:\.\d+)?.*$/", exec($exe . " --version"), $version);
-
 			// Starting in 8.2, -n and -t are orthagonal, so we now schema qualify
 			// the table name in the -t argument and quote both identifiers
 			if ( ((float) $version[1]) >= 8.2 ) {
