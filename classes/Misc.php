@@ -153,6 +153,8 @@
 					}
 					break;
 				case 'bytea':
+					$tag = 'div';
+					$class = 'pre';
 					$out = $data->escapeBytea($str);
 					break;
 				case 'pre':
