@@ -62,8 +62,6 @@ Databases
 Schemas (7.3)
 -------------
 
-* -Rename (xzilla)
-* -Alter owner (ioguix)
 * Alter ... SET SCHEMA support per 8.1 
 
 
@@ -228,7 +226,7 @@ Miscellaneous
 * Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
 * Add support for csvlogs [8.3]
 * Add executed file scripts in history 
-
+* support pg_kill_backend() [8.4]
 
 Exotic
 ------
