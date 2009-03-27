@@ -100,11 +100,6 @@ Views
 Sequences
 ---------
 
-* -Alter sequence (Guillaume LELARGE)
-* -setval & nextval (Guillaume LELARGE)
-* -change schema (ioguix)
-* -rename (done using alter table) (ioguix)
-
 
 Functions
 ---------
