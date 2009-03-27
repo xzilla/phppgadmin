@@ -7416,7 +7416,7 @@ class Postgres extends ADODB_base {
 		$this->clean($table);
 
 		$sql = "SELECT * FROM pg_stat_all_tables 
-			WHERE schemaname=\'{$this->_schema}\' AND relname='{$table}'";
+			WHERE schemaname='{$this->_schema}' AND relname='{$table}'";
 
 		return $this->selectSet($sql);
 	}
