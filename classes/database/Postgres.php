@@ -708,7 +708,7 @@ class Postgres extends ADODB_base {
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
-	 * @return -99 error
+	 * @return null error
 	 */
 	function hasObjectID($table) {
 		// 7.0 and 7.1 always had an oid column
@@ -4213,7 +4213,6 @@ class Postgres extends ADODB_base {
 	 * @return The SQL query
 	 */
 	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
-		$this->fieldClean($table);
 		$this->fieldArrayClean($show);
 
 		// If an empty array is passed in, then show all columns
@@ -4232,6 +4231,8 @@ class Postgres extends ADODB_base {
 
 			$sql .= join('","', $show) . "\" FROM ";
 		}
+
+		$this->fieldClean($table);
 
 		if ($this->hasSchemas() && isset($_REQUEST['schema'])) {
 			$this->fieldClean($_REQUEST['schema']);

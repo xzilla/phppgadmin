@@ -317,7 +317,7 @@ class Postgres73 extends Postgres72 {
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
-	 * @return -99 error
+	 * @return null error
 	 */
 	function hasObjectID($table) {
 		$this->clean($table);
@@ -326,7 +326,7 @@ class Postgres73 extends Postgres72 {
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
 
 		$rs = $this->selectSet($sql);
-		if ($rs->recordCount() != 1) return -99;
+		if ($rs->recordCount() != 1) return null;
 		else {
 			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
 			return $rs->fields['relhasoids'];
