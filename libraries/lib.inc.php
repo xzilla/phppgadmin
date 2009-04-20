@@ -19,7 +19,7 @@
 	$appVersion = '5.0-dev';
 
 	// PostgreSQL and PHP minimum version
-	$postgresqlMinVer = '7.0';
+	$postgresqlMinVer = '7.3';
 	$phpMinVer = '5.0';
 
 	// Check the version of PHP
