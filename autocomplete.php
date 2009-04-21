@@ -1,11 +1,12 @@
 <?php
 	include_once('libraries/lib.inc.php');
 	$data->clean($_REQUEST['tb']);
+	$data->clean($_REQUEST['ns']);
 	$data->clean($_REQUEST['fk']);
 	$data->clean($_REQUEST['v']);
 
 	// FIXME: At some point this should be schema qualified
-	$szSQL = 'SELECT * FROM "' . $_REQUEST['tb'] . '" WHERE "' . $_REQUEST['fk']
+	$szSQL = 'SELECT * FROM "' . $_REQUEST['ns'] . '"."' . $_REQUEST['tb'] . '" WHERE "' . $_REQUEST['fk']
 		. "\"::text LIKE '" . $_REQUEST['v'] . "%' ORDER BY \"". $_REQUEST['fk'] .'" LIMIT 11';
 
 	$objRes = $data->selectSet($szSQL);

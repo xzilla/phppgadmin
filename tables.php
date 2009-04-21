@@ -477,7 +477,7 @@
 					// FIXME: add a better support for FKs on multi columns
 					if ($constraints->fields['contype'] == 'f') {
 						$arrayLocals[$nC] = $constraints->fields['p_field'];
-						$arrayRefs[$nC] = array($constraints->fields['f_table'], $constraints->fields['f_field']);
+						$arrayRefs[$nC] = array($constraints->fields['f_schema'], $constraints->fields['f_table'], $constraints->fields['f_field']);
 						$nC++;
 					}
 					$constraints->moveNext();
@@ -502,7 +502,7 @@
 						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
 						// In PHP < 4.2.0 array_search returns NULL on failure
 						if ($idxFound !== NULL && $idxFound !== FALSE) {
-							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
+							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$arrayRefs[$idxFound][2]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
 							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
 						}
