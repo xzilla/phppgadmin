@@ -1052,7 +1052,7 @@ class Postgres extends ADODB_base {
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
-	 * @return -99 error
+	 * @return null error
 	 **/
 	function hasObjectID($table) {
 		$this->clean($table);
@@ -1061,7 +1061,7 @@ class Postgres extends ADODB_base {
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
 
 		$rs = $this->selectSet($sql);
-		if ($rs->recordCount() != 1) return -99;
+		if ($rs->recordCount() != 1) return null;
 		else {
 			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
 			return $rs->fields['relhasoids'];
@@ -7146,7 +7146,6 @@ class Postgres extends ADODB_base {
 	 * @return The SQL query
 	 */
 	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
-		$this->fieldClean($table);
 		$this->fieldArrayClean($show);
 
 		// If an empty array is passed in, then show all columns
@@ -7165,6 +7164,8 @@ class Postgres extends ADODB_base {
 
 			$sql .= join('","', $show) . "\" FROM ";
 		}
+
+		$this->fieldClean($table);
 
 		if (isset($_REQUEST['schema'])) {
 			$this->fieldClean($_REQUEST['schema']);
