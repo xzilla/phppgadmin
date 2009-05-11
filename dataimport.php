@@ -101,21 +101,25 @@
 				break;
 			case 'ROW':
 				// Build value map in order to insert row into table
+				$fields = array();
 				$vars = array();
 				$nulls = array();
 				$format = array();		
-				$types = array();				
+				$types = array();
+				$i = 0;			
 				foreach ($curr_row as $k => $v) {
+					$fields[$i] = $k;
 					// Check for nulls
-					if ($v === null) $nulls[$k] = 'on';
+					if ($v === null) $nulls[$i] = 'on';
 					// Add to value array
-					$vars[$k] = $v;
+					$vars[$i] = $v;
 					// Format is always VALUE
-					$format[$k] = 'VALUE';
+					$format[$i] = 'VALUE';
 					// Type is always text
-					$types[$k] = 'text';
+					$types[$i] = 'text';
+					$i++;
 				}
-				$status = $data->insertRow($_REQUEST['table'], $vars, $nulls, $format, $types);
+				$status = $data->insertRow($_REQUEST['table'], $fields, $vars, $nulls, $format, $types);
 				if ($status != 0) {
 					$data->rollbackTransaction();
 					$misc->printMsg($lang['strimporterror']);
@@ -215,6 +219,7 @@
 					$row = 2; //We start on the line AFTER the field names
 					while ($line = fgetcsv($fd, $csv_max_line, $csv_delimiter)) {
 						// Build value map
+						$t_fields = array();
 						$vars = array();
 						$nulls = array();
 						$format = array();
@@ -226,20 +231,22 @@
 								$misc->printMsg(sprintf($lang['strimporterrorline-badcolumnnum'], $row));
 								exit;
 							}
+							$t_fields[$i] = $f;
+							
 							// Check for nulls
 							if (determineNull($line[$i], $null_array)) {
-								$nulls[$f] = 'on';
+								$nulls[$i] = 'on';
 							}
 							// Add to value array
-							$vars[$f] = $line[$i];
+							$vars[$i] = $line[$i];
 							// Format is always VALUE
-							$format[$f] = 'VALUE';
+							$format[$i] = 'VALUE';
 							// Type is always text
-							$types[$f] = 'text';
+							$types[$i] = 'text';
 							$i++;
 						}
 
-						$status = $data->insertRow($_REQUEST['table'], $vars, $nulls, $format, $types);
+						$status = $data->insertRow($_REQUEST['table'], $t_fields, $vars, $nulls, $format, $types);
 						if ($status != 0) {
 							$data->rollbackTransaction();
 							$misc->printMsg(sprintf($lang['strimporterrorline'], $row));

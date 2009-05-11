@@ -76,7 +76,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
+				htmlspecialchars($_POST['name'], ENT_QUOTES), "\" /></td></tr>\n";
 
 			$server_info = $misc->getServerInfo();
 			if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
