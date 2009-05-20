@@ -558,6 +558,11 @@
 				'url'   => "colproperties.php?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
 			'drop' => array(
 				'title' => $lang['strdrop'],
 				'url'   => "tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",

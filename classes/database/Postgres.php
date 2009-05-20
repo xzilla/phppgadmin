@@ -6294,7 +6294,10 @@ class Postgres extends ADODB_base {
 			// Figure out type of ACE (public, user or group)
 			if (strpos($v, '=') === 0)
 				$atype = 'public';
-			elseif (strpos($v, 'group ') === 0) {
+			else if ($this->hasRoles()) {
+				$atype = 'role';
+			}
+			else if (strpos($v, 'group ') === 0) {
 				$atype = 'group';
 				// Tear off 'group' prefix
 				$v = substr($v, 6);
@@ -6375,15 +6378,27 @@ class Postgres extends ADODB_base {
 	 * given its type.
 	 * @param $object The name of the object whose privileges are to be retrieved
 	 * @param $type The type of the object (eg. database, schema, relation, function or language)
+	 * @param $table Optional, column's table if type = column
 	 * @return Privileges array
 	 * @return -1 invalid type
 	 * @return -2 object not found
 	 * @return -3 unknown privilege type
 	 */
-	function getPrivileges($object, $type) {
+	function getPrivileges($object, $type, $table = null) {
 		$this->clean($object);
 
 		switch ($type) {
+			case 'column':
+				$this->clean($table);
+				$sql = "
+					SELECT E'{' || pg_catalog.array_to_string(attacl, E',') || E'}' as acl
+					FROM pg_catalog.pg_attribute a
+						LEFT JOIN pg_catalog.pg_class c ON (a.attrelid = c.oid)
+						LEFT JOIN pg_catalog.pg_namespace n ON (c.relnamespace=n.oid)
+					WHERE n.nspname='{$this->_schema}'
+						AND c.relname='{$table}'
+						AND a.attname='{$object}'";
+				break;
 			case 'table':
 			case 'view':
 			case 'sequence':
@@ -6432,6 +6447,7 @@ class Postgres extends ADODB_base {
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
 	 * @param $grantoption True if has grant option, false otherwise
 	 * @param $cascade True for cascade revoke, false otherwise
+	 * @param $table the column's table if type=column
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
@@ -6439,7 +6455,9 @@ class Postgres extends ADODB_base {
 	 * @return -4 not granting to anything
 	 * @return -4 invalid mode
 	 */
-	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption, $cascade) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames,
+		$privileges, $grantoption, $cascade, $table
+	) {
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -6457,10 +6475,20 @@ class Postgres extends ADODB_base {
 		}
 
 		if (in_array('ALL PRIVILEGES', $privileges))
-			$sql .= " ALL PRIVILEGES ON";
-		else
-			$sql .= " " . join(', ', $privileges) . " ON";
+			$sql .= ' ALL PRIVILEGES ON';
+		else {
+			if ($type='column') {
+				$this->fieldClean($object);
+				$sql .= ' ' . join(" (\"{$object}\"), ", $privileges) . " (\"{$object}\") ON";
+				$object = $table;
+			}
+			else {
+				$sql .= ' ' . join(', ', $privileges) . ' ON';
+			}
+		}
+			
 		switch ($type) {
+			case 'column':
 			case 'table':
 			case 'view':
 			case 'sequence':

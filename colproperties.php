@@ -187,8 +187,8 @@
 			$msg.= "<br/>{$lang['strnoobjects']}";
 		
 			$misc->printTrail('column');
-			$misc->printTitle($lang['strcolprop']);
-			#$misc->printTabs('column','properties');
+			//$misc->printTitle($lang['strcolprop']);
+			$misc->printTabs('column','properties');
 			$misc->printMsg($msg);
 
 		if (! empty($_REQUEST['column'])) {
