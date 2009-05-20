@@ -114,7 +114,8 @@ class Postgres extends ADODB_base {
   		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
   		'language' => array('USAGE', 'ALL PRIVILEGES'),
   		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES'),
-  		'tablespace' => array('CREATE', 'ALL PRIVILEGES')
+  		'tablespace' => array('CREATE', 'ALL PRIVILEGES'),
+		'column' => array('SELECT', 'INSERT', 'UPDATE', 'REFERENCES','ALL PRIVILEGES')
 	);
 	// List of characters in acl lists and the privileges they
 	// refer to.
@@ -123,6 +124,7 @@ class Postgres extends ADODB_base {
 		'w' => 'UPDATE',
 		'a' => 'INSERT',
   		'd' => 'DELETE',
+		'D' => 'TRUNCATE',
   		'R' => 'RULE',
   		'x' => 'REFERENCES',
   		't' => 'TRIGGER',
