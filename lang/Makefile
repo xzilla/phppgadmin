@@ -51,7 +51,8 @@ TARGETS=polish \
 	hungarian \
 	hebrew \
 	catalan \
-	romanian
+	romanian \
+    greek
 
 all:	prepare ${TARGETS}
 	@for p in ${TARGETS} ; do chmod 644 ${DESTDIR}/$$p.php ; done
@@ -235,4 +236,10 @@ romanian:		romanian.php
 	@cat romanian.php | recode utf-8..xml | ./convert.awk \
 		> ${DESTDIR}/romanian.php
 	@chmod 644 romanian.php ${DESTDIR}/romanian.php
+
+greek:                greek.php
+	@echo "Recoding greek..."
+	@cat greek.php | recode iso-8859-7..xml | ./convert.awk \
+		> ${DESTDIR}/greek.php
+	@chmod 644 greek.php ${DESTDIR}/greek.php
 
