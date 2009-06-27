@@ -477,7 +477,7 @@
 					// FIXME: add a better support for FKs on multi columns
 					if ($constraints->fields['contype'] == 'f') {
 						$arrayLocals[$nC] = $constraints->fields['p_field'];
-						$arrayRefs[$nC] = array($constraints->fields['f_table'], $constraints->fields['f_field']);
+						$arrayRefs[$nC] = array($constraints->fields['f_schema'], $constraints->fields['f_table'], $constraints->fields['f_field']);
 						$nC++;
 					}
 					$constraints->moveNext();
@@ -494,51 +494,53 @@
 				echo "<th class=\"data\">{$lang['strnull']}</th><th class=\"data\">{$lang['strvalue']}</th></tr>";
 
 				$i = 0;
+				$fields = array();
 				while (!$attrs->EOF) {
-					$szValueName = "values[{$attrs->fields['attname']}]";
+					$fields[$attrs->fields['attnum']] = $attrs->fields['attname'];
+					$szValueName = "values[{$attrs->fields['attnum']}]";
 					$szEvents = '';
 					$szDivPH = '';
 					if($bAllowAC) {
 						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
 						// In PHP < 4.2.0 array_search returns NULL on failure
 						if ($idxFound !== NULL && $idxFound !== FALSE) {
-							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
+							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$arrayRefs[$idxFound][2]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
 							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
 							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
 						}
 					}
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
-					if (!isset($_REQUEST['values'][$attrs->fields['attname']]))
-						$_REQUEST['values'][$attrs->fields['attname']] = $attrs->fields['adsrc'];
+					if (!isset($_REQUEST['values'][$attrs->fields['attnum']]))
+						$_REQUEST['values'][$attrs->fields['attnum']] = $attrs->fields['adsrc'];
 					// Default format to 'VALUE' if there is no default,
 					// otherwise default to 'EXPRESSION'
-					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
-						$_REQUEST['format'][$attrs->fields['attname']] = ($attrs->fields['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
+					if (!isset($_REQUEST['format'][$attrs->fields['attnum']]))
+						$_REQUEST['format'][$attrs->fields['attnum']] = ($attrs->fields['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
 					echo "<tr>\n";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"",
+					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attnum']), "]\" value=\"",
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
+					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attnum']), "]\">\n";
+					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
+					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
-						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->fields['attname']), "]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
+						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->fields['attnum']), "]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></td>";
 					}
 					else {
 						echo "&nbsp;</td>";
 					}
 					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">", $data->printField($szValueName,
-					$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents),$szDivPH ,"</td>";
+					$_REQUEST['values'][$attrs->fields['attnum']], $attrs->fields['type'],array(),$szEvents),$szDivPH ,"</td>";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
@@ -552,6 +554,7 @@
 				if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
 
 				echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
+				echo "<input type=\"hidden\" name=\"fields\" value=\"", htmlentities(serialize($fields),ENT_QUOTES) ,"\" />\n";
 				echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
@@ -574,10 +577,11 @@
 		else {
 			if (!isset($_POST['values'])) $_POST['values'] = array();
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
+			$_POST['fields'] = unserialize(htmlspecialchars_decode($_POST['fields'], ENT_QUOTES));
 
 			if ($_SESSION['counter']++ == $_POST['protection_counter']) {
-				$status = $data->insertRow($_POST['table'], $_POST['values'],
-													$_POST['nulls'], $_POST['format'], $_POST['types']);
+				$status = $data->insertRow($_POST['table'], $_POST['fields'], $_POST['values'],
+											$_POST['nulls'], $_POST['format'], $_POST['types']);
 				if ($status == 0) {
 					if (isset($_POST['insert']))
 						doDefault($lang['strrowinserted']);

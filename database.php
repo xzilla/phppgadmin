@@ -621,67 +621,73 @@
 					$enabled = $data->getVariable('autovacuum');
 					echo "<h3>{$lang['strautovacuum']}</h3>";
 					echo '<p>' . (($enabled->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
-					// Fetch the processes from the database
-					$autovac = $data->getAutovacuum();
+
+					if($data->hasAutovacuumSysTable()) {
+
+						// Fetch the processes from the database
+						$autovac = $data->getAutovacuum();
 		
-					$columns = array(
-						'namespace' => array(
-							'title' => $lang['strschema'],
-							'field' => field('nspname'),
-						),	
-						'relname' => array(
-							'title' => $lang['strtable'],
-							'field' => field('relname'),
-						),
-						'enabled' => array(
-							'title' => $lang['strenabled'],
-							'field' => field('enabled'),
-						),
-						'vac_base_thresh' => array(
-							'title' => $lang['strvacuumbasethreshold'],
-							'field' => field('vac_base_thresh'),
-						),
-						'vac_scale_factor' => array(
-							'title' => $lang['strvacuumscalefactor'],
-							'field' => field('vac_scale_factor'),
-						),
-						'anl_base_thresh' => array(
-							'title' => $lang['stranalybasethreshold'],
-							'field' => field('anl_base_thresh'),
-						),
-						'anl_scale_factor' => array(
-							'title' => $lang['stranalyzescalefactor'],
-							'field' => field('anl_scale_factor'),
-						),
-						'vac_cost_delay' => array(
-							'title' => $lang['strvacuumcostdelay'],
-							'field' => field('vac_cost_delay'),
-						),
-						'vac_cost_limit' => array(
-							'title' => $lang['strvacuumcostlimit'],
-							'field' => field('vac_cost_limit'),
-						),
-					);
+						$columns = array(
+							'namespace' => array(
+								'title' => $lang['strschema'],
+								'field' => field('nspname'),
+							),	
+							'relname' => array(
+								'title' => $lang['strtable'],
+								'field' => field('relname'),
+							),
+							'enabled' => array(
+								'title' => $lang['strenabled'],
+								'field' => field('enabled'),
+							),
+							'vac_base_thresh' => array(
+								'title' => $lang['strvacuumbasethreshold'],
+								'field' => field('vac_base_thresh'),
+							),
+							'vac_scale_factor' => array(
+								'title' => $lang['strvacuumscalefactor'],
+								'field' => field('vac_scale_factor'),
+							),
+							'anl_base_thresh' => array(
+								'title' => $lang['stranalybasethreshold'],
+								'field' => field('anl_base_thresh'),
+							),
+							'anl_scale_factor' => array(
+								'title' => $lang['stranalyzescalefactor'],
+								'field' => field('anl_scale_factor'),
+							),
+							'vac_cost_delay' => array(
+								'title' => $lang['strvacuumcostdelay'],
+								'field' => field('vac_cost_delay'),
+							),
+							'vac_cost_limit' => array(
+								'title' => $lang['strvacuumcostlimit'],
+								'field' => field('vac_cost_limit'),
+							),
+						);
 
-					// Maybe we need to check permissions here?
-					$columns['actions'] = array('title' => $lang['stractions']);
+						// Maybe we need to check permissions here?
+						$columns['actions'] = array('title' => $lang['stractions']);
 
-					$actions = array(
-						'edit' => array(
-						'title' => $lang['stredit'],
-						'url'   => "database.php?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
-						'vars'  => array('key[vacrelid]' => 'vacrelid')
-						),
-						'delete' => array(
-						'title' => $lang['strdelete'],
-						'url'   => "database.php?action=delautovac&amp;{$misc->href}&amp;",
-						'vars'  => array('key[vacrelid]' => 'vacrelid')
-						)
-					);
+						$actions = array(
+							'edit' => array(
+							'title' => $lang['stredit'],
+							'url'   => "database.php?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
+							'vars'  => array('key[vacrelid]' => 'vacrelid')
+							),
+							'delete' => array(
+							'title' => $lang['strdelete'],
+							'url'   => "database.php?action=delautovac&amp;{$misc->href}&amp;",
+							'vars'  => array('key[vacrelid]' => 'vacrelid')
+							)
+						);
 
-					$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
+						$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
+	
+					}
+
 				}
-					
+	
 				break;
 		}
 	}

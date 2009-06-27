@@ -11,6 +11,7 @@ var asg = new Array();
 var rasg = new Array();
 var rasgc = new Array();
 var iMoR = false;
+var g_c_ns = "";
 var g_c_tb = "";
 var g_c_fk = "";
 var g_c_sid = "";
@@ -57,7 +58,8 @@ function hKU(oEvent) {
 	}
 }
 
-function initac(tb,fk,sid,db,v) {
+function initac(ns,tb,fk,sid,db,v) {
+    g_c_ns = ns;
     g_c_tb = tb;
     g_c_fk = fk;
     g_c_sid = sid;
@@ -240,7 +242,7 @@ function dF(v) {
 	g_i_ac = document.getElementById(v).checked;
 }
 
-function makeAC(tx,n,tb,fk,sid,db) {
+function makeAC(tx,n,ns,tb,fk,sid,db) {
 	otxb = document.getElementById(tx);
 	c_fac_c = n;
 	if(document.getElementById('no_ac').checked) {
@@ -254,7 +256,7 @@ function makeAC(tx,n,tb,fk,sid,db) {
 		otxb.onkeyup = function (oEvent) {
 			if (!oEvent) { oEvent = window.event; } hKU(oEvent); 
 		};
-		initac(tb,fk,sid,db,v);
+		initac(ns, tb,fk,sid,db,v);
 	} else {
 		otxb.onkeyup = function() {};
 	}
@@ -291,7 +293,7 @@ function rS(tx) {
 
 function SG1(s) {
 	if(!iMoR && s.length>0) {
-		pr("autocomplete.php","tb="+g_c_tb+"&database="+g_c_db+"&server="+g_c_sid+"&fk="+g_c_fk+"&v="+escapeHTML(s)+"");
+		pr("autocomplete.php","ns="+g_c_ns+"&tb="+g_c_tb+"&database="+g_c_db+"&server="+g_c_sid+"&fk="+g_c_fk+"&v="+escapeHTML(s)+"");
 	} else if(!s.length) {
 		hideAC();
 	}

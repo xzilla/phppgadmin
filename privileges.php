@@ -103,7 +103,10 @@
 				echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject'].'_oid'),
 					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject'].'_oid']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"", htmlspecialchars($_REQUEST['subject']),
-					"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
+				"\" value=\"", htmlspecialchars($_REQUEST[$_REQUEST['subject']]), "\" />\n";
+			if ($_REQUEST['subject'] == 'column')
+				echo "<input type=\"hidden\" name=\"table\" value=\"",
+					htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo $misc->form;
 			if ($mode == 'grant')
 				echo "<input type=\"submit\" name=\"grant\" value=\"{$lang['strgrant']}\" />\n";
@@ -113,16 +116,18 @@
 			echo "</form>\n";
 		}
 		else {
-
 			// Determine whether object should be ref'd by name or oid.
 			if (isset($_REQUEST[$_REQUEST['subject'].'_oid']))
 				$object = $_REQUEST[$_REQUEST['subject'].'_oid'];
 			else
 				$object = $_REQUEST[$_REQUEST['subject']];
 
+			if (isset($_REQUEST['table'])) $table = $_REQUEST['table'];
+			else $table = null;
 			$status = $data->setPrivileges(($mode == 'grant') ? 'GRANT' : 'REVOKE', $_REQUEST['subject'], $object,
 				isset($_REQUEST['public']), $_REQUEST['username'], $_REQUEST['groupname'], array_keys($_REQUEST['privilege']),
-				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']));
+				isset($_REQUEST['grantoption']), isset($_REQUEST['cascade']), $table);
+
 			if ($status == 0)
 				doDefault($lang['strgranted']);
 			elseif ($status == -3 || $status == -4)
@@ -149,6 +154,7 @@
 			case 'database':
 			case 'schema':
 			case 'table':
+			case 'column':
 			case 'view':
 				$misc->printTabs($_REQUEST['subject'], 'privileges');
 				break;
@@ -164,11 +170,18 @@
 			$object = $_REQUEST[$_REQUEST['subject']];
 		
 		// Get the privileges on the object, given its type
-		$privileges = $data->getPrivileges($object, $_REQUEST['subject']);
+		if ($_REQUEST['subject'] == 'column')
+			$privileges = $data->getPrivileges($object, 'column', $_REQUEST['table']);
+		else
+			$privileges = $data->getPrivileges($object, $_REQUEST['subject']);
 
 		if (sizeof($privileges) > 0) {
 			echo "<table>\n";
-			echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['struser']}/{$lang['strgroup']}</th>";
+			if ($data->hasRoles())
+				echo "<tr><th class=\"data\">{$lang['strrole']}</th>";
+			else
+				echo "<tr><th class=\"data\">{$lang['strtype']}</th><th class=\"data\">{$lang['struser']}/{$lang['strgroup']}</th>";
+
 			foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
 				// Skip over ALL PRIVILEGES
 				if ($v2 == 'ALL PRIVILEGES') continue;
@@ -184,7 +197,8 @@
 			foreach ($privileges as $v) {
 				$id = (($i % 2) == 0 ? '1' : '2');
 				echo "<tr>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($v[0]), "</td>\n";
+				if (!$data->hasRoles())
+					echo "<td class=\"data{$id}\">", $misc->printVal($v[0]), "</td>\n";
 				echo "<td class=\"data{$id}\">", $misc->printVal($v[1]), "</td>\n";
 				foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
 					// Skip over ALL PRIVILEGES
@@ -237,7 +251,12 @@
 		if ($_REQUEST['subject'] == 'function') {
 			$objectoid = $_REQUEST[$_REQUEST['subject'].'_oid'];
 			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
-		} else {
+		}
+		else if ($_REQUEST['subject'] == 'column') {
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}"
+				."&amp;subject={$subject}&amp;table=". urlencode($_REQUEST['table']) ."&amp;mode=";
+		}
+		else {
 			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;subject={$subject}&amp;mode=";
 		}
 	

@@ -76,7 +76,7 @@
 			echo "<tr><th class=\"data left required\">{$lang['strname']}</th>\n";
 			echo "<td class=\"data1\">";
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
-				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
+				htmlspecialchars($_POST['name'], ENT_QUOTES), "\" /></td></tr>\n";
 
 			$server_info = $misc->getServerInfo();
 			if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
@@ -556,6 +556,11 @@
 			'alter' => array(
 				'title' => $lang['stralter'],
 				'url'   => "colproperties.php?action=properties&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
+				'vars'  => array('column' => 'attname'),
+			),
+			'privileges' => array(
+				'title' => $lang['strprivileges'],
+				'url'   => "privileges.php?subject=column&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 				'vars'  => array('column' => 'attname'),
 			),
 			'drop' => array(

@@ -153,6 +153,8 @@
 					}
 					break;
 				case 'bytea':
+					$tag = 'div';
+					$class = 'pre';
 					$out = $data->escapeBytea($str);
 					break;
 				case 'pre':
@@ -1000,10 +1002,10 @@
 							'title' => $lang['strrepsets'],
 							'url'   => 'plugin_slony.php',
 							'urlvars' => array(
-									'subject' => 'slony_cluster',
-									'action' => 'sets_properties',
-									'slony_cluster' => field('slony_cluster')
-								),
+								'subject' => 'slony_cluster',
+								'action' => 'sets_properties',
+								'slony_cluster' => field('slony_cluster')
+							),
 							'branch' => 'sets',
 							'help'  => '',
 							'icon'  => 'ReplicationSets',
@@ -1015,8 +1017,23 @@
 						'properties' => array (
 							'title'		=> $lang['strcolprop'],
 							'url'		=> 'colproperties.php',
-							'urlvars'	=> array('subject' => 'column', 'table' => field('table'), 'column' => field('column')),
+							'urlvars'	=> array(
+								'subject' => 'column',
+								'table' => field('table'),
+								'column' => field('column')
+							),
 							'icon'		=> 'Column'
+						),
+						'privileges' => array (
+							'title' => $lang['strprivileges'],
+							'url'   => 'privileges.php',
+							'urlvars' => array(
+								'subject' => 'column',
+								'table' => field('table'),
+								'column' => field('column')
+							),
+							'help'  => 'pg.privilege',
+							'icon'  => 'Privileges',
 						)
 					);
 

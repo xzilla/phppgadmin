@@ -114,7 +114,8 @@ class Postgres extends ADODB_base {
   		'function' => array('EXECUTE', 'ALL PRIVILEGES'),
   		'language' => array('USAGE', 'ALL PRIVILEGES'),
   		'schema' => array('CREATE', 'USAGE', 'ALL PRIVILEGES'),
-  		'tablespace' => array('CREATE', 'ALL PRIVILEGES')
+  		'tablespace' => array('CREATE', 'ALL PRIVILEGES'),
+		'column' => array('SELECT', 'INSERT', 'UPDATE', 'REFERENCES','ALL PRIVILEGES')
 	);
 	// List of characters in acl lists and the privileges they
 	// refer to.
@@ -123,6 +124,7 @@ class Postgres extends ADODB_base {
 		'w' => 'UPDATE',
 		'a' => 'INSERT',
   		'd' => 'DELETE',
+		'D' => 'TRUNCATE',
   		'R' => 'RULE',
   		'x' => 'REFERENCES',
   		't' => 'TRIGGER',
@@ -1052,7 +1054,7 @@ class Postgres extends ADODB_base {
 	 * Checks to see whether or not a table has a unique id column
 	 * @param $table The table name
 	 * @return True if it has a unique id, false otherwise
-	 * @return -99 error
+	 * @return null error
 	 **/
 	function hasObjectID($table) {
 		$this->clean($table);
@@ -1061,7 +1063,7 @@ class Postgres extends ADODB_base {
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')";
 
 		$rs = $this->selectSet($sql);
-		if ($rs->recordCount() != 1) return -99;
+		if ($rs->recordCount() != 1) return null;
 		else {
 			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
 			return $rs->fields['relhasoids'];
@@ -1135,7 +1137,7 @@ class Postgres extends ADODB_base {
 			// sequence on the field.
 			$sql = "
 				SELECT
-					a.attname,
+					a.attname, a.attnum,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					a.atttypmod,
 					a.attnotnull, a.atthasdef, adef.adsrc,
@@ -1167,7 +1169,7 @@ class Postgres extends ADODB_base {
 		else {
 			$sql = "
 				SELECT
-					a.attname,
+					a.attname, a.attnum,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					pg_catalog.format_type(a.atttypid, NULL) as base_type,
 					a.atttypmod,
@@ -1915,27 +1917,26 @@ class Postgres extends ADODB_base {
 	 */
 	function alterTable($table, $name, $owner, $schema, $comment, $tablespace) {
 
-		$this->fieldClean($table);
 		$data = $this->getTable($table);
 
 		if ($data->recordCount() != 1)
 			return -2;
 
-			$status = $this->beginTransaction();
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -1;
-			}
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
 
 		$status = $this->_alterTable($data, $name, $owner, $schema, $comment, $tablespace);
 
 		if ($status != 0) {
-				$this->rollbackTransaction();
+			$this->rollbackTransaction();
 			return $status;
-			}
-
-			return $this->endTransaction();
 		}
+
+		return $this->endTransaction();
+	}
 
 	/**
 	 * Returns the SQL for changing the current user
@@ -2103,23 +2104,39 @@ class Postgres extends ADODB_base {
 	function alterColumn($table, $column, $name, $notnull, $oldnotnull, $default, $olddefault,
 		$type, $length, $array, $oldtype, $comment)
 	{
+		// Begin transaction
+		$status = $this->beginTransaction();
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -6;
+		}
+
+		// Rename the column, if it has been changed
+		if ($column != $name) {
+			$status = $this->renameColumn($table, $column, $name);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -4;
+			}
+		}
+
+		$this->fieldClean($name);
 		$this->fieldClean($table);
 		$this->fieldClean($column);
-		$this->clean($comment);
 
 		$toAlter = array();
 		// Create the command for changing nullability
 		if ($notnull != $oldnotnull) {
-			$toAlter[] = "ALTER COLUMN \"{$column}\" ". (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
+			$toAlter[] = "ALTER COLUMN \"{$name}\" ". (($notnull) ? 'SET' : 'DROP') . " NOT NULL";
 		}
 
 		// Add default, if it has changed
 		if ($default != $olddefault) {
 			if ($default == '') {
-				$toAlter[] = "ALTER COLUMN \"{$column}\" DROP DEFAULT";
+				$toAlter[] = "ALTER COLUMN \"{$name}\" DROP DEFAULT";
 			}
 			else {
-				$toAlter[] = "ALTER COLUMN \"{$column}\" SET DEFAULT {$default}";
+				$toAlter[] = "ALTER COLUMN \"{$name}\" SET DEFAULT {$default}";
 			}
 		}
 
@@ -2152,18 +2169,12 @@ class Postgres extends ADODB_base {
 			$toAlter[] = "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
 		}
 
-		// Begin transaction
-		$status = $this->beginTransaction();
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -6;
-		}
-
 		// Attempt to process the batch alteration, if anything has been changed
 		if (!empty($toAlter)) {
 			// Initialise an empty SQL string
 			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$table}\" "
 				. implode(',', $toAlter);
+	
 			$status = $this->execute($sql);
 			if ($status != 0) {
 				$this->rollbackTransaction();
@@ -2172,19 +2183,10 @@ class Postgres extends ADODB_base {
 		}
 
 		// Update the comment on the column
-		$status = $this->setComment('COLUMN', $column, $table, $comment);
+		$status = $this->setComment('COLUMN', $name, $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
 			return -5;
-		}
-
-		// Rename the column, if it has been changed
-		if ($column != $name) {
-			$status = $this->renameColumn($table, $column, $name);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -4;
-			}
 		}
 
 		return $this->endTransaction();
@@ -2372,41 +2374,47 @@ class Postgres extends ADODB_base {
 	/**
 	 * Adds a new row to a table
 	 * @param $table The table in which to insert
-	 * @param $var An array mapping new values for the row
+	 * @param $fields Array of given field in values
+	 * @param $values Array of new values for the row
 	 * @param $nulls An array mapping column => something if it is to be null
 	 * @param $format An array of the data type (VALUE or EXPRESSION)
 	 * @param $types An array of field types
 	 * @return 0 success
 	 * @return -1 invalid parameters
 	 */
-	function insertRow($table, $vars, $nulls, $format, $types) {
+	function insertRow($table, $fields, $values, $nulls, $format, $types) {
 
-		if (!is_array($vars) || !is_array($nulls) || !is_array($format)
-			|| !is_array($types)) return -1;
+		if (!is_array($fields) || !is_array($values) || !is_array($nulls)
+			|| !is_array($format) || !is_array($types)
+			|| (count($fields) != count($values))
+		) {
+			return -1;
+		}
 		else {
-		$this->fieldClean($table);
-
 			// Build clause
-			if (sizeof($vars) > 0) {
-				$fields = '';
-				$values = '';
-				foreach($vars as $key => $value) {
-					$this->fieldClean($key);
+			if (count($values) > 0) {
+				// Escape all field names
+				$fields = array_map(array('Postgres','fieldClean'), $fields);
+				$this->fieldClean($table);
+
+				$sql = '';
+				foreach($values as $i => $value) {
 
 					// Handle NULL values
-					if (isset($nulls[$key])) $tmp = 'NULL';
-					else $tmp = $this->formatValue($types[$key], $format[$key], $value);
-
-					if ($fields) $fields .= ", \"{$key}\"";
-					else $fields = "INSERT INTO \"{$this->_schema}\".\"{$table}\" (\"{$key}\"";
-
-					if ($values) $values .= ", {$tmp}";
-					else $values = ") VALUES ({$tmp}";
+					if (isset($nulls[$i]))
+						$sql .= ',NULL';
+					else
+						$sql .= ',' . $this->formatValue($types[$i], $format[$i], $value);
 				}
-				$sql = $fields . $values . ')';
+
+				$sql = "INSERT INTO \"{$this->_schema}\".\"{$table}\" (\"". implode('","', $fields) ."\")
+					VALUES (". substr($sql, 1) .")";
+
+				return $this->execute($sql);
 			}
-		return $this->execute($sql);
-	}
+		}
+
+		return -1;
 	}
 
 	/**
@@ -6286,7 +6294,10 @@ class Postgres extends ADODB_base {
 			// Figure out type of ACE (public, user or group)
 			if (strpos($v, '=') === 0)
 				$atype = 'public';
-			elseif (strpos($v, 'group ') === 0) {
+			else if ($this->hasRoles()) {
+				$atype = 'role';
+			}
+			else if (strpos($v, 'group ') === 0) {
 				$atype = 'group';
 				// Tear off 'group' prefix
 				$v = substr($v, 6);
@@ -6367,15 +6378,27 @@ class Postgres extends ADODB_base {
 	 * given its type.
 	 * @param $object The name of the object whose privileges are to be retrieved
 	 * @param $type The type of the object (eg. database, schema, relation, function or language)
+	 * @param $table Optional, column's table if type = column
 	 * @return Privileges array
 	 * @return -1 invalid type
 	 * @return -2 object not found
 	 * @return -3 unknown privilege type
 	 */
-	function getPrivileges($object, $type) {
+	function getPrivileges($object, $type, $table = null) {
 		$this->clean($object);
 
 		switch ($type) {
+			case 'column':
+				$this->clean($table);
+				$sql = "
+					SELECT E'{' || pg_catalog.array_to_string(attacl, E',') || E'}' as acl
+					FROM pg_catalog.pg_attribute a
+						LEFT JOIN pg_catalog.pg_class c ON (a.attrelid = c.oid)
+						LEFT JOIN pg_catalog.pg_namespace n ON (c.relnamespace=n.oid)
+					WHERE n.nspname='{$this->_schema}'
+						AND c.relname='{$table}'
+						AND a.attname='{$object}'";
+				break;
 			case 'table':
 			case 'view':
 			case 'sequence':
@@ -6424,6 +6447,7 @@ class Postgres extends ADODB_base {
 	 * @param $privileges The array of privileges to grant (eg. ('SELECT', 'ALL PRIVILEGES', etc.) )
 	 * @param $grantoption True if has grant option, false otherwise
 	 * @param $cascade True for cascade revoke, false otherwise
+	 * @param $table the column's table if type=column
 	 * @return 0 success
 	 * @return -1 invalid type
 	 * @return -2 invalid entity
@@ -6431,7 +6455,9 @@ class Postgres extends ADODB_base {
 	 * @return -4 not granting to anything
 	 * @return -4 invalid mode
 	 */
-	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames, $privileges, $grantoption, $cascade) {
+	function setPrivileges($mode, $type, $object, $public, $usernames, $groupnames,
+		$privileges, $grantoption, $cascade, $table
+	) {
 		$this->fieldArrayClean($usernames);
 		$this->fieldArrayClean($groupnames);
 
@@ -6449,10 +6475,20 @@ class Postgres extends ADODB_base {
 		}
 
 		if (in_array('ALL PRIVILEGES', $privileges))
-			$sql .= " ALL PRIVILEGES ON";
-		else
-			$sql .= " " . join(', ', $privileges) . " ON";
+			$sql .= ' ALL PRIVILEGES ON';
+		else {
+			if ($type='column') {
+				$this->fieldClean($object);
+				$sql .= ' ' . join(" (\"{$object}\"), ", $privileges) . " (\"{$object}\") ON";
+				$object = $table;
+			}
+			else {
+				$sql .= ' ' . join(', ', $privileges) . ' ON';
+			}
+		}
+			
 		switch ($type) {
+			case 'column':
 			case 'table':
 			case 'view':
 			case 'sequence':
@@ -6805,6 +6841,11 @@ class Postgres extends ADODB_base {
 	 */
 	function setComment($obj_type, $obj_name, $table, $comment, $basetype = NULL) {
 		$sql = "COMMENT ON {$obj_type} " ;
+		$this->clean($comment);
+/*
+		$this->fieldClean($table);
+		$this->fieldClean($obj_name);
+*/
 
 		switch ($obj_type) {
 			case 'TABLE':
@@ -7146,7 +7187,6 @@ class Postgres extends ADODB_base {
 	 * @return The SQL query
 	 */
 	function getSelectSQL($table, $show, $values, $ops, $orderby = array()) {
-		$this->fieldClean($table);
 		$this->fieldArrayClean($show);
 
 		// If an empty array is passed in, then show all columns
@@ -7165,6 +7205,8 @@ class Postgres extends ADODB_base {
 
 			$sql .= join('","', $show) . "\" FROM ";
 		}
+
+		$this->fieldClean($table);
 
 		if (isset($_REQUEST['schema'])) {
 			$this->fieldClean($_REQUEST['schema']);
@@ -7416,7 +7458,7 @@ class Postgres extends ADODB_base {
 		$this->clean($table);
 
 		$sql = "SELECT * FROM pg_stat_all_tables 
-			WHERE schemaname=\'{$this->_schema}\' AND relname='{$table}'";
+			WHERE schemaname='{$this->_schema}' AND relname='{$table}'";
 
 		return $this->selectSet($sql);
 	}
@@ -7480,6 +7522,7 @@ class Postgres extends ADODB_base {
 	function hasAlterTrigger() { return true; }
 	function hasAnalyze() { return true; }
 	function hasAutovacuum() { return true; }
+	function hasAutovacuumSysTable() { return false; }
 	function hasCasts() { return true; }
 	function hasCompositeTypes() { return true; }
 	function hasConstraintsInfo() { return true; }
