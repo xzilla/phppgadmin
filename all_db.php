@@ -163,8 +163,12 @@
 			else
 				$_POST['formEncoding'] = '';
 		}
+		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = 'template1';
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = '';
+
+		// Fetch a list of databases in the cluster
+		$templatedbs = $data->getDatabases(false);
 
 		// Fetch all tablespaces from the database
 		if ($data->hasTablespaces()) $tablespaces = $data->getTablespaces();
@@ -174,6 +178,27 @@
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" /></td>\n\t</tr>\n";
+
+		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strtemplatedb']}</th>\n";
+		echo "\t\t<td class=\"data1\">\n";
+		echo "\t\t\t<select name=\"formTemplate\">\n";
+			// Always offer template0 and template1 
+			echo "\t\t\t\t<option value=\"template0\"",
+				($_POST['formTemplate'] == 'template0') ? ' selected="selected"' : '', ">template0</option>\n";
+			echo "\t\t\t\t<option value=\"template1\"",
+				($_POST['formTemplate'] == 'template1') ? ' selected="selected"' : '', ">template1</option>\n";
+			while (!$templatedbs->EOF) {
+				$dbname = htmlspecialchars($templatedbs->fields['datname']);
+				if ($dbname != 'template1') { 
+					// filter out for $conf[show_system] users so we dont get duplicates 
+					echo "\t\t\t\t<option value=\"{$dbname}\"",
+						($dbname == $_POST['formTemplate']) ? ' selected="selected"' : '', ">{$dbname}</option>\n";
+				}
+				$templatedbs->moveNext();
+			}
+		echo "\t\t\t</select>\n";
+		echo "\t\t</td>\n\t</tr>\n";
+
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strencoding']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n";
 		echo "\t\t\t<select name=\"formEncoding\">\n";
@@ -233,7 +258,7 @@
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
-			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc'], $_POST['formComment']);
+			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc'], $_POST['formComment'], $_POST['formTemplate']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);

@@ -369,6 +369,7 @@
 	$lang['strdatabasealtered'] = 'Database altered.';
 	$lang['strdatabasealteredbad'] = 'Database alter failed.';
 	$lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop.';
+	$lang['strtemplatedb'] = 'Template';
 
 	// Views
 	$lang['strview'] = 'View';

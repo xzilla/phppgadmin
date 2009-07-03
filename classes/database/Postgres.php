@@ -545,17 +545,16 @@ class Postgres extends ADODB_base {
 	 * @return -1 tablespace error
 	 * @return -2 comment error
 	 */
-	function createDatabase($database, $encoding, $tablespace = '', $comment = '') {
+	function createDatabase($database, $encoding, $tablespace = '', $comment = '', $template = 'template1') {
 		$this->fieldClean($database);
 		$this->clean($encoding);
 		$this->fieldClean($tablespace);
 		$this->fieldClean($comment);
+		$this->fieldClean($template);
 
-		if ($encoding == '') {
-			$sql = "CREATE DATABASE \"{$database}\"";
-		} else {
-			$sql = "CREATE DATABASE \"{$database}\" WITH ENCODING='{$encoding}'";
-		}
+		$sql = "CREATE DATABASE \"{$database}\" WITH TEMPLATE=\"{$template}\"";
+
+		if ($encoding != '') $sql .= " ENCODING='{$encoding}'";
 
 		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
 
