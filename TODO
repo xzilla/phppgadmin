@@ -21,11 +21,16 @@ Cluster
 Export
 ------
 
+* Support export of data from an sql query 
 * Switch to SPARQL format:
   http://www.w3.org/TR/2005/WD-rdf-sparql-XMLres-20050801/
 
   Actually...SQL/XML is maybe better.
 
+Import
+------
+
+* All import of data via compressed (bzip/gzip/zip) files
 
 Users
 -----
@@ -87,6 +92,11 @@ Tables
 * Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
 * Alter column should handle types with implicit cast types distinctly from those requiring a USING clause
 * Where ENUM types are an option, restrict choice to enum values [8.3]
+
+Columns
+-------
+
+* Add column constraints during creation and altering of columns 
 
 
 Views
@@ -197,6 +207,7 @@ Full Text Search (8.3)
 Miscellaneous
 -------------
 
+* Audit for PHP 5.3.x compatability 
 * Support 8.1 standard compliant strings (E'')
 * -Allow management of built-in autovacuum in 8.1 (xzilla)
 * Support per-user and per-database connection limits per 8.1
