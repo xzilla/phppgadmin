@@ -60,6 +60,7 @@
 	$lang['stralter'] = 'Alter';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancel';
+	$lang['strkill'] = 'Kill';
 	$lang['strac'] = 'Enable AutoComplete';
 	$lang['strsave'] = 'Save';
 	$lang['strreset'] = 'Reset';

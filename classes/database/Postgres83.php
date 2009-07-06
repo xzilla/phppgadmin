@@ -57,6 +57,7 @@ class Postgres83 extends Postgres {
 	}
 
 	function hasAutovacuumSysTable() { return true; }
+	function hasQueryKill() { return false; }
 
 }
 

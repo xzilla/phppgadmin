@@ -6814,16 +6814,19 @@ class Postgres extends ADODB_base {
 		// Clean
 		$pid = (int)$pid;
 
-		if ($signal == 'CANCEL')
+		if ($signal == 'CANCEL') 
 			$sql = "SELECT pg_catalog.pg_cancel_backend({$pid}) AS val";
-		else
+		elseif ($signal == 'KILL')  
+			$sql = "SELECT pg_catalog.pg_terminate_backend({$pid}) AS val";
+		else	
 			return -1;
+		
 
 		// Execute the query
 		$val = $this->selectField($sql, 'val');
 
-		if ($val === -1) return -1;
-		elseif ($val == '1') return 0;
+		if ($val === 'f') return -1;
+		elseif ($val === 't') return 0;
 		else return -1;
 	}
 
@@ -7558,7 +7561,7 @@ class Postgres extends ADODB_base {
 	function hasRoles() { return true; }
 	function hasServerAdminFuncs() { return true; }
 	function hasSharedComments() { return true; }
-	function hasSignals() { return true; }
+	function hasQueryCancel() { return true; }
 	function hasStatsCollector() { return true; }
 	function hasTablespaces() { return true; }
 	function hasUserAndDbVariables() { return true; }
@@ -7571,6 +7574,7 @@ class Postgres extends ADODB_base {
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasForeignKeysInfo() { return $this->hasConstraintsInfo(); }
 	function hasMagicTypes() { return true; }
+	function hasQueryKill() { return true; }
 	
 }
 ?>

@@ -444,19 +444,28 @@
 			),
 		);
 
-		if ($data->hasSignals()) {
-			$columns['actions'] = array('title' => $lang['stractions']);
+		// Build possible actions for our process list
+		$columns['actions'] = array('title' => $lang['stractions']);
 			
-			$actions = array(
-				'cancel' => array(
-					'title' => $lang['strcancel'],
-					'url'   => "database.php?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
-					'vars'  => array('procpid' => 'procpid')
-				)
-			);
-		}
-		else $actions = array();
-		
+		$actions = array(
+			'cancel' => array(
+				'title' => $lang['strcancel'],
+				'url'   => "database.php?action=signal&amp;signal=CANCEL&amp;{$misc->href}&amp;",
+				'vars'  => array('procpid' => 'procpid')
+			),
+			'kill' => array(
+				'title' => $lang['strkill'],
+				'url'   => "database.php?action=signal&amp;signal=KILL&amp;{$misc->href}&amp;",
+				'vars'  => array('procpid' => 'procpid')
+			)
+		);
+	
+		// Remove actions where not supported
+		if (!$data->hasQueryKill()) unset($actions['kill']);
+		if (!$data->hasQueryCancel()) unset($actions['cancel']);
+
+		if (count($actions) == 0) unset($columns['actions']);
+	
 		// Remove query start time for <7.4
 		if (!isset($processes->fields['query_start'])) unset($columns['start_time']);
 
