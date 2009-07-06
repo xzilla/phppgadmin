@@ -16,6 +16,7 @@ Features
 * Support for Column Level Privileges
 * Allow users to specify a template database at database creation time
 * Support killing processes  
+* Add ability to create indexes concurrently
 
 Bugs
 * Fix problems with query tracking on overly long queries

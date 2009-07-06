@@ -160,6 +160,13 @@
 			echo "\t\t\t</select>\n\t\t</td>\n\t</tr>\n";
 		}
 
+		if ($data->hasConcurrentIndexBuild()) {
+			echo "<tr>";
+			echo "<th class=\"data left\" scope=\"row\"><label for=\"formConcur\">{$lang['strconcurrently']}</label></th>";
+			echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formConcur\" name=\"formConcur\"", (isset($_POST['formConcur']) ? 'checked="checked"' : ''), " /></td>";
+			echo "</tr>";
+		}	
+
 		echo "</table>";
 
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_index\" />\n";

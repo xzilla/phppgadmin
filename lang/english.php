@@ -460,6 +460,7 @@
 	$lang['strconfcluster'] = 'Are you sure you want to cluster "%s"?';
 	$lang['strclusteredgood'] = 'Cluster complete.';
 	$lang['strclusteredbad'] = 'Cluster failed.';
+	$lang['strconcurrently'] = 'Concurrently';
 
 	// Rules
 	$lang['strrules'] = 'Rules';

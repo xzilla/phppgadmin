@@ -3110,13 +3110,15 @@ class Postgres extends ADODB_base {
 	 * @param $tablespace The tablespaces ('' means none/default)
 	 * @return 0 success
 	 */
-	function createIndex($name, $table, $columns, $type, $unique, $where, $tablespace) {
+	function createIndex($name, $table, $columns, $type, $unique, $where, $tablespace, $concurrently) {
 		$this->fieldClean($name);
 		$this->fieldClean($table);
 
 		$sql = "CREATE";
 		if ($unique) $sql .= " UNIQUE";
-		$sql .= " INDEX \"{$name}\" ON \"{$this->_schema}\".\"{$table}\" USING {$type} ";
+		$sql .= " INDEX";
+		if ($concurrently) $sql .= " CONCURRENTLY";
+		$sql .= " \"{$name}\" ON \"{$this->_schema}\".\"{$table}\" USING {$type} ";
 
 		if (is_array($columns)) {
 			$this->arrayClean($columns);
@@ -7575,6 +7577,7 @@ class Postgres extends ADODB_base {
 	function hasForeignKeysInfo() { return $this->hasConstraintsInfo(); }
 	function hasMagicTypes() { return true; }
 	function hasQueryKill() { return true; }
+	function hasConcurrentIndexBuild() { return true; }
 	
 }
 ?>

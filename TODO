@@ -120,7 +120,6 @@ Indexes
 
 * Support 8.1 Reindex [Database|System] commands
 * Expressional indexes
-* Allow indexes to be built concurrently [8.2]
 * Create Index Asc/Desc, Nulls First/Last [8.3]
 
 

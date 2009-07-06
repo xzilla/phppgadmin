@@ -235,6 +235,7 @@ class Postgres81 extends Postgres82 {
 
 	function hasCreateTableLikeWithConstraints() {return false;}
 	function hasSharedComments() {return false;}
+	function hasConcurrentIndexBuild() {return false;}
 }
 
 ?>
