@@ -30,12 +30,12 @@ Export
 Import
 ------
 
-* All import of data via compressed (bzip/gzip/zip) files
+* Allow import of data via compressed (bzip/gzip/zip) files
 
 Users
 -----
 
-* 7.3 user variables (eg. ALTER USER SET .. TO ...)
+* user variables (eg. ALTER USER SET .. TO ...)
 
 
 Groups
@@ -50,23 +50,22 @@ Permissions
 -----------
 
 * Grant ... on all tables, views, ... to user, group, public
-* Grant connect on database [8.2]
 
 
 Databases
 ---------
 
-* Add alter database variables for 7.3+
+* Add alter database variables
 * Add database stats
 * REASSIGN OWNED & DROP OWNED support for 8.2+ 
 	- http://www.postgresql.org/docs/8.2/interactive/sql-reassign-owned.html
 	- http://www.postgresql.org/docs/8.2/interactive/sql-drop-owned.html
 
 
-Schemas (7.3)
--------------
+Schemas
+-------
 
-* Alter ... SET SCHEMA support per 8.1 
+* Alter {DOMAIN|AGGREGATE} SET SCHEMA support
 
 
 Large Objects
@@ -118,7 +117,7 @@ Functions
 Indexes 
 -------
 
-* Support 8.1 Reindex [Database|System] commands
+* Support 8.1 Reindex System commands
 * Expressional indexes
 * Create Index Asc/Desc, Nulls First/Last [8.3]
 
@@ -164,20 +163,20 @@ Languages
 * Alter name [8.3]
 
 
-Domains (7.3)
--------------
+Domains
+-------
 
 
-Conversions (7.3)
------------------
+Conversions
+-----------
 
 * Properties
 * Drop
 * Create
 
 
-Casts (7.3)
------------
+Casts
+-----
 
 * Properties
 * Drop
@@ -188,7 +187,6 @@ Full Text Search (8.3)
 ----------------------
 
 * Create/Alter/Drop parser 
-* Help Pages 
 * Alter Owner 
 
 
@@ -212,6 +210,7 @@ Miscellaneous
   but we still need icons for:
     Introduction, Variables, Admin, Privileges, Reports
 * Add CASCADE option to Truncate [8.2]
+* Add ONLY option to Truncate [8.4]
 * Add information about synch tool to TRANSLATORS
 * Translated FAQ
 * Pull FAQ/HISTORY/CREDITS/etc... from CVS for website. 
@@ -232,12 +231,12 @@ Principles
 * register_globals off support
 * maximum error_reporting support - enforces code quality, reduces bugs and 
   improves security
-* PHP 4.2 features used
+* PHP 5.0 features used
 * No HTML font, colour, layout tags.  Use CSS for everything
 * One day we should make it all XHTML
 * everything properly escaped - prevent sql injection and cross-site scripting 
   probs
-* Support Postgres 7.0 and upwards
+* Support Postgres 7.3 and upwards
 * psql -E is a cool way of seeing how to do schema queries
 * Checking out older versions of describe.c in src/bin/psql in the postgres 
   distro is a good way of seeing how to query older versions of postgres for 
