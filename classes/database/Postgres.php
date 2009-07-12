@@ -646,11 +646,13 @@ class Postgres extends ADODB_base {
 			}
 		}
 
-		$status = $this->alterDatabaseOwner($newName, $newOwner);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -2;
-	}
+		if ($newOwner != '') {
+			$status = $this->alterDatabaseOwner($newName, $newOwner);
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -2;
+			}
+		}
 
 		if (trim($comment) != '' ) {
 			$status = $this->setComment('DATABASE', $dbName, '', $comment);
