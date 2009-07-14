@@ -225,11 +225,10 @@
 			}
 			
 			$linkCount = $tblCount;
-			// If we can get foreign key info then get our linking keys
-			if ($data->hasForeignKeysInfo()) {
-				$rsLinkKeys = $data->getLinkingKeys($arrSelTables);
-				$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
-			}
+			
+			//get linking keys
+			$rsLinkKeys = $data->getLinkingKeys($arrSelTables);
+			$linkCount = $rsLinkKeys->recordCount() > $tblCount ? $rsLinkKeys->recordCount() : $tblCount;
 			
 			$arrFields = array(); //array that will hold all our table/field names
 			
@@ -289,7 +288,7 @@
 				if (!isset($formLink[$i]['operator'])) $formLink[$i]['operator'] = 'INNER JOIN';
 				echo "<tr>\n<td class=\"$rowClass\">\n";
 				
-				if ($data->hasForeignKeysInfo() && !$rsLinkKeys->EOF) {
+				if (!$rsLinkKeys->EOF) {
 					$curLeftLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->fields['p_schema'], 'tablename' => $rsLinkKeys->fields['p_table'], 'fieldname' => $rsLinkKeys->fields['p_field']) ) );
 					$curRightLink = htmlspecialchars(serialize(array('schemaname' => $rsLinkKeys->fields['f_schema'], 'tablename' => $rsLinkKeys->fields['f_table'], 'fieldname' => $rsLinkKeys->fields['f_field']) ) );
 					$rsLinkKeys->moveNext();

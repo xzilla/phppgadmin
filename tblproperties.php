@@ -458,6 +458,8 @@
 		$tdata = $data->getTable($_REQUEST['table']);
 		// Get columns
 		$attrs = $data->getTableAttributes($_REQUEST['table']);
+		// Get constraints keys
+		$ck = $data->getConstraintsWithFields($_REQUEST['table']);
 
 		// Show comment if any
 		if ($tdata->fields['relcomment'] !== null)
@@ -484,7 +486,15 @@
 				'title' => $lang['strdefault'],
 				'field' => field('adsrc'),
 			),
-			'keyprop' => 1,
+			'keyprop' => array(
+				'title' => $lang['strconstraints'],
+				'field' => field('attname'),
+				'type'  => 'callback',
+				'params'=> array(
+					'function' => 'cstrRender',
+					'keys' => $ck->getArray()
+				)
+			),
 			'actions' => array(
 				'title' => $lang['stractions'],
 			),
@@ -494,55 +504,38 @@
 			),
 		);
 
-		if (!$data->hasConstraintsInfo()) {
-			unset($columns['keyprop']);
-		}
-		else {
-			$ck = $data->getConstraintsWithFields($_REQUEST['table']);
+		function cstrRender($s, $p) {
+			global $misc, $data;
 
-			$columns['keyprop'] = array(
-				'title' => $lang['strconstraints'],
-				'field' => field('attname'),
-				'type'  => 'callback',
-				'params'=> array(
-					'function' => 'cstrRender',
-					'keys' => $ck->getArray()
-      	),
-			);
+			$str ='';
+			foreach ($p['keys'] as $k => $c) {
 
-			function cstrRender($s, $p) {
-				global $misc, $data;
-
-				$str ='';
-				foreach ($p['keys'] as $k => $c) {
-
-					if (is_null($p['keys'][$k]['consrc'])) {
-						$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $p['keys'][$k]['indkey']));
-						$c['consrc'] = ($c['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
-					}
-
-					if ($c['p_field'] == $s)
-						switch ($c['contype']) {
-							case 'p':
-							    $str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
-									$misc->icon('PrimaryKey') .'" alt="[pk]" title="'. htmlentities($c['consrc']) .'" /></a>';
-							break;
-							case 'f':
-								$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table={$c['f_table']}&amp;schema={$c['f_schema']}\"><img src=\"".
-									$misc->icon('ForeignKey') .'" alt="[fk]" title="'. htmlentities($c['consrc']) .'" /></a>';
-							break;
-							case 'u':
-								$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
-									$misc->icon('UniqueConstraint') .'" alt="[uniq]" title="'. htmlentities($c['consrc']) .'" /></a>';
-							break;
-							case 'c':
-								$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
-									$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc']) .'" /></a>';
-						}
+				if (is_null($p['keys'][$k]['consrc'])) {
+					$atts = $data->getAttributeNames($_REQUEST['table'], explode(' ', $p['keys'][$k]['indkey']));
+					$c['consrc'] = ($c['contype'] == 'u' ? "UNIQUE (" : "PRIMARY KEY (") . join(',', $atts) . ')';
 				}
 
-				return $str;
+				if ($c['p_field'] == $s)
+					switch ($c['contype']) {
+						case 'p':
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+								$misc->icon('PrimaryKey') .'" alt="[pk]" title="'. htmlentities($c['consrc']) .'" /></a>';
+						break;
+						case 'f':
+							$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table={$c['f_table']}&amp;schema={$c['f_schema']}\"><img src=\"".
+								$misc->icon('ForeignKey') .'" alt="[fk]" title="'. htmlentities($c['consrc']) .'" /></a>';
+						break;
+						case 'u':
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+								$misc->icon('UniqueConstraint') .'" alt="[uniq]" title="'. htmlentities($c['consrc']) .'" /></a>';
+						break;
+						case 'c':
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+								$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc']) .'" /></a>';
+					}
 			}
+
+			return $str;
 		}
 
 		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");

@@ -458,8 +458,7 @@
 		global $data, $misc, $conf;
 		global $lang;
 
-		$bAllowAC = (($conf['autocomplete'] != 'disable') ? TRUE : FALSE)
-			&& $data->hasConstraintsInfo();
+		$bAllowAC = (($conf['autocomplete'] != 'disable') ? TRUE : FALSE);
 
 		if ($confirm) {
 			$misc->printTrail('table');

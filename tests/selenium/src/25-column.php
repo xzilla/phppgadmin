@@ -36,7 +36,7 @@ if ($data->hasCreateFieldWithConstraints()) {
 	$t->assertText("//tr/td/a[text()='new_col']/../../td[3]", '');
 	$t->assertText("//tr/td/a[text()='new_col']/../../td[4]", '0');
 }
-$t->assertText("//tr/td/a[text()='new_col']/../../td[9]", 'test col to drop');
+$t->assertText("//tr/td/a[text()='new_col']/../../td[10]", 'test col to drop');
 
 /** 2 **/
 $t->addComment('2. alter column');

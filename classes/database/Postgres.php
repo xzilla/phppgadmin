@@ -2167,7 +2167,7 @@ class Postgres extends ADODB_base {
 		if ($array) $ftype .= '[]';
 
 		if ($ftype != $oldtype) {
-			$toAlter[] = "ALTER COLUMN \"{$column}\" TYPE {$ftype}";
+			$toAlter[] = "ALTER COLUMN \"{$name}\" TYPE {$ftype}";
 		}
 
 		// Attempt to process the batch alteration, if anything has been changed
@@ -7531,7 +7531,6 @@ class Postgres extends ADODB_base {
 	function hasAutovacuumSysTable() { return false; }
 	function hasCasts() { return true; }
 	function hasCompositeTypes() { return true; }
-	function hasConstraintsInfo() { return true; }
 	function hasConversions() { return true; }
 	function hasCreateTableLike() { return true; }
 	function hasCreateTableLikeWithConstraints() { return true; }
@@ -7576,7 +7575,6 @@ class Postgres extends ADODB_base {
 	function hasVirtualTransactionId() { return true; }
 	function hasWithoutOIDs() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
-	function hasForeignKeysInfo() { return $this->hasConstraintsInfo(); }
 	function hasMagicTypes() { return true; }
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }

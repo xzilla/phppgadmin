@@ -465,8 +465,6 @@
 			),
 		);
 
-		if (!$data->hasConstraintsInfo()) unset($columns['comment']);
-
 		$actions = array(
 			'drop' => array(
 				'title' => $lang['strdrop'],

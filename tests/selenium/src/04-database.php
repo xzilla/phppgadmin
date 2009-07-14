@@ -23,6 +23,8 @@
 	if ($data->hasAlterDatabaseRename())
 		$t->type('formName', "{$testdb}toalter");
 	else $t->type('formName', $testdb);
+	/* template */
+	$t->select('formTemplate', 'template0');
 	/* encoding*/
 	$t->select('formEncoding', 'SQL_ASCII');
 	/* comment*/
