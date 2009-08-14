@@ -56,8 +56,53 @@ class Postgres83 extends Postgres {
 		return $this->help_page;
 	}
 
+	// Databse functions
+
+	/**
+	 * Return all database available on the server
+	 * @param $currentdatabase database name that should be on top of the resultset
+	 * 
+	 * @return A list of databases, sorted alphabetically
+	 */
+	function getDatabases($currentdatabase = NULL) {
+		global $conf, $misc;
+
+		$server_info = $misc->getServerInfo();
+
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
+			$username = $server_info['username'];
+			$this->clean($username);
+			$clause = " AND pr.rolname='{$username}'";
+		}
+		else $clause = '';
+
+		if ($currentdatabase != NULL)
+			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		else
+			$orderby = "ORDER BY pdb.datname";
+
+		if (!$conf['show_system'])
+			$where = ' AND NOT pdb.datistemplate';
+		else
+			$where = ' AND pdb.datallowconn';
+
+		$sql = "
+			SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+				(SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid) AS datcomment,
+				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
+				pg_catalog.pg_database_size(pdb.oid) as dbsize
+			FROM pg_catalog.pg_database pdb LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
+			WHERE true
+				{$where}
+				{$clause}
+			{$orderby}";
+
+		return $this->selectSet($sql);
+	}
+
 	function hasAutovacuumSysTable() { return true; }
 	function hasQueryKill() { return false; }
+	function hasDatabaseCollation() { return false; }
 
 }
 

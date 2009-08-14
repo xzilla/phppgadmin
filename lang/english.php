@@ -139,6 +139,8 @@
 	$lang['strselectall'] = 'Select all';
 	$lang['strunselectall'] = 'Unselect all';
 	$lang['strlocale'] = 'Locale';
+	$lang['strcollation'] = 'Collation';
+	$lang['strctype'] = 'Character Type';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'History';

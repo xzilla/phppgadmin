@@ -445,6 +445,8 @@ class Postgres extends ADODB_base {
 
 	/**
 	 * Return all database available on the server
+	 * @param $currentdatabase database name that should be on top of the resultset
+	 * 
 	 * @return A list of databases, sorted alphabetically
 	 */
 	function getDatabases($currentdatabase = NULL) {
@@ -469,15 +471,17 @@ class Postgres extends ADODB_base {
 		else
 			$where = ' AND pdb.datallowconn';
 
-		$sql = "SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
-                               (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid) AS datcomment,
-                               (SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
-							   pg_catalog.pg_database_size(pdb.oid) as dbsize
-                        FROM pg_catalog.pg_database pdb LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
-						WHERE true
-					{$where}
-					{$clause}
-					{$orderby}";
+		$sql = "
+			SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
+				(SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid) AS datcomment,
+				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
+				pg_catalog.pg_database_size(pdb.oid) as dbsize, pdb.datcollate, pdb.datctype
+			FROM pg_catalog.pg_database pdb
+				LEFT JOIN pg_catalog.pg_roles pr ON (pdb.datdba = pr.oid)
+			WHERE true
+				{$where}
+				{$clause}
+			{$orderby}";
 
 		return $this->selectSet($sql);
 	}
@@ -545,22 +549,28 @@ class Postgres extends ADODB_base {
 	 * @return -1 tablespace error
 	 * @return -2 comment error
 	 */
-	function createDatabase($database, $encoding, $tablespace = '', $comment = '', $template = 'template1') {
+	function createDatabase($database, $encoding, $tablespace = '', $comment = '', $template = 'template1',
+		$lc_collate = '', $lc_ctype = '')
+	{
 		$this->fieldClean($database);
 		$this->clean($encoding);
 		$this->fieldClean($tablespace);
-		$this->fieldClean($comment);
 		$this->fieldClean($template);
+		$this->clean($lc_collate);
+		$this->clean($lc_ctype);
 
 		$sql = "CREATE DATABASE \"{$database}\" WITH TEMPLATE=\"{$template}\"";
 
 		if ($encoding != '') $sql .= " ENCODING='{$encoding}'";
+		if ($lc_collate != '') $sql .= " LC_COLLATE='{$lc_collate}'";
+		if ($lc_ctype != '') $sql .= " LC_CTYPE='{$lc_ctype}'";
 
 		if ($tablespace != '' && $this->hasTablespaces()) $sql .= " TABLESPACE \"{$tablespace}\"";
 
 		$status = $this->execute($sql);
 		if ($status != 0) return -1;
 
+		$this->fieldClean($comment);
 		if ($comment != '' && $this->hasSharedComments()) {
 			$status = $this->setComment('DATABASE',$database,'',$comment);
 			if ($status != 0) return -2;
@@ -7575,6 +7585,7 @@ class Postgres extends ADODB_base {
 	function hasVirtualTransactionId() { return true; }
 	function hasWithoutOIDs() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
+	function hasDatabaseCollation() { return true; }
 	function hasMagicTypes() { return true; }
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }

@@ -199,6 +199,7 @@
 		echo "\t\t\t</select>\n";
 		echo "\t\t</td>\n\t</tr>\n";
 
+		// ENCODING
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strencoding']}</th>\n";
 		echo "\t\t<td class=\"data1\">\n";
 		echo "\t\t\t<select name=\"formEncoding\">\n";
@@ -210,6 +211,23 @@
 		}
 		echo "\t\t\t</select>\n";
 		echo "\t\t</td>\n\t</tr>\n";
+
+		if ($data->hasDatabaseCollation()) {
+			if (!isset($_POST['formCollate'])) $_POST['formCollate'] = '';
+			if (!isset($_POST['formCType'])) $_POST['formCType'] = '';
+
+			// LC_COLLATE
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strcollation']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n";
+			echo "\t\t\t<input name=\"formCollate\" value=\"", htmlspecialchars($_POST['formCollate']), "\" />\n";
+			echo "\t\t</td>\n\t</tr>\n";
+
+			// LC_CTYPE
+			echo "\t<tr>\n\t\t<th class=\"data left\">{$lang['strctype']}</th>\n";
+			echo "\t\t<td class=\"data1\">\n";
+			echo "\t\t\t<input name=\"formCType\" value=\"", htmlspecialchars($_POST['formCType']), "\" />\n";
+			echo "\t\t</td>\n\t</tr>\n";
+		}
 
 		// Tablespace (if there are any)
 		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
@@ -258,7 +276,8 @@
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
-			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc'], $_POST['formComment'], $_POST['formTemplate']);
+			$status = $data->createDatabase($_POST['formName'], $_POST['formEncoding'], $_POST['formSpc'],
+				$_POST['formComment'], $_POST['formTemplate'], $_POST['formCollate'], $_POST['formCType']);
 			if ($status == 0) {
 				$_reload_browser = true;
 				doDefault($lang['strdatabasecreated']);
@@ -345,6 +364,14 @@
 				'title' => $lang['strencoding'],
 				'field' => field('datencoding'),
 			),
+			'lc_collate' => array(
+				'title' => $lang['strcollation'],
+				'field' => field('datcollate'),
+			),
+			'lc_ctype' => array(
+				'title' => $lang['strctype'],
+				'field' => field('datctype'),
+			),
 			'tablespace' => array(
 				'title' => $lang['strtablespace'],
 				'field' => field('tablespace'),
@@ -391,6 +418,7 @@
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 		if (!$data->hasServerAdminFuncs()) unset($columns['dbsize']);
+		if (!$data->hasDatabaseCollation()) unset($columns['lc_collate'], $columns['lc_ctype']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);

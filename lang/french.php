@@ -60,6 +60,7 @@
 	$lang['stralter'] = 'Modifier';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Annuler';
+$lang['strkill']  =  'Kill';
 	$lang['strac']  =  'Activer la complétion automatique';
 	$lang['strsave'] = 'Sauvegarder';
 	$lang['strreset'] = 'Réinitialiser';
@@ -138,6 +139,8 @@ $lang['strconfdropcred']  =  'For security reason, disconnecting will destroy yo
 	$lang['strselectall']  =  'Sélectionner tout';
 	$lang['strunselectall']  =  'Desélectionner tout';
 	$lang['strlocale']  =  'Locale';
+	$lang['strcollation']  =  'Tri';
+	$lang['strctype']  =  'Type de cartactère';
 
 	// User-supplied SQL history
 	$lang['strhistory']  =  'Historique';
@@ -180,6 +183,8 @@ $lang['strconfdropcred']  =  'For security reason, disconnecting will destroy yo
 	$lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de schémas n\'est pas supporté sur Windows.';
 	$lang['strinvalidserverparam'] = 'Tentative de connexion avec un serveur invalide, il est possible que quelqu\'un essai de pirater votre système.'; 
 	$lang['strnoserversupplied']  =  'Aucun serveur fournis !';
+$lang['strbadpgdumppath']  =  'Export error: Failed to execute pg_dump (given path in your conf/config.inc.php : %s). Please, fix this path in your configuration and relog.';
+$lang['strbadpgdumpallpath']  =  'Export error: Failed to execute pg_dumpall (given path in your conf/config.inc.php : %s). Please, fix this path in your configuration and relog.';
 
 	// Tables
 	$lang['strtable'] = 'Table';
@@ -367,6 +372,7 @@ $lang['strconfdropcred']  =  'For security reason, disconnecting will destroy yo
 	$lang['strdatabasealtered']  =  'Base de données modifiée.';
 	$lang['strdatabasealteredbad']  =  'Échec lors de la modification de la base de données.';
 	$lang['strspecifydatabasetodrop']  =  'Vous devez spécifier au moins une base de données à supprimer';
+$lang['strtemplatedb']  =  'Template';
 
 	// Views
 	$lang['strview'] = 'Vue';
@@ -456,6 +462,7 @@ $lang['strconfdropcred']  =  'For security reason, disconnecting will destroy yo
 	$lang['strconfcluster']  =  'Êtes-vous sur de vouloir mettre en cluster « %s » ?';
 	$lang['strclusteredgood']  =  'Cluster effectué.';
 	$lang['strclusteredbad']  =  'Échec du cluster.';
+$lang['strconcurrently']  =  'Concurrently';
 
 	// Rules
 	$lang['strrules'] = 'Règles';

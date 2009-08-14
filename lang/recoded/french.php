@@ -60,6 +60,7 @@
 	$lang['stralter'] = 'Modifier';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Annuler';
+$lang['strkill']  =  'Kill';
 	$lang['strac']  =  'Activer la compl&#233;tion automatique';
 	$lang['strsave'] = 'Sauvegarder';
 	$lang['strreset'] = 'R&#233;initialiser';
@@ -133,10 +134,13 @@
 	$lang['strfile']  =  'Fichier';
 	$lang['strfileimported']  =  'Fichier import&#233;.';
 	$lang['strtrycred']  =  'Utilisez ces identifiants pour tous les serveurs';
+$lang['strconfdropcred']  =  'For security reason, disconnecting will destroy your shared login information. Are you sure you want to disconnect ?';
 	$lang['stractionsonmultiplelines']  =  'Actions sur plusieurs lignes';
 	$lang['strselectall']  =  'S&#233;lectionner tout';
 	$lang['strunselectall']  =  'Des&#233;lectionner tout';
 	$lang['strlocale']  =  'Locale';
+	$lang['strcollation']  =  'Tri';
+	$lang['strctype']  =  'Type de cartact&#232;re';
 
 	// User-supplied SQL history
 	$lang['strhistory']  =  'Historique';
@@ -179,6 +183,8 @@
 	$lang['strcannotdumponwindows']  =  'La sauvegarde de table complexe et des noms de sch&#233;mas n\'est pas support&#233; sur Windows.';
 	$lang['strinvalidserverparam'] = 'Tentative de connexion avec un serveur invalide, il est possible que quelqu\'un essai de pirater votre syst&#232;me.'; 
 	$lang['strnoserversupplied']  =  'Aucun serveur fournis !';
+$lang['strbadpgdumppath']  =  'Export error: Failed to execute pg_dump (given path in your conf/config.inc.php : %s). Please, fix this path in your configuration and relog.';
+$lang['strbadpgdumpallpath']  =  'Export error: Failed to execute pg_dumpall (given path in your conf/config.inc.php : %s). Please, fix this path in your configuration and relog.';
 
 	// Tables
 	$lang['strtable'] = 'Table';
@@ -245,6 +251,7 @@
 	$lang['strspecifytabletoempty']  =  'Vous devez sp&#233;cifier au moins une table &#224; vider';
 	$lang['strspecifytabletodrop']  =  'Vous devez sp&#233;cifier au moins une table &#224; supprimer';
 	$lang['strspecifytabletovacuum']  =  'Vous devez sp&#233;cifier au moins une table sur laquelle effectuer le vacuum';
+	$lang['strnofieldsforinsert']  =  'Vous ne pouvez ins&#233;rer de donn&#233;es dans une table sans champs.';
 
 	// Columns
 	$lang['strcolprop']  =  'Propri&#233;t&#233;s de la Colonne';
@@ -365,6 +372,7 @@
 	$lang['strdatabasealtered']  =  'Base de donn&#233;es modifi&#233;e.';
 	$lang['strdatabasealteredbad']  =  '&#201;chec lors de la modification de la base de donn&#233;es.';
 	$lang['strspecifydatabasetodrop']  =  'Vous devez sp&#233;cifier au moins une base de donn&#233;es &#224; supprimer';
+$lang['strtemplatedb']  =  'Template';
 
 	// Views
 	$lang['strview'] = 'Vue';
@@ -454,6 +462,7 @@
 	$lang['strconfcluster']  =  '&#202;tes-vous sur de vouloir mettre en cluster &#171; %s &#187; ?';
 	$lang['strclusteredgood']  =  'Cluster effectu&#233;.';
 	$lang['strclusteredbad']  =  '&#201;chec du cluster.';
+$lang['strconcurrently']  =  'Concurrently';
 
 	// Rules
 	$lang['strrules'] = 'R&#232;gles';
