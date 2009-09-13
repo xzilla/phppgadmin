@@ -273,6 +273,12 @@
 		// Default comment to blank if it isn't set
 		if (!isset($_POST['formComment'])) $_POST['formComment'] = null;
 
+		// Default collate to blank if it isn't set
+		if (!isset($_POST['formCollate'])) $_POST['formCollate'] = null;
+
+		// Default ctype to blank if it isn't set
+		if (!isset($_POST['formCType'])) $_POST['formCType'] = null;
+
 		// Check that they've given a name and a definition
 		if ($_POST['formName'] == '') doCreate($lang['strdatabaseneedsname']);
 		else {
