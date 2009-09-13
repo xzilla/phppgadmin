@@ -570,7 +570,6 @@ class Postgres extends ADODB_base {
 		$status = $this->execute($sql);
 		if ($status != 0) return -1;
 
-		$this->fieldClean($comment);
 		if ($comment != '' && $this->hasSharedComments()) {
 			$status = $this->setComment('DATABASE',$database,'',$comment);
 			if ($status != 0) return -2;
