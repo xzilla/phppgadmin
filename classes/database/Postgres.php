@@ -250,8 +250,9 @@ class Postgres extends ADODB_base {
 	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
 	 * @param $type The database type of the field
 	 * @param $actions An array of javascript action name to the code to execute on that action
+	 * @param $extra Some extra attributes to add.
 	 */
-	function printField($name, $value, $type, $actions = array(),$szExtra="") {
+	function printField($name, $value, $type, $actions = array(), $extra='') {
 		global $lang;
 
 		// Determine actions string
@@ -276,7 +277,7 @@ class Postgres extends ADODB_base {
 					echo "</select>\n";
 				}
 				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$extra} />\n";
 				}
 				break;
 			case 'bytea':
@@ -303,7 +304,7 @@ class Postgres extends ADODB_base {
 				echo "</textarea>\n";
 				break;
 			default:
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$szExtra} />\n";
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$extra} />\n";
 				break;
 		}
 	}
@@ -1163,7 +1164,6 @@ class Postgres extends ADODB_base {
 						AND pc.relkind='S'
 					) IS NOT NULL AS attisserial,
 					pg_catalog.col_description(a.attrelid, a.attnum) AS comment
-
 				FROM
 					pg_catalog.pg_attribute a LEFT JOIN pg_catalog.pg_attrdef adef
 					ON a.attrelid=adef.adrelid
@@ -3268,11 +3268,10 @@ class Postgres extends ADODB_base {
 
 		// get the max number of col used in a constraint for the table
 		$sql = "SELECT DISTINCT
-				max(SUBSTRING(array_dims(c.conkey) FROM  E'^\\\[.*:(.*)\\\]$')) as nb
-		FROM
-		      pg_catalog.pg_constraint AS c
-		  JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
-		      JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
+			max(SUBSTRING(array_dims(c.conkey) FROM  E'^\\\[.*:(.*)\\\]$')) as nb
+		FROM pg_catalog.pg_constraint AS c
+			JOIN pg_catalog.pg_class AS r ON (c.conrelid=r.oid)
+			JOIN pg_catalog.pg_namespace AS ns ON (r.relnamespace=ns.oid)
 		WHERE
 			r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
 
@@ -3283,10 +3282,11 @@ class Postgres extends ADODB_base {
 
 		$sql = '
 			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc,
+				c.oid AS conid, c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc,
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
-				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
+				r2.relname as f_table, f1.attname as p_field, f1.attnum AS p_attnum, f2.attname as f_field,
+				f2.attnum AS f_attnum, pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment,
+				c.conrelid, c.confrelid
 			FROM
 				pg_catalog.pg_constraint AS c
 				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)

@@ -214,6 +214,7 @@
 	$lang['strinsertrow'] = 'Insert row';
 	$lang['strrowinserted'] = 'Row inserted.';
 	$lang['strrowinsertedbad'] = 'Row insert failed.';
+	$lang['strnofkref'] = 'There is no matching value for this foreign key in %s.';
 	$lang['strrowduplicate'] = 'Row insert failed, attempted to do duplicate insert.';
 	$lang['streditrow'] = 'Edit row';
 	$lang['strrowupdated'] = 'Row updated.';

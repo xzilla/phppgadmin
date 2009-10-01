@@ -167,10 +167,12 @@ class Postgres81 extends Postgres82 {
 
 		$sql = '
 			SELECT
-				c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid,true) AS consrc,
+				c.oid AS conid, c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid,true) AS consrc,
 				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
-				r2.relname as f_table, f1.attname as p_field, f2.attname as f_field,
-				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment
+				r2.relname as f_table, f1.attname as p_field, f1.attnum AS p_attnum,
+				f2.attname as f_field, f2.attnum AS f_attnum,
+				pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment,
+				confrelid
 			FROM
 				pg_catalog.pg_constraint AS c
 				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)

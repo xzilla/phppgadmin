@@ -426,8 +426,8 @@ class Postgres73 extends Postgres74 {
 	}
 
 		$sql = "
-		SELECT contype, conname, consrc, ns1.nspname as p_schema, sub.relname as p_table,
-			f_schema, f_table, p_field, f_field, indkey
+		SELECT oid AS conid, contype, conname, consrc, ns1.nspname as p_schema, sub.relname as p_table,
+			f_schema, f_table, p_field, f_field, indkey, confrelid
 		FROM (
 			SELECT
 			contype, conname,
@@ -436,8 +436,8 @@ class Postgres73 extends Postgres74 {
 			ELSE
 				'CHECK (' || consrc || ')'
 			END AS consrc, r1.relname,
-			f1.attname as p_field, ns2.nspname as f_schema, r2.relname as f_table,
-			conrelid, r1.relnamespace, f2.attname as f_field, NULL AS indkey
+			f1.attname as p_field, f1.attnum AS p_attnum, ns2.nspname as f_schema, r2.relname as f_table,
+			conrelid, r1.relnamespace, f2.attname as f_field, f2.attnum AS f_attnum, NULL AS indkey
 		  FROM
 			pg_catalog.pg_constraint AS c
 			JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)

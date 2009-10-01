@@ -458,7 +458,7 @@
 		global $data, $misc, $conf;
 		global $lang;
 
-		$bAllowAC = (($conf['autocomplete'] != 'disable') ? TRUE : FALSE);
+		$auto_complete = ($conf['autocomplete'] != 'disable');
 
 		if ($confirm) {
 			$misc->printTrail('table');
@@ -466,21 +466,75 @@
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
-			if($bAllowAC) {
-				$constraints = $data->getConstraintsWithFields($_REQUEST['table']);
+			$fksprops = array(
+				'byconstr' => array(),
+				'byfield' => array(),
+			);
+			if($auto_complete) {
+				$constrs = $data->getConstraintsWithFields($_REQUEST['table']);
 
-				$arrayLocals = array();
-				$arrayRefs = array();
-				$nC = 0;
-				while(!$constraints->EOF) {
-					// FIXME: add a better support for FKs on multi columns
-					if ($constraints->fields['contype'] == 'f') {
-						$arrayLocals[$nC] = $constraints->fields['p_field'];
-						$arrayRefs[$nC] = array($constraints->fields['f_schema'], $constraints->fields['f_table'], $constraints->fields['f_field']);
-						$nC++;
+				if (!$constrs->EOF) {
+					$conrelid = $constrs->fields['conrelid'];
+					while(!$constrs->EOF) {
+						if ($constrs->fields['contype'] == 'f') {
+							if (!isset($fksprops['byconstr'][$constrs->fields['conid']])) {
+								$fksprops['byconstr'][$constrs->fields['conid']] = array (
+									'confrelid' => $constrs->fields['confrelid'],
+									'f_table' => $constrs->fields['f_table'],
+									'f_schema' => $constrs->fields['f_schema'],
+									'pattnums' => array(),
+									'pattnames' => array(),
+									'fattnames' => array()
+								);
+							}
+
+							$fksprops['byconstr'][$constrs->fields['conid']]['pattnums'][] = $constrs->fields['p_attnum'];
+							$fksprops['byconstr'][$constrs->fields['conid']]['pattnames'][] = $constrs->fields['p_field'];
+							$fksprops['byconstr'][$constrs->fields['conid']]['fattnames'][] = $constrs->fields['f_field'];
+
+							if (!isset($fksprops['byfield'][$constrs->fields['p_attnum']]))
+								$fksprops['byfield'][$constrs->fields['p_attnum']] = array();
+							$fksprops['byfield'][$constrs->fields['p_attnum']] = $constrs->fields['conid'];
+						}
+						$constrs->moveNext();
 					}
-					$constraints->moveNext();
+					
+					echo "<script type=\"text/javascript\">\n";
+					echo "var constrs = {};\n";
+					foreach ($fksprops['byconstr'] as $conid => $props) {
+						echo "constrs.constr_{$conid} = {\n";
+						echo 'pattnums: [', implode(',',$props['pattnums']), "],\n";
+						echo "f_table:\"", htmlentities($props['f_table']), "\",\n";
+						echo "f_schema:\"", htmlentities($props['f_schema']), "\",\n";
+						$_='';
+						foreach ($props['pattnames'] as $n) {
+							$_.= ",'". htmlentities($n, ENT_QUOTES) ."'";
+						}
+						echo 'pattnames: [', substr($_, 1), "],\n";
+
+						$_='';
+						foreach ($props['fattnames'] as $n) {
+							$_.= ",'". htmlentities($n, ENT_QUOTES) ."'";
+						}
+
+						echo 'fattnames: [', substr($_, 1), "]\n";
+						echo "};\n";
+					}
+
+					echo "var attrs = {};\n";
+					foreach ($fksprops['byfield'] as $attnum => $cstrs ) {
+						echo "attrs.attr_{$attnum} = {$fksprops['byfield'][$attnum]};\n";
+					}
+
+					echo "var table='", htmlentities($_REQUEST['table']), "';";
+					echo "var server='", htmlentities($_REQUEST['server']), "';";
+					echo "var database='", htmlentities($_REQUEST['database']), "';";
+					echo "</script>\n";
+
+					echo '<div id="fkbg"></div>';
+					echo '<div id="fklist"></div>';
 				}
+				else $auto_complete = false;
 			}
 
 			echo "<form action=\"tables.php\" method=\"post\" id=\"ac_form\">\n";
@@ -496,18 +550,6 @@
 				$fields = array();
 				while (!$attrs->EOF) {
 					$fields[$attrs->fields['attnum']] = $attrs->fields['attname'];
-					$szValueName = "values[{$attrs->fields['attnum']}]";
-					$szEvents = '';
-					$szDivPH = '';
-					if($bAllowAC) {
-						$idxFound = array_search($attrs->fields['attname'], $arrayLocals);
-						// In PHP < 4.2.0 array_search returns NULL on failure
-						if ($idxFound !== NULL && $idxFound !== FALSE) {
-							$szEvent = "makeAC('{$szValueName}',{$i},'{$arrayRefs[$idxFound][0]}','{$arrayRefs[$idxFound][1]}','{$arrayRefs[$idxFound][2]}','{$_REQUEST['server']}','{$_REQUEST['database']}');";
-							$szEvents = "onfocus=\"{$szEvent}\" onblur=\"hideAC();document.getElementById('ac_form').onsubmit=function(){return true;};\" onchange=\"{$szEvent}\" id=\"{$szValueName}\" onkeyup=\"{$szEvent}\" autocomplete=\"off\" class='ac_field'";
-							$szDivPH = "<div id=\"fac{$i}_ph\"></div>";
-						}
-					}
 					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
 					// Set up default value if there isn't one already
 					if (!isset($_REQUEST['values'][$attrs->fields['attnum']]))
@@ -522,32 +564,40 @@
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attnum']), "]\" value=\"",
+					echo "<input type=\"hidden\" name=\"types[{$attrs->fields['attnum']}]\" value=\"",
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attnum']), "]\">\n";
+					echo "<select name=\"format[{$attrs->fields['attnum']}]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
-						echo "<input type=\"checkbox\" name=\"nulls[", htmlspecialchars($attrs->fields['attnum']), "]\"",
+						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
 							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></td>";
 					}
 					else {
 						echo "&nbsp;</td>";
 					}
-					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">", $data->printField($szValueName,
-					$_REQUEST['values'][$attrs->fields['attnum']], $attrs->fields['type'],array(),$szEvents),$szDivPH ,"</td>";
+					echo "<td class=\"data{$id}\" id=\"row_att_{$attrs->fields['attnum']}\" style=\"white-space:nowrap;\">";
+					if ($auto_complete && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
+						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']],
+							'fktype'/*force FK*/,array(), "id=\"attr_{$attrs->fields['attnum']}\" autocomplete=\"off\"");
+					}
+					else {
+						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']],
+							$attrs->fields['type'],array());
+					}
+					echo "</td>\n";
 					echo "</tr>\n";
 					$i++;
 					$attrs->moveNext();
 				}
 				echo "</table>\n";
-				if($bAllowAC) {
-					echo '<script src="aciur.js" type="text/javascript"></script>';
-					echo "<div id=\"ac\"></div>";
+				if($auto_complete) {
+					echo "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>";
+					echo "<script src=\"js/ac_insert_row.js\" type=\"text/javascript\"></script>";
 				}
 
 				if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
@@ -559,12 +609,14 @@
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
 				echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-				if($bAllowAC) {
-					$szChecked = $conf['autocomplete'] != 'default off' ? 'checked="checked"' : '';
-					echo "<input type=\"checkbox\" name=\"no_ac\" id=\"no_ac\" onclick=\"rEB(this.checked);\" value=\"1\" {$szChecked} /><label for='no_ac' onmouseover='this.style.cursor=\"pointer\";'>{$lang['strac']}</label>\n";
+				
+				if($auto_complete) {
+					if ($conf['autocomplete'] != 'default off')
+						echo "<input type=\"checkbox\" id=\"no_ac\" value=\"1\" checked=\"checked\" /><label for=\"no_ac\">{$lang['strac']}</label>\n";
+					else
+						echo "<input type=\"checkbox\" id=\"no_ac\" value=\"0\" /><label for=\"no_ac\">{$lang['strac']}</label>\n";
 				}
 				echo "</p>\n";
-				echo "<script type=\"text/javascript\">rEB(document.getElementById('no_ac').checked);</script>";
 			}
 			else { 
 				echo "<p>{$lang['strnofieldsforinsert']}</p>\n";
