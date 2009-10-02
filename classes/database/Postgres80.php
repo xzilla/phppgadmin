@@ -291,6 +291,8 @@ class Postgres80 extends Postgres81 {
 	 * @return A recordset
 	 */
 	function getAggregate($name, $basetype) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->fieldclean($name);
 		$this->fieldclean($basetype);
 
@@ -303,7 +305,7 @@ class Postgres80 extends Postgres81 {
 				a.aggfinalfn, a.agginitval, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
 			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
 			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
-				AND p.proisagg AND n.nspname='{$this->_schema}'
+				AND p.proisagg AND n.nspname='{$c_schema}'
 				AND p.proname='" . $name . "'
 				AND CASE p.proargtypes[0]
 					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''

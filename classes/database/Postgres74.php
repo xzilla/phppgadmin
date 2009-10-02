@@ -219,6 +219,8 @@ class Postgres74 extends Postgres80 {
 	 * @return A recordset
 	 */
 	function getTable($table) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($table);
 
 		$sql = "
@@ -229,7 +231,7 @@ class Postgres74 extends Postgres80 {
 			     LEFT JOIN pg_catalog.pg_user u ON u.usesysid = c.relowner
 			     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 			WHERE c.relkind = 'r'
-				AND n.nspname = '{$this->_schema}'
+				AND n.nspname = '{$c_schema}'
 			    AND c.relname = '{$table}'";
 
 		return $this->selectSet($sql);
@@ -241,6 +243,8 @@ class Postgres74 extends Postgres80 {
 	 * @return All tables, sorted alphabetically
 	 */
 	function getTables($all = false) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT schemaname AS nspname, tablename AS relname, tableowner AS relowner
@@ -254,7 +258,7 @@ class Postgres74 extends Postgres80 {
 					FROM pg_catalog.pg_class c
 					LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
 					WHERE c.relkind = 'r'
-					AND nspname='{$this->_schema}'
+					AND nspname='{$c_schema}'
 					ORDER BY c.relname";
 		}
 
@@ -278,6 +282,8 @@ class Postgres74 extends Postgres80 {
 	 * @return A recordset
 	 */
 	function getSequences($all = false) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
 			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
@@ -290,7 +296,7 @@ class Postgres74 extends Postgres80 {
 			$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment
 				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
 				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S' AND n.nspname='{$this->_schema}' ORDER BY seqname";
+				AND c.relkind = 'S' AND n.nspname='{$c_schema}' ORDER BY seqname";
 		}
 
 		return $this->selectSet( $sql );

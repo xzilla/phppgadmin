@@ -65,7 +65,9 @@ class Postgres82 extends Postgres83 {
 	 */
 	function alterSequenceName($seqrs, $name) {
 		if (!empty($name) && ($seqrs->fields['seqname'] != $name)) {
-			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$seqrs->fields['seqname']}\" RENAME TO \"{$name}\"";
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$sql = "ALTER TABLE \"{$f_schema}\".\"{$seqrs->fields['seqname']}\" RENAME TO \"{$name}\"";
 			$status = $this->execute($sql);
 			if ($status == 0)
 				$seqrs->fields['seqname'] = $name;
@@ -87,7 +89,9 @@ class Postgres82 extends Postgres83 {
 	function alterViewName($vwrs, $name) {
 		// Rename (only if name has changed)
 		if (!empty($name) && ($name != $vwrs->fields['relname'])) {
-			$sql = "ALTER TABLE \"{$this->_schema}\".\"{$vwrs->fields['relname']}\" RENAME TO \"{$name}\"";
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$sql = "ALTER TABLE \"{$f_schema}\".\"{$vwrs->fields['relname']}\" RENAME TO \"{$name}\"";
 			$status =  $this->execute($sql);
 			if ($status == 0)
 				$vwrs->fields['relname'] = $name;
@@ -105,6 +109,8 @@ class Postgres82 extends Postgres83 {
 	 * @return A recordset
 	 */
 	function getTriggers($table = '') {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($table);
 
 		$sql = "SELECT
@@ -113,7 +119,7 @@ class Postgres82 extends Postgres83 {
 				ns.nspname AS pronamespace
 			FROM pg_catalog.pg_trigger t, pg_catalog.pg_proc p, pg_catalog.pg_namespace ns
 			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
-				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}'))
 				AND (NOT tgisconstraint OR NOT EXISTS
 						(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
 							ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
@@ -187,6 +193,8 @@ class Postgres82 extends Postgres83 {
 			return -1;
 		}
 		
+		$f_schema = $this->_schema;
+		$this->fieldClean($f_schema);
 		$this->fieldClean($funcname);
 		$this->clean($args);
 		$this->clean($language);
@@ -194,7 +202,7 @@ class Postgres82 extends Postgres83 {
 
 		$sql = "CREATE";
 		if ($replace) $sql .= " OR REPLACE";
-		$sql .= " FUNCTION \"{$this->_schema}\".\"{$funcname}\" (";
+		$sql .= " FUNCTION \"{$f_schema}\".\"{$funcname}\" (";
 
 		if ($args != '')
 			$sql .= $args;
@@ -250,12 +258,14 @@ class Postgres82 extends Postgres83 {
 	 * @return 0 success
 	 */
 	function clusterIndex($index, $table) {
+		$f_schema = $this->_schema;
+		$this->fieldClean($f_schema);
 		$this->fieldClean($index);
 		$this->fieldClean($table);
 
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		$sql = "CLUSTER \"{$index}\" ON \"{$this->_schema}\".\"{$table}\"";
+		$sql = "CLUSTER \"{$index}\" ON \"{$f_schema}\".\"{$table}\"";
 
 		return $this->execute($sql);
 	}
@@ -267,6 +277,8 @@ class Postgres82 extends Postgres83 {
 	 * @return A recordset
 	 */
 	function getOpClasses() {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$sql = "
 			SELECT
 				pa.amname,
@@ -279,7 +291,7 @@ class Postgres82 extends Postgres83 {
 			WHERE
 				po.opcamid=pa.oid
 				AND po.opcnamespace=pn.oid
-				AND pn.nspname='{$this->_schema}'
+				AND pn.nspname='{$c_schema}'
 			ORDER BY 1,2
 		";
 

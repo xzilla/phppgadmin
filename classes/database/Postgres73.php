@@ -68,6 +68,8 @@ class Postgres73 extends Postgres74 {
 	 * @return A recordset
 	 */
 	function getTriggers($table = '') {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($table);
 
 		$sql = "SELECT t.tgname, t.tgisconstraint, t.tgdeferrable, t.tginitdeferred, t.tgtype,
@@ -81,7 +83,7 @@ class Postgres73 extends Postgres74 {
 					ON t.tgfoid=p.oid, pg_catalog.pg_class c
 			WHERE t.tgrelid=c.oid
 				AND c.relname='{$table}'
-				AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}')
+				AND c.relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}')
 				AND (NOT tgisconstraint OR NOT EXISTS
 					(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
 						ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
@@ -101,6 +103,8 @@ class Postgres73 extends Postgres74 {
 	 */
 	function getRowIdentifier($table) {
 		$oldtable = $table;
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($table);
 
 		$status = $this->beginTransaction();
@@ -110,7 +114,7 @@ class Postgres73 extends Postgres74 {
 		// is NOT a partial index.
 		$sql = "SELECT indrelid, indkey FROM pg_catalog.pg_index WHERE indisunique AND
 			indrelid=(SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}' AND
-			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$this->_schema}'))
+			relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}'))
 			AND indpred='' AND indproc='-' ORDER BY indisprimary DESC LIMIT 1";
 		$rs = $this->selectSet($sql);
 
@@ -147,6 +151,8 @@ class Postgres73 extends Postgres74 {
 	 * @return View info
 	 */
 	function getView($view) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($view);
 
 		$sql = "
@@ -154,7 +160,7 @@ class Postgres73 extends Postgres74 {
             	pg_catalog.pg_get_viewdef(c.oid) AS vwdefinition, pg_catalog.obj_description(c.oid, 'pg_class') AS relcomment
 			FROM pg_catalog.pg_class c LEFT JOIN pg_catalog.pg_namespace n ON (n.oid = c.relnamespace)
 			WHERE (c.relname = '$view')
-				AND n.nspname='{$this->_schema}'";
+				AND n.nspname='{$c_schema}'";
 
 		return $this->selectSet($sql);
 	}
@@ -324,6 +330,8 @@ class Postgres73 extends Postgres74 {
 	 * @return A recordset
 	 */
 	function getConstraints($table) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$this->clean($table);
 
 		/* This query finds all foreign key and check constraints in the pg_constraint
@@ -371,7 +379,7 @@ class Postgres73 extends Postgres74 {
 			) AS sub
 			WHERE relid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-					WHERE nspname='{$this->_schema}'))
+					WHERE nspname='{$c_schema}'))
 			ORDER BY
 				1
 		";
@@ -390,6 +398,8 @@ class Postgres73 extends Postgres74 {
 		global $data;
 
 		$data->clean($table);
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 
 		// get the max number of col used in a constraint for the table
     	$sql = "SELECT DISTINCT
@@ -399,7 +409,7 @@ class Postgres73 extends Postgres74 {
     	 	JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
 	     	JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
     	WHERE
-      		r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
+      		r.relname = '{$table}' AND ns.nspname='{$c_schema}'";
 
 		$rs = $this->selectSet($sql);
 
@@ -413,7 +423,7 @@ class Postgres73 extends Postgres74 {
 			JOIN pg_catalog.pg_class AS r ON (i.indrelid = r.oid)
 			JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
     	WHERE
-      		r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
+      		r.relname = '{$table}' AND ns.nspname='{$c_schema}'";
 
 		/* parse our output to find the highest dimension of index keys since
 		 * i.indkey is stored in an int2vector */
@@ -423,7 +433,7 @@ class Postgres73 extends Postgres74 {
   			$tmp = count(explode(' ', $rs->fields['indkey']));
   			$max_col_ind = $tmp > $max_col_ind ? $tmp : $max_col_ind;
   			$rs->MoveNext();
-	}
+		}
 
 		$sql = "
 		SELECT oid AS conid, contype, conname, consrc, ns1.nspname as p_schema, sub.relname as p_table,
@@ -444,7 +454,7 @@ class Postgres73 extends Postgres74 {
 			JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=c.conrelid) AND (f1.attnum=c.conkey[1]";
 		for ($i = 2; $i <= $max_col_cstr; $i++) {
 			$sql.= " OR f1.attnum=c.conkey[$i]";
-	}
+		}
 		$sql .= "))
 			LEFT JOIN (
 				pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
@@ -471,7 +481,7 @@ class Postgres73 extends Postgres74 {
 				JOIN pg_catalog.pg_attribute AS f1 ON ((f1.attrelid=pi.indrelid) AND (f1.attnum=pi.indkey[0]";
 			for ($i = 1; $i <= $max_col_ind; $i++) {
 				$sql.= " OR f1.attnum=pi.indkey[$i]";
-	}
+			}
 			$sql .= "))
 				JOIN pg_catalog.pg_class r2 ON (pi.indrelid=r2.oid)
 			WHERE
@@ -488,7 +498,7 @@ class Postgres73 extends Postgres74 {
 			JOIN pg_catalog.pg_namespace AS ns1 ON sub.relnamespace=ns1.oid
 		WHERE conrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
-				WHERE nspname='{$this->_schema}'))
+				WHERE nspname='{$c_schema}'))
 		ORDER BY 1
 		";
 

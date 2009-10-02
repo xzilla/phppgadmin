@@ -148,6 +148,8 @@ class Postgres81 extends Postgres82 {
 	function getConstraintsWithFields($table) {
 		global $data;
 
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
 		$data->clean($table);
 
 		// get the max number of col used in a constraint for the table
@@ -158,7 +160,7 @@ class Postgres81 extends Postgres82 {
 		  JOIN pg_catalog.pg_class AS r ON (c.conrelid = r.oid)
 		      JOIN pg_catalog.pg_namespace AS ns ON r.relnamespace=ns.oid
 		WHERE
-			r.relname = '$table' AND ns.nspname='". $this->_schema ."'";
+			r.relname = '{$table}' AND ns.nspname='{$c_schema}'";
 
 		$rs = $this->selectSet($sql);
 
@@ -193,7 +195,7 @@ class Postgres81 extends Postgres82 {
 		$sql .= sprintf("))
 			WHERE
 				r1.relname = '%s' AND ns1.nspname='%s'
-			ORDER BY 1", $table, $this->_schema);
+			ORDER BY 1", $table, $c_schema);
 
 		return $this->selectSet($sql);
 	}
