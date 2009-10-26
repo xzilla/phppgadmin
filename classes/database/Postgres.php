@@ -6717,48 +6717,50 @@ class Postgres extends ADODB_base {
 			$sql .= ' GRANT OPTION FOR';
 		}
 
-		if (in_array('ALL PRIVILEGES', $privileges))
-			$sql .= ' ALL PRIVILEGES ON';
+		if (in_array('ALL PRIVILEGES', $privileges)) {
+			$sql .= ' ALL PRIVILEGES';
+		}
 		else {
-			if ($type='column') {
+			if ($type == 'column') {
 				$this->fieldClean($object);
-				$sql .= ' ' . join(" (\"{$object}\"), ", $privileges) . " (\"{$object}\") ON";
-				$object = $table;
+				$sql .= ' ' . join(" (\"{$object}\"), ", $privileges);
 			}
 			else {
-				$sql .= ' ' . join(', ', $privileges) . ' ON';
+				$sql .= ' ' . join(', ', $privileges);
 			}
 		}
-			
+
 		switch ($type) {
 			case 'column':
+				$sql .= " (\"{$object}\")";
+				$object = $table;
 			case 'table':
 			case 'view':
 			case 'sequence':
 				$this->fieldClean($object);
-				$sql .= " \"{$f_schema}\".\"{$object}\"";
+				$sql .= " ON \"{$f_schema}\".\"{$object}\"";
 				break;
 			case 'database':
 				$this->fieldClean($object);
-				$sql .= " DATABASE \"{$object}\"";
+				$sql .= " ON DATABASE \"{$object}\"";
 				break;
 			case 'function':
 				// Function comes in with $object as function OID
 				$fn = $this->getFunction($object);
 				$this->fieldClean($fn->fields['proname']);
-				$sql .= " FUNCTION \"{$f_schema}\".\"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
+				$sql .= " ON FUNCTION \"{$f_schema}\".\"{$fn->fields['proname']}\"({$fn->fields['proarguments']})";
 				break;
 			case 'language':
 				$this->fieldClean($object);
-				$sql .= " LANGUAGE \"{$object}\"";
+				$sql .= " ON LANGUAGE \"{$object}\"";
 				break;
 			case 'schema':
 				$this->fieldClean($object);
-				$sql .= " SCHEMA \"{$object}\"";
+				$sql .= " ON SCHEMA \"{$object}\"";
 				break;
 			case 'tablespace':
 				$this->fieldClean($object);
-				$sql .= " TABLESPACE \"{$object}\"";
+				$sql .= " ON TABLESPACE \"{$object}\"";
 				break;
 			default:
 				return -1;
