@@ -341,7 +341,7 @@
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
 			include_once('./classes/database/' . $_type . '.php');
-			$data =& new $_type($_connection->conn);
+			$data = new $_type($_connection->conn);
 			$data->platform = $_connection->platform;
 
 			return $data;
