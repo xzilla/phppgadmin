@@ -664,12 +664,10 @@ class Postgres extends ADODB_base {
 			}
 		}
 
-		if (trim($comment) != '' ) {
-			$status = $this->setComment('DATABASE', $dbName, '', $comment);
-			if ($status != 0) {
-				$this->rollbackTransaction();
-				return -4;
-			}
+		$status = $this->setComment('DATABASE', $dbName, '', $comment);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -4;
 		}
 		return $this->endTransaction();
 	}
