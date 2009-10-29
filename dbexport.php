@@ -109,7 +109,7 @@
 		switch ($_REQUEST['what']) {
 			case 'dataonly':
 				$cmd .= ' -a';
-				if ($_REQUEST['d_format'] == 'sql') $cmd .= ' -d';
+				if ($_REQUEST['d_format'] == 'sql') $cmd .= ' --inserts';
 				elseif (isset($_REQUEST['d_oids'])) $cmd .= ' -o';
 				break;
 			case 'structureonly':
@@ -117,7 +117,7 @@
 				if (isset($_REQUEST['s_clean'])) $cmd .= ' -c';
 				break;
 			case 'structureanddata':
-				if ($_REQUEST['sd_format'] == 'sql') $cmd .= ' -d';
+				if ($_REQUEST['sd_format'] == 'sql') $cmd .= ' --inserts';
 				elseif (isset($_REQUEST['sd_oids'])) $cmd .= ' -o';
 				if (isset($_REQUEST['sd_clean'])) $cmd .= ' -c';
 				break;
