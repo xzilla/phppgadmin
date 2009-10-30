@@ -1,8 +1,6 @@
 <?php
 /*
- Modified by phpPgAdmin team: functions _connect and _decode
-
- V4.94 23 Jan 2007  (c) 2000-2007 John Lim (jlim#natsoft.com.my). All rights reserved.
+ V5.09 25 June 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence.
@@ -106,7 +104,8 @@ WHERE relkind in ('r','v') AND (c.relname='%s' or c.relname = lower('%s'))
 	var $random = 'random()';		/// random function
 	var $autoRollback = true; // apparently pgsql does not autorollback properly before php 4.3.4
 							// http://bugs.php.net/bug.php?id=25404
-							
+	
+	var $uniqueIisR = true;
 	var $_bindInputArray = false; // requires postgresql 7.3+ and ability to modify database
 	var $disableBlobs = false; // set to true to disable blob checking, resulting in 2-5% improvement in performance.
 	
@@ -203,7 +202,7 @@ a different OID if a database must be reloaded. */
 		return @pg_Exec($this->_connectionID, "rollback");
 	}
 	
-	function &MetaTables($ttype=false,$showSchema=false,$mask=false) 
+	function MetaTables($ttype=false,$showSchema=false,$mask=false) 
 	{
 		$info = $this->ServerInfo();
 		if ($info['version'] >= 7.3) {
@@ -226,7 +225,7 @@ select tablename,'T' from pg_tables where tablename like $mask
  union 
 select viewname,'V' from pg_views where viewname like $mask";
 		}
-		$ret =& ADOConnection::MetaTables($ttype,$showSchema);
+		$ret = ADOConnection::MetaTables($ttype,$showSchema);
 		
 		if ($mask) {
 			$this->metaTablesSQL = $save;
@@ -238,10 +237,12 @@ select viewname,'V' from pg_views where viewname like $mask";
 	// if magic quotes disabled, use pg_escape_string()
 	function qstr($s,$magic_quotes=false)
 	{
+		if (is_bool($s)) return $s ? 'true' : 'false';
+		 
 		if (!$magic_quotes) {
 			if (ADODB_PHPVER >= 0x5200) {
 				return  "'".pg_escape_string($this->_connectionID,$s)."'";
-			}
+			} 
 			if (ADODB_PHPVER >= 0x4200) {
 				return  "'".pg_escape_string($s)."'";
 			}
@@ -318,7 +319,7 @@ select viewname,'V' from pg_views where viewname like $mask";
 				$s .= 'DAY';
 				break;
 			
-			case 'W':
+			 case 'W':
 				$s .= 'WW';
 				break;
 
@@ -459,14 +460,17 @@ select viewname,'V' from pg_views where viewname like $mask";
 			if (10 <= $len && $len <= 12) $date = 'date '.$date;
 			else $date = 'timestamp '.$date;
 		}
-		return "($date+interval'$dayFraction days')";
+		
+		
+		return "($date+interval'".($dayFraction * 1440)." minutes')";
+		#return "($date+interval'$dayFraction days')";
 	}
 	
 
 	// for schema support, pass in the $table param "$schema.$tabname".
 	// converts field names to lowercase, $upper is ignored
 	// see http://phplens.com/lens/lensforum/msgs.php?id=14018 for more info
-	function &MetaColumns($table,$normalize=true) 
+	function MetaColumns($table,$normalize=true) 
 	{
 	global $ADODB_FETCH_MODE;
 	
@@ -480,8 +484,8 @@ select viewname,'V' from pg_views where viewname like $mask";
 		$ADODB_FETCH_MODE = ADODB_FETCH_NUM;
 		if ($this->fetchMode !== false) $savem = $this->SetFetchMode(false);
 		
-		if ($schema) $rs =& $this->Execute(sprintf($this->metaColumnsSQL1,$table,$table,$schema));
-		else $rs =& $this->Execute(sprintf($this->metaColumnsSQL,$table,$table));
+		if ($schema) $rs = $this->Execute(sprintf($this->metaColumnsSQL1,$table,$table,$schema));
+		else $rs = $this->Execute(sprintf($this->metaColumnsSQL,$table,$table));
 		if (isset($savem)) $this->SetFetchMode($savem);
 		$ADODB_FETCH_MODE = $save;
 		
@@ -498,7 +502,7 @@ select viewname,'V' from pg_views where viewname like $mask";
 			
 			$rskey = $this->Execute(sprintf($this->metaKeySQL,($table)));
 			// fetch all result in once for performance.
-			$keys =& $rskey->GetArray();
+			$keys = $rskey->GetArray();
 			if (isset($savem)) $this->SetFetchMode($savem);
 			$ADODB_FETCH_MODE = $save;
 			
@@ -556,6 +560,7 @@ select viewname,'V' from pg_views where viewname like $mask";
 			//Freek
 			$fld->not_null = $rs->fields[4] == 't';
 			
+			
 			// Freek
 			if (is_array($keys)) {
 				foreach($keys as $key) {
@@ -573,13 +578,13 @@ select viewname,'V' from pg_views where viewname like $mask";
 		}
 		$rs->Close();
 		if (empty($retarr))
-			return $false;
+			return  $false;
 		else
 			return $retarr;	
 		
 	}
 
-	  function &MetaIndexes ($table, $primary = FALSE)
+	  function MetaIndexes ($table, $primary = FALSE)
       {
          global $ADODB_FETCH_MODE;
                 
@@ -621,7 +626,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 
                 if (!is_object($rs)) {
                 	$false = false;
-			return $false;
+					return $false;
                 }
 				
                 $col_names = $this->MetaColumnNames($table,true,true); 
@@ -665,18 +670,16 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 				else $str = '';
 				if (isset($host[1])) $str .= " port=$host[1]";
 				else if (!empty($this->port)) $str .= " port=".$this->port;
-				if (isset($host[2])) $str .= " sslmode=".adodb_addslashes($host[2]);
-				else if (!empty($this->sslmode)) $str .= " sslmode=".$this->sslmode;
 			}
-			if ($user) $str .= " user=".$user;
-		   	if ($pwd)  $str .= " password=".$pwd;
-			if ($db)   $str .= " dbname=".$db;
+		   		if ($user) $str .= " user=".$user;
+		   		if ($pwd)  $str .= " password=".$pwd;
+				if ($db)   $str .= " dbname=".$db;
 		}
 
 		//if ($user) $linea = "user=$user host=$linea password=$pwd dbname=$db port=5432";
 		
 		if ($ctype === 1) { // persistent
-			$this->_connectionID = @pg_pconnect($str);
+			$this->_connectionID = pg_pconnect($str);
 		} else {
 			if ($ctype === -1) { // nconnect, we trick pgsql ext by changing the connection str
 			static $ncnt;
@@ -686,7 +689,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 				
 				$str .= str_repeat(' ',$ncnt);
 			}
-			$this->_connectionID = @pg_connect($str);
+			$this->_connectionID = pg_connect($str);
 		}
 		if ($this->_connectionID === false) return false;
 		$this->Execute("set datestyle='ISO'");
@@ -716,7 +719,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 	
 
 	// returns queryID or false
-	function _query($sql,$inputarr)
+	function _query($sql,$inputarr=false)
 	{
 		$this->_errorMsg = false;
 		if ($inputarr) {
@@ -747,6 +750,7 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 			
 			if ($execp) $exsql = "EXECUTE $plan ($execp)";
 			else $exsql = "EXECUTE $plan";
+			
 			
 			$rez = @pg_exec($this->_connectionID,$exsql);
 			if (!$rez) {
@@ -824,8 +828,8 @@ WHERE (c2.relname=\'%s\' or c2.relname=lower(\'%s\'))';
 		$e = $this->ErrorMsg();
 		if (strlen($e)) {
 			return ADOConnection::MetaError($e);
-		}
-		return 0;
+		 }
+		 return 0;
 	}
 
 	// returns true or false
@@ -888,10 +892,10 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 		$this->ADORecordSet($queryID);
 	}
 	
-	function &GetRowAssoc($upper=true)
+	function GetRowAssoc($upper=true)
 	{
 		if ($this->fetchMode == PGSQL_ASSOC && !$upper) return $this->fields;
-		$row =& ADORecordSet::GetRowAssoc($upper);
+		$row = ADORecordSet::GetRowAssoc($upper);
 		return $row;
 	}
 
@@ -927,7 +931,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 		 return $this->fields[$this->bind[strtoupper($colname)]];
 	}
 
-	function &FetchField($off = 0) 
+	function FetchField($off = 0) 
 	{
 		// offsets begin at 0
 		
@@ -945,8 +949,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	
 	function _decode($blob)
 	{
-		if (is_null($blob))
-			return NULL;
+		if ($blob === NULL) return NULL;
 		eval('$realblob="'.adodb_str_replace(array('"','$'),array('\"','\$'),$blob).'";');
 		return $realblob;	
 	}
@@ -987,7 +990,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	{
 				
 		if ($this->_currentRow >= $this->_numOfRows && $this->_numOfRows >= 0)
-			return false;
+        	return false;
 
 		$this->fields = @pg_fetch_array($this->_queryID,$this->_currentRow,$this->fetchMode);
 		
@@ -1038,6 +1041,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 				case 'DATE':
 					return 'D';
 				
+				
 				case 'TIMESTAMP WITHOUT TIME ZONE':
 				case 'TIME':
 				case 'DATETIME':
@@ -1052,7 +1056,7 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 				case 'INT4':
 				case 'INT2':
 					if (isset($fieldobj) &&
-				empty($fieldobj->primary_key) && empty($fieldobj->unique)) return 'I';
+				empty($fieldobj->primary_key) && (!$this->uniqueIisR || empty($fieldobj->unique))) return 'I';
 				
 				case 'OID':
 				case 'SERIAL':
