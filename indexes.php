@@ -196,7 +196,7 @@
 		else {
 			$status = $data->createIndex($_POST['formIndexName'], $_POST['table'], $_POST['IndexColumnList'], 
 				$_POST['formIndexType'], isset($_POST['formUnique']), $_POST['formWhere'], $_POST['formSpc'], 
-				$_POST['formConcur']);
+				isset($_POST['formConcur']));
 			if ($status == 0)
 				doDefault($lang['strindexcreated']);
 			else
