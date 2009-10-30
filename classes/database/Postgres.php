@@ -1406,12 +1406,10 @@ class Postgres extends ADODB_base {
 		*/
 
 		// Handle WITHOUT OIDS
-		if ($this->hasWithoutOIDs()) {
-			if ($this->hasObjectID($table))
-				$sql .= " WITH OIDS";
-			else
-				$sql .= " WITHOUT OIDS";
-		}
+		if ($this->hasObjectID($table))
+			$sql .= " WITH OIDS";
+		else
+			$sql .= " WITHOUT OIDS";
 
 		$sql .= ";\n";
 
@@ -1727,8 +1725,10 @@ class Postgres extends ADODB_base {
 		$sql .= ")";
 
 		// WITHOUT OIDS
-		if ($this->hasWithoutOIDs() && $withoutoids)
+		if ($withoutoids)
 			$sql .= ' WITHOUT OIDS';
+		else
+			$sql .= ' WITH OIDS';
 
 		// Tablespace
 		if ($this->hasTablespaces() && $tablespace != '') {
@@ -7829,7 +7829,6 @@ class Postgres extends ADODB_base {
 	function hasVariables() { return true; }
 	function hasViewColumnRename() { return true; }
 	function hasVirtualTransactionId() { return true; }
-	function hasWithoutOIDs() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasDatabaseCollation() { return true; }
 	function hasMagicTypes() { return true; }
