@@ -12,6 +12,13 @@ item. If you want to work a claimed item, please contact the developers list.
 
 An item is marked with a '-' if it has been completed.
 
+Note for PPA 5.0
+----------------
+* Add full support for autovacuum settings per table
+* Fix support for autovacuum for 8.4
+* Fix operator's property page
+* Rewrite WITHOUT OIDs with more natural WITH OIDS
+
 Cluster
 -------
 * Allow reading of postgresql.conf and pg_hba.conf per pg_read_file() in 8.1
@@ -81,8 +88,6 @@ Tables
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
 * When browsing a table, clicking on a FK value should jump to the
   PK row. (ioguix)
-* When editing a table, turn FK columns into drop-downs based on estimated
-  rows in the foreign table? (Jawed)
 * Add WITH storage_parameter option to create table [8.2]
 * Add last vacuum and analyze information from statistics tables [8.2]
 * Restrict operators (from $selectOps array) to appropriate types (ie. no LIKE for int4 fields)
