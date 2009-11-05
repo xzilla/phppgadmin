@@ -18,6 +18,8 @@ Note for PPA 5.0
 * Fix support for autovacuum for 8.4
 * Fix operator's property page
 * Rewrite WITHOUT OIDs with more natural WITH OIDS
+* Rewrite the aggregate edition page ! It is using input tetxt everywhere presently, even for owner and schéma !
+* Add support for default db to connect to on login page (we had several users complaining about that lately)
 
 Cluster
 -------
