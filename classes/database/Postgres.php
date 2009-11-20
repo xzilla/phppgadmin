@@ -1156,7 +1156,7 @@ class Postgres extends ADODB_base {
 					a.attname, a.attnum,
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					a.atttypmod,
-					a.attnotnull, a.atthasdef, adef.adsrc,
+					a.attnotnull, a.atthasdef, pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) as adsrc,
 					a.attstattarget, a.attstorage, t.typstorage,
 					(
 						SELECT 1 FROM pg_catalog.pg_depend pd, pg_catalog.pg_class pc
@@ -1188,7 +1188,7 @@ class Postgres extends ADODB_base {
 					pg_catalog.format_type(a.atttypid, a.atttypmod) as type,
 					pg_catalog.format_type(a.atttypid, NULL) as base_type,
 					a.atttypmod,
-					a.attnotnull, a.atthasdef, adef.adsrc,
+					a.attnotnull, a.atthasdef, pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) as adsrc,
 					a.attstattarget, a.attstorage, t.typstorage,
 					pg_catalog.col_description(a.attrelid, a.attnum) AS comment
 				FROM
