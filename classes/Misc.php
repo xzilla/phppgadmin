@@ -1880,7 +1880,7 @@
 				// Due to annoying PHP bugs, shell arguments cannot be escaped
 				// (command simply fails), so we cannot allow complex objects
 				// to be dumped.
-				if (ereg('^[_.[:alnum:]]+$', $str))
+				if (preg_match('/^[_.[:alnum:]]+$/', $str))
 					return $str;
 				else {
 					echo $lang['strcannotdumponwindows'];

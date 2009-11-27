@@ -129,7 +129,7 @@
 						$v = $data->escapeBytea($v);
 						
 						// We add an extra escaping slash onto octal encoded characters
-						$v = ereg_replace('\\\\([0-7]{3})', '\\\\\1', $v);
+						$v = preg_replace('/\\\\([0-7]{3})/', '\\\\\1', $v);
 						if ($first) {
 							echo ($v == null) ? '\\N' : $v;
 							$first = false;
@@ -232,7 +232,7 @@
 							// EXCEPT the 'special' ones like \r \n \t, etc.
 							$v = addCSlashes($v, "\0..\37\177..\377");
 							// We add an extra escaping slash onto octal encoded characters
-							$v = ereg_replace('\\\\([0-7]{3})', '\\\1', $v);
+							$v = preg_replace('/\\\\([0-7]{3})/', '\\\1', $v);
 							// Finally, escape all apostrophes
 							$v = str_replace("'", "''", $v);
 						}

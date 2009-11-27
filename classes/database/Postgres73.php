@@ -252,7 +252,7 @@ class Postgres73 extends Postgres74 {
 		$grodata = $this->selectSet($sql);
 		if ($grodata->fields['grolist'] !== null && $grodata->fields['grolist'] != '{}') {
 			$members = $grodata->fields['grolist'];
-			$members = ereg_replace("\{|\}","",$members);
+			$members = preg_replace("/\{|\}/","",$members);
 			$this->clean($members);
 
 			$sql = "SELECT usename FROM pg_user WHERE usesysid IN ({$members}) ORDER BY usename";

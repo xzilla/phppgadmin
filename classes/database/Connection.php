@@ -67,7 +67,7 @@ class Connection {
 			$field = $adodb->selectField($sql, 'version');
 	
 			// Check the platform, if it's mingw, set it
-			if (eregi(' mingw ', $field))
+			if (preg_match('/ mingw /i', $field))
 				$this->platform = 'MINGW';
 	
 			$params = explode(' ', $field);

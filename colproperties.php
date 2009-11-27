@@ -67,7 +67,7 @@
 					}
 					// To figure out the length, look in the brackets :(
 					// XXX: HACKY
-					if ($column->fields['type'] != $column->fields['base_type'] && ereg('\\(([0-9, ]*)\\)', $column->fields['type'], $bits)) {
+					if ($column->fields['type'] != $column->fields['base_type'] && preg_match('/\\(([0-9, ]*)\\)/', $column->fields['type'], $bits)) {
 						$_REQUEST['length'] = $bits[1];
 					}
 					else
