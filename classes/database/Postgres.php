@@ -640,7 +640,6 @@ class Postgres extends ADODB_base {
 		$this->clean($dbName);
 		$this->clean($newName);
 		$this->clean($newOwner);
-		$this->clean($comment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -951,7 +950,6 @@ class Postgres extends ADODB_base {
 	function createSchema($schemaname, $authorization = '', $comment = '') {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($authorization);
-		$this->clean($comment);
 
 		$sql = "CREATE SCHEMA \"{$schemaname}\"";
 		if ($authorization != '') $sql .= " AUTHORIZATION \"{$authorization}\"";
@@ -993,7 +991,6 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($schemaname);
 		$this->fieldClean($name);
 		$this->fieldClean($owner);
-		$this->clean($comment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) {
@@ -1653,7 +1650,6 @@ class Postgres extends ADODB_base {
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($name);
-		$this->clean($tblcomment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
@@ -1913,7 +1909,6 @@ class Postgres extends ADODB_base {
 		$this->fieldArrayClean($tblrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('TABLE', '', $tblrs->fields['relname'], $comment);
 		if ($status != 0) return -4;
 
@@ -2074,7 +2069,6 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($column);
 		$this->clean($type);
 		$this->clean($length);
-		$this->clean($comment);
 
 		if ($length == '')
 			$sql = "ALTER TABLE \"{$f_schema}\".\"{$table}\" ADD COLUMN \"{$column}\" {$type}";
@@ -2829,7 +2823,6 @@ class Postgres extends ADODB_base {
 		$this->fieldArrayClean($seqrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('SEQUENCE', $seqrs->fields['seqname'], '', $comment);
 		if ($status != 0)
 			return -4;
@@ -2997,7 +2990,6 @@ class Postgres extends ADODB_base {
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($viewname);
-		$this->clean($comment);
 
 		// Note: $definition not cleaned
 
@@ -3099,7 +3091,6 @@ class Postgres extends ADODB_base {
     	$this->fieldArrayClean($vwrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		if ($this->setComment('VIEW', $vwrs->fields['relname'], '', $comment) != 0)
 			return -4;
 
@@ -4253,7 +4244,6 @@ class Postgres extends ADODB_base {
 		}
 
 		/* set the comment */
-		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -4403,7 +4393,6 @@ class Postgres extends ADODB_base {
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($name);
-		$this->clean($typcomment);
 
 		if (empty($values)) return -2;
 
@@ -4469,7 +4458,6 @@ class Postgres extends ADODB_base {
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
 		$this->fieldClean($name);
-		$this->clean($typcomment);
 
 		$status = $this->beginTransaction();
 		if ($status != 0) return -1;
@@ -5123,7 +5111,6 @@ class Postgres extends ADODB_base {
 
  		// Set the comment
  		if ($comment != '') {
-			$this->clean($comment);
  			$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -5362,7 +5349,6 @@ class Postgres extends ADODB_base {
  		}
 
 		$this->fieldClean($cfgname);
- 		$this->clean($comment);
 
  		$status = $this->setComment('TEXT SEARCH CONFIGURATION', $cfgname, '', $comment);
  		if ($status != 0) {
@@ -5447,8 +5433,6 @@ class Postgres extends ADODB_base {
 
  		// Set the comment
  		if ($comment != '') {
-			$this->clean($comment);
-
  			$status = $this->setComment($whatToComment, $dictname, '', $comment);
  			if ($status != 0) {
  				$this->rollbackTransaction();
@@ -5475,7 +5459,6 @@ class Postgres extends ADODB_base {
  			return -1;
  		}
 		
- 		$this->clean($comment);
 		$this->fieldClean($dictname);
  		$status = $this->setComment('TEXT SEARCH DICTIONARY', $dictname, '', $comment);
  		if ($status != 0) {
@@ -5683,7 +5666,6 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($ffunc);
 		$this->fieldClean($initcond);
 		$this->fieldClean($sortop);
-		$this->clean($comment);
 
 		$this->beginTransaction();
 
@@ -5843,11 +5825,9 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($aggrtype);
 		$this->fieldClean($aggrowner);
 		$this->fieldClean($aggrschema);
-		$this->clean($aggrcomment);
 		$this->fieldClean($newaggrname);
 		$this->fieldClean($newaggrowner);
 		$this->fieldClean($newaggrschema);
-		$this->clean($newaggrcomment);
 
 		$this->beginTransaction();
 
@@ -6861,7 +6841,6 @@ class Postgres extends ADODB_base {
 	function createTablespace($spcname, $spcowner, $spcloc, $comment='') {
 		$this->fieldClean($spcname);
 		$this->clean($spcloc);
-		$this->clean($comment);
 
 		$sql = "CREATE TABLESPACE \"{$spcname}\"";
 
@@ -7093,7 +7072,9 @@ class Postgres extends ADODB_base {
 		$sql = "COMMENT ON {$obj_type} " ;
 		$f_schema = $this->_schema;
 		$this->fieldClean($f_schema);
-		$this->clean($comment);
+		$this->clean($comment);  // Passing in an already cleaned comment will lead to double escaped data
+                                         // So, while counter-intuitive, it is important to not clean comments before
+                                         // calling setComment. We will clean it here instead. 
 /*
 		$this->fieldClean($table);
 		$this->fieldClean($obj_name);

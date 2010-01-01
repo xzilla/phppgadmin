@@ -124,7 +124,6 @@ class Postgres74 extends Postgres80 {
 		$this->fieldArrayClean($tblrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('TABLE', '', $tblrs->fields['relname'], $comment);
 		if ($status != 0) return -4;
 
@@ -199,11 +198,10 @@ class Postgres74 extends Postgres80 {
 			}
 		}
 
-		// Parameters must be cleaned for the setComment function.  It's ok to do
-		// that here since this is the last time these variables are used.
+		// The $name and $table parameters must be cleaned for the setComment function.  
+                // It's ok to do that here since this is the last time these variables are used.
 		$this->fieldClean($name);
 		$this->fieldClean($table);
-		$this->clean($comment);
 		$status = $this->setComment('COLUMN', $name, $table, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();

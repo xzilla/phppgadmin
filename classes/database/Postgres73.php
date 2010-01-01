@@ -193,7 +193,6 @@ class Postgres73 extends Postgres74 {
 		$this->fieldArrayClean($seqrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('SEQUENCE', $seqrs->fields['seqname'], '', $comment);
 		if ($status != 0)
 			return -4;
@@ -312,7 +311,6 @@ class Postgres73 extends Postgres74 {
 
 		// Comment on the function
 		/*$this->fieldClean($newname);
-		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$newname}\"({$args})", null, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();

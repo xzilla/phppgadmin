@@ -239,7 +239,6 @@ class Postgres82 extends Postgres83 {
 		}
 
 		/* set the comment */
-		$this->clean($comment);
 		$status = $this->setComment('FUNCTION', "\"{$funcname}\"({$args})", null, $comment);
 		if ($status != 0) {
 			$this->rollbackTransaction();

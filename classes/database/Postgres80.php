@@ -142,7 +142,6 @@ class Postgres80 extends Postgres81 {
 		/* $schema not supported in pg80- */
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('TABLE', '', $tblrs->fields['relname'], $comment);
 		if ($status != 0) return -4;
 
@@ -185,7 +184,6 @@ class Postgres80 extends Postgres81 {
     	$this->fieldArrayClean($vwrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		if ($this->setComment('VIEW', $vwrs->fields['relname'], '', $comment) != 0)
 			return -4;
 
@@ -232,7 +230,6 @@ class Postgres80 extends Postgres81 {
 		$this->fieldArrayClean($seqrs->fields);
 
 		// Comment
-		$this->clean($comment);
 		$status = $this->setComment('SEQUENCE', $seqrs->fields['seqname'], '', $comment);
 		if ($status != 0)
 			return -4;
