@@ -10,7 +10,7 @@ Features
 * Clean up domain support and improve interface
 * Add support for commenting on functions
 * Allow user to rename role/users and set new passwords at the same time
-* Greatly enhanced Full-Text-Search capabilities
+* Greatly enhanced Full-Text-Search capabilities (ioguix, Loomis_K)
 * Overhauled Selenium Test suite to support multiple database versions
 * Optimized application graphics (Limo Driver)
 * Support for Column Level Privileges
