@@ -212,7 +212,7 @@ class Postgres73 extends Postgres74 {
 		return 0;
 	}
 
-	// Indexe functions
+	// Index functions
 
 	/**
 	 * Grabs a list of indexes for a table
