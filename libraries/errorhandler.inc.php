@@ -28,7 +28,7 @@ function Error_Handler($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false)
 		$sql = $p1;
 		$inputparams = $p2;
 		
-		$s = "<p><b>{$lang['strsqlerror']}</b><br />" . $misc->printVal($errmsg) . "</p>
+		$s = "<p><b>{$lang['strsqlerror']}</b><br />" . $misc->printVal($errmsg,'errormsg') . "</p>
 		      <p><b>{$lang['strinstatement']}</b><br />" . $misc->printVal($sql) . "</p>
 		";
 		echo "<table class=\"error\" cellpadding=\"5\"><tr><td>{$s}</td></tr></table><br />\n";

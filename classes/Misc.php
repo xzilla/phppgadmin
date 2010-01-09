@@ -157,6 +157,11 @@
 					$class = 'pre';
 					$out = $data->escapeBytea($str);
 					break;
+				case 'errormsg':
+					$tag = 'pre';
+					$class = 'error';
+					$out = htmlspecialchars($str);
+					break;
 				case 'pre':
 					$tag = 'pre';
 					$out = htmlspecialchars($str);

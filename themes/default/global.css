@@ -359,6 +359,12 @@ pre.data
 	font-size: 100%;
 }
 
+pre.error
+{
+	font-family: "Lucida Console", "Courier New", "DejaVu Sans Mono", monospace;
+	font-size: 120%;
+}
+
 .intro li
 {
 	font-weight: bold;
