@@ -152,6 +152,7 @@
 	$lang['strnodatabaseselected'] = 'Please, select a database.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'No Access'; 
 	$lang['strsize'] = 'Size';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';

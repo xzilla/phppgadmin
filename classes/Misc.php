@@ -180,31 +180,35 @@
 					$out = $params['function']($str, $params);
 					break;
 				case 'prettysize':
-					$mult = 1;
-					$limit = 10 * 1024;
-
-					if ($str < $limit * $mult)
-						$out = $str.' '.$lang['strbytes'];
+					if ($str == -1) 
+						$out = $lang['strnoaccess'];
 					else
 					{
-						$mult *= 1024;
+						$limit = 10 * 1024;
+						$mult = 1;
 						if ($str < $limit * $mult)
-							$out = floor(($str + $mult / 2) / $mult).' '.$lang['strkb'];
+							$out = $str.' '.$lang['strbytes'];
 						else
 						{
 							$mult *= 1024;
 							if ($str < $limit * $mult)
-								$out = floor(($str + $mult / 2) / $mult).' '.$lang['strmb'];
+								$out = floor(($str + $mult / 2) / $mult).' '.$lang['strkb'];
 							else
 							{
 								$mult *= 1024;
 								if ($str < $limit * $mult)
-									$out = floor(($str + $mult / 2) / $mult).' '.$lang['strgb'];
+									$out = floor(($str + $mult / 2) / $mult).' '.$lang['strmb'];
 								else
 								{
 									$mult *= 1024;
 									if ($str < $limit * $mult)
-										$out = floor(($str + $mult / 2) / $mult).' '.$lang['strtb'];
+										$out = floor(($str + $mult / 2) / $mult).' '.$lang['strgb'];
+									else
+									{
+										$mult *= 1024;
+										if ($str < $limit * $mult)
+											$out = floor(($str + $mult / 2) / $mult).' '.$lang['strtb'];
+									}
 								}
 							}
 						}
