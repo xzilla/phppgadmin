@@ -407,10 +407,7 @@
 			echo "<input type=\"hidden\" name=\"constraint\" value=\"", htmlspecialchars($_REQUEST['constraint']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo $misc->form;
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -472,8 +469,6 @@
 				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
 			),
 		);
-
-		if (!$data->hasIsClustered()) unset($columns['clustered']);
 
 		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
 

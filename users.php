@@ -36,13 +36,13 @@
 			$userdata->fields['usecreatedb'] = $data->phpBool($userdata->fields['usecreatedb']);
 			echo "<table>\n";
 			echo "<tr><th class=\"data\">{$lang['strusername']}</th><th class=\"data\">{$lang['strsuper']}</th><th class=\"data\">{$lang['strcreatedb']}</th><th class=\"data\">{$lang['strexpires']}</th>";
-			if ($data->hasUserSessionDefaults()) echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
+			echo "<th class=\"data\">{$lang['strsessiondefaults']}</th>";
 			echo "</tr>\n";
 			echo "<tr>\n\t<td class=\"data1\">", $misc->printVal($userdata->fields['usename']), "</td>\n";
 			echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['usesuper'], 'yesno'), "</td>\n";
 			echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['usecreatedb'], 'yesno'), "</td>\n";
 			echo "\t<td class=\"data1\">", ($userdata->fields['useexpires'] == 'infinity' || is_null($userdata->fields['useexpires']) ? $lang['strnever'] : $misc->printVal($userdata->fields['useexpires'])), "</td>\n";
-			if ($data->hasUserSessionDefaults()) echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['useconfig']), "</td>\n";
+			echo "\t<td class=\"data1\">", $misc->printVal($userdata->fields['useconfig']), "</td>\n";
 			echo "</tr>\n</table>\n";
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -327,8 +327,6 @@
 				'vars'  => array('username' => 'usename'),
 			),
 		);
-		
-		if (!$data->hasUserSessionDefaults()) unset($columns['defaults']);
 		
 		$misc->printTable($users, $columns, $actions, $lang['strnousers']);
 

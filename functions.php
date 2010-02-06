@@ -369,10 +369,7 @@
 			echo "<input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 
 			echo $misc->form;
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /><label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /><label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -826,9 +823,7 @@
 			),
 		);
 
-		if ( !$data->hasFuncPrivs() ) {
-			unset($actions['privileges']);
-		}
+		unset($actions['privileges']);
 
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 

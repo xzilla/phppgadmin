@@ -243,8 +243,6 @@
 				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
 				
-				/* Delete link */
-				if ($data->hasDropColumn())
 					echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
 						"&amp;column=" . urlencode($_REQUEST['column']) . "\">{$lang['strdrop']}</a></li>\n";
 			} else {

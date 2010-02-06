@@ -251,10 +251,7 @@
 				echo "<input type=\"hidden\" name=\"nsp\" value=\"", htmlspecialchars($_REQUEST['nsp']), "\" />\n";
 			}
 
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"database\" value=\"", htmlspecialchars($_REQUEST['database']), "\" />\n";
 			echo $misc->form;

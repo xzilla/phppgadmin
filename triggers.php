@@ -79,10 +79,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"trigger\" value=\"", htmlspecialchars($_REQUEST['trigger']), "\" />\n";
 			echo $misc->form;
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
@@ -329,8 +326,6 @@
 				);
 			}
 		}
-
-		if (!$data->hasAlterTrigger()) unset($actions['alter']);
 
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		

@@ -59,15 +59,13 @@
 		echo "\t<option value=\"TRIGGER\"", ($_REQUEST['filter'] == 'TRIGGER') ? ' selected="selected"' : '', ">{$lang['strtriggers']}</option>\n";
 		echo "\t<option value=\"CONSTRAINT\"", ($_REQUEST['filter'] == 'CONSTRAINT') ? ' selected="selected"' : '', ">{$lang['strconstraints']}</option>\n";
 		echo "\t<option value=\"FUNCTION\"", ($_REQUEST['filter'] == 'FUNCTION') ? ' selected="selected"' : '', ">{$lang['strfunctions']}</option>\n";
-		if ($data->hasDomains())
-			echo "\t<option value=\"DOMAIN\"", ($_REQUEST['filter'] == 'DOMAIN') ? ' selected="selected"' : '', ">{$lang['strdomains']}</option>\n";
+		echo "\t<option value=\"DOMAIN\"", ($_REQUEST['filter'] == 'DOMAIN') ? ' selected="selected"' : '', ">{$lang['strdomains']}</option>\n";
 		if ($conf['show_advanced']) {
 			echo "\t<option value=\"AGGREGATE\"", ($_REQUEST['filter'] == 'AGGREGATE') ? ' selected="selected"' : '', ">{$lang['straggregates']}</option>\n";
 			echo "\t<option value=\"TYPE\"", ($_REQUEST['filter'] == 'TYPE') ? ' selected="selected"' : '', ">{$lang['strtypes']}</option>\n";
 			echo "\t<option value=\"OPERATOR\"", ($_REQUEST['filter'] == 'OPERATOR') ? ' selected="selected"' : '', ">{$lang['stroperators']}</option>\n";
 			echo "\t<option value=\"OPCLASS\"", ($_REQUEST['filter'] == 'OPCLASS') ? ' selected="selected"' : '', ">{$lang['stropclasses']}</option>\n";
-			if ($data->hasConversions())
-				echo "\t<option value=\"CONVERSION\"", ($_REQUEST['filter'] == 'CONVERSION') ? ' selected="selected"' : '', ">{$lang['strconversions']}</option>\n";
+			echo "\t<option value=\"CONVERSION\"", ($_REQUEST['filter'] == 'CONVERSION') ? ' selected="selected"' : '', ">{$lang['strconversions']}</option>\n";
 			echo "\t<option value=\"LANGUAGE\"", ($_REQUEST['filter'] == 'LANGUAGE') ? ' selected="selected"' : '', ">{$lang['strlanguages']}</option>\n";
 		}
 		echo "</select>\n";
@@ -561,11 +559,9 @@
 				echo "<th class=\"data\">";
 				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
 				echo "</th>";
-				if ($data->hasAnalyze()){
-					echo "<th class=\"data\">";
-					$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
-					echo "</th>";
-				}
+				echo "<th class=\"data\">";
+				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
+				echo "</th>";
 				if ($data->hasRecluster()){
 					echo "<th class=\"data\">";
 					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
@@ -581,10 +577,8 @@
 				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 				echo "<form action=\"database.php\" method=\"post\">\n";
 				echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label>\n";
-				if ($data->hasFullVacuum()) {
-					echo "<br /><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label>\n";				
-					echo "<br /><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label>\n";
-				}
+				echo "<br /><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label>\n";				
+				echo "<br /><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label>\n";
 				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
 				echo $misc->form;
 				echo "<br /><input type=\"submit\" value=\"{$lang['strvacuum']}\" /></p>\n";
@@ -592,15 +586,13 @@
 				echo "</td>\n";
 
 				// Analyze
-				if ($data->hasAnalyze()) {
-					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-					echo "<form action=\"database.php\" method=\"post\">\n";
-					echo "<p><input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
-					echo $misc->form;
-					echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" /></p>\n";
-					echo "</form>\n";
-					echo "</td>\n";
-				}
+				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
+				echo "<form action=\"database.php\" method=\"post\">\n";
+				echo "<p><input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
+				echo $misc->form;
+				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" /></p>\n";
+				echo "</form>\n";
+				echo "</td>\n";
 				
 				// Recluster
 				if ($data->hasRecluster()){

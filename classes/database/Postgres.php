@@ -3229,9 +3229,9 @@ class Postgres extends ADODB_base {
 		}
 
 		// Predicate
-		if ($this->hasPartialIndexes() && trim($where) != '') {
+		if (trim($where) != '') {
 			$sql .= " WHERE ({$where})";
-	}
+		}
 
 		return $this->execute($sql);
 	}
@@ -5948,9 +5948,9 @@ class Postgres extends ADODB_base {
 	 * @return All users
 	 */
 	function getUsers() {
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
-		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
-		$sql .= " FROM pg_user ORDER BY usename";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires, useconfig
+			FROM pg_user
+			ORDER BY usename";
 
 		return $this->selectSet($sql);
 	}
@@ -5963,9 +5963,9 @@ class Postgres extends ADODB_base {
 	function getUser($username) {
 		$this->clean($username);
 
-		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires";
-		if ($this->hasUserSessionDefaults()) $sql .= ", useconfig";
-		$sql .= " FROM pg_user WHERE usename='{$username}'";
+		$sql = "SELECT usename, usesuper, usecreatedb, valuntil AS useexpires, useconfig
+			FROM pg_user 
+			WHERE usename='{$username}'";
 
 		return $this->selectSet($sql);
 	}
@@ -7601,10 +7601,7 @@ class Postgres extends ADODB_base {
 		else $orderby = '';
 
 		// Actually retrieve the rows, with offset and limit
-		if ($this->hasFullSubqueries())
-			$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
-		else
-			$rs = $this->selectSet("{$query} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
+		$rs = $this->selectSet("SELECT * FROM ({$query}) AS sub {$orderby} LIMIT {$page_size} OFFSET " . ($page - 1) * $page_size);
 		$status = $this->endTransaction();
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -7763,15 +7760,9 @@ class Postgres extends ADODB_base {
 	function hasAlterSchemaOwner() { return true; }
 	function hasAlterSequenceProps() { return true; }
 	function hasAlterSequenceSchema() { return true; }
-	function hasAlterTableOwner() { return true; }
 	function hasAlterTableSchema() { return true; }
-	function hasAlterTrigger() { return true; }
-	function hasAnalyze() { return true; }
 	function hasAutovacuum() { return true; }
 	function hasAutovacuumSysTable() { return false; }
-	function hasCasts() { return true; }
-	function hasCompositeTypes() { return true; }
-	function hasConversions() { return true; }
 	function hasCreateTableLike() { return true; }
 	function hasCreateTableLikeWithConstraints() { return true; }
 	function hasCreateTableLikeWithIndexes() { return true; }
@@ -7779,39 +7770,24 @@ class Postgres extends ADODB_base {
 	function hasDisableTriggers() { return true; }
 	function hasAlterDomains() { return true; }
 	function hasDomainConstraints() { return true; }
-	function hasDomains() { return true; }
-	function hasDropBehavior() { return true; }
-	function hasDropColumn() { return true; }
 	function hasEnumTypes() { return true; }
 	function hasFTS() { return true; }
-	function hasFullSubqueries() { return true; }
-	function hasFullVacuum() { return true; }
-	function hasFuncPrivs() { return true; }
 	function hasFunctionAlterOwner() { return true; }
 	function hasFunctionAlterSchema() { return true; }
 	function hasFunctionCosting() { return true; }
 	function hasFunctionGUC() { return true; }
 	function hasGrantOption() { return true; }
-	function hasIsClustered() { return true; }
-	function hasLocksView() { return true; }
 	function hasNamedParams() { return true; }
-	function hasPartialIndexes() { return true; }
 	function hasPrepare() { return true; }
 	function hasPreparedXacts() { return true; }
-	function hasProcesses() { return true; }
 	function hasReadOnlyQueries() { return true; }
 	function hasRecluster() { return true; }
 	function hasRoles() { return true; }
 	function hasServerAdminFuncs() { return true; }
 	function hasSharedComments() { return true; }
 	function hasQueryCancel() { return true; }
-	function hasStatsCollector() { return true; }
 	function hasTablespaces() { return true; }
-	function hasUserAndDbVariables() { return true; }
 	function hasUserRename() { return true; }
-	function hasUserSessionDefaults() { return true; }
-	function hasVariables() { return true; }
-	function hasViewColumnRename() { return true; }
 	function hasVirtualTransactionId() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasDatabaseCollation() { return true; }

@@ -135,13 +135,11 @@
 		echo "<th class=\"data left\" scope=\"row\"><label for=\"formUnique\">{$lang['strunique']}</label></th>";
 		echo "<td class=\"data1\"><input type=\"checkbox\" id=\"formUnique\" name=\"formUnique\"", (isset($_POST['formUnique']) ? 'checked="checked"' : ''), " /></td>";
 		echo "</tr>";
-		if ($data->hasPartialIndexes()) {
-			echo "<tr>";
-			echo "<th class=\"data left\" scope=\"row\">{$lang['strwhere']}</th>";
-			echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
-				htmlspecialchars($_POST['formWhere']), "\" />)</td>";
-			echo "</tr>";
-		}
+		echo "<tr>";
+		echo "<th class=\"data left\" scope=\"row\">{$lang['strwhere']}</th>";
+		echo "<td class=\"data1\">(<input name=\"formWhere\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"", 
+			htmlspecialchars($_POST['formWhere']), "\" />)</td>";
+		echo "</tr>";
 		
 		// Tablespace (if there are any)
 		if ($data->hasTablespaces() && $tablespaces->recordCount() > 0) {
@@ -222,10 +220,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"index\" value=\"", htmlspecialchars($_REQUEST['index']), "\" />\n";
 			echo $misc->form;
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -313,8 +308,6 @@
 				'vars'  => array('index' => 'indname'),
 			),
 		);
-		
-		if (!$data->hasIsClustered()) unset($columns['clustered']);
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		

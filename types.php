@@ -104,10 +104,7 @@
 			echo "<p>", sprintf($lang['strconfdroptype'], $misc->printVal($_REQUEST['type'])), "</p>\n";
 
 			echo "<form action=\"types.php\" method=\"post\">\n";
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\" /> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"drop\" />\n";
 			echo "<input type=\"hidden\" name=\"type\" value=\"", htmlspecialchars($_REQUEST['type']), "\" />\n";
 			echo $misc->form;
@@ -579,8 +576,7 @@
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
 		echo "<ul class=\"navlink\">\n\t<li><a href=\"types.php?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a></li>\n";
-		if ($data->hasCompositeTypes())
-			echo "\t<li><a href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a></li>\n";
+		echo "\t<li><a href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a></li>\n";
 		if ($data->hasEnumTypes())
 			echo "\t<li><a href=\"types.php?action=create_enum&amp;{$misc->href}\">{$lang['strcreateenumtype']}</a></li>\n";
 		echo "</ul>\n";

@@ -186,14 +186,9 @@
 					$_REQUEST['comment'] = $column->fields['comment'];
 				}
 
-				// If name of view column is editable, make it a field
-				if ($data->hasViewColumnRename()) {
-					echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
-						htmlspecialchars($_REQUEST['field']), "\" /></td>";
-				}
-				else {
-					echo "<tr><td>", htmlspecialchars($column->fields['attname']), "</td>";					
-				}
+				echo "<tr><td><input name=\"field\" size=\"32\" value=\"",
+					htmlspecialchars($_REQUEST['field']), "\" /></td>";
+				
 				echo "<td>", $misc->printVal($data->formatType($column->fields['type'], $column->fields['atttypmod'])), "</td>";
 				echo "<td><input name=\"default\" size=\"20\" value=\"", 
 					htmlspecialchars($_REQUEST['default']), "\" /></td>";
@@ -216,14 +211,11 @@
 				global $data, $lang;
 
 				// Check inputs
-				if ($data->hasViewColumnRename() && trim($_REQUEST['field']) == '') {
+				if (trim($_REQUEST['field']) == '') {
 					$_REQUEST['stage'] = 1;
 					doProperties($lang['strcolneedsname']);
 					return;
 				}
-				
-				// If we aren't able to rename view columns, set new name to equal old name always
-				if (!$data->hasViewColumnRename()) $_REQUEST['field'] = $_REQUEST['column'];
 				
 				// Alter the view column
 				$status = $data->alterColumn($_REQUEST['view'], $_REQUEST['column'], $_REQUEST['field'], 
@@ -267,7 +259,7 @@
 					htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 
 				$server_info = $misc->getServerInfo();
-				if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
+				if ($data->isSuperUser($server_info['username'])) {
 
 					// Fetch all users
 					$users = $data->getUsers();

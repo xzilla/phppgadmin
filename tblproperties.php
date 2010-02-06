@@ -79,7 +79,7 @@
 				htmlspecialchars($_POST['name'], ENT_QUOTES), "\" /></td></tr>\n";
 
 			$server_info = $misc->getServerInfo();
-			if ($data->hasAlterTableOwner() && $data->isSuperUser($server_info['username'])) {
+			if ($data->isSuperUser($server_info['username'])) {
 				echo "<tr><th class=\"data left required\">{$lang['strowner']}</th>\n";
 				echo "<td class=\"data1\"><select name=\"owner\">";
 				while (!$users->EOF) {
@@ -376,10 +376,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"column\" value=\"", htmlspecialchars($_REQUEST['column']), "\" />\n";
 			echo $misc->form;
-			// Show cascade drop option if supportd
-			if ($data->hasDropBehavior()) {
-				echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\"> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
-			}
+			echo "<p><input type=\"checkbox\" id=\"cascade\" name=\"cascade\"> <label for=\"cascade\">{$lang['strcascade']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"drop\" value=\"{$lang['strdrop']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -562,8 +559,6 @@
 				'vars'  => array('column' => 'attname'),
 			),
 		);
-
-		if (!$data->hasDropColumn()) unset($actions['drop']);
 
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 

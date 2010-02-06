@@ -362,7 +362,7 @@
 				$finfo = $rs->fetchField($j);
 				// Display column headers with sorting options, unless we're PostgreSQL
 				// 7.0 and it's a non-TABLE mode
-				if (!$data->hasFullSubqueries() && $type != 'TABLE') {
+				if ($type != 'TABLE') {
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
 				}
 				else {

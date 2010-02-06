@@ -135,20 +135,18 @@
 	$t->assertText("//p[@class='comment']", 'altered comment');
 	
 	/*table owner*/
-	if ($data->hasAlterTableOwner()) {
-		$t->addComment('4.3. alter table owner');
-		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
-		$t->clickAndWait("link={$lang['strschemas']}");
-		$t->clickAndWait("link=test_schema");
-		$t->clickAndWait("link={$lang['strtables']}");
-		$t->clickAndWait("//tr/td/a[text()='test_renamed']/../../td/a[text()='{$lang['stralter']}']"); /*alter using the link in the table list page*/
-		$t->select('owner', "label={$user}");
-		$t->clickAndWait('alter');
-		$t->assertText("//p[@class='message']", $lang['strtablealtered']);
-		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
-		$t->clickAndWait("link={$lang['strtables']}");
-		$t->assertText("//tr/td[2]/a[text()='test_renamed']/../../td[3]", $user);
-	}
+	$t->addComment('4.3. alter table owner');
+	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strdatabase']}']/span[@class='label' and text()='{$testdb}']");
+	$t->clickAndWait("link={$lang['strschemas']}");
+	$t->clickAndWait("link=test_schema");
+	$t->clickAndWait("link={$lang['strtables']}");
+	$t->clickAndWait("//tr/td/a[text()='test_renamed']/../../td/a[text()='{$lang['stralter']}']"); /*alter using the link in the table list page*/
+	$t->select('owner', "label={$user}");
+	$t->clickAndWait('alter');
+	$t->assertText("//p[@class='message']", $lang['strtablealtered']);
+	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
+	$t->clickAndWait("link={$lang['strtables']}");
+	$t->assertText("//tr/td[2]/a[text()='test_renamed']/../../td[3]", $user);
 	
 	/*alter schema*/
 	if ($data->hasAlterTableSchema()) {
@@ -181,8 +179,7 @@
 	$t->type('comment', 'normal comment');
 	if ($data->hasAlterTableSchema())
 		$t->select('newschema', 'label=test_schema');
-	if ($data->hasAlterTableOwner())
-		$t->select('owner', "label={$admin_user}");
+	$t->select('owner', "label={$admin_user}");
 	$t->clickAndWait('alter');
 	$t->assertText("//p[@class='message']", $lang['strtablealtered']);
 	$t->assertText("//div[@class='trail']/descendant::a[@title='{$lang['strtable']}']/span[@class='label']", 'test');
@@ -190,8 +187,7 @@
 	$t->assertText("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label']", 'test_schema');
 	$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 	$t->clickAndWait("link={$lang['strtables']}");
-	if ($data->hasAlterTableOwner())
-		$t->assertText("//tr/td[2]/a[text()='test']/../../td[3]", $admin_user);
+	$t->assertText("//tr/td[2]/a[text()='test']/../../td[3]", $admin_user);
 
 	$t->logout();
 	$t->writeTests("{$test_static_dir}/{$server['desc']}/table.html", $testsuite_file);
