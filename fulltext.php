@@ -229,23 +229,25 @@
 	function doSaveCreateConfig() {
 		global $data, $lang, $_reload_browser;
 
+		$err = '';
 		// Check that they've given a name
-		if ($_POST['formName'] == '') doCreateConfig($lang['strftsconfigneedsname']);
-		if (($_POST['formParser'] != '') && ($_POST['formTemplate'] != '')) doCreateConfig($lang['strftscantparsercopy']);
-		else {
-			if ($_POST['formParser'] != '') $formParser = unserialize($_POST['formParser']);
-			else $formParser = '';
-			if ($_POST['formTemplate'] != '') $formTemplate = unserialize($_POST['formTemplate']);
-			else $formTemplate = '';
+		if ($_POST['formName'] == '') $err .= "{$lang['strftsconfigneedsname']}<br />";		
+		if (($_POST['formParser'] != '') && ($_POST['formTemplate'] != ''))  $err .= "{$lang['strftscantparsercopy']}<br />";
 
-			$status = $data->createFtsConfiguration($_POST['formName'], $formParser, $formTemplate, $_POST['formComment']);
-			if ($status == 0) {
-				$_reload_browser = true;
-				doDefault($lang['strftsconfigcreated']);
-			}
-			else
-				doCreateConfig($lang['strftsconfigcreatedbad']);
+		if ($err != '') return doCreateConfig($err);
+
+		if ($_POST['formParser'] != '') $formParser = unserialize($_POST['formParser']);
+		else $formParser = '';
+		if ($_POST['formTemplate'] != '') $formTemplate = unserialize($_POST['formTemplate']);
+		else $formTemplate = '';
+
+		$status = $data->createFtsConfiguration($_POST['formName'], $formParser, $formTemplate, $_POST['formComment']);
+		if ($status == 0) {
+			$_reload_browser = true;
+			doDefault($lang['strftsconfigcreated']);
 		}
+		else
+			doCreateConfig($lang['strftsconfigcreatedbad']);
 	}
 
 	/**
