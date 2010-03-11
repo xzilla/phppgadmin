@@ -670,12 +670,12 @@
 
 		if (empty($_REQUEST['mapping']) && empty($_REQUEST['ma'])) {
 			doDefault($lang['strftsspecifymappingtodrop']);
-			exit();
+			return;
 		}
 
 		if (empty($_REQUEST['ftscfg'])) {
 			doDefault($lang['strftsspecifyconfigtoalter']);
-			exit();
+			return;
 		}
 
 		if ($confirm) {
