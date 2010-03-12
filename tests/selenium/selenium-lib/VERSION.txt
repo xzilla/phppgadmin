@@ -1,2 +1,2 @@
-selenium.core.version=0.8.3
-selenium.core.revision=1879
+selenium.core.version=@VERSION@
+selenium.core.revision=@REVISION@

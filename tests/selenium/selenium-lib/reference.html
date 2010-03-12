@@ -5,7 +5,39 @@
 </head>
 <body>
 <h1>Selenium Reference</h1>
+<ol>
+<li>
+<a href="#name">Concepts</a>
+</li>
+<ol>
+<li>
+<a href="#locators">Element Locators</a>
+</li>
+<li>
+<a href="#element-filters">Element Filters</a>
+</li>
+<li>
+<a href="#patterns">String-match Patterns</a>
+</li>
+</ol>
+<li>
+<a href="#actions">Selenium Actions</a>
+</li>
+<li>
+<a href="#accessors">Selenium Accessors</a>
+</li>
+<li>
+<a href="#parameter-construction-and-variables">Parameter Construction and Variables</a>
+</li>
+<li>
+<a href="#whitespace">Whitespace Rules</a>
+</li>
+<li>
+<a href="#extending-selenium">Extending Selenium</a>
+</li>
+</ol>
 <h2>Concepts</h2>
+<a name="concepts"></a>
 <p>A <strong>command</strong> is what tells Selenium what to do. Selenium commands come in three 'flavors': <strong>Actions</strong>, <strong>Accessors</strong> and <strong>Assertions</strong>.
 	Each command call is one line in the test table of the form:</p>
 <blockquote>
@@ -115,6 +147,15 @@ Select the element using css selectors. Please refer to <a href="http://www.w3.o
 </ul>
 <p>Currently the css selector locator supports all css1, css2 and css3 selectors except namespace in css3, some pseudo classes(:nth-of-type, :nth-last-of-type, :first-of-type, :last-of-type, :only-of-type, :visited, :hover, :active, :focus, :indeterminate) and pseudo elements(::first-line, ::first-letter, ::selection, ::before, ::after). </p>
 </li>
+<li>
+<strong>ui</strong>=<em>uiSpecifierString</em>:
+Locate an element by resolving the UI specifier string to another locator, and evaluating it. See the <a href="http://svn.openqa.org/fisheye/browse/~raw,r=trunk/selenium/trunk/src/main/resources/core/scripts/ui-doc.html">Selenium UI-Element Reference</a> for more details.
+<ul class="first last simple">
+<li>ui=loginPages::loginButton()</li>
+<li>ui=settingsPages::toggle(label=Hide Email)</li>
+<li>ui=forumPages::postBody(index=2)//a[2]</li>
+</ul>
+</li>
 </ul>
 <p>
 Without an explicit locator prefix, Selenium uses the following default
@@ -167,6 +208,9 @@ string.</li>
 Match a string using a regular-expression. The full power of JavaScript
 regular-expressions is available.</li>
 <li>
+<strong>regexpi:</strong><em>regexpi</em>:
+Match a string using a case-insensitive regular-expression.</li>
+<li>
 <strong>exact:</strong><em>string</em>:
 
 Match a string exactly, verbatim, without any of that fancy wildcard
@@ -176,6 +220,15 @@ stuff.</li>
 If no pattern prefix is specified, Selenium assumes that it's a "glob"
 pattern.
 </p>
+<p>
+For commands that return multiple values (such as verifySelectOptions),
+the string being matched is a comma-separated list of the return values,
+where both commas and backslashes in the values are backslash-escaped.
+When providing a pattern, the optional matching syntax (i.e. glob,
+regexp, etc.) is specified once, as usual, at the beginning of the
+pattern.
+</p>
+<a name="actions"></a>
 <h2>Selenium Actions</h2>
 <dl>
 <dt>
@@ -203,6 +256,30 @@ The function must return null if the element can't be found.<p>Arguments:</p>
 <li>strategyName - the name of the strategy to define; this should use only   letters [a-zA-Z] with no spaces or other punctuation.</li>
 <li>functionDefinition - a string defining the body of a function in JavaScript.   For example: <code>return inDocument.getElementById(locator);</code>
 </li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="addScript"></a>addScript
+		(
+			scriptContent,scriptTagId
+		)
+	</strong>
+</dt>
+<dd>Loads script content into a new script tag in the Selenium document. This
+differs from the runScript command in that runScript adds the script tag
+to the document of the AUT, not the Selenium document. The following
+entities in the script content are replaced by the characters they
+represent:
+
+    &lt;
+    &gt;
+    &amp;
+
+The corresponding remove command is removeScript.<p>Arguments:</p>
+<ul>
+<li>scriptContent - the Javascript content of the script to add</li>
+<li>scriptTagId - (optional) the id of the new script tag. If                       specified, and an element with this id already                       exists, this operation will fail.</li>
 </ul>
 </dd>
 <br>
@@ -300,6 +377,32 @@ This command is useful for debugging, but be careful when using it, because it w
 force automated tests to hang until a user intervenes manually.</dd>
 <br>
 <dt>
+<strong><a name="captureEntirePageScreenshot"></a>captureEntirePageScreenshot
+		(
+			filename,kwargs
+		)
+	</strong>
+</dt>
+<dd>Saves the entire contents of the current window canvas to a PNG file.
+Contrast this with the captureScreenshot command, which captures the
+contents of the OS viewport (i.e. whatever is currently being displayed
+on the monitor), and is implemented in the RC only. Currently this only
+works in Firefox when running in chrome mode, and in IE non-HTA using
+the EXPERIMENTAL "Snapsie" utility. The Firefox implementation is mostly
+borrowed from the Screengrab! Firefox extension. Please see
+http://www.screengrab.org and http://snapsie.sourceforge.net/ for
+details.<p>Arguments:</p>
+<ul>
+<li>filename - the path to the file to persist the screenshot as. No                  filename extension will be appended by default.                  Directories will not be created if they do not exist,                    and an exception will be thrown, possibly by native                  code.</li>
+<li>kwargs - a kwargs string that modifies the way the screenshot                  is captured. Example: "background=#CCFFDD" .                  Currently valid options:                  <dl>
+<dt>background</dt>
+<dd>the background CSS for the HTML document. This                     may be useful to set for capturing screenshots of                     less-than-ideal layouts, for example where absolute                     positioning causes the calculation of the canvas                     dimension to fail and a black background is exposed                     (possibly obscuring black text).</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="check"></a>check
 		(
 			locator
@@ -320,13 +423,22 @@ force automated tests to hang until a user intervenes manually.</dd>
 		)
 	</strong>
 </dt>
-<dd>By default, Selenium's overridden window.confirm() function will
+<dd>
+<p>
+By default, Selenium's overridden window.confirm() function will
 return true, as if the user had manually clicked OK; after running
 this command, the next call to confirm() will return false, as if
 the user had clicked Cancel.  Selenium will then resume using the
 default behavior for future confirmations, automatically returning 
 true (OK) unless/until you explicitly call this command for each
-confirmation.</dd>
+confirmation.
+</p>
+<p>
+Take note - every time a confirmation comes up, you must
+consume it with a corresponding getConfirmation, or else
+the next selenium operation will fail.
+</p>
+</dd>
 <br>
 <dt>
 <strong><a name="chooseOkOnNextConfirmation"></a>chooseOkOnNextConfirmation
@@ -335,14 +447,23 @@ confirmation.</dd>
 		)
 	</strong>
 </dt>
-<dd>Undo the effect of calling chooseCancelOnNextConfirmation.  Note
+<dd>
+<p>
+Undo the effect of calling chooseCancelOnNextConfirmation.  Note
 that Selenium's overridden window.confirm() function will normally automatically
 return true, as if the user had manually clicked OK, so you shouldn't
 need to use this command unless for some reason you need to change
 your mind prior to the next confirmation.  After any confirmation, Selenium will resume using the
 default behavior for future confirmations, automatically returning 
 true (OK) unless/until you explicitly call chooseCancelOnNextConfirmation for each
-confirmation.</dd>
+confirmation.
+</p>
+<p>
+Take note - every time a confirmation comes up, you must
+consume it with a corresponding getConfirmation, or else
+the next selenium operation will fail.
+</p>
+</dd>
 <br>
 <dt>
 <strong><a name="click"></a>click
@@ -386,6 +507,33 @@ waitForPageToLoad.<p>Arguments:</p>
 window or tab.</dd>
 <br>
 <dt>
+<strong><a name="contextMenu"></a>contextMenu
+		(
+			locator
+		)
+	</strong>
+</dt>
+<dd>Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the element).<p>Arguments:</p>
+<ul>
+<li>locator - an element locator</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="contextMenuAt"></a>contextMenuAt
+		(
+			locator,coordString
+		)
+	</strong>
+</dt>
+<dd>Simulates opening the context menu for the specified element (as might happen if the user "right-clicked" on the element).<p>Arguments:</p>
+<ul>
+<li>locator - an element locator</li>
+<li>coordString - specifies the x,y position (i.e. - 10,20) of the mouse      event relative to the element returned by the locator.</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="controlKeyDown"></a>controlKeyDown
 		(
 			
@@ -414,23 +562,54 @@ window or tab.</dd>
 under test, unless you specified a path for this cookie explicitly.<p>Arguments:</p>
 <ul>
 <li>nameValuePair - name and value of the cookie in a format "name=value"</li>
-<li>optionsString - options for the cookie. Currently supported options include 'path' and 'max_age'.      the optionsString's format is "path=/path/, max_age=60". The order of options are irrelevant, the unit      of the value of 'max_age' is second.</li>
+<li>optionsString - options for the cookie. Currently supported options include 'path', 'max_age' and 'domain'.      the optionsString's format is "path=/path/, max_age=60, domain=.foo.com". The order of options are irrelevant, the unit      of the value of 'max_age' is second.  Note that specifying a domain that isn't a subset of the current domain will      usually fail.</li>
 </ul>
 </dd>
 <br>
 <dt>
-<strong><a name="deleteCookie"></a>deleteCookie
+<strong><a name="deleteAllVisibleCookies"></a>deleteAllVisibleCookies
 		(
-			name,path
+			
 		)
 	</strong>
 </dt>
-<dd>Delete a named cookie with specified path.<p>Arguments:</p>
+<dd>Calls deleteCookie with recurse=true on all cookies visible to the current page.
+As noted on the documentation for deleteCookie, recurse=true can be much slower
+than simply deleting the cookies using a known domain/path.</dd>
+<br>
+<dt>
+<strong><a name="deleteCookie"></a>deleteCookie
+		(
+			name,optionsString
+		)
+	</strong>
+</dt>
+<dd>Delete a named cookie with specified path and domain.  Be careful; to delete a cookie, you
+need to delete it using the exact same path and domain that were used to create the cookie.
+If the path is wrong, or the domain is wrong, the cookie simply won't be deleted.  Also
+note that specifying a domain that isn't a subset of the current domain will usually fail.
+
+Since there's no way to discover at runtime the original path and domain of a given cookie,
+we've added an option called 'recurse' to try all sub-domains of the current domain with
+all paths that are a subset of the current path.  Beware; this option can be slow.  In
+big-O notation, it operates in O(n*m) time, where n is the number of dots in the domain
+name and m is the number of slashes in the path.<p>Arguments:</p>
 <ul>
 <li>name - the name of the cookie to be deleted</li>
-<li>path - the path property of the cookie to be deleted</li>
+<li>optionsString - options for the cookie. Currently supported options include 'path', 'domain'      and 'recurse.' The optionsString's format is "path=/path/, domain=.foo.com, recurse=true".      The order of options are irrelevant. Note that specifying a domain that isn't a subset of      the current domain will usually fail.</li>
 </ul>
 </dd>
+<br>
+<dt>
+<strong><a name="deselectPopUp"></a>deselectPopUp
+		(
+			
+		)
+	</strong>
+</dt>
+<dd>Selects the main window. Functionally equivalent to using
+<code>selectWindow()</code> and specifying no value for
+<code>windowID</code>.</dd>
 <br>
 <dt>
 <strong><a name="doubleClick"></a>doubleClick
@@ -536,16 +715,18 @@ handler.<p>Arguments:</p>
 </dd>
 <br>
 <dt>
-<strong><a name="getSpeed"></a>getSpeed
+<strong><a name="focus"></a>focus
 		(
-			
+			locator
 		)
 	</strong>
 </dt>
-<dd>Get execution speed (i.e., get the millisecond length of the delay following each selenium operation).  By default, there is no such delay, i.e.,
-the delay is 0 milliseconds.
-
-See also setSpeed.</dd>
+<dd>Move the focus to the specified element; for example, if the element is an input field, move the cursor to that field.<p>Arguments:</p>
+<ul>
+<li>locator - an <a href="#locators">element locator</a>
+</li>
+</ul>
+</dd>
 <br>
 <dt>
 <strong><a name="goBack"></a>goBack
@@ -567,6 +748,27 @@ See also setSpeed.</dd>
 <ul>
 <li>locator - an <a href="#locators">element locator</a>
 </li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="ignoreAttributesWithoutValue"></a>ignoreAttributesWithoutValue
+		(
+			ignore
+		)
+	</strong>
+</dt>
+<dd>Specifies whether Selenium will ignore xpath attributes that have no
+value, i.e. are the empty string, when using the non-native xpath
+evaluation engine. You'd want to do this for performance reasons in IE.
+However, this could break certain xpaths, for example an xpath that looks
+for an attribute whose value is NOT the empty string.
+
+The hope is that such xpaths are relatively rare, but the user should
+have the option of using them. Note that this only influences xpath
+evaluation when using the ajaxslt engine (i.e. not "javascript-xpath").<p>Arguments:</p>
+<ul>
+<li>ignore - boolean, true means we'll ignore attributes without value                        at the expense of xpath "correctness"; false means                        we'll sacrifice speed for correctness.</li>
 </ul>
 </dd>
 <br>
@@ -640,7 +842,7 @@ See also setSpeed.</dd>
 		)
 	</strong>
 </dt>
-<dd>Simulates a user pressing the mouse button (without releasing it yet) on
+<dd>Simulates a user pressing the left mouse button (without releasing it yet) on
 the specified element.<p>Arguments:</p>
 <ul>
 <li>locator - an <a href="#locators">element locator</a>
@@ -655,7 +857,38 @@ the specified element.<p>Arguments:</p>
 		)
 	</strong>
 </dt>
-<dd>Simulates a user pressing the mouse button (without releasing it yet) at
+<dd>Simulates a user pressing the left mouse button (without releasing it yet) at
+the specified location.<p>Arguments:</p>
+<ul>
+<li>locator - an <a href="#locators">element locator</a>
+</li>
+<li>coordString - specifies the x,y position (i.e. - 10,20) of the mouse      event relative to the element returned by the locator.</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="mouseDownRight"></a>mouseDownRight
+		(
+			locator
+		)
+	</strong>
+</dt>
+<dd>Simulates a user pressing the right mouse button (without releasing it yet) on
+the specified element.<p>Arguments:</p>
+<ul>
+<li>locator - an <a href="#locators">element locator</a>
+</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="mouseDownRightAt"></a>mouseDownRightAt
+		(
+			locator,coordString
+		)
+	</strong>
+</dt>
+<dd>Simulates a user pressing the right mouse button (without releasing it yet) at
 the specified location.<p>Arguments:</p>
 <ul>
 <li>locator - an <a href="#locators">element locator</a>
@@ -755,6 +988,37 @@ holding the button down) at the specified location.<p>Arguments:</p>
 </dd>
 <br>
 <dt>
+<strong><a name="mouseUpRight"></a>mouseUpRight
+		(
+			locator
+		)
+	</strong>
+</dt>
+<dd>Simulates the event that occurs when the user releases the right mouse button (i.e., stops
+holding the button down) on the specified element.<p>Arguments:</p>
+<ul>
+<li>locator - an <a href="#locators">element locator</a>
+</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="mouseUpRightAt"></a>mouseUpRightAt
+		(
+			locator,coordString
+		)
+	</strong>
+</dt>
+<dd>Simulates the event that occurs when the user releases the right mouse button (i.e., stops
+holding the button down) at the specified location.<p>Arguments:</p>
+<ul>
+<li>locator - an <a href="#locators">element locator</a>
+</li>
+<li>coordString - specifies the x,y position (i.e. - 10,20) of the mouse      event relative to the element returned by the locator.</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="open"></a>open
 		(
 			url
@@ -833,6 +1097,20 @@ an empty (blank) url, like this: openWindow("", "myFunnyWindow").</p>
 </dd>
 <br>
 <dt>
+<strong><a name="removeScript"></a>removeScript
+		(
+			scriptTagId
+		)
+	</strong>
+</dt>
+<dd>Removes a script tag from the Selenium document identified by the given
+id. Does nothing if the referenced tag doesn't exist.<p>Arguments:</p>
+<ul>
+<li>scriptTagId - the id of the script element to remove.</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="removeSelection"></a>removeSelection
 		(
 			locator,optionLocator
@@ -845,6 +1123,23 @@ an empty (blank) url, like this: openWindow("", "myFunnyWindow").</p>
 <ul>
 <li>locator - an <a href="#locators">element locator</a> identifying a multi-select box</li>
 <li>optionLocator - an option locator (a label by default)</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="rollup"></a>rollup
+		(
+			rollupName,kwargs
+		)
+	</strong>
+</dt>
+<dd>Executes a command rollup, which is a series of commands with a unique
+name, and optionally arguments that control the generation of the set of
+commands. If any one of the rolled-up commands fails, the rollup is
+considered to have failed. Rollups may also contain nested rollups.<p>Arguments:</p>
+<ul>
+<li>rollupName - the name of the rollup command</li>
+<li>kwargs - keyword arguments string that influences how the                    rollup expands into commands</li>
 </ul>
 </dd>
 <br>
@@ -947,30 +1242,79 @@ like this: <code>dom=frames["main"].frames["subframe"]</code>
 </dd>
 <br>
 <dt>
+<strong><a name="selectPopUp"></a>selectPopUp
+		(
+			windowID
+		)
+	</strong>
+</dt>
+<dd>Simplifies the process of selecting a popup window (and does not offer
+functionality beyond what <code>selectWindow()</code> already provides).
+<ul>
+<li>If <code>windowID</code> is either not specified, or specified as
+"null", the first non-top window is selected. The top window is the one
+that would be selected by <code>selectWindow()</code> without providing a
+<code>windowID</code> . This should not be used when more than one popup
+window is in play.</li>
+<li>Otherwise, the window will be looked up considering
+<code>windowID</code> as the following in order: 1) the "name" of the
+window, as specified to <code>window.open()</code>; 2) a javascript
+variable which is a reference to a window; and 3) the title of the
+window. This is the same ordered lookup performed by
+<code>selectWindow</code> .</li>
+</ul>
+<p>Arguments:</p>
+<ul>
+<li>windowID - an identifier for the popup window, which can take on a                  number of different meanings</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="selectWindow"></a>selectWindow
 		(
 			windowID
 		)
 	</strong>
 </dt>
-<dd>Selects a popup window; once a popup window has been selected, all
+<dd>Selects a popup window using a window locator; once a popup window has been selected, all
 commands go to that window. To select the main window again, use null
 as the target.
 
-<p>Note that there is a big difference between a window's internal JavaScript "name" property
-and the "title" of a given window's document (which is normally what you actually see, as an end user,
-in the title bar of the window).  The "name" is normally invisible to the end-user; it's the second 
+<p>
+
+Window locators provide different ways of specifying the window object:
+by title, by internal JavaScript "name," or by JavaScript variable.
+</p>
+<ul>
+<li>
+<strong>title</strong>=<em>My Special Window</em>:
+Finds the window using the text that appears in the title bar.  Be careful;
+two windows can share the same title.  If that happens, this locator will
+just pick one.
+</li>
+<li>
+<strong>name</strong>=<em>myWindow</em>:
+Finds the window using its internal JavaScript "name" property.  This is the second 
 parameter "windowName" passed to the JavaScript method window.open(url, windowName, windowFeatures, replaceFlag)
-(which selenium intercepts).</p>
-<p>Selenium has several strategies for finding the window object referred to by the "windowID" parameter.</p>
+(which Selenium intercepts).
+</li>
+<li>
+<strong>var</strong>=<em>variableName</em>:
+Some pop-up windows are unnamed (anonymous), but are associated with a JavaScript variable name in the current
+application window, e.g. "window.foo = window.open(url);".  In those cases, you can open the window using
+"var=foo".
+</li>
+</ul>
+<p>
+If no window locator prefix is provided, we'll try to guess what you mean like this:</p>
 <p>1.) if windowID is null, (or the string "null") then it is assumed the user is referring to the original window instantiated by the browser).</p>
 <p>2.) if the value of the "windowID" parameter is a JavaScript variable name in the current application window, then it is assumed
 that this variable contains the return value from a call to the JavaScript window.open() method.</p>
 <p>3.) Otherwise, selenium looks in a hash it maintains that maps string names to window "names".</p>
-<p>4.) If <i>that</i> fails, we'll try looping over all of the known windows to try to find the appropriate "title".
+<p>4.) If <em>that</em> fails, we'll try looping over all of the known windows to try to find the appropriate "title".
 Since "title" is not necessarily unique, this may have unexpected behavior.</p>
-<p>If you're having trouble figuring out what is the name of a window that you want to manipulate, look at the selenium log messages
-which identify the names of windows created via window.open (and therefore intercepted by selenium).  You will see messages
+<p>If you're having trouble figuring out the name of a window that you want to manipulate, look at the Selenium log messages
+which identify the names of windows created via window.open (and therefore intercepted by Selenium).  You will see messages
 like the following for each window as it is opened:</p>
 <p>
 <code>debug: window.open call intercepted; window ID (which you can use with selectWindow()) is "myNewWindow"</code>
@@ -1169,6 +1513,23 @@ send the keystroke events corresponding to what you just typed.</p>
 </dd>
 <br>
 <dt>
+<strong><a name="useXpathLibrary"></a>useXpathLibrary
+		(
+			libraryName
+		)
+	</strong>
+</dt>
+<dd>Allows choice of one of the available libraries.<p>Arguments:</p>
+<ul>
+<li>libraryName - name of the desired library Only the following three can be chosen: <ul>
+<li>"ajaxslt" - Google's library</li>
+<li>"javascript-xpath" - Cybozu Labs' faster library</li>
+<li>"default" - The default library.  Currently the default library is "ajaxslt" .</li>
+</ul> If libraryName isn't one of these three, then  no change will be made.</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="waitForCondition"></a>waitForCondition
 		(
 			script,timeout
@@ -1239,8 +1600,8 @@ wait immediately after a Selenium command that caused a page-load.</p>
 </dt>
 <dd>Waits for a popup window to appear and load up.<p>Arguments:</p>
 <ul>
-<li>windowID - the JavaScript window ID of the window that will appear</li>
-<li>timeout - a timeout in milliseconds, after which the action will return with an error</li>
+<li>windowID - the JavaScript window "name" of the window that will appear (not the text of the title bar)                 If unspecified, or specified as "null", this command will                 wait for the first non-top window to appear (don't rely                 on this if you are working with multiple popups                 simultaneously).</li>
+<li>timeout - a timeout in milliseconds, after which the action will return with an error.                If this value is not specified, the default Selenium                timeout will be used. See the setTimeout() command.</li>
 </ul>
 </dd>
 <br>
@@ -1263,6 +1624,7 @@ wait immediately after a Selenium command that caused a page-load.</p>
 <dd>Resize currently selected window to take up the entire screen</dd>
 <br>
 </dl>
+<a name="accessors"></a>
 <h2>Selenium Accessors</h2>
 <dl>
 <dt>
@@ -1404,11 +1766,11 @@ wait immediately after a Selenium command that caused a page-load.</p>
 <dd>Retrieves the message of a JavaScript alert generated during the previous action, or fail if there were no alerts.
 
 <p>Getting an alert has the same effect as manually clicking OK. If an
-alert is generated but you do not get/verify it, the next Selenium action
+alert is generated but you do not consume it with getAlert, the next Selenium action
 will fail.</p>
-<p>NOTE: under Selenium, JavaScript alerts will NOT pop up a visible alert
+<p>Under Selenium, JavaScript alerts will NOT pop up a visible alert
 dialog.</p>
-<p>NOTE: Selenium does NOT support JavaScript alerts that are generated in a
+<p>Selenium does NOT support JavaScript alerts that are generated in a
 page's onload() event handler. In this case a visible dialog WILL be
 generated and Selenium will hang until someone manually clicks OK.</p>
 <p>
@@ -1624,10 +1986,10 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 		
 	</strong>
 </dt>
-<dd>Returns the IDs of all windows that the browser knows about.<p>
+<dd>Returns the IDs of all windows that the browser knows about in an array.<p>
 <dl>
 <dt>Returns: </dt>
-<dd>the IDs of all windows that the browser knows about.</dd>
+<dd>Array of identifiers of all windows that the browser knows about.</dd>
 </dl>
 </p>
 <p>Related Assertions, automatically generated:</p>
@@ -1675,10 +2037,10 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 		
 	</strong>
 </dt>
-<dd>Returns the names of all windows that the browser knows about.<p>
+<dd>Returns the names of all windows that the browser knows about in an array.<p>
 <dl>
 <dt>Returns: </dt>
-<dd>the names of all windows that the browser knows about.</dd>
+<dd>Array of names of all windows that the browser knows about.</dd>
 </dl>
 </p>
 <p>Related Assertions, automatically generated:</p>
@@ -1726,10 +2088,10 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 		
 	</strong>
 </dt>
-<dd>Returns the titles of all windows that the browser knows about.<p>
+<dd>Returns the titles of all windows that the browser knows about in an array.<p>
 <dl>
 <dt>Returns: </dt>
-<dd>the titles of all windows that the browser knows about.</dd>
+<dd>Array of titles of all windows that the browser knows about.</dd>
 </dl>
 </p>
 <p>Related Assertions, automatically generated:</p>
@@ -1778,7 +2140,9 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 		
 	</strong>
 </dt>
-<dd>Gets the value of an element attribute.<p>Arguments:</p>
+<dd>Gets the value of an element attribute. The value of the attribute may
+differ across browsers (this is the case for the "style" attribute, for
+example).<p>Arguments:</p>
 <ul>
 <li>attributeLocator - an element locator followed by an @ sign and then the name of the attribute, e.g. "foo@bar"</li>
 <li>variableName -
@@ -1837,7 +2201,7 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 		
 	</strong>
 </dt>
-<dd>Returns every instance of some attribute from all known windows.<p>Arguments:</p>
+<dd>Returns an array of JavaScript property values from all known windows having one.<p>Arguments:</p>
 <ul>
 <li>attributeName - name of an attribute on the windows</li>
 <li>variableName -
@@ -1952,8 +2316,11 @@ the previous action.
 <p>
 By default, the confirm function will return true, having the same effect
 as manually clicking OK. This can be changed by prior execution of the
-chooseCancelOnNextConfirmation command. If an confirmation is generated
-but you do not get/verify it, the next Selenium action will fail.
+chooseCancelOnNextConfirmation command. 
+</p>
+<p>
+If an confirmation is generated but you do not consume it with getConfirmation,
+the next Selenium action will fail.
 </p>
 <p>
 NOTE: under Selenium, JavaScript confirmations will NOT pop up a visible
@@ -2052,6 +2419,65 @@ OK.
 <li>waitForNotCookie
 				(
 					<a href="#patterns">pattern</a>
+				)
+			</li>
+</ul>
+</dd>
+<br>
+<dt>
+<strong><a name="storeCookieByName"></a>storeCookieByName
+		
+		(
+			name,
+
+			variableName
+		)
+		
+	</strong>
+</dt>
+<dd>Returns the value of the cookie with the specified name, or throws an error if the cookie is not present.<p>Arguments:</p>
+<ul>
+<li>name - the name of the cookie</li>
+<li>variableName -
+                    the name of a <a href="#storedVars">variable</a> in which the result is to be stored.
+                </li>
+</ul>
+<p>
+<dl>
+<dt>Returns: </dt>
+<dd>the value of the cookie</dd>
+</dl>
+</p>
+<p>Related Assertions, automatically generated:</p>
+<ul>
+<li>assertCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
+				)
+			</li>
+<li>assertNotCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
+				)
+			</li>
+<li>verifyCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
+				)
+			</li>
+<li>verifyNotCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
+				)
+			</li>
+<li>waitForCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
+				)
+			</li>
+<li>waitForNotCookieByName
+				(
+					name, <a href="#patterns">pattern</a>
 				)
 			</li>
 </ul>
@@ -3296,6 +3722,60 @@ generated and Selenium will hang until someone manually clicks OK.</p>
 </dd>
 <br>
 <dt>
+<strong><a name="storeSpeed"></a>storeSpeed
+		
+		(
+			
+			variableName
+		)
+		
+	</strong>
+</dt>
+<dd>Get execution speed (i.e., get the millisecond length of the delay following each selenium operation).  By default, there is no such delay, i.e.,
+the delay is 0 milliseconds.
+
+See also setSpeed.<p>
+<dl>
+<dt>Returns: </dt>
+<dd>the execution speed in milliseconds.</dd>
+</dl>
+</p>
+<p>Related Assertions, automatically generated:</p>
+<ul>
+<li>assertSpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+<li>assertNotSpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+<li>verifySpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+<li>verifyNotSpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+<li>waitForSpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+<li>waitForNotSpeed
+				(
+					<a href="#patterns">pattern</a>
+				)
+			</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="storeTable"></a>storeTable
 		
 		(
@@ -3899,6 +4379,65 @@ This function never throws an exception
 </dd>
 <br>
 <dt>
+<strong><a name="storeCookiePresent"></a>storeCookiePresent
+		
+		(
+			name,
+
+			variableName
+		)
+		
+	</strong>
+</dt>
+<dd>Returns true if a cookie with the specified name is present, or false otherwise.<p>Arguments:</p>
+<ul>
+<li>name - the name of the cookie</li>
+<li>variableName -
+                    the name of a <a href="#storedVars">variable</a> in which the result is to be stored.
+                </li>
+</ul>
+<p>
+<dl>
+<dt>Returns: </dt>
+<dd>true if a cookie with the specified name is present, or false otherwise.</dd>
+</dl>
+</p>
+<p>Related Assertions, automatically generated:</p>
+<ul>
+<li>assertCookiePresent
+				(
+					name
+				)
+			</li>
+<li>assertCookieNotPresent
+				(
+					name
+				)
+			</li>
+<li>verifyCookiePresent
+				(
+					name
+				)
+			</li>
+<li>verifyCookieNotPresent
+				(
+					name
+				)
+			</li>
+<li>waitForCookiePresent
+				(
+					name
+				)
+			</li>
+<li>waitForCookieNotPresent
+				(
+					name
+				)
+			</li>
+</ul>
+</dd>
+<br>
+<dt>
 <strong><a name="storeEditable"></a>storeEditable
 		
 		(
@@ -4391,6 +4930,18 @@ the element is not present.<p>Arguments:</p>
 </table>
 </blockquote>
 </blockquote>
+<div class="section" id="whitespace">
+<h2>
+<a name="whitespace">Whitespace Rules</a>
+</h2>
+<blockquote>
+<p>HTML automatically normalizes whitespace within elements, ignoring leading/trailing spaces and converting extra spaces, tabs and newlines into a single space.  When Selenium reads text out of the page, it attempts to duplicate this behavior, so you can ignore all the tabs and newlines in your HTML and do assertions based on how the text looks in the browser when rendered.  We do this by replacing all non-visible whitespace (including the non-breaking space "&amp;nbsp;") with a single space.  All visible newlines (&lt;br&gt;, &lt;p&gt;, and &lt;pre&gt;formatted newlines) should be preserved.</p>
+<p>We use the same normalization logic on the text of HTML Selenese test case tables.  This has a number of advantages.  First, you don't need to look at the HTML source of the page to figure out what your assertions should be; "&amp;nbsp;" symbols are invisible to the end user, and so you shouldn't have to worry about them when writing Selenese tests.  (You don't need to put "&amp;nbsp;" markers in your test case to assertText on a field that contains "&amp;nbsp;".)  You may also put extra newlines and spaces in your Selenese &lt;td&gt; tags; since we use the same normalization logic on the test case as we do on the text, we can ensure that assertions and the extracted text will match exactly.</p>
+<p>This creates a bit of a problem on those rare occasions when you really want/need to insert extra whitespace in your test case.  For example, you may need to type text in a field like this: "foo&nbsp;&nbsp;&nbsp;".  But if you simply write &lt;td&gt;foo&nbsp;&nbsp;&nbsp;&lt;/td&gt; in your Selenese test case, we'll replace your extra spaces with just one space.</p>
+<p>This problem has a simple workaround.  We've defined a variable in Selenese, ${space}, whose value is a single space.  You can use ${space} to insert a space that won't be automatically trimmed, like this: &lt;td&gt;foo${space}${space}${space}&lt;/td&gt;.  We've also included a variable ${nbsp}, that you can use to insert a non-breaking space.</p>
+<p>Note that XPaths do <i>not</i> normalize whitespace the way we do.  If you need to write an XPath like //div[text()="hello world"] but the HTML of the link is really "hello&amp;nbsp;world", you'll need to insert a real "&amp;nbsp;" into your Selenese test case to get it to match, like this: //div[text()="hello${nbsp}world"].</p>
+</blockquote>
+</div>
 <div class="section" id="extending-selenium">
 <h2>
 <a name="extending-selenium">Extending Selenium</a>
