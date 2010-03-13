@@ -33,7 +33,9 @@
 		$misc->printTabs('root','servers');
 		$misc->printMsg($msg);
 		
-		$servers = $misc->getServers(true);
+		$group = isset($_GET['group']) ? $_GET['group'] : false;
+		
+		$servers = $misc->getServers(true, $group);
 		
 		function svPre(&$rowdata, $actions) {
 			$actions['logout']['disable'] = empty($rowdata->fields['username']);
@@ -72,13 +74,26 @@
 			),
 		);
 		
+		if (($group !== false) and isset($conf['srv_groups'][$group])) {
+			printf("<h2>{$lang['strgroupservers']}</h2>", htmlentities($conf['srv_groups'][$group]['desc']));
+		}
+		
 		$misc->printTable($servers, $columns, $actions, $lang['strnoobjects'], 'svPre');
+		
+		if (isset($conf['srv_groups'])) {
+			echo "<br /><ul class=\"navlink\">\n";
+			echo "\t<li><a href=\"servers.php\">{$lang['strallservers']}</a></li>\n";
+			foreach ($conf['srv_groups'] as $id => $grp) {
+				echo "\t<li><a href=\"servers.php?group={$id}\">", htmlentities($grp['desc']), "</a></li>\n";
+			}
+			echo "</ul>\n";			
+		}
 	}
 	
-	function doTree() {
+	function doTree($group = false) {
 		global $misc;
 		
-		$servers = $misc->getServers(true);
+		$servers = $misc->getServers(true, $group);
 		
 		$reqvars = $misc->getRequestVars('server');
 		
@@ -112,7 +127,37 @@
 		exit;
 	}
 	
-	if ($action == 'tree') doTree();
+	function doGroupsTree() {
+		global $misc;
+		
+		$groups = $misc->getServersGroups();
+		
+		$attrs = array(
+			'text'   => field('desc'),
+			'icon'   => 'Servers',			
+			'action' => url('servers.php',
+				array(
+					'group' => field('id')
+				)
+			),
+			'branch' => url('servers.php',
+				array(
+					'action' => 'tree',
+					'group' => field('id')
+				)
+			)
+		);
+		
+		$misc->printTreeXML($groups, $attrs);
+		exit;
+	}
+	
+	if ($action == 'tree') {
+		if (isset($_GET['group'])) doTree($_GET['group']);
+		else doTree(false);
+	}
+
+	if ($action == 'groupstree') doGroupsTree();
 	
 	$misc->printHeader($lang['strservers']);
 	$misc->printBody();
@@ -122,7 +167,6 @@
 		case 'logout':
 			doLogout();
 			break;
-		case 'tree':
 		default:
 			doDefault($msg);
 			break;

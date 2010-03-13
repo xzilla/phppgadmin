@@ -17,6 +17,7 @@ Features
 * Allow users to specify a template database at database creation time
 * Support killing processes  
 * Add ability to create indexes concurrently
+* Allow user to logicaly group their server under custom named node in the browser tree
 
 Bugs
 * Fix problems with query tracking on overly long queries

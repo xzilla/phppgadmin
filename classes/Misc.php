@@ -1913,22 +1913,58 @@
 		}
 
 		/**
+		 * Get list of servers' groups if existing in the conf
+		 * @return a recordset of servers' groups
+		 */
+		function getServersGroups() {
+			global $conf, $lang;
+			$grps = array();
+			
+			foreach ($conf['srv_groups'] as $i => $group) {
+				$grps[$i] = array(
+					'id' => $i,
+					'desc' => $group['desc'],
+				);				
+			}
+			
+			$grps['all'] = array(
+				'id' => 'all', 
+				'desc' => $lang['strallservers'],
+			);
+
+			include_once('./classes/ArrayRecordSet.php');
+			return new ArrayRecordSet($grps);
+		}
+		
+
+		/**
 		 * Get list of servers
 		 * @param $recordset return as RecordSet suitable for printTable if true,
 		 *                   otherwise just return an array.
+		 * @param $group a group name to filter the returned servers using $conf[srv_groups]
 		 */
-		function getServers($recordset = false) {
+		function getServers($recordset = false, $group = false) {
 			global $conf;
-
+			
 			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
-
+			
+			if ($group !== false) {
+				if ($group !== 'all')
+					$group = array_fill_keys(explode(',', $conf['srv_groups'][$group]['servers']), 1);
+			} 
+			
 			foreach($conf['servers'] as $idx => $info) {
-				$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
+				if (($group === false) 
+					or (isset($group[$idx]))
+					or ($group === 'all')
+				) {
+					$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
 
-				if (!isset($srvs[$server_id])) {
-					$srvs[$server_id] = $info;
+					if (!isset($srvs[$server_id])) {
+						$srvs[$server_id] = $info;
+					}
+					$srvs[$server_id]['id'] = $server_id;
 				}
-				$srvs[$server_id]['id'] = $server_id;
 			}
 
 			function _cmp_desc($a, $b) {

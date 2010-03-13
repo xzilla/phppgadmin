@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Login disallowed for security reasons.';
 	$lang['strserver'] = 'Server';
 	$lang['strservers'] = 'Servers';
+	$lang['strgroupservers'] = 'Servers in group &quot;%s&quot;';
+	$lang['strallservers'] = 'All servers';
 	$lang['strintroduction'] = 'Introduction';
 	$lang['strhost'] = 'Host';
 	$lang['strport'] = 'Port';
