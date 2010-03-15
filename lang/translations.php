@@ -32,6 +32,7 @@
 		'portuguese-br' => 'Portugu&ecirc;s-Brasileiro',
 		'romanian' => 'Rom&acirc;n&#259;',
 		'russian' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;',
+		'russian-utf8' => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; (UTF-8)',
 		'slovak' => 'Slovensky',
 		'swedish' => 'Svenska',
 		'spanish' => 'Espa&ntilde;ol',

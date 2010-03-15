@@ -37,6 +37,7 @@ TARGETS=polish \
 	italian \
 	french \
 	russian \
+	russian-utf8 \
 	japanese \
 	slovak \
 	turkish \
@@ -158,6 +159,11 @@ russian:	russian.php
 	@cat russian.php | recode koi8..xml | ./convert.awk \
 		> ${DESTDIR}/russian.php
 	@chmod 644 russian.php ${DESTDIR}/russian.php
+russian-utf8:	russian-utf8.php
+	@echo "Recoding russian-utf8..."
+	@cat russian-utf8.php | recode utf-8..xml | ./convert.awk \
+		> ${DESTDIR}/russian-utf8.php
+	@chmod 644 russian-utf8.php ${DESTDIR}/russian-utf8.php
 
 slovak:	slovak.php
 	@echo "Recoding slovak..."
