@@ -2976,7 +2976,7 @@ class Postgres extends ADODB_base {
 		$grodata = $this->selectSet($sql);
 		if ($grodata->fields['grolist'] !== null && $grodata->fields['grolist'] != '{}') {
 			$members = $grodata->fields['grolist'];
-			$members = ereg_replace("\{|\}","",$members);
+			$members = preg_replace("/\{|\}/","",$members);
 			$this->clean($members);
 
 			$sql = "SELECT usename FROM pg_user WHERE usesysid IN ({$members}) ORDER BY usename";
@@ -4284,7 +4284,7 @@ class Postgres extends ADODB_base {
 			foreach ($orderby as $k => $v) {
 				if ($first) $first = false;
 				else $sql .= ', ';
-				if (ereg('^[0-9]+$', $k)) {
+				if (preg_match('/^[0-9]+$/', $k)) {
 					$sql .= $k;
 				}
 				else {
@@ -4341,7 +4341,7 @@ class Postgres extends ADODB_base {
 		// If $type is TABLE, then generate the query
 		switch ($type) {
 			case 'TABLE':
-				if (ereg('^[0-9]+$', $sortkey) && $sortkey > 0) $orderby = array($sortkey => $sortdir);
+				if (preg_match('/^[0-9]+$/', $sortkey) && $sortkey > 0) $orderby = array($sortkey => $sortdir);
 				else $orderby = array();
 				$query = $this->getSelectSQL($table, array(), array(), array(), $orderby);
 				break;
@@ -4398,7 +4398,7 @@ class Postgres extends ADODB_base {
 
 		// Figure out ORDER BY.  Sort key is always the column number (based from one)
 		// of the column to order by.  Only need to do this for non-TABLE queries
-		if ($type != 'TABLE' && ereg('^[0-9]+$', $sortkey) && $sortkey > 0) {
+		if ($type != 'TABLE' && preg_match('/^[0-9]+$/', $sortkey) && $sortkey > 0) {
 			$orderby = " ORDER BY {$sortkey}";
 			// Add sort order
 			if ($sortdir == 'desc')
@@ -4598,7 +4598,7 @@ class Postgres extends ADODB_base {
 	 */
 	function valid_dolquote($dquote) {
 		// XXX: support multibyte
-		return (ereg('^[$][$]', $dquote) || ereg('^[$][_[:alpha:]][_[:alnum:]]*[$]', $dquote));
+		return (preg_match('/^[$][$]/', $dquote) || preg_match('/^[$][_[:alpha:]][_[:alnum:]]*[$]/', $dquote));
 	}
 
 	/**
@@ -4806,9 +4806,9 @@ class Postgres extends ADODB_base {
 				 * of a dollar quote.
 				 */
 				// XXX: multibyte here
-				else if (ereg('^[_[:alpha:]]$', substr($line, $i, 1))) {
+				else if (preg_match('/^[_[:alpha:]]$/', substr($line, $i, 1))) {
 					$sub = substr($line, $i, $thislen);
-					while (ereg('^[\$_A-Za-z0-9]$', $sub)) {
+					while (preg_match('/^[\$_A-Za-z0-9]$/', $sub)) {
 						/* keep going while we still have identifier chars */
 						$this->advance_1($i, $prevlen, $thislen);
 						$sub = substr($line, $i, $thislen);
