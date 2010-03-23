@@ -1,6 +1,16 @@
 phpPgAdmin History
 ------------------
 
+Version 4.2.3
+-------------
+
+Bugs
+* Fix bug where space as first character in a bytea column was removed by html renderer
+* Check if the given pg_dumpall / pg_dump paths are correct before using them
+* Fix some transalation files that had bad UTF-8 declaration, rising a warning
+* Fix bug with tables that contain quote in their name
+* support PHP 5.3
+
 Version 4.2.2
 -------------
 
