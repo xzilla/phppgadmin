@@ -38,6 +38,10 @@
 	require('./lang/recoded/english.php');
 	require('./tests/selenium/testBuilder.class.php');
 
+	/* create directory for tests static files */
+	if(!is_dir($test_static_dir))
+		mkdir($test_static_dir);
+
 	/* create the TestSuite.html file with its html header */
 	$fd = fopen($testsuite_file, 'w');
 	fprintf($fd, "<table border=\"1\">
@@ -45,9 +49,6 @@
 			<th>Test suite for PPA</th>
 		</tr>\n");
 	fclose($fd);
-
-	if(!is_dir($test_static_dir))
-		mkdir($test_static_dir);
 
 	/* Loop on the servers given in the conf/config.inc.conf file */
 	foreach ($conf['servers'] as $server) {
