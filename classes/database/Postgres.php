@@ -2370,6 +2370,66 @@ class Postgres extends ADODB_base {
 
 		return $this->selectSet("SELECT {$oid_str}* FROM \"{$relation}\"");
 	}
+	
+	/**
+	 * Returns all available autovacuum per table information.
+	 * @param $table if given, return autovacuum info for the given table or return all informations for all table
+	 *   
+	 * @return A recordset
+	 */
+	function getTableAutovacuum($table='') {
+
+		$sql = '';
+
+		if ($table !== '') {
+			$this->clean($table);
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+
+			$sql = "SELECT c.oid, nspname, relname, pg_catalog.array_to_string(reloptions, E',') AS reloptions
+				FROM pg_class c
+					LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+				WHERE c.relkind = 'r'::\"char\"
+					AND n.nspname NOT IN ('pg_catalog','information_schema')
+					AND c.reloptions IS NOT NULL
+					AND c.relname = '{$table}' AND n.nspname = '{$f_schema}'
+				ORDER BY nspname, relname";
+		}
+		else {
+			$sql = "SELECT c.oid, nspname, relname, pg_catalog.array_to_string(reloptions, E',') AS reloptions
+				FROM pg_class c
+					LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+				WHERE c.relkind = 'r'::\"char\"
+					AND n.nspname NOT IN ('pg_catalog','information_schema')
+					AND c.reloptions IS NOT NULL
+				ORDER BY nspname, relname";
+
+		}
+
+		/* tmp var to parse the results */
+		$_autovacs = $this->selectSet($sql);
+
+		/* result aray to return as RS */
+		$autovacs = array();
+		while (!$_autovacs->EOF) {
+			$_ = array(
+				'nspname' => $_autovacs->fields['nspname'],
+				'relname' => $_autovacs->fields['relname']
+			);
+
+			foreach (explode(',', $_autovacs->fields['reloptions']) AS $var) {
+				list($o, $v) = explode('=', $var);
+				$_[$o] = $v; 
+			}
+
+			$autovacs[] = $_;
+			
+			$_autovacs->moveNext();
+		}
+
+		include_once('./classes/ArrayRecordSet.php');
+		return new ArrayRecordSet($autovacs);
+	}
 
 	// Row functions
 
@@ -2548,7 +2608,7 @@ class Postgres extends ADODB_base {
 	 * @param $key An array mapping column => value to delete
 	 * @return 0 success
 	 */
-	function deleteRow($table, $key) {
+	function deleteRow($table, $key, $schema=false) {
 		if (!is_array($key)) return -1;
 		else {
 			// Begin transaction.  We do this so that we can ensure only one row is
@@ -2558,8 +2618,10 @@ class Postgres extends ADODB_base {
 				$this->rollbackTransaction();
 				return -1;
 			}
+			
+			if ($schema === false) $schema = $this->_schema;
 
-			$status = $this->delete($table, $key, $this->_schema);
+			$status = $this->delete($table, $key, $schema);
 			if ($status != 0 || $this->conn->Affected_Rows() != 1) {
 				$this->rollbackTransaction();
 				return -2;
@@ -3292,7 +3354,7 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($f_schema);
 		$this->fieldClean($index);
 		$this->fieldClean($table);
-
+		
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
 		$sql = "CLUSTER \"{$f_schema}\".\"{$table}\" USING \"{$index}\"";
@@ -6929,7 +6991,6 @@ class Postgres extends ADODB_base {
 
 	/**
 	 * Analyze a database
-	 * @note PostgreSQL 7.2 finally had an independent ANALYZE command
 	 * @param $table (optional) The table to analyze
 	 */
 	function analyzeDB($table = '') {
@@ -6950,8 +7011,8 @@ class Postgres extends ADODB_base {
 	 * Vacuums a database
 	 * @param $table The table to vacuum
  	 * @param $analyze If true, also does analyze
-	 * @param $full If true, selects "full" vacuum (PostgreSQL >= 7.2)
-	 * @param $freeze If true, selects aggressive "freezing" of tuples (PostgreSQL >= 7.2)
+	 * @param $full If true, selects "full" vacuum
+	 * @param $freeze If true, selects aggressive "freezing" of tuples
 	 */
 	function vacuumDB($table = '', $analyze = false, $full = false, $freeze = false) {
 
@@ -6970,19 +7031,93 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
-	 * Returns all available process information.
-	 * @return A recordset
+	 * Returns all autovacuum global configuration
+	 * @return associative array array( param => value, ...)
 	 */
 	function getAutovacuum() {
-		$sql = "
-			SELECT vacrelid, nspname, relname, enabled, vac_base_thresh,
-				vac_scale_factor, anl_base_thresh, anl_scale_factor, vac_cost_delay, vac_cost_limit
-			FROM pg_autovacuum
-				join pg_class on (oid=vacrelid)
-				join pg_namespace on (oid=relnamespace)
-			ORDER BY nspname, relname";
 
-		return $this->selectSet($sql);
+		$_defaults = $this->selectSet("SELECT name, setting
+			FROM pg_catalog.pg_settings
+			WHERE 
+				name = 'autovacuum' 
+				OR name = 'autovacuum_vacuum_threshold'
+				OR name = 'autovacuum_vacuum_scale_factor'
+				OR name = 'autovacuum_analyze_threshold'
+				OR name = 'autovacuum_analyze_scale_factor'
+				OR name = 'autovacuum_vacuum_cost_delay'
+				OR name = 'autovacuum_vacuum_cost_limit'
+				OR name = 'vacuum_freeze_min_age'
+				OR name = 'autovacuum_freeze_max_age'
+			"
+		);
+
+		$ret = array();
+		while (!$_defaults->EOF) {
+			$ret[$_defaults->fields['name']] = $_defaults->fields['setting'];
+			$_defaults->moveNext();
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Returns all available autovacuum per table information.
+	 * @return A recordset
+	 */
+	function saveAutovacuum($table, $vacenabled, $vacthreshold, $vacscalefactor, $anathresold,
+		$anascalefactor, $vaccostdelay, $vaccostlimit)
+	{	
+		$f_schema = $this->_schema;
+		$this->fieldClean($f_schema);
+		$this->fieldClean($table);
+
+		$sql = "ALTER TABLE \"{$f_schema}\".\"{$table}\" SET (";
+
+		if (!empty($vacenabled)) {
+			$this->clean($vacenabled);
+			$params[] = "autovacuum_enabled='{$vacenabled}'";
+		}
+		if (!empty($vacthreshold)) {
+			$this->clean($vacthreshold);
+			$params[] = "autovacuum_vacuum_threshold='{$vacthreshold}'";
+		}
+		if (!empty($vacscalefactor)) {
+			$this->clean($vacscalefactor);
+			$params[] = "autovacuum_vacuum_scale_factor='{$vacscalefactor}'";
+		}
+		if (!empty($anathresold)) {
+			$this->clean($anathresold);
+			$params[] = "autovacuum_analyze_threshold='{$anathresold}'";
+		}
+		if (!empty($anascalefactor)) {
+			$this->clean($anascalefactor);
+			$params[] = "autovacuum_analyze_scale_factor='{$anascalefactor}'";
+		}
+		if (!empty($vaccostdelay)) {
+			$this->clean($vaccostdelay);
+			$params[] = "autovacuum_vacuum_cost_delay='{$vaccostdelay}'";
+		}
+		if (!empty($vaccostlimit)) {
+			$this->clean($vaccostlimit);
+			$params[] = "autovacuum_vacuum_cost_limit='{$vaccostlimit}'";
+		}
+
+		$sql = $sql . implode(',', $params) . ');';
+
+		return $this->execute($sql);
+	}
+	
+	function dropAutovacuum($table) {
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$this->clean($table);
+		
+		return $this->execute("
+			ALTER TABLE \"{$c_schema}\".\"{$table}\" RESET (autovacuum_enabled, autovacuum_vacuum_threshold,
+				autovacuum_vacuum_scale_factor, autovacuum_analyze_threshold, autovacuum_analyze_scale_factor,
+				autovacuum_vacuum_cost_delay, autovacuum_vacuum_cost_limit
+			);"
+		);
 	}
 
 	/**
@@ -7682,7 +7817,7 @@ class Postgres extends ADODB_base {
 		$sql = "SELECT * FROM pg_stat_database WHERE datname='{$database}'";
 
 		return $this->selectSet($sql);
-					}
+	}
 
 	/**
 	 * Fetches tuple statistics for a table
@@ -7762,7 +7897,6 @@ class Postgres extends ADODB_base {
 	function hasAlterSequenceSchema() { return true; }
 	function hasAlterTableSchema() { return true; }
 	function hasAutovacuum() { return true; }
-	function hasAutovacuumSysTable() { return false; }
 	function hasCreateTableLike() { return true; }
 	function hasCreateTableLikeWithConstraints() { return true; }
 	function hasCreateTableLikeWithIndexes() { return true; }
@@ -7794,6 +7928,7 @@ class Postgres extends ADODB_base {
 	function hasMagicTypes() { return true; }
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }
+	function hasForceReindex() { return false; }
 	
 }
 ?>

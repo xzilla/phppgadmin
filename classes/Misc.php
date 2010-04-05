@@ -838,6 +838,12 @@
 							'icon'  => 'Rules',
 							'branch'=> true,
 						),
+						'admin' => array (
+							'title' => $lang['stradmin'],
+							'url'   => 'tables.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table'), 'action' => 'admin'),
+							'icon'  => 'Admin',
+						),
 						'info' => array (
 							'title' => $lang['strinfo'],
 							'url'   => 'info.php',

@@ -317,7 +317,6 @@ class Postgres80 extends Postgres81 {
 	function hasAggregateSortOp() { return false; }
 	function hasAlterTableSchema() { return false; }
 	function hasAutovacuum() { return false; }
-	function hasAutovacuumSysTable() { return false; }
 	function hasDisableTriggers() { return false; }
 	function hasFunctionAlterSchema() { return false; }
 	function hasPreparedXacts() { return false; }

@@ -523,312 +523,6 @@
 	}
 
 	/**
-	 * Allow database administration and tuning tasks
-	 */
-	function doAdmin($action = '', $msg = '') {
-		global $data, $misc;
-		global $lang;		
-		switch ($action) {
-			case 'vacuum':				
-				$status = $data->vacuumDB('', isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), isset($_REQUEST['vacuum_freeze']) );
-				if ($status == 0) doAdmin('', $lang['strvacuumgood']);
-				else doAdmin('', $lang['strvacuumbad']);
-				break;
-			case 'analyze':
-				$status = $data->analyzeDB();
-				if ($status == 0) doAdmin('', $lang['stranalyzegood']);
-				else doAdmin('', $lang['stranalyzebad']);
-				break;
-			case 'recluster':
-				$status = $data->recluster();
-				if ($status == 0) doAdmin('', $lang['strclusteredgood']);
-				else doAdmin('', $lang['strclusteredbad']);
-				break;
-			case 'reindex';
-				$status = $data->reindex('DATABASE', $_REQUEST['database'], isset($_REQUEST['reindex_force']));
-				if ($status == 0) doAdmin('', $lang['strreindexgood']);
-				else doAdmin('', $lang['strreindexbad']);
-				break;
-			default:
-				$misc->printTrail('database');
-				$misc->printTabs('database','admin');
-				$misc->printMsg($msg);
-				
-				echo "<table style=\"width: 50%\">\n";
-				echo "<tr>\n";
-				echo "<th class=\"data\">";
-				$misc->printHelp($lang['strvacuum'],'pg.admin.vacuum')."</th>\n";
-				echo "</th>";
-				echo "<th class=\"data\">";
-				$misc->printHelp($lang['stranalyze'],'pg.admin.analyze');
-				echo "</th>";
-				if ($data->hasRecluster()){
-					echo "<th class=\"data\">";
-					$misc->printHelp($lang['strclusterindex'],'pg.index.cluster');
-					echo "</th>";
-				}
-				echo "<th class=\"data\">";
-				$misc->printHelp($lang['strreindex'],'pg.index.reindex');
-				echo "</th>";
-				echo "</tr>";	
-
-				// Vacuum
-				echo "<tr>\n";
-				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-				echo "<form action=\"database.php\" method=\"post\">\n";
-				echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /><label for=\"vacuum_analyze\">{$lang['stranalyze']}</label>\n";
-				echo "<br /><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /><label for=\"vacuum_full\">{$lang['strfull']}</label>\n";				
-				echo "<br /><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label>\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
-				echo $misc->form;
-				echo "<br /><input type=\"submit\" value=\"{$lang['strvacuum']}\" /></p>\n";
-				echo "</form>\n";								
-				echo "</td>\n";
-
-				// Analyze
-				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-				echo "<form action=\"database.php\" method=\"post\">\n";
-				echo "<p><input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
-				echo $misc->form;
-				echo "<input type=\"submit\" value=\"{$lang['stranalyze']}\" /></p>\n";
-				echo "</form>\n";
-				echo "</td>\n";
-				
-				// Recluster
-				if ($data->hasRecluster()){
-					echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-					echo "<form action=\"database.php\" method=\"post\">\n";
-					echo "<p><input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
-					echo $misc->form;
-					echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" /></p>\n";
-					echo "</form>\n";
-					echo "</td>\n";
-				}
-				
-				// Reindex
-				echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
-				echo "<form action=\"database.php\" method=\"post\">\n";
-				echo "<p><input type=\"checkbox\" id=\"reindex_force\" name=\"reindex_force\" /><label for=\"reindex_force\">{$lang['strforce']}</label><br />\n";
-				echo "<input type=\"hidden\" name=\"action\" value=\"reindex\" />\n";
-				echo $misc->form;
-				echo "<input type=\"submit\" value=\"{$lang['strreindex']}\" /></p>\n";
-				echo "</form>\n";
-				echo "</td>\n";
-				echo "</tr>\n";
-				echo "</table>\n";
-
-				// Autovacuum
-				if($data->hasAutovacuum()) {
-					$enabled = $data->getVariable('autovacuum');
-					echo "<h3>{$lang['strautovacuum']}</h3>";
-					echo '<p>' . (($enabled->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
-
-					if($data->hasAutovacuumSysTable()) {
-
-						// Fetch the processes from the database
-						$autovac = $data->getAutovacuum();
-		
-						$columns = array(
-							'namespace' => array(
-								'title' => $lang['strschema'],
-								'field' => field('nspname'),
-							),	
-							'relname' => array(
-								'title' => $lang['strtable'],
-								'field' => field('relname'),
-							),
-							'enabled' => array(
-								'title' => $lang['strenabled'],
-								'field' => field('enabled'),
-							),
-							'vac_base_thresh' => array(
-								'title' => $lang['strvacuumbasethreshold'],
-								'field' => field('vac_base_thresh'),
-							),
-							'vac_scale_factor' => array(
-								'title' => $lang['strvacuumscalefactor'],
-								'field' => field('vac_scale_factor'),
-							),
-							'anl_base_thresh' => array(
-								'title' => $lang['stranalybasethreshold'],
-								'field' => field('anl_base_thresh'),
-							),
-							'anl_scale_factor' => array(
-								'title' => $lang['stranalyzescalefactor'],
-								'field' => field('anl_scale_factor'),
-							),
-							'vac_cost_delay' => array(
-								'title' => $lang['strvacuumcostdelay'],
-								'field' => field('vac_cost_delay'),
-							),
-							'vac_cost_limit' => array(
-								'title' => $lang['strvacuumcostlimit'],
-								'field' => field('vac_cost_limit'),
-							),
-						);
-
-						// Maybe we need to check permissions here?
-						$columns['actions'] = array('title' => $lang['stractions']);
-
-						$actions = array(
-							'edit' => array(
-							'title' => $lang['stredit'],
-							'url'   => "database.php?action=editautovac&amp;schema=pg_catalog&amp;{$misc->href}&amp;",
-							'vars'  => array('key[vacrelid]' => 'vacrelid')
-							),
-							'delete' => array(
-							'title' => $lang['strdelete'],
-							'url'   => "database.php?action=delautovac&amp;{$misc->href}&amp;",
-							'vars'  => array('key[vacrelid]' => 'vacrelid')
-							)
-						);
-
-						$misc->printTable($autovac, $columns, $actions, $lang['strnodata']);
-	
-					}
-
-				}
-	
-				break;
-		}
-	}
-
-	/**
-	 * Show confirmation of edit and perform actual update of autovacuum entry
-	 */
-	function doEditAutovacuum($confirm, $msg = '') {
-		global $data, $misc, $conf;
-		global $lang;
-
-		$key = $_REQUEST['key'];
-
-		if ($confirm) {
-			$misc->printTrail('database');
-			$misc->printTabs('database','admin');
-			$misc->printMsg($msg);
-
-			$attrs = $data->getTableAttributes('pg_autovacuum');
-			$rs = $data->browseRow('pg_autovacuum', $key);
-			
-			echo "<form action=\"database.php\" method=\"post\" id=\"ac_form\">\n";
-			$elements = 0;
-			$error = true;			
-			if ($rs->recordCount() == 1 && $attrs->recordCount() > 0) {
-				echo "<table>\n";
-
-				// Output table header
-				echo "<tr><th class=\"data\">{$lang['strcolumn']}</th><th class=\"data\">{$lang['strtype']}</th>";
-				echo "<th class=\"data\">{$lang['strformat']}</th>\n";
-				echo "<th class=\"data\">{$lang['strvalue']}</th></tr>";
-
-				$i = 0;
-				$nCC = 0;
-				while (!$attrs->EOF) {
-					$szValueName = "values[{$attrs->fields['attname']}]";
-					$szEvents = "";
-					$szDivPH = "";
-					
-					$attrs->fields['attnotnull'] = $data->phpBool($attrs->fields['attnotnull']);
-					$id = (($i % 2) == 0 ? '1' : '2');
-					
-					// Initialise variables
-					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
-						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
-					
-					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
-					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
-					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
-						htmlspecialchars($attrs->fields['type']), "\" /></td>";
-					$elements++;
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
-					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
-					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
-					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
-					echo "</select>\n</td>\n";
-					$elements++;
-
-					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">";
-					echo $data->printField($szValueName, $rs->fields[$attrs->fields['attname']], $attrs->fields['type'],array(),$szEvents) . $szDivPH;
-					echo "</td>";
-					$elements++;
-					echo "</tr>\n";
-					$i++;
-					$attrs->moveNext();
-				}
-				echo "</table>\n";
-				$error = false;
-			}
-			elseif ($rs->recordCount() != 1) {
-				echo "<p>{$lang['strrownotunique']}</p>\n";				
-			}
-			else {
-				echo "<p>{$lang['strinvalidparam']}</p>\n";
-			}
-
-			echo "<input type=\"hidden\" name=\"action\" value=\"confeditautovac\" />\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"table\" value=\"pg_autovacuum\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
-			echo "<p>";
-			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</p>\n";
-			echo "</form>\n";
-		}
-		else {
-			if (!isset($_POST['values'])) $_POST['values'] = array();
-			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
-			
-			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
-												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
-			if ($status == 0)
-				doAdmin($lang['strrowupdated']);
-			elseif ($status == -2)
-				doEditAutovacuum(true, $lang['strrownotunique']);
-			else
-				doEditAutovacuum(true, $lang['strrowupdatedbad']);
-		}
-
-	}	
-
-
-	/**
-	 * Delete rows from the autovacuum table
-     */
-	function doDelAutovacuum($confirm) {
-		global $data, $misc;
-		global $lang;
-
-		if ($confirm) {
-			$misc->printTrail('database');
-			$misc->printTabs('database','admin');
-			$misc->printTitle($lang['strdeleterow']);
-
-			echo "<p>{$lang['strconfdeleterow']}</p>\n";
-			
-			echo "<form action=\"database.php\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"confdelautovac\" />\n";
-			echo $misc->form;
-			echo "<input type=\"hidden\" name=\"table\" value=\"pg_autovacuum\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
-			echo "</form>\n";
-		}
-		else {
-			$status = $data->deleteRow($_POST['table'], unserialize($_POST['key']));
-			if ($status == 0)
-				doAdmin('',$lang['strrowdeleted']);
-			elseif ($status == -2)
-				doAdmin('',$lang['strrownotunique']);
-			else			
-				doAdmin('',$lang['strrowdeletedbad']);
-		}
-	}
-
-	/**
 	 * Allow execution of arbitrary SQL statements on a database
 	 */
 	function doSQL() {
@@ -844,7 +538,7 @@
 		echo "<p>{$lang['strsql']}<br />\n";
 		echo "<textarea style=\"width:100%;\" rows=\"20\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_SESSION['sqlquery']), "</textarea></p>\n";
-		
+
 		// Check that file uploads are enabled
 		if (ini_get('file_uploads')) {
 			// Don't show upload option if max size of uploads is zero
@@ -873,7 +567,7 @@
 		$tabs = $misc->getNavTabs('database');
 
 		$items = $misc->adjustTabsForTree($tabs);
-		
+
 		$attrs = array(
 			'text'   => noEscape(field('title')),
 			'icon'   => field('icon'),
@@ -893,24 +587,17 @@
 		exit;
 	}
 
+	require('./admin.php');
+
 	if ($action == 'tree') doTree();
 	
 	$misc->printHeader($lang['strschemas']);
 	$misc->printBody();
-
+	
 	switch ($action) {
 		case 'find':
 			if (isset($_REQUEST['term'])) doFind(false);
 			else doFind(true);
-			break;
-		case 'recluster':
-		case 'reindex':
-		case 'analyze':
-		case 'vacuum':
-			doAdmin($action);
-			break;
-		case 'admin':
-			doAdmin();
 			break;
 		case 'sql':
 			doSQL();
@@ -930,22 +617,8 @@
 		case 'signal':
 			doSignal();
 			break;
-		case 'editautovac':
-			doEditAutovacuum(true);
-			break;
-		case 'confeditautovac':
-			if (isset($_POST['save'])) doEditAutovacuum(false);
-			else doAdmin();
-			break;
-		case 'delautovac':
-			doDelAutovacuum(true);
-			break;
-		case 'confdelautovac':
-			if (isset($_POST['yes'])) doDelAutovacuum(false);
-			else doAdmin();
-			break;
 		default:
-			doSQL();
+			if (adminActions($action, 'database') === false) doSQL();
 			break;
 	}
 

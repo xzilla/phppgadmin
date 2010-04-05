@@ -446,7 +446,6 @@
 				exit;
 			}
 		}
-
 	}
 
 	/**
@@ -789,144 +788,6 @@
 		} // END DROP
 	}// END Function
 
-
-	/**
-	 * Show confirmation of vacuum and perform actual vacuum
-	 */
-	function doVacuum($confirm) {
-		global $data, $misc;
-		global $lang, $_reload_browser;
-
-		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletovacuum']);
-			exit();
-		}
-		if ($confirm) {
-			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
-				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
-
-				echo "<form action=\"tables.php\" method=\"post\">\n";
-				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
-					echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($a['table'])), "</p>\n";
-					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
-				}
-			} // END if multi vacuum
-			else {
-				$misc->printTrail('table');
-				$misc->printTitle($lang['strvacuum'], 'pg.vacuum');
-
-				echo "<p>", sprintf($lang['strconfvacuumtable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
-
-				echo "<form action=\"tables.php\" method=\"post\">\n";
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			}
-			echo "<input type=\"hidden\" name=\"action\" value=\"vacuum\" />\n";
-			echo $misc->form;
-			echo "<p><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /> <label for=\"vacuum_full\">{$lang['strfull']}</label></p>\n";
-			echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /> <label for=\"vacuum_analyze\">{$lang['stranalyze']}</label></p>\n";
-			echo "<input type=\"submit\" name=\"vacuum\" value=\"{$lang['strvacuum']}\" />\n";
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</form>\n";
-		} // END single vacuum
-		else {
-			//If multi drop
-			if (is_array($_REQUEST['table'])) {
-				$msg='';
-				foreach($_REQUEST['table'] as $t) {
-					$status = $data->vacuumDB($t, isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
-					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strvacuumgood']);
-					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strvacuumbad']));
-						return;
-					}
-				}
-				 // Everything went fine, back to the Default page....
-				 $_reload_browser = true;
-				 doDefault($msg);
-			}
-			else {
-				$status = $data->vacuumDB($_POST['table'], isset($_REQUEST['vacuum_analyze']), isset($_REQUEST['vacuum_full']), '');
-				if ($status == 0) {
-					$_reload_browser = true;
-					doDefault($lang['strvacuumgood']);
-				}
-				else
-					doDefault($lang['strvacuumbad']);
-			}
-		}
-	}
-
-	/**
-	 * Show confirmation of analyze and perform analyze
-	 */
-	function doAnalyze($confirm) {
-		global $data, $misc;
-		global $lang, $_reload_browser;
-
-		if (empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
-			doDefault($lang['strspecifytabletoanalyze']);
-			exit();
-		}
-		if ($confirm) {
-			if (isset($_REQUEST['ma'])) {
-				$misc->printTrail('schema');
-				$misc->printTitle($lang['stranalyze'], 'pg.analyze'); //TODO
-
-				echo "<form action=\"tables.php\" method=\"post\">\n";
-				foreach($_REQUEST['ma'] as $v) {
-					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
-					echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($a['table'])), "</p>\n";
-					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
-				}
-			} // END if multi analyze
-			else {
-				$misc->printTrail('table');
-				$misc->printTitle($lang['stranalyze'], 'pg.analyze'); //TODO
-
-				echo "<p>", sprintf($lang['strconfanalyzetable'], $misc->printVal($_REQUEST['table'])), "</p>\n";
-
-				echo "<form action=\"tables.php\" method=\"post\">\n";
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
-			}
-			echo "<input type=\"hidden\" name=\"action\" value=\"analyze\" />\n";
-			echo $misc->form;
-
-			echo "<input type=\"submit\" name=\"analyze\" value=\"{$lang['stranalyze']}\" />\n"; //TODO
-			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
-			echo "</form>\n";
-		} // END single analyze
-		else {
-			//If multi drop
-			if (is_array($_REQUEST['table'])) {
-				$msg='';
-				foreach($_REQUEST['table'] as $t) {
-					$status = $data->analyzeDB($t);
-					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['stranalyzegood']);
-					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['stranalyzebad']));
-						return;
-					}
-				}
-				 // Everything went fine, back to the Default page....
-				 $_reload_browser = true;
-				 doDefault($msg);
-			}
-			else {
-				$status = $data->analyzeDB($_POST['table']);
-				if ($status == 0) {
-					$_reload_browser = true;
-					doDefault($lang['stranalyzegood']);
-				}
-				else
-					doDefault($lang['stranalyzebad']);
-			}
-		}
-	}
-
 	/**
 	 * Show default list of tables in the database
 	 */
@@ -1019,6 +880,12 @@
 				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_analyze',
 			),
+			'reindex' => array(
+				'title' => $lang['strreindex'],
+				'url'   => "tables.php?action=confirm_reindex&amp;{$misc->href}&amp;",
+				'vars'  => array('table' => 'relname'),
+				'multiaction' => 'confirm_reindex',
+			),
 		);
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
@@ -1030,6 +897,8 @@
 			echo "\t<li><a href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a></li>\n";
 		echo "</ul>\n";
 	}
+	
+	require('./admin.php');
 
 	/**
 	 * Generate XML for the browser tree.
@@ -1144,22 +1013,8 @@
 		case 'confirm_drop':
 			doDrop(true);
 			break;
-		case 'vacuum':
-			if (isset($_POST['vacuum'])) doVacuum(false);
-			else doDefault();
-			break;
-		case 'confirm_vacuum':
-			doVacuum(true);
-			break;
-		case 'analyze':
-			if (isset($_POST['analyze'])) doAnalyze(false);
-			else doDefault();
-			break;
-		case 'confirm_analyze':
-			doAnalyze(true);
-			break;
 		default:
-			doDefault();
+			if (adminActions($action, 'table') === false) doDefault();
 			break;
 	}
 

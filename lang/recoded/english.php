@@ -143,7 +143,13 @@
 	$lang['strlocale'] = 'Locale';
 	$lang['strcollation'] = 'Collation';
 	$lang['strctype'] = 'Character Type';
-
+	$lang['strdefaultvalues'] = 'Default values';
+	$lang['strnewvalues'] = 'New values';
+	
+	// Admin
+	$lang['stradminondatabase'] = 'The following administrative tasks apply on the whole %s database.';
+	$lang['stradminontable'] = 'The following administrative tasks apply on the table %s.';
+	
 	// User-supplied SQL history
 	$lang['strhistory'] = 'History';
 	$lang['strnohistory'] = 'No history.';
@@ -152,6 +158,11 @@
 	$lang['strconfdelhistory'] = 'Really remove this request from history?';
 	$lang['strconfclearhistory'] = 'Really clear history?';
 	$lang['strnodatabaseselected'] = 'Please, select a database.';
+	
+	// Database
+	$lang['strconfanalyzedatabase'] = 'Are you sure you want to analyze all tables in database &quot;%s&quot;?';
+	$lang['strconfvacuumdatabase'] = 'Are you sure you want to vacuum all tables in database &quot;%s&quot;?';
+	$lang['strconfreindexdatabase'] = 'Are you sure you want to reindex all tables in database &quot;%s&quot;?';
 
 	// Database sizes
 	$lang['strnoaccess'] = 'No Access'; 
@@ -250,11 +261,13 @@
 	$lang['strauto'] = 'Auto';
 	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum &quot;%s&quot;?';
 	$lang['strconfanalyzetable'] = 'Are you sure you want to analyze &quot;%s&quot;?';
+	$lang['strconfreindextable'] = 'Are you sure you want to reindex &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'Estimated row count';
 	$lang['strspecifytabletoanalyze'] = 'You must specify at least one table to analyze.';
 	$lang['strspecifytabletoempty'] = 'You must specify at least one table to empty.';
 	$lang['strspecifytabletodrop'] = 'You must specify at least one table to drop.';
 	$lang['strspecifytabletovacuum'] = 'You must specify at least one table to vacuum.';
+	$lang['strspecifytabletoreindex'] = 'You must specify at least one table to reindex.';
 	$lang['strnofieldsforinsert'] = 'You cannot insert a row into a table with no column.';
 
 	// Columns
@@ -912,12 +925,24 @@
 	$lang['strturnedon'] = 'Turned On';
 	$lang['strturnedoff'] = 'Turned Off';
 	$lang['strenabled'] = 'Enabled';
+	$lang['strnovacuumconf'] = 'No autovacuum configuration found.';
 	$lang['strvacuumbasethreshold'] = 'Vacuum Base Threshold';
 	$lang['strvacuumscalefactor'] = 'Vacuum Scale Factor';
 	$lang['stranalybasethreshold'] = 'Analyze Base Threshold';
 	$lang['stranalyzescalefactor'] = 'Analyze Scale Factor';
 	$lang['strvacuumcostdelay'] = 'Vacuum Cost Delay';
 	$lang['strvacuumcostlimit'] = 'Vacuum Cost Limit';
+	$lang['strvacuumpertable'] = 'Autovacuum setup per table';
+	$lang['straddvacuumtable'] = 'Add autovacuum setup for a table';
+	$lang['streditvacuumtable'] = 'Edit autovacuum setup for table %s';
+	$lang['strdelvacuumtable'] = 'Delete autovacuum setup for table %s ?';
+	$lang['strvacuumtablereset'] = 'Autovacuum setup for table %s reset to default values';
+	$lang['strdelvacuumtablefail'] = 'Fail to remove the autovacuum setup for table %s';
+	$lang['strsetvacuumtablesaved'] = 'Autovacuum setup for table %s saved.';
+	$lang['strsetvacuumtablefail'] = 'Autovacuum setup for table %s failed.';
+	$lang['strspecifydelvacuumtable'] = 'You must specify the table you want remove the autovacuum parameters from.';
+	$lang['strspecifyeditvacuumtable'] = 'You must specify the table you want to edit the autovacuum parameters from.';
+	$lang['strnotdefaultinred'] = 'Not default values are in red.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Locks';

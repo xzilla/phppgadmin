@@ -545,6 +545,7 @@ class Postgres73 extends Postgres74 {
 	function hasReadOnlyQueries() { return false; }
 	function hasRecluster() { return false; }
 	function hasUserRename() { return false; }
+	function hasForceReindex() { return true; }
 }
 
 ?>
