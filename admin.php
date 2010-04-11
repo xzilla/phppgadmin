@@ -16,7 +16,7 @@
 		if ($confirm) {
 			if (isset($_REQUEST['ma'])) {
 				$misc->printTrail('schema');
-				$misc->printTitle($lang['strclusterindex'], 'pg.cluster');
+				$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
 
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				foreach($_REQUEST['ma'] as $v) {
@@ -27,7 +27,7 @@
 			} // END if multi cluster
 			else {
 				$misc->printTrail($type);
-				$misc->printTitle($lang['strclusterindex'], 'pg.cluster');
+				$misc->printTitle($lang['strclusterindex'], 'pg.index.cluster');
 				
 				echo "<form action=\"{$script}\" method=\"post\">\n";
 				
