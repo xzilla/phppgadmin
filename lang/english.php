@@ -158,11 +158,6 @@
 	$lang['strconfdelhistory'] = 'Really remove this request from history?';
 	$lang['strconfclearhistory'] = 'Really clear history?';
 	$lang['strnodatabaseselected'] = 'Please, select a database.';
-	
-	// Database
-	$lang['strconfanalyzedatabase'] = 'Are you sure you want to analyze all tables in database "%s"?';
-	$lang['strconfvacuumdatabase'] = 'Are you sure you want to vacuum all tables in database "%s"?';
-	$lang['strconfreindexdatabase'] = 'Are you sure you want to reindex all tables in database "%s"?';
 
 	// Database sizes
 	$lang['strnoaccess'] = 'No Access'; 
@@ -262,12 +257,14 @@
 	$lang['strconfvacuumtable'] = 'Are you sure you want to vacuum "%s"?';
 	$lang['strconfanalyzetable'] = 'Are you sure you want to analyze "%s"?';
 	$lang['strconfreindextable'] = 'Are you sure you want to reindex "%s"?';
+	$lang['strconfclustertable'] = 'Are you sure you want to cluster "%s"?';
 	$lang['strestimatedrowcount'] = 'Estimated row count';
 	$lang['strspecifytabletoanalyze'] = 'You must specify at least one table to analyze.';
 	$lang['strspecifytabletoempty'] = 'You must specify at least one table to empty.';
 	$lang['strspecifytabletodrop'] = 'You must specify at least one table to drop.';
 	$lang['strspecifytabletovacuum'] = 'You must specify at least one table to vacuum.';
 	$lang['strspecifytabletoreindex'] = 'You must specify at least one table to reindex.';
+	$lang['strspecifytabletocluster'] = 'You must specify at least one table to cluster.';
 	$lang['strnofieldsforinsert'] = 'You cannot insert a row into a table with no column.';
 
 	// Columns
@@ -390,6 +387,10 @@
 	$lang['strdatabasealteredbad'] = 'Database alter failed.';
 	$lang['strspecifydatabasetodrop'] = 'You must specify at least one database to drop.';
 	$lang['strtemplatedb'] = 'Template';
+	$lang['strconfanalyzedatabase'] = 'Are you sure you want to analyze all tables in database "%s"?';
+	$lang['strconfvacuumdatabase'] = 'Are you sure you want to vacuum all tables in database "%s"?';
+	$lang['strconfreindexdatabase'] = 'Are you sure you want to reindex all tables in database "%s"?';
+	$lang['strconfclusterdatabase'] = 'Are you sure you want to cluster all tables in database "%s"?';
 
 	// Views
 	$lang['strview'] = 'View';
@@ -476,10 +477,10 @@
  	$lang['strindextype'] = 'Type of index';
 	$lang['strtablecolumnlist'] = 'Columns in table';
 	$lang['strindexcolumnlist'] = 'Columns in index';
-	$lang['strconfcluster'] = 'Are you sure you want to cluster "%s"?';
 	$lang['strclusteredgood'] = 'Cluster complete.';
 	$lang['strclusteredbad'] = 'Cluster failed.';
 	$lang['strconcurrently'] = 'Concurrently';
+	$lang['strnoclusteravailable'] = 'Table not clustered on an index.';
 
 	// Rules
 	$lang['strrules'] = 'Rules';

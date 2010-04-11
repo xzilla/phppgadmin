@@ -39,7 +39,7 @@
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->clusterIndex($_POST['index'], $_POST['table']);
+			$status = $data->clusterIndex($_POST['table'], $_POST['index']);
 			if ($status == 0)
 				if (isset($_POST['analyze'])){
 					$status = $data->analyzeDB($_POST['table']);

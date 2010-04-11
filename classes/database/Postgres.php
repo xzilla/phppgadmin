@@ -3253,6 +3253,34 @@ class Postgres extends ADODB_base {
 		return $this->selectSet($sql);
 	}
 
+	/** 
+	 * test if a table has been clustered on an index
+	 * @param $table The table to test
+	 * 
+	 * @return true if the table has been already clustered
+	 */
+	function alreadyClustered($table) {
+		
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$this->clean($table);
+
+		$sql = "SELECT i.indisclustered
+			FROM pg_catalog.pg_class c, pg_catalog.pg_index i
+			WHERE c.relname = '{$table}'
+				AND c.oid = i.indrelid AND i.indisclustered
+				AND c.relnamespace = (SELECT oid FROM pg_catalog.pg_namespace
+					WHERE nspname='{$c_schema}')
+				";
+		
+		$v = $this->selectSet($sql);
+		
+		if ($v->recordCount() == 0)
+			return false;
+			
+		return true;
+	}
+	
 	/**
 	 * Creates an index
 	 * @param $name The index name
@@ -3348,16 +3376,24 @@ class Postgres extends ADODB_base {
 	 * @param $table The table the index is on
 	 * @return 0 success
 	 */
-	function clusterIndex($index, $table) {
-
-		$f_schema = $this->_schema;
-		$this->fieldClean($f_schema);
-		$this->fieldClean($index);
-		$this->fieldClean($table);
+	function clusterIndex($table='', $index='') {
+		
+		$sql = 'CLUSTER';
 		
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		$sql = "CLUSTER \"{$f_schema}\".\"{$table}\" USING \"{$index}\"";
+		
+		if (!empty($table)) {
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$this->fieldClean($table);
+			$sql .= " \"{$f_schema}\".\"{$table}\"";
+			
+			if (!empty($index)) {
+				$this->fieldClean($index);
+				$sql .= " USING \"{$index}\"";
+			}
+		}
 
 		return $this->execute($sql);
 	}

@@ -3,6 +3,89 @@
 	$script = ''; // init global value script
 	
 	/**
+	 * Show confirmation of cluster and perform cluster
+	 */
+	function doCluster($type, $confirm=false) {
+		global $script, $data, $misc, $lang;
+
+		if (($type == 'table') && empty($_REQUEST['table']) && empty($_REQUEST['ma'])) {
+			doDefault($lang['strspecifytabletocluster']);
+			return;
+		}
+
+		if ($confirm) {
+			if (isset($_REQUEST['ma'])) {
+				$misc->printTrail('schema');
+				$misc->printTitle($lang['strclusterindex'], 'pg.cluster');
+
+				echo "<form action=\"{$script}\" method=\"post\">\n";
+				foreach($_REQUEST['ma'] as $v) {
+					$a = unserialize(htmlspecialchars_decode($v, ENT_QUOTES));
+					echo "<p>", sprintf($lang['strconfclustertable'], $misc->printVal($a['table'])), "</p>\n";
+					echo "<input type=\"hidden\" name=\"table[]\" value=\"", htmlspecialchars($a['table']), "\" />\n";
+				}
+			} // END if multi cluster
+			else {
+				$misc->printTrail($type);
+				$misc->printTitle($lang['strclusterindex'], 'pg.cluster');
+				
+				echo "<form action=\"{$script}\" method=\"post\">\n";
+				
+				if ($type == 'table') {
+					echo "<p>", sprintf($lang['strconfclustertable'], $misc->printVal($_REQUEST['object'])), "</p>\n";
+					echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
+				}
+				else {
+					echo "<p>", sprintf($lang['strconfclusterdatabase'], $misc->printVal($_REQUEST['object'])), "</p>\n";
+					echo "<input type=\"hidden\" name=\"table\" value=\"\" />\n";
+				}
+			}
+			echo "<input type=\"hidden\" name=\"action\" value=\"cluster\" />\n";
+			
+			echo $misc->form;
+
+			echo "<input type=\"submit\" name=\"cluster\" value=\"{$lang['strcluster']}\" />\n"; //TODO
+			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			echo "</form>\n";
+		} // END single cluster
+		else {
+			//If multi table cluster
+			if ($type == 'table') { // cluster one or more table
+				if (is_array($_REQUEST['table'])) {
+					$msg='';
+					foreach($_REQUEST['table'] as $o) {
+						$status = $data->clusterIndex($o);
+						if ($status == 0)
+							$msg.= sprintf('%s: %s<br />', htmlentities($o), $lang['strclusteredgood']);
+						else {
+							doDefault($type, sprintf('%s%s: %s<br />', $msg, htmlentities($o), $lang['strclusteredbad']));
+							return;
+						}
+					}
+					 // Everything went fine, back to the Default page....
+					 doDefault($msg);
+				}
+				else {
+					$status = $data->clusterIndex($_REQUEST['object']);
+					if ($status == 0) {
+						doAdmin($type, $lang['strclusteredgood']);
+					}
+					else
+						doAdmin($type, $lang['strclusteredbad']);
+				}
+			}
+			else { // Cluster all tables in database
+				$status = $data->clusterIndex();
+				if ($status == 0) {
+					doAdmin($type, $lang['strclusteredgood']);
+				}
+				else
+					doAdmin($type, $lang['strclusteredbad']);
+			}
+		}
+	}
+	
+	/**
 	 * Show confirmation of reindex and perform reindex
 	 */
 	function doReindex($type, $confirm=false) {
@@ -437,17 +520,24 @@
 		echo "</form>\n";
 		echo "</td>\n";
 		
-		// Recluster
+		// Cluster
 		if ($data->hasRecluster()){
 			echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 			echo "<form action=\"{$script}\" method=\"post\">\n";
-			echo "<p><input type=\"hidden\" name=\"action\" value=\"recluster\" />\n";
 			echo $misc->form;
 			if ($type == 'table') {
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($table), "\" />\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
+				if ($data->alreadyClustered($_REQUEST['object'])) {
+					$disabled = '';
+				}
+				else {
+					$disabled = 'disabled="disabled" ';
+					echo "{$lang['strnoclusteravailable']}<br />";
+				}
 			}
-			echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" /></p>\n";
+			echo "<p><input type=\"hidden\" name=\"action\" value=\"confirm_cluster\" />\n";
+			echo "<input type=\"submit\" value=\"{$lang['strclusterindex']}\" $disabled/></p>\n";
 			echo "</form>\n";
 			echo "</td>\n";
 		}
@@ -581,7 +671,9 @@
 		}
 
 		switch ($action) {
-			//case 'confirm_recluster':
+			case 'confirm_cluster':
+				doCluster($type, true);
+				break;
 			case 'confirm_reindex':
 				doReindex($type, true);
 				break;
@@ -591,7 +683,12 @@
 			case 'confirm_vacuum':
 				doVacuum($type, true);
 				break;
-			//case 'recluster':
+			case 'cluster':
+				if (isset($_POST['cluster'])) doCluster($type);
+				// if multi-action from table canceled: back to the schema default page
+				else if (($type == 'table') && is_array($_REQUEST['object']) ) doDefault();
+				else doAdmin($type);
+				break;
 			case 'reindex':
 				if (isset($_POST['reindex'])) doReindex($type);
 				// if multi-action from table canceled: back to the schema default page

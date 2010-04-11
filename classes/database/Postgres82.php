@@ -256,15 +256,26 @@ class Postgres82 extends Postgres83 {
 	 * @param $table The table the index is on
 	 * @return 0 success
 	 */
-	function clusterIndex($index, $table) {
-		$f_schema = $this->_schema;
-		$this->fieldClean($f_schema);
-		$this->fieldClean($index);
-		$this->fieldClean($table);
+	function clusterIndex($table='', $index='') {
 
+		$sql = 'CLUSTER';
+		
 		// We don't bother with a transaction here, as there's no point rolling
 		// back an expensive cluster if a cheap analyze fails for whatever reason
-		$sql = "CLUSTER \"{$index}\" ON \"{$f_schema}\".\"{$table}\"";
+		
+		if (!empty($table)) {
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$this->fieldClean($table);
+			
+			if (!empty($index)) {
+				$this->fieldClean($index);
+				$sql .= " \"{$index}\" ON \"{$f_schema}\".\"{$table}\"";
+			}
+			else {
+				$sql .= " \"{$f_schema}\".\"{$table}\"";
+			}
+		}
 
 		return $this->execute($sql);
 	}

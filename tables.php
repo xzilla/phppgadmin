@@ -886,6 +886,7 @@
 				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_reindex',
 			),
+			//'cluster' TODO ?
 		);
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
