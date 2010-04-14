@@ -287,13 +287,13 @@
 	$lang['strviewconditions'] = 'Ytterligare villkor';
 
 	// Sequences
-	$lang['strsequence'] = 'F&#246;ljd';
-	$lang['strsequences'] = 'F&#246;ljder';
-	$lang['strshowallsequences'] = 'Visa alla f&#246;ljder';
-	$lang['strnosequence'] = 'Hittade ingen f&#246;ljd.';
-	$lang['strnosequences'] = 'Hittade inga f&#246;ljder.';
-	$lang['strcreatesequence'] = 'Skapa f&#246;ljd';
-	$lang['strlastvalue'] = 'Sista v&#228;rde';
+	$lang['strsequence'] = 'Sekvens';
+	$lang['strsequences'] = 'Sekvenser';
+	$lang['strshowallsequences'] = 'Visa alla sekvenser';
+	$lang['strnosequence'] = 'Hittade ingen sekvens.';
+	$lang['strnosequences'] = 'Hittade inga sekvenser.';
+	$lang['strcreatesequence'] = 'Skapa sekvens';
+	$lang['strlastvalue'] = 'Senaste v&#228;rde';
 	$lang['strincrementby'] = '&#214;ka med';
 	$lang['strstartvalue'] = 'Startv&#228;rde';
 	$lang['strmaxvalue'] = 'St&#246;rsta v&#228;rde';
@@ -301,12 +301,12 @@
 	$lang['strcachevalue'] = 'V&#228;rde p&#229; cache';
 	$lang['strlogcount'] = 'R&#228;kna log';
 	$lang['striscycled'] = '&#196;r upprepad?';
-	$lang['strsequenceneedsname'] = 'Du m&#229;ste ge ett namn till din f&#246;ljd.';
-	$lang['strsequencecreated'] = 'F&#246;ljd skapad.';
-	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa f&#246;ljd.'; 
-	$lang['strconfdropsequence'] = '&#196;r du s&#228;ker p&#229; att du vill radera f&#246;ljden &quot;%s&quot;?';
-	$lang['strsequencedropped'] = 'F&#246;ljden borrtagen.';
-	$lang['strsequencedroppedbad'] = 'Misslyckades att radera f&#246;ljd.';
+	$lang['strsequenceneedsname'] = 'Du m&#229;ste ge ett namn till din sekvens.';
+	$lang['strsequencecreated'] = 'Sekvens skapad.';
+	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa sekvens.'; 
+	$lang['strconfdropsequence'] = '&#196;r du s&#228;ker p&#229; att du vill radera sekvensen &quot;%s&quot;?';
+	$lang['strsequencedropped'] = 'Sekvensen borrtagen.';
+	$lang['strsequencedroppedbad'] = 'Misslyckades att radera sekvens.';
 
 	// Indexes
 	$lang['strindex'] = 'Index';
@@ -314,8 +314,8 @@
 	$lang['strindexname'] = 'Indexnamn';
 	$lang['strshowallindexes'] = 'Visa alla index';
 	$lang['strnoindex'] = 'Hittade inget index.';
-	$lang['strsequencereset'] = 'Nollst&#228;ll f&#246;ljd.';
-	$lang['strsequenceresetbad'] = 'Misslyckades att nollst&#228;lla f&#246;ljd.';
+	$lang['strsequencereset'] = 'Nollst&#228;ll sekvens.';
+	$lang['strsequenceresetbad'] = 'Misslyckades att nollst&#228;lla sekvens.';
 	$lang['strnoindexes'] = 'Hittade inga index.';
 	$lang['strcreateindex'] = 'Skapa index';
 	$lang['strindexname'] = 'Indexnamn';

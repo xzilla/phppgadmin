@@ -287,13 +287,13 @@
 	$lang['strviewconditions'] = 'Ytterligare villkor';
 
 	// Sequences
-	$lang['strsequence'] = 'Följd';
-	$lang['strsequences'] = 'Följder';
-	$lang['strshowallsequences'] = 'Visa alla följder';
-	$lang['strnosequence'] = 'Hittade ingen följd.';
-	$lang['strnosequences'] = 'Hittade inga följder.';
-	$lang['strcreatesequence'] = 'Skapa följd';
-	$lang['strlastvalue'] = 'Sista värde';
+	$lang['strsequence'] = 'Sekvens';
+	$lang['strsequences'] = 'Sekvenser';
+	$lang['strshowallsequences'] = 'Visa alla sekvenser';
+	$lang['strnosequence'] = 'Hittade ingen sekvens.';
+	$lang['strnosequences'] = 'Hittade inga sekvenser.';
+	$lang['strcreatesequence'] = 'Skapa sekvens';
+	$lang['strlastvalue'] = 'Senaste värde';
 	$lang['strincrementby'] = 'Öka med';
 	$lang['strstartvalue'] = 'Startvärde';
 	$lang['strmaxvalue'] = 'Största värde';
@@ -301,12 +301,12 @@
 	$lang['strcachevalue'] = 'Värde på cache';
 	$lang['strlogcount'] = 'Räkna log';
 	$lang['striscycled'] = 'Är upprepad?';
-	$lang['strsequenceneedsname'] = 'Du måste ge ett namn till din följd.';
-	$lang['strsequencecreated'] = 'Följd skapad.';
-	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa följd.'; 
-	$lang['strconfdropsequence'] = 'Är du säker på att du vill radera följden "%s"?';
-	$lang['strsequencedropped'] = 'Följden borrtagen.';
-	$lang['strsequencedroppedbad'] = 'Misslyckades att radera följd.';
+	$lang['strsequenceneedsname'] = 'Du måste ge ett namn till din sekvens.';
+	$lang['strsequencecreated'] = 'Sekvens skapad.';
+	$lang['strsequencecreatedbad'] = 'Misslyckades att skapa sekvens.'; 
+	$lang['strconfdropsequence'] = 'Är du säker på att du vill radera sekvensen "%s"?';
+	$lang['strsequencedropped'] = 'Sekvensen borrtagen.';
+	$lang['strsequencedroppedbad'] = 'Misslyckades att radera sekvens.';
 
 	// Indexes
 	$lang['strindex'] = 'Index';
@@ -314,8 +314,8 @@
 	$lang['strindexname'] = 'Indexnamn';
 	$lang['strshowallindexes'] = 'Visa alla index';
 	$lang['strnoindex'] = 'Hittade inget index.';
-	$lang['strsequencereset'] = 'Nollställ följd.';
-	$lang['strsequenceresetbad'] = 'Misslyckades att nollställa följd.';
+	$lang['strsequencereset'] = 'Nollställ sekvens.';
+	$lang['strsequenceresetbad'] = 'Misslyckades att nollställa sekvens.';
 	$lang['strnoindexes'] = 'Hittade inga index.';
 	$lang['strcreateindex'] = 'Skapa index';
 	$lang['strindexname'] = 'Indexnamn';
