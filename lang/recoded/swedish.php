@@ -5,7 +5,7 @@
 	 * maintainer S. Malmqvist &lt;samoola@slak.nu&gt;
 	 * Due to lack of SQL knowledge som translations may be wrong, mail me the correct one and ill fix it
 	 *
-	 * $Id: swedish.php,v 1.12 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: swedish.php,v 1.11 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -224,9 +224,9 @@
 	$lang['strgroupdropped'] = 'Grupp raderad.';
 	$lang['strgroupcreatedbad'] = 'Misslyckades att skapa grupp.';	
 	$lang['strconfdropgroup'] = '&#196;r du s&#228;ker p&#229; att du vill radera grupp &quot;%s&quot;?';
-	$lang['strprivileges'] = 'Privilegier';
+	$lang['strprivileges'] = 'R&#228;ttigheter';
 	$lang['strgrant'] = 'Till&#229;t';
-	$lang['strgranted'] = 'Privilegier &#228;ndrade.';
+	$lang['strgranted'] = 'R&#228;ttigheter &#228;ndrade.';
 	$lang['strgroupdroppedbad'] = 'Misslyckades att radera grupp.';
 	$lang['straddmember'] = 'L&#228;gg till medlem';
 	$lang['strmemberadded'] = 'Medlem inlagd.';
@@ -239,7 +239,7 @@
 	$lang['strnoprivileges'] = 'Detta objekt har standard &#228;garr&#228;ttigheter.';
 	$lang['strmembers'] = 'Medelemmar';
 	$lang['strrevoke'] = 'Ta tillbaka';
-	$lang['strgrantbad'] = 'Du m&#229;ste ange minst en anv&#228;ndare eller grupp och minst ett privilegium.';
+	$lang['strgrantbad'] = 'Du m&#229;ste ange minst en anv&#228;ndare eller grupp och minst en r&#228;ttighet.';
 	$lang['strgrantfailed'] = 'Misslyckades att &#228;ndra r&#228;ttigheter.';
 	$lang['stralterprivs'] = '&#196;ndra r&#228;ttigheter';
 	$lang['strdatabase'] = 'Databas';

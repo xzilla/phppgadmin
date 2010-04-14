@@ -224,9 +224,9 @@
 	$lang['strgroupdropped'] = 'Grupp raderad.';
 	$lang['strgroupcreatedbad'] = 'Misslyckades att skapa grupp.';	
 	$lang['strconfdropgroup'] = 'Är du säker på att du vill radera grupp "%s"?';
-	$lang['strprivileges'] = 'Privilegier';
+	$lang['strprivileges'] = 'Rättigheter';
 	$lang['strgrant'] = 'Tillåt';
-	$lang['strgranted'] = 'Privilegier ändrade.';
+	$lang['strgranted'] = 'Rättigheter ändrade.';
 	$lang['strgroupdroppedbad'] = 'Misslyckades att radera grupp.';
 	$lang['straddmember'] = 'Lägg till medlem';
 	$lang['strmemberadded'] = 'Medlem inlagd.';
@@ -239,7 +239,7 @@
 	$lang['strnoprivileges'] = 'Detta objekt har standard ägarrättigheter.';
 	$lang['strmembers'] = 'Medelemmar';
 	$lang['strrevoke'] = 'Ta tillbaka';
-	$lang['strgrantbad'] = 'Du måste ange minst en användare eller grupp och minst ett privilegium.';
+	$lang['strgrantbad'] = 'Du måste ange minst en användare eller grupp och minst en rättighet.';
 	$lang['strgrantfailed'] = 'Misslyckades att ändra rättigheter.';
 	$lang['stralterprivs'] = 'Ändra rättigheter';
 	$lang['strdatabase'] = 'Databas';
