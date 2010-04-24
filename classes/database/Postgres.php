@@ -764,7 +764,7 @@ class Postgres extends ADODB_base {
 			UNION ALL
 			SELECT 'TRIGGER', NULL, pn.nspname, pc.relname, pt.tgname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_trigger pt WHERE pc.relnamespace=pn.oid AND pc.oid=pt.tgrelid
-					AND (NOT pt.tgisconstraint OR NOT EXISTS
+					AND ( pt.tgconstraint = 0 OR NOT EXISTS
 					(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
 					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
 					WHERE d.classid = pt.tableoid AND d.objid = pt.oid AND d.deptype = 'i' AND c.contype = 'f'))
@@ -4835,7 +4835,7 @@ class Postgres extends ADODB_base {
 			FROM pg_catalog.pg_trigger t, pg_catalog.pg_proc p, pg_catalog.pg_namespace ns
 			WHERE t.tgrelid = (SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 				AND relnamespace=(SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}'))
-				AND (NOT tgisconstraint OR NOT EXISTS
+				AND ( tgconstraint = 0 OR NOT EXISTS
 						(SELECT 1 FROM pg_catalog.pg_depend d    JOIN pg_catalog.pg_constraint c
 							ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
 						WHERE d.classid = t.tableoid AND d.objid = t.oid AND d.deptype = 'i' AND c.contype = 'f'))
