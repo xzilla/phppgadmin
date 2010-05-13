@@ -106,8 +106,7 @@ Views
 -----
 
 * Support temporary views per 8.1?
-* Allow INSERT and import on views with the appropriate rules.
-
+* Support updateable views, see http://gerrybthunkings.blogspot.com/2010/01/how-should-postgresql-pgadmin-iii-deal.html
 
 Sequences
 ---------
