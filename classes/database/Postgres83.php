@@ -76,8 +76,10 @@ class Postgres83 extends Postgres {
 		}
 		else $clause = '';
 
-		if ($currentdatabase != NULL)
+		if ($currentdatabase != NULL) {
+			$this->clean($currentdatabase);
 			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		}
 		else
 			$orderby = "ORDER BY pdb.datname";
 
@@ -111,8 +113,8 @@ class Postgres83 extends Postgres {
 
 		if ($table !== '') {
 			$this->clean($table);
-			$f_schema = $this->_schema;
-			$this->fieldClean($f_schema);
+			$c_schema = $this->_schema;
+			$this->clean($c_schema);
 
 			$sql = "
 				SELECT vacrelid, nspname, relname, 
@@ -126,7 +128,7 @@ class Postgres83 extends Postgres {
 				FROM pg_autovacuum AS a
 					join pg_class AS c on (c.oid=a.vacrelid)
 					join pg_namespace AS n on (n.oid=c.relnamespace)
-				WHERE c.relname = '{$table}' AND n.nspname = '{$f_schema}'
+				WHERE c.relname = '{$table}' AND n.nspname = '{$c_schema}'
 				ORDER BY nspname, relname
 			";
 		}
@@ -156,6 +158,7 @@ class Postgres83 extends Postgres {
 		$defaults = $this->getAutovacuum();
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
+		$this->clean($table);
 		
 		$rs = $this->selectSet("
 			SELECT c.oid 
@@ -264,6 +267,28 @@ class Postgres83 extends Postgres {
 		");
 		
 		return $this->deleteRow('pg_autovacuum', array('vacrelid' => $rs->fields['oid']), 'pg_catalog');
+	}
+	
+	// Sequence functions
+	
+	/**
+	 * Alter a sequence's owner
+	 * @param $seqrs The sequence RecordSet returned by getSequence()
+	 * @param $name The new owner for the sequence
+	 * @return 0 success
+	 */
+	function alterSequenceOwner($seqrs, $owner) {
+		// If owner has been changed, then do the alteration.  We are
+		// careful to avoid this generally as changing owner is a
+		// superuser only function.
+		/* vars are cleaned in _alterSequence */
+		if (!empty($owner) && ($seqrs->fields['seqowner'] != $owner)) {
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$sql = "ALTER TABLE \"{$f_schema}\".\"{$seqrs->fields['seqname']}\" OWNER TO \"{$owner}\"";
+			return $this->execute($sql);
+		}
+		return 0;
 	}
 
 	function hasQueryKill() { return false; }

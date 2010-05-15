@@ -77,11 +77,13 @@ class Postgres74 extends Postgres80 {
 			$username = $server_info['username'];
 			$this->clean($username);
 			$clause = " AND pu.usename='{$username}'";
-	}
+		}
 		else $clause = '';
 
-		if ($currentdatabase != NULL)
+		if ($currentdatabase != NULL) {
+			$this->clean($currentdatabase);
 			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		}
 		else
 			$orderby = "ORDER BY pdb.datname";
 

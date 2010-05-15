@@ -79,8 +79,10 @@ class Postgres80 extends Postgres81 {
 		}
 		else $clause = '';
 
-		if ($currentdatabase != NULL)
+		if ($currentdatabase != NULL) {
+			$this->clean($currentdatabase);
 			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		}
 		else
 			$orderby = "ORDER BY pdb.datname";
 
@@ -290,8 +292,8 @@ class Postgres80 extends Postgres81 {
 	function getAggregate($name, $basetype) {
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
-		$this->fieldclean($name);
-		$this->fieldclean($basetype);
+		$this->clean($name);
+		$this->clean($basetype);
 
 		$sql = "
 			SELECT p.proname,
@@ -303,11 +305,11 @@ class Postgres80 extends Postgres81 {
 			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
 			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
 				AND p.proisagg AND n.nspname='{$c_schema}'
-				AND p.proname='" . $name . "'
+				AND p.proname='{$name}'
 				AND CASE p.proargtypes[0]
 					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''
 					ELSE pg_catalog.format_type(p.proargtypes[0], NULL)
-				END ='" . $basetype . "'";
+				END ='{$basetype}'";
 
 		return $this->selectSet($sql);
 	}

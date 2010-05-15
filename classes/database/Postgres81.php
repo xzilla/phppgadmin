@@ -74,8 +74,10 @@ class Postgres81 extends Postgres82 {
 		}
 		else $clause = '';
 
-		if ($currentdatabase != NULL)
+		if ($currentdatabase != NULL) {
+			$this->clean($currentdatabase);
 			$orderby = "ORDER BY pdb.datname = '{$currentdatabase}' DESC, pdb.datname";
+		}
 		else
 			$orderby = "ORDER BY pdb.datname";
 

@@ -64,6 +64,7 @@ class Postgres82 extends Postgres83 {
 	 * @return 0 success
 	 */
 	function alterSequenceName($seqrs, $name) {
+		/* vars are cleaned in _alterSequence */
 		if (!empty($name) && ($seqrs->fields['seqname'] != $name)) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
@@ -88,6 +89,7 @@ class Postgres82 extends Postgres83 {
 	 */
 	function alterViewName($vwrs, $name) {
 		// Rename (only if name has changed)
+		/* $vwrs and $name are cleaned in _alterView */
 		if (!empty($name) && ($name != $vwrs->fields['relname'])) {
 			$f_schema = $this->_schema;
 			$this->fieldClean($f_schema);
@@ -197,7 +199,7 @@ class Postgres82 extends Postgres83 {
 		$this->fieldClean($f_schema);
 		$this->fieldClean($funcname);
 		$this->clean($args);
-		$this->clean($language);
+		$this->fieldClean($language);
 		$this->arrayClean($flags);
 
 		$sql = "CREATE";
