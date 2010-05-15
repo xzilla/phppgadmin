@@ -69,7 +69,6 @@
 	$misc->setForm();
 
 	// Enforce PHP environment
-	ini_set('magic_quotes_gpc', 0);
 	ini_set('magic_quotes_runtime', 0);
 	ini_set('magic_quotes_sybase', 0);
 	ini_set('arg_separator.output', '&amp;');
