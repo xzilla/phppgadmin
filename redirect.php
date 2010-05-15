@@ -14,6 +14,11 @@
 		parse_str(value(url($url['url'], $url['urlvars']), $_REQUEST), $vars);
 		array_shift($vars);
 
+		/* parse_str function is affected by magic_quotes_gpc */
+		if (ini_get('magic_quotes_gpc')) {
+			$misc->stripVar($vars);
+		}
+
 		$_REQUEST = array_merge($_REQUEST, $vars);
 		$_GET = array_merge($_GET, $vars);
 	}
