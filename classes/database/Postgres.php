@@ -833,16 +833,6 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
-	 * Returns the specified variable information.
-	 * @return the field
-	 */
-	function getVariable($setting) {
-		$sql = "SHOW $setting";
-
-		return $this->selectSet($sql);
-	}
-
-	/**
 	 * Returns all available variable information.
 	 * @return A recordset
 	 */
