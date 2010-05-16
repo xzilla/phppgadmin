@@ -522,16 +522,14 @@
 		
 		// Cluster
 		if ($data->hasRecluster()){
+			$disabled = '';
 			echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
 			echo "<form action=\"{$script}\" method=\"post\">\n";
 			echo $misc->form;
 			if ($type == 'table') {
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['object']), "\" />\n";
 				echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
-				if ($data->alreadyClustered($_REQUEST['object'])) {
-					$disabled = '';
-				}
-				else {
+				if (!$data->alreadyClustered($_REQUEST['object'])) {
 					$disabled = 'disabled="disabled" ';
 					echo "{$lang['strnoclusteravailable']}<br />";
 				}
@@ -566,7 +564,7 @@
 			else $autovac = $data->getTableAutovacuum();
 
 			echo "<br /><br /><h2>{$lang['strvacuumpertable']}</h2>";
-			echo '<p>' . (($defaults->fields['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
+			echo '<p>' . (($defaults['autovacuum'] == 'on') ? $lang['strturnedon'] : $lang['strturnedoff'] ) . '</p>';
 			echo "<p class=\"message\">{$lang['strnotdefaultinred']}</p>";
 			
 			function enlight($f, $p) {
@@ -579,10 +577,14 @@
 				'namespace' => array(
 					'title' => $lang['strschema'],
 					'field' => field('nspname'),
+					'url'   => "redirect.php?subject=schema&amp;{$misc->href}&amp;",
+					'vars'  => array('schema' => 'nspname'),
 				),	
 				'relname' => array(
 					'title' => $lang['strtable'],
 					'field' => field('relname'),
+					'url'	=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
+					'vars'  => array('table' => 'relname', 'schema' => 'nspname'),
 				),
 				'autovacuum_enabled' => array(
 					'title' => $lang['strenabled'],
@@ -644,7 +646,11 @@
 			);
 			
 			if ($type == 'table') {
-				unset($actions['edit']['vars']['schema'], $actions['delete']['vars']['schema']);
+				unset($actions['edit']['vars']['schema'], 
+					$actions['delete']['vars']['schema'],
+					$columns['namespace'],
+					$columns['relname']
+				);
 			}
 
 			$misc->printTable($autovac, $columns, $actions, $lang['strnovacuumconf']);
