@@ -11,7 +11,8 @@
 
 	// Set error reporting level to max
 	error_reporting(E_ALL);
-
+	ini_set('display_errors', 'on');
+ 
 	// Application name
 	$appName = 'phpPgAdmin';
 
