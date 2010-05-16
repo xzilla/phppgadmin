@@ -355,7 +355,7 @@
 		echo "<tr>\n<td class=\"data1\">\n";		
 		
 		$arrTables = array();
-		while (!$tables->EOF) {						
+		while (!$tables->EOF) {
 			$arrTmp = array();
 			$arrTmp['schemaname'] = $tables->fields['nspname'];
 			$arrTmp['tablename'] = $tables->fields['relname'];
@@ -445,6 +445,7 @@
 
 			foreach ($_POST['formFields'] AS $curField) {
 				$arrTmp = unserialize($curField);
+				$data->fieldArrayClean($arrTmp);
 				if (! empty($_POST['dblFldMeth']) ) { // doublon control
 					if (empty($tmpHsh[$arrTmp['fieldname']])) { // field does not exist
 						$selFields .= "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\", ";
@@ -485,6 +486,8 @@
 							
 							$arrLeftLink = unserialize($curLink['leftlink']);
 							$arrRightLink = unserialize($curLink['rightlink']);
+							$data->fieldArrayClean($arrLeftLink);
+							$data->fieldArrayClean($arrRightLink);
 							
 							$tbl1 = "\"{$arrLeftLink['schemaname']}\".\"{$arrLeftLink['tablename']}\"";
 							$tbl2 = "\"{$arrRightLink['schemaname']}\".\"{$arrRightLink['tablename']}\"";
@@ -513,6 +516,7 @@
 			if (!strlen($linkFields) ) {
 				foreach ($_POST['formTables'] AS $curTable) {
 					$arrTmp = unserialize($curTable);
+					$data->fieldArrayClean($arrTmp);
 					$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
 				}
 			}
@@ -522,6 +526,7 @@
 				foreach ($_POST['formCondition'] AS $curCondition) {
 					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
 						$arrTmp = unserialize($curCondition['field']);
+						$data->fieldArrayClean($arrTmp);
 						$addConditions .= strlen($addConditions) ? " AND \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' " 
 							: " \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\".\"{$arrTmp['fieldname']}\" {$curCondition['operator']} '{$curCondition['txt']}' ";
 					}
