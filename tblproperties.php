@@ -321,7 +321,7 @@
 				echo "<p><input type=\"hidden\" name=\"action\" value=\"add_column\" />\n";
 				echo "<input type=\"hidden\" name=\"stage\" value=\"2\" />\n";
 				echo $misc->form;
-				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\">\n";
+				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				if (!$data->hasCreateFieldWithConstraints()) {
 					echo "<input type=\"hidden\" name=\"default\" value=\"\" />\n";
 				}
