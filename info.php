@@ -56,11 +56,11 @@
 				
 				while (!$referrers->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n\t\t";
-					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['nspname']), "</td>";
-					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['relname']), "</td>";
-					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['conname']), "</td>";
-					echo "<td class=\"data{$id}\">", $misc->printVal($referrers->fields['consrc']), "</td>";
+					echo "\t<tr class=\"data{$id}\">\n\t\t";
+					echo "<td>", $misc->printVal($referrers->fields['nspname']), "</td>";
+					echo "<td>", $misc->printVal($referrers->fields['relname']), "</td>";
+					echo "<td>", $misc->printVal($referrers->fields['conname']), "</td>";
+					echo "<td>", $misc->printVal($referrers->fields['consrc']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"constraints.php?{$misc->href}", 
 						"&amp;schema=", urlencode($referrers->fields['nspname']),
 						"&amp;table=", urlencode($referrers->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
@@ -85,9 +85,9 @@
 				
 				while (!$parents->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($parents->fields['nspname']), "</td>";
-					echo "<td class=\"data{$id}\">", $misc->printVal($parents->fields['relname']), "</td>";
+					echo "\t<tr class=\"data{$id}\">\n";
+					echo "\t\t<td>", $misc->printVal($parents->fields['nspname']), "</td>";
+					echo "<td>", $misc->printVal($parents->fields['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($parents->fields['nspname']),
 						"&amp;table=", urlencode($parents->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
@@ -112,9 +112,9 @@
 				
 				while (!$children->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($children->fields['schemaname']), "</td>";
-					echo "<td class=\"data{$id}\">", $misc->printVal($children->fields['relname']), "</td>";
+					echo "\t<tr class=\"data{$id}\">\n";
+					echo "\t\t<td>", $misc->printVal($children->fields['schemaname']), "</td>";
+					echo "<td>", $misc->printVal($children->fields['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
 						"&amp;schema=", urlencode($children->fields['schemaname']),
 						"&amp;table=", urlencode($children->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
@@ -149,14 +149,14 @@
 				
 				while (!$tablestatstups->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['seq_scan'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['seq_tup_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['idx_scan'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['n_tup_ins'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['n_tup_upd'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatstups->fields['n_tup_del'], 'int4', $shownull), "</td>\n";
+					echo "\t<tr class=\"data{$id}\">\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['seq_scan'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['seq_tup_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['idx_scan'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['n_tup_ins'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['n_tup_upd'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatstups->fields['n_tup_del'], 'int4', $shownull), "</td>\n";
 					echo "\t</tr>\n";
 					$tablestatstups->movenext();
 					$i++;
@@ -194,35 +194,35 @@
 				
 				while (!$tablestatsio->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
+					echo "\t<tr class=\"data{$id}\">\n";
 
 					$total = $tablestatsio->fields['heap_blks_hit'] + $tablestatsio->fields['heap_blks_read'];
 					if ($total > 0)	$percentage = round(($tablestatsio->fields['heap_blks_hit'] / $total) * 100);
 					else $percentage = 0;
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['heap_blks_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['heap_blks_hit'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['heap_blks_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['heap_blks_hit'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>({$percentage}{$lang['strpercent']})</td>\n";
 
 					$total = $tablestatsio->fields['idx_blks_hit'] + $tablestatsio->fields['idx_blks_read'];
 					if ($total > 0)	$percentage = round(($tablestatsio->fields['idx_blks_hit'] / $total) * 100);
 					else $percentage = 0;
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['idx_blks_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['idx_blks_hit'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['idx_blks_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['idx_blks_hit'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>({$percentage}{$lang['strpercent']})</td>\n";
 
 					$total = $tablestatsio->fields['toast_blks_hit'] + $tablestatsio->fields['toast_blks_read'];
 					if ($total > 0)	$percentage = round(($tablestatsio->fields['toast_blks_hit'] / $total) * 100);
 					else $percentage = 0;
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['toast_blks_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['toast_blks_hit'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['toast_blks_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['toast_blks_hit'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>({$percentage}{$lang['strpercent']})</td>\n";
 
 					$total = $tablestatsio->fields['tidx_blks_hit'] + $tablestatsio->fields['tidx_blks_read'];
 					if ($total > 0)	$percentage = round(($tablestatsio->fields['tidx_blks_hit'] / $total) * 100);
 					else $percentage = 0;
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['tidx_blks_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($tablestatsio->fields['tidx_blks_hit'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['tidx_blks_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($tablestatsio->fields['tidx_blks_hit'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>({$percentage}{$lang['strpercent']})</td>\n";
 					echo "\t</tr>\n";
 					$tablestatsio->movenext();
 					$i++;
@@ -246,11 +246,11 @@
 				
 				while (!$indexstatstups->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->fields['indexrelname']), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->fields['idx_scan'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->fields['idx_tup_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatstups->fields['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
+					echo "\t<tr class=\"data{$id}\">\n";
+					echo "\t\t<td>", $misc->printVal($indexstatstups->fields['indexrelname']), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatstups->fields['idx_scan'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatstups->fields['idx_tup_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatstups->fields['idx_tup_fetch'], 'int4', $shownull), "</td>\n";
 					echo "\t</tr>\n";
 					$indexstatstups->movenext();
 					$i++;
@@ -274,14 +274,14 @@
 				
 				while (!$indexstatsio->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr>\n";
+					echo "\t<tr class=\"data{$id}\">\n";
 					$total = $indexstatsio->fields['idx_blks_hit'] + $indexstatsio->fields['idx_blks_read'];
 					if ($total > 0)	$percentage = round(($indexstatsio->fields['idx_blks_hit'] / $total) * 100);
 					else $percentage = 0;
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->fields['indexrelname']), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->fields['idx_blks_read'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">", $misc->printVal($indexstatsio->fields['idx_blks_hit'], 'int4', $shownull), "</td>\n";
-					echo "\t\t<td class=\"data{$id}\">({$percentage}{$lang['strpercent']})</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatsio->fields['indexrelname']), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatsio->fields['idx_blks_read'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>", $misc->printVal($indexstatsio->fields['idx_blks_hit'], 'int4', $shownull), "</td>\n";
+					echo "\t\t<td>({$percentage}{$lang['strpercent']})</td>\n";
 					echo "\t</tr>\n";
 					$indexstatsio->movenext();
 					$i++;

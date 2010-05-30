@@ -93,20 +93,20 @@
 					if (!isset($_REQUEST['format'][$attrs->fields['attname']]))
 						$_REQUEST['format'][$attrs->fields['attname']] = 'VALUE';
 					
-					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
+					echo "<tr class=\"data{$id}\">\n";
+					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[", htmlspecialchars($attrs->fields['attname']), "]\" value=\"", 
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
 					$elements++;
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
+					echo "<td style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[", htmlspecialchars($attrs->fields['attname']), "]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attname']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
 					$elements++;
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<td style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
 						// Set initial null values
@@ -120,7 +120,7 @@
 					else
 						echo "&nbsp;</td>";
 
-					echo "<td class=\"data{$id}\" id=\"aciwp{$i}\" style=\"white-space:nowrap;\">";
+					echo "<td id=\"aciwp{$i}\" style=\"white-space:nowrap;\">";
 					// If the column allows nulls, then we put a JavaScript action on the data field to unset the
 					// NULL checkbox as soon as anything is entered in the field.  We use the $elements variable to 
 					// keep track of which element offset we're up to.  We can't refer to the null checkbox by name
@@ -382,7 +382,7 @@
 			reset($rs->fields);
 			while (!$rs->EOF) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n";
+				echo "<tr class=\"data{$id}\">\n";
 				// Display edit and delete links if we have a key
 				if (sizeof($key) > 0) {
 					$key_str = '';
@@ -396,7 +396,7 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->fields[$v]);
 					}
 					if ($has_nulls) {
-						echo "<td class=\"data{$id}\" colspan=\"2\">&nbsp;</td>\n";
+						echo "<td colspan=\"2\">&nbsp;</td>\n";
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confeditrow&amp;strings=", 
 							urlencode($_REQUEST['strings']), "&amp;page=", 
@@ -410,9 +410,9 @@
 				foreach ($rs->fields as $k => $v) {
 					$finfo = $rs->fetchField($j++);
 					if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) continue;
-					elseif ($v !== null && $v == '') echo "<td class=\"data{$id}\">&nbsp;</td>";
+					elseif ($v !== null && $v == '') echo "<td>&nbsp;</td>";
 					else {
-						echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">",
+						echo "<td style=\"white-space:nowrap;\">",
 							$misc->printVal($v, $finfo->type, array('null' => true, 'clip' => ($_REQUEST['strings']=='collapsed'))), "</td>";
 					}
 				}

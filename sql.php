@@ -40,9 +40,9 @@
 					$row = pg_fetch_row($rs);
 					while ($row !== false) {
 						$id = (($i % 2) == 0 ? '1' : '2');
-						echo "<tr>\n";
+						echo "<tr class=\"data{$id}\">\n";
 						foreach ($row as $k => $v) {
-							echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($v, pg_fieldtype($rs, $k), array('null' => true)), "</td>";
+							echo "<td style=\"white-space:nowrap;\">", $misc->printVal($v, pg_fieldtype($rs, $k), array('null' => true)), "</td>";
 						}							
 						echo "</tr>\n";
 						$row = pg_fetch_row($rs);
@@ -151,10 +151,10 @@
 				$i = 0;		
 				while (!$rs->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr>\n";
+					echo "<tr class=\"data{$id}\">\n";
 					foreach ($rs->fields as $k => $v) {
 						$finfo = $rs->fetchField($k);
-						echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
+						echo "<td style=\"white-space:nowrap;\">", $misc->printVal($v, $finfo->type, array('null' => true)), "</td>";
 					}							
 					echo "</tr>\n";
 					$rs->moveNext();

@@ -1701,11 +1701,11 @@
 					if (!is_null($pre_fn)) $alt_actions = $pre_fn($tabledata, $actions);
 					if (!isset($alt_actions)) $alt_actions =& $actions;
 
-					echo "<tr>\n";
+					echo "<tr class=\"data{$id}\">\n";
 					if ($has_ma) {
 						foreach ($ma['keycols'] as $k => $v)
 							$a[$k] = $tabledata->fields[$v];
-						echo "<td class=\"data{$id}\">";
+						echo "<td>";
 						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a)) ."\" />";
 						echo "</td>\n";
 					}
@@ -1719,7 +1719,7 @@
 							case 'actions':
 								foreach ($alt_actions as $action) {
 									if (isset($action['disable']) && $action['disable'] === true) {
-										echo "<td class=\"data{$id}\"></td>\n";
+										echo "<td></td>\n";
 									} else {
 										echo "<td class=\"opbutton{$id}\">";
 										echo "<a href=\"{$action['url']}";
@@ -1732,7 +1732,7 @@
 								}
 								break;
 							default:
-								echo "<td class=\"data{$id}\">";
+								echo "<td>";
 								$val = value($column['field'], $tabledata->fields);
 								if (!is_null($val)) {
 									if (isset($column['url'])) {

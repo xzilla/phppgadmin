@@ -79,7 +79,7 @@
            	$i = 0;
            	while (!$groupdata->EOF) {
 					$id = (($i % 2) == 0 ? '1' : '2');
-            	echo "<tr><td class=\"data{$id}\">", $misc->printVal($groupdata->fields['usename']), "</td>\n";
+            	echo "<tr class=\"data{$id}\"><td>", $misc->printVal($groupdata->fields['usename']), "</td>\n";
 					echo "<td class=\"opbutton{$id}\"><a href=\"groups.php?action=confirm_drop_member&{$misc->href}&group=",
 						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->fields['usename']), "\">{$lang['strdrop']}</a></td>\n";
             	echo "</tr>\n";

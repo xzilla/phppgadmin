@@ -196,14 +196,14 @@
 			$i = 0;
 			foreach ($privileges as $v) {
 				$id = (($i % 2) == 0 ? '1' : '2');
-				echo "<tr>\n";
+				echo "<tr class=\"data{$id}\">\n";
 				if (!$data->hasRoles())
-					echo "<td class=\"data{$id}\">", $misc->printVal($v[0]), "</td>\n";
-				echo "<td class=\"data{$id}\">", $misc->printVal($v[1]), "</td>\n";
+					echo "<td>", $misc->printVal($v[0]), "</td>\n";
+				echo "<td>", $misc->printVal($v[1]), "</td>\n";
 				foreach ($data->privlist[$_REQUEST['subject']] as $v2) {
 					// Skip over ALL PRIVILEGES
 					if ($v2 == 'ALL PRIVILEGES') continue;
-					echo "<td class=\"data{$id}\">";
+					echo "<td>";
 					if (in_array($v2, $v[2]))
 						echo $lang['stryes'];
 					else
@@ -213,7 +213,7 @@
 					echo "</td>\n";
 				}
 				if ($data->hasGrantOption()) {
-					echo "<td class=\"data{$id}\">", $misc->printVal($v[3]), "</td>\n";
+					echo "<td>", $misc->printVal($v[3]), "</td>\n";
 				}
 				echo "</tr>\n";
 				$i++;

@@ -385,20 +385,20 @@
 						$_REQUEST['ops'][$attrs->fields['attname']] = null;
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<tr class=\"data{$id}\">\n";
+					echo "<td style=\"white-space:nowrap;\">";
 					echo "<input type=\"checkbox\" name=\"show[", htmlspecialchars($attrs->fields['attname']), "]\"",
 						isset($_REQUEST['show'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod'])), "</td>";
+					echo "<td style=\"white-space:nowrap;\">";
 					echo "<select name=\"ops[{$attrs->fields['attname']}]\">\n";
 					foreach (array_keys($data->selectOps) as $v) {
 						echo "<option value=\"", htmlspecialchars($v), "\"", ($v == $_REQUEST['ops'][$attrs->fields['attname']]) ? ' selected="selected"' : '',
 						">", htmlspecialchars($v), "</option>\n";
 					}
 					echo "</select>\n</td>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
+					echo "<td style=\"white-space:nowrap;\">", $data->printField("values[{$attrs->fields['attname']}]",
 						$_REQUEST['values'][$attrs->fields['attname']], $attrs->fields['type']), "</td>";
 					echo "</tr>\n";
 					$i++;
@@ -557,18 +557,18 @@
 						$_REQUEST['format'][$attrs->fields['attnum']] = ($attrs->fields['adsrc'] === null) ? 'VALUE' : 'EXPRESSION';
 					// Continue drawing row
 					$id = (($i % 2) == 0 ? '1' : '2');
-					echo "<tr>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
+					echo "<tr class=\"data{$id}\">\n";
+					echo "<td style=\"white-space:nowrap;\">", $misc->printVal($attrs->fields['attname']), "</td>";
+					echo "<td style=\"white-space:nowrap;\">\n";
 					echo $misc->printVal($data->formatType($attrs->fields['type'], $attrs->fields['atttypmod']));
 					echo "<input type=\"hidden\" name=\"types[{$attrs->fields['attnum']}]\" value=\"",
 						htmlspecialchars($attrs->fields['type']), "\" /></td>";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">\n";
+					echo "<td style=\"white-space:nowrap;\">\n";
 					echo "<select name=\"format[{$attrs->fields['attnum']}]\">\n";
 					echo "<option value=\"VALUE\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'VALUE') ? ' selected="selected"' : '', ">{$lang['strvalue']}</option>\n";
 					echo "<option value=\"EXPRESSION\"", ($_REQUEST['format'][$attrs->fields['attnum']] == 'EXPRESSION') ? ' selected="selected"' : '', ">{$lang['strexpression']}</option>\n";
 					echo "</select>\n</td>\n";
-					echo "<td class=\"data{$id}\" style=\"white-space:nowrap;\">";
+					echo "<td style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
 						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
@@ -577,7 +577,7 @@
 					else {
 						echo "&nbsp;</td>";
 					}
-					echo "<td class=\"data{$id}\" id=\"row_att_{$attrs->fields['attnum']}\" style=\"white-space:nowrap;\">";
+					echo "<td id=\"row_att_{$attrs->fields['attnum']}\" style=\"white-space:nowrap;\">";
 					if ($auto_complete && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
 						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']],
 							'fktype'/*force FK*/,array(), "id=\"attr_{$attrs->fields['attnum']}\" autocomplete=\"off\"");

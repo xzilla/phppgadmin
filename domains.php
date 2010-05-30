@@ -210,8 +210,8 @@
 					
 					while (!$domaincons->EOF) {
 						$id = (($i % 2 ) == 0 ? '1' : '2');
-						echo "<tr><td class=\"data{$id}\">", $misc->printVal($domaincons->fields['conname']), "</td>";
-						echo "<td class=\"data{$id}\">";
+						echo "<tr class=\"data{$id}\"><td>", $misc->printVal($domaincons->fields['conname']), "</td>";
+						echo "<td>";
 						echo $misc->printVal($domaincons->fields['consrc']);
 						echo "</td>";
 						echo "<td class=\"opbutton{$id}\">";
