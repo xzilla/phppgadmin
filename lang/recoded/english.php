@@ -145,6 +145,9 @@
 	$lang['strctype'] = 'Character Type';
 	$lang['strdefaultvalues'] = 'Default values';
 	$lang['strnewvalues'] = 'New values';
+	$lang['strstart'] = 'Start';
+	$lang['strstop'] = 'Stop';
+	$lang['strgotoppage'] = 'back to top';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'The following administrative tasks apply on the whole %s database.';

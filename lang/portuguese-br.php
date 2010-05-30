@@ -138,6 +138,9 @@
 	$lang['strselectall'] = 'Selecionar tudo';
 	$lang['strunselectall'] = 'Desmarcar tudo';
 	$lang['strlocale'] = 'Local';		
+	$lang['strstart'] = 'Iniciar';
+	$lang['strstop'] = 'Parar';
+	$lang['strgotoppage'] = 'Topo da página';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Histórico';

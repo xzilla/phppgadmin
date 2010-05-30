@@ -88,6 +88,9 @@ $lang['strwhere'] = 'Onde';
 $lang['strinstead'] = 'Fazer ao inv&#233;s';				
 $lang['strwhen'] = 'Quando';						
 $lang['strformat'] = 'Formato';					
+$lang['strstart'] = 'Iniciar';
+$lang['strstop'] = 'Parar';
+$lang['strgotoppage'] = 'Topo da p&#225;gina';
 
 // Error handling
 $lang['strdata'] = 'Data';

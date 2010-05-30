@@ -146,6 +146,10 @@
 	// (e.g. 7.3 )
 	$conf['help_base'] = 'http://www.postgresql.org/docs/%s/interactive/';
 	
+	// Configuration for ajax scripts
+	// Time in seconds. If set to 0, refreshing data using ajax will be disabled (locks and activity pages)
+	$conf['ajax_refresh'] = 3;
+	
 	/*****************************************
 	 * Don't modify anything below this line *
 	 *****************************************/

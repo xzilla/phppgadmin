@@ -11,6 +11,7 @@
 
 	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : '';
 	if (!isset($msg)) $msg = '';
+	$scripts = '';
 
 	function _highlight($string, $term) {
 		return str_replace($term, "<b>{$term}</b>", $string);
@@ -470,18 +471,11 @@
 		$misc->printTable($processes, $columns, $actions, $lang['strnodata']);
 	}
 
-	/**
-	 * Show the existing table locks in the current database
-	*/
-	function doLocks() {
-		global $data, $misc;
-		global $lang;
+	function currentLocks($isAjax = false) {
+		global $data, $misc, $lang;
 
 		// Get the info from the pg_locks view
 		$variables = $data->getLocks();
-
-		$misc->printTrail('database');
-		$misc->printTabs('database','locks');
 
 		$columns = array(
 			'namespace' => array(
@@ -518,8 +512,28 @@
 		if (!$data->hasVirtualTransactionId()) unset($columns['vxid']);
 
 		$actions = array();
-
 		$misc->printTable($variables, $columns, $actions, $lang['strnodata']);
+		
+		if ($isAjax) exit;
+	}
+	
+	/**
+	 * Show the existing table locks in the current database
+	 */
+	function doLocks() {
+		global $data, $misc;
+		global $lang;
+
+		$misc->printTrail('database');
+		$misc->printTabs('database','locks');
+
+		echo "<br /><a id=\"control\" href=\"\"><img src=\"".$misc->icon('Refresh')."\" alt=\"{$lang['strrefresh']}\" title=\"{$lang['strrefresh']}\"/>&nbsp;{$lang['strrefresh']}</a>";
+
+		echo "<div id=\"locks_block\" class=\"data_block\">";
+		currentLocks();
+		echo "</div>";
+
+		echo "<a href=\"#\" class=\"bottom_link\">".$lang['strgotoppage']."</a>";
 	}
 
 	/**
@@ -589,11 +603,30 @@
 
 	require('./admin.php');
 
+	/* shortcuts: these functions exit the script */
 	if ($action == 'tree') doTree();
-	
-	$misc->printHeader($lang['strschemas']);
+	if ($action == 'refresh_locks') currentLocks(true);
+
+	/* normal flow */
+	if ($action == 'locks') {
+		$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>";
+		$scripts .= "<script src=\"js/locks.js\" type=\"text/javascript\"></script>";
+
+		$refreshTime = $conf['ajax_refresh'] * 1000;
+
+		$scripts .= "<script type=\"text/javascript\">\n";
+		$scripts .= "var Database = {\n";
+		$scripts .= "ajax_time_refresh: {$refreshTime},\n";
+		$scripts .= "str_start: {text:'{$lang['strstart']}',icon: '". $misc->icon('Execute') ."'},\n";
+		$scripts .= "str_stop: {text:'{$lang['strstop']}',icon: '". $misc->icon('Stop') ."'},\n";
+		$scripts .= "server:'{$misc->href}',\n";
+		$scripts .= "};\n";
+		$scripts .= "</script>\n";
+	}
+
+	$misc->printHeader($lang['strdatabase'], $scripts);
 	$misc->printBody();
-	
+
 	switch ($action) {
 		case 'find':
 			if (isset($_REQUEST['term'])) doFind(false);
@@ -623,5 +656,4 @@
 	}
 
 	$misc->printFooter();
-
 ?>

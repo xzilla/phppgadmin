@@ -455,3 +455,10 @@ pre.error
 }
 .ac_values {width:100%}
 .ac_field {border:1px solid #D9D95F}
+
+.bottom_link {
+	position: fixed; 
+	bottom: 0; 
+	right: 0;
+	padding: 5px;
+}
