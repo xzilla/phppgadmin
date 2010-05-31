@@ -183,6 +183,7 @@
 	$lang['strcannotdumponwindows'] = 'O dumping de uma tabela complexa e um nome de esquema não é suportado no Windows.';
 	$lang['strinvalidserverparam'] = 'Tentativa de conectar com um parâmetro de servidor inválido, possivelmente alguém está tentando hackear o seu sistema.'; 
 	$lang['strnoserversupplied'] = 'Nenhum servidor informado!';
+	$lang['strconnectionfail'] = 'A conexão falhou.';
 
 	// Tables
 	$lang['strtable'] = 'Tabela';

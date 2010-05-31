@@ -107,6 +107,7 @@ $lang['strsqlerror'] = 'Erro de SQL:';
 $lang['strinstatement'] = 'Indicação de entrada :';
 $lang['strinvalidparam'] = 'Parâmetros de script inválidos.';
 $lang['strnodata'] = 'Não foram encontradas linhas.';
+$lang['strconnectionfail'] = 'A conexão falhou.';
 
 // Tables
 $lang['strtable'] = 'Tabela';

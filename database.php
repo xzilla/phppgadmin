@@ -609,7 +609,7 @@
 
 	/* normal flow */
 	if ($action == 'locks') {
-		$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>";
+		$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>\n";
 		$scripts .= "<script src=\"js/locks.js\" type=\"text/javascript\"></script>";
 
 		$refreshTime = $conf['ajax_refresh'] * 1000;
@@ -619,7 +619,9 @@
 		$scripts .= "ajax_time_refresh: {$refreshTime},\n";
 		$scripts .= "str_start: {text:'{$lang['strstart']}',icon: '". $misc->icon('Execute') ."'},\n";
 		$scripts .= "str_stop: {text:'{$lang['strstop']}',icon: '". $misc->icon('Stop') ."'},\n";
+		$scripts .= "load_icon: '". $misc->icon('Loading') ."',\n";
 		$scripts .= "server:'{$misc->href}',\n";
+		$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."',\n";
 		$scripts .= "};\n";
 		$scripts .= "</script>\n";
 	}

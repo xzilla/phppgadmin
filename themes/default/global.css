@@ -445,7 +445,7 @@ pre.error
 	display:block;
 	color:#000;
 }
-#fklist td a.fkval {
+#fklist td a.fkval, p.errmsg {
 	color:red;
 }
 .normal_field {
