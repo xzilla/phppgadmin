@@ -15,7 +15,8 @@ $(document).ready(function() {
 			query = $.ajax({
 				type: 'GET',
 				dataType: 'html',
-				url: 'database.php?action=refresh_locks&' + Database.server,
+				data: {server: Database.server, database: Database.dbname, action: 'refresh_locks'},
+				url: 'database.php',
 				cache: false,
 				contentType: 'application/x-www-form-urlencoded',
 				success: function(html) {

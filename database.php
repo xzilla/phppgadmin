@@ -620,7 +620,8 @@
 		$scripts .= "str_start: {text:'{$lang['strstart']}',icon: '". $misc->icon('Execute') ."'},\n";
 		$scripts .= "str_stop: {text:'{$lang['strstop']}',icon: '". $misc->icon('Stop') ."'},\n";
 		$scripts .= "load_icon: '". $misc->icon('Loading') ."',\n";
-		$scripts .= "server:'{$misc->href}',\n";
+		$scripts .= "server:'{$_REQUEST['server']}',\n";
+		$scripts .= "dbname:'{$_REQUEST['database']}',\n";
 		$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."',\n";
 		$scripts .= "};\n";
 		$scripts .= "</script>\n";
