@@ -402,10 +402,13 @@
 		 */
 		function printFooter($doBody = true) {
 			global $_reload_browser, $_reload_drop_database;
+			global $lang, $_no_bottom_link;
 
 			if ($doBody) {
 				if (isset($_reload_browser)) $this->printReload(false);
 				elseif (isset($_reload_drop_database)) $this->printReload(true);
+				if (!isset($_no_bottom_link)) 
+					echo "<a href=\"#\" class=\"bottom_link\">".$lang['strgotoppage']."</a>";
 				echo "</body>\n";
 			}
 			echo "</html>\n";

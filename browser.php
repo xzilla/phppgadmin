@@ -10,6 +10,7 @@
 
 	// Include application functions
 	$_no_db_connection = true;
+	$_no_bottom_link = true;
 	include_once('./libraries/lib.inc.php');
 	
 	if (isset($conf['srv_groups'])) {

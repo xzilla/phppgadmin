@@ -460,5 +460,9 @@ pre.error
 	position: fixed; 
 	bottom: 0; 
 	right: 0;
-	padding: 5px;
+	padding: 4px;
+	background: #eee;
+	border-top: 1px dotted #999;
+	border-left: 1px dotted #999;
+	font-size: smaller;
 }

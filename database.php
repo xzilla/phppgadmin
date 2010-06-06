@@ -532,8 +532,6 @@
 		echo "<div id=\"locks_block\" class=\"data_block\">";
 		currentLocks();
 		echo "</div>";
-
-		echo "<a href=\"#\" class=\"bottom_link\">".$lang['strgotoppage']."</a>";
 	}
 
 	/**
