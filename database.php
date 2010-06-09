@@ -391,6 +391,18 @@
 		$misc->printTabs('database','processes');
 		$misc->printMsg($msg);
 
+		if (strlen($msg) === 0) {
+			echo "<br /><a id=\"control\" href=\"\"><img src=\"".$misc->icon('Refresh')."\" alt=\"{$lang['strrefresh']}\" title=\"{$lang['strrefresh']}\"/>&nbsp;{$lang['strrefresh']}</a>";
+		}
+
+		echo "<div id=\"data_block\">";
+		currentProcesses();
+		echo "</div>";
+	}
+	
+	function currentProcesses($isAjax = false) {
+		global $data, $misc, $lang;
+		
 		// Display prepared transactions
 		if($data->hasPreparedXacts()) {
 			echo "<h3>{$lang['strpreparedxacts']}</h3>\n";
@@ -469,6 +481,8 @@
 		if (!isset($processes->fields['query_start'])) unset($columns['start_time']);
 
 		$misc->printTable($processes, $columns, $actions, $lang['strnodata']);
+		
+		if ($isAjax) exit;
 	}
 
 	function currentLocks($isAjax = false) {
@@ -529,7 +543,7 @@
 
 		echo "<br /><a id=\"control\" href=\"\"><img src=\"".$misc->icon('Refresh')."\" alt=\"{$lang['strrefresh']}\" title=\"{$lang['strrefresh']}\"/>&nbsp;{$lang['strrefresh']}</a>";
 
-		echo "<div id=\"locks_block\" class=\"data_block\">";
+		echo "<div id=\"data_block\">";
 		currentLocks();
 		echo "</div>";
 	}
@@ -604,11 +618,12 @@
 	/* shortcuts: these functions exit the script */
 	if ($action == 'tree') doTree();
 	if ($action == 'refresh_locks') currentLocks(true);
+	if ($action == 'refresh_processes') currentProcesses(true);
 
 	/* normal flow */
-	if ($action == 'locks') {
+	if ($action == 'locks' or $action == 'processes') {
 		$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>\n";
-		$scripts .= "<script src=\"js/locks.js\" type=\"text/javascript\"></script>";
+		$scripts .= "<script src=\"js/database.js\" type=\"text/javascript\"></script>";
 
 		$refreshTime = $conf['ajax_refresh'] * 1000;
 
@@ -620,6 +635,7 @@
 		$scripts .= "load_icon: '". $misc->icon('Loading') ."',\n";
 		$scripts .= "server:'{$_REQUEST['server']}',\n";
 		$scripts .= "dbname:'{$_REQUEST['database']}',\n";
+		$scripts .= "action:'refresh_{$action}',\n";
 		$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."',\n";
 		$scripts .= "};\n";
 		$scripts .= "</script>\n";
