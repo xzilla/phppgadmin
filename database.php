@@ -636,7 +636,7 @@
 		$scripts .= "server:'{$_REQUEST['server']}',\n";
 		$scripts .= "dbname:'{$_REQUEST['database']}',\n";
 		$scripts .= "action:'refresh_{$action}',\n";
-		$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."',\n";
+		$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."'\n";
 		$scripts .= "};\n";
 		$scripts .= "</script>\n";
 	}
