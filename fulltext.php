@@ -157,7 +157,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
-		echo "<table style=\"width: 100%\">\n";
+		echo "<table>\n";
 		/* conf name */
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
@@ -495,7 +495,7 @@
 		$misc->printMsg($msg);
 
 		echo "<form action=\"fulltext.php\" method=\"post\">\n";
-		echo "<table style=\"width: 100%\">\n";
+		echo "<table>\n";
 		echo "\t<tr>\n\t\t<th class=\"data left required\">{$lang['strname']}</th>\n";
 		echo "\t\t<td class=\"data1\"><input name=\"formName\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 			htmlspecialchars($_POST['formName']), "\" />&nbsp;",
