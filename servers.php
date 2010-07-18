@@ -76,6 +76,7 @@
 		
 		if (($group !== false) and isset($conf['srv_groups'][$group])) {
 			printf("<h2>{$lang['strgroupservers']}</h2>", htmlentities($conf['srv_groups'][$group]['desc']));
+			$actions['logout']['url'] .= "group=" . htmlentities($group) . "&amp;";
 		}
 		
 		$misc->printTable($servers, $columns, $actions, $lang['strnoobjects'], 'svPre');

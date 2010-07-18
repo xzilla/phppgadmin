@@ -1954,24 +1954,24 @@
 		 */
 		function getServers($recordset = false, $group = false) {
 			global $conf;
-			
-			$srvs = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
-			
-			if ($group !== false) {
-				if ($group !== 'all')
-					$group = array_fill_keys(explode(',', $conf['srv_groups'][$group]['servers']), 1);
-			} 
+
+			$logins = isset($_SESSION['webdbLogin']) && is_array($_SESSION['webdbLogin']) ? $_SESSION['webdbLogin'] : array();
+			$srvs = array();
+
+			if (($group !== false) and ($group !== 'all'))
+				$group = array_fill_keys(explode(',', $conf['srv_groups'][$group]['servers']), 1);
 			
 			foreach($conf['servers'] as $idx => $info) {
+				$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
 				if (($group === false) 
 					or (isset($group[$idx]))
 					or ($group === 'all')
 				) {
 					$server_id = $info['host'].':'.$info['port'].':'.$info['sslmode'];
+					
+					if (isset($logins[$server_id])) $srvs[$server_id] = $logins[$server_id];
+					else $srvs[$server_id] = $info;
 
-					if (!isset($srvs[$server_id])) {
-						$srvs[$server_id] = $info;
-					}
 					$srvs[$server_id]['id'] = $server_id;
 				}
 			}
