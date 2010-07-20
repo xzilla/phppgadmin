@@ -316,26 +316,26 @@
 			$conf['max_rows'], $max_pages);
 	
 		// Build strings for GETs
-		$str = 	$misc->href; // . "&amp;page=" . urlencode($_REQUEST['page']);
-		if (isset($object)) $str .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
-		if (isset($subject)) $str .= "&amp;subject=" . urlencode($subject);
-		if (isset($_REQUEST['query'])) $str .= "&amp;query=" . urlencode($_REQUEST['query']);
-		if (isset($_REQUEST['count'])) $str .= "&amp;count=" . urlencode($_REQUEST['count']);
-		if (isset($_REQUEST['return_url'])) $str .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
-		if (isset($_REQUEST['return_desc'])) $str .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
-		if (isset($_REQUEST['search_path'])) $str .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
-		if (isset($_REQUEST['table'])) $str .= "&amp;table=" . urlencode($_REQUEST['table']);
+		$gets = $misc->href;
+		if (isset($object)) $gets .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
+		if (isset($subject)) $gets .= "&amp;subject=" . urlencode($subject);
+		if (isset($_REQUEST['query'])) $gets .= "&amp;query=" . urlencode($_REQUEST['query']);
+		if (isset($_REQUEST['count'])) $gets .= "&amp;count=" . urlencode($_REQUEST['count']);
+		if (isset($_REQUEST['return_url'])) $gets .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
+		if (isset($_REQUEST['return_desc'])) $gets .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
+		if (isset($_REQUEST['search_path'])) $gets .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
+		if (isset($_REQUEST['table'])) $gets .= "&amp;table=" . urlencode($_REQUEST['table']);
 		
 		// This string just contains sort info
-		$str2 = "sortkey=" . urlencode($_REQUEST['sortkey']) . 
+		$getsort = "sortkey=" . urlencode($_REQUEST['sortkey']) .
 			"&amp;sortdir=" . urlencode($_REQUEST['sortdir']);
-			
+
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
 			$misc->saveScriptHistory($_REQUEST['query']);
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;nohistory=t&amp;strings=" . urlencode($_REQUEST['strings']));
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;nohistory=t&amp;strings=" . urlencode($_REQUEST['strings']));
 			echo "<table>\n<tr>";
 	
 			// Check that the key is actually in the result set.  This can occur for select
@@ -366,7 +366,7 @@
 					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
 				}
 				else {
-					echo "<th class=\"data\"><a href=\"display.php?{$str}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
+					echo "<th class=\"data\"><a href=\"display.php?{$gets}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
 					// Sort direction opposite to current direction, unless it's currently ''
 					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
 					echo "&amp;strings=", urlencode($_REQUEST['strings']), 
@@ -400,10 +400,10 @@
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confeditrow&amp;strings=", 
 							urlencode($_REQUEST['strings']), "&amp;page=", 
-							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['stredit']}</a></td>\n";
+							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['stredit']}</a></td>\n";
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confdelrow&amp;strings=", 
 							urlencode($_REQUEST['strings']), "&amp;page=", 
-							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$str}&amp;{$str2}\">{$lang['strdelete']}</a></td>\n";
+							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
 				$j = 0;
@@ -423,12 +423,13 @@
 			echo "</table>\n";			
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$str}&amp;{$str2}&amp;strings=" . urlencode($_REQUEST['strings']));
+			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;strings=" . urlencode($_REQUEST['strings']));
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		// Navigation links	
 		echo "<ul class=\"navlink\">\n";
+
 		// Return
 		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
 			echo "\t<li><a href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></li>\n";
@@ -440,10 +441,10 @@
 
 		// Expand/Collapse
 		if ($_REQUEST['strings'] == 'expanded')
-			echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=collapsed&amp;page=", 
+			echo "\t<li><a href=\"display.php?{$gets}&amp;{$getsort}&amp;strings=collapsed&amp;page=", 
 				urlencode($_REQUEST['page']), "\">{$lang['strcollapse']}</a></li>\n";
 		else
-			echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=expanded&amp;page=", 
+			echo "\t<li><a href=\"display.php?{$gets}&amp;{$getsort}&amp;strings=expanded&amp;page=", 
 				urlencode($_REQUEST['page']), "\">{$lang['strexpand']}</a></li>\n";
 
 		// Create report
@@ -469,7 +470,7 @@
 				urlencode($object), "&amp;{$misc->href}\">{$lang['strinsert']}</a></li>\n";
 
 		// Refresh
-		echo "\t<li><a href=\"display.php?{$str}&amp;{$str2}&amp;strings=", urlencode($_REQUEST['strings']), 
+		echo "\t<li><a href=\"display.php?{$gets}&amp;{$getsort}&amp;strings=", urlencode($_REQUEST['strings']), 
 			"&amp;page=" . urlencode($_REQUEST['page']),
 			"\">{$lang['strrefresh']}</a></li>\n";
 		echo "</ul>\n";
