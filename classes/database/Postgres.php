@@ -3199,7 +3199,6 @@ class Postgres extends ADODB_base {
 	 */
 	function alterView($view, $name, $owner, $schema, $comment) {
 
-		$this->fieldClean($view);
 		$data = $this->getView($view);
 		if ($data->recordCount() != 1)
 			return -2;
@@ -3718,16 +3717,20 @@ class Postgres extends ADODB_base {
 	function getLinkingKeys($tables) {
 		if (!is_array($tables)) return -1;
 		
+		$this->clean($tables[0]['tablename']);
+		$this->clean($tables[0]['schemaname']);
 		$tables_list = "'{$tables[0]['tablename']}'";
 		$schema_list = "'{$tables[0]['schemaname']}'";
 		$schema_tables_list = "'{$tables[0]['schemaname']}.{$tables[0]['tablename']}'";
 
 		for ($i = 1; $i < sizeof($tables); $i++) {
+			$this->clean($tables[$i]['tablename']);
+			$this->clean($tables[$i]['schemaname']);
 			$tables_list .= ", '{$tables[$i]['tablename']}'";
 			$schema_list .= ", '{$tables[$i]['schemaname']}'";
 			$schema_tables_list .= ", '{$tables[$i]['schemaname']}.{$tables[$i]['tablename']}'";
 		}
-		echo "<pre>", print_r(array($tables_list, $schema_list), 1), "</pre>";
+
 		$maxDimension = 1;
 
 		$sql = "
@@ -7631,8 +7634,9 @@ class Postgres extends ADODB_base {
 		$this->fieldClean($table);
 
 		if (isset($_REQUEST['schema'])) {
-			$this->fieldClean($_REQUEST['schema']);
-			$sql .= "\"{$_REQUEST['schema']}\".";
+			$f_schema = $_REQUEST['schema'];
+			$this->fieldClean($f_schema);
+			$sql .= "\"{$f_schema}\".";
 		}
 		$sql .= "\"{$table}\"";
 

@@ -277,6 +277,15 @@
 			if (is_array($var)) {
 				foreach($var as $k => $v) {
 					$this->stripVar($var[$k]);
+
+					/* magic_quotes_gpc escape keys as well ...*/
+					if (is_string($k)) {
+						$ek = stripslashes($k);
+						if ($ek !== $k) {
+							$var[$ek] = $var[$k];
+							unset($var[$k]);
+						}
+					}
 				}
 			}
 			else
@@ -1299,20 +1308,20 @@
 			if ($subject == 'slony_cluster') $done = true;
 
 			if (isset($_REQUEST['table']) && !$done) {
-				$vars .= "subject=table&table=".urlencode($_REQUEST['table']);
+				$vars .= "table=".urlencode($_REQUEST['table']);
 				$trail['table'] = array(
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
-					'url'   => "redirect.php?{$vars}",
+					'url'   => "redirect.php?subject=table&{$vars}",
 					'help'  => 'pg.table',
 					'icon'  => 'Table'
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
-				$vars .= "subject=view&view=".urlencode($_REQUEST['view']);
+				$vars .= "view=".urlencode($_REQUEST['view']);
 				$trail['view'] = array(
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
-					'url'   => "redirect.php?{$vars}",
+					'url'   => "redirect.php?subject=view&{$vars}",
 					'help'  => 'pg.view',
 					'icon'  => 'View'
 				);
@@ -1374,7 +1383,7 @@
 						);
 						break;
 					case 'column':
-						$vars .= "&column={$_REQUEST['column']}&subject=column";
+						$vars .= "&column=". urlencode($_REQUEST['column']) ."&subject=column";
 						$trail['column'] = array (
 							'title' => $lang['strcolumn'],
 							'text'  => $_REQUEST['column'],

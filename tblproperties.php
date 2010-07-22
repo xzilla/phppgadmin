@@ -443,7 +443,13 @@
 		function attPre(&$rowdata, $actions) {
 			global $data;
 			$rowdata->fields['+type'] = $data->formatType($rowdata->fields['type'], $rowdata->fields['atttypmod']);
-			$actions['browse']['url'] .= 'query=' . urlencode("SELECT \"{$rowdata->fields['attname']}\", count(*) AS \"count\" FROM \"{$_REQUEST['table']}\" GROUP BY \"{$rowdata->fields['attname']}\" ORDER BY \"{$rowdata->fields['attname']}\"") . '&amp;';
+			$attname = $rowdata->fields['attname'];
+			$table = $_REQUEST['table'];
+			$data->fieldClean($attname);
+			$data->fieldClean($table);
+
+			$actions['browse']['url'] .= 'query=' . urlencode("SELECT \"{$attname}\", count(*) AS \"count\"
+				FROM \"{$table}\" GROUP BY \"{$attname}\" ORDER BY \"{$attname}\"") . '&amp;';
 			return $actions;
 		}
 
@@ -515,19 +521,19 @@
 				if ($c['p_field'] == $s)
 					switch ($c['contype']) {
 						case 'p':
-							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('PrimaryKey') .'" alt="[pk]" title="'. htmlentities($c['consrc']) .'" /></a>';
 						break;
 						case 'f':
-							$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table={$c['f_table']}&amp;schema={$c['f_schema']}\"><img src=\"".
+							$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table=". urlencode($c['f_table']) ."&amp;schema=". urlencode($c['f_schema']) ."\"><img src=\"".
 								$misc->icon('ForeignKey') .'" alt="[fk]" title="'. htmlentities($c['consrc']) .'" /></a>';
 						break;
 						case 'u':
-							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('UniqueConstraint') .'" alt="[uniq]" title="'. htmlentities($c['consrc']) .'" /></a>';
 						break;
 						case 'c':
-							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table={$c['p_table']}&amp;schema={$c['p_schema']}\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc']) .'" /></a>';
 					}
 			}
@@ -535,7 +541,7 @@
 			return $str;
 		}
 
-		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table={$_REQUEST['table']}");
+		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table=". urlencode($_REQUEST['table']));
 
 		$actions = array(
 			'browse' => array(

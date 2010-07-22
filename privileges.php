@@ -250,7 +250,7 @@
 		
 		if ($_REQUEST['subject'] == 'function') {
 			$objectoid = $_REQUEST[$_REQUEST['subject'].'_oid'];
-			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid=$objectoid&amp;subject={$subject}&amp;mode=";
+			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}&amp;{$subject}_oid={$objectoid}&amp;subject={$subject}&amp;mode=";
 		}
 		else if ($_REQUEST['subject'] == 'column') {
 			$alterurl = "privileges.php?action=alter&amp;{$misc->href}&amp;{$subject}={$object}"

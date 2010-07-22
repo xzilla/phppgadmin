@@ -231,26 +231,40 @@
 			echo "<br />\n";
 
 			echo "<ul class=\"navlink\">\n";
+			$f_attname = $_REQUEST['column'];
+			$f_table = $tableName;
+			$f_schema = $data->_schema;
+			$data->fieldClean($f_attname);
+			$data->fieldClean($f_table);
+			$data->fieldClean($f_schema);
+			$query_url = urlencode("SELECT \"{$f_attname}\", count(*) AS \"count\" FROM \"{$f_schema}\".\"{$f_table}\" GROUP BY \"{$f_attname}\" ORDER BY \"{$f_attname}\"") ;
+
 			if ($isTable) {
-				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=$tableName&amp;column={$_REQUEST['column']}");
+				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=". urlencode($tableName)
+					."&amp;column=". urlencode($_REQUEST['column']));
 
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=", urlencode($_REQUEST['table']), "&amp;column=",
-					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=", 
-					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"{$data->_schema}\".\"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
+				/* FIXME browsing a col should somehow be a action so we don't
+				 * send an ugly SQL in the URL */
+				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=",
+					urlencode($_REQUEST['table']),
+					"&amp;column=", urlencode($_REQUEST['column']),
+					"&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), 
+					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
-				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($tableName),
 				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
 				
-					echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),
+					echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($tableName),
 						"&amp;column=" . urlencode($_REQUEST['column']) . "\">{$lang['strdrop']}</a></li>\n";
 			} else {
-				$return_url = urlencode("colproperties.php?{$misc->href}&amp;view=$tableName&amp;column={$_REQUEST['column']}");
+				$return_url = urlencode("colproperties.php?{$misc->href}&amp;view=". urlencode($tableName)
+					."&amp;column=". urlencode($_REQUEST['column']));
 				/* Browse link */
 				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;column=",
-					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), "&amp;query=",
-					urlencode("SELECT \"{$_REQUEST['column']}\", count(*) AS \"count\" FROM \"$tableName\" GROUP BY \"{$_REQUEST['column']}\" ORDER BY \"{$_REQUEST['column']}\"") , "\">{$lang['strbrowse']}</a></li>\n";
+					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']),
+					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
 			}
 
 			echo "</ul>\n";

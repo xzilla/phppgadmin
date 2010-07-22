@@ -111,7 +111,7 @@
 				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']),
 					$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
-				$_REQUEST['return_url'] = "views.php?action=confselectrows&amp;{$misc->href}&amp;view={$_REQUEST['view']}";
+				$_REQUEST['return_url'] = "views.php?action=confselectrows&amp;{$misc->href}&amp;view=". urlencode($_REQUEST['view']);
 				$_REQUEST['return_desc'] = $lang['strback'];
 			
                                 $_no_output = true;	
