@@ -418,6 +418,7 @@
 				elseif (isset($_reload_drop_database)) $this->printReload(true);
 				if (!isset($_no_bottom_link)) 
 					echo "<a href=\"#\" class=\"bottom_link\">".$lang['strgotoppage']."</a>";
+
 				echo "</body>\n";
 			}
 			echo "</html>\n";
@@ -469,8 +470,8 @@
 			echo "<table class=\"tabs\"><tr>\n";
 			#echo "<div class=\"tabs\">\n";
 
-			# FIXME: don't count hidden tags
-			$width = round(100 / count($tabs)).'%';
+			# FIXME: don't count hidden tabs
+			$width = (int)(100 / count($tabs)).'%';
 
 			foreach ($tabs as $tab_id => $tab) {
 				$active = ($tab_id == $activetab) ? ' active' : '';
@@ -1774,16 +1775,17 @@
 					// if default is not set or doesn't exist, set it to null
 					if (!isset($ma['default']) || !isset($actions[$ma['default']]))
 						$ma['default'] = null;
+					echo "<br />\n";
 					echo "<table>\n";
 					echo "<tr>\n";
 					echo "<th class=\"data\" style=\"text-align: left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
 					echo "</tr>\n";
-					echo "<tr>\n";
-					echo "<td class=\"data1\">";
+					echo "<tr class=\"data1\">\n";
+					echo "<td>";
 					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strselectall']}</a> / ";
 					echo "<a href=\"#\" onclick=\"javascript:checkAll(false);\">{$lang['strunselectall']}</a></td>\n";
-					echo "<td class=\"data1\">&nbsp;--->&nbsp;</td>\n";
-					echo "<td class=\"data1\">\n";
+					echo "<td>&nbsp;--->&nbsp;</td>\n";
+					echo "<td>\n";
 					echo "\t<select name=\"action\">\n";
 					if ($ma['default'] == null)
 						echo "\t\t<option value=\"\">--</option>\n";

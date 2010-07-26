@@ -94,6 +94,19 @@
 		$_reload_browser = true;
 	}
 
+	/* select the theme */
+	unset($_theme);
+ 
+	// 1. Check for the theme from a request var
+	if (isset($_REQUEST['theme']) && is_file("./themes/{$_REQUEST['theme']}/global.css")) {
+		$_theme = $_SESSION['ppaTheme'] = $conf['theme'] = $_REQUEST['theme'];
+	}
+	
+	// 2. Check for theme session var
+	if (!isset($_theme) && isset($_SESSION['ppaTheme']) && is_file("./themes/{$_SESSION['ppaTheme']}/global.css")) {
+		$conf['theme']  = $_SESSION['ppaTheme'];
+	}
+
 	// Determine language file to import:
 	unset($_language);
 

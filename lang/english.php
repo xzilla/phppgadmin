@@ -148,6 +148,7 @@
 	$lang['strstart'] = 'Start';
 	$lang['strstop'] = 'Stop';
 	$lang['strgotoppage'] = 'back to top';
+	$lang['strtheme'] = 'Theme';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'The following administrative tasks apply on the whole %s database.';

@@ -9,6 +9,7 @@
 	// Include application functions (no db conn)
 	$_no_db_connection = true;
 	include_once('./libraries/lib.inc.php');
+	include_once('./themes/themes.php');
 
 	$misc->printHeader();
 	$misc->printBody();
@@ -20,17 +21,39 @@
 <h1><?php echo "$appName $appVersion (PHP ". phpversion() .')' ?></h1>
 
 <form method="get" action="intro.php">
-	<p><select name="language" onchange="this.form.submit()">
-<?php
-	$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
-	foreach ($appLangFiles as $k => $v) {
-		echo "\t<option value=\"{$k}\"",
-			($k == $language) ? ' selected="selected"' : '',
-			">{$v}</option>\n";
-	}
-?>
-	</select></p>
-	<noscript><p><input type="submit" value="<?php echo $lang['stralter'] ?>" /></p></noscript>
+<table>
+	<tr class="data1">
+		<th class="data"><?php echo $lang['strlanguage'] ?></th>
+		<td>
+			<select name="language" onchange="this.form.submit()">
+			<?php
+			$language = isset($_SESSION['webdbLanguage']) ? $_SESSION['webdbLanguage'] : 'english';
+			foreach ($appLangFiles as $k => $v) {
+				echo "\t<option value=\"{$k}\"",
+					($k == $language) ? ' selected="selected"' : '',
+					">{$v}</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+	<tr class="data2">
+		<th class="data"><?php echo $lang['strtheme'] ?></th>
+		<td>
+			<select name="theme" onchange="this.form.submit()">
+			<?php
+			$theme = isset($_SESSION['ppaTheme']) ? $_SESSION['ppaTheme'] : 'default';
+			foreach ($appThemes as $k => $v) {
+				echo "\t<option value=\"{$k}\"",
+					($k == $theme) ? ' selected="selected"' : '',
+					">{$v}</option>\n";
+			}
+			?>
+			</select>
+		</td>
+	</tr>
+</table>
+<noscript><p><input type="submit" value="<?php echo $lang['stralter'] ?>" /></p></noscript>
 </form>
 
 <p><?php echo $lang['strintro'] ?></p>
