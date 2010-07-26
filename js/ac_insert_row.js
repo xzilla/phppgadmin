@@ -192,7 +192,7 @@ jQuery(document).ready(function () {
 	/* register some global value in the ppa namespace */
 	jQuery.ppa = {
 		fklist: jQuery('#fklist'),
-		attrs: jQuery('input[id^=attr_]'),
+		attrs: jQuery('input[id^=attr_]'), // select fields with FK
 		fkbg: jQuery('#fkbg'),
 		i:0, // selected value indice
 		o:0 // offset when navigating prev/next
@@ -208,6 +208,12 @@ jQuery(document).ready(function () {
 		.keydown(function (e) {
 			if (e.keyCode == 13 && jQuery.ppa.fklist[0].style.display == 'block')
 				return false;
+		});
+
+	/* open the list when the field get the focus */
+	jQuery.ppa.attrs
+		.focus(function (e) {
+			openlist(this);
 		});
 	
 	/* enable/disable auto-complete according to the checkbox */
