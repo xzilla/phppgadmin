@@ -74,7 +74,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-input[type=checkbox], input[type=text], input[type=radio] {
+input[type=checkbox], input[type=password], input[type=text], input[type=radio] {
 	background: #ded4b3;
 	border: 1px solid #887f5c;
 }
