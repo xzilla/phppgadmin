@@ -62,10 +62,10 @@ $t->type('comment', 'altered col to drop');
 $t->clickAndWait("//input[@value='Alter']");
 $t->assertText("//p[@class='message']", $lang['strcolumnaltered']);
 $t->assertText("//p[@class='comment']", 'altered col to drop');
-$t->assertText("//tr/td[1 and @class='data1']/", 'altered_col');
-$t->assertText("//tr/td[text()='altered_col']/../td[2]", $current_type);
-$t->assertText("//tr/td[text()='altered_col']/../td[3]", 'NOT NULL');
-$t->assertText("//tr/td[text()='altered_col']/../td[4]", "{$current_default}*");
+$t->assertText("//tr/th[text()='{$lang['strcolumn']}']/../../tr[2]/td[1]", 'altered_col');
+$t->assertText("//tr/td[1 and text()='altered_col']/../td[2]", $current_type);
+$t->assertText("//tr/td[1 and text()='altered_col']/../td[3]", 'NOT NULL');
+$t->assertText("//tr/td[1 and text()='altered_col']/../td[4]", "{$current_default}*");
 
 /** 3 **/
 $t->addComment('3. alter column fail');
