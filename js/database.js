@@ -46,7 +46,7 @@ $(document).ready(function() {
 			$(errmsg).hide();
 			$(loading).hide();
 			window.clearInterval(timeid);
-			query.abort();
+			if (query) query.abort();
 			controlLink.html('<img src="'+ Database.str_start.icon +'" alt="" />&nbsp;'
 				+ Database.str_start.text
 			);
