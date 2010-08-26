@@ -131,10 +131,10 @@
 						// We add an extra escaping slash onto octal encoded characters
 						$v = preg_replace('/\\\\([0-7]{3})/', '\\\\\1', $v);
 						if ($first) {
-							echo ($v == null) ? '\\N' : $v;
+							echo (is_null($v)) ? '\\N' : $v;
 							$first = false;
 						}
-						else echo "\t", ($v == null) ? '\\N' : $v;
+						else echo "\t", (is_null($v)) ? '\\N' : $v;
 					}
 					echo "\n";
 					$rs->moveNext();
@@ -201,8 +201,8 @@
 					foreach ($rs->fields as $k => $v) {
 						$finfo = $rs->fetchField($j++);
 						$name = htmlspecialchars($finfo->name);
-						if ($v != null) $v = htmlspecialchars($v);
-						echo "\t\t\t<column name=\"{$name}\"", ($v == null ? ' null="null"' : ''), ">{$v}</column>\n";
+						if (!is_null($v)) $v = htmlspecialchars($v);
+						echo "\t\t\t<column name=\"{$name}\"", (is_null($v) ? ' null="null"' : ''), ">{$v}</column>\n";
 					}
 					echo "\t\t</row>\n";
 					$rs->moveNext();
@@ -226,7 +226,7 @@
 						if ($first) echo "\"{$k}\"";
 						else echo ", \"{$k}\"";
 
-						if ($v != null) {
+						if (!is_null($v)) {
 							// Output value
 							// addCSlashes converts all weird ASCII characters to octal representation,
 							// EXCEPT the 'special' ones like \r \n \t, etc.
@@ -237,10 +237,10 @@
 							$v = str_replace("'", "''", $v);
 						}
 						if ($first) {
-							$values = ($v === null) ? 'NULL' : "'{$v}'";
+							$values = (is_null($v) ? 'NULL' : "'{$v}'");
 							$first = false;
 						}
-						else $values .= ', ' . (($v === null) ? 'NULL' : "'{$v}'");
+						else $values .= ', ' . ((is_null($v) ? 'NULL' : "'{$v}'"));
 					}
 					echo ") VALUES ({$values});\n";
 					$rs->moveNext();
@@ -262,7 +262,7 @@
 					foreach ($rs->fields as $k => $v) {
 						$finfo = $rs->fetchField($k);
 						$v = $finfo->name;
-						if ($v != null) $v = str_replace('"', '""', $v);
+						if (!is_null($v)) $v = str_replace('"', '""', $v);
 						if ($first) {
 							echo "\"{$v}\"";
 							$first = false;
@@ -274,12 +274,12 @@
 				while (!$rs->EOF) {
 					$first = true;
 					foreach ($rs->fields as $k => $v) {
-						if ($v != null) $v = str_replace('"', '""', $v);
+						if (!is_null($v)) $v = str_replace('"', '""', $v);
 						if ($first) {
-							echo ($v == null) ? "\"\\N\"" : "\"{$v}\"";
+							echo (is_null($v)) ? "\"\\N\"" : "\"{$v}\"";
 							$first = false;
 						}
-						else echo ($v == null) ? "{$sep}\"\\N\"" : "{$sep}\"{$v}\"";
+						else echo is_null($v) ? "{$sep}\"\\N\"" : "{$sep}\"{$v}\"";
 					}
 					echo "\r\n";
 					$rs->moveNext();
