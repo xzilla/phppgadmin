@@ -2329,9 +2329,26 @@ class Postgres extends ADODB_base {
 	 * @return 0 success
 	 */
 	function beginDump() {
-		$status = parent::beginDump();
-		if ($status != 0) return $status;
+		// Begin serializable transaction (to dump consistent data)
+		$status = $this->beginTransaction();
+		if ($status != 0) return -1;
 
+		// Set serializable
+		$sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+
+		// Set datestyle to ISO
+		$sql = "SET DATESTYLE = ISO";
+		$status = $this->execute($sql);
+		if ($status != 0) {
+			$this->rollbackTransaction();
+			return -1;
+		}
+		
 		// Set extra_float_digits to 2
 		$sql = "SET extra_float_digits TO 2";
 		$status = $this->execute($sql);
@@ -2339,7 +2356,9 @@ class Postgres extends ADODB_base {
 			$this->rollbackTransaction();
 			return -1;
 		}
-		}
+		
+		return 0;
+	}
 
 	/**
 	 * Ends the data object for a dump.
