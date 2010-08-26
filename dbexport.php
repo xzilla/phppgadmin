@@ -11,6 +11,7 @@
 
 	// Include application functions
 	$_no_output = true;
+	$f_schema = $f_object = '';
 	include_once('./libraries/lib.inc.php');
 
 	// Are we doing a cluster-wide dump or just a per-database dump
@@ -74,30 +75,34 @@
 		// Build command for executing pg_dump.  '-i' means ignore version differences.
 		$cmd = $exe . " -i";
 		
+		// we are PG 7.4+, so we always have a schema
+		if (isset($_REQUEST['schema'])) {
+			$f_schema = $_REQUEST['schema'];
+			$data->fieldClean($f_schema);
+		}
+
 		// Check for a specified table/view
 		switch ($_REQUEST['subject']) {
 		case 'schema':
 			// This currently works for 8.2+ (due to the orthoganl -t -n issue introduced then)
-			$cmd .= " -n " . $misc->escapeShellArg('"'. $_REQUEST['schema'] . '"');
+			$cmd .= " -n " . $misc->escapeShellArg("\"{$f_schema}\"");
 			break; 
 		case 'table':
 		case 'view':
+			$f_object = $_REQUEST[$_REQUEST['subject']];
+			$data->fieldClean($f_object);
+
 			// Starting in 8.2, -n and -t are orthagonal, so we now schema qualify
 			// the table name in the -t argument and quote both identifiers
 			if ( ((float) $version[1]) >= 8.2 ) {
-				$cmd .= " -t " . $misc->escapeShellArg('"'. $_REQUEST['schema'] . '"') . "." . $misc->escapeShellArg('"' .$_REQUEST[$_REQUEST['subject']] .'"');
+				$cmd .= " -t " . $misc->escapeShellArg("\"{$f_schema}\".\"{$f_object}\"");
             }
-			elseif (((float) $version[1]) >= 7.4) {
-			// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
-			// set dump schema as well.  Also, mixed case dumping has been fixed
-			// then..
-				$cmd .= " -t " . $misc->escapeShellArg($_REQUEST[$_REQUEST['subject']])
-					. " -n " . $misc->escapeShellArg($_REQUEST['schema']);
-			}
 			else {
-				// This is an annoying hack needed to work around a bug in dumping
-				// mixed case tables in pg_dump prior to 7.4
-				$cmd .= " -t " . $misc->escapeShellArg('"' . $_REQUEST[$_REQUEST['subject']] . '"');
+				// If we are 7.4 or higher, assume they are using 7.4 pg_dump and
+				// set dump schema as well.  Also, mixed case dumping has been fixed
+				// then..
+				$cmd .= " -t " . $misc->escapeShellArg($f_object)
+					. " -n " . $misc->escapeShellArg($f_schema);
 			}
 		}
 
