@@ -246,6 +246,175 @@
 		}
 		
 	}
+	
+	/* build & return the FK information data structure 
+	 * used when deciding if a field should have a FK link or not*/
+	function &getFKInfo() {
+		global $data, $misc, $lang;
+		 
+		// Get the foreign key(s) information from the current table
+		$fkey_information = array('byconstr' => array(), 'byfield' => array());
+
+		if (isset($_REQUEST['table'])) {
+			$constraints = $data->getConstraintsWithFields($_REQUEST['table']);
+			if ($constraints->recordCount() > 0) {
+
+				/* build the common parts of the url for the FK  */
+				$fk_return_url = "{$misc->href}&amp;subject=table&amp;table=". urlencode($_REQUEST['table']);
+				if (isset($_REQUEST['page'])) $fk_return_url .= "&amp;page=" . urlencode($_REQUEST['page']);
+				if (isset($_REQUEST['query'])) $fk_return_url .= "&amp;query=" . urlencode($_REQUEST['query']);
+				if (isset($_REQUEST['search_path'])) $fk_return_url .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
+
+				/* yes, we double urlencode fk_return_url so parameters here don't 
+				 * overwrite real one when included in the final url */
+				$fkey_information['common_url'] = $misc->getHREF('schema') .'&amp;subject=table&amp;return_url=display.php?'
+					. urlencode($fk_return_url) .'&amp;return_desc='. urlencode($lang['strback']);
+
+				/* build the FK constraints data structure */
+				while (!$constraints->EOF) {
+					$constr =& $constraints->fields;
+					if ($constr['contype'] == 'f') {
+
+						if (!isset($fkey_information['byconstr'][$constr['conid']])) {
+							$fkey_information['byconstr'][$constr['conid']] = array (
+								'url_data' => 'table='. urlencode($constr['f_table']) .'&amp;schema='. urlencode($constr['f_schema']),
+								'fkeys' => array(),
+								'consrc' => $constr['consrc']
+							);
+						}
+
+						$fkey_information['byconstr'][$constr['conid']]['fkeys'][$constr['p_field']] = $constr['f_field'];
+
+						if (!isset($fkey_information['byfield'][$constr['p_field']]))
+							$fkey_information['byfield'][$constr['p_field']] = array();
+
+						$fkey_information['byfield'][$constr['p_field']][] = $constr['conid'];
+					}
+					$constraints->moveNext();
+				}
+			}
+		}
+
+		return $fkey_information;
+	}
+
+	/* Print table header cells 
+	 * @param $sortLink must be urlencoded already
+	 * */
+	function printTableHeaderCells(&$rs, $sortLink, $withOid) {
+		global $misc, $data, $conf;
+		$j = 0;
+
+		foreach ($rs->fields as $k => $v) {
+
+			if (($k == $data->id) && ( !($withOid && $conf['show_oids']) )) {
+				$j++;
+				continue;
+			}
+			$finfo = $rs->fetchField($j);
+
+			if ($sortLink === false) {
+				echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
+			}
+			else {
+				echo "<th class=\"data\"><a href=\"display.php?{$sortLink}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
+				// Sort direction opposite to current direction, unless it's currently ''
+				echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
+				echo "&amp;strings=", urlencode($_REQUEST['strings']), 
+					"&amp;page=" . urlencode($_REQUEST['page']), "\">", 
+					$misc->printVal($finfo->name), "</a></th>\n";
+			}
+			$j++;
+		}
+
+		reset($rs->fields);
+	}
+
+	/* Print data-row cells */
+	function printTableRowCells(&$rs, &$fkey_information, $withOid) {
+		global $data, $misc, $conf;
+		$j = 0;
+		
+		if (!isset($_REQUEST['strings'])) $_REQUEST['strings'] = 'collapsed';
+
+		foreach ($rs->fields as $k => $v) {
+			$finfo = $rs->fetchField($j++);
+
+			if (($k == $data->id) && ( !($withOid && $conf['show_oids']) )) continue;
+			elseif ($v !== null && $v == '') echo "<td>&nbsp;</td>";
+			else {
+				echo "<td style=\"white-space:nowrap;\">";
+
+				if (($v !== null) && isset($fkey_information['byfield'][$k])) {
+					foreach ($fkey_information['byfield'][$k] as $conid) {
+
+						$query_params = $fkey_information['byconstr'][$conid]['url_data'];
+
+						foreach ($fkey_information['byconstr'][$conid]['fkeys'] as $p_field => $f_field) {
+							$query_params .= '&amp;'. urlencode("fkey[{$f_field}]") .'='. urlencode($rs->fields[$p_field]);
+						}
+
+						/* $fkey_information['common_url'] is already urlencoded */
+						$query_params .= '&amp;'. $fkey_information['common_url'];
+						echo "<div style=\"display:inline-block;\">";
+						echo "<a class=\"fk fk_". htmlentities($conid) ."\" href=\"display.php?{$query_params}\">";
+						echo "<img src=\"".$misc->icon('ForeignKey')."\" style=\"vertical-align:middle;\" alt=\"[fk]\" title=\""
+							. htmlentities($fkey_information['byconstr'][$conid]['consrc'])
+							."\" />";
+						echo "</a>";
+						echo "</div>";
+					}
+					echo $misc->printVal($v, $finfo->type, array('null' => true, 'clip' => ($_REQUEST['strings']=='collapsed'), 'class' => 'fk_value'));
+				} else {
+					echo $misc->printVal($v, $finfo->type, array('null' => true, 'clip' => ($_REQUEST['strings']=='collapsed')));
+				}
+				echo "</td>";
+			}
+		}
+	}
+
+	/* Print the FK row, used in ajax requests */
+	function doBrowseFK() {
+		global $data, $misc, $lang;
+
+		$ops = array();
+		foreach($_REQUEST['fkey'] as $x => $y) {
+			$ops[$x] = '=';
+		}
+		$query = $data->getSelectSQL($_REQUEST['table'], array(), $_REQUEST['fkey'], $ops);
+		$_REQUEST['query'] = $query;
+
+		$fkinfo =& getFKInfo();
+
+		$max_pages = 1;
+		// Retrieve page from query.  $max_pages is returned by reference.
+		$rs = $data->browseQuery('SELECT', $_REQUEST['table'], $_REQUEST['query'],  
+			null, null, 1, 1, $max_pages);
+
+		echo "<a href=\"\" style=\"display:table-cell;\" class=\"fk_delete\"><img alt=\"[delete]\" src=\"". $misc->icon('Delete') ."\" /></a>\n";
+		echo "<div style=\"display:table-cell;\">";
+
+		if (is_object($rs) && $rs->recordCount() > 0) {
+			/* we are browsing a referenced table here
+			 * we should show OID if show_oids is true
+			 * so we give true to withOid in functions bellow
+			 * as 3rd paramter */
+		
+			echo "<table><tr>";
+				printTableHeaderCells($rs, false, true);
+			echo "</tr>";
+			echo "<tr class=\"data1\">\n";
+				printTableRowCells($rs, $fkinfo, true);
+			echo "</tr>\n";
+			echo "</table>\n";
+		}
+		else
+			echo $lang['strnodata'];
+
+		echo "</div>";
+
+		exit;
+	}
 
 	/** 
 	 * Displays requested data
@@ -269,6 +438,16 @@
 		}
 
 		$misc->printTrail(isset($subject) ? $subject : 'database');
+
+		/* This code is used when browsing FK in pure-xHTML (without js) */
+		if (isset($_REQUEST['fkey'])) {
+			$ops = array();
+			foreach($_REQUEST['fkey'] as $x => $y) {
+				$ops[$x] = '=';
+			}
+			$query = $data->getSelectSQL($_REQUEST['table'], array(), $_REQUEST['fkey'], $ops);
+			$_REQUEST['query'] = $query;
+		}
 		
 		if (isset($object)) {
 			if (isset($_REQUEST['query'])) {
@@ -314,7 +493,9 @@
 			isset($_REQUEST['query']) ? $_REQUEST['query'] : null, 
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
-	
+
+		$fkey_information =& getFKInfo();
+
 		// Build strings for GETs
 		$gets = $misc->href;
 		if (isset($object)) $gets .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
@@ -336,8 +517,9 @@
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
 			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;nohistory=t&amp;strings=" . urlencode($_REQUEST['strings']));
-			echo "<table>\n<tr>";
-	
+
+			echo "<table id=\"data\">\n<tr>";
+
 			// Check that the key is actually in the result set.  This can occur for select
 			// operations where the key fields aren't part of the select.  XXX:  We should
 			// be able to support this, somehow.
@@ -353,31 +535,11 @@
 			if (sizeof($key) > 0)
 				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
 
-			$j = 0;		
-			foreach ($rs->fields as $k => $v) {
-				if (isset($object) && $k == $data->id && !$conf['show_oids']) {
-					$j++;
-					continue;
-				}
-				$finfo = $rs->fetchField($j);
-				// Display column headers with sorting options, unless we're PostgreSQL
-				// 7.0 and it's a non-TABLE mode
-				if ($type != 'TABLE') {
-					echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
-				}
-				else {
-					echo "<th class=\"data\"><a href=\"display.php?{$gets}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
-					// Sort direction opposite to current direction, unless it's currently ''
-					echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
-					echo "&amp;strings=", urlencode($_REQUEST['strings']), 
-						"&amp;page=" . urlencode($_REQUEST['page']), "\">", 
-						$misc->printVal($finfo->name), "</a></th>\n";
-				}
-				$j++;
-			}
-	
+			/* we show OIDs only if we are in TABLE or SELECT type browsing */
+			printTableHeaderCells($rs, $gets, isset($object));
+
 			echo "</tr>\n";
-	
+
 			$i = 0;		
 			reset($rs->fields);
 			while (!$rs->EOF) {
@@ -406,21 +568,15 @@
 							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['strdelete']}</a></td>\n";
 					}
 				}
-				$j = 0;
-				foreach ($rs->fields as $k => $v) {
-					$finfo = $rs->fetchField($j++);
-					if (isset($_REQUEST['table']) && $k == $data->id && !$conf['show_oids']) continue;
-					elseif ($v !== null && $v == '') echo "<td>&nbsp;</td>";
-					else {
-						echo "<td style=\"white-space:nowrap;\">",
-							$misc->printVal($v, $finfo->type, array('null' => true, 'clip' => ($_REQUEST['strings']=='collapsed'))), "</td>";
-					}
-				}
+
+				print printTableRowCells($rs, $fkey_information, isset($object));
+
 				echo "</tr>\n";
 				$rs->moveNext();
 				$i++;
 			}
-			echo "</table>\n";			
+			echo "</table>\n";
+
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 			// Show page navigation
 			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;strings=" . urlencode($_REQUEST['strings']));
@@ -450,7 +606,7 @@
 		// Create report
 		if (isset($_REQUEST['query']) && ($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
 			echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
-				urlencode($_REQUEST['query']), "&amp;paginate=", urlencode($_REQUEST['paginate']), "\">{$lang['strcreatereport']}</a></li>\n";
+				urlencode($_REQUEST['query']), "&amp;paginate=", (isset($_REQUEST['paginate'])? urlencode($_REQUEST['paginate']):'f'), "\">{$lang['strcreatereport']}</a></li>\n";
 
 		// Create view and download
 		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
@@ -475,10 +631,25 @@
 			"\">{$lang['strrefresh']}</a></li>\n";
 		echo "</ul>\n";
 	}
-	
+
+
+	/* shortcuts: this function exit the script for ajax purpose */
+	if ($action == 'dobrowsefk') {
+		doBrowseFK();
+	}
+
+	$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>\n";
+	$scripts .= "<script src=\"js/display.js\" type=\"text/javascript\"></script>";
+
+	$scripts .= "<script type=\"text/javascript\">\n";
+	$scripts .= "var Display = {\n";
+	$scripts .= "errmsg: '". str_replace("'", "\'", $lang['strconnectionfail']) ."'\n";
+	$scripts .= "};\n";
+	$scripts .= "</script>\n";
+
 	// If a table is specified, then set the title differently
 	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']]))
-		$misc->printHeader($lang['strtables']);
+		$misc->printHeader($lang['strtables'], $scripts);
 	else	
 		$misc->printHeader($lang['strqueryresults']);
 
@@ -498,7 +669,7 @@
 			break;
 		case 'confdelrow':
 			doDelRow(true);
-			break;			
+			break;
 		default:
 			doBrowse();
 			break;

@@ -466,3 +466,25 @@ pre.error
 	border-left: 1px dotted #999;
 	font-size: smaller;
 }
+
+div.fk {
+    background: white;
+    border:1px solid black;
+    margin-left: 20px;
+}
+
+div#fkcontainer {
+    margin: 0;
+    position: relative;
+    width: 100%; 
+    background: none;
+    border:0px;
+}
+
+div#root{
+	position: absolute;
+}
+
+div.fk_value {
+	display:inline-block;
+}

@@ -19,13 +19,16 @@ Features
 * Add ability to create indexes concurrently
 * Allow user to logicaly group their server under custom named node in the browser tree
 * New theme and a theme switcher on the introduction page
+* Auto refresh Locks page
+* Auto refresh Processes page
+* Link in the bottom of the page to go to top of page
+* Browsing on Foreign Keys (When browsing a table, clicking on a FK value, jump to the PK row)
 
 Bugs
 * Fix problems with query tracking on overly long queries
 * Ensure pg_dump paths are valid
 * Fix problems with table names containing quotes
 * Fix autocompletion support for cross-schema objects
-* Fix several problems for object names containing html charecters
 
 Translations
 * Czech (Marek Cernocky)
