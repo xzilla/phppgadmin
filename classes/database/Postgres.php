@@ -7390,7 +7390,7 @@ class Postgres extends ADODB_base {
 
 		// Loop over each line in the file
 		while (!feof($fd)) {
-			$line = fgets($fd, 32768);
+			$line = fgets($fd);
 			$lineno++;
 
 			// Nothing left on line? Then ignore...
@@ -7423,7 +7423,7 @@ class Postgres extends ADODB_base {
     			 */
 
     			/* in quote? */
-    			if ($in_quote != 0)
+    			if ($in_quote !== 0)
     			{
     				/*
     				 * end of quote if matching non-backslashed character.
@@ -7466,7 +7466,7 @@ class Postgres extends ADODB_base {
 
 				/*
 				 * start of $foo$ type quote?
-	 */
+				 */
 				else if (!$dol_quote && $this->valid_dolquote(substr($line, $i))) {
 					$dol_end = strpos(substr($line, $i + 1), '$');
 					$dol_quote = substr($line, $i, $dol_end + 1);
@@ -7485,9 +7485,9 @@ class Postgres extends ADODB_base {
     			}
 
     			/* count nested parentheses */
-    			else if (substr($line, $i, 1) == '(') {
+				else if (substr($line, $i, 1) == '(') {
     				$paren_level++;
-	}
+				}
 
     			else if (substr($line, $i, 1) == ')' && $paren_level > 0) {
     				$paren_level--;
@@ -7503,7 +7503,7 @@ class Postgres extends ADODB_base {
     					/*
     					 * insert a cosmetic newline, if this is not the first
     					 * line in the buffer
-	 */
+						 */
     					if (strlen($query_buf) > 0)
     					    $query_buf .= "\n";
     					/* append the line to the query buffer */
@@ -7529,8 +7529,8 @@ class Postgres extends ADODB_base {
             						break;
             					}
             				}
-	}
-	}
+            			}
+            		}
 
 					$query_buf = null;
 					$query_start = $i + $thislen;
@@ -7541,7 +7541,7 @@ class Postgres extends ADODB_base {
 				 * We grab the whole string so that we don't
 				 * mistakenly see $foo$ inside an identifier as the start
 				 * of a dollar quote.
-	 */
+				 */
 				// XXX: multibyte here
 				else if (preg_match('/^[_[:alpha:]]$/', substr($line, $i, 1))) {
 					$sub = substr($line, $i, $thislen);
@@ -7553,7 +7553,7 @@ class Postgres extends ADODB_base {
 					// Since we're now over the next character to be examined, it is necessary
 					// to move back one space.
 					$i-=$prevlen;
-		}
+				}
     	    } // end for
 
     		/* Put the rest of the line in the query buffer. */
@@ -7572,7 +7572,7 @@ class Postgres extends ADODB_base {
     	/*
     	 * Process query at the end of file without a semicolon, so long as
     	 * it's non-empty.
-	 */
+		 */
     	if (strlen($query_buf) > 0 && strspn($query_buf, " \t\n\r") != strlen($query_buf))
     	{
 			// Execute the query (supporting 4.1.x PHP...)
@@ -7591,10 +7591,10 @@ class Postgres extends ADODB_base {
 					if ($copy == "\\.\n" || $copy == "\\.\r\n") {
 						pg_end_copy($conn);
 						break;
-	}
+					}
+				}
+			}
 		}
-		}
-	}
 
 		fclose($fd);
 
