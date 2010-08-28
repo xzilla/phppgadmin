@@ -2,9 +2,9 @@
 
 	/**
 	 * Czech language file for phpPgAdmin. Based on Englis file.
-	 * Translators: marek(at)manet.cz, libor(at)conet.cz
+	 * Translators: marek@manet.cz
 	 *
-	 * $Id: czech.php,v 1.232 2008/02/23 16:34:33 ioguix Exp $
+	 * $Id: czech.php,v 1.232 2010/08/27 16:34:33 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -21,7 +21,7 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'Lokální dokumentace k PostgreSQL';
 	$lang['strreportbug'] = 'Nahlásit chybu';
-	$lang['strviewfaq'] = 'Přečíst časté dotazy a odpovědi';
+	$lang['strviewfaq'] = 'Přečíst si časté dotazy a odpovědi';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Z bezpečnostních důvodů není přihlášení povoleno.';
 	$lang['strserver'] = 'Server';
 	$lang['strservers'] = 'Servery';
+	$lang['strgroupservers'] = 'Servery ve skupině „%s“';
+	$lang['strallservers'] = 'Všechny servery';
 	$lang['strintroduction'] = 'Úvodní stránka';
 	$lang['strhost'] = 'Hostitel';
 	$lang['strport'] = 'Port';
@@ -45,8 +47,8 @@
 	$lang['strdisable'] = 'Zakázat';
 	$lang['strdrop'] = 'Odstranit';
 	$lang['strdropped'] = 'Odstraněno';
-	$lang['strnull'] = 'Nulový';
-	$lang['strnotnull'] = 'Nenulový';
+	$lang['strnull'] = 'Prázdný';
+	$lang['strnotnull'] = 'Neprázdný';
 	$lang['strprev'] = '< Předchozí';
 	$lang['strnext'] = 'Následující >';
 	$lang['strfirst'] = '<< První';
@@ -60,6 +62,7 @@
 	$lang['stralter'] = 'Změnit';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Storno';
+	$lang['strkill'] = 'Zabít';
 	$lang['strac'] = 'Povolit automatické dokončení';
 	$lang['strsave'] = 'Uložit';
 	$lang['strreset'] = 'Resetovat';
@@ -75,7 +78,7 @@
 	$lang['stredit'] = 'Upravit';
 	$lang['strcolumn'] = 'Sloupec';
 	$lang['strcolumns'] = 'Sloupce';
-	$lang['strrows'] = 'řádeků';
+	$lang['strrows'] = 'řádků';
 	$lang['strrowsaff'] = 'řádků změněno.';
 	$lang['strobjects'] = 'objektů';
 	$lang['strback'] = 'Zpět';
@@ -96,8 +99,8 @@
 	$lang['stradmin'] = 'Správa';
 	$lang['strvacuum'] = 'Uklidit';
 	$lang['stranalyze'] = 'Analyzovat';
-	$lang['strclusterindex'] = 'Seskupit';
-	$lang['strclustered'] = 'Seskupeno?';
+	$lang['strclusterindex'] = 'Přeskupit';
+	$lang['strclustered'] = 'Přeskupeno?';
 	$lang['strreindex'] = 'Přeindexovat';
 	$lang['strexecute'] = 'Provést';
 	$lang['stradd'] = 'Přidat';
@@ -109,7 +112,7 @@
 	$lang['strdata'] = 'Data';
 	$lang['strconfirm'] = 'Potvrzení';
 	$lang['strexpression'] = 'Výraz';
-	$lang['strellipsis'] = '...';
+	$lang['strellipsis'] = '…';
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Rozbalit';
 	$lang['strcollapse'] = 'Sbalit';
@@ -128,7 +131,7 @@
 	$lang['streditsql'] = 'Upravit SQL';
 	$lang['strruntime'] = 'Celková doba běhu: %s ms';
 	$lang['strpaginate'] = 'Stránkovat výsledky';
-	$lang['struploadscript'] = 'nebo nahrajte SQL skript:';
+	$lang['struploadscript'] = 'nebo nahrajte skript SQL:';
 	$lang['strstarttime'] = 'Čas spuštění';
 	$lang['strfile'] = 'Soubor';
 	$lang['strfileimported'] = 'Soubor byl importován.';
@@ -138,7 +141,19 @@
 	$lang['strselectall'] = 'Vybrat vše';
 	$lang['strunselectall'] = 'Zrušit výběr';
 	$lang['strlocale'] = 'Místní nastavení';
-
+	$lang['strcollation'] = 'Řazení';
+	$lang['strctype'] = 'Typ znaku';
+	$lang['strdefaultvalues'] = 'Výchozí hodnoty';
+	$lang['strnewvalues'] = 'Nové hodnoty';
+	$lang['strstart'] = 'Spustit';
+	$lang['strstop'] = 'Zastavit';
+	$lang['strgotoppage'] = 'zpět nahoru';
+	$lang['strtheme'] = 'Motiv';
+	
+	// Admin
+	$lang['stradminondatabase'] = 'Následující úlohy správy použít na celou databázi %s.';
+	$lang['stradminontable'] = 'Následující úlohy správy použít na tabulku %s.';
+	
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Historie';
 	$lang['strnohistory'] = 'Bez historie.';
@@ -149,6 +164,7 @@
 	$lang['strnodatabaseselected'] = 'Zvolte prosím databázi.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'Bez přístupu'; 
 	$lang['strsize'] = 'Velikost';
 	$lang['strbytes'] = 'B';
 	$lang['strkb'] = 'kB';
@@ -170,7 +186,7 @@
 	$lang['strnodata'] = 'Nenalezen žádný řádek.';
 	$lang['strnoobjects'] = 'Nenalezen žádný objekt.';
 	$lang['strrownotunique'] = 'Pro tento řádek neexistuje jedinečný identifikátor.';
-	$lang['strnoreportsdb'] = 'Nemáte vytvořenou databázi reportů. Přečtěte si soubor INSTALL s instrukcemi.';
+	$lang['strnoreportsdb'] = 'Nemáte vytvořenou databázi výstupních sestav. Přečtěte si soubor INSTALL s instrukcemi.';
 	$lang['strnouploads'] = 'Je zakázané nahrávání souborů.';
 	$lang['strimporterror'] = 'Chyba při importu.';
 	$lang['strimporterror-fileformat'] = 'Chyba při importu: Nezdařilo se automaticky zjistit formát souboru.';
@@ -180,6 +196,9 @@
 	$lang['strcannotdumponwindows'] = 'Ve Windows není podporovaný výpis názvů komplexních tabulek a schémat.';
 	$lang['strinvalidserverparam'] = 'Pokus o připojení s neplatnými parametry serveru, možná se někdo snaží neoprávněně napojit do vašeho systému.'; 
 	$lang['strnoserversupplied'] = 'Není nabízen žádný server!';
+	$lang['strbadpgdumppath'] = 'Chyba při exportu: Nezdařilo se spustit pg_dump (s cestou danou ve vašem conf/config.inc.php: %s). Opravte prosím cestu ve svém nastavení a zkuste to znovu.';
+	$lang['strbadpgdumpallpath'] = 'Chyba při exportu: Nezdařilo se spustit pg_dumpall (s cestou danou ve vašem conf/config.inc.php: %s). Opravte prosím cestu ve svém nastavení a zkuste to znovu.';
+	$lang['strconnectionfail'] = 'Nelze se připojit k serveru.';
 
 	// Tables
 	$lang['strtable'] = 'Tabulka';
@@ -209,7 +228,8 @@
 	$lang['strinsertrow'] = 'Vložit řádek';
 	$lang['strrowinserted'] = 'Řádek byl vložen.';
 	$lang['strrowinsertedbad'] = 'Nezdařilo se vložit řádek.';
-	$lang['strrowduplicate'] = 'Nezdařilo se vložení řádku, pokud o duplicitní vložení.';
+	$lang['strnofkref'] = 'Cizímu klíči %s neodpovídá žádná hodnota.';
+	$lang['strrowduplicate'] = 'Nezdařilo se vložení řádku, pokus o duplicitní vložení.';
 	$lang['streditrow'] = 'Upravit řádek';
 	$lang['strrowupdated'] = 'Řádek byl aktualizován.';
 	$lang['strrowupdatedbad'] = 'Nezdařilo se aktualizovat řádek.';
@@ -237,15 +257,20 @@
 	$lang['strdataonly'] = 'Pouze data';
 	$lang['strstructureonly'] = 'Pouze strukturu';
 	$lang['strstructureanddata'] = 'Strukturu a data';
-	$lang['strtabbed'] = 'S tabelátory';
+	$lang['strtabbed'] = 'S tabulátory';
 	$lang['strauto'] = 'Automaticky';
 	$lang['strconfvacuumtable'] = 'Opravdu chcete provést úklid „%s“?';
 	$lang['strconfanalyzetable'] = 'Opravdu chcete analyzovat „%s“?';
+	$lang['strconfreindextable'] = 'Opravdu chcete přeindexovat „%s“?';
+	$lang['strconfclustertable'] = 'Opravdu chcete přeskupit "%s"?';
 	$lang['strestimatedrowcount'] = 'Odhadnutý počet řádků';
 	$lang['strspecifytabletoanalyze'] = 'Pokud chcete analyzovat tabulky, tak musíte nejméně jednu vybrat.';
 	$lang['strspecifytabletoempty'] = 'Pokud chcete vyprázdnit tabulky, tak musíte nejméně jednu vybrat.';
 	$lang['strspecifytabletodrop'] = 'Pokud chcete odstranit tabulky, tak musíte nejméně jednu vybrat.';
 	$lang['strspecifytabletovacuum'] = 'Pokud chcete provést úklid tabulek, tak musíte nejméně jednu vybrat.';
+	$lang['strspecifytabletoreindex'] = 'Pokud chcete přeindexovat tabulku, tak musíte nejméně jednu vybrat.';
+	$lang['strspecifytabletocluster'] = 'Pokud chcete přeskupit tabulku, tak musíte nejméně jednu vybrat.';
+	$lang['strnofieldsforinsert'] = 'Nemůžete vložit řádek do tabulky, která nemá žádné sloupce.';
 
 	// Columns
 	$lang['strcolprop'] = 'Vlastnosti sloupce';
@@ -258,7 +283,7 @@
 	$lang['strpassword'] = 'Heslo';
 	$lang['strsuper'] = 'Superuživatel?';
 	$lang['strcreatedb'] = 'Vytvářet DB?';
-	$lang['strexpires'] = 'Expiruje';
+	$lang['strexpires'] = 'Ztratí platnost';
 	$lang['strsessiondefaults'] = 'Výchozí hodnoty sezení';
 	$lang['strnousers'] = 'Nenalezeni žádní uživatelé.';
 	$lang['struserupdated'] = 'Uživatel byl aktualizován';
@@ -333,7 +358,7 @@
 	$lang['strgranted'] = 'Oprávnění byla změněna.';
 	$lang['strgrantfailed'] = 'Nezdařilo se změnit oprávnění.';
 	$lang['strgrantbad'] = 'Musíte zvolit nejméně jednoho uživatele nebo skupinu a nejméně jedno oprávnění.';
-	$lang['strgrantor'] = 'Zřizovatel';
+	$lang['strgrantor'] = 'Přidělil';
 	$lang['strasterisk'] = '*';
 
 	// Databases
@@ -349,8 +374,8 @@
 	$lang['strconfdropdatabase'] = 'Opravdu chcete odstranit databázi „%s“?';
 	$lang['strdatabasedropped'] = 'Databáze byla odstraněna.';
 	$lang['strdatabasedroppedbad'] = 'Nezdařilo se odstranit databázi.';
-	$lang['strentersql'] = 'Zadejte SQL dotaz, který chcete provést:';
-	$lang['strsqlexecuted'] = 'SQL dotaz byl proveden.';
+	$lang['strentersql'] = 'Zadejte dotaz SQL, který chcete provést:';
+	$lang['strsqlexecuted'] = 'Dotaz SQL byl proveden.';
 	$lang['strvacuumgood'] = 'Úklid byl dokončen.';
 	$lang['strvacuumbad'] = 'Úklid se nezdařil.';
 	$lang['stranalyzegood'] = 'Analýza byla dokončena.';
@@ -366,6 +391,11 @@
 	$lang['strdatabasealtered'] = 'Změny v databázi byly provedeny.';
 	$lang['strdatabasealteredbad'] = 'Nezdařilo se provést změny v databázi.';
 	$lang['strspecifydatabasetodrop'] = 'Pokud chcete odstranit databáze, tak musíte nejméně jednu vybrat.';
+	$lang['strtemplatedb'] = 'Šablona';
+	$lang['strconfanalyzedatabase'] = 'Opravdu chcete analyzovat všechny tabulky v databázi „%s“?';
+	$lang['strconfvacuumdatabase'] = 'Opravdu chcete uklidit všechny tabulky v databázi „%s“?';
+	$lang['strconfreindexdatabase'] = 'Opravdu chcete přeindexovat všechny tabulky v databázi „%s“?';
+	$lang['strconfclusterdatabase'] = 'Opravdu chcete přeskupit všechny tabulky v databázi „%s“?';
 
 	// Views
 	$lang['strview'] = 'Pohled';
@@ -405,8 +435,8 @@
 	$lang['strlastvalue'] = 'Poslední hodnota';
 	$lang['strincrementby'] = 'Přírůstek';	
 	$lang['strstartvalue'] = 'Počáteční hodnota';
-	$lang['strmaxvalue'] = 'Max hodnota';
-	$lang['strminvalue'] = 'Min hodnota';
+	$lang['strmaxvalue'] = 'Max. hodnota';
+	$lang['strminvalue'] = 'Min. hodnota';
 	$lang['strcachevalue'] = 'Připraveno dopředu';
 	$lang['strlogcount'] = 'Dostupných hodnot bez zápisu (log_cnt)';
 	$lang['strcancycle'] = 'Cyklicky?';
@@ -417,8 +447,8 @@
 	$lang['strconfdropsequence'] = 'Opravdu chcete odstranit sekvenci „%s“?';
 	$lang['strsequencedropped'] = 'Sekvence byla odstraněna.';
 	$lang['strsequencedroppedbad'] = 'Nezdařilo se odstranit sekvenci.';
-	$lang['strsequencereset'] = 'Sekvence byla resetována.';
-	$lang['strsequenceresetbad'] = 'Nezdařilo se resetovat sekvenci.';
+	$lang['strsequencereset'] = 'Sekvence byla nastavena na počáteční hodnotu.';
+	$lang['strsequenceresetbad'] = 'Nezdařilo se nastavit počáteční hodnotu sekvence.';
  	$lang['strsequencealtered'] = 'Změny v sekvenci byly provedeny.';
  	$lang['strsequencealteredbad'] = 'Nezdařilo se provést změny v sekvenci.';
  	$lang['strsetval'] = 'Nastavit hodnotu';
@@ -452,9 +482,10 @@
  	$lang['strindextype'] = 'Typ indexu';
 	$lang['strtablecolumnlist'] = 'Sloupce v tabulce';
 	$lang['strindexcolumnlist'] = 'Sloupce v indexu';
-	$lang['strconfcluster'] = 'Opravdu chcete seskupit „%s“?';
-	$lang['strclusteredgood'] = 'Seskupení dokončeno.';
-	$lang['strclusteredbad'] = 'Seskupení se nezdařilo.';
+	$lang['strclusteredgood'] = 'Přeskupení dokončeno.';
+	$lang['strclusteredbad'] = 'Přeskupení se nezdařilo.';
+	$lang['strconcurrently'] = 'Souběžně';
+	$lang['strnoclusteravailable'] = 'Tabulka není přeskupena podle indexu.';
 
 	// Rules
 	$lang['strrules'] = 'Pravidla';
@@ -510,9 +541,9 @@
 	$lang['strshowallfunctions'] = 'Zobrazit všechny funkce';
 	$lang['strnofunction'] = 'Nenalezena žádná funkce.';
 	$lang['strnofunctions'] = 'Nenalezeny žádné funkce.';
-	$lang['strcreateplfunction'] = 'Vytvořit SQL/PL funkci';
+	$lang['strcreateplfunction'] = 'Vytvořit funkci SQL/PL';
 	$lang['strcreateinternalfunction'] = 'Vytvořit interní funkci';
-	$lang['strcreatecfunction'] = 'Vytvořit C funkci';
+	$lang['strcreatecfunction'] = 'Vytvořit funkci C';
 	$lang['strfunctionname'] = 'Název funkce';
 	$lang['strreturns'] = 'Vrací';
 	$lang['strproglanguage'] = 'Programovací jazyk';
@@ -625,30 +656,30 @@
 	$lang['strspecifyschematodrop'] = 'Pokud chcete odstranit schémata, tak musíte nejméně jedno vybrat.';
 
 	// Reports
-	$lang['strreport'] = 'Report';
-	$lang['strreports'] = 'Reporty';
-	$lang['strshowallreports'] = 'Zobrazit všechny reporty';
-	$lang['strnoreports'] = 'Nenalezen žádný report.';
-	$lang['strcreatereport'] = 'Vytvořit report';
-	$lang['strreportdropped'] = 'Report byl odstraněn.';
-	$lang['strreportdroppedbad'] = 'Nezdařilo se odstranit report.';
-	$lang['strconfdropreport'] = 'Opravdu chcete odstranit report „%s“?';
-	$lang['strreportneedsname'] = 'Musíte zadat název pro report.';
-	$lang['strreportneedsdef'] = 'Musíte zadat SQL dotaz pro report.';
-	$lang['strreportcreated'] = 'Report byl uložen.';
-	$lang['strreportcreatedbad'] = 'Nezdařilo se uložit report.';
+	$lang['strreport'] = 'Výstupní sestava';
+	$lang['strreports'] = 'Výstupní sestavy';
+	$lang['strshowallreports'] = 'Zobrazit všechny výstupní sestavy';
+	$lang['strnoreports'] = 'Nebyly nalezeny žádné výstupní sestava.';
+	$lang['strcreatereport'] = 'Vytvořit výstupní sestavu';
+	$lang['strreportdropped'] = 'Výstupní sestava byla odstraněna.';
+	$lang['strreportdroppedbad'] = 'Nezdařilo se odstranit výstupní sestavu.';
+	$lang['strconfdropreport'] = 'Opravdu chcete odstranit výstupní sestavu „%s“?';
+	$lang['strreportneedsname'] = 'Musíte zadat název pro výstupní sestavu.';
+	$lang['strreportneedsdef'] = 'Musíte zadat dotaz SQL pro výstupní sestavu.';
+	$lang['strreportcreated'] = 'Výstupní sestava byla uložena.';
+	$lang['strreportcreatedbad'] = 'Nezdařilo se uložit výstupní sestavu.';
 
 	// Domains
 	$lang['strdomain'] = 'Doména';
 	$lang['strdomains'] = 'Domény';
 	$lang['strshowalldomains'] = 'Zobrazit všechny domény';
-	$lang['strnodomains'] = 'Nenalezeny žádné domény.';
+	$lang['strnodomains'] = 'Nebyly nalezeny žádné domény.';
 	$lang['strcreatedomain'] = 'Vytvořit doménu';
 	$lang['strdomaindropped'] = 'Doména byla odstraněna.';
 	$lang['strdomaindroppedbad'] = 'Nezdařilo se odstranit doménu.';
 	$lang['strconfdropdomain'] = 'Opravdu chcete odstranit doménu „%s“?';
 	$lang['strdomainneedsname'] = 'Musíte zadat název pro doménu.';
-	$lang['strdomaincreated'] = 'Doména byly vytvořena.';
+	$lang['strdomaincreated'] = 'Doména byla vytvořena.';
 	$lang['strdomaincreatedbad'] = 'Nezdařilo se vytvořit doménu.';	
 	$lang['strdomainaltered'] = 'Změny v doméně byly provedeny.';
 	$lang['strdomainalteredbad'] = 'Nezdařilo se provést změny v doméně.';	
@@ -657,8 +688,8 @@
 	$lang['stroperator'] = 'Operátor';
 	$lang['stroperators'] = 'Operátory';
 	$lang['strshowalloperators'] = 'Zobrazit všechny operátory';
-	$lang['strnooperator'] = 'Nenalezen žádný operátor.';
-	$lang['strnooperators'] = 'Nenalezeny žádné operátory.';
+	$lang['strnooperator'] = 'Nebyl nalezen žádný operátor.';
+	$lang['strnooperators'] = 'Nebyly nalezeny žádné operátory.';
 	$lang['strcreateoperator'] = 'Vytvořit operátor';
 	$lang['strleftarg'] = 'Levý operand';
 	$lang['strrightarg'] = 'Pravý operand';
@@ -708,7 +739,7 @@
 	// Aggregates
 	$lang['straggregate'] = 'Agregační funkce';
 	$lang['straggregates'] = 'Agregační funkce';
-	$lang['strnoaggregates'] = 'Nenalezeny žádné agregační funkce.';
+	$lang['strnoaggregates'] = 'Nebyly nalezeny žádné agregační funkce.';
 	$lang['stralltypes'] = '(Všechny typy)';
 	$lang['strcreateaggregate'] = 'Vytvořit agregační funkci';
 	$lang['straggrbasetype'] = 'Typ vstupních dat';
@@ -732,7 +763,7 @@
 
 	// Operator Classes
 	$lang['stropclasses'] = 'Třídy operátorů';
-	$lang['strnoopclasses'] = 'Nenalezeny žádné třídy operátorů.';
+	$lang['strnoopclasses'] = 'Nebely nalezeny žádné třídy operátorů.';
 	$lang['straccessmethod'] = 'Metoda přístupu';
 
 	// Stats and performance
@@ -748,7 +779,7 @@
 	$lang['strheap'] = 'Hromada';
 	$lang['strtoast'] = 'TOAST';
 	$lang['strtoastindex'] = 'TOAST Index';
-	$lang['strcache'] = 'Cache';
+	$lang['strcache'] = 'Mezipaměť';
 	$lang['strdisk'] = 'Disk';
 	$lang['strrows2'] = 'Řádků';
 
@@ -756,7 +787,7 @@
 	$lang['strtablespace'] = 'Prostor tabulek';
 	$lang['strtablespaces'] = 'Prostory tabulek';
 	$lang['strshowalltablespaces'] = 'Zobrazit všechny prostory tabulek';
-	$lang['strnotablespaces'] = 'Nenalezeny žádné prostory tabulek.';
+	$lang['strnotablespaces'] = 'Nebyly nalezeny žádné prostory tabulek.';
 	$lang['strcreatetablespace'] = 'Vytvořit prostor tabulek';
 	$lang['strlocation'] = 'Umístění';
 	$lang['strtablespaceneedsname'] = 'Musíte zadat název pro prostor tabulek.';
@@ -770,15 +801,15 @@
 	$lang['strtablespacealteredbad'] = 'Nezdařilo se provést změny v prostoru tabulek.';
 
 	// Slony clusters
-	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Nenalezeny žádné clustery.';
-	$lang['strconfdropcluster'] = 'Opravdu chcete odstranit cluster „%s“?';
-	$lang['strclusterdropped'] = 'Cluster byl odstraněn.';
-	$lang['strclusterdroppedbad'] = 'Nezdařilo se odstranit cluster.';
-	$lang['strinitcluster'] = 'Inicializovat cluster';
-	$lang['strclustercreated'] = 'Cluster byl inicializován.';
-	$lang['strclustercreatedbad'] = 'Nezdařilo se inicializovat cluster.';
-	$lang['strclusterneedsname'] = 'Musíte zadat název pro cluster.';
+	$lang['strcluster'] = 'Klastr';
+	$lang['strnoclusters'] = 'Nebyly nalezeny žádné klastry.';
+	$lang['strconfdropcluster'] = 'Opravdu chcete odstranit klastr „%s“?';
+	$lang['strclusterdropped'] = 'Klastr byl odstraněn.';
+	$lang['strclusterdroppedbad'] = 'Nezdařilo se odstranit klastr.';
+	$lang['strinitcluster'] = 'Inicializovat klastr';
+	$lang['strclustercreated'] = 'Klastr byl inicializován.';
+	$lang['strclustercreatedbad'] = 'Nezdařilo se inicializovat klastr.';
+	$lang['strclusterneedsname'] = 'Musíte zadat název pro klastr.';
 	$lang['strclusterneedsnodeid'] = 'Musíte zadat ID pro lokální uzel.';
 
 	// Slony nodes
@@ -800,7 +831,7 @@
 	$lang['stroutofsync'] = 'Nesladěno';
 	$lang['strunknown'] = 'Neznámo';	
 
-	// Slony paths
+	// Slony paths	
 	$lang['strpaths'] = 'Cesty';
 	$lang['strnopaths'] = 'Nenalezeny žádné cesty.';
 	$lang['strcreatepath'] = 'Vytvořit cestu';
@@ -854,10 +885,10 @@
 	$lang['strrepsetunlocked'] = 'Replikační sada byla odemknuta.';
 	$lang['strrepsetunlockedbad'] = 'Nezdařilo se odemknout replikační sadu.';
 	$lang['stronlyonnode'] = 'Poze v uzlu';
-	$lang['strddlscript'] = 'DDL skript';
+	$lang['strddlscript'] = 'Skript DDL';
 	$lang['strscriptneedsbody'] = 'Musíte zajistit, aby se skript spustil na všech uzlech.';
-	$lang['strscriptexecuted'] = 'DDL skript replikační sady byl vykonán.';
-	$lang['strscriptexecutedbad'] = 'Nezdařilo se vykonat DDL skript replikační sady.';
+	$lang['strscriptexecuted'] = 'Skript DDL replikační sady byl vykonán.';
+	$lang['strscriptexecutedbad'] = 'Nezdařilo se vykonat skript DDL replikační sady.';
 	$lang['strtabletriggerstoretain'] = 'Následující triggery NEBUDOU replikačním systémem Slony zakázány:';
 
 	// Slony tables in replication sets
@@ -891,7 +922,7 @@
 	$lang['strinvalidhelppage'] = 'Neplatná stránka s nápovědou.';
 	$lang['strlogintitle'] = 'Přihlášení k %s';
 	$lang['strlogoutmsg'] = 'Odhlášení od %s';
-	$lang['strloading'] = 'Načítá se...';
+	$lang['strloading'] = 'Načítá se…';
 	$lang['strerrorloading'] = 'Chyba při načítání';
 	$lang['strclicktoreload'] = 'Klikněte pro opětovné načtení';
 
@@ -900,12 +931,24 @@
 	$lang['strturnedon'] = 'Zapnuto';
 	$lang['strturnedoff'] = 'Vypnuto';
 	$lang['strenabled'] = 'Povoleno';
+	$lang['strnovacuumconf'] = 'Nebylo nalezeno žádné nastavení automatického úklidu.';
 	$lang['strvacuumbasethreshold'] = 'VACUUM - základní práh';
 	$lang['strvacuumscalefactor'] = 'VACUUM - škálovací faktor';
 	$lang['stranalybasethreshold'] = 'ANALYZE - základní práh';
 	$lang['stranalyzescalefactor'] = 'ANALYZE - škálovací faktor';
 	$lang['strvacuumcostdelay'] = 'VACUUM - délka přestávky';
 	$lang['strvacuumcostlimit'] = 'VACUUM - cenový limit';
+	$lang['strvacuumpertable'] = 'Nastavení automatického uklidu jednotlivých tabulek';
+	$lang['straddvacuumtable'] = 'Přidat nastavení automatického úklidu pro tabulku';
+	$lang['streditvacuumtable'] = 'Upravit nastavení automatického úklidu pro tabulku %s';
+	$lang['strdelvacuumtable'] = 'Smazat nastavení automatického úklidu pro tabulku %s ?';
+	$lang['strvacuumtablereset'] = 'Autovacuum setup for table %s reset to default values';
+	$lang['strdelvacuumtablefail'] = 'Nezdařilo se odebrat nastavení automatického úklidu pro tabulku %s';
+	$lang['strsetvacuumtablesaved'] = 'Nastavení automatického úklidu pro tabulku %s bylo uloženo.';
+	$lang['strsetvacuumtablefail'] = 'Nezdařilo se nastavení automatického úklidu pro tabulku %s.';
+	$lang['strspecifydelvacuumtable'] = 'Musíte zadat tabulku, ze které chcete odebrat parametry automatického úklidu.';
+	$lang['strspecifyeditvacuumtable'] = 'Musíte zadat tabulku, ze které chcete upravit parametry automatického úklidu.';
+	$lang['strnotdefaultinred'] = 'V účtu nejsou žádné výchozí hodnoty.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Zámky';
@@ -917,58 +960,58 @@
 
 	// Prepared transactions
 	$lang['strpreparedxacts'] = 'Připravené transakce';
-	$lang['strxactid'] = 'ID transakce';
+	$lang['strxactid'] = 'Transakční ID';
 	$lang['strgid'] = 'Globální ID';
 	
 	// Fulltext search
 	$lang['strfulltext'] = 'Plně textové vyhledávání';
-	$lang['strftsconfig'] = 'FTS nastavení';
+	$lang['strftsconfig'] = 'Nastavení FTS';
 	$lang['strftsconfigs'] = 'Nastavení';
-	$lang['strftscreateconfig'] = 'Vytvořit FTS nastavení';
+	$lang['strftscreateconfig'] = 'Vytvořit nastavení FTS';
 	$lang['strftscreatedict'] = 'Vytvořit slovník';
 	$lang['strftscreatedicttemplate'] = 'Vytvořit šablonu slovníku';
 	$lang['strftscreateparser'] = 'Vytvořit analyzátor';
-	$lang['strftsnoconfigs'] = 'Nebylo nalezeno žádné FTS nastavení.';
-	$lang['strftsconfigdropped'] = 'FTS nastavení bylo odstraněno.';
-	$lang['strftsconfigdroppedbad'] = 'Nezdařilo se odstranit FTS nastavení.';
-	$lang['strconfdropftsconfig'] = 'Opravdu chcete odstranit FTS nastavení „%s“?';
-	$lang['strconfdropftsdict'] = 'Opravdu chcete odstranit FTS slovník „%s“?';
-	$lang['strconfdropftsmapping'] = 'Opravdu chcete odstranit mapování „%s“ FTS nastavení „%s“?';
+	$lang['strftsnoconfigs'] = 'Nebylo nalezeno žádné nastavení FTS.';
+	$lang['strftsconfigdropped'] = 'Nastavení FTS bylo odstraněno.';
+	$lang['strftsconfigdroppedbad'] = 'Nezdařilo se odstranit nastavení FTS.';
+	$lang['strconfdropftsconfig'] = 'Opravdu chcete odstranit nastavení FTS „%s“?';
+	$lang['strconfdropftsdict'] = 'Opravdu chcete odstranit slovník FTS „%s“?';
+	$lang['strconfdropftsmapping'] = 'Opravdu chcete odstranit mapování „%s“ nastavení FTS „%s“?';
 	$lang['strftstemplate'] = 'Šablona';
 	$lang['strftsparser'] = 'Analyzátor';
-	$lang['strftsconfigneedsname'] = 'Musíte zadat název pro FTS nastavení.';
-	$lang['strftsconfigcreated'] = 'FTS nastavení bylo vytvořeno.';
-	$lang['strftsconfigcreatedbad'] = 'Nezdařilo se vytvořit FTS nastavení.';
+	$lang['strftsconfigneedsname'] = 'Musíte zadat název pro nastavení FTS.';
+	$lang['strftsconfigcreated'] = 'Nastavení FTS bylo vytvořeno.';
+	$lang['strftsconfigcreatedbad'] = 'Nezdařilo se vytvořit nastavení FTS.';
 	$lang['strftsmapping'] = 'Mapování';
 	$lang['strftsdicts'] = 'Slovníky';
 	$lang['strftsdict'] = 'Slovník';
-	$lang['strftsemptymap'] = 'Vyprázdnit mapu FTS nastavení.';
-	$lang['strftsconfigaltered'] = 'Byly provedeny změny FTS nastavení.';
-	$lang['strftsconfigalteredbad'] = 'Nezdařilo se provést změny FTS nastavení.';
-	$lang['strftsconfigmap'] = 'Mapa FTS nastavení';
-	$lang['strftsparsers'] = 'FTS analyzátory';
-	$lang['strftsnoparsers'] = 'Nejsou dostupné žádné FTS analyzátory.';
-	$lang['strftsnodicts'] = 'Nejsou dostupné žádné FTS slovníky.';
-	$lang['strftsdictcreated'] = 'FTS slovník byl vytvořen.';
-	$lang['strftsdictcreatedbad'] = 'Nezdařilo se vytvořit FTS slovník.';
+	$lang['strftsemptymap'] = 'Vyprázdnit mapu nastavení FTS.';
+	$lang['strftsconfigaltered'] = 'Byly provedeny změny nastavení FTS.';
+	$lang['strftsconfigalteredbad'] = 'Nezdařilo se provést změny nastavení FTS.';
+	$lang['strftsconfigmap'] = 'Mapa nastavení FTS';
+	$lang['strftsparsers'] = 'Analyzátory FTS';
+	$lang['strftsnoparsers'] = 'Nejsou dostupné žádné analyzátory FTS.';
+	$lang['strftsnodicts'] = 'Nejsou dostupné žádné slovníky FTS.';
+	$lang['strftsdictcreated'] = 'Slovník FTS byl vytvořen.';
+	$lang['strftsdictcreatedbad'] = 'Nezdařilo se vytvořit slovník FTS.';
 	$lang['strftslexize'] = 'Lexikální funkce';
 	$lang['strftsinit'] = 'Inicializační funkce';
 	$lang['strftsoptionsvalues'] = 'Volby a hodnoty';
-	$lang['strftsdictneedsname'] = 'Musíte zadat název pro FTS slovník.';
-	$lang['strftsdictdropped'] = 'FTS slovník byl odstraněn.';
-	$lang['strftsdictdroppedbad'] = 'Nezdařilo se odstranit FTS slovník.';
-	$lang['strftsdictaltered'] = 'Byly provedeny změny FTS slovníku.';
-	$lang['strftsdictalteredbad'] = 'Nezdařilo se provést změny FTS slovníku.';
+	$lang['strftsdictneedsname'] = 'Musíte zadat název pro slovník FTS.';
+	$lang['strftsdictdropped'] = 'Slovník FTS byl odstraněn.';
+	$lang['strftsdictdroppedbad'] = 'Nezdařilo se odstranit slovník FTS.';
+	$lang['strftsdictaltered'] = 'Byly provedeny změny slovníku FTS.';
+	$lang['strftsdictalteredbad'] = 'Nezdařilo se provést změny slovníku FTS.';
 	$lang['strftsaddmapping'] = 'Přidat nové mapování';
 	$lang['strftsspecifymappingtodrop'] = 'Pokud chcete odstranit mapování, tak musíte nejméně jedno vybrat.';
-	$lang['strftsspecifyconfigtoalter'] = 'Musíte vybrat, které FTS nastavení chcete změnit.';
-	$lang['strftsmappingdropped'] = 'FTS mapování bylo odstraněno.';
-	$lang['strftsmappingdroppedbad'] = 'Nezdařilo se odstranit FTS mapování.';
-	$lang['strftsnodictionaries'] = 'Nenalezeny žádné slovníky.';
-	$lang['strftsmappingaltered'] = 'Byly provedeny změny FTS mapování.';
-	$lang['strftsmappingalteredbad'] = 'Nezdařilo se provést změny FTS mapování.';
-	$lang['strftsmappingadded'] = 'FTS mapování bylo přidáno.';
-	$lang['strftsmappingaddedbad'] = 'Nezdařilo se přidat FTS mapování.';
+	$lang['strftsspecifyconfigtoalter'] = 'Musíte vybrat, které nastavení FTS chcete změnit.';
+	$lang['strftsmappingdropped'] = 'Mapování FTS bylo odstraněno.';
+	$lang['strftsmappingdroppedbad'] = 'Nezdařilo se odstranit mapování FTS.';
+	$lang['strftsnodictionaries'] = 'Nebyly nalezeny žádné slovníky.';
+	$lang['strftsmappingaltered'] = 'Byly provedeny změny mapování FTS.';
+	$lang['strftsmappingalteredbad'] = 'Nezdařilo se provést změny mapování FTS.';
+	$lang['strftsmappingadded'] = 'Mapování FTS bylo přidáno.';
+	$lang['strftsmappingaddedbad'] = 'Nezdařilo se přidat mapování FTS.';
 	$lang['strftstabconfigs'] = 'Nastavení';
 	$lang['strftstabdicts'] = 'Slovníky';
 	$lang['strftstabparsers'] = 'Analyzátory';

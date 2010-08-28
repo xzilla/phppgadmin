@@ -2,9 +2,9 @@
 
 	/**
 	 * Czech language file for phpPgAdmin. Based on Englis file.
-	 * Translators: marek(at)manet.cz, libor(at)conet.cz
+	 * Translators: marek@manet.cz
 	 *
-	 * $Id: czech.php,v 1.232 2008/02/23 16:34:33 ioguix Exp $
+	 * $Id: czech.php,v 1.232 2010/08/27 16:34:33 ioguix Exp $
 	 */
 
 	// Language and character set
@@ -21,7 +21,7 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'Lok&#225;ln&#237; dokumentace k PostgreSQL';
 	$lang['strreportbug'] = 'Nahl&#225;sit chybu';
-	$lang['strviewfaq'] = 'P&#345;e&#269;&#237;st &#269;ast&#233; dotazy a odpov&#283;di';
+	$lang['strviewfaq'] = 'P&#345;e&#269;&#237;st si &#269;ast&#233; dotazy a odpov&#283;di';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Z bezpe&#269;nostn&#237;ch d&#367;vod&#367; nen&#237; p&#345;ihl&#225;&#353;en&#237; povoleno.';
 	$lang['strserver'] = 'Server';
 	$lang['strservers'] = 'Servery';
+	$lang['strgroupservers'] = 'Servery ve skupin&#283; &#8222;%s&#8220;';
+	$lang['strallservers'] = 'V&#353;echny servery';
 	$lang['strintroduction'] = '&#218;vodn&#237; str&#225;nka';
 	$lang['strhost'] = 'Hostitel';
 	$lang['strport'] = 'Port';
@@ -45,8 +47,8 @@
 	$lang['strdisable'] = 'Zak&#225;zat';
 	$lang['strdrop'] = 'Odstranit';
 	$lang['strdropped'] = 'Odstran&#283;no';
-	$lang['strnull'] = 'Nulov&#253;';
-	$lang['strnotnull'] = 'Nenulov&#253;';
+	$lang['strnull'] = 'Pr&#225;zdn&#253;';
+	$lang['strnotnull'] = 'Nepr&#225;zdn&#253;';
 	$lang['strprev'] = '&lt; P&#345;edchoz&#237;';
 	$lang['strnext'] = 'N&#225;sleduj&#237;c&#237; &gt;';
 	$lang['strfirst'] = '&lt;&lt; Prvn&#237;';
@@ -60,6 +62,7 @@
 	$lang['stralter'] = 'Zm&#283;nit';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Storno';
+	$lang['strkill'] = 'Zab&#237;t';
 	$lang['strac'] = 'Povolit automatick&#233; dokon&#269;en&#237;';
 	$lang['strsave'] = 'Ulo&#382;it';
 	$lang['strreset'] = 'Resetovat';
@@ -75,7 +78,7 @@
 	$lang['stredit'] = 'Upravit';
 	$lang['strcolumn'] = 'Sloupec';
 	$lang['strcolumns'] = 'Sloupce';
-	$lang['strrows'] = '&#345;&#225;dek&#367;';
+	$lang['strrows'] = '&#345;&#225;dk&#367;';
 	$lang['strrowsaff'] = '&#345;&#225;dk&#367; zm&#283;n&#283;no.';
 	$lang['strobjects'] = 'objekt&#367;';
 	$lang['strback'] = 'Zp&#283;t';
@@ -96,8 +99,8 @@
 	$lang['stradmin'] = 'Spr&#225;va';
 	$lang['strvacuum'] = 'Uklidit';
 	$lang['stranalyze'] = 'Analyzovat';
-	$lang['strclusterindex'] = 'Seskupit';
-	$lang['strclustered'] = 'Seskupeno?';
+	$lang['strclusterindex'] = 'P&#345;eskupit';
+	$lang['strclustered'] = 'P&#345;eskupeno?';
 	$lang['strreindex'] = 'P&#345;eindexovat';
 	$lang['strexecute'] = 'Prov&#233;st';
 	$lang['stradd'] = 'P&#345;idat';
@@ -109,7 +112,7 @@
 	$lang['strdata'] = 'Data';
 	$lang['strconfirm'] = 'Potvrzen&#237;';
 	$lang['strexpression'] = 'V&#253;raz';
-	$lang['strellipsis'] = '...';
+	$lang['strellipsis'] = '&#8230;';
 	$lang['strseparator'] = ': ';
 	$lang['strexpand'] = 'Rozbalit';
 	$lang['strcollapse'] = 'Sbalit';
@@ -128,7 +131,7 @@
 	$lang['streditsql'] = 'Upravit SQL';
 	$lang['strruntime'] = 'Celkov&#225; doba b&#283;hu: %s ms';
 	$lang['strpaginate'] = 'Str&#225;nkovat v&#253;sledky';
-	$lang['struploadscript'] = 'nebo nahrajte SQL skript:';
+	$lang['struploadscript'] = 'nebo nahrajte skript SQL:';
 	$lang['strstarttime'] = '&#268;as spu&#353;t&#283;n&#237;';
 	$lang['strfile'] = 'Soubor';
 	$lang['strfileimported'] = 'Soubor byl importov&#225;n.';
@@ -138,7 +141,19 @@
 	$lang['strselectall'] = 'Vybrat v&#353;e';
 	$lang['strunselectall'] = 'Zru&#353;it v&#253;b&#283;r';
 	$lang['strlocale'] = 'M&#237;stn&#237; nastaven&#237;';
-
+	$lang['strcollation'] = '&#344;azen&#237;';
+	$lang['strctype'] = 'Typ znaku';
+	$lang['strdefaultvalues'] = 'V&#253;choz&#237; hodnoty';
+	$lang['strnewvalues'] = 'Nov&#233; hodnoty';
+	$lang['strstart'] = 'Spustit';
+	$lang['strstop'] = 'Zastavit';
+	$lang['strgotoppage'] = 'zp&#283;t nahoru';
+	$lang['strtheme'] = 'Motiv';
+	
+	// Admin
+	$lang['stradminondatabase'] = 'N&#225;sleduj&#237;c&#237; &#250;lohy spr&#225;vy pou&#382;&#237;t na celou datab&#225;zi %s.';
+	$lang['stradminontable'] = 'N&#225;sleduj&#237;c&#237; &#250;lohy spr&#225;vy pou&#382;&#237;t na tabulku %s.';
+	
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Historie';
 	$lang['strnohistory'] = 'Bez historie.';
@@ -149,6 +164,7 @@
 	$lang['strnodatabaseselected'] = 'Zvolte pros&#237;m datab&#225;zi.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'Bez p&#345;&#237;stupu'; 
 	$lang['strsize'] = 'Velikost';
 	$lang['strbytes'] = 'B';
 	$lang['strkb'] = 'kB';
@@ -170,7 +186,7 @@
 	$lang['strnodata'] = 'Nenalezen &#382;&#225;dn&#253; &#345;&#225;dek.';
 	$lang['strnoobjects'] = 'Nenalezen &#382;&#225;dn&#253; objekt.';
 	$lang['strrownotunique'] = 'Pro tento &#345;&#225;dek neexistuje jedine&#269;n&#253; identifik&#225;tor.';
-	$lang['strnoreportsdb'] = 'Nem&#225;te vytvo&#345;enou datab&#225;zi report&#367;. P&#345;e&#269;t&#283;te si soubor INSTALL s instrukcemi.';
+	$lang['strnoreportsdb'] = 'Nem&#225;te vytvo&#345;enou datab&#225;zi v&#253;stupn&#237;ch sestav. P&#345;e&#269;t&#283;te si soubor INSTALL s instrukcemi.';
 	$lang['strnouploads'] = 'Je zak&#225;zan&#233; nahr&#225;v&#225;n&#237; soubor&#367;.';
 	$lang['strimporterror'] = 'Chyba p&#345;i importu.';
 	$lang['strimporterror-fileformat'] = 'Chyba p&#345;i importu: Nezda&#345;ilo se automaticky zjistit form&#225;t souboru.';
@@ -180,6 +196,9 @@
 	$lang['strcannotdumponwindows'] = 'Ve Windows nen&#237; podporovan&#253; v&#253;pis n&#225;zv&#367; komplexn&#237;ch tabulek a sch&#233;mat.';
 	$lang['strinvalidserverparam'] = 'Pokus o p&#345;ipojen&#237; s neplatn&#253;mi parametry serveru, mo&#382;n&#225; se n&#283;kdo sna&#382;&#237; neopr&#225;vn&#283;n&#283; napojit do va&#353;eho syst&#233;mu.'; 
 	$lang['strnoserversupplied'] = 'Nen&#237; nab&#237;zen &#382;&#225;dn&#253; server!';
+	$lang['strbadpgdumppath'] = 'Chyba p&#345;i exportu: Nezda&#345;ilo se spustit pg_dump (s cestou danou ve va&#353;em conf/config.inc.php: %s). Opravte pros&#237;m cestu ve sv&#233;m nastaven&#237; a zkuste to znovu.';
+	$lang['strbadpgdumpallpath'] = 'Chyba p&#345;i exportu: Nezda&#345;ilo se spustit pg_dumpall (s cestou danou ve va&#353;em conf/config.inc.php: %s). Opravte pros&#237;m cestu ve sv&#233;m nastaven&#237; a zkuste to znovu.';
+	$lang['strconnectionfail'] = 'Nelze se p&#345;ipojit k serveru.';
 
 	// Tables
 	$lang['strtable'] = 'Tabulka';
@@ -209,7 +228,8 @@
 	$lang['strinsertrow'] = 'Vlo&#382;it &#345;&#225;dek';
 	$lang['strrowinserted'] = '&#344;&#225;dek byl vlo&#382;en.';
 	$lang['strrowinsertedbad'] = 'Nezda&#345;ilo se vlo&#382;it &#345;&#225;dek.';
-	$lang['strrowduplicate'] = 'Nezda&#345;ilo se vlo&#382;en&#237; &#345;&#225;dku, pokud o duplicitn&#237; vlo&#382;en&#237;.';
+	$lang['strnofkref'] = 'Ciz&#237;mu kl&#237;&#269;i %s neodpov&#237;d&#225; &#382;&#225;dn&#225; hodnota.';
+	$lang['strrowduplicate'] = 'Nezda&#345;ilo se vlo&#382;en&#237; &#345;&#225;dku, pokus o duplicitn&#237; vlo&#382;en&#237;.';
 	$lang['streditrow'] = 'Upravit &#345;&#225;dek';
 	$lang['strrowupdated'] = '&#344;&#225;dek byl aktualizov&#225;n.';
 	$lang['strrowupdatedbad'] = 'Nezda&#345;ilo se aktualizovat &#345;&#225;dek.';
@@ -237,15 +257,20 @@
 	$lang['strdataonly'] = 'Pouze data';
 	$lang['strstructureonly'] = 'Pouze strukturu';
 	$lang['strstructureanddata'] = 'Strukturu a data';
-	$lang['strtabbed'] = 'S tabel&#225;tory';
+	$lang['strtabbed'] = 'S tabul&#225;tory';
 	$lang['strauto'] = 'Automaticky';
 	$lang['strconfvacuumtable'] = 'Opravdu chcete prov&#233;st &#250;klid &#8222;%s&#8220;?';
 	$lang['strconfanalyzetable'] = 'Opravdu chcete analyzovat &#8222;%s&#8220;?';
+	$lang['strconfreindextable'] = 'Opravdu chcete p&#345;eindexovat &#8222;%s&#8220;?';
+	$lang['strconfclustertable'] = 'Opravdu chcete p&#345;eskupit &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'Odhadnut&#253; po&#269;et &#345;&#225;dk&#367;';
 	$lang['strspecifytabletoanalyze'] = 'Pokud chcete analyzovat tabulky, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
 	$lang['strspecifytabletoempty'] = 'Pokud chcete vypr&#225;zdnit tabulky, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
 	$lang['strspecifytabletodrop'] = 'Pokud chcete odstranit tabulky, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
 	$lang['strspecifytabletovacuum'] = 'Pokud chcete prov&#233;st &#250;klid tabulek, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
+	$lang['strspecifytabletoreindex'] = 'Pokud chcete p&#345;eindexovat tabulku, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
+	$lang['strspecifytabletocluster'] = 'Pokud chcete p&#345;eskupit tabulku, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
+	$lang['strnofieldsforinsert'] = 'Nem&#367;&#382;ete vlo&#382;it &#345;&#225;dek do tabulky, kter&#225; nem&#225; &#382;&#225;dn&#233; sloupce.';
 
 	// Columns
 	$lang['strcolprop'] = 'Vlastnosti sloupce';
@@ -258,7 +283,7 @@
 	$lang['strpassword'] = 'Heslo';
 	$lang['strsuper'] = 'Superu&#382;ivatel?';
 	$lang['strcreatedb'] = 'Vytv&#225;&#345;et DB?';
-	$lang['strexpires'] = 'Expiruje';
+	$lang['strexpires'] = 'Ztrat&#237; platnost';
 	$lang['strsessiondefaults'] = 'V&#253;choz&#237; hodnoty sezen&#237;';
 	$lang['strnousers'] = 'Nenalezeni &#382;&#225;dn&#237; u&#382;ivatel&#233;.';
 	$lang['struserupdated'] = 'U&#382;ivatel byl aktualizov&#225;n';
@@ -333,7 +358,7 @@
 	$lang['strgranted'] = 'Opr&#225;vn&#283;n&#237; byla zm&#283;n&#283;na.';
 	$lang['strgrantfailed'] = 'Nezda&#345;ilo se zm&#283;nit opr&#225;vn&#283;n&#237;.';
 	$lang['strgrantbad'] = 'Mus&#237;te zvolit nejm&#233;n&#283; jednoho u&#382;ivatele nebo skupinu a nejm&#233;n&#283; jedno opr&#225;vn&#283;n&#237;.';
-	$lang['strgrantor'] = 'Z&#345;izovatel';
+	$lang['strgrantor'] = 'P&#345;id&#283;lil';
 	$lang['strasterisk'] = '*';
 
 	// Databases
@@ -349,8 +374,8 @@
 	$lang['strconfdropdatabase'] = 'Opravdu chcete odstranit datab&#225;zi &#8222;%s&#8220;?';
 	$lang['strdatabasedropped'] = 'Datab&#225;ze byla odstran&#283;na.';
 	$lang['strdatabasedroppedbad'] = 'Nezda&#345;ilo se odstranit datab&#225;zi.';
-	$lang['strentersql'] = 'Zadejte SQL dotaz, kter&#253; chcete prov&#233;st:';
-	$lang['strsqlexecuted'] = 'SQL dotaz byl proveden.';
+	$lang['strentersql'] = 'Zadejte dotaz SQL, kter&#253; chcete prov&#233;st:';
+	$lang['strsqlexecuted'] = 'Dotaz SQL byl proveden.';
 	$lang['strvacuumgood'] = '&#218;klid byl dokon&#269;en.';
 	$lang['strvacuumbad'] = '&#218;klid se nezda&#345;il.';
 	$lang['stranalyzegood'] = 'Anal&#253;za byla dokon&#269;ena.';
@@ -366,6 +391,11 @@
 	$lang['strdatabasealtered'] = 'Zm&#283;ny v datab&#225;zi byly provedeny.';
 	$lang['strdatabasealteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny v datab&#225;zi.';
 	$lang['strspecifydatabasetodrop'] = 'Pokud chcete odstranit datab&#225;ze, tak mus&#237;te nejm&#233;n&#283; jednu vybrat.';
+	$lang['strtemplatedb'] = '&#352;ablona';
+	$lang['strconfanalyzedatabase'] = 'Opravdu chcete analyzovat v&#353;echny tabulky v datab&#225;zi &#8222;%s&#8220;?';
+	$lang['strconfvacuumdatabase'] = 'Opravdu chcete uklidit v&#353;echny tabulky v datab&#225;zi &#8222;%s&#8220;?';
+	$lang['strconfreindexdatabase'] = 'Opravdu chcete p&#345;eindexovat v&#353;echny tabulky v datab&#225;zi &#8222;%s&#8220;?';
+	$lang['strconfclusterdatabase'] = 'Opravdu chcete p&#345;eskupit v&#353;echny tabulky v datab&#225;zi &#8222;%s&#8220;?';
 
 	// Views
 	$lang['strview'] = 'Pohled';
@@ -405,8 +435,8 @@
 	$lang['strlastvalue'] = 'Posledn&#237; hodnota';
 	$lang['strincrementby'] = 'P&#345;&#237;r&#367;stek';	
 	$lang['strstartvalue'] = 'Po&#269;&#225;te&#269;n&#237; hodnota';
-	$lang['strmaxvalue'] = 'Max hodnota';
-	$lang['strminvalue'] = 'Min hodnota';
+	$lang['strmaxvalue'] = 'Max. hodnota';
+	$lang['strminvalue'] = 'Min. hodnota';
 	$lang['strcachevalue'] = 'P&#345;ipraveno dop&#345;edu';
 	$lang['strlogcount'] = 'Dostupn&#253;ch hodnot bez z&#225;pisu (log_cnt)';
 	$lang['strcancycle'] = 'Cyklicky?';
@@ -417,8 +447,8 @@
 	$lang['strconfdropsequence'] = 'Opravdu chcete odstranit sekvenci &#8222;%s&#8220;?';
 	$lang['strsequencedropped'] = 'Sekvence byla odstran&#283;na.';
 	$lang['strsequencedroppedbad'] = 'Nezda&#345;ilo se odstranit sekvenci.';
-	$lang['strsequencereset'] = 'Sekvence byla resetov&#225;na.';
-	$lang['strsequenceresetbad'] = 'Nezda&#345;ilo se resetovat sekvenci.';
+	$lang['strsequencereset'] = 'Sekvence byla nastavena na po&#269;&#225;te&#269;n&#237; hodnotu.';
+	$lang['strsequenceresetbad'] = 'Nezda&#345;ilo se nastavit po&#269;&#225;te&#269;n&#237; hodnotu sekvence.';
  	$lang['strsequencealtered'] = 'Zm&#283;ny v sekvenci byly provedeny.';
  	$lang['strsequencealteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny v sekvenci.';
  	$lang['strsetval'] = 'Nastavit hodnotu';
@@ -452,9 +482,10 @@
  	$lang['strindextype'] = 'Typ indexu';
 	$lang['strtablecolumnlist'] = 'Sloupce v tabulce';
 	$lang['strindexcolumnlist'] = 'Sloupce v indexu';
-	$lang['strconfcluster'] = 'Opravdu chcete seskupit &#8222;%s&#8220;?';
-	$lang['strclusteredgood'] = 'Seskupen&#237; dokon&#269;eno.';
-	$lang['strclusteredbad'] = 'Seskupen&#237; se nezda&#345;ilo.';
+	$lang['strclusteredgood'] = 'P&#345;eskupen&#237; dokon&#269;eno.';
+	$lang['strclusteredbad'] = 'P&#345;eskupen&#237; se nezda&#345;ilo.';
+	$lang['strconcurrently'] = 'Soub&#283;&#382;n&#283;';
+	$lang['strnoclusteravailable'] = 'Tabulka nen&#237; p&#345;eskupena podle indexu.';
 
 	// Rules
 	$lang['strrules'] = 'Pravidla';
@@ -510,9 +541,9 @@
 	$lang['strshowallfunctions'] = 'Zobrazit v&#353;echny funkce';
 	$lang['strnofunction'] = 'Nenalezena &#382;&#225;dn&#225; funkce.';
 	$lang['strnofunctions'] = 'Nenalezeny &#382;&#225;dn&#233; funkce.';
-	$lang['strcreateplfunction'] = 'Vytvo&#345;it SQL/PL funkci';
+	$lang['strcreateplfunction'] = 'Vytvo&#345;it funkci SQL/PL';
 	$lang['strcreateinternalfunction'] = 'Vytvo&#345;it intern&#237; funkci';
-	$lang['strcreatecfunction'] = 'Vytvo&#345;it C funkci';
+	$lang['strcreatecfunction'] = 'Vytvo&#345;it funkci C';
 	$lang['strfunctionname'] = 'N&#225;zev funkce';
 	$lang['strreturns'] = 'Vrac&#237;';
 	$lang['strproglanguage'] = 'Programovac&#237; jazyk';
@@ -625,30 +656,30 @@
 	$lang['strspecifyschematodrop'] = 'Pokud chcete odstranit sch&#233;mata, tak mus&#237;te nejm&#233;n&#283; jedno vybrat.';
 
 	// Reports
-	$lang['strreport'] = 'Report';
-	$lang['strreports'] = 'Reporty';
-	$lang['strshowallreports'] = 'Zobrazit v&#353;echny reporty';
-	$lang['strnoreports'] = 'Nenalezen &#382;&#225;dn&#253; report.';
-	$lang['strcreatereport'] = 'Vytvo&#345;it report';
-	$lang['strreportdropped'] = 'Report byl odstran&#283;n.';
-	$lang['strreportdroppedbad'] = 'Nezda&#345;ilo se odstranit report.';
-	$lang['strconfdropreport'] = 'Opravdu chcete odstranit report &#8222;%s&#8220;?';
-	$lang['strreportneedsname'] = 'Mus&#237;te zadat n&#225;zev pro report.';
-	$lang['strreportneedsdef'] = 'Mus&#237;te zadat SQL dotaz pro report.';
-	$lang['strreportcreated'] = 'Report byl ulo&#382;en.';
-	$lang['strreportcreatedbad'] = 'Nezda&#345;ilo se ulo&#382;it report.';
+	$lang['strreport'] = 'V&#253;stupn&#237; sestava';
+	$lang['strreports'] = 'V&#253;stupn&#237; sestavy';
+	$lang['strshowallreports'] = 'Zobrazit v&#353;echny v&#253;stupn&#237; sestavy';
+	$lang['strnoreports'] = 'Nebyly nalezeny &#382;&#225;dn&#233; v&#253;stupn&#237; sestava.';
+	$lang['strcreatereport'] = 'Vytvo&#345;it v&#253;stupn&#237; sestavu';
+	$lang['strreportdropped'] = 'V&#253;stupn&#237; sestava byla odstran&#283;na.';
+	$lang['strreportdroppedbad'] = 'Nezda&#345;ilo se odstranit v&#253;stupn&#237; sestavu.';
+	$lang['strconfdropreport'] = 'Opravdu chcete odstranit v&#253;stupn&#237; sestavu &#8222;%s&#8220;?';
+	$lang['strreportneedsname'] = 'Mus&#237;te zadat n&#225;zev pro v&#253;stupn&#237; sestavu.';
+	$lang['strreportneedsdef'] = 'Mus&#237;te zadat dotaz SQL pro v&#253;stupn&#237; sestavu.';
+	$lang['strreportcreated'] = 'V&#253;stupn&#237; sestava byla ulo&#382;ena.';
+	$lang['strreportcreatedbad'] = 'Nezda&#345;ilo se ulo&#382;it v&#253;stupn&#237; sestavu.';
 
 	// Domains
 	$lang['strdomain'] = 'Dom&#233;na';
 	$lang['strdomains'] = 'Dom&#233;ny';
 	$lang['strshowalldomains'] = 'Zobrazit v&#353;echny dom&#233;ny';
-	$lang['strnodomains'] = 'Nenalezeny &#382;&#225;dn&#233; dom&#233;ny.';
+	$lang['strnodomains'] = 'Nebyly nalezeny &#382;&#225;dn&#233; dom&#233;ny.';
 	$lang['strcreatedomain'] = 'Vytvo&#345;it dom&#233;nu';
 	$lang['strdomaindropped'] = 'Dom&#233;na byla odstran&#283;na.';
 	$lang['strdomaindroppedbad'] = 'Nezda&#345;ilo se odstranit dom&#233;nu.';
 	$lang['strconfdropdomain'] = 'Opravdu chcete odstranit dom&#233;nu &#8222;%s&#8220;?';
 	$lang['strdomainneedsname'] = 'Mus&#237;te zadat n&#225;zev pro dom&#233;nu.';
-	$lang['strdomaincreated'] = 'Dom&#233;na byly vytvo&#345;ena.';
+	$lang['strdomaincreated'] = 'Dom&#233;na byla vytvo&#345;ena.';
 	$lang['strdomaincreatedbad'] = 'Nezda&#345;ilo se vytvo&#345;it dom&#233;nu.';	
 	$lang['strdomainaltered'] = 'Zm&#283;ny v dom&#233;n&#283; byly provedeny.';
 	$lang['strdomainalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny v dom&#233;n&#283;.';	
@@ -657,8 +688,8 @@
 	$lang['stroperator'] = 'Oper&#225;tor';
 	$lang['stroperators'] = 'Oper&#225;tory';
 	$lang['strshowalloperators'] = 'Zobrazit v&#353;echny oper&#225;tory';
-	$lang['strnooperator'] = 'Nenalezen &#382;&#225;dn&#253; oper&#225;tor.';
-	$lang['strnooperators'] = 'Nenalezeny &#382;&#225;dn&#233; oper&#225;tory.';
+	$lang['strnooperator'] = 'Nebyl nalezen &#382;&#225;dn&#253; oper&#225;tor.';
+	$lang['strnooperators'] = 'Nebyly nalezeny &#382;&#225;dn&#233; oper&#225;tory.';
 	$lang['strcreateoperator'] = 'Vytvo&#345;it oper&#225;tor';
 	$lang['strleftarg'] = 'Lev&#253; operand';
 	$lang['strrightarg'] = 'Prav&#253; operand';
@@ -708,7 +739,7 @@
 	// Aggregates
 	$lang['straggregate'] = 'Agrega&#269;n&#237; funkce';
 	$lang['straggregates'] = 'Agrega&#269;n&#237; funkce';
-	$lang['strnoaggregates'] = 'Nenalezeny &#382;&#225;dn&#233; agrega&#269;n&#237; funkce.';
+	$lang['strnoaggregates'] = 'Nebyly nalezeny &#382;&#225;dn&#233; agrega&#269;n&#237; funkce.';
 	$lang['stralltypes'] = '(V&#353;echny typy)';
 	$lang['strcreateaggregate'] = 'Vytvo&#345;it agrega&#269;n&#237; funkci';
 	$lang['straggrbasetype'] = 'Typ vstupn&#237;ch dat';
@@ -732,7 +763,7 @@
 
 	// Operator Classes
 	$lang['stropclasses'] = 'T&#345;&#237;dy oper&#225;tor&#367;';
-	$lang['strnoopclasses'] = 'Nenalezeny &#382;&#225;dn&#233; t&#345;&#237;dy oper&#225;tor&#367;.';
+	$lang['strnoopclasses'] = 'Nebely nalezeny &#382;&#225;dn&#233; t&#345;&#237;dy oper&#225;tor&#367;.';
 	$lang['straccessmethod'] = 'Metoda p&#345;&#237;stupu';
 
 	// Stats and performance
@@ -748,7 +779,7 @@
 	$lang['strheap'] = 'Hromada';
 	$lang['strtoast'] = 'TOAST';
 	$lang['strtoastindex'] = 'TOAST Index';
-	$lang['strcache'] = 'Cache';
+	$lang['strcache'] = 'Mezipam&#283;&#357;';
 	$lang['strdisk'] = 'Disk';
 	$lang['strrows2'] = '&#344;&#225;dk&#367;';
 
@@ -756,7 +787,7 @@
 	$lang['strtablespace'] = 'Prostor tabulek';
 	$lang['strtablespaces'] = 'Prostory tabulek';
 	$lang['strshowalltablespaces'] = 'Zobrazit v&#353;echny prostory tabulek';
-	$lang['strnotablespaces'] = 'Nenalezeny &#382;&#225;dn&#233; prostory tabulek.';
+	$lang['strnotablespaces'] = 'Nebyly nalezeny &#382;&#225;dn&#233; prostory tabulek.';
 	$lang['strcreatetablespace'] = 'Vytvo&#345;it prostor tabulek';
 	$lang['strlocation'] = 'Um&#237;st&#283;n&#237;';
 	$lang['strtablespaceneedsname'] = 'Mus&#237;te zadat n&#225;zev pro prostor tabulek.';
@@ -770,15 +801,15 @@
 	$lang['strtablespacealteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny v prostoru tabulek.';
 
 	// Slony clusters
-	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Nenalezeny &#382;&#225;dn&#233; clustery.';
-	$lang['strconfdropcluster'] = 'Opravdu chcete odstranit cluster &#8222;%s&#8220;?';
-	$lang['strclusterdropped'] = 'Cluster byl odstran&#283;n.';
-	$lang['strclusterdroppedbad'] = 'Nezda&#345;ilo se odstranit cluster.';
-	$lang['strinitcluster'] = 'Inicializovat cluster';
-	$lang['strclustercreated'] = 'Cluster byl inicializov&#225;n.';
-	$lang['strclustercreatedbad'] = 'Nezda&#345;ilo se inicializovat cluster.';
-	$lang['strclusterneedsname'] = 'Mus&#237;te zadat n&#225;zev pro cluster.';
+	$lang['strcluster'] = 'Klastr';
+	$lang['strnoclusters'] = 'Nebyly nalezeny &#382;&#225;dn&#233; klastry.';
+	$lang['strconfdropcluster'] = 'Opravdu chcete odstranit klastr &#8222;%s&#8220;?';
+	$lang['strclusterdropped'] = 'Klastr byl odstran&#283;n.';
+	$lang['strclusterdroppedbad'] = 'Nezda&#345;ilo se odstranit klastr.';
+	$lang['strinitcluster'] = 'Inicializovat klastr';
+	$lang['strclustercreated'] = 'Klastr byl inicializov&#225;n.';
+	$lang['strclustercreatedbad'] = 'Nezda&#345;ilo se inicializovat klastr.';
+	$lang['strclusterneedsname'] = 'Mus&#237;te zadat n&#225;zev pro klastr.';
 	$lang['strclusterneedsnodeid'] = 'Mus&#237;te zadat ID pro lok&#225;ln&#237; uzel.';
 
 	// Slony nodes
@@ -800,7 +831,7 @@
 	$lang['stroutofsync'] = 'Neslad&#283;no';
 	$lang['strunknown'] = 'Nezn&#225;mo';	
 
-	// Slony paths
+	// Slony paths	
 	$lang['strpaths'] = 'Cesty';
 	$lang['strnopaths'] = 'Nenalezeny &#382;&#225;dn&#233; cesty.';
 	$lang['strcreatepath'] = 'Vytvo&#345;it cestu';
@@ -854,10 +885,10 @@
 	$lang['strrepsetunlocked'] = 'Replika&#269;n&#237; sada byla odemknuta.';
 	$lang['strrepsetunlockedbad'] = 'Nezda&#345;ilo se odemknout replika&#269;n&#237; sadu.';
 	$lang['stronlyonnode'] = 'Poze v uzlu';
-	$lang['strddlscript'] = 'DDL skript';
+	$lang['strddlscript'] = 'Skript DDL';
 	$lang['strscriptneedsbody'] = 'Mus&#237;te zajistit, aby se skript spustil na v&#353;ech uzlech.';
-	$lang['strscriptexecuted'] = 'DDL skript replika&#269;n&#237; sady byl vykon&#225;n.';
-	$lang['strscriptexecutedbad'] = 'Nezda&#345;ilo se vykonat DDL skript replika&#269;n&#237; sady.';
+	$lang['strscriptexecuted'] = 'Skript DDL replika&#269;n&#237; sady byl vykon&#225;n.';
+	$lang['strscriptexecutedbad'] = 'Nezda&#345;ilo se vykonat skript DDL replika&#269;n&#237; sady.';
 	$lang['strtabletriggerstoretain'] = 'N&#225;sleduj&#237;c&#237; triggery NEBUDOU replika&#269;n&#237;m syst&#233;mem Slony zak&#225;z&#225;ny:';
 
 	// Slony tables in replication sets
@@ -891,7 +922,7 @@
 	$lang['strinvalidhelppage'] = 'Neplatn&#225; str&#225;nka s n&#225;pov&#283;dou.';
 	$lang['strlogintitle'] = 'P&#345;ihl&#225;&#353;en&#237; k %s';
 	$lang['strlogoutmsg'] = 'Odhl&#225;&#353;en&#237; od %s';
-	$lang['strloading'] = 'Na&#269;&#237;t&#225; se...';
+	$lang['strloading'] = 'Na&#269;&#237;t&#225; se&#8230;';
 	$lang['strerrorloading'] = 'Chyba p&#345;i na&#269;&#237;t&#225;n&#237;';
 	$lang['strclicktoreload'] = 'Klikn&#283;te pro op&#283;tovn&#233; na&#269;ten&#237;';
 
@@ -900,12 +931,24 @@
 	$lang['strturnedon'] = 'Zapnuto';
 	$lang['strturnedoff'] = 'Vypnuto';
 	$lang['strenabled'] = 'Povoleno';
+	$lang['strnovacuumconf'] = 'Nebylo nalezeno &#382;&#225;dn&#233; nastaven&#237; automatick&#233;ho &#250;klidu.';
 	$lang['strvacuumbasethreshold'] = 'VACUUM - z&#225;kladn&#237; pr&#225;h';
 	$lang['strvacuumscalefactor'] = 'VACUUM - &#353;k&#225;lovac&#237; faktor';
 	$lang['stranalybasethreshold'] = 'ANALYZE - z&#225;kladn&#237; pr&#225;h';
 	$lang['stranalyzescalefactor'] = 'ANALYZE - &#353;k&#225;lovac&#237; faktor';
 	$lang['strvacuumcostdelay'] = 'VACUUM - d&#233;lka p&#345;est&#225;vky';
 	$lang['strvacuumcostlimit'] = 'VACUUM - cenov&#253; limit';
+	$lang['strvacuumpertable'] = 'Nastaven&#237; automatick&#233;ho uklidu jednotliv&#253;ch tabulek';
+	$lang['straddvacuumtable'] = 'P&#345;idat nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku';
+	$lang['streditvacuumtable'] = 'Upravit nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku %s';
+	$lang['strdelvacuumtable'] = 'Smazat nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku %s ?';
+	$lang['strvacuumtablereset'] = 'Autovacuum setup for table %s reset to default values';
+	$lang['strdelvacuumtablefail'] = 'Nezda&#345;ilo se odebrat nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku %s';
+	$lang['strsetvacuumtablesaved'] = 'Nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku %s bylo ulo&#382;eno.';
+	$lang['strsetvacuumtablefail'] = 'Nezda&#345;ilo se nastaven&#237; automatick&#233;ho &#250;klidu pro tabulku %s.';
+	$lang['strspecifydelvacuumtable'] = 'Mus&#237;te zadat tabulku, ze kter&#233; chcete odebrat parametry automatick&#233;ho &#250;klidu.';
+	$lang['strspecifyeditvacuumtable'] = 'Mus&#237;te zadat tabulku, ze kter&#233; chcete upravit parametry automatick&#233;ho &#250;klidu.';
+	$lang['strnotdefaultinred'] = 'V &#250;&#269;tu nejsou &#382;&#225;dn&#233; v&#253;choz&#237; hodnoty.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Z&#225;mky';
@@ -917,58 +960,58 @@
 
 	// Prepared transactions
 	$lang['strpreparedxacts'] = 'P&#345;ipraven&#233; transakce';
-	$lang['strxactid'] = 'ID transakce';
+	$lang['strxactid'] = 'Transak&#269;n&#237; ID';
 	$lang['strgid'] = 'Glob&#225;ln&#237; ID';
 	
 	// Fulltext search
 	$lang['strfulltext'] = 'Pln&#283; textov&#233; vyhled&#225;v&#225;n&#237;';
-	$lang['strftsconfig'] = 'FTS nastaven&#237;';
+	$lang['strftsconfig'] = 'Nastaven&#237; FTS';
 	$lang['strftsconfigs'] = 'Nastaven&#237;';
-	$lang['strftscreateconfig'] = 'Vytvo&#345;it FTS nastaven&#237;';
+	$lang['strftscreateconfig'] = 'Vytvo&#345;it nastaven&#237; FTS';
 	$lang['strftscreatedict'] = 'Vytvo&#345;it slovn&#237;k';
 	$lang['strftscreatedicttemplate'] = 'Vytvo&#345;it &#353;ablonu slovn&#237;ku';
 	$lang['strftscreateparser'] = 'Vytvo&#345;it analyz&#225;tor';
-	$lang['strftsnoconfigs'] = 'Nebylo nalezeno &#382;&#225;dn&#233; FTS nastaven&#237;.';
-	$lang['strftsconfigdropped'] = 'FTS nastaven&#237; bylo odstran&#283;no.';
-	$lang['strftsconfigdroppedbad'] = 'Nezda&#345;ilo se odstranit FTS nastaven&#237;.';
-	$lang['strconfdropftsconfig'] = 'Opravdu chcete odstranit FTS nastaven&#237; &#8222;%s&#8220;?';
-	$lang['strconfdropftsdict'] = 'Opravdu chcete odstranit FTS slovn&#237;k &#8222;%s&#8220;?';
-	$lang['strconfdropftsmapping'] = 'Opravdu chcete odstranit mapov&#225;n&#237; &#8222;%s&#8220; FTS nastaven&#237; &#8222;%s&#8220;?';
+	$lang['strftsnoconfigs'] = 'Nebylo nalezeno &#382;&#225;dn&#233; nastaven&#237; FTS.';
+	$lang['strftsconfigdropped'] = 'Nastaven&#237; FTS bylo odstran&#283;no.';
+	$lang['strftsconfigdroppedbad'] = 'Nezda&#345;ilo se odstranit nastaven&#237; FTS.';
+	$lang['strconfdropftsconfig'] = 'Opravdu chcete odstranit nastaven&#237; FTS &#8222;%s&#8220;?';
+	$lang['strconfdropftsdict'] = 'Opravdu chcete odstranit slovn&#237;k FTS &#8222;%s&#8220;?';
+	$lang['strconfdropftsmapping'] = 'Opravdu chcete odstranit mapov&#225;n&#237; &#8222;%s&#8220; nastaven&#237; FTS &#8222;%s&#8220;?';
 	$lang['strftstemplate'] = '&#352;ablona';
 	$lang['strftsparser'] = 'Analyz&#225;tor';
-	$lang['strftsconfigneedsname'] = 'Mus&#237;te zadat n&#225;zev pro FTS nastaven&#237;.';
-	$lang['strftsconfigcreated'] = 'FTS nastaven&#237; bylo vytvo&#345;eno.';
-	$lang['strftsconfigcreatedbad'] = 'Nezda&#345;ilo se vytvo&#345;it FTS nastaven&#237;.';
+	$lang['strftsconfigneedsname'] = 'Mus&#237;te zadat n&#225;zev pro nastaven&#237; FTS.';
+	$lang['strftsconfigcreated'] = 'Nastaven&#237; FTS bylo vytvo&#345;eno.';
+	$lang['strftsconfigcreatedbad'] = 'Nezda&#345;ilo se vytvo&#345;it nastaven&#237; FTS.';
 	$lang['strftsmapping'] = 'Mapov&#225;n&#237;';
 	$lang['strftsdicts'] = 'Slovn&#237;ky';
 	$lang['strftsdict'] = 'Slovn&#237;k';
-	$lang['strftsemptymap'] = 'Vypr&#225;zdnit mapu FTS nastaven&#237;.';
-	$lang['strftsconfigaltered'] = 'Byly provedeny zm&#283;ny FTS nastaven&#237;.';
-	$lang['strftsconfigalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny FTS nastaven&#237;.';
-	$lang['strftsconfigmap'] = 'Mapa FTS nastaven&#237;';
-	$lang['strftsparsers'] = 'FTS analyz&#225;tory';
-	$lang['strftsnoparsers'] = 'Nejsou dostupn&#233; &#382;&#225;dn&#233; FTS analyz&#225;tory.';
-	$lang['strftsnodicts'] = 'Nejsou dostupn&#233; &#382;&#225;dn&#233; FTS slovn&#237;ky.';
-	$lang['strftsdictcreated'] = 'FTS slovn&#237;k byl vytvo&#345;en.';
-	$lang['strftsdictcreatedbad'] = 'Nezda&#345;ilo se vytvo&#345;it FTS slovn&#237;k.';
+	$lang['strftsemptymap'] = 'Vypr&#225;zdnit mapu nastaven&#237; FTS.';
+	$lang['strftsconfigaltered'] = 'Byly provedeny zm&#283;ny nastaven&#237; FTS.';
+	$lang['strftsconfigalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny nastaven&#237; FTS.';
+	$lang['strftsconfigmap'] = 'Mapa nastaven&#237; FTS';
+	$lang['strftsparsers'] = 'Analyz&#225;tory FTS';
+	$lang['strftsnoparsers'] = 'Nejsou dostupn&#233; &#382;&#225;dn&#233; analyz&#225;tory FTS.';
+	$lang['strftsnodicts'] = 'Nejsou dostupn&#233; &#382;&#225;dn&#233; slovn&#237;ky FTS.';
+	$lang['strftsdictcreated'] = 'Slovn&#237;k FTS byl vytvo&#345;en.';
+	$lang['strftsdictcreatedbad'] = 'Nezda&#345;ilo se vytvo&#345;it slovn&#237;k FTS.';
 	$lang['strftslexize'] = 'Lexik&#225;ln&#237; funkce';
 	$lang['strftsinit'] = 'Inicializa&#269;n&#237; funkce';
 	$lang['strftsoptionsvalues'] = 'Volby a hodnoty';
-	$lang['strftsdictneedsname'] = 'Mus&#237;te zadat n&#225;zev pro FTS slovn&#237;k.';
-	$lang['strftsdictdropped'] = 'FTS slovn&#237;k byl odstran&#283;n.';
-	$lang['strftsdictdroppedbad'] = 'Nezda&#345;ilo se odstranit FTS slovn&#237;k.';
-	$lang['strftsdictaltered'] = 'Byly provedeny zm&#283;ny FTS slovn&#237;ku.';
-	$lang['strftsdictalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny FTS slovn&#237;ku.';
+	$lang['strftsdictneedsname'] = 'Mus&#237;te zadat n&#225;zev pro slovn&#237;k FTS.';
+	$lang['strftsdictdropped'] = 'Slovn&#237;k FTS byl odstran&#283;n.';
+	$lang['strftsdictdroppedbad'] = 'Nezda&#345;ilo se odstranit slovn&#237;k FTS.';
+	$lang['strftsdictaltered'] = 'Byly provedeny zm&#283;ny slovn&#237;ku FTS.';
+	$lang['strftsdictalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny slovn&#237;ku FTS.';
 	$lang['strftsaddmapping'] = 'P&#345;idat nov&#233; mapov&#225;n&#237;';
 	$lang['strftsspecifymappingtodrop'] = 'Pokud chcete odstranit mapov&#225;n&#237;, tak mus&#237;te nejm&#233;n&#283; jedno vybrat.';
-	$lang['strftsspecifyconfigtoalter'] = 'Mus&#237;te vybrat, kter&#233; FTS nastaven&#237; chcete zm&#283;nit.';
-	$lang['strftsmappingdropped'] = 'FTS mapov&#225;n&#237; bylo odstran&#283;no.';
-	$lang['strftsmappingdroppedbad'] = 'Nezda&#345;ilo se odstranit FTS mapov&#225;n&#237;.';
-	$lang['strftsnodictionaries'] = 'Nenalezeny &#382;&#225;dn&#233; slovn&#237;ky.';
-	$lang['strftsmappingaltered'] = 'Byly provedeny zm&#283;ny FTS mapov&#225;n&#237;.';
-	$lang['strftsmappingalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny FTS mapov&#225;n&#237;.';
-	$lang['strftsmappingadded'] = 'FTS mapov&#225;n&#237; bylo p&#345;id&#225;no.';
-	$lang['strftsmappingaddedbad'] = 'Nezda&#345;ilo se p&#345;idat FTS mapov&#225;n&#237;.';
+	$lang['strftsspecifyconfigtoalter'] = 'Mus&#237;te vybrat, kter&#233; nastaven&#237; FTS chcete zm&#283;nit.';
+	$lang['strftsmappingdropped'] = 'Mapov&#225;n&#237; FTS bylo odstran&#283;no.';
+	$lang['strftsmappingdroppedbad'] = 'Nezda&#345;ilo se odstranit mapov&#225;n&#237; FTS.';
+	$lang['strftsnodictionaries'] = 'Nebyly nalezeny &#382;&#225;dn&#233; slovn&#237;ky.';
+	$lang['strftsmappingaltered'] = 'Byly provedeny zm&#283;ny mapov&#225;n&#237; FTS.';
+	$lang['strftsmappingalteredbad'] = 'Nezda&#345;ilo se prov&#233;st zm&#283;ny mapov&#225;n&#237; FTS.';
+	$lang['strftsmappingadded'] = 'Mapov&#225;n&#237; FTS bylo p&#345;id&#225;no.';
+	$lang['strftsmappingaddedbad'] = 'Nezda&#345;ilo se p&#345;idat mapov&#225;n&#237; FTS.';
 	$lang['strftstabconfigs'] = 'Nastaven&#237;';
 	$lang['strftstabdicts'] = 'Slovn&#237;ky';
 	$lang['strftstabparsers'] = 'Analyz&#225;tory';
