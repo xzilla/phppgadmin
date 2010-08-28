@@ -31,6 +31,8 @@
 	$lang['strlogindisallowed'] = 'Вход невозможен по соображениям безопасности';
 	$lang['strserver'] = 'Сервер';
 	$lang['strservers'] = 'Серверы';
+	$lang['strgroupservers'] = 'Серверы в группе "%s"';
+	$lang['strallservers'] = 'Все серверы';
 	$lang['strintroduction'] = 'Введение';
 	$lang['strhost'] = 'Хост';
 	$lang['strport'] = 'Порт';
@@ -142,6 +144,16 @@
 	$lang['strlocale'] = 'Локаль';
 	$lang['strcollation'] = 'Порядок сортировки строк (LC_COLLATE)';
 	$lang['strctype'] = 'Классификация символов (LC_CTYPE)';
+	$lang['strdefaultvalues'] = 'Значения по умолчанию';
+	$lang['strnewvalues'] = 'Новые значения';
+	$lang['strstart'] = 'Запустить автоматическое обновление';
+	$lang['strstop'] = 'Остановить автоматическое обновление';
+	$lang['strgotoppage'] = 'вверх';
+	$lang['strtheme'] = 'Тема';
+	
+	// Admin
+	$lang['stradminondatabase'] = 'Следующие административные задачи применяются ко всей базе данных %s.';
+	$lang['stradminontable'] = 'Следующие административные задачи применяются к таблице %s.';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'История';
@@ -187,6 +199,7 @@
 	$lang['strnoserversupplied'] = 'Значение параметра "сервер" не представлено!';
 	$lang['strbadpgdumppath'] = 'Ошибка экспорта: Невозможно выполнить pg_dump (указанный в conf/config.inc.php путь: %s). Пожалуйста, исправте этот путь в конфигурации и заново войдите в систему.';
 	$lang['strbadpgdumpallpath'] = 'Ошибка экспорта: Невозможно выполнить pg_dumpall (указанный в conf/config.inc.php путь: %s). Пожалуйста, исправте этот путь в конфигурации и заново войдите в систему.';
+	$lang['strconnectionfail'] = 'Ошибка подключения к серверу.';
 
 	// Tables
 	$lang['strtable'] = 'Таблица';
@@ -249,11 +262,15 @@
 	$lang['strauto'] = 'Авто';
 	$lang['strconfvacuumtable'] = 'Вы действительно хотите перестроить "%s"?';
 	$lang['strconfanalyzetable'] = 'Вы действительно хотите произвести анализ "%s"?';
+	$lang['strconfreindextable'] = 'Вы действительно хотите перестроить индекс "%s"?';
+	$lang['strconfclustertable'] = 'Вы действительно хотите кластеризовать "%s"?';
 	$lang['strestimatedrowcount'] = 'Предполагаемое число строк';
 	$lang['strspecifytabletoanalyze'] = 'Вам необходимо указать как минимум одну таблицу для анализа.';
 	$lang['strspecifytabletoempty'] = 'Вам необходимо указать как минимум одну таблицу для очистки.';
 	$lang['strspecifytabletodrop'] = 'Вам необходимо указать как минимум одну таблицу для удаления.';
 	$lang['strspecifytabletovacuum'] = 'Вам необходимо указать как минимум одну таблицу для перестроения.';
+	$lang['strspecifytabletoreindex'] = 'Вам необходимо указать как минимум одну таблицу для перестроения индекса.';
+	$lang['strspecifytabletocluster'] = 'Вам необходимо указать как минимум одну таблицу для кластеризации.';
 	$lang['strnofieldsforinsert'] = 'Вы не можете вставить строку в таблицу без столбцов.';
 
 	// Columns
@@ -376,6 +393,10 @@
 	$lang['strdatabasealteredbad'] = 'Изменение базы данных прервано.';
 	$lang['strspecifydatabasetodrop'] = 'Вам необходимо указать как минимум одну базу данных для удаления.';
 	$lang['strtemplatedb'] = 'Шаблон';
+	$lang['strconfanalyzedatabase'] = 'Вы действительно хотите анализировать все таблицы в базе данных "%s"?';
+	$lang['strconfvacuumdatabase'] = 'Вы действительно хотите перестроить все таблицы в базе данных "%s"?';
+	$lang['strconfreindexdatabase'] = 'Вы действительно хотите перестроить индекс всех таблиц в базе данных "%s"?';
+	$lang['strconfclusterdatabase'] = 'Вы действительно хотите кластеризовать все таблицы в базе данных "%s"?';
 
 	// Views
 	$lang['strview'] = 'Представление';
@@ -462,10 +483,10 @@
 	$lang['strindextype'] = 'Вид индекса';
 	$lang['strtablecolumnlist'] = 'Атрибутов в таблице';
 	$lang['strindexcolumnlist'] = 'Атрибутов в индексе';
-	$lang['strconfcluster'] = 'Вы уверены, что хотите кластеризовать "%s"?';
 	$lang['strclusteredgood'] = 'Кластеризация завершена.';
 	$lang['strclusteredbad'] = 'Кластеризация прервана.';
 	$lang['strconcurrently'] = 'Без блокировки записи (CONCURRENTLY)';
+    $lang['strnoclusteravailable'] = 'Таблица не кластеризуема по индексу.';
 
 	// Rules
 	$lang['strrules'] = 'Правила';
@@ -911,12 +932,24 @@
 	$lang['strturnedon'] = 'Включено';
 	$lang['strturnedoff'] = 'Выключено';
 	$lang['strenabled'] = 'Включено';
+	$lang['strnovacuumconf'] = 'Конфигурация автоматического перестроения не найдена.';
 	$lang['strvacuumbasethreshold'] = 'Базовый порог перестроения';
 	$lang['strvacuumscalefactor'] = 'Масштабный множитель перестроения';
 	$lang['stranalybasethreshold'] = 'Базовый порог анализа';
 	$lang['stranalyzescalefactor'] = 'Масштабный множитель анализа';
 	$lang['strvacuumcostdelay'] = 'Задержка при превышении стоимости перестроения';
 	$lang['strvacuumcostlimit'] = 'Ограничение стоимости перестроения';
+	$lang['strvacuumpertable'] = 'Установки автоматического перестроения по таблицам';
+	$lang['straddvacuumtable'] = 'Добавить установки автоматического перестроения для таблицы';
+	$lang['streditvacuumtable'] = 'Редактировать установки автоматического перестроения для таблицы %s';
+	$lang['strdelvacuumtable'] = 'Удалить установки автоматического перестроения для таблицы %s?';
+	$lang['strvacuumtablereset'] = 'Сброс установок автоматического перестроения для таблицы %s к значениям по умолчанию';
+	$lang['strdelvacuumtablefail'] = 'Ошибка при удалении установок автоматического перестроения для таблицы %s';
+	$lang['strsetvacuumtablesaved'] = 'Установки автоматического перестроения для таблицы %s сохранены.';
+	$lang['strsetvacuumtablefail'] = 'Ошибка при сохранении установок автоматического перестроения %s.';
+	$lang['strspecifydelvacuumtable'] = 'Вам необходимо указать таблицу, для которой вы хотите удалить установки автоматического перестроения.';
+	$lang['strspecifyeditvacuumtable'] = 'Вам необходимо указать таблицу, для которой вы хотите редактировать установки автоматического перестроения.';
+	$lang['strnotdefaultinred'] = 'Значения, отличные от значений по умолчанию, отмечены красным цветом.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Блокировки';
