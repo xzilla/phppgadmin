@@ -1863,7 +1863,7 @@
 				}
 			} else {
 				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
-				echo "<tree text=\"{$msg}\" onaction=\"this.parentNode.reload()\" icon=\"", $this->icon('ObjectNotFound'), "\" />\n";
+				echo "<tree text=\"{$msg}\" onaction=\"tree.getSelected().getParent().reload()\" icon=\"", $this->icon('ObjectNotFound'), "\" />\n";
 			}
 
 			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
