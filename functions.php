@@ -457,8 +457,9 @@
 			if($types->fields['typname'] == $_POST['formReturns']) {
 				$szSelected = " selected=\"selected\"";
 			}
-			$szTypes .= "<option value=\"". htmlspecialchars($types->fields['typname']) ."\"{$szSelected}>";
-			$szTypes .= $misc->printVal($types->fields['typname']) ."</option>";
+			/* this variable is include in the JS code bellow, so we need to ENT_QUOTES */
+			$szTypes .= "<option value=\"". htmlspecialchars($types->fields['typname'], ENT_QUOTES) ."\"{$szSelected}>";
+			$szTypes .= htmlspecialchars($types->fields['typname'], ENT_QUOTES) ."</option>";
 			$types->moveNext();
 		}
 
@@ -543,21 +544,20 @@
 		}
 		$szJSAddTR = "<tr id=\"parent_add_tr\" onclick=\"addArg();\" onmouseover=\"this.style.cursor='pointer'\">\n<td style=\"text-align: right\" colspan=\"6\" class=\"data3\"><table><tr><td class=\"data3\"><img src=\"{$szImgPath}/AddArguments.png\" alt=\"Add Argument\" /></td><td class=\"data3\"><span style=\"font-size: 8pt\">{$lang['strargadd']}</span></td></tr></table></td>\n</tr>\n";
 
-
 		echo "<script src=\"functions.js\" type=\"text/javascript\"></script>
 		<script type=\"text/javascript\">
 			//<![CDATA[
 			var g_types_select = '<select name=\"formArgType[]\">{$szTypes}</select>{$szArgReturns}';
 			var g_modes_select = '{$szModes}';
 			var g_name = '';
-			var g_lang_strargremove = \"", addslashes($lang["strargremove"]) ,"\";
-			var g_lang_strargnoargs = \"", addslashes($lang["strargnoargs"]) ,"\";
-			var g_lang_strargenableargs = \"", addslashes($lang["strargenableargs"]) ,"\";
-			var g_lang_strargnorowabove = \"", addslashes($lang["strargnorowabove"]) ,"\";
-			var g_lang_strargnorowbelow = \"", addslashes($lang["strargnorowbelow"]) ,"\";
-			var g_lang_strargremoveconfirm = \"", addslashes($lang["strargremoveconfirm"]) ,"\";
-			var g_lang_strargraise = \"", addslashes($lang["strargraise"]) ,"\";
-			var g_lang_strarglower = \"", addslashes($lang["strarglower"]) ,"\";
+			var g_lang_strargremove = '", htmlspecialchars($lang["strargremove"], ENT_QUOTES) ,"';
+			var g_lang_strargnoargs = '", htmlspecialchars($lang["strargnoargs"], ENT_QUOTES) ,"';
+			var g_lang_strargenableargs = '", htmlspecialchars($lang["strargenableargs"], ENT_QUOTES) ,"';
+			var g_lang_strargnorowabove = '", htmlspecialchars($lang["strargnorowabove"], ENT_QUOTES) ,"';
+			var g_lang_strargnorowbelow = '", htmlspecialchars($lang["strargnorowbelow"], ENT_QUOTES) ,"';
+			var g_lang_strargremoveconfirm = '", htmlspecialchars($lang["strargremoveconfirm"], ENT_QUOTES) ,"';
+			var g_lang_strargraise = '", htmlspecialchars($lang["strargraise"], ENT_QUOTES) ,"';
+			var g_lang_strarglower = '", htmlspecialchars($lang["strarglower"], ENT_QUOTES) ,"';
 			//]]>
 		</script>
 		";
