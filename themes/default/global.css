@@ -1,23 +1,17 @@
+@import url(../global.css);
 /**
  * Default style sheet
- *
- * $Id: global.css,v 1.45 2007/10/22 15:54:46 ioguix Exp $
  */
 
 /** ELEMENTS */
-body
-{
+body {
 	background-color: #FFFFFF;
 	margin:	4px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	padding: 0px;
 	font-size: smaller; /*0.8em;*/
 }
-
-img { border: none; }
-
-div.logo
-{
+div.logo {
 	background-color: #CECF9C;
 	margin:	0px;
 	padding: 0px;
@@ -27,19 +21,12 @@ div.logo
 	border-bottom: 2px solid #000000;
 	margin-bottom: 2px;
 }
-
-body.browser
-{
-	height:	100%;
+body.browser {
 	background-color: #efefef;
-	margin:	0px;
-	padding: 0px;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /*1em;*/
 	border-right: 1px dashed #c0c0c0;
-	text-align: left;
 }
-
 body.bottombar {
 	background-color: #CECF9C;
 	margin:	0px;
@@ -48,17 +35,7 @@ body.bottombar {
 	font-size: smaller; /*1em;*/
 	text-align: left;
 }
-
-p.message {
-	color: blue;
-}
-
-p.comment {
-	font-style: italic;
-}
-
-h2
-{
+h2 {
 	color: #666633;
 	font-size: medium; /*1.3em;*/
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
@@ -68,31 +45,16 @@ h2
 	padding: 2px 1em;
 	margin: 0 0 1ex 0;
 }
-
-h3
-{
+h3 {
 	color: #666633;
 	font-size: small;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 }
-
-table.error
-{
-	background-color: #E6E6CC;
-}
-
-table.error td {
-	background-color: #E6E6CC;
-}
-
-table.navbar
-{
-	background-color: #E6E6CC;
-}
-
-table.navbar td
-{
+table.error {background-color: #E6E6CC}
+table.error td {background-color: #E6E6CC}
+table.navbar {background-color: #E6E6CC}
+table.navbar td {
 	height:	25px;
 	color: #000000;
 	background-color: #F3F3E9;
@@ -101,43 +63,22 @@ table.navbar td
 	font-size: smaller; /* 0.9em */
 	font-weight: bold;
 }
-
-table.navbar td.active
-{
-	background-color: #E6E6CC;
-}
-
-th.data
-{
+table.navbar td.active {background-color: #E6E6CC}
+th.data {
 	color: #000000;
 	background-color: #E6E6CC;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /* 0.9em */
 }
-
-th.data a:active, th.data a:link, th.data a:visited, th.data a:hover 
-{
+th.data a:active, th.data a:link, th.data a:visited, th.data a:hover {
 	font-weight: bold;
 }
-
-.left
-{
-	text-align: left;
-}
-
-td.dat
-{
+td.dat {
 	color: #ff0;
 	text-align: center;
 }
-
-th.required
-{
-	text-decoration: underline;
-}
-
-td.topbar
-{
+th.required {text-decoration: underline}
+td.topbar {
 	background-color: #CECF9C;
 	margin:	0px	0px;
 	padding: 0px;
@@ -145,14 +86,12 @@ td.topbar
 	font-size: smaller; /*0.8em;*/
 	text-align: left;
 }
-ul.toplink,ul.navlink
-{
+ul.toplink,ul.navlink {
 	list-style: none;
 	margin:0;padding:0;
 }
 ul.navlink{margin:20px 0}
-ul.toplink li, ul.navlink li
-{
+ul.toplink li, ul.navlink li {
 	display:inline;
 	border-left:1px solid #000000;
 	margin:0;padding: 0 2px 0 5px;
@@ -161,34 +100,24 @@ ul.toplink li:first-child, ul.navlink li:first-child {
 	border: none;
 	padding-left:0;
 }
-
-tr.data1, tr.data2, tr.data3
-{
+tr.data1, tr.data2, tr.data3 {
 	color: #000000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: smaller; /*0.8em;*/
 }
-tr.data1:hover, tr.data2:hover, tr.data3:hover
-{
+tr.data1:hover, tr.data2:hover, tr.data3:hover {
 	background-color: #DDD;
 }
-.data1
-{
+.data1 {
 	background-color: #F3F3E9;
 	text-align: left;
 }
-.data2
-{
+.data2 {
 	background-color: #E6E6CC;
 	text-align: left;
 }
-.data3
-{
-	background-color: #F3F3E9;
-}
-
-td.opbutton1 
-{
+.data3 {background-color: #F3F3E9}
+td.opbutton1 {
 	color: #000000;
 	border-top:	1px solid #FFFFFF;
 	border-right: 1px solid	#706D41;
@@ -201,9 +130,7 @@ td.opbutton1
 	padding-right: 6px;
 	text-align: center;
 }
-
-td.opbutton2 
-{
+td.opbutton2 {
 	color: #000000;
 	border-top:	1px solid #FFFFFF;
 	border-right: 1px solid	#706D41;
@@ -216,275 +143,116 @@ td.opbutton2
 	padding-right: 6px;
 	text-align: center;
 }
-
-.topbar {
-	border: 2px solid #CECF9C;
-}
-
+.topbar {border: 2px solid #CECF9C}
 .topbar, .topbar * {
 	background-color: #CECF9C;
 }
-
 .topbar .platform, .topbar .host, .topbar .username {
 	font-weight: bold;
 }
-
 .topbar, .trail {
 	margin-bottom: 2px;
 }
-
 .topbar, .trail, .tab {
 	padding: 2px 1ex;
 	font-size: smaller;
 }
-
 .trail, .tab {
 	border: 2px solid #E6E6CC;
 	background-color: #F3F3E9;
 }
-
-.trail .crumb {
-	background-color: #F3F3E9;
-}
-
+.trail .crumb {background-color: #F3F3E9}
 .crumb, .tab {
 	vertical-align: top;
 }
-
 .crumb .icon {
 	vertical-align: middle;
 	margin: 0 2px;
 }
-
 table.tabs {
 	width: 100%;
 	border-collapse: collapse;
 	margin-bottom: 1ex;
 }
-
-.tab {
-	text-align: center;
-}
-
-.tabs .active {
-	background-color: #E6E6CC;
-}
-
-.tab .icon {
-	display: block;
-}
-a:active 
-{
+.tab {text-align: center}
+.tabs .active {background-color: #E6E6CC}
+.tab .icon {display: block}
+a:active {
 	color: #989973;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: normal;
 	text-decoration: underline;
 }
-
-a,a:link
-{
+a,a:link {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	text-decoration: none;
 }
-
-a:visited
-{
+a:visited {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	text-decoration: none;
 }
-
-a:hover
-{
+a:hover {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	text-decoration: none;
 }
-
-a.navlink:link, a.toplink:link, ul.navlink li a, ul.toplink li a
-{
+a.navlink:link, a.toplink:link, ul.navlink li a, ul.toplink li a {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
 }
-
-a.navlink:visited, a.toplink:visited, ul.navlink li a:visited, ul.toplink li a:visited
-{
+a.navlink:visited, a.toplink:visited, ul.navlink li a:visited, ul.toplink li a:visited {
 	color: #336699;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
 }
-
-a.navlink:hover, a.toplink:hover, ul.navlink li a:hover, ul.toplink li a:hover
-{
+a.navlink:hover, a.toplink:hover, ul.navlink li a:hover, ul.toplink li a:hover {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
 }
-
-a.navlink:active, a.toplink:active, ul.navlink li a:active, ul.toplink li a:active
-{
+a.navlink:active, a.toplink:active, ul.navlink li a:active, ul.toplink li a:active {
 	color: #cc0000;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-weight: bold;
 	text-decoration: none;
 }
-
-.active a
-{
-	font-weight: bold;
-}
-
-a.help
-{
+.active a {font-weight: bold}
+a.help {
 	color: #E68800;
 	font-size: smaller;
 	vertical-align: super;
 	text-decoration: none;
 }
-
-pre
-{
-	font-size: 110%;
-}
-
-pre.data
-{
+pre {font-size: 110%}
+pre.data {
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
 	font-size: 100%;
 }
-
-pre.error
-{
+pre.error {
 	font-family: "Lucida Console", "Courier New", "DejaVu Sans Mono", monospace;
 	font-size: 120%;
 }
-
-.intro li
-{
-	font-weight: bold;
-}
-
-/* Syntax highlighting */
-.comment {color: #008080}
-.keyword {color: #FF8000}
-.literal {color: #808080}
-
-/* Browser Tree using XLoadTree 2 */
-.refreshTree {
-	float:right;
-	text-align:right;
-	padding: 0 3px;
-}
-.webfx-tree-row {
-	white-space: nowrap;
-	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-}
-
-.webfx-tree-children {
-	background-repeat: repeat-y;
-	background-position-y: 1px !important;	/* IE only */
-}
-
-.webfx-tree-row img {
-	vertical-align: middle;
-}
-
-.webfx-tree-item-label {
-	margin-left: 0.5ex;
-}
-
-.webfx-tree-icon {
-	margin-left: 1px;
-}
-
-.webfx-tree-hide-root {
-	display: none;
-}
-
-.arg_icon {
-	padding-right:5pt;
-	padding-left:5pt;
-}
-
-.arg_tr_pc {
-}
-
-#fkbg {
-	display:none;
-	position:fixed;
-	top:0;left:0;
-	width:100%;
-	height:100%;
-	z-index:10;
-}
-#fklist {
-	display:none;
-	position:absolute;
-	background:#fff;
-	border:1px solid #000;
-	overflow:auto;
-	z-index:15;
-}
-#fklist table {
-	border-collapse:collapse;
-	border: 1px solid #aaa;
-}
-#fklist th {border: 1px solid #aaa}
-#fklist td,
-#fklist th {
-	padding: 3px 10px;
-	border-right: 1px solid #aaa;
-	font-size: 12px;
-}
-#fklist td a {
-	display:block;
-	color:#000;
-}
-#fklist td a.fkval, p.errmsg {
-	color:red;
-}
-.normal_field {
-}
-.pre {
-	white-space:pre;
-}
-.ac_values {width:100%}
+.intro li {font-weight: bold}
 .ac_field {border:1px solid #D9D95F}
-
 .bottom_link {
-	position: fixed; 
-	bottom: 0; 
-	right: 0;
-	padding: 4px;
 	background: #eee;
 	border-top: 1px dotted #999;
 	border-left: 1px dotted #999;
 	font-size: smaller;
 }
 
+/** FK browsing **/
+div#root > div.fk {
+	border: 1px solid #000;
+}
 div.fk {
-    background: white;
-    border:1px solid black;
-    margin-left: 20px;
-}
-
-div#fkcontainer {
-    margin: 0;
-    position: relative;
-    width: 100%; 
-    background: none;
-    border:0px;
-}
-
-div#root{
-	position: absolute;
-}
-
-div.fk_value {
-	display:inline-block;
+    background: #fff;
+	border-left: 1px solid #000;
+	padding: 5px;
 }
