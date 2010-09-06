@@ -803,8 +803,13 @@ _p.getLabelHtml = function () {
 	var target = this.getTarget();
 	var link = this._getHref();
 
-	if (link == '#')
-		return this.getHtml();
+	if (link == '#') {
+		return "<span class=\"webfx-tree-item-label\" tabindex=\"-1\"" +
+			(toolTip ? " title=\"" + webFXTreeHandler.textToHtml(toolTip) + "\"" : "") +
+			" onfocus=\"webFXTreeHandler.handleEvent(event)\"" +
+			" onblur=\"webFXTreeHandler.handleEvent(event)\">" +
+			this.getHtml() + "</span>";
+	}
 
 	return "<a href=\"" + webFXTreeHandler.textToHtml(link) +
 		"\" class=\"webfx-tree-item-label\" tabindex=\"-1\"" +
