@@ -5,6 +5,8 @@ Version 5.0
 -----------
 
 Features
+* Support for PostgreSQL 8.4 and 9.0
+* Support for database level collation for 8.4+
 * Support for schema level export
 * Add ability to alter schema ownership
 * Clean up domain support and improve interface
@@ -17,6 +19,12 @@ Features
 * Allow users to specify a template database at database creation time
 * Support killing processes  
 * Add ability to create indexes concurrently
+* Much better support of autovacuum configuration
+* Add an admin page for table level
+* Refactored autocompletion:
+  * fix support for cross-schema objects 
+  * support multi-field FK
+  * support for pagination of values in the auto-complete list
 * Allow user to logicaly group their server under custom named node in the browser tree
 * New theme and a theme switcher on the introduction page
 * Auto refresh Locks page
@@ -24,11 +32,19 @@ Features
 * Link in the bottom of the page to go to top of page
 * Browsing on Foreign Keys (When browsing a table, clicking on a FK value, jump to the PK row)
 
+
 Bugs
 * Fix problems with query tracking on overly long queries
 * Ensure pg_dump paths are valid
-* Fix problems with table names containing quotes
-* Fix autocompletion support for cross-schema objects
+* Fix multiple bugs about quoting and escaping database objects names with special chars
+* Fix multiple bugs in the browser tree
+* Fix multiple bugs on the SQL and script file import form
+* One security fix about code injection
+* Don't allow inserting on a table without fields
+* Some fix about commenting databases
+* removed deprecated functions from PHP 5.3
+* Lot of code cleanup
+* Many other small minor bugs found on our way
 
 Translations
 * Czech (Marek Cernocky)
