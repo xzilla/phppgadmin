@@ -46,8 +46,8 @@ class Connection {
 	 * Gets the name of the correct database driver to use.  As a side effect,
 	 * sets the platform.
 	 * @param (return-by-ref) $description A description of the database and version
-	 * @return The class name of the driver eg. Postgres73
-	 * @return null if version is < 7.0
+	 * @return The class name of the driver eg. Postgres84
+	 * @return null if version is < 7.4
 	 * @return -3 Database-specific failure
 	 */
 	function getDriver(&$description) {
@@ -73,7 +73,7 @@ class Connection {
 			$params = explode(' ', $field);
 			if (!isset($params[1])) return -3;
 	
-			$version = $params[1]; // eg. 7.3.2
+			$version = $params[1]; // eg. 8.4.4
 		}
 		
 		$description = "PostgreSQL {$version}";
@@ -87,10 +87,9 @@ class Connection {
 			case '8.0':
 			case '7.5': return 'Postgres80'; break;
 			case '7.4': return 'Postgres74'; break;
-			case '7.3': return 'Postgres73'; break;
 		}
 
-		/* All <7.3 versions are not supported */
+		/* All <7.4 versions are not supported */
 		// if major version is 7 or less and wasn't catch in the
 		// switch/case block, we have an unsupported version.
 		if ((int)substr($version, 0, 1) < 8)

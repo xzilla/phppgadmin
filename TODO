@@ -124,6 +124,7 @@ Indexes
 * Support 8.1 Reindex System commands
 * Expressional indexes
 * Create Index Asc/Desc, Nulls First/Last [8.3]
+* remove FORCE as it is now ignore since 7.4
 
 
 Types

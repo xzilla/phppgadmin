@@ -845,8 +845,7 @@ class Postgres extends ADODB_base {
 	// Schema functons
 
 	/**
-	 * Return all schemas in the current database.  This differs from the version
-	 * in 7.3 only in that it considers the information_schema to be a system schema.
+	 * Return all schemas in the current database.
 	 * @return All schemas, sorted alphabetically
 	 */
 	function getSchemas() {
