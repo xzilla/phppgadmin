@@ -215,18 +215,20 @@ class Postgres80 extends Postgres81 {
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
-	 * @param $startvalue The starting value
+	 * @param $restartvalue The starting value
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
+	 * @param $startvalue The sequence start value when issueing a restart
 	 * @return 0 success
 	 * @return -3 rename error
 	 * @return -4 comment error
 	 * @return -5 owner error
 	 * @return -6 get sequence props error
+	 * @return -7 schema error
 	 */
 	protected
 	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
-	$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+	$minvalue, $maxvalue, $restartvalue, $cachevalue, $cycledvalue, $startvalue) {
 
 		/* $schema not supported in pg80- */
 		$this->fieldArrayClean($seqrs->fields);
@@ -246,11 +248,12 @@ class Postgres80 extends Postgres81 {
 		$this->clean($increment);
 		$this->clean($minvalue);
 		$this->clean($maxvalue);
-		$this->clean($startvalue);
+		$this->clean($restartvalue);
 		$this->clean($cachevalue);
 		$this->clean($cycledvalue);
+		$this->clean($startvalue);
 		$status = $this->alterSequenceProps($seqrs, $increment,	$minvalue,
-			$maxvalue, $startvalue, $cachevalue, $cycledvalue);
+			$maxvalue, $restartvalue, $cachevalue, $cycledvalue, null);
 		if ($status != 0)
 			return -6;
 

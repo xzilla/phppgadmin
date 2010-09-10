@@ -33,12 +33,16 @@
 	$t->assertText("//p[@class='message']", $lang['strsequencecreated']);
 	$t->clickAndWait('link=testcase_seq');
 	$t->assertText("//tr/th[text()='{$lang['strname']}' and @class='data']/../../tr/td[1]", 'testcase_seq');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[2]", '1');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[3]", '2');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[4]", '100');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[5]", '1');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[6]", '1');
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[8]", $lang['stryes']);
+	$i=2;
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '1');
+	if ($data->hasAlterSequenceStart())
+		$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '1');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '2');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '100');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '1');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i++ ."]", '1');
+	$i++; // we ignore log_count
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[". $i ."]", $lang['stryes']);
 
 /** 2 **/
 	$t->addComment('2. increment, reset sequence and set value');
@@ -46,13 +50,15 @@
 	$t->type('nextvalue', '2');
 	$t->clickAndWait('setval');
 	$t->assertText("//p[@class='message']", $lang['strsequencesetval']);
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[2]", '2');
+	if ($data->hasAlterSequenceStart()) $i = 3;
+	else $i = 2;
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[$i]", '2');
 	$t->clickAndWait("link={$lang['strnextval']}");
 	$t->assertText("//p[@class='message']", $lang['strsequencenextval']);
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[2]", '4');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[$i]", '4');
 	$t->clickAndWait("link={$lang['strreset']}");
 	$t->assertText("//p[@class='message']", $lang['strsequencereset']);
-	$t->assertText("//tr/td[text()='testcase_seq']/../td[2]", '1');
+	$t->assertText("//tr/td[text()='testcase_seq']/../td[$i]", '1');
 
 /** 3 **/
 	$t->addComment('3. alter sequence');
@@ -67,28 +73,31 @@
 	if ($data->hasAlterSequenceSchema())
 		$t->select('newschema', 'label=test_schema');
 	$t->type('comment', 'test comment on testcase_renamed_seq');
-	if ($data->hasAlterSequenceProps()) {
-		$t->type('formStartValue', 20);
-		$t->type('formIncrement', 3);
-		$t->type('formMaxValue', 104);
-		$t->type('formMinValue', 5);
-		$t->type('formCacheValue', 6);
-		$t->uncheck('formCycledValue');
-	}
+	if ($data->hasAlterSequenceStart())
+		$t->type('formStartValue', 10);
+	$t->type('formRestartValue', 20);
+	$t->type('formIncrement', 3);
+	$t->type('formMaxValue', 104);
+	$t->type('formMinValue', 5);
+	$t->type('formCacheValue', 6);
+	$t->uncheck('formCycledValue');
 	$t->clickAndWait('alter');
 	$t->assertText("//p[@class='message']", $lang['strsequencealtered']);
 	if ($data->hasAlterSequenceSchema())
 		$t->assertText("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label']", 'test_schema');
 	$t->assertText("//p[@class='comment']", 'test comment on testcase_renamed_seq');
 	$t->assertText("//tr/th[text()='{$lang['strname']}' and @class='data']/../../tr/td[1]", 'testcase_renamed_seq');
-	if ($data->hasAlterSequenceProps()) {
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[2]", '20');
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[3]", '3');
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[4]", '104');
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[5]", '5');
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[6]", '6');
-		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[8]", $lang['strno']);
-	}
+	$i = 2;
+	if ($data->hasAlterSequenceStart())
+		$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '10');
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '20');
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '3');
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '104');
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '5');
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", '6');
+	$i++; // we ignore log_count
+	$t->assertText("//tr/td[text()='testcase_renamed_seq']/../td[". $i++ ."]", $lang['strno']);
+
 	if ($data->hasAlterSequenceSchema())
 		$t->clickAndWait("//div[@class='trail']/descendant::a[@title='{$lang['strschema']}']/span[@class='label' and text()='test_schema']");
 	else

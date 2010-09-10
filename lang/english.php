@@ -66,6 +66,7 @@
 	$lang['strac'] = 'Enable AutoComplete';
 	$lang['strsave'] = 'Save';
 	$lang['strreset'] = 'Reset';
+	$lang['strrestart'] = 'Restart';
 	$lang['strinsert'] = 'Insert';
 	$lang['strselect'] = 'Select';
 	$lang['strdelete'] = 'Delete';
@@ -435,6 +436,7 @@
 	$lang['strlastvalue'] = 'Last value';
 	$lang['strincrementby'] = 'Increment by';	
 	$lang['strstartvalue'] = 'Start value';
+	$lang['strrestartvalue'] = 'Restart value';
 	$lang['strmaxvalue'] = 'Max value';
 	$lang['strminvalue'] = 'Min value';
 	$lang['strcachevalue'] = 'Cache value';
@@ -447,6 +449,8 @@
 	$lang['strconfdropsequence'] = 'Are you sure you want to drop sequence "%s"?';
 	$lang['strsequencedropped'] = 'Sequence dropped.';
 	$lang['strsequencedroppedbad'] = 'Sequence drop failed.';
+	$lang['strsequencerestart'] = 'Sequence restarted.';
+	$lang['strsequencerestartbad'] = 'Sequence restart failed.';
 	$lang['strsequencereset'] = 'Sequence reset.';
 	$lang['strsequenceresetbad'] = 'Sequence reset failed.';
  	$lang['strsequencealtered'] = 'Sequence altered.';

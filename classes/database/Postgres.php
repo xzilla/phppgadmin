@@ -2738,6 +2738,23 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
+	 * Restart a given sequence to its start value
+	 * @param $sequence Sequence name
+	 * @return 0 success
+	 * @return -1 sequence not found
+	 */
+	function restartSequence($sequence) {
+
+		$f_schema = $this->_schema;
+		$this->fieldClean($f_schema);
+		$this->fieldClean($sequence);
+
+		$sql = "ALTER SEQUENCE \"{$f_schema}\".\"{$sequence}\" RESTART;";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Resets a given sequence to min value of sequence
 	 * @param $sequence Sequence name
 	 * @return 0 success
@@ -2857,21 +2874,23 @@ class Postgres extends ADODB_base {
 	 * @param $increment The sequence incremental value
 	 * @param $minvalue The sequence minimum value
 	 * @param $maxvalue The sequence maximum value
-	 * @param $startvalue The sequence current value
+	 * @param $restartvalue The sequence current value
 	 * @param $cachevalue The sequence cache value
 	 * @param $cycledvalue Sequence can cycle ?
+	 * @param $startvalue The sequence start value when issueing a restart
 	 * @return 0 success
 	 */
 	function alterSequenceProps($seqrs, $increment,	$minvalue, $maxvalue,
-								$startvalue, $cachevalue, $cycledvalue) {
+								$restartvalue, $cachevalue, $cycledvalue, $startvalue) {
 
 		$sql = '';
 		/* vars are cleaned in _alterSequence */
 		if (!empty($increment) && ($increment != $seqrs->fields['increment_by'])) $sql .= " INCREMENT {$increment}";
 		if (!empty($minvalue) && ($minvalue != $seqrs->fields['min_value'])) $sql .= " MINVALUE {$minvalue}";
 		if (!empty($maxvalue) && ($maxvalue != $seqrs->fields['max_value'])) $sql .= " MAXVALUE {$maxvalue}";
-		if (!empty($startvalue) && ($startvalue != $seqrs->fields['last_value'])) $sql .= " RESTART {$startvalue}";
+		if (!empty($restartvalue) && ($restartvalue != $seqrs->fields['last_value'])) $sql .= " RESTART {$restartvalue}";
 		if (!empty($cachevalue) && ($cachevalue != $seqrs->fields['cache_value'])) $sql .= " CACHE {$cachevalue}";
+		if (!empty($startvalue) && ($startvalue != $seqrs->fields['start_value'])) $sql .= " START {$startvalue}";
 		// toggle cycle yes/no
 		if (!is_null($cycledvalue))	$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";
 		if ($sql != '') {
@@ -2894,9 +2913,10 @@ class Postgres extends ADODB_base {
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
-	 * @param $startvalue The starting value
+	 * @param $restartvalue The starting value
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
+	 * @param $startvalue The sequence start value when issueing a restart
 	 * @return 0 success
 	 * @return -3 rename error
 	 * @return -4 comment error
@@ -2906,7 +2926,7 @@ class Postgres extends ADODB_base {
 	 */
 	protected
 	function _alterSequence($seqrs, $name, $comment, $owner, $schema, $increment,
-	$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue) {
+	$minvalue, $maxvalue, $restartvalue, $cachevalue, $cycledvalue, $startvalue) {
 
 		$this->fieldArrayClean($seqrs->fields);
 
@@ -2925,11 +2945,12 @@ class Postgres extends ADODB_base {
 		$this->clean($increment);
 		$this->clean($minvalue);
 		$this->clean($maxvalue);
-		$this->clean($startvalue);
+		$this->clean($restartvalue);
 		$this->clean($cachevalue);
 		$this->clean($cycledvalue);
+		$this->clean($startvalue);
 		$status = $this->alterSequenceProps($seqrs, $increment,	$minvalue,
-			$maxvalue, $startvalue, $cachevalue, $cycledvalue);
+			$maxvalue, $restartvalue, $cachevalue, $cycledvalue, $startvalue);
 		if ($status != 0)
 			return -6;
 
@@ -2958,16 +2979,17 @@ class Postgres extends ADODB_base {
 	 * @param $increment The increment
 	 * @param $minvalue The min value
 	 * @param $maxvalue The max value
-	 * @param $startvalue The starting value
+	 * @param $restartvalue The starting value
 	 * @param $cachevalue The cache value
 	 * @param $cycledvalue True if cycled, false otherwise
+	 * @param $startvalue The sequence start value when issueing a restart
 	 * @return 0 success
 	 * @return -1 transaction error
 	 * @return -2 get existing sequence error
 	 * @return $this->_alterSequence error code
 	 */
     function alterSequence($sequence, $name, $comment, $owner=null, $schema=null, $increment=null,
-	$minvalue=null, $maxvalue=null, $startvalue=null, $cachevalue=null, $cycledvalue=null) {
+	$minvalue=null, $maxvalue=null, $restartvalue=null, $cachevalue=null, $cycledvalue=null, $startvalue=null) {
 
 		$this->fieldClean($sequence);
 
@@ -2983,7 +3005,7 @@ class Postgres extends ADODB_base {
 		}
 
 		$status = $this->_alterSequence($data, $name, $comment, $owner, $schema, $increment,
-				$minvalue, $maxvalue, $startvalue, $cachevalue, $cycledvalue);
+				$minvalue, $maxvalue, $restartvalue, $cachevalue, $cycledvalue, $startvalue);
 
 		if ($status != 0) {
 			$this->rollbackTransaction();
@@ -7966,8 +7988,8 @@ class Postgres extends ADODB_base {
 	function hasAlterDatabaseRename() { return true; }
 	function hasAlterSchema() { return true; }
 	function hasAlterSchemaOwner() { return true; }
-	function hasAlterSequenceProps() { return true; }
 	function hasAlterSequenceSchema() { return true; }
+	function hasAlterSequenceStart() { return true; }
 	function hasAlterTableSchema() { return true; }
 	function hasAutovacuum() { return true; }
 	function hasCreateTableLike() { return true; }

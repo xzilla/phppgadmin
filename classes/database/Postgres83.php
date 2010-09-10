@@ -272,6 +272,39 @@ class Postgres83 extends Postgres {
 	// Sequence functions
 	
 	/**
+	 * Alter a sequence's properties
+	 * @param $seqrs The sequence RecordSet returned by getSequence()
+	 * @param $increment The sequence incremental value
+	 * @param $minvalue The sequence minimum value
+	 * @param $maxvalue The sequence maximum value
+	 * @param $restartvalue The sequence current value
+	 * @param $cachevalue The sequence cache value
+	 * @param $cycledvalue Sequence can cycle ?
+	 * @param $startvalue The sequence start value when issueing a restart (ignored)
+	 * @return 0 success
+	 */
+	function alterSequenceProps($seqrs, $increment,	$minvalue, $maxvalue,
+								$restartvalue, $cachevalue, $cycledvalue, $startvalue) {
+
+		$sql = '';
+		/* vars are cleaned in _alterSequence */
+		if (!empty($increment) && ($increment != $seqrs->fields['increment_by'])) $sql .= " INCREMENT {$increment}";
+		if (!empty($minvalue) && ($minvalue != $seqrs->fields['min_value'])) $sql .= " MINVALUE {$minvalue}";
+		if (!empty($maxvalue) && ($maxvalue != $seqrs->fields['max_value'])) $sql .= " MAXVALUE {$maxvalue}";
+		if (!empty($restartvalue) && ($restartvalue != $seqrs->fields['last_value'])) $sql .= " RESTART {$restartvalue}";
+		if (!empty($cachevalue) && ($cachevalue != $seqrs->fields['cache_value'])) $sql .= " CACHE {$cachevalue}";
+		// toggle cycle yes/no
+		if (!is_null($cycledvalue))	$sql .= (!$cycledvalue ? ' NO ' : '') . " CYCLE";
+		if ($sql != '') {
+			$f_schema = $this->_schema;
+			$this->fieldClean($f_schema);
+			$sql = "ALTER SEQUENCE \"{$f_schema}\".\"{$seqrs->fields['seqname']}\" {$sql}";
+			return $this->execute($sql);
+		}
+		return 0;
+	}
+
+	/**
 	 * Alter a sequence's owner
 	 * @param $seqrs The sequence RecordSet returned by getSequence()
 	 * @param $name The new owner for the sequence
@@ -293,7 +326,7 @@ class Postgres83 extends Postgres {
 
 	function hasQueryKill() { return false; }
 	function hasDatabaseCollation() { return false; }
-
+	function hasAlterSequenceStart() { return false; }
 }
 
 ?>
