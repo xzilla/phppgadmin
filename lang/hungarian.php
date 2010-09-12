@@ -2,7 +2,7 @@
 
 	/**
 	 * Hungarian language file for phpPgAdmin.
-	 * maintainer: Sulyok Peti <peti@sulyok.hu>
+	 * maintainer: Sulyok Peti <sulyokpeti@gmail.com>
 	 *
 	 *
 	 */
@@ -27,9 +27,11 @@
 	// Basic strings
 	$lang['strlogin'] = 'Bejelentkezés';
 	$lang['strloginfailed'] = 'Nem sikerült bejelentkezni';
-	$lang['strlogindisallowed'] = 'Nem engedélyezett bejelentkezés';
-	$lang['strserver'] = 'Kiszolgáló';
-	$lang['strservers']  =  'Kiszolgálók';
+	$lang['strlogindisallowed'] = 'Biztonsági okból engedélyezettlen a bejelentkezés.';
+	$lang['strserver'] = 'Szolgáló';
+	$lang['strservers']  =  'Szolgálók';
+	$lang['strgroupservers'] = 'Szolgálók „%s” csoportban';
+	$lang['strallservers'] = 'Minden szolgáló';
 	$lang['strintroduction']  =  'Bevezető';
 	$lang['strhost']  =  'Gazda';
 	$lang['strport']  =  'Kapu';
@@ -40,10 +42,10 @@
 	$lang['strname'] = 'Név';
 	$lang['strdefinition'] = 'Definíció';
 	$lang['strproperties'] = 'Tulajdonságok';
-	$lang['strbrowse'] = 'Tallózás';
-	$lang['strenable']  =  'Engedélyezés';
-	$lang['strdisable']  =  'Letiltás';
-	$lang['strdrop'] = 'Törlés';
+	$lang['strbrowse'] = 'Tallóz';
+	$lang['strenable']  =  'Enged';
+	$lang['strdisable']  =  'Tilt';
+	$lang['strdrop'] = 'Töröl';
 	$lang['strdropped'] = 'Törlölve';
 	$lang['strnull'] = 'Null';
 	$lang['strnotnull'] = 'Not Null';
@@ -52,27 +54,29 @@
 	$lang['strfirst'] = '<< Első';
 	$lang['strlast'] = 'Utolsó >>';
 	$lang['strfailed'] = 'Sikertelen';
-	$lang['strcreate'] = 'Teremtés';
+	$lang['strcreate'] = 'Teremt';
 	$lang['strcreated'] = 'Megteremtve';
 	$lang['strcomment'] = 'Megjegyzés';
 	$lang['strlength'] = 'Hossz';
 	$lang['strdefault'] = 'Alapértelmezés';
-	$lang['stralter'] = 'Módosítás';
+	$lang['stralter'] = 'Módosít';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Mégsem';
+	$lang['strkill'] = 'Öl';
 	$lang['strac']  =  'Önműködő kiegészítés engedélyezése';
-	$lang['strsave'] = 'Mentés';
+	$lang['strsave'] = 'Ment';
 	$lang['strreset'] = 'Újra';
-	$lang['strinsert'] = 'Beszúrás';
-	$lang['strselect'] = 'Kiválasztás';
-	$lang['strdelete'] = 'Törlés';
-	$lang['strupdate'] = 'Időszerűsítés';
+	$lang['strrestart'] = 'Újraindít';
+	$lang['strinsert'] = 'Beszúr';
+	$lang['strselect'] = 'Kiválaszt';
+	$lang['strdelete'] = 'Töröl';
+	$lang['strupdate'] = 'Időszerűsít';
 	$lang['strreferences'] = 'Hivatkozások';
 	$lang['stryes'] = 'Igen';
 	$lang['strno'] = 'Nem';
 	$lang['strtrue'] = 'IGAZ';
 	$lang['strfalse'] = 'HAMIS';
-	$lang['stredit'] = 'Szerkesztés';
+	$lang['stredit'] = 'Szerkeszt';
 	$lang['strcolumn']  = 'Oszlop';
 	$lang['strcolumns'] = 'Oszlopok';
 	$lang['strrows'] = 'sor';
@@ -80,42 +84,42 @@
 	$lang['strobjects'] = 'objektum';
 	$lang['strback'] = 'Vissza';
 	$lang['strqueryresults'] = 'Lekérdezés eredményei';
-	$lang['strshow'] = 'Megjelenítés';
-	$lang['strempty'] = 'Ürítés';
+	$lang['strshow'] = 'Megjelenít';
+	$lang['strempty'] = 'Ürít';
 	$lang['strlanguage'] = 'Nyelv';
 	$lang['strencoding'] = 'Kódolás';
 	$lang['strvalue'] = 'Érték';
 	$lang['strunique'] = 'egyedi';
 	$lang['strprimary'] = 'Elsődleges';
-	$lang['strexport'] = 'Exportálás';
-	$lang['strimport'] = 'Importálás';
+	$lang['strexport'] = 'Kivisz';
+	$lang['strimport'] = 'Behoz';
 	$lang['strallowednulls']  =  'Engedélyezett NULL betűk';
 	$lang['strbackslashn']  =  '\N';
 	$lang['stremptystring']  =  'Üres szöveg/mező';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Gazda';
-	$lang['strvacuum'] = 'Takarítás';
-	$lang['stranalyze'] = 'Elemzés';
-	$lang['strclusterindex'] = 'Fürtözés';
+	$lang['strvacuum'] = 'Takarít';
+	$lang['stranalyze'] = 'Elemez';
+	$lang['strclusterindex'] = 'Fürtöz';
 	$lang['strclustered'] = 'Fürtözve?';
-	$lang['strreindex'] = 'Újraindexelés';
-	$lang['strexecute']  =  'Végrehajtás';
-	$lang['stradd'] = 'Bővítés';
+	$lang['strreindex'] = 'Újraindexel';
+	$lang['strexecute']  =  'Végrehajt';
+	$lang['stradd'] = 'Bővít';
 	$lang['strevent'] = 'Esemény';
 	$lang['strwhere'] = 'Hol';
 	$lang['strinstead'] = 'Inkább';
 	$lang['strwhen'] = 'Mikor';
 	$lang['strformat'] = 'Alak';
 	$lang['strdata'] = 'Adatok';
-	$lang['strconfirm'] = 'Megerősítés';
+	$lang['strconfirm'] = 'Megerősít';
 	$lang['strexpression'] = 'Kifejezés';
 	$lang['strellipsis'] = '…';
 	$lang['strseparator']  =  ': ';
-	$lang['strexpand'] = 'Kinyitás';
-	$lang['strcollapse'] = 'Összecsukás';
-	$lang['strfind'] = 'Keresés';
+	$lang['strexpand'] = 'Kinyit';
+	$lang['strcollapse'] = 'Összecsuk';
+	$lang['strfind'] = 'Keres';
 	$lang['stroptions'] = 'Részletek';
-	$lang['strrefresh'] = 'Frissítés';
+	$lang['strrefresh'] = 'Frissít';
 	$lang['strdownload'] = 'Letöltés';
 	$lang['strdownloadgzipped'] = 'Gzippel tömörített letöltés';
 	$lang['strinfo'] = 'Infó';
@@ -133,21 +137,35 @@
 	$lang['strfile'] = 'Fájl';
 	$lang['strfileimported'] = 'Fájl behozva.';
 	$lang['strtrycred']  =  'Használja minden kiszolgálóhoz e beállításokat';
-	$lang['stractionsonmultiplelines']  =  'Műveletek több soron';
-	$lang['strselectall']  =  'Minden kiválasztása';
-	$lang['strunselectall']  =  'Semmi kiválasztása';
+	$lang['strconfdropcred'] = 'Biztonság okán a szétválás megszünteti a megosztott bejelentkező adatait. Biztosan szét akar válni?';
+	$lang['stractionsonmultiplelines']  =  'Több soros műveletek';
+	$lang['strselectall']  =  'Mindent kiválaszt';
+	$lang['strunselectall']  =  'Semmit sem választ ki';
 	$lang['strlocale']  =  'Helyszín';
+	$lang['strcollation'] = 'Összerakás';
+	$lang['strctype'] = 'Betűtípus';
+	$lang['strdefaultvalues'] = 'Alapértékek';
+	$lang['strnewvalues'] = 'Új értékek';
+	$lang['strstart'] = 'Indít';
+	$lang['strstop'] = 'Leállít';
+	$lang['strgotoppage'] = 'vissza a tetejére';
+	$lang['strtheme'] = 'Téma';
+	
+	// Admin
+	$lang['stradminondatabase'] = 'A következő adminisztratív feladatok %s adatbázis egészére vonatkoznak.';
+	$lang['stradminontable'] = 'A következő adminisztratív feladatok %s táblára vonatkoznak.';
 
 	// User-supplied SQL history
 	$lang['strhistory']  =  'Előzmények';
 	$lang['strnohistory']  =  'Nincs előzmény.';
-	$lang['strclearhistory']  =  'Előzmények törlése';
-	$lang['strdelhistory']  =  'Törlés az előzményekből';
-	$lang['strconfdelhistory']  =  'Tényleg töröljük e kérelmet az előzményekből?';
-	$lang['strconfclearhistory']  =  'Tényleg töröljük az előzményeket?';
+	$lang['strclearhistory']  =  'Előzményeket töröl';
+	$lang['strdelhistory']  =  'Előzményekből töröl';
+	$lang['strconfdelhistory']  =  'Tényleg töröli e kérelmet az előzményekből?';
+	$lang['strconfclearhistory']  =  'Tényleg töröli az előzményeket?';
 	$lang['strnodatabaseselected']  =  'Ki kell választani az adatbázist.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'Nincs hozzáférés'; 
 	$lang['strsize']  =  'Méret';
 	$lang['strbytes']  =  'bájt';
 	$lang['strkb']  =  'kB';
@@ -179,6 +197,9 @@
 	$lang['strcannotdumponwindows']  =  'Összetett tábla ömlesztése és séma nevek Windows-on nem támogatottak.';
 	$lang['strinvalidserverparam']  =  'Érvénytelen kiszolgáló paraméterrel próbáltak csatlakozni. Lehet, hogy valaki betörni próbál a rendszerbe.'; 
 	$lang['strnoserversupplied']  =  'Nincs megadva kiszolgáló!';
+	$lang['strbadpgdumppath'] = 'Kiviteli hiba: Elbukott a pg_dump végrehajtása (conf/config.inc.php fájlban megadott ösvény: %s). Kérem, javítsa ki ezt a beállításban, és ismételjen.';
+	$lang['strbadpgdumpallpath'] = 'Kiviteli hiba: Elbukott a pg_dumpall végrehajtása (conf/config.inc.php fájlban megadott ösvény: %s). Kérem, javítsa ki ezt a beállításban, és ismételjen.';
+	$lang['strconnectionfail'] = 'Nem csatlakozhatok a szolgálóhoz.';
 
 	// Tables
 	$lang['strtable'] = 'Tábla';
@@ -186,8 +207,8 @@
 	$lang['strshowalltables'] = 'Minden tábla megjelenítése';
 	$lang['strnotables'] = 'Nincsenek táblák.';
 	$lang['strnotable'] = 'Nincs tábla.';
-	$lang['strcreatetable'] = 'Tábla teremtése';
-	$lang['strcreatetablelike']  =  'Tábla teremtése mint';
+	$lang['strcreatetable'] = 'Táblát teremt';
+	$lang['strcreatetablelike']  =  'Táblát teremt mint';
 	$lang['strcreatetablelikeparent']  =  'Forrás tábla';
 	$lang['strcreatelikewithdefaults']  =  'ALAPÉRTELMEZÉSEKKEL';
 	$lang['strcreatelikewithconstraints']  =  'MEGSZORÍTÁSOKKAL';
@@ -208,6 +229,7 @@
 	$lang['strinsertrow'] = 'Sor beszúrása';
 	$lang['strrowinserted'] = 'A sor beszúrva.';
 	$lang['strrowinsertedbad'] = 'Nem sikerült a sort beszúrni.';
+	$lang['strnofkref'] = 'Nincs %s idegen kulcshoz illő érték.';
 	$lang['strrowduplicate']  =  'Nem sikerült sort beszúrni. Dupla beszúrási kísérlet.';
 	$lang['streditrow'] = 'Sor szerkesztése';
 	$lang['strrowupdated'] = 'A sor időszerűsítve.';
@@ -240,11 +262,16 @@
 	$lang['strauto'] = 'Autó';
 	$lang['strconfvacuumtable']  =  'Biztosan ki akarja takarítani „%s” táblát?';
 	$lang['strconfanalyzetable']  =  'Biztosan elemezzük „%s” táblát?';
+	$lang['strconfreindextable'] = 'Biztosan újra akarja indexelni „%s” táblát?';
+	$lang['strconfclustertable'] = 'Biztosan fürtözni akarja „%s” táblát?';
 	$lang['strestimatedrowcount']  =  'Becsült sorok száma';
-	$lang['strspecifytabletoanalyze']  =  'Legalább egy elemzendő táblát meg kell adni';
-	$lang['strspecifytabletoempty']  =  'Legalább egy ürítendő táblát meg kell adni';
-	$lang['strspecifytabletodrop']  =  'Legalább egy törlendő táblát meg kell adni';
-	$lang['strspecifytabletovacuum']  =  'Legalább egy takarítandó táblát meg kell adni';
+	$lang['strspecifytabletoanalyze']  =  'Legalább egy elemzendő táblát meg kell adni.';
+	$lang['strspecifytabletoempty']  =  'Legalább egy ürítendő táblát meg kell adni.';
+	$lang['strspecifytabletodrop']  =  'Legalább egy törlendő táblát meg kell adni.';
+	$lang['strspecifytabletovacuum']  =  'Legalább egy takarítandó táblát meg kell adni.';
+	$lang['strspecifytabletoreindex'] = 'Legalább egy indexelendő táblát meg kell adni.';
+	$lang['strspecifytabletocluster'] = 'Legalább egy fürtözendő táblát meg kell adni.';
+	$lang['strnofieldsforinsert'] = 'Oszloptalan táblába nem szúrhat be sort.';
 
 	// Columns
 	$lang['strcolprop']  =  'Tábla tulajdonságai';
@@ -280,10 +307,10 @@
 	// Groups
 	$lang['strgroup'] = 'Csoport';
 	$lang['strgroups'] = 'Csoportok';
-	$lang['strshowallgroups']  =  'Minden csoport megjelenítése';
+	$lang['strshowallgroups']  =  'Minden csoportot megjelenít';
 	$lang['strnogroup'] = 'Nincs csoport.';
 	$lang['strnogroups'] = 'Nincsenek csoportok.';
-	$lang['strcreategroup'] = 'Csoport teremtése';
+	$lang['strcreategroup'] = 'Csoportot teremt';
 	$lang['strgroupneedsname'] = 'A csoportnak nevet kell adni.';
 	$lang['strgroupcreated'] = 'A csoport megteremtve.';
 	$lang['strgroupcreatedbad'] = 'Nem sikerült a csoportot megteremteni.';	
@@ -293,7 +320,7 @@
 	$lang['strmembers'] = 'Tagok';
 	$lang['strmemberof']  =  'Tagja ';
 	$lang['stradminmembers']  =  'Admin tagok';
-	$lang['straddmember'] = 'Tag felvétele';
+	$lang['straddmember'] = 'Tagot vesz fel';
 	$lang['strmemberadded'] = 'Tag felvéve.';
 	$lang['strmemberaddedbad'] = 'Nem sikerült tagot felvenni.';
 	$lang['strdropmember'] = 'Tag kicsapása';
@@ -304,10 +331,10 @@
 	// Roles
 	$lang['strrole']  =  'Szerep';
 	$lang['strroles']  =  'Szerepek';
-	$lang['strshowallroles']  =  'Minden szerep megjelenítése';
+	$lang['strshowallroles']  =  'Minden szerepet megjelenít';
 	$lang['strnoroles']  =  'Nincs szerep.';
 	$lang['strinheritsprivs']  =  'Jogosultságokat örököl?';
-	$lang['strcreaterole']  =  'Szerep teremtése';
+	$lang['strcreaterole']  =  'Szerepet teremt';
 	$lang['strcancreaterole']  =  'Teremthet szerepet?';
 	$lang['strrolecreated']  =  'Szerep megteremtve.';
 	$lang['strrolecreatedbad']  =  'Nem sikerült szerepet teremteni.';
@@ -315,7 +342,7 @@
 	$lang['strrolealteredbad']  =  'Nem sikerült szerepet változtatni.';
 	$lang['strcanlogin']  =  'Beléphet?';
 	$lang['strconnlimit']  =  'Kapcsolat korlátja';
-	$lang['strdroprole']  =  'Szerep törlése';
+	$lang['strdroprole']  =  'Szerepet töröl';
 	$lang['strconfdroprole']  =  'Biztosan töröljük „%s” szerepet?';
 	$lang['strroledropped']  =  'Szerep törölve.';
 	$lang['strroledroppedbad']  =  'Nem sikerült szerepet törölni.';
@@ -326,9 +353,9 @@
 	// Privileges
 	$lang['strprivilege'] = 'Jogosultság';
 	$lang['strprivileges'] = 'Jogosultságok';
-	$lang['strnoprivileges'] = 'Ez az objektum alap-jogosultságokkal rendelkezik.';
-	$lang['strgrant'] = 'Feljogosítás';
-	$lang['strrevoke'] = 'Jogosultság megvonása';
+	$lang['strnoprivileges'] = 'Ez objektum alap-jogosultságokkal rendelkezik.';
+	$lang['strgrant'] = 'Feljogosít';
+	$lang['strrevoke'] = 'Jogosultságot megvon';
 	$lang['strgranted'] = 'A jogosultságok megváltoztatva.';
 	$lang['strgrantfailed'] = 'Nem sikerült a jogosultságokat megváltoztatni.';
 	$lang['strgrantbad'] = 'Legalább egy felhasználót és jogosultságot ki kell választani.';
@@ -338,11 +365,11 @@
 	// Databases
 	$lang['strdatabase'] = 'Adatbázis';
 	$lang['strdatabases'] = 'Adatbázisok';
-	$lang['strshowalldatabases'] = 'Minden adatbázis megjelenítése';
-	$lang['strnodatabases'] = 'Nincsenek adatbázisok.';
-	$lang['strcreatedatabase'] = 'Adatbázis teremtése';
+	$lang['strshowalldatabases'] = 'Minden adatbázist megjelenít';
+	$lang['strnodatabases'] = 'Nincs adatbázis.';
+	$lang['strcreatedatabase'] = 'Adatbázist teremt';
 	$lang['strdatabasename'] = 'Adatbázisnév';
-	$lang['strdatabaseneedsname'] = 'Meg kell adni az adatbázisnevet.';
+	$lang['strdatabaseneedsname'] = 'Meg kell adni az adatbázis nevét.';
 	$lang['strdatabasecreated'] = 'Az adatbázis megteremtve.';
 	$lang['strdatabasecreatedbad'] = 'Nem sikerült megteremteni az adatbázist.';
 	$lang['strconfdropdatabase'] = 'Biztosan törölni akarja „%s” adatbázist?';
@@ -357,22 +384,27 @@
 	$lang['strreindexgood'] = 'Újraindexelés kész.';
 	$lang['strreindexbad'] = 'Nem sikerült az újraindexelés.';
 	$lang['strfull'] = 'Teljes';
-	$lang['strfreeze'] = 'Befagyasztás';
-	$lang['strforce'] = 'Kényszerítés';
+	$lang['strfreeze'] = 'Befagyaszt';
+	$lang['strforce'] = 'Kényszerít';
 	$lang['strsignalsent']  =  'Jelzés elküldve.';
 	$lang['strsignalsentbad']  =  'Nem sikerült jelzést küldeni.';
 	$lang['strallobjects']  =  'Minden objektum';
 	$lang['strdatabasealtered']  =  'Adatbázis megváltoztatva.';
 	$lang['strdatabasealteredbad']  =  'Nem sikerült az adatbázist megváltoztatni.';
 	$lang['strspecifydatabasetodrop']  =  'Meg kell adni a törlendő adatbázist';
+	$lang['strtemplatedb'] = 'Sablon';
+	$lang['strconfanalyzedatabase'] = 'Biztosan elemezni akarja „%s” adatbázis minden tábláját?';
+	$lang['strconfvacuumdatabase'] = 'Biztosan takarítani akarja „%s” adatbázis minden tábláját?';
+	$lang['strconfreindexdatabase'] = 'Biztosan indexelni akarja „%s” adatbázis minden tábláját?';
+	$lang['strconfclusterdatabase'] = 'Biztosan fürtözni akarja „%s” adatbázis minden tábláját?';
 
 	// Views
 	$lang['strview'] = 'Nézet';
 	$lang['strviews'] = 'Nézetek';
-	$lang['strshowallviews'] = 'Minden nézet megjelenítése';
+	$lang['strshowallviews'] = 'Minden nézetet megjelenít';
 	$lang['strnoview'] = 'Nincs nézet.';
 	$lang['strnoviews'] = 'Nincsenek nézetek.';
-	$lang['strcreateview'] = 'Nézet teremtése';
+	$lang['strcreateview'] = 'Nézetet teremt';
 	$lang['strviewname'] = 'Nézetnév';
 	$lang['strviewneedsname'] = 'Meg kell adni a nézetnevet.';
 	$lang['strviewneedsdef'] = 'Meg kell adni a nézet definícióját.';
@@ -386,9 +418,9 @@
 	$lang['strviewupdatedbad'] = 'Nem sikerült időszerűsíteni a nézetet.';
 	$lang['strviewlink'] = 'Hivatkozások';
 	$lang['strviewconditions'] = 'További feltételek';
-	$lang['strcreateviewwiz'] = 'Nézet teremtése varázslóval';
-	$lang['strrenamedupfields']  =  'Másolt mezők átnevezése';
-	$lang['strdropdupfields']  =  'Másolt mezők törlése';
+	$lang['strcreateviewwiz'] = 'Nézetet teremt varázslóval';
+	$lang['strrenamedupfields']  =  'Másolt mezőket nevez át';
+	$lang['strdropdupfields']  =  'Másolt mezőket töröl';
 	$lang['strerrordupfields']  =  'Hiba a másolt mezőkben';
 	$lang['strviewaltered']  =  'Nézet megváltoztatva.';
 	$lang['strviewalteredbad']  =  'Nem sikerült megváltoztatni a nézetet.';
@@ -397,13 +429,14 @@
 	// Sequences
 	$lang['strsequence'] = 'Sorozat';
 	$lang['strsequences'] = 'Sorozatok';
-	$lang['strshowallsequences'] = 'Minden sorozat megjelenítése';
+	$lang['strshowallsequences'] = 'Minden sorozatot megjelenít';
 	$lang['strnosequence'] = 'Nincs sorozat.';
 	$lang['strnosequences'] = 'Nincsenek sorozatok.';
-	$lang['strcreatesequence'] = 'Sorozat teremtése';
+	$lang['strcreatesequence'] = 'Sorozatot teremt';
 	$lang['strlastvalue'] = 'Utolsó érték';
 	$lang['strincrementby'] = 'Növekmény';	
-	$lang['strstartvalue'] = 'Kezdőérték';
+	$lang['strstartvalue'] = 'Kezdő érték';
+	$lang['strrestartvalue'] = 'Újrakezdő érték';
 	$lang['strmaxvalue'] = 'Felső korlát';
 	$lang['strminvalue'] = 'Alsó korlát';
 	$lang['strcachevalue'] = 'Gyorstár értéke';
@@ -416,11 +449,13 @@
 	$lang['strconfdropsequence'] = 'Biztosan törölni kívánja „%s” sorozatot?';
 	$lang['strsequencedropped'] = 'A sorozat törölve.';
 	$lang['strsequencedroppedbad'] = 'Nem sikerült törölni a sorozatot.';
+	$lang['strsequencerestart'] = 'Sorozat újrakezdve.';
+	$lang['strsequencerestartbad'] = 'Nem sikerült újrakezdeni a sorozatot.';
 	$lang['strsequencereset'] = 'Sorozat nullázása.';
 	$lang['strsequenceresetbad'] = 'Nem sikerült nullázni a sorozatot.'; 
  	$lang['strsequencealtered']  =  'Sorozat megváltoztatva.';
  	$lang['strsequencealteredbad']  =  'Nem sikerült megváltoztatni a sorozatot.';
- 	$lang['strsetval']  =  'Értékadás';
+ 	$lang['strsetval']  =  'Értéket ad';
  	$lang['strsequencesetval']  =  'Érték megadva.';
  	$lang['strsequencesetvalbad']  =  'Nem sikerült az értékadás.';
  	$lang['strnextval']  =  'Növekmény';
@@ -432,10 +467,10 @@
 	$lang['strindex'] = 'Index';
 	$lang['strindexes']  =  'Indexek';
 	$lang['strindexname'] = 'Indexnév';
-	$lang['strshowallindexes'] = 'Minden index megjelenítése';
+	$lang['strshowallindexes'] = 'Minden indexet megjelenít';
 	$lang['strnoindex'] = 'Nincs index.';
 	$lang['strnoindexes'] = 'Nincsenek indexek.';
-	$lang['strcreateindex'] = 'Index létrehozása';
+	$lang['strcreateindex'] = 'Indexet teremt';
 	$lang['strtabname'] = 'Táblanév';
 	$lang['strcolumnname'] = 'Oszlopnév';
 	$lang['strindexneedsname'] = 'Meg kell adni az index nevét.';
@@ -451,17 +486,18 @@
  	$lang['strindextype'] = 'Indextípus';
 	$lang['strtablecolumnlist'] = 'A tábla oszlopai';
 	$lang['strindexcolumnlist'] = 'Az index oszlopai';
-	$lang['strconfcluster'] = 'Biztosan fürtözni kívánja „%s”-t?';
 	$lang['strclusteredgood'] = 'Fürtözés kész.';
 	$lang['strclusteredbad'] = 'Nem sikerült fürtözni.';
+	$lang['strconcurrently'] = 'Egyszerre';
+	$lang['strnoclusteravailable'] = 'A tábla nincs indexre fürtözve.';
 
 	// Rules
 	$lang['strrules'] = 'Szabályok';
 	$lang['strrule'] = 'Szabály';
-	$lang['strshowallrules'] = 'Minden szabály megjelenítése';
+	$lang['strshowallrules'] = 'Minden szabályt megjelenít';
 	$lang['strnorule'] = 'Nincs szabály.';
 	$lang['strnorules'] = 'Nincsenek szabályok.';
-	$lang['strcreaterule'] = 'Szabály teremtése';
+	$lang['strcreaterule'] = 'Szabályt teremt';
 	$lang['strrulename'] = 'Szabálynév';
 	$lang['strruleneedsname'] = 'Meg kell adni a szabálynevet.';
 	$lang['strrulecreated'] = 'A szabály megteremtve.';
@@ -473,27 +509,27 @@
 	// Constraints
 	$lang['strconstraint']  =  'Megszorítás';
 	$lang['strconstraints'] = 'Megszorítások';
-	$lang['strshowallconstraints'] = 'Minden megszorítás megjelenítése';
+	$lang['strshowallconstraints'] = 'Minden megszorítást megjelenít';
 	$lang['strnoconstraints'] = 'Nincsenek megszorítások.';
-	$lang['strcreateconstraint'] = 'Megszorítás teremtése';
+	$lang['strcreateconstraint'] = 'Megszorítást teremt';
 	$lang['strconstraintcreated'] = 'A megszorítás megteremtve.';
 	$lang['strconstraintcreatedbad'] = 'Nem sikerült megteremteni a megszorítást.';
 	$lang['strconfdropconstraint'] = 'Biztosan törölni kívánja „%s” megszorítást „%s” táblában?';
 	$lang['strconstraintdropped'] = 'A megszorítás törölve.';
 	$lang['strconstraintdroppedbad'] = 'Nem sikerült törölni a megszorítást.';
-	$lang['straddcheck'] = 'Ellenőrzés hozzáadása';
+	$lang['straddcheck'] = 'Ellenőrzést ad hozzá';
 	$lang['strcheckneedsdefinition'] = 'Meg kell adni az ellenőrzés definícióját.';
 	$lang['strcheckadded'] = 'Az ellenőrzés hozzáadva.';
 	$lang['strcheckaddedbad'] = 'Nem sikerült hozzáadni az ellenőrzést.';
-	$lang['straddpk'] = 'Elsődleges kulcs hozzáadása';
+	$lang['straddpk'] = 'Elsődleges kulcsot ad hozzá';
 	$lang['strpkneedscols'] = 'Legalább egy oszlopot meg kell adni elsődleges kulcsnak.';
 	$lang['strpkadded'] = 'Elsődleges kulcs hozzáadva.';
 	$lang['strpkaddedbad'] = 'Nem sikerült hozzáadni az elsődleges kulcsot.';
-	$lang['stradduniq'] = 'egyedi kulcs hozzáadása';
+	$lang['stradduniq'] = 'Egyedi kulcsot ad hozzá';
 	$lang['struniqneedscols'] = 'Legalább egy oszlopot meg kell adni egyedi kulcsnak.';
 	$lang['struniqadded'] = 'Az egyedi kulcs hozzáadva.';
 	$lang['struniqaddedbad'] = 'Nem sikerült hozzáadni az egyedi kulcsot.';
-	$lang['straddfk'] = 'Külső kulcs hozzáadása';
+	$lang['straddfk'] = 'Külső kulcsot ad hozzá';
 	$lang['strfkneedscols'] = 'Legalább egy oszlopot meg kell adni külső kulcsnak.';
 	$lang['strfkneedstarget'] = 'Meg kell adni a céltáblát a külső kulcsnak.';
 	$lang['strfkadded'] = 'A külső kulcs hozzáadva.';
@@ -506,15 +542,15 @@
 	// Functions
 	$lang['strfunction'] = 'Függvény';
 	$lang['strfunctions'] = 'Függvények';
-	$lang['strshowallfunctions'] = 'Minden függvény megjelenítése';
+	$lang['strshowallfunctions'] = 'Minden függvényt megjelenít';
 	$lang['strnofunction'] = 'Nincs függvény.';
 	$lang['strnofunctions'] = 'Nincsenek függvények.';
-	$lang['strcreateplfunction']  =  'SQL/PL függvény teremtése';
-	$lang['strcreateinternalfunction']  =  'Belső függvény teremtése';
-	$lang['strcreatecfunction']  =  'C függvény teremtése';
+	$lang['strcreateplfunction']  =  'SQL/PL függvényt teremt';
+	$lang['strcreateinternalfunction']  =  'Belső függvényt teremt';
+	$lang['strcreatecfunction']  =  'C függvényt teremt';
 	$lang['strfunctionname'] = 'Függvénynév';
-	$lang['strreturns'] = 'Visszarérési érték';
-	$lang['strproglanguage'] = 'Programozási nyelv';
+	$lang['strreturns'] = 'Visszatérő érték';
+	$lang['strproglanguage'] = 'Programnyelv';
 	$lang['strfunctionneedsname'] = 'Meg kell adni a függvény nevét.';
 	$lang['strfunctionneedsdef'] = 'Meg kell adni a függvény definícióját.';
 	$lang['strfunctioncreated'] = 'A függvény megteremtve.';
@@ -525,19 +561,19 @@
 	$lang['strfunctionupdated'] = 'A függvény időszerűsítve.';
 	$lang['strfunctionupdatedbad'] = 'Nem sikerült a függvényt időszerűsíteni.';
 	$lang['strobjectfile']  =  'Célkód fájl';
-	$lang['strlinksymbol']  =  'Szerkesztési szimbólum';
+	$lang['strlinksymbol']  =  'Szerkesztő szimbólum';
 	$lang['strarguments']  =  'Argumentumok';
 	$lang['strargmode']  =  'Mód';
 	$lang['strargtype']  =  'Típus';
-	$lang['strargadd']  =  'Más argumentum hozzáadása';
-	$lang['strargremove']  =  'Ezen argumentum törlése';
+	$lang['strargadd']  =  'Más argumentumot ad hozzá';
+	$lang['strargremove']  =  'Argumentumot töröl';
 	$lang['strargnoargs']  =  'E függvénynek nincsenek argumentumai.';
 	$lang['strargenableargs']  =  'E függvénynek átadott argumentumok engedélyezése.';
 	$lang['strargnorowabove']  =  'Egy sornak kell lennie e fölött.';
 	$lang['strargnorowbelow']  =  'Egy sornak kell lennie ez alatt.';
 	$lang['strargraise']  =  'Mozgás fel.';
 	$lang['strarglower']  =  'Mozgás le.';
-	$lang['strargremoveconfirm']  =  'Biztosan töröljük ezen argumentumot? Ez VISSZAVONHATATLAN.';
+	$lang['strargremoveconfirm']  =  'Biztosan töröljük ez argumentumot? Ez VISSZAVONHATATLAN.';
 	$lang['strfunctioncosting']  =  'Függvény költségei';
 	$lang['strresultrows']  =  'Eredmény sorok';
 	$lang['strexecutioncost']  =  'Végrehajtás költsége';
@@ -546,36 +582,36 @@
 	// Triggers
 	$lang['strtrigger'] = 'Ravasz';
 	$lang['strtriggers'] = 'Ravaszok';
-	$lang['strshowalltriggers'] = 'Minden ravasz megjelenítése';
+	$lang['strshowalltriggers'] = 'Minden ravaszt megjelenít';
 	$lang['strnotrigger'] = 'Nincs ravasz.';
 	$lang['strnotriggers'] = 'Nincsenek ravaszok.';
-	$lang['strcreatetrigger'] = 'Ravasz teremtése';
+	$lang['strcreatetrigger'] = 'Ravaszt teremt';
 	$lang['strtriggerneedsname'] = 'Meg kell adni a ravasz nevét.';
 	$lang['strtriggerneedsfunc'] = 'Meg kell adni egy függvény nevét a ravaszhoz.';
-	$lang['strtriggercreated'] = 'A ravasz megteremtve.';
+	$lang['strtriggercreated'] = 'Ravasz megteremtve.';
 	$lang['strtriggercreatedbad'] = 'Nem sikerült megteremteni a ravaszt.';
 	$lang['strconfdroptrigger'] = 'Biztosan törölni kívánja „%s” ravaszt „%s” táblában?';
 	$lang['strconfenabletrigger']  =  'Biztosan engedélyezzük „%s” ravaszt „%s” elemre?';
 	$lang['strconfdisabletrigger']  =  'Biztosan letiltsuk „%s” ravaszt „%s” elemre?';
-	$lang['strtriggerdropped'] = 'A ravasz törölve.';
+	$lang['strtriggerdropped'] = 'Ravasz törölve.';
 	$lang['strtriggerdroppedbad'] = 'Nem sikerült törölni a ravaszt.';
 	$lang['strtriggerenabled']  =  'Ravasz engedélyezve.';
 	$lang['strtriggerenabledbad']  =  'Nem sikerült a ravaszt engedélyezni.';
 	$lang['strtriggerdisabled']  =  'Ravasz letiltva.';
 	$lang['strtriggerdisabledbad']  =  'Nem sikerült a ravaszt letiltani.';
-	$lang['strtriggeraltered'] = 'A trigger megváltoztatva.';
+	$lang['strtriggeraltered'] = 'Ravasz megváltoztatva.';
 	$lang['strtriggeralteredbad'] = 'Nem sikerült megváltoztatni a triggert.';
 	$lang['strforeach']  =  'Mindegyik';
 
 	// Types
 	$lang['strtype'] = 'Típus';
 	$lang['strtypes'] = 'Típusok';
-	$lang['strshowalltypes'] = 'Minden típus megjelenítése';
+	$lang['strshowalltypes'] = 'Minden típust megjelenít';
 	$lang['strnotype'] = 'Nincs típus.';
 	$lang['strnotypes'] = 'Nincsenek típusok.';
-	$lang['strcreatetype'] = 'Típus teremtése';
-	$lang['strcreatecomptype']  =  'Összetett típus teremtése';
-	$lang['strcreateenumtype']  =  'Felsorolás típus';
+	$lang['strcreatetype'] = 'Típust teremt';
+	$lang['strcreatecomptype']  =  'Összetett típust teremt';
+	$lang['strcreateenumtype']  =  'Felsorolás típust teremt';
 	$lang['strtypeneedsfield']  =  'Legalább egy oszlopot meg kell adnia.';
 	$lang['strtypeneedsvalue']  =  'Legalább egy értéket meg kell adni.';
 	$lang['strtypeneedscols']  =  'Érvényes oszlopszámot kell megadnia.';	
@@ -583,20 +619,19 @@
 	$lang['strinputfn'] = 'Beviteli függvény';
 	$lang['stroutputfn'] = 'Kiviteli függvény';
 	$lang['strpassbyval'] = 'Érték szerinti átadás?';
-	$lang['stralignment'] = 'Igazítás';
+	$lang['stralignment'] = 'Igazít';
 	$lang['strelement'] = 'Elem';
 	$lang['strdelimiter'] = 'Határoló';
 	$lang['strstorage'] = 'Tár';
 	$lang['strfield']  =  'Oszlop';
-	$lang['strvalue']  =  'Érték';
 	$lang['strnumfields']  =  'Oszlopok száma';
 	$lang['strnumvalues']  =  'Értékek száma';
-	$lang['strtypeneedsname'] = 'Meg kell adni a típusnevet.';
+	$lang['strtypeneedsname'] = 'Típusnevet kell megadni.';
 	$lang['strtypeneedslen'] = 'Meg kell adni a típus hosszát.';
-	$lang['strtypecreated'] = 'A típus megteremtve';
+	$lang['strtypecreated'] = 'Típus megteremtve';
 	$lang['strtypecreatedbad'] = 'Nem sikerült megteremteni a típust.';
 	$lang['strconfdroptype'] = 'Biztosan törölni kívánja „%s” típust?';
-	$lang['strtypedropped'] = 'A típus törölve.';
+	$lang['strtypedropped'] = 'Típus törölve.';
 	$lang['strtypedroppedbad'] = 'Nem sikerült törölni a típust.';
 	$lang['strflavor']  =  'Fajta';
 	$lang['strbasetype']  =  'Alap';
@@ -608,10 +643,10 @@
 	// Schemas
 	$lang['strschema'] = 'Séma';
 	$lang['strschemas'] = 'Sémák';
-	$lang['strshowallschemas'] = 'Minden séma megjelenítése';
+	$lang['strshowallschemas'] = 'Minden sémát megjelenít';
 	$lang['strnoschema'] = 'Nincs séma.';
 	$lang['strnoschemas'] = 'Nincsenek sémák.';
-	$lang['strcreateschema'] = 'Séma teremtése';
+	$lang['strcreateschema'] = 'Sémát teremt';
 	$lang['strschemaname'] = 'Sémanév';
 	$lang['strschemaneedsname'] = 'Meg kell adni a sémanevet.';
 	$lang['strschemacreated'] = 'A séma megteremtve';
@@ -627,9 +662,9 @@
 	// Reports
 	$lang['strreport'] = 'Jelentés';
 	$lang['strreports'] = 'Jelentések';
-	$lang['strshowallreports'] = 'Minden jelentés megjelenítése';
+	$lang['strshowallreports'] = 'Minden jelentést megjelenít';
 	$lang['strnoreports'] = 'Nincsenek jelentések.';
-	$lang['strcreatereport'] = 'Jelentés teremtése';
+	$lang['strcreatereport'] = 'Jelentést teremt';
 	$lang['strreportdropped'] = 'A jelentés törölve.';
 	$lang['strreportdroppedbad'] = 'Nem sikerült törölni a jelentést.';
 	$lang['strconfdropreport'] = 'Biztosan törölni kívánja „%s” jelentést?';
@@ -641,9 +676,9 @@
 	// Domains
 	$lang['strdomain'] = 'Tartomány';
 	$lang['strdomains'] = 'Tartományok';
-	$lang['strshowalldomains'] = 'Minden tartomány megjelenítése';
+	$lang['strshowalldomains'] = 'Minden tartományt megjelenít';
 	$lang['strnodomains'] = 'Nincsnek tartományok.';
-	$lang['strcreatedomain'] = 'Tartomány teremtése';
+	$lang['strcreatedomain'] = 'Tartományt teremt';
 	$lang['strdomaindropped'] = 'A tartomány törölve.';
 	$lang['strdomaindroppedbad'] = 'Nem sikerült törölni a tartományt.';
 	$lang['strconfdropdomain'] = 'Biztosan törölni kívánja „%s” tartományt?';
@@ -656,10 +691,10 @@
 	// Operators
 	$lang['stroperator'] = 'Operátor';
 	$lang['stroperators'] = 'Operátorok';
-	$lang['strshowalloperators'] = 'Minden operátor megjelenítése';
+	$lang['strshowalloperators'] = 'Minden operátort megjelenít';
 	$lang['strnooperator'] = 'Nincs operátor.';
 	$lang['strnooperators'] = 'Nincsenek operátorok.';
-	$lang['strcreateoperator'] = 'Operátor teremtése';
+	$lang['strcreateoperator'] = 'Operátort teremt';
 	$lang['strleftarg'] = 'Bal arg típus';
 	$lang['strrightarg'] = 'Jobb arg típus';
 	$lang['strcommutator'] = 'Kommutátor';
@@ -710,7 +745,7 @@
 	$lang['straggregates'] = 'Aggregálások';
 	$lang['strnoaggregates'] = 'Nincsenek aggregálások.';
 	$lang['stralltypes'] = '(Minden típus)';
-	$lang['strcreateaggregate']  =  'Aggregálás teremtése';
+	$lang['strcreateaggregate']  =  'Aggregálást teremt';
 	$lang['straggrbasetype']  =  'Bemenő adattípus';
 	$lang['straggrsfunc']  =  'Állapotátmeneti függvény';
 	$lang['straggrstype']  =  'Állapotérték adattípusa';
@@ -733,7 +768,7 @@
 	// Operator Classes
 	$lang['stropclasses'] = 'Operátor-osztályok';
 	$lang['strnoopclasses'] = 'Nincsenek operátor-osztályok.';
-	$lang['straccessmethod'] = 'Hozzáférési eljárás';
+	$lang['straccessmethod'] = 'Hozzáférés módja';
 
 	// Stats and performance
 	$lang['strrowperf'] = 'Sorteljesítmény';
@@ -755,9 +790,9 @@
 	// Tablespaces
 	$lang['strtablespace']  =  'Táblahely';
 	$lang['strtablespaces']  =  'Táblahelyek';
-	$lang['strshowalltablespaces']  =  'Minden táblahely megjelenítése';
+	$lang['strshowalltablespaces']  =  'Minden táblahelyet megjelenít';
 	$lang['strnotablespaces']  =  'Nincsenek táblahelyek.';
-	$lang['strcreatetablespace']  =  'Táblahely teremtése';
+	$lang['strcreatetablespace']  =  'Táblahelyet teremt';
 	$lang['strlocation']  =  'Hely';
 	$lang['strtablespaceneedsname']  =  'Nevet kell adnia a táblahelynek.';
 	$lang['strtablespaceneedsloc']  =  'Meg kell adnia egy mappát, ahol a táblahelyet teremti.';
@@ -775,16 +810,16 @@
 	$lang['strconfdropcluster']  =  'Biztosan töröljük „%s” fürtöt?';
 	$lang['strclusterdropped']  =  'Fürt törölve.';
 	$lang['strclusterdroppedbad']  =  'Nem sikerült törölni a fürtöt.';
-	$lang['strinitcluster']  =  'Fürt inicializálása';
-	$lang['strclustercreated']  =  'Fürt inicializálva.';
-	$lang['strclustercreatedbad']  =  'Nem sikerült inicializálni a fürtöt.';
+	$lang['strinitcluster']  =  'Fürtöt készít';
+	$lang['strclustercreated']  =  'Fürt kész.';
+	$lang['strclustercreatedbad']  =  'Nem sikerült fürtöt készíteni.';
 	$lang['strclusterneedsname']  =  'Nevet kell adnia a fürtnek.';
 	$lang['strclusterneedsnodeid']  =  'Azonosítót kell adnia a helyi csomópontnak.';
 	
 	// Slony nodes
 	$lang['strnodes']  =  'Csomópontok';
 	$lang['strnonodes']  =  'Nincs csomópont.';
-	$lang['strcreatenode']  =  'Csomópont teremtése';
+	$lang['strcreatenode']  =  'Csomópontot teremt';
 	$lang['strid']  =  'Az';
 	$lang['stractive']  =  'Aktív';
 	$lang['strnodecreated']  =  'Csomópont megteremtve.';
@@ -792,7 +827,7 @@
 	$lang['strconfdropnode']  =  'Biztosan el akarja dobni „%s” csomópontot?';
 	$lang['strnodedropped']  =  'Csomópont eldobva.';
 	$lang['strnodedroppedbad']  =  'Nem sikerült eldobni a csomópontot.';
-	$lang['strfailover']  =  'Áthidalás';
+	$lang['strfailover']  =  'Áthidal';
 	$lang['strnodefailedover']  =  'Végponti hiba áthidalva.';
 	$lang['strnodefailedoverbad']  =  'Nem sikerült áthidalni a végpont hibáját.';
 	$lang['strstatus']  =  'Állapot';	
@@ -801,25 +836,25 @@
 	$lang['strunknown']  =  'Ismeretlen';	
 	
 	// Slony paths	
-	$lang['strpaths']  =  'Utak';
-	$lang['strnopaths']  =  'Nincs út.';
-	$lang['strcreatepath']  =  'Út teremtése';
+	$lang['strpaths']  =  'Ösvények';
+	$lang['strnopaths']  =  'Nincs ösvény.';
+	$lang['strcreatepath']  =  'Ösvényt teremt';
 	$lang['strnodename']  =  'Csomópont neve';
 	$lang['strnodeid']  =  'Csomópont-azonosító';
-	$lang['strconninfo']  =  'Kapcsolati szöveg';
-	$lang['strconnretry']  =  'Másodpercek kapcsolódás újrapróbálásáig';
-	$lang['strpathneedsconninfo']  =  'Meg kell adnia a kapcsolati szöveget az elérési úthoz.';
-	$lang['strpathneedsconnretry']  =  'Meg kell adnia a kapcsolódás újrapróbálásáig történő várakozás idejét másodpercekben.';
-	$lang['strpathcreated']  =  'Út megteremtve.';
-	$lang['strpathcreatedbad']  =  'Nem sikerült az utat megteremteni.';
-	$lang['strconfdroppath']  =  'Biztosan el akarja dobni „%s” utat?';
-	$lang['strpathdropped']  =  'Út eldobva.';
-	$lang['strpathdroppedbad']  =  'Nem sikerült az utat eldobni.';
+	$lang['strconninfo']  =  'Csatlakozás tájékoztató';
+	$lang['strconnretry']  =  'Másodpercek a csatlakozás ismétléséig';
+	$lang['strpathneedsconninfo']  =  'Meg kell adnia a kapcsolati szöveget az ösvényhez.';
+	$lang['strpathneedsconnretry']  =  'Meg kell adnia a csatlakozás ismétléséig történő várakozás idejét másodpercekben.';
+	$lang['strpathcreated']  =  'Ösvény megteremtve.';
+	$lang['strpathcreatedbad']  =  'Nem sikerült ösvényt teremteni.';
+	$lang['strconfdroppath']  =  'Biztosan el akarja dobni „%s” ösvényt?';
+	$lang['strpathdropped']  =  'Ösvény eldobva.';
+	$lang['strpathdroppedbad']  =  'Nem sikerült az ösvényt eldobni.';
 
 	// Slony listens
 	$lang['strlistens']  =  'Figyelők';
 	$lang['strnolistens']  =  'Nincs figyelő.';
-	$lang['strcreatelisten']  =  'Figyelő teremtése';
+	$lang['strcreatelisten']  =  'Figyelőt teremt';
 	$lang['strlistencreated']  =  'Figyelő megteremtve.';
 	$lang['strlistencreatedbad']  =  'Nem sikerült figyelőt teremteni.';
 	$lang['strconfdroplisten']  =  'Biztosan törölni akarja „%s” figyelőt?';
@@ -829,22 +864,22 @@
 	// Slony replication sets
 	$lang['strrepsets']  =  'Másodlatok';
 	$lang['strnorepsets']  =  'Nincs másodlat.';
-	$lang['strcreaterepset']  =  'Másodlat teremtése';
+	$lang['strcreaterepset']  =  'Másodlatot teremt';
 	$lang['strrepsetcreated']  =  'Másodlat megteremtve.';
 	$lang['strrepsetcreatedbad']  =  'Nem sikerült másodlatot teremteni.';
 	$lang['strconfdroprepset']  =  'Biztosan törölni akarja „%s” másodlatot?';
 	$lang['strrepsetdropped']  =  'Másodlat törölve.';
 	$lang['strrepsetdroppedbad']  =  'Nem sikerült törölni a másodlatot.';
-	$lang['strmerge']  =  'Összefésülés';
-	$lang['strmergeinto']  =  'Összefésülés ide';
+	$lang['strmerge']  =  'Összefésül';
+	$lang['strmergeinto']  =  'Összefésül ide';
 	$lang['strrepsetmerged']  =  'Másodlatok összefésülve.';
 	$lang['strrepsetmergedbad']  =  'Nem sikerült összefésülni a másodlatokat.';
-	$lang['strmove']  =  'Mozgatás';
+	$lang['strmove']  =  'Mozgat';
 	$lang['strneworigin']  =  'Új eredet';
 	$lang['strrepsetmoved']  =  'Másodlat mozgatva.';
 	$lang['strrepsetmovedbad']  =  'Nem sikerült elmozgatni a másodlatot.';
 	$lang['strnewrepset']  =  'Új másodlat';
-	$lang['strlock']  =  'Zárolás';
+	$lang['strlock']  =  'Zárol';
 	$lang['strlocked']  =  'Zárolva';
 	$lang['strunlock']  =  'Kioldás';
 	$lang['strconflockrepset']  =  'Biztosan zárolni akarja „%s” másodlatot?';
@@ -861,7 +896,7 @@
 	$lang['strtabletriggerstoretain']  =  'A következő triggereket Slony NEM tiltja le:';
 
 	// Slony tables in replication sets
-	$lang['straddtable']  =  'Tábla felvétele';
+	$lang['straddtable']  =  'Táblát felvesz';
 	$lang['strtableneedsuniquekey']  =  'Tábla felvételéhez elsődleges vagy egyedi kulcs kell.';
 	$lang['strtableaddedtorepset']  =  'Tábla felvéve a másodlatba.';
 	$lang['strtableaddedtorepsetbad']  =  'Nem sikerült felvenni a táblát a másodlatba.';
@@ -870,7 +905,7 @@
 	$lang['strtableremovedfromrepsetbad']  =  'Nem sikerült törölni a táblát a másodlatból.';
 
 	// Slony sequences in replication sets
-	$lang['straddsequence']  =  'Sorozat felvétele';
+	$lang['straddsequence']  =  'Sorozatot felvesz';
 	$lang['strsequenceaddedtorepset']  =  'Sorozat felvéve a másodlatba.';
 	$lang['strsequenceaddedtorepsetbad']  =  'Nem sikerült felvenni a sorozatot a másodlatba.';
 	$lang['strconfremovesequencefromrepset']  =  'Biztosan törölni akarja „%s” sorozatot „%s” másodlatból?';
@@ -887,11 +922,11 @@
 	$lang['strhelp'] = 'Súgó';
 	$lang['strhelpicon']  =  '?';
 	$lang['strhelppagebrowser']  =  'Súgólap böngésző';
-	$lang['strselecthelppage']  =  'Súgólap kiválasztása';
+	$lang['strselecthelppage']  =  'Súgólapot választ';
 	$lang['strinvalidhelppage']  =  'Érvénytelen súgólap.';
-	$lang['strlogintitle']  =  'Belépés ide: %s';
-	$lang['strlogoutmsg']  =  'Kilépve innen: %s';
-	$lang['strloading']  =  'Betöltés...';
+	$lang['strlogintitle']  =  'Belépett %s helyre';
+	$lang['strlogoutmsg']  =  'Kilépett %s helyről';
+	$lang['strloading']  =  'Betöltök...';
 	$lang['strerrorloading']  =  'Betöltési hiba';
 	$lang['strclicktoreload']  =  'Kattintson az újratöltéshez';
 
@@ -900,12 +935,24 @@
 	$lang['strturnedon']  =  'Bekapcsolva';
 	$lang['strturnedoff']  =  'Kikapcsolva';
 	$lang['strenabled']  =  'Engedélyezve';
+	$lang['strnovacuumconf'] = 'Nem találtam önműködő takarítást beállítva.';
 	$lang['strvacuumbasethreshold']  =  'Takarítás alap küszbértéke';
 	$lang['strvacuumscalefactor']  =  'Takarítás méretező tényezője';
-	$lang['stranalybasethreshold']  =  'Alap küszöbérték elemzése';
-	$lang['stranalyzescalefactor']  =  'Méretező tényező elemzése';
-	$lang['strvacuumcostdelay']  =  'Takarítási költség késése';
-	$lang['strvacuumcostlimit']  =  'Takarítási költség korlátja';
+	$lang['stranalybasethreshold']  =  'Alap küszöbértéket elemez';
+	$lang['stranalyzescalefactor']  =  'Méretező tényezőt elemez';
+	$lang['strvacuumcostdelay']  =  'Takarítás költségének késése';
+	$lang['strvacuumcostlimit']  =  'Takarítás költségének korlátja';
+	$lang['strvacuumpertable'] = 'Önműködő takarítás beállítása táblánként';
+	$lang['straddvacuumtable'] = 'Önműködő takarítást állít be egy táblára';
+	$lang['streditvacuumtable'] = 'Önműködő takarítást szerkeszt %s táblára';
+	$lang['strdelvacuumtable'] = 'Törli az önműködő takarítást %s tábláról?';
+	$lang['strvacuumtablereset'] = 'Az önműködő takarítást %s táblára visszaállítja az alap értékekre';
+	$lang['strdelvacuumtablefail'] = 'Nem sikerült törölni az önműködő takarítást %s tábláról';
+	$lang['strsetvacuumtablesaved'] = 'Önműködő takarítás %s táblára mentve.';
+	$lang['strsetvacuumtablefail'] = 'Önműködő takarítást %s táblára nem sikerült beállítani.';
+	$lang['strspecifydelvacuumtable'] = 'Meg kell adni a táblát, amiről törölni akarja az önműködő takarítás paramétereit.';
+	$lang['strspecifyeditvacuumtable'] = 'Meg kell adni a táblát, amin szerkeszteni akarja az önműködő takarítás paramétereit.';
+	$lang['strnotdefaultinred'] = 'A nem alap értékek pirosak.';
 
 	// Table-level Locks
 	$lang['strlocks']  =  'Zárak';
@@ -921,13 +968,13 @@
 	$lang['strgid']  =  'Globális AZ';
 	
 	// Fulltext search
-	$lang['strfulltext']  =  'Teljes szövegkeresés';
+	$lang['strfulltext']  =  'Teljes szövegben keres';
 	$lang['strftsconfig']  =  'TSzK összeállítás';
 	$lang['strftsconfigs']  =  'Összeállítások';
-	$lang['strftscreateconfig']  =  'TSzK összeállítás teremtése';
-	$lang['strftscreatedict']  =  'Szótár teremtése';
-	$lang['strftscreatedicttemplate']  =  'Szótársablon teremtése';
-	$lang['strftscreateparser']  =  'Elemző teremtése';
+	$lang['strftscreateconfig']  =  'TSzK összeállítást teremt';
+	$lang['strftscreatedict']  =  'Szótárt teremt';
+	$lang['strftscreatedicttemplate']  =  'Szótársablont teremt';
+	$lang['strftscreateparser']  =  'Elemzőt teremt';
 	$lang['strftsnoconfigs']  =  'Nincs TSzK összeállítás.';
 	$lang['strftsconfigdropped']  =  'TSzK összeállítás törölve.';
 	$lang['strftsconfigdroppedbad']  =  'Nem sikerült törölni a TSzK összeállítást.';
@@ -939,12 +986,10 @@
 	$lang['strftsconfigneedsname']  =  'Meg kell adni a TSzK összeállítás nevét.';
 	$lang['strftsconfigcreated']  =  'TSzK összeállítás megteremtve.';
 	$lang['strftsconfigcreatedbad']  =  'Nem sikerült megteremteni a TSzK összeállítást.';
-	$lang['strftsmapping']  =  'Hozzárendelés';
+	$lang['strftsmapping']  =  'Hozzárendel';
 	$lang['strftsdicts']  =  'Szótárak';
 	$lang['strftsdict']  =  'Szótár';
 	$lang['strftsemptymap']  =  'Üres hozzárendelés a TSzK összeállításban.';
-	$lang['strftswithmap']  =  'Hozzárendeléssel';
-	$lang['strftsmakedefault']  =  'Alapértelmezés a megadott helyszínre';
 	$lang['strftsconfigaltered']  =  'TSzK összeállítás megváltoztatva.';
 	$lang['strftsconfigalteredbad']  =  'Nem sikerült a TSzK összeállítást megváltoztatni.';
 	$lang['strftsconfigmap']  =  'TSzK összeállítás hozzárendelése';
@@ -976,6 +1021,7 @@
 	$lang['strftstabconfigs']  =  'Összeállítások';
 	$lang['strftstabdicts']  =  'Szótárak';
 	$lang['strftstabparsers']  =  'Elemzők';
+	$lang['strftscantparsercopy'] = 'Nem állíthat be együtt elemzőt és sablont szövegkereső beállítás közben.';
     
     
 ?>
