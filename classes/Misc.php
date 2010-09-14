@@ -355,6 +355,7 @@
 				exit;
 			}
 			$this->setServerInfo('platform', $platform, $server_id);
+			$this->setServerInfo('pgVersion', $_connection->conn->pgVersion, $server_id);
 
 			// Create a database wrapper class for easy manipulation of the
 			// connection.
