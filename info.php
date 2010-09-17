@@ -113,10 +113,10 @@
 				while (!$children->EOF) {
 					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
 					echo "\t<tr class=\"data{$id}\">\n";
-					echo "\t\t<td>", $misc->printVal($children->fields['schemaname']), "</td>";
+					echo "\t\t<td>", $misc->printVal($children->fields['nspname']), "</td>";
 					echo "<td>", $misc->printVal($children->fields['relname']), "</td>";
 					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
-						"&amp;schema=", urlencode($children->fields['schemaname']),
+						"&amp;schema=", urlencode($children->fields['nspname']),
 						"&amp;table=", urlencode($children->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
 					echo "\t</tr>\n";
 					$children->movenext();
