@@ -307,7 +307,7 @@
 
 		foreach ($rs->fields as $k => $v) {
 
-			if (($k == $data->id) && ( !($withOid && $conf['show_oids']) )) {
+			if (($k === $data->id) && ( !($withOid && $conf['show_oids']) )) {
 				$j++;
 				continue;
 			}
@@ -340,7 +340,7 @@
 		foreach ($rs->fields as $k => $v) {
 			$finfo = $rs->fetchField($j++);
 
-			if (($k == $data->id) && ( !($withOid && $conf['show_oids']) )) continue;
+			if (($k === $data->id) && ( !($withOid && $conf['show_oids']) )) continue;
 			elseif ($v !== null && $v == '') echo "<td>&nbsp;</td>";
 			else {
 				echo "<td style=\"white-space:nowrap;\">";
