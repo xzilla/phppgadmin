@@ -66,6 +66,7 @@
 	$lang['strac'] = 'Povolit automatické dokončení';
 	$lang['strsave'] = 'Uložit';
 	$lang['strreset'] = 'Resetovat';
+	$lang['strrestart'] = 'Restartovat';
 	$lang['strinsert'] = 'Vložit';
 	$lang['strselect'] = 'Vybrat';
 	$lang['strdelete'] = 'Smazat';
@@ -435,6 +436,7 @@
 	$lang['strlastvalue'] = 'Poslední hodnota';
 	$lang['strincrementby'] = 'Přírůstek';	
 	$lang['strstartvalue'] = 'Počáteční hodnota';
+	$lang['strrestartvalue'] = 'Nová počáteční hodnota';
 	$lang['strmaxvalue'] = 'Max. hodnota';
 	$lang['strminvalue'] = 'Min. hodnota';
 	$lang['strcachevalue'] = 'Připraveno dopředu';
@@ -447,6 +449,8 @@
 	$lang['strconfdropsequence'] = 'Opravdu chcete odstranit sekvenci „%s“?';
 	$lang['strsequencedropped'] = 'Sekvence byla odstraněna.';
 	$lang['strsequencedroppedbad'] = 'Nezdařilo se odstranit sekvenci.';
+	$lang['strsequencerestart'] = 'Sekvence nastavena na novou počáteční hodnotu.';
+	$lang['strsequencerestartbad'] = 'Nezdařilo se nastavit novou počáteční hodnotu sekvence.';
 	$lang['strsequencereset'] = 'Sekvence byla nastavena na počáteční hodnotu.';
 	$lang['strsequenceresetbad'] = 'Nezdařilo se nastavit počáteční hodnotu sekvence.';
  	$lang['strsequencealtered'] = 'Změny v sekvenci byly provedeny.';
