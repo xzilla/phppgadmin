@@ -2153,5 +2153,86 @@
 			
 			echo "</td></tr></table>\n";
 		}
+
+		function getAutocompleteFKProperties($table) {
+			global $data;
+
+			$fksprops = array(
+				'byconstr' => array(),
+				'byfield' => array(),
+				'code' => ''
+			);
+
+			$constrs = $data->getConstraintsWithFields($table);
+
+			if (!$constrs->EOF) {
+				$conrelid = $constrs->fields['conrelid'];
+				while(!$constrs->EOF) {
+					if ($constrs->fields['contype'] == 'f') {
+						if (!isset($fksprops['byconstr'][$constrs->fields['conid']])) {
+							$fksprops['byconstr'][$constrs->fields['conid']] = array (
+								'confrelid' => $constrs->fields['confrelid'],
+								'f_table' => $constrs->fields['f_table'],
+								'f_schema' => $constrs->fields['f_schema'],
+								'pattnums' => array(),
+								'pattnames' => array(),
+								'fattnames' => array()
+							);
+						}
+
+						$fksprops['byconstr'][$constrs->fields['conid']]['pattnums'][] = $constrs->fields['p_attnum'];
+						$fksprops['byconstr'][$constrs->fields['conid']]['pattnames'][] = $constrs->fields['p_field'];
+						$fksprops['byconstr'][$constrs->fields['conid']]['fattnames'][] = $constrs->fields['f_field'];
+
+						if (!isset($fksprops['byfield'][$constrs->fields['p_attnum']]))
+							$fksprops['byfield'][$constrs->fields['p_attnum']] = array();
+						$fksprops['byfield'][$constrs->fields['p_attnum']] = $constrs->fields['conid'];
+					}
+					$constrs->moveNext();
+				}
+
+				$fksprops['code'] = "<script type=\"text/javascript\">\n";
+				$fksprops['code'] .= "var constrs = {};\n";
+				foreach ($fksprops['byconstr'] as $conid => $props) {
+					$fksprops['code'] .= "constrs.constr_{$conid} = {\n";
+					$fksprops['code'] .= 'pattnums: ['. implode(',',$props['pattnums']) ."],\n";
+					$fksprops['code'] .= "f_table:\"". htmlentities($props['f_table']) ."\",\n";
+					$fksprops['code'] .= "f_schema:\"". htmlentities($props['f_schema']) ."\",\n";
+					$_ = '';
+					foreach ($props['pattnames'] as $n) {
+						$_ .= ",'". htmlentities($n, ENT_QUOTES) ."'";
+					}
+					$fksprops['code'] .= 'pattnames: ['. substr($_, 1) ."],\n";
+
+					$_ = '';
+					foreach ($props['fattnames'] as $n) {
+						$_ .= ",'". htmlentities($n, ENT_QUOTES) ."'";
+					}
+
+					$fksprops['code'] .= 'fattnames: ['. substr($_, 1) ."]\n";
+					$fksprops['code'] .= "};\n";
+				}
+
+				$fksprops['code'] .= "var attrs = {};\n";
+				foreach ($fksprops['byfield'] as $attnum => $cstrs ) {
+					$fksprops['code'] .= "attrs.attr_{$attnum} = {$fksprops['byfield'][$attnum]};\n";
+				}
+
+				$fksprops['code'] .= "var table='". htmlentities($_REQUEST['table']) ."';";
+				$fksprops['code'] .= "var server='". htmlentities($_REQUEST['server']) ."';";
+				$fksprops['code'] .= "var database='". htmlentities($_REQUEST['database']) ."';";
+				$fksprops['code'] .= "</script>\n";
+
+				$fksprops['code'] .= '<div id="fkbg"></div>';
+				$fksprops['code'] .= '<div id="fklist"></div>';
+				$fksprops['code'] .= '<script src="libraries/js/jquery.js" type="text/javascript"></script>';
+				$fksprops['code'] .= '<script src="js/ac_insert_row.js" type="text/javascript"></script>';
+			}
+
+			else /* we have no foreign keys on this table */
+				return false;
+
+			return $fksprops;
+		}
 	}
 ?>

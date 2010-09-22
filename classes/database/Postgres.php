@@ -249,16 +249,15 @@ class Postgres extends ADODB_base {
 	 * @param $name The name to give the field
 	 * @param $value The value of the field.  Note this could be 'numeric(7,2)' sort of thing...
 	 * @param $type The database type of the field
-	 * @param $actions An array of javascript action name to the code to execute on that action
-	 * @param $extra Some extra attributes to add.
+	 * @param $extras An array of attributes name as key and attributes' values as value
 	 */
-	function printField($name, $value, $type, $actions = array(), $extra='') {
+	function printField($name, $value, $type, $extras = array()) {
 		global $lang;
 
 		// Determine actions string
-		$action_str = '';
-		foreach ($actions as $k => $v) {
-			$action_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
+		$extra_str = '';
+		foreach ($extras as $k => $v) {
+			$extra_str .= " {$k}=\"" . htmlspecialchars($v) . "\"";
 		}
 
 		switch (substr($type,0,9)) {
@@ -270,14 +269,14 @@ class Postgres extends ADODB_base {
 
 				// If value is null, 't' or 'f'...
 				if ($value === null || $value == 't' || $value == 'f') {
-					echo "<select name=\"", htmlspecialchars($name), "\"{$action_str}>\n";
+					echo "<select name=\"", htmlspecialchars($name), "\"{$extra_str}>\n";
 					echo "<option value=\"\"", ($value === null) ? ' selected="selected"' : '', "></option>\n";
 					echo "<option value=\"t\"", ($value == 't') ? ' selected="selected"' : '', ">{$lang['strtrue']}</option>\n";
 					echo "<option value=\"f\"", ($value == 'f') ? ' selected="selected"' : '', ">{$lang['strfalse']}</option>\n";
 					echo "</select>\n";
 				}
 				else {
-					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$extra} />\n";
+					echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$extra_str} />\n";
 				}
 				break;
 			case 'bytea':
@@ -290,7 +289,7 @@ class Postgres extends ADODB_base {
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"75\"{$action_str}>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"75\"{$extra_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
@@ -299,12 +298,12 @@ class Postgres extends ADODB_base {
 				$n = substr_count($value, "\n");
 				$n = $n < 5 ? 5 : $n;
 				$n = $n > 20 ? 20 : $n;
-				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"35\"{$action_str}>\n";
+				echo "<textarea name=\"", htmlspecialchars($name), "\" rows=\"{$n}\" cols=\"35\"{$extra_str}>\n";
 				echo htmlspecialchars($value);
 				echo "</textarea>\n";
 				break;
 			default:
-				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$action_str} {$extra} />\n";
+				echo "<input name=\"", htmlspecialchars($name), "\" value=\"", htmlspecialchars($value), "\" size=\"35\"{$extra_str} />\n";
 				break;
 		}
 	}

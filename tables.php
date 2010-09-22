@@ -455,84 +455,19 @@
 		global $data, $misc, $conf;
 		global $lang;
 
-		$auto_complete = ($conf['autocomplete'] != 'disable');
-
 		if ($confirm) {
 			$misc->printTrail('table');
 			$misc->printTitle($lang['strinsertrow'], 'pg.sql.insert');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
-			$fksprops = array(
-				'byconstr' => array(),
-				'byfield' => array(),
-			);
-			if($auto_complete) {
-				$constrs = $data->getConstraintsWithFields($_REQUEST['table']);
 
-				if (!$constrs->EOF) {
-					$conrelid = $constrs->fields['conrelid'];
-					while(!$constrs->EOF) {
-						if ($constrs->fields['contype'] == 'f') {
-							if (!isset($fksprops['byconstr'][$constrs->fields['conid']])) {
-								$fksprops['byconstr'][$constrs->fields['conid']] = array (
-									'confrelid' => $constrs->fields['confrelid'],
-									'f_table' => $constrs->fields['f_table'],
-									'f_schema' => $constrs->fields['f_schema'],
-									'pattnums' => array(),
-									'pattnames' => array(),
-									'fattnames' => array()
-								);
-							}
-
-							$fksprops['byconstr'][$constrs->fields['conid']]['pattnums'][] = $constrs->fields['p_attnum'];
-							$fksprops['byconstr'][$constrs->fields['conid']]['pattnames'][] = $constrs->fields['p_field'];
-							$fksprops['byconstr'][$constrs->fields['conid']]['fattnames'][] = $constrs->fields['f_field'];
-
-							if (!isset($fksprops['byfield'][$constrs->fields['p_attnum']]))
-								$fksprops['byfield'][$constrs->fields['p_attnum']] = array();
-							$fksprops['byfield'][$constrs->fields['p_attnum']] = $constrs->fields['conid'];
-						}
-						$constrs->moveNext();
-					}
-					
-					echo "<script type=\"text/javascript\">\n";
-					echo "var constrs = {};\n";
-					foreach ($fksprops['byconstr'] as $conid => $props) {
-						echo "constrs.constr_{$conid} = {\n";
-						echo 'pattnums: [', implode(',',$props['pattnums']), "],\n";
-						echo "f_table:\"", htmlentities($props['f_table']), "\",\n";
-						echo "f_schema:\"", htmlentities($props['f_schema']), "\",\n";
-						$_='';
-						foreach ($props['pattnames'] as $n) {
-							$_.= ",'". htmlentities($n, ENT_QUOTES) ."'";
-						}
-						echo 'pattnames: [', substr($_, 1), "],\n";
-
-						$_='';
-						foreach ($props['fattnames'] as $n) {
-							$_.= ",'". htmlentities($n, ENT_QUOTES) ."'";
-						}
-
-						echo 'fattnames: [', substr($_, 1), "]\n";
-						echo "};\n";
-					}
-
-					echo "var attrs = {};\n";
-					foreach ($fksprops['byfield'] as $attnum => $cstrs ) {
-						echo "attrs.attr_{$attnum} = {$fksprops['byfield'][$attnum]};\n";
-					}
-
-					echo "var table='", htmlentities($_REQUEST['table']), "';";
-					echo "var server='", htmlentities($_REQUEST['server']), "';";
-					echo "var database='", htmlentities($_REQUEST['database']), "';";
-					echo "</script>\n";
-
-					echo '<div id="fkbg"></div>';
-					echo '<div id="fklist"></div>';
-				}
-				else $auto_complete = false;
+			if (($conf['autocomplete'] != 'disable')) {
+				$fksprops = $misc->getAutocompleteFKProperties($_REQUEST['table']);
+				if ($fksprops !== false)
+					echo $fksprops['code'];
 			}
+			else $fksprops = false;
 
 			echo "<form action=\"tables.php\" method=\"post\" id=\"ac_form\">\n";
 			if ($attrs->recordCount() > 0) {
@@ -578,13 +513,16 @@
 						echo "&nbsp;</td>";
 					}
 					echo "<td id=\"row_att_{$attrs->fields['attnum']}\" style=\"white-space:nowrap;\">";
-					if ($auto_complete && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
-						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']],
-							'fktype'/*force FK*/,array(), "id=\"attr_{$attrs->fields['attnum']}\" autocomplete=\"off\"");
+					if (($fksprops !== false) && isset($fksprops['byfield'][$attrs->fields['attnum']])) {
+						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']], 'fktype'/*force FK*/,
+							array(
+								'id' => "attr_{$attrs->fields['attnum']}",
+								'autocomplete' => 'off'
+							)
+						);
 					}
 					else {
-						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']],
-							$attrs->fields['type'],array());
+						echo $data->printField("values[{$attrs->fields['attnum']}]", $_REQUEST['values'][$attrs->fields['attnum']], $attrs->fields['type']);
 					}
 					echo "</td>\n";
 					echo "</tr>\n";
@@ -592,10 +530,6 @@
 					$attrs->moveNext();
 				}
 				echo "</table>\n";
-				if($auto_complete) {
-					echo "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>";
-					echo "<script src=\"js/ac_insert_row.js\" type=\"text/javascript\"></script>";
-				}
 
 				if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
 
@@ -607,7 +541,7 @@
 				echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 				
-				if($auto_complete) {
+				if($fksprops !== false) {
 					if ($conf['autocomplete'] != 'default off')
 						echo "<input type=\"checkbox\" id=\"no_ac\" value=\"1\" checked=\"checked\" /><label for=\"no_ac\">{$lang['strac']}</label>\n";
 					else
