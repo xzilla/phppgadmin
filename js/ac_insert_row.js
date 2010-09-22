@@ -213,7 +213,7 @@ jQuery(document).ready(function () {
 	/* open the list when the field get the focus */
 	jQuery.ppa.attrs
 		.focus(function (e) {
-			openlist(this);
+			$(this).keyup();
 		});
 	
 	/* enable/disable auto-complete according to the checkbox */
