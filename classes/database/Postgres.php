@@ -3498,11 +3498,10 @@ class Postgres extends ADODB_base {
 	 * @return a recordset
 	 */
 	function getConstraintsWithFields($table) {
-		global $data;
 
 		$c_schema = $this->_schema;
 		$this->clean($c_schema);
-		$data->clean($table);
+		$this->clean($table);
 
 		// get the max number of col used in a constraint for the table
 		$sql = "SELECT DISTINCT
