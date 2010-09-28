@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Fernando Alberto Reuter Wendt (fernandowendt@msn.com)
 	 *
-	 * $ $
+	 * $Id: portuguese-br.php,v 2.0 2010/09/24 08:05:50 fwendt Exp $
 	 */
 
 	// Language and character set
@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Identifica&#231;&#227;o desabilitada por motivos de seguran&#231;a.';
 	$lang['strserver'] = 'Servidor';
 	$lang['strservers'] = 'Servidores';
+	$lang['strgroupservers'] = 'Servidores no grupo &quot;%s&quot;';
+	$lang['strallservers'] = 'Todos os servidores';
 	$lang['strintroduction'] = 'Introdu&#231;&#227;o';
 	$lang['strhost'] = 'Host';
 	$lang['strport'] = 'Porta';
@@ -60,9 +62,11 @@
 	$lang['stralter'] = 'Alterar';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancelar';
+	$lang['strkill'] = 'Encerrar';
 	$lang['strac'] = 'Habilitar AutoComplete';
 	$lang['strsave'] = 'Salvar';
 	$lang['strreset'] = 'Reiniciar';
+	$lang['strrestart'] = 'Reinicializar';
 	$lang['strinsert'] = 'Inserir';
 	$lang['strselect'] = 'Selecionar';
 	$lang['strdelete'] = 'Deletar';
@@ -137,10 +141,19 @@
 	$lang['stractionsonmultiplelines'] = 'A&#231;&#245;es sobre m&#250;ltiplas linhas';
 	$lang['strselectall'] = 'Selecionar tudo';
 	$lang['strunselectall'] = 'Desmarcar tudo';
-	$lang['strlocale'] = 'Local';		
+	$lang['strlocale'] = 'Local';	
+	$lang['strcollation'] = 'Compara&#231;&#227;o';
+	$lang['strctype'] = 'Tipo de codifica&#231;&#227;o';
+	$lang['strdefaultvalues'] = 'Valores padr&#227;o';
+	$lang['strnewvalues'] = 'Novos valores';	
 	$lang['strstart'] = 'Iniciar';
 	$lang['strstop'] = 'Parar';
 	$lang['strgotoppage'] = 'Topo da p&#225;gina';
+	$lang['strtheme'] = 'Tema';
+
+	// Admin
+	$lang['stradminondatabase'] = 'As tarefas administrativas a seguir se aplicam em toda a base de dados %s.';
+	$lang['stradminontable'] = 'As tarefas administrativas a seguir se aplicam na tabela %s.';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Hist&#243;rico';
@@ -152,6 +165,7 @@
 	$lang['strnodatabaseselected'] = 'Por favor, selecione uma base de dados.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'Sem acesso';
 	$lang['strsize'] = 'Tamanho';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';
@@ -183,6 +197,8 @@
 	$lang['strcannotdumponwindows'] = 'O dumping de uma tabela complexa e um nome de esquema n&#227;o &#233; suportado no Windows.';
 	$lang['strinvalidserverparam'] = 'Tentativa de conectar com um par&#226;metro de servidor inv&#225;lido, possivelmente algu&#233;m est&#225; tentando hackear o seu sistema.'; 
 	$lang['strnoserversupplied'] = 'Nenhum servidor informado!';
+	$lang['strbadpgdumppath'] = 'Erro de exporta&#231;&#227;o: Falha ao executar pg_dump (caminho apontado no seu conf/config.inc.php : %s). Por favor, ajuste este diret&#243;rio na sua configura&#231;&#227;o e relogue no sistema.';
+	$lang['strbadpgdumpallpath'] = 'Erro de exporta&#231;&#227;o: Falha ao executar pg_dumpall (caminho apontado no seu  conf/config.inc.php : %s). Por favor, este diret&#243;rio na sua configura&#231;&#227;o e relogue no sistema.';
 	$lang['strconnectionfail'] = 'A conex&#227;o falhou.';
 
 	// Tables
@@ -213,6 +229,7 @@
 	$lang['strinsertrow'] = 'Inserir linha';
 	$lang['strrowinserted'] = 'Linha inserida.';
 	$lang['strrowinsertedbad'] = 'Falha ao inserir a linha.';
+	$lang['strnofkref'] = 'N&#227;o h&#225; valor correspondendo na chave estrangeira %s.';
 	$lang['strrowduplicate'] = 'Falha ao inserir a linha, tentativa de inser&#231;&#227;o duplicada.';
 	$lang['streditrow'] = 'Editar linha';
 	$lang['strrowupdated'] = 'Linha atualizada.';
@@ -245,11 +262,16 @@
 	$lang['strauto'] = 'Auto';
 	$lang['strconfvacuumtable'] = 'Voc&#234; t&#234;m certeza que deseja realizar v&#225;cuo em &quot;%s&quot;?';
 	$lang['strconfanalyzetable'] = 'Voc&#234; t&#234;m certeza que deseja analizar &quot;%s&quot;?';
+	$lang['strconfreindextable'] = 'Voc&#234; t&#234;m certeza que deseja reindexar &quot;%s&quot;?';
+	$lang['strconfclustertable'] = 'Voc&#234; t&#234;m certeza que deseja clusterizar &quot;%s&quot;?';
 	$lang['strestimatedrowcount'] = 'N&#250;mero estimado de linhas';
 	$lang['strspecifytabletoanalyze'] = 'Voc&#234; deve especificar ao menos uma tabela para analisar.';
 	$lang['strspecifytabletoempty'] = 'Voc&#234; deve especificar ao menos uma tabela para esvaziar.';
 	$lang['strspecifytabletodrop'] = 'Voc&#234; deve especificar ao menos uma tabela para deletar.';
-	$lang['strspecifytabletovacuum'] = 'Voc&#234; deve especificar ao menos uma tabela para o v&#225;cuo.';
+	$lang['strspecifytabletovacuum'] = 'Voc&#234; deve especificar ao menos uma tabela para o v&#225;cuo.';	
+	$lang['strspecifytabletoreindex'] = 'Voc&#234; deve especificar ao menos uma tabela para reindexar.';
+	$lang['strspecifytabletocluster'] = 'Voc&#234; deve especificar ao menos uma tabela para clusterizar.';
+	$lang['strnofieldsforinsert'] = 'Voc&#234; n&#227;o pode inserir uma linha em uma tabela sem colunas.';
 
 	// Columns
 	$lang['strcolprop'] = 'Propriedades da coluna';
@@ -339,7 +361,7 @@
 	$lang['strgrantbad'] = 'Voc&#234; deve informar ao menos um usu&#225;rio ou grupo e ao menos um privil&#233;gio.';
 	$lang['strgrantor'] = 'Provedor';
 	$lang['strasterisk'] = '*';
-		
+
 	// Databases
 	$lang['strdatabase'] = 'Banco de dados';
 	$lang['strdatabases'] = 'Bancos de dados';
@@ -370,6 +392,11 @@
 	$lang['strdatabasealtered'] = 'Banco de dados alterado.';
 	$lang['strdatabasealteredbad'] = 'Falha ao alterar o banco de dados.';
 	$lang['strspecifydatabasetodrop'] = 'Voc&#234; deve especificar ao menos um banco de dados para deletar.';
+	$lang['strtemplatedb'] = 'Modelo';
+	$lang['strconfanalyzedatabase'] = 'Voc&#234; t&#234;m certeza que deseja analisar todas as tabelas na base de dados &quot;%s&quot;?';
+	$lang['strconfvacuumdatabase'] = 'Voc&#234; t&#234;m certeza que deseja realizar v&#225;cuo em todas as tabelas na base de dados &quot;%s&quot;?';
+	$lang['strconfreindexdatabase'] = 'Voc&#234; t&#234;m certeza que deseja reindexar todas as tabelas na base de dados &quot;%s&quot;?';
+	$lang['strconfclusterdatabase'] = 'Voc&#234; t&#234;m certeza que deseja clusterizar todas as tabelas na base de dados &quot;%s&quot;?';
 
 	// Views
 	$lang['strview'] = 'Vis&#227;o';
@@ -409,6 +436,7 @@
 	$lang['strlastvalue'] = '&#218;ltimo valor';
 	$lang['strincrementby'] = 'Incrementado por';	
 	$lang['strstartvalue'] = 'Valor inicial';
+	$lang['strrestartvalue'] = 'Valor de reinicializa&#231;&#227;o';
 	$lang['strmaxvalue'] = 'Valor m&#225;ximo';
 	$lang['strminvalue'] = 'Valor m&#237;nimo';
 	$lang['strcachevalue'] = 'Valor de cache';
@@ -421,6 +449,8 @@
 	$lang['strconfdropsequence'] = 'Voc&#234; t&#234;m certeza que deseja deletar a seq&#252;&#234;ncia &quot;%s&quot;?';
 	$lang['strsequencedropped'] = 'Seq&#252;&#234;ncia deletada.';
 	$lang['strsequencedroppedbad'] = 'Falha ao deletar a seq&#252;&#234;ncia.';
+	$lang['strsequencerestart'] = 'Seq&#252;&#234;ncia reinicializada.';
+	$lang['strsequencerestartbad'] = 'Falha ao reinicializar a seq&#252;&#234;ncia.';
 	$lang['strsequencereset'] = 'Reinicializar a seq&#252;&#234;ncia.';
 	$lang['strsequenceresetbad'] = 'Falha ao reinicializar a seq&#252;&#234;ncia.';
  	$lang['strsequencealtered'] = 'Seq&#252;&#234;ncia alterada.';
@@ -455,10 +485,11 @@
 	$lang['strprimarykey'] = 'Chave prim&#225;ria';
  	$lang['strindextype'] = 'Tipo de &#237;ndice';
 	$lang['strtablecolumnlist'] = 'Colunas na tabela';
-	$lang['strindexcolumnlist'] = 'Colunas no &#237;ndice';
-	$lang['strconfcluster'] = 'Voc&#234; t&#234;m certeza que deseja clusterizar &quot;%s&quot;?';
+	$lang['strindexcolumnlist'] = 'Colunas no &#237;ndice'; 
 	$lang['strclusteredgood'] = 'Clusteriza&#231;&#227;o completa.';
 	$lang['strclusteredbad'] = 'Falha ao clusterizar.';
+	$lang['strconcurrently'] = 'Simultaneamente';
+	$lang['strnoclusteravailable'] = 'Tabela n&#227;o clusterizada em um &#237;ndice.';
 
 	// Rules
 	$lang['strrules'] = 'Regras';
@@ -904,12 +935,24 @@
 	$lang['strturnedon'] = 'Ligado';
 	$lang['strturnedoff'] = 'Desligado';
 	$lang['strenabled'] = 'Ativado';
+	$lang['strnovacuumconf'] = 'Nenhuma configura&#231;&#227;o de v&#225;cuo autom&#225;tico encontrada.';
 	$lang['strvacuumbasethreshold'] = 'V&#225;cuo a partir do ponto inicial da base';
 	$lang['strvacuumscalefactor'] = 'V&#225;cuo por fator de escala';
 	$lang['stranalybasethreshold'] = 'Analisar a partir do ponto inicial da base';
 	$lang['stranalyzescalefactor'] = 'Analisar por fator de escala';
 	$lang['strvacuumcostdelay'] = 'Custo de retardo do v&#225;cuo';
 	$lang['strvacuumcostlimit'] = 'Custo m&#225;ximo do v&#225;cuo';
+	$lang['strvacuumpertable'] = 'Configura&#231;&#227;o de v&#225;cuo autom&#225;tico por tabela';
+	$lang['straddvacuumtable'] = 'Adicionar configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela';
+	$lang['streditvacuumtable'] = 'Editar a configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s';
+	$lang['strdelvacuumtable'] = 'Deletar a configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s ?';
+	$lang['strvacuumtablereset'] = 'Configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s redefinida para os valores padr&#227;o';
+	$lang['strdelvacuumtablefail'] = 'Falha ao remover a configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s';
+	$lang['strsetvacuumtablesaved'] = 'Configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s salva.';
+	$lang['strsetvacuumtablefail'] = 'Configura&#231;&#227;o de v&#225;cuo autom&#225;tico para a tabela %s falhou.';
+	$lang['strspecifydelvacuumtable'] = 'Voc&#234; deve especificar a tabela que deseja remover os par&#226;metros de v&#225;cuo autom&#225;tico.';
+	$lang['strspecifyeditvacuumtable'] = 'Voc&#234; deve especificar a tabela que deseja editar os par&#226;metros de v&#225;cuo autom&#225;tico.';
+	$lang['strnotdefaultinred'] = 'Valores n&#227;o padr&#227;o est&#227;o em vermelho.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Travas';

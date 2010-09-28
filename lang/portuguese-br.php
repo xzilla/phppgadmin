@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Fernando Alberto Reuter Wendt (fernandowendt@msn.com)
 	 *
-	 * $ $
+	 * $Id: portuguese-br.php,v 2.0 2010/09/24 08:05:50 fwendt Exp $
 	 */
 
 	// Language and character set
@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Identificação desabilitada por motivos de segurança.';
 	$lang['strserver'] = 'Servidor';
 	$lang['strservers'] = 'Servidores';
+	$lang['strgroupservers'] = 'Servidores no grupo "%s"';
+	$lang['strallservers'] = 'Todos os servidores';
 	$lang['strintroduction'] = 'Introdução';
 	$lang['strhost'] = 'Host';
 	$lang['strport'] = 'Porta';
@@ -60,9 +62,11 @@
 	$lang['stralter'] = 'Alterar';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Cancelar';
+	$lang['strkill'] = 'Encerrar';
 	$lang['strac'] = 'Habilitar AutoComplete';
 	$lang['strsave'] = 'Salvar';
 	$lang['strreset'] = 'Reiniciar';
+	$lang['strrestart'] = 'Reinicializar';
 	$lang['strinsert'] = 'Inserir';
 	$lang['strselect'] = 'Selecionar';
 	$lang['strdelete'] = 'Deletar';
@@ -137,10 +141,19 @@
 	$lang['stractionsonmultiplelines'] = 'Ações sobre múltiplas linhas';
 	$lang['strselectall'] = 'Selecionar tudo';
 	$lang['strunselectall'] = 'Desmarcar tudo';
-	$lang['strlocale'] = 'Local';		
+	$lang['strlocale'] = 'Local';	
+	$lang['strcollation'] = 'Comparação';
+	$lang['strctype'] = 'Tipo de codificação';
+	$lang['strdefaultvalues'] = 'Valores padrão';
+	$lang['strnewvalues'] = 'Novos valores';	
 	$lang['strstart'] = 'Iniciar';
 	$lang['strstop'] = 'Parar';
 	$lang['strgotoppage'] = 'Topo da página';
+	$lang['strtheme'] = 'Tema';
+
+	// Admin
+	$lang['stradminondatabase'] = 'As tarefas administrativas a seguir se aplicam em toda a base de dados %s.';
+	$lang['stradminontable'] = 'As tarefas administrativas a seguir se aplicam na tabela %s.';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Histórico';
@@ -152,6 +165,7 @@
 	$lang['strnodatabaseselected'] = 'Por favor, selecione uma base de dados.';
 
 	// Database sizes
+	$lang['strnoaccess'] = 'Sem acesso';
 	$lang['strsize'] = 'Tamanho';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';
@@ -183,6 +197,8 @@
 	$lang['strcannotdumponwindows'] = 'O dumping de uma tabela complexa e um nome de esquema não é suportado no Windows.';
 	$lang['strinvalidserverparam'] = 'Tentativa de conectar com um parâmetro de servidor inválido, possivelmente alguém está tentando hackear o seu sistema.'; 
 	$lang['strnoserversupplied'] = 'Nenhum servidor informado!';
+	$lang['strbadpgdumppath'] = 'Erro de exportação: Falha ao executar pg_dump (caminho apontado no seu conf/config.inc.php : %s). Por favor, ajuste este diretório na sua configuração e relogue no sistema.';
+	$lang['strbadpgdumpallpath'] = 'Erro de exportação: Falha ao executar pg_dumpall (caminho apontado no seu  conf/config.inc.php : %s). Por favor, este diretório na sua configuração e relogue no sistema.';
 	$lang['strconnectionfail'] = 'A conexão falhou.';
 
 	// Tables
@@ -213,6 +229,7 @@
 	$lang['strinsertrow'] = 'Inserir linha';
 	$lang['strrowinserted'] = 'Linha inserida.';
 	$lang['strrowinsertedbad'] = 'Falha ao inserir a linha.';
+	$lang['strnofkref'] = 'Não há valor correspondendo na chave estrangeira %s.';
 	$lang['strrowduplicate'] = 'Falha ao inserir a linha, tentativa de inserção duplicada.';
 	$lang['streditrow'] = 'Editar linha';
 	$lang['strrowupdated'] = 'Linha atualizada.';
@@ -245,11 +262,16 @@
 	$lang['strauto'] = 'Auto';
 	$lang['strconfvacuumtable'] = 'Você têm certeza que deseja realizar vácuo em "%s"?';
 	$lang['strconfanalyzetable'] = 'Você têm certeza que deseja analizar "%s"?';
+	$lang['strconfreindextable'] = 'Você têm certeza que deseja reindexar "%s"?';
+	$lang['strconfclustertable'] = 'Você têm certeza que deseja clusterizar "%s"?';
 	$lang['strestimatedrowcount'] = 'Número estimado de linhas';
 	$lang['strspecifytabletoanalyze'] = 'Você deve especificar ao menos uma tabela para analisar.';
 	$lang['strspecifytabletoempty'] = 'Você deve especificar ao menos uma tabela para esvaziar.';
 	$lang['strspecifytabletodrop'] = 'Você deve especificar ao menos uma tabela para deletar.';
-	$lang['strspecifytabletovacuum'] = 'Você deve especificar ao menos uma tabela para o vácuo.';
+	$lang['strspecifytabletovacuum'] = 'Você deve especificar ao menos uma tabela para o vácuo.';	
+	$lang['strspecifytabletoreindex'] = 'Você deve especificar ao menos uma tabela para reindexar.';
+	$lang['strspecifytabletocluster'] = 'Você deve especificar ao menos uma tabela para clusterizar.';
+	$lang['strnofieldsforinsert'] = 'Você não pode inserir uma linha em uma tabela sem colunas.';
 
 	// Columns
 	$lang['strcolprop'] = 'Propriedades da coluna';
@@ -339,7 +361,7 @@
 	$lang['strgrantbad'] = 'Você deve informar ao menos um usuário ou grupo e ao menos um privilégio.';
 	$lang['strgrantor'] = 'Provedor';
 	$lang['strasterisk'] = '*';
-		
+
 	// Databases
 	$lang['strdatabase'] = 'Banco de dados';
 	$lang['strdatabases'] = 'Bancos de dados';
@@ -370,6 +392,11 @@
 	$lang['strdatabasealtered'] = 'Banco de dados alterado.';
 	$lang['strdatabasealteredbad'] = 'Falha ao alterar o banco de dados.';
 	$lang['strspecifydatabasetodrop'] = 'Você deve especificar ao menos um banco de dados para deletar.';
+	$lang['strtemplatedb'] = 'Modelo';
+	$lang['strconfanalyzedatabase'] = 'Você têm certeza que deseja analisar todas as tabelas na base de dados "%s"?';
+	$lang['strconfvacuumdatabase'] = 'Você têm certeza que deseja realizar vácuo em todas as tabelas na base de dados "%s"?';
+	$lang['strconfreindexdatabase'] = 'Você têm certeza que deseja reindexar todas as tabelas na base de dados "%s"?';
+	$lang['strconfclusterdatabase'] = 'Você têm certeza que deseja clusterizar todas as tabelas na base de dados "%s"?';
 
 	// Views
 	$lang['strview'] = 'Visão';
@@ -409,6 +436,7 @@
 	$lang['strlastvalue'] = 'Último valor';
 	$lang['strincrementby'] = 'Incrementado por';	
 	$lang['strstartvalue'] = 'Valor inicial';
+	$lang['strrestartvalue'] = 'Valor de reinicialização';
 	$lang['strmaxvalue'] = 'Valor máximo';
 	$lang['strminvalue'] = 'Valor mínimo';
 	$lang['strcachevalue'] = 'Valor de cache';
@@ -421,6 +449,8 @@
 	$lang['strconfdropsequence'] = 'Você têm certeza que deseja deletar a seqüência "%s"?';
 	$lang['strsequencedropped'] = 'Seqüência deletada.';
 	$lang['strsequencedroppedbad'] = 'Falha ao deletar a seqüência.';
+	$lang['strsequencerestart'] = 'Seqüência reinicializada.';
+	$lang['strsequencerestartbad'] = 'Falha ao reinicializar a seqüência.';
 	$lang['strsequencereset'] = 'Reinicializar a seqüência.';
 	$lang['strsequenceresetbad'] = 'Falha ao reinicializar a seqüência.';
  	$lang['strsequencealtered'] = 'Seqüência alterada.';
@@ -455,10 +485,11 @@
 	$lang['strprimarykey'] = 'Chave primária';
  	$lang['strindextype'] = 'Tipo de índice';
 	$lang['strtablecolumnlist'] = 'Colunas na tabela';
-	$lang['strindexcolumnlist'] = 'Colunas no índice';
-	$lang['strconfcluster'] = 'Você têm certeza que deseja clusterizar "%s"?';
+	$lang['strindexcolumnlist'] = 'Colunas no índice'; 
 	$lang['strclusteredgood'] = 'Clusterização completa.';
 	$lang['strclusteredbad'] = 'Falha ao clusterizar.';
+	$lang['strconcurrently'] = 'Simultaneamente';
+	$lang['strnoclusteravailable'] = 'Tabela não clusterizada em um índice.';
 
 	// Rules
 	$lang['strrules'] = 'Regras';
@@ -904,12 +935,24 @@
 	$lang['strturnedon'] = 'Ligado';
 	$lang['strturnedoff'] = 'Desligado';
 	$lang['strenabled'] = 'Ativado';
+	$lang['strnovacuumconf'] = 'Nenhuma configuração de vácuo automático encontrada.';
 	$lang['strvacuumbasethreshold'] = 'Vácuo a partir do ponto inicial da base';
 	$lang['strvacuumscalefactor'] = 'Vácuo por fator de escala';
 	$lang['stranalybasethreshold'] = 'Analisar a partir do ponto inicial da base';
 	$lang['stranalyzescalefactor'] = 'Analisar por fator de escala';
 	$lang['strvacuumcostdelay'] = 'Custo de retardo do vácuo';
 	$lang['strvacuumcostlimit'] = 'Custo máximo do vácuo';
+	$lang['strvacuumpertable'] = 'Configuração de vácuo automático por tabela';
+	$lang['straddvacuumtable'] = 'Adicionar configuração de vácuo automático para a tabela';
+	$lang['streditvacuumtable'] = 'Editar a configuração de vácuo automático para a tabela %s';
+	$lang['strdelvacuumtable'] = 'Deletar a configuração de vácuo automático para a tabela %s ?';
+	$lang['strvacuumtablereset'] = 'Configuração de vácuo automático para a tabela %s redefinida para os valores padrão';
+	$lang['strdelvacuumtablefail'] = 'Falha ao remover a configuração de vácuo automático para a tabela %s';
+	$lang['strsetvacuumtablesaved'] = 'Configuração de vácuo automático para a tabela %s salva.';
+	$lang['strsetvacuumtablefail'] = 'Configuração de vácuo automático para a tabela %s falhou.';
+	$lang['strspecifydelvacuumtable'] = 'Você deve especificar a tabela que deseja remover os parâmetros de vácuo automático.';
+	$lang['strspecifyeditvacuumtable'] = 'Você deve especificar a tabela que deseja editar os parâmetros de vácuo automático.';
+	$lang['strnotdefaultinred'] = 'Valores não padrão estão em vermelho.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Travas';
