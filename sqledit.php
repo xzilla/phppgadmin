@@ -115,9 +115,9 @@
 		echo ": <input type=\"text\" name=\"search_path\" size=\"50\" value=\"",
 			htmlspecialchars($_REQUEST['search_path']), "\" /></label></p>\n";
 		
-		echo "<textarea style=\"width: 100%;\" rows=\"10\" cols=\"50\" name=\"query\">",
+		echo "<textarea style=\"width:98%;\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_SESSION['sqlquery']), "</textarea>\n";
-		echo "<label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label>\n";
+		echo "<p><label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label></p>\n";
 		
 		echo "<p><input type=\"submit\" value=\"{$lang['strexecute']}\" />\n";
 		echo "<input type=\"reset\" value=\"{$lang['strreset']}\" /></p>\n";
