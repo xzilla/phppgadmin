@@ -53,7 +53,8 @@ function selectVal(index) {
 function openlist(e) {
 	var elt = jQuery(e);
 	var attnum = elt.attr('id').match(/\d+/)[0];
-	var conid = attrs['attr_'+attnum];
+	/* FIXME we only support the first FK constraint of the field */
+	var conid = attrs['attr_'+attnum][0];
 
 	var constr = constrs["constr_" + conid];
 

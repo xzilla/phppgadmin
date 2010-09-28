@@ -2154,6 +2154,28 @@
 			echo "</td></tr></table>\n";
 		}
 
+		/**
+		 * returns an array representing FKs definition for a table, sorted by fields
+		 * or by constraint.
+		 * @param $table The table to retrieve FK contraints from
+		 * @returns the array of FK definition:
+		 *   array(
+		 *     'byconstr' => array(
+		 *       constrain id => array(
+		 *         confrelid => foreign relation oid
+		 *         f_schema => foreign schema name
+		 *         f_table => foreign table name
+		 *         pattnums => array of parent's fields nums
+		 *         pattnames => array of parent's fields names
+		 *         fattnames => array of foreign attributes names
+		 *       )
+		 *     ),
+		 *     'byfield' => array(
+		 *       attribute num => array (constraint id, ...)
+		 *     ),
+		 *     'code' => HTML/js code to include in the page for auto-completion
+		 *   )
+		 **/
 		function getAutocompleteFKProperties($table) {
 			global $data;
 
@@ -2186,7 +2208,7 @@
 
 						if (!isset($fksprops['byfield'][$constrs->fields['p_attnum']]))
 							$fksprops['byfield'][$constrs->fields['p_attnum']] = array();
-						$fksprops['byfield'][$constrs->fields['p_attnum']] = $constrs->fields['conid'];
+						$fksprops['byfield'][$constrs->fields['p_attnum']][] = $constrs->fields['conid'];
 					}
 					$constrs->moveNext();
 				}
@@ -2196,8 +2218,8 @@
 				foreach ($fksprops['byconstr'] as $conid => $props) {
 					$fksprops['code'] .= "constrs.constr_{$conid} = {\n";
 					$fksprops['code'] .= 'pattnums: ['. implode(',',$props['pattnums']) ."],\n";
-					$fksprops['code'] .= "f_table:\"". htmlentities($props['f_table']) ."\",\n";
-					$fksprops['code'] .= "f_schema:\"". htmlentities($props['f_schema']) ."\",\n";
+					$fksprops['code'] .= "f_table:'". addslashes(htmlentities($props['f_table'], ENT_QUOTES)) ."',\n";
+					$fksprops['code'] .= "f_schema:'". addslashes(htmlentities($props['f_schema'], ENT_QUOTES)) ."',\n";
 					$_ = '';
 					foreach ($props['pattnames'] as $n) {
 						$_ .= ",'". htmlentities($n, ENT_QUOTES) ."'";
@@ -2215,12 +2237,12 @@
 
 				$fksprops['code'] .= "var attrs = {};\n";
 				foreach ($fksprops['byfield'] as $attnum => $cstrs ) {
-					$fksprops['code'] .= "attrs.attr_{$attnum} = {$fksprops['byfield'][$attnum]};\n";
+					$fksprops['code'] .= "attrs.attr_{$attnum} = [". implode(',', $fksprops['byfield'][$attnum]) ."];\n";
 				}
 
-				$fksprops['code'] .= "var table='". htmlentities($_REQUEST['table']) ."';";
+				$fksprops['code'] .= "var table='". addslashes(htmlentities($table, ENT_QUOTES)) ."';";
 				$fksprops['code'] .= "var server='". htmlentities($_REQUEST['server']) ."';";
-				$fksprops['code'] .= "var database='". htmlentities($_REQUEST['database']) ."';";
+				$fksprops['code'] .= "var database='". addslashes(htmlentities($_REQUEST['database'], ENT_QUOTES)) ."';";
 				$fksprops['code'] .= "</script>\n";
 
 				$fksprops['code'] .= '<div id="fkbg"></div>';
