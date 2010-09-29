@@ -30,6 +30,8 @@
 	$lang['strlogindisallowed'] = 'Entrada rebutjada per raons de seguretat.';
 	$lang['strserver'] = 'Servidor';
 	$lang['strservers'] = 'Servidors';
+        $lang['strgroupservers']  =  'Servidors en el grup "%s"';
+        $lang['strallservers']  =  'Tots els servidors';
 	$lang['strintroduction'] = 'Introducció';
 	$lang['strhost'] = 'Host';
 	$lang['strport'] = 'Port';
@@ -60,9 +62,11 @@
 	$lang['stralter'] = 'Modifica';
 	$lang['strok'] = 'D\'acord';
 	$lang['strcancel'] = 'Cancel·la';
+        $lang['strkill']  =  'Mata';
 	$lang['strac'] = 'Habilita AutoCompletat';
 	$lang['strsave'] = 'Desa';
 	$lang['strreset'] = 'Restableix';
+        $lang['strrestart']  =  'Reinicia';
 	$lang['strinsert'] = 'Inserta';
 	$lang['strselect'] = 'Selecciona';
 	$lang['strdelete'] = 'Elimina';
@@ -133,10 +137,23 @@
 	$lang['strfile'] = 'Fitxer';
 	$lang['strfileimported'] = 'Fitxer importat.';
 	$lang['strtrycred'] = 'Usa aquestes credencials a tots els servidors';
+        $lang['strconfdropcred']  =  'Per raons de seguretat, la desconnexió eliminarà la informació d\'entrada compartida. Està segur de voler desconnectar ?';
 	$lang['stractionsonmultiplelines'] = 'Accions a múltiples línies';
 	$lang['strselectall'] = 'Seleccina\'ls tots';
 	$lang['strunselectall'] = 'No en seleccionis cap';
 	$lang['strlocale'] = 'Local';
+        $lang['strcollation']  =  'Col·lació';
+        $lang['strctype']  =  'Tipus de caràcter';
+        $lang['strdefaultvalues']  =  'Valors per defecte';
+        $lang['strnewvalues']  =  'Valors nous';
+        $lang['strstart']  =  'Comença';
+        $lang['strstop']  =  'Para';
+        $lang['strgotoppage']  =  'Torna al principi';
+        $lang['strtheme']  =  'Tema';
+	
+	// Admin
+        $lang['stradminondatabase']  =  'Les següents tasques administratives s\'apliquen a tota la base de dades %s.';
+        $lang['stradminontable']  =  'Les següents tasques administratives s\'apliquen a la taula %s.';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Història';
@@ -148,6 +165,7 @@
 	$lang['strnodatabaseselected'] = 'Si us plau, seleccioni una base de dades.';
 
 	// Database Sizes
+        $lang['strnoaccess']  =  'Sense Accés'; 
 	$lang['strsize'] = 'Tamany';
 	$lang['strbytes'] = 'bytes';
 	$lang['strkb'] = 'kB';
@@ -179,6 +197,9 @@
 	$lang['strcannotdumponwindows'] = 'El volcat de dades amb noms complexos de taules i esquemes en Windows no és suportada.';
 	$lang['strinvalidserverparam'] = 'Intent de connexió amb un paràmetre del servidor invàlid, possiblement algú està provant d\'entrar al sistema.'; 
 	$lang['strnoserversupplied'] = 'No s\'ha proporcionat cap servidor!';
+        $lang['strbadpgdumppath']  =  'Error d\'exportació: Fallada en l\'execució de pg_dump (path definit a conf/config.inc.php : %s ). Sisplau, arregli el path en la configuració.';
+        $lang['strbadpgdumpallpath']  =  'Error d\'exportació: Fallada en l\'execució de pg_dumpall (path definit a conf/config.inc.php : %s ). Sisplau, arregli el path en la configuració.';
+        $lang['strconnectionfail']  =  'No hi ha connexió amb el servidor.';
 
 	// Tables
 	$lang['strtable'] = 'Taula';
@@ -208,6 +229,7 @@
 	$lang['strinsertrow'] = 'Inserta una fila';
 	$lang['strrowinserted'] = 'Fila insertada.';
 	$lang['strrowinsertedbad'] = 'No s\'ha pogut insertar la taula.';
+        $lang['strnofkref']  =  'No hi ha cap valor coincident en la foreign key %s.';
 	$lang['strrowduplicate'] = 'Inserció de la taula fallada, intentant fer una inserció duplicada.';
 	$lang['streditrow'] = 'Edita la fila';
 	$lang['strrowupdated'] = 'Fila actualitzada.';
@@ -240,11 +262,16 @@
 	$lang['strauto'] = 'Automàtic';
 	$lang['strconfvacuumtable'] = 'Està segur de voler un vacuum "%s"?';
 	$lang['strconfanalyzetable'] = 'Està segur de voler un analyze "%s"?';
+        $lang['strconfreindextable']  =  'Està segur de voler un reindex "%s"?';
+        $lang['strconfclustertable']  =  'Està sergur de voler un cluster "%s"?';
 	$lang['strestimatedrowcount'] = 'Nombre estimat de files';
 	$lang['strspecifytabletoanalyze'] = 'Ha d\'especificar almenys una taula per l\'analyze.';
 	$lang['strspecifytabletoempty'] = 'Ha d\'especificar almenys una taula per buidar.';
 	$lang['strspecifytabletodrop'] = 'Ha d\'especificar almenys una taula per eliminar.';
 	$lang['strspecifytabletovacuum'] = 'Ha d\'especificar almenys una taula pel vacuum.';
+        $lang['strspecifytabletoreindex']  =  'Ha d\'especifiar almenys una taula pel reindex.';
+        $lang['strspecifytabletocluster']  =  'Ha d\'especificar almenys una taula pel cluster.';
+        $lang['strnofieldsforinsert']  =  'No es pot insertar una fila a una taula sense cap columna.';
 
 	// Columns
 	$lang['strcolprop'] = 'Propietats de la Columna';
@@ -365,6 +392,11 @@
 	$lang['strdatabasealtered'] = 'Base de dades modificada.';
 	$lang['strdatabasealteredbad'] = 'No s\'ha pogut modificar la base de dades.';
 	$lang['strspecifydatabasetodrop'] = 'Ha d\'especificar almenys una base de dades per eliminar.';
+        $lang['strtemplatedb']  =  'Plantilla';
+        $lang['strconfanalyzedatabase']  =  'Està segur de voler un analyze de totes les taules de la base de dades "%s"?';
+        $lang['strconfvacuumdatabase']  =  'Està segur de voler un vacuum de totes les taules de la base de dades "%s"?';
+        $lang['strconfreindexdatabase']  =  'Està segur de voler un reindex de totes les taules de la base de dades "%s"?';
+        $lang['strconfclusterdatabase']  =  'Està segur de voler un clúster de totes les taules de la base de dades "%s"?';
 
 	// Views
 	$lang['strview'] = 'Vista';
@@ -404,6 +436,7 @@
 	$lang['strlastvalue'] = 'Últim valor';
 	$lang['strincrementby'] = 'Incrementar en';	
 	$lang['strstartvalue'] = 'Valor inicial';
+        $lang['strrestartvalue']  =  'Valor al reiniciar';
 	$lang['strmaxvalue'] = 'Valor màxim';
 	$lang['strminvalue'] = 'Valor mínim';
 	$lang['strcachevalue'] = 'Valor de cache';
@@ -416,6 +449,8 @@
 	$lang['strconfdropsequence'] = 'Està segur de voler eliminar la seqüència "%s"?';
 	$lang['strsequencedropped'] = 'Seqüència eliminada.';
 	$lang['strsequencedroppedbad'] = 'No s\'ha pogut eliminar la seqüència.';
+        $lang['strsequencerestart']  =  'Seqüència reiniciada.';
+        $lang['strsequencerestartbad']  =  'No s\'ha pogut reiniciar la seqüència.';
 	$lang['strsequencereset'] = 'Seqüència reiniciada.';
 	$lang['strsequenceresetbad'] = 'No s\'ha pogut reiniciar la seqüència.'; 
  	$lang['strsequencealtered'] = 'Seqüència modificada.';
@@ -451,9 +486,10 @@
  	$lang['strindextype'] = 'Tipus d\'índex';
 	$lang['strtablecolumnlist'] = 'Columnes a la taula';
 	$lang['strindexcolumnlist'] = 'Columnes a l\'índex';
-	$lang['strconfcluster'] = 'Està segur de voler fer un clúster amb %s"?';
 	$lang['strclusteredgood'] = 'Clúster completat.';
 	$lang['strclusteredbad'] = 'No s\'ha pogut crear el clúster.';
+        $lang['strconcurrently']  =  'Actualment';
+        $lang['strnoclusteravailable']  =  'No hi ha el clúster disponible en l\'índex.';
 
 	// Rules
 	$lang['strrules'] = 'Regles';
@@ -899,12 +935,24 @@
 	$lang['strturnedon'] = 'Activat'; 
 	$lang['strturnedoff'] = 'Desactivat'; 
 	$lang['strenabled'] = 'Habilitat'; 
+        $lang['strnovacuumconf']  =  'No s\'ha trobat la configuració de l\'autovacuum.';
 	$lang['strvacuumbasethreshold'] = 'Llindar Base del Vacuum'; 
 	$lang['strvacuumscalefactor'] = 'Factor d\'Escala del Vacuum';  
 	$lang['stranalybasethreshold'] = 'Llindar Base de l\'Analyze';  
 	$lang['stranalyzescalefactor'] = 'Factor d\'Escala de l\'Analyze'; 
 	$lang['strvacuumcostdelay'] = 'Cost del Retard del Vacuum'; 
 	$lang['strvacuumcostlimit'] = 'Límit de Cost del Vacuum';  
+        $lang['strvacuumpertable']  =  'Configuració de l\'autovacuum per taula';
+        $lang['straddvacuumtable']  =  'Afegeix la configuració de l\'autovacuum per una taula';
+        $lang['streditvacuumtable']  =  'Edita la configuració de l\'autovacuum de la taula %s';
+        $lang['strdelvacuumtable']  =  'Vol eliminar la configuració de l\'autovacuum de la taula %s ?';
+        $lang['strvacuumtablereset']  =  'S\'ha inicialitzat la configuració de l\'autovacuum de la taula %s als valors per defecte';
+        $lang['strdelvacuumtablefail']  =  'No s\'ha pogut eliminar la configuració de l\'autovacuum de la taula %s';
+        $lang['strsetvacuumtablesaved']  =  'Configuració de l\'autovacuum de la taula %s desada.';
+        $lang['strsetvacuumtablefail']  =  'Ha fallat la configuració de l\'autovacuum de la taula %s.';
+        $lang['strspecifydelvacuumtable']  =  'Ha d\'especificar la taula d\'on vol eliminar els paràmetres de l\'autovacuum.';
+        $lang['strspecifyeditvacuumtable']  =  'Ha d\'especificar la taula d\'on vol editar els paràmetres de l\'autovacuum.';
+        $lang['strnotdefaultinred']  =  'Els paràmetres no per defecte en vermell.';
 
 	// Table-level Locks
 	$lang['strlocks'] = 'Bloquejos';
