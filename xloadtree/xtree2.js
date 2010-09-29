@@ -257,7 +257,7 @@ var webFXTreeHandler = {
 	},
 
 	textToHtml: function (s) {
-		return String(s).replace(/&|<|>|\n|\"\u00A0/g, this._textToHtml);
+		return String(s).replace(/&|<|>|\n|\"|\u00A0/g, this._textToHtml);
 	},
 
 	_textToHtml: function (s) {

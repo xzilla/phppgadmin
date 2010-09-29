@@ -1833,7 +1833,7 @@
 				header("Content-Type: text/xml");
 				header("Cache-Control: no-cache");
 
-				echo "<?xml version=\"1.0\"?>\n";
+				echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
 
 				echo "<tree>\n";
 			}
