@@ -823,8 +823,6 @@
 			),
 		);
 
-		unset($actions['privileges']);
-
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
 		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a></li>\n";
