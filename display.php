@@ -114,7 +114,7 @@
 						$extras['autocomplete'] = 'off';
 					}
 
-					echo $data->printField("values[{$attrs->fields['attnum']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
+					echo $data->printField("values[{$attrs->fields['attname']}]", $rs->fields[$attrs->fields['attname']], $attrs->fields['type'], $extras);
 
 					echo "</td>";
 					$elements++;
@@ -171,7 +171,7 @@
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
 			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
-												$_POST['format'], $_POST['types'], unserialize($_POST['key']));
+				$_POST['format'], $_POST['types'], unserialize($_POST['key']));
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
 			elseif ($status == -2)
