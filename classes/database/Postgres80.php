@@ -106,6 +106,34 @@ class Postgres80 extends Postgres81 {
 	// Schema functions
 
 	/**
+	 * Return all schemas in the current database.
+	 * @return All schemas, sorted alphabetically
+	 */
+	function getSchemas() {
+		global $conf, $slony;
+
+		if (!$conf['show_system']) {
+			$where = "WHERE nspname NOT LIKE 'pg@_%' ESCAPE '@' AND nspname != 'information_schema'";
+			if (isset($slony) && $slony->isEnabled()) {
+				$temp = $slony->slony_schema;
+				$this->clean($temp);
+				$where .= " AND nspname != '{$temp}'";
+			}
+
+		}
+		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+		$sql = "
+			SELECT pn.nspname, pu.usename AS nspowner,
+				pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
+			FROM pg_catalog.pg_namespace pn
+				LEFT JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
+			{$where}
+			ORDER BY nspname";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
 	 * Return all information relating to a schema
 	 * @param $schema The name of the schema
 	 * @return Schema information

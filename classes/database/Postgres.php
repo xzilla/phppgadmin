@@ -861,10 +861,10 @@ class Postgres extends ADODB_base {
 		}
 		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 		$sql = "
-			SELECT pn.nspname, pu.usename AS nspowner,
+			SELECT pn.nspname, pu.rolname AS nspowner,
 				pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
 			FROM pg_catalog.pg_namespace pn
-				LEFT JOIN pg_catalog.pg_user pu ON (pn.nspowner = pu.usesysid)
+				LEFT JOIN pg_catalog.pg_authid pu ON (pn.nspowner = pu.oid)
 			{$where}
 			ORDER BY nspname";
 
