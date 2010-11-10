@@ -14,23 +14,19 @@ An item is marked with a '-' if it has been completed.
 
 Note for PPA 5.0
 ----------------
-* Add full support for autovacuum settings per table
-* Fix support for autovacuum for 8.4
+
 * Fix operator's property page
-* Rewrite WITHOUT OIDs with more natural WITH OIDS
-* Rewrite the aggregate edition page ! It is using input tetxt everywhere presently, even for owner and schéma !
-* Add support for default db to connect to on login page (we had several users complaining about that lately)
 
 Cluster
 -------
 * Allow reading of postgresql.conf and pg_hba.conf per pg_read_file() in 8.1
 * Support pg_reload_conf(), pg_rotate_logfile() 8.1 commands
+* Add support for default db to connect to on login page (we had several users complaining about that lately)
 
 
 Export
 ------
 
-* Support export of data from an sql query 
 * Switch to SPARQL format:
   http://www.w3.org/TR/2005/WD-rdf-sparql-XMLres-20050801/
 
@@ -74,19 +70,18 @@ Databases
 Schemas
 -------
 
-* Alter {DOMAIN|AGGREGATE} SET SCHEMA support
-
 
 Large Objects
 -------------
 
 * Add support for large objects
-
+  (review patch from Dmitry Koterov https://github.com/DmitryKoterov/phppgadmin/commit/3072e666bd2b291feb91823b41f1fdb8ec7f492d )
 
 Tables
 ------
 
-* Allow PK and UNIQUE and FKs during create table (Jawed)
+* Rewrite WITHOUT OIDs with more natural WITH OIDS
+* Allow FKs during create table (Jawed)
 * When adding a column or creating a table, prevent size on non-size types (eg. integer(2)).  You can find these by looking at format_type in the postgresql source code.
 * Add WITH storage_parameter option to create table [8.2]
 * Add last vacuum and analyze information from statistics tables [8.2]
@@ -124,13 +119,12 @@ Indexes
 * Support 8.1 Reindex System commands
 * Expressional indexes
 * Create Index Asc/Desc, Nulls First/Last [8.3]
-* remove FORCE as it is now ignore since 7.4
 
 
 Types
 -----
 
-* Suppres psuedo-type options in type list for creating composite types. 
+* Suppres psuedo-type options in type list for creating composite types. (done ?)
 
 
 Operators
@@ -157,6 +151,7 @@ Aggregates
 ----------
 
 * Allow for multi-column aggregates [8.2]
+* Rewrite the aggregate edition page ! It is using input tetxt everywhere presently, even for owner and schéma !
 
 
 Languages
@@ -171,6 +166,7 @@ Languages
 Domains
 -------
 
+* Alter DOMAIN SET SCHEMA support
 
 Conversions
 -----------
@@ -200,7 +196,7 @@ Miscellaneous
 
 * Audit for PHP 5.3.x compatability 
 * Support 8.1 standard compliant strings (E'')
-* Support per-user and per-database connection limits per 8.1
+* Support per-database connection limits per 8.1
 * Put a 'What's blocking this query' on Processes view
 * Show prepared statements on database view [8.2]
 * Show cursors on database view [8.2]
@@ -210,10 +206,6 @@ Miscellaneous
 * Allow setting/dropping comments for all objects (Dan Boren)
 * Show owner for all objects
 * Allow changing owner for objects that have this feature [7.4+ generally]
-* -Icons for all objects, for use in navigation widgets
-  Most objects are now covered thanks to those provided by Niko,
-  but we still need icons for:
-    Introduction, Variables, Admin, Privileges, Reports
 * Add CASCADE option to Truncate [8.2]
 * Add ONLY option to Truncate [8.4]
 * Add information about synch tool to TRANSLATORS
@@ -241,14 +233,14 @@ Principles
 * One day we should make it all XHTML
 * everything properly escaped - prevent sql injection and cross-site scripting 
   probs
-* Support Postgres 7.3 and upwards
+* Support Postgres 7.4 and upwards
 * psql -E is a cool way of seeing how to do schema queries
 * Checking out older versions of describe.c in src/bin/psql in the postgres 
   distro is a good way of seeing how to query older versions of postgres for 
   schema information
 * Put functions in the highest class possible.  For instance, simple selects 
-  should be in Postgres, whereas something that works for 7.1+ should be in the 
-  7.1 class.  This will minimise bugs and duplicated code.
+  should be in Postgres, whereas something that works for < 8.2 should be in the 
+  8.1 class.  This will minimise bugs and duplicated code.
 * Adhere to current coding standards
 * Avoid using global variables if possible
 
