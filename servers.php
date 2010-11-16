@@ -132,9 +132,17 @@
 		global $misc;
 		
 		$groups = $misc->getServersGroups();
-		
+
+		function escape($fields) {
+			global $lang;
+			if ($fields['id'] === 'all') {
+				return $lang['strallservers'];
+			}
+			else return value(field('desc'), $fields, 'xml');
+		}
+
 		$attrs = array(
-			'text'   => field('desc'),
+			'text'   => noEscape(callback('escape')),
 			'icon'   => 'Servers',			
 			'action' => url('servers.php',
 				array(
