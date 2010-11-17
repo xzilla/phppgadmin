@@ -41,10 +41,12 @@ Translators
 - Adamantios Diamantidis (Greek)
 - Marek ¿ernocký (Czech)
 - Alexey Baturin (Russian UTF8)
+- Adrián Chaves Fernández (Galician)
 
 Look & Feel
 
 - Davey (CSS)
+- JGuillaume 'ioguix' De Rorthais (Cappuccino theme)
 
 Contributors
 
@@ -76,6 +78,7 @@ Third Party Libraries
 
 - Highlight.php (Jacob D. Cohen of rafb.net)
 - XLoadTree2 (Erik Arvidsson & Emil A Eklund of webfx.eae.net)
+- jQuery (http://jquery.com/)
 
 Corporate Sponsors
 

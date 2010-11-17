@@ -45,11 +45,13 @@ Bugs
 * removed deprecated functions from PHP 5.3
 * Lot of code cleanup
 * Many other small minor bugs found on our way
+* Fix the operator property page
 
 Translations
 * Czech (Marek Cernocky)
 * Greek (Adamantios Diamantidis)
 * Brazillian Portuguese (Fernando Wendt)
+* Galician (Adrián Chaves Fernández)
 
 Incompatabilities
 * No longer support PHP < 5.0
