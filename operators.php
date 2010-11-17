@@ -42,18 +42,26 @@
 			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprjoin']), "</td></tr>\n";
 			echo "<tr><th class=\"data left\">{$lang['strhashes']}</th>\n";
 			echo "<td class=\"data1\">", ($oprdata->fields['oprcanhash']) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strmerges']}</th>\n";
-			echo "<td class=\"data1\">", ($oprdata->fields['oprlsortop'] !== '0' && $oprdata->fields['oprrsortop'] !== '0') ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strrestrict']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrest']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strleftsort']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprlsortop']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strrightsort']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrsortop']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strlessthan']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprltcmpop']), "</td></tr>\n";
-			echo "<tr><th class=\"data left\">{$lang['strgreaterthan']}</th>\n";
-			echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprgtcmpop']), "</td></tr>\n";
+
+			/* these field only exists in 8.2 and before in pg_catalog */
+			if (isset($oprdata->fields['oprlsortop'])) {
+				echo "<tr><th class=\"data left\">{$lang['strmerges']}</th>\n";
+				echo "<td class=\"data1\">", ($oprdata->fields['oprlsortop'] !== '0' && $oprdata->fields['oprrsortop'] !== '0') ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strrestrict']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrest']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strleftsort']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprlsortop']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strrightsort']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprrsortop']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strlessthan']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprltcmpop']), "</td></tr>\n";
+				echo "<tr><th class=\"data left\">{$lang['strgreaterthan']}</th>\n";
+				echo "<td class=\"data1\">", $misc->printVal($oprdata->fields['oprgtcmpop']), "</td></tr>\n";
+			}
+			else {
+				echo "<tr><th class=\"data left\">{$lang['strmerges']}</th>\n";
+				echo "<td class=\"data1\">", $data->phpBool($oprdata->fields['oprcanmerge']) ? $lang['stryes'] : $lang['strno'], "</td></tr>\n";
+			}
 			echo "</table>\n";
 
 			echo "<p><a class=\"navlink\" href=\"operators.php?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";

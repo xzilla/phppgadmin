@@ -5148,12 +5148,9 @@ class Postgres extends ADODB_base {
 				oprright::pg_catalog.regtype AS oprrightname,
 				oprresult::pg_catalog.regtype AS resultname,
 				po.oprcanhash,
+				oprcanmerge,
 				oprcom::pg_catalog.regoperator AS oprcom,
 				oprnegate::pg_catalog.regoperator AS oprnegate,
-				oprlsortop::pg_catalog.regoperator AS oprlsortop,
-				oprrsortop::pg_catalog.regoperator AS oprrsortop,
-				oprltcmpop::pg_catalog.regoperator AS oprltcmpop,
-				oprgtcmpop::pg_catalog.regoperator AS oprgtcmpop,
 				po.oprcode::pg_catalog.regproc AS oprcode,
 				po.oprrest::pg_catalog.regproc AS oprrest,
 				po.oprjoin::pg_catalog.regproc AS oprjoin
