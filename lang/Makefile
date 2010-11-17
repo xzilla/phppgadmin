@@ -249,3 +249,8 @@ greek:                greek.php
 		> ${DESTDIR}/greek.php
 	@chmod 644 greek.php ${DESTDIR}/greek.php
 
+galician: galician.php
+	@echo "Recoding galician..."
+	@cat galician.php | recode utf-8..xml | ./convert.awk \
+		> ${DESTDIR}/galician.php
+	@chmod 644 galician.php ${DESTDIR}/galician.php
