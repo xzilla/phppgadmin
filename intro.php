@@ -42,10 +42,9 @@
 		<td>
 			<select name="theme" onchange="this.form.submit()">
 			<?php
-			$theme = isset($_SESSION['ppaTheme']) ? $_SESSION['ppaTheme'] : 'default';
 			foreach ($appThemes as $k => $v) {
 				echo "\t<option value=\"{$k}\"",
-					($k == $theme) ? ' selected="selected"' : '',
+					($k == $conf['theme']) ? ' selected="selected"' : '',
 					">{$v}</option>\n";
 			}
 			?>

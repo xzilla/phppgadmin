@@ -95,30 +95,46 @@
 
 	/* select the theme */
 	unset($_theme);
- 
+	$conf['theme'] = 'default';
+
 	// 1. Check for the theme from a request var
 	if (isset($_REQUEST['theme']) && is_file("./themes/{$_REQUEST['theme']}/global.css")) {
+		/* save the selected theme in cookie for a year */
+		setcookie('ppaTheme', $_REQUEST['theme'], time()+31536000);
 		$_theme = $_SESSION['ppaTheme'] = $conf['theme'] = $_REQUEST['theme'];
 	}
-	
+
 	// 2. Check for theme session var
 	if (!isset($_theme) && isset($_SESSION['ppaTheme']) && is_file("./themes/{$_SESSION['ppaTheme']}/global.css")) {
 		$conf['theme']  = $_SESSION['ppaTheme'];
+	}
+
+	// 3. Check for theme in cookie var
+	if (!isset($_theme) && isset($_COOKIE['ppaTheme']) && is_file("./themes/{$_COOKIE['ppaTheme']}/global.css")) {
+		$conf['theme']  = $_COOKIE['ppaTheme'];
 	}
 
 	// Determine language file to import:
 	unset($_language);
 
 	// 1. Check for the language from a request var
-	if (isset($_REQUEST['language']) && isset($appLangFiles[$_REQUEST['language']]))
+	if (isset($_REQUEST['language']) && isset($appLangFiles[$_REQUEST['language']])) {
+		/* save the selected language in cookie for a year */
+		setcookie('webdbLanguage', $_REQUEST['language'], time()+31536000);
 		$_language = $_REQUEST['language'];
+	}
 
 	// 2. Check for language session var
 	if (!isset($_language) && isset($_SESSION['webdbLanguage']) && isset($appLangFiles[$_SESSION['webdbLanguage']])) {
 		$_language = $_SESSION['webdbLanguage'];
 	}
 
-	// 3. Check for acceptable languages in HTTP_ACCEPT_LANGUAGE var
+	// 3. Check for language in cookie var
+	if (!isset($_language) && isset($_COOKIE['webdbLanguage']) && isset($appLangFiles[$_COOKIE['webdbLanguage']])) {
+		$_language  = $_COOKIE['webdbLanguage'];
+	}
+
+	// 4. Check for acceptable languages in HTTP_ACCEPT_LANGUAGE var
 	if (!isset($_language) && $conf['default_lang'] == 'auto' && isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 		// extract acceptable language tags
 		// (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
@@ -140,7 +156,7 @@
 		}
 	}
 
-	// 4. Otherwise resort to the default set in the config file
+	// 5. Otherwise resort to the default set in the config file
 	if (!isset($_language) && $conf['default_lang'] != 'auto' && isset($appLangFiles[$conf['default_lang']])) {
 		$_language = $conf['default_lang'];
 	}
