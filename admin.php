@@ -493,8 +493,8 @@
 		echo "</tr>";	
 
 		// Vacuum
-		echo "<tr>\n";
-		echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
+		echo "<tr class=\"row1\">\n";
+		echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 		echo "<form action=\"{$script}\" method=\"post\">\n";
 		
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"confirm_vacuum\" />\n";
@@ -508,7 +508,7 @@
 		echo "</td>\n";
 
 		// Analyze
-		echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
+		echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 		echo "<form action=\"{$script}\" method=\"post\">\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"confirm_analyze\" />\n";
 		echo $misc->form;
@@ -523,7 +523,7 @@
 		// Cluster
 		if ($data->hasRecluster()){
 			$disabled = '';
-			echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
+			echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 			echo "<form action=\"{$script}\" method=\"post\">\n";
 			echo $misc->form;
 			if ($type == 'table') {
@@ -541,7 +541,7 @@
 		}
 		
 		// Reindex
-		echo "<td class=\"data1\" style=\"text-align: center; vertical-align: bottom\">\n";
+		echo "<td style=\"text-align: center; vertical-align: bottom\">\n";
 		echo "<form action=\"{$script}\" method=\"post\">\n";
 		echo "<p><input type=\"hidden\" name=\"action\" value=\"confirm_reindex\" />\n";
 		echo $misc->form;

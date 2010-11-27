@@ -108,15 +108,15 @@ tr.data1, tr.data2, tr.data3 {
 tr.data1:hover, tr.data2:hover, tr.data3:hover {
 	background-color: #DDD;
 }
-.data1 {
+.row1, .data1 {
 	background-color: #F3F3E9;
 	text-align: left;
 }
-.data2 {
+.row2, .data2 {
 	background-color: #E6E6CC;
 	text-align: left;
 }
-.data3 {background-color: #F3F3E9}
+.row3, .data3 {background-color: #F3F3E9}
 td.opbutton1 {
 	color: #000000;
 	border-top:	1px solid #FFFFFF;

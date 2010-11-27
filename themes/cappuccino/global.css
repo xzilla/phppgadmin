@@ -138,15 +138,15 @@ tr.data1, tr.data2, tr.data3 {
 tr.data1:hover, tr.data2:hover, tr.data3:hover {
 	background-color: #c8c0a2;
 }
-.data1 {
+.row1, .data1 {
 	background-color: #d8d2b9;
 	text-align: left;
 }
-.data2 {
+.row2, .data2 {
 	background-color: #ded9c9;
 	text-align: left;
 }
-.data3 {background-color: #d4c8a1}
+.row3, .data3 {background-color: #d4c8a1}
 td.opbutton1, td.opbutton2 {
 	color: #000000;
 	cursor:	pointer;

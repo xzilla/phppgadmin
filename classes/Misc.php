@@ -1781,7 +1781,7 @@
 					echo "<tr>\n";
 					echo "<th class=\"data\" style=\"text-align: left\" colspan=\"3\">{$lang['stractionsonmultiplelines']}</th>\n";
 					echo "</tr>\n";
-					echo "<tr class=\"data1\">\n";
+					echo "<tr class=\"row1\">\n";
 					echo "<td>";
 					echo "<a href=\"#\" onclick=\"javascript:checkAll(true);\">{$lang['strselectall']}</a> / ";
 					echo "<a href=\"#\" onclick=\"javascript:checkAll(false);\">{$lang['strunselectall']}</a></td>\n";
