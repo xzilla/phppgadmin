@@ -26,7 +26,7 @@ Features
   * support multi-field FK
   * support for pagination of values in the auto-complete list
 * Allow user to logicaly group their server under custom named node in the browser tree
-* New theme and a theme switcher on the introduction page
+* New themes (Cappuccino and Gotar) and a theme switcher on the introduction page
 * Auto refresh Locks page
 * Auto refresh Processes page
 * Link in the bottom of the page to go to top of page

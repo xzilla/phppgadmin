@@ -10,5 +10,6 @@
 	$appThemes = array(
 		'default' => 'Default',
 		'cappuccino' => 'Cappuccino',
+		'gotar' => 'Gotar'
 	);
 ?>
