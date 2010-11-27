@@ -29,7 +29,14 @@ $t->clickAndWait("//input[@value='{$lang['strcreate']}']");
 $t->assertText("//p[@class='message']", $lang['strindexcreated']);
 
 /** 2 **/
-$t->addComment('2. Drop the index');
+$t->addComment('2. Cluster on the index');
+$t->clickAndWait("link={$lang['strindexes']}");
+$t->clickAndWait("//tr/td[text()='name_unique']/../td/a[text()='Cluster']");
+$t->clickAndWait('cluster');
+$t->assertText("//p[@class='message']", $lang['strclusteredgood'] . ' ' . $lang['stranalyzegood']);
+
+/** 3 **/
+$t->addComment('3. Drop the index');
 $t->clickAndWait("link={$lang['strindexes']}");
 $t->clickAndWait("//tr/td[text()='name_unique']/../td/a[text()='Drop']");
 $t->click('cascade');

@@ -486,6 +486,7 @@
  	$lang['strindextype'] = 'Type of index';
 	$lang['strtablecolumnlist'] = 'Columns in table';
 	$lang['strindexcolumnlist'] = 'Columns in index';
+	$lang['strconfcluster'] = 'Are you sure you want to cluster on "%s"?';
 	$lang['strclusteredgood'] = 'Cluster complete.';
 	$lang['strclusteredbad'] = 'Cluster failed.';
 	$lang['strconcurrently'] = 'Concurrently';
