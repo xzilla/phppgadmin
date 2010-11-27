@@ -18,6 +18,7 @@ body.browser {
 	color: #fff;
 }
 body.browser > * { margin: 0 }
+body.browser div.webfx-tree-row:hover { background: #524a42}
 div.logo {
 	margin:	0px;
 	padding: 0px;
