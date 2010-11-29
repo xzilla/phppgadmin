@@ -623,7 +623,7 @@
 	$lang['strtablespacealteredbad'] = 'עריכת מרחבון מכשלה.';
 	
 	// Miscellaneous
-	$lang['strtopbar'] = '%s רץ על %s:%s -- אתה מחובר כמשתמש - &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s רץ על %s:%s -- אתה מחובר כמשתמש - &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'עזרה';
 

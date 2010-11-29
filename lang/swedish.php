@@ -466,7 +466,7 @@
 	$lang['strreport'] = 'Rapport';
 	$lang['strreports'] = 'Rapporter';
 	$lang['strshowallreports'] = 'Visa alla rapporter';
-	$lang['strtopbar'] = '%s körs på %s:%s -- Du är inloggad som användare "%s", %s';
+	$lang['strtopbar'] = '%s körs på %s:%s -- Du är inloggad som användare "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strnoreports'] = 'Hittade inga rapporter.';
 	$lang['strcreatereport'] = 'Skapa rapport';

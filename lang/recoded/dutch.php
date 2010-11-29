@@ -4,7 +4,7 @@
 	 * Dutch Language file for WebDB.
 	 * @maintainer Hugo Jonker [hugo@gewis.win.tue.nl]
 	 *
-	 * $Id: dutch.php,v 1.15 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: dutch.php,v 1.18 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	$lang['applang'] = 'Nederlands';
@@ -415,7 +415,7 @@
 	$lang['strreportneedsdef'] = 'U dient SQL op te geven voor het rapport.';
 	$lang['strreportcreated'] = 'Rapport bewaard.';
 	$lang['strreportcreatedbad'] = 'Bewaren van het rapport mislukt.';
-	$lang['strtopbar'] = '%s draaiend op %s:%s -- U bent ingelogd als gebruiker &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s draaiend op %s:%s -- U bent ingelogd als gebruiker &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';

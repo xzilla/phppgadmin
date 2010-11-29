@@ -880,7 +880,7 @@
 	$lang['strnosubscriptions'] = '找不到任何訂閱。';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s 運作於 %s: %s -- 您是已登入的使用者 "%s", %s';
+	$lang['strtopbar'] = '%s 運作於 %s: %s -- 您是已登入的使用者 "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g: iA';
 	$lang['strhelp'] = '說明';
 	$lang['strhelpicon'] = '?';

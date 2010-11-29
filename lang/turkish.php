@@ -751,7 +751,7 @@ $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from rep
 	$lang['strnosubscriptions']  =  'Üyelik bulunamadý.';
 
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s, %s:%s üzerinde çalýþýyor-- "%s", %s kullanýcýsý ile sisteme giriþ yaptýnýz.';
+	$lang['strtopbar']  =  '%s, %s:%s üzerinde çalýþýyor-- "%s" kullanýcýsý ile sisteme giriþ yaptýnýz.';
         $lang['strtimefmt']  =  'jS M, Y g:iA';
         $lang['strhelp']  =  'Yardým';
 	$lang['strhelpicon'] = '?';

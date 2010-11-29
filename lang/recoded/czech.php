@@ -917,7 +917,7 @@
 	$lang['strnosubscriptions'] = 'Nebyly nalezeny &#382;&#225;dn&#233; odb&#283;ry.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s b&#283;&#382;&#237;c&#237; na %s:%s -- Jste p&#345;ihl&#225;&#353;en&#253; jako u&#382;ivatel &#8222;%s&#8220;, %s';
+	$lang['strtopbar'] = '%s b&#283;&#382;&#237;c&#237; na %s:%s -- Jste p&#345;ihl&#225;&#353;en&#253; jako u&#382;ivatel &#8222;%s&#8220;';
 	$lang['strtimefmt'] = 'j. M Y G:i';
 	$lang['strhelp'] = 'N&#225;pov&#283;da';
 	$lang['strhelpicon'] = '?';

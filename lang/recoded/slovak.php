@@ -756,7 +756,7 @@ $lang['strsubscriptions']  =  'Subscriptions';
 $lang['strnosubscriptions']  =  'No subscriptions found.';
 
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s be&#382;&#237; na %s:%s -- si prihl&#225;sen&#253; ako &quot;%s&quot;, %s';
+	$lang['strtopbar']  =  '%s be&#382;&#237; na %s:%s -- si prihl&#225;sen&#253; ako &quot;%s&quot;';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Pomoc';
 	$lang['strhelpicon']  =  '?';

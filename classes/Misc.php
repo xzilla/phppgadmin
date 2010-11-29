@@ -1126,8 +1126,7 @@
 					'<span class="platform">'.htmlspecialchars($server_info['platform']).'</span>',
 					'<span class="host">'.htmlspecialchars((empty($server_info['host'])) ? 'localhost':$server_info['host']).'</span>',
 					'<span class="port">'.htmlspecialchars($server_info['port']).'</span>',
-					'<span class="username">'.htmlspecialchars($server_info['username']).'</span>',
-					'<span class="date">'.date($lang['strtimefmt']).'</span>');
+					'<span class="username">'.htmlspecialchars($server_info['username']).'</span>');
 			} else {
 				echo "<span class=\"appname\">$appName</span> <span class=\"version\">$appVersion</span>";
 			}

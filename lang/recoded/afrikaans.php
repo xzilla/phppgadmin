@@ -4,7 +4,7 @@
 	 * Afrikaans Language file for WebDB.
 	 * @maintainer Petri Jooste [rkwjpj@puk.ac.za]
 	 *
-	 * $Id: afrikaans.php,v 1.10 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: afrikaans.php,v 1.9 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -627,7 +627,7 @@
 	$lang['strtablespacealteredbad'] = 'Wysiging van tabelruimte het misluk.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s loop op %s:%s -- Jy is aangeteken as gebruiker &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s loop op %s:%s -- Jy is aangeteken as gebruiker &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Hulp';
 	$lang['strhelpicon'] = '?';

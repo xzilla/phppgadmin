@@ -4,7 +4,7 @@
 	 * Turkish language file for phpPgAdmin.  Use this as a basis
 	 * for new translations.
 	 *
-	 * $Id: turkish.php,v 1.16 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: turkish.php,v 1.15 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -751,7 +751,7 @@ $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from rep
 	$lang['strnosubscriptions']  =  '&#220;yelik bulunamad&#305;.';
 
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s, %s:%s &#252;zerinde &#231;al&#305;&#351;&#305;yor-- &quot;%s&quot;, %s kullan&#305;c&#305;s&#305; ile sisteme giri&#351; yapt&#305;n&#305;z.';
+	$lang['strtopbar']  =  '%s, %s:%s &#252;zerinde &#231;al&#305;&#351;&#305;yor-- &quot;%s&quot; kullan&#305;c&#305;s&#305; ile sisteme giri&#351; yapt&#305;n&#305;z.';
         $lang['strtimefmt']  =  'jS M, Y g:iA';
         $lang['strhelp']  =  'Yard&#305;m';
 	$lang['strhelpicon'] = '?';

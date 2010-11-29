@@ -883,7 +883,7 @@
 	$lang['strnosubscriptions'] = 'Keine Abonnements gefunden.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s läuft auf %s:%s -- Sie sind als "%s" angemeldet, %s';
+	$lang['strtopbar'] = '%s läuft auf %s:%s -- Sie sind als "%s" angemeldet';
 	$lang['strtimefmt'] = 'D, j. n. Y, G:i';
 	$lang['strhelp'] = 'Hilfe';
 	$lang['strhelpicon'] = '?';

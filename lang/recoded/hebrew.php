@@ -4,7 +4,7 @@
 	 * Hebrew language file for phpPgAdmin.
 	 * Jonatan Perry &lt;Jonatan44@hotpop.com&gt;
 	 *
-	 * $Id: hebrew.php,v 1.5 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: hebrew.php,v 1.4 2007/04/24 11:42:07 soranzo Exp $
 	 */
 	 
 	// Language and character set
@@ -623,7 +623,7 @@
 	$lang['strtablespacealteredbad'] = '&#1506;&#1512;&#1497;&#1499;&#1514; &#1502;&#1512;&#1495;&#1489;&#1493;&#1503; &#1502;&#1499;&#1513;&#1500;&#1492;.';
 	
 	// Miscellaneous
-	$lang['strtopbar'] = '%s &#1512;&#1509; &#1506;&#1500; %s:%s -- &#1488;&#1514;&#1492; &#1502;&#1495;&#1493;&#1489;&#1512; &#1499;&#1502;&#1513;&#1514;&#1502;&#1513; - &amp;quot;%s&amp;quot;, %s';
+	$lang['strtopbar'] = '%s &#1512;&#1509; &#1506;&#1500; %s:%s -- &#1488;&#1514;&#1492; &#1502;&#1495;&#1493;&#1489;&#1512; &#1499;&#1502;&#1513;&#1514;&#1502;&#1513; - &amp;quot;%s&amp;quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = '&#1506;&#1494;&#1512;&#1492;';
 

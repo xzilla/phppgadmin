@@ -917,7 +917,7 @@
 	$lang['strnosubscriptions']  =  'Nincs feliratkoz&#225;s.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s fut %s:%s c&#237;men &#8212; &#214;n &#8222;%s&#8221; n&#233;ven jelentkezett be. %s';
+	$lang['strtopbar'] = '%s fut %s:%s c&#237;men &#8212; &#214;n &#8222;%s&#8221; n&#233;ven jelentkezett be.';
 	$lang['strtimefmt'] = 'Y.m.d. H:i';
 	$lang['strhelp'] = 'S&#250;g&#243;';
 	$lang['strhelpicon']  =  '?';

@@ -4,7 +4,7 @@
   * English language file for phpPgAdmin.  Use this as a basis
   * for new translations.
   *
-  * $Id: arabic.php,v 1.7 2007/04/24 11:43:16 soranzo Exp $
+  * $Id: arabic.php,v 1.6 2007/04/24 11:42:07 soranzo Exp $
   */
 
  // Language and character set
@@ -589,7 +589,7 @@ $lang['strloginfailed'] = '&#1604;&#1605; &#1578;&#1606;&#1580;&#1581; &#1593;&#
  $lang['strrows2'] = 'Rows';
 
  // Miscellaneous
- $lang['strtopbar'] = '%s &#1610;&#1593;&#1605;&#1604; &#1593;&#1604;&#1609; %s:%s -- You are logged in as user &quot;%s&quot;, %s';
+ $lang['strtopbar'] = '%s &#1610;&#1593;&#1605;&#1604; &#1593;&#1604;&#1609; %s:%s -- You are logged in as user &quot;%s&quot;';
  $lang['strtimefmt'] = 'jS M, Y g:iA';
  $lang['strhelp'] = '&#1605;&#1587;&#1575;&#1593;&#1583;&#1577;';
 

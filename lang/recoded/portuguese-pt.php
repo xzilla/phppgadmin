@@ -422,7 +422,7 @@ $lang['strreportcreated'] = 'Relat&#243;rio salvo.';
 $lang['strreportcreatedbad'] = 'Falha ao salvar o relat&#243;rio.';		
 
 // Miscellaneous
-$lang['strtopbar'] = '%s a correr  em %s:%s -- Voc&#234; est&#225; ligado como &quot;%s&quot;, %s';
+$lang['strtopbar'] = '%s a correr  em %s:%s -- Voc&#234; est&#225; ligado como &quot;%s&quot;';
 $lang['strtimefmt'] = 'jS M, Y g:iA';
 
 

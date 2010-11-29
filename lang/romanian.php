@@ -842,7 +842,7 @@
 	$lang['strnosubscriptions'] = 'Nici o subscriere găsită.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s rulând pe %s:%s -- Sunteţi autentificat ca utilizator "%s", %s';
+	$lang['strtopbar'] = '%s rulând pe %s:%s -- Sunteţi autentificat ca utilizator "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';

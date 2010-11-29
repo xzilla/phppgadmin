@@ -917,7 +917,7 @@
 	$lang['strnosubscriptions'] = 'No s\'han trobat subscripcions.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s corrent a %s:%s -- Ha entrat com a usuari "%s", %s';
+	$lang['strtopbar'] = '%s corrent a %s:%s -- Ha entrat com a usuari "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajuda';
 	$lang['strhelpicon'] = '?';

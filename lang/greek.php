@@ -835,7 +835,7 @@
 	$lang['strnosubscriptions'] = 'Δε βρέθηκαν προεγγραφές.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s στο %s:%s -- Είστε συνδεδεμένος ως "%s", %s';
+	$lang['strtopbar'] = '%s στο %s:%s -- Είστε συνδεδεμένος ως "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Βοήθεια';
 	$lang['strhelpicon'] = '?';
