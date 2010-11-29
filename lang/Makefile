@@ -53,7 +53,8 @@ TARGETS=polish \
 	hebrew \
 	catalan \
 	romanian \
-    greek
+	greek \
+	galician
 
 all:	prepare ${TARGETS}
 	@for p in ${TARGETS} ; do chmod 644 ${DESTDIR}/$$p.php ; done
