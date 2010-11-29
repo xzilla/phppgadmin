@@ -12,11 +12,6 @@ item. If you want to work a claimed item, please contact the developers list.
 
 An item is marked with a '-' if it has been completed.
 
-Note for PPA 5.0
-----------------
-
-* Fix operator's property page
-
 Cluster
 -------
 * Allow reading of postgresql.conf and pg_hba.conf per pg_read_file() in 8.1

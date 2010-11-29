@@ -3,17 +3,11 @@ Internal Bugs List
 
 This file is used to track current working tasks - just ignore it!
 
-fix getIndexes() and getConstraints() for < 7.3 to know about index type
-  (eg. constraints can only be btree indexes)
-all DROP and ALTER commands MUST be fully schema-qualified otherwise you can accidentally drop stuff in pg_catalog :(
-need icons and Find for Casts and Conversions, Languages, Aggs and OpClasses
 dump sequences when dumping tables
 fix dumping clustering info
 
 Need to fix:
 * After changing password need to update data structures to avoid logouts
-* The getType function needs to be ported to 7.2 and 7.3 classes to add
-  pretty type name and schema support
 * Report login errors
 * Don't offer owner change feature if user is not superuser
 * check use of apostrophes, etc. in tree menu

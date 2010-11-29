@@ -4,6 +4,8 @@ phpPgAdmin History
 Version 5.0
 -----------
 
+Released: 29th November 2010
+
 Features
 * Support for PostgreSQL 8.4 and 9.0
 * Support for database level collation for 8.4+
