@@ -884,7 +884,7 @@ $lang['stroutofsync']  =  'Out of Sync';
 	$lang['strnosubscriptions']  =  'サブスクリプションが見つかりません。';
 
 	// Miscellaneous
-	$lang['strtopbar'] = 'サーバー %2$s のポート番号 %3$s で実行中の %1$s に接続中 -- ユーザー「%4$s」としてログイン中(%5$s)';
+	$lang['strtopbar'] = 'サーバー %2$s のポート番号 %3$s で実行中の %1$s に接続中 -- ユーザー「%4$s」としてログイン中';
 	$lang['strtimefmt'] = 'Y 年 n 月 j 日 G:i';
 	$lang['strhelp'] = 'ヘルプ';
 	$lang['strhelpicon'] = '?';

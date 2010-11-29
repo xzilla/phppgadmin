@@ -591,7 +591,7 @@
    $lang['strrows2'] = '資料行';
    
 	// Miscellaneous
-   $lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s" , %s';
+   $lang['strtopbar'] = '%s 執行於 %s:%s － 您是 "%s"';
    $lang['strtimefmt'] = 'jS M, Y g:iA';
    $lang['strhelp'] = '說明';
 	

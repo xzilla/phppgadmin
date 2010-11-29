@@ -835,7 +835,7 @@ $lang['straggrneedsstype']  =  'You must specify the data type for the aggregate
 	$lang['strnosubscriptions'] = 'Nie znaleziono subskrypcji.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jesteś zalogowany jako "%s", %s';
+	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jesteś zalogowany jako "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Pomoc';
 	$lang['strhelpicon'] = '?';

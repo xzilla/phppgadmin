@@ -717,7 +717,7 @@
 	$lang['strid'] = 'ID';
 
 	// Miscellaneous - Varie
-	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s" connesso il %s';
+	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s"';
 	$lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
 	$lang['strhelpicon'] = '?';

@@ -415,7 +415,7 @@
 	$lang['strreportneedsdef'] = 'U dient SQL op te geven voor het rapport.';
 	$lang['strreportcreated'] = 'Rapport bewaard.';
 	$lang['strreportcreatedbad'] = 'Bewaren van het rapport mislukt.';
-	$lang['strtopbar'] = '%s draaiend op %s:%s -- U bent ingelogd als gebruiker "%s", %s';
+	$lang['strtopbar'] = '%s draaiend op %s:%s -- U bent ingelogd als gebruiker "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strondelete'] = 'ON DELETE';
 	$lang['stronupdate'] = 'ON UPDATE';

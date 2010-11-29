@@ -917,7 +917,7 @@
 	$lang['strnosubscriptions'] = 'Nebyly nalezeny žádné odběry.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s běžící na %s:%s -- Jste přihlášený jako uživatel „%s“, %s';
+	$lang['strtopbar'] = '%s běžící na %s:%s -- Jste přihlášený jako uživatel „%s“';
 	$lang['strtimefmt'] = 'j. M Y G:i';
 	$lang['strhelp'] = 'Nápověda';
 	$lang['strhelpicon'] = '?';

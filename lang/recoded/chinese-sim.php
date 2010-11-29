@@ -366,7 +366,7 @@ $lang['strreportcreatedbad'] = '&#20648;&#23384;&#25253;&#34920;&#22833;&#36133;
 
 
 // Miscellaneous
-$lang['strtopbar'] = '%s &#26550;&#20110; %s&#65306;%s &#65293; &#24744;&#26159; &quot;%s&quot;&#65292; %s';
+$lang['strtopbar'] = '%s &#26550;&#20110; %s&#65306;%s &#65293; &#24744;&#26159; &quot;%s&quot;';
 $lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>

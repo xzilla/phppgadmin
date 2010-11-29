@@ -534,7 +534,7 @@
 	$lang['strchildtables'] = 'Дочерние таблицы';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s", %s';
+	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s"';
 	$lang['strtimefmt'] = ' j-m-Y  g:i';
 
 ?>

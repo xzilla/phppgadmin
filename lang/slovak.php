@@ -756,7 +756,7 @@ $lang['strsubscriptions']  =  'Subscriptions';
 $lang['strnosubscriptions']  =  'No subscriptions found.';
 
 	// Miscellaneous
-	$lang['strtopbar']  =  '%s beží na %s:%s -- si prihlásený ako "%s", %s';
+	$lang['strtopbar']  =  '%s beží na %s:%s -- si prihlásený ako "%s"';
 	$lang['strtimefmt']  =  'jS M, Y g:iA';
 	$lang['strhelp']  =  'Pomoc';
 	$lang['strhelpicon']  =  '?';

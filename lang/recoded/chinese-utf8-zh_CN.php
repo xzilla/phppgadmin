@@ -883,7 +883,7 @@
 	$lang['strnosubscriptions'] = '&#26597;&#26080;&#35746;&#38405;&#12290;';
 	
 	// Miscellaneous
-	$lang['strtopbar'] = '%s &#26550;&#20110; %s&#65306;%s &#65293; &#24744;&#26159; &quot;%s&quot;&#65292; %s';
+	$lang['strtopbar'] = '%s &#26550;&#20110; %s&#65306;%s &#65293; &#24744;&#26159; &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = '&#24110;&#21161;';
 	$lang['strhelpicon'] = '?';

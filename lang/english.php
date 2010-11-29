@@ -918,7 +918,7 @@
 	$lang['strnosubscriptions'] = 'No subscriptions found.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s", %s';
+	$lang['strtopbar'] = '%s running on %s:%s -- You are logged in as user "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Help';
 	$lang['strhelpicon'] = '?';

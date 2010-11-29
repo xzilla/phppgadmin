@@ -501,7 +501,7 @@
 	$lang['strreport'] = 'Rapport';
 	$lang['strreports'] = 'Rapporter';
 	$lang['strshowallreports'] = 'Vis alle rapporter';
-	$lang['strtopbar'] = '%s kører på %s:%s -- Du er logged ind som bruger "%s", %s';
+	$lang['strtopbar'] = '%s kører på %s:%s -- Du er logged ind som bruger "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strnoreports'] = 'Ingen rapporter fundet.';
 	$lang['strcreatereport'] = 'Opret rapport';

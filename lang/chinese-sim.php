@@ -366,7 +366,7 @@ $lang['strreportcreatedbad'] = '储存报表失败';
 
 
 // Miscellaneous
-$lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"， %s';
+$lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"';
 $lang['strtimefmt'] = 'jS M, Y g:iA';
 
 ?>

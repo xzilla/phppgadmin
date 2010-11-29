@@ -928,7 +928,7 @@
 	$lang['strnosubscriptions'] = 'Non se atopou subscrici&#243;n algunha.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s, execut&#225;ndose no enderezo %s:%s. Est&#225; identificado coma &#171;%s&#187;. Data: %s.';
+	$lang['strtopbar'] = '%s, execut&#225;ndose no enderezo %s:%s. Est&#225; identificado coma &#171;%s&#187;.';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
 	$lang['strhelp'] = 'Axuda';
 	$lang['strhelpicon'] = '?';

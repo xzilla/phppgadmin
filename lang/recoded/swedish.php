@@ -466,7 +466,7 @@
 	$lang['strreport'] = 'Rapport';
 	$lang['strreports'] = 'Rapporter';
 	$lang['strshowallreports'] = 'Visa alla rapporter';
-	$lang['strtopbar'] = '%s k&#246;rs p&#229; %s:%s -- Du &#228;r inloggad som anv&#228;ndare &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s k&#246;rs p&#229; %s:%s -- Du &#228;r inloggad som anv&#228;ndare &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strnoreports'] = 'Hittade inga rapporter.';
 	$lang['strcreatereport'] = 'Skapa rapport';

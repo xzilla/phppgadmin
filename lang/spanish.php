@@ -918,7 +918,7 @@
 	$lang['strnosubscriptions']  =  'No se encontraron suscripciones.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted ha iniciado sesión con el usuario "%s", %s';
+	$lang['strtopbar'] = '%s corriendo en %s:%s -- Usted ha iniciado sesión con el usuario "%s"';
 	$lang['strtimefmt'] = 'd/m/Y, G:i:s';
 	$lang['strhelp'] = 'Ayuda';
 	$lang['strhelpicon']  =  '?';

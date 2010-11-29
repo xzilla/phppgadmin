@@ -2,7 +2,7 @@
 
 	/**
 	 * Translated by Chih-Hsin Lee [chlee@femh.org.tw]
-	 * $Id: chinese-tr.php,v 1.18 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: chinese-tr.php,v 1.15 2007/04/24 11:42:07 soranzo Exp $
 	 *
 	 *
 	 */
@@ -591,7 +591,7 @@
    $lang['strrows2'] = '&#36039;&#26009;&#34892;';
    
 	// Miscellaneous
-   $lang['strtopbar'] = '%s &#22519;&#34892;&#26044; %s:%s &#65293; &#24744;&#26159; &quot;%s&quot; , %s';
+   $lang['strtopbar'] = '%s &#22519;&#34892;&#26044; %s:%s &#65293; &#24744;&#26159; &quot;%s&quot;';
    $lang['strtimefmt'] = 'jS M, Y g:iA';
    $lang['strhelp'] = '&#35498;&#26126;';
 	

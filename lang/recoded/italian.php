@@ -4,7 +4,7 @@
 	 * Italian language file, based on the english language file for phpPgAdmin.
 	 * Nicola Soranzo [nsoranzo@tiscali.it]
 	 *
-	 * $Id: italian.php,v 1.43 2007/12/19 18:35:30 soranzo Exp $
+	 * $Id: italian.php,v 1.46 2007/07/19 03:11:52 xzilla Exp $
 	 */
 
 	// Language and character set - Lingua e set di caratteri
@@ -62,7 +62,7 @@
 	$lang['strcancel'] = 'Annulla';
 	$lang['strac'] = 'Abilita autocompletamento';
 	$lang['strsave'] = 'Salva';
-	$lang['strreset'] = 'Reimposta';
+	$lang['strreset'] = 'Reset';
 	$lang['strinsert'] = 'Inserisci';
 	$lang['strselect'] = 'Seleziona';
 	$lang['strdelete'] = 'Cancella';
@@ -79,7 +79,7 @@
 	$lang['strrowsaff'] = 'riga(ghe) interessata(e).';
 	$lang['strobjects'] = 'oggetto(i)';
 	$lang['strback'] = 'Indietro';
-	$lang['strqueryresults'] = 'Risultato interrogazione';
+	$lang['strqueryresults'] = 'Risultato Query';
 	$lang['strshow'] = 'Mostra';
 	$lang['strempty'] = 'Svuota';
 	$lang['strlanguage'] = 'Lingua';
@@ -126,7 +126,7 @@
 	$lang['strvariables'] = 'Variabili';
 	$lang['strprocess'] = 'Processo';
 	$lang['strprocesses'] = 'Processi';
-	$lang['strsetting'] = 'Impostazione';
+	$lang['strsetting'] = 'Valore';
 	$lang['streditsql'] = 'Modifica SQL';
 	$lang['strruntime'] = 'Tempo di esecuzione totale: %s ms';
 	$lang['strpaginate'] = 'Dividi in pagine i risultati';
@@ -328,7 +328,7 @@
 	$lang['strconfdropdatabase'] = 'Eliminare il database &quot;%s&quot;?';
 	$lang['strdatabasedropped'] = 'Database eliminato.';
 	$lang['strdatabasedroppedbad'] = 'Eliminazione del database fallita.';
-	$lang['strentersql'] = 'Inserire l\'interrogazione SQL da eseguire qui sotto:';
+	$lang['strentersql'] = 'Inserire la query SQL da eseguire qui sotto:';
 	$lang['strsqlexecuted'] = 'SQL eseguito.';
 	$lang['strvacuumgood'] = 'Vacuum completato.';
 	$lang['strvacuumbad'] = 'Vacuum fallito.';
@@ -406,12 +406,12 @@
 	$lang['strshowallindexes'] = 'Mostra tutti gli indici';
 	$lang['strnoindex'] = 'Indice non trovato.';
 	$lang['strnoindexes'] = 'Nessun indice trovato.';
-	$lang['strcreateindex'] = 'Crea indice';
+	$lang['strcreateindex'] = 'Crea Indice';
 	$lang['strtabname'] = 'Nome del tab';
 	$lang['strcolumnname'] = 'Nome della colonna';
 	$lang['strindexneedsname'] = '&#200; necessario specificare un nome per l\'indice';
 	$lang['strindexneedscols'] = 'Gli indici richiedono di un numero valido di colonne.';
-	$lang['strindexcreated'] = 'Indice creato.';
+	$lang['strindexcreated'] = 'Indice creato';
 	$lang['strindexcreatedbad'] = 'Creazione indice fallita.';
 	$lang['strconfdropindex'] = 'Eliminare l\'indice &quot;%s&quot;?';
 	$lang['strindexdropped'] = 'Indice eliminato.';
@@ -511,14 +511,8 @@
 	$lang['strtriggercreated'] = 'Trigger creato.';
 	$lang['strtriggercreatedbad'] = 'Creazione del trigger fallita.';
 	$lang['strconfdroptrigger'] = 'Eliminare il trigger &quot;%s&quot; su &quot;%s&quot;?';
-	$lang['strconfenabletrigger'] = 'Abilitare il trigger &quot;%s&quot; su &quot;%s&quot;?';
-	$lang['strconfdisabletrigger'] = 'Disabilitare il trigger &quot;%s&quot; su &quot;%s&quot;?';
 	$lang['strtriggerdropped'] = 'Trigger eliminato.';
 	$lang['strtriggerdroppedbad'] = 'Eliminazione del trigger fallita.';
-	$lang['strtriggerenabled'] = 'Trigger abilitato.';
-	$lang['strtriggerenabledbad'] = 'Abilitazione del trigger fallita.';
-	$lang['strtriggerdisabled'] = 'Trigger disabilitato.';
-	$lang['strtriggerdisabledbad'] = 'Disabilitazione del trigger fallita.';
 	$lang['strtriggeraltered'] = 'Trigger modificato.';
 	$lang['strtriggeralteredbad'] = 'Modifica del trigger fallita.';
 	$lang['strforeach'] = 'Per ogni';
@@ -529,10 +523,11 @@
 	$lang['strshowalltypes'] = 'Mostra tutti i tipi';
 	$lang['strnotype'] = 'Tipo non trovato.';
 	$lang['strnotypes'] = 'Nessun tipo trovato.';
-	$lang['strcreatetype'] = 'Crea tipo';
+	$lang['strcreatetype'] = 'Crea Tipo';
 	$lang['strcreatecomptype'] = 'Crea tipo composto';
 	$lang['strtypeneedsfield'] = '&#200; necessario specificare almeno un campo.';
 	$lang['strtypeneedscols'] = '&#200; necessario specificare un numero di campi valido.';	
+	$lang['strtypename'] = 'Nome Tipo';
 	$lang['strinputfn'] = 'Funzione di input';
 	$lang['stroutputfn'] = 'Funzione di output';
 	$lang['strpassbyval'] = 'Passato per valore?';
@@ -544,7 +539,7 @@
 	$lang['strnumfields'] = 'Numero di campi';
 	$lang['strtypeneedsname'] = '&#200; necessario specificare un nome per il tipo.';
 	$lang['strtypeneedslen'] = '&#200; necessario specificare una lunghezza per il tipo.';
-	$lang['strtypecreated'] = 'Tipo creato.';
+	$lang['strtypecreated'] = 'Tipo creato';
 	$lang['strtypecreatedbad'] = 'Creazione del tipo fallita.';
 	$lang['strconfdroptype'] = 'Eliminare il tipo &quot;%s&quot;?';
 	$lang['strtypedropped'] = 'Tipo eliminato.';
@@ -563,7 +558,7 @@
 	$lang['strcreateschema'] = 'Crea schema';
 	$lang['strschemaname'] = 'Nome dello schema';
 	$lang['strschemaneedsname'] = '&#200; necessario specificare un nome per lo schema.';
-	$lang['strschemacreated'] = 'Schema creato.';
+	$lang['strschemacreated'] = 'Schema creato';
 	$lang['strschemacreatedbad'] = 'Creazione dello schema fallita.';
 	$lang['strconfdropschema'] = 'Eliminare lo schema &quot;%s&quot;?';
 	$lang['strschemadropped'] = 'Schema eliminato.';
@@ -621,22 +616,22 @@
 	$lang['strlessthan'] = 'Minore';
 	$lang['strgreaterthan'] = 'Maggiore';
 	$lang['stroperatorneedsname'] = '&#200; necessario specificare un nome per l\'operatore.';
-	$lang['stroperatorcreated'] = 'Operatore creato.';
+	$lang['stroperatorcreated'] = 'Operatore creato';
 	$lang['stroperatorcreatedbad'] = 'Creazione dell\'operatore fallita.';
 	$lang['strconfdropoperator'] = 'Eliminare l\'operatore &quot;%s&quot;?';
 	$lang['stroperatordropped'] = 'Operatore eliminato.';
 	$lang['stroperatordroppedbad'] = 'Eliminazione dell\'operatore fallita.';
 
-	// Casts - Conversioni di tipo
-	$lang['strcasts'] = 'Conversioni di tipo';
-	$lang['strnocasts'] = 'Nessuna conversione di tipo trovata.';
+	// Casts - Cast
+	$lang['strcasts'] = 'Cast';
+	$lang['strnocasts'] = 'Nessun cast trovato.';
 	$lang['strsourcetype'] = 'Tipo sorgente';
 	$lang['strtargettype'] = 'Tipo destinazione';
 	$lang['strimplicit'] = 'Implicito';
 	$lang['strinassignment'] = 'Negli assegnamenti';
 	$lang['strbinarycompat'] = '(Compatibile in binario)';
 	
-	// Conversions - Conversioni (di codifica)
+	// Conversions - Conversioni
 	$lang['strconversions'] = 'Conversioni';
 	$lang['strnoconversions'] = 'Nessuna conversione trovata.';
 	$lang['strsourceencoding'] = 'Codifica sorgente';
@@ -717,42 +712,12 @@
 
 	// Slony clusters - Cluster Slony
 	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Nessun cluster trovato.';
-	$lang['strconfdropcluster'] = 'Eliminare il cluster &quot;%s&quot;?';
-	$lang['strclusterdropped'] = 'Cluster eliminato.';
-	$lang['strclusterdroppedbad'] = 'Eliminazione del cluster fallita.';
-	$lang['strinitcluster'] = 'Inizializza cluster';
-	$lang['strclustercreated'] = 'Cluster inizializzato.';
-	$lang['strclustercreatedbad'] = 'Inizializzazione del cluster fallita.';
-	$lang['strclusterneedsname'] = '&#200; necessario specificare un nome per il cluster.';
-	$lang['strclusterneedsnodeid'] = '&#200; necessario specificare un ID per il nodo locale.';
 
 	// Slony nodes - Nodi Slony
-	$lang['strnodes'] = 'Nodi';
-	$lang['strnonodes'] = 'Nessun nodo trovato.';
-	$lang['strcreatenode'] = 'Crea nodo';
 	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Attivo';
-	$lang['strnodecreated'] = 'Nodo creato.';
-	$lang['strnodecreatedbad'] = 'Creazione del nodo fallita.';
-	$lang['strconfdropnode'] = 'Eliminare il node &quot;%s&quot;?';
-	$lang['strnodedropped'] = 'Nodo eliminato.';
-	$lang['strnodedroppedbad'] = 'Eliminazione del nodo fallita.';
-	
-	// Slony paths	
-
-	// Slony listens
-
-	// Slony replication sets
-
-	// Slony tables in replication sets
-
-	// Slony sequences in replication sets
-
-	// Slony subscriptions
 
 	// Miscellaneous - Varie
-	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente &quot;%s&quot; connesso il %s';
+	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente &quot;%s&quot;';
 	$lang['strtimefmt'] = 'j M Y - g:iA';
 	$lang['strhelp'] = 'Aiuto';
 	$lang['strhelpicon'] = '?';
@@ -767,9 +732,6 @@
 
 	// Autovacuum
 	$lang['strautovacuum'] = 'Vacuum automatico';
-
-	// Table-level Locks
-	$lang['strlocks'] = 'Lock';
 
 	// Prepared transactions - Transazioni preparate
 	$lang['strpreparedxacts'] = 'Transazioni preparate';

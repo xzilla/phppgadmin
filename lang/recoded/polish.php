@@ -4,7 +4,7 @@
 	 * Polish language file for WebDB.
 	 * @maintainer Rafal Slubowski [slubek@users.sourceforge.net]
 	 *
-	 * $Id: polish.php,v 1.50 2007/04/24 11:43:16 soranzo Exp $
+	 * $Id: polish.php,v 1.55 2007/04/24 11:42:07 soranzo Exp $
 	 */
 
 	// Language and character set
@@ -835,7 +835,7 @@ $lang['straggrneedsstype']  =  'You must specify the data type for the aggregate
 	$lang['strnosubscriptions'] = 'Nie znaleziono subskrypcji.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jeste&#347; zalogowany jako &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Pomoc';
 	$lang['strhelpicon'] = '?';

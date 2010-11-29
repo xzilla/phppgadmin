@@ -3,7 +3,7 @@
 	* Romanian language file, based on the english language file for phpPgAdmin.
 	* Alin Vaida [alin.vaida@gmail.com]
 	*
-	* $Id: romanian.php,v 1.8 2007/04/24 11:43:16 soranzo Exp $
+	* $Id: romanian.php,v 1.7 2007/04/24 11:42:07 soranzo Exp $
 	*/
 
 	// Language and character set
@@ -842,7 +842,7 @@
 	$lang['strnosubscriptions'] = 'Nici o subscriere g&#259;sit&#259;.';
 
 	// Miscellaneous
-	$lang['strtopbar'] = '%s rul&#226;nd pe %s:%s -- Sunte&#355;i autentificat ca utilizator &quot;%s&quot;, %s';
+	$lang['strtopbar'] = '%s rul&#226;nd pe %s:%s -- Sunte&#355;i autentificat ca utilizator &quot;%s&quot;';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = 'Ajutor';
 	$lang['strhelpicon'] = '?';

@@ -593,7 +593,7 @@
         $lang['strrows2'] = 'Записи';
 
         // Miscellaneous
-        $lang['strtopbar'] = '%s викону╓ться на %s:%s -- Ви заре╓струвались як "%s", %s';
+        $lang['strtopbar'] = '%s викону╓ться на %s:%s -- Ви заре╓струвались як "%s"';
         $lang['strtimefmt'] = ' j-m-Y  g:i';
         $lang['strhelp'] = 'Допомога';
 

@@ -883,7 +883,7 @@
 	$lang['strnosubscriptions'] = '查无订阅。';
 	
 	// Miscellaneous
-	$lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"， %s';
+	$lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strhelp'] = '帮助';
 	$lang['strhelpicon'] = '?';
