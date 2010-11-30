@@ -864,7 +864,7 @@ class Postgres extends ADODB_base {
 			SELECT pn.nspname, pu.rolname AS nspowner,
 				pg_catalog.obj_description(pn.oid, 'pg_namespace') AS nspcomment
 			FROM pg_catalog.pg_namespace pn
-				LEFT JOIN pg_catalog.pg_authid pu ON (pn.nspowner = pu.oid)
+				LEFT JOIN pg_catalog.pg_roles pu ON (pn.nspowner = pu.oid)
 			{$where}
 			ORDER BY nspname";
 
@@ -882,7 +882,7 @@ class Postgres extends ADODB_base {
 			SELECT nspname, nspowner, r.rolname AS ownername, nspacl,
 				pg_catalog.obj_description(pn.oid, 'pg_namespace') as nspcomment
             FROM pg_catalog.pg_namespace pn
-            	LEFT JOIN pg_authid as r ON pn.nspowner = r.oid
+            	LEFT JOIN pg_roles as r ON pn.nspowner = r.oid
 			WHERE nspname='{$schema}'";
 		return $this->selectSet($sql);
 	}
