@@ -891,7 +891,7 @@
 	$lang['strselecthelppage'] = 'Hilfeseite ausw&#228;hlen';
 	$lang['strinvalidhelppage'] = 'Ung&#252;ltige Hilfeseite.';
 	$lang['strlogintitle'] = 'Bei %s anmelden';
-	$lang['strlogoutmsg'] = 'Von %s abgemendet';
+	$lang['strlogoutmsg'] = 'Von %s abgemeldet';
 	$lang['strloading'] = 'Lade...';
 	$lang['strerrorloading'] = 'Fehler beim Laden';
 	$lang['strclicktoreload'] = 'Klicken Sie zum Neuladen';
