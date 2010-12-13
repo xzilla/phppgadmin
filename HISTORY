@@ -1,6 +1,23 @@
 phpPgAdmin History
 ------------------
 
+Version 5.0.1
+-------------
+
+Released: 14th December 2010
+
+Minor bug fix and update version.
+
+* Fix #3124417 "Wrong german translation", reported by schnoesel
+* Fix (officialy) a bug where non-super user roles cannot check ownership on objects
+* Add forgotten Galician language to the target "all" of lang/Makefile
+* Update jQuery library to current stable 1.4.4
+* remove useless date from the topbar informations.
+  This was the only place that did PHP 5.3 complain about bad timezone configuration
+  (a non-PPA related warning). As it was a totaly useless information, we decide to
+  remove it.
+
+
 Version 5.0
 -----------
 
