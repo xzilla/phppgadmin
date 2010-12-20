@@ -165,8 +165,8 @@ class Postgres81 extends Postgres82 {
 					FROM pg_catalog.pg_tablespace";
 
 		if (!$conf['show_system'] && !$all) {
-			$sql .= " WHERE spcname NOT LIKE 'pg\\\\_%'";
-	}
+			$sql .= ' WHERE spcname NOT LIKE $$pg\_%$$';
+		}
 	
 		$sql .= " ORDER BY spcname";
 

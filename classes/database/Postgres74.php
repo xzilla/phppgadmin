@@ -103,6 +103,176 @@ class Postgres74 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 
+	/**
+	 * Searches all system catalogs to find objects that match a certain name.
+	 * @param $term The search term
+	 * @param $filter The object type to restrict to ('' means no restriction)
+	 * @return A recordset
+	 */
+	function findObject($term, $filter) {
+		global $conf;
+
+		/*about escaping:
+		 * SET standard_conforming_string is not available before 8.2
+		 * So we must use PostgreSQL specific notation :/
+		 * E'' notation is not available before 8.1
+		 * $$ is available since 8.0
+		 * Nothing specific from 7.4
+		 **/
+
+		// Escape search term for ILIKE match
+		$term = str_replace('_', '\\_', $term);
+		$term = str_replace('%', '\\%', $term);
+		$this->clean($term);
+		$this->clean($filter);
+
+		// Exclude system relations if necessary
+		if (!$conf['show_system']) {
+			// XXX: The mention of information_schema here is in the wrong place, but
+			// it's the quickest fix to exclude the info schema from 7.4
+			$where = " AND pn.nspname NOT LIKE 'pg\\\\_%' AND pn.nspname != 'information_schema'";
+			$lan_where = "AND pl.lanispl";
+		}
+		else {
+			$where = '';
+			$lan_where = '';
+		}
+
+		// Apply outer filter
+		$sql = '';
+		if ($filter != '') {
+			$sql = "SELECT * FROM (";
+		}
+
+		$sql .= "
+			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name
+				FROM pg_catalog.pg_namespace pn WHERE nspname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT CASE WHEN relkind='r' THEN 'TABLE' WHEN relkind='v' THEN 'VIEW' WHEN relkind='S' THEN 'SEQUENCE' END, pc.oid,
+				pn.nspname, NULL, pc.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn
+				WHERE pc.relnamespace=pn.oid AND relkind IN ('r', 'v', 'S') AND relname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT CASE WHEN pc.relkind='r' THEN 'COLUMNTABLE' ELSE 'COLUMNVIEW' END, NULL, pn.nspname, pc.relname, pa.attname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_attribute pa WHERE pc.relnamespace=pn.oid AND pc.oid=pa.attrelid
+				AND pa.attname ILIKE '%{$term}%' AND pa.attnum > 0 AND NOT pa.attisdropped AND pc.relkind IN ('r', 'v') {$where}
+			UNION ALL
+			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname || '(' || pg_catalog.oidvectortypes(pp.proargtypes) || ')' FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn
+				WHERE pp.pronamespace=pn.oid AND NOT pp.proisagg AND pp.proname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_index pi, pg_catalog.pg_class pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pi.indrelid
+				AND pi.indexrelid=pc2.oid
+				AND NOT EXISTS (
+					SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pc2.tableoid AND d.objid = pc2.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+				)
+				AND pc2.relname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'CONSTRAINTTABLE', NULL, pn.nspname, pc.relname, pc2.conname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_constraint pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pc2.conrelid AND pc2.conrelid != 0
+				AND CASE WHEN pc2.contype IN ('f', 'c') THEN TRUE ELSE NOT EXISTS (
+					SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pc2.tableoid AND d.objid = pc2.oid AND d.deptype = 'i' AND c.contype IN ('u', 'p')
+				) END
+				AND pc2.conname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'CONSTRAINTDOMAIN', pt.oid, pn.nspname, pt.typname, pc.conname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_constraint pc WHERE pt.typnamespace=pn.oid AND pt.oid=pc.contypid AND pc.contypid != 0
+				AND pc.conname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'TRIGGER', NULL, pn.nspname, pc.relname, pt.tgname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
+				pg_catalog.pg_trigger pt WHERE pc.relnamespace=pn.oid AND pc.oid=pt.tgrelid
+					AND ( pt.tgisconstraint = 'f' OR NOT EXISTS
+					(SELECT 1 FROM pg_catalog.pg_depend d JOIN pg_catalog.pg_constraint c
+					ON (d.refclassid = c.tableoid AND d.refobjid = c.oid)
+					WHERE d.classid = pt.tableoid AND d.objid = pt.oid AND d.deptype = 'i' AND c.contype = 'f'))
+				AND pt.tgname ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'RULETABLE', NULL, pn.nspname AS schemaname, c.relname AS tablename, r.rulename FROM pg_catalog.pg_rewrite r
+				JOIN pg_catalog.pg_class c ON c.oid = r.ev_class
+				LEFT JOIN pg_catalog.pg_namespace pn ON pn.oid = c.relnamespace
+				WHERE c.relkind='r' AND r.rulename != '_RETURN' AND r.rulename ILIKE '%{$term}%' {$where}
+			UNION ALL
+			SELECT 'RULEVIEW', NULL, pn.nspname AS schemaname, c.relname AS tablename, r.rulename FROM pg_catalog.pg_rewrite r
+				JOIN pg_catalog.pg_class c ON c.oid = r.ev_class
+				LEFT JOIN pg_catalog.pg_namespace pn ON pn.oid = c.relnamespace
+				WHERE c.relkind='v' AND r.rulename != '_RETURN' AND r.rulename ILIKE '%{$term}%' {$where}
+		";
+
+		// Add advanced objects if show_advanced is set
+		if ($conf['show_advanced']) {
+			$sql .= "
+				UNION ALL
+				SELECT CASE WHEN pt.typtype='d' THEN 'DOMAIN' ELSE 'TYPE' END, pt.oid, pn.nspname, NULL,
+					pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn
+					WHERE pt.typnamespace=pn.oid AND typname ILIKE '%{$term}%'
+					AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
+					{$where}
+				UNION ALL
+				SELECT 'OPERATOR', po.oid, pn.nspname, NULL, po.oprname FROM pg_catalog.pg_operator po, pg_catalog.pg_namespace pn
+					WHERE po.oprnamespace=pn.oid AND oprname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT 'CONVERSION', pc.oid, pn.nspname, NULL, pc.conname FROM pg_catalog.pg_conversion pc,
+					pg_catalog.pg_namespace pn WHERE pc.connamespace=pn.oid AND conname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT 'LANGUAGE', pl.oid, NULL, NULL, pl.lanname FROM pg_catalog.pg_language pl
+					WHERE lanname ILIKE '%{$term}%' {$lan_where}
+				UNION ALL
+				SELECT DISTINCT ON (p.proname) 'AGGREGATE', p.oid, pn.nspname, NULL, p.proname FROM pg_catalog.pg_proc p
+					LEFT JOIN pg_catalog.pg_namespace pn ON p.pronamespace=pn.oid
+					WHERE p.proisagg AND p.proname ILIKE '%{$term}%' {$where}
+				UNION ALL
+				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, pn.nspname, NULL, po.opcname FROM pg_catalog.pg_opclass po,
+					pg_catalog.pg_namespace pn WHERE po.opcnamespace=pn.oid
+					AND po.opcname ILIKE '%{$term}%' {$where}
+			";
+		}
+		// Otherwise just add domains
+		else {
+			$sql .= "
+				UNION ALL
+				SELECT 'DOMAIN', pt.oid, pn.nspname, NULL,
+					pt.typname FROM pg_catalog.pg_type pt, pg_catalog.pg_namespace pn
+					WHERE pt.typnamespace=pn.oid AND pt.typtype='d' AND typname ILIKE '%{$term}%'
+					AND (pt.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = pt.typrelid))
+					{$where}
+			";
+		}
+
+		if ($filter != '') {
+			// We use like to make RULE, CONSTRAINT and COLUMN searches work
+			$sql .= ") AS sub WHERE type LIKE '{$filter}%' ";
+		}
+
+		$sql .= "ORDER BY type, schemaname, relname, name";
+
+		return $this->selectSet($sql);
+	}
+
+	// Database functions
+
+	/**
+	 * Returns table locks information in the current database
+	 * @return A recordset
+	 */
+	function getLocks() {
+		global $conf;
+
+		if (!$conf['show_system'])
+			$where = "AND pn.nspname NOT LIKE 'pg\\\\_%'";
+		else
+			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
+
+		$sql = "SELECT pn.nspname, pc.relname AS tablename, pl.transaction, pl.pid, pl.mode, pl.granted
+		FROM pg_catalog.pg_locks pl, pg_catalog.pg_class pc, pg_catalog.pg_namespace pn
+		WHERE pl.relation = pc.oid AND pc.relnamespace=pn.oid {$where}
+		ORDER BY nspname,tablename";
+
+		return $this->selectSet($sql);
+	}
+
 	// Table functions
 
 	/**
@@ -275,6 +445,67 @@ class Postgres74 extends Postgres80 {
 		return 'on';
 		}
 
+	// Constraint functions
+
+	/**
+	 * Returns a list of all constraints on a table,
+	 * including constraint name, definition, related col and referenced namespace,
+	 * table and col if needed
+	 * @param $table the table where we are looking for fk
+	 * @return a recordset
+	 */
+	function getConstraintsWithFields($table) {
+
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$this->clean($table);
+
+		// get the max number of col used in a constraint for the table
+		$sql = "SELECT DISTINCT
+			max(SUBSTRING(array_dims(c.conkey) FROM '^\\\\[.*:(.*)\\\\]$')) as nb
+		FROM pg_catalog.pg_constraint AS c
+			JOIN pg_catalog.pg_class AS r ON (c.conrelid=r.oid)
+		    JOIN pg_catalog.pg_namespace AS ns ON (r.relnamespace=ns.oid)
+		WHERE
+			r.relname = '{$table}' AND ns.nspname='{$c_schema}'";
+
+		$rs = $this->selectSet($sql);
+
+		if ($rs->EOF) $max_col = 0;
+		else $max_col = $rs->fields['nb'];
+
+		$sql = '
+			SELECT
+				c.oid AS conid, c.contype, c.conname, pg_catalog.pg_get_constraintdef(c.oid, true) AS consrc,
+				ns1.nspname as p_schema, r1.relname as p_table, ns2.nspname as f_schema,
+				r2.relname as f_table, f1.attname as p_field, f1.attnum AS p_attnum, f2.attname as f_field,
+				f2.attnum AS f_attnum, pg_catalog.obj_description(c.oid, \'pg_constraint\') AS constcomment,
+				c.conrelid, c.confrelid
+			FROM
+				pg_catalog.pg_constraint AS c
+				JOIN pg_catalog.pg_class AS r1 ON (c.conrelid=r1.oid)
+				JOIN pg_catalog.pg_attribute AS f1 ON (f1.attrelid=r1.oid AND (f1.attnum=c.conkey[1]';
+		for ($i = 2; $i <= $rs->fields['nb']; $i++) {
+			$sql.= " OR f1.attnum=c.conkey[$i]";
+		}
+		$sql.= '))
+				JOIN pg_catalog.pg_namespace AS ns1 ON r1.relnamespace=ns1.oid
+				LEFT JOIN (
+					pg_catalog.pg_class AS r2 JOIN pg_catalog.pg_namespace AS ns2 ON (r2.relnamespace=ns2.oid)
+				) ON (c.confrelid=r2.oid)
+				LEFT JOIN pg_catalog.pg_attribute AS f2 ON
+					(f2.attrelid=r2.oid AND ((c.confkey[1]=f2.attnum AND c.conkey[1]=f1.attnum)';
+		for ($i = 2; $i <= $rs->fields['nb']; $i++)
+			$sql.= " OR (c.confkey[$i]=f2.attnum AND c.conkey[$i]=f1.attnum)";
+
+		$sql .= sprintf("))
+			WHERE
+				r1.relname = '%s' AND ns1.nspname='%s'
+			ORDER BY 1", $table, $c_schema);
+
+		return $this->selectSet($sql);
+	}
+
 	// Sequence functions
 
 	/**
@@ -334,6 +565,48 @@ class Postgres74 extends Postgres80 {
 			pc.oid = '$function_oid'::oid
 			AND pc.prolang = pl.oid
 			AND n.oid = pc.pronamespace
+		";
+
+		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Returns a list of all casts in the database
+	 * @return All casts
+	 */
+	function getCasts() {
+		global $conf;
+
+		if ($conf['show_system'])
+			$where = '';
+		else
+			$where = "
+				AND n1.nspname NOT LIKE 'pg\\\\_%'
+				AND n2.nspname NOT LIKE 'pg\\\\_%'
+				AND n3.nspname NOT LIKE 'pg\\\\_%'
+			";
+
+		$sql = "
+			SELECT
+				c.castsource::pg_catalog.regtype AS castsource,
+				c.casttarget::pg_catalog.regtype AS casttarget,
+				CASE WHEN c.castfunc=0 THEN NULL
+				ELSE c.castfunc::pg_catalog.regprocedure END AS castfunc,
+				c.castcontext,
+				obj_description(c.oid, 'pg_cast') as castcomment
+			FROM
+				(pg_catalog.pg_cast c LEFT JOIN pg_catalog.pg_proc p ON c.castfunc=p.oid JOIN pg_catalog.pg_namespace n3 ON p.pronamespace=n3.oid),
+				pg_catalog.pg_type t1,
+				pg_catalog.pg_type t2,
+				pg_catalog.pg_namespace n1,
+				pg_catalog.pg_namespace n2
+			WHERE
+				c.castsource=t1.oid
+				AND c.casttarget=t2.oid
+				AND t1.typnamespace=n1.oid
+				AND t2.typnamespace=n2.oid
+				{$where}
+			ORDER BY 1, 2
 		";
 
 		return $this->selectSet($sql);
