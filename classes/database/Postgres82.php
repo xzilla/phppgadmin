@@ -43,7 +43,7 @@ class Postgres82 extends Postgres83 {
 		global $conf;
 
 		if (!$conf['show_system'])
-			$where = "AND pn.nspname NOT LIKE 'pg\\\\_%'";
+			$where = 'AND pn.nspname NOT LIKE $$pg\_%$$';
 		else
 			$where = "AND nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
 
