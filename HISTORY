@@ -1,6 +1,18 @@
 phpPgAdmin History
 ------------------
 
+Version 5.0.2
+-------------
+
+Released: 3rd January 2011
+
+Some bug fixes.
+
+* Fix a css typo & error in cappuccino theme
+* Fix #3139003 "Autocomplete doesn't insert value", report and patch by Aleksander Machniak
+* Fix bad inheritance between pg83 -> pg instead of pg83 -> pg84 in the database access classes. This bug was breaking some functionnalities with 8.3
+* Fix a lot of nonstandard escaped string in the database access classes
+
 Version 5.0.1
 -------------
 
