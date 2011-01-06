@@ -77,6 +77,9 @@ function openlist(e) {
 		url: 'ajax-ac-insert.php?server=' + server,
 		type: 'post',
 		data: datas,
+		dataType: 'html',
+		cache: false,
+		contentType: 'application/x-www-form-urlencoded',
 		success: function (ret) {
 			jQuery.ppa.i = 0;
 			jQuery.ppa.fkbg.show();
