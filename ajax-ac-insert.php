@@ -44,12 +44,18 @@
 		echo "</tr>\n";
 		$i=0;
 		while ((!$res->EOF) && ($i < 11)) {
+			$j=0;
 			echo "<tr class=\"acline\">";
 			foreach ($res->fields as $n => $v) {
+				$finfo = $res->fetchField($j++);
 				if (in_array($n, $fkeynames))
-					echo "<td><a href=\"javascript:void(0)\" class=\"fkval\" name=\"{$keyspos[$n]}\">",htmlentities($v), "</a></td>";
+					echo "<td><a href=\"javascript:void(0)\" class=\"fkval\" name=\"{$keyspos[$n]}\">",
+						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed')),
+						"</a></td>";
 				else
-					echo "<td><a href=\"javascript:void(0)\">", htmlentities($v), "</a></td>";
+					echo "<td><a href=\"javascript:void(0)\">",
+						$misc->printVal($v, $finfo->type, array('clip' => 'collapsed')),
+						"</a></td>";
 			}
 			echo "</tr>\n";
 			$i++;
