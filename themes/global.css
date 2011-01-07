@@ -102,6 +102,9 @@ div#fkcontainer {
 div.fk_value {
 	display:inline-block;
 }
+.highlight {
+	background-color: #FFFF00;
+}
 /** Syntax highlighting **/
 .comment {color: #008080}
 .keyword {color: #FF8000}

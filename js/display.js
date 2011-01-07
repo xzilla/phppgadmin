@@ -6,7 +6,7 @@ $(document).ready(function() {
 	$('#fkcontainer').append('<div id="root" />');
 	
 	jQuery.ppa = { 
-		root: $('#root'),
+		root: $('#root')
 	};
 	
 	$("a.fk").live('click', function (event) {
@@ -55,6 +55,15 @@ $(document).ready(function() {
 				/* creating the data div */
 				newdiv = $('<div class="fk '+divclass+'">').html(answer);
 				
+				/* highlight referencing fields */
+				newdiv.data('ref', this).data('refclass', $(this).attr('class').split(' ')[1])
+					.mouseenter(function (event) {
+						$(this).data('ref').closest('tr').find('a.'+$(this).data('refclass')).closest('div').addClass('highlight');
+					})
+					.mouseleave(function (event) {
+						$(this).data('ref').closest('tr').find('a.'+$(this).data('refclass')).closest('div').removeClass('highlight');
+					});
+
 				/* appending it to the level-1 div */
 				pdiv.append(newdiv);
 			},
@@ -72,7 +81,10 @@ $(document).ready(function() {
 	});
 
 	$(".fk_delete").live('click', function (event) {
-		$(this).closest('div').remove();
+		with($(this).closest('div')) {
+			data('ref').closest('tr').find('a.'+data('refclass')).closest('div').removeClass('highlight');
+			remove();
+		}
 		return false; // do not refresh the page
 	});
 });
