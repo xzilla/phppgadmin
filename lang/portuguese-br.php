@@ -4,7 +4,7 @@
 	 * Brazilian Portuguese language file for phpPgAdmin.
 	 * @maintainer Fernando Alberto Reuter Wendt (fernandowendt@msn.com)
 	 *
-	 * $Id: portuguese-br.php,v 2.0 2010/09/24 08:05:50 fwendt Exp $
+	 * $Id: portuguese-br.php,v 2.1 2011/01/25 09:25:10 fwendt Exp $
 	 */
 
 	// Language and character set
@@ -238,7 +238,7 @@
 	$lang['strconfdeleterow'] = 'Você têm certeza que deseja deletar esta linha?';
 	$lang['strrowdeleted'] = 'Linha deletada.';
 	$lang['strrowdeletedbad'] = 'Falha ao deletar a linha.';
-	$lang['strinsertandrepeat'] = 'Inserir & Repitir';
+	$lang['strinsertandrepeat'] = 'Inserir & Repetir';
 	$lang['strnumcols'] = 'Número de colunas';
 	$lang['strcolneedsname'] = 'Você deve informar um nome para a coluna';
 	$lang['strselectallfields'] = 'Selecionar todos os campos';
@@ -486,6 +486,7 @@
  	$lang['strindextype'] = 'Tipo de índice';
 	$lang['strtablecolumnlist'] = 'Colunas na tabela';
 	$lang['strindexcolumnlist'] = 'Colunas no índice'; 
+	$lang['strconfcluster'] = 'Você têm certeza que deseja clusterizar "%s"?';
 	$lang['strclusteredgood'] = 'Clusterização completa.';
 	$lang['strclusteredbad'] = 'Falha ao clusterizar.';
 	$lang['strconcurrently'] = 'Simultaneamente';
