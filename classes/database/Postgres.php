@@ -1596,12 +1596,8 @@ class Postgres extends ADODB_base {
 		if ($triggers->recordCount() > 0) {
 			$sql .= "\n-- Triggers\n\n";
 			while (!$triggers->EOF) {
-				// Nasty hack to support pre-7.4 PostgreSQL
-				if ($triggers->fields['tgdef'] !== null)
-					$sql .= $triggers->fields['tgdef'];
-				else
-					$sql .= $this->getTriggerDef($triggers->fields);
 
+				$sql .= $triggers->fields['tgdef'];
 				$sql .= ";\n";
 
 				$triggers->moveNext();
@@ -4913,6 +4909,7 @@ class Postgres extends ADODB_base {
 	/**
 	 * A helper function for getTriggers that translates
 	 * an array of attribute numbers to an array of field names.
+	 * Note: Only needed for pre-7.4 servers, this function is deprecated 
 	 * @param $trigger An array containing fields from the trigger table
 	 * @return The trigger definition string
 	 */

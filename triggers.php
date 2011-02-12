@@ -263,12 +263,6 @@
 
 		function tgPre(&$rowdata,$actions) {
 			global $data;
-			// Nasty hack to support pre-7.4 PostgreSQL
-			$rowdata->fields['+tgdef'] = $rowdata->fields['tgdef'] !== null
-									? $rowdata->fields['tgdef']
-									: $data->getTriggerDef($rowdata->fields);
-
-
 			// toggle enable/disable trigger per trigger
 			if( ! $data->phpBool( $rowdata->fields["tgenabled"] ) ) {
 				unset( $actions['disable'] );
@@ -293,7 +287,7 @@
 			),
 			'definition' => array(
 				'title' => $lang['strdefinition'],
-				'field' => field('+tgdef'),
+				'field' => field('tgdef'),
 			),
 			'function' => array(
 				'title' => $lang['strfunction'],
