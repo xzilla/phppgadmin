@@ -261,12 +261,23 @@
 		global $data, $misc, $database;
 		global $lang;
 
-		function tgPre(&$rowdata) {
-			global $data, $lang;
+		function tgPre(&$rowdata,$actions) {
+			global $data;
 			// Nasty hack to support pre-7.4 PostgreSQL
 			$rowdata->fields['+tgdef'] = $rowdata->fields['tgdef'] !== null
 									? $rowdata->fields['tgdef']
 									: $data->getTriggerDef($rowdata->fields);
+
+
+			// toggle enable/disable trigger per trigger
+			if( ! $data->phpBool( $rowdata->fields["tgenabled"] ) ) {
+				unset( $actions['disable'] );
+			}
+			else{
+				unset( $actions['enable'] );
+			}
+
+			return $actions;
 		}
 		
 		$misc->printTrail('table');
@@ -312,19 +323,16 @@
 			),
 		);
 		if($data->hasDisableTriggers()) {
-			if(!$data->phpBool($triggers->fields["tgenabled"])) {
 				$actions['enable'] = array(
 					'title' => $lang['strenable'],
 					'url'   => "triggers.php?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
-			} else {
 				$actions['disable'] = array(
 					'title' => $lang['strdisable'],
 					'url'   => "triggers.php?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
 					'vars'  => array('trigger' => 'tgname'),
 				);
-			}
 		}
 
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
