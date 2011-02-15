@@ -1,6 +1,17 @@
 phpPgAdmin History
 ------------------
 
+
+Version 5.0.3
+-------------
+
+Released: TBA
+
+Some bug fixes.
+
+* Fix bug with enable/disable triggers on multiple triggers (Dawid 'DeyV' Polak)
+
+
 Version 5.0.2
 -------------
 
