@@ -13,8 +13,8 @@
 	 *	Comentarios sobre a traduci&#243;n:
 	 *	- Escolleuse &#171;eliminar&#187; como traduci&#243;n para &#8220;drop&#8221;, e &#171;borrar&#187; como traduci&#243;n para
 	 *	&#8220;delete&#8221;.
-	 *	- Fix&#233;ronse certas escollas de vocabulario: &#8220;vacuum&#8221; &#8594; &#171;aspirado&#187;, &#8220;cluster&#8221; &#8594;
-	 *	&#171;contentrado&#187;.
+	 *	- Fix&#233;ronse certas escollas de vocabulario: &#8220;vacuum&#8221; &#8594; &#171;purgaci&#243;n&#187; (aconsellada por
+	 * 	Leandro Regueiro), &#8220;cluster&#8221; &#8594; &#171;contentrado&#187;.
 	 *
 	 */
 
@@ -101,7 +101,7 @@
 	$lang['strencoding'] = 'Codificaci&#243;n';
 	$lang['strvalue'] = 'Valor';
 	$lang['strunique'] = '&#218;nico';
-	$lang['strprimary'] = 'Primario';
+	$lang['strprimary'] = 'Primaria';
 	$lang['strexport'] = 'Exportar';
 	$lang['strimport'] = 'Importar';
 	$lang['strallowednulls'] = 'Permitir valores nulos';
@@ -109,7 +109,7 @@
 	$lang['stremptystring'] = 'Cadea ou campo baleiro';
 	$lang['strsql'] = 'SQL';
 	$lang['stradmin'] = 'Administraci&#243;n';
-	$lang['strvacuum'] = 'Aspirar';
+	$lang['strvacuum'] = 'Purgar';
 	$lang['stranalyze'] = 'Analizar';
 	$lang['strclusterindex'] = 'Concentrar';
 	$lang['strclustered'] = 'Concentrada?';
@@ -206,7 +206,7 @@
 	$lang['strimporterrorline-badcolumnnum'] = 'Produciuse un erro ao importar, na li&#241;a %s: a li&#241;a non ten unha cantidade de columnas axeitada.';
 	$lang['strimporterror-uploadedfile'] = 'Produciuse un erro ao importar: non se puido cargar o ficheiro no servidor.';
 	$lang['strcannotdumponwindows'] = 'O envorcado de t&#225;boas complexas e mais nomes de esquemas non pode efectuarse en sistemas Microsoft Windows.';
-	$lang['strinvalidserverparam'] = 'Produciuse un intento de conexi&#243;n cun servidor non permitido como par&#225;metro, &#233; posible que algu&#233;n estea intentando atacar o seu sistema.'; 
+	$lang['strinvalidserverparam'] = 'Produciuse un intento de conexi&#243;n cun servidor non permitido como par&#225;metro, &#233; posible que algu&#233;n estea intentando atacar o seu sistema.';
 	$lang['strnoserversupplied'] = 'Non se forneceu ning&#250;n servidor!';
 	$lang['strbadpgdumppath'] = 'Produciuse un erro ao exportar: non se conseguiu executar pg_dump (a ruta indicada no seu ficheiro &#171;conf/config.inc.php&#187; &#233; &#171;%s&#187;). Cambie a ruta no ficheiro de configuraci&#243;n e volva intentalo.';
 	$lang['strbadpgdumpallpath'] = 'Produciuse un erro ao exportar: non se conseguiu executar pg_dumpall (a ruta indicada no seu ficheiro &#171;conf/config.inc.php&#187; &#233; &#171;%s&#187;). Cambie a ruta no ficheiro de configuraci&#243;n e volva intentalo.';
@@ -271,7 +271,7 @@
 	$lang['strstructureanddata'] = 'Estrutura e datos';
 	$lang['strtabbed'] = 'Tabulado';
 	$lang['strauto'] = 'Detectar';
-	$lang['strconfvacuumtable'] = 'Est&#225; seguro de que quere aspirar &#171;%s&#187;?';
+	$lang['strconfvacuumtable'] = 'Est&#225; seguro de que quere purgar &#171;%s&#187;?';
 	$lang['strconfanalyzetable'] = 'Est&#225; seguro de que quere analizar &#171;%s&#187;?';
 	$lang['strconfreindextable'] = 'Est&#225; seguro de que quere indexar &#171;%s&#187;?';
 	$lang['strconfclustertable'] = 'Est&#225; seguro de que quere concentrar &#171;%s&#187;?';
@@ -279,7 +279,7 @@
 	$lang['strspecifytabletoanalyze'] = 'Debe especificar polo menos unha t&#225;boa a analizar.';
 	$lang['strspecifytabletoempty'] = 'Debe especificar polo menos unha t&#225;boa a baleirar.';
 	$lang['strspecifytabletodrop'] = 'Debe especificar polo menos unha t&#225;boa a eliminar.';
-	$lang['strspecifytabletovacuum'] = 'Debe especificar polo menos unha t&#225;boa a aspirar.';
+	$lang['strspecifytabletovacuum'] = 'Debe especificar polo menos unha t&#225;boa a purgar.';
 	$lang['strspecifytabletoreindex'] = 'Debe especificar polo menos unha t&#225;boa a indexar.';
 	$lang['strspecifytabletocluster'] = 'Debe especificar polo menos unha t&#225;boa a concentrar.';
 	$lang['strnofieldsforinsert'] = 'Non pode inserir filas nunha t&#225;boa sen columnas.';
@@ -388,8 +388,8 @@
 	$lang['strdatabasedroppedbad'] = 'Non se conseguiu eliminar a base de datos.';
 	$lang['strentersql'] = 'Introduza a continuaci&#243;n as instruci&#243;ns SQL a executar:';
 	$lang['strsqlexecuted'] = 'Execut&#225;ronse as instruci&#243;ns SQL.';
-	$lang['strvacuumgood'] = 'Completouse o aspirado.';
-	$lang['strvacuumbad'] = 'Non se conseguiu efectuar o aspirado.';
+	$lang['strvacuumgood'] = 'Completouse a purgaci&#243;n.';
+	$lang['strvacuumbad'] = 'Non se conseguiu efectuar a purgaci&#243;n.';
 	$lang['stranalyzegood'] = 'Completouse a an&#225;lise.';
 	$lang['stranalyzebad'] = 'Non se conseguiu completar a an&#225;lise.';
 	$lang['strreindexgood'] = 'Completouse o indexado.';
@@ -405,7 +405,7 @@
 	$lang['strspecifydatabasetodrop'] = 'Debe especificar polo menos unha base de datos a eliminar.';
 	$lang['strtemplatedb'] = 'Modelo';
 	$lang['strconfanalyzedatabase'] = 'Est&#225; seguro de que quere analizar todas as t&#225;boas da base de datos &#171;%s&#187;?';
-	$lang['strconfvacuumdatabase'] = 'Est&#225; seguro de que quere aspirar todas as t&#225;boas da base de datos &#171;%s&#187;?';
+	$lang['strconfvacuumdatabase'] = 'Est&#225; seguro de que quere purgar todas as t&#225;boas da base de datos &#171;%s&#187;?';
 	$lang['strconfreindexdatabase'] = 'Est&#225; seguro de que quere indexar todas as t&#225;boas da base de datos &#171;%s&#187;?';
 	$lang['strconfclusterdatabase'] = 'Est&#225; seguro de que quere concentrar todas as t&#225;boas da base de datos &#171;%s&#187;?';
 
@@ -497,6 +497,7 @@
 	$lang['strindextype'] = 'Tipo de &#237;ndice';
 	$lang['strtablecolumnlist'] = 'Columnas na t&#225;boa';
 	$lang['strindexcolumnlist'] = 'Columnas no &#237;ndice';
+	$lang['strconfcluster'] = 'Est&#225; seguro de que quere concentrar &#171;%s&#187;?';
 	$lang['strclusteredgood'] = 'Completouse o concentrado.';
 	$lang['strclusteredbad'] = 'Non se conseguiu completar o concentrado.';
 	$lang['strconcurrently'] = 'Simultaneamente';
@@ -547,7 +548,7 @@
 	$lang['strfkaddedbad'] = 'Non se conseguiu engadir a clave externa.';
 	$lang['strfktarget'] = 'T&#225;boa externa';
 	$lang['strfkcolumnlist'] = 'Columnas na clave';
-	$lang['strondelete'] = 'AO ACTUALIZAR'; // Sei que son instruci&#243;ns cando se usa SQL, pero na
+	$lang['strondelete'] = 'AO ACTUALIZAR';	// Sei que son instruci&#243;ns cando se usa SQL, pero na
 	$lang['stronupdate'] = 'AO BORRAR';	// interface par&#233;ceme mellor traducilos.
 
 	// Functions
@@ -942,27 +943,27 @@
 	$lang['strclicktoreload'] = 'Prema aqu&#237; para recargar';
 
 	// Autovacuum
-	$lang['strautovacuum'] = 'Aspirado autom&#225;tico';
+	$lang['strautovacuum'] = 'Purgaci&#243;n autom&#225;tica';
 	$lang['strturnedon'] = 'Acendido';
 	$lang['strturnedoff'] = 'Apagado';
 	$lang['strenabled'] = 'Activado';
-	$lang['strnovacuumconf'] = 'Non se atopou configuraci&#243;n para aspirados autom&#225;ticos algunha.';
-	$lang['strvacuumbasethreshold'] = 'L&#237;mite da base do aspirado';
-	$lang['strvacuumscalefactor'] = 'Factores de escala do aspirado';
+	$lang['strnovacuumconf'] = 'Non se atopou ningunha configuraci&#243;n para purgaci&#243;ns autom&#225;ticas.';
+	$lang['strvacuumbasethreshold'] = 'L&#237;mite da base da purgaci&#243;n';
+	$lang['strvacuumscalefactor'] = 'Factores de escala da purgaci&#243;n';
 	$lang['stranalybasethreshold'] = 'L&#237;mite da base da an&#225;lise';
 	$lang['stranalyzescalefactor'] = 'Factores de escala da an&#225;lise';
-	$lang['strvacuumcostdelay'] = 'Atraso do custo do aspirado';
-	$lang['strvacuumcostlimit'] = 'Custo l&#237;mite do aspirado';
-	$lang['strvacuumpertable'] = 'Configuraci&#243;n do aspirado autom&#225;tico por t&#225;boa';
-	$lang['straddvacuumtable'] = 'Engadir unha configuraci&#243;n de aspirado autom&#225;tico dunha t&#225;boa';
-	$lang['streditvacuumtable'] = 'Modificar a configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187;';
-	$lang['strdelvacuumtable'] = 'Est&#225; seguro de que quere eliminar a configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187;?';
-	$lang['strvacuumtablereset'] = 'A configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187; restableceuse aos seus valores predeterminados';
-	$lang['strdelvacuumtablefail'] = 'Non se conseguiu eliminar a configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187;';
-	$lang['strsetvacuumtablesaved'] = 'Gardouse a configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187;.';
-	$lang['strsetvacuumtablefail'] = 'Non se conseguiu gardar a configuraci&#243;n de aspirado autom&#225;tico da t&#225;boa &#171;%s&#187;.';
-	$lang['strspecifydelvacuumtable'] = 'Debe especificar unha t&#225;boa da que borrar os par&#225;metros de aspirado.';
-	$lang['strspecifyeditvacuumtable'] = 'Debe especificar unha t&#225;boa na que modificar os par&#225;metros de aspirado.';
+	$lang['strvacuumcostdelay'] = 'Atraso do custo da purgaci&#243;n';
+	$lang['strvacuumcostlimit'] = 'Custo l&#237;mite da purgaci&#243;n';
+	$lang['strvacuumpertable'] = 'Configuraci&#243;n da purgaci&#243;n autom&#225;tica por t&#225;boa';
+	$lang['straddvacuumtable'] = 'Engadir unha configuraci&#243;n de purgaci&#243;n autom&#225;tica dunha t&#225;boa';
+	$lang['streditvacuumtable'] = 'Modificar a configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187;';
+	$lang['strdelvacuumtable'] = 'Est&#225; seguro de que quere eliminar a configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187;?';
+	$lang['strvacuumtablereset'] = 'A configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187; restableceuse aos seus valores predeterminados';
+	$lang['strdelvacuumtablefail'] = 'Non se conseguiu eliminar a configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187;';
+	$lang['strsetvacuumtablesaved'] = 'Gardouse a configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187;.';
+	$lang['strsetvacuumtablefail'] = 'Non se conseguiu gardar a configuraci&#243;n de purgaci&#243;n autom&#225;tica da t&#225;boa &#171;%s&#187;.';
+	$lang['strspecifydelvacuumtable'] = 'Debe especificar unha t&#225;boa da que borrar os par&#225;metros de purgaci&#243;n.';
+	$lang['strspecifyeditvacuumtable'] = 'Debe especificar unha t&#225;boa na que modificar os par&#225;metros de purgaci&#243;n.';
 	$lang['strnotdefaultinred'] = 'Os valores que non sexan os predeterminados est&#225;n en cor vermella.';
 
 	// Table-level Locks
