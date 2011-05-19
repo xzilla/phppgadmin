@@ -1,0 +1,71 @@
+#!/bin/bash
+# This script recodes source lang files into XML Unicode.
+# You should add your encodings to this file.  You need to have GNU Recode
+# installed.
+#
+# It is important to:
+# - fix the delimiters of php code: <?php and ?>
+# - convert CRLF -> LF
+# - remove all text before first <?php
+# - remove all text after last ?>
+# - convert "&apos;" -> "'"
+# using 'convert.awk'
+
+DESTDIR=./recoded
+
+#TARGETS="polish english chinese-sim chinese-tr chinese-utf8-zh_TW chinese-utf8-zh_CN danish dutch german spanish \
+#italian french russian russian-utf8 japanese slovak turkish czech portuguese-br portuguese-pt swedish afrikaans \
+#arabic mongol ukrainian hungarian hebrew catalan romanian greek galician"
+
+# we use grep instead of ls to avoid the translations.php file
+TARGETS=$(grep -nl appcharset *.php)
+
+#TARGETS=${TARGETS//.php}
+
+function prepare () {
+	RET=""
+
+	which recode >/dev/null 2>&1 || \
+		RET="You must have GNU 'recode' installed to use this Makefile, but I could not find it in your path!\n"
+
+	which sed >/dev/null 2>&1 || \
+		RET="${RET}You must have sed installed to use this Makefile, but I could not find it in your path!\n"
+
+	which awk >/dev/null 2>&1 || \
+		RET="${RET}You must have awk installed to use this Makefile, but I could not find it in your path!\n"
+
+	[ ! -z "$RET" ] && echo -ne $RET && exit 1
+}
+
+function rec () {
+	mkdir -p $2
+	echo "Recoding $1..."
+	cat $1 | recode $(grep appcharset $1 | cut -d"'" -f 4)..xml | ./convert.awk > $2/$1
+	chmod 644 $1 ${DESTDIR}/$1
+}
+
+function clean () {
+	echo "Nuking recoded lang files..."
+	for p in ${TARGETS}
+	do
+		rm -fv ${DESTDIR}/$p
+	done
+}
+
+prepare
+
+case $1 in
+	all)
+		# core translations
+		for f in $TARGETS
+		do
+			rec $f ${DESTDIR}
+		done
+	;;
+	clean)
+		clean
+	;;
+	*)
+		rec $1
+	;;
+esac
