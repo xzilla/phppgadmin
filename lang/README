@@ -3,19 +3,19 @@ Translators
 
 Please read the TRANSLATORS file in the top directory.
 
-This directory contains the HTML Unicode recodings of the source
+"recoded" directory contains the HTML Unicode recodings of the source
 language files.  These are the actual files used by phpPgAdmin
 when displaying strings.
 
 Instructions on recoding:
 
 cd lang
-make <language>  (eg. 'french')
+./lang2xml <language_file>  (eg. 'french.php')
 
-Running make with no arguments will recode all language files:
+Running lang2xml with no arguments will recode all language files:
 
 cd lang
-make
+lang2xml
 
 To check your translation:
 

@@ -31,6 +31,7 @@ function prepare () {
 function rec () {
 	for f in $@
 	do
+		[ ! -f $f ] && echo "$f is not a valid file." && continue
 		DIRNAME=$(dirname $f)
 		mkdir -p $DIRNAME
 		echo "Recoding $f..."
@@ -50,7 +51,10 @@ function clean () {
 
 prepare
 
-case $1 in
+COMMAND=$1
+[ -z "$COMMAND" ] && COMMAND="all"
+
+case $COMMAND in
 	all)
 		# find all translation files in the source tree
 		TARGETS=$(ls *.php | grep -v translations.php)
