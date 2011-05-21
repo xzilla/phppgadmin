@@ -13,15 +13,6 @@
 
 DESTDIR=./recoded
 
-#TARGETS="polish english chinese-sim chinese-tr chinese-utf8-zh_TW chinese-utf8-zh_CN danish dutch german spanish \
-#italian french russian russian-utf8 japanese slovak turkish czech portuguese-br portuguese-pt swedish afrikaans \
-#arabic mongol ukrainian hungarian hebrew catalan romanian greek galician"
-
-# we use grep instead of ls to avoid the translations.php file
-TARGETS=$(grep -nl appcharset *.php)
-
-#TARGETS=${TARGETS//.php}
-
 function prepare () {
 	RET=""
 
@@ -38,17 +29,22 @@ function prepare () {
 }
 
 function rec () {
-	mkdir -p $2
-	echo "Recoding $1..."
-	cat $1 | recode $(grep appcharset $1 | cut -d"'" -f 4)..xml | ./convert.awk > $2/$1
-	chmod 644 $1 ${DESTDIR}/$1
+	for f in $@
+	do
+		DIRNAME=$(dirname $f)
+		mkdir -p $DIRNAME
+		echo "Recoding $f..."
+		NAME=$(basename $f)
+		cat $f | recode $(grep appcharset $f | cut -d"'" -f 4)..xml | ./convert.awk > $DIRNAME/$DESTDIR/$NAME
+		chmod 644 $f $DIRNAME/$DESTDIR/$NAME
+	done
 }
 
 function clean () {
 	echo "Nuking recoded lang files..."
-	for p in ${TARGETS}
+	for p in $@
 	do
-		rm -fv ${DESTDIR}/$p
+		rm -fv $p
 	done
 }
 
@@ -56,16 +52,25 @@ prepare
 
 case $1 in
 	all)
-		# core translations
-		for f in $TARGETS
-		do
-			rec $f ${DESTDIR}
-		done
+		# find all translation files in the source tree
+		TARGETS=$(ls *.php | grep -v translations.php)
+		rec $TARGETS
+		# for f in $TARGETS
+		# do
+		# 	DIRNAME=$(dirname $f)
+		# 	rec $f "$DIRNAME/$DESTDIR"
+		# done
 	;;
 	clean)
-		clean
+		# find all recoded translation files in the source tree
+		TARGETS=$(ls ${DESTDIR}/*.php | grep -v translations.php)
+		clean $TARGETS
 	;;
 	*)
-		rec $1
+		rec $@
+		# for f in $@
+		# do
+		# 	rec $f $DESTDIR
+		# done
 	;;
 esac
