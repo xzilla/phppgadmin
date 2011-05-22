@@ -59,11 +59,6 @@ case $COMMAND in
 		# find all translation files in the source tree
 		TARGETS=$(ls *.php | grep -v translations.php)
 		rec $TARGETS
-		# for f in $TARGETS
-		# do
-		# 	DIRNAME=$(dirname $f)
-		# 	rec $f "$DIRNAME/$DESTDIR"
-		# done
 	;;
 	clean)
 		# find all recoded translation files in the source tree
@@ -72,9 +67,5 @@ case $COMMAND in
 	;;
 	*)
 		rec $@
-		# for f in $@
-		# do
-		# 	rec $f $DESTDIR
-		# done
 	;;
 esac
