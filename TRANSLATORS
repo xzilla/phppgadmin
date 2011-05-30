@@ -41,38 +41,36 @@ At this point, you can send the yourlanguage.php file to us and we will take
 care of testing and recoding the translation.  Please only do that if you 
 find the rest of these steps too difficult.
 
-5. Edit the Makefile in the lang/ directory and add an entry for your new
-   language.  Note that the parameter for Recode is "yourcharset..HTML".
-
-6. Run the Makefile by typing 'make yourlanguage'.  A recoded language file
-   will appear in the lang/recoded/ directory.  If the recoding fails, then
-   fix the error in your language file and try again.
-
-7. The HTML encoded language file is what phpPgAdmin actually uses to display
+5. Recode your translation by running './lang2xml yourlanguage' from the lang/
+   directory. A recoded language file will appear in the lang/recoded/ 
+	 directory. If the recoding fails, then fix the error in your language file
+	 and try again or report any bug with the "lang2xml" script.
+   
+	 The HTML encoded language file is what phpPgAdmin actually uses to display
    localised strings.  Have a look at the recoded file to see how the HTML
    encoding works.  By encoding your language like this, we can display your
    language's characters as well as the characters of the language in your
    database.
 
-8. To add your language to phpPgAdmin, edit the lang/translations.php file
+6. To add your language to phpPgAdmin, edit the lang/translations.php file
    and add your language to the $appLangFiles array.
    You must include the HTML encoded version of your language's name.  You can
    get this from the recoded version of your translated strings file.
    Also, add your language to the $availableLanguages array for
    browser auto detection.
 
-9. Send your contribution to us.  We need the lib.inc.php entry as well as the
-   yourlanguage.php file in lang/.  We don't need the recoded file as we can
-   recode it ourselves before committing it.  Email to the developers list:
-   phppgadmin-devel@lists.sourceforge.net
+7. Send your contribution to us.  We need the lang/translations.php entry as 
+   well as the lang/yourlanguage.php file.  We don't need the recoded file as 
+	 we can recode it ourselves before committing it.  Email to the developers 
+	 list: phppgadmin-devel@lists.sourceforge.net
 
-10. Thank you for your contribution!  You have just made phpPgAdmin accessible
-    to thousands more users!
-
-11. There exists a tool named 'langcheck' in the lang/ directory.  To run it,
+8. There exists a tool named 'langcheck' in the lang/ directory.  To run it,
     just type 'php langcheck <language>'.  It will give you a report about
     which strings are missing from your language file and which need to be
     deleted.
+
+Thank you for your contribution!  You have just made phpPgAdmin accessible
+to thousands more users!
 
 Appendix A: Ways to Get Recode
 ------------------------------
