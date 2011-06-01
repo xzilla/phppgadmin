@@ -6467,10 +6467,10 @@ class Postgres extends ADODB_base {
 	 * @param $username The username of the user
 	 * @return True if is a super user, false otherwise
 	 */
-	function isSuperUser($username) {
+	function isSuperUser($username = '') {
 		$this->clean($username);
 
-		if (function_exists('pg_parameter_status')) {
+		if (empty($usename)) {
 			$val = pg_parameter_status($this->conn->_connectionID, 'is_superuser');
 			if ($val !== false) return $val == 'on';
 		}
