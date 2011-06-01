@@ -72,7 +72,8 @@
 		if (isset($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]) 
 				&& count($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]))
 			echo "\t<li><a href=\"history.php?action=confclearhistory&amp;{$misc->href}\">{$lang['strclearhistory']}</a></li>\n";
-		echo "\t<li><a href=\"history.php?action=history&amp;{$misc->href}\">{$lang['strrefresh']}</a></li>\n</ul>\n";
+		echo "\t<li><a href=\"history.php?action=history&amp;{$misc->href}\">{$lang['strrefresh']}</a></li>\n";
+		echo "\t<li><a href=\"history.php?action=download&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n</ul>\n";
 	}
 
 	function doDelHistory($qid, $confirm) {
@@ -122,7 +123,22 @@
 		else
 			unset($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]);
 	}
-																																							
+
+	function doDownloadHistory() {
+		header('Content-Type: application/download');
+		$datetime = date('YmdHis');
+		header("Content-Disposition: attachment; filename=history{$datetime}.sql");
+
+		foreach ($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']] as $queries) {
+			$query = rtrim($queries['query']);
+			echo $query;
+			if (substr($query, -1) != ';')
+				echo ';';
+			echo "\n";
+		}
+
+		exit;
+	}
 	
 	switch ($action) {
 		case 'confdelhistory':
@@ -138,6 +154,9 @@
 		case 'clearhistory':
 			if (isset($_POST['yes'])) doClearHistory(false);
 			doDefault();
+			break;
+		case 'download':
+			doDownloadHistory();
 			break;
 		default:
 			doDefault();
