@@ -30,9 +30,7 @@
 			echo "<input name=\"newname\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_REQUEST['alterdatabase']), "\" /></td></tr>\n";
 
-			$server_info = $misc->getServerInfo();
-
-			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser($server_info['username'])) {
+			if ($data->hasAlterDatabaseOwner() && $data->isSuperUser()) {
 				// Fetch all users
 
 				$rs = $data->getDatabaseOwner($_REQUEST['alterdatabase']);

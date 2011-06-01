@@ -69,7 +69,7 @@ class Postgres83 extends Postgres84 {
 
 		$server_info = $misc->getServerInfo();
 
-		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser($server_info['username'])) {
+		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser()) {
 			$username = $server_info['username'];
 			$this->clean($username);
 			$clause = " AND pr.rolname='{$username}'";

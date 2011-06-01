@@ -475,8 +475,7 @@
 			echo "<input name=\"name\" size=\"32\" maxlength=\"{$data->_maxNameLen}\" value=\"",
 				htmlspecialchars($_POST['name']), "\" /></td></tr>\n";
 
-			$server_info = $misc->getServerInfo();
-			if ($data->isSuperUser($server_info['username'])) {
+			if ($data->isSuperUser()) {
 				// Fetch all users
 				$users = $data->getUsers();
 

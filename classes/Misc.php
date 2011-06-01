@@ -529,8 +529,7 @@
 
 				case 'server':
 				case 'report':
-					$server_info = $this->getServerInfo();
-					$hide_users = !$data->isSuperUser($server_info['username']);
+					$hide_users = !$data->isSuperUser();
 					$tmp = array (
 						'databases' => array (
 							'title' => $lang['strdatabases'],
