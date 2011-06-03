@@ -7,13 +7,6 @@
 
 ###TODO: Better documentation!!!
 
-// Compatibility functions:
-if (!function_exists('is_a')) {
-	function is_a($object, $class) {
-		return is_object($object) && get_class($object) == strtolower($class) || is_subclass_of($object, $class);
-	}
-}
-
 // Construction functions:
 
 function field($fieldName, $default = null) {

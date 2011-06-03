@@ -251,8 +251,6 @@ class Postgres74 extends Postgres80 {
 		return $this->selectSet($sql);
 	}
 
-	// Database functions
-
 	/**
 	 * Returns table locks information in the current database
 	 * @return A recordset
@@ -271,6 +269,16 @@ class Postgres74 extends Postgres80 {
 		ORDER BY nspname,tablename";
 
 		return $this->selectSet($sql);
+	}
+
+	/**
+	 * Returns the current database encoding
+	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
+	 */
+	function getDatabaseEncoding() {
+		$sql = "SELECT getdatabaseencoding() AS encoding";
+
+		return $this->selectField($sql, 'encoding');
 	}
 
 	// Table functions

@@ -225,12 +225,7 @@
 		// Set client encoding to database encoding
 		if ($dbEncoding != '') {
 			// Explicitly change client encoding if it's different to server encoding.
-			if (function_exists('pg_client_encoding'))
-				$currEncoding = pg_client_encoding($data->conn->_connectionID);
-			elseif (function_exists('pg_clientencoding'))
-				$currEncoding = pg_clientencoding($data->conn->_connectionID);
-			else
-				$currEncoding = null;
+			$currEncoding = pg_client_encoding($data->conn->_connectionID);
 
 			if ($currEncoding != $dbEncoding) {
 				$status = $data->setClientEncoding($dbEncoding);

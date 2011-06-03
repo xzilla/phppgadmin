@@ -51,13 +51,9 @@ class Connection {
 	 * @return -3 Database-specific failure
 	 */
 	function getDriver(&$description) {
-		// If we're on a recent enough PHP 5, and against PostgreSQL 7.4 or
-		// higher, we don't need to query for the version.  This gives a great
-		// speed up.				
-		if (function_exists('pg_version')) {
-			$v = pg_version($this->conn->_connectionID);
-			if (isset($v['server'])) $version = $v['server'];			
-		}
+
+		$v = pg_version($this->conn->_connectionID);
+		if (isset($v['server'])) $version = $v['server'];
 		
 		// If we didn't manage to get the version without a query, query...
 		if (!isset($version)) {
@@ -105,10 +101,7 @@ class Connection {
 	 * @return Error string
 	 */
 	function getLastError() {		
-		if (function_exists('pg_errormessage'))
-			return pg_errormessage($this->conn->_connectionID);
-		else
-			return pg_last_error($this->conn->_connectionID);
+		return pg_last_error($this->conn->_connectionID);
 	}
 }
 

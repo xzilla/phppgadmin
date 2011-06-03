@@ -183,10 +183,7 @@ class Postgres extends ADODB_base {
 	function clean(&$str) {
 		if ($str === null) return null;
 		$str = str_replace("\r\n","\n",$str);
-		if (function_exists('pg_escape_string'))
-			$str = pg_escape_string($str);
-		else
-			$str = addslashes($str);
+		$str = pg_escape_string($str);
 		return $str;
 	}
 
@@ -222,10 +219,7 @@ class Postgres extends ADODB_base {
 	function arrayClean(&$arr) {
 		foreach ($arr as $k => $v) {
 			if ($v === null) continue;
-			if (function_exists('pg_escape_string'))
-				$arr[$k] = pg_escape_string($v);
-			else
-				$arr[$k] = addslashes($v);
+			$arr[$k] = pg_escape_string($v);
 		}
 		return $arr;
 	}
@@ -236,12 +230,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		if (function_exists('pg_escape_bytea'))
-			return stripslashes(pg_escape_bytea($data));
-		else {
-		 		$translations = array('\\a' => '\\007', '\\b' => '\\010', '\\t' => '\\011', '\\n' => '\\012', '\\v' => '\\013', '\\f' => '\\014', '\\r' => '\\015');
- 				return strtr(addCSlashes($data, "\0..\37\177..\377"), $translations);
-		}
+		return stripslashes(pg_escape_bytea($data));
 	}
 
 	/**
@@ -518,15 +507,7 @@ class Postgres extends ADODB_base {
 	 * @return The encoding.  eg. SQL_ASCII, UTF-8, etc.
 	 */
 	function getDatabaseEncoding() {
-		// Try to avoid a query if at all possible (5)
-		if (function_exists('pg_parameter_status')) {
-			$encoding = pg_parameter_status($this->conn->_connectionID, 'server_encoding');
-			if ($encoding !== false) return $encoding;
-		}
-
-		$sql = "SELECT getdatabaseencoding() AS encoding";
-
-		return $this->selectField($sql, 'encoding');
+		return pg_parameter_status($this->conn->_connectionID, 'server_encoding');
 	}
 
 	/**
@@ -534,11 +515,6 @@ class Postgres extends ADODB_base {
 	 * @return default_with_oids setting
 	 */
 	function getDefaultWithOid() {
-		// Try to avoid a query if at all possible (5)
-		if (function_exists('pg_parameter_status')) {
-			$default = pg_parameter_status($this->conn->_connectionID, 'default_with_oids');
-			if ($default !== false) return $default;
-		}
 
 		$sql = "SHOW default_with_oids";
 
@@ -7552,12 +7528,10 @@ class Postgres extends ADODB_base {
     					$query_buf .= $subline;
     					$query_buf .= ';';
 
-            			// Execute the query (supporting 4.1.x PHP...). PHP cannot execute
+						// Execute the query. PHP cannot execute
             			// empty queries, unlike libpq
-            			if (function_exists('pg_query'))
-            				$res = @pg_query($conn, $query_buf);
-            			else
-            				$res = @pg_exec($conn, $query_buf);
+						$res = @pg_query($conn, $query_buf);
+
 						// Call the callback function for display
 						if ($callback !== null) $callback($query_buf, $res, $lineno);
             			// Check for COPY request
@@ -7578,7 +7552,7 @@ class Postgres extends ADODB_base {
 					$query_start = $i + $thislen;
     			}
 
-    			/*
+				/*
 				 * keyword or identifier?
 				 * We grab the whole string so that we don't
 				 * mistakenly see $foo$ inside an identifier as the start
@@ -7617,11 +7591,9 @@ class Postgres extends ADODB_base {
 		 */
     	if (strlen($query_buf) > 0 && strspn($query_buf, " \t\n\r") != strlen($query_buf))
     	{
-			// Execute the query (supporting 4.1.x PHP...)
-			if (function_exists('pg_query'))
-				$res = @pg_query($conn, $query_buf);
-			else
-				$res = @pg_exec($conn, $query_buf);
+			// Execute the query
+			$res = @pg_query($conn, $query_buf);
+
 			// Call the callback function for display
 			if ($callback !== null) $callback($query_buf, $res, $lineno);
 			// Check for COPY request
