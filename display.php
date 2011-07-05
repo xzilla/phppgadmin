@@ -438,7 +438,12 @@
 				$_SESSION['sqlquery'] = $_REQUEST['query'];
 				$misc->printTitle($lang['strselect']);
 				$type = 'SELECT';
-			} else {
+			}
+			else if (isset($_REQUEST['report'])) {
+				$misc->printTitle($lang['strselect']);
+				$type = 'SELECT';
+			}
+			else {
 				$misc->printTitle($lang['strbrowse']);
 				$type = 'TABLE';
 			}
@@ -474,7 +479,7 @@
 		// Retrieve page from query.  $max_pages is returned by reference.
 		$rs = $data->browseQuery($type, 
 			isset($object) ? $object : null, 
-			isset($_REQUEST['query']) ? $_REQUEST['query'] : null, 
+			isset($_SESSION['sqlquery']) ? $_SESSION['sqlquery'] : null,
 			$_REQUEST['sortkey'], $_REQUEST['sortdir'], $_REQUEST['page'],
 			$conf['max_rows'], $max_pages);
 
@@ -485,6 +490,7 @@
 		if (isset($object)) $gets .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
 		if (isset($subject)) $gets .= "&amp;subject=" . urlencode($subject);
 		if (isset($_REQUEST['query'])) $gets .= "&amp;query=" . urlencode($_REQUEST['query']);
+		if (isset($_REQUEST['report'])) $gets .= "&amp;report=" . urlencode($_REQUEST['report']);
 		if (isset($_REQUEST['count'])) $gets .= "&amp;count=" . urlencode($_REQUEST['count']);
 		if (isset($_REQUEST['return_url'])) $gets .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
 		if (isset($_REQUEST['return_desc'])) $gets .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
