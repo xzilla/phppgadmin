@@ -398,7 +398,7 @@
 				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
 				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
 				echo "<title>", htmlspecialchars($appName);
-				if ($title != '') echo " - {$title}";
+				if ($title != '') echo htmlspecialchars(" - {$title}");
 				echo "</title>\n";
 
 				if ($script) echo "{$script}\n";

@@ -41,7 +41,7 @@ Bugs
 * Fix multiple bugs about quoting and escaping database objects names with special chars
 * Fix multiple bugs in the browser tree
 * Fix multiple bugs on the SQL and script file import form
-* One security fix about code injection
+* Three security fix about code injection
 * Don't allow inserting on a table without fields
 * Some fix about commenting databases
 * removed deprecated functions from PHP 5.3

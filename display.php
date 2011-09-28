@@ -578,7 +578,7 @@
 
 		// Return
 		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
-			echo "\t<li><a href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></li>\n";
+			echo "\t<li><a href=\"". htmlspecialchars($_REQUEST['return_url']) ."\">". htmlspecialchars($_REQUEST['return_desc']) ."</a></li>\n";
 
 		// Edit SQL link
 		if (isset($_REQUEST['query']))
