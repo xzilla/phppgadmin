@@ -453,6 +453,7 @@
 	$lang['strconfcluster'] = '确定要集群 "%s"吗?';
 	$lang['strclusteredgood'] = '集群完成。';
 	$lang['strclusteredbad'] = '集群失败。';
+	$lang['strcluster'] = '集群';
 	
 	// Rules
 	$lang['strrules'] = '规则';
@@ -767,118 +768,6 @@
 	$lang['strtablespacedroppedbad'] = '表空间删除失败。';
 	$lang['strtablespacealtered'] = '表空间已变更。';
 	$lang['strtablespacealteredbad'] = '表空间变更失败。';
-	
-	// Slony clusters
-	$lang['strcluster'] = '集群';
-	$lang['strnoclusters'] = '查无此集群。';
-	$lang['strconfdropcluster'] = '确定要删除集群 "%s"吗?';
-	$lang['strclusterdropped'] = '集群已删除。';
-	$lang['strclusterdroppedbad'] = '集群删除失败。';
-	$lang['strinitcluster'] = '初始化集群';
-	$lang['strclustercreated'] = '集群已初始化。';
-	$lang['strclustercreatedbad'] = '集群初始化失败。';
-	$lang['strclusterneedsname'] = '必须指定集群名称。';
-	$lang['strclusterneedsnodeid'] = '必须指定本地节点ID。';
-	
-	// Slony nodes
-	$lang['strnodes'] = '节点';
-	$lang['strnonodes'] = '查无节点。';
-	$lang['strcreatenode'] = '创建节点';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = '活动的';
-	$lang['strnodecreated'] = '节点已创建。';
-	$lang['strnodecreatedbad'] = '节点创建失败。';
-	$lang['strconfdropnode'] = '确定要删除节点 "%s"吗?';
-	$lang['strnodedropped'] = '节点已删除。';
-	$lang['strnodedroppedbad'] = '节点删除失败';
-	$lang['strfailover'] = '故障切换';
-	$lang['strnodefailedover'] = '节点已故障切换。';
-	$lang['strnodefailedoverbad'] = '节点故障切换失败。';
-	$lang['strstatus'] = '状态';
-	$lang['strhealthy'] = '健康度';
-	$lang['stroutofsync'] = '同步过期';
-	$lang['strunknown'] = '未知的';
-	
-	// Slony paths
-	$lang['strpaths'] = '路径';
-	$lang['strnopaths'] = '查无路径。';
-	$lang['strcreatepath'] = '创建路径';
-	$lang['strnodename'] = '节点名称';
-	$lang['strnodeid'] = '节点 ID';
-	$lang['strconninfo'] = '连接字符串';
-	$lang['strconnretry'] = '重试连接间隔时间';
-	$lang['strpathneedsconninfo'] = '必须指定路径的连接字符串。';
-	$lang['strpathneedsconnretry'] = '必须指定重试连接间隔时间。';
-	$lang['strpathcreated'] = '路径已创建。';
-	$lang['strpathcreatedbad'] = '路径创建失败。';
-	$lang['strconfdroppath'] = '确定要删除路径 "%s"吗?';
-	$lang['strpathdropped'] = '路径已删除。';
-	$lang['strpathdroppedbad'] = '路径删除失败。';
-	
-	// Slony listens
-	$lang['strlistens'] = '监听';
-	$lang['strnolistens'] = '查无监听。';
-	$lang['strcreatelisten'] = '创建监听';
-	$lang['strlistencreated'] = '监听已创建。';
-	$lang['strlistencreatedbad'] = '监听创建失败。';
-	$lang['strconfdroplisten'] = '确定要删除监听 "%s"吗?';
-	$lang['strlistendropped'] = '监听已删除。';
-	$lang['strlistendroppedbad'] = '监听删除失败。';
-	
-	// Slony replication sets
-	$lang['strrepsets'] = '复写群组';
-	$lang['strnorepsets'] = '查无复写群组。';
-	$lang['strcreaterepset'] = '创建复写群组';
-	$lang['strrepsetcreated'] = '复写群组已创建。';
-	$lang['strrepsetcreatedbad'] = '复写群组创建失败。';
-	$lang['strconfdroprepset'] = '确定要删除复写群组 "%s"吗?';
-	$lang['strrepsetdropped'] = '复写群组已删除。';
-	$lang['strrepsetdroppedbad'] = '复写群组删除失败。';
-	$lang['strmerge'] = '合并';
-	$lang['strmergeinto'] = '合并进';
-	$lang['strrepsetmerged'] = '复写群组已合并。';
-	$lang['strrepsetmergedbad'] = '复写群组合并失败。';
-	$lang['strmove'] = '移动';
-	$lang['strneworigin'] = '新建初始点';
-	$lang['strrepsetmoved'] = '复写群组已移动。';
-	$lang['strrepsetmovedbad'] = '复写群组移动失败。';
-	$lang['strnewrepset'] = '新建件复写群组';
-	$lang['strlock'] = '锁定';
-	$lang['strlocked'] = '已锁定';
-	$lang['strunlock'] = '解锁';
-	$lang['strconflockrepset'] = '确定要锁定复写群组 "%s"吗?';
-	$lang['strrepsetlocked'] = '复写群组已锁定。';
-	$lang['strrepsetlockedbad'] = '复写群组锁定失败。';
-	$lang['strconfunlockrepset'] = '确定要解锁复写群组 "%s"吗?';
-	$lang['strrepsetunlocked'] = '复写群组已解锁。';
-	$lang['strrepsetunlockedbad'] = '复写群组解锁失败。';
-	$lang['stronlyonnode'] = '仅一个节点';
-	$lang['strddlscript'] = 'DDL 脚本';
-	$lang['strscriptneedsbody'] = '必须在所有节点上执行该脚本。';
-	$lang['strscriptexecuted'] = '复写群组 DDL 脚本已执行。';
-	$lang['strscriptexecutedbad'] = '复写群组 DDL 脚本执行失败。';
-	$lang['strtabletriggerstoretain'] = '以下触发器将不会被Slony禁用:';
-	
-	// Slony tables in replication sets
-	$lang['straddtable'] = '添加表';
-	$lang['strtableneedsuniquekey'] = '要添加的表需要指定主键或者唯一键。';
-	$lang['strtableaddedtorepset'] = '表已添加到复写群组。';
-	$lang['strtableaddedtorepsetbad'] = '表添加到复写群组失败。';
-	$lang['strconfremovetablefromrepset'] = '确定要将表 "%s" 从复写群组 "%s"中删除吗?';
-	$lang['strtableremovedfromrepset'] = '表已从复写群组中删除。';
-	$lang['strtableremovedfromrepsetbad'] = '表从复写群组中删除失败';
-	
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = '添加序列';
-	$lang['strsequenceaddedtorepset'] = '序列已添加到复写群组。';
-	$lang['strsequenceaddedtorepsetbad'] = '序列添加到复写群组失败。';
-	$lang['strconfremovesequencefromrepset'] = '确定要将序列 "%s" 从复写群组 "%s"中删除吗?';
-	$lang['strsequenceremovedfromrepset'] = '序列已从复写群组中删除。';
-	$lang['strsequenceremovedfromrepsetbad'] = '序列从复写群组中删除失败。';
-	
-	// Slony subscriptions
-	$lang['strsubscriptions'] = '订阅';
-	$lang['strnosubscriptions'] = '查无订阅。';
 	
 	// Miscellaneous
 	$lang['strtopbar'] = '%s 架于 %s：%s － 您是 "%s"';

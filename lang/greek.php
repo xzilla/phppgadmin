@@ -130,6 +130,7 @@
 	$lang['strfile'] = 'Αρχείο';
 	$lang['strfileimported'] = 'Αρχείο εισήχθη.';
 	$lang['strtrycred'] = 'Χρήση αυτών των διαπιστευτηρίων για όλους τους διακομιστές';
+	$lang['strexecute'] = 'Εκτέλεση';
 
 	// Database Sizes
 	$lang['strsize'] = 'Μέγεθος';
@@ -414,6 +415,7 @@
 	$lang['strconfcluster'] = 'Να ομαδοποιηθούν τα "%s"?';
 	$lang['strclusteredgood'] = 'Η ομαδοποίηση ολοκληρώθηκε.';
 	$lang['strclusteredbad'] = 'Η ομαδοποίηση απέτυχε.';
+	$lang['strcluster'] = 'Συστοιχία';
 
 	// Rules
 	$lang['strrules'] = 'Κανόνες';
@@ -717,120 +719,6 @@
 	$lang['strtablespacedroppedbad'] = 'Η διαγραφή της τοποθεσίας απέτυχε.';
 	$lang['strtablespacealtered'] = 'Η τοποθεσία τροποποιήθηκε.';
 	$lang['strtablespacealteredbad'] = 'Η τροποποίηση της τοποθεσίας απέτυχε.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Συστοιχία';
-	$lang['strnoclusters'] = 'Δε βρέθηκαν συστοιχίες.';
-	$lang['strconfdropcluster'] = 'Να διαγραφεί η συστοιχία "%s"?';
-	$lang['strclusterdropped'] = 'Η συστοιχία διαγράφηκε.';
-	$lang['strclusterdroppedbad'] = 'Η διαγραφή της συστοιχίας διαγράφηκε.';
-	$lang['strinitcluster'] = 'Δημιουργία συστοιχίας';
-	$lang['strclustercreated'] = 'Η συστοιχία δημιουργήθηκε.';
-	$lang['strclustercreatedbad'] = 'Η δημιουργία της συστοιχίας απέτυχε.';
-	$lang['strclusterneedsname'] = 'Πρέπει να δώσετε όνομα στη συστοιχία.';
-	$lang['strclusterneedsnodeid'] = 'Πρέπει να δώσετε ταυτότητα στον τοπικό κόμβο της συστοιχίας.';
-	
-	// Slony nodes
-	$lang['strnodes'] = 'Κόμβοι';
-	$lang['strnonodes'] = 'Δε βρέθηκαν κόμβοι.';
-	$lang['strcreatenode'] = 'Δημιουργία κόμβου';
-	$lang['strid'] = 'Ταυτότητα';
-	$lang['stractive'] = 'Ενεργός';
-	$lang['strnodecreated'] = 'Ο κόμβος δημιουργήθηκε.';
-	$lang['strnodecreatedbad'] = 'Η δημιουργία του κόμβου απέτυχε.';
-	$lang['strconfdropnode'] = 'Να διαγραφεί ο κόμβος "%s"?';
-	$lang['strnodedropped'] = 'Ο κόμβος διαγράφηκε.';
-	$lang['strnodedroppedbad'] = 'Η διαγραφή του κόμβου απέτυχε';
-	$lang['strfailover'] = 'Εφεδρικός';
-	$lang['strnodefailedover'] = 'Η εφεδρεία του κόμβου ήταν επιτυχής.';
-	$lang['strnodefailedoverbad'] = 'Η εφεδρεία του κόμβου απέτυχε.';
-	$lang['strstatus'] = 'Κατάσταση';	
-	$lang['strhealthy'] = 'Υγιής';
-	$lang['stroutofsync'] = 'Αποσυγχρονισμένος';
-	$lang['strunknown'] = 'Αγνωστη';	
-
-	
-	// Slony paths	
-	$lang['strpaths'] = 'Μονοπάτια';
-	$lang['strnopaths'] = 'Δε βρέθηκαν μονοπάτια.';
-	$lang['strcreatepath'] = 'Δημιουργία μονοπατιού';
-	$lang['strnodename'] = 'Ονομα κόμβου';
-	$lang['strnodeid'] = 'Ταυτότητα κόμβου';
-	$lang['strconninfo'] = 'Πληροφορίες σύνδεσης';
-	$lang['strconnretry'] = 'Χρόνος αναμονής σε δευτερόλεπτα πριν την προσπάθεια επανασύνδεσης';
-	$lang['strpathneedsconninfo'] = 'Πρέπει να εισάγετε τις πληροφορίες σύνδεσης.';
-	$lang['strpathneedsconnretry'] = 'Πρέπει να εισάγετε το χρόνο αναμονής.';
-	$lang['strpathcreated'] = 'Το μονοπάτι δημιουργήθηκε.';
-	$lang['strpathcreatedbad'] = 'Η δημιουργία του μονοπατιού απέτυχε.';
-	$lang['strconfdroppath'] = 'Να διαγραφεί το μονοπάτι "%s"?';
-	$lang['strpathdropped'] = 'Το μονοπάτι διαγράφηκε.';
-	$lang['strpathdroppedbad'] = 'Η διαγραφή του μονοπατιού απέτυχε.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Ακροάσεις';
-	$lang['strnolistens'] = 'Δε βρέθηκαν ακροάσεις.';
-	$lang['strcreatelisten'] = 'Δημιουργία ακρόασης';
-	$lang['strlistencreated'] = 'Η ακρόαση δημιουργήθηκε.';
-	$lang['strlistencreatedbad'] = 'Η δημιουργία ακρόασης απέτυχε.';
-	$lang['strconfdroplisten'] = 'Να διαγραφεί η ακρόαση "%s"?';
-	$lang['strlistendropped'] = 'Η ακρόαση διαγράφηκε.';
-	$lang['strlistendroppedbad'] = 'Η διαγραφή της ακρόασης απέτυχε.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Αναπαραγόμενα σύνολα';
-	$lang['strnorepsets'] = 'Δε βρέθηκαν αναπαραγόμενα σύνολα.';
-	$lang['strcreaterepset'] = 'Δημιουργία αναπαραγόμενων συνόλων';
-	$lang['strrepsetcreated'] = 'Το αναπαραγόμενο σύνολο δημιουργήθηκε.';
-	$lang['strrepsetcreatedbad'] = 'Η δημιουργία του αναπαραγόμενου συνόλου απέτυχε.';
-	$lang['strconfdroprepset'] = 'Να διαγραφεί το αναπαραγόμενο σύνολο "%s"?';
-	$lang['strrepsetdropped'] = 'Το αναπαραγόμενο σύνολο διαγράφηκε.';
-	$lang['strrepsetdroppedbad'] = 'Η διαγραφή του αναπαραγόμενου συνόλου απέτυχε.';
-	$lang['strmerge'] = 'Συγχώνευση';
-	$lang['strmergeinto'] = 'Συγχώνευση με';
-	$lang['strrepsetmerged'] = 'Τα αναπαραγόμενα σύνολα συγχωνεύθηκαν.';
-	$lang['strrepsetmergedbad'] = 'Η συγχώνευση των αναπαραγόμενων συνόλων απέτυχε.';
-	$lang['strmove'] = 'Μετακίνηση';
-	$lang['strneworigin'] = 'Νέα προέλευση';
-	$lang['strrepsetmoved'] = 'Το αναπαραγόμενο σύνολο μετακινήθηκε.';
-	$lang['strrepsetmovedbad'] = 'Η μετακίνηση του αναπαραγόμενου συνόλου απέτυχε.';
-	$lang['strnewrepset'] = 'Νέο αναπαραγόμενο σύνολο';
-	$lang['strlock'] = 'Κλείδωμα';
-	$lang['strlocked'] = 'Κλειδώθηκε';
-	$lang['strunlock'] = 'Ξεκλείδωμα';
-	$lang['strconflockrepset'] = 'Να κλειδωθεί το αναπαραγόμενο σύνολο "%s"?';
-	$lang['strrepsetlocked'] = 'Το αναπαραγόμενο σύνολο κλειδώθηκε.';
-	$lang['strrepsetlockedbad'] = 'Το κλείδωμα του αναπαραγόμενου συνόλου απέτυχε.';
-	$lang['strconfunlockrepset'] = 'Να ξεκλειδωθεί το αναπαραγόμενο σύνολο "%s"?';
-	$lang['strrepsetunlocked'] = 'Το αναπαραγόμενο σύνολο ξεκλειδώθηκε.';
-	$lang['strrepsetunlockedbad'] = 'Το ξεκλείδωμα του αναπαραγόμενου συνόλου απέτυχε.';
-	$lang['strexecute'] = 'Εκτέλεση';
-	$lang['stronlyonnode'] = 'Μόνο στον κόμβο';
-	$lang['strddlscript'] = 'Σενάριο DDL';
-	$lang['strscriptneedsbody'] = 'Πρέπει να ορίσετε σενάριο προς εκτέλεση σε όλους τους κόμβους.';
-	$lang['strscriptexecuted'] = 'Το σενάριο DDL εκτελέστηκε.';
-	$lang['strscriptexecutedbad'] = 'Η εκτέλεση του σεναρίου DDL απέτυχε.';
-	$lang['strtabletriggerstoretain'] = 'Τα ακόλουθα εναύσματα ΔΕ θα απενεργοποιηθούν από το Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Προσθήκη πίνακα';
-	$lang['strtableneedsuniquekey'] = 'Η προσθήκη πίνακα απαιτεί πρωτεύον ή μοναδικό κλειδί.';
-	$lang['strtableaddedtorepset'] = 'Ο πίνακας προστέθηκε στο αναπαραγόμενο σύνολο.';
-	$lang['strtableaddedtorepsetbad'] = 'Η προσθήκη πίνακα στο αναπαραγόμενο σύνολο απέτυχε.';
-	$lang['strconfremovetablefromrepset'] = 'Να διαγραφεί ο πίνακας "%s" από το αναπαραγόμενο σύνολο "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Ο πίνακας διαγράφηκε από το αναπαραγόμενο σύνολο.';
-	$lang['strtableremovedfromrepsetbad'] = 'Η διαγραφή του πίνακα από το αναπαραγόμενο σύνολο απέτυχε.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Προσθήκη ακολουθίας';
-	$lang['strsequenceaddedtorepset'] = 'Η ακολουθία προστέθηκε στο αναπαραγόμενο σύνολο.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Η προσθήκη ακολουθίας στο αναπαραγόμενο σύνολο απέτυχε.';
-	$lang['strconfremovesequencefromrepset'] = 'Να διαγραφεί η ακολουθία "%s" από το αναπαραγόμενο σύνολο "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Η ακολουθία διαγράφηκε από το αναπαραγόμενο σύνολο.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Η διαγραφή της ακολουθίας από το αναπαραγόμενο σύνολο απέτυχε.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Προεγγραφές';
-	$lang['strnosubscriptions'] = 'Δε βρέθηκαν προεγγραφές.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s στο %s:%s -- Είστε συνδεδεμένος ως "%s"';

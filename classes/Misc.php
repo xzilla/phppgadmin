@@ -374,18 +374,6 @@
 						}
 					}
 					break;
-				case 'slonystatus':
-					switch ($str) {
-					case 'insync':
-						$out = $lang['strhealthy'];
-						break;
-					case 'outofsync':
-						$out = $lang['stroutofsync'];
-						break;
-					default:
-						$out = $lang['strunknown'];
-					}
-					break;
 				default:
 					// If the string contains at least one instance of >1 space in a row, a tab
 					// character, a space at the start of a line, or a space at the start of
@@ -671,7 +659,7 @@
 		 * @param $section The name of the tab bar.
 		 */
 		function getNavTabs($section) {
-			global $data, $lang, $conf, $slony;
+			global $data, $lang, $conf;
 
 			$hide_advanced = ($conf['show_advanced'] === false);
 
@@ -848,14 +836,6 @@
 							'hide'  => ($hide_advanced),
 							'help'  => 'pg.cast',
 							'icon'  => 'Casts',
-						),
-						'slony' => array (
-							'title' => 'Slony',
-							'url'   => 'plugin_slony.php',
-							'urlvars' => array('subject' => 'database', 'action' => 'clusters_properties'),
-							'hide'  => !isset($slony),
-							'help'  => '',
-							'icon'  => 'Replication',
 						),
 						'export' => array (
 							'title' => $lang['strexport'],
@@ -1159,46 +1139,6 @@
 						),
 					);
 
-				case 'slony_cluster':
-					return array (
-						'properties' => array (
-							'title' => $lang['strproperties'],
-							'url'   => 'plugin_slony.php',
-							'urlvars' => array(
-									'subject' => 'slony_cluster',
-									'action' => 'cluster_properties',
-									'slony_cluster' => field('slony_cluster')
-								),
-							'help'  => '',
-							'tree'  => false,
-							'icon'  => 'Cluster',
-						),
-						'nodes' => array (
-							'title' => $lang['strnodes'],
-							'url'   => 'plugin_slony.php',
-							'urlvars' => array(
-									'subject' => 'slony_cluster',
-									'action' => 'nodes_properties',
-									'slony_cluster' => field('slony_cluster')
-								),
-							'branch' => 'nodes',
-							'help'  => '',
-							'icon'  => 'Nodes',
-						),
-						'sets' => array (
-							'title' => $lang['strrepsets'],
-							'url'   => 'plugin_slony.php',
-							'urlvars' => array(
-								'subject' => 'slony_cluster',
-								'action' => 'sets_properties',
-								'slony_cluster' => field('slony_cluster')
-							),
-							'branch' => 'sets',
-							'help'  => '',
-							'icon'  => 'ReplicationSets',
-						),
-					);
-
 				case 'column':
 					return array(
 						'properties' => array (
@@ -1453,17 +1393,6 @@
 			}
 			if ($subject == 'schema') $done = true;
 
-			if (isset($_REQUEST['slony_cluster']) && !$done) {
-				$trail['slony_cluster'] = array(
-					'title' => 'Slony Cluster',
-					'text'  => $_REQUEST['slony_cluster'],
-					'url'   => $this->getHREFSubject('slony_cluster'),
-					'help'  => 'sl.cluster',
-					'icon'  => 'Cluster'
-				);
-			}
-			if ($subject == 'slony_cluster') $done = true;
-
 			if (isset($_REQUEST['table']) && !$done) {
 				$trail['table'] = array(
 					'title' => $lang['strtable'],
@@ -1509,22 +1438,6 @@
 							'url'   => $this->getHREFSubject('aggregate'),
 							'help'  => 'pg.aggregate',
 							'icon'  => 'Aggregate'
-						);
-						break;
-					case 'slony_node':
-						$trail[$subject] = array(
-							'title' => 'Slony Node',
-							'text'  => $_REQUEST['no_name'],
-							'help'  => 'sl.'.$subject,
-							'icon'  => 'Node'
-						);
-						break;
-					case 'slony_set':
-						$trail[$subject] = array(
-							'title' => $lang['str'.$subject],
-							'text'  => $_REQUEST[$subject],
-							'help'  => 'sl.'.$subject,
-							'icon'  => 'AvailableReplicationSet'
 						);
 						break;
 					case 'column':

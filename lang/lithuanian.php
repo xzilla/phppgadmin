@@ -148,6 +148,7 @@ $lang['strctype'] = 'Character Type';//Simbolių(ženklų) tipas
 	$lang['strstop'] = 'Stabdyti';
 	$lang['strgotoppage'] = 'atgal į viršų';
 	$lang['strtheme'] = 'Apipavidalinimas';
+	$lang['strcluster'] = 'Klasteris';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'Šios administracinės užduotys taikomos visai %s duomenų bazei.';
@@ -802,118 +803,6 @@ $lang['strtoastindex'] = 'TOAST Indeksas';
 	$lang['strtablespacedroppedbad'] = 'Nepavyko pašalinti lentelių erdvės.';
 	$lang['strtablespacealtered'] = 'Lentelių erdvė pakeista.';
 	$lang['strtablespacealteredbad'] = 'Nepavyko pakeisti lentelių erdvės.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Klasteris';
-	$lang['strnoclusters'] = 'Klasterių nerasta.';
-	$lang['strconfdropcluster'] = 'Ar tikrai norite šalinti klasterį "%s"?';
-	$lang['strclusterdropped'] = 'Klasteris pašalintas.';
-	$lang['strclusterdroppedbad'] = 'Nepavyko pašalinti klasterio.';
-	$lang['strinitcluster'] = 'Inicijuoti klasterį';
-	$lang['strclustercreated'] = 'Klasteris inicijuotas.';
-	$lang['strclustercreatedbad'] = 'Nepavyko inicijuoti klasterio.';
-	$lang['strclusterneedsname'] = 'Turite suteikti klasteriui pavadinimą.';
-	$lang['strclusterneedsnodeid'] = 'Turite nurodyti identifikatorių vietiniam mazgui.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Mazgai';
-	$lang['strnonodes'] = 'Mazgų nerasta.';
-	$lang['strcreatenode'] = 'Kurti mazgą';
-	$lang['strid'] = 'Identifikatorius';
-	$lang['stractive'] = 'Aktyvus';
-	$lang['strnodecreated'] = 'Mazgas sukurtas.';
-	$lang['strnodecreatedbad'] = 'Nepavyko sukurti mazgo.';
-	$lang['strconfdropnode'] = 'Ar tikrai norite šalinti mazgą "%s"?';
-	$lang['strnodedropped'] = 'Mazgas pašalintas.';
-	$lang['strnodedroppedbad'] = 'Nepavyko pašalinti mazgo.';
-	$lang['strfailover'] = 'Perjungimas';
-	$lang['strnodefailedover'] = 'Mazgas perjungtas.';
-	$lang['strnodefailedoverbad'] = 'Nepavyko perjungti mazgo.';
-	$lang['strstatus'] = 'Būsena';	
-	$lang['strhealthy'] = 'Stabili';
-	$lang['stroutofsync'] = 'Asinchroninė';
-	$lang['strunknown'] = 'Nežinoma';	
-
-	// Slony paths	
-	$lang['strpaths'] = 'Keliai';
-	$lang['strnopaths'] = 'Kelių nerasta.';
-	$lang['strcreatepath'] = 'Kurti kelią';
-	$lang['strnodename'] = 'Mazgo pavadinimas';
-	$lang['strnodeid'] = 'Mazgo identifikatorius';
-	$lang['strconninfo'] = 'Prisijungimo eilutė';
-	$lang['strconnretry'] = 'Sekundės tarp bandymų prisijungti';
-	$lang['strpathneedsconninfo'] = 'Turite pateikti kelio prisijungimo eilutę.';
-	$lang['strpathneedsconnretry'] = 'Turite nurodyti kiek sekundžių laukti prieš bandydant prisijungti iš naujo.';
-	$lang['strpathcreated'] = 'Kelias sukurtas.';
-	$lang['strpathcreatedbad'] = 'Nepavyko sukurti kelio.';
-	$lang['strconfdroppath'] = 'Ar tikrai norite šalinti kelią "%s"?';
-	$lang['strpathdropped'] = 'Kelias pašalintas.';
-	$lang['strpathdroppedbad'] = 'Nepavyko pašalinti kelio.';
-
-	// Slony listens
-$lang['strlistens'] = 'Listens';
-$lang['strnolistens'] = 'No listens found.';
-$lang['strcreatelisten'] = 'Create listen';
-$lang['strlistencreated'] = 'Listen created.';
-$lang['strlistencreatedbad'] = 'Listen creation failed.';
-$lang['strconfdroplisten'] = 'Are you sure you want to drop listen "%s"?';
-$lang['strlistendropped'] = 'Listen dropped.';
-$lang['strlistendroppedbad'] = 'Listen drop failed.';
-
-	// Slony replication sets
-$lang['strrepsets'] = 'Replication sets';
-$lang['strnorepsets'] = 'No replication sets found.';
-$lang['strcreaterepset'] = 'Create replication set';
-$lang['strrepsetcreated'] = 'Replication set created.';
-$lang['strrepsetcreatedbad'] = 'Replication set creation failed.';
-$lang['strconfdroprepset'] = 'Are you sure you want to drop replication set "%s"?';
-$lang['strrepsetdropped'] = 'Replication set dropped.';
-$lang['strrepsetdroppedbad'] = 'Replication set drop failed.';
-	$lang['strmerge'] = 'Sulieti';
-	$lang['strmergeinto'] = 'Įlieti į';
-$lang['strrepsetmerged'] = 'Replication sets merged.';
-$lang['strrepsetmergedbad'] = 'Replication sets merge failed.';
-	$lang['strmove'] = 'Perkelti';
-$lang['strneworigin'] = 'New origin';
-$lang['strrepsetmoved'] = 'Replication set moved.';
-$lang['strrepsetmovedbad'] = 'Replication set move failed.';
-$lang['strnewrepset'] = 'New replication set';
-	$lang['strlock'] = 'Blokuoti';
-	$lang['strlocked'] = 'Užblokuota';
-	$lang['strunlock'] = 'Neblokuoti';
-$lang['strconflockrepset'] = 'Are you sure you want to lock replication set "%s"?';
-$lang['strrepsetlocked'] = 'Replication set locked.';
-$lang['strrepsetlockedbad'] = 'Replication set lock failed.';
-$lang['strconfunlockrepset'] = 'Are you sure you want to unlock replication set "%s"?';
-$lang['strrepsetunlocked'] = 'Replication set unlocked.';
-$lang['strrepsetunlockedbad'] = 'Replication set unlock failed.';
-$lang['stronlyonnode'] = 'Only on node';
-$lang['strddlscript'] = 'DDL script';
-$lang['strscriptneedsbody'] = 'You must supply a script to be executed on all nodes.';
-$lang['strscriptexecuted'] = 'Replication set DDL script executed.';
-$lang['strscriptexecutedbad'] = 'Failed executing replication set DDL script.';
-$lang['strtabletriggerstoretain'] = 'The following triggers will NOT be disabled by Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Pridėti lentelę';
-	$lang['strtableneedsuniquekey'] = 'Pridedama lentelė turi turėti pirminį arba unikalų raktą.';
-$lang['strtableaddedtorepset'] = 'Table added to replication set.';
-$lang['strtableaddedtorepsetbad'] = 'Failed adding table to replication set.';
-$lang['strconfremovetablefromrepset'] = 'Are you sure you want to drop the table "%s" from replication set "%s"?';
-$lang['strtableremovedfromrepset'] = 'Table dropped from replication set.';
-$lang['strtableremovedfromrepsetbad'] = 'Failed to drop table from replication set.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Pridėti seką';
-$lang['strsequenceaddedtorepset'] = 'Sequence added to replication set.';
-$lang['strsequenceaddedtorepsetbad'] = 'Failed adding sequence to replication set.';
-$lang['strconfremovesequencefromrepset'] = 'Are you sure you want to drop the sequence "%s" from replication set "%s"?';
-$lang['strsequenceremovedfromrepset'] = 'Sequence dropped from replication set.';
-$lang['strsequenceremovedfromrepsetbad'] = 'Failed to drop sequence from replication set.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Prenumeratos';
-	$lang['strnosubscriptions'] = 'Prenumeratų nerasta.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s veikia %s:%s -- Jūs esate prisijungęs kaip "%s"';

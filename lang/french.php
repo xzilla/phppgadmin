@@ -490,6 +490,7 @@
 	$lang['strclusteredbad'] = 'Échec du cluster.';
 	$lang['strconcurrently'] = 'En parallèle';
 	$lang['strnoclusteravailable'] = 'La table n\'est pas encore ordonnée selon un index.';
+	$lang['strcluster'] = 'Cluster';
 
 	// Rules
 	$lang['strrules'] = 'Règles';
@@ -803,118 +804,6 @@
 	$lang['strtablespacedroppedbad'] = 'Échec lors de la suppression du tablespace.';
 	$lang['strtablespacealtered'] = 'Tablespace modifié.';
 	$lang['strtablespacealteredbad'] = 'Échec lors de la modification du tablespace.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Aucun cluster trouvé.';
-	$lang['strconfdropcluster'] = 'Êtesvous sûr de vouloir supprimer le cluster « %s » ?';
-	$lang['strclusterdropped'] = 'Cluster supprimé.';
-	$lang['strclusterdroppedbad'] = 'Échec lors de la suppression du cluster.';
-	$lang['strinitcluster'] = 'Initialiser le cluster';
-	$lang['strclustercreated'] = 'Cluster initialisé.';
-	$lang['strclustercreatedbad'] = 'Échec lors de l\'initialisation du cluster.';
-	$lang['strclusterneedsname'] = 'Vous devez donner un nom au cluster.';
-	$lang['strclusterneedsnodeid'] = 'Vous devez donner un ID au noeud local.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Noeuds';
-	$lang['strnonodes'] = 'Aucun noeud trouvé.';
-	$lang['strcreatenode'] = 'Créer un noeud';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Actif';
-	$lang['strnodecreated'] = 'Noeud créé.';
-	$lang['strnodecreatedbad'] = 'Échec lors de la création du noeud.';
-	$lang['strconfdropnode'] = 'Êtes-vous sûr de vouloir supprimer le noeud « %s » ?';
-	$lang['strnodedropped'] = 'Noeud supprimé.';
-	$lang['strnodedroppedbad'] = 'Échec lors de la suppression du noeud';
-	$lang['strfailover'] = 'Basculer (failover)';
-	$lang['strnodefailedover'] = 'Node basculé.';
-	$lang['strnodefailedoverbad'] = 'Échec lors du basculement du noeud.';
-	$lang['strstatus'] = 'Statut';	
-	$lang['strhealthy'] = 'État';
-	$lang['stroutofsync'] = 'Hors synchro';
-	$lang['strunknown'] = 'Inconnu';
-
-	// Slony paths 
-	$lang['strpaths'] = 'Chemins';
-	$lang['strnopaths'] = 'Aucun chemin trouvé.';
-	$lang['strcreatepath'] = 'Créer un chemin';
-	$lang['strnodename'] = 'Nom du noeud';
-	$lang['strnodeid'] = 'ID du noeud';
-	$lang['strconninfo'] = 'Chaîne de connexion';
-	$lang['strconnretry'] = 'Secondes avant une nouvelle tentative de connexion';
-	$lang['strpathneedsconninfo'] = 'Vous devez donner une chaîne de connexion pour le chemin.';
-	$lang['strpathneedsconnretry'] = 'Vous devez donner le nombre de secondes d\'attente avant une nouvelle tentative de connexion.';
-	$lang['strpathcreated'] = 'Chemin créé.';
-	$lang['strpathcreatedbad'] = 'Échec lors de la création du chemin.';
-	$lang['strconfdroppath'] = 'Êtes-vous sûr de vouloir supprimer le chemin « %s » ?';
-	$lang['strpathdropped'] = 'Chemin supprimé.';
-	$lang['strpathdroppedbad'] = 'Échec lors de la suppression du chemin.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Écoutes';
-	$lang['strnolistens'] = 'Aucune écoute trouvée.';
-	$lang['strcreatelisten'] = 'Créer une écoute';
-	$lang['strlistencreated'] = 'Écoute créée.';
-	$lang['strlistencreatedbad'] = 'Échec lors de la création de l\'écoute.';
-	$lang['strconfdroplisten'] = 'Êtes-vous sûr de vouloir supprimer l\'écoute « %s » ?';
-	$lang['strlistendropped'] = 'Écoute supprimé.';
-	$lang['strlistendroppedbad'] = 'Échec lors de la suppression de l\'écoute.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Ensembles de réplication';
-	$lang['strnorepsets'] = 'Aucun ensemble de réplication trouvé.';
-	$lang['strcreaterepset'] = 'Créer un ensemble de réplication';
-	$lang['strrepsetcreated'] = 'Ensemble de réplication créé.';
-	$lang['strrepsetcreatedbad'] = 'Échec lors de la création de l\'ensemble de réplication.';
-	$lang['strconfdroprepset'] = 'Êtes-vous sûr de vouloir supprimer l\'ensemble de réplication « %s » ?';
-	$lang['strrepsetdropped'] = 'Ensemble de réplication supprimé.';
-	$lang['strrepsetdroppedbad'] = 'Échec lors de la suppression de l\'ensemble de réplication.';
-	$lang['strmerge'] = 'Assemblage';
-	$lang['strmergeinto'] = 'Assembler dans';
-	$lang['strrepsetmerged'] = 'Ensembles de réplication assemblés.';
-	$lang['strrepsetmergedbad'] = 'Échec lors de l\'assemblage des ensembles de réplication.';
-	$lang['strmove'] = 'Déplacement';
-	$lang['strneworigin'] = 'Nouvelle origine';
-	$lang['strrepsetmoved'] = 'Ensemble de réplication déplacé.';
-	$lang['strrepsetmovedbad'] = 'Échec lors du déplacement de l\'ensemble de réplication.';
-	$lang['strnewrepset'] = 'Nouvel ensemble de réplication';
-	$lang['strlock'] = 'Verrou';
-	$lang['strlocked'] = 'Verrouillé';
-	$lang['strunlock'] = 'Déverrouillé';
-	$lang['strconflockrepset'] = 'Êtes-vous sûr de vouloir verrouiller l\'ensemble de réplication « %s » ?';
-	$lang['strrepsetlocked'] = 'Ensemble de réplication verrouillé.';
-	$lang['strrepsetlockedbad'] = 'Échec lors du verrouillage de l\'ensemble de réplication.';
-	$lang['strconfunlockrepset'] = 'Êtes-vous sûr de vouloir déverrouiller l\'ensemble de réplication « %s » ?';
-	$lang['strrepsetunlocked'] = 'Ensemble de réplication déverrouillé.';
-	$lang['strrepsetunlockedbad'] = 'Échec lors du déverrouillage de l\'ensemble de réplication.';
-	$lang['stronlyonnode'] = 'Seulement sur le noeud';
-	$lang['strddlscript'] = 'Script DDL';
-	$lang['strscriptneedsbody'] = 'Vous devez fournir un script à exécuter sur tous les noeuds.';
-	$lang['strscriptexecuted'] = 'Script DDL de l\'ensemble de réplication exécuté.';
-	$lang['strscriptexecutedbad'] = 'Échec lors de l\'exécution du script DDL de l\'ensemble de réplication.';
-	$lang['strtabletriggerstoretain'] = 'Les triggers suivants ne seront PAS désactivés par Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Ajouter une table';
-	$lang['strtableneedsuniquekey'] = 'La table à ajouter doit avoir une clé primaire ou une clé unique.';
-	$lang['strtableaddedtorepset'] = 'Table ajouter à l\'ensemble de réplication.';
-	$lang['strtableaddedtorepsetbad'] = 'Échec lors de l\'ajout de la table dans l\'ensemble de réplication.';
-	$lang['strconfremovetablefromrepset'] = 'Êtes-vous sûr de vouloir supprimer la table « %s » de l\'ensemble de réplication « %s » ?';
-	$lang['strtableremovedfromrepset'] = 'Table supprimée de l\'ensemble de réplication.';
-	$lang['strtableremovedfromrepsetbad'] = 'Échec lors de la suppression de la table de l\'ensemble de réplication.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Ajouter une séquence';
-	$lang['strsequenceaddedtorepset'] = 'Séquence ajoutée à l\'ensemble de réplication.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Échec lors de l\'ajout de la séquence à l\'ensemble de réplication.';
-	$lang['strconfremovesequencefromrepset'] = 'Êtes-vous sûr de vouloir supprimer la séquence « %s » de l\'ensemble de réplication « %s »?';
-	$lang['strsequenceremovedfromrepset'] = 'Séquence supprimée de l\'ensemble de réplication.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Échec lors de la suppression de la séquence à partir de l\'ensemble de réplication.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Souscriptions';
-	$lang['strnosubscriptions'] = 'Aucune souscription trouvée.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s lancé sur %s:%s -- Vous êtes connecté avec le profil « %s »';

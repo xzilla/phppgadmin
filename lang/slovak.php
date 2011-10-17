@@ -131,6 +131,7 @@
 	$lang['strfile']  =  'Súbor';
 	$lang['strfileimported']  =  'Súbor importovaný.';
 	$lang['strtrycred']  =  'Použiť tieto hodnoty pre všetky hodnoty';
+$lang['strexecute']  =  'Execute';
 
 	// Error handling
 	$lang['strnoframes']  =  'Táto aplikácia funguje najlapšie s prehliadačom, ktorý podporuje technológiu frame-ov, no môže byť použitý aj takým, ktorý to nepodporuje nasledovaním tohto odkazu:';
@@ -377,6 +378,7 @@
 	$lang['strconfcluster'] = 'Naozaj chceš vytvoriť cluster "%s"?';
 	$lang['strclusteredgood'] = 'Cluster hotový.';
 	$lang['strclusteredbad'] = 'Cluster nebol vytvorený.';
+$lang['strcluster']  =  'Cluster';
 
 	// Rules
 	$lang['strrules'] = 'Pravidlá';
@@ -643,115 +645,7 @@
 	$lang['strtablespacedroppedbad']  =  'Odstránenie priestoru zlyhalo.';
 	$lang['strtablespacealtered']  =  'Priestor tabuľky zmenený.';
 	$lang['strtablespacealteredbad']  =  'Zmenenie priestoru tabuľky zlyhalo.';
-
-	// Slony clusters
-$lang['strcluster']  =  'Cluster';
-$lang['strnoclusters']  =  'No clusters found.';
-$lang['strconfdropcluster']  =  'Are you sure you want to drop cluster "%s"?';
-$lang['strclusterdropped']  =  'Cluster dropped.';
-$lang['strclusterdroppedbad']  =  'Cluster drop failed.';
-$lang['strinitcluster']  =  'Initialize cluster';
-$lang['strclustercreated']  =  'Cluster initialized.';
-$lang['strclustercreatedbad']  =  'Cluster initialization failed.';
-$lang['strclusterneedsname']  =  'You must give a name for the cluster.';
-$lang['strclusterneedsnodeid']  =  'You must give an ID for the local node.';
 	
-	// Slony nodes
-$lang['strnodes']  =  'Nodes';
-$lang['strnonodes']  =  'No nodes found.';
-$lang['strcreatenode']  =  'Create node';
-$lang['strid']  =  'ID';
-$lang['stractive']  =  'Active';
-$lang['strnodecreated']  =  'Node created.';
-$lang['strnodecreatedbad']  =  'Node creation failed.';
-$lang['strconfdropnode']  =  'Are you sure you want to drop node "%s"?';
-$lang['strnodedropped']  =  'Node dropped.';
-$lang['strnodedroppedbad']  =  'Node drop failed';
-$lang['strfailover']  =  'Failover';
-$lang['strnodefailedover']  =  'Node failed over.';
-$lang['strnodefailedoverbad']  =  'Node failover failed.';
-	
-	// Slony paths	
-$lang['strpaths']  =  'Paths';
-$lang['strnopaths']  =  'No paths found.';
-$lang['strcreatepath']  =  'Create path';
-$lang['strnodename']  =  'Node name';
-$lang['strnodeid']  =  'Node ID';
-$lang['strconninfo']  =  'Connection string';
-$lang['strconnretry']  =  'Seconds before retry to connect';
-$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
-$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
-$lang['strpathcreated']  =  'Path created.';
-$lang['strpathcreatedbad']  =  'Path creation failed.';
-$lang['strconfdroppath']  =  'Are you sure you want to drop path "%s"?';
-$lang['strpathdropped']  =  'Path dropped.';
-$lang['strpathdroppedbad']  =  'Path drop failed.';
-
-	// Slony listens
-$lang['strlistens']  =  'Listens';
-$lang['strnolistens']  =  'No listens found.';
-$lang['strcreatelisten']  =  'Create listen';
-$lang['strlistencreated']  =  'Listen created.';
-$lang['strlistencreatedbad']  =  'Listen creation failed.';
-$lang['strconfdroplisten']  =  'Are you sure you want to drop listen "%s"?';
-$lang['strlistendropped']  =  'Listen dropped.';
-$lang['strlistendroppedbad']  =  'Listen drop failed.';
-
-	// Slony replication sets
-$lang['strrepsets']  =  'Replication sets';
-$lang['strnorepsets']  =  'No replication sets found.';
-$lang['strcreaterepset']  =  'Create replication set';
-$lang['strrepsetcreated']  =  'Replication set created.';
-$lang['strrepsetcreatedbad']  =  'Replication set creation failed.';
-$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set "%s"?';
-$lang['strrepsetdropped']  =  'Replication set dropped.';
-$lang['strrepsetdroppedbad']  =  'Replication set drop failed.';
-$lang['strmerge']  =  'Merge';
-$lang['strmergeinto']  =  'Merge into';
-$lang['strrepsetmerged']  =  'Replication sets merged.';
-$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
-$lang['strmove']  =  'Move';
-$lang['strneworigin']  =  'New origin';
-$lang['strrepsetmoved']  =  'Replication set moved.';
-$lang['strrepsetmovedbad']  =  'Replication set move failed.';
-$lang['strnewrepset']  =  'New replication set';
-$lang['strlock']  =  'Lock';
-$lang['strlocked']  =  'Locked';
-$lang['strunlock']  =  'Unlock';
-$lang['strconflockrepset']  =  'Are you sure you want to lock replication set "%s"?';
-$lang['strrepsetlocked']  =  'Replication set locked.';
-$lang['strrepsetlockedbad']  =  'Replication set lock failed.';
-$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set "%s"?';
-$lang['strrepsetunlocked']  =  'Replication set unlocked.';
-$lang['strrepsetunlockedbad']  =  'Replication set unlock failed.';
-$lang['strexecute']  =  'Execute';
-$lang['stronlyonnode']  =  'Only on node';
-$lang['strddlscript']  =  'DDL script';
-$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
-$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
-$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
-$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
-
-	// Slony tables in replication sets
-$lang['straddtable']  =  'Add table';
-$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
-$lang['strtableaddedtorepset']  =  'Table added to replication set.';
-$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
-$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table "%s" from replication set "%s"?';
-$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
-$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
-
-	// Slony sequences in replication sets
-$lang['straddsequence']  =  'Add sequence';
-$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
-$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
-$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence "%s" from replication set "%s"?';
-$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
-$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
-
-	// Slony subscriptions
-$lang['strsubscriptions']  =  'Subscriptions';
-$lang['strnosubscriptions']  =  'No subscriptions found.';
 
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s beží na %s:%s -- si prihlásený ako "%s"';

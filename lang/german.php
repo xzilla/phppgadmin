@@ -137,6 +137,7 @@
 	$lang['strselectall'] = 'Alle auswählen';
 	$lang['strunselectall'] = 'Alle abwählen';
 	$lang['strlocale'] = 'Spracheinstellung';
+	$lang['strcluster'] = 'Cluster';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = 'Befehlsspeicher';
@@ -767,118 +768,6 @@
 	$lang['strtablespacedroppedbad'] = 'Löschen des Tablespace fehlgeschlagen.';
 	$lang['strtablespacealtered'] = 'Tablespace geändert.';
 	$lang['strtablespacealteredbad'] = 'Ändern des Tablespace fehlgeschlagen.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Keine Cluster gefunden.';
-	$lang['strconfdropcluster'] = 'Sind Sie sicher, dass Sie den Cluster "%s" löschen möchten?';
-	$lang['strclusterdropped'] = 'Cluster gelöscht.';
-	$lang['strclusterdroppedbad'] = 'Löschen des Clusters fehlgeschlagen.';
-	$lang['strinitcluster'] = 'Cluster initialisieren';
-	$lang['strclustercreated'] = 'Cluster initialisiert.';
-	$lang['strclustercreatedbad'] = 'Initialisierung des Clusters fehlgeschlagen.';
-	$lang['strclusterneedsname'] = 'Sie müssen einen Namen für den Cluster angeben.';
-	$lang['strclusterneedsnodeid'] = 'Sie müssen eine ID für den lokalen Cluster-Knoten angeben.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Cluster-Knoten';
-	$lang['strnonodes'] = 'Keine Cluster-Knoten gefunden.';
-	$lang['strcreatenode'] = 'Cluster-Knoten erstellen';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Aktiv';
-	$lang['strnodecreated'] = 'Cluster-Knoten erstellt.';
-	$lang['strnodecreatedbad'] = 'Erstellen des Cluster-Knotens fehlgeschlagen.';
-	$lang['strconfdropnode'] = 'Sind Sie sicher, dass Sie Cluster-Knoten "%s" löschen möchten?';
-	$lang['strnodedropped'] = 'Cluster-Knoten gelöscht.';
-	$lang['strnodedroppedbad'] = 'Löschen des Cluster-Knotens fehlgeschlagen.';
-	$lang['strfailover'] = 'Übernahme';
-	$lang['strnodefailedover'] = 'Cluster-Knoten übernommen.';
-	$lang['strnodefailedoverbad'] = 'Übernahme des Cluster-Knotens fehlgeschlagen.';
-	$lang['strstatus'] = 'Status';	
-	$lang['strhealthy'] = 'Gesund';
-	$lang['stroutofsync'] = 'Nicht Synchronisiert';
-	$lang['strunknown'] = 'Unbekannt';	
-
-	// Slony paths	
-	$lang['strpaths'] = 'Kommunikationspfade';
-	$lang['strnopaths'] = 'Keine Kommunikationspfade gefunden.';
-	$lang['strcreatepath'] = 'Kommunikationspfad erstellen';
-	$lang['strnodename'] = 'Name des Cluster-Knotens';
-	$lang['strnodeid'] = 'ID des Cluster-Knotens';
-	$lang['strconninfo'] = 'Connection-String';
-	$lang['strconnretry'] = 'Wartezeit vor erneutem Verbindungsversuch in Sekunden';
-	$lang['strpathneedsconninfo'] = 'Sie müssen einen Connection-String für den Kommunikationspfad angeben.';
-	$lang['strpathneedsconnretry'] = 'Sie müssen die Wartezeit vor einem erneuten Verbindungsversuch angeben.';
-	$lang['strpathcreated'] = 'Kommunikationspfad erstellt.';
-	$lang['strpathcreatedbad'] = 'Erstellen des Kommunikationspfades fehlgeschlagen.';
-	$lang['strconfdroppath'] = 'Sind Sie sicher, dass Sie den Kommunikationspfad "%s" löschen möchten?';
-	$lang['strpathdropped'] = 'Kommunikationspfad gelöscht.';
-	$lang['strpathdroppedbad'] = 'Löschen des Kommunikationspfades fehlgeschlagen.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Zuhörer';
-	$lang['strnolistens'] = 'Keine Zuhörer gefunden.';
-	$lang['strcreatelisten'] = 'Zuhörer erstellen';
-	$lang['strlistencreated'] = 'Zuhörer erstellt.';
-	$lang['strlistencreatedbad'] = 'Erstellen des Zuhörers fehlgeschlagen.';
-	$lang['strconfdroplisten'] = 'Sind Sie sicher, dass Sie Zuhörer "%s" löschen möchten?';
-	$lang['strlistendropped'] = 'Zuhörer gelöscht.';
-	$lang['strlistendroppedbad'] = 'Löschen des Zuhörers fehlgeschlagen.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Replikationsgruppe';
-	$lang['strnorepsets'] = 'Keine Replikationsgruppen gefunden.';
-	$lang['strcreaterepset'] = 'Replikationsgruppe erstellen';
-	$lang['strrepsetcreated'] = 'Replikationsgruppe erstellt.';
-	$lang['strrepsetcreatedbad'] = 'Erstellen der Replikationsgruppe fehlgeschlagen.';
-	$lang['strconfdroprepset'] = 'Sind Sie sicher, dass Sie Replikationsgruppe "%s" löschen möchten?';
-	$lang['strrepsetdropped'] = 'Replikationsgruppe gelöscht.';
-	$lang['strrepsetdroppedbad'] = 'Löschen der Replikationsgruppe fehlgeschlagen.';
-	$lang['strmerge'] = 'Vereinigen';
-	$lang['strmergeinto'] = 'Vereinigen mit';
-	$lang['strrepsetmerged'] = 'Replikationsgruppen vereinige.';
-	$lang['strrepsetmergedbad'] = 'Vereinigung der Replikationsgruppen fehlgeschlagen.';
-	$lang['strmove'] = 'Verschieben';
-	$lang['strneworigin'] = 'Neuer Usrprung';
-	$lang['strrepsetmoved'] = 'Replikationsgruppe verschoben.';
-	$lang['strrepsetmovedbad'] = 'Verschieben der Replikationsgruppe fehlgeschlagen.';
-	$lang['strnewrepset'] = 'Neue Replikationsgruppe';
-	$lang['strlock'] = 'Sperren';
-	$lang['strlocked'] = 'Gesperrt';
-	$lang['strunlock'] = 'Entsperren';
-	$lang['strconflockrepset'] = 'Sind Sie sicher, dass Sie Replikationsgruppe "%s" sperren möchten?';
-	$lang['strrepsetlocked'] = 'Replikationsgruppe gesperrt.';
-	$lang['strrepsetlockedbad'] = 'Sperren der Replikationsgruppe fehlgeschlagen.';
-	$lang['strconfunlockrepset'] = 'Sind Sie sicher, dass Sie Replikationsgruppe "%s" entsperren möchten?';
-	$lang['strrepsetunlocked'] = 'Replikationsgruppe entsperrt.';
-	$lang['strrepsetunlockedbad'] = 'Entsperren der Replikationsgruppe fehlgeschlagen.';
-	$lang['stronlyonnode'] = 'Nur auf dem Cluster-Knoten';
-	$lang['strddlscript'] = 'DDL-Script';
-	$lang['strscriptneedsbody'] = 'Sie müssen ein Script angeben, das auf allen Cluster-Knoten ausgeführt werden soll.';
-	$lang['strscriptexecuted'] = 'DDL-Script für die Replikationsgruppe ausgeführt.';
-	$lang['strscriptexecutedbad'] = 'Ausführung des DDL-Scripts für die Replikationsgruppe fehlgeschlagen.';
-	$lang['strtabletriggerstoretain'] = 'Die folgenden Trigger werden von Slony NICHT deaktiviert:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Tabelle hinzufügen';
-	$lang['strtableneedsuniquekey'] = 'Damit eine Tabelle hinzugefügt werden kann, muss sie einen Primärschlüssel oder einen eindeutigen Schlüssel besitzen.';
-	$lang['strtableaddedtorepset'] = 'Tabelle zu Replikationsgruppe hinzugefügt.';
-	$lang['strtableaddedtorepsetbad'] = 'Hinzufügen der Tabelle zur Replikationsgruppe fehlgeschlagen.';
-	$lang['strconfremovetablefromrepset'] = 'Sind Sie sicher, dass Sie die Tabelle "%s" aus der Replikationsgruppe "%s" entfernen möchten?';
-	$lang['strtableremovedfromrepset'] = 'Tabelle aus Replikationsgruppe entfernt.';
-	$lang['strtableremovedfromrepsetbad'] = 'Entfernen der Tabelle aus der Replikationsgruppe fehlgeschlagen.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Sequenz hinzufügen';
-	$lang['strsequenceaddedtorepset'] = 'Sequenz zu Replikationsgruppe hinzugefügt.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Hinzufügen der Sequenz zur Replikationsgruppe fehlgeschlagen.';
-	$lang['strconfremovesequencefromrepset'] = 'Sind Sie sicher, dass Sie die Sequenz "%s" aus der Replikationsgruppe "%s" entfernen möchten?';
-	$lang['strsequenceremovedfromrepset'] = 'Sequenz aus Replikationsgruppe entfernt.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Entfernen der Sequenz aus der Replikationsgruppe fehlgeschlagen.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Abonnements';
-	$lang['strnosubscriptions'] = 'Keine Abonnements gefunden.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s läuft auf %s:%s -- Sie sind als "%s" angemeldet';

@@ -219,12 +219,6 @@
 				exit;
 			}
 		}
-
-		// Load Slony if required
-		if (isset($_server_info['slony_support']) && $_server_info['slony_support']) {
-			include('./classes/plugins/Slony.php');
-			$slony = new Slony();
-		}
 	}
 
 	if (!function_exists("htmlspecialchars_decode")) {

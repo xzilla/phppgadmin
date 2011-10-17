@@ -148,6 +148,7 @@
 	$lang['strstop'] = 'Leállít';
 	$lang['strgotoppage'] = 'vissza a tetejére';
 	$lang['strtheme'] = 'Téma';
+	$lang['strcluster']  =  'Fürt';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'A következő adminisztratív feladatok %s adatbázis egészére vonatkoznak.';
@@ -801,119 +802,7 @@
 	$lang['strtablespacedroppedbad']  =  'Nem sikerült kidobni a táblahelyet.';
 	$lang['strtablespacealtered']  =  'Táblahely megváltoztatva.';
 	$lang['strtablespacealteredbad']  =  'Nem sikerült megváltoztatni a táblahelyet.';
-
-	// Slony clusters
-	$lang['strcluster']  =  'Fürt';
-	$lang['strnoclusters']  =  'Nincs fürt.';
-	$lang['strconfdropcluster']  =  'Biztosan töröljük „%s” fürtöt?';
-	$lang['strclusterdropped']  =  'Fürt törölve.';
-	$lang['strclusterdroppedbad']  =  'Nem sikerült törölni a fürtöt.';
-	$lang['strinitcluster']  =  'Fürtöt készít';
-	$lang['strclustercreated']  =  'Fürt kész.';
-	$lang['strclustercreatedbad']  =  'Nem sikerült fürtöt készíteni.';
-	$lang['strclusterneedsname']  =  'Nevet kell adnia a fürtnek.';
-	$lang['strclusterneedsnodeid']  =  'Azonosítót kell adnia a helyi csomópontnak.';
 	
-	// Slony nodes
-	$lang['strnodes']  =  'Csomópontok';
-	$lang['strnonodes']  =  'Nincs csomópont.';
-	$lang['strcreatenode']  =  'Csomópontot teremt';
-	$lang['strid']  =  'Az';
-	$lang['stractive']  =  'Aktív';
-	$lang['strnodecreated']  =  'Csomópont megteremtve.';
-	$lang['strnodecreatedbad']  =  'Nem sikerült csomópontot teremteni.';
-	$lang['strconfdropnode']  =  'Biztosan el akarja dobni „%s” csomópontot?';
-	$lang['strnodedropped']  =  'Csomópont eldobva.';
-	$lang['strnodedroppedbad']  =  'Nem sikerült eldobni a csomópontot.';
-	$lang['strfailover']  =  'Áthidal';
-	$lang['strnodefailedover']  =  'Végponti hiba áthidalva.';
-	$lang['strnodefailedoverbad']  =  'Nem sikerült áthidalni a végpont hibáját.';
-	$lang['strstatus']  =  'Állapot';	
-	$lang['strhealthy']  =  'Ép';
-	$lang['stroutofsync']  =  'Lemaradás';
-	$lang['strunknown']  =  'Ismeretlen';	
-	
-	// Slony paths	
-	$lang['strpaths']  =  'Ösvények';
-	$lang['strnopaths']  =  'Nincs ösvény.';
-	$lang['strcreatepath']  =  'Ösvényt teremt';
-	$lang['strnodename']  =  'Csomópont neve';
-	$lang['strnodeid']  =  'Csomópont-azonosító';
-	$lang['strconninfo']  =  'Csatlakozás tájékoztató';
-	$lang['strconnretry']  =  'Másodpercek a csatlakozás ismétléséig';
-	$lang['strpathneedsconninfo']  =  'Meg kell adnia a kapcsolati szöveget az ösvényhez.';
-	$lang['strpathneedsconnretry']  =  'Meg kell adnia a csatlakozás ismétléséig történő várakozás idejét másodpercekben.';
-	$lang['strpathcreated']  =  'Ösvény megteremtve.';
-	$lang['strpathcreatedbad']  =  'Nem sikerült ösvényt teremteni.';
-	$lang['strconfdroppath']  =  'Biztosan el akarja dobni „%s” ösvényt?';
-	$lang['strpathdropped']  =  'Ösvény eldobva.';
-	$lang['strpathdroppedbad']  =  'Nem sikerült az ösvényt eldobni.';
-
-	// Slony listens
-	$lang['strlistens']  =  'Figyelők';
-	$lang['strnolistens']  =  'Nincs figyelő.';
-	$lang['strcreatelisten']  =  'Figyelőt teremt';
-	$lang['strlistencreated']  =  'Figyelő megteremtve.';
-	$lang['strlistencreatedbad']  =  'Nem sikerült figyelőt teremteni.';
-	$lang['strconfdroplisten']  =  'Biztosan törölni akarja „%s” figyelőt?';
-	$lang['strlistendropped']  =  'Figyelő törölve.';
-	$lang['strlistendroppedbad']  =  'Nem sikerült törölni a figyelőt.';
-
-	// Slony replication sets
-	$lang['strrepsets']  =  'Másodlatok';
-	$lang['strnorepsets']  =  'Nincs másodlat.';
-	$lang['strcreaterepset']  =  'Másodlatot teremt';
-	$lang['strrepsetcreated']  =  'Másodlat megteremtve.';
-	$lang['strrepsetcreatedbad']  =  'Nem sikerült másodlatot teremteni.';
-	$lang['strconfdroprepset']  =  'Biztosan törölni akarja „%s” másodlatot?';
-	$lang['strrepsetdropped']  =  'Másodlat törölve.';
-	$lang['strrepsetdroppedbad']  =  'Nem sikerült törölni a másodlatot.';
-	$lang['strmerge']  =  'Összefésül';
-	$lang['strmergeinto']  =  'Összefésül ide';
-	$lang['strrepsetmerged']  =  'Másodlatok összefésülve.';
-	$lang['strrepsetmergedbad']  =  'Nem sikerült összefésülni a másodlatokat.';
-	$lang['strmove']  =  'Mozgat';
-	$lang['strneworigin']  =  'Új eredet';
-	$lang['strrepsetmoved']  =  'Másodlat mozgatva.';
-	$lang['strrepsetmovedbad']  =  'Nem sikerült elmozgatni a másodlatot.';
-	$lang['strnewrepset']  =  'Új másodlat';
-	$lang['strlock']  =  'Zárol';
-	$lang['strlocked']  =  'Zárolva';
-	$lang['strunlock']  =  'Kioldás';
-	$lang['strconflockrepset']  =  'Biztosan zárolni akarja „%s” másodlatot?';
-	$lang['strrepsetlocked']  =  'Másodlat zárolva.';
-	$lang['strrepsetlockedbad']  =  'Nem sikerült zárolni a másodlatot.';
-	$lang['strconfunlockrepset']  =  'Biztosan ki akarja oldani „%s” másodlatot?';
-	$lang['strrepsetunlocked']  =  'Másodlat kioldva.';
-	$lang['strrepsetunlockedbad']  =  'Nem sikerült kioldani a másodlatot.';
-	$lang['stronlyonnode']  =  'Csak helyben';
-	$lang['strddlscript']  =  'DDL-írás';
-	$lang['strscriptneedsbody']  =  'Meg kell adnia egy írást, amit minden helyen végrehajtanak.';
-	$lang['strscriptexecuted']  =  'Másodlati DDL-írás végrehajtva.';
-	$lang['strscriptexecutedbad']  =  'Nem sikerült végrehajtani a másodlati DDL-írást.';
-	$lang['strtabletriggerstoretain']  =  'A következő triggereket Slony NEM tiltja le:';
-
-	// Slony tables in replication sets
-	$lang['straddtable']  =  'Táblát felvesz';
-	$lang['strtableneedsuniquekey']  =  'Tábla felvételéhez elsődleges vagy egyedi kulcs kell.';
-	$lang['strtableaddedtorepset']  =  'Tábla felvéve a másodlatba.';
-	$lang['strtableaddedtorepsetbad']  =  'Nem sikerült felvenni a táblát a másodlatba.';
-	$lang['strconfremovetablefromrepset']  =  'Biztosan törölni akarja „%s” táblát „%s” másodlatból?';
-	$lang['strtableremovedfromrepset']  =  'Tábla törölve a másodlatból.';
-	$lang['strtableremovedfromrepsetbad']  =  'Nem sikerült törölni a táblát a másodlatból.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence']  =  'Sorozatot felvesz';
-	$lang['strsequenceaddedtorepset']  =  'Sorozat felvéve a másodlatba.';
-	$lang['strsequenceaddedtorepsetbad']  =  'Nem sikerült felvenni a sorozatot a másodlatba.';
-	$lang['strconfremovesequencefromrepset']  =  'Biztosan törölni akarja „%s” sorozatot „%s” másodlatból?';
-	$lang['strsequenceremovedfromrepset']  =  'Sorozat törölve a másodlatból.';
-	$lang['strsequenceremovedfromrepsetbad']  =  'Nem sikerült törölni a sorozatot a másodlatból.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions']  =  'Feliratkozások';
-	$lang['strnosubscriptions']  =  'Nincs feliratkozás.';
-
 	// Miscellaneous
 	$lang['strtopbar'] = '%s fut %s:%s címen — Ön „%s” néven jelentkezett be.';
 	$lang['strtimefmt'] = 'Y.m.d. H:i';

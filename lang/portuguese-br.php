@@ -487,6 +487,7 @@
 	$lang['strconfcluster'] = 'Você têm certeza que deseja clusterizar "%s"?';
 	$lang['strclusteredgood'] = 'Clusterização completa.';
 	$lang['strclusteredbad'] = 'Falha ao clusterizar.';
+	$lang['strcluster'] = 'Cluster';
 	$lang['strconcurrently'] = 'Simultaneamente';
 	$lang['strnoclusteravailable'] = 'Tabela não clusterizada em um índice.';
 
@@ -802,118 +803,6 @@
 	$lang['strtablespacedroppedbad'] = 'Falha ao deletar o tablespace.';
 	$lang['strtablespacealtered'] = 'Tablespace alterado.';
 	$lang['strtablespacealteredbad'] = 'Falha ao alterar o tablespace.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Cluster';
-	$lang['strnoclusters'] = 'Nenhum cluster encontrado.';
-	$lang['strconfdropcluster'] = 'Você têm certeza que deseja deletar o cluster "%s"?';
-	$lang['strclusterdropped'] = 'Cluster deletado.';
-	$lang['strclusterdroppedbad'] = 'Falha ao deletar o cluster.';
-	$lang['strinitcluster'] = 'Inicializar cluster';
-	$lang['strclustercreated'] = 'Cluster inicializado.';
-	$lang['strclustercreatedbad'] = 'Falha ao inicializar cluster.';
-	$lang['strclusterneedsname'] = 'Você deve informar um nome para o cluster.';
-	$lang['strclusterneedsnodeid'] = 'Você deve informar uma ID para o nodo local.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Nodos';
-	$lang['strnonodes'] = 'Nenhum nodo encontrado.';
-	$lang['strcreatenode'] = 'Criar nodo';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Ativo';
-	$lang['strnodecreated'] = 'Nodo criado.';
-	$lang['strnodecreatedbad'] = 'Falha ao criar nodo.';
-	$lang['strconfdropnode'] = 'Você têm certeza que deseja deletar o nodo "%s"?';
-	$lang['strnodedropped'] = 'Nodo deletado.';
-	$lang['strnodedroppedbad'] = 'Falha ao deletar o nodo.';
-	$lang['strfailover'] = 'Failover';
-	$lang['strnodefailedover'] = 'Nodo failed over.';
-	$lang['strnodefailedoverbad'] = 'Falha de failover sobre o nodo.';
-	$lang['strstatus'] = 'Estado';	
-	$lang['strhealthy'] = 'Saudável';
-	$lang['stroutofsync'] = 'Fora de sinc';
-	$lang['strunknown'] = 'Desconhecido';	
-
-	// Slony paths	
-	$lang['strpaths'] = 'Diretórios';
-	$lang['strnopaths'] = 'Nenhum diretório encontrado.';
-	$lang['strcreatepath'] = 'Criar diretório';
-	$lang['strnodename'] = 'Nome do nodo';
-	$lang['strnodeid'] = 'ID do nodo';
-	$lang['strconninfo'] = 'String de conexão';
-	$lang['strconnretry'] = 'Segundos antes de tentar reconectar';
-	$lang['strpathneedsconninfo'] = 'Você deve informar uma string de conexão para o diretório.';
-	$lang['strpathneedsconnretry'] = 'Você deve informar um número de segundos a esperar antes de tentar reconectar.';
-	$lang['strpathcreated'] = 'Diretório criado.';
-	$lang['strpathcreatedbad'] = 'Falha ao criar o diretório.';
-	$lang['strconfdroppath'] = 'Você têm certeza que deseja deletar o diretório "%s"?';
-	$lang['strpathdropped'] = 'Diretório deletado.';
-	$lang['strpathdroppedbad'] = 'Falha ao deletar o diretório.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Escutas';
-	$lang['strnolistens'] = 'Nenhuma escuta encontrada.';
-	$lang['strcreatelisten'] = 'Criar escuta';
-	$lang['strlistencreated'] = 'Escuta criada.';
-	$lang['strlistencreatedbad'] = 'Falha ao criar a escuta.';
-	$lang['strconfdroplisten'] = 'Você têm certeza que deseja deletar a escuta "%s"?';
-	$lang['strlistendropped'] = 'Escuta deletada.';
-	$lang['strlistendroppedbad'] = 'Falha ao deletar a escuta.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Conjuntos de replicação';
-	$lang['strnorepsets'] = 'Nenhum conjunto de replicação encontrado.';
-	$lang['strcreaterepset'] = 'Criar conjunto de replicação';
-	$lang['strrepsetcreated'] = 'Conjunto de replicação criado.';
-	$lang['strrepsetcreatedbad'] = 'Falha ao criar o conjunto de replicação.';
-	$lang['strconfdroprepset'] = 'Você têm certeza que deseja deletar o conjunto de replicação "%s"?';
-	$lang['strrepsetdropped'] = 'Conjunto de replicação deletado.';
-	$lang['strrepsetdroppedbad'] = 'Falha ao deletar o conjunto de replicação.';
-	$lang['strmerge'] = 'Fundir';
-	$lang['strmergeinto'] = 'Fundir em';
-	$lang['strrepsetmerged'] = 'Conjuntos de replicação fundidos.';
-	$lang['strrepsetmergedbad'] = 'Falha ao fundir os conjuntos de replicação.';
-	$lang['strmove'] = 'Mover';
-	$lang['strneworigin'] = 'Nova origem';
-	$lang['strrepsetmoved'] = 'Conjunto de replicação movido.';
-	$lang['strrepsetmovedbad'] = 'Falha ao mover o conjunto de replicação.';
-	$lang['strnewrepset'] = 'Novo conjunto de replicação';
-	$lang['strlock'] = 'Trava';
-	$lang['strlocked'] = 'Travado';
-	$lang['strunlock'] = 'Destravado';
-	$lang['strconflockrepset'] = 'Você têm certeza que deseja travar o conjunto de replicação "%s"?';
-	$lang['strrepsetlocked'] = 'Conjunto de replicação travado.';
-	$lang['strrepsetlockedbad'] = 'Falha ao travar o conjunto de replicação.';
-	$lang['strconfunlockrepset'] = 'Você têm certeza que deseja destravar o conjunto de replicação "%s"?';
-	$lang['strrepsetunlocked'] = 'Conjunto de replicação destravado.';
-	$lang['strrepsetunlockedbad'] = 'Falha ao destravar o conjunto de replicação.';
-	$lang['stronlyonnode'] = 'Somente sobre o nodo';
-	$lang['strddlscript'] = 'Script DDL';
-	$lang['strscriptneedsbody'] = 'Você deve fornecer um script para ser executado sobre todos os nodos.';
-	$lang['strscriptexecuted'] = 'Script DDL executado sobre o conjunto de replicação.';
-	$lang['strscriptexecutedbad'] = 'Falha ao executar o script DDL sobre o conjunto de replicação.';
-	$lang['strtabletriggerstoretain'] = 'Os seguintes gatilhos NÃO serão desativados pelo Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Adicionar Tabela';
-	$lang['strtableneedsuniquekey'] = 'Tabela a ser adicionada requer uma chave primária ou única.';
-	$lang['strtableaddedtorepset'] = 'Tabela adicionada ao conjunto de replicação.';
-	$lang['strtableaddedtorepsetbad'] = 'Falha ao adicionar a tabela no conjunto de replicação.';
-	$lang['strconfremovetablefromrepset'] = 'Você têm certeza que deseja deletar a tabela "%s" do conjunto de replicação "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Tabela deletada do conjunto de replicação.';
-	$lang['strtableremovedfromrepsetbad'] = 'Falha ao deletar a tabela do conjunto de replicação.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Adicionar seqüência';
-	$lang['strsequenceaddedtorepset'] = 'Seqüência adicionada ao conjunto de replicação.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Falha ao adicionar a seqüência no conjunto de replicação.';
-	$lang['strconfremovesequencefromrepset'] = 'Você têm certeza que deseja deletar a seqüência "%s" do conjunto de replicação "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Seqüência deletada do conjunto de replicação.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Falha ao deletar a seqüência do conjunto de replicação.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Subscrições';
-	$lang['strnosubscriptions'] = 'Nenhuma subscrição encontrada.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s rodando em %s:%s -- Você está logado como usuário "%s"';

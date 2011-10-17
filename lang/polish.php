@@ -135,6 +135,7 @@
 	$lang['strfile'] = 'Plik';
 	$lang['strfileimported'] = 'Plik został zaimportowany.';
 	$lang['strtrycred'] = 'Użyj tych parametrów dla wszystkich serwerów';
+	$lang['strexecute'] = 'Wykonaj';
 
 	// Database Sizes
 	$lang['strsize'] = 'Rozmiar';
@@ -411,6 +412,7 @@
 	$lang['strconfcluster'] = 'Czy na pewno chcesz zklastrować "%s"?';
 	$lang['strclusteredgood'] = 'Klastrowanie zostało zakończone.';
 	$lang['strclusteredbad'] = 'Próba klastrowania się nie powiodła.';
+	$lang['strcluster'] = 'Klaster';
 
 	// Rules
 	$lang['strrules'] = 'Reguły';
@@ -718,119 +720,6 @@ $lang['straggrneedsstype']  =  'You must specify the data type for the aggregate
 	$lang['strtablespacealtered'] = 'Przestrzeń tabel została zmieniona.';
 	$lang['strtablespacealteredbad'] = 'Próba modyfikacji przestrzeni tabel się nie powiodła.';
 
-	// Slony clusters
-	$lang['strcluster'] = 'Klaster';
-	$lang['strnoclusters'] = 'Nie znaleziono klastrów.';
-	$lang['strconfdropcluster'] = 'Czy na pewno chcesz usunąć klaster "%s"?';
-	$lang['strclusterdropped'] = 'Klaster został usunięty.';
-	$lang['strclusterdroppedbad'] = 'Próba usunięcia klastra się nie powiodła.';
-	$lang['strinitcluster'] = 'Utwórz klaster';	
-	$lang['strclustercreated'] = 'Klaster został utworzony.';
-	$lang['strclustercreatedbad'] = 'Próba utworzenia klastra się nie powiodła.';
-	$lang['strclusterneedsname'] = 'Musisz podać nazwę klastra.';
-	$lang['strclusterneedsnodeid'] = 'Musisz podać identyfikator lokalnego węzła.';
-	
-	// Slony nodes
-	$lang['strnodes'] = 'Węzły';
-	$lang['strnonodes'] = 'Nie znaleziono węzłów.';
-	$lang['strcreatenode'] = 'Utwórz węzeł';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Aktywny';
-	$lang['strnodecreated'] = 'Węzeł został utworzony.';
-	$lang['strnodecreatedbad'] = 'Próba utworzenia węzła się nie powiodła.';
-	$lang['strconfdropnode'] = 'Czy na pewno chcesz usunąć węzeł "%s"?';
-	$lang['strnodedropped'] = 'Węzeł został usunięty.';
-	$lang['strnodedroppedbad'] = 'Próba usunięcia węzła się nie powiodła.';
-	$lang['strfailover'] = 'Przełączenie awaryjne';
-	$lang['strnodefailedover'] = 'Węzeł został przełączony awaryjnie.';
-	$lang['strnodefailedoverbad'] = 'Próba awaryjnego przełączenia węzła się nie powiodła.';
-	$lang['strstatus']  =  'Stan';	
-	$lang['strhealthy']  =  'Poprawny';
-	$lang['stroutofsync']  =  'Niezsynchronizowany';
-	$lang['strunknown']  =  'Nieznany';	
-
-	
-	// Slony paths	
-	$lang['strpaths'] = 'Ścieżki';
-	$lang['strnopaths'] = 'Nie znaleziono ścieżek.';
-	$lang['strcreatepath'] = 'Utwórz ścieżkę';
-	$lang['strnodename'] = 'Nazwa węzła';
-	$lang['strnodeid'] = 'Identyfikator węzła';
-	$lang['strconninfo'] = 'Parametry połączenia';
-	$lang['strconnretry'] = 'Czas przed próbą ponownego połączenia';
-	$lang['strpathneedsconninfo'] = 'Musisz podać parametry połączenia.';
-	$lang['strpathneedsconnretry'] = 'Musisz określić ilość sekund, którą należy odczekać przed ponowieniem połączenia.';
-	$lang['strpathcreated'] = 'Ścieżka została utworzona.';
-	$lang['strpathcreatedbad'] = 'Próba utworzenia ścieżki się nie powiodła.';
-	$lang['strconfdroppath'] = 'Czy na pewno chcesz usunąć ścieżkę "%s"?';
-	$lang['strpathdropped'] = 'Ścieżka została usunięta.';
-	$lang['strpathdroppedbad'] = 'Próba usunięcia ścieżki się nie powiodła.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Nasłuchy';
-	$lang['strnolistens'] = 'Nie znaleziono nasłuchów.';
-	$lang['strcreatelisten'] = 'Utwórz nasłuch';
-	$lang['strlistencreated'] = 'Nasłuch został utworzony.';
-	$lang['strlistencreatedbad'] = 'Próba usunięcia nasłuchu się nie powiodła.';
-	$lang['strconfdroplisten'] = 'Czy na pewno chcesz usunąć nasłuch "%s"?';
-	$lang['strlistendropped'] = 'Nasłuch został usunięty.';
-	$lang['strlistendroppedbad'] = 'Próba usunięcia nasłuchu się nie powiodła.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Zbiory replikacji';
-	$lang['strnorepsets'] = 'Nie znaleziono zbiorów replikacji.';
-	$lang['strcreaterepset'] = 'Utwórz zbiór replikacji';
-	$lang['strrepsetcreated'] = 'Zbiór replikacji został utworzony.';
-	$lang['strrepsetcreatedbad'] = 'Próba utworzenia zbioru replikacji się nie powiodła.';
-	$lang['strconfdroprepset'] = 'Czy na pewno chcesz usunąć zbiór replikacji "%s"?';
-	$lang['strrepsetdropped'] = 'Zbiór replikacji został usunięty.';
-	$lang['strrepsetdroppedbad'] = 'Próba usunięcia zbioru replikacji się nie powiodła.';
-	$lang['strmerge'] = 'Połącz';
-	$lang['strmergeinto'] = 'Połącz w';
-	$lang['strrepsetmerged'] = 'Zbiory replikacji zostały połączone.';
-	$lang['strrepsetmergedbad'] = 'Próba połączenia zbiorów replikacji się nie powiodła.';
-	$lang['strmove'] = 'Przenieś';
-	$lang['strneworigin'] = 'Nowe położenie';
-	$lang['strrepsetmoved'] = 'Zbiór replikacji został przeniesiony.';
-	$lang['strrepsetmovedbad'] = 'Próba przeniesienia zbioru replikacji się nie powiodła.';
-	$lang['strnewrepset'] = 'Nowy zbiór replikacji';
-	$lang['strlock'] = 'Zablokuj';
-	$lang['strlocked'] = 'Zablokowany';
-	$lang['strunlock'] = 'Odblokuj';
-	$lang['strconflockrepset'] = 'Czy na pewno chcesz zablokować zbiór replikacji "%s"?';
-	$lang['strrepsetlocked'] = 'Zbiór replikacji został zablokowany.';
-	$lang['strrepsetlockedbad'] = 'Próba zablokowania zbioru replikacji się nie powiodła.';
-	$lang['strconfunlockrepset'] = 'Czy na pewno chcesz odblokować zbiór replikacji "%s"?';
-	$lang['strrepsetunlocked'] = 'Zbiór replikacji został odblokowany.';
-	$lang['strrepsetunlockedbad'] = 'Próba odblokowania zbioru replikacji się nie powiodła.';
-	$lang['strexecute'] = 'Wykonaj';
-	$lang['stronlyonnode'] = 'Tylko w węźle';
-	$lang['strddlscript'] = 'Skrypt DDL';
-	$lang['strscriptneedsbody'] = 'Musisz podać skrypt, który należy wykonać na wszystkich węzłach.';
-	$lang['strscriptexecuted'] = 'Skrypt DDL został wykonany w zbiorze replikacji.';
-	$lang['strscriptexecutedbad'] = 'Próba wykonania skryptu DDL w zbiorze replikacji się nie powiodła.';
-	$lang['strtabletriggerstoretain'] = 'Następujące wyzwalacze NIE zostaną wyłączone przez Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Dodaj tabelę';
-	$lang['strtableneedsuniquekey'] = 'Dodawana tabela musi mieć klucz główny lub unikatowy.';
-	$lang['strtableaddedtorepset'] = 'Tabela została dodana do zbioru replikacji.';
-	$lang['strtableaddedtorepsetbad'] = 'Próba dodania tabeli do zbioru replikacji się nie powiodła.';
-	$lang['strconfremovetablefromrepset'] = 'Czy na pewno chcesz usunąć tabelę "%s" ze zbioru replikacji "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Tabela została usunięta ze zbioru replikacji.';
-	$lang['strtableremovedfromrepsetbad'] = 'Próba usunięcia tabeli ze zbioru replikacji się nie powiodła.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Dodaj sekwencję';
-	$lang['strsequenceaddedtorepset'] = 'Sekwencja została dodana do zbioru replikacji.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Próba dodania sekwencji do zbioru replikacji się nie powiodła.';
-	$lang['strconfremovesequencefromrepset'] = 'Czy na pewno chcesz usunąć sekwencję "%s" ze zbioru replikacji "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Sekwencja została usunięta ze zbioru replikacji.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Próba usunięcia sekwencji ze zbioru replikacji się nie powiodła.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Subskrypcje';
-	$lang['strnosubscriptions'] = 'Nie znaleziono subskrypcji.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s uruchomiony na %s:%s -- Jesteś zalogowany jako "%s"';

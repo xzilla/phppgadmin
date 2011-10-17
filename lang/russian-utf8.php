@@ -148,6 +148,7 @@
 	$lang['strstop'] = 'Остановить автоматическое обновление';
 	$lang['strgotoppage'] = 'вверх';
 	$lang['strtheme'] = 'Тема';
+	$lang['strcluster'] = 'Кластер';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'Следующие административные задачи применяются ко всей базе данных %s.';
@@ -798,118 +799,6 @@
 	$lang['strtablespacedroppedbad'] = 'Удаление табличного пространства прервано.';
 	$lang['strtablespacealtered'] = 'Табличное пространство изменено.';
 	$lang['strtablespacealteredbad'] = 'Изменение табличного пространства прервано.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Кластер';
-	$lang['strnoclusters'] = 'Кластеры не найдены.';
-	$lang['strconfdropcluster'] = 'Вы действительно хотите удалить кластер "%s"?';
-	$lang['strclusterdropped'] = 'Кластер удален.';
-	$lang['strclusterdroppedbad'] = 'Удаление кластера прервано.';
-	$lang['strinitcluster'] = 'Инициализировать кластер';
-	$lang['strclustercreated'] = 'Кластер инициализирован.';
-	$lang['strclustercreatedbad'] = 'Инициализация кластера прервана.';
-	$lang['strclusterneedsname'] = 'Вам необходимо определить имя кластера.';
-	$lang['strclusterneedsnodeid'] = 'Вам необходимо указать ID для локальной ноды.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Ноды';
-	$lang['strnonodes'] = 'Ноды не найдены.';
-	$lang['strcreatenode'] = 'Создать ноду';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Активна';
-	$lang['strnodecreated'] = 'Нода создана.';
-	$lang['strnodecreatedbad'] = 'Создание ноды прервано.';
-	$lang['strconfdropnode'] = 'Вы действительно хотите удалить ноду "%s"?';
-	$lang['strnodedropped'] = 'Нода удалена.';
-	$lang['strnodedroppedbad'] = 'Удаление ноды прервано.';
-	$lang['strfailover'] = 'Перехват управления при отказе';
-	$lang['strnodefailedover'] = 'Ноде будет передано управление при отказе.';
-	$lang['strnodefailedoverbad'] = 'Невозможно передать управление ноде при отказе.';
-	$lang['strstatus'] = 'Статус';
-	$lang['strhealthy'] = 'Исправно';
-	$lang['stroutofsync'] = 'Рассинхронизовано';
-	$lang['strunknown'] = 'Неизвестно';
-
-	// Slony paths	
-	$lang['strpaths'] = 'Пути';
-	$lang['strnopaths'] = 'Пути не найдены.';
-	$lang['strcreatepath'] = 'Создать путь';
-	$lang['strnodename'] = 'Имя ноды';
-	$lang['strnodeid'] = 'ID ноды';
-	$lang['strconninfo'] = 'Строка соединения';
-	$lang['strconnretry'] = 'Секунд между попытками подключения';
-	$lang['strpathneedsconninfo'] = 'Вам необходимо указать строку соединения для пути.';
-	$lang['strpathneedsconnretry'] = 'Вам необходимо указать число секунд ожидания перед повторной попыткой подключения';
-	$lang['strpathcreated'] = 'Путь создан.';
-	$lang['strpathcreatedbad'] = 'Создание пути прервано.';
-	$lang['strconfdroppath'] = 'Вы действительно хотите удалить путь "%s"?';
-	$lang['strpathdropped'] = 'Путь удален.';
-	$lang['strpathdroppedbad'] = 'Удаление пути прервано.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Прослушивания';
-	$lang['strnolistens'] = 'Прослушивания не найдены.';
-	$lang['strcreatelisten'] = 'Создать прослушивание';
-	$lang['strlistencreated'] = 'Прослушивание создано.';
-	$lang['strlistencreatedbad'] = 'Создание прослушивания прервано.';
-	$lang['strconfdroplisten'] = 'Вы действительно хотите удалить прослушивание "%s"?';
-	$lang['strlistendropped'] = 'Прослушивание удалено.';
-	$lang['strlistendroppedbad'] = 'Удаление прослушивания прервано.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Репликационные наборы';
-	$lang['strnorepsets'] = 'Репликационных наборов не найдено.';
-	$lang['strcreaterepset'] = 'Создать репликационный набор';
-	$lang['strrepsetcreated'] = 'Репликационный набор создан.';
-	$lang['strrepsetcreatedbad'] = 'Создание репликационного набора прервано.';
-	$lang['strconfdroprepset'] = 'Вы действительно хотите удалить репликационный набор "%s"?';
-	$lang['strrepsetdropped'] = 'Репликационный набор удален.';
-	$lang['strrepsetdroppedbad'] = 'Удаление репликационного набора прервано.';
-	$lang['strmerge'] = 'Слить';
-	$lang['strmergeinto'] = 'Слить в';
-	$lang['strrepsetmerged'] = 'Репликационные наборы слиты.';
-	$lang['strrepsetmergedbad'] = 'Слияние репликационных наборов прервано.';
-	$lang['strmove'] = 'Переместить';
-	$lang['strneworigin'] = 'Новый источник';
-	$lang['strrepsetmoved'] = 'Репликационный набор перемещен.';
-	$lang['strrepsetmovedbad'] = 'Перемещение репликационного набора прервано.';
-	$lang['strnewrepset'] = 'Новый репликационный набор';
-	$lang['strlock'] = 'Заблокировать';
-	$lang['strlocked'] = 'Заблокирован';
-	$lang['strunlock'] = 'Разблокировать';
-	$lang['strconflockrepset'] = 'Вы действительно хотите заблокировать репликационный набор "%s"?';
-	$lang['strrepsetlocked'] = 'Репликационный набор заблокирован.';
-	$lang['strrepsetlockedbad'] = 'Блокирование репликационного набора прервано.';
-	$lang['strconfunlockrepset'] = 'Вы действительно хотите разблокировать репликационный набор "%s"?';
-	$lang['strrepsetunlocked'] = 'Репликационный набор разблокирован.';
-	$lang['strrepsetunlockedbad'] = 'Разблокирование репликационного набора прервано.';
-	$lang['stronlyonnode'] = 'Только на ноде';
-	$lang['strddlscript'] = 'Скрипт DDL';
-	$lang['strscriptneedsbody'] = 'Вам необходимо предоставить скрипт для выполнения на всех нодах.';
-	$lang['strscriptexecuted'] = 'DDL скрипт репликационного набора выполнен.';
-	$lang['strscriptexecutedbad'] = 'Выполнение DLL скрипта репликационного набора прервано.';
-	$lang['strtabletriggerstoretain'] = 'Следующие триггеры Slony НЕ выключит:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Добавить таблицу';
-	$lang['strtableneedsuniquekey'] = 'Таблица для добавления должна иметь первичный или уникальный ключ.';
-	$lang['strtableaddedtorepset'] = 'Таблица добавлена в репликационный набор.';
-	$lang['strtableaddedtorepsetbad'] = 'Добавление таблицы в репликационный набор прервано.';
-	$lang['strconfremovetablefromrepset'] = 'Вы действительно хотите удалить таблицу "%s" из репликационного набора "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Таблица удалена из репликационного набора.';
-	$lang['strtableremovedfromrepsetbad'] = 'Удаление таблицы из репликационного набора прервано.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Добавить последовательность';
-	$lang['strsequenceaddedtorepset'] = 'Последовательность добавлена в репликационный набор.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Добавление последовательности в репликационный набор прервано.';
-	$lang['strconfremovesequencefromrepset'] = 'Вы действительно хотите удалить последовательность "%s" из репликационного набора "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Последовательность удалена из репликационного набора.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Удаление последовательности из репликационного набора прервано.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Подписки';
-	$lang['strnosubscriptions'] = 'Подписки не найдены.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s выполняется на %s:%s -- Вы зарегистрированы как "%s"';

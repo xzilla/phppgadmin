@@ -132,6 +132,7 @@
 	$lang['strfile'] = 'Fişier';
 	$lang['strfileimported'] = 'Fişier importat';
 	$lang['strtrycred'] = 'Folosiţi aceste acreditări pentru toate serverele';
+	$lang['strexecute'] = 'Executare';
 
 	// Database sizes
 	$lang['strsize'] = 'Dimensiune';
@@ -420,6 +421,7 @@
 	$lang['strconfcluster'] = 'Sigur grupaţi "%s"?';
 	$lang['strclusteredgood'] = 'Grupare completă.';
 	$lang['strclusteredbad'] = 'Grupare eşuată.';
+	$lang['strcluster'] = 'Grupare';
 
 	// Rules
 	$lang['strrules'] = 'Reguli';
@@ -725,119 +727,6 @@
 	$lang['strtablespacedroppedbad'] = 'Ştergere şpaţiu de tabele eşuată.';
 	$lang['strtablespacealtered'] = 'Spaţiu de tabele modificat.';
 	$lang['strtablespacealteredbad'] = 'Modificare şpaţiu de tabele eşuată.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Grupare';
-	$lang['strnoclusters'] = 'Nici o grupare găsită.';
-	$lang['strconfdropcluster'] = 'Sigur ştergeţi gruparea "%s"?';
-	$lang['strclusterdropped'] = 'Grupare ştearsă.';
-	$lang['strclusterdroppedbad'] = 'Ştergere grupare eşuată.';
-	$lang['strinitcluster'] = 'Iniţializare grupare';
-	$lang['strclustercreated'] = 'Grupare iniţializată.';
-	$lang['strclustercreatedbad'] = 'Iniţializare grupare eşuată.';
-	$lang['strclusterneedsname'] = 'Trebuie să daţi un nume grupării.';
-	$lang['strclusterneedsnodeid'] = 'Trebuie să daţi un identificator nodului local.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Noduri';
-	$lang['strnonodes'] = 'Nici un nod găsit.';
-	$lang['strcreatenode'] = 'Creare nod';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Activ(ă)';
-	$lang['strnodecreated'] = 'Nod creat.';
-	$lang['strnodecreatedbad'] = 'Creare nod eşuată.';
-	$lang['strconfdropnode'] = 'Sigur ştergeţi nodul "%s"?';
-	$lang['strnodedropped'] = 'Nod şters.';
-	$lang['strnodedroppedbad'] = 'Ştergere nod eşuată';
-	$lang['strfailover'] = 'Failover';
-	$lang['strnodefailedover'] = 'Node failed over.';
-	$lang['strnodefailedoverbad'] = 'Node failover failed.';
-	$lang['strstatus'] = 'Stare';
-	$lang['strhealthy'] = 'Intact';
-	$lang['stroutofsync'] = 'Desincronizat';
-	$lang['strunknown'] = 'Necunoscut';
-
-	// Slony paths
-	$lang['strpaths'] = 'Căi';
-	$lang['strnopaths'] = 'Nici o cale găsită.';
-	$lang['strcreatepath'] = 'Creare cale';
-	$lang['strnodename'] = 'Nume nod';
-	$lang['strnodeid'] = 'ID nod';
-	$lang['strconninfo'] = 'Şir pentru conectare';
-	$lang['strconnretry'] = 'Secunde până la o nouă încercare de conectare';
-	$lang['strpathneedsconninfo'] = 'Trebuie să daţi un şir de conectare pentru cale.';
-	$lang['strpathneedsconnretry'] = 'Trebuie să daţi numărul de secunde până la o nouă încercare de conectare.';
-	$lang['strpathcreated'] = 'Cale creată.';
-	$lang['strpathcreatedbad'] = 'Creare cale eşuată.';
-	$lang['strconfdroppath'] = 'Sigur ştergeţi calea "%s"?';
-	$lang['strpathdropped'] = 'Cale ştearsă.';
-	$lang['strpathdroppedbad'] = 'Ştergere cale eşuată.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Ascultări';
-	$lang['strnolistens'] = 'Nici o ascultare găsită.';
-	$lang['strcreatelisten'] = 'Creare ascultare';
-	$lang['strlistencreated'] = 'Ascultare creată.';
-	$lang['strlistencreatedbad'] = 'Creare ascultare eşuată.';
-	$lang['strconfdroplisten'] = 'Sigur ştergeţi ascultarea "%s"?';
-	$lang['strlistendropped'] = 'Ascultare ştearsă.';
-	$lang['strlistendroppedbad'] = 'Ştergere ascultare eşuată.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Seturi de replicare';
-	$lang['strnorepsets'] = 'Nici un set de replicare găsit.';
-	$lang['strcreaterepset'] = 'Creare set de replicare';
-	$lang['strrepsetcreated'] = 'Set de replicare creat';
-	$lang['strrepsetcreatedbad'] = 'Creare set de replicare eşuată';
-	$lang['strconfdroprepset'] = 'Sigur ştergeţi setul de replicare "%s"?';
-	$lang['strrepsetdropped'] = 'Set de replicare şters';
-	$lang['strrepsetdroppedbad'] = 'Ştergere set de replicare eşuată.';
-	$lang['strmerge'] = 'Contopire';
-	$lang['strmergeinto'] = 'Contopire în';
-	$lang['strrepsetmerged'] = 'Seturi de replicare contopite';
-	$lang['strrepsetmergedbad'] = 'Contopire seturi de replicare eşuată.';
-	$lang['strmove'] = 'Mutare';
-	$lang['strneworigin'] = 'Origine nouă';
-	$lang['strrepsetmoved'] = 'Set de replicare mutat';
-	$lang['strrepsetmovedbad'] = 'Mutare set de replicare eşuată.';
-	$lang['strnewrepset'] = 'Set de replicare nou';
-	$lang['strlock'] = 'Blocare';
-	$lang['strlocked'] = 'Blocat';
-	$lang['strunlock'] = 'Deblocare';
-	$lang['strconflockrepset'] = 'Siguri blocaţi setul de replicare "%s"?';
-	$lang['strrepsetlocked'] = 'Set de replicare blocat';
-	$lang['strrepsetlockedbad'] = 'Blocare set de replicare eşuată.';
-	$lang['strconfunlockrepset'] = 'Sigur deblocaţi setul de replicare "%s"?';
-	$lang['strrepsetunlocked'] = 'Set de replicare deblocat';
-	$lang['strrepsetunlockedbad'] = 'Deblocare set de replicare eşuată.';
-	$lang['strexecute'] = 'Executare';
-	$lang['stronlyonnode'] = 'Numai pentru nodul';
-	$lang['strddlscript'] = 'Script DDL';
-	$lang['strscriptneedsbody'] = 'Trebuie să furnizaţi un script care să fie executat pentru toate nodurile.';
-	$lang['strscriptexecuted'] = 'Scriptul DDL pentru setul de replicare a fost executat.';
-	$lang['strscriptexecutedbad'] = 'Executare script DDL pentru setul de replicare eşuată.';
-	$lang['strtabletriggerstoretain'] = 'Următoarele declanşatoare NU vor fi dezactivate de Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Adăugare tabelă';
-	$lang['strtableneedsuniquekey'] = 'Tabela adăugată necesită o cheie primară sau unică.';
-	$lang['strtableaddedtorepset'] = 'Tabelă adăugată setului de replicare.';
-	$lang['strtableaddedtorepsetbad'] = 'Adăugare tabelă la setul de replicare eşuată.';
-	$lang['strconfremovetablefromrepset'] = 'Sigur eliminaţi tabela "%s" din setul de replicare "%s"?';
-	$lang['strtableremovedfromrepset'] = 'Tabelă eliminată din setul de replicare.';
-	$lang['strtableremovedfromrepsetbad'] = 'Eliminare tabelă din setul de replicare eşuată.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Adăugare secvenţă';
-	$lang['strsequenceaddedtorepset'] = 'Secvenţă adăugată setului de replicare.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Adăugare secvenţă la setul de replicare eşuată.';
-	$lang['strconfremovesequencefromrepset'] = 'Sigur eliminaţi secvenţa "%s" din setul de replicare "%s"?';
-	$lang['strsequenceremovedfromrepset'] = 'Secvenţă eliminată din setul de replicare.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Eliminare secvenţă din setul de replicare eşuată.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Subscriere';
-	$lang['strnosubscriptions'] = 'Nici o subscriere găsită.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s rulând pe %s:%s -- Sunteţi autentificat ca utilizator "%s"';

@@ -148,6 +148,7 @@
 	$lang['strstop'] = 'Zastavit';
 	$lang['strgotoppage'] = 'zpět nahoru';
 	$lang['strtheme'] = 'Motiv';
+	$lang['strcluster'] = 'Klastr';
 	
 	// Admin
 	$lang['stradminondatabase'] = 'Následující úlohy správy použít na celou databázi %s.';
@@ -801,118 +802,6 @@
 	$lang['strtablespacedroppedbad'] = 'Nezdařilo se odstranit prostor tabulek.';
 	$lang['strtablespacealtered'] = 'Změny v prostoru tabulek byly provedeny.';
 	$lang['strtablespacealteredbad'] = 'Nezdařilo se provést změny v prostoru tabulek.';
-
-	// Slony clusters
-	$lang['strcluster'] = 'Klastr';
-	$lang['strnoclusters'] = 'Nebyly nalezeny žádné klastry.';
-	$lang['strconfdropcluster'] = 'Opravdu chcete odstranit klastr „%s“?';
-	$lang['strclusterdropped'] = 'Klastr byl odstraněn.';
-	$lang['strclusterdroppedbad'] = 'Nezdařilo se odstranit klastr.';
-	$lang['strinitcluster'] = 'Inicializovat klastr';
-	$lang['strclustercreated'] = 'Klastr byl inicializován.';
-	$lang['strclustercreatedbad'] = 'Nezdařilo se inicializovat klastr.';
-	$lang['strclusterneedsname'] = 'Musíte zadat název pro klastr.';
-	$lang['strclusterneedsnodeid'] = 'Musíte zadat ID pro lokální uzel.';
-
-	// Slony nodes
-	$lang['strnodes'] = 'Uzly';
-	$lang['strnonodes'] = 'Nenalezeny žádné uzly.';
-	$lang['strcreatenode'] = 'Vytvořit uzel';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = 'Aktivní';
-	$lang['strnodecreated'] = 'Uzel byl vytvořen.';
-	$lang['strnodecreatedbad'] = 'Nezdařilo se vytvořit uzel.';
-	$lang['strconfdropnode'] = 'Opravdu chcete odstranit uzel „%s“?';
-	$lang['strnodedropped'] = 'Uzel byl odstraněn.';
-	$lang['strnodedroppedbad'] = 'Nezdařilo se odstranit uzel.';
-	$lang['strfailover'] = 'Překlenout výpadek';
-	$lang['strnodefailedover'] = 'Uzel překlenul výpadek.';
-	$lang['strnodefailedoverbad'] = 'Uzlu se nezdařilo překlenout výpadek.';
-	$lang['strstatus'] = 'Stav';	
-	$lang['strhealthy'] = 'V pořádku';
-	$lang['stroutofsync'] = 'Nesladěno';
-	$lang['strunknown'] = 'Neznámo';	
-
-	// Slony paths	
-	$lang['strpaths'] = 'Cesty';
-	$lang['strnopaths'] = 'Nenalezeny žádné cesty.';
-	$lang['strcreatepath'] = 'Vytvořit cestu';
-	$lang['strnodename'] = 'Název uzlu';
-	$lang['strnodeid'] = 'ID uzlu';
-	$lang['strconninfo'] = 'Připojovací řetězec';
-	$lang['strconnretry'] = 'Čekání v sekundách před novým pokusem připojení';
-	$lang['strpathneedsconninfo'] = 'Musíte zadat připojovací řetězec pro cestu.';
-	$lang['strpathneedsconnretry'] = 'Musíte zadat dobu v sekundách, po kterou se bude čekat, než se zkusí znovu připojit.';
-	$lang['strpathcreated'] = 'Cesta byla vytvořena.';
-	$lang['strpathcreatedbad'] = 'Nezdařilo se vytvořit cestu.';
-	$lang['strconfdroppath'] = 'Opravdu chcete odstranit cestu „%s“?';
-	$lang['strpathdropped'] = 'Cesta byla odstraněna.';
-	$lang['strpathdroppedbad'] = 'Nezdařilo se odstranit cestu.';
-
-	// Slony listens
-	$lang['strlistens'] = 'Naslouchání';
-	$lang['strnolistens'] = 'Nebyla nalezena žádná naslouchání.';
-	$lang['strcreatelisten'] = 'Vytvořit naslouchání';
-	$lang['strlistencreated'] = 'Naslouchání bylo vytvořeno.';
-	$lang['strlistencreatedbad'] = 'Nezdařilo se vytvořit naslouchání.';
-	$lang['strconfdroplisten'] = 'Opravdu chcete odstranit naslouchání „%s“?';
-	$lang['strlistendropped'] = 'Naslouchání bylo odstraněno.';
-	$lang['strlistendroppedbad'] = 'Nezdařilo se odstranit naslouchání.';
-
-	// Slony replication sets
-	$lang['strrepsets'] = 'Replikační sady';
-	$lang['strnorepsets'] = 'Nebyly nalezeny žádné replikační sady.';
-	$lang['strcreaterepset'] = 'Vytvořit replikační sadu';
-	$lang['strrepsetcreated'] = 'Replikační sada byla vytvořena.';
-	$lang['strrepsetcreatedbad'] = 'Nezdařilo se vytvořit replikační sadu.';
-	$lang['strconfdroprepset'] = 'Opravdu chcete odstranit replikační sadu „%s“?';
-	$lang['strrepsetdropped'] = 'Replikační sada byla odstraněna.';
-	$lang['strrepsetdroppedbad'] = 'Nezdařilo se odstranit replikační sadu.';
-	$lang['strmerge'] = 'Sloučit';
-	$lang['strmergeinto'] = 'Sloučit s';
-	$lang['strrepsetmerged'] = 'Replikační sady byly sloučeny.';
-	$lang['strrepsetmergedbad'] = 'Nezdařilo se sloučit replikační sady.';
-	$lang['strmove'] = 'Přesunout';
-	$lang['strneworigin'] = 'Nový počátek';
-	$lang['strrepsetmoved'] = 'Replikační sada byla přesunuta.';
-	$lang['strrepsetmovedbad'] = 'Nezdařilo se přesunout replikační sadu.';
-	$lang['strnewrepset'] = 'Nová replikační sada';
-	$lang['strlock'] = 'Zamknout';
-	$lang['strlocked'] = 'Zamknuto';
-	$lang['strunlock'] = 'Odemknout';
-	$lang['strconflockrepset'] = 'Opravdu chcete zamknout replikační sadu „%s“?';
-	$lang['strrepsetlocked'] = 'Replikační sada byla zamknuta.';
-	$lang['strrepsetlockedbad'] = 'Nezdařilo se zamknout replikační sadu.';
-	$lang['strconfunlockrepset'] = 'Opravdu chcete odemknout replikační sadu „%s“?';
-	$lang['strrepsetunlocked'] = 'Replikační sada byla odemknuta.';
-	$lang['strrepsetunlockedbad'] = 'Nezdařilo se odemknout replikační sadu.';
-	$lang['stronlyonnode'] = 'Poze v uzlu';
-	$lang['strddlscript'] = 'Skript DDL';
-	$lang['strscriptneedsbody'] = 'Musíte zajistit, aby se skript spustil na všech uzlech.';
-	$lang['strscriptexecuted'] = 'Skript DDL replikační sady byl vykonán.';
-	$lang['strscriptexecutedbad'] = 'Nezdařilo se vykonat skript DDL replikační sady.';
-	$lang['strtabletriggerstoretain'] = 'Následující triggery NEBUDOU replikačním systémem Slony zakázány:';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = 'Přidat tabulku';
-	$lang['strtableneedsuniquekey'] = 'Přidávaná tabulka musí obsahovat primární nebo jedinečný klíč.';
-	$lang['strtableaddedtorepset'] = 'Tabulka byla přidána do replikační sady.';
-	$lang['strtableaddedtorepsetbad'] = 'Tabulku se nezdařilo přidat do replikační sady.';
-	$lang['strconfremovetablefromrepset'] = 'Opravdu chcete odebrat tabulku „%s“ z replikační sady „%s“?';
-	$lang['strtableremovedfromrepset'] = 'Tabulka byla odebrána z replikační sady.';
-	$lang['strtableremovedfromrepsetbad'] = 'Tabulku se nezdařilo odebrat z replikační sady.';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = 'Přidat sekvenci';
-	$lang['strsequenceaddedtorepset'] = 'Sekvence byla přidána do replikační sady.';
-	$lang['strsequenceaddedtorepsetbad'] = 'Sekvenci se nezdařilo přidat do replikační sady.';
-	$lang['strconfremovesequencefromrepset'] = 'Opravdu chcete odebrat sekvenci „%s“ z replikační sady „%s“?';
-	$lang['strsequenceremovedfromrepset'] = 'Sekvence byla odebrána z replikační sady.';
-	$lang['strsequenceremovedfromrepsetbad'] = 'Sekvenci se nezdařilo odebrat z replikační sady.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = 'Odběry';
-	$lang['strnosubscriptions'] = 'Nebyly nalezeny žádné odběry.';
 
 	// Miscellaneous
 	$lang['strtopbar'] = '%s běžící na %s:%s -- Jste přihlášený jako uživatel „%s“';

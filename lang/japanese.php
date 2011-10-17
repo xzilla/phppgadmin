@@ -453,6 +453,7 @@ $lang['striscalled']  =  'Will increment last value before returning next value 
 	$lang['strconfcluster'] = '本当に「%s」をクラスターにしますか?';
 	$lang['strclusteredgood'] = 'クラスター完了です。';
 	$lang['strclusteredbad'] = 'クラスターに失敗しました。';
+	$lang['strcluster']  =  'クラスター';
 
 	// Rules
 	$lang['strrules'] = 'ルール';
@@ -769,118 +770,6 @@ $lang['strtrusted'] = 'Trusted';
 	$lang['strtablespacealtered'] = 'テーブル空間を変更しました。';
 	$lang['strtablespacealteredbad'] = 'テーブル空間の変更に失敗しました。';
 
-	// Slony clusters
-	$lang['strcluster']  =  'クラスター';
-	$lang['strnoclusters']  =  'クラスターが見つかりません。';
-	$lang['strconfdropcluster']  =  '本当にクラスター「%s」を破棄しますか?';
-	$lang['strclusterdropped']  =  'クラスターを破棄しました。';
-	$lang['strclusterdroppedbad']  =  'クラスターの破棄に失敗しました。';
-	$lang['strinitcluster']  =  'クラスターを初期化する';
-	$lang['strclustercreated']  =  'クラスターを初期化しました。';
-	$lang['strclustercreatedbad']  =  'クラスターの初期化に失敗しました。';
-	$lang['strclusterneedsname']  =  'クラスターの名前を与える必要があります。';
-	$lang['strclusterneedsnodeid']  =  'ローカルノードの ID を与える必要があります。';
-	
-	// Slony nodes
-	$lang['strnodes']  =  'ノード';
-	$lang['strnonodes']  =  'ノードが見つかりません。';
-	$lang['strcreatenode']  =  'ノードを作成する';
-	$lang['strid']  =  'ID';
-	$lang['stractive']  =  'アクティブ';
-	$lang['strnodecreated']  =  'ノードを作成しました。';
-	$lang['strnodecreatedbad']  =  'ノードの作成に失敗しました。';
-	$lang['strconfdropnode']  =  '本当にノード「%s」を破棄しますか?';
-	$lang['strnodedropped']  =  'ノードを破棄しました。';
-	$lang['strnodedroppedbad']  =  'ノードの破棄に失敗しました。';
-	$lang['strfailover']  =  'フェイルオーバーする';
-	$lang['strnodefailedover']  =  'ノードをフェイルオーバーしました。';
-	$lang['strnodefailedoverbad']  =  'ノードのフェイルオーバーに失敗しました。';
-	$lang['strstatus']  =  '状態';
-$lang['strhealthy']  =  'Healthy';
-$lang['stroutofsync']  =  'Out of Sync';
-	$lang['strunknown']  =  '不明';	
-
-	// Slony paths	
-	$lang['strpaths']  =  'パス';
-	$lang['strnopaths']  =  'パスが見つかりません。';
-	$lang['strcreatepath']  =  'パスを作成する';
-	$lang['strnodename']  =  'ノード名';
-	$lang['strnodeid']  =  'ノード ID';
-	$lang['strconninfo']  =  '接続文字列';
-	$lang['strconnretry']  =  '接続の再実行までの秒数';
-	$lang['strpathneedsconninfo']  =  'パスの接続文字列を与える必要があります。';
-	$lang['strpathneedsconnretry']  =  '接続の再実行までの秒数を与える必要があります。';
-	$lang['strpathcreated']  =  'パスを作成しました。';
-	$lang['strpathcreatedbad']  =  'パスの作成に失敗しました。';
-	$lang['strconfdroppath']  =  '本当にパス「%s」を破棄しますか?';
-	$lang['strpathdropped']  =  'パスを破棄しました。';
-	$lang['strpathdroppedbad']  =  'パスの破棄に失敗しました。';
-
-	// Slony listens
-	$lang['strlistens']  =  'リッスン';
-	$lang['strnolistens']  =  'リッスンが見つかりません。';
-	$lang['strcreatelisten']  =  'リッスンを作成する';
-	$lang['strlistencreated']  =  'リッスンを作成しました。';
-	$lang['strlistencreatedbad']  =  'リッスンの作成に失敗しました。';
-	$lang['strconfdroplisten']  =  '本当にリッスン「%s」を破棄しますか?';
-	$lang['strlistendropped']  =  'リッスンを破棄しました。';
-	$lang['strlistendroppedbad']  =  'リッスンの破棄に失敗しました。';
-
-	// Slony replication sets
-	$lang['strrepsets']  =  'レプリケーションセット';
-	$lang['strnorepsets']  =  'レプリケーションセットが見つかりません。';
-	$lang['strcreaterepset']  =  'レプリケーションセットを作成する';
-	$lang['strrepsetcreated']  =  'レプリケーションセットを作成しました。';
-	$lang['strrepsetcreatedbad']  =  'レプリケーションセットの作成に失敗しました。';
-	$lang['strconfdroprepset']  =  '本当にレプリケーションセット「%s」を破棄しますか?';
-	$lang['strrepsetdropped']  =  'レプリケーションセットを破棄しました。';
-	$lang['strrepsetdroppedbad']  =  'レプリケーションセットの破棄に失敗しました。';
-	$lang['strmerge']  =  '統合する';
-	$lang['strmergeinto']  =  '統合先';
-	$lang['strrepsetmerged']  =  'レプリケーションセットを統合しました。';
-	$lang['strrepsetmergedbad']  =  'レプリケーションセットの統合に失敗しました。';
-	$lang['strmove']  =  '移動する';
-	$lang['strneworigin']  =  '新規オリジン';
-	$lang['strrepsetmoved']  =  'レプリケーションセットを移動しました。';
-	$lang['strrepsetmovedbad']  =  'レプリケーションセットの移動に失敗しました。';
-	$lang['strnewrepset']  =  '新規レプリケーションセット';
-	$lang['strlock']  =  'ロック';
-	$lang['strlocked']  =  'ロック済';
-	$lang['strunlock']  =  'ロック解除';
-	$lang['strconflockrepset']  =  '本当にレプリケーションセット「%s」をロックしますか?';
-	$lang['strrepsetlocked']  =  'レプリケーションセットをロックしました。';
-	$lang['strrepsetlockedbad']  =  'レプリケーションセットのロックに失敗しました。';
-	$lang['strconfunlockrepset']  =  '本当にレプリケーションセット「%s」のロックを解除しますか?';
-	$lang['strrepsetunlocked']  =  'レプリケーションセットを解除しました。';
-	$lang['strrepsetunlockedbad']  =  'レプリケーションセットの解除に失敗しました。';
-	$lang['stronlyonnode']  =  'ノードでのみ';
-	$lang['strddlscript']  =  'DDL スクリプト';
-	$lang['strscriptneedsbody']  =  'すべてのノード上で実行されるスクリプトを提供しなければなりません。';
-	$lang['strscriptexecuted']  =  'レプリケーションセットで DDL スクリプトを実行しました。';
-	$lang['strscriptexecutedbad']  =  'レプリケーションセットでの DDL スクリプトの実行に失敗しました。';
-	$lang['strtabletriggerstoretain']  =  '次のトリガーは Slony により無効にならないでしょう:';
-
-	// Slony tables in replication sets
-	$lang['straddtable']  =  'テーブルを追加する';
-	$lang['strtableneedsuniquekey']  =  '追加されるテーブルはプライマリかユニークキーを要求します。';
-	$lang['strtableaddedtorepset']  =  'レプリケーションセットにテーブルを追加しました。';
-	$lang['strtableaddedtorepsetbad']  =  'レプリケーションセットへのテーブル追加に失敗しました。';
-	$lang['strconfremovetablefromrepset']  =  '本当にレプリケーションセット「%s」からテーブル「%s」を削除しますか?';
-	$lang['strtableremovedfromrepset']  =  'レプリケーションセットからテーブルを削除しました。';
-	$lang['strtableremovedfromrepsetbad']  =  'レプリケーションセットからテーブルの削除に失敗しました。';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence']  =  'シーケンスを追加する';
-	$lang['strsequenceaddedtorepset']  =  'レプリケーションセットにシーケンスを追加しました。';
-	$lang['strsequenceaddedtorepsetbad']  =  'レプリケーションセットへのシーケンスの追加に失敗しました。';
-	$lang['strconfremovesequencefromrepset']  =  '本当にレプリケーションセット「%s」からシーケンス「%s」を削除しますか?';
-	$lang['strsequenceremovedfromrepset']  =  'レプリケーションセットからシーケンスを削除しました。';
-	$lang['strsequenceremovedfromrepsetbad']  =  'レプリケーションセットからシーケンスの削除に失敗しました。';
-
-	// Slony subscriptions
-	$lang['strsubscriptions']  =  'サブスクリプション';
-	$lang['strnosubscriptions']  =  'サブスクリプションが見つかりません。';
-
 	// Miscellaneous
 	$lang['strtopbar'] = 'サーバー %2$s のポート番号 %3$s で実行中の %1$s に接続中 -- ユーザー「%4$s」としてログイン中';
 	$lang['strtimefmt'] = 'Y 年 n 月 j 日 G:i';
@@ -976,6 +865,4 @@ $lang['strftsinit']  =  'Init';
 	$lang['strftstabconfigs']  =  '設定';
 	$lang['strftstabdicts']  =  '辞書';
 	$lang['strftstabparsers']  =  'パーサー';
-    
-    
 ?>

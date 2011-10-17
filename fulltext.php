@@ -889,7 +889,7 @@
 	 * Generate XML for the browser tree.
 	 */
 	function doTree() {
-		global $misc, $data, $lang, $slony;
+		global $misc, $data, $lang;
 
 		$tabs = $misc->getNavTabs('fulltext');
 		$items = $misc->adjustTabsForTree($tabs);

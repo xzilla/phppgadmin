@@ -592,7 +592,7 @@
 	}
 
 	function doTree() {
-		global $misc, $data, $lang, $slony;
+		global $misc, $data, $lang;
 
 		$reqvars = $misc->getRequestVars('database');
 

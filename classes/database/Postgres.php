@@ -834,15 +834,10 @@ class Postgres extends ADODB_base {
 	 * @return All schemas, sorted alphabetically
 	 */
 	function getSchemas() {
-		global $conf, $slony;
+		global $conf;
 
 		if (!$conf['show_system']) {
 			$where = "WHERE nspname NOT LIKE 'pg@_%' ESCAPE '@' AND nspname != 'information_schema'";
-			if (isset($slony) && $slony->isEnabled()) {
-				$temp = $slony->slony_schema;
-				$this->clean($temp);
-				$where .= " AND nspname != '{$temp}'";
-			}
 
 		}
 		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";

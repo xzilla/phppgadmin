@@ -423,6 +423,7 @@
 	$lang['strconfcluster'] = 'Clusterizzare "%s"?';
 	$lang['strclusteredgood'] = 'Clusterizzazione completata.';
 	$lang['strclusteredbad'] = 'Clusterizzazione fallita.';
+	$lang['strcluster'] = 'Cluster';
 
 	// Rules - Regole
 	$lang['strrules'] = 'Regole';
@@ -707,12 +708,6 @@
 	$lang['strtablespacedroppedbad'] = 'Eliminazione del tablespace fallita.';
 	$lang['strtablespacealtered'] = 'Tablespace modificato.';
 	$lang['strtablespacealteredbad'] = 'Modifica del tablespace fallita.';
-
-	// Slony clusters - Cluster Slony
-	$lang['strcluster'] = 'Cluster';
-
-	// Slony nodes - Nodi Slony
-	$lang['strid'] = 'ID';
 
 	// Miscellaneous - Varie
 	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s"';

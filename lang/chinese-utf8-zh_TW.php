@@ -135,6 +135,7 @@
 	$lang['stractionsonmultiplelines'] = '動作在多個行列上';
 	$lang['strcheckall'] = '檢查全部';
 	$lang['struncheckall'] = '不檢查全部';
+	$lang['strcluster'] = '叢集';
 
 	// User-supplied SQL history
 	$lang['strhistory'] = '歷程';
@@ -763,120 +764,7 @@
 	$lang['strtablespacedroppedbad'] = '表空間移除已失敗。';
 	$lang['strtablespacealtered'] = '表空間已修改。';
 	$lang['strtablespacealteredbad'] = '表空間修改已失敗。';
-
-	// Slony clusters
-	$lang['strcluster'] = '叢集';
-	$lang['strnoclusters'] = '找不到任何叢集。';
-	$lang['strconfdropcluster'] = '您確定您要移除這個叢集 "%s" 嗎?';
-	$lang['strclusterdropped'] = '叢集已移除。';
-	$lang['strclusterdroppedbad'] = '叢集移除失敗。';
-	$lang['strinitcluster'] = '初始化叢集';
-	$lang['strclustercreated'] = '叢集已初始化。';
-	$lang['strclustercreatedbad'] = '叢集初始化失敗。';
-	$lang['strclusterneedsname'] = '您必需為這個叢集給一個名稱。';
-	$lang['strclusterneedsnodeid'] = '您必需給這個本地節點給一個 ID。';
 	
-	// Slony nodes
-	$lang['strnodes'] = '節點';
-	$lang['strnonodes'] = '找不到任何節點。';
-	$lang['strcreatenode'] = '建立節點';
-	$lang['strid'] = 'ID';
-	$lang['stractive'] = '活躍';
-	$lang['strnodecreated'] = '節點已建立。';
-	$lang['strnodecreatedbad'] = '節點建立失敗。';
-	$lang['strconfdropnode'] = '您確定你要移除節點 "%s"?';
-	$lang['strnodedropped'] = '節點已移除。';
-	$lang['strnodedroppedbad'] = '節點移除失敗。';
-	$lang['strfailover'] = '災難復原';
-	$lang['strnodefailedover'] = '節點受災難失敗。';
-	$lang['strnodefailedoverbad'] = '節點災難復原失敗。';
-	$lang['strstatus'] = '狀態';	
-	$lang['strhealthy'] = '健全度';
-	$lang['stroutofsync'] = '超出同步(Out of Sync)';
-	$lang['strunknown'] = '未知的';	
-
-	
-	// Slony paths	
-	$lang['strpaths'] = '路徑';
-	$lang['strnopaths'] = '找不到任何路徑。';
-	$lang['strcreatepath'] = '建立路徑';
-	$lang['strnodename'] = '節點名稱';
-	$lang['strnodeid'] = '節點 ID';
-	$lang['strconninfo'] = '連線字串';
-	$lang['strconnretry'] = '秒之前重試連線';
-	$lang['strpathneedsconninfo'] = '您必需給這個路徑一個連線字串。';
-	$lang['strpathneedsconnretry'] = '您必需在連線之前給一個等待重試的秒數字。';
-	$lang['strpathcreated'] = '路徑已建立。';
-	$lang['strpathcreatedbad'] = '路徑建立已失敗。';
-	$lang['strconfdroppath'] = '您確定您要移除路徑 "%s" 嗎?';
-	$lang['strpathdropped'] = '路徑已移除。';
-	$lang['strpathdroppedbad'] = '路徑移除已失敗。';
-
-	// Slony listens
-	$lang['strlistens'] = '監聽';
-	$lang['strnolistens'] = '找不到任何監聽。';
-	$lang['strcreatelisten'] = '建立監聽';
-	$lang['strlistencreated'] = '監聽已建立。';
-	$lang['strlistencreatedbad'] = '監聽建立已失敗。';
-	$lang['strconfdroplisten'] = '您確定你要移除監聽 "%s"?';
-	$lang['strlistendropped'] = '監聽已移除。';
-	$lang['strlistendroppedbad'] = '監聽移除已失敗。';
-
-	// Slony replication sets
-	$lang['strrepsets'] = '複寫叢集設定';
-	$lang['strnorepsets'] = '找不到任何複寫叢集設定。';
-	$lang['strcreaterepset'] = '建立複寫叢集設定';
-	$lang['strrepsetcreated'] = '複寫叢集設定已建立。';
-	$lang['strrepsetcreatedbad'] = '複寫叢集設定建立已失敗。';
-	$lang['strconfdroprepset'] = '您確定您要移除複寫叢集設定 "%s"?';
-	$lang['strrepsetdropped'] = '複寫叢集設定已移除。';
-	$lang['strrepsetdroppedbad'] = '複寫叢集設定移除已失敗。';
-	$lang['strmerge'] = '合併';
-	$lang['strmergeinto'] = '合併成為';
-	$lang['strrepsetmerged'] = '複寫叢集設定已合併。';
-	$lang['strrepsetmergedbad'] = '複寫叢集設定合併已失敗。';
-	$lang['strmove'] = '遷移';
-	$lang['strneworigin'] = '新起點';
-	$lang['strrepsetmoved'] = '複寫叢集設定已遷移。';
-	$lang['strrepsetmovedbad'] = '複寫叢集設定遷移已失敗。';
-	$lang['strnewrepset'] = '新複寫叢集設定';
-	$lang['strlock'] = '鎖定';
-	$lang['strlocked'] = '已鎖定';
-	$lang['strunlock'] = '未鎖定';
-	$lang['strconflockrepset'] = '您確定您要鎖定複寫叢集設定 "%s"?';
-	$lang['strrepsetlocked'] = '複寫叢集設定已鎖定。';
-	$lang['strrepsetlockedbad'] = '複寫叢集設定鎖定已失敗。';
-	$lang['strconfunlockrepset'] = '您確定您要解鎖複寫叢集設定 "%s"?';
-	$lang['strrepsetunlocked'] = '複寫叢集設定未鎖定。';
-	$lang['strrepsetunlockedbad'] = '複寫叢集設定解鎖已失敗。';
-	$lang['stronlyonnode'] = '僅在節點上';
-	$lang['strddlscript'] = '資料定義語言(DDL)稿本';
-	$lang['strscriptneedsbody'] = '您必需提供一個稿本在這全部節點上被執行。';
-	$lang['strscriptexecuted'] = '複寫叢集設定 DDL 稿本已執行。';
-	$lang['strscriptexecutedbad'] = '執行複寫叢集設定 DDL 稿本中失敗。';
-	$lang['strtabletriggerstoretain'] = '這將隨著觸發器不會停用 Slony 在以下: ';
-
-	// Slony tables in replication sets
-	$lang['straddtable'] = '增加資料表';
-	$lang['strtableneedsuniquekey'] = '資料表的增加要求一個主建(pkey)或唯一鍵。';
-	$lang['strtableaddedtorepset'] = '資料表已增加到複寫叢集設定。';
-	$lang['strtableaddedtorepsetbad'] = '資料表增加到複寫叢集設定失敗。';
-	$lang['strconfremovetablefromrepset'] = '您確定您要從複寫叢集設定 "%s" 移除這資料表 "%s" 嗎?';
-	$lang['strtableremovedfromrepset'] = '資料表已從複寫叢集設定移除。';
-	$lang['strtableremovedfromrepsetbad'] = '資料表從複寫叢集設定移除失敗。';
-
-	// Slony sequences in replication sets
-	$lang['straddsequence'] = '增加序列號';
-	$lang['strsequenceaddedtorepset'] = '序列號增加到複寫叢集設定。';
-	$lang['strsequenceaddedtorepsetbad'] = '增加序列號到複寫叢集設定已失敗。';
-	$lang['strconfremovesequencefromrepset'] = '您確定您要從複寫叢集設定 "%s" 移除序列號 "%s" 嗎?';
-	$lang['strsequenceremovedfromrepset'] = '序列號已從複寫叢集設定移除。';
-	$lang['strsequenceremovedfromrepsetbad'] = '序列號從複寫叢集設定移除已失敗。';
-
-	// Slony subscriptions
-	$lang['strsubscriptions'] = '訂閱';
-	$lang['strnosubscriptions'] = '找不到任何訂閱。';
-
 	// Miscellaneous
 	$lang['strtopbar'] = '%s 運作於 %s: %s -- 您是已登入的使用者 "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g: iA';
