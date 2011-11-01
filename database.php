@@ -558,7 +558,10 @@
 		global $data, $misc;
 		global $lang;
 
-		if ((!isset($_SESSION['sqlquery'])) || isset($_REQUEST['new'])) $_SESSION['sqlquery'] = '';
+		if ((!isset($_SESSION['sqlquery'])) || isset($_REQUEST['new'])) {
+			$_SESSION['sqlquery'] = '';
+			$_REQUEST['paginate'] = 'on';
+		}
 
 		$misc->printTrail('database');
 		$misc->printTabs('database','sql');
