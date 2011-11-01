@@ -192,7 +192,7 @@
 
 			echo "\t<tr>\n";
 			echo "\t\t<th class=\"data\">{$lang['strcomment']}</th>\n";
-			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\"name=\"comment\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
+			echo "\t\t<td class=\"data1\"><textarea cols=\"32\" rows=\"3\" name=\"comment\">", htmlspecialchars($_POST['comment']), "</textarea></td>\n";
 			echo "\t</tr>\n";
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"alter\" />\n";
