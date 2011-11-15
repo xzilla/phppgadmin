@@ -144,7 +144,7 @@
 	$lang['strunselectall'] = 'Des&#233;lectionner tout';
 	$lang['strlocale'] = 'Locale';
 	$lang['strcollation'] = 'Tri';
-	$lang['strctype'] = 'Type de cartact&#232;re';
+	$lang['strctype'] = 'Type de caract&#232;re';
 	$lang['strdefaultvalues'] = 'Valeurs par d&#233;faut';
 	$lang['strnewvalues'] = 'Nouvelles valeurs';
 	$lang['strstart'] = 'D&#233;marrer';
