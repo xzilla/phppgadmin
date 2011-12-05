@@ -607,6 +607,37 @@
 		}
 
 		/**
+		 * Display a list of links
+		 * @param $links An associative array of links to print
+		 *   links = array(
+		 *     'attr' => array( // list of A tag attribute
+		 *        ...
+		 *     ),
+		 *     'content' => The link text
+		 *     'fields' => the data from which content and attr's values are obtained
+		 *   );
+		 * @param $class An optional class or list of classes seprated by a space
+		 *   WARNING: This field is NOT escaped! No user should be able to inject something here, use with care.
+		 */
+		function printLinksList($links, $class='') {
+			echo "<ul class=\"{$class}\">\n";
+			foreach ($links as $link) {
+				$tag = "\t<li><a ";
+				foreach ($link['attr'] as $attr => $value) {
+					if ($attr == 'href' and is_array($value)) {
+						$tag.= 'href="'. htmlentities($this->getActionUrl($value, $link['fields'])).'" ';
+					}
+					else {
+						$tag.= htmlentities($attr).'="'. value($value, $link['fields'], 'html') .'" ';
+					}
+				}
+				$tag.= ">". value($link['content'], $link['fields'], 'html') ."</a></li>\n";
+				echo $tag;
+			}
+			echo "</ul>\n";
+		}
+
+		/**
 		 * Display navigation tabs
 		 * @param $tabs An associative array of tabs definitions, see printNav() for an example.
 		 * @param $activetab The name of the tab to be highlighted.
@@ -1217,40 +1248,80 @@
 		}
 
 		function printTopbar() {
-			global $lang, $conf, $appName, $appVersion, $appLangFiles;
+			global $lang, $conf, $plugin_manager, $appName, $appVersion, $appLangFiles;
 
 			$server_info = $this->getServerInfo();
 
 			echo "<div class=\"topbar\"><table style=\"width: 100%\"><tr><td>";
 
 			if ($server_info && isset($server_info['platform']) && isset($server_info['username'])) {
+				/* top left informations when connected */
 				echo sprintf($lang['strtopbar'],
 					'<span class="platform">'.htmlspecialchars($server_info['platform']).'</span>',
 					'<span class="host">'.htmlspecialchars((empty($server_info['host'])) ? 'localhost':$server_info['host']).'</span>',
 					'<span class="port">'.htmlspecialchars($server_info['port']).'</span>',
 					'<span class="username">'.htmlspecialchars($server_info['username']).'</span>');
-			} else {
-				echo "<span class=\"appname\">$appName</span> <span class=\"version\">$appVersion</span>";
-			}
 
-			echo "</td>";
+				echo "</td>";
 
-			if (isset($_REQUEST['server'])) {
+				/* top right informations when connected */
+
 				$sql_url = "sqledit.php?{$this->href}&amp;action=";
-				$sql_window_id = htmlspecialchars('sqledit:'.$_REQUEST['server']);
+				$sql_window_id = htmlentities('sqledit:'.$_REQUEST['server']);
 				$history_url = "history.php?{$this->href}&amp;action=pophistory";
-				$history_window_id = htmlspecialchars('history:'.$_REQUEST['server']);
-				$logout_shared = isset($_SESSION['sharedUsername']) ?
-					' onclick="return confirm(\''. $lang['strconfdropcred']. '\')"':
-					'';
+				$history_window_id = htmlentities('history:'.$_REQUEST['server']);
+				$logout_shared = isset($_SESSION['sharedUsername']) ? "return confirm('{$lang['strconfdropcred']})" : '';
+
+				$toplinks = array (
+					array (
+						'attr' => array (
+							'href' => "{$sql_url}&action=sql",
+							'target' => "sqledit",
+							'onclick' => "window.open('{$sql_url}&action=sql','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;"
+						),
+						'content' => noEscape(field('strsql')),
+						'fields' => $lang
+					),
+					array (
+						'attr' => array (
+							'href' => $history_url,
+							'onclick' => "window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;",
+						),
+						'content' => noEscape(field('strhistory')),
+						'fields' => $lang
+					),
+					array (
+						'attr' => array (
+							'href' => "{$sql_url}&action=find",
+							'target' => "sqledit",
+							'onclick' => "window.open('{$sql_url}&action=find','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;",
+						),
+						'content' => noEscape(field('strfind')),
+						'fields' => $lang
+					),
+					array(
+						'attr' => array (
+							'href' => "servers.php?action=logout&logoutServer=".htmlentities($server_info['host']).":".htmlentities($server_info['port']).":".htmlentities($server_info['sslmode']),
+							'onclick' => $logout_shared,
+						),
+						'content' => noEscape(field('strlogout')),
+						'fields' => $lang
+					)
+				);
+
+				// Toplink hook's place
+				$plugin_functions_parameters = array(
+					'toplinks' => &$toplinks
+				);
+
+				$plugin_manager->do_hook('toplinks', $plugin_functions_parameters);
 
 				echo "<td style=\"text-align: right\">";
-				echo "<ul class=\"toplink\">\n\t<li><a class=\"toplink\" href=\"{$sql_url}sql\" target=\"sqledit\" onclick=\"window.open('{$sql_url}sql','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;\">{$lang['strsql']}</a></li>\n";
-				echo "\t<li><a class=\"toplink\" href=\"{$history_url}\" onclick=\"window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;\">{$lang['strhistory']}</a></li>\n";
-				echo "\t<li><a class=\"toplink\" href=\"{$sql_url}find\" target=\"sqledit\" onclick=\"window.open('{$sql_url}find','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;\">{$lang['strfind']}</a></li>\n";
- 				echo "\t<li><a class=\"toplink\" href=\"servers.php?action=logout&amp;logoutServer=".htmlspecialchars($server_info['host']).":".htmlspecialchars($server_info['port']).":".htmlspecialchars($server_info['sslmode'])."\"{$logout_shared}>{$lang['strlogout']}</a></li>\n";
- 				echo "</ul>\n";
+				$this->printLinksList($toplinks, 'toplink');
 				echo "</td>";
+			}
+			else {
+				echo "<span class=\"appname\">{$appName}</span> <span class=\"version\">{$appVersion}</span>";
 			}
 /*
 			echo "<td style=\"text-align: right; width: 1%\">";
