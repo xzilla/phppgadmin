@@ -226,4 +226,8 @@
 			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
 		}
 	}
+
+	// Manage the plugins
+	require_once('./classes/PluginManager.php');
+	$plugin_manager = new PluginManager($_language);
 ?>
