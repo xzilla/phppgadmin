@@ -630,7 +630,7 @@
 
 				if (!isset($tab['hide']) || $tab['hide'] !== true) {
 
-					$tablink = "<a" . $this->printActionUrl($tab, $_REQUEST, 'href') . ">";
+					$tablink = '<a href="' . htmlentities($this->getActionUrl($tab, $_REQUEST)) . '">';
 
 					if (isset($tab['icon']) && $icon = $this->icon($tab['icon']))
 						$tablink .= "<span class=\"icon\"><img src=\"{$icon}\" alt=\"{$tab['title']}\" /></span>";
@@ -1601,17 +1601,15 @@
 		}
 
 		/**
-		 * Display a URL given an action associative array.
+		 * Returns URL given an action associative array.
+		 * NOTE: this function does not html-escape, only url-escape
 		 * @param $action An associative array of the follow properties:
 		 *			'url'  => The first part of the URL (before the ?)
 		 *			'urlvars' => Associative array of (URL variable => field name)
 		 *						these are appended to the URL
-		 *			'urlfn' => Function to apply to URL before display
 		 * @param $fields Field data from which 'urlfield' and 'vars' are obtained.
-		 * @param $attr If supplied then the URL will be quoted and prefixed with
-		 *				'$attr='.
 		 */
-		function printActionUrl(&$action, &$fields, $attr = null) {
+		function getActionUrl(&$action, &$fields) {
 			$url = value($action['url'], $fields);
 
 			if ($url === false) return '';
@@ -1641,12 +1639,7 @@
 				$sep = '&';
 			}
 
-			$url = htmlentities($url, ENT_QUOTES, 'UTF-8');
-
-			if ($attr !== null && $url != '')
-				return ' '.$attr.'="'.$url.'"';
-			else
-				return $url;
+			return $url;
 		}
 
 		function getRequestVars($subject = '') {
