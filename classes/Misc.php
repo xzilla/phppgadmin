@@ -1414,7 +1414,7 @@
 		 * @param $object The type of object at the end of the trail.
 		 */
 		function getTrail($subject = null) {
-			global $lang, $conf, $data, $appName;
+			global $lang, $conf, $data, $appName, $plugin_manager;
 
 			$trail = array();
 			$vars = '';
@@ -1552,6 +1552,14 @@
 						}
 				}
 			}
+
+			// Trail hook's place
+			$plugin_functions_parameters = array(
+				'trail' => &$trail,
+				'section' => $subject
+			);
+
+			$plugin_manager->do_hook('trail', $plugin_functions_parameters);
 
 			return $trail;
 		}
