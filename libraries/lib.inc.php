@@ -180,6 +180,10 @@
 		exit;
 	}
 
+	// Manage the plugins
+	require_once('./classes/PluginManager.php');
+	$plugin_manager = new PluginManager($_language);
+
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
 		if (!isset($_REQUEST['server'])) {
@@ -226,8 +230,4 @@
 			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
 		}
 	}
-
-	// Manage the plugins
-	require_once('./classes/PluginManager.php');
-	$plugin_manager = new PluginManager($_language);
 ?>
