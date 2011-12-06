@@ -639,7 +639,7 @@
 
 		/**
 		 * Display navigation tabs
-		 * @param $tabs An associative array of tabs definitions, see printNav() for an example.
+		 * @param $tabs The name of current section (Ex: intro, server, ...), or an array with tabs (Ex: sqledit.php doFind function)
 		 * @param $activetab The name of the tab to be highlighted.
 		 */
 		function printTabs($tabs, $activetab) {
@@ -690,13 +690,14 @@
 		 * @param $section The name of the tab bar.
 		 */
 		function getNavTabs($section) {
-			global $data, $lang, $conf;
+			global $data, $lang, $conf, $plugin_manager;
 
 			$hide_advanced = ($conf['show_advanced'] === false);
+			$tabs = array();
 
 			switch ($section) {
 				case 'root':
-					return array (
+					$tabs = array (
 						'intro' => array (
 							'title' => $lang['strintroduction'],
 							'url'   => "intro.php",
@@ -708,11 +709,12 @@
 							'icon'  => 'Servers',
 						),
 					);
+					break;
 
 				case 'server':
 				case 'report':
 					$hide_users = !$data->isSuperUser();
-					$tmp = array (
+					$tabs = array (
 						'databases' => array (
 							'title' => $lang['strdatabases'],
 							'url'   => 'all_db.php',
@@ -722,7 +724,7 @@
 						)
 					);
 					if ($data->hasRoles()) {
-						$tmp = array_merge($tmp, array(
+						$tabs = array_merge($tabs, array(
 							'roles' => array (
 								'title' => $lang['strroles'],
 								'url'   => 'roles.php',
@@ -734,7 +736,7 @@
 						));
 					}
 					else {
-						$tmp = array_merge($tmp, array(
+						$tabs = array_merge($tabs, array(
 							'users' => array (
 								'title' => $lang['strusers'],
 								'url'   => 'users.php',
@@ -754,7 +756,7 @@
 						));
 					}
 
-					$tmp = array_merge($tmp, array(
+					$tabs = array_merge($tabs, array(
 						'account' => array (
 							'title' => $lang['straccount'],
 							'url'   => $data->hasRoles() ? 'roles.php' : 'users.php',
@@ -786,7 +788,6 @@
 							'icon' => 'Reports',
 						),
 					));
-					return $tmp;
 					break;
 				case 'database':
 					$tabs = array (
@@ -877,7 +878,7 @@
 							'icon'  => 'Export',
 						),
 					);
-					return $tabs;
+					break;
 
 				case 'schema':
 					$tabs = array (
@@ -982,10 +983,10 @@
 						),
 					);
 					if (!$data->hasFTS()) unset($tabs['fulltext']);
-					return $tabs;
+					break;
 
 				case 'table':
-					return array (
+					$tabs = array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
 							'url'   => 'tblproperties.php',
@@ -1059,9 +1060,10 @@
 							'hide'	=> false,
 						),
 					);
+					break;
 
 				case 'view':
-					return array (
+					$tabs = array (
 						'columns' => array (
 							'title' => $lang['strcolumns'],
 							'url'   => 'viewproperties.php',
@@ -1098,9 +1100,10 @@
 							'hide'	=> false,
 						),
 					);
+					break;
 
 				case 'function':
-					return array (
+					$tabs = array (
 						'definition' => array (
 							'title' => $lang['strdefinition'],
 							'url'   => 'functions.php',
@@ -1123,9 +1126,10 @@
 							'icon'  => 'Privileges',
 						),
 					);
+					break;
 
 				case 'aggregate':
-					return array (
+					$tabs = array (
 						'definition' => array (
 							'title' => $lang['strdefinition'],
 							'url'   => 'aggregates.php',
@@ -1138,9 +1142,10 @@
 							'icon'  => 'Definition',
 						),
 					);
+					break;
 
 				case 'role':
-					return array (
+					$tabs = array (
 						'definition' => array (
 							'title' => $lang['strdefinition'],
 							'url'   => 'roles.php',
@@ -1152,9 +1157,10 @@
 							'icon'  => 'Definition',
 						),
 					);
+					break;
 
 				case 'popup':
-					return array (
+					$tabs = array (
 						'sql' => array (
 							'title' => $lang['strsql'],
 							'url'   => 'sqledit.php',
@@ -1169,9 +1175,10 @@
 							'icon'  => 'Search',
 						),
 					);
+					break;
 
 				case 'column':
-					return array(
+					$tabs = array(
 						'properties' => array (
 							'title'		=> $lang['strcolprop'],
 							'url'		=> 'colproperties.php',
@@ -1194,9 +1201,10 @@
 							'icon'  => 'Privileges',
 						)
 					);
+					break;
 
                 case 'fulltext':
-                    return array (
+                    $tabs = array (
                         'ftsconfigs' => array (
                             'title' => $lang['strftstabconfigs'],
                             'url'   => 'fulltext.php',
@@ -1225,10 +1233,17 @@
                             'icon'  => 'FtsParser',
                         ),
                     );
-
-				default:
-					return array();
+                    break;
 			}
+
+			// Tabs hook's place
+			$plugin_functions_parameters = array(
+				'tabs' => &$tabs,
+				'section' => $section
+			);
+			$plugin_manager->do_hook('tabs', $plugin_functions_parameters);
+
+			return $tabs;
 		}
 
 		/**
@@ -2003,13 +2018,21 @@
 		}
 
 		function icon($icon) {
-			global $conf;
-			$path = "images/themes/{$conf['theme']}/{$icon}";
-			if (file_exists($path.'.png')) return $path.'.png';
-			if (file_exists($path.'.gif')) return $path.'.gif';
-			$path = "images/themes/default/{$icon}";
-			if (file_exists($path.'.png')) return $path.'.png';
-			if (file_exists($path.'.gif')) return $path.'.gif';
+			if (is_string($icon)) {
+				global $conf;
+				$path = "images/themes/{$conf['theme']}/{$icon}";
+				if (file_exists($path.'.png')) return $path.'.png';
+				if (file_exists($path.'.gif')) return $path.'.gif';
+				$path = "images/themes/default/{$icon}";
+				if (file_exists($path.'.png')) return $path.'.png';
+				if (file_exists($path.'.gif')) return $path.'.gif';
+			}
+			else {
+				// Icon from plugins
+				$path = "plugins/{$icon[0]}/images/{$icon[1]}";
+				if (file_exists($path.'.png')) return $path.'.png';
+				if (file_exists($path.'.gif')) return $path.'.gif';
+			}
 			return '';
 		}
 
