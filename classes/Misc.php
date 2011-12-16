@@ -40,13 +40,13 @@
 			if (isset($_REQUEST['server']) && $exclude_from != 'server') {
 				$href .= 'server=' . urlencode($_REQUEST['server']);
 				if (isset($_REQUEST['database']) && $exclude_from != 'database') {
-					$href .= '&amp;database=' . urlencode($_REQUEST['database']);
+					$href .= '&database=' . urlencode($_REQUEST['database']);
 					if (isset($_REQUEST['schema']) && $exclude_from != 'schema') {
-						$href .= '&amp;schema=' . urlencode($_REQUEST['schema']);
+						$href .= '&schema=' . urlencode($_REQUEST['schema']);
 					}
 				}
 			}
-			return $href;
+			return htmlentities($href);
 		}
 
 		/**
