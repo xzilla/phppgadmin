@@ -74,6 +74,8 @@
 		public function login($u, $p) {
 			global $webUrl, $data;
 			$this->addComment("Login as {$u}");
+			$this->test('open', "{$webUrl}/intro.php");
+			$this->select('language', 'English');
 			$this->test('open', "{$webUrl}/login.php?server={$data->conn->host}&subject=server");
 			$this->test('type', "//input[@name='loginUsername']", $u);
 			$this->test('type', "//input[@id='loginPassword']", $p);
