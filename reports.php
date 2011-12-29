@@ -282,12 +282,10 @@
 			),
 		);
 		
-		$return_url = urlencode("reports.php?{$misc->href}");
-		
 		$actions = array(
 			'run' => array(
 				'title' => $lang['strexecute'],
-				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return_url={$return_url}&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return=report&amp;",
 				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'reportid' => 'report_id', 'paginate' => 'paginate'),
 			),
 			'edit' => array(

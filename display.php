@@ -5,8 +5,7 @@
 	 * tables, reports, arbitrary queries, etc. to avoid code duplication.
 	 * @param $query The SQL SELECT string to execute
 	 * @param $count The same SQL query, but only retrieves the count of the rows (AS total)
-	 * @param $return_url The return URL
-	 * @param $return_desc The return link name
+	 * @param $return The return section
 	 * @param $page The current page
 	 *
 	 * $Id: display.php,v 1.68 2008/04/14 12:44:27 ioguix Exp $
@@ -143,10 +142,8 @@
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
 				echo "<input type=\"hidden\" name=\"count\" value=\"", htmlspecialchars($_REQUEST['count']), "\" />\n";
-			if (isset($_REQUEST['return_url']))
-				echo "<input type=\"hidden\" name=\"return_url\" value=\"", htmlspecialchars($_REQUEST['return_url']), "\" />\n";
-			if (isset($_REQUEST['return_desc']))
-				echo "<input type=\"hidden\" name=\"return_desc\" value=\"", htmlspecialchars($_REQUEST['return_desc']), "\" />\n";
+			if (isset($_REQUEST['return']))
+				echo "<input type=\"hidden\" name=\"return\" value=\"", htmlspecialchars($_REQUEST['return']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
@@ -206,10 +203,8 @@
 				echo "<input type=\"hidden\" name=\"query\" value=\"", htmlspecialchars($_REQUEST['query']), "\" />\n";
 			if (isset($_REQUEST['count']))
 				echo "<input type=\"hidden\" name=\"count\" value=\"", htmlspecialchars($_REQUEST['count']), "\" />\n";
-			if (isset($_REQUEST['return_url']))
-				echo "<input type=\"hidden\" name=\"return_url\" value=\"", htmlspecialchars($_REQUEST['return_url']), "\" />\n";
-			if (isset($_REQUEST['return_desc']))
-				echo "<input type=\"hidden\" name=\"return_desc\" value=\"", htmlspecialchars($_REQUEST['return_desc']), "\" />\n";
+			if (isset($_REQUEST['return']))
+				echo "<input type=\"hidden\" name=\"return\" value=\"", htmlspecialchars($_REQUEST['return']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"page\" value=\"", htmlspecialchars($_REQUEST['page']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
@@ -243,16 +238,7 @@
 			$constraints = $data->getConstraintsWithFields($_REQUEST['table']);
 			if ($constraints->recordCount() > 0) {
 
-				/* build the common parts of the url for the FK  */
-				$fk_return_url = "{$misc->href}&amp;subject=table&amp;table=". urlencode($_REQUEST['table']);
-				if (isset($_REQUEST['page'])) $fk_return_url .= "&amp;page=" . urlencode($_REQUEST['page']);
-				if (isset($_REQUEST['query'])) $fk_return_url .= "&amp;query=" . urlencode($_REQUEST['query']);
-				if (isset($_REQUEST['search_path'])) $fk_return_url .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
-
-				/* yes, we double urlencode fk_return_url so parameters here don't 
-				 * overwrite real one when included in the final url */
-				$fkey_information['common_url'] = $misc->getHREF('schema') .'&amp;subject=table&amp;return_url=display.php?'
-					. urlencode($fk_return_url) .'&amp;return_desc='. urlencode($lang['strback']);
+				$fkey_information['common_url'] = $misc->getHREF('schema') .'&amp;subject=table';
 
 				/* build the FK constraints data structure */
 				while (!$constraints->EOF) {
@@ -492,8 +478,7 @@
 		if (isset($_REQUEST['query'])) $gets .= "&amp;query=" . urlencode($_REQUEST['query']);
 		if (isset($_REQUEST['report'])) $gets .= "&amp;report=" . urlencode($_REQUEST['report']);
 		if (isset($_REQUEST['count'])) $gets .= "&amp;count=" . urlencode($_REQUEST['count']);
-		if (isset($_REQUEST['return_url'])) $gets .= "&amp;return_url=" . urlencode($_REQUEST['return_url']);
-		if (isset($_REQUEST['return_desc'])) $gets .= "&amp;return_desc=" . urlencode($_REQUEST['return_desc']);
+		if (isset($_REQUEST['return'])) $gets .= "&amp;return=" . urlencode($_REQUEST['return']);
 		if (isset($_REQUEST['search_path'])) $gets .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
 		if (isset($_REQUEST['table'])) $gets .= "&amp;table=" . urlencode($_REQUEST['table']);
 		
@@ -577,8 +562,12 @@
 		echo "<ul class=\"navlink\">\n";
 
 		// Return
-		if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
-			echo "\t<li><a href=\"". htmlspecialchars($_REQUEST['return_url']) ."\">". htmlspecialchars($_REQUEST['return_desc']) ."</a></li>\n";
+		if (isset($_REQUEST['return'])) {
+			$return_url = $misc->getHREFSubject($_REQUEST['return']);
+
+			if ($return_url)
+				echo "\t<li><a href=\"{$return_url}\">{$lang['strback']}</a></li>\n";
+		}
 
 		// Edit SQL link
 		if (isset($_REQUEST['query']))

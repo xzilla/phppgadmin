@@ -109,12 +109,10 @@
 			else {
 				// Generate query SQL
 				$query = $data->getSelectSQL($_REQUEST['view'], array_keys($_POST['show']),
-					$_POST['values'], $_POST['ops']);
+				$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
-				$_REQUEST['return_url'] = "views.php?action=confselectrows&amp;{$misc->href}&amp;view=". urlencode($_REQUEST['view']);
-				$_REQUEST['return_desc'] = $lang['strback'];
-			
-                                $_no_output = true;	
+				$_REQUEST['return'] = "schema";
+				$_no_output = true;
 				include('./display.php');
 				exit;
 			}
@@ -588,7 +586,7 @@
 			),
 			'browse' => array(
 				'title'	=> $lang['strbrowse'],
-				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return_url=".urlencode("views.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return=schema&amp;",
 				'vars'	=> array('view' => 'relname'),
 			),
 			'select' => array(

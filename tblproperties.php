@@ -540,12 +540,10 @@
 			return $str;
 		}
 
-		$return_url = urlencode("tblproperties.php?{$misc->href}&amp;table=". urlencode($_REQUEST['table']));
-
 		$actions = array(
 			'browse' => array(
 				'title' => $lang['strbrowse'],
-				'url' => "display.php?{$misc->href}&amp;subject=column&amp;return_url={$return_url}&amp;table=".urlencode($_REQUEST['table'])."&amp;return_desc=" . urlencode($lang['strback']) . '&amp;',
+				'url' => "display.php?{$misc->href}&amp;subject=column&amp;return=table&amp;table=".urlencode($_REQUEST['table']).'&amp;',
 				'vars' => array('column' => 'attname'),
 			),
 			'alter' => array(
@@ -568,8 +566,7 @@
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 
 		echo "<ul class=\"navlink\">\n";
-		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return_url={$return_url}&amp;return_desc=",
-			urlencode($lang['strback']), "\">{$lang['strbrowse']}</a></li>\n";
+		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return=table\">{$lang['strbrowse']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
 		echo "\t<li><a href=\"tables.php?action=confirm_empty&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";

@@ -240,30 +240,27 @@
 			$query_url = urlencode("SELECT \"{$f_attname}\", count(*) AS \"count\" FROM \"{$f_schema}\".\"{$f_table}\" GROUP BY \"{$f_attname}\" ORDER BY \"{$f_attname}\"") ;
 
 			if ($isTable) {
-				$return_url = urlencode("colproperties.php?{$misc->href}&amp;table=". urlencode($tableName)
-					."&amp;column=". urlencode($_REQUEST['column']));
-
 				/* Browse link */
 				/* FIXME browsing a col should somehow be a action so we don't
 				 * send an ugly SQL in the URL */
 				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=",
 					urlencode($_REQUEST['table']),
 					"&amp;column=", urlencode($_REQUEST['column']),
-					"&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']), 
+					"&amp;return=column",
 					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
 
 				/* Edit link */
 				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($tableName),
 				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
 				
-					echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($tableName),
-						"&amp;column=" . urlencode($_REQUEST['column']) . "\">{$lang['strdrop']}</a></li>\n";
+				echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($tableName),
+					"&amp;column=" . urlencode($_REQUEST['column']) . "\">{$lang['strdrop']}</a></li>\n";
 			} else {
-				$return_url = urlencode("colproperties.php?{$misc->href}&amp;view=". urlencode($tableName)
-					."&amp;column=". urlencode($_REQUEST['column']));
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;column=",
-					urlencode($_REQUEST['column']), "&amp;return_url={$return_url}&amp;return_desc=", urlencode($lang['strback']),
+				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;view=",
+					urlencode($_REQUEST['view']),
+					"&amp;column=", urlencode($_REQUEST['column']),
+					"&amp;return=column",
 					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
 			}
 

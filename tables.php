@@ -438,8 +438,7 @@
 				$query = $data->getSelectSQL($_REQUEST['table'], array_keys($_POST['show']),
 					$_POST['values'], $_POST['ops']);
 				$_REQUEST['query'] = $query;
-				$_REQUEST['return_url'] = "tables.php?action=confselectrows&amp;{$misc->href}&amp;table={$_REQUEST['table']}";
-				$_REQUEST['return_desc'] = $lang['strback'];
+				$_REQUEST['return'] = 'selectrows';
 
 				$_no_output = true;
 				include('./display.php');
@@ -772,7 +771,7 @@
 			),
 			'browse' => array(
 				'title' => $lang['strbrowse'],
-				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return_url=".urlencode("tables.php?{$misc->href}")."&amp;return_desc=".urlencode($lang['strback'])."&amp;",
+				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return=schema&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'select' => array(

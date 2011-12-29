@@ -49,6 +49,166 @@
 			return htmlentities($href);
 		}
 
+		function getHREFSubject($subject) {
+
+			$vars = array();
+
+			switch($subject) {
+				case 'root':
+					return 'redirect.php?subject=root';
+					break;
+				case 'server':
+					$vars = array (
+						'server' => $_REQUEST['server'],
+						'subject' => 'server'
+					);
+					break;
+				case 'report':
+					return 'reports.php?'. http_build_query(array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'report',
+						'report' => $_REQUEST['report']
+					), '', '&amp;');
+					break;
+				case 'role':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'role',
+						'action' => 'properties',
+						'rolename' => $_REQUEST['rolename']
+					);
+					break;
+				case 'database':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'database',
+						'database' => $_REQUEST['database'],
+					);
+					break;
+				case 'schema':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'schema',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema']
+					);
+					break;
+				case 'slony_cluster':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'slony_cluster',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'slony_cluster' => $_REQUEST['slony_cluster']
+					);
+					break;
+				case 'table':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'table',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'table' => $_REQUEST['table']
+					);
+					break;
+				case 'selectrows':
+					return 'tables.php?'. http_build_query(array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'table',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'table' => $_REQUEST['table'],
+						'action' => 'confselectrows'
+					), '', '&amp;');
+					break;
+				case 'view':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'view',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'view' => $_REQUEST['view']
+					);
+					break;
+				case 'fulltext':
+				case 'ftscfg':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'fulltext',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'action' => 'viewconfig',
+						'ftscfg' => $_REQUEST['ftscfg']
+					);
+					break;
+				case 'function':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'function',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'function' => $_REQUEST['function'],
+						'function_oid' => $_REQUEST['function_oid']
+					);
+					break;
+				case 'aggregate':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'aggregate',
+						'action' => 'properties',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'aggrname' => $_REQUEST['aggrname'],
+						'aggrtype' => $_REQUEST['aggrtype']
+					);
+					break;
+				case 'slony_node':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'slony_cluster',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'no_id' => $_REQUEST['no_id'],
+						'no_name' => $_REQUEST['no_name']
+					);
+					break;
+				case 'slony_set':
+					$vars = array(
+						'server' => $_REQUEST['server'],
+						'subject' => 'slony_set',
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'slony_set_id' => $_REQUEST['slony_set'],
+						'slony_set' => $_REQUEST['slony_set']
+					);
+					break;
+				case 'column':
+					if (isset($_REQUEST['table']))
+						$vars = array(
+							'server' => $_REQUEST['server'],
+							'subject' => 'column',
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table'],
+							'column' => $_REQUEST['column']
+						);
+					else
+						$vars = array(
+							'server' => $_REQUEST['server'],
+							'subject' => 'column',
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'view' => $_REQUEST['view'],
+							'column' => $_REQUEST['column']
+						);
+					break;
+				default:
+					return false;
+			}
+
+			return 'redirect.php?'. http_build_query($vars, '', '&amp;');
+		}
+
 		/**
 		 * Sets the form tracking variable
 		 */
@@ -1191,7 +1351,7 @@
 				$crumblink = "<a";
 
 				if (isset($crumb['url']))
-					$crumblink .= ' href="' . $this->printVal($crumb['url'], 'nbsp') . '"';
+					$crumblink .= " href=\"{$crumb['url']}\"";
 
 				if (isset($crumb['title']))
 					$crumblink .= " title=\"{$crumb['title']}\"";
@@ -1240,12 +1400,11 @@
 			if ($subject == 'root') $done = true;
 
 			if (!$done) {
-				$vars = 'server='.urlencode($_REQUEST['server']).'&';
 				$server_info = $this->getServerInfo();
 				$trail['server'] = array(
 					'title' => $lang['strserver'],
 					'text'  => $server_info['desc'],
-					'url'   => "redirect.php?subject=server&{$vars}",
+					'url'   => $this->getHREFSubject('server'),
 					'help'  => 'pg.server',
 					'icon'  => 'Server'
 				);
@@ -1253,30 +1412,27 @@
 			if ($subject == 'server') $done = true;
 
 			if (isset($_REQUEST['report']) && !$done) {
-				$vars .= 'report='.urlencode($_REQUEST['report']).'&';
 				$trail['report'] = array(
 					'title' => $lang['strreport'],
 					'text'  => $_REQUEST['report'],
-					'url'   => "reports.php?subject=report&{$vars}",
+					'url'   => $this->getHREFSubject('report'),
 					'icon'  => 'Report'
 				);
 			}
 
 			if (isset($_REQUEST['database']) && !$done) {
-				$vars .= 'database='.urlencode($_REQUEST['database']).'&';
 				$trail['database'] = array(
 					'title' => $lang['strdatabase'],
 					'text'  => $_REQUEST['database'],
-					'url'   => "redirect.php?subject=database&{$vars}",
+					'url'   => $this->getHREFSubject('database'),
 					'help'  => 'pg.database',
 					'icon'  => 'Database'
 				);
 			} elseif (isset($_REQUEST['rolename']) && !$done) {
-				$vars .= "subject=role&action=properties&rolename=".urlencode($_REQUEST['rolename']);
 				$trail['role'] = array(
 					'title' => $lang['strrole'],
 					'text'  => $_REQUEST['rolename'],
-					'url'   => "redirect.php?{$vars}",
+					'url'   => $this->getHREFSubject('role'),
 					'help'  => 'pg.role',
 					'icon'  => 'Roles'
 				);
@@ -1284,11 +1440,10 @@
 			if ($subject == 'database' || $subject == 'role' || $subject == 'report') $done = true;
 
 			if (isset($_REQUEST['schema']) && !$done) {
-				$vars .= 'schema='.urlencode($_REQUEST['schema']).'&';
 				$trail['schema'] = array(
 					'title' => $lang['strschema'],
 					'text'  => $_REQUEST['schema'],
-					'url'   => "redirect.php?subject=schema&{$vars}",
+					'url'   => $this->getHREFSubject('schema'),
 					'help'  => 'pg.schema',
 					'icon'  => 'Schema'
 				);
@@ -1296,11 +1451,10 @@
 			if ($subject == 'schema') $done = true;
 
 			if (isset($_REQUEST['slony_cluster']) && !$done) {
-				$vars .= 'slony_cluster='.urlencode($_REQUEST['slony_cluster']).'&';
 				$trail['slony_cluster'] = array(
 					'title' => 'Slony Cluster',
 					'text'  => $_REQUEST['slony_cluster'],
-					'url'   => "redirect.php?subject=slony_cluster&{$vars}",
+					'url'   => $this->getHREFSubject('slony_cluster'),
 					'help'  => 'sl.cluster',
 					'icon'  => 'Cluster'
 				);
@@ -1308,29 +1462,26 @@
 			if ($subject == 'slony_cluster') $done = true;
 
 			if (isset($_REQUEST['table']) && !$done) {
-				$vars .= "table=".urlencode($_REQUEST['table']);
 				$trail['table'] = array(
 					'title' => $lang['strtable'],
 					'text'  => $_REQUEST['table'],
-					'url'   => "redirect.php?subject=table&{$vars}",
+					'url'   => $this->getHREFSubject('table'),
 					'help'  => 'pg.table',
 					'icon'  => 'Table'
 				);
 			} elseif (isset($_REQUEST['view']) && !$done) {
-				$vars .= "view=".urlencode($_REQUEST['view']);
 				$trail['view'] = array(
 					'title' => $lang['strview'],
 					'text'  => $_REQUEST['view'],
-					'url'   => "redirect.php?subject=view&{$vars}",
+					'url'   => $this->getHREFSubject('view'),
 					'help'  => 'pg.view',
 					'icon'  => 'View'
 				);
 			} elseif (isset($_REQUEST['ftscfg']) && !$done) {
-				$vars .= "action=viewconfig&ftscfg=".urlencode($_REQUEST['ftscfg']);
 				$trail['ftscfg'] = array(
 					'title' => $lang['strftsconfig'],
 					'text'  => $_REQUEST['ftscfg'],
-					'url'   => "fulltext.php?{$vars}",
+					'url'   => $this->getHREFSubject('ftscfg'),
 					'help'  => 'pg.ftscfg.example',
 					'icon'  => 'Fts'
 				);
@@ -1340,55 +1491,45 @@
 			if (!$done && !is_null($subject)) {
 				switch ($subject) {
 					case 'function':
-						$vars .= "{$subject}_oid=".urlencode($_REQUEST[$subject.'_oid']).'&';
-						$vars .= "subject={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
 						$trail[$subject] = array(
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
-							'url'   => "redirect.php?{$vars}",
+							'url'   => $this->getHREFSubject('function'),
 							'help'  => 'pg.function',
 							'icon'  => 'Function'
 						);
 						break;
 					case 'aggregate':
-						$vars .= "subject=aggregate&action=properties&aggrname=".urlencode($_REQUEST['aggrname']);
-						$vars .= "&aggrtype=".urlencode($_REQUEST['aggrtype']);
 						$trail[$subject] = array(
 							'title' => $lang['straggregate'],
 							'text'  => $_REQUEST['aggrname'],
-							'url'   => "redirect.php?{$vars}",
+							'url'   => $this->getHREFSubject('aggregate'),
 							'help'  => 'pg.aggregate',
 							'icon'  => 'Aggregate'
 						);
 						break;
 					case 'slony_node':
-						$vars .= 'no_id='.urlencode($_REQUEST['no_id']).'&no_name='.urlencode($_REQUEST['no_name']);
 						$trail[$subject] = array(
 							'title' => 'Slony Node',
 							'text'  => $_REQUEST['no_name'],
-							'url'   => "redirect.php?{$vars}",
 							'help'  => 'sl.'.$subject,
 							'icon'  => 'Node'
 						);
 						break;
 					case 'slony_set':
-						$vars .= "{$subject}_id=".urlencode($_REQUEST[$subject]).'&';
-						$vars .= "subject={$subject}&{$subject}=".urlencode($_REQUEST[$subject]);
 						$trail[$subject] = array(
 							'title' => $lang['str'.$subject],
 							'text'  => $_REQUEST[$subject],
-							'url'   => "redirect.php?{$vars}",
 							'help'  => 'sl.'.$subject,
 							'icon'  => 'AvailableReplicationSet'
 						);
 						break;
 					case 'column':
-						$vars .= "&column=". urlencode($_REQUEST['column']) ."&subject=column";
 						$trail['column'] = array (
 							'title' => $lang['strcolumn'],
 							'text'  => $_REQUEST['column'],
 							'icon'	=> 'Column',
-							'url'   => "redirect.php?{$vars}"
+							'url'   => $this->getHREFSubject('column')
 						);
 						break;
 					default:

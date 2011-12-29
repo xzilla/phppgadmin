@@ -194,8 +194,10 @@
 	echo "<ul class=\"navlink\">\n";
 	
 	// Return
-	if (isset($_REQUEST['return_url']) && isset($_REQUEST['return_desc']))
-		echo "\t<li><a href=\"{$_REQUEST['return_url']}\">{$_REQUEST['return_desc']}</a></li>\n";
+	if (isset($_REQUEST['return'])) {
+		$return_url = $misc->getHREFSubject($_REQUEST['return']);
+		echo "\t<li><a href=\"{$return_url}\">{$lang['strback']}</a></li>\n";
+	}
 
 	// Edit		
 	echo "\t<li><a href=\"database.php?database=", urlencode($_REQUEST['database']),
