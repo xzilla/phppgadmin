@@ -1,33 +1,48 @@
 <?php
-/*
- * This class help building a selenium HTML test file for PPA.
-**/
-	class TestBuilder {
-		private $code;
+	function connection_failed($dbms, $fn, $errno, $errmsg, $p1=false, $p2=false) {
+		echo "<div>{$errmsg}</div>\n";
+		exit;
+	}
 
+	$_no_db_connection = true; /* load lib.inc.php without trying to connect */
+	$_REQUEST['language'] = 'english';
+	define('ADODB_ERROR_HANDLER','connection_failed');
+	chdir(dirname(__FILE__). '/../..');
+	require_once('./libraries/lib.inc.php');
+
+	/*
+	 * This class help building a selenium HTML test file for PPA.
+	**/
+	class TestBuilder {
 		/**
 		 * Constructor
 		 * @param $serverDesc The server['desc'] conf param to which we are writing this test file for.
 		 * @param $title The title of the HTML test page
 		 * @param $desc The top description on the HTML test page
 		 */
-		public function __construct($serverDesc, $title, $desc) {
+		public function __construct($title, $desc) {
+			global $misc;
 			$this->title = $title;
-			$this->servDesc = $serverDesc;
 
-			/*$this->fd = fopen($this->file, 'w');
+			$serverid = $_GET['server'];
 
-			fprintf($this->fd, '%s', "<html>\n<head>
-				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
-				<title>$title</title>
-				</head>
-				<body>
-				<table cellpadding=\"1\" cellspacing=\"1\" border=\"1\">
-				<thead>
-				<tr><td rowspan=\"1\" colspan=\"3\">$desc</td></tr>
-				</thead><tbody>"
-			);*/
-			$this->code =  "<html>\n<head>
+			require('./tests/selenium/config.test.php');
+			require_once('./classes/database/Connection.php');
+
+			$this->webUrl = $webUrl;
+			$_REQUEST['server'] = $serverid;
+
+			$server = $misc->getServerInfo($serverid);
+			$server['username'] = $super_user[$server['desc']];
+			$server['password'] = $super_pass[$server['desc']];
+
+			$misc->setServerInfo(null, $server, $serverid);
+
+			$this->server = $server;
+
+			$this->data = $misc->getDatabaseAccessor($server['defaultdb']);
+
+			echo "<html>\n<head>
 				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">
 				<title>$title</title>
 				</head>
@@ -44,12 +59,9 @@
 		 * @param $testfile The path to the test file to create
 		 * @param $testsuite_file The path to the TestSuite.html file
 		 */
-		public function writeTests($testfile, $testsuite_file) {
-			file_put_contents($testfile, $this->code);
-
-			$str = "<tr>\n<td><a href=\"{$this->servDesc}/".
-				basename($testfile) ."\">[{$this->servDesc}] {$this->title}</a></td>\n</tr>\n";
-			file_put_contents($testsuite_file, $str, FILE_APPEND);
+		public function writeTests() { //$testfile, $testsuite_file) {
+			//echo $this->code;
+			return;
 		}
 		
 		/**
@@ -59,11 +71,11 @@
 		 * @param $value (optional) the expected (or not) value (third column)
 		 */
 		public function test($action, $selector, $value='') {
-			$this->code .= "<tr>\n<td>$action</td>\n<td>$selector</td>\n<td>$value</td>\n</tr>\n";
+			echo "<tr>\n<td>$action</td>\n<td>$selector</td>\n<td>$value</td>\n</tr>\n";
 		}
 
 		public function addComment($c) {
-			$this->code .= "<tr>\n<th colspan=\"3\">{$c}</th>\n</tr>\n";
+			echo "<tr>\n<th colspan=\"3\">{$c}</th>\n</tr>\n";
 		}
 
 		/**
@@ -72,11 +84,10 @@
 		 * @param $p The password to use
 		 */
 		public function login($u, $p) {
-			global $webUrl, $data;
-			$this->addComment("Login as {$u}");
-			$this->test('open', "{$webUrl}/intro.php");
+			$this->addComment("Login as {$this->server['username']}");
+			$this->test('open', "{$this->webUrl}/intro.php");
 			$this->select('language', 'English');
-			$this->test('open', "{$webUrl}/login.php?server={$data->conn->host}&subject=server");
+			$this->test('open', "{$this->webUrl}/login.php?server={$this->data->conn->host}&subject=server");
 			$this->test('type', "//input[@name='loginUsername']", $u);
 			$this->test('type', "//input[@id='loginPassword']", $p);
 			$this->test('clickAndWait', 'loginSubmit');
@@ -92,10 +103,10 @@
 			$this->addComment("Logout");
 			$this->test('clickAndWait', "//div[@class='trail']/descendant::tr/td[1]/a/span[@class='label' and text()='phpPgAdmin']");
 			$this->test('clickAndWait', "link={$lang['strservers']}");
-			$this->test('clickAndWait', "//tr/td/a[text()='{$this->servDesc}']/../../td/a[text()='{$lang['strlogout']}']");
+			$this->test('clickAndWait', "//tr/td/a[text()='{$this->server['desc']}']/../../td/a[text()='{$lang['strlogout']}']");
 
 			$this->test('assertText', "//p[@class='message']",
-				sprintf($lang['strlogoutmsg'], $this->servDesc)
+				sprintf($lang['strlogoutmsg'], $this->server['desc'])
 			);
 		}
 
