@@ -136,7 +136,7 @@
 	$lang['strselectall'] = '选择所有';
 	$lang['strunselectall'] = '取消选择所有';
 	$lang['strlocale'] = '本地';
-	
+
 	// User-supplied SQL history
 	$lang['strhistory'] = '历史';
 	$lang['strnohistory'] = '无历史.';
