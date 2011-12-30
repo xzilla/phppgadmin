@@ -146,7 +146,7 @@
 				echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\r\n";
 				echo "<head>\r\n";
 				echo "\t<title></title>\r\n";
-				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$data->codemap[$dbEncoding]}\" />\r\n";
+				echo "\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\r\n";
 				echo "</head>\r\n";
 				echo "<body>\r\n";
 				echo "<table class=\"phppgadmin\">\r\n";
@@ -177,10 +177,7 @@
 				echo "</html>\r\n";
 			}
 			elseif ($format == 'xml') {
-				echo "<?xml version=\"1.0\"";
-				if (isset($data->codemap[$dbEncoding]))
-					echo " encoding=\"{$data->codemap[$dbEncoding]}\"";
-				echo " ?>\n";
+				echo "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
 				echo "<data>\n";
 				if (!$rs->EOF) {
 					// Output header row

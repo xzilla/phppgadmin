@@ -9,9 +9,7 @@
 	 
 	// Language and character set
 	$lang['applang'] = 'Hebrew';
-	$lang['appcharset'] = 'utf-8';
-	$lang['applocale'] = 'he_IL';
-	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applocale'] = 'he-IL';
 	$lang['applangdir'] = 'rtl';
 
 	// Welcome  

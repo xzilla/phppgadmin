@@ -10,9 +10,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Русский (UTF-8)';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'ru_RU.UTF-8';
-	$lang['appdbencoding'] = 'UTF8';
+	$lang['applocale'] = 'ru-RU.UTF-8';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome

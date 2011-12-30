@@ -3,14 +3,11 @@
 	/**
 	 * Danish language file for phpPgAdmin.
 	 * created by Arne Eckmann <bananstat@users.sourceforge.net>
-	 *
 	 */
 
 	// Language and character set
 	$lang['applang'] = 'Danish';
-	$lang['appcharset'] = 'ISO-8859-1';
-	$lang['applocale'] = 'da_DK';
-	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applocale'] = 'da-DK';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome  
@@ -20,7 +17,7 @@
 	$lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 	$lang['strlocaldocs'] = 'PostgreSQL Dokumentation (lokalt)';
 	$lang['strreportbug'] = 'Rapporter fejl';
-	$lang['strviewfaq'] = 'Ofte stillede spørgsmål';
+	$lang['strviewfaq'] = 'Ofte stillede spÃ¸rgsmÃ¥l';
 	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
 	
 	// Basic strings
@@ -40,23 +37,23 @@
 	$lang['strdropped'] = 'Fjernet';
 	$lang['strnull'] = 'Ingenting';
 	$lang['strnotnull'] = 'Ikke ingenting';
-	$lang['strfirst'] = '<< Første';
+	$lang['strfirst'] = '<< FÃ¸rste';
 	$lang['strlast'] = 'Sidste >>';
-	$lang['strprev'] = 'Forgående';
+	$lang['strprev'] = 'ForgÃ¥ende';
 	$lang['strfailed'] = 'Mislykkedes';
-	$lang['strnext'] = 'Næste';
+	$lang['strnext'] = 'NÃ¦ste';
 	$lang['strcreate'] = 'Opret';
 	$lang['strcreated'] = 'Oprettet';
 	$lang['strcomment'] = 'Kommentar';
-	$lang['strlength'] = 'Længde';
-	$lang['strdefault'] = 'Standardværdi';
-	$lang['stralter'] = 'Ændre';
+	$lang['strlength'] = 'LÃ¦ngde';
+	$lang['strdefault'] = 'StandardvÃ¦rdi';
+	$lang['stralter'] = 'Ã†ndre';
 	$lang['strok'] = 'OK';
 	$lang['strcancel'] = 'Fortryd';
 	$lang['strsave'] = 'Gem';
 	$lang['strreset'] = 'Nulstil';
-	$lang['strinsert'] = 'Indsæt';
-	$lang['strselect'] = 'Vælg';
+	$lang['strinsert'] = 'IndsÃ¦t';
+	$lang['strselect'] = 'VÃ¦lg';
 	$lang['strdelete'] = 'Slet';
 	$lang['strupdate'] = 'Opdater';
 	$lang['strreferences'] = 'Referencer';
@@ -67,38 +64,38 @@
 	$lang['stredit'] = 'Redigere';
 	$lang['strcolumn'] = 'Kolonne';
 	$lang['strcolumns'] = 'Kolonner';
-	$lang['strrows'] = 'Række(r)';
-	$lang['strrowsaff'] = 'Række(r) berørt.';
+	$lang['strrows'] = 'RÃ¦kke(r)';
+	$lang['strrowsaff'] = 'RÃ¦kke(r) berÃ¸rt.';
 	$lang['strobjects'] = 'Objekt';
 	$lang['strexample'] = 'f.eks.';
 	$lang['strback'] = 'Tilbage';
-	$lang['strqueryresults'] = 'Søgeresultat';
+	$lang['strqueryresults'] = 'SÃ¸geresultat';
 	$lang['strshow'] = 'Vise';
-	$lang['strempty'] = 'Tøm';
+	$lang['strempty'] = 'TÃ¸m';
 	$lang['strlanguage'] = 'Sprog';
 	$lang['strencoding'] = 'Kodning';
-	$lang['strvalue'] = 'Værdi';
+	$lang['strvalue'] = 'VÃ¦rdi';
 	$lang['strunique'] = 'Unik';
-	$lang['strprimary'] = 'Primær';
+	$lang['strprimary'] = 'PrimÃ¦r';
 	$lang['strexport'] = 'Eksportere';
 	$lang['strimport'] = 'Importere';
 	$lang['strsql'] = 'SQL';
-	$lang['strgo'] = 'Udfør';
+	$lang['strgo'] = 'UdfÃ¸r';
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Ryd op';
 	$lang['stranalyze'] = 'Analysere';
 	$lang['strclusterindex'] = 'Klynge';
 	$lang['strclustered'] = 'Klynget?';
 	$lang['strreindex'] = 'Genindekser';
-	$lang['strrun'] = 'Udfør';
-	$lang['stradd'] = 'Tilføj';
-	$lang['strevent'] = 'Hændelse';
+	$lang['strrun'] = 'UdfÃ¸r';
+	$lang['stradd'] = 'TilfÃ¸j';
+	$lang['strevent'] = 'HÃ¦ndelse';
 	$lang['strwhere'] = 'Hvor';
-	$lang['strinstead'] = 'Gør i stedet';
-	$lang['strwhen'] = 'Når';
+	$lang['strinstead'] = 'GÃ¸r i stedet';
+	$lang['strwhen'] = 'NÃ¥r';
 	$lang['strformat'] = 'Format';
 	$lang['strdata'] = 'Data';
-	$lang['strconfirm'] = 'Bekræft';
+	$lang['strconfirm'] = 'BekrÃ¦ft';
 	$lang['strexpression'] = 'Udtryk';
 	$lang['strellipsis'] = '...';
 	$lang['strseparator'] = ': ';
@@ -106,13 +103,13 @@
 	$lang['strcollapse'] = 'Klap sammen';
 	$lang['strexplain'] = 'Forklar';
 	$lang['strexplainanalyze'] = 'Forklar analyze';
-	$lang['strfind'] = 'Søg';
+	$lang['strfind'] = 'SÃ¸g';
 	$lang['stroptions'] = 'Alternativ';
 	$lang['strrefresh'] = 'Opdater';
 	$lang['strdownload'] = 'Download';
 	$lang['strdownloadgzipped'] = 'Download komprimeret som gzip';
 	$lang['strinfo'] = 'Info';
-	$lang['stroids'] = 'OID´er';
+	$lang['stroids'] = 'OIDÂ´er';
 	$lang['stradvanced'] = 'Avanceret';
 	$lang['strvariables'] = 'Variable';
 	$lang['strprocess'] = 'Proces';
@@ -128,17 +125,17 @@
 	$lang['strparameters'] = 'Parametrer';
 
 	// Error handling
-	$lang['strnotloaded'] = 'Du har ikke ikke indlagt korrekt databaseunderstøttelse i din PHP-installation.';
-	$lang['strbadconfig'] = 'Din config.inc.php er ikke opdateret. Du er nødt til at genetablere den fra den nye config.inc.php-dist.';
-	$lang['strbadencoding'] = 'Det lykkedes ikke at sætte klientkodning i databasen.';
+	$lang['strnotloaded'] = 'Du har ikke ikke indlagt korrekt databaseunderstÃ¸ttelse i din PHP-installation.';
+	$lang['strbadconfig'] = 'Din config.inc.php er ikke opdateret. Du er nÃ¸dt til at genetablere den fra den nye config.inc.php-dist.';
+	$lang['strbadencoding'] = 'Det lykkedes ikke at sÃ¦tte klientkodning i databasen.';
 	$lang['strbadSchema'] = 'Forkert Skema angivet.';
-	$lang['strinstatement'] = 'I påstanden:';
+	$lang['strinstatement'] = 'I pÃ¥standen:';
 	$lang['strsqlerror'] = 'SQL fejl:';
 	$lang['strinvalidparam'] = 'Ugyldig scriptparam.';
-	$lang['strnodata'] = 'Ingen rækker fundet.';
+	$lang['strnodata'] = 'Ingen rÃ¦kker fundet.';
 	$lang['strnoobjects'] = 'Ingen objekter fundet.';
-	$lang['strrownotunique'] = 'Denne række har ingen unik nøgle.';
-	$lang['strnoreportsdb'] = 'Du har ikke oprettet nogen rapportdatabase. For instruktioner læs filen INSTALL.';
+	$lang['strrownotunique'] = 'Denne rÃ¦kke har ingen unik nÃ¸gle.';
+	$lang['strnoreportsdb'] = 'Du har ikke oprettet nogen rapportdatabase. For instruktioner lÃ¦s filen INSTALL.';
 
 	// Tables
 	$lang['strtable'] = 'Tabel';
@@ -149,48 +146,48 @@
 	$lang['strcreatetable'] = 'Opret tabel';
 	$lang['strtablename'] = 'Tabelnavn';
 	$lang['strtableneedsname'] = 'Tabel skal have et navn.';
-	$lang['strtableneedsfield'] = 'Der skal mindst være et felt.';
-	$lang['strtableneedscols'] = 'tabeller kræver et tilladeligt antal kolonner.';
+	$lang['strtableneedsfield'] = 'Der skal mindst vÃ¦re et felt.';
+	$lang['strtableneedscols'] = 'tabeller krÃ¦ver et tilladeligt antal kolonner.';
 	$lang['strtablecreated'] = 'Tabel oprettet.';
 	$lang['strtablecreatedbad'] = 'Tabeloprettelse mislykkedes.';
-	$lang['strconfdroptable'] = 'Er du sikker på at du vil fjerne tabellen "%s"?';
+	$lang['strconfdroptable'] = 'Er du sikker pÃ¥ at du vil fjerne tabellen "%s"?';
 	$lang['strtabledropped'] = 'Tabel fjernet.';
-	$lang['strinsertrow'] = 'Indsæt række';
+	$lang['strinsertrow'] = 'IndsÃ¦t rÃ¦kke';
 	$lang['strtabledroppedbad'] = 'Det lykkedes ikke at fjerne tabellen.';
-	$lang['strrowinserted'] = 'Række indsat.';
-	$lang['strconfemptytable'] = 'Er du sikker på at du vil tømme tabellen "%s"?';
-	$lang['strrowupdated'] = 'Række opdateret.';
-	$lang['strrowinsertedbad'] = 'Det lykkedes ikke indsætte række.';
-	$lang['strtableemptied'] = 'Tabellen tømt.';
-	$lang['strrowupdatedbad'] = 'Opdatering af række mislykkedes.';
-	$lang['streditrow'] = 'Rediger række';
-	$lang['strrowdeleted'] = 'Række slettet.';
-	$lang['strrowdeletedbad'] = 'Sletning af række mislykkedes.';
+	$lang['strrowinserted'] = 'RÃ¦kke indsat.';
+	$lang['strconfemptytable'] = 'Er du sikker pÃ¥ at du vil tÃ¸mme tabellen "%s"?';
+	$lang['strrowupdated'] = 'RÃ¦kke opdateret.';
+	$lang['strrowinsertedbad'] = 'Det lykkedes ikke indsÃ¦tte rÃ¦kke.';
+	$lang['strtableemptied'] = 'Tabellen tÃ¸mt.';
+	$lang['strrowupdatedbad'] = 'Opdatering af rÃ¦kke mislykkedes.';
+	$lang['streditrow'] = 'Rediger rÃ¦kke';
+	$lang['strrowdeleted'] = 'RÃ¦kke slettet.';
+	$lang['strrowdeletedbad'] = 'Sletning af rÃ¦kke mislykkedes.';
 	$lang['strfield'] = 'Felt';
-	$lang['strconfdeleterow'] = 'Er du sikker på at du vil slette denne række?';
+	$lang['strconfdeleterow'] = 'Er du sikker pÃ¥ at du vil slette denne rÃ¦kke?';
 	$lang['strnumfields'] = 'Antal felter';
-	$lang['strsaveandrepeat'] = 'Gem & Fortsæt';
-	$lang['strtableemptiedbad'] = 'Det lykkedes ikke at tømme tabellen';
-	$lang['strdeleterow'] = 'Slet række';
+	$lang['strsaveandrepeat'] = 'Gem & FortsÃ¦t';
+	$lang['strtableemptiedbad'] = 'Det lykkedes ikke at tÃ¸mme tabellen';
+	$lang['strdeleterow'] = 'Slet rÃ¦kke';
 	$lang['strfields'] = 'Felt';
 	$lang['strfieldneedsname'] = 'Feltet skal have et navn';
 	$lang['strcolumndropped'] = 'Kolonne fjernet.';
-	$lang['strselectallfields'] = 'Vælg alle felter';
-	$lang['strselectneedscol'] = 'Der skal vælges mindst een kolonne';
-	$lang['strselectunary'] = 'Unary operander kan ikke have værdien.';
-	$lang['strcolumnaltered'] = 'Kolonne ændret.';
-	$lang['straltercolumn'] = 'Ændre kolonne';
-	$lang['strcolumnalteredbad'] = 'Det lykkes ikke at ændre kolonne.';
-	$lang['strconfdropcolumn'] = 'Er du sikker på at du vil fjerne kolonne "%s" fra tabel "%s"?';
+	$lang['strselectallfields'] = 'VÃ¦lg alle felter';
+	$lang['strselectneedscol'] = 'Der skal vÃ¦lges mindst een kolonne';
+	$lang['strselectunary'] = 'Unary operander kan ikke have vÃ¦rdien.';
+	$lang['strcolumnaltered'] = 'Kolonne Ã¦ndret.';
+	$lang['straltercolumn'] = 'Ã†ndre kolonne';
+	$lang['strcolumnalteredbad'] = 'Det lykkes ikke at Ã¦ndre kolonne.';
+	$lang['strconfdropcolumn'] = 'Er du sikker pÃ¥ at du vil fjerne kolonne "%s" fra tabel "%s"?';
 	$lang['strcolumndroppedbad'] = 'Det lykkedes ikke at fjerne kolonne.';
-	$lang['straddcolumn'] = 'Tilføj kolonne';
-	$lang['strcolumnadded'] = 'Kolonne tiføjet.';
-	$lang['strcolumnaddedbad'] = 'Det lykkedes ikke at tilføje kolonne.';
+	$lang['straddcolumn'] = 'TilfÃ¸j kolonne';
+	$lang['strcolumnadded'] = 'Kolonne tifÃ¸jet.';
+	$lang['strcolumnaddedbad'] = 'Det lykkedes ikke at tilfÃ¸je kolonne.';
 	$lang['strcascade'] = 'KASKAD';
 	$lang['strdataonly'] = 'Udelukkende data';
-	$lang['strtablealtered'] = 'Tabel ændret.';
-	$lang['strtablealteredbad'] = 'Det lykkedes ikke at ændre tabel.';
-	$lang['strestimatedrowcount'] = 'Anslået antal rækker';
+	$lang['strtablealtered'] = 'Tabel Ã¦ndret.';
+	$lang['strtablealteredbad'] = 'Det lykkedes ikke at Ã¦ndre tabel.';
+	$lang['strestimatedrowcount'] = 'AnslÃ¥et antal rÃ¦kker';
 	
 	// Users
 	$lang['struser'] = 'Bruger';
@@ -199,29 +196,29 @@
 	$lang['strpassword'] = 'Password';
 	$lang['strsuper'] = 'Superbruger?';
 	$lang['strcreatedb'] = 'Opret database?';
-	$lang['strexpires'] = 'Udløber';
+	$lang['strexpires'] = 'UdlÃ¸ber';
 	$lang['strsessiondefaults'] = 'Sessionsindstillinger';
 	$lang['strnewname'] = 'Nyt navn';
 	$lang['strnousers'] = 'Der blev ikke fundet nogen brugere.';
-	$lang['strrename'] = 'Omdøb';
-	$lang['struserrenamed'] = 'Brugernavn ændret.';
-	$lang['struserrenamedbad'] = 'Det lykkedes ikke at omdøbe bruger.';
+	$lang['strrename'] = 'OmdÃ¸b';
+	$lang['struserrenamed'] = 'Brugernavn Ã¦ndret.';
+	$lang['struserrenamedbad'] = 'Det lykkedes ikke at omdÃ¸be bruger.';
 	$lang['struserupdated'] = 'Bruger opdateret.';
 	$lang['struserupdatedbad'] = 'Opdatering af bruger mislykkedes.';
 	$lang['strshowallusers'] = 'Vis alle brugere';
 	$lang['strcreateuser'] = 'Opret bruger';
-	$lang['struserneedsname'] = 'Bruger behøver et navn.';
-	$lang['strconfdropuser'] = 'Er du sikker på at du vil slette brugeren "%s"?';
+	$lang['struserneedsname'] = 'Bruger behÃ¸ver et navn.';
+	$lang['strconfdropuser'] = 'Er du sikker pÃ¥ at du vil slette brugeren "%s"?';
 	$lang['strusercreated'] = 'Bruger oprettet.';
 	$lang['strusercreatedbad'] = 'Oprettelse af bruger mislykkedes.';
 	$lang['struserdropped'] = 'Bruger slettet.';
 	$lang['struserdroppedbad'] = 'Sletning af bruger mislykkedes.';
 	$lang['straccount'] = 'Konto';
-	$lang['strchangepassword'] = 'Ændre password';
-	$lang['strpasswordchanged'] = 'Password ændret.';
-	$lang['strpasswordchangedbad'] = 'Ændring af password mislykkedes.';
+	$lang['strchangepassword'] = 'Ã†ndre password';
+	$lang['strpasswordchanged'] = 'Password Ã¦ndret.';
+	$lang['strpasswordchangedbad'] = 'Ã†ndring af password mislykkedes.';
 	$lang['strpasswordshort'] = 'Password er for kort.';
-	$lang['strpasswordconfirm'] = 'Password er forskellig fra bekræftelsen.';
+	$lang['strpasswordconfirm'] = 'Password er forskellig fra bekrÃ¦ftelsen.';
 
 	// Groups
 	$lang['strgroup'] = 'Gruppe';
@@ -234,15 +231,15 @@
 	$lang['strgroupcreated'] = 'Gruppe oprettet.';
 	$lang['strgroupdropped'] = 'Gruppe slettet.';
 	$lang['strgroupcreatedbad'] = 'Oprettelse af gruppe mislykkedes.';	
-	$lang['strconfdropgroup'] = 'Er du sikker på at du vil slette gruppe "%s"?';
+	$lang['strconfdropgroup'] = 'Er du sikker pÃ¥ at du vil slette gruppe "%s"?';
 	$lang['strgrant'] = 'Tildel';
-	$lang['strgranted'] = 'Privilegier ændret.';
+	$lang['strgranted'] = 'Privilegier Ã¦ndret.';
 	$lang['strgroupdroppedbad'] = 'Det lykkedes ikke at fjerne gruppe.';
-	$lang['straddmember'] = 'Tilføj medlem';
-	$lang['strmemberadded'] = 'Medlem tilføjet.';
-	$lang['strmemberaddedbad'] = 'Det lykkedes ikke at tilføje medlem.';
+	$lang['straddmember'] = 'TilfÃ¸j medlem';
+	$lang['strmemberadded'] = 'Medlem tilfÃ¸jet.';
+	$lang['strmemberaddedbad'] = 'Det lykkedes ikke at tilfÃ¸je medlem.';
 	$lang['strdropmember'] = 'Fjern medlem';
-	$lang['strconfdropmember'] = 'Er du sikker på at du vil fjerne medlem "%s" fra gruppen "%s"?';
+	$lang['strconfdropmember'] = 'Er du sikker pÃ¥ at du vil fjerne medlem "%s" fra gruppen "%s"?';
 	$lang['strmemberdropped'] = 'Medlem fjernet.';
 	$lang['strmemberdroppedbad'] = 'Det lykkedes ikke at fjerne medlem.';
 	
@@ -253,8 +250,8 @@
 	$lang['strmembers'] = 'Medlemmer';
 	$lang['strrevoke'] = 'Inddrag';
 	$lang['strgrantbad'] = 'Du skal angive mindst en bruger eller gruppe og mindst et privilegie.';
-	$lang['strgrantfailed'] = 'Ændring af rettigheder mislykkedes.';
-	$lang['stralterprivs'] = 'Ændre rettigheder';
+	$lang['strgrantfailed'] = 'Ã†ndring af rettigheder mislykkedes.';
+	$lang['stralterprivs'] = 'Ã†ndre rettigheder';
 	$lang['strdatabase'] = 'Database';
 	$lang['strdatabasedropped'] = 'Database fjernet.';
 	$lang['strdatabases'] = 'Databaser';
@@ -273,11 +270,11 @@
 	$lang['strdatabaseneedsname'] = 'Databasen skal have et navn.';
 	$lang['strdatabasecreated'] = 'Database oprettet.';
 	$lang['strdatabasecreatedbad'] = 'Oprettelse af database mislykkedes.';	
-	$lang['strconfdropdatabase'] = 'Er du sikker på at du vil fjerne database "%s"?';
+	$lang['strconfdropdatabase'] = 'Er du sikker pÃ¥ at du vil fjerne database "%s"?';
 	$lang['strdatabasedroppedbad'] = 'Fjernelse af database mislykkedes.';
 	$lang['strentersql'] = 'Enter the SQL to execute below:';
-	$lang['strsqlexecuted'] = 'SQL-kommando udført.';
-	$lang['strvacuumgood'] = 'Vacuum udført.';
+	$lang['strsqlexecuted'] = 'SQL-kommando udfÃ¸rt.';
+	$lang['strvacuumgood'] = 'Vacuum udfÃ¸rt.';
 	$lang['strvacuumbad'] = 'Vacuum mislykkedes.';
 	$lang['stranalyzegood'] = 'Analysen lykkedes.';
 	$lang['stranalyzebad'] = 'Analysen mislykkedes.';
@@ -299,19 +296,19 @@
 	$lang['strnoview'] = 'Ingen view blev fundet.';
 	$lang['strnoviews'] = 'Ingen views blev fundet.';
 	$lang['strcreateview'] = 'Opret view';
-	$lang['strviewname'] = 'Navn på view';
+	$lang['strviewname'] = 'Navn pÃ¥ view';
 	$lang['strviewneedsname'] = 'View skal have et navn.';
 	$lang['strviewneedsdef'] = 'Du skal angive en defintion for view.';
 	$lang['strviewcreated'] = 'View oprettet.';
 	$lang['strviewcreatedbad'] = 'Oprettelse af View mislykkedes.';
-	$lang['strconfdropview'] = 'Er du sikker på at du vil fjerne view "%s"?';
+	$lang['strconfdropview'] = 'Er du sikker pÃ¥ at du vil fjerne view "%s"?';
 	$lang['strviewdropped'] = 'View fjernet.';
 	$lang['strviewdroppedbad'] = 'Fjernelse af view mislykkedes.';
 	$lang['strviewupdated'] = 'View opdateret.';
 	$lang['strviewupdatedbad'] = 'Opdatering af view mislykkedes.';
 	$lang['strviewlink'] = 'Linking Keys';
-	$lang['strviewconditions'] = 'Yderligere vilkår';
-	$lang['strcreateviewwiz'] = 'Opret view med hjælp af wizard';
+	$lang['strviewconditions'] = 'Yderligere vilkÃ¥r';
+	$lang['strcreateviewwiz'] = 'Opret view med hjÃ¦lp af wizard';
 
 	// Sequences
 	$lang['strsequence'] = 'Sekvens';
@@ -320,18 +317,18 @@
 	$lang['strnosequence'] = 'Sekvens blev ikke fundet.';
 	$lang['strnosequences'] = 'Ingen sekvenser blev fundet.';
 	$lang['strcreatesequence'] = 'Opret sekvens';
-	$lang['strlastvalue'] = 'Seneste værdi';
-	$lang['strincrementby'] = 'Øg med';
-	$lang['strstartvalue'] = 'Startværdi';
-	$lang['strmaxvalue'] = 'Største værdi';
-	$lang['strminvalue'] = 'Mindste værdi';
-	$lang['strcachevalue'] = 'Cachens værdi';
+	$lang['strlastvalue'] = 'Seneste vÃ¦rdi';
+	$lang['strincrementby'] = 'Ã˜g med';
+	$lang['strstartvalue'] = 'StartvÃ¦rdi';
+	$lang['strmaxvalue'] = 'StÃ¸rste vÃ¦rdi';
+	$lang['strminvalue'] = 'Mindste vÃ¦rdi';
+	$lang['strcachevalue'] = 'Cachens vÃ¦rdi';
 	$lang['strlogcount'] = 'Log count';
 	$lang['striscycled'] = 'Is cycled?';
 	$lang['strsequenceneedsname'] = 'Sekvens skal have et navn.';
 	$lang['strsequencecreated'] = 'Sekvens oprettet.';
 	$lang['strsequencecreatedbad'] = 'Oprettelse af sekvens mislykkedes.'; 
-	$lang['strconfdropsequence'] = 'Er du sikker på at du vil fjerne sekvensen "%s"?';
+	$lang['strconfdropsequence'] = 'Er du sikker pÃ¥ at du vil fjerne sekvensen "%s"?';
 	$lang['strsequencedropped'] = 'Sekvensen fjernet.';
 	$lang['strsequencedroppedbad'] = 'Fjernelse af sekvens mislykkedes.';
 
@@ -349,15 +346,15 @@
 	$lang['strtabname'] = 'Tabelnavn';
 	$lang['strcolumnname'] = 'Kolonnenavn';
 	$lang['strindexneedsname'] = 'Indeks skal have et navn';
-	$lang['strindexneedscols'] = 'Indeks kræveret gyldigt antal kolonner.';
+	$lang['strindexneedscols'] = 'Indeks krÃ¦veret gyldigt antal kolonner.';
 	$lang['strindexcreated'] = 'Indeks oprettet';
 	$lang['strindexcreatedbad'] = 'Oprettelse af indeks mislykkedes.';
-	$lang['strconfdropindex'] = 'Er du sikker på at du vil fjerne indeks "%s"?';
+	$lang['strconfdropindex'] = 'Er du sikker pÃ¥ at du vil fjerne indeks "%s"?';
 	$lang['strindexdropped'] = 'Indeks fjernet.';
 	$lang['strindexdroppedbad'] = 'Det lykkedes ikke at fjerne indeks.';
-	$lang['strkeyname'] = 'Nøglebetegnelse';
-	$lang['struniquekey'] = 'Unik nøgle';
-	$lang['strprimarykey'] = 'Primærnøgle';
+	$lang['strkeyname'] = 'NÃ¸glebetegnelse';
+	$lang['struniquekey'] = 'Unik nÃ¸gle';
+	$lang['strprimarykey'] = 'PrimÃ¦rnÃ¸gle';
  	$lang['strindextype'] = 'Indekstype';
 	$lang['strindexname'] = 'Indeksnavn';
 	$lang['strtablecolumnlist'] = 'Tabelkolonner';
@@ -377,39 +374,39 @@
 	$lang['strruleneedsname'] = 'Regel skal have et navn.';
 	$lang['strrulecreated'] = 'Regel oprettet.';
 	$lang['strrulecreatedbad'] = 'Oprettelse af regel mislykkedes.';
-	$lang['strconfdroprule'] = 'Er du sikker på at du fjerne regel "%s" for "%s"?';
+	$lang['strconfdroprule'] = 'Er du sikker pÃ¥ at du fjerne regel "%s" for "%s"?';
 	$lang['strruledropped'] = 'Regel fjernet.';
 	$lang['strruledroppedbad'] = 'Det lykkedes ikke at fjerne regel.';
 
 	// Constraints
-	$lang['strconstraints'] = 'Afgrænsninger';
-	$lang['strshowallconstraints'] = 'Vis alle afgrænsninger';
-	$lang['strnoconstraints'] = 'Der blev ikke fundet nogen afgrænsninger.';
-	$lang['strcreateconstraint'] = 'Opret afgrænsning';
-	$lang['strconstraintcreated'] = 'Afgrænsning oprettet.';
-	$lang['strconstraintcreatedbad'] = 'Det lykkedes ikke at oprette afgrænsning.';
-	$lang['strconfdropconstraint'] = 'Er du sikker på at du vil fjerne afgrænsning "%s" for "%s"?';
-	$lang['strconstraintdropped'] = 'Afgrænsning fjernet.';
-	$lang['strconstraintdroppedbad'] = 'Det lykkedes ikke at fjerne afgrænsning.';
-	$lang['straddcheck'] = 'Tilføj check';
-	$lang['strcheckneedsdefinition'] = 'Check afgrænsning skal defineres.';
-	$lang['strcheckadded'] = 'Check tilføjet.';
-	$lang['strcheckaddedbad'] = 'Det lykkedes ikke at tilføje check.';
-	$lang['straddpk'] = 'Tilføj primærnøgle';
-	$lang['strpkneedscols'] = 'Primærnøgle kræver mindst en kolonne.';
-	$lang['strpkadded'] = 'Primærnøgle tilføjet.';
-	$lang['strpkaddedbad'] = 'Tilføjelse af primærnøgle mislykkedes.';
-	$lang['stradduniq'] = 'Tilføj unik nøgle';
-	$lang['struniqneedscols'] = 'Unik nøgle kræver mindst een kolonne.';
-	$lang['struniqadded'] = 'Unik nøgle tilføjet.';
-	$lang['struniqaddedbad'] = 'Tilføjelse af unik nøgle mislykkedes.';
-	$lang['straddfk'] = 'Tilføj ekstern nøgle';
-	$lang['strfkneedscols'] = 'Ekstern nøgle kræver mindst een kolonne.';
-	$lang['strfkneedstarget'] = 'Ekstern nøgle kræver en måltabel.';
-	$lang['strfkadded'] = 'Ekstern nøgle tilføjet.';
-	$lang['strfkaddedbad'] = 'Tilføjelse af ekstern nøgle mislykkedes.';
-	$lang['strfktarget'] = 'Måltabel';
-	$lang['strfkcolumnlist'] = 'Kolonner i nøgle';
+	$lang['strconstraints'] = 'AfgrÃ¦nsninger';
+	$lang['strshowallconstraints'] = 'Vis alle afgrÃ¦nsninger';
+	$lang['strnoconstraints'] = 'Der blev ikke fundet nogen afgrÃ¦nsninger.';
+	$lang['strcreateconstraint'] = 'Opret afgrÃ¦nsning';
+	$lang['strconstraintcreated'] = 'AfgrÃ¦nsning oprettet.';
+	$lang['strconstraintcreatedbad'] = 'Det lykkedes ikke at oprette afgrÃ¦nsning.';
+	$lang['strconfdropconstraint'] = 'Er du sikker pÃ¥ at du vil fjerne afgrÃ¦nsning "%s" for "%s"?';
+	$lang['strconstraintdropped'] = 'AfgrÃ¦nsning fjernet.';
+	$lang['strconstraintdroppedbad'] = 'Det lykkedes ikke at fjerne afgrÃ¦nsning.';
+	$lang['straddcheck'] = 'TilfÃ¸j check';
+	$lang['strcheckneedsdefinition'] = 'Check afgrÃ¦nsning skal defineres.';
+	$lang['strcheckadded'] = 'Check tilfÃ¸jet.';
+	$lang['strcheckaddedbad'] = 'Det lykkedes ikke at tilfÃ¸je check.';
+	$lang['straddpk'] = 'TilfÃ¸j primÃ¦rnÃ¸gle';
+	$lang['strpkneedscols'] = 'PrimÃ¦rnÃ¸gle krÃ¦ver mindst en kolonne.';
+	$lang['strpkadded'] = 'PrimÃ¦rnÃ¸gle tilfÃ¸jet.';
+	$lang['strpkaddedbad'] = 'TilfÃ¸jelse af primÃ¦rnÃ¸gle mislykkedes.';
+	$lang['stradduniq'] = 'TilfÃ¸j unik nÃ¸gle';
+	$lang['struniqneedscols'] = 'Unik nÃ¸gle krÃ¦ver mindst een kolonne.';
+	$lang['struniqadded'] = 'Unik nÃ¸gle tilfÃ¸jet.';
+	$lang['struniqaddedbad'] = 'TilfÃ¸jelse af unik nÃ¸gle mislykkedes.';
+	$lang['straddfk'] = 'TilfÃ¸j ekstern nÃ¸gle';
+	$lang['strfkneedscols'] = 'Ekstern nÃ¸gle krÃ¦ver mindst een kolonne.';
+	$lang['strfkneedstarget'] = 'Ekstern nÃ¸gle krÃ¦ver en mÃ¥ltabel.';
+	$lang['strfkadded'] = 'Ekstern nÃ¸gle tilfÃ¸jet.';
+	$lang['strfkaddedbad'] = 'TilfÃ¸jelse af ekstern nÃ¸gle mislykkedes.';
+	$lang['strfktarget'] = 'MÃ¥ltabel';
+	$lang['strfkcolumnlist'] = 'Kolonner i nÃ¸gle';
 	$lang['strondelete'] = 'VED SLETNING';
 	$lang['stronupdate'] = 'VED OPDATERING';
 
@@ -430,7 +427,7 @@
 	$lang['strfunctionneedsdef'] = 'Funktionen skal defineres.';
 	$lang['strfunctioncreated'] = 'Funktion oprettet.';
 	$lang['strfunctioncreatedbad'] = 'Oprettelse af funktion mislykkedes.';
-	$lang['strconfdropfunction'] = 'Er du sikker på at du vil slette funktionen "%s"?';
+	$lang['strconfdropfunction'] = 'Er du sikker pÃ¥ at du vil slette funktionen "%s"?';
 	$lang['strproglanguage'] = 'Programmeringssprog';
 	$lang['strfunctiondropped'] = 'Funktionen fjernet.';
 	$lang['strfunctiondroppedbad'] = 'Fjernelse af funktionen mislykkedes.';
@@ -449,14 +446,14 @@
 	$lang['strtriggercreated'] = 'Trigger oprettet.';
 	$lang['strtriggerdropped'] = 'Trigger fjernet.';
 	$lang['strtriggercreatedbad'] = 'Det lykkedes ikke at oprette trigger.';
-	$lang['strconfdroptrigger'] = 'Er du sikker på at du vil fjerne trigger "%s" på "%s"?';
+	$lang['strconfdroptrigger'] = 'Er du sikker pÃ¥ at du vil fjerne trigger "%s" pÃ¥ "%s"?';
 	$lang['strtriggerdroppedbad'] = 'Det lykkedes ikke at fjerne trigger.';
 	
 
 	
 	$lang['strstorage'] = 'Lagring';
-	$lang['strtriggeraltered'] = 'Trigger ændret.';
-	$lang['strtriggeralteredbad'] = 'Det lykkedes ikke at ændre trigger.';
+	$lang['strtriggeraltered'] = 'Trigger Ã¦ndret.';
+	$lang['strtriggeralteredbad'] = 'Det lykkedes ikke at Ã¦ndre trigger.';
 	
 	// Types
 	$lang['strtype'] = 'Type';
@@ -465,20 +462,20 @@
 	$lang['strnotype'] = 'Typen blev ikke fundet.';
 	$lang['strnotypes'] = 'Ingen typer fundet.';
 
-	$lang['strtypeneedslen'] = 'Du skal angive typens længde.';	
+	$lang['strtypeneedslen'] = 'Du skal angive typens lÃ¦ngde.';	
 	
 	$lang['strcreatetype'] = 'Opret type';
-	$lang['strtypename'] = 'Navn på typen';
+	$lang['strtypename'] = 'Navn pÃ¥ typen';
 	$lang['strinputfn'] = 'Input funktion';
 	$lang['stroutputfn'] = 'Output funktion';
 	$lang['strpassbyval'] = 'Passed by val?';
 	$lang['stralignment'] = 'Justering';
 	$lang['strelement'] = 'Element';
-	$lang['strdelimiter'] = 'Begrænser';
+	$lang['strdelimiter'] = 'BegrÃ¦nser';
 	$lang['strtypeneedsname'] = 'Typen skal have et navn.';
 	$lang['strtypecreated'] = 'Type oprettet';
 	$lang['strtypecreatedbad'] = 'Det lykkedes ikke at oprette type.';
-	$lang['strconfdroptype'] = 'Er du sikker på at du vil fjerne typen "%s"?';
+	$lang['strconfdroptype'] = 'Er du sikker pÃ¥ at du vil fjerne typen "%s"?';
 	$lang['strtypedropped'] = 'Typen fjernet.';
 	$lang['strtypedroppedbad'] = 'Det lykkedes ikke at fjerne typen.';
 
@@ -493,7 +490,7 @@
 	$lang['strschemaneedsname'] = 'Skema skal have et navn.';
 	$lang['strschemacreated'] = 'Skema oprettet';
 	$lang['strschemacreatedbad'] = 'Det lykkedes ikke at oprette skema.';
-	$lang['strconfdropschema'] = 'Er du sikker på, at du vil fjerne skemaet "%s"?';
+	$lang['strconfdropschema'] = 'Er du sikker pÃ¥, at du vil fjerne skemaet "%s"?';
 	$lang['strschemadropped'] = 'Skema fjernet.';
 	$lang['strschemadroppedbad'] = 'Det lykkedes ikka at fjerne skema.';
 
@@ -501,7 +498,7 @@
 	$lang['strreport'] = 'Rapport';
 	$lang['strreports'] = 'Rapporter';
 	$lang['strshowallreports'] = 'Vis alle rapporter';
-	$lang['strtopbar'] = '%s kører på %s:%s -- Du er logged ind som bruger "%s"';
+	$lang['strtopbar'] = '%s kÃ¸rer pÃ¥ %s:%s -- Du er logged ind som bruger "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
 	$lang['strnoreports'] = 'Ingen rapporter fundet.';
 	$lang['strcreatereport'] = 'Opret rapport';
@@ -510,23 +507,23 @@
 	$lang['strreportneedsname'] = 'Rapport skal have et navn.';
 	$lang['strreportcreatedbad'] = 'Det lykkedes ikke at oprette rapport.';
 	$lang['strreportdroppedbad'] = 'Det lykkedes ikke at fjerne rapport.';
-	$lang['strconfdropreport'] = 'Er du sikker på, at du vil fjerne rapporten "%s"?';
-	$lang['strreportneedsdef'] = 'Du skal angive en SQL-forespørgsel.';
+	$lang['strconfdropreport'] = 'Er du sikker pÃ¥, at du vil fjerne rapporten "%s"?';
+	$lang['strreportneedsdef'] = 'Du skal angive en SQL-forespÃ¸rgsel.';
 	
 	// Domains
-	$lang['strdomain'] = 'Domæne';
-	$lang['strdomains'] = 'Domæner';
-	$lang['strshowalldomains'] = 'Vis alle domæner';
-	$lang['strnodomains'] = 'Ingen domæner blev fundet.';
-	$lang['strcreatedomain'] = 'Opret domæne';
-	$lang['strdomaindropped'] = 'Domæne fjernet.';
-	$lang['strdomaindroppedbad'] = 'Det lykkedes ikke at fjerne domæne.';
-	$lang['strconfdropdomain'] = 'Er du sikker på at du vil fjerne domænet "%s"?';
-	$lang['strdomainneedsname'] = 'Du skal indtaste et domænenavn.';
-	$lang['strdomaincreated'] = 'Domæne oprettet.';
-	$lang['strdomaincreatedbad'] = 'Det lykkedes ikke at oprette et domæne.';
-	$lang['strdomainaltered'] = 'Domæne ændret.';
-	$lang['strdomainalteredbad'] = 'Det lykkedes ikke at ændre domæne.';
+	$lang['strdomain'] = 'DomÃ¦ne';
+	$lang['strdomains'] = 'DomÃ¦ner';
+	$lang['strshowalldomains'] = 'Vis alle domÃ¦ner';
+	$lang['strnodomains'] = 'Ingen domÃ¦ner blev fundet.';
+	$lang['strcreatedomain'] = 'Opret domÃ¦ne';
+	$lang['strdomaindropped'] = 'DomÃ¦ne fjernet.';
+	$lang['strdomaindroppedbad'] = 'Det lykkedes ikke at fjerne domÃ¦ne.';
+	$lang['strconfdropdomain'] = 'Er du sikker pÃ¥ at du vil fjerne domÃ¦net "%s"?';
+	$lang['strdomainneedsname'] = 'Du skal indtaste et domÃ¦nenavn.';
+	$lang['strdomaincreated'] = 'DomÃ¦ne oprettet.';
+	$lang['strdomaincreatedbad'] = 'Det lykkedes ikke at oprette et domÃ¦ne.';
+	$lang['strdomainaltered'] = 'DomÃ¦ne Ã¦ndret.';
+	$lang['strdomainalteredbad'] = 'Det lykkedes ikke at Ã¦ndre domÃ¦ne.';
 	
 	// Operators
 	$lang['stroperator'] = 'Operator';
@@ -550,7 +547,7 @@
 	$lang['stroperatorneedsname'] = 'Operator skal have et navn.';
 	$lang['stroperatorcreated'] = 'Operator oprettet';
 	$lang['stroperatorcreatedbad'] = 'Oprettelse af operator mislykkedes.';
-	$lang['strconfdropoperator'] = 'Er du sikker på, at du vil fjerne operator "%s"?';
+	$lang['strconfdropoperator'] = 'Er du sikker pÃ¥, at du vil fjerne operator "%s"?';
 	$lang['stroperatordropped'] = 'Operator fjernet.';
 	$lang['stroperatordroppedbad'] = 'Fjernelse af operator mislykkedes.';
 
@@ -558,31 +555,31 @@
 	$lang['strcasts'] = 'Typekonverteringer';
 	$lang['strnocasts'] = 'Ingen typekonverteringer fundet.';
 	$lang['strsourcetype'] = 'Kildetype';
-	$lang['strtargettype'] = 'Måltype';
+	$lang['strtargettype'] = 'MÃ¥ltype';
 	$lang['strimplicit'] = 'Implicit';
 	$lang['strinassignment'] = 'Tildelt i';
-	$lang['strbinarycompat'] = '(Binært kompatibel)';
+	$lang['strbinarycompat'] = '(BinÃ¦rt kompatibel)';
 	
 	// Conversions
 	$lang['strconversions'] = 'Konverteringer';
 	$lang['strnoconversions'] = 'Ingen konverteringer fundet.';
 	$lang['strsourceencoding'] = 'Kildekodning';
-	$lang['strtargetencoding'] = 'Målkodning';
+	$lang['strtargetencoding'] = 'MÃ¥lkodning';
 	
 	// Languages
 	$lang['strlanguages'] = 'Sprog';
 	$lang['strnolanguages'] = 'Der blev ikke fundet noget sprog.';
-	$lang['strtrusted'] = 'Pålidelig(e)';
+	$lang['strtrusted'] = 'PÃ¥lidelig(e)';
 	
 	// Info
-	$lang['strnoinfo'] = 'Ingen tilgængelig information.';
+	$lang['strnoinfo'] = 'Ingen tilgÃ¦ngelig information.';
 	$lang['strreferringtables'] = 'Refererende tabeller';
 	$lang['strparenttables'] = 'Overordnede tabeller';
 	$lang['strchildtables'] = 'Underordnede tabeller';
 
 	// Aggregates
-	$lang['straggregates'] = 'Sammenlægninger';
-	$lang['strnoaggregates'] = 'Ingen sammenlægninger fundet.';
+	$lang['straggregates'] = 'SammenlÃ¦gninger';
+	$lang['strnoaggregates'] = 'Ingen sammenlÃ¦gninger fundet.';
 	$lang['stralltypes'] = '(Alle typer)';
 	
 	// Operator Classes
@@ -608,26 +605,26 @@
 	$lang['strrows2'] = 'Rows';
 
 		// Tablespaces
-	$lang['strtablespace'] = 'Tabelområde';
-	$lang['strtablespaces'] = 'Tabelområder';
-	$lang['strshowalltablespaces'] = 'Vis alle tabelområder';
-	$lang['strnotablespaces'] = 'Ingen tabelområder fundet.';
-	$lang['strcreatetablespace'] = 'Opret tabelområder';
+	$lang['strtablespace'] = 'TabelomrÃ¥de';
+	$lang['strtablespaces'] = 'TabelomrÃ¥der';
+	$lang['strshowalltablespaces'] = 'Vis alle tabelomrÃ¥der';
+	$lang['strnotablespaces'] = 'Ingen tabelomrÃ¥der fundet.';
+	$lang['strcreatetablespace'] = 'Opret tabelomrÃ¥der';
 	$lang['strlocation'] = 'Location';
-	$lang['strtablespaceneedsname'] = 'Tabelområdet skal have et navn.';
-	$lang['strtablespaceneedsloc'] = 'Du skal angive hvilken mappe tabelområdet skal oprettes i.';
-	$lang['strtablespacecreated'] = 'Tabelområde oprettet.';
-	$lang['strtablespacecreatedbad'] = 'Oprettelse af tabelområde lykkedes ikke.';
-	$lang['strconfdroptablespace'] = 'Er du sikker på, at du vil fjerne tabelområde "%s"?';
-	$lang['strtablespacedropped'] = 'Tabelområde fjernet.';
-	$lang['strtablespacedroppedbad'] = 'Fjernelse af tabelområde lykkedes ikke.';
-	$lang['strtablespacealtered'] = 'Tabelområde ændret.';
-	$lang['strtablespacealteredbad'] = 'Ændring af tabelområde lykkedes ikke.';
+	$lang['strtablespaceneedsname'] = 'TabelomrÃ¥det skal have et navn.';
+	$lang['strtablespaceneedsloc'] = 'Du skal angive hvilken mappe tabelomrÃ¥det skal oprettes i.';
+	$lang['strtablespacecreated'] = 'TabelomrÃ¥de oprettet.';
+	$lang['strtablespacecreatedbad'] = 'Oprettelse af tabelomrÃ¥de lykkedes ikke.';
+	$lang['strconfdroptablespace'] = 'Er du sikker pÃ¥, at du vil fjerne tabelomrÃ¥de "%s"?';
+	$lang['strtablespacedropped'] = 'TabelomrÃ¥de fjernet.';
+	$lang['strtablespacedroppedbad'] = 'Fjernelse af tabelomrÃ¥de lykkedes ikke.';
+	$lang['strtablespacealtered'] = 'TabelomrÃ¥de Ã¦ndret.';
+	$lang['strtablespacealteredbad'] = 'Ã†ndring af tabelomrÃ¥de lykkedes ikke.';
 	
 	// Miscellaneous
-	$lang['strtopbar'] = '%s Kører på %s:%s -- Du er logged ind som bruger "%s", %s';
+	$lang['strtopbar'] = '%s KÃ¸rer pÃ¥ %s:%s -- Du er logged ind som bruger "%s", %s';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strhelp'] = 'Hjælp';
+	$lang['strhelp'] = 'HjÃ¦lp';
 	$lang['strhelpicon'] = '?';
 
 ?>

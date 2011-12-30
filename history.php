@@ -88,7 +88,7 @@
 			echo "<h3>{$lang['strdelhistory']}</h3>\n";
 			echo "<p>{$lang['strconfdelhistory']}</p>\n";
 
-			echo "<pre>", htmlentities($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']][$qid]['query']), "</pre>";
+			echo "<pre>", htmlentities($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']][$qid]['query'], ENT_QUOTES, 'UTF-8'), "</pre>";
 			echo "<form action=\"history.php\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"delhistory\" />\n";
 			echo "<input type=\"hidden\" name=\"queryid\" value=\"$qid\" />\n";

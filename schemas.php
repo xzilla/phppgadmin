@@ -267,10 +267,10 @@
 					foreach($_POST['nsp'] as $s) {
 						$status = $data->dropSchema($s, isset($_POST['cascade']));
 						if ($status == 0)
-							$msg.= sprintf('%s: %s<br />', htmlentities($s), $lang['strschemadropped']);
+							$msg.= sprintf('%s: %s<br />', htmlentities($s, ENT_QUOTES, 'UTF-8'), $lang['strschemadropped']);
 						else {
 							$data->endTransaction();
-							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s), $lang['strschemadroppedbad']));
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s, ENT_QUOTES, 'UTF-8'), $lang['strschemadroppedbad']));
 							return;
 						}
 					}

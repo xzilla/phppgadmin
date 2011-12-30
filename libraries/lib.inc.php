@@ -44,7 +44,7 @@
 	// Always include english.php, since it's the master language file
 	if (!isset($conf['default_lang'])) $conf['default_lang'] = 'english';
 	$lang = array();
-	require_once('./lang/recoded/english.php');
+	require_once('./lang/english.php');
 
 	// Create Misc class references
 	require_once('./classes/Misc.php');
@@ -163,7 +163,7 @@
 
 	// Import the language file
 	if (isset($_language)) {
-		include("./lang/recoded/{$_language}.php");
+		include("./lang/{$_language}.php");
 		$_SESSION['webdbLanguage'] = $_language;
 	}
 
@@ -218,30 +218,6 @@
 				exit;
 			}
 		}
-
-		// Get database encoding
-		$dbEncoding = $data->getDatabaseEncoding();
-
-		// Set client encoding to database encoding
-		if ($dbEncoding != '') {
-			// Explicitly change client encoding if it's different to server encoding.
-			$currEncoding = pg_client_encoding($data->conn->_connectionID);
-
-			if ($currEncoding != $dbEncoding) {
-				$status = $data->setClientEncoding($dbEncoding);
-				if ($status != 0 && $status != -99) {
-					echo $lang['strbadencoding'];
-					exit;
-				}
-			}
-
-			// Override $lang['appcharset']
-			if (isset($data->codemap[$dbEncoding]))
-				$lang['appcharset'] = $data->codemap[$dbEncoding];
-			else
-				$lang['appcharset'] = $dbEncoding;
-		}
-
 
 		// Load Slony if required
 		if (isset($_server_info['slony_support'])) {

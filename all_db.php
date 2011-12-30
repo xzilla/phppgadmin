@@ -121,9 +121,9 @@
                 foreach($_REQUEST['dropdatabase'] as $d) {
 					$status = $data->dropDatabase($d);
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', htmlentities($d), $lang['strdatabasedropped']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($d, ENT_QUOTES, 'UTF-8'), $lang['strdatabasedropped']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($d), $lang['strdatabasedroppedbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($d, ENT_QUOTES, 'UTF-8'), $lang['strdatabasedroppedbad']));
 						return;
 					}
 				}// Everything went fine, back to Default page...
@@ -156,10 +156,7 @@
 		if (!isset($_POST['formName'])) $_POST['formName'] = '';
 		// Default encoding is that in language file
 		if (!isset($_POST['formEncoding'])) {
-			if (isset($lang['appdbencoding']))
-				$_POST['formEncoding'] = $lang['appdbencoding'];
-			else
-				$_POST['formEncoding'] = '';
+		    $_POST['formEncoding'] = '';
 		}
 		if (!isset($_POST['formTemplate'])) $_POST['formTemplate'] = 'template1';
 		if (!isset($_POST['formSpc'])) $_POST['formSpc'] = '';

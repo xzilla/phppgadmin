@@ -38,7 +38,7 @@
 			if (in_array($h, $fkeynames))
 				echo '<img src="'. $misc->icon('ForeignKey') .'" alt="[referenced key]" />';
 
-			echo htmlentities($h), '</th>';
+			echo htmlentities($h, ENT_QUOTES, 'UTF-8'), '</th>';
 			
 		}
 		echo "</tr>\n";

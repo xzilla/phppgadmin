@@ -9,9 +9,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Česky';
-	$lang['appcharset'] = 'utf-8';
-	$lang['applocale'] = 'cs_CZ';
-	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applocale'] = 'cs-CZ';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome

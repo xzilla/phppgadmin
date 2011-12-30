@@ -11,9 +11,7 @@
 
 	// Language and character set
 	$lang['applang'] = '正體中文（UTF-8）';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'zh_TW';
-	$lang['appdbencoding'] = 'UTF8';
+	$lang['applocale'] = 'zh-TW';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome  

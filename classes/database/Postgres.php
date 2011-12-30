@@ -7332,19 +7332,6 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
-	 * Sets the client encoding
-	 * @param $encoding The encoding to for the client
-	 * @return 0 success
-	 */
-	function setClientEncoding($encoding) {
-		$this->clean($encoding);
-
-		$sql = "SET CLIENT_ENCODING TO '{$encoding}'";
-
-		return $this->execute($sql);
-	}
-
-	/**
 	 * A private helper method for executeScript that advances the
 	 * character by 1.  In psql this is careful to take into account
 	 * multibyte languages, but we don't at the moment, so this function

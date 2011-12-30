@@ -20,7 +20,7 @@
 		'danish' => 'Danish',
 		'dutch' => 'Nederlands',
 		'english' => 'English',
-		'french' => 'Fran&ccedil;ais',
+		'french' => 'Français',
 		'galician' => 'Galego',
 		'german' => 'Deutsch',
 		'greek' => '&#917;&#955;&#955;&#951;&#957;&#953;&#954;&#940;',

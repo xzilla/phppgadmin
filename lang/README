@@ -3,20 +3,6 @@ Translators
 
 Please read the TRANSLATORS file in the top directory.
 
-"recoded" directory contains the HTML Unicode recodings of the source
-language files.  These are the actual files used by phpPgAdmin
-when displaying strings.
-
-Instructions on recoding:
-
-cd lang
-./lang2xml <language_file>  (eg. 'french.php')
-
-Running lang2xml with no arguments will recode all language files:
-
-cd lang
-lang2xml
-
 To check your translation:
 
 cd lang
@@ -26,4 +12,3 @@ To synchronize your translation with english.php:
 
 cd lang
 ./synch <language> (eg. 'polish');
-

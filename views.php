@@ -169,10 +169,10 @@
 					foreach($_POST['view'] as $s) {
 						$status = $data->dropView($s, isset($_POST['cascade']));
 						if ($status == 0)
-							$msg.= sprintf('%s: %s<br />', htmlentities($s), $lang['strviewdropped']);
+							$msg.= sprintf('%s: %s<br />', htmlentities($s, ENT_QUOTES, 'UTF-8'), $lang['strviewdropped']);
 						else {
 							$data->endTransaction();
-							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s), $lang['strviewdroppedbad']));
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($s, ENT_QUOTES, 'UTF-8'), $lang['strviewdroppedbad']));
 							return;
 						}
 					}

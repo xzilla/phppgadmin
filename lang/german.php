@@ -10,9 +10,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Deutsch';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'de_DE';
-	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applocale'] = 'de-DE';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome

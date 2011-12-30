@@ -363,6 +363,9 @@
 			$data = new $_type($_connection->conn);
 			$data->platform = $_connection->platform;
 
+			/* we work on UTF-8 only encoding */
+			$data->execute("SET client_encoding TO 'UTF-8'");
+
 			return $data;
 		}
 
@@ -377,9 +380,9 @@
 			global $appName, $lang, $_no_output, $conf;
 
 			if (!isset($_no_output)) {
-				header("Content-Type: text/html; charset=" . $lang['appcharset']);
+				header("Content-Type: text/html; charset=utf-8");
 				// Send XHTML headers, or regular XHTML strict headers
-				echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
+				echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 				if ($frameset == true) {
 					echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">\n";
 				} else if (isset($conf['use_xhtml_strict']) && $conf['use_xhtml_strict']) {
@@ -392,7 +395,7 @@
 				echo ">\n";
 
 				echo "<head>\n";
-				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset={$lang['appcharset']}\" />\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 				// Theme
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
 				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
@@ -1584,7 +1587,7 @@
 				$sep = '&';
 			}
 
-			$url = htmlentities($url);
+			$url = htmlentities($url, ENT_QUOTES, 'UTF-8');
 
 			if ($attr !== null && $url != '')
 				return ' '.$attr.'="'.$url.'"';
@@ -1718,7 +1721,7 @@
 						foreach ($ma['keycols'] as $k => $v)
 							$a[$k] = $tabledata->fields[$v];
 						echo "<td>";
-						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a)) ."\" />";
+						echo "<input type=\"checkbox\" name=\"ma[]\" value=\"". htmlentities(serialize($a), ENT_COMPAT, 'UTF-8') ."\" />";
 						echo "</td>\n";
 					}
 
@@ -1828,10 +1831,10 @@
 			global $conf, $lang;
 
 			if (!isset($attrs['nohead']) || $attrs['nohead'] === false) {
-				header("Content-Type: text/xml");
+				header("Content-Type: text/xml; charset=UTF-8");
 				header("Cache-Control: no-cache");
 
-				echo "<?xml version=\"1.0\" encoding=\"", htmlspecialchars($lang['appcharset']), "\"?>\n";
+				echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 
 				echo "<tree>\n";
 			}
@@ -2216,17 +2219,17 @@
 				foreach ($fksprops['byconstr'] as $conid => $props) {
 					$fksprops['code'] .= "constrs.constr_{$conid} = {\n";
 					$fksprops['code'] .= 'pattnums: ['. implode(',',$props['pattnums']) ."],\n";
-					$fksprops['code'] .= "f_table:'". addslashes(htmlentities($props['f_table'], ENT_QUOTES)) ."',\n";
-					$fksprops['code'] .= "f_schema:'". addslashes(htmlentities($props['f_schema'], ENT_QUOTES)) ."',\n";
+					$fksprops['code'] .= "f_table:'". addslashes(htmlentities($props['f_table'], ENT_QUOTES, 'UTF-8')) ."',\n";
+					$fksprops['code'] .= "f_schema:'". addslashes(htmlentities($props['f_schema'], ENT_QUOTES, 'UTF-8')) ."',\n";
 					$_ = '';
 					foreach ($props['pattnames'] as $n) {
-						$_ .= ",'". htmlentities($n, ENT_QUOTES) ."'";
+						$_ .= ",'". htmlentities($n, ENT_QUOTES, 'UTF-8') ."'";
 					}
 					$fksprops['code'] .= 'pattnames: ['. substr($_, 1) ."],\n";
 
 					$_ = '';
 					foreach ($props['fattnames'] as $n) {
-						$_ .= ",'". htmlentities($n, ENT_QUOTES) ."'";
+						$_ .= ",'". htmlentities($n, ENT_QUOTES, 'UTF-8') ."'";
 					}
 
 					$fksprops['code'] .= 'fattnames: ['. substr($_, 1) ."]\n";
@@ -2238,9 +2241,9 @@
 					$fksprops['code'] .= "attrs.attr_{$attnum} = [". implode(',', $fksprops['byfield'][$attnum]) ."];\n";
 				}
 
-				$fksprops['code'] .= "var table='". addslashes(htmlentities($table, ENT_QUOTES)) ."';";
-				$fksprops['code'] .= "var server='". htmlentities($_REQUEST['server']) ."';";
-				$fksprops['code'] .= "var database='". addslashes(htmlentities($_REQUEST['database'], ENT_QUOTES)) ."';";
+				$fksprops['code'] .= "var table='". addslashes(htmlentities($table, ENT_QUOTES, 'UTF-8')) ."';";
+				$fksprops['code'] .= "var server='". htmlentities($_REQUEST['server'], ENT_QUOTES, 'UTF-8') ."';";
+				$fksprops['code'] .= "var database='". addslashes(htmlentities($_REQUEST['database'], ENT_QUOTES, 'UTF-8')) ."';";
 				$fksprops['code'] .= "</script>\n";
 
 				$fksprops['code'] .= '<div id="fkbg"></div>';

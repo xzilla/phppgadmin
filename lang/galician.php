@@ -20,9 +20,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Galego';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'gl_ES';
-	$lang['appdbencoding'] = 'UNICODE';
+	$lang['applocale'] = 'gl-ES';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome

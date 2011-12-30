@@ -381,10 +381,10 @@
 					foreach($_POST['function_oid'] as $k => $s) {
 						$status = $data->dropFunction($s, isset($_POST['cascade']));
 						if ($status == 0)
-							$msg.= sprintf('%s: %s<br />', htmlentities($_POST['function'][$k]), $lang['strfunctiondropped']);
+							$msg.= sprintf('%s: %s<br />', htmlentities($_POST['function'][$k], ENT_QUOTES, 'UTF-8'), $lang['strfunctiondropped']);
 						else {
 							$data->endTransaction();
-							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($_POST['function'][$k]), $lang['strfunctiondroppedbad']));
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($_POST['function'][$k], ENT_QUOTES, 'UTF-8'), $lang['strfunctiondroppedbad']));
 							return;
 						}
 					}

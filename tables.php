@@ -534,7 +534,7 @@
 				if (!isset($_SESSION['counter'])) { $_SESSION['counter'] = 0; }
 
 				echo "<input type=\"hidden\" name=\"action\" value=\"insertrow\" />\n";
-				echo "<input type=\"hidden\" name=\"fields\" value=\"", htmlentities(serialize($fields),ENT_QUOTES) ,"\" />\n";
+				echo "<input type=\"hidden\" name=\"fields\" value=\"", htmlentities(serialize($fields), ENT_QUOTES, 'UTF-8') ,"\" />\n";
 				echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
@@ -626,9 +626,9 @@
 				foreach($_REQUEST['table'] as $t) {
 					$status = $data->emptyTable($t);
 					if ($status == 0)
-						$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strtableemptied']);
+						$msg.= sprintf('%s: %s<br />', htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strtableemptied']);
 					else {
-						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strtableemptiedbad']));
+						doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strtableemptiedbad']));
 						return;
 					}
 				}
@@ -696,10 +696,10 @@
 					foreach($_REQUEST['table'] as $t) {
 						$status = $data->dropTable($t, isset($_POST['cascade']));
 						if ($status == 0)
-							$msg.= sprintf('%s: %s<br />', htmlentities($t), $lang['strtabledropped']);
+							$msg.= sprintf('%s: %s<br />', htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strtabledropped']);
 						else {
 							$data->endTransaction();
-							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t), $lang['strtabledroppedbad']));
+							doDefault(sprintf('%s%s: %s<br />', $msg, htmlentities($t, ENT_QUOTES, 'UTF-8'), $lang['strtabledroppedbad']));
 							return;
 						}
 					}
