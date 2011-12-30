@@ -63,7 +63,7 @@ function value(&$var, &$fields, $esc = null) {
 					'<' => '&lt;', '>' => '&gt;'
 				));
 			case 'html':
-				return htmlspecialchars($val);
+				return htmlentities($val, ENT_COMPAT, 'UTF-8');
 			case 'url':
 				return urlencode($val);
 		}
