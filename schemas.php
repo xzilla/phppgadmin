@@ -396,7 +396,7 @@
 		$reqvars = $misc->getRequestVars('schema');
 
 		$attrs = array(
-			'text'   => noEscape(field('title')),
+			'text'   => field('title'),
 			'icon'   => field('icon'),
 			'action' => url(field('url'),
 							$reqvars,

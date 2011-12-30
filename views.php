@@ -660,7 +660,7 @@
 		$reqvars = $misc->getRequestVars('view');
 
 		$attrs = array(
-			'text'   => noEscape(field('title')),
+			'text'   => field('title'),
 			'icon'   => field('icon'),
 			'action' => url(field('url'),	$reqvars, field('urlvars'),	array('view' => $_REQUEST['view'])),
 			'branch' => ifempty( 
