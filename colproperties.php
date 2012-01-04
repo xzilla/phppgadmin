@@ -230,41 +230,98 @@
 
 			echo "<br />\n";
 
-			echo "<ul class=\"navlink\">\n";
 			$f_attname = $_REQUEST['column'];
 			$f_table = $tableName;
 			$f_schema = $data->_schema;
 			$data->fieldClean($f_attname);
 			$data->fieldClean($f_table);
 			$data->fieldClean($f_schema);
-			$query_url = urlencode("SELECT \"{$f_attname}\", count(*) AS \"count\" FROM \"{$f_schema}\".\"{$f_table}\" GROUP BY \"{$f_attname}\" ORDER BY \"{$f_attname}\"") ;
+			$query = "SELECT \"{$f_attname}\", count(*) AS \"count\" FROM \"{$f_schema}\".\"{$f_table}\" GROUP BY \"{$f_attname}\" ORDER BY \"{$f_attname}\"";
 
 			if ($isTable) {
+
 				/* Browse link */
 				/* FIXME browsing a col should somehow be a action so we don't
 				 * send an ugly SQL in the URL */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;table=",
-					urlencode($_REQUEST['table']),
-					"&amp;column=", urlencode($_REQUEST['column']),
-					"&amp;return=column",
-					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
 
-				/* Edit link */
-				echo "\t<li><a href=\"colproperties.php?action=properties&amp;{$misc->href}&amp;table=", urlencode($tableName),
-				    "&amp;column=", urlencode($_REQUEST['column']) . "\">{$lang['stralter']}</a></li>\n";
-				
-				echo "\t<li><a href=\"tblproperties.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($tableName),
-					"&amp;column=" . urlencode($_REQUEST['column']) . "\">{$lang['strdrop']}</a></li>\n";
-			} else {
+				$navlinks = array (
+					array (
+						'attr'=> array (
+							'href' => array (
+								'url' => 'display.php',
+								'urlvars' => array (
+									'subject' => 'column',
+									'server' => $_REQUEST['server'],
+									'database' => $_REQUEST['database'],
+									'schema' => $_REQUEST['schema'],
+									'table' => $tableName,
+									'column' => $_REQUEST['column'],
+									'return' => 'column',
+									'query' => $query
+								)
+							)
+						),
+						'content' => $lang['strbrowse'],
+					),
+					array (
+						'attr'=> array (
+							'href' => array (
+								'url' => 'colproperties.php',
+								'urlvars' => array (
+									'action' => 'properties',
+									'server' => $_REQUEST['server'],
+									'database' => $_REQUEST['database'],
+									'schema' => $_REQUEST['schema'],
+									'table' => $tableName,
+									'column' => $_REQUEST['column'],
+								)
+							)
+						),
+						'content' => $lang['stralter'],
+					),
+					array (
+						'attr'=> array (
+							'href' => array (
+								'url' => 'tblproperties.php',
+								'urlvars' => array (
+									'action' => 'confirm_drop',
+									'server' => $_REQUEST['server'],
+									'database' => $_REQUEST['database'],
+									'schema' => $_REQUEST['schema'],
+									'table' => $tableName,
+									'column' => $_REQUEST['column'],
+								)
+							)
+						),
+						'content' => $lang['strdrop'],
+					)
+				);
+			}
+			else {
 				/* Browse link */
-				echo "\t<li><a href=\"display.php?{$misc->href}&amp;subject=column&amp;view=",
-					urlencode($_REQUEST['view']),
-					"&amp;column=", urlencode($_REQUEST['column']),
-					"&amp;return=column",
-					"&amp;query={$query_url}\">{$lang['strbrowse']}</a></li>\n";
+				$navlinks = array (
+					array (
+						'attr'=> array (
+							'href' => array (
+								'url' => 'display.php',
+								'urlvars' => array (
+									'subject' => 'column',
+									'server' => $_REQUEST['server'],
+									'database' => $_REQUEST['database'],
+									'schema' => $_REQUEST['schema'],
+									'view' => $tableName,
+									'column' => $_REQUEST['column'],
+									'return' => 'column',
+									'query' => $query
+								)
+							)
+						),
+						'content' => $lang['strbrowse']
+					)
+				);
 			}
 
-			echo "</ul>\n";
+			$misc->printNavLinks($navlinks, 'colproperties-colproperties');
 		}
 	}
 

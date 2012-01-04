@@ -196,36 +196,93 @@
 	
 	echo "<p>{$lang['strsqlexecuted']}</p>\n";
 			
-	echo "<ul class=\"navlink\">\n";
+	$navlinks = array();
+	$fields = array(
+		'server' => $_REQUEST['server'],
+		'database' => $_REQUEST['database'],
+	);
+
+	if(isset($_REQUEST['schema']))
+		$fields['schema'] = $_REQUEST['schema'];
 	
 	// Return
 	if (isset($_REQUEST['return'])) {
-		$return_url = $misc->getHREFSubject($_REQUEST['return']);
-		echo "\t<li><a href=\"{$return_url}\">{$lang['strback']}</a></li>\n";
+		$urlvars = $misc->getSubjectParams($_REQUEST['return']);
+		$navlinks[] = array (
+			'attr'=> array (
+				'href' => array (
+					'url' => $urlvars['url'],
+					'urlvars' => $urlvars['params']
+				)
+			),
+			'content' => $lang['strback']
+		);
 	}
 
 	// Edit		
-	echo "\t<li><a href=\"database.php?database=", urlencode($_REQUEST['database']),
-		"&amp;server=", urlencode($_REQUEST['server']), "&amp;action=sql\">{$lang['streditsql']}</a></li>\n";
-				
+	$navlinks[] = array (
+		'attr'=> array (
+			'href' => array (
+				'url' => 'database.php',
+				'urlvars' => array_merge($fields, array (
+					'action' => 'sql',
+				))
+			)
+		),
+		'content' => $lang['streditsql']
+	);
+
 	// Create report
-	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0)
-		echo "\t<li><a href=\"reports.php?{$misc->href}&amp;action=create&amp;report_sql=",
-			urlencode($_SESSION['sqlquery']), "\">{$lang['strcreatereport']}</a></li>\n";
+	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
+		$navlinks[] = array (
+			'attr'=> array (
+				'href' => array (
+					'url' => 'reports.php',
+					'urlvars' => array_merge($fields, array (
+						'action' => 'create',
+						'report_sql' => $_SESSION['sqlquery']
+					))
+				)
+			),
+			'content' => $lang['strcreatereport']
+		);
+   }
 	
 	// Create view and download
 	if (isset($_SESSION['sqlquery']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		// Report views don't set a schema, so we need to disable create view in that case
-		if (isset($_REQUEST['schema'])) 
-			echo "\t<li><a href=\"views.php?action=create&amp;formDefinition=",
-				urlencode($_SESSION['sqlquery']), "&amp;{$misc->href}\">{$lang['strcreateview']}</a></li>\n";
-		echo "\t<li><a href=\"dataexport.php?query=", urlencode($_SESSION['sqlquery']);
+		if (isset($_REQUEST['schema'])) {
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'views.php',
+						'urlvars' => array_merge($fields, array (
+							'action' => 'create',
+							'formDefinition' => $_SESSION['sqlquery']
+						))
+					)
+				),
+				'content' => $lang['strcreateview']
+			);
+		}
+
 		if (isset($_REQUEST['search_path']))
-			echo "&amp;search_path=", urlencode($_REQUEST['search_path']);
-		echo "&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n";
+			$fields['search_path'] = $_REQUEST['search_path'];
+
+		$navlinks['download'] = array (
+			'attr'=> array (
+				'href' => array (
+					'url' => 'dataexport.php',
+					'urlvars' => array_merge($fields, array(
+						'query' => $_SESSION['sqlquery']
+					))
+				)
+			),
+			'content' => $lang['strdownload']
+		);
 	}
 
-	echo "</ul>\n";
+	$misc->printNavLinks($navlinks, 'sql-form');
 	
 	$misc->printFooter();
 ?>

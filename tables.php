@@ -826,10 +826,41 @@
 
 		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></li>\n";
-		if (($tables->recordCount() > 0) && $data->hasCreateTableLike())
-			echo "\t<li><a href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatetable']
+			)
+		);
+
+		if (($tables->recordCount() > 0) && $data->hasCreateTableLike()) {
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'createlike',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatetablelike']
+			);
+		}
+
+		$misc->printNavLinks($navlinks, 'tables-tables');
 	}
 	
 	require('./admin.php');

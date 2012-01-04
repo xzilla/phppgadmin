@@ -123,8 +123,50 @@
 		}
 		else echo "<p>{$lang['strinvalidparam']}</p>\n";
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"reports.php?{$misc->href}\">{$lang['strshowallreports']}</a></li>\n";
-		echo "\t<li><a href=\"reports.php?action=edit&amp;{$misc->href}&amp;report_id={$report->fields['report_id']}\">{$lang['stredit']}</a></li>\n</ul>\n";
+		$urlvars = array ('server' => $_REQUEST['server']);
+		if (isset($_REQUEST['schema'])) $urlvars['schema'] = $_REQUEST['schema'];
+		if (isset($_REQUEST['database'])) $urlvars['database'] = $_REQUEST['database'];
+
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'reports.php',
+						'urlvars' => $urlvars
+					)
+				),
+				'content' => $lang['strshowallreports']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'reports.php',
+						'urlvars' => array_merge($urlvars, array(
+							'action' => 'edit',
+							'report_id' => $report->fields['report_id']
+						))
+					)
+				),
+				'content' => $lang['stredit']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'sql.php',
+						'urlvars' => array_merge($urlvars, array(
+							'subject' => 'report',
+							'report' => $report->fields['report_name'],
+							'return' => 'report',
+							'database' => $report->fields['db_name'],
+							'reportid' => $report->fields['report_id'],
+							'paginate' => $report->fields['paginate']
+						))
+					)
+				),
+				'content' => $lang['strexecute']
+			)
+		);
+		$misc->printNavLinks($navlinks, 'reports-properties');
 	}
 
 	/**
@@ -302,9 +344,25 @@
 		
 		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
 		
-		echo "<p><a class=\"navlink\" href=\"reports.php?action=create&amp;{$misc->href}\">{$lang['strcreatereport']}</a></p>\n";
+		$urlvars = array ('server' => $_REQUEST['server']);
+		if (isset($_REQUEST['database'])) $urlvars['database'] = $_REQUEST['database'];
+		if (isset($_REQUEST['schema'])) $urlvars['schema'] = $_REQUEST['schema'];
+
+		$misc->printNavLinks(array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'reports.php',
+						'urlvars' => array_merge(array (
+							'action' => 'create'
+						), $urlvars)
+					)
+				),
+				'content' => $lang['strcreatereport']
+			)), 'reports-reports'
+		);
 	}
-	
+
 	$misc->printHeader($lang['strreports']);
 	$misc->printBody();
 

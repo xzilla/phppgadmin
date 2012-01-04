@@ -331,7 +331,21 @@
 
 		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
 		
-		echo "<p><a class=\"navlink\" href=\"triggers.php?action=create&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "\">{$lang['strcreatetrigger']}</a></p>\n";
+		$misc->printNavLinks(array (array (
+				'attr'=> array (
+					'href' => array (
+					'url' => 'triggers.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['strcreatetrigger']
+			)), 'triggers-triggers');
 	}
 
 	function doTree() {

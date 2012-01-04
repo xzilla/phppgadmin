@@ -311,8 +311,23 @@
 		
 		$misc->printTable($indexes, $columns, $actions, $lang['strnoindexes'], 'indPre');
 		
-		echo "<p><a class=\"navlink\" href=\"indexes.php?action=create_index&amp;{$misc->href}&amp;table=", 
-			urlencode($_REQUEST['table']), "\">{$lang['strcreateindex']}</a></p>\n";		
+		$misc->printNavLinks(array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'indexes.php',
+						'urlvars' => array (
+							'action' => 'create_index',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['strcreateindex']
+			)
+		), 'indexes-indexes');
 	}
 
 	function doTree() {

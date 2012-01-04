@@ -58,10 +58,24 @@
 
 		$misc->printTable($cfgs, $columns, $actions, $lang['strftsnoconfigs']);
 
-
-		echo "<ul class=\"navlink\">\n";
-		echo "\t<li><a href=\"fulltext.php?action=createconfig&amp;{$misc->href}\">{$lang['strftscreateconfig']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array(
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'createconfig',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strftscreateconfig']
+			)
+		);
+			
+		$misc->printNavLinks($navlinks, 'fulltext-fulltext');
 	}
 
 	function doDropConfig($confirm) {
@@ -344,10 +358,7 @@
 
 		$misc->printTable($parsers, $columns, $actions, $lang['strftsnoparsers']);
 
-		//TODO: create parser
-		//echo "<ul class=\"navlink\">\n";
-		//echo "\t<li><a href=\"#\">{$lang['strftscreateparser']}</a></li>\n";
-		//echo "</ul>\n";
+		//TODO: navlink to "create parser"
 	}
 
 
@@ -398,9 +409,24 @@
 
 		$misc->printTable($dicts, $columns, $actions, $lang['strftsnodicts']);
 
-		echo "<ul class=\"navlink\">\n";
-		echo "\t<li><a href=\"fulltext.php?action=createdict&amp;{$misc->href}&amp;\">{$lang['strftscreatedict']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array(
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'createdict',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						)
+					)
+				),
+				'content' => $lang['strftscreatedict']
+			)
+		);
+
+		$misc->printNavLinks($navlinks, 'fulltext-viewdicts');
 	}
 
 
@@ -461,10 +487,25 @@
 
 		$misc->printTable($map, $columns, $actions, $lang['strftsemptymap']);
 
-		echo "<ul class=\"navlink\">\n";
-		echo "\t<li><a href=\"fulltext.php?action=addmapping&amp;{$misc->href}&ftscfg={$ftscfg}\">{$lang['strftsaddmapping']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array(
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'addmapping',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'ftscfg' => $ftscfg
+						)
+					)
+				),
+				'content' => $lang['strftsaddmapping']
+			)
+		);
 
+		$misc->printNavLinks($navlinks, 'fulltext-viewconfig');
 	}
 
 	/**

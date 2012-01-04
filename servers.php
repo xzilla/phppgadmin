@@ -97,7 +97,6 @@
 		}
 		
 		$misc->printTable($servers, $columns, $actions, $lang['strnoobjects'], 'svPre');
-
 	}
 	
 	function doTree() {

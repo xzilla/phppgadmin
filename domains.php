@@ -228,14 +228,57 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"domains.php?action=confirm_drop&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),"\">{$lang['strdrop']}</a></li>\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'domain' => $_REQUEST['domain']
+						)
+					)
+				),
+				'content' => $lang['strdrop']
+			)
+		);
 		if ($data->hasAlterDomains()) {
-			echo "\t<li><a href=\"domains.php?action=add_check&amp;{$misc->href}&amp;domain=", urlencode($_REQUEST['domain']),
-				"\">{$lang['straddcheck']}</a></li>\n";
-			echo "\t<li><a href=\"domains.php?action=alter&amp;{$misc->href}&amp;domain=", 
-				urlencode($_REQUEST['domain']), "\">{$lang['stralter']}</a></li>\n";
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'add_check',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'domain' => $_REQUEST['domain']
+						)
+					)
+				),
+				'content' => $lang['straddcheck']
+			);
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'alter',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'domain' => $_REQUEST['domain']
+						)
+					)
+				),
+				'content' => $lang['stralter']
+			);
 		}
-		echo "</ul>\n";
+		
+		$misc->printNavLinks($navlinks, 'domains-properties');
 	}
 	
 	/**
@@ -417,9 +460,24 @@
 		if (!$data->hasAlterDomains()) unset($actions['alter']);
 		
 		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
-		
-		echo "<p><a class=\"navlink\" href=\"domains.php?action=create&amp;{$misc->href}\">{$lang['strcreatedomain']}</a></p>\n";
 
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						)
+					)
+				),
+				'content' => $lang['strcreatedomain']
+			)
+		);
+		$misc->printNavLinks($navlinks, 'domains-domains');
 	}
 	
 	/**

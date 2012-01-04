@@ -325,11 +325,55 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?{$misc->href}\">{$lang['strshowallfunctions']}</a></li>\n";
-		echo "\t<li><a href=\"functions.php?action=edit&amp;{$misc->href}&amp;function=",
-			urlencode($_REQUEST['function']), "&amp;function_oid=", urlencode($_REQUEST['function_oid']), "\">{$lang['stralter']}</a></li>\n";
-		echo "\t<li><a href=\"functions.php?action=confirm_drop&amp;{$misc->href}&amp;function=",
-			urlencode($func_full), "&amp;function_oid=", $_REQUEST['function_oid'], "\">{$lang['strdrop']}</a></li>\n</ul>";
+		$navlinks = array(
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						)
+					)
+				),
+				'content' => $lang['strshowallfunctions']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'edit',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'function' => $_REQUEST['function'],
+							'function_oid' => $_REQUEST['function_oid']
+						)
+					)
+				),
+				'content' => $lang['stralter']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'function' => $func_full,
+							'function_oid' => $_REQUEST['function_oid']
+						)
+					)
+				),
+				'content' => $lang['strdrop']
+			)
+		);
+
+		$misc->printNavLinks($navlinks, 'functions-properties');
 	}
 
 	/**
@@ -822,9 +866,54 @@
 
 		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"functions.php?action=create&amp;{$misc->href}\">{$lang['strcreateplfunction']}</a></li>\n";
-		echo "\t<li><a href=\"functions.php?action=create&amp;language=internal&amp;{$misc->href}\">{$lang['strcreateinternalfunction']}</a></li>\n";
-		echo "\t<li><a href=\"functions.php?action=create&amp;language=C&amp;{$misc->href}\">{$lang['strcreatecfunction']}</a></li>\n</ul>\n";
+		$navlinks = array(
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreateplfunction']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'language' => 'internal',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreateinternalfunction']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'language' => 'C',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatecfunction']
+			)
+		);
+
+		$misc->printNavLinks($navlinks, 'functions-functions');
 	}
 
 	/**

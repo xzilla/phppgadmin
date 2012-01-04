@@ -64,7 +64,21 @@
 			}
 			echo "</table>\n";
 
-			echo "<p><a class=\"navlink\" href=\"operators.php?{$misc->href}\">{$lang['strshowalloperators']}</a></p>\n";
+			$misc->printNavLinks(array (
+				array (
+					'attr'=> array (
+						'href' => array (
+							'url' => 'operators.php',
+							'urlvars' => array (
+								'server' => $_REQUEST['server'],
+								'database' => $_REQUEST['database'],
+								'schema' => $_REQUEST['schema']
+							)
+						)
+					),
+					'content' => $lang['strshowalloperators']
+				)), 'operators-properties'
+			);
 		}
 		else
 			doDefault($lang['strinvalidparam']);
@@ -154,7 +168,7 @@
 		
 		$misc->printTable($operators, $columns, $actions, $lang['strnooperators']);
 		
-//		echo "<p><a class=\"navlink\" href=\"operators.php?action=create&amp;{$misc->href}\">{$lang['strcreateoperator']}</a></p>\n";
+//		TODO operators.php action=create $lang['strcreateoperator']
 	}
 
 	/**

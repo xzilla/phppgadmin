@@ -49,110 +49,109 @@
 			return htmlentities($href);
 		}
 
-		function getHREFSubject($subject) {
+		function getSubjectParams($subject) {
 
 			$vars = array();
 
 			switch($subject) {
 				case 'root':
-					return 'redirect.php?subject=root';
-					break;
-				case 'server':
 					$vars = array (
-						'server' => $_REQUEST['server'],
-						'subject' => 'server'
+						'params' => array(
+							'subject' => 'root'
+						)
 					);
 					break;
-				case 'report':
-					return 'reports.php?'. http_build_query(array(
+				case 'server':
+					$vars = array ('params' => array(
 						'server' => $_REQUEST['server'],
-						'subject' => 'report',
-						'report' => $_REQUEST['report']
-					), '', '&amp;');
+						'subject' => 'server'
+					));
+					break;
+				case 'report':
+					$vars = array(
+						'url' => 'reports.php',
+						'params' => array(
+							'server' => $_REQUEST['server'],
+							'subject' => 'report',
+							'report' => $_REQUEST['report']
+					));
 					break;
 				case 'role':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'role',
 						'action' => 'properties',
 						'rolename' => $_REQUEST['rolename']
-					);
+					));
 					break;
 				case 'database':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'database',
 						'database' => $_REQUEST['database'],
-					);
+					));
 					break;
 				case 'schema':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'schema',
 						'database' => $_REQUEST['database'],
 						'schema' => $_REQUEST['schema']
-					);
-					break;
-				case 'slony_cluster':
-					$vars = array(
-						'server' => $_REQUEST['server'],
-						'subject' => 'slony_cluster',
-						'database' => $_REQUEST['database'],
-						'schema' => $_REQUEST['schema'],
-						'slony_cluster' => $_REQUEST['slony_cluster']
-					);
+					));
 					break;
 				case 'table':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'table',
 						'database' => $_REQUEST['database'],
 						'schema' => $_REQUEST['schema'],
 						'table' => $_REQUEST['table']
-					);
+					));
 					break;
 				case 'selectrows':
-					return 'tables.php?'. http_build_query(array(
-						'server' => $_REQUEST['server'],
-						'subject' => 'table',
-						'database' => $_REQUEST['database'],
-						'schema' => $_REQUEST['schema'],
-						'table' => $_REQUEST['table'],
-						'action' => 'confselectrows'
-					), '', '&amp;');
+					$vars = array(
+						'url' => 'tables.php',
+						'params' => array(
+							'server' => $_REQUEST['server'],
+							'subject' => 'table',
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table'],
+							'action' => 'confselectrows'
+					));
 					break;
 				case 'view':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'view',
 						'database' => $_REQUEST['database'],
 						'schema' => $_REQUEST['schema'],
 						'view' => $_REQUEST['view']
-					);
+					));
 					break;
 				case 'fulltext':
 				case 'ftscfg':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'fulltext',
 						'database' => $_REQUEST['database'],
 						'schema' => $_REQUEST['schema'],
 						'action' => 'viewconfig',
 						'ftscfg' => $_REQUEST['ftscfg']
-					);
+					));
 					break;
 				case 'function':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'function',
 						'database' => $_REQUEST['database'],
 						'schema' => $_REQUEST['schema'],
 						'function' => $_REQUEST['function'],
 						'function_oid' => $_REQUEST['function_oid']
-					);
+					));
 					break;
 				case 'aggregate':
-					$vars = array(
+					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
 						'subject' => 'aggregate',
 						'action' => 'properties',
@@ -160,53 +159,41 @@
 						'schema' => $_REQUEST['schema'],
 						'aggrname' => $_REQUEST['aggrname'],
 						'aggrtype' => $_REQUEST['aggrtype']
-					);
-					break;
-				case 'slony_node':
-					$vars = array(
-						'server' => $_REQUEST['server'],
-						'subject' => 'slony_cluster',
-						'database' => $_REQUEST['database'],
-						'schema' => $_REQUEST['schema'],
-						'no_id' => $_REQUEST['no_id'],
-						'no_name' => $_REQUEST['no_name']
-					);
-					break;
-				case 'slony_set':
-					$vars = array(
-						'server' => $_REQUEST['server'],
-						'subject' => 'slony_set',
-						'database' => $_REQUEST['database'],
-						'schema' => $_REQUEST['schema'],
-						'slony_set_id' => $_REQUEST['slony_set'],
-						'slony_set' => $_REQUEST['slony_set']
-					);
+					));
 					break;
 				case 'column':
 					if (isset($_REQUEST['table']))
-						$vars = array(
+						$vars = array('params' => array(
 							'server' => $_REQUEST['server'],
 							'subject' => 'column',
 							'database' => $_REQUEST['database'],
 							'schema' => $_REQUEST['schema'],
 							'table' => $_REQUEST['table'],
 							'column' => $_REQUEST['column']
-						);
+						));
 					else
-						$vars = array(
+						$vars = array('params' => array(
 							'server' => $_REQUEST['server'],
 							'subject' => 'column',
 							'database' => $_REQUEST['database'],
 							'schema' => $_REQUEST['schema'],
 							'view' => $_REQUEST['view'],
 							'column' => $_REQUEST['column']
-						);
+						));
 					break;
 				default:
 					return false;
 			}
 
-			return 'redirect.php?'. http_build_query($vars, '', '&amp;');
+			if (!isset($vars['url']))
+				$vars['url'] = 'redirect.php';
+
+			return $vars;
+		}
+
+		function getHREFSubject($subject) {
+			$vars = $this->getSubjectParams($subject);
+			return "{$vars['url']}?". http_build_query($vars['params'], '', '&amp;');
 		}
 
 		/**
@@ -609,13 +596,16 @@
 		/**
 		 * Display a list of links
 		 * @param $links An associative array of links to print
-		 *   links = array(
-		 *     'attr' => array( // list of A tag attribute
-		 *        ...
-		 *     ),
-		 *     'content' => The link text
-		 *     'fields' => the data from which content and attr's values are obtained
-		 *   );
+		 *     links = array(
+		 *       'attr' => array( // list of A tag attribute
+		 *          'attrname' => attribute value
+		 *          ...
+		 *       ),
+		 *       'content' => The link text
+		 *       'fields' => the data from which content and attr's values are obtained
+		 *     );
+		 *   the special attribute 'href' might be a string or an array. If href is an array it
+		 *   will be generated by getActionUrl. See getActionUrl comment for array format.
 		 * @param $class An optional class or list of classes seprated by a space
 		 *   WARNING: This field is NOT escaped! No user should be able to inject something here, use with care.
 		 */
@@ -1294,16 +1284,14 @@
 							'target' => "sqledit",
 							'onclick' => "window.open('{$sql_url}&action=sql','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;"
 						),
-						'content' => noEscape(field('strsql')),
-						'fields' => $lang
+						'content' => $lang['strsql']
 					),
 					array (
 						'attr' => array (
 							'href' => $history_url,
 							'onclick' => "window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;",
 						),
-						'content' => noEscape(field('strhistory')),
-						'fields' => $lang
+						'content' => $lang['strhistory']
 					),
 					array (
 						'attr' => array (
@@ -1311,16 +1299,14 @@
 							'target' => "sqledit",
 							'onclick' => "window.open('{$sql_url}&action=find','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;",
 						),
-						'content' => noEscape(field('strfind')),
-						'fields' => $lang
+						'content' => $lang['strfind']
 					),
 					array(
 						'attr' => array (
 							'href' => "servers.php?action=logout&logoutServer=".htmlentities($server_info['host']).":".htmlentities($server_info['port']).":".htmlentities($server_info['sslmode']),
 							'onclick' => $logout_shared,
 						),
-						'content' => noEscape(field('strlogout')),
-						'fields' => $lang
+						'content' => $lang['strlogout']
 					)
 				);
 
@@ -1563,6 +1549,29 @@
 
 			return $trail;
 		}
+
+		/**
+		* Display the navlinks
+		*
+		* @param $navlinks - An array with the the attributes and values that will be shown. See printLinksList for array format.
+		* @param $place - Place where the $navlinks are displayed. Like 'display-browse', where 'display' is the file (display.php)
+		* and 'browse' is the place inside that code (doBrowse).
+		*/
+		function printNavLinks($navlinks=array(), $place) {
+			global $plugin_manager;
+
+			// Navlinks hook's place
+			$plugin_functions_parameters = array(
+				'navlinks' => &$navlinks,
+				'place' => $place
+			);
+			$plugin_manager->do_hook('navlinks', $plugin_functions_parameters);
+
+			if (count($navlinks) > 0) {
+				$this->printLinksList($navlinks, 'navlink');
+			}
+		}
+
 
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.

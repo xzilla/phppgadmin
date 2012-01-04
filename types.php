@@ -85,7 +85,19 @@
 				echo "</table>\n";
 			}
 
-			echo "<p><a class=\"navlink\" href=\"types.php?{$misc->href}\">{$lang['strshowalltypes']}</a></p>\n";
+			$misc->printNavLinks(array (array (
+					'attr'=> array (
+						'href' => array (
+						'url' => 'types.php',
+							'urlvars' => array (
+								'server' => $_REQUEST['server'],
+								'database' => $_REQUEST['database'],
+								'schema' => $_REQUEST['schema'],
+							)
+						)
+					),
+					'content' => $lang['strshowalltypes']
+				)), 'types-properties');
 		} else
 			doDefault($lang['strinvalidparam']);
 	}
@@ -575,11 +587,56 @@
 		
 		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"types.php?action=create&amp;{$misc->href}\">{$lang['strcreatetype']}</a></li>\n";
-		echo "\t<li><a href=\"types.php?action=create_comp&amp;{$misc->href}\">{$lang['strcreatecomptype']}</a></li>\n";
-		if ($data->hasEnumTypes())
-			echo "\t<li><a href=\"types.php?action=create_enum&amp;{$misc->href}\">{$lang['strcreateenumtype']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'types.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatetype']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'types.php',
+						'urlvars' => array (
+							'action' => 'create_comp',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatecomptype']
+			),
+			'enum' => array (
+				'attr'=> array (
+					'href' => array(
+						'url' => 'types.php',
+						'urlvars' => array (
+							'action' => 'create_enum',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreateenumtype']
+			)
+		);
+
+		if (! $data->hasEnumTypes()) {
+			unset($navlinks['enum']);
+		}
+
+		$misc->printNavLinks($navlinks, 'types-types');
 	}
 	
 	/**

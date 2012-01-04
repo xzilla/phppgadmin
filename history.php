@@ -68,12 +68,53 @@
 		}
 		else echo "<p>{$lang['strnohistory']}</p>\n";
 
-		echo "<ul class=\"navlink\">\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'history.php',
+						'urlvars' => array (
+							'action' => 'history',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+						)
+					)
+				),
+				'content' => $lang['strrefresh']
+			)
+		);
+
 		if (isset($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]) 
-				&& count($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]))
-			echo "\t<li><a href=\"history.php?action=confclearhistory&amp;{$misc->href}\">{$lang['strclearhistory']}</a></li>\n";
-		echo "\t<li><a href=\"history.php?action=history&amp;{$misc->href}\">{$lang['strrefresh']}</a></li>\n";
-		echo "\t<li><a href=\"history.php?action=download&amp;{$misc->href}\">{$lang['strdownload']}</a></li>\n</ul>\n";
+				&& count($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']])) {
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'history.php',
+						'urlvars' => array (
+							'action' => 'download',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database']
+						)
+					)
+				),
+				'content' => $lang['strdownload']
+			);
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'history.php',
+						'urlvars' => array(
+							'action' => 'confclearhistory',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database']
+						)
+					)
+				),
+				'content' => $lang['strclearhistory']
+			);
+		}
+
+		$misc->printNavLinks($navlinks, 'history-history');
 	}
 
 	function doDelHistory($qid, $confirm) {

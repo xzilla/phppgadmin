@@ -245,13 +245,59 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
-		echo "<ul class=\"navlink\">\n\t<li><a class=\"navlink\" href=\"aggregates.php?{$misc->href}\">{$lang['straggrshowall']}</a></li>\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'aggregates.php',
+						'urlvars' => array (
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['straggrshowall']
+			)
+		);
+
 		if ($data->hasAlterAggregate()) {
-		echo "\t<li><a class=\"navlink\" href=\"aggregates.php?action=alter&amp;{$misc->href}&amp;aggrname=", 
-			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['stralter']}</a></li>\n";
+			$navlinks[] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'aggregates.php',
+						'urlvars' => array (
+							'action' => 'alter',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'aggrname' => $_REQUEST['aggrname'],
+							'aggrtype' => $_REQUEST['aggrtype']
+						)
+					)
+				),
+				'content' => $lang['stralter']
+			);
 		}
-		echo "\t<li><a class=\"navlink\" href=\"aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;aggrname=",
-			urlencode($_REQUEST['aggrname']), "&amp;aggrtype=", urlencode($_REQUEST['aggrtype']), "\">{$lang['strdrop']}</a></li>\n</ul>\n";
+
+		$navlinks[] = array (
+			'attr'=> array (
+				'href' => array (
+					'url' => 'aggregates.php',
+					'urlvars' => array (
+						'action' => 'confirm_drop',
+						'server' => $_REQUEST['server'],
+						'database' => $_REQUEST['database'],
+						'schema' => $_REQUEST['schema'],
+						'aggrname' => $_REQUEST['aggrname'],
+						'aggrtype' => $_REQUEST['aggrtype']
+					)
+				)
+			),
+			'content' => $lang['strdrop']
+		);
+
+		$misc->printNavLinks($navlinks, 'aggregates-properties');
 	}
 
 
@@ -311,8 +357,24 @@
 
 		if (!$data->hasAlterAggregate()) unset($actions['alter']);
 		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
-		
-		echo "<p><a class=\"navlink\" href=\"aggregates.php?action=create&amp;{$misc->href}\">{$lang['strcreateaggregate']}</a></p>\n";
+
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'aggregates.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+						)
+					)
+				),
+				'content' => $lang['strcreateaggregate']
+			)
+		);
+		$misc->printNavLinks($navlinks, 'aggregates-aggregates');
 	}
 
 	/**

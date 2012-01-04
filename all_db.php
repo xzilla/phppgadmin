@@ -424,8 +424,21 @@
 
 		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
 
-		echo "<p><a class=\"navlink\" href=\"all_db.php?action=create&amp;{$misc->href}\">{$lang['strcreatedatabase']}</a></p>\n";
-
+		$navlinks = array (
+		    array (
+			'attr'=> array (
+			    'href' => array (
+				'url' => 'all_db.php',
+				'urlvars' => array (
+				    'action' => 'create',
+				    'server' => $_REQUEST['server']
+				)
+			    )
+			),
+			'content' => $lang['strcreatedatabase']
+		    )
+		);
+		$misc->printNavLinks($navlinks, 'all_db-databases');
 	}
 
 	function doTree() {

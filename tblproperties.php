@@ -565,15 +565,116 @@
 
 		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
 
-		echo "<ul class=\"navlink\">\n";
-		echo "\t<li><a href=\"display.php?{$misc->href}&amp;table=", urlencode($_REQUEST['table']), "&amp;subject=table&amp;return=table\">{$lang['strbrowse']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confselectrows&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strselect']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confinsertrow&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strinsert']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confirm_empty&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strempty']}</a></li>\n";
-		echo "\t<li><a href=\"tables.php?action=confirm_drop&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['strdrop']}</a></li>\n";
-		echo "\t<li><a href=\"tblproperties.php?action=add_column&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['straddcolumn']}</a></li>\n";
-		echo "\t<li><a href=\"tblproperties.php?action=confirm_alter&amp;{$misc->href}&amp;table=", urlencode($_REQUEST['table']),"\">{$lang['stralter']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array (
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'display.php',
+						'urlvars' => array (
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table'],
+							'subject' => 'table',
+							'return' => 'table'
+						)
+					)
+				),
+				'content' => $lang['strbrowse']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confselectrows',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['strselect']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+					'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confinsertrow',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['strinsert']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+					'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_empty',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['strempty']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table'],
+						)
+					)
+				),
+				'content' => $lang['strdrop']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tblproperties.php',
+						'urlvars' => array (
+							'action' => 'add_column',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['straddcolumn']
+			),
+			array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tblproperties.php',
+						'urlvars' => array (
+							'action' => 'confirm_alter',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema'],
+							'table' => $_REQUEST['table']
+						)
+					)
+				),
+				'content' => $lang['stralter']
+			)
+		);
+		$misc->printNavLinks($navlinks, 'tblproperties-tblproperties');
+
 	}
 
 	$misc->printHeader($lang['strtables'] . ' - ' . $_REQUEST['table']);
