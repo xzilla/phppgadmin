@@ -244,7 +244,7 @@
 				$alltxt = $lang['strshowalldatabases'];
 				break;
 		}
-		
+
 		$subject = $_REQUEST['subject'];
 		$object = $_REQUEST[$_REQUEST['subject']];
 		
