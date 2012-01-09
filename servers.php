@@ -75,8 +75,8 @@
 		);
 		
 		if (($group !== false) and isset($conf['srv_groups'][$group])) {
-			printf("<h2>{$lang['strgroupservers']}</h2>", htmlentities($conf['srv_groups'][$group]['desc']));
-			$actions['logout']['url'] .= "group=" . htmlentities($group) . "&amp;";
+			printf("<h2>{$lang['strgroupservers']}</h2>", htmlentities($conf['srv_groups'][$group]['desc'], ENT_QUOTES, 'UTF-8'));
+			$actions['logout']['url'] .= "group=" . htmlentities($group, ENT_COMPAT, 'UTF-8') . "&amp;";
 		}
 		
 		$misc->printTable($servers, $columns, $actions, $lang['strnoobjects'], 'svPre');
@@ -85,7 +85,7 @@
 			echo "<br /><ul class=\"navlink\">\n";
 			echo "\t<li><a href=\"servers.php\">{$lang['strallservers']}</a></li>\n";
 			foreach ($conf['srv_groups'] as $id => $grp) {
-				echo "\t<li><a href=\"servers.php?group={$id}\">", htmlentities($grp['desc']), "</a></li>\n";
+				echo "\t<li><a href=\"servers.php?group={$id}\">", htmlentities($grp['desc'], ENT_QUOTES, 'UTF-8'), "</a></li>\n";
 			}
 			echo "</ul>\n";			
 		}
@@ -133,16 +133,8 @@
 		
 		$groups = $misc->getServersGroups();
 
-		function escape($fields) {
-			global $lang;
-			if ($fields['id'] === 'all') {
-				return $lang['strallservers'];
-			}
-			else return value(field('desc'), $fields, 'xml');
-		}
-
 		$attrs = array(
-			'text'   => noEscape(callback('escape')),
+			'text'   => field('desc'),
 			'icon'   => 'Servers',			
 			'action' => url('servers.php',
 				array(

@@ -327,9 +327,9 @@
 						/* $fkey_information['common_url'] is already urlencoded */
 						$query_params .= '&amp;'. $fkey_information['common_url'];
 						echo "<div style=\"display:inline-block;\">";
-						echo "<a class=\"fk fk_". htmlentities($conid) ."\" href=\"display.php?{$query_params}\">";
+						echo "<a class=\"fk fk_". htmlentities($conid, ENT_QUOTES, 'UTF-8') ."\" href=\"display.php?{$query_params}\">";
 						echo "<img src=\"".$misc->icon('ForeignKey')."\" style=\"vertical-align:middle;\" alt=\"[fk]\" title=\""
-							. htmlentities($fkey_information['byconstr'][$conid]['consrc'])
+							. htmlentities($fkey_information['byconstr'][$conid]['consrc'], ENT_QUOTES, 'UTF-8')
 							."\" />";
 						echo "</a>";
 						echo "</div>";

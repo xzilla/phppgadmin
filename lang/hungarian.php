@@ -9,9 +9,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Magyar';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'hu_HU';
-	$lang['appdbencoding'] = 'LATIN2';  // It would be good to change this to UNICODE. IMHO
+	$lang['applocale'] = 'hu-HU';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome  

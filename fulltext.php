@@ -897,7 +897,7 @@
 		$reqvars = $misc->getRequestVars('ftscfg');
 
 		$attrs = array(
-			'text'   => noEscape(field('title')),
+			'text'   => field('title'),
 			'icon'   => field('icon'),
 			'action' => url('fulltext.php',
 				$reqvars,
@@ -940,7 +940,7 @@
 		$reqvars = $misc->getRequestVars('ftscfg');
 
 		$attrs = array(
-			'text'   => noEscape(field('name')),
+			'text'   => field('name'),
 			'icon'   => $what,
 			'toolTip'=> field('comment'),
 			'action' => url('fulltext.php',

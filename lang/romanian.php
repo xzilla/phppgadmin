@@ -8,9 +8,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Română';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'ro_RO';
-	$lang['appdbencoding'] = 'LATIN2';
+	$lang['applocale'] = 'ro-RO';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome

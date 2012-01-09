@@ -7,9 +7,7 @@
 
 	// Language and character set
 	$lang['applang'] = 'Slovensky';
-	$lang['appcharset'] = 'UTF-8';
-	$lang['applocale'] = 'sk_SK';
-	$lang['appdbencoding'] = 'LATIN1';
+	$lang['applocale'] = 'sk-SK';
 	$lang['applangdir'] = 'ltr';
 
 	// Basic strings

@@ -9,9 +9,7 @@
 
 	 // Language and character set
 	$lang['applang'] = 'Lietuvių';
-	$lang['appcharset'] = 'UTF-8';//ISO-8859-13
-	$lang['applocale'] = 'lt_LT';
-	$lang['appdbencoding'] = 'UTF8';//LATIN7
+	$lang['applocale'] = 'lt-LT';
 	$lang['applangdir'] = 'ltr';
 
 	// Welcome
