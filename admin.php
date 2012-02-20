@@ -427,7 +427,7 @@
 			$script = ($type == 'database')? 'database.php' : 'tables.php';
 
 			printf("<p>{$lang['strdelvacuumtable']}</p>\n", 
-				$misc->printVal("\"{$_GET['schema']}"."{$_GET['table']}\""));
+				$misc->printVal("\"{$_GET['schema']}\".\"{$_GET['table']}\""));
 
 			echo "<form style=\"float: left\" action=\"{$script}\" method=\"post\">\n";
 			echo "<input type=\"hidden\" name=\"action\" value=\"delautovac\" />\n";
