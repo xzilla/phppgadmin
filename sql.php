@@ -80,10 +80,15 @@
 		$report = $reportsdb->getReport($_REQUEST['reportid']);
 		$_SESSION['sqlquery'] = $report->fields['report_sql'];	
 	} 
+	elseif (isset($_REQUEST['subject']) && $_REQUEST['subject'] == 'history') {
+		// Or maybe we came from the history popup
+		$_SESSION['sqlquery'] = $_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']][$_GET['queryid']]['query'];
+	}
 	elseif (isset($_POST['query'])) {
 		// Or maybe we came from an sql form
 		$_SESSION['sqlquery'] = $_POST['query'];
-	} else {
+	}
+	else {
 		echo "could not find the query!!";
 	}
 	

@@ -53,8 +53,8 @@
 			$actions = array(
 				'run' => array(
 					'title' => $lang['strexecute'],
-					'url'   => "sql.php?{$misc->href}&amp;nohistory=t&amp;",
-					'vars'  => array('query' => 'query', 'paginate' => 'paginate'),
+					'url'   => "sql.php?{$misc->href}&amp;nohistory=t&amp;subject=history&amp;",
+					'vars'  => array('queryid' => 'queryid', 'paginate' => 'paginate'),
 					'target' => 'detail',
 				),
 				'remove' => array(
