@@ -256,7 +256,7 @@
 				'database' => $_REQUEST['database'],
 				'schema' => $_REQUEST['schema'],
 				$subject => $object,
-				"{$_subject}_oid" => $objectoid,
+				"{$subject}_oid" => $objectoid,
 				'subject'=> $subject
 			);
 		}
