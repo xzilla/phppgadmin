@@ -7031,10 +7031,12 @@ class Postgres extends ADODB_base {
 		if ($name != $spcname) {
 			$sql = "ALTER TABLESPACE \"{$spcname}\" RENAME TO \"{$name}\"";
 			$status = $this->execute($sql);
-		if ($status != 0) {
-			$this->rollbackTransaction();
-			return -3;
-		}
+			if ($status != 0) {
+				$this->rollbackTransaction();
+				return -3;
+			}
+
+			$spcname = $name;
 		}
 
 		// Set comment if it has changed
