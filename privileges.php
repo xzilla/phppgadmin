@@ -236,7 +236,7 @@
 				$alltxt = $lang["strshowall{$_REQUEST['subject']}s"];
 				break;
 			case 'schema':
-				$allurl = "database.php";
+				$allurl = "schemas.php";
 				$alltxt = $lang["strshowallschemas"];
 				break;
 			case 'database':
