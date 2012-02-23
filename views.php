@@ -585,16 +585,32 @@
 				'url' => 'views.php',
 			),
 			'browse' => array(
-				'title'	=> $lang['strbrowse'],
-				'url'	=> "display.php?{$misc->href}&amp;subject=view&amp;return=schema&amp;",
-				'vars'	=> array('view' => 'relname'),
+				'content' => $lang['strbrowse'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'display.php',
+						'urlvars' => array (
+							'action' => 'confselectrows',
+							'subject' => 'view',
+							'return' => 'schema',
+							'view' => field('relname')
+						)
+					)
+				)
 			),
 			'select' => array(
-				'title'	=> $lang['strselect'],
-				'url'	=> "views.php?action=confselectrows&amp;{$misc->href}&amp;",
-				'vars'	=> array('view' => 'relname'),
+				'content' => $lang['strselect'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'views.php',
+						'urlvars' => array (
+							'action' => 'confselectrows',
+							'view' => field('relname')
+						)
+					)
+				)
 			),
-			
+
 // Insert is possible if the relevant rule for the view has been created.
 //			'insert' => array(
 //				'title'	=> $lang['strinsert'],
@@ -603,19 +619,33 @@
 			//			),
 
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "viewproperties.php?action=confirm_alter&amp;{$misc->href}&amp;",
-				'vars'  => array('view' => 'relname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'viewproperties.php',
+						'urlvars' => array (
+							'action' => 'confirm_alter',
+							'view' => field('relname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title'	=> $lang['strdrop'],
-				'url'	=> "views.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'	=> array('view' => 'relname'),
 				'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'views.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'view' => field('relname')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($views, $columns, $actions, $lang['strnoviews']);
+		$misc->printTable($views, $columns, $actions, 'views-views',  $lang['strnoviews']);
 		
 		$navlinks = array (
 			array (

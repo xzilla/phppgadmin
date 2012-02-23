@@ -434,13 +434,21 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "viewproperties.php?action=properties&amp;{$misc->href}&amp;view=".urlencode($_REQUEST['view'])."&amp;",
-				'vars'  => array('column' => 'attname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'viewproperties.php',
+						'urlvars' => array (
+							'action' => 'properties',
+							'view' => $_REQUEST['view'],
+							'column' => field('attname')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+		$misc->printTable($attrs, $columns, $actions, 'viewproperties-viewproperties', null, 'attPre');
 	
 		echo "<br />\n";
 

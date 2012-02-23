@@ -238,23 +238,44 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "tablespaces.php?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('tablespace' => 'spcname')
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tablespaces.php',
+						'urlvars' => array (
+							'action' => 'edit',
+							'tablespace' => field('spcname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "tablespaces.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('tablespace' => 'spcname')
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tablespaces.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'tablespace' => field('spcname')
+						)
+					)
+				)
 			),
 			'privileges' => array(
-				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?subject=tablespace&amp;{$misc->href}&amp;",
-				'vars'  => array('tablespace' => 'spcname')
+				'content' => $lang['strprivileges'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'privileges.php',
+						'urlvars' => array (
+							'subject' => 'tablespace',
+							'tablespace' => field('spcname')
+						)
+					)
+				)
 			)
 		);
 				
-		$misc->printTable($tablespaces, $columns, $actions, $lang['strnotablespaces']);
+		$misc->printTable($tablespaces, $columns, $actions, 'tablespaces-tablespaces', $lang['strnotablespaces']);
 		
 		$misc->printNavLinks(array (array (
 				'attr'=> array (

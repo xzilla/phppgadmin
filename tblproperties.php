@@ -447,8 +447,9 @@
 			$data->fieldClean($attname);
 			$data->fieldClean($table);
 
-			$actions['browse']['url'] .= 'query=' . urlencode("SELECT \"{$attname}\", count(*) AS \"count\"
-				FROM \"{$table}\" GROUP BY \"{$attname}\" ORDER BY \"{$attname}\"") . '&amp;';
+			$actions['browse']['attr']['href']['urlvars']['query'] = "SELECT \"{$attname}\", count(*) AS \"count\"
+				FROM \"{$table}\" GROUP BY \"{$attname}\" ORDER BY \"{$attname}\"";
+
 			return $actions;
 		}
 
@@ -563,7 +564,65 @@
 			),
 		);
 
-		$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+		$actions = array(
+			'browse' => array(
+				'content' => $lang['strbrowse'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'display.php',
+						'urlvars' => array (
+							'table' => $_REQUEST['table'],
+							'subject' => 'column',
+							'return' => 'table',
+							'column' => field('attname')
+						)
+					)
+				)
+			),
+			'alter' => array(
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'colproperties.php',
+						'urlvars' => array (
+							'subject' => 'column',
+							'action' => 'properties',
+							'table' => $_REQUEST['table'],
+							'column' => field('attname')
+						)
+					)
+				)
+			),
+			'privileges' => array(
+				'content' => $lang['strprivileges'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'privileges.php',
+						'urlvars' => array (
+							'subject' => 'column',
+							'table' => $_REQUEST['table'],
+							'column' => field('attname')
+						)
+					)
+				)
+			),
+			'drop' => array(
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tblproperties.php',
+						'urlvars' => array (
+							'subject' => 'column',
+							'action' => 'confirm_drop',
+							'table' => $_REQUEST['table'],
+							'column' => field('attname')
+						)
+					)
+				)
+			),
+		);
+
+		$misc->printTable($attrs, $columns, $actions, 'tblproperties-tblproperties', null, 'attPre');
 
 		$navlinks = array (
 			array (

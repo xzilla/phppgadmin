@@ -226,7 +226,7 @@
 			}
 
 			$actions=array();
-			$misc->printTable($attrs, $column, $actions, null, 'attPre');
+			$misc->printTable($attrs, $column, $actions, 'colproperties-colproperties', null, 'attPre');
 
 			echo "<br />\n";
 

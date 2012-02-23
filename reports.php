@@ -279,7 +279,6 @@
 			else
 				doDefault($lang['strreportdroppedbad']);
 		}
-
 	}
 
 	/**
@@ -326,23 +325,48 @@
 		
 		$actions = array(
 			'run' => array(
-				'title' => $lang['strexecute'],
-				'url'   => "sql.php?subject=report&amp;{$misc->href}&amp;return=report&amp;",
-				'vars'  => array('report' => 'report_name', 'database' => 'db_name', 'reportid' => 'report_id', 'paginate' => 'paginate'),
+				'content' => $lang['strexecute'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'sql.php',
+						'urlvars' => array (
+							'subject' => 'report',
+							'return' => 'report',
+							'report' => field('report_name'),
+							'database' => field('db_name'),
+							'reportid' => field('report_id'),
+							'paginate' => field('paginate')
+						)
+					)
+				)
 			),
 			'edit' => array(
-				'title' => $lang['stredit'],
-				'url'   => "reports.php?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('report_id' => 'report_id'),
+				'content' => $lang['stredit'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'reports.php',
+						'urlvars' => array (
+							'action' => 'edit',
+							'report_id' => field('report_id')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "reports.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('report_id' => 'report_id'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'reports.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'report_id' => field('report_id')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($reports, $columns, $actions, $lang['strnoreports']);
+		$misc->printTable($reports, $columns, $actions, 'reports-reports', $lang['strnoreports']);
 		
 		$urlvars = array ('server' => $_REQUEST['server']);
 		if (isset($_REQUEST['database'])) $urlvars['database'] = $_REQUEST['database'];

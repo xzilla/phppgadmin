@@ -62,7 +62,7 @@
 
 		$actions = array();
 		
-		$misc->printTable($casts, $columns, $actions, $lang['strnocasts']);
+		$misc->printTable($casts, $columns, $actions, 'casts-casts', $lang['strnocasts']);
 	}
 
 	/**

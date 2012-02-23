@@ -149,13 +149,23 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "rules.php?action=confirm_drop&amp;{$misc->href}&amp;reltype={$subject}&amp;{$subject}={$object}&amp;subject=rule&amp;",
-				'vars'  => array('rule' => 'rulename'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'rules.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'reltype' => $subject,
+							$subject => $object,
+							'subject' => 'rule',
+							'rule' => field('rulename')
+						)
+					)
+				)
 			),
 		);
 
-		$misc->printTable($rules, $columns, $actions, $lang['strnorules']);
+		$misc->printTable($rules, $columns, $actions, 'rules-rules', $lang['strnorules']);
 
 		$misc->printNavLinks(array (array (
 				'attr'=> array (

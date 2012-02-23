@@ -45,18 +45,32 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "fulltext.php?action=dropconfig&amp;{$misc->href}&amp;",
-				'vars'  => array('ftscfg' => 'name'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'dropconfig',
+							'ftscfg' => field('name')
+						)
+					)
+				)
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "fulltext.php?action=alterconfig&amp;{$misc->href}&amp;",
-				'vars'  => array('ftscfg' => 'name'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'alterconfig',
+							'ftscfg' => field('name')
+						)
+					)
+				)
 			),
 		);
 
-		$misc->printTable($cfgs, $columns, $actions, $lang['strftsnoconfigs']);
+		$misc->printTable($cfgs, $columns, $actions, 'fulltext-fulltext', $lang['strftsnoconfigs']);
 
 		$navlinks = array(
 			array (
@@ -356,7 +370,7 @@
 
 		$actions = array();
 
-		$misc->printTable($parsers, $columns, $actions, $lang['strftsnoparsers']);
+		$misc->printTable($parsers, $columns, $actions, 'fulltext-viewparsers', $lang['strftsnoparsers']);
 
 		//TODO: navlink to "create parser"
 	}
@@ -396,18 +410,32 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "fulltext.php?action=dropdict&amp;{$misc->href}&amp;",
-				'vars'  => array('ftsdict' => 'name'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'dropdict',
+							'ftsdict' => field('name')
+						)
+					)
+				)
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "fulltext.php?action=alterdict&amp;{$misc->href}&amp;",
-				'vars'  => array('ftsdict' => 'name'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'alterdict',
+							'ftsdict' => field('name')
+						)
+					)
+				)
 			),
 		);
 
-		$misc->printTable($dicts, $columns, $actions, $lang['strftsnodicts']);
+		$misc->printTable($dicts, $columns, $actions, 'fulltext-viewdicts', $lang['strftsnodicts']);
 
 		$navlinks = array(
 			array (
@@ -466,15 +494,31 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "fulltext.php?action=dropmapping&amp;{$misc->href}&amp;",
-				'vars'  => array('mapping' => 'name', 'ftscfg' => 'cfgname'),
 				'multiaction' => 'dropmapping',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'dropmapping',
+							'mapping' => field('name'),
+							'ftscfg' => field('cfgname')
+						)
+					)
+				)
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "fulltext.php?action=altermapping&amp;{$misc->href}&amp;",
-				'vars'  => array('mapping' => 'name', 'ftscfg' => 'cfgname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'fulltext.php',
+						'urlvars' => array (
+							'action' => 'altermapping',
+							'mapping' => field('name'),
+							'ftscfg' => field('cfgname')
+						)
+					)
+				)
 			),
 			'multiactions' => array(
 				'keycols' => array('mapping' => 'name'),
@@ -485,7 +529,7 @@
 
 		);
 
-		$misc->printTable($map, $columns, $actions, $lang['strftsemptymap']);
+		$misc->printTable($map, $columns, $actions, 'fulltext-viewconfig', $lang['strftsemptymap']);
 
 		$navlinks = array(
 			array (

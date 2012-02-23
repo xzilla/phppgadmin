@@ -770,61 +770,125 @@
 				'default' => 'analyze',
 			),
 			'browse' => array(
-				'title' => $lang['strbrowse'],
-				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return=schema&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strbrowse'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'display.php',
+						'urlvars' => array (
+							'subject' => 'table',
+							'return' => 'schema',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'select' => array(
-				'title' => $lang['strselect'],
-				'url'   => "tables.php?action=confselectrows&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strselect'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confselectrows',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'insert' => array(
-				'title' => $lang['strinsert'],
-				'url'   => "tables.php?action=confinsertrow&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strinsert'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confinsertrow',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'empty' => array(
-				'title' => $lang['strempty'],
-				'url'   => "tables.php?action=confirm_empty&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_empty',
+				'content' => $lang['strempty'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_empty',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'	=> "tblproperties.php?action=confirm_alter&amp;{$misc->href}&amp;",
-				'vars'	=> array('table' => 'relname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tblproperties.php',
+						'urlvars' => array (
+							'action' => 'confirm_alter',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "tables.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'vacuum' => array(
-				'title' => $lang['strvacuum'],
-				'url'   => "tables.php?action=confirm_vacuum&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_vacuum',
+				'content' => $lang['strvacuum'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_vacuum',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'analyze' => array(
-				'title' => $lang['stranalyze'],
-				'url'   => "tables.php?action=confirm_analyze&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_analyze',
+				'content' => $lang['stranalyze'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_analyze',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'reindex' => array(
-				'title' => $lang['strreindex'],
-				'url'   => "tables.php?action=confirm_reindex&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_reindex',
-			),
+				'content' => $lang['strreindex'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_reindex',
+							'table' => field('relname')
+						)
+					)
+				)
+			)
 			//'cluster' TODO ?
 		);
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
-		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
+		$misc->printTable($tables, $columns, $actions, 'tables-tables', $lang['strnotables']);
 
 		$navlinks = array (
 			array (

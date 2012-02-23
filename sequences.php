@@ -52,24 +52,46 @@
 				'url' => 'sequences.php',
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "sequences.php?action=confirm_alter&amp;{$misc->href}&amp;subject=sequence&amp;",
-				'vars'  => array('sequence' => 'seqname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'sequences.php',
+						'urlvars' => array (
+							'action' => 'confirm_alter',
+							'subject' => 'sequence',
+							'sequence' => field('seqname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "sequences.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('sequence' => 'seqname'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'sequences.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'sequence' => field('seqname')
+						)
+					)
+				),
 				'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
-				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?{$misc->href}&amp;subject=sequence&amp;",
-				'vars'  => array('sequence' => 'seqname'),
+				'content' => $lang['strprivileges'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'privileges.php',
+						'urlvars' => array (
+							'subject' => 'sequence',
+							'sequence' => field('seqname')
+						)
+					)
+				)
 			),
 		);
 
-		$misc->printTable($sequences, $columns, $actions, $lang['strnosequences']);
+		$misc->printTable($sequences, $columns, $actions, 'sequences-sequences', $lang['strnosequences']);
 
 		$misc->printNavLinks(array (array (
 				'attr'=> array (

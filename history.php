@@ -52,19 +52,35 @@
 
 			$actions = array(
 				'run' => array(
-					'title' => $lang['strexecute'],
-					'url'   => "sql.php?{$misc->href}&amp;nohistory=t&amp;subject=history&amp;",
-					'vars'  => array('queryid' => 'queryid', 'paginate' => 'paginate'),
-					'target' => 'detail',
+					'content' => $lang['strexecute'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'sql.php',
+							'urlvars' => array (
+								'subject' => 'history',
+								'nohistory' => 't',
+								'queryid' => field('queryid'),
+								'paginate' => field('paginate')
+							)
+						),
+						'target' => 'detail'
+					)
 				),
 				'remove' => array(
-					'title' => $lang['strdelete'],
-					'url'   => "history.php?{$misc->href}&amp;action=confdelhistory&amp;",
-					'vars'  => array('queryid' => 'queryid'),
-				),
+					'content' => $lang['strdelete'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'history.php',
+							'urlvars' => array (
+								'action' => 'confdelhistory',
+								'queryid' => field('queryid'),
+							)
+						)
+					)
+				)
 			);
 
-			$misc->printTable($history, $columns, $actions, $lang['strnohistory']);
+			$misc->printTable($history, $columns, $actions, 'history-history', $lang['strnohistory']);
 		}
 		else echo "<p>{$lang['strnohistory']}</p>\n";
 

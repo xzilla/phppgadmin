@@ -130,6 +130,8 @@
 		
 		$operators = $data->getOperators();
 
+		error_log(print_r($operators, 1));
+
 		$columns = array(
 			'operator' => array(
 				'title' => $lang['stroperator'],
@@ -160,13 +162,24 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "operators.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
-			),
+				// 'title' => $lang['strdrop'],
+				// 'url'   => "operators.php?action=confirm_drop&amp;{$misc->href}&amp;",
+				// 'vars'  => array('operator' => 'oprname', 'operator_oid' => 'oid'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'operators.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'operator' => field('oprname'),
+							'operator_oid' => field('oid')
+						)
+					)
+				)
+			)
 		);
 		
-		$misc->printTable($operators, $columns, $actions, $lang['strnooperators']);
+		$misc->printTable($operators, $columns, $actions, 'operators-operators', $lang['strnooperators']);
 		
 //		TODO operators.php action=create $lang['strcreateoperator']
 	}

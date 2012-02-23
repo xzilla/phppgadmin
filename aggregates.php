@@ -344,19 +344,35 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "aggregates.php?action=alter&amp;{$misc->href}&amp;",
-				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'aggregates.php',
+						'urlvars' => array (
+							'action' => 'alter',
+							'aggrname' => field('proname'),
+							'aggrtype' => field('proargtypes')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "aggregates.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('aggrname' => 'proname', 'aggrtype' => 'proargtypes'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'aggregates.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'aggrname' => field('proname'),
+							'aggrtype' => field('proargtypes')
+						)
+					)
+				)
 			)
 		);
 
 		if (!$data->hasAlterAggregate()) unset($actions['alter']);
-		$misc->printTable($aggregates, $columns, $actions, $lang['strnoaggregates']);
+		$misc->printTable($aggregates, $columns, $actions, 'aggregates-aggregates', $lang['strnoaggregates']);
 
 		$navlinks = array (
 			array (

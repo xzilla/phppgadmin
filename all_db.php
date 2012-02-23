@@ -393,28 +393,51 @@
 
 		$actions = array(
 			'multiactions' => array(
-				'keycols' => array('database' => 'datname'),
-				'url' => 'all_db.php',
-				'default' => null,
+			    'keycols' => array('database' => 'datname'),
+			    'url' => 'all_db.php',
+			    'default' => null,
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "all_db.php?action=confirm_drop&amp;subject=database&amp;{$misc->href}&amp;",
-				'vars'  => array('dropdatabase' => 'datname'),
-				'multiaction' => 'confirm_drop',
+			    'content' => $lang['strdrop'],
+			    'attr'=> array (
+				'href' => array (
+				    'url' => 'all_db.php',
+				    'urlvars' => array (
+					'subject' => 'database',
+					'action' => 'confirm_drop',
+					'dropdatabase' => field('datname')
+				    )
+				)
+			    ),
+			    'multiaction' => 'confirm_drop',
 			),
 			'privileges' => array(
-				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?subject=database&amp;{$misc->href}&amp;",
-				'vars'  => array('database' => 'datname'),
+			    'content' => $lang['strprivileges'],
+			    'attr'=> array (
+				'href' => array (
+				    'url' => 'privileges.php',
+				    'urlvars' => array (
+					'subject' => 'database',
+					'database' => field('datname')
+				    )
+				)
+			    )
 			)
 		);
 		if ($data->hasAlterDatabase() ) {
-			$actions['alter'] = array(
-				'title' => $lang['stralter'],
-				'url'   => "all_db.php?action=confirm_alter&amp;subject=database&amp;{$misc->href}&amp;",
-				'vars'  => array('alterdatabase' => 'datname')
-			);
+		    $actions['alter'] = array(
+			'content' => $lang['stralter'],
+			'attr'=> array (
+			    'href' => array (
+				'url' => 'all_db.php',
+				'urlvars' => array (
+				    'subject' => 'database',
+				    'action' => 'confirm_alter',
+				    'alterdatabase' => field('datname')
+				)
+			    )
+			)
+		    );
 		}
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
@@ -422,7 +445,7 @@
 		if (!$data->hasDatabaseCollation()) unset($columns['lc_collate'], $columns['lc_ctype']);
 		if (!isset($data->privlist['database'])) unset($actions['privileges']);
 
-		$misc->printTable($databases, $columns, $actions, $lang['strnodatabases']);
+		$misc->printTable($databases, $columns, $actions, 'all_db-databases', $lang['strnodatabases']);
 
 		$navlinks = array (
 		    array (

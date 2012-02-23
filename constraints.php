@@ -464,13 +464,22 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "constraints.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('constraint' => 'conname', 'type' => 'contype'),
-			),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'constraints.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'table' => $_REQUEST['table'],
+							'constraint' => field('conname'),
+							'type' => field('contype')
+						)
+					)
+				)
+			)
 		);
 
-		$misc->printTable($constraints, $columns, $actions, $lang['strnoconstraints'], 'cnPre');
+		$misc->printTable($constraints, $columns, $actions, 'constraints-constraints', $lang['strnoconstraints'], 'cnPre');
 
 		$navlinks = array (
 			array (

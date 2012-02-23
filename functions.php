@@ -847,24 +847,48 @@
 				'url' => 'functions.php',
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "functions.php?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'edit',
+							'function' => field('proproto'),
+							'function_oid' => field('prooid')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "functions.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 				'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'functions.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'function' => field('proproto'),
+							'function_oid' => field('prooid')
+						)
+					)
+				)
 			),
 			'privileges' => array(
-				'title' => $lang['strprivileges'],
-				'url'   => "privileges.php?{$misc->href}&amp;subject=function&amp;",
-				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
+				'content' => $lang['strprivileges'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'privileges.php',
+						'urlvars' => array (
+							'subject' => 'function',
+							'function' => field('proproto'),
+							'function_oid' => field('prooid')
+						)
+					)
+				)
 			),
 		);
 
-		$misc->printTable($funcs, $columns, $actions, $lang['strnofunctions']);
+		$misc->printTable($funcs, $columns, $actions, 'functions-functions', $lang['strnofunctions']);
 
 		$navlinks = array(
 			array (

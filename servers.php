@@ -85,9 +85,16 @@
 		
 		$actions = array(
 			'logout' => array(
-				'title' => $lang['strlogout'],
-				'url'   => "servers.php?action=logout&amp;",
-				'vars'  => array('logoutServer' => 'id'),
+				'content' => $lang['strlogout'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'servers.php',
+						'urlvars' => array (
+							'action' => 'logout',
+							'logoutServer' => field('id')
+						)
+					)
+				)
 			),
 		);
 		
@@ -95,8 +102,8 @@
 			$misc->printTitle(sprintf($lang['strgroupservers'],htmlentities($conf['srv_groups'][$group]['desc'], ENT_QUOTES, 'UTF-8')));
 			$actions['logout']['url'] .= "group=" . htmlentities($group, ENT_COMPAT, 'UTF-8') . "&amp;";
 		}
-		
-		$misc->printTable($servers, $columns, $actions, $lang['strnoobjects'], 'svPre');
+
+		$misc->printTable($servers, $columns, $actions, 'servers-servers', $lang['strnoobjects'], 'svPre');
 	}
 	
 	function doTree() {

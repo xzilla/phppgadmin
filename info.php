@@ -45,85 +45,118 @@
 			// Referring foreign tables
 			if ($referrers !== -99 && $referrers->recordCount() > 0) {
 				echo "<h3>{$lang['strreferringtables']}</h3>\n";
-				echo "<table>\n";
-				echo "\t<tr>\n\t\t";
-				echo "<th class=\"data\">{$lang['strschema']}</th>";
-				echo "<th class=\"data\">{$lang['strtable']}</th>";
-				echo "<th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th>";
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-				echo "\t</tr>\n";
-				$i = 0;
-				
-				while (!$referrers->EOF) {
-					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr class=\"data{$id}\">\n\t\t";
-					echo "<td>", $misc->printVal($referrers->fields['nspname']), "</td>";
-					echo "<td>", $misc->printVal($referrers->fields['relname']), "</td>";
-					echo "<td>", $misc->printVal($referrers->fields['conname']), "</td>";
-					echo "<td>", $misc->printVal($referrers->fields['consrc']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"constraints.php?{$misc->href}", 
-						"&amp;schema=", urlencode($referrers->fields['nspname']),
-						"&amp;table=", urlencode($referrers->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
-					echo "\t</tr>\n";
-					$referrers->movenext();
-					$i++;
-				}
-	
-				echo "</table>\n";
+
+				$columns = array (
+					'schema' => array (
+						'title' => $lang['strschema'],
+						'field' => field('nspname')
+					),
+					'table' => array (
+						'title' => $lang['strtable'],
+						'field' => field('relname'),
+					),
+					'name' => array (
+						'title' => $lang['strname'],
+						'field' => field('conname'),
+					),
+					'definition' => array (
+						'title' => $lang['strdefinition'],
+						'field' => field('consrc'),
+					),
+					'actions' => array (
+						'title' => $lang['stractions'],
+					)
+				);
+
+				$actions = array (
+					'properties' => array (
+						'content' => $lang['strproperties'],
+						'attr'=> array (
+							'href' => array (
+								'url' => 'constraints.php',
+								'urlvars' => array (
+									'schema' => field('nspname'),
+									'table' => field('relname')
+								)
+							)
+						)
+					)
+				);
+
+				$misc->printTable($referrers, $columns, $actions, 'info-referrers', $lang['strnodata']);
 			}
 			
 			// Parent tables
 			if ($parents->recordCount() > 0) {
 				echo "<h3>{$lang['strparenttables']}</h3>\n";
-				echo "<table>\n";
-				echo "\t<tr>\n\t\t";
-				echo "<th class=\"data\">{$lang['strschema']}</th>";
-				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-				echo "\t</tr>\n";
-				$i = 0;
-				
-				while (!$parents->EOF) {
-					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr class=\"data{$id}\">\n";
-					echo "\t\t<td>", $misc->printVal($parents->fields['nspname']), "</td>";
-					echo "<td>", $misc->printVal($parents->fields['relname']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
-						"&amp;schema=", urlencode($parents->fields['nspname']),
-						"&amp;table=", urlencode($parents->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
-					echo "\t</tr>\n";
-					$parents->movenext();
-					$i++;
-				}
-	
-				echo "</table>\n";
+
+				$columns = array (
+					'schema' => array (
+						'title' => $lang['strschema'],
+						'field' => field('nspname')
+					),
+					'table' => array (
+						'title' => $lang['strtable'],
+						'field' => field('relname'),
+					),
+						'actions' => array (
+						'title' => $lang['stractions'],
+					)
+				);
+
+				$actions = array (
+					'properties' => array (
+						'content' => $lang['strproperties'],
+						'attr'=> array (
+							'href' => array (
+								'url' => 'tblproperties.php',
+								'urlvars' => array (
+									'schema' => field('nspname'),
+									'table' => field('relname')
+								)
+							)
+						)
+					)
+				);
+
+				$misc->printTable($parents, $columns, $actions, 'info-parents', $lang['strnodata']);
 			}
 	
 			// Child tables
 			if ($children->recordCount() > 0) {
 				echo "<h3>{$lang['strchildtables']}</h3>\n";
-				echo "<table>\n";
-				echo "\t<tr>\n";
-				echo "<th class=\"data\">{$lang['strschema']}</th>";
-				echo "\t\t<th class=\"data\">{$lang['strtable']}</th>";			
-				echo "<th class=\"data\">{$lang['stractions']}</th>\n";
-				echo "\t</tr>\n";
-				$i = 0;
+
+				$columns = array (
+					'schema' => array (
+						'title' => $lang['strschema'],
+						'field' => field('nspname')
+					),
+					'table' => array (
+						'title' => $lang['strtable'],
+						'field' => field('relname'),
+					),
+					'actions' => array (
+						'title' => $lang['stractions'],
+					)
+				);
 				
-				while (!$children->EOF) {
-					$id = ( ($i % 2 ) == 0 ? '1' : '2' );
-					echo "\t<tr class=\"data{$id}\">\n";
-					echo "\t\t<td>", $misc->printVal($children->fields['nspname']), "</td>";
-					echo "<td>", $misc->printVal($children->fields['relname']), "</td>";
-					echo "<td class=\"opbutton{$id}\"><a href=\"tblproperties.php?{$misc->href}",
-						"&amp;schema=", urlencode($children->fields['nspname']),
-						"&amp;table=", urlencode($children->fields['relname']), "\">{$lang['strproperties']}</a></td>\n";
-					echo "\t</tr>\n";
-					$children->movenext();
-					$i++;
-				}
-	
-				echo "</table>\n";
+				$actions = array (
+					'properties' => array (
+						'content' => $lang['strproperties'],
+						'attr'=> array (
+							'href' => array (
+								'url' => 'tblproperties.php',
+								'urlvars' => array (
+									'schema' => field('nspname'),
+									'table' => field('relname')
+								)
+							)
+						)
+					)
+				);
+				
+				$misc->printTable($children, $columns, $actions, 'info-children', $lang['strnodata']);
+
 			}
 
 			// Row performance

@@ -54,7 +54,7 @@
 				
 				$actions = array();
 				
-				$misc->printTable($attrs, $columns, $actions, null, 'attPre');
+				$misc->printTable($attrs, $columns, $actions, 'types-properties', null, 'attPre');
 				
 				break;
 			case 'e':
@@ -579,13 +579,20 @@
 
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "types.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('type' => 'basename'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'types.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'type' => field('basename')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($types, $columns, $actions, $lang['strnotypes']);
+		$misc->printTable($types, $columns, $actions, 'types-types', $lang['strnotypes']);
 
 		$navlinks = array (
 			array (

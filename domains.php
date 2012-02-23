@@ -200,30 +200,44 @@
 			echo "</table>\n";
 			
 			// Display domain constraints
+			echo "<h3>{$lang['strconstraints']}</h3>\n";
 			if ($data->hasDomainConstraints()) {
 				$domaincons = $data->getDomainConstraints($_REQUEST['domain']);
-				if ($domaincons->recordCount() > 0) {
-					echo "<h3>{$lang['strconstraints']}</h3>\n";
-					echo "<table>\n";
-					echo "<tr><th class=\"data\">{$lang['strname']}</th><th class=\"data\">{$lang['strdefinition']}</th><th class=\"data\">{$lang['stractions']}</th>\n";
-					$i = 0;
-					
-					while (!$domaincons->EOF) {
-						$id = (($i % 2 ) == 0 ? '1' : '2');
-						echo "<tr class=\"data{$id}\"><td>", $misc->printVal($domaincons->fields['conname']), "</td>";
-						echo "<td>";
-						echo $misc->printVal($domaincons->fields['consrc']);
-						echo "</td>";
-						echo "<td class=\"opbutton{$id}\">";
-						echo "<a href=\"domains.php?action=confirm_drop_con&amp;{$misc->href}&amp;constraint=", urlencode($domaincons->fields['conname']),
-							"&amp;domain=", urlencode($_REQUEST['domain']), "&amp;type=", urlencode($domaincons->fields['contype']), "\">{$lang['strdrop']}</a></td></tr>\n";
-		
-						$domaincons->moveNext();
-						$i++;
-					}
-					
-					echo "</table>\n";
-				}
+
+				error_log(print_r($domaincons, 1));
+
+				$columns = array (
+					'name' => array (
+						'title' => $lang['strname'],
+						'field' => field('conname')
+					),
+					'definition' => array (
+						'title' => $lang['strdefinition'],
+						'field' => field('consrc'),
+					),
+					'actions' => array (
+						'title' => $lang['stractions'],
+					)
+				);
+
+				$actions = array (
+					'drop' => array (
+						'content' => $lang['strdrop'],
+						'attr'=> array (
+							'href' => array (
+								'url' => 'domains.php',
+								'urlvars' => array (
+									'action' => 'confirm_drop_con',
+									'domain' => $_REQUEST['domain'],
+									'constraint' => field('conname'),
+									'type' => field('contype'),
+								)
+							)
+						)
+					)
+				);
+
+				$misc->printTable($domaincons, $columns, $actions, 'domains-properties', $lang['strnodata']);
 			}
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
@@ -446,20 +460,34 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title'	=> $lang['stralter'],
-				'url'	=> "domains.php?action=alter&amp;{$misc->href}&amp;",
-				'vars'	=> array('domain' => 'domname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'alter',
+							'domain' => field('domname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title'	=> $lang['strdrop'],
-				'url'	=> "domains.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'	=> array('domain' => 'domname'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'domains.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'domain' => field('domname')
+						)
+					)
+				)
 			),
 		);
 
 		if (!$data->hasAlterDomains()) unset($actions['alter']);
 		
-		$misc->printTable($domains, $columns, $actions, $lang['strnodomains']);
+		$misc->printTable($domains, $columns, $actions, 'domains-domains', $lang['strnodomains']);
 
 		$navlinks = array (
 			array (

@@ -328,18 +328,32 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "users.php?action=edit&amp;{$misc->href}&amp;",
-				'vars'  => array('username' => 'usename'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'users.php',
+						'urlvars' => array (
+							'action' => 'edit',
+							'username' => field('usename')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "users.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('username' => 'usename'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'users.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'username' => field('usename')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($users, $columns, $actions, $lang['strnousers']);
+		$misc->printTable($users, $columns, $actions, 'users-users', $lang['strnousers']);
 
 		$misc->printNavLinks(array (array (
 				'attr'=> array (

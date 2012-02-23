@@ -652,18 +652,32 @@
 		
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "roles.php?action=alter&amp;{$misc->href}&amp;",
-				'vars'  => array('rolename' => 'rolname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'roles.php',
+						'urlvars' => array (
+							'action' => 'alter',
+							'rolename' => field('rolname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "roles.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('rolename' => 'rolname'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'roles.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'rolename' => field('rolname')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($roles, $columns, $actions, $lang['strnoroles']);
+		$misc->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
 
 		$navlinks = array (
 			array (

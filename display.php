@@ -551,9 +551,27 @@
 					break;
 				}
 			}
+
+			$buttons = array();
+			$plugin_functions_parameters = array(
+				'actionbuttons' => &$buttons,
+				'place' => 'display-browse'
+			);
+			$plugin_manager->do_hook('actionbuttons', $plugin_functions_parameters);
+
+			foreach (array_keys($plugin_functions_parameters['actionbuttons']) as $action) {
+				$plugin_functions_parameters['actionbuttons'][$action]['attr']['href']['urlvars'] = array_merge(
+					$plugin_functions_parameters['actionbuttons'][$action]['attr']['href']['urlvars'],
+					$_gets, $_getsort
+				);
+			}
+
+			error_log(print_r($plugin_functions_parameters, 1));
+
 			// Display edit and delete actions if we have a key
+			$colspan = count($buttons) + 2;
 			if (sizeof($key) > 0)
-				echo "<th colspan=\"2\" class=\"data\">{$lang['stractions']}</th>\n";
+				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			/* we show OIDs only if we are in TABLE or SELECT type browsing */
 			printTableHeaderCells($rs, $gets, isset($object));
@@ -578,7 +596,7 @@
 						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->fields[$v]);
 					}
 					if ($has_nulls) {
-						echo "<td colspan=\"2\">&nbsp;</td>\n";
+						echo "<td colspan=\"{$colspan}\">&nbsp;</td>\n";
 					} else {
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confeditrow&amp;strings=", 
 							urlencode($_REQUEST['strings']), "&amp;page=", 
@@ -586,6 +604,16 @@
 						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confdelrow&amp;strings=", 
 							urlencode($_REQUEST['strings']), "&amp;page=", 
 							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['strdelete']}</a></td>\n";
+
+						foreach ($plugin_functions_parameters['actionbuttons'] as $action) {
+							echo "<td class=\"opbutton{$id}\">";
+							$misc->printLink($action);
+							// "<a href=\"display.php?action=confeditrow&amp;strings=", 
+							// 	urlencode($_REQUEST['strings']), "&amp;page=", 
+							// 	urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['stredit']}</a>"
+							echo "</td>\n";
+						}
+						
 					}
 				}
 

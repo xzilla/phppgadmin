@@ -628,23 +628,35 @@
 
 			$actions = array(
 				'edit' => array(
-					'title' => $lang['stredit'],
-					'url'   => "{$script}?action=confeditautovac&amp;{$misc->href}&amp;subject={$type}&amp;",
-					'vars'  => array(
-						'schema' => 'nspname',
-						'table' => 'relname'
+					'content' => $lang['stredit'],
+					'attr'=> array (
+						'href' => array (
+							'url' => $script,
+							'urlvars' => array (
+								'subject' => $type,
+								'action' => 'confeditautovac',
+								'schema' => field('nspname'),
+								'table' => field('relname')
+							)
+						)
 					)
 				),
 				'delete' => array(
-					'title' => $lang['strdelete'],
-					'url'   => "{$script}?action=confdelautovac&amp;{$misc->href}&amp;subject={$type}&amp;",
-					'vars'  => array(
-						'schema' => 'nspname',
-						'table' => 'relname'
+					'content' => $lang['strdelete'],
+					'attr'=> array (
+						'href' => array (
+							'url' => $script,
+							'urlvars' => array (
+								'subject' => $type,
+								'action' => 'confdelautovac',
+								'schema' => field('nspname'),
+								'table' => field('relname')
+							)
+						)
 					)
 				)
 			);
-			
+
 			if ($type == 'table') {
 				unset($actions['edit']['vars']['schema'], 
 					$actions['delete']['vars']['schema'],
@@ -653,7 +665,7 @@
 				);
 			}
 
-			$misc->printTable($autovac, $columns, $actions, $lang['strnovacuumconf']);
+			$misc->printTable($autovac, $columns, $actions, 'admin-admin', $lang['strnovacuumconf']);
 			
 			if (($type == 'table') and ($autovac->recordCount() == 0)) {
 				echo "<br />";

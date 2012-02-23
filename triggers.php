@@ -306,30 +306,62 @@
 
 		$actions = array(
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'   => "triggers.php?action=confirm_alter&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('trigger' => 'tgname'),
+				'content' => $lang['stralter'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'triggers.php',
+							'urlvars' => array (
+								'action' => 'confirm_alter',
+								'table' => $_REQUEST['table'],
+								'trigger' => field('tgname')
+							)
+						)
+					)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "triggers.php?action=confirm_drop&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-				'vars'  => array('trigger' => 'tgname'),
+				'content' => $lang['strdrop'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'triggers.php',
+							'urlvars' => array (
+								'action' => 'confirm_drop',
+								'table' => $_REQUEST['table'],
+								'trigger' => field('tgname')
+							)
+						)
+					)
 			),
 		);
 		if($data->hasDisableTriggers()) {
-				$actions['enable'] = array(
-					'title' => $lang['strenable'],
-					'url'   => "triggers.php?action=confirm_enable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-					'vars'  => array('trigger' => 'tgname'),
-				);
-				$actions['disable'] = array(
-					'title' => $lang['strdisable'],
-					'url'   => "triggers.php?action=confirm_disable&amp;{$misc->href}&amp;table=".urlencode($_REQUEST['table'])."&amp;",
-					'vars'  => array('trigger' => 'tgname'),
-				);
+			$actions['enable'] = array(
+				'content' => $lang['strenable'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'triggers.php',
+						'urlvars' => array (
+							'action' => 'confirm_enable',
+							'table' => $_REQUEST['table'],
+							'trigger' => field('tgname')
+						)
+					)
+				)
+			);
+			$actions['disable'] = array(
+				'content' => $lang['strdisable'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'triggers.php',
+						'urlvars' => array (
+							'action' => 'confirm_disable',
+							'table' => $_REQUEST['table'],
+							'trigger' => field('tgname')
+						)
+					)
+				)
+			);
 		}
 
-		$misc->printTable($triggers, $columns, $actions, $lang['strnotriggers'], 'tgPre');
+		$misc->printTable($triggers, $columns, $actions, 'triggers-triggers', $lang['strnotriggers'], 'tgPre');
 		
 		$misc->printNavLinks(array (array (
 				'attr'=> array (

@@ -74,20 +74,34 @@
 		$users = $data->getUsers();
 		
 		if ($groupdata->recordCount() > 0) {
-			echo "<table>\n";
-           	echo "<tr><th class=\"data\">{$lang['strmembers']}</th><th class=\"data\">{$lang['stractions']}</th></tr>\n";
-           	$i = 0;
-           	while (!$groupdata->EOF) {
-					$id = (($i % 2) == 0 ? '1' : '2');
-            	echo "<tr class=\"data{$id}\"><td>", $misc->printVal($groupdata->fields['usename']), "</td>\n";
-					echo "<td class=\"opbutton{$id}\"><a href=\"groups.php?action=confirm_drop_member&{$misc->href}&group=",
-						urlencode($_REQUEST['group']), "&user=", urlencode($groupdata->fields['usename']), "\">{$lang['strdrop']}</a></td>\n";
-            	echo "</tr>\n";
-            	$groupdata->moveNext();
-           	}
-			echo "</table>\n";
+			$columns = array (
+				'members' => array (
+					'title' => $lang['strmembers'],
+					'field' => field('usename')
+				),
+				'actions' => array (
+					'title' => $lang['stractions'],
+				)
+			);
+
+			$actions = array (
+				'drop' => array (
+					'content' => $lang['strdrop'],
+						'attr'=> array (
+							'href' => array (
+								'url' => 'groups.php',
+								'urlvars' => array (
+									'action' => 'confirm_drop_member',
+									'group' => $_REQUEST['group'],
+									'user' => field('usename')
+								)
+							)
+						)
+				)
+			);
+
+			$misc->printTable($groupdata, $columns, $actions, 'groups-properties', $lang['strnousers']);
 		}
-		else echo "<p>{$lang['strnousers']}</p>\n";
 
 		// Display form for adding a user to the group			
 		echo "<form action=\"groups.php\" method=\"post\">\n";
@@ -239,13 +253,20 @@
 		
 		$actions = array(
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "groups.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('group' => 'groname'),
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'groups.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'group' => field('groname')
+						)
+					)
+				)
 			),
 		);
 		
-		$misc->printTable($groups, $columns, $actions, $lang['strnogroups']);
+		$misc->printTable($groups, $columns, $actions, 'groups-properties', $lang['strnogroups']);
 		
 		$misc->printNavLinks(array (array (
 				'attr'=> array (
