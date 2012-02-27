@@ -31,7 +31,7 @@
 		if (is_array($_REQUEST['key']))
            $key = $_REQUEST['key'];
         else
-           $key = unserialize($_REQUEST['key']);
+           $key = unserialize(urldecode($_REQUEST['key']));
 
 		if ($confirm) {
 			$misc->printTrail($_REQUEST['subject']);
@@ -148,7 +148,7 @@
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($key)), "\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(urlencode(serialize($key))), "\" />\n";
 			echo "<p>";
 			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
@@ -168,7 +168,7 @@
 			if (!isset($_POST['nulls'])) $_POST['nulls'] = array();
 			
 			$status = $data->editRow($_POST['table'], $_POST['values'], $_POST['nulls'], 
-				$_POST['format'], $_POST['types'], unserialize($_POST['key']));
+				$_POST['format'], $_POST['types'], $key);
 			if ($status == 0)
 				doBrowse($lang['strrowupdated']);
 			elseif ($status == -2)
