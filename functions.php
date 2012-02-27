@@ -773,14 +773,12 @@
 			'function' => array(
 				'title' => $lang['strfunction'],
 				'field' => field('proproto'),
-				'type'  => 'verbatim',
 				'url'   => "redirect.php?subject=function&amp;action=properties&amp;{$misc->href}&amp;",
 				'vars'  => array('function' => 'proproto', 'function_oid' => 'prooid'),
 			),
 			'returns' => array(
 				'title' => $lang['strreturns'],
 				'field' => field('proreturns'),
-				'type'  => 'verbatim',
 			),
 			'owner' => array(
 				'title' => $lang['strowner'],
