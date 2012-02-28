@@ -209,13 +209,13 @@
 			echo "<input type=\"hidden\" name=\"sortkey\" value=\"", htmlspecialchars($_REQUEST['sortkey']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
-			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(serialize($_REQUEST['key'])), "\" />\n";
+			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(urlencode(serialize($_REQUEST['key']))), "\" />\n";
 			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
 			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
-			$status = $data->deleteRow($_POST['table'], unserialize($_POST['key']));
+			$status = $data->deleteRow($_POST['table'], unserialize(urldecode($_POST['key'])));
 			if ($status == 0)
 				doBrowse($lang['strrowdeleted']);
 			elseif ($status == -2)
