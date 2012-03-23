@@ -418,7 +418,7 @@
 			)
 		);
 		
-		$misc->printTreeXML($aggregates, $attrs);
+		$misc->printTree($aggregates, $attrs, 'aggregates');
 		exit;
 	}
 	

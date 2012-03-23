@@ -211,7 +211,7 @@
 						)
 		);
 		
-		$misc->printTreeXML($operators, $attrs);
+		$misc->printTree($operators, $attrs, 'operators');
 		exit;
 	}
 	

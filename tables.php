@@ -960,7 +960,7 @@
 						)
 		);
 
-		$misc->printTreeXML($tables, $attrs);
+		$misc->printTree($tables, $attrs, 'tables');
 		exit;
 	}
 
@@ -992,7 +992,7 @@
 			),
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'table');
 		exit;
 	}
 

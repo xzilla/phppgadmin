@@ -414,7 +414,7 @@
 						),
 		);
 
-		$misc->printTreeXML($schemas, $attrs);
+		$misc->printTree($schemas, $attrs, 'schemas');
 
 		exit;
 	}
@@ -442,7 +442,7 @@
 						)
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'schema');
 		exit;
 	}
 

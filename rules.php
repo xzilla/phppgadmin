@@ -197,7 +197,7 @@
 			'icon'   => 'Rule',
 		);
 
-		$misc->printTreeXML($rules, $attrs);
+		$misc->printTree($rules, $attrs, 'rules');
 		exit;
 	}
 

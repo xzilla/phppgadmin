@@ -705,7 +705,7 @@
 			)
 		);
 		
-		$misc->printTreeXML($views, $attrs);
+		$misc->printTree($views, $attrs, 'views');
 		exit;
 	}
 	
@@ -730,7 +730,7 @@
 			),
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'view');
 		exit;
 	}
 	

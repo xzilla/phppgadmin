@@ -1994,24 +1994,55 @@
 		 *        'branch' - URL for child nodes (tree XML)
 		 *        'expand' - the action to return XML for the subtree
 		 *        'nodata' - message to display when node has no children
-		 *        'nohead' - suppress headers and opening <tree> tag
-		 *        'nofoot' - suppress closing </tree> tag
+		 * @param $section The section where the branch is linked in the tree
+		 */
+		function printTree(&$_treedata, &$attrs, $section) {
+			global $plugin_manager;
+
+			$treedata = array();
+
+			if ($_treedata->recordCount() > 0) {
+				while (!$_treedata->EOF) {
+					$treedata[] = $_treedata->fields;
+					$_treedata->moveNext();
+				}
+			}
+
+			$plugin_functions_parameters = array(
+				'treedata' => &$treedata,
+				'attrs' => &$attrs,
+				'section' => $section
+			);
+			$plugin_manager->do_hook('tree', $plugin_functions_parameters);
+
+			$this->printTreeXML($treedata, $attrs);
+		}
+
+		/** Produce XML data for the browser tree
+		 * @param $treedata A set of records to populate the tree.
+		 * @param $attrs Attributes for tree items
+		 *        'text' - the text for the tree node
+		 *        'icon' - an icon for node
+		 *        'openIcon' - an alternative icon when the node is expanded
+		 *        'toolTip' - tool tip text for the node
+		 *        'action' - URL to visit when single clicking the node
+		 *        'iconAction' - URL to visit when single clicking the icon node
+		 *        'branch' - URL for child nodes (tree XML)
+		 *        'expand' - the action to return XML for the subtree
+		 *        'nodata' - message to display when node has no children
 		 */
 		function printTreeXML(&$treedata, &$attrs) {
 			global $conf, $lang;
 
-			if (!isset($attrs['nohead']) || $attrs['nohead'] === false) {
-				header("Content-Type: text/xml; charset=UTF-8");
-				header("Cache-Control: no-cache");
+			header("Content-Type: text/xml; charset=UTF-8");
+			header("Cache-Control: no-cache");
 
-				echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+			echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 
-				echo "<tree>\n";
-			}
+			echo "<tree>\n";
 
-			if ($treedata->recordCount() > 0) {
-				while (!$treedata->EOF) {
-					$rec =& $treedata->fields;
+			if (count($treedata) > 0) {
+				foreach($treedata as $rec) {
 
 					echo "<tree";
 					echo value_xml_attr('text', $attrs['text'], $rec);
@@ -2030,17 +2061,13 @@
 					echo value_xml_attr('tooltip', $attrs['toolTip'], $rec);
 
 					echo " />\n";
-
-					$treedata->moveNext();
 				}
 			} else {
 				$msg = isset($attrs['nodata']) ? $attrs['nodata'] : $lang['strnoobjects'];
 				echo "<tree text=\"{$msg}\" onaction=\"tree.getSelected().getParent().reload()\" icon=\"", $this->icon('ObjectNotFound'), "\" />\n";
 			}
 
-			if (!isset($attrs['nofoot']) || $attrs['nofoot'] === false) {
-				echo "</tree>\n";
-			}
+			echo "</tree>\n";
 		}
 
 		function adjustTabsForTree(&$tabs) {

@@ -966,7 +966,7 @@
 						)
 		);
 
-		$misc->printTreeXML($funcs, $attrs);
+		$misc->printTree($funcs, $attrs, 'functions');
 		exit;
 	}
 

@@ -669,7 +669,7 @@
 						)
 		);
 		
-		$misc->printTreeXML($types, $attrs);
+		$misc->printTree($types, $attrs, 'types');
 		exit;
 	}
 	

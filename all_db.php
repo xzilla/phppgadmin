@@ -488,7 +488,7 @@
 						),
 		);
 
-		$misc->printTreeXML($databases, $attrs);
+		$misc->printTree($databases, $attrs, 'databases');
 		exit;
 	}
 

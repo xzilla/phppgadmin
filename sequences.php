@@ -132,7 +132,7 @@
 						)
 		);
 
-		$misc->printTreeXML($sequences, $attrs);
+		$misc->printTree($sequences, $attrs, 'sequences');
 		exit;
 	}
 

@@ -393,7 +393,7 @@
 			'icon'   => 'Trigger',
 		);
 
-		$misc->printTreeXML($triggers, $attrs);
+		$misc->printTree($triggers, $attrs, 'triggers');
 		exit;
 	}
 

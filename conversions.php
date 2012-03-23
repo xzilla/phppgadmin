@@ -68,7 +68,7 @@
 			'toolTip'=> field('concomment')
 		);
 		
-		$misc->printTreeXML($conversions, $attrs);
+		$misc->printTree($conversions, $attrs, 'conversions');
 		exit;
 	}
 	

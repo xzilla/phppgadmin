@@ -572,7 +572,7 @@
 			'icon'   => callback('getIcon'),
 		);
 
-		$misc->printTreeXML($constraints, $attrs);
+		$misc->printTree($constraints, $attrs, 'constraints');
 		exit;
 	}
 

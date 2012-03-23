@@ -80,7 +80,7 @@
 			'icon'   => 'Cast'
 		);
 		
-		$misc->printTreeXML($casts, $attrs);
+		$misc->printTree($casts, $attrs, 'casts');
 		exit;
 	}
 	

@@ -376,7 +376,7 @@
 			'toolTip'=> field('comment')
 		);
 
-		$misc->printTreeXML($columns, $attrs);
+		$misc->printTree($columns, $attrs, 'viewcolumns');
 
 		exit;
 	}

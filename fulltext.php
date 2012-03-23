@@ -997,7 +997,7 @@
 			),
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'fts');
 
 		exit;
 	}
@@ -1044,7 +1044,7 @@
 			),
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, strtolower($what));
 		exit;
 	}
 

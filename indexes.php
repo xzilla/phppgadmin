@@ -374,7 +374,7 @@
 			'icon'   => callback('getIcon'),
 		);
 
-		$misc->printTreeXML($indexes, $attrs);
+		$misc->printTree($indexes, $attrs, 'indexes');
 		exit;
 	}
 

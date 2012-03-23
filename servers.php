@@ -148,11 +148,15 @@
 			'branch' => field('branch'),
 		);
 		
-		$misc->printTreeXML($nodes, $attrs);
+		$misc->printTree($servers, $attrs, 'servers');
 		exit;
 	}
 
-	if ($action == 'tree') doTree();
+
+	if ($action == 'tree') {
+		if (isset($_GET['group'])) doTree($_GET['group']);
+		else doTree(false);
+	}
 
 	$misc->printHeader($lang['strservers']);
 	$misc->printBody();

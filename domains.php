@@ -531,7 +531,7 @@
 						)
 		);
 		
-		$misc->printTreeXML($domains, $attrs);
+		$misc->printTree($domains, $attrs, 'domains');
 		exit;
 	}
 	

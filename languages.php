@@ -59,7 +59,7 @@
 			'icon'   => 'Language'
 		);
 		
-		$misc->printTreeXML($languages, $attrs);
+		$misc->printTree($languages, $attrs, 'languages');
 		exit;
 	}
 	

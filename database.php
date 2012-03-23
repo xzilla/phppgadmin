@@ -630,7 +630,7 @@
 						),
 		);
 		
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'database');
 
 		exit;
 	}

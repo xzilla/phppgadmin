@@ -71,7 +71,7 @@
 			'toolTip'=> field('opccomment'),
 		);
 		
-		$misc->printTreeXML($opclasses, $attrs);
+		$misc->printTree($opclasses, $attrs, 'opclasses');
 		exit;
 	}
 	
