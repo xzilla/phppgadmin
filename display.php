@@ -596,8 +596,6 @@
 			$edit_params = $actions['actionbuttons']['edit'];
 			$delete_params = $actions['actionbuttons']['delete'];
 
-			error_log(print_r($actions, 1));
-
 			// Display edit and delete actions if we have a key
 			$colspan = count($buttons);
 			if (sizeof($key) > 0)
