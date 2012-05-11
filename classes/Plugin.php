@@ -9,11 +9,18 @@ abstract class Plugin {
 	function __construct($language) {
 		// Set the plugin's language
 		$plugin_directory = "plugins/". $this->get_name();
-		require_once("{$plugin_directory}/lang/recoded/english.php");
-		if (file_exists("{$plugin_directory}/lang/recoded/{$language}.php")) {
-			include_once("{$plugin_directory}/lang/recoded/{$language}.php");
+
+		if (file_exists("{$plugin_directory}/lang")) {
+			if (file_exists("{$plugin_directory}/lang/english.php")) {
+				require_once("{$plugin_directory}/lang/english.php");
+			}
+
+			if (file_exists("{$plugin_directory}/lang/{$language}.php")) {
+				include_once("{$plugin_directory}/lang/{$language}.php");
+			}
+
+			$this->lang = $plugin_lang;
 		}
-		$this->lang = $plugin_lang;
 
 		if (file_exists("{$plugin_directory}/conf/config.inc.php")) {
 			include_once("{$plugin_directory}/conf/config.inc.php");
