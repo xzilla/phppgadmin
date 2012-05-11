@@ -648,7 +648,7 @@
 		$misc->printTable($views, $columns, $actions, 'views-views',  $lang['strnoviews']);
 		
 		$navlinks = array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'views.php',
@@ -662,7 +662,7 @@
 				),
 				'content' => $lang['strcreateview']
 			),
-			array (
+			'createwiz' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'views.php',

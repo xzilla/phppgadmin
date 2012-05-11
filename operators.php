@@ -65,7 +65,7 @@
 			echo "</table>\n";
 
 			$misc->printNavLinks(array (
-				array (
+				'showall' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'operators.php',

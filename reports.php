@@ -128,7 +128,7 @@
 		if (isset($_REQUEST['database'])) $urlvars['database'] = $_REQUEST['database'];
 
 		$navlinks = array (
-			array (
+			'showall' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'reports.php',
@@ -137,7 +137,7 @@
 				),
 				'content' => $lang['strshowallreports']
 			),
-			array (
+			'alter' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'reports.php',
@@ -149,7 +149,7 @@
 				),
 				'content' => $lang['stredit']
 			),
-			array (
+			'exec' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'sql.php',
@@ -373,7 +373,7 @@
 		if (isset($_REQUEST['schema'])) $urlvars['schema'] = $_REQUEST['schema'];
 
 		$misc->printNavLinks(array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'reports.php',

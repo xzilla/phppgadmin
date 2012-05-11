@@ -150,7 +150,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ( 'alter' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'viewproperties.php',
@@ -453,7 +453,7 @@
 		echo "<br />\n";
 
 		$navlinks = array (
-			array (
+			'browse' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'display.php',
@@ -469,7 +469,7 @@
 				),
 				'content' => $lang['strbrowse']
 			),
-			array (
+			'select' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'views.php',
@@ -484,7 +484,7 @@
 				),
 				'content' => $lang['strselect']
 			),
-			array (
+			'drop' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'views.php',
@@ -499,7 +499,7 @@
 				),
 				'content' => $lang['strdrop']
 			),
-			array (
+			'alter' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'viewproperties.php',

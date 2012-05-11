@@ -243,7 +243,7 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
 		$navlinks = array (
-			array (
+			'drop' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'domains.php',
@@ -260,7 +260,7 @@
 			)
 		);
 		if ($data->hasAlterDomains()) {
-			$navlinks[] = array (
+			$navlinks['addcheck'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'domains.php',
@@ -275,7 +275,7 @@
 				),
 				'content' => $lang['straddcheck']
 			);
-			$navlinks[] = array (
+			$navlinks['alter'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'domains.php',
@@ -490,7 +490,7 @@
 		$misc->printTable($domains, $columns, $actions, 'domains-domains', $lang['strnodomains']);
 
 		$navlinks = array (
-			array (
+			'create' => rray (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'domains.php',

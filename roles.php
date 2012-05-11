@@ -426,7 +426,7 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		$navlinks = array (
-			array (
+			'showall' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'roles.php',
@@ -437,7 +437,7 @@
 				),
 				'content' => $lang['strshowallroles']
 			),
-			array (
+			'alter' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'roles.php',
@@ -450,7 +450,7 @@
 				),
 				'content' => $lang['stralter']
 			),
-			array (
+			'drop' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'roles.php',
@@ -514,7 +514,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('changepassword' =>  array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'roles.php',
@@ -680,7 +680,7 @@
 		$misc->printTable($roles, $columns, $actions, 'roles-roles', $lang['strnoroles']);
 
 		$navlinks = array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'roles.php',

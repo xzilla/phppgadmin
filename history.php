@@ -85,7 +85,7 @@
 		else echo "<p>{$lang['strnohistory']}</p>\n";
 
 		$navlinks = array (
-			array (
+			'refresh' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'history.php',
@@ -102,7 +102,7 @@
 
 		if (isset($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']]) 
 				&& count($_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']])) {
-			$navlinks[] = array (
+			$navlinks['download'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'history.php',
@@ -115,7 +115,7 @@
 				),
 				'content' => $lang['strdownload']
 			);
-			$navlinks[] = array (
+			$navlinks['clear'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'history.php',

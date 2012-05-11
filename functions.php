@@ -326,7 +326,7 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		$navlinks = array(
-			array (
+			'showall' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',
@@ -339,7 +339,7 @@
 				),
 				'content' => $lang['strshowallfunctions']
 			),
-			array (
+			'alter' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',
@@ -355,7 +355,7 @@
 				),
 				'content' => $lang['stralter']
 			),
-			array (
+			'drop' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',
@@ -891,7 +891,7 @@
 		$misc->printTable($funcs, $columns, $actions, 'functions-functions', $lang['strnofunctions']);
 
 		$navlinks = array(
-			array (
+			'createpl' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',
@@ -905,7 +905,7 @@
 				),
 				'content' => $lang['strcreateplfunction']
 			),
-			array (
+			'createinternal' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',
@@ -920,7 +920,7 @@
 				),
 				'content' => $lang['strcreateinternalfunction']
 			),
-			array (
+			'createc' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'functions.php',

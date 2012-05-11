@@ -738,7 +738,7 @@
 			'table' => array(
 				'title' => $lang['strtable'],
 				'field' => field('relname'),
-				'url'		=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
+				'url'	=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'owner' => array(
@@ -891,7 +891,7 @@
 		$misc->printTable($tables, $columns, $actions, 'tables-tables', $lang['strnotables']);
 
 		$navlinks = array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tables.php',
@@ -908,7 +908,7 @@
 		);
 
 		if (($tables->recordCount() > 0) && $data->hasCreateTableLike()) {
-			$navlinks[] = array (
+			$navlinks['createlike'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tables.php',

@@ -167,7 +167,7 @@
 
 		$misc->printTable($rules, $columns, $actions, 'rules-rules', $lang['strnorules']);
 
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'rules.php',

@@ -336,7 +336,7 @@
 		$misc->printTable($indexes, $columns, $actions, 'indexes-indexes', $lang['strnoindexes'], 'indPre');
 		
 		$misc->printNavLinks(array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'indexes.php',

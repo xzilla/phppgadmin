@@ -93,7 +93,7 @@
 
 		$misc->printTable($sequences, $columns, $actions, 'sequences-sequences', $lang['strnosequences']);
 
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'sequences.php',
@@ -188,7 +188,7 @@
 			echo "</table>";
 
 			$navlinks = array (
-				array (
+				'alter' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'sequences.php',
@@ -203,7 +203,7 @@
 					),
 					'content' => $lang['stralter']
 				),
-				array (
+				'setval' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'sequences.php',
@@ -218,7 +218,7 @@
 					),
 					'content' => $lang['strsetval']
 				),
-				array (
+				'nextval' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'sequences.php',
@@ -248,7 +248,7 @@
 					),
 					'content' => $lang['strrestart']
 				),
-				array (
+				'reset' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'sequences.php',
@@ -263,7 +263,7 @@
 					),
 					'content' => $lang['strreset']
 				),
-				array (
+				'showall' => array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'sequences.php',

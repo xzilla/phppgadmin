@@ -246,7 +246,7 @@
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
 		$navlinks = array (
-			array (
+			'showall' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'aggregates.php',
@@ -262,7 +262,7 @@
 		);
 
 		if ($data->hasAlterAggregate()) {
-			$navlinks[] = array (
+			$navlinks['alter'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'aggregates.php',
@@ -280,7 +280,7 @@
 			);
 		}
 
-		$navlinks[] = array (
+		$navlinks['drop'] = array (
 			'attr'=> array (
 				'href' => array (
 					'url' => 'aggregates.php',
@@ -375,7 +375,7 @@
 		$misc->printTable($aggregates, $columns, $actions, 'aggregates-aggregates', $lang['strnoaggregates']);
 
 		$navlinks = array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'aggregates.php',

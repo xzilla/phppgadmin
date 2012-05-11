@@ -625,7 +625,7 @@
 		$misc->printTable($attrs, $columns, $actions, 'tblproperties-tblproperties', null, 'attPre');
 
 		$navlinks = array (
-			array (
+			'browse' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'display.php',
@@ -641,7 +641,7 @@
 				),
 				'content' => $lang['strbrowse']
 			),
-			array (
+			'select' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tables.php',
@@ -656,7 +656,7 @@
 				),
 				'content' => $lang['strselect']
 			),
-			array (
+			'insert' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'tables.php',
@@ -671,7 +671,7 @@
 				),
 				'content' => $lang['strinsert']
 			),
-			array (
+			'empty' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'tables.php',
@@ -686,7 +686,7 @@
 				),
 				'content' => $lang['strempty']
 			),
-			array (
+			'drop' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tables.php',
@@ -701,7 +701,7 @@
 				),
 				'content' => $lang['strdrop']
 			),
-			array (
+			'addcolumn' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tblproperties.php',
@@ -716,7 +716,7 @@
 				),
 				'content' => $lang['straddcolumn']
 			),
-			array (
+			'alter' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tblproperties.php',

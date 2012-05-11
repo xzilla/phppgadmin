@@ -482,7 +482,7 @@
 		$misc->printTable($constraints, $columns, $actions, 'constraints-constraints', $lang['strnoconstraints'], 'cnPre');
 
 		$navlinks = array (
-			array (
+			'addcheck' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'constraints.php',
@@ -497,7 +497,7 @@
 				),
 				'content' => $lang['straddcheck'],
 			),
-			array (
+			'adduniq' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'constraints.php',
@@ -512,7 +512,7 @@
 				),
 				'content' => $lang['stradduniq'],
 			),
-			array (
+			'addpk' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'constraints.php',
@@ -527,7 +527,7 @@
 				),
 				'content' => $lang['straddpk'],
 			),
-			array (
+			'addfk' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'constraints.php',

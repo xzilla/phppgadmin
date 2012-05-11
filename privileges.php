@@ -232,14 +232,17 @@
 			case 'sequence':
 			case 'function':
 			case 'tablespace':
+				$alllabel = "showall{$_REQUEST['subject']}s";
 				$allurl = "{$_REQUEST['subject']}s.php";
 				$alltxt = $lang["strshowall{$_REQUEST['subject']}s"];
 				break;
 			case 'schema':
+				$alllabel = "showallschemas";
 				$allurl = "schemas.php";
 				$alltxt = $lang["strshowallschemas"];
 				break;
 			case 'database':
+				$alllabel = "showalldatabases";
 				$allurl = 'all_db.php';
 				$alltxt = $lang['strshowalldatabases'];
 				break;
@@ -287,7 +290,7 @@
 		}
 
 		$navlinks = array (
-			array (
+			'grant' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'privileges.php',
@@ -296,7 +299,7 @@
 				),
 				'content' => $lang['strgrant']
 			),
-			array (
+			'revoke' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'privileges.php',
@@ -308,7 +311,7 @@
 		);
 
 		if (isset($allurl)) {
-			$navlinks[] = array (
+			$navlinks[$alllabel] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => $allurl,

@@ -100,7 +100,7 @@
 				)
 			);
 
-			$misc->printTable($groupdata, $columns, $actions, 'groups-properties', $lang['strnousers']);
+			$misc->printTable($groupdata, $columns, $actions, 'groups-members', $lang['strnousers']);
 		}
 
 		// Display form for adding a user to the group			
@@ -119,7 +119,7 @@
 		echo "<input type=\"hidden\" name=\"action\" value=\"add_member\" />\n";
 		echo "</form>\n";
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('showall' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'groups.php',
@@ -268,7 +268,7 @@
 		
 		$misc->printTable($groups, $columns, $actions, 'groups-properties', $lang['strnogroups']);
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'groups.php',

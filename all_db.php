@@ -448,7 +448,7 @@
 		$misc->printTable($databases, $columns, $actions, 'all_db-databases', $lang['strnodatabases']);
 
 		$navlinks = array (
-		    array (
+		    'create' => array (
 			'attr'=> array (
 			    'href' => array (
 				'url' => 'all_db.php',

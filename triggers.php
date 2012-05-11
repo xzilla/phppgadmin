@@ -363,7 +363,7 @@
 
 		$misc->printTable($triggers, $columns, $actions, 'triggers-triggers', $lang['strnotriggers'], 'tgPre');
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 					'url' => 'triggers.php',

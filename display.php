@@ -682,7 +682,7 @@
 		if (isset($_REQUEST['return'])) {
 			$urlvars = $misc->getSubjectParams($_REQUEST['return']);
 
-			$navlinks[] = array (
+			$navlinks['back'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => $urlvars['url'],
@@ -695,7 +695,7 @@
 
 		// Edit SQL link
 		if (isset($_REQUEST['query']))
-			$navlinks[] = array (
+			$navlinks['edit'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'database.php',
@@ -711,7 +711,7 @@
 
 		// Expand/Collapse
 		if ($_REQUEST['strings'] == 'expanded')
-			$navlinks[] = array (
+			$navlinks['collapse'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'display.php',
@@ -726,7 +726,7 @@
 				'content' => $lang['strcollapse']
 			);
 		else
-			$navlinks[] = array (
+			$navlinks['collapse'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'display.php',
@@ -743,7 +743,7 @@
 
 		// Create report
 		if (isset($_REQUEST['query']) && ($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-			$navlinks[] = array (
+			$navlinks['createreport'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'reports.php',
@@ -765,7 +765,7 @@
 			// Report views don't set a schema, so we need to disable create view in that case
 			if (isset($_REQUEST['schema'])) {
 
-				$navlinks[] = array (
+				$navlinks['createview'] = array (
 					'attr'=> array (
 						'href' => array (
 							'url' => 'views.php',
@@ -783,7 +783,7 @@
 			if (isset($_REQUEST['search_path']))
 				$urlvars['search_path'] = $_REQUEST['search_path'];
 
-			$navlinks[] = array (
+			$navlinks['download'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'dataexport.php',
@@ -796,7 +796,7 @@
 
 		// Insert
 		if (isset($object) && (isset($subject) && $subject == 'table'))
-			$navlinks[] = array (
+			$navlinks['insert'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'tables.php',
@@ -810,7 +810,7 @@
 			);
 
 		// Refresh
-		$navlinks[] = array (
+		$navlinks['refresh'] = array (
 			'attr'=> array (
 				'href' => array (
 					'url' => 'display.php',

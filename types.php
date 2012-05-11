@@ -85,7 +85,7 @@
 				echo "</table>\n";
 			}
 
-			$misc->printNavLinks(array (array (
+			$misc->printNavLinks(array ('showall' => array (
 					'attr'=> array (
 						'href' => array (
 						'url' => 'types.php',
@@ -595,7 +595,7 @@
 		$misc->printTable($types, $columns, $actions, 'types-types', $lang['strnotypes']);
 
 		$navlinks = array (
-			array (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'types.php',
@@ -609,7 +609,7 @@
 				),
 				'content' => $lang['strcreatetype']
 			),
-			array (
+			'createcomp' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'types.php',
@@ -623,7 +623,7 @@
 				),
 				'content' => $lang['strcreatecomptype']
 			),
-			'enum' => array (
+			'createenum' => array (
 				'attr'=> array (
 					'href' => array(
 						'url' => 'types.php',

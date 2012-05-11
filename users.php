@@ -47,7 +47,7 @@
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 		
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('changepassword' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'users.php',
@@ -355,7 +355,7 @@
 		
 		$misc->printTable($users, $columns, $actions, 'users-users', $lang['strnousers']);
 
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'users.php',

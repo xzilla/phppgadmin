@@ -208,7 +208,7 @@
 	// Return
 	if (isset($_REQUEST['return'])) {
 		$urlvars = $misc->getSubjectParams($_REQUEST['return']);
-		$navlinks[] = array (
+		$navlinks['back'] = array (
 			'attr'=> array (
 				'href' => array (
 					'url' => $urlvars['url'],
@@ -220,7 +220,7 @@
 	}
 
 	// Edit		
-	$navlinks[] = array (
+	$navlinks['alter'] = array (
 		'attr'=> array (
 			'href' => array (
 				'url' => 'database.php',
@@ -234,7 +234,7 @@
 
 	// Create report
 	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-		$navlinks[] = array (
+		$navlinks['createreport'] = array (
 			'attr'=> array (
 				'href' => array (
 					'url' => 'reports.php',
@@ -252,7 +252,7 @@
 	if (isset($_SESSION['sqlquery']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		// Report views don't set a schema, so we need to disable create view in that case
 		if (isset($_REQUEST['schema'])) {
-			$navlinks[] = array (
+			$navlinks['createview'] = array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'views.php',

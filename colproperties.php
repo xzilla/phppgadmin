@@ -245,7 +245,7 @@
 				 * send an ugly SQL in the URL */
 
 				$navlinks = array (
-					array (
+					'browse' => array (
 						'attr'=> array (
 							'href' => array (
 								'url' => 'display.php',
@@ -263,7 +263,7 @@
 						),
 						'content' => $lang['strbrowse'],
 					),
-					array (
+					'alter' => array (
 						'attr'=> array (
 							'href' => array (
 								'url' => 'colproperties.php',
@@ -279,7 +279,7 @@
 						),
 						'content' => $lang['stralter'],
 					),
-					array (
+					'drop' => array (
 						'attr'=> array (
 							'href' => array (
 								'url' => 'tblproperties.php',
@@ -300,7 +300,7 @@
 			else {
 				/* Browse link */
 				$navlinks = array (
-					array (
+					'browse' => array (
 						'attr'=> array (
 							'href' => array (
 								'url' => 'display.php',

@@ -94,7 +94,7 @@
 
 		$misc->printTable($schemas, $columns, $actions, 'schemas-schemas', $lang['strnoschemas']);
 
-		$misc->printNavLinks(array (array (
+		$misc->printNavLinks(array ('create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'schemas.php',

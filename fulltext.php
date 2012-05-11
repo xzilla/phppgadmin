@@ -73,7 +73,7 @@
 		$misc->printTable($cfgs, $columns, $actions, 'fulltext-fulltext', $lang['strftsnoconfigs']);
 
 		$navlinks = array(
-			array (
+			'createconf' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'fulltext.php',
@@ -438,7 +438,7 @@
 		$misc->printTable($dicts, $columns, $actions, 'fulltext-viewdicts', $lang['strftsnodicts']);
 
 		$navlinks = array(
-			array (
+			'createdict' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'fulltext.php',
@@ -532,7 +532,7 @@
 		$misc->printTable($map, $columns, $actions, 'fulltext-viewconfig', $lang['strftsemptymap']);
 
 		$navlinks = array(
-			array (
+			'addmapping' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'fulltext.php',
