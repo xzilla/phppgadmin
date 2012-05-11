@@ -552,24 +552,54 @@
 				}
 			}
 
-			$buttons = array();
-			$plugin_functions_parameters = array(
+			$buttons = array(
+				'edit' => array (
+					'content' => $lang['stredit'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'display.php',
+							'urlvars' => array_merge(array (
+								'action' => 'confeditrow',
+								'strings' => $_REQUEST['strings'],
+								'page' => $_REQUEST['page'],
+							), $_gets, $_getsort)
+						)
+					)
+				),
+				'delete' => array (
+					'content' => $lang['strdelete'],
+					'attr'=> array (
+						'href' => array (
+							'url' => 'display.php',
+							'urlvars' => array_merge(array (
+								'action' => 'confdelrow',
+								'strings' => $_REQUEST['strings'],
+								'page' => $_REQUEST['page'],
+							), $_gets, $_getsort)
+						)
+					)
+				),
+			);
+			$actions = array(
 				'actionbuttons' => &$buttons,
 				'place' => 'display-browse'
 			);
-			$plugin_manager->do_hook('actionbuttons', $plugin_functions_parameters);
+			$plugin_manager->do_hook('actionbuttons', $actions);
 
-			foreach (array_keys($plugin_functions_parameters['actionbuttons']) as $action) {
-				$plugin_functions_parameters['actionbuttons'][$action]['attr']['href']['urlvars'] = array_merge(
-					$plugin_functions_parameters['actionbuttons'][$action]['attr']['href']['urlvars'],
+			foreach (array_keys($actions['actionbuttons']) as $action) {
+				$actions['actionbuttons'][$action]['attr']['href']['urlvars'] = array_merge(
+					$actions['actionbuttons'][$action]['attr']['href']['urlvars'],
 					$_gets, $_getsort
 				);
 			}
 
-			error_log(print_r($plugin_functions_parameters, 1));
+			$edit_params = $actions['actionbuttons']['edit'];
+			$delete_params = $actions['actionbuttons']['delete'];
+
+			error_log(print_r($actions, 1));
 
 			// Display edit and delete actions if we have a key
-			$colspan = count($buttons) + 2;
+			$colspan = count($buttons);
 			if (sizeof($key) > 0)
 				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
@@ -585,32 +615,38 @@
 				echo "<tr class=\"data{$id}\">\n";
 				// Display edit and delete links if we have a key
 				if (sizeof($key) > 0) {
-					$key_str = '';
+					$keys_array = array();
 					$has_nulls = false;
 					foreach ($key as $v) {
 						if ($rs->fields[$v] === null) {
 							$has_nulls = true;
 							break;
 						}
-						if ($key_str != '') $key_str .= '&amp;';
-						$key_str .= urlencode("key[{$v}]") . '=' . urlencode($rs->fields[$v]);
+						$keys_array["key[{$v}]"] = $rs->fields[$v];
 					}
 					if ($has_nulls) {
 						echo "<td colspan=\"{$colspan}\">&nbsp;</td>\n";
 					} else {
-						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confeditrow&amp;strings=", 
-							urlencode($_REQUEST['strings']), "&amp;page=", 
-							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['stredit']}</a></td>\n";
-						echo "<td class=\"opbutton{$id}\"><a href=\"display.php?action=confdelrow&amp;strings=", 
-							urlencode($_REQUEST['strings']), "&amp;page=", 
-							urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['strdelete']}</a></td>\n";
 
-						foreach ($plugin_functions_parameters['actionbuttons'] as $action) {
+						if (isset($actions['actionbuttons']['edit'])) {
+							$actions['actionbuttons']['edit'] = $edit_params;
+							$actions['actionbuttons']['edit']['attr']['href']['urlvars'] = array_merge(
+								$actions['actionbuttons']['edit']['attr']['href']['urlvars'],
+								$keys_array
+							);
+						}
+
+						if (isset($actions['actionbuttons']['delete'])) {
+							$actions['actionbuttons']['delete'] = $delete_params;
+							$actions['actionbuttons']['delete']['attr']['href']['urlvars'] = array_merge(
+								$actions['actionbuttons']['delete']['attr']['href']['urlvars'],
+								$keys_array
+							);
+						}
+
+						foreach ($actions['actionbuttons'] as $action) {
 							echo "<td class=\"opbutton{$id}\">";
 							$misc->printLink($action);
-							// "<a href=\"display.php?action=confeditrow&amp;strings=", 
-							// 	urlencode($_REQUEST['strings']), "&amp;page=", 
-							// 	urlencode($_REQUEST['page']), "&amp;{$key_str}&amp;{$gets}&amp;{$getsort}\">{$lang['stredit']}</a>"
 							echo "</td>\n";
 						}
 						
