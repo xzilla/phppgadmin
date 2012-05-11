@@ -190,11 +190,36 @@
 			$misc->printTrail($_REQUEST['subject']);
 			$misc->printTitle($lang['strdeleterow']);
 
-			echo "<p>{$lang['strconfdeleterow']}</p>\n";
-			
+			$rs = $data->browseRow($_REQUEST['table'], $_REQUEST['key']);
+
 			echo "<form action=\"display.php\" method=\"post\">\n";
-			echo "<input type=\"hidden\" name=\"action\" value=\"delrow\" />\n";
 			echo $misc->form;
+
+			if ($rs->recordCount() == 1) {
+				echo "<p>{$lang['strconfdeleterow']}</p>\n";
+
+				$fkinfo = array();
+				echo "<table><tr>";
+					printTableHeaderCells($rs, false, true);
+				echo "</tr>";
+				echo "<tr class=\"data1\">\n";
+					printTableRowCells($rs, $fkinfo, true);
+				echo "</tr>\n";
+				echo "</table>\n";
+				echo "<br />\n";
+
+				echo "<input type=\"hidden\" name=\"action\" value=\"delrow\" />\n";
+				echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
+				echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
+			}
+			elseif ($rs->recordCount() != 1) {
+				echo "<p>{$lang['strrownotunique']}</p>\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			}
+			else {
+				echo "<p>{$lang['strinvalidparam']}</p>\n";
+				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
+			}
 			if (isset($_REQUEST['table']))
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			if (isset($_REQUEST['subject']))
@@ -210,8 +235,6 @@
 			echo "<input type=\"hidden\" name=\"sortdir\" value=\"", htmlspecialchars($_REQUEST['sortdir']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(urlencode(serialize($_REQUEST['key']))), "\" />\n";
-			echo "<input type=\"submit\" name=\"yes\" value=\"{$lang['stryes']}\" />\n";
-			echo "<input type=\"submit\" name=\"no\" value=\"{$lang['strno']}\" />\n";
 			echo "</form>\n";
 		}
 		else {
