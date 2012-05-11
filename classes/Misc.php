@@ -1289,7 +1289,7 @@
 				$logout_shared = isset($_SESSION['sharedUsername']) ? "return confirm('{$lang['strconfdropcred']})" : '';
 
 				$toplinks = array (
-					array (
+					'sql' => array (
 						'attr' => array (
 							'href' => "{$sql_url}&action=sql",
 							'target' => "sqledit",
@@ -1297,14 +1297,14 @@
 						),
 						'content' => $lang['strsql']
 					),
-					array (
+					'history' => array (
 						'attr' => array (
 							'href' => $history_url,
 							'onclick' => "window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;",
 						),
 						'content' => $lang['strhistory']
 					),
-					array (
+					'find' => array (
 						'attr' => array (
 							'href' => "{$sql_url}&action=find",
 							'target' => "sqledit",
@@ -1312,7 +1312,7 @@
 						),
 						'content' => $lang['strfind']
 					),
-					array(
+					'logout' => array(
 						'attr' => array (
 							'href' => "servers.php?action=logout&logoutServer=".htmlentities($server_info['host']).":".htmlentities($server_info['port']).":".htmlentities($server_info['sslmode']),
 							'onclick' => $logout_shared,
