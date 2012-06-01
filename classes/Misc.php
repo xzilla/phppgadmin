@@ -2008,12 +2008,13 @@
 				}
 			}
 
-			$plugin_functions_parameters = array(
+			$tree_params = array(
 				'treedata' => &$treedata,
 				'attrs' => &$attrs,
 				'section' => $section
 			);
-			$plugin_manager->do_hook('tree', $plugin_functions_parameters);
+
+			$plugin_manager->do_hook('tree', $tree_params);
 
 			$this->printTreeXML($treedata, $attrs);
 		}
