@@ -6941,7 +6941,7 @@ class Postgres extends ADODB_base {
 	function getTablespaces($all = false) {
 		global $conf;
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
                     (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
 					FROM pg_catalog.pg_tablespace";
 
@@ -6961,7 +6961,7 @@ class Postgres extends ADODB_base {
 	function getTablespace($spcname) {
 		$this->clean($spcname);
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
                     (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
 					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
 
