@@ -1268,6 +1268,7 @@
 			global $lang, $conf, $plugin_manager, $appName, $appVersion, $appLangFiles;
 
 			$server_info = $this->getServerInfo();
+			$reqvars = $this->getRequestVars('table');
 
 			echo "<div class=\"topbar\"><table style=\"width: 100%\"><tr><td>";
 
@@ -1283,40 +1284,55 @@
 
 				/* top right informations when connected */
 
-				$sql_url = "sqledit.php?{$this->href}&amp;action=";
-				$sql_window_id = htmlentities('sqledit:'.$_REQUEST['server']);
-				$history_url = "history.php?{$this->href}&amp;action=pophistory";
-				$history_window_id = htmlentities('history:'.$_REQUEST['server']);
-				$logout_shared = isset($_SESSION['sharedUsername']) ? "return confirm('{$lang['strconfdropcred']})" : '';
-
 				$toplinks = array (
 					'sql' => array (
 						'attr' => array (
-							'href' => "{$sql_url}&action=sql",
+							'href' => array (
+								'url' => 'sqledit.php',
+								'urlvars' => array_merge($reqvars, array (
+									'action' => 'sql'
+								))
+							),
 							'target' => "sqledit",
-							'onclick' => "window.open('{$sql_url}&action=sql','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;"
+							'id' => 'toplink_sql',
 						),
 						'content' => $lang['strsql']
 					),
 					'history' => array (
-						'attr' => array (
-							'href' => $history_url,
-							'onclick' => "window.open('{$history_url}','{$history_window_id}','toolbar=no,width=800,height=600,resizable=yes,scrollbars=yes').focus(); return false;",
+						'attr'=> array (
+							'href' => array (
+								'url' => 'history.php',
+								'urlvars' => array_merge($reqvars, array (
+									'action' => 'pophistory'
+								))
+							),
+							'id' => 'toplink_history',
 						),
 						'content' => $lang['strhistory']
 					),
 					'find' => array (
 						'attr' => array (
-							'href' => "{$sql_url}&action=find",
+							'href' => array (
+								'url' => 'sqledit.php',
+								'urlvars' => array_merge($reqvars, array (
+									'action' => 'find'
+								))
+							),
 							'target' => "sqledit",
-							'onclick' => "window.open('{$sql_url}&action=find','{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus(); return false;",
+							'id' => 'toplink_find',
 						),
 						'content' => $lang['strfind']
 					),
 					'logout' => array(
 						'attr' => array (
-							'href' => "servers.php?action=logout&logoutServer=".htmlentities($server_info['host']).":".htmlentities($server_info['port']).":".htmlentities($server_info['sslmode']),
-							'onclick' => $logout_shared,
+							'href' => array (
+								'url' => 'servers.php',
+								'urlvars' => array (
+									'action' => 'logout',
+									'logoutServer' => "{$server_info['host']}:{$server_info['port']}:{$server_info['sslmode']}"
+								)
+							),
+							'id' => 'toplink_logout',
 						),
 						'content' => $lang['strlogout']
 					)
@@ -1332,6 +1348,36 @@
 				echo "<td style=\"text-align: right\">";
 				$this->printLinksList($toplinks, 'toplink');
 				echo "</td>";
+
+				$sql_window_id = htmlentities('sqledit:'.$_REQUEST['server']);
+				$history_window_id = htmlentities('history:'.$_REQUEST['server']);
+
+				echo "<script type=\"text/javascript\">
+						$('#toplink_sql').click(function() {
+							window.open($(this).attr('href'),'{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
+							return false;
+						});
+
+						$('#toplink_history').click(function() {
+							window.open($(this).attr('href'),'{$history_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
+							return false;
+						});
+
+						$('#toplink_find').click(function() {
+							window.open($(this).attr('href'),'{$sql_window_id}','toolbar=no,width=700,height=500,resizable=yes,scrollbars=yes').focus();
+							return false;
+						});
+						";
+
+				if (isset($_SESSION['sharedUsername'])) {
+					printf("
+						$('#toplink_logout').click(function() {
+							return confirm('%s');
+						});", str_replace("'", "\'", $lang['strconfdropcred']));
+				}
+
+				echo "
+				</script>";
 			}
 			else {
 				echo "<span class=\"appname\">{$appName}</span> <span class=\"version\">{$appVersion}</span>";
