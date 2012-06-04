@@ -535,6 +535,7 @@
 				echo "<link rel=\"stylesheet\" href=\"themes/{$conf['theme']}/global.css\" type=\"text/css\" />\n";
 				echo "<link rel=\"shortcut icon\" href=\"images/themes/{$conf['theme']}/Favicon.ico\" type=\"image/vnd.microsoft.icon\" />\n";
 				echo "<link rel=\"icon\" type=\"image/png\" href=\"images/themes/{$conf['theme']}/Introduction.png\" />\n";
+				echo "<script type=\"text/javascript\" src=\"libraries/js/jquery.js\"></script>";
 				echo "<title>", htmlspecialchars($appName);
 				if ($title != '') echo htmlspecialchars(" - {$title}");
 				echo "</title>\n";
@@ -2514,7 +2515,6 @@
 
 				$fksprops['code'] .= '<div id="fkbg"></div>';
 				$fksprops['code'] .= '<div id="fklist"></div>';
-				$fksprops['code'] .= '<script src="libraries/js/jquery.js" type="text/javascript"></script>';
 				$fksprops['code'] .= '<script src="js/ac_insert_row.js" type="text/javascript"></script>';
 			}
 

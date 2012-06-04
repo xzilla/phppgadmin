@@ -832,7 +832,6 @@
 		doBrowseFK();
 	}
 
-	$scripts  = "<script src=\"libraries/js/jquery.js\" type=\"text/javascript\"></script>\n";
 	$scripts .= "<script src=\"js/display.js\" type=\"text/javascript\"></script>";
 
 	$scripts .= "<script type=\"text/javascript\">\n";
