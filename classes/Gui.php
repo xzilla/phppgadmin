@@ -12,7 +12,7 @@
 		function GUI () {}
 		 
 		/**
-		 * Finds a particular report
+		 * Prints a combox box
 		 * @param $arrOptions associative array storing options and values of combo should be Option => Value
 		 * @param $szName string to specify the name of the form element
 		 * @param (optional) $bBlankEntry bool to specify whether or not we want a blank selection 
