@@ -170,7 +170,6 @@
 	$lang['strnodata'] = 'Keine Datensätze gefunden.';
 	$lang['strnoobjects'] = 'Keine Objekte gefunden.';
 	$lang['strrownotunique'] = 'Dieser Datensatz hat keine eindeutige Spalte.';
-	$lang['strnoreportsdb'] = 'Sie haben die Berichtsdatenbank nicht angelegt. In der Datei INSTALL finden Sie Anweisungen dafür.';
 	$lang['strnouploads'] = 'Das Hochladen von Dateien ist ausgeschaltet.';
 	$lang['strimporterror'] = 'Importfehler.';
 	$lang['strimporterror-fileformat'] = 'Importfehler: Dateiformat konnte nicht automatisch bestimmt werden.';
@@ -625,18 +624,6 @@
 	$lang['strspecifyschematodrop'] = 'Sie müssen mindestens ein Schema angeben, das gelöscht werden soll.';
 
 	// Reports
-	$lang['strreport'] = 'Bericht';
-	$lang['strreports'] = 'Berichte';
-	$lang['strshowallreports'] = 'Alle Berichte anzeigen';
-	$lang['strnoreports'] = 'Keine Berichte gefunden.';
-	$lang['strcreatereport'] = 'Bericht erstellen.';
-	$lang['strreportdropped'] = 'Bericht gelöscht.';
-	$lang['strreportdroppedbad'] = 'Löschen des Berichtes fehlgeschlagen.';
-	$lang['strconfdropreport'] = 'Sind Sie sicher, dass Sie den Bericht "%s" löschen wollen?';
-	$lang['strreportneedsname'] = 'Sie müssen für den Bericht einen Namen angeben.';
-	$lang['strreportneedsdef'] = 'Sie müssen eine SQL-Abfrage für den Bericht eingeben.';
-	$lang['strreportcreated'] = 'Bericht gespeichert.';
-	$lang['strreportcreatedbad'] = 'Speichern des Berichtes fehlgeschlagen.';
 
 	// Domains
 	$lang['strdomain'] = 'Domäne';

@@ -134,7 +134,6 @@
 	$lang['strnodata'] = '找不到任何資料列。';
 	$lang['strnoobjects'] = '找不到任何物件。';
 	$lang['strrownotunique'] = '此顯料列無獨特識別項。';
-	$lang['strnoreportsdb'] = '您尚未建新報表資料庫，請參閱INSTALL檔說明。';
 	$lang['strnouploads'] = '上傳檔案功能已停用。';
 	$lang['strimporterror'] = '匯入錯誤。';
 	$lang['strimporterrorline'] = '匯入錯誤發生於第 %s 行。';
@@ -481,18 +480,6 @@
 	$lang['strschemaalteredbad'] = '修改模式失敗。';
 	
 	// Reports
-	$lang['strreport'] = '報表';
-	$lang['strreports'] = '報表';
-	$lang['strshowallreports'] = '顯示所有的報表';
-	$lang['strnoreports'] = '找不到此報表。';
-	$lang['strcreatereport'] = '建立新報表';
-	$lang['strreportdropped'] = '成功刪除報表。';
-	$lang['strreportdroppedbad'] = '刪除報表作業失敗。';
-	$lang['strconfdropreport'] = '您確定要刪除報表 "%s"?';
-	$lang['strreportneedsname'] = '您需為您的報表命名。';
-	$lang['strreportneedsdef'] = '您需給您的報表 SQL。';
-	$lang['strreportcreated'] = '成功儲存報表。';
-	$lang['strreportcreatedbad'] = '無法儲存報表。';
 	
 	// Domains
 	$lang['strdomain'] = '領域';

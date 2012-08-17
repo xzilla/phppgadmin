@@ -135,7 +135,6 @@
 	$lang['strnodata'] = 'Ingen rækker fundet.';
 	$lang['strnoobjects'] = 'Ingen objekter fundet.';
 	$lang['strrownotunique'] = 'Denne række har ingen unik nøgle.';
-	$lang['strnoreportsdb'] = 'Du har ikke oprettet nogen rapportdatabase. For instruktioner læs filen INSTALL.';
 
 	// Tables
 	$lang['strtable'] = 'Tabel';
@@ -495,20 +494,8 @@
 	$lang['strschemadroppedbad'] = 'Det lykkedes ikka at fjerne skema.';
 
 	// Reports
-	$lang['strreport'] = 'Rapport';
-	$lang['strreports'] = 'Rapporter';
-	$lang['strshowallreports'] = 'Vis alle rapporter';
 	$lang['strtopbar'] = '%s kører på %s:%s -- Du er logged ind som bruger "%s"';
 	$lang['strtimefmt'] = 'jS M, Y g:iA';
-	$lang['strnoreports'] = 'Ingen rapporter fundet.';
-	$lang['strcreatereport'] = 'Opret rapport';
-	$lang['strreportdropped'] = 'Rapport fjernet.';
-	$lang['strreportcreated'] = 'Rapport oprettet.';
-	$lang['strreportneedsname'] = 'Rapport skal have et navn.';
-	$lang['strreportcreatedbad'] = 'Det lykkedes ikke at oprette rapport.';
-	$lang['strreportdroppedbad'] = 'Det lykkedes ikke at fjerne rapport.';
-	$lang['strconfdropreport'] = 'Er du sikker på, at du vil fjerne rapporten "%s"?';
-	$lang['strreportneedsdef'] = 'Du skal angive en SQL-forespørgsel.';
 	
 	// Domains
 	$lang['strdomain'] = 'Domæne';

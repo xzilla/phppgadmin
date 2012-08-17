@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'No s\'han trobat files.';
 	$lang['strnoobjects'] = 'No s\'han trobat objectes.';
 	$lang['strrownotunique'] = 'No hi ha un identificador únic per aquesta fila.';
-	$lang['strnoreportsdb'] = 'La base de dades dels reports no està creada. Llegeixi el fitxer INSTALL per fer-ho.';
 	$lang['strnouploads'] = 'La pujada de fitxers està deshabilitada.';
 	$lang['strimporterror'] = 'Error d\'importació.';
 	$lang['strimporterror-fileformat'] = 'Error d\'importació: Error al determinar automàticament el format del fitxer.';
@@ -659,18 +658,6 @@
 	$lang['strspecifyschematodrop'] = 'Ha d\especificar almenys un esquema per eliminar.';
 
 	// Reports
-	$lang['strreport'] = 'Report';
-	$lang['strreports'] = 'Reports';
-	$lang['strshowallreports'] = 'Mostra tots els reports';
-	$lang['strnoreports'] = 'No s\'han trobat reports';
-	$lang['strcreatereport'] = 'Crea un report';
-	$lang['strreportdropped'] = 'Report eliminat.';
-	$lang['strreportdroppedbad'] = 'No s\'ha pogut eliminar el report.';
-	$lang['strconfdropreport'] = 'Està segur de voler eliminar el report "%s"?';
-	$lang['strreportneedsname'] = 'Ha de donar un nom al report.';
-	$lang['strreportneedsdef'] = 'Ha de donar un SQL al report.';
-	$lang['strreportcreated'] = 'Report desat.';
-	$lang['strreportcreatedbad'] = 'No s\'ha pogut desar el report.';
 
 	// Domains
 	$lang['strdomain'] = 'Domini';

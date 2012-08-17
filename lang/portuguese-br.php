@@ -185,7 +185,6 @@
 	$lang['strnodata'] = 'Nenhuma linha encontrada.';
 	$lang['strnoobjects'] = 'Nenhum objeto encontrado.';
 	$lang['strrownotunique'] = 'Nenhum identificador único para esta linha.';
-	$lang['strnoreportsdb'] = 'Você não criou a base de dados para relatórios. Leia o arquivo INSTALL para resolução.';
 	$lang['strnouploads'] = 'O upload de arquivos está desabilitado.';
 	$lang['strimporterror'] = 'Erro de importação.';
 	$lang['strimporterror-fileformat'] = 'Erro de importação: Falhou ao determinar automáticamente o formato do arquivo.';
@@ -660,18 +659,6 @@
 	$lang['strspecifyschematodrop'] = 'Você deve informar ao menos um esquema para deletar.';
 
 	// Reports
-	$lang['strreport'] = 'Relatório';
-	$lang['strreports'] = 'Relatórios';
-	$lang['strshowallreports'] = 'Exibir todos os relatórios';
-	$lang['strnoreports'] = 'Nenhum relatório encontrado.';
-	$lang['strcreatereport'] = 'Criar relatório';
-	$lang['strreportdropped'] = 'Relatório deletado.';
-	$lang['strreportdroppedbad'] = 'Falha ao deletar o relatório.';
-	$lang['strconfdropreport'] = 'Você têm certeza que deseja deletar o relatório "%s"?';
-	$lang['strreportneedsname'] = 'Você deve informar um nome para o seu relatório.';
-	$lang['strreportneedsdef'] = 'Você deve informar o SQL para o seu relatório.';
-	$lang['strreportcreated'] = 'Relatório salvo.';
-	$lang['strreportcreatedbad'] = 'Falha ao salvar o relatório.';
 
 	// Domains
 	$lang['strdomain'] = 'Domínio';

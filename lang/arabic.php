@@ -136,7 +136,6 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strnodata'] = 'لم توجد سجلات.';
  $lang['strnoobjects'] = 'لم توجد كائنات.';
  $lang['strrownotunique'] = 'لا يوجد معرّف فريد unique identifier في هذا السجل.';
- $lang['strnoreportsdb'] = 'لم تقم بإنشاء قاعدة بيانات التقارير reports database. إقرأ التعليمات في المف INSTALL.';
  $lang['strnouploads'] = 'تحميل الملفات غير مفعّل.';
  $lang['strimporterror'] = 'خطأ في الإستيراد.';
  $lang['strimporterrorline'] = 'خطأ في الإستيراد عند السطر: %s.';
@@ -479,18 +478,6 @@ $lang['strloginfailed'] = 'لم تنجح عملية الدخول';
  $lang['strschemaalteredbad'] = 'فشلت عملية تعديل المخطط، لم يتم التعديل.';
 
  // Reports
- $lang['strreport'] = 'تقرير Report';
- $lang['strreports'] = 'تقارير Reports';
- $lang['strshowallreports'] = 'عرض جميع التقارير';
- $lang['strnoreports'] = 'لم توجد تقارير.';
- $lang['strcreatereport'] = 'إنشاء تقرير جديد';
- $lang['strreportdropped'] = 'تم حذف التقرير.';
- $lang['strreportdroppedbad'] = 'فشلت عملية حذف التقرير.';
- $lang['strconfdropreport'] = 'هل أنت متأكد تريد حذف التقرير "%s"؟';
- $lang['strreportneedsname'] = 'يجب إعطاء اسم للتقرير.';
- $lang['strreportneedsdef'] = 'يجب كتابة عبارة SQL للتقرير.';
- $lang['strreportcreated'] = 'تم حفظ التقرير.';
- $lang['strreportcreatedbad'] = 'لم يتم حفظ التقرير، لقد فشلت عملية الحفظ.';
 
  // Domains
  $lang['strdomain'] = 'نطاق Domain';

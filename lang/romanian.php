@@ -156,7 +156,6 @@
 	$lang['strnodata'] = 'Nici un rând găsit.';
 	$lang['strnoobjects'] = 'Nici un obiect găsit.';
 	$lang['strrownotunique'] = 'Nici un identificator unic pentru acest rând.';
-	$lang['strnoreportsdb'] = 'Nu aţi creat baza de date pentru rapoarte. Citiţi fişierul INSTALL pentru instrucţiuni.';
 	$lang['strnouploads'] = 'Încărcarea de fişiere este dezactivată.';
 	$lang['strimporterror'] = 'Eroare la importare.';
 	$lang['strimporterror-fileformat'] = 'Eroare la importare: Imposibil de determinat în mod automat formatul fişierului.';
@@ -582,18 +581,6 @@
 	$lang['strsearchpath'] = 'Cale de căutare pentru schemă';
 
 	// Reports
-	$lang['strreport'] = 'Raport';
-	$lang['strreports'] = 'Rapoarte';
-	$lang['strshowallreports'] = 'Afişare toate rapoartele';
-	$lang['strnoreports'] = 'Nici un raport găsit.';
-	$lang['strcreatereport'] = 'Creare raport';
-	$lang['strreportdropped'] = 'Report dropped.';
-	$lang['strreportdroppedbad'] = 'Ştergere raport eşuată.';
-	$lang['strconfdropreport'] = 'Sigur ştergeţi raportul "%s"?';
-	$lang['strreportneedsname'] = 'Specificaţi un nume pentru raport.';
-	$lang['strreportneedsdef'] = 'Specificaţi o instrucţiune SQL pentru raport.';
-	$lang['strreportcreated'] = 'Raport salvat.';
-	$lang['strreportcreatedbad'] = 'Salvare raport eşuată.';
 
 	// Domains
 	$lang['strdomain'] = 'Domeniu';

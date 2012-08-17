@@ -159,7 +159,6 @@
 	$lang['strnodata'] = 'Nessuna riga trovata.';
 	$lang['strnoobjects'] = 'Nessun oggetto trovato.';
 	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
-	$lang['strnoreportsdb'] = 'Non è stato creato il database dei report. Leggere il file INSTALL per istruzioni.';
 	$lang['strnouploads'] = 'L\'upload dei file è disabilitato.';
 	$lang['strimporterror'] = 'Errore durante l\'import.';
 	$lang['strimporterror-fileformat'] = 'Errore durante l\'import: determinazione automatica del formato del file fallita.';
@@ -567,18 +566,6 @@
 	$lang['strsearchpath'] = 'Ordine di ricerca dello schema';
 
 	// Reports - Rapporti
-	$lang['strreport'] = 'Rapporto';
-	$lang['strreports'] = 'Rapporti';
-	$lang['strshowallreports'] = 'Mostra tutti i rapporti';
-	$lang['strnoreports'] = 'Nessun rapporto trovato.';
-	$lang['strcreatereport'] = 'Crea rapporto';
-	$lang['strreportdropped'] = 'Rapporto eliminato.';
-	$lang['strreportdroppedbad'] = 'Eliminazione del rapporto fallita.';
-	$lang['strconfdropreport'] = 'Eliminare il rapporto "%s"?';
-	$lang['strreportneedsname'] = 'È necessario specificare un nome per il rapporto.';
-	$lang['strreportneedsdef'] = 'È necessario inserire il codice SQL per il rapporto.';
-	$lang['strreportcreated'] = 'Rapporto salvato';
-	$lang['strreportcreatedbad'] = 'Salvataggio del rapporto fallito.';
 
 	// Domains - Domini
 	$lang['strdomain'] = 'Dominio';

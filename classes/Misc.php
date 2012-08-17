@@ -67,15 +67,6 @@
 						'subject' => 'server'
 					));
 					break;
-				case 'report':
-					$vars = array(
-						'url' => 'reports.php',
-						'params' => array(
-							'server' => $_REQUEST['server'],
-							'subject' => 'report',
-							'report' => $_REQUEST['report']
-					));
-					break;
 				case 'role':
 					$vars = array('params' => array(
 						'server' => $_REQUEST['server'],
@@ -181,6 +172,16 @@
 							'column' => $_REQUEST['column']
 						));
 					break;
+				// case 'plugin':
+				// 	$vars = array('params' => array(
+				// 		'server' => $_REQUEST['server'],
+				// 		'subject' => 'plugin',
+				// 		'plugin' => $_REQUEST['plugin'],
+				// 		'database' => $_REQUEST['database'],
+				// 		'schema' => $_REQUEST['schema'],
+				// 		'action' => $_REQUEST['action']
+				// 	));
+				// 	break;
 				default:
 					return false;
 			}
@@ -718,7 +719,6 @@
 					break;
 
 				case 'server':
-				case 'report':
 					$hide_users = !$data->isSuperUser();
 					$tabs = array (
 						'databases' => array (
@@ -785,13 +785,6 @@
 							'urlvars' => array('subject' => 'server', 'action' => 'export'),
 							'hide'  => (!$this->isDumpEnabled()),
 							'icon'  => 'Export',
-						),
-						'reports' => array (
-							'title' => $lang['strreports'],
-							'url'   => 'reports.php',
-							'urlvars' => array('subject' => 'server'),
-							'hide' => !$conf['show_reports'],
-							'icon' => 'Reports',
 						),
 					));
 					break;
@@ -1488,15 +1481,6 @@
 			}
 			if ($subject == 'server') $done = true;
 
-			if (isset($_REQUEST['report']) && !$done) {
-				$trail['report'] = array(
-					'title' => $lang['strreport'],
-					'text'  => $_REQUEST['report'],
-					'url'   => $this->getHREFSubject('report'),
-					'icon'  => 'Report'
-				);
-			}
-
 			if (isset($_REQUEST['database']) && !$done) {
 				$trail['database'] = array(
 					'title' => $lang['strdatabase'],
@@ -1514,7 +1498,7 @@
 					'icon'  => 'Roles'
 				);
 			}
-			if ($subject == 'database' || $subject == 'role' || $subject == 'report') $done = true;
+			if ($subject == 'database' || $subject == 'role') $done = true;
 
 			if (isset($_REQUEST['schema']) && !$done) {
 				$trail['schema'] = array(

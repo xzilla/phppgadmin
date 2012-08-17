@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'Данных не найдено.';
 	$lang['strnoobjects'] = 'Объектов не найдено.';
 	$lang['strrownotunique'] = 'Нет уникального идентификатора для этой записи.';
-	$lang['strnoreportsdb'] = 'Вы не создали базу данных отчетов. Читайте разъяснения в файле INSTALL.';
 	$lang['strnouploads'] = 'Загрузка файла невозможна.';
 	$lang['strimporterror'] = 'Ошибка импорта.';
 	$lang['strimporterror-fileformat'] = 'Ошибка импорта: Невозможно автоматически определить формат файла.';
@@ -656,18 +655,6 @@
 	$lang['strspecifyschematodrop'] = 'Вам необходимо указать как минимум одну схему для удаления.';
 
 	// Reports
-	$lang['strreport'] = 'Отчет';
-	$lang['strreports'] = 'Отчеты';
-	$lang['strshowallreports'] = 'Показать все отчеты';
-	$lang['strnoreports'] = 'Отчетов нет.';
-	$lang['strcreatereport'] = 'Создать отчет';
-	$lang['strreportdropped'] = 'Отчет уничтожен.';
-	$lang['strreportdroppedbad'] = 'Уничтожение отчета прервано.';
-	$lang['strconfdropreport'] = 'Вы уверены, что хотите уничтожить отчет "%s"?';
-	$lang['strreportneedsname'] = 'Вам необходимо указать имя отчета.';
-	$lang['strreportneedsdef'] = 'Вам необходимо указать SQL-запрос для Вашего отчета.';
-	$lang['strreportcreated'] = 'Отчет сохранен.';
-	$lang['strreportcreatedbad'] = 'Сохранение отчета прервано.';
 
 	// Domains
 	$lang['strdomain'] = 'Домен';

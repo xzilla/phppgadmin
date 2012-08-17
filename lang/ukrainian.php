@@ -132,7 +132,6 @@
         $lang['strnodata'] = 'Даних не виявлено.';
         $lang['strnoobjects'] = 'Об"╓кт╕в не виявлено.';
         $lang['strrownotunique'] = 'Нема╓ ун╕кального ╕дентиф╕катора для цього запису.';
-         $lang['strnoreportsdb'] = 'Ви не створили базу даних зв╕т╕в. Читайте пояснення в файл╕ INSTALL.';
         $lang['strnouploads'] = 'Завантаження файла неможливе.';
         $lang['strimporterror'] = 'Помилка при ╕мпортуванн╕.';
         $lang['strimporterrorline'] = 'Помилка каналу при ╕мпортов╕ %s.';
@@ -482,18 +481,6 @@
         $lang['strschemaalteredbad'] = 'Оновлення схеми перервано.';
 
         // Reports
-        $lang['strreport'] = 'Зв╕т';
-        $lang['strreports'] = 'Зв╕ти';
-        $lang['strshowallreports'] = 'Показати вс╕ зв╕ти';
-        $lang['strnoreports'] = 'Зв╕т╕в нема╓.';
-        $lang['strcreatereport'] = 'Створити зв╕т';
-        $lang['strreportdropped'] = 'Зв╕т видалено.';
-        $lang['strreportdroppedbad'] = 'Видалення зв╕та перервано.';
-        $lang['strconfdropreport'] = 'Ви впевнен╕, що бажа╓тее видалити зв╕т "%s"?';
-        $lang['strreportneedsname'] = 'Вам необх╕дно вказати ╕м"я зв╕ту.';
-        $lang['strreportneedsdef'] = 'Вам необх╕дно вказати SQL-запит для Вашого зв╕ту.';
-        $lang['strreportcreated'] = 'Зв╕т збережено.';
-        $lang['strreportcreatedbad'] = 'Збереження зв╕ту перервано.';
 
         // Domains
         $lang['strdomain'] = 'Домен';

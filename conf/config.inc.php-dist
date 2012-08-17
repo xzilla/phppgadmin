@@ -111,20 +111,6 @@
 	// Display "system" objects?
 	$conf['show_system'] = false;
 
-	// Display reports feature?  For this feature to work, you must
-	// install the reports database as explained in the INSTALL file.
-	$conf['show_reports'] = true;
-
-	// Database and table for reports
-	$conf['reports_db'] = 'phppgadmin';
-	$conf['reports_schema'] = 'public';
-	$conf['reports_table'] = 'ppa_reports';
-
-	// Only show owned reports?
-	// Note: This does not prevent people from accessing other reports by
-	// other means.
-	$conf['owned_reports_only'] = false;
-
 	// Minimum length users can set their password to.
 	$conf['min_password_length'] = 1;
 

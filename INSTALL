@@ -24,13 +24,7 @@ phpPgAdmin Installation Guide
    If you mess up the configuration file, you can recover it from the
    config.inc.php-dist file.
 
-3. Set up the reports database.
-
-   If you want to enable reports (which are a useful feature) then go to
-   the 'sql' subdirectory and view the SQL script for your database.  It
-   will contain instructions on how to set up the reports database.
-
-4. If you run your PHP installation in safe mode, in order that the database
+3. If you run your PHP installation in safe mode, in order that the database
    dump feature can work correctly, you need to set the 'safe_mode_allowed_env_vars'
    php.ini variable to include the PGPASSWORD and PGUSER environmental variables
    and the safe_mode_exec_dir to include /usr/bin (or wherever the pg_dump
@@ -49,7 +43,7 @@ phpPgAdmin Installation Guide
    Lastly, if you run phpPgAdmin in safe mode, very long running imports,
    exports and transactions may time out and be aborted.
 
-5. Enable the statistics collector in PostgreSQL.  phpPgAdmin will display
+4. Enable the statistics collector in PostgreSQL.  phpPgAdmin will display
    table and index performance and usage statistics if you have enabled the
    PostgreSQL statistics collector.  To enable the collector, uncomment the
    following lines in your postgresql.conf and enable them:
@@ -59,10 +53,10 @@ phpPgAdmin Installation Guide
 	stats_block_level = true
 	stats_row_level = true
 
-6. Browse to the phpPgAdmin installation using a web browser.  You might
+5. Browse to the phpPgAdmin installation using a web browser.  You might
    need cookies enabled for phpPgAdmin to work.
 
-7. IMPORTANT - SECURITY
+6. IMPORTANT - SECURITY
 
    PostgreSQL by default does not require you to use a password to log in.
    We STRONGLY recomment that you enable md5 passwords for local connections

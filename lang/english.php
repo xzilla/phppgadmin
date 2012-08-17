@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'No rows found.';
 	$lang['strnoobjects'] = 'No objects found.';
 	$lang['strrownotunique'] = 'No unique identifier for this row.';
-	$lang['strnoreportsdb'] = 'You have not created the reports database. Read the INSTALL file for directions.';
 	$lang['strnouploads'] = 'File uploads are disabled.';
 	$lang['strimporterror'] = 'Import error.';
 	$lang['strimporterror-fileformat'] = 'Import error: Failed to automatically determine the file format.';
@@ -661,18 +660,6 @@
 	$lang['strspecifyschematodrop'] = 'You must specify at least one schema to drop.';
 
 	// Reports
-	$lang['strreport'] = 'Report';
-	$lang['strreports'] = 'Reports';
-	$lang['strshowallreports'] = 'Show all reports';
-	$lang['strnoreports'] = 'No reports found.';
-	$lang['strcreatereport'] = 'Create report';
-	$lang['strreportdropped'] = 'Report dropped.';
-	$lang['strreportdroppedbad'] = 'Report drop failed.';
-	$lang['strconfdropreport'] = 'Are you sure you want to drop the report "%s"?';
-	$lang['strreportneedsname'] = 'You must give a name for your report.';
-	$lang['strreportneedsdef'] = 'You must give SQL for your report.';
-	$lang['strreportcreated'] = 'Report saved.';
-	$lang['strreportcreatedbad'] = 'Failed to save report.';
 
 	// Domains
 	$lang['strdomain'] = 'Domain';

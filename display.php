@@ -448,10 +448,6 @@
 				$misc->printTitle($lang['strselect']);
 				$type = 'SELECT';
 			}
-			else if (isset($_REQUEST['report'])) {
-				$misc->printTitle($lang['strselect']);
-				$type = 'SELECT';
-			}
 			else {
 				$misc->printTitle($lang['strbrowse']);
 				$type = 'TABLE';
@@ -499,7 +495,6 @@
 		if (isset($object)) $gets .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
 		if (isset($subject)) $gets .= "&amp;subject=" . urlencode($subject);
 		if (isset($_REQUEST['query'])) $gets .= "&amp;query=" . urlencode($_REQUEST['query']);
-		if (isset($_REQUEST['report'])) $gets .= "&amp;report=" . urlencode($_REQUEST['report']);
 		if (isset($_REQUEST['count'])) $gets .= "&amp;count=" . urlencode($_REQUEST['count']);
 		if (isset($_REQUEST['return'])) $gets .= "&amp;return=" . urlencode($_REQUEST['return']);
 		if (isset($_REQUEST['search_path'])) $gets .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
@@ -515,7 +510,6 @@
 		if (isset($object)) $_gets[$subject] = $object;
 		if (isset($subject)) $_gets['subject'] = $subject;
 		if (isset($_REQUEST['query'])) $_gets['query'] = $_REQUEST['query'];
-		if (isset($_REQUEST['report'])) $_gets['report'] = $_REQUEST['report'];
 		if (isset($_REQUEST['count'])) $_gets['count'] = $_REQUEST['count'];
 		if (isset($_REQUEST['return'])) $_gets['return'] = $_REQUEST['return'];
 		if (isset($_REQUEST['search_path'])) $_gets['search_path'] = $_REQUEST['search_path'];
@@ -738,23 +732,6 @@
 				),
 				'content' => $lang['strexpand']
 			);
-
-		// Create report
-		if (isset($_REQUEST['query']) && ($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-			$navlinks['createreport'] = array (
-				'attr'=> array (
-					'href' => array (
-						'url' => 'reports.php',
-						'urlvars' => array_merge($fields, array(
-							'action' => 'create',
-							'report_sql' => $_REQUEST['query'],
-							'paginate' => isset($_REQUEST['paginate'])? $_REQUEST['paginate']:'f'
-						))
-					)
-				),
-				'content' => $lang['strcreatereport']
-			);
-		}
 
 		// Create view and download
 		if (isset($_REQUEST['query']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {

@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'Pas de résultats.';
 	$lang['strnoobjects'] = 'Aucun objet trouvé.';
 	$lang['strrownotunique'] = 'Pas d\'identifiant unique pour cette ligne.';
-	$lang['strnoreportsdb'] = 'Vous n\'avez pas créé la base de données reports. Lisez le fichier INSTALL pour en savoir plus.';
 	$lang['strnouploads'] = 'Importation de fichiers désactivée.';
 	$lang['strimporterror'] = 'Erreur d\'importation.';
 	$lang['strimporterror-fileformat'] = 'Erreur d\'importation : échec lors de la détermination automatique du format de fichier.';
@@ -661,18 +660,6 @@
 	$lang['strspecifyschematodrop'] = 'Vous devez spécifier au moins un schéma à supprimer.';
 
 	// Reports
-	$lang['strreport'] = 'Rapport';
-	$lang['strreports'] = 'Rapports';
-	$lang['strshowallreports'] = 'Voir tous les rapports';
-	$lang['strnoreports'] = 'Aucun rapport trouvé.';
-	$lang['strcreatereport'] = 'Créer un rapport';
-	$lang['strreportdropped'] = 'Rapport supprimé.';
-	$lang['strreportdroppedbad'] = 'Échec lors de la suppression du rapport.';
-	$lang['strconfdropreport'] = 'Êtes-vous sûr de vouloir supprimer le rapport « %s » ?';
-	$lang['strreportneedsname'] = 'Vous devez indiquer un nom pour votre rapport.';
-	$lang['strreportneedsdef'] = 'Vous devez fournir une requête SQL pour votre rapport.';
-	$lang['strreportcreated'] = 'Rapport sauvegardé.';
-	$lang['strreportcreatedbad'] = 'Échec lors de la sauvegarde du rapport.';
 
 	// Domains
 	$lang['strdomain'] = 'Domaine';

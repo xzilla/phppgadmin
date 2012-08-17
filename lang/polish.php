@@ -159,7 +159,6 @@
 	$lang['strnodata'] = 'Nie znaleziono danych.';
 	$lang['strnoobjects'] = 'Nie znaleziono obiektów.';
 	$lang['strrownotunique'] = 'Brak unikatowego identyfikatora dla tego wiersza.';
-	$lang['strnoreportsdb'] = 'Nie utworzyłeś bazy raportów. Instrukcję znajdziesz w pliku INSTALL.';
 	$lang['strnouploads'] = 'Ładowanie plików wyłączone.';
 	$lang['strimporterror'] = 'Błąd importu.';
 	$lang['strimporterror-fileformat'] = 'Błąd importu: Nie można automatycznie określić formatu pliku.';
@@ -575,18 +574,6 @@
 	$lang['strsearchpath'] = 'Ścieżka wyszukiwania schematu';
 
 	// Reports
-	$lang['strreport'] = 'Raport';
-	$lang['strreports'] = 'Raporty';
-	$lang['strshowallreports'] = 'Pokaż wszystkie raporty';
-	$lang['strnoreports'] = 'Nie znaleziono raportów.';
-	$lang['strcreatereport'] = 'Utwórz raport';
-	$lang['strreportdropped'] = 'Raport został usunięty.';
-	$lang['strreportdroppedbad'] = 'Próba usunięcia raportu się nie powiodła.';
-	$lang['strconfdropreport'] = 'Czy na pewno chcesz usunąć raport "%s"?';
-	$lang['strreportneedsname'] = 'Musisz nazwać raport.';
-	$lang['strreportneedsdef'] = 'Musisz podać zapytanie SQL definiujące raport.';
-	$lang['strreportcreated'] = 'Raport został utworzony.';
-	$lang['strreportcreatedbad'] = 'Próba utworzenia raportu się nie powiodła.';
 
 	// Domeny
 	$lang['strdomain'] = 'Domena';

@@ -149,7 +149,6 @@ $lang['strexecute']  =  'Execute';
 	$lang['strnodata'] = 'Satır bulunamadı.';
 	$lang['strnoobjects']  =  'Hiçbir nesne bulunamadı..';
 	$lang['strrownotunique']  =  'Bu satır için hiçbir tekil belirtici bulunamadı.';
-	$lang['strnoreportsdb']  =  'reports veritabanı yaratışmamış. Yönergeler için lütfen INSTALL dosyasını okuyunuz.';
 	$lang['strnouploads']  =  'Dosya yükleme özelliği etkin değil.';
 	$lang['strimporterror']  =  'Import hatası.';
 	$lang['strimporterror-fileformat']  =  'Import hatası: Dosya tipi otomatik olarak belirlenemedi.';
@@ -524,18 +523,6 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strsearchpath'] = 'Şema arama yolu';
 
 	// Reports
-	$lang['strreport'] = 'Rapor';
-	$lang['strreports'] = 'Raporlar';
-	$lang['strshowallreports'] = 'Tüm raporları göster';
-	$lang['strnoreports'] = 'Hiçbir rapor bulunamadı';
-	$lang['strcreatereport'] = 'Rapor yaratıldı.';
-	$lang['strreportdropped'] = 'Rapor silindi';
-	$lang['strreportdroppedbad'] = 'Rapor silme işi başarısız oldu.';
-	$lang['strconfdropreport'] = '"%s" raporunu silmek istediğinize emin misiniz?';
-	$lang['strreportneedsname'] = 'Raporunuza bir ad vermelisiniz.';
-	$lang['strreportneedsdef'] = 'Raporunuz için SQL sorguları yazmalısınız.';
-	$lang['strreportcreated'] = 'Rapor kaydedildi.';
-	$lang['strreportcreatedbad'] = 'Rapor kaydetme başarısız oldu.';
 	$lang['strdomain'] = 'Domain';
 	$lang['strdomains'] = 'Domainler';
 	$lang['strshowalldomains'] = 'Tüm domainleri göster.';

@@ -197,7 +197,6 @@
 	$lang['strnodata'] = 'Non se atopou fila algunha.';
 	$lang['strnoobjects'] = 'Non se atopou obxecto algún.';
 	$lang['strrownotunique'] = 'Esta fila non ten ningún identificador único.';
-	$lang['strnoreportsdb'] = 'Non creou a base de datos de informes. Lea o ficheiro »INSTALL» (en inglés) para máis información.';
 	$lang['strnouploads'] = 'A carga de ficheiros está desactivada.';
 	$lang['strimporterror'] = 'Produciuse un erro ao importar.';
 	$lang['strimporterror-fileformat'] = 'Produciuse un erro ao importar: non se puido determinar de maneira automática o formato do ficheiro.';
@@ -671,18 +670,6 @@
 	$lang['strspecifyschematodrop'] = 'Debe especificar polo menos un esquema a eliminar.';
 
 	// Reports
-	$lang['strreport'] = 'Informe';
-	$lang['strreports'] = 'Informes';
-	$lang['strshowallreports'] = 'Listar todos os informes';
-	$lang['strnoreports'] = 'Non se atopou informe algún.';
-	$lang['strcreatereport'] = 'Crear un informe';
-	$lang['strreportdropped'] = 'Eliminouse o informe.';
-	$lang['strreportdroppedbad'] = 'Non se conseguiu eliminar o informe.';
-	$lang['strconfdropreport'] = 'Está seguro de que quere eliminar o informe «%s»?';
-	$lang['strreportneedsname'] = 'Debe fornecer un nome para o informe.';
-	$lang['strreportneedsdef'] = 'Debe fornecer un código SQL para o informe.';
-	$lang['strreportcreated'] = 'Gardouse o informe.';
-	$lang['strreportcreatedbad'] = 'Non se conseguiu gardar o informe.';
 
 	// Domains
 	$lang['strdomain'] = 'Dominio';

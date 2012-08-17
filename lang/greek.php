@@ -154,7 +154,6 @@
 	$lang['strnodata'] = 'Δε βρέθηκαν γραμμές.';
 	$lang['strnoobjects'] = 'Δε βρέθηκαν αντικείμενα.';
 	$lang['strrownotunique'] = 'Δε βρέθηκε μοναδικό κλειδί στη γραμμή.';
-	$lang['strnoreportsdb'] = 'Η βάση αναφορών δεν έχει δημιουργηθεί. Διαβάστε το αρχείο INSTALL για οδηγίες.';
 	$lang['strnouploads'] = 'Η αποστολή αρχείων είναι απενεργοποιημένη.';
 	$lang['strimporterror'] = 'Σφάλμα κατά την εισαγωγή.';
 	$lang['strimporterror-fileformat'] = 'Σφάλμα κατά την εισαγωγή: απέτυχε η αυτόματη αναγνώριση του τύπου του αρχείου.';
@@ -576,18 +575,6 @@
 	$lang['strsearchpath'] = 'Πορεία αναζήτησης σχήματος';
 
 	// Reports
-	$lang['strreport'] = 'Αναφορά';
-	$lang['strreports'] = 'Αναφορές';
-	$lang['strshowallreports'] = 'Εμφάνιση όλων των αναφορών';
-	$lang['strnoreports'] = 'Δε βρέθηκαν αναφορές.';
-	$lang['strcreatereport'] = 'Δημιουργία αναφοράς';
-	$lang['strreportdropped'] = 'Η αναφορά διαγράφηκε.';
-	$lang['strreportdroppedbad'] = 'Η διαγραφή της αναφοράς απέτυχε.';
-	$lang['strconfdropreport'] = 'Να διαγραφεί η αναφορά "%s"?';
-	$lang['strreportneedsname'] = 'Πρέπει να δώσετε όνομα στην αναφορά.';
-	$lang['strreportneedsdef'] = 'Πρέπει να δώσετε SQL για την αναφορά.';
-	$lang['strreportcreated'] = 'Η αναφορά αποθηκεύτηκε.';
-	$lang['strreportcreatedbad'] = 'Η αποθήκευση της αναφοράς απέτυχε.';
 
 	// Domains
 	$lang['strdomain'] = 'Τομέας';

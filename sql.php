@@ -72,15 +72,7 @@
 
 	// We need to store the query in a session for editing purposes
 	// We avoid GPC vars to avoid truncating long queries
-	// If we came from a report, we need to look up the query
-	if (isset($_REQUEST['subject']) && $_REQUEST['subject'] == 'report' ) {
-		global $data, $misc;
-		include_once('./classes/Reports.php');
-		$reportsdb = new Reports($status);
-		$report = $reportsdb->getReport($_REQUEST['reportid']);
-		$_SESSION['sqlquery'] = $report->fields['report_sql'];	
-	} 
-	elseif (isset($_REQUEST['subject']) && $_REQUEST['subject'] == 'history') {
+	if (isset($_REQUEST['subject']) && $_REQUEST['subject'] == 'history') {
 		// Or maybe we came from the history popup
 		$_SESSION['sqlquery'] = $_SESSION['history'][$_REQUEST['server']][$_REQUEST['database']][$_GET['queryid']]['query'];
 	}
@@ -232,22 +224,6 @@
 		'content' => $lang['streditsql']
 	);
 
-	// Create report
-	if (($subject !== 'report') && $conf['show_reports'] && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
-		$navlinks['createreport'] = array (
-			'attr'=> array (
-				'href' => array (
-					'url' => 'reports.php',
-					'urlvars' => array_merge($fields, array (
-						'action' => 'create',
-						'report_sql' => $_SESSION['sqlquery']
-					))
-				)
-			),
-			'content' => $lang['strcreatereport']
-		);
-   }
-	
 	// Create view and download
 	if (isset($_SESSION['sqlquery']) && isset($rs) && is_object($rs) && $rs->recordCount() > 0) {
 		// Report views don't set a schema, so we need to disable create view in that case

@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'Nenalezen žádný řádek.';
 	$lang['strnoobjects'] = 'Nenalezen žádný objekt.';
 	$lang['strrownotunique'] = 'Pro tento řádek neexistuje jedinečný identifikátor.';
-	$lang['strnoreportsdb'] = 'Nemáte vytvořenou databázi výstupních sestav. Přečtěte si soubor INSTALL s instrukcemi.';
 	$lang['strnouploads'] = 'Je zakázané nahrávání souborů.';
 	$lang['strimporterror'] = 'Chyba při importu.';
 	$lang['strimporterror-fileformat'] = 'Chyba při importu: Nezdařilo se automaticky zjistit formát souboru.';
@@ -659,18 +658,6 @@
 	$lang['strspecifyschematodrop'] = 'Pokud chcete odstranit schémata, tak musíte nejméně jedno vybrat.';
 
 	// Reports
-	$lang['strreport'] = 'Výstupní sestava';
-	$lang['strreports'] = 'Výstupní sestavy';
-	$lang['strshowallreports'] = 'Zobrazit všechny výstupní sestavy';
-	$lang['strnoreports'] = 'Nebyly nalezeny žádné výstupní sestava.';
-	$lang['strcreatereport'] = 'Vytvořit výstupní sestavu';
-	$lang['strreportdropped'] = 'Výstupní sestava byla odstraněna.';
-	$lang['strreportdroppedbad'] = 'Nezdařilo se odstranit výstupní sestavu.';
-	$lang['strconfdropreport'] = 'Opravdu chcete odstranit výstupní sestavu „%s“?';
-	$lang['strreportneedsname'] = 'Musíte zadat název pro výstupní sestavu.';
-	$lang['strreportneedsdef'] = 'Musíte zadat dotaz SQL pro výstupní sestavu.';
-	$lang['strreportcreated'] = 'Výstupní sestava byla uložena.';
-	$lang['strreportcreatedbad'] = 'Nezdařilo se uložit výstupní sestavu.';
 
 	// Domains
 	$lang['strdomain'] = 'Doména';

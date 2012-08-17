@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'No se encontraron filas.';
 	$lang['strnoobjects'] = 'No se encontraron objetos.';
 	$lang['strrownotunique'] = 'No existe un identificador único para este registro.';
-	$lang['strnoreportsdb'] = 'Aún no se ha creado  la base de datos para los reportes. Lea las instrucciones del archivo INSTALL.';
 	$lang['strnouploads'] = 'Está deshabilitada la subida de archivos.';
 	$lang['strimporterror'] = 'Error de importación.';
 	$lang['strimporterror-fileformat']  =  'Error de importacion de datos: Falló al intentar determinar el formato del archivo.';
@@ -660,18 +659,6 @@
 	$lang['strspecifyschematodrop'] = 'Debe especificar al menos un esquemaa eliminar.';
 
 	// Reports
-	$lang['strreport'] = 'Reporte';
-	$lang['strreports'] = 'Reportes';
-	$lang['strshowallreports'] = 'Mostrar todos los reportes';
-	$lang['strnoreports'] = 'No se encontró el reporte.';
-	$lang['strcreatereport'] = 'Crear Reporte';
-	$lang['strreportdropped'] = 'Reporte eliminado.';
-	$lang['strreportdroppedbad'] = 'Falló al eliminar el Reporte.';
-	$lang['strconfdropreport'] = '¿Estás seguro que quiere eliminar el reporte "%s"?';
-	$lang['strreportneedsname'] = 'Debe especificar un nombre para el reporte.';
-	$lang['strreportneedsdef'] = 'Debe especificar un SQL para el reporte.';
-	$lang['strreportcreated'] = 'Reporte guardado.';
-	$lang['strreportcreatedbad'] = 'Falló al guardar el reporte.';
 
 	//Domains
 	$lang['strdomain'] = 'Dominio';

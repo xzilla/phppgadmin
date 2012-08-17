@@ -186,7 +186,6 @@ $lang['strctype'] = 'Character Type';//Simbolių(ženklų) tipas
 	$lang['strnodata'] = 'Įrašų nerasta.';
 	$lang['strnoobjects'] = 'Objektų nerasta.';
 	$lang['strrownotunique'] = 'Šiame įraše nėra unikalaus identifikatoriaus.';
-	$lang['strnoreportsdb'] = 'Jūs nesate sukūrę ataskaitų duomenų bazės. Instrukcijas skaitykite INSTALL faile.';
 	$lang['strnouploads'] = 'Failų išsiuntimai - negalimi.';
 	$lang['strimporterror'] = 'Importavimo klaida.';
 	$lang['strimporterror-fileformat'] = 'Importavimo klaida: Nepavyko automatiškai nustatyti failo formato.';
@@ -660,18 +659,6 @@ $lang['strenum'] = 'Enum';
 	$lang['strspecifyschematodrop'] = 'Turite nurodyti bent vieną schemą, kurią norite pašalinti.';
 
 	// Reports
-	$lang['strreport'] = 'Ataskaita';
-	$lang['strreports'] = 'Ataskaitos';
-	$lang['strshowallreports'] = 'Rodyti visas ataskaitas';
-	$lang['strnoreports'] = 'Ataskaitų nerasta.';
-	$lang['strcreatereport'] = 'Kurti ataskaitą';
-	$lang['strreportdropped'] = 'Ataskaita pašalinta.';
-	$lang['strreportdroppedbad'] = 'Nepavyko pašalinti ataskaitos.';
-	$lang['strconfdropreport'] = 'Ar tikrai norite šalinti ataskaitą "%s"?';
-	$lang['strreportneedsname'] = 'Turite suteikti ataskaitai pavadinimą.';
-	$lang['strreportneedsdef'] = 'Turite pateikti ataskaitos SQL apibrėžtį.';
-	$lang['strreportcreated'] = 'Ataskaita įrašyta.';
-	$lang['strreportcreatedbad'] = 'Nepavyko įrašyti ataskaitos.';
 
 	// Domains
 	$lang['strdomain'] = 'Domenas';

@@ -168,7 +168,6 @@ $lang['strclustered'] = 'Clustered?';
 	$lang['strnodata'] = 'レコードが見つかりません。';
 	$lang['strnoobjects'] = 'オブジェクトが見つかりません。';
 	$lang['strrownotunique'] = 'このレコードには一意識別子がありません。';
-	$lang['strnoreportsdb'] = 'レポートデータベースが作成されていません。ディレクトリにある INSTALL ファイルを読んでください。';
 	$lang['strnouploads'] = 'ファイルアップロードが無効です。';
 	$lang['strimporterror'] = 'インポートエラー';
 	$lang['strimporterror-fileformat']  =  'インポートエラー: ファイル形式を自動的に確定できません。.';
@@ -626,18 +625,6 @@ $lang['strenumvalues']  =  'Enum Values';
 	$lang['strspecifyschematodrop']  =  'スキーマを破棄するには少なくとも 1 つ指定しなければなりません';
 
 	// Reports
-	$lang['strreport'] = 'レポート';
-	$lang['strreports'] = 'レポート';
-	$lang['strshowallreports'] = 'すべてのレポートを表示する';
-	$lang['strnoreports'] = 'レポートが見つかりません。';
-	$lang['strcreatereport'] = 'レポートを作成する';
-	$lang['strreportdropped'] = 'レポートを破棄しました。';
-	$lang['strreportdroppedbad'] = 'レポートの破棄に失敗しました。';
-	$lang['strconfdropreport'] = '本当にレポート「%s」を破棄しますか?';
-	$lang['strreportneedsname'] = 'レポート名を指定する必要があります。';
-	$lang['strreportneedsdef'] = 'レポート用のSQLを指定する必要があります。';
-	$lang['strreportcreated'] = 'レポートの保存をしました。';
-	$lang['strreportcreatedbad'] = 'レポートの保存に失敗しました。';
 
 	// Domains
 	$lang['strdomain'] = 'ドメイン';

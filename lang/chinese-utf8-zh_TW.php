@@ -168,7 +168,6 @@
 	$lang['strnodata'] = '找不到資料列。';
 	$lang['strnoobjects'] = '找不到物件。';
 	$lang['strrownotunique'] = '該資料列無唯一約束。';
-	$lang['strnoreportsdb'] = '您尚未建立報表資料庫。請參閱指導 INSTALL 檔說明。';
 	$lang['strnouploads'] = '上傳檔案功能是已停用。';
 	$lang['strimporterror'] = '匯入錯誤。';
 	$lang['strimporterror-fileformat'] = '匯入錯誤: 自動識別檔案格式已失敗。';
@@ -621,18 +620,6 @@
 	$lang['strspecifyschematodrop'] = '您必須至少指定一個架構模式來刪除';
 
 	// Reports
-	$lang['strreport'] = '報表';
-	$lang['strreports'] = '報表';
-	$lang['strshowallreports'] = '顯示全部報表';
-	$lang['strnoreports'] = '找不到任何報表。';
-	$lang['strcreatereport'] = '建立報表';
-	$lang['strreportdropped'] = '報表已移除。';
-	$lang['strreportdroppedbad'] = '報表移除已失敗。';
-	$lang['strconfdropreport'] = '您確定您要移除這個報表 "%s" 嗎?';
-	$lang['strreportneedsname'] = '您必需為您的報表給一個名稱。';
-	$lang['strreportneedsdef'] = '您必需為您的報表給 SQL。';
-	$lang['strreportcreated'] = '報表已儲存。';
-	$lang['strreportcreatedbad'] = '報表儲存已失敗。';
 
 	// Domains
 	$lang['strdomain'] = '共同值域';

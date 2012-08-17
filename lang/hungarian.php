@@ -186,7 +186,6 @@
 	$lang['strnodata'] = 'Nincsenek sorok.';
 	$lang['strnoobjects'] = 'Nincsenek objektumok.';
 	$lang['strrownotunique'] = 'Nincs egyedi azonosító ehhez a sorhoz.';
-	$lang['strnoreportsdb'] = 'Ön még nem teremtette meg a jelentések adatbázisát. Olvassa el az INSTALL fájlt további útmutatásért!';
 	$lang['strnouploads'] = 'Fájl feltöltése letiltva.';
 	$lang['strimporterror'] = 'Behozatali hiba.';
 	$lang['strimporterror-fileformat']  =  'Behozatali hiba: nem sikerült automatikusan megállapítani a fájl formátumát.';
@@ -659,18 +658,6 @@
 	$lang['strspecifyschematodrop']  =  'Meg kell adni a törlendő sémát';
 
 	// Reports
-	$lang['strreport'] = 'Jelentés';
-	$lang['strreports'] = 'Jelentések';
-	$lang['strshowallreports'] = 'Minden jelentést megjelenít';
-	$lang['strnoreports'] = 'Nincsenek jelentések.';
-	$lang['strcreatereport'] = 'Jelentést teremt';
-	$lang['strreportdropped'] = 'A jelentés törölve.';
-	$lang['strreportdroppedbad'] = 'Nem sikerült törölni a jelentést.';
-	$lang['strconfdropreport'] = 'Biztosan törölni kívánja „%s” jelentést?';
-	$lang['strreportneedsname'] = 'Meg kell adni a jelentésnevet.';
-	$lang['strreportneedsdef'] = 'SQL kifejezést kell hozzáadni a jelentéshez.';
-	$lang['strreportcreated'] = 'A jelentés megteremtve.';
-	$lang['strreportcreatedbad'] = 'Nem sikerült megteremteni a jelentést.';
 
 	// Domains
 	$lang['strdomain'] = 'Tartomány';

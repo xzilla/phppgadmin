@@ -349,17 +349,6 @@ $lang['strnotype'] = '查无此类型';
 $lang['strtypename'] = '类型名称';
 $lang['strnoschema'] = '查无此模式';
 $lang['strschemaname'] = '模式名称';
-$lang['strreport'] = '报表';
-$lang['strreports'] = '报表';
-$lang['strshowallreports'] = '显示所有报表';
-$lang['strnoreports'] = '查无此报表';
-$lang['strcreatereport'] = '创建报表';
-$lang['strreportdropped'] = '创建报表完成.';
-$lang['strreportdroppedbad'] = '删除报表失败';
-$lang['strconfdropreport'] = '您确定要删除报表"%s"么？';
-$lang['strreportneedsname'] = '你必须给您的报表命名';
-$lang['strreportcreated'] = '储存报表完成';
-$lang['strreportcreatedbad'] = '储存报表失败';
 
 
 
