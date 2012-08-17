@@ -20,7 +20,6 @@ $plugin_conf = array(
             // 'intro' => true,
             // 'servers' => true,
         ),
-        // case 'report' ???
         'server' => array (
             // 'databases' => true,
             // 'roles' => true, /* postgresql 8.1+ */
@@ -35,13 +34,13 @@ $plugin_conf = array(
             // 'schemas' => true,
             // 'sql' => true,
             // 'find' => true,
-            'variables' => false,
+            // 'variables' => true,
             // 'processes' => true,
             // 'locks' => true,
-            'admin' => false,
-            'privileges' => false,
-            'languages' => false,
-            'casts' => false,
+            // 'admin' => true,
+            // 'privileges' => true,
+            // 'languages' => true,
+            // 'casts' => true,
             // 'export' => true,
         ),
         'schema' => array(
@@ -50,12 +49,12 @@ $plugin_conf = array(
             // 'sequences' => true,
             // 'functions' => true,
             // 'fulltext' => true,
-            'domains' => false,
-            'aggregates' => false,
-            'types' => false,
-            'operators' => false,
-            'opclasses' => false,
-            'conversions' => false,
+            // 'domains' => true,
+            // 'aggregates' => true,
+            // 'types' => true,
+            // 'operators' => true,
+            // 'opclasses' => true,
+            // 'conversions' => true,
             // 'privileges' => true,
             // 'export' => true,
         ),
@@ -65,8 +64,8 @@ $plugin_conf = array(
             // 'constraints' => true,
             // 'triggers' => true,
             // 'rules' => true,
-            'admin' => false,
-            'info' => false,
+            // 'admin' => true,
+            // 'info' => true,
             // 'privileges' => true,
             // 'import' => true,
             // 'export' => true,
@@ -106,7 +105,7 @@ $plugin_conf = array(
     /**
      * Trail Links
      **/
-     'trail_links' => true, /* enable/disable the whole trail */
+     // 'trail_links' => true, /* enable/disable the whole trail */
 
     /**
      * Navigation Links
@@ -114,65 +113,65 @@ $plugin_conf = array(
      'navlinks' => array(
         'aggregates-properties' => array(
             // 'showall' => true,
-			'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'aggregates-aggregates' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'all_db-databases' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'colproperties-colproperties' => array(
             // 'browse' => true,
-            'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'constraints-constraints' => array(
-            'addcheck' => false,
-            'adduniq' => false,
-            'addpk' => false,
-            'addfk' => false,
+            // 'addcheck' => true,
+            // 'adduniq' => true,
+            // 'addpk' => true,
+            // 'addfk' => true,
         ),
         'display-browse' => array(
             // 'back' => true,
             // 'edit' => true,
             // 'collapse' => true,
-            'createreport' => false,
-            'createview' => false,
+            // 'createreport' => true,
+            // 'createview' => true,
             // 'download' => true,
             // 'insert' => true,
             // 'refresh' => true,
         ),
         'domains-properties' => array(
-            'drop' => false,
-            'addcheck' => false,
+            // 'drop' => true,
+            // 'addcheck' => true,
             // 'alter' => true,
         ),
         'domains-domains' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'fulltext-fulltext' => array(
-            'createconf' => false,
+            // 'createconf' => true,
         ),
         'fulltext-viewdicts' => array(
-            'createdict' => false,
+            // 'createdict' => true,
         ),
         'fulltext-viewconfig' => array(
-            'addmapping' => false,
+            // 'addmapping' => true,
         ),
         'functions-properties' => array(
             // 'showall' => true,
-            'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'functions-functions' => array(
-            'createpl' => false,
-            'createinternal' => false,
-            'createc' => false,
+            // 'createpl' => true,
+            // 'createinternal' => true,
+            // 'createc' => true,
         ),
         'groups-groups' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'groups-properties' => array(
             // 'showall' => true,
@@ -183,14 +182,14 @@ $plugin_conf = array(
             // 'clear' => true,
         ),
         'indexes-indexes' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'operators-properties' => array(
             // 'showall' => true,
         ),
         'privileges-privileges' => array(
-            'grant' => false,
-            'revoke' => false,
+            // 'grant' => true,
+            // 'revoke' => true,
             // 'showalltables' => true,
             // 'showallcolumns' => true,
             // 'showallviews' => true,
@@ -202,37 +201,37 @@ $plugin_conf = array(
         ),
         'reports-properties' => array(
             // 'showall' => true,
-            'alter' => false,
+            // 'alter' => true,
             // 'exec' => true,
         ),
         'reports-reports' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'roles-account' => array(
-            'changepassword' => true,
+            // 'changepassword' => true,
         ),
         'roles-properties' => array(
             // 'showall' => true,
-            'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'roles-roles' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'rules-rules' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'schemas-schemas' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'sequences-properties' => array(
-            'alter' => false,
-            'nextval' => false,
-            'restart' => false,
-            'reset' => false,
+            // 'alter' => true,
+            // 'nextval' => true,
+            // 'restart' => true,
+            // 'reset' => true,
         ),
         'sequences-sequences' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'servers-servers' => array(
             // 'showall' => true,
@@ -241,55 +240,55 @@ $plugin_conf = array(
         'sql-form' => array(
             // 'back' => true,
             // 'alter' => true,
-            'createreport' => false,
-            'createview' => false,
+            // 'createreport' => true,
+            // 'createview' => true,
             // 'download' => true,
         ),
         'tables-tables' => array(
-            'create' => false,
-            'createlike' => false,
+            // 'create' => true,
+            // 'createlike' => true,
         ),
         'tablespaces-tablespaces' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'tblproperties-tblproperties' => array(
             // 'browse' => true,
-	    // 'select' => true,
+            // 'select' => true,
             // 'insert' => true,
-	    'empty' => false,
-            'drop' => false,
-            'addcolumn' => false,
-            'alter' => false,
+	    'empty' => true,
+            // 'drop' => true,
+            // 'addcolumn' => true,
+            // 'alter' => true,
         ),
         'triggers-triggers' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'types-properties' => array(
             // 'showall' => true,
         ),
         'types-types' => array(
-            'create' => false,
-            'createcomp' => false,
-            'createenum' => false,
+            // 'create' => true,
+            // 'createcomp' => true,
+            // 'createenum' => true,
         ),
         'users-account' => array(
             // 'changepassword' => true,
         ),
         'users-users' => array(
-            'create' => false,
+            // 'create' => true,
         ),
         'viewproperties-definition' => array(
-            'alter' => false,
+            // 'alter' => true,
         ),
         'viewproperties-viewproperties' => array(
             // 'browse' => true,
             // 'select' => true,
-            'drop' => false,
-            'alter' => false,
+            // 'drop' => true,
+            // 'alter' => true,
         ),
         'views-views' => array(
-            'create' => false,
-            'createwiz' => false,
+            // 'create' => true,
+            // 'createwiz' => true,
         ),
      ),
 
@@ -299,17 +298,17 @@ $plugin_conf = array(
 
     'actionbuttons' => array(
         'admin-admin' => array(
-            'edit' => false,
-            'delete' => false,
+            // 'edit' => true,
+            // 'delete' => true,
         ),
         'aggregates-aggregates' => array(
-            'alter' => false,
-			'drop' => false,
+            // 'alter' => true,
+			// 'drop' => true,
         ),
         'all_db-databases' => array(
-            'drop' => false,
+            // 'drop' => true,
             // 'privileges' => true,
-            'alter' => false,
+            // 'alter' => true,
         ),
         'casts-casts' => array(
             // none
@@ -318,7 +317,7 @@ $plugin_conf = array(
             // none
         ),
         'constraints-constraints' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'conversions-conversions' => array(
             // none
@@ -330,8 +329,8 @@ $plugin_conf = array(
             // none
         ),
         'database-processes' => array(
-            'cancel' => false,
-            'kill' => false,
+            // 'cancel' => true,
+            // 'kill' => true,
         ),
         'database-locks' => array(
             // none
@@ -342,48 +341,48 @@ $plugin_conf = array(
             // 'delete' => true,
         ),
         'domains-properties' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'domains-domains' => array(
-            'alter' => false,
-			'drop' => false,
+            // 'alter' => true,
+			// 'drop' => true,
         ),
         'fulltext-fulltext' => array(
-            'drop' => false,
-            'alter' => false,
+            // 'drop' => true,
+            // 'alter' => true,
         ),
         'fulltext-viewparsers' => array(
             // none
         ),
         'fulltext-viewdicts' => array(
-            'drop' => false,
-            'alter' => false,
+            // 'drop' => true,
+            // 'alter' => true,
         ),
         'fulltext-viewconfig' => array(
-            'multiactions' => false,
-            'drop' => false,
-            'alter' => false,
+            // 'multiactions' => true,
+            // 'drop' => true,
+            // 'alter' => true,
         ),
         'functions-functions' => array(
-            'multiactions' => false,
-            'alter' => false,
-            'drop' => false,
+            // 'multiactions' => true,
+            // 'alter' => true,
+            // 'drop' => true,
             // 'privileges' => true,
         ),
         'groups-members' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'groups-properties' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'history-history' => array(
             // 'run' => true,
             // 'remove' => true,
         ),
         'indexes-indexes' => array(
-            'cluster' => false,
-            'reindex' => false,
-            'drop' => false,
+            // 'cluster' => true,
+            // 'reindex' => true,
+            // 'drop' => true,
         ),
         'info-referrers' => array(
             // 'properties' => true,
@@ -401,83 +400,83 @@ $plugin_conf = array(
             // none
         ),
         'operators-operators' => array(
-             'drop' => false,
+             // 'drop' => true,
         ),
         'reports-reports' => array(
             // 'run' => true,
-            'edit' => false,
-            'drop' => false,
+            // 'edit' => true,
+            // 'drop' => true,
         ),
         'roles-roles' => array(
-            'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'rules-rules' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'schemas-schemas' => array(
-            'multiactions' => false,
-            'drop' => false,
+            // 'multiactions' => true,
+            // 'drop' => true,
             // 'privileges' => true,
-            'alter' => false,
+            // 'alter' => true,
         ),
         'sequences-sequences' => array(
-            'multiactions' => false,
-            'drop' => false,
+            // 'multiactions' => true,
+            // 'drop' => true,
             // 'privileges' => true,
-            'alter' => false,
+            // 'alter' => true,
         ),
         'servers-servers' => array(
             // 'logout' => true,
         ),
         'tables-tables' => array(
-            'multiactions' => false,
+            // 'multiactions' => true,
             // 'browse' => true,
             // 'select' => true,
             // 'insert' => true,
-            'empty' => false,
-            'alter' => false,
-            'drop' => false,
-            'vacuum' => false,
-            'analyze' => false,
-            'reindex' => false,
+            // 'empty' => true,
+            // 'alter' => true,
+            // 'drop' => true,
+            // 'vacuum' => true,
+            // 'analyze' => true,
+            // 'reindex' => true,
         ),
         'tablespaces-tablespaces' => array(
-            'drop' => false,
+            // 'drop' => true,
             // 'privileges' => true,
-            'alter' => false,
+            // 'alter' => true,
         ),
         'tblproperties-tblproperties' => array(
             // 'browse' => true,
-            'alter' => false,
+            // 'alter' => true,
             // 'privileges' => true,
-            'drop' => false,
+            // 'drop' => true,
         ),
         'triggers-triggers' => array(
-            'alter' => false,
-            'drop' => false,
-            'enable' => false,
-            'disable' => false,
+            // 'alter' => true,
+            // 'drop' => true,
+            // 'enable' => true,
+            // 'disable' => true,
         ),
         'types-properties' => array(
             // none
         ),
         'types-types' => array(
-            'drop' => false,
+            // 'drop' => true,
         ),
         'users-users' => array(
-            'alter' => false,
-            'drop' => false,
+            // 'alter' => true,
+            // 'drop' => true,
         ),
         'viewproperties-viewproperties' => array(
-            'alter' => false,
+            // 'alter' => true,
         ),
         'views-views' => array(
-            'multiactions' => false,
-	    // 'browse' => true,
-	    // 'select' => true,
-	    'alter' => false,
-	    'drop' => false,
+            //'multiactions' => true,
+            // 'browse' => true,
+            // 'select' => true,
+            //'alter' => true,
+            //'drop' => true,
         ),
     ),
 );
