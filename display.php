@@ -292,7 +292,7 @@
 	}
 
 	/* Print table header cells 
-	 * @param $sortLink must be urlencoded already
+	 * @param $args - associative array for sort link parameters
 	 * */
 	function printTableHeaderCells(&$rs, $args, $withOid) {
 		global $misc, $data, $conf;
@@ -306,7 +306,7 @@
 			}
 			$finfo = $rs->fetchField($j);
 
-			if ($sortLink === false) {
+			if ($args === false) {
 				echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
 			}
 			else {
