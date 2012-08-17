@@ -294,7 +294,7 @@
 	/* Print table header cells 
 	 * @param $sortLink must be urlencoded already
 	 * */
-	function printTableHeaderCells(&$rs, $sortLink, $withOid) {
+	function printTableHeaderCells(&$rs, $args, $withOid) {
 		global $misc, $data, $conf;
 		$j = 0;
 
@@ -310,12 +310,19 @@
 				echo "<th class=\"data\">", $misc->printVal($finfo->name), "</th>\n";
 			}
 			else {
-				echo "<th class=\"data\"><a href=\"display.php?{$sortLink}&amp;sortkey=", ($j + 1), "&amp;sortdir=";
+				$args['page'] = $_REQUEST['page'];
+				$args['sortkey'] = $j + 1;
 				// Sort direction opposite to current direction, unless it's currently ''
-				echo ($_REQUEST['sortdir'] == 'asc' && $_REQUEST['sortkey'] == ($j + 1)) ? 'desc' : 'asc';
-				echo "&amp;strings=", urlencode($_REQUEST['strings']), 
-					"&amp;page=" . urlencode($_REQUEST['page']), "\">", 
-					$misc->printVal($finfo->name), "</a></th>\n";
+				$args['sortdir'] = (
+					$_REQUEST['sortdir'] == 'asc'
+					and $_REQUEST['sortkey'] == ($j + 1)
+				) ? 'desc' : 'asc';
+
+				$sortLink = http_build_query($args);
+
+				echo "<th class=\"data\"><a href=\"?{$sortLink}\">"
+					, $misc->printVal($finfo->name)
+					, "</a></th>\n";
 			}
 			$j++;
 		}
@@ -454,6 +461,7 @@
 			}
 		} else {
 			$misc->printTitle($lang['strqueryresults']);
+			/*we comes from sql.php, $_SESSION['sqlquery'] has been set there */
 			$type = 'QUERY';
 		}
 
@@ -490,47 +498,17 @@
 
 		$fkey_information =& getFKInfo();
 
-		// Build strings for GETs
-		$gets = $misc->href;
-		if (isset($object)) $gets .= "&amp;" . urlencode($subject) . '=' . urlencode($object);
-		if (isset($subject)) $gets .= "&amp;subject=" . urlencode($subject);
-		if (isset($_REQUEST['query'])) $gets .= "&amp;query=" . urlencode($_REQUEST['query']);
-		if (isset($_REQUEST['count'])) $gets .= "&amp;count=" . urlencode($_REQUEST['count']);
-		if (isset($_REQUEST['return'])) $gets .= "&amp;return=" . urlencode($_REQUEST['return']);
-		if (isset($_REQUEST['search_path'])) $gets .= "&amp;search_path=" . urlencode($_REQUEST['search_path']);
-		if (isset($_REQUEST['table'])) $gets .= "&amp;table=" . urlencode($_REQUEST['table']);
-
-		// Build strings for GETs in array
-		$_gets = array(
-			'server' => $_REQUEST['server'],
-			'database' => $_REQUEST['database']
-		);
-
-		if (isset($_REQUEST['schema'])) $_gets['schema'] = $_REQUEST['schema'];
-		if (isset($object)) $_gets[$subject] = $object;
-		if (isset($subject)) $_gets['subject'] = $subject;
-		if (isset($_REQUEST['query'])) $_gets['query'] = $_REQUEST['query'];
-		if (isset($_REQUEST['count'])) $_gets['count'] = $_REQUEST['count'];
-		if (isset($_REQUEST['return'])) $_gets['return'] = $_REQUEST['return'];
-		if (isset($_REQUEST['search_path'])) $_gets['search_path'] = $_REQUEST['search_path'];
-		if (isset($_REQUEST['table'])) $_gets['table'] = $_REQUEST['table'];
-
-		// This string just contains sort info
-		$getsort = "sortkey=" . urlencode($_REQUEST['sortkey']) .
-			"&amp;sortdir=" . urlencode($_REQUEST['sortdir']);
-
-		// This array only contains sort info
-		$_getsort = array(
-			'sortkey' => $_REQUEST['sortkey'],
-			'sortdir' => $_REQUEST['sortdir']
-		);
+		// Build array OF parameters for sorts/pages links
+		$_gets = $_REQUEST;
+		unset($_gets['query']);
+		unset($_gets['MAX_FILE_SIZE']);
 
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
 			$misc->saveScriptHistory($_REQUEST['query']);
 
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;nohistory=t&amp;strings=" . urlencode($_REQUEST['strings']));
+			$misc->printPages($_REQUEST['page'], $max_pages, $_gets);
 
 			echo "<table id=\"data\">\n<tr>";
 
@@ -556,7 +534,7 @@
 								'action' => 'confeditrow',
 								'strings' => $_REQUEST['strings'],
 								'page' => $_REQUEST['page'],
-							), $_gets, $_getsort)
+							), $_gets)
 						)
 					)
 				),
@@ -569,7 +547,7 @@
 								'action' => 'confdelrow',
 								'strings' => $_REQUEST['strings'],
 								'page' => $_REQUEST['page'],
-							), $_gets, $_getsort)
+							), $_gets)
 						)
 					)
 				),
@@ -583,7 +561,7 @@
 			foreach (array_keys($actions['actionbuttons']) as $action) {
 				$actions['actionbuttons'][$action]['attr']['href']['urlvars'] = array_merge(
 					$actions['actionbuttons'][$action]['attr']['href']['urlvars'],
-					$_gets, $_getsort
+					$_gets
 				);
 			}
 
@@ -596,7 +574,7 @@
 				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			/* we show OIDs only if we are in TABLE or SELECT type browsing */
-			printTableHeaderCells($rs, $gets, isset($object));
+			printTableHeaderCells($rs, $_gets, isset($object));
 
 			echo "</tr>\n";
 
@@ -655,7 +633,7 @@
 
 			echo "<p>", $rs->recordCount(), " {$lang['strrows']}</p>\n";
 			// Show page navigation
-			$misc->printPages($_REQUEST['page'], $max_pages, "display.php?page=%s&amp;{$gets}&amp;{$getsort}&amp;strings=" . urlencode($_REQUEST['strings']));
+			$misc->printPages($_REQUEST['page'], $max_pages, $_gets);
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 
@@ -707,7 +685,7 @@
 					'href' => array (
 						'url' => 'display.php',
 						'urlvars' => array_merge(
-							$_gets, $_getsort,
+							$_gets,
 							array (
 								'strings' => 'collapsed',
 								'page' => $_REQUEST['page']
@@ -722,7 +700,7 @@
 					'href' => array (
 						'url' => 'display.php',
 						'urlvars' => array_merge(
-							$_gets, $_getsort,
+							$_gets,
 							array (
 								'strings' => 'expanded',
 								'page' => $_REQUEST['page']
@@ -789,7 +767,7 @@
 				'href' => array (
 					'url' => 'display.php',
 					'urlvars' => array_merge(
-						$_gets, $_getsort,
+						$_gets,
 						array(
 							'strings' => $_REQUEST['strings'],
 							'page' => $_REQUEST['page']

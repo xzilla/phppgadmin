@@ -1627,12 +1627,12 @@
 
 		/**
 		 * Do multi-page navigation.  Displays the prev, next and page options.
-		 * @param $page the page currently viewed
-		 * @param $pages the maximum number of pages
-		 * @param $url the url to refer to with the page number inserted
-		 * @param $max_width the number of pages to make available at any one time (default = 20)
+		 * @param $page - the page currently viewed
+		 * @param $pages - the maximum number of pages
+		 * @param $gets -  the parameters to include in the link to the wanted page
+		 * @param $max_width - the number of pages to make available at any one time (default = 20)
 		 */
-		function printPages($page, $pages, $url, $max_width = 20) {
+		function printPages($page, $pages, $gets, $max_width = 20) {
 			global $lang;
 
 			$window = 10;
@@ -1641,13 +1641,15 @@
 			if ($pages < 0) return;
 			if ($max_width <= 0) return;
 
+			unset ($get['page']);
+			$url = http_build_query($gets);
+
 			if ($pages > 1) {
 				echo "<p style=\"text-align: center\">\n";
 				if ($page != 1) {
-					$temp = str_replace('%s', 1, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strfirst']}</a>\n";
-					$temp = str_replace('%s', $page - 1, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strprev']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page=1\">{$lang['strfirst']}</a>\n";
+					$temp = $page - 1;
+					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strprev']}</a>\n";
 				}
 
 				if ($page <= $window) {
@@ -1669,15 +1671,13 @@
 				$max_page = min($max_page, $pages);
 
 				for ($i = $min_page; $i <= $max_page; $i++) {
-					$temp = str_replace('%s', $i, $url);
-					if ($i != $page) echo "<a class=\"pagenav\" href=\"{$temp}\">$i</a>\n";
+					if ($i != $page) echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$i}\">$i</a>\n";
 					else echo "$i\n";
 				}
 				if ($page != $pages) {
-					$temp = str_replace('%s', $page + 1, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strnext']}</a>\n";
-					$temp = str_replace('%s', $pages, $url);
-					echo "<a class=\"pagenav\" href=\"{$temp}\">{$lang['strlast']}</a>\n";
+					$temp = $page + 1;
+					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strnext']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$pages}\">{$lang['strlast']}</a>\n";
 				}
 				echo "</p>\n";
 			}
