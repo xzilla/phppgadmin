@@ -732,7 +732,10 @@
 				'content' => $lang['stralter']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'tblproperties-tblproperties');
+		$misc->printNavLinks($navlinks,
+			'tblproperties-tblproperties'
+			, get_defined_vars()
+		);
 
 	}
 

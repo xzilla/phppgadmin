@@ -164,7 +164,7 @@
 					)
 				),
 				'content' => $lang['stralter']
-			)), 'viewproperties-definition');
+			)), 'viewproperties-definition', get_defined_vars());
 	}
 
 	/**
@@ -516,7 +516,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'viewproperties-viewproperties');
+		$misc->printNavLinks($navlinks, 'viewproperties-viewproperties', get_defined_vars());
 	}
 
 	$misc->printHeader($lang['strviews'] . ' - ' . $_REQUEST['view']);

@@ -89,7 +89,7 @@
 			)
 		);
 			
-		$misc->printNavLinks($navlinks, 'fulltext-fulltext');
+		$misc->printNavLinks($navlinks, 'fulltext-fulltext', get_defined_vars());
 	}
 
 	function doDropConfig($confirm) {
@@ -454,7 +454,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'fulltext-viewdicts');
+		$misc->printNavLinks($navlinks, 'fulltext-viewdicts', get_defined_vars());
 	}
 
 
@@ -549,7 +549,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'fulltext-viewconfig');
+		$misc->printNavLinks($navlinks, 'fulltext-viewconfig', get_defined_vars());
 	}
 
 	/**

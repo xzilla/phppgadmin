@@ -465,7 +465,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'roles-properties');
+		$misc->printNavLinks($navlinks, 'roles-properties', get_defined_vars());
 	}
 
 	/**
@@ -525,7 +525,7 @@
 					)
 				),
 				'content' => $lang['strchangepassword']
-			)), 'roles-account');
+			)), 'roles-account', get_defined_vars());
 	}
 	
 	/**
@@ -693,7 +693,7 @@
 				'content' => $lang['strcreaterole']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'roles-roles');
+		$misc->printNavLinks($navlinks, 'roles-roles', get_defined_vars());
 	}
 
 	$misc->printHeader($lang['strroles']);

@@ -97,7 +97,7 @@
 						)
 					),
 					'content' => $lang['strshowalltypes']
-				)), 'types-properties');
+				)), 'types-properties', get_defined_vars());
 		} else
 			doDefault($lang['strinvalidparam']);
 	}
@@ -643,7 +643,7 @@
 			unset($navlinks['enum']);
 		}
 
-		$misc->printNavLinks($navlinks, 'types-types');
+		$misc->printNavLinks($navlinks, 'types-types', get_defined_vars());
 	}
 	
 	/**

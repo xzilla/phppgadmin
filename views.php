@@ -677,7 +677,7 @@
 				'content' => $lang['strcreateviewwiz']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'views-views');
+		$misc->printNavLinks($navlinks, 'views-views', get_defined_vars());
 
 	}
 	

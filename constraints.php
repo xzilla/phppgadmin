@@ -543,7 +543,7 @@
 				'content' => $lang['straddfk']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'constraints-constraints');
+		$misc->printNavLinks($navlinks, 'constraints-constraints', get_defined_vars());
 	}
 
 	function doTree() {

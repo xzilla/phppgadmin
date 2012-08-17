@@ -182,7 +182,7 @@
 					)
 				),
 				'content' => $lang['strcreaterule']
-			)), 'rules-rules');
+			)), 'rules-rules', get_defined_vars());
 	}
 
 	function doTree() {

@@ -377,7 +377,7 @@
 					)
 				),
 				'content' => $lang['strcreatetrigger']
-			)), 'triggers-triggers');
+			)), 'triggers-triggers', get_defined_vars());
 	}
 
 	function doTree() {

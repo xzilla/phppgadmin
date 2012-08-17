@@ -924,7 +924,7 @@
 			);
 		}
 
-		$misc->printNavLinks($navlinks, 'tables-tables');
+		$misc->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
 	}
 	
 	require('./admin.php');

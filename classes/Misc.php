@@ -50,7 +50,6 @@
 		}
 
 		function getSubjectParams($subject) {
-
 			$vars = array();
 
 			switch($subject) {
@@ -172,16 +171,16 @@
 							'column' => $_REQUEST['column']
 						));
 					break;
-				// case 'plugin':
-				// 	$vars = array('params' => array(
-				// 		'server' => $_REQUEST['server'],
-				// 		'subject' => 'plugin',
-				// 		'plugin' => $_REQUEST['plugin'],
-				// 		'database' => $_REQUEST['database'],
-				// 		'schema' => $_REQUEST['schema'],
-				// 		'action' => $_REQUEST['action']
-				// 	));
-				// 	break;
+                               // case 'plugin':
+                               //      $vars = array('params' => array(
+                               //              'server' => $_REQUEST['server'],
+                               //              'subject' => 'plugin',
+                               //              'plugin' => $_REQUEST['plugin'],
+                               //              'database' => $_REQUEST['database'],
+                               //              'schema' => $_REQUEST['schema'],
+                               //              'action' => $_REQUEST['action']
+                               //      ));
+                               //      break;
 				default:
 					return false;
 			}
@@ -1601,15 +1600,18 @@
 		*
 		* @param $navlinks - An array with the the attributes and values that will be shown. See printLinksList for array format.
 		* @param $place - Place where the $navlinks are displayed. Like 'display-browse', where 'display' is the file (display.php)
+		* @param $env - Associative array of defined variables in the scope of the caller.
+		*               Allows to give some environnement details to plugins.
 		* and 'browse' is the place inside that code (doBrowse).
 		*/
-		function printNavLinks($navlinks=array(), $place) {
+		function printNavLinks($navlinks, $place, $env = array()) {
 			global $plugin_manager;
 
 			// Navlinks hook's place
 			$plugin_functions_parameters = array(
 				'navlinks' => &$navlinks,
-				'place' => $place
+				'place' => $place,
+				'env' => $env
 			);
 			$plugin_manager->do_hook('navlinks', $plugin_functions_parameters);
 

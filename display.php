@@ -800,7 +800,7 @@
 			'content' => $lang['strrefresh']
 		);
 
-		$misc->printNavLinks($navlinks, 'display-browse');
+		$misc->printNavLinks($navlinks, 'display-browse', get_defined_vars());
 	}
 
 

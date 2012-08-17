@@ -297,7 +297,7 @@
 			'content' => $lang['strdrop']
 		);
 
-		$misc->printNavLinks($navlinks, 'aggregates-properties');
+		$misc->printNavLinks($navlinks, 'aggregates-properties', get_defined_vars());
 	}
 
 
@@ -390,7 +390,7 @@
 				'content' => $lang['strcreateaggregate']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'aggregates-aggregates');
+		$misc->printNavLinks($navlinks, 'aggregates-aggregates', get_defined_vars());
 	}
 
 	/**

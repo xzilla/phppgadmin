@@ -106,7 +106,7 @@
 					)
 				),
 				'content' => $lang['strcreateschema']
-			)), 'schemas-schemas');
+			)), 'schemas-schemas', get_defined_vars());
 	}
 
 	/**

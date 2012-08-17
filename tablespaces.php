@@ -288,7 +288,7 @@
 					)
 				),
 				'content' => $lang['strcreatetablespace']
-			)), 'tablespaces-tablespaces');
+			)), 'tablespaces-tablespaces', get_defined_vars());
 	}
 
 	$misc->printHeader($lang['strtablespaces']);

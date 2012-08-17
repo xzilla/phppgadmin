@@ -373,7 +373,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'functions-properties');
+		$misc->printNavLinks($navlinks, 'functions-properties', get_defined_vars());
 	}
 
 	/**
@@ -937,7 +937,7 @@
 			)
 		);
 
-		$misc->printNavLinks($navlinks, 'functions-functions');
+		$misc->printNavLinks($navlinks, 'functions-functions', get_defined_vars());
 	}
 
 	/**

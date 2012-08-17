@@ -129,7 +129,7 @@
 					)
 				),
 				'content' => $lang['strshowallgroups']
-			)), 'groups-properties');
+			)), 'groups-properties', get_defined_vars());
 	}
 	
 	/**
@@ -279,7 +279,7 @@
 					)
 				),
 				'content' => $lang['strcreategroup']
-			)), 'groups-groups');
+			)), 'groups-groups', get_defined_vars());
 
 	}
 

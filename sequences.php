@@ -106,7 +106,7 @@
 					)
 				),
 				'content' => $lang['strcreatesequence']
-			)), 'sequences-sequences');
+			)), 'sequences-sequences', get_defined_vars());
 	}
 
 	/**
@@ -281,7 +281,7 @@
 			if (! $data->hasAlterSequenceStart())
 				unset($navlinks['restart']);
 
-			$misc->printNavLinks($navlinks, 'sequences-properties');
+			$misc->printNavLinks($navlinks, 'sequences-properties', get_defined_vars());
 		}
 		else echo "<p>{$lang['strnodata']}</p>\n";
 	}

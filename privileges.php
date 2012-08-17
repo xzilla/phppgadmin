@@ -326,7 +326,7 @@
 			);
 		}
 
-		$misc->printNavLinks($navlinks, 'privileges-privileges');
+		$misc->printNavLinks($navlinks, 'privileges-privileges', get_defined_vars());
 	}
 
 	$misc->printHeader($lang['strprivileges']);

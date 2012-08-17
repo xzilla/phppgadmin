@@ -58,7 +58,7 @@
 					)
 				),
 				'content' => $lang['strchangepassword']
-			)), 'users-account');
+			)), 'users-account', get_defined_vars());
 	}
 	
 	/**
@@ -366,7 +366,7 @@
 					)
 				),
 				'content' => $lang['strcreateuser']
-			)), 'users-users');
+			)), 'users-users', get_defined_vars());
 
 	}
 

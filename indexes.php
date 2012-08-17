@@ -351,7 +351,7 @@
 				),
 				'content' => $lang['strcreateindex']
 			)
-		), 'indexes-indexes');
+		), 'indexes-indexes', get_defined_vars());
 	}
 
 	function doTree() {
