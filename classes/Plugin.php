@@ -39,5 +39,9 @@ abstract class Plugin {
 	function get_name() {
 		return $this->name;
 	}
+
+	function icon($img) {
+		return array($this->name, $img);
+	}
 }
 ?>
