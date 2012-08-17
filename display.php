@@ -686,7 +686,7 @@
 		}
 
 		// Edit SQL link
-		if (isset($_REQUEST['query']))
+		if ($type == 'QUERY')
 			$navlinks['edit'] = array (
 				'attr'=> array (
 					'href' => array (
@@ -694,7 +694,6 @@
 						'urlvars' => array_merge($fields, array (
 							'action' => 'sql',
 							'paginate' => 'on',
-							'query' => $_REQUEST['query']
 						))
 					)
 				),
