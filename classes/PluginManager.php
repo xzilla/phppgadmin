@@ -74,6 +74,13 @@ class PluginManager {
 		$this->actions[$plugin_name] = $actions;
 	}
 
+	function getPlugin($plugin) {
+		if (isset($this->plugins_list[$plugin]))
+			return $this->plugins_list[$plugin];
+
+		return null;
+	}
+
 	/**
 	 * Execute the plugins hook functions when needed.
 	 * @param $hook - The place where the function will be called

@@ -33,6 +33,21 @@ abstract class Plugin {
 	abstract function get_actions();
 
 	/**
+	 * In some page (display, sql, ...), a "return" link will show up if
+	 * $_GET['return'] = 'plugin' is given. The "get_subject_params" method
+	 * of the plugin designated by $_GET['plugin'] is then called to add needed
+	 * parameters in the href URL.
+	 * This method can returns parameters based on context from $_REQUEST. See
+	 * plugin Report as example.
+	 *
+	 * @returns an associative of parameter_name => value
+	 */
+	function get_subject_params() {
+		$vars = array();
+		return $vars;
+	}
+
+	/**
 	 * Get the plugin name, that will be used as identification
 	 * @return $name
 	 */
@@ -40,6 +55,12 @@ abstract class Plugin {
 		return $this->name;
 	}
 
+	/**
+	 * Returns the structure suitable for the method $misc->icon() to print
+	 * the given icon.
+	 * @param $img - The icon name
+	 * @return the information suitable for the method $misc->icon()
+	 */
 	function icon($img) {
 		return array($this->name, $img);
 	}

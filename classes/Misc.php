@@ -50,6 +50,8 @@
 		}
 
 		function getSubjectParams($subject) {
+			global $plugin_manager;
+
 			$vars = array();
 
 			switch($subject) {
@@ -171,16 +173,18 @@
 							'column' => $_REQUEST['column']
 						));
 					break;
-                               // case 'plugin':
-                               //      $vars = array('params' => array(
-                               //              'server' => $_REQUEST['server'],
-                               //              'subject' => 'plugin',
-                               //              'plugin' => $_REQUEST['plugin'],
-                               //              'database' => $_REQUEST['database'],
-                               //              'schema' => $_REQUEST['schema'],
-                               //              'action' => $_REQUEST['action']
-                               //      ));
-                               //      break;
+				case 'plugin':
+					$vars = array(
+						'url' => 'plugin.php',
+						'params' => array(
+							'server' => $_REQUEST['server'],
+							'subject' => 'plugin',
+							'plugin' => $_REQUEST['plugin'],
+					));
+
+					if (!is_null($plugin_manager->getPlugin($_REQUEST['plugin'])))
+						$vars['params'] = array_merge($vars['params'], $plugin_manager->getPlugin($_REQUEST['plugin'])->get_subject_params());
+					break;
 				default:
 					return false;
 			}
