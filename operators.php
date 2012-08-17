@@ -77,7 +77,7 @@
 						)
 					),
 					'content' => $lang['strshowalloperators']
-				)), 'operators-properties'
+				)), 'operators-properties', get_defined_vars()
 			);
 		}
 		else
@@ -129,8 +129,6 @@
 		$misc->printMsg($msg);
 		
 		$operators = $data->getOperators();
-
-		error_log(print_r($operators, 1));
 
 		$columns = array(
 			'operator' => array(

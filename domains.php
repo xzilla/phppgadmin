@@ -204,8 +204,6 @@
 			if ($data->hasDomainConstraints()) {
 				$domaincons = $data->getDomainConstraints($_REQUEST['domain']);
 
-				error_log(print_r($domaincons, 1));
-
 				$columns = array (
 					'name' => array (
 						'title' => $lang['strname'],
@@ -292,7 +290,7 @@
 			);
 		}
 		
-		$misc->printNavLinks($navlinks, 'domains-properties');
+		$misc->printNavLinks($navlinks, 'domains-properties', get_defined_vars());
 	}
 	
 	/**
@@ -490,7 +488,7 @@
 		$misc->printTable($domains, $columns, $actions, 'domains-domains', $lang['strnodomains']);
 
 		$navlinks = array (
-			'create' => rray (
+			'create' => array (
 				'attr'=> array (
 					'href' => array (
 						'url' => 'domains.php',
@@ -505,7 +503,7 @@
 				'content' => $lang['strcreatedomain']
 			)
 		);
-		$misc->printNavLinks($navlinks, 'domains-domains');
+		$misc->printNavLinks($navlinks, 'domains-domains', get_defined_vars());
 	}
 	
 	/**
