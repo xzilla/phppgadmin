@@ -19,7 +19,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL Documentatie (lokaal)';
 	$lang['strreportbug'] = 'Meldt een fout';
 	$lang['strviewfaq'] = 'Bekijk FAQ';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	$lang['strnotable'] = 'Geen tabel gevonden.';
 	$lang['strnoviews'] = 'Geen views gevonden.';
 	$lang['strnofunctions'] = 'Geen functies gevonden.';

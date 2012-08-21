@@ -18,7 +18,7 @@ $lang['strpgsqlhome'] = 'Página inicial PostgreSQL ';
 $lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 $lang['strreportbug'] = 'Relatório de Bug';
 $lang['strviewfaq'] = 'Visualizar FAQ';
-$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 $lang['strlogin'] = 'Autenticação';					
 $lang['strloginfailed'] = 'Falha na autenticação';		
 $lang['strserver'] = 'Servidor';					

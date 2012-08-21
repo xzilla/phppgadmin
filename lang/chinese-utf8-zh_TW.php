@@ -22,7 +22,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL 文件 (本機)';
 	$lang['strreportbug'] = '通報程式 Bug';
 	$lang['strviewfaq'] = '檢視線上 FAQ';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = '登入';

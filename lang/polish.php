@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'Dokumentacja PostgreSQL (lokalna)';
 	$lang['strreportbug'] = 'Zgłoś raport o błędzie';
 	$lang['strviewfaq'] = 'Przejrzyj FAQ';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 
 	// Basic strings
 	$lang['strlogin'] = 'Zaloguj';

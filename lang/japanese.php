@@ -21,7 +21,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL ドキュメント (ローカル)';
 	$lang['strreportbug'] = 'バグレポート';
 	$lang['strviewfaq'] = 'FAQ を表示する';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'ログイン';

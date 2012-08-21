@@ -31,7 +31,7 @@
 	$lang['strlocaldocs'] = 'Documentación de PostgreSQL (local)';
 	$lang['strreportbug'] = 'Informar dun erro';
 	$lang['strviewfaq'] = 'Ver as preguntas máis frecuentes en liña';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 
 	// Basic strings
 	$lang['strlogin'] = 'Identificarse';

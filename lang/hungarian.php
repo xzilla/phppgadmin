@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'A PostgreSQL (helyi) dokumentációja';
 	$lang['strreportbug'] = 'Hibajelentés feladása';
 	$lang['strviewfaq'] = 'GYIK megtekintése';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'Bejelentkezés';

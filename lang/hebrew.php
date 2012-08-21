@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'תיעוד PostgreSQL (מקומי)';
 	$lang['strreportbug'] = 'דווח על באג';
 	$lang['strviewfaq'] = 'צפה ב FAQ מקוון';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'התחברות';

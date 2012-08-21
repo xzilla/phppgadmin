@@ -19,7 +19,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL 文档 (本地)';
 	$lang['strreportbug'] = '报告 Bug';
 	$lang['strviewfaq'] = '查看在线 FAQ';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = '登录';

@@ -19,7 +19,7 @@
 	$lang['strlocaldocs'] = 'Εγχειρίδια PostgreSQL (τοπικό αντίγραφο)';
 	$lang['strreportbug'] = 'Αναφορά ελαττώματος στο phpPgAdmin';
 	$lang['strviewfaq'] = 'Συχνές ερωτήσεις (FAQ)';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'Είσοδος';
