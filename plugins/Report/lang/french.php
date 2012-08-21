@@ -13,6 +13,7 @@
 	$plugin_lang['strshowallreports'] = 'Voir tous les rapports';
 	$plugin_lang['strnoreports'] = 'Aucun rapport trouvé.';
 	$plugin_lang['strcreatereport'] = 'Créer un rapport';
+	$plugin_lang['streditreport'] = 'Éditer un rapport';
 	$plugin_lang['strreportdropped'] = 'Rapport supprimé.';
 	$plugin_lang['strreportdroppedbad'] = 'Échec lors de la suppression du rapport.';
 	$plugin_lang['strconfdropreport'] = 'Êtes-vous sûr de vouloir supprimer le rapport « %s » ?';

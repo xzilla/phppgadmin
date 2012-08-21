@@ -16,7 +16,7 @@
 		/* Constructor */
 		function __construct(&$conf, &$status) {
 			global $misc, $data;
-			
+
 			$this->conf = $conf;
 
 			// Check to see if the reports database exists
@@ -57,14 +57,14 @@
 		 * @param $report_id The ID of the report to find
 		 * @return A recordset
 		 */
-		function getReport($report_id) {			
+		function getReport($report_id) {
 			$sql = $this->driver->getSelectSQL($this->conf['reports_table'],
 				array('report_id', 'report_name', 'db_name', 'date_created', 'created_by', 'descr', 'report_sql', 'paginate'),
 				array('report_id' => $report_id), array('report_id' => '='), array());
 
 			return $this->driver->selectSet($sql);
 		}
-		
+
 		/**
 		 * Creates a report
 		 * @param $report_name The name of the report

@@ -44,12 +44,12 @@ class Report extends Plugin {
 			$this->_reportsdb = new Reports($this->conf, $status);
 
 			if ($status !== 0) {
-				global $misc, $lang;
-				$misc->printHeader($lang['strreports']);
+				global $misc;
+				$misc->printHeader($this->lang['strreports']);
 				$misc->printBody();
 				$misc->printTrail('server');
 				$misc->printTabs('server','reports');
-				$misc->printMsg($lang['strnoreportsdb']);
+				$misc->printMsg($this->lang['strnoreportsdb']);
 				$misc->printFooter();
 				exit;
 			}
@@ -150,7 +150,7 @@ class Report extends Plugin {
 	 * @param $plugin_functions_parameters
 	 */
 	function add_plugin_trail(&$plugin_functions_parameters) {
-		global $misc, $lang;
+		global $misc;
 		$trail = &$plugin_functions_parameters['trail'];
 		$done = false;
 		$subject = '';
@@ -218,85 +218,83 @@ class Report extends Plugin {
 		global $misc, $lang;
 
 		if (
-			($params['place'] == 'sql-form' or $params['place'] == 'display-browse')
-			and (isset($_SESSION['sqlquery']) && isset($params['env']['rs']) && is_object($params['env']['rs']) && $params['env']['rs']->recordCount() > 0)
-		) {
-			switch ($params['place']) {
-				case 'sql-form':
-				case 'display-browse':
-					if ( ! (isset($_REQUEST['plugin']) && $_REQUEST['plugin'] == $this->name) )
-						$params['navlinks'][] = array (
-							'attr'=> array (
-								'href' => array (
-									'url' => 'plugin.php',
-									'urlvars' => array (
-										'plugin' => $this->name,
-										'action' => 'create',
-										'server' => field('server'),
-										'database' => field('database'),
-										'schema' => field('schema'),
-										'report_sql' => $_SESSION['sqlquery']
-									)
-								)
-							),
-							'content' => $this->lang['strcreatereport']
-						);
-					else
-						$params['navlinks'][] = array (
-							'attr'=> array (
-								'href' => array (
-									'url' => 'plugin.php',
-									'urlvars' => array (
-										'plugin' => $this->name,
-										'action' => 'edit',
-										'server' => field('server'),
-										'database' => field('database'),
-										// 'schema' => field('schema'),
-										'report_id' => field('report_id')
-									)
-								)
-							),
-							'content' => $lang['stredit']
-						);
-					break;
-				// case 'display-browse':
-				// 	if ( ! (isset($_REQUEST['plugin']) && $_REQUEST['plugin'] == $this->name) )
-				// 		$params['navlinks'][] = array (
-				// 			'attr'=> array (
-				// 				'href' => array (
-				// 					'url' => 'plugin.php',
-				// 					'urlvars' => array (
-				// 						'plugin' => $this->name,
-				// 						'action' => 'create',
-				// 						'server' => field('server'),
-				// 						'database' => field('database'),
-				// 						'schema' => field('schema'),
-				// 						'report_sql' => field('query'),
-				// 						'paginate' => (isset($_REQUEST['paginate']) ? $_REQUEST['paginate'] : 'f')
-				// 					)
-				// 				)
-				// 			),
-				// 			'content' => $this->lang['strcreatereport']
-				// 		);
-				// 	else
-				// 		$params['navlinks'][] = array (
-				// 			'attr'=> array (
-				// 				'href' => array (
-				// 					'url' => 'plugin.php',
-				// 					'urlvars' => array (
-				// 						'plugin' => $this->name,
-				// 						'action' => 'edit',
-				// 						'server' => field('server'),
-				// 						'database' => field('database'),
-				// 						// 'schema' => field('schema'),
-				// 						'report_id' => field('report_id')
-				// 					)
-				// 				)
-				// 			),
-				// 			'content' => $lang['stredit']
-				// 		);
-					break;
+			($params['place'] == 'sql-form'
+				or $params['place'] == 'display-browse')
+			and ( isset($params['env']['rs'])
+				 and is_object($params['env']['rs'])
+				 and $params['env']['rs']->recordCount() > 0))
+		{
+			if ( ! (isset($_REQUEST['plugin'])
+					and $_REQUEST['plugin'] == $this->name)
+			) {
+				/* ResultSet doesn't come from a plugin:
+				 * show a create report link. */
+				$params['navlinks']['report_link'] = array (
+					'attr'=> array (
+						'href' => array (
+							'url' => 'plugin.php',
+							'urlvars' => array (
+								'plugin' => $this->name,
+								'action' => 'create',
+								'server' => $_REQUEST['server'],
+								'database' => $_REQUEST['database'],
+							)
+						)
+					),
+					'content' => $this->lang['strcreatereport']
+				);
+
+				if (isset($_REQUEST['paginate']))
+				$params['navlinks']['report_link']['attr']['href']['urlvars']['paginate']
+					= $_REQUEST['paginate'];
+
+				if (!empty($_SESSION['sqlquery'])) {
+					$params['navlinks']['report_link']['attr']['href']['urlvars']['report_sql']
+						= $_SESSION['sqlquery'];
+				}
+				else {
+					if (isset($_REQUEST['subject'])
+						and isset($_REQUEST[$_REQUEST['subject']]))
+					{
+						$params['navlinks']['report_link']['attr']['href']['urlvars']['subject']
+							= $_REQUEST['subject'];
+						$params['navlinks']['report_link']['attr']['href']['urlvars'][$_REQUEST['subject']]
+							= $_REQUEST[$_REQUEST['subject']];
+
+						$params['navlinks']['report_link']['attr']['href']['urlvars']['sortkey']
+							= isset($_REQUEST['sortkey']) ? $_REQUEST['sortkey'] : '';
+
+						$params['navlinks']['report_link']['attr']['href']['urlvars']['sortdir']
+							= isset($_REQUEST['sortdir']) ? $_REQUEST['sortdir'] : '';
+					}
+					else {
+						unset($params['navlinks']['report_link']);
+					}
+				}
 			}
+			else {
+				/* ResultSet comes from a plugin:
+				 * show a edit report link. */
+				$params['navlinks']['report_link'] = array (
+					'attr'=> array (
+						'href' => array (
+							'url' => 'plugin.php',
+							'urlvars' => array (
+								'plugin' => $this->name,
+								'action' => 'edit',
+								'server' => $_REQUEST['server'],
+								'database' => $_REQUEST['database'],
+								'report_id' => $_REQUEST['report_id']
+							)
+						)
+					),
+					'content' => $this->lang['streditreport']
+				);
+			}
+
+			if (isset($_REQUEST['schema']))
+				$params['navlinks']['report_link']['attr']['href']['urlvars']['schema']
+					= $_REQUEST['schema'];
 		}
 	}
 
@@ -388,8 +386,6 @@ class Report extends Plugin {
 	 * Saves changes to a report
 	 */
 	function save_edit() {
-		global $lang;
-
 		$reportsdb = $this->get_reportsdb();
 
 		if (isset($_REQUEST['cancel'])) {
@@ -519,7 +515,12 @@ class Report extends Plugin {
 		if (!isset($_REQUEST['report_name'])) $_REQUEST['report_name'] = '';
 		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = '';
 		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
-		if (!isset($_REQUEST['report_sql'])) $_REQUEST['report_sql'] = '';
+		if (!isset($_REQUEST['report_sql'])) {
+			$_REQUEST['sortkey'] = isset($_REQUEST['sortkey']) ? $_REQUEST['sortkey'] : '';
+			if (preg_match('/^[0-9]+$/', $_REQUEST['sortkey']) && $_REQUEST['sortkey'] > 0) $orderby = array($_REQUEST['sortkey'] => $_REQUEST['sortdir']);
+				else $orderby = array();
+				$_REQUEST['report_sql'] = $data->getSelectSQL($_REQUEST[$_REQUEST['subject']], array(), array(), array(), $orderby);
+		}
 
 		if (isset($_REQUEST['database'])) {
 			$_REQUEST['db_name'] = $_REQUEST['database'];
@@ -564,8 +565,6 @@ class Report extends Plugin {
 	 * Actually creates the new report in the database
 	 */
 	function save_create() {
-		global $lang;
-
 		if (isset($_REQUEST['cancel'])) {
 			$this->default_action();
 			exit;
@@ -640,7 +639,7 @@ class Report extends Plugin {
 	}
 
 	function execute() {
-		global $misc, $lang, $data;
+		global $misc, $data;
 
 		$reportsdb = $this->get_reportsdb();
 

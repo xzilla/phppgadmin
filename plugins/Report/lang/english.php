@@ -13,6 +13,7 @@
 	$plugin_lang['strshowallreports'] = 'Show all reports';
 	$plugin_lang['strnoreports'] = 'No reports found.';
 	$plugin_lang['strcreatereport'] = 'Create report';
+	$plugin_lang['streditreport'] = 'Edit report';
 	$plugin_lang['strreportdropped'] = 'Report dropped.';
 	$plugin_lang['strreportdroppedbad'] = 'Report drop failed.';
 	$plugin_lang['strconfdropreport'] = 'Are you sure you want to drop the report "%s"?';

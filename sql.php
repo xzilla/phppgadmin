@@ -9,6 +9,8 @@
 	 * $Id: sql.php,v 1.43 2008/01/10 20:19:27 xzilla Exp $
 	 */
 
+	 global $lang;
+
 	// Prevent timeouts on large exports (non-safe mode only)
 	if (!ini_get('safe_mode')) set_time_limit(0);
 
