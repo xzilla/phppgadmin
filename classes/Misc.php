@@ -1641,7 +1641,7 @@
 			if ($pages < 0) return;
 			if ($max_width <= 0) return;
 
-			unset ($get['page']);
+			unset ($gets['page']);
 			$url = http_build_query($gets);
 
 			if ($pages > 1) {
