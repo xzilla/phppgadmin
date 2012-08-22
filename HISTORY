@@ -1,6 +1,17 @@
 phpPgAdmin History
 ------------------
 
+Version 5.1
+-----------
+
+Released:
+
+Features
+* Support for PostgreSQL 9.1 and 9.2
+* New plugin architecture
+* Support nested groups of servers (Julien Rouhaud & ioguix)
+* ...
+
 Version 5.0
 -----------
 
