@@ -306,6 +306,7 @@
 	// Groups
 	$lang['strgroup'] = 'Groupe';
 	$lang['strgroups'] = 'Groupes';
+	$lang['strgroupgroups'] = 'Groupes du groupe "%s"';
 	$lang['strshowallgroups'] = 'Afficher tous les groupes';
 	$lang['strnogroup'] = 'Groupe introuvable.';
 	$lang['strnogroups'] = 'Aucun groupe trouvé.';

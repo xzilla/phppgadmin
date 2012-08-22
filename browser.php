@@ -13,13 +13,6 @@
 	$_no_bottom_link = true;
 	include_once('./libraries/lib.inc.php');
 	
-	if (isset($conf['srv_groups'])) {
-		$treeaction = 'groupstree';
-	}
-	else {
-		$treeaction = 'tree';
-	}
-	
 	// Output header
 	$misc->printHeader('', '
 		<script src="xloadtree/xtree2.js" type="text/javascript"></script>
@@ -72,7 +65,7 @@ WebFXTreeAbstractNode.prototype._ondblclick = function(e){
 	return false;
 };
 */
-var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=<?php echo $treeaction ?>", "servers.php");
+var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
 
 tree.write();
 tree.setExpanded(true);

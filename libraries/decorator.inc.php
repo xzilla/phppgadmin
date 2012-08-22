@@ -108,7 +108,7 @@ class FieldDecorator extends Decorator
 	}
 	
 	function value($fields) {
-		return isset($fields[$this->f]) ? $fields[$this->f] : (isset($this->d) ? $this->d : null);
+		return isset($fields[$this->f]) ? value($fields[$this->f], $fields) : (isset($this->d) ? $this->d : null);
 	}
 }
 
