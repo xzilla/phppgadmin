@@ -148,7 +148,7 @@
 			'branch' => field('branch'),
 		);
 		
-		$misc->printTree($servers, $attrs, 'servers');
+		$misc->printTree($nodes, $attrs, 'servers');
 		exit;
 	}
 
