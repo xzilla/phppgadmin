@@ -27,6 +27,25 @@ class Postgres91 extends Postgres {
 		return $this->help_page;
 	}
 
+	// Administration functions
+	/**
+	 * Returns all available process information.
+	 * @param $database (optional) Find only connections to specified database
+	 * @return A recordset
+	 */
+	function getProcesses($database = null) {
+		if ($database === null)
+			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
+		else {
+			$this->clean($database);
+		$sql = "
+				SELECT * FROM pg_catalog.pg_stat_activity
+				WHERE datname='{$database}' ORDER BY usename, procpid";
+		}
+
+		return $this->selectSet($sql);
+	}
+
 	// Tablespace functions
 
 	/**

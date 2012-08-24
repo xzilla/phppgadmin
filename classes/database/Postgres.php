@@ -7196,12 +7196,12 @@ class Postgres extends ADODB_base {
 	 */
 	function getProcesses($database = null) {
 		if ($database === null)
-			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
+			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, pid";
 		else {
 			$this->clean($database);
 		$sql = "
 				SELECT * FROM pg_catalog.pg_stat_activity
-				WHERE datname='{$database}' ORDER BY usename, procpid";
+				WHERE datname='{$database}' ORDER BY usename, pid";
 		}
 
 		return $this->selectSet($sql);
