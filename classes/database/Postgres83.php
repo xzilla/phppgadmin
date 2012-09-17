@@ -204,7 +204,7 @@ class Postgres83 extends Postgres84 {
 			WHERE vacrelid = {$toid};");
 		
 		$status = -1; // ini
-		if (isset($rs->fields['vacrelid']) and ($rs->fields['vacrelid'] == $toid)) {
+		if ($rs->recordCount() and ($rs->fields['vacrelid'] == $toid)) {
 			// table exists in pg_autovacuum, UPDATE
 			$sql = sprintf("UPDATE \"pg_catalog\".\"pg_autovacuum\" SET 
 						enabled = '%s',
@@ -233,9 +233,7 @@ class Postgres83 extends Postgres84 {
 		else {
 			// table doesn't exists in pg_autovacuum, INSERT
 			$sql = sprintf("INSERT INTO \"pg_catalog\".\"pg_autovacuum\" 
-				VALUES (%s, '%s', %s, %s, %s, %s, %s, %s, %s, %s )
-				WHERE 
-					c.relname = '{$table}' AND n.nspname = '{$c_schema}';",
+				VALUES (%s, '%s', %s, %s, %s, %s, %s, %s, %s, %s )",
 				$toid,
 				($_POST['autovacuum_enabled'] == 'on')? 't':'f',
 				$_POST['autovacuum_vacuum_threshold'],
