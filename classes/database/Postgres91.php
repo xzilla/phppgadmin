@@ -35,15 +35,20 @@ class Postgres91 extends Postgres {
 	 */
 	function getProcesses($database = null) {
 		if ($database === null)
-			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
+			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
+				FROM pg_catalog.pg_stat_activity
+				ORDER BY datname, usename, procpid";
 		else {
-			$this->clean($database);
-		$sql = "
-				SELECT * FROM pg_catalog.pg_stat_activity
-				WHERE datname='{$database}' ORDER BY usename, procpid";
+			//$this->clean($database);
+			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
+				FROM pg_catalog.pg_stat_activity
+				-- WHERE datname='{$database}'
+				ORDER BY usename, procpid";
 		}
 
-		return $this->selectSet($sql);
+		$rc = $this->selectSet($sql);
+
+		return $rc;
 	}
 
 	// Tablespace functions

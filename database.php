@@ -435,7 +435,7 @@
 		// Fetch the processes from the database
 		echo "<h3>{$lang['strprocesses']}</h3>\n";
 		$processes = $data->getProcesses($_REQUEST['database']);
-				
+
 		$columns = array(
 			'user' => array(
 				'title' => $lang['strusername'],
@@ -443,11 +443,11 @@
 			),
 			'process' => array(
 				'title' => $lang['strprocess'],
-				'field' => field('procpid'),
+				'field' => field('pid'),
 			),
 			'query' => array(
 				'title' => $lang['strsql'],
-				'field' => field('current_query'),
+				'field' => field('query'),
 			),
 			'start_time' => array(
 				'title' => $lang['strstarttime'],
@@ -496,9 +496,6 @@
 
 		if (count($actions) == 0) unset($columns['actions']);
 	
-		// Remove query start time for <7.4
-		if (!isset($processes->fields['query_start'])) unset($columns['start_time']);
-
 		$misc->printTable($processes, $columns, $actions, 'database-processes', $lang['strnodata']);
 		
 		if ($isAjax) exit;
