@@ -35,20 +35,20 @@
 	}
 	else
 		$t->assertText('//h3[1]', $lang['strprocesses']);
-	$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[1]", $lang['strusername']);
-	$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[2]", $lang['strprocess']);
-	$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[3]", $lang['strsql']);
-	$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[4]", $lang['strstarttime']);
-	$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[5]", $lang['stractions']);
-	/* this check is a bit fragile, since it relies on new line wrapping */
-	$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[1]", $admin_user);
-	if ($t->data->major_version > 8.1)
-		$t->assertText('//tr[contains(@class,\'data\')]/td[3]/pre[@class=\'data\']', 'SELECT datname, usename, *FROM pg_catalog.pg_stat_activity*WHERE datname=\'ppatests_db\'*ORDER BY usename, procpid');
-	else
-		$t->assertText('//tr[contains(@class,\'data\')]/td[3]', '&lt;IDLE&gt;');
-	$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[5]", $lang['strcancel']);
-	if ($t->data->hasQueryKill())
-		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[6]", $lang['strkill']);
+
+	if ($t->data->major_version > 8.1) {
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[1]", $lang['strusername']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[2]", $lang['strprocess']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[3]", $lang['strsql']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[4]", $lang['strstarttime']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[5]", $lang['stractions']);
+		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[1]", $admin_user);
+		/* this check is a bit fragile, since it relies on new line wrapping */
+		$t->assertText('//tr[contains(@class,\'data\')]/td[3]/pre[@class=\'data\']', 'SELECT datname, usename, *FROM pg_catalog.pg_stat_activity*WHERE datname=\'ppatests_db\'*ORDER BY usename,*pid');
+		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[5]", $lang['strcancel']);
+		if ($t->data->hasQueryKill())
+			$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[6]", $lang['strkill']);
+	}
 
 	/** 3 **/ 
 	$t->addComment('3. Check Locks');
@@ -94,6 +94,13 @@
 	$t->assertText("//p", sprintf($lang['strconfvacuumdatabase'], $testdb));
 	$t->check("//input[@name='vacuum_full']");
 	$t->check("//input[@name='vacuum_analyze']");
+	/* PostgreSQL > 7.4 and < 8.2 doesn't support "vacuum full freeze"
+	 * Split the test for these releases */
+	if ($t->data->major_version < 8.2) {
+		$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
+		$t->assertText('//p[@class=\'message\']', $lang['strvacuumgood']);
+		$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
+	}
 	$t->check("//input[@name='vacuum_freeze']");
 	$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
 	$t->assertText('//p[@class=\'message\']', $lang['strvacuumgood']);
@@ -138,6 +145,13 @@
 	$t->assertText("//p", sprintf($lang['strconfvacuumtable'], 'student'));
 	$t->check("//input[@name='vacuum_full']");
 	$t->check("//input[@name='vacuum_analyze']");
+	/* PostgreSQL > 7.4 and < 8.2 doesn't support "vacuum full freeze"
+	 * Split the test for these releases */
+	if ($t->data->major_version < 8.2) {
+		$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
+		$t->assertText('//p[@class=\'message\']', $lang['strvacuumgood']);
+		$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
+	}
 	$t->check("//input[@name='vacuum_freeze']");
 	$t->clickAndWait("//input[@value='{$lang['strvacuum']}']");
 	$t->assertText('//p[@class=\'message\']', $lang['strvacuumgood']);
