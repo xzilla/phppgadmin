@@ -138,6 +138,95 @@ class Postgres81 extends Postgres82 {
 		return $this->endTransaction();
 	}
 
+	// Autovacuum functions
+
+	function saveAutovacuum($table, $vacenabled, $vacthreshold, $vacscalefactor,
+		$anathresold, $anascalefactor, $vaccostdelay, $vaccostlimit)
+	{
+		$defaults = $this->getAutovacuum();
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$this->clean($table);
+
+		$rs = $this->selectSet("
+			SELECT c.oid
+			FROM pg_catalog.pg_class AS c
+				LEFT JOIN pg_catalog.pg_namespace AS n ON (n.oid=c.relnamespace)
+			WHERE
+				c.relname = '{$table}' AND n.nspname = '{$c_schema}'
+		");
+
+		if ($rs->EOF)
+			return -1;
+
+		$toid = $rs->fields('oid');
+		unset ($rs);
+
+		if (empty($_POST['autovacuum_vacuum_threshold']))
+			$_POST['autovacuum_vacuum_threshold'] = $defaults['autovacuum_vacuum_threshold'];
+
+		if (empty($_POST['autovacuum_vacuum_scale_factor']))
+			$_POST['autovacuum_vacuum_scale_factor'] = $defaults['autovacuum_vacuum_scale_factor'];
+
+		if (empty($_POST['autovacuum_analyze_threshold']))
+			$_POST['autovacuum_analyze_threshold'] = $defaults['autovacuum_analyze_threshold'];
+
+		if (empty($_POST['autovacuum_analyze_scale_factor']))
+			$_POST['autovacuum_analyze_scale_factor'] = $defaults['autovacuum_analyze_scale_factor'];
+
+		if (empty($_POST['autovacuum_vacuum_cost_delay']))
+			$_POST['autovacuum_vacuum_cost_delay'] = $defaults['autovacuum_vacuum_cost_delay'];
+
+		if (empty($_POST['autovacuum_vacuum_cost_limit']))
+			$_POST['autovacuum_vacuum_cost_limit'] = $defaults['autovacuum_vacuum_cost_limit'];
+
+		$rs = $this->selectSet("SELECT vacrelid
+			FROM \"pg_catalog\".\"pg_autovacuum\"
+			WHERE vacrelid = {$toid};");
+
+		$status = -1; // ini
+		if ($rs->recordCount() and ($rs->fields['vacrelid'] == $toid)) {
+			// table exists in pg_autovacuum, UPDATE
+			$sql = sprintf("UPDATE \"pg_catalog\".\"pg_autovacuum\" SET
+						enabled = '%s',
+						vac_base_thresh = %s,
+						vac_scale_factor = %s,
+						anl_base_thresh = %s,
+						anl_scale_factor = %s,
+						vac_cost_delay = %s,
+						vac_cost_limit = %s
+					WHERE vacrelid = {$toid};
+				",
+				($_POST['autovacuum_enabled'] == 'on')? 't':'f',
+				$_POST['autovacuum_vacuum_threshold'],
+				$_POST['autovacuum_vacuum_scale_factor'],
+				$_POST['autovacuum_analyze_threshold'],
+				$_POST['autovacuum_analyze_scale_factor'],
+				$_POST['autovacuum_vacuum_cost_delay'],
+				$_POST['autovacuum_vacuum_cost_limit']
+			);
+			$status = $this->execute($sql);
+		}
+		else {
+			// table doesn't exists in pg_autovacuum, INSERT
+			$sql = sprintf("INSERT INTO \"pg_catalog\".\"pg_autovacuum\"
+				VALUES (%s, '%s', %s, %s, %s, %s, %s, %s)",
+				$toid,
+				($_POST['autovacuum_enabled'] == 'on')? 't':'f',
+				$_POST['autovacuum_vacuum_threshold'],
+				$_POST['autovacuum_vacuum_scale_factor'],
+				$_POST['autovacuum_analyze_threshold'],
+				$_POST['autovacuum_analyze_scale_factor'],
+				$_POST['autovacuum_vacuum_cost_delay'],
+				$_POST['autovacuum_vacuum_cost_limit']
+			);
+			$status = $this->execute($sql);
+		}
+
+		return $status;
+	}
+
+
 	// Tablespace functions
 	
 	/**
