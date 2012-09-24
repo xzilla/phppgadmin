@@ -1,10 +1,11 @@
 HowTo run the tests
 ~~~~~~~~~~~~~~~~~~~
 
-1. Create & configure your ./tests/selenium/config.test.php (See sample one in ./tests/selenium/config.inc.php-dist).
-2. Open your browser and go to http://$webUrl/
+1. Create & configure your ./tests/selenium/config.test.php (See sample one in ./tests/selenium/config.inc.php-dist)
+2. Make sure "$conf['show_system']" is set to "true" in your "./conf/config.inc.php"
+3. Open your browser and go to http://$webUrl/
 Where $webUrl is the value set in your ./tests/selenium/config.inc.php
-3. Click on "Selenium tests" on the PPA intro page & run the tests using the "Selenium TestRunner" buttons in the top-right frame.
+4. Click on "Selenium tests" on the PPA intro page & run the tests using the "Selenium TestRunner" buttons in the top-right frame.
 
 Enjoy the tests.
 
