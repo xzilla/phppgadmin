@@ -162,6 +162,11 @@
 		$_language = $conf['default_lang'];
 	}
 
+	// 6. Otherwise, default to english.
+	if (!isset($_language))
+		$_language = 'english';
+
+
 	// Import the language file
 	if (isset($_language)) {
 		include("./lang/{$_language}.php");
