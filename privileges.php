@@ -283,10 +283,12 @@
 				'action' => 'alter',
 				'server' => $_REQUEST['server'],
 				'database' => $_REQUEST['database'],
-				'schema' => $_REQUEST['schema'],
 				$subject => $object,
 				'subject'=> $subject
 			);
+			if (isset($_REQUEST['schema'])) {
+				$urlvars['schema'] = $_REQUEST['schema'];
+			}
 		}
 
 		$navlinks = array (
@@ -317,13 +319,15 @@
 						'url' => $allurl,
 						'urlvars' => array (
 							'server' => $_REQUEST['server'],
-							'database' => $_REQUEST['database'],
-							'schema' => $_REQUEST['schema']
+							'database' => $_REQUEST['database']
 						)
 					)
 				),
 				'content' => $alltxt
 			);
+			if (isset($_REQUEST['schema'])) {
+				$navlinks[$alllabel]['attr']['href']['urlvars']['schema'] = $_REQUEST['schema'];
+			}
 		}
 
 		$misc->printNavLinks($navlinks, 'privileges-privileges', get_defined_vars());
