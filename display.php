@@ -572,7 +572,7 @@
 
 			// Display edit and delete actions if we have a key
 			$colspan = count($buttons);
-			if ($colspan > 0)
+			if ($colspan > 0 and count($key) > 0)
 				echo "<th colspan=\"{$colspan}\" class=\"data\">{$lang['stractions']}</th>\n";
 
 			/* we show OIDs only if we are in TABLE or SELECT type browsing */
@@ -621,7 +621,6 @@
 							$misc->printLink($action);
 							echo "</td>\n";
 						}
-						
 					}
 				}
 
