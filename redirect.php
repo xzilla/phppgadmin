@@ -10,17 +10,19 @@
 	
 	// Load query vars into superglobal arrays
 	if (isset($url['urlvars'])) {
-		$vars = array();
-		parse_str(value(url($url['url'], $url['urlvars']), $_REQUEST), $vars);
-		array_shift($vars);
+		$urlvars = array();
+
+		foreach($url['urlvars'] as $k => $urlvar) {
+			$urlvars[$k] = value($urlvar, $_REQUEST);
+		}
 
 		/* parse_str function is affected by magic_quotes_gpc */
 		if (ini_get('magic_quotes_gpc')) {
-			$misc->stripVar($vars);
+			$misc->stripVar($urlvars);
 		}
 
-		$_REQUEST = array_merge($_REQUEST, $vars);
-		$_GET = array_merge($_GET, $vars);
+		$_REQUEST = array_merge($_REQUEST, $urlvars);
+		$_GET = array_merge($_GET, $urlvars);
 	}
 	
 	require $url['url'];
