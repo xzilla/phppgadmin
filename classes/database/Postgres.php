@@ -270,7 +270,9 @@ class Postgres extends ADODB_base {
 				break;
 			case 'bytea':
 			case 'bytea[]':
-				$value = $this->escapeBytea($value);
+                if (!is_null($value)) {
+				    $value = $this->escapeBytea($value);
+                }
 			case 'text':
 			case 'text[]':
 			case 'xml':
