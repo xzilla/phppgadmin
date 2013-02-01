@@ -1,54 +1,39 @@
 DEVELOPER INFO
 --------------
 
-phpPgAdmin is Free/Open Source software, so you're invited to contribute to it.
-Many great features have been written by other people and you too can help to 
-make phpPgAdmin a better tool.
+phpPgAdmin is Free/Open Source software and contributions are welcome from
+everyone. Please be sure to join the developers' mailing list:
 
-If you're planning to contribute source code, please read the following 
-information:
- 
-The following method is preferred for new developers:
- - fetch the current CVS tree over anonymous CVS:
+  https://lists.sourceforge.net/lists/listinfo/phppgadmin-devel
 
-     cvs -d :pserver:anonymous@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin login
-     [Password: ]  simply press the Enter key!
+SOURCE REPOSITORY
+-----------------
 
-     cvs -z3 -d :pserver:anonymous@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
-     [This will create a new sub-directory named phpPgAdmin] 
+phpPgAdmin uses git for source control management. The phpPgAdmin git repository 
+is hosted at github:
 
- - Add your stuff
- - Send us the file(s) you've modified or send us a patch (preferred). To 
-   generate a patch, in your 'phpPgAdmin' directory do:
+  https://github.com/phppgadmin/phppgadmin
 
-     cvs diff -c > file.txt
+To clone the phpPgAdmin source to your development system, execute the following
+command:
 
-   Then, just send us 'file.txt' .
+  git clone git://github.com/phppgadmin/phppgadmin.git
+
+After making changes, generate a patch using "git format-patch" and submit it
+to the phpPgAdmin devel mailing list. 
+
+Alternatively you can clone the phppgadmin repository on github and make a pull
+request. For details on how to make pull requests, see:
+
+  https://help.github.com/articles/using-pull-requests
 
 Please note that submitting code is considered a transfer of copyright to the 
-phpPgAdmin project.
+phpPgAdmin project. phpPgAdmin is made available under the GPL v2 license.
 
-Write access to the CVS tree is granted only to developers who have already
-contributed something useful to phpPgAdmin.  If you're interested in that, 
-please contact us.
-These project developers can access the CVS tree via SSH:
-
-  export CVS_RSH=ssh
-  	
-Login once with
-
-  ssh developername@phppgadmin.cvs.sourceforge.net
-
-to create required user directories on the server. Then fetch the current CVS 
-tree:
-  	
-  cvs -z3 -d developername@phppgadmin.cvs.sourceforge.net:/cvsroot/phppgadmin co -d phpPgAdmin webdb
-
-For further information, refer to:
-
-  http://sourceforge.net/projects/phppgadmin
-
-                                 
+Push access to the main phpPgAdmin git repository can be granted to developers
+with a track record of useful contributions to phpPgAdmin at the discretion
+of the phpPgAdmin development team. 
+                            
 TIPS FOR DEVELOPERS
 -------------------
 
@@ -84,7 +69,7 @@ When working on database classes, always schema qualifing your SQL where it is
 possible with the current schema ($data->_schema) for pg73+ classes. Then don't
 forget to write your method for older classes which doesn't suppport schemas.
 
-When working with CVS, always make sure to do a 'cvs update' both before you 
+When working with git, always make sure to do a 'git pull' both before you 
 start; so you have the latest code to work with; and also again before you 
 create your patch; to minimize the chance of having conflicts. 
 
@@ -135,7 +120,7 @@ information on how the language system works, please see the TRANSLATORS file.
 UNDERSTANDING THE WORK/BRANCH/TAG/RELEASE PROCESS
 ------------------------------------------------- 
 
-All new work for phpPgAdmin is done against the CVS HEAD branch. When we feel
+All new work for phpPgAdmin is done against the git master branch. When we feel
 we are ready to do a new release, we create a branch (ex. REL_4-1).  This 
 becomes the stable branch for all future 4.1.x releases, and any bugfixes needed
 for 4.1 would go in that branch. 
@@ -144,7 +129,7 @@ When we release a new revision, we tag that at release time (REL_4-1-1), so a
 checkout of any tag should give you the same files that downloading the release
 would have given you. As a general rule, we do not introduce new features into 
 existing stable branches, only bugfixes and language updates. This means if you 
-want to work on new features, you should be working against CVS HEAD. 
+want to work on new features, you should be working against the git master. 
 Eventually we will call for another release, and that will be branched (REL_4-2)
 and the cycle will start over. 
 
@@ -158,6 +143,6 @@ GETTING HELP
 ------------
 
 We prefer most discussion of development to take place on the phpPgAdmin
-mailing list, so that discussions can be archived and be searchable. 
+devel mailing list, so that discussions can be archived and be searchable. 
 However, if you are into IRC, a couple of us hang out on #phppgadmin on 
 freenode, and occasionally discuss things there. 
