@@ -519,7 +519,12 @@ class Report extends Plugin {
 			$_REQUEST['sortkey'] = isset($_REQUEST['sortkey']) ? $_REQUEST['sortkey'] : '';
 			if (preg_match('/^[0-9]+$/', $_REQUEST['sortkey']) && $_REQUEST['sortkey'] > 0) $orderby = array($_REQUEST['sortkey'] => $_REQUEST['sortdir']);
 				else $orderby = array();
-				$_REQUEST['report_sql'] = $data->getSelectSQL($_REQUEST[$_REQUEST['subject']], array(), array(), array(), $orderby);
+
+            $subject = isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])
+                ? $_REQUEST[$_REQUEST['subject']]
+                : '';
+
+            $_REQUEST['report_sql'] = $data->getSelectSQL($subject, array(), array(), array(), $orderby);
 		}
 
 		if (isset($_REQUEST['database'])) {
