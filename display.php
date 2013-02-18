@@ -498,10 +498,23 @@
 
 		$fkey_information =& getFKInfo();
 
-		// Build array OF parameters for sorts/pages links
-		$_gets = $_REQUEST;
-		unset($_gets['query']);
-		unset($_gets['MAX_FILE_SIZE']);
+		// Build strings for GETs in array
+		$_gets = array(
+			'server' => $_REQUEST['server'],
+			'database' => $_REQUEST['database']
+		);
+
+		if (isset($_REQUEST['schema'])) $_gets['schema'] = $_REQUEST['schema'];
+		if (isset($object)) $_gets[$subject] = $object;
+		if (isset($subject)) $_gets['subject'] = $subject;
+		if (isset($_REQUEST['query'])) $_gets['query'] = $_REQUEST['query'];
+		if (isset($_REQUEST['count'])) $_gets['count'] = $_REQUEST['count'];
+		if (isset($_REQUEST['return'])) $_gets['return'] = $_REQUEST['return'];
+		if (isset($_REQUEST['search_path'])) $_gets['search_path'] = $_REQUEST['search_path'];
+		if (isset($_REQUEST['table'])) $_gets['table'] = $_REQUEST['table'];
+		if (isset($_REQUEST['sortkey'])) $_gets['sortkey'] = $_REQUEST['sortkey'];
+		if (isset($_REQUEST['sortdir'])) $_gets['sortdir'] = $_REQUEST['sortdir'];
+		$_gets['strings'] = $_REQUEST['strings'];
 
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
 			$misc->saveScriptHistory($_REQUEST['query']);
