@@ -1,7 +1,8 @@
 About the phpPgAdmin Report Plugin
 ----------------------------------
 
-The Report Plugin is a sample plugin for phpPgAdmin's plugin architecture.
+The Report plugin is the old report feature of phpPgAdmins removed in 
+version 5.1 and refactored as a plugin.
 
 It enables you to create and save ad-hoc SQL queries as reports which
 can be easily be executed from within phpPgAdmin.
