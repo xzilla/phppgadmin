@@ -514,6 +514,7 @@
 		if (isset($_REQUEST['table'])) $_gets['table'] = $_REQUEST['table'];
 		if (isset($_REQUEST['sortkey'])) $_gets['sortkey'] = $_REQUEST['sortkey'];
 		if (isset($_REQUEST['sortdir'])) $_gets['sortdir'] = $_REQUEST['sortdir'];
+		if (isset($_REQUEST['nohistory'])) $_gets['nohistory'] = $_REQUEST['nohistory'];
 		$_gets['strings'] = $_REQUEST['strings'];
 
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
