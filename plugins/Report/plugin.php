@@ -76,7 +76,7 @@ class Report extends Plugin {
 		$hooks = array(
 			'tabs' => array('add_plugin_tabs'),
 			'trail' => array('add_plugin_trail'),
-			'navlinks' => array('add_plugin_navlinks')
+			'navlinks' => array('plugin_navlinks')
 		);
 		return $hooks;
 	}
@@ -214,7 +214,7 @@ class Report extends Plugin {
 	 * Add plugin in the navlinks
 	 * @param $plugin_functions_parameters
 	 */
-	function add_plugin_navlinks(&$params) {
+	function plugin_navlinks(&$params) {
 		global $misc, $lang;
 
 		if (
@@ -290,6 +290,30 @@ class Report extends Plugin {
 					),
 					'content' => $this->lang['streditreport']
 				);
+
+				/* edit collapse link to add report related vars */
+				$params['navlinks']['collapse']['attr']['href']['urlvars']
+					['plugin'] = $this->name;
+				$params['navlinks']['collapse']['attr']['href']['urlvars']
+					['report_id'] = $_REQUEST['report_id'];
+				$params['navlinks']['collapse']['attr']['href']['urlvars']
+					['report'] = $_REQUEST['report'];
+
+				/* edit refresh link to add report related vars */
+				$params['navlinks']['refresh']['attr']['href']['urlvars']
+					['plugin'] = $this->name;
+				$params['navlinks']['refresh']['attr']['href']['urlvars']
+					['report_id'] = $_REQUEST['report_id'];
+				$params['navlinks']['refresh']['attr']['href']['urlvars']
+					['report'] = $_REQUEST['report'];
+
+				if (isset($_REQUEST['action'])) {
+					$params['navlinks']['collapse']['attr']['href']['urlvars']
+						['action'] = $_REQUEST['action'];
+
+					$params['navlinks']['refresh']['attr']['href']['urlvars']
+						['action'] = $_REQUEST['action'];
+				}
 			}
 
 			if (isset($_REQUEST['schema']))
