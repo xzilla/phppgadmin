@@ -520,7 +520,7 @@
 		 * @param $script script tag
 		 */
 		function printHeader($title = '', $script = null, $frameset = false) {
-			global $appName, $lang, $_no_output, $conf;
+			global $appName, $lang, $_no_output, $conf, $plugin_manager;
 
 			if (!isset($_no_output)) {
 				header("Content-Type: text/html; charset=utf-8");
@@ -549,6 +549,16 @@
 				echo "</title>\n";
 
 				if ($script) echo "{$script}\n";
+
+				$plugins_head = array();
+				$_params = array('heads' => &$plugins_head);
+
+				$plugin_manager->do_hook('head', $_params);
+
+				foreach($plugins_head as $tag) {
+					echo $tag;
+				}
+
 				echo "</head>\n";
 			}
 		}

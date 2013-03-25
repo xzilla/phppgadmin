@@ -11,6 +11,7 @@ class PluginManager {
 	 */
 	private $plugins_list = array();
 	private $available_hooks = array(
+		'head',
 		'toplinks',
 		'tabs',
 		'trail',
