@@ -17,7 +17,8 @@ class PluginManager {
 		'trail',
 		'navlinks',
 		'actionbuttons',
-		'tree'
+		'tree',
+		'logout'
 	);
 	private $actions = array();
 	private $hooks = array();
