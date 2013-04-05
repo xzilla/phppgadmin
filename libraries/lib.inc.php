@@ -185,6 +185,9 @@
 		exit;
 	}
 
+	// Manage the plugins
+	require_once('./classes/PluginManager.php');
+
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
 		if (!isset($_REQUEST['server'])) {
@@ -199,6 +202,7 @@
 
 		// Redirect to the login form if not logged in
 		if (!isset($_server_info['username'])) {
+			$plugin_manager = new PluginManager($_language);
 			include('./login.php');
 			exit;
 		}
@@ -232,7 +236,5 @@
 		}
 	}
 
-	// Manage the plugins
-	require_once('./classes/PluginManager.php');
 	$plugin_manager = new PluginManager($_language);
 ?>

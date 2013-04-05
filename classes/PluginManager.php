@@ -39,8 +39,13 @@ class PluginManager {
 			// Verify is the activated plugin exists
 			if (file_exists($plugin_file)) {
 				include_once($plugin_file);
-				$plugin = new $activated_plugin($language);
-				$this->add_plugin($plugin);
+				try {
+					$plugin = new $activated_plugin($language);
+					$this->add_plugin($plugin);
+				}
+				catch (Exception $e) {
+					continue;
+				}
 			} else {
 				printf($lang['strpluginnotfound']."\t\n", $activated_plugin);
 				exit;
