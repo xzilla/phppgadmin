@@ -202,7 +202,6 @@
 
 		// Redirect to the login form if not logged in
 		if (!isset($_server_info['username'])) {
-			$plugin_manager = new PluginManager($_language);
 			include('./login.php');
 			exit;
 		}
