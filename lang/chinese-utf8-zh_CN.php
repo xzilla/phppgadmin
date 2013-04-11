@@ -304,7 +304,7 @@
 	$lang['strroles'] = '角色';
 	$lang['strshowallroles'] = '显示所有角色';
 	$lang['strnoroles'] = '查无角色。';
-	$lang['strinheritsprivs'] = '继承特权?';
+	$lang['strinheritsprivs'] = '继承权限?';
 	$lang['strcreaterole'] = '创建角色';
 	$lang['strcancreaterole'] = '创建角色?';
 	$lang['strrolecreated'] = '角色已创建。';
@@ -322,14 +322,14 @@
 	$lang['strroleneedsname'] = '必须指定角色名称。';
 	
 	// Privileges
-	$lang['strprivilege'] = '特权';
-	$lang['strprivileges'] = '特权';
-	$lang['strnoprivileges'] = '这个对象拥有默认所属人的特权。';
+	$lang['strprivilege'] = '权限';
+	$lang['strprivileges'] = '权限';
+	$lang['strnoprivileges'] = '这个对象拥有默认所属人的权限。';
 	$lang['strgrant'] = '赋予';
 	$lang['strrevoke'] = '撤回';
-	$lang['strgranted'] = '特权已改变';
-	$lang['strgrantfailed'] = '特权改变失败';
-	$lang['strgrantbad'] = '必须指定至少一个用户或一个组和一个特权。';
+	$lang['strgranted'] = '权限已改变';
+	$lang['strgrantfailed'] = '权限改变失败';
+	$lang['strgrantbad'] = '必须指定至少一个用户或一个组和一个权限。';
 	$lang['strgrantor'] = '赋予者';
 	$lang['strasterisk'] = '*';
 	
