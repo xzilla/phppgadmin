@@ -42,7 +42,7 @@
 	$lang['strdisable'] = '无效';
 	$lang['strdrop'] = '删除';
 	$lang['strdropped'] = '已删除';
-	$lang['strnull'] = '空';
+	$lang['strnull'] = '空值';
 	$lang['strnotnull'] = '非空';
 	$lang['strprev'] = '前一页';
 	$lang['strnext'] = '下一页';
@@ -78,7 +78,7 @@
 	$lang['strback'] = '返回';
 	$lang['strqueryresults'] = '查询结果';
 	$lang['strshow'] = '显示';
-	$lang['strempty'] = '空';
+	$lang['strempty'] = '清空';
 	$lang['strlanguage'] = '语言';
 	$lang['strencoding'] = '编码';
 	$lang['strvalue'] = '值';
