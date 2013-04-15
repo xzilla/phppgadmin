@@ -116,7 +116,7 @@ class PluginManager {
 
 		if (!isset($this->plugins_list[$plugin_name])) {
 			// Show an error and stop the application
-			printf($lang['strpluginnotfound']."\t\n", $name);
+			printf($lang['strpluginnotfound']."\t\n", $plugin_name);
 			exit;
 		}
 		$plugin = $this->plugins_list[$plugin_name];
