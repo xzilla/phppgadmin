@@ -11,12 +11,14 @@ class PluginManager {
 	 */
 	private $plugins_list = array();
 	private $available_hooks = array(
+		'head',
 		'toplinks',
 		'tabs',
 		'trail',
 		'navlinks',
 		'actionbuttons',
-		'tree'
+		'tree',
+		'logout'
 	);
 	private $actions = array();
 	private $hooks = array();
@@ -37,8 +39,13 @@ class PluginManager {
 			// Verify is the activated plugin exists
 			if (file_exists($plugin_file)) {
 				include_once($plugin_file);
-				$plugin = new $activated_plugin($language);
-				$this->add_plugin($plugin);
+				try {
+					$plugin = new $activated_plugin($language);
+					$this->add_plugin($plugin);
+				}
+				catch (Exception $e) {
+					continue;
+				}
 			} else {
 				printf($lang['strpluginnotfound']."\t\n", $activated_plugin);
 				exit;
@@ -109,7 +116,7 @@ class PluginManager {
 
 		if (!isset($this->plugins_list[$plugin_name])) {
 			// Show an error and stop the application
-			printf($lang['strpluginnotfound']."\t\n", $name);
+			printf($lang['strpluginnotfound']."\t\n", $plugin_name);
 			exit;
 		}
 		$plugin = $this->plugins_list[$plugin_name];

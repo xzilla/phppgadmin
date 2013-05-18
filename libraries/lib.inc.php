@@ -16,7 +16,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '5.1-dev';
+	$appVersion = '5.1';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.4';
@@ -187,7 +187,6 @@
 
 	// Manage the plugins
 	require_once('./classes/PluginManager.php');
-	$plugin_manager = new PluginManager($_language);
 
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
@@ -235,4 +234,6 @@
 			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
 		}
 	}
+
+	$plugin_manager = new PluginManager($_language);
 ?>

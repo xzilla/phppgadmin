@@ -14,15 +14,17 @@
 	if (!isset($msg)) $msg = '';
 	
 	function doLogout() {
-		global $misc, $lang, $_reload_browser;
-		
+		global $misc, $lang, $_reload_browser, $plugin_manager;
+
+		$plugin_manager->do_hook('logout', $_REQUEST['logoutServer']);
+
 		$server_info = $misc->getServerInfo($_REQUEST['logoutServer']);
 		$misc->setServerInfo(null, null, $_REQUEST['logoutServer']);
 
 		unset($_SESSION['sharedUsername'], $_SESSION['sharedPassword']);
 
 		doDefault(sprintf($lang['strlogoutmsg'], $server_info['desc']));
-		
+
 		$_reload_browser = true;
 	}
 

@@ -5,11 +5,14 @@
 	 *
 	 * $Id: login.php,v 1.38 2007/09/04 19:39:48 ioguix Exp $
 	 */
-	global $conf;
+	global $conf, $plugin_manager;
 	
 	// This needs to be an include once to prevent lib.inc.php infinite recursive includes.
 	// Check to see if the configuration file exists, if not, explain
 	require_once('./libraries/lib.inc.php');
+
+	if (!isset($plugin_manager))
+		$plugin_manager = new PluginManager($_SESSION['webdbLanguage']);
 
 	$misc->printHeader($lang['strlogin']);
 	$misc->printBody();
