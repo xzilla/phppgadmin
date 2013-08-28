@@ -324,8 +324,8 @@
 					, $misc->printVal($finfo->name);
 				if($_REQUEST['sortkey'] == ($j + 1)) {
 					if($_REQUEST['sortdir'] == 'asc')
-						echo '<img src="'. $misc->icon('RaiseArgument') .'" alt="">';
-					else	echo '<img src="'. $misc->icon('LowerArgument') .'" alt="">';
+						echo '<img src="'. $misc->icon('RaiseArgument') .'" alt="asc">';
+					else	echo '<img src="'. $misc->icon('LowerArgument') .'" alt="desc">';
 				}
 				echo "</a></th>\n";
 			}
