@@ -746,7 +746,7 @@
 				);
 			}
 
-			$urlvars = array('query' => $_REQUEST['query']);
+			$urlvars = array();
 			if (isset($_REQUEST['search_path']))
 				$urlvars['search_path'] = $_REQUEST['search_path'];
 

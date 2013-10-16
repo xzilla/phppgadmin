@@ -379,7 +379,11 @@
 		global $lang;
 		
 		if (!isset($_REQUEST['formView'])) $_REQUEST['formView'] = '';
-		if (!isset($_REQUEST['formDefinition'])) $_REQUEST['formDefinition'] = 'SELECT ';
+		if (!isset($_REQUEST['formDefinition'])) {
+			if (isset($_SESSION['sqlquery']))
+				$_REQUEST['formDefinition'] = $_SESSION['sqlquery'];
+			else $_REQUEST['formDefinition'] = 'SELECT ';
+		}
 		if (!isset($_REQUEST['formComment'])) $_REQUEST['formComment'] = '';
 		
 		$misc->printTrail('schema');
