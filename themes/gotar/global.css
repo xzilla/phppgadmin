@@ -19,7 +19,6 @@ p {
 table {
 	border:1px gray solid;
 }
-div.logo { display:none }
 body.browser {
 	background-color: #447;
 	color:#4bf;
@@ -250,4 +249,10 @@ div.fk {
     background: rgba(128,32,64,0.6);
 	border-left: 1px solid #000;
 	padding: 5px 0 5px 0;
+}
+div.logo { display:none }
+div.logo a {
+	display: block;
+	height: 100%;
+	color: transparent:
 }

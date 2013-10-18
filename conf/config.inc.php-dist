@@ -71,6 +71,18 @@
 
 	/* Warning: Only groups with no parents appears at the root of the tree. */
 
+	/* You can apply specific theme depending on servers, users and databases
+	 * The priority order is :
+	 *   * the theme defined for a server
+	 *   * the theme defined for a database apply over the server one
+	 *   * the theme defined for a user apply over the database one
+	 */
+	/* Example for servers */
+	//$conf['servers'][0]['theme']['default'] = 'default';
+	/* Example for users */
+	//$conf['servers'][0]['theme']['user']['specific_user'] = 'default';
+	/* Example for databases */
+	//$conf['servers'][0]['theme']['db']['specific_db'] = 'default';
 
 	// Default language. E.g.: 'english', 'polish', etc.  See lang/ directory
 	// for all possibilities. If you specify 'auto' (the default) it will use

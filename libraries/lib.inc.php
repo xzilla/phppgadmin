@@ -115,6 +115,35 @@
 		$conf['theme']  = $_COOKIE['ppaTheme'];
 	}
 
+	// 4. Check for theme by server/db/user
+	$info = $misc->getServerInfo();
+
+	if (!is_null($info)) {
+		$_theme = '';
+
+		if ( (isset($info['theme']['default']))
+			and is_file("./themes/{$info['theme']['default']}/global.css")
+		)
+			$_theme = $info['theme']['default'];
+
+		if ( isset($_REQUEST['database'])
+			and isset($info['theme']['db'][$_REQUEST['database']])
+			and is_file("./themes/{$info['theme']['db'][$_REQUEST['database']]}/global.css")
+		)
+			$_theme = $info['theme']['db'][$_REQUEST['database']];
+
+		if ( isset($info['username'])
+			and isset($info['theme']['user'][$info['username']])
+			and is_file("./themes/{$info['theme']['user'][$info['username']]}/global.css")
+		)
+			$_theme = $info['theme']['user'][$info['username']];
+
+		if ($_theme !== '') {
+			setcookie('ppaTheme', $_theme, time()+31536000);
+			$conf['theme'] = $_theme;
+		}
+	}
+
 	// Determine language file to import:
 	unset($_language);
 

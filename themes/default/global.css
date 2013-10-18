@@ -11,16 +11,6 @@ body {
 	padding: 0px;
 	font-size: smaller; /*0.8em;*/
 }
-div.logo {
-	background-color: #CECF9C;
-	margin:	0px;
-	padding: 0px;
-	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
-	font-size: smaller; /* 1em; */
-	border: none;
-	border-bottom: 2px solid #000000;
-	margin-bottom: 2px;
-}
 body.browser {
 	background-color: #efefef;
 	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
@@ -255,4 +245,22 @@ div.fk {
     background: #fff;
 	border-left: 1px solid #000;
 	padding: 5px;
+}
+div.logo {
+	background-color: #CECF9C;
+	margin:	0px;
+	padding: 0px;
+	font-family: arial, tahoma, verdana, helvetica, sans-serif, serif;
+	font-size: smaller; /* 1em; */
+	border: none;
+	border-bottom: 2px solid #000000;
+	margin-bottom: 2px;
+	background-image: url('../../images/themes/default/title.png');
+	background-repeat: none;
+	height: 50px;
+}
+div.logo a {
+	display: block;
+	height: 100%;
+	color: transparent;
 }
