@@ -230,7 +230,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		return $data;
+		return htmlentities($data, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
