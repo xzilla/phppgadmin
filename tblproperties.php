@@ -491,6 +491,7 @@
 			),
 			'keyprop' => array(
 				'title' => $lang['strconstraints'],
+				'class' => 'constraint_cell',
 				'field' => field('attname'),
 				'type'  => 'callback',
 				'params'=> array(
@@ -503,7 +504,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => field('comment'),
+				'field' => field('comment')
 			),
 		);
 
@@ -521,19 +522,19 @@
 				if ($c['p_field'] == $s)
 					switch ($c['contype']) {
 						case 'p':
-							$str .= '<a class="img" href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('PrimaryKey') .'" alt="[pk]" title="'. htmlentities($c['consrc'], ENT_QUOTES, 'UTF-8') .'" /></a>';
 						break;
 						case 'f':
-							$str .= '<a class="img" href="tblproperties.php?'. $misc->href ."&amp;table=". urlencode($c['f_table']) ."&amp;schema=". urlencode($c['f_schema']) ."\"><img src=\"".
+							$str .= '<a href="tblproperties.php?'. $misc->href ."&amp;table=". urlencode($c['f_table']) ."&amp;schema=". urlencode($c['f_schema']) ."\"><img src=\"".
 								$misc->icon('ForeignKey') .'" alt="[fk]" title="'. htmlentities($c['consrc'], ENT_QUOTES, 'UTF-8') .'" /></a>';
 						break;
 						case 'u':
-							$str .= '<a class="img" href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('UniqueConstraint') .'" alt="[uniq]" title="'. htmlentities($c['consrc'], ENT_QUOTES, 'UTF-8') .'" /></a>';
 						break;
 						case 'c':
-							$str .= '<a class="img" href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
+							$str .= '<a href="constraints.php?'. $misc->href ."&amp;table=". urlencode($c['p_table']) ."&amp;schema=". urlencode($c['p_schema']) ."\"><img src=\"".
 								$misc->icon('CheckConstraint') .'" alt="[check]" title="'. htmlentities($c['consrc'], ENT_QUOTES, 'UTF-8') .'" /></a>';
 					}
 			}
