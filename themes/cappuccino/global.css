@@ -53,7 +53,7 @@ input[type=checkbox], input[type=password], input[type=text], input[type=radio] 
 	background: #ded4b3;
 	border: 1px solid #887f5c;
 }
-input[type=submit], input[type=button], select {
+input[type=submit], input[type=reset], input[type=button], select {
 	background: #c4ba95 url('../../images/themes/cappuccino/inputbckg.png') repeat-x top left;
 	border: 1px solid #887f5c;
 }

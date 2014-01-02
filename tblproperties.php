@@ -491,6 +491,7 @@
 			),
 			'keyprop' => array(
 				'title' => $lang['strconstraints'],
+				'class' => 'constraint_cell',
 				'field' => field('attname'),
 				'type'  => 'callback',
 				'params'=> array(
@@ -503,7 +504,7 @@
 			),
 			'comment' => array(
 				'title' => $lang['strcomment'],
-				'field' => field('comment'),
+				'field' => field('comment')
 			),
 		);
 

@@ -1847,6 +1847,7 @@
 		 *			$columns = array(
 		 *				column_id => array(
 		 *					'title' => Column heading,
+		 * 					'class' => The class to apply on the column cells,
 		 *					'field' => Field name for $tabledata->fields[...],
 		 *					'help'  => Help page for this column,
 		 *				), ...
@@ -1928,7 +1929,7 @@
 							if (sizeof($actions) > 0) echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
 							break;
 						default:
-							echo "<th class=\"data\">";
+							echo "<th class=\"data {$column['class']}\">";
 							if (isset($column['help']))
 								$this->printHelp($column['title'], $column['help']);
 							else
@@ -1959,6 +1960,8 @@
 
 					foreach ($columns as $column_id => $column) {
 
+						$class = $column['class'] !== '' ? " class=\"{$column['class']}\"":'';
+
 						// Apply default values for missing parameters
 						if (isset($column['url']) && !isset($column['vars'])) $column['vars'] = array();
 
@@ -1968,15 +1971,23 @@
 									if (isset($action['disable']) && $action['disable'] === true) {
 										echo "<td></td>\n";
 									} else {
-										echo "<td class=\"opbutton{$id}\">";
+										echo "<td class=\"opbutton{$id} {$column['class']}\">";
 										$action['fields'] = $tabledata->fields;
 										$this->printLink($action);
 										echo "</td>\n";
 									}
 								}
 								break;
+							case 'comment':
+								echo "<td class='comment_cell'>";
+								$val = value($column['field'], $tabledata->fields);
+								if (!is_null($val)) {
+									echo $val;
+								}
+								echo "</td>";
+								break;
 							default:
-								echo "<td>";
+								echo "<td{$class}>";
 								$val = value($column['field'], $tabledata->fields);
 								if (!is_null($val)) {
 									if (isset($column['url'])) {

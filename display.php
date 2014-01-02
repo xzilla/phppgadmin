@@ -815,8 +815,20 @@
 	$scripts .= "</script>\n";
 
 	// If a table is specified, then set the title differently
-	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']]))
-		$misc->printHeader($lang['strtables'], $scripts);
+	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
+		if ($_REQUEST['subject'] == 'table') {
+			$misc->printHeader(
+				$lang['strtables'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+		else if ($_REQUEST['subject'] == 'view') {
+			$misc->printHeader(
+				$lang['strviews'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+	}
 	else	
 		$misc->printHeader($lang['strqueryresults']);
 
