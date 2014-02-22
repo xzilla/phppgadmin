@@ -89,8 +89,8 @@
 						if ($_REQUEST['action'] == 'confeditrow' && $rs->fields[$attrs->fields['attname']] === null) {
 							$_REQUEST['nulls'][$attrs->fields['attname']] = 'on';
 						}
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></td>\n";
+						echo "<label><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attname']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attname']]) ? ' checked="checked"' : '', " /></span></label></td>\n";
 						$elements++;
 					}
 					else
@@ -150,7 +150,7 @@
 			echo "<input type=\"hidden\" name=\"strings\" value=\"", htmlspecialchars($_REQUEST['strings']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"key\" value=\"", htmlspecialchars(urlencode(serialize($key))), "\" />\n";
 			echo "<p>";
-			if (!$error) echo "<input type=\"submit\" name=\"save\" value=\"{$lang['strsave']}\" />\n";
+			if (!$error) echo "<input type=\"submit\" name=\"save\" accesskey=\"r\" value=\"{$lang['strsave']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 
 			if($fksprops !== false) {
@@ -321,8 +321,13 @@
 				$sortLink = http_build_query($args);
 
 				echo "<th class=\"data\"><a href=\"?{$sortLink}\">"
-					, $misc->printVal($finfo->name)
-					, "</a></th>\n";
+					, $misc->printVal($finfo->name);
+				if($_REQUEST['sortkey'] == ($j + 1)) {
+					if($_REQUEST['sortdir'] == 'asc')
+						echo '<img src="'. $misc->icon('RaiseArgument') .'" alt="asc">';
+					else	echo '<img src="'. $misc->icon('LowerArgument') .'" alt="desc">';
+				}
+				echo "</a></th>\n";
 			}
 			$j++;
 		}
@@ -746,7 +751,7 @@
 				);
 			}
 
-			$urlvars = array('query' => $_REQUEST['query']);
+			$urlvars = array();
 			if (isset($_REQUEST['search_path']))
 				$urlvars['search_path'] = $_REQUEST['search_path'];
 
@@ -810,8 +815,20 @@
 	$scripts .= "</script>\n";
 
 	// If a table is specified, then set the title differently
-	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']]))
-		$misc->printHeader($lang['strtables'], $scripts);
+	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
+		if ($_REQUEST['subject'] == 'table') {
+			$misc->printHeader(
+				$lang['strtables'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+		else if ($_REQUEST['subject'] == 'view') {
+			$misc->printHeader(
+				$lang['strviews'].': '.$_REQUEST[$_REQUEST['subject']],
+				$scripts
+			);
+		}
+	}
 	else	
 		$misc->printHeader($lang['strqueryresults']);
 

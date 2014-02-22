@@ -23,7 +23,7 @@
 	function doSignal() {
 		global $data, $lang;
 
-		$status = $data->sendSignal($_REQUEST['procpid'], $_REQUEST['signal']);
+		$status = $data->sendSignal($_REQUEST['pid'], $_REQUEST['signal']);
 		if ($status == 0)
 			doProcesses($lang['strsignalsent']);
 		else
@@ -445,6 +445,10 @@
 				'title' => $lang['strprocess'],
 				'field' => field('pid'),
 			),
+            'blocked' => array(
+                'title' => $lang['strblocked'],
+                'field' => field('waiting'),
+            ),
 			'query' => array(
 				'title' => $lang['strsql'],
 				'field' => field('query'),
@@ -459,7 +463,7 @@
 		$columns['actions'] = array('title' => $lang['stractions']);
 
 		$actions = array();
-		if ($data->isSuperUser()) {
+		if ($data->hasUserSignals() || $data->isSuperUser()) {
 			$actions = array(
 				'cancel' => array(
 					'content' => $lang['strcancel'],
@@ -469,7 +473,7 @@
 							'urlvars' => array (
 								'action' => 'signal',
 								'signal' => 'CANCEL',
-								'procpid' => field('procpid')
+								'pid' => field('pid')
 							)
 						)
 					)
@@ -482,7 +486,7 @@
 							'urlvars' => array (
 								'action' => 'signal',
 								'signal' => 'KILL',
-								'procpid' => field('procpid')
+								'pid' => field('pid')
 							)
 						)
 					)

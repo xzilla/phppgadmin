@@ -6,9 +6,9 @@
  * $Id: Postgres82.php,v 1.10 2007/12/28 16:21:25 ioguix Exp $
  */
 
-include_once('./classes/database/Postgres.php');
+include_once('./classes/database/Postgres92.php');
 
-class Postgres91 extends Postgres {
+class Postgres91 extends Postgres92 {
 
 	var $major_version = 9.1;
 
@@ -35,14 +35,14 @@ class Postgres91 extends Postgres {
 	 */
 	function getProcesses($database = null) {
 		if ($database === null)
-			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
+			$sql = "SELECT datname, usename, procpid AS pid, waiting, current_query AS query, query_start
 				FROM pg_catalog.pg_stat_activity
 				ORDER BY datname, usename, procpid";
 		else {
-			//$this->clean($database);
-			$sql = "SELECT datname, usename, procpid AS pid, current_query AS query, query_start
+			$this->clean($database);
+			$sql = "SELECT datname, usename, procpid AS pid, waiting, current_query AS query, query_start
 				FROM pg_catalog.pg_stat_activity
-				-- WHERE datname='{$database}'
+				WHERE datname='{$database}'
 				ORDER BY usename, procpid";
 		}
 
@@ -90,7 +90,7 @@ class Postgres91 extends Postgres {
 
 
 	// Capabilities
-
+	function hasUserSignals() { return false; }
 
 
 

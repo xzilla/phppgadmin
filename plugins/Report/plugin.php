@@ -248,8 +248,8 @@ class Report extends Plugin {
 					= $_REQUEST['paginate'];
 
 				if (!empty($_SESSION['sqlquery'])) {
-					$params['navlinks']['report_link']['attr']['href']['urlvars']['report_sql']
-						= $_SESSION['sqlquery'];
+					$params['navlinks']['report_link']['attr']['href']['urlvars']['fromsql']
+						= 1;
 				}
 				else {
 					if (isset($_REQUEST['subject'])
@@ -539,15 +539,21 @@ class Report extends Plugin {
 		if (!isset($_REQUEST['db_name'])) $_REQUEST['db_name'] = '';
 		if (!isset($_REQUEST['descr'])) $_REQUEST['descr'] = '';
 		if (!isset($_REQUEST['report_sql'])) {
-			$_REQUEST['sortkey'] = isset($_REQUEST['sortkey']) ? $_REQUEST['sortkey'] : '';
-			if (preg_match('/^[0-9]+$/', $_REQUEST['sortkey']) && $_REQUEST['sortkey'] > 0) $orderby = array($_REQUEST['sortkey'] => $_REQUEST['sortdir']);
-				else $orderby = array();
+			// Set the query from session if linked from a user query result
+			if (isset($_REQUEST['fromsql']) and $_REQUEST['fromsql'] == 1 ) {
+				$_REQUEST['report_sql'] = $_SESSION['sqlquery'];
+			}
+			else {
+				$_REQUEST['sortkey'] = isset($_REQUEST['sortkey']) ? $_REQUEST['sortkey'] : '';
+				if (preg_match('/^[0-9]+$/', $_REQUEST['sortkey']) && $_REQUEST['sortkey'] > 0) $orderby = array($_REQUEST['sortkey'] => $_REQUEST['sortdir']);
+					else $orderby = array();
 
-            $subject = isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])
-                ? $_REQUEST[$_REQUEST['subject']]
-                : '';
+				$subject = isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])
+					? $_REQUEST[$_REQUEST['subject']]
+					: '';
 
-            $_REQUEST['report_sql'] = $data->getSelectSQL($subject, array(), array(), array(), $orderby);
+				$_REQUEST['report_sql'] = $data->getSelectSQL($subject, array(), array(), array(), $orderby);
+			}
 		}
 
 		if (isset($_REQUEST['database'])) {

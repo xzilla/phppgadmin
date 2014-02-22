@@ -11,7 +11,7 @@ include_once('./classes/database/ADODB_base.php');
 
 class Postgres extends ADODB_base {
 
-	var $major_version = 9.2;
+	var $major_version = 9.3;
 	// Max object name length
 	var $_maxNameLen = 63;
 	// Store the current schema
@@ -230,7 +230,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		return $data;
+		return htmlentities($data, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -417,7 +417,7 @@ class Postgres extends ADODB_base {
 	}
 
 	function getHelpPages() {
-		include_once('./help/PostgresDoc92.php');
+		include_once('./help/PostgresDoc93.php');
 		return $this->help_page;
 	}
 
@@ -7198,12 +7198,14 @@ class Postgres extends ADODB_base {
 	 */
 	function getProcesses($database = null) {
 		if ($database === null)
-			$sql = "SELECT datname, usename, pid, query, query_start
+			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
 				FROM pg_catalog.pg_stat_activity
 				ORDER BY datname, usename, pid";
 		else {
 			$this->clean($database);
-			$sql = "SELECT datname, usename, pid, query, query_start
+			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
 				FROM pg_catalog.pg_stat_activity
 				WHERE datname='{$database}'
 				ORDER BY usename, pid";
@@ -7980,6 +7982,7 @@ class Postgres extends ADODB_base {
 	function hasQueryCancel() { return true; }
 	function hasTablespaces() { return true; }
 	function hasUserRename() { return true; }
+    function hasUserSignals() { return true; }
 	function hasVirtualTransactionId() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasDatabaseCollation() { return true; }
