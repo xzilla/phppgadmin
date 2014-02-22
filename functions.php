@@ -94,12 +94,14 @@
 				$i = 0;
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
-                    switch($modes_arr[$i]) {
-                        case 'i' : $args .= " IN "; break;
-                        case 'o' : $args .= " OUT "; break;
-                        case 'b' : $args .= " INOUT "; break;
-                        case 'v' : $args .= " VARIADIC "; break;
-                        case 't' : $args .= " TABLE "; break;
+                    if (isset($modes_arr[$i])) {
+                        switch($modes_arr[$i]) {
+                            case 'i' : $args .= " IN "; break;
+                            case 'o' : $args .= " OUT "; break;
+                            case 'b' : $args .= " INOUT "; break;
+                            case 'v' : $args .= " VARIADIC "; break;
+                            case 't' : $args .= " TABLE "; break;
+                        }
                     }
 					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
 						$data->fieldClean($names_arr[$i]);
