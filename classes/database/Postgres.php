@@ -4112,14 +4112,19 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT
-				pc.oid AS prooid, proname, pg_catalog.pg_get_userbyid(proowner) AS proowner,
+				pc.oid AS prooid, proname, 
+                pg_catalog.pg_get_userbyid(proowner) AS proowner,
 				nspname as proschema, lanname as prolanguage, procost, prorows,
 				pg_catalog.format_type(prorettype, NULL) as proresult, prosrc,
 				probin, proretset, proisstrict, provolatile, prosecdef,
 				pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
 				proargnames AS proargnames,
 				pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment,
-				proconfig
+				proconfig,
+                (select array_agg( (select typname from pg_type pt 
+                    where pt.oid = p.oid) ) from unnest(proallargtypes) p) 
+                AS proallarguments,
+                proargmodes
 			FROM
 				pg_catalog.pg_proc pc, pg_catalog.pg_language pl,
 				pg_catalog.pg_namespace pn

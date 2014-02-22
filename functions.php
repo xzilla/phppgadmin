@@ -83,12 +83,24 @@
 
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
-				$args_arr = explode(', ', $fndata->fields['proarguments']);
+                if ( isset($fndata->fields['proallarguments']) ) {
+                    $args_arr = $data->phpArray($fndata->fields['proallarguments']);
+                } else {
+				    $args_arr = explode(', ', $fndata->fields['proarguments']);
+                }
 				$names_arr = $data->phpArray($fndata->fields['proargnames']);
+                $modes_arr = $data->phpArray($fndata->fields['proargmodes']);
 				$args = '';
 				$i = 0;
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
+                    switch($modes_arr[$i]) {
+                        case 'i' : $args .= " IN "; break;
+                        case 'o' : $args .= " OUT "; break;
+                        case 'b' : $args .= " INOUT "; break;
+                        case 'v' : $args .= " VARIADIC "; break;
+                        case 't' : $args .= " TABLE "; break;
+                    }
 					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
 						$data->fieldClean($names_arr[$i]);
 						$args .= '"' . $names_arr[$i] . '" ';
@@ -241,12 +253,26 @@
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
-				$args_arr = explode(', ', $funcdata->fields['proarguments']);
+                if ( isset($fndata->fields['proallarguments']) ) {
+                    $args_arr = $data->phpArray($funcdata->fields['proallarguments']);
+                } else {
+				    $args_arr = explode(', ', $funcdata->fields['proarguments']);
+                }
 				$names_arr = $data->phpArray($funcdata->fields['proargnames']);
+                $modes_arr = $data->phpArray($funcdata->fields['proargmodes']);
 				$args = '';
 				$i = 0;
 				for ($i = 0; $i < sizeof($args_arr); $i++) {
 					if ($i != 0) $args .= ', ';
+                    if (isset($modes_arr[$i])) {
+                        switch($modes_arr[$i]) {
+                            case 'i' : $args .= " IN "; break;
+                            case 'o' : $args .= " OUT "; break;
+                            case 'b' : $args .= " INOUT "; break;
+                            case 'v' : $args .= " VARIADIC "; break;
+                            case 't' : $args .= " TABLE "; break;
+                        }
+                    }
 					if (isset($names_arr[$i]) && $names_arr[$i] != '') {
 						$data->fieldClean($names_arr[$i]);
 						$args .= '"' . $names_arr[$i] . '" ';
