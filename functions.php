@@ -255,7 +255,7 @@
 		if ($funcdata->recordCount() > 0) {
 			// Deal with named parameters
 			if ($data->hasNamedParams()) {
-                if ( isset($fndata->fields['proallarguments']) ) {
+                if ( isset($funcdata->fields['proallarguments']) ) {
                     $args_arr = $data->phpArray($funcdata->fields['proallarguments']);
                 } else {
 				    $args_arr = explode(', ', $funcdata->fields['proarguments']);
