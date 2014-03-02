@@ -2408,7 +2408,7 @@ class Postgres extends ADODB_base {
 				'relname' => $_autovacs->fields['relname']
 			);
 
-			foreach (explode(',', $_autovacs->fields['reloptions']) AS $var) {
+			foreach (explode(',', $_autovacs->fields['reloptions']) as $var) {
 				list($o, $v) = explode('=', $var);
 				$_[$o] = $v; 
 			}
