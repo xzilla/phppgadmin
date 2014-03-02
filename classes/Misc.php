@@ -1921,6 +1921,14 @@
 
 				echo "<table>\n";
 				echo "<tr>\n";
+
+                // Handle cases where no class has been passed 
+                if (isset($column['class'])) {
+			        $class = $column['class'] !== '' ? " class=\"{$column['class']}\"":'';
+                } else {
+                    $class = '';
+                }
+
 				// Display column headings
 				if ($has_ma) echo "<th></th>";
 				foreach ($columns as $column_id => $column) {
@@ -1929,7 +1937,7 @@
 							if (sizeof($actions) > 0) echo "<th class=\"data\" colspan=\"", count($actions), "\">{$column['title']}</th>\n";
 							break;
 						default:
-							echo "<th class=\"data {$column['class']}\">";
+							echo "<th class=\"data{$class}\">";
 							if (isset($column['help']))
 								$this->printHelp($column['title'], $column['help']);
 							else
@@ -1960,8 +1968,6 @@
 
 					foreach ($columns as $column_id => $column) {
 
-						$class = $column['class'] !== '' ? " class=\"{$column['class']}\"":'';
-
 						// Apply default values for missing parameters
 						if (isset($column['url']) && !isset($column['vars'])) $column['vars'] = array();
 
@@ -1971,7 +1977,7 @@
 									if (isset($action['disable']) && $action['disable'] === true) {
 										echo "<td></td>\n";
 									} else {
-										echo "<td class=\"opbutton{$id} {$column['class']}\">";
+										echo "<td class=\"opbutton{$id} {$class}\">";
 										$action['fields'] = $tabledata->fields;
 										$this->printLink($action);
 										echo "</td>\n";
