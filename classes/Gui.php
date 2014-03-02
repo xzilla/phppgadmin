@@ -30,7 +30,7 @@
 			if ($bBlankEntry)
 				$htmlOut .= "<option value=\"\"></option>\n";				
 			
-			foreach ($arrOptions AS $curKey => $curVal) {
+			foreach ($arrOptions as $curKey => $curVal) {
 				$curVal = htmlspecialchars($curVal);
 				$curKey = htmlspecialchars($curKey);
 				if ($curVal == $szDefault) {			

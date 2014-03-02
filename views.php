@@ -323,7 +323,7 @@
 			echo "</table>\n";
 			echo "<p><input type=\"hidden\" name=\"action\" value=\"save_create_wiz\" />\n";
 			
-			foreach ($arrSelTables AS $curTable) {
+			foreach ($arrSelTables as $curTable) {
 				echo "<input type=\"hidden\" name=\"formTables[]\" value=\"" . htmlspecialchars(serialize($curTable) ) . "\" />\n";
 			}
 			
@@ -445,7 +445,7 @@
 			if (! empty($_POST['dblFldMeth']) )
 				$tmpHsh = array();
 
-			foreach ($_POST['formFields'] AS $curField) {
+			foreach ($_POST['formFields'] as $curField) {
 				$arrTmp = unserialize($curField);
 				$data->fieldArrayClean($arrTmp);
 				if (! empty($_POST['dblFldMeth']) ) { // doublon control
@@ -470,7 +470,7 @@
 			if (is_array($_POST['formLink']) ) {
 				// Filter out invalid/blank entries for our links
 				$arrLinks = array();
-				foreach ($_POST['formLink'] AS $curLink) {
+				foreach ($_POST['formLink'] as $curLink) {
 					if (strlen($curLink['leftlink']) && strlen($curLink['rightlink']) && strlen($curLink['operator'])) {
 						$arrLinks[] = $curLink;
 					}
@@ -484,7 +484,7 @@
 				if ($count > 0) {
 					$j = 0;
 					while ($j < $count) {					
-						foreach ($arrLinks AS $curLink) {
+						foreach ($arrLinks as $curLink) {
 							
 							$arrLeftLink = unserialize($curLink['leftlink']);
 							$arrRightLink = unserialize($curLink['rightlink']);
@@ -516,7 +516,7 @@
 			//if linkfields has no length then either _POST['formLink'] was not set, or there were no join conditions 
 			//just select from all seleted tables - a cartesian join do a
 			if (!strlen($linkFields) ) {
-				foreach ($_POST['formTables'] AS $curTable) {
+				foreach ($_POST['formTables'] as $curTable) {
 					$arrTmp = unserialize($curTable);
 					$data->fieldArrayClean($arrTmp);
 					$linkFields .= strlen($linkFields) ? ", \"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"" : "\"{$arrTmp['schemaname']}\".\"{$arrTmp['tablename']}\"";
@@ -525,7 +525,7 @@
 			
 			$addConditions = '';
 			if (is_array($_POST['formCondition']) ) {
-				foreach ($_POST['formCondition'] AS $curCondition) {
+				foreach ($_POST['formCondition'] as $curCondition) {
 					if (strlen($curCondition['field']) && strlen($curCondition['txt']) ) {
 						$arrTmp = unserialize($curCondition['field']);
 						$data->fieldArrayClean($arrTmp);
