@@ -22,7 +22,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('view');
-			$misc->printTitle($lang['strselect'], 'pg.sql.select');
+			$misc->printTabs('view','select');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['view']);

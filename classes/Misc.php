@@ -1015,6 +1015,31 @@
 							'icon'  => 'Columns',
 							'branch'=> true,
 						),
+						'browse' => array(
+							'title' => $lang['strbrowse'],
+							'icon'=>'Columns',
+							'url'   => 'display.php',
+							'urlvars' => array ('subject' => 'table','table' => field('table')),
+							'return' => 'table',
+							'branch'=> true,
+						),
+						'select' => array(
+							'title' => $lang['strselect'],
+							'icon'  => 'Search',
+							'url'   => 'tables.php',
+							'urlvars' => array('subject' => 'table', 'table' => field('table'),'action' => 'confselectrows',),
+							'help'  => 'pg.sql.select',
+						),
+						'insert'=>array(
+							'title' => $lang['strinsert'],
+							'url' => 'tables.php',
+							'urlvars' => array (
+								'action' => 'confinsertrow',
+								'table' => field('table')
+							),
+							'help'  => 'pg.sql.insert',
+							'icon'=>'Operator'
+						),
 						'indexes' => array (
 							'title' => $lang['strindexes'],
 							'url'   => 'indexes.php',
@@ -1091,6 +1116,25 @@
 							'urlvars' => array('subject' => 'view', 'view' => field('view')),
 							'icon'  => 'Columns',
 							'branch'=> true,
+						),
+						'browse' => array(
+							'title' => $lang['strbrowse'],
+							'icon'=>'Columns',
+							'url'   => 'display.php',
+							'urlvars' => array (
+									'action' => 'confselectrows',
+									'return' => 'schema',
+									'subject' => 'view',
+									'view' => field('view')
+							),
+							'branch'=> true,
+						),
+						'select' => array(
+							'title' => $lang['strselect'],
+							'icon'  => 'Search',
+							'url'   => 'views.php',
+							'urlvars' => array('action' => 'confselectrows', 'view' => field('view'),),
+							'help'  => 'pg.sql.select',
 						),
 						'definition' => array (
 							'title' => $lang['strdefinition'],
