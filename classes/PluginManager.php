@@ -30,6 +30,8 @@ class PluginManager {
 	function __construct($language) {
 		global $conf, $lang;
 
+		if (! isset($conf['plugins'])) return;
+
 		// Get the activated plugins
 		$plugins = $conf['plugins'];
 
