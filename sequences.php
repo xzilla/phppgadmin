@@ -326,7 +326,7 @@
 		}
 		else {
 			if (is_array($_POST['sequence'])) {
-				$msg='';
+				$msg = '';
 				$status = $data->beginTransaction();
 				if ($status == 0) {
 					foreach($_POST['sequence'] as $s) {

@@ -161,7 +161,7 @@
 		}
 		else {
 			if (is_array($_POST['view'])) {
-				$msg='';
+				$msg = '';
 				$status = $data->beginTransaction();
 				if ($status == 0) {
 					foreach($_POST['view'] as $s) {
