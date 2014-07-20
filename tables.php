@@ -689,7 +689,7 @@
 		else {
 			//If multi drop
 			if (is_array($_REQUEST['table'])) {
-				$msg='';
+				$msg = '';
 				$status = $data->beginTransaction();
 				if ($status == 0) {
 					foreach($_REQUEST['table'] as $t) {

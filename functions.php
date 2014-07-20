@@ -447,7 +447,7 @@
 		}
 		else {
 			if (is_array($_POST['function_oid'])) {
-				$msg='';
+				$msg = '';
 				$status = $data->beginTransaction();
 				if ($status == 0) {
 					foreach($_POST['function_oid'] as $k => $s) {
