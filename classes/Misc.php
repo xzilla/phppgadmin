@@ -546,6 +546,7 @@
 				echo "<script type=\"text/javascript\" src=\"libraries/js/jquery.js\"></script>";
 				echo "<script type=\"text/javascript\">// <!-- \n";
 				echo "$(document).ready(function() { \n";
+				echo "  if (window.parent.frames.length > 1)\n";
 				echo "    $('#csstheme', window.parent.frames[0].document).attr('href','themes/{$conf['theme']}/global.css');\n";
 				echo "}); // --></script>\n";
 				echo "<title>", htmlspecialchars($appName);
