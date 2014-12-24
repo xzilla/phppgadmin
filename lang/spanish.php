@@ -4,7 +4,7 @@
      * Spanish language file for phpPgAdmin.
      * @maintainer 2003-2006 Martín Marqués (martin@bugs.unl.edu.ar)
      * @maintainer 2006-2010 xzilla
-     * @maintainer 2010-2013 Miguel Useche (migueluseche@skatox.com)
+     * @maintainer 2010-2014 Miguel Useche (migueluseche@skatox.com)
      *
      */
 	// Language and character set
@@ -98,8 +98,8 @@
 	$lang['stradmin'] = 'Admin';
 	$lang['strvacuum'] = 'Limpiar';
 	$lang['stranalyze'] = 'Analizar';
-	$lang['strclusterindex'] = 'Cluster';
-	$lang['strclustered'] = '¿En Cluster?';
+	$lang['strclusterindex'] = 'Clúster';
+	$lang['strclustered'] = '¿En Clúster?';
 	$lang['strreindex'] = 'Actualizar índices';
 	$lang['strexecute'] = 'Ejecutar';
 	$lang['stradd'] = 'Agregar';
@@ -112,7 +112,7 @@
 	$lang['strconfirm'] = 'Confirmar';
 	$lang['strexpression'] = 'Expresión';
 	$lang['strellipsis'] = '...';
-	$lang['strseparator']  =  ': ';
+	$lang['strseparator']  = ': ';
 	$lang['strexpand'] = 'Expandir';
 	$lang['strcollapse'] = 'Contraer';
 	$lang['strfind'] = 'Buscar';
@@ -149,7 +149,7 @@
 	$lang['strstop'] = 'Detener';
 	$lang['strgotoppage'] = 'subir al inicio';
 	$lang['strtheme'] = 'Tema';
-	$lang['strcluster'] = 'Cluster';
+	$lang['strcluster'] = 'Clúster';
 
 	// Admin
 	$lang['stradminondatabase'] = 'Las siguientes tareas administrativas aplican a toda la base de datos %s.';
@@ -213,10 +213,10 @@
 	$lang['strcreatelikewithconstraints'] = 'INCLUIR RESTRICCIONES';
 	$lang['strcreatelikewithindexes'] = 'INCLUIR ÍNDICES';
 	$lang['strtablename'] = 'Nombre de la tabla';
-	$lang['strtableneedsname'] = 'Debe darle un nombre a la tabla.';
+	$lang['strtableneedsname'] = 'Debes darle un nombre a la tabla.';
 	$lang['strtablelikeneedslike'] = 'Debes especificar una tabla para copiar sus propiedades.';
-	$lang['strtableneedsfield'] = 'Debe especificar al menos un campo.';
-	$lang['strtableneedscols'] = 'Debe especificar un número válido de columnas.';
+	$lang['strtableneedsfield'] = 'Debes especificar al menos un campo.';
+	$lang['strtableneedscols'] = 'Debes especificar un número válido de columnas.';
 	$lang['strtablecreated'] = 'Tabla creada.';
 	$lang['strtablecreatedbad'] = 'Falló la creación de la tabla.';
 	$lang['strconfdroptable'] = '¿Estás seguro que desea eliminar la tabla "%s"?';
@@ -239,9 +239,9 @@
 	$lang['strrowdeletedbad'] = 'Falló la eliminación de fila.';
 	$lang['strinsertandrepeat']  =  'Insertar y Repite';
 	$lang['strnumcols']  =  'Número de columnas';
-	$lang['strcolneedsname']  =  'Debe especificar un nombre para la columna';
+	$lang['strcolneedsname']  =  'Debes especificar un nombre para la columna';
 	$lang['strselectallfields'] = 'Seleccionar todos los campos.';
-	$lang['strselectneedscol'] = 'Debe elegir al menos una columna';
+	$lang['strselectneedscol'] = 'Debes elegir al menos una columna';
 	$lang['strselectunary'] = 'Los operadores unarios no pueden tener valores.';
 	$lang['strcolumnaltered'] = 'Columna Modificada.';
 	$lang['strcolumnalteredbad'] = 'Falló la modificación de columna.';
@@ -264,12 +264,12 @@
 	$lang['strconfreindextable'] = '¿Estás seguro que quiere actualizar los índices "%s"?';
 	$lang['strconfclustertable'] = '¿Estás seguro que quiere clusterizar "%s"?';
 	$lang['strestimatedrowcount'] = 'Cantidad de filas estimadas';
-	$lang['strspecifytabletoanalyze'] = 'Debe especificar al menos una tabla para analizar.';
-	$lang['strspecifytabletoempty'] = 'Debe especificar al menos una tabla para vaciar.';
-	$lang['strspecifytabletodrop'] = 'Debe especificar al menos una tabla para eliminar.';
-	$lang['strspecifytabletovacuum'] = 'Debe especificar al menos una tabla para limpiar.';
-	$lang['strspecifytabletoreindex'] = 'Debe especificar al menos una tabla para actualizar sus índices.';
-	$lang['strspecifytabletocluster'] = 'Debe especificar al menos una tabla para clusterizar.';
+	$lang['strspecifytabletoanalyze'] = 'Debes especificar al menos una tabla para analizar.';
+	$lang['strspecifytabletoempty'] = 'Debes especificar al menos una tabla para vaciar.';
+	$lang['strspecifytabletodrop'] = 'Debes especificar al menos una tabla para eliminar.';
+	$lang['strspecifytabletovacuum'] = 'Debes especificar al menos una tabla para limpiar.';
+	$lang['strspecifytabletoreindex'] = 'Debes especificar al menos una tabla para actualizar sus índices.';
+	$lang['strspecifytabletocluster'] = 'Debes especificar al menos una tabla para clusterizar.';
 	$lang['strnofieldsforinsert'] = 'No puedes insertar un registro en una tabla sin columnas.';
 
 	// Columns
@@ -306,12 +306,12 @@
 	// Groups
 	$lang['strgroup'] = 'Grupo';
 	$lang['strgroups']  =  'Grupos';
-$lang['strgroupgroups']  =  'Groups in group "%s"';
+	$lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strshowallgroups'] = 'Mostrar todos los grupos';
 	$lang['strnogroup'] = 'Grupo no encontrado.';
 	$lang['strnogroups'] = 'No se encontraron grupos.';
 	$lang['strcreategroup'] = 'Crear Grupo';
-	$lang['strgroupneedsname'] = 'Debe darle un nombre al grupo.';
+	$lang['strgroupneedsname'] = 'Debes darle un nombre al grupo.';
 	$lang['strgroupcreated'] = 'Grupo creado.';
 	$lang['strgroupcreatedbad'] = 'Falló la creación del grupo.';
 	$lang['strconfdropgroup'] = '¿Estás seguro de querer eliminar el grupo "%s"?';
@@ -358,7 +358,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strrevoke'] = 'Revocar';
 	$lang['strgranted'] = 'Los privilegios cambiaron.';
 	$lang['strgrantfailed'] = 'Falló la actualización de los privilegios.';
-	$lang['strgrantbad'] = 'Debe especificar al menos un usuario o grupo y al menos un privilegio.';
+	$lang['strgrantbad'] = 'Debes especificar al menos un usuario o grupo y al menos un privilegio.';
 	$lang['strgrantor']  =  'Cedente';
 	$lang['strasterisk']  =  '*';
 
@@ -369,7 +369,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnodatabases'] = 'No se encontraron las bases de datos.';
 	$lang['strcreatedatabase'] = 'Crear base de datos';
 	$lang['strdatabasename'] = 'Nombre de la base de datos';
-	$lang['strdatabaseneedsname'] = 'Debe darle un nombre a la base de datos.';
+	$lang['strdatabaseneedsname'] = 'Debes darle un nombre a la base de datos.';
 	$lang['strdatabasecreated'] = 'Base de datos creada.';
 	$lang['strdatabasecreatedbad'] = 'Falló la creación de la base de datos.';    
 	$lang['strconfdropdatabase'] = '¿Estás seguro que quiere eliminar la base de datos "%s"?';
@@ -391,7 +391,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strallobjects']  =  'Todos los objetos';
 	$lang['strdatabasealtered']  =  'Base de Datos modificada.';
 	$lang['strdatabasealteredbad']  =  'Falló al intentar modificar la base de datos.';
-	$lang['strspecifydatabasetodrop'] = 'Debe especificar al menos una base de datos para eliminar.';
+	$lang['strspecifydatabasetodrop'] = 'Debes especificar al menos una base de datos para eliminar.';
 	$lang['strtemplatedb'] = 'Plantilla';
 	$lang['strconfanalyzedatabase'] = '¿Estás seguro que desea analizar todas las tablas en la base de datos "%s"?';
 	$lang['strconfvacuumdatabase'] = '¿Estás seguro que desea limpiar todas las tablas en la base de datos "%s"?';
@@ -406,8 +406,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnoviews'] = 'No se encontraron vistas.';
 	$lang['strcreateview'] = 'Crear Vista';
 	$lang['strviewname'] = 'Ver el nombre';
-	$lang['strviewneedsname'] = 'Debe darle un nombre a la vista.';
-	$lang['strviewneedsdef'] = 'Debe darle una definición a su vista.';
+	$lang['strviewneedsname'] = 'Debes darle un nombre a la vista.';
+	$lang['strviewneedsdef'] = 'Debes darle una definición a su vista.';
 	$lang['strviewneedsfields'] = 'Debes seleccionar las columnas deseadas en su vista.';
 	$lang['strviewcreated'] = 'Vista creada.';
 	$lang['strviewcreatedbad'] = 'Falló al crear la vista.';
@@ -424,7 +424,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strerrordupfields'] = 'Error en campos duplicados';
 	$lang['strviewaltered'] = 'Vista modificada.';
 	$lang['strviewalteredbad'] = 'Falló en la modificación de la vista.';
-	$lang['strspecifyviewtodrop'] = 'Debe especificar al menos una vista a eliminar.';
+	$lang['strspecifyviewtodrop'] = 'Debes especificar al menos una vista a eliminar.';
 
 	// Sequences
 	$lang['strsequence'] = 'Secuencia';
@@ -461,7 +461,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnextval'] = 'Valor de incremento';
 	$lang['strsequencenextval'] = 'Secuencia incrementada.';
 	$lang['strsequencenextvalbad'] = 'Falló el incremento de la secuencia.';
-	$lang['strspecifysequencetodrop'] = 'Debe especificar al menos una secuencia a eliminar.';
+	$lang['strspecifysequencetodrop'] = 'Debes especificar al menos una secuencia a eliminar.';
 
 	// Indexes
 	$lang['strindex'] = 'Índice';
@@ -473,7 +473,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strcreateindex'] = 'Crear Índice';
 	$lang['strtabname'] = 'Nombre de la pestaña';
 	$lang['strcolumnname'] = 'Nombre de Columna';
-	$lang['strindexneedsname'] = 'Debe darle un nombre al índice';
+	$lang['strindexneedsname'] = 'Debes darle un nombre al índice';
 	$lang['strindexneedscols'] = 'Los índices requieren un número válido de columnas.';
 	$lang['strindexcreated'] = 'Índice creado';
 	$lang['strindexcreatedbad'] = 'Falló la creación del índice.';
@@ -500,7 +500,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnorules'] = 'No se encontraron las reglas.';
 	$lang['strcreaterule'] = 'Crear regla';
 	$lang['strrulename'] = 'Nombre de regla';
-	$lang['strruleneedsname'] = 'Debe darle un nombre a la regla.';
+	$lang['strruleneedsname'] = 'Debes darle un nombre a la regla.';
 	$lang['strrulecreated'] = 'Regla creada.';
 	$lang['strrulecreatedbad'] = 'Falló la creación de la regla.';
 	$lang['strconfdroprule'] = '¿Estás seguro de querer eliminar la regla "%s" en "%s"?';
@@ -552,8 +552,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strfunctionname'] = 'Nombre de la función';
 	$lang['strreturns'] = 'Retorna';
 	$lang['strproglanguage'] = 'Lenguaje de programación';
-	$lang['strfunctionneedsname'] = 'Debe darle un nombre a la función.';
-	$lang['strfunctionneedsdef'] = 'Debe darle una definición a la función.';
+	$lang['strfunctionneedsname'] = 'Debes darle un nombre a la función.';
+	$lang['strfunctionneedsdef'] = 'Debes darle una definición a la función.';
 	$lang['strfunctioncreated'] = 'Función creada.';
 	$lang['strfunctioncreatedbad'] = 'Falló la creación de la función.';
 	$lang['strconfdropfunction'] = '¿Estás seguro que quiere eliminar la función "%s"?';
@@ -578,7 +578,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strfunctioncosting'] = 'Costo de la función';
 	$lang['strresultrows'] = 'Filas en el resultado';
 	$lang['strexecutioncost'] = 'Costo de ejecución';
-	$lang['strspecifyfunctiontodrop'] = 'Debe especificar al menos una función a eliminar.';
+	$lang['strspecifyfunctiontodrop'] = 'Debes especificar al menos una función a eliminar.';
 
 	// Triggers
 	$lang['strtrigger'] = 'Disparador';
@@ -587,8 +587,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnotrigger'] = 'No se encontró el disparador.';
 	$lang['strnotriggers'] = 'No se encontraron disparadores.';
 	$lang['strcreatetrigger'] = 'Crear Disparador';
-	$lang['strtriggerneedsname'] = 'Debe darle un nombre al disparador.';
-	$lang['strtriggerneedsfunc'] = 'Debe especificar una función para el disparador.';
+	$lang['strtriggerneedsname'] = 'Debes darle un nombre al disparador.';
+	$lang['strtriggerneedsfunc'] = 'Debes especificar una función para el disparador.';
 	$lang['strtriggercreated'] = 'Disparador creado.';
 	$lang['strtriggercreatedbad'] = 'Falló la creación del disparador.';
 	$lang['strconfdroptrigger'] = '¿Estás seguro que quiere eliminar el disparador "%s" en "%s"?';
@@ -613,10 +613,10 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strcreatetype'] = 'Crear Tipo';
 	$lang['strcreatecomptype'] = 'Crear tipo compuesto';
 	$lang['strcreateenumtype'] = 'Crear tipo enumerado';
-	$lang['strtypeneedsfield'] = 'Debe especificar al menos un campo.';
-	$lang['strtypeneedsvalue'] = 'Debe especificar al menos un valor.';
+	$lang['strtypeneedsfield'] = 'Debes especificar al menos un campo.';
+	$lang['strtypeneedsvalue'] = 'Debes especificar al menos un valor.';
 	$lang['strtypeneedscols'] = 'Tipos compuestos requieren de un número válido de columnas.';
-	$lang['strtypeneedsvals'] = 'Debe especificar un número válido de valores.';
+	$lang['strtypeneedsvals'] = 'Debes especificar un número válido de valores.';
 	$lang['strinputfn'] = 'Función de entrada';
 	$lang['stroutputfn'] = 'Función de salida';
 	$lang['strpassbyval'] = '¿Pasar por valor?';
@@ -627,8 +627,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strfield']  =  'Campo';
 	$lang['strnumfields']  =  'Número de campos';
 	$lang['strnumvalues'] = 'Número de valores';
-	$lang['strtypeneedsname'] = 'Debe especificar un nombre para el tipo.';
-	$lang['strtypeneedslen'] = 'Debe especificar una longitud para el tipo.';
+	$lang['strtypeneedsname'] = 'Debes especificar un nombre para el tipo.';
+	$lang['strtypeneedslen'] = 'Debes especificar una longitud para el tipo.';
 	$lang['strtypecreated'] = 'Tipo creado';
 	$lang['strtypecreatedbad'] = 'Falló la creación del tipo.';
 	$lang['strconfdroptype'] = '¿Estás seguro de querer eliminar el tipo "%s"?';
@@ -649,7 +649,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnoschemas'] = 'No se encontraron esquemas.';
 	$lang['strcreateschema'] = 'Crear Esquema';
 	$lang['strschemaname'] = 'Nombre del esquema';
-	$lang['strschemaneedsname'] = 'Debe especificar un nombre para el esquema.';
+	$lang['strschemaneedsname'] = 'Debes especificar un nombre para el esquema.';
 	$lang['strschemacreated'] = 'Esquema creado';
 	$lang['strschemacreatedbad'] = 'Falló la creación del esquema.';
 	$lang['strconfdropschema'] = '¿Estás seguro que quiere eliminar el esquema "%s"?';
@@ -658,7 +658,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strschemaaltered'] = 'Esquema actualizado.';
 	$lang['strschemaalteredbad'] = 'Falló la actualización del esquema.';
 	$lang['strsearchpath']  =  'Ruta de la búsqueda en los esquemas';
-	$lang['strspecifyschematodrop'] = 'Debe especificar al menos un esquema a eliminar.';
+	$lang['strspecifyschematodrop'] = 'Debes especificar al menos un esquema a eliminar.';
 
 	// Reports
 
@@ -671,7 +671,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strdomaindropped'] = 'Dominio eliminado.';
 	$lang['strdomaindroppedbad'] = 'Falló la eliminación del dominio.';
 	$lang['strconfdropdomain'] = '¿Esta seguro de querer eliminar el dominio "%s"?';
-	$lang['strdomainneedsname'] = 'Debe dar un nombre para el dominio.';
+	$lang['strdomainneedsname'] = 'Debes dar un nombre para el dominio.';
 	$lang['strdomaincreated'] = 'Dominio creado.';
 	$lang['strdomaincreatedbad'] = 'Falló la creación del dominio.';
 	$lang['strdomainaltered'] = 'Dominio modificado.';
@@ -696,7 +696,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strrightsort'] = 'Ordenado derecho';
 	$lang['strlessthan'] = 'Menor que';
 	$lang['strgreaterthan'] = 'Mayor que';
-	$lang['stroperatorneedsname'] = 'Debe darle un nombre al operador.';
+	$lang['stroperatorneedsname'] = 'Debes darle un nombre al operador.';
 	$lang['stroperatorcreated'] = 'Operador creado';
 	$lang['stroperatorcreatedbad'] = 'Falló la creación del operador.';
 	$lang['strconfdropoperator'] = '¿Estás seguro de querer eliminar el operador "%s"?';
@@ -746,10 +746,10 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['straggregatedroppedbad'] = 'Falló en la eliminación de la agregación.';
 	$lang['straggraltered']  =  'Agregación modificada.';
 	$lang['straggralteredbad']  =  'Falló la modificación de la agregación.';
-	$lang['straggrneedsname'] = 'Debe especificar un nombre para la agregación.';
-	$lang['straggrneedsbasetype'] = 'Debe especificar un tipo de dato de entrada para la agregación.';
-	$lang['straggrneedssfunc'] = 'Debe especificar el nombre de la función de transición de estado de la agregación.';
-	$lang['straggrneedsstype'] = 'Debe especificar el tipo de dato para la el valor de estado de la agregación.';
+	$lang['straggrneedsname'] = 'Debes especificar un nombre para la agregación.';
+	$lang['straggrneedsbasetype'] = 'Debes especificar un tipo de dato de entrada para la agregación.';
+	$lang['straggrneedssfunc'] = 'Debes especificar el nombre de la función de transición de estado de la agregación.';
+	$lang['straggrneedsstype'] = 'Debes especificar el tipo de dato para la el valor de estado de la agregación.';
 	$lang['straggrcreated']  =  'Agregación creada.';
 	$lang['straggrcreatedbad']  =  'Falló la creación de la agregación.';
 	$lang['straggrshowall']  =  'Mostrar todas las agregaciones';
@@ -783,8 +783,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strnotablespaces'] = 'No se encontraron tablespaces.';
 	$lang['strcreatetablespace'] = 'Crear tablespace';
 	$lang['strlocation'] = 'Ubicación';
-	$lang['strtablespaceneedsname']  =  'Debe darle un nombre al tablespace.';
-	$lang['strtablespaceneedsloc']  =  'Debe dar un directorio en donde crear el tablespace.';
+	$lang['strtablespaceneedsname']  =  'Debes darle un nombre al tablespace.';
+	$lang['strtablespaceneedsloc']  =  'Debes dar un directorio en donde crear el tablespace.';
 	$lang['strtablespacecreated']  =  'Tablespace creado.';
 	$lang['strtablespacecreatedbad']  =  'Falló la creación del tablespace.';
 	$lang['strconfdroptablespace']  =  '¿Esta seguro que quiere eliminar el tablespace "%s"?';
@@ -827,8 +827,8 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strdelvacuumtablefail'] = 'Falló al remover la configuración de autolimpiar para la tabla %s';
 	$lang['strsetvacuumtablesaved'] = 'Configuración de autolimpiar %s guardada.';
 	$lang['strsetvacuumtablefail'] = 'Falló la configuración de autolimpiar para la tabla %s.';
-	$lang['strspecifydelvacuumtable'] = 'Debe especificar la tabla a la que deseas removerle los parámetros de autolimpiar.';
-	$lang['strspecifyeditvacuumtable'] = 'Debe especificar la tabla a la que deseeas editarle los parámetros de autolimpiar.';
+	$lang['strspecifydelvacuumtable'] = 'Debes especificar la tabla a la que deseas removerle los parámetros de autolimpiar.';
+	$lang['strspecifyeditvacuumtable'] = 'Debes especificar la tabla a la que deseeas editarle los parámetros de autolimpiar.';
 	$lang['strnotdefaultinred'] = 'Los valores en rojo no son los valores por defecto.';
 
 	// Table-level Locks
@@ -860,7 +860,7 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strconfdropftsmapping'] = '¿Estás seguro de eliminar la asignación "%s" de la configuración de BTC "%s"?';
 	$lang['strftstemplate'] = 'Plantilla';
 	$lang['strftsparser'] = 'Analizador';
-	$lang['strftsconfigneedsname'] = 'Debe suministrar un nombre para la configuración de la BTC.';
+	$lang['strftsconfigneedsname'] = 'Debes suministrar un nombre para la configuración de la BTC.';
 	$lang['strftsconfigcreated'] = 'Configuración de BTC creada.';
 	$lang['strftsconfigcreatedbad'] = 'Falló la creación de BTC.';
 	$lang['strftsmapping'] = 'Mapeo';
@@ -878,14 +878,14 @@ $lang['strgroupgroups']  =  'Groups in group "%s"';
 	$lang['strftslexize'] = 'Analizar léxicamente';
 	$lang['strftsinit'] = 'Iniciar';
 	$lang['strftsoptionsvalues'] = 'Opciones y valores';
-	$lang['strftsdictneedsname'] = 'Debe suministrar un nombre para el diccionario de BTC.';
+	$lang['strftsdictneedsname'] = 'Debes suministrar un nombre para el diccionario de BTC.';
 	$lang['strftsdictdropped'] = 'Diccionario de BTC eliminado.';
 	$lang['strftsdictdroppedbad'] = 'Falló la eliminación del diccionario de BTC.';
 	$lang['strftsdictaltered'] = 'Diccionario de BTC modificado.';
 	$lang['strftsdictalteredbad'] = 'Falló la modificación del diccionario de BTC.';
 	$lang['strftsaddmapping'] = 'Agregar nueva asignación';
-	$lang['strftsspecifymappingtodrop'] = 'Debe especificar al menos una asignación a eliminar.';
-	$lang['strftsspecifyconfigtoalter'] = 'Debe especificar una configuración de BTC a modificar';
+	$lang['strftsspecifymappingtodrop'] = 'Debes especificar al menos una asignación a eliminar.';
+	$lang['strftsspecifyconfigtoalter'] = 'Debes especificar una configuración de BTC a modificar';
 	$lang['strftsmappingdropped'] = 'Asignación de BTC eliminada.';
 	$lang['strftsmappingdroppedbad'] = 'Falló la eliminación de la asignación de BTC.';
 	$lang['strftsnodictionaries'] = 'No se encontrarón diccionarios.';
