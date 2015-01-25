@@ -39,15 +39,16 @@
 	if ($t->data->major_version > 8.1) {
 		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[1]", $lang['strusername']);
 		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[2]", $lang['strprocess']);
-		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[3]", $lang['strsql']);
-		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[4]", $lang['strstarttime']);
-		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[5]", $lang['stractions']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[3]", $lang['strblocked']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[4]", $lang['strsql']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[5]", $lang['strstarttime']);
+		$t->assertText("//tr/th[text()='{$lang['strusername']}' and @class='data']/../th[6]", $lang['stractions']);
 		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[1]", $admin_user);
 		/* this check is a bit fragile, since it relies on new line wrapping */
-		$t->assertText('//tr[contains(@class,\'data\')]/td[3]/pre[@class=\'data\']', 'SELECT datname, usename, *FROM pg_catalog.pg_stat_activity*WHERE datname=\'ppatests_db\'*ORDER BY usename,*pid');
-		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[5]", $lang['strcancel']);
+		$t->assertText('//tr[contains(@class,\'data\')]/td[4]/pre[@class=\'data\']', 'SELECT datname, usename, *FROM pg_catalog.pg_stat_activity*WHERE datname=\'ppatests_db\'*ORDER BY usename,*pid');
+		$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[6]", $lang['strcancel']);
 		if ($t->data->hasQueryKill())
-			$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[6]", $lang['strkill']);
+			$t->assertText("//tr[contains(@class,'data')]/td[text()='{$admin_user}']/../td[7]", $lang['strkill']);
 	}
 
 	/** 3 **/ 
