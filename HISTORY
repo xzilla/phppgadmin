@@ -1,6 +1,22 @@
 phpPgAdmin History
 ------------------
 
+Version 5.2
+-----------
+
+Released: January 2015? 
+
+Features
+* Full support for PostgreSQL 9.3 and 9.4
+* Improved Spanish translation support
+
+Bugs
+* Fix bug in Turkish translation which caused failed ajax responses 
+
+Incompatabilities
+* Dropped testing of 8.4, which is now EOL
+
+
 Version 5.1
 -----------
 
