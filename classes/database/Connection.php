@@ -76,7 +76,8 @@ class Connection {
 
 		// Detect version and choose appropriate database driver
 		switch (substr($version,0,3)) {
-			case '9.3': return 'Postgres'; break;
+			case '9.4': return 'Postgres'; break;
+			case '9.3': return 'Postgres93'; break;
 			case '9.2': return 'Postgres92'; break;
 			case '9.1': return 'Postgres91'; break;
 			case '9.0': return 'Postgres90'; break;
