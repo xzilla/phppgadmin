@@ -525,6 +525,21 @@
 		if ($save_history && is_object($rs) && ($type == 'QUERY')) //{
 			$misc->saveScriptHistory($_REQUEST['query']);
 
+		echo '<form method="POST" action="'.$_SERVER['REQUEST_URI'].'"><textarea width="90%" name="query" rows="5" cols="100" resizable="true">';
+		if (isset($_REQUEST['query'])) {
+			$query = $_REQUEST['query'];
+		} else {
+			$query = "SELECT * FROM {$_REQUEST['schema']}";
+			if ($_REQUEST['subject'] == 'view') {
+				$query = "{$query}.{$_REQUEST['view']};";
+			} else {
+				$query = "{$query}.{$_REQUEST['table']};";
+			}
+		}
+		//$query = isset($_REQUEST['query'])? $_REQUEST['query'] : "select * from {$_REQUEST['schema']}.{$_REQUEST['table']};";
+		echo $query;
+		echo '</textarea><br><input type="submit"/></form>';
+
 		if (is_object($rs) && $rs->recordCount() > 0) {
 			// Show page navigation
 			$misc->printPages($_REQUEST['page'], $max_pages, $_gets);
@@ -814,7 +829,7 @@
 	$scripts .= "};\n";
 	$scripts .= "</script>\n";
 
-	// If a table is specified, then set the title differently
+	// Set the title based on the subject of the request 
 	if (isset($_REQUEST['subject']) && isset($_REQUEST[$_REQUEST['subject']])) {
 		if ($_REQUEST['subject'] == 'table') {
 			$misc->printHeader(
@@ -827,7 +842,13 @@
 				$lang['strviews'].': '.$_REQUEST[$_REQUEST['subject']],
 				$scripts
 			);
-		}
+		} 
+        else if ($_REQUEST['subject'] == 'column') {
+            $misc->printHeader(
+                $lang['strcolumn'].': '.$_REQUEST[$_REQUEST['subject']],
+                $scripts
+            );
+        }
 	}
 	else	
 		$misc->printHeader($lang['strqueryresults']);
