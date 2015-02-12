@@ -104,7 +104,7 @@
 		
 		$misc->printTabs($misc->getNavTabs('popup'), 'sql');
 		
-		echo "<form action=\"sql.php\" method=\"post\" target=\"detail\">\n";
+		echo "<form action=\"sql.php\" method=\"post\" enctype=\"multipart/form-data\" target=\"detail\">\n";
 		_printConnection();
 		echo "\n";
 		if (!isset($_REQUEST['search_path']))
@@ -117,9 +117,20 @@
 		
 		echo "<textarea style=\"width:98%;\" rows=\"10\" cols=\"50\" name=\"query\">",
 			htmlspecialchars($_SESSION['sqlquery']), "</textarea>\n";
+
+		// Check that file uploads are enabled
+		if (ini_get('file_uploads')) {
+			// Don't show upload option if max size of uploads is zero
+			$max_size = $misc->inisizeToBytes(ini_get('upload_max_filesize'));
+			if (is_double($max_size) && $max_size > 0) {
+				echo "<p><input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"{$max_size}\" />\n";
+				echo "<label for=\"script\">{$lang['struploadscript']}</label> <input id=\"script\" name=\"script\" type=\"file\" /></p>\n";
+			}
+		}
+
 		echo "<p><label for=\"paginate\"><input type=\"checkbox\" id=\"paginate\" name=\"paginate\"", (isset($_REQUEST['paginate']) ? ' checked="checked"' : ''), " />&nbsp;{$lang['strpaginate']}</label></p>\n";
 		
-		echo "<p><input type=\"submit\" accesskey=\"r\" value=\"{$lang['strexecute']}\" />\n";
+		echo "<p><input type=\"submit\" name=\"execute\" accesskey=\"r\" value=\"{$lang['strexecute']}\" />\n";
 		echo "<input type=\"reset\" accesskey=\"q\" value=\"{$lang['strreset']}\" /></p>\n";
 		echo "</form>\n";
 		
