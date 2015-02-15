@@ -1989,7 +1989,7 @@
 								echo "<td class='comment_cell'>";
 								$val = value($column['field'], $tabledata->fields);
 								if (!is_null($val)) {
-									echo $val;
+									echo htmlentities($val);
 								}
 								echo "</td>";
 								break;
