@@ -54,6 +54,10 @@ domains, try naming your domain all of the following:
 	* words with spaces
 	* <br><br><br>
 
+Don't forget to make sure your changes still pass the existing Selenium test 
+suite. Additionally, you should add or update the test suite as needed to 
+cover your new features. 
+
 If you are adding a new class function, be sure to use the "clean",
 "fieldClean", "arrayClean" and "fieldArrayClean" functions to properly escape
 odd characters in user input.  Examine existing functions that do similar
@@ -71,7 +75,12 @@ forget to write your method for older classes which doesn't suppport schemas.
 
 When working with git, always make sure to do a 'git pull' both before you 
 start; so you have the latest code to work with; and also again before you 
-create your patch; to minimize the chance of having conflicts. 
+create your patch; to minimize the chance of having conflicts. If you plan to 
+submit your code via github pull requests, we strongly recommend doing your 
+work in a feature specific branch. If you want to submit multiple patches, 
+they should all live in thier own branch. Remeber, smaller changes are easier
+to review, approve, and merge. 
+
 
 COMMON VARIABLES
 ----------------
@@ -109,12 +118,10 @@ method is:
 
 * cd into lang/ subdirectory
 * modify english.php file only! 
-* run "make english" (this will recode the english.php file, and place an 
-    updated copy in lang/recode/)
 
 If you've done it correctly, when you create your patch, it should only have 
-diffs of lang/english.php and lang/recode/english.php files. For more 
-information on how the language system works, please see the TRANSLATORS file.
+diffs of the lang/english.php file. For more information on how the language 
+system works, please see the TRANSLATORS file.
 
 
 UNDERSTANDING THE WORK/BRANCH/TAG/RELEASE PROCESS
