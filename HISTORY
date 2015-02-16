@@ -9,10 +9,14 @@ Released: January 2015?
 Features
 * Full support for PostgreSQL 9.3 and 9.4
 * Improved Spanish translation support
+* Add support for brows/select navigation tabs (firzen)
+* Add new theme, "bootstrap" (amenadiel)
+* Improved support for json/jsonb
 
 Bugs
 * Fix bug in Turkish translation which caused failed ajax responses 
 * Account for Blocked field in admin processes Selenium test
+* Properly handle column comments 
 
 Incompatabilities
 * Dropped testing of 8.4, which is now EOL
