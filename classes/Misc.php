@@ -1734,13 +1734,14 @@
 				$max_page = min($max_page, $pages);
 
 				for ($i = $min_page; $i <= $max_page; $i++) {
-					if ($i != $page) echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$i}\">$i</a>\n";
+					#if ($i != $page) echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$i}\">$i</a>\n";
+					if ($i != $page) echo "<a class=\"pagenav\" href=\"display.php?{$url}&amp;page={$i}\">$i</a>\n";
 					else echo "$i\n";
 				}
 				if ($page != $pages) {
 					$temp = $page + 1;
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$temp}\">{$lang['strnext']}</a>\n";
-					echo "<a class=\"pagenav\" href=\"?{$url}&amp;page={$pages}\">{$lang['strlast']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"display.php?{$url}&amp;page={$temp}\">{$lang['strnext']}</a>\n";
+					echo "<a class=\"pagenav\" href=\"display.php?{$url}&amp;page={$pages}\">{$lang['strlast']}</a>\n";
 				}
 				echo "</p>\n";
 			}
