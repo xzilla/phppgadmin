@@ -4,7 +4,7 @@
      * Spanish language file for phpPgAdmin.
      * @maintainer 2003-2006 Martín Marqués (martin@bugs.unl.edu.ar)
      * @maintainer 2006-2010 xzilla
-     * @maintainer 2010-2014 Miguel Useche (migueluseche@skatox.com)
+     * @maintainer 2010-2016 Miguel Useche (migueluseche@skatox.com)
      *
      */
 	// Language and character set
@@ -899,7 +899,7 @@
 	$lang['strftscantparsercopy'] = 'No se puede especificar tanto el analizador como la plantilla durante la creación de la configuración de la búsqueda de texto.';
 
 	//Plugins
-	$lang['strpluginnotfound'] = 'Error: el plugin \'%s\' no se encontró found. Chequea si existe en la carpeta plugins/ , o si el plugin contiene un archivo llamado plugin.php. Los nombres de los plugin son sensibles a las mayúsculas';
+	$lang['strpluginnotfound'] = 'Error: el plugin \'%s\' no se encontró. Chequea si existe en la carpeta plugins/ , o si el plugin contiene un archivo llamado plugin.php. Los nombres de los plugin son sensibles a las mayúsculas';
 	$lang['stractionnotfound'] = 'Error: la acción \'%s\'  no se encontró en el \'%s\' del plugin, o no se especificó como acción.';
 	$lang['strhooknotfound'] = 'Error: el hook \'%s\' no está disponible.';
 ?>
