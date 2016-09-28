@@ -243,7 +243,7 @@
 	$lang['strcolumnaltered'] = 'Kolom gewijzigd.';
 	$lang['strcolumnalteredbad'] = 'Wijzigen van de kolom is mislukt.';
 	$lang['strconfdropcolumn'] = 'Weet u zeker dat u de kolom "%s" wilt verwijderen uit tabel "%s"?';
-	$lang['strcolumndropped'] = 'Kolom verwijdert.';
+	$lang['strcolumndropped'] = 'Kolom verwijderd.';
 	$lang['strcolumndroppedbad'] = 'Verwijderen van de kolom is mislukt.';
 	$lang['straddcolumn'] = 'Voeg kolom toe';
 	$lang['strcolumnadded'] = 'Kolom toegevoegd.';
