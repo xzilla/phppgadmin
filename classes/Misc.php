@@ -682,8 +682,10 @@
 			echo "<table class=\"tabs\"><tr>\n";
 			#echo "<div class=\"tabs\">\n";
 
-			# FIXME: don't count hidden tabs
-			$width = (int)(100 / count($tabs)).'%';
+			if (count($tabs) > 0) 
+				$width = (int)(100 / count($tabs)).'%';
+			else
+				$width = 1;
 
 			foreach ($tabs as $tab_id => $tab) {
 				$active = ($tab_id == $activetab) ? ' active' : '';
