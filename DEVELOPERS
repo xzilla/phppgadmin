@@ -69,16 +69,16 @@ attributes in HTML form elements use action="thisformname.php".  This
 ensures that browsers remove query strings when expanding the given
 relative URL into a full URL.
 
-When working on database classes, always schema qualifing your SQL where it is
+When working on database classes, always schema qualify your SQL where it is
 possible with the current schema ($data->_schema) for pg73+ classes. Then don't
-forget to write your method for older classes which doesn't suppport schemas.
+forget to write your method for older classes which don't support schemas.
 
 When working with git, always make sure to do a 'git pull' both before you 
 start; so you have the latest code to work with; and also again before you 
 create your patch; to minimize the chance of having conflicts. If you plan to 
 submit your code via github pull requests, we strongly recommend doing your 
 work in a feature specific branch. If you want to submit multiple patches, 
-they should all live in thier own branch. Remeber, smaller changes are easier
+they should all live in their own branch. Remember, smaller changes are easier 
 to review, approve, and merge. 
 
 
