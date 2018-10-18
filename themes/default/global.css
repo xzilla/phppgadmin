@@ -256,7 +256,7 @@ div.logo {
 	border-bottom: 2px solid #000000;
 	margin-bottom: 2px;
 	background-image: url('../../images/themes/default/title.png');
-	background-repeat: none;
+	background-repeat: no-repeat;
 	height: 50px;
 }
 div.logo a {
