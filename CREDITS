@@ -4,7 +4,6 @@ CREDITS
 Project Administration & Major Projects
 
 - Robert Treat (xzilla) 
-- Jehan-Guillaume (ioguix) De Rorthais
 
 Translators
 
@@ -56,6 +55,7 @@ Contributors
 
 - Dan Wilson
 - Christopher Kings-Lynne
+- Jehan-Guillaume (ioguix) De Rorthais
 - Felix Meinhold
 - Jean-Michel Poure
 - Rafal Slubowski
@@ -80,6 +80,7 @@ Contributors
 - Julien Rouhaud, aka. rjuju (nested groups)
 - Felipe Figueroa aka. amenadiel
 
+
 Third Party Libraries
 
 - Highlight.php (Jacob D. Cohen of rafb.net)
@@ -89,15 +90,13 @@ Third Party Libraries
 Corporate Sponsors
 
 Project resources:
-
-- Sourceforge.net - Hosting, source package provider, Bug and Feature request tracker, hosting mailing lists (and ex code repository)
-- github.com - Official GIT repository hosting
+- github.com - Official project home  
 - Kattare Internet (http://www.kattare.com/) - Hosting the demo server
+- Sourceforge.net - Hosting, Source Package Provider, Legacy project services (Bug/Feature Tracker, mailing lists, code repository)
 
 Ongoing contributors:
 
-- OmniTI ( http://omniti.com/ ) - sponsors developpment as Robert Treat employer
-- Dalibo ( http://dalibo.com ) - sponsors developpment as Jehan-Guillaume (ioguix) de Rorthais employer
+- OmniTI ( https://omniti.com ) - sponsors developpment as Robert Treat employer
 
 Feature contributors:
 
@@ -105,4 +104,5 @@ Feature contributors:
 - Google Summer of Code (http://code.google.com/soc/2006/pgsql/appinfo.html?csaid=DB096D908B948D89) - phpPgAdmin Improvements
 - Google Summer of Code (http://code.google.com/soc/2007/postgres/appinfo.html?csaid=E89B3D5E2DC4170A) - Full Text Search in PostgreSQL GUI Tools
 - Google Summer of Code (http://code.google.com/p/google-summer-of-code-2010-postgres/downloads/detail?name=Leonardo_Augusto_Sapiras.tar.gz) - Improve phpPgAdmin ergonomy
+- Dalibo ( http://dalibo.com ) - sponsored development as Jehan-Guillaume (ioguix) de Rorthais employer
 

@@ -5,7 +5,7 @@ phpPgAdmin is an open source project which means that if you see something on
 this list that you would like to implement, just send us a patch.  You can find
 our project page here:
 
-	http://sourceforge.net/projects/phppgadmin/
+	https://github.com/phppgadmin/phppgadmin
 
 An item is marked 'claimed' when a username in brackets is put after the TODO
 item. If you want to work a claimed item, please contact the developers list.
@@ -228,6 +228,7 @@ Principles
 * One day we should make it all XHTML
 * everything properly escaped - prevent sql injection and cross-site scripting 
   probs
+* everything properly schema qualified 
 * Support Postgres 8.4 and upwards
 * psql -E is a cool way of seeing how to do schema queries
 * Checking out older versions of describe.c in src/bin/psql in the postgres 
