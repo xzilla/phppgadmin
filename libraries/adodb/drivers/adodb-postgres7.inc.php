@@ -215,9 +215,9 @@ class ADORecordSet_postgres7 extends ADORecordSet_postgres64{
 	var $databaseType = "postgres7";
 	
 	
-	function ADORecordSet_postgres7($queryID,$mode=false) 
+	function __construct($queryID,$mode=false) 
 	{
-		$this->ADORecordSet_postgres64($queryID,$mode);
+		parent::__construct($queryID,$mode); 
 	}
 	
 	 	// 10% speedup to move MoveNext to child class

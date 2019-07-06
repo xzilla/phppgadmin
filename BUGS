@@ -3,6 +3,8 @@ Internal Bugs List
 
 This file is used to track current working tasks - just ignore it!
 
+conditional testing for user visible fields across postgres versions in selenium. 
+
 dump sequences when dumping tables
 fix dumping clustering info
 

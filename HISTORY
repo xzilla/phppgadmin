@@ -1,14 +1,14 @@
 phpPgAdmin History
 ------------------
 
-Version 5.2
+Version 5.6
 -----------
 
-Released: January 2015? 
+Released: 12th November, 2018 
 
 Features
-* Full support for PostgreSQL 9.3 and 9.4
-* Improved Spanish translation support
+* Add support for PostgreSQL 9.3, 9.4, 9.5, 9.6, 10, 11
+* Development support for PostgreSQL 12
 * Add support for brows/select navigation tabs (firzen)
 * Add new theme, "bootstrap" (amenadiel)
 * Improved support for json/jsonb
@@ -17,9 +17,11 @@ Bugs
 * Fix bug in Turkish translation which caused failed ajax responses 
 * Account for Blocked field in admin processes Selenium test
 * Properly handle column comments 
+* Fix background css issue
+* Additional language updates
 
 Incompatabilities
-* Dropped testing of 8.4, which is now EOL
+* Dropped testing of pre-9.3 versions of Postgres, which are now EOL
 
 
 Version 5.1
