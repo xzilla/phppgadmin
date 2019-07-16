@@ -2,9 +2,7 @@ DEVELOPER INFO
 --------------
 
 phpPgAdmin is Free/Open Source software and contributions are welcome from
-everyone. Please be sure to join the developers' mailing list:
-
-  https://lists.sourceforge.net/lists/listinfo/phppgadmin-devel
+everyone. 
 
 SOURCE REPOSITORY
 -----------------
@@ -14,21 +12,56 @@ is hosted at github:
 
   https://github.com/phppgadmin/phppgadmin
 
-To clone the phpPgAdmin source to your development system, execute the following
-command:
+Our development process is based around Pull Requests. The best way to 
+contribute is with the following guidelines: 
 
-  git clone git://github.com/phppgadmin/phppgadmin.git
+= Setup = 
 
-After making changes, generate a patch using "git format-patch" and submit it
-to the phpPgAdmin devel mailing list. 
+1. Make your own fork of the phppgadmin repository.
 
-Alternatively you can clone the phppgadmin repository on github and make a pull
-request. For details on how to make pull requests, see:
+2. Add the source repository as a remote called "upstream":
+        git remote add upstream git@github.com:phppgadmin/phppgadmin.git
+    or
+        git remote add upstream https://github.com/devopsdays/devopsdays-web.git
 
-  https://help.github.com/articles/using-pull-requests
+    You only need to create your fork once, as long as you don't delete it. 
 
-Please note that submitting code is considered a transfer of copyright to the 
-phpPgAdmin project. phpPgAdmin is made available under the GPL v2 license.
+= Patches = 
+
+1. Before starting any new change, it is essential that you rebase your local 
+   repository from the upstream. You may think that working from your fork is 
+   enough, but sometimes upstream changes will affect your work in ways you 
+   may not anticipate, so you'll want to stay current. Issue these commands:
+
+    : git checkout master
+    : git pull upstream master --rebase
+
+   This confirms you are on the master branch locally, and then applies the 
+   changes from the upstream to your copy.
+
+2. Create a new local branch for your changes. This helps to keep things tidy!
+    : git checkout -b describe_my_fix 
+
+3. Make your changes, test them locally (use the Selenium tests), then push 
+   that branch up to origin on your fork.
+
+    : git push origin describe_my_fix 
+
+4. Submit a Pull Request for the branch you just pushed. As a bonus, if you 
+   can add either [BUG] or [FEATURE] to the the title according to the purpose
+   that will help with patch review. Additionally, please mention the versions
+   of PHP and PostgreSQL that you have tested against. 
+
+5. While we would like to enhance our automated testing, until that happens, 
+   we at least suggest reviewing the Pull Request on the website and verifying
+   that your changes will merge cleanly. If not, please address any conflicts.
+
+6. As a reminder, smaller patches are easier to digest and consume. If you mix
+   multiple fixes or features into your Pull Requests, it is likely that your 
+   submission will not be merged.  
+
+7. Please note that submitting code is considered a transfer of copyright to the 
+   phpPgAdmin project. phpPgAdmin is made available under the GPL v2 license.
 
 Push access to the main phpPgAdmin git repository can be granted to developers
 with a track record of useful contributions to phpPgAdmin at the discretion
@@ -149,7 +182,5 @@ should occur on those branches.
 GETTING HELP
 ------------
 
-We prefer most discussion of development to take place on the phpPgAdmin
-devel mailing list, so that discussions can be archived and be searchable. 
-However, if you are into IRC, a couple of us hang out on #phppgadmin on 
-freenode, and occasionally discuss things there. 
+We prefer communication to happen via Github and Pull Requests. Beyond that, 
+some contributors have been known to hang out on the Postgres Slack Team. 
