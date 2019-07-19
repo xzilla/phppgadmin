@@ -727,7 +727,7 @@ class Postgres extends ADODB_base {
 				AND pa.attname ILIKE {$term} AND pa.attnum > 0 AND NOT pa.attisdropped AND pc.relkind IN ('r', 'v') {$where}
 			UNION ALL
 			SELECT 'FUNCTION', pp.oid, pn.nspname, NULL, pp.proname || '(' || pg_catalog.oidvectortypes(pp.proargtypes) || ')' FROM pg_catalog.pg_proc pp, pg_catalog.pg_namespace pn
-				WHERE pp.pronamespace=pn.oid AND NOT pp.proisagg AND pp.proname ILIKE {$term} {$where}
+				WHERE pp.pronamespace=pn.oid AND NOT pp.prokind = 'a' AND pp.proname ILIKE {$term} {$where}
 			UNION ALL
 			SELECT 'INDEX', NULL, pn.nspname, pc.relname, pc2.relname FROM pg_catalog.pg_class pc, pg_catalog.pg_namespace pn,
 				pg_catalog.pg_index pi, pg_catalog.pg_class pc2 WHERE pc.relnamespace=pn.oid AND pc.oid=pi.indrelid
@@ -792,7 +792,7 @@ class Postgres extends ADODB_base {
 				UNION ALL
 				SELECT DISTINCT ON (p.proname) 'AGGREGATE', p.oid, pn.nspname, NULL, p.proname FROM pg_catalog.pg_proc p
 					LEFT JOIN pg_catalog.pg_namespace pn ON p.pronamespace=pn.oid
-					WHERE p.proisagg AND p.proname ILIKE {$term} {$where}
+					WHERE p.prokind = 'a' AND p.proname ILIKE {$term} {$where}
 				UNION ALL
 				SELECT DISTINCT ON (po.opcname) 'OPCLASS', po.oid, pn.nspname, NULL, po.opcname FROM pg_catalog.pg_opclass po,
 					pg_catalog.pg_namespace pn WHERE po.opcnamespace=pn.oid
@@ -4179,12 +4179,18 @@ class Postgres extends ADODB_base {
 				pg_catalog.obj_description(p.oid, 'pg_proc') AS procomment,
 				p.proname || ' (' || pg_catalog.oidvectortypes(p.proargtypes) || ')' AS proproto,
 				CASE WHEN p.proretset THEN 'setof ' ELSE '' END || pg_catalog.format_type(p.prorettype, NULL) AS proreturns,
-				u.usename AS proowner
+				u.usename AS proowner,
+				CASE p.prokind
+  					WHEN 'a' THEN 'agg'
+  					WHEN 'w' THEN 'window'
+  					WHEN 'p' THEN 'proc'
+  					ELSE 'func'
+ 				END as protype
 			FROM pg_catalog.pg_proc p
 				INNER JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
 				INNER JOIN pg_catalog.pg_language pl ON pl.oid = p.prolang
 				LEFT JOIN pg_catalog.pg_user u ON u.usesysid = p.proowner
-			WHERE NOT p.proisagg
+			WHERE NOT p.prokind = 'a' 
 				AND {$where}
 			ORDER BY p.proname, proresult
 			";
@@ -5890,7 +5896,7 @@ class Postgres extends ADODB_base {
 				a.agginitval, a.aggsortop, u.usename, pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
 			FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
 			WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
-				AND p.proisagg AND n.nspname='{$c_schema}'
+				AND p.prokind = 'a' AND n.nspname='{$c_schema}'
 				AND p.proname='" . $name . "'
 				AND CASE p.proargtypes[0]
 					WHEN 'pg_catalog.\"any\"'::pg_catalog.regtype THEN ''
@@ -5912,7 +5918,7 @@ class Postgres extends ADODB_base {
 			   pg_catalog.obj_description(p.oid, 'pg_proc') AS aggrcomment
 			   FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_user u, pg_catalog.pg_aggregate a
 			   WHERE n.oid = p.pronamespace AND p.proowner=u.usesysid AND p.oid=a.aggfnoid
-			   AND p.proisagg AND n.nspname='{$c_schema}' ORDER BY 1, 2";
+			   AND p.prokind = 'a' AND n.nspname='{$c_schema}' ORDER BY 1, 2";
 
 		return $this->selectSet($sql);
 	}
