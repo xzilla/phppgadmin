@@ -7538,12 +7538,15 @@ class Postgres extends ADODB_base {
 						 */
     					if (strlen($query_buf) > 0)
     					    $query_buf .= "\n";
-    					/* append the line to the query buffer */
-    					$query_buf .= $subline;
+    						$query_buf .= $subline;
+					}
     					$query_buf .= ';';
 
+					/* is there anything in the query_buf? */
+					if (trim($query_buf))
+					{
 						// Execute the query. PHP cannot execute
-            			// empty queries, unlike libpq
+						// empty queries, unlike libpq
 						$res = @pg_query($conn, $query_buf);
 
 						// Call the callback function for display
