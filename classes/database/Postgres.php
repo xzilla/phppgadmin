@@ -2664,20 +2664,40 @@ class Postgres extends ADODB_base {
 	function getSequences($all = false) {
 		if ($all) {
 			// Exclude pg_catalog and information_schema tables
-			$sql = "SELECT n.nspname, c.relname AS seqname, u.usename AS seqowner
-				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S'
-				AND n.nspname NOT IN ('pg_catalog', 'information_schema', 'pg_toast')
-				ORDER BY nspname, seqname";
+			$sql = "
+					SELECT
+						n.nspname, 
+						c.relname AS seqname, 
+						pg_catalog.pg_get_userbyid(c.relowner) as seqowner
+					FROM
+						pg_catalog.pg_class c 
+						JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+					WHERE 
+						c.relkind IN ('S')
+						AND n.nspname NOT IN ('pg_catalog','information_schema')
+						AND n.nspname !~ '^pg_toast'
+						AND pg_catalog.pg_table_is_visible(c.oid)
+					ORDER BY 
+						nspname, seqname;";
 		} else {
 			$c_schema = $this->_schema;
 			$this->clean($c_schema);
-			$sql = "SELECT c.relname AS seqname, u.usename AS seqowner, pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
-				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace
-				FROM pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_namespace n
-				WHERE c.relowner=u.usesysid AND c.relnamespace=n.oid
-				AND c.relkind = 'S' AND n.nspname='{$c_schema}' ORDER BY seqname";
+			$sql = "
+					SELECT
+						n.nspname, 
+						c.relname AS seqname, 
+						pg_catalog.obj_description(c.oid, 'pg_class') AS seqcomment,
+						(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=c.reltablespace) AS tablespace, 
+						pg_catalog.pg_get_userbyid(c.relowner) as seqowner
+					FROM
+						pg_catalog.pg_class c 
+						JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+					WHERE 
+						c.relkind IN ('S')
+						AND n.nspname = '{$c_schema}' 
+						AND pg_catalog.pg_table_is_visible(c.oid)
+					ORDER BY 
+						nspname, seqname;";
 		}
 
 		return $this->selectSet( $sql );
