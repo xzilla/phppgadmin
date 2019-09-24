@@ -2628,6 +2628,24 @@ class Postgres extends ADODB_base {
 	// Sequence functions
 
 	/**
+	 * Determines whether or not the current user can directly access sequence information 
+	 * @param $sequence Sequence Name 
+	 * @return t/f based on user permissions 
+	*/ 
+	function hasSequencePrivilege($sequence) {
+		/* This double-cleaning is deliberate */
+		$f_schema = $this->_schema;
+		$this->fieldClean($f_schema);
+		$this->clean($f_schema);
+		$this->fieldClean($sequence);
+		$this->clean($sequence);
+
+		$sql = "SELECT pg_catalog.has_sequence_privilege('{$f_schema}.{$sequence}','SELECT,USAGE')";
+
+		return $this->execute($sql);
+	}
+
+	/**
 	 * Returns properties of a single sequence
 	 * @param $sequence Sequence name
 	 * @return A recordset
@@ -2638,6 +2656,13 @@ class Postgres extends ADODB_base {
 		$c_sequence = $sequence;
 		$this->fieldClean($sequence);
 		$this->clean($c_sequence);
+
+		$join = ''; 
+		if ($this->hasSequencePrivilege($sequence) == 't') {
+			$join = "CROSS JOIN \"{$c_schema}\".\"{$c_sequence}\" AS s";
+		} else {
+			$join = 'CROSS JOIN ( values (null, null, null) ) AS s (last_value, log_cnt, is_called) ';
+		}; 
 
         $sql = "
             SELECT
@@ -2653,6 +2678,26 @@ class Postgres extends ADODB_base {
                 c.relowner=u.usesysid AND c.relnamespace=n.oid 
                 AND c.oid = m.seqrelid AND c.relname = '{$c_sequence}' AND c.relkind = 'S' AND n.nspname='{$c_schema}' 
                 AND n.oid = c.relnamespace"; 
+
+		$sql = "
+			SELECT
+                c.relname AS seqname,
+				s.last_value, s.log_cnt, s.is_called, 
+                m.seqstart AS start_value, m.seqincrement AS increment_by, m.seqmax AS max_value, m.seqmin AS min_value, 
+                m.seqcache AS cache_value, m.seqcycle AS is_cycled,  
+				pg_catalog.obj_description(c.oid, 'pg_class') as seqcomment, 
+				pg_catalog.pg_get_userbyid(c.relowner) as seqowner,
+				n.nspname
+			FROM 
+				pg_catalog.pg_class c
+     			JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+				JOIN pg_catalog.pg_sequence m ON m.seqrelid = c.oid
+				{$join} 
+			WHERE 
+				c.relkind IN ('S')
+				AND c.relname = '{$c_sequence}' 
+				AND n.nspname = '{$c_schema}' 
+			"; 
 
 		return $this->selectSet( $sql );
 	}
