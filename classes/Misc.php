@@ -261,8 +261,8 @@
 			if (isset($params['clip']) && $params['clip'] === true) {
 				$maxlen = isset($params['cliplen']) && is_integer($params['cliplen']) ? $params['cliplen'] : $conf['max_chars'];
 				$ellipsis = isset($params['ellipsis']) ? $params['ellipsis'] : $lang['strellipsis'];
-				if (strlen($str) > $maxlen) {
-					$str = substr($str, 0, $maxlen-1) . $ellipsis;
+				if (mb_strlen($str, 'UTF-8') > $maxlen) {
+					$str = mb_substr($str, 0, $maxlen-1, 'UTF-8') . $ellipsis;
 				}
 			}
 
