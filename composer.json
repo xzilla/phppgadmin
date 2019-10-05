@@ -6,9 +6,9 @@
     "require": {
         "php": ">=7.1",
 		"ext-pgsql": "*",
-	},
+        "ext-mbstring": "*"
+    },
     "minimum-stability": "stable",
     "autoload": {
     }
 }
-
