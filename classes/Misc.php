@@ -1023,7 +1023,6 @@
 							'url'   => 'display.php',
 							'urlvars' => array ('subject' => 'table','table' => field('table')),
 							'return' => 'table',
-							'branch'=> true,
 						),
 						'select' => array(
 							'title' => $lang['strselect'],
@@ -1129,7 +1128,6 @@
 									'subject' => 'view',
 									'view' => field('view')
 							),
-							'branch'=> true,
 						),
 						'select' => array(
 							'title' => $lang['strselect'],
