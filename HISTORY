@@ -1,6 +1,13 @@
 phpPgAdmin History
 ------------------
 
+Version 7.12.1
+--------------
+
+Bugs: 
+* Remove broken tree branch from table/view browse option
+
+
 Version 7.12.0 
 --------------
 
